@@ -1,0 +1,42 @@
+export interface OrderItem {
+  amount: number;
+  average: number;
+  clientOrderId: string;
+  cost: number;
+  datetime: string;
+  fees: [];
+  filled: number;
+  id: string;
+  name: string;
+  pnl: string;
+  postOnly: boolean;
+  price: number;
+  remaining: number;
+  side: string;
+  status: string;
+  symbol: string;
+  timeInForce: string;
+  timestamp: string;
+  trades: [];
+  type: string;
+  info: {
+    clientOrderId: string;
+    cummulativeQuoteQty: string;
+    executedQty: string;
+    icebergQty: string;
+    isWorking: true;
+    orderId: string;
+    orderListId: string;
+    origQty: string;
+    origQuoteOrderQty: string;
+    price: string;
+    side: string;
+    status: string;
+    stopPrice: string;
+    symbol: string;
+    time: string;
+    timeInForce: string;
+    type: string;
+    updateTime: string;
+  };
+}
