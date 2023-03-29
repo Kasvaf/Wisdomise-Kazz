@@ -20,8 +20,6 @@ import KycMenuItem from "../Header/Kyc";
 import DepositPlanModal from "./DepositPlanModal";
 
 interface HeaderProps {
-  tab: Tab;
-  handleTabClick: (tab: Tab) => unknown;
   signOut: () => unknown;
 }
 
@@ -58,14 +56,12 @@ function Header({ signOut }: HeaderProps) {
 
   return (
     <div className="mb-8 flex justify-between">
-      <h1 className="mb-2 font-campton text-xl text-white xl:text-2xl">
+      <h1 className="mb-2 font-campton text-xl text-white xl:text-2xl hidden md:flex">
         Welcome
       </h1>
       <div className="ml-auto flex">
         {hasWallet && (
           <div className="mx-4 flex items-center justify-evenly border-r-2 border-gray-main px-4">
-            <NewWallet />
-
             <div className="ml-4 min-w-0 grow-0">
               <Dropdown
                 overlay={
@@ -96,21 +92,24 @@ function Header({ signOut }: HeaderProps) {
                 onVisibleChange={(flag: boolean) => setShowWalletMenu(flag)}
                 visible={showWalletMenu}
               >
-                <button className="horos-filter-btn-alt group bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white">
-                  <p className="px-2 font-bold uppercase text-primary">
-                    wallet
-                  </p>
-                  <p className="font-bold text-primary">
-                    $
-                    {hasWallet
-                      ? floatData(
-                          investorAsset?.data.results[0].trader_instances[0]
-                            ?.exchange_account.total_equity
-                        )
-                      : 0}
-                  </p>
-                  <ChevronDown className="w-6" />
-                </button>
+                <div className="flex items-center">
+                  <NewWallet />
+                  <button className="horos-filter-btn-alt group bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white hidden md:flex">
+                    <p className="px-2 font-bold uppercase text-primary">
+                      wallet
+                    </p>
+                    <p className="font-bold text-primary">
+                      $
+                      {hasWallet
+                        ? floatData(
+                            investorAsset?.data.results[0].trader_instances[0]
+                              ?.exchange_account.total_equity
+                          )
+                        : 0}
+                    </p>
+                    <ChevronDown className="w-6" />
+                  </button>
+                </div>
               </Dropdown>
             </div>
           </div>
@@ -188,7 +187,7 @@ function Header({ signOut }: HeaderProps) {
               <div className=" flex h-10 w-10 flex-[0_0_10] flex-col items-center justify-center rounded-md bg-gray-dark bg-gradient-to-r from-gradientFromTransparent via-gradientToTransparent to-gradientToTransparent uppercase">
                 <p className="text-xl text-primary">{userName.charAt(0)}</p>
               </div>
-              <button className="horos-filter-btn-alt group bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white">
+              <button className="horos-filter-btn-alt group bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white hidden md:flex">
                 <span>{userName}</span>
                 <ChevronDown className="w-6" />
               </button>

@@ -1,17 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
-import Logo from "@images/wisdomiseWealthLogo.svg";
 import LogoSmall from "@images/logo.svg";
-import Beta from "@images/beta.svg";
-import { VERSION } from "config/constants";
 import { tabs } from "containers/dashboard/constants";
-import FirstTimeModal from "containers/dashboard/components/FirstTimeModal";
 import MenuModal from "containers/dashboard/components/MenuModal";
 import { gaClick } from "utils/ga";
 import { useGetUserInfoQuery } from "../../api/horosApi";
 import { ReactComponent as Hamburger } from "@images/menu.svg";
 import { ReactComponent as Close } from "@images/close.svg";
-import { Tab, TabLabels } from "containers/dashboard/types";
+import { Tab } from "containers/dashboard/types";
 // import { IconChevronLeft, IconChevronRight } from "@aws-amplify/ui-react";
 import Header from "containers/dashboard/components/Header";
 import Splash from "containers/splash";
@@ -105,8 +101,8 @@ const HomeLayout = ({
         setSelectedTab={setSelectedTab}
         setShowMenu={setShowMenu}
       />
-      <div className="w-full overflow-y-auto p-6 md:px-10 md:py-8">
-        <Header />
+      <div className="overflow-y-auto p-6 md:px-10 md:py-8">
+        <Header signOut={signOut} />
         <Outlet />
       </div>
     </div>
@@ -117,80 +113,6 @@ const HomeLayout = ({
   //     <div className="flex h-full w-full flex-row justify-center">
   //       <div className="flex w-full flex-col md:flex-row">
   //         {renderMobileNav()}
-  //         <div
-  //           className={`horos-navbar !bg-gray-dark ${
-  //             collapseNavbar ? "collapsed" : ""
-  //           }`}
-  //         >
-  //           <button
-  //             className="absolute -right-6 bottom-5 -mt-6 h-12 w-12 rounded-full border-4 border-gray-dark  bg-bgcolor text-xl text-nodata hover:text-white"
-  //             onClick={() => {
-  //               gaClick("collapse navbar");
-  //               setCollapseNavbar(!collapseNavbar);
-  //             }}
-  //           >
-  //             <div className="-translate-y-0.5">
-  //               {/* {collapseNavbar ? (
-  //                 <IconChevronRight style={{ fontSize: "1.5rem" }} />
-  //               ) : (
-  //                 <IconChevronLeft style={{ fontSize: "1.5rem" }} />
-  //               )} */}
-  //             </div>
-  //           </button>
-  //           <div className="items-left mb-[55px] flex flex-col space-y-6 text-white">
-  //             <div className="flex w-full cursor-pointer flex-row items-center justify-start pl-6">
-  //               <img
-  //                 className={`h-7 ${collapseNavbar ? "" : "hidden"}`}
-  //                 src={LogoSmall}
-  //                 alt="logo"
-  //               />
-  //               <img
-  //                 className={`h-10  ${collapseNavbar ? "hidden" : ""}`}
-  //                 src={Logo}
-  //                 alt="logo"
-  //                 onClick={onClickLogo}
-  //               />
-  //               <img
-  //                 className={`mx-4 h-7 ${collapseNavbar ? "hidden" : ""}`}
-  //                 src={Beta}
-  //                 alt="logo"
-  //               />
-  //             </div>
-  //           </div>
-  //           <div className="space-y-4 text-inactive">
-  //             {Object.keys(tabs).map((t) => {
-  //               const tab = tabs[t as TabLabels];
-  //               return tab.hidden ? (
-  //                 <span key={t}></span>
-  //               ) : (
-  //                 renderTabButton(tab)
-  //               );
-  //             })}
-  //           </div>
-  //           <span
-  //             className={`text-normal absolute bottom-12 text-nodata ${
-  //               collapseNavbar ? "left-6" : "left-20"
-  //             }`}
-  //           >
-  //             {collapseNavbar ? VERSION : "Wisdomise Beta " + VERSION}
-  //           </span>
-  //           <span
-  //             className={`text-normal absolute bottom-4 left-8 text-center text-nodata ${
-  //               collapseNavbar ? "hidden" : "block"
-  //             }`}
-  //           >
-  //             ©2023 Wisdomise. All rights reserved
-  //           </span>
-  //         </div>
-  //         <div className="w-full p-6 md:px-10 md:py-8">
-  //           <Header
-  //             handleTabClick={handleTabClick}
-  //             tab={selectedTab}
-  //             signOut={signOut}
-  //           />
-  //           <Outlet />
-  //         </div>
-  //       </div>
   //       <MenuModal
   //         showMenu={shouldShowMenu}
   //         renderTabButton={renderTabButton}

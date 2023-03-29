@@ -135,12 +135,12 @@
 
     &:checked {
       &::after {
-        content: ' ';
+        content: " ";
         @apply absolute top-[9px] left-[8px] h-[1.5px] w-[8px]  rotate-[135deg] rounded-sm bg-panel;
       }
 
       &::before {
-        content: ' ';
+        content: " ";
         @apply absolute top-[9px] left-[6px] h-[1.5px] w-[4px] rotate-45  rounded-sm bg-panel;
       }
     }
@@ -246,7 +246,7 @@
   }
 
   .horos-navbar {
-    @apply relative hidden h-full w-[20rem] flex-col justify-start bg-gray-dark py-8 transition delay-150 duration-700 ease-in md:flex xl:w-[28rem];
+    @apply relative hidden h-full min-w-[20rem] max-w-[20rem] flex-col justify-start bg-gray-dark py-8 transition delay-150 duration-700 ease-in md:flex xl:w-[28rem];
 
     .button-wrapper {
       @apply relative  overflow-hidden fill-inactive pl-8 text-base hover:fill-white hover:text-white;
@@ -297,7 +297,7 @@
     }
 
     &.collapsed {
-      @apply w-[6rem];
+      @apply min-w-[6rem] max-w-[6rem];
 
       .button-wrapper {
         @apply pl-8;
@@ -502,7 +502,7 @@
     margin-left: 8px;
 
     &::after {
-      content: ' ';
+      content: " ";
       background-color: #ff0000;
       border-radius: 100px;
       width: 8px;
@@ -634,7 +634,7 @@
     i {
       @apply translate-x-[6px] border-none;
       &::before {
-        content: '‹';
+        content: "‹";
         @apply p-1 text-lg not-italic;
       }
     }
@@ -642,7 +642,7 @@
     &.rdrNextButton i {
       @apply -translate-x-[8px];
       &::before {
-        content: '›';
+        content: "›";
       }
     }
 
@@ -877,7 +877,7 @@ div[data-amplify-router] {
 }
 
 .notify:after {
-  content: ' ';
+  content: " ";
   display: block;
   height: 10px;
   width: 10px;
@@ -949,7 +949,7 @@ div[data-amplify-router] {
 }
 
 .loader-line:before {
-  content: '';
+  content: "";
   position: absolute;
   left: -50%;
   height: 4px;

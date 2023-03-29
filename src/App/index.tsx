@@ -32,6 +32,7 @@ import "react-notifications/lib/notifications.css";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./tailwind.css";
+import "./App.css";
 
 const Signals = React.lazy(
   () => import("containers/dashboard/components/Signals")

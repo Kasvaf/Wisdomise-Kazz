@@ -2,6 +2,8 @@ import Logo from "@images/wisdomiseWealthLogo.svg";
 import LogoSmall from "@images/logo.svg";
 import Beta from "@images/beta.svg";
 import { tabs } from "containers/dashboard/constants";
+import LeftOutlined from "@ant-design/icons/LeftOutlined";
+import RightOutlined from "@ant-design/icons/RightOutlined";
 
 import { gaClick } from "utils/ga";
 import { useNavigate } from "react-router-dom";
@@ -31,19 +33,13 @@ export default function LeftNavigation({
       }`}
     >
       <button
-        className="absolute -right-6 bottom-5 -mt-6 h-12 w-12 rounded-full border-4 border-gray-dark  bg-bgcolor text-xl text-nodata hover:text-white"
+        className="flex items-center justify-center absolute -right-6 bottom-5 -mt-6 h-12 w-12 rounded-full border-4 border-gray-dark  bg-bgcolor text-xl text-nodata hover:text-white"
         onClick={() => {
           gaClick("collapse navbar");
           setCollapseNavbar(!collapseNavbar);
         }}
       >
-        <div className="-translate-y-0.5">
-          {/* {collapseNavbar ? (
-          <IconChevronRight style={{ fontSize: "1.5rem" }} />
-        ) : (
-          <IconChevronLeft style={{ fontSize: "1.5rem" }} />
-        )} */}
-        </div>
+        {collapseNavbar ? <RightOutlined /> : <LeftOutlined />}
       </button>
       <div className="items-left mb-[55px] flex flex-col space-y-6 text-white">
         <div className="flex w-full cursor-pointer flex-row items-center justify-start pl-6">
@@ -56,7 +52,7 @@ export default function LeftNavigation({
             className={`h-10  ${collapseNavbar ? "hidden" : ""}`}
             src={Logo}
             alt="logo"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/app")}
           />
           <img
             className={`mx-4 h-7 ${collapseNavbar ? "hidden" : ""}`}
