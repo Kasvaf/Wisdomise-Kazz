@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: horos-dashboard
+    argocd.argoproj.io/instance: horos-dashboard
+    env: production
+    type: frontend
+  name: horos-dashboard-svc
+  namespace: presentation
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: horos-dashboard
+    env: production
+    type: frontend
+  sessionAffinity: None
+  type: ClusterIP

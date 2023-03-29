@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-wisdomise.io
+    konghq.com/https-redirect-status-code: '302'
+    konghq.com/protocols: https
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-wisdomise.io","konghq.com/https-redirect-status-code":"302","konghq.com/protocols":"https","kubernetes.io/tls-acme":"true"},"labels":{"app":"horos-dashboard","argocd.argoproj.io/instance":"horos-dashboard","env":"production","name":"horos-wealth","type":"frontend"},"name":"horos-wealth","namespace":"presentation"},"spec":{"ingressClassName":"kong","rules":[{"host":"wealth.wisdomise.io","http":{"paths":[{"backend":{"service":{"name":"horos-dashboard-svc","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["wealth.wisdomise.io"],"secretName":"horos-wealth-tls"}]}}
+    kubernetes.io/tls-acme: 'true'
+  creationTimestamp: '2023-03-09T14:11:45Z'
+  generation: 1
+  labels:
+    app: horos-dashboard
+    argocd.argoproj.io/instance: horos-dashboard
+    env: production
+    name: horos-wealth
+    type: frontend
+  name: horos-wealth
+  namespace: presentation
+  resourceVersion: '42965617'
+  uid: fbe9b020-400e-4287-a2fb-d26a6de0c813
+spec:
+  ingressClassName: kong
+  rules:
+    - host: wealth.wisdomise.io
+      http:
+        paths:
+          - backend:
+              service:
+                name: horos-dashboard-svc
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - wealth.wisdomise.io
+      secretName: horos-wealth-tls

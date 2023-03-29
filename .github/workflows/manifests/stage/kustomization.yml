@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: staging
+resources:
+- ./deployment.yml
+- ./service.yml
+- ./ingress-wealth.yml
+- ./ingress-dashboard.yml
+
+commonAnnotations:
+  a8r.io/owner: wisdomise
+  a8r.io/repository: https://github.com/Wisdomise/horos-dashboard
+
+images:
+- digest: sha256:1dd6394a93061300bfb2de6416c1a3b1b40994e0cd724dabb0932770bb627934
+  name: horos-dashboard
+  newName: 619433764862.dkr.ecr.us-east-1.amazonaws.com/horos-dashboard
