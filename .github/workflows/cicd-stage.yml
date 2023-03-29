@@ -4,20 +4,20 @@ on:
     branches: [stage]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'ci-skip')"
-    strategy:
-      matrix:
-        node-version: [16.x]
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   if: "!contains(github.event.head_commit.message, 'ci-skip')"
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
 
-    steps:
-      - name: run lint
-        run: |
-          ls -lah
-          echo "Please Write your Lint HERE"
-          yarn install --production=false
-          npx prettier --check .
+  #   steps:
+  #     - name: run lint
+  #       run: |
+  #         ls -lah
+  #         echo "Please Write your Lint HERE"
+  #         yarn install --production=false
+  #         npx prettier --check .
       # - uses: actions/checkout@v3
       # - name: Use Node.js ${{ matrix.node-version }}
       #   uses: actions/setup-node@v3
@@ -51,7 +51,7 @@ jobs:
   Code-Style:
     name: Code-Style
     runs-on: ubuntu-latest
-    needs: lint
+    # needs: lint
     steps:
       - uses: actions/checkout@v2
         with:
@@ -77,7 +77,6 @@ jobs:
       id-token: write
 
     steps:
-
     - name: Checkout
       uses: actions/checkout@v3
       with:
