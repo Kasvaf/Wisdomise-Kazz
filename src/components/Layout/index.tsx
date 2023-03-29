@@ -2,13 +2,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import LogoSmall from "@images/logo.svg";
 import { tabs } from "containers/dashboard/constants";
-import MenuModal from "containers/dashboard/components/MenuModal";
 import { gaClick } from "utils/ga";
 import { useGetUserInfoQuery } from "../../api/horosApi";
 import { ReactComponent as Hamburger } from "@images/menu.svg";
 import { ReactComponent as Close } from "@images/close.svg";
 import { Tab } from "containers/dashboard/types";
-// import { IconChevronLeft, IconChevronRight } from "@aws-amplify/ui-react";
 import Header from "containers/dashboard/components/Header";
 import Splash from "containers/splash";
 import LeftNavigation from "./LeftNavigation";
@@ -113,12 +111,6 @@ const HomeLayout = ({
   //     <div className="flex h-full w-full flex-row justify-center">
   //       <div className="flex w-full flex-col md:flex-row">
   //         {renderMobileNav()}
-  //       <MenuModal
-  //         showMenu={shouldShowMenu}
-  //         renderTabButton={renderTabButton}
-  //         signOut={signOut}
-  //         renderMobileNav={renderMobileNav}
-  //       />
   //       <FirstTimeModal {...{ showModal, setShowModal }} />
 
   //       {/* {isStage() ||
