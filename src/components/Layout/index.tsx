@@ -1,39 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
-import { useLocation, useNavigate, Outlet } from "react-router-dom";
-import LogoSmall from "@images/logo.svg";
-import { tabs } from "containers/dashboard/constants";
-import { gaClick } from "utils/ga";
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import { useGetUserInfoQuery } from "../../api/horosApi";
-import { ReactComponent as Hamburger } from "@images/menu.svg";
-import { ReactComponent as Close } from "@images/close.svg";
-import { Tab } from "containers/dashboard/types";
 import Header from "containers/dashboard/components/Header";
 import Splash from "containers/splash";
 import LeftNavigation from "./LeftNavigation";
 import "./index.module.css";
 
-const HomeLayout = ({
-  signOut,
-}: {
-  signOut: () => unknown;
-  // children: ReactElement;
-}) => {
+const HomeLayout = ({ signOut }: { signOut: () => unknown }) => {
   const [collapseNavbar, setCollapseNavbar] = useState(false);
   const [shouldShowMenu, setShowMenu] = useState(false);
 
-  const navigate = useNavigate();
-
-  const { data: userInfo, isLoading } = useGetUserInfoQuery({});
+  const { isLoading } = useGetUserInfoQuery({});
 
   useEffect(() => {
     document.body.style.overflow = shouldShowMenu ? "hidden" : "unset";
   }, [shouldShowMenu]);
-
-  const [shouldShowProfile, setShowProfile] = useState(false);
-  const showProfile = useCallback(() => {
-    setShowMenu(false);
-    setShowProfile(true);
-  }, []);
 
   if (isLoading) return <Splash />;
 
