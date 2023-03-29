@@ -4,15 +4,10 @@ import TabButton from "./TabButton";
 
 interface IProps {
   collapseNavbar: boolean;
-  setSelectedTab?: (t: Tab) => void;
   setShowMenu: (s: boolean) => void;
 }
 
-export default function LeftNavTabs({
-  collapseNavbar,
-  setSelectedTab,
-  setShowMenu,
-}: IProps) {
+export default function LeftNavTabs({ collapseNavbar, setShowMenu }: IProps) {
   return (
     <div className="space-y-4 text-inactive">
       {Object.keys(tabs).map((t) => {
@@ -24,7 +19,6 @@ export default function LeftNavTabs({
             key={t}
             tab={tab}
             collapseNavbar={collapseNavbar}
-            setSelectedTab={setSelectedTab}
             setShowMenu={setShowMenu}
           />
         );

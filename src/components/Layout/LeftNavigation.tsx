@@ -13,14 +13,12 @@ import LeftNavTabs from "./LeftNavTabs";
 interface IProps {
   collapseNavbar: boolean;
   setCollapseNavbar: (c: boolean) => void;
-  setSelectedTab: (t: Tab) => void;
   setShowMenu: (s: boolean) => void;
 }
 
 export default function LeftNavigation({
   collapseNavbar,
   setCollapseNavbar,
-  setSelectedTab,
   setShowMenu,
 }: IProps) {
   const navigate = useNavigate();
@@ -60,11 +58,7 @@ export default function LeftNavigation({
           />
         </div>
       </div>
-      <LeftNavTabs
-        collapseNavbar={collapseNavbar}
-        setSelectedTab={setSelectedTab}
-        setShowMenu={setShowMenu}
-      />
+      <LeftNavTabs collapseNavbar={collapseNavbar} setShowMenu={setShowMenu} />
       <span
         className={`text-normal absolute bottom-12 text-nodata ${
           collapseNavbar ? "left-6" : "left-20"

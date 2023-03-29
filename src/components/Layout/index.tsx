@@ -18,76 +18,22 @@ const HomeLayout = ({
   signOut: () => unknown;
   // children: ReactElement;
 }) => {
-  const [selectedTab, setSelectedTab] = useState(tabs.dashboard);
-  const [showModal, setShowModal] = useState(false);
   const [collapseNavbar, setCollapseNavbar] = useState(false);
   const [shouldShowMenu, setShowMenu] = useState(false);
-  const toggleShowMenu = useCallback(() => {
-    setShowMenu((p: boolean) => !p);
-    setShowProfile(false);
-  }, []);
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const { data: userInfo, isLoading } = useGetUserInfoQuery({});
 
-  const userName = userInfo?.customer.user.email || "";
-
   useEffect(() => {
     document.body.style.overflow = shouldShowMenu ? "hidden" : "unset";
   }, [shouldShowMenu]);
-
-  const handleTabClick = (tab: Tab) => {
-    if (!tab.subMenu) {
-      if (tab.button) {
-        setShowMenu(false);
-        gaClick(`tab ${tab.label}`);
-        return;
-      }
-      navigate(`/app/${tab.defaultUrl}`);
-      setSelectedTab(tab);
-      setShowMenu(false);
-      gaClick(`tab ${tab.label}`);
-    }
-  };
-
-  const renderTabButton = (tab: Tab) => {
-    if (tab) {
-    }
-  };
 
   const [shouldShowProfile, setShowProfile] = useState(false);
   const showProfile = useCallback(() => {
     setShowMenu(false);
     setShowProfile(true);
   }, []);
-
-  const renderMobileNav = () => (
-    <div className="sticky flex flex-row items-center justify-between border-b border-white/20 px-6 py-4 md:hidden">
-      <img className="h-7" src={LogoSmall} alt="logo" />
-
-      <div className="flex flex-row items-center space-x-4">
-        <button
-          onClick={showProfile}
-          className=" flex h-10 w-10 flex-col items-center justify-center rounded-md bg-gray-dark bg-gradient-to-r from-gradientFromTransparent via-gradientToTransparent to-gradientToTransparent uppercase"
-        >
-          <p className="text-xl text-primary">{userName.charAt(0)}</p>
-        </button>
-        <button type="button" className="group" onClick={toggleShowMenu}>
-          {shouldShowMenu ? (
-            <Close className="fill-white group-hover:fill-primary" />
-          ) : (
-            <Hamburger className="stroke-white group-hover:stroke-primary" />
-          )}
-        </button>
-      </div>
-    </div>
-  );
-
-  const onClickLogo = () => {
-    navigate("/dashboard");
-  };
 
   if (isLoading) return <Splash />;
 
@@ -96,7 +42,6 @@ const HomeLayout = ({
       <LeftNavigation
         collapseNavbar={collapseNavbar}
         setCollapseNavbar={setCollapseNavbar}
-        setSelectedTab={setSelectedTab}
         setShowMenu={setShowMenu}
       />
       <div className="w-full overflow-y-auto p-6 md:px-10 md:py-8">

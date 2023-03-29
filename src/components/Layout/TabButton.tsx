@@ -7,14 +7,12 @@ import noop from "utils/noop";
 interface IProps {
   tab: Tab;
   setShowMenu: (n: boolean) => void;
-  setSelectedTab?: (t: Tab) => void;
   collapseNavbar: boolean;
 }
 
 export default function TabButton({
   tab,
   setShowMenu,
-  setSelectedTab = noop,
   collapseNavbar,
 }: IProps) {
   const isActiveTab = (label: string) => {
@@ -37,7 +35,6 @@ export default function TabButton({
         return;
       }
       navigate(`/app/${tab.defaultUrl}`);
-      setSelectedTab(tab);
       setShowMenu(false);
       gaClick(`tab ${tab.label}`);
     }
