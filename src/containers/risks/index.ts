@@ -1,1 +1,1 @@
-export { default } from './RiskDetail';
+export { default } from "./RiskDetail";

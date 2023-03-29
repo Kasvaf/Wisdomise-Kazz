@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
-import _ from 'lodash';
-import { coins } from './constants';
-import { Tooltip } from 'antd';
+import { ReactNode } from "react";
+import _ from "lodash";
+import { coins } from "./constants";
+import { Tooltip } from "antd";
 
-import { ReactComponent as InfoIcon } from '@images/info.svg';
-import { IFilter } from './common/Filters/types';
+import { ReactComponent as InfoIcon } from "@images/info.svg";
+import { IFilter } from "./common/Filters/types";
 
 export const renderSide = (side: string): JSX.Element => (
   <div className={`side ${side} inline-block w-fit px-4 py-3 leading-none`}>
@@ -15,11 +15,11 @@ export const renderSide = (side: string): JSX.Element => (
 export const titleWTooltipRenderer = (
   title: ReactNode,
   tooltip: ReactNode,
-  alignRight?: boolean,
+  alignRight?: boolean
 ): JSX.Element => (
   <div
     className={`flex flex-row items-center space-x-2 ${
-      alignRight ? 'justify-end' : ''
+      alignRight ? "justify-end" : ""
     }`}
   >
     <span>{title}</span>
@@ -44,16 +44,16 @@ export const checkAllFiltersFilled = (filters: IFilter) => {
 export const displayActiveTab = (
   tab: { id: string },
   selectedTab: { id: string },
-  firstTime?: boolean,
-) => (selectedTab.id !== tab.id || firstTime ? 'none' : '');
+  firstTime?: boolean
+) => (selectedTab.id !== tab.id || firstTime ? "none" : "");
 
 export const coinRenderer = (
   _: unknown,
-  dataInput: { pair: string },
+  dataInput: { pair: string }
 ): JSX.Element => {
   const symbol = dataInput.pair;
   const parsedSymbol =
-    symbol.indexOf('USDT') !== -1 ? symbol.split('USDT')[0] : symbol;
+    symbol.indexOf("USDT") !== -1 ? symbol.split("USDT")[0] : symbol;
 
   const { icon, name } = coins[parsedSymbol as keyof typeof coins] || {};
   return (
@@ -65,4 +65,4 @@ export const coinRenderer = (
 };
 
 export const getNumberWithSign = (num: number) =>
-  `${num >= 0 ? '+' : '-'}${num?.toFixed(2)}`;
+  `${num >= 0 ? "+" : "-"}${num?.toFixed(2)}`;

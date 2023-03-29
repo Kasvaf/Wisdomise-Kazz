@@ -1,15 +1,14 @@
 import Logo from "@images/wisdomiseWealthLogo.svg";
 import LogoSmall from "@images/logo.svg";
 import Beta from "@images/beta.svg";
-import { tabs } from "containers/dashboard/constants";
 import LeftOutlined from "@ant-design/icons/LeftOutlined";
 import RightOutlined from "@ant-design/icons/RightOutlined";
 
 import { gaClick } from "utils/ga";
 import { useNavigate } from "react-router-dom";
-import { Tab, TabLabels } from "containers/dashboard/types";
+import { Tab } from "containers/dashboard/types";
 import { VERSION } from "config/constants";
-import TabButton from "./TabButton";
+import LeftNavTabs from "./LeftNavTabs";
 
 interface IProps {
   collapseNavbar: boolean;
@@ -33,7 +32,7 @@ export default function LeftNavigation({
       }`}
     >
       <button
-        className="flex items-center justify-center absolute -right-6 bottom-5 -mt-6 h-12 w-12 rounded-full border-4 border-gray-dark  bg-bgcolor text-xl text-nodata hover:text-white"
+        className="absolute -right-6 bottom-5 -mt-6 flex h-12 w-12 items-center justify-center rounded-full border-4 border-gray-dark  bg-bgcolor text-xl text-nodata hover:text-white"
         onClick={() => {
           gaClick("collapse navbar");
           setCollapseNavbar(!collapseNavbar);
@@ -61,22 +60,11 @@ export default function LeftNavigation({
           />
         </div>
       </div>
-      <div className="space-y-4 text-inactive">
-        {Object.keys(tabs).map((t) => {
-          const tab = tabs[t as TabLabels];
-          return tab.hidden ? (
-            <span key={t}></span>
-          ) : (
-            <TabButton
-              key={t}
-              tab={tab}
-              collapseNavbar={collapseNavbar}
-              setSelectedTab={setSelectedTab}
-              setShowMenu={setShowMenu}
-            />
-          );
-        })}
-      </div>
+      <LeftNavTabs
+        collapseNavbar={collapseNavbar}
+        setSelectedTab={setSelectedTab}
+        setShowMenu={setShowMenu}
+      />
       <span
         className={`text-normal absolute bottom-12 text-nodata ${
           collapseNavbar ? "left-6" : "left-20"

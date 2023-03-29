@@ -1,7 +1,7 @@
-import type { ComponentPropsWithoutRef, FC } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { ComponentPropsWithoutRef, FC } from "react";
+import { twMerge } from "tailwind-merge";
 
-interface InputProps extends ComponentPropsWithoutRef<'input'> {
+interface InputProps extends ComponentPropsWithoutRef<"input"> {
   error?: string;
   inputClassName?: string;
 }
@@ -14,12 +14,12 @@ const Input: FC<InputProps> = ({
   ...rest
 }) => {
   return (
-    <div className={twMerge('flex flex-col gap-2', className)}>
+    <div className={twMerge("flex flex-col gap-2", className)}>
       <input
         type="text"
         className={twMerge(
-          'rounded bg-black p-4 text-white placeholder:text-white/60',
-          inputClassName,
+          "rounded bg-black p-4 text-white placeholder:text-white/60",
+          inputClassName
         )}
         {...rest}
       />

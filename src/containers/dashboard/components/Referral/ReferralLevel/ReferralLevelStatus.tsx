@@ -1,7 +1,7 @@
-import type { FC } from 'react';
-import classNames from 'classnames';
-import { ReactComponent as User } from '@images/icons/user-dim.svg';
-import { ReactComponent as ActiveUser } from '@images/icons/active-user-dim.svg';
+import type { FC } from "react";
+import classNames from "classnames";
+import { ReactComponent as User } from "@images/icons/user-dim.svg";
+import { ReactComponent as ActiveUser } from "@images/icons/active-user-dim.svg";
 
 interface ReferralLevelStatusProps {
   totalRequired: number;
@@ -21,20 +21,20 @@ const ReferralLevelStatus: FC<ReferralLevelStatusProps> = ({
   return (
     <div
       className={
-        'relative flex h-10 rounded-full bg-bgcolor py-2 px-4 text-base font-medium'
+        "relative flex h-10 rounded-full bg-bgcolor py-2 px-4 text-base font-medium"
       }
     >
       <div
         className={classNames({
-          '-z-1 absolute left-0 top-0 h-10 w-full rounded-full bg-gradient-to-r from-gradientFrom to-gradientTo opacity-20':
+          "-z-1 absolute left-0 top-0 h-10 w-full rounded-full bg-gradient-to-r from-gradientFrom to-gradientTo opacity-20":
             claimed,
         })}
       ></div>
       <div
-        className={classNames('flex flex-nowrap gap-2 font-inter', {
-          'bg-gradient-to-r from-gradientFrom to-gradientTo bg-clip-text text-base font-medium text-transparent':
+        className={classNames("flex flex-nowrap gap-2 font-inter", {
+          "bg-gradient-to-r from-gradientFrom to-gradientTo bg-clip-text text-base font-medium text-transparent":
             claimed,
-          'text-base font-medium text-white': !claimed,
+          "text-base font-medium text-white": !claimed,
         })}
       >
         {!claimed ? (
@@ -47,14 +47,14 @@ const ReferralLevelStatus: FC<ReferralLevelStatusProps> = ({
               <div className="flex flex-nowrap gap-2">
                 {`${Math.min(
                   activeReferredUsers,
-                  activeRequired,
+                  activeRequired
                 )}/${activeRequired}`}
                 <ActiveUser />
               </div>
             )}
           </>
         ) : (
-          'Claimed'
+          "Claimed"
         )}
       </div>
     </div>

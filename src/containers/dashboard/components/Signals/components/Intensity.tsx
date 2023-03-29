@@ -1,8 +1,8 @@
-import { FunctionComponent } from 'react';
-import { ReactComponent as Intensity1 } from '@images/icons/intensity-1.svg';
-import { ReactComponent as Intensity2 } from '@images/icons/intensity-2.svg';
-import { ReactComponent as Intensity3 } from '@images/icons/intensity-3.svg';
-import { ReactComponent as Intensity4 } from '@images/icons/intensity-4.svg';
+import { FunctionComponent } from "react";
+import { ReactComponent as Intensity1 } from "@images/icons/intensity-1.svg";
+import { ReactComponent as Intensity2 } from "@images/icons/intensity-2.svg";
+import { ReactComponent as Intensity3 } from "@images/icons/intensity-3.svg";
+import { ReactComponent as Intensity4 } from "@images/icons/intensity-4.svg";
 
 interface IntensityProps {
   intensity: number;

@@ -721,7 +721,7 @@ const Terms = () => {
               Various financial and nonfinancial rights, claims and/or assets,
               including rights and obligations not usually found in
               (traditional) financial markets instruments, e.g., equity and
-              fixed income securities, may be granted by Cryptocurrencies.{' '}
+              fixed income securities, may be granted by Cryptocurrencies.{" "}
               <strong>
                 Clients intending to purchase Cryptocurrencies must carefully
                 review the rights and obligations granted by the
@@ -787,7 +787,7 @@ const Terms = () => {
               the sale and/or purchase of Cryptocurrencies in (and thus
               illiquidity of) some or all of the Cryptocurrencies. In addition,
               control mechanisms may significantly increase transaction costs of
-              Cryptocurrencies.{' '}
+              Cryptocurrencies.{" "}
               <strong>
                 By using the Services, the Client bears the risk of uncertainty
                 regarding to the legal, regulatory and tax treatment of
@@ -820,7 +820,7 @@ const Terms = () => {
               current volatility levels are typical or atypical.
             </li>
             <li>
-              Investments in Cryptocurrencies are considered{' '}
+              Investments in Cryptocurrencies are considered{" "}
               <strong>highly speculative&nbsp;</strong>investments.
               Cryptocurrencies are subject to <strong>high volatility</strong>,
               i.e. the price of Cryptocurrencies may fall as well as rise
@@ -829,7 +829,7 @@ const Terms = () => {
               not supervised by authorities or institutions such as central
               banks and that, therefore, there is no authority or institution
               that can intervene to stabilize the value of Cryptocurrencies
-              and/or prevent or mitigate irrational price movements.{' '}
+              and/or prevent or mitigate irrational price movements.{" "}
               <strong>
                 There is a risk of significant or total loss when purchasing or
                 selling Cryptocurrencies. The Client acknowledges and agrees
@@ -1673,7 +1673,7 @@ const Terms = () => {
               The Client hereby accepts to indemnify and hold harmless the
               Service Provider, its affiliates, the Service Provider&rsquo;s and
               its affiliates&rsquo; directors, corporate bodies, officers and
-              employees (the &ldquo;<strong>Indemnified</strong>{' '}
+              employees (the &ldquo;<strong>Indemnified</strong>{" "}
               <strong>Persons</strong>&rdquo;) from and against any Damages, any
               other costs (including, without limitation, travel expenses, costs
               for the services of a debt collection company and internal

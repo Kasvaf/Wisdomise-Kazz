@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export interface Tab {
   id: TabLabels;
   description: string | ReactNode;
-  hash: 'WisdomiseAI' | 'AIautoTrader';
+  hash: "WisdomiseAI" | "AIautoTrader";
   label: string;
   icon: ReactNode;
   actionLabel?: string;
@@ -26,15 +26,15 @@ export interface Tab {
 // }
 
 export enum TabLabels {
-  dashboard = 'dashboard',
-  WisdomiseAI = 'Wisdomise AI',
-  signals = 'signals',
-  backtest = 'Backtests ',
-  AIautoTrader = 'AI auto trader',
-  strategyCatalog = 'Strategy Catalog',
-  advanceTrading = 'Advanced Trading',
-  sentiment = 'sentiment',
-  referralProgram = 'Referral Program',
+  dashboard = "dashboard",
+  WisdomiseAI = "Wisdomise AI",
+  signals = "signals",
+  backtest = "Backtests ",
+  AIautoTrader = "AI auto trader",
+  strategyCatalog = "Strategy Catalog",
+  advanceTrading = "Advanced Trading",
+  sentiment = "sentiment",
+  referralProgram = "Referral Program",
 }
 
 export interface Tabs {

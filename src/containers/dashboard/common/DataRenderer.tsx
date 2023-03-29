@@ -1,7 +1,7 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent, ReactNode } from "react";
 // import Spinner from 'components/common/Spinner';
-import { ReactComponent as FolderIcon } from '@images/icons/folder.svg';
-import Spinner from 'components/spinner';
+import { ReactComponent as FolderIcon } from "@images/icons/folder.svg";
+import Spinner from "components/spinner";
 
 interface DataRendererProps {
   data: Array<unknown>;
@@ -16,7 +16,7 @@ const noData = (message?: string) => (
     <div className="flex h-14 w-14 flex-col items-center justify-center rounded-lg bg-primary/10 fill-primary">
       <FolderIcon />
     </div>
-    <span>{message || 'No data found'}</span>
+    <span>{message || "No data found"}</span>
   </div>
 );
 

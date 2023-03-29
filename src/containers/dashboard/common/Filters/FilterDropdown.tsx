@@ -16,7 +16,7 @@ import { gaClick } from "utils/ga";
 type DisableItemType = keyof typeof Coins | keyof typeof Strategy;
 
 interface FilterDropdownProps {
-  data: typeof FilterDropdownsConfig[keyof typeof FilterDropdownsConfig];
+  data: (typeof FilterDropdownsConfig)[keyof typeof FilterDropdownsConfig];
   updateFilter: Dispatch<SetStateAction<IFilter>>;
   filter: IFilter;
   className?: string;

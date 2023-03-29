@@ -1,3 +1,3 @@
-import ReferrerCounter from './ReferrerCounter';
+import ReferrerCounter from "./ReferrerCounter";
 
 export default ReferrerCounter;

@@ -1,10 +1,10 @@
-declare module 'react-notifications' {
+declare module "react-notifications" {
   type NotificationTriggerFn = (
     message: string,
     title?: string,
     timeout?: number,
     callback?: () => unknown,
-    priority?: boolean,
+    priority?: boolean
   ) => void;
 
   export interface INotificationManager {

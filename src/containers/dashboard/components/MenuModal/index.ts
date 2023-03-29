@@ -1,3 +1,3 @@
-import MenuModal from './MenuModal';
+import MenuModal from "./MenuModal";
 
 export default MenuModal;

@@ -1,3 +1,3 @@
-import ReferrerSection from './ReferrerSection';
+import ReferrerSection from "./ReferrerSection";
 
 export default ReferrerSection;

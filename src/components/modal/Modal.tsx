@@ -1,5 +1,5 @@
-import type { FC, ReactNode } from 'react';
-import { twMerge } from 'tailwind-merge';
+import type { FC, ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface ModalInterface {
   children: ReactNode;
@@ -17,8 +17,8 @@ const Modal: FC<ModalInterface> = ({
   return (
     <div
       className={twMerge(
-        '-mt-50px absolute top-0 left-1/2 z-[100] flex h-screen w-full -translate-x-1/2 flex-col items-center justify-center bg-[rgba(256,256,256,0.3)]',
-        backdropClassName,
+        "-mt-50px absolute top-0 left-1/2 z-[100] flex h-screen w-full -translate-x-1/2 flex-col items-center justify-center bg-[rgba(256,256,256,0.3)]",
+        backdropClassName
       )}
       onClick={() => {
         onClose && onClose();
@@ -26,8 +26,8 @@ const Modal: FC<ModalInterface> = ({
     >
       <div
         className={twMerge(
-          'mx-auto w-[355px] bg-black px-3 py-5 shadow-[0px_0px_20px_2px_#222]',
-          className,
+          "mx-auto w-[355px] bg-black px-3 py-5 shadow-[0px_0px_20px_2px_#222]",
+          className
         )}
         onClick={(e) => {
           e.stopPropagation();

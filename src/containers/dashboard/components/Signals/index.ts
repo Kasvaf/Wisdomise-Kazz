@@ -1,3 +1,3 @@
-import Signals from './Signals';
+import Signals from "./Signals";
 
 export default Signals;

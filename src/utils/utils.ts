@@ -1,22 +1,22 @@
-import { VerificationStatus } from 'types/kyc';
-import packageJson from '../../package.json';
-import minBy from 'lodash/minBy';
-import maxBy from 'lodash/maxBy';
+import { VerificationStatus } from "types/kyc";
+import packageJson from "../../package.json";
+import minBy from "lodash/minBy";
+import maxBy from "lodash/maxBy";
 
 export const getCurrentVersion = (): string => {
   return packageJson.version;
 };
 
 export const isStage = (): boolean => {
-  return window.location.host.includes('stage-');
+  return window.location.host.includes("stage-");
 };
 
 export const isDev = (): boolean => {
-  return window.location.host.includes('dev-');
+  return window.location.host.includes("dev-");
 };
 
 export const isLocal = (): boolean => {
-  return window.location.host.includes('localhost:');
+  return window.location.host.includes("localhost:");
 };
 
 export const floatData = (data: number | string, number = 2) => {
@@ -25,21 +25,21 @@ export const floatData = (data: number | string, number = 2) => {
 };
 
 export const convertDate = (date = new Date()) => {
-  return date.toISOString().split('T')[0];
+  return date.toISOString().split("T")[0];
 };
 
 export const getKycLevelStatusColor = (
-  status: VerificationStatus | undefined,
+  status: VerificationStatus | undefined
 ) => {
   switch (status) {
     case VerificationStatus.REJECTED:
-      return 'error';
+      return "error";
     case VerificationStatus.PENDING:
-      return 'warn';
+      return "warn";
     case VerificationStatus.VERIFIED:
-      return 'success';
+      return "success";
     default:
-      return 'default';
+      return "default";
   }
 };
 
@@ -65,7 +65,7 @@ export const getMinMaxArray = (key: string, array: []) => {
 };
 
 export const isPendingOrRejected = (
-  status: VerificationStatus | undefined,
+  status: VerificationStatus | undefined
 ): boolean => {
   switch (status) {
     case VerificationStatus.PENDING:

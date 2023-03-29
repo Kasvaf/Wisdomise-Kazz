@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { ReactComponent as User } from '@images/icons/user.svg';
-import { ReactComponent as ActiveUser } from '@images/icons/active-user.svg';
-import { ReactComponent as Star } from '@images/icons/gradient-star.svg';
-import UserCounterBox from './CounterBox';
+import { FC } from "react";
+import { ReactComponent as User } from "@images/icons/user.svg";
+import { ReactComponent as ActiveUser } from "@images/icons/active-user.svg";
+import { ReactComponent as Star } from "@images/icons/gradient-star.svg";
+import UserCounterBox from "./CounterBox";
 
 interface IReferrerSectionProps {
   totalReferredUsers: number;

@@ -1,10 +1,10 @@
-import { GOOGLE_CAPTCHA_SITE_KEY } from 'config/keys';
+import { GOOGLE_CAPTCHA_SITE_KEY } from "config/keys";
 
 export const fetchCaptchaToken = async (action: string): Promise<string> => {
   const grecaptcha = window.grecaptcha;
   return new Promise((resolve, reject) => {
     try {
-      if (!grecaptcha) return resolve('');
+      if (!grecaptcha) return resolve("");
 
       grecaptcha.enterprise.ready(() => {
         grecaptcha.enterprise

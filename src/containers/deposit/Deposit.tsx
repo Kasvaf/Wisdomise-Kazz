@@ -264,7 +264,7 @@ const Deposit: FunctionComponent = () => {
                         selected={item.name === selectedSymbol}
                         onClick={() => onClickSymbol(item.name)}
                       >
-                        <div className="flex min-w-[160px]  flex-row  items-center">
+                        <div className="flex flex-row  items-center  md:min-w-[160px]">
                           <Avatar size="large" src={coins[item.name]?.icon} />
                           <div className="ml-3 flex flex-col items-start justify-between">
                             <p className="text-gray-light">{item.name}</p>

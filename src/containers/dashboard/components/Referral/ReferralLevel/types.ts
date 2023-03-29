@@ -61,6 +61,6 @@ export interface IReferralLevelBinding {
       };
       status: string;
       expiration_date: string;
-    },
+    }
   ];
 }

@@ -1,8 +1,8 @@
-import classNames from 'classnames';
-import Spinner from 'components/common/Spinner';
-import type { FC } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import { NotificationManager } from 'react-notifications';
+import classNames from "classnames";
+import Spinner from "components/common/Spinner";
+import type { FC } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { NotificationManager } from "react-notifications";
 
 interface IntroSectionProps {
   referralCode?: string;
@@ -12,12 +12,12 @@ interface IntroSectionProps {
 }
 
 const IntroSection: FC<IntroSectionProps> = ({
-  referralCode = '',
+  referralCode = "",
   isLoading,
   referredUsers,
 }) => {
   const onClickCopy = () => {
-    NotificationManager.success('Code Copied Successfully');
+    NotificationManager.success("Code Copied Successfully");
   };
 
   return (
@@ -36,19 +36,19 @@ const IntroSection: FC<IntroSectionProps> = ({
         <h3 className="text-base font-medium text-white">Referral Code:</h3>
         <div className="flex w-full justify-between bg-newPanel p-4">
           <span className="text-sm font-medium text-white">
-            {isLoading ? '-' : referralCode}
+            {isLoading ? "-" : referralCode}
           </span>
           <CopyToClipboard onCopy={onClickCopy} text={referralCode}>
             <button
               disabled={isLoading}
               type="button"
-              className={classNames('uppercase', {
-                'bg-gradient-to-r from-gradientFrom to-gradientTo bg-clip-text text-sm font-bold text-transparent':
+              className={classNames("uppercase", {
+                "bg-gradient-to-r from-gradientFrom to-gradientTo bg-clip-text text-sm font-bold text-transparent":
                   !isLoading,
-                'cursor-not-allowed text-black/70': isLoading,
+                "cursor-not-allowed text-black/70": isLoading,
               })}
             >
-              {isLoading ? <Spinner /> : 'Copy'}
+              {isLoading ? <Spinner /> : "Copy"}
             </button>
           </CopyToClipboard>
         </div>

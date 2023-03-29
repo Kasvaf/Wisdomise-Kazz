@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "antd";
 import {
@@ -9,7 +9,8 @@ import { ReactComponent as ChevronDown } from "@images/chevron-down.svg";
 import { ReactComponent as WithdrawIcon } from "@images/withdraw.svg";
 import { ReactComponent as DepositIcon } from "@images/deposit.svg";
 import { ReactComponent as NewWallet } from "@images/new_wallet.svg";
-import { Tab } from "containers/dashboard/types";
+import { ReactComponent as Hamburger } from "@images/menu.svg";
+import { ReactComponent as Close } from "@images/close.svg";
 import { gaClick } from "utils/ga";
 import { floatData, isStage } from "utils/utils";
 import { ReactComponent as LogoutIcon } from "@images/logout.svg";
@@ -18,6 +19,8 @@ import { ReactComponent as TransactionIcon } from "@images/transaction.svg";
 import { ReactComponent as ReferralIcon } from "@images/referral.svg";
 import KycMenuItem from "../Header/Kyc";
 import DepositPlanModal from "./DepositPlanModal";
+import LeftNavigation from "components/Layout/LeftNavigation";
+import LeftNavTabs from "components/Layout/LeftNavTabs";
 
 interface HeaderProps {
   signOut: () => unknown;
@@ -54,11 +57,27 @@ function Header({ signOut }: HeaderProps) {
     investorAsset?.data.results.length > 0 &&
     investorAsset?.data?.results[0]?.trader_instances.length > 0;
 
+  const [shouldShowMenu, setShouldShowMenu] = useState(false);
+  const toggleShowMenu = useCallback(() => {
+    setShouldShowMenu((p) => !p);
+  }, []);
+
   return (
-    <div className="mb-8 flex justify-between">
-      <h1 className="mb-2 font-campton text-xl text-white xl:text-2xl hidden md:flex">
+    <div className="relative mb-8 flex w-full justify-between">
+      <h1 className="mb-2 hidden font-campton text-xl text-white md:flex xl:text-2xl">
         Welcome
       </h1>
+      <button
+        type="button"
+        className="group md:hidden"
+        onClick={toggleShowMenu}
+      >
+        {shouldShowMenu ? (
+          <Close className="fill-white group-hover:fill-primary" />
+        ) : (
+          <Hamburger className="stroke-white group-hover:stroke-primary" />
+        )}
+      </button>
       <div className="ml-auto flex">
         {hasWallet && (
           <div className="mx-4 flex items-center justify-evenly border-r-2 border-gray-main px-4">
@@ -66,11 +85,21 @@ function Header({ signOut }: HeaderProps) {
               <Dropdown
                 overlay={
                   <div className="mt-1 flex  flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
+                    <div className="flex justify-between border-b-2 border-b-gray-200 p-4 md:hidden">
+                      <p className="font-bold uppercase text-primary">wallet</p>
+                      <p className="font-bold text-primary">
+                        $
+                        {hasWallet
+                          ? floatData(
+                              investorAsset?.data.results[0].trader_instances[0]
+                                ?.exchange_account.total_equity
+                            )
+                          : 0}
+                      </p>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => {
-                        onShowDepositPage();
-                      }}
+                      onClick={onShowDepositPage}
                       className="flex items-center justify-start bg-transparent p-4  text-white hover:bg-gray-dark"
                     >
                       <DepositIcon className="mr-2 w-[20px] text-2xl" />
@@ -94,7 +123,7 @@ function Header({ signOut }: HeaderProps) {
               >
                 <div className="flex items-center">
                   <NewWallet />
-                  <button className="horos-filter-btn-alt group bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white hidden md:flex">
+                  <button className="horos-filter-btn-alt group hidden bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white md:flex">
                     <p className="px-2 font-bold uppercase text-primary">
                       wallet
                     </p>
@@ -117,11 +146,10 @@ function Header({ signOut }: HeaderProps) {
         <div className="min-w-0 grow-0">
           <Dropdown
             overlay={
-              <div className="mt-1 flex w-[23rem] flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
+              <div className="absolute top-full right-0 mt-1 flex flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
                 <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-b-nodata/20 p-2 pb-4 text-nodata">
                   {userName}
                 </div>
-
                 <button
                   type="button"
                   onClick={() => {
@@ -187,7 +215,7 @@ function Header({ signOut }: HeaderProps) {
               <div className=" flex h-10 w-10 flex-[0_0_10] flex-col items-center justify-center rounded-md bg-gray-dark bg-gradient-to-r from-gradientFromTransparent via-gradientToTransparent to-gradientToTransparent uppercase">
                 <p className="text-xl text-primary">{userName.charAt(0)}</p>
               </div>
-              <button className="horos-filter-btn-alt group bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white hidden md:flex">
+              <button className="horos-filter-btn-alt group hidden bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white md:flex">
                 <span>{userName}</span>
                 <ChevronDown className="w-6" />
               </button>
@@ -197,6 +225,11 @@ function Header({ signOut }: HeaderProps) {
       </div>
       {showDepositPlan && (
         <DepositPlanModal toggle={() => setShowDepositPlan(false)} />
+      )}
+      {shouldShowMenu && (
+        <div className="absolute top-full left-0 right-0 z-10 mt-1 flex flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
+          <LeftNavTabs collapseNavbar={false} setShowMenu={toggleShowMenu} />
+        </div>
       )}
     </div>
   );

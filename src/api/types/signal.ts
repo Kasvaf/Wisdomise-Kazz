@@ -1,11 +1,11 @@
-import { TickerSymbol } from './common';
+import { TickerSymbol } from "./common";
 
 export interface GetSignalsQueryData {
   results: Array<Signal>;
   count: number;
 }
 
-export type PositionType = 'OPEN' | 'CLOSE' | 'WEAK';
+export type PositionType = "OPEN" | "CLOSE" | "WEAK";
 
 export interface Signal {
   last_stop_loss: string;
@@ -14,7 +14,7 @@ export interface Signal {
   first_stop_loss: number;
   pair: TickerSymbol;
   created_at: number;
-  side: 'LONG' | 'SHORT';
+  side: "LONG" | "SHORT";
   intensity: number;
   executed: boolean;
   key: string;

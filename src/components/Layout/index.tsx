@@ -101,7 +101,7 @@ const HomeLayout = ({
         setSelectedTab={setSelectedTab}
         setShowMenu={setShowMenu}
       />
-      <div className="overflow-y-auto p-6 md:px-10 md:py-8">
+      <div className="w-full overflow-y-auto p-6 md:px-10 md:py-8">
         <Header signOut={signOut} />
         <Outlet />
       </div>

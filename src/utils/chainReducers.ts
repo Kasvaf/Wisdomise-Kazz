@@ -1,4 +1,4 @@
-import { Action, AnyAction, Reducer } from 'redux';
+import { Action, AnyAction, Reducer } from "redux";
 
 /**
  * Create a reducer that forwards actions to a set of reducers, in sequence
@@ -38,7 +38,7 @@ export function chainReducers<S = any, A extends Action = AnyAction>(
   ...otherChildReducers: SubReducer<S, A>[]
 ): Reducer<S, A> {
   if (!firstChildReducer) {
-    throw new Error('chainReducers() needs at least one reducer.');
+    throw new Error("chainReducers() needs at least one reducer.");
   }
 
   if (otherChildReducers.length === 0) {
@@ -49,7 +49,7 @@ export function chainReducers<S = any, A extends Action = AnyAction>(
     const nextState = firstChildReducer(state, action);
     return otherChildReducers.reduce(
       (s, reducer) => reducer(s, action),
-      nextState,
+      nextState
     );
   };
 }

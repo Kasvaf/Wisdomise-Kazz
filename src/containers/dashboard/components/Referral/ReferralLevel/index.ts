@@ -1,3 +1,3 @@
-import ReferralLevel from './ReferralLevelCard';
+import ReferralLevel from "./ReferralLevelCard";
 
 export default ReferralLevel;

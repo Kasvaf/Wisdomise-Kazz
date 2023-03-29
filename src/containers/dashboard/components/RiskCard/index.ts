@@ -1,1 +1,1 @@
-export { default } from './RiskCard';
+export { default } from "./RiskCard";

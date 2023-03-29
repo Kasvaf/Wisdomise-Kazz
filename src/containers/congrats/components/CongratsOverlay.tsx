@@ -1,11 +1,11 @@
-import Ribbon1 from '@images/quiz/ribbon1.svg';
-import Ribbon2 from '@images/quiz/ribbon2.svg';
-import Ribbon3 from '@images/quiz/ribbon3.svg';
-import Confetti1 from '@images/quiz/confetti.svg';
-import Confetti2 from '@images/quiz/confetti2.svg';
-import Confetti3 from '@images/quiz/confetti3.svg';
-import Confetti4 from '@images/quiz/confetti4.svg';
-import Confetti5 from '@images/quiz/confetti5.svg';
+import Ribbon1 from "@images/quiz/ribbon1.svg";
+import Ribbon2 from "@images/quiz/ribbon2.svg";
+import Ribbon3 from "@images/quiz/ribbon3.svg";
+import Confetti1 from "@images/quiz/confetti.svg";
+import Confetti2 from "@images/quiz/confetti2.svg";
+import Confetti3 from "@images/quiz/confetti3.svg";
+import Confetti4 from "@images/quiz/confetti4.svg";
+import Confetti5 from "@images/quiz/confetti5.svg";
 
 function CongratsOverlay() {
   return (

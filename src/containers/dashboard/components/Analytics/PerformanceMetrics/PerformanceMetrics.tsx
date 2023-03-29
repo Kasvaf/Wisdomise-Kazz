@@ -1,6 +1,6 @@
-import { Tooltip } from 'antd';
-import { FunctionComponent } from 'react';
-import { ReactComponent as InfoIcon } from '@images/info.svg';
+import { Tooltip } from "antd";
+import { FunctionComponent } from "react";
+import { ReactComponent as InfoIcon } from "@images/info.svg";
 
 interface PerformanceMetricItem {
   title: string;

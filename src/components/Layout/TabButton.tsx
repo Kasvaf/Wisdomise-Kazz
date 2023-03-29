@@ -2,18 +2,19 @@ import { Tab } from "containers/dashboard/types";
 import { useNavigate } from "react-router-dom";
 import { gaClick } from "utils/ga";
 import { ReactComponent as ChevronDownIcon } from "@images/chevron-down.svg";
+import noop from "utils/noop";
 
 interface IProps {
   tab: Tab;
   setShowMenu: (n: boolean) => void;
-  setSelectedTab: (t: Tab) => void;
+  setSelectedTab?: (t: Tab) => void;
   collapseNavbar: boolean;
 }
 
 export default function TabButton({
   tab,
   setShowMenu,
-  setSelectedTab,
+  setSelectedTab = noop,
   collapseNavbar,
 }: IProps) {
   const isActiveTab = (label: string) => {

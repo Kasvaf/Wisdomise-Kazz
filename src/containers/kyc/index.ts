@@ -1,1 +1,1 @@
-export { default } from './Kyc';
+export { default } from "./Kyc";

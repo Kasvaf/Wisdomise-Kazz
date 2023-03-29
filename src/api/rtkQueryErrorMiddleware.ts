@@ -1,16 +1,16 @@
-import { isRejectedWithValue } from '@reduxjs/toolkit';
-import type { MiddlewareAPI, Middleware } from '@reduxjs/toolkit';
-import { NotificationManager } from 'react-notifications';
-import { WISDOMISE_TOKEN_KEY } from 'config/constants';
-import { DB } from '../config/keys';
-import { TOAST_TIME } from 'components/constants';
+import { isRejectedWithValue } from "@reduxjs/toolkit";
+import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit";
+import { NotificationManager } from "react-notifications";
+import { WISDOMISE_TOKEN_KEY } from "config/constants";
+import { DB } from "../config/keys";
+import { TOAST_TIME } from "components/constants";
 
 export const rtkQueryErrorMiddleware: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
     // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood, so we're able to utilize these matchers!
     if (isRejectedWithValue(action)) {
       const request = action.meta?.baseQueryMeta?.request;
-      const tokenOnRequest = request?.headers?.get('authenticaton');
+      const tokenOnRequest = request?.headers?.get("authenticaton");
       const response = action.meta?.baseQueryMeta?.response;
       const endpoint = action.meta?.arg?.endpointName;
 
@@ -21,11 +21,11 @@ export const rtkQueryErrorMiddleware: Middleware =
 
         window.location.reload();
       } else {
-        let title = '';
-        let body = '';
+        let title = "";
+        let body = "";
         switch (action?.payload.status) {
           case 400: {
-            title = 'Validation Error';
+            title = "Validation Error";
             body = JSON.stringify(action?.payload?.data);
 
             break;
@@ -37,7 +37,7 @@ export const rtkQueryErrorMiddleware: Middleware =
             break;
           }
           default: {
-            title = 'Internal server Error';
+            title = "Internal server Error";
           }
         }
         NotificationManager.error(body, title, TOAST_TIME);

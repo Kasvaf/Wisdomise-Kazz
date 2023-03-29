@@ -1,15 +1,15 @@
-import { Signal } from 'api/types/signal';
-import dayjs from 'dayjs';
-import { isArray } from 'lodash';
-import { FilterType, IFilter } from './types';
-import isBetween from 'dayjs/plugin/isBetween';
+import { Signal } from "api/types/signal";
+import dayjs from "dayjs";
+import { isArray } from "lodash";
+import { FilterType, IFilter } from "./types";
+import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(isBetween);
 
 export const countActiveFilters = (filter: IFilter) => {
   let count = 0;
   Object.keys(filter).forEach((f) => {
-    if (f === 'date') {
-      if (filter[f]['start']) count++;
+    if (f === "date") {
+      if (filter[f]["start"]) count++;
       return;
     }
     Object.keys(filter[f]).forEach((fValue) => {
@@ -34,8 +34,8 @@ export const filterProcessor =
         newItems = newItems.concat(
           items.filter(
             (item) =>
-              item[filterKey] === (filterKey === 'pair' ? key + 'USDT' : key),
-          ),
+              item[filterKey] === (filterKey === "pair" ? key + "USDT" : key)
+          )
         );
       }
     });

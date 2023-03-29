@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, ReactElement } from "react";
 
 interface GradientBoxProps {
   selected?: boolean;
@@ -16,7 +16,7 @@ const GradientBox: FunctionComponent<GradientBoxProps> = ({
   onClick,
 }) => {
   const onClickCard = () => {
-    if (typeof onClick === 'function') onClick();
+    if (typeof onClick === "function") onClick();
   };
 
   return (

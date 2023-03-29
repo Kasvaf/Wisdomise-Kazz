@@ -1,6 +1,6 @@
-import GradientBox from 'components/gradientBox';
-import { ReactComponent as CloseIcon } from '@images/close.svg';
-import { Network } from 'api/types/transferNetworks';
+import GradientBox from "components/gradientBox";
+import { ReactComponent as CloseIcon } from "@images/close.svg";
+import { Network } from "api/types/transferNetworks";
 
 interface IProps {
   onCloseSelectNetwork: () => void;
@@ -45,7 +45,7 @@ const SelectNetwork = ({
             return (
               <div
                 className={`mb-4 flex cursor-pointer justify-between p-4  hover:bg-gray-main ${
-                  selectedNetwork?.name === item.name && 'border '
+                  selectedNetwork?.name === item.name && "border "
                 }`}
                 onClick={() => onSelectNetwork(item)}
                 key={item.key}

@@ -1,4 +1,4 @@
-import { DatePnl } from './common';
+import { DatePnl } from "./common";
 
 export interface PostSimulatePortfolioQueryVariables {
   risk_type: string;

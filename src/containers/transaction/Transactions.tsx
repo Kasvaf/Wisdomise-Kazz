@@ -1,4 +1,4 @@
-import TransactionTable from './TransactionTable';
+import TransactionTable from "./TransactionTable";
 
 const Transaction: React.FC = () => {
   return (

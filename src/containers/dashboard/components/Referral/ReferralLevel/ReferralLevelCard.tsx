@@ -1,8 +1,8 @@
-import type { FC } from 'react';
-import cls from 'classnames';
-import { ReferralLevelProps } from './types';
-import ReferralLevelBadge from './ReferralLevelBadge';
-import ReferralLevelStatus from './ReferralLevelStatus';
+import type { FC } from "react";
+import cls from "classnames";
+import { ReferralLevelProps } from "./types";
+import ReferralLevelBadge from "./ReferralLevelBadge";
+import ReferralLevelStatus from "./ReferralLevelStatus";
 
 const ReferralLevelCard: FC<ReferralLevelProps> = ({
   data: {
@@ -20,11 +20,11 @@ const ReferralLevelCard: FC<ReferralLevelProps> = ({
   const getProgress = (): number => {
     const activeUsersPercentage = Math.min(
       (activeReferredUsers / activeRequired) * 100,
-      100,
+      100
     );
     const totalUsersPercentage = Math.min(
       (referredUsers / totalRequired) * 100,
-      100,
+      100
     );
 
     const percentage = (activeUsersPercentage + totalUsersPercentage) / 2;
@@ -41,10 +41,10 @@ const ReferralLevelCard: FC<ReferralLevelProps> = ({
   return (
     <div
       className={cls(
-        'referral-panel flex flex-grow-0 basis-1/3 flex-col gap-6 p-6 font-poppins text-white',
+        "referral-panel flex flex-grow-0 basis-1/3 flex-col gap-6 p-6 font-poppins text-white"
       )}
     >
-      <div className={'flex items-center justify-between'}>
+      <div className={"flex items-center justify-between"}>
         <ReferralLevelBadge
           level={level}
           claimed={getClaimedStatus()}

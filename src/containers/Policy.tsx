@@ -1,6 +1,6 @@
 const Policy = () => {
   return (
-    <div style={{ color: '#fff' }}>
+    <div style={{ color: "#fff" }}>
       <p className="p1">
         <strong>PRIVACY POLICY</strong>
       </p>

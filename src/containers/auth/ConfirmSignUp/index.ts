@@ -1,3 +1,3 @@
-import ConfirmSignUp from './ConfirmSignUp';
+import ConfirmSignUp from "./ConfirmSignUp";
 
 export default ConfirmSignUp;

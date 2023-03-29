@@ -9,10 +9,10 @@ export type Requirements = {
 };
 
 export enum VerificationStatus {
-  UNVERIFIED = 'UNVERIFIED',
-  PENDING = 'PENDING',
-  VERIFIED = 'VERIFIED',
-  REJECTED = 'REJECTED',
+  UNVERIFIED = "UNVERIFIED",
+  PENDING = "PENDING",
+  VERIFIED = "VERIFIED",
+  REJECTED = "REJECTED",
 }
 
 export interface KYC_Level {
@@ -28,7 +28,7 @@ export interface KYC_Level {
 export interface VerificationCardProps
   extends Omit<
     KYC_Level,
-    'key' | 'order' | 'updated_at' | 'created_at' | 'name'
+    "key" | "order" | "updated_at" | "created_at" | "name"
   > {
   title: string;
   onVerify: () => void;
@@ -38,7 +38,7 @@ export interface VerificationCardProps
 }
 
 export type KYC_level_binding = {
-  kyc_level: Pick<KYC_Level, 'key' | 'name'>;
+  kyc_level: Pick<KYC_Level, "key" | "name">;
   status: VerificationStatus;
 };
 

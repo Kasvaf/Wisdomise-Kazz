@@ -1,5 +1,5 @@
-import DB from 'config/keys';
-import { FunctionComponent, useEffect } from 'react';
+import DB from "config/keys";
+import { FunctionComponent, useEffect } from "react";
 
 const AuthContainer: FunctionComponent = () => {
   useEffect(() => {

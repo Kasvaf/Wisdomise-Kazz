@@ -1,3 +1,3 @@
-import GainCalculator from './GainCalculator';
+import GainCalculator from "./GainCalculator";
 
 export default GainCalculator;

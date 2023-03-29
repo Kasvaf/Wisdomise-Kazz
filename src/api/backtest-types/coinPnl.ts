@@ -1,4 +1,4 @@
-import { DatePnl } from './common';
+import { DatePnl } from "./common";
 
 export interface PostCoinPnlQueryVariables {
   coin: string;

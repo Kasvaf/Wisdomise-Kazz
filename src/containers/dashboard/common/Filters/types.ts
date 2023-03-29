@@ -1,6 +1,6 @@
-import { Dayjs } from 'dayjs';
+import { Dayjs } from "dayjs";
 
-export type FilterDropdownType = 'multiselect' | 'date';
+export type FilterDropdownType = "multiselect" | "date";
 
 export type FilterType = {
   [key: string]: boolean | string | Date | Dayjs;

@@ -3,11 +3,11 @@
  * Add all api related code to the new file.
  */
 
-import axios from 'axios';
-import { NotificationManager } from 'react-notifications';
-import DB from '../config/keys';
+import axios from "axios";
+import { NotificationManager } from "react-notifications";
+import DB from "../config/keys";
 
-const TESTNET_ERROR = 'TestExchangeNotAvailable';
+const TESTNET_ERROR = "TestExchangeNotAvailable";
 
 const genOptions = (userData) => ({
   headers: {
@@ -49,6 +49,6 @@ export const showError = (err) => {
   const error = err.response && err.response.data && err.response.data.error;
   const testNetError = error === TESTNET_ERROR;
   NotificationManager.error(
-    testNetError ? 'Binance Test Network is not available' : err.message,
+    testNetError ? "Binance Test Network is not available" : err.message
   );
 };
