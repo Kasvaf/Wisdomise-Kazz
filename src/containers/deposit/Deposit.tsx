@@ -18,7 +18,7 @@ import {
   useGetUserInfoQuery,
 } from "api/horosApi";
 import { useParams } from "react-router-dom";
-import { IconChevronRight } from "@aws-amplify/ui-react";
+import RightOutlined from "@ant-design/icons/RightOutlined";
 import SelectNetwork from "components/selectNetwork";
 import Modal from "components/modal";
 import { TOAST_TIME } from "components/constants";
@@ -291,7 +291,7 @@ const Deposit: FunctionComponent = () => {
                         ? selectedNetwork.name
                         : "Click to select a network"}
                     </p>
-                    <IconChevronRight className="mr-2 text-2xl" />
+                    <RightOutlined className="mr-2 text-lg" />
                   </div>
                 </div>
               </div>

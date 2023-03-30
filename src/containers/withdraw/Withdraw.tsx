@@ -20,7 +20,7 @@ import {
 } from "api/horosApi";
 import { NotificationManager } from "react-notifications";
 import Modal from "components/modal";
-import { IconChevronRight } from "@aws-amplify/ui-react";
+import RightOutlined from "@ant-design/icons/RightOutlined";
 import SelectNetwork from "components/selectNetwork";
 import Spinner from "components/spinner";
 import { withLDConsumer } from "launchdarkly-react-client-sdk";
@@ -526,7 +526,7 @@ const Withdraw = ({ flags }: any) => {
                     ? selectedNetwork.name
                     : "Click to select a network"}
                 </p>
-                <IconChevronRight className="mr-2 text-2xl" />
+                <RightOutlined className="mr-2 text-lg" />
               </div>
             </div>
           </div>

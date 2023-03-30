@@ -6,7 +6,6 @@ import RightOutlined from "@ant-design/icons/RightOutlined";
 
 import { gaClick } from "utils/ga";
 import { useNavigate } from "react-router-dom";
-import { Tab } from "containers/dashboard/types";
 import { VERSION } from "config/constants";
 import LeftNavTabs from "./LeftNavTabs";
 

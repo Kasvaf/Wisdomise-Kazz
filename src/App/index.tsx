@@ -26,7 +26,6 @@ import Policy from "containers/Policy";
 import Terms from "containers/Terms";
 import { RootState } from "../store/appReducer";
 // eslint-disable-next-line import/no-unresolved
-import "@aws-amplify/ui-react/styles.css";
 import "antd/dist/antd.css";
 import "react-notifications/lib/notifications.css";
 import "react-date-range/dist/styles.css";
