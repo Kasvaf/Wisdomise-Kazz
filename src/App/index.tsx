@@ -98,8 +98,8 @@ const App: FunctionComponent<AppProps> = (props) => {
   // ** hotjar and GA config
   useEffect(() => {
     if (import.meta.env.PROD) {
-      hotjar.initialize(import.meta.env.VITE_hjid, import.meta.env.VITE_hjsv);
-      ReactGA.initialize(import.meta.env.VITE_ga);
+      hotjar.initialize(import.meta.env.VITE_HJID, import.meta.env.VITE_HJSV);
+      ReactGA.initialize(import.meta.env.VITE_GA);
     }
   }, []);
 
