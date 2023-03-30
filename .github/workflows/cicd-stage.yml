@@ -18,8 +18,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run prettier
         run: |-
-          npm install -D tailwindcss postcss autoprefixer concurrently
-          npm install -D prettier prettier-plugin-tailwindcss
+          npm install --global yarn
+          yarn install --production=false
           npx prettier --check .
 
   test:
