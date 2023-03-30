@@ -191,7 +191,7 @@ function Dashboard() {
 					https://app.clickup.com/t/860q3myqg?block=block-fc7b1579-0a62-4216-a657-a60798969370
 				*/}
         {kycLevel?.status !== VerificationStatus.VERIFIED && (
-          <div className="referral-panel mt-4 flex items-center gap-4 px-5 py-6">
+          <div className="referral-panel mt-4 flex flex-col items-center gap-4 px-5 py-6 md:flex-row">
             <div className="flex flex-col">
               <div className="flex">
                 <p className="flex items-center text-lg text-white md:text-xl">
