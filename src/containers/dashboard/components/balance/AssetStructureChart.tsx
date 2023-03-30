@@ -152,6 +152,9 @@ const AssetStructureChart = (props: any) => {
     },
   ];
 
+  const windowWidth = document.body.clientWidth;
+  const pieWidth = Math.min(400, windowWidth - 60);
+
   return (
     <>
       {symbol?.length > 0 && (
@@ -163,7 +166,7 @@ const AssetStructureChart = (props: any) => {
             pagination={false}
           />
           <div className="mr-0 sm:mr-10">
-            <Pie {...config} width={400} height={350} />
+            <Pie {...config} width={pieWidth} height={350} />
           </div>
         </div>
       )}
