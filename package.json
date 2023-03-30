@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite --port 3001",
     "build": "tsc && vite build",
+    "build:dev": "vite build --mode development",
+    "build:prod": "vite build --mode production",
+    "serve": "vite preview --port 3000 --host",
     "preview": "vite preview"
   },
   "dependencies": {
