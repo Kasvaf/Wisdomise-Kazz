@@ -1010,3 +1010,8 @@ div[data-amplify-router] {
 .notification-message .message {
   word-break: break-all;
 }
+
+.risk-card-action {
+  max-width: calc(50% - 0.375rem);
+  min-width: calc(50% - 0.375rem);
+}

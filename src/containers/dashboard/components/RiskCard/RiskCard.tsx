@@ -122,7 +122,7 @@ const RiskCard: FunctionComponent<RiskCardProps> = ({
               {selected ? (
                 <div
                   onClick={onClick}
-                  className={`min-h-[48px] w-full rounded  bg-gradient-to-r from-gradientFromTransparent to-gradientToTransparent p-[3px] `}
+                  className={`risk-card-action min-h-[48px] flex-1 rounded bg-gradient-to-r from-gradientFromTransparent to-gradientToTransparent p-[3px] `}
                 >
                   <div className="flex h-full flex-col items-center  justify-between px-4 py-1 text-center text-sm font-bold uppercase text-gray-dark">
                     <div className="flex flex-row items-center gap-4">
@@ -143,7 +143,7 @@ const RiskCard: FunctionComponent<RiskCardProps> = ({
               <Button
                 type={BUTTON_TYPE.OUTLINED}
                 text="DETAILS"
-                className="!w-full"
+                className="!w-full flex-1"
                 disabled={loading || subscriptionLoading}
                 onClick={onDetail}
               />
