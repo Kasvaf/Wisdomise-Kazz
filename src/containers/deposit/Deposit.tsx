@@ -98,8 +98,7 @@ const Deposit: FunctionComponent = () => {
   const [walletAddressTrigger, walletAddress] =
     useLazyGetDepositWalletAddressQuery({});
 
-  const [RefreshExchangeAccountExecuter, refreshExchangeAccount] =
-    useRefreshExchangeAccountMutation();
+  const [RefreshExchangeAccountExecuter] = useRefreshExchangeAccountMutation();
 
   const investorAsset = useGetInvestorAssetStructureQuery({});
 

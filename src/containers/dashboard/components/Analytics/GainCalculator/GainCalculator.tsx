@@ -35,6 +35,7 @@ const GainCalculator: FunctionComponent<GainCalculatorProps> = ({
         <div className="w-full md:w-1/3">
           <span className="text-sm text-nodata md:text-base">{label}</span>
           <div className="relative mt-4 w-full">
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="absolute top-0 z-10 ml-4 mt-3 text-xs  uppercase text-nodata/40">
               Amount
             </label>

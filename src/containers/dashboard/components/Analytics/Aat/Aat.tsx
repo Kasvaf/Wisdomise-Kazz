@@ -1,7 +1,6 @@
 import { FunctionComponent } from "react";
 import { Line } from "@ant-design/plots";
 import {
-  Coins,
   FilterDropdownsConfig,
   FilterNames,
   Strategy,

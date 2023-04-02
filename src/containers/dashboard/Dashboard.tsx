@@ -8,7 +8,6 @@ import {
   useUpdateIASStatusMutation,
   useGetKycLevelsQuery,
 } from "api/horosApi";
-import { DB } from "../../config/keys";
 import { BUTTON_TYPE } from "utils/enums";
 import Button from "components/Button";
 import Trade from "@images/Trade.png";
@@ -82,13 +81,8 @@ function Dashboard() {
 
   if (investorAsset.isLoading) return <div />;
 
-  const showBalance = () => {
-    return (
-      investorAsset?.data?.results?.length !== 0 &&
-      investorAsset?.data?.results[0]?.trader_instances.length !== 0 &&
-      investorAsset?.data?.results[0]?.trader_instances.length !== undefined
-    );
-  };
+  const instances = investorAsset?.data?.results?.[0]?.trader_instances || [];
+  const showBalance = Array.isArray(instances) && instances.length > 0;
 
   return (
     <div className="flex h-full w-full flex-row justify-center">
@@ -100,7 +94,7 @@ function Dashboard() {
               <h1 className="text-[40px] font-bold text-white">
                 We trade on your behalf!
               </h1>
-              <p className="my-5 w-auto text-lg  text-gray-light  ">
+              <p className="my-5 w-auto text-lg  text-gray-light">
                 Wisdomise offers AI-based strategies tailored to your risk
                 tolerance. Check out our strategies and start making profit
                 today
@@ -255,7 +249,7 @@ function Dashboard() {
             </div>
           </div>
         )}
-        {showBalance() && <Balance />}
+        {showBalance && <Balance />}
         <div className="dashboard-panel-wrapper flex flex-col justify-start space-y-8">
           <Preview />
         </div>

@@ -11,7 +11,7 @@ import { loadSessionData } from "../store/userInfo";
 import Congrats from "../containers/congrats";
 import Dashboard from "../containers/dashboard/Dashboard";
 import AuthContainer from "containers/auth/AuthContainer";
-import { horosApi, useGetUserInfoQuery } from "../api/horosApi";
+import { horosApi } from "../api/horosApi";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { signoutAction } from "../store/slices/signout";
 import Callback from "containers/auth/Callback";
@@ -25,7 +25,7 @@ import ReferralPage from "containers/referral";
 import Policy from "containers/Policy";
 import Terms from "containers/Terms";
 import { RootState } from "../store/appReducer";
-// eslint-disable-next-line import/no-unresolved
+
 import "antd/dist/antd.css";
 import "react-notifications/lib/notifications.css";
 import "react-date-range/dist/styles.css";
@@ -46,7 +46,7 @@ const Transaction = React.lazy(() => import("containers/transaction"));
 const Withdraw = React.lazy(() => import("containers/withdraw"));
 
 function AppAuthenticationContainer() {
-  const dispatch: any = useAppDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(loadSessionData());
   }, [dispatch]);
@@ -114,11 +114,10 @@ const App: FunctionComponent<AppProps> = (props) => {
     setSignOutInProgress(true);
   };
 
-  const { data: userInfo } = useGetUserInfoQuery({});
+  // const { data: userInfo } = useGetUserInfoQuery({});
 
-  const notEmailConfirmed =
-    userInfo?.customer.user.email && !userInfo?.customer.info.email_verified;
-
+  // const notEmailConfirmed =
+  //   userInfo?.customer.user.email && !userInfo?.customer.info.email_verified;
   // if (notEmailConfirmed) {
   //   if (!isLocal()) return <ConfirmSignUp signOut={triggerSignOut} />;
   // }

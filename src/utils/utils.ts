@@ -1,7 +1,5 @@
 import { VerificationStatus } from "types/kyc";
 import packageJson from "../../package.json";
-import minBy from "lodash/minBy";
-import maxBy from "lodash/maxBy";
 
 export const getCurrentVersion = (): string => {
   return packageJson.version;

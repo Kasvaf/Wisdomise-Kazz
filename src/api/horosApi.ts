@@ -9,7 +9,6 @@ import { DB } from "../config/keys";
 import { UserInfo } from "./types/userInfo";
 import { GetSignalsQueryData } from "./types/signal";
 import { State } from "./types/state";
-import { WISDOMISE_TOKEN_KEY } from "config/constants";
 import {
   SimulateTradeData,
   SimulateTradeQueryVariables,
@@ -37,8 +36,7 @@ const horosApiBaseQueryRefreshToken: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   const result = await horosBaseQuery(args, api, extraOptions);
-  const error: any = result.error;
-
+  // const error: any = result.error;
   // if (error && (error?.status === 401 || error.status === 403)) {
   //   console.log('error', error, DB);
 

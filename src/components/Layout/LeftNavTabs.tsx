@@ -1,5 +1,5 @@
 import { tabs } from "containers/dashboard/constants";
-import { Tab, TabLabels } from "containers/dashboard/types";
+import { TabLabels } from "containers/dashboard/types";
 import TabButton from "./TabButton";
 
 interface IProps {

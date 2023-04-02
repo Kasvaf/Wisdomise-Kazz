@@ -6,7 +6,7 @@ interface IProps {
   toggle: () => void;
 }
 
-export default function ({ toggle }: IProps) {
+export default function DepositPlanModal({ toggle }: IProps) {
   return (
     <Modal className="!w-full sm:!w-[700px]">
       <div className="mb-2 flex w-full justify-between px-2 pb-5 pt-2">

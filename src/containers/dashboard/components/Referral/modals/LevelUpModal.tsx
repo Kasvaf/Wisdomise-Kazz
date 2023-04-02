@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import Modal from "components/modal";
-import successImage from "@images/success-check.png";
+// import successImage from "@images/success-check.png";
 import Button from "components/Button";
 import { BUTTON_TYPE } from "utils/enums";
 import ReferralLevelBadge from "../ReferralLevel/ReferralLevelBadge";

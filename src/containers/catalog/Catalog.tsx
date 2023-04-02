@@ -68,8 +68,6 @@ const Catalog: FunctionComponent = () => {
     }
   }, [selectedItem]);
 
-  useEffect(() => {});
-
   const onCliCkCreateWallet = async () => {
     const body = {
       etf_package_key: selectedItem.key,

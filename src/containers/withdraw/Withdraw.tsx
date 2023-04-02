@@ -254,11 +254,9 @@ const Withdraw = ({ flags }: any) => {
   const [confirmWithdrawTrigger, confirmWithdraw] =
     useConfirmWithdrawMutation();
 
-  const [resendWithdrawTrigger, resendWithdraw] =
-    useResendEmailWithdrawMutation();
+  const [resendWithdrawTrigger] = useResendEmailWithdrawMutation();
 
-  const [RefreshExchangeAccountExecuter, refreshExchangeAccount] =
-    useRefreshExchangeAccountMutation();
+  const [RefreshExchangeAccountExecuter] = useRefreshExchangeAccountMutation();
 
   const onConfirm = () => {
     setShowConfirmWithdraw(true);

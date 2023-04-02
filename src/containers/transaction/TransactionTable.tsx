@@ -14,7 +14,9 @@ interface TransactionHistoryProps {
   previewMode?: boolean;
 }
 
-const Transaction: React.FC<TransactionHistoryProps> = ({ previewMode }) => {
+const Transaction: React.FC<TransactionHistoryProps> = ({
+  previewMode,
+}: TransactionHistoryProps) => {
   const [page, setPage] = useState(1);
   const [array, setArray] = useState<any>([]);
   const investorAsset: any = useGetInvestorAssetStructureQuery({});

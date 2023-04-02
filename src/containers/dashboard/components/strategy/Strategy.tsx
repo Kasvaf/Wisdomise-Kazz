@@ -7,7 +7,9 @@ interface StrategyProps {
   getSelectedKey?: (id: number | undefined) => void;
 }
 
-const Strategy: React.FC<StrategyProps> = ({ getSelectedKey }) => {
+const Strategy: React.FC<StrategyProps> = ({
+  getSelectedKey,
+}: StrategyProps) => {
   const navigate = useNavigate();
 
   const etfData = useGetETFPackagesQuery({});

@@ -17,7 +17,7 @@ import { ReactComponent as TradingIcon } from "@images/nav/trading.svg";
 // import { ReactComponent as ReferralIcon } from '@images/nav/referral.svg';
 
 import { TablePaginationConfig } from "antd";
-import { TabLabels, Tabs } from "./types";
+import { TabLabels } from "./types";
 
 export const K_FORMAT = "0.0a";
 

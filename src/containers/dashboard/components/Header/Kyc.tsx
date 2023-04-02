@@ -4,7 +4,7 @@ import { KYC_level_binding, VerificationStatus } from "types/kyc";
 import { getKycLevelStatusColor } from "utils/utils";
 import { useNavigate } from "react-router";
 import { ReactComponent as LockIcon } from "@images/lock.svg";
-import { useGetKycLevelsQuery } from "api/horosApi";
+// import { useGetKycLevelsQuery } from "api/horosApi";
 
 interface KycMenuItemProps {
   kycBinding: KYC_level_binding | undefined;
@@ -13,7 +13,7 @@ interface KycMenuItemProps {
 
 const KycMenuItem: FC<KycMenuItemProps> = ({ kycBinding, onClick }) => {
   const navigate = useNavigate();
-  const { data: kycLevels } = useGetKycLevelsQuery({});
+  // const { data: kycLevels } = useGetKycLevelsQuery({});
 
   return (
     <>

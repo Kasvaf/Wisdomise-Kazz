@@ -19,7 +19,6 @@ import { ReactComponent as TransactionIcon } from "@images/transaction.svg";
 import { ReactComponent as ReferralIcon } from "@images/referral.svg";
 import KycMenuItem from "../Header/Kyc";
 import DepositPlanModal from "./DepositPlanModal";
-import LeftNavigation from "components/Layout/LeftNavigation";
 import LeftNavTabs from "components/Layout/LeftNavTabs";
 
 interface HeaderProps {
@@ -227,7 +226,7 @@ function Header({ signOut }: HeaderProps) {
         <DepositPlanModal toggle={() => setShowDepositPlan(false)} />
       )}
       {shouldShowMenu && (
-        <div className="absolute top-full left-0 right-0 z-10 mt-1 flex flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
+        <div className="absolute inset-x-0 top-full z-10 mt-1 flex flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
           <LeftNavTabs collapseNavbar={false} setShowMenu={toggleShowMenu} />
         </div>
       )}

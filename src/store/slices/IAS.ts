@@ -1,14 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface IASInfo {
-  IASData: any;
+  IASData: object | null;
 }
 
 const initialState: IASInfo = {
   IASData: null,
 };
 
-const IASSlice: any = createSlice({
+const IASSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {

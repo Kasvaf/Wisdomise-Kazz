@@ -1,5 +1,5 @@
 import { floatData } from "utils/utils";
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState } from "react";
 import { Pie } from "@ant-design/plots";
 import { Table } from "antd";
 

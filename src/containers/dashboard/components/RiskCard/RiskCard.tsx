@@ -33,7 +33,7 @@ interface RiskCardProps {
 
 const RiskCard: FunctionComponent<RiskCardProps> = ({
   id,
-  type,
+  // type,
   title,
   expectedYield,
   maxDrawdown,

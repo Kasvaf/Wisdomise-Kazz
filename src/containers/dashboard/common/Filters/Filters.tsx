@@ -8,7 +8,6 @@ import {
   useState,
 } from "react";
 import {
-  Coins,
   DropdownConfig,
   Strategy,
 } from "containers/dashboard/common/Filters/constants";
@@ -32,9 +31,9 @@ const Filters: FunctionComponent<FiltersProps> = ({
   filter,
   setFilter,
   config,
-  options,
+  // options,
 }) => {
-  const { coinsset } = options;
+  // const { coinsset } = options;
   const [showMenu, setShowMenu] = useState(false);
   const [temporaryFilter, setTemporaryFilter] = useState(filter);
 

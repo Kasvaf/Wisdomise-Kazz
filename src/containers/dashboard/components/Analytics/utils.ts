@@ -140,7 +140,7 @@ const updateSpoChartConfig = (data: Array<{ value: number }>): LineConfig => ({
     label: {
       formatter: (v) => `${numeral(v).format("0")}%`,
     },
-    minLimit: data.length ? minBy(data, "value")!.value : 0,
+    minLimit: data.length ? minBy(data, "value")?.value || 0 : 0,
   },
   tooltip: {
     formatter: (datum) => ({ name: datum.category, value: `${datum.value}%` }),
