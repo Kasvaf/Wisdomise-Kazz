@@ -1,5 +1,37 @@
 import DataRenderer from "../DataRenderer";
-import { renderWithContext } from "../../../../test-utils";
+
+import { render, RenderResult } from "@testing-library/react";
+import { ReactElement } from "react";
+import { Provider } from "react-redux";
+import { AppStore, default as defaultStore } from "store/store";
+import { BrowserRouter } from "react-router-dom";
+
+export interface RenderWithContextResult {
+  result: RenderResult;
+  store: AppStore;
+}
+
+export interface RenderWithContextOptions {
+  store?: AppStore;
+}
+
+export function renderWithContext(
+  el: ReactElement,
+  options?: RenderWithContextOptions
+): RenderWithContextResult {
+  const store = options?.store || defaultStore;
+
+  return {
+    result: render(el, {
+      wrapper: (props) => (
+        <BrowserRouter>
+          <Provider store={store}>{props.children}</Provider>
+        </BrowserRouter>
+      ),
+    }),
+    store,
+  };
+}
 
 describe("DataRenderer.tsx", () => {
   test("Should show empty data message, if the wallet is connected, but the data array is empty", () => {

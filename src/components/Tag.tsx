@@ -1,8 +1,15 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import cls from "classnames";
-import { TagProps } from "./types";
 import { twMerge } from "tailwind-merge";
 
+export type TagColors = "success" | "warn" | "error" | "primary" | "default";
+
+export interface TagProps {
+  children?: ReactNode;
+  color?: TagColors;
+  icon?: ReactNode;
+  className?: string;
+}
 const Tag: FC<TagProps> = ({ children, color, icon, className }) => {
   return (
     <div
