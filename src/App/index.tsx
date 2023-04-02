@@ -229,7 +229,6 @@ const App: FunctionComponent<AppProps> = (props) => {
                 </React.Suspense>
               }
             />
-
             <Route
               path="app/transactions"
               element={
