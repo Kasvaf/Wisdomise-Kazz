@@ -8,7 +8,7 @@ import { signoutReducer } from "./slices/signout";
 import IASReducer from "./slices/IAS";
 
 export const store = configureStore({
-  reducer: chainReducers<RootState>(appReducer, signoutReducer, IASReducer),
+  reducer: chainReducers<any>(appReducer, signoutReducer, IASReducer),
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware(),
     horosApi.middleware,
