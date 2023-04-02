@@ -4,8 +4,8 @@ namespace: presentation
 resources:
 - ./deployment.yml
 - ./service.yml
-- ./ingress-wealth.yml
-- ./ingress-dashboard.yml
+- ./ingress.yml
+
 
 commonAnnotations:
   a8r.io/owner: wisdomise
