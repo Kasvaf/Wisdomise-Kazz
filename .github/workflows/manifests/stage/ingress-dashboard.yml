@@ -17,7 +17,7 @@ metadata:
 spec:
   ingressClassName: kong
   rules:
-    - host: stage-dashboard.wisdomise.io
+    - host: stage-wealth.wisdomise.io
       http:
         paths:
           - backend:
@@ -29,5 +29,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - stage-dashboard.wisdomise.io
+        - stage-wealth.wisdomise.io
       secretName: horos-dashboard-tls
