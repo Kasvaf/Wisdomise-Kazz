@@ -20,7 +20,7 @@ jobs:
         run: |-
           npm install --global yarn
           yarn install --production=false
-          npx prettier --check .
+          npx tsc && npx prettier --check .
 
   test:
     needs: lint
