@@ -122,11 +122,11 @@ const RiskCard: FunctionComponent<RiskCardProps> = ({
               {selected ? (
                 <div
                   onClick={onClick}
-                  className={`risk-card-action min-h-[48px] flex-1 rounded bg-gradient-to-r from-gradientFromTransparent to-gradientToTransparent p-[3px] `}
+                  className={`min-h-[48px] flex-1 rounded bg-gradient-to-r from-gradientFromTransparent to-gradientToTransparent p-[3px] `}
                 >
                   <div className="flex h-full flex-col items-center  justify-between px-4 py-1 text-center text-sm font-bold uppercase text-gray-dark">
                     <div className="flex flex-row items-center gap-4">
-                      <TickIcon className="w-4" />
+                      <TickIcon className="mx-1 w-4" />
                       <p className="text-white">CURRENT</p>
                     </div>
                   </div>

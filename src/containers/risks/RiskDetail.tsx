@@ -15,12 +15,14 @@ import {
 import { convertDate } from "utils/utils";
 import Modal from "components/modal";
 import Congratulation from "containers/congratulation";
+import WaitListBox from "components/WaitListBox";
 import { ReactComponent as WarningCircleIcon } from "@images/warningCircle.svg";
 
 const RiskDetail: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams();
 
+  const [showWaitList, setShowWaitList] = useState(false);
   const [showCongratulation, setShowCongratulation] = useState(false);
 
   const [createInvestorAsset, createAsset] = useCreateInvestorAssetMutation();
@@ -72,6 +74,10 @@ const RiskDetail: React.FC = () => {
     navigate("/app/dashboard");
   };
 
+  const onDoneWaitList = async () => {
+    await etfData?.refetch();
+  };
+
   return (
     <>
       <div
@@ -120,7 +126,8 @@ const RiskDetail: React.FC = () => {
           // onClick={() => {
           //   setShowConnectWalletPlan(true);
           // }}
-          onClick={onCliCkCreateWallet}
+          // onClick={onCliCkCreateWallet}
+          onClick={() => setShowWaitList(true)}
         ></Button>
         <RiskCard
           expectedYield={etfData?.data?.profile.expected_yield}
@@ -152,6 +159,15 @@ const RiskDetail: React.FC = () => {
             onGoToDeposit={onGoToDeposit}
             onGoToDashboard={onGoToDashboard}
             loading={investorAsset.isFetching}
+          />
+        </Modal>
+      )}
+      {showWaitList && (
+        <Modal className="!w-full sm:!w-[600px]">
+          <WaitListBox
+            onClose={() => setShowWaitList(false)}
+            onDone={onDoneWaitList}
+            packageKey={params.id}
           />
         </Modal>
       )}

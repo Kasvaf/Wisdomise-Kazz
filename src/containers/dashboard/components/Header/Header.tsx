@@ -145,7 +145,7 @@ function Header({ signOut }: HeaderProps) {
         <div className="min-w-0 grow-0">
           <Dropdown
             overlay={
-              <div className="absolute top-full right-0 mt-1 flex flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
+              <div className="absolute top-full right-0 mt-1 flex w-[23rem] flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
                 <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-b-nodata/20 p-2 pb-4 text-nodata">
                   {userName}
                 </div>
@@ -211,7 +211,7 @@ function Header({ signOut }: HeaderProps) {
             visible={showMenu}
           >
             <div className="flex cursor-pointer gap-3">
-              <div className=" flex h-10 w-10 flex-[0_0_10] flex-col items-center justify-center rounded-md bg-gray-dark bg-gradient-to-r from-gradientFromTransparent via-gradientToTransparent to-gradientToTransparent uppercase">
+              <div className=" flex h-10 w-10 flex-[0_0_2.5rem] flex-col items-center justify-center rounded-md bg-gray-dark bg-gradient-to-r from-gradientFromTransparent via-gradientToTransparent to-gradientToTransparent uppercase">
                 <p className="text-xl text-primary">{userName.charAt(0)}</p>
               </div>
               <button className="horos-filter-btn-alt group hidden bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white md:flex">
