@@ -15,7 +15,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.0.1",
     "@ant-design/plots": "^1.2.5",
     "@lottiefiles/react-lottie-player": "^3.5.3",
     "@reduxjs/toolkit": "^1.9.3",

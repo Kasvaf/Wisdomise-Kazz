@@ -18,7 +18,7 @@ import {
   useGetUserInfoQuery,
 } from "api/horosApi";
 import { useParams } from "react-router-dom";
-import RightOutlined from "@ant-design/icons/RightOutlined";
+import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
 import SelectNetwork from "components/selectNetwork";
 import Modal from "components/modal";
 import { TOAST_TIME } from "components/constants";
@@ -290,7 +290,7 @@ const Deposit: FunctionComponent = () => {
                         ? selectedNetwork.name
                         : "Click to select a network"}
                     </p>
-                    <RightOutlined className="mr-2 text-lg" />
+                    <LeftArrow className="rotate-180" />
                   </div>
                 </div>
               </div>

@@ -7,6 +7,7 @@ import { BUTTON_TYPE } from "utils/enums";
 import Button from "components/Button";
 import { Avatar, Skeleton } from "antd";
 import { coins } from "containers/dashboard/constants";
+import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
 import { ReactComponent as TickCircleIcon } from "@images/tickCircle.svg";
 import {
   useGetWithdrawSymbolQuery,
@@ -20,7 +21,6 @@ import {
 } from "api/horosApi";
 import { NotificationManager } from "react-notifications";
 import Modal from "components/modal";
-import RightOutlined from "@ant-design/icons/RightOutlined";
 import SelectNetwork from "components/selectNetwork";
 import Spinner from "components/spinner";
 import { withLDConsumer } from "launchdarkly-react-client-sdk";
@@ -524,7 +524,7 @@ const Withdraw = ({ flags }: any) => {
                     ? selectedNetwork.name
                     : "Click to select a network"}
                 </p>
-                <RightOutlined className="mr-2 text-lg" />
+                <LeftArrow className="rotate-180" />
               </div>
             </div>
           </div>

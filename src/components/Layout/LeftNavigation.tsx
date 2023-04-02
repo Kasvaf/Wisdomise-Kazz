@@ -1,9 +1,8 @@
+import clsx from "classnames";
 import Logo from "@images/wisdomiseWealthLogo.svg";
 import LogoSmall from "@images/logo.svg";
 import Beta from "@images/beta.svg";
-import LeftOutlined from "@ant-design/icons/LeftOutlined";
-import RightOutlined from "@ant-design/icons/RightOutlined";
-
+import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
 import { gaClick } from "utils/ga";
 import { useNavigate } from "react-router-dom";
 import { VERSION } from "config/constants";
@@ -35,7 +34,7 @@ export default function LeftNavigation({
           setCollapseNavbar(!collapseNavbar);
         }}
       >
-        {collapseNavbar ? <RightOutlined /> : <LeftOutlined />}
+        <LeftArrow className={clsx(collapseNavbar && "rotate-180")} />
       </button>
       <div className="items-left mb-[55px] flex flex-col space-y-6 text-white">
         <div className="flex w-full cursor-pointer flex-row items-center justify-start pl-6">
