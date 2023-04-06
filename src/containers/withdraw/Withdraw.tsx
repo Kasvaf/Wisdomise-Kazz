@@ -194,7 +194,7 @@ const CompletedModal = (onCompleted: () => void, data: any) => {
       <p className="mt-8 text-center text-2xl text-white">
         Withdrawal Request Submitted
       </p>
-      <p className="mt-2 mb-16 text-center text-base text-gray-light">
+      <p className="mb-16 mt-2 text-center text-base text-gray-light">
         Please note that you will receive an email once it is completed
       </p>
       <div className="mb-4 flex w-full flex-col bg-paper p-4">
@@ -576,7 +576,7 @@ const Withdraw = ({ flags }: any) => {
                     className="h-[47px] w-full rounded-sm bg-gray-dark pl-2 text-white"
                   />
                   <p
-                    className="min-w-[45px] cursor-pointer bg-gray-dark pt-[10px] pl-1 text-primary"
+                    className="min-w-[45px] cursor-pointer bg-gray-dark pl-1 pt-[10px] text-primary"
                     onClick={onSetMaxAmount}
                   >
                     Max

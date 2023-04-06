@@ -21,7 +21,7 @@ const ReferralLevelStatus: FC<ReferralLevelStatusProps> = ({
   return (
     <div
       className={
-        "relative flex h-10 rounded-full bg-bgcolor py-2 px-4 text-base font-medium"
+        "relative flex h-10 rounded-full bg-bgcolor px-4 py-2 text-base font-medium"
       }
     >
       <div

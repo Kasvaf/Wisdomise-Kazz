@@ -202,7 +202,7 @@ function FilterDropdown({
         className={`horos-filter-btn-alt group relative h-16 fill-white/50 px-4 capitalize hover:bg-gray-dark hover:fill-white hover:text-white ${className}`}
       >
         {showLabel && (
-          <div className="absolute top-3 left-4 text-xs text-nodata">
+          <div className="absolute left-4 top-3 text-xs text-nodata">
             {label}
           </div>
         )}

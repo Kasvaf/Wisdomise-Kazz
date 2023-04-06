@@ -17,7 +17,7 @@ const Modal: FC<ModalInterface> = ({
   return (
     <div
       className={twMerge(
-        "fixed top-0 left-1/2 z-[100] flex h-screen w-full -translate-x-1/2 flex-col items-center justify-center bg-[rgba(256,256,256,0.3)]",
+        "fixed left-1/2 top-0 z-[100] flex h-screen w-full -translate-x-1/2 flex-col items-center justify-center bg-[rgba(256,256,256,0.3)]",
         backdropClassName
       )}
       onClick={() => {

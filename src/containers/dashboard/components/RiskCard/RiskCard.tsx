@@ -72,7 +72,7 @@ const RiskCard: FunctionComponent<RiskCardProps> = ({
           <>
             <h5 className="mb-4 text-xl text-white">{title}</h5>
             <div className="flex ">
-              <div className="mb-[33px] self-baseline rounded bg-gray-main py-1 px-6 text-gray-light">
+              <div className="mb-[33px] self-baseline rounded bg-gray-main px-6 py-1 text-gray-light">
                 SPOT
               </div>
             </div>
@@ -106,7 +106,7 @@ const RiskCard: FunctionComponent<RiskCardProps> = ({
         </div>
 
         {showActions && (
-          <div className="mb-7 flex flex-col rounded bg-[#00000080] py-2 px-3">
+          <div className="mb-7 flex flex-col rounded bg-[#00000080] px-3 py-2">
             <p className="mb-1 text-gray-light">Min/Max Investment</p>
             <div className="flex items-center justify-between">
               <p className="w-full text-left text-white"> {minDeposit} BUSD</p>

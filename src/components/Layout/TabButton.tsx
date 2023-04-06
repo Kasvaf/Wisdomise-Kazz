@@ -74,7 +74,7 @@ export default function TabButton({
         disabled={tab.comingSoon}
       >
         {!tab.subMenu && (
-          <div className="mr-4 ml-[-5px]">{showTabIcon(tab)}</div>
+          <div className="ml-[-5px] mr-4">{showTabIcon(tab)}</div>
         )}
         {!collapseNavbar && (
           <div className="flex flex-row justify-start text-base md:text-xs xl:text-sm">
@@ -117,7 +117,7 @@ export default function TabButton({
                   }}
                   disabled={item.comingSoon}
                 >
-                  <div className="mr-4 ml-[-5px]">{item.icon}</div>
+                  <div className="ml-[-5px] mr-4">{item.icon}</div>
                   {!collapseNavbar && (
                     <div className="flex flex-row justify-start text-base md:text-xs xl:text-sm">
                       <span className="text-left">

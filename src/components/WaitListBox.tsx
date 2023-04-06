@@ -95,7 +95,7 @@ const GiftCodeBox = (props: any) => {
   };
 
   return (
-    <div className="py-[56px] px-[45px]">
+    <div className="px-[45px] py-[56px]">
       <div className=" flex w-full justify-end px-2">
         <CloseIcon className="cursor-pointer fill-white" onClick={onClose} />
       </div>

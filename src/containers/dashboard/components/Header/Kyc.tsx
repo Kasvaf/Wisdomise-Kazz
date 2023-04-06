@@ -23,7 +23,7 @@ const KycMenuItem: FC<KycMenuItemProps> = ({ kycBinding, onClick }) => {
           navigate("/app/kyc");
           typeof onClick === "function" && onClick();
         }}
-        className="flex items-center justify-start bg-transparent py-[10px] px-2  text-white hover:bg-gray-dark"
+        className="flex items-center justify-start bg-transparent px-2 py-[10px]  text-white hover:bg-gray-dark"
       >
         <LockIcon className="mr-2 w-[24px]" />
         <span className="leading-4">KYC</span>
