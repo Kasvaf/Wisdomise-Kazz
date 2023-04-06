@@ -72,7 +72,7 @@ const KycPage: React.FC = () => {
           </ul>
         </div>
       </div>
-      <div className="mt-4 grid grid-cols-3 gap-4 text-white">
+      <div className="mt-4 grid grid-cols-1 gap-4 text-white md:grid-cols-3">
         {Object.entries(levelsFormatted).map(([title, data]) => {
           const status =
             userInfo?.kyc_level_bindings.filter(
