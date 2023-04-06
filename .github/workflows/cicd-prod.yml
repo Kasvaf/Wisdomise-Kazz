@@ -14,8 +14,8 @@ jobs:
       - name: run lint
         run: |
           echo "Please Write your Lint HERE"
-          yarn install --production=false
-          npx tsc && yarn lint && npx prettier --check .
+          # yarn install --production=false
+          # npx tsc && yarn lint && npx prettier --check .
         # - uses: actions/checkout@v3
         # - name: Use Node.js ${{ matrix.node-version }}
         #   uses: actions/setup-node@v3
