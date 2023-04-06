@@ -120,12 +120,12 @@ const GiftCodeBox = (props: any) => {
             Wisdomise AI is currently in invite-only mode. Put your invitation
             code below and we will come back to you as soon as possible.
           </p>
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row flex-wrap gap-5">
             <input
               type="text"
               ref={invitationCodeRef}
               placeholder="Enter your invitation code"
-              className="min-w-[300px] rounded-sm bg-gray-main pl-4 text-white"
+              className="h-[52px] min-w-[300px] rounded-sm bg-gray-main pl-4 text-white"
             />
             <Button
               text={waitingList.isLoading ? "loading ..." : "confirm"}

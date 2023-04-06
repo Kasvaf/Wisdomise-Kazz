@@ -163,7 +163,7 @@ const Catalog: FunctionComponent = () => {
       </div>
 
       {showWaitList && (
-        <Modal className="!w-full sm:!w-[600px]">
+        <Modal className="sm:!w-[600px]">
           <WaitListBox
             onClose={() => setShowWaitList(false)}
             onDone={() => onDoneWaitList()}
