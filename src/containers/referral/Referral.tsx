@@ -120,7 +120,7 @@ const ReferralPage: React.FC = () => {
               activeReferredUsers={userInfo.customer.active_referees_count}
               totalReferredUsers={userInfo.customer.referees_count}
             />
-            <div className="flex gap-5">
+            <div className="flex gap-5 max-sm:flex-wrap">
               {referralLevels.results.map((level: IReferralLevel) => {
                 return (
                   <ReferralLevel

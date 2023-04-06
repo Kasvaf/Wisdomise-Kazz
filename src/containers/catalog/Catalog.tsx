@@ -56,6 +56,9 @@ const Catalog: FunctionComponent = () => {
 
   const onClickSubscribe = (item: any) => {
     if (!createAsset.isLoading) setSelectedItem(item);
+    if (!item.subscribable) {
+      setShowWaitList(true);
+    }
   };
 
   useEffect(() => {

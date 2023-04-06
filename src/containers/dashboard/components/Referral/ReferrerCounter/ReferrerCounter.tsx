@@ -14,7 +14,7 @@ const ReferrerSection: FC<IReferrerSectionProps> = ({
   activeReferredUsers,
 }) => {
   return (
-    <div className="referral-panel flex min-h-[128px] flex-nowrap gap-16 p-8">
+    <div className="referral-panel flex min-h-[128px] flex-nowrap gap-16 p-8 max-md:flex-wrap">
       <UserCounterBox
         icon={<User className="w-8" />}
         title="Invited user"
