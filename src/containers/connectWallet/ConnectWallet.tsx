@@ -93,7 +93,7 @@ const ConnectWallet: React.FC = () => {
                 {exchangeList?.data?.results[0].name}
               </p> */}
               <Select
-                className="mt-1 ml-[-10px] w-full"
+                className="ml-[-10px] mt-1 w-full"
                 onChange={onChangeExchange}
                 options={getExchangeList}
               />

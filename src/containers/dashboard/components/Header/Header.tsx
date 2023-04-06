@@ -122,7 +122,7 @@ function Header({ signOut }: HeaderProps) {
               >
                 <div className="flex items-center">
                   <NewWallet />
-                  <button className="horos-filter-btn-alt group hidden bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white md:flex">
+                  <button className="horos-filter-btn-alt group hidden bg-transparent fill-white/50 px-0 py-2 normal-case hover:bg-transparent hover:fill-white hover:text-white md:flex">
                     <p className="px-2 font-bold uppercase text-primary">
                       wallet
                     </p>
@@ -145,7 +145,7 @@ function Header({ signOut }: HeaderProps) {
         <div className="min-w-0 grow-0">
           <Dropdown
             overlay={
-              <div className="absolute top-full right-0 mt-1 flex w-[23rem] flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
+              <div className="absolute right-0 top-full mt-1 flex w-[23rem] flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
                 <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-b-nodata/20 p-2 pb-4 text-nodata">
                   {userName}
                 </div>
@@ -155,7 +155,7 @@ function Header({ signOut }: HeaderProps) {
                     setShowMenu(false);
                     setShowDepositPlan(true);
                   }}
-                  className=" flex items-center justify-start bg-transparent py-[10px] px-2  text-white hover:bg-gray-dark"
+                  className=" flex items-center justify-start bg-transparent px-2 py-[10px]  text-white hover:bg-gray-dark"
                 >
                   <PlanIcon className="mr-2 w-[24px]" /> Subscription Plans
                 </button>
@@ -168,7 +168,7 @@ function Header({ signOut }: HeaderProps) {
                         setShowMenu(false);
                         navigate("/app/transactions");
                       }}
-                      className="flex items-center justify-start bg-transparent py-[10px]  px-2 text-white hover:bg-gray-dark"
+                      className="flex items-center justify-start bg-transparent px-2  py-[10px] text-white hover:bg-gray-dark"
                     >
                       <TransactionIcon className="mr-2 w-[24px]" />
                       Transaction History
@@ -181,7 +181,7 @@ function Header({ signOut }: HeaderProps) {
                     setShowMenu(false);
                     navigate("/app/referral");
                   }}
-                  className=" flex items-center justify-start bg-transparent py-[10px] px-2  text-white hover:bg-gray-dark"
+                  className=" flex items-center justify-start bg-transparent px-2 py-[10px]  text-white hover:bg-gray-dark"
                 >
                   <ReferralIcon className="mr-2 w-[24px]" /> Referral
                 </button>
@@ -214,7 +214,7 @@ function Header({ signOut }: HeaderProps) {
               <div className=" flex h-10 w-10 flex-[0_0_2.5rem] flex-col items-center justify-center rounded-md bg-gray-dark bg-gradient-to-r from-gradientFromTransparent via-gradientToTransparent to-gradientToTransparent uppercase">
                 <p className="text-xl text-primary">{userName.charAt(0)}</p>
               </div>
-              <button className="horos-filter-btn-alt group hidden bg-transparent fill-white/50 py-2 px-0 normal-case hover:bg-transparent hover:fill-white hover:text-white md:flex">
+              <button className="horos-filter-btn-alt group hidden bg-transparent fill-white/50 px-0 py-2 normal-case hover:bg-transparent hover:fill-white hover:text-white md:flex">
                 <span>{userName}</span>
                 <ChevronDown className="w-6" />
               </button>

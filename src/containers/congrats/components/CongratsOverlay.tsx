@@ -9,7 +9,7 @@ import Confetti5 from "@images/quiz/confetti5.svg";
 
 function CongratsOverlay() {
   return (
-    <div className="absolute top-0 left-0 -z-10 h-full w-full">
+    <div className="absolute left-0 top-0 -z-10 h-full w-full">
       <img
         src={Ribbon1}
         className="animate-wobble absolute -top-2 left-[75%] w-16 animation-delay-150 xl:w-auto"
@@ -27,27 +27,27 @@ function CongratsOverlay() {
       />
       <img
         src={Confetti1}
-        className="animate-roll-in absolute top-[30%] left-[30%] w-6 xl:w-auto"
+        className="animate-roll-in absolute left-[30%] top-[30%] w-6 xl:w-auto"
         alt="confetti1"
       />
       <img
         src={Confetti2}
-        className="animate-roll-in absolute top-[70%] left-[31%] w-6 animation-delay-100 xl:w-auto"
+        className="animate-roll-in absolute left-[31%] top-[70%] w-6 animation-delay-100 xl:w-auto"
         alt="confetti2"
       />
       <img
         src={Confetti3}
-        className="animate-roll-in absolute top-[40%] left-[75%] w-6 animation-delay-200 xl:w-auto"
+        className="animate-roll-in absolute left-[75%] top-[40%] w-6 animation-delay-200 xl:w-auto"
         alt="confetti3"
       />
       <img
         src={Confetti4}
-        className="animate-roll-in absolute top-[50%] left-[25%] w-6 animation-delay-300 xl:w-auto"
+        className="animate-roll-in absolute left-[25%] top-[50%] w-6 animation-delay-300 xl:w-auto"
         alt="confetti4"
       />
       <img
         src={Confetti5}
-        className="animate-roll-in absolute top-[75%] left-[70%] w-6 animation-delay-400 xl:w-auto"
+        className="animate-roll-in absolute left-[70%] top-[75%] w-6 animation-delay-400 xl:w-auto"
         alt="confetti5"
       />
     </div>

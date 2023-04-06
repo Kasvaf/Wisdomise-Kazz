@@ -89,7 +89,7 @@ function Dashboard() {
       <div className="flex w-full flex-col ">
         {investorAsset?.data?.results?.length === 0 ||
         investorAsset?.data?.results[0]?.trader_instances.length === 0 ? (
-          <div className="flex h-auto w-full flex-col items-center justify-between bg-gray-dark py-8 px-12 sm:flex-row">
+          <div className="flex h-auto w-full flex-col items-center justify-between bg-gray-dark px-12 py-8 sm:flex-row">
             <div className="flex flex-col ">
               <h1 className="text-[40px] font-bold text-white">
                 We trade on your behalf!

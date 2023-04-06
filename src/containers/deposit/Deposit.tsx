@@ -40,7 +40,11 @@ const DepositAddressModal = (
       </div>
       <p className="tex-xl my-4 text-white">Wallet address</p>
       <div className="flex justify-between bg-paper p-4 text-white">
-        {data.wallet}
+        <input
+          value={data.wallet}
+          readOnly
+          className="mr-2 flex-grow bg-transparent"
+        />
 
         <CopyToClipboard onCopy={onClickCopy} text={data.wallet}>
           <p className="cursor-pointer text-primary">COPY</p>
@@ -53,7 +57,7 @@ const DepositAddressModal = (
           value={data.wallet}
           viewBox={`0 0 256 256`}
         />
-        <div className="flex flex-col items-start justify-between pt-[35px] pl-[20px]">
+        <div className="flex flex-col items-start justify-between pl-[20px] pt-[35px]">
           <p className="pb-10 text-base text-white ">
             Send only {data.name} to this deposit address.
           </p>

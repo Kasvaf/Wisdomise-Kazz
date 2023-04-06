@@ -16,11 +16,11 @@ const ReferrerSection: FC<IReferrerSectionProps> = ({ onSubmit }) => {
 
   return (
     <>
-      <div className="referral-panel flex flex-nowrap items-center justify-between gap-10 p-10 py-9 px-8">
+      <div className="referral-panel flex flex-wrap items-center justify-between gap-10 p-10 px-8 py-9">
         <p className="grow-0 basis-52 text-sm font-medium text-white">
           Enter the referral code of the person who invited you
         </p>
-        <form className="mr-[10%] flex max-w-[500px] gap-4">
+        <form className="mr-[10%] flex max-w-[500px] gap-4 max-md:flex-wrap">
           <Input
             className="min-w-[70%] grow"
             placeholder="Enter your invitation code"
