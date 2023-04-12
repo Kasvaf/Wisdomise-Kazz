@@ -33,13 +33,13 @@ const Balance = () => {
         investorAsset?.data?.results[0]?.trader_instances[0]?.exchange_account
           ?.key
       );
-      investorAsset?.refetch(); // TODO : should be checked
+      // investorAsset?.refetch(); // TODO : should be checked
     }
   };
 
   const onClickRefresh = () => {
-    window.location.reload();
-    // investorAsset?.refetch(); // TODO : should be checked
+    // window.location.reload();
+    onRefresh();
   };
 
   const getHistoricalStaticsData = () => {

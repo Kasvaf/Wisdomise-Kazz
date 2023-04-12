@@ -20,7 +20,7 @@ const Preview: React.FC = () => {
 
   return (
     <>
-      <div className="mt-5 flex w-full flex-col space-y-5 rounded bg-gray-dark p-5">
+      <div className="mt-5 mb-10 flex w-full flex-col space-y-5 rounded bg-gray-dark p-5">
         {renderHeader("Predictions", "Last open predictions")}
         <Signals {...{ previewMode: true }} />
         <Button
