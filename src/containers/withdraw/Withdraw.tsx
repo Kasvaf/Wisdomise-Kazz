@@ -24,6 +24,7 @@ import Modal from "components/modal";
 import SelectNetwork from "components/selectNetwork";
 import Spinner from "components/spinner";
 import { withLDConsumer } from "launchdarkly-react-client-sdk";
+import { isMobile } from "utils/isMobile";
 
 const initialValues = {
   adr: "",
@@ -98,6 +99,14 @@ const WithdrawSummeryModal = (
   data: any,
   isLoading: boolean
 ) => {
+  const address = isMobile
+    ? `${data.address.substring(0, 10)}...`
+    : data.address;
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(data.address);
+    NotificationManager.success("Address copied to the clipboard");
+  };
   return (
     <div className="p-5">
       <div className="mb-4 flex flex-col bg-paper p-4">
@@ -109,7 +118,12 @@ const WithdrawSummeryModal = (
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Address</p>
-          <p className="text-white ">{data.address}</p>
+          <p className="text-white ">{address}</p>
+          {isMobile && (
+            <p className="text-sm text-gray-light" onClick={copyAddress}>
+              (Copy to clipboard)
+            </p>
+          )}
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Network</p>
@@ -188,6 +202,14 @@ const SecurityVerificationModal = (
 };
 
 const CompletedModal = (onCompleted: () => void, data: any) => {
+  const address = isMobile
+    ? `${data.address.substring(0, 7)}...`
+    : data.address;
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(data.address);
+    NotificationManager.success("Address copied to the clipboard");
+  };
   return (
     <div className="flex flex-col items-center p-5 ">
       <TickCircleIcon />
@@ -206,7 +228,12 @@ const CompletedModal = (onCompleted: () => void, data: any) => {
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Address</p>
-          <p className="text-white ">{data.address}</p>
+          <p className="text-white ">{address}</p>
+          {isMobile && (
+            <p className="text-sm text-gray-darkest" onClick={copyAddress}>
+              (Copy to clipboard)
+            </p>
+          )}
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Network</p>
@@ -228,7 +255,6 @@ const CompletedModal = (onCompleted: () => void, data: any) => {
 };
 
 const Withdraw = ({ flags }: any) => {
-  console.log("flags", flags);
   const [selectedSymbol, setSelectedSymbol] = useState<string>("");
   const [selectedNetwork, setSelectedNetwork] = useState<any>(null);
 
