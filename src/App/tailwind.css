@@ -385,9 +385,9 @@
       }
     }
 
-    /* .ant-table-tbody > tr.ant-table-row:hover > td {
-      @apply !bg-transparent;
-    } */
+    .ant-table-tbody > tr.ant-table-row:hover > td {
+      background: none;
+    }
 
     tr:nth-child(odd) td.ant-table-cell-row-hover {
       @apply !bg-transparent;
