@@ -25,6 +25,7 @@ import SelectNetwork from "components/selectNetwork";
 import Spinner from "components/spinner";
 import { withLDConsumer } from "launchdarkly-react-client-sdk";
 import { isMobile } from "utils/isMobile";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   adr: "",
@@ -465,10 +466,12 @@ const Withdraw = ({ flags }: any) => {
     investorAsset?.refetch();
   };
 
+  const navigate = useNavigate();
   const onCompleted = async () => {
+    // window.location.href = "/app/dashboard";
+    navigate("/app/dashboard");
     await onUpdateIAS();
-    window.location.href = "/app/dashboard";
-    setShowCompleted(false);
+    // setShowCompleted(false);
   };
 
   useEffect(() => {
