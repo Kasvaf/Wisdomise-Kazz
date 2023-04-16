@@ -47,7 +47,7 @@ const AssetStructureChart = (props: any) => {
         amount: item.amount,
         equity: Number(floatData(item?.equity)),
         value: Number(floatData(item?.equity)),
-        percent: item?.equity / exchange_account.total_equity,
+        percent: (item?.equity / exchange_account.total_equity) * 100,
       });
     });
 
@@ -130,7 +130,7 @@ const AssetStructureChart = (props: any) => {
       render: (text: any) => {
         return (
           <p className="text-left text-base" title={`${text}%`}>
-            {floatData(text * 100)}%
+            {floatData(text)}%
           </p>
         );
       },
