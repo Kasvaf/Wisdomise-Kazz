@@ -3,7 +3,7 @@ import { ReactComponent as Hamburger } from "@images/menu.svg";
 import { ReactComponent as Close } from "@images/close.svg";
 
 interface IProps {
-  onToggle: () => void;
+  onToggle: (n?: any) => void;
   isOpen: boolean;
 }
 

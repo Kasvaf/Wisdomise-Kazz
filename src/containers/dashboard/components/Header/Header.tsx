@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 function Header({ signOut }: HeaderProps) {
-  const [_, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const [walletDropdownOpen, setWalletDropdownOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -19,24 +19,33 @@ function Header({ signOut }: HeaderProps) {
     setUserDropdownOpen(false);
   }, []);
 
-  const toggleMobile = useCallback(() => {
+  const toggleMobile = useCallback((newVal: any) => {
+    if (![true, false].includes) {
+      newVal = (p: boolean) => !p;
+    }
     startTransition(() => {
       closeAll();
-      setMobileDropdownOpen((p) => !p);
+      setMobileDropdownOpen(newVal);
     });
   }, []);
 
-  const toggleWallet = useCallback(() => {
+  const toggleWallet = useCallback((newVal: any) => {
+    if (![true, false].includes) {
+      newVal = (p: boolean) => !p;
+    }
     startTransition(() => {
       closeAll();
-      setWalletDropdownOpen((p) => !p);
+      setWalletDropdownOpen(newVal);
     });
   }, []);
 
-  const toggleUser = useCallback(() => {
+  const toggleUser = useCallback((newVal: any) => {
+    if (![true, false].includes) {
+      newVal = (p: boolean) => !p;
+    }
     startTransition(() => {
       closeAll();
-      setUserDropdownOpen((p) => !p);
+      setUserDropdownOpen(newVal);
     });
   }, []);
 
