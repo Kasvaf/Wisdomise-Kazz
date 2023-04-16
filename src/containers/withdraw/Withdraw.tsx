@@ -597,6 +597,7 @@ const Withdraw = ({ flags }: any) => {
                     disabled={!selectedNetwork}
                     name="amount"
                     value={inputs.amount}
+                    autoComplete="off"
                     onChange={onChangeInput}
                     placeholder={`0.00 ${selectedSymbol}`}
                     className="h-[47px] w-full rounded-sm bg-gray-dark pl-2 text-white"
