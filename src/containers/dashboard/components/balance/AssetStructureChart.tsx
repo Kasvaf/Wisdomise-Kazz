@@ -130,7 +130,7 @@ const AssetStructureChart = (props: any) => {
       render: (text: any) => {
         return (
           <p className="text-left text-base" title={`${text}%`}>
-            {floatData(text)}%
+            {floatData(text * 100)}%
           </p>
         );
       },
