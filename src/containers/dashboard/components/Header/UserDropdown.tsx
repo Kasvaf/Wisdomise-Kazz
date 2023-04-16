@@ -14,7 +14,7 @@ import DepositPlanModal from "./DepositPlanModal";
 
 interface IProps {
   isOpen: boolean;
-  onToggle: () => void;
+  onToggle: (n: any) => void;
   onSignout: () => void;
 }
 

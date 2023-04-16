@@ -8,7 +8,7 @@ import { ReactComponent as NewWallet } from "@images/new_wallet.svg";
 import { floatData } from "utils/utils";
 
 interface IProps {
-  onToggle: () => void;
+  onToggle: (n?: any) => void;
   isOpen: boolean;
 }
 
