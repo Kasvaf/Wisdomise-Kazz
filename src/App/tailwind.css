@@ -1010,3 +1010,7 @@ div[data-amplify-router] {
 .notification-message .message {
   /* word-break: break-all; */
 }
+
+.risk-detail-coins .ant-avatar-group .ant-avatar {
+  border-width: 0px;
+}

@@ -78,6 +78,16 @@ const RiskDetail: React.FC = () => {
     await etfData?.refetch();
   };
 
+  const coinIcons: string[] = etfData.data?.config.assets
+    .split("#")
+    .map((str: string) => str.split("_"))
+    .map((parts: string[]) => parts[1])
+    .map((coin: string) => coin.toUpperCase())
+    .filter((coin: string) => coin in coins)
+    .map((coin: string) => coins[coin].icon);
+
+  const uniqueCoinIcons = Array.from(new Set(coinIcons));
+
   return (
     <>
       <div
@@ -109,13 +119,11 @@ const RiskDetail: React.FC = () => {
         <p className="w-390  mb-6 w-auto  text-center text-base text-gray-light sm:w-[550px]">
           {etfData?.data?.description}
         </p>
-        <div className="my-10">
+        <div className="risk-detail-coins my-10">
           <Avatar.Group>
-            <Avatar size="large" src={coins["ETH"].icon} />
-            <Avatar size="large" src={coins["BTC"].icon} />
-            <Avatar size="large" src={coins["LTC"].icon} />
-            <Avatar size="large" src={coins["TRX"].icon} />
-            <Avatar size="large" src={coins["BNB"].icon} />
+            {uniqueCoinIcons.map((icon: string) => (
+              <Avatar key={icon} size="large" src={icon} />
+            ))}
           </Avatar.Group>
         </div>
         <Button
