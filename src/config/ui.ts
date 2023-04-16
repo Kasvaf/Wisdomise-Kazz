@@ -1,1 +1,1 @@
-export const mobileSize = 422;
+export const mobileSize = 430;
