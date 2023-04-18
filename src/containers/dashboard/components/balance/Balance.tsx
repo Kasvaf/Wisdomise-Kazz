@@ -27,14 +27,13 @@ const Balance = () => {
   const [RefreshExchangeAccountExecuter, refreshExchangeAccount] =
     useRefreshExchangeAccountMutation();
 
-  const onRefresh = async () => {
-    if (!refreshExchangeAccount.isLoading) {
-      await RefreshExchangeAccountExecuter(
-        investorAsset?.data?.results[0]?.trader_instances[0]?.exchange_account
-          ?.key
-      );
-      // investorAsset?.refetch(); // TODO : should be checked
-    }
+  const onRefresh = () => {
+    if (refreshExchangeAccount.isLoading) return;
+    RefreshExchangeAccountExecuter(
+      investorAsset?.data?.results[0]?.trader_instances[0]?.exchange_account
+        ?.key
+    );
+    investorAsset?.refetch(); // TODO : should be checked
   };
 
   const onClickRefresh = () => {
