@@ -14,7 +14,7 @@ import DepositPlanModal from "./DepositPlanModal";
 
 interface IProps {
   isOpen: boolean;
-  onToggle: (n: any) => void;
+  onToggle: (n?: any) => void;
   onSignout: () => void;
 }
 
@@ -25,13 +25,13 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
 
   const [shouldShowDepositPlans, setShouldShowDepositPlans] = useState(false);
   const openDepositPlans = useCallback(() => {
-    onToggle();
+    onToggle(false);
     setShouldShowDepositPlans(true);
   }, []);
 
   const navigate = useNavigate();
   const signout = useCallback(() => {
-    onToggle();
+    onToggle(false);
     onSignout();
     gaClick("sign out");
     setTimeout(() => navigate("/"), 1000);
@@ -59,7 +59,7 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
                   <button
                     type="button"
                     onClick={() => {
-                      onToggle();
+                      onToggle(false);
                       navigate("/app/transactions");
                     }}
                     className="flex items-center justify-start bg-transparent px-2  py-[10px] text-white hover:bg-gray-dark"
@@ -72,7 +72,7 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
               <button
                 type="button"
                 onClick={() => {
-                  onToggle();
+                  onToggle(false);
                   navigate("/app/referral");
                 }}
                 className=" flex items-center justify-start bg-transparent px-2 py-[10px]  text-white hover:bg-gray-dark"
@@ -80,7 +80,10 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
                 <ReferralIcon className="mr-2 w-[24px]" /> Referral
               </button>
 
-              <KycMenuItem kycBinding={kycLevel} onClick={onToggle} />
+              <KycMenuItem
+                kycBinding={kycLevel}
+                onClick={() => onToggle(false)}
+              />
 
               <hr />
               <button
