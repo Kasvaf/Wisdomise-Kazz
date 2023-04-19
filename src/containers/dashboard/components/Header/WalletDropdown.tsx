@@ -17,7 +17,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
 
   const investorAsset = useGetInvestorAssetStructureQuery({});
   const onShowDepositPage = () => {
-    onToggle();
+    onToggle(false);
 
     const key =
       investorAsset?.data.results[0].trader_instances[0]?.exchange_account.key;
@@ -25,7 +25,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
   };
 
   const onShowWithdrawPage = () => {
-    onToggle();
+    onToggle(false);
     navigate("/app/withdraw");
   };
 
