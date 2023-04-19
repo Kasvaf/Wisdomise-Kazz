@@ -192,3 +192,18 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Deploying horos-dashboard [ci-skip]
+
+  notify-slack:
+    if: "!contains(github.event.head_commit.message, 'ci-skip')"
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: '#alert-production'
+          message: Deploying ${{ github.event.repository.name }} on Production.
+        if: always()
