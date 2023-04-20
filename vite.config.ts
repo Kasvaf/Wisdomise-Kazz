@@ -17,4 +17,7 @@ export default defineConfig({
       { find: "@images", replacement: "/public/svg" },
     ],
   },
+  build: {
+    sourcemap: true
+  }
 });
