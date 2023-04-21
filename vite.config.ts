@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig((config) => ({
   plugins: [react(), svgr()],
   resolve: {
     alias: [
@@ -17,7 +17,10 @@ export default defineConfig({
       { find: "@images", replacement: "/public/svg" },
     ],
   },
+  esbuild: {
+    drop: config.mode === "production" ? ["console", "debugger"] : [],
+  },
   build: {
-    sourcemap: true
-  }
-});
+    sourcemap: true,
+  },
+}));

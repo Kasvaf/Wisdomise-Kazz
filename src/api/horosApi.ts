@@ -38,7 +38,6 @@ const horosApiBaseQueryRefreshToken: BaseQueryFn<
   const result = await horosBaseQuery(args, api, extraOptions);
   // const error: any = result.error;
   // if (error && (error?.status === 401 || error.status === 403)) {
-  //   console.log('error', error, DB);
 
   //   // refresh token and refetch query
   //   localStorage.removeItem(WISDOMISE_TOKEN_KEY);

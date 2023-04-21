@@ -40,7 +40,6 @@ const VerificationPage: FC = () => {
           accessToken={sumSubAccessToken?.token}
           expirationHandler={refetchToken}
           onMessage={(msg: any, arg: any) => {
-            console.log(msg, arg);
             if (msg !== "idCheck.onResize") {
               // TODO: Later we may want to use a more precise filter for refetching the KYC levels
               // TODO: here's the list of all message types: https://developers.sumsub.com/web-sdk/#websdk-messages
@@ -48,7 +47,6 @@ const VerificationPage: FC = () => {
               refetch();
             }
             if (msg === "idCheck.stepCompleted") {
-              console.log("stepCompleted", arg);
               setCompleted(true);
             }
           }}
