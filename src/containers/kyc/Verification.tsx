@@ -6,7 +6,7 @@ import SumsubWebSdk from "@sumsub/websdk-react";
 import { useGetKycAccessTokenQuery, useGetUserInfoQuery } from "api/horosApi";
 import Spinner from "containers/dashboard/common/Spinner";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import sumsubCss from "./sumsub.css";
+import sumsubCss from "./sumsub.css?inline";
 import Button from "components/Button";
 import { BUTTON_TYPE } from "utils/enums";
 

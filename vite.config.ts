@@ -14,7 +14,7 @@ export default defineConfig((config) => ({
       { find: "store", replacement: "/src/store" },
       { find: "api", replacement: "/src/api" },
       { find: "types", replacement: "/src/types" },
-      { find: "@images", replacement: "/public/svg" },
+      { find: "@images", replacement: "/src/assets/svg" },
     ],
   },
   esbuild: {
