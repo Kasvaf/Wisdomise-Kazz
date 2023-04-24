@@ -2,7 +2,6 @@ import { isRejectedWithValue } from "@reduxjs/toolkit";
 import type { Middleware } from "@reduxjs/toolkit";
 import { NotificationManager } from "react-notifications";
 import { WISDOMISE_TOKEN_KEY } from "config/constants";
-// import { DB } from "../config/keys";
 import { TOAST_TIME } from "components/constants";
 
 export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {

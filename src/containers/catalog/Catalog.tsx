@@ -40,7 +40,7 @@ const Catalog: FunctionComponent = () => {
   };
 
   const checkCurrentETF = () => {
-    if (investorAsset?.data && investorAsset?.data.results.length > 0) {
+    if (investorAsset?.data?.results.length > 0) {
       const currentPackage = etfData?.data?.results.find(
         (item: any) =>
           item.key ===
@@ -62,24 +62,22 @@ const Catalog: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    if (selectedItem) {
-      if (!selectedItem.subscribable) {
-        setShowWaitList(true);
-      } else {
-        onCliCkCreateWallet();
-      }
+    if (!selectedItem) return;
+
+    if (!selectedItem.subscribable) {
+      setShowWaitList(true);
+    } else {
+      onClickCreateWallet();
     }
   }, [selectedItem]);
 
-  const onCliCkCreateWallet = async () => {
+  const onClickCreateWallet = async () => {
     const body = {
       etf_package_key: selectedItem.key,
     };
     const { data }: any = await createInvestorAsset(body);
 
-    const key =
-      data?.results &&
-      data?.results[0].trader_instances[0].exchange_account.key;
+    const key = data?.results?.[0].trader_instances[0].exchange_account.key;
     if (key) {
       setShowCongratulation(true);
     }
