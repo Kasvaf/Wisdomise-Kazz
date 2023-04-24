@@ -30,7 +30,8 @@ const SignalsTable: FunctionComponent<SignalsTableProps> = ({
   const [skip, setSkip] = useState(true);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<IFilter>(cloneDeep(cleanFilter));
-  const { data, isFetching, refetch } = useGetHourlySignalsQuery(
+
+  const { data, isFetching } = useGetHourlySignalsQuery(
     {
       resolution: "1h",
       status: Object.keys(filter.status).filter((key) => filter.status[key]),
@@ -55,21 +56,16 @@ const SignalsTable: FunctionComponent<SignalsTableProps> = ({
   );
   const [newItemsCount, setNewItemsCount] = useState(0);
 
-  const fetchData = async () => {
-    if (visible) {
-      setSkip(false);
-      await refetch();
-      const now = Date.now();
-      setTimestamps([...timestamps, now]);
-      if (!previewMode) {
-        localStorage.setItem("fetchTimestamp", now.toString());
-      }
-    }
-  };
-
   useEffect(() => {
-    fetchData();
-  }, [refetch, visible]);
+    if (!visible) return;
+
+    setSkip(false);
+    const now = Date.now();
+    setTimestamps((prev) => [...prev, now]);
+    if (!previewMode) {
+      localStorage.setItem("fetchTimestamp", now.toString());
+    }
+  }, [previewMode, visible]);
 
   const previewData = useMemo(() => {
     if (!data || !data.results.length) return [];
