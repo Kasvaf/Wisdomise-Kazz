@@ -182,6 +182,12 @@ export const horosApi = createApi({
           method: "PATCH",
         };
       },
+      transformErrorResponse(response) {
+        const responseClone = { ...response };
+        delete (responseClone?.data as any)?.data;
+
+        return responseClone;
+      },
     }),
     getKycLevels: builder.query<API_list_response<KYC_Level>, any>({
       query: () => ({

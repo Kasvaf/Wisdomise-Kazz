@@ -508,8 +508,7 @@ const Withdraw = ({ flags }: any) => {
                     />
                   </div>
                 ) : (
-                  symbols.data &&
-                  symbols.data.results.map((item: any) => {
+                  symbols.data?.results.map((item: any) => {
                     return (
                       <GradientBox
                         className={
@@ -649,19 +648,16 @@ const Withdraw = ({ flags }: any) => {
           <div className="ml-2 flex flex-col justify-start">
             <p className="text-base text-white">Total withdrawable amount</p>
             <p className="text-xs text-gray-light">
-              {investorAsset?.data &&
-              investorAsset?.data?.results?.length > 0 &&
-              investorAsset?.data?.results[0]?.trader_instances.length > 0
+              {investorAsset?.data?.results?.[0]?.trader_instances.length > 0
                 ? floatData(
                     investorAsset?.data.results[0].trader_instances[0]
                       ?.exchange_account?.quote_equity
                   )
                 : 0}{" "}
-              {investorAsset?.data &&
-                investorAsset?.data?.results?.length > 0 &&
-                investorAsset?.data?.results[0]?.trader_instances.length > 0 &&
-                investorAsset?.data.results[0].trader_instances[0]
-                  ?.exchange_account?.quote.name}
+              {
+                investorAsset?.data.results?.[0].trader_instances?.[0]
+                  ?.exchange_account?.quote.name
+              }
             </p>
           </div>
           <div className="ml-2 flex flex-col justify-start">
