@@ -79,15 +79,7 @@ const DepositAddressModal = (
 };
 
 const Deposit: FunctionComponent = () => {
-  const flags = useFlags();
-  const ldClient = useLDClient();
-  console.log("flag", flags);
-  console.log("ldClient", ldClient);
   const { data: userInfo } = useGetUserInfoQuery({});
-  const email = userInfo?.customer.user.email || "";
-  console.log("ldClient", ldClient?.identify({ email }));
-  console.log("allFlags", ldClient?.allFlags());
-  console.log("context", ldClient?.getContext());
 
   const params = useParams();
 

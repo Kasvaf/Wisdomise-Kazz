@@ -14,8 +14,8 @@ import Trade from "@images/Trade.png";
 import Tag from "components/Tag";
 import { VerificationStatus } from "../../types/kyc";
 import { getKycLevelStatusColor, isPendingOrRejected } from "utils/utils";
-import { NotificationManager } from "react-notifications";
-import { TOAST_TIME } from "components/constants";
+// import { NotificationManager } from "react-notifications";
+// import { TOAST_TIME } from "components/constants";
 
 const enum IAS_STATUS {
   DRAFT = "DRAFT",
@@ -48,31 +48,27 @@ function Dashboard() {
 
   const kycLevel = userInfo?.kyc_level_bindings[0];
 
-  const checkHasTotalBalance = () => {
-    return (
-      investorAsset?.data &&
-      investorAsset?.data?.results?.length > 0 &&
-      investorAsset?.data?.results[0]?.trader_instances.length > 0 &&
-      investorAsset?.data.results[0].trader_instances[0]?.exchange_account
-        ?.total_equity > 0
-    );
-  };
+  // const checkHasTotalBalance = () => {
+  //   return (
+  //     investorAsset?.data?.results[0]?.trader_instances?.[0]?.exchange_account
+  //       ?.total_equity > 0
+  //   );
+  // };
 
   const onClickStatus = async (status: keyof typeof IAS_STATUS) => {
-    if (!UpdatedIASStatus.isLoading) {
-      if (checkHasTotalBalance()) {
-        await UpdateIASStatusExecutor({
-          key: investorAsset?.data?.results[0]?.trader_instances[0]?.key,
-          status,
-        });
-      } else {
-        NotificationManager.error(
-          "For starting your strategy you must first deposit .",
-          "",
-          TOAST_TIME
-        );
-      }
-    }
+    if (UpdatedIASStatus.isLoading) return;
+    // if (checkHasTotalBalance()) {
+    await UpdateIASStatusExecutor({
+      key: investorAsset?.data?.results[0]?.trader_instances[0]?.key,
+      status,
+    });
+    // } else {
+    //   NotificationManager.error(
+    //     "For starting your strategy you must first deposit .",
+    //     "",
+    //     TOAST_TIME
+    //   );
+    // }
   };
 
   useEffect(() => {
@@ -157,7 +153,6 @@ function Dashboard() {
                 <p
                   onClick={() => {
                     if (
-                      investorAsset?.data &&
                       investorAsset?.data?.results[0]?.trader_instances[0]
                         ?.status !== "RUNNING"
                     ) {

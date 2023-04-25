@@ -45,11 +45,9 @@ const AssetStructureChart = (props: any) => {
             ? item.asset.symbol.name
             : item.asset.pair.name,
         amount: item.amount,
-        equity: Number(floatData(item?.equity)),
+        equity: item?.equity,
         value: Number(floatData(item?.equity)),
-        percent: Number(
-          floatData((item?.equity / exchange_account.total_equity) * 100)
-        ),
+        percent: (item?.equity / exchange_account.total_equity) * 100,
       });
     });
 
@@ -130,7 +128,11 @@ const AssetStructureChart = (props: any) => {
       dataIndex: "percent",
       key: "percent",
       render: (text: any) => {
-        return <p className="text-left text-base">{text}%</p>;
+        return (
+          <p className="text-left text-base" title={`${text}%`}>
+            {floatData(text)}%
+          </p>
+        );
       },
     },
     {
@@ -138,7 +140,11 @@ const AssetStructureChart = (props: any) => {
       dataIndex: "amount",
       key: "amount",
       render: (text: any) => {
-        return <p className="text-left text-base">{floatData(text)}</p>;
+        return (
+          <p className="text-left text-base" title={text}>
+            {floatData(text)}
+          </p>
+        );
       },
     },
 
@@ -146,8 +152,12 @@ const AssetStructureChart = (props: any) => {
       title: "Equity",
       dataIndex: "equity",
       key: "equity",
-      render: (text: any) => {
-        return <p className="text-left text-base">{floatData(text)} $</p>;
+      render: (text: string) => {
+        return (
+          <p className="text-left text-base" title={`$${text}`}>
+            ${Number(floatData(text))}
+          </p>
+        );
       },
     },
   ];

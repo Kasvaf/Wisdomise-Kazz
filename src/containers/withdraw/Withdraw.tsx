@@ -24,6 +24,8 @@ import Modal from "components/modal";
 import SelectNetwork from "components/selectNetwork";
 import Spinner from "components/spinner";
 import { withLDConsumer } from "launchdarkly-react-client-sdk";
+import { isMobile } from "utils/isMobile";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   adr: "",
@@ -98,6 +100,14 @@ const WithdrawSummeryModal = (
   data: any,
   isLoading: boolean
 ) => {
+  const address = isMobile
+    ? `${data.address.substring(0, 10)}...`
+    : data.address;
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(data.address);
+    NotificationManager.success("Address copied to the clipboard");
+  };
   return (
     <div className="p-5">
       <div className="mb-4 flex flex-col bg-paper p-4">
@@ -109,7 +119,12 @@ const WithdrawSummeryModal = (
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Address</p>
-          <p className="text-white ">{data.address}</p>
+          <p className="text-white ">{address}</p>
+          {isMobile && (
+            <p className="text-sm text-gray-light" onClick={copyAddress}>
+              (Copy to clipboard)
+            </p>
+          )}
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Network</p>
@@ -188,6 +203,14 @@ const SecurityVerificationModal = (
 };
 
 const CompletedModal = (onCompleted: () => void, data: any) => {
+  const address = isMobile
+    ? `${data.address.substring(0, 7)}...`
+    : data.address;
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(data.address);
+    NotificationManager.success("Address copied to the clipboard");
+  };
   return (
     <div className="flex flex-col items-center p-5 ">
       <TickCircleIcon />
@@ -206,7 +229,12 @@ const CompletedModal = (onCompleted: () => void, data: any) => {
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Address</p>
-          <p className="text-white ">{data.address}</p>
+          <p className="text-white ">{address}</p>
+          {isMobile && (
+            <p className="text-sm text-gray-darkest" onClick={copyAddress}>
+              (Copy to clipboard)
+            </p>
+          )}
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Network</p>
@@ -228,7 +256,6 @@ const CompletedModal = (onCompleted: () => void, data: any) => {
 };
 
 const Withdraw = ({ flags }: any) => {
-  console.log("flags", flags);
   const [selectedSymbol, setSelectedSymbol] = useState<string>("");
   const [selectedNetwork, setSelectedNetwork] = useState<any>(null);
 
@@ -439,10 +466,12 @@ const Withdraw = ({ flags }: any) => {
     investorAsset?.refetch();
   };
 
+  const navigate = useNavigate();
   const onCompleted = async () => {
+    // window.location.href = "/app/dashboard";
+    navigate("/app/dashboard");
     await onUpdateIAS();
-    window.location.href = "/app/dashboard";
-    setShowCompleted(false);
+    // setShowCompleted(false);
   };
 
   useEffect(() => {
@@ -479,8 +508,7 @@ const Withdraw = ({ flags }: any) => {
                     />
                   </div>
                 ) : (
-                  symbols.data &&
-                  symbols.data.results.map((item: any) => {
+                  symbols.data?.results.map((item: any) => {
                     return (
                       <GradientBox
                         className={
@@ -571,6 +599,7 @@ const Withdraw = ({ flags }: any) => {
                     disabled={!selectedNetwork}
                     name="amount"
                     value={inputs.amount}
+                    autoComplete="off"
                     onChange={onChangeInput}
                     placeholder={`0.00 ${selectedSymbol}`}
                     className="h-[47px] w-full rounded-sm bg-gray-dark pl-2 text-white"
@@ -619,19 +648,16 @@ const Withdraw = ({ flags }: any) => {
           <div className="ml-2 flex flex-col justify-start">
             <p className="text-base text-white">Total withdrawable amount</p>
             <p className="text-xs text-gray-light">
-              {investorAsset?.data &&
-              investorAsset?.data?.results?.length > 0 &&
-              investorAsset?.data?.results[0]?.trader_instances.length > 0
+              {investorAsset?.data?.results?.[0]?.trader_instances.length > 0
                 ? floatData(
                     investorAsset?.data.results[0].trader_instances[0]
                       ?.exchange_account?.quote_equity
                   )
                 : 0}{" "}
-              {investorAsset?.data &&
-                investorAsset?.data?.results?.length > 0 &&
-                investorAsset?.data?.results[0]?.trader_instances.length > 0 &&
-                investorAsset?.data.results[0].trader_instances[0]
-                  ?.exchange_account?.quote.name}
+              {
+                investorAsset?.data.results?.[0].trader_instances?.[0]
+                  ?.exchange_account?.quote.name
+              }
             </p>
           </div>
           <div className="ml-2 flex flex-col justify-start">

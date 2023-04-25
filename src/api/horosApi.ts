@@ -38,7 +38,6 @@ const horosApiBaseQueryRefreshToken: BaseQueryFn<
   const result = await horosBaseQuery(args, api, extraOptions);
   // const error: any = result.error;
   // if (error && (error?.status === 401 || error.status === 403)) {
-  //   console.log('error', error, DB);
 
   //   // refresh token and refetch query
   //   localStorage.removeItem(WISDOMISE_TOKEN_KEY);
@@ -182,6 +181,12 @@ export const horosApi = createApi({
           url: `/api/v1/trader/trader-instances/${params.key}?status=${params.status}`,
           method: "PATCH",
         };
+      },
+      transformErrorResponse(response) {
+        const responseClone = { ...response };
+        delete (responseClone?.data as any)?.data;
+
+        return responseClone;
       },
     }),
     getKycLevels: builder.query<API_list_response<KYC_Level>, any>({

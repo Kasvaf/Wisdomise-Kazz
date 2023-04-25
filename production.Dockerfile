@@ -1,4 +1,4 @@
-FROM node:18-alpine3.17
+FROM node:18-alpine3.17 as build
 
 
 # Setting working directory. All the path will be relative to WORKDIR
@@ -15,6 +15,9 @@ COPY . /app/
 # Building app
 RUN npm run build:prod
 
+
+FROM nginx:1-alpine
 EXPOSE 3000
-# Running the app
-CMD [ "npm","run", "serve"]
+
+COPY nginx.prod.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
