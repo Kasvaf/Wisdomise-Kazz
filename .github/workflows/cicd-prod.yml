@@ -82,9 +82,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Build Dockerfile
-      #   run: |
-      #     docker build -f production.Dockerfile -t tmp/image:vulntest .
+      - name: Build Dockerfile
+        run: |
+          docker build -f production.Dockerfile -t tmp/image:vulntest .
 
       - name: Show Vulns
         uses: aquasecurity/trivy-action@master
