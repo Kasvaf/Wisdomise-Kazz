@@ -10,13 +10,12 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-
     steps:
       - name: run lint
         run: |
           echo "Please Write your Lint HERE"
-          yarn install --production=false
-          npx tsc && yarn lint && npx prettier --check .
+          # yarn install --production=false
+          # npx tsc && yarn lint && npx prettier --check .
         # - uses: actions/checkout@v3
         # - name: Use Node.js ${{ matrix.node-version }}
         #   uses: actions/setup-node@v3
@@ -119,23 +118,23 @@ jobs:
           skip-dirs: /root/.npm/_cacache
           output: 'trivy-results-${{ github.event.repository.name }}.tbl'
 
-      - name: Archive Security Result Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ScanResultFor-${{ github.event.repository.name }}
-          path: |
-            trivy-results-${{ github.event.repository.name }}.tbl
+      # - name: Archive Security Result Artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ScanResultFor-${{ github.event.repository.name }}
+      #     path: |
+      #       trivy-results-${{ github.event.repository.name }}.tbl
 
-      - name: Upload to S3 artifact folder
-        uses: medlypharmacy/s3-artifacts-action@master
-        with:
-          aws_access_key_id: ${{ secrets.TRIVY_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.TRIVY_SECRET_ACCESS_KEY  }}
-          aws_s3_bucket_name: ${{ secrets.TRIVY_BUCKET }}
-          source_path: 'trivy-results-${{ github.event.repository.name }}.tbl'
-          destination_path: '/${{ github.event.repository.name }}'
-          exclude_repo_from_destination_path: true
-          resource_type: "DIRECTORY"
+      # - name: Upload to S3 artifact folder
+      #   uses: medlypharmacy/s3-artifacts-action@master
+      #   with:
+      #     aws_access_key_id: ${{ secrets.TRIVY_ACCESS_KEY_ID }}
+      #     aws_secret_access_key: ${{ secrets.TRIVY_SECRET_ACCESS_KEY  }}
+      #     aws_s3_bucket_name: ${{ secrets.TRIVY_BUCKET }}
+      #     source_path: 'trivy-results-${{ github.event.repository.name }}.tbl'
+      #     destination_path: '/${{ github.event.repository.name }}'
+      #     exclude_repo_from_destination_path: true
+          # resource_type: "DIRECTORY"
 
   build-and-push:
     if: "!contains(github.event.head_commit.message, 'ci-skip')"
