@@ -1,5 +1,7 @@
 import { FunctionComponent } from "react";
 import { useGetUserInfoQuery } from "api/horosApi";
+import Button from "components/Button";
+import { BUTTON_TYPE } from "utils/enums";
 
 interface props {
   signOut: () => void;
@@ -18,13 +20,17 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
         A link has been sent to your email ({userName}). To verify your account,
         please click on the link.
       </p>
-      <button
-        className="mt-3 h-12 p-0"
+      <Button
+        type={BUTTON_TYPE.FILLED}
+        className="mt-3 h-12 w-full p-0"
         onClick={() => window.location.reload()}
       >
         Check
-      </button>
-      <button className="horos-btn-secondary mt-3 h-12 p-0" onClick={signOut}>
+      </Button>
+      <button
+        className="horos-btn-secondary mt-3 h-12 p-0 font-bold"
+        onClick={signOut}
+      >
         Logout
       </button>
     </div>

@@ -11,7 +11,7 @@ import { loadSessionData } from "../store/userInfo";
 import Congrats from "../containers/congrats";
 import Dashboard from "../containers/dashboard/Dashboard";
 import AuthContainer from "containers/auth/AuthContainer";
-import { horosApi } from "../api/horosApi";
+import { horosApi, useGetUserInfoQuery } from "../api/horosApi";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { signoutAction } from "../store/slices/signout";
 import Callback from "containers/auth/Callback";
@@ -32,6 +32,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./tailwind.css";
 import "./App.css";
+import ConfirmSignUp from "containers/auth/ConfirmSignUp";
 
 const Signals = React.lazy(
   () => import("containers/dashboard/components/Signals")
@@ -114,13 +115,13 @@ const App: FunctionComponent<AppProps> = (props) => {
     setSignOutInProgress(true);
   };
 
-  // const { data: userInfo } = useGetUserInfoQuery({});
+  const { data: userInfo } = useGetUserInfoQuery({});
 
-  // const notEmailConfirmed =
-  //   userInfo?.customer.user.email && !userInfo?.customer.info.email_verified;
-  // if (notEmailConfirmed) {
-  //   if (!isLocal()) return <ConfirmSignUp signOut={triggerSignOut} />;
-  // }
+  const notEmailConfirmed = true;
+  // userInfo?.customer.user.email && !userInfo?.customer.info.email_verified;
+  if (notEmailConfirmed) {
+    return <ConfirmSignUp signOut={triggerSignOut} />;
+  }
   const Loading = () => <div></div>;
 
   const dashboardElement = <Dashboard />;
