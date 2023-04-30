@@ -117,8 +117,8 @@ const App: FunctionComponent<AppProps> = (props) => {
 
   const { data: userInfo } = useGetUserInfoQuery({});
 
-  const notEmailConfirmed = true;
-  // userInfo?.customer.user.email && !userInfo?.customer.info.email_verified;
+  const notEmailConfirmed =
+    userInfo?.customer.user.email && !userInfo?.customer.info.email_verified;
   if (notEmailConfirmed) {
     return <ConfirmSignUp signOut={triggerSignOut} />;
   }
