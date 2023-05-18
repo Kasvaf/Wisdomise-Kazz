@@ -33,6 +33,7 @@ import "react-date-range/dist/theme/default.css";
 import "./tailwind.css";
 import "./App.css";
 import ConfirmSignUp from "containers/auth/ConfirmSignUp";
+import SecondaryForm from "containers/SecondaryForm";
 
 const Signals = React.lazy(
   () => import("containers/dashboard/components/Signals")
@@ -122,6 +123,12 @@ const App: FunctionComponent<AppProps> = (props) => {
   if (notEmailConfirmed) {
     return <ConfirmSignUp signOut={triggerSignOut} />;
   }
+
+  const hasAcceptedTerms = userInfo?.customer.terms_and_conditions_accepted;
+  if (!hasAcceptedTerms) {
+    return <SecondaryForm />;
+  }
+
   const Loading = () => <div></div>;
 
   const dashboardElement = <Dashboard />;

@@ -1,0 +1,122 @@
+:global(#root) {
+  display: flex;
+  align-items: center;
+}
+
+.secondaryFormContainer {
+  max-width: 448px;
+  margin: 0 auto;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.welcome {
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 52px;
+}
+
+.secondaryForm {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.fieldLabel {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 23px;
+  margin-bottom: 0.5rem;
+
+  & > span {
+    opacity: 0.6;
+  }
+}
+
+.fieldInput {
+  background: transparent;
+  padding: 1rem;
+  border: 2px solid rgba(255, 255, 255, 100);
+  border-radius: 0.25rem;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.checkboxLabel {
+  margin-top: 1rem;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.checkbox {
+  margin-right: 0.5rem;
+}
+
+.checkboxLink {
+  color: #00a3ff;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  width: 60vw;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 31px;
+  padding: 1rem;
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+  padding-bottom: 8rem;
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5rem;
+    z-index: 105;
+  }
+}
+
+.modalFooter {
+  padding: 0.5rem 4rem;
+  margin-top: -7rem;
+  height: 6rem;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(0deg, #000 70%, rgba(0, 0, 0, 0));
+  position: static;
+  z-index: 105;
+
+  div {
+    width: 100%;
+  }
+}
