@@ -34,6 +34,7 @@ import "./tailwind.css";
 import "./App.css";
 import ConfirmSignUp from "containers/auth/ConfirmSignUp";
 import SecondaryForm from "containers/SecondaryForm";
+import Splash from "containers/splash/Splash";
 
 const Signals = React.lazy(
   () => import("containers/dashboard/components/Signals")
@@ -65,6 +66,7 @@ function AppAuthenticationContainer() {
   if (isLoading) {
     return null;
   }
+
   return (
     <>
       {!isAuthenticated ? (
@@ -116,7 +118,12 @@ const App: FunctionComponent<AppProps> = (props) => {
     setSignOutInProgress(true);
   };
 
-  const { data: userInfo, isSuccess } = useGetUserInfoQuery({});
+  const { data: userInfo, isSuccess, isLoading } = useGetUserInfoQuery({});
+
+  if (isLoading) {
+    return <Splash />;
+  }
+
   const hasAcceptedTerms =
     isSuccess && userInfo.customer.terms_and_conditions_accepted;
   if (!hasAcceptedTerms) {
@@ -134,6 +141,7 @@ const App: FunctionComponent<AppProps> = (props) => {
   const Loading = () => <div></div>;
 
   const dashboardElement = <Dashboard />;
+
   return (
     <>
       <BrowserRouter>

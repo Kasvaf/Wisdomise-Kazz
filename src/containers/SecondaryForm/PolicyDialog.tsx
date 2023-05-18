@@ -3000,7 +3000,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               }}
             >
               The effective date of this Privacy Policy is{" "}
-              <span style={{ background: "yellow" }}>May 2023.</span>
+              <span style={{ color: "yellow" }}>May 2023.</span>
             </span>
           </p>
           <p

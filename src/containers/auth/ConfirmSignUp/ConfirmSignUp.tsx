@@ -6,15 +6,14 @@ import { BUTTON_TYPE } from "utils/enums";
 interface props {
   signOut: () => void;
 }
+
 const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
   const { data: userInfo } = useGetUserInfoQuery({});
 
   const userName = userInfo?.customer.user.email || "";
+
   return (
-    <div
-      className="m-auto flex w-[27rem] flex-col p-5"
-      style={{ marginTop: "50vh", transform: "translateY(-50%)" }}
-    >
+    <div className="m-auto flex h-full w-[27rem] flex-col justify-center  p-5">
       <p className="mb-2 text-xl text-white">Verify your email</p>
       <p className="mb-4 text-nodata">
         A link has been sent to your email ({userName}). To verify your account,
