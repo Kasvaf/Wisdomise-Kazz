@@ -116,17 +116,19 @@ const App: FunctionComponent<AppProps> = (props) => {
     setSignOutInProgress(true);
   };
 
-  const { data: userInfo } = useGetUserInfoQuery({});
-
-  const notEmailConfirmed =
-    userInfo?.customer.user.email && !userInfo?.customer.info.email_verified;
-  if (notEmailConfirmed) {
-    return <ConfirmSignUp signOut={triggerSignOut} />;
-  }
-
-  const hasAcceptedTerms = userInfo?.customer.terms_and_conditions_accepted;
+  const { data: userInfo, isSuccess } = useGetUserInfoQuery({});
+  const hasAcceptedTerms =
+    isSuccess && userInfo.customer.terms_and_conditions_accepted;
   if (!hasAcceptedTerms) {
     return <SecondaryForm />;
+  }
+
+  const notEmailConfirmed =
+    isSuccess &&
+    userInfo?.customer.user.email &&
+    !userInfo?.customer.info.email_verified;
+  if (notEmailConfirmed) {
+    return <ConfirmSignUp signOut={triggerSignOut} />;
   }
 
   const Loading = () => <div></div>;

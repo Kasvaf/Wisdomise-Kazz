@@ -1,3 +1,4 @@
+import { useAgreeToTermsMutation } from "api/horosApi";
 import Button from "components/Button";
 import { FormEvent, useCallback, useState } from "react";
 import { BUTTON_TYPE } from "utils/enums";
@@ -12,6 +13,10 @@ export default function SecondaryForm() {
   const [isPolicyOpen, setPolicyOpen] = useState(false);
   const [isPolicyAccepted, setPolicyAccepted] = useState(false);
   const [isPolicyErrorVisible, setPolicyErrorVisible] = useState(false);
+  const [nickname, setNickname] = useState("");
+  const [referralCode, setReferralCode] = useState("");
+
+  const [agreeToTerms] = useAgreeToTermsMutation();
 
   const toggleTerms = useCallback(() => {
     setTermsOpen((p) => !p);
@@ -63,12 +68,20 @@ export default function SecondaryForm() {
         setPolicyErrorVisible(true);
         return;
       }
+      agreeToTerms({
+        nickname,
+        referral_code: referralCode,
+        terms_and_conditions_accepted: true,
+        privacy_policy_accepted: true,
+      });
     },
     [isPolicyAccepted, isTermsAccepted]
   );
 
   return (
-    <div className={styles.secondaryFormContainer}>
+    <div
+      className={`referral-panel from-[rgba(13,31,49,0.8)] via-[rgba(13,31,49,0.6)] to-[rgba(3,16,28)] ${styles.secondaryFormContainer}`}
+    >
       <div className={styles.welcome}>
         Welcome to
         <br />
@@ -83,6 +96,14 @@ export default function SecondaryForm() {
             type="text"
             className={styles.fieldInput}
             placeholder="Invitation code"
+          />
+        </div>
+        <div className={styles.fieldWrapper}>
+          <div className={styles.fieldLabel}>Nickname</div>
+          <input
+            type="text"
+            className={styles.fieldInput}
+            placeholder="Nickname"
           />
         </div>
         <label className={styles.checkboxLabel}>

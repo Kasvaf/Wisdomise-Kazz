@@ -10,12 +10,24 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  font-family: "inter";
+  background-image: linear-gradient(
+    to bottom left,
+    var(--tw-gradient-from),
+    rgba(13, 31, 49, 0.6) var(--tw-gradient-via-position),
+    var(--tw-gradient-to)
+  );
 }
 
 .welcome {
+  font-family: "campton";
   font-weight: 300;
   font-size: 40px;
   line-height: 52px;
+
+  b {
+    font-weight: 700;
+  }
 }
 
 .secondaryForm {
@@ -28,6 +40,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  margin-top: 2rem;
 }
 
 .fieldLabel {
@@ -56,6 +69,10 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
+
+  &:first-of-type {
+    margin-top: 2rem;
+  }
 }
 
 .checkbox {
