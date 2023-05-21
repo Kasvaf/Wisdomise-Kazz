@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { NotificationManager } from "react-notifications";
 import { Avatar, Skeleton } from "antd";
@@ -106,7 +106,7 @@ const Deposit: FunctionComponent = () => {
   };
 
   const onClickTransfer = async () => {
-    await updateDepositAddress(params.exchangeAccountKey);
+    await updateDepositAddress(params.exchangeAccountKey as string);
   };
 
   const onClickSymbol = (_symbol: string) => {
@@ -147,18 +147,11 @@ const Deposit: FunctionComponent = () => {
     };
   };
 
-  const onUpdateIAS = async () => {
-    await RefreshExchangeAccountExecuter(
-      investorAsset?.data?.results[0]?.trader_instances[0]?.exchange_account
-        ?.key
-    );
+  const onCompleted = useCallback(async () => {
+    await RefreshExchangeAccountExecuter(params.exchangeAccountKey);
     investorAsset?.refetch();
-  };
-
-  const onCompleted = async () => {
-    await onUpdateIAS();
     window.location.href = "/app/dashboard";
-  };
+  }, [investorAsset]);
 
   useEffect(() => {
     if (updateDeposit.isSuccess) {
@@ -169,7 +162,7 @@ const Deposit: FunctionComponent = () => {
       );
       onCompleted();
     }
-  }, [updateDeposit.isSuccess]);
+  }, [updateDeposit.isSuccess, onCompleted]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -334,7 +327,7 @@ const Deposit: FunctionComponent = () => {
           </div>
           {DepositAddressModal(
             getWalletData(),
-            () => onClickTransfer(),
+            onClickTransfer,
             updateDeposit.isLoading
           )}
         </Modal>
