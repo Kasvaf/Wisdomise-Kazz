@@ -92,6 +92,7 @@ export default function SecondaryForm() {
           data.referral_code = referralCode;
         }
         const result = await agreeToTerms(data).unwrap();
+        window.location.reload();
       } catch (e) {
         const errorKeys = Object.keys((e as any).data.data);
         if (errorKeys.includes("referral_code")) {
