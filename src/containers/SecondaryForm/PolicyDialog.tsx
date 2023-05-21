@@ -3,7 +3,9 @@
 import Button from "components/Button";
 import Modal from "components/modal/Modal";
 import { BUTTON_TYPE } from "utils/enums";
+import { ReactComponent as CloseIcon } from "@images/close.svg";
 import styles from "./styles.module.scss";
+import { useCallback, useRef, useState } from "react";
 
 interface IProps {
   isOpen: boolean;
@@ -12,17 +14,31 @@ interface IProps {
 }
 
 export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
+  const [isScrolledToEnd, setScrolledToEnd] = useState(false);
+  const scrollableRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = useCallback((event: any) => {
+    if (!scrollableRef.current) return;
+
+    const { clientHeight, scrollTop, scrollHeight } = scrollableRef.current;
+    if (scrollTop + clientHeight + 300 > scrollHeight) {
+      setScrolledToEnd(true);
+    }
+  }, []);
+
   if (!isOpen) return null;
 
   return (
     <Modal className={styles.modal} onClose={toggle}>
       <div className={styles.modalHeader}>
         Privacy Policy
-        <button onClick={toggle} className={styles.modalCloseBtn}>
-          X
-        </button>
+        <CloseIcon className="cursor-pointer fill-white" onClick={toggle} />
       </div>
-      <div className={styles.modalBody}>
+      <div
+        className={styles.modalBody}
+        onWheel={handleScroll}
+        ref={scrollableRef}
+      >
         <>
           <p
             style={{
@@ -3016,6 +3032,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
       <div className={styles.modalFooter}>
         <Button
           onClick={onCheck}
+          disabled={!isScrolledToEnd}
           type={BUTTON_TYPE.FILLED}
           text="I have read and accept the privacy policy."
         />

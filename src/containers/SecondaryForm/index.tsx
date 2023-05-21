@@ -1,10 +1,11 @@
 import { useAgreeToTermsMutation } from "api/horosApi";
 import Button from "components/Button";
-import { FormEvent, useCallback, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useRef, useState } from "react";
 import { BUTTON_TYPE } from "utils/enums";
 import PolicyDialog from "./PolicyDialog";
-import styles from "./styles.module.scss";
+import * as Sentry from "@sentry/react";
 import TermsDialog from "./TermsDialog";
+import styles from "./styles.module.scss";
 
 export default function SecondaryForm() {
   const [isTermsOpen, setTermsOpen] = useState(false);
@@ -14,20 +15,28 @@ export default function SecondaryForm() {
   const [isPolicyAccepted, setPolicyAccepted] = useState(false);
   const [isPolicyErrorVisible, setPolicyErrorVisible] = useState(false);
   const [nickname, setNickname] = useState("");
+  const [nicknameErrorVisible, setNicknameErrorVisible] = useState(false);
   const [referralCode, setReferralCode] = useState("");
+  const [hasInvalidReferralCodeError, setInvalidReferralCodeError] =
+    useState<string>("");
 
-  const [agreeToTerms] = useAgreeToTermsMutation();
+  const [agreeToTerms, { isLoading }] = useAgreeToTermsMutation();
 
-  const toggleTerms = useCallback(() => {
+  const toggleTerms = useCallback((event?: MouseEvent) => {
+    event?.preventDefault();
     setTermsOpen((p) => !p);
   }, []);
-  const togglePolicy = useCallback(() => {
+  const togglePolicy = useCallback((event?: MouseEvent) => {
+    event?.preventDefault();
     setPolicyOpen((p) => !p);
   }, []);
 
   const onTermsChecked = useCallback(
     (event: any) => {
-      if (!event.target.checked) return;
+      if (!event.target.checked) {
+        setTermsAccepted(false);
+        return;
+      }
 
       if (!isTermsAccepted) {
         toggleTerms();
@@ -58,7 +67,7 @@ export default function SecondaryForm() {
   }, [togglePolicy]);
 
   const onSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (!isTermsAccepted) {
         setTermsErrorVisible(true);
@@ -68,20 +77,49 @@ export default function SecondaryForm() {
         setPolicyErrorVisible(true);
         return;
       }
-      agreeToTerms({
-        nickname,
-        referral_code: referralCode,
-        terms_and_conditions_accepted: true,
-        privacy_policy_accepted: true,
-      });
+
+      if (!nickname) {
+        setNicknameErrorVisible(true);
+        return;
+      }
+      try {
+        const data: any = {
+          nickname,
+          terms_and_conditions_accepted: true,
+          privacy_policy_accepted: true,
+        };
+        if (referralCode) {
+          data.referral_code = referralCode;
+        }
+        const result = await agreeToTerms(data).unwrap();
+      } catch (e) {
+        const errorKeys = Object.keys((e as any).data.data);
+        if (errorKeys.includes("referral_code")) {
+          setInvalidReferralCodeError(referralCode);
+          return;
+        }
+        Sentry.captureException(e);
+      }
     },
-    [isPolicyAccepted, isTermsAccepted]
+    [isPolicyAccepted, isTermsAccepted, nickname, referralCode]
+  );
+
+  const handleReferralCodeChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setReferralCode(event.target.value);
+    },
+    []
+  );
+
+  const handleNicknameChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setNickname(event.target.value);
+    },
+    []
   );
 
   return (
-    <div
-      className={`referral-panel from-[rgba(13,31,49,0.8)] via-[rgba(13,31,49,0.6)] to-[rgba(3,16,28)] ${styles.secondaryFormContainer}`}
-    >
+    <div className={styles.secondaryFormContainer}>
       <div className={styles.welcome}>
         Welcome to
         <br />
@@ -94,42 +132,75 @@ export default function SecondaryForm() {
           </div>
           <input
             type="text"
+            value={referralCode}
+            onChange={handleReferralCodeChange}
             className={styles.fieldInput}
             placeholder="Invitation code"
           />
+          {hasInvalidReferralCodeError &&
+            hasInvalidReferralCodeError === referralCode && (
+              <div className={styles.fieldError}>
+                Invitation code is not valid.
+              </div>
+            )}
         </div>
         <div className={styles.fieldWrapper}>
           <div className={styles.fieldLabel}>Nickname</div>
           <input
             type="text"
+            onChange={handleNicknameChange}
             className={styles.fieldInput}
             placeholder="Nickname"
           />
+          {nicknameErrorVisible && !nickname && (
+            <div className={styles.fieldError}>
+              This field can not be blank.
+            </div>
+          )}
         </div>
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={isTermsAccepted}
-            onChange={onTermsChecked}
-            className={styles.checkbox}
-          />
-          You are agreeing to the{" "}
-          <button className={styles.checkboxLink}> terms and conditions</button>
-        </label>
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={isPolicyAccepted}
-            onChange={onPolicyChecked}
-            className={styles.checkbox}
-          />
-          You are acknowledging the{" "}
-          <button className={styles.checkboxLink}>privacy policy</button> close.
-        </label>
+        <div className={styles.checkboxes}>
+          <div className={styles.fieldWrapper}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={isTermsAccepted}
+                onChange={onTermsChecked}
+                className={styles.checkbox}
+              />
+              You are agreeing to the{" "}
+              <button className={styles.checkboxLink} onClick={toggleTerms}>
+                terms and conditions
+              </button>
+            </label>
+            {isTermsErrorVisible && !isTermsAccepted && (
+              <div className={styles.fieldError}>Agree to continue.</div>
+            )}
+          </div>
+          <div className={styles.fieldWrapper}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={isPolicyAccepted}
+                onChange={onPolicyChecked}
+                className={styles.checkbox}
+              />
+              You are acknowledging the{" "}
+              <button className={styles.checkboxLink} onClick={togglePolicy}>
+                privacy policy
+              </button>{" "}
+              close.
+            </label>
+            {isPolicyErrorVisible && !isPolicyAccepted && (
+              <div className={styles.fieldError}>Agree to continue.</div>
+            )}
+          </div>
+        </div>
         <Button
-          text="Submit"
+          text={isLoading ? "Loading..." : "Submit"}
+          disabled={isLoading}
           className={styles.submitBtn}
           type={BUTTON_TYPE.FILLED}
+          onClick={onSubmit}
         />
       </form>
       <TermsDialog
