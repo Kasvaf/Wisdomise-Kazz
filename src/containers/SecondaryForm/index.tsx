@@ -1,6 +1,13 @@
 import { useAgreeToTermsMutation } from "api/horosApi";
 import Button from "components/Button";
-import { ChangeEvent, FormEvent, useCallback, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import { BUTTON_TYPE } from "utils/enums";
 import PolicyDialog from "./PolicyDialog";
 import * as Sentry from "@sentry/react";
