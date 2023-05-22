@@ -28,6 +28,7 @@ import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
 import SelectNetwork from "components/selectNetwork";
 import Modal from "components/modal";
 import { TOAST_TIME } from "components/constants";
+import * as Sentry from "@sentry/react";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 
 const DepositAddressModal = (
@@ -112,7 +113,17 @@ const Deposit: FunctionComponent = () => {
   };
 
   const onClickTransfer = async () => {
-    await updateDepositAddress(params.exchangeAccountKey as string);
+    try {
+      await updateDepositAddress(params.exchangeAccountKey as string);
+      NotificationManager.success(
+        "Wallet has been updated, It takes some time to affect your account",
+        "",
+        TOAST_TIME
+      );
+      onCompleted();
+    } catch (e) {
+      Sentry.captureException(e);
+    }
   };
 
   const onClickSymbol = (_symbol: string) => {
@@ -158,20 +169,6 @@ const Deposit: FunctionComponent = () => {
     investorAsset?.refetch();
     window.location.href = "/app/dashboard";
   }, [investorAsset]);
-
-  const successToastRef = useRef<boolean>(false);
-  useEffect(() => {
-    if (successToastRef.current) return;
-    successToastRef.current = true;
-    if (updateDeposit.isSuccess) {
-      NotificationManager.success(
-        "Wallet has been updated, It takes some time to affect your account",
-        "",
-        TOAST_TIME
-      );
-      onCompleted();
-    }
-  }, [updateDeposit.isSuccess, onCompleted]);
 
   useEffect(() => {
     setTimeout(() => {
