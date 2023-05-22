@@ -1,4 +1,10 @@
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { NotificationManager } from "react-notifications";
 import { Avatar, Skeleton } from "antd";
@@ -153,7 +159,10 @@ const Deposit: FunctionComponent = () => {
     window.location.href = "/app/dashboard";
   }, [investorAsset]);
 
+  const successToastRef = useRef<boolean>(false);
   useEffect(() => {
+    if (successToastRef.current) return;
+    successToastRef.current = true;
     if (updateDeposit.isSuccess) {
       NotificationManager.success(
         "Wallet has been updated, It takes some time to affect your account",
