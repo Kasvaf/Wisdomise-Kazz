@@ -127,90 +127,92 @@ export default function SecondaryForm() {
   );
 
   return (
-    <div className={styles.secondaryFormContainer}>
-      <div className={styles.welcome}>
-        Welcome to
-        <br />
-        <b>Wisdomise Wealth</b>
-      </div>
-      <form className={styles.secondaryForm} onSubmit={onSubmit}>
-        <div className={styles.fieldWrapper}>
-          <div className={styles.fieldLabel}>
-            Invitation code <span>(Optional)</span>
+    <>
+      <div className={styles.secondaryFormContainer}>
+        <div className={styles.welcome}>
+          Welcome to
+          <br />
+          <b>Wisdomise Wealth</b>
+        </div>
+        <form className={styles.secondaryForm} onSubmit={onSubmit}>
+          <div className={styles.fieldWrapper}>
+            <div className={styles.fieldLabel}>
+              Invitation code <span>(Optional)</span>
+            </div>
+            <input
+              type="text"
+              value={referralCode}
+              onChange={handleReferralCodeChange}
+              className={styles.fieldInput}
+              placeholder="Invitation code"
+            />
+            {hasInvalidReferralCodeError &&
+              hasInvalidReferralCodeError === referralCode && (
+                <div className={styles.fieldError}>
+                  Invitation code is not valid.
+                </div>
+              )}
           </div>
-          <input
-            type="text"
-            value={referralCode}
-            onChange={handleReferralCodeChange}
-            className={styles.fieldInput}
-            placeholder="Invitation code"
-          />
-          {hasInvalidReferralCodeError &&
-            hasInvalidReferralCodeError === referralCode && (
+          <div className={styles.fieldWrapper}>
+            <div className={styles.fieldLabel}>Nickname</div>
+            <input
+              type="text"
+              onChange={handleNicknameChange}
+              className={styles.fieldInput}
+              placeholder="Nickname"
+            />
+            {nicknameErrorVisible && !nickname && (
               <div className={styles.fieldError}>
-                Invitation code is not valid.
+                This field can not be blank.
               </div>
             )}
-        </div>
-        <div className={styles.fieldWrapper}>
-          <div className={styles.fieldLabel}>Nickname</div>
-          <input
-            type="text"
-            onChange={handleNicknameChange}
-            className={styles.fieldInput}
-            placeholder="Nickname"
-          />
-          {nicknameErrorVisible && !nickname && (
-            <div className={styles.fieldError}>
-              This field can not be blank.
+          </div>
+          <div className={styles.checkboxes}>
+            <div className={styles.fieldWrapper}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="checkbox"
+                  checked={isTermsAccepted}
+                  onChange={onTermsChecked}
+                  className={styles.checkbox}
+                />
+                You are agreeing to the{" "}
+                <button className={styles.checkboxLink} onClick={toggleTerms}>
+                  terms and conditions
+                </button>
+              </label>
+              {isTermsErrorVisible && !isTermsAccepted && (
+                <div className={styles.fieldError}>Agree to continue.</div>
+              )}
             </div>
-          )}
-        </div>
-        <div className={styles.checkboxes}>
-          <div className={styles.fieldWrapper}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={isTermsAccepted}
-                onChange={onTermsChecked}
-                className={styles.checkbox}
-              />
-              You are agreeing to the{" "}
-              <button className={styles.checkboxLink} onClick={toggleTerms}>
-                terms and conditions
-              </button>
-            </label>
-            {isTermsErrorVisible && !isTermsAccepted && (
-              <div className={styles.fieldError}>Agree to continue.</div>
-            )}
+            <div className={styles.fieldWrapper}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="checkbox"
+                  checked={isPolicyAccepted}
+                  onChange={onPolicyChecked}
+                  className={styles.checkbox}
+                />
+                You are acknowledging the{" "}
+                <button className={styles.checkboxLink} onClick={togglePolicy}>
+                  privacy policy
+                </button>{" "}
+                close.
+              </label>
+              {isPolicyErrorVisible && !isPolicyAccepted && (
+                <div className={styles.fieldError}>Agree to continue.</div>
+              )}
+            </div>
           </div>
-          <div className={styles.fieldWrapper}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={isPolicyAccepted}
-                onChange={onPolicyChecked}
-                className={styles.checkbox}
-              />
-              You are acknowledging the{" "}
-              <button className={styles.checkboxLink} onClick={togglePolicy}>
-                privacy policy
-              </button>{" "}
-              close.
-            </label>
-            {isPolicyErrorVisible && !isPolicyAccepted && (
-              <div className={styles.fieldError}>Agree to continue.</div>
-            )}
-          </div>
-        </div>
-        <Button
-          text={isLoading ? "Loading..." : "Submit"}
-          disabled={isLoading}
-          className={styles.submitBtn}
-          type={BUTTON_TYPE.FILLED}
-          onClick={onSubmit}
-        />
-      </form>
+          <Button
+            text={isLoading ? "Loading..." : "Submit"}
+            disabled={isLoading}
+            className={styles.submitBtn}
+            type={BUTTON_TYPE.FILLED}
+            onClick={onSubmit}
+          />
+        </form>
+      </div>
       <TermsDialog
         isOpen={isTermsOpen}
         toggle={toggleTerms}
@@ -221,6 +223,6 @@ export default function SecondaryForm() {
         toggle={togglePolicy}
         onCheck={onPolicyAccepted}
       />
-    </div>
+    </>
   );
 }
