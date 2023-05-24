@@ -34,7 +34,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
       </div>
       <div
         className={styles.modalBody}
-        onWheel={handleScroll as WheelEventHandler}
+        onScroll={handleScroll as WheelEventHandler}
         ref={scrollableRef}
       >
         <>
