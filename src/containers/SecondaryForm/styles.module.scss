@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  font-family: "inter";
+  font-family: "inter", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   transform: translateY(calc(50vh - 50%));
   background-image: linear-gradient(
     to bottom left,
@@ -17,7 +17,7 @@
 }
 
 .welcome {
-  font-family: "campton";
+  font-family: "campton", system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 300;
   font-size: 36px;
   line-height: 52px;
@@ -105,7 +105,7 @@
   background: #261e30;
   border-radius: 0.25rem;
   color: #fff;
-  font-family: "inter";
+  font-family: "inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .modalHeader {
