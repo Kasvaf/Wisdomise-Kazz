@@ -36,7 +36,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
       </div>
       <div
         className={styles.modalBody}
-        onWheel={handleScroll}
+        onScroll={handleScroll}
         ref={scrollableRef}
       >
         <>

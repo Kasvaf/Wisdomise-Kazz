@@ -1,3 +1,5 @@
+@import "../../styling/index.scss";
+
 .secondaryFormContainer {
   max-width: 448px;
   padding: 2rem;
@@ -106,6 +108,10 @@
   border-radius: 0.25rem;
   color: #fff;
   font-family: "inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  @include respond-to("small") {
+    width: 90vw;
+  }
 }
 
 .modalHeader {
@@ -123,6 +129,11 @@
   padding: 2rem;
   position: relative;
   padding-bottom: 5rem;
+
+  @include respond-to("small") {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
   &::after {
     position: absolute;
@@ -146,5 +157,9 @@
 
   div {
     width: 100%;
+  }
+
+  @include respond-to("small") {
+    padding: 0.5rem 1rem;
   }
 }
