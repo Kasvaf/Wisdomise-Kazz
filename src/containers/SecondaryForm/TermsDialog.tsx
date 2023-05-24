@@ -510,7 +510,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <b>
                 <span>
                   4.
@@ -521,7 +521,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               <b>
                 <span>Investment Strategy Parameters</span>
               </b>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -647,7 +647,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <span>
                 4.4
                 <span>&nbsp; </span>
@@ -658,7 +658,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
                 cryptocurrencies mentioned in Annex I (hereinafter the “
                 <b>Cryptocurrencies</b>”) including any future amendments.
               </span>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -737,7 +737,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <b>
                 <span>
                   5.
@@ -748,7 +748,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               <b>
                 <span>Instructions and Preferences of the Client</span>
               </b>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -787,7 +787,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <b>
                 <span>
                   6.
@@ -798,7 +798,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               <b>
                 <span>Communication channel</span>
               </b>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -833,7 +833,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <b>
                 <span>
                   7.
@@ -844,7 +844,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               <b>
                 <span>Investment Policy</span>
               </b>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpLast"
@@ -898,9 +898,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a />
-            <a />
-            <a>
+            <span>
               <span>
                 The Service Provider uses quantitative (e.g., price changes) and
                 other factors influencing the price of Cryptocurrencies for
@@ -916,7 +914,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
                   </del>
                 </span>
               </span>
-            </a>
+            </span>
           </p>
           <p
             className="MsoNormal"
@@ -933,18 +931,18 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               <span className="msoDel">
                 <del cite="mailto:Arash%20Farahani" dateTime="2023-05-16T12:40">
                   Consequently, it does{" "}
-                  <a>
+                  <span>
                     not carry out any qualitative analysis of the
                     Cryptocurrencies, does not take note of any analysis that
                     third parties may carry out on the Cryptocurrencies (but
                     reserves the right to use the results of third parties&aps;
                     analysis of the Cryptocurrencies in a quantitative manner){" "}
-                  </a>
+                  </span>
                   and does not follow the latest news on the Cryptocurrencies.{" "}
-                  <a>
+                  <span>
                     The Service Provider refrains from making any subjective
                     assessment of the development of the Cryptocurrencies.
-                  </a>
+                  </span>
                 </del>
               </span>
             </span>
@@ -1069,7 +1067,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <b>
                 <span>
                   8.
@@ -1080,7 +1078,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               <b>
                 <span>Special risks of these Wealth Services</span>
               </b>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -1285,11 +1283,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a />
-            <a />
-            <a />
-            <a />
-            <a>
+            <span>
               <span>
                 9.1
                 <span>&nbsp;</span>
@@ -1311,7 +1305,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
                 Services. The amount of the fees shall be based on a pricing
                 model which the Client confirms when opening an Account.
               </span>
-            </a>
+            </span>
             <span className="MsoCommentReference">
               <span lang="DE-CH" style={{ fontSize: "8.0pt" }}>
                 &nbsp;
@@ -1457,7 +1451,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
             className="MsoListParagraphCxSpMiddle"
             style={{ textIndent: "-.25in" }}
           >
-            <a>
+            <span>
               <span>
                 11.1
                 <span>
@@ -1470,7 +1464,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
                 obligations towards the Clients with the ordinary business
                 diligence.
               </span>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -1505,7 +1499,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <span>
                 11.3
                 <span>
@@ -1520,7 +1514,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
                 or the Wealth Agreement. In particular, but not limited to, the
                 Service Provider shall not be liable for:
               </span>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -1649,7 +1643,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "normal",
             }}
           >
-            <a>
+            <span>
               <span>
                 11.4
                 <span>
@@ -1669,7 +1663,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
                 the event that the Service Provider’s website and/or the Account
                 are unavailable (e.g. due to technical problems).
               </span>
-            </a>
+            </span>
           </p>
           <p
             className="MsoListParagraphCxSpMiddle"
@@ -1848,11 +1842,11 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               involved. As soon as the Service Provider has received the
               termination of this Wealth Agreement by the Client, it will no
               longer carry out the Wealth Services.{" "}
-              <a>
+              <span>
                 However, the termination of this Wealth Agreement shall have no
                 effect on the execution of decisions already taken at the time
                 of the receipt of the termination notice by the Service Provider
-              </a>
+              </span>
               .
             </span>
           </p>

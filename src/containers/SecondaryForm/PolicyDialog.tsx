@@ -156,20 +156,6 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                 <a href="mailto:support@wisdomise.io">support@wisdomise.io</a>
               </span>
             </span>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{
-                  fontSize: "8.0pt",
-                  lineHeight: "150%",
-                }}
-              >
-                <a className="msocomanchor" id="_anchor_1" href="#_msocom_1">
-                  [CH1]
-                </a>
-                &nbsp;
-              </span>
-            </span>
           </p>
           <p
             style={{
@@ -359,7 +345,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               verticalAlign: "baseline",
             }}
           >
-            <a>
+            <span>
               <strong>
                 <span
                   style={{
@@ -388,7 +374,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                   Visiting our website
                 </span>
               </strong>
-            </a>
+            </span>
           </p>
           <p
             style={{
@@ -681,20 +667,6 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
             >
               Amount of data sent in bytes
             </span>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{
-                  fontSize: "8.0pt",
-                  lineHeight: "150%",
-                }}
-              >
-                <a className="msocomanchor" id="_anchor_2" href="#_msocom_2">
-                  [CH2]
-                </a>
-                &nbsp;
-              </span>
-            </span>
           </p>
           <p
             style={{
@@ -758,7 +730,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               verticalAlign: "baseline",
             }}
           >
-            <a>
+            <span>
               <strong>
                 <span
                   style={{
@@ -787,20 +759,6 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                   General contact, contact via contact form
                 </span>
               </strong>
-            </a>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{
-                  fontSize: "8.0pt",
-                  lineHeight: "150%",
-                }}
-              >
-                <a className="msocomanchor" id="_anchor_3" href="#_msocom_3">
-                  [CH3]
-                </a>
-                &nbsp;
-              </span>
             </span>
           </p>
           <p
@@ -843,7 +801,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               verticalAlign: "baseline",
             }}
           >
-            <a>
+            <span>
               <span
                 style={{
                   fontSize: "11.0pt",
@@ -858,7 +816,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                 third parties for the purposes of advertising, market or opinion
                 research, does not take place.
               </span>
-            </a>
+            </span>
           </p>
           <p
             style={{
@@ -932,8 +890,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "150%",
             }}
           >
-            <a />
-            <a>
+            <span>
               <span>
                 When you create an account with us, we will collect information
                 associated with your account, including your name, contact
@@ -947,28 +904,6 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                   </ins>
                 </span>
                 and transaction history.
-              </span>
-            </a>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{ fontSize: "8.0pt", lineHeight: "150%" }}
-              >
-                <a className="msocomanchor" id="_anchor_4" href="#_msocom_4">
-                  [CH4]
-                </a>
-                &nbsp;
-              </span>
-            </span>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{ fontSize: "8.0pt", lineHeight: "150%" }}
-              >
-                <a className="msocomanchor" id="_anchor_5" href="#_msocom_5">
-                  [AF5]
-                </a>
-                &nbsp;
               </span>
             </span>
           </p>
@@ -1065,13 +1000,13 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               lineHeight: "150%",
             }}
           >
-            <a>
+            <span>
               <span>
                 When you use our Services, we may collect Personal Information
                 that is included in the input, file uploads, or feedback that
                 you provide to our Services.
               </span>
-            </a>
+            </span>
           </p>
           <p
             style={{
@@ -1139,51 +1074,8 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               }}
             >
               The legal basis for data processing is Art. 6 para. 1 lit. b) GDPR
-              or Art. 6 para. 1 lit. f) <a />
-              <a />
-              <a>GDPR</a>
-            </span>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{
-                  fontSize: "8.0pt",
-                  lineHeight: "150%",
-                }}
-              >
-                <a className="msocomanchor" id="_anchor_6" href="#_msocom_6">
-                  [CH6]
-                </a>
-                &nbsp;
-              </span>
-            </span>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{
-                  fontSize: "8.0pt",
-                  lineHeight: "150%",
-                }}
-              >
-                <a className="msocomanchor" id="_anchor_7" href="#_msocom_7">
-                  [AF7]
-                </a>
-                &nbsp;
-              </span>
-            </span>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{
-                  fontSize: "8.0pt",
-                  lineHeight: "150%",
-                }}
-              >
-                <a className="msocomanchor" id="_anchor_8" href="#_msocom_8">
-                  [CH8]
-                </a>
-                &nbsp;
-              </span>
+              or Art. 6 para. 1 lit. f)
+              <span>GDPR</span>
             </span>
             <span
               style={{
@@ -1866,7 +1758,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
               verticalAlign: "baseline",
             }}
           >
-            <a>
+            <span>
               <u>
                 <span
                   style={{
@@ -1880,7 +1772,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                   Initiative:
                 </span>
               </u>
-            </a>
+            </span>
           </p>
           <p
             style={{
@@ -2811,7 +2703,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                 </span>
               </a>
             </span>
-            <a>
+            <span>
               <span
                 style={{
                   fontSize: "11.0pt",
@@ -2821,20 +2713,6 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
                 }}
               >
                 .
-              </span>
-            </a>
-            <span className="MsoCommentReference">
-              <span
-                lang="DE-CH"
-                style={{
-                  fontSize: "8.0pt",
-                  lineHeight: "150%",
-                }}
-              >
-                <a className="msocomanchor" id="_anchor_10" href="#_msocom_10">
-                  [CH10]
-                </a>
-                &nbsp;
               </span>
             </span>
           </p>
