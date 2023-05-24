@@ -4,7 +4,7 @@ import Button from "components/Button";
 import Modal from "components/modal/Modal";
 import { BUTTON_TYPE } from "utils/enums";
 import { ReactComponent as CloseIcon } from "@images/close.svg";
-import { useCallback, WheelEventHandler, useState, useRef } from "react";
+import { useCallback, useState, useRef } from "react";
 import styles from "./styles.module.scss";
 interface IProps {
   isOpen: boolean;
@@ -34,7 +34,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
       </div>
       <div
         className={styles.modalBody}
-        onScroll={handleScroll as WheelEventHandler}
+        onScroll={handleScroll}
         ref={scrollableRef}
       >
         <>
