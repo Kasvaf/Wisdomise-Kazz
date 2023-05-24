@@ -47,7 +47,7 @@ const RiskDetail: React.FC = () => {
     );
   };
 
-  const onCliCkCreateWallet = async () => {
+  const onClickCreateWallet = async () => {
     const body = {
       etf_package_key: params.id,
     };
@@ -76,6 +76,14 @@ const RiskDetail: React.FC = () => {
 
   const onDoneWaitList = async () => {
     await etfData?.refetch();
+  };
+
+  const onActivateClick = () => {
+    if (etfData.data.subscribable) {
+      onClickCreateWallet();
+    } else {
+      setShowWaitList(true);
+    }
   };
 
   const coinIcons: string[] = etfData.data?.config.assets
@@ -131,11 +139,7 @@ const RiskDetail: React.FC = () => {
           text={createAsset.isLoading ? "Loading..." : "Activate"}
           className="mb-5 w-[340px] sm:mb-20"
           disabled={createAsset.isLoading || isETFPackages()}
-          // onClick={() => {
-          //   setShowConnectWalletPlan(true);
-          // }}
-          // onClick={onCliCkCreateWallet}
-          onClick={() => setShowWaitList(true)}
+          onClick={onActivateClick}
         ></Button>
         <RiskCard
           expectedYield={etfData?.data?.profile.expected_yield}

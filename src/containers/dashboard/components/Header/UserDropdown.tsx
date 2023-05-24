@@ -46,13 +46,13 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
               <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-b-nodata/20 p-2 pb-4 text-nodata">
                 {userName}
               </div>
-              <button
+              {/* <button
                 type="button"
                 onClick={openDepositPlans}
                 className=" flex items-center justify-start bg-transparent px-2 py-[10px]  text-white hover:bg-gray-dark"
               >
                 <PlanIcon className="mr-2 w-[24px]" /> Subscription Plans
-              </button>
+              </button> */}
 
               {isStage() && (
                 <>
@@ -69,7 +69,7 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
                   </button>
                 </>
               )}
-              <button
+              {/* <button
                 type="button"
                 onClick={() => {
                   onToggle(false);
@@ -78,14 +78,13 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
                 className=" flex items-center justify-start bg-transparent px-2 py-[10px]  text-white hover:bg-gray-dark"
               >
                 <ReferralIcon className="mr-2 w-[24px]" /> Referral
-              </button>
+              </button> */}
 
-              <KycMenuItem
+              {/* <KycMenuItem
                 kycBinding={kycLevel}
                 onClick={() => onToggle(false)}
-              />
+              /> */}
 
-              <hr />
               <button
                 type="button"
                 onClick={signout}

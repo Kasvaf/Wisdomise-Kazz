@@ -13,7 +13,7 @@ export const tabs: MenuTab[] = [
     id: "aat",
     label: "Back test - AAT",
     tooltip:
-      "Run backtests for the performance of the Horos AAT against different strategies, assets, and benchmarks",
+      "Run backtests for the performance of the AAT against different strategies, assets, and benchmarks",
   },
 ];
 
