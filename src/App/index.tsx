@@ -118,7 +118,7 @@ const App: FunctionComponent<AppProps> = (props) => {
 
   const { data: userInfo, isSuccess } = useGetUserInfoQuery({});
   const hasAcceptedTerms =
-    isSuccess && userInfo.customer.terms_and_conditions_accepted;
+    !isSuccess || userInfo?.customer.terms_and_conditions_accepted;
   if (!hasAcceptedTerms) {
     return <SecondaryForm />;
   }
