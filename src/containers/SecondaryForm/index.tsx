@@ -136,6 +136,20 @@ export default function SecondaryForm() {
         </div>
         <form className={styles.secondaryForm} onSubmit={onSubmit}>
           <div className={styles.fieldWrapper}>
+            <div className={styles.fieldLabel}>Nickname</div>
+            <input
+              type="text"
+              onChange={handleNicknameChange}
+              className={styles.fieldInput}
+              placeholder="Nickname"
+            />
+            {nicknameErrorVisible && !nickname && (
+              <div className={styles.fieldError}>
+                This field can not be blank.
+              </div>
+            )}
+          </div>
+          <div className={styles.fieldWrapper}>
             <div className={styles.fieldLabel}>
               Invitation code <span>(Optional)</span>
             </div>
@@ -153,20 +167,7 @@ export default function SecondaryForm() {
                 </div>
               )}
           </div>
-          <div className={styles.fieldWrapper}>
-            <div className={styles.fieldLabel}>Nickname</div>
-            <input
-              type="text"
-              onChange={handleNicknameChange}
-              className={styles.fieldInput}
-              placeholder="Nickname"
-            />
-            {nicknameErrorVisible && !nickname && (
-              <div className={styles.fieldError}>
-                This field can not be blank.
-              </div>
-            )}
-          </div>
+
           <div className={styles.checkboxes}>
             <div className={styles.fieldWrapper}>
               <label className={styles.checkboxLabel}>
@@ -178,7 +179,7 @@ export default function SecondaryForm() {
                 />
                 You are agreeing to the{" "}
                 <button className={styles.checkboxLink} onClick={toggleTerms}>
-                  terms and conditions
+                  terms and conditions.
                 </button>
               </label>
               {isTermsErrorVisible && !isTermsAccepted && (
@@ -195,9 +196,8 @@ export default function SecondaryForm() {
                 />
                 You are acknowledging the{" "}
                 <button className={styles.checkboxLink} onClick={togglePolicy}>
-                  privacy policy
+                  privacy policy.
                 </button>{" "}
-                close.
               </label>
               {isPolicyErrorVisible && !isPolicyAccepted && (
                 <div className={styles.fieldError}>Agree to continue.</div>
