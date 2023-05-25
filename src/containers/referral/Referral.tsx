@@ -113,9 +113,9 @@ const ReferralPage: React.FC = () => {
           </div>
         ) : (
           <>
-            {userInfo.customer.referrer === null && (
+            {/* {userInfo.customer.referrer === null && (
               <ReferrerSection onSubmit={() => setShowModal(true)} />
-            )}
+            )} */}
             <ReferrerCounter
               activeReferredUsers={userInfo.customer.active_referees_count}
               totalReferredUsers={userInfo.customer.referees_count}

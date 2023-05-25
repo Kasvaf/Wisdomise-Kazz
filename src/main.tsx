@@ -23,8 +23,6 @@ function FallbackComponent() {
   return <div>An error has occurred</div>;
 }
 
-const myFallback = <FallbackComponent />;
-
 const LDProvider = withLDProvider({
   clientSideID: "640595d0b3b886134be7a9fc",
   context: {
@@ -45,7 +43,7 @@ if (!targetRootNode) {
 const root = ReactDOM.createRoot(targetRootNode);
 
 root.render(
-  <Sentry.ErrorBoundary fallback={myFallback} showDialog>
+  <Sentry.ErrorBoundary fallback={<FallbackComponent />} showDialog>
     <Provider store={store}>
       <LDProvider />
     </Provider>

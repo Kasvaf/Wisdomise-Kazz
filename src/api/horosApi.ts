@@ -275,6 +275,13 @@ export const horosApi = createApi({
       },
       invalidatesTags: ["userInfo"],
     }),
+    agreeToTerms: builder.mutation({
+      query: (data) => ({
+        url: `/api/v1/account/customers/me`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -311,4 +318,7 @@ export const {
   // referral
   useGetReferralLevelsQuery,
   useUpdateReferrerMutation,
+
+  // secondary form
+  useAgreeToTermsMutation,
 } = horosApi;

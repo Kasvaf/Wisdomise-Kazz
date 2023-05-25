@@ -4,7 +4,7 @@ import { BUTTON_TYPE } from "utils/enums";
 interface ButtonProps {
   type: BUTTON_TYPE;
   text?: string;
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   className?: string;
   children?: ReactNode;
   disabled?: boolean;
