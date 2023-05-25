@@ -1,7 +1,9 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback } from "react";
+import DB from "config/keys";
 import { useGetUserInfoQuery } from "api/horosApi";
 import Button from "components/Button";
 import { BUTTON_TYPE } from "utils/enums";
+import { WISDOMISE_TOKEN_KEY } from "config/constants";
 
 interface props {
   signOut: () => void;
@@ -11,6 +13,11 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
   const { data: userInfo } = useGetUserInfoQuery({});
 
   const userName = userInfo?.customer.user.email || "";
+
+  const checkAgain = useCallback(() => {
+    localStorage.removeItem(WISDOMISE_TOKEN_KEY);
+    window.location.assign(`${DB}/api/v1/account/login`);
+  }, []);
 
   return (
     <div className="m-auto flex h-full w-[27rem] flex-col justify-center  p-5">
@@ -22,7 +29,7 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
       <Button
         type={BUTTON_TYPE.FILLED}
         className="mt-3 h-12 w-full p-0"
-        onClick={() => window.location.reload()}
+        onClick={checkAgain}
       >
         Check
       </Button>
