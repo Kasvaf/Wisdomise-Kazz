@@ -43,7 +43,7 @@ export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {
           break;
         }
       }
-      NotificationManager.error(body, title, TOAST_TIME);
+      NotificationManager.error(body === "{}" ? "" : body, title, TOAST_TIME);
     }
   }
 

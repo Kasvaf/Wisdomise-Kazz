@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-bgcolor font-inter md:min-w-[1280px];
+    @apply bg-bgcolor font-inter;
   }
 }
 

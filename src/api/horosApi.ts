@@ -255,7 +255,7 @@ export const horosApi = createApi({
       query: (params: any) => {
         return {
           url: `/api/v1/market/exchange-accounts/${params.exchangeAccountKey}/transactions/${params.transactionKey}/verification-email`,
-          method: "PATCH",
+          method: "POST",
         };
       },
     }),
@@ -279,6 +279,13 @@ export const horosApi = createApi({
       query: (data) => ({
         url: `/api/v1/account/customers/me`,
         method: "PATCH",
+        body: data,
+      }),
+    }),
+    resendVerificationEmail: builder.mutation({
+      query: (data) => ({
+        url: `/api/v1/account/customers/me/verification-email`,
+        method: "POST",
         body: data,
       }),
     }),
@@ -318,7 +325,8 @@ export const {
   // referral
   useGetReferralLevelsQuery,
   useUpdateReferrerMutation,
-
   // secondary form
   useAgreeToTermsMutation,
+  //email verification
+  useResendVerificationEmailMutation,
 } = horosApi;
