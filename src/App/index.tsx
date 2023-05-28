@@ -134,6 +134,7 @@ const App: FunctionComponent<AppProps> = (props) => {
     isSuccess &&
     userInfo?.customer.user.email &&
     !userInfo?.customer.info.email_verified;
+
   if (notEmailConfirmed) {
     return <ConfirmSignUp signOut={triggerSignOut} />;
   }
