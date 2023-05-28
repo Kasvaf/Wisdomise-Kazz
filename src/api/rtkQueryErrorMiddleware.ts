@@ -32,11 +32,15 @@ export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {
         case 417: {
           title = action?.payload?.data.message;
           body = JSON.stringify(action?.payload?.data.data);
-
+          break;
+        }
+        case 500: {
+          title = "Internal Server Error";
           break;
         }
         default: {
-          title = "Internal server Error";
+          title = "Unknown Error";
+          break;
         }
       }
       NotificationManager.error(body, title, TOAST_TIME);
