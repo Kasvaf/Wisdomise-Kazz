@@ -11,9 +11,9 @@ import {
 import { BUTTON_TYPE } from "utils/enums";
 import Button from "components/Button";
 import Trade from "@images/Trade.png";
-import Tag from "components/Tag";
+// import Tag from "components/Tag";
 import { VerificationStatus } from "../../types/kyc";
-import { getKycLevelStatusColor, isPendingOrRejected } from "utils/utils";
+// import { getKycLevelStatusColor, isPendingOrRejected } from "utils/utils";
 // import { NotificationManager } from "react-notifications";
 // import { TOAST_TIME } from "components/constants";
 
@@ -29,7 +29,7 @@ function Dashboard() {
   const [UpdateIASStatusExecutor, UpdatedIASStatus] =
     useUpdateIASStatusMutation();
   const { data: userInfo } = useGetUserInfoQuery({});
-  const { data: kycLevels } = useGetKycLevelsQuery({});
+  // const { data: kycLevels } = useGetKycLevelsQuery({});
 
   const getCtaTitle = (status: VerificationStatus | undefined): string => {
     switch (status) {
@@ -245,9 +245,9 @@ function Dashboard() {
           </div>
         )} */}
         {showBalance && <Balance />}
-        <div className="dashboard-panel-wrapper flex flex-col justify-start space-y-8">
+        {/* <div className="dashboard-panel-wrapper flex flex-col justify-start space-y-8">
           <Preview />
-        </div>
+        </div> */}
       </div>
     </div>
   );

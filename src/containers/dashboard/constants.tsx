@@ -11,7 +11,7 @@ import BUSD from "@images/coins/busd.svg";
 
 import { ReactComponent as DashboardIcon } from "@images/nav/dashboard.svg";
 import { ReactComponent as CatalogIcon } from "@images/nav/portfolio.svg";
-import { ReactComponent as Analytics } from "@images/nav/analytics.svg";
+// import { ReactComponent as Analytics } from "@images/nav/analytics.svg";
 import { ReactComponent as SignalsIcon } from "@images/nav/signals.svg";
 import { ReactComponent as TradingIcon } from "@images/nav/trading.svg";
 // import { ReactComponent as ReferralIcon } from '@images/nav/referral.svg';
@@ -156,14 +156,14 @@ export const tabs: any = {
     icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
     defaultUrl: "s",
     subMenu: [
-      {
-        id: TabLabels.signals,
-        hash: "sign",
-        label: "AI Signals",
-        icon: <Analytics className="dashboard-icon h-6 w-6" />,
-        actionLabel: "Scan now",
-        defaultUrl: "signals",
-      },
+      // {
+      //   id: TabLabels.signals,
+      //   hash: "sign",
+      //   label: "AI Signals",
+      //   icon: <Analytics className="dashboard-icon h-6 w-6" />,
+      //   actionLabel: "Scan now",
+      //   defaultUrl: "signals",
+      // },
       {
         id: TabLabels.backtest,
         hash: "Backtest",

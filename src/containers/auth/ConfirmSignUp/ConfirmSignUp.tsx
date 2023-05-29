@@ -41,7 +41,7 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
           "--bg-desktop": `url('${bgDesktop}')`,
         } as React.CSSProperties
       }
-      className={`h-screen w-full bg-[image:var(--bg-mobile)] bg-[length:100%_100vh] bg-no-repeat text-white md:bg-[image:var(--bg-desktop)]`}
+      className="h-screen w-full bg-[image:var(--bg-mobile)] bg-[length:100%_100vh] bg-no-repeat text-white md:bg-[image:var(--bg-desktop)]"
     >
       <div className="m-auto flex min-h-screen max-w-[1300px] flex-col justify-between">
         <header className="mt-8 flex items-center justify-between px-8">
