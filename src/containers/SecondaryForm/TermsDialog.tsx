@@ -16,7 +16,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
   const [isScrolledToEnd, setScrolledToEnd] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = useCallback((event: any) => {
+  const handleScroll = useCallback(() => {
     if (!scrollableRef.current) return;
 
     const { clientHeight, scrollTop, scrollHeight } = scrollableRef.current;
@@ -24,6 +24,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
       setScrolledToEnd(true);
     }
   }, []);
+
   if (!isOpen) return null;
 
   return (
@@ -1948,12 +1949,13 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
         </>
       </div>
       <div className={styles.modalFooter}>
-        <Button
+        <button
           onClick={onCheck}
           disabled={!isScrolledToEnd}
-          type={BUTTON_TYPE.FILLED}
-          text="I have read and accept to the terms of service."
-        />
+          className="mt-5 w-full rounded-full border-none bg-white py-3 px-9 text-base text-black disabled:bg-gray-main disabled:text-[#cccc] md:px-14 md:py-3 md:text-xl"
+        >
+          I have read and accept to the terms of service.
+        </button>
       </div>
     </Modal>
   );
