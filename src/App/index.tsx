@@ -33,7 +33,7 @@ import "react-date-range/dist/theme/default.css";
 import "./tailwind.css";
 import "./App.css";
 import ConfirmSignUp from "containers/auth/ConfirmSignUp";
-import SecondaryForm from "containers/SecondaryForm";
+import { SecondaryForm } from "containers/SecondaryForm";
 import Splash from "containers/splash/Splash";
 
 const Signals = React.lazy(
@@ -127,7 +127,7 @@ const App: FunctionComponent<AppProps> = (props) => {
   const hasAcceptedTerms =
     !isSuccess || userInfo?.customer.terms_and_conditions_accepted;
   if (!hasAcceptedTerms) {
-    return <SecondaryForm />;
+    return <SecondaryForm signOut={triggerSignOut} />;
   }
 
   const notEmailConfirmed =

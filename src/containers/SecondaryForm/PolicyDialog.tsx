@@ -1,8 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Button from "components/Button";
 import Modal from "components/modal/Modal";
-import { BUTTON_TYPE } from "utils/enums";
 import { ReactComponent as CloseIcon } from "@images/close.svg";
 import styles from "./styles.module.scss";
 import { useCallback, useRef, useState } from "react";
@@ -2908,12 +2906,13 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
         </>
       </div>
       <div className={styles.modalFooter}>
-        <Button
+        <button
           onClick={onCheck}
           disabled={!isScrolledToEnd}
-          type={BUTTON_TYPE.FILLED}
-          text="I have read and accept the privacy policy."
-        />
+          className="mt-5 w-full rounded-full border-none bg-white py-3 px-9 text-base text-black disabled:bg-gray-main disabled:text-[#cccc] md:px-14 md:py-3 md:text-xl"
+        >
+          I have read and accept the privacy policy.
+        </button>
       </div>
     </Modal>
   );
