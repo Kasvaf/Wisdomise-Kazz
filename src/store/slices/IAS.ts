@@ -1,10 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { InvestorAssetStructureResponse } from "containers/catalog/types/investorAssetStructure";
 
-export interface IASInfo {
-  IASData: object | null;
-}
-
-const initialState: IASInfo = {
+const initialState: { IASData: InvestorAssetStructureResponse | null } = {
   IASData: null,
 };
 
@@ -12,11 +9,13 @@ const IASSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setIAS: (state: IASInfo, actions: PayloadAction<IASInfo>) => {
-      const user = actions.payload;
-      state.IASData = user;
+    setIAS: (
+      state: { IASData: InvestorAssetStructureResponse | null },
+      actions: PayloadAction<InvestorAssetStructureResponse>
+    ) => {
+      state.IASData = actions.payload;
     },
-    getIAS: (state: IASInfo) => {
+    getIAS: (state: { IASData: InvestorAssetStructureResponse | null }) => {
       return state;
     },
   },

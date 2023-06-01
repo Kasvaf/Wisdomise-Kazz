@@ -1,12 +1,10 @@
 import { useEffect } from "react";
-import Preview from "./components/Preview";
 import { useNavigate } from "react-router-dom";
 import Balance from "./components/balance";
 import {
   useGetInvestorAssetStructureQuery,
   useGetUserInfoQuery,
   useUpdateIASStatusMutation,
-  useGetKycLevelsQuery,
 } from "api/horosApi";
 import { BUTTON_TYPE } from "utils/enums";
 import Button from "components/Button";
@@ -18,9 +16,8 @@ import { VerificationStatus } from "../../types/kyc";
 // import { TOAST_TIME } from "components/constants";
 
 const enum IAS_STATUS {
-  DRAFT = "DRAFT",
-  RUNNING = "RUNNING",
-  STOPPED = "STOPPED",
+  stop = "stop",
+  start = "start",
 }
 
 function Dashboard() {
@@ -28,25 +25,26 @@ function Dashboard() {
   const investorAsset = useGetInvestorAssetStructureQuery({});
   const [UpdateIASStatusExecutor, UpdatedIASStatus] =
     useUpdateIASStatusMutation();
-  const { data: userInfo } = useGetUserInfoQuery({});
+  // const { data: userInfo } = useGetUserInfoQuery({});
+  const fpi = investorAsset.data?.[0]?.financial_product_instances[0];
   // const { data: kycLevels } = useGetKycLevelsQuery({});
 
-  const getCtaTitle = (status: VerificationStatus | undefined): string => {
-    switch (status) {
-      case VerificationStatus.VERIFIED:
-        return "Verified";
-      case VerificationStatus.REJECTED:
-        return "Verify Now";
-      case VerificationStatus.UNVERIFIED:
-        return "Verify Now";
-      case VerificationStatus.PENDING:
-        return "In Progress";
-      default:
-        return "Verify";
-    }
-  };
+  // const getCtaTitle = (status: VerificationStatus | undefined): string => {
+  //   switch (status) {
+  //     case VerificationStatus.VERIFIED:
+  //       return "Verified";
+  //     case VerificationStatus.REJECTED:
+  //       return "Verify Now";
+  //     case VerificationStatus.UNVERIFIED:
+  //       return "Verify Now";
+  //     case VerificationStatus.PENDING:
+  //       return "In Progress";
+  //     default:
+  //       return "Verify";
+  //   }
+  // };
 
-  const kycLevel = userInfo?.kyc_level_bindings[0];
+  // const kycLevel = userInfo?.kyc_level_bindings[0];
 
   // const checkHasTotalBalance = () => {
   //   return (
@@ -59,7 +57,7 @@ function Dashboard() {
     if (UpdatedIASStatus.isLoading) return;
     // if (checkHasTotalBalance()) {
     await UpdateIASStatusExecutor({
-      key: investorAsset?.data?.results[0]?.trader_instances[0]?.key,
+      key: fpi?.key,
       status,
     });
     // } else {
@@ -77,14 +75,10 @@ function Dashboard() {
 
   if (investorAsset.isLoading) return <div />;
 
-  const instances = investorAsset?.data?.results?.[0]?.trader_instances || [];
-  const showBalance = Array.isArray(instances) && instances.length > 0;
-
   return (
     <div className="flex h-full w-full flex-row justify-center">
       <div className="flex w-full flex-col ">
-        {investorAsset?.data?.results?.length === 0 ||
-        investorAsset?.data?.results[0]?.trader_instances.length === 0 ? (
+        {!fpi ? (
           <div className="flex h-auto w-full flex-col items-center justify-between bg-gray-dark px-12 py-8 sm:flex-row">
             <div className="flex flex-col ">
               <h1 className="text-[40px] font-bold text-white">
@@ -115,34 +109,21 @@ function Dashboard() {
               <div className="flex flex-col">
                 <p className="mb-1 text-gray-light">
                   Current strategy (
-                  {UpdatedIASStatus.isLoading
-                    ? "UPDATING"
-                    : investorAsset?.data &&
-                      investorAsset?.data?.results[0]?.trader_instances[0]
-                        ?.status}
-                  )
+                  {UpdatedIASStatus.isLoading ? "UPDATING" : fpi?.status})
                 </p>
                 <h5 className="text-base text-white">
-                  {investorAsset?.data &&
-                    investorAsset?.data?.results[0].etf_package_bindings[0]
-                      .etf_package.title}
+                  {fpi?.financial_product.title}
                 </h5>
               </div>
               <div className="flex">
                 <p
                   onClick={() => {
-                    if (
-                      investorAsset?.data &&
-                      investorAsset?.data?.results[0]?.trader_instances[0]
-                        ?.status === "RUNNING"
-                    ) {
-                      onClickStatus(IAS_STATUS.STOPPED);
+                    if (fpi?.status === "RUNNING") {
+                      onClickStatus(IAS_STATUS.stop);
                     }
                   }}
                   className={` font-bold uppercase ${
-                    investorAsset?.data &&
-                    investorAsset?.data?.results[0]?.trader_instances[0]
-                      ?.status === "RUNNING"
+                    fpi?.status === "RUNNING"
                       ? "cursor-pointer text-primary"
                       : "text-gray-light opacity-40"
                   }
@@ -152,17 +133,12 @@ function Dashboard() {
                 </p>
                 <p
                   onClick={() => {
-                    if (
-                      investorAsset?.data?.results[0]?.trader_instances[0]
-                        ?.status !== "RUNNING"
-                    ) {
-                      onClickStatus(IAS_STATUS.RUNNING);
+                    if (fpi?.status !== "RUNNING") {
+                      onClickStatus(IAS_STATUS.start);
                     }
                   }}
                   className={`ml-2  font-bold uppercase ${
-                    investorAsset?.data &&
-                    investorAsset?.data?.results[0]?.trader_instances[0]
-                      ?.status === "RUNNING"
+                    fpi?.status === "RUNNING"
                       ? "text-gray-light opacity-40"
                       : "cursor-pointer text-primary"
                   }
@@ -244,7 +220,7 @@ function Dashboard() {
             </div>
           </div>
         )} */}
-        {showBalance && <Balance />}
+        {!!fpi && <Balance />}
         {/* <div className="dashboard-panel-wrapper flex flex-col justify-start space-y-8">
           <Preview />
         </div> */}

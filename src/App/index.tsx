@@ -42,7 +42,7 @@ const Signals = React.lazy(
 const Analytics = React.lazy(
   () => import("containers/dashboard/components/Analytics")
 );
-const RiskDetail = React.lazy(() => import("containers/risks"));
+const RiskDetail = React.lazy(() => import("containers/risks/RiskDetail"));
 const Deposit = React.lazy(() => import("containers/deposit"));
 const Catalog = React.lazy(() => import("containers/catalog"));
 const Transaction = React.lazy(() => import("containers/transaction"));

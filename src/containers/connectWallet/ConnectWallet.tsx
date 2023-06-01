@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Avatar, Input, Select } from "antd";
 import { coins } from "containers/dashboard/constants";
 import {
-  useCreateInvestorAssetMutation,
+  // useCreateInvestorAssetMutation,
   useGetExchangeListQuery,
 } from "api/horosApi";
 import { NotificationManager } from "react-notifications";
@@ -33,7 +33,7 @@ const ConnectWallet: React.FC = () => {
     });
   };
 
-  const [createInvestorAsset, createAsset] = useCreateInvestorAssetMutation();
+  // const [createInvestorAsset, createAsset] = useCreateInvestorAssetMutation();
 
   const onClickConnectWallet = async () => {
     const data = {
@@ -41,7 +41,7 @@ const ConnectWallet: React.FC = () => {
       exchange_key: exchangeCode,
       etf_package_key: params.id,
     };
-    await createInvestorAsset(data);
+    // await createInvestorAsset(data);
   };
 
   const navigateToCongratulation = () => {
@@ -50,11 +50,11 @@ const ConnectWallet: React.FC = () => {
     navigate(`/app/congratulation`);
   };
 
-  useEffect(() => {
-    if (createAsset.isSuccess) {
-      navigateToCongratulation();
-    }
-  }, [createAsset.isSuccess]);
+  // useEffect(() => {
+  //   if (createAsset.isSuccess) {
+  //     navigateToCongratulation();
+  //   }
+  // }, [createAsset.isSuccess]);
 
   const getExchangeList = useMemo(() => {
     const array: Array<{
@@ -134,15 +134,15 @@ const ConnectWallet: React.FC = () => {
       <div className="mt-5 flex w-full items-center gap-5">
         <Button
           type={BUTTON_TYPE.FILLED}
-          text={createAsset.isLoading ? "Loadings..." : "Connect Wallet"}
+          // text={createAsset.isLoading ? "Loadings..." : "Connect Wallet"}
           className="!w-full"
           onClick={onClickConnectWallet}
-          disabled={
-            values.api_key.trim().length === 0 ||
-            values.secret_key.trim().length === 0 ||
-            exchangeCode === "" ||
-            createAsset.isLoading
-          }
+          // disabled={
+          //   values.api_key.trim().length === 0 ||
+          //   values.secret_key.trim().length === 0 ||
+          //   exchangeCode === "" ||
+          //   createAsset.isLoading
+          // }
         />
       </div>
     </div>

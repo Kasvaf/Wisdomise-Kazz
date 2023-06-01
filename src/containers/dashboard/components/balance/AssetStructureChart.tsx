@@ -2,6 +2,7 @@ import { floatData } from "utils/utils";
 import { useEffect, useState } from "react";
 import { Pie } from "@ant-design/plots";
 import { Table } from "antd";
+import { InvestorAssetStructureResponse } from "containers/catalog/types/investorAssetStructure";
 
 const COLORS = [
   "#FF6B3B",
@@ -21,33 +22,32 @@ enum ASSET_TYPE {
   PAIR = "PAIR",
 }
 
-const AssetStructureChart = (props: any) => {
-  const exchange_account =
-    props.investorAsset?.data &&
-    props.investorAsset?.data?.results?.length > 0 &&
-    props.investorAsset?.data?.results[0]?.trader_instances.length > 0 &&
-    props.investorAsset?.data?.results[0]?.trader_instances[0]
-      ?.exchange_account;
+const AssetStructureChart = (props: {
+  investorAsset: InvestorAssetStructureResponse;
+}) => {
+  const exchange_account = props.investorAsset?.[0]?.main_exchange_account;
 
   const [symbol, setSymbol] = useState<any>([]);
 
   const convertData = () => {
     setSymbol([]);
     const symbolArray: any = [];
-    exchange_account.asset_bindings.map((item: any) => {
+    props.investorAsset[0]?.asset_bindings.map((item) => {
       symbolArray.push({
         symbol: {
-          key: item?.key,
-          name: item?.name,
+          key: item?.asset.symbol.name,
+          name: item?.asset.symbol.name,
         },
         type:
           item.asset.type === ASSET_TYPE.SYMBOL
             ? item.asset.symbol.name
-            : item.asset.pair.name,
+            : item.asset.type,
         amount: item.amount,
         equity: item?.equity,
         value: Number(floatData(item?.equity)),
-        percent: (item?.equity / exchange_account.total_equity) * 100,
+        percent: exchange_account?.total_equity
+          ? (item?.equity / exchange_account?.total_equity) * 100
+          : 0,
       });
     });
 

@@ -11,17 +11,17 @@ export enum RISK_PACKAGE_ENUM {
 }
 
 interface RiskCardProps {
-  id?: number;
+  id?: string;
   type?: RISK_PACKAGE_ENUM;
   title?: string;
-  expectedYield: number;
-  maxDrawdown: number;
-  riskRatio: string;
+  expectedYield?: string;
+  maxDrawdown?: string;
+  riskRatio?: string;
   showHeader?: boolean;
   showActions?: boolean;
   onSubscribe?: () => void;
   onDetail?: () => void;
-  onClickCard?: (key: number | undefined) => void;
+  onClickCard?: (key: string | undefined) => void;
   className?: string;
   loading?: boolean;
   disabled?: boolean;

@@ -17,6 +17,11 @@ import {
 import { setIAS } from "store/slices/IAS";
 import { API_list_response, KYC_Level } from "types/kyc";
 import { NetworksResponse } from "./types/transferNetworks";
+import {
+  FinancialProduct,
+  FinancialProductsReponse,
+} from "containers/catalog/types/financialProduct";
+import { InvestorAssetStructureResponse } from "containers/catalog/types/investorAssetStructure";
 
 const horosBaseQuery = fetchBaseQuery({
   baseUrl: DB,
@@ -73,16 +78,12 @@ export const horosApi = createApi({
       }),
     }),
 
-    createInvestorAsset: builder.mutation({
-      query: (body: any) => {
-        return {
-          url: "/api/v1/trader/investor-asset-structures",
-          method: "POST",
-          body: {
-            ...body,
-          },
-        };
-      },
+    createFPI: builder.mutation({
+      query: (body) => ({
+        body,
+        method: "POST",
+        url: "/api/v1/ias/financial-product-instances",
+      }),
     }),
 
     updateDepositAddress: builder.mutation({
@@ -123,26 +124,29 @@ export const horosApi = createApi({
       },
     }),
 
-    getInvestorAssetStructure: builder.query<any, unknown>({
+    getInvestorAssetStructure: builder.query<
+      InvestorAssetStructureResponse,
+      unknown
+    >({
       query: () => ({
-        url: "/api/v1/trader/investor-asset-structures",
+        url: "/api/v1/ias/investor-asset-structures",
       }),
-      async onQueryStarted(args, api) {
+      async onQueryStarted(_, api) {
         const { data } = await api.queryFulfilled;
         api.dispatch(setIAS({ ...data }));
       },
     }),
 
-    getETFPackages: builder.query<any, any>({
+    getFinancialProducts: builder.query<FinancialProductsReponse, any>({
       query: (params) => ({
-        url: "/api/v1/catalog/etf-packages",
+        url: "/api/v1/catalog/financial-products",
         params,
       }),
     }),
 
-    getETFPackageDetail: builder.query<any, any>({
+    getFinancialProductDetail: builder.query<FinancialProduct, any>({
       query: (params) => ({
-        url: `/api/v1/catalog/etf-packages/${params.id}`,
+        url: `/api/v1/catalog/financial-products/${params.id}`,
       }),
     }),
 
@@ -168,9 +172,9 @@ export const horosApi = createApi({
     }),
 
     getExchangeAccountHistoricalStatistic: builder.query<any, any>({
-      query: (exchangeAccountKey) => {
+      query: (iasKey) => {
         return {
-          url: `/api/v1/market/exchange-accounts/${exchangeAccountKey}/historical-statistics?resolution=1d`,
+          url: `/api/v1/ias/investor-asset-structures/${iasKey}/historical-statistics?resolution=1d`,
         };
       },
     }),
@@ -178,8 +182,8 @@ export const horosApi = createApi({
     updateIASStatus: builder.mutation({
       query: (params) => {
         return {
-          url: `/api/v1/trader/trader-instances/${params.key}?status=${params.status}`,
-          method: "PATCH",
+          url: `/api/v1/ias/financial-product-instances/${params.key}/${params.status}`,
+          method: "POST",
         };
       },
       transformErrorResponse(response) {
@@ -296,12 +300,12 @@ export const {
   useGetUserInfoQuery,
   useGetHourlySignalsQuery,
   useLazySimulateTradeQuery,
-  useGetETFPackagesQuery,
-  useGetETFPackageDetailQuery,
+  useGetFinancialProductsQuery,
+  useGetFinancialProductDetailQuery,
   useGetInvestorAssetStructureQuery,
   useGetExchangeListQuery,
   useGetETFBacktestQuery,
-  useCreateInvestorAssetMutation,
+  useCreateFPIMutation,
   useUpdateDepositAddressMutation,
   useLazyGetExchangeAccountHistoricalStatisticQuery,
   useLazyGetTransactionHistoryQuery,

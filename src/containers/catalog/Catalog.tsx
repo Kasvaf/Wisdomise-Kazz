@@ -1,93 +1,51 @@
-import { useState, FunctionComponent, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetETFPackagesQuery } from "api/horosApi";
-import RiskCard from "containers/dashboard/components/RiskCard";
 import {
-  useGetInvestorAssetStructureQuery,
-  useCreateInvestorAssetMutation,
+  useCreateFPIMutation,
+  useGetFinancialProductsQuery,
 } from "api/horosApi";
+import RiskCard from "containers/dashboard/components/RiskCard";
+import { useGetInvestorAssetStructureQuery } from "api/horosApi";
 import { ReactComponent as WarningCircleIcon } from "@images/warningCircle.svg";
 import Modal from "components/modal";
 import Spinner from "components/spinner";
-import WaitListBox from "components/WaitListBox";
 import Congratulation from "containers/congratulation";
+import { FinancialProduct } from "./types/financialProduct";
 
-const Catalog: FunctionComponent = () => {
-  const [selectedItem, setSelectedItem] = useState<any>();
-  const [showWaitList, setShowWaitList] = useState(false);
-  const [showCongratulation, setShowCongratulation] = useState(false);
-
-  const [createInvestorAsset, createAsset] = useCreateInvestorAssetMutation();
-  const investorAsset = useGetInvestorAssetStructureQuery({});
-  const etfData = useGetETFPackagesQuery({});
-
+const Catalog = () => {
   const navigate = useNavigate();
+  const fpsData = useGetFinancialProductsQuery({});
+  const [createFPI, createFPIRes] = useCreateFPIMutation();
+  const investorAsset = useGetInvestorAssetStructureQuery({});
+  const [showCongratulation, setShowCongratulation] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<FinancialProduct>();
 
-  const isETFPackages = (): boolean => {
-    return (
-      investorAsset?.data &&
-      investorAsset?.data.results.length > 0 &&
-      investorAsset?.data.results[0].etf_package_bindings.length > 0
-    );
+  const onClickDetail = (id: string) => {
+    if (!createFPIRes.isLoading) navigate(`/app/strategyCatalog/${id}`);
   };
 
-  const isWaitingList = () => {
-    return (
-      investorAsset?.data &&
-      investorAsset?.data.results.length > 0 &&
-      investorAsset?.data.results[0].waiting_list.key
-    );
-  };
-
-  const checkCurrentETF = () => {
-    if (investorAsset?.data?.results.length > 0) {
-      const currentPackage = etfData?.data?.results.find(
-        (item: any) =>
-          item.key ===
-          investorAsset?.data.results[0].etf_package_bindings[0]?.etf_package
-            ?.key
-      );
-      if (currentPackage) return currentPackage.key;
-    }
-  };
-  const onClickDetail = (id: number) => {
-    if (!createAsset.isLoading) navigate(`/app/strategyCatalog/${id}`);
-  };
-
-  const onClickSubscribe = (item: any) => {
-    if (!createAsset.isLoading) setSelectedItem(item);
-    if (!item.subscribable) {
-      setShowWaitList(true);
-    }
-  };
-
-  useEffect(() => {
-    if (!selectedItem) return;
-
-    if (!selectedItem.subscribable) {
-      setShowWaitList(true);
-    } else {
+  const onClickSubscribe = (item: FinancialProduct) => {
+    if (!createFPIRes.isLoading && item.subscribable) {
+      setSelectedItem(item);
       onClickCreateWallet();
     }
-  }, [selectedItem]);
+  };
 
   const onClickCreateWallet = async () => {
-    const body = {
-      etf_package_key: selectedItem.key,
-    };
-    const { data }: any = await createInvestorAsset(body);
-
-    const key = data?.results?.[0].trader_instances[0].exchange_account.key;
-    if (key) {
+    const { data }: any = await createFPI({
+      financial_product: {
+        key: selectedItem?.key,
+      },
+    });
+    if (data.key) {
       setShowCongratulation(true);
     }
   };
 
-  const onGoToDeposit = () => {
-    const key =
-      createAsset.data?.results[0].trader_instances[0].exchange_account.key;
+  const onGoToDeposit = async () => {
+    const res = await investorAsset.refetch();
     setShowCongratulation(false);
-    navigate(`/app/deposit/${key}`);
+    navigate(`/app/deposit/${res.data?.[0]?.main_exchange_account.key}`);
   };
 
   const onGoToDashboard = async () => {
@@ -96,21 +54,26 @@ const Catalog: FunctionComponent = () => {
     navigate("/app/dashboard");
   };
 
-  const onDoneWaitList = async () => {
-    await etfData?.refetch();
-  };
+  const currentFPKey =
+    investorAsset?.data?.[0]?.financial_product_instances[0]?.financial_product
+      .key;
 
-  if (etfData.isLoading)
+  const isAnyFinancialProductActive =
+    (investorAsset?.data?.[0]?.financial_product_instances.length || 0) > 0;
+
+  if (fpsData.isLoading) {
     return (
       <div className="mt-[50px] flex w-full items-center justify-center">
         <Spinner />
       </div>
     );
+  }
+
   return (
     <>
       <div
         className="customNotification"
-        style={createAsset.isLoading ? { right: 15 } : { right: -300 }}
+        style={createFPIRes.isLoading ? { right: 15 } : { right: -300 }}
       >
         <div className="flex flex-row">
           <WarningCircleIcon />
@@ -136,42 +99,30 @@ const Catalog: FunctionComponent = () => {
         </p>
       </div>
       <div className="flex flex-wrap justify-between gap-4">
-        {etfData?.data?.results.map((item: any) => {
-          return (
-            <RiskCard
-              selected={checkCurrentETF() === item.key}
-              key={item.key}
-              showActions={true}
-              showHeader={true}
-              title={item.title}
-              loading={etfData.isLoading}
-              id={item.key}
-              expectedYield={item.profile.expected_yield}
-              maxDrawdown={item.profile.max_drawdown}
-              riskRatio={item.profile.return_risk_ratio}
-              onDetail={() => onClickDetail(item.key)}
-              onSubscribe={() => onClickSubscribe(item)}
-              className="w-full md:w-[32%]"
-              disabled={isETFPackages() || isWaitingList()}
-              minDeposit={item.min_deposit}
-              maxDeposit={item.max_deposit}
-              subscriptionLoading={
-                createAsset.isLoading && selectedItem.key === item.key
-              }
-            />
-          );
-        })}
-      </div>
-
-      {showWaitList && (
-        <Modal className="sm:!w-[600px]">
-          <WaitListBox
-            onClose={() => setShowWaitList(false)}
-            onDone={() => onDoneWaitList()}
-            packageKey={selectedItem.key}
+        {fpsData?.data?.results.map((item) => (
+          <RiskCard
+            id={item.key}
+            key={item.key}
+            showHeader={true}
+            showActions={true}
+            title={item.title}
+            loading={fpsData.isLoading}
+            minDeposit={item.min_deposit}
+            maxDeposit={item.max_deposit}
+            className="w-full md:w-[32%]"
+            selected={currentFPKey === item.key}
+            disabled={isAnyFinancialProductActive}
+            maxDrawdown={item.profile.max_drawdown}
+            onDetail={() => onClickDetail(item.key)}
+            onSubscribe={() => onClickSubscribe(item)}
+            riskRatio={item.profile.return_risk_ratio}
+            expectedYield={item.profile.expected_yield}
+            subscriptionLoading={
+              createFPIRes.isLoading && selectedItem?.key === item.key
+            }
           />
-        </Modal>
-      )}
+        ))}
+      </div>
 
       {showCongratulation && (
         <Modal className="!w-full sm:!w-[600px]">

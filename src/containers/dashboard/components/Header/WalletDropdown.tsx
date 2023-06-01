@@ -14,14 +14,12 @@ interface IProps {
 
 export default function WalletDropdown({ onToggle, isOpen }: IProps) {
   const navigate = useNavigate();
-
   const investorAsset = useGetInvestorAssetStructureQuery({});
+  const mea = investorAsset?.data?.[0]?.main_exchange_account;
+
   const onShowDepositPage = () => {
     onToggle(false);
-
-    const key =
-      investorAsset?.data.results[0].trader_instances[0]?.exchange_account.key;
-    navigate(`/app/deposit/${key}`);
+    navigate(`/app/deposit/${mea?.key}`);
   };
 
   const onShowWithdrawPage = () => {
@@ -30,9 +28,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
   };
 
   const hasWallet =
-    investorAsset?.data &&
-    investorAsset?.data.results.length > 0 &&
-    investorAsset?.data?.results[0]?.trader_instances.length > 0;
+    (investorAsset?.data?.[0]?.financial_product_instances.length || 0) > 0;
 
   return (
     <div className="ml-auto flex">
@@ -45,13 +41,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                   <div className="flex justify-between border-b-2 border-b-gray-200 p-4 md:hidden">
                     <p className="font-bold uppercase text-primary">wallet</p>
                     <p className="font-bold text-primary">
-                      $
-                      {hasWallet
-                        ? floatData(
-                            investorAsset?.data.results[0].trader_instances[0]
-                              ?.exchange_account.total_equity
-                          )
-                        : 0}
+                      ${hasWallet ? floatData(mea?.total_equity) : 0}
                     </p>
                   </div>
                   <button
@@ -85,13 +75,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                     wallet
                   </p>
                   <p className="font-bold text-primary">
-                    $
-                    {hasWallet
-                      ? floatData(
-                          investorAsset?.data.results[0].trader_instances[0]
-                            ?.exchange_account.total_equity
-                        )
-                      : 0}
+                    ${hasWallet ? floatData(mea?.total_equity) : 0}
                   </p>
                   <ChevronDown className="w-6" />
                 </button>

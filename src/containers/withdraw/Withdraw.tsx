@@ -285,6 +285,9 @@ const Withdraw = ({ flags }: any) => {
 
   const [RefreshExchangeAccountExecuter] = useRefreshExchangeAccountMutation();
 
+  const fpi = investorAsset.data?.[0]?.financial_product_instances[0];
+  const mea = investorAsset.data?.[0]?.main_exchange_account;
+
   const onConfirm = () => {
     setShowConfirmWithdraw(true);
   };
@@ -292,10 +295,8 @@ const Withdraw = ({ flags }: any) => {
   const onClickSymbol = (_symbol: string) => {
     if (selectedSymbol === "") {
       setSelectedSymbol(_symbol);
-      const exchangeAccountKey =
-        investorAsset?.data?.results[0].trader_instances[0]?.exchange_account
-          .key;
-      networksTrigger({ symbol: _symbol, exchangeAccountKey });
+
+      networksTrigger({ symbol: _symbol, exchangeAccountKey: mea?.key });
     }
   };
 
@@ -379,7 +380,7 @@ const Withdraw = ({ flags }: any) => {
 
   const onContinueSummery = async () => {
     const exchangeAccountKey =
-      investorAsset?.data?.results[0].trader_instances[0]?.exchange_account.key;
+      investorAsset?.data?.[0]?.main_exchange_account.key;
     const body = {
       tx_type: "WITHDRAW",
       symbol_name: selectedSymbol,
@@ -410,8 +411,7 @@ const Withdraw = ({ flags }: any) => {
 
   const onSetMaxAmount = () => {
     const max: any = floatData(
-      investorAsset?.data.results[0].trader_instances[0]?.exchange_account
-        ?.quote_equity
+      investorAsset?.data?.[0]?.main_exchange_account.quote_equity
     );
     setInputs({
       ...inputs,
@@ -421,7 +421,7 @@ const Withdraw = ({ flags }: any) => {
 
   const onResendCode = async () => {
     const exchangeAccountKey =
-      investorAsset?.data?.results[0].trader_instances[0]?.exchange_account.key;
+      investorAsset?.data?.[0]?.main_exchange_account.key;
     const params = {
       exchangeAccountKey,
       transactionKey: createWithdraw.data.key,
@@ -437,7 +437,7 @@ const Withdraw = ({ flags }: any) => {
   const onSubmitWithdraw = async () => {
     const code: any = invitationCodeRef.current;
     const exchangeAccountKey =
-      investorAsset?.data?.results[0].trader_instances[0]?.exchange_account.key;
+      investorAsset?.data?.[0]?.main_exchange_account.key;
 
     const params = {
       verificationCode: code.value,
@@ -460,8 +460,7 @@ const Withdraw = ({ flags }: any) => {
 
   const onUpdateIAS = async () => {
     await RefreshExchangeAccountExecuter(
-      investorAsset?.data?.results[0]?.trader_instances[0]?.exchange_account
-        ?.key
+      investorAsset?.data?.[0]?.main_exchange_account.key
     );
     investorAsset?.refetch();
   };
@@ -624,15 +623,11 @@ const Withdraw = ({ flags }: any) => {
                 </p>
                 <p
                   className={`mt-2 text-error  ${
-                    investorAsset?.data &&
-                    investorAsset?.data?.results?.length > 0 &&
-                    investorAsset?.data?.results[0]?.trader_instances.length >
-                      0 &&
+                    fpi &&
+                    mea &&
                     selectedNetwork !== null &&
                     inputs.amount !== "" &&
-                    Number(inputs.amount) - 0.01 >
-                      investorAsset?.data.results[0].trader_instances[0]
-                        ?.exchange_account?.quote_equity
+                    Number(inputs.amount) - 0.01 > mea.quote_equity
                       ? "flex"
                       : "hidden"
                   }`}
@@ -648,16 +643,7 @@ const Withdraw = ({ flags }: any) => {
           <div className="ml-2 flex flex-col justify-start">
             <p className="text-base text-white">Total withdrawable amount</p>
             <p className="text-xs text-gray-light">
-              {investorAsset?.data?.results?.[0]?.trader_instances.length > 0
-                ? floatData(
-                    investorAsset?.data.results[0].trader_instances[0]
-                      ?.exchange_account?.quote_equity
-                  )
-                : 0}{" "}
-              {
-                investorAsset?.data.results?.[0].trader_instances?.[0]
-                  ?.exchange_account?.quote.name
-              }
+              {fpi ? floatData(mea?.quote_equity) : 0} {mea?.quote_equity}
             </p>
           </div>
           <div className="ml-2 flex flex-col justify-start">
@@ -695,9 +681,7 @@ const Withdraw = ({ flags }: any) => {
               selectedSymbol === "" ||
               selectedNetwork === null ||
               Number(inputs.amount) < getMinimumWithdraw() ||
-              Number(inputs.amount) >
-                investorAsset?.data.results[0].trader_instances[0]
-                  ?.exchange_account?.quote_equity ||
+              (mea && Number(inputs.amount) > mea.quote_equity) ||
               !inputs.adr.match(`${selectedNetwork.binance_info.addressRegex}`)
             }
           />

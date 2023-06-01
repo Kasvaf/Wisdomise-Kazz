@@ -8,27 +8,22 @@ import { BUTTON_TYPE } from "utils/enums";
 import { coins } from "containers/dashboard/constants";
 import {
   useGetETFBacktestQuery,
-  useGetETFPackageDetailQuery,
+  useGetFinancialProductDetailQuery,
   useGetInvestorAssetStructureQuery,
-  useCreateInvestorAssetMutation,
+  useCreateFPIMutation,
 } from "api/horosApi";
 import { convertDate } from "utils/utils";
 import Modal from "components/modal";
 import Congratulation from "containers/congratulation";
-import WaitListBox from "components/WaitListBox";
 import { ReactComponent as WarningCircleIcon } from "@images/warningCircle.svg";
 
-const RiskDetail: React.FC = () => {
-  const navigate = useNavigate();
+export default function RiskDetail() {
   const params = useParams();
-
-  const [showWaitList, setShowWaitList] = useState(false);
-  const [showCongratulation, setShowCongratulation] = useState(false);
-
-  const [createInvestorAsset, createAsset] = useCreateInvestorAssetMutation();
-
+  const navigate = useNavigate();
+  const [createFPI, createFPIRes] = useCreateFPIMutation();
   const investorAsset = useGetInvestorAssetStructureQuery({});
-  const etfData = useGetETFPackageDetailQuery({ id: params.id });
+  const fpData = useGetFinancialProductDetailQuery({ id: params.id });
+  const [showCongratulation, setShowCongratulation] = useState(false);
   const etfBacktest = useGetETFBacktestQuery({
     id: params.id,
     params: {
@@ -39,33 +34,20 @@ const RiskDetail: React.FC = () => {
     },
   });
 
-  const isETFPackages = (): boolean => {
-    return (
-      investorAsset?.data &&
-      investorAsset?.data.results.length > 0 &&
-      investorAsset?.data.results[0].etf_package_bindings.length > 0
-    );
-  };
-
   const onClickCreateWallet = async () => {
     const body = {
-      etf_package_key: params.id,
+      financial_product: {
+        key: params.id,
+      },
     };
-    const { data }: any = await createInvestorAsset(body);
-    const key =
-      data?.results &&
-      data?.results[0].trader_instances[0].exchange_account.key;
-    if (key) {
-      setShowCongratulation(true);
-    }
+    await createFPI(body);
+    setShowCongratulation(true);
   };
 
   const onGoToDeposit = async () => {
-    await investorAsset.refetch();
-    const key =
-      createAsset.data?.results[0].trader_instances[0].exchange_account.key;
+    const res = await investorAsset.refetch();
     setShowCongratulation(false);
-    navigate(`/app/deposit/${key}`);
+    navigate(`/app/deposit/${res.data?.[0]?.main_exchange_account.key}`);
   };
 
   const onGoToDashboard = async () => {
@@ -74,25 +56,23 @@ const RiskDetail: React.FC = () => {
     navigate("/app/dashboard");
   };
 
-  const onDoneWaitList = async () => {
-    await etfData?.refetch();
-  };
-
   const onActivateClick = () => {
-    if (etfData.data.subscribable) {
+    if (fpData?.data?.subscribable) {
       onClickCreateWallet();
-    } else {
-      setShowWaitList(true);
     }
   };
 
-  const coinIcons: string[] = etfData.data?.config.assets
-    .split("#")
-    .map((str: string) => str.split("_"))
-    .map((parts: string[]) => parts[1])
-    .map((coin: string) => coin.toUpperCase())
-    .filter((coin: string) => coin in coins)
-    .map((coin: string) => coins[coin].icon);
+  const hasAnyFPIActive =
+    (investorAsset?.data?.[0]?.financial_product_instances.length || 0) > 0;
+
+  const coinIcons: string[] =
+    fpData?.data?.config.assets
+      .split("#")
+      .map((str: string) => str.split("_"))
+      .map((parts: string[]) => parts[1])
+      .map((coin: string) => coin.toUpperCase())
+      .filter((coin: string) => coin in coins)
+      .map((coin: string) => coins[coin].icon) || [];
 
   const uniqueCoinIcons = Array.from(new Set(coinIcons));
 
@@ -100,7 +80,7 @@ const RiskDetail: React.FC = () => {
     <>
       <div
         className="customNotification"
-        style={createAsset.isLoading ? { right: 15 } : { right: -300 }}
+        style={createFPIRes.isLoading ? { right: 15 } : { right: -300 }}
       >
         <div className="flex flex-row">
           <WarningCircleIcon />
@@ -116,16 +96,16 @@ const RiskDetail: React.FC = () => {
         </div>
       </div>
       <div className="mx-2 mt-[100px] flex grid-cols-10  flex-col items-center justify-center sm:mx-[100px]">
-        {etfData.isLoading ? (
+        {fpData.isLoading ? (
           <Skeleton.Input className=" mb-4 rounded" active />
         ) : (
           <h2 className="mb-4  text-center text-4xl capitalize text-white">
-            {etfData?.data?.title}
+            {fpData?.data?.title}
           </h2>
         )}
 
         <p className="w-390  mb-6 w-auto  text-center text-base text-gray-light sm:w-[550px]">
-          {etfData?.data?.description}
+          {fpData?.data?.description}
         </p>
         <div className="risk-detail-coins my-10">
           <Avatar.Group>
@@ -136,24 +116,24 @@ const RiskDetail: React.FC = () => {
         </div>
         <Button
           type={BUTTON_TYPE.FILLED}
-          text={createAsset.isLoading ? "Loading..." : "Activate"}
-          className="mb-5 w-[340px] sm:mb-20"
-          disabled={createAsset.isLoading || isETFPackages()}
           onClick={onActivateClick}
+          text={createFPIRes.isLoading ? "Loading..." : "Activate"}
+          className="mb-5 w-[340px] sm:mb-20"
+          disabled={createFPIRes.isLoading || hasAnyFPIActive}
         ></Button>
         <RiskCard
-          expectedYield={etfData?.data?.profile.expected_yield}
-          maxDrawdown={etfData?.data?.profile.max_drawdown}
-          riskRatio={etfData?.data?.profile.return_risk_ratio}
-          loading={etfData.isLoading}
+          expectedYield={fpData?.data?.profile.expected_yield}
+          maxDrawdown={fpData?.data?.profile.max_drawdown}
+          riskRatio={fpData?.data?.profile.return_risk_ratio}
+          loading={fpData.isLoading}
           className="sm:w-[820px]"
         />
         <div className="my-5  w-full bg-gray-dark p-5 sm:w-[820px]">
-          {etfData.isLoading ? (
+          {fpData.isLoading ? (
             <Skeleton.Input className=" mb-4 rounded" active />
           ) : (
             <h1 className="mb-3 text-xl text-white">
-              {etfData?.data?.title} vs. Benchmarks
+              {fpData?.data?.title} vs. Benchmarks
             </h1>
           )}
 
@@ -161,7 +141,7 @@ const RiskDetail: React.FC = () => {
             className="w-full"
             chartData={etfBacktest?.data}
             loading={etfBacktest.isLoading}
-            title={etfData?.data?.title}
+            title={fpData?.data?.title}
           />
         </div>
       </div>
@@ -174,17 +154,6 @@ const RiskDetail: React.FC = () => {
           />
         </Modal>
       )}
-      {showWaitList && (
-        <Modal className="!w-full sm:!w-[600px]">
-          <WaitListBox
-            onClose={() => setShowWaitList(false)}
-            onDone={onDoneWaitList}
-            packageKey={params.id}
-          />
-        </Modal>
-      )}
     </>
   );
-};
-
-export default RiskDetail;
+}

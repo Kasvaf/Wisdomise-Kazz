@@ -17,7 +17,7 @@ export const isLocal = (): boolean => {
   return window.location.host.includes("localhost:");
 };
 
-export const floatData = (data: number | string, number = 2) => {
+export const floatData = (data?: number | string, number = 2) => {
   if (data) return parseFloat(data.toString()).toFixed(number);
   return 0;
 };
