@@ -24,21 +24,17 @@ const Catalog = () => {
     if (!createFPIRes.isLoading) navigate(`/app/strategyCatalog/${id}`);
   };
 
-  const onClickSubscribe = (item: FinancialProduct) => {
+  const onClickSubscribe = async (item: FinancialProduct) => {
     if (!createFPIRes.isLoading && item.subscribable) {
       setSelectedItem(item);
-      onClickCreateWallet();
-    }
-  };
-
-  const onClickCreateWallet = async () => {
-    const { data }: any = await createFPI({
-      financial_product: {
-        key: selectedItem?.key,
-      },
-    });
-    if (data.key) {
-      setShowCongratulation(true);
+      const { data }: any = await createFPI({
+        financial_product: {
+          key: item?.key,
+        },
+      });
+      if (data.key) {
+        setShowCongratulation(true);
+      }
     }
   };
 

@@ -420,10 +420,8 @@ const Withdraw = ({ flags }: any) => {
   };
 
   const onResendCode = async () => {
-    const exchangeAccountKey =
-      investorAsset?.data?.[0]?.main_exchange_account.key;
     const params = {
-      exchangeAccountKey,
+      exchangeAccountKey: investorAsset?.data?.[0]?.main_exchange_account.key,
       transactionKey: createWithdraw.data.key,
     };
 
