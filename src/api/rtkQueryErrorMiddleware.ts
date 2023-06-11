@@ -1,8 +1,8 @@
-import { isRejectedWithValue } from "@reduxjs/toolkit";
 import type { Middleware } from "@reduxjs/toolkit";
-import { NotificationManager } from "react-notifications";
-import { WISDOMISE_TOKEN_KEY } from "config/constants";
+import { isRejectedWithValue } from "@reduxjs/toolkit";
 import { TOAST_TIME } from "components/constants";
+import { WISDOMISE_TOKEN_KEY } from "config/constants";
+import { NotificationManager } from "react-notifications";
 
 export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {
   // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood,

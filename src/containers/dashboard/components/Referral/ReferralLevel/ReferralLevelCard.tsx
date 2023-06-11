@@ -1,8 +1,8 @@
-import type { FC } from "react";
 import cls from "classnames";
-import { ReferralLevelProps } from "./types";
+import type { FC } from "react";
 import ReferralLevelBadge from "./ReferralLevelBadge";
 import ReferralLevelStatus from "./ReferralLevelStatus";
+import { ReferralLevelProps } from "./types";
 
 const ReferralLevelCard: FC<ReferralLevelProps> = ({
   data: {

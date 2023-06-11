@@ -1,5 +1,5 @@
-import { FC, ReactNode } from "react";
 import cls from "classnames";
+import { FC, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type TagColors = "success" | "warn" | "error" | "primary" | "default";

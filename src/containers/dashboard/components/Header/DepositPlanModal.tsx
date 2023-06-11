@@ -1,5 +1,5 @@
-import GradientBox from "components/gradientBox";
 import { ReactComponent as CloseIcon } from "@images/close.svg";
+import GradientBox from "components/gradientBox";
 import Modal from "components/modal";
 
 interface IProps {

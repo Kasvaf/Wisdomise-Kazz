@@ -1,17 +1,17 @@
-import { useMemo } from "react";
-import sortBy from "lodash/sortBy";
+import { G2, LineConfig } from "@ant-design/plots";
+import { deepMix } from "@antv/util";
+import {
+  DatePnl,
+  PointData,
+  PostSimulatePortfolioData,
+  WealthData,
+} from "api/backtest-types";
 import dayjs from "dayjs";
 import isEmpty from "lodash/isEmpty";
 import minBy from "lodash/minBy";
+import sortBy from "lodash/sortBy";
 import numeral from "numeral";
-import { deepMix } from "@antv/util";
-import { LineConfig, G2 } from "@ant-design/plots";
-import {
-  DatePnl,
-  PostSimulatePortfolioData,
-  PointData,
-  WealthData,
-} from "api/backtest-types";
+import { useMemo } from "react";
 
 export const useProvideAatChartDataConfig = (
   aatData: WealthData[] | undefined,

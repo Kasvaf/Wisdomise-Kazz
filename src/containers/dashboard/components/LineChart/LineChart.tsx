@@ -1,7 +1,7 @@
-import { FunctionComponent, useMemo } from "react";
 import { Line } from "@ant-design/plots";
-import { floatData } from "utils/utils";
 import Spinner from "components/spinner";
+import { FunctionComponent, useMemo } from "react";
+import { floatData } from "utils/utils";
 
 interface LineChartProps {
   className?: string;
@@ -84,8 +84,6 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     return [min, max];
   }, [convertRowDataToChartData]);
 
-  console.log(min, max);
-
   const config = {
     data: convertRowDataToChartData,
     xField: "date",
@@ -104,7 +102,6 @@ const LineChart: FunctionComponent<LineChartProps> = ({
           return `${v}%`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`);
         },
       },
-      nice: true,
       line: { style: { stroke: "rgba(255, 255, 255, 0.1)" } },
       grid: { line: { style: { stroke: "rgba(255, 255, 255, 0.1)" } } },
       minLimit: min - 10,

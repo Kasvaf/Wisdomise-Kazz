@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { renderSide, titleWTooltipRenderer } from "../utils";
 import capitalize from "lodash/capitalize";
+import { renderSide, titleWTooltipRenderer } from "../utils";
 
 describe("utils.tsx", () => {
   describe("renderSide()", () => {

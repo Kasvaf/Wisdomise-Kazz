@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
-import Signals from "../Signals";
-import { gaClick } from "utils/ga";
-import { useNavigate } from "react-router-dom";
 import Button from "components/Button";
+import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import { BUTTON_TYPE } from "utils/enums";
+import { gaClick } from "utils/ga";
+import Signals from "../Signals";
 
 const Preview: React.FC = () => {
   const navigate = useNavigate();

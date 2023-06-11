@@ -1,7 +1,7 @@
-import type { FC } from "react";
-import classNames from "classnames";
-import { ReactComponent as User } from "@images/icons/user-dim.svg";
 import { ReactComponent as ActiveUser } from "@images/icons/active-user-dim.svg";
+import { ReactComponent as User } from "@images/icons/user-dim.svg";
+import classNames from "classnames";
+import type { FC } from "react";
 
 interface ReferralLevelStatusProps {
   totalRequired: number;

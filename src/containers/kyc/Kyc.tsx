@@ -1,8 +1,8 @@
+import { useGetKycLevelsQuery, useGetUserInfoQuery } from "api/horosApi";
 import KYCLevelCard from "containers/dashboard/components/KYCLevelCard";
-import { KYC_Level } from "types/kyc";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetKycLevelsQuery, useGetUserInfoQuery } from "api/horosApi";
+import { KYC_Level } from "types/kyc";
 
 const KycPage: React.FC = () => {
   const navigate = useNavigate();

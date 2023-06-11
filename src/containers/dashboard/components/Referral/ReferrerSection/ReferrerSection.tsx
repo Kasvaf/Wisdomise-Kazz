@@ -1,9 +1,9 @@
-import Button from "components/Button";
-import { FC, useState } from "react";
-import Input from "../Input";
-import { BUTTON_TYPE } from "utils/enums";
 import { useUpdateReferrerMutation } from "api/horosApi";
+import Button from "components/Button";
 import Spinner from "components/common/Spinner";
+import { FC, useState } from "react";
+import { BUTTON_TYPE } from "utils/enums";
+import Input from "../Input";
 
 interface IReferrerSectionProps {
   onSubmit: () => void;

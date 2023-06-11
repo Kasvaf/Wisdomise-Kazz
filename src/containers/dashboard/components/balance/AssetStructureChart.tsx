@@ -1,8 +1,8 @@
 import { Pie } from "@ant-design/plots";
 import { Table } from "antd";
-import { InvestorAssetStructureResponse } from "containers/catalog/types/investorAssetStructure";
 import { useEffect, useState } from "react";
 import { floatData } from "utils/utils";
+import { InvestorAssetStructures } from "../../../../pages/productsCatalog/types/investorAssetStructure";
 
 const COLORS = [
   "#FF6B3B",
@@ -23,7 +23,7 @@ enum ASSET_TYPE {
 }
 
 const AssetStructureChart = (props: {
-  investorAsset: InvestorAssetStructureResponse;
+  investorAsset: InvestorAssetStructures;
 }) => {
   const ias = props.investorAsset?.[0];
 

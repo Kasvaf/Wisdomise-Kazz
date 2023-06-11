@@ -1,3 +1,3 @@
-import Header from "./Header";
+import { Header } from "../../../../container/header/Header";
 
 export default Header;

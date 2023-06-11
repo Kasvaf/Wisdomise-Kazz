@@ -1,14 +1,14 @@
-import { useState, ChangeEvent, useEffect, useMemo } from "react";
-import { BUTTON_TYPE } from "utils/enums";
-import Button from "components/Button";
-import { useNavigate, useParams } from "react-router-dom";
 import { Avatar, Input, Select } from "antd";
-import { coins } from "containers/dashboard/constants";
 import {
   // useCreateInvestorAssetMutation,
   useGetExchangeListQuery,
 } from "api/horosApi";
+import Button from "components/Button";
+import { coins } from "containers/dashboard/constants";
+import { ChangeEvent, useMemo, useState } from "react";
 import { NotificationManager } from "react-notifications";
+import { useNavigate, useParams } from "react-router-dom";
+import { BUTTON_TYPE } from "utils/enums";
 
 const initialValues = {
   api_key: "",

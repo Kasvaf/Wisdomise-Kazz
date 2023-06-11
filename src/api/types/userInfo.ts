@@ -9,6 +9,7 @@ export interface UserInfo {
     referees_count: number;
     active_referees_count: number;
     referrer: string | null;
+    nickname: string;
     terms_and_conditions_accepted: boolean;
     info: {
       aud: string;

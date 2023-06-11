@@ -4,7 +4,6 @@ import * as Sentry from "@sentry/react";
 import { Avatar, Skeleton } from "antd";
 import {
   useGetDepositSymbolQuery,
-  useGetInvestorAssetStructureQuery,
   useLazyGetDepositNetworkQuery,
   useLazyGetDepositWalletAddressQuery,
 } from "api/horosApi";
@@ -19,6 +18,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { NotificationManager } from "react-notifications";
 import QRCode from "react-qr-code";
 import { useParams } from "react-router-dom";
+import { useInvestorAssetStructuresQuery } from "shared/services";
 import { BUTTON_TYPE } from "utils/enums";
 
 const DepositAddressModal = (data: any, onDone: () => void) => {
@@ -84,7 +84,7 @@ const Deposit: FunctionComponent = () => {
   const [walletAddressTrigger, walletAddress] =
     useLazyGetDepositWalletAddressQuery({});
 
-  const investorAsset = useGetInvestorAssetStructureQuery({});
+  const ias = useInvestorAssetStructuresQuery();
 
   const onCloseQRModal = () => {
     setShowDepositAddress(false);
@@ -144,9 +144,9 @@ const Deposit: FunctionComponent = () => {
 
   const onCompleted = useCallback(async () => {
     // await RefreshExchangeAccountExecuter(params.exchangeAccountKey);
-    investorAsset?.refetch();
+    ias?.refetch();
     window.location.href = "/app/dashboard";
-  }, [investorAsset]);
+  }, [ias]);
 
   useEffect(() => {
     setTimeout(() => {

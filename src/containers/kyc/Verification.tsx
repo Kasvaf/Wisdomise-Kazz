@@ -1,14 +1,14 @@
-import { FC, useCallback, useState } from "react";
 import clsx from "classnames";
+import { FC, useCallback, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import SumsubWebSdk from "@sumsub/websdk-react";
 import { useGetKycAccessTokenQuery, useGetUserInfoQuery } from "api/horosApi";
+import Button from "components/Button";
 import Spinner from "containers/dashboard/common/Spinner";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import sumsubCss from "./sumsub.css?inline";
-import Button from "components/Button";
 import { BUTTON_TYPE } from "utils/enums";
+import sumsubCss from "./sumsub.css?inline";
 
 const VerificationPage: FC = () => {
   const [search] = useSearchParams();

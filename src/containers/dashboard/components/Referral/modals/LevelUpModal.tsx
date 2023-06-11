@@ -1,5 +1,5 @@
-import type { FC } from "react";
 import Modal from "components/modal";
+import type { FC } from "react";
 // import successImage from "@images/success-check.png";
 import Button from "components/Button";
 import { BUTTON_TYPE } from "utils/enums";

@@ -1,16 +1,16 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import DB from "config/keys";
+import Logo from "@images/wisdomiseWealthLogo.svg";
+import { QueryStatus } from "@reduxjs/toolkit/dist/query";
 import {
   useGetUserInfoQuery,
   useResendVerificationEmailMutation,
 } from "api/horosApi";
-import Logo from "@images/wisdomiseWealthLogo.svg";
-import bgDesktop from "./bg.png";
-import bgMobile from "./bg-mobile.png";
-import inboxImg from "./email.svg";
-import { QueryStatus } from "@reduxjs/toolkit/dist/query";
-import { NotificationManager } from "react-notifications";
 import { WISDOMISE_TOKEN_KEY } from "config/constants";
+import DB from "config/keys";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import { NotificationManager } from "react-notifications";
+import bgMobile from "./bg-mobile.png";
+import bgDesktop from "./bg.png";
+import inboxImg from "./email.svg";
 
 interface props {
   signOut: () => void;
@@ -45,14 +45,14 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
     >
       <div className="m-auto flex min-h-screen max-w-[1300px] flex-col justify-between">
         <div>
-          <header className="mt-8 mb-10 flex items-center justify-between px-8">
+          <header className="mb-10 mt-8 flex items-center justify-between px-8">
             <div className="w-44">
               <img src={Logo} alt="wisdomise_wealth_logo" />
             </div>
 
             <button
               onClick={signOut}
-              className="md:text-x rounded-full border border-solid border-[#ffffff4d] py-3 px-5 text-xs md:px-8 md:py-3"
+              className="md:text-x rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-xs md:px-8 md:py-3"
             >
               Log Out
             </button>
@@ -75,13 +75,13 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
 
             <button
               onClick={checkAgain}
-              className="mb-4 rounded-full border border-solid border-[#ffffff4d] py-3 px-9 text-base md:px-16 md:py-5 md:text-xl"
+              className="mb-4 rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
             >
               Check{isChecking ? "ing..." : ""}
             </button>
 
             <button
-              className="rounded-full border border-solid border-[#ffffff4d] py-3 px-9 text-base md:px-16 md:py-5 md:text-xl"
+              className="rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
               onClick={resend}
             >
               {isLoading

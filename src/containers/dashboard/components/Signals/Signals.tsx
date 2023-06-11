@@ -1,8 +1,8 @@
-import { FunctionComponent, useState, useRef } from "react";
+import { FunctionComponent, useRef, useState } from "react";
 
-import { displayActiveTab } from "../../utils";
 import MenuTabs, { MenuTab } from "containers/dashboard/common/MenuTabs";
 import { TabLabels } from "containers/dashboard/types";
+import { displayActiveTab } from "../../utils";
 import SignalsTable from "./components/SignalsTable";
 
 import { Strategy } from "containers/dashboard/common/Filters/constants";

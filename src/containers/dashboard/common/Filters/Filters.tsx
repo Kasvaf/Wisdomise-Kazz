@@ -1,5 +1,12 @@
-import { Dropdown } from "antd";
 import { ReactComponent as FilterIcons } from "@images/filters.svg";
+import { Dropdown } from "antd";
+import Button from "components/Button";
+import {
+  DropdownConfig,
+  Strategy,
+} from "containers/dashboard/common/Filters/constants";
+import { cleanFilter } from "containers/dashboard/components/Signals/constants";
+import { cloneDeep } from "lodash";
 import {
   Dispatch,
   FunctionComponent,
@@ -7,18 +14,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import {
-  DropdownConfig,
-  Strategy,
-} from "containers/dashboard/common/Filters/constants";
+import { BUTTON_TYPE } from "utils/enums";
+import { gaClick } from "utils/ga";
 import FilterDropdown from "./FilterDropdown";
 import { IFilter } from "./types";
 import { countActiveFilters } from "./utils";
-import { gaClick } from "utils/ga";
-import { cloneDeep } from "lodash";
-import { cleanFilter } from "containers/dashboard/components/Signals/constants";
-import Button from "components/Button";
-import { BUTTON_TYPE } from "utils/enums";
 
 interface FiltersProps {
   filter: IFilter;

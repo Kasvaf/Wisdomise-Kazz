@@ -6,7 +6,6 @@ import { Avatar, Skeleton } from "antd";
 import {
   useConfirmWithdrawMutation,
   useCreateWithdrawMutation,
-  useGetInvestorAssetStructureQuery,
   useGetUserInfoQuery,
   useGetWithdrawSymbolQuery,
   useLazyGetWithdrawNetworkQuery,
@@ -22,6 +21,7 @@ import { withLDConsumer } from "launchdarkly-react-client-sdk";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { NotificationManager } from "react-notifications";
 import { useNavigate } from "react-router-dom";
+import { useInvestorAssetStructuresQuery } from "shared/services";
 import { BUTTON_TYPE } from "utils/enums";
 import { isMobile } from "utils/isMobile";
 import { floatData, roundDown } from "utils/utils";
@@ -272,7 +272,7 @@ const Withdraw = ({ flags }: any) => {
 
   const symbols = useGetWithdrawSymbolQuery({});
   const [networksTrigger, networks] = useLazyGetWithdrawNetworkQuery({});
-  const investorAsset = useGetInvestorAssetStructureQuery({});
+  const ias = useInvestorAssetStructuresQuery();
   const { data: userInfo } = useGetUserInfoQuery({});
 
   const [createWithdrawTrigger, createWithdraw] = useCreateWithdrawMutation();
@@ -282,8 +282,8 @@ const Withdraw = ({ flags }: any) => {
 
   const [resendWithdrawTrigger] = useResendEmailWithdrawMutation();
 
-  const fpi = investorAsset.data?.[0]?.financial_product_instances[0];
-  const mea = investorAsset.data?.[0]?.main_exchange_account;
+  const fpi = ias.data?.[0]?.financial_product_instances[0];
+  const mea = ias.data?.[0]?.main_exchange_account;
 
   const onConfirm = () => {
     setShowConfirmWithdraw(true);
@@ -376,8 +376,7 @@ const Withdraw = ({ flags }: any) => {
   };
 
   const onContinueSummery = async () => {
-    const exchangeAccountKey =
-      investorAsset?.data?.[0]?.main_exchange_account.key;
+    const exchangeAccountKey = ias?.data?.[0]?.main_exchange_account.key;
     const body = {
       tx_type: "WITHDRAW",
       symbol_name: selectedSymbol,
@@ -408,7 +407,7 @@ const Withdraw = ({ flags }: any) => {
 
   const onSetMaxAmount = () => {
     const max: any = roundDown(
-      investorAsset?.data?.[0]?.main_exchange_account.quote_equity || 0
+      ias?.data?.[0]?.main_exchange_account.quote_equity || 0
     );
     setInputs({
       ...inputs,
@@ -418,7 +417,7 @@ const Withdraw = ({ flags }: any) => {
 
   const onResendCode = async () => {
     const params = {
-      exchangeAccountKey: investorAsset?.data?.[0]?.main_exchange_account.key,
+      exchangeAccountKey: ias?.data?.[0]?.main_exchange_account.key,
       transactionKey: createWithdraw.data.key,
     };
 
@@ -431,8 +430,7 @@ const Withdraw = ({ flags }: any) => {
 
   const onSubmitWithdraw = async () => {
     const code: any = invitationCodeRef.current;
-    const exchangeAccountKey =
-      investorAsset?.data?.[0]?.main_exchange_account.key;
+    const exchangeAccountKey = ias?.data?.[0]?.main_exchange_account.key;
 
     const params = {
       verificationCode: code.value,
@@ -454,7 +452,7 @@ const Withdraw = ({ flags }: any) => {
   };
 
   const onUpdateIAS = async () => {
-    investorAsset?.refetch();
+    ias?.refetch();
   };
 
   const navigate = useNavigate();
@@ -466,14 +464,14 @@ const Withdraw = ({ flags }: any) => {
   };
 
   useEffect(() => {
-    if (!investorAsset.isFetching) {
+    if (!ias.isFetching) {
       setTimeout(() => {
         onClickSymbol("BUSD");
       }, 100);
     }
   });
 
-  if (investorAsset.isFetching)
+  if (ias.isFetching)
     return (
       <div className="mt-[50px] flex w-full items-center justify-center">
         <Spinner />

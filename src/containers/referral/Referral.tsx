@@ -1,17 +1,16 @@
-import IntroSection from "containers/dashboard/components/Referral/IntroSection.tsx";
-import ReferralLevel from "containers/dashboard/components/Referral/ReferralLevel";
-import ReferrerSection from "containers/dashboard/components/Referral/ReferrerSection";
 import { useGetReferralLevelsQuery, useGetUserInfoQuery } from "api/horosApi";
+import Spinner from "components/spinner";
+import { REFERRAL_LEVELS } from "config/constants";
+import IntroSection from "containers/dashboard/components/Referral/IntroSection.tsx";
+import LevelUpModal from "containers/dashboard/components/Referral/modals/LevelUpModal";
+import ReferrerSuccessModal from "containers/dashboard/components/Referral/modals/ReferrerSuccessModal";
+import ReferralLevel from "containers/dashboard/components/Referral/ReferralLevel";
 import {
   IReferralLevel,
   IReferralLevelBinding,
 } from "containers/dashboard/components/Referral/ReferralLevel/types";
-import Spinner from "components/spinner";
-import { useEffect, useState } from "react";
-import LevelUpModal from "containers/dashboard/components/Referral/modals/LevelUpModal";
-import ReferrerSuccessModal from "containers/dashboard/components/Referral/modals/ReferrerSuccessModal";
-import { REFERRAL_LEVELS } from "config/constants";
 import ReferrerCounter from "containers/dashboard/components/Referral/ReferrerCounter";
+import { useEffect, useState } from "react";
 
 interface ILocalLevels {
   [key: string]: {

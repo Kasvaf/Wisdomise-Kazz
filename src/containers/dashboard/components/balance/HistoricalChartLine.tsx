@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo } from "react";
 
-import { floatData } from "utils/utils";
 import Spinner from "components/spinner";
+import { floatData } from "utils/utils";
 // import { useGetExchangeAccountHistoricalStatisticQuery } from 'api/horosApi';
 import { Line } from "@ant-design/plots";
 

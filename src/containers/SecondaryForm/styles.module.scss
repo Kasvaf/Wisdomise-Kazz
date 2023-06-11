@@ -101,16 +101,16 @@
   display: flex;
   flex-direction: column;
   height: 80%;
-  width: 60vw;
+  width: 60vw !important;
   overflow: hidden;
   padding: 20px;
-  background: #261e30;
+  background: #261e30 !important;
   border-radius: 0.25rem;
   color: #fff;
   font-family: "inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   @include respond-to("small") {
-    width: 90vw;
+    width: 90vw !important;
   }
 }
 

@@ -1,6 +1,6 @@
-import GradientBox from "components/gradientBox";
 import { ReactComponent as CloseIcon } from "@images/close.svg";
 import { Network } from "api/types/transferNetworks";
+import GradientBox from "components/gradientBox";
 
 interface IProps {
   onCloseSelectNetwork: () => void;

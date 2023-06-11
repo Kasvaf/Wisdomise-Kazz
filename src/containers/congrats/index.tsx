@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-import Target from "@images/target.svg";
 import Logo from "@images/logo-full.svg";
+import Target from "@images/target.svg";
 import { gaClick } from "../../utils/ga";
 import CongratsOverlay from "./components/CongratsOverlay";
 

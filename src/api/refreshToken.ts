@@ -1,5 +1,5 @@
+import { CognitoUser, CognitoUserSession } from "amazon-cognito-identity-js";
 import { Auth } from "aws-amplify";
-import { CognitoUserSession, CognitoUser } from "amazon-cognito-identity-js";
 
 const refreshToken = async (): Promise<string> => {
   const user: CognitoUser = await Auth.currentAuthenticatedUser();

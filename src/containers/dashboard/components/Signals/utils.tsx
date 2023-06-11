@@ -7,12 +7,12 @@ import {
 } from "containers/dashboard/utils";
 import dayjs from "dayjs";
 
-import { ReactComponent as ClockIcon } from "@images/icons/clock.svg";
 import { ReactComponent as ClockActiveIcon } from "@images/icons/clock-active.svg";
-import Position from "./components/Position";
-import Intensity from "./components/Intensity";
+import { ReactComponent as ClockIcon } from "@images/icons/clock.svg";
 import { Tooltip } from "antd";
 import { MutableRefObject, useEffect, useState } from "react";
+import Intensity from "./components/Intensity";
+import Position from "./components/Position";
 
 const trim = (id: string) => {
   return id.substring(0, 4) + "..." + id.substring(id.length - 4, id.length);

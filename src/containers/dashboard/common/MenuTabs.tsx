@@ -1,10 +1,10 @@
+import { ReactComponent as InfoIcon } from "@images/info.svg";
 import { Tooltip } from "antd";
 import { find } from "lodash";
 import { FunctionComponent, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { TabLabels } from "../types";
-import { ReactComponent as InfoIcon } from "@images/info.svg";
 import { gaClick } from "utils/ga";
+import { TabLabels } from "../types";
 
 export interface MenuTab {
   id: string;

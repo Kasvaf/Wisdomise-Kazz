@@ -1,9 +1,9 @@
+import { ReactComponent as LockIcon } from "@images/lock.svg";
 import Tag from "components/Tag";
 import { FC } from "react";
+import { useNavigate } from "react-router";
 import { KYC_level_binding, VerificationStatus } from "types/kyc";
 import { getKycLevelStatusColor } from "utils/utils";
-import { useNavigate } from "react-router";
-import { ReactComponent as LockIcon } from "@images/lock.svg";
 // import { useGetKycLevelsQuery } from "api/horosApi";
 
 interface KycMenuItemProps {

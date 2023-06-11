@@ -14,16 +14,9 @@ import { GetSignalsQueryData } from "./types/signal";
 import { State } from "./types/state";
 import { UserInfo } from "./types/userInfo";
 
-import {
-  FinancialProduct,
-  FinancialProductsReponse,
-} from "containers/catalog/types/financialProduct";
-import { InvestorAssetStructureResponse } from "containers/catalog/types/investorAssetStructure";
-import { setIAS } from "store/slices/IAS";
 import { API_list_response, KYC_Level } from "types/kyc";
+import { isLocal, isStage } from "utils/utils";
 import { NetworksResponse } from "./types/transferNetworks";
-import { isStage } from "utils/utils";
-import { isLocal } from "utils/utils";
 
 const horosBaseQuery = fetchBaseQuery({
   baseUrl: DB,
@@ -80,14 +73,6 @@ export const horosApi = createApi({
       }),
     }),
 
-    createFPI: builder.mutation({
-      query: (body) => ({
-        body,
-        method: "POST",
-        url: "/api/v1/ias/financial-product-instances",
-      }),
-    }),
-
     getDepositAddress: builder.query<any, any>({
       query: (exchangeAccountKey) => {
         return {
@@ -106,32 +91,6 @@ export const horosApi = createApi({
           },
         };
       },
-    }),
-
-    getInvestorAssetStructure: builder.query<
-      InvestorAssetStructureResponse,
-      unknown
-    >({
-      query: () => ({
-        url: "/api/v1/ias/investor-asset-structures",
-      }),
-      async onQueryStarted(_, api) {
-        const { data } = await api.queryFulfilled;
-        api.dispatch(setIAS({ ...data }));
-      },
-    }),
-
-    getFinancialProducts: builder.query<FinancialProductsReponse, any>({
-      query: (params) => ({
-        url: "/api/v1/catalog/financial-products",
-        params,
-      }),
-    }),
-
-    getFinancialProductDetail: builder.query<FinancialProduct, any>({
-      query: (params) => ({
-        url: `/api/v1/catalog/financial-products/${params.id}`,
-      }),
     }),
 
     getExchangeList: builder.query<any, any>({
@@ -165,20 +124,6 @@ export const horosApi = createApi({
       },
     }),
 
-    updateIASStatus: builder.mutation({
-      query: (params) => {
-        return {
-          url: `/api/v1/ias/financial-product-instances/${params.key}/${params.status}`,
-          method: "POST",
-        };
-      },
-      transformErrorResponse(response) {
-        const responseClone = { ...response };
-        delete (responseClone?.data as any)?.data;
-
-        return responseClone;
-      },
-    }),
     getKycLevels: builder.query<API_list_response<KYC_Level>, any>({
       query: () => ({
         url: "/api/v1/account/kyc-levels",
@@ -286,16 +231,11 @@ export const {
   useGetUserInfoQuery,
   useGetHourlySignalsQuery,
   useLazySimulateTradeQuery,
-  useGetFinancialProductsQuery,
-  useGetFinancialProductDetailQuery,
-  useGetInvestorAssetStructureQuery,
   useGetExchangeListQuery,
   useGetETFBacktestQuery,
-  useCreateFPIMutation,
   useLazyGetExchangeAccountHistoricalStatisticQuery,
   useLazyGetTransactionHistoryQuery,
   useGetDepositAddressQuery,
-  useUpdateIASStatusMutation,
   useSetWaitingListMutation,
   useGetDepositSymbolQuery,
   useLazyGetDepositNetworkQuery,

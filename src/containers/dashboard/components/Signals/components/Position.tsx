@@ -1,7 +1,7 @@
+import { ReactComponent as PositionIcon } from "@images/icons/position-open.svg";
 import { PositionType } from "api/types/signal";
 import Delta from "containers/dashboard/common/Delta";
 import { FunctionComponent } from "react";
-import { ReactComponent as PositionIcon } from "@images/icons/position-open.svg";
 
 interface PositionProps {
   position: PositionType;

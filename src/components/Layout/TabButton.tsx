@@ -1,7 +1,7 @@
+import { ReactComponent as ChevronDownIcon } from "@images/chevron-down.svg";
 import { Tab } from "containers/dashboard/types";
 import { useNavigate } from "react-router-dom";
 import { gaClick } from "utils/ga";
-import { ReactComponent as ChevronDownIcon } from "@images/chevron-down.svg";
 
 interface IProps {
   tab: Tab;

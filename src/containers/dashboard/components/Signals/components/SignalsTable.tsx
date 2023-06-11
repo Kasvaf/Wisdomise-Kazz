@@ -1,20 +1,19 @@
-import { FunctionComponent, useEffect, useMemo } from "react";
-import { useGetHourlySignalsQuery } from "api/horosApi";
-import { useState } from "react";
-import { ConfigProvider, Pagination, Table } from "antd";
-import DataRenderer from "../../../common/DataRenderer";
 import { ReactComponent as FolderIcon } from "@images/icons/folder.svg";
-import _, { cloneDeep } from "lodash";
-import Filters from "containers/dashboard/common/Filters";
-import { getSignalColumns } from "../utils";
-import { IFilter } from "containers/dashboard/common/Filters/types";
-import { cleanFilter, config } from "../constants";
-import { Signal } from "api/types/signal";
-import { useMediaQuery } from "usehooks-ts";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { ConfigProvider, Pagination, Table } from "antd";
+import { useGetHourlySignalsQuery } from "api/horosApi";
+import { Signal } from "api/types/signal";
+import Filters from "containers/dashboard/common/Filters";
 import { Strategy } from "containers/dashboard/common/Filters/constants";
-import dayjs from "dayjs";
+import { IFilter } from "containers/dashboard/common/Filters/types";
 import { previewPaginationConfig } from "containers/dashboard/constants";
+import dayjs from "dayjs";
+import _, { cloneDeep } from "lodash";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
+import DataRenderer from "../../../common/DataRenderer";
+import { cleanFilter, config } from "../constants";
+import { getSignalColumns } from "../utils";
 
 interface SignalsTableProps {
   type: keyof typeof Strategy;

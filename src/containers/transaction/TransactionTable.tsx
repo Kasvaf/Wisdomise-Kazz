@@ -1,14 +1,12 @@
 import { ReactComponent as FolderIcon } from "@images/icons/folder.svg";
 import { Avatar, ConfigProvider, Pagination, Table } from "antd";
-import {
-  useGetInvestorAssetStructureQuery,
-  useLazyGetTransactionHistoryQuery,
-} from "api/horosApi";
+import { useLazyGetTransactionHistoryQuery } from "api/horosApi";
 import DataRenderer from "containers/dashboard/common/DataRenderer";
 import { coins, previewPaginationConfig } from "containers/dashboard/constants";
 import dayjs from "dayjs";
 import _ from "lodash";
 import { useEffect, useMemo, useState } from "react";
+import { useInvestorAssetStructuresQuery } from "shared/services";
 
 interface TransactionHistoryProps {
   previewMode?: boolean;
@@ -19,8 +17,8 @@ const Transaction: React.FC<TransactionHistoryProps> = ({
 }: TransactionHistoryProps) => {
   const [page, setPage] = useState(1);
   const [array, setArray] = useState<any>([]);
-  const investorAsset = useGetInvestorAssetStructureQuery({});
-  const key = investorAsset.data?.[0]?.main_exchange_account.key;
+  const ias = useInvestorAssetStructuresQuery();
+  const key = ias.data?.[0]?.main_exchange_account.key;
 
   const [trigger, transactions] = useLazyGetTransactionHistoryQuery<any>();
 

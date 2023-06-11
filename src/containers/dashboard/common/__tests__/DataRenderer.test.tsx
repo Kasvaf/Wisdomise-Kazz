@@ -3,8 +3,8 @@ import DataRenderer from "../DataRenderer";
 import { render, RenderResult } from "@testing-library/react";
 import { ReactElement } from "react";
 import { Provider } from "react-redux";
-import { AppStore, default as defaultStore } from "store/store";
 import { BrowserRouter } from "react-router-dom";
+import { AppStore, default as defaultStore } from "store/store";
 
 export interface RenderWithContextResult {
   result: RenderResult;

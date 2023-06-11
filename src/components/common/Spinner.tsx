@@ -1,6 +1,6 @@
-import { FunctionComponent } from "react";
-import { ReactComponent as SpinnerIcon } from "@images/spinner.svg";
 import { ReactComponent as SpinnerDarkIcon } from "@images/spinner-dark.svg";
+import { ReactComponent as SpinnerIcon } from "@images/spinner.svg";
+import { FunctionComponent } from "react";
 
 interface SpinnerProps {
   dark?: boolean;

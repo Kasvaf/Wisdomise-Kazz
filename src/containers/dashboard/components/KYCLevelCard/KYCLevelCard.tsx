@@ -1,12 +1,12 @@
-import Button from "components/Button";
-import { BUTTON_TYPE } from "utils/enums";
+import successImage from "@images/success-check.png";
 import { ReactComponent as TickIcon } from "@images/tick.svg";
+import Button from "components/Button";
+import Spinner from "components/common/Spinner";
+import Tag from "components/Tag";
 import React, { FC } from "react";
 import { VerificationCardProps, VerificationStatus } from "types/kyc";
-import Tag from "components/Tag";
+import { BUTTON_TYPE } from "utils/enums";
 import { getKycLevelStatusColor, isPendingOrRejected } from "utils/utils";
-import Spinner from "components/common/Spinner";
-import successImage from "@images/success-check.png";
 
 const VerificationLevelCard: FC<VerificationCardProps> = ({
   title,

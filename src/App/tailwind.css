@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-bgcolor font-inter;
-  }
-}
-
 @layer components {
   .rl-container {
     @apply relative grid aspect-square w-16 place-items-center rounded-full bg-bgcolor p-3;

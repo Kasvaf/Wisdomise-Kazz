@@ -1,10 +1,8 @@
-import {
-  useGetInvestorAssetStructureQuery,
-  useLazyGetExchangeAccountHistoricalStatisticQuery,
-} from "api/horosApi";
+import { useLazyGetExchangeAccountHistoricalStatisticQuery } from "api/horosApi";
 import Spinner from "components/spinner";
 import dayjs from "dayjs";
 import { useEffect } from "react";
+import { useInvestorAssetStructuresQuery } from "shared/services";
 import { floatData } from "utils/utils";
 import AssetStructureChart from "./AssetStructureChart";
 import HistoricalChartColumn from "./HistoricalChartColumn";
@@ -19,20 +17,20 @@ const LoadingIndicator = () => {
 };
 
 const Balance = () => {
-  const investorAsset = useGetInvestorAssetStructureQuery({});
+  const ias = useInvestorAssetStructuresQuery();
   const [historicalStatisticTrigger, historicalStatistic] =
     useLazyGetExchangeAccountHistoricalStatisticQuery();
-  const fpi = investorAsset?.data?.[0]?.financial_product_instances[0];
+  const fpi = ias?.data?.[0]?.financial_product_instances[0];
 
   useEffect(() => {
     if (fpi) {
-      historicalStatisticTrigger(investorAsset?.data?.[0]?.key);
+      historicalStatisticTrigger(ias?.data?.[0]?.key);
     }
   }, [fpi]);
 
   return (
     <div className="mt-5 flex w-full flex-col ">
-      <div className="mt-5 flex w-full flex-col rounded bg-gray-dark p-5">
+      <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
         {historicalStatistic.isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -48,15 +46,15 @@ const Balance = () => {
               </div>
             </div>
             <h1 className="my-4 text-4xl font-bold text-white">
-              {fpi ? floatData(investorAsset?.data?.[0]?.total_equity) : 0}{" "}
-              {investorAsset?.data?.[0]?.main_exchange_account.quote.name}
+              {fpi ? floatData(ias?.data?.[0]?.total_equity) : 0}{" "}
+              {ias?.data?.[0]?.main_exchange_account.quote.name}
             </h1>
-            {fpi && <AssetStructureChart investorAsset={investorAsset.data!} />}
+            {fpi && <AssetStructureChart investorAsset={ias.data!} />}
           </>
         )}
       </div>
 
-      {/* <div className="mt-5 flex w-full flex-col rounded bg-gray-dark p-5">
+      <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
         {historicalStatistic.isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -82,9 +80,9 @@ const Balance = () => {
             )}
           </>
         )}
-      </div> */}
+      </div>
 
-      {/* <div className="mt-5 flex w-full flex-col rounded bg-gray-dark p-5">
+      <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
         {historicalStatistic.isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -102,7 +100,7 @@ const Balance = () => {
             )}
           </>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };
