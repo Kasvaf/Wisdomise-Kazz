@@ -1,31 +1,30 @@
-import { useState, ChangeEvent, useEffect, useMemo, useRef } from "react";
-import { floatData } from "utils/utils";
-import GradientBox from "components/gradientBox";
 import { ReactComponent as CloseIcon } from "@images/close.svg";
-import { ReactComponent as WarningIcon } from "@images/warningIcon.svg";
-import { BUTTON_TYPE } from "utils/enums";
-import Button from "components/Button";
-import { Avatar, Skeleton } from "antd";
-import { coins } from "containers/dashboard/constants";
 import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
 import { ReactComponent as TickCircleIcon } from "@images/tickCircle.svg";
+import { ReactComponent as WarningIcon } from "@images/warningIcon.svg";
+import { Avatar, Skeleton } from "antd";
 import {
-  useGetWithdrawSymbolQuery,
-  useLazyGetWithdrawNetworkQuery,
+  useConfirmWithdrawMutation,
+  useCreateWithdrawMutation,
   useGetInvestorAssetStructureQuery,
   useGetUserInfoQuery,
-  useCreateWithdrawMutation,
-  useConfirmWithdrawMutation,
+  useGetWithdrawSymbolQuery,
+  useLazyGetWithdrawNetworkQuery,
   useResendEmailWithdrawMutation,
-  useRefreshExchangeAccountMutation,
 } from "api/horosApi";
-import { NotificationManager } from "react-notifications";
+import Button from "components/Button";
+import GradientBox from "components/gradientBox";
 import Modal from "components/modal";
 import SelectNetwork from "components/selectNetwork";
 import Spinner from "components/spinner";
+import { coins } from "containers/dashboard/constants";
 import { withLDConsumer } from "launchdarkly-react-client-sdk";
-import { isMobile } from "utils/isMobile";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { NotificationManager } from "react-notifications";
 import { useNavigate } from "react-router-dom";
+import { BUTTON_TYPE } from "utils/enums";
+import { isMobile } from "utils/isMobile";
+import { floatData } from "utils/utils";
 
 const initialValues = {
   adr: "",
@@ -283,8 +282,6 @@ const Withdraw = ({ flags }: any) => {
 
   const [resendWithdrawTrigger] = useResendEmailWithdrawMutation();
 
-  const [RefreshExchangeAccountExecuter] = useRefreshExchangeAccountMutation();
-
   const fpi = investorAsset.data?.[0]?.financial_product_instances[0];
   const mea = investorAsset.data?.[0]?.main_exchange_account;
 
@@ -457,9 +454,6 @@ const Withdraw = ({ flags }: any) => {
   };
 
   const onUpdateIAS = async () => {
-    await RefreshExchangeAccountExecuter(
-      investorAsset?.data?.[0]?.main_exchange_account.key
-    );
     investorAsset?.refetch();
   };
 
@@ -641,7 +635,7 @@ const Withdraw = ({ flags }: any) => {
           <div className="ml-2 flex flex-col justify-start">
             <p className="text-base text-white">Total withdrawable amount</p>
             <p className="text-xs text-gray-light">
-              {fpi ? floatData(mea?.quote_equity) : 0} {mea?.quote_equity}
+              {fpi ? floatData(mea?.quote_equity) : 0}
             </p>
           </div>
           <div className="ml-2 flex flex-col justify-start">

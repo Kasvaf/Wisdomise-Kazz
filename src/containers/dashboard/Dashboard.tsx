@@ -1,16 +1,14 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Balance from "./components/balance";
+import Trade from "@images/Trade.png";
 import {
   useGetInvestorAssetStructureQuery,
-  useGetUserInfoQuery,
   useUpdateIASStatusMutation,
 } from "api/horosApi";
-import { BUTTON_TYPE } from "utils/enums";
 import Button from "components/Button";
-import Trade from "@images/Trade.png";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { BUTTON_TYPE } from "utils/enums";
+import Balance from "./components/balance";
 // import Tag from "components/Tag";
-import { VerificationStatus } from "../../types/kyc";
 // import { getKycLevelStatusColor, isPendingOrRejected } from "utils/utils";
 // import { NotificationManager } from "react-notifications";
 // import { TOAST_TIME } from "components/constants";
@@ -18,6 +16,8 @@ import { VerificationStatus } from "../../types/kyc";
 const enum IAS_STATUS {
   stop = "stop",
   start = "start",
+  pause = "pause",
+  resume = "resume",
 }
 
 function Dashboard() {
@@ -25,10 +25,10 @@ function Dashboard() {
   const investorAsset = useGetInvestorAssetStructureQuery({});
   const [UpdateIASStatusExecutor, UpdatedIASStatus] =
     useUpdateIASStatusMutation();
+
   // const { data: userInfo } = useGetUserInfoQuery({});
   const fpi = investorAsset.data?.[0]?.financial_product_instances[0];
   // const { data: kycLevels } = useGetKycLevelsQuery({});
-
   // const getCtaTitle = (status: VerificationStatus | undefined): string => {
   //   switch (status) {
   //     case VerificationStatus.VERIFIED:
@@ -55,23 +55,20 @@ function Dashboard() {
 
   const onClickStatus = async (status: keyof typeof IAS_STATUS) => {
     if (UpdatedIASStatus.isLoading) return;
-    // if (checkHasTotalBalance()) {
     await UpdateIASStatusExecutor({
       key: fpi?.key,
       status,
     });
-    // } else {
-    //   NotificationManager.error(
-    //     "For starting your strategy you must first deposit .",
-    //     "",
-    //     TOAST_TIME
-    //   );
-    // }
+    await investorAsset.refetch();
   };
 
   useEffect(() => {
     if (UpdatedIASStatus.isSuccess) investorAsset.refetch();
   }, [UpdatedIASStatus.isSuccess]);
+
+  useEffect(() => {
+    investorAsset.refetch();
+  }, []);
 
   if (investorAsset.isLoading) return <div />;
 
@@ -118,34 +115,33 @@ function Dashboard() {
               <div className="flex">
                 <p
                   onClick={() => {
-                    if (fpi?.status === "RUNNING") {
-                      onClickStatus(IAS_STATUS.stop);
-                    }
+                    onClickStatus(
+                      fpi.status === "RUNNING"
+                        ? IAS_STATUS.pause
+                        : IAS_STATUS.resume
+                    );
                   }}
-                  className={` font-bold uppercase ${
-                    fpi?.status === "RUNNING"
-                      ? "cursor-pointer text-primary"
-                      : "text-gray-light opacity-40"
+                  className={`cursor-pointer font-bold uppercase text-primary ${
+                    ["DRAFT", "STOPPED"].includes(fpi?.status) && "invisible"
                   }
                   ${UpdatedIASStatus.isLoading && "opacity-40"}`}
                 >
-                  stop
+                  {fpi.status === "RUNNING" ? "PAUSE" : "RESUME"}
                 </p>
+
                 <p
                   onClick={() => {
-                    if (fpi?.status !== "RUNNING") {
-                      onClickStatus(IAS_STATUS.start);
-                    }
+                    onClickStatus(
+                      fpi.status === "DRAFT"
+                        ? IAS_STATUS.start
+                        : IAS_STATUS.stop
+                    );
                   }}
-                  className={`ml-2  font-bold uppercase ${
-                    fpi?.status === "RUNNING"
-                      ? "text-gray-light opacity-40"
-                      : "cursor-pointer text-primary"
-                  }
+                  className={`ml-2 cursor-pointer font-bold uppercase text-primary
                   ${UpdatedIASStatus.isLoading && "opacity-40"}
                   `}
                 >
-                  start
+                  {fpi.status === "DRAFT" ? "START" : "STOP"}
                 </p>
               </div>
             </div>

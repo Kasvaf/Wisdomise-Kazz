@@ -1,27 +1,27 @@
 import {
-  createApi,
-  fetchBaseQuery,
   BaseQueryFn,
+  createApi,
   FetchArgs,
+  fetchBaseQuery,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
 import { DB } from "../config/keys";
-import { UserInfo } from "./types/userInfo";
-import { GetSignalsQueryData } from "./types/signal";
-import { State } from "./types/state";
 import {
   SimulateTradeData,
   SimulateTradeQueryVariables,
 } from "./backtest-types";
+import { GetSignalsQueryData } from "./types/signal";
+import { State } from "./types/state";
+import { UserInfo } from "./types/userInfo";
 
-import { setIAS } from "store/slices/IAS";
-import { API_list_response, KYC_Level } from "types/kyc";
-import { NetworksResponse } from "./types/transferNetworks";
 import {
   FinancialProduct,
   FinancialProductsReponse,
 } from "containers/catalog/types/financialProduct";
 import { InvestorAssetStructureResponse } from "containers/catalog/types/investorAssetStructure";
+import { setIAS } from "store/slices/IAS";
+import { API_list_response, KYC_Level } from "types/kyc";
+import { NetworksResponse } from "./types/transferNetworks";
 
 const horosBaseQuery = fetchBaseQuery({
   baseUrl: DB,
@@ -86,28 +86,10 @@ export const horosApi = createApi({
       }),
     }),
 
-    updateDepositAddress: builder.mutation({
-      query: (exchangeAccountKey) => {
-        return {
-          url: `/api/v1/market/exchange-accounts/${exchangeAccountKey}`,
-          method: "PATCH",
-        };
-      },
-    }),
-
     getDepositAddress: builder.query<any, any>({
       query: (exchangeAccountKey) => {
         return {
           url: `/api/v1/market/exchange-accounts/${exchangeAccountKey}/deposit-addresses`,
-        };
-      },
-    }),
-
-    refreshExchangeAccount: builder.mutation<any, any>({
-      query: (exchangeAccountKey) => {
-        return {
-          url: `/api/v1/market/exchange-accounts/${exchangeAccountKey}`,
-          method: "PATCH",
         };
       },
     }),
@@ -306,12 +288,10 @@ export const {
   useGetExchangeListQuery,
   useGetETFBacktestQuery,
   useCreateFPIMutation,
-  useUpdateDepositAddressMutation,
   useLazyGetExchangeAccountHistoricalStatisticQuery,
   useLazyGetTransactionHistoryQuery,
   useGetDepositAddressQuery,
   useUpdateIASStatusMutation,
-  useRefreshExchangeAccountMutation,
   useSetWaitingListMutation,
   useGetDepositSymbolQuery,
   useLazyGetDepositNetworkQuery,

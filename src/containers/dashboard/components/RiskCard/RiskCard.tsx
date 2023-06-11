@@ -135,7 +135,13 @@ const RiskCard: FunctionComponent<RiskCardProps> = ({
                 <Button
                   type={BUTTON_TYPE.FILLED}
                   className="!w-full"
-                  text={subscriptionLoading ? "Loading..." : "Activate"}
+                  text={
+                    subscriptionLoading
+                      ? "Loading..."
+                      : disabled
+                      ? "Not Activatable"
+                      : "Activate"
+                  }
                   disabled={loading || disabled || subscriptionLoading}
                   onClick={onClickSubscribe}
                 />

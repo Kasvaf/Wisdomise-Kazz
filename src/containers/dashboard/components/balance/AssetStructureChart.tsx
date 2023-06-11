@@ -1,8 +1,8 @@
-import { floatData } from "utils/utils";
-import { useEffect, useState } from "react";
 import { Pie } from "@ant-design/plots";
 import { Table } from "antd";
 import { InvestorAssetStructureResponse } from "containers/catalog/types/investorAssetStructure";
+import { useEffect, useState } from "react";
+import { floatData } from "utils/utils";
 
 const COLORS = [
   "#FF6B3B",
@@ -100,7 +100,7 @@ const AssetStructureChart = (props: {
           textOverflow: "ellipsis",
           color: "white",
         },
-        content: `${floatData(exchange_account?.total_equity)}`,
+        content: `${floatData(props.investorAsset?.[0]?.total_equity)}`,
       },
     },
   };

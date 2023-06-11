@@ -117,9 +117,19 @@ export default function RiskDetail() {
         <Button
           type={BUTTON_TYPE.FILLED}
           onClick={onActivateClick}
-          text={createFPIRes.isLoading ? "Loading..." : "Activate"}
+          text={
+            createFPIRes.isLoading
+              ? "Loading..."
+              : !fpData.data?.subscribable
+              ? "Not Activatable"
+              : "Activate"
+          }
           className="mb-5 w-[340px] sm:mb-20"
-          disabled={createFPIRes.isLoading || hasAnyFPIActive}
+          disabled={
+            createFPIRes.isLoading ||
+            hasAnyFPIActive ||
+            !fpData.data?.subscribable
+          }
         ></Button>
         <RiskCard
           expectedYield={fpData?.data?.profile.expected_yield}

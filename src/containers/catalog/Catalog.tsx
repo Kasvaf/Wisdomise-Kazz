@@ -107,7 +107,7 @@ const Catalog = () => {
             maxDeposit={item.max_deposit}
             className="w-full md:w-[32%]"
             selected={currentFPKey === item.key}
-            disabled={isAnyFinancialProductActive}
+            disabled={isAnyFinancialProductActive || !item.subscribable}
             maxDrawdown={item.profile.max_drawdown}
             onDetail={() => onClickDetail(item.key)}
             onSubscribe={() => onClickSubscribe(item)}

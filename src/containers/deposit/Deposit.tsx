@@ -1,41 +1,27 @@
-import {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { NotificationManager } from "react-notifications";
-import { Avatar, Skeleton } from "antd";
-import GradientBox from "components/gradientBox";
 import { ReactComponent as CloseIcon } from "@images/close.svg";
-import { coins } from "containers/dashboard/constants";
-import Button from "components/Button";
-import { BUTTON_TYPE } from "utils/enums";
-import QRCode from "react-qr-code";
+import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
+import * as Sentry from "@sentry/react";
+import { Avatar, Skeleton } from "antd";
 import {
   useGetDepositSymbolQuery,
+  useGetInvestorAssetStructureQuery,
   useLazyGetDepositNetworkQuery,
   useLazyGetDepositWalletAddressQuery,
-  useUpdateDepositAddressMutation,
-  useRefreshExchangeAccountMutation,
-  useGetInvestorAssetStructureQuery,
-  useGetUserInfoQuery,
 } from "api/horosApi";
-import { useParams } from "react-router-dom";
-import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
-import SelectNetwork from "components/selectNetwork";
-import Modal from "components/modal";
+import Button from "components/Button";
 import { TOAST_TIME } from "components/constants";
-import * as Sentry from "@sentry/react";
-import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
+import GradientBox from "components/gradientBox";
+import Modal from "components/modal";
+import SelectNetwork from "components/selectNetwork";
+import { coins } from "containers/dashboard/constants";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { NotificationManager } from "react-notifications";
+import QRCode from "react-qr-code";
+import { useParams } from "react-router-dom";
+import { BUTTON_TYPE } from "utils/enums";
 
-const DepositAddressModal = (
-  data: any,
-  onDone: () => void,
-  isLoading: boolean
-) => {
+const DepositAddressModal = (data: any, onDone: () => void) => {
   const onClickCopy = () => {
     NotificationManager.success("Copy was successful");
   };
@@ -76,18 +62,15 @@ const DepositAddressModal = (
       </div>
       <Button
         className="my-6 !w-full"
-        text={isLoading ? "Loading ..." : "Done"}
+        text="Done"
         type={BUTTON_TYPE.FILLED}
         onClick={onDone}
-        disabled={isLoading}
       />
     </div>
   );
 };
 
 const Deposit: FunctionComponent = () => {
-  const { data: userInfo } = useGetUserInfoQuery({});
-
   const params = useParams();
 
   const [showSelectNetwork, setShowSelectNetwork] = useState<boolean>(false);
@@ -101,12 +84,7 @@ const Deposit: FunctionComponent = () => {
   const [walletAddressTrigger, walletAddress] =
     useLazyGetDepositWalletAddressQuery({});
 
-  const [RefreshExchangeAccountExecuter] = useRefreshExchangeAccountMutation();
-
   const investorAsset = useGetInvestorAssetStructureQuery({});
-
-  const [updateDepositAddress, updateDeposit] =
-    useUpdateDepositAddressMutation();
 
   const onCloseQRModal = () => {
     setShowDepositAddress(false);
@@ -114,7 +92,7 @@ const Deposit: FunctionComponent = () => {
 
   const onClickTransfer = async () => {
     try {
-      await updateDepositAddress(params.exchangeAccountKey as string);
+      // await updateDepositAddress(params.exchangeAccountKey as string);
       NotificationManager.success(
         "Wallet has been updated, It takes some time to affect your account",
         "",
@@ -165,7 +143,7 @@ const Deposit: FunctionComponent = () => {
   };
 
   const onCompleted = useCallback(async () => {
-    await RefreshExchangeAccountExecuter(params.exchangeAccountKey);
+    // await RefreshExchangeAccountExecuter(params.exchangeAccountKey);
     investorAsset?.refetch();
     window.location.href = "/app/dashboard";
   }, [investorAsset]);
@@ -331,11 +309,7 @@ const Deposit: FunctionComponent = () => {
               onClick={onCloseQRModal}
             />
           </div>
-          {DepositAddressModal(
-            getWalletData(),
-            onClickTransfer,
-            updateDeposit.isLoading
-          )}
+          {DepositAddressModal(getWalletData(), onClickTransfer)}
         </Modal>
       )}
     </>

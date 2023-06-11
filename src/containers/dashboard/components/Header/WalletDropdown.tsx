@@ -27,8 +27,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
     navigate("/app/withdraw");
   };
 
-  const hasWallet =
-    (investorAsset?.data?.[0]?.financial_product_instances.length || 0) > 0;
+  const hasWallet = investorAsset?.data?.[0]?.main_exchange_account;
 
   return (
     <div className="ml-auto flex">

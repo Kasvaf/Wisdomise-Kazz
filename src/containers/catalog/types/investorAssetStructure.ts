@@ -2,6 +2,7 @@ export type InvestorAssetStructureResponse = [
   {
     key: string;
     type: string;
+    total_equity: number;
     investor: Investor;
     financial_product_instances: FinancialProductInstance[];
     main_exchange_account: MainExchangeAccount;

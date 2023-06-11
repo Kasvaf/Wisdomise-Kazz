@@ -1,14 +1,14 @@
-import AssetStructureChart from "./AssetStructureChart";
 import {
   useGetInvestorAssetStructureQuery,
   useLazyGetExchangeAccountHistoricalStatisticQuery,
 } from "api/horosApi";
-import { floatData } from "utils/utils";
+import Spinner from "components/spinner";
 import dayjs from "dayjs";
+import { useEffect } from "react";
+import { floatData } from "utils/utils";
+import AssetStructureChart from "./AssetStructureChart";
 import HistoricalChartColumn from "./HistoricalChartColumn";
 import HistoricalChartLine from "./HistoricalChartLine";
-import Spinner from "components/spinner";
-import { useEffect } from "react";
 
 const LoadingIndicator = () => {
   return (
@@ -42,17 +42,13 @@ const Balance = () => {
 
               <div className="flex flex-row items-center justify-end">
                 <p className="text-gray-light">
-                  Last Update ({dayjs(new Date()).format("YYYY-MM-DD HH:MM:ss")}
+                  Last Update ({dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}
                   )
                 </p>
               </div>
             </div>
             <h1 className="my-4 text-4xl font-bold text-white">
-              {fpi
-                ? floatData(
-                    investorAsset?.data?.[0]?.main_exchange_account.total_equity
-                  )
-                : 0}{" "}
+              {fpi ? floatData(investorAsset?.data?.[0]?.total_equity) : 0}{" "}
               {investorAsset?.data?.[0]?.main_exchange_account.quote.name}
             </h1>
             {fpi && <AssetStructureChart investorAsset={investorAsset.data!} />}
