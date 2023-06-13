@@ -635,7 +635,7 @@ const Withdraw = ({ flags }: any) => {
           <div className="ml-2 flex flex-col justify-start">
             <p className="text-base text-white">Total withdrawable amount</p>
             <p className="text-xs text-gray-light">
-              {fpi ? floatData(mea?.quote_equity) : 0}
+              {floatData(mea?.quote_equity) || 0}
             </p>
           </div>
           <div className="ml-2 flex flex-col justify-start">

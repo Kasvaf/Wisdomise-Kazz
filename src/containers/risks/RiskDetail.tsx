@@ -1,21 +1,22 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { ReactComponent as WarningCircleIcon } from "@images/warningCircle.svg";
 import { Avatar, Skeleton } from "antd";
-import RiskCard from "containers/dashboard/components/RiskCard";
-import LineChart from "containers/dashboard/components/LineChart";
-import Button from "components/Button";
-import { BUTTON_TYPE } from "utils/enums";
-import { coins } from "containers/dashboard/constants";
 import {
+  useCreateFPIMutation,
   useGetETFBacktestQuery,
   useGetFinancialProductDetailQuery,
   useGetInvestorAssetStructureQuery,
-  useCreateFPIMutation,
+  useUpdateIASStatusMutation,
 } from "api/horosApi";
-import { convertDate } from "utils/utils";
+import Button from "components/Button";
 import Modal from "components/modal";
 import Congratulation from "containers/congratulation";
-import { ReactComponent as WarningCircleIcon } from "@images/warningCircle.svg";
+import LineChart from "containers/dashboard/components/LineChart";
+import RiskCard from "containers/dashboard/components/RiskCard";
+import { coins } from "containers/dashboard/constants";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { BUTTON_TYPE } from "utils/enums";
+import { convertDate } from "utils/utils";
 
 export default function RiskDetail() {
   const params = useParams();
@@ -24,6 +25,8 @@ export default function RiskDetail() {
   const investorAsset = useGetInvestorAssetStructureQuery({});
   const fpData = useGetFinancialProductDetailQuery({ id: params.id });
   const [showCongratulation, setShowCongratulation] = useState(false);
+  const [UpdateIASStatusExecutor, UpdatedIASStatus] =
+    useUpdateIASStatusMutation();
   const etfBacktest = useGetETFBacktestQuery({
     id: params.id,
     params: {
@@ -62,8 +65,13 @@ export default function RiskDetail() {
     }
   };
 
-  const hasAnyFPIActive =
-    (investorAsset?.data?.[0]?.financial_product_instances.length || 0) > 0;
+  const onDeactiveClick = async () => {
+    await UpdateIASStatusExecutor({
+      key: investorAsset.data?.[0]?.financial_product_instances[0].key,
+      status: "stop",
+    });
+    await investorAsset.refetch();
+  };
 
   const coinIcons: string[] =
     fpData?.data?.config.assets
@@ -75,6 +83,12 @@ export default function RiskDetail() {
       .map((coin: string) => coins[coin].icon) || [];
 
   const uniqueCoinIcons = Array.from(new Set(coinIcons));
+
+  const isFPActive =
+    investorAsset.data?.[0]?.financial_product_instances[0]?.financial_product
+      .key === params.id;
+  const isAnyFPActive =
+    !!investorAsset.data?.[0]?.financial_product_instances.length;
 
   return (
     <>
@@ -114,23 +128,33 @@ export default function RiskDetail() {
             ))}
           </Avatar.Group>
         </div>
-        <Button
-          type={BUTTON_TYPE.FILLED}
-          onClick={onActivateClick}
-          text={
-            createFPIRes.isLoading
-              ? "Loading..."
-              : !fpData.data?.subscribable
-              ? "Not Activatable"
-              : "Activate"
-          }
-          className="mb-5 w-[340px] sm:mb-20"
-          disabled={
-            createFPIRes.isLoading ||
-            hasAnyFPIActive ||
-            !fpData.data?.subscribable
-          }
-        ></Button>
+        {isFPActive ? (
+          <Button
+            type={BUTTON_TYPE.FILLED}
+            text="Deactivate"
+            onClick={onDeactiveClick}
+            className="mb-5 w-[340px] sm:mb-20"
+            disabled={UpdatedIASStatus.isLoading}
+          ></Button>
+        ) : (
+          <Button
+            type={BUTTON_TYPE.FILLED}
+            onClick={onActivateClick}
+            text={
+              createFPIRes.isLoading
+                ? "Loading..."
+                : !fpData.data?.subscribable
+                ? "Not Activatable"
+                : "Activate"
+            }
+            className="mb-5 w-[340px] sm:mb-20"
+            disabled={
+              createFPIRes.isLoading ||
+              !fpData.data?.subscribable ||
+              isAnyFPActive
+            }
+          ></Button>
+        )}
         <RiskCard
           expectedYield={fpData?.data?.profile.expected_yield}
           maxDrawdown={fpData?.data?.profile.max_drawdown}

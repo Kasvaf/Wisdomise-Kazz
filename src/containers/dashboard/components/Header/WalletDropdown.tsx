@@ -1,3 +1,4 @@
+import { ReactComponent as ChevronDown } from "@images/chevron-down.svg";
 import { ReactComponent as DepositIcon } from "@images/deposit.svg";
 import { ReactComponent as NewWallet } from "@images/new_wallet.svg";
 import { ReactComponent as WithdrawIcon } from "@images/withdraw.svg";
@@ -46,7 +47,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
             <Dropdown
               overlay={
                 <div className="flex max-w-[280px] flex-col items-center rounded-sm border border-nodata/20 bg-bgcolor p-0">
-                  <div className="flex justify-center gap-2 text-white">
+                  <div className="flex justify-center gap-2 text-nodata">
                     <div className="flex flex-col items-center p-4">
                       <p>Total Balance</p>
                       <p>{totalBalance}</p>
@@ -58,7 +59,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                     </div>
                   </div>
                   {totalBalance - withdrawable > 0 && (
-                    <p className="px-2 text-center text-white">
+                    <p className="mb-2 px-2 text-center text-nodata">
                       You have 1 running product that block{" "}
                       {totalBalance - withdrawable} BUSD of your equity
                     </p>
@@ -93,6 +94,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                   <p className="px-2 font-bold uppercase text-primary">
                     wallet
                   </p>
+                  <ChevronDown className="w-6" />
                 </button>
               </div>
             </Dropdown>

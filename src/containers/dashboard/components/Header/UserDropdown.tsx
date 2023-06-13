@@ -1,15 +1,12 @@
+import { ReactComponent as ChevronDown } from "@images/chevron-down.svg";
+import { ReactComponent as LogoutIcon } from "@images/logout.svg";
+import { ReactComponent as TransactionIcon } from "@images/transaction.svg";
 import { Dropdown } from "antd";
 import { useGetUserInfoQuery } from "api/horosApi";
-import { ReactComponent as LogoutIcon } from "@images/logout.svg";
-import { ReactComponent as PlanIcon } from "@images/plan.svg";
-import { ReactComponent as TransactionIcon } from "@images/transaction.svg";
-import { ReactComponent as ReferralIcon } from "@images/referral.svg";
-import { ReactComponent as ChevronDown } from "@images/chevron-down.svg";
-import { gaClick } from "utils/ga";
-import { isStage } from "utils/utils";
-import KycMenuItem from "../Header/Kyc";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { gaClick } from "utils/ga";
+import { isStage } from "utils/utils";
 import DepositPlanModal from "./DepositPlanModal";
 
 interface IProps {
