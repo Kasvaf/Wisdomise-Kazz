@@ -1,14 +1,14 @@
-import {
-  useLazyGetTransactionHistoryQuery,
-  useGetInvestorAssetStructureQuery,
-} from "api/horosApi";
-import { useEffect, useMemo, useState } from "react";
-import { ConfigProvider, Pagination, Table, Avatar } from "antd";
-import DataRenderer from "containers/dashboard/common/DataRenderer";
 import { ReactComponent as FolderIcon } from "@images/icons/folder.svg";
-import { previewPaginationConfig, coins } from "containers/dashboard/constants";
-import _ from "lodash";
+import { Avatar, ConfigProvider, Pagination, Table } from "antd";
+import {
+  useGetInvestorAssetStructureQuery,
+  useLazyGetTransactionHistoryQuery,
+} from "api/horosApi";
+import DataRenderer from "containers/dashboard/common/DataRenderer";
+import { coins, previewPaginationConfig } from "containers/dashboard/constants";
 import dayjs from "dayjs";
+import _ from "lodash";
+import { useEffect, useMemo, useState } from "react";
 
 interface TransactionHistoryProps {
   previewMode?: boolean;
@@ -19,12 +19,8 @@ const Transaction: React.FC<TransactionHistoryProps> = ({
 }: TransactionHistoryProps) => {
   const [page, setPage] = useState(1);
   const [array, setArray] = useState<any>([]);
-  const investorAsset: any = useGetInvestorAssetStructureQuery({});
-  const key =
-    investorAsset?.data &&
-    investorAsset?.data?.results?.length > 0 &&
-    investorAsset?.data?.results[0]?.trader_instances.length > 0 &&
-    investorAsset?.data?.results[0]?.trader_instances[0].exchange_account.key;
+  const investorAsset = useGetInvestorAssetStructureQuery({});
+  const key = investorAsset.data?.[0]?.main_exchange_account.key;
 
   const [trigger, transactions] = useLazyGetTransactionHistoryQuery<any>();
 

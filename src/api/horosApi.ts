@@ -89,7 +89,7 @@ export const horosApi = createApi({
     getDepositAddress: builder.query<any, any>({
       query: (exchangeAccountKey) => {
         return {
-          url: `/api/v1/market/exchange-accounts/${exchangeAccountKey}/deposit-addresses`,
+          url: `/api/v1/ias/exchange-accounts/${exchangeAccountKey}/deposit-addresses`,
         };
       },
     }),
@@ -140,7 +140,7 @@ export const horosApi = createApi({
 
     getTransactionHistory: builder.query<any, any>({
       query: (exchangeAccountKey) => ({
-        url: `/api/v1/market/exchange-accounts/${exchangeAccountKey}/transaction-history`,
+        url: `/api/v1/ias/exchange-accounts/${exchangeAccountKey}/transaction-history`,
       }),
     }),
 
@@ -200,7 +200,7 @@ export const horosApi = createApi({
 
     getDepositWalletAddress: builder.query<any, any>({
       query: (params) => ({
-        url: `/api/v1/market/exchange-accounts/${params.exchangeAccountKey}/deposit-addresses?symbol_name=${params.symbol}&network_name=${params.network}`,
+        url: `/api/v1/ias/exchange-accounts/${params.exchangeAccountKey}/deposit-addresses?symbol_name=${params.symbol}&network_name=${params.network}`,
       }),
     }),
 
@@ -219,7 +219,7 @@ export const horosApi = createApi({
     createWithdraw: builder.mutation({
       query: (body: any) => {
         return {
-          url: `/api/v1/market/exchange-accounts/${body.exchangeAccountKey}/transactions`,
+          url: `/api/v1/ias/exchange-accounts/${body.exchangeAccountKey}/transactions`,
           method: "POST",
           body: {
             ...body,
@@ -231,7 +231,7 @@ export const horosApi = createApi({
     confirmWithdraw: builder.mutation({
       query: (params: any) => {
         return {
-          url: `/api/v1/market/exchange-accounts/${params.exchangeAccountKey}/transactions/${params.transactionKey}?verification_code=${params.verificationCode}`,
+          url: `/api/v1/ias/exchange-accounts/${params.exchangeAccountKey}/transactions/${params.transactionKey}?verification_code=${params.verificationCode}`,
           method: "PATCH",
         };
       },
@@ -240,7 +240,7 @@ export const horosApi = createApi({
     resendEmailWithdraw: builder.mutation({
       query: (params: any) => {
         return {
-          url: `/api/v1/market/exchange-accounts/${params.exchangeAccountKey}/transactions/${params.transactionKey}/verification-email`,
+          url: `/api/v1/ias/exchange-accounts/${params.exchangeAccountKey}/transactions/${params.transactionKey}/verification-email`,
           method: "POST",
         };
       },
