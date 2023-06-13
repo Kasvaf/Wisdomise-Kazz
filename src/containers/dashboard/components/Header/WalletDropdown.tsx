@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { Dropdown } from "antd";
-import { useGetInvestorAssetStructureQuery } from "api/horosApi";
-import { ReactComponent as ChevronDown } from "@images/chevron-down.svg";
-import { ReactComponent as WithdrawIcon } from "@images/withdraw.svg";
 import { ReactComponent as DepositIcon } from "@images/deposit.svg";
 import { ReactComponent as NewWallet } from "@images/new_wallet.svg";
-import { floatData } from "utils/utils";
+import { ReactComponent as WithdrawIcon } from "@images/withdraw.svg";
+import { Dropdown } from "antd";
+import { useGetInvestorAssetStructureQuery } from "api/horosApi";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   onToggle: (n?: any) => void;
@@ -27,7 +26,17 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
     navigate("/app/withdraw");
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      investorAsset.refetch();
+    }
+  }, [isOpen]);
+
   const hasWallet = investorAsset?.data?.[0]?.main_exchange_account;
+
+  const totalBalance = investorAsset.data?.[0]?.total_equity || 0;
+  const withdrawable =
+    investorAsset.data?.[0]?.main_exchange_account.quote_equity || 0;
 
   return (
     <div className="ml-auto flex">
@@ -36,17 +45,28 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
           <div className="ml-4 min-w-0 grow-0">
             <Dropdown
               overlay={
-                <div className="mt-1 flex  flex-col space-y-2 rounded-sm border border-nodata/20 bg-bgcolor p-4">
-                  <div className="flex justify-between border-b-2 border-b-gray-200 p-4 md:hidden">
-                    <p className="font-bold uppercase text-primary">wallet</p>
-                    <p className="font-bold text-primary">
-                      ${hasWallet ? floatData(mea?.total_equity) : 0}
-                    </p>
+                <div className="flex max-w-[280px] flex-col items-center rounded-sm border border-nodata/20 bg-bgcolor p-0">
+                  <div className="flex justify-center gap-2 text-white">
+                    <div className="flex flex-col items-center p-4">
+                      <p>Total Balance</p>
+                      <p>{totalBalance}</p>
+                    </div>
+
+                    <div className="flex flex-col items-center p-4">
+                      <p>Withdrawable</p>
+                      <p>{withdrawable}</p>
+                    </div>
                   </div>
+                  {totalBalance - withdrawable > 0 && (
+                    <p className="px-2 text-center text-white">
+                      You have 1 running product that block{" "}
+                      {totalBalance - withdrawable} BUSD of your equity
+                    </p>
+                  )}
                   <button
                     type="button"
                     onClick={onShowDepositPage}
-                    className="flex items-center justify-start bg-transparent p-4  text-white hover:bg-gray-dark"
+                    className="flex w-full items-center justify-center bg-transparent  p-4 text-white  hover:bg-gray-dark"
                   >
                     <DepositIcon className="mr-2 w-[20px] text-2xl" />
                     Deposit
@@ -57,7 +77,7 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                     onClick={() => {
                       onShowWithdrawPage();
                     }}
-                    className=" flex items-center justify-start bg-transparent px-4 py-3   text-white hover:bg-gray-dark"
+                    className=" flex w-full items-center justify-center bg-transparent px-4 py-3 text-white hover:bg-gray-dark"
                   >
                     <WithdrawIcon className="mr-2 w-[20px]" /> Withdraw
                   </button>
@@ -73,10 +93,6 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                   <p className="px-2 font-bold uppercase text-primary">
                     wallet
                   </p>
-                  <p className="font-bold text-primary">
-                    ${hasWallet ? floatData(mea?.total_equity) : 0}
-                  </p>
-                  <ChevronDown className="w-6" />
                 </button>
               </div>
             </Dropdown>

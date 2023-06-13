@@ -97,12 +97,7 @@ function Dashboard() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-between sm:flex-row">
-            <p className="mb-6 w-auto font-campton text-base text-gray-light sm:w-[500px]">
-              Wisdomise helps you optimize your basket of cryptocurrencies and
-              trade them profitably.
-            </p>
-
-            <div className="flex w-full items-center justify-between gap-2 rounded-xl bg-gray-dark p-5 sm:w-auto">
+            <div className="flex w-full items-center justify-between gap-4 rounded-xl bg-gray-dark p-5 sm:w-auto">
               <div className="flex flex-col">
                 <p className="mb-1 text-gray-light">
                   Current strategy (
