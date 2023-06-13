@@ -1,18 +1,17 @@
 import ADA from "@images/coins/ada.svg";
 import BNB from "@images/coins/bnb.svg";
 import BTC from "@images/coins/btc.svg";
+import BUSD from "@images/coins/busd.svg";
 import DOGE from "@images/coins/doge.svg";
 import ETH from "@images/coins/eth.svg";
 import LTC from "@images/coins/ltc.svg";
 import TRX from "@images/coins/trx.svg";
-import XRP from "@images/coins/xrp.svg";
 import USDT from "@images/coins/usdt.svg";
-import BUSD from "@images/coins/busd.svg";
+import XRP from "@images/coins/xrp.svg";
 
 import { ReactComponent as DashboardIcon } from "@images/nav/dashboard.svg";
 import { ReactComponent as CatalogIcon } from "@images/nav/portfolio.svg";
 // import { ReactComponent as Analytics } from "@images/nav/analytics.svg";
-import { ReactComponent as SignalsIcon } from "@images/nav/signals.svg";
 import { ReactComponent as TradingIcon } from "@images/nav/trading.svg";
 // import { ReactComponent as ReferralIcon } from '@images/nav/referral.svg';
 
@@ -148,59 +147,59 @@ export const tabs: any = {
   //   defaultUrl: 'analytics',
   // },
 
-  [TabLabels.WisdomiseAI]: {
-    id: TabLabels.WisdomiseAI,
-    description: "",
-    hash: "WisdomiseAI",
-    label: "Intelligence services",
-    icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
-    defaultUrl: "s",
-    subMenu: [
-      // {
-      //   id: TabLabels.signals,
-      //   hash: "sign",
-      //   label: "AI Signals",
-      //   icon: <Analytics className="dashboard-icon h-6 w-6" />,
-      //   actionLabel: "Scan now",
-      //   defaultUrl: "signals",
-      // },
-      {
-        id: TabLabels.backtest,
-        hash: "Backtest",
-        label: "Backtest ",
-        icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
-        actionLabel: "Backtest",
-        defaultUrl: "backtest",
-      },
-      // {
-      //   id: TabLabels.sentiment,
-      //   hash: 'sentiment',
-      //   label: 'Market Sentiment',
-      //   icon: <Analytics className="dashboard-icon h-6 w-6" />,
-      //   actionLabel: 'sentiment',
-      //   defaultUrl: 'sentiment',
-      //   comingSoon: true,
-      // },
-      // {
-      //   id: TabLabels.transactions,
-      //   description: 'Explore Horos features to start generating wealth',
-      //   hash: 'dash',
-      //   label: 'transactions',
-      //   icon: <TransactionIcon className="dashboard-icon" />,
-      //   defaultUrl: 'transactions',
-      // },
-      // {
-      //   id: TabLabels.catalog,
-      //   description:
-      //     'Compare analytics and benchmark the performance of your portfolio based on the selected asset and strategy',
-      //   hash: 'catalog',
-      //   label: 'catalog',
-      //   icon: <SignalsIcon className="dashboard-icon" />,
-      //   actionLabel: 'Learn more',
-      //   defaultUrl: 'catalog',
-      // },
-    ],
-  },
+  // [TabLabels.WisdomiseAI]: {
+  //   id: TabLabels.WisdomiseAI,
+  //   description: "",
+  //   hash: "WisdomiseAI",
+  //   label: "Intelligence services",
+  //   icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
+  //   defaultUrl: "s",
+  //   subMenu: [
+  //     // {
+  //     //   id: TabLabels.signals,
+  //     //   hash: "sign",
+  //     //   label: "AI Signals",
+  //     //   icon: <Analytics className="dashboard-icon h-6 w-6" />,
+  //     //   actionLabel: "Scan now",
+  //     //   defaultUrl: "signals",
+  //     // },
+  //     // {
+  //     //   id: TabLabels.backtest,
+  //     //   hash: "Backtest",
+  //     //   label: "Backtest ",
+  //     //   icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
+  //     //   actionLabel: "Backtest",
+  //     //   defaultUrl: "backtest",
+  //     // },
+  //     // {
+  //     //   id: TabLabels.sentiment,
+  //     //   hash: 'sentiment',
+  //     //   label: 'Market Sentiment',
+  //     //   icon: <Analytics className="dashboard-icon h-6 w-6" />,
+  //     //   actionLabel: 'sentiment',
+  //     //   defaultUrl: 'sentiment',
+  //     //   comingSoon: true,
+  //     // },
+  //     // {
+  //     //   id: TabLabels.transactions,
+  //     //   description: 'Explore Horos features to start generating wealth',
+  //     //   hash: 'dash',
+  //     //   label: 'transactions',
+  //     //   icon: <TransactionIcon className="dashboard-icon" />,
+  //     //   defaultUrl: 'transactions',
+  //     // },
+  //     // {
+  //     //   id: TabLabels.catalog,
+  //     //   description:
+  //     //     'Compare analytics and benchmark the performance of your portfolio based on the selected asset and strategy',
+  //     //   hash: 'catalog',
+  //     //   label: 'catalog',
+  //     //   icon: <SignalsIcon className="dashboard-icon" />,
+  //     //   actionLabel: 'Learn more',
+  //     //   defaultUrl: 'catalog',
+  //     // },
+  //   ],
+  // },
 
   [TabLabels.advanceTrading]: {
     id: TabLabels.advanceTrading,
