@@ -62,8 +62,9 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                   {(investorAsset.data?.[0]?.financial_product_instances
                     .length || 0) > 0 && (
                     <p className="mb-2 px-2 text-center text-nodata">
-                      You have 1 running product that block{" "}
-                      {totalBalance - withdrawable} BUSD of your equity
+                      You have 1 running product that block $
+                      {roundDown(totalBalance - withdrawable)} BUSD of your
+                      equity
                     </p>
                   )}
                   <button
