@@ -123,7 +123,18 @@ function Dashboard() {
                 >
                   {fpi.status === "RUNNING" ? "PAUSE" : "RESUME"}
                 </p>
-
+                {fpi.status === "DRAFT" && (
+                  <p
+                    onClick={() => {
+                      onClickStatus(IAS_STATUS.stop);
+                    }}
+                    className={`ml-2 cursor-pointer font-bold uppercase text-primary
+                  ${UpdatedIASStatus.isLoading && "opacity-40"}
+                  `}
+                  >
+                    Deactivate
+                  </p>
+                )}
                 <p
                   onClick={() => {
                     onClickStatus(

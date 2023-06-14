@@ -407,8 +407,8 @@ const Withdraw = ({ flags }: any) => {
   const invitationCodeRef = useRef(null);
 
   const onSetMaxAmount = () => {
-    const max: any = floatData(
-      investorAsset?.data?.[0]?.main_exchange_account.quote_equity
+    const max: any = roundDown(
+      investorAsset?.data?.[0]?.main_exchange_account.quote_equity || 0
     );
     setInputs({
       ...inputs,
@@ -635,7 +635,7 @@ const Withdraw = ({ flags }: any) => {
           <div className="ml-2 flex flex-col justify-start">
             <p className="text-base text-white">Total withdrawable amount</p>
             <p className="text-xs text-gray-light">
-              {floatData(mea?.quote_equity) || 0}
+              {mea?.quote_equity ? roundDown(mea.quote_equity) : 0}
             </p>
           </div>
           <div className="ml-2 flex flex-col justify-start">
@@ -753,4 +753,8 @@ const Withdraw = ({ flags }: any) => {
   );
 };
 
+const roundDown = (number: number, decimals = 2) => {
+  decimals = decimals || 0;
+  return Math.floor(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
+};
 export default withLDConsumer()(Withdraw);
