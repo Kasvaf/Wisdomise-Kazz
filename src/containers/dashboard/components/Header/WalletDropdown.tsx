@@ -6,6 +6,7 @@ import { Dropdown } from "antd";
 import { useGetInvestorAssetStructureQuery } from "api/horosApi";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { roundDown } from "utils/utils";
 
 interface IProps {
   onToggle: (n?: any) => void;
@@ -50,12 +51,12 @@ export default function WalletDropdown({ onToggle, isOpen }: IProps) {
                   <div className="flex justify-center gap-2 text-nodata">
                     <div className="flex flex-col items-center p-4">
                       <p>Total Balance</p>
-                      <p>{totalBalance}</p>
+                      <p>${roundDown(totalBalance)}</p>
                     </div>
 
                     <div className="flex flex-col items-center p-4">
                       <p>Withdrawable</p>
-                      <p>{withdrawable}</p>
+                      <p>${roundDown(withdrawable)}</p>
                     </div>
                   </div>
                   {(investorAsset.data?.[0]?.financial_product_instances

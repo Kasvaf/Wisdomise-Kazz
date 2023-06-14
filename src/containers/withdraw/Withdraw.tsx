@@ -24,7 +24,7 @@ import { NotificationManager } from "react-notifications";
 import { useNavigate } from "react-router-dom";
 import { BUTTON_TYPE } from "utils/enums";
 import { isMobile } from "utils/isMobile";
-import { floatData } from "utils/utils";
+import { floatData, roundDown } from "utils/utils";
 
 const initialValues = {
   adr: "",
@@ -753,8 +753,4 @@ const Withdraw = ({ flags }: any) => {
   );
 };
 
-const roundDown = (number: number, decimals = 2) => {
-  decimals = decimals || 0;
-  return Math.floor(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
-};
 export default withLDConsumer()(Withdraw);
