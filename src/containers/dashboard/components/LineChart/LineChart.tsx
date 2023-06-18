@@ -20,10 +20,10 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     const chartDataArray: any[] = [];
     chartData?.etf_benchmark.map((item: any) => {
       chartDataArray.push({
-        date: item.date.split("T")[0],
+        date: item.d,
         value: floatData(
-          ((item.wealth - chartData?.etf_benchmark[0].wealth) /
-            chartData?.etf_benchmark[0].wealth) *
+          ((item.v - chartData?.etf_benchmark[0].v) /
+            chartData?.etf_benchmark[0].v) *
             100
         ),
         category: title,
@@ -31,10 +31,10 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     });
     chartData?.btc_benchmark.map((item: any) => {
       chartDataArray.push({
-        date: item.date.split("T")[0],
+        date: item.d,
         value: floatData(
-          ((item.close - chartData?.btc_benchmark[0].close) /
-            chartData?.btc_benchmark[0].close) *
+          ((item.v - chartData?.btc_benchmark[0].v) /
+            chartData?.btc_benchmark[0].v) *
             100
         ),
         category: "BTC",
@@ -43,10 +43,10 @@ const LineChart: FunctionComponent<LineChartProps> = ({
 
     chartData?.gold_benchmark.map((item: any) => {
       chartDataArray.push({
-        date: item.date.split("T")[0],
+        date: item.d,
         value: floatData(
-          ((item.close - chartData?.gold_benchmark[0].close) /
-            chartData?.gold_benchmark[0].close) *
+          ((item.v - chartData?.gold_benchmark[0].v) /
+            chartData?.gold_benchmark[0].v) *
             100
         ),
         category: "Gold",
@@ -54,10 +54,10 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     });
     chartData?.sp500_benchmark.map((item: any) => {
       chartDataArray.push({
-        date: item.date.split("T")[0],
+        date: item.d,
         value: floatData(
-          ((item.close - chartData?.sp500_benchmark[0].close) /
-            chartData?.sp500_benchmark[0].close) *
+          ((item.v - chartData?.sp500_benchmark[0].v) /
+            chartData?.sp500_benchmark[0].v) *
             100
         ),
         category: "S&P 500",
@@ -66,6 +66,7 @@ const LineChart: FunctionComponent<LineChartProps> = ({
 
     return chartDataArray;
   }, [chartData]);
+
   const config = {
     data: convertRowDataToChartData,
     xField: "date",
@@ -84,8 +85,8 @@ const LineChart: FunctionComponent<LineChartProps> = ({
       nice: true,
       line: { style: { stroke: "rgba(255, 255, 255, 0.1)" } },
       grid: { line: { style: { stroke: "rgba(255, 255, 255, 0.1)" } } },
-      minLimit: -150,
-      maxLimit: 150,
+      minLimit: -20,
+      maxLimit: 20,
     },
 
     color: ["#13DEF2", "#E26CFF", "#DFB13B", "#7a7a7a"],

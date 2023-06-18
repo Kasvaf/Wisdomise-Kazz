@@ -147,7 +147,7 @@ export const horosApi = createApi({
     getETFBacktest: builder.query<any, any>({
       query: (data) => {
         return {
-          url: `/api/v1/catalog/etf-packages/${data.id}/backtest`,
+          url: `https://stage-strategy.wisdomise.io/api/v1/financial-products/${data.id}/backtest`,
           params: data.params,
         };
       },

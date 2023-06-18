@@ -2,6 +2,7 @@ import { ReactComponent as WarningCircleIcon } from "@images/warningCircle.svg";
 import { Avatar, Skeleton } from "antd";
 import {
   useCreateFPIMutation,
+  useGetETFBacktestQuery,
   useGetFinancialProductDetailQuery,
   useGetInvestorAssetStructureQuery,
   useUpdateIASStatusMutation,
@@ -9,11 +10,13 @@ import {
 import Button from "components/Button";
 import Modal from "components/modal";
 import Congratulation from "containers/congratulation";
+import LineChart from "containers/dashboard/components/LineChart/LineChart";
 import RiskCard from "containers/dashboard/components/RiskCard";
 import { coins } from "containers/dashboard/constants";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BUTTON_TYPE } from "utils/enums";
+import { convertDate } from "utils/utils";
 
 export default function RiskDetail() {
   const params = useParams();
@@ -24,15 +27,15 @@ export default function RiskDetail() {
   const [showCongratulation, setShowCongratulation] = useState(false);
   const [UpdateIASStatusExecutor, UpdatedIASStatus] =
     useUpdateIASStatusMutation();
-  // const etfBacktest = useGetETFBacktestQuery({
-  //   id: params.id,
-  //   params: {
-  //     start_date: convertDate(
-  //       new Date(import.meta.env.VITE_BACKTEST_START_DATE)
-  //     ),
-  //     end_date: convertDate(),
-  //   },
-  // });
+  const etfBacktest = useGetETFBacktestQuery({
+    id: params.id,
+    params: {
+      start_date: convertDate(
+        new Date(import.meta.env.VITE_BACKTEST_START_DATE)
+      ),
+      end_date: convertDate(),
+    },
+  });
 
   const onClickCreateWallet = async () => {
     const body = {
@@ -159,7 +162,7 @@ export default function RiskDetail() {
           loading={fpData.isLoading}
           className="sm:w-[820px]"
         />
-        {/* <div className="my-5  w-full bg-gray-dark p-5 sm:w-[820px]">
+        <div className="my-5  w-full bg-gray-dark p-5 sm:w-[820px]">
           {fpData.isLoading ? (
             <Skeleton.Input className=" mb-4 rounded" active />
           ) : (
@@ -174,7 +177,7 @@ export default function RiskDetail() {
             loading={etfBacktest.isLoading}
             title={fpData?.data?.title}
           />
-        </div> */}
+        </div>
       </div>
       {showCongratulation && (
         <Modal className="!w-full sm:!w-[600px]">
