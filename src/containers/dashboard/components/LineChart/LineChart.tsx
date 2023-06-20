@@ -67,6 +67,25 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     return chartDataArray;
   }, [chartData]);
 
+  const [min, max] = useMemo(() => {
+    let min = Number.POSITIVE_INFINITY;
+    let max = Number.NEGATIVE_INFINITY;
+
+    convertRowDataToChartData.forEach((d) => {
+      const v = Number.parseFloat(d.value);
+      if (v < min) {
+        min = v;
+      }
+      if (v > max) {
+        max = v;
+      }
+    });
+
+    return [min, max];
+  }, [convertRowDataToChartData]);
+
+  console.log(min, max);
+
   const config = {
     data: convertRowDataToChartData,
     xField: "date",
@@ -79,14 +98,17 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     },
     yAxis: {
       label: {
-        formatter: (v: any) =>
-          `${v}%`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
+        formatter: (v: any) => {
+          console.log();
+          return Number.parseInt(v) + "%";
+          return `${v}%`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`);
+        },
       },
       nice: true,
       line: { style: { stroke: "rgba(255, 255, 255, 0.1)" } },
       grid: { line: { style: { stroke: "rgba(255, 255, 255, 0.1)" } } },
-      minLimit: -20,
-      maxLimit: 20,
+      minLimit: min - 10,
+      maxLimit: max + 10,
     },
 
     color: ["#13DEF2", "#E26CFF", "#DFB13B", "#7a7a7a"],

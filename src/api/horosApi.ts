@@ -22,6 +22,8 @@ import { InvestorAssetStructureResponse } from "containers/catalog/types/investo
 import { setIAS } from "store/slices/IAS";
 import { API_list_response, KYC_Level } from "types/kyc";
 import { NetworksResponse } from "./types/transferNetworks";
+import { isStage } from "utils/utils";
+import { isLocal } from "utils/utils";
 
 const horosBaseQuery = fetchBaseQuery({
   baseUrl: DB,
@@ -147,7 +149,9 @@ export const horosApi = createApi({
     getETFBacktest: builder.query<any, any>({
       query: (data) => {
         return {
-          url: `https://stage-strategy.wisdomise.io/api/v1/financial-products/${data.id}/backtest`,
+          url: `https://${
+            isStage() || isLocal() ? "stage-" : ""
+          }strategy.wisdomise.io/api/v1/financial-products/${data.id}/backtest`,
           params: data.params,
         };
       },
