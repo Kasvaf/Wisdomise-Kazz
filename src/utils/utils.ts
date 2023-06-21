@@ -1,16 +1,11 @@
 import { VerificationStatus } from "types/kyc";
-import packageJson from "../../package.json";
 
-export const getCurrentVersion = (): string => {
-  return packageJson.version;
-};
+export const isProduction =
+  !window.location.host.includes("stage-") &&
+  !window.location.host.includes("localhost");
 
 export const isStage = (): boolean => {
   return window.location.host.includes("stage-");
-};
-
-export const isDev = (): boolean => {
-  return window.location.host.includes("dev-");
 };
 
 export const isLocal = (): boolean => {
@@ -39,27 +34,6 @@ export const getKycLevelStatusColor = (
     default:
       return "default";
   }
-};
-
-export const getMinMaxArray = (key: string, array: []) => {
-  // const min = JSON.stringify(
-  //   array.reduce(function (prev, current) {
-  //     return parseInt(prev[key]) < parseInt(current[key]) ? prev : current;
-  //   }),
-  // );
-
-  // const max = JSON.stringify(
-  //   array.reduce(function (prev, current) {
-  //     return parseInt(prev[key]) > parseInt(current[key]) ? prev : current;
-  //   }),
-  // );
-
-  const min = Math.min(...array.map((item) => parseFloat(item[key])));
-  const max = Math.max(...array.map((item) => parseFloat(item[key])));
-
-  // const min = array.length ? minBy(array, key)![key] : 0;
-  // const max = array.length ? maxBy(array, key)![key] : 0;
-  return { min, max };
 };
 
 export const isPendingOrRejected = (

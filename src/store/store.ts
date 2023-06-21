@@ -5,10 +5,9 @@ import { horosApi } from "../api/horosApi";
 import { rtkQueryErrorMiddleware } from "../api/rtkQueryErrorMiddleware";
 import { appReducer, RootState } from "./appReducer";
 import IASReducer from "./slices/IAS";
-import { signoutReducer } from "./slices/signout";
 
 export const store = configureStore({
-  reducer: chainReducers<any>(appReducer, signoutReducer, IASReducer),
+  reducer: chainReducers<any>(appReducer, IASReducer),
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware(),
     horosApi.middleware,

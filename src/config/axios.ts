@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { JwtTokenKey, LoginUrl } from "./constants";
 import DB from "./keys";
 
 export const jwtToken = "";
@@ -6,15 +7,21 @@ export const jwtToken = "";
 export function configAxios() {
   axios.defaults.baseURL = DB + "/api/v1/";
 
-  axios.interceptors.request.use(
-    (config) => {
-      config.headers.set(
-        "Authorization",
-        "Bearer " + (localStorage.getItem("WISDOMISE_TOKEN_KEY") || jwtToken)
-      );
+  axios.interceptors.request.use((config) => {
+    config.headers.set(
+      "Authorization",
+      "Bearer " + (localStorage.getItem(JwtTokenKey) || jwtToken)
+    );
 
-      return config;
-    },
-    () => void 0
-  );
+    return config;
+  }, null);
+
+  axios.interceptors.response.use(null, (error: AxiosError) => {
+    if (error.response?.status === 403) {
+      localStorage.removeItem(JwtTokenKey);
+      window.location.href = LoginUrl;
+    }
+
+    return Promise.reject(error);
+  });
 }

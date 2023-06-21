@@ -1,68 +1,66 @@
 import { ReactComponent as ChevronDown } from "@images/chevron-down.svg";
-import { ReactComponent as LogoutIcon } from "@images/logout.svg";
 import { ReactComponent as TransactionIcon } from "@images/transaction.svg";
 import { Dropdown } from "antd";
-import { useGetUserInfoQuery } from "api/horosApi";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { gaClick } from "utils/ga";
-import { isStage } from "utils/utils";
-import DepositPlanModal from "../../containers/dashboard/components/Header/DepositPlanModal";
+import { useUserInfoQuery } from "shared/services/services";
+import { logout } from "utils/auth";
+import { isProduction } from "utils/utils";
 import { DropdownContainer } from "./components";
+import { ReactComponent as LogoutIcon } from "./logout.svg";
 
-interface IProps {
-  isOpen: boolean;
-  onToggle: (n?: any) => void;
-  onSignout: () => void;
-}
-
-export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
-  const { data: userInfo } = useGetUserInfoQuery({});
-  const nickname = userInfo?.customer.nickname;
-  const email = userInfo?.customer.user.email;
-
-  const [shouldShowDepositPlans, setShouldShowDepositPlans] = useState(false);
-
+export const UserDropdown = () => {
   const navigate = useNavigate();
-  const signout = useCallback(() => {
-    onToggle(false);
-    onSignout();
-    gaClick("sign out");
-    setTimeout(() => navigate("/"), 1000);
-  }, []);
+  const [open, setOpen] = useState(false);
+  const { data: userInfo } = useUserInfoQuery();
+  const email = userInfo?.customer.user.email;
+  const nickname = userInfo?.customer.nickname;
+
+  const button = (
+    <div className="flex cursor-pointer items-center justify-start gap-3">
+      <div>
+        <p className="inline-block h-10 w-10 self-start rounded-full bg-white/5 text-center text-xl leading-10 text-white">
+          {nickname?.charAt(0).toLocaleUpperCase()}
+        </p>
+      </div>
+
+      <button className="flex font-medium text-white mobile:hidden">
+        <ChevronDown className="w-6 fill-white" />
+      </button>
+    </div>
+  );
 
   return (
     <>
-      <div className="min-w-0 grow-0">
+      <div className="hidden mobile:block">{button}</div>
+      <div className="mobile:hidden">
         <Dropdown
-          open={isOpen}
+          open={open}
           trigger={["click"]}
-          onOpenChange={onToggle}
+          onOpenChange={setOpen}
           dropdownRender={() => (
-            <DropdownContainer>
-              <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap border-b border-b-nodata/20 p-2 pb-4 text-nodata">
+            <DropdownContainer className="p-6">
+              <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap   p-2 pb-4 text-nodata">
                 {email}
               </div>
 
-              {isStage() && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onToggle(false);
-                      navigate("/app/transactions");
-                    }}
-                    className="flex items-center justify-start bg-transparent px-2  py-[10px] text-white hover:bg-gray-dark"
-                  >
-                    <TransactionIcon className="mr-2 w-[24px]" />
-                    Transaction History
-                  </button>
-                </>
+              {!isProduction && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/app/transactions");
+                  }}
+                  className="flex items-center justify-start bg-transparent px-2 text-white "
+                >
+                  <TransactionIcon className="mr-2 w-[24px]" />
+                  Transaction History
+                </button>
               )}
               <button
                 type="button"
-                onClick={signout}
-                className="horos-filter-btn-alt group  justify-start  rounded-sm border border-nodata/20 bg-transparent  fill-error p-2 uppercase text-error hover:bg-gray-dark hover:fill-error hover:text-error"
+                onClick={logout}
+                className="flex justify-start p-2 uppercase text-[#F14056]"
               >
                 <LogoutIcon className="mr-2" /> Logout
               </button>
@@ -76,16 +74,12 @@ export default function UserDropdown({ isOpen, onToggle, onSignout }: IProps) {
               </p>
             </div>
 
-            <button className="flex font-medium text-white">
-              {nickname}
+            <button className="flex font-medium text-white mobile:hidden">
               <ChevronDown className="w-6 fill-white" />
             </button>
           </div>
         </Dropdown>
       </div>
-      {shouldShowDepositPlans && (
-        <DepositPlanModal toggle={() => setShouldShowDepositPlans(false)} />
-      )}
     </>
   );
-}
+};

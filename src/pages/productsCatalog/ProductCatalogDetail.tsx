@@ -2,6 +2,7 @@ import LineChart from "containers/dashboard/components/LineChart/LineChart";
 import { useParams } from "react-router-dom";
 import { CoinsIcons } from "shared/components/Coins";
 import { PageWrapper } from "shared/components/PageWrapper";
+import { PriceChange } from "shared/components/priceChange/PriceChange";
 import { FPActivateButton } from "./FPActivateButton";
 import { useFinancialProductQuery, useFPBacktestQuery } from "./services";
 
@@ -15,15 +16,14 @@ const ProductCatalogDetail = () => {
 
   return (
     <PageWrapper loading={fp.isLoading}>
-      <h1 className="text-xl font-semibold text-white">{fp.data?.title}</h1>
-      <div className="mb-7 flex">
-        <div className="basis-2/3">
-          <p className="font- mt-6 text-sm text-white/60 ">
-            {fp.data?.description}
-          </p>
+      <h1 className="text-base font-semibold text-white">{fp.data?.title}</h1>
+
+      <div className="mb-7 flex mobile:flex-col">
+        <div className="basis-2/3 mobile:basis-auto">
+          <p className="mt-6 text-sm text-white/60 ">{fp.data?.description}</p>
         </div>
 
-        <div className="flex basis-1/3 items-end justify-end">
+        <div className="flex basis-1/3 items-end justify-end mobile:mt-8 mobile:basis-auto">
           <FPActivateButton
             inDetailPage
             className="w-1/2"
@@ -31,8 +31,9 @@ const ProductCatalogDetail = () => {
           />
         </div>
       </div>
-      <div className="flex">
-        <div className="basis-2/3">
+
+      <div className="flex mobile:flex-col">
+        <div className="basis-2/3 mobile:order-2 mobile:basis-auto">
           <div className="h-full rounded-3xl bg-white/5 p-8">
             <LineChart
               className="w-full"
@@ -43,58 +44,69 @@ const ProductCatalogDetail = () => {
           </div>
         </div>
 
-        <div className="flex basis-1/3 flex-col gap-4 pl-4">
-          <div className="flex items-center rounded-3xl bg-white/5 p-2 ">
+        <div className="flex basis-1/3 flex-col gap-4 pl-4 mobile:order-1 mobile:mb-4 mobile:basis-auto mobile:pl-0">
+          <div className="flex items-center rounded-3xl bg-white/5 p-2">
             <CoinsIcons coins={fp.data?.config.assets || ""} />
           </div>
 
           <div className="flex gap-2 text-base font-medium">
             <div
-              className={`basis-1/2 rounded-full px-5 py-4 text-center text-white/80 ${
+              className={`basis-1/2 rounded-full px-4 py-3 text-center ${
                 rrr === "High"
-                  ? "bg-[#F1AA404D]"
+                  ? "bg-[#F1AA4033] text-[#F1AA40]"
                   : rrr === "Medium"
-                  ? "bg-[#74ABFF33]"
-                  : "bg-[#40F19C4D]"
+                  ? "bg-[#74ABFF33] text-[#34A3DA]"
+                  : "bg-[#40F19C33] text-[#40F19C]"
               }`}
             >
               {rrr + " Risk"}
             </div>
 
-            <div className="basis-1/2 rounded-full bg-[#FFFFFF1A] px-5 py-4 text-center  text-white/80">
+            <div className="basis-1/2 rounded-full bg-white/5 px-4 py-3 text-center  text-white/60">
               Spot
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white/5 p-8 text-sm font-medium">
+          <div className="rounded-3xl bg-white/5 px-4 py-6 text-sm font-medium">
             <div className="mb-4 flex justify-between">
               <p className="text-white">Expected Yield (APY)</p>
-              <p className="text-[#40F19C]">
-                {fp?.data?.profile.expected_yield}
-              </p>
+              <PriceChange
+                valueToFixed={false}
+                value={Number(fp.data?.profile.expected_yield.replace("%", ""))}
+              />
             </div>
 
             <div className="flex justify-between">
               <p className="text-white">Expected Max Drawdown</p>
-              <p className="text-white">{fp?.data?.profile.max_drawdown}</p>
+              <PriceChange
+                bg={false}
+                colorize={false}
+                valueToFixed={false}
+                value={Number(fp.data?.profile.max_drawdown.replace("%", ""))}
+              />
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white/5 p-8 text-sm">
-            <p className=" font-medium text-white/80">Investment Limits</p>
-            <div className="my-4 flex justify-between">
-              <span className="text-white/40">Minimum</span>
-              <span className="font-medium text-white">
-                {fp.data?.min_deposit} BUSD
-              </span>
-            </div>
-            <div className="my-4 mb-0 flex justify-between">
-              <span className="flex justify-between text-white/40">
-                Maximum
-              </span>
-              <span className="font-medium text-white">
-                {fp.data?.max_deposit} BUSD
-              </span>
+          <div className="rounded-3xl bg-white/5 px-4 py-6 text-sm">
+            <p className="mb-4 text-white/80">Investment</p>
+            <div className="flex items-center justify-between">
+              <p className="w-full text-left text-white">
+                <span className="text-white/40">Min</span>
+                <br />
+                <span className="font-medium">
+                  {fp.data?.min_deposit}
+                  <span className="text-white/80">BUSD</span>
+                </span>
+              </p>
+              <div className="h-[20px] w-[1px] rotate-12 border-l border-white/20" />
+              <p className="w-full text-right text-white">
+                <span className="text-white/40">Max</span>
+                <br />
+                <span className="font-medium">
+                  {fp.data?.max_deposit}
+                  <span className="text-white/80">BUSD</span>
+                </span>
+              </p>
             </div>
           </div>
         </div>

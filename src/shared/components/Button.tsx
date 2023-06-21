@@ -25,11 +25,11 @@ export const Button: React.FC<Props> = ({
   if (variant === "secondary") {
     return (
       <button
-        className={
-          "rounded-[40px] border border-white bg-transparent p-[20px_24px] px-6 leading-none text-white hover:border-white/40 " +
-          clsx(size === "small" && "!p-[10px_12px] ") +
+        className={clsx(
+          "rounded-[40px] border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40",
+          size === "small" && "!p-[10px_12px] ",
           className
-        }
+        )}
         disabled={disabled}
         {...restOfProps}
       >
@@ -41,14 +41,12 @@ export const Button: React.FC<Props> = ({
   if (variant === "alternative") {
     return (
       <button
-        className={
-          "rounded-[40px] bg-white/10 p-[20px_24px] px-6 leading-none text-white hover:bg-black/5 " +
-          clsx(
-            disabled &&
-              "bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10 "
-          ) +
+        className={clsx(
+          "rounded-[40px] bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5",
+          disabled &&
+            "bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10",
           className
-        }
+        )}
         disabled={disabled}
         {...restOfProps}
       >
@@ -60,16 +58,14 @@ export const Button: React.FC<Props> = ({
   if (variant === "link") {
     return (
       <button
-        className={
-          "bg-transparent p-[20px_24px] leading-none text-white " +
-          clsx(
-            disabled &&
-              "bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10 ",
+        className={clsx(
+          "bg-transparent px-8 py-4 text-sm font-medium leading-none text-white",
+          disabled &&
+            "bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10",
 
-            size === "small" && "!p-[10px_12px] "
-          ) +
+          size === "small" && "!p-[10px_12px]",
           className
-        }
+        )}
         disabled={disabled}
         {...restOfProps}
       >
@@ -80,16 +76,14 @@ export const Button: React.FC<Props> = ({
 
   return (
     <button
-      className={
-        "rounded-[40px] bg-white p-[20px_24px] leading-none text-black hover:bg-white/80 " +
-        clsx(
-          disabled &&
-            "bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10 ",
+      className={clsx(
+        "rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80",
+        disabled &&
+          "bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10",
 
-          size === "small" && "!p-[10px_12px] "
-        ) +
+        size === "small" && "!p-[10px_12px]",
         className
-      }
+      )}
       disabled={disabled}
       {...restOfProps}
     >

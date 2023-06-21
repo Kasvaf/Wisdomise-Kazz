@@ -303,3 +303,28 @@ input[type="number"] {
 .ant-notification-notice-close {
   @apply !text-white;
 }
+
+#crisp-chatbox > div > a {
+  @apply mobile:!hidden;
+}
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #666666 transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #666666;
+  border-radius: 10px;
+  border: 6px solid #131822;
+}

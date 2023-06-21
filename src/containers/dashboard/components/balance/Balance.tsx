@@ -2,11 +2,9 @@ import { useLazyGetExchangeAccountHistoricalStatisticQuery } from "api/horosApi"
 import Spinner from "components/spinner";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { useInvestorAssetStructuresQuery } from "shared/services";
+import { useInvestorAssetStructuresQuery } from "shared/services/services";
 import { floatData } from "utils/utils";
 import AssetStructureChart from "./AssetStructureChart";
-import HistoricalChartColumn from "./HistoricalChartColumn";
-import HistoricalChartLine from "./HistoricalChartLine";
 
 const LoadingIndicator = () => {
   return (
@@ -35,7 +33,7 @@ const Balance = () => {
           <LoadingIndicator />
         ) : (
           <>
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center justify-between mobile:text-xs">
               <p className="text-base text-gray-light">Total Balance</p>
 
               <div className="flex flex-row items-center justify-end">
@@ -45,7 +43,7 @@ const Balance = () => {
                 </p>
               </div>
             </div>
-            <h1 className="my-4 text-4xl font-bold text-white">
+            <h1 className="my-4 text-xl font-bold text-white">
               {fpi ? floatData(ias?.data?.[0]?.total_equity) : 0}{" "}
               {ias?.data?.[0]?.main_exchange_account.quote.name}
             </h1>
@@ -54,7 +52,7 @@ const Balance = () => {
         )}
       </div>
 
-      <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
+      {/* <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
         {historicalStatistic.isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -80,9 +78,9 @@ const Balance = () => {
             )}
           </>
         )}
-      </div>
+      </div> */}
 
-      <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
+      {/* <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
         {historicalStatistic.isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -100,7 +98,7 @@ const Balance = () => {
             )}
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

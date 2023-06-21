@@ -1,22 +1,17 @@
 import type { Middleware } from "@reduxjs/toolkit";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
+import { notification } from "antd";
 import { TOAST_TIME } from "components/constants";
-import { WISDOMISE_TOKEN_KEY } from "config/constants";
-import { NotificationManager } from "react-notifications";
+import { JwtTokenKey } from "config/constants";
 
 export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {
   // RTK Query uses `createAsyncThunk` from redux-toolkit under the hood,
   // so we're able to utilize these matchers!
   if (isRejectedWithValue(action)) {
-    // const request = action.meta?.baseQueryMeta?.request;
-    // const tokenOnRequest = request?.headers?.get("authenticaton");
     const response = action.meta?.baseQueryMeta?.response;
-    // const endpoint = action.meta?.arg?.endpointName;
-
-    // handle on base query
 
     if (response?.status === 401 || response?.status === 403) {
-      localStorage.removeItem(WISDOMISE_TOKEN_KEY);
+      localStorage.removeItem(JwtTokenKey);
 
       window.location.reload();
     } else {
@@ -43,7 +38,11 @@ export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {
           break;
         }
       }
-      NotificationManager.error(body === "{}" ? "" : body, title, TOAST_TIME);
+      notification.error({
+        message: title,
+        duration: TOAST_TIME,
+        description: body,
+      });
     }
   }
 

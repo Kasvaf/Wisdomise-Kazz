@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from "@reduxjs/toolkit";
 import { jwtToken as _jwtToken } from "config/axios";
-import { WISDOMISE_EMAIL_KEY, WISDOMISE_TOKEN_KEY } from "config/constants";
+import { JwtTokenKey, WISDOMISE_EMAIL_KEY } from "config/constants";
 
 export const userInfo = createSlice({
   name: "userInfo",
@@ -15,14 +15,14 @@ export const userInfo = createSlice({
   reducers: {
     loadSessionData(state) {
       const email = localStorage.getItem(WISDOMISE_EMAIL_KEY) || "";
-      const jwtToken = localStorage.getItem(WISDOMISE_TOKEN_KEY) || _jwtToken;
+      const jwtToken = localStorage.getItem(JwtTokenKey) || _jwtToken;
       state.email = email;
       state.jwtToken = jwtToken;
       state.loading = false;
     },
     saveJWT: (state, action) => {
       state.jwtToken = action.payload;
-      localStorage.setItem(WISDOMISE_TOKEN_KEY, state.jwtToken);
+      localStorage.setItem(JwtTokenKey, state.jwtToken);
     },
     saveEmail: (state, action) => {
       state.email = action.payload;
@@ -36,7 +36,7 @@ export const userInfo = createSlice({
     },
     clearSessionData(state) {
       localStorage.removeItem(WISDOMISE_EMAIL_KEY);
-      localStorage.removeItem(WISDOMISE_TOKEN_KEY);
+      localStorage.removeItem(JwtTokenKey);
       state.email = "";
       state.jwtToken = "";
       state.password = "";

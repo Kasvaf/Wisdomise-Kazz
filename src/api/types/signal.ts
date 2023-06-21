@@ -5,7 +5,7 @@ export interface GetSignalsQueryData {
   count: number;
 }
 
-export type PositionType = "OPEN" | "CLOSE" | "WEAK";
+type PositionType = "OPEN" | "CLOSE" | "WEAK";
 
 export interface Signal {
   last_stop_loss: string;
@@ -24,8 +24,4 @@ export interface Signal {
   reason_to_close: string;
   exited_at: number;
   exit_price: number;
-}
-
-export interface GetLastSignalQueryData {
-  timestamp: string;
 }

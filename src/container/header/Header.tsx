@@ -1,49 +1,26 @@
-import React, { useCallback, useState, useTransition } from "react";
-import UserDropdown from "./UserDropdown";
-import WalletDropdown from "./WalletDropdown";
+import clsx from "clsx";
+import React from "react";
+import logoSrc from "../sideMenu/icons/logo.svg";
+import { UserDropdown } from "./UserDropdown";
+import { WalletDropdown } from "./walletDropdown/WalletDropdown";
 
 interface Props {
-  signOut: () => unknown;
+  showShadow?: boolean;
 }
 
-export const Header: React.FC<Props> = ({ signOut }) => {
-  const [, startTransition] = useTransition();
-  const [walletDropdownOpen, setWalletDropdownOpen] = useState(false);
-  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-
-  const closeAll = useCallback(() => {
-    setWalletDropdownOpen(false);
-    setUserDropdownOpen(false);
-  }, []);
-
-  const toggleWallet = useCallback((newVal: any) => {
-    if (![true, false].includes) {
-      newVal = (p: boolean) => !p;
-    }
-    startTransition(() => {
-      closeAll();
-      setWalletDropdownOpen(newVal);
-    });
-  }, []);
-
-  const toggleUser = useCallback((newVal: any) => {
-    if (![true, false].includes) {
-      newVal = (p: boolean) => !p;
-    }
-    startTransition(() => {
-      closeAll();
-      setUserDropdownOpen(newVal);
-    });
-  }, []);
-
+export const Header: React.FC<Props> = ({ showShadow }) => {
   return (
-    <div className="relative mb-4 flex w-full justify-between">
-      <WalletDropdown isOpen={walletDropdownOpen} onToggle={toggleWallet} />
-      <UserDropdown
-        isOpen={userDropdownOpen}
-        onToggle={toggleUser}
-        onSignout={signOut}
-      />
+    <div
+      className={clsx(
+        "s fixed top-0 z-[1] flex h-20 w-full items-center justify-end bg-[#131822] px-6 py-6 mobile:justify-between mobile:px-4 mobile:py-3",
+        showShadow && "shadow-[0_0_28px_4px_#131822]"
+      )}
+    >
+      <div className="mobile:hidden">
+        <WalletDropdown />
+      </div>
+      <img src={logoSrc} className="hidden mobile:block" />
+      <UserDropdown />
     </div>
   );
 };

@@ -2,16 +2,13 @@ import Logo from "@images/wisdomiseWealthLogo.svg";
 import * as Sentry from "@sentry/react";
 import { useAgreeToTermsMutation } from "api/horosApi";
 import React, { useState } from "react";
+import { logout } from "utils/auth";
 import bgMobile from "../auth/ConfirmSignUp/bg-mobile.png";
 import bgDesktop from "../auth/ConfirmSignUp/bg.png";
 import PolicyDialog from "./PolicyDialog";
 import TermsDialog from "./TermsDialog";
 
-interface Props {
-  signOut: () => void;
-}
-
-export const SecondaryForm: React.FC<Props> = ({ signOut }) => {
+export const SecondaryForm: React.FC = () => {
   const [nickname, setNickname] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [isTermsOpen, setTermsOpen] = useState(false);
@@ -107,7 +104,7 @@ export const SecondaryForm: React.FC<Props> = ({ signOut }) => {
             </div>
 
             <button
-              onClick={signOut}
+              onClick={logout}
               className="md:text-x rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-xs md:px-8 md:py-3"
             >
               Log Out

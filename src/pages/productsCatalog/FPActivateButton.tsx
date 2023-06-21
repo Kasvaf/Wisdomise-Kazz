@@ -5,7 +5,7 @@ import { Button } from "shared/components/Button";
 import {
   useInvestorAssetStructuresQuery,
   useUpdateFPIStatusMutation,
-} from "shared/services";
+} from "shared/services/services";
 import { useCreateFPIMutation } from "./services";
 import { FinancialProduct } from "./types/financialProduct";
 import { isFPRunning } from "./utils";
@@ -89,7 +89,7 @@ export const FPActivateButton: React.FC<Props> = ({
     <Button
       className={className}
       onClick={onDeactivateClick}
-      loading={updateFPIStatus.isLoading}
+      loading={updateFPIStatus.isLoading || ias.isLoading}
       disabled={isOtherFPActive || !fp.subscribable}
       variant={inDetailPage ? "primary" : "alternative"}
     >

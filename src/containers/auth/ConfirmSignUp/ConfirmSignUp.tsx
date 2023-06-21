@@ -1,35 +1,32 @@
 import Logo from "@images/wisdomiseWealthLogo.svg";
 import { QueryStatus } from "@reduxjs/toolkit/dist/query";
-import {
-  useGetUserInfoQuery,
-  useResendVerificationEmailMutation,
-} from "api/horosApi";
-import { WISDOMISE_TOKEN_KEY } from "config/constants";
+import { notification } from "antd";
+import { useResendVerificationEmailMutation } from "api/horosApi";
+import { JwtTokenKey } from "config/constants";
 import DB from "config/keys";
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { NotificationManager } from "react-notifications";
+import React, { useEffect, useState } from "react";
+import { useUserInfoQuery } from "shared/services/services";
+import { logout } from "utils/auth";
 import bgMobile from "./bg-mobile.png";
 import bgDesktop from "./bg.png";
 import inboxImg from "./email.svg";
 
-interface props {
-  signOut: () => void;
-}
-
-const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
-  const { data: userInfo } = useGetUserInfoQuery({});
+const ConfirmSignUp = () => {
+  const { data: userInfo } = useUserInfoQuery();
   const [isChecking, setIsChecking] = useState(false);
   const [resend, { isLoading, status }] = useResendVerificationEmailMutation();
 
   const checkAgain = () => {
     setIsChecking(true);
-    localStorage.removeItem(WISDOMISE_TOKEN_KEY);
+    localStorage.removeItem(JwtTokenKey);
     window.location.assign(`${DB}/api/v1/account/login`);
   };
 
   useEffect(() => {
     if (status === QueryStatus.fulfilled) {
-      NotificationManager.success("Verification Email Sent Successfully.");
+      notification.success({
+        message: "Verification Email Sent Successfully.",
+      });
     }
   }, [status]);
 
@@ -51,7 +48,7 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
             </div>
 
             <button
-              onClick={signOut}
+              onClick={logout}
               className="md:text-x rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-xs md:px-8 md:py-3"
             >
               Log Out

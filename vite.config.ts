@@ -5,7 +5,16 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig((config) => ({
-  plugins: [react(), svgr(), linaria()],
+  plugins: [
+    react(),
+    svgr(),
+    linaria({
+      include: ["**/*.{ts,tsx}"],
+      babelOptions: {
+        presets: ["@babel/preset-typescript", "@babel/preset-react"],
+      },
+    }),
+  ],
   resolve: {
     alias: [
       { find: "containers", replacement: "/src/containers" },
@@ -26,4 +35,12 @@ export default defineConfig((config) => ({
   build: {
     sourcemap: true,
   },
+  // server: {
+  //   proxy: {
+  //     "/api/v1": {
+  //       target: "https://stage-temple.wisdomise.io",
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
 }));

@@ -54,7 +54,7 @@ export const Risk = {
   high: "High risk",
 };
 
-export interface DropdownConfig {
+interface DropdownConfig {
   name: FilterNames;
   label: string;
   type: "singleselect" | "multiselect" | "date";

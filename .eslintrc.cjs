@@ -27,5 +27,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "warn",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "jsx-a11y/alt-text": "off",
+    "react/prop-types": "off",
+    "react/jsx-no-target-blank": "off",
   },
 };

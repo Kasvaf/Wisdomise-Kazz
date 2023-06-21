@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3001",
+    "dev": "vite --port 3001 --host",
     "build": "tsc && vite build",
     "build:dev": "tsc && vite build --mode development",
     "build:prod": "tsc && vite build --mode production",
@@ -16,10 +16,8 @@
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
-    "@linaria/babel-preset": "^4.4.5",
     "@linaria/core": "^4.2.10",
     "@linaria/react": "^4.3.8",
-    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@reduxjs/toolkit": "^1.9.3",
     "@sentry/react": "^7.45.0",
     "@sentry/tracing": "^7.45.0",
@@ -27,12 +25,10 @@
     "@tanstack/react-query": "^4.29.14",
     "@types/numeral": "^2.0.2",
     "antd": "^5.6.2",
-    "autoprefixer": "^10.4.14",
-    "aws-amplify": "^5.0.22",
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
-    "dayjs": "^1.11.7",
-    "launchdarkly-react-client-sdk": "^3.0.4",
+    "crisp-sdk-web": "^1.0.19",
+    "dayjs": "^1.11.9",
     "numeral": "^2.0.6",
     "postcss": "^8.4.21",
     "postcss-preset-env": "^8.2.0",
@@ -42,7 +38,6 @@
     "react-dom": "^18.2.0",
     "react-ga4": "^2.1.0",
     "react-hotjar": "^5.5.0",
-    "react-notifications": "^1.7.4",
     "react-qr-code": "^2.0.11",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
@@ -50,10 +45,12 @@
     "tailwind-merge": "^1.10.0",
     "tailwindcss-animation-delay": "^1.0.7",
     "tw-elements": "^1.0.0-beta1",
-    "usehooks-ts": "^2.9.1",
     "vite-plugin-svgr": "^2.4.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
+    "@linaria/babel-preset": "^4.4.5",
     "@linaria/vite": "^4.2.11",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
@@ -75,6 +72,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-tailwindcss": "^3.10.3",
     "husky": "^8.0.3",
+    "knip": "^2.14.3",
     "lint-staged": "^13.2.0",
     "prettier": "2.8.8",
     "prettier-plugin-organize-imports": "^3.2.2",
@@ -85,8 +83,8 @@
   },
   "lint-staged": {
     "src/**/*.{scss,js,jsx,ts,tsx}": [
-      "eslint . --fix",
-      "prettier --write ."
+      "eslint",
+      "prettier"
     ]
   },
   "husky": {
