@@ -27,15 +27,15 @@ export default function RiskDetail() {
   const [showCongratulation, setShowCongratulation] = useState(false);
   const [UpdateIASStatusExecutor, UpdatedIASStatus] =
     useUpdateIASStatusMutation();
-  const etfBacktest = useGetETFBacktestQuery({
-    id: params.id,
-    params: {
-      start_date: convertDate(
-        new Date(import.meta.env.VITE_BACKTEST_START_DATE)
-      ),
-      end_date: convertDate(),
-    },
-  });
+  // const etfBacktest = useGetETFBacktestQuery({
+  //   id: params.id,
+  //   params: {
+  //     start_date: convertDate(
+  //       new Date(import.meta.env.VITE_BACKTEST_START_DATE)
+  //     ),
+  //     end_date: convertDate(),
+  //   },
+  // });
 
   const onClickCreateWallet = async () => {
     const body = {
@@ -162,7 +162,7 @@ export default function RiskDetail() {
           loading={fpData.isLoading}
           className="sm:w-[820px]"
         />
-        <div className="my-5  w-full bg-gray-dark p-5 sm:w-[820px]">
+        {/* <div className="my-5  w-full bg-gray-dark p-5 sm:w-[820px]">
           {fpData.isLoading ? (
             <Skeleton.Input className=" mb-4 rounded" active />
           ) : (
@@ -177,7 +177,7 @@ export default function RiskDetail() {
             loading={etfBacktest.isLoading}
             title={fpData?.data?.title}
           />
-        </div>
+        </div> */}
       </div>
       {showCongratulation && (
         <Modal className="!w-full sm:!w-[600px]">
