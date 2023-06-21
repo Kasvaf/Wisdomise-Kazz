@@ -25,7 +25,7 @@ enum ASSET_TYPE {
 const AssetStructureChart = (props: {
   investorAsset: InvestorAssetStructureResponse;
 }) => {
-  const exchange_account = props.investorAsset?.[0]?.main_exchange_account;
+  const ias = props.investorAsset?.[0];
 
   const [symbol, setSymbol] = useState<any>([]);
 
@@ -45,8 +45,8 @@ const AssetStructureChart = (props: {
         amount: item.amount,
         equity: item?.equity,
         value: Number(floatData(item?.equity)),
-        percent: exchange_account?.total_equity
-          ? (item?.equity / exchange_account?.total_equity) * 100
+        percent: ias?.total_equity
+          ? (item?.equity / ias?.total_equity) * 100
           : 0,
       });
     });
