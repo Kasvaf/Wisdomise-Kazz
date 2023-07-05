@@ -56,7 +56,7 @@ const Balance = () => {
         )}
       </div>
 
-      <div className="mt-5 flex w-full flex-col rounded bg-gray-dark p-5">
+      {/* <div className="mt-5 flex w-full flex-col rounded bg-gray-dark p-5">
         {historicalStatistic.isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -82,9 +82,9 @@ const Balance = () => {
             )}
           </>
         )}
-      </div>
+      </div> */}
 
-      <div className="mt-5 flex w-full flex-col rounded bg-gray-dark p-5">
+      {/* <div className="mt-5 flex w-full flex-col rounded bg-gray-dark p-5">
         {historicalStatistic.isLoading ? (
           <LoadingIndicator />
         ) : (
@@ -102,7 +102,7 @@ const Balance = () => {
             )}
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
