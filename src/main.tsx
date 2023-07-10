@@ -1,10 +1,10 @@
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+import { withLDProvider } from "launchdarkly-react-client-sdk";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import App from "./App";
 import store from "./store/store";
-import { withLDProvider } from "launchdarkly-react-client-sdk";
-import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
 
 const isLocal = window.location.hostname.includes("localhost");
 
@@ -43,7 +43,7 @@ if (!targetRootNode) {
 const root = ReactDOM.createRoot(targetRootNode);
 
 root.render(
-  <Sentry.ErrorBoundary fallback={<FallbackComponent />} showDialog>
+  <Sentry.ErrorBoundary fallback={<FallbackComponent />}>
     <Provider store={store}>
       <LDProvider />
     </Provider>
