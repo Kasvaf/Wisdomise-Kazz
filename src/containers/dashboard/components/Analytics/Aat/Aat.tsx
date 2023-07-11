@@ -1,24 +1,24 @@
-import { FunctionComponent } from "react";
 import { Line } from "@ant-design/plots";
+import { PointData, WealthData } from "api/backtest-types/simulateTrade";
+import Spinner from "components/common/Spinner";
+import { ANALYTICS_ERRORS } from "config/constants";
 import {
   FilterDropdownsConfig,
   FilterNames,
   Strategy,
 } from "containers/dashboard/common/Filters/constants";
-import { useProvideAatChartDataConfig } from "../utils";
-import { checkAllFiltersFilled, displayActiveTab } from "../../../utils";
-import isEmpty from "lodash/isEmpty";
 import FilterDropdown from "containers/dashboard/common/Filters/FilterDropdown";
 import { IFilter } from "containers/dashboard/common/Filters/types";
 import { MenuTab } from "containers/dashboard/common/MenuTabs";
-import { tabs } from "../Analytics";
-import { NotificationManager } from "react-notifications";
-import { ANALYTICS_ERRORS } from "config/constants";
-import { PointData, WealthData } from "api/backtest-types/simulateTrade";
-import Spinner from "components/common/Spinner";
-import { AatFilterDates } from "../constants";
+import isEmpty from "lodash/isEmpty";
+import { FunctionComponent } from "react";
 import { gaClick } from "utils/ga";
+import { checkAllFiltersFilled, displayActiveTab } from "../../../utils";
+import { tabs } from "../Analytics";
+import { AatFilterDates } from "../constants";
+import { useProvideAatChartDataConfig } from "../utils";
 
+import { notification } from "antd";
 import Button from "components/Button";
 import { BUTTON_TYPE } from "utils/enums";
 
@@ -52,7 +52,7 @@ const Aat: FunctionComponent<AatProps> = ({
 
   const onScan = () => {
     if ((aatFilter.date.start as Date) >= (aatFilter.date.end as Date)) {
-      NotificationManager.error(aatErrors.dateRange.invalid);
+      notification.error({ message: aatErrors.dateRange.invalid });
       return;
     }
 

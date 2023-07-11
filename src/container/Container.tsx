@@ -1,0 +1,33 @@
+import { useEffect, useRef, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { Header } from "./header/Header";
+import { MobileMenu } from "./mobileMenu/MobileMenu";
+import { SideMenu } from "./sideMenu/SideMenu";
+
+export const Container = () => {
+  const [showShadow, setShowShadow] = useState(false);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    mainRef.current?.addEventListener("scroll", function () {
+      setShowShadow(this.scrollTop > 8);
+    });
+    document.addEventListener("scroll", function () {
+      setShowShadow((this.scrollingElement?.scrollTop || 0) > 8);
+    });
+  }, []);
+
+  return (
+    <>
+      <SideMenu />
+      <Header showShadow={showShadow} />
+      <div
+        ref={mainRef}
+        className="main ml-[17.75rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto"
+      >
+        <Outlet />
+      </div>
+      <MobileMenu />
+    </>
+  );
+};

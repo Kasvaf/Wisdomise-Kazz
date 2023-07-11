@@ -1,14 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { horosApi } from "../api/horosApi";
-import { rtkQueryErrorMiddleware } from "../api/rtkQueryErrorMiddleware";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { chainReducers } from "utils/chainReducers";
+import { horosApi } from "../api/horosApi";
+import { rtkQueryErrorMiddleware } from "../api/rtkQueryErrorMiddleware";
 import { appReducer, RootState } from "./appReducer";
-import { signoutReducer } from "./slices/signout";
 import IASReducer from "./slices/IAS";
 
 export const store = configureStore({
-  reducer: chainReducers<any>(appReducer, signoutReducer, IASReducer),
+  reducer: chainReducers<any>(appReducer, IASReducer),
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware(),
     horosApi.middleware,

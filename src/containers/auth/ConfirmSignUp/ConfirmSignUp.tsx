@@ -1,35 +1,32 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import DB from "config/keys";
-import {
-  useGetUserInfoQuery,
-  useResendVerificationEmailMutation,
-} from "api/horosApi";
 import Logo from "@images/wisdomiseWealthLogo.svg";
-import bgDesktop from "./bg.png";
-import bgMobile from "./bg-mobile.png";
-import inboxImg from "./email.svg";
 import { QueryStatus } from "@reduxjs/toolkit/dist/query";
-import { NotificationManager } from "react-notifications";
-import { WISDOMISE_TOKEN_KEY } from "config/constants";
+import { notification } from "antd";
+import { useResendVerificationEmailMutation } from "api/horosApi";
+import { JwtTokenKey } from "config/constants";
+import DB from "config/keys";
+import React, { useEffect, useState } from "react";
+import { useUserInfoQuery } from "shared/services/services";
+import { logout } from "utils/auth";
+import bgMobile from "./bg-mobile.png";
+import bgDesktop from "./bg.png";
+import inboxImg from "./email.svg";
 
-interface props {
-  signOut: () => void;
-}
-
-const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
-  const { data: userInfo } = useGetUserInfoQuery({});
+const ConfirmSignUp = () => {
+  const { data: userInfo } = useUserInfoQuery();
   const [isChecking, setIsChecking] = useState(false);
   const [resend, { isLoading, status }] = useResendVerificationEmailMutation();
 
   const checkAgain = () => {
     setIsChecking(true);
-    localStorage.removeItem(WISDOMISE_TOKEN_KEY);
+    localStorage.removeItem(JwtTokenKey);
     window.location.assign(`${DB}/api/v1/account/login`);
   };
 
   useEffect(() => {
     if (status === QueryStatus.fulfilled) {
-      NotificationManager.success("Verification Email Sent Successfully.");
+      notification.success({
+        message: "Verification Email Sent Successfully.",
+      });
     }
   }, [status]);
 
@@ -45,14 +42,14 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
     >
       <div className="m-auto flex min-h-screen max-w-[1300px] flex-col justify-between">
         <div>
-          <header className="mt-8 mb-10 flex items-center justify-between px-8">
+          <header className="mb-10 mt-8 flex items-center justify-between px-8">
             <div className="w-44">
               <img src={Logo} alt="wisdomise_wealth_logo" />
             </div>
 
             <button
-              onClick={signOut}
-              className="md:text-x rounded-full border border-solid border-[#ffffff4d] py-3 px-5 text-xs md:px-8 md:py-3"
+              onClick={logout}
+              className="md:text-x rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-xs md:px-8 md:py-3"
             >
               Log Out
             </button>
@@ -75,13 +72,13 @@ const ConfirmSignUp: FunctionComponent<props> = ({ signOut }) => {
 
             <button
               onClick={checkAgain}
-              className="mb-4 rounded-full border border-solid border-[#ffffff4d] py-3 px-9 text-base md:px-16 md:py-5 md:text-xl"
+              className="mb-4 rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
             >
               Check{isChecking ? "ing..." : ""}
             </button>
 
             <button
-              className="rounded-full border border-solid border-[#ffffff4d] py-3 px-9 text-base md:px-16 md:py-5 md:text-xl"
+              className="rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
               onClick={resend}
             >
               {isLoading

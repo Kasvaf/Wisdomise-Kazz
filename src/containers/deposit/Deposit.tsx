@@ -1,10 +1,9 @@
 import { ReactComponent as CloseIcon } from "@images/close.svg";
 import { ReactComponent as LeftArrow } from "@images/icons/left-arrow.svg";
 import * as Sentry from "@sentry/react";
-import { Avatar, Skeleton } from "antd";
+import { Avatar, notification, Skeleton } from "antd";
 import {
   useGetDepositSymbolQuery,
-  useGetInvestorAssetStructureQuery,
   useLazyGetDepositNetworkQuery,
   useLazyGetDepositWalletAddressQuery,
 } from "api/horosApi";
@@ -16,14 +15,16 @@ import SelectNetwork from "components/selectNetwork";
 import { coins } from "containers/dashboard/constants";
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { NotificationManager } from "react-notifications";
 import QRCode from "react-qr-code";
 import { useParams } from "react-router-dom";
+import { useInvestorAssetStructuresQuery } from "shared/services/services";
 import { BUTTON_TYPE } from "utils/enums";
 
 const DepositAddressModal = (data: any, onDone: () => void) => {
   const onClickCopy = () => {
-    NotificationManager.success("Copy was successful");
+    notification.success({
+      message: "Copy was successful",
+    });
   };
   return (
     <div className="flex flex-col p-4">
@@ -84,7 +85,7 @@ const Deposit: FunctionComponent = () => {
   const [walletAddressTrigger, walletAddress] =
     useLazyGetDepositWalletAddressQuery({});
 
-  const investorAsset = useGetInvestorAssetStructureQuery({});
+  const ias = useInvestorAssetStructuresQuery();
 
   const onCloseQRModal = () => {
     setShowDepositAddress(false);
@@ -93,11 +94,11 @@ const Deposit: FunctionComponent = () => {
   const onClickTransfer = async () => {
     try {
       // await updateDepositAddress(params.exchangeAccountKey as string);
-      NotificationManager.success(
-        "Wallet has been updated, It takes some time to affect your account",
-        "",
-        TOAST_TIME
-      );
+      notification.success({
+        message:
+          "Wallet has been updated, It takes some time to affect your account",
+        duration: TOAST_TIME,
+      });
       onCompleted();
     } catch (e) {
       Sentry.captureException(e);
@@ -144,9 +145,9 @@ const Deposit: FunctionComponent = () => {
 
   const onCompleted = useCallback(async () => {
     // await RefreshExchangeAccountExecuter(params.exchangeAccountKey);
-    investorAsset?.refetch();
+    ias?.refetch();
     window.location.href = "/app/dashboard";
-  }, [investorAsset]);
+  }, [ias]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -158,10 +159,10 @@ const Deposit: FunctionComponent = () => {
     <>
       <div className="mx-0 flex flex-col  sm:mx-[200px] ">
         <div className="mt-[50px] flex w-full grid-cols-12 flex-col items-center justify-center">
-          <h2 className="mb-4   text-4xl capitalize text-white">
+          <h2 className="mb-4   self-start text-4xl capitalize text-white mobile:text-xl">
             Deposit Your Investment
           </h2>
-          <p className="mb-6  w-[390px] text-center text-base text-gray-light ">
+          <p className="mb-6 w-[390px] text-center text-base text-gray-light mobile:w-full mobile:text-left mobile:text-sm">
             Your subscription fee will be deducted from your deposit at the end
             of each month and may affect your subscription tier
           </p>

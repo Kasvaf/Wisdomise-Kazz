@@ -1,5 +1,10 @@
-import { Dropdown } from "antd";
 import { ReactComponent as ChevronDown } from "@images/chevron-down.svg";
+import { Dropdown } from "antd";
+import dayjs, { Dayjs } from "dayjs";
+import { cloneDeep, isArray } from "lodash";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { DateRange, Range } from "react-date-range";
+import { gaClick } from "utils/ga";
 import {
   Coins,
   FilterDropdownsConfig,
@@ -7,11 +12,6 @@ import {
   Strategy,
 } from "./constants";
 import { IFilter } from "./types";
-import { DateRange, Range } from "react-date-range";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { cloneDeep, isArray } from "lodash";
-import dayjs, { Dayjs } from "dayjs";
-import { gaClick } from "utils/ga";
 
 type DisableItemType = keyof typeof Coins | keyof typeof Strategy;
 

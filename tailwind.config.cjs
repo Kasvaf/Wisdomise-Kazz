@@ -18,6 +18,10 @@ module.exports = {
     "opacity-50",
   ],
   theme: {
+    screens: {
+      mobile: { max: "750px" },
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
         primary: "#13dff2",
@@ -76,6 +80,9 @@ module.exports = {
       },
       aspectRatio: {
         "4/3": "4 / 3",
+      },
+      fontSize: {
+        xxs: "0.625rem",
       },
     },
     fontFamily: {

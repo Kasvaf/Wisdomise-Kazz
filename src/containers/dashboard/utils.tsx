@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
-import _ from "lodash";
-import { coins } from "./constants";
 import { Tooltip } from "antd";
+import _ from "lodash";
+import { ReactNode } from "react";
+import { coins } from "./constants";
 
 import { ReactComponent as InfoIcon } from "@images/info.svg";
 import { IFilter } from "./common/Filters/types";

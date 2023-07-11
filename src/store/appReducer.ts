@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { userInfo } from "./userInfo";
 import { horosApi } from "../api/horosApi";
 import IASSlice from "./slices/IAS";
+import { userInfo } from "./userInfo";
 
 export const appReducer = combineReducers({
   user: userInfo.reducer,

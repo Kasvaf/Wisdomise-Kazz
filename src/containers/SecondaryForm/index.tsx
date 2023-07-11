@@ -1,17 +1,14 @@
+import Logo from "@images/wisdomiseWealthLogo.svg";
+import * as Sentry from "@sentry/react";
 import { useAgreeToTermsMutation } from "api/horosApi";
 import React, { useState } from "react";
-import PolicyDialog from "./PolicyDialog";
-import * as Sentry from "@sentry/react";
-import TermsDialog from "./TermsDialog";
-import bgDesktop from "../auth/ConfirmSignUp/bg.png";
+import { logout } from "utils/auth";
 import bgMobile from "../auth/ConfirmSignUp/bg-mobile.png";
-import Logo from "@images/wisdomiseWealthLogo.svg";
+import bgDesktop from "../auth/ConfirmSignUp/bg.png";
+import PolicyDialog from "./PolicyDialog";
+import TermsDialog from "./TermsDialog";
 
-interface Props {
-  signOut: () => void;
-}
-
-export const SecondaryForm: React.FC<Props> = ({ signOut }) => {
+export const SecondaryForm: React.FC = () => {
   const [nickname, setNickname] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [isTermsOpen, setTermsOpen] = useState(false);
@@ -101,14 +98,14 @@ export const SecondaryForm: React.FC<Props> = ({ signOut }) => {
     >
       <div className="m-auto flex min-h-screen max-w-[1300px] flex-col justify-between">
         <div>
-          <header className="mt-8 mb-10 flex items-center justify-between px-8">
+          <header className="mb-10 mt-8 flex items-center justify-between px-8">
             <div className="w-44">
               <img src={Logo} alt="wisdomise_wealth_logo" />
             </div>
 
             <button
-              onClick={signOut}
-              className="md:text-x rounded-full border border-solid border-[#ffffff4d] py-3 px-5 text-xs md:px-8 md:py-3"
+              onClick={logout}
+              className="md:text-x rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-xs md:px-8 md:py-3"
             >
               Log Out
             </button>
@@ -174,7 +171,7 @@ export const SecondaryForm: React.FC<Props> = ({ signOut }) => {
 
               <button
                 onClick={onSubmit}
-                className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white py-3 px-9 text-base text-black md:px-16 md:py-5 md:text-xl"
+                className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
               >
                 Submit{isLoading ? "ing ..." : ""}
               </button>

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FunctionComponent, useState, useCallback } from "react";
+import { notification } from "antd";
 import { useLazySimulateTradeQuery } from "api/horosApi";
 import { IFilter } from "containers/dashboard/common/Filters/types";
 import MenuTabs, { MenuTab } from "containers/dashboard/common/MenuTabs";
 import { TabLabels } from "containers/dashboard/types";
 import { format } from "date-fns";
+import { FunctionComponent, useCallback, useState } from "react";
 import Aat from "./Aat";
-import { NotificationManager } from "react-notifications";
 
 export const tabs: MenuTab[] = [
   {
@@ -52,7 +52,7 @@ const Analytics: FunctionComponent = () => {
       await Promise.all([getSimulateTrade(aatPayload).unwrap()]);
     } catch (error: any) {
       if (error?.status === 400) {
-        NotificationManager.error(error.data.error);
+        notification.error({ message: error.data.error });
       }
     }
   }, [aatFilter, getSimulateTrade]);

@@ -115,38 +115,6 @@ export const tabs: any = {
     defaultUrl: "strategyCatalog",
   },
 
-  // [TabLabels.signals]: {
-  //   id: TabLabels.signals,
-  //   description: (
-  //     <span>
-  //       Horos AI Market Signaler (Horos AMS) is vigilantly watching the market
-  //       <br />
-  //       to identify opportune market signals
-  //     </span>
-  //   ),
-  //   hash: 'sign',
-  //   label: 'AI Market Predictions',
-  //   icon: <SignalsIcon className="dashboard-icon" />,
-  //   actionLabel: 'Scan now',
-  //   defaultUrl: 'signals',
-  // },
-
-  // [TabLabels.analytics]: {
-  //   id: TabLabels.analytics,
-  //   description: (
-  //     <span>
-  //       Horos AI Market Signaler (Horos AMS) is vigilantly watching the market
-  //       <br />
-  //       to identify opportune market signals
-  //     </span>
-  //   ),
-  //   hash: 'sign',
-  //   label: 'analytics',
-  //   icon: <SignalsIcon className="dashboard-icon" />,
-  //   actionLabel: 'Scan now',
-  //   defaultUrl: 'analytics',
-  // },
-
   // [TabLabels.WisdomiseAI]: {
   //   id: TabLabels.WisdomiseAI,
   //   description: "",
@@ -155,49 +123,14 @@ export const tabs: any = {
   //   icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
   //   defaultUrl: "s",
   //   subMenu: [
-  //     // {
-  //     //   id: TabLabels.signals,
-  //     //   hash: "sign",
-  //     //   label: "AI Signals",
-  //     //   icon: <Analytics className="dashboard-icon h-6 w-6" />,
-  //     //   actionLabel: "Scan now",
-  //     //   defaultUrl: "signals",
-  //     // },
-  //     // {
-  //     //   id: TabLabels.backtest,
-  //     //   hash: "Backtest",
-  //     //   label: "Backtest ",
-  //     //   icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
-  //     //   actionLabel: "Backtest",
-  //     //   defaultUrl: "backtest",
-  //     // },
-  //     // {
-  //     //   id: TabLabels.sentiment,
-  //     //   hash: 'sentiment',
-  //     //   label: 'Market Sentiment',
-  //     //   icon: <Analytics className="dashboard-icon h-6 w-6" />,
-  //     //   actionLabel: 'sentiment',
-  //     //   defaultUrl: 'sentiment',
-  //     //   comingSoon: true,
-  //     // },
-  //     // {
-  //     //   id: TabLabels.transactions,
-  //     //   description: 'Explore Horos features to start generating wealth',
-  //     //   hash: 'dash',
-  //     //   label: 'transactions',
-  //     //   icon: <TransactionIcon className="dashboard-icon" />,
-  //     //   defaultUrl: 'transactions',
-  //     // },
-  //     // {
-  //     //   id: TabLabels.catalog,
-  //     //   description:
-  //     //     'Compare analytics and benchmark the performance of your portfolio based on the selected asset and strategy',
-  //     //   hash: 'catalog',
-  //     //   label: 'catalog',
-  //     //   icon: <SignalsIcon className="dashboard-icon" />,
-  //     //   actionLabel: 'Learn more',
-  //     //   defaultUrl: 'catalog',
-  //     // },
+  //     {
+  //       id: TabLabels.backtest,
+  //       hash: "Backtest",
+  //       label: "Backtest ",
+  //       icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
+  //       actionLabel: "Backtest",
+  //       defaultUrl: "backtest",
+  //     },
   //   ],
   // },
 
@@ -218,54 +151,4 @@ export const tabs: any = {
     defaultUrl: "analytics",
     comingSoon: true,
   },
-
-  // [TabLabels.AIautoTrader]: {
-  //   id: TabLabels.AIautoTrader,
-  //   description: '',
-  //   hash: 'AIautoTrader',
-  //   label: 'AI Auto Trader',
-  //   icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
-  //   defaultUrl: 'x',
-  //   subMenu: [
-
-  //     {
-  //       id: TabLabels.advanceTrading,
-  //       description: (
-  //         <span>
-  //           Wisdomise AI Market Signaler (Horos AMS) is vigilantly watching the
-  //           market
-  //           <br />
-  //           to identify opportune market signals
-  //         </span>
-  //       ),
-  //       hash: 'sign',
-  //       label: 'Advanced Trading',
-  //       icon: <TradingIcon className="dashboard-icon h-6 w-6" />,
-  //       actionLabel: 'Scan now',
-  //       defaultUrl: 'analytics',
-  //       comingSoon: true,
-  //     },
-  //   ],
-  // },
-
-  // [TabLabels.settings]: {
-  //   id: TabLabels.settings,
-  //   description: 'Set and edit Horos preferences and notifications',
-  //   hash: 'settings',
-  //   label: 'Settings',
-  //   icon: <CogIcon className="dashboard-icon" />,
-  //   hidden: true,
-  //   defaultUrl: 'settings/general',
-  // },
-  // [TabLabels.logout]: {
-  //   id: TabLabels.logout,
-  //   description: '',
-  //   hash: 'logout',
-  //   label: 'Log out',
-  //   icon: <LogoutIcon className="dashboard-icon" />,
-  //   hidden: true,
-  //   button: true,
-  //   defaultUrl: '',
-  //   className: 'text-error fill-error',
-  // },
 };

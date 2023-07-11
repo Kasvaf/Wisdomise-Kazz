@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import Modal from "components/modal/Modal";
 import { ReactComponent as CloseIcon } from "@images/close.svg";
-import styles from "./styles.module.scss";
+import Modal from "components/modal/Modal";
 import { useCallback, useRef, useState } from "react";
+import styles from "./styles.module.scss";
 
 interface IProps {
   isOpen: boolean;
@@ -2909,7 +2909,7 @@ export default function PolicyDialog({ isOpen, toggle, onCheck }: IProps) {
         <button
           onClick={onCheck}
           disabled={!isScrolledToEnd}
-          className="mt-5 w-full rounded-full border-none bg-white py-3 px-9 text-base text-black disabled:bg-gray-main disabled:text-[#cccc] md:px-14 md:py-3 md:text-xl"
+          className="mt-5 w-full rounded-full border-none bg-white px-9 py-3 text-base text-black disabled:bg-gray-main disabled:text-[#cccc] md:px-14 md:py-3 md:text-xl"
         >
           I have read and accept the privacy policy.
         </button>

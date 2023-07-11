@@ -22,7 +22,9 @@
       "utils/*": ["./src/utils/*"],
       "api/*": ["./src/api/*"],
       "types/*": ["./src/types/*"],
-      "store/*": ["./src/store/*"]
+      "store/*": ["./src/store/*"],
+      "pages/*": ["./src/pages/*"],
+      "shared/*": ["./src/shared/*"]
     }
   },
   "include": ["src"],
