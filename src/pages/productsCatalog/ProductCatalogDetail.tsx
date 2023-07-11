@@ -1,4 +1,3 @@
-import LineChart from "containers/dashboard/components/LineChart/LineChart";
 import { useParams } from "react-router-dom";
 import { CoinsIcons } from "shared/components/Coins";
 import { PageWrapper } from "shared/components/PageWrapper";
@@ -34,13 +33,19 @@ const ProductCatalogDetail = () => {
 
       <div className="flex mobile:flex-col">
         <div className="basis-2/3 mobile:order-2 mobile:basis-auto">
-          <div className="h-full rounded-3xl bg-white/5 p-8">
-            <LineChart
+          <div className="flex h-full items-center justify-center rounded-3xl bg-white/5 p-8">
+            <p className="text-white">
+              Backtest{" "}
+              <span className="rounded-3xl bg-white/20 p-2 text-white/40">
+                Soon
+              </span>
+            </p>
+            {/* <LineChart
               className="w-full"
               title={fp.data?.title}
               chartData={backtest.data}
               loading={backtest.isLoading}
-            />
+            /> */}
           </div>
         </div>
 
