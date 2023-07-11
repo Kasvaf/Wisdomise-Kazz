@@ -99,7 +99,7 @@ const ProductCatalogDetail = () => {
                 <span className="text-white/40">Min</span>
                 <br />
                 <span className="font-medium">
-                  {fp.data?.min_deposit}
+                  {fp.data?.min_deposit}{" "}
                   <span className="text-white/80">BUSD</span>
                 </span>
               </p>
@@ -108,7 +108,7 @@ const ProductCatalogDetail = () => {
                 <span className="text-white/40">Max</span>
                 <br />
                 <span className="font-medium">
-                  {fp.data?.max_deposit}
+                  {fp.data?.max_deposit}{" "}
                   <span className="text-white/80">BUSD</span>
                 </span>
               </p>

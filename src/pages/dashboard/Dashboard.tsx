@@ -79,7 +79,7 @@ function Dashboard() {
                     Wisdomise offers{" "}
                     <span className="whitespace-nowrap">AI-based</span>{" "}
                     strategies tailored to <br /> your risk tolerance. Check out
-                    our Financial Products and start a making profit today.
+                    our Financial Products and start making a profit today.
                   </p>
                 </div>
                 <Button
