@@ -1,6 +1,7 @@
 import { notification } from "antd";
 import { AxiosError } from "axios";
 import Balance from "containers/dashboard/components/balance/Balance";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "shared/components/Button";
 import { PageWrapper } from "shared/components/PageWrapper";
@@ -22,6 +23,13 @@ function Dashboard() {
   const ias = useInvestorAssetStructuresQuery();
   const updateFPIStatus = useUpdateFPIStatusMutation();
   const fpi = ias.data?.[0]?.financial_product_instances[0];
+
+  const onAthenaClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setTimeout(() => {
+      window.open("https://athena.wisdomise.io", "_blank");
+    });
+  };
 
   const onClickStatus = async (status: keyof typeof IAS_STATUS) => {
     if (updateFPIStatus.isLoading) return;
@@ -46,16 +54,15 @@ function Dashboard() {
     <PageWrapper loading={ias.isLoading}>
       <div className="flex w-full flex-row justify-center">
         <div className="flex w-full flex-col">
-          <a
-            href="https://athena.wisdomise.io"
-            target="_blank"
+          <button
+            onClick={onAthenaClick}
             className="mb-6 flex h-16 cursor-pointer items-center justify-between rounded-3xl bg-white/5 px-8 py-3 text-xl text-white/20 mobile:p-2 mobile:pl-8 mobile:text-sm"
           >
             Ask Your Question To Athena
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
               <img src={ArrowSrc} />
             </div>
-          </a>
+          </button>
 
           {!fpi ? (
             <div className="flex w-full flex-row justify-between rounded-3xl bg-white/5 px-8 py-6  mobile:p-6">
