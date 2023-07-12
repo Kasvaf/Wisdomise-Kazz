@@ -12,7 +12,7 @@ export const Header: React.FC<Props> = ({ showShadow }) => {
   return (
     <div
       className={clsx(
-        "s fixed top-0 z-[1] flex h-20 w-full items-center justify-end bg-[#131822] px-6 py-6 mobile:justify-between mobile:px-4 mobile:py-3",
+        "fixed top-0 z-[1] mx-auto flex h-20 w-full max-w-screen-2xl items-center justify-end bg-[#131822] px-6 py-6 mobile:justify-between mobile:px-4 mobile:py-3",
         showShadow && "shadow-[0_0_28px_4px_#131822]"
       )}
     >

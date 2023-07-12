@@ -5,8 +5,8 @@ import { MobileMenu } from "./mobileMenu/MobileMenu";
 import { SideMenu } from "./sideMenu/SideMenu";
 
 export const Container = () => {
-  const [showShadow, setShowShadow] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
+  const [showShadow, setShowShadow] = useState(false);
 
   useEffect(() => {
     mainRef.current?.addEventListener("scroll", function () {
@@ -18,7 +18,7 @@ export const Container = () => {
   }, []);
 
   return (
-    <>
+    <main className="mx-auto max-w-screen-2xl">
       <SideMenu />
       <Header showShadow={showShadow} />
       <div
@@ -28,6 +28,6 @@ export const Container = () => {
         <Outlet />
       </div>
       <MobileMenu />
-    </>
+    </main>
   );
 };

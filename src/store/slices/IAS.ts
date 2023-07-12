@@ -9,10 +9,7 @@ const IASSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setIAS: (
-      state: { IASData: InvestorAssetStructures | null },
-      actions: PayloadAction<InvestorAssetStructures>
-    ) => {
+    setIAS: (state: { IASData: InvestorAssetStructures | null }, actions: PayloadAction<InvestorAssetStructures>) => {
       state.IASData = actions.payload;
     },
     getIAS: (state: { IASData: InvestorAssetStructures | null }) => {

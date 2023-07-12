@@ -6,17 +6,8 @@ const animationDelay = require("tailwindcss-animation-delay");
 const twElements = require("tw-elements/dist/plugin");
 
 module.exports = {
-  content: [
-    "./src/**/*.{html,js,ts,jsx,tsx}",
-    "./node_modules/tw-elements/dist/js/**/*.js",
-  ],
-  safelist: [
-    "bg-seeker",
-    "bg-adventurer",
-    "bg-explorer",
-    "opacity-100",
-    "opacity-50",
-  ],
+  content: ["./src/**/*.{html,js,ts,jsx,tsx}", "./node_modules/tw-elements/dist/js/**/*.js"],
+  safelist: ["bg-seeker", "bg-adventurer", "bg-explorer", "opacity-100", "opacity-50"],
   theme: {
     screens: {
       mobile: { max: "750px" },

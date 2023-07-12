@@ -8,12 +8,7 @@ interface ModalInterface {
   onClose?: () => void;
 }
 
-const Modal: FC<ModalInterface> = ({
-  children,
-  className,
-  onClose,
-  backdropClassName,
-}) => {
+const Modal: FC<ModalInterface> = ({ children, className, onClose, backdropClassName }) => {
   return (
     <div
       className={twMerge(
@@ -25,10 +20,7 @@ const Modal: FC<ModalInterface> = ({
       }}
     >
       <div
-        className={twMerge(
-          "mx-auto w-[355px] bg-black px-3 py-5 shadow-[0px_0px_20px_2px_#222]",
-          className
-        )}
+        className={twMerge("mx-auto w-[355px] bg-black px-3 py-5 shadow-[0px_0px_20px_2px_#222]", className)}
         onClick={(e) => {
           e.stopPropagation();
         }}

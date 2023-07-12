@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "shared/components/Button";
-import { CoinsIcons } from "shared/components/Coins";
+import { CoinsIcons } from "shared/components/CoinsIcons";
 import { PriceChange } from "shared/components/priceChange/PriceChange";
 import { useInvestorAssetStructuresQuery } from "shared/services/services";
 import { FPActivateButton } from "./FPActivateButton";
@@ -13,10 +14,7 @@ interface RiskCardProps {
   fp: FinancialProduct;
 }
 
-export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
-  fp,
-  className,
-}) => {
+export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({ fp, className }) => {
   const navigate = useNavigate();
   const ias = useInvestorAssetStructuresQuery();
 
@@ -24,18 +22,12 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
   const isRunning = isFPRunning(ias.data, fp.key);
 
   return (
-    <div
-      className={`flex flex-col rounded-3xl bg-white/5 ${className} ${
-        isRunning && "!bg-white/10"
-      }`}
-    >
-      <div className="flex flex-col p-6">
-        <h5 className="mb-4 text-base font-semibold text-white">{fp.title}</h5>
+    <div className={clsx("flex flex-col rounded-3xl bg-white/5", className, isRunning && "!bg-white/10")}>
+      <div className="flex flex-grow flex-col p-6">
+        <h5 className="mb-4 flex-grow text-base font-semibold text-white">{fp.title}</h5>
         <div className="mb-9 flex items-center justify-between">
           <div className="flex items-start gap-2 text-xs font-normal">
-            <div className="rounded-full bg-white/5 px-5 py-2 text-white/60">
-              Spot
-            </div>
+            <div className="rounded-full bg-white/5 px-5 py-2 text-white/60">Spot</div>
             <div
               className={`rounded-full px-3 py-2 ${
                 rrr === "High"
@@ -54,10 +46,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
         <section className="text-sm font-medium">
           <div className="mb-4 flex justify-between ">
             <p className=" text-white">Expected Yield (APY)</p>
-            <PriceChange
-              valueToFixed={false}
-              value={Number(fp.profile.expected_yield.replace("%", ""))}
-            />
+            <PriceChange valueToFixed={false} value={Number(fp.profile.expected_yield.replace("%", ""))} />
           </div>
 
           <div className="mb-9 flex justify-between">

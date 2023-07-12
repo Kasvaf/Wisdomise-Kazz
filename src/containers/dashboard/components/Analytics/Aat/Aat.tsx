@@ -2,11 +2,7 @@ import { Line } from "@ant-design/plots";
 import { PointData, WealthData } from "api/backtest-types/simulateTrade";
 import Spinner from "components/common/Spinner";
 import { ANALYTICS_ERRORS } from "config/constants";
-import {
-  FilterDropdownsConfig,
-  FilterNames,
-  Strategy,
-} from "containers/dashboard/common/Filters/constants";
+import { FilterDropdownsConfig, FilterNames, Strategy } from "containers/dashboard/common/Filters/constants";
 import FilterDropdown from "containers/dashboard/common/Filters/FilterDropdown";
 import { IFilter } from "containers/dashboard/common/Filters/types";
 import { MenuTab } from "containers/dashboard/common/MenuTabs";
@@ -44,9 +40,7 @@ const Aat: FunctionComponent<AatProps> = ({
   coinData,
 }) => {
   const aatChartConfig = useProvideAatChartDataConfig(aatData, coinData, {
-    coin: !isEmpty(aatFilter.coin)
-      ? Object.keys(aatFilter.coin).filter((c) => aatFilter.coin[c])[0]
-      : "",
+    coin: !isEmpty(aatFilter.coin) ? Object.keys(aatFilter.coin).filter((c) => aatFilter.coin[c])[0] : "",
     is_daily_basis: !!aatFilter.strategy.daily,
   });
 
@@ -60,10 +54,7 @@ const Aat: FunctionComponent<AatProps> = ({
   };
 
   return (
-    <div
-      className="space-y-8"
-      style={{ display: displayActiveTab(tabs[0], activeTab) }}
-    >
+    <div className="space-y-8" style={{ display: displayActiveTab(tabs[0], activeTab) }}>
       <div className="dashboard-panel space-y-8">
         <div className="flex w-full flex-col justify-center space-y-4 md:flex-row md:space-x-8 md:space-y-0">
           <div className="w-full md:w-1/4">
@@ -130,9 +121,7 @@ const Aat: FunctionComponent<AatProps> = ({
         <>
           <div className="dashboard-panel space-y-8">
             <p className="font-campton text-xl text-white">PnL Chart %</p>
-            {aatChartConfig?.data && aatChartConfig && (
-              <Line {...aatChartConfig} />
-            )}
+            {aatChartConfig?.data && aatChartConfig && <Line {...aatChartConfig} />}
           </div>
         </>
       )}

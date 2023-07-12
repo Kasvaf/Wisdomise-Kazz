@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { ReactComponent as AssetOverviewIcon } from "./icons/assetOverview.svg";
 import { ReactComponent as DashboardIcon } from "./icons/dashboard.svg";
 import { ReactComponent as ProductsCatalogIcon } from "./icons/productsCatalog.svg";
 import { ReactComponent as SignalsIcon } from "./icons/signals.svg";
 
+import { isProduction } from "utils/utils";
 import Logo from "./icons/logo.svg";
 
 export const SideMenu = () => {
@@ -38,6 +40,13 @@ export const MenuItems = [
     text: "Products Catalog",
     mobileText: "Products",
     link: "app/products-catalog",
+  },
+  {
+    icon: <AssetOverviewIcon />,
+    text: "Asset Overview",
+    mobileText: "Asset",
+    link: "app/asset-overview",
+    hide: isProduction,
   },
   {
     icon: <SignalsIcon />,

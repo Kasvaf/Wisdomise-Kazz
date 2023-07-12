@@ -8,9 +8,7 @@ interface HistoricalChartProps {
   historicalStatistic: any;
 }
 
-const HistoricalChart: FunctionComponent<HistoricalChartProps> = ({
-  historicalStatistic,
-}) => {
+const HistoricalChart: FunctionComponent<HistoricalChartProps> = ({ historicalStatistic }) => {
   // const historicalStatistic =
   //   useGetExchangeAccountHistoricalStatisticQuery(exchangeAccountKey);
 
@@ -19,9 +17,7 @@ const HistoricalChart: FunctionComponent<HistoricalChartProps> = ({
     if (historicalStatistic.data && historicalStatistic?.data.length > 0) {
       historicalStatistic?.data.map((item: any, index: number) => {
         const prePnlValue =
-          index === 0
-            ? historicalStatistic.data[0].total_pnl
-            : historicalStatistic.data[index - 1].total_pnl;
+          index === 0 ? historicalStatistic.data[0].total_pnl : historicalStatistic.data[index - 1].total_pnl;
         chartDataArray.push({
           date: item.related_at.split("T")[0],
           originalValue: item.total_pnl,
@@ -61,14 +57,7 @@ const HistoricalChart: FunctionComponent<HistoricalChartProps> = ({
         return (
           <div className="p-3">
             <p className="mb-3">Date: {title}</p>
-            {data.length ? (
-              <p style={{ color: data[0].color }}>
-                {" "}
-                value: {data[0].value} BUSD
-              </p>
-            ) : (
-              <p>0</p>
-            )}
+            {data.length ? <p style={{ color: data[0].color }}> value: {data[0].value} BUSD</p> : <p>0</p>}
           </div>
         );
       },

@@ -138,8 +138,7 @@ export const tabs: any = {
     id: TabLabels.advanceTrading,
     description: (
       <span>
-        Wisdomise AI Market Signaler (Horos AMS) is vigilantly watching the
-        market
+        Wisdomise AI Market Signaler (Horos AMS) is vigilantly watching the market
         <br />
         to identify opportune market signals
       </span>

@@ -10,33 +10,20 @@ interface LineChartProps {
   title?: string;
 }
 
-const LineChart: FunctionComponent<LineChartProps> = ({
-  className,
-  chartData,
-  loading,
-  title,
-}) => {
+const LineChart: FunctionComponent<LineChartProps> = ({ className, chartData, loading, title }) => {
   const convertRowDataToChartData = useMemo(() => {
     const chartDataArray: any[] = [];
     chartData?.etf_benchmark.map((item: any) => {
       chartDataArray.push({
         date: item.d,
-        value: floatData(
-          ((item.v - chartData?.etf_benchmark[0].v) /
-            chartData?.etf_benchmark[0].v) *
-            100
-        ),
+        value: floatData(((item.v - chartData?.etf_benchmark[0].v) / chartData?.etf_benchmark[0].v) * 100),
         category: title,
       });
     });
     chartData?.btc_benchmark.map((item: any) => {
       chartDataArray.push({
         date: item.d,
-        value: floatData(
-          ((item.v - chartData?.btc_benchmark[0].v) /
-            chartData?.btc_benchmark[0].v) *
-            100
-        ),
+        value: floatData(((item.v - chartData?.btc_benchmark[0].v) / chartData?.btc_benchmark[0].v) * 100),
         category: "BTC",
       });
     });
@@ -44,22 +31,14 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     chartData?.gold_benchmark.map((item: any) => {
       chartDataArray.push({
         date: item.d,
-        value: floatData(
-          ((item.v - chartData?.gold_benchmark[0].v) /
-            chartData?.gold_benchmark[0].v) *
-            100
-        ),
+        value: floatData(((item.v - chartData?.gold_benchmark[0].v) / chartData?.gold_benchmark[0].v) * 100),
         category: "Gold",
       });
     });
     chartData?.sp500_benchmark.map((item: any) => {
       chartDataArray.push({
         date: item.d,
-        value: floatData(
-          ((item.v - chartData?.sp500_benchmark[0].v) /
-            chartData?.sp500_benchmark[0].v) *
-            100
-        ),
+        value: floatData(((item.v - chartData?.sp500_benchmark[0].v) / chartData?.sp500_benchmark[0].v) * 100),
         category: "S&P 500",
       });
     });

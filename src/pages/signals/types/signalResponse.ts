@@ -29,10 +29,5 @@ export interface LastPosition {
   entry_time: string;
   exit_time?: string;
   pnl: number;
-  suggested_action:
-    | "OPEN"
-    | "CLOSE"
-    | "NO_ACTION"
-    | "OPEN_DELAYED"
-    | "CLOSE_DELAYED";
+  suggested_action: "OPEN" | "CLOSE" | "NO_ACTION" | "OPEN_DELAYED" | "CLOSE_DELAYED";
 }

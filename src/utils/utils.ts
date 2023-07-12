@@ -1,8 +1,6 @@
 import { VerificationStatus } from "types/kyc";
 
-export const isProduction =
-  !window.location.host.includes("stage-") &&
-  !window.location.host.includes("localhost");
+export const isProduction = !window.location.host.includes("stage-") && !window.location.host.includes("localhost");
 
 export const isStage = (): boolean => {
   return window.location.host.includes("stage-");
@@ -21,9 +19,7 @@ export const convertDate = (date = new Date()) => {
   return date.toISOString().split("T")[0];
 };
 
-export const getKycLevelStatusColor = (
-  status: VerificationStatus | undefined
-) => {
+export const getKycLevelStatusColor = (status: VerificationStatus | undefined) => {
   switch (status) {
     case VerificationStatus.REJECTED:
       return "error";
@@ -36,9 +32,7 @@ export const getKycLevelStatusColor = (
   }
 };
 
-export const isPendingOrRejected = (
-  status: VerificationStatus | undefined
-): boolean => {
+export const isPendingOrRejected = (status: VerificationStatus | undefined): boolean => {
   switch (status) {
     case VerificationStatus.PENDING:
       return true;

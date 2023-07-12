@@ -2,10 +2,7 @@ import { notification } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "shared/components/Button";
-import {
-  useInvestorAssetStructuresQuery,
-  useUpdateFPIStatusMutation,
-} from "shared/services/services";
+import { useInvestorAssetStructuresQuery, useUpdateFPIStatusMutation } from "shared/services/services";
 import { useCreateFPIMutation } from "./services";
 import { FinancialProduct } from "./types/financialProduct";
 import { isFPRunning } from "./utils";
@@ -16,11 +13,7 @@ interface Props {
   financialProduct: FinancialProduct;
 }
 
-export const FPActivateButton: React.FC<Props> = ({
-  className,
-  inDetailPage,
-  financialProduct: fp,
-}) => {
+export const FPActivateButton: React.FC<Props> = ({ className, inDetailPage, financialProduct: fp }) => {
   const navigate = useNavigate();
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
@@ -35,8 +28,8 @@ export const FPActivateButton: React.FC<Props> = ({
       description: (
         <>
           <p>
-            Thank you for trusting us. You can now deposit any amount to your
-            account and activate any of the AI-powered strategies
+            Thank you for trusting us. You can now deposit any amount to your account and activate any of the AI-powered
+            strategies
           </p>
 
           <div className="mt-4 flex justify-around">
@@ -44,9 +37,7 @@ export const FPActivateButton: React.FC<Props> = ({
               size="small"
               onClick={() => {
                 notification.destroy(fp.key);
-                navigate(
-                  `/app/deposit/${data?.[0]?.main_exchange_account.key}`
-                );
+                navigate(`/app/deposit/${data?.[0]?.main_exchange_account.key}`);
               }}
             >
               Go To Deposit
@@ -81,8 +72,7 @@ export const FPActivateButton: React.FC<Props> = ({
   };
 
   const fpis = ias.data?.[0]?.financial_product_instances;
-  const isOtherFPActive =
-    (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
+  const isOtherFPActive = (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
   const isRunning = isFPRunning(ias.data, fp.key);
 
   return isRunning ? (

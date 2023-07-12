@@ -17,9 +17,7 @@ const COLORS = [
   "#626681",
 ];
 
-const AssetStructureChart = (props: {
-  investorAsset: InvestorAssetStructures;
-}) => {
+const AssetStructureChart = (props: { investorAsset: InvestorAssetStructures }) => {
   const ias = props.investorAsset?.[0];
 
   const [symbol, setSymbol] = useState<any>([]);
@@ -30,26 +28,15 @@ const AssetStructureChart = (props: {
     props.investorAsset[0]?.asset_bindings.map((item) => {
       symbolArray.push({
         symbol: {
-          key:
-            item?.asset.type === "SYMBOL"
-              ? item?.asset.symbol.name
-              : item.asset.pair.base.name,
-          name:
-            item?.asset.type === "SYMBOL"
-              ? item?.asset.symbol.name
-              : item.asset.pair.base.name,
+          key: item.name,
+          name: item.name,
         },
-        name:
-          item?.asset.type === "SYMBOL"
-            ? item?.asset.symbol.name
-            : item.asset.pair.base.name,
+        name: item.name,
         type: item.asset.type,
         amount: item.amount,
         equity: item?.equity,
         value: Number(floatData(item?.equity)),
-        percent: ias?.total_equity
-          ? (item?.equity / ias?.total_equity) * 100
-          : 0,
+        percent: ias?.total_equity ? (item?.equity / ias?.total_equity) * 100 : 0,
       });
     });
 
@@ -116,10 +103,7 @@ const AssetStructureChart = (props: {
       render: (text: any, data: any, index: any) => {
         return (
           <div className="flex items-center justify-start">
-            <div
-              style={{ backgroundColor: COLORS[index] }}
-              className="h-3 w-3 rounded-full"
-            ></div>
+            <div style={{ backgroundColor: COLORS[index] }} className="h-3 w-3 rounded-full"></div>
             <p className="ml-2 text-base">{text}</p>
           </div>
         );

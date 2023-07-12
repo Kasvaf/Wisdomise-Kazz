@@ -12,8 +12,7 @@ export const tabs: MenuTab[] = [
   {
     id: "aat",
     label: "Back test - AAT",
-    tooltip:
-      "Run backtests for the performance of the AAT against different strategies, assets, and benchmarks",
+    tooltip: "Run backtests for the performance of the AAT against different strategies, assets, and benchmarks",
   },
 ];
 
@@ -40,9 +39,7 @@ const Analytics: FunctionComponent = () => {
     const end_date = format(aatFilter.date.end as Date, "yyyy-MM-dd");
 
     const aatPayload = {
-      coin: Object.keys(aatFilter.coins).filter(
-        (key) => aatFilter.coins[key]
-      )[0],
+      coin: Object.keys(aatFilter.coins).filter((key) => aatFilter.coins[key])[0],
       is_daily_basis: !!aatFilter.strategy.daily,
       start_date,
       end_date,
@@ -59,12 +56,7 @@ const Analytics: FunctionComponent = () => {
 
   return (
     <div className="flex w-full flex-col space-y-8">
-      <MenuTabs
-        tabs={tabs}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        dashboardSection={TabLabels.backtest}
-      />
+      <MenuTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} dashboardSection={TabLabels.backtest} />
       <Aat
         aatData={aatData}
         coinData={coinData}

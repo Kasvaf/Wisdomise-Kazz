@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
-import { CoinsIcons } from "shared/components/Coins";
+import { CoinsIcons } from "shared/components/CoinsIcons";
 import { PageWrapper } from "shared/components/PageWrapper";
 import { PriceChange } from "shared/components/priceChange/PriceChange";
 import { FPActivateButton } from "./FPActivateButton";
-import { useFinancialProductQuery, useFPBacktestQuery } from "./services";
+import { useFinancialProductQuery } from "./services";
 
 const ProductCatalogDetail = () => {
   const params = useParams<{ fpKey: string }>();
   const fpKey = params.fpKey!;
   const fp = useFinancialProductQuery(fpKey);
-  const backtest = useFPBacktestQuery(fpKey);
+  // const backtest = useFPBacktestQuery(fpKey);
 
   const rrr = fp.data?.profile.return_risk_ratio;
 
@@ -23,11 +23,7 @@ const ProductCatalogDetail = () => {
         </div>
 
         <div className="flex basis-1/3 items-end justify-end mobile:mt-8 mobile:basis-auto">
-          <FPActivateButton
-            inDetailPage
-            className="w-1/2"
-            financialProduct={fp.data!}
-          />
+          <FPActivateButton inDetailPage className="w-1/2" financialProduct={fp.data!} />
         </div>
       </div>
 
@@ -35,10 +31,7 @@ const ProductCatalogDetail = () => {
         <div className="basis-2/3 mobile:order-2 mobile:basis-auto">
           <div className="flex h-full items-center justify-center rounded-3xl bg-white/5 p-8">
             <p className="text-white">
-              Backtest{" "}
-              <span className="rounded-3xl bg-white/20 p-2 text-white/40">
-                Soon
-              </span>
+              Backtest <span className="rounded-3xl bg-white/20 p-2 text-white/40">Soon</span>
             </p>
             {/* <LineChart
               className="w-full"
@@ -67,18 +60,13 @@ const ProductCatalogDetail = () => {
               {rrr + " Risk"}
             </div>
 
-            <div className="basis-1/2 rounded-full bg-white/5 px-4 py-3 text-center  text-white/60">
-              Spot
-            </div>
+            <div className="basis-1/2 rounded-full bg-white/5 px-4 py-3 text-center  text-white/60">Spot</div>
           </div>
 
           <div className="rounded-3xl bg-white/5 px-4 py-6 text-sm font-medium">
             <div className="mb-4 flex justify-between">
               <p className="text-white">Expected Yield (APY)</p>
-              <PriceChange
-                valueToFixed={false}
-                value={Number(fp.data?.profile.expected_yield.replace("%", ""))}
-              />
+              <PriceChange valueToFixed={false} value={Number(fp.data?.profile.expected_yield.replace("%", ""))} />
             </div>
 
             <div className="flex justify-between">
@@ -99,8 +87,7 @@ const ProductCatalogDetail = () => {
                 <span className="text-white/40">Min</span>
                 <br />
                 <span className="font-medium">
-                  {fp.data?.min_deposit}{" "}
-                  <span className="text-white/80">BUSD</span>
+                  {fp.data?.min_deposit} <span className="text-white/80">BUSD</span>
                 </span>
               </p>
               <div className="h-[20px] w-[1px] rotate-12 border-l border-white/20" />
@@ -108,8 +95,7 @@ const ProductCatalogDetail = () => {
                 <span className="text-white/40">Max</span>
                 <br />
                 <span className="font-medium">
-                  {fp.data?.max_deposit}{" "}
-                  <span className="text-white/80">BUSD</span>
+                  {fp.data?.max_deposit} <span className="text-white/80">BUSD</span>
                 </span>
               </p>
             </div>

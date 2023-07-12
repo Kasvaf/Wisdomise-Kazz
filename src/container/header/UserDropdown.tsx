@@ -57,11 +57,7 @@ export const UserDropdown = () => {
                   Transaction History
                 </button>
               )}
-              <button
-                type="button"
-                onClick={logout}
-                className="flex justify-start p-2 uppercase text-[#F14056]"
-              >
+              <button type="button" onClick={logout} className="flex justify-start p-2 uppercase text-[#F14056]">
                 <LogoutIcon className="mr-2" /> Logout
               </button>
             </DropdownContainer>

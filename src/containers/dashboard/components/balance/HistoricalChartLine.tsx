@@ -9,9 +9,7 @@ interface HistoricalChartProps {
   historicalStatistic: any;
 }
 
-const HistoricalChartLine: FunctionComponent<HistoricalChartProps> = ({
-  historicalStatistic,
-}) => {
+const HistoricalChartLine: FunctionComponent<HistoricalChartProps> = ({ historicalStatistic }) => {
   // const historicalStatistic =
   //   useGetExchangeAccountHistoricalStatisticQuery(exchangeAccountKey);
 

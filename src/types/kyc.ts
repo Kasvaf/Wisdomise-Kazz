@@ -25,11 +25,7 @@ export interface KYC_Level {
   requirements: Requirements[];
 }
 
-export interface VerificationCardProps
-  extends Omit<
-    KYC_Level,
-    "key" | "order" | "updated_at" | "created_at" | "name"
-  > {
+export interface VerificationCardProps extends Omit<KYC_Level, "key" | "order" | "updated_at" | "created_at" | "name"> {
   title: string;
   onVerify: () => void;
   isLoading?: boolean;
