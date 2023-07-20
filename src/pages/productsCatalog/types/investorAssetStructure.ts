@@ -6,7 +6,7 @@ export type InvestorAssetStructures = [
     investor: Investor;
     financial_product_instances: FinancialProductInstance[];
     main_exchange_account: MainExchangeAccount;
-    asset_bindings: AssetBinding2[];
+    asset_bindings: AssetBinding[];
   } | null
 ];
 
@@ -28,18 +28,24 @@ interface FinancialProduct {
 }
 
 interface AssetBinding {
-  asset: Asset;
+  asset: SymbolAsset | PairAsset;
   equity: number;
   amount: number;
 }
 
-interface Asset {
-  type: string;
-  symbol: symbol;
+interface SymbolAsset {
+  type: "SYMBOL";
+  symbol: { name: string };
 }
 
-interface Symbol {
-  name: string;
+interface PairAsset {
+  type: "PAIR";
+  pair: {
+    base: {
+      name: string;
+    };
+    quote: Quote;
+  };
 }
 
 interface MainExchangeAccount {
@@ -64,20 +70,5 @@ interface Market {
 }
 
 interface Quote {
-  name: string;
-}
-
-interface AssetBinding2 {
-  asset: Asset2;
-  equity: number;
-  amount: number;
-}
-
-interface Asset2 {
-  type: string;
-  symbol: Symbol2;
-}
-
-interface Symbol2 {
   name: string;
 }

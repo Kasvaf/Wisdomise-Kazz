@@ -17,11 +17,6 @@ const COLORS = [
   "#626681",
 ];
 
-enum ASSET_TYPE {
-  SYMBOL = "SYMBOL",
-  PAIR = "PAIR",
-}
-
 const AssetStructureChart = (props: {
   investorAsset: InvestorAssetStructures;
 }) => {
@@ -35,13 +30,20 @@ const AssetStructureChart = (props: {
     props.investorAsset[0]?.asset_bindings.map((item) => {
       symbolArray.push({
         symbol: {
-          key: item?.asset.symbol.name,
-          name: item?.asset.symbol.name,
+          key:
+            item?.asset.type === "SYMBOL"
+              ? item?.asset.symbol.name
+              : item.asset.pair.base.name,
+          name:
+            item?.asset.type === "SYMBOL"
+              ? item?.asset.symbol.name
+              : item.asset.pair.base.name,
         },
-        type:
-          item.asset.type === ASSET_TYPE.SYMBOL
-            ? item.asset.symbol.name
-            : item.asset.type,
+        name:
+          item?.asset.type === "SYMBOL"
+            ? item?.asset.symbol.name
+            : item.asset.pair.base.name,
+        type: item.asset.type,
         amount: item.amount,
         equity: item?.equity,
         value: Number(floatData(item?.equity)),
@@ -108,7 +110,7 @@ const AssetStructureChart = (props: {
   const columns = [
     {
       title: "Asset",
-      dataIndex: "type",
+      dataIndex: "name",
       key: "type",
       legend: true,
       render: (text: any, data: any, index: any) => {
