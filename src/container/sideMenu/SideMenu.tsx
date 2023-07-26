@@ -53,4 +53,4 @@ export const MenuItems = [
     text: "Signals",
     link: "app/signals",
   },
-];
+].filter((i) => !i.hide);
