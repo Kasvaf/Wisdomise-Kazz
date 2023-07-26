@@ -2,10 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { queryClient } from "config/reactQuery";
 import { convertDate } from "utils/utils";
-import {
-  FinancialProduct,
-  FinancialProductsReponse,
-} from "./types/financialProduct";
+import { FinancialProduct, FinancialProductsReponse } from "./types/financialProduct";
 
 export const useFinancialProductsQuery = () =>
   useQuery<FinancialProductsReponse>(
@@ -50,9 +47,7 @@ export const useFPBacktestQuery = (fpKey: string) =>
         params: {
           id: fpKey,
           params: {
-            start_date: convertDate(
-              new Date(import.meta.env.VITE_BACKTEST_START_DATE)
-            ),
+            start_date: convertDate(new Date(import.meta.env.VITE_BACKTEST_START_DATE)),
             end_date: convertDate(),
           },
         },

@@ -11,7 +11,7 @@ import store from "./store/store";
 
 configApp();
 
-ReactDOM.createRoot(document.querySelector("#main")!).render(
+ReactDOM.createRoot(document.querySelector("#root")!).render(
   <Sentry.ErrorBoundary fallback={<SentryErrorFallback />}>
     <QueryClientProvider client={queryClient}>
       <ReactRedux.Provider store={store}>
@@ -22,9 +22,5 @@ ReactDOM.createRoot(document.querySelector("#main")!).render(
 );
 
 function SentryErrorFallback() {
-  return (
-    <div className="flex h-screen w-screen items-center justify-center text-white">
-      Error Occurred... Sorry!
-    </div>
-  );
+  return <div className="flex h-screen w-screen items-center justify-center text-white">Error Occurred... Sorry!</div>;
 }

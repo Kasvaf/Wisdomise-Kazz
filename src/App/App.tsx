@@ -13,28 +13,24 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { PageWrapper } from "shared/components/PageWrapper";
 import { Splash } from "shared/components/Splash";
-import { useUserInfoQuery } from "shared/services/services";
+import { useInvestorAssetStructuresQuery, useUserInfoQuery } from "shared/services/services";
 import { Container } from "../container/Container";
 import "./App.css";
 import "./tailwind.css";
 
-const Analytics = React.lazy(
-  () => import("containers/dashboard/components/Analytics")
-);
+const Analytics = React.lazy(() => import("containers/dashboard/components/Analytics"));
 
-const ProductCatalogDetail = React.lazy(
-  () => import("pages/productsCatalog/ProductCatalogDetail")
-);
+const ProductCatalogDetail = React.lazy(() => import("pages/productsCatalog/ProductCatalogDetail"));
 
 const Deposit = React.lazy(() => import("containers/deposit"));
-const ProductsCatalog = React.lazy(
-  () => import("pages/productsCatalog/ProductsCatalog")
-);
+const ProductsCatalog = React.lazy(() => import("pages/productsCatalog/ProductsCatalog"));
 const Signals = React.lazy(() => import("pages/signals/Signals"));
 const Withdraw = React.lazy(() => import("pages/withdraw/Withdraw"));
+const AssetOverview = React.lazy(() => import("pages/assetOverview/AssetOverview"));
 
 export const App = () => {
-  const { data: userInfo, isSuccess, isLoading } = useUserInfoQuery();
+  const userInfo = useUserInfoQuery();
+  const ias = useInvestorAssetStructuresQuery();
 
   // ** hotjar and GA config
   useEffect(() => {
@@ -46,20 +42,17 @@ export const App = () => {
     }
   }, []);
 
-  if (isLoading) {
+  if (userInfo.isLoading || ias.isLoading) {
     return <Splash />;
   }
 
-  const hasAcceptedTerms =
-    !isSuccess || userInfo?.customer.terms_and_conditions_accepted;
+  const hasAcceptedTerms = !userInfo.isSuccess || userInfo.data?.customer.terms_and_conditions_accepted;
   if (!hasAcceptedTerms) {
     return <SecondaryForm />;
   }
 
   const notEmailConfirmed =
-    isSuccess &&
-    userInfo?.customer.user.email &&
-    !userInfo?.customer.info.email_verified;
+    userInfo.isSuccess && userInfo.data?.customer.user.email && !userInfo.data?.customer.info.email_verified;
 
   if (notEmailConfirmed) {
     return <ConfirmSignUp />;
@@ -120,6 +113,15 @@ export const App = () => {
               element={
                 <React.Suspense fallback={<PageWrapper loading />}>
                   <Withdraw />
+                </React.Suspense>
+              }
+            />
+
+            <Route
+              path="app/asset-overview"
+              element={
+                <React.Suspense fallback={<PageWrapper loading />}>
+                  <AssetOverview />
                 </React.Suspense>
               }
             />

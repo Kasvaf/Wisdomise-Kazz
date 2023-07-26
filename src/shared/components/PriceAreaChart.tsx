@@ -9,7 +9,6 @@ export const PriceAreaChart: React.FC<Props> = ({ data }) => {
   const configs = useMemo(() => {
     const trend = data.at(-1)?.y - data.at(0)?.y > 0 ? "up" : "down";
     const min = Math.min(...data.map((r) => r.y));
-    const max = Math.max(...data.map((r) => r.y));
 
     return {
       data,
@@ -20,7 +19,6 @@ export const PriceAreaChart: React.FC<Props> = ({ data }) => {
       color: trend === "down" ? "#FF3939" : "#00DA98",
       smooth: true,
       height: 30,
-      width: 100,
 
       xAxis: {
         range: [0, 1],
@@ -40,10 +38,7 @@ export const PriceAreaChart: React.FC<Props> = ({ data }) => {
       },
       areaStyle: () => {
         return {
-          fill:
-            trend === "down"
-              ? "l(270) 0:#1f242db2 1:#DF5F4D"
-              : "l(270) 0:#1f242db2 1:#4FBF674D",
+          fill: trend === "down" ? "l(270) 0:#1f242db2 1:#DF5F4D" : "l(270) 0:#1f242db2 1:#4FBF674D",
         };
       },
     } as AreaConfig;

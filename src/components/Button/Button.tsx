@@ -10,14 +10,7 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-const Button: FunctionComponent<ButtonProps> = ({
-  text,
-  onClick,
-  type,
-  className,
-  children,
-  disabled,
-}) => {
+const Button: FunctionComponent<ButtonProps> = ({ text, onClick, type, className, children, disabled }) => {
   return (
     <div
       onClick={onClick}
@@ -27,24 +20,12 @@ const Button: FunctionComponent<ButtonProps> = ({
     >
       {type === BUTTON_TYPE.FILLED ? (
         <div className="flex h-full flex-col items-center  justify-between px-4 py-3 text-center text-sm font-bold uppercase text-gray-dark">
-          {text ? (
-            <p className={`${disabled && " text-gray-main"}`}>{text}</p>
-          ) : (
-            children
-          )}
+          {text ? <p className={`${disabled && " text-gray-main"}`}>{text}</p> : children}
         </div>
       ) : (
         <div className="flex h-full flex-col justify-between rounded bg-gray-dark px-4 py-3 text-center text-sm uppercase">
           {text ? (
-            <p
-              className={`${
-                disabled
-                  ? "  from-gray-main to-gray-main"
-                  : "gradientColor font-bold"
-              }`}
-            >
-              {text}
-            </p>
+            <p className={`${disabled ? "  from-gray-main to-gray-main" : "gradientColor font-bold"}`}>{text}</p>
           ) : (
             children
           )}

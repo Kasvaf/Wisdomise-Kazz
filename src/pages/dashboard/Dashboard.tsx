@@ -5,10 +5,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "shared/components/Button";
 import { PageWrapper } from "shared/components/PageWrapper";
-import {
-  useInvestorAssetStructuresQuery,
-  useUpdateFPIStatusMutation,
-} from "shared/services/services";
+import { useInvestorAssetStructuresQuery, useUpdateFPIStatusMutation } from "shared/services/services";
 import ArrowSrc from "./arrow.svg";
 import TradeSrc from "./trade.svg";
 const enum IAS_STATUS {
@@ -42,9 +39,7 @@ function Dashboard() {
       } catch (error) {
         console.log(error);
         notification.error({
-          message:
-            (error as AxiosError<{ message: string }>).response?.data.message ||
-            "",
+          message: (error as AxiosError<{ message: string }>).response?.data.message || "",
         });
       }
     }
@@ -68,9 +63,7 @@ function Dashboard() {
             <div className="flex w-full flex-row justify-between rounded-3xl bg-white/5 px-8 py-6  mobile:p-6">
               <div className="flex flex-col justify-between">
                 <div>
-                  <h1 className="text-xl font-semibold text-white">
-                    We Trade On Your Behalf!
-                  </h1>
+                  <h1 className="text-xl font-semibold text-white">We Trade On Your Behalf!</h1>
                   <p className="my-5 w-auto text-sm !leading-normal text-gray-light mobile:-mr-5 mobile:text-sm">
                     <img
                       src={TradeSrc}
@@ -83,24 +76,15 @@ function Dashboard() {
                       }}
                     />
                     <div className="hidden h-3 mobile:block" />
-                    Wisdomise offers{" "}
-                    <span className="whitespace-nowrap">AI-based</span>{" "}
-                    strategies tailored to <br /> your risk tolerance. Check out
-                    our Financial Products and start making a profit today.
+                    Wisdomise offers <span className="whitespace-nowrap">AI-based</span> strategies tailored to <br />{" "}
+                    your risk tolerance. Check out our Financial Products and start making a profit today.
                   </p>
                 </div>
-                <Button
-                  className="self-start"
-                  onClick={() => navigate("/app/products-catalog")}
-                >
+                <Button className="self-start" onClick={() => navigate("/app/products-catalog")}>
                   Check Products
                 </Button>
               </div>
-              <img
-                src={TradeSrc}
-                className="h-[200px] mobile:hidden"
-                alt="trade"
-              />
+              <img src={TradeSrc} className="h-[200px] mobile:hidden" alt="trade" />
             </div>
           ) : (
             <div className="flex flex-col items-center justify-between sm:flex-row">
@@ -108,26 +92,17 @@ function Dashboard() {
                 <div className="flex flex-col">
                   <p className="mb-1 text-gray-light">
                     Current strategy{" "}
-                    <span className="text-xs">
-                      ({updateFPIStatus.isLoading ? "UPDATING" : fpi?.status})
-                    </span>
+                    <span className="text-xs">({updateFPIStatus.isLoading ? "UPDATING" : fpi?.status})</span>
                   </p>
-                  <h5 className="text-base text-white">
-                    {fpi?.financial_product.title}
-                  </h5>
+                  <h5 className="text-base text-white">{fpi?.financial_product.title}</h5>
                 </div>
                 <div className="flex">
                   <p
                     onClick={() => {
-                      onClickStatus(
-                        fpi.status === "RUNNING"
-                          ? IAS_STATUS.pause
-                          : IAS_STATUS.resume
-                      );
+                      onClickStatus(fpi.status === "RUNNING" ? IAS_STATUS.pause : IAS_STATUS.resume);
                     }}
                     className={`cursor-pointer font-bold uppercase text-primary ${
-                      ["DRAFT", "STOPPED"].includes(fpi?.status) &&
-                      "invisible mobile:hidden"
+                      ["DRAFT", "STOPPED"].includes(fpi?.status) && "invisible mobile:hidden"
                     }
                   ${updateFPIStatus.isLoading && "opacity-40"}`}
                   >
@@ -147,11 +122,7 @@ function Dashboard() {
                   )}
                   <p
                     onClick={() => {
-                      onClickStatus(
-                        fpi.status === "DRAFT"
-                          ? IAS_STATUS.start
-                          : IAS_STATUS.stop
-                      );
+                      onClickStatus(fpi.status === "DRAFT" ? IAS_STATUS.start : IAS_STATUS.stop);
                     }}
                     className={`ml-2 cursor-pointer font-bold uppercase text-primary
                   ${updateFPIStatus.isLoading && "opacity-40"}

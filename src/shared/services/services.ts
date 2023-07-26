@@ -14,24 +14,27 @@ export const useInvestorAssetStructuresQuery = () =>
   useQuery<InvestorAssetStructures>(
     ["ias"],
     async () => {
-      const { data } = await axios.get("/ias/investor-asset-structures");
+      const { data } = await axios.get<InvestorAssetStructures>("/ias/investor-asset-structures");
+      data[0]?.asset_bindings.forEach((ab) => {
+        ab.name = ab.asset.type === "SYMBOL" ? ab.asset.symbol.name : ab.asset.pair.base.name;
+      });
+      data[0]?.financial_product_instances.forEach((fpi) => {
+        fpi.asset_bindings.forEach((ab) => {
+          ab.name = ab.asset.type === "SYMBOL" ? ab.asset.symbol.name : ab.asset.pair.base.name;
+        });
+      });
       return data;
     },
     {
       staleTime: Infinity,
+      refetchInterval: (data?: InvestorAssetStructures) =>
+        data?.[0] && data?.[0].financial_product_instances.length > 0 ? 3000 : false,
     }
   );
 
 export const useUpdateFPIStatusMutation = () =>
-  useMutation<
-    unknown,
-    unknown,
-    { fpiKey: string; status: "stop" | "start" | "pause" | "resume" }
-  >(
-    (data) =>
-      axios.post(
-        `ias/financial-product-instances/${data.fpiKey}/${data.status}`
-      ),
+  useMutation<unknown, unknown, { fpiKey: string; status: "stop" | "start" | "pause" | "resume" }>(
+    (data) => axios.post(`ias/financial-product-instances/${data.fpiKey}/${data.status}`),
     {
       onSuccess: () => queryClient.invalidateQueries(["ias"]),
     }

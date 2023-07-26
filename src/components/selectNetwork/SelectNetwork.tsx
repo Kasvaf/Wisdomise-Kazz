@@ -21,10 +21,7 @@ const SelectNetwork = ({
     <>
       <div className="mb-2 flex w-full justify-between  pb-5 pt-2">
         <p className="text-xl text-white">Select network</p>
-        <CloseIcon
-          className="cursor-pointer fill-white"
-          onClick={onCloseSelectNetwork}
-        />
+        <CloseIcon className="cursor-pointer fill-white" onClick={onCloseSelectNetwork} />
       </div>
       <div className="flex flex-col">
         <p className="mb-8  text-gray-light">
@@ -36,9 +33,7 @@ const SelectNetwork = ({
           platform first.`}
         </p>
         <GradientBox selected className="mb-8">
-          <p className="font-bold text-white">
-            Unmatched networks automatically removed. Select a network
-          </p>
+          <p className="font-bold text-white">Unmatched networks automatically removed. Select a network</p>
         </GradientBox>
         {networks &&
           networks.map((item: any) => {
@@ -62,9 +57,7 @@ const SelectNetwork = ({
                     </div>
                     <div className="flex">
                       <p className=" mr-1 text-gray-light">Fee </p>
-                      <p className="text-white">
-                        {item.binance_info.withdrawFee} BUSD
-                      </p>
+                      <p className="text-white">{item.binance_info.withdrawFee} BUSD</p>
                     </div>
                   </div>
                 )}

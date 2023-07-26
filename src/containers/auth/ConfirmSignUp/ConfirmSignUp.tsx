@@ -63,9 +63,7 @@ const ConfirmSignUp = () => {
 
             <p className="p-7 text-center text-sm leading-loose text-[#ffffffcc]">
               A link has been sent to your email{" "}
-              <span className="text-[#ffffff]">
-                {userInfo?.customer.user.email || ""}
-              </span>
+              <span className="text-[#ffffff]">{userInfo?.customer.user.email || ""}</span>
               <br />
               To verify your account, please click on the link.
             </p>
@@ -81,9 +79,7 @@ const ConfirmSignUp = () => {
               className="rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
               onClick={resend}
             >
-              {isLoading
-                ? "Resending Verification Email ..."
-                : "Resend Verification Email"}
+              {isLoading ? "Resending Verification Email ..." : "Resend Verification Email"}
             </button>
           </main>
         </div>

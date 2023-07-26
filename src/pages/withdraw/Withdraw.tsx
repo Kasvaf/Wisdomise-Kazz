@@ -17,12 +17,9 @@ import { coins } from "containers/dashboard/constants";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageWrapper } from "shared/components/PageWrapper";
-import {
-  useInvestorAssetStructuresQuery,
-  useUserInfoQuery,
-} from "shared/services/services";
+import { useInvestorAssetStructuresQuery, useUserInfoQuery } from "shared/services/services";
 import { BUTTON_TYPE } from "utils/enums";
-import { isMobile } from "utils/isMobile";
+import { useIsMobile } from "utils/useIsMobile";
 import { floatData, roundDown } from "utils/utils";
 import { useWithdrawNetworksQuery } from "./services";
 
@@ -41,11 +38,9 @@ const confirmNetworkModal = (
     <div className="flex flex-col items-center p-5 ">
       <WarningIcon />
       <p className="my-8 text-center text-white">
-        The network you selected is {name}, Please confirm that your withdrawal
-        address supports the {desc} network. If the other platform does not
-        support It, Your assets may be lost. If You are not sure whether the
-        receiver support It, You can click the button below to verify It
-        yourself.
+        The network you selected is {name}, Please confirm that your withdrawal address supports the {desc} network. If
+        the other platform does not support It, Your assets may be lost. If You are not sure whether the receiver
+        support It, You can click the button below to verify It yourself.
       </p>
       <div className="flex justify-between gap-4">
         <Button
@@ -65,16 +60,13 @@ const confirmNetworkModal = (
   );
 };
 
-const confirmWithdrawModal = (
-  onClickYesConformWithdraw: () => void,
-  onClickNoConformWithdraw: () => void
-) => {
+const confirmWithdrawModal = (onClickYesConformWithdraw: () => void, onClickNoConformWithdraw: () => void) => {
   return (
     <div className="flex flex-col items-center p-5 ">
       <WarningIcon />
       <p className="my-8 text-center text-white">
-        Are you sure about the network and withdraw amount? If yes tap on
-        continue ,If not tap on return and double check your information .
+        Are you sure about the network and withdraw amount? If yes tap on continue ,If not tap on return and double
+        check your information .
       </p>
       <div className="flex justify-between gap-4">
         <Button
@@ -94,24 +86,16 @@ const confirmWithdrawModal = (
   );
 };
 
-const WithdrawSummeryModal = (
-  onContinueSummery: () => void,
-  data: any,
-  isLoading: boolean
-) => {
-  const address = isMobile
-    ? `${data.address.substring(0, 18)}...`
-    : data.address;
+const WithdrawSummeryModal = (onContinueSummery: () => void, data: any, isLoading: boolean, isMobile: boolean) => {
+  const address = isMobile ? `${data.address.substring(0, 18)}...` : data.address;
   return (
     <div className="p-5">
       <div className="mb-4 flex flex-col bg-paper p-4">
         <div className="mb-3 flex items-center justify-between">
           <p className="text-gray-light">Amount</p>
-          <p className="text-white mobile:text-xs ">{`${roundDown(
-            data.amount - data.networkFee
-          )} ${data.symbol} (Network fee ${data.networkFee} ${
+          <p className="text-white mobile:text-xs ">{`${roundDown(data.amount - data.networkFee)} ${
             data.symbol
-          })`}</p>
+          } (Network fee ${data.networkFee} ${data.symbol})`}</p>
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Address</p>
@@ -156,19 +140,14 @@ const SecurityVerificationModal = (
       </div>
       <div className="flex flex-col">
         <p className="mb-8  text-gray-light">
-          Please open your email and enter 6-code sent to:{" "}
-          {userInfo?.customer.user.email}
+          Please open your email and enter 6-code sent to: {userInfo?.customer.user.email}
         </p>
         <div className=" flex w-full flex-row items-center justify-between rounded  ">
           <div className="flex w-full flex-row items-center justify-start">
             <div className=" w-full">
               <p className="mb-4 text-white">Email verification code</p>
               <div className="buttonInput mb-8">
-                <input
-                  type="text"
-                  ref={invitationCodeRef}
-                  className="h-[47px] w-full  bg-gray-dark pl-2 text-white"
-                />
+                <input type="text" ref={invitationCodeRef} className="h-[47px] w-full  bg-gray-dark pl-2 text-white" />
                 <p
                   className="min-w-[75px] cursor-pointer bg-gray-dark pt-[10px] text-primary"
                   onClick={onGetCode}
@@ -193,28 +172,22 @@ const SecurityVerificationModal = (
   );
 };
 
-const CompletedModal = (onCompleted: () => void, data: any) => {
-  const address = isMobile
-    ? `${data.address.substring(0, 25)}...`
-    : data.address;
+const CompletedModal = (onCompleted: () => void, data: any, isMobile: boolean) => {
+  const address = isMobile ? `${data.address.substring(0, 25)}...` : data.address;
 
   return (
     <div className="flex flex-col items-center p-5 ">
       <TickCircleIcon />
-      <p className="mt-8 text-center text-2xl text-white">
-        Withdrawal Request Submitted
-      </p>
+      <p className="mt-8 text-center text-2xl text-white">Withdrawal Request Submitted</p>
       <p className="mb-16 mt-2 text-center text-base text-gray-light">
         Please note that you will receive an email once it is completed
       </p>
       <div className="mb-4 flex w-full flex-col bg-paper p-4 text-sm">
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Amount</p>
-          <p className="text-xs text-white">{`${roundDown(
-            data.amount - data.networkFee
-          )} ${data.symbol} (Network fee ${data.networkFee} ${
-            data.symbol
-          })`}</p>
+          <p className="text-xs text-white">{`${roundDown(data.amount - data.networkFee)} ${data.symbol} (Network fee ${
+            data.networkFee
+          } ${data.symbol})`}</p>
         </div>
         <div className="mb-3 flex justify-between">
           <p className="text-gray-light">Address</p>
@@ -229,26 +202,20 @@ const CompletedModal = (onCompleted: () => void, data: any) => {
           <p className="text-white ">Spot Wallet</p>
         </div>
       </div>
-      <Button
-        text="Go To Dashboard"
-        type={BUTTON_TYPE.FILLED}
-        className="!w-full "
-        onClick={onCompleted}
-      />
+      <Button text="Go To Dashboard" type={BUTTON_TYPE.FILLED} className="!w-full " onClick={onCompleted} />
     </div>
   );
 };
 
 const Withdraw = () => {
+  const isMobile = useIsMobile();
   const [selectedSymbol, setSelectedSymbol] = useState<string>("");
   const [selectedNetwork, setSelectedNetwork] = useState<any>(null);
   const [showSelectNetwork, setShowSelectNetwork] = useState<boolean>(false);
   const [showConfirmNetwork, setShowConfirmNetwork] = useState<boolean>(false);
-  const [showConfirmWithdraw, setShowConfirmWithdraw] =
-    useState<boolean>(false);
+  const [showConfirmWithdraw, setShowConfirmWithdraw] = useState<boolean>(false);
   const [showSummery, setShowSummery] = useState<boolean>(false);
-  const [showSecurityVerification, setShowSecurityVerification] =
-    useState<boolean>(false);
+  const [showSecurityVerification, setShowSecurityVerification] = useState<boolean>(false);
   const [showCompleted, setShowCompleted] = useState<boolean>(false);
   const [inputs, setInputs] = useState(initialValues);
   const symbols = useGetWithdrawSymbolQuery({});
@@ -257,8 +224,7 @@ const Withdraw = () => {
 
   const [createWithdrawTrigger, createWithdraw] = useCreateWithdrawMutation();
 
-  const [confirmWithdrawTrigger, confirmWithdraw] =
-    useConfirmWithdrawMutation();
+  const [confirmWithdrawTrigger, confirmWithdraw] = useConfirmWithdrawMutation();
 
   const [resendWithdrawTrigger] = useResendEmailWithdrawMutation();
 
@@ -304,16 +270,8 @@ const Withdraw = () => {
 
   const getMinMaxWithdrawFee = useMemo(() => {
     if (networks.data) {
-      const min = Math.min(
-        ...networks.data.map((item: any) =>
-          Number(item.binance_info.withdrawFee)
-        )
-      );
-      const max = Math.max(
-        ...networks.data.map((item: any) =>
-          Number(item.binance_info.withdrawFee)
-        )
-      );
+      const min = Math.min(...networks.data.map((item: any) => Number(item.binance_info.withdrawFee)));
+      const max = Math.max(...networks.data.map((item: any) => Number(item.binance_info.withdrawFee)));
       return { min, max };
     }
     return { min: 0, max: 0 };
@@ -379,9 +337,7 @@ const Withdraw = () => {
   const invitationCodeRef = useRef(null);
 
   const onSetMaxAmount = () => {
-    const max: any = roundDown(
-      ias?.data?.[0]?.main_exchange_account.quote_equity || 0
-    );
+    const max: any = roundDown(ias?.data?.[0]?.main_exchange_account.quote_equity || 0);
     setInputs({
       ...inputs,
       amount: max,
@@ -454,24 +410,14 @@ const Withdraw = () => {
               <div className="flex w-full flex-row justify-between gap-3">
                 {symbols.isLoading ? (
                   <div className="flex w-full flex-row justify-between gap-3">
-                    <Skeleton.Input
-                      className=" mb-4 !h-[74px] w-full "
-                      active
-                    />
-                    <Skeleton.Input
-                      className=" mb-4 !h-[74px]  w-full "
-                      active
-                    />
+                    <Skeleton.Input className=" mb-4 !h-[74px] w-full " active />
+                    <Skeleton.Input className=" mb-4 !h-[74px]  w-full " active />
                   </div>
                 ) : (
                   symbols.data?.results.map((item: any) => {
                     return (
                       <GradientBox
-                        className={
-                          item.name !== "USDT"
-                            ? "cursor-pointer"
-                            : "cursor-default"
-                        }
+                        className={item.name !== "USDT" ? "cursor-pointer" : "cursor-default"}
                         key={item.key}
                         disabled={item.name === "USDT"}
                         selected={item.name === selectedSymbol}
@@ -531,9 +477,7 @@ const Withdraw = () => {
                   className={`mt-2 text-error  ${
                     inputs.adr !== "" &&
                     selectedNetwork !== null &&
-                    !inputs.adr.match(
-                      `${selectedNetwork.binance_info.addressRegex}`
-                    )
+                    !inputs.adr.match(`${selectedNetwork.binance_info.addressRegex}`)
                       ? "flex"
                       : "hidden"
                   }`}
@@ -569,9 +513,7 @@ const Withdraw = () => {
                 </div>
                 <p
                   className={`mt-2 text-error  ${
-                    selectedNetwork !== null &&
-                    inputs.amount !== "" &&
-                    Number(inputs.amount) < getMinimumWithdraw()
+                    selectedNetwork !== null && inputs.amount !== "" && Number(inputs.amount) < getMinimumWithdraw()
                       ? "flex"
                       : "hidden"
                   }`}
@@ -599,16 +541,12 @@ const Withdraw = () => {
         <div className=" flex w-full flex-row items-center justify-between rounded  p-4 pr-0">
           <div className=" flex flex-col justify-start">
             <p className="text-base text-white">Total withdrawable amount</p>
-            <p className="text-xs text-gray-light">
-              {mea?.quote_equity ? roundDown(mea.quote_equity) : 0}
-            </p>
+            <p className="text-xs text-gray-light">{mea?.quote_equity ? roundDown(mea.quote_equity) : 0}</p>
           </div>
           <div className="ml-2 flex flex-col justify-start">
             <p className="text-base text-white">Minimum withdraw</p>
             <p className="text-xs text-gray-light">
-              {selectedSymbol && selectedNetwork
-                ? `${getMinimumWithdraw()} ${selectedSymbol}`
-                : "- -"}
+              {selectedSymbol && selectedNetwork ? `${getMinimumWithdraw()} ${selectedSymbol}` : "- -"}
             </p>
           </div>
           <div className="ml-2 flex flex-col justify-start">
@@ -669,10 +607,7 @@ const Withdraw = () => {
 
       {showConfirmWithdraw && (
         <Modal className="!w-full sm:!w-[420px]">
-          {confirmWithdrawModal(
-            onClickYesConformWithdraw,
-            onClickNoConformWithdraw
-          )}
+          {confirmWithdrawModal(onClickYesConformWithdraw, onClickNoConformWithdraw)}
         </Modal>
       )}
 
@@ -687,11 +622,7 @@ const Withdraw = () => {
               }}
             />
           </div>
-          {WithdrawSummeryModal(
-            () => onContinueSummery(),
-            getSummeryData(),
-            createWithdraw?.isLoading
-          )}
+          {WithdrawSummeryModal(() => onContinueSummery(), getSummeryData(), createWithdraw?.isLoading, isMobile)}
         </Modal>
       )}
 
@@ -710,9 +641,7 @@ const Withdraw = () => {
         </Modal>
       )}
       {showCompleted && (
-        <Modal className="!w-full sm:!w-[530px]">
-          {CompletedModal(onCompleted, getSummeryData())}
-        </Modal>
+        <Modal className="!w-full sm:!w-[530px]">{CompletedModal(onCompleted, getSummeryData(), isMobile)}</Modal>
       )}
     </PageWrapper>
   );

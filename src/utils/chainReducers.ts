@@ -47,9 +47,6 @@ export function chainReducers<S = any, A extends Action = AnyAction>(
 
   return function chainedReducer(state, action): S {
     const nextState = firstChildReducer(state, action);
-    return otherChildReducers.reduce(
-      (s, reducer) => reducer(s, action),
-      nextState
-    );
+    return otherChildReducers.reduce((s, reducer) => reducer(s, action), nextState);
   };
 }

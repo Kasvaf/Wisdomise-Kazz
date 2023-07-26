@@ -8,11 +8,7 @@ import IASReducer from "./slices/IAS";
 
 export const store = configureStore({
   reducer: chainReducers<any>(appReducer, IASReducer),
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware(),
-    horosApi.middleware,
-    rtkQueryErrorMiddleware,
-  ],
+  middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), horosApi.middleware, rtkQueryErrorMiddleware],
 });
 
 export type AppDispatch = typeof store.dispatch;

@@ -2,10 +2,7 @@ import { Dropdown } from "antd";
 import { Crisp } from "crisp-sdk-web";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  useInvestorAssetStructuresQuery,
-  useUserInfoQuery,
-} from "shared/services/services";
+import { useInvestorAssetStructuresQuery, useUserInfoQuery } from "shared/services/services";
 import { logout } from "utils/auth";
 import { ReactComponent as LogoutIcon } from "../header/logout.svg";
 import { WalletDropdownContent } from "../header/walletDropdown/WalletDropdownContent";
@@ -39,10 +36,7 @@ export const MobileMenu: React.FC = () => {
           <div className="mb-4 w-[calc(100vw-2rem)] rounded-3xl bg-white px-4 py-6">
             <div className="flex items-center rounded-3xl bg-black/5 p-2">
               {data?.customer.info.picture ? (
-                <img
-                  className="mr-3 h-8 w-8 rounded-full"
-                  src={data?.customer.info.picture}
-                />
+                <img className="mr-3 h-8 w-8 rounded-full" src={data?.customer.info.picture} />
               ) : (
                 <div className="mr-3 flex h-12 w-12  items-center justify-center rounded-full bg-black/10 p-3">
                   {data?.customer.nickname.charAt(0)}
@@ -51,9 +45,7 @@ export const MobileMenu: React.FC = () => {
 
               <p className="text-base font-semibold text-black">
                 {data?.customer.nickname}
-                <p className="text-xxs leading-none text-black/60">
-                  {data?.customer.user.email}
-                </p>
+                <p className="text-xxs leading-none text-black/60">{data?.customer.user.email}</p>
               </p>
             </div>
 
@@ -77,9 +69,7 @@ export const MobileMenu: React.FC = () => {
             </div>
             {hasWallet && (
               <div className="mt-2 rounded-3xl bg-black/5 p-4">
-                <WalletDropdownContent
-                  closeDropdown={() => setIsMenuOpen(false)}
-                />
+                <WalletDropdownContent closeDropdown={() => setIsMenuOpen(false)} />
               </div>
             )}
           </div>
@@ -87,9 +77,7 @@ export const MobileMenu: React.FC = () => {
       >
         <div className="flex flex-col items-center justify-center pb-[14px] pt-[10px]">
           <HamburgerIcon open={isMenuOpen} />
-          <p className="text-xxs font-medium">
-            {isMenuOpen ? "Close" : "Menu"}
-          </p>
+          <p className="text-xxs font-medium">{isMenuOpen ? "Close" : "Menu"}</p>
         </div>
       </Dropdown>
     </div>

@@ -47,13 +47,7 @@ export const userInfo = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  saveEmail,
-  saveJWT,
-  savePassword,
-  saveDestinationEmail,
-  clearSessionData,
-  loadSessionData,
-} = userInfo.actions;
+export const { saveEmail, saveJWT, savePassword, saveDestinationEmail, clearSessionData, loadSessionData } =
+  userInfo.actions;
 
 export default userInfo.reducer;

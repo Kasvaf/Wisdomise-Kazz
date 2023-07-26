@@ -7,8 +7,6 @@ interface SpinnerProps {
 }
 
 const Spinner: FunctionComponent<SpinnerProps> = ({ dark }) => (
-  <div className="flex w-fit animate-spin self-center">
-    {dark ? <SpinnerDarkIcon /> : <SpinnerIcon />}
-  </div>
+  <div className="flex w-fit animate-spin self-center">{dark ? <SpinnerDarkIcon /> : <SpinnerIcon />}</div>
 );
 export default Spinner;

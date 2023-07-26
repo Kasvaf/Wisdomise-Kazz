@@ -5,12 +5,7 @@ import { cloneDeep, isArray } from "lodash";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { DateRange, Range } from "react-date-range";
 import { gaClick } from "utils/ga";
-import {
-  Coins,
-  FilterDropdownsConfig,
-  FilterNames,
-  Strategy,
-} from "./constants";
+import { Coins, FilterDropdownsConfig, FilterNames, Strategy } from "./constants";
 import { IFilter } from "./types";
 
 type DisableItemType = keyof typeof Coins | keyof typeof Strategy;
@@ -37,9 +32,7 @@ interface FilterDropdownProps {
   disabledItems?: DisableItemType[];
 }
 
-const filterToSelectionRange = (filter: {
-  [key: string]: Date | boolean | string | Dayjs;
-}) => ({
+const filterToSelectionRange = (filter: { [key: string]: Date | boolean | string | Dayjs }) => ({
   startDate: (filter["start"] as Date) || new Date(),
   endDate: (filter["end"] as Date) || new Date(),
 });
@@ -98,9 +91,7 @@ function FilterDropdown({
   }, [filter, name]);
 
   const isDisabled = (o: DisableItemType) =>
-    (name === FilterNames.coins || name === FilterNames.strategy) &&
-    disabledItems &&
-    disabledItems.includes(o);
+    (name === FilterNames.coins || name === FilterNames.strategy) && disabledItems && disabledItems.includes(o);
 
   const renderLabel = () => {
     return showLabel
@@ -108,9 +99,7 @@ function FilterDropdown({
         ? Object.keys(filter[name])
             .filter((item) => filter[name][item])
             .map((item) => {
-              return type === "date"
-                ? dayjs(filter[name][item] as Date).format("DD/MM/YYYY")
-                : item;
+              return type === "date" ? dayjs(filter[name][item] as Date).format("DD/MM/YYYY") : item;
             })
             .join(type === "date" ? "-" : ", ")
         : placeholderText
@@ -128,18 +117,10 @@ function FilterDropdown({
           {(type === "singleselect" || type === "multiselect") &&
             options !== null &&
             Object.keys(options)
-              .sort((a, b) =>
-                disabledItems
-                  ? disabledItems.includes(b as DisableItemType)
-                    ? -1
-                    : 1
-                  : 1
-              )
+              .sort((a, b) => (disabledItems ? (disabledItems.includes(b as DisableItemType) ? -1 : 1) : 1))
               .map((o) => (
                 <button
-                  className={`horos-dropdown-item ${
-                    filter[name][o] ? "text-primary" : ""
-                  }`}
+                  className={`horos-dropdown-item ${filter[name][o] ? "text-primary" : ""}`}
                   key={o}
                   onClick={() => {
                     gaClick("filter" + name + " option " + o + " click");
@@ -157,10 +138,7 @@ function FilterDropdown({
                     />
                   )}
                   <span className="uppercase">
-                    {o}{" "}
-                    {isDisabled(o as keyof typeof Coins) && (
-                      <span className="text-white/60">(SOON)</span>
-                    )}
+                    {o} {isDisabled(o as keyof typeof Coins) && <span className="text-white/60">(SOON)</span>}
                   </span>
                 </button>
               ))}
@@ -201,22 +179,10 @@ function FilterDropdown({
       <button
         className={`horos-filter-btn-alt group relative h-16 fill-white/50 px-4 capitalize hover:bg-gray-dark hover:fill-white hover:text-white ${className}`}
       >
-        {showLabel && (
-          <div className="absolute left-4 top-3 text-xs text-nodata">
-            {label}
-          </div>
-        )}
-        <div
-          className={`whitespace-nowrap text-left text-sm ${
-            showLabel ? "mt-5  capitalize text-white" : ""
-          }`}
-        >
+        {showLabel && <div className="absolute left-4 top-3 text-xs text-nodata">{label}</div>}
+        <div className={`whitespace-nowrap text-left text-sm ${showLabel ? "mt-5  capitalize text-white" : ""}`}>
           {renderLabel()}
-          {!showLabel && activeFilterCount ? (
-            <span className="text-primary"> ({activeFilterCount})</span>
-          ) : (
-            ""
-          )}
+          {!showLabel && activeFilterCount ? <span className="text-primary"> ({activeFilterCount})</span> : ""}
         </div>
         <ChevronDown className="w-6" />
       </button>

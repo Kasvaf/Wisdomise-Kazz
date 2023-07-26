@@ -127,8 +127,7 @@ export const SecondaryForm: React.FC = () => {
                 error={errors.referralCode && "Referrer not found"}
                 label={
                   <span>
-                    Invitation code{" "}
-                    <span className="text-xs text-[#FFFFFF80]">(Optional)</span>
+                    Invitation code <span className="text-xs text-[#FFFFFF80]">(Optional)</span>
                   </span>
                 }
                 placeholder="Invitation code"
@@ -137,34 +136,24 @@ export const SecondaryForm: React.FC = () => {
 
               <Checkbox
                 id="pp"
-                error={
-                  errors.policy &&
-                  "You should accept the privacy policy before continue."
-                }
+                error={errors.policy && "You should accept the privacy policy before continue."}
                 checked={isPolicyAccepted}
                 onClick={() => setPolicyOpen((o) => !o)}
                 label={
                   <span>
-                    You are acknowledging the{" "}
-                    <span className="text-[#13DEF2]">privacy policy.</span>
+                    You are acknowledging the <span className="text-[#13DEF2]">privacy policy.</span>
                   </span>
                 }
               />
 
               <Checkbox
                 id="t&c"
-                error={
-                  errors.terms &&
-                  "You need to accept the terms in order to continue."
-                }
+                error={errors.terms && "You need to accept the terms in order to continue."}
                 checked={isTermsAccepted}
                 onClick={() => setTermsOpen((o) => !o)}
                 label={
                   <span>
-                    You are agreeing to the{" "}
-                    <span className="text-[#13DEF2]">
-                      terms and conditions.
-                    </span>
+                    You are agreeing to the <span className="text-[#13DEF2]">terms and conditions.</span>
                   </span>
                 }
               />
@@ -176,16 +165,8 @@ export const SecondaryForm: React.FC = () => {
                 Submit{isLoading ? "ing ..." : ""}
               </button>
 
-              <TermsDialog
-                isOpen={isTermsOpen}
-                toggle={() => setTermsOpen((o) => !o)}
-                onCheck={onTermsAccepted}
-              />
-              <PolicyDialog
-                isOpen={isPolicyOpen}
-                toggle={() => setPolicyOpen((o) => !o)}
-                onCheck={onPolicyAccepted}
-              />
+              <TermsDialog isOpen={isTermsOpen} toggle={() => setTermsOpen((o) => !o)} onCheck={onTermsAccepted} />
+              <PolicyDialog isOpen={isPolicyOpen} toggle={() => setPolicyOpen((o) => !o)} onCheck={onPolicyAccepted} />
             </div>
           </main>
         </div>
@@ -205,12 +186,7 @@ interface InputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({
-  label,
-  error,
-  onChange,
-  placeholder,
-}) => (
+const Input: React.FC<InputProps> = ({ label, error, onChange, placeholder }) => (
   <div className="mb-5">
     <label className="pl-4 text-base">{label}</label>
     <input
@@ -230,13 +206,7 @@ interface CheckboxProps {
   onClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({
-  id,
-  label,
-  checked,
-  onClick,
-  error,
-}) => (
+const Checkbox: React.FC<CheckboxProps> = ({ id, label, checked, onClick, error }) => (
   <div className="mb-5">
     <input checked={checked} onClick={onClick} type="checkbox" id={id} />
     <label htmlFor={id} className="pl-2">

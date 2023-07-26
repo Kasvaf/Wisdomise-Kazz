@@ -1,15 +1,6 @@
-import {
-  BaseQueryFn,
-  createApi,
-  FetchArgs,
-  fetchBaseQuery,
-  FetchBaseQueryError,
-} from "@reduxjs/toolkit/query/react";
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { DB } from "../config/keys";
-import {
-  SimulateTradeData,
-  SimulateTradeQueryVariables,
-} from "./backtest-types";
+import { SimulateTradeData, SimulateTradeQueryVariables } from "./backtest-types";
 import { GetSignalsQueryData } from "./types/signal";
 import { State } from "./types/state";
 
@@ -28,11 +19,11 @@ const horosBaseQuery = fetchBaseQuery({
   },
 });
 
-const horosApiBaseQueryRefreshToken: BaseQueryFn<
-  string | FetchArgs,
-  unknown,
-  FetchBaseQueryError
-> = async (args, api, extraOptions) => {
+const horosApiBaseQueryRefreshToken: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions
+) => {
   const result = await horosBaseQuery(args, api, extraOptions);
   return result;
 };
@@ -50,10 +41,7 @@ export const horosApi = createApi({
       }),
     }),
 
-    simulateTrade: builder.query<
-      SimulateTradeData,
-      SimulateTradeQueryVariables
-    >({
+    simulateTrade: builder.query<SimulateTradeData, SimulateTradeQueryVariables>({
       query: (params) => ({
         url: "/api/v1/decision/backtest",
         params,
@@ -83,9 +71,9 @@ export const horosApi = createApi({
     getETFBacktest: builder.query<any, any>({
       query: (data) => {
         return {
-          url: `https://${
-            isStage() || isLocal() ? "stage-" : ""
-          }strategy.wisdomise.io/api/v1/financial-products/${data.id}/backtest`,
+          url: `https://${isStage() || isLocal() ? "stage-" : ""}strategy.wisdomise.io/api/v1/financial-products/${
+            data.id
+          }/backtest`,
           params: data.params,
         };
       },

@@ -1,11 +1,6 @@
 import { G2, LineConfig } from "@ant-design/plots";
 import { deepMix } from "@antv/util";
-import {
-  DatePnl,
-  PointData,
-  PostSimulatePortfolioData,
-  WealthData,
-} from "api/backtest-types";
+import { DatePnl, PointData, PostSimulatePortfolioData, WealthData } from "api/backtest-types";
 import dayjs from "dayjs";
 import isEmpty from "lodash/isEmpty";
 import minBy from "lodash/minBy";
@@ -32,9 +27,7 @@ export const useProvideAatChartDataConfig = (
       const sortedCoinData = sortBy(
         coinData.map((d) => processCoinData(d, `${coin} HOLD`)),
         "date"
-      ).filter((item) =>
-        sortedAATData.find((_item) => _item.timestamp === item.timestamp)
-      );
+      ).filter((item) => sortedAATData.find((_item) => _item.timestamp === item.timestamp));
 
       const coinBasePrice = +Number(sortedCoinData[0].point);
       const addValueCoinData = sortedCoinData.map((d) => ({
@@ -105,9 +98,7 @@ const updateAatChartConfig = (data: Array<{ value: number }>): LineConfig => ({
   },
 });
 
-export const useProvideSpoChartDataConfig = (
-  spoData: PostSimulatePortfolioData | undefined
-): LineConfig => {
+export const useProvideSpoChartDataConfig = (spoData: PostSimulatePortfolioData | undefined): LineConfig => {
   return useMemo<LineConfig>(() => {
     if (spoData && !isEmpty(spoData)) {
       return updateSpoChartConfig([

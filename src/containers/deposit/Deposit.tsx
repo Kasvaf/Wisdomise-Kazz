@@ -34,39 +34,22 @@ const DepositAddressModal = (data: any, onDone: () => void) => {
       </div>
       <p className="tex-xl my-4 text-white">Wallet address</p>
       <div className="flex justify-between bg-paper p-4 text-white">
-        <input
-          value={data.wallet}
-          readOnly
-          className="mr-2 flex-grow bg-transparent"
-        />
+        <input value={data.wallet} readOnly className="mr-2 flex-grow bg-transparent" />
 
         <CopyToClipboard onCopy={onClickCopy} text={data.wallet}>
           <p className="cursor-pointer text-primary">COPY</p>
         </CopyToClipboard>
       </div>
       <div className="flex items-start justify-start">
-        <QRCode
-          size={180}
-          className="m-auto text-center"
-          value={data.wallet}
-          viewBox={`0 0 256 256`}
-        />
+        <QRCode size={180} className="m-auto text-center" value={data.wallet} viewBox={`0 0 256 256`} />
         <div className="flex flex-col items-start justify-between pl-[20px] pt-[35px]">
-          <p className="pb-10 text-base text-white ">
-            Send only {data.name} to this deposit address.
-          </p>
+          <p className="pb-10 text-base text-white ">Send only {data.name} to this deposit address.</p>
           <p className="text-base text-gray-light">
-            Sending coin or token other than {data.name} to this address may
-            result in the loss of your deposit.
+            Sending coin or token other than {data.name} to this address may result in the loss of your deposit.
           </p>
         </div>
       </div>
-      <Button
-        className="my-6 !w-full"
-        text="Done"
-        type={BUTTON_TYPE.FILLED}
-        onClick={onDone}
-      />
+      <Button className="my-6 !w-full" text="Done" type={BUTTON_TYPE.FILLED} onClick={onDone} />
     </div>
   );
 };
@@ -82,8 +65,7 @@ const Deposit: FunctionComponent = () => {
   const symbols = useGetDepositSymbolQuery({});
   const [networksTrigger, networks] = useLazyGetDepositNetworkQuery({});
 
-  const [walletAddressTrigger, walletAddress] =
-    useLazyGetDepositWalletAddressQuery({});
+  const [walletAddressTrigger, walletAddress] = useLazyGetDepositWalletAddressQuery({});
 
   const ias = useInvestorAssetStructuresQuery();
 
@@ -95,8 +77,7 @@ const Deposit: FunctionComponent = () => {
     try {
       // await updateDepositAddress(params.exchangeAccountKey as string);
       notification.success({
-        message:
-          "Wallet has been updated, It takes some time to affect your account",
+        message: "Wallet has been updated, It takes some time to affect your account",
         duration: TOAST_TIME,
       });
       onCompleted();
@@ -159,12 +140,10 @@ const Deposit: FunctionComponent = () => {
     <>
       <div className="mx-0 flex flex-col  sm:mx-[200px] ">
         <div className="mt-[50px] flex w-full grid-cols-12 flex-col items-center justify-center">
-          <h2 className="mb-4   self-start text-4xl capitalize text-white mobile:text-xl">
-            Deposit Your Investment
-          </h2>
+          <h2 className="mb-4   self-start text-4xl capitalize text-white mobile:text-xl">Deposit Your Investment</h2>
           <p className="mb-6 w-[390px] text-center text-base text-gray-light mobile:w-full mobile:text-left mobile:text-sm">
-            Your subscription fee will be deducted from your deposit at the end
-            of each month and may affect your subscription tier
+            Your subscription fee will be deducted from your deposit at the end of each month and may affect your
+            subscription tier
           </p>
           <div className="my-10 flex w-full justify-between">
             {/* <div className="flex flex-col">
@@ -227,11 +206,7 @@ const Deposit: FunctionComponent = () => {
                   symbols.data.results.map((item: any) => {
                     return (
                       <GradientBox
-                        className={
-                          item.name !== "USDT"
-                            ? "cursor-pointer"
-                            : "cursor-default"
-                        }
+                        className={item.name !== "USDT" ? "cursor-pointer" : "cursor-default"}
                         key={item.key}
                         disabled={item.name === "USDT"}
                         selected={item.name === selectedSymbol}
@@ -271,18 +246,10 @@ const Deposit: FunctionComponent = () => {
 
               <Button
                 className="my-6 !w-full"
-                text={
-                  walletAddress.isFetching
-                    ? "Loading ..."
-                    : "see deposit address"
-                }
+                text={walletAddress.isFetching ? "Loading ..." : "see deposit address"}
                 type={BUTTON_TYPE.FILLED}
                 onClick={onClickSeeDeposit}
-                disabled={
-                  !selectedNetwork ||
-                  !selectedSymbol ||
-                  !(walletAddress?.data && walletAddress?.data.address)
-                }
+                disabled={!selectedNetwork || !selectedSymbol || !(walletAddress?.data && walletAddress?.data.address)}
               />
             </div>
           </div>
@@ -305,10 +272,7 @@ const Deposit: FunctionComponent = () => {
         <Modal className="!w-full sm:!w-[600px]">
           <div className="mb-8 flex w-full justify-between px-5 pb-5 pt-2">
             <p className="font-body text-xl text-white">Deposit address</p>
-            <CloseIcon
-              className="cursor-pointer fill-white"
-              onClick={onCloseQRModal}
-            />
+            <CloseIcon className="cursor-pointer fill-white" onClick={onCloseQRModal} />
           </div>
           {DepositAddressModal(getWalletData(), onClickTransfer)}
         </Modal>

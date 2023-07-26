@@ -20,12 +20,7 @@ interface MenuTabsProps {
   setActiveTab: (tab: MenuTab) => unknown;
 }
 
-const MenuTabs: FunctionComponent<MenuTabsProps> = ({
-  tabs,
-  activeTab,
-  setActiveTab,
-  dashboardSection,
-}) => {
+const MenuTabs: FunctionComponent<MenuTabsProps> = ({ tabs, activeTab, setActiveTab, dashboardSection }) => {
   const navigate = useNavigate();
   const { section, subsection } = useParams();
   const handleTabClick = useCallback(
@@ -43,14 +38,7 @@ const MenuTabs: FunctionComponent<MenuTabsProps> = ({
     } else {
       handleTabClick(tabs[0]);
     }
-  }, [
-    section,
-    subsection,
-    handleTabClick,
-    setActiveTab,
-    tabs,
-    dashboardSection,
-  ]);
+  }, [section, subsection, handleTabClick, setActiveTab, tabs, dashboardSection]);
 
   return (
     <div className="dashboard-tabs">
@@ -69,11 +57,7 @@ const MenuTabs: FunctionComponent<MenuTabsProps> = ({
             {tab.soon && <span className="text-white/50">&nbsp;(SOON)</span>}
             {tab.tooltip && (
               <Tooltip placement="bottom" title={tab.tooltip}>
-                <InfoIcon
-                  className={`tab-info ml-2 inline-block ${
-                    tab.soon ? "tab-soon" : ""
-                  }`}
-                />
+                <InfoIcon className={`tab-info ml-2 inline-block ${tab.soon ? "tab-soon" : ""}`} />
               </Tooltip>
             )}
           </span>

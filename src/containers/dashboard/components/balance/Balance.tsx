@@ -16,8 +16,7 @@ const LoadingIndicator = () => {
 
 const Balance = () => {
   const ias = useInvestorAssetStructuresQuery();
-  const [historicalStatisticTrigger, historicalStatistic] =
-    useLazyGetExchangeAccountHistoricalStatisticQuery();
+  const [historicalStatisticTrigger, historicalStatistic] = useLazyGetExchangeAccountHistoricalStatisticQuery();
   const fpi = ias?.data?.[0]?.financial_product_instances[0];
 
   useEffect(() => {
@@ -37,15 +36,11 @@ const Balance = () => {
               <p className="text-base text-gray-light">Total Balance</p>
 
               <div className="flex flex-row items-center justify-end">
-                <p className="text-gray-light">
-                  Last Update ({dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}
-                  )
-                </p>
+                <p className="text-gray-light">Last Update ({dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")})</p>
               </div>
             </div>
             <h1 className="my-4 text-xl font-bold text-white">
-              {fpi ? floatData(ias?.data?.[0]?.total_equity) : 0}{" "}
-              {ias?.data?.[0]?.main_exchange_account.quote.name}
+              {fpi ? floatData(ias?.data?.[0]?.total_equity) : 0} {ias?.data?.[0]?.main_exchange_account.quote.name}
             </h1>
             {fpi && <AssetStructureChart investorAsset={ias.data!} />}
           </>
