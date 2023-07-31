@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { queryClient } from "config/reactQuery";
-import { convertDate } from "utils/utils";
+import { convertDate, isProduction } from "utils/utils";
 import { FinancialProduct, FinancialProductsReponse } from "./types/financialProduct";
 
 export const useFinancialProductsQuery = () =>
@@ -42,7 +42,7 @@ export const useCreateFPIMutation = () =>
 export const useFPBacktestQuery = (fpKey: string) =>
   useQuery(["fp", fpKey, "backtest"], async () => {
     const { data } = await axios.get(
-      `https://stage-strategy.wisdomise.io/api/v1/financial-products/${fpKey}/backtest`,
+      `https://${!isProduction ? "stage-" : ""}strategy.wisdomise.io/api/v1/financial-products/${fpKey}/backtest`,
       {
         params: {
           id: fpKey,
