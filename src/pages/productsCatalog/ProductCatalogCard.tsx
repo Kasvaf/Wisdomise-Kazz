@@ -27,7 +27,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({ fp, class
         <h5 className="mb-4 flex-grow text-base font-semibold text-white">{fp.title}</h5>
         <div className="mb-9 flex items-center justify-between">
           <div className="flex items-start gap-2 text-xs font-normal">
-            <div className="rounded-full bg-white/5 px-5 py-2 text-white/60">Spot</div>
+            <div className="rounded-full bg-white/5 px-5 py-2 text-white/60">{fp.config.market_type}</div>
             <div
               className={`rounded-full px-3 py-2 ${
                 rrr === "High"

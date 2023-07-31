@@ -58,7 +58,9 @@ const ProductCatalogDetail = () => {
               {rrr + " Risk"}
             </div>
 
-            <div className="basis-1/2 rounded-full bg-white/5 px-4 py-3 text-center  text-white/60">Spot</div>
+            <div className="basis-1/2 rounded-full bg-white/5 px-4 py-3 text-center  text-white/60">
+              {fp.data?.config.market_type}
+            </div>
           </div>
 
           <div className="rounded-3xl bg-white/5 px-4 py-6 text-sm font-medium">
