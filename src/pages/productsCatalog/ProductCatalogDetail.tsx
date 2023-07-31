@@ -1,15 +1,16 @@
+import LineChart from "containers/dashboard/components/LineChart/LineChart";
 import { useParams } from "react-router-dom";
 import { CoinsIcons } from "shared/components/CoinsIcons";
 import { PageWrapper } from "shared/components/PageWrapper";
 import { PriceChange } from "shared/components/priceChange/PriceChange";
 import { FPActivateButton } from "./FPActivateButton";
-import { useFinancialProductQuery } from "./services";
+import { useFinancialProductQuery, useFPBacktestQuery } from "./services";
 
 const ProductCatalogDetail = () => {
   const params = useParams<{ fpKey: string }>();
   const fpKey = params.fpKey!;
   const fp = useFinancialProductQuery(fpKey);
-  // const backtest = useFPBacktestQuery(fpKey);
+  const backtest = useFPBacktestQuery(fpKey);
 
   const rrr = fp.data?.profile.return_risk_ratio;
 
@@ -30,15 +31,12 @@ const ProductCatalogDetail = () => {
       <div className="flex mobile:flex-col">
         <div className="basis-2/3 mobile:order-2 mobile:basis-auto">
           <div className="flex h-full items-center justify-center rounded-3xl bg-white/5 p-8">
-            <p className="text-white">
-              Backtest <span className="rounded-3xl bg-white/20 p-2 text-white/40">Soon</span>
-            </p>
-            {/* <LineChart
+            <LineChart
               className="w-full"
               title={fp.data?.title}
               chartData={backtest.data}
               loading={backtest.isLoading}
-            /> */}
+            />
           </div>
         </div>
 
