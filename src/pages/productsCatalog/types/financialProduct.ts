@@ -29,6 +29,7 @@ interface Profile {
 
 interface Config {
   assets: string;
+  market_type: string;
   "pnl_ai(%)": number;
   sharpe_ai: number;
   len_assets: number;
