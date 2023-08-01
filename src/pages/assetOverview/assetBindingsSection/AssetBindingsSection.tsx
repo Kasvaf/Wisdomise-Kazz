@@ -55,7 +55,7 @@ export const AssetBindingsSection = () => {
           ) : (
             <p className="text-center text-2xl font-bold mobile:text-lg">
               {data?.asset_bindings.length} <br />
-              Coins
+              Coin{data && data?.asset_bindings.length > 1 && "s"}
             </p>
           )}
         </div>

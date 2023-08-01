@@ -18,10 +18,10 @@ export const ProductsCatalog = () => {
         <div className="mt-2">
           <h2 className="mb-4 text-xl font-semibold text-white">All Financial Products</h2>
           <p className="mb-6 text-sm leading-5 text-white/60 ">
-            AI-based Trading Strategies Run Automatically On Your Crypto Wallet.
+            AI-based trading strategies run automatically on your crypto wallet.
             <br />
-            These Are Built With Our Comprehensive And Sophisticated AI After Running Over 300 Million Unique
-            Experiments
+            These are built with our comprehensive and sophisticated AI after running over 300 million unique
+            experiments
           </p>
         </div>
         <div className="grid grid-cols-[repeat(auto-fit,_350px)] gap-6 mobile:justify-center">
