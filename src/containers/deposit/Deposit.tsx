@@ -141,10 +141,6 @@ const Deposit: FunctionComponent = () => {
       <div className="mx-0 flex flex-col  sm:mx-[200px] ">
         <div className="mt-[50px] flex w-full grid-cols-12 flex-col items-center justify-center">
           <h2 className="mb-4   self-start text-4xl capitalize text-white mobile:text-xl">Deposit Your Investment</h2>
-          <p className="mb-6 w-[390px] text-center text-base text-gray-light mobile:w-full mobile:text-left mobile:text-sm">
-            Your subscription fee will be deducted from your deposit at the end of each month and may affect your
-            subscription tier
-          </p>
           <div className="my-10 flex w-full justify-between">
             {/* <div className="flex flex-col">
             <p className="mb-4 text-lg text-white"> Subscription Plans</p>
