@@ -65,7 +65,7 @@ const AssetOverview = () => {
           diffMobileView
           title="Available"
           icon={AvailableIcon}
-          subtitle="withdraw-able"
+          subtitle="Withdrawable"
           value={data?.main_exchange_account.quote_equity || 0}
           className="mobile:mb-4 mobile:rounded-tl-none mobile:rounded-tr-none"
         />

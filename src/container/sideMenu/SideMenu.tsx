@@ -49,7 +49,7 @@ export const MenuItems = [
   },
   {
     icon: <SignalsIcon />,
-    text: "Signals",
+    text: "Signal Matrix",
     link: "app/signals",
   },
 ].filter((i) => !i.hide);

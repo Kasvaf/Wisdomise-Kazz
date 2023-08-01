@@ -35,12 +35,4 @@ export default defineConfig((config) => ({
   build: {
     sourcemap: true,
   },
-  // server: {
-  //   proxy: {
-  //     "/api/v1": {
-  //       target: "https://stage-temple.wisdomise.io",
-  //       changeOrigin: true,
-  //     },
-  //   },
-  // },
 }));
