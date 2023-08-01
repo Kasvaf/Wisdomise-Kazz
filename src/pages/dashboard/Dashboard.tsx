@@ -53,7 +53,7 @@ function Dashboard() {
             onClick={onAthenaClick}
             className="mb-6 flex h-16 cursor-pointer items-center justify-between rounded-3xl bg-white/5 px-8 py-3 text-xl text-white/20 mobile:p-2 mobile:pl-8 mobile:text-sm"
           >
-            Ask Your Question To Athena
+            Ask Athena anything about crypto
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
               <img src={ArrowSrc} />
             </div>
@@ -62,7 +62,7 @@ function Dashboard() {
           {!fpi ? (
             <div className="flex w-full flex-row justify-between rounded-3xl bg-white/5 px-8 py-6  mobile:p-6">
               <div className="flex flex-col justify-between">
-                <div>
+                <div className="w-2/3 mobile:w-full">
                   <h1 className="text-xl font-semibold text-white">We Trade On Your Behalf!</h1>
                   <p className="my-5 w-auto text-sm !leading-normal text-gray-light mobile:-mr-5 mobile:text-sm">
                     <img
@@ -76,8 +76,8 @@ function Dashboard() {
                       }}
                     />
                     <div className="hidden h-3 mobile:block" />
-                    Wisdomise offers <span className="whitespace-nowrap">AI-based</span> strategies tailored to <br />{" "}
-                    your risk tolerance. Check out our Financial Products and start making a profit today.
+                    Wisdomise offers <span className="whitespace-nowrap">AI-based</span> strategies tailored to your
+                    risk tolerance. Check out our Financial Products and start making a profit today.
                   </p>
                 </div>
                 <Button className="self-start" onClick={() => navigate("/app/products-catalog")}>
