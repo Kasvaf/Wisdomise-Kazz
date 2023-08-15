@@ -1165,7 +1165,7 @@ export default function TermsDialog({ isOpen, toggle, onCheck }: IProps) {
               <span>
                 If so agreed between the Service Provider and the Client during the Account opening process
                 <span className="msoIns">
-                  <ins cite="mailto:Arash%20Farahani" style={{textDecoration: 'none'}} dateTime="2023-05-16T12:41">
+                  <ins cite="mailto:Arash%20Farahani" className='no-underline' dateTime="2023-05-16T12:41">
                     {" "}
                     and activating any of the available investment packages
                   </ins>
