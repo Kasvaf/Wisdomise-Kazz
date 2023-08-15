@@ -124,7 +124,7 @@ export const FPActivateButton: React.FC<Props> = ({ className, inDetailPage, fin
             <Button
               onClick={() => {
                 setShowWalletDisclaimerDialog(false);
-                void onWalletDisclaimerAccept();
+                onWalletDisclaimerAccept();
               }}
             >
               Accept
