@@ -51,7 +51,7 @@ const AssetStructureChart = (props: { investorAsset: InvestorAssetStructures }) 
     appendPadding: 10,
     data: symbol,
     angleField: "value",
-    colorField: "type",
+    colorField: "name",
     radius: 1,
     innerRadius: 0.64,
     legend: false,
@@ -62,7 +62,6 @@ const AssetStructureChart = (props: { investorAsset: InvestorAssetStructures }) 
         textAlign: "center",
       },
       autoRotate: false,
-
       content: ({ percent }: any) => `${(percent * 100).toFixed(0)}%`,
     },
 

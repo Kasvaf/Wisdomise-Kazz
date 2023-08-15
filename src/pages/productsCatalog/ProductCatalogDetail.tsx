@@ -1,3 +1,4 @@
+import { ReactComponent as Attention } from "@images/attention.svg";
 import LineChart from "containers/dashboard/components/LineChart/LineChart";
 import { useParams } from "react-router-dom";
 import { CoinsIcons } from "shared/components/CoinsIcons";
@@ -99,6 +100,22 @@ const ProductCatalogDetail = () => {
                 </span>
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 rounded-3xl bg-white/5 p-6 text-sm text-white/60">
+        <div className="flex gap-4">
+          <Attention className='shrink-0' />
+          <div>
+            This website contains forward-looking statements. Such forward-looking statements are based on estimates,
+            assumptions and presumptions that Wisdomise (Switzerland) AG believes are reasonable at this time. These
+            forward-looking statements are inherently subject to risks and uncertainties as they relate to future
+            events. Therefore, it is possible that actual events, including the performance of cryptocurrencies, may
+            differ materially from those forecast. You should also note that past events and results are no guarantee of
+            future events or results. Wisdomise (Switzerland) AG or any other person does not guarantee that the
+            developments described on this website will occur. The User should therefore not base their investment
+            decision with regard to the services offered by Wisdomise (Switzerland) AG on the forward-looking statements
+            expressed on this website.
           </div>
         </div>
       </div>
