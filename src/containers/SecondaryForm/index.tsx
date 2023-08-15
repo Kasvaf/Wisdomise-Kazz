@@ -7,19 +7,23 @@ import bgMobile from "../auth/ConfirmSignUp/bg-mobile.png";
 import bgDesktop from "../auth/ConfirmSignUp/bg.png";
 import PolicyDialog from "./PolicyDialog";
 import TermsDialog from "./TermsDialog";
+import DisclosureDialog from "containers/SecondaryForm/DisclosureDialog";
 
 export const SecondaryForm: React.FC = () => {
   const [nickname, setNickname] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [isTermsOpen, setTermsOpen] = useState(false);
   const [isPolicyOpen, setPolicyOpen] = useState(false);
+  const [isDisclosureOpen, setIsDisclosureOpen] = useState(false);
   const [isTermsAccepted, setTermsAccepted] = useState(false);
   const [isPolicyAccepted, setPolicyAccepted] = useState(false);
+  const [isDisclosureAccepted, setIsDisclosureAccepted] = useState(false);
   const [errors, setErrors] = useState({
     nickname: false,
     referralCode: false,
     terms: false,
     policy: false,
+    disclosure: false,
   });
   const [agreeToTerms, { isLoading }] = useAgreeToTermsMutation();
 
@@ -41,6 +45,15 @@ export const SecondaryForm: React.FC = () => {
     }));
   };
 
+  const onDisclosureAccepted = () => {
+    setIsDisclosureAccepted(true);
+    setIsDisclosureOpen(false);
+    setErrors((e) => ({
+      ...e,
+      disclosure: false,
+    }));
+  };
+
   const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNickname(value);
@@ -56,9 +69,10 @@ export const SecondaryForm: React.FC = () => {
       nickname: !nickname,
       terms: !isTermsAccepted,
       policy: !isPolicyAccepted,
+      disclosure: !isDisclosureAccepted,
     }));
 
-    if (!nickname || !isTermsAccepted || !isPolicyAccepted) return;
+    if (!nickname || !isTermsAccepted || !isPolicyAccepted || !isDisclosureAccepted) return;
 
     try {
       const data: any = {
@@ -158,6 +172,18 @@ export const SecondaryForm: React.FC = () => {
                 }
               />
 
+              <Checkbox
+                id="cdr"
+                error={errors.terms && "You need to accept the cryptocurrency risk disclosure in order to continue."}
+                checked={isDisclosureAccepted}
+                onClick={() => setIsDisclosureOpen((o) => !o)}
+                label={
+                  <span>
+                    You are agreeing to the <span className="text-[#13DEF2]">cryptocurrency risk disclosure.</span>
+                  </span>
+                }
+              />
+
               <button
                 onClick={onSubmit}
                 className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
@@ -167,6 +193,11 @@ export const SecondaryForm: React.FC = () => {
 
               <TermsDialog isOpen={isTermsOpen} toggle={() => setTermsOpen((o) => !o)} onCheck={onTermsAccepted} />
               <PolicyDialog isOpen={isPolicyOpen} toggle={() => setPolicyOpen((o) => !o)} onCheck={onPolicyAccepted} />
+              <DisclosureDialog
+                isOpen={isDisclosureOpen}
+                toggle={() => setIsDisclosureOpen((o) => !o)}
+                onCheck={onDisclosureAccepted}
+              />
             </div>
           </main>
         </div>

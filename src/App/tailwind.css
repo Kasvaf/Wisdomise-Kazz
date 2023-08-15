@@ -973,3 +973,13 @@ div[data-amplify-router] {
 .risk-detail-coins .ant-avatar-group .ant-avatar {
   border-width: 0px;
 }
+
+/*// ant design overrides*/
+.ant-modal-content {
+  font-family: poppins, sans-serif;
+  border-radius: 10px !important;
+  background-color: #2E3541 !important;
+  .anticon-close {
+    color: white;
+  }
+}

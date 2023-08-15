@@ -1,5 +1,5 @@
-import { notification } from "antd";
-import React from "react";
+import { Modal, notification } from "antd";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "shared/components/Button";
 import { useInvestorAssetStructuresQuery, useUpdateFPIStatusMutation } from "shared/services/services";
@@ -18,8 +18,9 @@ export const FPActivateButton: React.FC<Props> = ({ className, inDetailPage, fin
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
   const updateFPIStatus = useUpdateFPIStatusMutation();
+  const [showWalletDisclaimerDialog, setShowWalletDisclaimerDialog] = useState(false);
 
-  const onActivateClick = async () => {
+  const onWalletDisclaimerAccept = async () => {
     await createFPI.mutateAsync(fp.key);
     const { data } = await ias.refetch();
     notification.success({
@@ -75,25 +76,61 @@ export const FPActivateButton: React.FC<Props> = ({ className, inDetailPage, fin
   const isOtherFPActive = (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
   const isRunning = isFPRunning(ias.data, fp.key);
 
-  return isRunning ? (
-    <Button
-      className={className}
-      onClick={onDeactivateClick}
-      loading={updateFPIStatus.isLoading || ias.isLoading}
-      disabled={isOtherFPActive || !fp.subscribable}
-      variant={inDetailPage ? "primary" : "alternative"}
-    >
-      Deactivate
-    </Button>
-  ) : (
-    <Button
-      variant="primary"
-      className={className}
-      onClick={onActivateClick}
-      loading={createFPI.isLoading}
-      disabled={isOtherFPActive || !fp.subscribable}
-    >
-      Activate
-    </Button>
+  return (
+    <>
+      {isRunning ? (
+        <Button
+          className={className}
+          onClick={onDeactivateClick}
+          loading={updateFPIStatus.isLoading || ias.isLoading}
+          disabled={isOtherFPActive || !fp.subscribable}
+          variant={inDetailPage ? "primary" : "alternative"}
+        >
+          Deactivate
+        </Button>
+      ) : (
+        <Button
+          variant="primary"
+          className={className}
+          onClick={() => setShowWalletDisclaimerDialog(true)}
+          loading={createFPI.isLoading}
+          disabled={isOtherFPActive || !fp.subscribable}
+        >
+          Activate
+        </Button>
+      )}
+      <Modal open={showWalletDisclaimerDialog} footer={false} onCancel={() => setShowWalletDisclaimerDialog(false)}>
+        <div className=''>
+          <h1 className='text-[#F1AA40] text-center mb-6'>Attention</h1>
+          <div className='text-white h-[14rem] overflow-auto'>
+            Your wallet will be opened on Binance. Wisdomise (Switzerland) AG itself does not provide any wallet and / or
+            custody services. Please note that the cryptocurrencies you transfer to this wallet will be stored on Binance.
+            Binance is a third party crypto exchange provider that is not regulated in Switzerland. Hence, there are risks
+            associated with holding a wallet on Binance. The risks associated with Binance cannot be controlled by
+            Wisdomise (Switzerland) AG. Such risks may include but are not limited to:
+            <br />
+            - bankruptcy of Binance;
+            <br />
+            - unauthorized access to the wallet held on Binance by third parties due to a hacker attack or similar event;
+            <br />
+            - prohibition of the operation of its business by a public authority. These risks include the risk of
+            significant or total loss of the cryptocurrencies transferred to the wallet on Binance. By creating a wallet
+            to use Wisdomise’s services you agree to bear all risks associated with holding the cryptocurrencies in a
+            wallet on Binance. Wisdomise (Switzerland) AG accepts no liability whatsoever for any damage incurred in
+            connection with holding the cryptocurrencies in a wallet on Binance.
+          </div>
+          <div className='text-center mt-4'>
+            <Button
+              onClick={() => {
+                setShowWalletDisclaimerDialog(false);
+                void onWalletDisclaimerAccept();
+              }}
+            >
+              Accept
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 };
