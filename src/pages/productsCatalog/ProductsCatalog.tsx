@@ -16,7 +16,7 @@ export const ProductsCatalog = () => {
     <>
       <PageWrapper loading={fps.isLoading || ias.isLoading}>
         <div className="mt-2">
-          <h2 className="mb-4 text-xl font-semibold text-white">All Financial Products</h2>
+          <h2 className="mb-4 text-xl font-semibold text-white">All Strategies</h2>
           <p className="mb-6 text-sm leading-5 text-white/60 ">
             AI-based trading strategies run automatically on your crypto wallet.
             <br />
