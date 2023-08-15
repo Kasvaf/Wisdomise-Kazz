@@ -68,7 +68,7 @@ export const FPActivateButton: React.FC<Props> = ({ className, inDetailPage, fin
         status: "stop",
       });
       notification.success({
-        message: "Financial Product Deactivated Successfully!",
+        message: "Strategy Deactivated Successfully!",
       });
     }
   };

@@ -77,7 +77,7 @@ function Dashboard() {
                     />
                     <div className="hidden h-3 mobile:block" />
                     Wisdomise offers <span className="whitespace-nowrap">AI-based</span> strategies tailored to your
-                    risk tolerance. Check out our Financial Products and start making a profit today.
+                    risk tolerance. Check out our strategies and start making a profit today.
                   </p>
                 </div>
                 <Button className="self-start" onClick={() => navigate("/app/products-catalog")}>
