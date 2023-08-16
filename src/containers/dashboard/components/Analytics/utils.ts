@@ -4,7 +4,7 @@ import { PointData, WealthData } from "api/backtest-types";
 import dayjs from "dayjs";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
-import numeral from "numeral";
+import * as numerable from "numerable";
 import { useMemo } from "react";
 
 export const useProvideAatChartDataConfig = (
@@ -78,7 +78,7 @@ const updateAatChartConfig = (data: Array<{ value: number }>): LineConfig => ({
       style: {
         fill: "rgba(255,255,255, 0.6)",
       },
-      formatter: (v) => (v === "0" ? "0%" : `${numeral(v).format("0.0")}%`),
+      formatter: (v) => (v === "0" ? "0%" : numerable.format(v, "0.0%")),
     },
     // minLimit: data.length ? minBy(data, 'value')!.value : 0,
   },

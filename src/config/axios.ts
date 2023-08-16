@@ -1,8 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { JwtTokenKey, LoginUrl } from "./constants";
 import { DB } from "./keys";
-
-export const jwtToken = "";
+import { tryParse } from "utils/json";
 
 export function configAxios() {
   axios.defaults.baseURL = DB + "/api/v1/";
@@ -12,7 +11,10 @@ export function configAxios() {
    * Add Authorization Token
    */
   axios.interceptors.request.use((config) => {
-    config.headers.set("Authorization", "Bearer " + (localStorage.getItem(JwtTokenKey) || jwtToken));
+    const jwtToken = tryParse(localStorage.getItem(JwtTokenKey));
+    if (jwtToken && typeof jwtToken === 'string') {
+      config.headers.set("Authorization", "Bearer " + jwtToken);
+    }
 
     return config;
   }, null);

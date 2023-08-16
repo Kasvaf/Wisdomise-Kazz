@@ -1,29 +1,15 @@
-import { useEffect } from "react";
+import { useLocalStorage } from 'usehooks-ts'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-import { RootState } from "../store/appReducer";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { loadSessionData } from "../store/userInfo";
-
-import { LoginUrl } from "config/constants";
-import { App } from "./App";
+import { JwtTokenKey, LoginUrl } from "config/constants";
 import { AuthCallback } from "./AuthCallback";
+import { App } from "./App";
 
 export function AppAuthContainer() {
-  const dispatch = useAppDispatch();
-  const sessionData = useAppSelector((state: RootState) => state.user);
-
-  useEffect(() => {
-    dispatch(loadSessionData());
-  }, [dispatch]);
-
-  if (sessionData?.loading) {
-    return null;
-  }
+  const [userToken] = useLocalStorage(JwtTokenKey, '');
 
   return (
     <>
-      {!sessionData?.jwtToken ? (
+      {!userToken ? (
         <BrowserRouter>
           <Routes>
             <Route path="/auth/callback" element={<AuthCallback />} />

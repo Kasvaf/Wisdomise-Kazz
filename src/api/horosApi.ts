@@ -1,14 +1,15 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { DB } from "../config/keys";
 import { SimulateTradeData, SimulateTradeQueryVariables } from "./backtest-types";
-import { State } from "./types/state";
 import { NetworksResponse } from "./types/transferNetworks";
+import { tryParse } from "utils/json";
+import { JwtTokenKey } from "config/constants";
 
 const horosBaseQuery = fetchBaseQuery({
   baseUrl: DB,
   prepareHeaders: (headers, api) => {
-    const authToken = (api.getState() as State).user?.jwtToken;
-    if (authToken) {
+    const authToken = tryParse(localStorage.getItem(JwtTokenKey));
+    if (authToken && typeof authToken === 'string') {
       headers.set("Authorization", `Bearer ${authToken}`);
     }
 
