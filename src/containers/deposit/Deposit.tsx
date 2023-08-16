@@ -7,8 +7,7 @@ import {
   useLazyGetDepositNetworkQuery,
   useLazyGetDepositWalletAddressQuery,
 } from "api/horosApi";
-import Button from "components/Button";
-import { TOAST_TIME } from "components/constants";
+import Button, { BUTTON_TYPE } from "components/Button";
 import GradientBox from "components/gradientBox";
 import Modal from "components/modal";
 import SelectNetwork from "components/selectNetwork";
@@ -18,7 +17,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import QRCode from "react-qr-code";
 import { useParams } from "react-router-dom";
 import { useInvestorAssetStructuresQuery } from "shared/services/services";
-import { BUTTON_TYPE } from "utils/enums";
 
 const DepositAddressModal = (data: any, onDone: () => void) => {
   const onClickCopy = () => {
@@ -78,7 +76,6 @@ const Deposit: FunctionComponent = () => {
       // await updateDepositAddress(params.exchangeAccountKey as string);
       notification.success({
         message: "Wallet has been updated, It takes some time to affect your account",
-        duration: TOAST_TIME,
       });
       onCompleted();
     } catch (e) {
@@ -142,53 +139,6 @@ const Deposit: FunctionComponent = () => {
         <div className="mt-[50px] flex w-full grid-cols-12 flex-col items-center justify-center">
           <h2 className="mb-4   self-start text-4xl capitalize text-white mobile:text-xl">Deposit Your Investment</h2>
           <div className="my-10 flex w-full justify-between">
-            {/* <div className="flex flex-col">
-            <p className="mb-4 text-lg text-white"> Subscription Plans</p>
-            <GradientBox selected>
-              <div className="flex min-w-[230px] items-start">
-                <p className="font-bold text-white">30-days free trial</p>
-              </div>
-            </GradientBox>
-            <GradientBox>
-              <div className="flex flex-col ">
-                <p className="self-start font-bold text-white">Rabbit</p>
-                <div className="flex flex-row items-center justify-between">
-                  <p className="text-xs text-gray-light">portfolio under $1k</p>
-                  <p className="text-sm text-white">$00 per year</p>
-                </div>
-              </div>
-            </GradientBox>
-            <GradientBox>
-              <div className="flex flex-col">
-                <p className="self-start font-bold text-white">Fox</p>
-                <div className="flex flex-row items-center justify-between">
-                  <p className="text-xs text-gray-light">Between $1k - $5k</p>
-                  <p className="text-sm text-white">$00 per year</p>
-                </div>
-              </div>
-            </GradientBox>
-            <GradientBox>
-              <div className="flex flex-col">
-                <p className="self-start font-bold text-white">Shark</p>
-                <div className="flex flex-row items-center justify-between">
-                  <p className="text-xs text-gray-light">Between $10k - $50k</p>
-                  <p className="text-sm text-white">$00 per year</p>
-                </div>
-              </div>
-            </GradientBox>
-            <GradientBox>
-              <div className="flex flex-col">
-                <p className="self-start font-bold text-white">Whale</p>
-                <div className="flex flex-row items-center justify-between">
-                  <p className="text-xs text-gray-light">
-                    Portfolio over $50k+
-                  </p>
-                  <p className="text-sm text-white">$00 per year</p>
-                </div>
-              </div>
-            </GradientBox>
-          </div> */}
-
             <div className=" flex w-full flex-col">
               <p className="mb-4 text-white"> Select currency</p>
               <div className="mb-8 flex flex-row justify-between gap-3">

@@ -1,5 +1,9 @@
 import type { FunctionComponent, ReactNode } from "react";
-import { BUTTON_TYPE } from "utils/enums";
+
+export enum BUTTON_TYPE {
+  FILLED = "filled",
+  OUTLINED = "outlined",
+}
 
 interface ButtonProps {
   type: BUTTON_TYPE;

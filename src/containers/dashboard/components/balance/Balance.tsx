@@ -46,54 +46,6 @@ const Balance = () => {
           </>
         )}
       </div>
-
-      {/* <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
-        {historicalStatistic.isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          <>
-            <div className="mb-2 flex w-full items-center justify-between">
-              <p className="mb-5 text-lg text-gray-light">Total PnL</p>
-              <div className="flex flex-col">
-                <div className="flex items-center ">
-                  <div className="h-[15px] w-[15px] rounded-full bg-success"></div>
-                  <p className="ml-2 text-white">Profit</p>
-                </div>
-                <div className="flex items-center ">
-                  <div className="h-[15px] w-[15px] rounded-full bg-error"></div>
-                  <p className="ml-2 text-white">Loss</p>
-                </div>
-              </div>
-            </div>
-
-            {fpi && (
-              <HistoricalChartColumn
-                historicalStatistic={historicalStatistic}
-              />
-            )}
-          </>
-        )}
-      </div> */}
-
-      {/* <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
-        {historicalStatistic.isLoading ? (
-          <LoadingIndicator />
-        ) : (
-          <>
-            <p className="mb-5 text-lg text-gray-light"> Daily Profits</p>
-
-            {fpi && (
-              <HistoricalChartLine
-                historicalStatistic={historicalStatistic}
-                // exchangeAccountKey={
-                //   investorAsset?.data.results[0].trader_instances[0]
-                //     ?.exchange_account.key
-                // }
-              />
-            )}
-          </>
-        )}
-      </div> */}
     </div>
   );
 };

@@ -17,7 +17,6 @@ const GradientBox: FunctionComponent<GradientBoxProps> = ({ selected, className,
     <div
       onClick={onClickCard}
       className={`my-2 w-full  bg-gradient-to-r p-[3px]  ${selected && `cursor-pointer from-gradientFrom to-gradientTo`}
-     
       ${className}`}
     >
       <div

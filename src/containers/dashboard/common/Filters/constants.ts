@@ -12,13 +12,13 @@ export enum FilterNames {
   risk = "risk",
 }
 
-export const Status = {
+const Status = {
   OPEN: "OPEN",
   CLOSE: "CLOSE",
   WEAK: "WEAK",
 };
 
-export const Side = {
+const Side = {
   LONG: "long",
   SHORT: "short",
 };
@@ -38,7 +38,7 @@ export const Strategy = {
   hft: "hft",
 } as const;
 
-export const Benchmark = {
+const Benchmark = {
   BTC: "BTC Hold",
   ETH: "ETH Hold",
   TRX: "TRX Hold",
@@ -48,7 +48,7 @@ export const Benchmark = {
   LTC: "LTC Hold",
 };
 
-export const Risk = {
+const Risk = {
   low: "Low risk",
   medium: "Medium risk",
   high: "High risk",

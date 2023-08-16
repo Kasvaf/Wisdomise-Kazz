@@ -1,7 +1,6 @@
-import DB from "./keys";
+import { DB } from "./keys";
 
 export const JwtTokenKey = "TOKEN";
-export const REFERRAL_LEVELS = "REFERRAL_LEVELS";
 export const WISDOMISE_EMAIL_KEY = "WISDOMISE_EMAIL_KEY";
 export const LoginUrl = `${DB}/api/v1/account/login`;
 

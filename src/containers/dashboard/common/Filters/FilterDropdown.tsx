@@ -142,19 +142,6 @@ function FilterDropdown({
                   </span>
                 </button>
               ))}
-          {/* {type === 'multiselect' &&
-            options !== null &&
-            Object.keys(options).map((o) => (
-              <div
-                className={`horos-dropdown-item ${
-                  filter[name][o] ? 'text-primary' : ''
-                }`}
-                key={o}
-                onClick={() => handleFilterChange(o)}
-              >
-                <span className="uppercase">{o}</span>
-              </div>
-            ))} */}
           {type === "date" && (
             <DateRange
               moveRangeOnFirstSelection={false}

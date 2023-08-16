@@ -3,7 +3,7 @@ import { QueryStatus } from "@reduxjs/toolkit/dist/query";
 import { notification } from "antd";
 import { useResendVerificationEmailMutation } from "api/horosApi";
 import { JwtTokenKey } from "config/constants";
-import DB from "config/keys";
+import { DB } from "config/keys";
 import React, { useEffect, useState } from "react";
 import { useUserInfoQuery } from "shared/services/services";
 import { logout } from "utils/auth";

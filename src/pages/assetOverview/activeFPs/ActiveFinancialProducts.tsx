@@ -132,18 +132,6 @@ export const ActiveFinancialProducts = () => {
 
             <VerticalLine />
 
-            {/* <VerticalLine />
-            <div className="mx-6 my-4 flex flex-col justify-between">
-              <div className="flex justify-between">
-                <p className="mr-6 text-sm text-white/80">
-                  Equity Chart{" "}
-                  <span className="text-xxs text-white/40">7d</span>
-                </p>
-                <PriceChange value={11.9} />
-              </div>
-              <PriceAreaChart data={sdf} />
-            </div> */}
-
             <div
               className={clsx(
                 "mx-6 my-4 flex items-center justify-between mobile:mx-0 mobile:flex-row",

@@ -17,8 +17,6 @@ interface Investor {
   key: string;
 }
 
-export type FinancialProductInstanceStatus = "DRAFT" | "RUNNING" | "PAUSED";
-
 export interface FinancialProductInstance {
   key: string;
   status: "DRAFT" | "RUNNING" | "PAUSED";

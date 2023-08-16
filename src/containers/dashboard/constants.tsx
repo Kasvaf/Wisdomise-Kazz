@@ -9,17 +9,6 @@ import TRX from "@images/coins/trx.svg";
 import USDT from "@images/coins/usdt.svg";
 import XRP from "@images/coins/xrp.svg";
 
-import { ReactComponent as DashboardIcon } from "@images/nav/dashboard.svg";
-import { ReactComponent as CatalogIcon } from "@images/nav/portfolio.svg";
-// import { ReactComponent as Analytics } from "@images/nav/analytics.svg";
-import { ReactComponent as TradingIcon } from "@images/nav/trading.svg";
-// import { ReactComponent as ReferralIcon } from '@images/nav/referral.svg';
-
-import { TablePaginationConfig } from "antd";
-import { TabLabels } from "./types";
-
-export const K_FORMAT = "0.0a";
-
 export const coins: { [key: string]: { name: string; icon: string } } = {
   ADA: {
     name: "ADA",
@@ -60,94 +49,5 @@ export const coins: { [key: string]: { name: string; icon: string } } = {
   BUSD: {
     name: "BUSD",
     icon: BUSD,
-  },
-};
-
-export const DATE_FORMAT = "YYYY-MM-DD";
-export const DATE_FORMAT_ALT = "MMM DD, YYYY";
-export const TIME_FORMAT = " h:mm:ss A";
-
-export const SignalNotificationTypes = [
-  {
-    label: "NEW",
-    value: "newSignal",
-  },
-  {
-    label: "UPDATED",
-    value: "updatedSignal",
-  },
-  {
-    label: "CLOSE",
-    value: "closeSignal",
-  },
-];
-
-export const paginationConfig: TablePaginationConfig = {
-  pageSize: 10,
-  showSizeChanger: false,
-  position: ["bottomLeft"],
-  className: "sticky md:relative",
-};
-
-export const previewPaginationConfig: TablePaginationConfig = {
-  position: [],
-};
-
-// Dashboard navbar tabs config
-export const tabs: any = {
-  [TabLabels.dashboard]: {
-    id: TabLabels.dashboard,
-    description: "Explore Horos features to start generating wealth",
-    hash: "dash",
-    label: "Dashboard",
-    icon: <DashboardIcon fill="#d9d9d9" className="dashboard-icon h-6 w-6" />,
-    defaultUrl: "dashboard",
-  },
-
-  [TabLabels.strategyCatalog]: {
-    id: TabLabels.strategyCatalog,
-    description:
-      "Compare analytics and benchmark the performance of your portfolio based on the selected asset and strategy",
-    hash: "catalog",
-    label: "Strategy Catalog",
-    icon: <CatalogIcon className="dashboard-icon h-6 w-6" />,
-    actionLabel: "Learn more",
-    defaultUrl: "strategyCatalog",
-  },
-
-  // [TabLabels.WisdomiseAI]: {
-  //   id: TabLabels.WisdomiseAI,
-  //   description: "",
-  //   hash: "WisdomiseAI",
-  //   label: "Intelligence services",
-  //   icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
-  //   defaultUrl: "s",
-  //   subMenu: [
-  //     {
-  //       id: TabLabels.backtest,
-  //       hash: "Backtest",
-  //       label: "Backtest ",
-  //       icon: <SignalsIcon className="dashboard-icon h-6 w-6" />,
-  //       actionLabel: "Backtest",
-  //       defaultUrl: "backtest",
-  //     },
-  //   ],
-  // },
-
-  [TabLabels.advanceTrading]: {
-    id: TabLabels.advanceTrading,
-    description: (
-      <span>
-        Wisdomise AI Market Signaler (Horos AMS) is vigilantly watching the market
-        <br />
-        to identify opportune market signals
-      </span>
-    ),
-    hash: "sign",
-    label: "Advanced Trading",
-    icon: <TradingIcon className="dashboard-icon h-6 w-6" />,
-    actionLabel: "Scan now",
-    defaultUrl: "analytics",
-    comingSoon: true,
   },
 };

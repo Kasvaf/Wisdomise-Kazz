@@ -1,10 +1,5 @@
 import { TickerSymbol } from "./common";
 
-export interface GetSignalsQueryData {
-  results: Array<Signal>;
-  count: number;
-}
-
 type PositionType = "OPEN" | "CLOSE" | "WEAK";
 
 export interface Signal {

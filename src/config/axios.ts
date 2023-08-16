@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { JwtTokenKey, LoginUrl } from "./constants";
-import DB from "./keys";
+import { DB } from "./keys";
 
 export const jwtToken = "";
 

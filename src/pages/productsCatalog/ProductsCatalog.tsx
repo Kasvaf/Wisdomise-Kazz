@@ -4,7 +4,7 @@ import { useInvestorAssetStructuresQuery } from "shared/services/services";
 import { ProductCatalogCard } from "./ProductCatalogCard";
 import { useFinancialProductsQuery } from "./services";
 
-export const ProductsCatalog = () => {
+const ProductsCatalog = () => {
   const fps = useFinancialProductsQuery();
   const ias = useInvestorAssetStructuresQuery();
 

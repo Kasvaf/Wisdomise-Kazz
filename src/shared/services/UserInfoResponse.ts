@@ -1,7 +1,6 @@
 export interface UserInfoResponse {
   key: string;
   customer: Customer;
-  kyc_level_bindings: any[];
 }
 
 interface Customer {

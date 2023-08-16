@@ -1,9 +1,8 @@
 import { G2, LineConfig } from "@ant-design/plots";
 import { deepMix } from "@antv/util";
-import { DatePnl, PointData, PostSimulatePortfolioData, WealthData } from "api/backtest-types";
+import { PointData, WealthData } from "api/backtest-types";
 import dayjs from "dayjs";
 import isEmpty from "lodash/isEmpty";
-import minBy from "lodash/minBy";
 import sortBy from "lodash/sortBy";
 import numeral from "numeral";
 import { useMemo } from "react";
@@ -96,57 +95,4 @@ const updateAatChartConfig = (data: Array<{ value: number }>): LineConfig => ({
       },
     },
   },
-});
-
-export const useProvideSpoChartDataConfig = (spoData: PostSimulatePortfolioData | undefined): LineConfig => {
-  return useMemo<LineConfig>(() => {
-    if (spoData && !isEmpty(spoData)) {
-      return updateSpoChartConfig([
-        ...sortBy(
-          spoData.po_pnls.map((d) => processSpoData(d, "Horos (SPO)")),
-          "timestamp"
-        ),
-        ...sortBy(
-          spoData.benchmark_pnls.map((d) => processSpoData(d, "Benchmark")),
-          "timestamp"
-        ),
-      ]);
-    }
-
-    return updateSpoChartConfig([]);
-  }, [spoData]);
-};
-
-const updateSpoChartConfig = (data: Array<{ value: number }>): LineConfig => ({
-  data,
-  xField: "timestamp",
-  yField: "value",
-  width: 1280,
-  seriesField: "category",
-  color: ["#00FAAC", "#FF449F"],
-  theme: deepMix({}, G2.getTheme("dark"), {
-    background: "#051D32",
-  }),
-  yAxis: {
-    label: {
-      formatter: (v) => `${numeral(v).format("0")}%`,
-    },
-    minLimit: data.length ? minBy(data, "value")?.value || 0 : 0,
-  },
-  tooltip: {
-    formatter: (datum) => ({ name: datum.category, value: `${datum.value}%` }),
-    domStyles: {
-      "g2-tooltip": {
-        backgroundColor: "#03101C",
-        color: "#fff",
-      },
-    },
-  },
-});
-
-const processSpoData = (data: DatePnl, category: string) => ({
-  ...data,
-  category,
-  value: Math.round(data.point),
-  timestamp: data.date,
 });

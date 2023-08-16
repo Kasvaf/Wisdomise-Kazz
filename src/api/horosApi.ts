@@ -1,10 +1,7 @@
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { DB } from "../config/keys";
 import { SimulateTradeData, SimulateTradeQueryVariables } from "./backtest-types";
-import { GetSignalsQueryData } from "./types/signal";
 import { State } from "./types/state";
-
-import { isLocal, isStage } from "utils/utils";
 import { NetworksResponse } from "./types/transferNetworks";
 
 const horosBaseQuery = fetchBaseQuery({
@@ -34,49 +31,11 @@ export const horosApi = createApi({
   keepUnusedDataFor: 0,
   tagTypes: ["userInfo"],
   endpoints: (builder) => ({
-    getHourlySignals: builder.query<GetSignalsQueryData, any>({
-      query: (params) => ({
-        url: "/api/v1/decision/positions",
-        params,
-      }),
-    }),
-
     simulateTrade: builder.query<SimulateTradeData, SimulateTradeQueryVariables>({
       query: (params) => ({
         url: "/api/v1/decision/backtest",
         params,
       }),
-    }),
-
-    getDepositAddress: builder.query<any, any>({
-      query: (exchangeAccountKey) => {
-        return {
-          url: `/api/v1/ias/exchange-accounts/${exchangeAccountKey}/deposit-addresses`,
-        };
-      },
-    }),
-
-    setWaitingList: builder.mutation<any, any>({
-      query: (body) => {
-        return {
-          url: "/api/v1/trader/investor-asset-structures",
-          method: "POST",
-          body: {
-            ...body,
-          },
-        };
-      },
-    }),
-
-    getETFBacktest: builder.query<any, any>({
-      query: (data) => {
-        return {
-          url: `https://${isStage() || isLocal() ? "stage-" : ""}strategy.wisdomise.io/api/v1/financial-products/${
-            data.id
-          }/backtest`,
-          params: data.params,
-        };
-      },
     }),
 
     getExchangeAccountHistoricalStatistic: builder.query<any, any>({
@@ -159,12 +118,8 @@ export const horosApi = createApi({
 });
 
 export const {
-  useGetHourlySignalsQuery,
   useLazySimulateTradeQuery,
-  useGetETFBacktestQuery,
   useLazyGetExchangeAccountHistoricalStatisticQuery,
-  useGetDepositAddressQuery,
-  useSetWaitingListMutation,
   useGetDepositSymbolQuery,
   useLazyGetDepositNetworkQuery,
   useLazyGetDepositWalletAddressQuery,

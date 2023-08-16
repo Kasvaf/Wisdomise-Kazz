@@ -9,7 +9,7 @@ import {
   useGetWithdrawSymbolQuery,
   useResendEmailWithdrawMutation,
 } from "api/horosApi";
-import Button from "components/Button";
+import Button, { BUTTON_TYPE } from "components/Button";
 import GradientBox from "components/gradientBox";
 import Modal from "components/modal";
 import SelectNetwork from "components/selectNetwork";
@@ -18,7 +18,6 @@ import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageWrapper } from "shared/components/PageWrapper";
 import { useInvestorAssetStructuresQuery, useUserInfoQuery } from "shared/services/services";
-import { BUTTON_TYPE } from "utils/enums";
 import { useIsMobile } from "utils/useIsMobile";
 import { floatData, roundDown } from "utils/utils";
 import { useWithdrawNetworksQuery } from "./services";

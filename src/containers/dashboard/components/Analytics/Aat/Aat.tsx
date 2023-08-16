@@ -15,8 +15,7 @@ import { AatFilterDates } from "../constants";
 import { useProvideAatChartDataConfig } from "../utils";
 
 import { notification } from "antd";
-import Button from "components/Button";
-import { BUTTON_TYPE } from "utils/enums";
+import Button, { BUTTON_TYPE } from "components/Button";
 
 const aatErrors = ANALYTICS_ERRORS.aat;
 

@@ -1,7 +1,6 @@
 import type { Middleware } from "@reduxjs/toolkit";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import { notification } from "antd";
-import { TOAST_TIME } from "components/constants";
 import { JwtTokenKey } from "config/constants";
 
 export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {
@@ -40,7 +39,6 @@ export const rtkQueryErrorMiddleware: Middleware = () => (next) => (action) => {
       }
       notification.error({
         message: title,
-        duration: TOAST_TIME,
         description: body,
       });
     }
