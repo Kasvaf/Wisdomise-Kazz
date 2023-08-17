@@ -71,8 +71,8 @@ const DepositModal = () => {
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Attention</h1>
-      <div className="mb-10 flex justify-stretch">
-        <div className="basis-1/2">
+      <div className="mb-10 flex justify-stretch mobile:flex-col">
+        <div className="basis-1/2 mobile:mb-6">
           <div className="mb-1 ml-3">Cryptocurrency</div>
           <ComboBox
             options={cryptos.data ?? []}
@@ -83,7 +83,7 @@ const DepositModal = () => {
           />
         </div>
 
-        <div className="w-8" />
+        <div className="w-8 mobile:hidden" />
 
         <div className="basis-1/2">
           <div className="mb-1 ml-3">Network</div>
@@ -114,7 +114,12 @@ const DepositModal = () => {
               )}
               onClick={copyToClipboard}
             >
-              <div>{depositAddress.data?.address}</div>
+              <div
+                className="truncate"
+                style={{ maxWidth: 'calc(100% - 50px)' }}
+              >
+                {depositAddress.data?.address}
+              </div>
               <div className="font-medium">Copy</div>
             </div>
           </div>
