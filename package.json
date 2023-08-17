@@ -10,7 +10,7 @@
     "build:prod": "tsc && vite build --mode production",
     "serve": "vite preview --port 3000 --host",
     "preview": "vite preview",
-    "lint": "eslint ./src --ext .jsx,.js,.tsx,.ts",
+    "lint": "eslint --quiet ./src --ext .jsx,.js,.tsx,.ts",
     "execute-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
     "prepare": "husky install"
   },
