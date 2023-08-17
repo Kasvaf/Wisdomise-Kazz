@@ -9,9 +9,9 @@ html {
 }
 
 $breakpoints: (
-  "small": $small,
-  "medium": $medium,
-  "large": $large,
+  'small': $small,
+  'medium': $medium,
+  'large': $large,
 ) !default;
 
 /// Mixin to manage responsive breakpoints

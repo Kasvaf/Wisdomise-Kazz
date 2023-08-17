@@ -17,39 +17,63 @@
     height: 36px;
     width: 36px;
     clip-path: url(#rl-circle);
-    background: conic-gradient(from 0deg at 50% 57.6%, #ffffff 0deg, rgba(255, 255, 255, 0.22) 360deg);
+    background: conic-gradient(
+      from 0deg at 50% 57.6%,
+      #ffffff 0deg,
+      rgba(255, 255, 255, 0.22) 360deg
+    );
   }
   .rl-icon-circle-active {
     height: 36px;
     width: 36px;
     clip-path: url(#rl-circle);
-    background: conic-gradient(from 0deg at 50% 57.6%, #00a3ff 0deg, #ff00c7 360deg);
+    background: conic-gradient(
+      from 0deg at 50% 57.6%,
+      #00a3ff 0deg,
+      #ff00c7 360deg
+    );
   }
 
   .rl-icon-hexagon {
     height: 42px;
     width: 36px;
     clip-path: url(#rl-hexagon);
-    background: conic-gradient(from 0deg at 50% 57.6%, #ffffff 0deg, rgba(255, 255, 255, 0.22) 360deg);
+    background: conic-gradient(
+      from 0deg at 50% 57.6%,
+      #ffffff 0deg,
+      rgba(255, 255, 255, 0.22) 360deg
+    );
   }
   .rl-icon-hexagon-active {
     height: 42px;
     width: 36px;
     clip-path: url(#rl-hexagon);
-    background: conic-gradient(from 0deg at 50% 57.6%, #00a3ff 0deg, #ff00c7 360deg);
+    background: conic-gradient(
+      from 0deg at 50% 57.6%,
+      #00a3ff 0deg,
+      #ff00c7 360deg
+    );
   }
 
   .rl-icon-diamond {
     height: 42px;
     width: 42px;
     clip-path: url(#rl-diamond);
-    background: conic-gradient(from 0deg at 50% 57.6%, #ffffff 0deg, rgba(255, 255, 255, 0.22) 360deg);
+    background: conic-gradient(
+      from 0deg at 50% 57.6%,
+      #ffffff 0deg,
+      rgba(255, 255, 255, 0.22) 360deg
+    );
   }
   .rl-icon-diamond-active {
     height: 42px;
     width: 42px;
     clip-path: url(#rl-diamond);
-    background: conic-gradient(from 0deg at 50% 57.6%, #00a3ff 0deg, #ff00c7 360deg);
+    background: conic-gradient(
+      from 0deg at 50% 57.6%,
+      #00a3ff 0deg,
+      #ff00c7 360deg
+    );
   }
 
   .referral-panel {
@@ -105,12 +129,12 @@
 
     &:checked {
       &::after {
-        content: " ";
+        content: ' ';
         @apply absolute left-[8px] top-[9px] h-[1.5px] w-[8px]  rotate-[135deg] rounded-sm bg-panel;
       }
 
       &::before {
-        content: " ";
+        content: ' ';
         @apply absolute left-[6px] top-[9px] h-[1.5px] w-[4px] rotate-45  rounded-sm bg-panel;
       }
     }
@@ -472,7 +496,7 @@
     margin-left: 8px;
 
     &::after {
-      content: " ";
+      content: ' ';
       background-color: #ff0000;
       border-radius: 100px;
       width: 8px;
@@ -487,7 +511,8 @@
   }
 
   .animate-roll-in {
-    -webkit-animation: roll-in-blurred-top 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+    -webkit-animation: roll-in-blurred-top 0.6s cubic-bezier(0.23, 1, 0.32, 1)
+      both;
     animation: roll-in-blurred-top 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
   }
 
@@ -603,7 +628,7 @@
     i {
       @apply translate-x-[6px] border-none;
       &::before {
-        content: "‹";
+        content: '‹';
         @apply p-1 text-lg not-italic;
       }
     }
@@ -611,7 +636,7 @@
     &.rdrNextButton i {
       @apply -translate-x-[8px];
       &::before {
-        content: "›";
+        content: '›';
       }
     }
 
@@ -817,7 +842,12 @@ div[data-amplify-router] {
 }
 
 .gradientBackground {
-  background: linear-gradient(87.05deg, #00fff0 -8.37%, #13def2 -8.36%, #e26cff 87.66%);
+  background: linear-gradient(
+    87.05deg,
+    #00fff0 -8.37%,
+    #13def2 -8.36%,
+    #e26cff 87.66%
+  );
 }
 
 .gradientColor {
@@ -841,7 +871,7 @@ div[data-amplify-router] {
 }
 
 .notify:after {
-  content: " ";
+  content: ' ';
   display: block;
   height: 10px;
   width: 10px;
@@ -913,12 +943,17 @@ div[data-amplify-router] {
 }
 
 .loader-line:before {
-  content: "";
+  content: '';
   position: absolute;
   left: -50%;
   height: 4px;
   width: 40%;
-  background: linear-gradient(87.05deg, #00fff0 -8.37%, #13def2 -8.36%, #e26cff 87.66%);
+  background: linear-gradient(
+    87.05deg,
+    #00fff0 -8.37%,
+    #13def2 -8.36%,
+    #e26cff 87.66%
+  );
   -webkit-animation: lineAnim 1s linear infinite;
   -moz-animation: lineAnim 1s linear infinite;
   animation: lineAnim 2s linear infinite;
@@ -978,7 +1013,7 @@ div[data-amplify-router] {
 .ant-modal-content {
   font-family: poppins, sans-serif;
   border-radius: 10px !important;
-  background-color: #2E3541 !important;
+  background-color: #2e3541 !important;
   .anticon-close {
     color: white;
   }
