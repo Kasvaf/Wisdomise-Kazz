@@ -27,7 +27,7 @@ function Dashboard() {
   const onAthenaClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setTimeout(() => {
-      window.open('https://athena.wisdomise.io', '_blank');
+      window.open('https://athena.wisdomise.io', '_blank', 'noopener');
     });
   };
 

@@ -7,6 +7,7 @@ import { useIsMobile } from 'utils/useIsMobile';
 import { CoinsIcons, coinsIcons } from 'modules/shared/CoinsIcons';
 import { AssetBindingsSectionTable } from './AssetBindingsSectionTable';
 
+const emptyFn = () => <></>;
 export const AssetBindingsSection = () => {
   const isMobile = useIsMobile();
   const ias = useInvestorAssetStructuresQuery();
@@ -80,7 +81,7 @@ export const AssetBindingsSection = () => {
           enableArcLabels={false}
           arcLabelsSkipAngle={13}
           legends={[]}
-          tooltip={() => <></>}
+          tooltip={emptyFn}
           onMouseEnter={onMouseEnter}
           // onMouseLeave={() => setCurrentHoverCoin(null)}
         />

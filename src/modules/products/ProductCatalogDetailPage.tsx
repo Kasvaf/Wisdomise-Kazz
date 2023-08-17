@@ -6,6 +6,7 @@ import { PriceChange } from 'shared/PriceChange';
 import LineChart from 'shared/LineChart';
 import { useFinancialProductQuery, useFPBacktestQuery } from 'api';
 import { FPActivateButton } from './ProductsCatalogPage/FPActivateButton';
+import { ColorByRisk } from './constants';
 
 const ProductCatalogDetail = () => {
   const params = useParams<{ fpKey: string }>();
@@ -53,11 +54,7 @@ const ProductCatalogDetail = () => {
           <div className="flex gap-2 text-base font-medium">
             <div
               className={`basis-1/2 rounded-full px-4 py-3 text-center ${
-                rrr === 'High'
-                  ? 'bg-[#F1AA4033] text-[#F1AA40]'
-                  : rrr === 'Medium'
-                  ? 'bg-[#74ABFF33] text-[#34A3DA]'
-                  : 'bg-[#40F19C33] text-[#40F19C]'
+                ColorByRisk[rrr || 'Low']
               }`}
             >
               {String(rrr || '') + ' Risk'}

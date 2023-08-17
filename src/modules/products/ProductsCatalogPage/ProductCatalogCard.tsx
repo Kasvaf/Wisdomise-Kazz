@@ -6,6 +6,7 @@ import { CoinsIcons } from 'shared/CoinsIcons';
 import { PriceChange } from 'shared/PriceChange';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
+import { ColorByRisk } from '../constants';
 import { FPActivateButton } from './FPActivateButton';
 import { isFPRunning } from './utils';
 
@@ -42,13 +43,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
               {fp.config.market_type}
             </div>
             <div
-              className={`rounded-full px-3 py-2 ${
-                rrr === 'High'
-                  ? 'bg-[#F1AA4033] text-[#F1AA40]'
-                  : rrr === 'Medium'
-                  ? 'bg-[#74ABFF33] text-[#34A3DA]'
-                  : 'bg-[#40F19C33] text-[#40F19C]'
-              }`}
+              className={`rounded-full px-3 py-2 ${ColorByRisk[rrr || 'Low']}`}
             >
               {rrr + ' Risk'}
             </div>

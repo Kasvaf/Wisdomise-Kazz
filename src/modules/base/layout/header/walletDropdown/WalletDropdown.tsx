@@ -10,6 +10,11 @@ export const WalletDropdown = () => {
   const ias = useInvestorAssetStructuresQuery();
 
   const hasWallet = ias?.data?.[0]?.main_exchange_account;
+  const dropDownFn = () => (
+    <DropdownContainer className="w-80 bg-[#272A32] !p-4">
+      <WalletDropdownContent closeDropdown={() => setOpen(false)} />
+    </DropdownContainer>
+  );
 
   return (
     <div className="ml-auto flex">
@@ -24,15 +29,7 @@ export const WalletDropdown = () => {
                 void ias.refetch();
               }}
               placement="bottomRight"
-              dropdownRender={() => (
-                <DropdownContainer className="w-80 bg-[#272A32] !p-4">
-                  <WalletDropdownContent
-                    closeDropdown={() => {
-                      setOpen(false);
-                    }}
-                  />
-                </DropdownContainer>
-              )}
+              dropdownRender={dropDownFn}
             >
               <div className="flex items-center">
                 <button className="flex text-white">

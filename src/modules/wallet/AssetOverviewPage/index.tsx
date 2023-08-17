@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import * as numerable from 'numerable';
+import { NavLink } from 'react-router-dom';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { PageWrapper } from 'modules/base/PageWrapper';
 import { ActiveFinancialProducts } from './activeFPs/ActiveFinancialProducts';
@@ -9,12 +10,20 @@ import { ReactComponent as WorkingCapitalIcon } from './icons/workingCapital.svg
 import { ReactComponent as AvailableIcon } from './icons/available.svg';
 import { ReactComponent as BalanceIcon } from './icons/balanceIcon.svg';
 import { ReactComponent as DepositIcon } from './icons/deposit.svg';
+import { ReactComponent as PlusIcon } from './icons/plus.svg';
 import { ReactComponent as PNLIcon } from './icons/pnl.svg';
 
 const AssetOverview = () => {
   const ias = useInvestorAssetStructuresQuery();
-
   const data = ias.data?.[0];
+
+  const PNLIconFn = () => (
+    <PNLIcon
+      className={clsx(
+        data?.pnl && data?.pnl < 0 ? 'text-white/80' : 'text-[#40F19C]',
+      )}
+    />
+  );
 
   return (
     <PageWrapper loading={ias.isLoading}>
@@ -36,13 +45,7 @@ const AssetOverview = () => {
         />
 
         <InfoCard
-          icon={() => (
-            <PNLIcon
-              className={clsx(
-                data?.pnl && data?.pnl < 0 ? 'text-white/80' : 'text-[#40F19C]',
-              )}
-            />
-          )}
+          icon={PNLIconFn}
           format="0,0.00"
           title="P / L"
           colorizeValue
@@ -84,6 +87,22 @@ const AssetOverview = () => {
       </h1>
 
       <ActiveFinancialProducts />
+
+      {data?.financial_product_instances.length === 0 && (
+        <NavLink
+          to="/app/products-catalog"
+          className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-white/10 bg-black/20 py-6"
+        >
+          <p className="flex items-center text-white/60">
+            Add Strategy <PlusIcon className="ml-4 h-4 w-4" />
+          </p>
+          <p className="mt-6 w-1/2 text-center text-xs text-white/40">
+            Maximize your profits with the help of AI-powered crypto trading
+            bots that can automatically buy and sell cryptocurrencies based on
+            advanced algorithms and patterns.
+          </p>
+        </NavLink>
+      )}
     </PageWrapper>
   );
 };

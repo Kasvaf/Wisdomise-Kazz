@@ -185,7 +185,7 @@
 
 @layer base {
   body {
-    font-family: poppins;
+    font-family: poppins, sans-serif;
     position: relative;
     background-color: #131822;
   }
