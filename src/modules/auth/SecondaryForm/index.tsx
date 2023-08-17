@@ -3,7 +3,7 @@ import { useState } from 'react';
 import * as Sentry from '@sentry/react';
 import Logo from '@images/wisdomiseWealthLogo.svg';
 import { logout } from 'utils/auth';
-import { useAgreeToTermsMutation } from 'old-api/horosApi';
+import { useAgreeToTermsMutation } from 'api';
 import bgMobile from '../ConfirmSignUp/bg-mobile.png';
 import bgDesktop from '../ConfirmSignUp/bg.png';
 import DisclosureDialog from './DisclosureDialog';
@@ -26,7 +26,7 @@ export const SecondaryForm: React.FC = () => {
     policy: false,
     disclosure: false,
   });
-  const [agreeToTerms, { isLoading }] = useAgreeToTermsMutation();
+  const agreeToTerms = useAgreeToTermsMutation();
 
   const onTermsAccepted = () => {
     setTermsAccepted(true);
@@ -82,15 +82,12 @@ export const SecondaryForm: React.FC = () => {
       return;
 
     try {
-      const data: any = {
+      await agreeToTerms.mutateAsync({
         nickname,
         terms_and_conditions_accepted: true,
         privacy_policy_accepted: true,
-      };
-      if (referralCode) {
-        data.referral_code = referralCode;
-      }
-      await agreeToTerms(data).unwrap();
+        referral_code: referralCode || undefined,
+      });
       window.location.reload();
     } catch (e) {
       console.log(e);
@@ -220,7 +217,7 @@ export const SecondaryForm: React.FC = () => {
                 onClick={onSubmit}
                 className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
               >
-                Submit{isLoading ? 'ing ...' : ''}
+                Submit{agreeToTerms.isLoading ? 'ing ...' : ''}
               </button>
 
               <TermsDialog

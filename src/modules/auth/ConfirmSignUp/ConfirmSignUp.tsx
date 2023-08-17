@@ -1,12 +1,10 @@
 import Logo from '@images/wisdomiseWealthLogo.svg';
-import { QueryStatus } from '@reduxjs/toolkit/dist/query';
 import { notification } from 'antd';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { useResendVerificationEmailMutation } from 'old-api/horosApi';
+import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
 import { JwtTokenKey } from 'config/constants';
 import { DB } from 'config/keys';
-import { useUserInfoQuery } from 'api';
 import { logout } from 'utils/auth';
 import bgMobile from './bg-mobile.png';
 import bgDesktop from './bg.png';
@@ -15,7 +13,7 @@ import inboxImg from './email.svg';
 const ConfirmSignUp = () => {
   const { data: userInfo } = useUserInfoQuery();
   const [isChecking, setIsChecking] = useState(false);
-  const [resend, { isLoading, status }] = useResendVerificationEmailMutation();
+  const resendVerify = useResendVerificationEmailMutation();
 
   const checkAgain = () => {
     setIsChecking(true);
@@ -24,12 +22,12 @@ const ConfirmSignUp = () => {
   };
 
   useEffect(() => {
-    if (status === QueryStatus.fulfilled) {
+    if (resendVerify.status === 'success') {
       notification.success({
         message: 'Verification Email Sent Successfully.',
       });
     }
-  }, [status]);
+  }, [resendVerify]);
 
   return (
     <div
@@ -80,9 +78,9 @@ const ConfirmSignUp = () => {
 
             <button
               className="rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
-              onClick={resend}
+              onClick={() => resendVerify.mutate()}
             >
-              {isLoading
+              {resendVerify.isLoading
                 ? 'Resending Verification Email ...'
                 : 'Resend Verification Email'}
             </button>

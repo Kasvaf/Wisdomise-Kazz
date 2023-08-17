@@ -89,7 +89,6 @@ export const horosApi = createApi({
         };
       },
     }),
-
     resendEmailWithdraw: builder.mutation({
       query: (params: {
         exchangeAccountKey: string;
@@ -101,31 +100,10 @@ export const horosApi = createApi({
         };
       },
     }),
-
-    agreeToTerms: builder.mutation({
-      query: data => ({
-        url: '/api/v1/account/customers/me',
-        method: 'PATCH',
-        body: data,
-      }),
-    }),
-    resendVerificationEmail: builder.mutation({
-      query: data => ({
-        url: '/api/v1/account/customers/me/verification-email',
-        method: 'POST',
-        body: data,
-      }),
-    }),
   }),
 });
 
 export const {
-  // secondary form
-  useAgreeToTermsMutation,
-
-  // email verification
-  useResendVerificationEmailMutation,
-
   // deposit
   useGetDepositSymbolQuery,
   useLazyGetDepositNetworkQuery,
