@@ -19,7 +19,6 @@ const AssetOverviewPage = React.lazy(
   () => import('modules/wallet/AssetOverviewPage'),
 );
 const WithdrawPage = React.lazy(() => import('modules/wallet/WithdrawPage'));
-const DepositPage = React.lazy(() => import('modules/wallet/DepositPage'));
 
 export default function AppRoutes() {
   const dashboardElement = <DashboardPage />;
@@ -75,15 +74,6 @@ export default function AppRoutes() {
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
               <AssetOverviewPage />
-            </React.Suspense>
-          }
-        />
-
-        <Route
-          path="app/deposit/:exchangeAccountKey"
-          element={
-            <React.Suspense fallback={<PageWrapper loading />}>
-              <DepositPage />
             </React.Suspense>
           }
         />

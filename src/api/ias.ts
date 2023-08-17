@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from 'config/reactQuery';
 import { type InvestorAssetStructures } from './types/investorAssetStructure';
+import { type DepositAddress } from './types/DepositAddress';
 
 export const useInvestorAssetStructuresQuery = () =>
   useQuery<InvestorAssetStructures>(
@@ -50,6 +51,29 @@ export const useAccountHistoricalStatisticQuery = () => {
     },
     {
       enabled: Boolean(iasKey && fpi),
+    },
+  );
+};
+
+export const useDepositWalletAddressQuery = ({
+  symbol,
+  network,
+}: {
+  symbol?: string;
+  network?: string;
+}) => {
+  const ias = useInvestorAssetStructuresQuery();
+  const eak = ias?.data?.[0]?.main_exchange_account?.key;
+  return useQuery<DepositAddress>(
+    ['dwa', symbol, network],
+    async () => {
+      const { data } = await axios.get<DepositAddress>(
+        `/ias/exchange-accounts/${eak}/deposit-addresses?symbol_name=${symbol}&network_name=${network}`,
+      );
+      return data;
+    },
+    {
+      enabled: Boolean(eak && symbol && network),
     },
   );
 };

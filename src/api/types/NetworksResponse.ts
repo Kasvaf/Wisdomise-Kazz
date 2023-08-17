@@ -1,8 +1,16 @@
-export interface WithdrawNetworksResponse {
+export type NetworksResponse = PagedResponse<Network>;
+export type CryptosResponse = PagedResponse<Crypto>;
+
+interface PagedResponse<T> {
   count: number;
   next: any;
   previous: any;
-  results: Network[];
+  results: T[];
+}
+
+interface Crypto {
+  key: string;
+  name: string;
 }
 
 interface Network {

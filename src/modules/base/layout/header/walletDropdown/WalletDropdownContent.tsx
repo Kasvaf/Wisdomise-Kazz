@@ -1,8 +1,11 @@
 import type React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { Button } from 'shared/Button';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { roundDown } from 'utils/numbers';
+import { ModalV2 } from 'shared/ModalV2';
+import DepositModal from 'modules/wallet/DepositModal';
 import { ReactComponent as DepositIcon } from './deposit.svg';
 import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 
@@ -13,6 +16,8 @@ interface Props {
 export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
   const navigate = useNavigate();
   const ias = useInvestorAssetStructuresQuery();
+
+  const [depositOpen, setDepositOpen] = useState(false);
 
   const totalBalance = ias.data?.[0]?.total_equity || 0;
   const withdrawable = ias.data?.[0]?.main_exchange_account.quote_equity || 0;
@@ -56,15 +61,21 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           variant="link"
           onClick={() => {
             closeDropdown();
-            navigate(
-              `/app/deposit/${ias?.data?.[0]?.main_exchange_account?.key}`,
-            );
+            setDepositOpen(true);
           }}
           className="item flex flex-col items-center justify-center gap-2 !p-0 mobile:text-black"
         >
           <DepositIcon className="text-white mobile:text-black" />
           Deposit
         </Button>
+        <ModalV2
+          open={depositOpen}
+          footer={false}
+          onCancel={() => setDepositOpen(false)}
+          width={500}
+        >
+          <DepositModal />
+        </ModalV2>
 
         <Button
           variant="link"

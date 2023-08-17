@@ -37,28 +37,6 @@ export const horosApi = createApi({
   keepUnusedDataFor: 0,
   tagTypes: ['userInfo'],
   endpoints: builder => ({
-    getDepositSymbol: builder.query<any, any>({
-      query: () => ({
-        url: '/api/v1/market/symbols?depositable=true',
-      }),
-    }),
-
-    getDepositNetwork: builder.query<NetworksResponse, any>({
-      query: (symbol: string) => ({
-        url: `/api/v1/market/symbols/${symbol}/networks?depositable=true`,
-      }),
-    }),
-
-    getDepositWalletAddress: builder.query<any, any>({
-      query: (params: {
-        exchangeAccountKey: string;
-        symbol: string;
-        network: string;
-      }) => ({
-        url: `/api/v1/ias/exchange-accounts/${params.exchangeAccountKey}/deposit-addresses?symbol_name=${params.symbol}&network_name=${params.network}`,
-      }),
-    }),
-
     getWithdrawSymbol: builder.query<any, any>({
       query: () => ({
         url: '/api/v1/market/symbols?withdrawable=true',
@@ -104,11 +82,6 @@ export const horosApi = createApi({
 });
 
 export const {
-  // deposit
-  useGetDepositSymbolQuery,
-  useLazyGetDepositNetworkQuery,
-  useLazyGetDepositWalletAddressQuery,
-
   // withdraw
   useGetWithdrawSymbolQuery,
   useCreateWithdrawMutation,
