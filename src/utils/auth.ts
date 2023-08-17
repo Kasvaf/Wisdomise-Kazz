@@ -1,5 +1,5 @@
-import { JwtTokenKey } from "config/constants";
-import { DB } from "config/keys";
+import { JwtTokenKey } from 'config/constants';
+import { DB } from 'config/keys';
 
 export const logout = () => {
   localStorage.removeItem(JwtTokenKey);

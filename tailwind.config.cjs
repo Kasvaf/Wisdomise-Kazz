@@ -7,7 +7,7 @@ const twElements = require("tw-elements/dist/plugin");
 
 module.exports = {
   content: ["./src/**/*.{html,js,ts,jsx,tsx}", "./node_modules/tw-elements/dist/js/**/*.js"],
-  safelist: ["bg-seeker", "bg-adventurer", "bg-explorer", "opacity-100", "opacity-50"],
+  safelist: ["opacity-100", "opacity-50"],
   theme: {
     screens: {
       mobile: { max: "750px" },
@@ -63,11 +63,6 @@ module.exports = {
       },
       flex: {
         shrink: "inherit",
-      },
-      backgroundImage: {
-        adventurer: "url(./images/adventurer.png)",
-        seeker: "url(./images/seeker.png)",
-        explorer: "url(./images/explorer.png)",
       },
       aspectRatio: {
         "4/3": "4 / 3",
