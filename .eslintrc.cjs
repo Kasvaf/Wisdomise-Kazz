@@ -17,11 +17,14 @@ module.exports = {
     'standard-with-typescript',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
 
     'plugin:import/recommended',
     'plugin:import/typescript',
+    'plugin:promise/recommended',
+    'plugin:tailwindcss/recommended',
 
     'plugin:prettier/recommended',
   ],
@@ -42,13 +45,7 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  plugins: [
-    'import',
-    'react',
-    'react-hooks',
-    '@typescript-eslint',
-    'simple-import-sort',
-  ],
+  plugins: ['import', 'react', 'react-hooks', '@typescript-eslint'],
   rules: {
     // "complexity": ['error', 11],
 

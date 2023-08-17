@@ -1,12 +1,12 @@
 import {
-  type BaseQueryFn,
   createApi,
-  type FetchArgs,
   fetchBaseQuery,
+  type BaseQueryFn,
+  type FetchArgs,
   type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-import { tryParse } from 'utils/json';
 import { JwtTokenKey } from 'config/constants';
+import { tryParse } from 'utils/json';
 import { DB } from '../config/keys';
 import { type NetworksResponse } from './types/transferNetworks';
 

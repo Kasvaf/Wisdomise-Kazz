@@ -35,12 +35,12 @@ const DepositAddressModal = (data: any, onDone: () => void) => {
         <Avatar size="large" src={coins[data.name]?.icon} className="mr-2" />
         {data.name} | {data.description}
       </div>
-      <p className="tex-xl my-4 text-white">Wallet address</p>
+      <p className="my-4 text-xl text-white">Wallet address</p>
       <div className="flex justify-between bg-paper p-4 text-white">
         <input
           value={data.wallet}
           readOnly
-          className="mr-2 flex-grow bg-transparent"
+          className="mr-2 grow bg-transparent"
         />
 
         <CopyToClipboard onCopy={onClickCopy} text={data.wallet}>

@@ -32,8 +32,8 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
         isRunning && '!bg-white/10',
       )}
     >
-      <div className="flex flex-grow flex-col p-6">
-        <h5 className="mb-4 flex-grow text-base font-semibold text-white">
+      <div className="flex grow flex-col p-6">
+        <h5 className="mb-4 grow text-base font-semibold text-white">
           {fp.title}
         </h5>
         <div className="mb-9 flex items-center justify-between">

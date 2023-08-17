@@ -40,7 +40,7 @@ export const UserDropdown = () => {
           onOpenChange={setOpen}
           dropdownRender={() => (
             <DropdownContainer className="p-6">
-              <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap   p-2 pb-4 text-nodata">
+              <div className="w-full truncate p-2 pb-4   text-nodata">
                 {email}
               </div>
 

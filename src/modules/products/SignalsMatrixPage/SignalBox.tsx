@@ -64,13 +64,13 @@ export const SignalBox: React.FC<Props> = ({
             key={v}
             className="flex w-full items-center justify-start first:mb-2"
           >
-            <span className="mr-1 flex-grow-0 basis-auto text-xxs text-white/20">
+            <span className="mr-1 grow-0 basis-auto text-xxs text-white/20">
               {i === 0 ? 'TP' : 'SL'}
             </span>
-            <div className="mx-1 flex-grow basis-auto border-t border-white/5" />
+            <div className="mx-1 grow basis-auto border-t border-white/5" />
             <span
               className={clsx(
-                'flex-grow-0 basis-auto text-xs text-white/90',
+                'grow-0 basis-auto text-xs text-white/90',
                 exit_time &&
                   suggested_action === 'CLOSE_DELAYED' &&
                   '!text-white/20',

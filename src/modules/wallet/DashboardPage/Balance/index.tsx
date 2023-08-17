@@ -24,7 +24,7 @@ const Balance = () => {
     if (fpi) {
       historicalStatisticTrigger(ias?.data?.[0]?.key);
     }
-  }, [fpi]);
+  }, [fpi, historicalStatisticTrigger]);
 
   return (
     <div className="mt-5 flex w-full flex-col ">

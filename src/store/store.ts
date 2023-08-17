@@ -1,6 +1,6 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { rtkQueryErrorMiddleware } from 'old-api/rtkQueryErrorMiddleware';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { horosApi } from 'old-api/horosApi';
+import { rtkQueryErrorMiddleware } from 'old-api/rtkQueryErrorMiddleware';
 
 const appReducer = combineReducers({
   [horosApi.reducerPath]: horosApi.reducer,

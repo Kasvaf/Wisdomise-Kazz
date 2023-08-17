@@ -65,7 +65,7 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     });
 
     return chartDataArray;
-  }, [chartData]);
+  }, [chartData, title]);
 
   const [min, max] = useMemo(() => {
     let min = Number.POSITIVE_INFINITY;

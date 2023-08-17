@@ -55,7 +55,7 @@ const AssetOverview = () => {
           subtitle="Amount"
           icon={DepositIcon}
           value={data?.net_deposit || 0}
-          className="mobile:rounded-bl-none mobile:rounded-br-none mobile:!border-t-0"
+          className="mobile:rounded-b-none mobile:!border-t-0"
         />
 
         <AssetBindingsSection />
@@ -75,11 +75,11 @@ const AssetOverview = () => {
           icon={AvailableIcon}
           subtitle="Withdrawable"
           value={data?.main_exchange_account.quote_equity || 0}
-          className="mobile:mb-4 mobile:rounded-tl-none mobile:rounded-tr-none"
+          className="mobile:mb-4 mobile:rounded-t-none"
         />
       </div>
 
-      <h1 className="mb-6 mt-6 text-xl font-semibold text-white">
+      <h1 className="my-6 text-xl font-semibold text-white">
         Your Account Portfolio
       </h1>
 
@@ -119,7 +119,7 @@ const InfoCard: React.FC<{
       <div className="mb-2 flex justify-end mobile:mb-0">
         <Icon />
       </div>
-      <div className={clsx(diffMobileView && 'mobile:flex-grow')}>
+      <div className={clsx(diffMobileView && 'mobile:grow')}>
         <p className="text-sm leading-none text-white/60">
           {title} <span className="text-xxs text-white/40">{subtitle}</span>
         </p>
