@@ -1,7 +1,7 @@
 import { type FunctionComponent, useMemo } from 'react';
 import { Line } from '@ant-design/plots';
 import { floatData } from 'utils/numbers';
-import SpinnerV1 from './SpinnerV1';
+import Spinner from './Spinner';
 
 interface LineChartProps {
   className?: string;
@@ -111,7 +111,7 @@ const LineChart: FunctionComponent<LineChartProps> = ({
   if (loading)
     return (
       <div className="flex w-full justify-center py-20">
-        <SpinnerV1 />
+        <Spinner />
       </div>
     );
   return (

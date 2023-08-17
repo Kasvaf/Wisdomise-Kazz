@@ -8,10 +8,6 @@ import {
 import { tryParse } from 'utils/json';
 import { JwtTokenKey } from 'config/constants';
 import { DB } from '../config/keys';
-import {
-  type SimulateTradeData,
-  type SimulateTradeQueryVariables,
-} from './backtest-types';
 import { type NetworksResponse } from './types/transferNetworks';
 
 const horosBaseQuery = fetchBaseQuery({
@@ -41,16 +37,6 @@ export const horosApi = createApi({
   keepUnusedDataFor: 0,
   tagTypes: ['userInfo'],
   endpoints: builder => ({
-    simulateTrade: builder.query<
-      SimulateTradeData,
-      SimulateTradeQueryVariables
-    >({
-      query: params => ({
-        url: '/api/v1/decision/backtest',
-        params,
-      }),
-    }),
-
     getExchangeAccountHistoricalStatistic: builder.query<any, any>({
       query: (iasKey: string) => {
         return {
@@ -142,7 +128,6 @@ export const horosApi = createApi({
 });
 
 export const {
-  useLazySimulateTradeQuery,
   useLazyGetExchangeAccountHistoricalStatisticQuery,
   useGetDepositSymbolQuery,
   useLazyGetDepositNetworkQuery,

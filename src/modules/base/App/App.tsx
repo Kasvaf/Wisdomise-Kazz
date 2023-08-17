@@ -18,9 +18,8 @@ import { Container } from '../layout/Container';
 import './App.css';
 import './tailwind.css';
 
-const AnalyticsPage = React.lazy(() => import('modules/signals/AnalyticsPage'));
 const SignalsMatrixPage = React.lazy(
-  () => import('modules/signals/SignalsMatrixPage'),
+  () => import('modules/products/SignalsMatrixPage'),
 );
 
 const ProductsCatalogPage = React.lazy(
@@ -107,15 +106,6 @@ export const App = () => {
               element={
                 <React.Suspense fallback={<PageWrapper loading />}>
                   <SignalsMatrixPage />
-                </React.Suspense>
-              }
-            />
-
-            <Route
-              path="app/backtest"
-              element={
-                <React.Suspense fallback={<PageWrapper loading />}>
-                  <AnalyticsPage />
                 </React.Suspense>
               }
             />

@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { floatData } from 'utils/numbers';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { useLazyGetExchangeAccountHistoricalStatisticQuery } from 'old-api/horosApi';
-import SpinnerV1 from 'modules/shared/SpinnerV1';
+import Spinner from 'modules/shared/Spinner';
 import AssetStructureChart from './AssetStructureChart';
 
 const LoadingIndicator = () => {
   return (
     <div className="mt-[50px] flex w-full items-center justify-center">
-      <SpinnerV1 />
+      <Spinner />
     </div>
   );
 };

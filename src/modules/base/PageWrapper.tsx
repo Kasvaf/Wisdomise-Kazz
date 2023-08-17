@@ -1,5 +1,5 @@
 import type React from 'react';
-import SpinnerV1 from 'shared/SpinnerV1';
+import Spinner from 'modules/shared/Spinner';
 
 interface Props {
   loading?: boolean;
@@ -10,7 +10,7 @@ export const PageWrapper: React.FC<Props> = ({ children, loading }) => {
   if (loading) {
     return (
       <div className="flex h-full w-full items-center justify-center mobile:h-[calc(100vh-10rem)]">
-        <SpinnerV1 />
+        <Spinner />
       </div>
     );
   }
