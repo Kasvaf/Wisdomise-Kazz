@@ -3,7 +3,7 @@ import type React from 'react';
 
 export const ModalV2: React.FC<ModalProps> = props => {
   return (
-    <Modal open={props.open} footer={false} onCancel={props.onCancel}>
+    <Modal open={props.open} footer={props.footer} onCancel={props.onCancel}>
       {props.children}
     </Modal>
   );

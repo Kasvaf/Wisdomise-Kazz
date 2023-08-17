@@ -2,7 +2,7 @@ import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
 import { Dropdown } from 'antd';
 import { useState } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
-import { DropdownContainer } from '../components';
+import { DropdownContainer } from '../DropdownContainer';
 import { WalletDropdownContent } from './WalletDropdownContent';
 
 export const WalletDropdown = () => {
@@ -26,7 +26,7 @@ export const WalletDropdown = () => {
               trigger={['click']}
               onOpenChange={open => {
                 setOpen(open);
-                void ias.refetch();
+                ias.refetch();
               }}
               placement="bottomRight"
               dropdownRender={dropDownFn}

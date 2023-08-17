@@ -69,7 +69,7 @@ function Dashboard() {
                   <h1 className="text-xl font-semibold text-white">
                     We Trade On Your Behalf!
                   </h1>
-                  <p className="my-5 w-auto text-sm !leading-normal text-gray-light mobile:-mr-5 mobile:text-sm">
+                  <div className="my-5 w-auto text-sm !leading-normal text-gray-light mobile:-mr-5 mobile:text-sm">
                     <img
                       src={TradeSrc}
                       className="float-right hidden h-[202px] mobile:block"
@@ -85,13 +85,11 @@ function Dashboard() {
                     <span className="whitespace-nowrap">AI-based</span>{' '}
                     strategies tailored to your risk tolerance. Check out our
                     strategies and start making a profit today.
-                  </p>
+                  </div>
                 </div>
                 <Button
                   className="self-start"
-                  onClick={() => {
-                    navigate('/app/products-catalog');
-                  }}
+                  onClick={() => navigate('/app/products-catalog')}
                 >
                   Check Products
                 </Button>

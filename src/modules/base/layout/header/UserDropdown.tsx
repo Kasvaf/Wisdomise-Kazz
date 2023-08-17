@@ -3,7 +3,7 @@ import { Dropdown } from 'antd';
 import { useState } from 'react';
 import { useUserInfoQuery } from 'api';
 import { logout } from 'utils/auth';
-import { DropdownContainer } from './components';
+import { DropdownContainer } from './DropdownContainer';
 import { ReactComponent as LogoutIcon } from './logout.svg';
 
 export const UserDropdown = () => {
