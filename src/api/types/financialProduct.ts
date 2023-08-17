@@ -24,7 +24,7 @@ interface Profile {
   name: string;
   max_drawdown: string;
   expected_yield: string;
-  return_risk_ratio: string;
+  return_risk_ratio: 'High' | 'Medium' | 'Low';
 }
 
 interface Config {

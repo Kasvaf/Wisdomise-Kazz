@@ -28,12 +28,6 @@ export const Container = () => {
         <Outlet />
       </div>
       <MobileMenu />
-      {/* <script */}
-      {/*  id="CookieDeclaration" */}
-      {/*  src="https://consent.cookiebot.com/45ba2d94-5ef7-46ad-bb13-2894c89025f9/cd.js" */}
-      {/*  type="text/javascript" */}
-      {/*  async */}
-      {/* ></script> */}
     </main>
   );
 };
