@@ -37,14 +37,6 @@ export const horosApi = createApi({
   keepUnusedDataFor: 0,
   tagTypes: ['userInfo'],
   endpoints: builder => ({
-    getExchangeAccountHistoricalStatistic: builder.query<any, any>({
-      query: (iasKey: string) => {
-        return {
-          url: `/api/v1/ias/investor-asset-structures/${iasKey}/historical-statistics?resolution=1d`,
-        };
-      },
-    }),
-
     getDepositSymbol: builder.query<any, any>({
       query: () => ({
         url: '/api/v1/market/symbols?depositable=true',
@@ -128,7 +120,13 @@ export const horosApi = createApi({
 });
 
 export const {
-  useLazyGetExchangeAccountHistoricalStatisticQuery,
+  // secondary form
+  useAgreeToTermsMutation,
+
+  // email verification
+  useResendVerificationEmailMutation,
+
+  // deposit
   useGetDepositSymbolQuery,
   useLazyGetDepositNetworkQuery,
   useLazyGetDepositWalletAddressQuery,
@@ -138,10 +136,4 @@ export const {
   useCreateWithdrawMutation,
   useConfirmWithdrawMutation,
   useResendEmailWithdrawMutation,
-
-  // secondary form
-  useAgreeToTermsMutation,
-
-  // email verification
-  useResendVerificationEmailMutation,
 } = horosApi;

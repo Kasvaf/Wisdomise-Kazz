@@ -1,8 +1,6 @@
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
 import { floatData } from 'utils/numbers';
 import { useInvestorAssetStructuresQuery } from 'api';
-import { useLazyGetExchangeAccountHistoricalStatisticQuery } from 'old-api/horosApi';
 import Spinner from 'modules/shared/Spinner';
 import AssetStructureChart from './AssetStructureChart';
 
@@ -16,20 +14,12 @@ const LoadingIndicator = () => {
 
 const Balance = () => {
   const ias = useInvestorAssetStructuresQuery();
-  const [historicalStatisticTrigger, historicalStatistic] =
-    useLazyGetExchangeAccountHistoricalStatisticQuery();
   const fpi = ias?.data?.[0]?.financial_product_instances[0];
-
-  useEffect(() => {
-    if (fpi) {
-      historicalStatisticTrigger(ias?.data?.[0]?.key);
-    }
-  }, [fpi, historicalStatisticTrigger]);
 
   return (
     <div className="mt-5 flex w-full flex-col ">
       <div className="mt-5 flex w-full flex-col rounded-2xl bg-white/5 p-5">
-        {historicalStatistic.isLoading ? (
+        {ias.isLoading ? (
           <LoadingIndicator />
         ) : (
           <>
