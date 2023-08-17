@@ -1,21 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { chainReducers } from "utils/chainReducers";
-import { horosApi } from "../api/horosApi";
-import { rtkQueryErrorMiddleware } from "../api/rtkQueryErrorMiddleware";
-import { appReducer, RootState } from "./appReducer";
-import IASReducer from "./slices/IAS";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { horosApi } from 'old-api/horosApi';
+import { rtkQueryErrorMiddleware } from 'old-api/rtkQueryErrorMiddleware';
 
-export const store = configureStore({
-  reducer: chainReducers<any>(appReducer, IASReducer),
-  middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), horosApi.middleware, rtkQueryErrorMiddleware],
+const appReducer = combineReducers({
+  [horosApi.reducerPath]: horosApi.reducer,
 });
 
-export type AppDispatch = typeof store.dispatch;
-
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-export type AppStore = typeof store;
+const store = configureStore({
+  reducer: appReducer,
+  middleware: getDefaultMiddleware => [
+    ...getDefaultMiddleware(),
+    horosApi.middleware,
+    rtkQueryErrorMiddleware,
+  ],
+});
 
 export default store;

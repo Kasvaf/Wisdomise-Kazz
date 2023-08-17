@@ -1,19 +1,4 @@
-import DB from "./keys";
+import { DB } from './keys';
 
-export const JwtTokenKey = "TOKEN";
-export const REFERRAL_LEVELS = "REFERRAL_LEVELS";
-export const WISDOMISE_EMAIL_KEY = "WISDOMISE_EMAIL_KEY";
+export const JwtTokenKey = 'TOKEN';
 export const LoginUrl = `${DB}/api/v1/account/login`;
-
-export const ANALYTICS_ERRORS = {
-  aat: {
-    dateRange: {
-      invalid: "Start date must be greater than end date",
-    },
-  },
-  spo: {
-    dateRange: {
-      invalid: "Start date must be greater than end date",
-    },
-  },
-};

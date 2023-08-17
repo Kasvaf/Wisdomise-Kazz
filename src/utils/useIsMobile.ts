@@ -1,3 +1,3 @@
-import { useMediaQuery } from "react-responsive";
+import { useMediaQuery } from 'usehooks-ts';
 
-export const useIsMobile = () => useMediaQuery({ maxWidth: 750 });
+export const useIsMobile = () => useMediaQuery('(max-width: 750px)');

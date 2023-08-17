@@ -17,15 +17,12 @@ export default defineConfig((config) => ({
   ],
   resolve: {
     alias: [
-      { find: "containers", replacement: "/src/containers" },
-      { find: "components", replacement: "/src/components" },
       { find: "config", replacement: "/src/config" },
       { find: "utils", replacement: "/src/utils" },
-      { find: "store", replacement: "/src/store" },
       { find: "api", replacement: "/src/api" },
-      { find: "types", replacement: "/src/types" },
-      { find: "shared", replacement: "/src/shared" },
-      { find: "pages", replacement: "/src/pages" },
+      { find: "old-api", replacement: "/src/old-api" },
+      { find: "modules", replacement: "/src/modules" },
+      { find: "shared", replacement: "/src/modules/shared" },
       { find: "@images", replacement: "/src/assets/svg" },
     ],
   },
