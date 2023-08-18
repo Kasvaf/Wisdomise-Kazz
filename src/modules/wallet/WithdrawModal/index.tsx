@@ -9,8 +9,10 @@ import {
 import Spinner from 'shared/Spinner';
 import TextBox from 'modules/shared/TextBox';
 import { roundDown } from 'utils/numbers';
-import NetworkSelector, { type Network } from './NetworkSelector';
-import CryptoSelector from './CryptoSelector';
+import useModal from 'modules/shared/useModal';
+import NetworkSelector, { type Network } from '../NetworkSelector';
+import CryptoSelector from '../CryptoSelector';
+import ConfirmNetworkModal from './ConfirmNetworkModal';
 
 const InfoLabel = ({
   label,
@@ -87,6 +89,13 @@ const WithdrawModal = () => {
     return +(net?.binance_info?.withdrawMin ?? 0);
   };
 
+  const [ConfirmNetwork, openConfirm] = useModal(ConfirmNetworkModal);
+  const networkChangeHandler = async (v: Network) => {
+    if (await openConfirm({ network: v })) {
+      setNet(v);
+    }
+  };
+
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Deposit</h1>
@@ -108,9 +117,10 @@ const WithdrawModal = () => {
           <NetworkSelector
             networks={networks.data}
             selectedItem={net}
-            onSelect={setNet}
+            onSelect={networkChangeHandler}
             disabled={networks.isLoading}
           />
+          <ConfirmNetwork />
         </div>
       </div>
 
