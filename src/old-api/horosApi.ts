@@ -44,7 +44,14 @@ export const horosApi = createApi({
     }),
 
     createWithdraw: builder.mutation({
-      query: (body: { exchangeAccountKey: string }) => {
+      query: (body: {
+        tx_type: string;
+        symbol_name: string;
+        network_name: string;
+        address: string;
+        amount: string;
+        exchangeAccountKey: string;
+      }) => {
         return {
           url: `/api/v1/ias/exchange-accounts/${body.exchangeAccountKey}/transactions`,
           method: 'POST',

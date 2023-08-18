@@ -10,7 +10,7 @@ import { useIsMobile } from 'utils/useIsMobile';
 import {
   useUserInfoQuery,
   useInvestorAssetStructuresQuery,
-  useWithdrawNetworksQuery,
+  useMarketNetworksQuery,
 } from 'api';
 import {
   useConfirmWithdrawMutation,
@@ -269,7 +269,8 @@ const WithdrawPage = () => {
 
   const mea = ias.data?.[0]?.main_exchange_account;
 
-  const networks = useWithdrawNetworksQuery({
+  const networks = useMarketNetworksQuery({
+    usage: 'withdrawable',
     symbol: selectedSymbol,
     exchangeAccountKey: mea?.key,
   });

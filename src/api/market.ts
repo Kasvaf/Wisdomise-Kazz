@@ -5,12 +5,13 @@ import {
   type NetworksResponse,
 } from './types/NetworksResponse';
 
-export const useDepositSymbolsQuery = () =>
+type Usage = 'depositable' | 'withdrawable';
+export const useMarketSymbolsQuery = (usage: Usage) =>
   useQuery<CryptosResponse['results']>(
-    ['depositSymbols'],
+    ['symbols', usage],
     async () => {
       const { data } = await axios.get<CryptosResponse>(
-        'market/symbols?depositable=true',
+        `market/symbols?${usage}=true`,
       );
       return data.results;
     },
@@ -19,34 +20,24 @@ export const useDepositSymbolsQuery = () =>
     },
   );
 
-export const useWithdrawNetworksQuery = ({
-  exchangeAccountKey,
+export const useMarketNetworksQuery = ({
+  usage,
   symbol,
+  exchangeAccountKey,
 }: {
+  usage: Usage;
   symbol?: string;
   exchangeAccountKey?: string;
 }) =>
   useQuery<NetworksResponse['results']>(
-    ['withdrawNetworks', symbol, exchangeAccountKey],
-    async () => {
-      if (!symbol || !exchangeAccountKey) throw new Error('unexpected');
-      const { data } = await axios.get<NetworksResponse>(
-        `market/symbols/${symbol}/networks?withdrawable=true&exchange_account_key=${exchangeAccountKey}`,
-      );
-      return data.results;
-    },
-    { enabled: !!exchangeAccountKey && !!symbol },
-  );
-
-export const useDepositNetworksQuery = ({ symbol }: { symbol?: string }) =>
-  useQuery<NetworksResponse['results']>(
-    ['depositNetworks', symbol],
+    ['networks', symbol, usage],
     async () => {
       if (!symbol) throw new Error('unexpected');
       const { data } = await axios.get<NetworksResponse>(
-        `market/symbols/${symbol}/networks?depositable=true`,
+        `market/symbols/${symbol}/networks?${usage}=true`,
+        { params: { exchange_account_key: exchangeAccountKey } },
       );
       return data.results;
     },
-    { enabled: !!symbol },
+    { enabled: (usage === 'depositable' || !!exchangeAccountKey) && !!symbol },
   );

@@ -7,11 +7,14 @@ import {
   useDepositWalletAddressQuery,
 } from 'api';
 import Spinner from 'shared/Spinner';
-import NetworkSelector from './NetworkSelector';
+import NetworkSelector, { type Network } from './NetworkSelector';
 import CryptoSelector from './CryptoSelector';
 
 const DepositModal = () => {
-  const [net, setNet] = useState({ name: 'loading', description: '' });
+  const [net, setNet] = useState<Network>({
+    name: 'loading',
+    description: '',
+  } as Network);
   const [crypto, setCrypto] = useState({ name: 'loading', key: '' });
 
   const cryptos = useMarketSymbolsQuery('depositable');

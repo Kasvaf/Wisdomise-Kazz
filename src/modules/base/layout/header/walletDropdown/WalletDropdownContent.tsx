@@ -6,6 +6,7 @@ import { useInvestorAssetStructuresQuery } from 'api';
 import { roundDown } from 'utils/numbers';
 import { ModalV2 } from 'shared/ModalV2';
 import DepositModal from 'modules/wallet/DepositModal';
+import WithdrawModal from 'modules/wallet/WithdrawModal';
 import { ReactComponent as DepositIcon } from './deposit.svg';
 import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 
@@ -18,6 +19,7 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
   const ias = useInvestorAssetStructuresQuery();
 
   const [depositOpen, setDepositOpen] = useState(false);
+  const [withdraw, setWithdrawOpen] = useState(false);
 
   const totalBalance = ias.data?.[0]?.total_equity || 0;
   const withdrawable = ias.data?.[0]?.main_exchange_account.quote_equity || 0;
@@ -81,13 +83,21 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           variant="link"
           onClick={() => {
             closeDropdown();
-            navigate('/app/withdraw');
+            setWithdrawOpen(true);
           }}
           className="item flex flex-col items-center justify-center gap-2 !p-0 mobile:text-black"
         >
           <WithdrawIcon className="text-white mobile:text-black" />
           Withdraw
         </Button>
+        <ModalV2
+          open={withdraw}
+          footer={false}
+          onCancel={() => setWithdrawOpen(false)}
+          width={500}
+        >
+          <WithdrawModal />
+        </ModalV2>
       </div>
     </>
   );
