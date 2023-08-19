@@ -10,10 +10,10 @@ function useModal<T extends Record<string, any>>(
   Modal: React.FC<T>,
 ): [React.FC, (p: T) => Promise<unknown>] {
   const [open, setOpen] = useState(false);
-  const closeHandler = useCallback(() => setOpen(false), []);
   const resolveHandler = useRef(noop);
   const props = useRef<T | undefined>();
 
+  const closeHandler = useCallback(() => resolveHandler.current(undefined), []);
   const Component = () => {
     if (!props.current) return <></>;
 
