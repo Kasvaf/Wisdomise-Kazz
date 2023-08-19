@@ -1,7 +1,5 @@
-import { clsx } from 'clsx';
 import * as numerable from 'numerable';
 import { useCallback, useEffect, useState } from 'react';
-import { ReactComponent as SuccessIcon } from '@images/tick-circle-alt.svg';
 import {
   useMarketSymbolsQuery,
   useMarketNetworksQuery,
@@ -10,13 +8,14 @@ import {
 import Spinner from 'shared/Spinner';
 import TextBox from 'modules/shared/TextBox';
 import { roundDown } from 'utils/numbers';
-import useConfirm from 'modules/shared/useConfirm';
 import { Button } from 'modules/shared/Button';
 import MultiButton from 'modules/shared/MultiButton';
 import NetworkSelector, { type Network } from '../NetworkSelector';
 import CryptoSelector from '../CryptoSelector';
-import WithdrawInfo from './WithdrawInfo';
 import useSecurityInput from './useSecurityInput';
+import useNetworkConfirm from './useNetworkConfirm';
+import useWithdrawalConfirm from './useWithdrawalConfirm';
+import useWithdrawSuccess from './useWithdrawSuccess';
 
 const InfoLabel = ({
   label,
@@ -41,6 +40,13 @@ const InfoLabel = ({
     </div>
   );
 };
+
+const toAmount = (v: string) =>
+  v
+    .replace(/[^\d.]+/g, '')
+    .replace(/^(0+)/, '')
+    .replace(/^\./, '0.')
+    .replace(/^(\d+(\.\d*))\..*$/, '$1');
 
 const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const ias = useInvestorAssetStructuresQuery();
@@ -79,59 +85,46 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   // ----------------------------------------------------
 
   const [wallet, setWallet] = useState('');
-  const [amount, setAmount] = useState(minWithdrawable);
+  const [amount, setAmount] = useState('0');
   const walletValid =
     !wallet ||
     !net.binance_info?.addressRegex ||
     wallet.match(net.binance_info.addressRegex);
-  const amountValid = amount >= minWithdrawable;
+  const amountValid = parseFloat(amount) >= minWithdrawable;
 
-  const autoAmountHandler = (opt: string) => {
-    switch (opt) {
-      case 'Min':
-        setAmount(minWithdrawable);
-        break;
-      case '50%':
-        setAmount(Math.max(Math.floor(available / 2), minWithdrawable));
-        break;
-      case 'Max':
-        setAmount(Math.max(available, minWithdrawable));
-        break;
-    }
+  const withdrawInfo = {
+    crypto,
+    network: net,
+    amount: parseFloat(amount),
+    wallet,
+    fee,
+    source: mea?.exchange_market.market.name || '',
   };
 
-  const [ConfirmNetworkModal, openConfirmNetwork] = useConfirm({
-    yesTitle: 'Yes, I’m sure',
-    noTitle: 'No, I’m not sure',
-    message: (
-      <>
-        You have selected the <strong className="text-white">{net.name}</strong>{' '}
-        network. Please confirm that your withdrawal address supports the{' '}
-        <strong className="text-white">{net.description}</strong> network. If
-        the receiving platform does not support it, your assets may be lost. If
-        you are unsure, click the button below to verify it yourself.
-      </>
-    ),
-  });
+  const autoAmountHandler = useCallback(
+    (opt: string) => {
+      switch (opt) {
+        case 'Min':
+          setAmount(String(minWithdrawable));
+          break;
+        case '50%':
+          setAmount(
+            String(Math.max(Math.floor(available / 2), minWithdrawable)),
+          );
+          break;
+        case 'Max':
+          setAmount(String(Math.max(available, minWithdrawable)));
+          break;
+      }
+    },
+    [available, minWithdrawable],
+  );
 
-  const [ConfirmWithdrawalModal, openConfirmWithdrawal] = useConfirm({
-    icon: null,
-    yesTitle: 'Confirm',
-    noTitle: 'Return',
-    message: (
-      <div>
-        <h1 className="mb-6 text-center text-xl">Confirm Withdrawal</h1>
-        <WithdrawInfo
-          crypto={crypto}
-          network={net}
-          amount={amount}
-          wallet={wallet}
-          fee={fee}
-          source={mea?.exchange_market.market.name || ''}
-        />
-      </div>
-    ),
-  });
+  const [ConfirmNetworkModal, openConfirmNetwork] = useNetworkConfirm(net);
+  const [ConfirmWithdrawalModal, openConfirmWithdrawal] =
+    useWithdrawalConfirm(withdrawInfo);
+  const [WithdrawSuccessModal, showSuccess] = useWithdrawSuccess(withdrawInfo);
+
   const [SecurityInputModal, confirmSecurityCode] = useSecurityInput({
     onConfirm: (code: string) => {
       console.log('confirm');
@@ -144,29 +137,6 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
       console.log('resend');
     },
   });
-  const [WithdrawSuccessModal, showSuccess] = useConfirm({
-    icon: <SuccessIcon />,
-    message: (
-      <div>
-        <h1 className="mb-6 text-center text-xl">
-          Withdrawal Request Submitted
-        </h1>
-        <div className="mx-10 mb-6">
-          Please note that you will receive an email once it is completed.
-        </div>
-        <WithdrawInfo
-          crypto={crypto}
-          network={net}
-          amount={amount}
-          wallet={wallet}
-          fee={fee}
-          source={mea?.exchange_market.market.name || ''}
-        />
-      </div>
-    ),
-    yesTitle: '',
-    noTitle: '',
-  });
 
   const withdrawHandler = useCallback(async () => {
     if (!(await openConfirmNetwork())) return;
@@ -174,7 +144,13 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     if (!(await confirmSecurityCode())) return;
     await showSuccess();
     onResolve?.();
-  }, [openConfirmWithdrawal, confirmSecurityCode, showSuccess, onResolve]);
+  }, [
+    openConfirmNetwork,
+    openConfirmWithdrawal,
+    confirmSecurityCode,
+    showSuccess,
+    onResolve,
+  ]);
 
   return (
     <div className="text-white">
@@ -214,9 +190,10 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
       <div className="mb-9">
         <div className="mb-1 ml-3">Amount</div>
         <TextBox
-          type="number"
+          type="tel"
           value={String(amount)}
-          onChange={v => setAmount(parseFloat(v))}
+          filter={toAmount}
+          onChange={x => setAmount(x)}
           suffix={crypto.name}
           hasError={!amountValid}
         />

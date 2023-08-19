@@ -47,7 +47,7 @@ module.exports = {
   },
   plugins: ['import', 'react', 'react-hooks', '@typescript-eslint'],
   rules: {
-    // "complexity": ['error', 11],
+    // 'complexity': ['error', 11],
 
     'quotes': ['error', 'single', { avoidEscape: true }],
     // 'quote-props': ['error', 'consistent-as-needed'],
