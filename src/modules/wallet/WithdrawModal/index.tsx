@@ -1,21 +1,16 @@
 import * as numerable from 'numerable';
-import { useCallback, useEffect, useState } from 'react';
-import {
-  useMarketSymbolsQuery,
-  useMarketNetworksQuery,
-  useInvestorAssetStructuresQuery,
-} from 'api';
-import Spinner from 'shared/Spinner';
-import TextBox from 'modules/shared/TextBox';
+import { useCallback, useState } from 'react';
+import { useInvestorAssetStructuresQuery } from 'api';
 import { roundDown } from 'utils/numbers';
-import { Button } from 'modules/shared/Button';
-import MultiButton from 'modules/shared/MultiButton';
-import NetworkSelector, { type Network } from '../NetworkSelector';
-import CryptoSelector from '../CryptoSelector';
-import useSecurityInput from './useSecurityInput';
-import useNetworkConfirm from './useNetworkConfirm';
+import Spinner from 'shared/Spinner';
+import TextBox from 'shared/TextBox';
+import { Button } from 'shared/Button';
+import MultiButton from 'shared/MultiButton';
+import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 import useWithdrawalConfirm from './useWithdrawalConfirm';
 import useWithdrawSuccess from './useWithdrawSuccess';
+import useNetworkConfirm from './useNetworkConfirm';
+import useSecurityInput from './useSecurityInput';
 
 const InfoLabel = ({
   label,
@@ -51,36 +46,16 @@ const toAmount = (v: string) =>
 const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
+  const {
+    component: CryptoNetworkSelector,
+    loading: cryptoNetLoading,
+    crypto,
+    network,
+  } = useCryptoNetworkSelector();
 
-  const [crypto, setCrypto] = useState({ name: 'loading', key: '' });
-  const cryptos = useMarketSymbolsQuery('withdrawable');
-  useEffect(() => {
-    const cc = (cryptos.data ?? []).filter(x => x.name === mea?.quote.name);
-    if (cc[0]) {
-      setCrypto(cc[0]);
-    }
-  }, [cryptos.data, mea?.quote.name]);
-
-  // ----------------------------------------------------
-
-  const [net, setNet] = useState<Network>({
-    name: 'loading',
-    description: '',
-  } as Network);
-  const networks = useMarketNetworksQuery({
-    usage: 'withdrawable',
-    symbol: crypto.name !== 'loading' ? crypto.name : undefined,
-    exchangeAccountKey: mea?.key,
-  });
-  useEffect(() => {
-    const nets = networks.data;
-    if (!nets) return;
-    setNet(net => nets.find(n => n.name === net.name) || nets[0]);
-  }, [networks.data]);
-
-  const minWithdrawable = +(net?.binance_info?.withdrawMin ?? 0);
+  const minWithdrawable = +(network?.binance_info?.withdrawMin ?? 0);
   const available = mea?.quote_equity ? roundDown(mea.quote_equity) : 0;
-  const fee = +net?.binance_info?.withdrawFee;
+  const fee = +network?.binance_info?.withdrawFee;
 
   // ----------------------------------------------------
 
@@ -88,13 +63,13 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const [amount, setAmount] = useState('0');
   const walletValid =
     !wallet ||
-    !net.binance_info?.addressRegex ||
-    wallet.match(net.binance_info.addressRegex);
+    !network.binance_info?.addressRegex ||
+    wallet.match(network.binance_info.addressRegex);
   const amountValid = parseFloat(amount) >= minWithdrawable;
 
   const withdrawInfo = {
     crypto,
-    network: net,
+    network,
     amount: parseFloat(amount),
     wallet,
     fee,
@@ -120,7 +95,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     [available, minWithdrawable],
   );
 
-  const [ConfirmNetworkModal, openConfirmNetwork] = useNetworkConfirm(net);
+  const [ConfirmNetworkModal, openConfirmNetwork] = useNetworkConfirm(network);
   const [ConfirmWithdrawalModal, openConfirmWithdrawal] =
     useWithdrawalConfirm(withdrawInfo);
   const [WithdrawSuccessModal, showSuccess] = useWithdrawSuccess(withdrawInfo);
@@ -155,32 +130,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Deposit</h1>
-      <div className="mb-9 flex justify-stretch mobile:flex-col">
-        <div className="basis-1/2 mobile:mb-6">
-          <div className="mb-1 ml-3">Cryptocurrency</div>
-          <CryptoSelector
-            cryptos={(cryptos.data ?? []).filter(
-              x => x.name === mea?.quote.name,
-            )}
-            selectedItem={crypto}
-            onSelect={setCrypto}
-            disabled={cryptos.isLoading}
-          />
-        </div>
-
-        <div className="w-8 mobile:hidden" />
-
-        <div className="basis-1/2">
-          <div className="mb-1 ml-3">Network</div>
-          <NetworkSelector
-            networks={networks.data}
-            selectedItem={net}
-            onSelect={setNet}
-            disabled={networks.isLoading}
-          />
-          <ConfirmNetworkModal />
-        </div>
-      </div>
+      {CryptoNetworkSelector}
 
       <div className="mb-9">
         <div className="mb-1 ml-3">Wallet Address</div>
@@ -206,7 +156,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         />
       </div>
 
-      {networks.isLoading || cryptos.isLoading ? (
+      {cryptoNetLoading ? (
         <div className="flex justify-center py-2">
           <Spinner />
         </div>
@@ -232,7 +182,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
                 !wallet ||
                 !amountValid ||
                 !crypto.key ||
-                !net.key
+                !network.key
               }
             >
               Withdraw
@@ -241,6 +191,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         </>
       )}
 
+      <ConfirmNetworkModal />
       <ConfirmWithdrawalModal />
       <SecurityInputModal />
       <WithdrawSuccessModal />
