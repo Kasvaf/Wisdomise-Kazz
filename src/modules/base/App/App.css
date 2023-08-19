@@ -355,3 +355,7 @@ input[type='number'] {
 .ant-popover-arrow::before {
   background-color: #272a32 !important;
 }
+
+#CookiebotWidget {
+  bottom: 80px !important;
+}
