@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { ModalV2 } from './ModalV2';
 
 const noop = (val: unknown) => {
@@ -14,17 +14,16 @@ function useModal<T extends Record<string, any>>(
   const props = useRef<T | undefined>();
 
   const closeHandler = useCallback(() => resolveHandler.current(undefined), []);
-  const Component = () => {
+  const Component = useMemo(() => {
     if (!props.current) return <></>;
-
     return (
       <ModalV2 open={open} footer={false} onCancel={closeHandler} width={500}>
         <Modal {...props.current} onResolve={resolveHandler.current} />
       </ModalV2>
     );
-  };
+  }, [Modal, open, closeHandler]);
 
-  const update = (p: T) => {
+  const update = useCallback((p: T) => {
     props.current = p;
     setOpen(true);
     return new Promise(resolve => {
@@ -33,9 +32,9 @@ function useModal<T extends Record<string, any>>(
         resolve(val);
       };
     });
-  };
+  }, []);
 
-  return [Component, update];
+  return [() => Component, update];
 }
 
 export default useModal;

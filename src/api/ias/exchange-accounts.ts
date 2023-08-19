@@ -26,53 +26,41 @@ export const useDepositWalletAddressQuery = ({
   );
 };
 
-export const useCreateWithdrawMutation = () =>
-  useMutation<
-    { key: string },
-    unknown,
-    {
-      tx_type: string;
-      symbol_name: string;
-      network_name: string;
-      address: string;
-      amount: string;
-      exchangeAccountKey: string;
-    }
-  >(async body => {
+export const useCreateWithdrawMutation =
+  () =>
+  async (body: {
+    tx_type: string;
+    symbol_name: string;
+    network_name: string;
+    address: string;
+    amount: string;
+    exchangeAccountKey: string;
+  }) => {
     const { data } = await axios.post<{ key: string }>(
       `/ias/exchange-accounts/${body.exchangeAccountKey}/transactions`,
-      { body },
+      body,
     );
     return data;
-  });
+  };
 
-export const useConfirmWithdrawMutation = () =>
-  useMutation<
-    unknown,
-    unknown,
-    {
-      exchangeAccountKey: string;
-      transactionKey: string;
-      verificationCode: string;
-    }
-  >(async p => {
-    const { data } = await axios.patch(
+export const useConfirmWithdrawMutation =
+  () =>
+  async (p: {
+    exchangeAccountKey: string;
+    transactionKey: string;
+    verificationCode: string;
+  }) => {
+    const { data, status, statusText } = await axios.patch(
       `/ias/exchange-accounts/${p.exchangeAccountKey}/transactions/${p.transactionKey}?verification_code=${p.verificationCode}`,
     );
+    if (status >= 400) throw new Error(statusText);
     return data;
-  });
+  };
 
-export const useResendWithdrawEmailMutation = () =>
-  useMutation<
-    unknown,
-    unknown,
-    {
-      exchangeAccountKey: string;
-      transactionKey: string;
-    }
-  >(async p => {
+export const useResendWithdrawEmailMutation =
+  () => async (p: { exchangeAccountKey: string; transactionKey: string }) => {
     const { data } = await axios.post(
       `/ias/exchange-accounts/${p.exchangeAccountKey}/transactions/${p.transactionKey}/verification-email`,
     );
     return data;
-  });
+  };

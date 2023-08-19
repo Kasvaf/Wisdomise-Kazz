@@ -1,11 +1,18 @@
 import * as numerable from 'numerable';
-import { useCallback, useState } from 'react';
-import { useInvestorAssetStructuresQuery } from 'api';
+import { useCallback, useRef, useState } from 'react';
+import { notification } from 'antd';
+import {
+  useConfirmWithdrawMutation,
+  useCreateWithdrawMutation,
+  useInvestorAssetStructuresQuery,
+  useResendWithdrawEmailMutation,
+} from 'api';
 import { roundDown } from 'utils/numbers';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
 import { Button } from 'shared/Button';
 import MultiButton from 'shared/MultiButton';
+import { unwrapErrorMessage } from 'utils/error';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 import useWithdrawalConfirm from './useWithdrawalConfirm';
 import useWithdrawSuccess from './useWithdrawSuccess';
@@ -65,16 +72,8 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     !wallet ||
     !network.binance_info?.addressRegex ||
     wallet.match(network.binance_info.addressRegex);
-  const amountValid = parseFloat(amount) >= minWithdrawable;
-
-  const withdrawInfo = {
-    crypto,
-    network,
-    amount: parseFloat(amount),
-    wallet,
-    fee,
-    source: mea?.exchange_market.market.name || '',
-  };
+  const amountValid =
+    parseFloat(amount) >= minWithdrawable && parseFloat(amount) <= available;
 
   const autoAmountHandler = useCallback(
     (opt: string) => {
@@ -95,27 +94,87 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     [available, minWithdrawable],
   );
 
+  const withdrawInfo = {
+    crypto,
+    network,
+    amount: parseFloat(amount),
+    wallet,
+    fee,
+    source: mea?.exchange_market.market.name || '',
+  };
   const [ConfirmNetworkModal, openConfirmNetwork] = useNetworkConfirm(network);
   const [ConfirmWithdrawalModal, openConfirmWithdrawal] =
     useWithdrawalConfirm(withdrawInfo);
   const [WithdrawSuccessModal, showSuccess] = useWithdrawSuccess(withdrawInfo);
 
+  const createWithdraw = useCreateWithdrawMutation();
+  const doCreateWithdraw = useCallback(async () => {
+    const exchangeAccountKey = ias.data?.[0]?.main_exchange_account.key;
+    if (!exchangeAccountKey) throw new Error('');
+    return await createWithdraw({
+      tx_type: 'WITHDRAW',
+      symbol_name: crypto.name,
+      network_name: network.name,
+      address: wallet,
+      amount,
+      exchangeAccountKey,
+    });
+  }, [amount, createWithdraw, crypto.name, ias.data, network.name, wallet]);
+
+  const transactionKey = useRef('');
+  const resendWithdrawEmail = useResendWithdrawEmailMutation();
+  const confirmWithdraw = useConfirmWithdrawMutation();
+  const exchangeAccountKey = ias.data?.[0]?.main_exchange_account.key;
+
   const [SecurityInputModal, confirmSecurityCode] = useSecurityInput({
-    onConfirm: (code: string) => {
-      console.log('confirm');
-      return new Promise((resolve, reject) =>
-        setTimeout(() => reject(new Error('Wrong code, Try again')), 1000),
-      );
-      return Promise.reject(new Error('Wrong code, Try again'));
-    },
-    onResend: () => {
-      console.log('resend');
-    },
+    onConfirm: useCallback(
+      async (code: string) => {
+        if (!exchangeAccountKey || !transactionKey.current) {
+          throw new Error('');
+        }
+
+        await confirmWithdraw({
+          exchangeAccountKey,
+          verificationCode: code,
+          transactionKey: transactionKey.current,
+        });
+      },
+      [exchangeAccountKey, confirmWithdraw],
+    ),
+    onResend: useCallback(async () => {
+      if (!exchangeAccountKey || !transactionKey.current) return;
+      await resendWithdrawEmail({
+        exchangeAccountKey,
+        transactionKey: transactionKey.current,
+      });
+    }, [exchangeAccountKey, resendWithdrawEmail]),
   });
 
   const withdrawHandler = useCallback(async () => {
     if (!(await openConfirmNetwork())) return;
-    if (!(await openConfirmWithdrawal())) return;
+
+    if (
+      !(await (async function create(): Promise<boolean> {
+        if (!(await openConfirmWithdrawal())) return false;
+        try {
+          transactionKey.current = (await doCreateWithdraw()).key;
+          return true;
+        } catch (e) {
+          const msg = unwrapErrorMessage(e);
+          if (!msg) return false;
+
+          notification.error({
+            message: 'Error',
+            description: unwrapErrorMessage(e),
+          });
+
+          // repeat until no-error is raised
+          return await create();
+        }
+      })())
+    )
+      return;
+
     if (!(await confirmSecurityCode())) return;
     await showSuccess();
     onResolve?.();
@@ -123,6 +182,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     openConfirmNetwork,
     openConfirmWithdrawal,
     confirmSecurityCode,
+    doCreateWithdraw,
     showSuccess,
     onResolve,
   ]);

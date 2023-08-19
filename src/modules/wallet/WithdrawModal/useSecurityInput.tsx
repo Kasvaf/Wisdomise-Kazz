@@ -1,10 +1,11 @@
 import type React from 'react';
 import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
+import { unwrapErrorMessage } from 'utils/error';
+import useNow from 'utils/useNow';
 import { Button } from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import useModal from 'shared/useModal';
-import useNow from 'utils/useNow';
 
 interface Props {
   onResolve?: (v: boolean) => void;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const toDigits = (v: string) =>
-  String(parseFloat(v.replace(/\D+/g, '')) || '').substring(0, 8);
+  String(parseFloat(v.replace(/\D+/g, '')) || '').substring(0, 6);
 
 const RESEND_TIMEOUT = 30;
 
@@ -31,8 +32,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
       await onConfirm(code);
       onResolve?.(true);
     } catch (e) {
-      if (!(e instanceof Error)) return;
-      setError(e.message);
+      setError(unwrapErrorMessage(e));
     } finally {
       setSubmitting(false);
     }
@@ -108,5 +108,11 @@ export default function useSecurityInput({
   onResend: () => void;
 }): [React.FC, () => Promise<unknown>] {
   const [Component, update] = useModal(InputModal);
-  return [Component, () => update({ onResend, onConfirm })];
+  return [
+    Component,
+    useCallback(
+      () => update({ onResend, onConfirm }),
+      [update, onResend, onConfirm],
+    ),
+  ];
 }
