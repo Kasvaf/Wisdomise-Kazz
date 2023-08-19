@@ -1,5 +1,5 @@
 import { ReactComponent as CloseIcon } from '@images/close.svg';
-import { type Network } from 'old-api/types/transferNetworks';
+import { type Network } from '../NetworkSelector';
 import GradientBox from '../GradientBox';
 
 interface IProps {

@@ -18,7 +18,6 @@ const ProductCatalogDetailPage = React.lazy(
 const AssetOverviewPage = React.lazy(
   () => import('modules/wallet/AssetOverviewPage'),
 );
-const WithdrawPage = React.lazy(() => import('modules/wallet/WithdrawPage'));
 
 export default function AppRoutes() {
   const dashboardElement = <DashboardPage />;
@@ -56,15 +55,6 @@ export default function AppRoutes() {
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
               <SignalsMatrixPage />
-            </React.Suspense>
-          }
-        />
-
-        <Route
-          path="app/withdraw"
-          element={
-            <React.Suspense fallback={<PageWrapper loading />}>
-              <WithdrawPage />
             </React.Suspense>
           }
         />
