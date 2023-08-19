@@ -150,34 +150,40 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     }, [exchangeAccountKey, resendWithdrawEmail]),
   });
 
+  const [submitting, setSubmitting] = useState(false);
   const withdrawHandler = useCallback(async () => {
-    if (!(await openConfirmNetwork())) return;
+    try {
+      setSubmitting(true);
+      if (!(await openConfirmNetwork())) return;
 
-    if (
-      !(await (async function create(): Promise<boolean> {
-        if (!(await openConfirmWithdrawal())) return false;
-        try {
-          transactionKey.current = (await doCreateWithdraw()).key;
-          return true;
-        } catch (e) {
-          const msg = unwrapErrorMessage(e);
-          if (!msg) return false;
+      if (
+        !(await (async function create(): Promise<boolean> {
+          if (!(await openConfirmWithdrawal())) return false;
+          try {
+            transactionKey.current = (await doCreateWithdraw()).key;
+            return true;
+          } catch (e) {
+            const msg = unwrapErrorMessage(e);
+            if (!msg) return false;
 
-          notification.error({
-            message: 'Error',
-            description: unwrapErrorMessage(e),
-          });
+            notification.error({
+              message: 'Error',
+              description: unwrapErrorMessage(e),
+            });
 
-          // repeat until no-error is raised
-          return await create();
-        }
-      })())
-    )
-      return;
+            // repeat until no-error is raised
+            return await create();
+          }
+        })())
+      )
+        return;
 
-    if (!(await confirmSecurityCode())) return;
-    await showSuccess();
-    onResolve?.();
+      if (!(await confirmSecurityCode())) return;
+      await showSuccess();
+      onResolve?.();
+    } finally {
+      setSubmitting(false);
+    }
   }, [
     openConfirmNetwork,
     openConfirmWithdrawal,
@@ -186,6 +192,21 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     showSuccess,
     onResolve,
   ]);
+
+  if (submitting) {
+    return (
+      <div className="text-white">
+        <h1 className="mb-6 text-center text-xl">Deposit</h1>
+        <ConfirmNetworkModal />
+        <ConfirmWithdrawalModal />
+        <SecurityInputModal />
+        <WithdrawSuccessModal />
+        <div className="mt-2 flex justify-center py-2">
+          <Spinner />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="text-white">
@@ -250,11 +271,6 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           </div>
         </>
       )}
-
-      <ConfirmNetworkModal />
-      <ConfirmWithdrawalModal />
-      <SecurityInputModal />
-      <WithdrawSuccessModal />
     </div>
   );
 };
