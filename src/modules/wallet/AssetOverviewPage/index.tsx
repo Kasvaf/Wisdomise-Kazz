@@ -44,14 +44,23 @@ const AssetOverview = () => {
           className="mobile:mb-4"
         />
 
-        <InfoCard
+        {/* <InfoCard
           icon={PNLIconFn}
           format="0,0.00"
           title="P / L"
           colorizeValue
           className="mobile:mb-4"
           value={data?.pnl || 0}
+        /> */}
+        <InfoCard
+          diffMobileView
+          title="Available"
+          icon={AvailableIcon}
+          subtitle="Withdrawable"
+          value={data?.main_exchange_account.quote_equity || 0}
+          className="mobile:mb-4"
         />
+
         <InfoCard
           diffMobileView
           title="Deposit"
@@ -69,15 +78,6 @@ const AssetOverview = () => {
           subtitle="AUM"
           icon={WorkingCapitalIcon}
           value={data?.working_capital || 0}
-          className="mobile:rounded-none"
-        />
-
-        <InfoCard
-          diffMobileView
-          title="Available"
-          icon={AvailableIcon}
-          subtitle="Withdrawable"
-          value={data?.main_exchange_account.quote_equity || 0}
           className="mobile:mb-4 mobile:rounded-t-none"
         />
       </div>
