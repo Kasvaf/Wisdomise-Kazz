@@ -35,7 +35,7 @@ export const UserDropdown = () => {
       <button
         type="button"
         onClick={logout}
-        className="flex justify-start p-2 uppercase text-[#F14056]"
+        className="flex justify-start p-2 uppercase text-error"
       >
         <LogoutIcon className="mr-2" /> Logout
       </button>

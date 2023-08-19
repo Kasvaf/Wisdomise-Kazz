@@ -51,7 +51,7 @@ export const MobileMenu: React.FC = () => {
           <button
             type="button"
             onClick={logout}
-            className="flex items-center justify-start  text-xs font-medium uppercase text-[#F14056]"
+            className="flex items-center justify-start  text-xs font-medium uppercase text-error"
           >
             <LogoutIcon className="mr-2" /> Logout
           </button>

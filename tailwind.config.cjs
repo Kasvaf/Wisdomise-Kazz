@@ -35,7 +35,7 @@ module.exports = {
         'iconbg': 'rgba(0, 250, 172, 0.1)',
         'inactive': 'rgba(255,255,255, 0.8)',
         'warning': '#FFDB44',
-        'error': '#FF3459',
+        'error': '#F14056',
         'alt-primary': '#272C3C',
         'alt-secondary': '#353A4D',
         'disabled': '#262D3F',
