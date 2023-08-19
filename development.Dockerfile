@@ -8,7 +8,7 @@ WORKDIR /app/
 COPY package.json /app/
 COPY yarn.lock /app/
 ENV NODE_OPTIONS=--max_old_space_size=4096
-RUN yarn install
+RUN yarn install --production=false
 
 # Copying source files
 COPY . /app/

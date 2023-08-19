@@ -5,9 +5,9 @@ FROM node:18-alpine3.17 as build
 WORKDIR /app/
 
 # Installing dependencies
-COPY package*.json /app/
+COPY package*.json yarn.lock /app/
 ENV NODE_OPTIONS=--max_old_space_size=8192
-RUN npm install
+RUN yarn install --production=false
 
 # Copying source files
 COPY . /app/
