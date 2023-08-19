@@ -4,6 +4,7 @@ import { type ChangeEventHandler, type FC, useCallback } from 'react';
 interface Props {
   type?: 'text' | 'number' | 'tel';
   value: string;
+  hasError?: boolean;
   filter?: (v: string) => string;
   onChange?: (item: string) => void;
   disabled?: boolean;
@@ -14,6 +15,7 @@ interface Props {
 const TextBox: FC<Props> = ({
   type = 'text',
   value,
+  hasError = false,
   filter = v => v,
   onChange,
   disabled = false,
@@ -36,7 +38,8 @@ const TextBox: FC<Props> = ({
         className={clsx(
           'flex h-12 w-full rounded-full',
           'items-center justify-between',
-          'bg-black/40 pl-6 pr-2',
+          'border bg-black/40 pl-6 pr-2',
+          hasError ? 'border-error text-error' : 'border-transparent',
           !disabled && 'focus:bg-black/60',
           suffix && 'pr-[56px]',
           className,

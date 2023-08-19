@@ -4,7 +4,7 @@ import { Spin as Spinner } from 'antd';
 const Spin: React.FC<{ className?: string }> = ({ className }) => (
   <Spinner
     className={className}
-    indicator={<LoadingOutlined style={{ fontSize: 14 }} spin rev={false} />}
+    indicator={<LoadingOutlined style={{ fontSize: 14 }} spin rev="false" />}
   />
 );
 
