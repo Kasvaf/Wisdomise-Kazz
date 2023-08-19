@@ -76,33 +76,6 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const available = mea?.quote_equity ? roundDown(mea.quote_equity) : 0;
   const fee = +net?.binance_info?.withdrawFee;
 
-  const [ConfirmNetworkModal, openConfirmNetwork] = useConfirm({
-    yesTitle: 'Yes, I’m sure',
-    noTitle: 'No, I’m not sure',
-  });
-  const networkChangeHandler = useCallback(
-    async (v: Network) => {
-      if (
-        await openConfirmNetwork({
-          message: (
-            <>
-              You have selected the{' '}
-              <strong className="text-white">{v.name}</strong> network. Please
-              confirm that your withdrawal address supports the{' '}
-              <strong className="text-white">{v.description}</strong> network.
-              If the receiving platform does not support it, your assets may be
-              lost. If you are unsure, click the button below to verify it
-              yourself.
-            </>
-          ),
-        })
-      ) {
-        setNet(v);
-      }
-    },
-    [openConfirmNetwork],
-  );
-
   // ----------------------------------------------------
 
   const [wallet, setWallet] = useState('');
@@ -126,6 +99,20 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         break;
     }
   };
+
+  const [ConfirmNetworkModal, openConfirmNetwork] = useConfirm({
+    yesTitle: 'Yes, I’m sure',
+    noTitle: 'No, I’m not sure',
+    message: (
+      <>
+        You have selected the <strong className="text-white">{net.name}</strong>{' '}
+        network. Please confirm that your withdrawal address supports the{' '}
+        <strong className="text-white">{net.description}</strong> network. If
+        the receiving platform does not support it, your assets may be lost. If
+        you are unsure, click the button below to verify it yourself.
+      </>
+    ),
+  });
 
   const [ConfirmWithdrawalModal, openConfirmWithdrawal] = useConfirm({
     icon: null,
@@ -182,6 +169,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   });
 
   const withdrawHandler = useCallback(async () => {
+    if (!(await openConfirmNetwork())) return;
     if (!(await openConfirmWithdrawal())) return;
     if (!(await confirmSecurityCode())) return;
     await showSuccess();
@@ -211,7 +199,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           <NetworkSelector
             networks={networks.data}
             selectedItem={net}
-            onSelect={networkChangeHandler}
+            onSelect={setNet}
             disabled={networks.isLoading}
           />
           <ConfirmNetworkModal />

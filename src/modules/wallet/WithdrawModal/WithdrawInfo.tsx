@@ -25,7 +25,7 @@ const WithdrawInfo: React.FC<Props> = ({
     <>
       <WithdrawAmountBox crypto={crypto} network={network} amount={amount} />
       <div className="my-4 px-6">
-        <div className="mb-4 flex items-center justify-between border-b border-white/5 pb-4">
+        <div className="mb-4 flex flex-wrap items-center justify-between border-b border-white/5 pb-4">
           <div className="text-xs">Wallet</div>
           <div className="text-[10px]">{wallet}</div>
         </div>
