@@ -24,13 +24,6 @@ function Dashboard() {
   const updateFPIStatus = useUpdateFPIStatusMutation();
   const fpi = ias.data?.[0]?.financial_product_instances[0];
 
-  const onAthenaClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setTimeout(() => {
-      window.open('https://athena.wisdomise.io', '_blank', 'noopener');
-    });
-  };
-
   const onClickStatus = async (status: keyof typeof IAS_STATUS) => {
     if (updateFPIStatus.isLoading || !fpi) return;
     try {
@@ -52,15 +45,16 @@ function Dashboard() {
     <PageWrapper loading={ias.isLoading}>
       <div className="flex w-full flex-row justify-center">
         <div className="flex w-full flex-col">
-          <button
-            onClick={onAthenaClick}
+          <a
+            href="https://athena.wisdomise.io"
+            target="_blank"
             className="mb-6 flex h-16 cursor-pointer items-center justify-between rounded-3xl bg-white/5 px-8 py-3 text-xl text-white/20 mobile:p-2 mobile:pl-8 mobile:text-sm"
           >
             Ask Athena anything about crypto
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
               <img src={ArrowSrc} />
             </div>
-          </button>
+          </a>
 
           {fpi == null ? (
             <div className="flex w-full flex-row justify-between rounded-3xl bg-white/5 px-8 py-6  mobile:p-6">
