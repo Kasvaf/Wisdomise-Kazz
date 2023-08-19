@@ -3,8 +3,8 @@ import { Crisp } from 'crisp-sdk-web';
 import type React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useInvestorAssetStructuresQuery, useUserInfoQuery } from 'api';
 import { logout } from 'utils/auth';
+import { useUserInfoQuery } from 'api';
 import { ReactComponent as LogoutIcon } from '../header/logout.svg';
 import { WalletDropdownContent } from '../header/walletDropdown/WalletDropdownContent';
 import { MenuItems } from '../sideMenu/SideMenu';
@@ -13,9 +13,7 @@ import { ReactComponent as SupportIcon } from './support.svg';
 
 export const MobileMenu: React.FC = () => {
   const { data } = useUserInfoQuery();
-  const ias = useInvestorAssetStructuresQuery();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const hasWallet = ias?.data?.[0]?.main_exchange_account;
 
   const dropDownFn = () => (
     <div className="mb-4 w-[calc(100vw-2rem)] rounded-3xl bg-white px-4 py-6">
@@ -57,11 +55,9 @@ export const MobileMenu: React.FC = () => {
           </button>
         </div>
       </div>
-      {hasWallet != null && (
-        <div className="mt-2 rounded-3xl bg-black/5 p-4">
-          <WalletDropdownContent closeDropdown={() => setIsMenuOpen(false)} />
-        </div>
-      )}
+      <div className="mt-2 rounded-3xl bg-black/5 p-4">
+        <WalletDropdownContent closeDropdown={() => setIsMenuOpen(false)} />
+      </div>
     </div>
   );
 
