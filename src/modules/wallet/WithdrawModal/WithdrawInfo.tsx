@@ -4,7 +4,8 @@ import { type Network } from '../NetworkSelector';
 import WithdrawAmountBox from './WthdrawAmmountBox';
 
 type Crypto = CryptosResponse['results'][0];
-interface Props {
+
+export interface WithdrawInfoProps {
   crypto: Crypto;
   network: Network;
   amount: number;
@@ -13,7 +14,7 @@ interface Props {
   source: string;
 }
 
-const WithdrawInfo: React.FC<Props> = ({
+const WithdrawInfo: React.FC<WithdrawInfoProps> = ({
   crypto,
   network,
   amount,
