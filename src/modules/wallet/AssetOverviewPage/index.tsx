@@ -27,15 +27,17 @@ const AssetOverview = () => {
 
   return (
     <PageWrapper loading={ias.isLoading}>
-      <h1 className="mb-6 text-xl font-semibold text-white">
-        Your Account Portfolio
-      </h1>
+      <div className="mt-2">
+        <h1 className="mb-4 text-xl font-semibold text-white">
+          Your Account Portfolio
+        </h1>
+        <p className="mb-6 hidden text-sm font-medium text-white/60">
+          AI-based trading strategies run automatically on your crypto wallet.
+          These are built with our comprehensive and sophisticated AI after
+          running over 300 million unique experiments
+        </p>
+      </div>
 
-      <p className="mb-8 mt-6 hidden text-xs text-white/60 mobile:block">
-        AI-based trading strategies run automatically on your crypto wallet.
-        These are built with our comprehensive and sophisticated AI after
-        running over 300 million unique experiments
-      </p>
       <div className="grid grid-cols-3 gap-6 mobile:flex mobile:flex-col mobile:gap-0">
         <InfoCard
           icon={BalanceIcon}
@@ -83,7 +85,7 @@ const AssetOverview = () => {
       </div>
 
       <h1 className="my-6 text-xl font-semibold text-white">
-        Your Account Portfolio
+        Your Active Financial Products
       </h1>
 
       <ActiveFinancialProducts />
