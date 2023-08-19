@@ -29,12 +29,12 @@ export const MobileMenu: React.FC = () => {
           </div>
         )}
 
-        <p className="text-base font-semibold text-black">
+        <div className="text-base font-semibold text-black">
           {data?.customer.nickname}
           <p className="text-xxs leading-none text-black/60">
             {data?.customer.user.email}
           </p>
-        </p>
+        </div>
       </div>
 
       <div className="flex">

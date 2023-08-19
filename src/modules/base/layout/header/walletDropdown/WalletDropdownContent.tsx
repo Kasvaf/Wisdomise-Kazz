@@ -62,10 +62,12 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
             closeDropdown();
             openDeposit({});
           }}
-          className="item flex flex-col items-center justify-center gap-2 !p-0 mobile:text-black"
+          className="!p-0"
         >
-          <DepositIcon className="text-white mobile:text-black" />
-          Deposit
+          <div className="item flex flex-col items-center justify-center gap-2 mobile:text-black">
+            <DepositIcon className="text-white mobile:text-black" />
+            Deposit
+          </div>
         </Button>
         <DepositMod />
 
@@ -75,10 +77,12 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
             closeDropdown();
             openWithdraw({});
           }}
-          className="item flex flex-col items-center justify-center gap-2 !p-0 mobile:text-black"
+          className="!p-0"
         >
-          <WithdrawIcon className="text-white mobile:text-black" />
-          Withdraw
+          <div className="item flex flex-col items-center justify-center gap-2 mobile:text-black">
+            <WithdrawIcon className="text-white mobile:text-black" />
+            Withdraw
+          </div>
         </Button>
         <WithdrawMod />
       </div>
