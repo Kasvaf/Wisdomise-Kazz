@@ -39,7 +39,7 @@ export const AssetBindingsSectionTable = () => {
       {
         title: 'Share',
         dataIndex: 'share',
-        render: share => numerable.format(share / 100, '0.0 %'),
+        render: share => numerable.format(share / 100, '0.00 %'),
       },
     ],
     [],

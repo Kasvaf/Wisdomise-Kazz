@@ -52,7 +52,7 @@ export const AssetBindingsSection = () => {
                 </span>
               </div>
               <p className="ml-4 text-sm font-medium text-white/90 mobile:ml-2">
-                {numerable.format(currentHoverCoin.share / 100, '0,0.0 %')}
+                {numerable.format(currentHoverCoin.share / 100, '0,0.00 %')}
               </p>
               <p />
               <p className="text-right text-xxs text-white/60">

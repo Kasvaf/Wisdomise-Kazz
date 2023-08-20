@@ -21,7 +21,7 @@ const InfoCard: React.FC<{
 }> = ({
   title,
   value,
-  format,
+  format = '0,0.00',
   subtitle,
   icon: Icon,
   colorizeValue = false,
@@ -52,7 +52,7 @@ const InfoCard: React.FC<{
             title === 'Balance' && '!text-2xl',
           )}
         >
-          {numerable.format(value, format || '0,0.00', {
+          {numerable.format(value, format, {
             rounding: 'floor',
           })}
           <span className="ml-1 text-xs text-white/40">BUSD</span>
@@ -90,7 +90,6 @@ const InfoCards: React.FC<{ className?: string }> = ({ className }) => {
 
       {/* <InfoCard
           icon={PNLIconFn}
-          format="0,0.00"
           title="P / L"
           colorizeValue
           className="mobile:mb-4"

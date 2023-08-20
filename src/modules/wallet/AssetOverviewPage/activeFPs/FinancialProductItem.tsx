@@ -210,7 +210,7 @@ const FpiColumns = ({
         )}
       >
         <p className="text-xs font-medium text-white/40">
-          {numerable.format(fpi.total_equity_share / 100, '0,0.0 %')}{' '}
+          {numerable.format(fpi.total_equity_share / 100, '0,0.00 %')}{' '}
           {isMobile && detailsOpen && <br />}
           <span className="text-xs text-white/40">Of Total Balance</span>
         </p>
