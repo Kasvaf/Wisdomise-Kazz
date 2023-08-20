@@ -1,10 +1,15 @@
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'shared/Button';
+import useModal from 'modules/shared/useModal';
+import DepositModal from '../DepositModal';
 import TradeSrc from './trade.svg';
 
-const BoxIntro: React.FC<{ className?: string }> = ({ className }) => {
+const BoxIntro: React.FC<{
+  className?: string;
+}> = ({ className }) => {
   const navigate = useNavigate();
+  const [DepositMod, openDeposit] = useModal(DepositModal);
 
   return (
     <div
@@ -13,38 +18,46 @@ const BoxIntro: React.FC<{ className?: string }> = ({ className }) => {
         className,
       )}
     >
-      <div className="flex flex-col justify-between">
-        <div className="w-2/3 mobile:w-full">
-          <h1 className="text-xl font-semibold text-white">
+      <div className="flex grow flex-col items-start justify-between">
+        <div className="mb-6 w-2/3 mobile:w-full">
+          <h1 className="clear-both mb-5 text-xl font-semibold text-white">
             We Trade On Your Behalf!
           </h1>
-          <div className="my-5 w-auto text-sm !leading-normal text-gray-light mobile:-mr-5 mobile:text-sm">
-            <img
-              src={TradeSrc}
-              className="float-right hidden h-[202px] mobile:block"
-              alt="trade"
-              style={{
-                shapeMargin: '20px',
-                shapeImageThreshold: '0.05',
-                shapeOutside: `url(${TradeSrc})`,
-              }}
-            />
-            <div className="hidden h-3 mobile:block" />
-            Wisdomise offers <span className="whitespace-nowrap">
-              AI-based
-            </span>{' '}
+
+          <img
+            src={TradeSrc}
+            className="float-right hidden h-[202px] mobile:block"
+            alt="trade"
+            style={{
+              shapeMargin: '20px',
+              shapeImageThreshold: '0.05',
+              shapeOutside: `url(${TradeSrc})`,
+            }}
+          />
+
+          <div className="text-sm !leading-normal text-gray-light mobile:text-sm">
+            Wisdomise offers <span className="whitespace-nowrap">AI-based</span>{' '}
             strategies tailored to your risk tolerance. Check out our strategies
             and start making a profit today.
           </div>
         </div>
-        <Button
-          className="self-start"
-          onClick={() => navigate('/app/products-catalog')}
-        >
-          Check Products
-        </Button>
+
+        <div className="-mx-3 -mb-6 flex flex-wrap items-center justify-center mobile:self-stretch">
+          <Button
+            className="mx-3 mb-6"
+            onClick={() => navigate('/app/products-catalog')}
+          >
+            Check Products
+          </Button>
+
+          <Button className="mx-3 mb-6" onClick={openDeposit}>
+            Deposit
+          </Button>
+          <DepositMod />
+        </div>
       </div>
-      <img src={TradeSrc} className="h-[200px] mobile:hidden" alt="trade" />
+
+      <img src={TradeSrc} className="h-[200px] mobile:hidden" />
     </div>
   );
 };

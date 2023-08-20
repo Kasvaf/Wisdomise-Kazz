@@ -32,7 +32,6 @@ export const FPActivateButton: React.FC<Props> = ({
 
   const onWalletDisclaimerAccept = async () => {
     await createFPI.mutateAsync(fp.key);
-    const { data } = await ias.refetch();
     notification.success({
       key: fp.key,
       message: 'Congratulations!',
@@ -46,20 +45,9 @@ export const FPActivateButton: React.FC<Props> = ({
           <div className="mt-4 flex justify-around">
             <Button
               size="small"
-              onClick={() => {
-                notification.destroy(fp.key);
-                navigate(
-                  `/app/deposit/${data?.[0]?.main_exchange_account.key}`,
-                );
-              }}
-            >
-              Go To Deposit
-            </Button>
-            <Button
-              size="small"
               variant="secondary"
               onClick={() => {
-                navigate('/app/dashboard');
+                navigate('/app/assets');
                 notification.destroy(fp.key);
               }}
             >
