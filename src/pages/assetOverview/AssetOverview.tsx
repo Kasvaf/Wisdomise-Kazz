@@ -25,7 +25,22 @@ const AssetOverview = () => {
         sophisticated AI after running over 300 million unique experiments
       </p>
       <div className="grid grid-cols-3 gap-6 mobile:flex mobile:flex-col mobile:gap-0">
-        <InfoCard icon={BalanceIcon} title="Balance" value={data?.total_equity || 0} className="mobile:mb-4" />
+        <InfoCard 
+          diffMobileView
+          title="Balance" 
+          icon={BalanceIcon} 
+          value={data?.total_equity || 0} 
+          className="mobile:mb-4" 
+        />
+
+        <InfoCard
+          diffMobileView
+          title="Working Capital"
+          subtitle="AUM"
+          icon={WorkingCapitalIcon}
+          value={data?.working_capital || 0}
+          className="mobile:mb-4"
+        />
 
         <InfoCard
           diffMobileView
@@ -35,25 +50,8 @@ const AssetOverview = () => {
           value={data?.main_exchange_account.quote_equity || 0}
           className="mobile:mb-4"
         />
-        <InfoCard
-          diffMobileView
-          title="Deposit"
-          subtitle="Amount"
-          icon={DepositIcon}
-          value={data?.net_deposit || 0}
-          className="mobile:rounded-bl-none mobile:rounded-br-none mobile:!border-t-0"
-        />
 
         <AssetBindingsSection />
-
-        <InfoCard
-          diffMobileView
-          title="Working Capital"
-          subtitle="AUM"
-          icon={WorkingCapitalIcon}
-          value={data?.working_capital || 0}
-          className="mobile:mb-4 mobile:rounded-tl-none mobile:rounded-tr-none"
-        />
       </div>
 
       <h1 className="mb-6 mt-6 text-xl font-semibold text-white">Your Account Portfolio</h1>
@@ -76,15 +74,15 @@ const InfoCard: React.FC<{
   return (
     <div
       className={clsx(
-        "rounded-3xl bg-white/5 p-6",
+        "flex flex-row-reverse rounded-3xl bg-white/5 p-6",
         className,
-        diffMobileView && "mobile:flex mobile:flex-row-reverse mobile:border-t mobile:border-white/5"
+        diffMobileView && "mobile:border-t mobile:border-white/5"
       )}
     >
-      <div className="mb-2 flex justify-end mobile:mb-0">
+      <div className="mb-2 flex justify-end mb-0">
         <Icon />
       </div>
-      <div className={clsx(diffMobileView && "mobile:flex-grow")}>
+      <div className={clsx(diffMobileView && "flex-grow")}>
         <p className="text-sm leading-none text-white/60">
           {title} <span className="text-xxs text-white/40">{subtitle}</span>
         </p>
