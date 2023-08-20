@@ -11,6 +11,6 @@ commonAnnotations:
   a8r.io/repository: https://github.com/Wisdomise/horos-dashboard
 
 images:
-- digest: sha256:22f4150cd696a92316915eae2969f268239496eed5715af6750994d5db5cbb9b
+- digest: sha256:8ebf197d2d30508ee1ff25f504bc0213094bc43ffecefcc7a8448b79b3f1314b
   name: horos-dashboard
   newName: 619433764862.dkr.ecr.us-east-1.amazonaws.com/horos-dashboard
