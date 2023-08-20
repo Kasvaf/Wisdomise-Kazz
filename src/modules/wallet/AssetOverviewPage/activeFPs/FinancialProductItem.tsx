@@ -188,8 +188,15 @@ const FpiColumns = ({
         )}
       >
         <p className="mr-6 text-sm text-white/80">P / L</p>
-        <p className="text-base font-semibold text-white">
-          {numerable.format(fpi.pnl, '0,0.00', { rounding: 'floor' })}
+        <p
+          className={clsx(
+            'text-base font-semibold text-white',
+            fpi.pnl >= 0 && '!text-[#40F19C]',
+          )}
+        >
+          <span>
+            {numerable.format(fpi.pnl, '0,0.00', { rounding: 'floor' })}
+          </span>
           <span className="ml-2 text-xs font-normal text-white/40">BUSD</span>
         </p>
       </div>
