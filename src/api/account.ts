@@ -16,6 +16,7 @@ export const useAgreeToTermsMutation = () =>
       nickname: string;
       terms_and_conditions_accepted: boolean;
       privacy_policy_accepted: boolean;
+      cryptocurrency_risk_disclosure_accepted: boolean;
       referral_code?: string;
     }
   >(body => axios.patch('/account/customers/me', body));

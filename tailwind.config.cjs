@@ -4,6 +4,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 const animationDelay = require('tailwindcss-animation-delay');
 const twElements = require('tw-elements/dist/plugin');
+const typography = require('@tailwindcss/typography');
 
 module.exports = {
   content: [
@@ -80,7 +81,7 @@ module.exports = {
       poppins: ['poppins', ...defaultTheme.fontFamily.sans],
     },
   },
-  plugins: [animationDelay, twElements],
+  plugins: [animationDelay, twElements, typography],
   experimental: {
     applyComplexClasses: true,
   },
