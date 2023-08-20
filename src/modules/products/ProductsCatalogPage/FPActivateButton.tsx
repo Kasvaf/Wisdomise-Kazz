@@ -1,8 +1,7 @@
 import type React from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
-import { ModalV2 } from 'shared/ModalV2';
 import { Button } from 'shared/Button';
 import {
   useInvestorAssetStructuresQuery,
@@ -11,6 +10,7 @@ import {
 } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { isFPRunning } from './utils';
+import useModalDisclaimer from './useModalDisclaimer';
 
 interface Props {
   inDetailPage?: boolean;
@@ -27,10 +27,8 @@ export const FPActivateButton: React.FC<Props> = ({
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
   const updateFPIStatus = useUpdateFPIStatusMutation();
-  const [showWalletDisclaimerDialog, setShowWalletDisclaimerDialog] =
-    useState(false);
 
-  const onWalletDisclaimerAccept = async () => {
+  const onWalletDisclaimerAccept = useCallback(async () => {
     await createFPI.mutateAsync(fp.key);
     notification.success({
       key: fp.key,
@@ -58,9 +56,9 @@ export const FPActivateButton: React.FC<Props> = ({
       ),
       duration: 0,
     });
-  };
+  }, [createFPI, fp.key, navigate]);
 
-  const onDeactivateClick = async () => {
+  const onDeactivateClick = useCallback(async () => {
     if (ias.data?.[0] != null) {
       await updateFPIStatus.mutateAsync({
         fpiKey: ias.data[0].financial_product_instances[0].key,
@@ -70,12 +68,19 @@ export const FPActivateButton: React.FC<Props> = ({
         message: 'Strategy Deactivated Successfully!',
       });
     }
-  };
+  }, [ias.data, updateFPIStatus]);
 
   const fpis = ias.data?.[0]?.financial_product_instances;
   const isOtherFPActive =
     (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
   const isRunning = isFPRunning(ias.data, fp.key);
+
+  const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
+  const onActivateClick = useCallback(async () => {
+    if (await openDisclaimer()) {
+      onWalletDisclaimerAccept();
+    }
+  }, [openDisclaimer, onWalletDisclaimerAccept]);
 
   return (
     <>
@@ -93,59 +98,15 @@ export const FPActivateButton: React.FC<Props> = ({
         <Button
           variant="primary"
           className={className}
-          onClick={() => {
-            setShowWalletDisclaimerDialog(true);
-          }}
+          onClick={onActivateClick}
           loading={createFPI.isLoading}
           disabled={isOtherFPActive || !fp.subscribable}
         >
           Activate
         </Button>
       )}
-      <ModalV2
-        open={showWalletDisclaimerDialog}
-        footer={false}
-        onCancel={() => {
-          setShowWalletDisclaimerDialog(false);
-        }}
-      >
-        <div className="">
-          <h1 className="mb-6 text-center text-[#F1AA40]">Attention</h1>
-          <div className="h-[14rem] overflow-auto text-white">
-            Your wallet will be opened on Binance. Wisdomise (Switzerland) AG
-            itself does not provide any wallet and / or custody services. Please
-            note that the cryptocurrencies you transfer to this wallet will be
-            stored on Binance. Binance is a third party crypto exchange provider
-            that is not regulated in Switzerland. Hence, there are risks
-            associated with holding a wallet on Binance. The risks associated
-            with Binance cannot be controlled by Wisdomise (Switzerland) AG.
-            Such risks may include but are not limited to:
-            <br />
-            - bankruptcy of Binance;
-            <br />
-            - unauthorized access to the wallet held on Binance by third parties
-            due to a hacker attack or similar event;
-            <br />- prohibition of the operation of its business by a public
-            authority. These risks include the risk of significant or total loss
-            of the cryptocurrencies transferred to the wallet on Binance. By
-            creating a wallet to use Wisdomise’s services you agree to bear all
-            risks associated with holding the cryptocurrencies in a wallet on
-            Binance. Wisdomise (Switzerland) AG accepts no liability whatsoever
-            for any damage incurred in connection with holding the
-            cryptocurrencies in a wallet on Binance.
-          </div>
-          <div className="mt-4 text-center">
-            <Button
-              onClick={() => {
-                setShowWalletDisclaimerDialog(false);
-                onWalletDisclaimerAccept();
-              }}
-            >
-              Accept
-            </Button>
-          </div>
-        </div>
-      </ModalV2>
+
+      <ModalDisclaimer />
     </>
   );
 };

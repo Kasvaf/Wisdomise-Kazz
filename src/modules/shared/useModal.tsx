@@ -1,13 +1,14 @@
 import type React from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { ModalV2 } from './ModalV2';
+import { Modal, type ModalProps } from 'antd';
 
 const noop = (val: unknown) => {
   //
 };
 
 function useModal<T extends Record<string, any>>(
-  Modal: React.FC<T>,
+  ModalContent: React.FC<T>,
+  config?: ModalProps,
 ): [React.FC, (p: T) => Promise<unknown>] {
   const [open, setOpen] = useState(false);
   const resolveHandler = useRef(noop);
@@ -17,11 +18,17 @@ function useModal<T extends Record<string, any>>(
   const Component = useMemo(() => {
     if (!props.current) return <></>;
     return (
-      <ModalV2 open={open} footer={false} onCancel={closeHandler} width={500}>
-        <Modal {...props.current} onResolve={resolveHandler.current} />
-      </ModalV2>
+      <Modal
+        open={open}
+        footer={false}
+        onCancel={closeHandler}
+        width={500}
+        {...config}
+      >
+        <ModalContent {...props.current} onResolve={resolveHandler.current} />
+      </Modal>
     );
-  }, [Modal, open, closeHandler]);
+  }, [ModalContent, open, closeHandler]);
 
   const update = useCallback((p: T) => {
     props.current = p;
