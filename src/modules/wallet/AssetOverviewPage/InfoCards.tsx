@@ -6,7 +6,7 @@ import { AssetBindingsSection } from './assetBindingsSection/AssetBindingsSectio
 import { ReactComponent as WorkingCapitalIcon } from './icons/workingCapital.svg';
 import { ReactComponent as AvailableIcon } from './icons/available.svg';
 import { ReactComponent as BalanceIcon } from './icons/balanceIcon.svg';
-import { ReactComponent as DepositIcon } from './icons/deposit.svg';
+// import { ReactComponent as DepositIcon } from './icons/deposit.svg';
 import { ReactComponent as PNLIcon } from './icons/pnl.svg';
 
 const InfoCard: React.FC<{
@@ -95,6 +95,7 @@ const InfoCards: React.FC<{ className?: string }> = ({ className }) => {
           className="mobile:mb-4"
           value={data?.pnl || 0}
         /> */}
+
       <InfoCard
         diffMobileView
         title="Available"
@@ -104,16 +105,14 @@ const InfoCards: React.FC<{ className?: string }> = ({ className }) => {
         className="mobile:mb-4"
       />
 
-      <InfoCard
+      {/* <InfoCard
         diffMobileView
         title="Deposit"
         subtitle="Amount"
         icon={DepositIcon}
         value={data?.net_deposit || 0}
         className="mobile:rounded-b-none mobile:!border-t-0"
-      />
-
-      <AssetBindingsSection />
+      /> */}
 
       <InfoCard
         diffMobileView
@@ -121,8 +120,10 @@ const InfoCards: React.FC<{ className?: string }> = ({ className }) => {
         subtitle="AUM"
         icon={WorkingCapitalIcon}
         value={data?.working_capital || 0}
-        className="mobile:mb-4 mobile:rounded-t-none"
+        className="mobile:mb-4"
       />
+
+      <AssetBindingsSection />
     </div>
   );
 };

@@ -32,7 +32,7 @@ export const AssetBindingsSection = () => {
     })) ?? [];
 
   return (
-    <div className="col-span-2 row-span-2 flex justify-start rounded-3xl bg-white/5 p-6 mobile:order-last mobile:flex-col ">
+    <div className="col-span-3 row-span-2 flex justify-start rounded-3xl bg-white/5 p-6 mobile:order-last mobile:flex-col ">
       <div className="basis-7/12 mobile:basis-auto">
         <AssetBindingsSectionTable />
       </div>
