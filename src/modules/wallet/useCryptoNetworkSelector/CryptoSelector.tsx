@@ -1,11 +1,9 @@
 import type React from 'react';
 import ComboBox from 'shared/ComboBox';
-import { type CryptosResponse } from 'api/types/NetworksResponse';
 import { CoinsIcons } from 'shared/CoinsIcons';
+import { type Quote } from 'api/types/investorAssetStructure';
 
-type Crypto = CryptosResponse['results'][0];
-
-const CryptoOptionItem = (item: Crypto) => {
+const CryptoOptionItem = (item: Quote) => {
   return (
     <div className="flex items-center">
       <div className="my-2 mr-2 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white">
@@ -17,17 +15,17 @@ const CryptoOptionItem = (item: Crypto) => {
 };
 
 interface Props {
-  cryptos?: Crypto[];
-  selectedItem: Crypto;
-  onSelect: (net: Crypto) => void;
-  disabled: boolean;
+  cryptos?: Quote[];
+  selectedItem: Quote;
+  onSelect: (net: Quote) => void;
+  disabled?: boolean;
 }
 
 const CryptoSelector: React.FC<Props> = ({
   cryptos = [],
   selectedItem,
   onSelect,
-  disabled,
+  disabled = false,
 }) => {
   return (
     <ComboBox

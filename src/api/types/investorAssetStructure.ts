@@ -80,6 +80,6 @@ interface Market {
   name: string;
 }
 
-interface Quote {
+export interface Quote {
   name: string;
 }

@@ -1,11 +1,10 @@
 import * as numerable from 'numerable';
 import { CoinsIcons } from 'shared/CoinsIcons';
-import { type CryptosResponse } from 'api/types/NetworksResponse';
-import { type Network } from '../NetworkSelector';
+import { type Quote } from 'api/types/investorAssetStructure';
+import { type Network } from 'api/types/NetworksResponse';
 
-type Crypto = CryptosResponse['results'][0];
 interface Props {
-  crypto: Crypto;
+  crypto: Quote;
   network: Network;
   amount: number;
 }

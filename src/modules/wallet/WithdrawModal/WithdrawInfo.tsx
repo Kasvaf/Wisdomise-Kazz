@@ -1,12 +1,10 @@
 import type React from 'react';
-import { type CryptosResponse } from 'api/types/NetworksResponse';
-import { type Network } from '../NetworkSelector';
+import { type Quote } from 'api/types/investorAssetStructure';
+import { type Network } from 'api/types/NetworksResponse';
 import WithdrawAmountBox from './WthdrawAmmountBox';
 
-type Crypto = CryptosResponse['results'][0];
-
 export interface WithdrawInfoProps {
-  crypto: Crypto;
+  crypto: Quote;
   network: Network;
   amount: number;
   wallet: string;

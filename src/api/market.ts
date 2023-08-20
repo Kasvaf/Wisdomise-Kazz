@@ -39,5 +39,5 @@ export const useMarketNetworksQuery = ({
       );
       return data.results;
     },
-    { enabled: (usage === 'depositable' || !!exchangeAccountKey) && !!symbol },
+    { enabled: !!exchangeAccountKey && !!symbol },
   );

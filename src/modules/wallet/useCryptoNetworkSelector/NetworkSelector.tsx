@@ -1,8 +1,6 @@
 import type React from 'react';
-import { type NetworksResponse } from 'api/types/NetworksResponse';
+import { type Network } from 'api/types/NetworksResponse';
 import ComboBox from 'shared/ComboBox';
-
-export type Network = NetworksResponse['results'][0];
 
 const NetworkOptionItemFn = (item: Network) => {
   return (

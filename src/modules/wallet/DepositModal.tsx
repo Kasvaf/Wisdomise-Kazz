@@ -1,42 +1,20 @@
-import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import QRCode from 'react-qr-code';
-import {
-  useMarketSymbolsQuery,
-  useMarketNetworksQuery,
-  useDepositWalletAddressQuery,
-} from 'api';
+import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
-import NetworkSelector, { type Network } from './NetworkSelector';
-import CryptoSelector from './CryptoSelector';
+import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 
 const DepositModal = () => {
-  const [net, setNet] = useState<Network>({
-    name: 'loading',
-    description: '',
-  } as Network);
-  const [crypto, setCrypto] = useState({ name: 'loading', key: '' });
-
-  const cryptos = useMarketSymbolsQuery('depositable');
-  useEffect(() => {
-    if (cryptos.data?.[0]) {
-      setCrypto(cryptos.data[0]);
-    }
-  }, [cryptos.data]);
-
-  const networks = useMarketNetworksQuery({
-    usage: 'depositable',
-    symbol: crypto.name !== 'loading' ? crypto.name : undefined,
-  });
-  useEffect(() => {
-    if (networks.data?.[0]) {
-      setNet(networks.data[0]);
-    }
-  }, [networks.data]);
+  const {
+    component: CryptoNetworkSelector,
+    loading: cryptoNetLoading,
+    crypto,
+    network,
+  } = useCryptoNetworkSelector({ usage: 'depositable' });
 
   const depositAddress = useDepositWalletAddressQuery({
     symbol: crypto.name,
-    network: net.name !== 'loading' ? net.name : undefined,
+    network: network.name !== 'loading' ? network.name : undefined,
   });
 
   const copyToClipboard = () => {
@@ -48,31 +26,9 @@ const DepositModal = () => {
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Deposit</h1>
-      <div className="mb-10 flex justify-stretch mobile:flex-col">
-        <div className="basis-1/2 mobile:mb-6">
-          <div className="mb-1 ml-3">Cryptocurrency</div>
-          <CryptoSelector
-            cryptos={cryptos.data ?? []}
-            selectedItem={crypto}
-            onSelect={setCrypto}
-            disabled={cryptos.isLoading}
-          />
-        </div>
+      {CryptoNetworkSelector}
 
-        <div className="w-8 mobile:hidden" />
-
-        <div className="basis-1/2">
-          <div className="mb-1 ml-3">Network</div>
-          <NetworkSelector
-            networks={networks.data}
-            selectedItem={net}
-            onSelect={setNet}
-            disabled={networks.isLoading}
-          />
-        </div>
-      </div>
-
-      {depositAddress.isLoading || networks.isLoading || cryptos.isLoading ? (
+      {depositAddress.isLoading || cryptoNetLoading ? (
         <div className="flex justify-center py-2">
           <Spinner />
         </div>

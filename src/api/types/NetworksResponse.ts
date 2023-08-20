@@ -13,7 +13,7 @@ interface Crypto {
   name: string;
 }
 
-interface Network {
+export interface Network {
   key: string;
   name: string;
   description: string;

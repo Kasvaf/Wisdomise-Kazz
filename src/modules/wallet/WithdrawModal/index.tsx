@@ -13,7 +13,7 @@ import TextBox from 'shared/TextBox';
 import { Button } from 'shared/Button';
 import MultiButton from 'shared/MultiButton';
 import { unwrapErrorMessage } from 'utils/error';
-import useCryptoNetworkSelector from './useCryptoNetworkSelector';
+import useCryptoNetworkSelector from '../useCryptoNetworkSelector';
 import useWithdrawalConfirm from './useWithdrawalConfirm';
 import useWithdrawSuccess from './useWithdrawSuccess';
 import useNetworkConfirm from './useNetworkConfirm';
@@ -58,7 +58,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     loading: cryptoNetLoading,
     crypto,
     network,
-  } = useCryptoNetworkSelector();
+  } = useCryptoNetworkSelector({ usage: 'withdrawable' });
 
   const minWithdrawable = +(network?.binance_info?.withdrawMin ?? 0);
   const available = mea?.quote_equity ? roundDown(mea.quote_equity) : 0;
@@ -210,7 +210,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
   return (
     <div className="text-white">
-      <h1 className="mb-6 text-center text-xl">Deposit</h1>
+      <h1 className="mb-6 text-center text-xl">Withdraw</h1>
       {CryptoNetworkSelector}
 
       <div className="mb-9">
@@ -262,7 +262,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
                 !walletValid ||
                 !wallet ||
                 !amountValid ||
-                !crypto.key ||
+                !crypto.name ||
                 !network.key
               }
             >
