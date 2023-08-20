@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import DashboardPage from 'modules/wallet/DashboardPage';
 import { PageWrapper } from '../PageWrapper';
 import { Container } from '../layout/Container';
 
@@ -20,17 +19,19 @@ const AssetOverviewPage = React.lazy(
 );
 
 export default function AppRoutes() {
-  const dashboardElement = <DashboardPage />;
-
   return (
     <Routes>
       <Route element={<Container />}>
-        <Route path="/" element={<Navigate to="/app" />} />
-        <Route path="login/:action" element={dashboardElement} />
-        <Route path="app" element={<Navigate to="/app/dashboard" />} />
-        <Route path="app/:section" element={dashboardElement} />
-        <Route path="app/:section/:subsection" element={dashboardElement} />
-        <Route path="/auth/callback" element={<Navigate to="/app" />} />
+        <Route path="*" element={<Navigate to="/app/assets" />} />
+
+        <Route
+          path="app/assets"
+          element={
+            <React.Suspense fallback={<PageWrapper loading />}>
+              <AssetOverviewPage />
+            </React.Suspense>
+          }
+        />
 
         <Route
           path="app/products-catalog"
@@ -55,15 +56,6 @@ export default function AppRoutes() {
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
               <SignalsMatrixPage />
-            </React.Suspense>
-          }
-        />
-
-        <Route
-          path="app/asset-overview"
-          element={
-            <React.Suspense fallback={<PageWrapper loading />}>
-              <AssetOverviewPage />
             </React.Suspense>
           }
         />

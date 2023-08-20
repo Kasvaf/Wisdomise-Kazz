@@ -243,7 +243,10 @@ const FpiColumns = ({
   );
 };
 
-const FinancialProductItem = ({ fpi }: { fpi: FinancialProductInstance }) => {
+const FinancialProductItem: React.FC<{
+  fpi: FinancialProductInstance;
+  className?: string;
+}> = ({ fpi, className }) => {
   const isMobile = useIsMobile();
   const ias = useInvestorAssetStructuresQuery();
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -267,8 +270,9 @@ const FinancialProductItem = ({ fpi }: { fpi: FinancialProductInstance }) => {
     <div
       key={fpi.key}
       className={clsx(
-        'mb-6 rounded-3xl bg-white/5 p-6',
+        'rounded-3xl bg-white/5 p-6',
         !detailsOpen && !isMobile && 'pb-2',
+        className,
       )}
     >
       <header className="flex w-full items-start justify-start mobile:flex-col">

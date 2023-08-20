@@ -29,22 +29,17 @@ export const SideMenu = () => {
 
 export const MenuItems = [
   {
-    icon: <DashboardIcon />,
-    text: 'Dashboard',
-    link: 'app/dashboard',
+    icon: <AssetOverviewIcon />,
+    text: 'Asset Overview',
+    mobileText: 'Asset',
+    link: 'app/assets',
+    hide: false,
   },
   {
     icon: <ProductsCatalogIcon />,
     text: 'Products Catalog',
     mobileText: 'Products',
     link: 'app/products-catalog',
-  },
-  {
-    icon: <AssetOverviewIcon />,
-    text: 'Asset Overview',
-    mobileText: 'Asset',
-    link: 'app/asset-overview',
-    hide: false,
   },
   {
     icon: <SignalsIcon />,
