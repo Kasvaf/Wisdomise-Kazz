@@ -44,7 +44,7 @@ const ConfirmModal: React.FC<Props> = ({
       {icon && <div className="mb-8 flex justify-center">{icon}</div>}
       <div className="mb-8 text-white/80">{message}</div>
 
-      {buttons.length && (
+      {Boolean(buttons.length) && (
         <div
           className={clsx(
             'flex',
