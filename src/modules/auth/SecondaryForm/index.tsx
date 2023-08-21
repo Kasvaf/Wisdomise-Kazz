@@ -32,7 +32,7 @@ const staticContracts: Array<{
   },
 ];
 
-export const SecondaryForm: React.FC = () => {
+const SecondaryForm: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
@@ -150,3 +150,5 @@ export const SecondaryForm: React.FC = () => {
     </AuthPageContainer>
   );
 };
+
+export default SecondaryForm;

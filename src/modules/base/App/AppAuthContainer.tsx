@@ -4,27 +4,21 @@ import { JwtTokenKey, LoginUrl } from 'config/constants';
 import { AuthCallback } from './AuthCallback';
 import { App } from './App';
 
+const redirectToLogin = () => {
+  window.location.href = LoginUrl;
+  return null;
+};
+
 export function AppAuthContainer() {
   const [userToken] = useLocalStorage(JwtTokenKey, '');
+  if (userToken) return <App />;
 
   return (
-    <>
-      {!userToken ? (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route
-              path="*"
-              Component={() => {
-                window.location.href = LoginUrl;
-                return null;
-              }}
-            />
-          </Routes>
-        </BrowserRouter>
-      ) : (
-        <App />
-      )}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="*" Component={redirectToLogin} />
+      </Routes>
+    </BrowserRouter>
   );
 }

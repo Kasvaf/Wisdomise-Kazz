@@ -1,0 +1,24 @@
+.slide-enter,
+.slide-exit {
+  transition:
+    transform 100ms ease-out,
+    opacity 300ms ease-in-out;
+}
+
+.slide-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-enter.slide-enter-active {
+  transform: translateX(0%);
+  opacity: 1;
+}
+
+.slide-exit,
+.slide-exit-active {
+  transition: none !important;
+  position: absolute !important;
+  display: none !important;
+  opacity: 0;
+}

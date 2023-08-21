@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import ADA from '@images/coins/ada.svg';
 import BNB from '@images/coins/bnb.svg';
 import BTC from '@images/coins/btc.svg';

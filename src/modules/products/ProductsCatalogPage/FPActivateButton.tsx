@@ -43,7 +43,7 @@ export const FPActivateButton: React.FC<Props> = ({
           <div className="mt-4 flex justify-around">
             <Button
               size="small"
-              variant="secondary"
+              variant="primary"
               onClick={() => {
                 navigate('/app/assets');
                 notification.destroy(fp.key);

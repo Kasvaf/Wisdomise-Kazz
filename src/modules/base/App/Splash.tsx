@@ -1,6 +1,6 @@
 import Logo from '@images/logo.svg';
 
-export const Splash = () => {
+const Splash = () => {
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center">
       <img className="mb-[100px] h-[200px] w-full" src={Logo} alt="logo" />
@@ -11,3 +11,5 @@ export const Splash = () => {
     </div>
   );
 };
+
+export default Splash;
