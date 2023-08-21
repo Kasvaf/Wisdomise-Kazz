@@ -6,7 +6,11 @@ import { queryClient } from 'config/reactQuery';
 import { AppAuthContainer } from 'modules/base/App/AppAuthContainer';
 
 configApp();
-createRoot(document.querySelector('#root')!).render(
+
+const root = document.querySelector('#root');
+if (!root) throw new Error('unexpected');
+
+createRoot(root).render(
   <Sentry.ErrorBoundary fallback={<SentryErrorFallback />}>
     <QueryClientProvider client={queryClient}>
       <AppAuthContainer />

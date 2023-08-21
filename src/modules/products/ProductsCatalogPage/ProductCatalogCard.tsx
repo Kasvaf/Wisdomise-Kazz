@@ -90,7 +90,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
         </div>
 
         <>
-          <div className="between mb-2 flex gap-3">
+          <div className="mb-2 flex gap-3">
             <FPActivateButton financialProduct={fp} className="basis-2/3" />
             <Button
               className="basis-1/3"

@@ -10,7 +10,9 @@ import { ColorByRisk } from './constants';
 
 const ProductCatalogDetail = () => {
   const params = useParams<{ fpKey: string }>();
-  const fpKey = params.fpKey!;
+  const fpKey = params.fpKey;
+  if (!fpKey) throw new Error('unexpected');
+
   const fp = useFinancialProductQuery(fpKey);
   const backtest = useFPBacktestQuery(fpKey);
 
