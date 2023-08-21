@@ -1,7 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as AssetOverviewIcon } from './icons/assetOverview.svg';
-import { ReactComponent as ProductsCatalogIcon } from './icons/productsCatalog.svg';
-import { ReactComponent as SignalsIcon } from './icons/signals.svg';
+import MenuItems from './MenuItems';
 import Logo from './icons/logo.svg';
 
 const SideMenu = () => {
@@ -25,26 +23,5 @@ const SideMenu = () => {
     </div>
   );
 };
-
-export const MenuItems = [
-  {
-    icon: <AssetOverviewIcon />,
-    text: 'Asset Overview',
-    mobileText: 'Asset',
-    link: 'app/assets',
-    hide: false,
-  },
-  {
-    icon: <ProductsCatalogIcon />,
-    text: 'Products Catalog',
-    mobileText: 'Products',
-    link: 'app/products-catalog',
-  },
-  {
-    icon: <SignalsIcon />,
-    text: 'Signal Matrix',
-    link: 'app/signals',
-  },
-].filter(i => !i.hide);
 
 export default SideMenu;

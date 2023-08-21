@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import logoSrc from '../SideMenu/icons/logo.svg';
-import WalletDropdown from './WalletDropdown';
-import UserDropdown from './UserDropdown';
+import logoSrc from '../icons/logo.svg';
+import WalletDropdown from '../WalletDropdown';
+import UserDropdown from '../UserDropdown';
 
 interface Props {
   showShadow?: boolean;

@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
 import logout from 'modules/auth/logout';
 import DropdownContainer from './DropdownContainer';
-import { ReactComponent as LogoutIcon } from './logout.svg';
+import { ReactComponent as LogoutIcon } from './Header/logout.svg';
 
 const UserDropdown = () => {
   const [open, setOpen] = useState(false);
@@ -28,15 +28,17 @@ const UserDropdown = () => {
 
   const dropDownFn = useCallback(
     () => (
-      <DropdownContainer className="p-6">
+      <DropdownContainer className="!px-0 py-6">
         {email && (
-          <div className="w-full truncate p-2 pb-4 text-nodata">{email}</div>
+          <div className="w-full truncate p-2 px-8 pb-4 text-nodata">
+            {email}
+          </div>
         )}
 
         <button
           type="button"
           onClick={logout}
-          className="flex justify-start p-2 uppercase text-error"
+          className="flex justify-start px-8 py-2 uppercase text-error hover:bg-black/10"
         >
           <LogoutIcon className="mr-2" /> Logout
         </button>

@@ -76,7 +76,11 @@ const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           </p>
         )}
       <div className="mt-6 flex justify-around text-xs">
-        <Button variant="link" onClick={onDepositHandler} className="!p-0">
+        <Button
+          variant="link"
+          onClick={onDepositHandler}
+          className="rounded-lg hover:bg-black/10"
+        >
           <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
             <DepositIcon className="text-white mobile:text-black" />
             Deposit
@@ -84,7 +88,11 @@ const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
         </Button>
         <DepositMod />
 
-        <Button variant="link" onClick={onWithdrawHandler} className="!p-0">
+        <Button
+          variant="link"
+          onClick={onWithdrawHandler}
+          className="rounded-lg hover:bg-black/10"
+        >
           <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
             <WithdrawIcon className="text-white mobile:text-black" />
             Withdraw
