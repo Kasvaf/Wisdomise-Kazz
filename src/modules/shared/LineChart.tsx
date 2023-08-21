@@ -17,7 +17,7 @@ const convertBenchmark = (category: string, bench: BackTestDateValue[]) =>
   bench.map(item => ({
     category,
     date: item.d,
-    value: ((item.v - bench[0].v) / bench[0].v) * 100,
+    value: +(((item.v - bench[0].v) / bench[0].v) * 100).toFixed(2),
   }));
 
 const LineChart: FunctionComponent<LineChartProps> = ({
