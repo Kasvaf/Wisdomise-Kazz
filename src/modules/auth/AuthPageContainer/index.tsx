@@ -1,8 +1,8 @@
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
 import Logo from '@images/wisdomiseWealthLogo.svg';
-import { useIsMobile } from 'utils/useIsMobile';
-import { logout } from 'utils/auth';
+import useIsMobile from 'utils/useIsMobile';
+import logout from 'modules/auth/logout';
 import bgMobile from './bg-mobile.png';
 import bgDesktop from './bg.png';
 

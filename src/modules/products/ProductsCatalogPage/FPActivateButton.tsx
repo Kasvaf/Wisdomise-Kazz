@@ -2,14 +2,14 @@ import type React from 'react';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
-import { Button } from 'shared/Button';
 import {
   useInvestorAssetStructuresQuery,
   useUpdateFPIStatusMutation,
   useCreateFPIMutation,
 } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
-import { isFPRunning } from './utils';
+import Button from 'shared/Button';
+import isFPRunning from './isFPRunning';
 import useModalDisclaimer from './useModalDisclaimer';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   financialProduct: FinancialProduct;
 }
 
-export const FPActivateButton: React.FC<Props> = ({
+const FPActivateButton: React.FC<Props> = ({
   className,
   inDetailPage,
   financialProduct: fp,
@@ -112,3 +112,5 @@ export const FPActivateButton: React.FC<Props> = ({
     </>
   );
 };
+
+export default FPActivateButton;

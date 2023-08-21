@@ -6,7 +6,7 @@ import { type FinancialProductInstance } from 'api/types/investorAssetStructure'
 import { ReactComponent as DeactivateIcon } from '../icons/deactivate.svg';
 import { ReactComponent as StartIcon } from '../icons/start.svg';
 import { ReactComponent as PauseIcon } from '../icons/pause.svg';
-import { PopConfirmChangeFPIStatus } from './PopConfirmChangeFPIStatus';
+import PopConfirmChangeFPIStatus from './PopConfirmChangeFPIStatus';
 
 const NextActionByStatus: Record<
   FinancialProductInstance['status'],

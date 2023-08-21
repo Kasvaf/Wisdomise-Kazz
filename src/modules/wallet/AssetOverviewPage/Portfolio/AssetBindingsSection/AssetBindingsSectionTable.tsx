@@ -5,9 +5,17 @@ import * as numerable from 'numerable';
 import { Table } from 'antd';
 import { type ColumnType } from 'antd/es/table';
 import { useInvestorAssetStructuresQuery } from 'api';
-import { CoinsIcons } from 'shared/CoinsIcons';
+import CoinsIcons from 'shared/CoinsIcons';
 
-export const AssetBindingsSectionTable = () => {
+interface Row {
+  key: React.Key;
+  coin: string;
+  amount: number;
+  share: number;
+  equity: number;
+}
+
+const AssetBindingsSectionTable = () => {
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
 
@@ -131,10 +139,4 @@ const TableWrapper = styled.div`
   }
 `;
 
-interface Row {
-  key: React.Key;
-  coin: string;
-  amount: number;
-  share: number;
-  equity: number;
-}
+export default AssetBindingsSectionTable;

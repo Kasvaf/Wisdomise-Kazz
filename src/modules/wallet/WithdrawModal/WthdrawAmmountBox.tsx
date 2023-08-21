@@ -1,5 +1,5 @@
 import * as numerable from 'numerable';
-import { CoinsIcons } from 'shared/CoinsIcons';
+import CoinsIcons from 'shared/CoinsIcons';
 import { type Quote } from 'api/types/investorAssetStructure';
 import { type Network } from 'api/types/NetworksResponse';
 

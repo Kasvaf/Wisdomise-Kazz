@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import type React from 'react';
 import { type LastPosition } from 'api/types/signalResponse';
-import { PriceChange } from 'shared/PriceChange';
+import PriceChange from 'shared/PriceChange';
 
 interface Props {
   position: LastPosition;
@@ -106,7 +106,7 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
   );
 };
 
-export const SignalBox: React.FC<Props> = ({ position: p }) => {
+const SignalBox: React.FC<Props> = ({ position: p }) => {
   const isMuted =
     (!p.exit_time && p.suggested_action === 'OPEN') ||
     (p.exit_time && p.suggested_action === 'CLOSE');
@@ -124,3 +124,5 @@ export const SignalBox: React.FC<Props> = ({ position: p }) => {
     </div>
   );
 };
+
+export default SignalBox;

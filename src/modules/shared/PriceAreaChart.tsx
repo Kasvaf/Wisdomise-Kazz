@@ -6,7 +6,7 @@ interface Props {
   data: AreaConfig['data'];
 }
 
-export const PriceAreaChart: React.FC<Props> = ({ data }) => {
+const PriceAreaChart: React.FC<Props> = ({ data }) => {
   const configs = useMemo<AreaConfig>(() => {
     const trend = data.at(-1)?.y - data.at(0)?.y > 0 ? 'up' : 'down';
     const min = Math.min(...data.map(r => r.y));
@@ -50,3 +50,5 @@ export const PriceAreaChart: React.FC<Props> = ({ data }) => {
 
   return <Area {...configs} />;
 };
+
+export default PriceAreaChart;

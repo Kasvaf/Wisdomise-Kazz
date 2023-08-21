@@ -1,14 +1,14 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import logoSrc from '../sideMenu/icons/logo.svg';
-import { UserDropdown } from './UserDropdown';
-import { WalletDropdown } from './walletDropdown/WalletDropdown';
+import WalletDropdown from './WalletDropdown';
+import UserDropdown from './UserDropdown';
 
 interface Props {
   showShadow?: boolean;
 }
 
-export const Header: React.FC<Props> = ({ showShadow }) => {
+const Header: React.FC<Props> = ({ showShadow }) => {
   return (
     <div
       className={clsx(
@@ -24,3 +24,5 @@ export const Header: React.FC<Props> = ({ showShadow }) => {
     </div>
   );
 };
+
+export default Header;

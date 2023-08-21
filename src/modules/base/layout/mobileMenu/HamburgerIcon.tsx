@@ -7,7 +7,7 @@ interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const HamburgerIcon: React.FC<Props> = ({ open, setOpen }) => {
+const HamburgerIcon: React.FC<Props> = ({ open, setOpen }) => {
   const toggle = useCallback(() => setOpen(a => !a), [setOpen]);
 
   return (
@@ -27,3 +27,5 @@ const Line = styled.span`
   margin: 4px auto;
   transition: all 0.3s ease-in-out;
 `;
+
+export default HamburgerIcon;

@@ -1,6 +1,6 @@
 import type React from 'react';
 import ComboBox from 'shared/ComboBox';
-import { CoinsIcons } from 'shared/CoinsIcons';
+import CoinsIcons from 'shared/CoinsIcons';
 import { type Quote } from 'api/types/investorAssetStructure';
 
 const CryptoOptionItem = (item: Quote) => {

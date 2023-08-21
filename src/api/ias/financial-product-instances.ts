@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
-import { queryClient } from 'config/reactQuery';
+import queryClient from 'config/reactQuery';
 
 export type FpiStatusMutationType = 'stop' | 'start' | 'pause' | 'resume';
 

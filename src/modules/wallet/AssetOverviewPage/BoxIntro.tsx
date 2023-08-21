@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { Button } from 'shared/Button';
+import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import DepositModal from '../DepositModal';
 import TradeSrc from './trade.svg';

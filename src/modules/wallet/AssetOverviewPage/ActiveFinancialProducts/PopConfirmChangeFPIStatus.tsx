@@ -1,7 +1,7 @@
 import { Popover } from 'antd';
 import { useCallback, useState } from 'react';
 import { type FpiStatusMutationType } from 'api';
-import { Button } from 'shared/Button';
+import Button from 'shared/Button';
 
 interface Props {
   type: FpiStatusMutationType;
@@ -9,7 +9,7 @@ interface Props {
   onConfirm: () => Promise<void>;
 }
 
-export const PopConfirmChangeFPIStatus: React.FC<Props> = ({
+const PopConfirmChangeFPIStatus: React.FC<Props> = ({
   type,
   children,
   onConfirm,
@@ -68,3 +68,5 @@ export const PopConfirmChangeFPIStatus: React.FC<Props> = ({
     </Popover>
   );
 };
+
+export default PopConfirmChangeFPIStatus;

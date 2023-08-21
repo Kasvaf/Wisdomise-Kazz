@@ -3,19 +3,19 @@ import { type FunctionComponent } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import useMainQuote from 'shared/useMainQuote';
-import { Button } from 'shared/Button';
-import { CoinsIcons } from 'shared/CoinsIcons';
-import { PriceChange } from 'shared/PriceChange';
+import Button from 'shared/Button';
+import CoinsIcons from 'shared/CoinsIcons';
+import PriceChange from 'shared/PriceChange';
 import { ColorByRisk } from '../constants';
-import { FPActivateButton } from './FPActivateButton';
-import { isFPRunning } from './utils';
+import isFPRunning from './isFPRunning';
+import FPActivateButton from './FPActivateButton';
 
 interface RiskCardProps {
   className?: string;
   fp: FinancialProduct;
 }
 
-export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
+const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
   fp,
   className,
 }) => {
@@ -109,3 +109,5 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
     </div>
   );
 };
+
+export default ProductCatalogCard;

@@ -24,7 +24,7 @@ const LinkOrButton: React.FC<Props> = ({ to, children, ...rest }) =>
     <button {...rest}>{children}</button>
   );
 
-export const Button: React.FC<Props> = ({
+const Button: React.FC<Props> = ({
   size,
   variant,
   loading,
@@ -122,3 +122,5 @@ export const Button: React.FC<Props> = ({
     </LinkOrButton>
   );
 };
+
+export default Button;

@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 
-export function configSentry() {
+export default function configSentry() {
   const isLocal = window.location.hostname.includes('localhost');
 
   if (!isLocal) {

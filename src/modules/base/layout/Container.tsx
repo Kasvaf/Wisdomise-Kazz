@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { Header } from './header/Header';
-import { MobileMenu } from './mobileMenu/MobileMenu';
-import { SideMenu } from './sideMenu/SideMenu';
+import Header from './Header';
+import SideMenu from './SideMenu';
+import MobileMenu from './MobileMenu';
 
-export const Container = () => {
+const Container = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   const [showShadow, setShowShadow] = useState(false);
   const location = useLocation();
@@ -41,3 +41,5 @@ export const Container = () => {
     </main>
   );
 };
+
+export default Container;

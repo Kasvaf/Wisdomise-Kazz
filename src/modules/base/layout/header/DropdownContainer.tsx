@@ -7,7 +7,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const DropdownContainer: React.FC<Props> = forwardRef<
+const DropdownContainer: React.FC<Props> = forwardRef<
   HTMLDivElement | null,
   Props
 >(function DropdownContainer({ children, className }, ref) {
@@ -23,3 +23,5 @@ export const DropdownContainer: React.FC<Props> = forwardRef<
     </div>
   );
 });
+
+export default DropdownContainer;

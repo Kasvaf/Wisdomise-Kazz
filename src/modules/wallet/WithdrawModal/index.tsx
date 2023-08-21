@@ -11,7 +11,7 @@ import {
 import { roundDown } from 'utils/numbers';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
-import { Button } from 'shared/Button';
+import Button from 'shared/Button';
 import MultiButton from 'shared/MultiButton';
 import { unwrapErrorMessage } from 'utils/error';
 import useCryptoNetworkSelector from '../useCryptoNetworkSelector';

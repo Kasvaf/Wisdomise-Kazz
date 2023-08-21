@@ -11,7 +11,7 @@ interface Props {
   valueToFixed?: boolean;
 }
 
-export const PriceChange: React.FC<Props> = ({
+const PriceChange: React.FC<Props> = ({
   value,
   bg,
   className,
@@ -43,3 +43,5 @@ export const PriceChange: React.FC<Props> = ({
     </div>
   );
 };
+
+export default PriceChange;

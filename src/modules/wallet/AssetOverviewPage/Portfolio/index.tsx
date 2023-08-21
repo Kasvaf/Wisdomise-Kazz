@@ -5,7 +5,7 @@ import { ReactComponent as AvailableIcon } from '../icons/available.svg';
 import { ReactComponent as BalanceIcon } from '../icons/balanceIcon.svg';
 import { ReactComponent as DepositIcon } from '../icons/deposit.svg';
 import { ReactComponent as PNLIcon } from '../icons/pnl.svg';
-import { AssetBindingsSection } from './AssetBindingsSection';
+import AssetBindingsSection from './AssetBindingsSection';
 import InfoCard from './InfoCard';
 const PNLIconWhite = () => <PNLIcon className="text-white/80" />;
 const PNLIconGreen = () => <PNLIcon className="text-[#40F19C]" />;

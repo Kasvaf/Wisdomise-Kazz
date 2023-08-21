@@ -3,8 +3,8 @@ import {
   useInvestorAssetStructuresQuery,
   useFinancialProductsQuery,
 } from 'api';
-import { PageWrapper } from 'modules/base/PageWrapper';
-import { ProductCatalogCard } from './ProductCatalogCard';
+import PageWrapper from 'modules/base/PageWrapper';
+import ProductCatalogCard from './ProductCatalogCard';
 
 const ProductsCatalog = () => {
   const fps = useFinancialProductsQuery();

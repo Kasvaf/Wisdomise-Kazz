@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import useNow from 'utils/useNow';
-import { Button } from 'shared/Button';
+import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import useModal from 'shared/useModal';
 

@@ -2,11 +2,11 @@ import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
 import { Dropdown } from 'antd';
 import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
-import { logout } from 'utils/auth';
-import { DropdownContainer } from './DropdownContainer';
+import logout from 'modules/auth/logout';
+import DropdownContainer from './DropdownContainer';
 import { ReactComponent as LogoutIcon } from './logout.svg';
 
-export const UserDropdown = () => {
+const UserDropdown = () => {
   const [open, setOpen] = useState(false);
   const { data: userInfo } = useUserInfoQuery();
   const email = userInfo?.customer.user.email;
@@ -71,3 +71,5 @@ export const UserDropdown = () => {
     </>
   );
 };
+
+export default UserDropdown;

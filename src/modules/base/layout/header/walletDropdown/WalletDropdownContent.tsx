@@ -1,10 +1,10 @@
 import type React from 'react';
 import { useCallback } from 'react';
-import { Button } from 'shared/Button';
-import { useInvestorAssetStructuresQuery } from 'api';
 import { roundDown } from 'utils/numbers';
-import useModal from 'shared/useModal';
+import { useInvestorAssetStructuresQuery } from 'api';
 import useMainQuote from 'shared/useMainQuote';
+import useModal from 'shared/useModal';
+import Button from 'shared/Button';
 import DepositModal from 'modules/wallet/DepositModal';
 import WithdrawModal from 'modules/wallet/WithdrawModal';
 import { ReactComponent as DepositIcon } from './deposit.svg';
@@ -14,7 +14,7 @@ interface Props {
   closeDropdown: () => void;
 }
 
-export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
+const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
   const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
 
@@ -95,3 +95,5 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
     </>
   );
 };
+
+export default WalletDropdownContent;

@@ -2,10 +2,10 @@ import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
 import { Dropdown } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
-import { DropdownContainer } from '../DropdownContainer';
-import { WalletDropdownContent } from './WalletDropdownContent';
+import DropdownContainer from '../DropdownContainer';
+import WalletDropdownContent from './WalletDropdownContent';
 
-export const WalletDropdown = () => {
+const WalletDropdown = () => {
   const [openState, setOpenState] = useState(false);
   const setClose = useCallback(() => setOpenState(false), []);
 
@@ -52,3 +52,5 @@ export const WalletDropdown = () => {
     </div>
   );
 };
+
+export default WalletDropdown;

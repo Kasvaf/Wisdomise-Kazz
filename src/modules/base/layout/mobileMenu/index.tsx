@@ -1,19 +1,19 @@
-import { Dropdown } from 'antd';
 import { Crisp } from 'crisp-sdk-web';
+import { Dropdown } from 'antd';
 import type React from 'react';
 import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { logout } from 'utils/auth';
 import { useUserInfoQuery } from 'api';
+import logout from 'modules/auth/logout';
+import { MenuItems } from '../SideMenu';
 import { ReactComponent as LogoutIcon } from '../header/logout.svg';
-import { WalletDropdownContent } from '../header/walletDropdown/WalletDropdownContent';
-import { MenuItems } from '../sideMenu/SideMenu';
-import { HamburgerIcon } from './HamburgerIcon';
+import WalletDropdownContent from '../Header/WalletDropdown/WalletDropdownContent';
+import HamburgerIcon from './HamburgerIcon';
 import { ReactComponent as SupportIcon } from './support.svg';
 
 const openCrisp = () => Crisp.chat.open();
 
-export const MobileMenu: React.FC = () => {
+const MobileMenu: React.FC = () => {
   const { data } = useUserInfoQuery();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const setClosed = useCallback(() => setIsMenuOpen(false), []);
@@ -95,3 +95,5 @@ export const MobileMenu: React.FC = () => {
     </div>
   );
 };
+
+export default MobileMenu;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { styled } from '@linaria/react';
-import { CoinsIcons } from 'shared/CoinsIcons';
-import { PriceChange } from 'shared/PriceChange';
-import { PriceAreaChart } from 'shared/PriceAreaChart';
-import { PageWrapper } from 'modules/base/PageWrapper';
 import { useSignalsQuery } from 'api';
-import { SignalBox } from './SignalBox';
+import CoinsIcons from 'shared/CoinsIcons';
+import PriceChange from 'shared/PriceChange';
+import PriceAreaChart from 'shared/PriceAreaChart';
+import PageWrapper from 'modules/base/PageWrapper';
+import SignalBox from './SignalBox';
 
 const Signals: React.FC = () => {
   const { data, isLoading } = useSignalsQuery();

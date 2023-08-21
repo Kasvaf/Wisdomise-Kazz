@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { type ReactElement } from 'react';
 import { ReactComponent as WarningIcon } from '@images/warningCircle.svg';
-import { Button } from './Button';
+import Button from './Button';
 import useModal from './useModal';
 
 interface Props {

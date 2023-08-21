@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import * as numerable from 'numerable';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
-import { useIsMobile } from 'utils/useIsMobile';
+import useIsMobile from 'utils/useIsMobile';
 import useMainQuote from 'shared/useMainQuote';
 import FpiStatusBadge from './FpiStatusBadge';
 

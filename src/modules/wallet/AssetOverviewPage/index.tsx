@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { useInvestorAssetStructuresQuery } from 'api';
-import { PageWrapper } from 'modules/base/PageWrapper';
+import PageWrapper from 'modules/base/PageWrapper';
 import AskAthena from 'modules/athena/AskAthena';
-import { ActiveFinancialProducts } from './ActiveFinancialProducts';
 import { ReactComponent as PlusIcon } from './icons/plus.svg';
-import BoxIntro from './BoxIntro';
+import ActiveFinancialProducts from './ActiveFinancialProducts';
 import Portfolio from './Portfolio';
+import BoxIntro from './BoxIntro';
 
 const AssetOverview = () => {
   const ias = useInvestorAssetStructuresQuery();

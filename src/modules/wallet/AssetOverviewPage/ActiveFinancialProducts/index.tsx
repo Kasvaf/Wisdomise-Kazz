@@ -1,7 +1,7 @@
 import { useInvestorAssetStructuresQuery } from 'api';
 import FinancialProductItem from './FinancialProductItem';
 
-export const ActiveFinancialProducts: React.FC<{ className?: string }> = ({
+const ActiveFinancialProducts: React.FC<{ className?: string }> = ({
   className,
 }) => {
   const ias = useInvestorAssetStructuresQuery();
@@ -20,3 +20,5 @@ export const ActiveFinancialProducts: React.FC<{ className?: string }> = ({
     </div>
   );
 };
+
+export default ActiveFinancialProducts;

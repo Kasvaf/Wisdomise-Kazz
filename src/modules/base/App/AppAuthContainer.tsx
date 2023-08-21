@@ -1,15 +1,15 @@
 import { useLocalStorage } from 'usehooks-ts';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { JwtTokenKey, LoginUrl } from 'config/constants';
-import { AuthCallback } from './AuthCallback';
-import { App } from './App';
+import AuthCallback from './AuthCallback';
+import App from './App';
 
 const redirectToLogin = () => {
   window.location.href = LoginUrl;
   return null;
 };
 
-export function AppAuthContainer() {
+export default function AppAuthContainer() {
   const [userToken] = useLocalStorage(JwtTokenKey, '');
   if (userToken) return <App />;
 

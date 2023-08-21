@@ -3,7 +3,7 @@ import { tryParse } from 'utils/json';
 import { JwtTokenKey, LoginUrl } from './constants';
 import { DB } from './keys';
 
-export function configAxios() {
+export default function configAxios() {
   axios.defaults.baseURL = DB + '/api/v1/';
 
   /**

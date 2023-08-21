@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { JwtTokenKey } from 'config/constants';
 
-export const AuthCallback = () => {
+const AuthCallback = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -14,3 +14,5 @@ export const AuthCallback = () => {
 
   return null;
 };
+
+export default AuthCallback;

@@ -19,7 +19,7 @@ interface Props {
   coins: string[] | string;
 }
 
-export const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
+const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
   const [_coins, isMaxShowEnable] = useMemo(() => {
     const coinsArray = Array.isArray(coins)
       ? coins
@@ -107,3 +107,5 @@ export const coinsIcons = {
     src: BUSD,
   },
 } as const;
+
+export default CoinsIcons;

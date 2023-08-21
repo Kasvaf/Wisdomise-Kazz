@@ -3,10 +3,10 @@ import { ReactComponent as Attention } from '@images/attention.svg';
 import { useFinancialProductQuery, useFPBacktestQuery } from 'api';
 import useMainQuote from 'shared/useMainQuote';
 import LineChart from 'shared/LineChart';
-import { CoinsIcons } from 'shared/CoinsIcons';
-import { PriceChange } from 'shared/PriceChange';
-import { PageWrapper } from 'modules/base/PageWrapper';
-import { FPActivateButton } from './ProductsCatalogPage/FPActivateButton';
+import CoinsIcons from 'shared/CoinsIcons';
+import PriceChange from 'shared/PriceChange';
+import PageWrapper from 'modules/base/PageWrapper';
+import FPActivateButton from './ProductsCatalogPage/FPActivateButton';
 import { ColorByRisk } from './constants';
 
 const ProductCatalogDetail = () => {

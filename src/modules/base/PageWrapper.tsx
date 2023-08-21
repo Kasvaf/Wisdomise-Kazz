@@ -6,7 +6,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export const PageWrapper: React.FC<Props> = ({ children, loading }) => {
+const PageWrapper: React.FC<Props> = ({ children, loading }) => {
   if (loading) {
     return (
       <div className="flex h-full w-full items-center justify-center mobile:h-[calc(100vh-10rem)]">
@@ -17,3 +17,5 @@ export const PageWrapper: React.FC<Props> = ({ children, loading }) => {
 
   return <div>{children}</div>;
 };
+
+export default PageWrapper;

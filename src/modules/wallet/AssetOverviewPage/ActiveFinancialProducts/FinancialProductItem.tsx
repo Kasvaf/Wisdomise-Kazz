@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useState } from 'react';
-import { useIsMobile } from 'utils/useIsMobile';
+import useIsMobile from 'utils/useIsMobile';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
 import { ReactComponent as ArrowUpIcon } from '../icons/arrowUp.svg';

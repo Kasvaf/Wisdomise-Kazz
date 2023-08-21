@@ -9,7 +9,7 @@ import AppRoutes from './AppRoutes';
 import useAnalytics from './useAnalytics';
 import './styles/App.css';
 
-export const App = () => {
+const App = () => {
   useAnalytics();
   const userInfo = useUserInfoQuery();
   const ias = useInvestorAssetStructuresQuery();
@@ -41,3 +41,5 @@ export const App = () => {
     </>
   );
 };
+
+export default App;

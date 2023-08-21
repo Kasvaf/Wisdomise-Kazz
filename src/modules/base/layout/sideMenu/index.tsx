@@ -4,7 +4,7 @@ import { ReactComponent as ProductsCatalogIcon } from './icons/productsCatalog.s
 import { ReactComponent as SignalsIcon } from './icons/signals.svg';
 import Logo from './icons/logo.svg';
 
-export const SideMenu = () => {
+const SideMenu = () => {
   return (
     <div className="fixed top-0 z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden">
       <div className="flex w-full cursor-pointer flex-row items-center justify-center">
@@ -46,3 +46,5 @@ export const MenuItems = [
     link: 'app/signals',
   },
 ].filter(i => !i.hide);
+
+export default SideMenu;
