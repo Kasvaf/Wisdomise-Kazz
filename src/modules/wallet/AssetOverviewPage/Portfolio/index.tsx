@@ -22,6 +22,7 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
       )}
     >
       <InfoCard
+        diffMobileView
         icon={BalanceIcon}
         title="Balance"
         value={data?.total_equity || 0}
@@ -29,10 +30,12 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
       />
 
       <InfoCard
+        diffMobileView
         icon={data?.pnl && data?.pnl < 0 ? PNLIconWhite : PNLIconGreen}
         title="P / L"
+        subtitle="(Unrealized)"
         colorizeValue
-        className="hidden mobile:mb-4"
+        className="!hidden mobile:mb-4"
         value={data?.pnl || 0}
       />
 
@@ -51,7 +54,7 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
         subtitle="Amount"
         icon={DepositIcon}
         value={data?.net_deposit || 0}
-        className="hidden mobile:rounded-b-none mobile:!border-t-0"
+        className="!hidden mobile:rounded-b-none mobile:!border-t-0"
       />
 
       <InfoCard
