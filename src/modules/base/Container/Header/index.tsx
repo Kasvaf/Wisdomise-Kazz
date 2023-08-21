@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import logoSrc from '../sideMenu/icons/logo.svg';
+import logoSrc from '../SideMenu/icons/logo.svg';
 import WalletDropdown from './WalletDropdown';
 import UserDropdown from './UserDropdown';
 

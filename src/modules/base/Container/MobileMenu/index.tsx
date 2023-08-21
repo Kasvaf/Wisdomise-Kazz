@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { useUserInfoQuery } from 'api';
 import logout from 'modules/auth/logout';
 import { MenuItems } from '../SideMenu';
-import { ReactComponent as LogoutIcon } from '../header/logout.svg';
+import { ReactComponent as LogoutIcon } from '../Header/logout.svg';
 import WalletDropdownContent from '../Header/WalletDropdown/WalletDropdownContent';
 import HamburgerIcon from './HamburgerIcon';
 import { ReactComponent as SupportIcon } from './support.svg';
