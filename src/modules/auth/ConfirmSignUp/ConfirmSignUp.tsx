@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
 import { JwtTokenKey } from 'config/constants';
 import { DB } from 'config/keys';
@@ -11,11 +11,11 @@ const ConfirmSignUp = () => {
   const [isChecking, setIsChecking] = useState(false);
   const resendVerify = useResendVerificationEmailMutation();
 
-  const checkAgain = () => {
+  const checkAgain = useCallback(() => {
     setIsChecking(true);
     localStorage.removeItem(JwtTokenKey);
     window.location.assign(`${DB}/api/v1/account/login`);
-  };
+  }, []);
 
   useEffect(() => {
     if (resendVerify.status === 'success') {
@@ -51,7 +51,7 @@ const ConfirmSignUp = () => {
 
         <button
           className="rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
-          onClick={() => resendVerify.mutate()}
+          onClick={useCallback(() => resendVerify.mutate(), [resendVerify])}
         >
           {resendVerify.isLoading
             ? 'Resending Verification Email ...'

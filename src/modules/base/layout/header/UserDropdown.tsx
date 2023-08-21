@@ -1,6 +1,6 @@
 import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
 import { Dropdown } from 'antd';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
 import { logout } from 'utils/auth';
 import { DropdownContainer } from './DropdownContainer';
@@ -26,20 +26,23 @@ export const UserDropdown = () => {
     </div>
   );
 
-  const dropDownFn = () => (
-    <DropdownContainer className="p-6">
-      {email && (
-        <div className="w-full truncate p-2 pb-4 text-nodata">{email}</div>
-      )}
+  const dropDownFn = useCallback(
+    () => (
+      <DropdownContainer className="p-6">
+        {email && (
+          <div className="w-full truncate p-2 pb-4 text-nodata">{email}</div>
+        )}
 
-      <button
-        type="button"
-        onClick={logout}
-        className="flex justify-start p-2 uppercase text-error"
-      >
-        <LogoutIcon className="mr-2" /> Logout
-      </button>
-    </DropdownContainer>
+        <button
+          type="button"
+          onClick={logout}
+          className="flex justify-start p-2 uppercase text-error"
+        >
+          <LogoutIcon className="mr-2" /> Logout
+        </button>
+      </DropdownContainer>
+    ),
+    [email],
   );
 
   return (

@@ -1,35 +1,36 @@
 import { Popover } from 'antd';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { type FpiStatusMutationType } from 'api';
 import { Button } from 'modules/shared/Button';
 
 interface Props {
+  type: FpiStatusMutationType;
   children: React.ReactNode;
   onConfirm: () => Promise<void>;
-  type: 'start' | 'pause' | 'resume' | 'stop';
 }
 
 export const PopConfirmChangeFPIStatus: React.FC<Props> = ({
-  children,
   type,
+  children,
   onConfirm,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onConfirmClick = async () => {
+  const onConfirmClick = useCallback(async () => {
     try {
       setLoading(true);
       await onConfirm();
       setLoading(false);
-      setOpen(false);
+      setIsOpen(false);
     } catch (error) {
       //
     }
-  };
+  }, [onConfirm]);
 
   return (
     <Popover
-      open={open}
+      open={isOpen}
       content={
         <section className="mx-2 max-w-[400px] text-white/80">
           <p className="mb-2 text-lg">
@@ -49,7 +50,7 @@ export const PopConfirmChangeFPIStatus: React.FC<Props> = ({
             <Button
               variant="secondary"
               size="small"
-              onClick={() => setOpen(false)}
+              onClick={useCallback(() => setIsOpen(false), [])}
             >
               Cancel
             </Button>
@@ -61,7 +62,9 @@ export const PopConfirmChangeFPIStatus: React.FC<Props> = ({
         </section>
       }
     >
-      <section onClick={() => setOpen(true)}>{children}</section>
+      <section onClick={useCallback(() => setIsOpen(true), [])}>
+        {children}
+      </section>
     </Popover>
   );
 };

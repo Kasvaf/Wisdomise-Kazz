@@ -28,6 +28,11 @@ export const FPActivateButton: React.FC<Props> = ({
   const ias = useInvestorAssetStructuresQuery();
   const updateFPIStatus = useUpdateFPIStatusMutation();
 
+  const gotoDashboardHandler = useCallback(() => {
+    navigate('/app/assets');
+    notification.destroy(fp.key);
+  }, [navigate, fp.key]);
+
   const onWalletDisclaimerAccept = useCallback(async () => {
     await createFPI.mutateAsync(fp.key);
     notification.success({
@@ -44,10 +49,7 @@ export const FPActivateButton: React.FC<Props> = ({
             <Button
               size="small"
               variant="primary"
-              onClick={() => {
-                navigate('/app/assets');
-                notification.destroy(fp.key);
-              }}
+              onClick={gotoDashboardHandler}
             >
               Dashboard
             </Button>
@@ -56,7 +58,7 @@ export const FPActivateButton: React.FC<Props> = ({
       ),
       duration: 0,
     });
-  }, [createFPI, fp.key, navigate]);
+  }, [createFPI, fp.key, gotoDashboardHandler]);
 
   const onDeactivateClick = useCallback(async () => {
     if (ias.data?.[0] != null) {

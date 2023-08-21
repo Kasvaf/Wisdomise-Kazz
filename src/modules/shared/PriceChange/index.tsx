@@ -18,22 +18,18 @@ export const PriceChange: React.FC<Props> = ({
   valueToFixed,
   colorize = true,
 }) => {
-  const bgColor = colorize
-    ? bg && (value >= 0 ? 'bg-[#43D76E0D]' : 'bg-[#F140560D]')
-    : bg && 'bg-white/5';
+  const bgColorized = value >= 0 ? 'bg-[#43D76E0D]' : 'bg-[#F140560D]';
+  const bgColor = colorize ? bgColorized : 'bg-white/5';
 
-  const textColor = colorize
-    ? value >= 0
-      ? 'text-[#40F19C]'
-      : 'text-[#F14056]'
-    : 'text-white';
+  const textColorized = value >= 0 ? 'text-[#40F19C]' : 'text-[#F14056]';
+  const textColor = colorize ? textColorized : 'text-white';
 
   return (
     <div
       className={clsx(
         'flex items-center justify-center',
         bg && 'rounded-xl p-2',
-        bgColor,
+        bg && bgColor,
         className,
       )}
     >

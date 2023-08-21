@@ -1,17 +1,28 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { useCallback, type DetailedHTMLProps } from 'react';
+import { useCallback, type PropsWithChildren } from 'react';
+import { Link } from 'react-router-dom';
+import type { To } from 'react-router';
 import Spin from './Spin';
 
-interface Props
-  extends DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
+interface Props extends PropsWithChildren {
+  to?: To;
   size?: 'small';
   loading?: boolean;
   variant?: 'primary' | 'alternative' | 'secondary' | 'link';
+  className?: string;
+  disabled?: boolean;
+  onClick?: React.MouseEventHandler<any>;
 }
+
+const LinkOrButton: React.FC<Props> = ({ to, children, ...rest }) =>
+  to ? (
+    <Link to={to} {...rest}>
+      {children}
+    </Link>
+  ) : (
+    <button {...rest}>{children}</button>
+  );
 
 export const Button: React.FC<Props> = ({
   size,
@@ -38,7 +49,7 @@ export const Button: React.FC<Props> = ({
 
   if (variant === 'secondary') {
     return (
-      <button
+      <LinkOrButton
         className={clsx(
           'rounded-[40px] border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
           size === 'small' && '!p-[10px_12px] ',
@@ -50,13 +61,13 @@ export const Button: React.FC<Props> = ({
         {...restOfProps}
       >
         {btnContent}
-      </button>
+      </LinkOrButton>
     );
   }
 
   if (variant === 'alternative') {
     return (
-      <button
+      <LinkOrButton
         className={clsx(
           'rounded-[40px] bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5',
           disabled &&
@@ -69,13 +80,13 @@ export const Button: React.FC<Props> = ({
         {...restOfProps}
       >
         {btnContent}
-      </button>
+      </LinkOrButton>
     );
   }
 
   if (variant === 'link') {
     return (
-      <button
+      <LinkOrButton
         className={clsx(
           'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white',
           disabled &&
@@ -89,12 +100,12 @@ export const Button: React.FC<Props> = ({
         {...restOfProps}
       >
         {btnContent}
-      </button>
+      </LinkOrButton>
     );
   }
 
   return (
-    <button
+    <LinkOrButton
       className={clsx(
         'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
         disabled &&
@@ -108,6 +119,6 @@ export const Button: React.FC<Props> = ({
       {...restOfProps}
     >
       {btnContent}
-    </button>
+    </LinkOrButton>
   );
 };

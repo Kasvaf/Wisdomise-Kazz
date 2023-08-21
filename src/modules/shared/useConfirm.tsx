@@ -47,20 +47,19 @@ const ConfirmModal: React.FC<Props> = ({
       {Boolean(buttons.length) && (
         <div
           className={clsx(
-            'flex',
+            '-mx-3 flex',
             buttons.length < 2 ? 'justify-center' : 'justify-stretch',
           )}
         >
-          {buttons.map(({ title, variant, onClick }, ind) => (
-            <>
-              <Button className="basis-1/2" variant={variant} onClick={onClick}>
-                {title}
-              </Button>
-
-              {ind < buttons.length - 1 && (
-                <div key={title + '|'} className="w-6" />
-              )}
-            </>
+          {buttons.map(({ title, variant, onClick }) => (
+            <Button
+              key={title}
+              className="mx-3 basis-1/2"
+              variant={variant}
+              onClick={onClick}
+            >
+              {title}
+            </Button>
           ))}
         </div>
       )}

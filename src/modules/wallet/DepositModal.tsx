@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useCallback } from 'react';
 import QRCode from 'react-qr-code';
 import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
@@ -17,11 +18,11 @@ const DepositModal = () => {
     network: network.name !== 'loading' ? network.name : undefined,
   });
 
-  const copyToClipboard = () => {
+  const copyToClipboard = useCallback(() => {
     const addr = depositAddress.data?.address;
     if (!addr) return;
     void navigator.clipboard?.writeText(addr);
-  };
+  }, [depositAddress.data?.address]);
 
   return (
     <div className="text-white">

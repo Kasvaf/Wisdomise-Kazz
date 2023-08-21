@@ -1,33 +1,41 @@
 import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
 import { Dropdown } from 'antd';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { DropdownContainer } from '../DropdownContainer';
 import { WalletDropdownContent } from './WalletDropdownContent';
 
 export const WalletDropdown = () => {
-  const [open, setOpen] = useState(false);
-  const ias = useInvestorAssetStructuresQuery();
+  const [openState, setOpenState] = useState(false);
+  const setClose = useCallback(() => setOpenState(false), []);
 
-  const hasWallet = ias?.data?.[0]?.main_exchange_account;
-  const dropDownFn = () => (
-    <DropdownContainer className="w-80 bg-[#272A32] !p-4">
-      <WalletDropdownContent closeDropdown={() => setOpen(false)} />
-    </DropdownContainer>
+  const dropDownFn = useCallback(
+    () => (
+      <DropdownContainer className="w-80 bg-[#272A32] !p-4">
+        <WalletDropdownContent closeDropdown={setClose} />
+      </DropdownContainer>
+    ),
+    [setClose],
   );
+
+  const ias = useInvestorAssetStructuresQuery();
+  const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
+
+  useEffect(() => {
+    if (openState) {
+      void ias.refetch();
+    }
+  }, [openState, ias]);
 
   return (
     <div className="ml-auto flex">
-      {hasWallet != null && (
+      {hasWallet && (
         <div className="mx-4 flex items-center justify-evenly px-4">
           <div className="ml-4 min-w-0 grow-0">
             <Dropdown
-              open={open}
+              open={openState}
               trigger={['click']}
-              onOpenChange={open => {
-                setOpen(open);
-                void ias.refetch();
-              }}
+              onOpenChange={setOpenState}
               placement="bottomRight"
               dropdownRender={dropDownFn}
             >

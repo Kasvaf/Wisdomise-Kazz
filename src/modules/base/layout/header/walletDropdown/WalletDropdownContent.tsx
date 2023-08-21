@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useCallback } from 'react';
 import { Button } from 'shared/Button';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { roundDown } from 'utils/numbers';
@@ -20,6 +21,16 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
 
   const totalBalance = ias.data?.[0]?.total_equity || 0;
   const withdrawable = ias.data?.[0]?.main_exchange_account.quote_equity || 0;
+
+  const onDepositHandler = useCallback(() => {
+    void openDeposit({});
+    closeDropdown();
+  }, [closeDropdown, openDeposit]);
+
+  const onWithdrawHandler = useCallback(() => {
+    void openWithdraw({});
+    closeDropdown();
+  }, [closeDropdown, openWithdraw]);
 
   return (
     <>
@@ -56,30 +67,16 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           </p>
         )}
       <div className="mt-6 flex justify-around text-xs">
-        <Button
-          variant="link"
-          onClick={() => {
-            closeDropdown();
-            void openDeposit({});
-          }}
-          className="!p-0"
-        >
-          <div className="item flex flex-col items-center justify-center gap-2 mobile:text-black">
+        <Button variant="link" onClick={onDepositHandler} className="!p-0">
+          <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
             <DepositIcon className="text-white mobile:text-black" />
             Deposit
           </div>
         </Button>
         <DepositMod />
 
-        <Button
-          variant="link"
-          onClick={() => {
-            closeDropdown();
-            void openWithdraw({});
-          }}
-          className="!p-0"
-        >
-          <div className="item flex flex-col items-center justify-center gap-2 mobile:text-black">
+        <Button variant="link" onClick={onWithdrawHandler} className="!p-0">
+          <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
             <WithdrawIcon className="text-white mobile:text-black" />
             Withdraw
           </div>

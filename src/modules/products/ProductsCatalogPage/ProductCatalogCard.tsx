@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { type FunctionComponent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from 'shared/Button';
 import { CoinsIcons } from 'shared/CoinsIcons';
 import { PriceChange } from 'shared/PriceChange';
@@ -19,11 +18,9 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
   fp,
   className,
 }) => {
-  const navigate = useNavigate();
   const ias = useInvestorAssetStructuresQuery();
-
-  const rrr = fp.profile.return_risk_ratio;
   const isRunning = isFPRunning(ias.data, fp.key);
+  const rrr = fp.profile.return_risk_ratio;
 
   return (
     <div
@@ -98,9 +95,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
             <Button
               className="basis-1/3"
               variant="secondary"
-              onClick={() => {
-                navigate(`/app/products-catalog/${fp.key}`);
-              }}
+              to={`/app/products-catalog/${fp.key}`}
             >
               Detail
             </Button>

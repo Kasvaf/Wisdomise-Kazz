@@ -64,7 +64,7 @@ module.exports = {
     'jsx-a11y/alt-text': 'off',
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'error',
-    'react/jsx-no-bind': 'warn',
+    'react/jsx-no-bind': 'error',
 
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/promise-function-async': 'off',

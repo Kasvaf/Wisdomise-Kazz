@@ -1,7 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import useModal from 'modules/shared/useModal';
-// import { ReactComponent as TermsDoc, attributes } from './privacy.md';
 
 interface IProps {
   title: string;
@@ -47,7 +46,7 @@ function ModalContract({ title, ContractDoc, onResolve }: IProps) {
 
       <div className="border-t border-white/10 pt-5">
         <button
-          onClick={() => onResolve?.(true)}
+          onClick={useCallback(() => onResolve?.(true), [onResolve])}
           disabled={!isScrolledToEnd}
           className="w-full rounded-full border-none bg-white px-9 py-3 text-base text-black disabled:bg-gray-main disabled:text-[#cccc] md:px-14 md:py-3 md:text-xl"
         >

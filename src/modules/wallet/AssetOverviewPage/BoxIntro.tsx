@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import { useNavigate } from 'react-router-dom';
 import { Button } from 'shared/Button';
 import useModal from 'modules/shared/useModal';
 import DepositModal from '../DepositModal';
@@ -8,7 +7,6 @@ import TradeSrc from './trade.svg';
 const BoxIntro: React.FC<{
   className?: string;
 }> = ({ className }) => {
-  const navigate = useNavigate();
   const [DepositMod, openDeposit] = useModal(DepositModal);
 
   return (
@@ -43,10 +41,7 @@ const BoxIntro: React.FC<{
         </div>
 
         <div className="-mx-3 -mb-6 flex flex-wrap items-center justify-center mobile:self-stretch">
-          <Button
-            className="mx-3 mb-6"
-            onClick={() => navigate('/app/products-catalog')}
-          >
+          <Button className="mx-3 mb-6" to="/app/products-catalog">
             Check Products
           </Button>
 

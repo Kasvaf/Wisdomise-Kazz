@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useIsMobile } from 'utils/useIsMobile';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
@@ -17,11 +17,12 @@ const FinancialProductItem: React.FC<{
   const isMobile = useIsMobile();
   const ias = useInvestorAssetStructuresQuery();
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const toggleDetails = useCallback(() => setDetailsOpen(v => !v), []);
 
   const detailsBtn = (
     <button
       className="ml-3 flex items-center text-xs text-white/80"
-      onClick={() => setDetailsOpen(v => !v)}
+      onClick={toggleDetails}
     >
       Details{' '}
       <ArrowUpIcon

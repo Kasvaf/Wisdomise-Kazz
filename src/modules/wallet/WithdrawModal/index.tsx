@@ -225,7 +225,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           type="tel"
           value={String(amount)}
           filter={toAmount}
-          onChange={x => setAmount(x)}
+          onChange={setAmount}
           suffix={crypto.name}
           hasError={!amountValid}
         />

@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useState } from 'react';
+import { type PropsWithChildren, useCallback, useState } from 'react';
 import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
 import { Dropdown } from 'antd';
 import { clsx } from 'clsx';
@@ -12,6 +12,27 @@ interface Props {
   disabled?: boolean;
 }
 
+const OptionItem: React.FC<
+  PropsWithChildren<{
+    className?: string;
+    item: any;
+    onClick: (item: any) => void;
+  }>
+> = ({ children, className, item, onClick }) => {
+  return (
+    <div
+      className={clsx(
+        'cursor-pointer py-4 pl-6 pr-2 hover:bg-black/20',
+        className,
+      )}
+      onClick={useCallback(() => onClick(item), [onClick, item])}
+      key={JSON.stringify(item)}
+    >
+      {children}
+    </div>
+  );
+};
+
 const ComboBox: React.FC<Props> = ({
   options,
   renderItem,
@@ -20,24 +41,32 @@ const ComboBox: React.FC<Props> = ({
   disabled = false,
 }) => {
   const [open, setOpen] = useState(false);
-  const dropDownFn = () => (
-    <div className="overflow-hidden rounded-[24px] bg-[#272A32] text-white">
-      {options.map((item, ind) => (
-        <div
-          className={clsx(
-            'cursor-pointer py-4 pl-6 pr-2 hover:bg-black/20',
-            ind !== options.length - 1 && 'border-b border-white/5',
-          )}
-          onClick={() => {
-            onSelect(item);
-            setOpen(false);
-          }}
-          key={JSON.stringify(item)}
-        >
-          {renderItem(item)}
-        </div>
-      ))}
-    </div>
+  const selectItemHandler = useCallback(
+    (item: any) => {
+      setOpen(false);
+      onSelect(item);
+    },
+    [onSelect],
+  );
+
+  const dropDownFn = useCallback(
+    () => (
+      <div className="overflow-hidden rounded-[24px] bg-[#272A32] text-white">
+        {options.map((item, ind) => (
+          <OptionItem
+            key={JSON.stringify(item)}
+            item={item}
+            onClick={selectItemHandler}
+            className={clsx(
+              ind !== options.length - 1 && 'border-b border-white/5',
+            )}
+          >
+            {renderItem(item)}
+          </OptionItem>
+        ))}
+      </div>
+    ),
+    [options, renderItem, selectItemHandler],
   );
 
   const disabledOrEmpty = disabled || options.length <= 1;

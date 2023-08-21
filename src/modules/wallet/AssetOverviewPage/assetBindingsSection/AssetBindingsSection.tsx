@@ -1,5 +1,5 @@
 import * as numerable from 'numerable';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { type ComputedDatum, ResponsivePie } from '@nivo/pie';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type AssetBinding } from 'api/types/investorAssetStructure';
@@ -16,9 +16,12 @@ export const AssetBindingsSection = () => {
 
   const data = ias.data?.[0];
 
-  const onMouseEnter = (e: ComputedDatum<any>) => {
-    setCurrentHoverCoin(data?.asset_bindings.find(d => d.name === e.id));
-  };
+  const onMouseEnter = useCallback(
+    (e: ComputedDatum<any>) => {
+      setCurrentHoverCoin(data?.asset_bindings.find(d => d.name === e.id));
+    },
+    [data?.asset_bindings],
+  );
 
   const pieData =
     data?.asset_bindings.map(a => ({
@@ -75,7 +78,7 @@ export const AssetBindingsSection = () => {
           padAngle={3}
           cornerRadius={3}
           activeInnerRadiusOffset={6}
-          colors={d => d.data.color}
+          colors={dataColors}
           enableArcLinkLabels={false}
           arcLinkLabelsSkipAngle={10}
           enableArcLabels={false}
@@ -88,4 +91,8 @@ export const AssetBindingsSection = () => {
       </div>
     </div>
   );
+};
+
+const dataColors = function <T>(d: { data: { color: T } }) {
+  return d.data.color;
 };

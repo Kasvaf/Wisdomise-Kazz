@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import * as numerable from 'numerable';
-
 import { useInvestorAssetStructuresQuery } from 'api';
 import { AssetBindingsSection } from './assetBindingsSection/AssetBindingsSection';
 import { ReactComponent as WorkingCapitalIcon } from './icons/workingCapital.svg';
@@ -8,6 +7,8 @@ import { ReactComponent as AvailableIcon } from './icons/available.svg';
 import { ReactComponent as BalanceIcon } from './icons/balanceIcon.svg';
 import { ReactComponent as DepositIcon } from './icons/deposit.svg';
 import { ReactComponent as PNLIcon } from './icons/pnl.svg';
+const PNLIconWhite = () => <PNLIcon className="text-white/80" />;
+const PNLIconGreen = () => <PNLIcon className="text-[#40F19C]" />;
 
 const InfoCard: React.FC<{
   title: string;
@@ -66,14 +67,6 @@ const InfoCards: React.FC<{ className?: string }> = ({ className }) => {
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
 
-  const PNLIconFn = () => (
-    <PNLIcon
-      className={clsx(
-        data?.pnl && data?.pnl < 0 ? 'text-white/80' : 'text-[#40F19C]',
-      )}
-    />
-  );
-
   return (
     <div
       className={clsx(
@@ -89,7 +82,7 @@ const InfoCards: React.FC<{ className?: string }> = ({ className }) => {
       />
 
       <InfoCard
-        icon={PNLIconFn}
+        icon={data?.pnl && data?.pnl < 0 ? PNLIconWhite : PNLIconGreen}
         title="P / L"
         colorizeValue
         className="hidden mobile:mb-4"

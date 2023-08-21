@@ -2,11 +2,13 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from 'config/reactQuery';
 
+export type FpiStatusMutationType = 'stop' | 'start' | 'pause' | 'resume';
+
 export const useUpdateFPIStatusMutation = () =>
   useMutation<
     unknown,
     unknown,
-    { fpiKey: string; status: 'stop' | 'start' | 'pause' | 'resume' }
+    { fpiKey: string; status: FpiStatusMutationType }
   >(
     async data =>
       await axios.post(
