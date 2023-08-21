@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { PageWrapper } from 'modules/base/PageWrapper';
 import AskAthena from 'modules/athena/AskAthena';
-import { ActiveFinancialProducts } from './activeFPs/ActiveFinancialProducts';
+import { ActiveFinancialProducts } from './ActiveFinancialProducts';
 import { ReactComponent as PlusIcon } from './icons/plus.svg';
 import BoxIntro from './BoxIntro';
 import InfoCards from './InfoCards';

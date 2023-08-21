@@ -31,15 +31,21 @@ export const PopConfirmChangeFPIStatus: React.FC<Props> = ({
     <Popover
       open={open}
       content={
-        <section>
-          <p className="text-sm text-white/80">
+        <section className="mx-2 max-w-[400px] text-white/80">
+          <p className="mb-2 text-lg">
             Are You Sure To{' '}
             <span className="text-base font-medium capitalize text-white">
               {type}
             </span>{' '}
             This Product ?
           </p>
-          <section className="mt-4 flex justify-around">
+          <div>
+            Please be aware that by Stopping the Strategy, all your open trades
+            will be sold on &quot;Market&quot; price. The final PnL will be
+            calculated after closing open positions.
+          </div>
+
+          <section className="mt-6 flex justify-center">
             <Button
               variant="secondary"
               size="small"
@@ -47,8 +53,9 @@ export const PopConfirmChangeFPIStatus: React.FC<Props> = ({
             >
               Cancel
             </Button>
+            <div className="w-4" />
             <Button size="small" onClick={onConfirmClick} loading={loading}>
-              Yes, <span className="capitalize">{type}</span>
+              Yes,&nbsp;<span className="capitalize">{type}</span>
             </Button>
           </section>
         </section>
