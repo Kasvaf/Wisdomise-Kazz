@@ -78,7 +78,7 @@ export const FPActivateButton: React.FC<Props> = ({
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
   const onActivateClick = useCallback(async () => {
     if (await openDisclaimer()) {
-      onWalletDisclaimerAccept();
+      await onWalletDisclaimerAccept();
     }
   }, [openDisclaimer, onWalletDisclaimerAccept]);
 

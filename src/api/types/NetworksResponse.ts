@@ -17,7 +17,7 @@ export interface Network {
   key: string;
   name: string;
   description: string;
-  binance_info: BinanceInfo;
+  binance_info?: BinanceInfo;
 }
 
 interface BinanceInfo {

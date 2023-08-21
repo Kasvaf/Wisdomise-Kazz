@@ -63,20 +63,20 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
     'jsx-a11y/alt-text': 'off',
     'react/prop-types': 'off',
-    'react/jsx-no-target-blank': 'off',
+    'react/jsx-no-target-blank': 'error',
     'react/jsx-no-bind': 'warn',
 
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/promise-function-async': 'off',
-    '@typescript-eslint/strict-boolean-expressions': 'off',
-    '@typescript-eslint/consistent-type-assertions': 'off',
-    '@typescript-eslint/no-misused-promises': 'off',
-    '@typescript-eslint/triple-slash-reference': 'off',
-    '@typescript-eslint/restrict-template-expressions': 'off',
-    '@typescript-eslint/no-floating-promises': 'off',
-    '@typescript-eslint/prefer-nullish-coalescing': 'off',
-    '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/no-confusing-void-expression': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off', // if(x) where x is not boolean
+    '@typescript-eslint/no-misused-promises': 'off', // no promise return where not necessary
+    '@typescript-eslint/consistent-type-assertions': 'error',
+    '@typescript-eslint/triple-slash-reference': 'error',
+    '@typescript-eslint/restrict-template-expressions': 'error',
+    '@typescript-eslint/no-floating-promises': 'error',
+    '@typescript-eslint/prefer-nullish-coalescing': 'off',
+    '@typescript-eslint/naming-convention': 'error',
 
     // import
     'import/default': 'off',
@@ -114,9 +114,9 @@ module.exports = {
       },
     ],
     'import/max-dependencies': [
-      'warn',
+      'error',
       {
-        max: 15,
+        max: 12,
         ignoreTypeImports: true,
       },
     ],

@@ -26,7 +26,7 @@ export const WalletDropdown = () => {
               trigger={['click']}
               onOpenChange={open => {
                 setOpen(open);
-                ias.refetch();
+                void ias.refetch();
               }}
               placement="bottomRight"
               dropdownRender={dropDownFn}

@@ -8,47 +8,45 @@ interface Props {
   position: LastPosition;
 }
 
-const SignalBoxTitle: React.FC<Props> = ({ position }) => {
-  const { pnl, entry_time, exit_time, suggested_action } = position;
+const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
   return (
     <div className="flex w-full items-center justify-between p-1">
       <div className="flex flex-col items-start justify-start pl-2">
         <span
           className={clsx(
             'text-sm',
-            !exit_time &&
-              (suggested_action === 'NO_ACTION'
+            !p.exit_time &&
+              (p.suggested_action === 'NO_ACTION'
                 ? 'text-white/40'
                 : 'text-white'),
-            exit_time &&
-              (suggested_action === 'CLOSE' ? 'text-white' : 'text-white/20'),
+            p.exit_time &&
+              (p.suggested_action === 'CLOSE' ? 'text-white' : 'text-white/20'),
           )}
         >
-          {exit_time ? 'Closed' : 'Opened'}
+          {p.exit_time ? 'Closed' : 'Opened'}
         </span>
         <span
           className={clsx(
             'text-xxs text-white/40',
-            exit_time &&
-              suggested_action === 'CLOSE_DELAYED' &&
+            p.exit_time &&
+              p.suggested_action === 'CLOSE_DELAYED' &&
               '!text-white/20',
           )}
         >
-          {dayjs(exit_time || entry_time).fromNow()}
+          {dayjs(p.exit_time || p.entry_time).fromNow()}
         </span>
       </div>
       <div>
-        <PriceChange value={pnl} className="h-6 min-w-[66px]" />
+        <PriceChange value={p.pnl} className="h-6 min-w-[66px]" />
       </div>
     </div>
   );
 };
 
-const SignalBoxTpSl: React.FC<Props> = ({ position }) => {
-  const { take_profit, stop_loss, exit_time, suggested_action } = position;
+const SignalBoxTpSl: React.FC<Props> = ({ position: p }) => {
   return (
     <div className="flex flex-col items-center justify-between bg-black/10 p-2">
-      {[take_profit, stop_loss].map((v, i) => (
+      {[p.take_profit, p.stop_loss].map((v, i) => (
         <div
           key={v}
           className="flex w-full items-center justify-start first:mb-2"
@@ -60,8 +58,8 @@ const SignalBoxTpSl: React.FC<Props> = ({ position }) => {
           <span
             className={clsx(
               'grow-0 basis-auto text-xs text-white/90',
-              exit_time &&
-                suggested_action === 'CLOSE_DELAYED' &&
+              p.exit_time &&
+                p.suggested_action === 'CLOSE_DELAYED' &&
                 '!text-white/20',
             )}
           >
@@ -73,17 +71,18 @@ const SignalBoxTpSl: React.FC<Props> = ({ position }) => {
   );
 };
 
-const SignalBoxSuggestion: React.FC<Props> = ({ position }) => {
-  const { exit_time, suggested_action } = position;
-  const isNoAction = suggested_action === 'NO_ACTION';
-  const isOpenOrDelayed = suggested_action.includes('OPEN');
+const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
+  const isNoAction = p.suggested_action === 'NO_ACTION';
+  const isOpenOrDelayed = p.suggested_action.includes('OPEN');
 
   return (
     <div className="flex w-full items-center justify-between p-2">
       <span
         className={clsx(
           'text-xxs text-white',
-          exit_time && suggested_action === 'CLOSE_DELAYED' && 'text-white/20',
+          p.exit_time &&
+            p.suggested_action === 'CLOSE_DELAYED' &&
+            'text-white/20',
         )}
       >
         Suggest
@@ -93,12 +92,12 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position }) => {
         className={clsx(
           'rounded-full px-2 py-1 text-xxs leading-none',
           isNoAction &&
-            (exit_time
+            (p.exit_time
               ? 'bg-white/10 text-white/20'
               : 'bg-white/10 text-white/80'),
           isOpenOrDelayed && 'bg-[#40F19C33] text-[#40f19ccc]',
-          suggested_action === 'CLOSE' && 'bg-[#F1405633] text-[#F14056CC]',
-          suggested_action === 'CLOSE_DELAYED' && 'bg-white/5 text-white/20',
+          p.suggested_action === 'CLOSE' && 'bg-[#F1405633] text-[#F14056CC]',
+          p.suggested_action === 'CLOSE_DELAYED' && 'bg-white/5 text-white/20',
         )}
       >
         {isNoAction ? 'No Action' : isOpenOrDelayed ? 'Open' : 'Close'}
@@ -107,11 +106,10 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position }) => {
   );
 };
 
-export const SignalBox: React.FC<Props> = ({ position }) => {
-  const { exit_time, suggested_action } = position;
+export const SignalBox: React.FC<Props> = ({ position: p }) => {
   const isMuted =
-    (!exit_time && suggested_action === 'OPEN') ||
-    (exit_time && suggested_action === 'CLOSE');
+    (!p.exit_time && p.suggested_action === 'OPEN') ||
+    (p.exit_time && p.suggested_action === 'CLOSE');
 
   return (
     <div
@@ -120,9 +118,9 @@ export const SignalBox: React.FC<Props> = ({ position }) => {
         isMuted ? 'bg-white/10' : 'bg-white/5',
       )}
     >
-      <SignalBoxTitle position={position} />
-      <SignalBoxTpSl position={position} />
-      <SignalBoxSuggestion position={position} />
+      <SignalBoxTitle position={p} />
+      <SignalBoxTpSl position={p} />
+      <SignalBoxSuggestion position={p} />
     </div>
   );
 };

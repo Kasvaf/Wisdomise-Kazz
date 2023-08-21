@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import * as numerable from 'numerable';
 import { useCallback, useRef, useState } from 'react';
 import { notification } from 'antd';
@@ -62,7 +63,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
   const minWithdrawable = +(network?.binance_info?.withdrawMin ?? 0);
   const available = mea?.quote_equity ? roundDown(mea.quote_equity) : 0;
-  const fee = +network?.binance_info?.withdrawFee;
+  const fee = +(network?.binance_info?.withdrawFee ?? 0);
 
   // ----------------------------------------------------
 

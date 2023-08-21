@@ -60,7 +60,7 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           variant="link"
           onClick={() => {
             closeDropdown();
-            openDeposit({});
+            void openDeposit({});
           }}
           className="!p-0"
         >
@@ -75,7 +75,7 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           variant="link"
           onClick={() => {
             closeDropdown();
-            openWithdraw({});
+            void openWithdraw({});
           }}
           className="!p-0"
         >

@@ -21,9 +21,10 @@ const useCryptoNetworkSelector = ({
   // ----------------------------------------------------
 
   const [network, setNetwork] = useState<Network>({
+    key: '',
     name: 'loading',
     description: '',
-  } as Network);
+  });
   const networks = useMarketNetworksQuery({
     usage,
     symbol: mea?.quote.name,

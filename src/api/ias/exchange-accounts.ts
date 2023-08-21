@@ -11,17 +11,19 @@ export const useDepositWalletAddressQuery = ({
   network?: string;
 }) => {
   const ias = useInvestorAssetStructuresQuery();
-  const eak = ias?.data?.[0]?.main_exchange_account?.key;
+  const meaKey = ias?.data?.[0]?.main_exchange_account?.key;
   return useQuery<DepositAddress>(
     ['dwa', symbol, network],
     async () => {
+      if (!meaKey || !symbol || !network) throw new Error('unexpected');
+
       const { data } = await axios.get<DepositAddress>(
-        `/ias/exchange-accounts/${eak}/deposit-addresses?symbol_name=${symbol}&network_name=${network}`,
+        `/ias/exchange-accounts/${meaKey}/deposit-addresses?symbol_name=${symbol}&network_name=${network}`,
       );
       return data;
     },
     {
-      enabled: Boolean(eak && symbol && network),
+      enabled: Boolean(meaKey && symbol && network),
     },
   );
 };

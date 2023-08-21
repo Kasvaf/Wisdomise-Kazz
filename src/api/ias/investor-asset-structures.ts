@@ -36,19 +36,20 @@ export const useInvestorAssetStructuresQuery = () =>
 
 export const useAccountHistoricalStatisticQuery = () => {
   const ias = useInvestorAssetStructuresQuery();
-  const fpi = ias?.data?.[0]?.financial_product_instances[0];
   const iasKey = ias?.data?.[0]?.key;
 
   return useQuery<InvestorAssetStructures>(
     ['ahs'],
     async () => {
+      if (!iasKey) throw new Error('unexpected');
+
       const { data } = await axios.get<InvestorAssetStructures>(
         `/ias/investor-asset-structures/${iasKey}/historical-statistics?resolution=1d`,
       );
       return data;
     },
     {
-      enabled: Boolean(iasKey && fpi),
+      enabled: Boolean(iasKey),
     },
   );
 };

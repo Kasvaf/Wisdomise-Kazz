@@ -1,10 +1,7 @@
 import type React from 'react';
 import { useCallback, useState } from 'react';
-import Logo from '@images/wisdomiseWealthLogo.svg';
 import { useAgreeToTermsMutation } from 'api';
-import { logout } from 'utils/auth';
-import bgMobile from '../ConfirmSignUp/bg-mobile.png';
-import bgDesktop from '../ConfirmSignUp/bg.png';
+import AuthPageContainer from '../AuthPageContainer';
 import useModalContract from './useModalContract';
 import CheckBox from './CheckBox';
 import InputBox from './InputBox';
@@ -55,13 +52,14 @@ export const SecondaryForm: React.FC = () => {
       type,
       title,
       Modal,
-      onClick: async () => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      onClick: useCallback(async () => {
         if (contracts[type]) {
           setContracts(x => ({ ...x, [type]: false }));
         } else if (await openModal()) {
           setContracts(x => ({ ...x, [type]: true }));
         }
-      },
+      }, [type, openModal]),
     };
   });
 
@@ -92,92 +90,63 @@ export const SecondaryForm: React.FC = () => {
   }, [nickname, contracts, referralCode, agreeToTerms]);
 
   return (
-    <div
-      style={
-        {
-          '--bg-mobile': `url('${bgMobile}')`,
-          '--bg-desktop': `url('${bgDesktop}')`,
-        } as React.CSSProperties
-      }
-      className="min-h-screen w-full bg-[image:var(--bg-mobile)] bg-cover bg-no-repeat text-white md:bg-[image:var(--bg-desktop)]"
-    >
-      <div className="m-auto flex min-h-screen max-w-[1300px] flex-col justify-between">
-        <div>
-          <header className="mb-10 mt-8 flex items-center justify-between px-8">
-            <div className="w-44">
-              <img src={Logo} alt="wisdomise_wealth_logo" />
-            </div>
+    <AuthPageContainer>
+      <main className="mb-20 flex flex-col items-center justify-center">
+        <div className="flex flex-col items-start mobile:px-4">
+          <p className="mb-10 text-3xl md:text-4xl">
+            Welcome to <br />
+            <b>Wisdomise Wealth</b>
+          </p>
+          <InputBox
+            error={errors && !nickname && "Nickname can't be empty"}
+            label="Nickname"
+            placeholder="Your nickname"
+            onChange={setNickname}
+          />
+          <InputBox
+            error={errors && referralCode == null && 'Referrer not found'}
+            label={
+              <span>
+                Invitation code{' '}
+                <span className="text-xs text-[#FFFFFF80]">(Optional)</span>
+              </span>
+            }
+            placeholder="Invitation code"
+            onChange={setReferralCode}
+          />
 
-            <button
-              onClick={logout}
-              className="rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-xs md:px-8 md:py-3"
-            >
-              Log Out
-            </button>
-          </header>
+          {contractsDefs.map(({ type, title, onClick }) => (
+            <CheckBox
+              id={type}
+              key={type}
+              error={
+                errors &&
+                !contracts[type] &&
+                `You should accept the ${title} in order to continue.`
+              }
+              checked={contracts[type]}
+              onClick={onClick}
+              label={
+                <span>
+                  You are acknowledging the{' '}
+                  <span className="text-[#13DEF2]">{title}</span>.
+                </span>
+              }
+            />
+          ))}
 
-          <main className="mb-20 flex flex-col items-center justify-center">
-            <div className="flex flex-col items-start mobile:px-4">
-              <p className="mb-10 text-3xl md:text-4xl">
-                Welcome to <br />
-                <b>Wisdomise Wealth</b>
-              </p>
-              <InputBox
-                error={errors && !nickname && "Nickname can't be empty"}
-                label="Nickname"
-                placeholder="Your nickname"
-                onChange={setNickname}
-              />
-              <InputBox
-                error={errors && referralCode == null && 'Referrer not found'}
-                label={
-                  <span>
-                    Invitation code{' '}
-                    <span className="text-xs text-[#FFFFFF80]">(Optional)</span>
-                  </span>
-                }
-                placeholder="Invitation code"
-                onChange={setReferralCode}
-              />
-
-              {contractsDefs.map(({ type, title, onClick }) => (
-                <CheckBox
-                  id={type}
-                  key={type}
-                  error={
-                    errors &&
-                    !contracts[type] &&
-                    `You should accept the ${title} in order to continue.`
-                  }
-                  checked={contracts[type]}
-                  onClick={onClick}
-                  label={
-                    <span>
-                      You are acknowledging the{' '}
-                      <span className="text-[#13DEF2]">{title}</span>.
-                    </span>
-                  }
-                />
-              ))}
-
-              <button
-                onClick={onSubmit}
-                className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
-              >
-                Submit{agreeToTerms.isLoading ? 'ing ...' : ''}
-              </button>
-            </div>
-          </main>
+          <button
+            onClick={onSubmit}
+            className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
+          >
+            Submit{agreeToTerms.isLoading ? 'ing ...' : ''}
+          </button>
         </div>
+      </main>
 
-        {contractsDefs.map(({ type, Modal }) => (
-          <Modal key={type} />
-        ))}
-
-        <footer className="pb-4 text-center text-xs text-[#ffffffcc] ">
-          Version Alpha 1.0.0 © 2023 Wisdomise. All rights reserved
-        </footer>
-      </div>
-    </div>
+      {contractsDefs.map(({ type, Modal }) => (
+        <Modal key={type} />
+      ))}
+    </AuthPageContainer>
   );
 };

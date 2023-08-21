@@ -6,6 +6,7 @@ const AskAthena: React.FC<{ className?: string }> = ({ className }) => {
     <a
       href="https://athena.wisdomise.io"
       target="_blank"
+      rel="noreferrer"
       className={clsx(
         'flex h-16 cursor-pointer items-center justify-between rounded-3xl bg-white/5 px-8 py-3 text-xl text-white/20 mobile:p-2 mobile:pl-8 mobile:text-sm',
         className,

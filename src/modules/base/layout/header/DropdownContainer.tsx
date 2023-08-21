@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import type React from 'react';
 import { forwardRef } from 'react';
 
@@ -13,7 +14,10 @@ export const DropdownContainer: React.FC<Props> = forwardRef<
   return (
     <div
       ref={ref}
-      className={`mt-1 flex flex-col rounded-3xl bg-[#272A32] p-2 backdrop-blur-lg ${className} font-poppins`}
+      className={clsx(
+        'mt-1 flex flex-col rounded-3xl bg-[#272A32] p-2 font-poppins backdrop-blur-lg',
+        className,
+      )}
     >
       {children}
     </div>

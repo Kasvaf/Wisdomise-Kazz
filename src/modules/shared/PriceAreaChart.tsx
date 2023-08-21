@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const PriceAreaChart: React.FC<Props> = ({ data }) => {
-  const configs = useMemo(() => {
+  const configs = useMemo<AreaConfig>(() => {
     const trend = data.at(-1)?.y - data.at(0)?.y > 0 ? 'up' : 'down';
     const min = Math.min(...data.map(r => r.y));
 
@@ -45,7 +45,7 @@ export const PriceAreaChart: React.FC<Props> = ({ data }) => {
               : 'l(270) 0:#1f242db2 1:#4FBF674D',
         };
       },
-    } as AreaConfig;
+    };
   }, [data]);
 
   return <Area {...configs} />;
