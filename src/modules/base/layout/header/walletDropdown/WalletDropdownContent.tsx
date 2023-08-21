@@ -20,7 +20,9 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
   const [WithdrawMod, openWithdraw] = useModal(WithdrawModal);
 
   const totalBalance = ias.data?.[0]?.total_equity || 0;
-  const withdrawable = ias.data?.[0]?.main_exchange_account.quote_equity || 0;
+  const mea = ias.data?.[0]?.main_exchange_account;
+  const withdrawable = mea?.quote_equity || 0;
+  const mainQuote = mea?.quote.name;
 
   const onDepositHandler = useCallback(() => {
     void openDeposit({});
@@ -32,6 +34,8 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
     closeDropdown();
   }, [closeDropdown, openWithdraw]);
 
+  if (ias.isLoading || !mainQuote) return <></>;
+
   return (
     <>
       <div className="flex justify-around gap-2 rounded-lg bg-white/5 p-4 mobile:bg-black/5">
@@ -41,7 +45,9 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           </p>
           <p className="text-white mobile:text-black">
             {roundDown(totalBalance)}{' '}
-            <span className="text-white/80 mobile:text-black/80">BUSD</span>
+            <span className="text-white/80 mobile:text-black/80">
+              {mainQuote}
+            </span>
           </p>
         </div>
         <div className="border-l border-white/10" />
@@ -51,7 +57,9 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
           </p>
           <p className="text-white mobile:text-black">
             {roundDown(withdrawable)}{' '}
-            <span className="text-white/80 mobile:text-black/80">BUSD</span>
+            <span className="text-white/80 mobile:text-black/80">
+              {mainQuote}
+            </span>
           </p>
         </div>
       </div>
@@ -63,7 +71,7 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
             <span className="text-white mobile:text-black">
               {roundDown(totalBalance - withdrawable)}
             </span>{' '}
-            BUSD Of Your Equity
+            {mainQuote} Of Your Equity
           </p>
         )}
       <div className="mt-6 flex justify-around text-xs">

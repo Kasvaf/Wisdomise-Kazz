@@ -15,6 +15,7 @@ const ProductCatalogDetail = () => {
 
   const fp = useFinancialProductQuery(fpKey);
   const backtest = useFPBacktestQuery(fpKey);
+  const fpQuote = fp.data?.sp_bindings?.[0]?.strategy_product?.quote?.name;
 
   const rrr = fp.data?.profile.return_risk_ratio;
 
@@ -95,7 +96,7 @@ const ProductCatalogDetail = () => {
                 <br />
                 <span className="font-medium">
                   {fp.data?.min_deposit}{' '}
-                  <span className="text-white/80">BUSD</span>
+                  <span className="text-white/80">{fpQuote}</span>
                 </span>
               </p>
               <div className="h-[20px] w-[1px] rotate-12 border-l border-white/20" />
@@ -104,7 +105,7 @@ const ProductCatalogDetail = () => {
                 <br />
                 <span className="font-medium">
                   {fp.data?.max_deposit}{' '}
-                  <span className="text-white/80">BUSD</span>
+                  <span className="text-white/80">{fpQuote}</span>
                 </span>
               </p>
             </div>
