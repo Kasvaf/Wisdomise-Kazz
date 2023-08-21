@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { type DepositAddress } from '../types/DepositAddress';
 import { useInvestorAssetStructuresQuery } from './investor-asset-structures';
 

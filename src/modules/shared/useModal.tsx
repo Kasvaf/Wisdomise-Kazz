@@ -2,7 +2,7 @@ import type React from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Modal, type ModalProps } from 'antd';
 
-const noop = (val: unknown) => {
+const noop = (_val: unknown) => {
   //
 };
 
@@ -28,7 +28,7 @@ function useModal<T extends Record<string, any>>(
         <ModalContent {...props.current} onResolve={resolveHandler.current} />
       </Modal>
     );
-  }, [ModalContent, open, closeHandler]);
+  }, [ModalContent, open, closeHandler, config]);
 
   const update = useCallback((p: T) => {
     props.current = p;

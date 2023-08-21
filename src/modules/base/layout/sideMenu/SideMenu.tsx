@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as AssetOverviewIcon } from './icons/assetOverview.svg';
-import { ReactComponent as DashboardIcon } from './icons/dashboard.svg';
 import { ReactComponent as ProductsCatalogIcon } from './icons/productsCatalog.svg';
 import { ReactComponent as SignalsIcon } from './icons/signals.svg';
 import Logo from './icons/logo.svg';

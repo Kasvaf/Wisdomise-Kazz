@@ -45,7 +45,13 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  plugins: ['import', 'react', 'react-hooks', '@typescript-eslint'],
+  plugins: [
+    'import',
+    'react',
+    'react-hooks',
+    '@typescript-eslint',
+    'unused-imports',
+  ],
   rules: {
     // 'complexity': ['error', 11],
 
@@ -83,7 +89,10 @@ module.exports = {
     'import/no-named-as-default-member': 'error',
     'import/no-deprecated': 'error',
     'import/no-mutable-exports': 'error',
-    'import/no-unused-modules': 'error',
+    'import/no-unused-modules': [
+      'error',
+      // { unusedExports: true, missingExports: true },
+    ],
     'import/first': 'error',
     'import/no-duplicates': 'error',
     'import/no-named-default': 'error',
@@ -123,6 +132,19 @@ module.exports = {
           'index',
           'object',
         ],
+      },
+    ],
+
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'error',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
       },
     ],
   },

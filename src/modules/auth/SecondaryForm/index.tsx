@@ -140,7 +140,7 @@ export const SecondaryForm: React.FC = () => {
                 onChange={setReferralCode}
               />
 
-              {contractsDefs.map(({ type, title, Modal, onClick }) => (
+              {contractsDefs.map(({ type, title, onClick }) => (
                 <CheckBox
                   id={type}
                   key={type}
