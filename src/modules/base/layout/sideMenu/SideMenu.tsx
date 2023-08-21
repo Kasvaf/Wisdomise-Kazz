@@ -18,7 +18,7 @@ export const SideMenu = () => {
             className="mb-4 flex cursor-pointer items-center justify-start rounded-full p-4 text-sm hover:bg-[#FFFFFF0D] [&.active]:bg-[#FFFFFF1A]"
           >
             <span className="text-white">{i.icon}</span>
-            <p className="leading-0 ml-2 text-white">{i.text}</p>
+            <p className="ml-2 text-white">{i.text}</p>
           </NavLink>
         ))}
       </div>

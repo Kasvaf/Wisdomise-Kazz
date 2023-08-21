@@ -5,7 +5,7 @@ import AskAthena from 'modules/athena/AskAthena';
 import { ActiveFinancialProducts } from './ActiveFinancialProducts';
 import { ReactComponent as PlusIcon } from './icons/plus.svg';
 import BoxIntro from './BoxIntro';
-import InfoCards from './InfoCards';
+import Portfolio from './Portfolio';
 
 const AssetOverview = () => {
   const ias = useInvestorAssetStructuresQuery();
@@ -35,7 +35,7 @@ const AssetOverview = () => {
               AI after running over 300 million unique experiments
             </p>
           </div>
-          <InfoCards className="mb-10" />
+          <Portfolio className="mb-10" />
         </>
       )}
 

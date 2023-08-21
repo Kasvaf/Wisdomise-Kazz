@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import * as numerable from 'numerable';
 import { useIsMobile } from 'utils/useIsMobile';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
+import useMainQuote from '../useMainQuote';
 import FpiStatusBadge from './FpiStatusBadge';
 
 const VerticalLine = () => (
@@ -17,6 +18,7 @@ const FpiColumns = ({
   detailsOpen: boolean;
 }) => {
   const isMobile = useIsMobile();
+  const mainQuote = useMainQuote();
   return (
     <main
       className={clsx(
@@ -40,7 +42,9 @@ const FpiColumns = ({
           {numerable.format(fpi.total_equity, '0,0.00', {
             rounding: 'floor',
           })}
-          <span className="ml-2 text-xs font-normal text-white/40">BUSD</span>
+          <span className="ml-2 text-xs font-normal text-white/40">
+            {mainQuote}
+          </span>
         </p>
       </div>
 
@@ -62,7 +66,9 @@ const FpiColumns = ({
           <span>
             {numerable.format(fpi.pnl, '0,0.00', { rounding: 'floor' })}
           </span>
-          <span className="ml-2 text-xs font-normal text-white/40">BUSD</span>
+          <span className="ml-2 text-xs font-normal text-white/40">
+            {mainQuote}
+          </span>
         </p>
       </div>
 

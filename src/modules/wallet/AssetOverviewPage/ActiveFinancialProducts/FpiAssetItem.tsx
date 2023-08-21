@@ -1,12 +1,13 @@
 import * as numerable from 'numerable';
 import React from 'react';
 import { useIsMobile } from 'utils/useIsMobile';
-
 import { type AssetBinding } from 'api/types/investorAssetStructure';
-import { CoinsIcons } from 'modules/shared/CoinsIcons';
+import { CoinsIcons } from 'shared/CoinsIcons';
+import useMainQuote from '../useMainQuote';
 
 const FpiAssetItem = ({ asset: a }: { asset: AssetBinding }) => {
   const isMobile = useIsMobile();
+  const mainQuote = useMainQuote();
 
   return (
     <React.Fragment key={a.name}>
@@ -23,7 +24,7 @@ const FpiAssetItem = ({ asset: a }: { asset: AssetBinding }) => {
           {numerable.format(a.equity, '0,0.00', {
             rounding: 'floor',
           })}{' '}
-          <span className="">BUSD</span>
+          <span className="">{mainQuote}</span>
         </p>
       </div>
 

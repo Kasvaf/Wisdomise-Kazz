@@ -147,5 +147,7 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+
+    'tailwindcss/no-custom-classname': 'error',
   },
 };
