@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
-import useModal from 'modules/shared/useModal';
+import useModal from 'shared/useModal';
 
 interface IProps {
   title: string;

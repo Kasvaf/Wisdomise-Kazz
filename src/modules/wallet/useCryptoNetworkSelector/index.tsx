@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useInvestorAssetStructuresQuery, useMarketNetworksQuery } from 'api';
 import { type Network } from 'api/types/NetworksResponse';
+import useMainQuote from 'shared/useMainQuote';
 import CryptoSelector from './CryptoSelector';
 import NetworkSelector from './NetworkSelector';
 
@@ -11,12 +12,8 @@ const useCryptoNetworkSelector = ({
 }) => {
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
-
-  const [crypto, setCrypto] = useState({ name: 'loading' });
-  useEffect(() => {
-    const quote = mea?.quote;
-    if (quote) setCrypto(quote);
-  }, [mea]);
+  const mainQuote = useMainQuote();
+  const crypto = { name: mainQuote };
 
   // ----------------------------------------------------
 
@@ -27,7 +24,7 @@ const useCryptoNetworkSelector = ({
   });
   const networks = useMarketNetworksQuery({
     usage,
-    symbol: mea?.quote.name,
+    symbol: crypto.name,
     exchangeAccountKey: mea?.key,
   });
   useEffect(() => {
@@ -40,11 +37,7 @@ const useCryptoNetworkSelector = ({
     <div className="mb-9 flex justify-stretch mobile:flex-col">
       <div className="basis-1/2 mobile:mb-6">
         <div className="mb-1 ml-3">Cryptocurrency</div>
-        <CryptoSelector
-          cryptos={[crypto]}
-          selectedItem={crypto}
-          onSelect={setCrypto}
-        />
+        <CryptoSelector cryptos={[crypto]} selectedItem={crypto} />
       </div>
 
       <div className="w-8 mobile:hidden" />

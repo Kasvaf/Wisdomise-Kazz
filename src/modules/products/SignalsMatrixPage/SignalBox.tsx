@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import type React from 'react';
-import { PriceChange } from 'modules/shared/PriceChange';
 import { type LastPosition } from 'api/types/signalResponse';
+import { PriceChange } from 'shared/PriceChange';
 
 interface Props {
   position: LastPosition;

@@ -1,4 +1,4 @@
-import useConfirm from 'modules/shared/useConfirm';
+import useConfirm from 'shared/useConfirm';
 import WithdrawInfo, { type WithdrawInfoProps } from './WithdrawInfo';
 
 const useWithdrawalConfirm = (withdrawInfo: WithdrawInfoProps) =>

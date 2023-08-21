@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { Button } from 'shared/Button';
-import useModal from 'modules/shared/useModal';
+import useModal from 'shared/useModal';
 import DepositModal from '../DepositModal';
 import TradeSrc from './trade.svg';
 

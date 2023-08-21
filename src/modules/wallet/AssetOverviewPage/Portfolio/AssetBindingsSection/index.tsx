@@ -4,14 +4,15 @@ import { type ComputedDatum, ResponsivePie } from '@nivo/pie';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type AssetBinding } from 'api/types/investorAssetStructure';
 import { useIsMobile } from 'utils/useIsMobile';
+import useMainQuote from 'shared/useMainQuote';
 import { CoinsIcons, coinsIcons } from 'shared/CoinsIcons';
 import { AssetBindingsSectionTable } from './AssetBindingsSectionTable';
 
 const emptyFn = () => <></>;
 export const AssetBindingsSection = () => {
   const isMobile = useIsMobile();
+  const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
-  const mainQuote = ias.data?.[0]?.main_exchange_account.quote.name;
   const [currentHoverCoin, setCurrentHoverCoin] =
     useState<AssetBinding | null>();
 

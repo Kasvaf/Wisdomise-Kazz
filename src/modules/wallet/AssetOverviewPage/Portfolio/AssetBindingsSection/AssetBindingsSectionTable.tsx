@@ -1,11 +1,11 @@
 import type React from 'react';
 import { useMemo } from 'react';
 import { styled } from '@linaria/react';
+import * as numerable from 'numerable';
 import { Table } from 'antd';
 import { type ColumnType } from 'antd/es/table';
-import * as numerable from 'numerable';
-import { CoinsIcons } from 'modules/shared/CoinsIcons';
 import { useInvestorAssetStructuresQuery } from 'api';
+import { CoinsIcons } from 'shared/CoinsIcons';
 
 export const AssetBindingsSectionTable = () => {
   const ias = useInvestorAssetStructuresQuery();

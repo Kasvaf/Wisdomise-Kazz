@@ -1,10 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { ReactComponent as Attention } from '@images/attention.svg';
-import { CoinsIcons } from 'shared/CoinsIcons';
-import { PageWrapper } from 'modules/base/PageWrapper';
-import { PriceChange } from 'shared/PriceChange';
-import LineChart from 'shared/LineChart';
 import { useFinancialProductQuery, useFPBacktestQuery } from 'api';
+import useMainQuote from 'shared/useMainQuote';
+import LineChart from 'shared/LineChart';
+import { CoinsIcons } from 'shared/CoinsIcons';
+import { PriceChange } from 'shared/PriceChange';
+import { PageWrapper } from 'modules/base/PageWrapper';
 import { FPActivateButton } from './ProductsCatalogPage/FPActivateButton';
 import { ColorByRisk } from './constants';
 
@@ -15,7 +16,7 @@ const ProductCatalogDetail = () => {
 
   const fp = useFinancialProductQuery(fpKey);
   const backtest = useFPBacktestQuery(fpKey);
-  const fpQuote = fp.data?.sp_bindings?.[0]?.strategy_product?.quote?.name;
+  const mainQuote = useMainQuote();
 
   const rrr = fp.data?.profile.return_risk_ratio;
 
@@ -96,7 +97,7 @@ const ProductCatalogDetail = () => {
                 <br />
                 <span className="font-medium">
                   {fp.data?.min_deposit}{' '}
-                  <span className="text-white/80">{fpQuote}</span>
+                  <span className="text-white/80">{mainQuote}</span>
                 </span>
               </p>
               <div className="h-[20px] w-[1px] rotate-12 border-l border-white/20" />
@@ -105,7 +106,7 @@ const ProductCatalogDetail = () => {
                 <br />
                 <span className="font-medium">
                   {fp.data?.max_deposit}{' '}
-                  <span className="text-white/80">{fpQuote}</span>
+                  <span className="text-white/80">{mainQuote}</span>
                 </span>
               </p>
             </div>

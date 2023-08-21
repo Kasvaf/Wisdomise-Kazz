@@ -1,5 +1,5 @@
 import { type Network } from 'api/types/NetworksResponse';
-import useConfirm from 'modules/shared/useConfirm';
+import useConfirm from 'shared/useConfirm';
 
 const useNetworkConfirm = (net: Network) =>
   useConfirm({

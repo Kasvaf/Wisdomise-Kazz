@@ -1,9 +1,9 @@
 import React from 'react';
 import { styled } from '@linaria/react';
-import { CoinsIcons } from 'modules/shared/CoinsIcons';
+import { CoinsIcons } from 'shared/CoinsIcons';
+import { PriceChange } from 'shared/PriceChange';
+import { PriceAreaChart } from 'shared/PriceAreaChart';
 import { PageWrapper } from 'modules/base/PageWrapper';
-import { PriceChange } from 'modules/shared/PriceChange';
-import { PriceAreaChart } from 'modules/shared/PriceAreaChart';
 import { useSignalsQuery } from 'api';
 import { SignalBox } from './SignalBox';
 

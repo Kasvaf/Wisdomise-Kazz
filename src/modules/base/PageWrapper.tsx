@@ -1,5 +1,5 @@
 import type React from 'react';
-import Spinner from 'modules/shared/Spinner';
+import Spinner from 'shared/Spinner';
 
 interface Props {
   loading?: boolean;

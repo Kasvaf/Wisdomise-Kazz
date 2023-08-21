@@ -1,7 +1,7 @@
 import { Popover } from 'antd';
 import { useCallback, useState } from 'react';
 import { type FpiStatusMutationType } from 'api';
-import { Button } from 'modules/shared/Button';
+import { Button } from 'shared/Button';
 
 interface Props {
   type: FpiStatusMutationType;

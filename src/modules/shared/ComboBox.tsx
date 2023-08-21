@@ -8,7 +8,7 @@ interface Props {
   options: any[];
   selectedItem: any;
   renderItem: (item: any) => React.ReactElement;
-  onSelect: (item: any) => void;
+  onSelect?: (item: any) => void;
   disabled?: boolean;
 }
 
@@ -44,7 +44,7 @@ const ComboBox: React.FC<Props> = ({
   const selectItemHandler = useCallback(
     (item: any) => {
       setOpen(false);
-      onSelect(item);
+      onSelect?.(item);
     },
     [onSelect],
   );

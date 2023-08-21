@@ -1,10 +1,11 @@
 import { clsx } from 'clsx';
 import { type FunctionComponent } from 'react';
+import { useInvestorAssetStructuresQuery } from 'api';
+import { type FinancialProduct } from 'api/types/financialProduct';
+import useMainQuote from 'shared/useMainQuote';
 import { Button } from 'shared/Button';
 import { CoinsIcons } from 'shared/CoinsIcons';
 import { PriceChange } from 'shared/PriceChange';
-import { useInvestorAssetStructuresQuery } from 'api';
-import { type FinancialProduct } from 'api/types/financialProduct';
 import { ColorByRisk } from '../constants';
 import { FPActivateButton } from './FPActivateButton';
 import { isFPRunning } from './utils';
@@ -21,7 +22,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
   const ias = useInvestorAssetStructuresQuery();
   const isRunning = isFPRunning(ias.data, fp.key);
   const rrr = fp.profile.return_risk_ratio;
-  const fpQuote = fp.sp_bindings?.[0]?.strategy_product?.quote?.name;
+  const mainQuote = useMainQuote();
 
   return (
     <div
@@ -77,7 +78,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
               <br />
               <span className="font-medium">
                 {fp.min_deposit}{' '}
-                <span className="text-white/80">{fpQuote}</span>
+                <span className="text-white/80">{mainQuote}</span>
               </span>
             </p>
             <div className="h-[20px] w-[1px] rotate-12 border-l border-white/20" />
@@ -86,7 +87,7 @@ export const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
               <br />
               <span className="font-medium">
                 {fp.max_deposit}{' '}
-                <span className="text-white/80">{fpQuote}</span>
+                <span className="text-white/80">{mainQuote}</span>
               </span>
             </p>
           </div>

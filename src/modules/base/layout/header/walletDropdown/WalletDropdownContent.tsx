@@ -4,6 +4,7 @@ import { Button } from 'shared/Button';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { roundDown } from 'utils/numbers';
 import useModal from 'shared/useModal';
+import useMainQuote from 'shared/useMainQuote';
 import DepositModal from 'modules/wallet/DepositModal';
 import WithdrawModal from 'modules/wallet/WithdrawModal';
 import { ReactComponent as DepositIcon } from './deposit.svg';
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
+  const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
 
   const [DepositMod, openDeposit] = useModal(DepositModal);
@@ -22,7 +24,6 @@ export const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
   const totalBalance = ias.data?.[0]?.total_equity || 0;
   const mea = ias.data?.[0]?.main_exchange_account;
   const withdrawable = mea?.quote_equity || 0;
-  const mainQuote = mea?.quote.name;
 
   const onDepositHandler = useCallback(() => {
     void openDeposit({});

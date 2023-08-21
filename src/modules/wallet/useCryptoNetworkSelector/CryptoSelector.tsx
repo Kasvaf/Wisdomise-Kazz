@@ -17,7 +17,7 @@ const CryptoOptionItem = (item: Quote) => {
 interface Props {
   cryptos?: Quote[];
   selectedItem: Quote;
-  onSelect: (net: Quote) => void;
+  onSelect?: (net: Quote) => void;
   disabled?: boolean;
 }
 
