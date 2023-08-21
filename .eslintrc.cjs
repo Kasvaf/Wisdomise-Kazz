@@ -13,7 +13,16 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  plugins: [
+    'import',
+    'react',
+    'react-hooks',
+    '@typescript-eslint',
+    'unused-imports',
+    'eslint-plugin-unicorn',
+  ],
   extends: [
+    'plugin:unicorn/recommended',
     'standard-with-typescript',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
@@ -45,17 +54,20 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  plugins: [
-    'import',
-    'react',
-    'react-hooks',
-    '@typescript-eslint',
-    'unused-imports',
-  ],
   rules: {
     // 'complexity': ['error', 11],
 
     'quotes': ['error', 'single', { avoidEscape: true }],
+
+    'unicorn/prevent-abbreviations': 'off',
+    'unicorn/no-null': 'off',
+    'unicorn/filename-case': 'off',
+    'unicorn/prefer-math-trunc': 'off',
+    'unicorn/prefer-string-slice': 'off',
+    'unicorn/no-await-expression-member': 'off',
+    'unicorn/consistent-function-scoping': 'off',
+    'unicorn/no-useless-undefined': ['error', { checkArguments: false }],
+
     // 'quote-props': ['error', 'consistent-as-needed'],
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',

@@ -86,10 +86,10 @@ const Signals: React.FC = () => {
                     key={strategy.name}
                     className="min-h-[149px] min-w-[170px] p-2"
                   >
-                    {position != null ? (
-                      <SignalBox position={position} />
-                    ) : (
+                    {position == null ? (
                       <EmptySignal />
+                    ) : (
+                      <SignalBox position={position} />
                     )}
                   </div>
                 );

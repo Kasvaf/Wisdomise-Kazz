@@ -2,12 +2,13 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 import { convertDate } from 'utils/dates';
+import { type BackTestBenchmark } from './ias/backtest';
 
 export const useFPBacktestQuery = (fpKey: string) =>
   useQuery(['fp', fpKey, 'backtest'], async () => {
-    const { data } = await axios.get(
+    const { data } = await axios.get<BackTestBenchmark>(
       `https://${
-        !isProduction ? 'stage-' : ''
+        isProduction ? '' : 'stage-'
       }strategy.wisdomise.io/api/v1/financial-products/${fpKey}/backtest`,
       {
         params: {

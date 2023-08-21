@@ -26,7 +26,7 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
       : coins.split('#').map(c => c.split('_')[1]?.toUpperCase());
 
     return [
-      Array.from(new Set(coinsArray.filter(c => c in coinsIcons))).filter(
+      [...new Set(coinsArray.filter(c => c in coinsIcons))].filter(
         (_, i) => i < (maxShow || Number.POSITIVE_INFINITY),
       ),
       coinsArray.length > (maxShow || Number.POSITIVE_INFINITY),

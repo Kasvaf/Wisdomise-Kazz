@@ -33,7 +33,7 @@ const InfoLabel = ({
     <div className="mb-2 flex justify-between rounded-full bg-black/10 px-4 py-2 text-xs">
       <div>{label}</div>
       <div>
-        {value == null || isNaN(value)
+        {value == null || Number.isNaN(value)
           ? ''
           : numerable.format(value, '0,0.00', {
               rounding: 'floor',
@@ -46,7 +46,7 @@ const InfoLabel = ({
 
 const toAmount = (v: string) =>
   v
-    .replace(/[^\d.]+/g, '')
+    .replaceAll(/[^\d.]+/g, '')
     .replace(/^(0+)/, '')
     .replace(/^\./, '0.')
     .replace(/^(\d+(\.\d*))\..*$/, '$1');
@@ -74,22 +74,26 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     !network.binance_info?.addressRegex ||
     wallet.match(network.binance_info.addressRegex);
   const amountValid =
-    parseFloat(amount) >= minWithdrawable && parseFloat(amount) <= available;
+    Number.parseFloat(amount) >= minWithdrawable &&
+    Number.parseFloat(amount) <= available;
 
   const autoAmountHandler = useCallback(
     (opt: string) => {
       switch (opt) {
-        case 'Min':
+        case 'Min': {
           setAmount(String(minWithdrawable));
           break;
-        case '50%':
+        }
+        case '50%': {
           setAmount(
             String(Math.max(Math.floor(available / 2), minWithdrawable)),
           );
           break;
-        case 'Max':
+        }
+        case 'Max': {
           setAmount(String(Math.max(available, minWithdrawable)));
           break;
+        }
       }
     },
     [available, minWithdrawable],
@@ -98,7 +102,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const withdrawInfo = {
     crypto,
     network,
-    amount: parseFloat(amount),
+    amount: Number.parseFloat(amount),
     wallet,
     fee,
     source: mea?.exchange_market.market.name || '',
@@ -111,7 +115,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const createWithdraw = useCreateWithdrawMutation();
   const doCreateWithdraw = useCallback(async () => {
     const exchangeAccountKey = ias.data?.[0]?.main_exchange_account.key;
-    if (!exchangeAccountKey) throw new Error('');
+    if (!exchangeAccountKey) throw new Error('unexpected');
     return await createWithdraw({
       tx_type: 'WITHDRAW',
       symbol_name: crypto.name,
@@ -131,7 +135,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     onConfirm: useCallback(
       async (code: string) => {
         if (!exchangeAccountKey || !transactionKey.current) {
-          throw new Error('');
+          throw new Error('unexpected');
         }
 
         await confirmWithdraw({
@@ -163,13 +167,13 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           try {
             transactionKey.current = (await doCreateWithdraw()).key;
             return true;
-          } catch (e) {
-            const msg = unwrapErrorMessage(e);
+          } catch (error) {
+            const msg = unwrapErrorMessage(error);
             if (!msg) return false;
 
             notification.error({
               message: 'Error',
-              description: unwrapErrorMessage(e),
+              description: unwrapErrorMessage(error),
             });
 
             // repeat until no-error is raised

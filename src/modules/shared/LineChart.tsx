@@ -1,14 +1,24 @@
 import { type FunctionComponent, useMemo } from 'react';
 import { Line } from '@ant-design/plots';
-import { floatData } from 'utils/numbers';
+import {
+  type BackTestBenchmark,
+  type BackTestDateValue,
+} from 'api/ias/backtest';
 import Spinner from './Spinner';
 
 interface LineChartProps {
   className?: string;
-  chartData: any;
+  chartData?: BackTestBenchmark;
   loading?: boolean;
   title?: string;
 }
+
+const convertBenchmark = (category: string, bench: BackTestDateValue[]) =>
+  bench.map(item => ({
+    category,
+    date: item.d,
+    value: ((item.v - bench[0].v) / bench[0].v) * 100,
+  }));
 
 const LineChart: FunctionComponent<LineChartProps> = ({
   className,
@@ -16,76 +26,23 @@ const LineChart: FunctionComponent<LineChartProps> = ({
   loading,
   title,
 }) => {
-  const convertRowDataToChartData = useMemo(() => {
-    const chartDataArray: any[] = [];
-    chartData?.etf_benchmark.forEach((item: any) => {
-      chartDataArray.push({
-        date: item.d,
-        value: floatData(
-          ((item.v - chartData?.etf_benchmark[0].v) /
-            chartData?.etf_benchmark[0].v) *
-            100,
-        ),
-        category: title,
-      });
-    });
-    chartData?.btc_benchmark.forEach((item: any) => {
-      chartDataArray.push({
-        date: item.d,
-        value: floatData(
-          ((item.v - chartData?.btc_benchmark[0].v) /
-            chartData?.btc_benchmark[0].v) *
-            100,
-        ),
-        category: 'BTC',
-      });
-    });
-
-    chartData?.gold_benchmark.forEach((item: any) => {
-      chartDataArray.push({
-        date: item.d,
-        value: floatData(
-          ((item.v - chartData?.gold_benchmark[0].v) /
-            chartData?.gold_benchmark[0].v) *
-            100,
-        ),
-        category: 'Gold',
-      });
-    });
-    chartData?.sp500_benchmark.forEach((item: any) => {
-      chartDataArray.push({
-        date: item.d,
-        value: floatData(
-          ((item.v - chartData?.sp500_benchmark[0].v) /
-            chartData?.sp500_benchmark[0].v) *
-            100,
-        ),
-        category: 'S&P 500',
-      });
-    });
-
-    return chartDataArray;
+  const convertedChartData = useMemo(() => {
+    if (!chartData) return [];
+    return [
+      ...convertBenchmark(title || '', chartData.etf_benchmark),
+      ...convertBenchmark('BTC', chartData.btc_benchmark),
+      ...convertBenchmark('Gold', chartData.gold_benchmark),
+      ...convertBenchmark('S&P 500', chartData.sp500_benchmark),
+    ];
   }, [chartData, title]);
 
   const [min, max] = useMemo(() => {
-    let min = Number.POSITIVE_INFINITY;
-    let max = Number.NEGATIVE_INFINITY;
-
-    convertRowDataToChartData.forEach(d => {
-      const v = Number.parseFloat(d.value);
-      if (v < min) {
-        min = v;
-      }
-      if (v > max) {
-        max = v;
-      }
-    });
-
-    return [min, max];
-  }, [convertRowDataToChartData]);
+    const values = convertedChartData.map(x => x.value);
+    return [Math.min(...values), Math.max(...values)];
+  }, [convertedChartData]);
 
   const config = {
-    data: convertRowDataToChartData,
+    data: convertedChartData,
     xField: 'date',
     yField: 'value',
     seriesField: 'category',
@@ -96,7 +53,7 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     },
     yAxis: {
       label: {
-        formatter: (v: any) => {
+        formatter: (v: string) => {
           return String(Number.parseInt(v)) + '%';
         },
       },
@@ -108,16 +65,13 @@ const LineChart: FunctionComponent<LineChartProps> = ({
 
     color: ['#13DEF2', '#E26CFF', '#DFB13B', '#7a7a7a'],
   };
-  if (loading)
-    return (
-      <div className="flex w-full justify-center py-20">
-        <Spinner />
-      </div>
-    );
-  return (
-    <>
-      <Line {...config} className={className} />
-    </>
+
+  return loading ? (
+    <div className="flex w-full justify-center py-20">
+      <Spinner />
+    </div>
+  ) : (
+    <Line {...config} className={className} />
   );
 };
 

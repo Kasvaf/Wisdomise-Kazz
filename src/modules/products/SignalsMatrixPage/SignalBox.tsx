@@ -71,9 +71,18 @@ const SignalBoxTpSl: React.FC<Props> = ({ position: p }) => {
   );
 };
 
+const SuggestionLabel = {
+  OPEN: 'Open',
+  OPEN_DELAYED: 'Open',
+  CLOSE: 'Close',
+  CLOSE_DELAYED: 'Close',
+  NO_ACTION: 'No Action',
+};
+
 const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
   const isNoAction = p.suggested_action === 'NO_ACTION';
-  const isOpenOrDelayed = p.suggested_action.includes('OPEN');
+  const isOpenOrDelayed =
+    p.suggested_action === 'OPEN' || p.suggested_action === 'OPEN_DELAYED';
 
   return (
     <div className="flex w-full items-center justify-between p-2">
@@ -100,7 +109,7 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
           p.suggested_action === 'CLOSE_DELAYED' && 'bg-white/5 text-white/20',
         )}
       >
-        {isNoAction ? 'No Action' : isOpenOrDelayed ? 'Open' : 'Close'}
+        {SuggestionLabel[p.suggested_action]}
       </p>
     </div>
   );

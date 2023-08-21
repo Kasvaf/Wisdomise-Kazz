@@ -79,10 +79,10 @@ const SecondaryForm: React.FC = () => {
         referral_code: referralCode || undefined,
       });
       window.location.reload();
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
 
-      const errorKeys = Object.keys((e as any).data.data);
+      const errorKeys = Object.keys((error as any).data.data);
       if (errorKeys.includes('referral_code')) {
         setReferralCode(undefined);
       }

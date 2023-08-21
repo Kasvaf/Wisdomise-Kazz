@@ -14,7 +14,7 @@ const ActiveFinancialProducts: React.FC<{ className?: string }> = ({
         <FinancialProductItem
           fpi={fpi}
           key={fpi.key}
-          className={ind !== fpis.length - 1 ? 'mb-6' : undefined}
+          className={ind < fpis.length - 1 ? 'mb-6' : undefined}
         />
       ))}
     </div>

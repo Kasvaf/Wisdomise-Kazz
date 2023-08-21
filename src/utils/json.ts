@@ -3,5 +3,5 @@ export const tryParse = (str?: string | null) => {
 
   try {
     return JSON.parse(str);
-  } catch (e) {}
+  } catch {}
 };

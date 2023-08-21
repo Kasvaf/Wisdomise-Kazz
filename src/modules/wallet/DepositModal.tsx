@@ -15,7 +15,7 @@ const DepositModal = () => {
 
   const depositAddress = useDepositWalletAddressQuery({
     symbol: crypto.name,
-    network: network.name !== 'loading' ? network.name : undefined,
+    network: network.name === 'loading' ? undefined : network.name,
   });
 
   const copyToClipboard = useCallback(() => {

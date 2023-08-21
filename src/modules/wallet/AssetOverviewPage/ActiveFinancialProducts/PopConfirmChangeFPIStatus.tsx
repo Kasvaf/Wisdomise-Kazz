@@ -23,7 +23,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
       await onConfirm();
       setLoading(false);
       setIsOpen(false);
-    } catch (error) {
+    } catch {
       //
     }
   }, [onConfirm]);

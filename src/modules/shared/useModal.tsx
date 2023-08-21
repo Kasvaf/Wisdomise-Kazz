@@ -2,7 +2,7 @@ import type React from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Modal, type ModalProps } from 'antd';
 
-const noop = (_val: unknown) => {
+const noop = (_val?: unknown) => {
   //
 };
 
@@ -14,7 +14,7 @@ function useModal<T extends Record<string, any>>(
   const resolveHandler = useRef(noop);
   const props = useRef<T | undefined>();
 
-  const closeHandler = useCallback(() => resolveHandler.current(undefined), []);
+  const closeHandler = useCallback(() => resolveHandler.current(), []);
   const Component = useMemo(() => {
     if (!props.current) return <></>;
     return (

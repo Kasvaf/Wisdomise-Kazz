@@ -14,7 +14,7 @@ interface Props {
 }
 
 const toDigits = (v: string) =>
-  String(parseFloat(v.replace(/\D+/g, '')) || '').substring(0, 6);
+  String(Number.parseFloat(v.replaceAll(/\D+/g, '')) || '').substring(0, 6);
 
 const RESEND_TIMEOUT = 30;
 
@@ -31,8 +31,8 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
       setSubmitting(true);
       await onConfirm(code);
       onResolve?.(true);
-    } catch (e) {
-      setError(unwrapErrorMessage(e));
+    } catch (error) {
+      setError(unwrapErrorMessage(error));
     } finally {
       setSubmitting(false);
     }

@@ -12,7 +12,7 @@ export const useFinancialProductsQuery = () =>
       const { data } = await axios.get('/catalog/financial-products');
       return data;
     },
-    { staleTime: Infinity },
+    { staleTime: Number.POSITIVE_INFINITY },
   );
 
 export const useFinancialProductQuery = (fpKey: string) =>
@@ -22,5 +22,5 @@ export const useFinancialProductQuery = (fpKey: string) =>
       const { data } = await axios.get(`/catalog/financial-products/${fpKey}`);
       return data;
     },
-    { staleTime: Infinity },
+    { staleTime: Number.POSITIVE_INFINITY },
   );

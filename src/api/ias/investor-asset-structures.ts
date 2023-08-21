@@ -9,24 +9,24 @@ export const useInvestorAssetStructuresQuery = () =>
       const { data } = await axios.get<InvestorAssetStructures>(
         '/ias/investor-asset-structures',
       );
-      data[0]?.asset_bindings.forEach(ab => {
+      for (const ab of data[0]?.asset_bindings ?? []) {
         ab.name =
           ab.asset.type === 'SYMBOL'
             ? ab.asset.symbol.name
             : ab.asset.pair.base.name;
-      });
-      data[0]?.financial_product_instances.forEach(fpi => {
-        fpi.asset_bindings.forEach(ab => {
+      }
+      for (const fpi of data[0]?.financial_product_instances ?? []) {
+        for (const ab of fpi.asset_bindings) {
           ab.name =
             ab.asset.type === 'SYMBOL'
               ? ab.asset.symbol.name
               : ab.asset.pair.base.name;
-        });
-      });
+        }
+      }
       return data;
     },
     {
-      staleTime: Infinity,
+      staleTime: Number.POSITIVE_INFINITY,
       refetchInterval: (data?: InvestorAssetStructures) =>
         data?.[0] != null && data?.[0].financial_product_instances.length > 0
           ? 3000
