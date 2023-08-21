@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import configApp from 'config/config';
 import queryClient from 'config/reactQuery';
-import AppAuthContainer from 'modules/base/App/AppAuthContainer';
+import AppAuthContainer from 'modules/base/AppAuthContainer';
 
 configApp();
 

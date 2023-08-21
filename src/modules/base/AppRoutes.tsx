@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import PageWrapper from '../PageWrapper';
-import Container from '../layout/Container';
+import PageWrapper from './PageWrapper';
+import Container from './Container';
 
 const SignalsMatrixPage = React.lazy(
   () => import('modules/products/SignalsMatrixPage'),
