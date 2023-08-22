@@ -40,11 +40,13 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
             </span>{' '}
             This Product ?
           </p>
-          <div>
-            Please be aware that by Stopping the Strategy, all your open trades
-            will be sold on &quot;Market&quot; price. The final PnL will be
-            calculated after closing open positions.
-          </div>
+          {type === 'stop' && (
+            <div>
+              Please be aware that by Stopping the Strategy, all your open
+              trades will be sold on &quot;Market&quot; price. The final PnL
+              will be calculated after closing open positions.
+            </div>
+          )}
 
           <section className="mt-6 flex justify-center">
             <Button
