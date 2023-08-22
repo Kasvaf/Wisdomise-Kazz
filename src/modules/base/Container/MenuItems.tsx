@@ -4,23 +4,26 @@ import { ReactComponent as SignalsIcon } from './icons/signals.svg';
 
 const MenuItems = [
   {
+    category: 'Passive Income',
     icon: <AssetOverviewIcon />,
     text: 'Asset Overview',
     mobileText: 'Asset',
     link: 'app/assets',
-    hide: false,
   },
   {
+    category: 'Passive Income',
     icon: <ProductsCatalogIcon />,
     text: 'Products Catalog',
     mobileText: 'Products',
     link: 'app/products-catalog',
   },
   {
+    category: 'Market Predication',
     icon: <SignalsIcon />,
     text: 'Signal Matrix',
+    mobileText: 'Signals',
     link: 'app/signals',
   },
-].filter(i => !i.hide);
+];
 
 export default MenuItems;
