@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useInvestorAssetStructuresQuery } from 'api';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import DepositModal from '../DepositModal';
@@ -8,6 +9,7 @@ const BoxIntro: React.FC<{
   className?: string;
 }> = ({ className }) => {
   const [DepositMod, openDeposit] = useModal(DepositModal);
+  const ias = useInvestorAssetStructuresQuery();
 
   return (
     <div
@@ -45,9 +47,11 @@ const BoxIntro: React.FC<{
             Check Products
           </Button>
 
-          <Button className="mx-3 mb-6" onClick={openDeposit}>
-            Deposit
-          </Button>
+          {Boolean(ias.data?.length) && (
+            <Button className="mx-3 mb-6" onClick={openDeposit}>
+              Deposit
+            </Button>
+          )}
           <DepositMod />
         </div>
       </div>
