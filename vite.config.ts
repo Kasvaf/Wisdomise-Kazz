@@ -2,6 +2,7 @@ import linaria from '@linaria/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
+import { createHtmlPlugin } from 'vite-plugin-html'
 import { Mode, plugin as mdPlugin } from 'vite-plugin-markdown';
 
 // https://vitejs.dev/config/
@@ -18,6 +19,15 @@ export default defineConfig(config => ({
         presets: ['@babel/preset-typescript', '@babel/preset-react'],
       },
     }),
+    createHtmlPlugin({
+      minify: config.mode === 'production',
+      entry: '/src/main.tsx',
+      inject: {
+        data: {
+          env: config.mode,
+        }
+      }
+    })
   ],
   resolve: {
     alias: [
@@ -34,6 +44,6 @@ export default defineConfig(config => ({
     drop: config.mode === 'production' ? ['console', 'debugger'] : [],
   },
   build: {
-    sourcemap: true,
+    sourcemap: config.mode !== 'production',
   },
 }));
