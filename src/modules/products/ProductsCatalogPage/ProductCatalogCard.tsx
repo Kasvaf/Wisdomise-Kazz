@@ -101,7 +101,7 @@ const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
               variant="secondary"
               to={`/app/products-catalog/${fp.key}`}
             >
-              Detail
+              Details
             </Button>
           </div>
         </>

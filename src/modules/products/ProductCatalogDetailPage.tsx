@@ -6,6 +6,7 @@ import LineChart from 'shared/LineChart';
 import CoinsIcons from 'shared/CoinsIcons';
 import PriceChange from 'shared/PriceChange';
 import PageWrapper from 'modules/base/PageWrapper';
+import Button from 'modules/shared/Button';
 import FPActivateButton from './ProductsCatalogPage/FPActivateButton';
 import { ColorByRisk } from './constants';
 
@@ -29,7 +30,14 @@ const ProductCatalogDetail = () => {
           <p className="mt-6 text-sm text-white/60 ">{fp.data?.description}</p>
         </div>
 
-        <div className="flex basis-1/3 items-end justify-end mobile:mt-8 mobile:basis-auto">
+        <div className="flex basis-1/3 items-end justify-between pl-4 mobile:mt-8 mobile:basis-auto mobile:pl-0">
+          <Button
+            className="mr-4 w-1/2"
+            variant="secondary"
+            to="/app/products-catalog"
+          >
+            Back
+          </Button>
           <FPActivateButton
             inDetailPage
             className="w-1/2"
@@ -113,7 +121,7 @@ const ProductCatalogDetail = () => {
           </div>
         </div>
       </div>
-      <div className="mt-4 rounded-3xl bg-white/5 p-6 text-sm text-white/60">
+      <div className="mt-4 rounded-3xl bg-white/5 p-4 text-xs text-white/60 opacity-70">
         <div className="flex gap-4">
           <Attention className="shrink-0" />
           <div>
@@ -127,10 +135,10 @@ const ProductCatalogDetail = () => {
             forecast. You should also note that past events and results are no
             guarantee of future events or results. Wisdomise (Switzerland) AG or
             any other person does not guarantee that the developments described
-            on this website will occur. The User should therefore not base their
-            investment decision with regard to the services offered by Wisdomise
-            (Switzerland) AG on the forward-looking statements expressed on this
-            website.
+            on this website will occur. The User should therefore not solely
+            base their investment decision with regard to the services offered
+            by Wisdomise (Switzerland) AG on the forward-looking statements
+            expressed on this website.
           </div>
         </div>
       </div>

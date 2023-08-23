@@ -66,13 +66,13 @@ const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
       </div>
       {(ias.data?.[0]?.financial_product_instances.length || 0) > 0 &&
         ias.data?.[0]?.financial_product_instances[0].status !== 'DRAFT' && (
-          <p className="mt-2 px-2 text-center text-xs  text-white/80 mobile:text-black/80">
-            You Have <span className="text-white mobile:text-black">1</span>{' '}
-            Running Product <br /> That Block{' '}
+          <p className="mt-2 px-2 text-center text-xs text-white/80 mobile:text-black/80">
+            You have <span className="text-white mobile:text-black">1</span>{' '}
+            running product <br /> that block{' '}
             <span className="text-white mobile:text-black">
               {roundDown(totalBalance - withdrawable)}
             </span>{' '}
-            {mainQuote} Of Your Equity
+            {mainQuote} of your equity.
           </p>
         )}
       <div className="mt-6 flex justify-around text-xs">

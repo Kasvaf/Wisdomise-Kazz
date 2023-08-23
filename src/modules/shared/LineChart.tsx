@@ -1,5 +1,5 @@
 import { type FunctionComponent, useMemo } from 'react';
-import { Line } from '@ant-design/plots';
+import { Line, type LineConfig } from '@ant-design/plots';
 import {
   type BackTestBenchmark,
   type BackTestDateValue,
@@ -41,11 +41,19 @@ const LineChart: FunctionComponent<LineChartProps> = ({
     return [Math.min(...values), Math.max(...values)];
   }, [convertedChartData]);
 
-  const config = {
+  const config: LineConfig = {
     data: convertedChartData,
     xField: 'date',
     yField: 'value',
     seriesField: 'category',
+    meta: {
+      value: {
+        formatter: (v?: string) => {
+          if (v == null) return v;
+          return String(v) + '%';
+        },
+      },
+    },
     xAxis: {
       type: 'time',
       nice: true,
