@@ -12,16 +12,8 @@ const Signals: React.FC = () => {
 
   return (
     <PageWrapper loading={isLoading}>
-      <div className="mt-2">
-        <h1 className="mb-4 text-xl font-semibold text-white">Signalers</h1>
-        <p className="mb-6 text-sm font-medium text-white/60">
-          Here are the latest positions and suggested actions powered by
-          Wisdomise AI
-        </p>
-      </div>
-
-      <h1 className="mb-7 mt-10 text-xl font-semibold text-white">
-        Last Positions
+      <h1 className="mb-7 mt-2 text-xl font-semibold text-white">
+        Latest Positions
       </h1>
       {data && (
         <div
@@ -31,7 +23,7 @@ const Signals: React.FC = () => {
           }}
         >
           {[
-            'PAIRs',
+            'Pairs',
             '24h %',
             ...(data.strategies.map(s => [
               s.title,

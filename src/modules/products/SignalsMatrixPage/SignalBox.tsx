@@ -94,7 +94,7 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
             'text-white/20',
         )}
       >
-        Suggest
+        Suggestion
       </span>
 
       <p
