@@ -55,7 +55,7 @@ const AssetOverview = () => {
               className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-white/10 bg-black/20 py-6"
             >
               <p className="flex items-center text-white/60">
-                Add Strategy <PlusIcon className="ml-4 h-4 w-4" />
+                Add Financial Product <PlusIcon className="ml-4 h-4 w-4" />
               </p>
               <p className="mt-6 w-1/2 text-center text-xs text-white/40">
                 Maximize your profits with the help of AI-powered crypto trading
