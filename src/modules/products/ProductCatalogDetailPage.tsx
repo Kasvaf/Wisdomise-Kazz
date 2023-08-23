@@ -59,21 +59,17 @@ const ProductCatalogDetail = () => {
         </div>
 
         <div className="flex basis-1/3 flex-col gap-4 pl-4 mobile:order-1 mobile:mb-4 mobile:basis-auto mobile:pl-0">
-          <div className="flex items-center rounded-3xl bg-white/5 p-2">
-            <CoinsIcons coins={fp.data?.config.assets || ''} />
-          </div>
+          <div className="flex flex-wrap gap-2 text-base font-medium">
+            <div className="flex flex-1 items-center rounded-3xl bg-white/5 p-2">
+              <CoinsIcons coins={fp.data?.config.assets || ''} />
+            </div>
 
-          <div className="flex gap-2 text-base font-medium">
             <div
-              className={`basis-1/2 rounded-full px-4 py-3 text-center ${
+              className={`flex-1 whitespace-pre rounded-full px-4 py-3 text-center ${
                 ColorByRisk[rrr || 'Low']
               }`}
             >
               {String(rrr || '') + ' Risk'}
-            </div>
-
-            <div className="basis-1/2 rounded-full bg-white/5 px-4 py-3 text-center  text-white/60">
-              {fp.data?.config.market_type}
             </div>
           </div>
 

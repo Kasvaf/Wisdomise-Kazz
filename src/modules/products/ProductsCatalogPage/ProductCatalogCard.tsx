@@ -38,19 +38,6 @@ const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
         </h5>
         <div className="mb-9 flex items-center justify-between">
           <div className="flex items-start gap-2 text-xs font-normal">
-            {/* TODO: one of these should be used in the end */}
-            {fp.market_names.map(mn => (
-              <div
-                key={mn}
-                className="hidden rounded-full bg-white/5 px-5 py-2 capitalize text-white/60"
-              >
-                {mn.toLowerCase()}
-              </div>
-            ))}
-            <div className="hidden rounded-full bg-white/5 px-5 py-2 text-white/60">
-              {fp.config.market_type}
-            </div>
-
             <div
               className={`rounded-full px-3 py-2 ${ColorByRisk[rrr || 'Low']}`}
             >
