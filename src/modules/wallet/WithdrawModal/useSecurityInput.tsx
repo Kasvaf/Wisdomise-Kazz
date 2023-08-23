@@ -14,9 +14,11 @@ interface Props {
 }
 
 const toDigits = (v: string) =>
-  String(Number.parseFloat(v.replaceAll(/\D+/g, '')) || '').substring(0, 6);
+  String(v || '')
+    .replaceAll(/\D+/g, '')
+    .substring(0, 6);
 
-const RESEND_TIMEOUT = 30;
+const RESEND_TIMEOUT = 60;
 
 const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
   const user = useUserInfoQuery();
@@ -77,7 +79,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
           onClick={resendHandler}
           disabled={submitting || ttl > now}
         >
-          Resent{' '}
+          Resend{' '}
           {ttl > now
             ? `(${Math.min(
                 Math.floor((ttl - now) / 1000) + 1,
