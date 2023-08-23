@@ -1,7 +1,7 @@
 name: Deploy to EKS
-on: 
+on:
   push:
-    branches: [stage-demo]
+    branches: [stage]
 
 jobs:
   lint:
@@ -43,7 +43,7 @@ jobs:
       # - run: sudo npm install --global mocha
       # - run: sudo npm install --global ts-node
       # - run: sudo npm install --global tsconfig-paths
-      # - run: sudo env NODE_ENV='test' DEBUG="horos-dashboard*" AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} KMS_KEY=${{ secrets.KMS_KEY }} USER_POOL_ID=${{ secrets.USER_POOL_ID }} USER_TEST_EMAIL=${{ secrets.USER_TEST_EMAIL }} USER_TEST_PASSWORD=${{ secrets.USER_TEST_PASSWORD }} COGNITO_CLIENT_ID=${{ secrets.COGNITO_CLIENT_ID }} TEST_BINANCE_API_KEY=${{ secrets.TEST_BINANCE_API_KEY }} TEST_BINANCE_API_SECRET=${{ secrets.TEST_BINANCE_API_SECRET }} GOOGLE_APPLICATION_CREDENTIALS='./config/googleCaptcha.json' DEVELOP=${{ secrets.DEVELOP }} MONGODB_NAME=${{ secrets.MONGODB_NAME }} MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} mocha -r /usr/local/lib/node_modules/ts-node/register -r /usr/local/lib/node_modules/tsconfig-paths/register 'test/*.ts' --timeout 20000 --exit  
+      # - run: sudo env NODE_ENV='test' DEBUG="horos-dashboard*" AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} KMS_KEY=${{ secrets.KMS_KEY }} USER_POOL_ID=${{ secrets.USER_POOL_ID }} USER_TEST_EMAIL=${{ secrets.USER_TEST_EMAIL }} USER_TEST_PASSWORD=${{ secrets.USER_TEST_PASSWORD }} COGNITO_CLIENT_ID=${{ secrets.COGNITO_CLIENT_ID }} TEST_BINANCE_API_KEY=${{ secrets.TEST_BINANCE_API_KEY }} TEST_BINANCE_API_SECRET=${{ secrets.TEST_BINANCE_API_SECRET }} GOOGLE_APPLICATION_CREDENTIALS='./config/googleCaptcha.json' DEVELOP=${{ secrets.DEVELOP }} MONGODB_NAME=${{ secrets.MONGODB_NAME }} MONGODB_PASSWORD=${{ secrets.MONGODB_PASSWORD }} mocha -r /usr/local/lib/node_modules/ts-node/register -r /usr/local/lib/node_modules/tsconfig-paths/register 'test/*.ts' --timeout 20000 --exit
 
   Code-Style:
     name: Code-Style
@@ -121,7 +121,7 @@ jobs:
         name: ScanResultFor-${{ github.event.repository.name }}
         path: |
           trivy-results-${{ github.event.repository.name }}.tbl
-          
+
     - name: Upload to S3 artifact folder
       uses: medlypharmacy/s3-artifacts-action@master
       with:
@@ -131,7 +131,7 @@ jobs:
         source_path: 'trivy-results-${{ github.event.repository.name }}.tbl'
         destination_path: "/${{ github.event.repository.name }}"
         exclude_repo_from_destination_path: true
-        # resource_type: "DIRECTORY"  
+        # resource_type: "DIRECTORY"
 
   build-and-push:
     if: "!contains(github.event.head_commit.message, 'ci-skip')"
@@ -188,4 +188,3 @@ jobs:
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Deploying horos-dashboard [ci-skip]
-        
