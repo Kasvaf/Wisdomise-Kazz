@@ -1,9 +1,8 @@
-import { clsx } from 'clsx';
-import { useCallback } from 'react';
 import QRCode from 'react-qr-code';
 import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
+import CopyInputBox from './CopyInputBox';
 
 const DepositModal = () => {
   const {
@@ -18,12 +17,6 @@ const DepositModal = () => {
     network: network.name === 'loading' ? undefined : network.name,
   });
 
-  const copyToClipboard = useCallback(() => {
-    const addr = depositAddress.data?.address;
-    if (!addr) return;
-    void navigator.clipboard?.writeText(addr);
-  }, [depositAddress.data?.address]);
-
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Deposit</h1>
@@ -37,23 +30,7 @@ const DepositModal = () => {
         <>
           <div className="basis-1/2">
             <div className="mb-1 ml-3">Wallet Address</div>
-            <div
-              className={clsx(
-                'mb-10 flex h-12 rounded-full',
-                'items-center justify-between',
-                'bg-white px-6 text-sm text-black',
-                'cursor-pointer hover:bg-white/80',
-              )}
-              onClick={copyToClipboard}
-            >
-              <div
-                className="truncate"
-                style={{ maxWidth: 'calc(100% - 50px)' }}
-              >
-                {depositAddress.data?.address}
-              </div>
-              <div className="font-medium">Copy</div>
-            </div>
+            <CopyInputBox value={depositAddress.data?.address} />
           </div>
 
           {depositAddress.data && (
