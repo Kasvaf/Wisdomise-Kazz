@@ -5,12 +5,13 @@ resources:
 - ./deployment.yml
 - ./service.yml
 - ./ingress.yml
+- ./ingress-com.yml
 
 commonAnnotations:
   a8r.io/owner: wisdomise
   a8r.io/repository: https://github.com/Wisdomise/horos-dashboard
 
 images:
-- digest: sha256:6e56597dee6ee42753318a5647fa96d5234427b558e2788935cd6b24827feb17
+- digest: sha256:15f0a03eb99ebdbf0638a358142d548e8c96842e264132040c9d972e59a92741
   name: horos-dashboard
   newName: 619433764862.dkr.ecr.us-east-1.amazonaws.com/horos-dashboard

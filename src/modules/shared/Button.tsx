@@ -1,0 +1,126 @@
+import { clsx } from 'clsx';
+import type React from 'react';
+import { useCallback, type PropsWithChildren } from 'react';
+import { Link } from 'react-router-dom';
+import type { To } from 'react-router';
+import Spin from './Spin';
+
+interface Props extends PropsWithChildren {
+  to?: To;
+  size?: 'small';
+  loading?: boolean;
+  variant?: 'primary' | 'alternative' | 'secondary' | 'link';
+  className?: string;
+  disabled?: boolean;
+  onClick?: React.MouseEventHandler<any>;
+}
+
+const LinkOrButton: React.FC<Props> = ({ to, children, ...rest }) =>
+  to ? (
+    <Link to={to} {...rest}>
+      {children}
+    </Link>
+  ) : (
+    <button {...rest}>{children}</button>
+  );
+
+const Button: React.FC<Props> = ({
+  size,
+  variant,
+  loading,
+  children,
+  className,
+  disabled,
+  onClick,
+  ...restOfProps
+}) => {
+  const btnContent = (
+    <div className="flex items-center justify-center">
+      {loading && <Spin className="mr-2" />}
+      {children}
+    </div>
+  );
+  const clickHandler: React.MouseEventHandler<HTMLButtonElement> = useCallback(
+    ev => {
+      if (!loading && !disabled) onClick?.(ev);
+    },
+    [loading, disabled, onClick],
+  );
+
+  if (variant === 'secondary') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'rounded-[40px] border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
+          size === 'small' && '!p-[10px_12px] ',
+          loading && 'cursor-wait',
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
+  if (variant === 'alternative') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'rounded-[40px] bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5',
+          disabled &&
+            'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
+          loading && 'cursor-wait',
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
+  if (variant === 'link') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white',
+          disabled &&
+            'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
+          loading && 'cursor-wait',
+          size === 'small' && '!p-[10px_12px]',
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
+  return (
+    <LinkOrButton
+      className={clsx(
+        'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
+        disabled &&
+          'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
+        loading && 'cursor-wait',
+        size === 'small' && '!p-[10px_12px]',
+        className,
+      )}
+      disabled={disabled}
+      onClick={clickHandler}
+      {...restOfProps}
+    >
+      {btnContent}
+    </LinkOrButton>
+  );
+};
+
+export default Button;

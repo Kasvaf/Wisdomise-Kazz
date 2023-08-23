@@ -16,17 +16,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "containers/*": ["./src/containers/*"],
-      "components/*": ["./src/components/*"],
       "config/*": ["./src/config/*"],
       "utils/*": ["./src/utils/*"],
+      "api": ["./src/api/index"],
       "api/*": ["./src/api/*"],
-      "types/*": ["./src/types/*"],
-      "store/*": ["./src/store/*"],
-      "pages/*": ["./src/pages/*"],
-      "shared/*": ["./src/shared/*"]
+      "old-api/*": ["./src/old-api/*"],
+      "modules/*": ["./src/modules/*"],
+      "shared/*": ["./src/modules/shared/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", ".eslintrc.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

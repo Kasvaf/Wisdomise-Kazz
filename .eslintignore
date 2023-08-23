@@ -1,2 +1,2 @@
-/src/App/tailwind.css
-*.scss
+/src/modules/base/tailwind.css
+**/*.md

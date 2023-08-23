@@ -14,7 +14,7 @@ COPY . /app/
 
 # Building app
 RUN npm run build:prod
-
+RUN find dist | grep -E ".*\.map$" | tr '\n' '\0' | xargs -0 -n1 rm -rf
 
 FROM nginx:1-alpine
 EXPOSE 3000

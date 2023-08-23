@@ -1,0 +1,48 @@
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  @apply text-nodata opacity-50;
+  /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  @apply text-nodata opacity-50;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  @apply text-nodata opacity-50;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #666666 transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #666666;
+  border-radius: 10px;
+  border: 6px solid #131822;
+}

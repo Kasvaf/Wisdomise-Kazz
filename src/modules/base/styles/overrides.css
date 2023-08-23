@@ -1,0 +1,185 @@
+/* ANT */
+.ant-modal-body {
+  @apply bg-transparent p-0;
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+/*// ant design overrides*/
+.ant-modal-content {
+  font-family: poppins, sans-serif;
+  border-radius: 10px !important;
+  background-color: #1f242d !important;
+  .anticon-close {
+    color: white;
+  }
+}
+
+.ant-progress-inner {
+  border-radius: 0;
+}
+
+/* ------------------------------------------------- */
+
+.ant-pagination-prev button,
+.ant-pagination-next button,
+.ant-pagination-jump-next,
+.ant-pagination-jump-prev,
+.ant-pagination-item {
+  @apply !rounded-sm !border-none !bg-transparent !font-inter !font-bold !text-white;
+
+  a,
+  span {
+    @apply !text-white !text-opacity-60;
+  }
+
+  &:hover {
+    @apply !opacity-100;
+    a,
+    span {
+      @apply !text-white;
+    }
+  }
+
+  &.ant-pagination-item-active,
+  &.active,
+  &:active,
+  &:focus {
+    @apply !bg-gradient-to-r from-gradientFrom to-gradientTo !opacity-100;
+    a,
+    span {
+      @apply !text-alt-primary;
+    }
+  }
+}
+
+.ant-pagination-disabled button {
+  opacity: 0.3;
+
+  &.active,
+  &:hover,
+  &:active,
+  &:focus {
+    @apply !bg-transparent;
+
+    a,
+    span {
+      color: black !important;
+    }
+  }
+}
+
+/* ------------------------------------------------- */
+
+.ant-btn.cancel-order {
+  font-size: 12px;
+  height: 32px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-btn-dropdown {
+  width: 100%;
+}
+
+.ant-dropdown-menu {
+  padding: 0 !important;
+  li {
+    padding: 0 !important;
+  }
+}
+
+/* ------------------------------------------------- */
+
+.ant-notification-notice {
+  @apply !rounded-3xl !bg-[#272A32] font-poppins !text-white;
+}
+
+.ant-notification-notice-message {
+  @apply !mb-0 !text-white;
+}
+
+.ant-notification-notice-description {
+  @apply mt-2 !text-white;
+}
+
+.ant-notification-notice-close {
+  @apply !text-white;
+}
+
+/* ------------------------------------------------- */
+
+.ant-popover-inner {
+  @apply !px-4 !py-6 font-poppins;
+  background-color: #272a32 !important;
+}
+
+.ant-popover-arrow::before {
+  background-color: #272a32 !important;
+}
+
+/* ------------------------------------------------- */
+
+.ant-carousel .slick-dots li {
+  @apply mx-1.5 !w-auto;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  @apply bg-primary;
+}
+
+.ant-carousel .slick-dots li button {
+  @apply h-3 w-3 rounded-full bg-nodata;
+}
+
+/* ------------------------------------------------- */
+
+.ant-select-selector {
+  @apply !border-none !bg-gray-dark !text-white;
+}
+
+.ant-select-selector::after {
+  fill: #00fff0;
+}
+
+.ant-select-arrow {
+  svg {
+    fill: #fff !important;
+    font-size: 20px !important;
+  }
+}
+.ant-select-dropdown {
+  @apply !bg-gray-dark;
+}
+.ant-select-item {
+  @apply bg-gray-dark text-white;
+}
+.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  @apply !bg-primary;
+}
+
+/* ------------------------------------------------- */
+
+.ant-spin-text {
+  text-shadow: none !important;
+  @apply font-campton;
+}
+
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
+
+/* hide google captcha */
+.grecaptcha-badge {
+  display: none !important;
+}
+
+#crisp-chatbox > div > a {
+  @apply mobile:!hidden;
+}
+
+#CookiebotWidget {
+  bottom: 80px !important;
+}

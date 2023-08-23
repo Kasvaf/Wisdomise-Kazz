@@ -1,26 +1,27 @@
-/// <reference types="vite-plugin-svgr/client" />
-import * as Sentry from "@sentry/react";
-import { QueryClientProvider } from "@tanstack/react-query";
-import "config/config";
-import { configApp } from "config/config";
-import { queryClient } from "config/reactQuery";
-import ReactDOM from "react-dom/client";
-import * as ReactRedux from "react-redux";
-import { AppAuthContainer } from "./App/AppAuthContainer";
-import store from "./store/store";
+import { createRoot } from 'react-dom/client';
+import * as Sentry from '@sentry/react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import configApp from 'config/config';
+import queryClient from 'config/reactQuery';
+import AppAuthContainer from 'modules/base/AppAuthContainer';
 
 configApp();
 
-ReactDOM.createRoot(document.querySelector("#root")!).render(
+const root = document.querySelector('#root');
+if (!root) throw new Error('unexpected');
+
+createRoot(root).render(
   <Sentry.ErrorBoundary fallback={<SentryErrorFallback />}>
     <QueryClientProvider client={queryClient}>
-      <ReactRedux.Provider store={store}>
-        <AppAuthContainer />
-      </ReactRedux.Provider>
+      <AppAuthContainer />
     </QueryClientProvider>
-  </Sentry.ErrorBoundary>
+  </Sentry.ErrorBoundary>,
 );
 
 function SentryErrorFallback() {
-  return <div className="flex h-screen w-screen items-center justify-center text-white">Error Occurred... Sorry!</div>;
+  return (
+    <div className="flex h-screen w-screen items-center justify-center text-white">
+      Error Occurred... Sorry!
+    </div>
+  );
 }

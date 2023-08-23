@@ -1,0 +1,46 @@
+.loader-line {
+  width: 263px;
+  height: 4px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff33;
+  margin: 10px auto;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.loader-line:before {
+  content: '';
+  position: absolute;
+  left: -50%;
+  height: 4px;
+  width: 40%;
+  background: linear-gradient(
+    87.05deg,
+    #00fff0 -8.37%,
+    #13def2 -8.36%,
+    #e26cff 87.66%
+  );
+  -webkit-animation: lineAnim 1s linear infinite;
+  -moz-animation: lineAnim 1s linear infinite;
+  animation: lineAnim 2s linear infinite;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  animation-delay: 1s;
+}
+
+@keyframes lineAnim {
+  0% {
+    left: -40%;
+  }
+  50% {
+    left: 50%;
+    /* width: 60%; */
+  }
+  100% {
+    left: 100%;
+    /* width: 100%; */
+  }
+}
