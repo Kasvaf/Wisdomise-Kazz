@@ -13,6 +13,7 @@ export interface FinancialProduct {
   profile: Profile;
   asset_class: string;
   config: Config;
+  market_names: string[];
   subscribable: boolean;
   min_deposit: number;
   max_deposit: number;
