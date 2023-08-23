@@ -85,13 +85,11 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           break;
         }
         case '50%': {
-          setAmount(
-            String(Math.max(Math.floor(available / 2), minWithdrawable)),
-          );
+          setAmount((available / 2).toFixed(2));
           break;
         }
         case 'Max': {
-          setAmount(String(Math.max(available, minWithdrawable)));
+          setAmount(String(available));
           break;
         }
       }
