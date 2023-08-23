@@ -47,7 +47,7 @@ const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
                 {mn.toLowerCase()}
               </div>
             ))}
-            <div className="rounded-full bg-white/5 px-5 py-2 text-white/60">
+            <div className="hidden rounded-full bg-white/5 px-5 py-2 text-white/60">
               {fp.config.market_type}
             </div>
 
