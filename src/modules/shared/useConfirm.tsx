@@ -29,7 +29,7 @@ const ConfirmModal: React.FC<Props> = ({
   const buttons = [
     {
       title: noTitle,
-      variant: 'alternative',
+      variant: 'secondary',
       onClick: () => onResolve?.(false),
     },
     {

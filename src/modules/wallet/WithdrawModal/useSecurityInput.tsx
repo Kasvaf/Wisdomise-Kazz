@@ -73,7 +73,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
       <div className="flex justify-stretch">
         <Button
           className="basis-1/2"
-          variant="alternative"
+          variant="secondary"
           onClick={resendHandler}
           disabled={submitting || ttl > now}
         >
