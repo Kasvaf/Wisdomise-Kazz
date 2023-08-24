@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
@@ -50,6 +51,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
     onResend();
   }, [onResend]);
 
+  const userEmail = user.data?.customer.info.email;
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Security verification</h1>
@@ -59,18 +61,11 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
         value={code}
         filter={toDigits}
         onChange={codeChangeHandler}
-        hasError={!!error}
-        className="tracking-[1em]"
+        error={error}
+        hint={userEmail && `Enter the 6-digit sent to ${userEmail}`}
+        className="mb-6"
+        inputClassName={clsx('tracking-[1em]')}
       />
-      <div className="mb-6 ml-5 mt-2">
-        {error ? (
-          <div className="text-xs text-error">{error}</div>
-        ) : (
-          <div className="text-xs text-white/60">
-            Enter the 6-digit sent to {user.data?.customer.info.email}
-          </div>
-        )}
-      </div>
 
       <div className="flex justify-stretch">
         <Button

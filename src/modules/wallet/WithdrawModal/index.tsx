@@ -1,6 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import * as numerable from 'numerable';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { notification } from 'antd';
 import {
   useConfirmWithdrawMutation,
@@ -49,7 +49,7 @@ const toAmount = (v: string) =>
     .replaceAll(/[^\d.]+/g, '')
     .replace(/^(0+)/, '')
     .replace(/^\./, '0.')
-    .replace(/^(\d+(\.\d*))\..*$/, '$1');
+    .replace(/^(\d+(\.\d*))\..*$/, '$1') || '0';
 
 const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const ias = useInvestorAssetStructuresQuery();
@@ -61,21 +61,33 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     network,
   } = useCryptoNetworkSelector({ usage: 'withdrawable' });
 
-  const minWithdrawable = +(network?.binance_info?.withdrawMin ?? 0);
-  const available = mea?.quote_equity ? roundDown(mea.quote_equity) : 0;
+  const available = roundDown(mea?.quote_equity ?? 0);
   const fee = +(network?.binance_info?.withdrawFee ?? 0);
+  const minWithdrawable = +(network?.binance_info?.withdrawMin ?? 0);
 
   // ----------------------------------------------------
 
+  const addressRegex = useMemo(
+    () => new RegExp(network.binance_info?.addressRegex || ''),
+    [network.binance_info?.addressRegex],
+  );
+
   const [wallet, setWallet] = useState('');
-  const [amount, setAmount] = useState('0');
-  const walletValid =
-    !wallet ||
-    !network.binance_info?.addressRegex ||
-    wallet.match(network.binance_info.addressRegex);
-  const amountValid =
-    Number.parseFloat(amount) >= minWithdrawable &&
-    Number.parseFloat(amount) <= available;
+  const walletError =
+    wallet &&
+    network.binance_info?.addressRegex &&
+    !addressRegex.test(wallet) &&
+    'Wallet address is not valid for selected network.';
+
+  const [amount, setAmount] = useState('');
+  let amountError: string | undefined;
+  if (Number.parseFloat(amount) < minWithdrawable) {
+    amountError = `You cannot withdraw less than ${String(minWithdrawable)} ${
+      crypto.name
+    } in ${network.name} network.`;
+  } else if (Number.parseFloat(amount) > available) {
+    amountError = 'You cannot withdraw more than your available amount.';
+  }
 
   const autoAmountHandler = useCallback(
     (opt: string) => {
@@ -218,7 +230,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
       <div className="mb-9">
         <div className="mb-1 ml-3">Wallet Address</div>
-        <TextBox value={wallet} onChange={setWallet} hasError={!walletValid} />
+        <TextBox value={wallet} onChange={setWallet} error={walletError} />
       </div>
 
       <div className="mb-9">
@@ -229,7 +241,7 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           filter={toAmount}
           onChange={setAmount}
           suffix={crypto.name}
-          hasError={!amountValid}
+          error={amountError}
         />
       </div>
 
@@ -261,13 +273,14 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
               className="basis-1/2"
               variant="primary"
               onClick={withdrawHandler}
-              disabled={
-                !walletValid ||
-                !wallet ||
-                !amountValid ||
+              disabled={Boolean(
                 !crypto.name ||
-                !network.key
-              }
+                  !network.key ||
+                  !wallet ||
+                  !amount ||
+                  walletError ||
+                  amountError,
+              )}
             >
               Withdraw
             </Button>
