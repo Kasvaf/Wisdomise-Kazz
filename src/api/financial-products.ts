@@ -5,7 +5,7 @@ import { convertDate } from 'utils/dates';
 import { type BackTestBenchmark } from './ias/backtest';
 
 export const useFPBacktestQuery = (fpKey: string) =>
-  useQuery(['fp', fpKey, 'backtest'], async () => {
+  useQuery(['fpb', fpKey, 'backtest'], async () => {
     const { data } = await axios.get<BackTestBenchmark>(
       `https://${
         isProduction ? '' : 'stage-'

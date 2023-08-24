@@ -16,17 +16,21 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [overrideType, setOverrideType] = useState<FpiStatusMutationType>();
 
   const onConfirmClick = useCallback(async () => {
     try {
+      setOverrideType(type);
       setLoading(true);
       await onConfirm();
       setLoading(false);
       setIsOpen(false);
+      setOverrideType(undefined);
     } catch {
       //
     }
-  }, [onConfirm]);
+  }, [onConfirm, type]);
+  const visibleType = overrideType || type;
 
   return (
     <Popover
@@ -36,11 +40,11 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
           <p className="mb-2 text-lg">
             Are You Sure To{' '}
             <span className="text-base font-medium capitalize text-white">
-              {type}
+              {visibleType}
             </span>{' '}
             This Product ?
           </p>
-          {type === 'stop' && (
+          {visibleType === 'stop' && (
             <div>
               Please be aware that by Stopping the Strategy, all your open
               trades will be sold on &quot;Market&quot; price. The final PnL
@@ -58,7 +62,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
             </Button>
             <div className="w-4" />
             <Button size="small" onClick={onConfirmClick} loading={loading}>
-              Yes,&nbsp;<span className="capitalize">{type}</span>
+              Yes,&nbsp;<span className="capitalize">{visibleType}</span>
             </Button>
           </section>
         </section>
