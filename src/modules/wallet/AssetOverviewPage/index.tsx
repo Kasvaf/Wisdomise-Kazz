@@ -11,19 +11,20 @@ const AssetOverview = () => {
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
   const hasFpi = Boolean(data?.financial_product_instances[0]);
-  const hasDeposited = Boolean(data?.net_deposit);
-  const hasMoney = Boolean(
-    data?.total_equity || data?.main_exchange_account.quote_equity,
+  const hasPortfolio = Boolean(
+    data?.total_equity ||
+      data?.main_exchange_account.quote_equity ||
+      data?.net_deposit,
   );
 
   return (
     <PageWrapper loading={ias.isLoading}>
       <AskAthena className="mb-6" />
-      {!(hasFpi && hasDeposited) && <BoxIntro className="mb-10" />}
+      {(!hasFpi || !hasPortfolio) && <BoxIntro className="mb-10" />}
 
       {/* ================================================================== */}
 
-      {(hasMoney || hasDeposited) && (
+      {hasPortfolio && (
         <>
           <div className="mb-4 mt-10">
             <h1 className="text-xl font-semibold text-white">
@@ -41,7 +42,7 @@ const AssetOverview = () => {
 
       {/* ================================================================== */}
 
-      {(hasFpi || hasMoney || hasDeposited) && (
+      {(hasFpi || hasPortfolio) && (
         <>
           <h1 className="mb-4 text-xl font-semibold text-white">
             Your Active Financial Products
