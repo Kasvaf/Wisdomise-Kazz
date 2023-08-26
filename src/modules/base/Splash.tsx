@@ -1,4 +1,4 @@
-import Logo from '@images/logo.svg';
+import Logo from 'assets/logo-vertical.svg';
 
 const Splash = () => {
   return (

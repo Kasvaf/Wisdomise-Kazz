@@ -1,11 +1,10 @@
 import { type AxiosError } from 'axios';
 import { notification } from 'antd';
 import { useCallback } from 'react';
+import { bxPause, bxPlay, bxX } from 'boxicons-quasar';
 import { type FpiStatusMutationType, useUpdateFPIStatusMutation } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
-import { ReactComponent as DeactivateIcon } from '../icons/deactivate.svg';
-import { ReactComponent as StartIcon } from '../icons/start.svg';
-import { ReactComponent as PauseIcon } from '../icons/pause.svg';
+import Icon from 'shared/Icon';
 import PopConfirmChangeFPIStatus from './PopConfirmChangeFPIStatus';
 
 const NextActionByStatus: Record<
@@ -46,7 +45,7 @@ const FpiActions = ({ fpi }: { fpi: FinancialProductInstance }) => {
           [changeFpiStatus, fpi.key],
         )}
       >
-        <DeactivateIcon className="cursor-pointer text-white/80" />
+        <Icon name={bxX} circled className="cursor-pointer text-white/80" />
       </PopConfirmChangeFPIStatus>
 
       <PopConfirmChangeFPIStatus
@@ -57,9 +56,17 @@ const FpiActions = ({ fpi }: { fpi: FinancialProductInstance }) => {
         )}
       >
         {fpi.status === 'RUNNING' ? (
-          <PauseIcon className="cursor-pointer text-white/80" />
+          <Icon
+            name={bxPause}
+            circled
+            className="cursor-pointer text-white/80"
+          />
         ) : (
-          <StartIcon className="cursor-pointer text-white/80" />
+          <Icon
+            name={bxPlay}
+            circled
+            className="cursor-pointer text-white/80"
+          />
         )}
       </PopConfirmChangeFPIStatus>
     </div>

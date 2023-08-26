@@ -1,9 +1,10 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { type ReactElement } from 'react';
-import { ReactComponent as WarningIcon } from '@images/warningCircle.svg';
-import Button from './Button';
+import { bxInfoCircle } from 'boxicons-quasar';
 import useModal from './useModal';
+import Button from './Button';
+import Icon from './Icon';
 
 interface Props {
   icon?: ReactElement<any, any> | null;
@@ -20,7 +21,7 @@ interface ButtonOptions {
 }
 
 const ConfirmModal: React.FC<Props> = ({
-  icon = <WarningIcon className="h-12 w-12" />,
+  icon = <Icon name={bxInfoCircle} className="text-warning" size={52} />,
   message,
   yesTitle,
   noTitle,

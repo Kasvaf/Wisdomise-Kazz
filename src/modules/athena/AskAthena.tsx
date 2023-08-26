@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
-import ArrowSrc from './arrow.svg';
+import { bxChevronRight } from 'boxicons-quasar';
+import Icon from 'shared/Icon';
 
 const AskAthena: React.FC<{ className?: string }> = ({ className }) => {
   return (
@@ -14,7 +15,7 @@ const AskAthena: React.FC<{ className?: string }> = ({ className }) => {
     >
       Ask Athena anything about crypto
       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
-        <img src={ArrowSrc} />
+        <Icon size={24} name={bxChevronRight} className="w-6 text-black" />
       </div>
     </a>
   );

@@ -1,7 +1,8 @@
-import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
 import { Dropdown } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import { useCallback, useEffect, useState } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
+import Icon from 'shared/Icon';
 import DropdownContainer from '../DropdownContainer';
 import WalletDropdownContent from './WalletDropdownContent';
 
@@ -42,7 +43,7 @@ const WalletDropdown = () => {
               <div className="flex items-center">
                 <button className="flex text-white">
                   <p className="px-2 font-medium">Wallet</p>
-                  <ChevronDown className="w-6 fill-white" />
+                  <Icon name={bxChevronDown} className="w-6 text-white" />
                 </button>
               </div>
             </Dropdown>

@@ -1,10 +1,10 @@
-import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
+import { bxChevronDown, bxLogOut } from 'boxicons-quasar';
 import { Dropdown } from 'antd';
 import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
+import Icon from 'shared/Icon';
 import logout from 'modules/auth/logout';
 import DropdownContainer from './DropdownContainer';
-import { ReactComponent as LogoutIcon } from './Header/logout.svg';
 
 const UserDropdown = () => {
   const [open, setOpen] = useState(false);
@@ -21,7 +21,7 @@ const UserDropdown = () => {
       </div>
 
       <button className="flex font-medium text-white mobile:hidden">
-        <ChevronDown className="w-6 fill-white" />
+        <Icon name={bxChevronDown} className="w-6" />
       </button>
     </div>
   );
@@ -38,9 +38,9 @@ const UserDropdown = () => {
         <button
           type="button"
           onClick={logout}
-          className="flex justify-start px-8 py-2 uppercase text-error hover:bg-black/10"
+          className="flex items-center justify-start px-8 py-2 uppercase text-error hover:bg-black/10"
         >
-          <LogoutIcon className="mr-2" /> Logout
+          <Icon name={bxLogOut} className="mr-2" /> Logout
         </button>
       </DropdownContainer>
     ),
@@ -65,7 +65,7 @@ const UserDropdown = () => {
             </div>
 
             <button className="flex font-medium text-white mobile:hidden">
-              <ChevronDown className="w-6 fill-white" />
+              <Icon name={bxChevronDown} className="w-6" />
             </button>
           </div>
         </Dropdown>

@@ -1,8 +1,9 @@
 import type React from 'react';
 import { type PropsWithChildren, useCallback, useState } from 'react';
-import { ReactComponent as ChevronDown } from '@images/chevron-down.svg';
+import { bxChevronDown } from 'boxicons-quasar';
 import { Dropdown } from 'antd';
 import { clsx } from 'clsx';
+import Icon from './Icon';
 
 interface Props {
   options: any[];
@@ -92,8 +93,12 @@ const ComboBox: React.FC<Props> = ({
 
         {options.length > 1 && (
           <div className="flex items-center rounded-full bg-white/10 p-1">
-            <ChevronDown
-              className={clsx('fill-white', open && '-scale-y-100')}
+            <Icon
+              name={bxChevronDown}
+              className={clsx(
+                'text-white transition-transform',
+                open && '-scale-y-100',
+              )}
             />
           </div>
         )}

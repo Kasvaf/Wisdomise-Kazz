@@ -1,6 +1,6 @@
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
-import Logo from '@images/wisdomiseWealthLogo.svg';
+import Logo from 'assets/logo-horizontal-wealth.svg';
 import useIsMobile from 'utils/useIsMobile';
 import logout from 'modules/auth/logout';
 import bgMobile from './bg-mobile.png';

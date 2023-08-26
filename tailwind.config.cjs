@@ -22,7 +22,7 @@ module.exports = {
         'primary': '#13dff2',
         'secondary': '#e26cff',
         'primary-hover': '#02D191',
-        'success': '#78EFD9',
+        'success': '#40F19C',
         'gray': {
           light: 'rgba(255, 255, 255, 0.7)',
           main: 'rgba(255, 255, 255, 0.1)',

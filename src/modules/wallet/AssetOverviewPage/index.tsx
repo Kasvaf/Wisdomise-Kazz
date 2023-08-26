@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom';
+import { bxPlus } from 'boxicons-quasar';
 import { useInvestorAssetStructuresQuery } from 'api';
+import Icon from 'shared/Icon';
 import PageWrapper from 'modules/base/PageWrapper';
 import AskAthena from 'modules/athena/AskAthena';
-import { ReactComponent as PlusIcon } from './icons/plus.svg';
 import ActiveFinancialProducts from './ActiveFinancialProducts';
 import Portfolio from './Portfolio';
 import BoxIntro from './BoxIntro';
@@ -56,7 +57,8 @@ const AssetOverview = () => {
               className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-white/10 bg-black/20 py-6"
             >
               <p className="flex items-center text-white/60">
-                Add Financial Product <PlusIcon className="ml-4 h-4 w-4" />
+                Add Financial Product{' '}
+                <Icon name={bxPlus} className="ml-2 text-success" />
               </p>
               <p className="mt-6 w-1/2 text-center text-xs text-white/40">
                 Maximize your profits with the help of AI-powered crypto trading

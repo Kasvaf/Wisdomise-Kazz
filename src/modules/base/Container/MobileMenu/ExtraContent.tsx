@@ -1,9 +1,9 @@
 import { Crisp } from 'crisp-sdk-web';
+import { bxLogOut, bxSupport } from 'boxicons-quasar';
 import { useInvestorAssetStructuresQuery, useUserInfoQuery } from 'api';
+import Icon from 'shared/Icon';
 import logout from 'modules/auth/logout';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
-import { ReactComponent as LogoutIcon } from '../Header/logout.svg';
-import { ReactComponent as SupportIcon } from './support.svg';
 
 const openCrisp = () => Crisp.chat.open();
 
@@ -38,21 +38,21 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
         </div>
       </div>
 
-      <div className="flex">
+      <div className="mt-2 flex">
         <div
-          className="mr-2 mt-2 flex basis-1/3 items-center justify-center rounded-3xl bg-black/5 p-2"
+          className="mr-2 flex items-center justify-center rounded-3xl bg-black/5 p-2"
           onClick={openCrisp}
         >
-          <SupportIcon className="mr-2" />
-          Support
+          <Icon name={bxSupport} />
         </div>
-        <div className="mt-2 flex basis-2/3 items-center justify-center rounded-3xl bg-black/5 p-2">
+
+        <div className="flex flex-1 items-center justify-center rounded-3xl bg-black/5 p-2">
           <button
             type="button"
             onClick={logout}
             className="flex items-center justify-start  text-xs font-medium uppercase text-error"
           >
-            <LogoutIcon className="mr-2" /> Logout
+            <Icon name={bxLogOut} className="mr-2" /> Logout
           </button>
         </div>
       </div>

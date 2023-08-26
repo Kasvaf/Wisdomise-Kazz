@@ -1,10 +1,11 @@
-import { ReactComponent as SuccessIcon } from '@images/tick-circle-alt.svg';
+import { bxCheckCircle } from 'boxicons-quasar';
 import useConfirm from 'shared/useConfirm';
+import Icon from 'shared/Icon';
 import WithdrawInfo, { type WithdrawInfoProps } from './WithdrawInfo';
 
 const useWithdrawSuccess = (withdrawInfo: WithdrawInfoProps) =>
   useConfirm({
-    icon: <SuccessIcon />,
+    icon: <Icon name={bxCheckCircle} className="text-success" size={52} />,
     message: (
       <div>
         <h1 className="mb-6 text-center text-xl">

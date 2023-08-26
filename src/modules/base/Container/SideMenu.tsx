@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
+import Logo from 'assets/logo-horizontal-beta.svg';
 import MenuItems from './MenuItems';
-import Logo from './icons/logo.svg';
 
 const SideMenu = () => {
   return (

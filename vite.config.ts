@@ -37,7 +37,7 @@ export default defineConfig(config => ({
       { find: 'old-api', replacement: '/src/old-api' },
       { find: 'modules', replacement: '/src/modules' },
       { find: 'shared', replacement: '/src/modules/shared' },
-      { find: '@images', replacement: '/src/assets/svg' },
+      { find: 'assets', replacement: '/src/assets' },
     ],
   },
   esbuild: {

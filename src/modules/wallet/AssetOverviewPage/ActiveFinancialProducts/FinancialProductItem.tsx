@@ -1,10 +1,11 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useState } from 'react';
+import { bxChevronUp } from 'boxicons-quasar';
 import useIsMobile from 'utils/useIsMobile';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
-import { ReactComponent as ArrowUpIcon } from '../icons/arrowUp.svg';
+import Icon from 'shared/Icon';
 import FpiStatusBadge from './FpiStatusBadge';
 import FpiActions from './FpiActions';
 import FpiAssetItem from './FpiAssetItem';
@@ -25,7 +26,9 @@ const FinancialProductItem: React.FC<{
       onClick={toggleDetails}
     >
       Details{' '}
-      <ArrowUpIcon
+      <Icon
+        circled
+        name={bxChevronUp}
         className={clsx(
           'ml-2 rotate-180 transition',
           detailsOpen && 'rotate-[360deg]',
@@ -44,7 +47,7 @@ const FinancialProductItem: React.FC<{
       )}
     >
       <header className="flex w-full items-start justify-start mobile:flex-col">
-        <section className="flex w-full items-start mobile:justify-between">
+        <section className="flex w-full items-center mobile:justify-between">
           <p className="mr-4 text-base font-medium text-white/90 ">
             {fpi.financial_product.title}
           </p>
