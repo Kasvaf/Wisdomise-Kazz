@@ -4,6 +4,8 @@ import { useCallback } from 'react';
 import { bxPause, bxPlay, bxX } from 'boxicons-quasar';
 import { type FpiStatusMutationType, useUpdateFPIStatusMutation } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
+import { isProduction } from 'utils/version';
+import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import PopConfirmChangeFPIStatus from './PopConfirmChangeFPIStatus';
 
@@ -69,6 +71,17 @@ const FpiActions = ({ fpi }: { fpi: FinancialProductInstance }) => {
           />
         )}
       </PopConfirmChangeFPIStatus>
+
+      {!isProduction && (
+        <Button
+          variant="alternative"
+          size="small"
+          to={`/app/fpi/${fpi.key}`}
+          className="mr-4 text-base font-medium text-white/90 "
+        >
+          Positions
+        </Button>
+      )}
     </div>
   );
 };

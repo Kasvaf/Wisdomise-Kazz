@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@linaria/react';
 import { useSignalsQuery } from 'api';
-import CoinsIcons from 'shared/CoinsIcons';
+import PairInfo from 'shared/PairInfo';
 import PriceChange from 'shared/PriceChange';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -46,15 +46,11 @@ const Signals: React.FC = () => {
 
           {data.pairs.map(pair => (
             <React.Fragment key={pair.name}>
-              <div className="flex items-center justify-center p-2">
-                <CoinsIcons coins={[pair.base_name]} />
-                <div className="ml-2">
-                  <p className="text-sm text-white ">{pair.title}</p>
-                  <p className="text-[10px] text-white/40 ">
-                    {pair.base_name} / {pair.quote_name}
-                  </p>
-                </div>
-              </div>
+              <PairInfo
+                title={pair.title}
+                base={pair.base_name}
+                quote={pair.quote_name}
+              />
               <div className="flex flex-col items-center justify-center p-2">
                 <PriceChange value={pair.time_window_pnl} className="mb-2" />
                 <div className="w-36">

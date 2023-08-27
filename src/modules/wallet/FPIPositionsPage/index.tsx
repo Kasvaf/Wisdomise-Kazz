@@ -1,0 +1,29 @@
+import { useParams } from 'react-router-dom';
+import { useFpiQuery } from 'api/fpi';
+import PageWrapper from 'modules/base/PageWrapper';
+import FinancialProductItem from '../AssetOverviewPage/ActiveFinancialProducts/FinancialProductItem';
+import FPIPositionHistory from './FPIPositionHistory';
+import FPITimeline from './FPITimeline';
+
+const FPIPositionsPage = () => {
+  const params = useParams<{ fpiKey: string }>();
+  const fpi = useFpiQuery(params.fpiKey);
+  return (
+    <PageWrapper loading={fpi.isLoading}>
+      {fpi.data && (
+        <div>
+          <h1 className="mb-4 text-lg font-semibold text-white">
+            Financial Product Details
+          </h1>
+          <FinancialProductItem alwaysOpen fpi={fpi.data} className="mb-10" />
+        </div>
+      )}
+
+      <FPITimeline fpiKey={params.fpiKey} className="mb-10" />
+
+      <FPIPositionHistory fpiKey={params.fpiKey} />
+    </PageWrapper>
+  );
+};
+
+export default FPIPositionsPage;

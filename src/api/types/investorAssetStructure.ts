@@ -83,3 +83,17 @@ interface Market {
 export interface Quote {
   name: string;
 }
+
+export interface FpiPosition {
+  pair: {
+    title: string;
+    base: Quote;
+    quote: Quote;
+  };
+  pnl: number;
+  entry_price: number;
+  exit_price: number;
+  entry_time: string;
+  exit_time: string;
+  position_side: 'long' | 'short';
+}

@@ -72,6 +72,7 @@ const Button: React.FC<Props> = ({
           'rounded-[40px] bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5',
           disabled &&
             'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
+          size === 'small' && '!p-[10px_12px] ',
           loading && 'cursor-wait',
           className,
         )}

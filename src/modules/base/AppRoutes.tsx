@@ -18,6 +18,10 @@ const AssetOverviewPage = React.lazy(
   () => import('modules/wallet/AssetOverviewPage'),
 );
 
+const FPIPositionsPage = React.lazy(
+  () => import('modules/wallet/FPIPositionsPage'),
+);
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -29,6 +33,15 @@ export default function AppRoutes() {
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
               <AssetOverviewPage />
+            </React.Suspense>
+          }
+        />
+
+        <Route
+          path="app/fpi/:fpiKey"
+          element={
+            <React.Suspense fallback={<PageWrapper loading />}>
+              <FPIPositionsPage />
             </React.Suspense>
           }
         />

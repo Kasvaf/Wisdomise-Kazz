@@ -14,13 +14,17 @@ import FpiColumns from './FpiColumns';
 const FinancialProductItem: React.FC<{
   fpi: FinancialProductInstance;
   className?: string;
-}> = ({ fpi, className }) => {
+  alwaysOpen?: boolean;
+}> = ({ fpi, className, alwaysOpen }) => {
   const isMobile = useIsMobile();
   const ias = useInvestorAssetStructuresQuery();
   const [detailsOpen, setDetailsOpen] = useState(false);
   const toggleDetails = useCallback(() => setDetailsOpen(v => !v), []);
+  const isOpen = alwaysOpen || detailsOpen;
 
-  const detailsBtn = (
+  const detailsBtn = alwaysOpen ? (
+    <></>
+  ) : (
     <button
       className="ml-3 flex items-center text-xs text-white/80"
       onClick={toggleDetails}
@@ -39,10 +43,9 @@ const FinancialProductItem: React.FC<{
 
   return (
     <div
-      key={fpi.key}
       className={clsx(
         'rounded-3xl bg-white/5 p-6',
-        !detailsOpen && !isMobile && 'pb-2',
+        !isOpen && !isMobile && 'pb-2',
         className,
       )}
     >
@@ -66,14 +69,14 @@ const FinancialProductItem: React.FC<{
 
           {!isMobile && detailsBtn}
           <section className="ml-auto hidden self-end mobile:block">
-            <FpiStatusBadge isOpen={detailsOpen} status={fpi.status} />
+            <FpiStatusBadge isOpen={isOpen} status={fpi.status} />
           </section>
         </div>
       </header>
 
-      <FpiColumns fpi={fpi} detailsOpen={detailsOpen} />
+      <FpiColumns fpi={fpi} detailsOpen={isOpen} />
 
-      {fpi.status !== 'DRAFT' && detailsOpen && (
+      {fpi.status !== 'DRAFT' && isOpen && (
         <footer>
           {ias.data?.[0] && ias.data[0].asset_bindings.length > 0 && (
             <p className="mb-2 mt-4 text-sm text-white/80">
