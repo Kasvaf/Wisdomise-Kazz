@@ -96,7 +96,7 @@ const FPIPositionHistory: React.FC<{ fpiKey?: string; className?: string }> = ({
         </div>
       </div>
       <Pager
-        total={10}
+        total={Math.ceil(history.data.total / PAGE_SIZE)}
         active={page}
         onChange={setPage}
         className="mx-auto mt-4 justify-center"

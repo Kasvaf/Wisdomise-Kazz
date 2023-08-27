@@ -47,18 +47,20 @@ export const useFpiPositionHistory = ({
   offset?: number;
   limit?: number;
 }) =>
-  useQuery<{ position_history: FpiPosition[] }>(
+  useQuery<{ position_history: FpiPosition[]; total: number }>(
     ['fpiHistory', fpiKey, start, end, offset, limit],
     () => {
       // const h = makeFakePositions();
       if (offset != null && limit != null) {
         return {
+          total: h.length,
           position_history: h.slice(offset, offset + limit),
         };
       }
 
       if (start != null && end != null) {
         return {
+          total: h.length,
           position_history: h.filter(
             x =>
               (!x.exit_time || +new Date(x.exit_time) > +new Date(start)) &&
