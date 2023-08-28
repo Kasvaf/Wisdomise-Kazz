@@ -23,7 +23,7 @@ const MenuItems = [
     text: 'Signal Matrix',
     mobileText: 'Signals',
     link: 'app/signals',
-    hide: true,
+    hide: false,
   },
 ].filter(x => !x.hide);
 
