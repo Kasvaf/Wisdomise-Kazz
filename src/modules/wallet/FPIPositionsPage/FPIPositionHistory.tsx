@@ -19,7 +19,7 @@ const FPIPositionHistory: React.FC<{ fpiKey?: string; className?: string }> = ({
     limit: PAGE_SIZE,
   });
 
-  if (!history.data || history.isLoading) return <></>;
+  if (!history.data || history.isLoading || !history.data.total) return <></>;
 
   return (
     <div className={className}>

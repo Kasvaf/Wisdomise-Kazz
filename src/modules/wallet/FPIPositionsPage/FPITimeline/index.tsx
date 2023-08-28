@@ -39,46 +39,54 @@ const FPITimeline: React.FC<Props> = ({ fpiKey, className }) => {
       <div>
         <div className="min-w-[800px] rounded-3xl bg-white/5 p-6">
           <div className="flex flex-col text-white/60">
-            <div className="flex">
-              <div className="w-[130px] flex-none" />
-              <div className="flex-1">
-                <div className="flex items-stretch">
-                  {range.segments.map(s => (
-                    <div
-                      key={s.label}
-                      className={clsx(
-                        'mb-6 flex-1 grow pb-2',
-                        'flex items-end justify-start',
-                        'border-b border-b-white/10',
-                        'whitespace-pre text-left text-xs',
-                        s.bold ? 'text-white/80' : 'text-white/10',
-                      )}
-                    >
-                      {s.label}
+            {data.length > 0 ? (
+              <>
+                <div className="flex">
+                  <div className="w-[130px] flex-none" />
+                  <div className="flex-1">
+                    <div className="flex items-stretch">
+                      {range.segments.map(s => (
+                        <div
+                          key={s.label}
+                          className={clsx(
+                            'mb-6 flex-1 grow pb-2',
+                            'flex items-end justify-start',
+                            'border-b border-b-white/10',
+                            'whitespace-pre text-left text-xs',
+                            s.bold ? 'text-white/80' : 'text-white/10',
+                          )}
+                        >
+                          {s.label}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {data.map(({ key, pair, items }) => (
-              <div className="flex py-3" key={key}>
-                <div className="flex w-[130px] flex-none">
-                  <PairInfo
-                    title={pair.title}
-                    base={pair.base.name}
-                    quote={pair.quote.name}
-                  />
-                </div>
-                <div className="flex flex-1 items-center justify-stretch">
-                  <RowGraph
-                    className="flex-1"
-                    segments={range.segments.length}
-                    items={items}
-                  />
-                </div>
+                {data.map(({ key, pair, items }) => (
+                  <div className="flex py-3" key={key}>
+                    <div className="flex w-[130px] flex-none">
+                      <PairInfo
+                        title={pair.title}
+                        base={pair.base.name}
+                        quote={pair.quote.name}
+                      />
+                    </div>
+                    <div className="flex flex-1 items-center justify-stretch">
+                      <RowGraph
+                        className="flex-1"
+                        segments={range.segments.length}
+                        items={items}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <div className="text-sm">
+                There were no positions in this time period.
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
