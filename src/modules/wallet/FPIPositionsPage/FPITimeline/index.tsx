@@ -99,6 +99,7 @@ function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
           start: toRatio(p.entry_time),
           end: toRatio(p.exit_time || end),
           color: p.pnl < 0 ? 'error' : 'success',
+          snl: Math.abs(p.pnl) / 100,
           hover: <PositionHover p={p} />,
         };
         return si;
