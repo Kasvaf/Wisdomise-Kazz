@@ -89,6 +89,8 @@ const FPITimeline: React.FC<Props> = ({ fpiKey, className }) => {
 function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
   const dur = +end - +start;
   const toRatio = (d: string | Date) => (+new Date(d) - +start) / dur;
+
+  const maxPnl = positions.reduce((acc, x) => Math.max(acc, x.pnl), 0);
   const positionsGrouped = Object.entries(groupBy(positions, p => p.pair.title))
     .sort((a, b) => b[0].localeCompare(a[0]))
     .map(([key, items]) => ({
@@ -99,7 +101,7 @@ function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
           start: toRatio(p.entry_time),
           end: toRatio(p.exit_time || end),
           color: p.pnl < 0 ? 'error' : 'success',
-          snl: Math.abs(p.pnl) / 100,
+          weight: Math.abs(p.pnl) / maxPnl,
           hover: <PositionHover p={p} />,
         };
         return si;

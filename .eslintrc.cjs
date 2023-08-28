@@ -67,6 +67,7 @@ module.exports = {
     'unicorn/no-await-expression-member': 'off',
     'unicorn/consistent-function-scoping': 'off',
     'unicorn/no-useless-undefined': ['error', { checkArguments: false }],
+    'unicorn/no-array-reduce': 'off',
 
     // 'quote-props': ['error', 'consistent-as-needed'],
     'jsx-a11y/no-static-element-interactions': 'off',

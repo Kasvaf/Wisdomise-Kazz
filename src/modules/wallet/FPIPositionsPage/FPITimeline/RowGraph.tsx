@@ -5,7 +5,7 @@ export interface SegmentItem {
   start: number;
   end: number;
   color: 'success' | 'error';
-  snl: number;
+  weight: number;
   hover?: JSX.Element;
 }
 
@@ -25,9 +25,9 @@ const RowGraph: React.FC<Props> = ({ segments, items, className }) => {
       </div>
 
       <div className="absolute left-0 w-full">
-        {items.map(({ start, end, color, hover }) => {
+        {items.map(({ start, end, color, hover, weight }) => {
           const width = 100 * (Math.min(end, 1) - Math.max(start, 0));
-          const height = 8; // use snl for height calc
+          const height = 8;
 
           return (
             <div
@@ -46,6 +46,10 @@ const RowGraph: React.FC<Props> = ({ segments, items, className }) => {
                 marginLeft: (100 * Math.max(start, 0)).toFixed(5) + '%',
                 height: height.toFixed(3) + 'px',
                 top: (-height / 2).toFixed(3) + 'px',
+                backgroundColor:
+                  color === 'success'
+                    ? `hsl(143deg 100% ${100 - 1 * 50}% / ${weight})`
+                    : `hsl(0deg 100% ${100 - 1 * 50}% / ${weight})`,
               }}
             >
               <div
