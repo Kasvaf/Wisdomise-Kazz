@@ -1,7 +1,9 @@
 import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import type React from 'react';
+import { useCallback, useState } from 'react';
 import { type LastPosition } from 'api/types/signalResponse';
+import isTouchDevice from 'utils/isTouchDevice';
 import PriceChange from 'shared/PriceChange';
 
 interface Props {
@@ -43,27 +45,33 @@ const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
   );
 };
 
-const SignalBoxTpSl: React.FC<Props> = ({ position: p }) => {
+const SignalBoxValues: React.FC<{
+  values: Array<{ label: string; value?: string | number; isMuted?: boolean }>;
+  className?: string;
+}> = ({ values, className }) => {
   return (
-    <div className="flex flex-col items-center justify-between bg-black/10 p-2">
-      {[p.take_profit, p.stop_loss].map((v, i) => (
+    <div
+      className={clsx(
+        'flex flex-col items-center justify-between bg-black/10 p-2',
+        className,
+      )}
+    >
+      {values.map(v => (
         <div
-          key={v}
-          className="flex w-full items-center justify-start first:mb-2"
+          key={v.label}
+          className="mt-2 flex w-full items-center justify-start first:mt-0"
         >
           <span className="mr-1 grow-0 basis-auto text-xxs text-white/20">
-            {i === 0 ? 'TP' : 'SL'}
+            {v.label}
           </span>
           <div className="mx-1 grow basis-auto border-t border-white/5" />
           <span
             className={clsx(
               'grow-0 basis-auto text-xs text-white/90',
-              p.exit_time &&
-                p.suggested_action === 'CLOSE_DELAYED' &&
-                '!text-white/20',
+              v.isMuted && '!text-white/20',
             )}
           >
-            {v || <span className="text-white/20">None</span>}
+            {v.value || <span className="text-white/20">None</span>}
           </span>
         </div>
       ))}
@@ -78,11 +86,11 @@ const SuggestionLabel = {
   CLOSE_DELAYED: 'Close',
   NO_ACTION: 'No Action',
 };
+const isOpenOrDelayed = (p: LastPosition) =>
+  p.suggested_action === 'OPEN' || p.suggested_action === 'OPEN_DELAYED';
 
 const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
   const isNoAction = p.suggested_action === 'NO_ACTION';
-  const isOpenOrDelayed =
-    p.suggested_action === 'OPEN' || p.suggested_action === 'OPEN_DELAYED';
 
   return (
     <div className="flex w-full items-center justify-between p-2">
@@ -104,7 +112,7 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
             (p.exit_time
               ? 'bg-white/10 text-white/20'
               : 'bg-white/10 text-white/80'),
-          isOpenOrDelayed && 'bg-[#40F19C33] text-[#40f19ccc]',
+          isOpenOrDelayed(p) && 'bg-[#40F19C33] text-[#40f19ccc]',
           p.suggested_action === 'CLOSE' && 'bg-[#F1405633] text-[#F14056CC]',
           p.suggested_action === 'CLOSE_DELAYED' && 'bg-white/5 text-white/20',
         )}
@@ -116,20 +124,99 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p }) => {
 };
 
 const SignalBox: React.FC<Props> = ({ position: p }) => {
+  const isTouch = isTouchDevice();
+
+  const [summary, setSummary] = useState(true);
+  const clickHandler = useCallback(() => {
+    if (isTouch) {
+      setSummary(x => !x);
+    }
+  }, [isTouch]);
+  const enterHandler = useCallback(() => {
+    if (!isTouch) {
+      setSummary(false);
+    }
+  }, [isTouch]);
+  const leaveHandler = useCallback(() => {
+    if (!isTouch) {
+      setSummary(true);
+    }
+  }, [isTouch]);
+
   const isMuted =
     (!p.exit_time && p.suggested_action === 'OPEN') ||
     (p.exit_time && p.suggested_action === 'CLOSE');
 
+  const side = p.position_side?.toLowerCase();
   return (
     <div
       className={clsx(
-        'flex flex-col rounded-lg',
+        'flex h-full w-[160px] cursor-pointer select-none flex-col justify-center rounded-lg',
         isMuted ? 'bg-white/10' : 'bg-white/5',
       )}
+      onClick={clickHandler}
+      onMouseEnter={enterHandler}
+      onMouseLeave={leaveHandler}
     >
-      <SignalBoxTitle position={p} />
-      <SignalBoxTpSl position={p} />
-      <SignalBoxSuggestion position={p} />
+      {summary ? (
+        <>
+          <SignalBoxTitle position={p} />
+          <SignalBoxValues
+            values={[
+              {
+                label: 'side',
+                value: side,
+                isMuted: p.suggested_action === 'CLOSE_DELAYED',
+              },
+            ]}
+            className="mb-1"
+          />
+          <SignalBoxSuggestion position={p} />
+        </>
+      ) : (
+        <>
+          <SignalBoxValues
+            values={[
+              {
+                label: 'entry price',
+                value: p.entry_price,
+              },
+              {
+                label: 'date',
+                value: dayjs(p.entry_time).format('HH:mm MMM DD'),
+                isMuted: true,
+              },
+            ]}
+            className="mb-1.5"
+          />
+          <SignalBoxValues
+            values={
+              p.exit_time // is closed
+                ? [
+                    {
+                      label: 'exit price',
+                      value: p.exit_price,
+                    },
+                    {
+                      label: 'date',
+                      value: dayjs(p.exit_time).format('HH:mm MMM DD'),
+                      isMuted: true,
+                    },
+                  ]
+                : [
+                    {
+                      label: 'TP',
+                      value: p.take_profit,
+                    },
+                    {
+                      label: 'SL',
+                      value: p.stop_loss,
+                    },
+                  ]
+            }
+          />
+        </>
+      )}
     </div>
   );
 };
