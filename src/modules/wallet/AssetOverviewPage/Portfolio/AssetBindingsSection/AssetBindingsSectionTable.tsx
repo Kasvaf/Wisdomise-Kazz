@@ -36,7 +36,7 @@ const AssetBindingsSectionTable = () => {
         title: 'Amount',
         dataIndex: 'amount',
         render: amount =>
-          numerable.format(amount, '0,0.00', { rounding: 'floor' }),
+          numerable.format(Math.abs(amount), '0,0.00', { rounding: 'floor' }),
       },
       {
         title: 'Equity',
