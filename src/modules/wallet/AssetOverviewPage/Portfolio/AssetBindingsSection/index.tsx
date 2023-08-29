@@ -5,7 +5,7 @@ import { useInvestorAssetStructuresQuery } from 'api';
 import { type AssetBinding } from 'api/types/investorAssetStructure';
 import useIsMobile from 'utils/useIsMobile';
 import useMainQuote from 'shared/useMainQuote';
-import CoinsIcons, { coinsIcons } from 'shared/CoinsIcons';
+import CoinsIcons, { getCoinColor } from 'shared/CoinsIcons';
 import AssetBindingsSectionTable from './AssetBindingsSectionTable';
 
 const emptyFn = () => <></>;
@@ -30,10 +30,7 @@ const AssetBindingsSection = () => {
       id: a.name,
       label: a.name,
       value: a.equity,
-      color: Reflect.get(
-        coinsIcons,
-        a.name as unknown as keyof typeof coinsIcons,
-      ).color,
+      color: getCoinColor(a.name),
     })) ?? [];
 
   return (

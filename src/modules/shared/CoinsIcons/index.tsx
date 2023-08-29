@@ -12,6 +12,8 @@ import LTC from './icons/ltc.svg';
 import TRX from './icons/trx.svg';
 import USDT from './icons/usdt.svg';
 import XRP from './icons/xrp.svg';
+import MATIC from './icons/matic.svg';
+import SOL from './icons/sol.svg';
 
 interface Props {
   size?: AvatarProps['size'];
@@ -35,14 +37,18 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
 
   return (
     <Avatar.Group>
-      {_coins.map(c => (
-        <Avatar
-          size={size}
-          className="!border-0"
-          key={coinsIcons[c as keyof typeof coinsIcons].name}
-          src={coinsIcons[c as keyof typeof coinsIcons].src}
-        />
-      ))}
+      {_coins.map(c =>
+        c in coinsIcons ? (
+          <Avatar
+            key={c}
+            size={size}
+            className="!border-0"
+            src={coinsIcons[c as keyof typeof coinsIcons].src}
+          />
+        ) : (
+          <div key={c} className="h-8 w-8 rounded-full bg-white" />
+        ),
+      )}
       {isMaxShowEnable && (
         <p
           className="ml-2 ms-2 flex items-center text-white"
@@ -55,7 +61,7 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
   );
 };
 
-export const coinsIcons = {
+const coinsIcons = {
   ADA: {
     name: 'ADA',
     color: '#3468D1',
@@ -106,6 +112,26 @@ export const coinsIcons = {
     color: '#F0B90B',
     src: BUSD,
   },
+  MATIC: {
+    name: 'MATIC',
+    color: '#6c2ed8',
+    src: MATIC,
+  },
+  SOL: {
+    name: 'SOL',
+    color: '#9945FF',
+    src: SOL,
+  },
 } as const;
+
+const stableRandom: Record<string, string> = {};
+export function getCoinColor(coin: string) {
+  const exists = (coinsIcons as any)[coin]?.color || stableRandom[coin];
+  if (exists) return exists;
+
+  stableRandom[coin] =
+    '#' + Math.floor(Math.random() * 16_777_215).toString(16);
+  return stableRandom[coin];
+}
 
 export default CoinsIcons;
