@@ -8,7 +8,7 @@ interface Props {
 
 const PriceAreaChart: React.FC<Props> = ({ data }) => {
   const configs = useMemo<AreaConfig>(() => {
-    const trend = data.at(-1)?.y - data.at(0)?.y > 0 ? 'up' : 'down';
+    const isUpTrend = data.at(-1)?.y - data.at(0)?.y >= 0;
     const min = Math.min(...data.map(r => r.y));
 
     return {
@@ -17,7 +17,7 @@ const PriceAreaChart: React.FC<Props> = ({ data }) => {
       tooltip: false,
       xField: 'x',
       yField: 'y',
-      color: trend === 'down' ? '#FF3939' : '#00DA98',
+      color: isUpTrend ? '#00DA98' : '#FF3939',
       smooth: true,
       height: 30,
 
@@ -39,10 +39,9 @@ const PriceAreaChart: React.FC<Props> = ({ data }) => {
       },
       areaStyle: () => {
         return {
-          fill:
-            trend === 'down'
-              ? 'l(270) 0:#1f242db2 1:#DF5F4D'
-              : 'l(270) 0:#1f242db2 1:#4FBF674D',
+          fill: isUpTrend
+            ? 'l(270) 0:#1f242db2 1:#4FBF674D'
+            : 'l(270) 0:#1f242db2 1:#DF5F4D',
         };
       },
     };
