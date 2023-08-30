@@ -19,21 +19,21 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
   return (
     <div className="mb-4 w-[calc(100vw-2rem)] rounded-3xl bg-white px-4 py-6">
       <div className="flex items-center rounded-3xl bg-black/5 p-2">
-        {data?.customer.info.picture ? (
+        {data?.account.info.picture ? (
           <img
             className="mr-3 h-8 w-8 rounded-full"
-            src={data?.customer.info.picture}
+            src={data?.account.info.picture}
           />
         ) : (
           <div className="mr-3 flex h-12 w-12  items-center justify-center rounded-full bg-black/10 p-3">
-            {data?.customer.nickname.charAt(0)}
+            {data?.account.nickname?.charAt(0)}
           </div>
         )}
 
         <div className="text-base font-semibold text-black">
-          {data?.customer.nickname}
+          {data?.account.nickname}
           <p className="text-xxs leading-none text-black/60">
-            {data?.customer.user.email}
+            {data?.user.email}
           </p>
         </div>
       </div>

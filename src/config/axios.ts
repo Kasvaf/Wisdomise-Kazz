@@ -1,10 +1,11 @@
 import axios, { type AxiosError } from 'axios';
 import { tryParse } from 'utils/json';
+import { isProduction } from 'utils/version';
 import { JwtTokenKey, LoginUrl } from './constants';
-import { DB } from './keys';
 
 export default function configAxios() {
-  axios.defaults.baseURL = DB + '/api/v1/';
+  const temple = `https://${isProduction ? '' : 'stage-'}temple.wisdomise.io`;
+  axios.defaults.baseURL = temple + '/api/v1/';
 
   /**
    * Requset Interceptors

@@ -1,8 +1,7 @@
 import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
-import { JwtTokenKey } from 'config/constants';
-import { DB } from 'config/keys';
+import { JwtTokenKey, LoginUrl } from 'config/constants';
 import AuthPageContainer from '../AuthPageContainer';
 import inboxImg from './email.svg';
 
@@ -14,7 +13,7 @@ const ConfirmSignUp = () => {
   const checkAgain = useCallback(() => {
     setIsChecking(true);
     localStorage.removeItem(JwtTokenKey);
-    window.location.assign(`${DB}/api/v1/account/login`);
+    window.location.assign(LoginUrl);
   }, []);
 
   useEffect(() => {
@@ -35,9 +34,7 @@ const ConfirmSignUp = () => {
 
         <p className="p-7 text-center text-sm leading-loose text-[#ffffffcc]">
           A link has been sent to your email{' '}
-          <span className="text-[#ffffff]">
-            {userInfo?.customer.user.email || ''}
-          </span>
+          <span className="text-[#ffffff]">{userInfo?.user.email || ''}</span>
           <br />
           To verify your account, please click on the link.
         </p>

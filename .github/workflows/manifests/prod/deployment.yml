@@ -32,10 +32,7 @@ spec:
         type: frontend
     spec:
       containers:
-        - env:
-            - name: VITE_BE_URL
-              value: 'https://temple.wisdomise.io'
-          image: horos-dashboard
+        - image: horos-dashboard
           imagePullPolicy: Always
           name: horos-dashboard
           ports:

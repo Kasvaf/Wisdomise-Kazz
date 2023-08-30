@@ -9,8 +9,8 @@ import DropdownContainer from './DropdownContainer';
 const UserDropdown = () => {
   const [open, setOpen] = useState(false);
   const { data: userInfo } = useUserInfoQuery();
-  const email = userInfo?.customer.user.email;
-  const nickname = userInfo?.customer.nickname;
+  const email = userInfo?.user.email;
+  const nickname = userInfo?.account.nickname;
 
   const button = (
     <div className="flex cursor-pointer items-center justify-start gap-3">

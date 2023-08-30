@@ -51,7 +51,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
     onResend();
   }, [onResend]);
 
-  const userEmail = user.data?.customer.info.email;
+  const userEmail = user.data?.account.info.email;
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Security verification</h1>

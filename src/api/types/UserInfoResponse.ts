@@ -1,22 +1,28 @@
 export interface UserInfoResponse {
   key: string;
-  customer: Customer;
+  user: User;
+  account: Account;
+  kyc_level_bindings: any[];
 }
 
-interface Customer {
+interface Account {
   key: string;
-  user: User;
-  nickname: string;
+  email: string;
+  nickname?: string;
   referral_code: string;
-  referrer: any;
+  referrer?: any;
   info: Info;
   terms_and_conditions_accepted: boolean;
   privacy_policy_accepted: boolean;
   register_status: string;
-  referees_count: number;
-  active_referees_count: number;
-  referral_level_bindings: any[];
+  stripe_customer_id?: any;
+  subscription: Subscription;
+  referred_users_count: number;
+  active_referred_users_count: number;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Subscription {}
 
 interface User {
   email: string;
