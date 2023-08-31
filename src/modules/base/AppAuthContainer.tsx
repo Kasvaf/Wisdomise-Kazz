@@ -14,6 +14,10 @@ const getSearch = () => {
 };
 
 export default function AppAuthContainer() {
+  if (RouterBaseName) {
+    localStorage.setItem('last-branch', RouterBaseName);
+  }
+
   const search = getSearch();
   if (search) {
     const params = new URLSearchParams(search);
