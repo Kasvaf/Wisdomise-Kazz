@@ -1,6 +1,6 @@
 import { isProduction } from 'utils/version';
 
-export const JwtTokenKey = 'TOKEN';
+export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
 
 const { hostname } = window.location;
 const appName =
@@ -13,5 +13,7 @@ const appName =
 const accountOrigin = `https://${
   isProduction ? '' : 'stage-'
 }account.wisdomise.io`;
-export const LoginUrl = `${accountOrigin}/auth/login?app=${appName}`;
-export const LogoutUrl = `${accountOrigin}/auth/logout?app=${appName}`;
+
+export const JwtTokenKey = 'TOKEN';
+export const LoginUrl = `${accountOrigin}/auth/login?app=${appName}&v=${RouterBaseName}`;
+export const LogoutUrl = `${accountOrigin}/auth/logout?app=${appName}&v=${RouterBaseName}`;

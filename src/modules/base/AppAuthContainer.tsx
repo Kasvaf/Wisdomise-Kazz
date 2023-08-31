@@ -1,24 +1,36 @@
-import { useLocalStorage } from 'usehooks-ts';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { JwtTokenKey, LoginUrl } from 'config/constants';
-import AuthCallback from './AuthCallback';
+import { JwtTokenKey, LoginUrl, RouterBaseName } from 'config/constants';
 import App from './App';
 
-const redirectToLogin = () => {
-  window.location.href = LoginUrl;
-  return null;
+const callbackPath = '/auth/callback';
+const getSearch = () => {
+  const { pathname, hash, search } = window.location;
+  if (RouterBaseName) {
+    if (hash.startsWith('#' + callbackPath)) {
+      return hash.replace(/[^?]+/, '');
+    }
+  } else if (pathname === callbackPath) {
+    return search;
+  }
 };
 
 export default function AppAuthContainer() {
-  const [userToken] = useLocalStorage(JwtTokenKey, '');
-  if (userToken) return <App />;
+  const search = getSearch();
+  if (search) {
+    const params = new URLSearchParams(search);
+    const token = params.get('token');
+    if (token) {
+      localStorage.setItem(JwtTokenKey, JSON.stringify(token));
+      if (RouterBaseName) {
+        window.location.href = '/' + RouterBaseName;
+        return null;
+      }
+    }
+  }
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/auth/callback" element={<AuthCallback />} />
-        <Route path="*" Component={redirectToLogin} />
-      </Routes>
-    </BrowserRouter>
-  );
+  if (!localStorage.getItem(JwtTokenKey)) {
+    window.location.href = LoginUrl;
+    return null;
+  }
+
+  return <App />;
 }
