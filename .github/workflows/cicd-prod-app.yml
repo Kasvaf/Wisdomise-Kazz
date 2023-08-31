@@ -1,0 +1,56 @@
+name: Deploy to EKS
+on:
+  push:
+    branches: [app]
+
+jobs:
+  Lint-and-Build-Push:
+    name: Lint-and-Build-Push
+    if: ${{ !contains(github.event.head_commit.message, 'ci-skip') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: |-
+          yarn install --production=false
+
+      - name: Run linter and prettier
+        run: |-
+          npx tsc && yarn lint && npx prettier --check .
+
+      - name: Run Sonar Qube
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Sonar Gate
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Build
+        run: |-
+          yarn build:prod
+          find dist | grep -E ".*\.map$" | tr '\n' '\0' | xargs -0 -n1 rm -rf
+
+      - name: Set up S3cmd
+        uses: s3-actions/s3cmd@v1.5.0
+        with:
+          provider: aws
+          region: 'eu-west-3'
+          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Upload to S3
+        run: |
+          s3cmd put --recursive dist/ s3://app.wisdomise.io/
+          s3cmd info s3://app.wisdomise.io
