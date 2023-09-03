@@ -2,13 +2,13 @@ import { clsx } from 'clsx';
 import { useInvestorAssetStructuresQuery } from 'api';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
-import DepositModal from '../DepositModal';
+import ModalDeposit from '../ModalDeposit';
 import TradeSrc from './trade.svg';
 
 const BoxIntro: React.FC<{
   className?: string;
 }> = ({ className }) => {
-  const [DepositMod, openDeposit] = useModal(DepositModal);
+  const [DepositMod, openDeposit] = useModal(ModalDeposit);
   const ias = useInvestorAssetStructuresQuery();
 
   return (

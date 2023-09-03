@@ -6,7 +6,7 @@ import logout from 'modules/auth/logout';
 import bgMobile from './bg-mobile.png';
 import bgDesktop from './bg.png';
 
-const AuthPageContainer: React.FC<PropsWithChildren> = ({ children }) => {
+const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
   const isMobile = useIsMobile();
 
   return (
@@ -42,4 +42,4 @@ const AuthPageContainer: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default AuthPageContainer;
+export default ContainerAuth;

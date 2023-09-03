@@ -6,7 +6,7 @@ import {
 import PageWrapper from 'modules/base/PageWrapper';
 import ProductCatalogCard from './ProductCatalogCard';
 
-const ProductsCatalog = () => {
+const PageProductsCatalog = () => {
   const fps = useFinancialProductsQuery();
   const ias = useInvestorAssetStructuresQuery();
 
@@ -41,4 +41,4 @@ const ProductsCatalog = () => {
   );
 };
 
-export default ProductsCatalog;
+export default PageProductsCatalog;

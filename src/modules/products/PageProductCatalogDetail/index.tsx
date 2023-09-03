@@ -4,13 +4,13 @@ import Button from 'shared/Button';
 import LineChart from 'shared/LineChart';
 import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
-import FPActivateButton from '../ProductsCatalogPage/FPActivateButton';
+import FPActivateButton from '../PageProductsCatalog/FPActivateButton';
 import { ColorByRisk } from '../constants';
 import NoticeBox from './NoticeBox';
 import ProfilePropsBox from './ProfilePropsBox';
 import InvestmentInfoBox from './InvestmentInfoBox';
 
-const ProductCatalogDetail = () => {
+const PageProductCatalogDetail = () => {
   const params = useParams<{ fpKey: string }>();
   const fpKey = params.fpKey;
   if (!fpKey) throw new Error('unexpected');
@@ -80,4 +80,4 @@ const ProductCatalogDetail = () => {
   );
 };
 
-export default ProductCatalogDetail;
+export default PageProductCatalogDetail;

@@ -8,7 +8,7 @@ import ActiveFinancialProducts from './ActiveFinancialProducts';
 import Portfolio from './Portfolio';
 import BoxIntro from './BoxIntro';
 
-const AssetOverview = () => {
+const PageAssetOverview = () => {
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
   const hasFpi = Boolean(data?.financial_product_instances[0]);
@@ -73,4 +73,4 @@ const AssetOverview = () => {
   );
 };
 
-export default AssetOverview;
+export default PageAssetOverview;
