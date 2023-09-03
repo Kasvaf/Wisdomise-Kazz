@@ -2,10 +2,10 @@ import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
 import { JwtTokenKey, LoginUrl } from 'config/constants';
-import AuthPageContainer from '../AuthPageContainer';
+import ContainerAuth from '../ContainerAuth';
 import inboxImg from './email.svg';
 
-const ConfirmSignUp = () => {
+const PageConfirmSignUp = () => {
   const { data: userInfo } = useUserInfoQuery();
   const [isChecking, setIsChecking] = useState(false);
   const resendVerify = useResendVerificationEmailMutation();
@@ -25,7 +25,7 @@ const ConfirmSignUp = () => {
   }, [resendVerify]);
 
   return (
-    <AuthPageContainer>
+    <ContainerAuth>
       <main className="mb-20 flex flex-col items-center justify-center">
         <img src={inboxImg} className="w-32 md:w-44" alt="inbox" />
         <p className="text-3xl text-white md:text-5xl">
@@ -55,8 +55,8 @@ const ConfirmSignUp = () => {
             : 'Resend Verification Email'}
         </button>
       </main>
-    </AuthPageContainer>
+    </ContainerAuth>
   );
 };
 
-export default ConfirmSignUp;
+export default PageConfirmSignUp;

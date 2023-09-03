@@ -4,7 +4,7 @@ import Spinner from 'shared/Spinner';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 import CopyInputBox from './CopyInputBox';
 
-const DepositModal = () => {
+const ModalDeposit = () => {
   const {
     component: CryptoNetworkSelector,
     loading: cryptoNetLoading,
@@ -63,4 +63,4 @@ const DepositModal = () => {
   );
 };
 
-export default DepositModal;
+export default ModalDeposit;

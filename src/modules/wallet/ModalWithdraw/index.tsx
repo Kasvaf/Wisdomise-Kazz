@@ -51,7 +51,7 @@ const toAmount = (v: string) =>
     .replace(/^\./, '0.')
     .replace(/^(\d+(\.\d*))\..*$/, '$1') || '0';
 
-const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
+const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
   const {
@@ -291,4 +291,4 @@ const WithdrawModal: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   );
 };
 
-export default WithdrawModal;
+export default ModalWithdraw;

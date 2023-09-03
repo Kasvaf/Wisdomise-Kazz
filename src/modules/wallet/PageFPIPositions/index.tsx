@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useFpiQuery } from 'api/fpi';
 import PageWrapper from 'modules/base/PageWrapper';
-import FinancialProductItem from '../AssetOverviewPage/ActiveFinancialProducts/FinancialProductItem';
+import FinancialProductItem from '../PageAssetOverview/ActiveFinancialProducts/FinancialProductItem';
 import FPIPositionHistory from './FPIPositionHistory';
 import FPITimeline from './FPITimeline';
 
-const FPIPositionsPage = () => {
+const PageFPIPositions = () => {
   const params = useParams<{ fpiKey: string }>();
   const fpi = useFpiQuery(params.fpiKey);
   return (
@@ -26,4 +26,4 @@ const FPIPositionsPage = () => {
   );
 };
 
-export default FPIPositionsPage;
+export default PageFPIPositions;

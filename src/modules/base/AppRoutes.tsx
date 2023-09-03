@@ -3,23 +3,23 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import PageWrapper from './PageWrapper';
 import Container from './Container';
 
-const SignalsMatrixPage = React.lazy(
-  () => import('modules/products/SignalsMatrixPage'),
+const PageSignalsMatrix = React.lazy(
+  () => import('modules/products/PageSignalsMatrix'),
 );
 
-const ProductsCatalogPage = React.lazy(
-  () => import('modules/products/ProductsCatalogPage'),
+const PageProductsCatalog = React.lazy(
+  () => import('modules/products/PageProductsCatalog'),
 );
-const ProductCatalogDetailPage = React.lazy(
-  () => import('modules/products/ProductCatalogDetailPage'),
-);
-
-const AssetOverviewPage = React.lazy(
-  () => import('modules/wallet/AssetOverviewPage'),
+const PageProductCatalogDetail = React.lazy(
+  () => import('modules/products/PageProductCatalogDetail'),
 );
 
-const FPIPositionsPage = React.lazy(
-  () => import('modules/wallet/FPIPositionsPage'),
+const PageAssetOverview = React.lazy(
+  () => import('modules/wallet/PageAssetOverview'),
+);
+
+const PageFPIPositions = React.lazy(
+  () => import('modules/wallet/PageFPIPositions'),
 );
 
 export default function AppRoutes() {
@@ -32,7 +32,7 @@ export default function AppRoutes() {
           path="app/assets"
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
-              <AssetOverviewPage />
+              <PageAssetOverview />
             </React.Suspense>
           }
         />
@@ -41,7 +41,7 @@ export default function AppRoutes() {
           path="app/fpi/:fpiKey"
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
-              <FPIPositionsPage />
+              <PageFPIPositions />
             </React.Suspense>
           }
         />
@@ -50,7 +50,7 @@ export default function AppRoutes() {
           path="app/products-catalog"
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
-              <ProductsCatalogPage />
+              <PageProductsCatalog />
             </React.Suspense>
           }
         />
@@ -59,7 +59,7 @@ export default function AppRoutes() {
           path="app/products-catalog/:fpKey"
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
-              <ProductCatalogDetailPage />
+              <PageProductCatalogDetail />
             </React.Suspense>
           }
         />
@@ -68,7 +68,7 @@ export default function AppRoutes() {
           path="app/signals"
           element={
             <React.Suspense fallback={<PageWrapper loading />}>
-              <SignalsMatrixPage />
+              <PageSignalsMatrix />
             </React.Suspense>
           }
         />
