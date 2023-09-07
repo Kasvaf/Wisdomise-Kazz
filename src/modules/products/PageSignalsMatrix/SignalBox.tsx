@@ -110,8 +110,7 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
               {
                 label: 'entry price',
                 value:
-                  p.entry_price &&
-                  '$' + numerable.format(p.entry_price, '0,0.00'),
+                  p.entry_price && numerable.format(p.entry_price, '0,0.00'),
               },
               {
                 label: 'date',
@@ -129,7 +128,7 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
                       label: 'exit price',
                       value:
                         p.entry_price &&
-                        '$' + numerable.format(p.entry_price, '0,0.00'),
+                        numerable.format(p.entry_price, '0,0.00'),
                     },
                     {
                       label: 'date',
@@ -140,11 +139,14 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
                 : [
                     {
                       label: 'TP',
-                      value: p.take_profit,
+                      value:
+                        p.take_profit &&
+                        numerable.format(p.take_profit, '0,0.00'),
                     },
                     {
                       label: 'SL',
-                      value: p.stop_loss,
+                      value:
+                        p.stop_loss && numerable.format(p.stop_loss, '0,0.00'),
                     },
                   ]
             }
