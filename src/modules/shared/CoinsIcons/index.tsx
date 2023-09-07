@@ -14,6 +14,7 @@ import USDT from './icons/usdt.svg';
 import XRP from './icons/xrp.svg';
 import MATIC from './icons/matic.svg';
 import SOL from './icons/sol.svg';
+import UNI from './icons/uni.svg';
 
 interface Props {
   size?: AvatarProps['size'];
@@ -121,6 +122,11 @@ const coinsIcons = {
     name: 'SOL',
     color: '#9945FF',
     src: SOL,
+  },
+  UNI: {
+    name: 'UNI',
+    color: '#FF007A',
+    src: UNI,
   },
 } as const;
 
