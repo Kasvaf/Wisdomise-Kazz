@@ -11,16 +11,16 @@ const FpiAssetItem = ({ asset: a }: { asset: AssetBinding }) => {
 
   return (
     <React.Fragment key={a.name}>
-      <div className="mx-6 mt-4 grid w-fit grid-cols-2 items-center first:ml-0 mobile:mx-0 mobile:flex mobile:w-full mobile:items-center mobile:justify-between mobile:rounded-lg mobile:bg-white/5 mobile:p-2">
+      <div className="mx-6 mt-4 grid w-fit shrink-0 grid-cols-2 items-center first:ml-0 mobile:mx-0 mobile:flex mobile:w-full mobile:items-center mobile:justify-between mobile:rounded-lg mobile:bg-white/5 mobile:p-2">
         <div className="flex items-center">
           <CoinsIcons size={isMobile ? 15 : 'small'} coins={[a.name]} />
           <span className="ml-2 text-xs text-white">{a.name}</span>
         </div>
-        <p className="ml-4 text-sm font-medium text-white/90 mobile:ml-0">
+        <p className="ml-4 whitespace-nowrap text-sm font-medium text-white/90 mobile:ml-0">
           {numerable.format(a.share / 100, '0,0.00 %')}
         </p>
         <p className="mobile:hidden" />
-        <p className="text-right text-xxs text-white/60 mobile:text-xs">
+        <p className="whitespace-nowrap text-right text-xxs text-white/60 mobile:text-xs">
           {numerable.format(a.equity, '0,0.00', {
             rounding: 'floor',
           })}{' '}

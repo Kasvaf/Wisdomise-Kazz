@@ -4,7 +4,7 @@ import Icon from 'shared/Icon';
 import { ReactComponent as ErrorUndraw } from './undraw.svg';
 
 const onReload = () => window.location.reload();
-export default function ErrorPage() {
+export default function PageError() {
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center text-white">
       <ErrorUndraw className="mb-10 h-auto w-full max-w-sm px-6" />

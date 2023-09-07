@@ -91,9 +91,10 @@ export interface FpiPosition {
     quote: Quote;
   };
   pnl: number;
+  amount: number;
   entry_price: number;
-  exit_price: number;
+  exit_price?: number;
   entry_time: string;
-  exit_time: string;
-  position_side: 'long' | 'short';
+  exit_time?: string;
+  position_side: 'LONG' | 'SHORT';
 }

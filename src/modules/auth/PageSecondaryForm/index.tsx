@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useCallback, useState } from 'react';
 import { useAgreeToTermsMutation } from 'api';
-import AuthPageContainer from '../AuthPageContainer';
+import ContainerAuth from '../ContainerAuth';
 import useModalContract from './useModalContract';
 import CheckBox from './CheckBox';
 import InputBox from './InputBox';
@@ -32,7 +32,7 @@ const staticContracts: Array<{
   },
 ];
 
-const SecondaryForm: React.FC = () => {
+const PageSecondaryForm: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
@@ -90,7 +90,7 @@ const SecondaryForm: React.FC = () => {
   }, [nickname, contracts, referralCode, agreeToTerms]);
 
   return (
-    <AuthPageContainer>
+    <ContainerAuth>
       <main className="mb-20 flex flex-col items-center justify-center">
         <div className="flex flex-col items-start mobile:px-4">
           <p className="mb-10 text-3xl md:text-4xl">
@@ -147,8 +147,8 @@ const SecondaryForm: React.FC = () => {
       {contractsDefs.map(({ type, Modal }) => (
         <Modal key={type} />
       ))}
-    </AuthPageContainer>
+    </ContainerAuth>
   );
 };
 
-export default SecondaryForm;
+export default PageSecondaryForm;

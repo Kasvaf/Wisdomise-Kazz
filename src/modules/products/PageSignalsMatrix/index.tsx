@@ -7,7 +7,7 @@ import PriceAreaChart from 'shared/PriceAreaChart';
 import PageWrapper from 'modules/base/PageWrapper';
 import SignalBox from './SignalBox';
 
-const Signals: React.FC = () => {
+const PageSignalsMatrix: React.FC = () => {
   const { data, isLoading } = useSignalsQuery();
 
   return (
@@ -101,4 +101,4 @@ const EmptySignal = styled.div`
   );
 `;
 
-export default Signals;
+export default PageSignalsMatrix;

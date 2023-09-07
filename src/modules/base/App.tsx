@@ -1,7 +1,7 @@
-import { BrowserRouter } from 'react-router-dom';
-import 'tw-elements';
-
+import { HashRouter, BrowserRouter } from 'react-router-dom';
 import { useInvestorAssetStructuresQuery, useUserInfoQuery } from 'api';
+import { RouterBaseName } from 'config/constants';
+import 'tw-elements';
 import Splash from './Splash';
 import AppRoutes from './AppRoutes';
 import useAnalytics from './useAnalytics';
@@ -16,12 +16,14 @@ const App = () => {
     return <Splash />;
   }
 
-  return (
-    <>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </>
+  return RouterBaseName ? (
+    <HashRouter>
+      <AppRoutes />
+    </HashRouter>
+  ) : (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   );
 };
 

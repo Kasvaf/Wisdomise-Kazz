@@ -1,0 +1,103 @@
+name: Deploy to S3
+on:
+  push:
+
+jobs:
+  Lint-Build-Stage:
+    name: Lint-Build-Stage
+    if: ${{ !contains(github.event.head_commit.message, 'ci-skip') }}
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: |-
+          python3 -m pip install awscli
+          yarn install --production=false
+
+      - name: Run linter and prettier
+        run: |-
+          npx tsc && yarn lint && npx prettier --check .
+
+      - name: Run Sonar Qube
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Sonar Gate
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Build
+        env:
+          VITE_BRANCH: ${{ github.ref_name }}
+        run: |-
+          yarn build:dev
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --recursive dist/ s3://stage-app.wisdomise.io/${{ github.ref_name }}/
+
+
+  Lint-Build-Prod:
+    name: Lint-Build-Prod
+    needs: Lint-Build-Stage
+    if: ${{ github.ref_name == 'app' && !contains(github.event.head_commit.message, 'ci-skip') }}
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: |-
+          python3 -m pip install awscli
+          yarn install --production=false
+
+      - name: Run linter and prettier
+        run: |-
+          npx tsc && yarn lint && npx prettier --check .
+
+      - name: Run Sonar Qube
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Sonar Gate
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Build
+        run: |-
+          yarn build:prod
+          find dist | grep -E ".*\.map$" | tr '\n' '\0' | xargs -0 -n1 rm -rf
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --recursive dist/ s3://app.wisdomise.io/
