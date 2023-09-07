@@ -35,7 +35,7 @@ const PositionHover: React.FC<{ p: FpiPosition }> = ({ p }) => (
       time={p.entry_time}
       className="ml-2"
     />
-    {p.exit_time && (
+    {p.exit_time != null && p.exit_price != null && (
       <TimeBox
         title="Exit point"
         price={p.exit_price}
