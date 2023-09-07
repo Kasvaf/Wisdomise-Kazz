@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { useFpiPositionHistory } from 'api/fpi';
 import { type FpiPosition } from 'api/types/investorAssetStructure';
 import groupBy from 'utils/groupBy';
+import Spinner from 'shared/Spinner';
 import PairInfo from 'shared/PairInfo';
 import PositionHover from './PositionHover';
 import RowGraph, { type SegmentItem } from './RowGraph';
@@ -39,7 +40,11 @@ const FPITimeline: React.FC<Props> = ({ fpiKey, className }) => {
       <div>
         <div className="min-w-[800px] rounded-3xl bg-white/5 p-6">
           <div className="flex flex-col text-white/60">
-            {data.length > 0 ? (
+            {history.isLoading ? (
+              <div className="flex justify-center">
+                <Spinner />
+              </div>
+            ) : data.length > 0 ? (
               <>
                 <div className="flex">
                   <div className="w-[130px] flex-none" />

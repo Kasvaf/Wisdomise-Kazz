@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import makeArray from 'utils/makeArray';
 import {
   type InvestorAssetStructures,
   type FinancialProductInstance,
@@ -33,7 +32,19 @@ export const useFpiQuery = (fpiKey?: string) =>
     },
   );
 
-const h = makeFakePositions();
+const useFpiPositionHistoryFullQuery = (fpiKey?: string) =>
+  useQuery<FpiPosition[]>(
+    ['fpiHistoryFull', fpiKey],
+    async () => {
+      if (!fpiKey) throw new Error('unexpected');
+      const { data } = await axios.get<FpiPosition[]>(
+        `/ias/financial-product-instances/${fpiKey}/positions`,
+      );
+      return data;
+    },
+    { enabled: fpiKey != null },
+  );
+
 export const useFpiPositionHistory = ({
   fpiKey,
   start_datatime: start,
@@ -46,11 +57,14 @@ export const useFpiPositionHistory = ({
   end_datetime?: string;
   offset?: number;
   limit?: number;
-}) =>
-  useQuery<{ position_history: FpiPosition[]; total: number }>(
-    ['fpiHistory', fpiKey, start, end, offset, limit],
-    () => {
-      // const h = makeFakePositions();
+}) => {
+  const fullHistory = useFpiPositionHistoryFullQuery(fpiKey);
+  return useQuery<{ position_history: FpiPosition[]; total: number }>(
+    ['fpiHistory', fullHistory, fpiKey, start, end, offset, limit],
+    async () => {
+      const h = fullHistory.data;
+      if (!fpiKey || !h) throw new Error('unexpected');
+
       if (offset != null && limit != null) {
         return {
           total: h.length,
@@ -72,54 +86,11 @@ export const useFpiPositionHistory = ({
       throw new Error('unexpected');
     },
     {
+      keepPreviousData: true,
       enabled:
         fpiKey != null &&
+        fullHistory.data != null &&
         ((start != null && end != null) || (offset != null && limit != null)),
     },
   );
-
-function makeFakePositions() {
-  const end = new Date();
-  const start = new Date();
-  start.setMonth(start.getMonth() - 1);
-
-  const durR = makeArray(300).map(() => Math.random());
-  const sum = durR.reduce((a, b) => a + b, 0);
-  const dur = durR.map(x => (x / sum) * (+end - +start));
-
-  const pairs = [
-    {
-      title: 'Bitcoin',
-      base: { name: 'BTC' },
-      quote: { name: 'USDT' },
-    },
-    {
-      title: 'Ethereum',
-      base: { name: 'ETH' },
-      quote: { name: 'USDT' },
-    },
-    {
-      title: 'BNB',
-      base: { name: 'BNB' },
-      quote: { name: 'USDT' },
-    },
-  ];
-
-  const result: FpiPosition[] = [];
-  let now = start;
-  for (let i = 0; i < 300; i += 2) {
-    const exit = new Date(+now + dur[i]);
-    result.push({
-      entry_time: now.toISOString(),
-      exit_time: exit.toISOString(),
-      // exit_time: Math.random() < 0.5 ? exit.toISOString() : '',
-      entry_price: Math.random() * 100,
-      exit_price: Math.random() * 100,
-      pair: pairs[Math.trunc(Math.random() * 3)],
-      pnl: Math.random() * 100 - 50,
-      position_side: Math.random() < 0.5 ? 'long' : 'short',
-    });
-    now = new Date(+exit + dur[i + 1]);
-  }
-  return result;
-}
+};
