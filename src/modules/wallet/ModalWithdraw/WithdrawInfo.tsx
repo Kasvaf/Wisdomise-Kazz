@@ -1,11 +1,10 @@
 import type React from 'react';
-import { type Quote } from 'api/types/investorAssetStructure';
 import { type Network } from 'api/types/NetworksResponse';
 import WithdrawAmountBox from './WthdrawAmmountBox';
 
 export interface WithdrawInfoProps {
-  crypto: Quote;
-  network: Network;
+  crypto: string;
+  network?: Network;
   amount: number;
   wallet: string;
   fee: number;
@@ -32,7 +31,7 @@ const WithdrawInfo: React.FC<WithdrawInfoProps> = ({
           <div>Fee</div>
           <div className="flex items-center">
             <div>{fee}</div>
-            <div className="ml-1 text-[10px] text-white/80">{crypto.name}</div>
+            <div className="ml-1 text-[10px] text-white/80">{crypto}</div>
           </div>
         </div>
         <div className="flex items-center justify-between">

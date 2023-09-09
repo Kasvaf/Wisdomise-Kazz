@@ -1,11 +1,11 @@
 import { type Network } from 'api/types/NetworksResponse';
 import useConfirm from 'shared/useConfirm';
 
-const useNetworkConfirm = (net: Network) =>
+const useNetworkConfirm = (net?: Network) =>
   useConfirm({
     yesTitle: 'Yes, I’m sure',
     noTitle: 'No, I’m not sure',
-    message: (
+    message: net ? (
       <>
         You have selected the <strong className="text-white">{net.name}</strong>{' '}
         network. Please confirm that your withdrawal address supports the{' '}
@@ -13,6 +13,8 @@ const useNetworkConfirm = (net: Network) =>
         the receiving platform does not support it, your assets may be lost. If
         you are unsure, click the button below to verify it yourself.
       </>
+    ) : (
+      <></>
     ),
   });
 

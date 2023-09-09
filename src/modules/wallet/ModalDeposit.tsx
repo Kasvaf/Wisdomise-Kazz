@@ -1,6 +1,10 @@
 import QRCode from 'react-qr-code';
+import { bxInfoCircle } from 'boxicons-quasar';
+import { NavLink } from 'react-router-dom';
 import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
+import Banner from 'modules/shared/Banner';
+import { ACCOUNT_ORIGIN } from 'config/constants';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 import CopyInputBox from './CopyInputBox';
 
@@ -19,7 +23,14 @@ const ModalDeposit = () => {
 
   return (
     <div className="text-white">
-      <h1 className="mb-6 text-center text-xl">Deposit</h1>
+      <h1 className="mb-10 text-center text-xl">Deposit</h1>
+      <Banner icon={bxInfoCircle} className="mb-10">
+        You have to Deposit from a Verified wallet. Using an unverified wallet
+        will result in your account being{' '}
+        <span className="text-warning">restricted</span>.
+        <NavLink to={`${ACCOUNT_ORIGIN}/verify`}>Verify Wallet</NavLink>
+      </Banner>
+
       {CryptoNetworkSelector}
 
       {depositAddress.isLoading || cryptoNetLoading ? (
