@@ -15,6 +15,7 @@ export const STRATEGY_ORIGIN = makeOrigin('strategy');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const ATHENA_FE = makeOrigin('athena');
 export const ACCOUNT_ORIGIN = makeOrigin('account');
+export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
 
 // account info:
 

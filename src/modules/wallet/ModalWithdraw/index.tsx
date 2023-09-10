@@ -2,12 +2,14 @@
 import * as numerable from 'numerable';
 import { useCallback, useRef, useState } from 'react';
 import { notification } from 'antd';
+import { bxInfoCircle } from 'boxicons-quasar';
 import {
   useConfirmWithdrawMutation,
   useCreateWithdrawMutation,
   useInvestorAssetStructuresQuery,
   useResendWithdrawEmailMutation,
 } from 'api';
+import { ACCOUNT_ORIGIN } from 'config/constants';
 import { roundDown } from 'utils/numbers';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
@@ -15,6 +17,7 @@ import Button from 'shared/Button';
 import MultiButton from 'shared/MultiButton';
 import { unwrapErrorMessage } from 'utils/error';
 import { type VerifiedWallet } from 'api/kyc';
+import Banner from 'modules/shared/Banner';
 import useWithdrawalConfirm from './useWithdrawalConfirm';
 import useWithdrawSuccess from './useWithdrawSuccess';
 import useNetworkConfirm from './useNetworkConfirm';
@@ -67,8 +70,8 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   let amountError: string | undefined;
   if (Number.parseFloat(amount) < minWithdrawable) {
     amountError = `You cannot withdraw less than ${String(minWithdrawable)} ${
-      wallet?.symbol_name || ''
-    } in ${wallet?.network.name || ''} network.`;
+      wallet?.symbol.name || ''
+    } in ${wallet?.network?.name || ''} network.`;
   } else if (Number.parseFloat(amount) > available) {
     amountError = 'You cannot withdraw more than your available amount.';
   }
@@ -94,7 +97,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   );
 
   const withdrawInfo = {
-    crypto: wallet?.symbol_name || '',
+    crypto: wallet?.symbol.name || '',
     network: wallet?.network,
     amount: Number.parseFloat(amount),
     wallet: wallet?.address || '',
@@ -116,8 +119,8 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     if (!exchangeAccountKey) throw new Error('unexpected');
     return await createWithdraw({
       tx_type: 'WITHDRAW',
-      symbol_name: wallet?.symbol_name,
-      network_name: wallet?.network.name,
+      symbol_name: wallet.symbol.name,
+      network_name: wallet.network?.name || '',
       address: wallet.address,
       amount,
       exchangeAccountKey,
@@ -214,6 +217,21 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Withdraw</h1>
+
+      <Banner icon={bxInfoCircle} className="mb-10">
+        <div className="text-white/80">
+          To Withdraw you have to choose from a Verified Wallet Address.
+        </div>
+        <a
+          href={`${ACCOUNT_ORIGIN}/kyc`}
+          target="_blank"
+          className="font-bold"
+          rel="noreferrer"
+        >
+          Verify Wallet
+        </a>
+      </Banner>
+
       <div className="mb-9">
         <div className="mb-1 ml-3">Wallet Address</div>
         <WalletSelector selectedItem={wallet} onSelect={setWallet} />
@@ -226,7 +244,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           value={String(amount)}
           filter={toAmount}
           onChange={setAmount}
-          suffix={wallet?.symbol_name}
+          suffix={wallet?.symbol.name}
           error={amountError}
         />
       </div>
@@ -242,14 +260,14 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         <InfoLabel
           label="Available"
           value={available}
-          unit={wallet?.symbol_name}
+          unit={wallet?.symbol.name}
         />
         <InfoLabel
           label="Min. Withdrawal"
           value={minWithdrawable}
-          unit={wallet?.symbol_name}
+          unit={wallet?.symbol.name}
         />
-        <InfoLabel label="Network-Fee" value={fee} unit={wallet?.symbol_name} />
+        <InfoLabel label="Network-Fee" value={fee} unit={wallet?.symbol.name} />
       </div>
 
       <div className="flex justify-center">
@@ -258,8 +276,8 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           variant="primary"
           onClick={withdrawHandler}
           disabled={Boolean(
-            !wallet?.symbol_name ||
-              !wallet?.network.key ||
+            !wallet?.symbol.name ||
+              !wallet?.network?.name ||
               !wallet ||
               !amount ||
               amountError,

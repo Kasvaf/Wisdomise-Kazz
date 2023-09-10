@@ -28,7 +28,7 @@ const ModalDeposit = () => {
         You have to Deposit from a Verified wallet. Using an unverified wallet
         will result in your account being{' '}
         <span className="text-warning">restricted</span>.
-        <NavLink to={`${ACCOUNT_ORIGIN}/verify`}>Verify Wallet</NavLink>
+        <NavLink to={`${ACCOUNT_ORIGIN}/kyc`}>Verify Wallet</NavLink>
       </Banner>
 
       {CryptoNetworkSelector}
