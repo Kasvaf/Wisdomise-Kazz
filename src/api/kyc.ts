@@ -58,17 +58,26 @@ export const useVerifiedWallets = () => {
   };
 };
 
+export const useSumsubVerified = () =>
+  useQuery<boolean>(['ssLevels'], async () => {
+    const { data } = await axios.get<{ results: string[] }>(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/kyc/user-kyc-levels`,
+    );
+    return data.results.length > 0;
+  });
+
 export const useIsVerified = () => {
+  const verified = useSumsubVerified();
   const userInfo = useUserInfoQuery();
   const wallets = useRawWallets();
   return useMemo(
     () => ({
-      isLoading: userInfo.isLoading || wallets.isLoading,
-      identified: true, // TODO: fix it after sumsub integration
+      isLoading: verified.isLoading || userInfo.isLoading || wallets.isLoading,
+      identified: verified.data,
       verified:
         userInfo.data?.account.wisdomise_verification_status === 'VERIFIED',
       addedWallet: Boolean(wallets.data?.length),
     }),
-    [userInfo, wallets],
+    [verified, userInfo, wallets],
   );
 };
