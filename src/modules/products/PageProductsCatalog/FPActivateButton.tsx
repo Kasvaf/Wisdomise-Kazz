@@ -9,6 +9,9 @@ import {
 } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import Button from 'shared/Button';
+import { useIsVerified } from 'api/kyc';
+import { ACCOUNT_ORIGIN } from 'config/constants';
+import useModalVerification from '../useModalVerification';
 import isFPRunning from './isFPRunning';
 import useModalDisclaimer from './useModalDisclaimer';
 
@@ -77,12 +80,26 @@ const FPActivateButton: React.FC<Props> = ({
     (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
   const isRunning = isFPRunning(ias.data, fp.key);
 
+  const [ModalVerification, openVerification] = useModalVerification();
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
+  const isVerified = useIsVerified();
   const onActivateClick = useCallback(async () => {
+    if (isVerified.isLoading) return;
+    if (
+      !isVerified.identified ||
+      !isVerified.verified ||
+      !isVerified.addedWallet
+    ) {
+      if (await openVerification()) {
+        window.location.href = `${ACCOUNT_ORIGIN}/kyc`;
+      }
+      return;
+    }
+
     if (await openDisclaimer()) {
       await onWalletDisclaimerAccept();
     }
-  }, [openDisclaimer, onWalletDisclaimerAccept]);
+  }, [isVerified, openVerification, openDisclaimer, onWalletDisclaimerAccept]);
 
   return (
     <>
@@ -108,6 +125,7 @@ const FPActivateButton: React.FC<Props> = ({
         </Button>
       )}
 
+      <ModalVerification />
       <ModalDisclaimer />
     </>
   );

@@ -3,7 +3,7 @@ import { isProduction } from 'utils/version';
 const { hostname } = window.location;
 const Domain =
   hostname === 'localhost'
-    ? 'wisdomise.io'
+    ? 'wisdomise.com'
     : hostname.replace(/^(?:[\w-]+\.)*([\w-]+\.\w+)$/, '$1');
 const subdomainPrefix = isProduction ? '' : 'stage-';
 

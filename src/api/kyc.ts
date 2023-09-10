@@ -1,7 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import useMainQuote from 'modules/shared/useMainQuote';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
+import useMainQuote from 'shared/useMainQuote';
+import { useUserInfoQuery } from './account';
 import { useMarketNetworksQuery } from './market';
 import { useInvestorAssetStructuresQuery } from './ias';
 import { type Network } from './types/NetworksResponse';
@@ -54,4 +56,19 @@ export const useVerifiedWallets = () => {
       network: networks.data?.find(y => y.name === x.name),
     })),
   };
+};
+
+export const useIsVerified = () => {
+  const userInfo = useUserInfoQuery();
+  const wallets = useRawWallets();
+  return useMemo(
+    () => ({
+      isLoading: userInfo.isLoading || wallets.isLoading,
+      identified: true, // TODO: fix it after sumsub integration
+      verified:
+        userInfo.data?.account.wisdomise_verification_status === 'VERIFIED',
+      addedWallet: Boolean(wallets.data?.length),
+    }),
+    [userInfo, wallets],
+  );
 };

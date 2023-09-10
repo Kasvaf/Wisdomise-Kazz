@@ -19,6 +19,10 @@ interface Account {
   subscription: Subscription;
   referred_users_count: number;
   active_referred_users_count: number;
+  wisdomise_verification_status:
+    | 'UNVERIFIED'
+    | 'SET_CALENDLY_MEETING'
+    | 'VERIFIED';
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

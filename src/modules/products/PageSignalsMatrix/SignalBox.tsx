@@ -6,7 +6,7 @@ import * as numerable from 'numerable';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import PriceChange from 'shared/PriceChange';
-import Badge from './Badge';
+import Badge from 'shared/Badge';
 import { SUGGESTIONS } from './constants';
 import ValuesRow from './ValuesRow';
 
