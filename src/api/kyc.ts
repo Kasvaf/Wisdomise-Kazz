@@ -59,11 +59,13 @@ export const useVerifiedWallets = () => {
 };
 
 export const useSumsubVerified = () =>
-  useQuery<boolean>(['ssLevels'], async () => {
-    const { data } = await axios.get<{ results: string[] }>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/kyc/user-kyc-levels`,
-    );
-    return data.results.length > 0;
+  useQuery(['ssLevels'], async () => {
+    const { data } = await axios.get<{
+      results: Array<{
+        status: 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
+      }>;
+    }>(`${ACCOUNT_PANEL_ORIGIN}/api/v1/kyc/user-kyc-levels`);
+    return data.results?.[0]?.status;
   });
 
 export const useIsVerified = () => {
@@ -73,7 +75,7 @@ export const useIsVerified = () => {
   return useMemo(
     () => ({
       isLoading: verified.isLoading || userInfo.isLoading || wallets.isLoading,
-      identified: verified.data,
+      identified: verified.data === 'VERIFIED',
       verified:
         userInfo.data?.account.wisdomise_verification_status === 'VERIFIED',
       addedWallet: Boolean(wallets.data?.length),
