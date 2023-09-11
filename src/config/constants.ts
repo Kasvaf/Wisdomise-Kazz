@@ -8,12 +8,12 @@ const Domain =
 const subdomainPrefix = isProduction ? '' : 'stage-';
 
 const makeOrigin = (name: string) =>
-  `https://${subdomainPrefix}${name}.${Domain}`;
+  `https://${subdomainPrefix}${name}${name && '.'}${Domain}`;
 
 export const API_ORIGIN = makeOrigin('api');
 export const STRATEGY_ORIGIN = makeOrigin('strategy');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
-export const ATHENA_FE = makeOrigin('athena');
+export const ATHENA_FE = `https://${isProduction ? '' : 'stage.'}${Domain}`;
 export const ACCOUNT_ORIGIN = makeOrigin('account');
 export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
 
