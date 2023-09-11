@@ -9,7 +9,7 @@ const noop = (_val?: unknown) => {
 function useModal<T extends Record<string, any>>(
   ModalContent: React.FC<T>,
   config?: ModalProps,
-): [React.FC, (p: T) => Promise<unknown>] {
+): [JSX.Element, (p: T) => Promise<unknown>] {
   const [open, setOpen] = useState(false);
   const resolveHandler = useRef(noop);
   const props = useRef<T | undefined>();
@@ -41,7 +41,7 @@ function useModal<T extends Record<string, any>>(
     });
   }, []);
 
-  return [() => Component, update];
+  return [Component, update];
 }
 
 export default useModal;

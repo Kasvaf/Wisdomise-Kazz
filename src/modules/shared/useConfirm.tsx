@@ -70,7 +70,7 @@ const ConfirmModal: React.FC<Props> = ({
 
 function useConfirm(
   p: Omit<Props, 'onResolve'>,
-): [React.FC, (po?: Partial<Props>) => Promise<boolean>] {
+): [JSX.Element, (po?: Partial<Props>) => Promise<boolean>] {
   const [Component, update] = useModal(ConfirmModal);
   return [Component, async po => Boolean(await update({ ...p, ...po }))];
 }

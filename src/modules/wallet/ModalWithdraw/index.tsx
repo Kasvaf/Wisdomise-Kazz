@@ -203,10 +203,10 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     return (
       <div className="text-white">
         <h1 className="mb-6 text-center text-xl">Deposit</h1>
-        <ConfirmNetworkModal />
-        <ConfirmWithdrawalModal />
-        <SecurityInputModal />
-        <WithdrawSuccessModal />
+        {ConfirmNetworkModal}
+        {ConfirmWithdrawalModal}
+        {SecurityInputModal}
+        {WithdrawSuccessModal}
         <div className="mt-2 flex justify-center py-2">
           <Spinner />
         </div>

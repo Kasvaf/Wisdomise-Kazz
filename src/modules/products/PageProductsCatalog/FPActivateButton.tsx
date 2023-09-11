@@ -128,8 +128,8 @@ const FPActivateButton: React.FC<Props> = ({
         </Button>
       )}
 
-      <ModalVerification />
-      <ModalDisclaimer />
+      {ModalVerification}
+      {ModalDisclaimer}
     </>
   );
 };

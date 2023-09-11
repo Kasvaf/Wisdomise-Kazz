@@ -86,7 +86,7 @@ const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
             Deposit
           </div>
         </Button>
-        <DepositMod />
+        {DepositMod}
 
         <Button
           variant="link"
@@ -98,7 +98,7 @@ const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
             Withdraw
           </div>
         </Button>
-        <WithdrawMod />
+        {WithdrawMod}
       </div>
     </>
   );
