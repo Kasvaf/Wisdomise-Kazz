@@ -128,7 +128,7 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
                       label: 'exit price',
                       value:
                         p.entry_price &&
-                        numerable.format(p.entry_price, '0,0.00'),
+                        numerable.format(p.exit_price, '0,0.00'),
                     },
                     {
                       label: 'date',
