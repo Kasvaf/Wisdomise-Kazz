@@ -20,7 +20,6 @@ import { type VerifiedWallet } from 'api/kyc';
 import Banner from 'modules/shared/Banner';
 import useWithdrawalConfirm from './useWithdrawalConfirm';
 import useWithdrawSuccess from './useWithdrawSuccess';
-import useNetworkConfirm from './useNetworkConfirm';
 import useSecurityInput from './useSecurityInput';
 import WalletSelector from './WalletSelector';
 
@@ -104,9 +103,6 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     fee,
     source: mea?.exchange_market.market.name || '',
   };
-  const [ConfirmNetworkModal, openConfirmNetwork] = useNetworkConfirm(
-    wallet?.network,
-  );
   const [ConfirmWithdrawalModal, openConfirmWithdrawal] =
     useWithdrawalConfirm(withdrawInfo);
   const [WithdrawSuccessModal, showSuccess] = useWithdrawSuccess(withdrawInfo);
@@ -160,8 +156,6 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const withdrawHandler = useCallback(async () => {
     try {
       setSubmitting(true);
-      if (!(await openConfirmNetwork())) return;
-
       if (
         !(await (async function create(): Promise<boolean> {
           if (!(await openConfirmWithdrawal())) return false;
@@ -191,7 +185,6 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
       setSubmitting(false);
     }
   }, [
-    openConfirmNetwork,
     openConfirmWithdrawal,
     confirmSecurityCode,
     doCreateWithdraw,
@@ -203,7 +196,6 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     return (
       <div className="text-white">
         <h1 className="mb-6 text-center text-xl">Deposit</h1>
-        {ConfirmNetworkModal}
         {ConfirmWithdrawalModal}
         {SecurityInputModal}
         {WithdrawSuccessModal}
