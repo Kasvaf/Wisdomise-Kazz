@@ -51,9 +51,9 @@ export const useVerifiedWallets = () => {
   const wallets = useRawWallets();
   return {
     isLoading: networks.isLoading || wallets.isLoading,
-    data: wallets.data?.map(x => ({
-      ...x,
-      network: networks.data?.find(y => y.name === x.name),
+    data: wallets.data?.map(wallet => ({
+      ...wallet,
+      network: networks.data?.find(net => net.name === wallet.network.name),
     })),
   };
 };

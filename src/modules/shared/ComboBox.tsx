@@ -11,6 +11,7 @@ interface Props {
   renderItem: (item: any) => React.ReactElement;
   onSelect?: (item: any) => void;
   disabled?: boolean;
+  className?: string;
 }
 
 const OptionItem: React.FC<
@@ -40,6 +41,7 @@ const ComboBox: React.FC<Props> = ({
   selectedItem,
   onSelect,
   disabled = false,
+  className,
 }) => {
   const [open, setOpen] = useState(false);
   const selectItemHandler = useCallback(
@@ -82,11 +84,12 @@ const ComboBox: React.FC<Props> = ({
     >
       <div
         className={clsx(
-          'flex h-12 rounded-full',
+          'flex h-12 rounded-3xl',
           'items-center justify-between',
           'bg-black/40 pl-6 pr-2',
           !disabledOrEmpty && 'cursor-pointer hover:bg-white/5',
           open && 'bg-white/5',
+          className,
         )}
       >
         {renderItem(selectedItem)}

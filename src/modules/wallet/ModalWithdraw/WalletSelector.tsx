@@ -5,21 +5,25 @@ import { type VerifiedWallet, useVerifiedWallets } from 'api/kyc';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 
 const WalletOptionItemFn = (wallet: VerifiedWallet) => {
+  if (!wallet.symbol.name || !wallet.network?.name) {
+    return <div className="flex items-center">{wallet.address}</div>;
+  }
+
   return (
-    <div className="flex items-center">
-      {wallet.symbol.name && (
-        <div className="my-2 mr-2 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white">
-          <CoinsIcons coins={[wallet.symbol.name]} size={'small'} />
+    <div className="mr-2 flex-1">
+      <div className="mb-2 flex border-b border-white/20 pb-2">
+        <div className="mr-6 border-r border-white/20 pr-6">
+          {wallet.name || '(unnamed)'}
         </div>
-      )}
-      <div className="ml-2 flex flex-col justify-center">
-        <div className="font-medium leading-normal">{wallet.address}</div>
-        {wallet.network?.name && (
-          <div className="text-[10px] leading-normal text-white/80">
-            {wallet.network.name}
+        <div className="flex items-center gap-2">
+          <CoinsIcons coins={[wallet.symbol.name]} size={'small'} />
+          <div className="text-[10px] leading-normal">
+            {wallet.network.description}
           </div>
-        )}
+        </div>
       </div>
+
+      <div className="font-medium leading-normal">{wallet.address}</div>
     </div>
   );
 };
@@ -61,6 +65,7 @@ const WalletSelector: React.FC<Props> = ({
       onSelect={onSelect}
       renderItem={WalletOptionItemFn}
       disabled={disabled || wallets.isLoading}
+      className="!h-[88px]"
     />
   );
 };
