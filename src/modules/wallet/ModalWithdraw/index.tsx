@@ -219,13 +219,13 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
       <h1 className="mb-6 text-center text-xl">Withdraw</h1>
 
       <Banner icon={bxInfoCircle} className="mb-10">
-        <div className="text-white/80">
+        <span className="text-white/80">
           To Withdraw you have to choose from a Verified Wallet Address.
-        </div>
+        </span>{' '}
         <a
           href={`${ACCOUNT_ORIGIN}/kyc`}
           target="_blank"
-          className="font-bold"
+          className="font-bold underline"
           rel="noreferrer"
         >
           Verify Wallet

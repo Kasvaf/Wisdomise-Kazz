@@ -80,9 +80,13 @@ export const useIsVerified = () => {
   return useMemo(
     () => ({
       isLoading: verified.isLoading || userInfo.isLoading || wallets.isLoading,
-      identified: verified.data === 'VERIFIED',
-      verified:
-        userInfo.data?.account.wisdomise_verification_status === 'VERIFIED',
+      isAllVerified:
+        verified.data === 'VERIFIED' &&
+        userInfo.data?.account.wisdomise_verification_status === 'VERIFIED' &&
+        Boolean(wallets.data?.length),
+
+      identified: verified.data,
+      verified: userInfo.data?.account.wisdomise_verification_status,
       addedWallet: Boolean(wallets.data?.length),
     }),
     [verified, userInfo, wallets],

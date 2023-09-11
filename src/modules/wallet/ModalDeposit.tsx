@@ -27,8 +27,10 @@ const ModalDeposit = () => {
       <Banner icon={bxInfoCircle} className="mb-10">
         You have to Deposit from a Verified wallet. Using an unverified wallet
         will result in your account being{' '}
-        <span className="text-warning">restricted</span>.
-        <NavLink to={`${ACCOUNT_ORIGIN}/kyc`}>Verify Wallet</NavLink>
+        <span className="text-warning">restricted</span>.{' '}
+        <NavLink className="underline" to={`${ACCOUNT_ORIGIN}/kyc`}>
+          Verify Wallet
+        </NavLink>
       </Banner>
 
       {CryptoNetworkSelector}

@@ -86,11 +86,7 @@ const FPActivateButton: React.FC<Props> = ({
   const isVerified = useIsVerified();
   const onActivateClick = useCallback(async () => {
     if (isVerified.isLoading) return;
-    if (
-      !isVerified.identified ||
-      !isVerified.verified ||
-      !isVerified.addedWallet
-    ) {
+    if (!isVerified.isAllVerified) {
       if (await openVerification()) {
         window.location.href = `${ACCOUNT_ORIGIN}/kyc`;
       }
