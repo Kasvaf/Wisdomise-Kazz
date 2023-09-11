@@ -8,17 +8,19 @@ const Line = () => (
 );
 
 const badgeByCalendlyStatus = {
-  UNVERIFIED: <Badge label="Unverified" color="white" />,
-  SET_CALENDLY_MEETING: <Badge label="Pending Meeting" color="blue" />,
-  VERIFIED: <Badge label="Verified" color="green" />,
-  UNKNOWN: <Badge label="loading" color="white" />,
+  UNVERIFIED: <Badge className="w-[72px]" label="Unverified" color="white" />,
+  SET_CALENDLY_MEETING: (
+    <Badge className="w-[120px]" label="Pending Meeting" color="blue" />
+  ),
+  VERIFIED: <Badge className="w-[72px]" label="Verified" color="green" />,
+  UNKNOWN: <Badge className="w-[72px]" label="loading" color="white" />,
 };
 
 const badgeBySumsubStatus = {
-  UNVERIFIED: <Badge label="Unverified" color="white" />,
-  PENDING: <Badge label="Pending" color="blue" />,
-  VERIFIED: <Badge label="Verified" color="green" />,
-  REJECTED: <Badge label="Rejected" color="red" />,
+  UNVERIFIED: <Badge className="w-[72px]" label="Unverified" color="white" />,
+  PENDING: <Badge className="w-[72px]" label="Pending" color="blue" />,
+  VERIFIED: <Badge className="w-[72px]" label="Verified" color="green" />,
+  REJECTED: <Badge className="w-[72px]" label="Rejected" color="red" />,
 };
 
 const VerifyBadge: React.FC<{ done: boolean }> = ({ done }) =>
@@ -43,7 +45,11 @@ const useModalVerification = () => {
 
         <div className="mb-10 rounded-3xl bg-black/10 p-3">
           <div className="mb-2 flex">
-            <div className={clsx(isVerified.identified && 'text-white/60')}>
+            <div
+              className={clsx(
+                isVerified.identified === 'VERIFIED' && 'text-white/60',
+              )}
+            >
               Identification
             </div>
             <Line />
@@ -51,13 +57,21 @@ const useModalVerification = () => {
           </div>
 
           <div className="mb-2 flex">
-            <div>Verification</div>
+            <div
+              className={clsx(
+                isVerified.verified === 'VERIFIED' && 'text-white/60',
+              )}
+            >
+              Verification
+            </div>
             <Line />
             {badgeByCalendlyStatus[isVerified.verified || 'UNVERIFIED']}
           </div>
 
           <div className="flex">
-            <div>Wallet Verification</div>
+            <div className={clsx(isVerified.addedWallet && 'text-white/60')}>
+              Wallet Verification
+            </div>
             <Line />
             <VerifyBadge done={isVerified.addedWallet} />
           </div>
