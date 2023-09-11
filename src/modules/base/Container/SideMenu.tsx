@@ -1,14 +1,18 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
+import { ATHENA_FE } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import MenuItems from './MenuItems';
 
 const SideMenu = () => {
   return (
     <div className="fixed top-0 z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden">
-      <div className="flex w-full cursor-pointer flex-row items-center justify-center">
+      <a
+        href={ATHENA_FE}
+        className="flex w-full cursor-pointer flex-row items-center justify-center"
+      >
         <img className="h-8" src={Logo} alt="logo" />
-      </div>
+      </a>
       <div className="mt-6 h-[calc(100vh-104px)] w-full rounded-3xl bg-[#FFFFFF0D] p-6 ">
         {MenuItems.map((item, ind) => (
           <div key={item.link}>
