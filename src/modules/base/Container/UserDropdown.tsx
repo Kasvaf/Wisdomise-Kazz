@@ -1,7 +1,8 @@
-import { bxChevronDown, bxLogOut } from 'boxicons-quasar';
+import { bxChevronDown, bxLogOut, bxUser } from 'boxicons-quasar';
 import { Dropdown } from 'antd';
 import { useCallback, useState } from 'react';
 import { useUserInfoQuery } from 'api';
+import { ACCOUNT_ORIGIN } from 'config/constants';
 import Icon from 'shared/Icon';
 import logout from 'modules/auth/logout';
 import DropdownContainer from './DropdownContainer';
@@ -34,6 +35,15 @@ const UserDropdown = () => {
             {email}
           </div>
         )}
+
+        <a
+          type="button"
+          href={ACCOUNT_ORIGIN}
+          className="flex items-center justify-start px-8 py-2 !text-white hover:bg-black/10"
+        >
+          <Icon name={bxUser} className="mr-2" />
+          Profile Dashboard
+        </a>
 
         <button
           type="button"

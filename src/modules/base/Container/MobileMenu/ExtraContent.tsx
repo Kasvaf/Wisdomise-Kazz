@@ -1,6 +1,7 @@
 import { Crisp } from 'crisp-sdk-web';
-import { bxLogOut, bxSupport } from 'boxicons-quasar';
+import { bxLogOut, bxSupport, bxUser } from 'boxicons-quasar';
 import { useInvestorAssetStructuresQuery, useUserInfoQuery } from 'api';
+import { ACCOUNT_ORIGIN } from 'config/constants';
 import Icon from 'shared/Icon';
 import logout from 'modules/auth/logout';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
@@ -38,6 +39,16 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
         </div>
       </div>
 
+      <div>
+        <a
+          href={ACCOUNT_ORIGIN}
+          className="mt-2 flex items-center justify-start rounded-3xl bg-black/5 p-2 text-xs font-medium"
+        >
+          <Icon name={bxUser} className="mr-2" />
+          Profile Dashboard
+        </a>
+      </div>
+
       <div className="mt-2 flex">
         <div
           className="mr-2 flex items-center justify-center rounded-3xl bg-black/5 p-2"
@@ -50,7 +61,7 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
           <button
             type="button"
             onClick={logout}
-            className="flex items-center justify-start  text-xs font-medium uppercase text-error"
+            className="flex items-center justify-start text-xs font-medium uppercase text-error"
           >
             <Icon name={bxLogOut} className="mr-2" /> Logout
           </button>
