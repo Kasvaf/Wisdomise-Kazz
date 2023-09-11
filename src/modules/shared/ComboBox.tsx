@@ -54,7 +54,10 @@ const ComboBox: React.FC<Props> = ({
 
   const dropDownFn = useCallback(
     () => (
-      <div className="overflow-hidden rounded-[24px] bg-[#272A32] text-white">
+      <div
+        className="w-full overflow-hidden rounded-[24px] bg-[#272A32] text-white"
+        style={{ maxWidth: 'calc(100vw - 80px)' }}
+      >
         {options.map((item, ind) => (
           <OptionItem
             key={JSON.stringify(item)}
@@ -92,7 +95,9 @@ const ComboBox: React.FC<Props> = ({
           className,
         )}
       >
-        {renderItem(selectedItem)}
+        <div style={{ width: 'calc(100% - 40px)' }}>
+          {renderItem(selectedItem)}
+        </div>
 
         {options.length > 1 && (
           <div className="flex items-center rounded-full bg-white/10 p-1">

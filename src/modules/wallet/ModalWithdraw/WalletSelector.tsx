@@ -23,7 +23,9 @@ const WalletOptionItemFn = (wallet: VerifiedWallet) => {
         </div>
       </div>
 
-      <div className="font-medium leading-normal">{wallet.address}</div>
+      <div className="line-clamp-1 font-medium leading-normal">
+        {wallet.address}
+      </div>
     </div>
   );
 };
