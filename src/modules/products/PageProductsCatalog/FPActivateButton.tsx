@@ -29,6 +29,7 @@ const FPActivateButton: React.FC<Props> = ({
   const navigate = useNavigate();
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
+  const hasIas = Boolean(ias.data?.[0]?.main_exchange_account);
   const updateFPIStatus = useUpdateFPIStatusMutation();
 
   const gotoDashboardHandler = useCallback(() => {
@@ -96,10 +97,16 @@ const FPActivateButton: React.FC<Props> = ({
       return;
     }
 
-    if (await openDisclaimer()) {
+    if (hasIas || (await openDisclaimer())) {
       await onWalletDisclaimerAccept();
     }
-  }, [isVerified, openVerification, openDisclaimer, onWalletDisclaimerAccept]);
+  }, [
+    hasIas,
+    isVerified,
+    openVerification,
+    openDisclaimer,
+    onWalletDisclaimerAccept,
+  ]);
 
   return (
     <>
