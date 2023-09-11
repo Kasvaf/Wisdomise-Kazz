@@ -39,6 +39,9 @@ const dummy = (x: string): VerifiedWallet => ({
   network: { key: '', description: '', name: '' },
   symbol: { name: '', title: '' },
 });
+const dummyLoading = dummy('loading...');
+const dummyEmpty = dummy('You have no verified wallet.');
+const dummyDefault = dummy('');
 
 const WalletSelector: React.FC<Props> = ({
   selectedItem,
@@ -47,20 +50,20 @@ const WalletSelector: React.FC<Props> = ({
 }) => {
   const wallets = useVerifiedWallets();
   useEffect(() => {
-    if (wallets.data?.length && !selectedItem) {
+    if (wallets.data?.length && !selectedItem?.network?.name) {
       onSelect(wallets.data[0]);
     }
-  }, [wallets, onSelect, selectedItem]);
+  }, [wallets.data, onSelect, selectedItem?.network?.name]);
 
   return (
     <ComboBox
       options={wallets.data ?? []}
       selectedItem={
         wallets.isLoading
-          ? dummy('loading...')
+          ? dummyLoading
           : wallets.data?.length
-          ? selectedItem ?? dummy('')
-          : dummy('You have no verified wallet.')
+          ? selectedItem ?? dummyDefault
+          : dummyEmpty
       }
       onSelect={onSelect}
       renderItem={WalletOptionItemFn}

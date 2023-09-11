@@ -49,13 +49,18 @@ export const useVerifiedWallets = () => {
     exchangeAccountKey: mea?.key,
   });
   const wallets = useRawWallets();
-  return {
-    isLoading: networks.isLoading || wallets.isLoading,
-    data: wallets.data?.map(wallet => ({
-      ...wallet,
-      network: networks.data?.find(net => net.name === wallet.network.name),
-    })),
-  };
+  return useMemo(
+    () => ({
+      isLoading: networks.isLoading || wallets.isLoading,
+      data:
+        networks.data &&
+        wallets.data?.map(wallet => ({
+          ...wallet,
+          network: networks.data?.find(net => net.name === wallet.network.name),
+        })),
+    }),
+    [networks, wallets],
+  );
 };
 
 export const useSumsubVerified = () =>
