@@ -53,11 +53,10 @@ const FpiActions: React.FC<{
       </PopConfirmChangeFPIStatus>
 
       <PopConfirmChangeFPIStatus
-        type={NextActionByStatus[fpi.status]}
+        disabled={fpi.status !== 'RUNNING'}
+        type="pause"
         onConfirm={useCallback(
-          () =>
-            fpi.status === 'RUNNING' &&
-            changeFpiStatus(fpi.key, NextActionByStatus[fpi.status]),
+          () => changeFpiStatus(fpi.key, NextActionByStatus[fpi.status]),
           [changeFpiStatus, fpi.key, fpi.status],
         )}
       >
@@ -65,15 +64,14 @@ const FpiActions: React.FC<{
       </PopConfirmChangeFPIStatus>
 
       <PopConfirmChangeFPIStatus
+        disabled={fpi.status === 'RUNNING'}
         type={NextActionByStatus[fpi.status]}
         onConfirm={useCallback(
-          () =>
-            fpi.status === 'PAUSED' &&
-            changeFpiStatus(fpi.key, NextActionByStatus[fpi.status]),
+          () => changeFpiStatus(fpi.key, NextActionByStatus[fpi.status]),
           [changeFpiStatus, fpi.key, fpi.status],
         )}
       >
-        <FabButton disabled={fpi.status !== 'PAUSED'} icon={bxPlay} />
+        <FabButton disabled={fpi.status === 'RUNNING'} icon={bxPlay} />
       </PopConfirmChangeFPIStatus>
     </div>
   );

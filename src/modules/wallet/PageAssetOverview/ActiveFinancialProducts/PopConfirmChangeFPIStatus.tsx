@@ -6,13 +6,15 @@ import Button from 'shared/Button';
 interface Props {
   type: FpiStatusMutationType;
   children: React.ReactNode;
-  onConfirm: () => unknown | Promise<unknown>;
+  onConfirm: () => Promise<unknown>;
+  disabled?: boolean;
 }
 
 const PopConfirmChangeFPIStatus: React.FC<Props> = ({
   type,
   children,
   onConfirm,
+  disabled,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -68,7 +70,9 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
         </section>
       }
     >
-      <section onClick={useCallback(() => setIsOpen(true), [])}>
+      <section
+        onClick={useCallback(() => !disabled && setIsOpen(true), [disabled])}
+      >
         {children}
       </section>
     </Popover>
