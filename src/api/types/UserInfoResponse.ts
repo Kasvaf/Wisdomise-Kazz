@@ -16,7 +16,7 @@ interface Account {
   privacy_policy_accepted: boolean;
   register_status: string;
   stripe_customer_id?: any;
-  subscription: Subscription;
+  subscription?: Subscription;
   referred_users_count: number;
   active_referred_users_count: number;
   wisdomise_verification_status:
@@ -25,8 +25,20 @@ interface Account {
     | 'VERIFIED';
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Subscription {}
+interface Subscription {
+  object?: {
+    object: string;
+    status: string;
+    plan: {
+      key: string;
+      name: string;
+      metadata: {
+        athena_questions_count: number;
+        athena_daily_notifications_count: number;
+      };
+    };
+  };
+}
 
 interface User {
   email: string;
