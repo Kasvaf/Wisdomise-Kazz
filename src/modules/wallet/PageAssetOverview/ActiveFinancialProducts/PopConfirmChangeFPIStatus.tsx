@@ -6,7 +6,7 @@ import Button from 'shared/Button';
 interface Props {
   type: FpiStatusMutationType;
   children: React.ReactNode;
-  onConfirm: () => Promise<void>;
+  onConfirm: () => unknown | Promise<unknown>;
 }
 
 const PopConfirmChangeFPIStatus: React.FC<Props> = ({

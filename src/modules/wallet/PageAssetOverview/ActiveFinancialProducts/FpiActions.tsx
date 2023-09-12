@@ -1,12 +1,11 @@
 import { type AxiosError } from 'axios';
 import { notification } from 'antd';
+import { clsx } from 'clsx';
 import { useCallback } from 'react';
-import { bxPause, bxPlay, bxX } from 'boxicons-quasar';
+import { bxPause, bxPlay, bxStop } from 'boxicons-quasar';
 import { type FpiStatusMutationType, useUpdateFPIStatusMutation } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
-import { isProduction } from 'utils/version';
-import Button from 'shared/Button';
-import Icon from 'shared/Icon';
+import FabButton from 'shared/FabButton';
 import PopConfirmChangeFPIStatus from './PopConfirmChangeFPIStatus';
 
 const NextActionByStatus: Record<
@@ -18,7 +17,10 @@ const NextActionByStatus: Record<
   PAUSED: 'resume',
 };
 
-const FpiActions = ({ fpi }: { fpi: FinancialProductInstance }) => {
+const FpiActions: React.FC<{
+  fpi: FinancialProductInstance;
+  className?: string;
+}> = ({ fpi, className }) => {
   const updateFPIStatus = useUpdateFPIStatusMutation();
   const changeFpiStatus = useCallback(
     async (fpiKey: string, status: FpiStatusMutationType) => {
@@ -39,7 +41,7 @@ const FpiActions = ({ fpi }: { fpi: FinancialProductInstance }) => {
   );
 
   return (
-    <div className="flex items-center justify-center gap-x-2">
+    <div className={clsx('flex items-center justify-end gap-x-2', className)}>
       <PopConfirmChangeFPIStatus
         type="stop"
         onConfirm={useCallback(
@@ -47,41 +49,32 @@ const FpiActions = ({ fpi }: { fpi: FinancialProductInstance }) => {
           [changeFpiStatus, fpi.key],
         )}
       >
-        <Icon name={bxX} circled className="cursor-pointer text-white/80" />
+        <FabButton icon={bxStop} />
       </PopConfirmChangeFPIStatus>
 
       <PopConfirmChangeFPIStatus
         type={NextActionByStatus[fpi.status]}
         onConfirm={useCallback(
-          () => changeFpiStatus(fpi.key, NextActionByStatus[fpi.status]),
+          () =>
+            fpi.status === 'RUNNING' &&
+            changeFpiStatus(fpi.key, NextActionByStatus[fpi.status]),
           [changeFpiStatus, fpi.key, fpi.status],
         )}
       >
-        {fpi.status === 'RUNNING' ? (
-          <Icon
-            name={bxPause}
-            circled
-            className="cursor-pointer text-white/80"
-          />
-        ) : (
-          <Icon
-            name={bxPlay}
-            circled
-            className="cursor-pointer text-white/80"
-          />
-        )}
+        <FabButton disabled={fpi.status !== 'RUNNING'} icon={bxPause} />
       </PopConfirmChangeFPIStatus>
 
-      {!isProduction && (
-        <Button
-          variant="alternative"
-          size="small"
-          to={`/app/fpi/${fpi.key}`}
-          className="mr-4 text-base font-medium text-white/90 "
-        >
-          Positions
-        </Button>
-      )}
+      <PopConfirmChangeFPIStatus
+        type={NextActionByStatus[fpi.status]}
+        onConfirm={useCallback(
+          () =>
+            fpi.status === 'PAUSED' &&
+            changeFpiStatus(fpi.key, NextActionByStatus[fpi.status]),
+          [changeFpiStatus, fpi.key, fpi.status],
+        )}
+      >
+        <FabButton disabled={fpi.status !== 'PAUSED'} icon={bxPlay} />
+      </PopConfirmChangeFPIStatus>
     </div>
   );
 };
