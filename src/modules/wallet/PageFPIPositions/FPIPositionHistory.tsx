@@ -31,8 +31,8 @@ const FPIPositionHistory: React.FC<{ fpiKey?: string; className?: string }> = ({
   } else {
     content = (
       <>
-        <div className="overflow-auto">
-          <div className="min-w-[800px] rounded-3xl bg-white/5 p-6">
+        <div className="-mr-6 overflow-auto">
+          <div className="mr-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
             <div className="grid grid-cols-6 gap-6 text-white/60">
               <div className="pl-4 text-sm">Pairs</div>
               <div className="text-center text-sm">Strategy</div>
