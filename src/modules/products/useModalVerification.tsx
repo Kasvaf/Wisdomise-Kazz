@@ -79,8 +79,8 @@ const useModalVerification = () => {
 
         <div className="text-center text-white/60">
           Complete your <span className="text-white">Identification</span>,{' '}
-          <span className="text-white">Verification</span> and{' '}
-          <span className="text-white">Verify At Least One Wallet Address</span>{' '}
+          <span className="text-white">Verification</span>, and{' '}
+          <span className="text-white">Verify at least one wallet address</span>{' '}
           to access all features and enjoy a seamless experience on our
           platform.
         </div>
