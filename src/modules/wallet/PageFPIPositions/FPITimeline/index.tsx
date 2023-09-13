@@ -37,8 +37,8 @@ const FPITimeline: React.FC<Props> = ({ fpiKey, className }) => {
         {rangeSelector}
       </div>
 
-      <div className="-mr-6 overflow-auto">
-        <div className="mr-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
+      <div className="-mx-6 overflow-auto">
+        <div className="mx-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
           <div className="flex flex-col text-white/60">
             {history.isLoading ? (
               <div className="flex justify-center">

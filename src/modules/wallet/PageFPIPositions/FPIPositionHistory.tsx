@@ -31,8 +31,8 @@ const FPIPositionHistory: React.FC<{ fpiKey?: string; className?: string }> = ({
   } else {
     content = (
       <>
-        <div className="-mr-6 overflow-auto">
-          <div className="mr-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
+        <div className="-mx-6 overflow-auto">
+          <div className="mx-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
             <div className="grid grid-cols-6 gap-6 text-white/60">
               <div className="pl-4 text-sm">Pairs</div>
               <div className="text-center text-sm">Strategy</div>
@@ -60,23 +60,23 @@ const FPIPositionHistory: React.FC<{ fpiKey?: string; className?: string }> = ({
                     <PriceChange value={h.pnl} valueToFixed />
                   </div>
 
-                  <div className="flex flex-col items-center justify-center">
+                  <div className="flex flex-col items-center justify-center text-center">
                     <div className="text-sm text-white/80">
                       ${numerable.format(h.entry_price, '0,0.00')}
                     </div>
-                    <div className="text-xs text-white/40">
-                      {dayjs(h.entry_time).format('HH:MM, MMMM DD')}
+                    <div className="whitespace-pre text-xs text-white/40 md:whitespace-normal">
+                      {dayjs(h.entry_time).format('MMMM DD,\nHH:MM')}
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center justify-center">
+                  <div className="flex flex-col items-center justify-center text-center">
                     {h.exit_time && (
                       <>
                         <div className="text-sm text-white/80">
                           ${numerable.format(h.exit_price, '0,0.00')}
                         </div>
-                        <div className="text-xs text-white/40">
-                          {dayjs(h.exit_time).format('HH:MM, MMMM DD')}
+                        <div className="whitespace-pre text-xs text-white/40 md:whitespace-normal">
+                          {dayjs(h.exit_time).format('MMMM DD,\nHH:MM')}
                         </div>
                       </>
                     )}
