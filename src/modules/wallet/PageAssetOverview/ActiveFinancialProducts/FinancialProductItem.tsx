@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
-import { isProduction } from 'utils/version';
 import useIsMobile from 'utils/useIsMobile';
 import Button from 'shared/Button';
 import FpiStatusBadge from './FpiStatusBadge';
@@ -30,17 +29,16 @@ const FinancialProductItem: React.FC<{
     </div>
   );
 
-  const detailsBtn = !noDetailsBtn &&
-    (!isProduction || location.search.includes('test')) && (
-      <Button
-        variant="primary"
-        size="small"
-        to={`/app/fpi/${fpi.key}`}
-        className="!px-10 text-base font-medium"
-      >
-        Details
-      </Button>
-    );
+  const detailsBtn = !noDetailsBtn && (
+    <Button
+      variant="primary"
+      size="small"
+      to={`/app/fpi/${fpi.key}`}
+      className="!px-10 text-base font-medium"
+    >
+      Details
+    </Button>
+  );
 
   return (
     <div className={clsx('rounded-3xl bg-white/5 p-6', className)}>
