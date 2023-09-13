@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import type React from 'react';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ import { useIsVerified } from 'api/kyc';
 import { ACCOUNT_ORIGIN } from 'config/constants';
 import useModalVerification from '../useModalVerification';
 import isFPRunning from './isFPRunning';
+import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
 
 interface Props {
@@ -83,13 +85,20 @@ const FPActivateButton: React.FC<Props> = ({
 
   const [ModalVerification, openVerification] = useModalVerification();
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
+  const [ModalApiKey, showModalApiKey] = useModalApiKey();
   const isVerified = useIsVerified();
+
   const onActivateClick = useCallback(async () => {
     if (isVerified.isLoading) return;
     if (!isVerified.isAllVerified) {
       if (await openVerification()) {
         window.location.href = `${ACCOUNT_ORIGIN}/kyc`;
       }
+      return;
+    }
+
+    if (fp.config.no_withdraw) {
+      await showModalApiKey({});
       return;
     }
 
@@ -102,6 +111,8 @@ const FPActivateButton: React.FC<Props> = ({
     openVerification,
     openDisclaimer,
     onWalletDisclaimerAccept,
+    showModalApiKey,
+    fp.config.no_withdraw,
   ]);
 
   return (
@@ -130,6 +141,7 @@ const FPActivateButton: React.FC<Props> = ({
 
       {ModalVerification}
       {ModalDisclaimer}
+      {ModalApiKey}
     </>
   );
 };

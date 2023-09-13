@@ -1,3 +1,5 @@
+import { type Config } from './financialProduct';
+
 export type InvestorAssetStructures = [
   {
     key: string;
@@ -34,6 +36,7 @@ interface FinancialProduct {
   key: string;
   title: string;
   asset_class: string;
+  config: Config;
 }
 
 export interface AssetBinding {
