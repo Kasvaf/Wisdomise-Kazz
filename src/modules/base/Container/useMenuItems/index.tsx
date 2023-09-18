@@ -63,11 +63,13 @@ const AccountMenuItems: MenuItem[] = [
 
 const useMenuItems = () => {
   const { pathname } = useLocation();
-  const items = pathname.startsWith('/account')
-    ? AccountMenuItems
-    : DashboardMenuItems;
+  const isAccount = pathname.startsWith('/account');
+  const items = isAccount ? AccountMenuItems : DashboardMenuItems;
 
-  return items.filter(x => !x.hide);
+  return {
+    items: items.filter(x => !x.hide),
+    hasExternals: isAccount,
+  };
 };
 
 export default useMenuItems;

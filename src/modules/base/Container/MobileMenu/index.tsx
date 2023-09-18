@@ -8,7 +8,7 @@ import HamburgerIcon from './HamburgerIcon';
 import ExtraContent from './ExtraContent';
 
 const MobileMenu: React.FC = () => {
-  const MenuItems = useMenuItems();
+  const { items: MenuItems } = useMenuItems();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const setClosed = useCallback(() => setIsMenuOpen(false), []);
 

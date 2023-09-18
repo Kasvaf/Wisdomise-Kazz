@@ -1,7 +1,7 @@
 import { Crisp } from 'crisp-sdk-web';
 import { bxLogOut, bxSupport, bxUser } from 'boxicons-quasar';
+import { NavLink } from 'react-router-dom';
 import { useInvestorAssetStructuresQuery, useUserInfoQuery } from 'api';
-import { ACCOUNT_ORIGIN } from 'config/constants';
 import Icon from 'shared/Icon';
 import logout from 'modules/auth/logout';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
@@ -40,13 +40,13 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
       </div>
 
       <div>
-        <a
-          href={ACCOUNT_ORIGIN}
+        <NavLink
+          to="/account/profile"
           className="mt-2 flex items-center justify-start rounded-3xl bg-black/5 p-2 text-xs font-medium"
         >
           <Icon name={bxUser} className="mr-2" />
           Profile Dashboard
-        </a>
+        </NavLink>
       </div>
 
       <div className="mt-2 flex">
