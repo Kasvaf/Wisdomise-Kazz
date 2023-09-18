@@ -1,22 +1,26 @@
 import { clsx } from 'clsx';
-import { type Colors } from './constants';
+
+export type BadgeColors = 'green' | 'red' | 'blue' | 'white' | 'grey';
 
 const badgeColors = {
   green: clsx('bg-[#40F19C]/20 text-[#40F19C]/80'),
   red: clsx('bg-[#F14056]/20 text-[#F14056]/80'),
+  blue: 'bg-[#34A3DA]/20 text-[#34A3DA]',
   white: clsx('bg-white/10 text-white/80'),
   grey: clsx('bg-white/5 text-white/40'),
 };
 
 const Badge: React.FC<{
   label: string;
-  color: Colors;
-}> = ({ color, label }) => {
+  color: BadgeColors;
+  className?: string;
+}> = ({ color, label, className }) => {
   return (
     <p
       className={clsx(
-        'rounded-full px-2 py-1 text-xxs leading-none',
+        'flex items-center justify-center rounded-full px-2 py-1 text-xxs leading-none',
         badgeColors[color],
+        className,
       )}
     >
       {label}

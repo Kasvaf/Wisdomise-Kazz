@@ -10,35 +10,14 @@ const VerticalLine = () => (
   <div className="mx-1 my-6 h-auto border-l border-white/10 mobile:my-0 mobile:w-full mobile:border-b" />
 );
 
-const FpiColumns = ({
-  fpi,
-  detailsOpen,
-}: {
-  fpi: FinancialProductInstance;
-  detailsOpen: boolean;
-}) => {
+const FpiColumns = ({ fpi }: { fpi: FinancialProductInstance }) => {
   const isMobile = useIsMobile();
   const mainQuote = useMainQuote();
   return (
-    <main
-      className={clsx(
-        'mt-3 flex items-stretch justify-between mobile:flex-col',
-        detailsOpen && 'h-24 mobile:h-auto',
-      )}
-    >
-      <div
-        className={clsx(
-          'mx-6 my-4 ml-0 flex items-center justify-between mobile:mr-0 mobile:flex-row',
-          detailsOpen && 'flex-col !items-start',
-        )}
-      >
+    <main className="mt-3 flex h-24 items-stretch justify-between mobile:h-auto mobile:flex-col">
+      <div className="mx-6 my-4 ml-0 flex flex-col !items-start justify-between mobile:mr-0 mobile:flex-row">
         <p className="text-sm text-white/80">Equity</p>
-        <p
-          className={clsx(
-            'ml-20 text-base font-medium text-white',
-            detailsOpen && '!ml-0',
-          )}
-        >
+        <p className="ml-0 text-base font-medium text-white">
           {numerable.format(fpi.total_equity, '0,0.00', {
             rounding: 'floor',
           })}
@@ -50,12 +29,7 @@ const FpiColumns = ({
 
       <VerticalLine />
 
-      <div
-        className={clsx(
-          'mx-6 my-4 flex items-center justify-between mobile:mx-0 mobile:flex-row',
-          detailsOpen && 'flex-col !items-start',
-        )}
-      >
+      <div className="mx-6 my-4 flex flex-col !items-start justify-between mobile:mx-0 mobile:flex-row">
         <p className="mr-6 text-sm text-white/80">P / L</p>
         <p
           className={clsx(
@@ -74,23 +48,13 @@ const FpiColumns = ({
 
       {!isMobile && <VerticalLine />}
 
-      <div
-        className={clsx(
-          'mx-6 my-4 flex flex-col justify-between mobile:order-first mobile:mx-0 mobile:mb-0',
-          detailsOpen && 'mobile:mb-4 mobile:flex-row',
-        )}
-      >
+      <div className="mx-6 my-4 flex flex-col justify-between mobile:order-first mobile:mx-0 mobile:mb-4 mobile:flex-row">
         <p className="text-xs font-medium text-white/40">
           {numerable.format(fpi.total_equity_share / 100, '0,0.00 %')}{' '}
-          {isMobile && detailsOpen && <br />}
+          {isMobile && <br />}
           <span className="text-xs text-white/40">Of Total Balance</span>
         </p>
-        <p
-          className={clsx(
-            'mt-4 text-xs text-white/40 mobile:mt-0 mobile:hidden',
-            detailsOpen && 'mobile:order-first mobile:!block',
-          )}
-        >
+        <p className="mt-4 text-xs text-white/40 mobile:order-first mobile:mt-0">
           {fpi.status === 'DRAFT' ? 'Created' : 'Started'}
           {isMobile ? <br /> : <>&nbsp;&nbsp;</>}
           {dayjs(
@@ -105,16 +69,14 @@ const FpiColumns = ({
         </p>
       </div>
 
-      {isMobile && detailsOpen && (
+      {isMobile ? (
         <div className="order-first">
           <VerticalLine />
         </div>
-      )}
-
-      {!isMobile && (
+      ) : (
         <>
           <VerticalLine />
-          <FpiStatusBadge isOpen={detailsOpen} status={fpi.status} />
+          <FpiStatusBadge status={fpi.status} />
         </>
       )}
     </main>

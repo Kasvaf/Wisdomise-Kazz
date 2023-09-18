@@ -20,7 +20,12 @@ const WalletDropdown = () => {
   );
 
   const ias = useInvestorAssetStructuresQuery();
-  const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
+  const noWithdraw =
+    ias.data?.[0]?.financial_product_instances?.[0]?.financial_product?.config
+      ?.no_withdraw;
+  const hasWallet = Boolean(
+    ias?.data?.[0]?.main_exchange_account && !noWithdraw,
+  );
 
   useEffect(() => {
     if (openState) {

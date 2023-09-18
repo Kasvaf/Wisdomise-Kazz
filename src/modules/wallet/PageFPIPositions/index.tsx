@@ -15,7 +15,7 @@ const PageFPIPositions = () => {
           <h1 className="mb-4 text-lg font-semibold text-white">
             Financial Product Details
           </h1>
-          <FinancialProductItem alwaysOpen fpi={fpi.data} className="mb-10" />
+          <FinancialProductItem fpi={fpi.data} className="mb-10" noDetailsBtn />
         </div>
       )}
 

@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
 import { bxChevronRight } from 'boxicons-quasar';
+import { ATHENA_FE } from 'config/constants';
 import Icon from 'shared/Icon';
 
 const AskAthena: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <a
-      href="https://athena.wisdomise.io"
+      href={ATHENA_FE}
       target="_blank"
       rel="noreferrer"
       className={clsx(

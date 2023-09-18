@@ -2,10 +2,11 @@ import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useState } from 'react';
+import * as numerable from 'numerable';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import PriceChange from 'shared/PriceChange';
-import Badge from './Badge';
+import Badge from 'shared/Badge';
 import { SUGGESTIONS } from './constants';
 import ValuesRow from './ValuesRow';
 
@@ -108,7 +109,8 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
             values={[
               {
                 label: 'entry price',
-                value: p.entry_price,
+                value:
+                  p.entry_price && numerable.format(p.entry_price, '0,0.00'),
               },
               {
                 label: 'date',
@@ -124,7 +126,9 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
                 ? [
                     {
                       label: 'exit price',
-                      value: p.exit_price,
+                      value:
+                        p.entry_price &&
+                        numerable.format(p.exit_price, '0,0.00'),
                     },
                     {
                       label: 'date',
@@ -135,11 +139,14 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
                 : [
                     {
                       label: 'TP',
-                      value: p.take_profit,
+                      value:
+                        p.take_profit &&
+                        numerable.format(p.take_profit, '0,0.00'),
                     },
                     {
                       label: 'SL',
-                      value: p.stop_loss,
+                      value:
+                        p.stop_loss && numerable.format(p.stop_loss, '0,0.00'),
                     },
                   ]
             }

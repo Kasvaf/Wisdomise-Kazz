@@ -1,3 +1,5 @@
+import { type Config } from './financialProduct';
+
 export type InvestorAssetStructures = [
   {
     key: string;
@@ -34,6 +36,7 @@ interface FinancialProduct {
   key: string;
   title: string;
   asset_class: string;
+  config: Config;
 }
 
 export interface AssetBinding {
@@ -91,9 +94,10 @@ export interface FpiPosition {
     quote: Quote;
   };
   pnl: number;
+  amount: number;
   entry_price: number;
-  exit_price: number;
+  exit_price?: number;
   entry_time: string;
-  exit_time: string;
-  position_side: 'long' | 'short';
+  exit_time?: string;
+  position_side: 'LONG' | 'SHORT';
 }

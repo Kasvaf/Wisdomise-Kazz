@@ -28,7 +28,8 @@ interface Profile {
   return_risk_ratio: 'High' | 'Medium' | 'Low';
 }
 
-interface Config {
+export interface Config {
+  'no_withdraw'?: boolean;
   'assets': string;
   'market_type': string;
   'pnl_ai(%)': number;

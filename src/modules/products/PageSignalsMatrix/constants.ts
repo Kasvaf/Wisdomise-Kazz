@@ -1,13 +1,13 @@
 import { type LastPosition } from 'api/types/signalResponse';
+import { type BadgeColors } from 'shared/Badge';
 
-export type Colors = 'green' | 'red' | 'white' | 'grey';
 export type Suggestions = LastPosition['suggested_action'];
 
 export const SUGGESTIONS: Record<
   Suggestions,
   {
     label: string;
-    color: Colors;
+    color: BadgeColors;
     greyTitle?: boolean;
   }
 > = {

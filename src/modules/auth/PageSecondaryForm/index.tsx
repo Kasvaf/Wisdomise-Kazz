@@ -144,9 +144,7 @@ const PageSecondaryForm: React.FC = () => {
         </div>
       </main>
 
-      {contractsDefs.map(({ type, Modal }) => (
-        <Modal key={type} />
-      ))}
+      {contractsDefs.map(({ Modal }) => Modal)}
     </ContainerAuth>
   );
 };

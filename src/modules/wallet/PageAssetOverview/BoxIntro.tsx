@@ -52,7 +52,7 @@ const BoxIntro: React.FC<{
               Deposit
             </Button>
           )}
-          <DepositMod />
+          {DepositMod}
         </div>
       </div>
 

@@ -11,6 +11,7 @@ interface Props {
   renderItem: (item: any) => React.ReactElement;
   onSelect?: (item: any) => void;
   disabled?: boolean;
+  className?: string;
 }
 
 const OptionItem: React.FC<
@@ -40,6 +41,7 @@ const ComboBox: React.FC<Props> = ({
   selectedItem,
   onSelect,
   disabled = false,
+  className,
 }) => {
   const [open, setOpen] = useState(false);
   const selectItemHandler = useCallback(
@@ -52,7 +54,10 @@ const ComboBox: React.FC<Props> = ({
 
   const dropDownFn = useCallback(
     () => (
-      <div className="overflow-hidden rounded-[24px] bg-[#272A32] text-white">
+      <div
+        className="w-full overflow-hidden rounded-[24px] bg-[#272A32] text-white"
+        style={{ maxWidth: 'calc(100vw - 80px)' }}
+      >
         {options.map((item, ind) => (
           <OptionItem
             key={JSON.stringify(item)}
@@ -82,14 +87,17 @@ const ComboBox: React.FC<Props> = ({
     >
       <div
         className={clsx(
-          'flex h-12 rounded-full',
+          'flex h-12 rounded-3xl',
           'items-center justify-between',
           'bg-black/40 pl-6 pr-2',
           !disabledOrEmpty && 'cursor-pointer hover:bg-white/5',
           open && 'bg-white/5',
+          className,
         )}
       >
-        {renderItem(selectedItem)}
+        <div style={{ width: 'calc(100% - 40px)' }}>
+          {renderItem(selectedItem)}
+        </div>
 
         {options.length > 1 && (
           <div className="flex items-center rounded-full bg-white/10 p-1">

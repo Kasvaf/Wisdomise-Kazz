@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import type React from 'react';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +10,11 @@ import {
 } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import Button from 'shared/Button';
+import { useIsVerified } from 'api/kyc';
+import { ACCOUNT_ORIGIN } from 'config/constants';
+import useModalVerification from '../useModalVerification';
 import isFPRunning from './isFPRunning';
+import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
 
 interface Props {
@@ -26,6 +31,7 @@ const FPActivateButton: React.FC<Props> = ({
   const navigate = useNavigate();
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
+  const hasIas = Boolean(ias.data?.[0]?.main_exchange_account);
   const updateFPIStatus = useUpdateFPIStatusMutation();
 
   const gotoDashboardHandler = useCallback(() => {
@@ -77,12 +83,37 @@ const FPActivateButton: React.FC<Props> = ({
     (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
   const isRunning = isFPRunning(ias.data, fp.key);
 
+  const [ModalVerification, openVerification] = useModalVerification();
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
+  const [ModalApiKey, showModalApiKey] = useModalApiKey();
+  const isVerified = useIsVerified();
+
   const onActivateClick = useCallback(async () => {
-    if (await openDisclaimer()) {
+    if (isVerified.isLoading) return;
+    if (!isVerified.isAllVerified) {
+      if (await openVerification()) {
+        window.location.href = `${ACCOUNT_ORIGIN}/kyc`;
+      }
+      return;
+    }
+
+    if (fp.config.no_withdraw) {
+      await showModalApiKey({});
+      return;
+    }
+
+    if (hasIas || (await openDisclaimer())) {
       await onWalletDisclaimerAccept();
     }
-  }, [openDisclaimer, onWalletDisclaimerAccept]);
+  }, [
+    hasIas,
+    isVerified,
+    openVerification,
+    openDisclaimer,
+    onWalletDisclaimerAccept,
+    showModalApiKey,
+    fp.config.no_withdraw,
+  ]);
 
   return (
     <>
@@ -108,7 +139,9 @@ const FPActivateButton: React.FC<Props> = ({
         </Button>
       )}
 
-      <ModalDisclaimer />
+      {ModalVerification}
+      {ModalDisclaimer}
+      {ModalApiKey}
     </>
   );
 };

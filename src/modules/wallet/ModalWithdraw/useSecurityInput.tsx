@@ -103,7 +103,7 @@ export default function useSecurityInput({
 }: {
   onConfirm: (code: string) => Promise<unknown>;
   onResend: () => void;
-}): [React.FC, () => Promise<unknown>] {
+}): [JSX.Element, () => Promise<unknown>] {
   const [Component, update] = useModal(InputModal);
   return [
     Component,

@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import type React from 'react';
+import { ATHENA_FE } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import WalletDropdown from './WalletDropdown';
 import UserDropdown from './UserDropdown';
@@ -19,7 +20,9 @@ const Header: React.FC<Props> = ({ showShadow }) => {
       <div className="mobile:hidden">
         <WalletDropdown />
       </div>
-      <img src={Logo} className="hidden mobile:block" />
+      <a href={ATHENA_FE}>
+        <img src={Logo} className="hidden mobile:block" />
+      </a>
       <UserDropdown />
     </div>
   );

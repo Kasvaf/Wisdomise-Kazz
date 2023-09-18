@@ -59,7 +59,7 @@ function ModalContract({ title, ContractDoc, onResolve }: IProps) {
 
 export default function useModalContract(
   p: Omit<IProps, 'onResolve'>,
-): [React.FC, () => Promise<boolean>] {
+): [JSX.Element, () => Promise<boolean>] {
   const [Component, update] = useModal(ModalContract, {
     width: '80ch',
     centered: true,
