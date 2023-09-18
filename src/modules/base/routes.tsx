@@ -25,7 +25,8 @@ const PageFPIPositions = React.lazy(
 );
 const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
 const PageReferral = React.lazy(() => import('modules/account/PageReferral'));
-const PageKYC = React.lazy(() => import('modules/account/PageKYC'));
+const PageKYC = React.lazy(() => import('modules/account/kyc/PageKYC'));
+const PageSumSub = React.lazy(() => import('modules/account/kyc/PageSumSub'));
 
 const suspended = (el: React.ReactNode) => (
   <React.Suspense fallback={<PageWrapper loading />}>{el}</React.Suspense>
@@ -76,6 +77,10 @@ const routes: RouteObject[] = [
           {
             path: 'kyc',
             element: suspended(<PageKYC />),
+          },
+          {
+            path: 'kyc/sumsub',
+            element: suspended(<PageSumSub />),
           },
         ],
       },
