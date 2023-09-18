@@ -3,6 +3,7 @@ import { ReactComponent as AssetOverviewIcon } from './icons/assetOverview.svg';
 import { ReactComponent as ProductsCatalogIcon } from './icons/productsCatalog.svg';
 import { ReactComponent as SignalsIcon } from './icons/signals.svg';
 import { ReactComponent as KYCIcon } from './icons/kyc.svg';
+import { ReactComponent as ProfileIcon } from './icons/profile.svg';
 
 interface MenuItem {
   category: string;
@@ -39,6 +40,12 @@ const DashboardMenuItems: MenuItem[] = [
 ];
 
 const AccountMenuItems: MenuItem[] = [
+  {
+    category: 'Account',
+    text: 'Profile',
+    icon: <ProfileIcon />,
+    link: '/account/profile',
+  },
   {
     category: 'Account',
     text: 'KYC',

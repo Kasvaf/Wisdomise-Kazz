@@ -3,6 +3,7 @@ import { type ChangeEventHandler, type FC, useCallback } from 'react';
 
 interface Props {
   type?: 'text' | 'number' | 'tel';
+  label?: string;
   value: string;
   error?: string | boolean;
   hint?: string;
@@ -16,6 +17,7 @@ interface Props {
 
 const TextBox: FC<Props> = ({
   type = 'text',
+  label,
   value,
   error,
   hint,
@@ -38,6 +40,8 @@ const TextBox: FC<Props> = ({
 
   return (
     <div className={className}>
+      {label && <label className="mb-2 ml-4 block">{label}</label>}
+
       <div className="relative">
         <input
           type={type}

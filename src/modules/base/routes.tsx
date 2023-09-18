@@ -21,6 +21,7 @@ const PageAssetOverview = React.lazy(
 const PageFPIPositions = React.lazy(
   () => import('modules/wallet/PageFPIPositions'),
 );
+const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
 const PageKYC = React.lazy(() => import('modules/account/PageKYC'));
 
 const suspended = (el: React.ReactNode) => (
@@ -60,6 +61,10 @@ const routes: RouteObject[] = [
       {
         path: 'account',
         children: [
+          {
+            path: 'profile',
+            element: suspended(<PageProfile />),
+          },
           {
             path: 'kyc',
             element: suspended(<PageKYC />),
