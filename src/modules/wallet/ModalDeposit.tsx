@@ -3,10 +3,10 @@ import { bxInfoCircle } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
-import Banner from 'modules/shared/Banner';
+import Banner from 'shared/Banner';
+import CopyInputBox from 'shared/CopyInputBox';
 import { ACCOUNT_ORIGIN } from 'config/constants';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
-import CopyInputBox from './CopyInputBox';
 
 const ModalDeposit = () => {
   const {
@@ -43,7 +43,10 @@ const ModalDeposit = () => {
         <>
           <div className="basis-1/2">
             <div className="mb-1 ml-3">Wallet Address</div>
-            <CopyInputBox value={depositAddress.data?.address} />
+            <CopyInputBox
+              value={depositAddress.data?.address}
+              className="mb-10"
+            />
           </div>
 
           {depositAddress.data && (

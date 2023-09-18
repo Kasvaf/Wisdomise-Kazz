@@ -1,5 +1,7 @@
+/* eslint-disable import/max-dependencies */
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
+import PageRef from 'modules/account/PageRef';
 import Container from './Container';
 import PageWrapper from './PageWrapper';
 
@@ -22,6 +24,7 @@ const PageFPIPositions = React.lazy(
   () => import('modules/wallet/PageFPIPositions'),
 );
 const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
+const PageReferral = React.lazy(() => import('modules/account/PageReferral'));
 const PageKYC = React.lazy(() => import('modules/account/PageKYC'));
 
 const suspended = (el: React.ReactNode) => (
@@ -65,6 +68,11 @@ const routes: RouteObject[] = [
             path: 'profile',
             element: suspended(<PageProfile />),
           },
+          {
+            path: 'referral',
+            element: suspended(<PageReferral />),
+          },
+          { path: 'ref/:referrerCode', element: <PageRef /> },
           {
             path: 'kyc',
             element: suspended(<PageKYC />),

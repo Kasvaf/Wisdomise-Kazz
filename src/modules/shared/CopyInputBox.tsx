@@ -3,10 +3,18 @@ import type React from 'react';
 import { useCallback, useRef, useState } from 'react';
 
 interface Props {
+  label?: string;
   value?: string;
+  className?: string;
+  style?: 'primary' | 'alt';
 }
 
-const CopyInputBox: React.FC<Props> = ({ value }) => {
+const CopyInputBox: React.FC<Props> = ({
+  value,
+  label,
+  className,
+  style = 'primary',
+}) => {
   const [showInfo, setShowInfo] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const copyToClipboard = useCallback(() => {
@@ -29,13 +37,17 @@ const CopyInputBox: React.FC<Props> = ({ value }) => {
   }, [value]);
 
   return (
-    <div className="mb-10">
+    <div className={className}>
+      {label && <label className="mb-2 ml-4 block">{label}</label>}
+
       <div
         className={clsx(
-          'flex h-12 rounded-full',
+          'flex h-12 rounded-full px-6 text-sm',
           'items-center justify-between',
-          'bg-white px-6 text-sm text-black',
-          'cursor-pointer hover:bg-white/80',
+          style === 'primary'
+            ? 'bg-white text-black hover:bg-white/80'
+            : 'bg-black/40 text-white hover:bg-black/60',
+          'cursor-pointer',
         )}
         onClick={copyToClipboard}
       >
