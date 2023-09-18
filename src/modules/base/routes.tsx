@@ -21,6 +21,7 @@ const PageAssetOverview = React.lazy(
 const PageFPIPositions = React.lazy(
   () => import('modules/wallet/PageFPIPositions'),
 );
+const PageKYC = React.lazy(() => import('modules/account/PageKYC'));
 
 const suspended = (el: React.ReactNode) => (
   <React.Suspense fallback={<PageWrapper loading />}>{el}</React.Suspense>
@@ -31,24 +32,39 @@ const routes: RouteObject[] = [
     element: <Container />,
     children: [
       {
-        path: 'app/assets',
-        element: suspended(<PageAssetOverview />),
+        path: 'app',
+        children: [
+          {
+            path: 'assets',
+            element: suspended(<PageAssetOverview />),
+          },
+          {
+            path: 'fpi/:fpiKey',
+            element: suspended(<PageFPIPositions />),
+          },
+          {
+            path: 'products-catalog',
+            element: suspended(<PageProductsCatalog />),
+          },
+          {
+            path: 'products-catalog/:fpKey',
+            element: suspended(<PageProductCatalogDetail />),
+          },
+          {
+            path: 'signals',
+            element: suspended(<PageSignalsMatrix />),
+          },
+        ],
       },
+
       {
-        path: 'app/fpi/:fpiKey',
-        element: suspended(<PageFPIPositions />),
-      },
-      {
-        path: 'app/products-catalog',
-        element: suspended(<PageProductsCatalog />),
-      },
-      {
-        path: 'app/products-catalog/:fpKey',
-        element: suspended(<PageProductCatalogDetail />),
-      },
-      {
-        path: 'app/signals',
-        element: suspended(<PageSignalsMatrix />),
+        path: 'account',
+        children: [
+          {
+            path: 'kyc',
+            element: suspended(<PageKYC />),
+          },
+        ],
       },
     ],
   },

@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import useMainQuote from 'shared/useMainQuote';
 import { useUserInfoQuery } from './account';
 import { useMarketNetworksQuery } from './market';
 import { useInvestorAssetStructuresQuery } from './ias';
@@ -42,7 +41,8 @@ export interface VerifiedWallet {
 export const useVerifiedWallets = () => {
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
-  const mainQuote = useMainQuote();
+  const mainQuote = mea?.quote.name || '';
+
   const networks = useMarketNetworksQuery({
     usage: 'withdrawable',
     symbol: mainQuote,
@@ -91,4 +91,14 @@ export const useIsVerified = () => {
     }),
     [verified, userInfo, wallets],
   );
+};
+
+// const levelName = 'basic-kyc-level';
+const levelName = 'Onlineident natural person';
+
+export const getSumsubToken = async () => {
+  const { data } = await axios.get<{ token: string }>(
+    `${ACCOUNT_PANEL_ORIGIN}/api/v1/kyc/sumsub-access-token?level_name=${levelName}`,
+  );
+  return data.token;
 };

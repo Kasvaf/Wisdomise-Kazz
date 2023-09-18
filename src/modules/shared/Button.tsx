@@ -13,17 +13,16 @@ interface Props extends PropsWithChildren {
   className?: string;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<any>;
+  target?: string;
 }
 
-const LinkOrButton: React.FC<Props> = ({ to, children, className, ...rest }) =>
+const LinkOrButton: React.FC<Props> = ({ to, children, ...rest }) =>
   to ? (
-    <Link to={to} className={clsx(className, 'block')} {...rest}>
+    <Link to={to} {...rest}>
       {children}
     </Link>
   ) : (
-    <button className={className} {...rest}>
-      {children}
-    </button>
+    <button {...rest}>{children}</button>
   );
 
 const Button: React.FC<Props> = ({

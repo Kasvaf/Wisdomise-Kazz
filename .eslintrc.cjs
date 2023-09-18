@@ -75,6 +75,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
     'jsx-a11y/alt-text': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'error',
     'react/jsx-no-bind': 'error',

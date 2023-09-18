@@ -2487,6 +2487,11 @@
     ignore "^5.1.8"
     p-map "^4.0.0"
 
+"@sumsub/websdk-react@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@sumsub/websdk-react/-/websdk-react-2.0.1.tgz#5884b76da87267c837da39554257edebe9ef729a"
+  integrity sha512-PLbbGqTHvpGRjotytmNUl3AJOH6OVVo73UZtqmgBtX0OAT2REzwWjNDLjby3i3tFMCB8fxEgPW318NrgjCSBFA==
+
 "@svgr/babel-plugin-add-jsx-attribute@^6.5.1":
   version "6.5.1"
   resolved "https://registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-6.5.1.tgz"

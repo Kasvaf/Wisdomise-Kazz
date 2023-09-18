@@ -3,11 +3,12 @@ import type React from 'react';
 import { Dropdown } from 'antd';
 import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import MenuItems from '../MenuItems';
+import useMenuItems from '../useMenuItems';
 import HamburgerIcon from './HamburgerIcon';
 import ExtraContent from './ExtraContent';
 
 const MobileMenu: React.FC = () => {
+  const MenuItems = useMenuItems();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const setClosed = useCallback(() => setIsMenuOpen(false), []);
 

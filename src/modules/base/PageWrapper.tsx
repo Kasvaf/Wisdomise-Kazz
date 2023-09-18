@@ -1,21 +1,28 @@
+import { clsx } from 'clsx';
 import type React from 'react';
 import Spinner from 'shared/Spinner';
 
 interface Props {
   loading?: boolean;
   children?: React.ReactNode;
+  className?: string;
 }
 
-const PageWrapper: React.FC<Props> = ({ children, loading }) => {
+const PageWrapper: React.FC<Props> = ({ children, loading, className }) => {
   if (loading) {
     return (
-      <div className="flex h-full w-full items-center justify-center mobile:h-[calc(100vh-10rem)]">
+      <div
+        className={clsx(
+          'flex h-full w-full items-center justify-center mobile:h-[calc(100vh-10rem)]',
+          className,
+        )}
+      >
         <Spinner />
       </div>
     );
   }
 
-  return <div>{children}</div>;
+  return <div className={className}>{children}</div>;
 };
 
 export default PageWrapper;

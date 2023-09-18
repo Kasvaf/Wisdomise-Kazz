@@ -2,9 +2,10 @@ import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { ATHENA_FE } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
-import MenuItems from './MenuItems';
+import useMenuItems from './useMenuItems';
 
 const SideMenu = () => {
+  const MenuItems = useMenuItems();
   return (
     <div className="fixed top-0 z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden">
       <a
