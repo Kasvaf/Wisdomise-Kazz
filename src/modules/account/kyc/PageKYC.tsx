@@ -32,7 +32,7 @@ export default function PageKYC() {
   const loading =
     sumsubVerified.isLoading || userInfo.isLoading || wallets.isLoading;
   return (
-    <PageWrapper loading={loading} className="text-white">
+    <PageWrapper loading={loading}>
       <h1 className="mb-8 text-xl font-semibold">Verification</h1>
 
       <div className="flex flex-col gap-6">

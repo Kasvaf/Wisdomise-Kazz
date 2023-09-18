@@ -25,6 +25,10 @@ const PageFPIPositions = React.lazy(
 );
 const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
 const PageReferral = React.lazy(() => import('modules/account/PageReferral'));
+const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
+const PageNotification = React.lazy(
+  () => import('modules/account/PageNotification'),
+);
 const PageKYC = React.lazy(() => import('modules/account/kyc/PageKYC'));
 const PageSumSub = React.lazy(() => import('modules/account/kyc/PageSumSub'));
 
@@ -72,6 +76,14 @@ const routes: RouteObject[] = [
           {
             path: 'referral',
             element: suspended(<PageReferral />),
+          },
+          {
+            path: 'notification-center',
+            element: suspended(<PageNotification />),
+          },
+          {
+            path: 'billing',
+            element: suspended(<PageBilling />),
           },
           { path: 'ref/:referrerCode', element: <PageRef /> },
           {

@@ -9,7 +9,7 @@ export default function ReferralPage() {
   const myOrigin = window.location.origin;
 
   return (
-    <PageWrapper loading={userInfo.isLoading} className="text-white">
+    <PageWrapper loading={userInfo.isLoading}>
       <h1 className="mb-14">Referral Program</h1>
       {user && (
         <>

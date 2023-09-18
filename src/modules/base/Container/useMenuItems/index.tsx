@@ -5,6 +5,8 @@ import { ReactComponent as SignalsIcon } from './icons/signals.svg';
 import { ReactComponent as ReferralIcon } from './icons/referral.svg';
 import { ReactComponent as ProfileIcon } from './icons/profile.svg';
 import { ReactComponent as KYCIcon } from './icons/kyc.svg';
+import { ReactComponent as NotificationIcon } from './icons/notification.svg';
+import { ReactComponent as BillingIcon } from './icons/billing.svg';
 
 interface MenuItem {
   category: string;
@@ -49,6 +51,12 @@ const AccountMenuItems: MenuItem[] = [
   },
   {
     category: 'Account',
+    text: 'Billing',
+    icon: <BillingIcon />,
+    link: '/account/billing',
+  },
+  {
+    category: 'Account',
     text: 'Referral',
     icon: <ReferralIcon />,
     link: '/account/referral',
@@ -58,6 +66,13 @@ const AccountMenuItems: MenuItem[] = [
     text: 'KYC',
     icon: <KYCIcon />,
     link: '/account/kyc',
+  },
+  {
+    category: 'Account',
+    text: 'Notification Center',
+    mobileText: 'Notifications',
+    icon: <NotificationIcon />,
+    link: '/account/notification-center',
   },
 ];
 

@@ -1,10 +1,11 @@
 import SumsubWebSdk from '@sumsub/websdk-react';
 import { useQuery } from '@tanstack/react-query';
-import { Spin, notification } from 'antd';
+import { notification } from 'antd';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unwrapErrorMessage } from 'utils/error';
 import { getSumsubToken, useUserInfoQuery } from 'api';
+import PageWrapper from 'modules/base/PageWrapper';
 
 const errorHandler = (e: unknown) =>
   notification.error({ message: unwrapErrorMessage(e) });
@@ -23,24 +24,20 @@ export default function SumSubPage() {
     [navigate],
   );
 
-  if (user.isLoading || token.isLoading)
-    return (
-      <div className="flex justify-center">
-        <Spin />
-      </div>
-    );
-  if (!token.data) return <></>;
-
   return (
-    <SumsubWebSdk
-      accessToken={token.data}
-      expirationHandler={getSumsubToken}
-      config={{
-        email: user.data?.account.email,
-      }}
-      options={{}}
-      onMessage={msgHandler}
-      onError={errorHandler}
-    />
+    <PageWrapper loading={user.isLoading || token.isLoading}>
+      {token.data && (
+        <SumsubWebSdk
+          accessToken={token.data}
+          expirationHandler={getSumsubToken}
+          config={{
+            email: user.data?.account.email,
+          }}
+          options={{}}
+          onMessage={msgHandler}
+          onError={errorHandler}
+        />
+      )}
+    </PageWrapper>
   );
 }

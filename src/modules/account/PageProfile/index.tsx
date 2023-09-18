@@ -6,7 +6,7 @@ export default function PageProfile() {
   const userInfo = useUserInfoQuery();
 
   return (
-    <PageWrapper loading={userInfo.isLoading} className="text-white">
+    <PageWrapper loading={userInfo.isLoading}>
       <h1 className="mb-8 text-xl font-semibold">Profile</h1>
 
       {userInfo.data && (

@@ -22,7 +22,7 @@ const PageWrapper: React.FC<Props> = ({ children, loading, className }) => {
     );
   }
 
-  return <div className={className}>{children}</div>;
+  return <div className={clsx('text-white', className)}>{children}</div>;
 };
 
 export default PageWrapper;
