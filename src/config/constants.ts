@@ -1,10 +1,9 @@
-import { isProduction } from 'utils/version';
+import { isLocal, isProduction } from 'utils/version';
 
 const { hostname } = window.location;
-const Domain =
-  hostname === 'localhost'
-    ? 'wisdomise.com'
-    : hostname.replace(/^(?:[\w-]+\.)*([\w-]+\.\w+)$/, '$1');
+const Domain = isLocal
+  ? 'wisdomise.com'
+  : hostname.replace(/^(?:[\w-]+\.)*([\w-]+\.\w+)$/, '$1');
 const subdomainPrefix = isProduction ? '' : 'stage-';
 
 const makeOrigin = (name: string) =>
@@ -20,12 +19,11 @@ export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
 
 // account info:
 
-const appName =
-  hostname === 'localhost'
-    ? 'local-dashboard'
-    : hostname.endsWith(`app.${Domain}`)
-    ? 'dashboard'
-    : 'wealth';
+const appName = isLocal
+  ? 'local-dashboard'
+  : hostname.endsWith(`app.${Domain}`)
+  ? 'dashboard'
+  : 'wealth';
 
 export const JwtTokenKey = 'TOKEN';
 export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';

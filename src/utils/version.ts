@@ -1,3 +1,4 @@
+export const isLocal = /^([\w-]+\.)*localhost$/.test(window.location.hostname);
+
 export const isProduction =
-  !window.location.hostname.startsWith('stage-') &&
-  window.location.hostname !== 'localhost';
+  !window.location.hostname.startsWith('stage-') && !isLocal;

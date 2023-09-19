@@ -1,9 +1,8 @@
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import { isLocal } from 'utils/version';
 
 export default function configSentry() {
-  const isLocal = window.location.hostname.includes('localhost');
-
   if (!isLocal) {
     Sentry.init({
       dsn: 'https://ee6306165f3f4aef867f1fa37bcbf494@sentry.wisdomise.io/9',
