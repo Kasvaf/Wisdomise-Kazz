@@ -29,7 +29,7 @@ const UserDropdown = () => {
 
   const dropDownFn = useCallback(
     () => (
-      <DropdownContainer className="!px-0 py-6">
+      <DropdownContainer className="!px-0 py-6" setOpen={setOpen}>
         {email && (
           <div className="w-full truncate p-2 px-8 pb-4 text-nodata">
             {email}

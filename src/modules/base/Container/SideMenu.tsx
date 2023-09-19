@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
-import { bxLinkExternal } from 'boxicons-quasar';
+import { bxLeftArrowAlt, bxLinkExternal } from 'boxicons-quasar';
 import { ATHENA_FE } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import Icon from 'modules/shared/Icon';
@@ -43,10 +43,10 @@ const SideMenu = () => {
             <Button className="block w-full" to="/app">
               <div className="flex grow items-center justify-between gap-2">
                 <span className="font-semibold">Dashboard</span>
-                <Icon name={bxLinkExternal} />
+                <Icon name={bxLeftArrowAlt} />
               </div>
             </Button>
-            <Button className="block w-full" to={ATHENA_FE}>
+            <Button className="block w-full" to={ATHENA_FE} target="_blank">
               <div className="flex grow items-center justify-between gap-2">
                 <span className="font-semibold">Athena</span>
                 <Icon name={bxLinkExternal} />

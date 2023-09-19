@@ -7,16 +7,14 @@ import DropdownContainer from '../DropdownContainer';
 import WalletDropdownContent from './WalletDropdownContent';
 
 const WalletDropdown = () => {
-  const [openState, setOpenState] = useState(false);
-  const setClose = useCallback(() => setOpenState(false), []);
-
+  const [open, setOpen] = useState(false);
   const dropDownFn = useCallback(
     () => (
-      <DropdownContainer className="w-80 bg-[#272A32] !p-4">
-        <WalletDropdownContent closeDropdown={setClose} />
+      <DropdownContainer className="w-80 bg-[#272A32] !p-4" setOpen={setOpen}>
+        <WalletDropdownContent />
       </DropdownContainer>
     ),
-    [setClose],
+    [],
   );
 
   const ias = useInvestorAssetStructuresQuery();
@@ -28,10 +26,10 @@ const WalletDropdown = () => {
   );
 
   useEffect(() => {
-    if (openState) {
+    if (open) {
       void ias.refetch();
     }
-  }, [openState, ias]);
+  }, [open, ias]);
 
   return (
     <div className="ml-auto flex">
@@ -39,9 +37,9 @@ const WalletDropdown = () => {
         <div className="mx-4 flex items-center justify-evenly px-4">
           <div className="ml-4 min-w-0 grow-0">
             <Dropdown
-              open={openState}
+              open={open}
               trigger={['click']}
-              onOpenChange={setOpenState}
+              onOpenChange={setOpen}
               placement="bottomRight"
               dropdownRender={dropDownFn}
             >

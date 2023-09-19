@@ -10,11 +10,7 @@ import ModalWithdraw from 'modules/wallet/ModalWithdraw';
 import { ReactComponent as DepositIcon } from './deposit.svg';
 import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 
-interface Props {
-  closeDropdown: () => void;
-}
-
-const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
+const WalletDropdownContent: React.FC = () => {
   const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
 
@@ -27,13 +23,11 @@ const WalletDropdownContent: React.FC<Props> = ({ closeDropdown }) => {
 
   const onDepositHandler = useCallback(() => {
     void openDeposit({});
-    closeDropdown();
-  }, [closeDropdown, openDeposit]);
+  }, [openDeposit]);
 
   const onWithdrawHandler = useCallback(() => {
     void openWithdraw({});
-    closeDropdown();
-  }, [closeDropdown, openWithdraw]);
+  }, [openWithdraw]);
 
   if (ias.isLoading || !mainQuote) return <></>;
 
