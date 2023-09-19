@@ -1,3 +1,5 @@
+import { type Subscription } from './subscription';
+
 export interface UserInfoResponse {
   key: string;
   user: User;
@@ -23,21 +25,6 @@ interface Account {
     | 'UNVERIFIED'
     | 'SET_CALENDLY_MEETING'
     | 'VERIFIED';
-}
-
-interface Subscription {
-  object?: {
-    object: string;
-    status: string;
-    plan: {
-      key: string;
-      name: string;
-      metadata: {
-        athena_questions_count: number;
-        athena_daily_notifications_count: number;
-      };
-    };
-  };
 }
 
 interface User {

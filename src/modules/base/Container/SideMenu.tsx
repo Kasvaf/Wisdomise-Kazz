@@ -7,10 +7,19 @@ import Icon from 'modules/shared/Icon';
 import Button from 'modules/shared/Button';
 import useMenuItems from './useMenuItems';
 
-const SideMenu = () => {
+interface Props {
+  className?: string;
+}
+
+const SideMenu: React.FC<Props> = ({ className }) => {
   const { items: MenuItems, hasExternals } = useMenuItems();
   return (
-    <div className="fixed top-0 z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden">
+    <div
+      className={clsx(
+        'fixed z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden',
+        className,
+      )}
+    >
       <a
         href={ATHENA_FE}
         className="flex w-full cursor-pointer flex-row items-center justify-center"

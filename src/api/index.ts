@@ -5,3 +5,4 @@ export * from './catalog';
 export * from './strategy';
 export * from './financial-products';
 export * from './kyc';
+export * from './subscription';
