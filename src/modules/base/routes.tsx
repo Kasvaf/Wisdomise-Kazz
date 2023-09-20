@@ -41,60 +41,50 @@ const routes: RouteObject[] = [
     element: <Container />,
     children: [
       {
-        path: 'app',
-        children: [
-          {
-            path: 'assets',
-            element: suspended(<PageAssetOverview />),
-          },
-          {
-            path: 'fpi/:fpiKey',
-            element: suspended(<PageFPIPositions />),
-          },
-          {
-            path: 'products-catalog',
-            element: suspended(<PageProductsCatalog />),
-          },
-          {
-            path: 'products-catalog/:fpKey',
-            element: suspended(<PageProductCatalogDetail />),
-          },
-          {
-            path: 'signals',
-            element: suspended(<PageSignalsMatrix />),
-          },
-        ],
+        path: 'app/assets',
+        element: suspended(<PageAssetOverview />),
+      },
+      {
+        path: 'app/fpi/:fpiKey',
+        element: suspended(<PageFPIPositions />),
+      },
+      {
+        path: 'app/products-catalog',
+        element: suspended(<PageProductsCatalog />),
+      },
+      {
+        path: 'app/products-catalog/:fpKey',
+        element: suspended(<PageProductCatalogDetail />),
+      },
+      {
+        path: 'app/signals',
+        element: suspended(<PageSignalsMatrix />),
       },
 
       {
-        path: 'account',
-        children: [
-          {
-            path: 'profile',
-            element: suspended(<PageProfile />),
-          },
-          {
-            path: 'referral',
-            element: suspended(<PageReferral />),
-          },
-          {
-            path: 'notification-center',
-            element: suspended(<PageNotification />),
-          },
-          {
-            path: 'billing',
-            element: suspended(<PageBilling />),
-          },
-          { path: 'ref/:referrerCode', element: <PageRef /> },
-          {
-            path: 'kyc',
-            element: suspended(<PageKYC />),
-          },
-          {
-            path: 'kyc/sumsub',
-            element: suspended(<PageSumSub />),
-          },
-        ],
+        path: 'account/profile',
+        element: suspended(<PageProfile />),
+      },
+      {
+        path: 'account/referral',
+        element: suspended(<PageReferral />),
+      },
+      {
+        path: 'account/notification-center',
+        element: suspended(<PageNotification />),
+      },
+      {
+        path: 'account/billing',
+        element: suspended(<PageBilling />),
+      },
+      { path: 'account/ref/:referrerCode', element: <PageRef /> },
+      {
+        path: 'account/kyc',
+        element: suspended(<PageKYC />),
+      },
+      {
+        path: 'account/kyc/sumsub',
+        element: suspended(<PageSumSub />),
       },
     ],
   },
