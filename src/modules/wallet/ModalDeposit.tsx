@@ -5,7 +5,6 @@ import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
 import Banner from 'shared/Banner';
 import CopyInputBox from 'shared/CopyInputBox';
-import { ACCOUNT_ORIGIN } from 'config/constants';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 
 const ModalDeposit = () => {
@@ -28,7 +27,7 @@ const ModalDeposit = () => {
         You have to Deposit from a Verified wallet. Using an unverified wallet
         will result in your account being{' '}
         <span className="text-warning">restricted</span>.{' '}
-        <NavLink className="underline" to={`${ACCOUNT_ORIGIN}/kyc`}>
+        <NavLink className="underline" to="/account/kyc">
           Verify Wallet
         </NavLink>
       </Banner>

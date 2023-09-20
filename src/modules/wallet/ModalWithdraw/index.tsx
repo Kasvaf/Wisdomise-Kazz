@@ -9,7 +9,6 @@ import {
   useInvestorAssetStructuresQuery,
   useResendWithdrawEmailMutation,
 } from 'api';
-import { ACCOUNT_ORIGIN } from 'config/constants';
 import { roundDown } from 'utils/numbers';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
@@ -215,7 +214,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           To Withdraw you have to choose from a Verified Wallet Address.
         </span>{' '}
         <a
-          href={`${ACCOUNT_ORIGIN}/kyc`}
+          href="/account/kyc"
           target="_blank"
           className="font-bold underline"
           rel="noreferrer"

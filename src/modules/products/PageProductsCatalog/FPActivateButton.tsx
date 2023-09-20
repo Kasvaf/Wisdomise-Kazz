@@ -11,7 +11,6 @@ import {
 import { type FinancialProduct } from 'api/types/financialProduct';
 import Button from 'shared/Button';
 import { useIsVerified } from 'api/kyc';
-import { ACCOUNT_ORIGIN } from 'config/constants';
 import useModalVerification from '../useModalVerification';
 import isFPRunning from './isFPRunning';
 import useModalApiKey from './useModalApiKey';
@@ -92,7 +91,7 @@ const FPActivateButton: React.FC<Props> = ({
     if (isVerified.isLoading) return;
     if (!isVerified.isAllVerified) {
       if (await openVerification()) {
-        window.location.href = `${ACCOUNT_ORIGIN}/kyc`;
+        navigate('/account/kyc');
       }
       return;
     }
@@ -108,6 +107,7 @@ const FPActivateButton: React.FC<Props> = ({
   }, [
     hasIas,
     isVerified,
+    navigate,
     openVerification,
     openDisclaimer,
     onWalletDisclaimerAccept,
