@@ -16,7 +16,7 @@ const SideMenu: React.FC<Props> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'fixed z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden',
+        'fixed bottom-8 z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden',
         className,
       )}
     >
@@ -26,7 +26,7 @@ const SideMenu: React.FC<Props> = ({ className }) => {
       >
         <img className="h-8" src={Logo} alt="logo" />
       </a>
-      <div className="mt-6 flex h-[calc(100vh-104px)] w-full flex-col justify-between rounded-3xl bg-[#FFFFFF0D] p-6">
+      <div className="mt-6 flex h-full w-full flex-col justify-between overflow-auto rounded-3xl bg-[#FFFFFF0D] p-6 pt-2">
         <div>
           {MenuItems.map((item, ind) => (
             <div key={item.link}>
