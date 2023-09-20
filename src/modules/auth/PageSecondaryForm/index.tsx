@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
-import type React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { useUserInfoMutation, useUserInfoQuery } from 'api';
@@ -49,17 +48,18 @@ const PageSecondaryForm: React.FC = () => {
   });
 
   useEffect(() => {
+    if (!userInfo.data) return;
+    if (userInfo.data?.account.register_status !== 'PRIMARY') {
+      navigate('/');
+    }
+  }, [userInfo, navigate]);
+
+  useEffect(() => {
     const referrerCode = sessionStorage.getItem(REFERRER_CODE_KEY);
     if (referrerCode) {
       setReferralCode(referrerCode);
     }
   }, []);
-
-  useEffect(() => {
-    if (userInfo.data?.account.register_status !== 'PRIMARY') {
-      // navigate('/');
-    }
-  }, [userInfo, navigate]);
 
   const contractsDefs = staticContracts.map(({ type, title, ContractDoc }) => {
     // since the array is static, it's ok to use the hooks inside it.
@@ -169,7 +169,9 @@ const PageSecondaryForm: React.FC = () => {
         </div>
       </main>
 
-      {contractsDefs.map(({ Modal }) => Modal)}
+      {contractsDefs.map(({ type, Modal }) => (
+        <React.Fragment key={type}>{Modal}</React.Fragment>
+      ))}
     </ContainerAuth>
   );
 };

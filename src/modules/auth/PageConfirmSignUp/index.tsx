@@ -1,18 +1,26 @@
 import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
 import ContainerAuth from '../ContainerAuth';
 import inboxImg from './email.svg';
 
 const PageConfirmSignUp = () => {
+  const navigate = useNavigate();
   const { data: userInfo } = useUserInfoQuery();
   const [isChecking, setIsChecking] = useState(false);
   const resendVerify = useResendVerificationEmailMutation();
 
   const checkAgain = useCallback(() => {
     setIsChecking(true);
-    window.location.reload();
+    window.location.href = '/';
   }, []);
+
+  useEffect(() => {
+    if (userInfo?.account.info.email_verified) {
+      navigate('/auth/secondary-signup');
+    }
+  }, [userInfo, navigate]);
 
   useEffect(() => {
     if (resendVerify.status === 'success') {
