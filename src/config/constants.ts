@@ -1,31 +1,28 @@
 import { isLocal, isProduction } from 'utils/version';
 
 const { hostname } = window.location;
-const Domain = isLocal
+export const DOMAIN = isLocal
   ? 'wisdomise.com'
   : hostname.replace(/^(?:[\w-]+\.)*([\w-]+\.\w+)$/, '$1');
 const subdomainPrefix = isProduction ? '' : 'stage-';
 
 const makeOrigin = (name: string) =>
-  `https://${subdomainPrefix}${name}${name && '.'}${Domain}`;
+  `https://${subdomainPrefix}${name}${name && '.'}${DOMAIN}`;
 
 export const API_ORIGIN = makeOrigin('api');
 export const STRATEGY_ORIGIN = makeOrigin('strategy');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
-export const ATHENA_FE = `https://${isProduction ? '' : 'stage.'}${Domain}`;
+export const ATHENA_FE = `https://${isProduction ? '' : 'stage.'}${DOMAIN}`;
 export const ACCOUNT_ORIGIN = makeOrigin('account');
 export const APP_PANEL = makeOrigin('app');
 export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
 
 // account info:
 
-const appName = isLocal
+export const APP_NAME = isLocal
   ? 'local-dashboard'
-  : hostname.endsWith(`app.${Domain}`)
+  : hostname.endsWith(`app.${DOMAIN}`)
   ? 'dashboard'
   : 'wealth';
 
-export const JwtTokenKey = 'TOKEN';
 export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
-export const LoginUrl = `${ACCOUNT_ORIGIN}/auth/login?app=${appName}&v=${RouterBaseName}`;
-export const LogoutUrl = `${ACCOUNT_ORIGIN}/auth/logout?app=${appName}&v=${RouterBaseName}`;

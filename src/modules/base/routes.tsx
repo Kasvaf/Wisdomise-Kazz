@@ -2,8 +2,38 @@
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import PageRef from 'modules/account/PageRef';
-import Container from './Container';
+
 import PageWrapper from './PageWrapper';
+import Container from './Container';
+
+const PageConfirmSignUp = React.lazy(
+  () => import('modules/auth/PageConfirmSignUp'),
+);
+const PageSecondaryForm = React.lazy(
+  () => import('modules/auth/PageSecondaryForm'),
+);
+const PageAuthCallback = React.lazy(
+  () => import('modules/auth/PageAuthCallback'),
+);
+const PageLogin = React.lazy(() => import('modules/auth/PageLogin/PageLogin'));
+const PageLogout = React.lazy(() => import('modules/auth/PageLogout'));
+
+// ================================================================================
+
+const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
+const PageReferral = React.lazy(() => import('modules/account/PageReferral'));
+const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
+const PageNotification = React.lazy(
+  () => import('modules/account/PageNotification'),
+);
+const PageKYC = React.lazy(() => import('modules/account/kyc/PageKYC'));
+const PageSumSub = React.lazy(() => import('modules/account/kyc/PageSumSub'));
+
+const suspended = (el: React.ReactNode) => (
+  <React.Suspense fallback={<PageWrapper loading />}>{el}</React.Suspense>
+);
+
+// ================================================================================
 
 const PageSignalsMatrix = React.lazy(
   () => import('modules/products/PageSignalsMatrix'),
@@ -23,44 +53,17 @@ const PageAssetOverview = React.lazy(
 const PageFPIPositions = React.lazy(
   () => import('modules/wallet/PageFPIPositions'),
 );
-const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
-const PageReferral = React.lazy(() => import('modules/account/PageReferral'));
-const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
-const PageNotification = React.lazy(
-  () => import('modules/account/PageNotification'),
-);
-const PageKYC = React.lazy(() => import('modules/account/kyc/PageKYC'));
-const PageSumSub = React.lazy(() => import('modules/account/kyc/PageSumSub'));
-
-const suspended = (el: React.ReactNode) => (
-  <React.Suspense fallback={<PageWrapper loading />}>{el}</React.Suspense>
-);
 
 const routes: RouteObject[] = [
+  { path: 'auth/callback', element: <PageAuthCallback /> },
+  { path: 'auth/login', element: <PageLogin /> },
+  { path: 'auth/logout', element: <PageLogout /> },
+  { path: 'auth/secondary-signup', element: <PageConfirmSignUp /> },
+  { path: 'auth/verify-email', element: <PageSecondaryForm /> },
+  // ================================================================================
   {
     element: <Container />,
     children: [
-      {
-        path: 'app/assets',
-        element: suspended(<PageAssetOverview />),
-      },
-      {
-        path: 'app/fpi/:fpiKey',
-        element: suspended(<PageFPIPositions />),
-      },
-      {
-        path: 'app/products-catalog',
-        element: suspended(<PageProductsCatalog />),
-      },
-      {
-        path: 'app/products-catalog/:fpKey',
-        element: suspended(<PageProductCatalogDetail />),
-      },
-      {
-        path: 'app/signals',
-        element: suspended(<PageSignalsMatrix />),
-      },
-
       {
         path: 'account/profile',
         element: suspended(<PageProfile />),
@@ -85,6 +88,27 @@ const routes: RouteObject[] = [
       {
         path: 'account/kyc/sumsub',
         element: suspended(<PageSumSub />),
+      },
+      // ================================================================================
+      {
+        path: 'app/assets',
+        element: suspended(<PageAssetOverview />),
+      },
+      {
+        path: 'app/fpi/:fpiKey',
+        element: suspended(<PageFPIPositions />),
+      },
+      {
+        path: 'app/products-catalog',
+        element: suspended(<PageProductsCatalog />),
+      },
+      {
+        path: 'app/products-catalog/:fpKey',
+        element: suspended(<PageProductCatalogDetail />),
+      },
+      {
+        path: 'app/signals',
+        element: suspended(<PageSignalsMatrix />),
       },
     ],
   },

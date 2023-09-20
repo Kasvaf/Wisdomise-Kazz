@@ -2,7 +2,7 @@ import type React from 'react';
 import { type PropsWithChildren } from 'react';
 import Logo from 'assets/logo-horizontal-wealth.svg';
 import useIsMobile from 'utils/useIsMobile';
-import logout from 'modules/auth/logout';
+import { logout } from 'modules/auth/authHandlers';
 import bgMobile from './bg-mobile.png';
 import bgDesktop from './bg.png';
 

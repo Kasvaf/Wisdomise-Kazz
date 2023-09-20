@@ -3,7 +3,7 @@ import { bxLogOut, bxSupport, bxUser } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useInvestorAssetStructuresQuery, useUserInfoQuery } from 'api';
 import Icon from 'shared/Icon';
-import logout from 'modules/auth/logout';
+import { logout } from 'modules/auth/authHandlers';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
 
 const openCrisp = () => Crisp.chat.open();

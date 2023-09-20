@@ -1,8 +1,8 @@
 import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
-import { JwtTokenKey, LoginUrl } from 'config/constants';
 import ContainerAuth from '../ContainerAuth';
+import { login } from '../authHandlers';
 import inboxImg from './email.svg';
 
 const PageConfirmSignUp = () => {
@@ -12,8 +12,7 @@ const PageConfirmSignUp = () => {
 
   const checkAgain = useCallback(() => {
     setIsChecking(true);
-    localStorage.removeItem(JwtTokenKey);
-    window.location.assign(LoginUrl);
+    login();
   }, []);
 
   useEffect(() => {

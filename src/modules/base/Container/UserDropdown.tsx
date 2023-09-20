@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useUserInfoQuery } from 'api';
 import Icon from 'shared/Icon';
-import logout from 'modules/auth/logout';
+import { logout } from 'modules/auth/authHandlers';
 import DropdownContainer from './DropdownContainer';
 
 const UserDropdown = () => {
