@@ -5,6 +5,7 @@ import useIsMobile from 'utils/useIsMobile';
 import { logout } from 'modules/auth/authHandlers';
 import bgMobile from './bg-mobile.png';
 import bgDesktop from './bg.png';
+import TelegramBanner from './TelegramBanner/TelegramBanner';
 
 const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
   const isMobile = useIsMobile();
@@ -34,9 +35,11 @@ const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
           {children}
         </div>
 
-        <footer className="pb-4 text-center text-xs text-[#ffffffcc] ">
-          Version alpha 1.0.0 © 2023 Wisdomise. All rights reserved
+        <footer className="mb-20 pb-4 text-center text-base text-white/60">
+          © 2023 Wisdomise. All rights reserved.
         </footer>
+
+        <TelegramBanner />
       </div>
     </div>
   );
