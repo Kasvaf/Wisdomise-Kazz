@@ -18,7 +18,10 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
   const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
 
   return (
-    <div className="mb-4 w-[calc(100vw-2rem)] rounded-3xl bg-white px-4 py-6">
+    <div
+      className="mb-4 w-[calc(100vw-2rem)] rounded-3xl bg-white px-4 py-6"
+      onClick={onClose}
+    >
       <div className="flex items-center rounded-3xl bg-black/5 p-2">
         {data?.account.info.picture ? (
           <img
@@ -69,7 +72,7 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
       </div>
       {hasWallet && (
         <div className="mt-2 rounded-3xl bg-black/5 p-4">
-          <WalletDropdownContent closeDropdown={onClose} />
+          <WalletDropdownContent />
         </div>
       )}
     </div>

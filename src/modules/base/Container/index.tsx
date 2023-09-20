@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { clsx } from 'clsx';
 import { useSubscription } from 'api';
+import useIsMobile from 'utils/useIsMobile';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import MobileMenu from './MobileMenu';
@@ -22,19 +23,21 @@ const Container = () => {
     });
   }, []);
 
+  const isMobile = useIsMobile();
   const { isTrialing } = useSubscription();
-  const topOffsetClass = isTrialing ? 'top-14' : 'top-0';
+  const hasBanner = isTrialing && !isMobile;
+  const topOffsetClass = hasBanner ? 'top-14' : 'top-0';
 
   return (
     <main className="mx-auto max-w-screen-2xl">
-      {isTrialing && <TrialBanner />}
+      {hasBanner && <TrialBanner />}
       <SideMenu className={topOffsetClass} />
       <Header showShadow={showShadow} className={topOffsetClass} />
       <div
         ref={mainRef}
         className={clsx(
           'ml-[17.75rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 mobile:mb-16 mobile:ml-0 mobile:h-auto',
-          isTrialing ? 'pt-14' : 'pt-0',
+          hasBanner ? 'pt-14' : 'pt-0',
         )}
       >
         <TransitionGroup component={null}>
