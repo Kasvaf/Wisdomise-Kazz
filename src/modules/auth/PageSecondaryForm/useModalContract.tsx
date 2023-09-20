@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import useModal from 'shared/useModal';
+import Button from 'shared/Button';
 
 interface IProps {
   title: string;
@@ -44,14 +45,13 @@ function ModalContract({ title, ContractDoc, onResolve }: IProps) {
         </div>
       </div>
 
-      <div className="border-t border-white/10 pt-5">
-        <button
+      <div className="flex justify-center border-t border-white/10 pt-5">
+        <Button
           onClick={useCallback(() => onResolve?.(true), [onResolve])}
           disabled={!isScrolledToEnd}
-          className="w-full rounded-full border-none bg-white px-9 py-3 text-base text-black disabled:bg-gray-main disabled:text-[#cccc] md:px-14 md:py-3 md:text-xl"
         >
           I have read and accept the {title}.
-        </button>
+        </Button>
       </div>
     </div>
   );

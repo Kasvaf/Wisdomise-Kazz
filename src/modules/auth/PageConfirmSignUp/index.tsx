@@ -2,7 +2,6 @@ import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
 import ContainerAuth from '../ContainerAuth';
-import { login } from '../authHandlers';
 import inboxImg from './email.svg';
 
 const PageConfirmSignUp = () => {
@@ -12,7 +11,7 @@ const PageConfirmSignUp = () => {
 
   const checkAgain = useCallback(() => {
     setIsChecking(true);
-    login();
+    window.location.reload();
   }, []);
 
   useEffect(() => {

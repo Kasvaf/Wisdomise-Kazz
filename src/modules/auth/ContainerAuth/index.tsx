@@ -1,6 +1,6 @@
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
-import Logo from 'assets/logo-horizontal-wealth.svg';
+import Logo from 'assets/logo-horizontal-beta.svg';
 import useIsMobile from 'utils/useIsMobile';
 import { logout } from 'modules/auth/authHandlers';
 import bgMobile from './bg-mobile.png';
@@ -26,7 +26,7 @@ const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
 
             <button
               onClick={logout}
-              className="rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-xs md:px-8 md:py-3"
+              className="rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-sm md:px-8 md:py-3"
             >
               Log Out
             </button>

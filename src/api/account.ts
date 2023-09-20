@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { type UserInfoResponse } from './types/UserInfoResponse';
@@ -10,22 +10,30 @@ export const useUserInfoQuery = () =>
     return data;
   });
 
-export const useAgreeToTermsMutation = () =>
-  useMutation<
-    unknown,
-    any,
-    {
-      nickname: string;
-      terms_and_conditions_accepted: boolean;
-      privacy_policy_accepted: boolean;
-      cryptocurrency_risk_disclosure_accepted: boolean;
-      referral_code?: string;
-    }
-  >(body => axios.patch('/account/customers/me', body));
+interface UserProfileUpdate {
+  nickname: string | null;
+  referrer_code: string;
+  terms_and_conditions_accepted?: boolean;
+  privacy_policy_accepted?: boolean;
+}
+export function useUserInfoMutation() {
+  return useMutation<unknown, AxiosError, Partial<UserProfileUpdate>>(
+    async body => {
+      const { data } = await axios.patch<UserProfileUpdate>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
+        body,
+      );
+      return data;
+    },
+  );
+}
 
 export const useResendVerificationEmailMutation = () =>
   useMutation<unknown, any>(body =>
-    axios.post('/account/customers/me/verification-email', body),
+    axios.post(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/verification_email/`,
+      body,
+    ),
   );
 
 interface AppDetail {

@@ -1,6 +1,11 @@
+/* eslint-disable import/max-dependencies */
 import type React from 'react';
-import { useCallback, useState } from 'react';
-import { useAgreeToTermsMutation } from 'api';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { notification } from 'antd';
+import { useUserInfoMutation, useUserInfoQuery } from 'api';
+import { unwrapErrorMessage } from 'utils/error';
+import { REFERRER_CODE_KEY } from '../constants';
 import ContainerAuth from '../ContainerAuth';
 import useModalContract from './useModalContract';
 import CheckBox from './CheckBox';
@@ -33,6 +38,8 @@ const staticContracts: Array<{
 ];
 
 const PageSecondaryForm: React.FC = () => {
+  const navigate = useNavigate();
+  const userInfo = useUserInfoQuery();
   const [nickname, setNickname] = useState('');
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
@@ -40,6 +47,19 @@ const PageSecondaryForm: React.FC = () => {
     terms: false,
     risk: false,
   });
+
+  useEffect(() => {
+    const referrerCode = sessionStorage.getItem(REFERRER_CODE_KEY);
+    if (referrerCode) {
+      setReferralCode(referrerCode);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userInfo.data?.account.register_status !== 'PRIMARY') {
+      // navigate('/');
+    }
+  }, [userInfo, navigate]);
 
   const contractsDefs = staticContracts.map(({ type, title, ContractDoc }) => {
     // since the array is static, it's ok to use the hooks inside it.
@@ -64,10 +84,16 @@ const PageSecondaryForm: React.FC = () => {
   });
 
   const [errors, setErrors] = useState(false);
-  const agreeToTerms = useAgreeToTermsMutation();
+  const agreeToTerms = useUserInfoMutation();
   const onSubmit = useCallback(async () => {
     setErrors(true);
-    if (!nickname || !contracts.privacy || !contracts.terms || !contracts.risk)
+    if (
+      !nickname ||
+      !contracts.privacy ||
+      !contracts.terms ||
+      !contracts.risk ||
+      nickname.length > 32
+    )
       return;
 
     try {
@@ -75,19 +101,13 @@ const PageSecondaryForm: React.FC = () => {
         nickname,
         terms_and_conditions_accepted: true,
         privacy_policy_accepted: true,
-        cryptocurrency_risk_disclosure_accepted: true,
-        referral_code: referralCode || undefined,
+        referrer_code: referralCode || undefined,
       });
-      window.location.reload();
+      navigate('/');
     } catch (error) {
-      console.log(error);
-
-      const errorKeys = Object.keys((error as any).data.data);
-      if (errorKeys.includes('referral_code')) {
-        setReferralCode(undefined);
-      }
+      notification.error({ message: unwrapErrorMessage(error) });
     }
-  }, [nickname, contracts, referralCode, agreeToTerms]);
+  }, [nickname, contracts, referralCode, agreeToTerms, navigate]);
 
   return (
     <ContainerAuth>
@@ -95,10 +115,15 @@ const PageSecondaryForm: React.FC = () => {
         <div className="flex flex-col items-start mobile:px-4">
           <p className="mb-10 text-3xl md:text-4xl">
             Welcome to <br />
-            <b>Wisdomise Wealth</b>
+            <b>Wisdomise</b>
           </p>
           <InputBox
-            error={errors && !nickname && "Nickname can't be empty"}
+            error={
+              errors &&
+              ((!nickname && "Nickname can't be empty") ||
+                (nickname.length > 32 &&
+                  'Ensure this field has no more than 32 characters.'))
+            }
             label="Nickname"
             placeholder="Your nickname"
             onChange={setNickname}
