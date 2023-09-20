@@ -55,11 +55,11 @@ const PageFPIPositions = React.lazy(
 );
 
 const routes: RouteObject[] = [
-  { path: 'auth/callback', element: <PageAuthCallback /> },
-  { path: 'auth/login', element: <PageLogin /> },
-  { path: 'auth/logout', element: <PageLogout /> },
-  { path: 'auth/secondary-signup', element: <PageConfirmSignUp /> },
-  { path: 'auth/verify-email', element: <PageSecondaryForm /> },
+  { path: 'auth/callback', element: suspended(<PageAuthCallback />) },
+  { path: 'auth/login', element: suspended(<PageLogin />) },
+  { path: 'auth/logout', element: suspended(<PageLogout />) },
+  { path: 'auth/verify-email', element: suspended(<PageConfirmSignUp />) },
+  { path: 'auth/secondary-signup', element: suspended(<PageSecondaryForm />) },
   // ================================================================================
   {
     element: <Container />,
