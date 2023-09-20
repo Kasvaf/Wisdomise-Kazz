@@ -30,3 +30,14 @@ export interface SubscriptionPlan {
   metadata: Record<string, unknown>;
   stripe_payment_link: string;
 }
+
+export interface SubscriptionPortal {
+  id: string;
+  object: string;
+  configuration: string;
+  created: number;
+  customer: string;
+  livemode: boolean;
+  return_url: string;
+  url: string;
+}

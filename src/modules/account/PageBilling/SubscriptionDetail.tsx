@@ -2,15 +2,15 @@ import { useSubscription } from 'api';
 import Button from 'modules/shared/Button';
 
 const useSubscriptionMessage = () => {
-  const { hasSubscription, isTrialing } = useSubscription();
+  const { hasSubscription, isTrialing, subscriptionPortal } = useSubscription();
   if (isTrialing) {
     // hasStripe
     return (
-      <div>
+      <div className="flex flex-col items-start">
         <p className="text-white/60">
           Please go to your billing portal to renew your subscription:
         </p>
-        <Button to="" className="mt-4">
+        <Button to={subscriptionPortal} className="mt-4 block" target="_blank">
           Billing portal
         </Button>
       </div>

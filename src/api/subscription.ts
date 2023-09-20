@@ -2,7 +2,11 @@ import { type UseQueryOptions, useQuery } from '@tanstack/react-query';
 import axios, { type AxiosError } from 'axios';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { type PageResponse } from './types/page';
-import { type PlanPeriod, type SubscriptionPlan } from './types/subscription';
+import {
+  type SubscriptionPortal,
+  type PlanPeriod,
+  type SubscriptionPlan,
+} from './types/subscription';
 import { useUserInfoQuery } from './account';
 
 export function usePlansQuery(
@@ -44,10 +48,26 @@ export function useSubscription() {
   const user = userInfo.data?.account;
   const subs = user?.subscription?.object;
   const isTrialing = subs?.status === 'trialing';
+
+  const { data: subscriptionPortal } = useQuery(
+    ['sub-portal'],
+    async () => {
+      const { data } = await axios.get<SubscriptionPortal>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/billing_portal/`,
+      );
+      return data.url;
+    },
+    {
+      enabled: !!user?.stripe_customer_id,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+
   return {
     isTrialing,
     hasSubscription: !user?.subscription?.object?.canceled_at,
     hasStripe: !!user?.stripe_customer_id,
+    subscriptionPortal,
     remaining: Math.round(
       ((subs?.trial_end ?? 0) - (subs?.trial_start ?? 0)) / (60 * 60 * 24),
     ),
