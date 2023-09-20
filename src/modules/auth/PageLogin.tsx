@@ -1,11 +1,16 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { isLocal } from 'utils/version';
-import { login } from '../authHandlers';
-import { AFTER_LOGIN_KEY, REDIRECT_APP_KEY } from '../constants';
-import TokenSetter from './TokenSetter';
+import Splash from 'modules/base/Splash';
+import { login, remoteLogin } from './authHandlers';
+import {
+  AFTER_LOGIN_KEY,
+  REDIRECT_APP_KEY,
+  REMOTE_LOGIN_KEY,
+} from './constants';
 
 export const APP_PARAM = 'app';
+export const isLocalRe = /^http:\/\/([\w-]+\.)*localhost(:\d+)?$/;
 
 export default function PageLogin() {
   const [searchParams] = useSearchParams();
@@ -21,10 +26,17 @@ export default function PageLogin() {
       sessionStorage.setItem(AFTER_LOGIN_KEY, afterLogin);
     }
 
-    if (!isLocal) {
+    const remLogin = searchParams.get(REMOTE_LOGIN_KEY);
+    if (remLogin && isLocalRe.test(remLogin)) {
+      sessionStorage.setItem(REMOTE_LOGIN_KEY, remLogin);
+    }
+
+    if (isLocal) {
+      remoteLogin(searchParams.toString());
+    } else {
       login(searchParams.toString());
     }
   }, [searchParams]);
 
-  return isLocal ? <TokenSetter /> : null;
+  return <Splash />;
 }

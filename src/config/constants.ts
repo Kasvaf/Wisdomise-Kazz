@@ -7,7 +7,7 @@ export const DOMAIN = isLocal
 const subdomainPrefix = isProduction ? '' : 'stage-';
 
 const makeOrigin = (name: string) =>
-  `https://${subdomainPrefix}${name}${name && '.'}${DOMAIN}`;
+  `https://${subdomainPrefix}${name}.${DOMAIN}`;
 
 export const API_ORIGIN = makeOrigin('api');
 export const STRATEGY_ORIGIN = makeOrigin('strategy');

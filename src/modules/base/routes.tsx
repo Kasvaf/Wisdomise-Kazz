@@ -15,7 +15,7 @@ const PageSecondaryForm = React.lazy(
 const PageAuthCallback = React.lazy(
   () => import('modules/auth/PageAuthCallback'),
 );
-const PageLogin = React.lazy(() => import('modules/auth/PageLogin/PageLogin'));
+const PageLogin = React.lazy(() => import('modules/auth/PageLogin'));
 const PageLogout = React.lazy(() => import('modules/auth/PageLogout'));
 
 // ================================================================================

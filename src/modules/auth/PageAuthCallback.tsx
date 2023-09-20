@@ -3,7 +3,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppsInfoQuery } from 'api';
 import { DOMAIN } from 'config/constants';
 import Splash from 'modules/base/Splash';
-import { JWT_TOKEN_KEY, AFTER_LOGIN_KEY, REDIRECT_APP_KEY } from './constants';
+import {
+  JWT_TOKEN_KEY,
+  AFTER_LOGIN_KEY,
+  REDIRECT_APP_KEY,
+  REMOTE_LOGIN_KEY,
+} from './constants';
 import getJwtToken from './getJwtToken';
 
 export const TOKEN_PARAM = 'token';
@@ -11,6 +16,7 @@ export const TOKEN_PARAM = 'token';
 function replaceLocation(url: string) {
   sessionStorage.removeItem(AFTER_LOGIN_KEY);
   sessionStorage.removeItem(REDIRECT_APP_KEY);
+  sessionStorage.removeItem(REMOTE_LOGIN_KEY);
   window.location.replace(url);
 }
 
@@ -20,22 +26,27 @@ export default function PageAuthCallback() {
   const apps = appsInfo.data?.results;
   const [searchParams] = useSearchParams();
 
+  const redirectLogin = useCallback((redirectUrl: string) => {
+    const token = getJwtToken();
+    if (token) {
+      replaceLocation(`${redirectUrl}/auth/callback?token=${token}`);
+      return true;
+    }
+  }, []);
+
   const handleAppRedirect = useCallback(
     (appName: string) => {
       if (!apps?.length) return;
 
-      const token = getJwtToken();
       const redirectUrl = apps
         .find(x => x.name === appName)
         ?.frontend_url.replace('DOMAIN', DOMAIN);
 
-      if (redirectUrl && token) {
-        const appCallbackUrl = `${redirectUrl}/auth/callback?token=${token}`;
-        replaceLocation(appCallbackUrl);
-        return true;
+      if (redirectUrl) {
+        return redirectLogin(redirectUrl);
       }
     },
-    [apps],
+    [apps, redirectLogin],
   );
 
   useEffect(() => {
@@ -48,16 +59,19 @@ export default function PageAuthCallback() {
 
     const appName = sessionStorage.getItem(REDIRECT_APP_KEY);
     const route = sessionStorage.getItem(AFTER_LOGIN_KEY);
+    const remoteLogin = sessionStorage.getItem(REMOTE_LOGIN_KEY);
 
     if (appName && handleAppRedirect(appName)) {
       // nothing, logic already called
     } else if (route) {
       // or appName was not found
       replaceLocation(route);
+    } else if (remoteLogin) {
+      redirectLogin(remoteLogin);
     } else {
       navigate('/');
     }
-  }, [appsInfo, searchParams, navigate, handleAppRedirect]);
+  }, [appsInfo, searchParams, navigate, handleAppRedirect, redirectLogin]);
 
   return <Splash />;
 }
