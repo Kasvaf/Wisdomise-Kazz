@@ -50,7 +50,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp --recursive dist/ s3://stage-app.wisdomise.io/${{ github.ref_name }}/
+          aws s3 cp --recursive dist/ s3://stage-app.wisdomise.com/${{ github.ref_name }}/
 
 
   Lint-Build-Prod:
@@ -100,4 +100,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp --recursive dist/ s3://app.wisdomise.io/
+          aws s3 cp --recursive dist/ s3://app.wisdomise.com/
