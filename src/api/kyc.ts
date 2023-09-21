@@ -70,7 +70,7 @@ export const useSumsubVerified = () =>
         status: 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
       }>;
     }>(`${ACCOUNT_PANEL_ORIGIN}/api/v1/kyc/user-kyc-levels`);
-    return data.results?.[0]?.status;
+    return data.results?.[0]?.status || 'UNVERIFIED';
   });
 
 export const useIsVerified = () => {
