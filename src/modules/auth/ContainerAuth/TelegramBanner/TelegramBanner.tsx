@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
+import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import telegramIcon from './telegram.svg';
 import cloudsLeftImg from './clouds-left.svg';
 import cloudsRightImg from './clouds-right.svg';
 
-const ATHENA_TELEGRAM_BOT = import.meta.env.VITE_ATHENA_BOT_BASE_URL as string;
 const clouds = clsx(
   'hidden h-[162px] w-[504px] bg-contain bg-no-repeat md:block',
 );

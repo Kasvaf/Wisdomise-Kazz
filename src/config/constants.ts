@@ -25,3 +25,6 @@ export const APP_NAME = isLocal
   : 'wealth';
 
 export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
+
+export const ATHENA_TELEGRAM_BOT = import.meta.env
+  .VITE_ATHENA_BOT_BASE_URL as string;

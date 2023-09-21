@@ -1,7 +1,7 @@
 import { useUserInfoQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import CopyInputBox from 'shared/CopyInputBox';
-import Card from './Card';
+import Card from 'shared/Card';
 
 export default function ReferralPage() {
   const userInfo = useUserInfoQuery();
