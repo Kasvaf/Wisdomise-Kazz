@@ -68,8 +68,11 @@ export function useSubscription() {
     hasSubscription: !user?.subscription?.object?.canceled_at,
     hasStripe: !!user?.stripe_customer_id,
     subscriptionPortal,
-    remaining: Math.round(
-      ((subs?.trial_end ?? 0) - (subs?.trial_start ?? 0)) / (60 * 60 * 24),
+    remaining: Math.max(
+      Math.round(
+        ((subs?.trial_end ?? 0) - (subs?.trial_start ?? 0)) / (60 * 60 * 24),
+      ),
+      0,
     ),
   };
 }

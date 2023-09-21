@@ -1,11 +1,17 @@
+import { clsx } from 'clsx';
 import { useSubscription } from 'api';
 import Button from 'modules/shared/Button';
 
 export default function TrialBanner() {
-  const { remaining } = useSubscription();
+  const { remaining, isTrialing } = useSubscription();
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[2] flex h-14 w-full items-center justify-center bg-[#4B175C] text-white">
+    <div
+      className={clsx(
+        'fixed inset-x-0 top-0 z-[2] flex h-14 w-full items-center justify-center text-white',
+        isTrialing ? 'bg-[#4B175C]' : 'bg-[#5C173D]',
+      )}
+    >
       <div className="flex max-w-screen-2xl items-center justify-between gap-10">
         <div className="">
           Your trial subscription ends in{' '}
