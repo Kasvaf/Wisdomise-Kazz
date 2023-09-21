@@ -57,7 +57,10 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => (
         </ol>
       </div>
       <div className="flex flex-col justify-center rounded-3xl bg-[#4C5059] p-4 pt-2 text-[12px] md:basis-1/2">
-        <div className="mb-2">Example screenshot from TrustWallet</div>
+        <div className="mb-2 text-center font-normal">
+          <strong className="font-medium">E.g.</strong> : USDT wallet address in
+          TRC20
+        </div>
         <img src={screenshot} />
       </div>
     </div>
