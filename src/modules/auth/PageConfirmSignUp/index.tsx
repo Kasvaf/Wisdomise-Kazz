@@ -2,6 +2,7 @@ import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
+import { login } from '../authHandlers';
 import ContainerAuth from '../ContainerAuth';
 import inboxImg from './email.svg';
 
@@ -13,7 +14,7 @@ const PageConfirmSignUp = () => {
 
   const checkAgain = useCallback(() => {
     setIsChecking(true);
-    window.location.href = '/';
+    login();
   }, []);
 
   useEffect(() => {
