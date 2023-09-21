@@ -49,17 +49,20 @@ export const useVerifiedWallets = () => {
     exchangeAccountKey: mea?.key,
   });
   const wallets = useRawWallets();
+
   return useMemo(
     () => ({
-      isLoading: networks.isLoading || wallets.isLoading,
+      isLoading: (mea && networks.isLoading) || wallets.isLoading,
       data:
         networks.data &&
         wallets.data?.map(wallet => ({
           ...wallet,
-          network: networks.data?.find(net => net.name === wallet.network.name),
+          network:
+            networks.data?.find(net => net.name === wallet.network.name) ||
+            wallet.network,
         })),
     }),
-    [networks, wallets],
+    [networks, wallets, mea],
   );
 };
 

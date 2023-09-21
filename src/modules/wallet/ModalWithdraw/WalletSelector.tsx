@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useEffect } from 'react';
 import ComboBox from 'shared/ComboBox';
+import { useInvestorAssetStructuresQuery } from 'api';
 import { type VerifiedWallet, useVerifiedWallets } from 'api/kyc';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 
@@ -50,10 +51,11 @@ const WalletSelector: React.FC<Props> = ({
   onSelect,
   disabled,
 }) => {
+  const ias = useInvestorAssetStructuresQuery();
   const wallets = useVerifiedWallets();
   useEffect(() => {
     if (wallets.data?.length && !selectedItem?.network?.name) {
-      onSelect(wallets.data[0]);
+      onSelect(wallets.data[0] as VerifiedWallet);
     }
   }, [wallets.data, onSelect, selectedItem?.network?.name]);
 
@@ -69,7 +71,9 @@ const WalletSelector: React.FC<Props> = ({
       }
       onSelect={onSelect}
       renderItem={WalletOptionItemFn}
-      disabled={disabled || wallets.isLoading}
+      disabled={
+        disabled || wallets.isLoading || !ias.data?.[0]?.main_exchange_account
+      }
       className="!h-[88px]"
     />
   );

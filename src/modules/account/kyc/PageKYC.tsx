@@ -140,7 +140,7 @@ export default function PageKYC() {
             <ol className="flex list-decimal flex-col gap-3 pl-6 text-white/50">
               {wallets.data?.map(w => (
                 <li
-                  key={String(w.network?.key) + w.address}
+                  key={String(w.network?.name) + w.address}
                   className="rounded-3xl bg-black/20 p-2 md:px-4"
                 >
                   <div className="flex shrink-0 grow-0 flex-wrap items-stretch text-white">
