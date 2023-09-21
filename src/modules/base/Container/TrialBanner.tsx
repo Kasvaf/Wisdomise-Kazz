@@ -17,7 +17,7 @@ export default function TrialBanner() {
         <div className="flex items-center gap-2">
           <div>Check out our subscription plans from here</div>
           <Button size="small" to="/account/billing">
-            subscription plans
+            Subscription Plans
           </Button>
         </div>
       </div>
