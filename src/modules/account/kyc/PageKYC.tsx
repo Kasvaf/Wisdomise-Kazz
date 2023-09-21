@@ -112,7 +112,7 @@ export default function PageKYC() {
                       ? 'bg-white text-black'
                       : 'cursor-default bg-white/5 text-white/10',
                   )}
-                  rel="noreferrer"
+                  rel="noreferrer noopener"
                 >
                   Schedule in Calendly
                 </a>

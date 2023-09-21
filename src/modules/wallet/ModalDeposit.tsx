@@ -7,7 +7,7 @@ import Banner from 'shared/Banner';
 import CopyInputBox from 'shared/CopyInputBox';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 
-const ModalDeposit = () => {
+const ModalDeposit: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const {
     component: CryptoNetworkSelector,
     loading: cryptoNetLoading,
@@ -27,7 +27,7 @@ const ModalDeposit = () => {
         You have to Deposit from a Verified wallet. Using an unverified wallet
         will result in your account being{' '}
         <span className="text-warning">restricted</span>.{' '}
-        <NavLink className="underline" to="/account/kyc">
+        <NavLink className="underline" to="/account/kyc" onClick={onResolve}>
           Verify Wallet
         </NavLink>
       </Banner>

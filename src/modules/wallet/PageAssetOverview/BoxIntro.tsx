@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useCallback } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
@@ -10,6 +11,7 @@ const BoxIntro: React.FC<{
 }> = ({ className }) => {
   const [DepositMod, openDeposit] = useModal(ModalDeposit);
   const ias = useInvestorAssetStructuresQuery();
+  const onDeposit = useCallback(() => openDeposit({}), [openDeposit]);
 
   return (
     <div
@@ -48,7 +50,7 @@ const BoxIntro: React.FC<{
           </Button>
 
           {Boolean(ias.data?.length) && (
-            <Button className="mx-3 mb-6" onClick={openDeposit}>
+            <Button className="mx-3 mb-6" onClick={onDeposit}>
               Deposit
             </Button>
           )}

@@ -3,6 +3,7 @@ import * as numerable from 'numerable';
 import { useCallback, useRef, useState } from 'react';
 import { notification } from 'antd';
 import { bxInfoCircle } from 'boxicons-quasar';
+import { NavLink } from 'react-router-dom';
 import {
   useConfirmWithdrawMutation,
   useCreateWithdrawMutation,
@@ -213,14 +214,14 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         <span className="text-white/80">
           To Withdraw you have to choose from a Verified Wallet Address.
         </span>{' '}
-        <a
-          href="/account/kyc"
-          target="_blank"
+        <NavLink
+          to="/account/kyc"
           className="font-bold underline"
           rel="noreferrer"
+          onClick={onResolve}
         >
           Verify Wallet
-        </a>
+        </NavLink>
       </Banner>
 
       <div className="mb-9">

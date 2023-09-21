@@ -48,7 +48,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => (
               href="mailto:support@wisdomise.io"
               target="_blank"
               className="font-bold underline"
-              rel="noreferrer"
+              rel="noreferrer noopener"
             >
               support@wisdomise.io
             </a>

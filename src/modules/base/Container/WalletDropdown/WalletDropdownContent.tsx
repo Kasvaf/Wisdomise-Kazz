@@ -21,13 +21,8 @@ const WalletDropdownContent: React.FC = () => {
   const mea = ias.data?.[0]?.main_exchange_account;
   const withdrawable = mea?.quote_equity || 0;
 
-  const onDepositHandler = useCallback(() => {
-    void openDeposit({});
-  }, [openDeposit]);
-
-  const onWithdrawHandler = useCallback(() => {
-    void openWithdraw({});
-  }, [openWithdraw]);
+  const onDepositHandler = useCallback(() => openDeposit({}), [openDeposit]);
+  const onWithdrawHandler = useCallback(() => openWithdraw({}), [openWithdraw]);
 
   if (ias.isLoading || !mainQuote) return <></>;
 

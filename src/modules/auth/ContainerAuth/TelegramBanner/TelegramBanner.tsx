@@ -14,7 +14,7 @@ export default function TelegramBanner() {
       target="_blank"
       referrerPolicy="no-referrer"
       className="fixed inset-x-0 bottom-0 flex h-[72px] w-full justify-between bg-[#0b6492] text-white"
-      rel="noreferrer"
+      rel="noreferrer noopener"
     >
       <div
         className={clsx(clouds, 'left-[-5.5rem]')}
