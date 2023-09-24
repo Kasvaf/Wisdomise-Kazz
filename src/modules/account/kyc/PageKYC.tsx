@@ -57,7 +57,7 @@ export default function PageKYC() {
               </div>
               {sumsubVerified.data !== 'VERIFIED' && (
                 <NavLink
-                  to="/kyc/sumsub"
+                  to="/account/kyc/sumsub"
                   className="rounded-full bg-white px-5 py-3 text-center text-[14px] text-black"
                 >
                   Let’s Start in Sumsub
