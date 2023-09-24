@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import { clsx } from 'clsx';
 import { useCallback } from 'react';
 import { bxPause, bxPlay, bxStop } from 'boxicons-quasar';
+import { useNavigate } from 'react-router-dom';
 import { type FpiStatusMutationType, useUpdateFPIStatusMutation } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
 import FabButton from 'shared/FabButton';
@@ -21,6 +22,7 @@ const FpiActions: React.FC<{
   fpi: FinancialProductInstance;
   className?: string;
 }> = ({ fpi, className }) => {
+  const navigate = useNavigate();
   const updateFPIStatus = useUpdateFPIStatusMutation();
   const changeFpiStatus = useCallback(
     async (fpiKey: string, status: FpiStatusMutationType) => {
@@ -29,6 +31,10 @@ const FpiActions: React.FC<{
           status,
           fpiKey,
         });
+
+        if (status === 'stop') {
+          navigate('/app/assets');
+        }
       } catch (error) {
         notification.error({
           message:
@@ -37,7 +43,7 @@ const FpiActions: React.FC<{
         });
       }
     },
-    [updateFPIStatus],
+    [updateFPIStatus, navigate],
   );
 
   return (
