@@ -28,13 +28,12 @@ export function useUserInfoMutation() {
   );
 }
 
-export const useResendVerificationEmailMutation = () =>
-  useMutation<unknown, any>(body =>
-    axios.post(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/verification_email/`,
-      body,
-    ),
+export const useResendVerificationEmailMutation = () => async () => {
+  const { status } = await axios.post(
+    `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/verification_email/`,
   );
+  return status >= 200 && status < 400;
+};
 
 interface AppDetail {
   key: string;

@@ -2,6 +2,7 @@ import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
+import { unwrapErrorMessage } from 'utils/error';
 import { login } from '../authHandlers';
 import ContainerAuth from '../ContainerAuth';
 import inboxImg from './email.svg';
@@ -10,26 +11,34 @@ const PageConfirmSignUp = () => {
   const navigate = useNavigate();
   const { data: userInfo } = useUserInfoQuery();
   const [isChecking, setIsChecking] = useState(false);
-  const resendVerify = useResendVerificationEmailMutation();
 
   const checkAgain = useCallback(() => {
     setIsChecking(true);
     login();
   }, []);
 
+  const [isResending, setIsResending] = useState(false);
+  const resendVerify = useResendVerificationEmailMutation();
+  const resendEmail = useCallback(async () => {
+    try {
+      setIsResending(true);
+      if (await resendVerify()) {
+        notification.success({
+          message: 'Verification Email Sent Successfully.',
+        });
+      }
+    } catch (error) {
+      notification.error({ message: unwrapErrorMessage(error) });
+    } finally {
+      setIsResending(false);
+    }
+  }, [resendVerify]);
+
   useEffect(() => {
     if (userInfo?.account.info.email_verified) {
       navigate('/auth/secondary-signup');
     }
   }, [userInfo, navigate]);
-
-  useEffect(() => {
-    if (resendVerify.status === 'success') {
-      notification.success({
-        message: 'Verification Email Sent Successfully.',
-      });
-    }
-  }, [resendVerify]);
 
   return (
     <ContainerAuth>
@@ -55,9 +64,9 @@ const PageConfirmSignUp = () => {
 
         <button
           className="rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
-          onClick={useCallback(() => resendVerify.mutate(), [resendVerify])}
+          onClick={resendEmail}
         >
-          {resendVerify.isLoading
+          {isResending
             ? 'Resending Verification Email ...'
             : 'Resend Verification Email'}
         </button>
