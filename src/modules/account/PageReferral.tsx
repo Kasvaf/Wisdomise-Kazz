@@ -21,7 +21,7 @@ export default function ReferralPage() {
             />
             <CopyInputBox
               label="Referral Link"
-              value={`${myOrigin}/account/ref/${user.referral_code}`}
+              value={`${myOrigin}/ref/${user.referral_code}`}
               className="grow"
               style="alt"
             />

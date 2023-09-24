@@ -60,6 +60,7 @@ const routes: RouteObject[] = [
   { path: 'auth/logout', element: suspended(<PageLogout />) },
   { path: 'auth/verify-email', element: suspended(<PageConfirmSignUp />) },
   { path: 'auth/secondary-signup', element: suspended(<PageSecondaryForm />) },
+  { path: 'ref/:referrerCode', element: <PageRef /> },
   // ================================================================================
   {
     element: <Container />,
@@ -80,7 +81,6 @@ const routes: RouteObject[] = [
         path: 'account/billing',
         element: suspended(<PageBilling />),
       },
-      { path: 'account/ref/:referrerCode', element: <PageRef /> },
       {
         path: 'account/kyc',
         element: suspended(<PageKYC />),
