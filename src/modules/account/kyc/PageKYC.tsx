@@ -33,7 +33,7 @@ export default function PageKYC() {
     sumsubVerified.isLoading || userInfo.isLoading || wallets.isLoading;
   return (
     <PageWrapper loading={loading}>
-      <h1 className="mb-8 text-xl font-semibold">Verification</h1>
+      <h1 className="mb-8 text-xl font-semibold">KYC</h1>
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6 md:flex-row">
