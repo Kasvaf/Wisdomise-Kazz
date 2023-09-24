@@ -53,14 +53,12 @@ export const useVerifiedWallets = () => {
   return useMemo(
     () => ({
       isLoading: (mea && networks.isLoading) || wallets.isLoading,
-      data:
-        networks.data &&
-        wallets.data?.map(wallet => ({
-          ...wallet,
-          network:
-            networks.data?.find(net => net.name === wallet.network.name) ||
-            wallet.network,
-        })),
+      data: wallets.data?.map(wallet => ({
+        ...wallet,
+        network:
+          networks.data?.find(net => net.name === wallet.network.name) ||
+          wallet.network,
+      })),
     }),
     [networks, wallets, mea],
   );
