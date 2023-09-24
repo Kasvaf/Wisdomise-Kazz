@@ -8,7 +8,7 @@ const useSubscriptionMessage = () => {
       <p className="text-white/60">
         {isActive
           ? 'You have successfully subscribed to one of our plans.'
-          : 'Please go to your billing portal to renew your subscription:'}
+          : 'Please go to your billing portal to renew or upgrade your subscription:'}
       </p>
 
       <Button to={subscriptionPortal} className="mt-4 block" target="_blank">
