@@ -47,7 +47,7 @@ export function useSubscription() {
   const userInfo = useUserInfoQuery();
   const user = userInfo.data?.account;
   const subs = user?.subscription?.object;
-  const isTrialing = subs?.status === 'trialing';
+  const status = subs?.status;
 
   const { data: subscriptionPortal } = useQuery(
     ['sub-portal'],
@@ -64,9 +64,9 @@ export function useSubscription() {
   );
 
   return {
-    isTrialing,
-    hasSubscription: !user?.subscription?.object?.canceled_at,
-    hasStripe: !!user?.stripe_customer_id,
+    isActive: status === 'active',
+    isTrialing: status === 'trialing',
+    hasStripe: Boolean(user?.stripe_customer_id),
     subscriptionPortal,
     remaining: Math.max(
       Math.round(

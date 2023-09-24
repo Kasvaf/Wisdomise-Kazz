@@ -8,7 +8,7 @@ import PricingTable from './PricingTable';
 import { AFTER_CHECKOUT_KEY, SUCCESSFUL_CHECKOUT_KEY } from './constant';
 
 export default function PageBilling() {
-  const { hasStripe, hasSubscription } = useSubscription();
+  const { hasStripe, isActive } = useSubscription();
   const [searchParams] = useSearchParams();
   const [ModalSuccessful, showModalSuccessful] = useModalSuccessful({});
   const navigate = useNavigate();
@@ -22,21 +22,13 @@ export default function PageBilling() {
 
     if (
       searchParams.has(SUCCESSFUL_CHECKOUT_KEY) &&
-      hasSubscription &&
-      hasStripe &&
+      isActive &&
       !successShown
     ) {
       setSuccessShow(true);
       void showModalSuccessful().then(() => navigate('/account/billing'));
     }
-  }, [
-    searchParams,
-    showModalSuccessful,
-    hasStripe,
-    hasSubscription,
-    navigate,
-    successShown,
-  ]);
+  }, [searchParams, showModalSuccessful, isActive, navigate, successShown]);
 
   return (
     <PageWrapper>
