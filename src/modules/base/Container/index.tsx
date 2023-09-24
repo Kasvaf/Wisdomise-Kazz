@@ -25,8 +25,8 @@ const Container = () => {
   }, []);
 
   const isMobile = useIsMobile();
-  const { hasStripe } = useSubscription();
-  const hasBanner = !hasStripe && !isMobile;
+  const { isTrialing, hasStripe } = useSubscription();
+  const hasBanner = (isTrialing || !hasStripe) && !isMobile;
   const topOffsetClass = hasBanner ? 'top-14' : 'top-0';
 
   return (
