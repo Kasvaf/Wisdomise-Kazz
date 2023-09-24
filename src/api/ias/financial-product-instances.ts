@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { useMutation } from '@tanstack/react-query';
-import queryClient from 'config/reactQuery';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export type FpiStatusMutationType = 'stop' | 'start' | 'pause' | 'resume';
 
-export const useUpdateFPIStatusMutation = () =>
-  useMutation<
+export const useUpdateFPIStatusMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
     unknown,
     unknown,
     { fpiKey: string; status: FpiStatusMutationType }
@@ -20,9 +21,12 @@ export const useUpdateFPIStatusMutation = () =>
       },
     },
   );
+};
 
-export const useCreateFPIMutation = () =>
-  useMutation<{ key: string }, unknown, string>(
+export const useCreateFPIMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<{ key: string }, unknown, string>(
     async fpKey => {
       const { data } = await axios.post('/ias/financial-product-instances', {
         financial_product: {
@@ -38,3 +42,4 @@ export const useCreateFPIMutation = () =>
       },
     },
   );
+};
