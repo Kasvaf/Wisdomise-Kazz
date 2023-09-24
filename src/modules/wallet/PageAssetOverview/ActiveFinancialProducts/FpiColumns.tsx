@@ -30,7 +30,12 @@ const FpiColumns = ({ fpi }: { fpi: FinancialProductInstance }) => {
       <VerticalLine />
 
       <div className="mx-6 my-4 flex flex-col !items-start justify-between mobile:mx-0 mobile:flex-row">
-        <p className="mr-6 text-sm text-white/80">P / L</p>
+        <p className="mr-6 text-sm text-white/80">
+          P / L{' '}
+          <span className="invisible text-xs text-white/40 md:visible">
+            (Unrealized)
+          </span>
+        </p>
         <p
           className={clsx(
             'text-base font-semibold text-white',
