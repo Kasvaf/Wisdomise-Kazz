@@ -5,7 +5,7 @@ import cloudsLeftImg from './clouds-left.svg';
 import cloudsRightImg from './clouds-right.svg';
 
 const clouds = clsx(
-  'hidden h-[162px] w-[504px] bg-contain bg-no-repeat md:block',
+  'absolute hidden h-[162px] w-[504px] bg-contain bg-no-repeat md:block',
 );
 export default function TelegramBanner() {
   return (
@@ -13,7 +13,7 @@ export default function TelegramBanner() {
       href={ATHENA_TELEGRAM_BOT}
       target="_blank"
       referrerPolicy="no-referrer"
-      className="fixed inset-x-0 bottom-0 flex h-[72px] w-full justify-between bg-[#0b6492] text-white"
+      className="fixed inset-x-0 bottom-0 flex h-[72px] w-full justify-center bg-[#0b6492] text-white"
       rel="noreferrer noopener"
     >
       <div
@@ -22,7 +22,7 @@ export default function TelegramBanner() {
           backgroundImage: `url("${cloudsLeftImg}")`,
         }}
       />
-      <div className="flex items-center gap-4">
+      <div className="flex shrink-0 items-center gap-1 text-sm sm:gap-2 md:gap-4 md:text-base">
         <img
           src={telegramIcon}
           width={36}
@@ -34,7 +34,7 @@ export default function TelegramBanner() {
         <div className="rounded-full bg-white/30 p-3">Stay Connected</div>
       </div>
       <div
-        className={clsx(clouds, 'left-[-5.5rem]')}
+        className={clsx(clouds, 'right-[-5.5rem]')}
         style={{
           backgroundImage: `url("${cloudsRightImg}")`,
         }}

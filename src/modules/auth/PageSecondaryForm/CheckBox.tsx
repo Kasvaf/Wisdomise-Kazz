@@ -16,8 +16,9 @@ const CheckBox: React.FC<Props> = ({ id, label, checked, onClick, error }) => (
       type="checkbox"
       id={id}
       readOnly
+      className="cursor-pointer "
     />
-    <label htmlFor={id} className="pl-2">
+    <label htmlFor={id} className="cursor-pointer pl-2">
       {label}
     </label>
     {error && <p className="ml-6 text-error">{error}</p>}
