@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 interface InputProps {
+  value?: string;
   placeholder: string;
   error?: string | boolean;
   label: string | React.ReactNode;
@@ -12,10 +13,12 @@ const InputBox: React.FC<InputProps> = ({
   error,
   onChange,
   placeholder,
+  value,
 }) => (
   <div className="mb-5">
     <label className="pl-4 text-base">{label}</label>
     <input
+      value={value}
       onChange={useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
         [onChange],

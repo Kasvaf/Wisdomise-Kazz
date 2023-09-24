@@ -127,6 +127,7 @@ const PageSecondaryForm: React.FC = () => {
             label="Nickname"
             placeholder="Your nickname"
             onChange={setNickname}
+            value={nickname}
           />
           <InputBox
             error={errors && referralCode == null && 'Referrer not found'}
@@ -138,6 +139,7 @@ const PageSecondaryForm: React.FC = () => {
             }
             placeholder="Invitation code"
             onChange={setReferralCode}
+            value={referralCode}
           />
 
           {contractsDefs.map(({ type, title, onClick }) => (
