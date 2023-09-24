@@ -66,6 +66,8 @@ export function useSubscription() {
   return {
     isActive: status === 'active',
     isTrialing: status === 'trialing',
+    isCanceled: Boolean(subs?.canceled_at),
+    cancelEnd: subs?.current_period_end,
     hasStripe: Boolean(user?.stripe_customer_id),
     subscriptionPortal,
     remaining: Math.max(

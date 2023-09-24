@@ -1,13 +1,19 @@
+import dayjs from 'dayjs';
 import { useSubscription } from 'api';
 import Button from 'modules/shared/Button';
 
 const useSubscriptionMessage = () => {
-  const { isActive, subscriptionPortal } = useSubscription();
+  const { isActive, isCanceled, cancelEnd, subscriptionPortal } =
+    useSubscription();
   return (
     <div className="flex flex-col items-start">
       <p className="text-white/60">
         {isActive
-          ? 'You have successfully subscribed to one of our plans.'
+          ? isCanceled
+            ? `Your subscription remains active until ${dayjs(cancelEnd).format(
+                'MMMM DD',
+              )}, and after that, no further charges will be applied. To continue enjoying our services, you can renew your subscription or explore new options in the billing tab. Your choice, your experience!`
+            : 'You have successfully subscribed to one of our plans.'
           : 'Please go to your billing portal to renew or upgrade your subscription:'}
       </p>
 

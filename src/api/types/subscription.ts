@@ -6,6 +6,11 @@ export interface Subscription {
     status: 'trialing' | 'active' | 'inactive';
     trial_end: number;
     trial_start: number;
+
+    current_period_start?: number;
+    current_period_end?: number;
+
+    cancel_at?: number;
     canceled_at?: number;
     plan: {
       key?: string;
