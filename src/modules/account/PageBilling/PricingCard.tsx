@@ -27,9 +27,6 @@ export default function PricingCard({ plan, className }: Props) {
       )}
     >
       <div className="lg:min-h-[10rem] xl:min-h-[17rem]">
-        <div className="mb-2 h-6 w-max rounded-full bg-gray-700 px-2 py-1 text-xs !text-white">
-          30 Days trial
-        </div>
         <img className="mb-2 rounded-lg" src={product} alt="product" />
         <h2 className="mb-3 text-xl">{plan.name}</h2>
         <p className="text-sm text-white/60">{plan.description}</p>
