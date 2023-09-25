@@ -7,7 +7,7 @@ export interface UserInfoResponse {
   kyc_level_bindings: any[];
 }
 
-interface Account {
+export interface Account {
   key: string;
   email: string;
   nickname?: string;

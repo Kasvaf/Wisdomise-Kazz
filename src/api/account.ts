@@ -1,8 +1,17 @@
 import axios, { type AxiosError } from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { type UserInfoResponse } from './types/UserInfoResponse';
+import { type Account, type UserInfoResponse } from './types/UserInfoResponse';
 import { type PageResponse } from './types/page';
+
+export function useAccountQuery() {
+  return useQuery<Account>(['account'], async () => {
+    const { data } = await axios.get<Account>(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
+    );
+    return data;
+  });
+}
 
 export const useUserInfoQuery = () =>
   useQuery<UserInfoResponse>(['user'], async () => {
