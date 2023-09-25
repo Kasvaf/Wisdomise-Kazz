@@ -8,7 +8,7 @@ import PricingTable from './PricingTable';
 import { AFTER_CHECKOUT_KEY, SUCCESSFUL_CHECKOUT_KEY } from './constant';
 
 export default function PageBilling() {
-  const { hasStripe, isActive } = useSubscription();
+  const { hasStripe, isActive, isLoading } = useSubscription();
   const [searchParams] = useSearchParams();
   const [ModalSuccessful, showModalSuccessful] = useModalSuccessful({});
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function PageBilling() {
   }, [searchParams, showModalSuccessful, isActive, navigate, successShown]);
 
   return (
-    <PageWrapper>
+    <PageWrapper loading={isLoading}>
       {hasStripe ? <SubscriptionDetail /> : <PricingTable />}
       {ModalSuccessful}
     </PageWrapper>

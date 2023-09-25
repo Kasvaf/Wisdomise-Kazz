@@ -44,7 +44,7 @@ export const useCreateUserPlan = () => async (body: { plan_key: string }) => {
 };
 
 export function useSubscription() {
-  const { data: account } = useAccountQuery();
+  const { data: account, isLoading } = useAccountQuery();
   const subs = account?.subscription?.object;
   const status = subs?.status;
 
@@ -63,6 +63,7 @@ export function useSubscription() {
   );
 
   return {
+    isLoading,
     isActive: status === 'active',
     isTrialing: status === 'trialing',
     isCanceled: Boolean(subs?.canceled_at),

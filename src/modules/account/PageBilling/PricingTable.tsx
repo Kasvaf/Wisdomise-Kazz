@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { useCallback, useState } from 'react';
 import { usePlansQuery } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
+import Spinner from 'shared/Spinner';
 import PricingCard from './PricingCard';
 
 const TabButton: React.FC<{
@@ -23,10 +24,18 @@ const TabButton: React.FC<{
 
 export default function PricingTable() {
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
-  const { data } = usePlansQuery(undefined, {
+  const { data, isLoading } = usePlansQuery(undefined, {
     staleTime: Number.POSITIVE_INFINITY,
     retry: false,
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center">
