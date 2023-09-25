@@ -1,5 +1,5 @@
-import axios, { type AxiosError } from 'axios';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { type Account } from './types/UserInfoResponse';
 import { type PageResponse } from './types/page';
@@ -24,17 +24,15 @@ interface UserProfileUpdate {
   terms_and_conditions_accepted?: boolean;
   privacy_policy_accepted?: boolean;
 }
-export function useUserInfoMutation() {
-  return useMutation<unknown, AxiosError, Partial<UserProfileUpdate>>(
-    async body => {
-      const { data } = await axios.patch<UserProfileUpdate>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
-        body,
-      );
-      return data;
-    },
-  );
-}
+
+export const useUserInfoMutation =
+  () => async (body: Partial<UserProfileUpdate>) => {
+    const { data } = await axios.patch<UserProfileUpdate>(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
+      body,
+    );
+    return data;
+  };
 
 export const useResendVerificationEmailMutation = () => async () => {
   const { status } = await axios.post(

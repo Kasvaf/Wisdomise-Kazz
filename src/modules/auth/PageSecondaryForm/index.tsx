@@ -84,6 +84,7 @@ const PageSecondaryForm: React.FC = () => {
   });
 
   const [errors, setErrors] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const agreeToTerms = useUserInfoMutation();
   const onSubmit = useCallback(async () => {
     setErrors(true);
@@ -97,7 +98,8 @@ const PageSecondaryForm: React.FC = () => {
       return;
 
     try {
-      await agreeToTerms.mutateAsync({
+      setIsSubmitting(true);
+      await agreeToTerms({
         nickname,
         terms_and_conditions_accepted: true,
         privacy_policy_accepted: true,
@@ -106,6 +108,8 @@ const PageSecondaryForm: React.FC = () => {
       navigate('/');
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
+    } finally {
+      setIsSubmitting(false);
     }
   }, [nickname, contracts, referralCode, agreeToTerms, navigate]);
 
@@ -166,7 +170,7 @@ const PageSecondaryForm: React.FC = () => {
             onClick={onSubmit}
             className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
           >
-            Submit{agreeToTerms.isLoading ? 'ing ...' : ''}
+            Submit{isSubmitting ? 'ing ...' : ''}
           </button>
         </div>
       </main>
