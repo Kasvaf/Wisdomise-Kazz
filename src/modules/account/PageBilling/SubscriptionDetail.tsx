@@ -14,7 +14,7 @@ const useSubscriptionMessage = () => {
                 'MMMM DD',
               )}, and after that, no further charges will be applied. To continue enjoying our services, you can renew your subscription or explore new options in the billing tab. Your choice, your experience!`
             : 'You have successfully subscribed to one of our plans.'
-          : 'Please go to your billing portal to renew or upgrade your subscription:'}
+          : 'Please go to your billing portal to manage your current subscription:'}
       </p>
 
       <Button to={subscriptionPortal} className="mt-4 block" target="_blank">
