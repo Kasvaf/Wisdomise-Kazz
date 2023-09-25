@@ -1,10 +1,22 @@
 import dayjs from 'dayjs';
-import { useSubscription } from 'api';
+import { useCallback, useState } from 'react';
+import { getBilingPortal, useSubscription } from 'api';
 import Button from 'modules/shared/Button';
 
 const useSubscriptionMessage = () => {
-  const { isActive, isCanceled, cancelEnd, subscriptionPortal } =
-    useSubscription();
+  const { isActive, isCanceled, cancelEnd } = useSubscription();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const bilingHandler = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const url = await getBilingPortal();
+      window.location.href = url;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col items-start">
       <p className="text-white/60">
@@ -17,7 +29,12 @@ const useSubscriptionMessage = () => {
           : 'Please go to your billing portal to manage your current subscription:'}
       </p>
 
-      <Button to={subscriptionPortal} className="mt-4 block" target="_blank">
+      <Button
+        onClick={bilingHandler}
+        loading={isLoading}
+        className="mt-4 block"
+        target="_blank"
+      >
         Billing portal
       </Button>
     </div>

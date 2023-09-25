@@ -43,24 +43,17 @@ export const useCreateUserPlan = () => async (body: { plan_key: string }) => {
   return data;
 };
 
+export const getBilingPortal = async () => {
+  const { data } = await axios.get<SubscriptionPortal>(
+    `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/billing_portal/`,
+  );
+  return data.url;
+};
+
 export function useSubscription() {
   const { data: account, isLoading } = useAccountQuery();
   const subs = account?.subscription?.object;
   const status = subs?.status;
-
-  const { data: subscriptionPortal } = useQuery(
-    ['sub-portal'],
-    async () => {
-      const { data } = await axios.get<SubscriptionPortal>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/billing_portal/`,
-      );
-      return data.url;
-    },
-    {
-      enabled: !!account?.stripe_customer_id,
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
 
   return {
     isLoading,
@@ -69,7 +62,6 @@ export function useSubscription() {
     isCanceled: Boolean(subs?.canceled_at),
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     hasStripe: Boolean(account?.stripe_customer_id),
-    subscriptionPortal,
     remaining: Math.max(
       Math.round(
         ((subs?.trial_end ?? 0) - (subs?.trial_start ?? 0)) / (60 * 60 * 24),
