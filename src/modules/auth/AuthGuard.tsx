@@ -27,8 +27,7 @@ function replaceLocation(url: string) {
 export default function AuthGuard({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const account = useAccountQuery();
-  const user = account.data;
+  const { data: account } = useAccountQuery();
 
   const appsInfo = useAppsInfoQuery();
   const apps = appsInfo.data?.results;
@@ -57,10 +56,10 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   );
 
   useEffect(() => {
-    if (!user || !loading) return;
-    if (!user.info.email_verified) {
+    if (!account || !loading) return;
+    if (!account.info.email_verified) {
       navigate('/auth/verify-email');
-    } else if (user.register_status === 'PRIMARY') {
+    } else if (account.register_status === 'PRIMARY') {
       navigate('/auth/secondary-signup');
     } else if (!appsInfo.isLoading) {
       const appName = sessionStorage.getItem(REDIRECT_APP_KEY);
@@ -78,7 +77,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         setLoading(false);
       }
     }
-  }, [loading, user, appsInfo, navigate, handleAppRedirect, redirectLogin]);
+  }, [loading, account, appsInfo, navigate, handleAppRedirect, redirectLogin]);
 
   if (!localStorage.getItem(JWT_TOKEN_KEY)) {
     login();

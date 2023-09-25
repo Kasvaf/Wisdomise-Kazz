@@ -4,24 +4,23 @@ import CopyInputBox from 'shared/CopyInputBox';
 import Card from 'shared/Card';
 
 export default function ReferralPage() {
-  const account = useAccountQuery();
-  const user = account.data;
+  const { data: account, isLoading } = useAccountQuery();
   const myOrigin = window.location.origin;
 
   return (
-    <PageWrapper loading={account.isLoading}>
+    <PageWrapper loading={isLoading}>
       <h1 className="mb-14">Referral Program</h1>
-      {user && (
+      {account && (
         <>
           <div className="flex flex-wrap gap-2 gap-y-8">
             <CopyInputBox
               label="Referral Code"
-              value={user.referral_code}
+              value={account.referral_code}
               style="alt"
             />
             <CopyInputBox
               label="Referral Link"
-              value={`${myOrigin}/ref/${user.referral_code}`}
+              value={`${myOrigin}/ref/${account.referral_code}`}
               className="grow"
               style="alt"
             />
@@ -31,14 +30,14 @@ export default function ReferralPage() {
           <div className="mb-4 flex gap-9">
             <Card>
               <div className="mb-4 text-2xl font-bold">
-                {user.referred_users_count}
+                {account.referred_users_count}
               </div>
               <div className="font-bold">Friends Invited</div>
             </Card>
 
             <Card>
               <div className="mb-4 text-2xl font-bold">
-                {user.active_referred_users_count}
+                {account.active_referred_users_count}
               </div>
               <div className="font-bold">Subscribed Friends</div>
             </Card>

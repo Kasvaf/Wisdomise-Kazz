@@ -22,7 +22,7 @@ const toDigits = (v: string) =>
 const RESEND_TIMEOUT = 60;
 
 const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
-  const account = useAccountQuery();
+  const { data: account } = useAccountQuery();
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -51,7 +51,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
     onResend();
   }, [onResend]);
 
-  const userEmail = account.data?.info.email;
+  const userEmail = account?.info.email;
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Security verification</h1>

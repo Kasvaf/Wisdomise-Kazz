@@ -44,8 +44,8 @@ export const useCreateUserPlan = () => async (body: { plan_key: string }) => {
 };
 
 export function useSubscription() {
-  const account = useAccountQuery();
-  const subs = account.data?.subscription?.object;
+  const { data: account } = useAccountQuery();
+  const subs = account?.subscription?.object;
   const status = subs?.status;
 
   const { data: subscriptionPortal } = useQuery(
@@ -57,7 +57,7 @@ export function useSubscription() {
       return data.url;
     },
     {
-      enabled: !!account.data?.stripe_customer_id,
+      enabled: !!account?.stripe_customer_id,
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
@@ -67,7 +67,7 @@ export function useSubscription() {
     isTrialing: status === 'trialing',
     isCanceled: Boolean(subs?.canceled_at),
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
-    hasStripe: Boolean(account.data?.stripe_customer_id),
+    hasStripe: Boolean(account?.stripe_customer_id),
     subscriptionPortal,
     remaining: Math.max(
       Math.round(

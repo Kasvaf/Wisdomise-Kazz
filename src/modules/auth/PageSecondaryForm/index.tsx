@@ -38,7 +38,7 @@ const staticContracts: Array<{
 
 const PageSecondaryForm: React.FC = () => {
   const navigate = useNavigate();
-  const account = useAccountQuery();
+  const { data: account } = useAccountQuery();
   const [nickname, setNickname] = useState('');
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
@@ -48,8 +48,8 @@ const PageSecondaryForm: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!account.data) return;
-    if (account.data?.register_status !== 'PRIMARY') {
+    if (!account) return;
+    if (account?.register_status !== 'PRIMARY') {
       navigate('/');
     }
   }, [account, navigate]);

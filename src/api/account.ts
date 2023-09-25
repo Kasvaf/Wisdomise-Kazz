@@ -1,7 +1,7 @@
 import axios, { type AxiosError } from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { type Account, type UserInfoResponse } from './types/UserInfoResponse';
+import { type Account } from './types/UserInfoResponse';
 import { type PageResponse } from './types/page';
 
 export function useAccountQuery() {
@@ -18,13 +18,6 @@ export function useAccountQuery() {
     },
   );
 }
-
-export const useUserInfoQuery = () =>
-  useQuery<UserInfoResponse>(['user'], async () => {
-    const { data } = await axios.get('/account/investors/me');
-    return data;
-  });
-
 interface UserProfileUpdate {
   nickname: string | null;
   referrer_code: string;

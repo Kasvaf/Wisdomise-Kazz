@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ExtraContent: React.FC<Props> = ({ onClose }) => {
-  const { data } = useAccountQuery();
+  const { data: account } = useAccountQuery();
   const ias = useInvestorAssetStructuresQuery();
   const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
 
@@ -23,17 +23,22 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
       onClick={onClose}
     >
       <div className="flex items-center rounded-3xl bg-black/5 p-2">
-        {data?.info.picture ? (
-          <img className="mr-3 h-8 w-8 rounded-full" src={data?.info.picture} />
+        {account?.info.picture ? (
+          <img
+            className="mr-3 h-8 w-8 rounded-full"
+            src={account?.info.picture}
+          />
         ) : (
           <div className="mr-3 flex h-12 w-12  items-center justify-center rounded-full bg-black/10 p-3">
-            {data?.nickname?.charAt(0)}
+            {account?.nickname?.charAt(0)}
           </div>
         )}
 
         <div className="text-base font-semibold text-black">
-          {data?.nickname}
-          <p className="text-xxs leading-none text-black/60">{data?.email}</p>
+          {account?.nickname}
+          <p className="text-xxs leading-none text-black/60">
+            {account?.email}
+          </p>
         </div>
       </div>
 

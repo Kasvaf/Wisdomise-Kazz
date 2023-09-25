@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { Spin } from 'antd';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import { useUserInfoQuery } from 'api';
+import { useAccountQuery } from 'api';
 import product from './images/wisdomise-product.png';
 import { ReactComponent as Check } from './images/check.svg';
 
@@ -12,11 +12,11 @@ interface Props {
 }
 
 export default function PricingCard({ plan, className }: Props) {
-  const userInfo = useUserInfoQuery();
-  const stripeLink = userInfo.data
+  const { data: account } = useAccountQuery();
+  const stripeLink = account
     ? plan.stripe_payment_link +
       '?prefilled_email=' +
-      encodeURIComponent(userInfo.data.user.email)
+      encodeURIComponent(account.email)
     : undefined;
   return (
     <div
