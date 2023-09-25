@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useResendVerificationEmailMutation, useUserInfoQuery } from 'api';
+import { useAccountQuery, useResendVerificationEmailMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import { login } from '../authHandlers';
 import ContainerAuth from '../ContainerAuth';
@@ -9,7 +9,7 @@ import inboxImg from './email.svg';
 
 const PageConfirmSignUp = () => {
   const navigate = useNavigate();
-  const { data: userInfo } = useUserInfoQuery();
+  const { data: account } = useAccountQuery();
   const [isChecking, setIsChecking] = useState(false);
 
   const checkAgain = useCallback(() => {
@@ -35,10 +35,10 @@ const PageConfirmSignUp = () => {
   }, [resendVerify]);
 
   useEffect(() => {
-    if (userInfo?.account.info.email_verified) {
+    if (account?.info.email_verified) {
       navigate('/auth/secondary-signup');
     }
-  }, [userInfo, navigate]);
+  }, [account, navigate]);
 
   return (
     <ContainerAuth>
@@ -50,7 +50,7 @@ const PageConfirmSignUp = () => {
 
         <p className="p-7 text-center text-sm leading-loose text-[#ffffffcc]">
           A link has been sent to your email{' '}
-          <span className="text-[#ffffff]">{userInfo?.user.email || ''}</span>
+          <span className="text-[#ffffff]">{account?.info.email || ''}</span>
           <br />
           To verify your account, please click on the link.
         </p>

@@ -1,7 +1,7 @@
 import { Crisp } from 'crisp-sdk-web';
 import { bxLogOut, bxSupport, bxUser } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
-import { useInvestorAssetStructuresQuery, useUserInfoQuery } from 'api';
+import { useAccountQuery, useInvestorAssetStructuresQuery } from 'api';
 import Icon from 'shared/Icon';
 import { logout } from 'modules/auth/authHandlers';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ExtraContent: React.FC<Props> = ({ onClose }) => {
-  const { data } = useUserInfoQuery();
+  const { data } = useAccountQuery();
   const ias = useInvestorAssetStructuresQuery();
   const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
 
@@ -23,22 +23,17 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
       onClick={onClose}
     >
       <div className="flex items-center rounded-3xl bg-black/5 p-2">
-        {data?.account.info.picture ? (
-          <img
-            className="mr-3 h-8 w-8 rounded-full"
-            src={data?.account.info.picture}
-          />
+        {data?.info.picture ? (
+          <img className="mr-3 h-8 w-8 rounded-full" src={data?.info.picture} />
         ) : (
           <div className="mr-3 flex h-12 w-12  items-center justify-center rounded-full bg-black/10 p-3">
-            {data?.account.nickname?.charAt(0)}
+            {data?.nickname?.charAt(0)}
           </div>
         )}
 
         <div className="text-base font-semibold text-black">
-          {data?.account.nickname}
-          <p className="text-xxs leading-none text-black/60">
-            {data?.user.email}
-          </p>
+          {data?.nickname}
+          <p className="text-xxs leading-none text-black/60">{data?.email}</p>
         </div>
       </div>
 

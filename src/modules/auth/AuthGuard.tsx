@@ -12,7 +12,7 @@ import {
   REDIRECT_APP_KEY,
   REMOTE_LOGIN_KEY,
 } from 'modules/auth/constants';
-import { useAppsInfoQuery, useUserInfoQuery } from 'api';
+import { useAccountQuery, useAppsInfoQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { DOMAIN } from 'config/constants';
 import getJwtToken from './getJwtToken';
@@ -27,8 +27,8 @@ function replaceLocation(url: string) {
 export default function AuthGuard({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const userInfo = useUserInfoQuery();
-  const user = userInfo.data?.account;
+  const account = useAccountQuery();
+  const user = account.data;
 
   const appsInfo = useAppsInfoQuery();
   const apps = appsInfo.data?.results;

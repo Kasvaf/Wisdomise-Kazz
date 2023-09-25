@@ -2,16 +2,16 @@ import { bxChevronDown, bxLogOut, bxUser } from 'boxicons-quasar';
 import { Dropdown } from 'antd';
 import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useUserInfoQuery } from 'api';
+import { useAccountQuery } from 'api';
 import Icon from 'shared/Icon';
 import { logout } from 'modules/auth/authHandlers';
 import DropdownContainer from './DropdownContainer';
 
 const UserDropdown = () => {
   const [open, setOpen] = useState(false);
-  const { data: userInfo } = useUserInfoQuery();
-  const email = userInfo?.user.email;
-  const nickname = userInfo?.account.nickname;
+  const { data: account } = useAccountQuery();
+  const email = account?.email;
+  const nickname = account?.nickname;
 
   const button = (
     <div className="flex cursor-pointer items-center justify-start gap-3">

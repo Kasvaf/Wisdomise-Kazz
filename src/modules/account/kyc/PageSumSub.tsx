@@ -4,7 +4,7 @@ import { notification } from 'antd';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unwrapErrorMessage } from 'utils/error';
-import { getSumsubToken, useUserInfoQuery } from 'api';
+import { getSumsubToken, useAccountQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 
 const errorHandler = (e: unknown) =>
@@ -12,7 +12,7 @@ const errorHandler = (e: unknown) =>
 
 export default function SumSubPage() {
   const navigate = useNavigate();
-  const user = useUserInfoQuery();
+  const account = useAccountQuery();
   const token = useQuery([], getSumsubToken);
 
   const msgHandler = useCallback(
@@ -25,13 +25,13 @@ export default function SumSubPage() {
   );
 
   return (
-    <PageWrapper loading={user.isLoading || token.isLoading}>
+    <PageWrapper loading={account.isLoading || token.isLoading}>
       {token.data && (
         <SumsubWebSdk
           accessToken={token.data}
           expirationHandler={getSumsubToken}
           config={{
-            email: user.data?.account.email,
+            email: account.data?.email,
           }}
           options={{}}
           onMessage={msgHandler}

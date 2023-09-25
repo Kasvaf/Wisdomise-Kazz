@@ -3,7 +3,6 @@ import { type Subscription } from './subscription';
 export interface UserInfoResponse {
   key: string;
   user: User;
-  account: Account;
   kyc_level_bindings: any[];
 }
 

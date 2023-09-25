@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useState } from 'react';
-import { useUserInfoQuery } from 'api';
+import { useAccountQuery } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import useNow from 'utils/useNow';
 import Button from 'shared/Button';
@@ -22,7 +22,7 @@ const toDigits = (v: string) =>
 const RESEND_TIMEOUT = 60;
 
 const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
-  const user = useUserInfoQuery();
+  const account = useAccountQuery();
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -51,7 +51,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
     onResend();
   }, [onResend]);
 
-  const userEmail = user.data?.account.info.email;
+  const userEmail = account.data?.info.email;
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">Security verification</h1>

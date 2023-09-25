@@ -1,15 +1,15 @@
-import { useUserInfoQuery } from 'api';
+import { useAccountQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import CopyInputBox from 'shared/CopyInputBox';
 import Card from 'shared/Card';
 
 export default function ReferralPage() {
-  const userInfo = useUserInfoQuery();
-  const user = userInfo.data?.account;
+  const account = useAccountQuery();
+  const user = account.data;
   const myOrigin = window.location.origin;
 
   return (
-    <PageWrapper loading={userInfo.isLoading}>
+    <PageWrapper loading={account.isLoading}>
       <h1 className="mb-14">Referral Program</h1>
       {user && (
         <>

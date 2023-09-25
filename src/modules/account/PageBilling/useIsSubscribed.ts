@@ -1,13 +1,7 @@
-import { useUserInfoQuery } from 'api';
+import { useAccountQuery } from 'api';
 
 export default function useIsSubscribed() {
-  const userInfo = useUserInfoQuery();
-  const user = userInfo.data?.account;
-  if (!user?.subscription?.object) return;
-
-  return !!user?.stripe_customer_id;
-
-  // return user?.subscription?.object?.status
-  //   ? ['trialing', 'active'].includes(user.subscription.object.status)
-  //   : false;
+  const account = useAccountQuery();
+  if (!account.data?.subscription?.object) return;
+  return !!account.data?.stripe_customer_id;
 }

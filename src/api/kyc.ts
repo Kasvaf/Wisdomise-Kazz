@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { useUserInfoQuery } from './account';
+import { useAccountQuery } from './account';
 import { useMarketNetworksQuery } from './market';
 import { useInvestorAssetStructuresQuery } from './ias';
 import { type Network } from './types/NetworksResponse';
@@ -76,21 +76,21 @@ export const useSumsubVerified = () =>
 
 export const useIsVerified = () => {
   const verified = useSumsubVerified();
-  const userInfo = useUserInfoQuery();
+  const account = useAccountQuery();
   const wallets = useRawWallets();
   return useMemo(
     () => ({
-      isLoading: verified.isLoading || userInfo.isLoading || wallets.isLoading,
+      isLoading: verified.isLoading || account.isLoading || wallets.isLoading,
       isAllVerified:
         verified.data === 'VERIFIED' &&
-        userInfo.data?.account.wisdomise_verification_status === 'VERIFIED' &&
+        account.data?.wisdomise_verification_status === 'VERIFIED' &&
         Boolean(wallets.data?.length),
 
       identified: verified.data,
-      verified: userInfo.data?.account.wisdomise_verification_status,
+      verified: account.data?.wisdomise_verification_status,
       addedWallet: Boolean(wallets.data?.length),
     }),
-    [verified, userInfo, wallets],
+    [verified, account, wallets],
   );
 };
 

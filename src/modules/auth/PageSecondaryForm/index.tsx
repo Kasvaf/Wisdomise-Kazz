@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
-import { useUserInfoMutation, useUserInfoQuery } from 'api';
+import { useAccountQuery, useUserInfoMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import { REFERRER_CODE_KEY } from '../constants';
 import ContainerAuth from '../ContainerAuth';
@@ -38,7 +38,7 @@ const staticContracts: Array<{
 
 const PageSecondaryForm: React.FC = () => {
   const navigate = useNavigate();
-  const userInfo = useUserInfoQuery();
+  const account = useAccountQuery();
   const [nickname, setNickname] = useState('');
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
@@ -48,11 +48,11 @@ const PageSecondaryForm: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!userInfo.data) return;
-    if (userInfo.data?.account.register_status !== 'PRIMARY') {
+    if (!account.data) return;
+    if (account.data?.register_status !== 'PRIMARY') {
       navigate('/');
     }
-  }, [userInfo, navigate]);
+  }, [account, navigate]);
 
   useEffect(() => {
     const referrerCode = sessionStorage.getItem(REFERRER_CODE_KEY);

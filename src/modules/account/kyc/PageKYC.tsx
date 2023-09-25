@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
-import { useUserInfoQuery, useSumsubVerified, useVerifiedWallets } from 'api';
+import { useSumsubVerified, useVerifiedWallets, useAccountQuery } from 'api';
 import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
 import Badge from './Badge';
@@ -25,12 +25,12 @@ const badgeBySumsubStatus = {
 
 export default function PageKYC() {
   const sumsubVerified = useSumsubVerified();
-  const userInfo = useUserInfoQuery();
+  const account = useAccountQuery();
   const wallets = useVerifiedWallets();
   const [ModalVerifyWallet, openVerifyWallet] = useModalVerifyWallet();
 
   const loading =
-    sumsubVerified.isLoading || userInfo.isLoading || wallets.isLoading;
+    sumsubVerified.isLoading || account.isLoading || wallets.isLoading;
   return (
     <PageWrapper loading={loading}>
       <h1 className="mb-8 text-xl font-semibold">KYC</h1>
@@ -86,8 +86,7 @@ export default function PageKYC() {
               <div className="flex flex-col items-start">
                 {
                   badgeByCalendlyStatus[
-                    userInfo.data?.account.wisdomise_verification_status ||
-                      'UNKNOWN'
+                    account.data?.wisdomise_verification_status || 'UNKNOWN'
                   ]
                 }
                 {sumsubVerified.data !== 'VERIFIED' && (
@@ -97,8 +96,7 @@ export default function PageKYC() {
                 )}
               </div>
 
-              {userInfo.data?.account.wisdomise_verification_status ===
-                'UNVERIFIED' && (
+              {account.data?.wisdomise_verification_status === 'UNVERIFIED' && (
                 <a
                   target="_blank"
                   href={

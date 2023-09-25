@@ -7,7 +7,7 @@ import {
   type PlanPeriod,
   type SubscriptionPlan,
 } from './types/subscription';
-import { useUserInfoQuery } from './account';
+import { useAccountQuery } from './account';
 
 export function usePlansQuery(
   periodicity?: PlanPeriod,
@@ -44,9 +44,8 @@ export const useCreateUserPlan = () => async (body: { plan_key: string }) => {
 };
 
 export function useSubscription() {
-  const userInfo = useUserInfoQuery();
-  const user = userInfo.data?.account;
-  const subs = user?.subscription?.object;
+  const account = useAccountQuery();
+  const subs = account.data?.subscription?.object;
   const status = subs?.status;
 
   const { data: subscriptionPortal } = useQuery(
@@ -58,7 +57,7 @@ export function useSubscription() {
       return data.url;
     },
     {
-      enabled: !!user?.stripe_customer_id,
+      enabled: !!account.data?.stripe_customer_id,
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
@@ -68,7 +67,7 @@ export function useSubscription() {
     isTrialing: status === 'trialing',
     isCanceled: Boolean(subs?.canceled_at),
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
-    hasStripe: Boolean(user?.stripe_customer_id),
+    hasStripe: Boolean(account.data?.stripe_customer_id),
     subscriptionPortal,
     remaining: Math.max(
       Math.round(
