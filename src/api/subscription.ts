@@ -63,9 +63,7 @@ export function useSubscription() {
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     hasStripe: Boolean(account?.stripe_customer_id),
     remaining: Math.max(
-      Math.round(
-        ((subs?.trial_end ?? 0) - (subs?.trial_start ?? 0)) / (60 * 60 * 24),
-      ),
+      Math.round(((subs?.trial_end ?? 0) - Date.now() / 1000) / (60 * 60 * 24)),
       0,
     ),
   };
