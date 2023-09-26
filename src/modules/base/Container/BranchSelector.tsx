@@ -12,11 +12,11 @@ const BranchSelector = () => {
     return res.data
       .split(/\s+/)
       .filter(Boolean)
-      .map(value => ({ value, label: value }));
+      .map(value => ({ value, label: value.substring(1) }));
   });
 
   const handleChange = useCallback((value: string) => {
-    window.location.href = '/' + value + window.location.hash;
+    window.location.href = value + window.location.hash;
   }, []);
 
   return (
