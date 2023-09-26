@@ -56,7 +56,7 @@ jobs:
   Lint-Build-Prod:
     name: Lint-Build-Prod
     needs: Lint-Build-Stage
-    if: ${{ github.ref_name == 'app' && !contains(github.event.head_commit.message, 'ci-skip') }}
+    if: ${{ github.ref_name == 'main' && !contains(github.event.head_commit.message, 'ci-skip') }}
 
     runs-on: ubuntu-latest
     strategy:
