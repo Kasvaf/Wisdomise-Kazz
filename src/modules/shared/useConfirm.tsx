@@ -9,8 +9,8 @@ import Icon from './Icon';
 interface Props {
   icon?: ReactElement<any, any> | null;
   message?: string | ReactElement<any, any>;
-  yesTitle?: string;
-  noTitle?: string;
+  yesTitle?: string | ReactElement<any, any>;
+  noTitle?: string | ReactElement<any, any>;
   onResolve?: (confirmed: boolean) => void;
 }
 

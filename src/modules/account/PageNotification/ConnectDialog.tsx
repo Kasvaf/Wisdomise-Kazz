@@ -1,26 +1,64 @@
-import { ATHENA_TELEGRAM_BOT } from 'config/constants';
+import { bxlTelegram } from 'boxicons-quasar';
+import { useCallback } from 'react';
+import { clsx } from 'clsx';
 import Button from 'modules/shared/Button';
-import { ReactComponent as Telegram } from '@/assets/images/telegram-glowing.svg';
+import useConfirm from 'modules/shared/useConfirm';
+import Icon from 'modules/shared/Icon';
+import { ATHENA_TELEGRAM_BOT } from 'config/constants';
+import useIsMobile from 'utils/useIsMobile';
+
+const TelegramIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <div className={clsx('mr-2 rounded-full p-2', className)}>
+    <Icon name={bxlTelegram} />
+  </div>
+);
 
 export default function ConnectDialog() {
+  const isMobile = useIsMobile();
+
+  const [Modal, openModal] = useConfirm({
+    icon: <TelegramIcon className="bg-white text-black/70" />,
+    yesTitle: 'Open Telegram',
+    message: (
+      <div>
+        <h1 className="text-white">Go to Telegram</h1>
+        <p className="text-slate-400">
+          Go to telegram and use{' '}
+          <code className="rounded bg-gray-700 px-2 py-1 text-cyan-400">
+            /subscribe_to_signals
+          </code>{' '}
+          command.
+        </p>
+      </div>
+    ),
+  });
+
+  const clickHandler = useCallback(async () => {
+    if (!(await openModal())) return;
+    window.open(ATHENA_TELEGRAM_BOT, '_blank');
+  }, [openModal]);
+
   return (
-    <div className="my-8 flex flex-col items-center text-center md:p-12">
-      <Telegram className="mb-4" />
-      <h1 className="text-white">Go to Telegram</h1>
-      <p className="text-slate-400">
-        Go to telegram and use{' '}
-        <code className="rounded bg-gray-700 px-2 py-1 text-cyan-400">
-          /subscribe_to_signals
-        </code>{' '}
-        command.
-      </p>
-      <Button
-        className="mt-5 !w-72 max-w-full"
-        to={ATHENA_TELEGRAM_BOT}
-        target="_blank"
-      >
-        Open Telegram
-      </Button>
+    <div
+      className={clsx(
+        'flex flex-col items-center justify-center gap-4 md:flex-row',
+        isMobile && 'mb-10 rounded-3xl bg-white/5 p-6',
+      )}
+    >
+      <div className="text-sm sm:hidden lg:block">
+        Receive notification in socials
+      </div>
+      <div>
+        <Button
+          onClick={clickHandler}
+          className="!py-1 !pl-1 pr-3"
+          size="small"
+        >
+          <TelegramIcon className="bg-black text-white" />
+          Open Telegram
+        </Button>
+      </div>
+      {Modal}
     </div>
   );
 }
