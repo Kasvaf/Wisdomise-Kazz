@@ -12,7 +12,7 @@ export interface Strategy {
   supported_pairs: SupportedPair[];
 }
 
-interface SupportedPair {
+export interface SupportedPair {
   name: string;
   base_name: string;
   quote_name: string;
