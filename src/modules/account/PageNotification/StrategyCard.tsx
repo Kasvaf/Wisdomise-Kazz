@@ -28,7 +28,7 @@ export const StrategyCard: React.FC<{ strategy: Strategy }> = ({
     },
     {
       label: 'SL / TP',
-      value: s.profile['SL/TP'],
+      value: s.profile['SL/TP'] || 'None',
     },
   ];
 
