@@ -150,14 +150,19 @@
     font-size: 20px !important;
   }
 }
+
 .ant-select-dropdown {
-  @apply !bg-gray-dark;
+  @apply bg-gray-dark !text-white;
 }
-.ant-select-item {
-  @apply bg-gray-dark text-white;
+.ant-select-item, .ant-select-selection-item {
+  @apply !text-white;
+}
+
+.ant-select-item-option-selected {
+  @apply !bg-black/30;
 }
 .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-  @apply !bg-primary;
+  @apply !bg-secondary;
 }
 
 /* ------------------------------------------------- */

@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { ATHENA_FE } from 'config/constants';
+import { ATHENA_FE, RouterBaseName } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
+import BranchSelector from './BranchSelector';
 import WalletDropdown from './WalletDropdown';
 import UserDropdown from './UserDropdown';
 
@@ -21,12 +22,13 @@ const Header: React.FC<Props> = ({ showShadow, className }) => {
           showShadow && 'shadow-[0_0_28px_4px_#131822]',
         )}
       >
+        <a href={ATHENA_FE} className="hidden mobile:block">
+          <img src={Logo} />
+        </a>
+        {RouterBaseName && <BranchSelector />}
         <div className="mobile:hidden">
           <WalletDropdown />
         </div>
-        <a href={ATHENA_FE}>
-          <img src={Logo} className="hidden mobile:block" />
-        </a>
         <UserDropdown />
       </div>
     </div>
