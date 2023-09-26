@@ -1,4 +1,3 @@
-import { Switch } from 'antd';
 import { type Strategy } from 'api/types/strategy';
 import Card from 'modules/shared/Card';
 import SignalChip from './SignalChip';
@@ -34,10 +33,7 @@ export const StrategyCard: React.FC<{ strategy: Strategy }> = ({
 
   return (
     <Card>
-      <div className="flex justify-between">
-        <h2 className="text-xl font-semibold">{s.profile.title}</h2>
-        <Switch />
-      </div>
+      <h2 className="text-xl font-semibold">{s.profile.title}</h2>
       <p className="mt-4 text-sm text-white/60">{s.profile.description}</p>
 
       <div className="mt-8 flex justify-around rounded-lg bg-white/10 p-2">
