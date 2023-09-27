@@ -1,11 +1,12 @@
-import { bxlTelegram } from 'boxicons-quasar';
-import { useCallback } from 'react';
 import { clsx } from 'clsx';
-import Button from 'modules/shared/Button';
-import useConfirm from 'modules/shared/useConfirm';
-import Icon from 'modules/shared/Icon';
+import { useCallback } from 'react';
+import { bxlTelegram } from 'boxicons-quasar';
+import { useAccountQuery } from 'api';
 import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import useIsMobile from 'utils/useIsMobile';
+import useConfirm from 'shared/useConfirm';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 
 const TelegramIcon: React.FC<{ className?: string }> = ({ className }) => (
   <div className={clsx('mr-2 rounded-full p-2', className)}>
@@ -15,6 +16,7 @@ const TelegramIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 export default function ConnectDialog() {
   const isMobile = useIsMobile();
+  const account = useAccountQuery();
 
   const [Modal, openModal] = useConfirm({
     icon: <TelegramIcon className="bg-white text-black/70" />,
@@ -34,9 +36,9 @@ export default function ConnectDialog() {
   });
 
   const clickHandler = useCallback(async () => {
-    if (!(await openModal())) return;
+    if (!account.data?.telegram_id && !(await openModal())) return;
     window.open(ATHENA_TELEGRAM_BOT, '_blank');
-  }, [openModal]);
+  }, [account.data?.telegram_id, openModal]);
 
   return (
     <div

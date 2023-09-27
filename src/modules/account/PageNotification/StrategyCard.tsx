@@ -13,9 +13,7 @@ const stringifyDuration = (dur: string) =>
     units[u] ? `${d} ${units[u]}${+d > 1 ? 's' : ''}` : o,
   );
 
-export const StrategyCard: React.FC<{ strategy: Strategy }> = ({
-  strategy: s,
-}) => {
+const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
   const infos = [
     {
       label: 'Type',
@@ -60,3 +58,5 @@ export const StrategyCard: React.FC<{ strategy: Strategy }> = ({
     </Card>
   );
 };
+
+export default StrategyCard;
