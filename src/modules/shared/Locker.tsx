@@ -2,16 +2,11 @@ import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 
 interface Props {
-  enabled?: boolean;
   overlay?: React.ReactNode;
 }
 
-const Locker: React.FC<PropsWithChildren<Props>> = ({
-  enabled,
-  children,
-  overlay,
-}) => {
-  if (!enabled) return <>{children}</>;
+const Locker: React.FC<PropsWithChildren<Props>> = ({ children, overlay }) => {
+  if (!overlay) return <>{children}</>;
 
   return (
     <div className="relative">
