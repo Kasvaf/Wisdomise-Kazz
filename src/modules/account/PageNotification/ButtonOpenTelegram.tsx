@@ -14,13 +14,13 @@ const TelegramIcon: React.FC<{ className?: string }> = ({ className }) => (
   </div>
 );
 
-export default function ConnectDialog() {
+export default function ButtonOpenTelegram() {
   const isMobile = useIsMobile();
   const account = useAccountQuery();
 
   const [Modal, openModal] = useConfirm({
     icon: <TelegramIcon className="bg-white text-black/70" />,
-    yesTitle: 'Open Telegram',
+    yesTitle: account.data?.telegram_id ? 'Open Telegram' : 'Connect Telegram',
     message: (
       <div>
         <h1 className="text-white">Go to Telegram</h1>
