@@ -20,7 +20,7 @@ export default function ButtonOpenTelegram() {
 
   const [Modal, openModal] = useConfirm({
     icon: <TelegramIcon className="bg-white text-black/70" />,
-    yesTitle: account.data?.telegram_id ? 'Open Telegram' : 'Connect Telegram',
+    yesTitle: 'Open Telegram',
     message: (
       <div>
         <h1 className="text-white">Go to Telegram</h1>
@@ -57,7 +57,7 @@ export default function ButtonOpenTelegram() {
           size="small"
         >
           <TelegramIcon className="bg-black text-white" />
-          Open Telegram
+          {account.data?.telegram_id ? 'Open Telegram' : 'Connect Telegram'}
         </Button>
       </div>
       {Modal}
