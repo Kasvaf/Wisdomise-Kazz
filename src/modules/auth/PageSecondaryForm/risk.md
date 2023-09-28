@@ -1,5 +1,5 @@
 ---
-title: Cryptocurrency Risk Disclosure
+title: Disclaimer
 ---
 
 This Cryptocurrency Risk Disclosure provides a description of certain risks associated with the Services and Cryptocurrencies. However, it DOES NOT DISCLOSE OR EXPLAIN ALL THE RISKS INVOLVED IN THE INVESTMENT IN CRYPTOCURRENCIES AND/OR THE USE OF THE SERVICES. There may be additional risks that are not foreseen or mentioned in the Service Providing Agreement or in this Cryptocurrencies Risk Disclosure.
@@ -60,3 +60,16 @@ _5.6._ Cryptocurrencies have no physical equivalent as they only exist virtually
 _6.1._ The Client should be aware that any transfer, sale and purchase of Cryptocurrencies may be recorded in a public distributed ledger and may therefore be visible to the public.
 
 _6.2._ Distributed ledgers on which Cryptocurrencies are issued and/or recorded is neither the property of, nor under any control of the Service Provider. Information available on the distributed ledgers may be processed, exploited or misused by third parties, including in unforeseen ways.
+
+## Disclaimer
+
+The services offered by Wisdomise (Switzerland) AG under the name “Athena” only provide general information about crypto assets aimed at the general public.
+Wisdomise (Switzerland) AG does not at any time take into account the financial, personal and / or professional circumstances of the user or the user’s investment experience, investment objectives, investment horizon, risk behavior or the personal situation of the user.
+
+The information provided by “Athena” does not constitute an offer or invitation to invest in any particular crypto assets, nor does it constitute investment advice or other investment services.
+
+Wisdomise (Switzerland) AG accepts no liability for any loss or damage resulting from trades you execute based on the information provided by Athena, or your reliance on any information provided by Athena.
+
+Investing in crypto assets involves high risks including the risk of losing some, or all, of your investment amount, and may not be suitable for all investors. Prices of crypto assets are extremely volatile and may be affected by external factors such as financial, regulatory or political events.
+
+Before deciding to invest in crypto assets you should fully understand the risks and costs associated with investing in crypto assets, and carefully consider your investment objectives, level of experience, and risk appetite, and seek professional advice if necessary.
