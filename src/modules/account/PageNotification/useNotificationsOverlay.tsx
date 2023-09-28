@@ -22,7 +22,7 @@ const TelegramDisconnectedOverlay = () => (
     </p>
 
     <Button className="mt-6" to={ATHENA_TELEGRAM_BOT}>
-      Connect Telegram
+      Open Telegram
     </Button>
   </Card>
 );
