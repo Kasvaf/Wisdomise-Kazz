@@ -33,18 +33,32 @@ const SignalChip: React.FC<{ pair: SupportedPair; strategy: Strategy }> = ({
   const handler = useCallback(async () => {
     try {
       setIsSubmitting(true);
-      await (isSelected
-        ? remove(signal.key)
-        : create({
-            pair_name: pair.name,
-            strategy_name: strategy.name,
-          }));
+      if (isSelected) {
+        await remove(signal.key);
+      } else {
+        await create({
+          pair_name: pair.name,
+          strategy_name: strategy.name,
+        });
+        notification.success({
+          message: `You have subscribed to the selected coin in “${strategy.profile.title}” and will receive notifications every time in telegram there is a new position.`,
+          key: strategy.name,
+        });
+      }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     } finally {
       setIsSubmitting(false);
     }
-  }, [create, isSelected, pair.name, remove, signal?.key, strategy.name]);
+  }, [
+    create,
+    isSelected,
+    pair.name,
+    remove,
+    signal?.key,
+    strategy.name,
+    strategy.profile.title,
+  ]);
 
   return (
     <Chip

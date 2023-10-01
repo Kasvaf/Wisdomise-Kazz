@@ -28,9 +28,6 @@ const TelegramDisconnectedOverlay = () => (
   </Card>
 );
 
-// TODO: no subscription when modal open
-// TODO: notify when enabled a coin
-
 const UnsubscribedOverlay = () => (
   <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
     <div className="mb-4 rounded-full bg-white/10 p-4">
@@ -59,7 +56,7 @@ export default function useNotificationsOverlay() {
       .athena_daily_notifications_count ?? 0;
 
   return account.data?.telegram_id ? (
-    notifyCount <= 10 ? (
+    notifyCount <= 0 ? (
       <UnsubscribedOverlay />
     ) : null
   ) : (
