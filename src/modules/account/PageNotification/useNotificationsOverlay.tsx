@@ -5,6 +5,7 @@ import Card from 'modules/shared/Card';
 import Icon from 'modules/shared/Icon';
 import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import TelegramIcon from './TelegramIcon';
+import useConnectedQueryParam from './useConnectedQueryParam';
 
 const TelegramDisconnectedOverlay = () => (
   <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
@@ -27,6 +28,9 @@ const TelegramDisconnectedOverlay = () => (
   </Card>
 );
 
+// TODO: no subscription when modal open
+// TODO: notify when enabled a coin
+
 const UnsubscribedOverlay = () => (
   <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
     <div className="mb-4 rounded-full bg-white/10 p-4">
@@ -47,13 +51,15 @@ const UnsubscribedOverlay = () => (
 
 export default function useNotificationsOverlay() {
   const account = useAccountQuery();
+  const [connected] = useConnectedQueryParam();
+  if (connected) return null;
 
   const notifyCount =
     account.data?.subscription?.object?.plan.metadata
       .athena_daily_notifications_count ?? 0;
 
   return account.data?.telegram_id ? (
-    notifyCount <= 0 ? (
+    notifyCount <= 10 ? (
       <UnsubscribedOverlay />
     ) : null
   ) : (

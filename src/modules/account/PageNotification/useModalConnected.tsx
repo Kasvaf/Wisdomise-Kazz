@@ -1,9 +1,9 @@
 import { bxCheckCircle } from 'boxicons-quasar';
 import { useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useAccountQuery } from 'api';
 import Icon from 'shared/Icon';
 import useConfirm from 'shared/useConfirm';
+import useConnectedQueryParam from './useConnectedQueryParam';
 
 export default function useModalConnected() {
   const [Modal, showModal] = useConfirm({
@@ -21,14 +21,14 @@ export default function useModalConnected() {
 
   const account = useAccountQuery();
   const modalShown = useRef(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [connected, clearConnected] = useConnectedQueryParam();
   useEffect(() => {
     if (!account.data?.telegram_id) return;
     if (modalShown.current) return;
     modalShown.current = true;
-    if (searchParams.get('connected')) {
-      void showModal({}).then(() => setSearchParams({}, { replace: true }));
+    if (connected) {
+      void showModal({}).then(clearConnected);
     }
-  }, [account.data?.telegram_id, searchParams, showModal, setSearchParams]);
+  }, [account.data?.telegram_id, connected, showModal, clearConnected]);
   return Modal;
 }
