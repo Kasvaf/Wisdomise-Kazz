@@ -185,7 +185,7 @@ export default function PageKYC() {
               className="rounded-full bg-white px-5 py-3 text-center text-[14px] text-black"
               onClick={openVerifyWallet}
             >
-              Verify Wallet
+              {wallets.data?.length ? 'Verify More Wallets' : 'Verify Wallet'}
             </button>
           </div>
         </div>
