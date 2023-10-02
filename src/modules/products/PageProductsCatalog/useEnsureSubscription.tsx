@@ -1,9 +1,7 @@
 import { bxLock } from 'boxicons-quasar';
-import { type PropsWithChildren } from 'react';
-import { usePlanMetadata } from 'api';
-import { type SubscriptionPlan } from 'api/types/subscription';
+import { useNavigate } from 'react-router-dom';
+import { usePlanMetadata, useSubscription } from 'api';
 import Icon from 'shared/Icon';
-import Button from 'shared/Button';
 import useConfirm from 'shared/useConfirm';
 
 const LockIcon = () => (
@@ -12,31 +10,49 @@ const LockIcon = () => (
   </div>
 );
 
-const LockContent: React.FC<PropsWithChildren> = ({ children }) => (
-  <>
-    <h1 className="text-white">You are not subscribed</h1>
-    <div className="mt-2 text-slate-400">{children}</div>
-    <Button to="/account/billing" className="mt-6">
-      Subscribe
-    </Button>
-  </>
-);
+export default function useEnsureSubscription(): [
+  JSX.Element,
+  () => Promise<boolean>,
+] {
+  const { isTrialing } = useSubscription();
+  const canActivate = usePlanMetadata('activate_fp');
 
-export default function useEnsureSubscription(
-  permission: keyof SubscriptionPlan['metadata'],
-  message: string | React.ReactNode,
-): [JSX.Element, () => Promise<boolean>] {
-  const canActivate = usePlanMetadata(permission);
   const [Modal, showModal] = useConfirm({
+    title: isTrialing ? 'Subscription' : 'Upgrade Subscription',
     icon: <LockIcon />,
-    message: <LockContent>{message}</LockContent>,
+    yesTitle: isTrialing ? 'Subscribe' : 'Upgrade',
+    message: isTrialing ? (
+      <div className="text-center">
+        <div className="mt-2 text-slate-400">
+          To activate a product, you need to{' '}
+          <span className="text-white">subscribe</span> first.
+        </div>
+      </div>
+    ) : (
+      <div className="text-center">
+        <div className="mt-2 text-slate-400">
+          <div>
+            Your current subscription does not include the products you want to
+            activate.
+          </div>
+          <div className="mt-4">
+            To use these products, you need to{' '}
+            <span className="text-white">upgrade</span> your subscription.
+          </div>
+        </div>
+      </div>
+    ),
   });
 
+  const navigate = useNavigate();
   return [
     Modal,
     async () => {
       if (!canActivate) {
-        await showModal();
+        if (await showModal()) {
+          navigate('/account/billing');
+        }
+
         return false;
       }
       return true;
