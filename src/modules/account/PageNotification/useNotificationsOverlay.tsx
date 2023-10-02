@@ -49,17 +49,15 @@ const UnsubscribedOverlay = () => (
 export default function useNotificationsOverlay() {
   const account = useAccountQuery();
   const [connected] = useConnectedQueryParam();
-  if (connected) return null;
+  if (connected && account.data?.telegram_id) return null;
 
   const notifyCount =
     account.data?.subscription?.object?.plan.metadata
       .athena_daily_notifications_count ?? 0;
 
-  return account.data?.telegram_id ? (
-    notifyCount <= 0 ? (
-      <UnsubscribedOverlay />
-    ) : null
-  ) : (
+  return notifyCount <= 0 ? (
+    <UnsubscribedOverlay />
+  ) : account.data?.telegram_id ? null : (
     <TelegramDisconnectedOverlay />
   );
 }
