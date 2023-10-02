@@ -68,3 +68,8 @@ export function useSubscription() {
     ),
   };
 }
+
+export function usePlanMetadata(key: keyof SubscriptionPlan['metadata']) {
+  const account = useAccountQuery();
+  return account.data?.subscription?.object?.plan.metadata[key];
+}
