@@ -6,12 +6,13 @@
     <title>Wisdomise Staging</title>
     <script type="text/javascript">
       const lastBranch = localStorage.getItem('last-branch') || 'main';
-      window.location.href =
-        '/' +
-        lastBranch +
-        '#' +
-        window.location.pathname +
-        window.location.search;
+      const newPath = '/' + lastBranch;
+      const realPath = window.location.pathname + window.location.search;
+      if (newPath === window.location.pathname) {
+        window.location.href = '/main#' + realPath;
+      } else {
+        window.location.href = newPath + '#' + realPath;
+      }
     </script>
   </head>
   <body>

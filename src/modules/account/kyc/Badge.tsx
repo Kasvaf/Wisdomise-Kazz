@@ -4,6 +4,7 @@ import type React from 'react';
 interface Props {
   text: string;
   color?: 'green' | 'red' | 'blue' | 'white';
+  className?: string;
 }
 
 const colorClasses = {
@@ -13,8 +14,14 @@ const colorClasses = {
   white: 'bg-white/20 text-white',
 };
 
-const Badge: React.FC<Props> = ({ text, color = 'white' }) => (
-  <div className={clsx('rounded-full px-4 py-2 text-xs', colorClasses[color])}>
+const Badge: React.FC<Props> = ({ text, color = 'white', className }) => (
+  <div
+    className={clsx(
+      'rounded-full px-4 py-2 text-xs',
+      colorClasses[color],
+      className,
+    )}
+  >
     {text}
   </div>
 );
