@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
+import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance-futures.svg';
 import Card from 'shared/Card';
 import Badge from 'modules/shared/Badge';
 import Button from 'modules/shared/Button';
 import useModalAddExchangeAccount from '../useModalAddExchangeAccount';
-import { ReactComponent as BinanceLogoSvg } from './binanceLogo.svg';
 
 const CardExchangeAccounts: React.FC<{ className?: string }> = ({
   className,
