@@ -2,11 +2,14 @@ import { clsx } from 'clsx';
 import Card from 'shared/Card';
 import Badge from 'modules/shared/Badge';
 import Button from 'modules/shared/Button';
+import useModalAddExchangeAccount from '../useModalAddExchangeAccount';
 import { ReactComponent as BinanceLogoSvg } from './binanceLogo.svg';
 
 const CardExchangeAccounts: React.FC<{ className?: string }> = ({
   className,
 }) => {
+  const [ModalAdd, showModalAdd] = useModalAddExchangeAccount();
+
   return (
     <Card className={className}>
       <h2 className="mb-8 text-base font-semibold">My Exchange Accounts</h2>
@@ -39,7 +42,8 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
       </div>
 
       <div className="flex justify-end pt-8">
-        <Button>Add Account</Button>
+        {ModalAdd}
+        <Button onClick={showModalAdd}>Add Account</Button>
       </div>
     </Card>
   );
