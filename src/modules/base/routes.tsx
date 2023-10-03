@@ -22,6 +22,9 @@ const PageLogout = React.lazy(() => import('modules/auth/PageLogout'));
 
 const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
 const PageReferral = React.lazy(() => import('modules/account/PageReferral'));
+const PageExchangeAccount = React.lazy(
+  () => import('modules/account/PageExchangeAccount'),
+);
 const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
 const PageNotification = React.lazy(
   () => import('modules/account/PageNotification'),
@@ -68,6 +71,10 @@ const routes: RouteObject[] = [
       {
         path: 'account/profile',
         element: suspended(<PageProfile />),
+      },
+      {
+        path: 'account/exchange-accounts',
+        element: suspended(<PageExchangeAccount />),
       },
       {
         path: 'account/referral',
