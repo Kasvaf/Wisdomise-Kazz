@@ -1,0 +1,40 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+
+export type MarketTypes = 'SPOT' | 'FUTURES';
+export type ExchangeTypes = 'BINANCE' | 'WISDOMISE';
+
+interface ExchangeAccount {
+  key: string;
+  title: string;
+  exchange_name: ExchangeTypes;
+  market_name: MarketTypes;
+  status: 'RUNNING' | 'INACTIVE';
+}
+
+export const useExchangeAccountsQuery = () =>
+  useQuery(['exchng-acc'], async () => {
+    const { data } = await axios.get<ExchangeAccount[]>(
+      '/ias/external-accounts',
+    );
+    return data;
+  });
+
+interface ExchangeAccountCreate {
+  exchange_name: ExchangeTypes;
+  market_name: MarketTypes;
+  title: string;
+  api_key: string;
+  secret_key: string;
+}
+export const useCreateExchangeAccount = () => {
+  const queryClient = useQueryClient();
+  return async (acc: ExchangeAccountCreate) => {
+    const { data } = await axios.post<ExchangeAccount>(
+      '/ias/external-accounts',
+      acc,
+    );
+    await queryClient.invalidateQueries(['exchng-acc']);
+    return data;
+  };
+};

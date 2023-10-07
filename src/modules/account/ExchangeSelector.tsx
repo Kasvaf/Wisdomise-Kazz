@@ -1,15 +1,15 @@
 import type React from 'react';
 import ComboBox from 'shared/ComboBox';
 import { ReactComponent as WisdomiseLogoSvg } from 'assets/logo-horizontal-beta.svg';
-import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance-futures.svg';
+import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance.svg';
+import { type ExchangeTypes } from 'api';
 
-type Exchange = 'wisdomise' | 'binance';
 const exchangeIcons = {
-  wisdomise: WisdomiseLogoSvg,
-  binance: BinanceLogoSvg,
+  WISDOMISE: WisdomiseLogoSvg,
+  BINANCE: BinanceLogoSvg,
 };
 
-const ExchangeOptionItem = (item: Exchange) => {
+const ExchangeOptionItem = (item: ExchangeTypes) => {
   const Icon = exchangeIcons[item];
   return (
     <div>
@@ -22,7 +22,7 @@ interface Props {
   label?: string;
   className?: string;
   selectedItem: string;
-  onSelect?: (net: Exchange) => void;
+  onSelect?: (net: ExchangeTypes) => void;
   disabled?: boolean;
   noWisdomise?: boolean;
 }
@@ -35,9 +35,9 @@ const ExchangeSelector: React.FC<Props> = ({
   disabled = false,
   noWisdomise = false,
 }) => {
-  const exchanges: Exchange[] = noWisdomise
-    ? ['binance']
-    : ['wisdomise', 'binance'];
+  const exchanges: ExchangeTypes[] = noWisdomise
+    ? ['BINANCE']
+    : ['WISDOMISE', 'BINANCE'];
 
   return (
     <div className={className}>
