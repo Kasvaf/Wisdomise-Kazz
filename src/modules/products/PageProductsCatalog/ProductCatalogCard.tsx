@@ -1,14 +1,13 @@
 import { clsx } from 'clsx';
 import { type FunctionComponent } from 'react';
-import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import useMainQuote from 'shared/useMainQuote';
 import Button from 'shared/Button';
 import CoinsIcons from 'shared/CoinsIcons';
 import PriceChange from 'shared/PriceChange';
 import { ColorByRisk } from '../constants';
-import isFPRunning from './isFPRunning';
-import FPActivateButton from './FPActivateButton';
+import useIsFPRunning from '../useIsFPRunning';
+import ButtonFPActivate from '../ButtonFPActivate';
 
 interface RiskCardProps {
   className?: string;
@@ -19,8 +18,7 @@ const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
   fp,
   className,
 }) => {
-  const ias = useInvestorAssetStructuresQuery();
-  const isRunning = isFPRunning(ias.data, fp.key);
+  const isRunning = useIsFPRunning(fp.key);
   const rrr = fp.profile.return_risk_ratio;
   const mainQuote = useMainQuote();
 
@@ -92,7 +90,7 @@ const ProductCatalogCard: FunctionComponent<RiskCardProps> = ({
 
         <>
           <div className="mb-2 flex gap-3">
-            <FPActivateButton financialProduct={fp} className="basis-2/3" />
+            <ButtonFPActivate financialProduct={fp} className="basis-2/3" />
             <Button
               className="basis-1/3"
               variant="secondary"

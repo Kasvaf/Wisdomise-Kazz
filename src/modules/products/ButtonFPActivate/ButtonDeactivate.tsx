@@ -1,0 +1,57 @@
+/* eslint-disable import/max-dependencies */
+import type React from 'react';
+import { useCallback } from 'react';
+import { notification } from 'antd';
+import {
+  useInvestorAssetStructuresQuery,
+  useUpdateFPIStatusMutation,
+} from 'api';
+import { type FinancialProduct } from 'api/types/financialProduct';
+import Button from 'shared/Button';
+
+interface Props {
+  inDetailPage?: boolean;
+  className?: string;
+  financialProduct: FinancialProduct;
+}
+
+const ButtonDeactivate: React.FC<Props> = ({
+  className,
+  inDetailPage,
+  financialProduct: fp,
+}) => {
+  const ias = useInvestorAssetStructuresQuery();
+  const updateFPIStatus = useUpdateFPIStatusMutation();
+
+  const onDeactivateClick = useCallback(async () => {
+    if (ias.data?.[0] != null) {
+      await updateFPIStatus.mutateAsync({
+        fpiKey: ias.data[0].financial_product_instances[0].key,
+        status: 'stop',
+      });
+      notification.success({
+        message: 'Strategy Deactivated Successfully!',
+      });
+    }
+  }, [ias.data, updateFPIStatus]);
+
+  const fpis = ias.data?.[0]?.financial_product_instances;
+  const isOtherFPActive =
+    (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
+
+  return (
+    <>
+      <Button
+        className={className}
+        onClick={onDeactivateClick}
+        loading={updateFPIStatus.isLoading || ias.isLoading}
+        disabled={isOtherFPActive || !fp.subscribable}
+        variant={inDetailPage ? 'primary' : 'alternative'}
+      >
+        Deactivate
+      </Button>
+    </>
+  );
+};
+
+export default ButtonDeactivate;
