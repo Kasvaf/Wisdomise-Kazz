@@ -133,8 +133,12 @@ const ModalExchangeAccountSelector: React.FC<{
 
 export default function useModalExchangeAccountSelector(): [
   JSX.Element,
-  (p: { market: MarketTypes }) => Promise<unknown>,
+  (p: { market: MarketTypes }) => Promise<string | undefined>,
 ] {
   const [Modal, showModal] = useModal(ModalExchangeAccountSelector);
-  return [Modal, (p: { market: MarketTypes }) => showModal(p)];
+  return [
+    Modal,
+    async (p: { market: MarketTypes }) =>
+      (await showModal(p)) as string | undefined,
+  ];
 }

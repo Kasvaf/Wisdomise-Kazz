@@ -26,12 +26,21 @@ export const useUpdateFPIStatusMutation = () => {
 export const useCreateFPIMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<{ key: string }, unknown, string>(
-    async fpKey => {
+  return useMutation<
+    { key: string },
+    unknown,
+    { fpKey: string; account?: string }
+  >(
+    async ({ fpKey, account }) => {
       const { data } = await axios.post('/ias/financial-product-instances', {
         financial_product: {
           key: fpKey,
         },
+        external_account: account
+          ? {
+              key: account,
+            }
+          : undefined,
         // equity: 123, // 0-main_quote_equity (TODO: partial deposit)
       });
       return data;

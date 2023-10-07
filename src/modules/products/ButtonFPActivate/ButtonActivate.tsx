@@ -7,6 +7,7 @@ import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import Button from 'shared/Button';
 import { useIsVerified } from 'api/kyc';
+import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
 import useModalVerification from '../useModalVerification';
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
@@ -32,37 +33,42 @@ const ButtonActivate: React.FC<Props> = ({
     notification.destroy(fp.key);
   }, [navigate, fp.key]);
 
-  const onWalletDisclaimerAccept = useCallback(async () => {
-    await createFPI.mutateAsync(fp.key);
-    notification.success({
-      key: fp.key,
-      message: 'Congratulations!',
-      description: (
-        <>
-          <p>
-            Thank you for trusting us. You can now deposit any amount to your
-            account and activate any of the AI-powered strategies
-          </p>
+  const activateProduct = useCallback(
+    async (account?: string) => {
+      await createFPI.mutateAsync({ fpKey: fp.key, account });
+      notification.success({
+        key: fp.key,
+        message: 'Congratulations!',
+        description: (
+          <>
+            <p>
+              Thank you for trusting us. You can now deposit any amount to your
+              account and activate any of the AI-powered strategies
+            </p>
 
-          <div className="mt-4 flex justify-around">
-            <Button
-              size="small"
-              variant="primary"
-              onClick={gotoDashboardHandler}
-            >
-              Dashboard
-            </Button>
-          </div>
-        </>
-      ),
-      duration: 0,
-    });
-  }, [createFPI, fp.key, gotoDashboardHandler]);
+            <div className="mt-4 flex justify-around">
+              <Button
+                size="small"
+                variant="primary"
+                onClick={gotoDashboardHandler}
+              >
+                Dashboard
+              </Button>
+            </div>
+          </>
+        ),
+        duration: 0,
+      });
+    },
+    [createFPI, fp.key, gotoDashboardHandler],
+  );
 
   const fpis = ias.data?.[0]?.financial_product_instances;
   const isOtherFPActive =
     (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
 
+  const [ModalExchangeAccountSelector, showModalExchangeAccountSelector] =
+    useModalExchangeAccountSelector();
   const [ModalVerification, openVerification] = useModalVerification();
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
   const [ModalApiKey, showModalApiKey] = useModalApiKey();
@@ -85,8 +91,10 @@ const ButtonActivate: React.FC<Props> = ({
       return;
     }
 
-    if (hasIas || (await openDisclaimer())) {
-      await onWalletDisclaimerAccept();
+    // TODO: where to read market?!
+    const acc = await showModalExchangeAccountSelector({ market: 'SPOT' });
+    if (acc || hasIas || (await openDisclaimer())) {
+      await activateProduct(acc);
     }
   }, [
     ensureSubscribed,
@@ -95,8 +103,9 @@ const ButtonActivate: React.FC<Props> = ({
     navigate,
     openVerification,
     openDisclaimer,
-    onWalletDisclaimerAccept,
+    activateProduct,
     showModalApiKey,
+    showModalExchangeAccountSelector,
     fp.config.no_withdraw,
   ]);
 
@@ -114,6 +123,7 @@ const ButtonActivate: React.FC<Props> = ({
 
       {SubscribeModal}
       {ModalVerification}
+      {ModalExchangeAccountSelector}
       {ModalDisclaimer}
       {ModalApiKey}
     </>
