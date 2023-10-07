@@ -9,11 +9,11 @@ import { unwrapErrorMessage } from 'utils/error';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
-import ExchangeSelector from '../ExchangeSelector';
-import MarketSelector from '../MarketSelector';
+import ExchangeSelector from './ExchangeSelector';
+import MarketSelector from './MarketSelector';
 
 const ModalAddExchangeAccount: React.FC<{
-  onResolve?: () => void;
+  onResolve?: (account?: string) => void;
 }> = ({ onResolve }) => {
   const [exchange, setExchange] = useState<ExchangeTypes>('BINANCE');
   const [market, setMarket] = useState<MarketTypes>('SPOT');
@@ -27,14 +27,14 @@ const ModalAddExchangeAccount: React.FC<{
   const addHandler = useCallback(async () => {
     try {
       setIsSubmitting(true);
-      await createAccount({
+      const acc = await createAccount({
         title: accountName,
         exchange_name: exchange,
         market_name: market,
         api_key: apiKey,
         secret_key: secretKey,
       });
-      onResolve?.();
+      onResolve?.(acc.key);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     } finally {
@@ -101,8 +101,8 @@ const ModalAddExchangeAccount: React.FC<{
 
 export default function useModalAddExchangeAccount(): [
   JSX.Element,
-  () => Promise<unknown>,
+  () => Promise<string | undefined>,
 ] {
   const [Modal, showModal] = useModal(ModalAddExchangeAccount);
-  return [Modal, () => showModal({})];
+  return [Modal, async () => (await showModal({})) as string | undefined];
 }
