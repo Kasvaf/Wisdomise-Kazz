@@ -27,6 +27,7 @@ const ButtonActivate: React.FC<Props> = ({
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
   const hasIas = Boolean(ias.data?.[0]?.main_exchange_account);
+  const market = fp.config.external_account_market_type;
 
   const gotoDashboardHandler = useCallback(() => {
     navigate('/app/assets');
@@ -91,8 +92,7 @@ const ButtonActivate: React.FC<Props> = ({
       return;
     }
 
-    // TODO: where to read market?!
-    const acc = await showModalExchangeAccountSelector({ market: 'SPOT' });
+    const acc = await showModalExchangeAccountSelector({ market });
     if (acc || hasIas || (await openDisclaimer())) {
       await activateProduct(acc);
     }
@@ -107,6 +107,7 @@ const ButtonActivate: React.FC<Props> = ({
     showModalApiKey,
     showModalExchangeAccountSelector,
     fp.config.no_withdraw,
+    market,
   ]);
 
   return (

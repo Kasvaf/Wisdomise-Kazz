@@ -1,6 +1,6 @@
 import type React from 'react';
+import { type MarketTypes } from 'api/types/financialProduct';
 import ComboBox from 'shared/ComboBox';
-import { type MarketTypes } from 'api';
 
 const MarketOptionItem = (item: MarketTypes) => {
   return <div>{item.toLowerCase()}</div>;

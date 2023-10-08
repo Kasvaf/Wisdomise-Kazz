@@ -1,10 +1,10 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { type MarketTypes } from './types/financialProduct';
 
-export type MarketTypes = 'SPOT' | 'FUTURES';
 export type ExchangeTypes = 'BINANCE' | 'WISDOMISE';
 
-interface ExchangeAccount {
+export interface ExchangeAccount {
   key: string;
   title: string;
   exchange_name: ExchangeTypes;

@@ -1,10 +1,7 @@
 import { useCallback, useState } from 'react';
 import { notification } from 'antd';
-import {
-  type ExchangeTypes,
-  useCreateExchangeAccount,
-  type MarketTypes,
-} from 'api';
+import { type ExchangeTypes, useCreateExchangeAccount } from 'api';
+import { type MarketTypes } from 'api/types/financialProduct';
 import { unwrapErrorMessage } from 'utils/error';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';

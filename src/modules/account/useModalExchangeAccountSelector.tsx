@@ -1,9 +1,6 @@
 import { useCallback, useState } from 'react';
-import {
-  useExchangeAccountsQuery,
-  type ExchangeAccount,
-  type MarketTypes,
-} from 'api';
+import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
+import { type MarketTypes } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import { ReactComponent as WisdomiseLogoSvg } from 'assets/logo-horizontal-beta.svg';
