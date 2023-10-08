@@ -258,6 +258,25 @@
 }
 
 /* ------------------------------------------------- */
+.ant-tabs {
+  @apply text-white/40;
+}
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply text-white;
+}
+.ant-tabs-top > .ant-tabs-nav::before {
+  @apply border-white/20;
+}
+.ant-tabs .ant-tabs-ink-bar {
+  @apply bg-white;
+}
+.ant-tabs .ant-tabs-tab {
+  @apply text-lg;
+}
+.ant-tabs .ant-tabs-tab:hover {
+  @apply text-white/60;
+}
+/* ------------------------------------------------- */
 /* ------------------------------------------------- */
 
 /* hide google captcha */

@@ -57,10 +57,11 @@ export function useSubscription() {
   });
   const subs = account?.subscription?.object;
   const status = subs?.status;
+  const isActive = status === 'active';
 
   return {
+    isActive,
     isLoading,
-    isActive: status === 'active',
     isTrialing: status === 'trialing',
     isCanceled: Boolean(subs?.canceled_at) || status === 'canceled',
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
@@ -75,6 +76,13 @@ export function useSubscription() {
       plan => plan.stripe_price_id === subs?.plan.id,
     )?.name,
     refetch,
+
+    // default 3 is for old user it will be removed by 1 month
+    weeklyCustomNotificationCount:
+      isActive &&
+      subs?.plan.metadata.weekly_custom_notifications_count === undefined
+        ? 3
+        : Number(subs?.plan.metadata.weekly_custom_notifications_count),
   };
 }
 

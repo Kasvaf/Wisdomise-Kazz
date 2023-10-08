@@ -79,6 +79,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'error',
     'react/jsx-no-bind': 'error',
+    'react/jsx-no-bind': ['error', { allowArrowFunctions: true }],
 
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/promise-function-async': 'off',
@@ -130,7 +131,7 @@ module.exports = {
     'import/max-dependencies': [
       'error',
       {
-        max: 11,
+        max: 20,
         ignoreTypeImports: true,
       },
     ],

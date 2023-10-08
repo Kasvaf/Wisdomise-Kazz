@@ -175,3 +175,14 @@ export function useSubscriptionMutation() {
     },
   );
 }
+export const useDailyMagicStatusMutation = () => {
+  const client = useQueryClient();
+  return useMutation<unknown, unknown, boolean>(
+    async enable => {
+      await axios.patch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`, {
+        daily_magic_enabled: enable,
+      });
+    },
+    { onSuccess: () => client.invalidateQueries(['account']) },
+  );
+};
