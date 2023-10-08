@@ -57,6 +57,12 @@ export function useSubscription() {
 
   return {
     isLoading,
+    title:
+      status === 'trialing'
+        ? 'Trial'
+        : status === 'inactive'
+        ? 'none'
+        : subs?.plan.name,
     isActive: status === 'active',
     isTrialing: status === 'trialing',
     isCanceled: Boolean(subs?.canceled_at),
