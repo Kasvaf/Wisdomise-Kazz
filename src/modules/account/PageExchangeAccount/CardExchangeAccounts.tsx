@@ -29,24 +29,24 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
               'max-w-xl',
             )}
           >
-            <div className="flex flex-col">
+            <div className="flex grow flex-col">
               <div className="mb-3 text-xs text-white/60">Account Name</div>
               <div className="flex h-full items-center">{acc.title}</div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col sm:basis-[140px]">
               <div className="mb-3 text-xs text-white/60">Exchange</div>
               <div className="flex h-full items-center">
                 <BinanceLogoSvg />
               </div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col sm:basis-[70px]">
               <div className="mb-3 text-xs text-white/60">Market</div>
               <div className="flex h-full items-center">{acc.market_name}</div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col sm:basis-[56px]">
               <div className="mb-3 text-xs text-white/60">Status</div>
               <div className="flex h-full items-center">
                 {acc.status === 'RUNNING' ? (
