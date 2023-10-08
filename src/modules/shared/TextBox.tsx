@@ -13,6 +13,7 @@ interface Props {
   suffix?: string;
   className?: string;
   inputClassName?: string;
+  placeholder?: string;
 }
 
 const TextBox: FC<Props> = ({
@@ -27,6 +28,7 @@ const TextBox: FC<Props> = ({
   suffix,
   className,
   inputClassName,
+  placeholder,
 }) => {
   const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
     e => {
@@ -57,6 +59,7 @@ const TextBox: FC<Props> = ({
           value={value}
           onInput={changeHandler}
           disabled={disabled}
+          placeholder={placeholder}
         />
         <div className="pointer-events-none absolute right-0 top-0 flex h-full items-center pr-4">
           <span>{suffix}</span>
