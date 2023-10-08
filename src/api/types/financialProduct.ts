@@ -51,7 +51,8 @@ export interface Config {
   'expected_return_realistic': number;
   'expected_return_calculated': number;
   'expected_return_conservative': number;
-  'external_account_market_type': MarketTypes;
+  'external_account_market_type'?: MarketTypes;
+  'can_use_external_account'?: boolean;
 }
 
 interface SpBinding {

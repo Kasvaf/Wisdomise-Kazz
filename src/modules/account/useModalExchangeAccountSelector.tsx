@@ -1,10 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
-import { ReactComponent as WisdomiseLogoSvg } from 'assets/logo-horizontal-beta.svg';
-import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance.svg';
+import WisdomiseLogoSvg from 'assets/logo-horizontal-beta.svg';
+import BinanceLogoSvg from 'assets/logo-binance.svg';
 import ComboBox from 'modules/shared/ComboBox';
 import useModalAddExchangeAccount from './useModalAddExchangeAccount';
 
@@ -16,27 +16,26 @@ const exchangeIcons = {
 const ExchangeAccountOptionItem = (item: ExchangeAccount | string) => {
   if (typeof item === 'string') return <div>{item}</div>;
 
-  const Icon = exchangeIcons[item.exchange_name];
+  const ExchangeIcon = exchangeIcons[item.exchange_name];
   return (
     <div className="flex items-center">
       <div className="mr-4 basis-1/2 border-r border-r-white/20 pr-4 text-xs">
         {item.title}
       </div>
       <div className="basis-1/2">
-        <Icon />
+        <img src={ExchangeIcon} />
       </div>
     </div>
   );
 };
 
 interface Props {
-  market: MarketTypes;
+  market?: MarketTypes;
   label?: string;
   className?: string;
   selectedItem: string;
   onSelect?: (net: string) => void;
   disabled?: boolean;
-  noWisdomise?: boolean;
 }
 
 const ExchangeAccountSelector: React.FC<Props> = ({
@@ -53,23 +52,26 @@ const ExchangeAccountSelector: React.FC<Props> = ({
     [onSelect],
   );
 
-  const items: ExchangeAccount[] = [
-    {
+  const items: ExchangeAccount[] = useMemo(() => {
+    const wisdomise = {
       key: '',
       exchange_name: 'WISDOMISE' as const,
       market_name: 'SPOT' as const,
       status: 'INACTIVE' as const,
       title: 'Wisdomise Account',
-    },
-    {
-      key: '',
-      exchange_name: 'WISDOMISE' as const,
-      market_name: 'FUTURES' as const,
-      status: 'INACTIVE' as const,
-      title: 'Wisdomise Account',
-    },
-    ...(data ?? []),
-  ].filter(acc => acc.status === 'INACTIVE' && acc.market_name === market);
+    };
+
+    return market
+      ? [
+          wisdomise,
+          {
+            ...wisdomise,
+            market_name: 'FUTURES' as const,
+          },
+          ...(data ?? []),
+        ].filter(acc => acc.status === 'INACTIVE' && acc.market_name === market)
+      : [wisdomise];
+  }, [data, market]);
 
   return (
     <div className={className}>
@@ -78,7 +80,9 @@ const ExchangeAccountSelector: React.FC<Props> = ({
       <ComboBox
         options={items}
         selectedItem={
-          isLoading ? 'loading...' : items.find(x => x.key === selectedItem)
+          market && isLoading
+            ? 'loading...'
+            : items.find(x => x.key === selectedItem)
         }
         onSelect={onSelectHandler}
         renderItem={ExchangeAccountOptionItem}
@@ -89,7 +93,7 @@ const ExchangeAccountSelector: React.FC<Props> = ({
 };
 
 const ModalExchangeAccountSelector: React.FC<{
-  market: MarketTypes;
+  market?: MarketTypes;
   onResolve?: (account?: string) => void;
 }> = ({ market, onResolve }) => {
   const [account, setAccount] = useState('');
@@ -115,10 +119,19 @@ const ModalExchangeAccountSelector: React.FC<{
           selectedItem={account}
           onSelect={setAccount}
         />
+
+        {!market && (
+          <div className="mt-2 flex items-center justify-center text-xs text-white/20">
+            External exchange accounts are not supported for this product.
+          </div>
+        )}
       </div>
 
       <div className="mt-8 flex justify-stretch gap-4">
-        <Button onClick={connectHandler}>Connect New Account</Button>
+        {market && (
+          <Button onClick={connectHandler}>Connect New Account</Button>
+        )}
+
         <Button className="grow" onClick={continueHandler}>
           Continue
         </Button>
@@ -130,12 +143,12 @@ const ModalExchangeAccountSelector: React.FC<{
 
 export default function useModalExchangeAccountSelector(): [
   JSX.Element,
-  (p: { market: MarketTypes }) => Promise<string | undefined>,
+  (p: { market?: MarketTypes }) => Promise<string | undefined>,
 ] {
   const [Modal, showModal] = useModal(ModalExchangeAccountSelector);
   return [
     Modal,
-    async (p: { market: MarketTypes }) =>
+    async (p: { market?: MarketTypes }) =>
       (await showModal(p)) as string | undefined,
   ];
 }
