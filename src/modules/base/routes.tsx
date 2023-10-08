@@ -57,6 +57,16 @@ const PageFPIPositions = React.lazy(
   () => import('modules/wallet/PageFPIPositions'),
 );
 
+const PageStrategiesList = React.lazy(
+  () => import('modules/strategy/PageStrategiesList'),
+);
+const PageStrategyCreate = React.lazy(
+  () => import('modules/strategy/PageStrategyCreate'),
+);
+const PageStrategyDetails = React.lazy(
+  () => import('modules/strategy/PageStrategyDetails'),
+);
+
 const routes: RouteObject[] = [
   { path: 'auth/callback', element: suspended(<PageAuthCallback />) },
   { path: 'auth/login', element: suspended(<PageLogin />) },
@@ -68,43 +78,24 @@ const routes: RouteObject[] = [
   {
     element: <Container />,
     children: [
-      {
-        path: 'account/profile',
-        element: suspended(<PageProfile />),
-      },
+      { path: 'account/profile', element: suspended(<PageProfile />) },
       {
         path: 'account/exchange-accounts',
         element: suspended(<PageExchangeAccount />),
       },
-      {
-        path: 'account/referral',
-        element: suspended(<PageReferral />),
-      },
+      { path: 'account/referral', element: suspended(<PageReferral />) },
       {
         path: 'account/notification-center',
         element: suspended(<PageNotification />),
       },
-      {
-        path: 'account/billing',
-        element: suspended(<PageBilling />),
-      },
-      {
-        path: 'account/kyc',
-        element: suspended(<PageKYC />),
-      },
-      {
-        path: 'account/kyc/sumsub',
-        element: suspended(<PageSumSub />),
-      },
+      { path: 'account/billing', element: suspended(<PageBilling />) },
+      { path: 'account/kyc', element: suspended(<PageKYC />) },
+      { path: 'account/kyc/sumsub', element: suspended(<PageSumSub />) },
+
       // ================================================================================
-      {
-        path: 'app/assets',
-        element: suspended(<PageAssetOverview />),
-      },
-      {
-        path: 'app/fpi/:fpiKey',
-        element: suspended(<PageFPIPositions />),
-      },
+
+      { path: 'app/assets', element: suspended(<PageAssetOverview />) },
+      { path: 'app/fpi/:fpiKey', element: suspended(<PageFPIPositions />) },
       {
         path: 'app/products-catalog',
         element: suspended(<PageProductsCatalog />),
@@ -113,10 +104,10 @@ const routes: RouteObject[] = [
         path: 'app/products-catalog/:fpKey',
         element: suspended(<PageProductCatalogDetail />),
       },
-      {
-        path: 'app/signals',
-        element: suspended(<PageSignalsMatrix />),
-      },
+      { path: 'app/signals', element: suspended(<PageSignalsMatrix />) },
+      { path: 'app/strategy', element: suspended(<PageStrategiesList />) },
+      { path: 'app/strategy/new', element: suspended(<PageStrategyCreate />) },
+      { path: 'app/strategy/:id', element: suspended(<PageStrategyDetails />) },
     ],
   },
   {

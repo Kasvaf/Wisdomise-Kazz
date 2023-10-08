@@ -1,3 +1,5 @@
+/* eslint-disable import/max-dependencies */
+
 import { useLocation } from 'react-router-dom';
 import { isProduction } from 'utils/version';
 import { ReactComponent as AssetOverviewIcon } from './icons/assetOverview.svg';
@@ -9,6 +11,7 @@ import { ReactComponent as ProfileIcon } from './icons/profile.svg';
 import { ReactComponent as KYCIcon } from './icons/kyc.svg';
 import { ReactComponent as NotificationIcon } from './icons/notification.svg';
 import { ReactComponent as BillingIcon } from './icons/billing.svg';
+import { ReactComponent as StrategiesIcon } from './icons/strategies.svg';
 
 interface MenuItem {
   category: string;
@@ -40,6 +43,14 @@ const DashboardMenuItems: MenuItem[] = [
     text: 'Signal Matrix',
     mobileText: 'Signals',
     link: '/app/signals',
+    hide: false,
+  },
+  {
+    category: 'Developer',
+    icon: <StrategiesIcon />,
+    text: 'Strategies',
+    mobileText: 'Strategies',
+    link: '/app/strategy',
     hide: false,
   },
 ];
