@@ -143,7 +143,7 @@ export interface Invoice {
               active: true;
               amount: 4999;
               object: 'plan';
-              created: 1695546059;
+              created: number;
               product: 'prod_OhCaaL5hvS6qpD';
               currency: 'usd';
               interval: 'month';
@@ -174,7 +174,7 @@ export interface Invoice {
               type: 'recurring';
               active: true;
               object: 'price';
-              created: 1695546059;
+              created: number;
               product: 'prod_OhCaaL5hvS6qpD';
               currency: 'usd';
               livemode: false;
@@ -208,12 +208,12 @@ export interface Invoice {
             amount: 4999;
             object: 'line_item';
             period: {
-              end: 1699601294;
-              start: 1696922894;
+              end: number;
+              start: number;
             };
             currency: 'usd';
             livemode: false;
-            metadata: {};
+            metadata: unknown;
             quantity: 1;
             discounts: [];
             proration: false;
@@ -250,19 +250,19 @@ export interface Invoice {
       number: 'CC3B9168-0001';
       object: 'invoice';
       status: 'paid';
-      created: 1696922894;
+      created: number;
       currency: 'usd';
       customer: 'cus_OnAhPx0IpJ56pH';
       discount: null;
       due_date: null;
       livemode: false;
-      metadata: {};
+      metadata: unknown;
       subtotal: 4999;
       attempted: true;
       discounts: [];
       rendering: null;
       amount_due: 4999;
-      period_end: 1696922894;
+      period_end: number;
       test_clock: null;
       amount_paid: 4999;
       application: null;
@@ -270,10 +270,10 @@ export interface Invoice {
       invoice_pdf: 'https://pay.stripe.com/invoice/acct_1NUl6ZEtPI4IVpoj/test_YWNjdF8xTlVsNlpFdFBJNElWcG9qLF9PbkFoemdUdVRkMnlSS05SRXA4Z1FUY2tlSzZlWGRrLDg3NDYzNjk40200k9lvMAoy/pdf?s=ap';
       account_name: 'Wisdomise AG';
       auto_advance: false;
-      effective_at: 1696922894;
+      effective_at: number;
       from_invoice: null;
       on_behalf_of: null;
-      period_start: 1696922894;
+      period_start: number;
       subscription: 'sub_1NzaMUEtPI4IVpojrh3QqLLb';
       attempt_count: 1;
       automatic_tax: {
@@ -328,9 +328,9 @@ export interface Invoice {
       ];
       hosted_invoice_url: 'https://invoice.stripe.com/i/acct_1NUl6ZEtPI4IVpoj/test_YWNjdF8xTlVsNlpFdFBJNElWcG9qLF9PbkFoemdUdVRkMnlSS05SRXA4Z1FUY2tlSzZlWGRrLDg3NDYzNjk40200k9lvMAoy?s=ap';
       status_transitions: {
-        paid_at: 1696922896;
+        paid_at: number;
         voided_at: null;
-        finalized_at: 1696922894;
+        finalized_at: number;
         marked_uncollectible_at: null;
       };
       customer_tax_exempt: 'none';
@@ -338,7 +338,7 @@ export interface Invoice {
       next_payment_attempt: null;
       statement_descriptor: null;
       subscription_details: {
-        metadata: {};
+        metadata: unknown;
       };
       webhooks_delivered_at: null;
       application_fee_amount: null;
