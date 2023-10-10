@@ -13,8 +13,10 @@ export interface Subscription {
     cancel_at?: number;
     canceled_at?: number;
     plan: {
+      id: string;
       key?: string;
       name: string;
+      amount: number;
       metadata: {
         athena_questions_count: number;
         athena_daily_notifications_count: number;
@@ -34,6 +36,7 @@ export interface SubscriptionPlan {
   features: string[];
   metadata: Record<string, unknown>;
   stripe_payment_link: string;
+  stripe_price_id: string;
 }
 
 export interface SubscriptionPortal {

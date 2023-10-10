@@ -1,55 +1,26 @@
-import dayjs from 'dayjs';
-import { useCallback, useState } from 'react';
-import { getBilingPortal, useSubscription } from 'api';
-import Button from 'modules/shared/Button';
-
-const useSubscriptionMessage = () => {
-  const { isActive, isCanceled, cancelEnd } = useSubscription();
-
-  const [isLoading, setIsLoading] = useState(false);
-  const bilingHandler = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const url = await getBilingPortal();
-      window.location.href = url;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  return (
-    <div className="flex flex-col items-start">
-      <p className="text-white/60">
-        {isActive
-          ? isCanceled
-            ? `Your subscription remains active until ${dayjs(cancelEnd).format(
-                'MMMM DD',
-              )}, and after that, no further charges will be applied. To continue enjoying our services, you can renew your subscription or explore new options in the billing tab. Your choice, your experience!`
-            : 'You have successfully subscribed to one of our plans.'
-          : 'Please go to your billing portal to manage your current subscription:'}
-      </p>
-
-      <Button
-        onClick={bilingHandler}
-        loading={isLoading}
-        className="mt-4 block"
-        target="_blank"
-      >
-        Billing portal
-      </Button>
-    </div>
-  );
-};
+import { Tabs } from 'antd';
+import { useCallback } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { SUBSCRIPTION_TABS } from 'modules/account/PageBilling/constant';
 
 export default function SubscriptionDetail() {
-  const message = useSubscriptionMessage();
+  const navigate = useNavigate();
+  const handleTabChange = useCallback((key: string) => {
+    navigate(key);
+  }, []);
 
   return (
     <>
       <h1 className="mb-4 text-base font-semibold text-white">
         Subscription details
       </h1>
-      {message}
+      <Tabs
+        items={SUBSCRIPTION_TABS}
+        tabBarStyle={{ color: '#fff' }}
+        defaultActiveKey={window.location.pathname.split('/').at(-1)}
+        onChange={handleTabChange}
+      />
+      <Outlet />
     </>
   );
 }
