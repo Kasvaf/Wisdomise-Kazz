@@ -1,6 +1,8 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useRef, useState } from 'react';
+import { bxCopyAlt } from 'boxicons-quasar';
+import Icon from './Icon';
 
 interface Props {
   label?: string;
@@ -58,7 +60,9 @@ const CopyInputBox: React.FC<Props> = ({
           value={value}
           readOnly
         />
-        <div className="font-medium">Copy</div>
+        <div className="font-medium">
+          <Icon name={bxCopyAlt} />
+        </div>
       </div>
       <div
         className={clsx(

@@ -1,9 +1,11 @@
 import { Crisp } from 'crisp-sdk-web';
-import { bxLogOut, bxSupport, bxUser } from 'boxicons-quasar';
-import { NavLink } from 'react-router-dom';
+import { bxBot, bxLogOut, bxSupport, bxUser } from 'boxicons-quasar';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAccountQuery, useInvestorAssetStructuresQuery } from 'api';
 import Icon from 'shared/Icon';
 import { logout } from 'modules/auth/authHandlers';
+import { ATHENA_FE } from 'config/constants';
+import { ReactComponent as IconDashboard } from '../useMenuItems/icons/dashboard.svg';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
 
 const openCrisp = () => Crisp.chat.open();
@@ -16,6 +18,29 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
   const { data: account } = useAccountQuery();
   const ias = useInvestorAssetStructuresQuery();
   const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
+
+  const { pathname } = useLocation();
+  const isAccount = pathname.startsWith('/account');
+  const extraItems = isAccount
+    ? [
+        {
+          title: 'Dashboard',
+          to: '/',
+          icon: <IconDashboard className="mr-2" />,
+        },
+        {
+          title: 'Athena',
+          to: ATHENA_FE,
+          icon: <Icon name={bxBot} className="mr-2" />,
+        },
+      ]
+    : [
+        {
+          title: 'Profile Dashboard',
+          to: '/account/profile',
+          icon: <Icon name={bxUser} className="mr-2" />,
+        },
+      ];
 
   return (
     <div
@@ -43,13 +68,16 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
       </div>
 
       <div>
-        <NavLink
-          to="/account/profile"
-          className="mt-2 flex items-center justify-start rounded-3xl bg-black/5 p-2 text-xs font-medium"
-        >
-          <Icon name={bxUser} className="mr-2" />
-          Profile Dashboard
-        </NavLink>
+        {extraItems.map(item => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className="mt-2 flex items-center justify-start rounded-3xl bg-black/5 p-2 text-xs font-medium"
+          >
+            {item.icon}
+            {item.title}
+          </NavLink>
+        ))}
       </div>
 
       <div className="mt-2 flex">
