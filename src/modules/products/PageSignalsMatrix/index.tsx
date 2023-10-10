@@ -16,9 +16,9 @@ const SignalsOverlay = () => (
 
     <h1 className="text-white">You are not subscribed</h1>
     <div className="mt-2 text-slate-400">
-      To Reveal all signals, You Need to{' '}
+      To reveal all signals, you need to{' '}
       <span className="text-white">Subscribe</span> or{' '}
-      <span className="text-white">Upgrade</span> Your Current Plan
+      <span className="text-white">Upgrade</span> your current plan
     </div>
 
     <Button to="/account/billing" className="mt-6">
