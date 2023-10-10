@@ -25,7 +25,7 @@ export default function useEnsureSubscription(): [
       <div className="text-center">
         <div className="mt-2 text-slate-400">
           To activate a product, you need to{' '}
-          <span className="text-white">subscribe</span> first.
+          <span className="text-white">Subscribe</span> first.
         </div>
       </div>
     ) : (
@@ -37,7 +37,7 @@ export default function useEnsureSubscription(): [
           </div>
           <div className="mt-4">
             To use these products, you need to{' '}
-            <span className="text-white">upgrade</span> your subscription.
+            <span className="text-white">Upgrade</span> your subscription.
           </div>
         </div>
       </div>
