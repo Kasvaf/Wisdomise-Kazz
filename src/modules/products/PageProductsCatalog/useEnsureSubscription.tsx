@@ -26,7 +26,8 @@ export default function useEnsureSubscription(): [
       <div className="text-center">
         <div className="mt-2 text-slate-400">
           To activate a product, you need to{' '}
-          <span className="text-white">Subscribe</span> first.
+          <span className="text-white">Subscribe</span> to our Wisdomise Expert
+          plan.
         </div>
       </div>
     ) : (
@@ -37,7 +38,7 @@ export default function useEnsureSubscription(): [
             activate.
           </div>
           <div className="mt-4">
-            To use these products, you need to{' '}
+            To use this product, you need to{' '}
             <span className="text-white">Upgrade</span> your subscription.
           </div>
         </div>
