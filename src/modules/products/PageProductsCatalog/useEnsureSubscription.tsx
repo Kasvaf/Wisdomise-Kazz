@@ -14,14 +14,15 @@ export default function useEnsureSubscription(): [
   JSX.Element,
   () => Promise<boolean>,
 ] {
-  const { isTrialing } = useSubscription();
+  const { isTrialing, isCanceled } = useSubscription();
   const canActivate = usePlanMetadata('activate_fp');
+  const isSubscribe = isTrialing || isCanceled;
 
   const [Modal, showModal] = useConfirm({
-    title: isTrialing ? 'Subscription' : 'Upgrade Subscription',
+    title: isSubscribe ? 'Subscription' : 'Upgrade Subscription',
     icon: <LockIcon />,
-    yesTitle: isTrialing ? 'Subscribe' : 'Upgrade',
-    message: isTrialing ? (
+    yesTitle: isSubscribe ? 'Subscribe' : 'Upgrade',
+    message: isSubscribe ? (
       <div className="text-center">
         <div className="mt-2 text-slate-400">
           To activate a product, you need to{' '}
