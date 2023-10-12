@@ -26,8 +26,12 @@ const Container = () => {
 
   const isMobile = useIsMobile();
   const { isTrialing, hasStripe } = useSubscription();
-  const hasBanner = (isTrialing || !hasStripe) && !isMobile;
-  const topOffsetClass = hasBanner ? 'top-14' : 'top-0';
+  const hasBanner = isTrialing || !hasStripe;
+  const topOffsetClass = hasBanner
+    ? isMobile
+      ? 'top-[8rem]'
+      : 'top-14'
+    : 'top-0';
 
   return (
     <AuthGuard>
