@@ -15,11 +15,6 @@ export default function Invoices() {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         render: (_, { created_at }) => new Date(created_at).toLocaleString(),
       },
-      // {
-      //   title: 'Payment',
-      //   dataIndex: 'payment',
-      //   render: (_, {data: {object: {}}}) => null,
-      // },
       {
         title: 'Description',
         dataIndex: 'description',

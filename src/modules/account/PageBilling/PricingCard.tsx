@@ -1,8 +1,9 @@
 import { clsx } from 'clsx';
-import { Spin } from 'antd';
+import { notification, Spin } from 'antd';
+import { useCallback } from 'react';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import { useAccountQuery, useSubscription } from 'api';
+import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import product from './images/wisdomise-product.png';
 import { ReactComponent as Check } from './images/check.svg';
 
@@ -10,16 +11,43 @@ interface Props {
   className?: string;
   plan: SubscriptionPlan;
   isUpdate?: boolean;
+  onPlanUpdate: () => void;
 }
 
-export default function PricingCard({ plan, className, isUpdate }: Props) {
+export default function PricingCard({
+  plan,
+  className,
+  isUpdate,
+  onPlanUpdate,
+}: Props) {
   const { data: account } = useAccountQuery();
   const { plan: userPlan } = useSubscription();
+  const mutation = useSubscriptionMutation();
+
   const stripeLink = account
     ? plan.stripe_payment_link +
       '?prefilled_email=' +
       encodeURIComponent(account.email)
     : undefined;
+
+  const handleSubmit = useCallback(() => {
+    if (isUpdate) {
+      void mutation.mutateAsync({ price_id: plan.stripe_price_id }).then(() => {
+        notification.success({
+          message:
+            'Your subscription updated successfully. It might take a few minutes to activate',
+          duration: 5000,
+        });
+        onPlanUpdate();
+        return null;
+      });
+    } else {
+      if (stripeLink) {
+        window.location.href = stripeLink;
+      }
+    }
+  }, [stripeLink, isUpdate]);
+
   return (
     <div
       className={clsx(
@@ -49,14 +77,14 @@ export default function PricingCard({ plan, className, isUpdate }: Props) {
           plan.stripe_price_id === userPlan?.id
         }
         className="block !w-full !font-medium disabled:opacity-50"
-        to={stripeLink}
+        onClick={handleSubmit}
       >
         {stripeLink ? (
           plan.is_active ? (
             plan.stripe_price_id === userPlan?.id ? (
               'Current Plan'
             ) : isUpdate ? (
-              'Upgrade'
+              'Update'
             ) : (
               'Buy Now'
             )

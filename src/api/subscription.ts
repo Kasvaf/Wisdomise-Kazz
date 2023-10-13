@@ -51,8 +51,10 @@ export const getBilingPortal = async () => {
 };
 
 export function useSubscription() {
-  const { data: account, isLoading } = useAccountQuery();
-  const { data: plansResponse } = usePlansQuery();
+  const { data: account, isLoading, refetch } = useAccountQuery();
+  const { data: plansResponse } = usePlansQuery(undefined, {
+    staleTime: Number.POSITIVE_INFINITY,
+  });
   const subs = account?.subscription?.object;
   const status = subs?.status;
 
@@ -72,5 +74,6 @@ export function useSubscription() {
     planName: plansResponse?.results.find(
       plan => plan.stripe_price_id === subs?.plan.id,
     )?.name,
+    refetch,
   };
 }

@@ -5,15 +5,17 @@ import useModal from 'shared/useModal';
 import PricingTable from 'modules/account/PageBilling/PricingTable';
 
 export default function Overview() {
-  const { currentPeriodEnd, plan, planName } = useSubscription();
+  const { currentPeriodEnd, plan, planName, refetch } = useSubscription();
   const { data: paymentMethod } = usePaymentMethodsQuery();
   const { data } = useAccountQuery();
   const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
     width: 1200,
   });
 
-  const handleChangePlan = useCallback(() => {
-    void openPricingTable({ isUpdate: true });
+  const handleChangePlan = useCallback(async () => {
+    if (await openPricingTable({ isUpdate: true })) {
+      void refetch();
+    }
   }, []);
 
   return (

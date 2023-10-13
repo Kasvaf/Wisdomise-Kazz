@@ -23,16 +23,21 @@ const TabButton: React.FC<{
 );
 
 export interface PricingTableProps {
-  onResolve?: () => void;
+  onResolve?: (result: boolean) => void;
   isUpdate?: boolean;
 }
 
-export default function PricingTable({ isUpdate }: PricingTableProps) {
+export default function PricingTable({
+  isUpdate,
+  onResolve,
+}: PricingTableProps) {
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
   const { data, isLoading } = usePlansQuery(undefined, {
     staleTime: Number.POSITIVE_INFINITY,
     retry: false,
   });
+
+  const handleUpdatePlan = useCallback(() => onResolve?.(true), [onResolve]);
 
   if (isLoading) {
     return (
@@ -65,6 +70,7 @@ export default function PricingTable({ isUpdate }: PricingTableProps) {
                 key={plan.key}
                 plan={plan}
                 isUpdate={isUpdate}
+                onPlanUpdate={handleUpdatePlan}
               />
             );
           })}
