@@ -1,7 +1,8 @@
 import { Table } from 'antd';
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
-import { type Invoice, useInvoicesQuery } from 'api';
+import { useInvoicesQuery } from 'api';
+import { type Invoice } from 'modules/account/models';
 
 export default function Invoices() {
   const { data } = useInvoicesQuery();
