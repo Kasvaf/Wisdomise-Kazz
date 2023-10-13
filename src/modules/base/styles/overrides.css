@@ -26,7 +26,7 @@
 .ant-table {
   @apply rounded-2xl p-4 !font-poppins !text-white mobile:!min-h-full;
   min-height: 248px;
-  background: rgba(255,255,255,0.05) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
 
   .ant-table-header {
     @apply mb-2;
