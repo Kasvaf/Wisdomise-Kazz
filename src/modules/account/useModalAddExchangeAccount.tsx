@@ -9,9 +9,12 @@ import Button from 'shared/Button';
 import ExchangeSelector from './ExchangeSelector';
 import MarketSelector from './MarketSelector';
 
+const emptyFieldError = 'This field may not be blank.';
+
 const ModalAddExchangeAccount: React.FC<{
   onResolve?: (account?: string) => void;
 }> = ({ onResolve }) => {
+  const [showErrors, setShowErrors] = useState(false);
   const [exchange, setExchange] = useState<ExchangeTypes>('BINANCE');
   const [market, setMarket] = useState<MarketTypes>('SPOT');
   const [accountName, setAccountName] = useState('');
@@ -22,6 +25,9 @@ const ModalAddExchangeAccount: React.FC<{
   const createAccount = useCreateExchangeAccount();
 
   const addHandler = useCallback(async () => {
+    setShowErrors(true);
+    if (!accountName || !apiKey || !secretKey) return;
+
     try {
       setIsSubmitting(true);
       const acc = await createAccount({
@@ -72,18 +78,21 @@ const ModalAddExchangeAccount: React.FC<{
           label="Account Name"
           value={accountName}
           onChange={setAccountName}
+          error={showErrors && !accountName && emptyFieldError}
         />
         <TextBox
           className="mt-6"
           label="API Key"
           value={apiKey}
           onChange={setApiKey}
+          error={showErrors && !apiKey && emptyFieldError}
         />
         <TextBox
           className="mt-6"
           label="Secret Key"
           value={secretKey}
           onChange={setSecretKey}
+          error={showErrors && !secretKey && emptyFieldError}
         />
       </div>
 
