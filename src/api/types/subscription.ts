@@ -17,6 +17,7 @@ export interface Subscription {
 }
 
 export interface SubscriptionPlan {
+  id: string;
   key: string;
   name: string;
   is_active: boolean;
