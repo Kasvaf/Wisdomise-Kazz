@@ -14,18 +14,20 @@ export default function useEnsureSubscription(): [
   JSX.Element,
   () => Promise<boolean>,
 ] {
-  const { isTrialing } = useSubscription();
+  const { isTrialing, isCanceled } = useSubscription();
   const canActivate = usePlanMetadata('activate_fp');
+  const isSubscribe = isTrialing || isCanceled;
 
   const [Modal, showModal] = useConfirm({
-    title: isTrialing ? 'Subscription' : 'Upgrade Subscription',
+    title: isSubscribe ? 'Subscription' : 'Upgrade Subscription',
     icon: <LockIcon />,
-    yesTitle: isTrialing ? 'Subscribe' : 'Upgrade',
-    message: isTrialing ? (
+    yesTitle: isSubscribe ? 'Subscribe' : 'Upgrade',
+    message: isSubscribe ? (
       <div className="text-center">
         <div className="mt-2 text-slate-400">
           To activate a product, you need to{' '}
-          <span className="text-white">Subscribe</span> first.
+          <span className="text-white">Subscribe</span> to our{' '}
+          <span className="text-white">Wisdomise Expert</span> plan.
         </div>
       </div>
     ) : (
@@ -36,7 +38,7 @@ export default function useEnsureSubscription(): [
             activate.
           </div>
           <div className="mt-4">
-            To use these products, you need to{' '}
+            To use this product, you need to{' '}
             <span className="text-white">Upgrade</span> your subscription.
           </div>
         </div>

@@ -1,16 +1,19 @@
 import { clsx } from 'clsx';
 import { ReactComponent as LogoSvg } from 'assets/logo-horizontal-beta.svg';
 import Card from 'shared/Card';
-import { useIsVerified, useSubscription } from 'api';
+import { useActivePlan, useIsVerified, useSubscription } from 'api';
 
 const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
   className,
 }) => {
   const sub = useSubscription();
+  const plan = useActivePlan(); // TODO: remove this once refactored in backend
   const { isLoading, identified, verified, addedWallet } = useIsVerified();
   const verifiedCount = isLoading
     ? '?'
-    : (identified ? 1 : 0) + (verified ? 1 : 0) + (addedWallet ? 1 : 0);
+    : (identified === 'VERIFIED' ? 1 : 0) +
+      (verified === 'VERIFIED' ? 1 : 0) +
+      (addedWallet ? 1 : 0);
 
   return (
     <Card className={className}>
@@ -32,7 +35,9 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
 
         <div className="flex flex-col">
           <div className="mb-3 text-xs text-white/60">Subscription</div>
-          <div className="flex h-full items-center">{sub.title}</div>
+          <div className="flex h-full items-center">
+            {sub.title || plan.data?.name}
+          </div>
         </div>
 
         <div className="flex flex-col">

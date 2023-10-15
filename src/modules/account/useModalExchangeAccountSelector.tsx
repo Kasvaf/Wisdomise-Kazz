@@ -54,7 +54,7 @@ const ExchangeAccountSelector: React.FC<Props> = ({
 
   const items: ExchangeAccount[] = useMemo(() => {
     const wisdomise = {
-      key: '',
+      key: 'wisdomise',
       exchange_name: 'WISDOMISE' as const,
       market_name: 'SPOT' as const,
       status: 'INACTIVE' as const,
@@ -96,11 +96,11 @@ const ModalExchangeAccountSelector: React.FC<{
   market?: MarketTypes;
   onResolve?: (account?: string) => void;
 }> = ({ market, onResolve }) => {
-  const [account, setAccount] = useState('');
+  const [account, setAccount] = useState('wisdomise');
 
   const [ModalAddExchange, showAddExchange] = useModalAddExchangeAccount();
   const continueHandler = useCallback(
-    () => onResolve?.(account || undefined),
+    () => onResolve?.(account),
     [onResolve, account],
   );
 

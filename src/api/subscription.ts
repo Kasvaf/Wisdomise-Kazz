@@ -1,5 +1,5 @@
-import { type UseQueryOptions, useQuery } from '@tanstack/react-query';
-import axios, { type AxiosError } from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { type PageResponse } from './types/page';
 import {
@@ -9,15 +9,7 @@ import {
 } from './types/subscription';
 import { useAccountQuery } from './account';
 
-export function usePlansQuery(
-  periodicity?: PlanPeriod,
-  options?: UseQueryOptions<
-    PageResponse<SubscriptionPlan>,
-    AxiosError,
-    PageResponse<SubscriptionPlan>,
-    [string, PlanPeriod | undefined]
-  >,
-) {
+export function usePlansQuery(periodicity?: PlanPeriod) {
   return useQuery(
     ['getPlans', periodicity],
     async ({ queryKey }) => {
@@ -31,7 +23,28 @@ export function usePlansQuery(
       );
       return data;
     },
-    options,
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+}
+
+export function useActivePlan() {
+  const { data: account } = useAccountQuery();
+  const planId = account?.subscription?.object?.plan.id;
+  return useQuery(
+    ['activePlan', planId],
+    async () => {
+      if (!planId) return;
+      const { data } = await axios.get<PageResponse<SubscriptionPlan>>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/plans?stripe_price_id=${planId}`,
+      );
+      return data.results?.[0];
+    },
+    {
+      enabled: Boolean(planId),
+      staleTime: Number.POSITIVE_INFINITY,
+    },
   );
 }
 
@@ -65,7 +78,7 @@ export function useSubscription() {
         : subs?.plan.name,
     isActive: status === 'active',
     isTrialing: status === 'trialing',
-    isCanceled: Boolean(subs?.canceled_at),
+    isCanceled: Boolean(subs?.canceled_at) || status === 'canceled',
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     hasStripe: Boolean(account?.stripe_customer_id),
     remaining: Math.max(

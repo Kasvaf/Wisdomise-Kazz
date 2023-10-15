@@ -3,7 +3,7 @@ export type PlanPeriod = 'MONTHLY' | 'YEARLY';
 export interface Subscription {
   object?: {
     object: string;
-    status: 'trialing' | 'active' | 'inactive';
+    status: 'trialing' | 'active' | 'inactive' | 'canceled';
     trial_end: number;
     trial_start: number;
 
@@ -17,6 +17,7 @@ export interface Subscription {
 }
 
 export interface SubscriptionPlan {
+  id: string;
   key: string;
   name: string;
   is_active: boolean;
