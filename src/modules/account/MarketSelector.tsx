@@ -3,7 +3,7 @@ import { type MarketTypes } from 'api/types/financialProduct';
 import ComboBox from 'shared/ComboBox';
 
 const MarketOptionItem = (item: MarketTypes) => {
-  return <div>{item.toLowerCase()}</div>;
+  return <div>{item}</div>;
 };
 
 interface Props {
