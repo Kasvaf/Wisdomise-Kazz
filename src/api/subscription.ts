@@ -65,7 +65,7 @@ export function useSubscription() {
         : subs?.plan.name,
     isActive: status === 'active',
     isTrialing: status === 'trialing',
-    isCanceled: Boolean(subs?.canceled_at),
+    isCanceled: Boolean(subs?.canceled_at) || status === 'canceled',
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     hasStripe: Boolean(account?.stripe_customer_id),
     remaining: Math.max(
