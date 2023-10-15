@@ -10,7 +10,9 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
   const { isLoading, identified, verified, addedWallet } = useIsVerified();
   const verifiedCount = isLoading
     ? '?'
-    : (identified ? 1 : 0) + (verified ? 1 : 0) + (addedWallet ? 1 : 0);
+    : (identified === 'VERIFIED' ? 1 : 0) +
+      (verified === 'VERIFIED' ? 1 : 0) +
+      (addedWallet ? 1 : 0);
 
   return (
     <Card className={className}>
