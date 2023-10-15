@@ -96,8 +96,10 @@ const ButtonActivate: React.FC<Props> = ({
     }
 
     const acc = await showModalExchangeAccountSelector({ market });
-    if (acc || hasIas || (await openDisclaimer())) {
-      await activateProduct(acc || undefined);
+    if (!acc) return;
+
+    if (acc !== 'wisdomise' || hasIas || (await openDisclaimer())) {
+      await activateProduct(!acc || acc === 'wisdomise' ? undefined : acc);
     }
   }, [
     ensureSubscribed,
