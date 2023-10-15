@@ -37,6 +37,12 @@ const ModalAddExchangeAccount: React.FC<{
         api_key: apiKey,
         secret_key: secretKey,
       });
+
+      setShowErrors(false);
+      setAccountName('');
+      setApiKey('');
+      setSecretKey('');
+
       onResolve?.(acc.key);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
