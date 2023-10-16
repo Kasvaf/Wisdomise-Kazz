@@ -4,6 +4,7 @@ import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import MarketSelector from 'modules/account/MarketSelector';
+import TitleHint from './TitleHint';
 
 export default function PageStrategyCreate() {
   const [market, setMarket] = useState('SPOT');
@@ -14,12 +15,9 @@ export default function PageStrategyCreate() {
 
       <Card>
         <section>
-          <div className="ml-3">
-            <h2 className="text-base font-semibold">Strategy Name</h2>
-            <div className="mt-2 text-sm text-white/60">
-              Pick a name to help you identify this strategy.
-            </div>
-          </div>
+          <TitleHint className="ml-3" title="Strategy Name">
+            Pick a name to help you identify this strategy.
+          </TitleHint>
 
           <div className="mt-4 flex max-w-xl gap-6">
             <TextBox
@@ -37,13 +35,10 @@ export default function PageStrategyCreate() {
         </section>
 
         <section className="mt-12">
-          <div className="ml-3">
-            <h2 className="text-base font-semibold">Labels & Tags</h2>
-            <div className="mt-2 text-sm text-white/60">
-              Set labels to help organize and filter your sources, as well as
-              enforce more granular access permissions.
-            </div>
-          </div>
+          <TitleHint className="ml-3" title="Labels & Tags">
+            Set labels to help organize and filter your sources, as well as
+            enforce more granular access permissions.
+          </TitleHint>
 
           <div className="mt-4 flex max-w-xl gap-6">
             <TextBox

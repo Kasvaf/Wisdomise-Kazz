@@ -13,7 +13,7 @@ const PageWrapper: React.FC<Props> = ({ children, loading, className }) => {
     return (
       <div
         className={clsx(
-          'flex h-full w-full items-center justify-center mobile:h-[calc(100vh-10rem)]',
+          'flex h-full w-full items-center justify-center text-white mobile:h-[calc(100vh-10rem)]',
           className,
         )}
       >
