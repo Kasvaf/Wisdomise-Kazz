@@ -6,16 +6,20 @@ export interface CardProps {
   variant?: 'outline';
 }
 
-export default function Card(props: PropsWithChildren<CardProps>) {
+export default function Card({
+  className,
+  variant,
+  children,
+}: PropsWithChildren<CardProps>) {
   return (
     <div
       className={clsx(
-        props.className,
         'rounded-3xl bg-white/5 p-8',
-        props.variant === 'outline' && 'border-2',
+        variant === 'outline' && 'border-2',
+        className,
       )}
     >
-      {props.children}
+      {children}
     </div>
   );
 }

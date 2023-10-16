@@ -7,10 +7,11 @@ import Button from './Button';
 import Icon from './Icon';
 
 interface Props {
+  title?: string | React.ReactNode;
   icon?: ReactElement<any, any> | null;
   message?: string | ReactElement<any, any>;
-  yesTitle?: string;
-  noTitle?: string;
+  yesTitle?: string | ReactElement<any, any>;
+  noTitle?: string | ReactElement<any, any>;
   onResolve?: (confirmed: boolean) => void;
 }
 
@@ -21,6 +22,7 @@ interface ButtonOptions {
 }
 
 const ConfirmModal: React.FC<Props> = ({
+  title,
   icon = <Icon name={bxInfoCircle} className="text-warning" size={52} />,
   message,
   yesTitle,
@@ -41,7 +43,8 @@ const ConfirmModal: React.FC<Props> = ({
   ].filter(x => x.title) as ButtonOptions[];
 
   return (
-    <div>
+    <div className="text-white">
+      {title && <div className="mb-8 text-center font-semibold">{title}</div>}
       {icon && <div className="mb-8 flex justify-center">{icon}</div>}
       <div className="mb-8 text-white/80">{message}</div>
 

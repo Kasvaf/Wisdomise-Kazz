@@ -85,9 +85,12 @@
     "vite-plugin-svgr": "^2.4.0"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "eslint",
-      "prettier"
+      "prettier --check"
+    ],
+    "**/*.html": [
+      "prettier --check"
     ]
   },
   "husky": {

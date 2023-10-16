@@ -139,10 +139,10 @@ export default function PageKYC() {
               {wallets.data?.map(w => (
                 <li
                   key={String(w.network?.name) + w.address}
-                  className="rounded-3xl bg-black/20 p-2 md:px-4"
+                  className="rounded-3xl bg-black/20 p-2 lg:px-4"
                 >
-                  <div className="flex shrink-0 grow-0 flex-wrap items-stretch text-white">
-                    <div className="basis-1/2 md:basis-1/4">
+                  <div className="flex shrink-0 grow-0 flex-wrap items-stretch text-white lg:flex-nowrap lg:gap-2">
+                    <div className="basis-1/2 lg:basis-1/4">
                       <div className="mb-4 text-xs text-white/40">
                         Wallet name
                       </div>
@@ -153,7 +153,7 @@ export default function PageKYC() {
                       )}
                     </div>
 
-                    <div className="basis-1/2 md:basis-1/4">
+                    <div className="basis-1/2 lg:basis-1/4">
                       <div className="mb-4 text-xs text-white/40">Coin</div>
                       <div className="mt-[-5px] flex items-center gap-2 text-sm">
                         <div>
@@ -163,11 +163,19 @@ export default function PageKYC() {
                       </div>
                     </div>
 
-                    <div className="mt-2 basis-full border-t border-white/20 pt-2 md:m-0 md:basis-1/2 md:border-none md:p-0">
+                    <div className="mt-2 w-full basis-full border-t border-white/20 pt-2 lg:m-0 lg:basis-1/2 lg:border-none lg:p-0">
                       <div className="mb-4 text-xs text-white/40">
                         Wallet Address
                       </div>
-                      <div className="text-xs">{w.address}</div>
+                      <div className="line-clamp-1 text-xs">{w.address}</div>
+                    </div>
+
+                    <div className="mt-2 flex basis-full items-center justify-stretch lg:mt-0 lg:basis-1/6">
+                      <Badge
+                        color="green"
+                        text="verified"
+                        className="w-full text-center"
+                      />
                     </div>
                   </div>
                 </li>
@@ -185,7 +193,7 @@ export default function PageKYC() {
               className="rounded-full bg-white px-5 py-3 text-center text-[14px] text-black"
               onClick={openVerifyWallet}
             >
-              Verify Wallet
+              {wallets.data?.length ? 'Verify More Wallets' : 'Verify Wallet'}
             </button>
           </div>
         </div>

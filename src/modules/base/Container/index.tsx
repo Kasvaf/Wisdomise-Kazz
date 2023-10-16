@@ -26,8 +26,12 @@ const Container = () => {
 
   const isMobile = useIsMobile();
   const { isTrialing, hasStripe } = useSubscription();
-  const hasBanner = (isTrialing || !hasStripe) && !isMobile;
-  const topOffsetClass = hasBanner ? 'top-14' : 'top-0';
+  const hasBanner = isTrialing || !hasStripe;
+  const topOffsetClass = hasBanner
+    ? isMobile
+      ? 'top-[8rem]'
+      : 'top-14'
+    : 'top-0';
 
   return (
     <AuthGuard>
@@ -39,7 +43,7 @@ const Container = () => {
           ref={mainRef}
           className={clsx(
             'ml-[17.75rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 mobile:mb-16 mobile:ml-0 mobile:h-auto',
-            hasBanner ? 'pt-14' : 'pt-0',
+            hasBanner ? (isMobile ? 'pt-[8rem]' : 'pt-14') : 'pt-0',
           )}
         >
           <TransitionGroup component={null}>

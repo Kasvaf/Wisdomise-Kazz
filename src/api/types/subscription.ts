@@ -3,7 +3,7 @@ export type PlanPeriod = 'MONTHLY' | 'YEARLY';
 export interface Subscription {
   object?: {
     object: string;
-    status: 'trialing' | 'active' | 'inactive';
+    status: 'trialing' | 'active' | 'inactive' | 'canceled';
     trial_end: number;
     trial_start: number;
 
@@ -12,31 +12,29 @@ export interface Subscription {
 
     cancel_at?: number;
     canceled_at?: number;
-    plan: {
-      id: string;
-      key?: string;
-      name: string;
-      amount: number;
-      metadata: {
-        athena_questions_count: number;
-        athena_daily_notifications_count: number;
-      };
-    };
+    plan: SubscriptionPlan;
   };
 }
 
 export interface SubscriptionPlan {
   key: string;
-  is_active: boolean;
   name: string;
+  is_active: boolean;
   description: string;
   price: number;
   periodicity: PlanPeriod;
   trial_days: number;
   features: string[];
-  metadata: Record<string, unknown>;
   stripe_payment_link: string;
+  metadata: {
+    activate_fp: boolean;
+    view_signal_matrix: boolean;
+    athena_questions_count: number;
+    athena_daily_notifications_count: number;
+  };
   stripe_price_id: string;
+  id: string;
+  amount: string;
 }
 
 export interface SubscriptionPortal {

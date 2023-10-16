@@ -15,6 +15,7 @@ import useModalVerification from '../useModalVerification';
 import isFPRunning from './isFPRunning';
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
+import useEnsureSubscription from './useEnsureSubscription';
 
 interface Props {
   inDetailPage?: boolean;
@@ -85,9 +86,12 @@ const FPActivateButton: React.FC<Props> = ({
   const [ModalVerification, openVerification] = useModalVerification();
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
   const [ModalApiKey, showModalApiKey] = useModalApiKey();
+  const [SubscribeModal, ensureSubscribed] = useEnsureSubscription();
   const isVerified = useIsVerified();
 
   const onActivateClick = useCallback(async () => {
+    if (!(await ensureSubscribed())) return;
+
     if (isVerified.isLoading) return;
     if (!isVerified.isAllVerified) {
       if (await openVerification()) {
@@ -105,6 +109,7 @@ const FPActivateButton: React.FC<Props> = ({
       await onWalletDisclaimerAccept();
     }
   }, [
+    ensureSubscribed,
     hasIas,
     isVerified,
     navigate,
@@ -139,6 +144,7 @@ const FPActivateButton: React.FC<Props> = ({
         </Button>
       )}
 
+      {SubscribeModal}
       {ModalVerification}
       {ModalDisclaimer}
       {ModalApiKey}

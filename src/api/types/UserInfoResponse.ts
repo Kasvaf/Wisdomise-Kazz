@@ -13,6 +13,7 @@ export interface Account {
   referral_code: string;
   referrer?: any;
   info: Info;
+  telegram_id?: string;
   terms_and_conditions_accepted: boolean;
   privacy_policy_accepted: boolean;
   register_status: string;

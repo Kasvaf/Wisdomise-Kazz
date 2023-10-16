@@ -62,7 +62,7 @@ export function useSubscription() {
     isLoading,
     isActive: status === 'active',
     isTrialing: status === 'trialing',
-    isCanceled: Boolean(subs?.canceled_at),
+    isCanceled: Boolean(subs?.canceled_at) || status === 'canceled',
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     hasStripe: Boolean(account?.stripe_customer_id),
     remaining: Math.max(
@@ -76,4 +76,9 @@ export function useSubscription() {
     )?.name,
     refetch,
   };
+}
+
+export function usePlanMetadata(key: keyof SubscriptionPlan['metadata']) {
+  const account = useAccountQuery();
+  return account.data?.subscription?.object?.plan.metadata[key];
 }
