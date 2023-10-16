@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
+import MarketSelector from 'modules/account/MarketSelector';
 
 export default function PageStrategyCreate() {
+  const [market, setMarket] = useState('SPOT');
+
   return (
     <PageWrapper>
       <h1 className="mb-8 text-xl font-semibold">Create New Strategy</h1>
@@ -23,9 +27,10 @@ export default function PageStrategyCreate() {
               value=""
               className="basis-2/3"
             />
-            <TextBox
-              placeholder="Select Market"
-              value=""
+
+            <MarketSelector
+              selectedItem={market}
+              onSelect={setMarket}
               className="basis-1/3"
             />
           </div>
