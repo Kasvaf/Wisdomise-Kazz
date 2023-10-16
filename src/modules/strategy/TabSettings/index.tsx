@@ -6,6 +6,7 @@ import MarketSelector from 'modules/account/MarketSelector';
 import Button from 'modules/shared/Button';
 import TitleHint from '../TitleHint';
 import PartDocs from './PartDocs';
+import PartAssets from './PartAssets';
 
 const TabSettings = () => {
   const [market, setMarket] = useState('SPOT');
@@ -49,6 +50,13 @@ const TabSettings = () => {
           <TextBox placeholder="Strategy tags" value="" className="basis-2/3" />
         </div>
       </section>
+
+      <PartAssets
+        value={[
+          { asset: 'BTC', share: 70 },
+          { asset: 'UNI', share: 30 },
+        ]}
+      />
 
       <section className="flex justify-center gap-3">
         <Button>Save</Button>
