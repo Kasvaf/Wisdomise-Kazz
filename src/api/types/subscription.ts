@@ -34,7 +34,7 @@ export interface SubscriptionPlan {
   };
   stripe_price_id: string;
   id: string;
-  amount: string;
+  amount: number;
 }
 
 export interface SubscriptionPortal {
