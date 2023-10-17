@@ -197,7 +197,7 @@
   }
 
   .ant-tabs-tab {
-    @apply px-8 pt-2 pb-3 text-base;
+    @apply px-8 pb-3 pt-2 text-base;
 
     &.ant-tabs-tab-active {
       .ant-tabs-tab-btn {
@@ -210,7 +210,7 @@
     @apply bg-white;
   }
 
-  &-top >.ant-tabs-nav::before {
+  &-top > .ant-tabs-nav::before {
     @apply border-b-white/10;
   }
 }
