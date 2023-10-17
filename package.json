@@ -87,7 +87,7 @@
       "eslint",
       "prettier --check"
     ],
-    "**/*.html": [
+    "**/*.{html,css}": [
       "prettier --check"
     ]
   },
