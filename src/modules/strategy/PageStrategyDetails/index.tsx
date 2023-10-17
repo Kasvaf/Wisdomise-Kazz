@@ -2,12 +2,13 @@ import { Tabs, type TabsProps } from 'antd';
 import { useCallback } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import TabSettings from './TabSettings';
+import TabCockpit from './TabCockpit';
 
 const items: TabsProps['items'] = [
   {
     key: '1',
     label: 'Cockpit',
-    children: 'Content of Tab Pane 1',
+    children: <TabCockpit />,
   },
   {
     key: '2',

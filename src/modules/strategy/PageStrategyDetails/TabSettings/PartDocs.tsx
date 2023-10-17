@@ -3,7 +3,7 @@ import CopyInputBox from 'modules/shared/CopyInputBox';
 import Card from 'modules/shared/Card';
 import Button from 'modules/shared/Button';
 import Icon from 'modules/shared/Icon';
-import TitleHint from '../TitleHint';
+import TitleHint from '../../TitleHint';
 
 interface Props {
   strategyId: string;

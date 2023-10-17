@@ -4,7 +4,7 @@ import Card from 'modules/shared/Card';
 import TextBox from 'modules/shared/TextBox';
 import MarketSelector from 'modules/account/MarketSelector';
 import Button from 'modules/shared/Button';
-import TitleHint from '../TitleHint';
+import TitleHint from '../../TitleHint';
 import PartDocs from './PartDocs';
 import PartAssets from './PartAssets';
 

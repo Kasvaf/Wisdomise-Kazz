@@ -3,7 +3,7 @@ import { bxPlus, bxX } from 'boxicons-quasar';
 import Button from 'modules/shared/Button';
 import Icon from 'modules/shared/Icon';
 import PairInfo from 'modules/shared/PairInfo';
-import TitleHint from '../TitleHint';
+import TitleHint from '../../TitleHint';
 
 interface AssetBinding {
   asset: string;
