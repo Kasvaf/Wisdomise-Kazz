@@ -32,6 +32,9 @@ export interface SubscriptionPlan {
     athena_questions_count: number;
     athena_daily_notifications_count: number;
   };
+  stripe_price_id: string;
+  id: string;
+  amount: number;
 }
 
 export interface SubscriptionPortal {

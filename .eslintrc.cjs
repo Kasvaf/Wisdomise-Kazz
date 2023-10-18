@@ -163,5 +163,11 @@ module.exports = {
     ],
 
     'tailwindcss/no-custom-classname': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };
