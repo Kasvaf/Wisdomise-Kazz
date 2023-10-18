@@ -38,6 +38,10 @@ const suspended = (el: React.ReactNode) => (
 
 // ================================================================================
 
+const PageAssetOverview = React.lazy(
+  () => import('modules/wallet/PageAssetOverview'),
+);
+
 const PageSignalsMatrix = React.lazy(
   () => import('modules/products/PageSignalsMatrix'),
 );
@@ -49,12 +53,8 @@ const PageProductCatalogDetail = React.lazy(
   () => import('modules/products/PageProductCatalogDetail'),
 );
 
-const PageAssetOverview = React.lazy(
-  () => import('modules/wallet/PageAssetOverview'),
-);
-
 const PageFPIPositions = React.lazy(
-  () => import('modules/wallet/PageFPIPositions'),
+  () => import('modules/products/PageFPIPositions'),
 );
 
 const PageStrategiesList = React.lazy(

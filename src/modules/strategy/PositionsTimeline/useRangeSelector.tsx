@@ -96,7 +96,12 @@ function makeRange({
   };
 }
 
-export default function useRangeSelector(): [Range, JSX.Element] {
+export interface Ranger {
+  range: Range;
+  element: JSX.Element;
+}
+
+export default function useRangeSelector(): Ranger {
   const options: Range[] = useMemo(() => {
     const now = new Date();
     return [
@@ -159,5 +164,5 @@ export default function useRangeSelector(): [Range, JSX.Element] {
   );
   const selectedRange = options.find(x => x.label === selected);
   if (!selectedRange) throw new Error('unexpected');
-  return [selectedRange, Component];
+  return { range: selectedRange, element: Component };
 }

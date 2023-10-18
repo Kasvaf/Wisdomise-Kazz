@@ -1,32 +1,26 @@
 import { clsx } from 'clsx';
-import { useFpiPositionHistory } from 'api/fpi';
 import { type FpiPosition } from 'api/types/investorAssetStructure';
 import groupBy from 'utils/groupBy';
 import Spinner from 'shared/Spinner';
 import PairInfo from 'shared/PairInfo';
 import PositionHover from './PositionHover';
 import RowGraph, { type SegmentItem } from './RowGraph';
-import useRangeSelector from './useRangeSelector';
+import { type Ranger } from './useRangeSelector';
 
 interface Props {
-  fpiKey?: string;
+  isLoading: boolean;
+  history?: FpiPosition[];
+  ranger: Ranger;
   className?: string;
 }
 
-const FPITimeline: React.FC<Props> = ({ fpiKey, className }) => {
-  const [range, rangeSelector] = useRangeSelector();
-
-  const history = useFpiPositionHistory({
-    fpiKey,
-    start_datatime: range.start.toISOString(),
-    end_datetime: range.end.toISOString(),
-  });
-
-  const data = parsePositions(
-    history.data?.position_history ?? [],
-    range.start,
-    range.end,
-  );
+const PositionsTimeline: React.FC<Props> = ({
+  isLoading,
+  history,
+  ranger: { range, element: rangeSelector },
+  className,
+}) => {
+  const data = parsePositions(history ?? [], range.start, range.end);
 
   return (
     <div className={className}>
@@ -40,7 +34,7 @@ const FPITimeline: React.FC<Props> = ({ fpiKey, className }) => {
       <div className="-mx-6 overflow-auto">
         <div className="mx-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
           <div className="flex flex-col text-white/60">
-            {history.isLoading ? (
+            {isLoading ? (
               <div className="flex justify-center">
                 <Spinner />
               </div>
@@ -124,4 +118,4 @@ function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
   return positionsGrouped;
 }
 
-export default FPITimeline;
+export default PositionsTimeline;
