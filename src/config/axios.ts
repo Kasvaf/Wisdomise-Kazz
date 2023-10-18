@@ -25,12 +25,12 @@ export default function configAxios() {
    */
   axios.interceptors.response.use(null, async (error: AxiosError) => {
     if (error.response?.status === 403) {
+      const { hash, pathname, search } = window.location;
+
       window.location.href = sessionStorage.getItem(AFTER_LOGIN_KEY)
         ? '/auth/login'
         : `/auth/login?${AFTER_LOGIN_KEY}=${
-            RouterBaseName
-              ? window.location.hash.substring(1)
-              : window.location.pathname
+            RouterBaseName ? hash.substring(1) : pathname + search
           }`;
     }
     throw error;
