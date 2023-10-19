@@ -46,19 +46,21 @@ export default function Overview() {
         Billing actions
       </h1>
       <ul className="text-gray-400">
-        <li>
-          Future charges will be applied to the card{' '}
-          <strong className="text-white">
-            ****{paymentMethod?.data[0].card.last4}
-          </strong>
-          .{' '}
-          <Link
-            className="text-blue-600"
-            to="/account/billing/change-payment-method"
-          >
-            Change payment method
-          </Link>
-        </li>
+        {paymentMethod?.data[0]?.card && (
+          <li>
+            Future charges will be applied to the card{' '}
+            <strong className="text-white">
+              ****{paymentMethod.data[0].card.last4}
+            </strong>
+            .{' '}
+            <Link
+              className="text-blue-600"
+              to="/account/billing/change-payment-method"
+            >
+              Change payment method
+            </Link>
+          </li>
+        )}
         <li>
           Billing emails are sent to{' '}
           <strong className="text-white">{data?.email}</strong>.

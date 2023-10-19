@@ -9,14 +9,18 @@ export default function PaymentMethods() {
 
   return (
     <div>
-      <h1 className="mb-4 text-base font-semibold text-white">
-        Payment Methods
-      </h1>
-      <p>
-        <span>{data?.data[0].card.brand}</span>{' '}
-        <span>****{data?.data[0].card.last4}</span>
-      </p>
-      <p>Next payment will be automatically collected from this card.</p>
+      {data?.data[0].card && (
+        <>
+          <h1 className="mb-4 text-base font-semibold text-white">
+            Payment Methods
+          </h1>
+          <p>
+            <span>{data.data[0].card.brand}</span>{' '}
+            <span>****{data.data[0].card.last4}</span>
+          </p>
+          <p>Next payment will be automatically collected from this card.</p>
+        </>
+      )}
       <Button
         className="mt-4"
         onClick={useCallback(() => {
