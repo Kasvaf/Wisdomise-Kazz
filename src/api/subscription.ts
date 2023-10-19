@@ -63,7 +63,7 @@ export function useSubscription() {
     isActive,
     isLoading,
     isTrialing: status === 'trialing',
-    isCanceled: Boolean(subs?.canceled_at) || status === 'canceled',
+    isCanceled: Boolean(subs?.canceled_at) || status === 'canceled' || !status,
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     hasStripe: Boolean(account?.stripe_customer_id),
     remaining: Math.max(
