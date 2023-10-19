@@ -38,7 +38,7 @@ export default function PricingCard({
       void mutation.mutateAsync({ price_id: plan.stripe_price_id }).then(() => {
         notification.success({
           message:
-            'Your subscription updated successfully. It might take a few minutes to activate',
+            'Your subscription updated successfully. It might take a few minutes to activate. Please reload this page after some minutes.',
           duration: 5000,
         });
         onPlanUpdate();
@@ -77,7 +77,10 @@ export default function PricingCard({
           !stripeLink ||
           plan.price * 100 < (userPlan?.amount ?? 0)
         }
-        className="block !w-full !font-medium disabled:opacity-70"
+        className={clsx(
+          'block !w-full !font-medium disabled:opacity-70',
+          plan.price * 100 === (userPlan?.amount ?? 0) && 'cursor-not-allowed',
+        )}
         onClick={handleSubmit}
       >
         {stripeLink ? (
