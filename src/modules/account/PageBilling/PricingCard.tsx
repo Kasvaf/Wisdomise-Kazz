@@ -32,6 +32,9 @@ export default function PricingCard({
 
   const handleSubmit = useCallback(() => {
     if (isUpdate) {
+      if (plan.stripe_price_id === userPlan?.id) {
+        return;
+      }
       void mutation.mutateAsync({ price_id: plan.stripe_price_id }).then(() => {
         notification.success({
           message:
@@ -46,7 +49,7 @@ export default function PricingCard({
         window.location.href = stripeLink;
       }
     }
-  }, [stripeLink, isUpdate]);
+  }, [stripeLink, isUpdate, userPlan]);
 
   return (
     <div
@@ -61,7 +64,6 @@ export default function PricingCard({
         <h2 className="mb-3 text-xl">{plan.name}</h2>
         <p className="text-sm text-white/60">{plan.description}</p>
       </div>
-
       <div className="mb-4 mt-6 flex gap-2">
         <span className="text-3xl font-semibold">${plan.price}</span>
         <div className="text-xs text-white/40">
@@ -69,14 +71,13 @@ export default function PricingCard({
           <div>{plan.periodicity === 'MONTHLY' ? 'month' : 'year'}</div>
         </div>
       </div>
-
       <Button
         disabled={
           !plan.is_active ||
           !stripeLink ||
-          plan.stripe_price_id === userPlan?.id
+          plan.price * 100 < (userPlan?.amount ?? 0)
         }
-        className="block !w-full !font-medium disabled:opacity-50"
+        className="block !w-full !font-medium disabled:opacity-70"
         onClick={handleSubmit}
       >
         {stripeLink ? (
@@ -84,7 +85,7 @@ export default function PricingCard({
             plan.stripe_price_id === userPlan?.id ? (
               'Current Plan'
             ) : isUpdate ? (
-              'Update'
+              'Upgrade'
             ) : (
               'Buy Now'
             )
@@ -95,7 +96,6 @@ export default function PricingCard({
           <Spin />
         )}
       </Button>
-
       <div className="mt-3 text-sm text-white/90">
         <div className="py-2">This includes:</div>
         <ul>
