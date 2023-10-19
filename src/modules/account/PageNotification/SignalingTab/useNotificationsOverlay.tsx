@@ -53,7 +53,7 @@ export default function useNotificationsOverlay() {
 
   const notifyCount =
     account.data?.subscription?.object?.plan.metadata
-      .athena_daily_notifications_count ?? 0;
+      .weekly_custom_notifications_count ?? 0;
 
   return notifyCount <= 0 ? (
     <UnsubscribedOverlay />
