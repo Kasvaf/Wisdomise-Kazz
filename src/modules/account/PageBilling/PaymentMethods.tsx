@@ -9,7 +9,7 @@ export default function PaymentMethods() {
 
   return (
     <div>
-      {data?.data[0].card && (
+      {data?.data[0]?.card && (
         <>
           <h1 className="mb-4 text-base font-semibold text-white">
             Payment Methods
