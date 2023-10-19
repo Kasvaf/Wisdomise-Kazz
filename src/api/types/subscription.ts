@@ -30,6 +30,7 @@ export interface SubscriptionPlan {
     activate_fp: boolean;
     view_signal_matrix: boolean;
     athena_questions_count: number;
+    enable_signal_notifications: boolean;
     weekly_custom_notifications_count: number;
   };
   stripe_price_id: string;

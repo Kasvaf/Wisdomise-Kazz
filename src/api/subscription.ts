@@ -83,6 +83,8 @@ export function useSubscription() {
       subs?.plan.metadata.weekly_custom_notifications_count === undefined
         ? 3
         : Number(subs?.plan.metadata.weekly_custom_notifications_count),
+
+    isSignalNotificationEnable: subs?.plan.metadata.enable_signal_notifications,
   };
 }
 
