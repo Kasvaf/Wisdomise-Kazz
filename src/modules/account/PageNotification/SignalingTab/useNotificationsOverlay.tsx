@@ -53,12 +53,12 @@ export default function useNotificationsOverlay() {
 
   if (connected && account.data?.telegram_id) return null;
 
-  if (!account.data?.telegram_id) {
-    return <TelegramDisconnectedOverlay />;
-  }
-
   if (!isSignalNotificationEnable) {
     return <UnsubscribedOverlay />;
+  }
+
+  if (!account.data?.telegram_id) {
+    return <TelegramDisconnectedOverlay />;
   }
 
   return null;
