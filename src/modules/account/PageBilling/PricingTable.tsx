@@ -22,9 +22,19 @@ const TabButton: React.FC<{
   </button>
 );
 
-export default function PricingTable() {
+export interface PricingTableProps {
+  onResolve?: (result: boolean) => void;
+  isUpdate?: boolean;
+}
+
+export default function PricingTable({
+  isUpdate,
+  onResolve,
+}: PricingTableProps) {
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
   const { data, isLoading } = usePlansQuery(undefined);
+
+  const handleUpdatePlan = useCallback(() => onResolve?.(true), [onResolve]);
 
   if (isLoading) {
     return (
@@ -47,12 +57,18 @@ export default function PricingTable() {
           />
         ))}
       </div>
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
         {data?.results
           .filter(x => x.periodicity === currentPeriod)
           .map(plan => {
             return (
-              <PricingCard className="col-span-1" key={plan.key} plan={plan} />
+              <PricingCard
+                className="col-span-1"
+                key={plan.key}
+                plan={plan}
+                isUpdate={isUpdate}
+                onPlanUpdate={handleUpdatePlan}
+              />
             );
           })}
       </div>

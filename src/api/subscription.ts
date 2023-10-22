@@ -64,11 +64,14 @@ export const getBilingPortal = async () => {
 };
 
 export function useSubscription() {
-  const { data: account, isLoading } = useAccountQuery();
+  const { data: account, isLoading, refetch } = useAccountQuery();
+  const { data: plansResponse } = usePlansQuery(undefined);
   const subs = account?.subscription?.object;
   const status = subs?.status;
+  const isActive = status === 'active';
 
   return {
+    isActive,
     isLoading,
     title:
       status === 'trialing'
@@ -76,15 +79,29 @@ export function useSubscription() {
         : status === 'inactive'
         ? 'none'
         : subs?.plan.name,
-    isActive: status === 'active',
     isTrialing: status === 'trialing',
-    isCanceled: Boolean(subs?.canceled_at) || status === 'canceled',
+    isCanceled: Boolean(subs?.canceled_at) || status === 'canceled' || !status,
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     hasStripe: Boolean(account?.stripe_customer_id),
     remaining: Math.max(
       Math.round(((subs?.trial_end ?? 0) - Date.now() / 1000) / (60 * 60 * 24)),
       0,
     ),
+    currentPeriodEnd: (subs?.current_period_end ?? 0) * 1000,
+    plan: subs?.plan,
+    planName: plansResponse?.results.find(
+      plan => plan.stripe_price_id === subs?.plan.id,
+    )?.name,
+    refetch,
+
+    // default 3 is for old user it will be removed by 1 month
+    weeklyCustomNotificationCount:
+      isActive &&
+      subs?.plan.metadata.weekly_custom_notifications_count === undefined
+        ? 3
+        : Number(subs?.plan.metadata.weekly_custom_notifications_count),
+
+    isSignalNotificationEnable: subs?.plan.metadata.enable_signal_notifications,
   };
 }
 

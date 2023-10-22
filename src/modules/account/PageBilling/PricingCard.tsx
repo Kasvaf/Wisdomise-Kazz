@@ -1,23 +1,56 @@
 import { clsx } from 'clsx';
-import { Spin } from 'antd';
+import { notification, Spin } from 'antd';
+import { useCallback } from 'react';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import { useAccountQuery } from 'api';
+import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import product from './images/wisdomise-product.png';
 import { ReactComponent as Check } from './images/check.svg';
 
 interface Props {
   className?: string;
   plan: SubscriptionPlan;
+  isUpdate?: boolean;
+  onPlanUpdate: () => void;
 }
 
-export default function PricingCard({ plan, className }: Props) {
+export default function PricingCard({
+  plan,
+  className,
+  isUpdate,
+  onPlanUpdate,
+}: Props) {
   const { data: account } = useAccountQuery();
+  const { plan: userPlan } = useSubscription();
+  const mutation = useSubscriptionMutation();
+
   const stripeLink = account
     ? plan.stripe_payment_link +
       '?prefilled_email=' +
       encodeURIComponent(account.email)
     : undefined;
+
+  const handleSubmit = useCallback(() => {
+    if (isUpdate) {
+      if (plan.stripe_price_id === userPlan?.id) {
+        return;
+      }
+      void mutation.mutateAsync({ price_id: plan.stripe_price_id }).then(() => {
+        notification.success({
+          message:
+            'Your subscription updated successfully. It might take a few minutes to activate. Please reload this page after some minutes.',
+          duration: 5000,
+        });
+        onPlanUpdate();
+        return null;
+      });
+    } else {
+      if (stripeLink) {
+        window.location.href = stripeLink;
+      }
+    }
+  }, [stripeLink, isUpdate, userPlan]);
+
   return (
     <div
       className={clsx(
@@ -31,7 +64,6 @@ export default function PricingCard({ plan, className }: Props) {
         <h2 className="mb-3 text-xl">{plan.name}</h2>
         <p className="text-sm text-white/60">{plan.description}</p>
       </div>
-
       <div className="mb-4 mt-6 flex gap-2">
         <span className="text-3xl font-semibold">${plan.price}</span>
         <div className="text-xs text-white/40">
@@ -39,15 +71,34 @@ export default function PricingCard({ plan, className }: Props) {
           <div>{plan.periodicity === 'MONTHLY' ? 'month' : 'year'}</div>
         </div>
       </div>
-
       <Button
-        disabled={!plan.is_active || !stripeLink}
-        className="block !w-full !font-medium disabled:opacity-50"
-        to={stripeLink}
+        disabled={
+          !plan.is_active ||
+          !stripeLink ||
+          plan.price * 100 < (userPlan?.amount ?? 0)
+        }
+        className={clsx(
+          'block !w-full !font-medium disabled:opacity-70',
+          plan.price * 100 === (userPlan?.amount ?? 0) && 'cursor-not-allowed',
+        )}
+        onClick={handleSubmit}
       >
-        {stripeLink ? plan.is_active ? 'Buy Now' : 'Available soon' : <Spin />}
+        {stripeLink ? (
+          plan.is_active ? (
+            plan.stripe_price_id === userPlan?.id ? (
+              'Current Plan'
+            ) : isUpdate ? (
+              'Upgrade'
+            ) : (
+              'Buy Now'
+            )
+          ) : (
+            'Available soon'
+          )
+        ) : (
+          <Spin />
+        )}
       </Button>
-
       <div className="mt-3 text-sm text-white/90">
         <div className="py-2">This includes:</div>
         <ul>

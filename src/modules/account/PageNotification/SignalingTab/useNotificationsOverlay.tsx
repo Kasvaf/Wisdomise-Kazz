@@ -1,5 +1,5 @@
 import { bxLock } from 'boxicons-quasar';
-import { useAccountQuery } from 'api';
+import { useAccountQuery, useSubscription } from 'api';
 import Button from 'modules/shared/Button';
 import Card from 'modules/shared/Card';
 import Icon from 'modules/shared/Icon';
@@ -49,15 +49,17 @@ const UnsubscribedOverlay = () => (
 export default function useNotificationsOverlay() {
   const account = useAccountQuery();
   const [connected] = useConnectedQueryParam();
+  const { isSignalNotificationEnable } = useSubscription();
+
   if (connected && account.data?.telegram_id) return null;
 
-  const notifyCount =
-    account.data?.subscription?.object?.plan.metadata
-      .athena_daily_notifications_count ?? 0;
+  if (!isSignalNotificationEnable) {
+    return <UnsubscribedOverlay />;
+  }
 
-  return notifyCount <= 0 ? (
-    <UnsubscribedOverlay />
-  ) : account.data?.telegram_id ? null : (
-    <TelegramDisconnectedOverlay />
-  );
+  if (!account.data?.telegram_id) {
+    return <TelegramDisconnectedOverlay />;
+  }
+
+  return null;
 }

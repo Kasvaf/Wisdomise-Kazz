@@ -2487,6 +2487,18 @@
     ignore "^5.1.8"
     p-map "^4.0.0"
 
+"@stripe/react-stripe-js@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-2.3.1.tgz#2b9d120238369844f35387e2de1efe2471684d51"
+  integrity sha512-vXiwcG2ZjAF4AezjP7DJ8jiwxfCWCen/X2rBhyXaKrfQ7+pwmXhsoUlKRa0eLWioY1oelOQOafauNUiwTwFHgQ==
+  dependencies:
+    prop-types "^15.7.2"
+
+"@stripe/stripe-js@^2.1.6":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-2.1.6.tgz#569b4257564a151744205e6e12037e4103de17b2"
+  integrity sha512-QSzqQIcowgap7a40f3a7oUR+59Xet/i8fp1EsnzzwxK5oPRQsCbbLQ4Cd6qM0y1pdZMonFnCrAWayWdE9Lr0iA==
+
 "@sumsub/websdk-react@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@sumsub/websdk-react/-/websdk-react-2.0.1.tgz#5884b76da87267c837da39554257edebe9ef729a"
@@ -3382,9 +3394,9 @@ camelcase@^6.2.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001449, caniuse-lite@^1.0.30001464:
-  version "1.0.30001472"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001472.tgz"
-  integrity sha512-xWC/0+hHHQgj3/vrKYY0AAzeIUgr7L9wlELIcAvZdDUHlhL/kNxMdnQLOSOQfP8R51ZzPhmHdyMkI0MMpmxCfg==
+  version "1.0.30001546"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001546.tgz"
+  integrity sha512-zvtSJwuQFpewSyRrI3AsftF6rM0X80mZkChIt1spBGEvRglCrjTniXvinc8JKRoqTwXAgvqTImaN9igfSMtUBw==
 
 center-align@^0.1.1:
   version "0.1.3"

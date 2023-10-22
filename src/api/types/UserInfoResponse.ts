@@ -21,6 +21,7 @@ export interface Account {
   subscription?: Subscription;
   referred_users_count: number;
   active_referred_users_count: number;
+  daily_magic_enabled: boolean;
   wisdomise_verification_status:
     | 'UNVERIFIED'
     | 'SET_CALENDLY_MEETING'

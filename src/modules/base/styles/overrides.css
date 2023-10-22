@@ -15,8 +15,78 @@
   }
 }
 
+.ant-modal {
+  color: white;
+}
+
 .ant-progress-inner {
   border-radius: 0;
+}
+
+.ant-table {
+  @apply rounded-2xl p-4 !font-poppins !text-white mobile:!min-h-full;
+  min-height: 248px;
+  background: rgba(255, 255, 255, 0.05) !important;
+
+  .ant-table-header {
+    @apply mb-2;
+  }
+}
+
+.ant-table-thead .ant-table-cell {
+  @apply !border-white/10 p-0 pb-4 text-xs !text-white/80;
+  background: transparent !important;
+
+  &:before {
+    /*@apply !bg-transparent;*/
+    background: transparent !important;
+  }
+}
+
+.ant-table-thead .ant-table-cell-scrollbar {
+  @apply !shadow-none;
+}
+
+.ant-table-row {
+  .ant-table-cell {
+    @apply !border-none px-0 py-2 text-xs font-medium;
+  }
+
+  &:last-child .ant-table-cell {
+    @apply pb-0;
+  }
+
+  &:hover > .ant-table-cell {
+    @apply !bg-transparent;
+    background: transparent !important;
+  }
+}
+
+/**::-webkit-scrollbar {*/
+/*  width: 4px;*/
+/*}*/
+
+/**::-webkit-scrollbar-track {*/
+/*  background: transparent;*/
+/*}*/
+
+/**::-webkit-scrollbar-thumb {*/
+/*  background-color: white;*/
+/*  border-radius: 10px;*/
+/*  border: 8px solid transparent;*/
+/*}*/
+
+.ant-table-placeholder {
+  @apply !bg-transparent;
+  background: transparent !important;
+
+  .ant-table-cell {
+    @apply border-b-0;
+
+    .ant-empty-description {
+      @apply text-white/80;
+    }
+  }
 }
 
 /* ------------------------------------------------- */
@@ -187,6 +257,25 @@
   }
 }
 
+/* ------------------------------------------------- */
+.ant-tabs {
+  @apply text-white/40;
+}
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply text-white;
+}
+.ant-tabs-top > .ant-tabs-nav::before {
+  @apply border-white/20;
+}
+.ant-tabs .ant-tabs-ink-bar {
+  @apply bg-white;
+}
+.ant-tabs .ant-tabs-tab {
+  @apply text-lg;
+}
+.ant-tabs .ant-tabs-tab:hover {
+  @apply text-white/60;
+}
 /* ------------------------------------------------- */
 /* ------------------------------------------------- */
 
