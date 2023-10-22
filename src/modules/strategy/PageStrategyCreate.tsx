@@ -1,13 +1,39 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { useCreateStrategyMutation } from 'api';
+import { unwrapErrorMessage } from 'utils/error';
 import PageWrapper from 'modules/base/PageWrapper';
+import MarketSelector from 'modules/account/MarketSelector';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
-import MarketSelector from 'modules/account/MarketSelector';
 import TitleHint from './TitleHint';
 
 export default function PageStrategyCreate() {
+  const [showErrors, setShowErrors] = useState(false);
+  const [name, setName] = useState('');
   const [market, setMarket] = useState('SPOT');
+  const [tags, setTags] = useState('');
+
+  const { mutateAsync, isLoading } = useCreateStrategyMutation();
+  const navigate = useNavigate();
+
+  const onCreateHandler = useCallback(async () => {
+    setShowErrors(true);
+    if (!name) return;
+
+    try {
+      const { key } = await mutateAsync({
+        name,
+        market_name: market as any,
+        tags: tags.split(/[\s,]+/).filter(Boolean),
+      });
+      navigate(`app/strategy/${key}`);
+    } catch (error) {
+      notification.error({ message: unwrapErrorMessage(error) });
+    }
+  }, [mutateAsync, navigate, market, name, tags]);
 
   return (
     <PageWrapper>
@@ -22,8 +48,10 @@ export default function PageStrategyCreate() {
           <div className="mt-4 flex max-w-xl gap-6">
             <TextBox
               placeholder="Strategy Name"
-              value=""
               className="basis-2/3"
+              value={name}
+              onChange={setName}
+              error={showErrors && !name && 'This field is required.'}
             />
 
             <MarketSelector
@@ -43,14 +71,17 @@ export default function PageStrategyCreate() {
           <div className="mt-4 flex max-w-xl gap-6">
             <TextBox
               placeholder="Strategy tags"
-              value=""
               className="basis-2/3"
+              value={tags}
+              onChange={setTags}
             />
           </div>
         </section>
 
         <section className="mt-12">
-          <Button>Create Strategy</Button>
+          <Button onClick={onCreateHandler} loading={isLoading}>
+            Create Strategy
+          </Button>
         </section>
       </Card>
     </PageWrapper>
