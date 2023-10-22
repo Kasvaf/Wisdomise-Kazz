@@ -35,7 +35,6 @@ export interface SubscriptionPlan {
     weekly_custom_notifications_count: number;
   };
   stripe_price_id: string;
-  id: string;
   amount: number;
 }
 
