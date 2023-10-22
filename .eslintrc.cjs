@@ -56,6 +56,8 @@ module.exports = {
   },
   rules: {
     // 'complexity': ['error', 11],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
 
     'quotes': ['error', 'single', { avoidEscape: true }],
 
@@ -163,5 +165,11 @@ module.exports = {
     ],
 
     'tailwindcss/no-custom-classname': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };

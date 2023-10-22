@@ -5,9 +5,7 @@ import {
   useCallback,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from 'modules/auth/authHandlers';
 import {
-  JWT_TOKEN_KEY,
   AFTER_LOGIN_KEY,
   REDIRECT_APP_KEY,
   REMOTE_LOGIN_KEY,
@@ -21,7 +19,7 @@ function replaceLocation(url: string) {
   sessionStorage.removeItem(AFTER_LOGIN_KEY);
   sessionStorage.removeItem(REDIRECT_APP_KEY);
   sessionStorage.removeItem(REMOTE_LOGIN_KEY);
-  window.location.replace(url);
+  window.location.replace(decodeURIComponent(url));
 }
 
 export default function AuthGuard({ children }: PropsWithChildren) {
@@ -78,10 +76,6 @@ export default function AuthGuard({ children }: PropsWithChildren) {
       }
     }
   }, [loading, account, appsInfo, navigate, handleAppRedirect, redirectLogin]);
-
-  if (!localStorage.getItem(JWT_TOKEN_KEY)) {
-    login();
-  }
 
   return loading ? <Splash /> : <>{children}</>;
 }

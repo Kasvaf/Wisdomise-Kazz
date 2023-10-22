@@ -17,7 +17,7 @@ const UserDropdown = () => {
     <div className="flex cursor-pointer items-center justify-start gap-3">
       <div>
         <p className="inline-block h-10 w-10 self-start rounded-full bg-white/5 text-center text-xl leading-10 text-white">
-          {nickname?.charAt(0).toLocaleUpperCase()}
+          {(nickname || email)?.charAt(0).toLocaleUpperCase()}
         </p>
       </div>
 
@@ -70,7 +70,7 @@ const UserDropdown = () => {
           <div className="flex cursor-pointer items-center justify-start gap-3">
             <div>
               <p className="inline-block h-10 w-10 self-start rounded-full bg-white/5 text-center text-xl leading-10 text-white">
-                {nickname?.charAt(0).toLocaleUpperCase()}
+                {(nickname || email)?.charAt(0).toLocaleUpperCase()}
               </p>
             </div>
 
