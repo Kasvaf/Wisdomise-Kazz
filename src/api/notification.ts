@@ -65,20 +65,28 @@ export const useDeleteSignalMutation = () => {
  * ********************** Athena Daily **************************
  */
 export const usePredefinedPromptsQuery = () =>
-  useQuery(['predefinedPrompts'], async () => {
-    const { data } = await axios.get(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/predefined-prompts`,
-    );
-    return data.results as Array<{ key: string; question: string }>;
-  });
+  useQuery(
+    ['predefinedPrompts'],
+    async () => {
+      const { data } = await axios.get(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/predefined-prompts`,
+      );
+      return data.results as Array<{ key: string; question: string }>;
+    },
+    { staleTime: Number.POSITIVE_INFINITY },
+  );
 
 export const useSuggestedPromptsQuery = () =>
-  useQuery(['suggestedPrompts'], async () => {
-    const { data } = await axios.get(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/suggested-prompts`,
-    );
-    return data.results as Array<{ key: string; question: string }>;
-  });
+  useQuery(
+    ['suggestedPrompts'],
+    async () => {
+      const { data } = await axios.get(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/suggested-prompts`,
+      );
+      return data.results as Array<{ key: string; question: string }>;
+    },
+    { staleTime: Number.POSITIVE_INFINITY },
+  );
 
 export type UserPromptsResponse = Array<{
   key: string;
@@ -87,32 +95,46 @@ export type UserPromptsResponse = Array<{
 }>;
 
 export const useUserPromptsQuery = () =>
-  useQuery(['userPrompts'], async () => {
-    const { data } = await axios.get(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/user-prompts`,
-    );
-    return data.results as UserPromptsResponse;
-  });
+  useQuery(
+    ['userPrompts'],
+    async () => {
+      const { data } = await axios.get(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/user-prompts`,
+      );
+      return data.results as UserPromptsResponse;
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+
+const useClearPrompts = () => {
+  const client = useQueryClient();
+  return async () =>
+    await Promise.all([
+      client.invalidateQueries(['userPrompts']),
+      client.invalidateQueries(['suggestedPrompts']),
+      client.invalidateQueries(['predefinedPrompts']),
+    ]);
+};
 
 export const useAddUserPromptMutation = () => {
-  const client = useQueryClient();
   return useMutation<unknown, unknown, { type: 'CUSTOM'; question: string }>(
     data =>
       axios.post(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/user-prompts`,
         data,
       ),
-    { onSuccess: () => client.invalidateQueries(['userPrompts']) },
+    { onSuccess: useClearPrompts() },
   );
 };
 
 export const useDeleteUserPromptMutation = () => {
-  const client = useQueryClient();
   return useMutation<unknown, unknown, string>(
     key =>
       axios.delete(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/user-prompts/${key}`,
       ),
-    { onSuccess: () => client.invalidateQueries(['userPrompts']) },
+    { onSuccess: useClearPrompts() },
   );
 };

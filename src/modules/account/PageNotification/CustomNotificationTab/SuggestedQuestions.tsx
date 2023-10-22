@@ -1,14 +1,38 @@
-import { clsx } from 'clsx';
+import { useCallback } from 'react';
+import { bxPlus } from 'boxicons-quasar';
 import {
   useSuggestedPromptsQuery,
   useUserPromptsQuery,
 } from 'api/notification';
-import plusIconSrc from './icons/plus.svg';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 
 interface Props {
   onAdd: (question: string) => void;
+  isLoading: boolean;
 }
-export default function SuggestedQuestions({ onAdd }: Props) {
+
+const SuggestedQuestionItem: React.FC<{
+  question: string;
+  onAdd: (question: string) => void;
+  disabled: boolean;
+}> = ({ question, onAdd, disabled }) => {
+  return (
+    <Button
+      className="!px-4"
+      variant="secondary"
+      onClick={useCallback(() => onAdd(question), [question, onAdd])}
+      disabled={disabled}
+    >
+      <div className="flex grow items-center justify-between gap-2">
+        <span className="font-semibold">{question}</span>
+        <Icon name={bxPlus} size={18} />
+      </div>
+    </Button>
+  );
+};
+
+const SuggestedQuestions: React.FC<Props> = ({ onAdd, isLoading }) => {
   const userPrompts = useUserPromptsQuery();
   const suggestedPrompts = useSuggestedPromptsQuery();
 
@@ -28,21 +52,16 @@ export default function SuggestedQuestions({ onAdd }: Props) {
       <p className="my-3 font-medium text-white">Suggested weekly prompts</p>
       <div className="flex w-full flex-wrap gap-3">
         {questions.map(item => (
-          <div
+          <SuggestedQuestionItem
             key={item.key}
-            className={clsx(
-              'flex w-fit items-center gap-3 rounded-3xl border border-white/40  p-4 text-xs text-white transition-opacity',
-            )}
-          >
-            {item.question}
-            <img
-              src={plusIconSrc}
-              className="cursor-pointer"
-              onClick={() => onAdd(item.question)}
-            />
-          </div>
+            onAdd={onAdd}
+            question={item.question}
+            disabled={isLoading}
+          />
         ))}
       </div>
     </div>
   );
-}
+};
+
+export default SuggestedQuestions;

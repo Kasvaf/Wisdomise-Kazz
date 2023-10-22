@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
+import { useCallback } from 'react';
 import { useDeleteUserPromptMutation } from 'api/notification';
 import type { UserPromptsResponse } from 'api/notification';
-import removeIconSrc from './icons/remove.svg';
+import removeIconSrc from '../icons/remove.svg';
 
 interface Props {
   item: UserPromptsResponse[number];
@@ -10,9 +11,9 @@ interface Props {
 export default function QuestionItem({ item }: Props) {
   const deleteUserPromptMutation = useDeleteUserPromptMutation();
 
-  const onDeleteQuestion = (key: string) => {
-    deleteUserPromptMutation.mutate(key);
-  };
+  const onDeleteQuestion = useCallback(() => {
+    deleteUserPromptMutation.mutate(item.key);
+  }, [deleteUserPromptMutation, item.key]);
 
   return (
     <div
@@ -26,7 +27,7 @@ export default function QuestionItem({ item }: Props) {
       <img
         src={removeIconSrc}
         className="cursor-pointer"
-        onClick={() => onDeleteQuestion(item.key)}
+        onClick={onDeleteQuestion}
       />
     </div>
   );

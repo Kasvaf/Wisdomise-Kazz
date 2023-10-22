@@ -6,7 +6,6 @@ import { type Invoice } from 'modules/account/models';
 
 export default function Invoices() {
   const { data } = useInvoicesQuery();
-  console.log(data);
 
   const columns = useMemo<Array<ColumnType<Invoice>>>(
     () => [

@@ -56,6 +56,8 @@ module.exports = {
   },
   rules: {
     // 'complexity': ['error', 11],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
 
     'quotes': ['error', 'single', { avoidEscape: true }],
 
@@ -79,7 +81,6 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'error',
     'react/jsx-no-bind': 'error',
-    'react/jsx-no-bind': ['error', { allowArrowFunctions: true }],
 
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/promise-function-async': 'off',
@@ -131,7 +132,7 @@ module.exports = {
     'import/max-dependencies': [
       'error',
       {
-        max: 20,
+        max: 11,
         ignoreTypeImports: true,
       },
     ],

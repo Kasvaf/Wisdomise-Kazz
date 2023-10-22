@@ -12,7 +12,6 @@ const UserDropdown = () => {
   const { data: account } = useAccountQuery();
   const email = account?.email;
   const nickname = account?.nickname;
-  console.log(email, nickname);
 
   const button = (
     <div className="flex cursor-pointer items-center justify-start gap-3">
