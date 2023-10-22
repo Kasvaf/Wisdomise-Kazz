@@ -77,5 +77,15 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     }
   }, [loading, account, appsInfo, navigate, handleAppRedirect, redirectLogin]);
 
+  const email = account?.email;
+  useEffect(() => {
+    if (email) {
+      (window as any).analytics.identify(email, {
+        userId: email,
+        email,
+      });
+    }
+  }, [email]);
+
   return loading ? <Splash /> : <>{children}</>;
 }
