@@ -1,4 +1,4 @@
-import { useFpiPositionHistory } from 'api/fpi';
+import { useStrategyHistoryQuery } from 'api';
 import PositionsTimeline from 'modules/strategy/PositionsTimeline';
 import useRangeSelector from 'modules/strategy/PositionsTimeline/useRangeSelector';
 
@@ -11,9 +11,8 @@ const CockpitTimeline: React.FC<Props> = ({ strategyId, className }) => {
   const ranger = useRangeSelector();
   const { range } = ranger;
 
-  // TODO: use strategy-cockpit api
-  const history = useFpiPositionHistory({
-    fpiKey: strategyId,
+  const history = useStrategyHistoryQuery({
+    strategyKey: strategyId,
     start_datatime: range.start.toISOString(),
     end_datetime: range.end.toISOString(),
   });

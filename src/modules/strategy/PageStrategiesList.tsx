@@ -32,7 +32,9 @@ export default function PageStrategiesList() {
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="flex flex-col justify-between rounded-md bg-black/20 p-3">
                   <div className="text-sm">Active positions</div>
-                  <div className="text-end text-2xl">{s.open_positions}</div>
+                  <div className="text-end text-2xl">
+                    {s.open_positions ?? 0}
+                  </div>
                 </div>
 
                 <div className="flex flex-col justify-between rounded-md bg-black/20 p-3">
@@ -41,7 +43,7 @@ export default function PageStrategiesList() {
                     <div className="text-xs text-white/40">Last week</div>
                   </div>
                   <div className="text-end text-2xl">
-                    {s.last_week_positions}
+                    {s.last_week_positions ?? 0}
                   </div>
                 </div>
               </div>

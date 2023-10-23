@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
-import { useFpiPositionHistory } from 'api/fpi';
+import { useStrategyHistoryQuery } from 'api';
 import Pager from 'shared/Pager';
 import Spinner from 'shared/Spinner';
 import PositionsTable from 'modules/strategy/PositionsTable';
@@ -12,9 +12,8 @@ const CockpitPositionHistory: React.FC<{
 }> = ({ strategyId, className }) => {
   const [page, setPage] = useState(1);
 
-  // TODO: use strategy-cockpit api
-  const history = useFpiPositionHistory({
-    fpiKey: strategyId,
+  const history = useStrategyHistoryQuery({
+    strategyKey: strategyId,
     offset: (page - 1) * PAGE_SIZE,
     limit: PAGE_SIZE,
   });
