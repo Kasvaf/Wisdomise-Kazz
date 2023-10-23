@@ -9,10 +9,10 @@ import CoinsIcons from 'shared/CoinsIcons';
 import TitleHint from './TitleHint';
 
 export default function PageStrategiesList() {
-  const { data } = useStrategiesQuery();
+  const { data, isLoading } = useStrategiesQuery();
 
   return (
-    <PageWrapper>
+    <PageWrapper loading={isLoading}>
       <h1 className="mb-8 text-xl font-semibold">Strategy Builder</h1>
 
       <div className="grid grid-cols-3 gap-4">
