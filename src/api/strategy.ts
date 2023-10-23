@@ -130,7 +130,7 @@ export const useCreateStrategyEntangledFPI = () => {
     { strategyKey: string; externalAccount?: string }
   >(async ({ strategyKey, externalAccount }) => {
     const { data } = await axios.post<StrategyHistory>(
-      `strategy/strategies/${strategyKey}/entangled_fpi`,
+      `strategy/strategies/${strategyKey}/create_entangled_fpi`,
       externalAccount && { external_account: externalAccount },
     );
     await queryClient.invalidateQueries(['strategies']);
