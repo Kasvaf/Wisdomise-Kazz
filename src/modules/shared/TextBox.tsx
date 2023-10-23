@@ -9,6 +9,7 @@ interface Props {
   hint?: string;
   filter?: (v: string) => string;
   onChange?: (item: string) => void;
+  onBlur?: () => void;
   disabled?: boolean;
   suffix?: string;
   className?: string;
@@ -24,6 +25,7 @@ const TextBox: FC<Props> = ({
   hint,
   filter = v => v,
   onChange,
+  onBlur,
   disabled = false,
   suffix,
   className,
@@ -58,6 +60,7 @@ const TextBox: FC<Props> = ({
           )}
           value={value}
           onInput={changeHandler}
+          onBlur={onBlur}
           disabled={disabled}
           placeholder={placeholder}
         />

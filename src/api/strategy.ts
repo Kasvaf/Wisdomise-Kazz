@@ -31,6 +31,26 @@ interface StrategyHistory {
   historical_positions: FpiPosition[];
 }
 
+export interface StrategyAsset {
+  share: number;
+  asset: {
+    display_name: string;
+    name: string;
+    symbol: string;
+  };
+}
+export interface StrategyData {
+  key: string;
+  is_active: boolean;
+  has_active_entangled_fpi?: boolean;
+  market_name: MarketTypes;
+  name: string;
+  tags: string[];
+  strategy_id: string;
+  secret_key: string;
+  assets: StrategyAsset[];
+}
+
 export const useStrategiesQuery = () =>
   useQuery(
     ['strategies'],
@@ -45,16 +65,21 @@ export const useStrategiesQuery = () =>
     },
   );
 
-interface StrategyData {
-  key: string;
-  is_active: boolean;
-  has_active_entangled_fpi?: boolean;
-  market_name: MarketTypes;
-  name: string;
-  tags: string[];
-  strategy_id: string;
-  secret_key: string;
-}
+export const useStrategyQuery = (strategyKey?: string) =>
+  useQuery(
+    ['strategy', strategyKey],
+    async () => {
+      if (!strategyKey) throw new Error('unexpected');
+      const { data } = await axios.get<StrategyData>(
+        `strategy/strategies/${strategyKey}`,
+      );
+      return data;
+    },
+    {
+      enabled: strategyKey != null,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
 
 export const useCreateStrategyMutation = () => {
   const queryClient = useQueryClient();
@@ -78,6 +103,25 @@ export const useCreateStrategyMutation = () => {
   );
 };
 
+export const useUpdateStrategyMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    StrategyData,
+    unknown,
+    { key: string; name: string; tags: string[]; assets: StrategyAsset[] }
+  >(async ({ key, ...params }) => {
+    const { data } = await axios.patch<StrategyData>(
+      `/strategy/strategies/${key}`,
+      params,
+    );
+    await queryClient.invalidateQueries(['strategies']);
+    await queryClient.invalidateQueries(['strategy', key]);
+    return data;
+  });
+};
+
+// ========================================================================
+
 export const useCreateStrategyEntangledFPI = () => {
   const queryClient = useQueryClient();
   return useMutation<
@@ -94,22 +138,6 @@ export const useCreateStrategyEntangledFPI = () => {
     return data;
   });
 };
-
-export const useStrategyQuery = (strategyKey?: string) =>
-  useQuery(
-    ['strategy', strategyKey],
-    async () => {
-      if (!strategyKey) throw new Error('unexpected');
-      const { data } = await axios.get<StrategyData>(
-        `strategy/strategies/${strategyKey}`,
-      );
-      return data;
-    },
-    {
-      enabled: strategyKey != null,
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
 
 const useStrategyHistoryFullQuery = (strategyKey?: string) =>
   useQuery(

@@ -3,16 +3,12 @@ import { bxPlus, bxX } from 'boxicons-quasar';
 import Button from 'modules/shared/Button';
 import Icon from 'modules/shared/Icon';
 import PairInfo from 'modules/shared/PairInfo';
+import { type StrategyAsset } from 'api';
 import TitleHint from '../../TitleHint';
 
-interface AssetBinding {
-  asset: string;
-  share: number;
-}
-
 interface Props {
-  value: AssetBinding[];
-  onChange?: (assets: AssetBinding[]) => unknown;
+  value: StrategyAsset[];
+  onChange?: (assets: StrategyAsset[]) => unknown;
   className?: string;
 }
 
@@ -33,10 +29,14 @@ const PartAssets: React.FC<Props> = ({ value, className }) => {
       <div className="mt-6 grid grid-cols-4 gap-6">
         {value.map(ab => (
           <div
-            key={ab.asset}
+            key={ab.asset.name}
             className="flex items-center justify-between rounded-lg bg-black/20 p-4"
           >
-            <PairInfo base={ab.asset} quote="USDT" title="Bitcoin" />
+            <PairInfo
+              base={ab.asset.symbol}
+              quote={ab.asset.name.split('/')[1]}
+              title="Bitcoin"
+            />
 
             <div className="flex items-center">
               <input

@@ -29,7 +29,7 @@ export default function PageStrategyCreate() {
         market_name: market as any,
         tags: tags.split(/[\s,]+/).filter(Boolean),
       });
-      navigate(`app/strategy/${key}`);
+      navigate(`/app/strategy/${key}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
