@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { useStrategiesQuery } from 'api';
+import { useMyStrategiesQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import Icon from 'shared/Icon';
 import Card from 'shared/Card';
@@ -9,14 +9,14 @@ import CoinsIcons from 'shared/CoinsIcons';
 import TitleHint from './TitleHint';
 
 export default function PageStrategiesList() {
-  const { data, isLoading } = useStrategiesQuery();
+  const { data, isLoading } = useMyStrategiesQuery();
 
   return (
     <PageWrapper loading={isLoading}>
       <h1 className="mb-8 text-xl font-semibold">Strategy Builder</h1>
 
       <div className="grid grid-cols-3 gap-4">
-        {data?.results.map(s => (
+        {data?.map(s => (
           <NavLink key={s.key} to={`/app/strategy/${s.key}`}>
             <Card className="cursor-pointer !px-6 !py-4 hover:bg-white/10">
               <TitleHint title={s.name} />

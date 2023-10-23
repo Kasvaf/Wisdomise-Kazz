@@ -51,11 +51,11 @@ export interface StrategyData {
   assets: StrategyAsset[];
 }
 
-export const useStrategiesQuery = () =>
+export const useMyStrategiesQuery = () =>
   useQuery(
     ['strategies'],
     async () => {
-      const { data } = await axios.get<{ results: StrategyListItem[] }>(
+      const { data } = await axios.get<StrategyListItem[]>(
         '/strategy/strategies',
       );
       return data;
