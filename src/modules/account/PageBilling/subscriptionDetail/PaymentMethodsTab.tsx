@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
-import { usePaymentMethodsQuery } from 'api';
+import { useStripePaymentMethodsQuery } from 'api';
 import Button from 'shared/Button';
 
-export default function PaymentMethods() {
-  const { data } = usePaymentMethodsQuery();
+export default function PaymentMethodsTab() {
   const navigate = useNavigate();
+  const { data } = useStripePaymentMethodsQuery();
 
   return (
     <div>
@@ -25,7 +25,7 @@ export default function PaymentMethods() {
         className="mt-4"
         onClick={useCallback(() => {
           navigate('/account/billing/change-payment-method');
-        }, [])}
+        }, [navigate])}
       >
         Change payment method
       </Button>

@@ -58,7 +58,7 @@ module.exports = {
       poppins: ['poppins', ...defaultTheme.fontFamily.sans],
     },
   },
-  plugins: [animationDelay, twElements, typography],
+  plugins: [animationDelay, twElements, typography, 'tailwindcss/nesting'],
   experimental: {
     applyComplexClasses: true,
   },

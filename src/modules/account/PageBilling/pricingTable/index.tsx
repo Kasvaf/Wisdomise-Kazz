@@ -31,8 +31,8 @@ export default function PricingTable({
   isUpdate,
   onResolve,
 }: PricingTableProps) {
+  const { data, isLoading } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
-  const { data, isLoading } = usePlansQuery(undefined);
 
   const handleUpdatePlan = useCallback(() => onResolve?.(true), [onResolve]);
 
@@ -60,17 +60,15 @@ export default function PricingTable({
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
         {data?.results
           .filter(x => x.periodicity === currentPeriod)
-          .map(plan => {
-            return (
-              <PricingCard
-                className="col-span-1"
-                key={plan.key}
-                plan={plan}
-                isUpdate={isUpdate}
-                onPlanUpdate={handleUpdatePlan}
-              />
-            );
-          })}
+          .map(plan => (
+            <PricingCard
+              plan={plan}
+              key={plan.key}
+              isUpdate={isUpdate}
+              className="col-span-1"
+              onPlanUpdate={handleUpdatePlan}
+            />
+          ))}
       </div>
     </div>
   );

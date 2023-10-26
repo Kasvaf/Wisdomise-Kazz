@@ -1,20 +1,19 @@
 import type React from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { Modal, type ModalProps } from 'antd';
+import { clsx } from 'clsx';
 
-const noop = (_val?: unknown) => {
-  //
-};
+interface ModalConfigs extends ModalProps {
+  fullscreen?: boolean;
+}
 
-function useModal<T extends Record<string, any>>(
-  ModalContent: React.FC<T>,
-  config?: ModalProps,
-): [JSX.Element, (p: T) => Promise<unknown>] {
-  const [open, setOpen] = useState(false);
+function useModal<T>(ModalContent: React.FC<T>, config?: ModalConfigs) {
+  const props = useRef<Omit<T, 'onResolve'>>();
   const resolveHandler = useRef(noop);
-  const props = useRef<T | undefined>();
+  const [open, setOpen] = useState(false);
 
   const closeHandler = useCallback(() => resolveHandler.current(), []);
+
   const Component = useMemo(() => {
     if (!props.current) return <></>;
     return (
@@ -23,14 +22,20 @@ function useModal<T extends Record<string, any>>(
         footer={false}
         onCancel={closeHandler}
         width={500}
+        wrapClassName={clsx(
+          config?.fullscreen && 'fullscreen', // styles in override.css
+        )}
         {...config}
       >
-        <ModalContent {...props.current} onResolve={resolveHandler.current} />
+        <ModalContent
+          {...(props.current as T)}
+          onResolve={resolveHandler.current}
+        />
       </Modal>
     );
   }, [ModalContent, open, closeHandler, config]);
 
-  const update = useCallback((p: T) => {
+  const update = useCallback((p: Omit<T, 'onResolve'>) => {
     props.current = p;
     setOpen(true);
     return new Promise(resolve => {
@@ -41,7 +46,11 @@ function useModal<T extends Record<string, any>>(
     });
   }, []);
 
-  return [Component, update];
+  return [Component, update] as const;
 }
+
+const noop = (_val?: unknown) => {
+  //
+};
 
 export default useModal;

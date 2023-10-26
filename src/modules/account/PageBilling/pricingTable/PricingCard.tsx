@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
-import { notification, Spin } from 'antd';
-import { useCallback } from 'react';
+import { notification } from 'antd';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
-import product from './images/wisdomise-product.png';
-import { ReactComponent as Check } from './images/check.svg';
+import useModal from 'modules/shared/useModal';
+import product from '../images/wisdomise-product.png';
+import { ReactComponent as Check } from '../images/check.svg';
+import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 
 interface Props {
   className?: string;
@@ -16,21 +17,20 @@ interface Props {
 
 export default function PricingCard({
   plan,
-  className,
   isUpdate,
+  className,
   onPlanUpdate,
 }: Props) {
+  const mutation = useSubscriptionMutation();
   const { data: account } = useAccountQuery();
   const { plan: userPlan } = useSubscription();
-  const mutation = useSubscriptionMutation();
+  const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
+    SubscriptionMethodModalContent,
+    { centered: true },
+  );
+  const isPlanCheaperThanUserPlan = plan.price * 100 < (userPlan?.amount ?? 0);
 
-  const stripeLink = account
-    ? plan.stripe_payment_link +
-      '?prefilled_email=' +
-      encodeURIComponent(account.email)
-    : undefined;
-
-  const handleSubmit = useCallback(() => {
+  const handleFiatPayment = () => {
     if (isUpdate) {
       if (plan.stripe_price_id === userPlan?.id) {
         return;
@@ -45,11 +45,16 @@ export default function PricingCard({
         return null;
       });
     } else {
-      if (stripeLink) {
-        window.location.href = stripeLink;
-      }
+      window.location.href =
+        plan.stripe_payment_link +
+        '?prefilled_email=' +
+        encodeURIComponent(account?.email || '');
     }
-  }, [stripeLink, isUpdate, userPlan]);
+  };
+
+  const onClick = () => {
+    void openSubscriptionMethodModal({ onFiatClick: handleFiatPayment, plan });
+  };
 
   return (
     <div
@@ -72,46 +77,33 @@ export default function PricingCard({
         </div>
       </div>
       <Button
-        disabled={
-          !plan.is_active ||
-          !stripeLink ||
-          plan.price * 100 < (userPlan?.amount ?? 0)
-        }
+        onClick={onClick}
+        disabled={!plan.is_active || isPlanCheaperThanUserPlan}
         className={clsx(
           'block !w-full !font-medium disabled:opacity-70',
-          plan.price * 100 === (userPlan?.amount ?? 0) && 'cursor-not-allowed',
+          isPlanCheaperThanUserPlan && 'cursor-not-allowed',
         )}
-        onClick={handleSubmit}
       >
-        {stripeLink ? (
-          plan.is_active ? (
-            plan.stripe_price_id === userPlan?.id ? (
-              'Current Plan'
-            ) : isUpdate ? (
-              'Upgrade'
-            ) : (
-              'Buy Now'
-            )
-          ) : (
-            'Available soon'
-          )
-        ) : (
-          <Spin />
-        )}
+        {plan.is_active
+          ? plan.stripe_price_id === userPlan?.id
+            ? 'Current Plan'
+            : isUpdate
+            ? 'Upgrade'
+            : 'Buy Now'
+          : 'Available soon'}
       </Button>
       <div className="mt-3 text-sm text-white/90">
         <div className="py-2">This includes:</div>
         <ul>
-          {plan.features.map(feature => {
-            return (
-              <li className="mb-3 flex gap-3" key={feature}>
-                <Check className="mt-1 h-4 w-4 shrink-0" />
-                {feature}
-              </li>
-            );
-          })}
+          {plan.features.map(feature => (
+            <li className="mb-3 flex gap-3" key={feature}>
+              <Check className="mt-1 h-4 w-4 shrink-0" />
+              {feature}
+            </li>
+          ))}
         </ul>
       </div>
+      {subscriptionMethodModal}
     </div>
   );
 }

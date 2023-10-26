@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useSubscription } from 'api';
+import { useSubscription, useUserFirstPaymentMethod } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
+import {
+  AFTER_CHECKOUT_KEY,
+  SUCCESSFUL_CHECKOUT_KEY,
+} from 'modules/auth/constants';
 import useModalSuccessful from './useModalSuccessful';
-import SubscriptionDetail from './SubscriptionDetail';
-import PricingTable from './PricingTable';
-import { AFTER_CHECKOUT_KEY, SUCCESSFUL_CHECKOUT_KEY } from './constant';
+import SubscriptionDetail from './subscriptionDetail';
+import PricingTable from './pricingTable';
 
 export default function PageBilling() {
-  const { hasStripe, isActive, isLoading } = useSubscription();
-  const [searchParams] = useSearchParams();
-  const [ModalSuccessful, showModalSuccessful] = useModalSuccessful({});
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { isActive, isLoading } = useSubscription();
   const [successShown, setSuccessShow] = useState(false);
+  const firstPaymentMethod = useUserFirstPaymentMethod();
+  const [ModalSuccessful, showModalSuccessful] = useModalSuccessful({});
 
   useEffect(() => {
     const afterCheckout = searchParams.get(AFTER_CHECKOUT_KEY);
@@ -32,7 +36,11 @@ export default function PageBilling() {
 
   return (
     <PageWrapper loading={isLoading}>
-      {hasStripe ? <SubscriptionDetail /> : <PricingTable />}
+      {isActive || firstPaymentMethod === 'CRYPTO' ? (
+        <SubscriptionDetail />
+      ) : (
+        <PricingTable />
+      )}
       {ModalSuccessful}
     </PageWrapper>
   );

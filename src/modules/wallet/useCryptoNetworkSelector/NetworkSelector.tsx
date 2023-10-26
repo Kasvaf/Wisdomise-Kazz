@@ -14,10 +14,10 @@ const NetworkOptionItemFn = (item: Network) => {
 };
 
 interface Props {
+  disabled?: boolean;
   networks?: Network[];
   selectedItem: Network;
-  onSelect: (net: Network) => void;
-  disabled: boolean;
+  onSelect?: (net: Network) => void;
 }
 
 const NetworkSelector: React.FC<Props> = ({

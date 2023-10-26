@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import {
-  type Invoice,
-  type PaymentMethodsResponse,
-} from 'modules/account/models';
 import { type Account } from './types/UserInfoResponse';
 import { type PageResponse } from './types/page';
 
@@ -125,56 +121,6 @@ export function useStripeSetupIntentQuery() {
   );
 }
 
-export function useInvoicesQuery() {
-  return useQuery(
-    ['getInvoices'],
-    async () => {
-      const { data } = await axios.get<PageResponse<Invoice>>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`,
-      );
-      return data;
-    },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-}
-
-export function usePaymentMethodsQuery() {
-  return useQuery(
-    ['getPaymentMethods'],
-    async () => {
-      const { data } = await axios.get<PaymentMethodsResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/payment-methods`,
-      );
-      return data;
-    },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-}
-
-export interface UpdateSubscriptionRequest {
-  price_id: string;
-}
-
-export function useSubscriptionMutation() {
-  return useMutation<unknown, unknown, UpdateSubscriptionRequest>(
-    ['patchSubscription'],
-    async body => {
-      const { data } = await axios.patch<
-        unknown,
-        PaymentMethodsResponse,
-        UpdateSubscriptionRequest
-      >(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/subscriptions`,
-        body,
-      );
-      return data;
-    },
-  );
-}
 export const useDailyMagicStatusMutation = () => {
   const client = useQueryClient();
   return useMutation<unknown, unknown, boolean>(

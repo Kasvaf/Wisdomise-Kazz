@@ -2,18 +2,19 @@ import { useCallback, useEffect, useState } from 'react';
 import useNow from 'utils/useNow';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
+import { AFTER_CHECKOUT_KEY } from 'modules/auth/constants';
 import { ReactComponent as CongratsBG } from './images/congrats.svg';
 import { ReactComponent as CongratsLogo } from './images/congrats-logo.svg';
-import { AFTER_CHECKOUT_KEY } from './constant';
 
-interface IProps {
+interface Props {
   onResolve?: () => void;
 }
 
 const RESEND_TIMEOUT = 10;
-function ModalSuccessful({ onResolve }: IProps) {
-  const [ttl] = useState(Date.now() + RESEND_TIMEOUT * 1000);
+
+function ModalSuccessful({ onResolve }: Props) {
   const now = useNow();
+  const [ttl] = useState(Date.now() + RESEND_TIMEOUT * 1000);
   const afterCheckoutUrl = sessionStorage.getItem(AFTER_CHECKOUT_KEY);
 
   const contHandler = useCallback(() => {
