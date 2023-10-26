@@ -6,6 +6,7 @@ import {
 } from './types/NetworksResponse';
 
 type Usage = 'depositable' | 'withdrawable';
+
 export const useMarketSymbolsQuery = (usage: Usage) =>
   useQuery<CryptosResponse['results']>(
     ['symbols', usage],

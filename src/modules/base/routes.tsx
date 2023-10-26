@@ -3,9 +3,6 @@ import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import PageRef from 'modules/account/PageRef';
 
-import Overview from 'modules/account/PageBilling/Overview';
-import Invoices from 'modules/account/PageBilling/Invoices';
-import PaymentMethods from 'modules/account/PageBilling/PaymentMethods';
 import ChangePaymentMethodPage from 'modules/account/PageBilling/ChangePaymentMethodPage';
 import Container from './Container';
 import PageWrapper from './PageWrapper';
@@ -84,12 +81,6 @@ const routes: RouteObject[] = [
       {
         path: 'account/billing',
         element: suspended(<PageBilling />),
-        children: [
-          { path: '', element: <Navigate to="overview" /> },
-          { path: 'overview', element: <Overview /> },
-          { path: 'invoices', element: <Invoices /> },
-          { path: 'payment-methods', element: <PaymentMethods /> },
-        ],
       },
       {
         path: 'account/billing/change-payment-method',

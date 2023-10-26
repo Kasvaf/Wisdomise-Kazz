@@ -12,7 +12,12 @@ export interface Subscription {
 
     cancel_at?: number;
     canceled_at?: number;
-    plan: SubscriptionPlan;
+    plan: {
+      id: string;
+      name: string;
+      amount: number;
+      metadata: SubscriptionPlanMetadata;
+    };
   };
 }
 
@@ -22,29 +27,18 @@ export interface SubscriptionPlan {
   is_active: boolean;
   description: string;
   price: number;
-  periodicity: PlanPeriod;
   trial_days: number;
-  features: string[];
-  stripe_payment_link: string;
-  metadata: {
-    activate_fp: boolean;
-    view_signal_matrix: boolean;
-    athena_questions_count: number;
-    enable_signal_notifications: boolean;
-    weekly_custom_notifications_count: number;
-  };
   stripe_price_id: string;
-  id: string;
-  amount: number;
+  features: string[];
+  periodicity: PlanPeriod;
+  stripe_payment_link: string;
+  metadata: SubscriptionPlanMetadata;
 }
 
-export interface SubscriptionPortal {
-  id: string;
-  object: string;
-  configuration: string;
-  created: number;
-  customer: string;
-  livemode: boolean;
-  return_url: string;
-  url: string;
+interface SubscriptionPlanMetadata {
+  activate_fp: boolean;
+  view_signal_matrix: boolean;
+  athena_questions_count: number;
+  enable_signal_notifications: boolean;
+  weekly_custom_notifications_count: number;
 }

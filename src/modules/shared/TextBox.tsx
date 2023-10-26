@@ -2,17 +2,18 @@ import { clsx } from 'clsx';
 import { type ChangeEventHandler, type FC, useCallback } from 'react';
 
 interface Props {
-  type?: 'text' | 'number' | 'tel';
   label?: string;
   value: string;
-  error?: string | boolean;
   hint?: string;
-  filter?: (v: string) => string;
-  onChange?: (item: string) => void;
-  disabled?: boolean;
   suffix?: string;
   className?: string;
+  disabled?: boolean;
+  placeholder?: string;
   inputClassName?: string;
+  error?: string | boolean;
+  type?: 'text' | 'number' | 'tel';
+  filter?: (v: string) => string;
+  onChange?: (item: string) => void;
 }
 
 const TextBox: FC<Props> = ({
@@ -26,6 +27,7 @@ const TextBox: FC<Props> = ({
   disabled = false,
   suffix,
   className,
+  placeholder,
   inputClassName,
 }) => {
   const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -55,8 +57,9 @@ const TextBox: FC<Props> = ({
             inputClassName,
           )}
           value={value}
-          onInput={changeHandler}
           disabled={disabled}
+          onInput={changeHandler}
+          placeholder={placeholder}
         />
         <div className="pointer-events-none absolute right-0 top-0 flex h-full items-center pr-4">
           <span>{suffix}</span>

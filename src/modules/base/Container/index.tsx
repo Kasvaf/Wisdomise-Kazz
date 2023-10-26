@@ -25,9 +25,8 @@ const Container = () => {
   }, []);
 
   const isMobile = useIsMobile();
-  const { isTrialing, hasStripe } = useSubscription();
-  const hasBanner = isTrialing || !hasStripe;
-  const topOffsetClass = hasBanner
+  const { isTrialing } = useSubscription();
+  const topOffsetClass = isTrialing
     ? isMobile
       ? 'top-[8rem]'
       : 'top-14'
@@ -36,14 +35,14 @@ const Container = () => {
   return (
     <AuthGuard>
       <main className="mx-auto max-w-screen-2xl">
-        {hasBanner && <TrialBanner />}
+        {isTrialing && <TrialBanner />}
         <SideMenu className={topOffsetClass} />
         <Header showShadow={showShadow} className={topOffsetClass} />
         <div
           ref={mainRef}
           className={clsx(
             'ml-[17.75rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 mobile:mb-16 mobile:ml-0 mobile:h-auto',
-            hasBanner ? (isMobile ? 'pt-[8rem]' : 'pt-14') : 'pt-0',
+            isTrialing ? (isMobile ? 'pt-[8rem]' : 'pt-14') : 'pt-0',
           )}
         >
           <TransitionGroup component={null}>
