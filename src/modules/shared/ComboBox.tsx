@@ -99,7 +99,7 @@ const ComboBox: React.FC<Props> = ({
           {renderItem(selectedItem)}
         </div>
 
-        {options.length > 1 && (
+        {options.length > 1 && !disabled && (
           <div className="flex items-center rounded-full bg-white/10 p-1">
             <Icon
               name={bxChevronDown}

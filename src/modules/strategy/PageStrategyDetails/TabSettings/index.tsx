@@ -7,6 +7,7 @@ import {
   type StrategyData,
   useStrategyQuery,
   useUpdateStrategyMutation,
+  type Resolution,
 } from 'api';
 import MarketSelector from 'modules/account/MarketSelector';
 import Card from 'shared/Card';
@@ -14,6 +15,7 @@ import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import { unwrapErrorMessage } from 'utils/error';
+import ResolutionSelector from 'modules/strategy/ResolutionSelector';
 import TitleHint from '../../TitleHint';
 import PartDocs from './PartDocs';
 import PartAssets from './PartAssets';
@@ -33,6 +35,10 @@ const TabSettings = () => {
   }, []);
 
   const setName = useCallback((v: string) => update('name', v), [update]);
+  const setResolution = useCallback(
+    (v: Resolution) => update('resolution', v),
+    [update],
+  );
   const setTags = useCallback(
     (v: string) => update('tags', v.split(/[\s,]+/)),
     [update],
@@ -66,6 +72,7 @@ const TabSettings = () => {
       await mutateAsync({
         key: params.id,
         name: changes.name ?? strategy.name,
+        resolution: changes.resolution ?? strategy.resolution,
         tags: changes.tags ?? strategy.tags,
         assets: changes.assets ?? strategy.assets,
       });
@@ -102,18 +109,24 @@ const TabSettings = () => {
           Pick a name to help you identify this strategy.
         </TitleHint>
 
-        <div className="mt-4 flex max-w-xl gap-6">
+        <div className="mt-4 flex max-w-4xl gap-6">
           <TextBox
             placeholder="Strategy Name"
             value={changes.name ?? strategy.name}
             onChange={setName}
-            className="basis-2/3"
+            className="basis-3/5"
           />
 
           <MarketSelector
             selectedItem={changes.market_name ?? strategy.market_name}
-            className="basis-1/3"
+            className="basis-1/5"
             disabled
+          />
+
+          <ResolutionSelector
+            selectedItem={changes.resolution ?? strategy.resolution}
+            onSelect={setResolution}
+            className="basis-1/5"
           />
         </div>
       </section>

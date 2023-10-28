@@ -13,6 +13,8 @@ export const useSignalsQuery = () =>
     return data;
   });
 
+export type Resolution = '1m' | '3m' | '5m' | '15m' | '30m' | '1h';
+
 interface StrategyListItem {
   key: string;
   is_active: boolean;
@@ -49,6 +51,7 @@ export interface StrategyData {
   strategy_id: string;
   secret_key: string;
   assets: StrategyAsset[];
+  resolution: Resolution;
 }
 
 export const useMyStrategiesQuery = () =>
@@ -86,7 +89,12 @@ export const useCreateStrategyMutation = () => {
   return useMutation<
     StrategyData,
     unknown,
-    { name: string; market_name: MarketTypes; tags: string[] }
+    {
+      name: string;
+      market_name: MarketTypes;
+      tags: string[];
+      resolution: Resolution;
+    }
   >(
     async body => {
       const { data } = await axios.post<StrategyData>(
@@ -108,7 +116,13 @@ export const useUpdateStrategyMutation = () => {
   return useMutation<
     StrategyData,
     unknown,
-    { key: string; name: string; tags: string[]; assets: StrategyAsset[] }
+    {
+      key: string;
+      name: string;
+      tags: string[];
+      assets: StrategyAsset[];
+      resolution: Resolution;
+    }
   >(async ({ key, ...params }) => {
     const { data } = await axios.patch<StrategyData>(
       `/strategy/strategies/${key}`,

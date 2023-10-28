@@ -1,19 +1,22 @@
 import { useCallback, useState } from 'react';
 import { notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useCreateStrategyMutation } from 'api';
+import { type Resolution, useCreateStrategyMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
+import { type MarketTypes } from 'api/types/financialProduct';
 import PageWrapper from 'modules/base/PageWrapper';
 import MarketSelector from 'modules/account/MarketSelector';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import TitleHint from './TitleHint';
+import ResolutionSelector from './ResolutionSelector';
 
 export default function PageStrategyCreate() {
   const [showErrors, setShowErrors] = useState(false);
   const [name, setName] = useState('');
-  const [market, setMarket] = useState('SPOT');
+  const [market, setMarket] = useState<MarketTypes>('SPOT');
+  const [resolution, setResolution] = useState<Resolution>('1m');
   const [tags, setTags] = useState('');
 
   const { mutateAsync, isLoading } = useCreateStrategyMutation();
@@ -26,14 +29,15 @@ export default function PageStrategyCreate() {
     try {
       const { key } = await mutateAsync({
         name,
-        market_name: market as any,
+        market_name: market,
+        resolution,
         tags: tags.split(/[\s,]+/).filter(Boolean),
       });
       navigate(`/app/strategy/${key}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
-  }, [mutateAsync, navigate, market, name, tags]);
+  }, [mutateAsync, navigate, market, name, resolution, tags]);
 
   return (
     <PageWrapper>
@@ -45,10 +49,10 @@ export default function PageStrategyCreate() {
             Pick a name to help you identify this strategy.
           </TitleHint>
 
-          <div className="mt-4 flex max-w-xl gap-6">
+          <div className="mt-4 flex max-w-4xl gap-6">
             <TextBox
               placeholder="Strategy Name"
-              className="basis-2/3"
+              className="basis-3/5"
               value={name}
               onChange={setName}
               error={showErrors && !name && 'This field is required.'}
@@ -57,7 +61,13 @@ export default function PageStrategyCreate() {
             <MarketSelector
               selectedItem={market}
               onSelect={setMarket}
-              className="basis-1/3"
+              className="basis-1/5"
+            />
+
+            <ResolutionSelector
+              selectedItem={resolution}
+              onSelect={setResolution}
+              className="basis-1/5"
             />
           </div>
         </section>
