@@ -26,7 +26,7 @@ const CockpitPositionHistory: React.FC<{
           <Spinner />
         </div>
       );
-  } else {
+  } else if (history.data.total) {
     content = (
       <>
         <PositionsTable history={history.data.position_history} />
@@ -38,6 +38,8 @@ const CockpitPositionHistory: React.FC<{
         />
       </>
     );
+  } else {
+    return content;
   }
 
   return (
