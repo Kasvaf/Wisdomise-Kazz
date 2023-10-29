@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { notification } from 'antd';
+import { useCallback } from 'react';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
@@ -30,7 +31,7 @@ export default function PricingCard({
   );
   const isPlanCheaperThanUserPlan = plan.price * 100 < (userPlan?.amount ?? 0);
 
-  const handleFiatPayment = () => {
+  const handleFiatPayment = useCallback(() => {
     if (isUpdate) {
       if (plan.stripe_price_id === userPlan?.id) {
         return;
@@ -50,11 +51,19 @@ export default function PricingCard({
         '?prefilled_email=' +
         encodeURIComponent(account?.email || '');
     }
-  };
+  }, [
+    account?.email,
+    isUpdate,
+    mutation,
+    onPlanUpdate,
+    plan.stripe_payment_link,
+    plan.stripe_price_id,
+    userPlan?.id,
+  ]);
 
-  const onClick = () => {
+  const onClick = useCallback(() => {
     void openSubscriptionMethodModal({ onFiatClick: handleFiatPayment, plan });
-  };
+  }, [handleFiatPayment, openSubscriptionMethodModal, plan]);
 
   return (
     <div

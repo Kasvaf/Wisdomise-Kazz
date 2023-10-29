@@ -69,7 +69,7 @@ function ModalSuccessful({ onResolve }: Props) {
 }
 
 export default function useModalSuccessful(
-  p: Omit<IProps, 'onResolve'>,
+  p: Omit<Props, 'onResolve'>,
 ): [JSX.Element, () => Promise<boolean>] {
   const [Component, update] = useModal(ModalSuccessful, {
     width: '80ch',
