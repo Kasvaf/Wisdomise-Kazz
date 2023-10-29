@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
@@ -23,10 +24,10 @@ export default function SubscriptionMethodModal({
     { fullscreen: true },
   );
 
-  const onCryptoClick = () => {
+  const onCryptoClick = useCallback(() => {
     onResolve?.();
     void openCryptoPaymentModal({ plan });
-  };
+  }, [onResolve, openCryptoPaymentModal, plan]);
 
   return (
     <div className="flex flex-col items-center">

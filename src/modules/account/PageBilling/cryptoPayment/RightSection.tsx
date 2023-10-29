@@ -83,8 +83,9 @@ export default function RightSection({ plan, onResolve }: Props) {
 
               <Button
                 size="small"
-                className="!p-2 mobile:!py-1 mobile:!text-xs"
+                // eslint-disable-next-line react/jsx-no-bind
                 onClick={() => copy(network.key)}
+                className="!p-2 mobile:!py-1 mobile:!text-xs"
               >
                 {copiedValue ? 'Copied!' : 'Copy'}
               </Button>

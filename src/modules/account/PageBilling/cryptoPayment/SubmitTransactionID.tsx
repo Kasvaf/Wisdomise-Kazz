@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useSubmitCryptoPayment } from 'api';
 import { type Network } from 'api/types/NetworksResponse';
 import { type SubscriptionPlan } from 'api/types/subscription';
@@ -19,7 +19,7 @@ export default function SubmitTransactionID({
   const submitCryptoPayment = useSubmitCryptoPayment();
   const [transactionId, setTransactionId] = useState('');
 
-  const onClick = async () => {
+  const onClick = useCallback(async () => {
     await submitCryptoPayment.mutateAsync({
       amount_paid: plan.price,
       subscription_plan_key: plan.key,
@@ -30,7 +30,14 @@ export default function SubmitTransactionID({
       },
     });
     onSubmitSuccess();
-  };
+  }, [
+    network.name,
+    onSubmitSuccess,
+    plan.key,
+    plan.price,
+    submitCryptoPayment,
+    transactionId,
+  ]);
 
   return (
     <>
