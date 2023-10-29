@@ -33,14 +33,17 @@ interface StrategyHistory {
   historical_positions: FpiPosition[];
 }
 
+export interface Asset {
+  display_name: string;
+  name: string;
+  symbol: string;
+}
+
 export interface StrategyAsset {
   share: number;
-  asset: {
-    display_name: string;
-    name: string;
-    symbol: string;
-  };
+  asset: Asset;
 }
+
 export interface StrategyData {
   key: string;
   is_active: boolean;
@@ -133,6 +136,24 @@ export const useUpdateStrategyMutation = () => {
     return data;
   });
 };
+
+// ========================================================================
+
+export const useAllowedAssetsQuery = (strategyKey?: string) =>
+  useQuery(
+    ['allowedAssets', strategyKey],
+    async () => {
+      if (!strategyKey) throw new Error('unexpected');
+      const { data } = await axios.get<{ assets: Asset[] }>(
+        `/strategy/strategies/${strategyKey}/allowed_assets`,
+      );
+      return data.assets;
+    },
+    {
+      enabled: strategyKey != null,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
 
 // ========================================================================
 

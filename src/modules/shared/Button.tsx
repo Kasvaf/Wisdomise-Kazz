@@ -11,6 +11,7 @@ interface Props extends PropsWithChildren {
   loading?: boolean;
   variant?: 'primary' | 'alternative' | 'secondary' | 'link';
   className?: string;
+  contentClassName?: string;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<any>;
   target?: string;
@@ -31,12 +32,13 @@ const Button: React.FC<Props> = ({
   loading,
   children,
   className,
+  contentClassName,
   disabled,
   onClick,
   ...restOfProps
 }) => {
   const btnContent = (
-    <div className="flex items-center justify-center">
+    <div className={clsx('flex items-center justify-center', contentClassName)}>
       {loading && <Spin className="mr-2" />}
       {children}
     </div>

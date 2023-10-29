@@ -1,24 +1,25 @@
 /* eslint-disable import/max-dependencies */
 import { Switch, notification } from 'antd';
-import { useCallback, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   type StrategyAsset,
   type StrategyData,
+  type Resolution,
   useStrategyQuery,
   useUpdateStrategyMutation,
-  type Resolution,
 } from 'api';
+import { unwrapErrorMessage } from 'utils/error';
 import MarketSelector from 'modules/account/MarketSelector';
+import ResolutionSelector from 'modules/strategy/ResolutionSelector';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
-import { unwrapErrorMessage } from 'utils/error';
-import ResolutionSelector from 'modules/strategy/ResolutionSelector';
+import deepEqual from 'shared/deepEqual';
 import TitleHint from '../../TitleHint';
-import PartDocs from './PartDocs';
 import PartAssets from './PartAssets';
+import PartDocs from './PartDocs';
 
 const TabSettings = () => {
   const params = useParams<{ id: string }>();
@@ -56,18 +57,23 @@ const TabSettings = () => {
   );
 
   const fieldHasChanges = (field: keyof StrategyData) =>
-    changes[field] !== undefined && changes[field] !== strategy?.[field];
+    changes[field] !== undefined &&
+    !deepEqual(changes[field], strategy?.[field]);
 
   const hasChanges =
     fieldHasChanges('name') ||
     fieldHasChanges('tags') ||
     fieldHasChanges('assets');
 
+  const assets = changes.assets ?? strategy?.assets;
+  const assetsAreValid =
+    !assets?.length || assets?.reduce((a, b) => a + b.share, 0) === 100;
+
   // ------------------------------------------------------------------------
 
   const { mutateAsync, isLoading: isSaving } = useUpdateStrategyMutation();
   const saveChanges = useCallback(async () => {
-    if (!params.id || !strategy) return;
+    if (!params.id || !strategy || !assetsAreValid) return;
     try {
       await mutateAsync({
         key: params.id,
@@ -79,11 +85,18 @@ const TabSettings = () => {
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
-  }, [changes, mutateAsync, params.id, strategy]);
+  }, [changes, mutateAsync, params.id, strategy, assetsAreValid]);
 
   // ------------------------------------------------------------------------
 
-  if (!strategy || isLoading) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!params.id) {
+      navigate('/app/strategy');
+    }
+  }, [params.id, navigate]);
+
+  if (!strategy || isLoading || !params.id) {
     return (
       <div className="flex justify-center">
         <Spinner />
@@ -149,12 +162,22 @@ const TabSettings = () => {
       </section>
 
       <PartAssets
+        strategyKey={params.id}
         value={changes.assets ?? strategy.assets}
         onChange={setAssets}
+        error={
+          !(changes.assets ?? strategy.assets) ||
+          assetsAreValid ||
+          'Total of assets shares must be 100%'
+        }
       />
 
       <section className="flex justify-center gap-3">
-        <Button disabled={!hasChanges} loading={isSaving} onClick={saveChanges}>
+        <Button
+          disabled={!hasChanges || !assetsAreValid}
+          loading={isSaving}
+          onClick={saveChanges}
+        >
           Save
         </Button>
         <Button variant="secondary">Go to Cockpit</Button>
