@@ -1,29 +1,16 @@
-import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { notification } from 'antd';
-import { useCreateStrategyEntangledFPI, useStrategyQuery } from 'api';
-import { unwrapErrorMessage } from 'utils/error';
+import { useStrategyQuery } from 'api';
 import Button from 'shared/Button';
 import Spinner from 'shared/Spinner';
 import TitleHint from '../../TitleHint';
 import CockpitTimeline from './CockpitTimeline';
 import CockpitPositionHistory from './CockpitPositionHistory';
+import useRunCockpit from './useRunCockpit';
 
 const TabCockpit = () => {
   const params = useParams<{ id: string }>();
   const { data: strategy, isLoading } = useStrategyQuery(params.id);
-
-  const { mutateAsync, isLoading: isSaving } = useCreateStrategyEntangledFPI();
-  const runCockpit = useCallback(async () => {
-    if (!params.id) return;
-    try {
-      await mutateAsync({
-        strategyKey: params.id,
-      });
-    } catch (error) {
-      notification.error({ message: unwrapErrorMessage(error) });
-    }
-  }, [mutateAsync, params.id]);
+  const { runCockpit, isSaving, modals } = useRunCockpit(strategy);
 
   if (isLoading) {
     return (
@@ -51,6 +38,7 @@ const TabCockpit = () => {
           </Button>
         </div>
       )}
+      {modals}
     </div>
   );
 };
