@@ -4,6 +4,7 @@ import { type Network } from 'api/types/NetworksResponse';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'modules/shared/Button';
 import TextBox from 'modules/shared/TextBox';
+import { analytics } from 'config/segment';
 
 interface Props {
   network: Network;
@@ -29,14 +30,15 @@ export default function SubmitTransactionID({
         transaction_id: transactionId,
       },
     });
+    void analytics.track('cryptopayment_transactionid');
     onSubmitSuccess();
   }, [
-    network.name,
-    onSubmitSuccess,
     plan.key,
     plan.price,
-    submitCryptoPayment,
+    network.name,
     transactionId,
+    onSubmitSuccess,
+    submitCryptoPayment,
   ]);
 
   return (

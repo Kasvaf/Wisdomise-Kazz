@@ -1,9 +1,15 @@
 import { clsx } from 'clsx';
 import { notification } from 'antd';
 import { useCallback } from 'react';
+import { twMerge } from 'tailwind-merge';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
+import {
+  useAccountQuery,
+  useSubscription,
+  useSubscriptionMutation,
+  useUserFirstPaymentMethod,
+} from 'api';
 import useModal from 'modules/shared/useModal';
 import product from '../images/wisdomise-product.png';
 import { ReactComponent as Check } from '../images/check.svg';
@@ -25,26 +31,31 @@ export default function PricingCard({
   const mutation = useSubscriptionMutation();
   const { data: account } = useAccountQuery();
   const { plan: userPlan } = useSubscription();
+  const firstPaymentMethod = useUserFirstPaymentMethod();
   const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
     SubscriptionMethodModalContent,
     { centered: true },
   );
+
+  const hasUserThisPlan = plan.stripe_price_id === userPlan?.id;
   const isPlanCheaperThanUserPlan = plan.price * 100 < (userPlan?.amount ?? 0);
 
-  const handleFiatPayment = useCallback(() => {
+  const handleFiatPayment = useCallback(async () => {
     if (isUpdate) {
       if (plan.stripe_price_id === userPlan?.id) {
         return;
       }
-      void mutation.mutateAsync({ price_id: plan.stripe_price_id }).then(() => {
-        notification.success({
-          message:
-            'Your subscription updated successfully. It might take a few minutes to activate. Please reload this page after some minutes.',
-          duration: 5000,
+      await mutation
+        .mutateAsync({ price_id: plan.stripe_price_id })
+        .then(() => {
+          notification.success({
+            message:
+              'Your subscription updated successfully. It might take a few minutes to activate. Please reload this page after some minutes.',
+            duration: 5000,
+          });
+          onPlanUpdate();
+          return null;
         });
-        onPlanUpdate();
-        return null;
-      });
     } else {
       window.location.href =
         plan.stripe_payment_link +
@@ -52,18 +63,32 @@ export default function PricingCard({
         encodeURIComponent(account?.email || '');
     }
   }, [
-    account?.email,
     isUpdate,
     mutation,
     onPlanUpdate,
-    plan.stripe_payment_link,
-    plan.stripe_price_id,
     userPlan?.id,
+    account?.email,
+    plan.stripe_price_id,
+    plan.stripe_payment_link,
   ]);
 
   const onClick = useCallback(() => {
-    void openSubscriptionMethodModal({ onFiatClick: handleFiatPayment, plan });
-  }, [handleFiatPayment, openSubscriptionMethodModal, plan]);
+    // JUST in upgrade scenario for fiat we need this condition to not show modal,
+    // Crypto up to now does not have upgrade.
+    if (firstPaymentMethod === 'FIAT') {
+      void handleFiatPayment();
+    } else {
+      void openSubscriptionMethodModal({
+        onFiatClick: handleFiatPayment,
+        plan,
+      });
+    }
+  }, [
+    plan,
+    firstPaymentMethod,
+    handleFiatPayment,
+    openSubscriptionMethodModal,
+  ]);
 
   return (
     <div
@@ -81,20 +106,25 @@ export default function PricingCard({
       <div className="mb-4 mt-6 flex gap-2">
         <span className="text-3xl font-semibold">${plan.price}</span>
         <div className="text-xs text-white/40">
-          <div>per</div>
-          <div>{plan.periodicity === 'MONTHLY' ? 'month' : 'year'}</div>
+          <p>per</p>
+          {plan.periodicity === 'MONTHLY' ? 'month' : 'year'}
         </div>
       </div>
       <Button
         onClick={onClick}
-        disabled={!plan.is_active || isPlanCheaperThanUserPlan}
-        className={clsx(
-          'block !w-full !font-medium disabled:opacity-70',
-          isPlanCheaperThanUserPlan && 'cursor-not-allowed',
+        disabled={
+          !plan.is_active || isPlanCheaperThanUserPlan || hasUserThisPlan
+        }
+        className={twMerge(
+          clsx(
+            'block !w-full !font-medium disabled:opacity-70',
+            isPlanCheaperThanUserPlan && 'cursor-not-allowed',
+            hasUserThisPlan && 'bg-white text-black hover:bg-white',
+          ),
         )}
       >
         {plan.is_active
-          ? plan.stripe_price_id === userPlan?.id
+          ? hasUserThisPlan
             ? 'Current Plan'
             : isUpdate
             ? 'Upgrade'

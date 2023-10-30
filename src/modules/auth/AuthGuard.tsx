@@ -13,6 +13,7 @@ import {
 import { useAccountQuery, useAppsInfoQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { DOMAIN } from 'config/constants';
+import { analytics } from 'config/segment';
 import getJwtToken from './getJwtToken';
 
 function replaceLocation(url: string) {
@@ -27,18 +28,15 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   const navigate = useNavigate();
   const { data: account } = useAccountQuery();
 
-  const email = account?.email;
   useEffect(() => {
+    const email = account?.email;
     if (email) {
-      const { analytics } = window as any;
-      if (analytics) {
-        analytics.identify(email, {
-          userId: email,
-          email,
-        });
-      }
+      void analytics.identify(email, {
+        userId: email,
+        email,
+      });
     }
-  }, [email]);
+  }, [account?.email]);
 
   const appsInfo = useAppsInfoQuery();
   const apps = appsInfo.data?.results;

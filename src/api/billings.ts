@@ -8,8 +8,8 @@ import {
 import { type PageResponse } from './types/page';
 import { type PlanPeriod, type SubscriptionPlan } from './types/subscription';
 
-export function usePlansQuery(periodicity?: PlanPeriod) {
-  return useQuery(
+export const usePlansQuery = (periodicity?: PlanPeriod) =>
+  useQuery(
     ['getPlans', periodicity],
     async ({ queryKey }) => {
       const [, periodicity] = queryKey;
@@ -24,10 +24,9 @@ export function usePlansQuery(periodicity?: PlanPeriod) {
     },
     { staleTime: Number.POSITIVE_INFINITY },
   );
-}
 
-export function useInvoicesQuery() {
-  return useQuery(
+export const useInvoicesQuery = () =>
+  useQuery(
     ['getInvoices'],
     async () => {
       const { data } = await axios.get<PageResponse<Invoice>>(
@@ -39,9 +38,8 @@ export function useInvoicesQuery() {
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
-}
 
-export function useStripePaymentMethodsQuery() {
+export const useStripePaymentMethodsQuery = () => {
   const firstPaymentMethod = useUserFirstPaymentMethod();
   return useQuery(
     ['getPaymentMethods'],
@@ -56,14 +54,14 @@ export function useStripePaymentMethodsQuery() {
       enabled: firstPaymentMethod === 'FIAT',
     },
   );
-}
+};
 
 interface UpdateSubscriptionRequest {
   price_id: string;
 }
 
-export function useSubscriptionMutation() {
-  return useMutation<unknown, unknown, UpdateSubscriptionRequest>(
+export const useSubscriptionMutation = () =>
+  useMutation<unknown, unknown, UpdateSubscriptionRequest>(
     ['patchSubscription'],
     async body => {
       const { data } = await axios.patch<
@@ -77,7 +75,6 @@ export function useSubscriptionMutation() {
       return data;
     },
   );
-}
 
 interface SubmitCryptoPaymentVariables {
   amount_paid: number;
@@ -88,6 +85,7 @@ interface SubmitCryptoPaymentVariables {
     network_name: string;
   };
 }
+
 export const useSubmitCryptoPayment = () =>
   useMutation<unknown, unknown, SubmitCryptoPaymentVariables>({
     mutationFn: async variables => {
@@ -100,5 +98,5 @@ export const useSubmitCryptoPayment = () =>
 
 export const useUserFirstPaymentMethod = () => {
   const { data } = useInvoicesQuery();
-  return data?.results[0].payment_method;
+  return data?.results.at(0)?.payment_method;
 };

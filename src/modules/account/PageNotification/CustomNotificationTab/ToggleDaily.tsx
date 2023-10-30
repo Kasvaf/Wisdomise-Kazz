@@ -19,7 +19,7 @@ export default function ToggleDaily() {
 
   const onChange = useCallback(
     (checked: boolean) => {
-      if (isActive || 0) {
+      if (isActive) {
         dailyMagicStatus.mutate(checked);
       } else {
         void openSubscribeModal({});
@@ -40,7 +40,7 @@ export default function ToggleDaily() {
         <Switch
           onChange={onChange}
           loading={dailyMagicStatus.isLoading}
-          checked={account.data?.daily_magic_enabled}
+          checked={!!account.data?.daily_magic_enabled}
         />
       </div>
       {subscribeModal}

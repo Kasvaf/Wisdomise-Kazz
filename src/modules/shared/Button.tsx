@@ -3,6 +3,7 @@ import type React from 'react';
 import { useCallback, type PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import type { To } from 'react-router';
+import { twMerge } from 'tailwind-merge';
 import Spin from './Spin';
 
 interface Props extends PropsWithChildren {
@@ -110,13 +111,15 @@ const Button: React.FC<Props> = ({
 
   return (
     <LinkOrButton
-      className={clsx(
-        'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
-        disabled &&
-          'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
-        loading && 'cursor-wait',
-        size === 'small' && '!p-[10px_12px]',
-        className,
+      className={twMerge(
+        clsx(
+          'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
+          disabled &&
+            'bg-white/10 text-white/10 hover:cursor-default hover:bg-white/10',
+          loading && 'cursor-wait',
+          size === 'small' && '!p-[10px_12px]',
+          className,
+        ),
       )}
       disabled={disabled}
       onClick={clickHandler}

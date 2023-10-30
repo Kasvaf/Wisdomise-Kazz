@@ -11,9 +11,11 @@ import MobileMenu from './MobileMenu';
 import TrialBanner from './TrialBanner';
 
 const Container = () => {
+  const location = useLocation();
+  const isMobile = useIsMobile();
+  const { isTrialing } = useSubscription();
   const mainRef = useRef<HTMLDivElement>(null);
   const [showShadow, setShowShadow] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     mainRef.current?.addEventListener('scroll', function () {
@@ -24,8 +26,6 @@ const Container = () => {
     });
   }, []);
 
-  const isMobile = useIsMobile();
-  const { isTrialing } = useSubscription();
   const topOffsetClass = isTrialing
     ? isMobile
       ? 'top-[8rem]'
@@ -35,7 +35,7 @@ const Container = () => {
   return (
     <AuthGuard>
       <main className="mx-auto max-w-screen-2xl">
-        {isTrialing && <TrialBanner />}
+        <TrialBanner />
         <SideMenu className={topOffsetClass} />
         <Header showShadow={showShadow} className={topOffsetClass} />
         <div
