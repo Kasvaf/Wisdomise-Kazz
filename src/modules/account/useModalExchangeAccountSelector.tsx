@@ -98,7 +98,9 @@ const ModalExchangeAccountSelector: React.FC<{
 }> = ({ market, onResolve }) => {
   const [account, setAccount] = useState('wisdomise');
 
-  const [ModalAddExchange, showAddExchange] = useModalAddExchangeAccount();
+  const [ModalAddExchange, showAddExchange] =
+    useModalAddExchangeAccount(market);
+
   const continueHandler = useCallback(
     () => onResolve?.(account),
     [onResolve, account],

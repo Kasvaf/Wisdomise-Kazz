@@ -12,11 +12,12 @@ import MarketSelector from './MarketSelector';
 const emptyFieldError = 'This field may not be blank.';
 
 const ModalAddExchangeAccount: React.FC<{
+  fixedMarket?: MarketTypes;
   onResolve?: (account?: string) => void;
-}> = ({ onResolve }) => {
+}> = ({ fixedMarket, onResolve }) => {
   const [showErrors, setShowErrors] = useState(false);
   const [exchange, setExchange] = useState<ExchangeTypes>('BINANCE');
-  const [market, setMarket] = useState<MarketTypes>('SPOT');
+  const [market, setMarket] = useState<MarketTypes>(fixedMarket || 'SPOT');
   const [accountName, setAccountName] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [secretKey, setSecretKey] = useState('');
@@ -77,6 +78,7 @@ const ModalAddExchangeAccount: React.FC<{
             label="Market"
             selectedItem={market}
             onSelect={setMarket}
+            disabled={Boolean(fixedMarket)}
           />
         </div>
         <TextBox
@@ -111,10 +113,13 @@ const ModalAddExchangeAccount: React.FC<{
   );
 };
 
-export default function useModalAddExchangeAccount(): [
-  JSX.Element,
-  () => Promise<string | undefined>,
-] {
+export default function useModalAddExchangeAccount(
+  market?: MarketTypes,
+): [JSX.Element, () => Promise<string | undefined>] {
   const [Modal, showModal] = useModal(ModalAddExchangeAccount);
-  return [Modal, async () => (await showModal({})) as string | undefined];
+  return [
+    Modal,
+    async () =>
+      (await showModal({ fixedMarket: market })) as string | undefined,
+  ];
 }
