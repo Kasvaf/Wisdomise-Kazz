@@ -31,12 +31,12 @@ export default function SubmitTransactionID({
     });
     onSubmitSuccess();
   }, [
-    network.name,
-    onSubmitSuccess,
     plan.key,
     plan.price,
-    submitCryptoPayment,
+    network.name,
     transactionId,
+    onSubmitSuccess,
+    submitCryptoPayment,
   ]);
 
   return (

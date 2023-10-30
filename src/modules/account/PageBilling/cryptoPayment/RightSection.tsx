@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useBoolean, useCopyToClipboard } from 'usehooks-ts';
 import type { Network } from 'api/types/NetworksResponse';
 import Button from 'modules/shared/Button';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import NetworkSelector from 'modules/wallet/useCryptoNetworkSelector/NetworkSelector';
 import { type SubscriptionPlan } from 'api/types/subscription';
+import { useInvoicesQuery } from 'api';
 import { ReactComponent as MailIcon } from '../images/mail.svg';
 import SubmitTransactionID from './SubmitTransactionID';
 
@@ -15,10 +16,16 @@ interface Props {
 }
 
 export default function RightSection({ plan, onResolve }: Props) {
+  const invoices = useInvoicesQuery();
   const [copiedValue, copy] = useCopyToClipboard();
   const [network, setNetwork] = useState<Network>(networkItems[0]);
   const { value: isConfirmed, setTrue: setConfirmed } = useBoolean();
   const { value: isSubmitted, setTrue: setSubmitted } = useBoolean();
+
+  const onDoneClick = useCallback(async () => {
+    await invoices.refetch();
+    onResolve();
+  }, [invoices, onResolve]);
 
   return (
     <div className="flex h-full shrink grow basis-0 items-center justify-center bg-white/5 mobile:bg-[#131822]">
@@ -118,7 +125,9 @@ export default function RightSection({ plan, onResolve }: Props) {
           </p>
         </div>
 
-        <Button onClick={onResolve}>Done</Button>
+        <Button loading={invoices.isRefetching} onClick={onDoneClick}>
+          Done
+        </Button>
       </div>
     </div>
   );

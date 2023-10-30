@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useSubscription, useUserFirstPaymentMethod } from 'api';
+import {
+  useInvoicesQuery,
+  useSubscription,
+  useUserFirstPaymentMethod,
+} from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
   AFTER_CHECKOUT_KEY,
@@ -12,6 +16,7 @@ import PricingTable from './pricingTable';
 
 export default function PageBilling() {
   const navigate = useNavigate();
+  const invoices = useInvoicesQuery();
   const [searchParams] = useSearchParams();
   const { isActive, isLoading } = useSubscription();
   const [successShown, setSuccessShow] = useState(false);
@@ -35,7 +40,7 @@ export default function PageBilling() {
   }, [searchParams, showModalSuccessful, isActive, navigate, successShown]);
 
   return (
-    <PageWrapper loading={isLoading}>
+    <PageWrapper loading={isLoading || invoices.isLoading}>
       {isActive || firstPaymentMethod === 'CRYPTO' ? (
         <SubscriptionDetail />
       ) : (

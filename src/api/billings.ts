@@ -100,5 +100,5 @@ export const useSubmitCryptoPayment = () =>
 
 export const useUserFirstPaymentMethod = () => {
   const { data } = useInvoicesQuery();
-  return data?.results[0].payment_method;
+  return data?.results.at(0)?.payment_method;
 };
