@@ -6,10 +6,13 @@ import { unwrapErrorMessage } from 'utils/error';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
+import LabelInfo from 'modules/shared/LabelInfo';
 import ExchangeSelector from './ExchangeSelector';
 import MarketSelector from './MarketSelector';
 
 const emptyFieldError = 'This field may not be blank.';
+const createApiKeyHelp =
+  'https://www.binance.com/en-BH/support/faq/how-to-create-api-360002502072';
 
 const ModalAddExchangeAccount: React.FC<{
   fixedMarket?: MarketTypes;
@@ -90,14 +93,14 @@ const ModalAddExchangeAccount: React.FC<{
         />
         <TextBox
           className="mt-6"
-          label="API Key"
+          label={<LabelInfo url={createApiKeyHelp}>API KEY</LabelInfo>}
           value={apiKey}
           onChange={setApiKey}
           error={showErrors && !apiKey && emptyFieldError}
         />
         <TextBox
           className="mt-6"
-          label="Secret Key"
+          label={<LabelInfo url={createApiKeyHelp}>Secret Key</LabelInfo>}
           value={secretKey}
           onChange={setSecretKey}
           error={showErrors && !secretKey && emptyFieldError}
