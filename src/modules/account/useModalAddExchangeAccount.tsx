@@ -115,7 +115,7 @@ const ModalAddExchangeAccount: React.FC<{
         </div>
         <CopyInputBox
           style="alt"
-          value="13.39.30.245 13.36.152.59 13.36.112.70 15.188.188.103"
+          value="3.28.99.117 3.29.69.223 3.29.188.184 3.29.176.241"
         />
       </div>
 
