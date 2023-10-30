@@ -9,7 +9,12 @@ const LabelInfo: React.FC<PropsWithChildren<{ url: string }>> = ({
   return (
     <div className="flex items-center gap-2">
       {children && <span>{children}</span>}
-      <a target="_blank" href={url} rel="noreferrer">
+      <a
+        target="_blank"
+        href={url}
+        rel="noreferrer"
+        className="text-warning/70 hover:text-warning"
+      >
         <Icon name={bxInfoCircle} />
       </a>
     </div>
