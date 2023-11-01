@@ -51,7 +51,7 @@ const DashboardMenuItems: MenuItem[] = [
     text: 'Strategies',
     mobileText: 'Strategies',
     link: '/app/strategy',
-    hide: false,
+    hide: isProduction,
   },
 ];
 
