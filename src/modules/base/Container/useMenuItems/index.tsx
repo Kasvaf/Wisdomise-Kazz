@@ -54,6 +54,7 @@ const AccountMenuItems: MenuItem[] = [
   {
     category: 'Account',
     text: 'Account Manager',
+    mobileText: 'Accounts',
     icon: <ExchangeAccountIcon />,
     link: '/account/exchange-accounts',
     hide: isProduction,
