@@ -3,7 +3,7 @@ import { type ChangeEventHandler, type FC, useCallback } from 'react';
 
 interface Props {
   type?: 'text' | 'number' | 'tel';
-  label?: string;
+  label?: string | React.ReactNode;
   value: string;
   error?: string | boolean;
   hint?: string;

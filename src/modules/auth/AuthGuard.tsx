@@ -27,6 +27,19 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   const navigate = useNavigate();
   const { data: account } = useAccountQuery();
 
+  const email = account?.email;
+  useEffect(() => {
+    if (email) {
+      const { analytics } = window as any;
+      if (analytics) {
+        analytics.identify(email, {
+          userId: email,
+          email,
+        });
+      }
+    }
+  }, [email]);
+
   const appsInfo = useAppsInfoQuery();
   const apps = appsInfo.data?.results;
 

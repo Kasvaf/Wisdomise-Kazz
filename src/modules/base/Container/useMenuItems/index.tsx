@@ -1,6 +1,7 @@
 /* eslint-disable import/max-dependencies */
 
 import { useLocation } from 'react-router-dom';
+import { isProduction } from 'utils/version';
 import { ReactComponent as AssetOverviewIcon } from './icons/assetOverview.svg';
 import { ReactComponent as ProductsCatalogIcon } from './icons/productsCatalog.svg';
 import { ReactComponent as SignalsIcon } from './icons/signals.svg';
@@ -64,8 +65,10 @@ const AccountMenuItems: MenuItem[] = [
   {
     category: 'Account',
     text: 'Account Manager',
+    mobileText: 'Accounts',
     icon: <ExchangeAccountIcon />,
     link: '/account/exchange-accounts',
+    hide: isProduction,
   },
   {
     category: 'Account',

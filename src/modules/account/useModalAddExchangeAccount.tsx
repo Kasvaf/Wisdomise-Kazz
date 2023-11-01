@@ -6,10 +6,14 @@ import { unwrapErrorMessage } from 'utils/error';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
+import LabelInfo from 'modules/shared/LabelInfo';
+import CopyInputBox from 'modules/shared/CopyInputBox';
 import ExchangeSelector from './ExchangeSelector';
 import MarketSelector from './MarketSelector';
 
 const emptyFieldError = 'This field may not be blank.';
+const createApiKeyHelp =
+  'https://www.binance.com/en-BH/support/faq/how-to-create-api-360002502072';
 
 const ModalAddExchangeAccount: React.FC<{
   fixedMarket?: MarketTypes;
@@ -90,17 +94,28 @@ const ModalAddExchangeAccount: React.FC<{
         />
         <TextBox
           className="mt-6"
-          label="API Key"
+          label={<LabelInfo url={createApiKeyHelp}>API KEY</LabelInfo>}
           value={apiKey}
           onChange={setApiKey}
           error={showErrors && !apiKey && emptyFieldError}
         />
         <TextBox
           className="mt-6"
-          label="Secret Key"
+          label={<LabelInfo url={createApiKeyHelp}>Secret Key</LabelInfo>}
           value={secretKey}
           onChange={setSecretKey}
           error={showErrors && !secretKey && emptyFieldError}
+        />
+      </div>
+
+      <div className="mt-8 rounded-3xl">
+        <div className="my-2 ml-2 text-white/80">
+          Use following value for{' '}
+          <code className="text-white">IP access restrictions</code> in Binance:
+        </div>
+        <CopyInputBox
+          style="alt"
+          value="3.28.99.117 3.29.69.223 3.29.188.184 3.29.176.241"
         />
       </div>
 

@@ -1,0 +1,40 @@
+{
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": [
+    "source.fixAll.eslint"
+  ],
+
+  "stylelint.packageManager": "yarn",
+  "stylelint.enable": true,
+  "stylelint.snippet": ["css", "postcss", "vue", "scss"],
+  "stylelint.validate": ["css", "postcss", "vue", "scss"],
+  "eslint.packageManager": "yarn",
+  "eslint.options": {
+    "overrideConfigFile": ".eslintrc.cjs"
+  },
+  "eslint.validate": [
+    "typescript",
+    "javascript",
+    "javascriptreact",
+    "javascriptvue",
+    "typescriptvue",
+    "html",
+    "vue",
+    "markdown"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.words": [
+    "clsx",
+    "undraws",
+    "Wisdomise"
+  ],
+  "[svg]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  }
+}

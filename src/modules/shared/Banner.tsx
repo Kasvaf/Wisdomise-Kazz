@@ -4,7 +4,7 @@ import { type PropsWithChildren } from 'react';
 import Icon from './Icon';
 
 interface Props {
-  icon: string;
+  icon?: string;
   className?: string;
 }
 
@@ -14,7 +14,7 @@ const Banner: React.FC<PropsWithChildren<Props>> = ({
   className,
 }) => (
   <div className={clsx('flex rounded-3xl bg-black p-4', className)}>
-    <Icon name={icon} className="mr-2 text-warning" />
+    {icon && <Icon name={icon} className="mr-2 text-warning" />}
     <div>{children}</div>
   </div>
 );
