@@ -35,6 +35,11 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         userId: email,
         email,
       });
+
+      const { _cio: cio } = window as any;
+      if (cio) {
+        cio.identify({ id: email, email });
+      }
     }
   }, [account?.email]);
 

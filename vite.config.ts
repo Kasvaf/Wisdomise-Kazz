@@ -26,6 +26,7 @@ export default defineConfig(config => ({
       inject: {
         data: {
           env: config.mode,
+          cioId: process.env.VITE_CIO_ID,
         },
       },
     }),
