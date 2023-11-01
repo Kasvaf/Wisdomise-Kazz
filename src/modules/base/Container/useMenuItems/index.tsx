@@ -20,6 +20,7 @@ interface MenuItem {
   mobileText?: string;
   link: string;
   hide?: boolean;
+  mobileHide?: boolean;
 }
 
 const DashboardMenuItems: MenuItem[] = [
@@ -52,6 +53,7 @@ const DashboardMenuItems: MenuItem[] = [
     mobileText: 'Strategies',
     link: '/app/strategy',
     hide: isProduction,
+    mobileHide: true,
   },
 ];
 
