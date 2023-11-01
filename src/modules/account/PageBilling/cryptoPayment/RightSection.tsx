@@ -1,12 +1,13 @@
 import { clsx } from 'clsx';
 import { useCallback, useState } from 'react';
-import { useBoolean, useCopyToClipboard } from 'usehooks-ts';
+import { useBoolean } from 'usehooks-ts';
 import type { Network } from 'api/types/NetworksResponse';
 import Button from 'modules/shared/Button';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import NetworkSelector from 'modules/wallet/useCryptoNetworkSelector/NetworkSelector';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useInvoicesQuery } from 'api';
+import CopyInputBox from 'modules/shared/CopyInputBox';
 import { ReactComponent as MailIcon } from '../images/mail.svg';
 import SubmitTransactionID from './SubmitTransactionID';
 
@@ -17,7 +18,6 @@ interface Props {
 
 export default function RightSection({ plan, onResolve }: Props) {
   const invoices = useInvoicesQuery();
-  const [copiedValue, copy] = useCopyToClipboard();
   const [network, setNetwork] = useState<Network>(networkItems[0]);
   const { value: isConfirmed, setTrue: setConfirmed } = useBoolean();
   const { value: isSubmitted, setTrue: setSubmitted } = useBoolean();
@@ -31,7 +31,8 @@ export default function RightSection({ plan, onResolve }: Props) {
     <div className="flex h-full shrink grow basis-0 items-center justify-center bg-white/5 mobile:bg-[#131822]">
       <div
         className={clsx(
-          'flex w-3/4 flex-col items-center gap-10 rounded-3xl bg-white/5 px-8 py-12 mobile:w-full mobile:rounded-b-none mobile:bg-[#343942] mobile:px-6 mobile:py-8',
+          'flex w-3/4 flex-col items-center gap-10 rounded-3xl bg-white/5 px-8 py-12 ',
+          'mobile:w-full mobile:rounded-b-none mobile:bg-[#343942] mobile:px-6 mobile:py-8',
           isSubmitted && 'hidden',
         )}
       >
@@ -70,7 +71,7 @@ export default function RightSection({ plan, onResolve }: Props) {
 
         <div className="w-full">
           <p className="text-sm">Wallet</p>
-          <div className="mt-3 rounded-2xl bg-black/40 p-6">
+          <div className="mt-3 rounded-2xl bg-black/40 p-6 pb-2">
             <div className="mb-2 flex items-center border-b border-white/10 pb-2">
               <p className="mr-6 border-r border-white/10 pr-6 text-xs">
                 My Metamask
@@ -86,16 +87,11 @@ export default function RightSection({ plan, onResolve }: Props) {
             </div>
 
             <div className="flex items-center justify-between">
-              <p className="truncate text-sm mobile:text-xs">{network.key}</p>
-
-              <Button
-                size="small"
-                // eslint-disable-next-line react/jsx-no-bind
-                onClick={() => copy(network.key)}
-                className="!p-2 mobile:!py-1 mobile:!text-xs"
-              >
-                {copiedValue ? 'Copied!' : 'Copy'}
-              </Button>
+              <CopyInputBox
+                style="alt"
+                className="w-full"
+                value={network.key}
+              />
             </div>
           </div>
         </div>
@@ -113,7 +109,8 @@ export default function RightSection({ plan, onResolve }: Props) {
 
       <div
         className={clsx(
-          'hidden w-3/4 flex-col items-center gap-14 rounded-3xl bg-white/5 px-8 py-12 mobile:w-full mobile:gap-10 mobile:rounded-b-none mobile:bg-[#343942] mobile:px-6 mobile:py-8',
+          'hidden w-3/4 flex-col items-center gap-14 rounded-3xl bg-white/5 px-8 py-12 ',
+          'mobile:w-full mobile:gap-10 mobile:rounded-b-none mobile:bg-[#343942] mobile:px-6 mobile:py-8',
           isSubmitted && '!flex',
         )}
       >
