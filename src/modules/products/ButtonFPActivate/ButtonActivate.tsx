@@ -4,9 +4,10 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
-import { type FinancialProduct } from 'api/types/financialProduct';
-import Button from 'shared/Button';
 import { useIsVerified } from 'api/kyc';
+import { type FinancialProduct } from 'api/types/financialProduct';
+import { isProduction } from 'utils/version';
+import Button from 'shared/Button';
 import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
 import useModalVerification from '../useModalVerification';
 import useModalApiKey from './useModalApiKey';
@@ -95,7 +96,9 @@ const ButtonActivate: React.FC<Props> = ({
       return;
     }
 
-    const acc = await showModalExchangeAccountSelector({ market });
+    const acc = isProduction
+      ? 'wisdomise'
+      : await showModalExchangeAccountSelector({ market });
     if (!acc) return;
 
     if (acc !== 'wisdomise' || hasIas || (await openDisclaimer())) {
