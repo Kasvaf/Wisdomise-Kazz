@@ -132,7 +132,7 @@ module.exports = {
     'import/max-dependencies': [
       'error',
       {
-        max: 11,
+        max: 15,
         ignoreTypeImports: true,
       },
     ],

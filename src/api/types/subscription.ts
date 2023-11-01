@@ -17,6 +17,7 @@ export interface Subscription {
 }
 
 export interface SubscriptionPlan {
+  id: string;
   key: string;
   name: string;
   is_active: boolean;
@@ -34,7 +35,6 @@ export interface SubscriptionPlan {
     weekly_custom_notifications_count: number;
   };
   stripe_price_id: string;
-  id: string;
   amount: number;
 }
 

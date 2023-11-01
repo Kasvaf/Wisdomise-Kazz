@@ -32,10 +32,7 @@ export default function PricingTable({
   onResolve,
 }: PricingTableProps) {
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
-  const { data, isLoading } = usePlansQuery(undefined, {
-    staleTime: Number.POSITIVE_INFINITY,
-    retry: false,
-  });
+  const { data, isLoading } = usePlansQuery(undefined);
 
   const handleUpdatePlan = useCallback(() => onResolve?.(true), [onResolve]);
 
