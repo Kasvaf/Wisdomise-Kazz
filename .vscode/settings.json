@@ -6,9 +6,7 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.formatOnSave": false,
-  "editor.codeActionsOnSave": [
-    "source.fixAll.eslint"
-  ],
+  "editor.codeActionsOnSave": ["source.fixAll.eslint"],
 
   "stylelint.packageManager": "yarn",
   "stylelint.enable": true,
@@ -29,11 +27,7 @@
     "markdown"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": [
-    "clsx",
-    "undraws",
-    "Wisdomise"
-  ],
+  "cSpell.words": ["clsx", "undraws", "Wisdomise"],
   "[svg]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   }

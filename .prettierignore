@@ -1,3 +1,4 @@
+.vscode/*
 .github/*
 package.json
 index.html
