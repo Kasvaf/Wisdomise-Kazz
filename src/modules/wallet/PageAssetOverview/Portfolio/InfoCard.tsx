@@ -9,6 +9,7 @@ const InfoCard: React.FC<{
   format?: string;
   subtitle?: string;
   className?: string;
+  valueClassName?: string;
   diffMobileView?: boolean;
   colorizeValue?: boolean;
 }> = ({
@@ -19,6 +20,7 @@ const InfoCard: React.FC<{
   icon: Icon,
   colorizeValue = false,
   className,
+  valueClassName,
   diffMobileView,
 }) => {
   const mainQuote = useMainQuote();
@@ -44,7 +46,7 @@ const InfoCard: React.FC<{
           className={clsx(
             'mt-4 text-xl font-semibold leading-none text-white',
             colorizeValue && value >= 0 && '!text-[#40F19C]',
-            title === 'Balance' && '!text-2xl',
+            valueClassName,
           )}
         >
           {numerable.format(value, format, {

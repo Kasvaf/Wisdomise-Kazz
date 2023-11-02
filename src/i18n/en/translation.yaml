@@ -1,0 +1,65 @@
+asset-overview:
+  intro:
+    title: We Trade On Your Behalf!
+    description: >-
+      Wisdomise offers AI-based strategies tailored to your risk tolerance.
+      Check out our strategies and start making a profit today.
+    check-products: Check Products
+    deposit: Deposit
+  portfolio:
+    title: Your Account Portfolio
+    description: >-
+      AI-based trading strategies run automatically on your crypto wallet. These
+      are built with our comprehensive and sophisticated AI after running over
+      300 million unique experiments
+    info:
+      balance: Balance
+      PnL:
+        title: P / L
+        unrealized: (Unrealized)
+      available:
+        title: Available
+        subtitle: Withdrawable
+      deposit:
+        title: Deposit
+        subtitle: Amount
+      working-capital:
+        title: Working Capital
+        subtitle: AUM
+    bindings-count: Coins
+    bindings-count_one: Coin
+    table:
+      coin: Coin
+      amount: Amount
+      equity: Equity
+      share: Share
+
+fpi:
+  list:
+    title: Your Active Financial Products
+    description: >-
+      Maximize your profits with the help of AI-powered crypto trading bots that
+      can automatically buy and sell cryptocurrencies based on advanced
+      algorithms and patterns.
+    aum-in: AUM in {{title}}
+    of-total-balance: Of Total Balance
+    add-new: Add Financial Product
+    btn-details: Details
+  status:
+    title: Status
+    running: Running
+    paused: Paused
+    draft: Draft
+  actions:
+    stop: Stop
+    start: Start
+    pause: Pause
+    resume: Resume
+  action-confirm:
+    title: Are You Sure To <1>{{typeLabel}}</1> This Product?
+    stop-description: >-
+      Please be aware that by Stopping the Strategy, all your open trades will
+      be sold on &quot;Market&quot; price. The final PnL will be calculated
+      after closing open positions.
+    yes: Yes, <1>{{typeLabel}}</1>
+    cancel: Cancel

@@ -4,6 +4,7 @@ import { styled } from '@linaria/react';
 import * as numerable from 'numerable';
 import { Table } from 'antd';
 import { type ColumnType } from 'antd/es/table';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery } from 'api';
 import CoinsIcons from 'shared/CoinsIcons';
 
@@ -16,13 +17,14 @@ interface Row {
 }
 
 const AssetBindingsSectionTable = () => {
+  const { t } = useTranslation();
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
 
   const columns = useMemo<Array<ColumnType<Row>>>(
     () => [
       {
-        title: 'Coin',
+        title: t('asset-overview.portfolio.table.coin'),
         dataIndex: 'coin',
         width: '100px',
         render: coin => (
@@ -33,24 +35,24 @@ const AssetBindingsSectionTable = () => {
         ),
       },
       {
-        title: 'Amount',
+        title: t('asset-overview.portfolio.table.amount'),
         dataIndex: 'amount',
         render: amount =>
           numerable.format(Math.abs(amount), '0,0.00', { rounding: 'floor' }),
       },
       {
-        title: 'Equity',
+        title: t('asset-overview.portfolio.table.equity'),
         dataIndex: 'equity',
         render: equity =>
           numerable.format(equity, '0,0.00', { rounding: 'floor' }),
       },
       {
-        title: 'Share',
+        title: t('asset-overview.portfolio.table.share'),
         dataIndex: 'share',
         render: share => numerable.format(share / 100, '0.00 %'),
       },
     ],
-    [],
+    [t],
   );
 
   const tableData =

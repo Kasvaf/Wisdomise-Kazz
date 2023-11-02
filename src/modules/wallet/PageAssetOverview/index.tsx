@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { bxPlus } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery } from 'api';
 import Icon from 'shared/Icon';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -9,6 +10,7 @@ import Portfolio from './Portfolio';
 import BoxIntro from './BoxIntro';
 
 const PageAssetOverview = () => {
+  const { t } = useTranslation();
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
   const hasFpi = Boolean(data?.financial_product_instances[0]);
@@ -29,12 +31,10 @@ const PageAssetOverview = () => {
         <>
           <div className="mb-4 mt-10">
             <h1 className="text-xl font-semibold text-white">
-              Your Account Portfolio
+              {t('asset-overview.portfolio.title')}
             </h1>
             <p className="mb-6 hidden text-sm font-medium text-white/60">
-              AI-based trading strategies run automatically on your crypto
-              wallet. These are built with our comprehensive and sophisticated
-              AI after running over 300 million unique experiments
+              {t('asset-overview.portfolio.description')}
             </p>
           </div>
           <Portfolio className="mb-10" />
@@ -46,7 +46,7 @@ const PageAssetOverview = () => {
       {(hasFpi || hasPortfolio) && (
         <>
           <h1 className="mb-4 text-xl font-semibold text-white">
-            Your Active Financial Products
+            {t('fpi.list.title')}
           </h1>
 
           {hasFpi ? (
@@ -57,13 +57,11 @@ const PageAssetOverview = () => {
               className="flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-white/10 bg-black/20 py-6"
             >
               <p className="flex items-center text-white/60">
-                Add Financial Product{' '}
+                {t('fpi.list.add-new')}{' '}
                 <Icon name={bxPlus} className="ml-2 text-success" />
               </p>
               <p className="mt-6 w-1/2 text-center text-xs text-white/40">
-                Maximize your profits with the help of AI-powered crypto trading
-                bots that can automatically buy and sell cryptocurrencies based
-                on advanced algorithms and patterns.
+                {t('fpi.list.description')}
               </p>
             </NavLink>
           )}
