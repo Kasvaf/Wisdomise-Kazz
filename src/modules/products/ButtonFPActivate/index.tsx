@@ -6,7 +6,7 @@ import ButtonDeactivate from './ButtonDeactivate';
 interface Props {
   inDetailPage?: boolean;
   className?: string;
-  financialProduct: FinancialProduct;
+  financialProduct?: FinancialProduct;
 }
 
 const ButtonFPActivate: React.FC<Props> = ({
@@ -14,7 +14,9 @@ const ButtonFPActivate: React.FC<Props> = ({
   inDetailPage,
   financialProduct: fp,
 }) => {
-  const isRunning = useIsFPRunning(fp.key);
+  const isRunning = useIsFPRunning(fp?.key);
+  if (!fp) return null;
+
   return isRunning ? (
     <ButtonDeactivate
       financialProduct={fp}

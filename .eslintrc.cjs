@@ -94,6 +94,7 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/prefer-nullish-coalescing': 'off',
     '@typescript-eslint/naming-convention': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'error',
 
     // import
     'import/default': 'off',

@@ -39,7 +39,7 @@ const PageProductCatalogDetail = () => {
           <ButtonFPActivate
             inDetailPage
             className="w-1/2"
-            financialProduct={fp.data!}
+            financialProduct={fp.data}
           />
         </div>
       </div>
