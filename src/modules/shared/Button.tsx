@@ -3,7 +3,6 @@ import type React from 'react';
 import { useCallback, type PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import type { To } from 'react-router';
-import { twMerge } from 'tailwind-merge';
 import Spin from './Spin';
 
 interface Props extends PropsWithChildren {
@@ -51,11 +50,32 @@ const Button: React.FC<Props> = ({
     [loading, disabled, onClick],
   );
 
+  if (variant === 'link') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:text-warning',
+          disabled && 'cursor-not-allowed !text-white/40',
+          loading && 'cursor-wait',
+          size === 'small' && '!p-[10px_12px]',
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
   if (variant === 'secondary') {
     return (
       <LinkOrButton
         className={clsx(
           'rounded-[40px] border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
+          disabled &&
+            'cursor-not-allowed !border-white/10 !bg-white/10 text-white/10',
           size === 'small' && '!p-[10px_12px] ',
           loading && 'cursor-wait',
           className,
@@ -74,8 +94,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           'rounded-[40px] bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5',
-          disabled &&
-            'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
+          disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
           size === 'small' && '!p-[10px_12px] ',
           loading && 'cursor-wait',
           className,
@@ -89,37 +108,15 @@ const Button: React.FC<Props> = ({
     );
   }
 
-  if (variant === 'link') {
-    return (
-      <LinkOrButton
-        className={clsx(
-          'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white',
-          disabled &&
-            'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
-          loading && 'cursor-wait',
-          size === 'small' && '!p-[10px_12px]',
-          className,
-        )}
-        disabled={disabled}
-        onClick={clickHandler}
-        {...restOfProps}
-      >
-        {btnContent}
-      </LinkOrButton>
-    );
-  }
-
   return (
     <LinkOrButton
-      className={twMerge(
-        clsx(
-          'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
-          disabled &&
-            'bg-white/10 text-white/10 hover:cursor-default hover:bg-white/10',
-          loading && 'cursor-wait',
-          size === 'small' && '!p-[10px_12px]',
-          className,
-        ),
+      className={clsx(
+        'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
+        disabled &&
+          'cursor-not-allowed !border-white/40 !bg-white/10 text-white/10',
+        loading && 'cursor-wait',
+        size === 'small' && '!p-[10px_12px]',
+        className,
       )}
       disabled={disabled}
       onClick={clickHandler}

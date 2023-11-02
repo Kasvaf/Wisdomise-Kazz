@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import { notification } from 'antd';
 import { useCallback } from 'react';
-import { twMerge } from 'tailwind-merge';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import {
@@ -115,13 +114,7 @@ export default function PricingCard({
         disabled={
           !plan.is_active || isPlanCheaperThanUserPlan || hasUserThisPlan
         }
-        className={twMerge(
-          clsx(
-            'block !w-full !font-medium disabled:opacity-70',
-            isPlanCheaperThanUserPlan && 'cursor-not-allowed',
-            hasUserThisPlan && 'bg-white text-black hover:bg-white',
-          ),
-        )}
+        className="block !w-full !font-medium"
       >
         {plan.is_active
           ? hasUserThisPlan
