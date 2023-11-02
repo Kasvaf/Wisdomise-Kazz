@@ -5,12 +5,16 @@ import Button from 'modules/shared/Button';
 export default function TrialBanner() {
   const { remaining, isTrialing } = useSubscription();
 
+  if (!isTrialing) {
+    return null;
+  }
+
   return (
     <div
       className={clsx(
         'fixed inset-x-0 top-0 z-[2] flex w-full items-center justify-center text-white',
         'h-[8rem] md:h-14',
-        isTrialing ? 'bg-[#4B175C]' : 'bg-[#5C173D]',
+        remaining ? 'bg-[#4B175C]' : 'bg-[#5C173D]',
       )}
     >
       <div className="flex max-w-screen-2xl flex-col items-center justify-between gap-4 md:flex-row md:gap-10">

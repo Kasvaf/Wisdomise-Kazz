@@ -4,8 +4,8 @@ import Button from 'shared/Button';
 import LineChart from 'shared/LineChart';
 import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
-import FPActivateButton from '../PageProductsCatalog/FPActivateButton';
 import { ColorByRisk } from '../constants';
+import ButtonFPActivate from '../ButtonFPActivate';
 import NoticeBox from './NoticeBox';
 import ProfilePropsBox from './ProfilePropsBox';
 import InvestmentInfoBox from './InvestmentInfoBox';
@@ -36,10 +36,10 @@ const PageProductCatalogDetail = () => {
           >
             Back
           </Button>
-          <FPActivateButton
+          <ButtonFPActivate
             inDetailPage
             className="w-1/2"
-            financialProduct={fp.data!}
+            financialProduct={fp.data}
           />
         </div>
       </div>

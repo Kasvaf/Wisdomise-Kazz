@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 interface InputProps {
   value?: string;
   placeholder: string;
@@ -19,10 +17,7 @@ const InputBox: React.FC<InputProps> = ({
     <label className="pl-4 text-base">{label}</label>
     <input
       value={value}
-      onChange={useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
-        [onChange],
-      )}
+      onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
       className="mt-1 block w-[300px] rounded-full  border-2 border-solid border-[#ffffff1a] bg-transparent p-5 placeholder:text-[#FFFFFF80] md:w-[400px]"
     />

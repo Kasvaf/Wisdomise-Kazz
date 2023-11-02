@@ -3,7 +3,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import { type FormEvent, useCallback, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { useAccountQuery } from 'api';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
@@ -15,32 +15,29 @@ export default function ChangePaymentMethodForm() {
   const [message, setMessage] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent) => {
-      event.preventDefault();
-      if (!stripe || !elements) {
-        return;
-      }
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
 
-      setIsLoading(true);
-      const { error } = await stripe.confirmSetup({
-        elements,
-        confirmParams: {
-          // Make sure to change this to your payment completion page
-          return_url: `${window.location.origin}/account/billing/payment-methods`,
-        },
-      });
+    setIsLoading(true);
+    const { error } = await stripe.confirmSetup({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: `${window.location.origin}/account/billing/payment-methods`,
+      },
+    });
 
-      if (error.type === 'card_error' || error.type === 'validation_error') {
-        setMessage(error.message);
-      } else {
-        setMessage('An unexpected error occurred.');
-      }
+    if (error.type === 'card_error' || error.type === 'validation_error') {
+      setMessage(error.message);
+    } else {
+      setMessage('An unexpected error occurred.');
+    }
 
-      setIsLoading(false);
-    },
-    [stripe, elements],
-  );
+    setIsLoading(false);
+  };
 
   return (
     <div>

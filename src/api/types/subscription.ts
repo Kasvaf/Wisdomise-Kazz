@@ -22,6 +22,7 @@ export interface Subscription {
 }
 
 export interface SubscriptionPlan {
+  id: string;
   key: string;
   name: string;
   is_active: boolean;
@@ -29,6 +30,7 @@ export interface SubscriptionPlan {
   price: number;
   trial_days: number;
   stripe_price_id: string;
+  amount: number;
   features: string[];
   periodicity: PlanPeriod;
   stripe_payment_link: string;

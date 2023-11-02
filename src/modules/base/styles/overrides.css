@@ -263,25 +263,37 @@
 }
 
 /* ------------------------------------------------- */
+
 .ant-tabs {
-  @apply text-white/40;
-}
-.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   @apply text-white;
+
+  &-nav {
+    @apply text-white/40;
+  }
+
+  .ant-tabs-tab {
+    @apply px-8 pb-3 pt-2 text-base;
+
+    &.ant-tabs-tab-active {
+      .ant-tabs-tab-btn {
+        @apply text-white;
+      }
+    }
+
+    &:hover {
+      @apply text-white/60;
+    }
+  }
+
+  .ant-tabs-ink-bar {
+    @apply bg-white;
+  }
+
+  &-top > .ant-tabs-nav::before {
+    @apply border-b-white/10;
+  }
 }
-.ant-tabs-top > .ant-tabs-nav::before {
-  @apply border-white/20;
-}
-.ant-tabs .ant-tabs-ink-bar {
-  @apply bg-white;
-}
-.ant-tabs .ant-tabs-tab {
-  @apply text-lg;
-}
-.ant-tabs .ant-tabs-tab:hover {
-  @apply text-white/60;
-}
-/* ------------------------------------------------- */
+
 /* ------------------------------------------------- */
 
 /* hide google captcha */

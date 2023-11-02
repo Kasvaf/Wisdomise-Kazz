@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
 import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
+import { useUserFirstPaymentMethod } from 'api';
 import TokenPaymentModalContent from 'modules/account/PageBilling/tokenPayment/TokenPaymentModalContent';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
@@ -13,32 +13,39 @@ import CryptoPaymentModalContent from '../cryptoPayment/CryptoPaymentModalConten
 interface Props {
   plan: SubscriptionPlan;
   onResolve?: () => void;
-  onFiatClick: () => void;
+  onFiatClick: () => Promise<void>;
 }
 
 export default function SubscriptionMethodModal({
   plan,
-  onFiatClick,
+  onFiatClick: propOnFiatClick,
   onResolve,
 }: Props) {
+  const firstPaymentMethod = useUserFirstPaymentMethod();
   const [cryptoPaymentModal, openCryptoPaymentModal] = useModal(
     CryptoPaymentModalContent,
-    { fullscreen: true },
+    { fullscreen: true, destroyOnClose: true },
   );
+
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
-    { fullscreen: true },
+    { fullscreen: true, destroyOnClose: true },
   );
 
-  const onCryptoClick = useCallback(() => {
+  const onCryptoClick = () => {
     onResolve?.();
     void openCryptoPaymentModal({ plan });
-  }, [onResolve, openCryptoPaymentModal, plan]);
+  };
 
-  const onTokenClick = useCallback(() => {
+  const onFiatClick = async () => {
+    await propOnFiatClick();
+    onResolve?.();
+  };
+
+  const onTokenClick = async () => {
     onResolve?.();
     void openTokenPaymentModal({ plan });
-  }, [onResolve, openCryptoPaymentModal, plan]);
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -50,19 +57,31 @@ export default function SubscriptionMethodModal({
       <SubscriptionMethodLogos className="mb-12 mt-8" />
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
-        <Button onClick={onFiatClick} className="col-span-1">
+        <Button
+          className="col-span-1"
+          onClick={onFiatClick}
+          disabled={firstPaymentMethod && firstPaymentMethod !== 'FIAT'}
+        >
           <div className="flex items-center gap-2">
             <SIcon />
             Fiat Payment
           </div>
         </Button>
-        <Button onClick={onCryptoClick} className="col-span-1">
+        <Button
+          className="col-span-1"
+          onClick={onCryptoClick}
+          disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
+        >
           <div className="flex items-center gap-2">
             <CryptoPaymentIcon />
             Crypto Payment
           </div>
         </Button>
-        <Button onClick={onTokenClick} className="col-span-2">
+        <Button
+          onClick={onTokenClick}
+          className="col-span-2"
+          // disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
+        >
           <div className="flex items-center gap-2">
             <Token />
             WSDM Token

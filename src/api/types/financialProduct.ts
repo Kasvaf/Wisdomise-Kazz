@@ -1,3 +1,5 @@
+export type MarketTypes = 'SPOT' | 'FUTURES';
+
 export interface FinancialProductsReponse {
   count: number;
   next: any;
@@ -13,7 +15,7 @@ export interface FinancialProduct {
   profile: Profile;
   asset_class: string;
   config: Config;
-  market_names: string[];
+  market_names: MarketTypes[];
   subscribable: boolean;
   min_deposit: number;
   max_deposit: number;
@@ -49,6 +51,8 @@ export interface Config {
   'expected_return_realistic': number;
   'expected_return_calculated': number;
   'expected_return_conservative': number;
+  'external_account_market_type'?: MarketTypes;
+  'can_use_external_account'?: boolean;
 }
 
 interface SpBinding {

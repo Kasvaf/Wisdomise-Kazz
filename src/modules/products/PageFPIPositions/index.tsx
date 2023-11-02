@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useFpiQuery } from 'api/fpi';
 import PageWrapper from 'modules/base/PageWrapper';
-import FinancialProductItem from '../PageAssetOverview/ActiveFinancialProducts/FinancialProductItem';
+import FinancialProductItem from '../../wallet/PageAssetOverview/ActiveFinancialProducts/FinancialProductItem';
 import FPIPositionHistory from './FPIPositionHistory';
 import FPITimeline from './FPITimeline';
 
@@ -20,7 +20,6 @@ const PageFPIPositions = () => {
       )}
 
       <FPITimeline fpiKey={params.fpiKey} className="mb-10" />
-
       <FPIPositionHistory fpiKey={params.fpiKey} />
     </PageWrapper>
   );

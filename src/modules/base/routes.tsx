@@ -23,6 +23,9 @@ const PageLogout = React.lazy(() => import('modules/auth/PageLogout'));
 
 const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
 const PageReferral = React.lazy(() => import('modules/account/PageReferral'));
+const PageExchangeAccount = React.lazy(
+  () => import('modules/account/PageExchangeAccount'),
+);
 const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
 const PageNotification = React.lazy(
   () => import('modules/account/PageNotification'),
@@ -36,6 +39,10 @@ const suspended = (el: React.ReactNode) => (
 
 // ================================================================================
 
+const PageAssetOverview = React.lazy(
+  () => import('modules/wallet/PageAssetOverview'),
+);
+
 const PageSignalsMatrix = React.lazy(
   () => import('modules/products/PageSignalsMatrix'),
 );
@@ -47,12 +54,18 @@ const PageProductCatalogDetail = React.lazy(
   () => import('modules/products/PageProductCatalogDetail'),
 );
 
-const PageAssetOverview = React.lazy(
-  () => import('modules/wallet/PageAssetOverview'),
+const PageFPIPositions = React.lazy(
+  () => import('modules/products/PageFPIPositions'),
 );
 
-const PageFPIPositions = React.lazy(
-  () => import('modules/wallet/PageFPIPositions'),
+const PageStrategiesList = React.lazy(
+  () => import('modules/strategy/PageStrategiesList'),
+);
+const PageStrategyCreate = React.lazy(
+  () => import('modules/strategy/PageStrategyCreate'),
+);
+const PageStrategyDetails = React.lazy(
+  () => import('modules/strategy/PageStrategyDetails'),
 );
 
 const routes: RouteObject[] = [
@@ -66,14 +79,12 @@ const routes: RouteObject[] = [
   {
     element: <Container />,
     children: [
+      { path: 'account/profile', element: suspended(<PageProfile />) },
       {
-        path: 'account/profile',
-        element: suspended(<PageProfile />),
+        path: 'account/exchange-accounts',
+        element: suspended(<PageExchangeAccount />),
       },
-      {
-        path: 'account/referral',
-        element: suspended(<PageReferral />),
-      },
+      { path: 'account/referral', element: suspended(<PageReferral />) },
       {
         path: 'account/notification-center',
         element: suspended(<PageNotification />),
@@ -95,14 +106,9 @@ const routes: RouteObject[] = [
         element: suspended(<PageSumSub />),
       },
       // ================================================================================
-      {
-        path: 'app/assets',
-        element: suspended(<PageAssetOverview />),
-      },
-      {
-        path: 'app/fpi/:fpiKey',
-        element: suspended(<PageFPIPositions />),
-      },
+
+      { path: 'app/assets', element: suspended(<PageAssetOverview />) },
+      { path: 'app/fpi/:fpiKey', element: suspended(<PageFPIPositions />) },
       {
         path: 'app/products-catalog',
         element: suspended(<PageProductsCatalog />),
@@ -111,10 +117,10 @@ const routes: RouteObject[] = [
         path: 'app/products-catalog/:fpKey',
         element: suspended(<PageProductCatalogDetail />),
       },
-      {
-        path: 'app/signals',
-        element: suspended(<PageSignalsMatrix />),
-      },
+      { path: 'app/signals', element: suspended(<PageSignalsMatrix />) },
+      { path: 'app/strategy', element: suspended(<PageStrategiesList />) },
+      { path: 'app/strategy/new', element: suspended(<PageStrategyCreate />) },
+      { path: 'app/strategy/:id', element: suspended(<PageStrategyDetails />) },
     ],
   },
   {

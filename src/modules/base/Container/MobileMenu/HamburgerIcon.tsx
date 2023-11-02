@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { styled } from '@linaria/react';
-import { useCallback } from 'react';
 
 interface Props {
   open?: boolean;
@@ -8,10 +7,11 @@ interface Props {
 }
 
 const HamburgerIcon: React.FC<Props> = ({ open, setOpen }) => {
-  const toggle = useCallback(() => setOpen(a => !a), [setOpen]);
-
   return (
-    <div onClick={toggle} className="mb-1 h-6 py-2 hover:cursor-pointer">
+    <div
+      onClick={() => setOpen(a => !a)}
+      className="mb-1 h-6 py-2 hover:cursor-pointer"
+    >
       <Line className={clsx('!mt-0', open && 'translate-y-[9px] -rotate-45')} />
       <Line className={clsx(open && 'opacity-0')} />
       <Line className={clsx('!mb-0', open && 'translate-y-[-3px] rotate-45')} />

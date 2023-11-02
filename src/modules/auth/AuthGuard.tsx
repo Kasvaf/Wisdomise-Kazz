@@ -13,6 +13,7 @@ import {
 import { useAccountQuery, useAppsInfoQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { DOMAIN } from 'config/constants';
+import { analytics } from 'config/segment';
 import getJwtToken from './getJwtToken';
 
 function replaceLocation(url: string) {
@@ -22,34 +23,36 @@ function replaceLocation(url: string) {
   window.location.replace(decodeURIComponent(url));
 }
 
+const redirectLogin = (redirectUrl: string) => {
+  const token = getJwtToken();
+  if (token) {
+    replaceLocation(`${redirectUrl}/auth/callback?token=${token}`);
+    return true;
+  }
+};
+
 export default function AuthGuard({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { data: account } = useAccountQuery();
 
-  const email = account?.email;
   useEffect(() => {
+    const email = account?.email;
     if (email) {
-      const { analytics } = window as any;
-      if (analytics) {
-        analytics.identify(email, {
-          userId: email,
-          email,
-        });
+      void analytics.identify(email, {
+        userId: email,
+        email,
+      });
+
+      const { _cio: cio } = window as any;
+      if (cio) {
+        cio.identify({ id: email, email });
       }
     }
-  }, [email]);
+  }, [account?.email]);
 
   const appsInfo = useAppsInfoQuery();
   const apps = appsInfo.data?.results;
-
-  const redirectLogin = useCallback((redirectUrl: string) => {
-    const token = getJwtToken();
-    if (token) {
-      replaceLocation(`${redirectUrl}/auth/callback?token=${token}`);
-      return true;
-    }
-  }, []);
 
   const handleAppRedirect = useCallback(
     (appName: string) => {
@@ -63,7 +66,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         return redirectLogin(redirectUrl);
       }
     },
-    [apps, redirectLogin],
+    [apps],
   );
 
   useEffect(() => {
@@ -88,7 +91,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         setLoading(false);
       }
     }
-  }, [loading, account, appsInfo, navigate, handleAppRedirect, redirectLogin]);
+  }, [loading, account, appsInfo, navigate, handleAppRedirect]);
 
   return loading ? <Splash /> : <>{children}</>;
 }

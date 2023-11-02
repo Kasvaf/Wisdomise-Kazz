@@ -29,7 +29,12 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
   const [ttl, setTtl] = useState(Date.now() + RESEND_TIMEOUT * 1000);
   const now = useNow();
 
-  const submitHandler = useCallback(async () => {
+  const codeChangeHandler = useCallback((v: string) => {
+    setCode(v);
+    setError('');
+  }, []);
+
+  const submitHandler = async () => {
     try {
       setSubmitting(true);
       await onConfirm(code);
@@ -39,17 +44,12 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
     } finally {
       setSubmitting(false);
     }
-  }, [code, onConfirm, onResolve]);
+  };
 
-  const codeChangeHandler = useCallback((v: string) => {
-    setCode(v);
-    setError('');
-  }, []);
-
-  const resendHandler = useCallback(() => {
+  const resendHandler = () => {
     setTtl(Date.now() + RESEND_TIMEOUT * 1000);
     onResend();
-  }, [onResend]);
+  };
 
   const userEmail = account?.info.email;
   return (

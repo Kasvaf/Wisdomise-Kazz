@@ -1,6 +1,6 @@
 import { bxPlus, bxX } from 'boxicons-quasar';
 import { notification } from 'antd';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   useCreateSignalMutation,
   useDeleteSignalMutation,
@@ -30,7 +30,7 @@ const SignalChip: React.FC<{ pair: SupportedPair; strategy: Strategy }> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const remove = useDeleteSignalMutation();
   const create = useCreateSignalMutation();
-  const handler = useCallback(async () => {
+  const handler = async () => {
     try {
       setIsSubmitting(true);
       if (isSelected) {
@@ -50,15 +50,7 @@ const SignalChip: React.FC<{ pair: SupportedPair; strategy: Strategy }> = ({
     } finally {
       setIsSubmitting(false);
     }
-  }, [
-    create,
-    isSelected,
-    pair.name,
-    remove,
-    signal?.key,
-    strategy.name,
-    strategy.profile.title,
-  ]);
+  };
 
   return (
     <Chip

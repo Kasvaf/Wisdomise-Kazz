@@ -80,7 +80,8 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off',
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'error',
-    'react/jsx-no-bind': 'error',
+    'react/jsx-no-bind': ['error', { allowArrowFunctions: true }],
+    'react-hooks/exhaustive-deps': 'error',
 
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/promise-function-async': 'off',
@@ -93,6 +94,7 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/prefer-nullish-coalescing': 'off',
     '@typescript-eslint/naming-convention': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'error',
 
     // import
     'import/default': 'off',
@@ -132,7 +134,7 @@ module.exports = {
     'import/max-dependencies': [
       'error',
       {
-        max: 11,
+        max: 15,
         ignoreTypeImports: true,
       },
     ],

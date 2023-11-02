@@ -1,2 +1,3 @@
+vite.config.ts
 /src/modules/base/tailwind.css
 **/*.md

@@ -1,5 +1,4 @@
 import type React from 'react';
-import { useCallback } from 'react';
 import { roundDown } from 'utils/numbers';
 import { useInvestorAssetStructuresQuery } from 'api';
 import useMainQuote from 'shared/useMainQuote';
@@ -20,9 +19,6 @@ const WalletDropdownContent: React.FC = () => {
   const totalBalance = ias.data?.[0]?.total_equity || 0;
   const mea = ias.data?.[0]?.main_exchange_account;
   const withdrawable = mea?.quote_equity || 0;
-
-  const onDepositHandler = useCallback(() => openDeposit({}), [openDeposit]);
-  const onWithdrawHandler = useCallback(() => openWithdraw({}), [openWithdraw]);
 
   if (ias.isLoading || !mainQuote) return <></>;
 
@@ -67,7 +63,7 @@ const WalletDropdownContent: React.FC = () => {
       <div className="mt-6 flex justify-around text-xs">
         <Button
           variant="link"
-          onClick={onDepositHandler}
+          onClick={() => openDeposit({})}
           className="rounded-lg hover:bg-black/10"
         >
           <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
@@ -79,7 +75,7 @@ const WalletDropdownContent: React.FC = () => {
 
         <Button
           variant="link"
-          onClick={onWithdrawHandler}
+          onClick={() => openWithdraw({})}
           className="rounded-lg hover:bg-black/10"
         >
           <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">

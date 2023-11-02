@@ -11,6 +11,7 @@ interface Props extends PropsWithChildren {
   loading?: boolean;
   variant?: 'primary' | 'alternative' | 'secondary' | 'link';
   className?: string;
+  contentClassName?: string;
   disabled?: boolean;
   onClick?: React.MouseEventHandler<any>;
   target?: string;
@@ -31,12 +32,13 @@ const Button: React.FC<Props> = ({
   loading,
   children,
   className,
+  contentClassName,
   disabled,
   onClick,
   ...restOfProps
 }) => {
   const btnContent = (
-    <div className="flex items-center justify-center">
+    <div className={clsx('flex items-center justify-center', contentClassName)}>
       {loading && <Spin className="mr-2" />}
       {children}
     </div>
@@ -48,11 +50,32 @@ const Button: React.FC<Props> = ({
     [loading, disabled, onClick],
   );
 
+  if (variant === 'link') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:text-warning',
+          disabled && 'cursor-not-allowed !text-white/40',
+          loading && 'cursor-wait',
+          size === 'small' && '!p-[10px_12px]',
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
   if (variant === 'secondary') {
     return (
       <LinkOrButton
         className={clsx(
           'rounded-[40px] border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
+          disabled &&
+            'cursor-not-allowed !border-white/10 !bg-white/10 text-white/10',
           size === 'small' && '!p-[10px_12px] ',
           loading && 'cursor-wait',
           className,
@@ -71,30 +94,9 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           'rounded-[40px] bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5',
-          disabled &&
-            'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
+          disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
           size === 'small' && '!p-[10px_12px] ',
           loading && 'cursor-wait',
-          className,
-        )}
-        disabled={disabled}
-        onClick={clickHandler}
-        {...restOfProps}
-      >
-        {btnContent}
-      </LinkOrButton>
-    );
-  }
-
-  if (variant === 'link') {
-    return (
-      <LinkOrButton
-        className={clsx(
-          'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white',
-          disabled &&
-            'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
-          loading && 'cursor-wait',
-          size === 'small' && '!p-[10px_12px]',
           className,
         )}
         disabled={disabled}
@@ -111,7 +113,7 @@ const Button: React.FC<Props> = ({
       className={clsx(
         'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
         disabled &&
-          'bg-white/10 text-white/10 hover:cursor-default hover:!bg-white/10',
+          'cursor-not-allowed !border-white/40 !bg-white/10 text-white/10',
         loading && 'cursor-wait',
         size === 'small' && '!p-[10px_12px]',
         className,

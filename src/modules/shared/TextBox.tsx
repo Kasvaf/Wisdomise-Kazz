@@ -2,12 +2,13 @@ import { clsx } from 'clsx';
 import { type ChangeEventHandler, type FC, useCallback } from 'react';
 
 interface Props {
-  label?: string;
+  label?: string | React.ReactNode;
   value: string;
   hint?: string;
+  onBlur?: () => void;
+  disabled?: boolean;
   suffix?: string;
   className?: string;
-  disabled?: boolean;
   placeholder?: string;
   inputClassName?: string;
   error?: string | boolean;
@@ -24,6 +25,7 @@ const TextBox: FC<Props> = ({
   hint,
   filter = v => v,
   onChange,
+  onBlur,
   disabled = false,
   suffix,
   className,
@@ -57,6 +59,7 @@ const TextBox: FC<Props> = ({
             inputClassName,
           )}
           value={value}
+          onBlur={onBlur}
           disabled={disabled}
           onInput={changeHandler}
           placeholder={placeholder}

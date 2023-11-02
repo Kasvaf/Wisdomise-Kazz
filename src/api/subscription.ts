@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { useAccountQuery } from './account';
 import { usePlansQuery } from './billings';
 import { type SubscriptionPlan } from './types/subscription';
+import { type PageResponse } from './types/page';
 
 export function useSubscription() {
   const { data: plans } = usePlansQuery();
@@ -29,8 +33,14 @@ export function useSubscription() {
     refetch,
     isActive,
     isLoading,
+    title:
+      status === 'trialing'
+        ? 'Trial'
+        : status === 'inactive'
+        ? 'none'
+        : subs?.plan.name,
     plan: subs?.plan,
-    isTrialing: status === 'trialing',
+    isTrialing: subs?.plan.name === 'Trial',
     cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     currentPeriodEnd: (subs?.current_period_end ?? 0) * 1000,
     isCanceled: Boolean(subs?.canceled_at) || status === 'canceled' || !status,
@@ -51,4 +61,23 @@ export function useSubscription() {
 export function usePlanMetadata(key: keyof SubscriptionPlan['metadata']) {
   const account = useAccountQuery();
   return account.data?.subscription?.object?.plan.metadata[key];
+}
+
+export function useActivePlan() {
+  const { data: account } = useAccountQuery();
+  const planId = account?.subscription?.object?.plan.id;
+  return useQuery(
+    ['activePlan', planId],
+    async () => {
+      if (!planId) return;
+      const { data } = await axios.get<PageResponse<SubscriptionPlan>>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/plans?stripe_price_id=${planId}`,
+      );
+      return data.results?.[0];
+    },
+    {
+      enabled: Boolean(planId),
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
 }

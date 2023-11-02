@@ -1,0 +1,55 @@
+import type React from 'react';
+import { useState } from 'react';
+import { useStrategyHistoryQuery } from 'api';
+import Pager from 'shared/Pager';
+import Spinner from 'shared/Spinner';
+import PositionsTable from 'modules/strategy/PositionsTable';
+
+const PAGE_SIZE = 7;
+const CockpitPositionHistory: React.FC<{
+  strategyId?: string;
+  className?: string;
+}> = ({ strategyId, className }) => {
+  const [page, setPage] = useState(1);
+
+  const history = useStrategyHistoryQuery({
+    strategyKey: strategyId,
+    offset: (page - 1) * PAGE_SIZE,
+    limit: PAGE_SIZE,
+  });
+
+  let content = <></>;
+  if (history.data?.total == null) {
+    if (history.isLoading)
+      content = (
+        <div className="flex justify-center">
+          <Spinner />
+        </div>
+      );
+  } else if (history.data.total) {
+    content = (
+      <>
+        <PositionsTable history={history.data.position_history} />
+        <Pager
+          total={Math.ceil(history.data.total / PAGE_SIZE)}
+          active={page}
+          onChange={setPage}
+          className="mx-auto mt-4 justify-center"
+        />
+      </>
+    );
+  } else {
+    return content;
+  }
+
+  return (
+    <div className={className}>
+      <h1 className="mb-4 text-lg font-semibold text-white">
+        Positions History
+      </h1>
+      {content}
+    </div>
+  );
+};
+
+export default CockpitPositionHistory;

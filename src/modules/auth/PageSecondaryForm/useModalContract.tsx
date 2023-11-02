@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
@@ -13,14 +13,14 @@ function ModalContract({ title, ContractDoc, onResolve }: IProps) {
   const [isScrolledToEnd, setScrolledToEnd] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = () => {
     if (scrollableRef.current == null) return;
 
     const { clientHeight, scrollTop, scrollHeight } = scrollableRef.current;
     if (scrollTop + clientHeight + 300 > scrollHeight) {
       setScrolledToEnd(true);
     }
-  }, []);
+  };
 
   return (
     <div>
@@ -46,10 +46,7 @@ function ModalContract({ title, ContractDoc, onResolve }: IProps) {
       </div>
 
       <div className="flex justify-center border-t border-white/10 pt-5">
-        <Button
-          onClick={useCallback(() => onResolve?.(true), [onResolve])}
-          disabled={!isScrolledToEnd}
-        >
+        <Button onClick={() => onResolve?.(true)} disabled={!isScrolledToEnd}>
           I have read and accept the {title}.
         </Button>
       </div>

@@ -1,5 +1,5 @@
 import { Popover } from 'antd';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { type FpiStatusMutationType } from 'api';
 import Button from 'shared/Button';
 
@@ -20,7 +20,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
   const [overrideType, setOverrideType] = useState<FpiStatusMutationType>();
 
-  const onConfirmClick = useCallback(async () => {
+  const onConfirmClick = async () => {
     try {
       setOverrideType(type);
       setLoading(true);
@@ -31,7 +31,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
     } catch {
       //
     }
-  }, [onConfirm, type]);
+  };
   const visibleType = overrideType || type;
 
   return (
@@ -58,7 +58,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
             <Button
               variant="secondary"
               size="small"
-              onClick={useCallback(() => setIsOpen(false), [])}
+              onClick={() => setIsOpen(false)}
             >
               Cancel
             </Button>
@@ -70,11 +70,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
         </section>
       }
     >
-      <section
-        onClick={useCallback(() => !disabled && setIsOpen(true), [disabled])}
-      >
-        {children}
-      </section>
+      <section onClick={() => !disabled && setIsOpen(true)}>{children}</section>
     </Popover>
   );
 };

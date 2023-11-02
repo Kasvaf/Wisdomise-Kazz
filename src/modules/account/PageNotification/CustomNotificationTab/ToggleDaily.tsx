@@ -1,5 +1,4 @@
 import { Switch } from 'antd';
-import { useCallback } from 'react';
 import {
   useAccountQuery,
   useDailyMagicStatusMutation,
@@ -17,16 +16,13 @@ export default function ToggleDaily() {
     centered: true,
   });
 
-  const onChange = useCallback(
-    (checked: boolean) => {
-      if (isActive || 0) {
-        dailyMagicStatus.mutate(checked);
-      } else {
-        void openSubscribeModal({});
-      }
-    },
-    [dailyMagicStatus, isActive, openSubscribeModal],
-  );
+  const onChange = (checked: boolean) => {
+    if (isActive) {
+      dailyMagicStatus.mutate(checked);
+    } else {
+      void openSubscribeModal({});
+    }
+  };
 
   return (
     <div className="mb-6 flex justify-between border-b border-white/20 pb-6">
@@ -40,7 +36,7 @@ export default function ToggleDaily() {
         <Switch
           onChange={onChange}
           loading={dailyMagicStatus.isLoading}
-          checked={account.data?.daily_magic_enabled}
+          checked={!!account.data?.daily_magic_enabled}
         />
       </div>
       {subscribeModal}

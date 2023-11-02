@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import Button from 'shared/Button';
 
 const CustomQuestions: React.FC<{
@@ -7,26 +7,16 @@ const CustomQuestions: React.FC<{
 }> = ({ onAdd, isLoading }) => {
   const [customQuestion, setCustomQuestion] = useState('');
 
-  const addCustomQuestion = useCallback(async () => {
+  const addCustomQuestion = async () => {
     await onAdd(customQuestion);
     setCustomQuestion('');
-  }, [onAdd, customQuestion]);
+  };
 
-  const onInputKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        void addCustomQuestion();
-      }
-    },
-    [addCustomQuestion],
-  );
-
-  const customQuestionChangeHandler = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setCustomQuestion(e.target.value);
-    },
-    [],
-  );
+  const onInputKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      void addCustomQuestion();
+    }
+  };
 
   return (
     <div>
@@ -38,7 +28,7 @@ const CustomQuestions: React.FC<{
       <div className="relative mt-4">
         <input
           value={customQuestion}
-          onChange={customQuestionChangeHandler}
+          onChange={e => setCustomQuestion(e.target.value)}
           onKeyDown={onInputKeyDown}
           placeholder="Type your question..."
           disabled={isLoading}
