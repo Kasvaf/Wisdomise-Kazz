@@ -18,7 +18,10 @@ export default function PaymentMethodsTab() {
           <p>Next payment will be automatically collected from this card.</p>
         </>
       )}
-      <Button className="mt-4" to="/account/billing/change-payment-method">
+      <Button
+        className="mt-4 inline-block"
+        to="/account/billing/change-payment-method"
+      >
         Change payment method
       </Button>
     </div>
