@@ -31,14 +31,14 @@ export default function ConnectWalletWrapper({ children, className }: Props) {
 
   const openWeb3Modal = useCallback(() => open(), [open]);
 
-  const handleSignAndVerification = useCallback(async () => {
+  const handleSignAndVerification = async () => {
     if (nonceResponse?.nonce) {
       const verifyReqBody = await signInWithEthereum(nonceResponse?.nonce);
       if (verifyReqBody) {
         void mutateAsync(verifyReqBody).then(() => setShowConnectWallet(true));
       }
     }
-  }, [mutateAsync, nonceResponse?.nonce, signInWithEthereum]);
+  };
 
   const disconnectWallet = useCallback(() => disconnect(), [disconnect]);
 

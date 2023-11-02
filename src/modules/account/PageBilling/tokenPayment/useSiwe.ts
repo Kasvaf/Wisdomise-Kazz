@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { SiweMessage } from 'siwe';
 import { useAccount, useNetwork, useSignMessage } from 'wagmi';
 import { type NonceVerificationBody } from 'api/defi';
@@ -21,21 +20,20 @@ export default function useSignInWithEthereum() {
     return new SiweMessage(messageParams);
   }
 
-  const signInWithEthereum = useCallback(
-    async (nonce: string): Promise<NonceVerificationBody | null> => {
-      if (!address || !nonce) return null;
-      const statement =
-        'Wisdomise wants you to sign in with your Ethereum account';
-      const message = createMessage(address, statement, nonce);
-      return {
-        message,
-        signature: await signMessageAsync({
-          message: message.prepareMessage(),
-        }),
-      };
-    },
-    [address, signMessageAsync],
-  );
+  async function signInWithEthereum(
+    nonce: string,
+  ): Promise<NonceVerificationBody | null> {
+    if (!address || !nonce) return null;
+    const statement =
+      'Wisdomise wants you to sign in with your Ethereum account';
+    const message = createMessage(address, statement, nonce);
+    return {
+      message,
+      signature: await signMessageAsync({
+        message: message.prepareMessage(),
+      }),
+    };
+  }
 
   return { signInWithEthereum };
 }
