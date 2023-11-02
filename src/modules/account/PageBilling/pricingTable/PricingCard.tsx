@@ -100,7 +100,11 @@ export default function PricingCard({
         disabled={
           !plan.is_active || isPlanCheaperThanUserPlan || hasUserThisPlan
         }
-        className="block !w-full !font-medium"
+        className={clsx(
+          'block !w-full !font-medium',
+          // active plan is disabled, but has different styling
+          hasUserThisPlan && '!cursor-default !text-white',
+        )}
       >
         {plan.is_active
           ? hasUserThisPlan
