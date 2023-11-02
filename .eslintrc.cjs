@@ -81,6 +81,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'error',
     'react/jsx-no-bind': 'error',
+    'react-hooks/exhaustive-deps': 'error',
 
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/promise-function-async': 'off',
