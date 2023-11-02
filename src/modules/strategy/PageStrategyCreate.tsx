@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { type Resolution, useCreateStrategyMutation } from 'api';
@@ -22,7 +22,7 @@ export default function PageStrategyCreate() {
   const { mutateAsync, isLoading } = useCreateStrategyMutation();
   const navigate = useNavigate();
 
-  const onCreateHandler = useCallback(async () => {
+  const onCreateHandler = async () => {
     setShowErrors(true);
     if (!name) return;
 
@@ -37,7 +37,7 @@ export default function PageStrategyCreate() {
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
-  }, [mutateAsync, navigate, market, name, resolution, tags]);
+  };
 
   return (
     <PageWrapper>

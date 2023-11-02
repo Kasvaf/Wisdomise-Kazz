@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   useAccountQuery,
@@ -21,11 +20,11 @@ export default function OverviewTab() {
     width: 1200,
   });
 
-  const handleChangePlan = useCallback(async () => {
+  const handleChangePlan = async () => {
     if (await openPricingTable({ isUpdate: true })) {
       void refetch();
     }
-  }, [openPricingTable, refetch]);
+  };
 
   if (
     firstPaymentMethod === 'CRYPTO' &&

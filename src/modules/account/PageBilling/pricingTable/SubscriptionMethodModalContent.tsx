@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
@@ -26,15 +25,15 @@ export default function SubscriptionMethodModal({
     { fullscreen: true, destroyOnClose: true },
   );
 
-  const onCryptoClick = useCallback(() => {
+  const onCryptoClick = () => {
     onResolve?.();
     void openCryptoPaymentModal({ plan });
-  }, [onResolve, openCryptoPaymentModal, plan]);
+  };
 
-  const onFiatClick = useCallback(async () => {
+  const onFiatClick = async () => {
     await propOnFiatClick();
     onResolve?.();
-  }, [onResolve, propOnFiatClick]);
+  };
 
   return (
     <div className="flex flex-col items-center">

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
@@ -47,10 +47,6 @@ const ExchangeAccountSelector: React.FC<Props> = ({
   disabled = false,
 }) => {
   const { data, isLoading } = useExchangeAccountsQuery();
-  const onSelectHandler = useCallback(
-    (acc: ExchangeAccount) => onSelect?.(acc.key),
-    [onSelect],
-  );
 
   const items: ExchangeAccount[] = useMemo(() => {
     const wisdomise = {
@@ -84,7 +80,7 @@ const ExchangeAccountSelector: React.FC<Props> = ({
             ? 'loading...'
             : items.find(x => x.key === selectedItem)
         }
-        onSelect={onSelectHandler}
+        onSelect={acc => onSelect?.(acc.key)}
         renderItem={ExchangeAccountOptionItem}
         disabled={disabled}
       />
@@ -101,15 +97,10 @@ const ModalExchangeAccountSelector: React.FC<{
   const [ModalAddExchange, showAddExchange] =
     useModalAddExchangeAccount(market);
 
-  const continueHandler = useCallback(
-    () => onResolve?.(account),
-    [onResolve, account],
-  );
-
-  const connectHandler = useCallback(async () => {
+  const connectHandler = async () => {
     const addedAcc = await showAddExchange();
     if (addedAcc) setAccount(addedAcc);
-  }, [showAddExchange]);
+  };
 
   return (
     <div className="text-white">
@@ -134,7 +125,7 @@ const ModalExchangeAccountSelector: React.FC<{
           <Button onClick={connectHandler}>Connect New Account</Button>
         )}
 
-        <Button className="grow" onClick={continueHandler}>
+        <Button className="grow" onClick={() => onResolve?.(account)}>
           Continue
         </Button>
       </div>

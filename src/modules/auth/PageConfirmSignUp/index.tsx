@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAccountQuery, useResendVerificationEmailMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
@@ -12,14 +12,14 @@ const PageConfirmSignUp = () => {
   const { data: account } = useAccountQuery();
   const [isChecking, setIsChecking] = useState(false);
 
-  const checkAgain = useCallback(() => {
+  const checkAgain = () => {
     setIsChecking(true);
     login();
-  }, []);
+  };
 
   const [isResending, setIsResending] = useState(false);
   const resendVerify = useResendVerificationEmailMutation();
-  const resendEmail = useCallback(async () => {
+  const resendEmail = async () => {
     try {
       setIsResending(true);
       if (await resendVerify()) {
@@ -32,7 +32,7 @@ const PageConfirmSignUp = () => {
     } finally {
       setIsResending(false);
     }
-  }, [resendVerify]);
+  };
 
   useEffect(() => {
     if (account?.info.email_verified) {

@@ -1,4 +1,4 @@
-import { type ReactNode, useCallback, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { clsx } from 'clsx';
 import { useReferralStatusQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -11,11 +11,6 @@ export default function ReferralPage() {
   const { data: referral, isLoading } =
     useReferralStatusQuery(selectedInterval);
   const myOrigin = window.location.origin;
-
-  const changeInterval = useCallback(
-    (interval: number) => setSelectedInterval(interval),
-    [],
-  );
 
   return (
     <PageWrapper loading={isLoading}>
@@ -47,8 +42,7 @@ export default function ReferralPage() {
                       interval === selectedInterval && '!bg-black/80',
                       'rounded-full bg-white/10 px-6 py-1',
                     )}
-                    /* eslint-disable-next-line react/jsx-no-bind */
-                    onClick={() => changeInterval(interval)}
+                    onClick={() => setSelectedInterval(interval)}
                   >
                     {interval}d
                   </button>

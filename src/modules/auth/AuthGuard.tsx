@@ -23,6 +23,14 @@ function replaceLocation(url: string) {
   window.location.replace(decodeURIComponent(url));
 }
 
+const redirectLogin = (redirectUrl: string) => {
+  const token = getJwtToken();
+  if (token) {
+    replaceLocation(`${redirectUrl}/auth/callback?token=${token}`);
+    return true;
+  }
+};
+
 export default function AuthGuard({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -46,14 +54,6 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   const appsInfo = useAppsInfoQuery();
   const apps = appsInfo.data?.results;
 
-  const redirectLogin = useCallback((redirectUrl: string) => {
-    const token = getJwtToken();
-    if (token) {
-      replaceLocation(`${redirectUrl}/auth/callback?token=${token}`);
-      return true;
-    }
-  }, []);
-
   const handleAppRedirect = useCallback(
     (appName: string) => {
       if (!apps?.length) return;
@@ -66,7 +66,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         return redirectLogin(redirectUrl);
       }
     },
-    [apps, redirectLogin],
+    [apps],
   );
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         setLoading(false);
       }
     }
-  }, [loading, account, appsInfo, navigate, handleAppRedirect, redirectLogin]);
+  }, [loading, account, appsInfo, navigate, handleAppRedirect]);
 
   return loading ? <Splash /> : <>{children}</>;
 }

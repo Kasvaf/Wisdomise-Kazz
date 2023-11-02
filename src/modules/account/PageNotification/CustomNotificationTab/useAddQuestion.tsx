@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { notification } from 'antd';
 import useModal from 'modules/shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
@@ -39,33 +38,23 @@ const useAddQuestion = () => {
   });
 
   const addUserPromptsMutation = useAddUserPromptMutation();
-  const addQuestion = useCallback(
-    async (question: string) => {
-      if (!isActive) {
-        void openSubscribeModal({});
-      } else if (currentNotificationCount >= weeklyCustomNotificationCount) {
-        void openQuestionLimit({});
-      } else {
-        try {
-          await addUserPromptsMutation.mutateAsync({
-            type: 'CUSTOM',
-            question,
-          });
-        } catch (error) {
-          notification.error({ message: unwrapErrorMessage(error) });
-          throw error;
-        }
+  const addQuestion = async (question: string) => {
+    if (!isActive) {
+      void openSubscribeModal({});
+    } else if (currentNotificationCount >= weeklyCustomNotificationCount) {
+      void openQuestionLimit({});
+    } else {
+      try {
+        await addUserPromptsMutation.mutateAsync({
+          type: 'CUSTOM',
+          question,
+        });
+      } catch (error) {
+        notification.error({ message: unwrapErrorMessage(error) });
+        throw error;
       }
-    },
-    [
-      addUserPromptsMutation,
-      currentNotificationCount,
-      isActive,
-      openQuestionLimit,
-      openSubscribeModal,
-      weeklyCustomNotificationCount,
-    ],
-  );
+    }
+  };
 
   return {
     isLoading: addUserPromptsMutation.isLoading,

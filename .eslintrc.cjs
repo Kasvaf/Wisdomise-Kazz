@@ -80,7 +80,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off',
     'react/prop-types': 'off',
     'react/jsx-no-target-blank': 'error',
-    'react/jsx-no-bind': 'error',
+    'react/jsx-no-bind': ['error', { allowArrowFunctions: true }],
     'react-hooks/exhaustive-deps': 'error',
 
     '@typescript-eslint/explicit-function-return-type': 'off',

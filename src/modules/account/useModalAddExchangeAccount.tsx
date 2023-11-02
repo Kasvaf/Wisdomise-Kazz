@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { notification } from 'antd';
 import { type ExchangeTypes, useCreateExchangeAccount } from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
@@ -29,7 +29,7 @@ const ModalAddExchangeAccount: React.FC<{
   const [isSubmitting, setIsSubmitting] = useState(false);
   const createAccount = useCreateExchangeAccount();
 
-  const addHandler = useCallback(async () => {
+  const addHandler = async () => {
     setShowErrors(true);
     if (!accountName || !apiKey || !secretKey) return;
 
@@ -54,15 +54,7 @@ const ModalAddExchangeAccount: React.FC<{
     } finally {
       setIsSubmitting(false);
     }
-  }, [
-    createAccount,
-    exchange,
-    market,
-    accountName,
-    apiKey,
-    secretKey,
-    onResolve,
-  ]);
+  };
 
   return (
     <div className="text-white">

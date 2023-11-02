@@ -3,9 +3,7 @@ import { Switch, notification } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  type StrategyAsset,
   type StrategyData,
-  type Resolution,
   useStrategyQuery,
   useUpdateStrategyMutation,
 } from 'api';
@@ -35,26 +33,12 @@ const TabSettings = () => {
     }));
   }, []);
 
-  const setName = useCallback((v: string) => update('name', v), [update]);
-  const setResolution = useCallback(
-    (v: Resolution) => update('resolution', v),
-    [update],
-  );
-  const setTags = useCallback(
-    (v: string) => update('tags', v.split(/[\s,]+/)),
-    [update],
-  );
-  const cleanupTags = useCallback(() => {
+  const cleanupTags = () => {
     setChanges(cur => ({
       ...cur,
       tags: cur.tags?.filter(Boolean),
     }));
-  }, []);
-
-  const setAssets = useCallback(
-    (v: StrategyAsset[]) => update('assets', v),
-    [update],
-  );
+  };
 
   const fieldHasChanges = (field: keyof StrategyData) =>
     changes[field] !== undefined &&
@@ -72,7 +56,7 @@ const TabSettings = () => {
   // ------------------------------------------------------------------------
 
   const { mutateAsync, isLoading: isSaving } = useUpdateStrategyMutation();
-  const saveChanges = useCallback(async () => {
+  const saveChanges = async () => {
     if (!params.id || !strategy || !assetsAreValid) return;
     try {
       await mutateAsync({
@@ -85,7 +69,7 @@ const TabSettings = () => {
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
-  }, [changes, mutateAsync, params.id, strategy, assetsAreValid]);
+  };
 
   // ------------------------------------------------------------------------
 
@@ -126,7 +110,7 @@ const TabSettings = () => {
           <TextBox
             placeholder="Strategy Name"
             value={changes.name ?? strategy.name}
-            onChange={setName}
+            onChange={v => update('name', v)}
             className="basis-3/5"
           />
 
@@ -138,7 +122,7 @@ const TabSettings = () => {
 
           <ResolutionSelector
             selectedItem={changes.resolution ?? strategy.resolution}
-            onSelect={setResolution}
+            onSelect={v => update('resolution', v)}
             className="basis-1/5"
           />
         </div>
@@ -154,7 +138,7 @@ const TabSettings = () => {
           <TextBox
             placeholder="Strategy tags"
             value={(changes.tags ?? strategy.tags ?? []).join(', ')}
-            onChange={setTags}
+            onChange={v => update('tags', v.split(/[\s,]+/))}
             onBlur={cleanupTags}
             className="basis-2/3"
           />
@@ -164,7 +148,7 @@ const TabSettings = () => {
       <PartAssets
         strategyKey={params.id}
         value={changes.assets ?? strategy.assets}
-        onChange={setAssets}
+        onChange={v => update('assets', v)}
         error={
           !(changes.assets ?? strategy.assets) ||
           assetsAreValid ||

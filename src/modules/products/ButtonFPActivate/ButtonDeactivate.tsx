@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import type React from 'react';
-import { useCallback } from 'react';
 import { notification } from 'antd';
 import {
   useInvestorAssetStructuresQuery,
@@ -23,7 +22,7 @@ const ButtonDeactivate: React.FC<Props> = ({
   const ias = useInvestorAssetStructuresQuery();
   const updateFPIStatus = useUpdateFPIStatusMutation();
 
-  const onDeactivateClick = useCallback(async () => {
+  const onDeactivateClick = async () => {
     if (ias.data?.[0] != null) {
       await updateFPIStatus.mutateAsync({
         fpiKey: ias.data[0].financial_product_instances[0].key,
@@ -33,7 +32,7 @@ const ButtonDeactivate: React.FC<Props> = ({
         message: 'Strategy Deactivated Successfully!',
       });
     }
-  }, [ias.data, updateFPIStatus]);
+  };
 
   const fpis = ias.data?.[0]?.financial_product_instances;
   const isOtherFPActive =

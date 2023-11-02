@@ -1,5 +1,5 @@
 /* eslint-disable import/max-dependencies */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { useAccountQuery, useUserInfoMutation } from 'api';
@@ -72,21 +72,20 @@ const PageSecondaryForm: React.FC = () => {
       type,
       title,
       Modal,
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      onClick: useCallback(async () => {
+      onClick: async () => {
         if (contracts[type]) {
           setContracts(x => ({ ...x, [type]: false }));
         } else if (await openModal()) {
           setContracts(x => ({ ...x, [type]: true }));
         }
-      }, [type, openModal]),
+      },
     };
   });
 
   const [errors, setErrors] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const agreeToTerms = useUserInfoMutation();
-  const onSubmit = useCallback(async () => {
+  const onSubmit = async () => {
     setErrors(true);
     if (
       !nickname ||
@@ -111,7 +110,7 @@ const PageSecondaryForm: React.FC = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [nickname, contracts, referralCode, agreeToTerms, navigate]);
+  };
 
   return (
     <ContainerAuth>

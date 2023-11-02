@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { notification } from 'antd';
-import { useCallback } from 'react';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import {
@@ -39,7 +38,7 @@ export default function PricingCard({
   const hasUserThisPlan = plan.stripe_price_id === userPlan?.id;
   const isPlanCheaperThanUserPlan = plan.price * 100 < (userPlan?.amount ?? 0);
 
-  const handleFiatPayment = useCallback(async () => {
+  const handleFiatPayment = async () => {
     if (isUpdate) {
       if (plan.stripe_price_id === userPlan?.id) {
         return;
@@ -61,17 +60,9 @@ export default function PricingCard({
         '?prefilled_email=' +
         encodeURIComponent(account?.email || '');
     }
-  }, [
-    isUpdate,
-    mutation,
-    onPlanUpdate,
-    userPlan?.id,
-    account?.email,
-    plan.stripe_price_id,
-    plan.stripe_payment_link,
-  ]);
+  };
 
-  const onClick = useCallback(() => {
+  const onClick = () => {
     // JUST in upgrade scenario for fiat we need this condition to not show modal,
     // Crypto up to now does not have upgrade.
     if (firstPaymentMethod === 'FIAT') {
@@ -82,12 +73,7 @@ export default function PricingCard({
         plan,
       });
     }
-  }, [
-    plan,
-    firstPaymentMethod,
-    handleFiatPayment,
-    openSubscriptionMethodModal,
-  ]);
+  };
 
   return (
     <div

@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import type React from 'react';
-import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
@@ -33,40 +32,37 @@ const ButtonActivate: React.FC<Props> = ({
       fp.config.external_account_market_type) ||
     undefined;
 
-  const gotoDashboardHandler = useCallback(() => {
+  const gotoDashboardHandler = () => {
     navigate('/app/assets');
     notification.destroy(fp.key);
-  }, [navigate, fp.key]);
+  };
 
-  const activateProduct = useCallback(
-    async (account?: string) => {
-      await createFPI.mutateAsync({ fpKey: fp.key, account });
-      notification.success({
-        key: fp.key,
-        message: 'Congratulations!',
-        description: (
-          <>
-            <p>
-              Thank you for trusting us. You can now deposit any amount to your
-              account and activate any of the AI-powered strategies
-            </p>
+  const activateProduct = async (account?: string) => {
+    await createFPI.mutateAsync({ fpKey: fp.key, account });
+    notification.success({
+      key: fp.key,
+      message: 'Congratulations!',
+      description: (
+        <>
+          <p>
+            Thank you for trusting us. You can now deposit any amount to your
+            account and activate any of the AI-powered strategies
+          </p>
 
-            <div className="mt-4 flex justify-around">
-              <Button
-                size="small"
-                variant="primary"
-                onClick={gotoDashboardHandler}
-              >
-                Dashboard
-              </Button>
-            </div>
-          </>
-        ),
-        duration: 0,
-      });
-    },
-    [createFPI, fp.key, gotoDashboardHandler],
-  );
+          <div className="mt-4 flex justify-around">
+            <Button
+              size="small"
+              variant="primary"
+              onClick={gotoDashboardHandler}
+            >
+              Dashboard
+            </Button>
+          </div>
+        </>
+      ),
+      duration: 0,
+    });
+  };
 
   const fpis = ias.data?.[0]?.financial_product_instances;
   const isOtherFPActive =
@@ -80,7 +76,7 @@ const ButtonActivate: React.FC<Props> = ({
   const [SubscribeModal, ensureSubscribed] = useEnsureSubscription();
   const isVerified = useIsVerified();
 
-  const onActivateClick = useCallback(async () => {
+  const onActivateClick = async () => {
     if (!(await ensureSubscribed())) return;
 
     if (isVerified.isLoading) return;
@@ -104,19 +100,7 @@ const ButtonActivate: React.FC<Props> = ({
     if (acc !== 'wisdomise' || hasIas || (await openDisclaimer())) {
       await activateProduct(!acc || acc === 'wisdomise' ? undefined : acc);
     }
-  }, [
-    ensureSubscribed,
-    hasIas,
-    isVerified,
-    navigate,
-    openVerification,
-    openDisclaimer,
-    activateProduct,
-    showModalApiKey,
-    showModalExchangeAccountSelector,
-    fp.config.no_withdraw,
-    market,
-  ]);
+  };
 
   return (
     <>

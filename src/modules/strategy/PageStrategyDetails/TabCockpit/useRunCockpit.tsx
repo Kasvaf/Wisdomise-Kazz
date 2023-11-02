@@ -1,5 +1,4 @@
 import { notification } from 'antd';
-import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   type StrategyData,
@@ -27,7 +26,7 @@ const useRunCockpit = (strategy?: StrategyData) => {
 
   const strategyKey = strategy?.key;
   const market = strategy?.market_name;
-  const runCockpit = useCallback(async () => {
+  const runCockpit = async () => {
     if (!strategyKey) return;
 
     if (isVerified.isLoading) return;
@@ -53,17 +52,7 @@ const useRunCockpit = (strategy?: StrategyData) => {
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
-  }, [
-    hasIas,
-    isVerified,
-    strategyKey,
-    market,
-    navigate,
-    openDisclaimer,
-    openVerification,
-    showModalExchangeAccountSelector,
-    mutateAsync,
-  ]);
+  };
 
   return {
     runCockpit,

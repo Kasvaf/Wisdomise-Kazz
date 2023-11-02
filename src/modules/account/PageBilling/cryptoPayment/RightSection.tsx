@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useBoolean } from 'usehooks-ts';
 import type { Network } from 'api/types/NetworksResponse';
 import Button from 'modules/shared/Button';
@@ -22,10 +22,10 @@ export default function RightSection({ plan, onResolve }: Props) {
   const { value: isConfirmed, setTrue: setConfirmed } = useBoolean();
   const { value: isSubmitted, setTrue: setSubmitted } = useBoolean();
 
-  const onDoneClick = useCallback(async () => {
+  const onDoneClick = async () => {
     await invoices.refetch();
     onResolve();
-  }, [invoices, onResolve]);
+  };
 
   return (
     <div className="flex h-full shrink grow basis-0 items-center justify-center bg-white/5 mobile:bg-[#131822]">

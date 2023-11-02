@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { usePlansQuery } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -16,8 +16,6 @@ export default function PricingTable({
 }: PricingTableProps) {
   const { data, isLoading } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
-
-  const handleUpdatePlan = useCallback(() => onResolve?.(true), [onResolve]);
 
   return (
     <PageWrapper loading={isLoading}>
@@ -46,7 +44,7 @@ export default function PricingTable({
                 key={plan.key}
                 isUpdate={isUpdate}
                 className="col-span-1"
-                onPlanUpdate={handleUpdatePlan}
+                onPlanUpdate={() => onResolve?.(true)}
               />
             ))}
         </div>

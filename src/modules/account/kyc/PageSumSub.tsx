@@ -1,7 +1,6 @@
 import SumsubWebSdk from '@sumsub/websdk-react';
 import { useQuery } from '@tanstack/react-query';
 import { notification } from 'antd';
-import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unwrapErrorMessage } from 'utils/error';
 import { getSumsubToken, useAccountQuery } from 'api';
@@ -15,14 +14,11 @@ export default function SumSubPage() {
   const account = useAccountQuery();
   const token = useQuery([], getSumsubToken);
 
-  const msgHandler = useCallback(
-    (type: string) => {
-      if (type === 'idCheck.applicantReviewComplete') {
-        navigate('/kyc');
-      }
-    },
-    [navigate],
-  );
+  const msgHandler = (type: string) => {
+    if (type === 'idCheck.applicantReviewComplete') {
+      navigate('/account/kyc');
+    }
+  };
 
   return (
     <PageWrapper loading={account.isLoading || token.isLoading}>
