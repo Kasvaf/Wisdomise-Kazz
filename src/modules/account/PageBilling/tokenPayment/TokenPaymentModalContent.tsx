@@ -18,8 +18,8 @@ export default function TokenPaymentModalContent({ plan }: Props) {
   }, []);
 
   return (
-    <div className="grid min-h-screen grid-cols-12 text-white">
-      <div className="col-span-6 flex h-full flex-col items-center justify-center bg-[#131822]">
+    <div className="grid h-screen grid-cols-12 overflow-auto text-white">
+      <div className="col-span-12 flex h-full flex-col items-center justify-center bg-[#131822] lg:col-span-6">
         <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
           <div className="flex items-center gap-3 mobile:hidden">
             <div className="h-10 w-10 rounded-full bg-[#D9D9D9]" />
@@ -71,7 +71,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
         </div>
       </div>
       <div className="col-span-12 flex flex-col items-center justify-center bg-white/5 lg:col-span-6">
-        <ConnectWalletWrapper className="w-3/4">
+        <ConnectWalletWrapper className="mobile:m-4 lg:w-3/4">
           <Card className="flex flex-col items-center gap-6 text-center">
             <h3>Wisdomise Pro</h3>
             <div className="flex items-center justify-center gap-10">

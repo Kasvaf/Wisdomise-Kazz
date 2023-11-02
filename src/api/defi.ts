@@ -34,6 +34,7 @@ export const useNonceVerificationMutation = () => {
       await axios.post(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/verify`,
         body,
+        { withCredentials: true },
       );
     },
     { onSuccess: () => client.invalidateQueries(['account']) },

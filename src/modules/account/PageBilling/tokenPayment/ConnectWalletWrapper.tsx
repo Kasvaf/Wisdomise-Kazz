@@ -6,6 +6,7 @@ import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import useSignInWithEthereum from 'modules/account/PageBilling/tokenPayment/useSiwe';
+import { shortenAddress } from 'utils/shortenAddress';
 import { ReactComponent as Wallet } from '../images/wallet.svg';
 import { ReactComponent as Key } from '../images/key.svg';
 
@@ -61,9 +62,9 @@ export default function ConnectWalletWrapper({ children, className }: Props) {
 
   return (
     <div className={className}>
-      {isConnected && (
-        <div className="flex flex-wrap items-center gap-4">
-          <div>{address}</div>
+      {isConnected && address && (
+        <div className="mb-2 flex items-center justify-between gap-4 rounded-full bg-white/5 p-2 pl-4">
+          <div>Wallet Address: {shortenAddress(address)}</div>
           <Button onClick={disconnectWallet}>Disconnect</Button>
         </div>
       )}
@@ -94,7 +95,7 @@ export default function ConnectWalletWrapper({ children, className }: Props) {
       {showNonce && (
         <Card className="flex flex-col items-center gap-12 text-center">
           <Key className="mobile:w-24" />
-          <h2 className="text-lg">
+          <h2 className="w-[17rem] text-lg">
             Please sign this nonce with your private key
           </h2>
           <div className="w-full rounded-xl bg-white/10 py-6 text-lg font-semibold text-white/60">
