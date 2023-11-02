@@ -26,6 +26,7 @@ export interface Account {
     | 'UNVERIFIED'
     | 'SET_CALENDLY_MEETING'
     | 'VERIFIED';
+  wallet_address?: string;
 }
 
 interface User {

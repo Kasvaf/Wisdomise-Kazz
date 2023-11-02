@@ -1,11 +1,13 @@
 import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { WagmiConfig } from 'wagmi';
 import configApp from 'config/config';
 import queryClient from 'config/reactQuery';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
 import { RouterBaseName } from 'config/constants';
+import { config } from 'config/wagmi';
 
 configApp();
 
@@ -19,7 +21,9 @@ if (RouterBaseName) {
 createRoot(root).render(
   <Sentry.ErrorBoundary fallback={<PageError />}>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <WagmiConfig config={config}>
+        <App />
+      </WagmiConfig>
     </QueryClientProvider>
   </Sentry.ErrorBoundary>,
 );

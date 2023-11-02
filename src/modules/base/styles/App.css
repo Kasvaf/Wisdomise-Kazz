@@ -31,3 +31,7 @@
 #root {
   height: 100%;
 }
+
+:root {
+  --wcm-z-index: 1001 !important;
+}
