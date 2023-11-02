@@ -1,14 +1,19 @@
 import linaria from '@linaria/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import svgr from 'vite-plugin-svgr';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { Mode, plugin as mdPlugin } from 'vite-plugin-markdown';
+import i18nextLoader from 'vite-plugin-i18next-loader';
+import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig(config => ({
   base: '/' + (process.env.VITE_BRANCH || ''),
   plugins: [
+    i18nextLoader({
+      paths: ['./src/i18n'],
+      namespaceResolution: 'basename',
+    }),
     mdPlugin({
       mode: [Mode.REACT],
     }),

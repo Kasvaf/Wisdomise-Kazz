@@ -12,3 +12,11 @@ declare module '*.md' {
 
   export { attributes, ReactComponent };
 }
+
+declare module 'virtual:i18next-loader';
+
+declare module 'i18next' {
+  interface CustomTypeOptions {
+    allowObjectInHTMLChildren: true;
+  }
+}
