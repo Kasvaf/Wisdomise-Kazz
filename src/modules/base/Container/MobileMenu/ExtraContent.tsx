@@ -1,6 +1,7 @@
 import { Crisp } from 'crisp-sdk-web';
 import { bxBot, bxLogOut, bxSupport, bxUser } from 'boxicons-quasar';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAccountQuery, useInvestorAssetStructuresQuery } from 'api';
 import Icon from 'shared/Icon';
 import { logout } from 'modules/auth/authHandlers';
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const ExtraContent: React.FC<Props> = ({ onClose }) => {
+  const { t } = useTranslation();
   const { data: account } = useAccountQuery();
   const ias = useInvestorAssetStructuresQuery();
   const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
@@ -24,19 +26,19 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
   const extraItems = isAccount
     ? [
         {
-          title: 'Dashboard',
+          title: t('base.menu.dashboard'),
           to: '/',
           icon: <IconDashboard className="mr-2" />,
         },
         {
-          title: 'Athena',
+          title: t('base.menu.athena'),
           to: ATHENA_FE,
           icon: <Icon name={bxBot} className="mr-2" />,
         },
       ]
     : [
         {
-          title: 'Profile Dashboard',
+          title: t('base.menu.profile-dashboard'),
           to: '/account/profile',
           icon: <Icon name={bxUser} className="mr-2" />,
         },
@@ -94,7 +96,7 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
             onClick={logout}
             className="flex items-center justify-start text-xs font-medium uppercase text-error"
           >
-            <Icon name={bxLogOut} className="mr-2" /> Logout
+            <Icon name={bxLogOut} className="mr-2" /> {t('base.user.logout')}
           </button>
         </div>
       </div>

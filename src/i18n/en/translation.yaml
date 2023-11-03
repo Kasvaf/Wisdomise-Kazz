@@ -1,3 +1,67 @@
+base:
+  wisdomise-is-loading: Wisdomise is loading ...
+  error-page:
+    title: Something went wrong and we don&rsquo;t know how :(
+    subtitle: But we&rsquo;ll try our best so that it won&rsquo;t happen again.
+    btn-reload: Reload
+  menu:
+    category:
+      passive-income: Passive Income
+      market-predication: Market Predication
+      account: Account
+      strategy-builder: Strategy Builder
+    asset-overview:
+      title: Asset Overview
+      mobile: Asset
+    products-catalog:
+      title: Products Catalog
+      mobile: Products
+    signal-matrix:
+      title: Signal Matrix
+      mobile: Signals
+    strategies:
+      title: Strategies
+      mobile: Strategies
+    profile:
+      title: Profile
+      mobile: Profile
+    account-manager:
+      title: Account Manager
+      mobile: Accounts
+    billing:
+      title: Billing
+      mobile: Billing
+    referral:
+      title: Referral
+      mobile: Referral
+    kyc:
+      title: KYC
+      mobile: KYC
+    notification-center:
+      title: Notification Center
+      mobile: Notifications
+    dashboard: Dashboard
+    athena: Athena
+    profile-dashboard: Profile Dashboard
+  user:
+    logout: Logout
+  mobile-menu:
+    close: Close
+    open: Menu
+
+wallet:
+  title: Wallet
+  total-balance: Total Balance
+  withdrawable: Withdrawable
+  btn-deposit: Deposit
+  btn-withdraw: Withdraw
+  equity-description_one: >-
+    You have <1>{{count}}</1> running product<br>
+    that block <5>{{blocked}}</5> {{mainQuote}} of your equity.
+  equity-description: >-
+    You have <1>{{count}}</1> running products<br>
+    that block <5>{{blocked}}</5> {{mainQuote}} of your equity.
+
 asset-overview:
   intro:
     title: We Trade On Your Behalf!
@@ -61,5 +125,8 @@ fpi:
       Please be aware that by Stopping the Strategy, all your open trades will
       be sold on &quot;Market&quot; price. The final PnL will be calculated
       after closing open positions.
-    yes: Yes, <1>{{typeLabel}}</1>
+    'yes': Yes, <1>{{typeLabel}}</1>
     cancel: Cancel
+
+athena:
+  box-ask-athena: Ask Athena anything about crypto

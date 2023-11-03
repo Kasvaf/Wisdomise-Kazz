@@ -1,9 +1,11 @@
 import { clsx } from 'clsx';
 import { bxChevronRight } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { ATHENA_FE } from 'config/constants';
 import Icon from 'shared/Icon';
 
 const AskAthena: React.FC<{ className?: string }> = ({ className }) => {
+  const { t } = useTranslation();
   return (
     <a
       href={ATHENA_FE}
@@ -14,7 +16,7 @@ const AskAthena: React.FC<{ className?: string }> = ({ className }) => {
         className,
       )}
     >
-      Ask Athena anything about crypto
+      {t('athena.box-ask-athena')}
       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
         <Icon size={24} name={bxChevronRight} className="w-6 text-black" />
       </div>
