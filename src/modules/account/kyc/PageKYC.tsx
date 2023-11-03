@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useSumsubVerified, useVerifiedWallets, useAccountQuery } from 'api';
 import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -24,6 +25,7 @@ const badgeBySumsubStatus = {
 };
 
 export default function PageKYC() {
+  const { t } = useTranslation();
   const sumsubVerified = useSumsubVerified();
   const account = useAccountQuery();
   const wallets = useVerifiedWallets();
@@ -39,12 +41,13 @@ export default function PageKYC() {
         <div className="flex flex-col gap-6 md:flex-row">
           <div className="w-full rounded-3xl bg-white/5 p-6">
             <h2 className="font-semibold">
-              <span className="text-xl font-bold">1.</span> Identification
+              <span className="text-xl font-bold">1.</span>{' '}
+              {t('kyc.identification.title')}
             </h2>
 
             <div className="flex items-start justify-between gap-4">
               <div className="mt-8 text-xs text-white/60">
-                Identify yourself to help us secure your account.
+                {t('kyc.identification.description')}
               </div>
               <div>
                 <IdentificationSvg className="h-[100px] w-[100px] saturate-0" />
@@ -60,7 +63,7 @@ export default function PageKYC() {
                   to="/account/kyc/sumsub"
                   className="rounded-full bg-white px-5 py-3 text-center text-[14px] text-black"
                 >
-                  Let’s Start in Sumsub
+                  {t('kyc.identification.btn-start-sumsub')}
                 </NavLink>
               )}
             </div>
@@ -68,14 +71,13 @@ export default function PageKYC() {
           {/* -------------------------------------------------- */}
           <div className="w-full rounded-3xl bg-white/5 p-6">
             <h2 className="font-semibold">
-              <span className="text-xl font-bold">2.</span> Verification
+              <span className="text-xl font-bold">2.</span>{' '}
+              {t('kyc.verification.title')}
             </h2>
 
             <div className="flex items-start justify-between gap-4">
               <div className="mt-8 text-xs text-white/60">
-                To verify your account, kindly schedule a meeting on Calendly,
-                and we will reach out to assist you with the verification
-                process.
+                {t('kyc.verification.description')}
               </div>
               <div>
                 <VerificationSvg className="h-[100px] w-[100px] saturate-0" />
@@ -91,7 +93,7 @@ export default function PageKYC() {
                 }
                 {sumsubVerified.data !== 'VERIFIED' && (
                   <ul className="ml-3 mt-1 list-disc text-[10px] text-[#F1AA40]">
-                    <li>Complete Identification first</li>
+                    <li>{t('kyc.verification.identify-first-notice')}</li>
                   </ul>
                 )}
               </div>
@@ -112,7 +114,7 @@ export default function PageKYC() {
                   )}
                   rel="noreferrer noopener"
                 >
-                  Schedule in Calendly
+                  {t('kyc.verification.btn-calendly')}
                 </a>
               )}
             </div>
@@ -120,11 +122,10 @@ export default function PageKYC() {
         </div>
         {/* -------------------------------------------------- */}
         <div className="w-full rounded-3xl bg-white/5 p-6">
-          <h2 className="mb-8 font-semibold">Wallet Verification</h2>
+          <h2 className="mb-8 font-semibold">{t('kyc.wallet.title')}</h2>
           <div className="flex items-start justify-between gap-3">
             <div className="text-xs text-white/60">
-              Verify your wallets to activate and unlock all of our products and
-              features.
+              {t('kyc.wallet.description')}
             </div>
             <div>
               <WalletSvg className="h-[100px] w-[100px] saturate-0" />
@@ -132,7 +133,7 @@ export default function PageKYC() {
           </div>
 
           <div className="mb-3 border-b border-solid border-white/10 pb-3">
-            Wallet Status
+            {t('kyc.wallet.list-title')}
           </div>
           {wallets.data?.length ? (
             <ol className="flex list-decimal flex-col gap-3 pl-6 text-white/50">
@@ -144,17 +145,21 @@ export default function PageKYC() {
                   <div className="flex shrink-0 grow-0 flex-wrap items-stretch text-white lg:flex-nowrap lg:gap-2">
                     <div className="basis-1/2 lg:basis-1/4">
                       <div className="mb-4 text-xs text-white/40">
-                        Wallet name
+                        {t('kyc.wallet.column.name')}
                       </div>
                       {w.name ? (
                         <div className="text-xs">{w.name}</div>
                       ) : (
-                        <div className="text-xs text-white/50">(unnamed)</div>
+                        <div className="text-xs text-white/50">
+                          {t('kyc.wallet.unnamed')}
+                        </div>
                       )}
                     </div>
 
                     <div className="basis-1/2 lg:basis-1/4">
-                      <div className="mb-4 text-xs text-white/40">Coin</div>
+                      <div className="mb-4 text-xs text-white/40">
+                        {t('kyc.wallet.column.coin')}
+                      </div>
                       <div className="mt-[-5px] flex items-center gap-2 text-sm">
                         <div>
                           <CoinsIcons coins={[w.symbol.name]} size="small" />
@@ -165,7 +170,7 @@ export default function PageKYC() {
 
                     <div className="mt-2 w-full basis-full border-t border-white/20 pt-2 lg:m-0 lg:basis-1/2 lg:border-none lg:p-0">
                       <div className="mb-4 text-xs text-white/40">
-                        Wallet Address
+                        {t('kyc.wallet.column.wallet-address')}
                       </div>
                       <div className="line-clamp-1 text-xs">{w.address}</div>
                     </div>
@@ -183,7 +188,7 @@ export default function PageKYC() {
             </ol>
           ) : (
             <div className="text-xs text-white/50">
-              You have no verified wallet address.
+              {t('kyc.wallet.empty-message')}
             </div>
           )}
 

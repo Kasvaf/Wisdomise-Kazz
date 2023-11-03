@@ -48,7 +48,6 @@ base:
   mobile-menu:
     close: Close
     open: Menu
-
 wallet:
   title: Wallet
   total-balance: Total Balance
@@ -56,12 +55,58 @@ wallet:
   btn-deposit: Deposit
   btn-withdraw: Withdraw
   equity-description_one: >-
-    You have <1>{{count}}</1> running product<br>
-    that block <5>{{blocked}}</5> {{mainQuote}} of your equity.
+    You have <1>{{count}}</1> running product<br> that block <5>{{blocked}}</5>
+    {{mainQuote}} of your equity.
   equity-description: >-
-    You have <1>{{count}}</1> running products<br>
-    that block <5>{{blocked}}</5> {{mainQuote}} of your equity.
-
+    You have <1>{{count}}</1> running products<br> that block <5>{{blocked}}</5>
+    {{mainQuote}} of your equity.
+billing:
+  banner:
+    ends-in: Your trial subscription ends in <1>{{remaining}}</1> days!
+    checkout-message: Check out our subscription plans from here
+    btn-subscription-plans: Subscription Plans
+kyc:
+  identification:
+    title: Identification
+    description: Identify yourself to help us secure your account.
+    btn-start-sumsub: Let’s Start in Sumsub
+  verification:
+    title: Verification
+    description: >-
+      To verify your account, kindly schedule a meeting on Calendly, and we will
+      reach out to assist you with the verification process.
+    identify-first-notice: Complete Identification first
+    btn-calendly: Schedule in Calendly
+  wallet:
+    title: Wallet Verification
+    description: >-
+      Verify your wallets to activate and unlock all of our products and
+      features.
+    list-title: Wallet Status
+    empty-message: You have no verified wallet address.
+    unnamed: (unnamed)
+    column:
+      name: Wallet name
+      coin: Coin
+      wallet-address: Wallet Address
+    add:
+      banner: >-
+        Please be aware that we currently only support <1>USDT</1> as a
+        cryptocurrency.
+      help:
+        pre: >-
+          To send us your USDT wallet address and network, you need to follow
+          these steps in your Trust wallet:
+        step-1-networks: Select USDT coin on your preferred network
+        step-2-receive: Choose receive button.
+        step-3-screenshot: >-
+          Take a screenshot of the page that shows your deposit wallet address
+          and network for USDT.
+        step-4-email: >-
+          Attach the screenshot to an email and send it to our support email:
+          <1>support@wisdomise.io</1>
+        screenshot-title: '<0>Example</0>: USDT Wallet Address'
+      btn-send-email: Send Email
 asset-overview:
   intro:
     title: We Trade On Your Behalf!
@@ -97,7 +142,6 @@ asset-overview:
       amount: Amount
       equity: Equity
       share: Share
-
 fpi:
   list:
     title: Your Active Financial Products
@@ -127,6 +171,5 @@ fpi:
       after closing open positions.
     'yes': Yes, <1>{{typeLabel}}</1>
     cancel: Cancel
-
 athena:
   box-ask-athena: Ask Athena anything about crypto
