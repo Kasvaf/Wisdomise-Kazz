@@ -5,6 +5,7 @@ import { type SubscriptionPlan } from 'api/types/subscription';
 import { ReactComponent as LogoWithText } from 'assets/logo-horizontal-beta.svg';
 import ConnectWalletWrapper from 'modules/account/PageBilling/tokenPayment/ConnectWalletWrapper';
 import { INVESTMENT_FE } from 'config/constants';
+import { addComma } from 'utils/numbers';
 import { ReactComponent as WisdomiseLogo } from '../images/wisdomise-logo.svg';
 
 interface Props {
@@ -34,11 +35,12 @@ export default function TokenPaymentModalContent({ plan }: Props) {
 
           <div className="mt-6 flex items-center gap-5">
             <p className="text-[40px] text-white mobile:text-3xl">
-              ${plan.price}
+              {addComma(plan.price * 100)}
             </p>
-            <p className="text-lg text-white/50 mobile:text-sm">
-              per <br />
-              {plan.periodicity.toLocaleLowerCase().replace('ly', '')}
+            <p className="text-lg mobile:text-sm">
+              Wisdomise Token (WSDM)
+              <br />
+              <span className="text-white/50">For 1 year</span>
             </p>
           </div>
 
@@ -48,23 +50,31 @@ export default function TokenPaymentModalContent({ plan }: Props) {
             </div>
             <div className="flex flex-col gap-7 text-lg mobile:text-base [&>*]:pb-7 mobile:[&>*]:pb-4">
               <div className="border-b border-white/20">
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4">
                   <span>{plan.name}</span>
-                  <span>${plan.price}</span>
+                  <span className="whitespace-nowrap">
+                    {addComma(plan.price * 100)} WSDM
+                  </span>
                 </div>
                 <p className="mt-6 text-sm text-white/50 mobile:mt-4">
                   {plan.description}
                 </p>
               </div>
 
-              <div className="flex justify-between border-b border-white/20">
+              <div className="flex justify-between gap-4 border-b border-white/20">
                 <span>Subtotal</span>
-                <span>${plan.price}</span>
+                <span className="whitespace-nowrap">
+                  {addComma(plan.price * 100)} WSDM
+                </span>
               </div>
 
-              <div className="flex justify-between">
-                <span>Total amount need to be hold in your wallet</span>
-                <span>${plan.price}</span>
+              <div className="flex justify-between gap-4">
+                <span className="text-sm">
+                  Total amount need to be hold in your wallet
+                </span>
+                <span className="whitespace-nowrap">
+                  {addComma(plan.price * 100)} WSDM
+                </span>
               </div>
             </div>
           </div>

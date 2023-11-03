@@ -77,16 +77,18 @@ export default function SubscriptionMethodModal({
             Crypto Payment
           </div>
         </Button>
-        <Button
-          onClick={onTokenClick}
-          className="col-span-2"
-          // disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
-        >
-          <div className="flex items-center gap-2">
-            <Token />
-            WSDM Token
-          </div>
-        </Button>
+        {plan.periodicity === 'YEARLY' && (
+          <Button
+            onClick={onTokenClick}
+            className="col-span-2"
+            // disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
+          >
+            <div className="flex items-center gap-2">
+              <Token />
+              Wisdomise Token (WSDM)
+            </div>
+          </Button>
+        )}
       </div>
       {cryptoPaymentModal}
       {tokenPaymentModal}
