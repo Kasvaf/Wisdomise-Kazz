@@ -55,7 +55,7 @@ const WalletDropdownContent: React.FC = () => {
       {(ias.data?.[0]?.financial_product_instances.length || 0) > 0 &&
         ias.data?.[0]?.financial_product_instances[0].status !== 'DRAFT' && (
           <p className="mt-2 px-2 text-center text-xs text-white/80 mobile:text-black/80">
-            <Trans i18nKey="equity-description" count={fpiCount}>
+            <Trans i18nKey="equity-description" ns="wallet" count={fpiCount}>
               You have
               <span className="text-white mobile:text-black">
                 {{ count: fpiCount }}

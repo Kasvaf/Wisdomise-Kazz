@@ -1,12 +1,14 @@
 import { Tabs, type TabsProps } from 'antd';
 import { Outlet } from 'react-router-dom';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useUserFirstPaymentMethod } from 'api';
 import OverviewTab from './OverviewTab';
 import InvoicesTab from './InvoicesTab';
 import PaymentMethodsTab from './PaymentMethodsTab';
 
 export default function SubscriptionDetail() {
+  const { t } = useTranslation('billing');
   const firstPaymentMethod = useUserFirstPaymentMethod();
 
   const tabs = useMemo<TabsProps['items']>(() => {
@@ -35,7 +37,7 @@ export default function SubscriptionDetail() {
   return (
     <>
       <h1 className="mb-4 text-base font-semibold text-white">
-        Subscription details
+        {t('subscription-details.title')}
       </h1>
       <Tabs items={tabs} tabBarStyle={{ color: '#fff' }} />
       <Outlet />

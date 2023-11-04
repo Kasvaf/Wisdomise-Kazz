@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import useNow from 'utils/useNow';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
@@ -13,6 +14,7 @@ interface Props {
 const RESEND_TIMEOUT = 10;
 
 function ModalSuccessful({ onResolve }: Props) {
+  const { t } = useTranslation('billing');
   const now = useNow();
   const [ttl] = useState(Date.now() + RESEND_TIMEOUT * 1000);
   const afterCheckoutUrl = sessionStorage.getItem(AFTER_CHECKOUT_KEY);
@@ -35,33 +37,39 @@ function ModalSuccessful({ onResolve }: Props) {
       <CongratsBG className="mb-12 motion-safe:animate-pulse" />
       <CongratsLogo className="absolute mt-8" />
 
-      <h1>Thanks for subscribing</h1>
-      <p className="mb-4 text-white/60">You can continue your journey.</p>
+      <h1>{t('success-modal.title')}</h1>
+      <p className="mb-4 text-white/60">{t('success-modal.subtitle')}.</p>
       <div className="max-sm:flex-col max-sm:w-full flex sm:gap-8">
         <Button
           className="max-sm:w-full mt-5 border !bg-transparent !text-white"
           onClick={onResolve}
         >
-          Subscription Details
+          {t('success-modal.btn-details')}
         </Button>
 
         {afterCheckoutUrl && (
           <Button className="max-sm:w-full mt-5" onClick={contHandler}>
-            Go to Athena
+            {t('success-modal.btn-goto-athena')}
           </Button>
         )}
       </div>
 
       {afterCheckoutUrl && ttl > now && (
         <p className="mt-6 text-white/60">
-          Will Be Redirected in{' '}
-          <strong className="text-white">
-            {`(${Math.min(
-              Math.floor((ttl - now) / 1000) + 1,
-              RESEND_TIMEOUT,
-            )})`}
-          </strong>{' '}
-          Seconds.
+          <Trans i18nKey="success-modal.redirecting-msg" ns="billing">
+            Will Be Redirected in
+            <strong className="text-white">
+              (
+              {{
+                timeout: Math.min(
+                  Math.floor((ttl - now) / 1000) + 1,
+                  RESEND_TIMEOUT,
+                ),
+              }}
+              )
+            </strong>
+            Seconds.
+          </Trans>
         </p>
       )}
     </div>

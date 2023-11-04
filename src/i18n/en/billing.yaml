@@ -2,3 +2,39 @@ banner:
   ends-in: Your trial subscription ends in <1>{{remaining}}</1> days!
   checkout-message: Check out our subscription plans from here
   btn-subscription-plans: Subscription Plans
+change-payment:
+  title: Change Payment Method
+  order-summary: Order Summary
+  change-payment-method: Change payment method
+  total: Total
+success-modal:
+  title: Thanks for subscribing
+  subtitle: You can continue your journey
+  btn-details: Subscription Details
+  btn-goto-athena: Go to Athena
+  redirecting-msg: Will Be Redirected in <1>({{timeout}})</1> Seconds.
+subscription-details:
+  title: Subscription details
+  invoices:
+    method: Payment Method
+    issue-date: Issue Date
+    amount: Price
+    status: Status
+  overview:
+    plan-details: Plan Details
+    is-on-the-way:
+      title: Your subscription is on the way
+      description: >-
+        You paid for your subscription via crypto payment, it takes 24-48 hours
+        to verify your transaction. We will email you when your subscription is
+        activated
+    current-plan: Your plan is <1>{{plan}}</1>.
+    btn-change-plan: Change plan
+    periodEnd: Your plan will {{action}} on <3>{{date}}</3>.
+    charging: Charging your credit card <1>${{ amount }}</1>.
+    billing-actions: Billing actions
+    card: Future charges will be applied to the card <1>****{{last4}}</1>.
+    billing-email: Billing emails are sent to <1>{{email}}</1>.
+  payment-methods:
+    title: Payment Methods
+    auto-renew-notice: Next payment will be automatically collected from this card.

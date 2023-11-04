@@ -17,7 +17,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
 
       <Banner icon={bxInfoCircle} className="mb-10">
         <span className="text-white/60">
-          <Trans i18nKey="wallet.add.banner">
+          <Trans i18nKey="wallet.add.banner" ns="kyc">
             Please be aware that we currently only support
             <span className="text-white">USDT</span> as a cryptocurrency.
           </Trans>
@@ -44,7 +44,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
             <li>{t('wallet.add.help.step-2-receive')}</li>
             <li>{t('wallet.add.help.step-3-screenshot')}</li>
             <li>
-              <Trans i18nKey="wallet.add.help.step-4-email">
+              <Trans i18nKey="wallet.add.help.step-4-email" ns="kyc">
                 Attach the screenshot to an email and send it to our support
                 email:
                 <a
@@ -61,7 +61,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
         </div>
         <div className="flex flex-col justify-center rounded-3xl bg-[#4C5059] p-4 pt-2 text-[12px] md:basis-1/2">
           <div className="mb-2 text-center font-normal">
-            <Trans i18nKey="wallet.add.help.screenshot-title">
+            <Trans i18nKey="wallet.add.help.screenshot-title" ns="kyc">
               <strong className="font-medium">Example</strong>: USDT Wallet
               Address
             </Trans>

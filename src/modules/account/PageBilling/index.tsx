@@ -11,8 +11,8 @@ import {
   SUCCESSFUL_CHECKOUT_KEY,
 } from 'modules/auth/constants';
 import useModalSuccessful from './useModalSuccessful';
-import SubscriptionDetail from './subscriptionDetail';
-import PricingTable from './pricingTable';
+import SubscriptionDetail from './SubscriptionDetail2';
+import PricingTable from './PricingTable2';
 
 export default function PageBilling() {
   const navigate = useNavigate();

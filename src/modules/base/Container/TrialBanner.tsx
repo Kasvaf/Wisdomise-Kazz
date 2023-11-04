@@ -21,7 +21,7 @@ export default function TrialBanner() {
     >
       <div className="flex max-w-screen-2xl flex-col items-center justify-between gap-4 md:flex-row md:gap-10">
         <div className="mx-4 text-center leading-8 md:mx-0">
-          <Trans i18nKey="banner.ends-in">
+          <Trans i18nKey="banner.ends-in" ns="billing">
             Your trial subscription ends in
             <span className="mx-1 rounded-full border border-white/20 px-3 py-2">
               {{ remaining }}

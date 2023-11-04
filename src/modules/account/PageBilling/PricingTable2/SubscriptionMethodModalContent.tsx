@@ -6,7 +6,7 @@ import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.s
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
 import { ReactComponent as SIcon } from '../images/s-icon.svg';
-import CryptoPaymentModalContent from '../cryptoPayment/CryptoPaymentModalContent';
+import CryptoPaymentModalContent from '../CryptoPaymentModalContent';
 
 interface Props {
   plan: SubscriptionPlan;
