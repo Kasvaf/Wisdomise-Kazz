@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 import useModal from 'modules/shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
 import {
@@ -11,13 +12,14 @@ import SubscribeModalContent from './SubscribeModalContent';
 import limitIcon from './icons/limit.svg';
 
 const useAddQuestion = () => {
+  const { t } = useTranslation('notifications');
   const [subscribeModal, openSubscribeModal] = useModal(SubscribeModalContent, {
     centered: true,
   });
 
   const userPrompts = useUserPromptsQuery();
   const currentNotificationCount = userPrompts.data?.length || 0;
-  const { weeklyCustomNotificationCount, isActive } = useSubscription();
+  const { weeklyCustomNotificationCount = 0, isActive } = useSubscription();
 
   const [questionLimitModal, openQuestionLimit] = useConfirm({
     icon: (
@@ -27,10 +29,13 @@ const useAddQuestion = () => {
     ),
     message: (
       <div className="text-center">
-        <h1 className="text-white">Question Limit</h1>
+        <h1 className="text-white">
+          {t('customs.custom-question.limit.title')}
+        </h1>
         <div className="mt-2 text-slate-400">
-          You can add up to {weeklyCustomNotificationCount} questions and if you
-          want to add a new question, you must delete the previous questions
+          {t('customs.custom-question.limit.description', {
+            weeklyCustomNotificationCount,
+          })}
         </div>
       </div>
     ),

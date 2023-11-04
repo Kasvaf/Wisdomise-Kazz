@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { bxPlus } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import {
   useSuggestedPromptsQuery,
   useUserPromptsQuery,
@@ -33,6 +34,7 @@ const SuggestedQuestionItem: React.FC<{
 };
 
 const SuggestedQuestions: React.FC<Props> = ({ onAdd, isLoading }) => {
+  const { t } = useTranslation('notifications');
   const userPrompts = useUserPromptsQuery();
   const suggestedPrompts = useSuggestedPromptsQuery();
 
@@ -49,7 +51,9 @@ const SuggestedQuestions: React.FC<Props> = ({ onAdd, isLoading }) => {
 
   return (
     <div className="mt-8 w-full">
-      <p className="my-3 font-medium text-white">Suggested weekly prompts</p>
+      <p className="my-3 font-medium text-white">
+        {t('customs.suggested-prompts.title')}
+      </p>
       <div className="flex w-full flex-wrap gap-3">
         {questions.map(item => (
           <SuggestedQuestionItem

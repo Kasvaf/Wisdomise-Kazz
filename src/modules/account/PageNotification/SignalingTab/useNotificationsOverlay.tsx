@@ -1,4 +1,5 @@
 import { bxLock } from 'boxicons-quasar';
+import { Trans, useTranslation } from 'react-i18next';
 import { useAccountQuery, useSubscription } from 'api';
 import Button from 'modules/shared/Button';
 import Card from 'modules/shared/Card';
@@ -7,44 +8,56 @@ import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import TelegramIcon from './TelegramIcon';
 import useConnectedQueryParam from './useConnectedQueryParam';
 
-const TelegramDisconnectedOverlay = () => (
-  <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
-    <div className="mb-4 rounded-full bg-white/10 p-4">
-      <TelegramIcon className="bg-white text-black/70" />
-    </div>
+const TelegramDisconnectedOverlay = () => {
+  const { t } = useTranslation('notifications');
 
-    <h1 className="text-white">Your Telegram is not connected</h1>
-    <p className="mt-2 text-slate-400">
-      Go to telegram and use{' '}
-      <code className="rounded bg-gray-700 px-2 py-1 text-cyan-400">
-        /subscribe_to_signals
-      </code>{' '}
-      command.
-    </p>
+  return (
+    <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
+      <div className="mb-4 rounded-full bg-white/10 p-4">
+        <TelegramIcon className="bg-white text-black/70" />
+      </div>
 
-    <Button className="mt-6" to={ATHENA_TELEGRAM_BOT}>
-      Open Telegram
-    </Button>
-  </Card>
-);
+      <h1 className="text-white">{t('signaling.overlay-telegram.title')}</h1>
+      <p className="mt-2 text-slate-400">
+        <Trans
+          i18nKey="signaling.overlay-telegram.description"
+          ns="notifications"
+        >
+          Go to telegram and use
+          <code className="rounded bg-gray-700 px-2 py-1 text-cyan-400">
+            /subscribe_to_signals
+          </code>
+          command.
+        </Trans>
+      </p>
 
-const UnsubscribedOverlay = () => (
-  <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
-    <div className="mb-4 rounded-full bg-white/10 p-4">
-      <Icon name={bxLock} className="text-warning" size={40} />
-    </div>
+      <Button className="mt-6" to={ATHENA_TELEGRAM_BOT}>
+        {t('signaling.btn-open-telegram.label')}
+      </Button>
+    </Card>
+  );
+};
 
-    <h1 className="text-white">You are not subscribed</h1>
-    <div className="mt-2 text-slate-400">
-      You need to buy one of our subscription plans to have notifications
-      enabled.
-    </div>
+const UnsubscribedOverlay = () => {
+  const { t } = useTranslation('notifications');
 
-    <Button to="/account/billing" className="mt-6">
-      Subscribe
-    </Button>
-  </Card>
-);
+  return (
+    <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
+      <div className="mb-4 rounded-full bg-white/10 p-4">
+        <Icon name={bxLock} className="text-warning" size={40} />
+      </div>
+
+      <h1 className="text-white">{t('overlay-subscription.title')}</h1>
+      <div className="mt-2 text-slate-400">
+        {t('overlay-subscription.signaling-description')}
+      </div>
+
+      <Button to="/account/billing" className="mt-6">
+        {t('overlay-subscription.btn-subscribe')}
+      </Button>
+    </Card>
+  );
+};
 
 export default function useNotificationsOverlay() {
   const account = useAccountQuery();

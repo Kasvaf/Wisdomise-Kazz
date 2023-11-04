@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import ToggleDaily from './ToggleDaily';
 import UserQuestions from './UserQuestions';
 import CustomQuestions from './CustomQuestions';
@@ -6,6 +7,7 @@ import useAddQuestion from './useAddQuestion';
 import warningSrc from './icons/warning.svg';
 
 export default function CustomNotificationTab() {
+  const { t } = useTranslation('notifications');
   const { addQuestion, permissionModals, isLoading } = useAddQuestion();
 
   return (
@@ -17,11 +19,7 @@ export default function CustomNotificationTab() {
 
       <div className="mt-10 flex items-center gap-4 rounded-xl bg-white/10 p-6">
         <img src={warningSrc} />
-        <p className="text-sm text-white/80">
-          By turning on this feature, you will receive two default daily
-          updates, and you can set a few customized prompts to be sent to you on
-          a weekly basis.
-        </p>
+        <p className="text-sm text-white/80">{t('customs.disclaimer')}</p>
       </div>
 
       {permissionModals}

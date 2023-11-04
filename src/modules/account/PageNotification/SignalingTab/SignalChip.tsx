@@ -1,6 +1,7 @@
 import { bxPlus, bxX } from 'boxicons-quasar';
 import { notification } from 'antd';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   useCreateSignalMutation,
   useDeleteSignalMutation,
@@ -17,6 +18,7 @@ const SignalChip: React.FC<{ pair: SupportedPair; strategy: Strategy }> = ({
   pair,
   strategy,
 }) => {
+  const { t } = useTranslation('notifications');
   const signals = useUserSignalQuery();
   const signal = useMemo(
     () =>
@@ -41,7 +43,9 @@ const SignalChip: React.FC<{ pair: SupportedPair; strategy: Strategy }> = ({
           strategy_name: strategy.name,
         });
         notification.success({
-          message: `You have subscribed to the selected coin in “${strategy.profile.title}” and will receive notifications every time in telegram there is a new position.`,
+          message: t('signaling.notification-activate-chip-message', {
+            strategy: strategy.profile.title,
+          }),
           key: strategy.name,
         });
       }

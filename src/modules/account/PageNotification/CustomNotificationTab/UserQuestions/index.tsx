@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
 import {
   usePredefinedPromptsQuery,
@@ -7,6 +8,7 @@ import {
 import QuestionItem from './QuestionItem';
 
 export default function UserQuestions() {
+  const { t } = useTranslation('notifications');
   const userPrompts = useUserPromptsQuery();
   const currentNotificationCount = userPrompts.data?.length || 0;
   const { weeklyCustomNotificationCount, isActive } = useSubscription();
@@ -16,9 +18,11 @@ export default function UserQuestions() {
     <section>
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-medium text-white">Your Question</p>
+          <p className="font-medium text-white">
+            {t('customs.your-question.title')}
+          </p>
           <p className="mt-4 leading-none text-white/40">
-            You can receive customized prompts via email every Monday.
+            {t('customs.your-question.description')}
           </p>
         </div>
         <p

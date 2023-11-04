@@ -1,4 +1,5 @@
 import { Switch } from 'antd';
+import { useTranslation } from 'react-i18next';
 import {
   useAccountQuery,
   useDailyMagicStatusMutation,
@@ -8,6 +9,7 @@ import useModal from 'modules/shared/useModal';
 import SubscribeModalContent from './SubscribeModalContent';
 
 export default function ToggleDaily() {
+  const { t } = useTranslation('notifications');
   const account = useAccountQuery();
   const { isActive } = useSubscription();
 
@@ -27,7 +29,7 @@ export default function ToggleDaily() {
   return (
     <div className="mb-6 flex justify-between border-b border-white/20 pb-6">
       <p className="text-xl text-white mobile:text-base">
-        Customize Notification
+        {t('customs.title')}
       </p>
       <div className="flex items-center gap-3">
         <p className="text-xl text-white mobile:text-sm">

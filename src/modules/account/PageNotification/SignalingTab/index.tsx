@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useStrategiesQuery } from 'api/notification';
 import Locker from 'shared/Locker';
 import StrategyCard from './StrategyCard';
@@ -6,6 +7,7 @@ import useNotificationsOverlay from './useNotificationsOverlay';
 import useModalConnected from './useModalConnected';
 
 export default function SignalingTab() {
+  const { t } = useTranslation('notifications');
   const strategies = useStrategiesQuery();
   const overlay = useNotificationsOverlay();
   const ModalConnected = useModalConnected();
@@ -14,9 +16,11 @@ export default function SignalingTab() {
     <>
       <div className="flex flex-col-reverse md:flex-row md:justify-between">
         <div>
-          <h2 className="mb-3 text-xl font-semibold">Strategies List</h2>
+          <h2 className="mb-3 text-xl font-semibold">
+            {t('signaling.subtitle')}
+          </h2>
           <p className="mb-6 text-sm font-medium text-white/60">
-            We have listed all the strategies we provide.{' '}
+            {t('signaling.description')}
           </p>
         </div>
         <div>
