@@ -13,7 +13,7 @@ interface Props {
 }
 
 const SideMenu: React.FC<Props> = ({ className }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('base');
   const { items: MenuItems, hasExternals } = useMenuItems();
   return (
     <div
@@ -53,15 +53,13 @@ const SideMenu: React.FC<Props> = ({ className }) => {
           <div className="flex flex-col gap-4">
             <Button className="block w-full" to="/app">
               <div className="flex grow items-center justify-between gap-2">
-                <span className="font-semibold">
-                  {t('base.menu.dashboard')}
-                </span>
+                <span className="font-semibold">{t('menu.dashboard')}</span>
                 <Icon name={bxLeftArrowAlt} />
               </div>
             </Button>
             <Button className="block w-full" to={ATHENA_FE} target="_blank">
               <div className="flex grow items-center justify-between gap-2">
-                <span className="font-semibold">{t('base.menu.athena')}</span>
+                <span className="font-semibold">{t('menu.athena')}</span>
                 <Icon name={bxLinkExternal} />
               </div>
             </Button>

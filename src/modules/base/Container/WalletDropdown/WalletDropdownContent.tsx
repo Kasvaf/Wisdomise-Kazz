@@ -11,7 +11,7 @@ import { ReactComponent as DepositIcon } from './deposit.svg';
 import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 
 const WalletDropdownContent: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('wallet');
   const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
 
@@ -30,7 +30,7 @@ const WalletDropdownContent: React.FC = () => {
       <div className="flex justify-around gap-2 rounded-lg bg-white/5 p-4 mobile:bg-black/5">
         <div className="flex flex-col items-center">
           <p className="text-xs text-white/80 mobile:text-black/80">
-            {t('wallet.total-balance')}
+            {t('total-balance')}
           </p>
           <p className="text-white mobile:text-black">
             {roundDown(totalBalance)}{' '}
@@ -42,7 +42,7 @@ const WalletDropdownContent: React.FC = () => {
         <div className="border-l border-white/10" />
         <div className="flex flex-col items-center ">
           <p className="text-xs text-white/80 mobile:text-black/80">
-            {t('wallet.withdrawable')}
+            {t('withdrawable')}
           </p>
           <p className="text-white mobile:text-black">
             {roundDown(withdrawable)}{' '}
@@ -55,7 +55,7 @@ const WalletDropdownContent: React.FC = () => {
       {(ias.data?.[0]?.financial_product_instances.length || 0) > 0 &&
         ias.data?.[0]?.financial_product_instances[0].status !== 'DRAFT' && (
           <p className="mt-2 px-2 text-center text-xs text-white/80 mobile:text-black/80">
-            <Trans i18nKey="wallet.equity-description" count={fpiCount}>
+            <Trans i18nKey="equity-description" count={fpiCount}>
               You have
               <span className="text-white mobile:text-black">
                 {{ count: fpiCount }}
@@ -76,7 +76,7 @@ const WalletDropdownContent: React.FC = () => {
         >
           <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
             <DepositIcon className="text-white mobile:text-black" />
-            {t('wallet.btn-deposit')}
+            {t('btn-deposit')}
           </div>
         </Button>
         {DepositMod}
@@ -88,7 +88,7 @@ const WalletDropdownContent: React.FC = () => {
         >
           <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
             <WithdrawIcon className="text-white mobile:text-black" />
-            {t('wallet.btn-withdraw')}
+            {t('btn-withdraw')}
           </div>
         </Button>
         {WithdrawMod}

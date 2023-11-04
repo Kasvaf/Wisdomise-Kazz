@@ -12,7 +12,7 @@ export default defineConfig(config => ({
   plugins: [
     i18nextLoader({
       paths: ['./src/i18n'],
-      namespaceResolution: 'basename',
+      namespaceResolution: 'relativePath',
     }),
     mdPlugin({
       mode: [Mode.REACT],

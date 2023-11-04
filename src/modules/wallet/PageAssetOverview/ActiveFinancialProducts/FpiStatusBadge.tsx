@@ -5,17 +5,17 @@ import { type FinancialProductInstance } from 'api/types/investorAssetStructure'
 const FpiStatusBadge: React.FC<{
   status: FinancialProductInstance['status'];
 }> = ({ status }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('fpi');
   const label = {
-    RUNNING: t('fpi.status.running'),
-    PAUSED: t('fpi.status.paused'),
-    DRAFT: t('fpi.status.draft'),
+    RUNNING: t('status.running'),
+    PAUSED: t('status.paused'),
+    DRAFT: t('status.draft'),
   }[status];
 
   return (
     <div className="mx-6 my-4 mr-0 flex flex-col items-center justify-between mobile:m-0">
       <p className="text-sm text-white/80 mobile:!hidden">
-        {t('fpi.status.title')}
+        {t('status.title')}
       </p>
       <p
         className={clsx(

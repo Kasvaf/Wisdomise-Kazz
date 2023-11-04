@@ -8,16 +8,16 @@ import Icon from 'modules/shared/Icon';
 import screenshot from './screenshot.png';
 
 const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('kyc');
   return (
     <div className="text-white">
       <h1 className="mb-8 text-center text-sm font-semibold text-white">
-        {t('kyc.wallet.title')}
+        {t('wallet.title')}
       </h1>
 
       <Banner icon={bxInfoCircle} className="mb-10">
         <span className="text-white/60">
-          <Trans i18nKey="kyc.wallet.add.banner">
+          <Trans i18nKey="wallet.add.banner">
             Please be aware that we currently only support
             <span className="text-white">USDT</span> as a cryptocurrency.
           </Trans>
@@ -27,12 +27,12 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
       <div className="flex flex-col gap-2 md:flex-row">
         <div className="md:basis-1/2">
           <div className="text-xs text-white/60">
-            {t('kyc.wallet.add.help.pre')}
+            {t('wallet.add.help.pre')}
           </div>
 
           <ol className="ml-6 mt-6 list-decimal">
             <li>
-              {t('kyc.wallet.add.help.step-1-networks')} (
+              {t('wallet.add.help.step-1-networks')} (
               {['TRC20', 'ERC20', 'BEP20'].map((x, i) => (
                 <React.Fragment key={x}>
                   <span className="rounded-full bg-black/50 px-1">{x}</span>
@@ -41,10 +41,10 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
               ))}
               ).
             </li>
-            <li>{t('kyc.wallet.add.help.step-2-receive')}</li>
-            <li>{t('kyc.wallet.add.help.step-3-screenshot')}</li>
+            <li>{t('wallet.add.help.step-2-receive')}</li>
+            <li>{t('wallet.add.help.step-3-screenshot')}</li>
             <li>
-              <Trans i18nKey="kyc.wallet.add.help.step-4-email">
+              <Trans i18nKey="wallet.add.help.step-4-email">
                 Attach the screenshot to an email and send it to our support
                 email:
                 <a
@@ -61,7 +61,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
         </div>
         <div className="flex flex-col justify-center rounded-3xl bg-[#4C5059] p-4 pt-2 text-[12px] md:basis-1/2">
           <div className="mb-2 text-center font-normal">
-            <Trans i18nKey="kyc.wallet.add.help.screenshot-title">
+            <Trans i18nKey="wallet.add.help.screenshot-title">
               <strong className="font-medium">Example</strong>: USDT Wallet
               Address
             </Trans>
@@ -77,7 +77,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
           target="_blank"
           className="items-center justify-between"
         >
-          {t('kyc.wallet.add.btn-send-email')}
+          {t('wallet.add.btn-send-email')}
           <Icon name={bxLinkExternal} className="ml-2" />
         </Button>
       </div>

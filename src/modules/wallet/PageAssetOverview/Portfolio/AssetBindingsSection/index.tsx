@@ -11,7 +11,7 @@ import AssetBindingsSectionTable from './AssetBindingsSectionTable';
 
 const emptyFn = () => <></>;
 const AssetBindingsSection = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('asset-overview');
   const isMobile = useIsMobile();
   const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
@@ -69,7 +69,7 @@ const AssetBindingsSection = () => {
           ) : (
             <p className="text-center text-2xl font-bold mobile:text-lg">
               {data?.asset_bindings.length} <br />
-              {t('asset-overview.portfolio.bindings-count', {
+              {t('portfolio.bindings-count', {
                 count: data?.asset_bindings.length ?? 0,
               })}
             </p>

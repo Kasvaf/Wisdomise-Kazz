@@ -15,7 +15,7 @@ const FinancialProductItem: React.FC<{
   noDetailsBtn?: boolean;
   className?: string;
 }> = ({ fpi, className, noDetailsBtn }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('fpi');
   const isMobile = useIsMobile();
   const ias = useInvestorAssetStructuresQuery();
   const badges = (
@@ -38,7 +38,7 @@ const FinancialProductItem: React.FC<{
       to={`/app/fpi/${fpi.key}`}
       className="!px-10 text-base font-medium"
     >
-      {t('fpi.list.btn-details')}
+      {t('list.btn-details')}
     </Button>
   );
 
@@ -71,7 +71,7 @@ const FinancialProductItem: React.FC<{
         <footer>
           {ias.data?.[0] && ias.data[0].asset_bindings.length > 0 && (
             <p className="mb-2 mt-4 text-sm text-white/80">
-              {t('fpi.list.aum-in', {
+              {t('list.aum-in', {
                 title: fpi.financial_product.title,
               })}
             </p>

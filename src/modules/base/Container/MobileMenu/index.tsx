@@ -9,7 +9,7 @@ import HamburgerIcon from './HamburgerIcon';
 import ExtraContent from './ExtraContent';
 
 const MobileMenu: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('base');
   const { items: MenuItems } = useMenuItems();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const setClosed = useCallback(() => setIsMenuOpen(false), []);
@@ -43,9 +43,7 @@ const MobileMenu: React.FC = () => {
         <div className="mx-2 flex flex-1 flex-col items-center justify-center">
           <HamburgerIcon open={isMenuOpen} setOpen={setIsMenuOpen} />
           <p className="text-xxs font-medium">
-            {isMenuOpen
-              ? t('base.mobile-menu.close')
-              : t('base.mobile-menu.open')}
+            {isMenuOpen ? t('mobile-menu.close') : t('mobile-menu.open')}
           </p>
         </div>
       </Dropdown>

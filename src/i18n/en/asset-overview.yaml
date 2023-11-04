@@ -1,0 +1,34 @@
+intro:
+  title: We Trade On Your Behalf!
+  description: >-
+    Wisdomise offers AI-based strategies tailored to your risk tolerance. Check
+    out our strategies and start making a profit today.
+  check-products: Check Products
+  deposit: Deposit
+portfolio:
+  title: Your Account Portfolio
+  description: >-
+    AI-based trading strategies run automatically on your crypto wallet. These
+    are built with our comprehensive and sophisticated AI after running over 300
+    million unique experiments
+  info:
+    balance: Balance
+    PnL:
+      title: P / L
+      unrealized: (Unrealized)
+    available:
+      title: Available
+      subtitle: Withdrawable
+    deposit:
+      title: Deposit
+      subtitle: Amount
+    working-capital:
+      title: Working Capital
+      subtitle: AUM
+  bindings-count: Coins
+  bindings-count_one: Coin
+  table:
+    coin: Coin
+    amount: Amount
+    equity: Equity
+    share: Share

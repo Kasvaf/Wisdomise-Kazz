@@ -1,0 +1,4 @@
+banner:
+  ends-in: Your trial subscription ends in <1>{{remaining}}</1> days!
+  checkout-message: Check out our subscription plans from here
+  btn-subscription-plans: Subscription Plans

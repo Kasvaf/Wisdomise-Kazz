@@ -44,7 +44,7 @@ export default function ReferralPage() {
                     )}
                     onClick={() => setSelectedInterval(interval)}
                   >
-                    {interval}d
+                    {`${interval}d`}
                   </button>
                 );
               })}

@@ -17,7 +17,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
   onConfirm,
   disabled,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('fpi');
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [overrideType, setOverrideType] = useState<FpiStatusMutationType>();
@@ -36,10 +36,10 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
   };
   const visibleType = overrideType || type;
   const typeLabel = {
-    stop: t('fpi.actions.stop'),
-    start: t('fpi.actions.start'),
-    pause: t('fpi.actions.pause'),
-    resume: t('fpi.actions.resume'),
+    stop: t('actions.stop'),
+    start: t('actions.start'),
+    pause: t('actions.pause'),
+    resume: t('actions.resume'),
   }[visibleType];
 
   return (
@@ -48,7 +48,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
       content={
         <section className="mx-2 max-w-[400px] text-white/80">
           <p className="mb-2 text-lg">
-            <Trans i18nKey="fpi.action-confirm.title">
+            <Trans i18nKey="action-confirm.title">
               Are You Sure To
               <span className="text-base font-medium text-white">
                 {{ typeLabel }}
@@ -57,7 +57,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
             </Trans>
           </p>
           {visibleType === 'stop' && (
-            <div>{t('fpi.action-confirm.stop-description')}</div>
+            <div>{t('action-confirm.stop-description')}</div>
           )}
 
           <section className="mt-6 flex justify-center">
@@ -66,11 +66,11 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
               size="small"
               onClick={() => setIsOpen(false)}
             >
-              {t('fpi.action-confirm.cancel')}
+              {t('action-confirm.cancel')}
             </Button>
             <div className="w-4" />
             <Button size="small" onClick={onConfirmClick} loading={loading}>
-              <Trans i18nKey="fpi.action-confirm.yes">
+              <Trans i18nKey="action-confirm.yes">
                 Yes,
                 <span className="ml-1">{{ typeLabel }}</span>
               </Trans>

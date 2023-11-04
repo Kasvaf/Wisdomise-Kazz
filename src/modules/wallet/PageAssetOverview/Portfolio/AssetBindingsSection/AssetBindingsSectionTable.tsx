@@ -17,14 +17,14 @@ interface Row {
 }
 
 const AssetBindingsSectionTable = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('asset-overview');
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
 
   const columns = useMemo<Array<ColumnType<Row>>>(
     () => [
       {
-        title: t('asset-overview.portfolio.table.coin'),
+        title: t('portfolio.table.coin', { nsSeparator: '.' }),
         dataIndex: 'coin',
         width: '100px',
         render: coin => (
@@ -35,19 +35,19 @@ const AssetBindingsSectionTable = () => {
         ),
       },
       {
-        title: t('asset-overview.portfolio.table.amount'),
+        title: t('portfolio.table.amount'),
         dataIndex: 'amount',
         render: amount =>
           numerable.format(Math.abs(amount), '0,0.00', { rounding: 'floor' }),
       },
       {
-        title: t('asset-overview.portfolio.table.equity'),
+        title: t('portfolio.table.equity'),
         dataIndex: 'equity',
         render: equity =>
           numerable.format(equity, '0,0.00', { rounding: 'floor' }),
       },
       {
-        title: t('asset-overview.portfolio.table.share'),
+        title: t('portfolio.table.share'),
         dataIndex: 'share',
         render: share => numerable.format(share / 100, '0.00 %'),
       },

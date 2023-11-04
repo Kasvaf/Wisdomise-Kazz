@@ -8,7 +8,7 @@ const Splash = () => {
       <Logo className="mb-[50px] h-[200px] w-full" />
       <div className="loader-line" />
       <p className="mt-[14px] text-[16px] font-medium text-white">
-        {t('base.wisdomise-is-loading')}
+        {t('base:wisdomise-is-loading')}
       </p>
     </div>
   );

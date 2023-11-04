@@ -9,7 +9,7 @@ import TradeSrc from './trade.svg';
 const BoxIntro: React.FC<{
   className?: string;
 }> = ({ className }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('asset-overview');
   const [DepositMod, openDeposit] = useModal(ModalDeposit);
   const ias = useInvestorAssetStructuresQuery();
 
@@ -23,7 +23,7 @@ const BoxIntro: React.FC<{
       <div className="flex grow flex-col items-start justify-between">
         <div className="mb-6 w-2/3 mobile:w-full">
           <h1 className="clear-both mb-5 text-xl font-semibold text-white">
-            {t('asset-overview.intro.title')}
+            {t('intro.title')}
           </h1>
 
           <img
@@ -38,18 +38,18 @@ const BoxIntro: React.FC<{
           />
 
           <div className="text-sm !leading-normal text-gray-light mobile:text-sm">
-            {t('asset-overview.intro.description')}
+            {t('intro.description')}
           </div>
         </div>
 
         <div className="-mx-3 -mb-6 flex flex-wrap items-center justify-center mobile:self-stretch">
           <Button className="mx-3 mb-6" to="/app/products-catalog">
-            {t('asset-overview.intro.check-products')}
+            {t('intro.check-products')}
           </Button>
 
           {Boolean(ias.data?.length) && (
             <Button className="mx-3 mb-6" onClick={() => openDeposit({})}>
-              {t('asset-overview.intro.deposit')}
+              {t('intro.deposit')}
             </Button>
           )}
           {DepositMod}

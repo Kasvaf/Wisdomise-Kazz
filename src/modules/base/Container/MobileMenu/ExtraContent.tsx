@@ -16,7 +16,7 @@ interface Props {
 }
 
 const ExtraContent: React.FC<Props> = ({ onClose }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('base');
   const { data: account } = useAccountQuery();
   const ias = useInvestorAssetStructuresQuery();
   const hasWallet = Boolean(ias?.data?.[0]?.main_exchange_account);
@@ -26,19 +26,19 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
   const extraItems = isAccount
     ? [
         {
-          title: t('base.menu.dashboard'),
+          title: t('menu.dashboard'),
           to: '/',
           icon: <IconDashboard className="mr-2" />,
         },
         {
-          title: t('base.menu.athena'),
+          title: t('menu.athena'),
           to: ATHENA_FE,
           icon: <Icon name={bxBot} className="mr-2" />,
         },
       ]
     : [
         {
-          title: t('base.menu.profile-dashboard'),
+          title: t('menu.profile-dashboard'),
           to: '/account/profile',
           icon: <Icon name={bxUser} className="mr-2" />,
         },
@@ -96,7 +96,7 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
             onClick={logout}
             className="flex items-center justify-start text-xs font-medium uppercase text-error"
           >
-            <Icon name={bxLogOut} className="mr-2" /> {t('base.user.logout')}
+            <Icon name={bxLogOut} className="mr-2" /> {t('user.logout')}
           </button>
         </div>
       </div>

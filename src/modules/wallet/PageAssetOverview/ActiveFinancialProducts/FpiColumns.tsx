@@ -12,15 +12,13 @@ const VerticalLine = () => (
 );
 
 const FpiColumns = ({ fpi }: { fpi: FinancialProductInstance }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('asset-overview');
   const isMobile = useIsMobile();
   const mainQuote = useMainQuote();
   return (
     <main className="mt-3 flex h-24 items-stretch justify-between mobile:h-auto mobile:flex-col">
       <div className="mx-6 my-4 ml-0 flex flex-col !items-start justify-between mobile:mr-0 mobile:flex-row">
-        <p className="text-sm text-white/80">
-          {t('asset-overview.portfolio.table.equity')}
-        </p>
+        <p className="text-sm text-white/80">{t('portfolio.table.equity')}</p>
         <p className="ml-0 text-base font-medium text-white">
           {numerable.format(fpi.total_equity, '0,0.00', {
             rounding: 'floor',
@@ -35,9 +33,9 @@ const FpiColumns = ({ fpi }: { fpi: FinancialProductInstance }) => {
 
       <div className="mx-6 my-4 flex flex-col !items-start justify-between mobile:mx-0 mobile:flex-row">
         <p className="mr-6 text-sm text-white/80">
-          {t('asset-overview.portfolio.info.PnL.title')}{' '}
+          {t('portfolio.info.PnL.title')}{' '}
           <span className="invisible text-xs text-white/40 md:visible">
-            {t('asset-overview.portfolio.info.PnL.unrealized')}
+            {t('portfolio.info.PnL.unrealized')}
           </span>
         </p>
         <p
@@ -62,7 +60,7 @@ const FpiColumns = ({ fpi }: { fpi: FinancialProductInstance }) => {
           {numerable.format(fpi.total_equity_share / 100, '0,0.00 %')}{' '}
           {isMobile && <br />}
           <span className="text-xs text-white/40">
-            {t('fpi.list.of-total-balance')}
+            {t('fpi:list.of-total-balance')}
           </span>
         </p>
         <p className="mt-4 text-xs text-white/40 mobile:order-first mobile:mt-0">

@@ -9,7 +9,7 @@ import { logout } from 'modules/auth/authHandlers';
 import DropdownContainer from './DropdownContainer';
 
 const UserDropdown = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('base');
   const [open, setOpen] = useState(false);
   const { data: account } = useAccountQuery();
   const email = account?.email;
@@ -44,7 +44,7 @@ const UserDropdown = () => {
           className="flex items-center justify-start px-8 py-2 !text-white hover:bg-black/10"
         >
           <Icon name={bxUser} className="mr-2" />
-          {t('base.user.profile-dashboard')}
+          {t('menu.profile-dashboard')}
         </NavLink>
 
         <button
@@ -52,7 +52,7 @@ const UserDropdown = () => {
           onClick={logout}
           className="flex items-center justify-start px-8 py-2 uppercase text-error hover:bg-black/10"
         >
-          <Icon name={bxLogOut} className="mr-2" /> {t('base.user.logout')}
+          <Icon name={bxLogOut} className="mr-2" /> {t('user.logout')}
         </button>
       </DropdownContainer>
     ),
