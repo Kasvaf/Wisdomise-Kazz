@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance.svg';
 import Card from 'shared/Card';
 import Badge from 'modules/shared/Badge';
@@ -10,12 +11,15 @@ import useModalAddExchangeAccount from '../useModalAddExchangeAccount';
 const CardExchangeAccounts: React.FC<{ className?: string }> = ({
   className,
 }) => {
+  const { t } = useTranslation('external-accounts');
   const { data, isLoading } = useExchangeAccountsQuery();
   const [ModalAdd, showModalAdd] = useModalAddExchangeAccount();
 
   return (
     <Card className={className}>
-      <h2 className="mb-8 text-base font-semibold">My Exchange Accounts</h2>
+      <h2 className="mb-8 text-base font-semibold">
+        {t('page-accounts.exchanges-title')}
+      </h2>
 
       {isLoading ? (
         <Spinner />
@@ -30,24 +34,32 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
             )}
           >
             <div className="flex grow flex-col">
-              <div className="mb-3 text-xs text-white/60">Account Name</div>
+              <div className="mb-3 text-xs text-white/60">
+                {t('account.name')}
+              </div>
               <div className="flex h-full items-center">{acc.title}</div>
             </div>
 
             <div className="flex flex-col sm:basis-[140px]">
-              <div className="mb-3 text-xs text-white/60">Exchange</div>
+              <div className="mb-3 text-xs text-white/60">
+                {t('account.exchange')}
+              </div>
               <div className="flex h-full items-center">
                 <BinanceLogoSvg />
               </div>
             </div>
 
             <div className="flex flex-col sm:basis-[70px]">
-              <div className="mb-3 text-xs text-white/60">Market</div>
+              <div className="mb-3 text-xs text-white/60">
+                {t('account.market')}
+              </div>
               <div className="flex h-full items-center">{acc.market_name}</div>
             </div>
 
             <div className="flex flex-col sm:basis-[56px]">
-              <div className="mb-3 text-xs text-white/60">Status</div>
+              <div className="mb-3 text-xs text-white/60">
+                {t('account.status')}
+              </div>
               <div className="flex h-full items-center">
                 {acc.status === 'RUNNING' ? (
                   <Badge color="green" label="Running" />
@@ -60,13 +72,15 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
         ))
       ) : (
         <div className="text-sm text-slate-400">
-          You have not added any external exchange account yet.
+          {t('page-accounts.empty-description')}
         </div>
       )}
 
       <div className="flex justify-end pt-8">
         {ModalAdd}
-        <Button onClick={showModalAdd}>Add Account</Button>
+        <Button onClick={showModalAdd}>
+          {t('page-accounts.btn-add-account')}
+        </Button>
       </div>
     </Card>
   );

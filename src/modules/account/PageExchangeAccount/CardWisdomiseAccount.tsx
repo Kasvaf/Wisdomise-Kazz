@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as LogoSvg } from 'assets/logo-horizontal-beta.svg';
 import Card from 'shared/Card';
 import { useActivePlan, useIsVerified, useSubscription } from 'api';
@@ -6,6 +7,7 @@ import { useActivePlan, useIsVerified, useSubscription } from 'api';
 const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
   className,
 }) => {
+  const { t } = useTranslation('external-accounts');
   const sub = useSubscription();
   const plan = useActivePlan(); // TODO: remove this once refactored in backend
   const { isLoading, identified, verified, addedWallet } = useIsVerified();
@@ -17,7 +19,9 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
 
   return (
     <Card className={className}>
-      <h2 className="mb-8 text-base font-semibold">Wisdomise Account</h2>
+      <h2 className="mb-8 text-base font-semibold">
+        {t('page-accounts.wisdomise-account')}
+      </h2>
 
       <div
         className={clsx(
@@ -27,21 +31,25 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
         )}
       >
         <div className="flex flex-col">
-          <div className="mb-3 text-xs text-white/60">Account</div>
+          <div className="mb-3 text-xs text-white/60">
+            {t('account.account')}
+          </div>
           <div className="h-full">
             <LogoSvg />
           </div>
         </div>
 
         <div className="flex flex-col">
-          <div className="mb-3 text-xs text-white/60">Subscription</div>
+          <div className="mb-3 text-xs text-white/60">
+            {t('page-accounts.subscription')}
+          </div>
           <div className="flex h-full items-center">
             {sub.title || plan.data?.name}
           </div>
         </div>
 
         <div className="flex flex-col">
-          <div className="mb-3 text-xs text-white/60">KYC</div>
+          <div className="mb-3 text-xs text-white/60">{t('kyc:kyc')}</div>
           <div className="flex h-full items-center">{verifiedCount}/3</div>
         </div>
       </div>

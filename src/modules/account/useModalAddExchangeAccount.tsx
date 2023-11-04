@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { notification } from 'antd';
+import { Trans, useTranslation } from 'react-i18next';
 import { type ExchangeTypes, useCreateExchangeAccount } from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
 import { unwrapErrorMessage } from 'utils/error';
@@ -19,6 +20,7 @@ const ModalAddExchangeAccount: React.FC<{
   fixedMarket?: MarketTypes;
   onResolve?: (account?: string) => void;
 }> = ({ fixedMarket, onResolve }) => {
+  const { t } = useTranslation('external-accounts');
   const [showErrors, setShowErrors] = useState(false);
   const [exchange, setExchange] = useState<ExchangeTypes>('BINANCE');
   const [market, setMarket] = useState<MarketTypes>(fixedMarket || 'SPOT');
@@ -58,7 +60,9 @@ const ModalAddExchangeAccount: React.FC<{
 
   return (
     <div className="text-white">
-      <h1 className="mb-6 text-center text-xl">Add Exchange Account</h1>
+      <h1 className="mb-6 text-center text-xl">
+        {t('modal-add-exchange.title')}
+      </h1>
       <div>
         <div className="flex justify-stretch gap-4">
           <ExchangeSelector
@@ -86,14 +90,22 @@ const ModalAddExchangeAccount: React.FC<{
         />
         <TextBox
           className="mt-6"
-          label={<LabelInfo url={createApiKeyHelp}>API KEY</LabelInfo>}
+          label={
+            <LabelInfo url={createApiKeyHelp}>
+              {t('modal-add-exchange.input-api-key')}
+            </LabelInfo>
+          }
           value={apiKey}
           onChange={setApiKey}
           error={showErrors && !apiKey && emptyFieldError}
         />
         <TextBox
           className="mt-6"
-          label={<LabelInfo url={createApiKeyHelp}>Secret Key</LabelInfo>}
+          label={
+            <LabelInfo url={createApiKeyHelp}>
+              {t('modal-add-exchange.input-secret-key')}
+            </LabelInfo>
+          }
           value={secretKey}
           onChange={setSecretKey}
           error={showErrors && !secretKey && emptyFieldError}
@@ -102,8 +114,14 @@ const ModalAddExchangeAccount: React.FC<{
 
       <div className="mt-8 rounded-3xl">
         <div className="my-2 ml-2 text-white/80">
-          Use following value for{' '}
-          <code className="text-white">IP access restrictions</code> in Binance:
+          <Trans
+            i18nKey="modal-add-exchange.notice-ip-restriction"
+            ns="external-accounts"
+          >
+            Use following value for
+            <code className="text-white">IP access restrictions</code> in
+            Binance:
+          </Trans>
         </div>
         <CopyInputBox
           style="alt"
@@ -113,7 +131,7 @@ const ModalAddExchangeAccount: React.FC<{
 
       <div className="mt-8 flex justify-center">
         <Button onClick={addHandler} loading={isSubmitting}>
-          Add Account
+          {t('page-accounts.btn-add-account')}
         </Button>
       </div>
     </div>
