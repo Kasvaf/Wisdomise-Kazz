@@ -9,7 +9,7 @@ import {
   useUserFirstPaymentMethod,
 } from 'api';
 import useModal from 'shared/useModal';
-import PricingTable from '../PricingTable2';
+import PricingTable from '../PricingTable';
 import mailIconSrc from '../images/mail.svg';
 
 export default function OverviewTab() {
