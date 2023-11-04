@@ -38,3 +38,44 @@ subscription-details:
   payment-methods:
     title: Payment Methods
     auto-renew-notice: Next payment will be automatically collected from this card.
+periodicity:
+  month:
+    title: Monthly
+    per: per<br>month
+  year:
+    title: Yearly
+    per: per<br>year
+crypto-modal:
+  title: Wisdomise AG
+  subtitle: Subscribe to {{plan}}
+  subtotal: Subtotal
+  total-due-today: Total due today
+  payment-by-crypto: Payment by Crypto
+  notice:
+    confirmed: >-
+      Enter the transaction ID below and we will activate and send am
+      confirmation email within 24 hours.
+    is-not-confirmed: >-
+      To transfer via crypto, first select your coin and network, so that the
+      system will give you an address where you can make the transfer.
+  btn-confirm: Confirm
+  check-mail:
+    title: Check Your Mail
+    description: We will check your Transaction ID and Let you know by email
+  btn-done: Done
+  input-hash-id: Transaction ID (Hash ID)
+subscription-modal:
+  title: Subscription Method
+  subtitle: Please select the payment method that suits your preferences.
+  btn-fiat: Fiat Payment
+  btn-crypto: Crypto Payment
+pricing-card:
+  this-includes: 'This includes:'
+  btn-action:
+    current-plan: Current Plan
+    upgrade: Upgrade
+    buy-now: Buy Now
+    available-soon: Available soon
+  notification-upgrade-success: >-
+    Your subscription updated successfully. It might take a few minutes to
+    activate. Please reload this page after some minutes.

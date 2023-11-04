@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useBoolean } from 'usehooks-ts';
+import { useTranslation } from 'react-i18next';
 import type { Network } from 'api/types/NetworksResponse';
 import Button from 'modules/shared/Button';
 import CoinsIcons from 'modules/shared/CoinsIcons';
@@ -8,7 +9,7 @@ import NetworkSelector from 'modules/wallet/useCryptoNetworkSelector/NetworkSele
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useInvoicesQuery } from 'api';
 import CopyInputBox from 'modules/shared/CopyInputBox';
-import { ReactComponent as MailIcon } from '../images/mail.svg';
+import { ReactComponent as MailIcon } from '../../images/mail.svg';
 import SubmitTransactionID from './SubmitTransactionID';
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function RightSection({ plan, onResolve }: Props) {
+  const { t } = useTranslation('billing');
   const invoices = useInvoicesQuery();
   const [network, setNetwork] = useState<Network>(networkItems[0]);
   const { value: isConfirmed, setTrue: setConfirmed } = useBoolean();
@@ -37,14 +39,13 @@ export default function RightSection({ plan, onResolve }: Props) {
         )}
       >
         <p className="text-xl font-medium text-white mobile:text-base">
-          Payment by Crypto
+          {t('crypto-modal.payment-by-crypto')}
         </p>
 
         <div className="rounded-3xl bg-black/80 px-4 py-6 text-center text-white/60 mobile:text-xs">
           {isConfirmed
-            ? 'Enter the transaction ID below and we will activate and send am confirmation email within 24 hours.'
-            : `To transfer via crypto, first select your coin and network, so that
-              the system will give you an address where you can make the transfer.`}
+            ? t('crypto-modal.notice.confirmed')
+            : t('crypto-modal.notice.is-not-confirmed')}
         </div>
 
         <div
@@ -103,7 +104,9 @@ export default function RightSection({ plan, onResolve }: Props) {
             onSubmitSuccess={setSubmitted}
           />
         ) : (
-          <Button onClick={setConfirmed}>Confirm</Button>
+          <Button onClick={setConfirmed}>
+            {t('crypto-modal.btn-confirm')}
+          </Button>
         )}
       </div>
 
@@ -116,14 +119,16 @@ export default function RightSection({ plan, onResolve }: Props) {
       >
         <MailIcon className="mobile:w-24" />
         <div className="text-center">
-          <p className="mb-6 text-2xl font-medium">Check Your Mail</p>
+          <p className="mb-6 text-2xl font-medium">
+            {t('crypto-modal.check-mail.title')}
+          </p>
           <p className="font-medium text-white/60">
-            We will check your Transaction ID and Let you know by email
+            {t('crypto-modal.check-mail.description')}
           </p>
         </div>
 
         <Button loading={invoices.isRefetching} onClick={onDoneClick}>
-          Done
+          {t('crypto-modal.btn-done')}
         </Button>
       </div>
     </div>

@@ -1,24 +1,28 @@
+import { useTranslation } from 'react-i18next';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { ReactComponent as LogoWithText } from 'assets/logo-horizontal-beta.svg';
-import { ReactComponent as WisdomiseLogo } from '../images/wisdomise-logo.svg';
+import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
+import Periodicity from '../../Periodicity';
 
 interface Props {
   plan: SubscriptionPlan;
 }
 
 export default function LeftSection({ plan }: Props) {
+  const { t } = useTranslation('billing');
+
   return (
     <div className="flex h-full shrink grow basis-0 flex-col items-center justify-center bg-[#131822]">
       <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
         <div className="flex items-center gap-3 mobile:hidden">
           <div className="h-10 w-10 rounded-full bg-[#D9D9D9]" />
-          <p className="text-xl text-white">Wisdomise AG</p>
+          <p className="text-xl text-white">{t('crypto-modal.title')}</p>
         </div>
 
         <LogoWithText className="hidden mobile:block" />
 
         <p className="mt-14 text-xl text-white/50 mobile:mt-10">
-          Subscribe to {plan.name}
+          {t('crypto-modal.subtitle', { plan: plan.name ?? '' })}
         </p>
 
         <div className="mt-6 flex items-center gap-5">
@@ -26,8 +30,7 @@ export default function LeftSection({ plan }: Props) {
             ${plan.price}
           </p>
           <p className="text-lg text-white/50 mobile:text-sm">
-            per <br />
-            {plan.periodicity.toLocaleLowerCase().replace('ly', '')}
+            <Periodicity periodicity={plan.periodicity} />
           </p>
         </div>
 
@@ -47,12 +50,12 @@ export default function LeftSection({ plan }: Props) {
             </div>
 
             <div className="flex justify-between border-b border-white/20">
-              <span>Subtotal</span>
+              <span>{t('crypto-modal.subtotal')}</span>
               <span>${plan.price}</span>
             </div>
 
             <div className="flex justify-between">
-              <span>Total due today</span>
+              <span>{t('crypto-modal.total-due-today')}</span>
               <span>${plan.price}</span>
             </div>
           </div>

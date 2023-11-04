@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { usePlansQuery } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -14,6 +15,7 @@ export default function PricingTable({
   isUpdate,
   onResolve,
 }: PricingTableProps) {
+  const { t } = useTranslation('billing');
   const { data, isLoading } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
 
@@ -24,14 +26,15 @@ export default function PricingTable({
           {(['MONTHLY', 'YEARLY'] as const).map(period => (
             <button
               key={period}
-              // eslint-disable-next-line react/jsx-no-bind
               onClick={() => setCurrentPeriod(period)}
               className={clsx(
-                'rounded-full px-8 py-2 capitalize text-gray-400 transition-colors',
+                'rounded-full px-8 py-2 text-gray-400 transition-colors',
                 currentPeriod === period && 'bg-white !text-black',
               )}
             >
-              {period.toLowerCase()}
+              {period === 'MONTHLY'
+                ? t('periodicity.month.title')
+                : t('periodicity.year.title')}
             </button>
           ))}
         </div>

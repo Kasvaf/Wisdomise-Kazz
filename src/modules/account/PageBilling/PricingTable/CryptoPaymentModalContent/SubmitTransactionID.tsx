@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSubmitCryptoPayment } from 'api';
 import { type Network } from 'api/types/NetworksResponse';
 import { type SubscriptionPlan } from 'api/types/subscription';
@@ -17,6 +18,7 @@ export default function SubmitTransactionID({
   network,
   onSubmitSuccess,
 }: Props) {
+  const { t } = useTranslation('billing');
   const submitCryptoPayment = useSubmitCryptoPayment();
   const [transactionId, setTransactionId] = useState('');
 
@@ -42,7 +44,7 @@ export default function SubmitTransactionID({
           placeholder="Your ID"
           value={transactionId}
           onChange={setTransactionId}
-          label="Transaction ID (Hash ID)"
+          label={t('crypto-modal.input-hash-id')}
         />
       </div>
 
@@ -51,7 +53,7 @@ export default function SubmitTransactionID({
         disabled={!transactionId}
         loading={submitCryptoPayment.isLoading}
       >
-        Done
+        {t('crypto-modal.btn-done')}
       </Button>
     </>
   );

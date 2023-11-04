@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
@@ -6,7 +7,7 @@ import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.s
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
 import { ReactComponent as SIcon } from '../images/s-icon.svg';
-import CryptoPaymentModalContent from '../CryptoPaymentModalContent';
+import CryptoPaymentModalContent from './CryptoPaymentModalContent';
 
 interface Props {
   plan: SubscriptionPlan;
@@ -19,6 +20,7 @@ export default function SubscriptionMethodModal({
   onFiatClick: propOnFiatClick,
   onResolve,
 }: Props) {
+  const { t } = useTranslation('billing');
   const firstPaymentMethod = useUserFirstPaymentMethod();
   const [cryptoPaymentModal, openCryptoPaymentModal] = useModal(
     CryptoPaymentModalContent,
@@ -38,9 +40,11 @@ export default function SubscriptionMethodModal({
   return (
     <div className="flex flex-col items-center">
       <SubscriptionMethodIcon />
-      <p className="mt-6 text-xl font-medium">Subscription Method</p>
+      <p className="mt-6 text-xl font-medium">
+        {t('subscription-modal.title')}
+      </p>
       <p className="mt-6 text-sm font-medium text-white/60">
-        Please select the payment method that suits your preferences.
+        {t('subscription-modal.subtitle')}
       </p>
       <SubscriptionMethodLogos className="mb-12 mt-8" />
 
@@ -51,7 +55,7 @@ export default function SubscriptionMethodModal({
         >
           <div className="flex items-center gap-2">
             <SIcon />
-            Fiat Payment
+            {t('subscription-modal.btn-fiat')}
           </div>
         </Button>
         <Button
@@ -60,7 +64,7 @@ export default function SubscriptionMethodModal({
         >
           <div className="flex items-center gap-2">
             <CryptoPaymentIcon />
-            Crypto Payment
+            {t('subscription-modal.btn-crypto')}
           </div>
         </Button>
       </div>

@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import {
@@ -11,6 +12,7 @@ import {
 import useModal from 'modules/shared/useModal';
 import product from '../images/wisdomise-product.png';
 import { ReactComponent as Check } from '../images/check.svg';
+import Periodicity from '../Periodicity';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 
 interface Props {
@@ -26,6 +28,7 @@ export default function PricingCard({
   className,
   onPlanUpdate,
 }: Props) {
+  const { t } = useTranslation('billing');
   const mutation = useSubscriptionMutation();
   const { data: account } = useAccountQuery();
   const { plan: userPlan } = useSubscription();
@@ -47,8 +50,7 @@ export default function PricingCard({
         .mutateAsync({ price_id: plan.stripe_price_id })
         .then(() => {
           notification.success({
-            message:
-              'Your subscription updated successfully. It might take a few minutes to activate. Please reload this page after some minutes.',
+            message: t('pricing-card.notification-upgrade-success'),
             duration: 5000,
           });
           onPlanUpdate();
@@ -91,8 +93,7 @@ export default function PricingCard({
       <div className="mb-4 mt-6 flex gap-2">
         <span className="text-3xl font-semibold">${plan.price}</span>
         <div className="text-xs text-white/40">
-          <p>per</p>
-          {plan.periodicity === 'MONTHLY' ? 'month' : 'year'}
+          <Periodicity periodicity={plan.periodicity} />
         </div>
       </div>
       <Button
@@ -108,14 +109,14 @@ export default function PricingCard({
       >
         {plan.is_active
           ? hasUserThisPlan
-            ? 'Current Plan'
+            ? t('pricing-card.btn-action.current-plan')
             : isUpdate
-            ? 'Upgrade'
-            : 'Buy Now'
-          : 'Available soon'}
+            ? t('pricing-card.btn-action.upgrade')
+            : t('pricing-card.btn-action.buy-now')
+          : t('pricing-card.btn-action.available-soon')}
       </Button>
       <div className="mt-3 text-sm text-white/90">
-        <div className="py-2">This includes:</div>
+        <div className="py-2">{t('pricing-card.this-includes')}</div>
         <ul>
           {plan.features.map(feature => (
             <li className="mb-3 flex gap-3" key={feature}>
