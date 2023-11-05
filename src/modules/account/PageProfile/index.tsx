@@ -1,13 +1,17 @@
+import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import TextBox from 'modules/shared/TextBox';
 
 export default function PageProfile() {
+  const { t } = useTranslation();
   const account = useAccountQuery();
 
   return (
     <PageWrapper loading={account.isLoading}>
-      <h1 className="mb-8 text-xl font-semibold">Profile</h1>
+      <h1 className="mb-8 text-xl font-semibold">
+        {t('base:menu.profile.title')}
+      </h1>
 
       {account.data && (
         <div>

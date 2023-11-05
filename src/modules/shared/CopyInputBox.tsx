@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { bxCopyAlt } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import Icon from './Icon';
 
 interface Props {
@@ -17,6 +18,7 @@ const CopyInputBox: React.FC<Props> = ({
   className,
   style = 'primary',
 }) => {
+  const { t } = useTranslation('common');
   const [showInfo, setShowInfo] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const copyToClipboard = useCallback(() => {
@@ -70,7 +72,7 @@ const CopyInputBox: React.FC<Props> = ({
           showInfo ? 'opacity-100' : 'opacity-0',
         )}
       >
-        Copied to clipboard
+        {t('copied-to-clipboard')}
       </div>
     </div>
   );
