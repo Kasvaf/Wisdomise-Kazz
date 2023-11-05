@@ -1,5 +1,6 @@
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import useIsMobile from 'utils/useIsMobile';
 import { logout } from 'modules/auth/authHandlers';
@@ -8,6 +9,7 @@ import bgDesktop from './bg.png';
 import TelegramBanner from './TelegramBanner/TelegramBanner';
 
 const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
+  const { t } = useTranslation('auth');
   const isMobile = useIsMobile();
 
   return (
@@ -28,7 +30,7 @@ const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
               onClick={logout}
               className="rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-sm md:px-8 md:py-3"
             >
-              Log Out
+              {t('base:user.logout')}
             </button>
           </header>
 
@@ -36,7 +38,7 @@ const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
         </div>
 
         <footer className="mb-20 pb-4 text-center text-base text-white/60">
-          © 2023 Wisdomise. All rights reserved.
+          {t('footer')}
         </footer>
 
         <TelegramBanner />

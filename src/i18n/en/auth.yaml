@@ -1,0 +1,34 @@
+footer: © 2023 Wisdomise. All rights reserved.
+banner:
+  athena-bot: Athena Telegram Bot
+  stay-connected: Stay Connected
+verify-email:
+  title: Verify <b>Your Email</b>
+  notification-email-sent: Verification Email Sent Successfully.
+  link-sent: >-
+    A link has been sent to your email <1>{{email}}</1><br>
+    To verify your account, please click on the link.
+  btn-check:
+    label: Check
+    loading: Checking...
+  btn-resend:
+    label: Resend Verification Email
+    loading: Resending Verification Email ...
+secondary:
+  welcome: Welcome to <br><b>Wisdomise</b>
+  nickname:
+    label: Nickname
+    placeholder: Your nickname
+    not-empty: Nickname can't be empty
+    length-limit: Ensure this field has no more than 32 characters.
+  invitation:
+    label: Invitation code <1>(Optional)</1>
+    placeholder: Invitation code
+    not-found: Referrer not found
+  contract:
+    label: You are acknowledging the <1>{{title}}</1>.
+    required-error: You should accept the {{title}} in order to continue.
+    btn-check: I have read and accept the {{title}}.
+  btn-submit:
+    label: Submit
+    loading: Submitting...

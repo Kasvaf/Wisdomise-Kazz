@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 
@@ -10,6 +11,8 @@ interface IProps {
 }
 
 function ModalContract({ title, ContractDoc, onResolve }: IProps) {
+  const { t } = useTranslation('auth');
+
   const [isScrolledToEnd, setScrolledToEnd] = useState(false);
   const scrollableRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +50,7 @@ function ModalContract({ title, ContractDoc, onResolve }: IProps) {
 
       <div className="flex justify-center border-t border-white/10 pt-5">
         <Button onClick={() => onResolve?.(true)} disabled={!isScrolledToEnd}>
-          I have read and accept the {title}.
+          {t('secondary.contract.btn-check', { title })}
         </Button>
       </div>
     </div>
