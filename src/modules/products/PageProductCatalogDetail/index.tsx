@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useFinancialProductQuery, useFPBacktestQuery } from 'api';
 import Button from 'shared/Button';
 import LineChart from 'shared/LineChart';
@@ -11,6 +12,7 @@ import ProfilePropsBox from './ProfilePropsBox';
 import InvestmentInfoBox from './InvestmentInfoBox';
 
 const PageProductCatalogDetail = () => {
+  const { t } = useTranslation('fp');
   const params = useParams<{ fpKey: string }>();
   const fpKey = params.fpKey;
   if (!fpKey) throw new Error('unexpected');
@@ -34,7 +36,7 @@ const PageProductCatalogDetail = () => {
             variant="secondary"
             to="/app/products-catalog"
           >
-            Back
+            {t('common:actions.back')}
           </Button>
           <ButtonFPActivate
             inDetailPage

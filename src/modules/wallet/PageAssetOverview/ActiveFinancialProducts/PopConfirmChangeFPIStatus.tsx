@@ -17,7 +17,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
   onConfirm,
   disabled,
 }) => {
-  const { t } = useTranslation('fpi');
+  const { t } = useTranslation('products');
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [overrideType, setOverrideType] = useState<FpiStatusMutationType>();
@@ -48,7 +48,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
       content={
         <section className="mx-2 max-w-[400px] text-white/80">
           <p className="mb-2 text-lg">
-            <Trans i18nKey="action-confirm.title" ns="fpi">
+            <Trans i18nKey="action-confirm.title" ns="products">
               Are You Sure To
               <span className="text-base font-medium text-white">
                 {{ typeLabel }}
@@ -70,7 +70,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
             </Button>
             <div className="w-4" />
             <Button size="small" onClick={onConfirmClick} loading={loading}>
-              <Trans i18nKey="action-confirm.yes" ns="fpi">
+              <Trans i18nKey="action-confirm.yes" ns="products">
                 Yes,
                 <span className="ml-1">{{ typeLabel }}</span>
               </Trans>

@@ -15,7 +15,7 @@ const FinancialProductItem: React.FC<{
   noDetailsBtn?: boolean;
   className?: string;
 }> = ({ fpi, className, noDetailsBtn }) => {
-  const { t } = useTranslation('fpi');
+  const { t } = useTranslation('products');
   const isMobile = useIsMobile();
   const ias = useInvestorAssetStructuresQuery();
   const badges = (

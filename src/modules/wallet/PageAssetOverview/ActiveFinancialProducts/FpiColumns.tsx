@@ -60,7 +60,7 @@ const FpiColumns = ({ fpi }: { fpi: FinancialProductInstance }) => {
           {numerable.format(fpi.total_equity_share / 100, '0,0.00 %')}{' '}
           {isMobile && <br />}
           <span className="text-xs text-white/40">
-            {t('fpi:list.of-total-balance')}
+            {t('products:list.of-total-balance')}
           </span>
         </p>
         <p className="mt-4 text-xs text-white/40 mobile:order-first mobile:mt-0">

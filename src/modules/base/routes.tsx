@@ -44,7 +44,7 @@ const PageAssetOverview = React.lazy(
 );
 
 const PageSignalsMatrix = React.lazy(
-  () => import('modules/products/PageSignalsMatrix'),
+  () => import('modules/strategy/PageSignalsMatrix'),
 );
 
 const PageProductsCatalog = React.lazy(
