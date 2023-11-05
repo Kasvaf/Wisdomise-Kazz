@@ -19,11 +19,6 @@ customs:
   your-question:
     title: Your Question
     description: You can receive customized prompts via email every Monday.
-overlay-subscription:
-  title: You are not subscribed
-  btn-subscribe: Subscribe
-  customs-description: To add a question, you need to subscribe to one of the Wisdomise plans
-  signaling-description: You need to buy one of our subscription plans to have notifications enabled.
 page:
   description: Here you can filter your notifications
 signaling:

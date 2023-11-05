@@ -1,9 +1,11 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 const ValuesRow: React.FC<{
   values: Array<{ label: string; value?: string | number; isMuted?: boolean }>;
   className?: string;
 }> = ({ values, className }) => {
+  const { t } = useTranslation('strategy');
   return (
     <div
       className={clsx(
@@ -26,7 +28,9 @@ const ValuesRow: React.FC<{
               v.isMuted && '!text-white/20',
             )}
           >
-            {v.value || <span className="text-white/20">None</span>}
+            {v.value || (
+              <span className="text-white/20">{t('matrix.none')}</span>
+            )}
           </span>
         </div>
       ))}

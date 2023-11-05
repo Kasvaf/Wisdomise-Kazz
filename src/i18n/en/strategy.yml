@@ -1,0 +1,16 @@
+matrix:
+  title: Latest Positions
+  closed: Closed
+  date: date
+  entry-price: entry price
+  exit-price: exit price
+  none: None
+  opened: Opened
+  side: side
+  sl: SL
+  suggest:
+    close: Close
+    no-action: No Action
+    open: Open
+  suggestion: Suggestion
+  tp: TP

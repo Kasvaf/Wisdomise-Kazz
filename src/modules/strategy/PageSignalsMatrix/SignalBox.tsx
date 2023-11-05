@@ -3,11 +3,12 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useState } from 'react';
 import * as numerable from 'numerable';
+import { useTranslation } from 'react-i18next';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import PriceChange from 'shared/PriceChange';
 import Badge from 'shared/Badge';
-import { SUGGESTIONS } from './constants';
+import { useSuggestionsMap } from './constants';
 import ValuesRow from './ValuesRow';
 
 interface Props {
@@ -17,7 +18,9 @@ interface Props {
 const isClosed = (p: LastPosition) => Boolean(p.exit_time);
 
 const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
-  const { greyTitle } = SUGGESTIONS[p.suggested_action];
+  const { t } = useTranslation('strategy');
+  const suggestions = useSuggestionsMap();
+  const { greyTitle } = suggestions[p.suggested_action];
 
   return (
     <div className="flex w-full items-center justify-between p-1">
@@ -28,7 +31,7 @@ const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
             greyTitle ? 'text-white/40' : 'text-white',
           )}
         >
-          {isClosed(p) ? 'Closed' : 'Opened'}
+          {isClosed(p) ? t('matrix.closed') : t('matrix.opened')}
         </span>
         <span className="text-xxs text-white/40">
           {dayjs(p.exit_time || p.entry_time).fromNow()}
@@ -44,7 +47,9 @@ const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
 const SignalBoxSuggestion: React.FC<{
   position: LastPosition;
 }> = ({ position: p }) => {
-  const { label, color } = SUGGESTIONS[p.suggested_action];
+  const { t } = useTranslation('strategy');
+  const suggestions = useSuggestionsMap();
+  const { label, color } = suggestions[p.suggested_action];
   return (
     <div className="flex w-full items-center justify-between p-2">
       <span
@@ -53,7 +58,7 @@ const SignalBoxSuggestion: React.FC<{
           color === 'grey' ? 'text-white/40' : 'text-white',
         )}
       >
-        Suggestion
+        {t('matrix.suggestion')}
       </span>
       <Badge label={label} color={color} />
     </div>
@@ -61,6 +66,8 @@ const SignalBoxSuggestion: React.FC<{
 };
 
 const SignalBox: React.FC<Props> = ({ position: p }) => {
+  const { t } = useTranslation('strategy');
+  const suggestions = useSuggestionsMap();
   const isTouch = isTouchDevice();
 
   const [summary, setSummary] = useState(true);
@@ -94,9 +101,9 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
           <ValuesRow
             values={[
               {
-                label: 'side',
+                label: t('matrix.side'),
                 value: side,
-                isMuted: SUGGESTIONS[p.suggested_action].greyTitle,
+                isMuted: suggestions[p.suggested_action].greyTitle,
               },
             ]}
             className="mb-1"
@@ -108,12 +115,12 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
           <ValuesRow
             values={[
               {
-                label: 'entry price',
+                label: t('matrix.entry-price'),
                 value:
                   p.entry_price && numerable.format(p.entry_price, '0,0.00'),
               },
               {
-                label: 'date',
+                label: t('matrix.date'),
                 value: dayjs(p.entry_time).format('HH:mm MMM DD'),
                 isMuted: true,
               },
@@ -125,26 +132,26 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
               isClosed(p) // is closed
                 ? [
                     {
-                      label: 'exit price',
+                      label: t('matrix.exit-price'),
                       value:
                         p.entry_price &&
                         numerable.format(p.exit_price, '0,0.00'),
                     },
                     {
-                      label: 'date',
+                      label: t('matrix.date'),
                       value: dayjs(p.exit_time).format('HH:mm MMM DD'),
                       isMuted: true,
                     },
                   ]
                 : [
                     {
-                      label: 'TP',
+                      label: t('matrix.tp'),
                       value:
                         p.take_profit &&
                         numerable.format(p.take_profit, '0,0.00'),
                     },
                     {
-                      label: 'SL',
+                      label: t('matrix.sl'),
                       value:
                         p.stop_loss && numerable.format(p.stop_loss, '0,0.00'),
                     },
