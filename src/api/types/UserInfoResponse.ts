@@ -27,6 +27,7 @@ export interface Account {
     | 'SET_CALENDLY_MEETING'
     | 'VERIFIED';
   wallet_address?: string;
+  wsdm_balance?: number;
 }
 
 interface User {

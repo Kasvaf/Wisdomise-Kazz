@@ -100,3 +100,18 @@ export const useUserFirstPaymentMethod = () => {
   const { data } = useInvoicesQuery();
   return data?.results.at(0)?.payment_method;
 };
+
+interface SubmitTokenPaymentVariables {
+  amount_paid: number;
+  subscription_plan_key: string;
+}
+
+export const useSubmitTokenPayment = () =>
+  useMutation<unknown, unknown, SubmitTokenPaymentVariables>({
+    mutationFn: async variables => {
+      await axios.post(`${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`, {
+        ...variables,
+        payment_method: 'TOKEN',
+      });
+    },
+  });

@@ -104,7 +104,9 @@ export default function PricingCard({
           </div>
           <div className="mb-6">
             <span className="text-gray-400">Hold</span>{' '}
-            <span className="font-semibold">{addComma(plan.price * 100)}</span>{' '}
+            <span className="font-semibold">
+              {addComma(plan.wsdm_token_hold)}
+            </span>{' '}
             <strong className="bg-gradient-to-r from-[#00A3FF] to-[#FF00C7] to-100% bg-clip-text text-transparent">
               $WSDM
             </strong>{' '}
