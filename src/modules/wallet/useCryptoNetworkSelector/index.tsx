@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery, useMarketNetworksQuery } from 'api';
 import { type Network } from 'api/types/NetworksResponse';
 import useMainQuote from 'shared/useMainQuote';
@@ -10,6 +11,7 @@ const useCryptoNetworkSelector = ({
 }: {
   usage: 'depositable' | 'withdrawable';
 }) => {
+  const { t } = useTranslation();
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
   const mainQuote = useMainQuote();
@@ -36,14 +38,14 @@ const useCryptoNetworkSelector = ({
   const component = (
     <div className="mb-9 flex justify-stretch mobile:flex-col">
       <div className="basis-1/2 mobile:mb-6">
-        <div className="mb-1 ml-3">Cryptocurrency</div>
+        <div className="mb-1 ml-3">{t('common:cryptocurrency')}</div>
         <CryptoSelector cryptos={[crypto]} selectedItem={crypto} />
       </div>
 
       <div className="w-8 mobile:hidden" />
 
       <div className="basis-1/2">
-        <div className="mb-1 ml-3">Network</div>
+        <div className="mb-1 ml-3">{t('common:network')}</div>
         <NetworkSelector
           networks={networks.data}
           selectedItem={network}

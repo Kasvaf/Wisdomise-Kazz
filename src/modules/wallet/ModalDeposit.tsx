@@ -1,6 +1,7 @@
 import QRCode from 'react-qr-code';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
 import Banner from 'shared/Banner';
@@ -8,6 +9,7 @@ import CopyInputBox from 'shared/CopyInputBox';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 
 const ModalDeposit: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
+  const { t } = useTranslation('wallet');
   const {
     component: CryptoNetworkSelector,
     loading: cryptoNetLoading,
@@ -22,13 +24,19 @@ const ModalDeposit: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
   return (
     <div className="text-white">
-      <h1 className="mb-10 text-center text-xl">Deposit</h1>
+      <h1 className="mb-10 text-center text-xl">{t('modal-deposit.title')}</h1>
       <Banner icon={bxInfoCircle} className="mb-10">
-        You have to Deposit from a Verified wallet. Using an unverified wallet
-        will result in your account being{' '}
-        <span className="text-warning">restricted</span>.{' '}
-        <NavLink className="underline" to="/account/kyc" onClick={onResolve}>
-          Verify Wallet
+        <Trans i18nKey="modal-deposit.banner" ns="wallet">
+          You have to Deposit from a Verified wallet. Using an unverified wallet
+          will result in your account being
+          <span className="text-warning">restricted</span>.
+        </Trans>
+        <NavLink
+          className="ml-2 underline"
+          to="/account/kyc"
+          onClick={onResolve}
+        >
+          {t('modal-deposit.verify-wallet')}
         </NavLink>
       </Banner>
 
@@ -41,7 +49,7 @@ const ModalDeposit: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
       ) : (
         <>
           <div className="basis-1/2">
-            <div className="mb-1 ml-3">Wallet Address</div>
+            <div className="mb-1 ml-3">{t('wallet-address')}</div>
             <CopyInputBox
               value={depositAddress.data?.address}
               className="mb-10"
@@ -61,13 +69,19 @@ const ModalDeposit: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
               <div className="ml-4 flex shrink flex-col items-start justify-between">
                 <p className="text-base font-medium text-white">
-                  Send only <strong>{depositAddress.data.coin}</strong> to this
-                  deposit address.
+                  <Trans i18nKey="modal-deposit.deposit-address" ns="wallet">
+                    Send only
+                    <strong>{{ coin: depositAddress.data.coin }}</strong> to
+                    this deposit address.
+                  </Trans>
                 </p>
 
                 <p className="text-sm text-gray-light">
-                  Sending coin or token other than {depositAddress.data?.coin}{' '}
-                  to this address may result in the loss of your deposit.
+                  <Trans i18nKey="modal-deposit.disclaimer" ns="wallet">
+                    Sending coin or token other than
+                    {{ coin: depositAddress.data.coin }}
+                    to this address may result in the loss of your deposit.
+                  </Trans>
                 </p>
               </div>
             </div>

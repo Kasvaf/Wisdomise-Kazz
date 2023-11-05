@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import ComboBox from 'shared/ComboBox';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type VerifiedWallet, useVerifiedWallets } from 'api/kyc';
@@ -42,8 +43,6 @@ const dummy = (x: string): VerifiedWallet => ({
   network: { key: '', description: '', name: '' },
   symbol: { name: '', title: '' },
 });
-const dummyLoading = dummy('loading...');
-const dummyEmpty = dummy('You have no verified wallet.');
 const dummyDefault = dummy('');
 
 const WalletSelector: React.FC<Props> = ({
@@ -51,6 +50,11 @@ const WalletSelector: React.FC<Props> = ({
   onSelect,
   disabled,
 }) => {
+  const { t } = useTranslation();
+
+  const dummyLoading = dummy(t('common:loading'));
+  const dummyEmpty = dummy(t('wallet:no-verified-wallet'));
+
   const ias = useInvestorAssetStructuresQuery();
   const wallets = useVerifiedWallets();
   useEffect(() => {

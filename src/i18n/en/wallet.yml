@@ -1,11 +1,47 @@
 title: Wallet
+amount: Amount
+available: Available
 btn-deposit: Deposit
 btn-withdraw: Withdraw
+confirm-withdrawal: Confirm Withdrawal
 equity-description_one: >-
   You have <1>{{count}}</1> running product<br> that block <5>{{blocked}}</5>
   {{mainQuote}} of your equity.
 equity-description_other: >-
   You have <1>{{count}}</1> running products<br> that block <5>{{blocked}}</5>
   {{mainQuote}} of your equity.
+modal-deposit:
+  title: Deposit
+  banner: >-
+    You have to Deposit from a Verified wallet. Using an unverified wallet will
+    result in your account being <1>restricted</1>.
+  deposit-address: Send only <1>{{coin}}</1> to this deposit address.
+  disclaimer: >-
+    Sending coin or token other than {{coin}} to this address may result in the
+    loss of your deposit.
+  verify-wallet: Verify Wallet
+modal-success:
+  title: Withdrawal Request Submitted
+  description: Please note that you will receive an email once it is completed.
+modal-withdraw:
+  title: Withdraw
+  banner:
+    description: To Withdraw you have to choose from a Verified Wallet Address.
+    btn-verify-wallet: Verify Wallet
+  btn-withdraw: Withdraw
+  error-max-amount: You cannot withdraw more than your available amount.
+  error-min-amount: You cannot withdraw less than {minAmount} {symbol} in {wallet} network.
+  min-withdrawal: Min. Withdrawal
+no-verified-wallet: You have no verified wallet.
+security-verification:
+  title: Security verification
+  btn-resend: Resend
+  btn-submit: Submit
+  error-6digit: Enter the 6-digit sent to {{userEmail}}
 total-balance: Total Balance
+wallet-address: Wallet Address
+withdraw-info:
+  fee: Fee
+  source: Source
+  source-value: '{{source}} Wallet'
 withdrawable: Withdrawable

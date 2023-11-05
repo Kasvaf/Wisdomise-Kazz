@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import useNow from 'utils/useNow';
@@ -22,6 +23,7 @@ const toDigits = (v: string) =>
 const RESEND_TIMEOUT = 60;
 
 const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
+  const { t } = useTranslation('wallet');
   const { data: account } = useAccountQuery();
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
@@ -54,7 +56,9 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
   const userEmail = account?.info.email;
   return (
     <div className="text-white">
-      <h1 className="mb-6 text-center text-xl">Security verification</h1>
+      <h1 className="mb-6 text-center text-xl">
+        {t('security-verification.title')}
+      </h1>
 
       <TextBox
         type="tel"
@@ -62,7 +66,9 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
         filter={toDigits}
         onChange={codeChangeHandler}
         error={error}
-        hint={userEmail && `Enter the 6-digit sent to ${userEmail}`}
+        hint={
+          userEmail && t('security-verification.error-6digit', { userEmail })
+        }
         className="mb-6"
         inputClassName={clsx('tracking-[1em]')}
       />
@@ -74,7 +80,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
           onClick={resendHandler}
           disabled={submitting || ttl > now}
         >
-          Resend{' '}
+          {t('security-verification.btn-resend')}{' '}
           {ttl > now
             ? `(${Math.min(
                 Math.floor((ttl - now) / 1000) + 1,
@@ -90,7 +96,7 @@ const InputModal: React.FC<Props> = ({ onResolve, onResend, onConfirm }) => {
           loading={submitting}
           disabled={Boolean(!code || error)}
         >
-          Submit
+          {t('security-verification.btn-submit')}
         </Button>
       </div>
     </div>

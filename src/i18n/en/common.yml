@@ -1,2 +1,5 @@
 actions:
   back: Back
+cryptocurrency: Cryptocurrency
+loading: loading...
+network: Network
