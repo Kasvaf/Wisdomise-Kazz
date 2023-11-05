@@ -1,8 +1,21 @@
+title: KYC
+badges:
+  pending: Pending
+  pending-meeting: Pending Meeting
+  rejected: Rejected
+  unknown: loading
+  unverified: Unverified
+  verified: Verified
 identification:
   title: Identification
   description: Identify yourself to help us secure your account.
   btn-start-sumsub: Let’s Start in Sumsub
-kyc: KYC
+modal-kyc:
+  title: KYC Status
+  footer: >-
+    Complete your <1>Identification</1>, <4>Verification</4>, and <7>Verify at
+    least one wallet address</7> to access all features and enjoy a seamless
+    experience on our platform.
 verification:
   title: Verification
   description: >-

@@ -49,7 +49,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
         </div>
 
         <div className="flex flex-col">
-          <div className="mb-3 text-xs text-white/60">{t('kyc:kyc')}</div>
+          <div className="mb-3 text-xs text-white/60">{t('kyc:title')}</div>
           <div className="flex h-full items-center">{verifiedCount}/3</div>
         </div>
       </div>

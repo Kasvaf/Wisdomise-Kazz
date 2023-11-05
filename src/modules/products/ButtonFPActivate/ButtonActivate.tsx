@@ -9,7 +9,7 @@ import { type FinancialProduct } from 'api/types/financialProduct';
 import { isProduction } from 'utils/version';
 import Button from 'shared/Button';
 import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
-import useModalVerification from '../useModalVerification';
+import useModalVerification from '../../account/kyc/useModalVerification';
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
 import useEnsureSubscription from './useEnsureSubscription';
