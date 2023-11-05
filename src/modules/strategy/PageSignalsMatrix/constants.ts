@@ -18,24 +18,24 @@ export const useSuggestionsMap = () => {
     > = {
       OPEN: {
         color: 'green',
-        label: t('matrix.suggest.open'),
+        label: t('suggest.open'),
       },
       OPEN_DELAYED: {
         color: 'green',
-        label: t('matrix.suggest.open'),
+        label: t('suggest.open'),
       },
       CLOSE: {
         color: 'red',
-        label: t('matrix.suggest.close'),
+        label: t('suggest.close'),
       },
       CLOSE_DELAYED: {
         color: 'grey',
-        label: t('matrix.suggest.close'),
+        label: t('suggest.close'),
         greyTitle: true,
       },
       NO_ACTION: {
         color: 'white',
-        label: t('matrix.suggest.no-action'),
+        label: t('suggest.no-action'),
         greyTitle: true,
       },
     };

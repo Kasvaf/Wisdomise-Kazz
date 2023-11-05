@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { type FpiPosition } from 'api/types/investorAssetStructure';
 import groupBy from 'utils/groupBy';
 import Spinner from 'shared/Spinner';
@@ -20,13 +21,14 @@ const PositionsTimeline: React.FC<Props> = ({
   ranger: { range, element: rangeSelector },
   className,
 }) => {
+  const { t } = useTranslation('strategy');
   const data = parsePositions(history ?? [], range.start, range.end);
 
   return (
     <div className={className}>
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <h1 className="mr-4 text-lg font-semibold text-white">
-          Positions Timeline
+          {t('positions-timeline.title')}
         </h1>
         {rangeSelector}
       </div>
@@ -83,7 +85,7 @@ const PositionsTimeline: React.FC<Props> = ({
               </>
             ) : (
               <div className="text-sm">
-                There were no positions in this time period.
+                {t('positions-timeline.empty-message')}
               </div>
             )}
           </div>

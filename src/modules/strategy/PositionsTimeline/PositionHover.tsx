@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import * as numerable from 'numerable';
+import { useTranslation } from 'react-i18next';
 import { type FpiPosition } from 'api/types/investorAssetStructure';
 import PriceChange from 'shared/PriceChange';
 
@@ -21,29 +22,33 @@ const TimeBox: React.FC<{
   </div>
 );
 
-const PositionHover: React.FC<{ p: FpiPosition }> = ({ p }) => (
-  <div className="flex items-center rounded-xl bg-[#323842] p-2">
-    <div className="flex flex-col items-center">
-      <PriceChange value={p.pnl} valueToFixed />
-      <div className="flex items-center justify-center text-xs text-white/40">
-        {p.position_side.toUpperCase()}
+const PositionHover: React.FC<{ p: FpiPosition }> = ({ p }) => {
+  const { t } = useTranslation('strategy');
+
+  return (
+    <div className="flex items-center rounded-xl bg-[#323842] p-2">
+      <div className="flex flex-col items-center">
+        <PriceChange value={p.pnl} valueToFixed />
+        <div className="flex items-center justify-center text-xs text-white/40">
+          {p.position_side.toUpperCase()}
+        </div>
       </div>
-    </div>
-    <TimeBox
-      title="Entry point"
-      price={p.entry_price}
-      time={p.entry_time}
-      className="ml-2"
-    />
-    {p.exit_time != null && p.exit_price != null && (
       <TimeBox
-        title="Exit point"
-        price={p.exit_price}
-        time={p.exit_time}
+        title={t('positions-timeline.entry-point')}
+        price={p.entry_price}
+        time={p.entry_time}
         className="ml-2"
       />
-    )}
-  </div>
-);
+      {p.exit_time != null && p.exit_price != null && (
+        <TimeBox
+          title={t('positions-timeline.exit-point')}
+          price={p.exit_price}
+          time={p.exit_time}
+          className="ml-2"
+        />
+      )}
+    </div>
+  );
+};
 
 export default PositionHover;

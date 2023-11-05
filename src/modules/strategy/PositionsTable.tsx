@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import * as numerable from 'numerable';
 import React from 'react';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import { type FpiPosition } from 'api/types/investorAssetStructure';
 import PairInfo from 'shared/PairInfo';
 import PriceChange from 'shared/PriceChange';
@@ -12,16 +13,27 @@ interface Props {
 }
 
 const PositionsTable: React.FC<Props> = ({ history, className }) => {
+  const { t } = useTranslation('strategy');
   return (
     <div className={clsx('-mx-6 overflow-auto', className)}>
       <div className="mx-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
         <div className="grid grid-cols-6 gap-6 text-white/60">
-          <div className="pl-4 text-sm">Pairs</div>
-          <div className="text-center text-sm">Strategy</div>
-          <div className="text-center text-sm">P/L</div>
-          <div className="text-center text-sm">Entry Point</div>
-          <div className="text-center text-sm">Exit Point</div>
-          <div className="text-center text-sm">Status</div>
+          <div className="pl-4 text-sm">{t('positions-history.pairs')}</div>
+          <div className="text-center text-sm">
+            {t('positions-history.strategy')}
+          </div>
+          <div className="text-center text-sm">
+            {t('positions-history.pnl')}
+          </div>
+          <div className="text-center text-sm">
+            {t('positions-history.entry-point')}
+          </div>
+          <div className="text-center text-sm">
+            {t('positions-history.exit-point')}
+          </div>
+          <div className="text-center text-sm">
+            {t('positions-history.status')}
+          </div>
           <div className="col-span-6 border-b border-b-white/10" />
 
           {history.map(h => (
@@ -73,7 +85,7 @@ const PositionsTable: React.FC<Props> = ({ history, className }) => {
                       : 'bg-success/20 text-success',
                   )}
                 >
-                  {h.exit_time ? 'Closed' : 'Open'}
+                  {h.exit_time ? t('status.closed') : t('status.open')}
                 </div>
               </div>
             </React.Fragment>
