@@ -5,14 +5,14 @@ import Button from 'shared/Button';
 import LineChart from 'shared/LineChart';
 import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
-import { ColorByRisk } from '../constants';
 import ButtonFPActivate from '../ButtonFPActivate';
+import RiskBadge from '../RiskBadge';
 import NoticeBox from './NoticeBox';
 import ProfilePropsBox from './ProfilePropsBox';
 import InvestmentInfoBox from './InvestmentInfoBox';
 
 const PageProductCatalogDetail = () => {
-  const { t } = useTranslation('fp');
+  const { t } = useTranslation('products');
   const params = useParams<{ fpKey: string }>();
   const fpKey = params.fpKey;
   if (!fpKey) throw new Error('unexpected');
@@ -63,14 +63,7 @@ const PageProductCatalogDetail = () => {
             <div className="flex flex-1 items-center rounded-3xl bg-white/5 p-2">
               <CoinsIcons coins={fp.data?.config.assets || ''} />
             </div>
-
-            <div
-              className={`flex-1 whitespace-pre rounded-full px-4 py-3 text-center ${
-                ColorByRisk[rrr || 'Low']
-              }`}
-            >
-              {String(rrr || '') + ' Risk'}
-            </div>
+            <RiskBadge risk={rrr} className="px-4 py-3" />
           </div>
 
           <ProfilePropsBox fp={fp.data} />

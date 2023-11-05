@@ -35,6 +35,8 @@ disclaimer:
     holding the cryptocurrencies in a wallet on Binance. Wisdomise (Switzerland)
     AG accepts no liability whatsoever for any damage incurred in connection
     with holding the cryptocurrencies in a wallet on Binance.
+fpi-page:
+  title: Financial Product Details
 list:
   title: Your Active Financial Products
   description: >-
@@ -52,6 +54,43 @@ notification-activated:
     and activate any of the AI-powered strategies
 notification-deactivated:
   message: Strategy Deactivated Successfully!
+product-catalog:
+  title: AI-driven Strategies
+  description: >-
+    Your investment in any of the available strategies will be liquid, meaning
+    that your assets will not be locked up and can be released anytime you want.
+    The expected ROI, maximum drawdown, and number of trades presented for
+    different strategies are indicative and in no way a guarantee or
+    confirmation of these metrics. In the end, investment in financial markets
+    will always come with its own risks and volatility, and our state-of-the-art
+    AI models can only mitigate them to some extent. Enjoy building up your
+    wealth with our proprietary AI!
+  btn-details: Details
+product-detail:
+  disclaimer: >-
+    This website contains forward-looking statements. Such forward-looking
+    statements are based on estimates, assumptions and presumptions that
+    Wisdomise (Switzerland) AG believes are reasonable at this time. These
+    forward-looking statements are inherently subject to risks and uncertainties
+    as they relate to future events. Therefore, it is possible that actual
+    events, including the performance of cryptocurrencies, may differ materially
+    from those forecast. You should also note that past events and results are
+    no guarantee of future events or results. Wisdomise (Switzerland) AG or any
+    other person does not guarantee that the developments described on this
+    website will occur. The User should therefore not solely base their
+    investment decision with regard to the services offered by Wisdomise
+    (Switzerland) AG on the forward-looking statements expressed on this
+    website.
+  expected-max-drawdown: Expected Max Drawdown
+  expected-yield-apy: Expected Yield (APY)
+  investment: Investment
+  max: Max
+  min: Min
+  risk:
+    label: '{{risk}} Risk'
+    high: High
+    low: Low
+    medium: Medium
 status:
   title: Status
   draft: Draft
