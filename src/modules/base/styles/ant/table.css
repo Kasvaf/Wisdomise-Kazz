@@ -1,0 +1,149 @@
+.ant-table-wrapper {
+  .ant-pagination {
+    @apply !justify-center font-poppins text-xs mobile:!justify-start;
+
+    button,
+    a {
+      @apply p-2 leading-none text-white;
+    }
+
+    .ant-pagination-item {
+      @apply flex items-center justify-center font-poppins;
+    }
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      @apply flex items-center justify-center bg-black/30;
+
+      & > svg {
+        @apply h-3 w-3;
+      }
+    }
+
+    .ant-pagination-item-active {
+      @apply border-none bg-black/80;
+
+      &:hover a {
+        @apply text-white;
+      }
+    }
+  }
+
+  /**
+   * Loading refinement
+   */
+  .ant-spin-container::after {
+    @apply rounded-xl;
+  }
+  .ant-spin {
+    @apply !static;
+  }
+}
+
+.ant-table {
+  @apply !bg-transparent p-4 !font-poppins !text-white mobile:!min-h-full;
+  min-height: 248px;
+
+  .ant-table-header {
+    @apply mb-2;
+  }
+
+  &.ant-table-empty .ant-table-cell {
+    @apply border-b-transparent;
+  }
+}
+
+.ant-table-thead {
+  .ant-table-cell {
+    @apply !border-b-0 !border-white/10 !bg-black/60 p-0 pb-4 text-xs !font-normal !text-white/40;
+
+    &:first-child {
+      @apply !rounded-ss-xl;
+    }
+
+    &:last-child {
+      @apply !rounded-se-xl;
+    }
+
+    &:before {
+      @apply hidden;
+    }
+  }
+
+  .ant-table-column-sorters {
+    .ant-table-column-sorter {
+      @apply text-white/30;
+
+      .anticon.active {
+        @apply text-white/70;
+      }
+    }
+    &:hover .ant-table-column-sorter {
+      @apply text-white/50;
+    }
+  }
+
+  .ant-table-cell-scrollbar {
+    @apply !shadow-none;
+  }
+}
+
+.ant-table-tbody {
+  @apply bg-black/20;
+
+  .ant-table-row {
+    &:hover .ant-table-cell.ant-table-column-sort {
+      @apply !bg-black/20;
+    }
+
+    .ant-table-cell {
+      @apply border-b-0;
+
+      &.ant-table-column-sort {
+        @apply bg-black/20;
+      }
+    }
+
+    &:last-child {
+      .ant-table-cell {
+        @apply border-b-0;
+
+        &.ant-table-column-sort {
+          @apply bg-black/20;
+        }
+
+        &:first-child {
+          @apply rounded-es-2xl;
+        }
+        &:last-child {
+          @apply rounded-ee-2xl;
+        }
+      }
+    }
+  }
+}
+
+.ant-table-row {
+  .ant-table-cell {
+    @apply px-0 py-2 text-xs font-medium;
+    @apply border-b !border-black/20;
+  }
+
+  &:hover > .ant-table-cell {
+    @apply !bg-transparent;
+    background: transparent !important;
+  }
+}
+
+.ant-table-placeholder {
+  @apply !bg-transparent;
+  background: transparent !important;
+
+  .ant-table-cell {
+    @apply border-b-0;
+
+    .ant-empty-description {
+      @apply text-white/80;
+    }
+  }
+}

@@ -1,0 +1,111 @@
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { API_ORIGIN, CHATAPP_ORIGIN } from 'config/constants';
+
+interface ProtocolInfo {
+  name: string;
+  defi_symbol: {
+    symbol: string;
+    name: string;
+  };
+  logo_url: string;
+  tvl_usd: number;
+  audits: string;
+  description: string;
+  whitepaper_url: string;
+  website_url: string;
+  twitter_url: string;
+  github_url: string;
+  docs_url: string;
+  athena_opening: string;
+}
+
+export const useProtocolInfoQuery = (id?: string) =>
+  useQuery(['protocol', id], async () => {
+    const { data } = await axios.get<ProtocolInfo>(
+      `${API_ORIGIN}/api/v0/delphi/protocol/${id ?? ''}`,
+    );
+    return data;
+  });
+
+export interface ProtocolPools {
+  page_size: number;
+  count: number;
+  previous: null;
+  results: {
+    protocol_name: string;
+    pool: Array<{
+      key: string;
+      apy: number;
+      chain: string;
+      tvl_usd: number;
+      apy_base: number;
+      apy_reward?: number;
+      defi_symbols: Array<{ symbol: string; name: string }>;
+    }>;
+  };
+}
+
+export const useProtocolPoolsQuery = (
+  id: string,
+  filters: { search?: string; page: number; sort?: string },
+) =>
+  useQuery(
+    ['protocolPools', id, filters],
+    async ({ signal }) => {
+      const { page, search, sort } = filters;
+      const params = new URLSearchParams();
+      sort && params.set('ordering', sort);
+      search && params.set('search', search);
+      page && params.set('page', page.toString());
+      const { data } = await axios.get<ProtocolPools>(
+        `${API_ORIGIN}/api/v0/delphi/protocol/${
+          id ?? ''
+        }/pools?${params.toString()}`,
+        { signal },
+      );
+      return data;
+    },
+    { keepPreviousData: true },
+  );
+
+interface DefiProjectsQuestionPool {
+  key: string;
+  name: string;
+  title: string;
+  children: Array<{
+    key: string;
+    name: string;
+    title: string;
+    template_questions: Array<{
+      key: string;
+      template_prompt: string;
+      interface_prompt: string;
+    }>;
+  }>;
+}
+
+export const useDefiProjectsQuestionPool = () =>
+  useQuery(
+    ['defiProjectQuestionPool'],
+    async () => {
+      const { data } = await axios.get<DefiProjectsQuestionPool>(
+        // Id must be hard coded
+        `${CHATAPP_ORIGIN}/api/template/question_pool/57c7a1f7-850a-4832-910a-a5fbea2e6778`,
+      );
+      return data;
+    },
+    { retry: false },
+  );
+
+interface ProtocolTvlHistory {
+  name: string;
+  data: Array<{ tvl: number; date: string }>;
+}
+export const useProtocolTvlHistory = (id?: string) =>
+  useQuery(['protocolTvlHistory', id], async () => {
+    const { data } = await axios.get<ProtocolTvlHistory>(
+      `${API_ORIGIN}/api/v0/delphi/protocol/${id ?? ''}/hist_tvl?res=7d`,
+    );
+    return data.data;
+  });

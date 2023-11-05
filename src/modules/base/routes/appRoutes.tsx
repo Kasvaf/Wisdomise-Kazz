@@ -32,6 +32,9 @@ const PageStrategyCreate = React.lazy(
 const PageStrategyDetails = React.lazy(
   () => import('modules/strategy/PageStrategyDetails'),
 );
+const PageProtocolDetails = React.lazy(
+  () => import('modules/staking/PageProtocolDetails'),
+);
 
 const appRoutes: RouteObject[] = [
   {
@@ -52,6 +55,10 @@ const appRoutes: RouteObject[] = [
       { path: 'strategy', element: <PageStrategiesList /> },
       { path: 'strategy/new', element: <PageStrategyCreate /> },
       { path: 'strategy/:id', element: <PageStrategyDetails /> },
+      {
+        path: 'staking/protocol/:id',
+        element: <PageProtocolDetails />,
+      },
       { path: '', element: <Navigate to="/app/assets" /> },
     ],
   },

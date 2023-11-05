@@ -1,4 +1,6 @@
 import { clsx } from 'clsx';
+import type React from 'react';
+import { isValidElement } from 'react';
 import { type ChangeEventHandler, type FC, useCallback } from 'react';
 
 interface Props {
@@ -7,14 +9,15 @@ interface Props {
   hint?: string;
   onBlur?: () => void;
   disabled?: boolean;
-  suffix?: string;
   className?: string;
   placeholder?: string;
   inputClassName?: string;
   error?: string | boolean;
   type?: 'text' | 'number' | 'tel';
   filter?: (v: string) => string;
+  suffix?: string | React.ReactNode;
   onChange?: (item: string) => void;
+  onKeyDown?: React.DOMAttributes<HTMLInputElement>['onKeyDown'];
 }
 
 const TextBox: FC<Props> = ({
@@ -28,6 +31,7 @@ const TextBox: FC<Props> = ({
   onBlur,
   disabled = false,
   suffix,
+  onKeyDown,
   className,
   placeholder,
   inputClassName,
@@ -40,6 +44,7 @@ const TextBox: FC<Props> = ({
     },
     [onChange, filter],
   );
+
   const hasErrorMessage = Boolean(error && typeof error === 'string');
 
   return (
@@ -61,11 +66,17 @@ const TextBox: FC<Props> = ({
           value={value}
           onBlur={onBlur}
           disabled={disabled}
+          onKeyDown={onKeyDown}
           onInput={changeHandler}
           placeholder={placeholder}
         />
-        <div className="pointer-events-none absolute right-0 top-0 flex h-full items-center pr-4">
-          <span>{suffix}</span>
+        <div
+          className={clsx(
+            'absolute right-0 top-0 flex h-full items-center pr-4',
+            !isValidElement(suffix) && 'pointer-events-none',
+          )}
+        >
+          {isValidElement(suffix) ? suffix : <span>{suffix}</span>}
         </div>
       </div>
 
