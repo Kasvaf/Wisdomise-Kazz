@@ -1,42 +1,40 @@
-kyc: KYC
 identification:
   title: Identification
   description: Identify yourself to help us secure your account.
   btn-start-sumsub: Let’s Start in Sumsub
+kyc: KYC
 verification:
   title: Verification
   description: >-
     To verify your account, kindly schedule a meeting on Calendly, and we will
     reach out to assist you with the verification process.
-  identify-first-notice: Complete Identification first
   btn-calendly: Schedule in Calendly
+  identify-first-notice: Complete Identification first
 wallet:
   title: Wallet Verification
-  description: >-
-    Verify your wallets to activate and unlock all of our products and
-    features.
-  list-title: Wallet Status
-  empty-message: You have no verified wallet address.
-  unnamed: (unnamed)
-  column:
-    name: Wallet name
-    coin: Coin
-    wallet-address: Wallet Address
+  description: Verify your wallets to activate and unlock all of our products and features.
   add:
     banner: >-
       Please be aware that we currently only support <1>USDT</1> as a
       cryptocurrency.
+    btn-send-email: Send Email
     help:
-      pre: >-
+      screenshot-title: '<0>Example</0>: USDT Wallet Address'
+      step-0: >-
         To send us your USDT wallet address and network, you need to follow
         these steps in your Trust wallet:
       step-1-networks: Select USDT coin on your preferred network
       step-2-receive: Choose receive button.
       step-3-screenshot: >-
-        Take a screenshot of the page that shows your deposit wallet address
-        and network for USDT.
+        Take a screenshot of the page that shows your deposit wallet address and
+        network for USDT.
       step-4-email: >-
         Attach the screenshot to an email and send it to our support email:
         <1>support@wisdomise.io</1>
-      screenshot-title: '<0>Example</0>: USDT Wallet Address'
-    btn-send-email: Send Email
+  column:
+    name: Wallet name
+    coin: Coin
+    wallet-address: Wallet Address
+  empty-message: You have no verified wallet address.
+  list-title: Wallet Status
+  unnamed: (unnamed)

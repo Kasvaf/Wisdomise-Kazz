@@ -27,7 +27,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
       <div className="flex flex-col gap-2 md:flex-row">
         <div className="md:basis-1/2">
           <div className="text-xs text-white/60">
-            {t('wallet.add.help.pre')}
+            {t('wallet.add.help.step-0')}
           </div>
 
           <ol className="ml-6 mt-6 list-decimal">

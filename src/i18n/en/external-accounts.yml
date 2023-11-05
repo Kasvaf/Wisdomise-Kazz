@@ -1,0 +1,22 @@
+account:
+  name: Account Name
+  account: Account
+  exchange: Exchange
+  market: Market
+  status: Status
+modal-account-selector:
+  title: Select Account
+  btn-connect-new: Connect New Account
+  btn-continue: Continue
+  not-supported: External exchange accounts are not supported for this product.
+modal-add-exchange:
+  title: Add Exchange Account
+  input-api-key: API KEY
+  input-secret-key: Secret Key
+  notice-ip-restriction: 'Use following value for <1>IP access restrictions</1> in Binance:'
+page-accounts:
+  btn-add-account: Add Account
+  empty-description: You have not added any external exchange account yet.
+  exchanges-title: My Exchange Accounts
+  subscription: Subscription
+  wisdomise-account: Wisdomise Account

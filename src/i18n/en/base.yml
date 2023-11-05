@@ -1,0 +1,49 @@
+error-page:
+  title: Something went wrong and we don't know how :(
+  subtitle: But we'll try our best so that it won't happen again.
+  btn-reload: Reload
+menu:
+  account-manager:
+    title: Account Manager
+    mobile: Accounts
+  asset-overview:
+    title: Asset Overview
+    mobile: Asset
+  athena: Athena
+  billing:
+    title: Billing
+    mobile: Billing
+  category:
+    account: Account
+    market-predication: Market Predication
+    passive-income: Passive Income
+    strategy-builder: Strategy Builder
+  dashboard: Dashboard
+  kyc:
+    title: KYC
+    mobile: KYC
+  notification-center:
+    title: Notification Center
+    mobile: Notifications
+  products-catalog:
+    title: Products Catalog
+    mobile: Products
+  profile:
+    title: Profile
+    mobile: Profile
+  profile-dashboard: Profile Dashboard
+  referral:
+    title: Referral
+    mobile: Referral
+  signal-matrix:
+    title: Signal Matrix
+    mobile: Signals
+  strategies:
+    title: Strategies
+    mobile: Strategies
+mobile-menu:
+  close: Close
+  open: Menu
+user:
+  logout: Logout
+wisdomise-is-loading: Wisdomise is loading ...

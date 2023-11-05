@@ -44,12 +44,12 @@ const BoxIntro: React.FC<{
 
         <div className="-mx-3 -mb-6 flex flex-wrap items-center justify-center mobile:self-stretch">
           <Button className="mx-3 mb-6" to="/app/products-catalog">
-            {t('intro.check-products')}
+            {t('intro.btn-check-products')}
           </Button>
 
           {Boolean(ias.data?.length) && (
             <Button className="mx-3 mb-6" onClick={() => openDeposit({})}>
-              {t('intro.deposit')}
+              {t('intro.btn-deposit')}
             </Button>
           )}
           {DepositMod}

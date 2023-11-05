@@ -3,32 +3,32 @@ intro:
   description: >-
     Wisdomise offers AI-based strategies tailored to your risk tolerance. Check
     out our strategies and start making a profit today.
-  check-products: Check Products
-  deposit: Deposit
+  btn-check-products: Check Products
+  btn-deposit: Deposit
 portfolio:
   title: Your Account Portfolio
   description: >-
     AI-based trading strategies run automatically on your crypto wallet. These
     are built with our comprehensive and sophisticated AI after running over 300
     million unique experiments
+  bindings-count_one: Coin
+  bindings-count_other: Coins
   info:
-    balance: Balance
-    PnL:
-      title: P / L
-      unrealized: (Unrealized)
     available:
       title: Available
       subtitle: Withdrawable
+    balance: Balance
     deposit:
       title: Deposit
       subtitle: Amount
+    PnL:
+      title: P / L
+      unrealized: (Unrealized)
     working-capital:
       title: Working Capital
       subtitle: AUM
-  bindings-count: Coins
-  bindings-count_one: Coin
   table:
-    coin: Coin
     amount: Amount
+    coin: Coin
     equity: Equity
     share: Share

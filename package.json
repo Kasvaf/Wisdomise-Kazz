@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "lint": "eslint --quiet ./src --ext .jsx,.js,.tsx,.ts",
     "execute-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "i18n": "i18next"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
@@ -80,6 +81,7 @@
     "eslint-plugin-unicorn": "^48.0.1",
     "eslint-plugin-unused-imports": "^3.0.0",
     "husky": "^8.0.3",
+    "i18next-parser": "^8.9.0",
     "knip": "^2.19.4",
     "lint-staged": "^13.2.0",
     "postcss": "^8.4.21",

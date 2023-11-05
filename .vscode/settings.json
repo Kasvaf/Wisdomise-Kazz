@@ -41,7 +41,7 @@
   "i18n-ally.localesPaths": [
     "src/i18n"
   ],
-  "i18n-ally.pathMatcher": "{locale}/{namespace}.yaml",
+  "i18n-ally.pathMatcher": "{locale}/{namespace}.yml",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.dirStructure": "dir",
   "i18n-ally.editor.preferEditor": true,
