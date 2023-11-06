@@ -8,6 +8,9 @@ import { Mode, plugin as mdPlugin } from 'vite-plugin-markdown';
 // https://vitejs.dev/config/
 export default defineConfig(config => ({
   base: '/' + (process.env.VITE_BRANCH || ''),
+  optimizeDeps: {
+    exclude: ['./src/modules/account/PageBilling'],
+  },
   plugins: [
     mdPlugin({
       mode: [Mode.REACT],
