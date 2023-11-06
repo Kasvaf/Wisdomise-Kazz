@@ -16,6 +16,7 @@ export default function useSignInWithEthereum() {
       uri: window.location.origin,
       version: '1',
       chainId: chain?.id,
+      issuedAt: new Date().toISOString(),
     };
     return messageParams;
   }
@@ -29,7 +30,11 @@ export default function useSignInWithEthereum() {
     const message = createMessage(address, statement, nonce);
     const preMessage = toMessage(message);
     return {
-      message,
+      message: {
+        ...message,
+        chain_id: message.chainId,
+        issued_at: message.issuedAt,
+      },
       signature: await signMessageAsync({
         message: preMessage,
       }),
