@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { type SiweMessage } from 'siwe';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 
 interface NonceResponse {
@@ -23,7 +22,7 @@ export function useGenerateNonceQuery() {
 }
 
 export interface NonceVerificationBody {
-  message: SiweMessage;
+  message: Record<string, unknown>;
   signature: string;
 }
 
@@ -34,7 +33,6 @@ export const useNonceVerificationMutation = () => {
       await axios.post(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/verify`,
         body,
-        { withCredentials: true },
       );
     },
     { onSuccess: () => client.invalidateQueries(['account']) },
