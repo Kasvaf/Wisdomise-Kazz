@@ -31,7 +31,7 @@ const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
             greyTitle ? 'text-white/40' : 'text-white',
           )}
         >
-          {isClosed(p) ? t('status.closed') : t('status.open')}
+          {isClosed(p) ? t('status.closed') : t('status.opened')}
         </span>
         <span className="text-xxs text-white/40">
           {dayjs(p.exit_time || p.entry_time).fromNow()}
