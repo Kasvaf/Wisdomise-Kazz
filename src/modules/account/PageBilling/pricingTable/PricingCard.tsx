@@ -108,7 +108,7 @@ export default function PricingCard({
               {addComma(plan.wsdm_token_hold)}
             </span>{' '}
             <strong className="bg-gradient-to-r from-[#00A3FF] to-[#FF00C7] to-100% bg-clip-text text-transparent">
-              $WSDM
+              $tWSDM
             </strong>{' '}
             <span className="text-gray-400">tokens</span>
           </div>

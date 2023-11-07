@@ -61,7 +61,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
               {addComma(plan.wsdm_token_hold)}
             </p>
             <p className="text-lg mobile:text-sm">
-              Wisdomise Token (WSDM)
+              Wisdomise Token (tWSDM)
               <br />
               <span className="text-white/50">For 1 year</span>
             </p>
@@ -76,7 +76,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
                 <div className="flex justify-between gap-4">
                   <span>{plan.name}</span>
                   <span className="whitespace-nowrap">
-                    {addComma(plan.wsdm_token_hold)} WSDM
+                    {addComma(plan.wsdm_token_hold)} tWSDM
                   </span>
                 </div>
                 <p className="mt-6 text-sm text-white/50 mobile:mt-4">
@@ -87,7 +87,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
               <div className="flex justify-between gap-4 border-b border-white/20">
                 <span>Subtotal</span>
                 <span className="whitespace-nowrap">
-                  {addComma(plan.wsdm_token_hold)} WSDM
+                  {addComma(plan.wsdm_token_hold)} tWSDM
                 </span>
               </div>
 
@@ -96,7 +96,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
                   Total amount need to be hold in your wallet
                 </span>
                 <span className="whitespace-nowrap">
-                  {addComma(plan.wsdm_token_hold)} WSDM
+                  {addComma(plan.wsdm_token_hold)} tWSDM
                 </span>
               </div>
             </div>
@@ -126,7 +126,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
                     {addComma(plan.wsdm_token_hold)}
                   </div>
                   <div className="text-sm opacity-50">
-                    Wisdomise Token (WSDM)
+                    Wisdomise Token (tWSDM)
                   </div>
                 </div>
                 <div className="h-16 w-px border-r border-white/50"></div>
@@ -140,7 +140,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
                     {account?.wsdm_balance ?? 0}
                   </div>
                   <div className="text-sm opacity-50">
-                    Your WSDM Token Balance
+                    Your tWSDM Token Balance
                   </div>
                 </div>
               </div>

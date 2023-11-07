@@ -85,7 +85,7 @@ export default function SubscriptionMethodModal({
           >
             <div className="flex items-center gap-2">
               <Token />
-              Wisdomise Token (WSDM)
+              Wisdomise Token (tWSDM)
             </div>
           </Button>
         )}
