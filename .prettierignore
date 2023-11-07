@@ -3,3 +3,4 @@
 package.json
 index.html
 .vscode/*
+src/i18n/*
