@@ -1455,7 +1455,7 @@
   dependencies:
     regenerator-runtime "^0.13.11"
 
-"@babel/runtime@^7.22.5":
+"@babel/runtime@^7.19.4", "@babel/runtime@^7.22.5":
   version "7.23.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
   integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
@@ -6690,6 +6690,13 @@ husky@^8.0.3:
   version "8.0.3"
   resolved "https://registry.npmjs.org/husky/-/husky-8.0.3.tgz"
   integrity sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==
+
+i18next-browser-languagedetector@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-7.1.0.tgz#01876fac51f86b78975e79b48ccb62e2313a2d7d"
+  integrity sha512-cr2k7u1XJJ4HTOjM9GyOMtbOA47RtUoWRAtt52z43r3AoMs2StYKyjS3URPhzHaf+mn10hY9dZWamga5WPQjhA==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
 
 i18next-parser@^8.9.0:
   version "8.9.0"

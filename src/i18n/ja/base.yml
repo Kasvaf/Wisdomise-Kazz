@@ -1,0 +1,49 @@
+error-page:
+  btn-reload: リロード
+  subtitle: しかし、このようなことが二度と起こらないよう最善を尽くしてまいります。
+  title: 何か問題が発生しましたが、その方法がわかりません:(
+menu:
+  account-manager:
+    mobile: アカウント
+    title: アカウントマネージャー
+  asset-overview:
+    mobile: 資産
+    title: 資産の概要
+  athena: アテナ
+  billing:
+    mobile: 請求する
+    title: 請求する
+  category:
+    account: アカウント
+    market-predication: 市場予測
+    passive-income: 不労所得
+    strategy-builder: 戦略ビルダー
+  dashboard: ダッシュボード
+  kyc:
+    mobile: 本人確認
+    title: 本人確認
+  notification-center:
+    mobile: 通知
+    title: 通知センター
+  products-catalog:
+    mobile: 製品
+    title: 製品カタログ
+  profile-dashboard: プロフィールダッシュボード
+  profile:
+    mobile: プロフィール
+    title: プロフィール
+  referral:
+    mobile: 照会
+    title: 照会
+  signal-matrix:
+    mobile: 信号
+    title: 信号マトリクス
+  strategies:
+    mobile: 戦略
+    title: 戦略
+mobile-menu:
+  close: 近い
+  open: メニュー
+user:
+  logout: ログアウト
+wisdomise-is-loading: ウィズドミスを読み込んでいます...

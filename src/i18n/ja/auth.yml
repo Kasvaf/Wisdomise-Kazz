@@ -1,0 +1,42 @@
+banner:
+  athena-bot: アテナ電報ボット
+  stay-connected: つながりを保つ
+footer: © 2023 ウィズダムズ.
+page-referral:
+  all-time: いつも
+  friends-invited: 友達を招待しました
+  referral-code: 紹介コード
+  referral-insight: 紹介インサイト
+  referral-link: 紹介リンク
+  subscribed-friends: 登録した友達
+  title: 紹介プログラム
+  wisdomise-revenue: 紹介による収益を賢明に把握する
+  your-profit: あなたの利益
+secondary:
+  btn-submit:
+    label: 提出する
+    loading: 送信中...
+  contract:
+    btn-check: 読んで同意します {{title}}。
+    label: ご了承いただいております <1>{{title}}</1>。
+    required-error: 受け入れるべきです {{title}} 続けるために。
+  invitation:
+    label: 招待コード <1>(オプション)</1>
+    not-found: リファラーが見つかりません
+    placeholder: 招待コード
+  nickname:
+    label: ニックネーム
+    length-limit: このフィールドが 32 文字以下であることを確認してください。
+    not-empty: ニックネームを空にすることはできません
+    placeholder: あなたのニックネーム
+  welcome: へようこそ <br><b>知恵を与える</b>
+verify-email:
+  btn-check:
+    label: チェック
+    loading: チェック中...
+  btn-resend:
+    label: 確認メールを再送
+    loading: 確認メールを再送信しています...
+  link-sent: リンクがメールに送信されました <1>{{email}}</1><br> アカウントを確認するには、リンクをクリックしてください。
+  notification-email-sent: 確認メールが正常に送信されました。
+  title: 確認する <b>あなたのメールアドレス</b>

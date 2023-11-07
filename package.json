@@ -34,6 +34,7 @@
     "crisp-sdk-web": "^1.0.19",
     "dayjs": "^1.11.9",
     "i18next": "^23.6.0",
+    "i18next-browser-languagedetector": "^7.1.0",
     "numerable": "^0.3.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

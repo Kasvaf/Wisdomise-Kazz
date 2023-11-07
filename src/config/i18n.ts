@@ -3,6 +3,7 @@
 
 import * as i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import resources from 'virtual:i18next-loader';
 import { notification } from 'antd';
 import { isProduction } from 'utils/version';
@@ -10,10 +11,19 @@ import { isProduction } from 'utils/version';
 export default function configI18n() {
   void i18n
     .use(initReactI18next) // passes i18n down to react-i18next
+    .use(LanguageDetector)
     .init({
       resources,
-      lng: 'en',
       fallbackLng: 'en',
+      detection: {
+        order: [
+          'querystring',
+          'cookie',
+          'localStorage',
+          'sessionStorage',
+          'subdomain',
+        ],
+      },
       saveMissing: !isProduction,
       missingKeyHandler: (
         lngs,
