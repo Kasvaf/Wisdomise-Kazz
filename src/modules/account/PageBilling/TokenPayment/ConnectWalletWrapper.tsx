@@ -7,7 +7,7 @@ import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
-import useSignInWithEthereum from 'modules/account/PageBilling/tokenPayment/useSiwe';
+import useSignInWithEthereum from 'modules/account/PageBilling/TokenPayment/useSiwe';
 import { shortenAddress } from 'utils/shortenAddress';
 import { isProduction } from 'utils/version';
 import { unwrapErrorMessage } from 'utils/error';
