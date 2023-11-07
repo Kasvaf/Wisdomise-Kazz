@@ -88,17 +88,19 @@ success-modal:
   btn-goto-athena: Go to Athena
   redirecting-msg: Will Be Redirected in <1>({{timeout}})</1> Seconds.
 token-modal:
-  title: 'Wisdomise AG'
-  subscribe-to: 'Subscribe to'
-  token-name: 'Wisdomise Token (tWSDM)'
-  token: tWSDM
-  for1Year: 'For 1 year'
-  subtotal: Subtotal
-  total-amount: 'Total amount need to be hold in your wallet'
+  title: Wisdomise AG
+  description: >-
+    Your Wisdomise Tokens will not be deducted, you will only need to hold the
+    tokens in your wallet for the subscription period in order to gain access.
+  activate-subscription: Activate Subscription
   congratulations: Congratulations!
-  you-can: 'you can now access {{name}} Features.'
   done: Done
-  your-balance: 'Your tWSDM Token Balance'
-  activate-subscription: 'Activate Subscription'
-  purchase-token: 'Purchase Wisdomise Token'
-  description: 'Your Wisdomise Tokens will not be deducted, you will only need to hold the tokens in your wallet for a the subscription period in order to gain access.'
+  for-1-year: For 1 year
+  purchase-token: Purchase Wisdomise Token
+  subscribe-to: Subscribe to
+  subtotal: Subtotal
+  token: tWSDM
+  token-name: Wisdomise Token (tWSDM)
+  total-amount: Total amount need to be hold in your wallet
+  you-can: you can now access {{name}} Features.
+  your-balance: Your tWSDM Token Balance

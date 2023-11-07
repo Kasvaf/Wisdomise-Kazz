@@ -65,7 +65,9 @@ export default function TokenPaymentModalContent({ plan }: Props) {
             <p className="text-lg mobile:text-sm">
               <Trans i18nKey="token-modal.token-name" ns="billing" />
               <br />
-              <span className="text-white/50">{t('token-modal.for1Year')}</span>
+              <span className="text-white/50">
+                {t('token-modal.for-1-year')}
+              </span>
             </p>
           </div>
 
