@@ -20,6 +20,9 @@ module.exports = {
     '@typescript-eslint',
     'unused-imports',
     'eslint-plugin-unicorn',
+
+    'i18next',
+    'react-i18n',
   ],
   extends: [
     'plugin:unicorn/recommended',
@@ -58,6 +61,10 @@ module.exports = {
     // 'complexity': ['error', 11],
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+
+    'i18next/no-literal-string': 'warn',
+    'react-i18n/no-dynamic-translation-keys': 'error',
+    'react-i18n/no-missing-interpolation-keys': 'error',
 
     'quotes': ['error', 'single', { avoidEscape: true }],
 

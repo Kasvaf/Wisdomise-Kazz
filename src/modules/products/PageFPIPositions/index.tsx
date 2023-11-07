@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useFpiQuery } from 'api/fpi';
 import PageWrapper from 'modules/base/PageWrapper';
 import FinancialProductItem from '../../wallet/PageAssetOverview/ActiveFinancialProducts/FinancialProductItem';
@@ -6,6 +7,7 @@ import FPIPositionHistory from './FPIPositionHistory';
 import FPITimeline from './FPITimeline';
 
 const PageFPIPositions = () => {
+  const { t } = useTranslation('products');
   const params = useParams<{ fpiKey: string }>();
   const fpi = useFpiQuery(params.fpiKey);
   return (
@@ -13,7 +15,7 @@ const PageFPIPositions = () => {
       {fpi.data && (
         <div>
           <h1 className="mb-4 text-lg font-semibold text-white">
-            Financial Product Details
+            {t('fpi-page.title')}
           </h1>
           <FinancialProductItem fpi={fpi.data} className="mb-10" noDetailsBtn />
         </div>

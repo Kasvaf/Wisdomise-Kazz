@@ -1,6 +1,7 @@
 /* eslint-disable import/max-dependencies */
 
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { isProduction } from 'utils/version';
 import { ReactComponent as AssetOverviewIcon } from './icons/assetOverview.svg';
 import { ReactComponent as ProductsCatalogIcon } from './icons/productsCatalog.svg';
@@ -23,83 +24,88 @@ interface MenuItem {
   mobileHide?: boolean;
 }
 
-const DashboardMenuItems: MenuItem[] = [
-  {
-    category: 'Passive Income',
-    icon: <AssetOverviewIcon />,
-    text: 'Asset Overview',
-    mobileText: 'Asset',
-    link: '/app/assets',
-  },
-  {
-    category: 'Passive Income',
-    icon: <ProductsCatalogIcon />,
-    text: 'Products Catalog',
-    mobileText: 'Products',
-    link: '/app/products-catalog',
-  },
-  {
-    category: 'Market Predication',
-    icon: <SignalsIcon />,
-    text: 'Signal Matrix',
-    mobileText: 'Signals',
-    link: '/app/signals',
-    hide: false,
-  },
-  {
-    category: 'Developer',
-    icon: <StrategiesIcon />,
-    text: 'Strategies',
-    mobileText: 'Strategies',
-    link: '/app/strategy',
-    hide: isProduction,
-    mobileHide: true,
-  },
-];
-
-const AccountMenuItems: MenuItem[] = [
-  {
-    category: 'Account',
-    text: 'Profile',
-    icon: <ProfileIcon />,
-    link: '/account/profile',
-  },
-  {
-    category: 'Account',
-    text: 'Account Manager',
-    mobileText: 'Accounts',
-    icon: <ExchangeAccountIcon />,
-    link: '/account/exchange-accounts',
-    hide: isProduction,
-  },
-  {
-    category: 'Account',
-    text: 'Billing',
-    icon: <BillingIcon />,
-    link: '/account/billing',
-  },
-  {
-    category: 'Account',
-    text: 'Referral',
-    icon: <ReferralIcon />,
-    link: '/account/referral',
-  },
-  {
-    category: 'Account',
-    text: 'KYC',
-    icon: <KYCIcon />,
-    link: '/account/kyc',
-  },
-  {
-    category: 'Account',
-    text: 'Notification Center',
-    mobileText: 'Notifications',
-    icon: <NotificationIcon />,
-    link: '/account/notification-center',
-  },
-];
-
 const useMenuItems = () => {
+  const { t } = useTranslation('base');
+  const DashboardMenuItems: MenuItem[] = [
+    {
+      category: t('menu.category.passive-income'),
+      icon: <AssetOverviewIcon />,
+      text: t('menu.asset-overview.title'),
+      mobileText: t('menu.asset-overview.mobile'),
+      link: '/app/assets',
+    },
+    {
+      category: t('menu.category.passive-income'),
+      icon: <ProductsCatalogIcon />,
+      text: t('menu.products-catalog.title'),
+      mobileText: t('menu.products-catalog.mobile'),
+      link: '/app/products-catalog',
+    },
+    {
+      category: t('menu.category.market-predication'),
+      icon: <SignalsIcon />,
+      text: t('menu.signal-matrix.title'),
+      mobileText: t('menu.signal-matrix.mobile'),
+      link: '/app/signals',
+      hide: false,
+    },
+    {
+      category: t('menu.category.strategy-builder'),
+      icon: <StrategiesIcon />,
+      text: t('menu.strategies.title'),
+      mobileText: t('menu.strategies.mobile'),
+      link: '/app/strategy',
+      hide: isProduction,
+      mobileHide: true,
+    },
+  ];
+
+  const AccountMenuItems: MenuItem[] = [
+    {
+      category: t('menu.category.account'),
+      text: t('menu.profile.title'),
+      mobileText: t('menu.profile.mobile'),
+      icon: <ProfileIcon />,
+      link: '/account/profile',
+    },
+    {
+      category: t('menu.category.account'),
+      text: t('menu.account-manager.title'),
+      mobileText: t('menu.account-manager.mobile'),
+      icon: <ExchangeAccountIcon />,
+      link: '/account/exchange-accounts',
+      hide: isProduction,
+    },
+    {
+      category: t('menu.category.account'),
+      text: t('menu.billing.title'),
+      mobileText: t('menu.billing.mobile'),
+      icon: <BillingIcon />,
+      link: '/account/billing',
+    },
+    {
+      category: t('menu.category.account'),
+      text: t('menu.referral.title'),
+      mobileText: t('menu.referral.mobile'),
+      icon: <ReferralIcon />,
+      link: '/account/referral',
+    },
+    {
+      category: t('menu.category.account'),
+      text: t('menu.kyc.title'),
+      mobileText: t('menu.kyc.mobile'),
+      icon: <KYCIcon />,
+      link: '/account/kyc',
+    },
+    {
+      category: t('menu.category.account'),
+      text: t('menu.notification-center.title'),
+      mobileText: t('menu.notification-center.mobile'),
+      icon: <NotificationIcon />,
+      link: '/account/notification-center',
+    },
+  ];
+
   const { pathname } = useLocation();
   const isAccount = pathname.startsWith('/account');
   const items = isAccount ? AccountMenuItems : DashboardMenuItems;

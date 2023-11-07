@@ -1,11 +1,13 @@
 import { type ReactNode, useState } from 'react';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { useReferralStatusQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import CopyInputBox from 'shared/CopyInputBox';
 import Card from 'shared/Card';
 
 export default function ReferralPage() {
+  const { t } = useTranslation('auth');
   const [selectedInterval, setSelectedInterval] = useState(30);
   // const { data: account, isLoading } = useAccountQuery();
   const { data: referral, isLoading } =
@@ -14,17 +16,17 @@ export default function ReferralPage() {
 
   return (
     <PageWrapper loading={isLoading}>
-      <h1 className="mb-5">Referral Program</h1>
+      <h1 className="mb-5">{t('page-referral.title')}</h1>
       {referral && (
         <>
           <Card className="mb-10 flex flex-wrap gap-2 gap-y-8">
             <CopyInputBox
-              label="Referral Code"
+              label={t('page-referral.referral-code')}
               value={referral.referral_code}
               style="alt"
             />
             <CopyInputBox
-              label="Referral Link"
+              label={t('page-referral.referral-link')}
               value={`${myOrigin}/ref/${referral.referral_code}`}
               className="grow"
               style="alt"
@@ -32,7 +34,7 @@ export default function ReferralPage() {
           </Card>
 
           <div className="mb-6 flex items-baseline gap-4">
-            <h2>Referral Insight</h2>
+            <h2>{t('page-referral.referral-insight')}</h2>
             <div className="flex gap-2">
               {[30, 60, 90].map(interval => {
                 return (
@@ -44,7 +46,7 @@ export default function ReferralPage() {
                     )}
                     onClick={() => setSelectedInterval(interval)}
                   >
-                    {interval}d
+                    {`${interval}d`}
                   </button>
                 );
               })}
@@ -52,22 +54,22 @@ export default function ReferralPage() {
           </div>
           <div className="mb-4 grid grid-cols-12 gap-9">
             <ReferralCard
-              title="Friends invited"
+              title={t('page-referral.friends-invited')}
               interval={referral.interval_referred_users_count}
               all={referral.referred_users_count}
             />
             <ReferralCard
-              title="Subscribed Friends"
+              title={t('page-referral.subscribed-friends')}
               interval={referral.interval_active_referred_users_count}
               all={referral.active_referred_users_count}
             />
             <ReferralCard
-              title="Wisdomise revenue from your referral"
+              title={t('page-referral.wisdomise-revenue')}
               interval={`$${referral.interval_wisdomise_referral_revenue ?? 0}`}
               all={referral.wisdomise_referral_revenue}
             />
             <ReferralCard
-              title="Your profit"
+              title={t('page-referral.your-profit')}
               interval={`$${referral.interval_referral_revenue ?? 0}`}
               all={referral.referral_revenue}
             />
@@ -85,12 +87,14 @@ interface ReferralCardProps {
 }
 
 function ReferralCard({ title, interval, all }: ReferralCardProps) {
+  const { t } = useTranslation('auth');
   return (
     <Card className="col-span-6 flex flex-col items-center justify-between xl:col-span-3">
       <div className="text-center">{title}</div>
       <div className="my-4 text-2xl font-bold">{interval}</div>
       <div>
-        <strong>{all}</strong> <span className="text-gray-400">all time</span>
+        <strong>{all}</strong>{' '}
+        <span className="text-gray-400">{t('page-referral.all-time')}</span>
       </div>
     </Card>
   );

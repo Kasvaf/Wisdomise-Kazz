@@ -2,13 +2,14 @@
 import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
 import { useIsVerified } from 'api/kyc';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { isProduction } from 'utils/version';
 import Button from 'shared/Button';
 import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
-import useModalVerification from '../useModalVerification';
+import useModalVerification from '../../account/kyc/useModalVerification';
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
 import useEnsureSubscription from './useEnsureSubscription';
@@ -23,6 +24,7 @@ const ButtonActivate: React.FC<Props> = ({
   className,
   financialProduct: fp,
 }) => {
+  const { t } = useTranslation('products');
   const navigate = useNavigate();
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
@@ -44,10 +46,7 @@ const ButtonActivate: React.FC<Props> = ({
       message: 'Congratulations!',
       description: (
         <>
-          <p>
-            Thank you for trusting us. You can now deposit any amount to your
-            account and activate any of the AI-powered strategies
-          </p>
+          <p>{t('notification-activated.message')}</p>
 
           <div className="mt-4 flex justify-around">
             <Button
@@ -55,7 +54,7 @@ const ButtonActivate: React.FC<Props> = ({
               variant="primary"
               onClick={gotoDashboardHandler}
             >
-              Dashboard
+              {t('notification-activated.btn-dashboard')}
             </Button>
           </div>
         </>
@@ -111,7 +110,7 @@ const ButtonActivate: React.FC<Props> = ({
         loading={createFPI.isLoading}
         disabled={isOtherFPActive || !fp.subscribable}
       >
-        Activate
+        {t('actions.activate')}
       </Button>
 
       {SubscribeModal}

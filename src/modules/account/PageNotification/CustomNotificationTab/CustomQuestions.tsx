@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 
 const CustomQuestions: React.FC<{
   onAdd: (question: string) => Promise<unknown>;
   isLoading: boolean;
 }> = ({ onAdd, isLoading }) => {
+  const { t } = useTranslation('notifications');
   const [customQuestion, setCustomQuestion] = useState('');
 
   const addCustomQuestion = async () => {
@@ -20,10 +22,11 @@ const CustomQuestions: React.FC<{
 
   return (
     <div>
-      <p className="mt-8 font-medium text-white">Add New Question</p>
+      <p className="mt-8 font-medium text-white">
+        {t('customs.custom-question.title')}
+      </p>
       <p className="my-4 text-sm text-white/50">
-        You can use the suggested prompts below or write your own customized
-        prompts.
+        {t('customs.custom-question.description')}
       </p>
       <div className="relative mt-4">
         <input
@@ -40,7 +43,7 @@ const CustomQuestions: React.FC<{
           loading={isLoading}
           className="absolute right-4 top-1/2 -translate-y-1/2"
         >
-          + Add
+          + {t('customs.custom-question.btn-add')}
         </Button>
       </div>
     </div>

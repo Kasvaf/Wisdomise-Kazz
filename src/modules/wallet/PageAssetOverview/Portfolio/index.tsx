@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { ReactComponent as WorkingCapitalIcon } from '../icons/workingCapital.svg';
 import { ReactComponent as AvailableIcon } from '../icons/available.svg';
@@ -11,6 +12,7 @@ const PNLIconWhite = () => <PNLIcon className="text-white/80" />;
 const PNLIconGreen = () => <PNLIcon className="text-[#40F19C]" />;
 
 const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
+  const { t } = useTranslation('asset-overview');
   const ias = useInvestorAssetStructuresQuery();
   const data = ias.data?.[0];
 
@@ -24,16 +26,17 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
       <InfoCard
         diffMobileView
         icon={BalanceIcon}
-        title="Balance"
+        title={t('portfolio.info.balance')}
         value={data?.total_equity || 0}
         className="mobile:mb-4"
+        valueClassName="!text-2xl"
       />
 
       <InfoCard
         diffMobileView
         icon={data?.pnl && data?.pnl < 0 ? PNLIconWhite : PNLIconGreen}
-        title="P / L"
-        subtitle="(Unrealized)"
+        title={t('portfolio.info.PnL.title')}
+        subtitle={t('portfolio.info.PnL.unrealized')}
         colorizeValue
         className="!hidden mobile:mb-4"
         value={data?.pnl || 0}
@@ -41,17 +44,17 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
 
       <InfoCard
         diffMobileView
-        title="Available"
+        title={t('portfolio.info.available.title')}
         icon={AvailableIcon}
-        subtitle="Withdrawable"
+        subtitle={t('portfolio.info.available.subtitle')}
         value={data?.main_exchange_account.quote_equity || 0}
         className="mobile:mb-4"
       />
 
       <InfoCard
         diffMobileView
-        title="Deposit"
-        subtitle="Amount"
+        title={t('portfolio.info.deposit.title')}
+        subtitle={t('portfolio.info.deposit.subtitle')}
         icon={DepositIcon}
         value={data?.net_deposit || 0}
         className="!hidden mobile:rounded-b-none mobile:!border-t-0"
@@ -59,8 +62,8 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
 
       <InfoCard
         diffMobileView
-        title="Working Capital"
-        subtitle="AUM"
+        title={t('portfolio.info.working-capital.title')}
+        subtitle={t('portfolio.info.working-capital.subtitle')}
         icon={WorkingCapitalIcon}
         value={data?.working_capital || 0}
         className="mobile:mb-4"

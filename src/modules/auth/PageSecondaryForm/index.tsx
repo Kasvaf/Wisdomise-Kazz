@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
+import { Trans, useTranslation } from 'react-i18next';
 import { useAccountQuery, useUserInfoMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import { REFERRER_CODE_KEY } from '../constants';
@@ -37,6 +38,7 @@ const staticContracts: Array<{
 ];
 
 const PageSecondaryForm: React.FC = () => {
+  const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const { data: account } = useAccountQuery();
   const [nickname, setNickname] = useState('');
@@ -117,30 +119,35 @@ const PageSecondaryForm: React.FC = () => {
       <main className="mb-20 flex flex-col items-center justify-center">
         <div className="flex flex-col items-start mobile:px-4">
           <p className="mb-10 text-3xl md:text-4xl">
-            Welcome to <br />
-            <b>Wisdomise</b>
+            <Trans i18nKey="secondary.welcome" ns="auth">
+              Welcome to <br />
+              <b>Wisdomise</b>
+            </Trans>
           </p>
           <InputBox
             error={
               errors &&
-              ((!nickname && "Nickname can't be empty") ||
-                (nickname.length > 32 &&
-                  'Ensure this field has no more than 32 characters.'))
+              ((!nickname && t('secondary.nickname.not-empty')) ||
+                (nickname.length > 32 && t('secondary.nickname.length-limit')))
             }
-            label="Nickname"
-            placeholder="Your nickname"
+            label={t('secondary.nickname.label')}
+            placeholder={t('secondary.nickname.placeholder')}
             onChange={setNickname}
             value={nickname}
           />
           <InputBox
-            error={errors && referralCode == null && 'Referrer not found'}
-            label={
-              <span>
-                Invitation code{' '}
-                <span className="text-xs text-[#FFFFFF80]">(Optional)</span>
-              </span>
+            error={
+              errors &&
+              referralCode == null &&
+              t('secondary.invitation.not-found')
             }
-            placeholder="Invitation code"
+            label={
+              <Trans i18nKey="secondary.invitation.label" ns="auth">
+                Invitation code
+                <span className="text-xs text-[#FFFFFF80]">(Optional)</span>
+              </Trans>
+            }
+            placeholder={t('secondary.invitation.placeholder')}
             onChange={setReferralCode}
             value={referralCode}
           />
@@ -152,15 +159,15 @@ const PageSecondaryForm: React.FC = () => {
               error={
                 errors &&
                 !contracts[type] &&
-                `You should accept the ${title} in order to continue.`
+                t('secondary.contract.required-error', { title })
               }
               checked={contracts[type]}
               onClick={onClick}
               label={
-                <span>
-                  You are acknowledging the{' '}
-                  <span className="text-[#13DEF2]">{title}</span>.
-                </span>
+                <Trans i18nKey="secondary.contract.label" ns="auth">
+                  You are acknowledging the
+                  <span className="text-[#13DEF2]">{{ title }}</span>.
+                </Trans>
               }
             />
           ))}
@@ -169,7 +176,9 @@ const PageSecondaryForm: React.FC = () => {
             onClick={onSubmit}
             className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
           >
-            Submit{isSubmitting ? 'ing ...' : ''}
+            {isSubmitting
+              ? t('secondary.btn-submit.loading')
+              : t('secondary.btn-submit.label')}
           </button>
         </div>
       </main>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { type Strategy } from 'api/types/strategy';
 import Card from 'modules/shared/Card';
 import SignalChip from './SignalChip';
@@ -14,17 +15,18 @@ const stringifyDuration = (dur: string) =>
   );
 
 const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
+  const { t } = useTranslation('notifications');
   const infos = [
     {
-      label: 'Type',
+      label: t('signaling.strategy.type'),
       value: s.market_name,
     },
     {
-      label: 'Timeframe',
+      label: t('signaling.strategy.timeframe'),
       value: stringifyDuration(s.resolution),
     },
     {
-      label: 'SL / TP',
+      label: t('signaling.strategy.sl-tp'),
       value: s.profile['SL/TP'] || 'None',
     },
   ];
@@ -46,7 +48,7 @@ const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
 
       <div>
         <p className="text-base text-white/60">
-          Choose coin to receive notification
+          {t('signaling.strategy.choose-coin')}
         </p>
 
         <div className="flex flex-wrap">

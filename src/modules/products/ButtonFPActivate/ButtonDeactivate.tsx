@@ -1,6 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import type React from 'react';
 import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 import {
   useInvestorAssetStructuresQuery,
   useUpdateFPIStatusMutation,
@@ -19,6 +20,7 @@ const ButtonDeactivate: React.FC<Props> = ({
   inDetailPage,
   financialProduct: fp,
 }) => {
+  const { t } = useTranslation('products');
   const ias = useInvestorAssetStructuresQuery();
   const updateFPIStatus = useUpdateFPIStatusMutation();
 
@@ -29,7 +31,7 @@ const ButtonDeactivate: React.FC<Props> = ({
         status: 'stop',
       });
       notification.success({
-        message: 'Strategy Deactivated Successfully!',
+        message: t('notification-deactivated.message'),
       });
     }
   };
@@ -47,7 +49,7 @@ const ButtonDeactivate: React.FC<Props> = ({
         disabled={isOtherFPActive || !fp.subscribable}
         variant={inDetailPage ? 'primary' : 'alternative'}
       >
-        Deactivate
+        {t('actions.deactivate')}
       </Button>
     </>
   );

@@ -1,12 +1,14 @@
 import { Dropdown } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery } from 'api';
 import Icon from 'shared/Icon';
 import DropdownContainer from '../DropdownContainer';
 import WalletDropdownContent from './WalletDropdownContent';
 
 const WalletDropdown = () => {
+  const { t } = useTranslation('wallet');
   const [open, setOpen] = useState(false);
   const dropDownFn = useCallback(
     () => (
@@ -45,7 +47,7 @@ const WalletDropdown = () => {
             >
               <div className="flex items-center">
                 <button className="flex text-white">
-                  <p className="px-2 font-medium">Wallet</p>
+                  <p className="px-2 font-medium">{t('title')}</p>
                   <Icon name={bxChevronDown} className="w-6 text-white" />
                 </button>
               </div>

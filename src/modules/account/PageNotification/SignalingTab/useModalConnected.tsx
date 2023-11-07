@@ -1,19 +1,21 @@
 import { bxCheckCircle } from 'boxicons-quasar';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'api';
 import Icon from 'shared/Icon';
 import useConfirm from 'shared/useConfirm';
 import useConnectedQueryParam from './useConnectedQueryParam';
 
 export default function useModalConnected() {
+  const { t } = useTranslation('notifications');
   const [Modal, showModal] = useConfirm({
     icon: <Icon name={bxCheckCircle} className="text-success" size={52} />,
     yesTitle: 'Continue',
     message: (
       <div className="flex flex-col items-center text-center">
-        <h1 className="text-white">Connected successfully</h1>
+        <h1 className="text-white">{t('signaling.modal-connected.title')}</h1>
         <p className="mt-4 text-slate-400">
-          Your Telegram account is now synced.
+          {t('signaling.modal-connected.description')}
         </p>
       </div>
     ),

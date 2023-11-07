@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import telegramIcon from './telegram.svg';
 import cloudsLeftImg from './clouds-left.svg';
@@ -8,6 +9,8 @@ const clouds = clsx(
   'absolute hidden h-[162px] w-[504px] bg-contain bg-no-repeat md:block',
 );
 export default function TelegramBanner() {
+  const { t } = useTranslation('auth');
+
   return (
     <a
       href={ATHENA_TELEGRAM_BOT}
@@ -30,8 +33,10 @@ export default function TelegramBanner() {
           alt="Telegram"
           className="h-[2.25rem]"
         />
-        Athena Telegram Bot
-        <div className="rounded-full bg-white/30 p-3">Stay Connected</div>
+        {t('banner.athena-bot')}
+        <div className="rounded-full bg-white/30 p-3">
+          {t('banner.stay-connected')}
+        </div>
       </div>
       <div
         className={clsx(clouds, 'right-[-5.5rem]')}

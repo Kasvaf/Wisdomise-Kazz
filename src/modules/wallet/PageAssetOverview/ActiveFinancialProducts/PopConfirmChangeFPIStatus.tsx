@@ -1,5 +1,6 @@
 import { Popover } from 'antd';
 import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { type FpiStatusMutationType } from 'api';
 import Button from 'shared/Button';
 
@@ -16,6 +17,7 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
   onConfirm,
   disabled,
 }) => {
+  const { t } = useTranslation('products');
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [overrideType, setOverrideType] = useState<FpiStatusMutationType>();
@@ -33,6 +35,12 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
     }
   };
   const visibleType = overrideType || type;
+  const typeLabel = {
+    stop: t('actions.stop'),
+    start: t('actions.start'),
+    pause: t('actions.pause'),
+    resume: t('actions.resume'),
+  }[visibleType];
 
   return (
     <Popover
@@ -40,18 +48,16 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
       content={
         <section className="mx-2 max-w-[400px] text-white/80">
           <p className="mb-2 text-lg">
-            Are You Sure To{' '}
-            <span className="text-base font-medium capitalize text-white">
-              {visibleType}
-            </span>{' '}
-            This Product ?
+            <Trans i18nKey="action-confirm.title" ns="products">
+              Are You Sure To
+              <span className="text-base font-medium text-white">
+                {{ typeLabel }}
+              </span>
+              This Product?
+            </Trans>
           </p>
           {visibleType === 'stop' && (
-            <div>
-              Please be aware that by Stopping the Strategy, all your open
-              trades will be sold on &quot;Market&quot; price. The final PnL
-              will be calculated after closing open positions.
-            </div>
+            <div>{t('action-confirm.stop-description')}</div>
           )}
 
           <section className="mt-6 flex justify-center">
@@ -60,11 +66,14 @@ const PopConfirmChangeFPIStatus: React.FC<Props> = ({
               size="small"
               onClick={() => setIsOpen(false)}
             >
-              Cancel
+              {t('action-confirm.cancel')}
             </Button>
             <div className="w-4" />
             <Button size="small" onClick={onConfirmClick} loading={loading}>
-              Yes,&nbsp;<span className="capitalize">{visibleType}</span>
+              <Trans i18nKey="action-confirm.yes" ns="products">
+                Yes,
+                <span className="ml-1">{{ typeLabel }}</span>
+              </Trans>
             </Button>
           </section>
         </section>

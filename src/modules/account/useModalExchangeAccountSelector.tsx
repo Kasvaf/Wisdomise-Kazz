@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
@@ -92,6 +93,7 @@ const ModalExchangeAccountSelector: React.FC<{
   market?: MarketTypes;
   onResolve?: (account?: string) => void;
 }> = ({ market, onResolve }) => {
+  const { t } = useTranslation('external-accounts');
   const [account, setAccount] = useState('wisdomise');
 
   const [ModalAddExchange, showAddExchange] =
@@ -104,7 +106,9 @@ const ModalExchangeAccountSelector: React.FC<{
 
   return (
     <div className="text-white">
-      <h1 className="mb-6 text-center text-xl">Select Account</h1>
+      <h1 className="mb-6 text-center text-xl">
+        {t('modal-account-selector.title')}
+      </h1>
       <div>
         <ExchangeAccountSelector
           label="Account"
@@ -115,18 +119,20 @@ const ModalExchangeAccountSelector: React.FC<{
 
         {!market && (
           <div className="mt-2 flex items-center justify-center text-xs text-white/20">
-            External exchange accounts are not supported for this product.
+            {t('modal-account-selector.not-supported')}
           </div>
         )}
       </div>
 
       <div className="mt-8 flex justify-stretch gap-4">
         {market && (
-          <Button onClick={connectHandler}>Connect New Account</Button>
+          <Button onClick={connectHandler}>
+            {t('modal-account-selector.btn-connect-new')}
+          </Button>
         )}
 
         <Button className="grow" onClick={() => onResolve?.(account)}>
-          Continue
+          {t('modal-account-selector.btn-continue')}
         </Button>
       </div>
       {ModalAddExchange}

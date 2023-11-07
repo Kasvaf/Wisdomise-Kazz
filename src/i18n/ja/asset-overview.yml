@@ -1,0 +1,28 @@
+intro:
+  btn-check-products: 商品を確認する
+  btn-deposit: 預かり金
+  description: Wisdomiseは、あなたのリスク許容度に合わせたAIベースの戦略を提供します。当社の戦略をチェックして、今すぐ利益を上げましょう。
+  title: 私たちがあなたの代わりに交換します！
+portfolio:
+  bindings-count_other: コイン
+  description: AIベースの取引戦略は、暗号ウォレットで自動的に実行されます。これらは、3億回以上のユニークな実験を実行した後、包括的で洗練されたAIで構築されています
+  info:
+    PnL:
+      title: 損益
+      unrealized: 含み
+    available:
+      subtitle: 引き出し可能
+      title: 利用可能
+    balance: 残高
+    deposit:
+      subtitle: 金額
+      title: 預かり金
+    working-capital:
+      subtitle: " 運用資産 (AUM)"
+      title: 運転資本
+  table:
+    amount: 金額
+    coin: コイン
+    equity: エクイティ
+    share: シェア
+  title: アカウントポートフォリオ

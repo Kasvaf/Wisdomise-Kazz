@@ -7,7 +7,7 @@ import {
   useIsVerified,
 } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
-import useModalVerification from 'modules/products/useModalVerification';
+import useModalVerification from 'modules/account/kyc/useModalVerification';
 import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
 import useModalDisclaimer from 'modules/products/ButtonFPActivate/useModalDisclaimer';
 

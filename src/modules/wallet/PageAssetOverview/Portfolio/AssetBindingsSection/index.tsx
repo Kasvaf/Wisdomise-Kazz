@@ -1,6 +1,7 @@
 import * as numerable from 'numerable';
 import { useCallback, useState } from 'react';
 import { type ComputedDatum, ResponsivePie } from '@nivo/pie';
+import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type AssetBinding } from 'api/types/investorAssetStructure';
 import useIsMobile from 'utils/useIsMobile';
@@ -10,6 +11,7 @@ import AssetBindingsSectionTable from './AssetBindingsSectionTable';
 
 const emptyFn = () => <></>;
 const AssetBindingsSection = () => {
+  const { t } = useTranslation('asset-overview');
   const isMobile = useIsMobile();
   const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
@@ -67,7 +69,9 @@ const AssetBindingsSection = () => {
           ) : (
             <p className="text-center text-2xl font-bold mobile:text-lg">
               {data?.asset_bindings.length} <br />
-              Coin{data && data?.asset_bindings.length > 1 && 's'}
+              {t('portfolio.bindings-count', {
+                count: data?.asset_bindings.length ?? 0,
+              })}
             </p>
           )}
         </div>

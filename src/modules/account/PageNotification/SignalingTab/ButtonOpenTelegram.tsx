@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import { useAccountQuery } from 'api';
 import useIsMobile from 'utils/useIsMobile';
@@ -6,6 +7,7 @@ import Button from 'shared/Button';
 import TelegramIcon from './TelegramIcon';
 
 export default function ButtonOpenTelegram() {
+  const { t } = useTranslation('notifications');
   const account = useAccountQuery();
   const isMobile = useIsMobile();
   if (!account.data?.telegram_id) return null;
@@ -18,7 +20,7 @@ export default function ButtonOpenTelegram() {
       )}
     >
       <div className="text-sm sm:hidden lg:block">
-        Receive notification in socials
+        {t('signaling.btn-open-telegram.hint')}
       </div>
       <div>
         <Button
@@ -28,7 +30,7 @@ export default function ButtonOpenTelegram() {
           size="small"
         >
           <TelegramIcon className="mr-2 bg-black text-white" />
-          Open Telegram
+          {t('signaling.btn-open-telegram.label')}
         </Button>
       </div>
     </div>

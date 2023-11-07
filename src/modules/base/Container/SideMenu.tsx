@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { bxLeftArrowAlt, bxLinkExternal } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { ATHENA_FE } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import Icon from 'modules/shared/Icon';
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const SideMenu: React.FC<Props> = ({ className }) => {
+  const { t } = useTranslation('base');
   const { items: MenuItems, hasExternals } = useMenuItems();
   return (
     <div
@@ -51,13 +53,13 @@ const SideMenu: React.FC<Props> = ({ className }) => {
           <div className="flex flex-col gap-4">
             <Button className="block w-full" to="/app">
               <div className="flex grow items-center justify-between gap-2">
-                <span className="font-semibold">Dashboard</span>
+                <span className="font-semibold">{t('menu.dashboard')}</span>
                 <Icon name={bxLeftArrowAlt} />
               </div>
             </Button>
             <Button className="block w-full" to={ATHENA_FE} target="_blank">
               <div className="flex grow items-center justify-between gap-2">
-                <span className="font-semibold">Athena</span>
+                <span className="font-semibold">{t('menu.athena')}</span>
                 <Icon name={bxLinkExternal} />
               </div>
             </Button>

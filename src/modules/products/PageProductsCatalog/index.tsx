@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   useInvestorAssetStructuresQuery,
   useFinancialProductsQuery,
@@ -7,6 +8,7 @@ import PageWrapper from 'modules/base/PageWrapper';
 import ProductCatalogCard from './ProductCatalogCard';
 
 const PageProductsCatalog = () => {
+  const { t } = useTranslation('products');
   const fps = useFinancialProductsQuery();
   const ias = useInvestorAssetStructuresQuery();
 
@@ -18,17 +20,10 @@ const PageProductsCatalog = () => {
     <PageWrapper loading={fps.isLoading || ias.isLoading}>
       <div className="mt-2">
         <h1 className="mb-4 text-xl font-semibold text-white">
-          AI-driven Strategies
+          {t('product-catalog.title')}
         </h1>
         <p className="mb-6 text-sm font-medium text-white/60">
-          Your investment in any of the available strategies will be liquid,
-          meaning that your assets will not be locked up and can be released
-          anytime you want. The expected ROI, maximum drawdown, and number of
-          trades presented for different strategies are indicative and in no way
-          a guarantee or confirmation of these metrics. In the end, investment
-          in financial markets will always come with its own risks and
-          volatility, and our state-of-the-art AI models can only mitigate them
-          to some extent. Enjoy building up your wealth with our proprietary AI!
+          {t('product-catalog.description')}
         </p>
       </div>
 

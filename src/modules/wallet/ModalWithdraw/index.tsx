@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import { notification } from 'antd';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   useConfirmWithdrawMutation,
   useCreateWithdrawMutation,
@@ -55,6 +56,7 @@ const toAmount = (v: string) =>
     .replace(/^(\d+(\.\d*))\..*$/, '$1') || '0';
 
 const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
+  const { t } = useTranslation('wallet');
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
   const [wallet, setWallet] = useState<VerifiedWallet>();
@@ -68,11 +70,13 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const [amount, setAmount] = useState('');
   let amountError: string | undefined;
   if (Number.parseFloat(amount) < minWithdrawable) {
-    amountError = `You cannot withdraw less than ${String(minWithdrawable)} ${
-      wallet?.symbol.name || ''
-    } in ${wallet?.network?.name || ''} network.`;
+    amountError = t('modal-withdraw.error-min-amount', {
+      minAmount: String(minWithdrawable),
+      symbol: wallet?.symbol.name || '',
+      wallet: wallet?.network?.name || '',
+    });
   } else if (Number.parseFloat(amount) > available) {
-    amountError = 'You cannot withdraw more than your available amount.';
+    amountError = t('modal-withdraw.error-max-amount');
   }
 
   const autoAmountHandler = useCallback(
@@ -195,7 +199,9 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   if (submitting) {
     return (
       <div className="text-white">
-        <h1 className="mb-6 text-center text-xl">Deposit</h1>
+        <h1 className="mb-6 text-center text-xl">
+          {t('modal-withdraw.title')}
+        </h1>
         {ConfirmWithdrawalModal}
         {SecurityInputModal}
         {WithdrawSuccessModal}
@@ -208,11 +214,11 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
   return (
     <div className="text-white">
-      <h1 className="mb-6 text-center text-xl">Withdraw</h1>
+      <h1 className="mb-6 text-center text-xl">{t('modal-withdraw.title')}</h1>
 
       <Banner icon={bxInfoCircle} className="mb-10">
         <span className="text-white/80">
-          To Withdraw you have to choose from a Verified Wallet Address.
+          {t('modal-withdraw.banner.description')}
         </span>{' '}
         <NavLink
           to="/account/kyc"
@@ -220,17 +226,17 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           rel="noreferrer"
           onClick={onResolve}
         >
-          Verify Wallet
+          {t('modal-withdraw.banner.btn-verify-wallet')}
         </NavLink>
       </Banner>
 
       <div className="mb-9">
-        <div className="mb-1 ml-3">Wallet Address</div>
+        <div className="mb-1 ml-3">{t('wallet-address')}</div>
         <WalletSelector selectedItem={wallet} onSelect={setWallet} />
       </div>
 
       <div className="mb-9">
-        <div className="mb-1 ml-3">Amount</div>
+        <div className="mb-1 ml-3">{t('amount')}</div>
         <TextBox
           type="tel"
           value={String(amount)}
@@ -250,12 +256,12 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
       <div className="mb-9">
         <InfoLabel
-          label="Available"
+          label={t('available')}
           value={available}
           unit={wallet?.symbol.name}
         />
         <InfoLabel
-          label="Min. Withdrawal"
+          label={t('modal-withdraw.min-withdrawal')}
           value={minWithdrawable}
           unit={wallet?.symbol.name}
         />
@@ -275,7 +281,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
               amountError,
           )}
         >
-          Withdraw
+          {t('modal-withdraw.btn-withdraw')}
         </Button>
       </div>
     </div>

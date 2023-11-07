@@ -1,0 +1,31 @@
+matrix:
+  title: Latest Positions
+  date: date
+  entry-price: entry price
+  exit-price: exit price
+  none: None
+  side: side
+  sl: SL
+  suggestion: Suggestion
+  tp: TP
+positions-history:
+  title: Positions History
+  entry-point: Entry Point
+  exit-point: Exit Point
+  pairs: Pairs
+  pnl: P/L
+  status: Status
+  strategy: Strategy
+positions-timeline:
+  title: Positions Timeline
+  empty-message: There were no positions in this time period.
+  entry-point: Entry point
+  exit-point: Exit point
+status:
+  closed: Closed
+  open: Open
+  opened: Opened
+suggest:
+  close: Close
+  no-action: No Action
+  open: Open

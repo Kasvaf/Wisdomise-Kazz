@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useStrategyHistoryQuery } from 'api';
 import Pager from 'shared/Pager';
 import Spinner from 'shared/Spinner';
@@ -10,6 +11,7 @@ const CockpitPositionHistory: React.FC<{
   strategyId?: string;
   className?: string;
 }> = ({ strategyId, className }) => {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
 
   const history = useStrategyHistoryQuery({
@@ -45,7 +47,7 @@ const CockpitPositionHistory: React.FC<{
   return (
     <div className={className}>
       <h1 className="mb-4 text-lg font-semibold text-white">
-        Positions History
+        {t('strategy:positions-history.title')}
       </h1>
       {content}
     </div>

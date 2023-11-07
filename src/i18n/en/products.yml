@@ -1,0 +1,112 @@
+action-confirm:
+  title: Are You Sure To <1>{{typeLabel}}</1> This Product?
+  cancel: Cancel
+  stop-description: >-
+    Please be aware that by Stopping the Strategy, all your open trades will be
+    sold on &quot;Market&quot; price. The final PnL will be calculated after
+    closing open positions.
+  'yes': Yes, <1>{{typeLabel}}</1>
+actions:
+  activate: Activate
+  deactivate: Deactivate
+  pause: Pause
+  resume: Resume
+  start: Start
+  stop: Stop
+disclaimer:
+  title: Attention
+  description: >-
+    Your wallet will be opened on Binance. Wisdomise (Switzerland) AG itself
+    does not provide any wallet and / or custody services. Please note that the
+    cryptocurrencies you transfer to this wallet will be stored on Binance.
+    Binance is a third party crypto exchange provider that is not regulated in
+    Switzerland. Hence, there are risks associated with holding a wallet on
+    Binance. The risks associated with Binance cannot be controlled by Wisdomise
+    (Switzerland) AG. Such risks may include but are not limited to:
+  risk-1: bankruptcy of Binance;
+  risk-2: >-
+    unauthorized access to the wallet held on Binance by third parties due to a
+    hacker attack or similar event;
+  risk-3: prohibition of the operation of its business by a public authority.
+  warn: >-
+    These risks include the risk of significant or total loss of the
+    cryptocurrencies transferred to the wallet on Binance. By creating a wallet
+    to use Wisdomise’s services, you agree to bear all risks associated with
+    holding the cryptocurrencies in a wallet on Binance. Wisdomise (Switzerland)
+    AG accepts no liability whatsoever for any damage incurred in connection
+    with holding the cryptocurrencies in a wallet on Binance.
+fpi-page:
+  title: Financial Product Details
+list:
+  title: Your Active Financial Products
+  description: >-
+    Maximize your profits with the help of AI-powered crypto trading bots that
+    can automatically buy and sell cryptocurrencies based on advanced algorithms
+    and patterns.
+  add-new: Add Financial Product
+  aum-in: AUM in {{title}}
+  btn-details: Details
+  of-total-balance: Of Total Balance
+notification-activated:
+  btn-dashboard: Dashboard
+  message: >-
+    Thank you for trusting us. You can now deposit any amount to your account
+    and activate any of the AI-powered strategies
+notification-deactivated:
+  message: Strategy Deactivated Successfully!
+product-catalog:
+  title: AI-driven Strategies
+  description: >-
+    Your investment in any of the available strategies will be liquid, meaning
+    that your assets will not be locked up and can be released anytime you want.
+    The expected ROI, maximum drawdown, and number of trades presented for
+    different strategies are indicative and in no way a guarantee or
+    confirmation of these metrics. In the end, investment in financial markets
+    will always come with its own risks and volatility, and our state-of-the-art
+    AI models can only mitigate them to some extent. Enjoy building up your
+    wealth with our proprietary AI!
+  btn-details: Details
+product-detail:
+  disclaimer: >-
+    This website contains forward-looking statements. Such forward-looking
+    statements are based on estimates, assumptions and presumptions that
+    Wisdomise (Switzerland) AG believes are reasonable at this time. These
+    forward-looking statements are inherently subject to risks and uncertainties
+    as they relate to future events. Therefore, it is possible that actual
+    events, including the performance of cryptocurrencies, may differ materially
+    from those forecast. You should also note that past events and results are
+    no guarantee of future events or results. Wisdomise (Switzerland) AG or any
+    other person does not guarantee that the developments described on this
+    website will occur. The User should therefore not solely base their
+    investment decision with regard to the services offered by Wisdomise
+    (Switzerland) AG on the forward-looking statements expressed on this
+    website.
+  expected-max-drawdown: Expected Max Drawdown
+  expected-yield-apy: Expected Yield (APY)
+  investment: Investment
+  max: Max
+  min: Min
+  risk:
+    label: '{{risk}} Risk'
+    high: High
+    low: Low
+    medium: Medium
+status:
+  title: Status
+  draft: Draft
+  paused: Paused
+  running: Running
+subscription:
+  subscribe:
+    title: Subscription
+    description: >-
+      To activate a product, you need to <1>Subscribe</1> to our <3>Wisdomise
+      Expert</3> plan.
+    btn-confirm: Subscribe
+  upgrade:
+    title: Upgrade Subscription
+    subtitle: >-
+      Your current subscription does not include the products you want to
+      activate.
+    description: To use this product, you need to <1>Upgrade</1> your subscription.
+    btn-confirm: Upgrade

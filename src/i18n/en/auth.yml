@@ -1,0 +1,44 @@
+banner:
+  athena-bot: Athena Telegram Bot
+  stay-connected: Stay Connected
+footer: © 2023 Wisdomise. All rights reserved.
+page-referral:
+  title: Referral Program
+  all-time: all time
+  friends-invited: Friends invited
+  referral-code: Referral Code
+  referral-insight: Referral Insight
+  referral-link: Referral Link
+  subscribed-friends: Subscribed Friends
+  wisdomise-revenue: Wisdomise revenue from your referral
+  your-profit: Your profit
+secondary:
+  btn-submit:
+    label: Submit
+    loading: Submitting...
+  contract:
+    label: You are acknowledging the <1>{{title}}</1>.
+    btn-check: I have read and accept the {{title}}.
+    required-error: You should accept the {{title}} in order to continue.
+  invitation:
+    label: Invitation code <1>(Optional)</1>
+    placeholder: Invitation code
+    not-found: Referrer not found
+  nickname:
+    label: Nickname
+    placeholder: Your nickname
+    length-limit: Ensure this field has no more than 32 characters.
+    not-empty: Nickname can't be empty
+  welcome: Welcome to <br><b>Wisdomise</b>
+verify-email:
+  title: Verify <b>Your Email</b>
+  btn-check:
+    label: Check
+    loading: Checking...
+  btn-resend:
+    label: Resend Verification Email
+    loading: Resending Verification Email ...
+  link-sent: >-
+    A link has been sent to your email <1>{{email}}</1><br> To verify your
+    account, please click on the link.
+  notification-email-sent: Verification Email Sent Successfully.

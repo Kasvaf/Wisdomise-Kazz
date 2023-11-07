@@ -4,7 +4,8 @@
     "esbenp.prettier-vscode",
     "editorconfig.editorconfig",
     "wayou.vscode-todo-highlight",
-    "styled-components.vscode-styled-components"
+    "styled-components.vscode-styled-components",
+    "lokalise.i18n-ally"
   ],
   "unwantedRecommendations": [
     "hookyqr.beautify",

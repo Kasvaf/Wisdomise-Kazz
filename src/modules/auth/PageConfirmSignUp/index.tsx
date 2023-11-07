@@ -1,6 +1,7 @@
 import { notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { useAccountQuery, useResendVerificationEmailMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import { login } from '../authHandlers';
@@ -8,6 +9,7 @@ import ContainerAuth from '../ContainerAuth';
 import inboxImg from './email.svg';
 
 const PageConfirmSignUp = () => {
+  const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const { data: account } = useAccountQuery();
   const [isChecking, setIsChecking] = useState(false);
@@ -24,7 +26,7 @@ const PageConfirmSignUp = () => {
       setIsResending(true);
       if (await resendVerify()) {
         notification.success({
-          message: 'Verification Email Sent Successfully.',
+          message: t('verify-email.notification-email-sent'),
         });
       }
     } catch (error) {
@@ -45,21 +47,29 @@ const PageConfirmSignUp = () => {
       <main className="mb-20 flex flex-col items-center justify-center">
         <img src={inboxImg} className="w-32 md:w-44" alt="inbox" />
         <p className="text-3xl text-white md:text-5xl">
-          Verify <b>Your Email</b>
+          <Trans i18nKey="verify-email.title" ns="auth">
+            Verify <b>Your Email</b>
+          </Trans>
         </p>
 
         <p className="p-7 text-center text-sm leading-loose text-[#ffffffcc]">
-          A link has been sent to your email{' '}
-          <span className="text-[#ffffff]">{account?.info.email || ''}</span>
-          <br />
-          To verify your account, please click on the link.
+          <Trans i18nKey="verify-email.link-sent" ns="auth">
+            A link has been sent to your email
+            <span className="text-[#ffffff]">
+              {{ email: account?.info.email ?? '' }}
+            </span>
+            <br />
+            To verify your account, please click on the link.
+          </Trans>
         </p>
 
         <button
           onClick={checkAgain}
           className="mb-4 rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
         >
-          Check{isChecking ? 'ing...' : ''}
+          {isChecking
+            ? t('verify-email.btn-check.loading')
+            : t('verify-email.btn-check.label')}
         </button>
 
         <button
@@ -67,8 +77,8 @@ const PageConfirmSignUp = () => {
           onClick={resendEmail}
         >
           {isResending
-            ? 'Resending Verification Email ...'
-            : 'Resend Verification Email'}
+            ? t('verify-email.btn-resend.loading')
+            : t('verify-email.btn-resend.label')}
         </button>
       </main>
     </ContainerAuth>

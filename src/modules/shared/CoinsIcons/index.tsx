@@ -55,7 +55,7 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
           className="ml-2 ms-2 flex items-center text-white"
           style={{ marginInlineStart: '0.5rem' }}
         >
-          . . .
+          {'. . .'}
         </p>
       )}
     </Avatar.Group>
