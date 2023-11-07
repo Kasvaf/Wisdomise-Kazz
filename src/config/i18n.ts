@@ -13,6 +13,7 @@ export default function configI18n() {
     .init({
       resources,
       lng: 'en',
+      fallbackLng: 'en',
       saveMissing: !isProduction,
       missingKeyHandler: (
         lngs,

@@ -21,7 +21,7 @@ export default {
   locales: ['en'], // locale files will be generated for these langs
   input: ['src/**/*.{ts,tsx}'],
   output: 'src/i18n/$LOCALE/$NAMESPACE.yml',
-  defaultValue: '',
+  defaultValue: undefined,
 
   i18nextOptions: {
     react: {

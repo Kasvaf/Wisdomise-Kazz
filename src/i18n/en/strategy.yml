@@ -23,8 +23,8 @@ positions-timeline:
   exit-point: Exit point
 status:
   closed: Closed
-  opened: Opened
   open: Open
+  opened: Opened
 suggest:
   close: Close
   no-action: No Action

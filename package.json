@@ -13,7 +13,8 @@
     "lint": "eslint --quiet ./src --ext .jsx,.js,.tsx,.ts",
     "execute-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
     "prepare": "husky install",
-    "i18n": "i18next"
+    "i18n": "i18next",
+    "sync-locize": "i18next && node sync-locize.js"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
