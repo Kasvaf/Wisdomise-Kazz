@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { clsx } from 'clsx';
 import { useSubscription } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import AuthGuard from 'modules/auth/AuthGuard';
+import PageWrapper from '../PageWrapper';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import MobileMenu from './MobileMenu';
@@ -51,7 +52,9 @@ const Container = () => {
               classNames="slide"
               timeout={300}
             >
-              <Outlet />
+              <React.Suspense fallback={<PageWrapper loading />}>
+                <Outlet />
+              </React.Suspense>
             </CSSTransition>
           </TransitionGroup>
         </div>
