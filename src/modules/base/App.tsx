@@ -5,12 +5,12 @@ import {
 } from 'react-router-dom';
 import { RouterBaseName } from 'config/constants';
 import 'tw-elements';
+import useConfig from 'config/useConfig';
 import routes from './routes';
-import useAnalytics from './useAnalytics';
 import './styles/App.css';
 
 const App = () => {
-  useAnalytics();
+  useConfig();
   const createRouter = RouterBaseName ? createHashRouter : createBrowserRouter;
   return <RouterProvider router={createRouter(routes)} />;
 };

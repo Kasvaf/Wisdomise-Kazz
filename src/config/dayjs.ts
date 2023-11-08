@@ -1,8 +1,10 @@
+/* eslint-disable import/no-unassigned-import */
 /* eslint-disable import/no-named-as-default-member */
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import 'dayjs/locale/ja';
 
 export default function configDayjs() {
   dayjs.extend(updateLocale);
