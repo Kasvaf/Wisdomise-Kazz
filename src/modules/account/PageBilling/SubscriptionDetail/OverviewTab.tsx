@@ -86,6 +86,22 @@ export default function OverviewTab() {
             </strong>
             .
           </Trans>
+          {firstPaymentMethod === 'CRYPTO' && (
+            <span>
+              {t('subscription-details.overview.in-order-to-renew')}{' '}
+              <strong className="text-white">
+                {{
+                  date: dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY'),
+                }}
+              </strong>
+              .
+            </span>
+          )}
+          {firstPaymentMethod === 'TOKEN' && (
+            <span>
+              {t('subscription-details.overview.automatically-renew')}
+            </span>
+          )}
           {firstPaymentMethod !== 'CRYPTO' &&
             firstPaymentMethod !== 'TOKEN' && (
               <Trans

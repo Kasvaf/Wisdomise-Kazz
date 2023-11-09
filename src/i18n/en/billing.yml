@@ -73,6 +73,8 @@ subscription-details:
         activated
     periodEnd: Your plan will {{action}} on <3>{{date}}</3>.
     plan-details: Plan Details
+    in-order-to-renew: In order to renew, you will have to send the transaction again on
+    automatically-renew: It will automatically renew when the time comes.
   payment-methods:
     title: Payment Methods
     auto-renew-notice: Next payment will be automatically collected from this card.
