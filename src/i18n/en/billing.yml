@@ -59,12 +59,14 @@ subscription-details:
     method: Payment Method
     status: Status
   overview:
+    automatically-renew: It will automatically renew when the time comes.
     billing-actions: Billing actions
     billing-email: Billing emails are sent to <1>{{email}}</1>.
     btn-change-plan: Change plan
     card: Future charges will be applied to the card <1>****{{last4}}</1>.
     charging: Charging your credit card <1>${{ amount }}</1>.
     current-plan: Your plan is <1>{{plan}}</1>.
+    in-order-to-renew: In order to renew, you will have to send the transaction again on
     is-on-the-way:
       title: Your subscription is on the way
       description: >-
@@ -73,8 +75,6 @@ subscription-details:
         activated
     periodEnd: Your plan will {{action}} on <3>{{date}}</3>.
     plan-details: Plan Details
-    in-order-to-renew: In order to renew, you will have to send the transaction again on
-    automatically-renew: It will automatically renew when the time comes.
   payment-methods:
     title: Payment Methods
     auto-renew-notice: Next payment will be automatically collected from this card.
@@ -99,6 +99,7 @@ token-modal:
   done: Done
   for-1-year: For 1 year
   purchase-token: Purchase Wisdomise Token
+  refresh: Refresh
   subscribe-to: Subscribe to
   subtotal: Subtotal
   token: tWSDM
@@ -106,4 +107,3 @@ token-modal:
   total-amount: Total amount need to be hold in your wallet
   you-can: you can now access {{name}} Features.
   your-balance: Your tWSDM Token Balance
-  refresh: Refresh
