@@ -129,7 +129,16 @@ export default function TokenPaymentModalContent({ plan }: Props) {
         ) : (
           <ConnectWalletWrapper className="mobile:m-4 lg:w-3/4">
             <Card className="flex flex-col items-center gap-6 text-center">
-              <h3>{plan.name}</h3>
+              <h3 className="flex w-full items-center justify-between">
+                {plan.name}
+                <Button
+                  className="mt-2 !p-2"
+                  variant="secondary"
+                  onClick={updateTokenBalance}
+                >
+                  {t('token-modal.refresh')}
+                </Button>
+              </h3>
               <div className="flex items-center justify-center gap-10">
                 <div>
                   <div className="mb-5 text-4xl">
@@ -147,18 +156,11 @@ export default function TokenPaymentModalContent({ plan }: Props) {
                       canSubscribe ? 'text-green-400' : 'text-red-400',
                     )}
                   >
-                    {account?.wsdm_balance ?? 0}
+                    {addComma(account?.wsdm_balance ?? 0)}
                   </div>
                   <div className="text-sm opacity-50">
                     {t('token-modal.your-balance')}
                   </div>
-                  <Button
-                    className="mt-2"
-                    variant="secondary"
-                    onClick={updateTokenBalance}
-                  >
-                    {t('token-modal.refresh')}
-                  </Button>
                 </div>
               </div>
               <Card className="!bg-black/80">

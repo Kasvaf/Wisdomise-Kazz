@@ -4,7 +4,7 @@ export interface Invoice {
   created_at: string;
   updated_at: string;
   status: 'paid' | 'open' | 'draft';
-  payment_method: 'FIAT' | 'CRYPTO' | 'WISE' | 'MANUAL';
+  payment_method: 'FIAT' | 'CRYPTO' | 'TOKEN' | 'MANUAL';
 }
 
 export interface PaymentMethodsResponse {
