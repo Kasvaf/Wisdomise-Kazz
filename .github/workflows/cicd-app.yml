@@ -47,6 +47,7 @@ jobs:
         env:
           VITE_BRANCH: ${{ github.ref_name }}
         run: |-
+          export NODE_OPTIONS=--max-old-space-size=4096
           yarn build:dev
 
       - name: Upload to S3

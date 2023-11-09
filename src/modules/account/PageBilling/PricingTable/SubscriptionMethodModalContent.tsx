@@ -3,10 +3,12 @@ import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
 import { useUserFirstPaymentMethod } from 'api';
+import TokenPaymentModalContent from 'modules/account/PageBilling/TokenPayment/TokenPaymentModalContent';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
 import { ReactComponent as SIcon } from '../images/s-icon.svg';
+import { ReactComponent as Token } from '../images/token.svg';
 import CryptoPaymentModalContent from './CryptoPaymentModalContent';
 
 interface Props {
@@ -27,6 +29,11 @@ export default function SubscriptionMethodModal({
     { fullscreen: true, destroyOnClose: true },
   );
 
+  const [tokenPaymentModal, openTokenPaymentModal] = useModal(
+    TokenPaymentModalContent,
+    { fullscreen: true, destroyOnClose: true },
+  );
+
   const onCryptoClick = () => {
     onResolve?.();
     void openCryptoPaymentModal({ plan });
@@ -35,6 +42,11 @@ export default function SubscriptionMethodModal({
   const onFiatClick = async () => {
     await propOnFiatClick();
     onResolve?.();
+  };
+
+  const onTokenClick = async () => {
+    onResolve?.();
+    void openTokenPaymentModal({ plan });
   };
 
   return (
@@ -48,8 +60,9 @@ export default function SubscriptionMethodModal({
       </p>
       <SubscriptionMethodLogos className="mb-12 mt-8" />
 
-      <div className="flex flex-wrap items-stretch gap-6 mobile:w-full mobile:flex-col">
+      <div className="grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
         <Button
+          className="col-span-1"
           onClick={onFiatClick}
           disabled={firstPaymentMethod && firstPaymentMethod !== 'FIAT'}
         >
@@ -59,6 +72,7 @@ export default function SubscriptionMethodModal({
           </div>
         </Button>
         <Button
+          className="col-span-1"
           onClick={onCryptoClick}
           disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
         >
@@ -67,8 +81,21 @@ export default function SubscriptionMethodModal({
             {t('subscription-modal.btn-crypto')}
           </div>
         </Button>
+        {plan.periodicity === 'YEARLY' && (
+          <Button
+            onClick={onTokenClick}
+            className="col-span-2"
+            // disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
+          >
+            <div className="flex items-center gap-2">
+              <Token />
+              {t('token-modal.token-name')}
+            </div>
+          </Button>
+        )}
       </div>
       {cryptoPaymentModal}
+      {tokenPaymentModal}
     </div>
   );
 }

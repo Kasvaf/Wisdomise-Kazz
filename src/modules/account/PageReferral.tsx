@@ -36,7 +36,7 @@ export default function ReferralPage() {
           <div className="mb-6 flex items-baseline gap-4">
             <h2>{t('page-referral.referral-insight')}</h2>
             <div className="flex gap-2">
-              {[90, 60, 30].map(interval => {
+              {[30, 60, 90].map(interval => {
                 return (
                   <button
                     key={interval}

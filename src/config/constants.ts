@@ -24,6 +24,10 @@ export const APP_NAME = isLocal
   ? 'dashboard'
   : 'wealth';
 
+export const INVESTMENT_FE = `https://${
+  isProduction ? '' : 'stage-'
+}investment.${DOMAIN}`;
+
 export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
 
 export const ATHENA_TELEGRAM_BOT = import.meta.env

@@ -10,6 +10,7 @@ import {
   useUserFirstPaymentMethod,
 } from 'api';
 import useModal from 'modules/shared/useModal';
+import { addComma } from 'utils/numbers';
 import product from '../images/wisdomise-product.png';
 import { ReactComponent as Check } from '../images/check.svg';
 import Periodicity from '../Periodicity';
@@ -96,6 +97,24 @@ export default function PricingCard({
           <Periodicity periodicity={plan.periodicity} />
         </div>
       </div>
+      {plan.periodicity === 'YEARLY' && (
+        <div>
+          <div className="mb-6 flex items-center gap-4">
+            <span>OR</span>
+            <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
+          </div>
+          <div className="mb-6">
+            <span className="text-gray-400">Hold</span>{' '}
+            <span className="font-semibold">
+              {addComma(plan.wsdm_token_hold)}
+            </span>{' '}
+            <strong className="bg-gradient-to-r from-[#00A3FF] to-[#FF00C7] to-100% bg-clip-text text-transparent">
+              $tWSDM
+            </strong>{' '}
+            <span className="text-gray-400">tokens</span>
+          </div>
+        </div>
+      )}
       <Button
         onClick={onClick}
         disabled={

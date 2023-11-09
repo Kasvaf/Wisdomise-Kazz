@@ -62,35 +62,59 @@ export default function OverviewTab() {
             .
           </Trans>
 
-          {firstPaymentMethod !== 'CRYPTO' && (
-            <button onClick={handleChangePlan} className="ml-2 text-blue-600">
-              {t('subscription-details.overview.btn-change-plan')}
-            </button>
-          )}
+          {firstPaymentMethod !== 'CRYPTO' &&
+            firstPaymentMethod !== 'TOKEN' && (
+              <button onClick={handleChangePlan} className="ml-2 text-blue-600">
+                {t('subscription-details.overview.btn-change-plan')}
+              </button>
+            )}
         </p>
 
         <p className="text-base text-white/70">
           <Trans i18nKey="subscription-details.overview.periodEnd" ns="billing">
             Your plan will
-            {{ action: firstPaymentMethod === 'CRYPTO' ? 'expire' : 'renew' }}
+            {{
+              action:
+                firstPaymentMethod === 'CRYPTO' ||
+                firstPaymentMethod === 'TOKEN'
+                  ? 'expire'
+                  : 'renew',
+            }}
             on
             <strong className="text-white">
               {{ date: dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY') }}
             </strong>
             .
           </Trans>
-          {firstPaymentMethod !== 'CRYPTO' && (
-            <Trans
-              i18nKey="subscription-details.overview.charging"
-              ns="billing"
-            >
-              Charging your credit card
+          {firstPaymentMethod === 'CRYPTO' && (
+            <span>
+              {t('subscription-details.overview.in-order-to-renew')}{' '}
               <strong className="text-white">
-                ${{ amount: (plan?.amount ?? 0) / 100 }}
+                {{
+                  date: dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY'),
+                }}
               </strong>
               .
-            </Trans>
+            </span>
           )}
+          {firstPaymentMethod === 'TOKEN' && (
+            <span>
+              {t('subscription-details.overview.automatically-renew')}
+            </span>
+          )}
+          {firstPaymentMethod !== 'CRYPTO' &&
+            firstPaymentMethod !== 'TOKEN' && (
+              <Trans
+                i18nKey="subscription-details.overview.charging"
+                ns="billing"
+              >
+                Charging your credit card
+                <strong className="text-white">
+                  ${{ amount: (plan?.amount ?? 0) / 100 }}
+                </strong>
+                .
+              </Trans>
+            )}
         </p>
       </section>
 
