@@ -8,6 +8,7 @@ import { ReactComponent as LogoWithText } from 'assets/logo-horizontal-beta.svg'
 import { INVESTMENT_FE } from 'config/constants';
 import { addComma } from 'utils/numbers';
 import { useAccountQuery, useSubmitTokenPayment } from 'api';
+import { useUpdateTokenBalanceMutation } from 'api/defi';
 import { ReactComponent as WisdomiseLogo } from '../images/wisdomise-logo.svg';
 import { ReactComponent as Done } from '../images/done.svg';
 import ConnectWalletWrapper from './ConnectWalletWrapper';
@@ -30,6 +31,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
     () => plan.wsdm_token_hold < (account?.wsdm_balance ?? 0),
     [plan, account],
   );
+  const { mutateAsync: updateBalance } = useUpdateTokenBalanceMutation();
 
   const submitTokenPayment = async () => {
     await mutateAsync({
@@ -37,6 +39,10 @@ export default function TokenPaymentModalContent({ plan }: Props) {
       subscription_plan_key: plan.key,
     });
     setDone(true);
+  };
+
+  const updateTokenBalance = async () => {
+    await updateBalance();
   };
 
   const onDoneClick = async () => {
@@ -134,7 +140,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
                   </div>
                 </div>
                 <div className="h-16 w-px border-r border-white/50"></div>
-                <div>
+                <div className="text-center">
                   <div
                     className={clsx(
                       'mb-5 text-4xl',
@@ -146,6 +152,13 @@ export default function TokenPaymentModalContent({ plan }: Props) {
                   <div className="text-sm opacity-50">
                     {t('token-modal.your-balance')}
                   </div>
+                  <Button
+                    className="mt-2"
+                    variant="secondary"
+                    onClick={updateTokenBalance}
+                  >
+                    {t('token-modal.refresh')}
+                  </Button>
                 </div>
               </div>
               <Card className="!bg-black/80">

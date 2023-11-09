@@ -38,3 +38,15 @@ export const useNonceVerificationMutation = () => {
     { onSuccess: () => client.invalidateQueries(['account']) },
   );
 };
+
+export const useUpdateTokenBalanceMutation = () => {
+  const client = useQueryClient();
+  return useMutation<unknown, unknown>(
+    async () => {
+      await axios.patch(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/wsdm-balance`,
+      );
+    },
+    { onSuccess: () => client.invalidateQueries(['account']) },
+  );
+};
