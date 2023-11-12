@@ -1,24 +1,11 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { convertDate } from 'utils/dates';
-import { STRATEGY_ORIGIN } from 'config/constants';
 import { type BackTestBenchmark } from './ias/backtest';
 
 export const useFPBacktestQuery = (fpKey: string) =>
   useQuery(['fpb', fpKey, 'backtest'], async () => {
     const { data } = await axios.get<BackTestBenchmark>(
-      `${STRATEGY_ORIGIN}/api/v1/financial-products/${fpKey}/backtest`,
-      {
-        params: {
-          id: fpKey,
-          params: {
-            start_date: convertDate(
-              new Date(import.meta.env.VITE_BACKTEST_START_DATE),
-            ),
-            end_date: convertDate(),
-          },
-        },
-      },
+      `/catalog/financial-products/${fpKey}/backtest`,
     );
     return data;
   });
