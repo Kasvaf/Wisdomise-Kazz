@@ -59,7 +59,7 @@ const PositionsTable: React.FC<Props> = ({ history, className }) => {
                   ${numerable.format(h.entry_price, '0,0.00')}
                 </div>
                 <div className="whitespace-pre text-xs text-white/40 md:whitespace-normal">
-                  {dayjs(h.entry_time).format('MMMM DD,\nHH:MM')}
+                  {dayjs(h.entry_time).format('MMMM DD,\nHH:mm')}
                 </div>
               </div>
 
@@ -70,7 +70,7 @@ const PositionsTable: React.FC<Props> = ({ history, className }) => {
                       ${numerable.format(h.exit_price, '0,0.00')}
                     </div>
                     <div className="whitespace-pre text-xs text-white/40 md:whitespace-normal">
-                      {dayjs(h.exit_time).format('MMMM DD,\nHH:MM')}
+                      {dayjs(h.exit_time).format('MMMM DD,\nHH:mm')}
                     </div>
                   </>
                 )}
