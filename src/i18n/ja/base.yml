@@ -1,18 +1,18 @@
 error-page:
-  btn-reload: リロード
-  subtitle: しかし、このようなことが二度と起こらないよう最善を尽くしてまいります。
-  title: 何か問題が発生しましたが、その方法がわかりません:(
+  btn-reload: 再読み込み
+  subtitle: 同じエラーが発生しないよう改善いたします。
+  title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
 menu:
   account-manager:
     mobile: アカウント
     title: アカウントマネージャー
   asset-overview:
     mobile: 資産
-    title: 資産の概要
+    title: 資産概要
   athena: アテナ
   billing:
-    mobile: 請求する
-    title: 請求する
+    mobile: 請求情報
+    title: "確認する "
   category:
     account: アカウント
     market-predication: 市場予測
@@ -20,30 +20,30 @@ menu:
     strategy-builder: 戦略ビルダー
   dashboard: ダッシュボード
   kyc:
-    mobile: 本人確認
-    title: 本人確認
+    mobile: 本人確認 (KYC)
+    title: 本人確認 (KYC)
   notification-center:
     mobile: 通知
     title: 通知センター
   products-catalog:
-    mobile: 製品
-    title: 製品カタログ
+    mobile: プロダクト
+    title: プロダクト一覧
   profile-dashboard: プロフィールダッシュボード
   profile:
     mobile: プロフィール
     title: プロフィール
   referral:
-    mobile: 照会
-    title: 照会
+    mobile: リファーラル
+    title: リファーラル
   signal-matrix:
-    mobile: 信号
-    title: 信号マトリクス
+    mobile: シグナル
+    title: シグナルマトリクス
   strategies:
     mobile: 戦略
     title: 戦略
 mobile-menu:
-  close: 近い
+  close: 閉じる
   open: メニュー
 user:
   logout: ログアウト
-wisdomise-is-loading: ウィズドミスを読み込んでいます...
+wisdomise-is-loading: Wisdomiseを読み込んでいます...
