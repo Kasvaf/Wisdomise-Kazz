@@ -122,4 +122,5 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#alert-production'
-          message: Deploying ${{ github.event.repository.name }} on Production.
+          message: >-
+            Deploy Dashboard: ${{ github.event.head_commit.message }}.
