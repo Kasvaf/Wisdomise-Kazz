@@ -14,7 +14,7 @@ export default function configAxios() {
     if (config.url?.startsWith(API_ORIGIN)) {
       config.headers.set(
         'Authorization',
-        'Token 11e8715508a2130874b8ab9c510704c0d7a17675',
+        `Token ${import.meta.env.VITE_API_TOKEN as string}`,
       );
     } else {
       const jwtToken = getJwtToken();
