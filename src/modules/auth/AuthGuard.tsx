@@ -14,6 +14,7 @@ import { useAccountQuery, useAppsInfoQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { DOMAIN } from 'config/constants';
 import { analytics } from 'config/segment';
+import configCookieBot from 'config/cookieBot';
 import getJwtToken from './getJwtToken';
 
 function replaceLocation(url: string) {
@@ -89,6 +90,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         redirectLogin(remoteLogin);
       } else {
         setLoading(false);
+        configCookieBot();
       }
     }
   }, [loading, account, appsInfo, navigate, handleAppRedirect]);
