@@ -90,8 +90,7 @@ export const useDefiProjectsQuestionPool = () =>
     ['defiProjectQuestionPool'],
     async () => {
       const { data } = await axios.get<DefiProjectsQuestionPool>(
-        // Id must be hard coded
-        `${CHATAPP_ORIGIN}/api/template/question_pool/57c7a1f7-850a-4832-910a-a5fbea2e6778`,
+        `${CHATAPP_ORIGIN}/api/template/question_pool/defi_projects_section_question_pool`,
       );
       return data;
     },
