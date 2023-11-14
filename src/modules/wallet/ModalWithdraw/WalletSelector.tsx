@@ -58,8 +58,11 @@ const WalletSelector: React.FC<Props> = ({
   const ias = useInvestorAssetStructuresQuery();
   const wallets = useVerifiedWallets();
   useEffect(() => {
-    if (wallets.data?.length && !selectedItem?.network?.name) {
-      onSelect(wallets.data[0] as VerifiedWallet);
+    if (selectedItem?.network?.name) return;
+    const firstWallet = wallets.data?.[0];
+    const net = firstWallet?.network;
+    if (net && 'binance_info' in net) {
+      onSelect(firstWallet as VerifiedWallet);
     }
   }, [wallets.data, onSelect, selectedItem?.network?.name]);
 
