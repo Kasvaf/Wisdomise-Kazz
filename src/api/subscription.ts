@@ -41,7 +41,6 @@ export function useSubscription() {
         : subs?.plan.name,
     plan: subs?.plan,
     isTrialing: subs?.plan.name === 'Trial',
-    cancelEnd: subs?.cancel_at && subs.cancel_at * 1000,
     currentPeriodEnd: (subs?.current_period_end ?? 0) * 1000,
     isCanceled: Boolean(subs?.canceled_at) || status === 'canceled' || !status,
     isSignalNotificationEnable: subs?.plan.metadata.enable_signal_notifications,

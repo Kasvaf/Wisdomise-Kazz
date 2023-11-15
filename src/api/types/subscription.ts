@@ -20,6 +20,23 @@ export interface Subscription {
     };
   };
 }
+export interface SubscriptionItem {
+  subscription_plan: SubscriptionPlan;
+  next_subs_item?: any;
+  // reason_to_create: 'TRIAL';
+  payment_method: 'MANUAL' | 'FIAT' | 'CRYPTO' | 'TOKEN';
+  status:
+    | 'trialing' // trialed
+    | 'active' // not-trial
+    | 'past_due'
+    | 'unpaid'
+    | 'canceled'
+    | 'incomplete'
+    | 'incomplete_expired'
+    | 'paused';
+  start_at: string; // UTC date/time
+  end_at: string; // UTC date/time
+}
 
 export interface SubscriptionPlan {
   id: string;
@@ -28,9 +45,8 @@ export interface SubscriptionPlan {
   is_active: boolean;
   description: string;
   price: number;
-  trial_days: number;
   stripe_price_id: string;
-  amount: number;
+  amount: number; // not from backend!!!
   features: string[];
   periodicity: PlanPeriod;
   stripe_payment_link: string;
@@ -40,7 +56,10 @@ export interface SubscriptionPlan {
 
 interface SubscriptionPlanMetadata {
   activate_fp: boolean;
+  strategy_create: boolean;
   view_signal_matrix: boolean;
+  strategy_use_cockpit: boolean;
+  strategy_run_backtest: boolean;
   athena_questions_count: number;
   enable_signal_notifications: boolean;
   weekly_custom_notifications_count: number;

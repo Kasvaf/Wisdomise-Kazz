@@ -18,7 +18,7 @@ export default function useEnsureSubscription(): [
   const { t } = useTranslation('products');
   const { isTrialing, isCanceled } = useSubscription();
   const canActivate = usePlanMetadata('activate_fp');
-  const isSubscribe = isTrialing || isCanceled;
+  const isSubscribe = isTrialing || isCanceled; // status == active -> upgrade
 
   const [Modal, showModal] = useConfirm({
     title: isSubscribe
