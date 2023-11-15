@@ -15,6 +15,7 @@ import Splash from 'modules/base/Splash';
 import { DOMAIN } from 'config/constants';
 import { analytics } from 'config/segment';
 import configCookieBot from 'config/cookieBot';
+import configCustomerIo from 'config/customerIo';
 import getJwtToken from './getJwtToken';
 
 function replaceLocation(url: string) {
@@ -44,12 +45,8 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         userId: email,
         email,
       });
-
-      const { _cio: cio } = window as any;
-      if (cio) {
-        cio.identify({ id: email, email });
-      }
     }
+    configCustomerIo(email);
   }, [account?.email]);
 
   const appsInfo = useAppsInfoQuery();
