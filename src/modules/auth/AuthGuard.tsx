@@ -15,7 +15,7 @@ import Splash from 'modules/base/Splash';
 import { DOMAIN } from 'config/constants';
 import { analytics } from 'config/segment';
 import configCookieBot from 'config/cookieBot';
-import configCustomerIo from 'config/customerIo';
+import customerIo from 'config/customerIo';
 import getJwtToken from './getJwtToken';
 
 function replaceLocation(url: string) {
@@ -41,12 +41,12 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   useEffect(() => {
     const email = account?.email;
     if (email) {
+      customerIo.identify(email);
       void analytics.identify(email, {
         userId: email,
         email,
       });
     }
-    configCustomerIo(email);
   }, [account?.email]);
 
   const appsInfo = useAppsInfoQuery();
@@ -88,6 +88,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
       } else {
         setLoading(false);
         configCookieBot();
+        customerIo.loadScript();
       }
     }
   }, [loading, account, appsInfo, navigate, handleAppRedirect]);
