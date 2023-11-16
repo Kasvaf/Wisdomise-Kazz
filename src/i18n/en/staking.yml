@@ -1,31 +1,31 @@
+ask:
+  active-limit: Question limit reached. Upgrade your plan to continue
+  athena: Athena
+  athena-subtitle: Your financial assistant AI
+  input-placeholder: Ask your question
+  remain-questions: Enjoy your remaining {{leftQuestions}} question
+  suggested-prompts: Suggested Prompts
+  trial-limit: Trial Question limit reached, Subscribe to continue
+info:
+  description: Description
+  chart:
+    tvl-history: Historical TVL
+  docs: Docs
+  github: Github
+  project-links: Project Links
+  twitter: Twitter
+  website: Website
 pools-table:
   title: Pool List
-  reward-apy: Reward APY
-  reward-apy-title: Annualised percentage yield from incentives.
-  chain: Chain
-  base-apy: Base APY
-  base-apy-title: >-
-    Annualised percentage yield from trading fees/supplying. For dexes we use
-    the 24h fees and scale those to a year.
   apy: APY
   apy-title: >-
     APY = Base APY + Reward APY. For non-autocompounding pools we do not account
     for reinvesting, in which case APY = APR.
+  base-apy: Base APY
+  base-apy-title: >-
+    Annualised percentage yield from trading fees/supplying. For dexes we use
+    the 24h fees and scale those to a year.
+  chain: Chain
+  reward-apy: Reward APY
+  reward-apy-title: Annualised percentage yield from incentives.
   token: Token
-info:
-  description: Description
-  project-links: Project Links
-  website: Website
-  twitter: Twitter
-  github: Github
-  docs: Docs
-  chart:
-    tvl-history: Historical TVL
-ask:
-  suggested-prompts: Suggested Prompts
-  athena: Athena
-  input-placeholder: Ask your question
-  remain-questions: Enjoy your remaining {{leftQuestions}} question
-  athena-subtitle: Your financial assistant AI
-  trial-limit: Trial Question limit reached, Subscribe to continue
-  active-limit: Question limit reached. Upgrade your plan to continue
