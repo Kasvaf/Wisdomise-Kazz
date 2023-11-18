@@ -2,6 +2,7 @@ import { Tabs, type TabsProps } from 'antd';
 import PageWrapper from 'modules/base/PageWrapper';
 import TabSettings from './TabSettings';
 import TabCockpit from './TabCockpit';
+import TabPositions from './TabPositions';
 
 const items: TabsProps['items'] = [
   {
@@ -16,11 +17,16 @@ const items: TabsProps['items'] = [
   },
   {
     key: '3',
+    label: 'Positions',
+    children: <TabPositions />,
+  },
+  {
+    key: '4',
     label: 'Debug',
     children: 'Content of Tab Pane 3',
   },
   {
-    key: '4',
+    key: '5',
     label: 'Settings',
     children: <TabSettings />,
   },
