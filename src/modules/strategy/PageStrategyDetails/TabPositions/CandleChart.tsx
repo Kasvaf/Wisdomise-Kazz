@@ -1,11 +1,11 @@
+import { bxsDownArrow } from 'boxicons-quasar';
 import { type ECharts } from 'echarts';
 import ReactECharts from 'echarts-for-react';
 import { echartsDark, type EChartsOption } from 'modules/shared/echarts';
 
 const upColor = '#ec0000';
 const downColor = '#00da3c';
-const arrowSymbol =
-  'path://M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z';
+const arrowSymbol = 'path://' + bxsDownArrow;
 
 // Each item: open，close，lowest，highest
 const data0 = splitData([
@@ -249,7 +249,7 @@ function marker(coord: [string, number], dir: 1 | -1) {
       color: '#ffffff',
     },
     itemStyle: {
-      color: dir > 0 ? downColor : upColor,
+      color: dir > 0 ? '#11C37E' : '#F14056',
     },
   };
 }
@@ -283,7 +283,6 @@ const CandleChart = () => {
         },
       ],
     });
-    chart.on('touch', console.log);
   };
 
   return (
