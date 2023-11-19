@@ -10,7 +10,6 @@ import {
   AFTER_CHECKOUT_KEY,
   SUCCESSFUL_CHECKOUT_KEY,
 } from 'modules/auth/constants';
-import Web3Provider from 'modules/account/PageBilling/Web3Provider';
 import useModalSuccessful from './useModalSuccessful';
 import SubscriptionDetail from './SubscriptionDetail';
 import PricingTable from './PricingTable';
@@ -41,15 +40,13 @@ export default function PageBilling() {
   }, [searchParams, showModalSuccessful, isActive, navigate, successShown]);
 
   return (
-    <Web3Provider>
-      <PageWrapper loading={isLoading || invoices.isLoading}>
-        {isActive || firstPaymentMethod === 'CRYPTO' ? (
-          <SubscriptionDetail />
-        ) : (
-          <PricingTable />
-        )}
-        {ModalSuccessful}
-      </PageWrapper>
-    </Web3Provider>
+    <PageWrapper loading={isLoading || invoices.isLoading}>
+      {isActive || firstPaymentMethod === 'CRYPTO' ? (
+        <SubscriptionDetail />
+      ) : (
+        <PricingTable />
+      )}
+      {ModalSuccessful}
+    </PageWrapper>
   );
 }

@@ -41,6 +41,9 @@ menu:
   strategies:
     title: Strategies
     mobile: Strategies
+  token:
+    title: WSDM Token
+    mobile: WSDM
 mobile-menu:
   close: Close
   open: Menu

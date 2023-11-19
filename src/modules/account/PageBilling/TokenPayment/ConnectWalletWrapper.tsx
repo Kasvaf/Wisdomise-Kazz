@@ -3,6 +3,7 @@ import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
 import { goerli, polygon } from 'wagmi/chains';
 import { notification } from 'antd';
+import { clsx } from 'clsx';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
@@ -12,6 +13,7 @@ import { shortenAddress } from 'utils/shortenAddress';
 import { isProduction } from 'utils/version';
 import { unwrapErrorMessage } from 'utils/error';
 import { ReactComponent as Wallet } from '../images/wallet.svg';
+// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Key } from '../images/key.svg';
 
 interface Props {
@@ -82,7 +84,7 @@ export default function ConnectWalletWrapper({ children, className }: Props) {
   }, [account, address, isConnected]);
 
   return (
-    <div className={className}>
+    <div className={clsx(className, 'text-white')}>
       {isConnected && address && (
         <div className="mb-2 flex items-center justify-between gap-4 rounded-full bg-white/5 p-2 pl-6">
           <div>

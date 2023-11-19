@@ -13,6 +13,7 @@ import { ReactComponent as KYCIcon } from './icons/kyc.svg';
 import { ReactComponent as NotificationIcon } from './icons/notification.svg';
 import { ReactComponent as BillingIcon } from './icons/billing.svg';
 import { ReactComponent as StrategiesIcon } from './icons/strategies.svg';
+import { ReactComponent as TokenIcon } from './icons/token.svg';
 
 interface MenuItem {
   category: string;
@@ -103,6 +104,13 @@ const useMenuItems = () => {
       mobileText: t('menu.notification-center.mobile'),
       icon: <NotificationIcon />,
       link: '/account/notification-center',
+    },
+    {
+      category: t('menu.category.account'),
+      text: t('menu.token.title'),
+      mobileText: t('menu.token.mobile'),
+      icon: <TokenIcon />,
+      link: '/account/token',
     },
   ];
 
