@@ -33,6 +33,7 @@
    * Loading refinement
    */
   .ant-spin-container::after {
+    background: black;
     @apply rounded-xl;
   }
   .ant-spin {
@@ -145,5 +146,11 @@
     .ant-empty-description {
       @apply text-white/80;
     }
+  }
+}
+
+.ant-table-expanded-row {
+  > .ant-table-cell {
+    @apply !border-none;
   }
 }

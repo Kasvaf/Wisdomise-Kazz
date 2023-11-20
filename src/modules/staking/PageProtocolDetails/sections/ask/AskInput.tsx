@@ -55,6 +55,8 @@ const useRemainQuestionText = () => {
   const { t } = useTranslation('staking');
   const { isTrialing, isActive } = useSubscription();
 
+  console.log(leftQuestions, isTrialing, isActive);
+
   let text =
     t('ask.remain-questions', { leftQuestions }) +
     (leftQuestions > 1 ? 's' : '');
