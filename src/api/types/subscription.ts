@@ -1,25 +1,5 @@
 export type PlanPeriod = 'MONTHLY' | 'YEARLY';
 
-export interface Subscription {
-  object?: {
-    object: string;
-    status: 'trialing' | 'active' | 'inactive' | 'canceled';
-    trial_end: number;
-    trial_start: number;
-
-    current_period_start?: number;
-    current_period_end?: number;
-
-    cancel_at?: number;
-    canceled_at?: number;
-    plan: {
-      id: string;
-      name: string;
-      amount: number;
-      metadata: SubscriptionPlanMetadata;
-    };
-  };
-}
 export interface SubscriptionItem {
   subscription_plan: SubscriptionPlan;
   next_subs_item?: any;
@@ -46,7 +26,6 @@ export interface SubscriptionPlan {
   description: string;
   price: number;
   stripe_price_id: string;
-  amount: number; // not from backend!!!
   features: string[];
   periodicity: PlanPeriod;
   stripe_payment_link: string;

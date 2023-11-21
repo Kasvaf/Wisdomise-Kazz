@@ -11,7 +11,7 @@ const PageSignalsMatrix: React.FC = () => {
   const { data: account, isLoading: isLoadingAccount } = useAccountQuery();
   const { data, isLoading: isLoadingSignals } = useSignalsQuery();
   const canView =
-    account?.subscription?.object?.plan.metadata.view_signal_matrix;
+    account?.subscription_item?.subscription_plan.metadata.view_signal_matrix;
 
   return (
     <PageWrapper loading={isLoadingAccount || isLoadingSignals}>

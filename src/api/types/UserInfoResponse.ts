@@ -1,4 +1,4 @@
-import { type Subscription } from './subscription';
+import { type SubscriptionItem } from './subscription';
 
 export interface UserInfoResponse {
   key: string;
@@ -18,7 +18,7 @@ export interface Account {
   privacy_policy_accepted: boolean;
   register_status: string;
   stripe_customer_id?: any;
-  subscription?: Subscription;
+  subscription_item?: SubscriptionItem;
   referred_users_count: number;
   active_referred_users_count: number;
   daily_magic_enabled: boolean;

@@ -40,7 +40,7 @@ export default function PricingCard({
   );
 
   const hasUserThisPlan = plan.stripe_price_id === userPlan?.id;
-  const isPlanCheaperThanUserPlan = plan.price * 100 < (userPlan?.amount ?? 0);
+  const isPlanCheaperThanUserPlan = plan.price < (userPlan?.price ?? 0);
 
   const handleFiatPayment = async () => {
     if (isUpdate) {
