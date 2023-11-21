@@ -42,15 +42,22 @@ periodicity:
     title: Yearly
     per: per<br>year
 pricing-card:
+  annually: Annually
   btn-action:
     available-soon: Available soon
     buy-now: Buy Now
     current-plan: Current Plan
     upgrade: Upgrade
+  hold: Hold
+  just-yearly: Just In Yearly
+  monthly: Monthly
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
+  page-subtitle: 'You can choose your package type from this section'
+  page-title: Billing Package
   this-includes: 'This includes:'
+  token: Token
 subscription-details:
   title: Subscription details
   invoices:
