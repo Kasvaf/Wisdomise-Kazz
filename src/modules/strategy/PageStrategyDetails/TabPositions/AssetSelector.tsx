@@ -32,7 +32,6 @@ const AssetSelector: React.FC<Props> = ({
   onSelect,
   disabled = false,
 }) => {
-  console.log(assets);
   return (
     <ComboBox
       options={assets}
