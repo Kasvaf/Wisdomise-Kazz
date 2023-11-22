@@ -71,29 +71,9 @@ export default function RightSection({ plan, onResolve }: Props) {
         </div>
 
         <div className="w-full">
-          <p className="text-sm">Wallet</p>
-          <div className="mt-3 rounded-2xl bg-black/40 p-6 pb-2">
-            <div className="mb-2 flex items-center border-b border-white/10 pb-2">
-              <p className="mr-6 border-r border-white/10 pr-6 text-xs">
-                My Metamask
-              </p>
-
-              <div className="flex items-center gap-2">
-                <CoinsIcons coins={['USDT']} size="small" />
-                <p className="text-sm">Tether</p>
-                <p className="rounded-3xl bg-white/5 px-2 py-1 text-xxs leading-none">
-                  {network.name}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <CopyInputBox
-                style="alt"
-                className="w-full"
-                value={network.key}
-              />
-            </div>
+          <p className="pb-2 pl-4 text-sm">Wallet</p>
+          <div className="flex items-center justify-between">
+            <CopyInputBox style="alt" className="w-full" value={network.key} />
           </div>
         </div>
 
