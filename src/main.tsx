@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ConfigProvider, theme } from 'antd';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
 import { RouterBaseName } from 'config/constants';
@@ -17,7 +18,13 @@ if (RouterBaseName) {
 createRoot(root).render(
   <Sentry.ErrorBoundary fallback={<PageError />}>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <ConfigProvider
+        theme={{
+          algorithm: theme.darkAlgorithm,
+        }}
+      >
+        <App />
+      </ConfigProvider>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   </Sentry.ErrorBoundary>,

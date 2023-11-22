@@ -67,6 +67,34 @@
 }
 
 /* ------------------------------------------------- */
+.ant-picker {
+  @apply rounded-3xl bg-black/40 px-6;
+  border: none !important;
+}
+
+.ant-picker-dropdown .ant-picker-panel {
+  @apply !bg-black/20;
+}
+/* ------------------------------------------------- */
+.ant-select-selector.ant-select-selector {
+  @apply !h-auto rounded-3xl !bg-black/40 !px-6 !py-2;
+
+  .ant-select-selection-search-input {
+    @apply !h-full !pl-3;
+  }
+}
+.ant-select-dropdown.ant-select-dropdown {
+  @apply !bg-black/20;
+
+  .ant-select-item-option.ant-select-item-option {
+    @apply h-auto py-2;
+  }
+
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    @apply !bg-black;
+  }
+}
+/* ------------------------------------------------- */
 
 .ant-notification-notice {
   @apply !rounded-3xl !bg-[#272A32] font-poppins !text-white;
