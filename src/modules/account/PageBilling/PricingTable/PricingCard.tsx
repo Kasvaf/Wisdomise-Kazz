@@ -39,24 +39,22 @@ export default function PricingCard({
     { centered: true },
   );
 
-  const hasUserThisPlan = plan.stripe_price_id === userPlan?.id;
+  const hasUserThisPlan = plan.key === userPlan?.key;
   const isPlanCheaperThanUserPlan = plan.price < (userPlan?.price ?? 0);
 
   const handleFiatPayment = async () => {
     if (isUpdate) {
-      if (plan.stripe_price_id === userPlan?.id) {
+      if (plan.key === userPlan?.key) {
         return;
       }
-      await mutation
-        .mutateAsync({ price_id: plan.stripe_price_id })
-        .then(() => {
-          notification.success({
-            message: t('pricing-card.notification-upgrade-success'),
-            duration: 5000,
-          });
-          onPlanUpdate();
-          return null;
+      await mutation.mutateAsync({ price_id: plan.key }).then(() => {
+        notification.success({
+          message: t('pricing-card.notification-upgrade-success'),
+          duration: 5000,
         });
+        onPlanUpdate();
+        return null;
+      });
     } else {
       window.location.href =
         plan.stripe_payment_link +
