@@ -11,7 +11,7 @@ export default function UserQuestions() {
   const { t } = useTranslation('notifications');
   const userPrompts = useUserPromptsQuery();
   const currentNotificationCount = userPrompts.data?.length || 0;
-  const { weeklyCustomNotificationCount, isActive } = useSubscription();
+  const { weeklyCustomNotificationCount } = useSubscription();
   const predefinedPrompts = usePredefinedPromptsQuery();
 
   return (
@@ -28,7 +28,7 @@ export default function UserQuestions() {
         <p
           className={clsx(
             'text-right text-xl text-white mobile:basis-40',
-            !isActive && 'invisible',
+            !weeklyCustomNotificationCount && 'invisible',
           )}
         >
           {currentNotificationCount} / {weeklyCustomNotificationCount}

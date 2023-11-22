@@ -62,8 +62,7 @@ const useRemainQuestionText = () => {
   if (leftQuestions <= 0) {
     if (isTrialing) {
       text = t('ask.trial-limit');
-    }
-    if (isActive) {
+    } else if (isActive) {
       text = t('ask.active-limit');
     }
   }

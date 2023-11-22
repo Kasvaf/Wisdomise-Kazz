@@ -16,18 +16,28 @@ export default function useEnsureSubscription(): [
   () => Promise<boolean>,
 ] {
   const { t } = useTranslation('products');
-  const { isActive, plan } = useSubscription();
+  const { isTrialing, plan } = useSubscription();
   const canActivate = plan?.metadata.activate_fp;
 
   const [Modal, showModal] = useConfirm({
-    title: isActive
-      ? t('subscription.upgrade.title')
-      : t('subscription.subscribe.title'),
+    title: isTrialing
+      ? t('subscription.subscribe.title')
+      : t('subscription.upgrade.title'),
     icon: <LockIcon />,
-    yesTitle: isActive
-      ? t('subscription.upgrade.btn-confirm')
-      : t('subscription.subscribe.btn-confirm'),
-    message: isActive ? (
+    yesTitle: isTrialing
+      ? t('subscription.subscribe.btn-confirm')
+      : t('subscription.upgrade.btn-confirm'),
+    message: isTrialing ? (
+      <div className="text-center">
+        <div className="mt-2 text-slate-400">
+          <Trans i18nKey="subscription.subscribe.description" ns="products">
+            To activate a product, you need to
+            <span className="text-white">Subscribe</span> to our
+            <span className="text-white">Wisdomise Expert</span> plan.
+          </Trans>
+        </div>
+      </div>
+    ) : (
       <div className="text-center">
         <div className="mt-2 text-slate-400">
           <div>{t('subscription.upgrade.subtitle')}</div>
@@ -37,16 +47,6 @@ export default function useEnsureSubscription(): [
               <span className="text-white">Upgrade</span> your subscription.
             </Trans>
           </div>
-        </div>
-      </div>
-    ) : (
-      <div className="text-center">
-        <div className="mt-2 text-slate-400">
-          <Trans i18nKey="subscription.subscribe.description" ns="products">
-            To activate a product, you need to
-            <span className="text-white">Subscribe</span> to our
-            <span className="text-white">Wisdomise Expert</span> plan.
-          </Trans>
         </div>
       </div>
     ),

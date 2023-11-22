@@ -19,7 +19,7 @@ export default function PageBilling() {
   const navigate = useNavigate();
   const invoices = useInvoicesQuery();
   const [searchParams] = useSearchParams();
-  const { isActive, isLoading } = useSubscription();
+  const { plan, isActive, isLoading } = useSubscription();
   const [successShown, setSuccessShow] = useState(false);
   const firstPaymentMethod = useUserFirstPaymentMethod();
   const [ModalSuccessful, showModalSuccessful] = useModalSuccessful({});
@@ -43,7 +43,8 @@ export default function PageBilling() {
   return (
     <Web3Provider>
       <PageWrapper loading={isLoading || invoices.isLoading}>
-        {isActive || firstPaymentMethod === 'CRYPTO' ? (
+        {(isActive && plan?.name !== 'Trial') ||
+        firstPaymentMethod === 'CRYPTO' ? (
           <SubscriptionDetail />
         ) : (
           <PricingTable />

@@ -11,7 +11,7 @@ import SubscribeModalContent from './SubscribeModalContent';
 export default function ToggleDaily() {
   const { t } = useTranslation('notifications');
   const account = useAccountQuery();
-  const { isActive } = useSubscription();
+  const { weeklyCustomNotificationCount } = useSubscription();
 
   const dailyMagicStatus = useDailyMagicStatusMutation();
   const [subscribeModal, openSubscribeModal] = useModal(SubscribeModalContent, {
@@ -19,7 +19,7 @@ export default function ToggleDaily() {
   });
 
   const onChange = (checked: boolean) => {
-    if (isActive) {
+    if (weeklyCustomNotificationCount > 0) {
       dailyMagicStatus.mutate(checked);
     } else {
       void openSubscribeModal({});

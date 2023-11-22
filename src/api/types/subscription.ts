@@ -6,7 +6,6 @@ export interface SubscriptionItem {
   // reason_to_create: 'TRIAL';
   payment_method: 'MANUAL' | 'FIAT' | 'CRYPTO' | 'TOKEN';
   status:
-    | 'trialing' // trialed
     | 'active' // not-trial
     | 'past_due'
     | 'unpaid'

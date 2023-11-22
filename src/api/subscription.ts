@@ -9,13 +9,12 @@ export function useSubscription() {
 
   return {
     refetch,
+    plan,
     isActive,
     isLoading,
-    title: plan?.name || (status === 'trialing' ? 'Trial' : 'none'),
-    plan,
-    isTrialing: status === 'trialing',
+    title: plan?.name || 'none',
+    isTrialing: isActive && plan?.name === 'Trial',
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
-    isCanceled: status === 'canceled' || !status,
     isSignalNotificationEnable: plan?.metadata.enable_signal_notifications,
     remaining: Math.max(
       Math.round(
@@ -23,10 +22,8 @@ export function useSubscription() {
       ),
       0,
     ),
-    // default 3 is for old user it will be removed by 1 month
-    weeklyCustomNotificationCount:
-      isActive && plan?.metadata.weekly_custom_notifications_count === undefined
-        ? 3
-        : Number(plan?.metadata.weekly_custom_notifications_count),
+    weeklyCustomNotificationCount: Number(
+      plan?.metadata.weekly_custom_notifications_count ?? 0,
+    ),
   };
 }
