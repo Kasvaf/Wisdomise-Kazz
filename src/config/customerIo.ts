@@ -1,4 +1,4 @@
-import { isProduction } from 'utils/version';
+import { isProduction, isLocal } from 'utils/version';
 
 const cioId = isProduction ? 'e1fcf71a2b139e4c010e' : 'c6bccff0f61e66a6b755';
 
@@ -22,7 +22,7 @@ function getCio() {
 
 let added = false;
 function loadScript() {
-  if (added) return;
+  if (added || isLocal) return;
   added = true;
 
   getCio();
