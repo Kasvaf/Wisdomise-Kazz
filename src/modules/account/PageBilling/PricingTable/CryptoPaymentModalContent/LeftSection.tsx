@@ -15,7 +15,6 @@ export default function LeftSection({ plan }: Props) {
     <div className="flex h-full shrink grow basis-0 flex-col items-center justify-center bg-[#131822]">
       <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
         <div className="flex items-center gap-3 mobile:hidden">
-          <div className="h-10 w-10 rounded-full bg-[#D9D9D9]" />
           <p className="text-xl text-white">{t('crypto-modal.title')}</p>
         </div>
 

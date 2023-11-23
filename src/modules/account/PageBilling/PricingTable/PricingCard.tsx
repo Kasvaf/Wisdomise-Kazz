@@ -10,11 +10,9 @@ import {
   useUserFirstPaymentMethod,
 } from 'api';
 import useModal from 'modules/shared/useModal';
-import { addComma } from 'utils/numbers';
-import product from '../images/wisdomise-product.png';
 import { ReactComponent as Check } from '../images/check.svg';
-import Periodicity from '../Periodicity';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
+import PlanLogo from './PlanLogo';
 
 interface Props {
   className?: string;
@@ -79,47 +77,70 @@ export default function PricingCard({
   return (
     <div
       className={clsx(
-        'rounded-3xl p-8',
-        plan.is_active && 'border border-gray-700 bg-white/5',
+        'relative flex shrink-0 grow-0 basis-64 flex-col rounded-2xl p-8',
+        'bg-gradient-to-b from-white/5 to-black/0',
         className,
       )}
     >
-      <div className="lg:min-h-[10rem] xl:min-h-[17rem]">
-        <img className="mb-2 rounded-lg" src={product} alt="product" />
-        <h2 className="mb-3 text-xl">{plan.name}</h2>
-        <p className="text-sm text-white/60">{plan.description}</p>
-      </div>
-      <div className="mb-4 mt-6 flex gap-2">
-        <span className="text-3xl font-semibold">${plan.price}</span>
+      <div className="absolute left-0 top-[20%] h-1/2 w-[1px] bg-[radial-gradient(circle,_#ffffff80_0%,_#ffffff00_100%)]" />
+      <div className="absolute right-0 top-[40%] h-3/5 w-[1px] bg-[radial-gradient(circle,_#ffffff80_0%,_#ffffff00_100%)]" />
+
+      <section>
+        <PlanLogo name={plan.name} />
+        <h2 className="mb-3 mt-6 text-lg font-semibold">{plan.name}</h2>
+        <p className="min-h-[100px] text-xs text-white/60">
+          {plan.description}
+        </p>
+      </section>
+
+      <div className="flex items-center justify-between rounded-lg bg-white/10 px-2 py-3 leading-none">
+        <p className="text-xs text-white/50">$ USD</p>
+        <span className="font-semibold">${plan.price}</span>
         <div className="text-xs text-white/40">
-          <Periodicity periodicity={plan.periodicity} />
+          {plan.periodicity === 'MONTHLY'
+            ? t('pricing-card.monthly')
+            : t('pricing-card.annually')}
         </div>
       </div>
-      {plan.periodicity === 'YEARLY' && (
-        <div>
-          <div className="mb-6 flex items-center gap-4">
-            <span>OR</span>
-            <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
-          </div>
-          <div className="mb-6">
-            <span className="text-gray-400">Hold</span>{' '}
-            <span className="font-semibold">
-              {addComma(plan.wsdm_token_hold)}
-            </span>{' '}
-            <strong className="bg-gradient-to-r from-[#00A3FF] to-[#FF00C7] to-100% bg-clip-text text-transparent">
-              $tWSDM
-            </strong>{' '}
-            <span className="text-gray-400">tokens</span>
+
+      <div>
+        <div className="my-3 flex items-center gap-4">
+          <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
+          <span className="text-xs">OR</span>
+          <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
+        </div>
+
+        <div className="flex items-center justify-between rounded-lg bg-white/10 px-2 py-3 leading-none">
+          <p className="bg-gradient-to-r from-[#00A3FF] to-[#FF00C7] to-100% bg-clip-text text-xs text-transparent">
+            $ tWSDM
+          </p>
+          {plan.periodicity === 'YEARLY' ? (
+            <span className="font-medium">
+              {plan.wsdm_token_hold.toLocaleString()}{' '}
+              <span className="text-xxs">{t('pricing-card.token')}</span>
+            </span>
+          ) : (
+            <span className="text-xs">{t('pricing-card.just-yearly')}</span>
+          )}
+
+          <div
+            className={clsx(
+              'text-xs text-white/40',
+              plan.periodicity === 'MONTHLY' && 'invisible',
+            )}
+          >
+            {t('pricing-card.hold')}
           </div>
         </div>
-      )}
+      </div>
+
       <Button
         onClick={onClick}
         disabled={
           !plan.is_active || isPlanCheaperThanUserPlan || hasUserThisPlan
         }
         className={clsx(
-          'block !w-full !font-medium',
+          'my-8 block !w-full !font-medium',
           // active plan is disabled, but has different styling
           hasUserThisPlan && '!cursor-default !text-white',
         )}
@@ -132,8 +153,10 @@ export default function PricingCard({
             : t('pricing-card.btn-action.buy-now')
           : t('pricing-card.btn-action.available-soon')}
       </Button>
-      <div className="mt-3 text-sm text-white/90">
-        <div className="py-2">{t('pricing-card.this-includes')}</div>
+      <div className="text-xs text-white/90">
+        <div className="py-2 text-white/50">
+          {t('pricing-card.this-includes')}
+        </div>
         <ul>
           {plan.features.map(feature => (
             <li className="mb-3 flex gap-3" key={feature}>
@@ -143,6 +166,7 @@ export default function PricingCard({
           ))}
         </ul>
       </div>
+
       {subscriptionMethodModal}
     </div>
   );

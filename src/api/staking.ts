@@ -38,6 +38,7 @@ export interface ProtocolPools {
       key: string;
       apy: number;
       chain: string;
+      url?: string;
       tvl_usd: number;
       apy_base: number;
       apy_reward?: number;
@@ -107,4 +108,20 @@ export const useProtocolTvlHistory = (id?: string) =>
       `${API_ORIGIN}/api/v0/delphi/protocol/${id ?? ''}/hist_tvl?res=7d`,
     );
     return data.data;
+  });
+
+export const usePoolTvlHistory = (id?: string) =>
+  useQuery(['poolTvlHistory', id], async () => {
+    const { data } = await axios.get<Array<{ tvl: number; date: string }>>(
+      `${API_ORIGIN}/api/v0/delphi/pool/${id ?? ''}/hist_tvl?res=7d`,
+    );
+    return data;
+  });
+
+export const usePoolApyHistory = (id?: string) =>
+  useQuery(['poolApyHistory', id], async () => {
+    const { data } = await axios.get<Array<{ tvl: number; date: string }>>(
+      `${API_ORIGIN}/api/v0/delphi/pool/${id ?? ''}/hist_apy?res=7d`,
+    );
+    return data;
   });

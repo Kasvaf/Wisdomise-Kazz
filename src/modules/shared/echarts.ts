@@ -24,7 +24,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 
 export function echartsDark() {
   const contrastColor = '#B9B8CE';
-  const backgroundColor = '#131822';
+  const backgroundColor = 'transparent';
   const axisCommon = function () {
     return {
       axisLine: {

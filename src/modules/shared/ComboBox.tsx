@@ -12,6 +12,7 @@ interface Props {
   onSelect?: (item: any) => void;
   disabled?: boolean;
   className?: string;
+  optionClassName?: string;
 }
 
 const OptionItem: React.FC<
@@ -42,6 +43,7 @@ const ComboBox: React.FC<Props> = ({
   onSelect,
   disabled = false,
   className,
+  optionClassName,
 }) => {
   const [open, setOpen] = useState(false);
   const selectItemHandler = useCallback(
@@ -65,6 +67,7 @@ const ComboBox: React.FC<Props> = ({
             onClick={selectItemHandler}
             className={clsx(
               ind !== options.length - 1 && 'border-b border-white/5',
+              optionClassName,
             )}
           >
             {renderItem(item)}
@@ -72,7 +75,7 @@ const ComboBox: React.FC<Props> = ({
         ))}
       </div>
     ),
-    [options, renderItem, selectItemHandler],
+    [options, renderItem, selectItemHandler, optionClassName],
   );
 
   const disabledOrEmpty = disabled || options.length <= 1;

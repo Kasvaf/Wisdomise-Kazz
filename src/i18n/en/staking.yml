@@ -9,6 +9,7 @@ ask:
 info:
   description: Description
   chart:
+    apy-history: Historical APY
     tvl-history: Historical TVL
   docs: Docs
   github: Github
@@ -17,6 +18,7 @@ info:
   website: Website
 pools-table:
   title: Pool List
+  actions: Actions
   apy: APY
   apy-title: >-
     APY = Base APY + Reward APY. For non-autocompounding pools we do not account
@@ -26,6 +28,7 @@ pools-table:
     Annualised percentage yield from trading fees/supplying. For dexes we use
     the 24h fees and scale those to a year.
   chain: Chain
+  invest: 'Invest'
   reward-apy: Reward APY
   reward-apy-title: Annualised percentage yield from incentives.
   token: Token
