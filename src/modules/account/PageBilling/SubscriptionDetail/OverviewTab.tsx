@@ -85,7 +85,7 @@ export default function OverviewTab() {
               {{ date: dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY') }}
             </strong>
             .
-          </Trans>
+          </Trans>{' '}
           {firstPaymentMethod === 'CRYPTO' && (
             <span>
               <Trans
