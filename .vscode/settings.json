@@ -29,7 +29,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": ["clsx", "undraws", "Wisdomise"],
   "[svg]": {
-    "editor.defaultFormatter": "redhat.vscode-xml"
+    "editor.defaultFormatter": "jock.svg"
   },
   "i18n-ally.namespace": true,
   "i18n-ally.enabledFrameworks": [

@@ -1,14 +1,18 @@
 import { useTranslation } from 'react-i18next';
-import useProtocolInfo from '../../useProtocolInfo';
-import { ReactComponent as DocsIcon } from '../../images/docs.svg';
-import { ReactComponent as GithubIcon } from '../../images/github.svg';
-import { ReactComponent as WebsiteIcon } from '../../images/website.svg';
-import { ReactComponent as XIcon } from '../../images/x.svg';
-import TvlHistory from './TvlHistory';
+import { useParams } from 'react-router-dom';
+import { useProtocolTvlHistory } from 'api/staking';
+import useProtocolInfo from '../useProtocolInfo';
+import { ReactComponent as DocsIcon } from '../images/docs.svg';
+import { ReactComponent as GithubIcon } from '../images/github.svg';
+import { ReactComponent as WebsiteIcon } from '../images/website.svg';
+import { ReactComponent as XIcon } from '../images/x.svg';
+import AreaChart from '../AreaChart';
 
 export default function ProtocolInfo() {
   const { data } = useProtocolInfo();
+  const params = useParams<{ id: string }>();
   const { t } = useTranslation('staking');
+  const tvlHistory = useProtocolTvlHistory(params.id);
 
   if (!data) return null;
 
@@ -73,7 +77,12 @@ export default function ProtocolInfo() {
         </div>
       </div>
 
-      <TvlHistory />
+      <AreaChart
+        yField="tvl"
+        xField="date"
+        title={t('info.chart.tvl-history')}
+        data={tvlHistory.data || []}
+      />
     </div>
   );
 }

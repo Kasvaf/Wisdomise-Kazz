@@ -85,16 +85,20 @@ export default function OverviewTab() {
               {{ date: dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY') }}
             </strong>
             .
-          </Trans>
+          </Trans>{' '}
           {firstPaymentMethod === 'CRYPTO' && (
             <span>
-              {t('subscription-details.overview.in-order-to-renew')}{' '}
-              <strong className="text-white">
-                {{
-                  date: dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY'),
-                }}
-              </strong>
-              .
+              <Trans
+                i18nKey="subscription-details.overview.in-order-to-renew"
+                ns="billing"
+              >
+                <strong className="text-white">
+                  {{
+                    date: dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY'),
+                  }}
+                </strong>
+                .
+              </Trans>
             </span>
           )}
           {firstPaymentMethod === 'TOKEN' && (

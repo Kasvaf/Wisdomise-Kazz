@@ -42,15 +42,22 @@ periodicity:
     title: Yearly
     per: per<br>year
 pricing-card:
+  annually: Annually
   btn-action:
     available-soon: Available soon
     buy-now: Buy Now
     current-plan: Current Plan
     upgrade: Upgrade
+  hold: Hold
+  just-yearly: Just In Yearly
+  monthly: Monthly
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
+  page-subtitle: You can choose your package type from this section
+  page-title: Billing Package
   this-includes: 'This includes:'
+  token: Token
 subscription-details:
   title: Subscription details
   invoices:
@@ -66,7 +73,9 @@ subscription-details:
     card: Future charges will be applied to the card <1>****{{last4}}</1>.
     charging: Charging your credit card <1>${{ amount }}</1>.
     current-plan: Your plan is <1>{{plan}}</1>.
-    in-order-to-renew: In order to renew, you will have to send the transaction again on
+    in-order-to-renew: >-
+      In order to renew, you will have to send the transaction again on
+      <0>{{date}}</0>.
     is-on-the-way:
       title: Your subscription is on the way
       description: >-

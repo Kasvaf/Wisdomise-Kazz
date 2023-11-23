@@ -21,24 +21,35 @@ export default function PricingTable({
 
   return (
     <PageWrapper loading={isLoading}>
-      <div className="flex flex-col items-center">
-        <div className="mb-4 rounded-full border border-gray-700 bg-white/5 p-1">
-          {(['MONTHLY', 'YEARLY'] as const).map(period => (
-            <button
-              key={period}
-              onClick={() => setCurrentPeriod(period)}
-              className={clsx(
-                'rounded-full px-8 py-2 text-gray-400 transition-colors',
-                currentPeriod === period && 'bg-white !text-black',
-              )}
-            >
-              {period === 'MONTHLY'
-                ? t('periodicity.month.title')
-                : t('periodicity.year.title')}
-            </button>
-          ))}
+      <div className="flex flex-col">
+        <div className="mb-8 flex items-center justify-start mobile:flex-col mobile:gap-4">
+          <div className="mr-24">
+            <p className="mb-4 text-xl font-semibold">
+              {t('pricing-card.page-title')}
+            </p>
+            <p className="text-sm text-white/60">
+              {t('pricing-card.page-subtitle')}
+            </p>
+          </div>
+
+          <div className="flex rounded-full border border-white/20 bg-white/5 p-1 mobile:w-full">
+            {(['MONTHLY', 'YEARLY'] as const).map(period => (
+              <button
+                key={period}
+                onClick={() => setCurrentPeriod(period)}
+                className={clsx(
+                  'w-full rounded-full px-8 py-2 text-sm text-white transition-colors',
+                  currentPeriod === period && 'bg-white !text-black',
+                )}
+              >
+                {period === 'MONTHLY'
+                  ? t('periodicity.month.title')
+                  : t('periodicity.year.title')}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+        <div className="flex gap-6 overflow-auto ">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
             .map(plan => (

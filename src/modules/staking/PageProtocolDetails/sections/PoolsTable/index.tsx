@@ -8,7 +8,9 @@ import { type ProtocolPools, useProtocolPoolsQuery } from 'api/staking';
 import PriceChange from 'modules/shared/PriceChange';
 import TextBox from 'modules/shared/TextBox';
 import Table from 'modules/shared/Table';
-import { ReactComponent as InfoIcon } from '../images/info.svg';
+import Button from 'modules/shared/Button';
+import { ReactComponent as InfoIcon } from '../../images/info.svg';
+import RowDetail from './RowDetail';
 
 export default function PoolsTable() {
   const { t } = useTranslation('staking');
@@ -99,6 +101,22 @@ export default function PoolsTable() {
           ),
       },
       { title: t('pools-table.chain'), dataIndex: 'chain' },
+      {
+        title: t('pools-table.actions'),
+        dataIndex: 'url',
+        render: (url?: string) => (
+          <Button
+            size="small"
+            to={url}
+            disabled={!url}
+            className="block w-full"
+            target="_blank"
+          >
+            {t('pools-table.invest')}
+          </Button>
+        ),
+      },
+      Table.EXPAND_COLUMN,
     ],
     [t],
   );
@@ -118,9 +136,8 @@ export default function PoolsTable() {
         </div>
       </div>
       <Table
-        className="mobile:min-w-[750px]"
-        pagination={{ total: pools.data?.count }}
         columns={columns}
+        className="mobile:min-w-[750px]"
         onChange={(pagination, _, sorter) =>
           setTableParams(p => ({
             ...p,
@@ -133,6 +150,10 @@ export default function PoolsTable() {
                 : '',
           }))
         }
+        expandable={{
+          expandedRowRender: row => <RowDetail row={row} />,
+        }}
+        pagination={{ total: pools.data?.count }}
         dataSource={pools.data?.results.pool ?? []}
         loading={pools.isRefetching || pools.isLoading}
       />

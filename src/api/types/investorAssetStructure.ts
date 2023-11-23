@@ -52,7 +52,7 @@ interface SymbolAsset {
   symbol: { name: string };
 }
 
-interface PairAsset {
+export interface PairAsset {
   type: 'PAIR';
   pair: {
     base: {
@@ -87,12 +87,14 @@ export interface Quote {
   name: string;
 }
 
+export interface AssetPairInfo {
+  title: string;
+  base: Quote;
+  quote: Quote;
+}
+
 export interface FpiPosition {
-  pair: {
-    title: string;
-    base: Quote;
-    quote: Quote;
-  };
+  pair: AssetPairInfo;
   pnl: number;
   amount: number;
   entry_price: number;
