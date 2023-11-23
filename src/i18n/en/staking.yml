@@ -28,7 +28,7 @@ pools-table:
     Annualised percentage yield from trading fees/supplying. For dexes we use
     the 24h fees and scale those to a year.
   chain: Chain
-  invest: 'Invest'
+  invest: Invest
   reward-apy: Reward APY
   reward-apy-title: Annualised percentage yield from incentives.
   token: Token

@@ -28,7 +28,7 @@ export default function ChangePaymentMethodForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/account/billing/payment-methods`,
+        return_url: `${window.location.origin}/account/billing`,
       },
     });
 
