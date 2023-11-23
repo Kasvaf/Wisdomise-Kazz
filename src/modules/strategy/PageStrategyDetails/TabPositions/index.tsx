@@ -11,6 +11,7 @@ import Spinner from 'modules/shared/Spinner';
 import CandleChart from './CandleChart';
 import AssetSelector from './AssetSelector';
 import SpiSelector from './SpiSelector';
+import PositionsTable from './PositionsTable';
 
 const { RangePicker } = DatePicker;
 
@@ -64,13 +65,17 @@ const TabPositions = () => {
         />
       </div>
 
-      {candlesLoading && asset ? (
-        <div className="mt-12 flex justify-center">
-          <Spinner />
-        </div>
-      ) : (
-        candles && <CandleChart candles={candles} positions={positions} />
-      )}
+      <section className="mb-6 rounded-xl bg-black/20">
+        {candlesLoading && asset && dateRange ? (
+          <div className="mt-12 flex justify-center">
+            <Spinner />
+          </div>
+        ) : (
+          candles && <CandleChart candles={candles} positions={positions} />
+        )}
+      </section>
+
+      {positions && <PositionsTable positions={positions} />}
     </div>
   );
 };

@@ -50,7 +50,7 @@
   }
 
   &.ant-table-empty .ant-table-cell {
-    @apply border-b-transparent;
+    /* @apply border-b-transparent; */
   }
 }
 
@@ -98,8 +98,6 @@
     }
 
     .ant-table-cell {
-      @apply border-b-0;
-
       &.ant-table-column-sort {
         @apply bg-black/20;
       }
