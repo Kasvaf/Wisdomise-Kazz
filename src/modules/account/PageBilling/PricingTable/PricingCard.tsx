@@ -45,14 +45,12 @@ export default function PricingCard({
       if (plan.key === userPlan?.key) {
         return;
       }
-      await mutation.mutateAsync({ price_id: plan.key }).then(() => {
-        notification.success({
-          message: t('pricing-card.notification-upgrade-success'),
-          duration: 5000,
-        });
-        onPlanUpdate();
-        return null;
+      await mutation.mutateAsync({ price_id: plan.stripe_price_id });
+      notification.success({
+        message: t('pricing-card.notification-upgrade-success'),
+        duration: 5000,
       });
+      onPlanUpdate();
     } else {
       window.location.href =
         plan.stripe_payment_link +
