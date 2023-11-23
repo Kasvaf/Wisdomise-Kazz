@@ -73,7 +73,7 @@ subscription-details:
     card: Future charges will be applied to the card <1>****{{last4}}</1>.
     charging: Charging your credit card <1>${{ amount }}</1>.
     current-plan: Your plan is <1>{{plan}}</1>.
-    in-order-to-renew: In order to renew, you will have to send the transaction again on
+    in-order-to-renew: In order to renew, you will have to send the transaction again on <1>{{date}}</1>.
     is-on-the-way:
       title: Your subscription is on the way
       description: >-
