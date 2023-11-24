@@ -101,7 +101,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
       {
         title: 'P/L',
         render: (_, p) => (
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-[max-content_1fr] gap-3">
             <div>Actual:</div>
             <PriceChange
               value={p.actual_position.pnl}
