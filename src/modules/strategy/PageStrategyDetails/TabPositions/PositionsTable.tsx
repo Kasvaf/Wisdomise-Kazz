@@ -101,10 +101,23 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
       {
         title: 'P/L',
         render: (_, p) => (
-          <PriceChange
-            value={p.actual_position.pnl}
-            className="!justify-start"
-          />
+          <div className="grid grid-cols-2">
+            <div>Actual:</div>
+            <PriceChange
+              value={p.actual_position.pnl}
+              className="!justify-start"
+            />
+
+            {p.strategy_position && (
+              <>
+                <div className="opacity-30">Signal:</div>
+                <PriceChange
+                  value={p.strategy_position.pnl}
+                  className="!justify-start opacity-30"
+                />
+              </>
+            )}
+          </div>
         ),
       },
       {
