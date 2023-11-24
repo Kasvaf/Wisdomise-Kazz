@@ -12,6 +12,7 @@ import CandleChart from './CandleChart';
 import AssetSelector from './AssetSelector';
 import SpiSelector from './SpiSelector';
 import PositionsTable from './PositionsTable';
+import { bestResolution } from './CandleChart/utils';
 
 const { RangePicker } = DatePicker;
 
@@ -34,7 +35,8 @@ const TabPositions = () => {
     }
   };
 
-  const resolution = '30m';
+  const resolution = bestResolution(dateRange);
+  console.log(resolution);
 
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
     asset: asset?.symbol,

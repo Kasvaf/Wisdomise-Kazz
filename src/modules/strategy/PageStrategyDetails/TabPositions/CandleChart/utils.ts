@@ -8,7 +8,7 @@ import { bxsDownArrow } from 'boxicons-quasar';
 import { type StrategyPosition, type Candle, type Resolution } from 'api';
 
 const formatter = 'YYYY-MM-DD HH:mm';
-const durs = {
+const durs: Record<Resolution, number> = {
   '1m': 1000 * 60,
   '3m': 1000 * 60 * 3,
   '5m': 1000 * 60 * 5,
@@ -17,7 +17,19 @@ const durs = {
   '1h': 1000 * 60 * 60,
 };
 
-export function formatDate(dateString: string) {
+export function bestResolution(rng?: [Date, Date]): Resolution {
+  if (!rng) return '1h';
+
+  const diff = +rng[1] - +rng[0];
+  for (const d of Object.entries(durs)) {
+    if (diff / d[1] < 3000) {
+      return d[0] as Resolution;
+    }
+  }
+  return '1h';
+}
+
+export function formatDate(dateString: string | Date) {
   return dayjs(dateString).format(formatter);
 }
 
@@ -61,6 +73,12 @@ export function parsePositions(
       }) satisfies StrategyPosition,
   );
 
+  const brushes = roundedPositions.map(({ actual_position: ap }) => ({
+    brushType: 'lineX',
+    coordRange: [ap.entry_time, ap.exit_time || formatDate(new Date())],
+    xAxisIndex: 0,
+  }));
+
   const cleanRoundedPositions = roundedPositions.filter(
     ({ actual_position: ap }) =>
       ap.exit_price !== undefined &&
@@ -70,12 +88,6 @@ export function parsePositions(
     actual_position: Required<StrategyPosition['actual_position']>;
     strategy_position: Required<StrategyPosition['strategy_position']>;
   }>;
-
-  const brushes = cleanRoundedPositions.map(({ actual_position: ap }) => ({
-    brushType: 'lineX',
-    coordRange: [ap.entry_time, ap.exit_time],
-    xAxisIndex: 0,
-  }));
 
   // make areas data
   const areas = cleanRoundedPositions.map(
