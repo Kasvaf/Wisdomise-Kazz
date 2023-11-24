@@ -34,9 +34,11 @@ const TabPositions = () => {
     }
   };
 
+  const resolution = '30m';
+
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
     asset: asset?.symbol,
-    resolution: '1h',
+    resolution,
     startDateTime: dateRange?.[0].toISOString(),
     endDateTime: dateRange?.[1].toISOString(),
   });
@@ -78,7 +80,11 @@ const TabPositions = () => {
       ) : (
         candles && (
           <section className="mb-6 rounded-xl bg-black/20">
-            <CandleChart candles={candles} positions={positions} />
+            <CandleChart
+              candles={candles}
+              positions={positions}
+              resolution={resolution}
+            />
           </section>
         )
       )}
