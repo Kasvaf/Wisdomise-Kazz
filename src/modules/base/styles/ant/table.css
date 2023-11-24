@@ -1,10 +1,12 @@
 .ant-table-wrapper {
   .ant-pagination {
-    @apply !justify-center font-poppins text-xs mobile:!justify-start;
+    @apply items-center !justify-center font-poppins text-xs mobile:!justify-start;
 
-    button,
-    a {
-      @apply p-2 leading-none text-white;
+    :not(.ant-pagination-jump-next, .ant-pagination-jump-prev) {
+      button,
+      a {
+        @apply p-2 leading-none text-white;
+      }
     }
 
     .ant-pagination-item {
