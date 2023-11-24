@@ -40,12 +40,16 @@ const TabPositions = () => {
     startDateTime: dateRange?.[0].toISOString(),
     endDateTime: dateRange?.[1].toISOString(),
   });
+  const candlesEnabled = Boolean(asset?.symbol && dateRange?.[0]);
 
   const [spi, setSpi] = useState('');
-  const { data: positions } = useStrategyPositionsQuery({
-    strategyKey: params.id,
-    spiKey: spi,
-  });
+  const { data: positions, isLoading: positionsLoading } =
+    useStrategyPositionsQuery({
+      strategyKey: params.id,
+      spiKey: spi,
+      asset: asset?.symbol,
+    });
+  const positionsEnabled = Boolean(spi);
 
   return (
     <div>
@@ -54,6 +58,7 @@ const TabPositions = () => {
           assets={strategy?.assets.map(x => x.asset)}
           selectedItem={asset}
           onSelect={setAsset}
+          all
         />
 
         <RangePicker onChange={rangeSelectHandler as any} />
@@ -65,17 +70,22 @@ const TabPositions = () => {
         />
       </div>
 
-      <section className="mb-6 rounded-xl bg-black/20">
-        {candlesLoading && asset && dateRange ? (
-          <div className="mt-12 flex justify-center">
-            <Spinner />
-          </div>
-        ) : (
-          candles && <CandleChart candles={candles} positions={positions} />
-        )}
-      </section>
+      {(candlesLoading && candlesEnabled) ||
+      (positionsEnabled && positionsLoading) ? (
+        <div className="mt-12 flex justify-center">
+          <Spinner />
+        </div>
+      ) : (
+        candles && (
+          <section className="mb-6 rounded-xl bg-black/20">
+            <CandleChart candles={candles} positions={positions} />
+          </section>
+        )
+      )}
 
-      {positions && <PositionsTable positions={positions} />}
+      {positions && positionsEnabled && !positionsLoading && (
+        <PositionsTable positions={positions} />
+      )}
     </div>
   );
 };

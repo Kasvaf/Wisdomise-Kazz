@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { type StrategyPosition } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
 import useMainQuote from 'modules/shared/useMainQuote';
+import PairInfo from 'modules/shared/PairInfo';
 
 interface Props {
   positions: StrategyPosition[];
@@ -25,6 +26,7 @@ const PositionInfo: React.FC<{
   actualTime?: string;
   signalPrice?: number;
   signalTime?: string;
+  diff?: number;
 }> = p => {
   return (
     <div>
@@ -44,6 +46,15 @@ const PositionInfo: React.FC<{
         <div className="flex items-center justify-between px-3 py-1 text-xxs text-white/20">
           <div>Signal</div>
           <div className="text-right">
+            {p.diff && (
+              <div
+                className={
+                  p.diff < 0 ? 'text-[#F14056]/50' : 'text-[#40F19C]/50'
+                }
+              >
+                {Math.abs(p.diff).toFixed(2)}%
+              </div>
+            )}
             <div>{numerable.format(p.signalPrice, '$$0,0.00')}</div>
             <div>{dayjs(p.signalTime).format('HH:mm, MMM DD')}</div>
           </div>
@@ -58,6 +69,17 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
 
   const columns = useMemo<Array<ColumnType<StrategyPosition>>>(
     () => [
+      {
+        title: 'Asset',
+        render: (_, p) => (
+          <PairInfo
+            base={p.actual_position.pair.base.name}
+            quote={p.actual_position.pair.quote.name}
+            title={p.actual_position.pair.title}
+            className="!justify-start"
+          />
+        ),
+      },
       {
         title: 'Type',
         dataIndex: '',
@@ -93,20 +115,11 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
             actualTime={p.actual_position.entry_time}
             signalPrice={p.strategy_position?.entry_price}
             signalTime={p.strategy_position?.entry_time}
-          />
-        ),
-      },
-      {
-        title: 'Entry Diff %',
-        render: (_, p) => (
-          <PriceChange
-            value={diff(
+            diff={diff(
               p.actual_position.position_side,
               p.actual_position.entry_price,
               p.strategy_position?.entry_price,
             )}
-            valueToFixed
-            className="!justify-start"
           />
         ),
       },
@@ -118,14 +131,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
             actualTime={p.actual_position.exit_time}
             signalPrice={p.strategy_position?.exit_price}
             signalTime={p.strategy_position?.exit_time}
-          />
-        ),
-      },
-      {
-        title: 'Exit Diff %',
-        render: (_, p) => (
-          <PriceChange
-            value={
+            diff={
               -1 *
               diff(
                 p.actual_position.position_side,
@@ -133,8 +139,6 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
                 p.strategy_position?.exit_price,
               )
             }
-            valueToFixed
-            className="!justify-start"
           />
         ),
       },

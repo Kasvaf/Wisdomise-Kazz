@@ -4,9 +4,9 @@ import PairInfo from 'shared/PairInfo';
 import { type Asset } from 'api';
 
 const AssetOptionItem = (asset: Asset) => {
-  if (!asset) {
+  if (!asset?.symbol) {
     return (
-      <div className="flex items-center justify-center p-2">Select Asset</div>
+      <div className="flex items-center justify-start p-2 pl-6">All Assets</div>
     );
   }
   return (
@@ -24,17 +24,25 @@ interface Props {
   selectedItem?: Asset;
   onSelect?: (asset: Asset) => void;
   disabled?: boolean;
+  all?: boolean;
 }
+
+const ALL = {
+  display_name: 'All assets',
+  name: '',
+  symbol: '',
+};
 
 const AssetSelector: React.FC<Props> = ({
   assets = [],
   selectedItem,
   onSelect,
   disabled = false,
+  all,
 }) => {
   return (
     <ComboBox
-      options={assets}
+      options={all ? [ALL, ...assets] : assets}
       selectedItem={selectedItem}
       onSelect={onSelect}
       renderItem={AssetOptionItem}

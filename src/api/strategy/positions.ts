@@ -100,17 +100,25 @@ interface ActualPosition {
 export const useStrategyPositionsQuery = ({
   strategyKey,
   spiKey,
+  asset,
 }: {
   strategyKey?: string;
   spiKey?: string;
+  asset?: string;
 }) =>
   useQuery(
-    ['strategy-positions', strategyKey, spiKey],
+    ['strategy-positions', strategyKey, spiKey, asset],
     async () => {
       if (!strategyKey || !spiKey) return;
 
       const { data } = await axios.get<StrategyPosition[]>(
-        `/strategy/strategies/${strategyKey}/spi-position-differences?spi_key=${spiKey}`,
+        `/strategy/strategies/${strategyKey}/spi-position-differences`,
+        {
+          params: {
+            spi_key: spiKey,
+            asset,
+          },
+        },
       );
       return data;
     },
