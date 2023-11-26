@@ -53,14 +53,14 @@ export default function AskInput() {
 const useRemainQuestionText = () => {
   const { leftQuestions } = useAthena();
   const { t } = useTranslation('staking');
-  const { isTrialing, isActive } = useSubscription();
+  const { isTrialPlan, isActive } = useSubscription();
 
   let text =
     t('ask.remain-questions', { leftQuestions }) +
     (leftQuestions > 1 ? 's' : '');
 
   if (leftQuestions <= 0) {
-    if (isTrialing) {
+    if (isTrialPlan && isActive) {
       text = t('ask.trial-limit');
     } else if (isActive) {
       text = t('ask.active-limit');

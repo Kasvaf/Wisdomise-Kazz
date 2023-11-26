@@ -16,18 +16,18 @@ export default function useEnsureSubscription(): [
   () => Promise<boolean>,
 ] {
   const { t } = useTranslation('products');
-  const { isActive, isTrialing, plan } = useSubscription();
+  const { isActive, isTrialPlan, plan } = useSubscription();
   const canActivate = isActive && plan?.metadata.activate_fp;
 
   const [Modal, showModal] = useConfirm({
-    title: isTrialing
+    title: isTrialPlan
       ? t('subscription.subscribe.title')
       : t('subscription.upgrade.title'),
     icon: <LockIcon />,
-    yesTitle: isTrialing
+    yesTitle: isTrialPlan
       ? t('subscription.subscribe.btn-confirm')
       : t('subscription.upgrade.btn-confirm'),
-    message: isTrialing ? (
+    message: isTrialPlan ? (
       <div className="text-center">
         <div className="mt-2 text-slate-400">
           <Trans i18nKey="subscription.subscribe.description" ns="products">

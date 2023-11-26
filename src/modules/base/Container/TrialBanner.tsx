@@ -5,9 +5,9 @@ import Button from 'modules/shared/Button';
 
 export default function TrialBanner() {
   const { t } = useTranslation('billing');
-  const { remaining, isTrialing } = useSubscription();
+  const { remaining, isTrialPlan } = useSubscription();
 
-  if (!isTrialing) {
+  if (!isTrialPlan) {
     return null;
   }
 

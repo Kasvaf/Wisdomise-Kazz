@@ -13,7 +13,7 @@ export function useSubscription() {
     isActive,
     isLoading,
     title: plan?.name || 'none',
-    isTrialing: isActive && plan?.name === 'Trial',
+    isTrialPlan: plan?.name === 'Trial',
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
     isSignalNotificationEnable:
       isActive && plan?.metadata.enable_signal_notifications,
