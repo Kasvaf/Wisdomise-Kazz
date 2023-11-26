@@ -15,7 +15,8 @@ export function useSubscription() {
     title: plan?.name || 'none',
     isTrialing: isActive && plan?.name === 'Trial',
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
-    isSignalNotificationEnable: plan?.metadata.enable_signal_notifications,
+    isSignalNotificationEnable:
+      isActive && plan?.metadata.enable_signal_notifications,
     remaining: Math.max(
       Math.round(
         (+new Date(subs?.end_at ?? 0) - Date.now()) / (1000 * 60 * 60 * 24),

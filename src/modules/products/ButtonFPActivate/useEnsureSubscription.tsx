@@ -16,8 +16,8 @@ export default function useEnsureSubscription(): [
   () => Promise<boolean>,
 ] {
   const { t } = useTranslation('products');
-  const { isTrialing, plan } = useSubscription();
-  const canActivate = plan?.metadata.activate_fp;
+  const { isActive, isTrialing, plan } = useSubscription();
+  const canActivate = isActive && plan?.metadata.activate_fp;
 
   const [Modal, showModal] = useConfirm({
     title: isTrialing
