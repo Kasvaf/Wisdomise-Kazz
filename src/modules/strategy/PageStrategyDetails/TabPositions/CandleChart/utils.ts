@@ -20,10 +20,11 @@ const durs: Record<Resolution, number> = {
 export function bestResolution(rng?: [Date, Date]): Resolution {
   if (!rng) return '1h';
 
+  const rss: Resolution[] = ['5m', '15m', '30m', '1h'];
   const diff = +rng[1] - +rng[0];
-  for (const d of Object.entries(durs)) {
-    if (diff / d[1] < 3000) {
-      return d[0] as Resolution;
+  for (const d of rss) {
+    if (diff / durs[d] < 2500) {
+      return d;
     }
   }
   return '1h';

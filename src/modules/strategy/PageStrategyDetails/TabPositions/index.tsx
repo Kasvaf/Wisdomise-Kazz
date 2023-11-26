@@ -22,21 +22,25 @@ const TabPositions = () => {
 
   const [asset, setAsset] = useState<Asset>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
-  const rangeSelectHandler = ([start, end]: Array<{
-    $D: number;
-    $M: number;
-    $y: number;
-  }> = []) => {
-    if (start && end) {
+  const rangeSelectHandler = (
+    val?: Array<{
+      $D: number;
+      $M: number;
+      $y: number;
+    }> | null,
+  ) => {
+    if (val?.[0] && val[1]) {
+      const [start, end] = val;
       setDateRange([
         new Date(start.$y, start.$M, start.$D, 0, 0, 0, 0),
-        new Date(end.$y, end.$M, end.$D, 23, 59, 59, 9999),
+        new Date(end.$y, end.$M, end.$D, 23, 59, 59, 999),
       ]);
+    } else {
+      setDateRange(undefined);
     }
   };
 
   const resolution = bestResolution(dateRange);
-  console.log(resolution);
 
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
     asset: asset?.symbol,
@@ -54,6 +58,12 @@ const TabPositions = () => {
       asset: asset?.symbol,
     });
   const positionsEnabled = Boolean(spi);
+  const positionsInRange = positions?.filter(
+    ({ actual_position: ap }) =>
+      !dateRange ||
+      ((!ap.exit_time || new Date(ap.exit_time) >= dateRange[0]) &&
+        new Date(ap.entry_time) <= dateRange[1]),
+  );
 
   return (
     <div>
@@ -91,8 +101,8 @@ const TabPositions = () => {
         )
       )}
 
-      {positions && positionsEnabled && !positionsLoading && (
-        <PositionsTable positions={positions} />
+      {positionsInRange && positionsEnabled && !positionsLoading && (
+        <PositionsTable positions={positionsInRange} />
       )}
     </div>
   );
