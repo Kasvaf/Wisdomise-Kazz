@@ -11,6 +11,8 @@ import Spinner from 'modules/shared/Spinner';
 import CandleChart from './CandleChart';
 import AssetSelector from './AssetSelector';
 import SpiSelector from './SpiSelector';
+import PositionsTable from './PositionsTable';
+import { bestResolution } from './CandleChart/utils';
 
 const { RangePicker } = DatePicker;
 
@@ -33,18 +35,25 @@ const TabPositions = () => {
     }
   };
 
+  const resolution = bestResolution(dateRange);
+  console.log(resolution);
+
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
     asset: asset?.symbol,
-    resolution: '1h',
+    resolution,
     startDateTime: dateRange?.[0].toISOString(),
     endDateTime: dateRange?.[1].toISOString(),
   });
+  const candlesEnabled = Boolean(asset?.symbol && dateRange?.[0]);
 
   const [spi, setSpi] = useState('');
-  const { data: positions } = useStrategyPositionsQuery({
-    strategyKey: params.id,
-    spiKey: spi,
-  });
+  const { data: positions, isLoading: positionsLoading } =
+    useStrategyPositionsQuery({
+      strategyKey: params.id,
+      spiKey: spi,
+      asset: asset?.symbol,
+    });
+  const positionsEnabled = Boolean(spi);
 
   return (
     <div>
@@ -53,6 +62,7 @@ const TabPositions = () => {
           assets={strategy?.assets.map(x => x.asset)}
           selectedItem={asset}
           onSelect={setAsset}
+          all
         />
 
         <RangePicker onChange={rangeSelectHandler as any} />
@@ -64,12 +74,25 @@ const TabPositions = () => {
         />
       </div>
 
-      {candlesLoading && asset ? (
+      {(candlesLoading && candlesEnabled) ||
+      (positionsEnabled && positionsLoading) ? (
         <div className="mt-12 flex justify-center">
           <Spinner />
         </div>
       ) : (
-        candles && <CandleChart candles={candles} positions={positions} />
+        candles && (
+          <section className="mb-6 rounded-xl bg-black/20">
+            <CandleChart
+              candles={candles}
+              positions={positions}
+              resolution={resolution}
+            />
+          </section>
+        )
+      )}
+
+      {positions && positionsEnabled && !positionsLoading && (
+        <PositionsTable positions={positions} />
       )}
     </div>
   );

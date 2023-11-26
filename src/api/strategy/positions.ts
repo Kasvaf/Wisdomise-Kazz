@@ -72,7 +72,7 @@ export const useStrategySpiQuery = ({
 
 export interface StrategyPosition {
   actual_position: ActualPosition;
-  strategy_position: TheoreticalPosition;
+  strategy_position?: TheoreticalPosition | null;
 }
 
 interface TheoreticalPosition {
@@ -80,18 +80,18 @@ interface TheoreticalPosition {
   entry_time: string;
   entry_price: number;
   exit_time?: string;
-  exit_price?: string;
+  exit_price?: number;
   pnl: number;
   pair: AssetPairInfo;
 }
 
 interface ActualPosition {
-  position_side: string;
+  position_side: 'LONG' | 'SHORT';
   amount: number;
   entry_time: string;
   entry_price: number;
   exit_time?: string;
-  exit_price?: string;
+  exit_price?: number;
   pnl: number;
   sti_key: string;
   pair: AssetPairInfo;
@@ -100,17 +100,25 @@ interface ActualPosition {
 export const useStrategyPositionsQuery = ({
   strategyKey,
   spiKey,
+  asset,
 }: {
   strategyKey?: string;
   spiKey?: string;
+  asset?: string;
 }) =>
   useQuery(
-    ['strategy-positions'],
+    ['strategy-positions', strategyKey, spiKey, asset],
     async () => {
       if (!strategyKey || !spiKey) return;
 
       const { data } = await axios.get<StrategyPosition[]>(
-        `/strategy/strategies/${strategyKey}/spi-position-differences?spi_key=${spiKey}`,
+        `/strategy/strategies/${strategyKey}/spi-position-differences`,
+        {
+          params: {
+            spi_key: spiKey,
+            asset,
+          },
+        },
       );
       return data;
     },
