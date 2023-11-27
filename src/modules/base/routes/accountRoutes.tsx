@@ -20,7 +20,7 @@ const ChangePaymentMethodPage = React.lazy(
   () => import('modules/account/PageBilling/ChangePaymentMethodPage'),
 );
 
-const Web3Wrapper = React.lazy(() => import('../Container/Web3Provider'));
+const Web3Wrapper = React.lazy(() => import('modules/account/Web3Provider'));
 
 const accountRoutes: RouteObject[] = [
   { path: 'ref/:referrerCode', element: <PageRef /> },

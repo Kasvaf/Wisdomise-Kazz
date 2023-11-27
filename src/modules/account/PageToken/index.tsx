@@ -12,7 +12,7 @@ import { ReactComponent as WalletIcon } from './images/wallet.svg';
 import { ReactComponent as UtilityIcon } from './images/utility.svg';
 
 export default function PageToken() {
-  const { t } = useTranslation('token');
+  const { t } = useTranslation('wisdomise-token');
   const { isActive, isLoading, isTrialPlan } = useSubscription();
   const { data: account } = useAccountQuery();
   const navigate = useNavigate();
