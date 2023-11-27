@@ -13,7 +13,7 @@ import { ReactComponent as UtilityIcon } from './images/utility.svg';
 
 export default function PageToken() {
   const { t } = useTranslation();
-  const { isActive, isLoading } = useSubscription();
+  const { isActive, isLoading, isTrialPlan } = useSubscription();
   const { data: account } = useAccountQuery();
   const navigate = useNavigate();
 
@@ -78,9 +78,11 @@ export default function PageToken() {
             </div>
             <div className="flex items-center justify-between pt-8">
               <span className="text-3xl font-bold">
-                {isActive ? 'Activated' : 'Not Activated'}
+                {isActive && !isTrialPlan ? 'Activated' : 'Not Activated'}
               </span>
-              {!isActive && <Button onClick={openBillingPage}>Activate</Button>}
+              {(!isActive || isTrialPlan) && (
+                <Button onClick={openBillingPage}>Activate</Button>
+              )}
             </div>
           </Card>
         </div>
