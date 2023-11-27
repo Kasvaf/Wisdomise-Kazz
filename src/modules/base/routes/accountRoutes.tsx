@@ -9,6 +9,7 @@ const PageExchangeAccount = React.lazy(
   () => import('modules/account/PageExchangeAccount'),
 );
 const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
+const PageToken = React.lazy(() => import('modules/account/PageToken'));
 const PageNotification = React.lazy(
   () => import('modules/account/PageNotification'),
 );
@@ -18,6 +19,8 @@ const PageSumSub = React.lazy(() => import('modules/account/kyc/PageSumSub'));
 const ChangePaymentMethodPage = React.lazy(
   () => import('modules/account/PageBilling/ChangePaymentMethodPage'),
 );
+
+const Web3Wrapper = React.lazy(() => import('modules/account/Web3Provider'));
 
 const accountRoutes: RouteObject[] = [
   { path: 'ref/:referrerCode', element: <PageRef /> },
@@ -29,7 +32,6 @@ const accountRoutes: RouteObject[] = [
       { path: 'exchange-accounts', element: <PageExchangeAccount /> },
       { path: 'referral', element: <PageReferral /> },
       { path: 'notification-center', element: <PageNotification /> },
-      { path: 'billing', element: <PageBilling /> },
       {
         path: 'billing/change-payment-method',
         element: <ChangePaymentMethodPage />,
@@ -37,6 +39,14 @@ const accountRoutes: RouteObject[] = [
       { path: 'kyc', element: <PageKYC /> },
       { path: 'kyc/sumsub', element: <PageSumSub /> },
       { path: '', element: <Navigate to="/account/billing" /> },
+      {
+        path: '',
+        element: <Web3Wrapper />,
+        children: [
+          { path: 'billing', element: <PageBilling /> },
+          { path: 'token', element: <PageToken /> },
+        ],
+      },
     ],
   },
 ];
