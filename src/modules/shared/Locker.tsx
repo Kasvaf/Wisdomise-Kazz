@@ -15,7 +15,7 @@ const Locker: React.FC<PropsWithChildren<Props>> = ({ children, overlay }) => {
         className={clsx(
           'absolute inset-0',
           'flex flex-col items-center overflow-hidden rounded-3xl',
-          'bg-[#131822]/60 backdrop-blur-[2px]',
+          'bg-page/60 backdrop-blur-[2px]',
         )}
       >
         {overlay}

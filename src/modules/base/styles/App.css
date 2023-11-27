@@ -10,9 +10,8 @@
 
 @layer base {
   body {
+    @apply relative bg-page;
     font-family: poppins, sans-serif;
-    position: relative;
-    background-color: #131822;
   }
 }
 

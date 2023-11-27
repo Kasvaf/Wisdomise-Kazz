@@ -25,7 +25,7 @@ export default function TokenPaymentModalContent({ plan }: Props) {
 
   return (
     <div className="grid h-screen grid-cols-12 overflow-auto text-white">
-      <div className="col-span-12 flex h-full flex-col items-center justify-center bg-[#131822] lg:col-span-6">
+      <div className="col-span-12 flex h-full flex-col items-center justify-center bg-page lg:col-span-6">
         <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
           <div className="flex items-center gap-3 mobile:hidden">
             <p className="text-xl text-white">{t('token-modal.title')}</p>

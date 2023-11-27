@@ -7,7 +7,7 @@ import PairInfo from 'shared/PairInfo';
 import SignalBox from './SignalBox';
 
 const EmptySignal = styled.div`
-  @apply h-full w-full rounded-lg bg-[#131822];
+  @apply h-full w-full rounded-lg bg-page;
   background-image: repeating-linear-gradient(
     45deg,
     transparent,

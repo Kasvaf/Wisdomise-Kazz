@@ -45,4 +45,5 @@ input[type='number'] {
   background-color: #666666;
   border-radius: 10px;
   border: 6px solid #131822;
+  @apply border-page;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { clsx } from 'clsx';
@@ -16,16 +16,6 @@ const Container = () => {
   const isMobile = useIsMobile();
   const { isTrialPlan } = useSubscription();
   const mainRef = useRef<HTMLDivElement>(null);
-  const [showShadow, setShowShadow] = useState(false);
-
-  useEffect(() => {
-    mainRef.current?.addEventListener('scroll', function () {
-      setShowShadow(this.scrollTop > 8);
-    });
-    document.addEventListener('scroll', function () {
-      setShowShadow((this.scrollingElement?.scrollTop || 0) > 8);
-    });
-  }, []);
 
   const topOffsetClass = isTrialPlan
     ? isMobile
@@ -38,7 +28,7 @@ const Container = () => {
       <main className="mx-auto max-w-screen-2xl">
         <TrialBanner />
         <SideMenu className={topOffsetClass} />
-        <Header showShadow={showShadow} className={topOffsetClass} />
+        <Header className={topOffsetClass} />
         <div
           ref={mainRef}
           className={clsx(
