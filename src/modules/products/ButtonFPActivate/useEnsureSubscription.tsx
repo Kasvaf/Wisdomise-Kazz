@@ -1,7 +1,7 @@
 import { bxLock } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { usePlanMetadata, useSubscription } from 'api';
+import { useSubscription } from 'api';
 import Icon from 'shared/Icon';
 import useConfirm from 'shared/useConfirm';
 
@@ -16,19 +16,18 @@ export default function useEnsureSubscription(): [
   () => Promise<boolean>,
 ] {
   const { t } = useTranslation('products');
-  const { isTrialing, isCanceled } = useSubscription();
-  const canActivate = usePlanMetadata('activate_fp');
-  const isSubscribe = isTrialing || isCanceled; // status == active -> upgrade
+  const { isActive, isTrialPlan, plan } = useSubscription();
+  const canActivate = isActive && plan?.metadata.activate_fp;
 
   const [Modal, showModal] = useConfirm({
-    title: isSubscribe
+    title: isTrialPlan
       ? t('subscription.subscribe.title')
       : t('subscription.upgrade.title'),
     icon: <LockIcon />,
-    yesTitle: isSubscribe
+    yesTitle: isTrialPlan
       ? t('subscription.subscribe.btn-confirm')
       : t('subscription.upgrade.btn-confirm'),
-    message: isSubscribe ? (
+    message: isTrialPlan ? (
       <div className="text-center">
         <div className="mt-2 text-slate-400">
           <Trans i18nKey="subscription.subscribe.description" ns="products">

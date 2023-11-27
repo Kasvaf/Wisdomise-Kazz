@@ -19,7 +19,7 @@ const useAddQuestion = () => {
 
   const userPrompts = useUserPromptsQuery();
   const currentNotificationCount = userPrompts.data?.length || 0;
-  const { weeklyCustomNotificationCount = 0, isActive } = useSubscription();
+  const { isActive, weeklyCustomNotificationCount = 0 } = useSubscription();
 
   const [questionLimitModal, openQuestionLimit] = useConfirm({
     icon: (
@@ -44,7 +44,7 @@ const useAddQuestion = () => {
 
   const addUserPromptsMutation = useAddUserPromptMutation();
   const addQuestion = async (question: string) => {
-    if (!isActive) {
+    if (!isActive || !weeklyCustomNotificationCount) {
       void openSubscribeModal({});
     } else if (currentNotificationCount >= weeklyCustomNotificationCount) {
       void openQuestionLimit({});

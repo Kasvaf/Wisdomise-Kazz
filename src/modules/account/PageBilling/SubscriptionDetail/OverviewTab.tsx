@@ -114,7 +114,7 @@ export default function OverviewTab() {
               >
                 Charging your credit card
                 <strong className="text-white">
-                  ${{ amount: (plan?.amount ?? 0) / 100 }}
+                  ${{ amount: plan?.price ?? 0 }}
                 </strong>
                 .
               </Trans>

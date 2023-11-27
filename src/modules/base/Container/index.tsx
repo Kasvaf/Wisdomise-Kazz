@@ -14,7 +14,7 @@ import TrialBanner from './TrialBanner';
 const Container = () => {
   const location = useLocation();
   const isMobile = useIsMobile();
-  const { isTrialing } = useSubscription();
+  const { isTrialPlan } = useSubscription();
   const mainRef = useRef<HTMLDivElement>(null);
   const [showShadow, setShowShadow] = useState(false);
 
@@ -27,7 +27,7 @@ const Container = () => {
     });
   }, []);
 
-  const topOffsetClass = isTrialing
+  const topOffsetClass = isTrialPlan
     ? isMobile
       ? 'top-[8rem]'
       : 'top-14'
@@ -43,7 +43,7 @@ const Container = () => {
           ref={mainRef}
           className={clsx(
             'ml-[17.75rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 mobile:mb-16 mobile:ml-0 mobile:h-auto',
-            isTrialing ? (isMobile ? 'pt-[8rem]' : 'pt-14') : 'pt-0',
+            isTrialPlan ? (isMobile ? 'pt-[8rem]' : 'pt-14') : 'pt-0',
           )}
         >
           <TransitionGroup component={null}>

@@ -46,7 +46,7 @@ const ExtraContent: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div
-      className="mb-4 w-[calc(100vw-2rem)] rounded-3xl bg-white px-4 py-6"
+      className="mb-4 w-[calc(100vw-2rem)] rounded-3xl bg-white px-4 py-6 text-black"
       onClick={onClose}
     >
       <div className="flex items-center rounded-3xl bg-black/5 p-2">
