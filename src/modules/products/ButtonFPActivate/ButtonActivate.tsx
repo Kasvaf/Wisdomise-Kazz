@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
 import { useIsVerified } from 'api/kyc';
 import { type FinancialProduct } from 'api/types/financialProduct';
-import { isProduction } from 'utils/version';
 import Button from 'shared/Button';
 import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
 import useModalVerification from '../../account/kyc/useModalVerification';
@@ -91,9 +90,7 @@ const ButtonActivate: React.FC<Props> = ({
       return;
     }
 
-    const acc = isProduction
-      ? 'wisdomise'
-      : await showModalExchangeAccountSelector({ market });
+    const acc = await showModalExchangeAccountSelector({ market });
     if (!acc) return;
 
     if (acc !== 'wisdomise' || hasIas || (await openDisclaimer())) {

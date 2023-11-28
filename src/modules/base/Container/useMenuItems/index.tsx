@@ -75,7 +75,6 @@ const useMenuItems = () => {
       mobileText: t('menu.account-manager.mobile'),
       icon: <ExchangeAccountIcon />,
       link: '/account/exchange-accounts',
-      hide: isProduction,
     },
     {
       category: t('menu.category.account'),
