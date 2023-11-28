@@ -67,6 +67,7 @@ product-catalog:
     wealth with our proprietary AI!
   btn-details: Details
   btn-explore: Explore
+  state-running: Running
 product-detail:
   disclaimer: >-
     This website contains forward-looking statements. Such forward-looking
