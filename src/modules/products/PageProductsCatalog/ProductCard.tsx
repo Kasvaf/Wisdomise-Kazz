@@ -9,7 +9,7 @@ import RiskBadge from '../RiskBadge';
 
 interface RiskCardProps {
   className?: string;
-  isRunning: boolean;
+  isRunning?: boolean;
   risk: 'High' | 'Medium' | 'Low';
   title: string;
   icon: ReactElement;
@@ -18,7 +18,7 @@ interface RiskCardProps {
 }
 
 const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
-  isRunning,
+  isRunning = false,
   risk,
   title,
   icon,

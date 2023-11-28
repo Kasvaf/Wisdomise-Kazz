@@ -18,7 +18,6 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
 
   return (
     <ProductCard
-      key={fp.key}
       isRunning={isRunning}
       risk={fp.profile.return_risk_ratio}
       title={fp.title}

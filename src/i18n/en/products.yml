@@ -87,6 +87,8 @@ product-detail:
   max-drawdown: Max Drawdown
   expected-yield-apy: Expected Yield (APY)
   expected-apy: Expected APY
+  max-apy: Max APY
+  tvl: TVL
   investment: Investment
   max: Max
   min: Min

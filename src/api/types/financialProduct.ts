@@ -1,10 +1,25 @@
 export type MarketTypes = 'SPOT' | 'FUTURES';
 
-export interface FinancialProductsReponse {
+export interface FinancialProductsResponse {
   count: number;
   next: any;
   previous: any;
   results: FinancialProduct[];
+}
+
+export interface InvestmentProtocol {
+  key: string;
+  name: string;
+  logo_address: string;
+  category: string;
+  tvl_usd: number;
+  max_apy: number;
+  symbol: {
+    symbol: string;
+    name: string;
+  };
+  description: string;
+  risk: 'High' | 'Medium' | 'Low';
 }
 
 export interface FinancialProduct {
