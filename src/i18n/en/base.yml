@@ -19,15 +19,15 @@ menu:
     passive-income: Passive Income
     strategy-builder: Strategy Builder
   dashboard: Dashboard
+  financial-products:
+    title: Financial Products
+    mobile: Products
   kyc:
     title: KYC
     mobile: KYC
   notification-center:
     title: Notification Center
     mobile: Notifications
-  products-catalog:
-    title: Products Catalog
-    mobile: Products
   profile:
     title: Profile
     mobile: Profile

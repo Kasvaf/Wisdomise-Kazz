@@ -38,8 +38,8 @@ const useMenuItems = () => {
     {
       category: t('menu.category.passive-income'),
       icon: <ProductsCatalogIcon />,
-      text: t('menu.products-catalog.title'),
-      mobileText: t('menu.products-catalog.mobile'),
+      text: t('menu.financial-products.title'),
+      mobileText: t('menu.financial-products.mobile'),
       link: '/app/products-catalog',
     },
     {
