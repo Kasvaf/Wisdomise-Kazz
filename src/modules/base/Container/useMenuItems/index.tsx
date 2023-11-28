@@ -68,6 +68,7 @@ const useMenuItems = () => {
       mobileText: t('menu.profile.mobile'),
       icon: <ProfileIcon />,
       link: '/account/profile',
+      mobileHide: true,
     },
     {
       category: t('menu.category.account'),
