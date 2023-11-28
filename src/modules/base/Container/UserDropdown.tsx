@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'api';
 import Icon from 'shared/Icon';
-import { logout } from 'modules/auth/authHandlers';
 import DropdownContainer from './DropdownContainer';
 
 const UserDropdown = () => {
@@ -47,13 +46,14 @@ const UserDropdown = () => {
           {t('menu.profile-dashboard')}
         </NavLink>
 
-        <button
+        <NavLink
           type="button"
-          onClick={logout}
-          className="flex items-center justify-start px-8 py-2 uppercase text-error hover:bg-black/10"
+          to="/auth/logout"
+          className="flex items-center justify-start px-8 py-2 !text-error hover:bg-black/10"
         >
-          <Icon name={bxLogOut} className="mr-2" /> {t('user.logout')}
-        </button>
+          <Icon name={bxLogOut} className="mr-2" />
+          {t('user.logout')}
+        </NavLink>
       </DropdownContainer>
     ),
     [email, t],

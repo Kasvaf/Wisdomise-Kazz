@@ -1,8 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { isLocal } from 'utils/version';
 import Splash from 'modules/base/Splash';
-import { login, remoteLogin } from './authHandlers';
+import { login } from './authHandlers';
 import {
   AFTER_LOGIN_KEY,
   REDIRECT_APP_KEY,
@@ -31,11 +30,7 @@ export default function PageLogin() {
       sessionStorage.setItem(REMOTE_LOGIN_KEY, remLogin);
     }
 
-    if (isLocal) {
-      remoteLogin(searchParams.toString());
-    } else {
-      login(searchParams.toString());
-    }
+    login(searchParams.toString());
   }, [searchParams]);
 
   return <Splash />;
