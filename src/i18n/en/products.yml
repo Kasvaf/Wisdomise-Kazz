@@ -66,6 +66,7 @@ product-catalog:
     AI models can only mitigate them to some extent. Enjoy building up your
     wealth with our proprietary AI!
   btn-details: Details
+  btn-explore: Explore
 product-detail:
   disclaimer: >-
     This website contains forward-looking statements. Such forward-looking
@@ -82,7 +83,9 @@ product-detail:
     (Switzerland) AG on the forward-looking statements expressed on this
     website.
   expected-max-drawdown: Expected Max Drawdown
+  max-drawdown: Max Drawdown
   expected-yield-apy: Expected Yield (APY)
+  expected-apy: Expected APY
   investment: Investment
   max: Max
   min: Min

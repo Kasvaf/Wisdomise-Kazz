@@ -7,14 +7,16 @@ interface Props {
   bg?: boolean;
   value: number;
   colorize?: boolean;
-  className?: string;
   valueToFixed?: boolean;
+  className?: string;
+  textClassName?: string;
 }
 
 const PriceChange: React.FC<Props> = ({
   value,
   bg,
   className,
+  textClassName,
   valueToFixed,
   colorize = true,
 }) => {
@@ -39,7 +41,13 @@ const PriceChange: React.FC<Props> = ({
         {value >= 0 ? <PriceUpIcon /> : <PriceDownIcon />}
       </div>
 
-      <p className={clsx('ml-[5px] text-xs font-medium', textColor)}>
+      <p
+        className={clsx(
+          'ml-[5px] text-xs font-medium',
+          textColor,
+          textClassName,
+        )}
+      >
         {valueToFixed ? Math.abs(value).toFixed(2) : Math.abs(value)} %
       </p>
     </div>
