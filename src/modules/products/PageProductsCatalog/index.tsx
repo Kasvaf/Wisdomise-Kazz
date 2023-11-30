@@ -1,26 +1,34 @@
 import { Tabs, type TabsProps } from 'antd';
 
+import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
+import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import TabTrade from './TabTrade';
 import TabStake from './TabStake';
 
 const PageProductsCatalog = () => {
+  const { t } = useTranslation('products');
+  const [activeTab, setActiveTab] = useSearchParamAsState<string>(
+    'tab',
+    'stake',
+  );
+
   const items: TabsProps['items'] = [
     {
-      key: '1',
-      label: 'Stake',
+      key: 'stake',
+      label: t('product-detail.type.stake'),
       children: <TabStake />,
     },
     {
-      key: '2',
-      label: 'Trade',
+      key: 'trade',
+      label: t('product-detail.type.trade'),
       children: <TabTrade />,
     },
   ];
 
   return (
     <PageWrapper>
-      <Tabs defaultActiveKey="1" items={items} />
+      <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
     </PageWrapper>
   );
 };
