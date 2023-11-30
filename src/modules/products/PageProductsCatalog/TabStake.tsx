@@ -12,6 +12,7 @@ const ProductCardStake: React.FC<{ ip: InvestmentProtocol }> = ({ ip }) => {
   return (
     <ProductCard
       risk={ip.risk}
+      type={t('product-detail.type.stake')}
       title={ip.name}
       icon={<img src={ip.logo_address} className="h-10 w-10 rounded-full" />}
       description={ip.description}

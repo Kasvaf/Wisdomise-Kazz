@@ -11,6 +11,7 @@ interface RiskCardProps {
   className?: string;
   isRunning?: boolean;
   risk: 'High' | 'Medium' | 'Low';
+  type: string;
   title: string;
   icon: ReactElement;
   description: string;
@@ -20,6 +21,7 @@ interface RiskCardProps {
 const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
   isRunning = false,
   risk,
+  type,
   title,
   icon,
   description,
@@ -53,8 +55,11 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
 
         <section className="mt-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <RiskBadge risk={risk} className="px-3 py-1 text-xs font-normal" />
-            <Badge label="Trade" color="grey" className="!text-xs" />
+            <RiskBadge
+              risk={risk}
+              className="!bg-white/5 px-3 py-1 text-xs font-normal !text-white/40"
+            />
+            <Badge label={type} color="grey" className="!text-xs" />
           </div>
 
           <div className="flex items-center gap-1 text-xs">

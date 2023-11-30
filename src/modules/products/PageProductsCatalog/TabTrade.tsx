@@ -20,6 +20,7 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
     <ProductCard
       isRunning={isRunning}
       risk={fp.profile.return_risk_ratio}
+      type={t('product-detail.type.trade')}
       title={fp.title}
       icon={<CoinsIcons maxShow={3} coins={fp.config.assets} />}
       description={fp.description}
