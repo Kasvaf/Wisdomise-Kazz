@@ -30,18 +30,19 @@ export default function PricingCard({
   const { t } = useTranslation('billing');
   const mutation = useSubscriptionMutation();
   const { data: account } = useAccountQuery();
-  const { plan: userPlan } = useSubscription();
+  const { isActive, plan: userPlan } = useSubscription();
   const firstPaymentMethod = useUserFirstPaymentMethod();
   const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
     SubscriptionMethodModalContent,
     { centered: true },
   );
 
-  const hasUserThisPlan = plan.key === userPlan?.key;
-  const isPlanCheaperThanUserPlan = plan.price < (userPlan?.price ?? 0);
+  const hasUserThisPlan = isActive && plan.key === userPlan?.key;
+  const isPlanCheaperThanUserPlan =
+    isActive && plan.price < (userPlan?.price ?? 0);
 
   const handleFiatPayment = async () => {
-    if (isUpdate) {
+    if (account?.stripe_customer_id) {
       if (plan.key === userPlan?.key) {
         return;
       }
