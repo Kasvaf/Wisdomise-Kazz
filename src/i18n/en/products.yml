@@ -55,18 +55,20 @@ notification-activated:
 notification-deactivated:
   message: Strategy Deactivated Successfully!
 product-catalog:
-  title: AI-driven Strategies
-  description: >-
-    Your investment in any of the available strategies will be liquid, meaning
-    that your assets will not be locked up and can be released anytime you want.
-    The expected ROI, maximum drawdown, and number of trades presented for
-    different strategies are indicative and in no way a guarantee or
-    confirmation of these metrics. In the end, investment in financial markets
-    will always come with its own risks and volatility, and our state-of-the-art
-    AI models can only mitigate them to some extent. Enjoy building up your
-    wealth with our proprietary AI!
   btn-explore: Explore
+  stake:
+    title: DeFi Staking Options
+    description: >-
+      Discover leading DeFi protocols, showcasing staking pools, TVL, and max
+      APY. Choose a protocol for detailed explanations and insights.
   state-running: Running
+  trade:
+    title: AI-driven Strategies
+    description: >-
+      Invest with flexibility—your assets remain liquid and can be withdrawn at
+      any time. Returns, draw-downs, and trade counts are estimates, not
+      guarantees. Market risks persist despite our advanced AI's risk
+      mitigation. Grow your wealth with our AI technology.
 product-detail:
   disclaimer: >-
     This website contains forward-looking statements. Such forward-looking

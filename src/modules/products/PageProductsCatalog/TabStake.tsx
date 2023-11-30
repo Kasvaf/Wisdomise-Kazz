@@ -41,10 +41,20 @@ const ProductCardStake: React.FC<{ ip: InvestmentProtocol }> = ({ ip }) => {
 };
 
 const TabStake = () => {
+  const { t } = useTranslation('products');
   const ips = useInvestmentProtocolsQuery();
 
   return (
     <PageWrapper loading={ips.isLoading}>
+      <div className="mt-2">
+        <h1 className="mb-4 text-xl font-semibold text-white">
+          {t('product-catalog.stake.title')}
+        </h1>
+        <p className="mb-6 text-sm font-medium text-white/60">
+          {t('product-catalog.stake.description')}
+        </p>
+      </div>
+
       <div className="grid grid-cols-[repeat(auto-fit,minmax(_350px,1fr))] gap-6 mobile:justify-center">
         {ips?.data?.map(ip => <ProductCardStake key={ip.key} ip={ip} />)}
       </div>

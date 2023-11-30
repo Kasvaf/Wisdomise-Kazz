@@ -63,10 +63,10 @@ const TabTrade = () => {
     <PageWrapper loading={fps.isLoading || ias.isLoading}>
       <div className="mt-2">
         <h1 className="mb-4 text-xl font-semibold text-white">
-          {t('product-catalog.title')}
+          {t('product-catalog.trade.title')}
         </h1>
         <p className="mb-6 text-sm font-medium text-white/60">
-          {t('product-catalog.description')}
+          {t('product-catalog.trade.description')}
         </p>
       </div>
 
