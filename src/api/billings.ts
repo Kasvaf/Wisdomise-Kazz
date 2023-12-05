@@ -97,6 +97,7 @@ export const useSubmitCryptoPayment = () =>
   });
 
 export const useUserFirstPaymentMethod = () => {
+  // this returns user's LAST payment method, but invoices are in reverse order
   const { data } = useInvoicesQuery();
   return data?.results.at(0)?.payment_method;
 };

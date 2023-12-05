@@ -68,6 +68,7 @@ const useMenuItems = () => {
       mobileText: t('menu.profile.mobile'),
       icon: <ProfileIcon />,
       link: '/account/profile',
+      mobileHide: true,
     },
     {
       category: t('menu.category.account'),
@@ -75,7 +76,6 @@ const useMenuItems = () => {
       mobileText: t('menu.account-manager.mobile'),
       icon: <ExchangeAccountIcon />,
       link: '/account/exchange-accounts',
-      hide: isProduction,
     },
     {
       category: t('menu.category.account'),
