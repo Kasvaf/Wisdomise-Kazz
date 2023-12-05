@@ -1,127 +1,98 @@
 /* eslint-disable import/max-dependencies */
 
-import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { isProduction } from 'utils/version';
-import { ReactComponent as AssetOverviewIcon } from './icons/assetOverview.svg';
-import { ReactComponent as ProductsCatalogIcon } from './icons/productsCatalog.svg';
-import { ReactComponent as SignalsIcon } from './icons/signals.svg';
-import { ReactComponent as ReferralIcon } from './icons/referral.svg';
-import { ReactComponent as ExchangeAccountIcon } from './icons/exchangeAccount.svg';
-import { ReactComponent as ProfileIcon } from './icons/profile.svg';
-import { ReactComponent as KYCIcon } from './icons/kyc.svg';
-import { ReactComponent as NotificationIcon } from './icons/notification.svg';
-import { ReactComponent as BillingIcon } from './icons/billing.svg';
+import { ReactComponent as InvestmentIcon } from './icons/investment.svg';
+import { ReactComponent as InsightIcon } from './icons/insight.svg';
 import { ReactComponent as StrategiesIcon } from './icons/strategies.svg';
-import { ReactComponent as TokenIcon } from './icons/token.svg';
+import { ReactComponent as AccountIcon } from './icons/account.svg';
 
-interface MenuItem {
-  category: string;
-  icon: JSX.Element;
+export interface MenuItem {
   text: string;
-  mobileText?: string;
   link: string;
   hide?: boolean;
   mobileHide?: boolean;
 }
 
+export interface RootMenuItem extends MenuItem {
+  icon: JSX.Element;
+  children?: MenuItem[];
+}
+
 const useMenuItems = () => {
   const { t } = useTranslation('base');
-  const DashboardMenuItems: MenuItem[] = [
+  const items: RootMenuItem[] = [
     {
-      category: t('menu.category.passive-income'),
-      icon: <AssetOverviewIcon />,
-      text: t('menu.asset-overview.title'),
-      mobileText: t('menu.asset-overview.mobile'),
-      link: '/app/assets',
+      icon: <InvestmentIcon />,
+      text: 'Investment',
+      link: '/app/investment',
+      children: [
+        {
+          text: t('menu.asset-overview.title'),
+          link: '/app/assets',
+        },
+        {
+          text: t('menu.financial-products.title'),
+          link: '/app/products-catalog',
+        },
+      ],
     },
     {
-      category: t('menu.category.passive-income'),
-      icon: <ProductsCatalogIcon />,
-      text: t('menu.financial-products.title'),
-      mobileText: t('menu.financial-products.mobile'),
-      link: '/app/products-catalog',
+      icon: <InsightIcon />,
+      text: 'Insight',
+      link: '/app/insight',
+      children: [
+        {
+          text: t('menu.signal-matrix.title'),
+          link: '/app/signals',
+        },
+      ],
     },
     {
-      category: t('menu.category.market-predication'),
-      icon: <SignalsIcon />,
-      text: t('menu.signal-matrix.title'),
-      mobileText: t('menu.signal-matrix.mobile'),
-      link: '/app/signals',
-      hide: false,
-    },
-    {
-      category: t('menu.category.strategy-builder'),
       icon: <StrategiesIcon />,
       text: t('menu.strategies.title'),
-      mobileText: t('menu.strategies.mobile'),
       link: '/app/strategy',
       hide: isProduction,
       mobileHide: true,
     },
-  ];
-
-  const AccountMenuItems: MenuItem[] = [
     {
-      category: t('menu.category.account'),
-      text: t('menu.profile.title'),
-      mobileText: t('menu.profile.mobile'),
-      icon: <ProfileIcon />,
-      link: '/account/profile',
-      mobileHide: true,
-    },
-    {
-      category: t('menu.category.account'),
-      text: t('menu.account-manager.title'),
-      mobileText: t('menu.account-manager.mobile'),
-      icon: <ExchangeAccountIcon />,
-      link: '/account/exchange-accounts',
-    },
-    {
-      category: t('menu.category.account'),
-      text: t('menu.billing.title'),
-      mobileText: t('menu.billing.mobile'),
-      icon: <BillingIcon />,
-      link: '/account/billing',
-    },
-    {
-      category: t('menu.category.account'),
-      text: t('menu.referral.title'),
-      mobileText: t('menu.referral.mobile'),
-      icon: <ReferralIcon />,
-      link: '/account/referral',
-    },
-    {
-      category: t('menu.category.account'),
-      text: t('menu.kyc.title'),
-      mobileText: t('menu.kyc.mobile'),
-      icon: <KYCIcon />,
-      link: '/account/kyc',
-    },
-    {
-      category: t('menu.category.account'),
-      text: t('menu.notification-center.title'),
-      mobileText: t('menu.notification-center.mobile'),
-      icon: <NotificationIcon />,
-      link: '/account/notification-center',
-    },
-    {
-      category: t('menu.category.account'),
-      text: t('menu.token.title'),
-      mobileText: t('menu.token.mobile'),
-      icon: <TokenIcon />,
-      link: '/account/token',
+      icon: <AccountIcon />,
+      text: 'Account',
+      link: '/account',
+      children: [
+        {
+          text: t('menu.profile.title'),
+          link: '/account/profile',
+          mobileHide: true,
+        },
+        {
+          text: t('menu.billing.title'),
+          link: '/account/billing',
+        },
+        {
+          text: t('menu.kyc.title'),
+          link: '/account/kyc',
+        },
+        {
+          text: t('menu.token.title'),
+          link: '/account/token',
+        },
+        {
+          text: t('menu.account-manager.title'),
+          link: '/account/exchange-accounts',
+        },
+        {
+          text: t('menu.notification-center.title'),
+          link: '/account/notification-center',
+        },
+        {
+          text: t('menu.referral.title'),
+          link: '/account/referral',
+        },
+      ],
     },
   ];
-
-  const { pathname } = useLocation();
-  const isAccount = pathname.startsWith('/account');
-  const items = isAccount ? AccountMenuItems : DashboardMenuItems;
-
-  return {
-    items: items.filter(x => !x.hide),
-    hasExternals: isAccount,
-  };
+  return { items };
 };
 
 export default useMenuItems;

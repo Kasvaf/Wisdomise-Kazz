@@ -1,26 +1,13 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { Dropdown } from 'antd';
-import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import useMenuItems from '../useMenuItems';
-import HamburgerIcon from './HamburgerIcon';
-import ExtraContent from './ExtraContent';
 
 const MobileMenu: React.FC = () => {
-  const { t } = useTranslation('base');
   const { items: MenuItems } = useMenuItems();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const setClosed = useCallback(() => setIsMenuOpen(false), []);
-
-  const dropDownFn = useCallback(
-    () => <ExtraContent onClose={setClosed} />,
-    [setClosed],
-  );
 
   return (
-    <div className="fixed bottom-0 z-10 hidden h-16 w-full items-stretch justify-between bg-white text-black mobile:flex">
+    <div className="fixed bottom-0 z-10 hidden h-16 w-full items-stretch justify-between bg-[#1E1F24] text-white mobile:flex">
       {MenuItems.filter(i => !i.mobileHide).map(i => (
         <NavLink
           to={i.link}
@@ -31,22 +18,9 @@ const MobileMenu: React.FC = () => {
           )}
         >
           {i.icon}
-          <p className="text-xxs font-medium">{i.mobileText || i.text}</p>
+          <p className="text-xxs font-medium">{i.text}</p>
         </NavLink>
       ))}
-      <Dropdown
-        open={isMenuOpen}
-        placement="topRight"
-        onOpenChange={setIsMenuOpen}
-        dropdownRender={dropDownFn}
-      >
-        <div className="mx-2 flex flex-1 flex-col items-center justify-center">
-          <HamburgerIcon open={isMenuOpen} setOpen={setIsMenuOpen} />
-          <p className="text-xxs font-medium">
-            {isMenuOpen ? t('mobile-menu.close') : t('mobile-menu.open')}
-          </p>
-        </div>
-      </Dropdown>
     </div>
   );
 };

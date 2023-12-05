@@ -4,15 +4,15 @@ error-page:
   btn-reload: Reload
 menu:
   account-manager:
-    title: Account Manager
+    title: External Account
     mobile: Accounts
   asset-overview:
     title: Asset Overview
     mobile: Asset
   athena: Athena
   billing:
-    title: Billing
-    mobile: Billing
+    title: Subscription
+    mobile: Subscription
   category:
     account: Account
     market-predication: Market Predication
@@ -26,7 +26,7 @@ menu:
     title: KYC
     mobile: KYC
   notification-center:
-    title: Notification Center
+    title: Notifications
     mobile: Notifications
   profile:
     title: Profile
