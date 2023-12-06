@@ -7,6 +7,7 @@ import Icon from 'modules/shared/Icon';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as TreeMid } from './tree-mid.svg';
 import { ReactComponent as TreeLast } from './tree-last.svg';
+import { ReactComponent as SignOutIcon } from './signout.svg';
 
 const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
   item,
@@ -18,7 +19,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
         to={item.link}
         className={clsx(
           'group mb-4 flex cursor-pointer items-center justify-between rounded-xl p-4 text-sm',
-          'opacity-40 hover:bg-[#FFFFFF0D] [&.active]:bg-[#FFFFFF1A] [&.active]:opacity-100',
+          'opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:bg-[#FFFFFF1A] [&.active]:opacity-100',
         )}
       >
         <div className="flex items-center justify-start">
@@ -46,7 +47,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
               {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
               <div
                 className={clsx(
-                  'ml-1 flex items-center rounded-xl px-4 text-sm',
+                  'my-1 ml-1 flex items-center rounded-xl px-4 text-sm hover:bg-[#FFFFFF0D]',
                   'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
                 )}
               >
@@ -67,26 +68,36 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'fixed bottom-8 z-[2] ml-6 mt-6 flex w-[260px] flex-col mobile:hidden',
+        'fixed bottom-0 z-[2] ml-6 flex w-[260px] flex-col mobile:hidden',
         className,
       )}
     >
-      <a
-        href={ATHENA_FE}
-        className="flex w-full cursor-pointer flex-row items-center justify-center"
-      >
-        <img className="h-8" src={Logo} alt="logo" />
-      </a>
-      <div className="mt-6 flex h-full w-full flex-col justify-between overflow-auto rounded-xl bg-[#FFFFFF0D] p-6 pt-2">
+      <div className="flex h-full w-full flex-col justify-between overflow-auto bg-[#FFFFFF0D] p-6 pt-2">
         <div>
-          {MenuItems.map(item => (
-            <MenuItemsGroup
-              key={item.link}
-              item={item}
-              isActive={pathname.startsWith(item.link)}
-            />
-          ))}
+          <a
+            href={ATHENA_FE}
+            className="my-8 flex w-full cursor-pointer flex-row items-center justify-center"
+          >
+            <img className="h-12" src={Logo} alt="logo" />
+          </a>
+          <div>
+            {MenuItems.map(item => (
+              <MenuItemsGroup
+                key={item.link}
+                item={item}
+                isActive={pathname.startsWith(item.link)}
+              />
+            ))}
+          </div>
         </div>
+
+        <NavLink
+          to="/auth/logout"
+          className="flex items-center rounded-xl p-4 text-white opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100"
+        >
+          <SignOutIcon />
+          <div className="ml-2">Sign out</div>
+        </NavLink>
       </div>
     </div>
   );
