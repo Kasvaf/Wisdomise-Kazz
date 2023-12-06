@@ -47,7 +47,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
               {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
               <div
                 className={clsx(
-                  'my-1 ml-1 flex items-center rounded-xl px-4 text-sm hover:bg-[#FFFFFF0D]',
+                  'my-1 ml-1 flex items-center rounded-xl px-4 text-sm group-hover:bg-[#FFFFFF0D]',
                   'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
                 )}
               >
