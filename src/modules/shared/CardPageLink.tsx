@@ -16,7 +16,8 @@ const CardPageLink: React.FC<
     {icon}
     <div
       className={clsx(
-        'flex h-[250px] flex-col justify-between rounded-3xl bg-black/30 p-8',
+        'flex flex-col justify-between rounded-3xl bg-black/30 p-8',
+        'h-[180px] group-[&.grid-cols-2]/container:h-[250px]',
         'hover:bg-black/40',
       )}
     >

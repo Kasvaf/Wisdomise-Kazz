@@ -11,7 +11,7 @@ const PageInvestment = () => {
         Explore Auto Trader or DeFi Staking financial products
       </p>
 
-      <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
+      <div className="group/container grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
         <CardPageLink
           to="/investment/assets"
           title="Asset Overview"

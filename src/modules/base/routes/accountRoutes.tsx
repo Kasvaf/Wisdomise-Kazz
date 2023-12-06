@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import PageRef from 'modules/account/PageRef';
+import PageAccount from 'modules/account/PageAccount';
 import Container from '../Container';
 
 const PageProfile = React.lazy(() => import('modules/account/PageProfile'));
@@ -28,6 +29,7 @@ const accountRoutes: RouteObject[] = [
     element: <Container />,
     path: 'account',
     children: [
+      { path: '', element: <PageAccount /> },
       { path: 'profile', element: <PageProfile /> },
       { path: 'exchange-accounts', element: <PageExchangeAccount /> },
       { path: 'referral', element: <PageReferral /> },
