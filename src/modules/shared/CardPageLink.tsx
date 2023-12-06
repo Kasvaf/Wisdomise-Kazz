@@ -13,15 +13,17 @@ const CardPageLink: React.FC<
     height?: 180 | 250;
   }>
 > = ({ to, title, subtitle, icon, children, height = 180 }) => (
-  <NavLink to={to} className="group relative block cursor-pointer">
-    <div className="absolute right-0 top-0 z-[-1]">{icon}</div>
+  <NavLink
+    to={to}
+    className="group relative block cursor-pointer rounded-3xl bg-black/30 hover:bg-black/40"
+  >
+    <div className="absolute right-0 top-0">{icon}</div>
     <div
       className={clsx(
-        'flex flex-col justify-between rounded-3xl bg-black/30 mobile:p-6',
+        'relative z-10 flex flex-col justify-between mobile:p-6',
         height === 180
           ? 'h-[180px] p-6 mobile:h-[160px]'
           : 'h-[250px] p-8 mobile:h-[180px]',
-        'hover:bg-black/40',
       )}
     >
       <div>
