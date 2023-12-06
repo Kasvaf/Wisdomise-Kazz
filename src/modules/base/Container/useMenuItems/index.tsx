@@ -25,28 +25,22 @@ const useMenuItems = () => {
     {
       icon: <InvestmentIcon />,
       text: 'Investment',
-      link: '/app/investment',
+      link: '/investment',
       children: [
         {
           text: t('menu.asset-overview.title'),
-          link: '/app/assets',
+          link: '/investment/assets',
         },
         {
           text: t('menu.financial-products.title'),
-          link: '/app/products-catalog',
+          link: '/investment/products-catalog',
         },
       ],
     },
     {
       icon: <InsightIcon />,
-      text: 'Insight',
-      link: '/app/insight',
-      children: [
-        {
-          text: t('menu.signal-matrix.title'),
-          link: '/app/signals',
-        },
-      ],
+      text: t('menu.signal-matrix.title'),
+      link: '/app/signals',
     },
     {
       icon: <StrategiesIcon />,
