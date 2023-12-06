@@ -92,8 +92,11 @@ const PageAccount = () => {
           icon={<IconEA />}
         >
           {exchanges != null && (
-            <div className="text-2xl font-medium leading-6">
-              {exchanges?.length} Accounts
+            <div className="flex flex-wrap items-end gap-x-2">
+              <div className="text-2xl font-medium leading-6">
+                {exchanges?.length}
+              </div>
+              <div className="text-xs">Accounts</div>
             </div>
           )}
         </CardPageLink>
@@ -110,8 +113,11 @@ const PageAccount = () => {
           icon={<IconReferral />}
         >
           {referral != null && (
-            <div className="text-2xl font-medium leading-6">
-              {referral?.referred_users_count} Invited
+            <div className="flex flex-wrap items-end gap-x-2">
+              <div className="text-2xl font-medium leading-6">
+                {referral?.referred_users_count}
+              </div>
+              <div className="text-xs">Invited</div>
             </div>
           )}
         </CardPageLink>
