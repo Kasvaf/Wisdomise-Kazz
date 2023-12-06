@@ -34,7 +34,7 @@ const ButtonActivate: React.FC<Props> = ({
     undefined;
 
   const gotoDashboardHandler = () => {
-    navigate('/app/assets');
+    navigate('/investment/assets');
     notification.destroy(fp.key);
   };
 

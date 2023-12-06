@@ -24,7 +24,7 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
       title={fp.title}
       icon={<CoinsIcons maxShow={3} coins={fp.config.assets} />}
       description={fp.description}
-      to={`/app/products-catalog/${fp.key}`}
+      to={`/investment/products-catalog/${fp.key}`}
     >
       <div className="text-left">
         <p className="text-xl font-normal">

@@ -44,7 +44,7 @@ const BoxIntro: React.FC<{
         </div>
 
         <div className="-mx-3 -mb-6 flex flex-wrap items-center justify-center mobile:self-stretch">
-          <Button className="mx-3 mb-6" to="/app/products-catalog">
+          <Button className="mx-3 mb-6" to="/investment/products-catalog">
             {t('intro.btn-check-products')}
           </Button>
 
