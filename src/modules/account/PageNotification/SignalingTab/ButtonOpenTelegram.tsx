@@ -4,6 +4,7 @@ import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import { useAccountQuery } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import Button from 'shared/Button';
+import Card from 'shared/Card';
 import TelegramIcon from './TelegramIcon';
 
 export default function ButtonOpenTelegram() {
@@ -13,10 +14,10 @@ export default function ButtonOpenTelegram() {
   if (!account.data?.telegram_id) return null;
 
   return (
-    <div
+    <Card
       className={clsx(
         'flex flex-col items-center justify-center gap-4 md:flex-row',
-        isMobile && 'mb-10 rounded-3xl bg-white/5 p-6',
+        isMobile && 'mb-10 !p-6',
       )}
     >
       <div className="text-sm sm:hidden lg:block">
@@ -33,6 +34,6 @@ export default function ButtonOpenTelegram() {
           {t('signaling.btn-open-telegram.label')}
         </Button>
       </div>
-    </div>
+    </Card>
   );
 }

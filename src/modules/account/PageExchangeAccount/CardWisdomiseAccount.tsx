@@ -25,7 +25,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
       <div
         className={clsx(
           'flex flex-col items-stretch justify-between gap-8 sm:flex-row sm:gap-6',
-          'rounded-3xl bg-black/20 px-6 py-4',
+          'rounded-xl bg-black/20 px-6 py-4',
           'max-w-xl',
         )}
       >

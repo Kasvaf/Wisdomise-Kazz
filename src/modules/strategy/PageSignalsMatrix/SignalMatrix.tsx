@@ -4,6 +4,7 @@ import { type SignalsResponse } from 'api/types/signalResponse';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
+import Card from 'modules/shared/Card';
 import SignalBox from './SignalBox';
 
 const EmptySignal = styled.div`
@@ -19,8 +20,8 @@ const EmptySignal = styled.div`
 
 const SignalMatrix: React.FC<{ signals: SignalsResponse }> = ({ signals }) => {
   return (
-    <div
-      className="grid w-min rounded-3xl bg-white/5 px-2 py-4 pb-2"
+    <Card
+      className="grid w-min !p-2 !pt-4"
       style={{
         gridTemplateColumns: `max-content max-content repeat(${signals.strategies.length},max-content)`,
       }}
@@ -86,7 +87,7 @@ const SignalMatrix: React.FC<{ signals: SignalsResponse }> = ({ signals }) => {
           })}
         </React.Fragment>
       ))}
-    </div>
+    </Card>
   );
 };
 

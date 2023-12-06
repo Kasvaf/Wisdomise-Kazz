@@ -68,11 +68,11 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'fixed bottom-0 z-[2] ml-6 flex w-[260px] flex-col mobile:hidden',
+        'fixed bottom-0 z-[2] flex w-[260px] flex-col mobile:hidden',
         className,
       )}
     >
-      <div className="flex h-full w-full flex-col justify-between overflow-auto bg-[#FFFFFF0D] p-6 pt-2">
+      <div className="flex h-full w-full flex-col justify-between overflow-auto bg-[#1E1F24] p-6 pt-2">
         <div>
           <a
             href={ATHENA_FE}

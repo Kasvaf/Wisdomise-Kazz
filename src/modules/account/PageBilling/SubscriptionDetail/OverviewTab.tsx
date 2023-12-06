@@ -9,6 +9,7 @@ import {
   useUserFirstPaymentMethod,
 } from 'api';
 import useModal from 'shared/useModal';
+import Card from 'modules/shared/Card';
 import PricingTable from '../PricingTable';
 import mailIconSrc from '../images/mail.svg';
 
@@ -34,7 +35,7 @@ export default function OverviewTab() {
     invoices.data?.results.at(-1)?.status === 'open'
   ) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-3xl bg-white/5 py-20">
+      <Card className="flex flex-col items-center justify-center !py-20">
         <img src={mailIconSrc} />
         <p className="mt-12 text-xl font-medium text-white">
           {t('subscription-details.overview.is-on-the-way.title')}
@@ -42,7 +43,7 @@ export default function OverviewTab() {
         <p className="mt-8 max-w-[450px] text-center text-base font-medium text-white/60">
           {t('subscription-details.overview.is-on-the-way.description')}
         </p>
-      </div>
+      </Card>
     );
   }
 

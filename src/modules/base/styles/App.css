@@ -10,7 +10,7 @@
 
 @layer base {
   body {
-    @apply relative bg-page;
+    @apply relative bg-[#151619];
     font-family: poppins, sans-serif;
   }
 }

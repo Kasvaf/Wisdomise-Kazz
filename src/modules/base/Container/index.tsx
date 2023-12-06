@@ -25,7 +25,7 @@ const Container = () => {
 
   return (
     <AuthGuard>
-      <main className="mx-auto max-w-screen-2xl">
+      <main className="mx-auto max-w-screen-2xl bg-page">
         <TrialBanner />
         <SideMenu className={topOffsetClass} />
         <Header className={topOffsetClass} />

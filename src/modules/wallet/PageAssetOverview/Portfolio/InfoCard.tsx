@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import * as numerable from 'numerable';
+import Card from 'modules/shared/Card';
 import useMainQuote from 'shared/useMainQuote';
 
 const InfoCard: React.FC<{
@@ -26,9 +27,9 @@ const InfoCard: React.FC<{
   const mainQuote = useMainQuote();
 
   return (
-    <div
+    <Card
       className={clsx(
-        'rounded-3xl bg-white/5 p-6',
+        '!p-6',
         className,
         diffMobileView &&
           'mobile:flex mobile:flex-row-reverse mobile:border-t mobile:border-white/5',
@@ -55,7 +56,7 @@ const InfoCard: React.FC<{
           <span className="ml-1 text-xs text-white/40">{mainQuote}</span>
         </p>
       </div>
-    </div>
+    </Card>
   );
 };
 

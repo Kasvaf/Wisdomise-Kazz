@@ -1,23 +1,26 @@
 import { clsx } from 'clsx';
-import { type PropsWithChildren } from 'react';
+import { type CSSProperties, type PropsWithChildren } from 'react';
 
 export interface CardProps {
   className?: string;
+  style?: CSSProperties;
   variant?: 'outline';
 }
 
 export default function Card({
   className,
+  style,
   variant,
   children,
 }: PropsWithChildren<CardProps>) {
   return (
     <div
       className={clsx(
-        'rounded-3xl bg-white/5 p-8',
+        'rounded-xl bg-black/20 p-8',
         variant === 'outline' && 'border-2',
         className,
       )}
+      style={style}
     >
       {children}
     </div>

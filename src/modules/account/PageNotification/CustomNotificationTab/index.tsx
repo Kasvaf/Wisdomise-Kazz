@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import Card from 'shared/Card';
 import ToggleDaily from './ToggleDaily';
 import UserQuestions from './UserQuestions';
 import CustomQuestions from './CustomQuestions';
@@ -11,7 +12,7 @@ export default function CustomNotificationTab() {
   const { addQuestion, permissionModals, isLoading } = useAddQuestion();
 
   return (
-    <div className="mt-8 w-full rounded-3xl bg-white/5 p-8">
+    <Card className="mt-8 w-full">
       <ToggleDaily />
       <UserQuestions />
       <CustomQuestions onAdd={addQuestion} isLoading={isLoading} />
@@ -23,6 +24,6 @@ export default function CustomNotificationTab() {
       </div>
 
       {permissionModals}
-    </div>
+    </Card>
   );
 }

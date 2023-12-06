@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSumsubVerified, useVerifiedWallets, useAccountQuery } from 'api';
 import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
+import Card from 'modules/shared/Card';
 import Badge from './Badge';
 import { ReactComponent as VerificationSvg } from './verification.svg';
 import { ReactComponent as IdentificationSvg } from './identification.svg';
@@ -39,7 +40,7 @@ export default function PageKYC() {
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6 md:flex-row">
-          <div className="w-full rounded-3xl bg-white/5 p-6">
+          <Card className="w-full !p-6">
             <h2 className="font-semibold">
               <span className="text-xl font-bold">1.</span>{' '}
               {t('identification.title')}
@@ -61,15 +62,15 @@ export default function PageKYC() {
               {sumsubVerified.data !== 'VERIFIED' && (
                 <NavLink
                   to="/account/kyc/sumsub"
-                  className="rounded-full bg-white px-5 py-3 text-center text-[14px] text-black"
+                  className="rounded-xl bg-white px-5 py-3 text-center text-[14px] text-black"
                 >
                   {t('identification.btn-start-sumsub')}
                 </NavLink>
               )}
             </div>
-          </div>
+          </Card>
           {/* -------------------------------------------------- */}
-          <div className="w-full rounded-3xl bg-white/5 p-6">
+          <Card className="w-full !p-6">
             <h2 className="font-semibold">
               <span className="text-xl font-bold">2.</span>{' '}
               {t('verification.title')}
@@ -107,7 +108,7 @@ export default function PageKYC() {
                       : undefined
                   }
                   className={clsx(
-                    'rounded-full px-5 py-3 text-center text-[14px]',
+                    'rounded-xl px-5 py-3 text-center text-[14px]',
                     sumsubVerified.data === 'VERIFIED'
                       ? 'bg-white text-black'
                       : 'cursor-default bg-white/5 text-white/10',
@@ -118,10 +119,10 @@ export default function PageKYC() {
                 </a>
               )}
             </div>
-          </div>
+          </Card>
         </div>
         {/* -------------------------------------------------- */}
-        <div className="w-full rounded-3xl bg-white/5 p-6">
+        <Card className="w-full !p-6">
           <h2 className="mb-8 font-semibold">{t('wallet.title')}</h2>
           <div className="flex items-start justify-between gap-3">
             <div className="text-xs text-white/60">
@@ -195,13 +196,13 @@ export default function PageKYC() {
           <div className="mt-4 flex justify-center md:justify-end">
             {ModalVerifyWallet}
             <button
-              className="rounded-full bg-white px-5 py-3 text-center text-[14px] text-black"
+              className="rounded-xl bg-white px-5 py-3 text-center text-[14px] text-black"
               onClick={openVerifyWallet}
             >
               {wallets.data?.length ? 'Verify More Wallets' : 'Verify Wallet'}
             </button>
           </div>
-        </div>
+        </Card>
       </div>
     </PageWrapper>
   );
