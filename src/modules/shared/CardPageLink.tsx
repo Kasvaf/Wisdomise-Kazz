@@ -10,20 +10,25 @@ const CardPageLink: React.FC<
     title: string;
     subtitle: string;
     icon: React.ReactElement;
+    height?: 180 | 250;
   }>
-> = ({ to, title, subtitle, icon, children }) => (
+> = ({ to, title, subtitle, icon, children, height = 180 }) => (
   <NavLink to={to} className="group relative block cursor-pointer">
-    {icon}
+    <div className="absolute right-0 top-0 z-[-1]">{icon}</div>
     <div
       className={clsx(
-        'flex flex-col justify-between rounded-3xl bg-black/30 p-8',
-        'h-[180px] group-[&.grid-cols-2]/container:h-[250px]',
+        'flex flex-col justify-between rounded-3xl bg-black/30 mobile:p-6',
+        height === 180
+          ? 'h-[180px] p-6 mobile:h-[160px]'
+          : 'h-[250px] p-8 mobile:h-[180px]',
         'hover:bg-black/40',
       )}
     >
       <div>
-        <h2 className="font-medium">{title}</h2>
-        <p className="text-xs font-normal text-white/80">{subtitle}</p>
+        <h2 className="text-base font-medium mobile:text-sm">{title}</h2>
+        <p className="text-xs font-normal text-white/80 mobile:text-[10px]">
+          {subtitle}
+        </p>
       </div>
 
       <div className="flex items-end justify-between">
