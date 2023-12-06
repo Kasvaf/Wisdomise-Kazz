@@ -5,48 +5,29 @@ error-page:
 menu:
   account-manager:
     title: External Account
-    mobile: Accounts
   asset-overview:
     title: Asset Overview
-    mobile: Asset
   athena: Athena
   billing:
     title: Subscription
-    mobile: Subscription
-  category:
-    account: Account
-    market-predication: Market Predication
-    passive-income: Passive Income
-    strategy-builder: Strategy Builder
   dashboard: Dashboard
   financial-products:
     title: Financial Products
-    mobile: Products
   kyc:
     title: KYC
-    mobile: KYC
   notification-center:
     title: Notifications
-    mobile: Notifications
   profile:
     title: Profile
-    mobile: Profile
   profile-dashboard: Profile Dashboard
   referral:
     title: Referral
-    mobile: Referral
   signal-matrix:
     title: Signal Matrix
-    mobile: Signals
   strategies:
     title: Strategies
-    mobile: Strategies
   token:
     title: WSDM Token
-    mobile: WSDM
-mobile-menu:
-  close: Close
-  open: Menu
 user:
   logout: Logout
 wisdomise-is-loading: Wisdomise is loading ...
