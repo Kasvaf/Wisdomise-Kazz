@@ -1,9 +1,14 @@
 import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'modules/shared/CardPageLink';
+import { useInvestorAssetStructuresQuery } from 'api';
 import { ReactComponent as IconFP } from './icon-fp.svg';
 import { ReactComponent as IconAO } from './icon-ao.svg';
 
 const PageInvestment = () => {
+  const ias = useInvestorAssetStructuresQuery();
+  const activeProduct =
+    ias.data?.[0]?.financial_product_instances?.[0].financial_product.title;
+
   return (
     <PageWrapper>
       <div className="mb-6 mobile:text-center">
@@ -29,8 +34,12 @@ const PageInvestment = () => {
           icon={<IconFP />}
           height={250}
         >
-          <div className="text-xs font-normal">Active Product</div>
-          <div className="text-2xl font-medium">TM Strategy</div>
+          {activeProduct && (
+            <>
+              <div className="text-xs font-normal">Active Product</div>
+              <div className="text-2xl font-medium">{activeProduct}</div>
+            </>
+          )}
         </CardPageLink>
       </div>
     </PageWrapper>

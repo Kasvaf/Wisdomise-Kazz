@@ -1,6 +1,13 @@
+import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'modules/shared/CardPageLink';
+import {
+  useExchangeAccountsQuery,
+  useIsVerified,
+  useReferralStatusQuery,
+  useSubscription,
+} from 'api';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
 import { ReactComponent as IconSubscription } from './icons/subscription.svg';
 import { ReactComponent as IconKYC } from './icons/kyc.svg';
@@ -11,6 +18,10 @@ import { ReactComponent as IconReferral } from './icons/referral.svg';
 
 const PageAccount = () => {
   const { t } = useTranslation('base');
+  const subscription = useSubscription();
+  const { verifiedCount } = useIsVerified();
+  const { data: exchanges } = useExchangeAccountsQuery();
+  const { data: referral } = useReferralStatusQuery();
 
   return (
     <PageWrapper>
@@ -33,13 +44,41 @@ const PageAccount = () => {
           title={t('menu.billing.title')}
           subtitle="Subscription preferences."
           icon={<IconSubscription />}
-        />
+        >
+          <div className="flex flex-wrap items-end gap-x-2">
+            <div className="text-2xl font-medium leading-6">
+              {subscription.title}
+            </div>
+            <div
+              className={clsx(
+                'text-xs',
+                subscription.remaining ? 'text-[#34A3DA]' : 'text-error',
+              )}
+            >
+              {subscription.remaining}d remains
+            </div>
+          </div>
+        </CardPageLink>
         <CardPageLink
           to="/account/kyc"
           title={t('menu.kyc.title')}
           subtitle="Verify identity to access features."
           icon={<IconKYC />}
-        />
+        >
+          <div className="flex flex-wrap items-end gap-x-2">
+            <div className="text-2xl font-medium leading-6">
+              {verifiedCount}/3
+            </div>
+            <div
+              className={clsx(
+                'text-xs',
+                verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
+              )}
+            >
+              Completed
+            </div>
+          </div>
+        </CardPageLink>
         <CardPageLink
           to="/account/token"
           title={t('menu.token.title')}
@@ -51,7 +90,13 @@ const PageAccount = () => {
           title={t('menu.account-manager.title')}
           subtitle="Integrate exchange accounts."
           icon={<IconEA />}
-        />
+        >
+          {exchanges != null && (
+            <div className="text-2xl font-medium leading-6">
+              {exchanges?.length} Accounts
+            </div>
+          )}
+        </CardPageLink>
         <CardPageLink
           to="/account/notification-center"
           title={t('menu.notification-center.title')}
@@ -63,7 +108,13 @@ const PageAccount = () => {
           title={t('menu.referral.title')}
           subtitle="Invite and earn rewards."
           icon={<IconReferral />}
-        />
+        >
+          {referral != null && (
+            <div className="text-2xl font-medium leading-6">
+              {referral?.referred_users_count} Invited
+            </div>
+          )}
+        </CardPageLink>
       </div>
     </PageWrapper>
   );

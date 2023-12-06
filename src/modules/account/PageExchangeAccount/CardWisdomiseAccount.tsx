@@ -9,12 +9,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
 }) => {
   const { t } = useTranslation('external-accounts');
   const sub = useSubscription();
-  const { isLoading, identified, verified, addedWallet } = useIsVerified();
-  const verifiedCount = isLoading
-    ? '?'
-    : (identified === 'VERIFIED' ? 1 : 0) +
-      (verified === 'VERIFIED' ? 1 : 0) +
-      (addedWallet ? 1 : 0);
+  const { verifiedCount } = useIsVerified();
 
   return (
     <Card className={className}>

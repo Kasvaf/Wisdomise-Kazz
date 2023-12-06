@@ -75,23 +75,32 @@ export const useSumsubVerified = () =>
   });
 
 export const useIsVerified = () => {
-  const verified = useSumsubVerified();
+  const sumsubVerified = useSumsubVerified();
   const account = useAccountQuery();
   const wallets = useRawWallets();
-  return useMemo(
-    () => ({
-      isLoading: verified.isLoading || account.isLoading || wallets.isLoading,
+  return useMemo(() => {
+    const isLoading =
+      sumsubVerified.isLoading || account.isLoading || wallets.isLoading;
+    const identified = sumsubVerified.data;
+    const verified = account.data?.wisdomise_verification_status;
+    const addedWallet = Boolean(wallets.data?.length);
+
+    return {
+      isLoading,
       isAllVerified:
-        verified.data === 'VERIFIED' &&
+        sumsubVerified.data === 'VERIFIED' &&
         account.data?.wisdomise_verification_status === 'VERIFIED' &&
         Boolean(wallets.data?.length),
-
-      identified: verified.data,
-      verified: account.data?.wisdomise_verification_status,
-      addedWallet: Boolean(wallets.data?.length),
-    }),
-    [verified, account, wallets],
-  );
+      identified,
+      verified,
+      addedWallet,
+      verifiedCount: isLoading
+        ? '?'
+        : (identified === 'VERIFIED' ? 1 : 0) +
+          (verified === 'VERIFIED' ? 1 : 0) +
+          (addedWallet ? 1 : 0),
+    };
+  }, [sumsubVerified, account, wallets]);
 };
 
 // const levelName = 'basic-kyc-level';
