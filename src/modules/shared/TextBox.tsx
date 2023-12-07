@@ -57,7 +57,7 @@ const TextBox: FC<Props> = ({
           className={clsx(
             'flex h-12 w-full rounded-xl',
             'items-center justify-between',
-            'border bg-black/40 pl-6 pr-2 outline-none',
+            'border bg-black/40 pl-3 pr-2 outline-none',
             error ? 'border-error text-error' : 'border-transparent',
             !disabled && 'focus:bg-black/60',
             suffix && 'pr-[56px]',

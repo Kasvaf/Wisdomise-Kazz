@@ -141,7 +141,7 @@ export default function PageKYC() {
               {wallets.data?.map(w => (
                 <li
                   key={String(w.network?.name) + w.address}
-                  className="rounded-3xl bg-black/20 p-2 lg:px-4"
+                  className="rounded-xl bg-black/20 p-2 lg:px-4"
                 >
                   <div className="flex shrink-0 grow-0 flex-wrap items-stretch text-white lg:flex-nowrap lg:gap-2">
                     <div className="basis-1/2 lg:basis-1/4">

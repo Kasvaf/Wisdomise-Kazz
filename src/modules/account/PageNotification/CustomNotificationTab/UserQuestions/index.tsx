@@ -37,11 +37,11 @@ export default function UserQuestions() {
 
       <div className="mt-6 flex flex-col gap-3">
         {
-          <div className="flex w-full flex-wrap items-start justify-start gap-4 rounded-lg bg-white/10 p-6 mobile:flex-col mobile:px-8">
+          <div className="flex w-full flex-wrap items-start justify-start gap-4 rounded-lg bg-black/20 p-6 mobile:flex-col mobile:px-8">
             {predefinedPrompts.data?.map(item => (
               <div
                 key={item.key}
-                className="flex w-fit items-center gap-3 rounded-3xl bg-black  p-4 text-xs text-white transition-opacity"
+                className="flex w-fit items-center gap-3 rounded-xl bg-black  p-4 text-xs text-white transition-opacity"
               >
                 {item.question}
               </div>

@@ -34,7 +34,7 @@ const InfoLabel = ({
   unit?: string;
 }) => {
   return (
-    <div className="mb-2 flex justify-between rounded-full bg-black/10 px-4 py-2 text-xs">
+    <div className="mb-2 flex justify-between rounded-xl bg-black/10 p-2 text-xs">
       <div>{label}</div>
       <div>
         {value == null || Number.isNaN(value)

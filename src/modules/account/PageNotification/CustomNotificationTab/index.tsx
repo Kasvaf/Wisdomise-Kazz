@@ -18,7 +18,7 @@ export default function CustomNotificationTab() {
       <CustomQuestions onAdd={addQuestion} isLoading={isLoading} />
       <SuggestedQuestions onAdd={addQuestion} isLoading={isLoading} />
 
-      <div className="mt-10 flex items-center gap-4 rounded-xl bg-white/10 p-6">
+      <div className="mt-10 flex items-center gap-4 rounded-xl bg-black/20 p-6">
         <img src={warningSrc} />
         <p className="text-sm text-white/80">{t('customs.disclaimer')}</p>
       </div>
