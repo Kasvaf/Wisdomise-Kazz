@@ -7,7 +7,7 @@ import { ReactComponent as IconAO } from './icon-ao.svg';
 const PageInvestment = () => {
   const ias = useInvestorAssetStructuresQuery();
   const activeProduct =
-    ias.data?.[0]?.financial_product_instances?.[0].financial_product.title;
+    ias.data?.[0]?.financial_product_instances?.[0]?.financial_product.title;
 
   return (
     <PageWrapper>

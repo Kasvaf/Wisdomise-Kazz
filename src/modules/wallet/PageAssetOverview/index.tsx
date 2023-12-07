@@ -53,7 +53,7 @@ const PageAssetOverview = () => {
             <ActiveFinancialProducts />
           ) : (
             <NavLink
-              to="/investment/products-catalog"
+              to="/investment/products-catalog?tab=trade"
               className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-white/10 bg-black/20 py-6"
             >
               <p className="flex items-center text-white/60">
