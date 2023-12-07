@@ -68,7 +68,7 @@
 
 /* ------------------------------------------------- */
 .ant-picker {
-  @apply rounded-3xl bg-black/40 px-6;
+  @apply rounded-xl bg-black/40 px-6;
   border: none !important;
 }
 
@@ -77,7 +77,7 @@
 }
 /* ------------------------------------------------- */
 .ant-select-selector.ant-select-selector {
-  @apply !h-auto rounded-3xl !bg-black/40 !px-6 !py-2;
+  @apply !h-auto rounded-xl !bg-black/40 !px-6 !py-2;
 
   .ant-select-selection-search-input {
     @apply !h-full !pl-3;
@@ -97,7 +97,7 @@
 /* ------------------------------------------------- */
 
 .ant-notification-notice {
-  @apply !rounded-3xl !bg-[#272A32] font-poppins !text-white;
+  @apply !rounded-xl !bg-[#272A32] font-poppins !text-white;
 }
 
 .ant-notification-notice-message {
