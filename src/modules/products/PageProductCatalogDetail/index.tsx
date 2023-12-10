@@ -34,7 +34,7 @@ const PageProductCatalogDetail = () => {
           <Button
             className="mr-4 w-1/2"
             variant="secondary"
-            to="/app/products-catalog"
+            to="/app/products-catalog?tab=trade"
           >
             {t('common:actions.back')}
           </Button>
