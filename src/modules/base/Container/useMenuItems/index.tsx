@@ -2,10 +2,23 @@
 
 import { useTranslation } from 'react-i18next';
 import { isProduction } from 'utils/version';
-import { ReactComponent as InvestmentIcon } from './icons/investment.svg';
-import { ReactComponent as InsightIcon } from './icons/insight.svg';
+import { ReactComponent as InvestmentIconEmpty } from './icons/investment-empty.svg';
+import { ReactComponent as InvestmentIconFull } from './icons/investment-full.svg';
+import { ReactComponent as InsightIconEmpty } from './icons/insight-empty.svg';
+import { ReactComponent as InsightIconFull } from './icons/insight-full.svg';
+import { ReactComponent as AccountIconEmpty } from './icons/account-empty.svg';
+import { ReactComponent as AccountIconFull } from './icons/account-full.svg';
 import { ReactComponent as StrategiesIcon } from './icons/strategies.svg';
-import { ReactComponent as AccountIcon } from './icons/account.svg';
+
+const Icon = (
+  Empty: React.FC<React.SVGProps<SVGSVGElement>>,
+  Full: React.FC<React.SVGProps<SVGSVGElement>>,
+) => (
+  <div>
+    <Empty className="block group-[.active]:hidden" />
+    <Full className="hidden group-[.active]:block" />
+  </div>
+);
 
 export interface MenuItem {
   text: string;
@@ -23,7 +36,7 @@ const useMenuItems = () => {
   const { t } = useTranslation('base');
   const items: RootMenuItem[] = [
     {
-      icon: <InvestmentIcon />,
+      icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
       text: 'Investment',
       link: '/investment',
       children: [
@@ -38,7 +51,7 @@ const useMenuItems = () => {
       ],
     },
     {
-      icon: <InsightIcon />,
+      icon: Icon(InsightIconEmpty, InsightIconFull),
       text: t('menu.signal-matrix.title'),
       link: '/app/signals',
     },
@@ -50,7 +63,7 @@ const useMenuItems = () => {
       mobileHide: true,
     },
     {
-      icon: <AccountIcon />,
+      icon: Icon(AccountIconEmpty, AccountIconFull),
       text: 'Account',
       link: '/account',
       children: [
