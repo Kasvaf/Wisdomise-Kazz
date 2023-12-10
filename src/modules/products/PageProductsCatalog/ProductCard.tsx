@@ -49,7 +49,7 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
           {children}
         </section>
 
-        <section className="mt-6 grow text-xs text-white/80">
+        <section className="mt-6 line-clamp-3 grow text-xs text-white/80">
           {description}
         </section>
 
