@@ -1,17 +1,17 @@
 intro:
-  btn-check-products: プロダクトを確認する
+  btn-check-products: プロダクトを確認
   btn-deposit: 入金
-  description: Wisdomiseは、リスク許容度に合わせたAIベースの戦略を提供します。戦略をチェックして、今すぐ利益を上げましょう。
-  title: あなたに代わりにトレードします！
+  description: Wisdomiseは、リスク許容度に合わせたAIベースの戦略を提供します。戦略を確認して、資産運用を行いましょう！
+  title: AIが資産運用を行います！
 portfolio:
   bindings-count_other: コイン
-  description: AIベースの取引戦略は、暗号資産ウォレットで自動的に実行されます。これらは、3億回以上のユニークな実験を実行した後、包括的で洗練されたAIで構築されています
+  description: AIベースの取引戦略は、暗号資産ウォレットで自動的に実行されます。3億回以上の様々なテストをした、包括的で洗練されたAIで構築されています。
   info:
     PnL:
       title: 損益
       unrealized: 含み
     available:
-      subtitle: 引き出し可能
+      subtitle: 引き出し可能額
       title: 利用可能
     balance: 残高
     deposit:

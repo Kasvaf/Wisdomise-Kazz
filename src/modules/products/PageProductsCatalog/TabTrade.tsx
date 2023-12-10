@@ -13,8 +13,7 @@ import ProductCard from './ProductCard';
 
 const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
   const { t } = useTranslation('products');
-  const isRunning =
-    useIsFPRunning(fp.key) || fp.key === '770896b2-d682-484b-96fc-02c311732946';
+  const isRunning = useIsFPRunning(fp.key);
 
   return (
     <ProductCard
