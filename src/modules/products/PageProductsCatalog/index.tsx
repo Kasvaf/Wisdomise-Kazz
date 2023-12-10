@@ -10,19 +10,19 @@ const PageProductsCatalog = () => {
   const { t } = useTranslation('products');
   const [activeTab, setActiveTab] = useSearchParamAsState<string>(
     'tab',
-    'stake',
+    'trade',
   );
 
   const items: TabsProps['items'] = [
     {
-      key: 'stake',
-      label: t('product-detail.type.stake'),
-      children: <TabStake />,
-    },
-    {
       key: 'trade',
       label: t('product-detail.type.trade'),
       children: <TabTrade />,
+    },
+    {
+      key: 'stake',
+      label: t('product-detail.type.stake'),
+      children: <TabStake />,
     },
   ];
 
