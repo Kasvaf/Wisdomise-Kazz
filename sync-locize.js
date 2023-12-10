@@ -9,6 +9,7 @@ const version = 'latest';
 const baseLang = 'en';
 const localesPath = 'src/i18n/';
 const otherLangs = ['ja'];
+const namespacePrefix = 'd';
 
 function flatten(obj) {
   if (!obj || typeof obj !== 'object') return obj;
@@ -26,9 +27,9 @@ function flatten(obj) {
 }
 
 const getRemoteLocales = (language, namespace) =>
-  fetch(`${endpoint}/${projectId}/${version}/${language}/${namespace}`).then(
-    x => x.json(),
-  );
+  fetch(
+    `${endpoint}/${projectId}/${version}/${language}/${namespacePrefix}-${namespace}`,
+  ).then(x => x.json());
 
 async function run() {
   const baseLangPath = localesPath + baseLang;
@@ -57,7 +58,7 @@ async function run() {
         for (let i = 0; i < changedEntries.length; i += 1000) {
           const batch = changedEntries.slice(i, i + 1000);
           await fetch(
-            `${endpoint}/update/${projectId}/${version}/${baseLang}/${namespace}`,
+            `${endpoint}/update/${projectId}/${version}/${baseLang}/${namespacePrefix}-${namespace}`,
             {
               method: 'POST',
               headers: {
@@ -75,7 +76,7 @@ async function run() {
         for (let i = 0; i < usedEntries.length; i += 1000) {
           const batch = usedEntries.slice(i, i + 1000);
           await fetch(
-            `${endpoint}/used/${projectId}/${version}/${baseLang}/${namespace}`,
+            `${endpoint}/used/${projectId}/${version}/${baseLang}/${namespacePrefix}-${namespace}`,
             {
               method: 'POST',
               headers: {
