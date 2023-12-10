@@ -50,12 +50,14 @@ subscription-details:
     method: 支払い方法
     status: ステータス
   overview:
+    automatically-renew: 自動で更新されます。
     billing-actions: 支払い状況
     billing-email: ご請求メールは<1>{{email}}</1>にお送りします。
     btn-change-plan: プランの変更
     card: 下4桁<1>****{{last4}}</1>のカードに請求します。
     charging: <1>${{ amount }}</1>をご登録カードに請求いたします。
     current-plan: 現在ご契約のプランは<1>{{plan}}</1>です。
+    in-order-to-renew: 更新するにはトランザクションを再度お送りください。
     is-on-the-way:
       description: サブスクリプション契約のお支払いを仮想通貨で受け付けました。確認に24-48時間かかります。アカウントのアクティベーションが完了出来次第メールにてご連絡いたします。
       title: サブスクリプションのアクティベーション準備中
@@ -76,3 +78,19 @@ success-modal:
   redirecting-msg: <1>({{timeout}})</1>秒でリダイレクトされます。
   subtitle: 次のステップに進められます
   title: サブスクリプションのご契約ありがとうございます
+token-modal:
+  activate-subscription: サブスクリプションを起動させる
+  congratulations: おめでとうございます！
+  description: Wisdomiseトークンは差し引かれません。サブスクリプション期間中、アクセスを得るためにトークンをウォレットに保持する必要があります。
+  done: 完了
+  for-1-year: 1年間
+  purchase-token: Wisdomiseトークンの購入
+  refresh: 更新
+  subscribe-to: "次のプランに契約する:"
+  subtotal: 小計
+  title: Wisdomise AG
+  token: tWSDM
+  token-name: Wisdomise トークン (tWSDM)
+  total-amount: ウォレットに保有が必要な量
+  you-can: "{{name}} 機能にアクセス可能です。"
+  your-balance: tWSDMトークン保有量
