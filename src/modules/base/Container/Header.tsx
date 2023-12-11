@@ -4,7 +4,7 @@ import { ATHENA_FE, RouterBaseName } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import BranchSelector from './BranchSelector';
 import WalletDropdown from './WalletDropdown';
-import UserDropdown from './UserDropdown';
+import ProfileMenu from './ProfileMenu';
 
 interface Props {
   className?: string;
@@ -27,7 +27,7 @@ const Header: React.FC<Props> = ({ className }) => {
         <div className="mobile:hidden">
           <WalletDropdown />
         </div>
-        <UserDropdown />
+        <ProfileMenu />
       </div>
     </div>
   );

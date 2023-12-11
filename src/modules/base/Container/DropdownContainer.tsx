@@ -16,7 +16,7 @@ const DropdownContainer: React.FC<Props> = forwardRef<
     <div
       ref={ref}
       className={clsx(
-        'mt-1 flex flex-col rounded-3xl bg-[#272A32] p-2 font-poppins backdrop-blur-lg',
+        'mt-1 flex flex-col rounded-xl bg-[#151619] p-2 font-poppins backdrop-blur-lg',
         className,
       )}
       onClick={useCallback(() => setOpen?.(false), [setOpen])}

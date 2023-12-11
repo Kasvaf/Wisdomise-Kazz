@@ -46,6 +46,17 @@
 
 /* ------------------------------------------------- */
 
+.ant-drawer {
+  .ant-drawer-header-title {
+    flex-direction: row-reverse;
+  }
+  .ant-drawer-close {
+    margin: 0;
+  }
+}
+
+/* ------------------------------------------------- */
+
 .ant-btn.cancel-order {
   font-size: 12px;
   height: 32px;

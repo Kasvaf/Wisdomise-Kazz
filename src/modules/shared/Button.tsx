@@ -93,7 +93,7 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-xl bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5',
+          'rounded-xl bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/20 [&.active]:bg-black/30',
           disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
           size === 'small' && '!p-[10px_12px] ',
           loading && 'cursor-wait',

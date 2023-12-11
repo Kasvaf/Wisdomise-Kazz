@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { NavLink } from 'react-router-dom';
-import useMenuItems from '../useMenuItems';
+import useMenuItems from './useMenuItems';
 
 const MobileMenu: React.FC = () => {
   const { items: MenuItems } = useMenuItems();

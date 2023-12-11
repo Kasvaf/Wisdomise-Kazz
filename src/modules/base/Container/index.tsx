@@ -8,7 +8,7 @@ import AuthGuard from 'modules/auth/AuthGuard';
 import PageWrapper from '../PageWrapper';
 import Header from './Header';
 import SideMenu from './SideMenu';
-import MobileMenu from './MobileMenu';
+import BottomNavBar from './BottomNavBar';
 import TrialBanner from './TrialBanner';
 
 const Container = () => {
@@ -48,7 +48,7 @@ const Container = () => {
             </CSSTransition>
           </TransitionGroup>
         </div>
-        <MobileMenu />
+        <BottomNavBar />
       </main>
     </AuthGuard>
   );
