@@ -25,7 +25,7 @@ const BranchSelector = () => {
       loading={branches.isLoading}
       onChange={gotoBranch}
       options={branches.data}
-      className="text-white"
+      className="mr-2 text-white"
     />
   );
 };

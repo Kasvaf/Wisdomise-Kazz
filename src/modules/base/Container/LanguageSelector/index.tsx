@@ -46,33 +46,31 @@ const LanguageSelector: React.FC<PropsWithChildren> = () => {
 
   const isMobile = useIsMobile();
   return (
-    <div>
-      <Dropdown
-        open={open}
-        trigger={['click']}
-        onOpenChange={setOpen}
-        placement="bottomRight"
-        dropdownRender={dropDownFn}
-      >
-        {isMobile ? (
-          <div className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40">
-            <div className="text-white/80">Language</div>
-            <div className="text-right">{i18n.language.toUpperCase()}</div>
+    <Dropdown
+      open={open}
+      trigger={['click']}
+      onOpenChange={setOpen}
+      placement="bottomRight"
+      dropdownRender={dropDownFn}
+    >
+      {isMobile ? (
+        <div className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40">
+          <div className="text-white/80">Language</div>
+          <div className="text-right">{i18n.language.toUpperCase()}</div>
+        </div>
+      ) : (
+        <Button
+          className={clsx('mr-3 h-12 !p-3', open && 'active')}
+          variant="alternative"
+          loading={loading}
+        >
+          <div className="flex items-center">
+            <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3" />
+            <div>{i18n.language.toUpperCase()}</div>
           </div>
-        ) : (
-          <Button
-            className={clsx('mr-3 h-12 !p-3', open && 'active')}
-            variant="alternative"
-            loading={loading}
-          >
-            <div className="flex items-center">
-              <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3" />
-              <div>{i18n.language.toUpperCase()}</div>
-            </div>
-          </Button>
-        )}
-      </Dropdown>
-    </div>
+        </Button>
+      )}
+    </Dropdown>
   );
 };
 

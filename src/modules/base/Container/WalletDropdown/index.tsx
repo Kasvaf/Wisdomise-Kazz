@@ -1,24 +1,28 @@
+import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
-import { bxChevronDown } from 'boxicons-quasar';
-import { useCallback, useEffect, useState } from 'react';
+import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
+import { useCallback, useEffect, useState } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
-import Icon from 'shared/Icon';
+import Button from 'shared/Button';
+import useMainQuote from 'shared/useMainQuote';
 import DropdownContainer from '../DropdownContainer';
 import WalletDropdownContent from './WalletDropdownContent';
+import { ReactComponent as WalletIcon } from './wallet.svg';
 
-const WalletDropdown = () => {
+const WalletDropdown: React.FC = () => {
   const { t } = useTranslation('wallet');
   const [open, setOpen] = useState(false);
   const dropDownFn = useCallback(
     () => (
-      <DropdownContainer className="w-80 bg-[#272A32] !p-4" setOpen={setOpen}>
+      <DropdownContainer className="w-80 !p-4" setOpen={setOpen}>
         <WalletDropdownContent />
       </DropdownContainer>
     ),
     [],
   );
 
+  const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
   const noWithdraw =
     ias.data?.[0]?.financial_product_instances?.[0]?.financial_product?.config
@@ -26,6 +30,7 @@ const WalletDropdown = () => {
   const hasWallet = Boolean(
     ias?.data?.[0]?.main_exchange_account && !noWithdraw,
   );
+  const totalBalance = ias.data?.[0]?.total_equity || 0;
 
   useEffect(() => {
     if (open) {
@@ -33,29 +38,26 @@ const WalletDropdown = () => {
     }
   }, [open, ias]);
 
+  if (!hasWallet) return null;
   return (
-    <div className="ml-auto flex">
-      {hasWallet && (
-        <div className="mx-4 flex items-center justify-evenly px-4">
-          <div className="ml-4 min-w-0 grow-0">
-            <Dropdown
-              open={open}
-              trigger={['click']}
-              onOpenChange={setOpen}
-              placement="bottomRight"
-              dropdownRender={dropDownFn}
-            >
-              <div className="flex items-center">
-                <button className="flex text-white">
-                  <p className="px-2 font-medium">{t('title')}</p>
-                  <Icon name={bxChevronDown} className="w-6 text-white" />
-                </button>
-              </div>
-            </Dropdown>
-          </div>
-        </div>
-      )}
-    </div>
+    <Dropdown
+      open={open}
+      trigger={['click']}
+      onOpenChange={setOpen}
+      placement="bottomRight"
+      dropdownRender={dropDownFn}
+    >
+      <Button
+        className={clsx('mr-3 h-12 !p-3 font-normal', open && 'active')}
+        contentClassName="gap-2"
+        variant="alternative"
+      >
+        <WalletIcon />
+        <span className="text-xs">{t('wallet:available')}:</span>
+        <span>{numerable.format(totalBalance, '0,0.00')}</span>
+        <span className="text-xs text-white/40">{mainQuote}</span>
+      </Button>
+    </Dropdown>
   );
 };
 
