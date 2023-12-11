@@ -1,3 +1,4 @@
+import { Crisp } from 'crisp-sdk-web';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { clsx } from 'clsx';
@@ -12,6 +13,8 @@ import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as AccountIconEmpty } from '../useMenuItems/icons/account-empty.svg';
 import LanguageSelector from '../LanguageSelector';
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
+
+const openCrisp = () => Crisp.chat.open();
 
 const ProfileMenuContent = () => {
   const { t } = useTranslation('base');
@@ -92,7 +95,7 @@ const ProfileMenuContent = () => {
         Sign Out
       </Button>
 
-      <Button className="my-4 block w-full" variant="link">
+      <Button className="my-4 block w-full" variant="link" onClick={openCrisp}>
         <QuestionRectIcon />
         <span className="ml-3 mr-2">Question?</span>
         <span className="text-xs font-normal text-white/40">Chat with us</span>
