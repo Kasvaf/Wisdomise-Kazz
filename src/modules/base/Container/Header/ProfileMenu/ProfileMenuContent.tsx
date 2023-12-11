@@ -10,7 +10,7 @@ import {
 } from 'api';
 import Button from 'modules/shared/Button';
 import useIsMobile from 'utils/useIsMobile';
-import { ReactComponent as AccountIconEmpty } from '../useMenuItems/icons/account-empty.svg';
+import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
 import LanguageSelector from '../LanguageSelector';
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
 

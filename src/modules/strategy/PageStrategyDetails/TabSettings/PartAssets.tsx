@@ -3,7 +3,7 @@ import { Dropdown } from 'antd';
 import { bxPlus, bxX } from 'boxicons-quasar';
 import { type ChangeEventHandler, useCallback, useMemo, useState } from 'react';
 import { useAllowedAssetsQuery, type StrategyAsset, type Asset } from 'api';
-import DropdownContainer from 'modules/base/Container/DropdownContainer';
+import DropdownContainer from 'shared/DropdownContainer';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import PairInfo from 'shared/PairInfo';

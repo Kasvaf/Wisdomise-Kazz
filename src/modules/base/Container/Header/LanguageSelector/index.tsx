@@ -2,9 +2,9 @@ import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { type PropsWithChildren, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
-import DropdownContainer from '../DropdownContainer';
+import DropdownContainer from 'shared/DropdownContainer';
+import DropButton from '../DropButton';
 import { ReactComponent as LangIcon } from './lang-icon.svg';
 
 const langs = [
@@ -59,16 +59,15 @@ const LanguageSelector: React.FC<PropsWithChildren> = () => {
           <div className="text-right">{i18n.language.toUpperCase()}</div>
         </div>
       ) : (
-        <Button
-          className={clsx('mr-3 h-12 !p-3', open && 'active')}
-          variant="alternative"
+        <DropButton
+          className={clsx('mr-3', open && 'active')}
           loading={loading}
         >
           <div className="flex items-center">
             <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3" />
             <div>{i18n.language.toUpperCase()}</div>
           </div>
-        </Button>
+        </DropButton>
       )}
     </Dropdown>
   );

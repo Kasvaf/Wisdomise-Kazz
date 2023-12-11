@@ -4,9 +4,9 @@ import { ATHENA_FE, RouterBaseName } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import useIsMobile from 'utils/useIsMobile';
 import BranchSelector from './BranchSelector';
+import LanguageSelector from './LanguageSelector';
 import WalletDropdown from './WalletDropdown';
 import ProfileMenu from './ProfileMenu';
-import LanguageSelector from './LanguageSelector';
 
 interface Props {
   className?: string;

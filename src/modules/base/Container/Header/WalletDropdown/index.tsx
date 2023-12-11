@@ -4,9 +4,9 @@ import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useInvestorAssetStructuresQuery } from 'api';
-import Button from 'shared/Button';
 import useMainQuote from 'shared/useMainQuote';
-import DropdownContainer from '../DropdownContainer';
+import DropdownContainer from 'shared/DropdownContainer';
+import DropButton from '../DropButton';
 import WalletDropdownContent from './WalletDropdownContent';
 import { ReactComponent as WalletIcon } from './wallet.svg';
 
@@ -47,16 +47,12 @@ const WalletDropdown: React.FC = () => {
       placement="bottomRight"
       dropdownRender={dropDownFn}
     >
-      <Button
-        className={clsx('mr-3 h-12 !p-3 font-normal', open && 'active')}
-        contentClassName="gap-2"
-        variant="alternative"
-      >
+      <DropButton className={clsx('mr-3 gap-2 font-normal', open && 'active')}>
         <WalletIcon />
         <span className="text-xs">{t('wallet:available')}:</span>
         <span>{numerable.format(totalBalance, '0,0.00')}</span>
         <span className="text-xs text-white/40">{mainQuote}</span>
-      </Button>
+      </DropButton>
     </Dropdown>
   );
 };

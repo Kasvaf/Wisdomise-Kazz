@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { useCallback, useState } from 'react';
-import Button from 'shared/Button';
-import DropdownContainer from '../DropdownContainer';
-import { ReactComponent as AccountIconEmpty } from '../useMenuItems/icons/account-empty.svg';
-import { ReactComponent as AccountIconFull } from '../useMenuItems/icons/account-full.svg';
+import DropdownContainer from 'shared/DropdownContainer';
+import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
+import { ReactComponent as AccountIconFull } from '../../useMenuItems/icons/account-full.svg';
+import DropButton from '../DropButton';
 import ProfileMenuContent from './ProfileMenuContent';
 
 const ProfileMenuDesktop = () => {
@@ -28,12 +28,9 @@ const ProfileMenuDesktop = () => {
         placement="bottomRight"
         dropdownRender={dropDownFn}
       >
-        <Button
-          className={clsx('!p-3', open && 'active')}
-          variant="alternative"
-        >
+        <DropButton className={clsx(open && 'active')}>
           {open ? <AccountIconFull /> : <AccountIconEmpty />}
-        </Button>
+        </DropButton>
       </Dropdown>
     </div>
   );
