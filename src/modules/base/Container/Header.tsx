@@ -5,6 +5,7 @@ import Logo from 'assets/logo-horizontal-beta.svg';
 import BranchSelector from './BranchSelector';
 import WalletDropdown from './WalletDropdown';
 import ProfileMenu from './ProfileMenu';
+import LanguageSelector from './LanguageSelector';
 
 interface Props {
   className?: string;
@@ -24,7 +25,9 @@ const Header: React.FC<Props> = ({ className }) => {
           <img src={Logo} />
         </a>
         {RouterBaseName && <BranchSelector />}
+
         <div className="mobile:hidden">
+          <LanguageSelector />
           <WalletDropdown />
         </div>
         <ProfileMenu />

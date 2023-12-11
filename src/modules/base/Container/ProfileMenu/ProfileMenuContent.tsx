@@ -8,7 +8,9 @@ import {
   useSubscription,
 } from 'api';
 import Button from 'modules/shared/Button';
+import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as AccountIconEmpty } from '../useMenuItems/icons/account-empty.svg';
+import LanguageSelector from '../LanguageSelector';
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
 
 const ProfileMenuContent = () => {
@@ -17,6 +19,7 @@ const ProfileMenuContent = () => {
   const { data: account } = useAccountQuery();
   const { data: referral } = useReferralStatusQuery();
   const { verifiedCount } = useIsVerified();
+  const isMobile = useIsMobile();
 
   return (
     <div className="text-white">
@@ -26,6 +29,7 @@ const ProfileMenuContent = () => {
       </div>
 
       <div className="mt-4 overflow-hidden rounded-xl bg-white/[.02]">
+        {isMobile && <LanguageSelector />}
         <NavLink
           to="/account/billing"
           className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40"
