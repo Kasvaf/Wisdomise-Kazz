@@ -54,9 +54,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      inter: ['inter', ...defaultTheme.fontFamily.sans],
-      campton: ['campton', ...defaultTheme.fontFamily.sans],
-      poppins: ['poppins', ...defaultTheme.fontFamily.sans],
+      jakarta: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
     },
   },
   plugins: [animationDelay, twElements, typography, 'tailwindcss/nesting'],

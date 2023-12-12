@@ -27,7 +27,6 @@ export default function AreaChart({
       label: {
         style: {
           fontSize: 9,
-          fontFamily: 'poppins',
           fill: '#ffffff33',
         },
         formatter: v => numerable.format(v, '0,0.0 a'),
@@ -67,7 +66,6 @@ export default function AreaChart({
       label: {
         style: {
           fontSize: 9,
-          fontFamily: 'poppins',
           fill: '#ffffff33',
         },
         formatter: v => v.split('-')[1] + '-' + v.split('-')[2],
