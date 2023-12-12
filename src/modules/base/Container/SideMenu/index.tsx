@@ -5,7 +5,6 @@ import Logo from 'assets/logo-horizontal-beta.svg';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as TreeMid } from './tree-mid.svg';
 import { ReactComponent as TreeLast } from './tree-last.svg';
-import { ReactComponent as SignOutIcon } from './signout.svg';
 
 const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
   item,
@@ -79,14 +78,6 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
             ))}
           </div>
         </div>
-
-        <NavLink
-          to="/auth/logout"
-          className="flex items-center rounded-xl p-4 text-white opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100"
-        >
-          <SignOutIcon />
-          <div className="ml-2">Sign out</div>
-        </NavLink>
       </div>
     </div>
   );

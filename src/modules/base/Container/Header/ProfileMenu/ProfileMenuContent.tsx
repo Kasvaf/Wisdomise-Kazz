@@ -12,6 +12,7 @@ import Button from 'modules/shared/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
 import LanguageSelector from '../LanguageSelector';
+import { ReactComponent as SignOutIcon } from './signout.svg';
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
 
 const openCrisp = () => Crisp.chat.open();
@@ -88,10 +89,11 @@ const ProfileMenuContent = () => {
 
       <Button
         className="my-4 block w-full !border-error hover:!border-error/70"
-        contentClassName="text-error"
+        contentClassName="text-error gap-3"
         variant="secondary"
         to="/auth/logout"
       >
+        <SignOutIcon />
         Sign Out
       </Button>
 
