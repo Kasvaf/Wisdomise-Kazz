@@ -11,8 +11,8 @@
 }
 
 .ant-modal-content {
+  @apply !bg-page;
   border-radius: 10px !important;
-  background-color: #1f242d !important;
   .anticon-close {
     color: white;
   }

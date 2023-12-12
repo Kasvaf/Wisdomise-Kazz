@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { type PropsWithChildren, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useIsMobile from 'utils/useIsMobile';
 import DropdownContainer from 'shared/DropdownContainer';
 import DropButton from '../DropButton';
 import { ReactComponent as LangIcon } from './lang-icon.svg';
@@ -12,7 +11,7 @@ const langs = [
   { value: 'ja', label: '日本語' },
 ];
 
-const LanguageSelector: React.FC<PropsWithChildren> = () => {
+const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
   const { i18n } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -44,7 +43,6 @@ const LanguageSelector: React.FC<PropsWithChildren> = () => {
     </DropdownContainer>
   );
 
-  const isMobile = useIsMobile();
   return (
     <Dropdown
       open={open}
@@ -53,12 +51,7 @@ const LanguageSelector: React.FC<PropsWithChildren> = () => {
       placement="bottomRight"
       dropdownRender={dropDownFn}
     >
-      {isMobile ? (
-        <div className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40">
-          <div className="text-white/80">Language</div>
-          <div className="text-right">{i18n.language.toUpperCase()}</div>
-        </div>
-      ) : (
+      {children || (
         <DropButton
           className={clsx('mr-3', open && 'active')}
           loading={loading}

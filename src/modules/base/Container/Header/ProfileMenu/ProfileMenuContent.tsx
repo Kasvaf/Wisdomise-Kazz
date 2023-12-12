@@ -1,24 +1,31 @@
-import { Crisp } from 'crisp-sdk-web';
-import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { bxLinkExternal } from 'boxicons-quasar';
+import { Crisp } from 'crisp-sdk-web';
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { bxChevronRight, bxLinkExternal } from 'boxicons-quasar';
+import { type PropsWithChildren } from 'react';
 import {
-  useAccountQuery,
   useIsVerified,
-  useReferralStatusQuery,
+  useAccountQuery,
   useSubscription,
+  useReferralStatusQuery,
 } from 'api';
-import Button from 'modules/shared/Button';
+import Icon from 'shared/Icon';
+import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
-import Icon from 'modules/shared/Icon';
-import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
 import LanguageSelector from '../LanguageSelector';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
-import { ReactComponent as SignOutIcon } from './signout.svg';
+import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
+import { ReactComponent as SignOutIcon } from './signout.svg';
 
 const openCrisp = () => Crisp.chat.open();
+const WithChevron: React.FC<PropsWithChildren> = ({ children }) => (
+  <div className="flex items-center">
+    {children}
+    <Icon name={bxChevronRight} className="ml-2 text-white/10" />
+  </div>
+);
 
 const ReferralSection = () => {
   const { t } = useTranslation('base');
@@ -29,16 +36,18 @@ const ReferralSection = () => {
       className="flex h-16 items-center justify-between p-3 hover:bg-black/40"
     >
       <div className="text-white/80">{t('menu.referral.title')}</div>
-      <div className="text-right">
-        {referral != null && (
-          <div className="flex flex-wrap items-center gap-x-2">
-            <div className="text-base font-medium leading-6 text-white">
-              {referral?.referred_users_count}
+      <WithChevron>
+        <div className="text-right">
+          {referral != null && (
+            <div className="flex flex-wrap items-center gap-x-2">
+              <div className="text-base font-medium leading-6 text-white">
+                {referral?.referred_users_count}
+              </div>
+              <div className="text-xs text-white/40">Invited</div>
             </div>
-            <div className="text-xs text-white/40">Invited</div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </WithChevron>
     </NavLink>
   );
 };
@@ -67,7 +76,7 @@ const ExternalLinks = () => {
 };
 
 const ProfileMenuContent = () => {
-  const { t } = useTranslation('base');
+  const { t, i18n } = useTranslation('base');
   const subscription = useSubscription();
   const { data: account } = useAccountQuery();
   const { verifiedCount } = useIsVerified();
@@ -87,23 +96,36 @@ const ProfileMenuContent = () => {
       )}
 
       <div className="mt-4 overflow-hidden rounded-xl bg-black/30">
-        {isMobile && <LanguageSelector />}
+        {isMobile && (
+          <LanguageSelector>
+            <div className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40">
+              <div className="text-white/80">Language</div>
+              <WithChevron>
+                <div className="text-right">{i18n.language.toUpperCase()}</div>
+              </WithChevron>
+            </div>
+          </LanguageSelector>
+        )}
         <NavLink
           to="/account/billing"
           className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40"
         >
           <div className="text-white/80">{t('menu.billing.title')}</div>
-          <div className="text-right">
-            <div className="text-[#34A3DA]">{subscription.title}</div>
-            <div>
-              <span
-                className={clsx(subscription.remaining ? '' : 'text-error')}
-              >
-                {String(subscription.remaining) + 'd'}
-              </span>
-              <span className="text-white/40"> Remains</span>
+          <WithChevron>
+            <div className="text-right">
+              <div className="text-[#34A3DA]">{subscription.title}</div>
+              <div>
+                <span
+                  className={clsx(
+                    subscription.remaining ? 'text-white' : 'text-error',
+                  )}
+                >
+                  {String(subscription.remaining) + 'd'}
+                </span>
+                <span className="text-white/40"> Remains</span>
+              </div>
             </div>
-          </div>
+          </WithChevron>
         </NavLink>
 
         <NavLink
@@ -111,16 +133,18 @@ const ProfileMenuContent = () => {
           className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40"
         >
           <div className="text-white/80">KYC</div>
-          <div className="text-right">
-            <div
-              className={clsx(
-                'text-base font-medium leading-6',
-                verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
-              )}
-            >
-              {verifiedCount}/3
+          <WithChevron>
+            <div className="text-right">
+              <div
+                className={clsx(
+                  'text-base font-medium leading-6',
+                  verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
+                )}
+              >
+                {verifiedCount}/3
+              </div>
             </div>
-          </div>
+          </WithChevron>
         </NavLink>
 
         {!isMobile && <ReferralSection />}
