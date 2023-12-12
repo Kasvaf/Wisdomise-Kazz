@@ -7,10 +7,8 @@ menu:
     title: External Account
   asset-overview:
     title: Asset Overview
-  athena: Athena
   billing:
     title: Subscription
-  dashboard: Dashboard
   financial-products:
     title: Financial Products
   kyc:
@@ -19,7 +17,6 @@ menu:
     title: Notifications
   profile:
     title: Profile
-  profile-dashboard: Profile Dashboard
   referral:
     title: Referral
   signal-matrix:
