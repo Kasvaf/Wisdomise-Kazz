@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ATHENA_FE } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
@@ -24,26 +25,33 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
           <p className="ml-2">{item.text}</p>
         </div>
       </NavLink>
-      {item.children?.length && isActive && (
-        <div className="ml-6 mt-3">
-          {item.children.map((subItem, ind, all) => (
-            <NavLink
-              key={subItem.link}
-              to={subItem.link}
-              className={clsx('group flex h-12 items-stretch')}
-            >
-              {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
-              <div
-                className={clsx(
-                  'my-1 ml-1 flex grow items-center rounded-xl px-4 text-sm group-hover:bg-[#FFFFFF0D]',
-                  'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
-                )}
+      {item.children?.length && (
+        <AnimateHeight
+          height={isActive ? 'auto' : 0}
+          duration={200}
+          animateOpacity
+          className="mt-3"
+        >
+          <div className="ml-6">
+            {item.children.map((subItem, ind, all) => (
+              <NavLink
+                key={subItem.link}
+                to={subItem.link}
+                className={clsx('group flex h-12 items-stretch')}
               >
-                {subItem.text}
-              </div>
-            </NavLink>
-          ))}
-        </div>
+                {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
+                <div
+                  className={clsx(
+                    'my-1 ml-1 flex grow items-center rounded-xl px-4 text-sm group-hover:bg-[#FFFFFF0D]',
+                    'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
+                  )}
+                >
+                  {subItem.text}
+                </div>
+              </NavLink>
+            ))}
+          </div>
+        </AnimateHeight>
       )}
     </div>
   );
