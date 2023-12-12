@@ -67,7 +67,7 @@ const appRoutes: RouteObject[] = [
         path: 'staking/protocol/:id',
         element: <PageProtocolDetails />,
       },
-      { path: '', element: <Navigate to="/investment/assets" /> },
+      { path: '', element: <Navigate to="/investment" /> },
     ],
   },
 ];
