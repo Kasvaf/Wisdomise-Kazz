@@ -43,7 +43,9 @@ const ReferralSection = () => {
               <div className="text-base font-medium leading-6 text-white">
                 {referral?.referred_users_count}
               </div>
-              <div className="text-xs text-white/40">Invited</div>
+              <div className="text-xs text-white/40">
+                {t('auth:page-referral.invited')}
+              </div>
             </div>
           )}
         </div>
@@ -53,9 +55,13 @@ const ReferralSection = () => {
 };
 
 const ExternalLinks = () => {
+  const { t } = useTranslation('base');
   const items = [
-    { label: 'Blog', link: 'https://wisdomise.medium.com/' },
-    { label: 'About Us', link: 'https://landing.wisdomise.com/about-us/' },
+    { label: t('links.blog'), link: 'https://wisdomise.medium.com/' },
+    {
+      label: t('links.about-us'),
+      link: 'https://landing.wisdomise.com/about-us/',
+    },
   ];
 
   return (
@@ -99,7 +105,7 @@ const ProfileMenuContent = () => {
         {isMobile && (
           <LanguageSelector>
             <div className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40">
-              <div className="text-white/80">Language</div>
+              <div className="text-white/80">{t('language')}</div>
               <WithChevron>
                 <div className="text-right">{i18n.language.toUpperCase()}</div>
               </WithChevron>
@@ -122,7 +128,9 @@ const ProfileMenuContent = () => {
                 >
                   {String(subscription.remaining) + 'd'}
                 </span>
-                <span className="text-white/40"> Remains</span>
+                <span className="ml-1 text-white/40">
+                  {t('menu.billing.remains')}
+                </span>
               </div>
             </div>
           </WithChevron>
@@ -157,13 +165,15 @@ const ProfileMenuContent = () => {
         to="/auth/logout"
       >
         <SignOutIcon />
-        Sign Out
+        {t('user.sign-out')}
       </Button>
 
       <Button className="my-4 block w-full" variant="link" onClick={openCrisp}>
         <QuestionRectIcon />
-        <span className="ml-3 mr-2">Question?</span>
-        <span className="text-xs font-normal text-white/40">Chat with us</span>
+        <span className="ml-3 mr-2">{t('support.title')}</span>
+        <span className="text-xs font-normal text-white/40">
+          {t('support.hint')}
+        </span>
       </Button>
 
       <div className="mb-4 border-b border-b-white/5" />

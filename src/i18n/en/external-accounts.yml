@@ -1,6 +1,7 @@
 account:
   name: Account Name
   account: Account
+  accounts: Accounts
   exchange: Exchange
   market: Market
   status: Status

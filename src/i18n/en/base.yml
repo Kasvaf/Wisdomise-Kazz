@@ -2,29 +2,54 @@ error-page:
   title: Something went wrong and we don't know how :(
   subtitle: But we'll try our best so that it won't happen again.
   btn-reload: Reload
+language: Language
+links:
+  about-us: About Us
+  blog: Blog
 menu:
+  account:
+    title: Account
+    subtitle: Manage your account settings and preferences
   account-manager:
     title: External Account
+    subtitle: Integrate exchange accounts.
   asset-overview:
     title: Asset Overview
+    subtitle: Monitor and manage your financial products.
   billing:
     title: Subscription
+    subtitle: Subscription preferences.
+    remains: remains
   financial-products:
     title: Financial Products
+    subtitle: Explore different investment package opportunities
+    active-product: Active Product
+  investment:
+    title: Investment
+    subtitle: Explore Auto Trader or DeFi Staking financial products
   kyc:
     title: KYC
+    subtitle: Verify identity to access features.
   notification-center:
     title: Notifications
+    subtitle: Signal and alert settings.
   profile:
     title: Profile
+    subtitle: Edit login credentials.
   referral:
     title: Referral
+    subtitle: Invite and earn rewards.
   signal-matrix:
     title: Signal Matrix
   strategies:
     title: Strategies
   token:
     title: WSDM Token
+    subtitle: Use tokens for premium access.
+support:
+  title: Question?
+  hint: Chat with us
 user:
   logout: Logout
+  sign-out: Sign Out
 wisdomise-is-loading: Wisdomise is loading ...

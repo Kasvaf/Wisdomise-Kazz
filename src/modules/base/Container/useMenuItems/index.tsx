@@ -37,7 +37,7 @@ const useMenuItems = () => {
   const items: RootMenuItem[] = [
     {
       icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
-      text: 'Investment',
+      text: t('menu.investment.title'),
       link: '/investment',
       children: [
         {
@@ -64,7 +64,7 @@ const useMenuItems = () => {
     },
     {
       icon: Icon(AccountIconEmpty, AccountIconFull),
-      text: 'Account',
+      text: t('menu.account.title'),
       link: '/account',
       children: [
         {
