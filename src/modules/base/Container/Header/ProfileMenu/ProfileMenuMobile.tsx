@@ -53,6 +53,7 @@ const ProfileMenuMobile = () => {
           open={open}
           closable={true}
           title={<WisdomiseLogo />}
+          width={430}
         >
           <ProfileMenuContent />
         </Drawer>
