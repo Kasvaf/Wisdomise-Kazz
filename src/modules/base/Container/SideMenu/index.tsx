@@ -1,9 +1,7 @@
 import { clsx } from 'clsx';
 import { NavLink, useLocation } from 'react-router-dom';
-import { bxChevronDown } from 'boxicons-quasar';
 import { ATHENA_FE } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
-import Icon from 'modules/shared/Icon';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as TreeMid } from './tree-mid.svg';
 import { ReactComponent as TreeLast } from './tree-last.svg';
@@ -26,15 +24,6 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
           <span>{item.icon}</span>
           <p className="ml-2">{item.text}</p>
         </div>
-        {item.children ? (
-          <Icon
-            className="-my-6 group-[.active]:-scale-100"
-            size={32}
-            name={bxChevronDown}
-          />
-        ) : (
-          <div />
-        )}
       </NavLink>
       {item.children?.length && isActive && (
         <div className="ml-6 mt-3">
