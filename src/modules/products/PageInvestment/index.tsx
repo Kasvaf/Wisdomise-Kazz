@@ -37,7 +37,9 @@ const PageInvestment = () => {
           {activeProduct && (
             <>
               <div className="text-xs font-normal">Active Product</div>
-              <div className="text-2xl font-medium">{activeProduct}</div>
+              <div className="text-2xl font-medium mobile:text-xl">
+                {activeProduct}
+              </div>
             </>
           )}
         </CardPageLink>

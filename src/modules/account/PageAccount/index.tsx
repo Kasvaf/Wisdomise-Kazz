@@ -46,7 +46,7 @@ const PageAccount = () => {
           icon={<IconSubscription />}
         >
           <div className="flex flex-wrap items-end gap-x-2">
-            <div className="text-2xl font-medium leading-6">
+            <div className="text-2xl font-medium leading-6 mobile:text-xl">
               {subscription.title}
             </div>
             <div
@@ -66,7 +66,7 @@ const PageAccount = () => {
           icon={<IconKYC />}
         >
           <div className="flex flex-wrap items-end gap-x-2">
-            <div className="text-2xl font-medium leading-6">
+            <div className="text-2xl font-medium leading-6 mobile:text-xl">
               {verifiedCount}/3
             </div>
             <div
@@ -93,7 +93,7 @@ const PageAccount = () => {
         >
           {exchanges != null && (
             <div className="flex flex-wrap items-end gap-x-2">
-              <div className="text-2xl font-medium leading-6">
+              <div className="text-2xl font-medium leading-6 mobile:text-xl">
                 {exchanges?.length}
               </div>
               <div className="text-xs">Accounts</div>
@@ -114,7 +114,7 @@ const PageAccount = () => {
         >
           {referral != null && (
             <div className="flex flex-wrap items-end gap-x-2">
-              <div className="text-2xl font-medium leading-6">
+              <div className="text-2xl font-medium leading-6 mobile:text-xl">
                 {referral?.referred_users_count}
               </div>
               <div className="text-xs">Invited</div>
