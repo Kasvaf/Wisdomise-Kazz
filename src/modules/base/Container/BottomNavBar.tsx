@@ -13,8 +13,8 @@ const MobileMenu: React.FC = () => {
           to={i.link}
           key={i.link}
           className={clsx(
-            'group m-2 flex flex-1 flex-col items-center justify-center rounded-lg',
-            'opacity-60 [&.active]:bg-black/5 [&.active]:font-bold [&.active]:opacity-100',
+            'group flex flex-1 flex-col items-center justify-center',
+            'opacity-60 [&.active]:font-bold [&.active]:opacity-100',
           )}
         >
           {i.icon}
