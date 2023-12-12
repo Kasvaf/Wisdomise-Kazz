@@ -53,6 +53,15 @@
   .ant-drawer-close {
     margin: 0;
   }
+  .ant-drawer-header {
+    border-bottom: none;
+  }
+  .ant-drawer-body {
+    @apply p-4;
+  }
+  .ant-drawer-content {
+    @apply bg-page;
+  }
 }
 
 /* ------------------------------------------------- */

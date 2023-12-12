@@ -29,53 +29,43 @@ const WalletDropdownContent: React.FC = () => {
     <>
       <div className="flex justify-around gap-2 rounded-lg bg-white/5 p-4 mobile:bg-black/5">
         <div className="flex flex-col items-center">
-          <p className="text-xs text-white/80 mobile:text-black/80">
-            {t('total-balance')}
-          </p>
-          <p className="text-white mobile:text-black">
+          <p className="text-xs text-white/80">{t('total-balance')}</p>
+          <p className="text-white">
             {roundDown(totalBalance)}{' '}
-            <span className="text-white/80 mobile:text-black/80">
-              {mainQuote}
-            </span>
+            <span className="text-white/80">{mainQuote}</span>
           </p>
         </div>
         <div className="border-l border-white/10" />
         <div className="flex flex-col items-center ">
-          <p className="text-xs text-white/80 mobile:text-black/80">
-            {t('withdrawable')}
-          </p>
-          <p className="text-white mobile:text-black">
+          <p className="text-xs text-white/80">{t('withdrawable')}</p>
+          <p className="text-white">
             {roundDown(withdrawable)}{' '}
-            <span className="text-white/80 mobile:text-black/80">
-              {mainQuote}
-            </span>
+            <span className="text-white/80">{mainQuote}</span>
           </p>
         </div>
       </div>
       {(ias.data?.[0]?.financial_product_instances.length || 0) > 0 &&
         ias.data?.[0]?.financial_product_instances[0].status !== 'DRAFT' && (
-          <p className="mt-2 px-2 text-center text-xs text-white/80 mobile:text-black/80">
+          <p className="mt-2 px-2 text-center text-xs text-white/80">
             <Trans i18nKey="equity-description" ns="wallet" count={fpiCount}>
               You have
-              <span className="text-white mobile:text-black">
-                {{ count: fpiCount }}
-              </span>
+              <span className="text-white">{{ count: fpiCount }}</span>
               running product <br /> that block
-              <span className="text-white mobile:text-black">
+              <span className="text-white">
                 {{ blocked: roundDown(totalBalance - withdrawable) }}
               </span>
               {{ mainQuote }} of your equity.
             </Trans>
           </p>
         )}
-      <div className="mt-6 flex justify-around text-xs">
+      <div className="mt-0 flex justify-around text-xs">
         <Button
           variant="link"
           onClick={() => openDeposit({})}
           className="rounded-lg hover:bg-black/10"
         >
-          <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
-            <DepositIcon className="text-white mobile:text-black" />
+          <div className="flex flex-col items-center justify-center gap-2">
+            <DepositIcon />
             {t('btn-deposit')}
           </div>
         </Button>
@@ -86,8 +76,8 @@ const WalletDropdownContent: React.FC = () => {
           onClick={() => openWithdraw({})}
           className="rounded-lg hover:bg-black/10"
         >
-          <div className="flex flex-col items-center justify-center gap-2 mobile:text-black">
-            <WithdrawIcon className="text-white mobile:text-black" />
+          <div className="flex flex-col items-center justify-center gap-2">
+            <WithdrawIcon />
             {t('btn-withdraw')}
           </div>
         </Button>

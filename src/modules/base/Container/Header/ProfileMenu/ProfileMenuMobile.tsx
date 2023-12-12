@@ -47,7 +47,7 @@ const ProfileMenuMobile = () => {
 
       <div onClick={clickHandler}>
         <Drawer
-          className="rounded-l-3xl bg-page"
+          className="rounded-l-3xl"
           placement="right"
           onClose={onClose}
           open={open}
