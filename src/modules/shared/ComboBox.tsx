@@ -57,22 +57,24 @@ const ComboBox: React.FC<Props> = ({
   const dropDownFn = useCallback(
     () => (
       <div
-        className="w-full overflow-hidden rounded-xl bg-page text-white"
+        className="w-full overflow-hidden rounded-xl bg-[#151619] text-white"
         style={{ maxWidth: 'calc(100vw - 80px)' }}
       >
-        {options.map((item, ind) => (
-          <OptionItem
-            key={JSON.stringify(item)}
-            item={item}
-            onClick={selectItemHandler}
-            className={clsx(
-              ind !== options.length - 1 && 'border-b border-white/5',
-              optionClassName,
-            )}
-          >
-            {renderItem(item)}
-          </OptionItem>
-        ))}
+        <div className="max-h-[300px] overflow-auto">
+          {options.map((item, ind) => (
+            <OptionItem
+              key={JSON.stringify(item)}
+              item={item}
+              onClick={selectItemHandler}
+              className={clsx(
+                ind !== options.length - 1 && 'border-b border-white/20',
+                optionClassName,
+              )}
+            >
+              {renderItem(item)}
+            </OptionItem>
+          ))}
+        </div>
       </div>
     ),
     [options, renderItem, selectItemHandler, optionClassName],
@@ -103,7 +105,7 @@ const ComboBox: React.FC<Props> = ({
         </div>
 
         {options.length > 1 && !disabled && (
-          <div className="flex items-center rounded-full bg-white/10 p-1">
+          <div className="flex items-center p-1">
             <Icon
               name={bxChevronDown}
               className={clsx(

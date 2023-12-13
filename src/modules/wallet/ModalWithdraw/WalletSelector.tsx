@@ -13,8 +13,8 @@ const WalletOptionItemFn = (wallet: VerifiedWallet) => {
 
   return (
     <div className="mr-2 flex-1">
-      <div className="mb-2 flex border-b border-white/20 pb-2">
-        <div className="mr-6 border-r border-white/20 pr-6">
+      <div className="mb-2 flex border-b border-white/5 pb-2">
+        <div className="mr-6 border-r border-white/5 pr-6">
           {wallet.name || '(unnamed)'}
         </div>
         <div className="flex items-center gap-2">
