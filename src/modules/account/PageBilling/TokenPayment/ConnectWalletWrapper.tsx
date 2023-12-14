@@ -131,7 +131,7 @@ export default function ConnectWalletWrapper({ children, className }: Props) {
         <Card className="flex flex-col items-center gap-12 text-center">
           <Key className="mobile:w-24" />
           <h2 className="w-[17rem] text-lg">
-            Please sign this nonce with your private key
+            Please verify ownership by signing the nonce
           </h2>
           <div className="w-full rounded-xl bg-white/10 py-6 text-lg font-semibold text-white/60">
             {nonceResponse?.nonce}
