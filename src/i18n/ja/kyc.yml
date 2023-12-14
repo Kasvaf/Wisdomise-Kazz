@@ -5,6 +5,7 @@ badges:
   unknown: 読み込み中
   unverified: 未承認
   verified: 承認済み
+completed: 完了
 identification:
   btn-start-sumsub: Sumsubで始めましょう
   description: 身分証明をして、アカウントを開設しましょう。
