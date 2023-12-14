@@ -11,18 +11,26 @@ import { ReactComponent as IdentificationSvg } from './identification.svg';
 import { ReactComponent as WalletSvg } from './wallet.svg';
 import useModalVerifyWallet from './useModalVerifyWallet';
 
-const badgeByCalendlyStatus = {
-  UNVERIFIED: <Badge text="Unverified" color="white" />,
-  SET_CALENDLY_MEETING: <Badge text="Pending Meeting" color="blue" />,
-  VERIFIED: <Badge text="Verified" color="green" />,
-  UNKNOWN: <Badge text="loading" color="white" />,
+const useBadgeByCalendlyStatus = () => {
+  const { t } = useTranslation('kyc');
+  return {
+    UNVERIFIED: <Badge text={t('badges.unverified')} color="white" />,
+    SET_CALENDLY_MEETING: (
+      <Badge text={t('badges.pending-meeting')} color="blue" />
+    ),
+    VERIFIED: <Badge text={t('badges.verified')} color="green" />,
+    UNKNOWN: <Badge text={t('badges.unknown')} color="white" />,
+  };
 };
 
-const badgeBySumsubStatus = {
-  UNVERIFIED: <Badge text="Unverified" color="white" />,
-  PENDING: <Badge text="Pending" color="blue" />,
-  VERIFIED: <Badge text="Verified" color="green" />,
-  REJECTED: <Badge text="Rejected" color="red" />,
+const useBadgeBySumsubStatus = () => {
+  const { t } = useTranslation('kyc');
+  return {
+    UNVERIFIED: <Badge text={t('badges.unverified')} color="white" />,
+    PENDING: <Badge text={t('badges.pending')} color="blue" />,
+    VERIFIED: <Badge text={t('badges.verified')} color="green" />,
+    REJECTED: <Badge text={t('badges.rejected')} color="red" />,
+  };
 };
 
 export default function PageKYC() {
@@ -31,6 +39,9 @@ export default function PageKYC() {
   const account = useAccountQuery();
   const wallets = useVerifiedWallets();
   const [ModalVerifyWallet, openVerifyWallet] = useModalVerifyWallet();
+
+  const badgeByCalendlyStatus = useBadgeByCalendlyStatus();
+  const badgeBySumsubStatus = useBadgeBySumsubStatus();
 
   const loading =
     sumsubVerified.isLoading || account.isLoading || wallets.isLoading;
@@ -179,7 +190,7 @@ export default function PageKYC() {
                     <div className="mt-2 flex basis-full items-center justify-stretch lg:mt-0 lg:basis-1/6">
                       <Badge
                         color="green"
-                        text="verified"
+                        text={t('badges.verified')}
                         className="w-full text-center"
                       />
                     </div>
@@ -199,7 +210,9 @@ export default function PageKYC() {
               className="rounded-xl bg-white px-5 py-3 text-center text-[14px] text-black"
               onClick={openVerifyWallet}
             >
-              {wallets.data?.length ? 'Verify More Wallets' : 'Verify Wallet'}
+              {wallets.data?.length
+                ? t('wallet.btn-add.verify-more')
+                : t('wallet.btn-add.verify-wallet')}
             </button>
           </div>
         </Card>

@@ -31,6 +31,9 @@ wallet:
       step-2-receive: Receive（受け取り）ボタンを選択
       step-3-screenshot: アドレスとUSDTのネットワークが表示されている入金するウォレットのスクリーンショットを撮ってください。
       step-4-email: スクリーンショットをカスタマーサポートへメール（<1>support@wisdomise.io</1>）にてご送付ください。
+  btn-add:
+    verify-more: 他のウォレットを確認する
+    verify-wallet: ウォレットの承認
   column:
     coin: コイン
     name: ウォレット名

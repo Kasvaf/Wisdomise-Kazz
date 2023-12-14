@@ -1,0 +1,12 @@
+balance:
+  add-token: tWSDMの追加
+  token-name: tWSDM
+  your-balance: tWSDMトークン保有量
+utility:
+  activate: 起動させる
+  activated: 有効化済み
+  description: $tWSDM トークンを保持するだけで、Wisdomise のプレミアム サブスクリプション パッケージへの 1
+    年間の独占アクセスのロックが解除されます。トークンからの控除はありません。トークンをウォレットに保管しておくだけです。この簡単なアプローチにより、追加のコストや手間をかけることなく、すべてのプレミアム特典を確実に享受できます。これは、Wisdomise
+    が提供するあらゆるサービスを探索しながら、投資の価値を最大化するための賢い方法です。
+  not-activated: アクティブ化されていません
+  title: ユーティリティのアクティベーション
