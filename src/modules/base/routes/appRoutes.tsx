@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 
+import PageInvestment from 'modules/products/PageInvestment';
 import Container from '../Container';
 
 const PageAssetOverview = React.lazy(
@@ -39,8 +40,9 @@ const PageProtocolDetails = React.lazy(
 const appRoutes: RouteObject[] = [
   {
     element: <Container />,
-    path: 'app',
+    path: 'investment',
     children: [
+      { path: '', element: <PageInvestment /> },
       { path: 'assets', element: <PageAssetOverview /> },
       { path: 'fpi/:fpiKey', element: <PageFPIPositions /> },
       {
@@ -51,6 +53,12 @@ const appRoutes: RouteObject[] = [
         path: 'products-catalog/:fpKey',
         element: <PageProductCatalogDetail />,
       },
+    ],
+  },
+  {
+    element: <Container />,
+    path: 'app',
+    children: [
       { path: 'signals', element: <PageSignalsMatrix /> },
       { path: 'strategy', element: <PageStrategiesList /> },
       { path: 'strategy/new', element: <PageStrategyCreate /> },
@@ -59,7 +67,7 @@ const appRoutes: RouteObject[] = [
         path: 'staking/protocol/:id',
         element: <PageProtocolDetails />,
       },
-      { path: '', element: <Navigate to="/app/assets" /> },
+      { path: '', element: <Navigate to="/investment" /> },
     ],
   },
 ];

@@ -36,13 +36,20 @@ periodicity:
     per: 年次<br>
     title: 毎年
 pricing-card:
+  annually: 年
   btn-action:
     available-soon: 近日公開
     buy-now: 今すぐ購入する
     current-plan: 現在ご契約中のプラン
     upgrade: アップグレード
+  hold: ホルド
+  just-yearly: 毎年恒例
+  monthly: 毎月
   notification-upgrade-success: サブスクリプションのアップデートが完了しました。アクティベーションまで数分かかる場合がございます。しばらく経ってからこのページを更新してください。
+  page-subtitle: このセクションからパッケージの種類を選択できます
+  page-title: 課金パッケージ
   this-includes: "次を含みます:"
+  token: トークン
 subscription-details:
   invoices:
     amount: 価格

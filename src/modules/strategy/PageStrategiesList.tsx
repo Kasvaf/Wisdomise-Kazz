@@ -18,7 +18,7 @@ export default function PageStrategiesList() {
       <div className="grid grid-cols-3 gap-4">
         {data?.map(s => (
           <NavLink key={s.key} to={`/app/strategy/${s.key}`}>
-            <Card className="cursor-pointer !px-6 !py-4 hover:bg-white/10">
+            <Card className="cursor-pointer !px-6 !py-4 hover:bg-black/40">
               <TitleHint title={s.name} />
 
               <div className="mt-3 flex justify-between">

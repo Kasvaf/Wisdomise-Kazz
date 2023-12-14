@@ -80,7 +80,7 @@ const TableWrapper = styled.div`
   display: block;
 
   .ant-table {
-    @apply rounded-2xl bg-white/5 p-4 font-poppins text-white mobile:!min-h-full;
+    @apply rounded-2xl bg-white/5 p-4 text-white mobile:!min-h-full;
     min-height: 248px;
 
     .ant-table-header {

@@ -19,7 +19,7 @@ export default function QuestionItem({ item }: Props) {
     <div
       key={item.key}
       className={clsx(
-        'flex w-fit items-center gap-3 rounded-3xl bg-white/10  p-4 text-xs text-white transition-opacity',
+        'flex w-fit items-center gap-3 rounded-xl bg-black/30  p-4 text-xs text-white transition-opacity',
         deleteUserPromptMutation.isLoading && 'opacity-40',
       )}
     >

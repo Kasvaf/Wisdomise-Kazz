@@ -59,7 +59,7 @@ const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {
             </li>
           </ol>
         </div>
-        <div className="flex flex-col justify-center rounded-3xl bg-[#4C5059] p-4 pt-2 text-[12px] md:basis-1/2">
+        <div className="flex flex-col justify-center rounded-xl bg-[#4C5059] p-4 pt-2 text-[12px] md:basis-1/2">
           <div className="mb-2 text-center font-normal">
             <Trans i18nKey="wallet.add.help.screenshot-title" ns="kyc">
               <strong className="font-medium">Example</strong>: USDT Wallet

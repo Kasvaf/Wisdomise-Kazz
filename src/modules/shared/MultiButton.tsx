@@ -34,7 +34,7 @@ const MultiButton: React.FC<Props> = ({ options, onClick }) => {
   );
 
   return (
-    <div className="flex overflow-hidden rounded-full bg-white/5">
+    <div className="flex overflow-hidden rounded-xl bg-white/5">
       {options.map((opt, ind) => (
         <div className="flex flex-1" key={opt}>
           <OptionItem item={opt} onClick={itemClickHandler}>

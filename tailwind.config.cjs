@@ -23,7 +23,7 @@ module.exports = {
         'secondary': '#e26cff',
         'primary-hover': '#02D191',
         'success': '#40F19C',
-        'page': '#131822',
+        'page': '#25262D',
         'gray': {
           light: 'rgba(255, 255, 255, 0.7)',
           main: 'rgba(255, 255, 255, 0.1)',
@@ -54,9 +54,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      inter: ['inter', ...defaultTheme.fontFamily.sans],
-      campton: ['campton', ...defaultTheme.fontFamily.sans],
-      poppins: ['poppins', ...defaultTheme.fontFamily.sans],
+      jakarta: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
     },
   },
   plugins: [animationDelay, twElements, typography, 'tailwindcss/nesting'],

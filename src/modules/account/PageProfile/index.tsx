@@ -16,7 +16,7 @@ export default function PageProfile() {
       {account.data && (
         <div>
           <TextBox
-            label="Email Address"
+            label={t('auth:email-address')}
             value={account.data.email}
             className="lg:w-[30rem]"
           />

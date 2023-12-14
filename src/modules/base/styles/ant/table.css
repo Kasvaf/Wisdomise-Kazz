@@ -1,6 +1,6 @@
 .ant-table-wrapper {
   .ant-pagination {
-    @apply items-center !justify-center font-poppins text-xs mobile:!justify-start;
+    @apply items-center !justify-center text-xs mobile:!justify-start;
 
     :not(.ant-pagination-jump-next, .ant-pagination-jump-prev) {
       button,
@@ -10,7 +10,7 @@
     }
 
     .ant-pagination-item {
-      @apply flex items-center justify-center font-poppins;
+      @apply flex items-center justify-center;
     }
 
     .ant-pagination-prev,
@@ -44,7 +44,7 @@
 }
 
 .ant-table {
-  @apply !bg-transparent p-4 !font-poppins !text-white mobile:!min-h-full;
+  @apply !bg-transparent p-4 !text-white mobile:!min-h-full;
   min-height: 248px;
 
   .ant-table-header {

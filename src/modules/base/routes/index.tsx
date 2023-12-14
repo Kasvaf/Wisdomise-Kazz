@@ -11,7 +11,7 @@ const routes: RouteObject[] = [
       ...authRoutes,
       ...accountRoutes,
       ...appRoutes,
-      { path: '*', element: <Navigate to="/app/assets" /> },
+      { path: '*', element: <Navigate to="/investment" /> },
     ],
   },
 ];

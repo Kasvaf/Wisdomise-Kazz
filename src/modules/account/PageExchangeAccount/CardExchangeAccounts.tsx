@@ -29,7 +29,7 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
             key={acc.key}
             className={clsx(
               'flex flex-col items-stretch justify-between gap-8 sm:flex-row sm:gap-6',
-              'mb-6 rounded-3xl bg-black/20 px-6 py-4',
+              'mb-6 rounded-xl bg-black/20 px-6 py-4',
               'max-w-xl',
             )}
           >

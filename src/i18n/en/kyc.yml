@@ -6,6 +6,7 @@ badges:
   unknown: loading
   unverified: Unverified
   verified: Verified
+completed: Completed
 identification:
   title: Identification
   description: Identify yourself to help us secure your account.
@@ -44,6 +45,9 @@ wallet:
       step-4-email: >-
         Attach the screenshot to an email and send it to our support email:
         <1>support@wisdomise.io</1>
+  btn-add:
+    verify-more: Verify More Wallets
+    verify-wallet: Verify Wallet
   column:
     name: Wallet name
     coin: Coin

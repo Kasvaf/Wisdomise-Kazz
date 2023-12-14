@@ -4,6 +4,7 @@ import { type FpiPosition } from 'api/types/investorAssetStructure';
 import groupBy from 'utils/groupBy';
 import Spinner from 'shared/Spinner';
 import PairInfo from 'shared/PairInfo';
+import Card from 'shared/Card';
 import PositionHover from './PositionHover';
 import RowGraph, { type SegmentItem } from './RowGraph';
 import { type Ranger } from './useRangeSelector';
@@ -34,7 +35,7 @@ const PositionsTimeline: React.FC<Props> = ({
       </div>
 
       <div className="-mx-6 overflow-auto">
-        <div className="mx-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
+        <Card className="mx-6 min-w-[800px] !p-6">
           <div className="flex flex-col text-white/60">
             {isLoading ? (
               <div className="flex justify-center">
@@ -89,7 +90,7 @@ const PositionsTimeline: React.FC<Props> = ({
               </div>
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );

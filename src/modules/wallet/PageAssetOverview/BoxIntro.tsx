@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery } from 'api';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
+import Card from 'modules/shared/Card';
 import ModalDeposit from '../ModalDeposit';
 import TradeSrc from './trade.svg';
 
@@ -14,9 +15,9 @@ const BoxIntro: React.FC<{
   const ias = useInvestorAssetStructuresQuery();
 
   return (
-    <div
+    <Card
       className={clsx(
-        'flex w-full flex-row justify-between rounded-3xl bg-white/5 px-8 py-6 mobile:p-6',
+        'flex w-full flex-row justify-between !py-6 mobile:p-6',
         className,
       )}
     >
@@ -43,7 +44,7 @@ const BoxIntro: React.FC<{
         </div>
 
         <div className="-mx-3 -mb-6 flex flex-wrap items-center justify-center mobile:self-stretch">
-          <Button className="mx-3 mb-6" to="/app/products-catalog">
+          <Button className="mx-3 mb-6" to="/investment/products-catalog">
             {t('intro.btn-check-products')}
           </Button>
 
@@ -57,7 +58,7 @@ const BoxIntro: React.FC<{
       </div>
 
       <img src={TradeSrc} className="h-[200px] mobile:hidden" />
-    </div>
+    </Card>
   );
 };
 

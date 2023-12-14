@@ -33,15 +33,15 @@ const CustomQuestions: React.FC<{
           value={customQuestion}
           onChange={e => setCustomQuestion(e.target.value)}
           onKeyDown={onInputKeyDown}
-          placeholder="Type your question..."
+          placeholder={t('customs.custom-question.placeholder')}
           disabled={isLoading}
-          className="w-full rounded-3xl border border-white/10 bg-transparent p-4 pr-24 text-sm outline-none"
+          className="w-full rounded-xl border border-white/10 bg-transparent p-4 pr-24 text-sm outline-none"
         />
         <Button
           size="small"
           onClick={addCustomQuestion}
           loading={isLoading}
-          className="absolute right-4 top-1/2 -translate-y-1/2"
+          className="absolute right-2 top-1/2 -translate-y-1/2"
         >
           + {t('customs.custom-question.btn-add')}
         </Button>

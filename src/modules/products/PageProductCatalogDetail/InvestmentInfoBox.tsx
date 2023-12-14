@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import useMainQuote from 'shared/useMainQuote';
+import Card from 'modules/shared/Card';
 
 const InvestmentInfoBox: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
   const { t } = useTranslation('products');
   const mainQuote = useMainQuote();
 
   return (
-    <div className="rounded-3xl bg-white/5 px-4 py-6 text-sm">
+    <Card className="!px-4 !py-6 text-sm">
       <p className="mb-4 text-white/80">{t('product-detail.investment')}</p>
       <div className="flex items-center justify-between">
         <p className="w-full text-left text-white">
@@ -26,7 +27,7 @@ const InvestmentInfoBox: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
           </span>
         </p>
       </div>
-    </div>
+    </Card>
   );
 };
 

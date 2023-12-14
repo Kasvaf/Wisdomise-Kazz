@@ -9,12 +9,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
 }) => {
   const { t } = useTranslation('external-accounts');
   const sub = useSubscription();
-  const { isLoading, identified, verified, addedWallet } = useIsVerified();
-  const verifiedCount = isLoading
-    ? '?'
-    : (identified === 'VERIFIED' ? 1 : 0) +
-      (verified === 'VERIFIED' ? 1 : 0) +
-      (addedWallet ? 1 : 0);
+  const { verifiedCount } = useIsVerified();
 
   return (
     <Card className={className}>
@@ -25,7 +20,7 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
       <div
         className={clsx(
           'flex flex-col items-stretch justify-between gap-8 sm:flex-row sm:gap-6',
-          'rounded-3xl bg-black/20 px-6 py-4',
+          'rounded-xl bg-black/20 px-6 py-4',
           'max-w-xl',
         )}
       >

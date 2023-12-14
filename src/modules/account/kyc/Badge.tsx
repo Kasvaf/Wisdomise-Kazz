@@ -17,7 +17,7 @@ const colorClasses = {
 const Badge: React.FC<Props> = ({ text, color = 'white', className }) => (
   <div
     className={clsx(
-      'rounded-full px-4 py-2 text-xs',
+      'rounded-xl px-4 py-2 text-xs',
       colorClasses[color],
       className,
     )}

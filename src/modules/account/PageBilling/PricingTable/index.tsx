@@ -49,7 +49,7 @@ export default function PricingTable({
             ))}
           </div>
         </div>
-        <div className="flex gap-6 overflow-auto ">
+        <div className="-mx-6 flex gap-6 overflow-auto px-6">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
             .map(plan => (

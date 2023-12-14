@@ -34,7 +34,7 @@ const FpiActions: React.FC<{
       });
 
       if (status === 'stop') {
-        navigate('/app/assets');
+        navigate('/investment/assets');
       }
     } catch (error) {
       notification.error({

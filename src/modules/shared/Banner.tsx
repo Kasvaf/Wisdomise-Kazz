@@ -13,7 +13,7 @@ const Banner: React.FC<PropsWithChildren<Props>> = ({
   children,
   className,
 }) => (
-  <div className={clsx('flex rounded-3xl bg-black p-4', className)}>
+  <div className={clsx('flex rounded-xl bg-black p-4', className)}>
     {icon && <Icon name={icon} className="mr-2 text-warning" />}
     <div>{children}</div>
   </div>

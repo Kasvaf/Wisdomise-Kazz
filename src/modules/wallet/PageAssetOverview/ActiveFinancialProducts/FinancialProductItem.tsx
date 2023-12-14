@@ -5,6 +5,7 @@ import { useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
 import useIsMobile from 'utils/useIsMobile';
 import Button from 'shared/Button';
+import Card from 'shared/Card';
 import FpiStatusBadge from './FpiStatusBadge';
 import FpiActions from './FpiActions';
 import FpiAssetItem from './FpiAssetItem';
@@ -21,12 +22,12 @@ const FinancialProductItem: React.FC<{
   const badges = (
     <div className="flex">
       {[fpi.financial_product.asset_class.toLowerCase(), 'Spot'].map(e => (
-        <p
+        <Card
           key={e}
-          className="mr-2 rounded-3xl bg-white/5 px-2 py-1 text-xxs leading-none text-white/20 first-letter:uppercase last:mr-0"
+          className="mr-2 !px-2 !py-1 text-xxs leading-none text-white/20 first-letter:uppercase last:mr-0"
         >
           {e}
-        </p>
+        </Card>
       ))}
     </div>
   );
@@ -35,7 +36,7 @@ const FinancialProductItem: React.FC<{
     <Button
       variant="primary"
       size="small"
-      to={`/app/fpi/${fpi.key}`}
+      to={`/investment/fpi/${fpi.key}`}
       className="!px-10 text-base font-medium"
     >
       {t('list.btn-details')}
@@ -43,7 +44,7 @@ const FinancialProductItem: React.FC<{
   );
 
   return (
-    <div className={clsx('rounded-3xl bg-white/5 p-6', className)}>
+    <Card className={clsx('!p-6', className)}>
       <header className="flex w-full items-center justify-between mobile:flex-col">
         <section className="flex w-full items-center mobile:justify-between">
           <p className="mr-4 text-base font-medium text-white/90 ">
@@ -86,7 +87,7 @@ const FinancialProductItem: React.FC<{
           <div className="mt-8 hidden mobile:block">{detailsBtn}</div>
         </footer>
       )}
-    </div>
+    </Card>
   );
 };
 

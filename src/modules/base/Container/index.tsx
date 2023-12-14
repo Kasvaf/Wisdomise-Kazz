@@ -8,7 +8,7 @@ import AuthGuard from 'modules/auth/AuthGuard';
 import PageWrapper from '../PageWrapper';
 import Header from './Header';
 import SideMenu from './SideMenu';
-import MobileMenu from './MobileMenu';
+import BottomNavBar from './BottomNavBar';
 import TrialBanner from './TrialBanner';
 
 const Container = () => {
@@ -25,14 +25,14 @@ const Container = () => {
 
   return (
     <AuthGuard>
-      <main className="mx-auto max-w-screen-2xl">
+      <main className="mx-auto max-w-screen-2xl bg-page">
         <TrialBanner />
         <SideMenu className={topOffsetClass} />
         <Header className={topOffsetClass} />
         <div
           ref={mainRef}
           className={clsx(
-            'ml-[17.75rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 mobile:mb-16 mobile:ml-0 mobile:h-auto',
+            'ml-[16.25rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 mobile:mb-16 mobile:ml-0 mobile:h-auto',
             isTrialPlan ? (isMobile ? 'pt-[8rem]' : 'pt-14') : 'pt-0',
           )}
         >
@@ -48,7 +48,7 @@ const Container = () => {
             </CSSTransition>
           </TransitionGroup>
         </div>
-        <MobileMenu />
+        <BottomNavBar />
       </main>
     </AuthGuard>
   );

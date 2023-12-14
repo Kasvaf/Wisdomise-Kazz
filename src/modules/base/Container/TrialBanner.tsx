@@ -14,7 +14,7 @@ export default function TrialBanner() {
   return (
     <div
       className={clsx(
-        'fixed inset-x-0 top-0 z-[2] flex w-full items-center justify-center text-white',
+        'fixed inset-x-0 top-0 z-30 flex w-full items-center justify-center text-white',
         'h-[8rem] md:h-14',
         remaining ? 'bg-[#4B175C]' : 'bg-[#5C173D]',
       )}

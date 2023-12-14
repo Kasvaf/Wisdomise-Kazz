@@ -5,6 +5,7 @@ customs:
     description: >-
       You can use the suggested prompts below or write your own customized
       prompts.
+    placeholder: Type your question...
     btn-add: Add
     limit:
       title: Question Limit

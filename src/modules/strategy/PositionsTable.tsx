@@ -4,6 +4,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { type FpiPosition } from 'api/types/investorAssetStructure';
+import Card from 'shared/Card';
 import PairInfo from 'shared/PairInfo';
 import PriceChange from 'shared/PriceChange';
 
@@ -16,7 +17,7 @@ const PositionsTable: React.FC<Props> = ({ history, className }) => {
   const { t } = useTranslation('strategy');
   return (
     <div className={clsx('-mx-6 overflow-auto', className)}>
-      <div className="mx-6 min-w-[800px] rounded-3xl bg-white/5 p-6">
+      <Card className="mx-6 min-w-[800px] !p-6">
         <div className="grid grid-cols-6 gap-6 text-white/60">
           <div className="pl-4 text-sm">{t('positions-history.pairs')}</div>
           <div className="text-center text-sm">
@@ -91,7 +92,7 @@ const PositionsTable: React.FC<Props> = ({ history, className }) => {
             </React.Fragment>
           ))}
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

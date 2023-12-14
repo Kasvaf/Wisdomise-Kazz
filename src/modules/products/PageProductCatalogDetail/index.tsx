@@ -5,6 +5,7 @@ import Button from 'shared/Button';
 import LineChart from 'shared/LineChart';
 import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
+import Card from 'modules/shared/Card';
 import ButtonFPActivate from '../ButtonFPActivate';
 import RiskBadge from '../RiskBadge';
 import NoticeBox from './NoticeBox';
@@ -34,7 +35,7 @@ const PageProductCatalogDetail = () => {
           <Button
             className="mr-4 w-1/2"
             variant="secondary"
-            to="/app/products-catalog?tab=trade"
+            to="/investment/products-catalog?tab=trade"
           >
             {t('common:actions.back')}
           </Button>
@@ -48,14 +49,14 @@ const PageProductCatalogDetail = () => {
 
       <div className="flex mobile:flex-col">
         <div className="basis-2/3 mobile:order-2 mobile:basis-auto">
-          <div className="flex h-full items-center justify-center rounded-3xl bg-white/5 p-8">
+          <Card className="flex h-full items-center justify-center">
             <LineChart
               className="w-full"
               title={fp.data?.title}
               chartData={backtest.data}
               loading={backtest.isLoading}
             />
-          </div>
+          </Card>
         </div>
 
         <div className="flex basis-1/3 flex-col gap-4 pl-4 mobile:order-1 mobile:mb-4 mobile:basis-auto mobile:pl-0">

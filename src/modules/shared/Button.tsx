@@ -73,7 +73,7 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-[40px] border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
+          'rounded-xl border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
           disabled &&
             'cursor-not-allowed !border-white/10 !bg-white/10 text-white/10',
           size === 'small' && '!p-[10px_12px] ',
@@ -93,7 +93,7 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-[40px] bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/5',
+          'rounded-xl bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/20 [&.active]:bg-black/30',
           disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
           size === 'small' && '!p-[10px_12px] ',
           loading && 'cursor-wait',
@@ -111,7 +111,7 @@ const Button: React.FC<Props> = ({
   return (
     <LinkOrButton
       className={clsx(
-        'rounded-[40px] bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
+        'rounded-xl bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
         disabled &&
           'cursor-not-allowed !border-white/40 !bg-white/10 text-white/10',
         loading && 'cursor-wait',

@@ -1,11 +1,13 @@
 banner:
   athena-bot: Athena Telegram Bot
   stay-connected: Stay Connected
+email-address: Email Address
 footer: © 2023 Wisdomise. All rights reserved.
 page-referral:
   title: Referral Program
   all-time: all time
   friends-invited: Friends invited
+  invited: Invited
   referral-code: Referral Code
   referral-insight: Referral Insight
   referral-link: Referral Link

@@ -1,9 +1,11 @@
 import React from 'react';
 import { styled } from '@linaria/react';
+import { useTranslation } from 'react-i18next';
 import { type SignalsResponse } from 'api/types/signalResponse';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
+import Card from 'modules/shared/Card';
 import SignalBox from './SignalBox';
 
 const EmptySignal = styled.div`
@@ -18,15 +20,16 @@ const EmptySignal = styled.div`
 `;
 
 const SignalMatrix: React.FC<{ signals: SignalsResponse }> = ({ signals }) => {
+  const { t } = useTranslation('strategy');
   return (
-    <div
-      className="grid w-min rounded-3xl bg-white/5 px-2 py-4 pb-2"
+    <Card
+      className="grid w-min !p-2 !pt-4"
       style={{
         gridTemplateColumns: `max-content max-content repeat(${signals.strategies.length},max-content)`,
       }}
     >
       {[
-        'Pairs',
+        t('positions-history.pairs'),
         '24h %',
         ...(signals.strategies.map(s => [
           s.title,
@@ -86,7 +89,7 @@ const SignalMatrix: React.FC<{ signals: SignalsResponse }> = ({ signals }) => {
           })}
         </React.Fragment>
       ))}
-    </div>
+    </Card>
   );
 };
 

@@ -46,7 +46,7 @@ const CopyInputBox: React.FC<Props> = ({
 
       <div
         className={clsx(
-          'flex h-12 rounded-full px-6 text-sm',
+          'flex h-12 rounded-xl px-6 text-sm',
           'items-center justify-between',
           style === 'primary'
             ? 'bg-white text-black hover:bg-white/80'
