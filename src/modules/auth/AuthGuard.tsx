@@ -26,9 +26,14 @@ function replaceLocation(url: string) {
 }
 
 const redirectLogin = (redirectUrl: string) => {
+  const params = new URLSearchParams();
+  const route = sessionStorage.getItem(AFTER_LOGIN_KEY);
   const token = getJwtToken();
+  if (token) params.append('token', token);
+  if (route) params.append('after_login', route);
+
   if (token) {
-    replaceLocation(`${redirectUrl}/auth/callback?token=${token}`);
+    replaceLocation(`${redirectUrl}/auth/callback?${params.toString()}`);
     return true;
   }
 };
