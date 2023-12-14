@@ -11,6 +11,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
   item,
   isActive,
 }) => {
+  const children = item.children?.filter(item => !item.hide);
   return (
     <div className="text-white">
       <NavLink
@@ -25,7 +26,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
           <p className="ml-2">{item.text}</p>
         </div>
       </NavLink>
-      {item.children?.length && (
+      {children?.length && (
         <AnimateHeight
           height={isActive ? 'auto' : 0}
           duration={200}
@@ -33,7 +34,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
           className="mt-3"
         >
           <div className="ml-6">
-            {item.children.map((subItem, ind, all) => (
+            {children.map((subItem, ind, all) => (
               <NavLink
                 key={subItem.link}
                 to={subItem.link}
@@ -77,7 +78,7 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
             <img className="h-12" src={Logo} alt="logo" />
           </a>
           <div>
-            {MenuItems.map(item => (
+            {MenuItems.filter(i => !i.hide).map(item => (
               <MenuItemsGroup
                 key={item.link}
                 item={item}

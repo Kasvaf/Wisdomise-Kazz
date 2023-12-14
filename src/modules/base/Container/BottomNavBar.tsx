@@ -8,7 +8,7 @@ const MobileMenu: React.FC = () => {
 
   return (
     <div className="fixed bottom-0 z-10 hidden h-16 w-full items-stretch justify-between bg-[#1E1F24] text-white mobile:flex">
-      {MenuItems.filter(i => !i.mobileHide).map(i => (
+      {MenuItems.filter(i => !i.mobileHide && !i.hide).map(i => (
         <NavLink
           to={i.link}
           key={i.link}
