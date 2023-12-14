@@ -33,7 +33,7 @@ const CustomQuestions: React.FC<{
           value={customQuestion}
           onChange={e => setCustomQuestion(e.target.value)}
           onKeyDown={onInputKeyDown}
-          placeholder="Type your question..."
+          placeholder={t('customs.custom-question.placeholder')}
           disabled={isLoading}
           className="w-full rounded-xl border border-white/10 bg-transparent p-4 pr-24 text-sm outline-none"
         />

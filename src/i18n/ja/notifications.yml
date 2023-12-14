@@ -6,6 +6,7 @@ customs:
       description: 最大 {{weeklyCustomNotificationCount}}
         まで質問の追加が可能です。これ以上の質問を追加したい場合は、過去の質問を削除してください。
       title: 質問上限数
+    placeholder: 質問してください...
     title: 新しい質問の追加
   disclaimer: この機能を起動させると、毎日２つのアップデートを受け取ることができます。週ごとにカスタム設定した通知を受け取ることも可能でs。
   suggested-prompts:
