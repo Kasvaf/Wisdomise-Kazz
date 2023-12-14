@@ -26,13 +26,14 @@ function replaceLocation(url: string) {
 }
 
 const redirectLogin = (redirectUrl: string) => {
-  const params = new URLSearchParams();
-  const route = sessionStorage.getItem(AFTER_LOGIN_KEY);
   const token = getJwtToken();
-  if (token) params.append('token', token);
-  if (route) params.append('after_login', route);
-
   if (token) {
+    const params = new URLSearchParams();
+    params.append('token', token);
+
+    const afterLoginRoute = sessionStorage.getItem(AFTER_LOGIN_KEY);
+    if (afterLoginRoute) params.append('after_login', afterLoginRoute);
+
     replaceLocation(`${redirectUrl}/auth/callback?${params.toString()}`);
     return true;
   }
@@ -80,14 +81,14 @@ export default function AuthGuard({ children }: PropsWithChildren) {
       navigate('/auth/secondary-signup');
     } else if (!appsInfo.isLoading) {
       const appName = sessionStorage.getItem(REDIRECT_APP_KEY);
-      const route = sessionStorage.getItem(AFTER_LOGIN_KEY);
+      const afterLoginRoute = sessionStorage.getItem(AFTER_LOGIN_KEY);
       const remoteLogin = sessionStorage.getItem(REMOTE_LOGIN_KEY);
 
       if (appName && handleAppRedirect(appName)) {
         // nothing, logic already called
-      } else if (route) {
+      } else if (afterLoginRoute) {
         // or appName was not found
-        replaceLocation(route);
+        replaceLocation(afterLoginRoute);
       } else if (remoteLogin) {
         redirectLogin(remoteLogin);
       } else {
