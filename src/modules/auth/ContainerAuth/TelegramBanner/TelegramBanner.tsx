@@ -34,7 +34,7 @@ export default function TelegramBanner() {
           className="h-[2.25rem]"
         />
         {t('banner.athena-bot')}
-        <div className="rounded-full bg-white/30 p-3">
+        <div className="rounded-xl bg-white/30 p-3">
           {t('banner.stay-connected')}
         </div>
       </div>

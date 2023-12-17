@@ -7,7 +7,7 @@ import Spin from './Spin';
 
 interface Props extends PropsWithChildren {
   to?: To;
-  size?: 'small';
+  size?: 'small' | 'large';
   loading?: boolean;
   variant?: 'primary' | 'alternative' | 'secondary' | 'link';
   className?: string;
@@ -50,6 +50,13 @@ const Button: React.FC<Props> = ({
     [loading, disabled, onClick],
   );
 
+  const sizeClass =
+    size === 'small'
+      ? '!p-[10px_12px]'
+      : size === 'large'
+      ? '!px-9 !py-3 md:!px-16 md:!py-5 md:text-xl'
+      : '';
+
   if (variant === 'link') {
     return (
       <LinkOrButton
@@ -57,7 +64,7 @@ const Button: React.FC<Props> = ({
           'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:text-warning',
           disabled && 'cursor-not-allowed !text-white/40',
           loading && 'cursor-wait',
-          size === 'small' && '!p-[10px_12px]',
+          sizeClass,
           className,
         )}
         disabled={disabled}
@@ -76,7 +83,7 @@ const Button: React.FC<Props> = ({
           'rounded-xl border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
           disabled &&
             'cursor-not-allowed !border-white/10 !bg-white/10 text-white/10',
-          size === 'small' && '!p-[10px_12px] ',
+          sizeClass,
           loading && 'cursor-wait',
           className,
         )}
@@ -95,7 +102,7 @@ const Button: React.FC<Props> = ({
         className={clsx(
           'rounded-xl bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/20 [&.active]:bg-black/30',
           disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
-          size === 'small' && '!p-[10px_12px] ',
+          sizeClass,
           loading && 'cursor-wait',
           className,
         )}
@@ -115,7 +122,7 @@ const Button: React.FC<Props> = ({
         disabled &&
           'cursor-not-allowed !border-white/40 !bg-white/10 text-white/10',
         loading && 'cursor-wait',
-        size === 'small' && '!p-[10px_12px]',
+        sizeClass,
         className,
       )}
       disabled={disabled}

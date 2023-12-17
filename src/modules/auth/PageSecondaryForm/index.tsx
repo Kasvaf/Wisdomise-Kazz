@@ -5,6 +5,7 @@ import { notification } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAccountQuery, useUserInfoMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
+import Button from 'shared/Button';
 import { REFERRER_CODE_KEY } from '../constants';
 import ContainerAuth from '../ContainerAuth';
 import useModalContract from './useModalContract';
@@ -52,7 +53,7 @@ const PageSecondaryForm: React.FC = () => {
   useEffect(() => {
     if (!account) return;
     if (account?.register_status !== 'PRIMARY') {
-      navigate('/');
+      // navigate('/');
     }
   }, [account, navigate]);
 
@@ -172,14 +173,11 @@ const PageSecondaryForm: React.FC = () => {
             />
           ))}
 
-          <button
-            onClick={onSubmit}
-            className="mt-5 w-full rounded-full border border-solid border-[#ffffff4d] bg-white px-9 py-3 text-base text-black md:px-16 md:py-5 md:text-xl"
-          >
+          <Button className="mt-5 w-full" onClick={onSubmit}>
             {isSubmitting
               ? t('secondary.btn-submit.loading')
               : t('secondary.btn-submit.label')}
-          </button>
+          </Button>
         </div>
       </main>
 

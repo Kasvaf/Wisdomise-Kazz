@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import useIsMobile from 'utils/useIsMobile';
 import { logout } from 'modules/auth/authHandlers';
+import LanguageSelector from 'modules/base/Container/Header/LanguageSelector';
+import Button from 'shared/Button';
 import bgMobile from './bg-mobile.png';
 import bgDesktop from './bg.png';
 import TelegramBanner from './TelegramBanner/TelegramBanner';
@@ -21,17 +23,21 @@ const ContainerAuth: React.FC<PropsWithChildren> = ({ children }) => {
     >
       <div className="m-auto flex min-h-screen max-w-[1300px] flex-col justify-between">
         <div>
-          <header className="mb-10 mt-8 flex items-center justify-between px-8">
-            <div className="w-44">
+          <header className="mb-10 mt-4 flex items-center justify-between px-4 sm:mt-8 sm:px-8">
+            <div className="w-36">
               <img src={Logo} alt="wisdomise_wealth_logo" />
             </div>
 
-            <button
-              onClick={logout}
-              className="rounded-full border border-solid border-[#ffffff4d] px-5 py-3 text-sm md:px-8 md:py-3"
-            >
-              {t('base:user.logout')}
-            </button>
+            <div className="flex items-center">
+              <LanguageSelector />
+              <Button
+                variant="alternative"
+                className="!px-3 md:!px-8"
+                onClick={logout}
+              >
+                {t('base:user.logout')}
+              </Button>
+            </div>
           </header>
 
           {children}

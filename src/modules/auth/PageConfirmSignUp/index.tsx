@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAccountQuery, useResendVerificationEmailMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
+import Button from 'shared/Button';
 import { login } from '../authHandlers';
 import ContainerAuth from '../ContainerAuth';
 import inboxImg from './email.svg';
@@ -38,7 +39,7 @@ const PageConfirmSignUp = () => {
 
   useEffect(() => {
     if (account?.info.email_verified) {
-      navigate('/auth/secondary-signup');
+      // navigate('/auth/secondary-signup');
     }
   }, [account, navigate]);
 
@@ -63,23 +64,17 @@ const PageConfirmSignUp = () => {
           </Trans>
         </p>
 
-        <button
-          onClick={checkAgain}
-          className="mb-4 rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
-        >
+        <Button onClick={checkAgain} className="mb-4" variant="primary">
           {isChecking
             ? t('verify-email.btn-check.loading')
             : t('verify-email.btn-check.label')}
-        </button>
+        </Button>
 
-        <button
-          className="rounded-full border border-solid border-[#ffffff4d] px-9 py-3 text-base md:px-16 md:py-5 md:text-xl"
-          onClick={resendEmail}
-        >
+        <Button variant="secondary" onClick={resendEmail}>
           {isResending
             ? t('verify-email.btn-resend.loading')
             : t('verify-email.btn-resend.label')}
-        </button>
+        </Button>
       </main>
     </ContainerAuth>
   );

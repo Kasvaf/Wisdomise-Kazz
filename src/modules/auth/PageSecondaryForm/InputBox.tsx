@@ -14,12 +14,12 @@ const InputBox: React.FC<InputProps> = ({
   value,
 }) => (
   <div className="mb-5">
-    <label className="pl-4 text-base">{label}</label>
+    <label className="pl-2 text-base">{label}</label>
     <input
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
-      className="mt-1 block w-[300px] rounded-full  border-2 border-solid border-[#ffffff1a] bg-transparent p-5 placeholder:text-[#FFFFFF80] md:w-[400px]"
+      className="mt-1 block w-[300px] rounded-xl border-2 border-solid border-[#ffffff1a] bg-transparent p-5 placeholder:text-[#FFFFFF80] md:w-[400px]"
     />
     {error && <p className="ml-6 text-error">{error}</p>}
   </div>
