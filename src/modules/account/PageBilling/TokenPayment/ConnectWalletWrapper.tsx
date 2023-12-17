@@ -4,6 +4,7 @@ import { type ReactNode, useCallback, useEffect, useState } from 'react';
 import { goerli, polygon } from 'wagmi/chains';
 import { notification } from 'antd';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
@@ -19,10 +20,18 @@ import { ReactComponent as Key } from '../images/key.svg';
 interface Props {
   children: ReactNode;
   className?: string;
+  title: string;
+  description: string;
 }
 
-export default function ConnectWalletWrapper({ children, className }: Props) {
-  const { connector: activeConnector, isConnected, address } = useAccount();
+export default function ConnectWalletWrapper({
+  children,
+  className,
+  title,
+  description,
+}: Props) {
+  const { t } = useTranslation('wallet');
+  const { isConnected, address } = useAccount();
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const { data: account } = useAccountQuery();
@@ -86,26 +95,24 @@ export default function ConnectWalletWrapper({ children, className }: Props) {
   return (
     <div className={clsx(className, 'text-white')}>
       {isConnected && address && (
-        <div className="mb-2 flex items-center justify-between gap-4 rounded-full bg-white/5 p-2 pl-6">
+        <div className="mb-2 flex items-center justify-between gap-4 rounded-xl bg-white/5 p-2 pl-6">
           <div>
-            <span className="text-gray-400">Wallet Address:</span>{' '}
+            <span className="text-gray-400">
+              {t('connect-wallet.wallet-address')}:
+            </span>{' '}
             {shortenAddress(address)}
           </div>
           <Button variant="alternative" onClick={disconnectWallet}>
-            Disconnect
+            {t('connect-wallet.disconnect')}
           </Button>
         </div>
       )}
       {showWrapperContent && <div>{children}</div>}
       {showError && (
         <Card>
+          <p>{t('connect-wallet.not-sync')}</p>
           <p>
-            This wallet is not synced with the current account, please switch
-            back to your previously used wallet. In order to use a new wallet,
-            contact us.
-          </p>
-          <p>
-            previously used wallet address:{' '}
+            {t('connect-wallet.prev-wallet')}:{' '}
             {shortenAddress(account?.wallet_address ?? '')}
           </p>
         </Card>
@@ -114,29 +121,24 @@ export default function ConnectWalletWrapper({ children, className }: Props) {
         <Card className="flex flex-col items-center gap-12">
           <Wallet className="mobile:w-24" />
           <div className="text-center">
-            <h2 className="mb-8 text-lg font-semibold">
-              Payment by Wisdomise Token
-            </h2>
-            <p className="text-gray-400">
-              Your Wisdomise Tokens will not be deducted, you will only need to
-              hold the tokens in your wallet for a the subscription period in
-              order to gain access.
-            </p>
+            <h2 className="mb-8 text-lg font-semibold">{title}</h2>
+            <p className="text-gray-400">{description}</p>
           </div>
-          <Button onClick={openWeb3Modal}>Connect Wallet</Button>
-          {isConnected && <div>Connected to {activeConnector?.name}</div>}
+          <Button onClick={openWeb3Modal}>{t('connect-wallet.connect')}</Button>
         </Card>
       )}
       {showNonce && (
         <Card className="flex flex-col items-center gap-12 text-center">
           <Key className="mobile:w-24" />
           <h2 className="w-[17rem] text-lg">
-            Please verify ownership by signing the nonce
+            {t('connect-wallet.verify-nonce')}
           </h2>
           <div className="w-full rounded-xl bg-white/10 py-6 text-lg font-semibold text-white/60">
             {nonceResponse?.nonce}
           </div>
-          <Button onClick={handleSignAndVerification}>Sign and Verify</Button>
+          <Button onClick={handleSignAndVerification}>
+            {t('connect-wallet.sign')}
+          </Button>
         </Card>
       )}
     </div>

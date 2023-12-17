@@ -4,6 +4,16 @@ available: Available
 btn-deposit: Deposit
 btn-withdraw: Withdraw
 confirm-withdrawal: Confirm Withdrawal
+connect-wallet:
+  connect: Connect Wallet
+  disconnect: Disconnect
+  not-sync: >-
+    This wallet is not synced with the current account, please switch back to
+    your previously used wallet. In order to use a new wallet, contact us.
+  prev-wallet: previously used wallet address
+  sign: Sign and Verify
+  verify-nonce: Please verify ownership by signing the nonce
+  wallet-address: Wallet Address
 equity-description_one: >-
   You have <1>{{count}}</1> running product<br> that block <5>{{blocked}}</5>
   {{mainQuote}} of your equity.

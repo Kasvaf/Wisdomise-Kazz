@@ -100,7 +100,11 @@ export default function TokenPaymentModalContent({ plan }: Props) {
             <Button onClick={onDoneClick}>{t('token-modal.done')}</Button>
           </Card>
         ) : (
-          <ConnectWalletWrapper className="mobile:m-4 lg:w-3/4">
+          <ConnectWalletWrapper
+            className="mobile:m-4 lg:w-3/4"
+            title={t('token-modal.connect-wallet.title')}
+            description={t('token-modal.connect-wallet.description')}
+          >
             <TokenCheckout plan={plan} setDone={setDone} />
           </ConnectWalletWrapper>
         )}

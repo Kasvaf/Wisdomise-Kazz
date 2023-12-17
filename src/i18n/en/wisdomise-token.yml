@@ -2,6 +2,9 @@ balance:
   add-token: Add tWSDM
   token-name: tWSDM
   your-balance: Your tWSDM token balance
+connect-wallet:
+  title: Connect Wallet
+  description: To view utility status and your tWSDM balance, connect your wallet.
 utility:
   title: Utility Activation
   description: >-
