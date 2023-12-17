@@ -53,7 +53,7 @@ const PageSecondaryForm: React.FC = () => {
   useEffect(() => {
     if (!account) return;
     if (account?.register_status !== 'PRIMARY') {
-      // navigate('/');
+      navigate('/');
     }
   }, [account, navigate]);
 

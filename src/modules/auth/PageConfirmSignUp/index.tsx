@@ -39,7 +39,7 @@ const PageConfirmSignUp = () => {
 
   useEffect(() => {
     if (account?.info.email_verified) {
-      // navigate('/auth/secondary-signup');
+      navigate('/auth/secondary-signup');
     }
   }, [account, navigate]);
 

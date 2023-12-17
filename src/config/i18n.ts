@@ -8,6 +8,7 @@ import resources from 'virtual:i18next-loader';
 import { notification } from 'antd';
 import { isProduction } from 'utils/version';
 
+const validLang = /^([a-z]{2}(-[a-z]{2})?)$/;
 export default function configI18n() {
   void i18n
     .use(initReactI18next) // passes i18n down to react-i18next
@@ -17,6 +18,7 @@ export default function configI18n() {
       fallbackLng: 'en',
       detection: {
         order: ['querystring', 'localStorage', 'sessionStorage'],
+        convertDetectedLanguage: lng => (validLang.test(lng) ? lng : 'en'),
       },
       saveMissing: !isProduction,
       missingKeyHandler: (
