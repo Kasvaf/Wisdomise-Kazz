@@ -16,13 +16,7 @@ export default function configI18n() {
       resources,
       fallbackLng: 'en',
       detection: {
-        order: [
-          'querystring',
-          'cookie',
-          'localStorage',
-          'sessionStorage',
-          'subdomain',
-        ],
+        order: ['querystring', 'localStorage', 'sessionStorage'],
       },
       saveMissing: !isProduction,
       missingKeyHandler: (
