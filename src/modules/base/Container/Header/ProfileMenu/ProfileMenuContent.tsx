@@ -57,6 +57,10 @@ const ReferralSection = () => {
 const ExternalLinks = () => {
   const { t } = useTranslation('base');
   const items = [
+    {
+      label: t('links.solutions'),
+      link: 'https://landing.wisdomise.com/solutions/',
+    },
     { label: t('links.blog'), link: 'https://wisdomise.medium.com/' },
     {
       label: t('links.about-us'),

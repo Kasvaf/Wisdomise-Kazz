@@ -6,6 +6,7 @@ language: 言語
 links:
   about-us: 私たちについて
   blog: ブログ
+  solutions: 解決策
 menu:
   account-manager:
     mobile: アカウント
