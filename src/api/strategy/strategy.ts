@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { API_ORIGIN } from 'config/constants';
 import { type SignalsResponse } from '../types/signalResponse';
 import { type MarketTypes } from '../types/financialProduct';
 
 export const useSignalsQuery = () =>
   useQuery(['signals'], async () => {
     const { data } = await axios.get<SignalsResponse>(
-      `${API_ORIGIN}/api/v0/strategy/last-positions`,
+      'strategy/last-positions',
     );
     return data;
   });
