@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 
 import PageInvestment from 'modules/products/PageInvestment';
+import PageInsight from 'modules/products/PageInsight';
 import Container from '../Container';
 
 const PageAssetOverview = React.lazy(
@@ -57,9 +58,16 @@ const appRoutes: RouteObject[] = [
   },
   {
     element: <Container />,
+    path: 'insight',
+    children: [
+      { path: '', element: <PageInsight /> },
+      { path: 'signals', element: <PageSignalsMatrix /> },
+    ],
+  },
+  {
+    element: <Container />,
     path: 'app',
     children: [
-      { path: 'signals', element: <PageSignalsMatrix /> },
       { path: 'strategy', element: <PageStrategiesList /> },
       { path: 'strategy/new', element: <PageStrategyCreate /> },
       { path: 'strategy/:id', element: <PageStrategyDetails /> },

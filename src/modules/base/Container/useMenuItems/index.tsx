@@ -52,8 +52,18 @@ const useMenuItems = () => {
     },
     {
       icon: Icon(InsightIconEmpty, InsightIconFull),
-      text: t('menu.signal-matrix.title'),
-      link: '/app/signals',
+      text: t('menu.insight.title'),
+      link: '/insight',
+      children: [
+        {
+          text: t('menu.signal-matrix.title'),
+          link: '/insight/signals',
+        },
+        {
+          text: t('menu.athena.title'),
+          link: 'https://landing.wisdomise.com/athena',
+        },
+      ],
     },
     {
       icon: <StrategiesIcon />,

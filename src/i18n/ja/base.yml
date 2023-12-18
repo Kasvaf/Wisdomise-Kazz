@@ -19,7 +19,10 @@ menu:
     mobile: 資産
     subtitle: 金融商品を監視および管理します。
     title: 資産概要
-  athena: アテナ
+  athena:
+    features: +10 の機能
+    subtitle: 暗号通貨の世界をガイドするインテリジェンス チャットボット
+    title: 暗号チャットボット
   billing:
     mobile: 請求情報
     remains: 残っている
@@ -35,6 +38,9 @@ menu:
     active-product: アクティブな製品
     subtitle: さまざまな投資パッケージの機会を探る
     title: 金融商品
+  insight:
+    subtitle: 戦略的な仮想通貨投資のためのリアルタイムの洞察にアクセス
+    title: 洞察力
   investment:
     subtitle: オートトレーダーまたはDeFiステーキング金融商品の詳細を見る
     title: 投資
@@ -60,6 +66,7 @@ menu:
     title: リファーラル
   signal-matrix:
     mobile: シグナル
+    subtitle: 主要な暗号通貨の AI を利用した取引シグナルを取得する
     title: シグナルマトリクス
   strategies:
     mobile: 戦略
