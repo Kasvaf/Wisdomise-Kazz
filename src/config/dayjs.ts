@@ -4,11 +4,13 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import utcDate from 'dayjs/plugin/utc';
 import 'dayjs/locale/ja';
 
 export default function configDayjs() {
   dayjs.extend(updateLocale);
   dayjs.extend(relativeTime);
+  dayjs.extend(utcDate);
   dayjs.updateLocale('en', {
     relativeTime: {
       future: 'in %s',

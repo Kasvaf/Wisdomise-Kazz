@@ -125,7 +125,11 @@ const CandleChart: React.FC<{
   resolution: Resolution;
 }> = ({ candles, positions = [], resolution = '1h' }) => {
   const parsedCandles = parseCandles(candles, resolution);
-  const parsedPositions = parsePositions(positions, resolution);
+  const parsedPositions = parsePositions(
+    positions,
+    resolution,
+    parsedCandles.categoryData.at(-1),
+  );
 
   const [chart, setChart] = useState<ECharts>();
   useEffect(() => {
