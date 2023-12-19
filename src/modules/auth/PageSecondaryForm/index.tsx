@@ -45,9 +45,9 @@ const PageSecondaryForm: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
-    privacy: false,
-    terms: false,
-    risk: false,
+    privacy: true,
+    terms: true,
+    risk: true,
   });
 
   useEffect(() => {
