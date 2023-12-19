@@ -251,10 +251,10 @@
   display: none !important;
 }
 
-#crisp-chatbox > div > a {
-  @apply mobile:!hidden;
-}
-
 #CookiebotWidget {
   bottom: 80px !important;
+}
+
+#hubspot-messages-iframe-container:not(.open) {
+  @apply mobile:!hidden;
 }
