@@ -21,6 +21,9 @@ function diff(
   return p && (side === 'SHORT' ? p : -p);
 }
 
+const formatPrice = (price: number) =>
+  numerable.format(price, price > -1 && price < 1 ? '0.0000' : '0,0.00');
+
 const PositionInfo: React.FC<{
   actualPrice?: number;
   actualTime?: string;
@@ -34,7 +37,7 @@ const PositionInfo: React.FC<{
         <div className="flex items-center justify-between rounded-lg bg-black/20 p-3 text-white/80">
           <div>Actual</div>
           <div className="text-right">
-            <div>{numerable.format(p.actualPrice, '$$0,0.00')}</div>
+            <div>${formatPrice(p.actualPrice)}</div>
             <div className="mt-2 text-white/20">
               {dayjs(p.actualTime).format('HH:mm, MMM DD')}
             </div>
@@ -55,7 +58,7 @@ const PositionInfo: React.FC<{
                 {Math.abs(p.diff).toFixed(2)}%
               </div>
             )}
-            <div>{numerable.format(p.signalPrice, '$$0,0.00')}</div>
+            <div>${formatPrice(p.signalPrice)}</div>
             <div>{dayjs(p.signalTime).format('HH:mm, MMM DD')}</div>
           </div>
         </div>
@@ -93,7 +96,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
         title: 'Size',
         render: (_, p) => (
           <div>
-            {numerable.format(p.actual_position.amount, '0,0.00')}
+            {formatPrice(p.actual_position.amount)}
             <span className="ml-2 text-white/60">{quote}</span>
           </div>
         ),
