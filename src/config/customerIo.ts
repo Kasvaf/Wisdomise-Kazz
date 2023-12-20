@@ -39,6 +39,6 @@ function loadScript() {
 export default {
   loadScript,
   identify(email: string) {
-    getCio().identify(email);
+    getCio().identify({ id: email });
   },
 };

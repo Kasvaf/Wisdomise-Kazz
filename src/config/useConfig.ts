@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as dayjs from 'dayjs';
 import configAxios from './axios';
-import configCrisp from './crisp';
+import configHubSpot from './hubSpot';
 import configDayjs from './dayjs';
 import configI18n from './i18n';
 import { configSegment } from './segment';
@@ -10,7 +10,7 @@ import configSentry from './sentry';
 import configAnalytics from './analytics';
 
 configAxios();
-configCrisp();
+configHubSpot();
 configSentry();
 configSegment();
 configAnalytics();

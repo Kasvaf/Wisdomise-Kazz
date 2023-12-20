@@ -3,3 +3,4 @@ sync-locize.js
 i18next-parser.config.js
 /src/modules/base/tailwind.css
 **/*.md
+public/*

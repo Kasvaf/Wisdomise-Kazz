@@ -14,8 +14,8 @@ const namespacePrefix = 'd';
 function flatten(obj) {
   if (!obj || typeof obj !== 'object') return obj;
   const result = {};
-  for (const key of Object.keys(obj)) {
-    const sub = flatten(obj[key]);
+  for (const [key, val] of Object.entries(obj)) {
+    const sub = flatten(val);
     if (typeof sub !== 'object') result[key] = sub;
     else {
       for (const subkey of Object.keys(sub)) {

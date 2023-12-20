@@ -15,6 +15,7 @@ const CardPageLink: React.FC<
 > = ({ to, title, subtitle, icon, children, height = 180 }) => (
   <NavLink
     to={to}
+    target={to.startsWith('https://') ? '_blank' : undefined}
     className="group relative block cursor-pointer rounded-3xl bg-black/30 hover:bg-black/40"
   >
     <div className="absolute right-0 top-0">{icon}</div>

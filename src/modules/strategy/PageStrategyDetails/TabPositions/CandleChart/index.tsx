@@ -10,8 +10,8 @@ import { type StrategyPosition, type Candle, type Resolution } from 'api';
 import { echartsDark, type EChartsOption } from 'modules/shared/echarts';
 import { parseCandles, parsePositions } from './utils';
 
-const upColor = '#ec0000';
-const downColor = '#00da3c';
+const upColor = '#00da3c';
+const downColor = '#ec0000';
 
 const makeOption = (
   candles: {
@@ -125,7 +125,11 @@ const CandleChart: React.FC<{
   resolution: Resolution;
 }> = ({ candles, positions = [], resolution = '1h' }) => {
   const parsedCandles = parseCandles(candles, resolution);
-  const parsedPositions = parsePositions(positions, resolution);
+  const parsedPositions = parsePositions(
+    positions,
+    resolution,
+    parsedCandles.categoryData.at(-1),
+  );
 
   const [chart, setChart] = useState<ECharts>();
   useEffect(() => {

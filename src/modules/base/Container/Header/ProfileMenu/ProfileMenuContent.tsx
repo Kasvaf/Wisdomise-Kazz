@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import { Crisp } from 'crisp-sdk-web';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bxChevronRight, bxLinkExternal } from 'boxicons-quasar';
@@ -10,6 +9,7 @@ import {
   useSubscription,
   useReferralStatusQuery,
 } from 'api';
+import { openHubSpot } from 'config/hubSpot';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
@@ -19,7 +19,6 @@ import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/acc
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
 import { ReactComponent as SignOutIcon } from './signout.svg';
 
-const openCrisp = () => Crisp.chat.open();
 const WithChevron: React.FC<PropsWithChildren> = ({ children }) => (
   <div className="flex items-center">
     {children}
@@ -172,7 +171,11 @@ const ProfileMenuContent = () => {
         {t('user.sign-out')}
       </Button>
 
-      <Button className="my-4 block w-full" variant="link" onClick={openCrisp}>
+      <Button
+        className="my-4 block w-full"
+        variant="link"
+        onClick={openHubSpot}
+      >
         <QuestionRectIcon />
         <span className="ml-3 mr-2">{t('support.title')}</span>
         <span className="text-xs font-normal text-white/40">

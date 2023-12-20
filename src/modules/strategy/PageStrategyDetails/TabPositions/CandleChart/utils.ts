@@ -30,15 +30,14 @@ export function bestResolution(rng?: [Date, Date]): Resolution {
   return '1h';
 }
 
-export function formatDate(dateString: string | Date) {
-  return dayjs(dateString).format(formatter);
-}
-
-export const roundDate = (dateString: string, resolution: Resolution) => {
+export const roundDate = (
+  dateString: string | Date,
+  resolution: Resolution,
+) => {
   const dateMs = +new Date(dateString);
   const dur = durs[resolution];
   const roundedDate = new Date(Math.round(dateMs / dur) * dur);
-  return dayjs(roundedDate).format(formatter);
+  return dayjs(roundedDate).utc().format(formatter);
 };
 
 export function parseCandles(candles: Candle[], resolution: Resolution) {
@@ -57,26 +56,27 @@ export function parseCandles(candles: Candle[], resolution: Resolution) {
 export function parsePositions(
   positions: StrategyPosition[],
   resolution: Resolution,
+  lastCandle?: string,
 ) {
   const roundedPositions = positions.map(
     ({ actual_position: ap, strategy_position: sp }) =>
       ({
         actual_position: {
           ...ap,
-          entry_time: roundDate(ap.entry_time, resolution),
-          exit_time: ap.exit_time && roundDate(ap.exit_time, resolution),
+          entry_time: roundDate(ap.entry_time + 'Z', resolution),
+          exit_time: ap.exit_time && roundDate(ap.exit_time + 'Z', resolution),
         },
         strategy_position: sp && {
           ...sp,
-          entry_time: roundDate(sp.entry_time, resolution),
-          exit_time: sp.exit_time && roundDate(sp.exit_time, resolution),
+          entry_time: roundDate(sp.entry_time + 'Z', resolution),
+          exit_time: sp.exit_time && roundDate(sp.exit_time + 'Z', resolution),
         },
       }) satisfies StrategyPosition,
   );
 
   const brushes = roundedPositions.map(({ actual_position: ap }) => ({
     brushType: 'lineX',
-    coordRange: [ap.entry_time, ap.exit_time || formatDate(new Date())],
+    coordRange: [ap.entry_time, ap.exit_time || lastCandle],
     xAxisIndex: 0,
   }));
 
@@ -95,7 +95,7 @@ export function parsePositions(
     ({ actual_position: ap }) =>
       [
         {
-          xAxis: roundDate(ap.entry_time, resolution),
+          xAxis: ap.entry_time,
           yAxis: ap.entry_price,
           itemStyle: {
             color: ap.pnl >= 0 ? '#00ff00' : '#ff0000',
@@ -103,7 +103,7 @@ export function parsePositions(
           value: 'text',
         },
         {
-          xAxis: roundDate(ap.exit_time, resolution),
+          xAxis: ap.exit_time,
           yAxis: ap.exit_price,
         },
       ] satisfies NonNullable<MarkAreaOption['data']>[number],

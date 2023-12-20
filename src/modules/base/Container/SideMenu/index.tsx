@@ -16,6 +16,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
     <div className="text-white">
       <NavLink
         to={item.link}
+        target={item.link.startsWith('https://') ? '_blank' : undefined}
         className={clsx(
           'group mb-4 flex cursor-pointer items-center justify-between rounded-xl p-4 text-sm',
           'opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:bg-[#FFFFFF1A] [&.active]:opacity-100',
@@ -38,6 +39,9 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
               <NavLink
                 key={subItem.link}
                 to={subItem.link}
+                target={
+                  subItem.link.startsWith('https://') ? '_blank' : undefined
+                }
                 className={clsx('group flex h-12 items-stretch')}
               >
                 {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}

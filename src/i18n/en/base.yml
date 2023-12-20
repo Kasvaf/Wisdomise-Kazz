@@ -17,6 +17,10 @@ menu:
   asset-overview:
     title: Asset Overview
     subtitle: Monitor and manage your financial products.
+  athena:
+    title: Crypto Chatbot
+    subtitle: Intelligence chatbot that guides you through the world of cryptocurrency
+    features: +10 Features
   billing:
     title: Subscription
     subtitle: Subscription preferences.
@@ -25,6 +29,9 @@ menu:
     title: Financial Products
     subtitle: Explore different investment package opportunities
     active-product: Active Product
+  insight:
+    title: Insight
+    subtitle: Access Real-Time Insights for Strategic Crypto Investing
   investment:
     title: Investment
     subtitle: Explore Auto Trader or DeFi Staking financial products
@@ -42,6 +49,7 @@ menu:
     subtitle: Invite and earn rewards.
   signal-matrix:
     title: Signal Matrix
+    subtitle: Get AI-powered trading signals for leading cryptocurrencies
   strategies:
     title: Strategies
   token:
