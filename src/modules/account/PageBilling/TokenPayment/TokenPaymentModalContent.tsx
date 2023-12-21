@@ -102,8 +102,10 @@ export default function TokenPaymentModalContent({ plan }: Props) {
         ) : (
           <ConnectWalletWrapper
             className="mobile:m-4 lg:w-3/4"
-            title={t('token-modal.connect-wallet.title')}
-            description={t('token-modal.connect-wallet.description')}
+            title={t('wisdomise-token:connect-wallet.billing.title')}
+            description={t(
+              'wisdomise-token:connect-wallet.billing.description',
+            )}
           >
             <TokenCheckout plan={plan} setDone={setDone} />
           </ConnectWalletWrapper>

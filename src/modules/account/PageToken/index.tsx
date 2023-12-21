@@ -37,8 +37,10 @@ export default function PageToken() {
         {t('base:menu.token.title')}
       </h1>
       <ConnectWalletWrapper
-        title={t('connect-wallet.title')}
-        description={t('connect-wallet.description')}
+        title={t('wisdomise-token:connect-wallet.wisdomise-token.title')}
+        description={t(
+          'wisdomise-token:connect-wallet.wisdomise-token.description',
+        )}
       >
         <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2">
           <Card className="flex flex-col justify-between">

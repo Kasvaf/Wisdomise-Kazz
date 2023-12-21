@@ -3,8 +3,14 @@ balance:
   token-name: tWSDM
   your-balance: Your tWSDM token balance
 connect-wallet:
-  title: Connect Wallet
-  description: To view utility status and your tWSDM balance, connect your wallet.
+  billing:
+    title: Payment by Wisdomise Token
+    description: >-
+      Your Wisdomise Tokens will not be deducted, you will only need to hold the
+      tokens in your wallet for the subscription period in order to gain access.
+  wisdomise-token:
+    title: Connect Wallet
+    description: To view utility status and your tWSDM balance, connect your wallet.
 utility:
   title: Utility Activation
   description: >-
