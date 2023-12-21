@@ -15,6 +15,7 @@ modal-add-exchange:
   input-api-key: API KEY
   input-secret-key: Secret Key
   notice-ip-restriction: 'Use following value for <1>IP access restrictions</1> in Binance:'
+  input-exchange: Exchange
 page-accounts:
   btn-add-account: Add Account
   empty-description: You have not added any external exchange account yet.

@@ -116,3 +116,7 @@ token-modal:
   total-amount: Total amount need to be hold in your wallet
   you-can: you can now access {{name}} Features.
   your-balance: Your tWSDM Token Balance
+tabs:
+  overview: Overview
+  invoices: Invoices
+  payment-methods: Payment Methods

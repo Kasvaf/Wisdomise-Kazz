@@ -12,6 +12,7 @@ modal-account-selector:
   title: アカウントの選択
 modal-add-exchange:
   input-api-key: API キー
+  input-exchange: エクスチェンジ
   input-secret-key: シークレットキー
   notice-ip-restriction: 次の情報をBinanceの<1>IP access restrictions（アクセス制限）</1>にご利用ください。
   title: エクスチェンジのアカウントを追加

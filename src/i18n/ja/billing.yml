@@ -85,6 +85,10 @@ success-modal:
   redirecting-msg: <1>({{timeout}})</1>秒でリダイレクトされます。
   subtitle: 次のステップに進められます
   title: サブスクリプションのご契約ありがとうございます
+tabs:
+  invoices: 請求書
+  overview: 概要
+  payment-methods: 支払い方法
 token-modal:
   activate-subscription: サブスクリプションを起動させる
   congratulations: おめでとうございます！

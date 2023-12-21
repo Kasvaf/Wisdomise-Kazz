@@ -3,7 +3,10 @@ amount: Amount
 available: Available
 btn-deposit: Deposit
 btn-withdraw: Withdraw
-confirm-withdrawal: Confirm Withdrawal
+confirm-withdrawal:
+  title: Confirm Withdrawal
+  btn-confirm: Confirm
+  btn-return: Return
 equity-description_one: >-
   You have <1>{{count}}</1> running product<br> that block <5>{{blocked}}</5>
   {{mainQuote}} of your equity.

@@ -12,7 +12,6 @@ import CopyInputBox from 'modules/shared/CopyInputBox';
 import ExchangeSelector from './ExchangeSelector';
 import MarketSelector from './MarketSelector';
 
-const emptyFieldError = 'This field may not be blank.';
 const createApiKeyHelp =
   'https://www.binance.com/en-BH/support/faq/how-to-create-api-360002502072';
 
@@ -58,6 +57,7 @@ const ModalAddExchangeAccount: React.FC<{
     }
   };
 
+  const emptyFieldError = t('common:errors.field-required');
   return (
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">
@@ -67,7 +67,7 @@ const ModalAddExchangeAccount: React.FC<{
         <div className="flex justify-stretch gap-4">
           <ExchangeSelector
             className="basis-1/2"
-            label="Exchange"
+            label={t('modal-add-exchange.input-exchange')}
             selectedItem={exchange}
             onSelect={setExchange}
             noWisdomise
@@ -75,7 +75,7 @@ const ModalAddExchangeAccount: React.FC<{
 
           <MarketSelector
             className="basis-1/2"
-            label="Market"
+            label={t('account.market')}
             selectedItem={market}
             onSelect={setMarket}
             disabled={Boolean(fixedMarket)}
@@ -83,7 +83,7 @@ const ModalAddExchangeAccount: React.FC<{
         </div>
         <TextBox
           className="mt-6"
-          label="Account Name"
+          label={t('account.name')}
           value={accountName}
           onChange={setAccountName}
           error={showErrors && !accountName && emptyFieldError}

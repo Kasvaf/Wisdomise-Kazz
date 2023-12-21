@@ -15,24 +15,24 @@ export default function SubscriptionDetail() {
     const tabs: TabsProps['items'] = [
       {
         key: 'overview',
-        label: 'Overview',
+        label: t('tabs.overview'),
         children: <OverviewTab />,
       },
       {
         key: 'invoices',
-        label: 'Invoices',
+        label: t('tabs.invoices'),
         children: <InvoicesTab />,
       },
     ];
     if (firstPaymentMethod === 'FIAT') {
       tabs.push({
         key: 'payment-methods',
-        label: 'Payment Methods',
+        label: t('tabs.payment-methods'),
         children: <PaymentMethodsTab />,
       });
     }
     return tabs;
-  }, [firstPaymentMethod]);
+  }, [firstPaymentMethod, t]);
 
   return (
     <>
