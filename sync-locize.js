@@ -8,7 +8,7 @@ const apiKey = 'e39103ba-63a4-4389-a731-c34dd85fc3ee';
 const version = 'latest';
 const baseLang = 'en';
 const localesPath = 'src/i18n/';
-const otherLangs = ['ja'];
+const otherLangs = ['ja', 'zh'];
 const namespacePrefix = 'd';
 
 function flatten(obj) {

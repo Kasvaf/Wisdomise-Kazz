@@ -1,0 +1,44 @@
+badges:
+  pending: 待办的
+  pending-meeting: 待定会议
+  rejected: 拒绝
+  unknown: 加载中
+  unverified: 未验证
+  verified: 已验证
+completed: 完全的
+identification:
+  btn-start-sumsub: 让我们从 Sumsub 开始
+  description: 表明您的身份以帮助我们保护您的帐户。
+  title: 鉴别
+modal-kyc:
+  footer: 完成你的 <1>鉴别</1>, <4>确认</4>， 和 <7>验证至少一个钱包地址</7> 访问我们平台上的所有功能并享受无缝体验。
+  title: KYC 状态
+title: KYC
+verification:
+  btn-calendly: 日程 Calendly
+  description: 要验证您的帐户，请在 Calendly 上安排会议，我们将与您联系以协助您完成验证过程。
+  identify-first-notice: 首先完成身份验证
+  title: 确认
+wallet:
+  add:
+    banner: 请注意，我们目前仅支持 <1>USDT</1> 作为一种加密货币。
+    btn-send-email: 发电子邮件
+    help:
+      screenshot-title: <0>例子</0>：USDT钱包地址
+      step-0: 要将您的 USDT 钱包地址和网络发送给我们，您需要在 Trust 钱包中执行以下步骤：
+      step-1-networks: 在您的首选网络上选择 USDT 币
+      step-2-receive: 选择接收按钮。
+      step-3-screenshot: 截取显示您的 USDT 存款钱包地址和网络的页面截图。
+      step-4-email: 将屏幕截图附加到电子邮件并将其发送到我们的支持电子邮件： <1>support@wisdomise.io</1>
+  btn-add:
+    verify-more: 验证更多钱包
+    verify-wallet: 验证钱包
+  column:
+    coin: 硬币
+    name: 钱包名称
+    wallet-address: 钱包地址
+  description: 验证您的钱包以激活和解锁我们的所有产品和功能。
+  empty-message: 您没有经过验证的钱包地址。
+  list-title: 钱包状态
+  title: 钱包验证
+  unnamed: （未命名）

@@ -1,0 +1,87 @@
+error-page:
+  btn-reload: 重新加载
+  subtitle: 但我们会尽力避免类似情况再次发生。
+  title: 出了点问题，我们不知道怎么办:(
+language: 语言
+links:
+  about-us: 关于我们
+  blog: 博客
+  solutions: 解决方案
+menu:
+  account-manager:
+    mobile: 账户
+    subtitle: 整合兑换账户。
+    title: 外部账户
+  account:
+    subtitle: 管理您的帐户设置和首选项
+    title: 帐户
+  asset-overview:
+    mobile: 资产
+    subtitle: 监控和管理您的金融产品。
+    title: 资产概览
+  athena:
+    features: +10 功能
+    subtitle: 智能聊天机器人，带您畅游加密货币世界
+    title: 加密聊天机器人
+  billing:
+    mobile: 计费
+    remains: 遗迹
+    subtitle: 订阅偏好。
+    title: 订阅
+  category:
+    account: 帐户
+    market-predication: 市场预测
+    passive-income: 被动收入
+    strategy-builder: 策略生成器
+  dashboard: 仪表板
+  financial-products:
+    active-product: 活跃产品
+    subtitle: 探索不同的投资组合机会
+    title: 理财产品
+  insight:
+    subtitle: 获取战略加密货币投资的实时见解
+    title: 洞察力
+  investment:
+    subtitle: 探索 Auto Trader 或 DeFi Stake 金融产品
+    title: 投资
+  kyc:
+    mobile: 了解您的客户
+    subtitle: 验证身份以访问功能。
+    title: 了解您的客户
+  notification-center:
+    mobile: 通知
+    subtitle: 信号和警报设置。
+    title: 通知
+  products-catalog:
+    mobile: 产品
+    title: 产品目录
+  profile-dashboard: 个人资料仪表板
+  profile:
+    mobile: 轮廓
+    subtitle: 编辑登录凭据。
+    title: 轮廓
+  referral:
+    mobile: 推荐
+    subtitle: 邀请并获得奖励。
+    title: 推荐
+  signal-matrix:
+    mobile: 信号
+    subtitle: 获取领先加密货币的人工智能驱动的交易信号
+    title: 信号矩阵
+  strategies:
+    mobile: 策略
+    title: 策略
+  token:
+    mobile: WSDM
+    subtitle: 使用令牌进行高级访问。
+    title: WSDM代币
+mobile-menu:
+  close: 关闭
+  open: 菜单
+support:
+  hint: 与我们聊天
+  title: 问题？
+user:
+  logout: 登出
+  sign-out: 登出
+wisdomise-is-loading: Wisdomise 正在加载

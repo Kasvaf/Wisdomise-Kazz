@@ -9,6 +9,7 @@ import { ReactComponent as LangIcon } from './lang-icon.svg';
 const langs = [
   { value: 'en', label: 'English' },
   { value: 'ja', label: '日本語' },
+  { value: 'zh', label: '中国人' },
 ];
 
 const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {

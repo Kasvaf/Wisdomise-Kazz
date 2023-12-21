@@ -1,0 +1,30 @@
+ask:
+  active-limit: 已达到问题限制。升级您的计划以继续
+  athena: Athena
+  athena-subtitle: 您的AI财务助手
+  input-placeholder: 问你的问题
+  remain-questions: 享受你剩下的 {{leftQuestions}} 问题
+  suggested-prompts: 建议的提示
+  trial-limit: 试用问题已达到限制，订阅以继续
+info:
+  chart:
+    apy-history: 历史年利率
+    tvl-history: 历史TVL
+  description: 描述
+  docs: 文档
+  github: Github
+  project-links: 项目链接
+  twitter: Twitter
+  website: 网站
+pools-table:
+  actions: 行动
+  apy: APY
+  apy-title: APY = 基础 APY + 奖励 APY。对于非自动复利池，我们不考虑再投资，在这种情况下 APY = APR。
+  base-apy: Base APY
+  base-apy-title: 交易费用/供应的年化百分比收益率。对于去中心化交易所，我们使用 24 小时费用并将其调整为一年。
+  chain: 链
+  invest: 投资
+  reward-apy: 奖励年收益
+  reward-apy-title: 激励措施的年化百分比收益率。
+  title: 池列表
+  token: 代币

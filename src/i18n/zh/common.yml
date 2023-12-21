@@ -1,0 +1,8 @@
+actions:
+  back: 后退
+copied-to-clipboard: 已复制到剪贴板
+cryptocurrency: 加密货币
+errors:
+  field-required: 该字段不能为空。
+loading: 加载中...
+network: 网络

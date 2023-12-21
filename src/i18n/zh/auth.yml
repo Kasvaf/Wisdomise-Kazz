@@ -1,0 +1,44 @@
+banner:
+  athena-bot: Athena 电报机器人
+  stay-connected: 保持联系
+email-address: 电子邮件地址
+footer: © 2023 Wisdomise. 版权所有.
+page-referral:
+  all-time: 整天
+  friends-invited: 好友邀请
+  invited: 受邀
+  referral-code: 推荐码
+  referral-insight: 推荐洞察
+  referral-link: 推荐链接
+  subscribed-friends: 订阅的朋友
+  title: 推荐计划
+  wisdomise-revenue: Wisdomise 来自您的推荐的收入
+  your-profit: 您的利润
+secondary:
+  btn-submit:
+    label: 提交
+    loading: 正在提交...
+  contract:
+    btn-check: 我已阅读并接受 {{title}}。
+    label: 您承认 <1>{{title}}</1>。
+    required-error: 您应该接受 {{title}} 为了继续。
+  invitation:
+    label: 邀请代码 <1>（选修的）</1>
+    not-found: 找不到推荐人
+    placeholder: 邀请代码
+  nickname:
+    label: 昵称
+    length-limit: 确保此字段不超过 32 个字符。
+    not-empty: 昵称不能为空
+    placeholder: 您的昵称
+  welcome: 欢迎来到 <br><b>Wisdomise</b>
+verify-email:
+  btn-check:
+    label: 查看
+    loading: 检查...
+  btn-resend:
+    label: 重新发送验证邮件
+    loading: 重新发送验证电子邮件...
+  link-sent: 链接已发送至您的电子邮件 <1>{{email}}</1><br> 要验证您的帐户，请点击链接。
+  notification-email-sent: 验证邮件发送成功。
+  title: 核实 <b>你的邮件</b>
