@@ -2,6 +2,13 @@ balance:
   add-token: tWSDMの追加
   token-name: tWSDM
   your-balance: tWSDMトークン保有量
+connect-wallet:
+  billing:
+    description: Wisdomiseトークンは差し引かれません。サブスクリプション期間中、アクセスを得るためにトークンをウォレットに保持する必要があります。
+    title: Wisdomise トークンによる支払い
+  wisdomise-token:
+    description: 公共料金のステータスと tWSDM 残高を表示するには、ウォレットに接続します。
+    title: ウォレットを接続する
 utility:
   activate: 起動させる
   activated: 有効化済み
