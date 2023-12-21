@@ -8,6 +8,15 @@ connect-wallet:
     description: >-
       Your Wisdomise Tokens will not be deducted, you will only need to hold the
       tokens in your wallet for the subscription period in order to gain access.
+  connect: Connect Wallet
+  disconnect: Disconnect
+  not-sync: >-
+    This wallet is not synced with the current account, please switch back to
+    your previously used wallet. In order to use a new wallet, contact us.
+  prev-wallet: previously used wallet address
+  sign: Sign and Verify
+  verify-nonce: Please verify ownership by signing the nonce
+  wallet-address: Wallet Address
   wisdomise-token:
     title: Connect Wallet
     description: To view utility status and your tWSDM balance, connect your wallet.

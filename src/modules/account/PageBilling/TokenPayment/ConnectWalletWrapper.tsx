@@ -30,7 +30,7 @@ export default function ConnectWalletWrapper({
   title,
   description,
 }: Props) {
-  const { t } = useTranslation('wallet');
+  const { t } = useTranslation('wisdomise-token');
   const { isConnected, address } = useAccount();
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
