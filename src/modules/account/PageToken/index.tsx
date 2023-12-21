@@ -15,6 +15,8 @@ export default function PageToken() {
   const { t } = useTranslation('wisdomise-token');
   const { isActive, isLoading, isTrialPlan } = useSubscription();
   const { data: account } = useAccountQuery();
+  const { mutateAsync: updateBalance, isLoading: isRefreshing } =
+    useUpdateTokenBalanceMutation();
   const navigate = useNavigate();
 
   const openInvestmentPanel = () => {
@@ -25,8 +27,6 @@ export default function PageToken() {
     navigate('/account/billing');
   };
 
-  const { mutateAsync: updateBalance } = useUpdateTokenBalanceMutation();
-
   const updateTokenBalance = async () => {
     await updateBalance();
   };
@@ -36,7 +36,12 @@ export default function PageToken() {
       <h1 className="mb-6 text-xl font-semibold">
         {t('base:menu.token.title')}
       </h1>
-      <ConnectWalletWrapper>
+      <ConnectWalletWrapper
+        title={t('wisdomise-token:connect-wallet.wisdomise-token.title')}
+        description={t(
+          'wisdomise-token:connect-wallet.wisdomise-token.description',
+        )}
+      >
         <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2">
           <Card className="flex flex-col justify-between">
             <div className="flex justify-between">
@@ -44,7 +49,11 @@ export default function PageToken() {
                 <h1 className="mb-6 text-xl font-semibold">
                   {t('balance.your-balance')}
                 </h1>
-                <Button variant="secondary" onClick={updateTokenBalance}>
+                <Button
+                  variant="secondary"
+                  disabled={isRefreshing}
+                  onClick={updateTokenBalance}
+                >
                   {t('billing:token-modal.refresh')}
                 </Button>
               </div>

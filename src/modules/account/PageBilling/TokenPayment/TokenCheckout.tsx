@@ -17,7 +17,8 @@ interface Props {
 export default function TokenCheckout({ plan, setDone }: Props) {
   const { data: account } = useAccountQuery();
   const { mutateAsync } = useSubmitTokenPayment();
-  const { mutateAsync: updateBalance } = useUpdateTokenBalanceMutation();
+  const { mutateAsync: updateBalance, isLoading } =
+    useUpdateTokenBalanceMutation();
 
   const updateTokenBalance = useCallback(async () => {
     await updateBalance();
@@ -52,6 +53,7 @@ export default function TokenCheckout({ plan, setDone }: Props) {
         <Button
           className="mt-2 !p-2"
           variant="secondary"
+          disabled={isLoading}
           onClick={updateTokenBalance}
         >
           {t('token-modal.refresh')}
