@@ -1,5 +1,6 @@
 import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { analytics } from 'config/segment';
 import {
   useAccountQuery,
   useDailyMagicStatusMutation,
@@ -21,6 +22,9 @@ export default function ToggleDaily() {
   const onChange = (checked: boolean) => {
     if (isActive && weeklyCustomNotificationCount > 0) {
       dailyMagicStatus.mutate(checked);
+      void analytics.track('atena_notification', {
+        status: checked ? 'on' : 'off',
+      });
     } else {
       void openSubscribeModal({});
     }

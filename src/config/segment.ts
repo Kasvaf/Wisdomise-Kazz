@@ -10,3 +10,7 @@ export function configSegment() {
     });
   }
 }
+
+export const trackClick = (place: string) => () => {
+  void analytics.track('click_on', { place });
+};

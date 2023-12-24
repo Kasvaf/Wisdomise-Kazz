@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDebounce } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
+import { trackClick } from 'config/segment';
 import { type ProtocolPools, useProtocolPoolsQuery } from 'api/staking';
 import PriceChange from 'modules/shared/PriceChange';
 import TextBox from 'modules/shared/TextBox';
@@ -111,6 +112,7 @@ export default function PoolsTable() {
             disabled={!url}
             className="block w-full"
             target="_blank"
+            onClick={trackClick('defi_invest_button')}
           >
             {t('pools-table.invest')}
           </Button>

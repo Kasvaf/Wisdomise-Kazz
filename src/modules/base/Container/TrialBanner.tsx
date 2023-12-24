@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
+import { trackClick } from 'config/segment';
 import Button from 'modules/shared/Button';
 
 export default function TrialBanner() {
@@ -36,6 +37,7 @@ export default function TrialBanner() {
             size="small"
             to="/account/billing"
             className="mx-4 w-full md:mx-0 md:w-auto"
+            onClick={trackClick('top_banner')}
           >
             {t('banner.btn-subscription-plans')}
           </Button>

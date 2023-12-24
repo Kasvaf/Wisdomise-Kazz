@@ -2,6 +2,7 @@ import { bxCheckCircle } from 'boxicons-quasar';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'api';
+import { analytics } from 'config/segment';
 import Icon from 'shared/Icon';
 import useConfirm from 'shared/useConfirm';
 import useConnectedQueryParam from './useConnectedQueryParam';
@@ -30,6 +31,7 @@ export default function useModalConnected() {
     modalShown.current = true;
     if (connected) {
       void showModal({}).then(clearConnected);
+      void analytics.track('telegram_successful_connect_signal');
     }
   }, [account.data?.telegram_id, connected, showModal, clearConnected]);
   return Modal;

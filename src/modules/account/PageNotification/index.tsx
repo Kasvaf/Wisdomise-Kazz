@@ -1,27 +1,47 @@
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { analytics } from 'config/segment';
 import { useStrategiesQuery } from 'api/notification';
 import PageWrapper from 'modules/base/PageWrapper';
+import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import SignalingTab from './SignalingTab';
 import CustomNotificationTab from './CustomNotificationTab';
 
 export default function PageNotification() {
   const { t } = useTranslation('notifications');
   const strategies = useStrategiesQuery();
+  const [activeTab, setActiveTab] = useSearchParamAsState<string>(
+    'tab',
+    'center',
+  );
 
   const tabs: TabsProps['items'] = [
     {
-      key: 'signaling',
+      key: 'center',
       label: t('signaling.title'),
       children: <SignalingTab />,
     },
     {
-      key: 'notification',
+      key: 'customize',
       label: t('customs.title'),
       children: <CustomNotificationTab />,
     },
   ];
+
+  useEffect(() => {
+    void analytics.track('click_on', {
+      place: 'notification_center',
+    });
+  }, []);
+
+  const tabChangeHandler = (v: string) => {
+    setActiveTab(v);
+    void analytics.track('click_on', {
+      place: 'notification_' + v,
+    });
+  };
 
   return (
     <PageWrapper loading={strategies.isLoading}>
@@ -29,7 +49,7 @@ export default function PageNotification() {
         {t('base:menu.notification-center.title')}
       </h1>
       <p className="mb-4 text-white/60">{t('page.description')}</p>
-      <Tabs defaultActiveKey="signaling" items={tabs} />
+      <Tabs activeKey={activeTab} items={tabs} onChange={tabChangeHandler} />
     </PageWrapper>
   );
 }
