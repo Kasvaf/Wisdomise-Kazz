@@ -37,7 +37,7 @@ const FinancialProductItem: React.FC<{
       variant="primary"
       size="small"
       to={`/investment/fpi/${fpi.key}`}
-      className="!px-10 text-base font-medium"
+      className="!px-10 text-base font-medium mobile:block"
     >
       {t('list.btn-details')}
     </Button>
