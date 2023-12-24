@@ -115,7 +115,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const doCreateWithdraw = useCallback(async () => {
     if (!wallet) throw new Error('unexpected');
 
-    const exchangeAccountKey = ias.data?.[0]?.main_exchange_account.key;
+    const exchangeAccountKey = ias.data?.[0]?.main_exchange_account?.key;
     if (!exchangeAccountKey) throw new Error('unexpected');
     return await createWithdraw({
       tx_type: 'WITHDRAW',
@@ -130,7 +130,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const transactionKey = useRef('');
   const resendWithdrawEmail = useResendWithdrawEmailMutation();
   const confirmWithdraw = useConfirmWithdrawMutation();
-  const exchangeAccountKey = ias.data?.[0]?.main_exchange_account.key;
+  const exchangeAccountKey = ias.data?.[0]?.main_exchange_account?.key;
 
   const [SecurityInputModal, confirmSecurityCode] = useSecurityInput({
     onConfirm: useCallback(

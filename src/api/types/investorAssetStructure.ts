@@ -10,7 +10,7 @@ export type InvestorAssetStructures = [
     working_capital: number;
     investor: Investor;
     financial_product_instances: FinancialProductInstance[];
-    main_exchange_account: MainExchangeAccount;
+    main_exchange_account?: MainExchangeAccount;
     asset_bindings: AssetBinding[];
   } | null,
 ];

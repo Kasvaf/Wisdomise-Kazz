@@ -16,7 +16,7 @@ const PageAssetOverview = () => {
   const hasFpi = Boolean(data?.financial_product_instances[0]);
   const hasPortfolio = Boolean(
     data?.total_equity ||
-      data?.main_exchange_account.quote_equity ||
+      data?.main_exchange_account?.quote_equity ||
       data?.net_deposit,
   );
 

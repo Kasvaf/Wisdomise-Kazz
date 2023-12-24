@@ -47,7 +47,7 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
         title={t('portfolio.info.available.title')}
         icon={AvailableIcon}
         subtitle={t('portfolio.info.available.subtitle')}
-        value={data?.main_exchange_account.quote_equity || 0}
+        value={data?.main_exchange_account?.quote_equity || 0}
         className="mobile:mb-4"
       />
 
