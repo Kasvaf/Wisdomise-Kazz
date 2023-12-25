@@ -148,6 +148,7 @@ const PageSecondaryForm: React.FC = () => {
             </label>
             <Select
               showSearch
+              optionFilterProp="label"
               value={country}
               onChange={setCountry}
               options={countries ?? []}
