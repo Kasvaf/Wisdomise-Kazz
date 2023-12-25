@@ -22,6 +22,10 @@ secondary:
     btn-check: "{{title}}を読み、承諾します。"
     label: <1>{{title}}</1>を承諾します。
     required-error: 続けるには {{title}} を承諾してください。
+  country:
+    label: 国名
+    not-empty: 国を空にすることはできません
+    placeholder: お住まいの国
   invitation:
     label: 招待コード <1>(オプション)</1>
     not-found: 紹介者が見つかりません

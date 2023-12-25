@@ -20,6 +20,7 @@ export function useAccountQuery() {
 }
 interface UserProfileUpdate {
   nickname: string | null;
+  country: string | null;
   referrer_code: string;
   terms_and_conditions_accepted?: boolean;
   privacy_policy_accepted?: boolean;
@@ -132,3 +133,18 @@ export const useDailyMagicStatusMutation = () => {
     { onSuccess: () => client.invalidateQueries(['account']) },
   );
 };
+
+export function useCountriesQuery() {
+  return useQuery(
+    ['countries'],
+    async () => {
+      const { data } = await axios.get<{ countries: Array<[string, string]> }>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/countries`,
+      );
+      return data.countries.map(([value, label]) => ({ value, label }));
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+}

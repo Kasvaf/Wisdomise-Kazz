@@ -19,9 +19,9 @@ const InputBox: React.FC<InputProps> = ({
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
-      className="mt-1 block w-[300px] rounded-xl border-2 border-solid border-[#ffffff1a] bg-transparent p-5 placeholder:text-[#FFFFFF80] md:w-[400px]"
+      className="mt-1 block w-[300px] rounded-xl border-2 border-solid border-[#ffffff1a] bg-transparent px-5 py-4 placeholder:text-[#FFFFFF80] md:w-[400px]"
     />
-    {error && <p className="ml-6 text-error">{error}</p>}
+    {error && <p className="ml-2 text-error">{error}</p>}
   </div>
 );
 

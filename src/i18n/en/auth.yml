@@ -22,6 +22,10 @@ secondary:
     label: You are acknowledging the <1>{{title}}</1>.
     btn-check: I have read and accept the {{title}}.
     required-error: You should accept the {{title}} in order to continue.
+  country:
+    label: Country
+    placeholder: Your country of residence
+    not-empty: Country can't be empty
   invitation:
     label: Invitation code <1>(Optional)</1>
     placeholder: Invitation code

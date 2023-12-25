@@ -22,6 +22,10 @@ secondary:
     btn-check: 我已阅读并接受 {{title}}。
     label: 您承认 <1>{{title}}</1>。
     required-error: 您应该接受 {{title}} 为了继续。
+  country:
+    label: 国家/地区
+    not-empty: 国家不能为空
+    placeholder: 您所居住的国家
   invitation:
     label: 邀请代码 <1>（选修的）</1>
     not-found: 找不到推荐人

@@ -1,9 +1,9 @@
 /* eslint-disable import/max-dependencies */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { notification } from 'antd';
+import { Select, notification } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAccountQuery, useUserInfoMutation } from 'api';
+import { useAccountQuery, useCountriesQuery, useUserInfoMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import Button from 'shared/Button';
 import { REFERRER_CODE_KEY } from '../constants';
@@ -42,7 +42,9 @@ const PageSecondaryForm: React.FC = () => {
   const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const { data: account } = useAccountQuery();
+  const { data: countries, isLoading: countriesLoading } = useCountriesQuery();
   const [nickname, setNickname] = useState('');
+  const [country, setCountry] = useState();
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
     privacy: true,
@@ -88,21 +90,23 @@ const PageSecondaryForm: React.FC = () => {
   const [errors, setErrors] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const agreeToTerms = useUserInfoMutation();
+  const anyErrorExists =
+    !nickname ||
+    !contracts.privacy ||
+    !contracts.terms ||
+    !contracts.risk ||
+    !country ||
+    nickname.length > 32;
+
   const onSubmit = async () => {
     setErrors(true);
-    if (
-      !nickname ||
-      !contracts.privacy ||
-      !contracts.terms ||
-      !contracts.risk ||
-      nickname.length > 32
-    )
-      return;
+    if (anyErrorExists) return;
 
     try {
       setIsSubmitting(true);
       await agreeToTerms({
         nickname,
+        country,
         terms_and_conditions_accepted: true,
         privacy_policy_accepted: true,
         referrer_code: referralCode || undefined,
@@ -136,6 +140,29 @@ const PageSecondaryForm: React.FC = () => {
             onChange={setNickname}
             value={nickname}
           />
+
+          <div className="mb-5">
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label className="pl-2 text-base">
+              {t('secondary.country.placeholder')}
+            </label>
+            <Select
+              showSearch
+              value={country}
+              onChange={setCountry}
+              options={countries ?? []}
+              loading={countriesLoading}
+              placeholder={t('secondary.country.label')}
+              size="large"
+              className="mt-1 block w-[300px] rounded-xl border-2 border-solid border-[#ffffff1a] bg-transparent md:w-[400px]"
+            />
+            {errors && !country && (
+              <p className="ml-2 text-error">
+                {t('secondary.country.not-empty')}
+              </p>
+            )}
+          </div>
+
           <InputBox
             error={
               errors &&
@@ -173,7 +200,11 @@ const PageSecondaryForm: React.FC = () => {
             />
           ))}
 
-          <Button className="mt-5 w-full" onClick={onSubmit}>
+          <Button
+            disabled={errors && anyErrorExists}
+            className="mt-5 w-full"
+            onClick={onSubmit}
+          >
             {isSubmitting
               ? t('secondary.btn-submit.loading')
               : t('secondary.btn-submit.label')}
