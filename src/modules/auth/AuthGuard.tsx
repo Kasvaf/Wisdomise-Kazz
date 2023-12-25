@@ -14,6 +14,7 @@ import { useAccountQuery, useAppsInfoQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { DOMAIN } from 'config/constants';
 import { analytics } from 'config/segment';
+import { useHubSpot } from 'config/hubSpot';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
 import getJwtToken from './getJwtToken';
@@ -40,10 +41,9 @@ const redirectLogin = (redirectUrl: string) => {
 };
 
 export default function AuthGuard({ children }: PropsWithChildren) {
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-  const { data: account } = useAccountQuery();
+  useHubSpot();
 
+  const { data: account } = useAccountQuery();
   useEffect(() => {
     const email = account?.email;
     if (email) {
@@ -73,6 +73,8 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     [apps],
   );
 
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   useEffect(() => {
     if (!account || !loading) return;
     if (!account.info.email_verified) {

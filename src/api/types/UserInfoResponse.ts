@@ -28,6 +28,7 @@ export interface Account {
     | 'VERIFIED';
   wallet_address?: string;
   wsdm_balance?: number;
+  hub_spot_token: string;
 }
 
 interface User {
