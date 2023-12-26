@@ -48,7 +48,7 @@ const BoxIntro: React.FC<{
             {t('intro.btn-check-products')}
           </Button>
 
-          {Boolean(ias.data?.length) && (
+          {Boolean(ias.data?.length && ias.data[0]?.main_exchange_account) && (
             <Button className="mx-3 mb-6" onClick={() => openDeposit({})}>
               {t('intro.btn-deposit')}
             </Button>
