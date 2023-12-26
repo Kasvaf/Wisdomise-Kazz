@@ -19,7 +19,7 @@ interface StrategyListItem {
   market_name: MarketTypes;
   name: string;
   tags: string[];
-  symbols: string[];
+  symbols?: string[];
   has_active_entangled_fpi: boolean;
   open_positions: number;
   last_week_positions: number;

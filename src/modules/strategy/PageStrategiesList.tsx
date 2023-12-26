@@ -26,7 +26,7 @@ export default function PageStrategiesList() {
                   {s.market_name}
                 </div>
 
-                <CoinsIcons coins={s.symbols} />
+                <CoinsIcons coins={s.symbols ?? []} />
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-4">
