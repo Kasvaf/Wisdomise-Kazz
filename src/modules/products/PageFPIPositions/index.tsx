@@ -21,8 +21,12 @@ const PageFPIPositions = () => {
         </div>
       )}
 
-      <FPITimeline fpiKey={params.fpiKey} className="mb-10" />
-      <FPIPositionHistory fpiKey={params.fpiKey} />
+      {fpi.data?.status !== 'DRAFT' && (
+        <>
+          <FPITimeline fpiKey={params.fpiKey} className="mb-10" />
+          <FPIPositionHistory fpiKey={params.fpiKey} />
+        </>
+      )}
     </PageWrapper>
   );
 };

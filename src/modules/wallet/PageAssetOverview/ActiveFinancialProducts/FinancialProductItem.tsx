@@ -32,7 +32,7 @@ const FinancialProductItem: React.FC<{
     </div>
   );
 
-  const detailsBtn = !noDetailsBtn && (
+  const detailsBtn = !noDetailsBtn && fpi.status !== 'DRAFT' && (
     <Button
       variant="primary"
       size="small"
