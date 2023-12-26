@@ -18,7 +18,7 @@ modal-add-exchange:
   title: エクスチェンジのアカウントを追加
 page-accounts:
   btn-add-account: アカウントの追加
-  empty-description: 外部のエクスチェンジアカウントは未登録です。
-  exchanges-title: エクスチェンジアカウント情報
+  empty-description: 外部の取引所口座は未登録です。
+  exchanges-title: 取引所口座の情報
   subscription: サブスクリプション
   wisdomise-account: Wisdomiseアカウント

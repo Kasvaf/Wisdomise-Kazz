@@ -4,7 +4,7 @@ action-confirm:
   title: このプロダクトを本当に<1>{{typeLabel}}</1>してもいいですか？
   yes: はい、 <1>{{typeLabel}}</1>
 actions:
-  activate: 起動させる
+  activate: 活性化
   deactivate: 停止
   pause: 一時停止
   resume: 再開する
@@ -58,7 +58,7 @@ product-detail:
   max: 最大
   max-apy: 最大年間利回り
   max-drawdown: 最大ドローダウン
-  min: 分
+  min: 最小
   risk:
     high: 高い
     label: "{{risk}} リスク"

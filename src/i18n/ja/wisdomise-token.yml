@@ -5,8 +5,8 @@ balance:
 connect-wallet:
   billing:
     description: Wisdomiseトークンは差し引かれません。サブスクリプション期間中、アクセスを得るためにトークンをウォレットに保持する必要があります。
-    title: Wisdomise トークンによる支払い
-  connect: ウォレットを接続する
+    title: Wisdomiseトークンでのお支払い
+  connect: ウォレットに接続
   disconnect: 切断する
   not-sync: このウォレットは現在のアカウントと同期されていません。以前に使用していたウォレットに切り替えてください。新しいウォレットを使用する場合は、お問い合わせください。
   prev-wallet: 以前に使用したウォレットアドレス
@@ -15,7 +15,7 @@ connect-wallet:
   wallet-address: ウォレットアドレス
   wisdomise-token:
     description: 公共料金のステータスと tWSDM 残高を表示するには、ウォレットに接続します。
-    title: ウォレットを接続する
+    title: ウォレットに接続
 utility:
   activate: 起動させる
   activated: 有効化済み

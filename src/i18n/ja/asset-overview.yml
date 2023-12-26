@@ -23,6 +23,6 @@ portfolio:
   table:
     amount: 金額
     coin: コイン
-    equity: エクイティ
-    share: シェア
+    equity: 保有量
+    share: 割合
   title: アカウントポートフォリオ

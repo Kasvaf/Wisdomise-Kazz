@@ -2,7 +2,7 @@ actions:
   back: Back
 copied-to-clipboard: Copied to clipboard
 cryptocurrency: Cryptocurrency
-loading: loading...
-network: Network
 errors:
   field-required: This field may not be blank.
+loading: loading...
+network: Network

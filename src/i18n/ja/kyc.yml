@@ -3,13 +3,13 @@ badges:
   pending-meeting: 保留中のミーティング
   rejected: 拒否されました
   unknown: 読み込み中
-  unverified: 未承認
-  verified: 承認済み
+  unverified: 未認証
+  verified: 認証済
 completed: 完了
 identification:
   btn-start-sumsub: Sumsubで始めましょう
-  description: 身分証明をして、アカウントを開設しましょう。
-  title: 身分証明
+  description: 本人確認をして、アカウントを開設しましょう。
+  title: 本人確認
 modal-kyc:
   footer: Wisdomiseのプロダクト・サービスを利用するには、<1>身分証明</1>, <4>承認</4>, and
     <7>少なくとも１つのウォレットの承認</7>を実施が必要です。
@@ -33,7 +33,7 @@ wallet:
       step-4-email: スクリーンショットをカスタマーサポートへメール（<1>support@wisdomise.io</1>）にてご送付ください。
   btn-add:
     verify-more: 他のウォレットを確認する
-    verify-wallet: ウォレットの承認
+    verify-wallet: ウォレット認証
   column:
     coin: コイン
     name: ウォレット名

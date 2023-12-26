@@ -12,13 +12,13 @@ modal-deposit:
   deposit-address: 預け入れ専用のアドレスに<1>{{coin}}</1> のみ送金ください。
   disclaimer: "{{coin}} 以外のコイン/トークンを送金した場合、資産を失う場合がありますのでご留意ください。"
   title: 入金
-  verify-wallet: ウォレットの承認
+  verify-wallet: ウォレット認証
 modal-success:
   description: 完了後、メールが届きます。
   title: 出金リクエストが送信されました。
 modal-withdraw:
   banner:
-    btn-verify-wallet: ウォレットの承認
+    btn-verify-wallet: ウォレット認証
     description: 出金する際は、承認されたウォレットを選択する必要があります。
   btn-withdraw: 出金する
   error-max-amount: 利用可能は金額以上の出金はできません。
