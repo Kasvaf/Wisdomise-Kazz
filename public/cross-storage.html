@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Not found</title>
+    <meta http-equiv="Status" content="404 Not found" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script src="https://cdn.jsdelivr.net/npm/cross-storage@1.0.0/lib/hub.min.js"></script>
     <script type="text/javascript">
@@ -15,18 +16,27 @@
       }
 
       if (inIframe()) {
-        var isLocal = /^([\w-]+\.)*localhost$/.test(window.location.hostname);
-        var isStage = window.location.hostname.startsWith('stage-');
-        CrossStorageHub.init([
-          {
-            origin: isLocal
-              ? /.*/
-              : isStage
-              ? /^https:\/\/(app-)?stage.wisdomise.com$/
-              : /^https:\/\/(app\.)?wisdomise.com$/,
-            allow: ['get', 'set', 'del'],
-          },
-        ]);
+        const isLocal = /^([\w-]+\.)*localhost$/.test(window.location.hostname);
+        const isStage = window.location.hostname.startsWith('stage-');
+        const allow = ['get', 'set', 'del'];
+
+        if (isLocal) {
+          CrossStorageHub.init([{ allow, origin: /.*/ }]);
+        } else if (isStage) {
+          CrossStorageHub.init([
+            { allow, origin: /^http:\/\/([\w-]+\.)?localhost(:\d+)?$/ },
+            { allow, origin: /^https:\/\/stage\.wisdomise\.com$/ },
+            {
+              allow,
+              origin: /^https:\/\/stage-(app|landing)\.wisdomise\.com$/,
+            },
+          ]);
+        } else {
+          CrossStorageHub.init([
+            { allow, origin: /^https:\/\/wisdomise\.com$/ },
+            { allow, origin: /^https:\/\/(app|landing)\.wisdomise\.com$/ },
+          ]);
+        }
       }
     </script>
   </head>

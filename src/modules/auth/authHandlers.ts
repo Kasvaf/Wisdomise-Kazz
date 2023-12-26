@@ -1,12 +1,13 @@
 import { isLocal } from 'utils/version';
 import { ACCOUNT_PANEL_ORIGIN, APP_PANEL } from 'config/constants';
-import { JWT_TOKEN_KEY, REMOTE_LOGIN_KEY } from './constants';
+import { REMOTE_LOGIN_KEY } from './constants';
+import { delJwtToken } from './jwt-store';
 
 let once = 0;
 
 export function login(params?: any) {
   if (once++) return;
-  localStorage.removeItem(JWT_TOKEN_KEY);
+  delJwtToken();
 
   window.location.href = isLocal
     ? `${APP_PANEL}/auth/login?${REMOTE_LOGIN_KEY}=${encodeURIComponent(
@@ -19,7 +20,8 @@ export function login(params?: any) {
 
 export function logout(params?: any) {
   if (once++) return;
-  localStorage.removeItem(JWT_TOKEN_KEY);
+  delJwtToken();
+
   window.location.href = isLocal
     ? `${APP_PANEL}/auth/logout`
     : `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/logout${

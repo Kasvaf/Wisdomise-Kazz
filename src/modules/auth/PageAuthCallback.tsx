@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Splash from 'modules/base/Splash';
-import { JWT_TOKEN_KEY } from './constants';
+import { setJwtToken } from './jwt-store';
 
 export const TOKEN_PARAM = 'token';
 
@@ -12,7 +12,7 @@ export default function PageAuthCallback() {
   useEffect(() => {
     const tokenParam = searchParams.get(TOKEN_PARAM);
     if (tokenParam) {
-      localStorage.setItem(JWT_TOKEN_KEY, JSON.stringify(tokenParam));
+      setJwtToken(tokenParam);
     }
     navigate('/');
   }, [searchParams, navigate]);

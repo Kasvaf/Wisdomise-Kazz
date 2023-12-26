@@ -17,7 +17,7 @@ import { analytics } from 'config/segment';
 import { useHubSpot } from 'config/hubSpot';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
-import getJwtToken from './getJwtToken';
+import { getJwtToken } from './jwt-store';
 
 function replaceLocation(url: string) {
   sessionStorage.removeItem(AFTER_LOGIN_KEY);

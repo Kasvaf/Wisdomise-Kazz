@@ -8,7 +8,7 @@ import {
   useState,
   useRef,
 } from 'react';
-import getJwtToken from 'modules/auth/getJwtToken';
+import { getJwtToken } from 'modules/auth/jwt-store';
 import { CHATAPP_ORIGIN } from 'config/constants';
 import { useChatAppProfile, useCreateChatSessionMutation } from 'api/athena';
 import {

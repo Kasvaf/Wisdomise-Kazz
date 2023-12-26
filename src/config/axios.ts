@@ -1,5 +1,5 @@
 import axios, { type AxiosError } from 'axios';
-import getJwtToken from 'modules/auth/getJwtToken';
+import { getJwtToken } from 'modules/auth/jwt-store';
 import { AFTER_LOGIN_KEY } from 'modules/auth/constants';
 import { API_ORIGIN, RouterBaseName, TEMPLE_ORIGIN } from './constants';
 

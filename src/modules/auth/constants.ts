@@ -1,5 +1,3 @@
-export const JWT_TOKEN_KEY = 'TOKEN';
-
 /** Used for redirecting after checkout */
 export const AFTER_CHECKOUT_KEY = 'after_checkout';
 
