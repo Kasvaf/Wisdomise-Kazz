@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
-import { useUserFirstPaymentMethod } from 'api';
+import { useUserLastPaymentMethod } from 'api';
 import TokenPaymentModalContent from 'modules/account/PageBilling/TokenPayment/TokenPaymentModalContent';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
@@ -23,7 +23,7 @@ export default function SubscriptionMethodModal({
   onResolve,
 }: Props) {
   const { t } = useTranslation('billing');
-  const firstPaymentMethod = useUserFirstPaymentMethod();
+  const lastPaymentMethod = useUserLastPaymentMethod();
   const [cryptoPaymentModal, openCryptoPaymentModal] = useModal(
     CryptoPaymentModalContent,
     { fullscreen: true, destroyOnClose: true },
@@ -64,7 +64,7 @@ export default function SubscriptionMethodModal({
         <Button
           className="col-span-1"
           onClick={onFiatClick}
-          disabled={firstPaymentMethod && firstPaymentMethod !== 'FIAT'}
+          disabled={lastPaymentMethod && lastPaymentMethod !== 'FIAT'}
         >
           <div className="flex items-center gap-2">
             <SIcon />
@@ -74,7 +74,7 @@ export default function SubscriptionMethodModal({
         <Button
           className="col-span-1"
           onClick={onCryptoClick}
-          disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
+          disabled={lastPaymentMethod && lastPaymentMethod !== 'CRYPTO'}
         >
           <div className="flex items-center gap-2">
             <CryptoPaymentIcon />

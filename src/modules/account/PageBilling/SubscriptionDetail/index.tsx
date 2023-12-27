@@ -2,14 +2,14 @@ import { Tabs, type TabsProps } from 'antd';
 import { Outlet } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUserFirstPaymentMethod } from 'api';
+import { useUserLastPaymentMethod } from 'api';
 import OverviewTab from './OverviewTab';
 import InvoicesTab from './InvoicesTab';
 import PaymentMethodsTab from './PaymentMethodsTab';
 
 export default function SubscriptionDetail() {
   const { t } = useTranslation('billing');
-  const firstPaymentMethod = useUserFirstPaymentMethod();
+  const lastPaymentMethod = useUserLastPaymentMethod();
 
   const tabs = useMemo<TabsProps['items']>(() => {
     const tabs: TabsProps['items'] = [
@@ -24,7 +24,7 @@ export default function SubscriptionDetail() {
         children: <InvoicesTab />,
       },
     ];
-    if (firstPaymentMethod === 'FIAT') {
+    if (lastPaymentMethod === 'FIAT') {
       tabs.push({
         key: 'payment-methods',
         label: t('tabs.payment-methods'),
@@ -32,7 +32,7 @@ export default function SubscriptionDetail() {
       });
     }
     return tabs;
-  }, [firstPaymentMethod, t]);
+  }, [lastPaymentMethod, t]);
 
   return (
     <>

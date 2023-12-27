@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   useInvoicesQuery,
   useSubscription,
-  useUserFirstPaymentMethod,
+  useUserLastPaymentMethod,
 } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
@@ -20,7 +20,7 @@ export default function PageBilling() {
   const [searchParams] = useSearchParams();
   const { plan, isActive, isLoading } = useSubscription();
   const [successShown, setSuccessShow] = useState(false);
-  const firstPaymentMethod = useUserFirstPaymentMethod();
+  const lastPaymentMethod = useUserLastPaymentMethod();
   const [ModalSuccessful, showModalSuccessful] = useModalSuccessful({});
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function PageBilling() {
   return (
     <PageWrapper loading={isLoading || invoices.isLoading}>
       {isActive &&
-      (plan?.name !== 'Trial' || firstPaymentMethod === 'CRYPTO') ? (
+      (plan?.name !== 'Trial' || lastPaymentMethod === 'CRYPTO') ? (
         <SubscriptionDetail />
       ) : (
         <PricingTable />

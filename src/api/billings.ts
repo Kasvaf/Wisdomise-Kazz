@@ -40,7 +40,7 @@ export const useInvoicesQuery = () =>
   );
 
 export const useStripePaymentMethodsQuery = () => {
-  const firstPaymentMethod = useUserFirstPaymentMethod();
+  const lastPaymentMethod = useUserLastPaymentMethod();
   return useQuery(
     ['getPaymentMethods'],
     async () => {
@@ -51,7 +51,7 @@ export const useStripePaymentMethodsQuery = () => {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      enabled: firstPaymentMethod === 'FIAT',
+      enabled: lastPaymentMethod === 'FIAT',
     },
   );
 };
@@ -96,7 +96,7 @@ export const useSubmitCryptoPayment = () =>
     },
   });
 
-export const useUserFirstPaymentMethod = () => {
+export const useUserLastPaymentMethod = () => {
   // this returns user's LAST payment method, but invoices are in reverse order
   const { data } = useInvoicesQuery();
   return data?.results.at(0)?.payment_method;

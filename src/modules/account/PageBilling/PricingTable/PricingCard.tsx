@@ -7,7 +7,7 @@ import {
   useAccountQuery,
   useSubscription,
   useSubscriptionMutation,
-  useUserFirstPaymentMethod,
+  useUserLastPaymentMethod,
 } from 'api';
 import useModal from 'modules/shared/useModal';
 import { ReactComponent as Check } from '../images/check.svg';
@@ -31,7 +31,7 @@ export default function PricingCard({
   const mutation = useSubscriptionMutation();
   const { data: account } = useAccountQuery();
   const { isActive, plan: userPlan } = useSubscription();
-  const firstPaymentMethod = useUserFirstPaymentMethod();
+  const lastPaymentMethod = useUserLastPaymentMethod();
   const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
     SubscriptionMethodModalContent,
     { centered: true },
@@ -63,7 +63,7 @@ export default function PricingCard({
   const onClick = () => {
     // JUST in upgrade scenario for fiat we need this condition to not show modal,
     // Crypto up to now does not have upgrade.
-    if (firstPaymentMethod === 'FIAT') {
+    if (lastPaymentMethod === 'FIAT') {
       void handleFiatPayment();
     } else {
       void openSubscriptionMethodModal({

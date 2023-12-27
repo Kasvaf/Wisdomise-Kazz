@@ -6,7 +6,7 @@ import {
   useInvoicesQuery,
   useStripePaymentMethodsQuery,
   useSubscription,
-  useUserFirstPaymentMethod,
+  useUserLastPaymentMethod,
 } from 'api';
 import useModal from 'shared/useModal';
 import Card from 'modules/shared/Card';
@@ -17,7 +17,7 @@ export default function OverviewTab() {
   const { t } = useTranslation('billing');
   const { data } = useAccountQuery();
   const invoices = useInvoicesQuery();
-  const firstPaymentMethod = useUserFirstPaymentMethod();
+  const lastPaymentMethod = useUserLastPaymentMethod();
   const stripePaymentMethod = useStripePaymentMethodsQuery();
   const { currentPeriodEnd, plan, refetch } = useSubscription();
   const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
@@ -31,7 +31,7 @@ export default function OverviewTab() {
   };
 
   if (
-    firstPaymentMethod === 'CRYPTO' &&
+    lastPaymentMethod === 'CRYPTO' &&
     invoices.data?.results.at(-1)?.status === 'open'
   ) {
     return (
@@ -63,12 +63,11 @@ export default function OverviewTab() {
             .
           </Trans>
 
-          {firstPaymentMethod !== 'CRYPTO' &&
-            firstPaymentMethod !== 'TOKEN' && (
-              <button onClick={handleChangePlan} className="ml-2 text-blue-600">
-                {t('subscription-details.overview.btn-change-plan')}
-              </button>
-            )}
+          {lastPaymentMethod !== 'CRYPTO' && lastPaymentMethod !== 'TOKEN' && (
+            <button onClick={handleChangePlan} className="ml-2 text-blue-600">
+              {t('subscription-details.overview.btn-change-plan')}
+            </button>
+          )}
         </p>
 
         <p className="text-base text-white/70">
@@ -76,8 +75,7 @@ export default function OverviewTab() {
             Your plan will
             {{
               action:
-                firstPaymentMethod === 'CRYPTO' ||
-                firstPaymentMethod === 'TOKEN'
+                lastPaymentMethod === 'CRYPTO' || lastPaymentMethod === 'TOKEN'
                   ? 'expire'
                   : 'renew',
             }}
@@ -87,7 +85,7 @@ export default function OverviewTab() {
             </strong>
             .
           </Trans>{' '}
-          {firstPaymentMethod === 'CRYPTO' && (
+          {lastPaymentMethod === 'CRYPTO' && (
             <span>
               <Trans
                 i18nKey="subscription-details.overview.in-order-to-renew"
@@ -102,24 +100,23 @@ export default function OverviewTab() {
               </Trans>
             </span>
           )}
-          {firstPaymentMethod === 'TOKEN' && (
+          {lastPaymentMethod === 'TOKEN' && (
             <span>
               {t('subscription-details.overview.automatically-renew')}
             </span>
           )}
-          {firstPaymentMethod !== 'CRYPTO' &&
-            firstPaymentMethod !== 'TOKEN' && (
-              <Trans
-                i18nKey="subscription-details.overview.charging"
-                ns="billing"
-              >
-                Charging your credit card
-                <strong className="text-white">
-                  ${{ amount: plan?.price ?? 0 }}
-                </strong>
-                .
-              </Trans>
-            )}
+          {lastPaymentMethod !== 'CRYPTO' && lastPaymentMethod !== 'TOKEN' && (
+            <Trans
+              i18nKey="subscription-details.overview.charging"
+              ns="billing"
+            >
+              Charging your credit card
+              <strong className="text-white">
+                ${{ amount: plan?.price ?? 0 }}
+              </strong>
+              .
+            </Trans>
+          )}
         </p>
       </section>
 
