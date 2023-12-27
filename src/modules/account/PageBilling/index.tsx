@@ -41,8 +41,8 @@ export default function PageBilling() {
 
   return (
     <PageWrapper loading={isLoading || invoices.isLoading}>
-      {(isActive && plan?.name !== 'Trial') ||
-      firstPaymentMethod === 'CRYPTO' ? (
+      {isActive &&
+      (plan?.name !== 'Trial' || firstPaymentMethod === 'CRYPTO') ? (
         <SubscriptionDetail />
       ) : (
         <PricingTable />
