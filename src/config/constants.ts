@@ -13,7 +13,9 @@ export const API_ORIGIN = makeOrigin('api');
 export const CHATAPP_ORIGIN = makeOrigin('chatapp');
 export const STRATEGY_ORIGIN = makeOrigin('strategy');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
-export const ATHENA_FE = `${makeOrigin('landing')}/athena`;
+export const MAIN_LANDING = (lng: string) =>
+  `https://${isProduction ? '' : 'stage.'}${DOMAIN}/${lng}`;
+export const ATHENA_FE = (lng: string) => `${MAIN_LANDING(lng)}/athena`;
 export const APP_PANEL = makeOrigin('app');
 export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
 

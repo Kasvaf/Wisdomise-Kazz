@@ -5,10 +5,10 @@ import { ATHENA_FE } from 'config/constants';
 import Icon from 'shared/Icon';
 
 const AskAthena: React.FC<{ className?: string }> = ({ className }) => {
-  const { t } = useTranslation('athena');
+  const { t, i18n } = useTranslation('athena');
   return (
     <a
-      href={ATHENA_FE}
+      href={ATHENA_FE(i18n.language)}
       target="_blank"
       rel="noreferrer noopener"
       className={clsx(

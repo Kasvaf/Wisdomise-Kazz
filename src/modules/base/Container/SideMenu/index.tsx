@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ATHENA_FE } from 'config/constants';
+import { MAIN_LANDING } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as TreeMid } from './tree-mid.svg';
@@ -63,6 +64,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
 };
 
 const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
+  const { i18n } = useTranslation();
   const { pathname } = useLocation();
   const { items: MenuItems } = useMenuItems();
 
@@ -76,7 +78,7 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
       <div className="flex h-full w-full flex-col justify-between overflow-auto bg-[#1E1F24] p-6 pt-2">
         <div>
           <a
-            href={ATHENA_FE}
+            href={MAIN_LANDING(i18n.language)}
             className="my-8 flex w-full cursor-pointer flex-row items-center justify-center"
           >
             <img className="h-12" src={Logo} alt="logo" />

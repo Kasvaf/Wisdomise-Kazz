@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { ATHENA_FE, RouterBaseName } from 'config/constants';
+import { useTranslation } from 'react-i18next';
+import { MAIN_LANDING, RouterBaseName } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import useIsMobile from 'utils/useIsMobile';
 import BranchSelector from './BranchSelector';
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ className }) => {
+  const { i18n } = useTranslation();
   const isMobile = useIsMobile();
   return (
     <div
@@ -24,7 +26,7 @@ const Header: React.FC<Props> = ({ className }) => {
         )}
       >
         {isMobile && (
-          <a href={ATHENA_FE}>
+          <a href={MAIN_LANDING(i18n.language)}>
             <img src={Logo} />
           </a>
         )}

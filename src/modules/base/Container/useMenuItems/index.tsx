@@ -34,7 +34,7 @@ export interface RootMenuItem extends MenuItem {
 }
 
 const useMenuItems = () => {
-  const { t } = useTranslation('base');
+  const { t, i18n } = useTranslation('base');
   const items: RootMenuItem[] = [
     {
       icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
@@ -62,7 +62,7 @@ const useMenuItems = () => {
         },
         {
           text: t('menu.athena.title'),
-          link: ATHENA_FE,
+          link: ATHENA_FE(i18n.language),
         },
       ],
     },
