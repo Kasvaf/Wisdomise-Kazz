@@ -2,6 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { isProduction } from 'utils/version';
+import { ATHENA_FE } from 'config/constants';
 import { ReactComponent as InvestmentIconEmpty } from './icons/investment-empty.svg';
 import { ReactComponent as InvestmentIconFull } from './icons/investment-full.svg';
 import { ReactComponent as InsightIconEmpty } from './icons/insight-empty.svg';
@@ -61,7 +62,7 @@ const useMenuItems = () => {
         },
         {
           text: t('menu.athena.title'),
-          link: 'https://landing.wisdomise.com/athena',
+          link: ATHENA_FE,
         },
       ],
     },
