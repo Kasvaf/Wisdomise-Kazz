@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +14,7 @@ import { openHubSpot } from 'config/hubSpot';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
+import { MAIN_LANDING } from 'config/constants';
 import LanguageSelector from '../LanguageSelector';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
 import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
@@ -54,16 +56,16 @@ const ReferralSection = () => {
 };
 
 const ExternalLinks = () => {
-  const { t } = useTranslation('base');
+  const { t, i18n } = useTranslation('base');
   const items = [
     {
       label: t('links.solutions'),
-      link: 'https://landing.wisdomise.com/solutions/',
+      link: MAIN_LANDING(i18n.language) + '/solutions/',
     },
     { label: t('links.blog'), link: 'https://wisdomise.medium.com/' },
     {
       label: t('links.about-us'),
-      link: 'https://landing.wisdomise.com/about-us/',
+      link: MAIN_LANDING(i18n.language) + '/about-us/',
     },
   ];
 

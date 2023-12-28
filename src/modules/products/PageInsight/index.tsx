@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'modules/shared/CardPageLink';
+import { ATHENA_FE } from 'config/constants';
 import { ReactComponent as IconSignals } from './icon-signals.svg';
 import { ReactComponent as IconAthena } from './icon-athena.svg';
 
 const PageInsight = () => {
-  const { t } = useTranslation('base');
+  const { t, i18n } = useTranslation('base');
 
   return (
     <PageWrapper>
@@ -28,7 +29,7 @@ const PageInsight = () => {
         />
 
         <CardPageLink
-          to="https://landing.wisdomise.com/athena"
+          to={ATHENA_FE(i18n.language)}
           title={t('menu.athena.title')}
           subtitle={t('menu.athena.subtitle')}
           icon={<IconAthena />}
