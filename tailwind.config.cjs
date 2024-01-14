@@ -10,6 +10,8 @@ module.exports = {
   content: [
     './src/**/*.{html,js,ts,jsx,tsx}',
     './node_modules/tw-elements/dist/js/**/*.js',
+    "./node_modules/@wisdomise/widgets/dist/**/*.js",
+    "./node_modules/@wisdomise/utils/dist/**/*.js",
   ],
   safelist: ['opacity-100', 'opacity-50'],
   theme: {

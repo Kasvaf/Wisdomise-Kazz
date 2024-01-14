@@ -1,7 +1,7 @@
 import PageWrapper from 'modules/base/PageWrapper';
 import { useDefiProjectsQuestionPool } from 'api/staking';
+import { AthenaProvider } from 'modules/athena/core';
 import ProtocolInfo from './sections/ProtocolInfo';
-import { AthenaProvider } from './sections/ask/athena/AthenaProvider';
 import AskSection from './sections/ask';
 import PoolsTable from './sections/PoolsTable';
 import useProtocolInfo from './useProtocolInfo';

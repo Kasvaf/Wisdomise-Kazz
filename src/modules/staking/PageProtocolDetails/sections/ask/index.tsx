@@ -1,11 +1,11 @@
 import { clsx } from 'clsx';
 import { Spin } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useAthena } from 'modules/athena/core';
 import { ReactComponent as AthenaIcon } from '../../images/athena.svg';
 import useProtocolInfo from '../../useProtocolInfo';
 import QuestionPool from './QuestionPool';
 import AskInput from './AskInput';
-import { useAthena } from './athena/AthenaProvider';
 
 export default function AskSection() {
   const info = useProtocolInfo();

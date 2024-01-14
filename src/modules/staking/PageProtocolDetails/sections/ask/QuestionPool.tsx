@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useDefiProjectsQuestionPool } from 'api/staking';
+import { useAthena } from 'modules/athena/core';
 import useProtocolInfo from '../../useProtocolInfo';
-import { useAthena } from './athena/AthenaProvider';
 
 export default function QuestionPool() {
   const info = useProtocolInfo();

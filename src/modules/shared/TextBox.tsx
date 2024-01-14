@@ -6,7 +6,7 @@ import { type ChangeEventHandler, type FC, useCallback } from 'react';
 interface Props {
   label?: string | React.ReactNode;
   value: string;
-  hint?: string;
+  hint?: string | React.ReactNode;
   onBlur?: () => void;
   disabled?: boolean;
   className?: string;

@@ -37,6 +37,7 @@ const PageStrategyDetails = React.lazy(
 const PageProtocolDetails = React.lazy(
   () => import('modules/staking/PageProtocolDetails'),
 );
+const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
 
 const appRoutes: RouteObject[] = [
   {
@@ -62,6 +63,7 @@ const appRoutes: RouteObject[] = [
     children: [
       { path: '', element: <PageInsight /> },
       { path: 'signals', element: <PageSignalsMatrix /> },
+      { path: 'athena', element: <PageAthena /> },
     ],
   },
   {

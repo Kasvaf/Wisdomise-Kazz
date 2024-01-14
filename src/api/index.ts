@@ -8,3 +8,4 @@ export * from './kyc';
 export * from './subscription';
 export * from './exchange-accounts';
 export * from './billings';
+export * from './athena';

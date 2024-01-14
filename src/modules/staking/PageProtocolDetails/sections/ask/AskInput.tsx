@@ -2,14 +2,13 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextBox from 'modules/shared/TextBox';
-import { useSubscription } from 'api';
+import { useAthena, useRemainQuestionsCount } from 'modules/athena/core';
 import { ReactComponent as Arrow } from '../../images/arrow-right.svg';
-import { useAthena } from './athena/AthenaProvider';
 
 export default function AskInput() {
   const [value, setValue] = useState('');
   const { t } = useTranslation('staking');
-  const remainQuestion = useRemainQuestionText();
+  const remainQuestion = useRemainQuestionsCount();
   const { askQuestion, question, leftQuestions } = useAthena();
 
   const onKeydown = (e: React.KeyboardEvent) => {
@@ -49,23 +48,3 @@ export default function AskInput() {
     </div>
   );
 }
-
-const useRemainQuestionText = () => {
-  const { leftQuestions } = useAthena();
-  const { t } = useTranslation('staking');
-  const { isTrialPlan, isActive } = useSubscription();
-
-  let text =
-    t('ask.remain-questions', { leftQuestions }) +
-    (leftQuestions > 1 ? 's' : '');
-
-  if (leftQuestions <= 0) {
-    if (isTrialPlan && isActive) {
-      text = t('ask.trial-limit');
-    } else if (isActive) {
-      text = t('ask.active-limit');
-    }
-  }
-
-  return text;
-};
