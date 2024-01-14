@@ -1,11 +1,8 @@
 ask:
-  active-limit: Question limit reached. Upgrade your plan to continue
   athena: Athena
   athena-subtitle: Your financial assistant AI
   input-placeholder: Ask your question
-  remain-questions: Enjoy your remaining {{leftQuestions}} question
   suggested-prompts: Suggested Prompts
-  trial-limit: Trial Question limit reached, Subscribe to continue
 info:
   description: Description
   chart:

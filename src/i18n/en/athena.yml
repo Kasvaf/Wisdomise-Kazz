@@ -1,12 +1,5 @@
-box-ask-athena: Ask Athena anything about crypto
 answer: Answer
 athena-bot: Athena Bot!
-before-login:
-  title: Get Real-Time <1></1> Intelligence
-  subtitle: >-
-    Effortless Crypto Trading with Chatbot for <1></1>market Insights and crypto
-    questions
-  cta: Ask Now
 bot-alert:
   freemium-stage: >-
     You are in a <1>freemium stage</1> and can ask any question related to
@@ -30,6 +23,7 @@ bot-alert:
     You’ve subscribed to one of our plans.Enjoy using Athena and ask your
     questions about cryptocurrency world and whitepapers, AI Curated price
     predictions, market analysis and much more!
+box-ask-athena: Ask Athena anything about crypto
 enjoy-remain-question_one: Enjoy your remaining {{leftQuestions}} question
 enjoy-remain-question_other: Enjoy your remaining {{leftQuestions}} questions
 generate: Generate
