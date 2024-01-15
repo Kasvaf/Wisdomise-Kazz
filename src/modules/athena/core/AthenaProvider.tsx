@@ -46,9 +46,7 @@ export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setLoading] = useState(false);
   const [words, setWords] = useState<string[]>([]);
   const chatSession = useCreateChatSessionMutation();
-  const [leftQuestions, setLeftQuestions] = useState(
-    profile.data?.questions_left || -1,
-  );
+  const [leftQuestions, setLeftQuestions] = useState(0);
   const [widgets, setWidgets] = useState<AthenaWidget[]>([]);
   const [isAnswerFinished, setIsAnswerFinished] = useState(false);
   const [terminationData, setTerminationData] =
@@ -146,10 +144,10 @@ export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   useEffect(() => {
-    if (user.data) {
-      setLeftQuestions(profile.data?.questions_left || -1);
+    if (profile.data) {
+      setLeftQuestions(profile.data.questions_left);
     }
-  }, [profile.data?.questions_left, setLeftQuestions, user.data]);
+  }, [profile.data]);
 
   return (
     <context.Provider

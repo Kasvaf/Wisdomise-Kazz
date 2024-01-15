@@ -6,6 +6,8 @@ export const LandingQuestions = () => {
   const questions = useLandingQuestions();
   const { askQuestion, leftQuestions } = useAthena();
 
+  console.log(leftQuestions);
+
   return (
     <section className="w-3/4 mobile:w-[calc(100vw-3rem)]">
       <section
@@ -25,12 +27,12 @@ export const LandingQuestions = () => {
             {sec.template_questions.map(item => (
               <button
                 key={item.key}
-                disabled={!leftQuestions}
+                disabled={leftQuestions <= 0}
                 onClick={() => askQuestion(item.template_prompt)}
                 className={clsx(
                   'w-fit cursor-pointer whitespace-nowrap rounded-lg bg-white/10 p-3 disabled:cursor-not-allowed mobile:text-sm',
                   'transition-colors hover:bg-white/20',
-                  leftQuestions === 0 && '!text-white/10',
+                  leftQuestions <= 0 && '!text-white/10 hover:!bg-white/10',
                 )}
               >
                 {item.interface_prompt}
