@@ -32,8 +32,8 @@ export const AthenaModal = () => {
   return (
     <div
       className={clsx(
-        'z-20 grid grid-cols-[fit-content(40px)_1fr_1.1fr] p-6 pr-0',
-        'invisible absolute h-[calc(100vh-6.5rem)] w-full rounded-3xl bg-[#343942] opacity-0 transition-opacity duration-500',
+        'z-40 grid grid-cols-[fit-content(40px)_1fr_1.1fr] p-6 pr-0',
+        'invisible absolute h-[calc(100vh-8.5rem)] w-full rounded-3xl bg-[#343942] opacity-0 transition-opacity duration-500',
         isOpen && '!visible !opacity-100',
         'mobile:fixed mobile:bottom-0 mobile:top-[unset] mobile:block mobile:h-[calc(100dvh-80px)] mobile:w-[100vw] mobile:rounded-b-none',
         'no-scrollbar mobile:overflow-auto mobile:px-6 mobile:pt-0',

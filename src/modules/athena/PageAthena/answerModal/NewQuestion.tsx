@@ -39,7 +39,10 @@ export const NewQuestions = () => {
         />
         <div className="pl-3 text-sm font-light text-white/50">{remains}</div>
         <button
-          onClick={() => askQuestion(question.trim())}
+          onClick={() => {
+            askQuestion(question.trim());
+            setQuestion('');
+          }}
           className={clsx(
             'rounded-lg border border-white/30 px-4 py-1 leading-7 transition hover:bg-white/10',
             'invisible absolute bottom-5 right-5 flex items-center gap-2 opacity-0 duration-300',

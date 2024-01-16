@@ -4,7 +4,7 @@ bot-alert:
   freemium-stage: 你正处于一个 <1>免费增值阶段</1>
     并可以提出任何与加密货币相关的问题，我将为您提供答案和相关小部件，以便您获得更好的体验。
     <4>目前涵盖ETH、BTC、LTC、XRP、ADA、BNB、TRX币种。</4>
-  loving-athena: 您最多可以询问 <1>{athenaQuestionsCount} 个问题</1>
+  loving-athena: 您最多可以询问 <1>{{athenaQuestionsCount}} 个问题</1>
     免费，因此请明智地使用它们！如有更多问题，您可以订阅我们的套餐之一。您可以在聊天框中输入您的问题或使用答案末尾附加的相关问题。
   message-limit: 您已达到当前 Athena 聊天机器人计划允许的最大消息数。要继续不间断地使用聊天机器人，请升级到更高的订阅级别。,
   pro-version: 您已达到免费问题的最大数量。订阅即可解锁更多问题、酷炫小部件和 Athena 创新功能的机会。

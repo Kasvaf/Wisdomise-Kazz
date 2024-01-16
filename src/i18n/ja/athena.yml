@@ -4,7 +4,7 @@ bot-alert:
   freemium-stage: あなたは、 <1>フリーミアムステージ</1>
     暗号通貨に関連する質問をすることができます。より良い体験ができるように、回答と関連するウィジェットを提供します。
     <4>現在、ETH、BTC、LTC、XRP、ADA、BNB、TRX コインをカバーしています。</4>
-  loving-athena: まで質問できます <1>{athenaQuestionsCount} 個の質問</1>
+  loving-athena: まで質問できます <1>{{athenaQuestionsCount}} 個の質問</1>
     無料ですので、賢く利用しましょう！さらに質問がある場合は、いずれかのパッケージを購読する必要があります。チャット
     ボックスに質問を入力するか、回答の最後に添付されている関連質問を使用できます。
   message-limit: 現在の Athena チャットボット

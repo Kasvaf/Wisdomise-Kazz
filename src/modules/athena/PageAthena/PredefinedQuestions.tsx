@@ -2,11 +2,9 @@ import { clsx } from 'clsx';
 import { useLandingQuestions } from 'api';
 import { useAthena } from 'modules/athena/core';
 
-export const LandingQuestions = () => {
+export const PredefinedQuestions = () => {
   const questions = useLandingQuestions();
   const { askQuestion, leftQuestions } = useAthena();
-
-  console.log(leftQuestions);
 
   return (
     <section className="w-3/4 mobile:w-[calc(100vw-3rem)]">

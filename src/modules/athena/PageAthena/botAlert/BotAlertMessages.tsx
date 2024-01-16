@@ -1,17 +1,16 @@
 import { useCallback, useEffect } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAccountQuery, useSubscription } from 'api';
+import { useSubscription } from 'api';
 import { useAthena } from 'modules/athena/core';
 import { useBotAlert } from './BotAlertProvider';
 
 export const BotAlertMessages = () => {
   const navigate = useNavigate();
   const { alert } = useBotAlert();
-  const profile = useAccountQuery();
   const [params] = useSearchParams();
+  const { isTrialPlan, isLoading, plan } = useSubscription();
   const { leftQuestions, question, isAnswerFinished } = useAthena();
-  const { athenaQuestionsCount, isTrialPlan, isLoading } = useSubscription();
 
   const toBilling = useCallback(() => {
     navigate('/account/billing');
@@ -24,16 +23,22 @@ export const BotAlertMessages = () => {
           title: 'Loving Athena?',
           description: (
             <Trans i18nKey="bot-alert.loving-athena" ns="athena">
-              You can ask up to <b>{athenaQuestionsCount} questions</b> free of
-              charge, hence use them wisely! For more questions, you shall
-              subscribe to one of our packages. You can type your question in
-              the chat box or use the related questions attached to the end of
-              the answer.
+              You can ask up to{' '}
+              <b>
+                {{
+                  athenaQuestionsCount: plan?.metadata.athena_questions_count,
+                }}{' '}
+                questions
+              </b>{' '}
+              free of charge, hence use them wisely! For more questions, you
+              shall subscribe to one of our packages. You can type your question
+              in the chat box or use the related questions attached to the end
+              of the answer.
             </Trans>
           ),
         });
       } else {
-        if (!question || (question && isAnswerFinished)) {
+        if (!question || isAnswerFinished) {
           alert({
             title: 'Pro Version!',
             description: (
@@ -70,7 +75,7 @@ export const BotAlertMessages = () => {
             <Trans i18nKey="bot-alert.message-limit" ns="athena">
               You have reached the maximum number of messages allowed with your
               current Athena chatbot plan. To continue using the chatbot without
-              interruption, please upgrade to a higher subscription tier.,
+              interruption, please upgrade to a higher subscription tier.
             </Trans>
           ),
           buttonText: 'Upgrade',
@@ -97,9 +102,8 @@ export const BotAlertMessages = () => {
     isTrialPlan,
     leftQuestions,
     isAnswerFinished,
-    athenaQuestionsCount,
-    profile.data,
     isLoading,
+    plan?.metadata.athena_questions_count,
   ]);
 
   return null;

@@ -8,15 +8,49 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalStorage } from 'usehooks-ts';
 import botIcon from '../images/botIcon.svg';
 import closeIcon from '../images/closeAthena.svg';
 
 export const BotAlertProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const { t } = useTranslation('athena');
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState<BotAlertMessage>();
+  const [dismissedAlerts, setDismissedAlerts] =
+    useLocalStorage<DismissedAlerts>('botAlerts', {});
+
+  const showAlert = useCallback(
+    (message: BotAlertMessage) => {
+      message.title ||= t('athena-bot');
+
+      if (alert?.title !== message.title && !dismissedAlerts[message.title]) {
+        setAlert(message);
+        setOpen(true);
+      }
+    },
+    [alert?.title, dismissedAlerts, t],
+  );
+
+  const onClose = useCallback(() => {
+    setOpen(false);
+    setDismissedAlerts(pre => ({
+      ...pre,
+      [alert?.title || '']: true,
+    }));
+  }, [alert?.title, setDismissedAlerts, setOpen]);
+
+  useEffect(() => {
+    let id: NodeJS.Timeout;
+    if (open) {
+      id = setTimeout(() => {
+        setOpen(false);
+      }, 12 * 1000);
+    }
+    return () => clearTimeout(id);
+  }, [open, setOpen]);
 
   return (
-    <BotAlertContext.Provider value={{ alert, setAlert, open, setOpen }}>
+    <BotAlertContext.Provider value={{ onClose, showAlert }}>
       {children}
 
       <div
@@ -37,7 +71,7 @@ export const BotAlertProvider: React.FC<PropsWithChildren> = ({ children }) => {
             <img
               alt="close"
               src={closeIcon}
-              onClick={() => setOpen(false)}
+              onClick={onClose}
               className="block w-14 cursor-pointer"
             />
           </div>
@@ -63,37 +97,14 @@ export const BotAlertProvider: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 export const useBotAlert = () => {
-  const { t } = useTranslation('athena');
   const context = useContext(BotAlertContext);
-  if (!context) throw new Error('Bot alert context not found in tree');
-  const { open, setAlert, setOpen, alert } = context;
 
-  const showAlert = useCallback(
-    (message: BotAlertMessage) => {
-      message.title ||= t('athena-bot');
-
-      if (alert?.title !== message.title) {
-        setAlert(message);
-        setOpen(true);
-      }
-    },
-    [alert?.title, setAlert, setOpen, t],
-  );
-
-  useEffect(() => {
-    let id: NodeJS.Timeout;
-    if (open) {
-      id = setTimeout(() => {
-        setOpen(false);
-      }, 12 * 1000);
-    }
-
-    return () => clearTimeout(id);
-  }, [open, setOpen]);
-
+  if (!context) {
+    throw new Error('Bot alert context not found in tree');
+  }
   return {
-    alert: showAlert,
-    close: () => setOpen(false),
+    close: context.onClose,
+    alert: context.showAlert,
   };
 };
 
@@ -107,8 +118,8 @@ interface BotAlertMessage {
 }
 
 interface BotAlertContextInterface {
-  open: boolean;
-  alert?: BotAlertMessage;
-  setAlert: (message: BotAlertMessage) => void;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: VoidFunction;
+  showAlert: (message: BotAlertMessage) => void;
 }
+
+type DismissedAlerts = Record<string, boolean>;

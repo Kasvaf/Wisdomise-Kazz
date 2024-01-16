@@ -10,11 +10,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  useAccountQuery,
-  useChatAppProfile,
-  useCreateChatSessionMutation,
-} from 'api';
+import { useChatAppProfile, useCreateChatSessionMutation } from 'api';
 import { getJwtToken } from 'modules/auth/jwt-store';
 import { CHATAPP_ORIGIN } from 'config/constants';
 import {
@@ -38,7 +34,6 @@ interface AthenaContextInterface {
 }
 
 export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const user = useAccountQuery();
   const { i18n } = useTranslation();
   const profile = useChatAppProfile();
   const abort = useRef<VoidFunction>();
@@ -46,7 +41,9 @@ export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setLoading] = useState(false);
   const [words, setWords] = useState<string[]>([]);
   const chatSession = useCreateChatSessionMutation();
-  const [leftQuestions, setLeftQuestions] = useState(0);
+  const [leftQuestions, setLeftQuestions] = useState(
+    profile.data?.questions_left || 0,
+  );
   const [widgets, setWidgets] = useState<AthenaWidget[]>([]);
   const [isAnswerFinished, setIsAnswerFinished] = useState(false);
   const [terminationData, setTerminationData] =
@@ -75,14 +72,6 @@ export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const controller = new AbortController();
       abort.current = () => controller.abort();
 
-      // setQuestion(res.question);
-      // setLoading(false);
-      // setWidgets(res.widgets as any);
-      // setIsAnswerFinished(true);
-      // setWords([res.answer] as any);
-      // setTerminationData(res as any);
-      // return;
-
       void fetchEventSource(
         `${CHATAPP_ORIGIN}/api/chat/chats/${await chatSession.mutateAsync()}/qa/ask/?q="${question}"&lang=${
           i18n.language === 'ja' ? 'ja' : 'en'
@@ -97,7 +86,9 @@ export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
           onopen: async response => {
             setLoading(false);
-            if (jwtToken) void user.refetch();
+            if (jwtToken) {
+              void profile.refetch();
+            }
             if (!response.ok) {
               // const error = await response.text();
               if (response.status === 429) {
@@ -140,7 +131,7 @@ export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
         },
       );
     },
-    [leftQuestions, chatSession, i18n.language, user],
+    [leftQuestions, chatSession, i18n.language, profile],
   );
 
   useEffect(() => {
@@ -179,80 +170,3 @@ export const useAthena = () => {
   }
   return ctx;
 };
-
-// eslint-disable-next-line unused-imports/no-unused-vars
-// const res = {
-//   key: '5744ca57-308c-415d-8b9c-171536d74cbf',
-//   created_at: '2023-12-04T11:25:27.901910Z',
-//   question: 'Give me todays overview of the crypto market',
-//   answer:
-//     "Today's crypto market seems to be in a corrective phase, mostly impacted by a series of regulatory enforcement events. Major cryptocurrencies like <b>Bitcoin</b> and <b>Ether</b> have been affected, which in turn has weighed on the prices of various altcoins. <br><br>In particular, the market continues to react to the recent settlement against <b>Changpeng “CZ” Zhao</b> and <b>Binance</b>, amounting to a significant $4.3 billion. Such regulatory pressures often create a level of uncertainty in the market, which can lead to risk-off sentiment among investors and traders, thus driving prices down.<br><br>It's critical to stay updated with my knowledge as well as to monitor key market indicators, as they provide insights into the market's potential future direction. As always, diversification and risk management are essential tools for managing the inherent volatility of the crypto market.",
-//   feedback: 'NO_FEEDBACK',
-//   subject: {
-//     category: 'crypto_market_news_events',
-//     symbols: ['btc', 'eth'],
-//   },
-//   context_sources: [
-//     {
-//       description:
-//         'Bitcoin ETF Token ($BTCETF) Price Prediction 2023, 2024, 2025, 2030',
-//       url: 'https://www.techopedia.com/cryptocurrency/bitcoin-etf-token-price-prediction',
-//     },
-//     {
-//       description: 'Why is the crypto market down today?',
-//       url: 'https://www.tradingview.com/news/cointelegraph:8159c135e094b:0-why-is-the-crypto-market-down-today/',
-//     },
-//     {
-//       description: '',
-//       url: 'https://www.tradingview.com/news/',
-//     },
-//   ],
-//   widgets: [
-//     {
-//       type: 'news',
-//       settings: {},
-//       symbol: 'btc',
-//     },
-//     {
-//       type: 'lunar_crush_top_tweets',
-//       settings: {},
-//       symbol: 'no_mentioned_symbol',
-//     },
-//     {
-//       type: 'last_positions',
-//       settings: {},
-//       symbol: 'no_mentioned_symbol',
-//     },
-//     {
-//       type: 'price_chart',
-//       settings: {
-//         autosize: true,
-//         interval: 'D',
-//         timezone: 'Etc/UTC',
-//         theme: 'dark',
-//         style: '1',
-//         locale: 'en',
-//         toolbar_bg: '#f1f3f6',
-//         enable_publishing: false,
-//         allow_symbol_change: true,
-//         container_id: 'tradingview_adde9',
-//       },
-//       symbol: 'CRYPTO:BNBUSD',
-//     },
-//   ],
-//   following_questions: [
-//     {
-//       root_question_subject_category: 'crypto_market_news_events',
-//       interface_text:
-//         "What's a good long-term investment strategy for btc,eth?",
-//       exact_text: 'Can you suggest some long-term investing tips for btc,eth?',
-//     },
-//     {
-//       root_question_subject_category: 'crypto_market_news_events',
-//       interface_text: 'What are the legal aspects of cryptocurrency trading?',
-//       exact_text:
-//         'Can you explain the legal and regulatory framework for cryptocurrencies?',
-//     },
-//   ],
-//   event: 'terminate',
-// };

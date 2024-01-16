@@ -7,7 +7,7 @@ bot-alert:
     you can have a better experience. <4>Currently covering ETH, BTC, LTC, XRP,
     ADA, BNB, TRX coins.</4>
   loving-athena: >-
-    You can ask up to <1>{athenaQuestionsCount} questions</1> free of charge,
+    You can ask up to <1>{{athenaQuestionsCount}} questions</1> free of charge,
     hence use them wisely! For more questions, you shall subscribe to one of our
     packages. You can type your question in the chat box or use the related
     questions attached to the end of the answer.

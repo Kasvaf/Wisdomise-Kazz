@@ -15,7 +15,6 @@ export function useSubscription() {
     title: plan?.name || 'none',
     isTrialPlan: plan?.name === 'Trial',
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
-    athenaQuestionsCount: plan?.metadata.athena_questions_count,
     isSignalNotificationEnable:
       isActive && plan?.metadata.enable_signal_notifications,
     remaining: Math.max(

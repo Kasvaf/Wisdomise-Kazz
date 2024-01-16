@@ -39,16 +39,16 @@ function ModalSuccessful({ onResolve }: Props) {
 
       <h1>{t('success-modal.title')}</h1>
       <p className="mb-4 text-white/60">{t('success-modal.subtitle')}.</p>
-      <div className="max-sm:flex-col max-sm:w-full flex sm:gap-8">
+      <div className="flex mobile:w-full mobile:flex-col sm:gap-8">
         <Button
-          className="max-sm:w-full mt-5 border !bg-transparent !text-white"
+          className="mt-5 border !bg-transparent !text-white mobile:w-full"
           onClick={onResolve}
         >
           {t('success-modal.btn-details')}
         </Button>
 
         {afterCheckoutUrl && (
-          <Button className="max-sm:w-full mt-5" onClick={contHandler}>
+          <Button className="mt-5 mobile:w-full" onClick={contHandler}>
             {t('success-modal.btn-goto-athena')}
           </Button>
         )}

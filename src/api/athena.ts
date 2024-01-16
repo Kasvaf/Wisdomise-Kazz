@@ -16,7 +16,7 @@ interface ChatAppProfile {
 }
 export const useChatAppProfile = () =>
   useQuery(
-    ['profile'],
+    ['chatapp-profile'],
     async () => {
       const { data } = await axios.get<ChatAppProfile>(
         `${CHATAPP_ORIGIN}/api/account/profile/`,

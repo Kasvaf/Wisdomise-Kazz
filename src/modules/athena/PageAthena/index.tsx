@@ -1,5 +1,11 @@
 import { Trans, useTranslation } from 'react-i18next';
-import { useAccountQuery, useChatAppProfile, useLandingQuestions } from 'api';
+import { clsx } from 'clsx';
+import {
+  useAccountQuery,
+  useChatAppProfile,
+  useLandingQuestions,
+  useSubscription,
+} from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { AthenaProvider } from '../core/AthenaProvider';
 import { FirstAskInput } from './FirstAskInput';
@@ -7,11 +13,12 @@ import { AthenaModal } from './answerModal';
 import { BotAlertProvider } from './botAlert/BotAlertProvider';
 import { BotAlertMessages } from './botAlert/BotAlertMessages';
 import './styles.css';
-import { LandingQuestions } from './LandingQuestions';
+import { PredefinedQuestions } from './PredefinedQuestions';
 
 export default function PageAthena() {
   const user = useAccountQuery();
   const { t } = useTranslation('athena');
+  const { isTrialPlan } = useSubscription();
   const chatappProfile = useChatAppProfile();
   const landingQuestion = useLandingQuestions();
   const isLoading =
@@ -19,11 +26,18 @@ export default function PageAthena() {
 
   return (
     <PageWrapper loading={isLoading}>
-      <div className="min-h-[calc(100vh-7rem)] pb-8 mobile:min-h-[unset] md:relative">
+      <div
+        className={clsx(
+          'mobile:min-h-[unset] md:relative',
+          isTrialPlan
+            ? 'min-h-[calc(100vh-10rem)]'
+            : 'min-h-[calc(100vh-7rem)]',
+        )}
+      >
         <AthenaProvider>
           <BotAlertProvider>
             <section className="mx-auto flex max-w-[1400px] flex-col items-center gap-14 mobile:gap-10">
-              <section className="mt-24 text-center mobile:mt-10">
+              <section className="mt-4 text-center mobile:mt-10">
                 <p className="text-2xl font-light tracking-[-1.4px] text-white/80 mobile:text-xl">
                   {t('heading.title')}
                 </p>
@@ -38,7 +52,7 @@ export default function PageAthena() {
               </section>
 
               <FirstAskInput />
-              <LandingQuestions />
+              <PredefinedQuestions />
               <AthenaModal />
             </section>
             <BotAlertMessages />

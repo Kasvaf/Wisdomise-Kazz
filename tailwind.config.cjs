@@ -16,7 +16,10 @@ module.exports = {
   safelist: ['opacity-100', 'opacity-50'],
   theme: {
     screens: {
-      mobile: { max: '750px' },
+      'mobile': { max: '750px' },
+      'max-md': { max: '750px' },
+      'max-sm': { max: '640px' },
+      'max-xs': { max: '420px' },
       ...defaultTheme.screens,
     },
     extend: {

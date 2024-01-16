@@ -97,7 +97,7 @@ export const WidgetsColumn = () => {
           'mobile:no-scrollbar mobile:order-1 mobile:w-full mobile:flex-row mobile:gap-2 mobile:overflow-x-auto',
         )}
       >
-        {[...widgets].map(w => (
+        {widgets.map(w => (
           <button
             key={w.type}
             onClick={() => onWidgetIconClick(w.type)}
