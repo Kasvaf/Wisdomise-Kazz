@@ -28,13 +28,13 @@
             { allow, origin: /^https:\/\/stage\.wisdomise\.com$/ },
             {
               allow,
-              origin: /^https:\/\/stage-(app|landing)\.wisdomise\.com$/,
+              origin: /^https:\/\/stage-(app|investment)\.wisdomise\.com$/,
             },
           ]);
         } else {
           CrossStorageHub.init([
             { allow, origin: /^https:\/\/wisdomise\.com$/ },
-            { allow, origin: /^https:\/\/(app|landing)\.wisdomise\.com$/ },
+            { allow, origin: /^https:\/\/(app|investment)\.wisdomise\.com$/ },
           ]);
         }
       }
