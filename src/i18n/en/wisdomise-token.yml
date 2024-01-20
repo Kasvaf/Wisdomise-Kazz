@@ -16,7 +16,6 @@ connect-wallet:
   prev-wallet: previously used wallet address
   sign: Sign and Verify
   verify-nonce: Please verify ownership by signing the nonce
-  wallet-address: Wallet Address
   wisdomise-token:
     title: Connect Wallet
     description: To view utility status and your tWSDM balance, connect your wallet.
