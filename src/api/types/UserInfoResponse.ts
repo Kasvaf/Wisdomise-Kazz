@@ -26,7 +26,7 @@ export interface Account {
     | 'UNVERIFIED'
     | 'SET_CALENDLY_MEETING'
     | 'VERIFIED';
-  wallet_address?: string;
+  wallet_address?: `0x${string}`;
   wsdm_balance?: number;
   hub_spot_token: string;
 }

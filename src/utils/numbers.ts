@@ -3,4 +3,5 @@ export const roundDown = (number: number, decimals = 2) => {
   return Math.floor(number * tens) / tens;
 };
 
-export const addComma = (number: number) => number.toLocaleString();
+export const addComma = (number?: number | bigint) =>
+  number?.toLocaleString() ?? 0;

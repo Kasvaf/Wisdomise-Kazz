@@ -1,4 +1,4 @@
-import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
+import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
 import { goerli, polygon } from 'wagmi/chains';
@@ -33,7 +33,6 @@ export default function ConnectWalletWrapper({
   const { t } = useTranslation('wisdomise-token');
   const { isConnected, address } = useAccount();
   const { open } = useWeb3Modal();
-  const { disconnect } = useDisconnect();
   const { data: account } = useAccountQuery();
   const [showNonce, setShowNonce] = useState(false);
   const [showWrapperContent, setShowWrapperContent] = useState(false);
@@ -57,8 +56,6 @@ export default function ConnectWalletWrapper({
       }
     }
   };
-
-  const disconnectWallet = useCallback(() => disconnect(), [disconnect]);
 
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
@@ -94,19 +91,6 @@ export default function ConnectWalletWrapper({
 
   return (
     <div className={clsx(className, 'text-white')}>
-      {isConnected && address && (
-        <div className="mb-2 flex items-center justify-between gap-4 rounded-xl bg-white/5 p-2 pl-6">
-          <div>
-            <span className="text-gray-400">
-              {t('connect-wallet.wallet-address')}:
-            </span>{' '}
-            {shortenAddress(address)}
-          </div>
-          <Button variant="alternative" onClick={disconnectWallet}>
-            {t('connect-wallet.disconnect')}
-          </Button>
-        </div>
-      )}
       {showWrapperContent && <div>{children}</div>}
       {showError && (
         <Card>

@@ -10,7 +10,7 @@ import { isProduction } from 'utils/version';
 const CONNECT_WALLET_PROJECT_ID = '50b522e31c509ae4c2fe421459868c61';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [isProduction ? goerli : polygon],
+  [isProduction ? polygon : goerli],
   [
     walletConnectProvider({ projectId: CONNECT_WALLET_PROJECT_ID }),
     publicProvider(),
