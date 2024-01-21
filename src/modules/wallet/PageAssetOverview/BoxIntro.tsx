@@ -4,6 +4,7 @@ import { useInvestorAssetStructuresQuery } from 'api';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import Card from 'modules/shared/Card';
+import { trackClick } from 'config/segment';
 import ModalDeposit from '../ModalDeposit';
 import TradeSrc from './trade.svg';
 
@@ -44,7 +45,11 @@ const BoxIntro: React.FC<{
         </div>
 
         <div className="-mx-3 -mb-6 flex flex-wrap items-center justify-center mobile:self-stretch">
-          <Button className="mx-3 mb-6" to="/investment/products-catalog">
+          <Button
+            className="mx-3 mb-6"
+            to="/investment/products-catalog"
+            onClick={trackClick('check_products_button')}
+          >
             {t('intro.btn-check-products')}
           </Button>
 

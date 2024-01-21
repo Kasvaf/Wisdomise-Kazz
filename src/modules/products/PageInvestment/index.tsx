@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'modules/shared/CardPageLink';
 import { useInvestorAssetStructuresQuery } from 'api';
+import { trackClick } from 'config/segment';
 import { ReactComponent as IconFP } from './icon-fp.svg';
 import { ReactComponent as IconAO } from './icon-ao.svg';
 
@@ -29,6 +30,7 @@ const PageInvestment = () => {
           subtitle={t('menu.asset-overview.subtitle')}
           icon={<IconAO />}
           height={250}
+          onClick={trackClick('asset_overview_menu')}
         />
 
         <CardPageLink
@@ -37,6 +39,7 @@ const PageInvestment = () => {
           subtitle={t('menu.financial-products.subtitle')}
           icon={<IconFP />}
           height={250}
+          onClick={trackClick('financial_products_menu')}
         >
           {activeProduct && (
             <>

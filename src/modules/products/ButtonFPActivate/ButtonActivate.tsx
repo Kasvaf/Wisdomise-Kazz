@@ -8,6 +8,7 @@ import { useIsVerified } from 'api/kyc';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import Button from 'shared/Button';
 import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
+import { trackClick } from 'config/segment';
 import useModalVerification from '../../account/kyc/useModalVerification';
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
@@ -75,6 +76,7 @@ const ButtonActivate: React.FC<Props> = ({
   const isVerified = useIsVerified();
 
   const onActivateClick = async () => {
+    trackClick('activate_strategie_button');
     if (!(await ensureSubscribed())) return;
 
     if (isVerified.isLoading) return;

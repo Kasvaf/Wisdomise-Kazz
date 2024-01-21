@@ -2,6 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { isProduction } from 'utils/version';
+import { trackClick } from 'config/segment';
 import { ReactComponent as InvestmentIconEmpty } from './icons/investment-empty.svg';
 import { ReactComponent as InvestmentIconFull } from './icons/investment-full.svg';
 import { ReactComponent as InsightIconEmpty } from './icons/insight-empty.svg';
@@ -25,6 +26,7 @@ export interface MenuItem {
   link: string;
   hide?: boolean;
   mobileHide?: boolean;
+  onClick?: () => void;
 }
 
 export interface RootMenuItem extends MenuItem {
@@ -39,14 +41,17 @@ const useMenuItems = () => {
       icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
       text: t('menu.investment.title'),
       link: '/investment',
+      onClick: trackClick('investment_menu'),
       children: [
         {
           text: t('menu.asset-overview.title'),
           link: '/investment/assets',
+          onClick: trackClick('asset_overview_menu'),
         },
         {
           text: t('menu.financial-products.title'),
           link: '/investment/products-catalog',
+          onClick: trackClick('financial_products_menu'),
         },
       ],
     },
@@ -54,14 +59,17 @@ const useMenuItems = () => {
       icon: Icon(InsightIconEmpty, InsightIconFull),
       text: t('menu.insight.title'),
       link: '/insight',
+      onClick: trackClick('insight_menu'),
       children: [
         {
           text: t('menu.signal-matrix.title'),
           link: '/insight/signals',
+          onClick: trackClick('signal_matrix_menu'),
         },
         {
           text: t('menu.athena.title'),
           link: '/insight/athena',
+          onClick: trackClick('crypto_chatbot_menu'),
         },
       ],
     },
@@ -76,35 +84,43 @@ const useMenuItems = () => {
       icon: Icon(AccountIconEmpty, AccountIconFull),
       text: t('menu.account.title'),
       link: '/account',
+      onClick: trackClick('account_menu'),
       children: [
         {
           text: t('menu.profile.title'),
           link: '/account/profile',
           mobileHide: true,
+          onClick: trackClick('profile_menu'),
         },
         {
           text: t('menu.billing.title'),
           link: '/account/billing',
+          onClick: trackClick('subscription_menu'),
         },
         {
           text: t('menu.kyc.title'),
           link: '/account/kyc',
+          onClick: trackClick('kyc_menu'),
         },
         {
           text: t('menu.token.title'),
           link: '/account/token',
+          onClick: trackClick('wsdm_token_menu'),
         },
         {
           text: t('menu.account-manager.title'),
           link: '/account/exchange-accounts',
+          onClick: trackClick('external_account_menu'),
         },
         {
           text: t('menu.notification-center.title'),
           link: '/account/notification-center',
+          onClick: trackClick('notifications_menu'),
         },
         {
           text: t('menu.referral.title'),
           link: '/account/referral',
+          onClick: trackClick('referral_menu'),
         },
       ],
     },

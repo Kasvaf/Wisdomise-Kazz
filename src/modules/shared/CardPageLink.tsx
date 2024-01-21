@@ -11,12 +11,14 @@ const CardPageLink: React.FC<
     subtitle: string;
     icon: React.ReactElement;
     height?: 180 | 250;
+    onClick?: () => void;
   }>
-> = ({ to, title, subtitle, icon, children, height = 180 }) => (
+> = ({ to, title, subtitle, icon, children, height = 180, onClick }) => (
   <NavLink
     to={to}
     target={to.startsWith('https://') ? '_blank' : undefined}
     className="group relative block cursor-pointer rounded-3xl bg-black/30 hover:bg-black/40"
+    onClick={onClick}
   >
     <div className="absolute right-0 top-0">{icon}</div>
     <div

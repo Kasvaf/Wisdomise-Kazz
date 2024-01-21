@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'modules/shared/CardPageLink';
+import { trackClick } from 'config/segment';
 import { ReactComponent as IconSignals } from './icon-signals.svg';
 import { ReactComponent as IconAthena } from './icon-athena.svg';
 
@@ -25,6 +26,7 @@ const PageInsight = () => {
           subtitle={t('menu.signal-matrix.subtitle')}
           icon={<IconSignals />}
           height={250}
+          onClick={trackClick('signal_matrix_menu')}
         />
 
         <CardPageLink
@@ -33,6 +35,7 @@ const PageInsight = () => {
           subtitle={t('menu.athena.subtitle')}
           icon={<IconAthena />}
           height={250}
+          onClick={trackClick('crypto_chatbot_menu')}
         >
           <div className="text-2xl font-medium mobile:text-xl">
             {t('menu.athena.features')}
