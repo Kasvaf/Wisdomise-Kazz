@@ -14,7 +14,7 @@ export function configSegment() {
 }
 
 export const trackClick =
-  (place: string, location = 'dashboard') =>
+  (place: string, rest: Record<string, any> = {}) =>
   () => {
-    void analytics.track('click_on', { place, location });
+    void analytics.track('click_on', { place, location: 'dashboard', ...rest });
   };

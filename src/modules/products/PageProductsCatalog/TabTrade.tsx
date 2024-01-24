@@ -4,6 +4,7 @@ import {
   useInvestorAssetStructuresQuery,
   useFinancialProductsQuery,
 } from 'api';
+import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
 import PriceChange from 'modules/shared/PriceChange';
 import CoinsIcons from 'modules/shared/CoinsIcons';
@@ -24,6 +25,9 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
       icon={<CoinsIcons maxShow={3} coins={fp.config.assets} />}
       description={fp.description}
       to={`/investment/products-catalog/${fp.key}`}
+      onClick={trackClick('ai_driven_strategies_list', {
+        strategy_name: fp.title,
+      })}
     >
       <div className="text-left">
         <p className="text-xl font-normal">

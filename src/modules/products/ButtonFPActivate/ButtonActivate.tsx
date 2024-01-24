@@ -6,9 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
 import { useIsVerified } from 'api/kyc';
 import { type FinancialProduct } from 'api/types/financialProduct';
+import { trackClick } from 'config/segment';
 import Button from 'shared/Button';
 import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
-import { trackClick } from 'config/segment';
 import useModalVerification from '../../account/kyc/useModalVerification';
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
@@ -76,12 +76,13 @@ const ButtonActivate: React.FC<Props> = ({
   const isVerified = useIsVerified();
 
   const onActivateClick = async () => {
-    trackClick('activate_strategie_button');
+    trackClick('activate_strategie_button')();
     if (!(await ensureSubscribed())) return;
 
     if (isVerified.isLoading) return;
     if (!isVerified.isAllVerified) {
       if (await openVerification()) {
+        trackClick('lets_verify_now_button')();
         navigate('/account/kyc');
       }
       return;

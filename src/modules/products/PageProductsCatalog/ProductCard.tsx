@@ -16,6 +16,7 @@ interface RiskCardProps {
   icon: ReactElement;
   description: string;
   to: string;
+  onClick?: () => void;
 }
 
 const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
@@ -27,6 +28,7 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
   to,
   className,
   children,
+  onClick,
 }) => {
   const { t } = useTranslation('products');
 
@@ -37,6 +39,7 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
         'flex flex-col rounded-3xl bg-black/20 !text-white hover:bg-black/40',
         className,
       )}
+      onClick={onClick}
     >
       <div className="flex grow flex-col gap-6 p-6">
         <section className="flex items-center justify-between">

@@ -1,6 +1,7 @@
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
 import { useInvestmentProtocolsQuery } from 'api';
+import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
 import PriceChange from 'modules/shared/PriceChange';
 import { type InvestmentProtocol } from 'api/types/financialProduct';
@@ -17,6 +18,9 @@ const ProductCardStake: React.FC<{ ip: InvestmentProtocol }> = ({ ip }) => {
       icon={<img src={ip.logo_address} className="h-10 w-10 rounded-full" />}
       description={ip.description}
       to={`/app/staking/protocol/${ip.key}`}
+      onClick={trackClick('defi_staking_options', {
+        stake_name: ip.name,
+      })}
     >
       <div className="text-left">
         <p className="text-xl font-normal">
