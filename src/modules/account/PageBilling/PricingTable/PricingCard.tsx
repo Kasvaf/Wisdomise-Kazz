@@ -43,7 +43,7 @@ export default function PricingCard({
 
   const handleFiatPayment = async () => {
     if (account?.stripe_customer_id) {
-      if (plan.key === userPlan?.key) {
+      if (plan.key === userPlan?.key && isActive) {
         return;
       }
       await mutation.mutateAsync({ price_id: plan.stripe_price_id });
