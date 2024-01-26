@@ -1,4 +1,4 @@
-import { useAccount, useContractRead } from 'wagmi';
+import { useAccount, useContractRead, useContractWrite } from 'wagmi';
 import { zeroAddress } from 'viem';
 import { TOKEN_DISTRIBUTOR_ABI } from 'modules/account/PageToken/web3/tokenDistributorAbi';
 import { isProduction } from 'utils/version';
@@ -53,6 +53,24 @@ export function useStrategicRoundReleasable() {
   return useContractRead({
     ...strategicTokenDistributorDefaultConfig,
     functionName: 'releasable',
+    args: [address ?? zeroAddress],
+  });
+}
+
+export function useWriteAngelRelease() {
+  const { address } = useAccount();
+  return useContractWrite({
+    ...angelTokenDistributorDefaultConfig,
+    functionName: 'release',
+    args: [address ?? zeroAddress],
+  });
+}
+
+export function useWriteStrategicRelease() {
+  const { address } = useAccount();
+  return useContractWrite({
+    ...strategicTokenDistributorDefaultConfig,
+    functionName: 'release',
     args: [address ?? zeroAddress],
   });
 }

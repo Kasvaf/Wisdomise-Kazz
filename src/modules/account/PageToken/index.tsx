@@ -14,6 +14,7 @@ import Vesting from 'modules/account/PageToken/Vesting';
 import Migration from 'modules/account/PageToken/Migration';
 import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdmContract';
 import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdmContract';
+import Airdrop from 'modules/account/PageToken/Airdrop';
 import { ReactComponent as WalletIcon } from './icons/wallet.svg';
 import { ReactComponent as UtilityIcon } from './icons/utility.svg';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
@@ -62,27 +63,7 @@ export default function PageToken() {
       >
         {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
         <Vesting />
-        <Card className="relative mt-6 flex items-center justify-between bg-gradient-to-bl from-[rgba(97,82,152,0.40)] from-15% to-[rgba(66,66,123,0.40)] to-75%">
-          <div>
-            <h2 className="mb-2 text-2xl font-medium">Airdrop</h2>
-            <p className="text-white/40">Airdrop description</p>
-          </div>
-          <div>
-            <div>Token</div>
-            <div className="italic">
-              <strong className="text-4xl">200</strong>
-              <strong className="text-4xl font-semibold text-green-400">
-                WSDM
-              </strong>{' '}
-            </div>
-          </div>
-          <Button
-            variant="alternative"
-            className="bg-gradient-to-bl from-[rgba(97,82,152,0.40)] from-15% to-[rgba(66,66,123,0.40)] to-75%"
-          >
-            Eligible Check
-          </Button>
-        </Card>
+        <Airdrop />
         <h1 className="my-8 text-white/20">
           <strong className="text-3xl font-bold">WSDM</strong>
           <span className="ms-2 text-lg">Utility</span>
@@ -144,7 +125,7 @@ export default function PageToken() {
                 <div>Balance</div>
                 <div className="flex flex-wrap items-end gap-2">
                   <span className="text-3xl">
-                    {addComma(wsdmBalance?.value)}
+                    {addComma((wsdmBalance?.value ?? 0n) / 10n ** 6n)}
                   </span>
                   <span className="text-xl text-green-400">WSDM</span>
                 </div>
