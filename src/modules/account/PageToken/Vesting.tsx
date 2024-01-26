@@ -18,6 +18,7 @@ import {
   STRATEGIC_RELEASE_PERCENTAGE,
   STRATEGIC_RELEASE_TIMESTAMPS,
 } from 'modules/account/PageToken/constants';
+import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdmContract';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
 
 export default function Vesting() {
@@ -35,6 +36,7 @@ export default function Vesting() {
   } = useWaitForTransaction({
     hash: claimAngelResult?.hash,
   });
+  const { refetch: refetchWsdmBalance } = useWsdmBalance();
 
   const { data: strategicRoundTotalAmount } = useStrategicRoundAccountShares();
   const { data: strategicRoundClaimable, refetch: refetchStrategicClaimable } =
@@ -84,15 +86,17 @@ export default function Vesting() {
     if (claimAngelTrxReceipt?.status === 'success') {
       notification.success({ message: 'Claim was successful' });
       void refetchAngelClaimable();
+      void refetchWsdmBalance();
     }
-  }, [claimAngelTrxReceipt, refetchAngelClaimable]);
+  }, [claimAngelTrxReceipt, refetchAngelClaimable, refetchWsdmBalance]);
 
   useEffect(() => {
     if (claimStrategicTrxReceipt?.status === 'success') {
       notification.success({ message: 'Claim was successful' });
       void refetchStrategicClaimable();
+      void refetchWsdmBalance();
     }
-  }, [claimStrategicTrxReceipt, refetchStrategicClaimable]);
+  }, [claimStrategicTrxReceipt, refetchStrategicClaimable, refetchWsdmBalance]);
 
   const findNextRelease = (roundId: 'angel' | 'strategic') => {
     const time = (

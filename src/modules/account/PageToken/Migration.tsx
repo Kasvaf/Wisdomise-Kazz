@@ -16,7 +16,8 @@ import { ReactComponent as MigrateIcon } from './icons/migrate.svg';
 
 export default function Migration() {
   const { address } = useAccount();
-  const { data: tWSDMBalance } = useTwsdmBalance();
+  const { data: tWSDMBalance, refetch: refetchTwsdmBalance } =
+    useTwsdmBalance();
   const { data: allowance, refetch: refetchAllowance } =
     useReadTwsdmAllowance();
 
@@ -88,8 +89,9 @@ export default function Migration() {
       notification.success({
         message: 'Migration process started successfully',
       });
+      void refetchTwsdmBalance();
     }
-  }, [migrateTrxReceipt]);
+  }, [migrateTrxReceipt, refetchTwsdmBalance]);
 
   useEffect(() => {
     if (migrationError) {
