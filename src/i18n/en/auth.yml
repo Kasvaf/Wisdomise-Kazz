@@ -1,8 +1,5 @@
-banner:
-  athena-bot: Athena Telegram Bot
-  stay-connected: Stay Connected
 email-address: Email Address
-footer: © 2023 Wisdomise. All rights reserved.
+footer: © 2024 Wisdomise. All rights reserved.
 page-referral:
   title: Referral Program
   all-time: all time
@@ -26,6 +23,7 @@ secondary:
     label: Country
     placeholder: Your country of residence
     not-empty: Country can't be empty
+  email-verified: your email has been verified!
   invitation:
     label: Invitation code <1>(Optional)</1>
     placeholder: Invitation code
@@ -35,15 +33,14 @@ secondary:
     placeholder: Your nickname
     length-limit: Ensure this field has no more than 32 characters.
     not-empty: Nickname can't be empty
-  welcome: Welcome to <br><b>Wisdomise</b>
+  welcome: Welcome to <b>Wisdomise</b>
 verify-email:
   title: Verify <b>Your Email</b>
-  btn-check:
-    label: Check
-    loading: Checking...
   btn-resend:
     label: Resend Verification Email
     loading: Resending Verification Email ...
+  error: your email address could not be verified
+  error-title: Error
   link-sent: >-
     A link has been sent to your email <1>{{email}}</1><br> To verify your
     account, please click on the link.

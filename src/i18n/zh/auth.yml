@@ -2,7 +2,7 @@ banner:
   athena-bot: Athena 电报机器人
   stay-connected: 保持联系
 email-address: 电子邮件地址
-footer: © 2023 Wisdomise. 版权所有.
+footer: © 2024 Wisdomise. 版权所有.
 page-referral:
   all-time: 整天
   friends-invited: 好友邀请
@@ -26,6 +26,7 @@ secondary:
     label: 国家/地区
     not-empty: 国家不能为空
     placeholder: 您所居住的国家
+  email-verified: 您的电子邮件已被验证！
   invitation:
     label: 邀请代码 <1>（选修的）</1>
     not-found: 找不到推荐人

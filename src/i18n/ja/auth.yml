@@ -2,7 +2,7 @@ banner:
   athena-bot: アテナのTelegramボット
   stay-connected: 通信を継続
 email-address: 電子メールアドレス
-footer: © 2023 Wisdomise. All rights reserved.
+footer: © 2024 Wisdomise. All rights reserved.
 page-referral:
   all-time: 歴上
   friends-invited: 友達を招待しました
@@ -26,6 +26,7 @@ secondary:
     label: 国名
     not-empty: 国を空にすることはできません
     placeholder: お住まいの国
+  email-verified: あなたのメールアドレスが確認されました!
   invitation:
     label: 招待コード <1>(オプション)</1>
     not-found: 紹介者が見つかりません

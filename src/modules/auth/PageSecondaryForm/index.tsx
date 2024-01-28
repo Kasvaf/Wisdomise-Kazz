@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Select, notification } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
+import { bxCheckCircle } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useAccountQuery, useCountriesQuery, useUserInfoMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import Button from 'shared/Button';
+import Icon from 'modules/shared/Icon';
 import { REFERRER_CODE_KEY } from '../constants';
 import ContainerAuth from '../ContainerAuth';
 import useModalContract from './useModalContract';
@@ -123,10 +126,19 @@ const PageSecondaryForm: React.FC = () => {
     <ContainerAuth>
       <main className="mb-20 flex flex-col items-center justify-center">
         <div className="flex flex-col items-start mobile:px-4">
+          <p
+            className={clsx(
+              'mb-8 w-full rounded-2xl bg-gray-600 p-4 capitalize text-green-400',
+              'flex items-center justify-center gap-2',
+            )}
+          >
+            <Icon name={bxCheckCircle} />
+            {t('secondary.email-verified')}
+          </p>
+
           <p className="mb-10 text-3xl md:text-4xl">
             <Trans i18nKey="secondary.welcome" ns="auth">
-              Welcome to <br />
-              <b>Wisdomise</b>
+              Welcome to <b>Wisdomise</b>
             </Trans>
           </p>
           <InputBox
