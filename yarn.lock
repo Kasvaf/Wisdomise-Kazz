@@ -5057,10 +5057,10 @@
     overlayscrollbars "^2.3.2"
     overlayscrollbars-react "^0.5.2"
 
-"@wisdomise/widgets@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@wisdomise/widgets/-/widgets-1.1.0.tgz#d438cc547b8b940de0b81d71fc9af232c028a26e"
-  integrity sha512-zoGuYSTyjx0gaCLxRvrHw0RbQ6d2gjr2xK9JwnoX3/c5+GQebD4sUs9z81USNPxv0/mutOFGWDVhdv+245k89A==
+"@wisdomise/widgets@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@wisdomise/widgets/-/widgets-1.1.1.tgz#d864da862e70be929aae8e02e131e4182ced0960"
+  integrity sha512-ycLKhVT/GzpufRsrbu5fU6k3M3LVgQ52fff/O8mCAcKmoBvfdO7YhL9uSpbjWQhlNHCQYfL5aedG9YzJ7b5g7Q==
   dependencies:
     "@ant-design/plots" "^1.2.5"
     "@nivo/pie" "^0.83.0"
