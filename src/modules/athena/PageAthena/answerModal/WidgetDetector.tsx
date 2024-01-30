@@ -34,13 +34,13 @@ export const WidgetDetector: React.FC<Props> = memo(
       case 'news': {
         return <NewsWidget limit={data.limit} />;
       }
-      case 'lunar_crush_top_tweets': {
+      case 'top_trending_tweets': {
         return <TrendingTweetsWidget />;
       }
-      case 'lunar_crush_top_coins': {
+      case 'top_trending_alt_coins': {
         return <AltRankWidget />;
       }
-      case 'lunar_crush_top_nfts': {
+      case 'top_trending_nfts': {
         return <TrendingNFTsWidget />;
       }
       case 'smart_crypto_portfolio': {
