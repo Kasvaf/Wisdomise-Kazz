@@ -10,7 +10,7 @@ const ProductSubscriptionNotice: React.FC<{
 }> = ({ fp, className }) => {
   const { data: plans, isLoading } = usePlansQuery();
   const { level: myLevel } = useSubscription();
-  const productLevel = fp.config.subscription_level ?? 4;
+  const productLevel = fp.config.subscription_level ?? 0;
   const minPlan = plans?.results.find(x => x.level === productLevel)?.name;
   const notice = isLoading ? (
     <div className="flex justify-center">
