@@ -1,11 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  useInvestorAssetStructuresQuery,
-  useCreateFPIMutation,
-  useSubscription,
-} from 'api';
+import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { trackClick } from 'config/segment';
 import Button from 'shared/Button';
@@ -44,10 +40,9 @@ const ButtonActivate: React.FC<Props> = ({
     useModalExchangeAccountSelector();
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
   const [ModalApiKey, showModalApiKey] = useModalApiKey();
-  const [SubscribeModal, ensureSubscribed] = useEnsureSubscription();
+  const [SubscribeModal, ensureSubscribed] = useEnsureSubscription(fp);
 
   const onActivateClick = async () => {
-    await showActivationNotice();
     trackClick('activate_strategie_button')();
     if (!(await ensureSubscribed())) return;
 
@@ -66,9 +61,6 @@ const ButtonActivate: React.FC<Props> = ({
     }
   };
 
-  const { level: myLevel } = useSubscription();
-  const fpLevel = fp.config.subscription_level ?? 0;
-
   return (
     <>
       <Button
@@ -76,7 +68,7 @@ const ButtonActivate: React.FC<Props> = ({
         className={className}
         onClick={onActivateClick}
         loading={createFPI.isLoading}
-        disabled={isOtherFPActive || !fp.subscribable || fpLevel > myLevel}
+        disabled={isOtherFPActive || !fp.subscribable}
       >
         {t('actions.activate')}
       </Button>

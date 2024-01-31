@@ -14,7 +14,7 @@ export function useSubscription() {
     isLoading,
     title: plan?.name || 'none',
     isTrialPlan: plan?.name === 'Trial',
-    level: plan?.level ?? 0,
+    level: isActive ? plan?.level ?? 0 : 0,
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
     isSignalNotificationEnable:
       isActive && plan?.metadata.enable_signal_notifications,

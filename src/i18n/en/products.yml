@@ -115,13 +115,12 @@ subscription:
   subscribe:
     title: Subscription
     description: >-
-      To activate a product, you need to <1>Subscribe</1> to our <3>Wisdomise
-      Expert</3> plan.
+      To activate this product, you need to <1>Subscribe</1> to our <3>{{minPlan}}</3> plan.
     btn-confirm: Subscribe
   upgrade:
     title: Upgrade Subscription
     subtitle: >-
       Your current subscription does not include the products you want to
       activate.
-    description: To use this product, you need to <1>Upgrade</1> your subscription.
+    description: To use this product, you need to <1>Upgrade</1> your subscription to <4>{{minPlan}}</4>.
     btn-confirm: Upgrade
