@@ -1,4 +1,5 @@
 matrix:
+  title: 直近のポジション
   date: 日付
   entry-price: エントリープライス
   exit-price: エグジットプライス
@@ -6,21 +7,20 @@ matrix:
   side: サイド
   sl: SL
   suggestion: 推奨
-  title: 直近のポジション
   tp: TP
 positions-history:
+  title: ポジション履歴
   entry-point: エントリーポイント
   exit-point: エグジットポイント
   pairs: ペア
   pnl: P/L
   status: ステータス
   strategy: 戦略
-  title: ポジション履歴
 positions-timeline:
+  title: ポジションのタイムライン
   empty-message: この時間枠でのポジションはありません。
   entry-point: エントリーポイント
   exit-point: エグジットポイント
-  title: ポジションのタイムライン
 status:
   closed: クローズ
   open: オープン

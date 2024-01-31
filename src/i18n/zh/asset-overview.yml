@@ -1,28 +1,28 @@
 intro:
+  title: 我们代表您进行交易！
+  description: Wisdomise 提供根据您的风险承受能力量身定制的基于人工智能的策略。查看我们的策略并立即开始赚钱。
   btn-check-products: 检查产品
   btn-deposit: 订金
-  description: Wisdomise 提供根据您的风险承受能力量身定制的基于人工智能的策略。查看我们的策略并立即开始赚钱。
-  title: 我们代表您进行交易！
 portfolio:
-  bindings-count_other: 硬币
+  title: 您的账户投资组合
   description: 基于人工智能的交易策略会在您的加密钱包上自动运行。这些是在运行超过 3 亿次独特实验后使用我们全面而复杂的人工智能构建的
+  bindings-count_other: 硬币
   info:
+    available:
+      title: 可用的
+      subtitle: 可抽出式
+    balance: 平衡
+    deposit:
+      title: 订金
+      subtitle: 数量
     PnL:
       title: 盈亏
       unrealized: （未实现）
-    available:
-      subtitle: 可抽出式
-      title: 可用的
-    balance: 平衡
-    deposit:
-      subtitle: 数量
-      title: 订金
     working-capital:
-      subtitle: 资产管理规模
       title: 营运资金
+      subtitle: 资产管理规模
   table:
     amount: 数量
     coin: 硬币
     equity: 公平
     share: 分享
-  title: 您的账户投资组合

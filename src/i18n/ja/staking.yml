@@ -1,22 +1,20 @@
 ask:
-  active-limit: 質問の上限に達しました。続行するにはプランをアップグレードしてください
   athena: アテナ
   athena-subtitle: 財務アシスタント AI
   input-placeholder: 質問してください
-  remain-questions: 残りを楽しんでください {{leftQuestions}} 質問
   suggested-prompts: 推奨されるプロンプト
-  trial-limit: 試用版の質問制限に達しました。続行するには購読してください
 info:
+  description: 説明
   chart:
     apy-history: 歴史的なAPY
     tvl-history: 歴史的な TVL
-  description: 説明
   docs: ドキュメント
   github: Github
   project-links: プロジェクトリンク
   twitter: Twitter
   website: Webサイト
 pools-table:
+  title: プールリスト
   actions: 行動
   apy: APY
   apy-title: APY = 基本 APY + 報酬 APY。非自動複合プールの場合、再投資は考慮されません。この場合、APY = APR となります。
@@ -26,5 +24,4 @@ pools-table:
   invest: 投資する
   reward-apy: 報酬APY
   reward-apy-title: インセンティブによる年換算の利回り。
-  title: プールリスト
   token: トークン

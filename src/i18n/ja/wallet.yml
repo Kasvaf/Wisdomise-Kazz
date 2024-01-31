@@ -1,41 +1,41 @@
+title: ウォレット
 amount: 金額
 available: 利用可能
 btn-deposit: 入金
 btn-withdraw: 引き出し
 confirm-withdrawal:
+  title: 引き出しを確認
   btn-confirm: 確認
   btn-return: 戻る
-  title: 引き出しを確認
 equity-description_other: 合計資産のうち<5>{{blocked}}</5> {{mainQuote}} 分の資産を<1>{{count}}</1>のプロダクトで運用しています。
 modal-deposit:
+  title: 入金
   banner: 承認済みのウォレットから入金する必要があります。未承認のウォレットから入金するとアカウントに<1>制限</1>がかかりますのでご留意ください。
   deposit-address: 預け入れ専用のアドレスに<1>{{coin}}</1> のみ送金ください。
-  disclaimer: "{{coin}} 以外のコイン/トークンを送金した場合、資産を失う場合がありますのでご留意ください。"
-  title: 入金
+  disclaimer: '{{coin}} 以外のコイン/トークンを送金した場合、資産を失う場合がありますのでご留意ください。'
   verify-wallet: ウォレット認証
 modal-success:
-  description: 完了後、メールが届きます。
   title: 出金リクエストが送信されました。
+  description: 完了後、メールが届きます。
 modal-withdraw:
+  title: 出金
   banner:
-    btn-verify-wallet: ウォレット認証
     description: 出金する際は、承認されたウォレットを選択する必要があります。
+    btn-verify-wallet: ウォレット認証
   btn-withdraw: 出金する
   error-max-amount: 利用可能は金額以上の出金はできません。
-  error-min-amount: "{{wallet}} ネットワークへの{{minAmount}} {{symbol}}以下の出金はできません。"
+  error-min-amount: '{{wallet}} ネットワークへの{{minAmount}} {{symbol}}以下の出金はできません。'
   min-withdrawal: 最小出金額
-  title: 出金
 no-verified-wallet: 承認されたウォレットがありません。
 security-verification:
+  title: セキュリティの承認
   btn-resend: 再送する
   btn-submit: 提出
-  error-6digit: "{{userEmail}}に送られた6桁の数字を記入してください。"
-  title: セキュリティの承認
-title: ウォレット
+  error-6digit: '{{userEmail}}に送られた6桁の数字を記入してください。'
 total-balance: 合計金額
 wallet-address: ウォレットアドレス
 withdraw-info:
   fee: 料金
   source: 出典
-  source-value: "{{source}} ウォレット"
+  source-value: '{{source}} ウォレット'
 withdrawable: 出金可能

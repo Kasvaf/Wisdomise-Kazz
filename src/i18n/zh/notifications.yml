@@ -1,37 +1,37 @@
 customs:
+  title: 自定义通知
   custom-question:
-    btn-add: 添加
-    description: 您可以使用下面建议的提示或编写您自己的自定义提示。
-    limit:
-      description: 您最多可以添加 {{weeklyCustomNotificationCount}} 问题，如果要添加新问题，则必须删除之前的问题
-      title: 问题限制
-    placeholder: 输入您的问题...
     title: 添加新问题
+    description: 您可以使用下面建议的提示或编写您自己的自定义提示。
+    placeholder: 输入您的问题...
+    btn-add: 添加
+    limit:
+      title: 问题限制
+      description: 您最多可以添加 {{weeklyCustomNotificationCount}} 问题，如果要添加新问题，则必须删除之前的问题
   disclaimer: 通过打开此功能，您将收到两次默认的每日更新，并且您可以设置一些自定义提示以每周发送给您。
   suggested-prompts:
     title: 建议的每周提示
-  title: 自定义通知
   your-question:
-    description: 您可以每周一通过电子邮件收到定制提示。
     title: 你的问题
+    description: 您可以每周一通过电子邮件收到定制提示。
 page:
   description: 在这里您可以过滤您的通知
 signaling:
-  btn-open-telegram:
-    hint: 在社交中接收通知
-    label: 打开 Telegram
+  title: 信令
+  subtitle: 策略列表
   description: 我们列出了我们提供的所有策略。
+  btn-open-telegram:
+    label: 打开 Telegram
+    hint: 在社交中接收通知
   modal-connected:
-    description: 您的 Telegram 帐户现已同步。
     title: 连接成功
+    description: 您的 Telegram 帐户现已同步。
   notification-activate-chip-message: 您已在“中订阅了所选币种”{{strategy}}”并且每次电报中有新职位时都会收到通知。
   overlay-telegram:
-    description: 转到 Telegram 并使用 <1>/subscribe_to_signals</1> 命令。
     title: 您的 Telegram 尚未连接
+    description: 转到 Telegram 并使用 <1>/subscribe_to_signals</1> 命令。
   strategy:
     choose-coin: 选择硬币以接收通知
     sl-tp: SL / TP
     timeframe: 大体时间
     type: 类型
-  subtitle: 策略列表
-  title: 信令

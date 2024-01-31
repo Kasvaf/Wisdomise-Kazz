@@ -1,24 +1,28 @@
 answer: 答え
 athena-bot: Athena Bot!
 bot-alert:
-  freemium-stage: あなたは、 <1>フリーミアムステージ</1>
+  freemium-stage: >-
+    あなたは、 <1>フリーミアムステージ</1>
     暗号通貨に関連する質問をすることができます。より良い体験ができるように、回答と関連するウィジェットを提供します。
     <4>現在、ETH、BTC、LTC、XRP、ADA、BNB、TRX コインをカバーしています。</4>
-  loving-athena: まで質問できます <1>{{athenaQuestionsCount}} 個の質問</1>
+  loving-athena: >-
+    まで質問できます <1>{{athenaQuestionsCount}} 個の質問</1>
     無料ですので、賢く利用しましょう！さらに質問がある場合は、いずれかのパッケージを購読する必要があります。チャット
     ボックスに質問を入力するか、回答の最後に添付されている関連質問を使用できます。
-  message-limit: 現在の Athena チャットボット
+  message-limit: >-
+    現在の Athena チャットボット
     プランで許可されるメッセージの最大数に達しました。チャットボットを中断せずに使用し続けるには、より高いサブスクリプション層にアップグレードしてください。
   pro-version: 無料の質問の最大数に達しました。購読して、さらに多くの質問、クールなウィジェット、Athena の革新的な機能を入手する機会を獲得してください。
-  subscribe-congratulations: 私たちのプランのいずれかに登録されています。Athena
-    を楽しんで、暗号通貨の世界とホワイトペーパー、AI が厳選した価格予測、市場分析などについて質問してください。
+  subscribe-congratulations: >-
+    私たちのプランのいずれかに登録されています。Athena を楽しんで、暗号通貨の世界とホワイトペーパー、AI
+    が厳選した価格予測、市場分析などについて質問してください。
 box-ask-athena: アテナに暗号資産市場について質問する
 enjoy-remain-question_other: 残りを楽しんでください {{leftQuestions}} 質問
 generate: 生成する
 heading:
+  title: Wisdomiseスーパーアプリ
   second-title: AI で仮想通貨をナビゲートする <1></1> チャット
   second-title-word1: アシスタント
-  title: Wisdomiseスーパーアプリ
 input-placeholder: Athena から暗号に関する質問をしてください
 new-question: 新しい質問
 other-sources: 他の情報源

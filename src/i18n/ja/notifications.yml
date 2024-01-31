@@ -1,38 +1,39 @@
 customs:
+  title: 通知をカスタマイズする
   custom-question:
-    btn-add: 追加
-    description: 以下の推奨プロンプトを使用するか、独自にカスタマイズしたプロンプトを作成することもできます。
-    limit:
-      description: 最大 {{weeklyCustomNotificationCount}}
-        まで質問の追加が可能です。これ以上の質問を追加したい場合は、過去の質問を削除してください。
-      title: 質問上限数
-    placeholder: 質問してください...
     title: 新しい質問の追加
+    description: 以下の推奨プロンプトを使用するか、独自にカスタマイズしたプロンプトを作成することもできます。
+    placeholder: 質問してください...
+    btn-add: 追加
+    limit:
+      title: 質問上限数
+      description: >-
+        最大 {{weeklyCustomNotificationCount}}
+        まで質問の追加が可能です。これ以上の質問を追加したい場合は、過去の質問を削除してください。
   disclaimer: この機能を起動させると、毎日２つのアップデートを受け取ることができます。週ごとにカスタム設定した通知を受け取ることも可能でs。
   suggested-prompts:
     title: 推奨の週次プロンプト
-  title: 通知をカスタマイズする
   your-question:
-    description: カスタマイズしたプロンプトは毎週月曜日に通知されます。
     title: 設定中の質問
+    description: カスタマイズしたプロンプトは毎週月曜日に通知されます。
 page:
   description: 通知をフィルタリングできます
 signaling:
-  btn-open-telegram:
-    hint: 通知をSNSで受け取り
-    label: Telegramを起動
+  title: シグナリング
+  subtitle: 戦略一覧
   description: 提供中の戦略を全て表示しています。
+  btn-open-telegram:
+    label: Telegramを起動
+    hint: 通知をSNSで受け取り
   modal-connected:
-    description: Telegramaアカウントが同期されました。
     title: 同期完了
+    description: Telegramaアカウントが同期されました。
   notification-activate-chip-message: 指定のコインで“{{strategy}}”戦略に登録しました。新しいポジションができた際にはTelegramにて通知を送ります。
   overlay-telegram:
-    description: Telegramで<1>/subscribe_to_signals</1> コマンドを使用してください。
     title: Telegramの同期がされていません。
+    description: Telegramで<1>/subscribe_to_signals</1> コマンドを使用してください。
   strategy:
     choose-coin: 通知の対象とするコインを選んでください。
     sl-tp: SL / TP
     timeframe: 時間枠
     type: タイプ
-  subtitle: 戦略一覧
-  title: シグナリング

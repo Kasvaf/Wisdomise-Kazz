@@ -1,86 +1,63 @@
 error-page:
-  btn-reload: 再読み込み
-  subtitle: 同じエラーが発生しないよう改善いたします。
   title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
+  subtitle: 同じエラーが発生しないよう改善いたします。
+  btn-reload: 再読み込み
 language: 言語
 links:
   about-us: 私たちについて
   blog: ブログ
   solutions: 解決策
 menu:
-  account-manager:
-    mobile: アカウント
-    subtitle: Exchange アカウントを統合します。
-    title: 外部アカウント
   account:
-    subtitle: アカウントの設定と基本設定を管理する
     title: アカウント
+    subtitle: アカウントの設定と基本設定を管理する
+  account-manager:
+    title: 外部アカウント
+    subtitle: Exchange アカウントを統合します。
   asset-overview:
-    mobile: 資産
-    subtitle: 金融商品を監視および管理します。
     title: 資産概要
+    subtitle: 金融商品を監視および管理します。
   athena:
-    features: +10 の機能
-    subtitle: 暗号通貨の世界をガイドするインテリジェンス チャットボット
     title: 暗号チャットボット
+    subtitle: 暗号通貨の世界をガイドするインテリジェンス チャットボット
+    features: +10 の機能
   billing:
-    mobile: 請求情報
-    remains: 残っている
+    title: '確認する '
     subtitle: サブスクリプションの設定。
-    title: "確認する "
-  category:
-    account: アカウント
-    market-predication: 市場予測
-    passive-income: 不労所得
-    strategy-builder: 戦略ビルダー
-  dashboard: ダッシュボード
+    remains: 残っている
   financial-products:
-    active-product: アクティブな製品
-    subtitle: さまざまな投資パッケージの機会を探る
     title: 金融商品
+    subtitle: さまざまな投資パッケージの機会を探る
+    active-product: アクティブな製品
   insight:
-    subtitle: 戦略的な仮想通貨投資のためのリアルタイムの洞察にアクセス
     title: 洞察力
+    subtitle: 戦略的な仮想通貨投資のためのリアルタイムの洞察にアクセス
   investment:
-    subtitle: オートトレーダーまたはDeFiステーキング金融商品の詳細を見る
     title: 投資
+    subtitle: オートトレーダーまたはDeFiステーキング金融商品の詳細を見る
   kyc:
-    mobile: 本人確認 (KYC)
-    subtitle: 機能にアクセスするには身元を確認します。
     title: 本人確認 (KYC)
+    subtitle: 機能にアクセスするには身元を確認します。
   notification-center:
-    mobile: 通知
-    subtitle: シグナルとアラートの設定。
     title: 通知センター
-  products-catalog:
-    mobile: プロダクト
-    title: プロダクト一覧
-  profile-dashboard: プロフィールダッシュボード
+    subtitle: シグナルとアラートの設定。
   profile:
-    mobile: プロフィール
-    subtitle: ログイン認証情報を編集します。
     title: プロフィール
+    subtitle: ログイン認証情報を編集します。
   referral:
-    mobile: リファーラル
-    subtitle: 招待して報酬を獲得しましょう。
     title: リファーラル
+    subtitle: 招待して報酬を獲得しましょう。
   signal-matrix:
-    mobile: シグナル
-    subtitle: 主要な暗号通貨の AI を利用した取引シグナルを取得する
     title: シグナルマトリクス
+    subtitle: 主要な暗号通貨の AI を利用した取引シグナルを取得する
   strategies:
-    mobile: 戦略
     title: 戦略
   token:
-    mobile: WSDM
-    subtitle: プレミアム アクセスにはトークンを使用します。
     title: WSDMトークン
-mobile-menu:
-  close: 閉じる
-  open: メニュー
+    subtitle: プレミアム アクセスにはトークンを使用します。
 support:
-  hint: チャットで相談
   title: 質問？
+  hint: チャットで相談
 user:
   logout: ログアウト
   sign-out: サインアウト

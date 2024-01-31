@@ -1,21 +1,21 @@
 account:
+  name: 帐户名称
   account: 帐户
   accounts: 账户
   exchange: 交换
   market: 市场
-  name: 帐户名称
   status: 地位
 modal-account-selector:
+  title: 选择账户
   btn-connect-new: 连接新帐户
   btn-continue: 继续
   not-supported: 该产品不支持外部兑换账户。
-  title: 选择账户
 modal-add-exchange:
+  title: 添加兑换账户
   input-api-key: API密钥
   input-exchange: 交换
   input-secret-key: 密钥
   notice-ip-restriction: 使用以下值 <1>IP访问限制</1> 在币安：
-  title: 添加兑换账户
 page-accounts:
   btn-add-account: 新增帐户
   empty-description: 您还没有添加任何外部兑换账户。
