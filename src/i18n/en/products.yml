@@ -48,10 +48,14 @@ list:
   btn-details: Details
   of-total-balance: Of Total Balance
 notification-activated:
-  btn-dashboard: Dashboard
+  title: Congratulations
+  btn-dashboard: Go to Dashboard
   message: >-
     Thank you for trusting us. You can now deposit any amount to your account
-    and activate any of the AI-powered strategies
+    and activate any of the AI-powered strategies.
+  kyc-notice: >-
+    However note that as long as you have not verified your account, we only
+    trade with at most 1000$ of your wallet.
 notification-deactivated:
   message: Strategy Deactivated Successfully!
 product-catalog:
