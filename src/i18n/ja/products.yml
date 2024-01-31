@@ -30,9 +30,7 @@ list:
   btn-details: 詳細
   of-total-balance: 合計残高
 notification-activated:
-  title: ''
   btn-dashboard: ダッシュボード
-  kyc-notice: ''
   message: 私たちを信頼していただきありがとうございます。アカウントに任意の金額を入金し、AIを活用した戦略のいずれかを稼働できるようになりました
 notification-deactivated:
   message: 戦略が正常に停止されました！

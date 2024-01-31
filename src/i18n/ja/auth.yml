@@ -39,7 +39,5 @@ verify-email:
   btn-resend:
     label: 確認メールを再送
     loading: 確認メールを再送信しています...
-  error: ''
-  error-title: ''
   link-sent: リンクがメール <1>{{email}}</1><br> に送信されました。リンクからアカウントを承認してください。
   notification-email-sent: 確認メールが正常に送信されました。

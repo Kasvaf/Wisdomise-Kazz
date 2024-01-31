@@ -33,9 +33,7 @@ list:
   btn-details: 细节
   of-total-balance: 总余额
 notification-activated:
-  title: ''
   btn-dashboard: 仪表板
-  kyc-notice: ''
   message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何人工智能驱动的策略
 notification-deactivated:
   message: 策略停用成功！

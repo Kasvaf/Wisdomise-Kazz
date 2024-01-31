@@ -18,7 +18,7 @@ export default {
     return a.localeCompare(b);
   },
 
-  locales: ['en', 'ja', 'zh'], // locale files will be generated for these langs
+  locales: ['en'], // locale files will be generated for these langs
   input: ['src/**/*.{ts,tsx}'],
   output: 'src/i18n/$LOCALE/$NAMESPACE.yml',
   defaultValue: undefined,

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { clsx } from 'clsx';
 import Button from 'modules/shared/Button';
 import useConfirm from 'shared/useConfirm';
 import { useIsVerified } from 'api';
@@ -7,6 +8,8 @@ import Spin from 'modules/shared/Spin';
 const useModalActivationNotice = () => {
   const { t } = useTranslation('products');
   const isVerified = useIsVerified();
+  const showKycButton = isVerified.isLoading || !isVerified.isAllVerified;
+
   return useConfirm({
     yesTitle: '',
     noTitle: '',
@@ -30,8 +33,30 @@ const useModalActivationNotice = () => {
           )}
         </div>
 
-        <div className="mt-8 flex justify-end">
-          <Button size="small" variant="primary" to="/investment/assets">
+        <div
+          className={clsx(
+            '-mx-3 mt-8 flex',
+            showKycButton ? 'justify-stretch' : 'justify-center',
+          )}
+        >
+          {showKycButton && (
+            <Button
+              size="small"
+              variant="alternative"
+              to="/account/kyc"
+              className="mx-3 basis-1/2"
+              loading={isVerified.isLoading}
+            >
+              {t('notification-activated.btn-kyc')}
+            </Button>
+          )}
+
+          <Button
+            size="small"
+            variant="primary"
+            to="/investment/assets"
+            className="mx-3 basis-1/2"
+          >
             {t('notification-activated.btn-dashboard')}
           </Button>
         </div>
