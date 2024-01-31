@@ -1,3 +1,5 @@
+import { type Invoice } from 'modules/account/models';
+
 export type PlanPeriod = 'MONTHLY' | 'YEARLY';
 
 export interface SubscriptionItem {
@@ -15,6 +17,7 @@ export interface SubscriptionItem {
     | 'paused';
   start_at: string; // UTC date/time
   end_at: string; // UTC date/time
+  pending_invoice?: Invoice | null; // show pay-now button
 }
 
 export interface SubscriptionPlan {
@@ -29,6 +32,7 @@ export interface SubscriptionPlan {
   stripe_payment_link: string;
   metadata: SubscriptionPlanMetadata;
   wsdm_token_hold: number;
+  level: number;
 }
 
 interface SubscriptionPlanMetadata {

@@ -3,7 +3,8 @@ export interface Invoice {
   amount_paid: number;
   created_at: string;
   updated_at: string;
-  status: 'paid' | 'open' | 'draft';
+  due_date?: string; // if status=pending
+  status: 'paid' | 'open' | 'draft' | 'pending';
   payment_method: 'FIAT' | 'CRYPTO' | 'TOKEN' | 'MANUAL';
 }
 
