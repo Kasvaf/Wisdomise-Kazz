@@ -1,7 +1,11 @@
 /* eslint-disable import/max-dependencies */
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
+import {
+  useInvestorAssetStructuresQuery,
+  useCreateFPIMutation,
+  useSubscription,
+} from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { trackClick } from 'config/segment';
 import Button from 'shared/Button';
@@ -62,6 +66,9 @@ const ButtonActivate: React.FC<Props> = ({
     }
   };
 
+  const { level: myLevel } = useSubscription();
+  const fpLevel = fp.config.subscription_level ?? 0;
+
   return (
     <>
       <Button
@@ -69,7 +76,7 @@ const ButtonActivate: React.FC<Props> = ({
         className={className}
         onClick={onActivateClick}
         loading={createFPI.isLoading}
-        disabled={isOtherFPActive || !fp.subscribable}
+        disabled={isOtherFPActive || !fp.subscribable || fpLevel > myLevel}
       >
         {t('actions.activate')}
       </Button>

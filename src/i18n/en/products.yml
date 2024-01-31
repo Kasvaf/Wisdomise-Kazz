@@ -95,6 +95,7 @@ product-detail:
   max: Max
   max-apy: Max APY
   max-drawdown: Max Drawdown
+  min-subscription-level: Available with <1>{{minPlan}}</1> plan.
   min: Min
   risk:
     label: '{{risk}} Risk'

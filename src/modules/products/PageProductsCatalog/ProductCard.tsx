@@ -17,6 +17,7 @@ interface RiskCardProps {
   description: string;
   to: string;
   onClick?: () => void;
+  notice?: string | JSX.Element;
 }
 
 const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
@@ -26,6 +27,7 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
   title,
   icon,
   to,
+  notice,
   className,
   children,
   onClick,
@@ -50,6 +52,8 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
         <section className="flex justify-between border-t border-t-black pt-6 text-sm font-medium">
           {children}
         </section>
+
+        <section className="grow">{notice}</section>
 
         <section className="flex items-center justify-between">
           <div className="flex items-center gap-2">
