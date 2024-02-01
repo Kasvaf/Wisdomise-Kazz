@@ -18,7 +18,10 @@ const Header: React.FC<Props> = ({ className }) => {
   const isMobile = useIsMobile();
   return (
     <div
-      className={clsx('fixed z-20 mx-auto w-full max-w-screen-2xl', className)}
+      className={clsx(
+        'fixed top-0 z-20 mx-auto w-full max-w-screen-2xl',
+        className,
+      )}
     >
       <div
         className={clsx(

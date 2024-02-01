@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useInvestorAssetStructuresQuery } from 'api';
 import Icon from 'shared/Icon';
 import PageWrapper from 'modules/base/PageWrapper';
-import AskAthena from 'modules/athena/AskAthena';
 import ActiveFinancialProducts from './ActiveFinancialProducts';
 import Portfolio from './Portfolio';
 import BoxIntro from './BoxIntro';
@@ -22,8 +21,7 @@ const PageAssetOverview = () => {
 
   return (
     <PageWrapper loading={ias.isLoading}>
-      <AskAthena className="mb-6" />
-      {(!hasFpi || !hasPortfolio) && <BoxIntro className="mb-10" />}
+      {!hasFpi && <BoxIntro className="mb-10" />}
 
       {/* ================================================================== */}
 

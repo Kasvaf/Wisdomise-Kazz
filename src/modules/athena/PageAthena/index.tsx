@@ -1,11 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import {
-  useAccountQuery,
-  useChatAppProfile,
-  useLandingQuestions,
-  useSubscription,
-} from 'api';
+import { useAccountQuery, useChatAppProfile, useLandingQuestions } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { AthenaProvider } from '../core/AthenaProvider';
 import { FirstAskInput } from './FirstAskInput';
@@ -18,7 +13,6 @@ import { PredefinedQuestions } from './PredefinedQuestions';
 export default function PageAthena() {
   const user = useAccountQuery();
   const { t } = useTranslation('athena');
-  const { isTrialPlan } = useSubscription();
   const chatappProfile = useChatAppProfile();
   const landingQuestion = useLandingQuestions();
   const isLoading =
@@ -28,10 +22,7 @@ export default function PageAthena() {
     <PageWrapper loading={isLoading}>
       <div
         className={clsx(
-          'mobile:min-h-[unset] md:relative',
-          isTrialPlan
-            ? 'min-h-[calc(100vh-10rem)]'
-            : 'min-h-[calc(100vh-7rem)]',
+          'min-h-[calc(100vh-7rem)] mobile:min-h-[unset] md:relative',
         )}
       >
         <AthenaProvider>

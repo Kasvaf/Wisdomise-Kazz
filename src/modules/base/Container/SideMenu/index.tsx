@@ -73,7 +73,7 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'fixed bottom-0 z-30 flex w-[260px] flex-col mobile:hidden',
+        'fixed inset-y-0 z-30 flex w-[260px] flex-col mobile:hidden',
         className,
       )}
     >
