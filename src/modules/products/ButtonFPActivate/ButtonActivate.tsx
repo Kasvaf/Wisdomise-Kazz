@@ -9,23 +9,22 @@ import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAcc
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
 import useEnsureSubscription from './useEnsureSubscription';
-import useModalActivationNotice from './useModalActivationNotice';
 
 interface Props {
   inDetailPage?: boolean;
   className?: string;
   financialProduct: FinancialProduct;
+  onSuccess?: () => void;
 }
 
 const ButtonActivate: React.FC<Props> = ({
   className,
   financialProduct: fp,
+  onSuccess,
 }) => {
   const { t } = useTranslation('products');
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
-  const [ModalActivationNotice, showActivationNotice] =
-    useModalActivationNotice();
   const hasIas = Boolean(ias.data?.[0]?.main_exchange_account);
   const market =
     (fp.config.can_use_external_account &&
@@ -57,7 +56,7 @@ const ButtonActivate: React.FC<Props> = ({
     if (acc !== 'wisdomise' || hasIas || (await openDisclaimer())) {
       const account = !acc || acc === 'wisdomise' ? undefined : acc;
       await createFPI.mutateAsync({ fpKey: fp.key, account });
-      await showActivationNotice();
+      onSuccess?.();
     }
   };
 
@@ -77,7 +76,6 @@ const ButtonActivate: React.FC<Props> = ({
       {ModalExchangeAccountSelector}
       {ModalDisclaimer}
       {ModalApiKey}
-      {ModalActivationNotice}
     </>
   );
 };
