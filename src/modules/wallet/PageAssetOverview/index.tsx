@@ -21,7 +21,7 @@ const PageAssetOverview = () => {
 
   return (
     <PageWrapper loading={ias.isLoading}>
-      {!hasFpi && <BoxIntro className="mb-10" />}
+      {!hasFpi && !hasPortfolio && <BoxIntro className="mb-10" />}
 
       {/* ================================================================== */}
 
