@@ -1,7 +1,3 @@
-banner:
-  btn-subscription-plans: Subscription Plans
-  checkout-message: Check out our subscription plans from here
-  ends-in: Your trial subscription ends in <1>{{remaining}}</1> days!
 change-payment:
   title: Change Payment Method
   change-payment-method: Change payment method
