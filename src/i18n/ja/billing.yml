@@ -3,38 +3,38 @@ banner:
   checkout-message: サブスクリプションのプラン一覧はこちら
   ends-in: サブスクリプション期間終了まで <1>{{remaining}}</1> 日！
 change-payment:
-  title: 支払い方法の変更
   change-payment-method: 支払い方法を変更
   order-summary: 注文概要
+  title: 支払い方法の変更
   total: 合計
 crypto-modal:
-  title: Wisdomise AG
-  subtitle: '{{plan}}プランに申し込む'
   btn-confirm: 確認
   btn-done: 完了
   check-mail:
-    title: メールをご確認ください
     description: トランザクションIDを確認した後、メールで連絡いたします
+    title: メールをご確認ください
   input-hash-id: トランザクションID（ハッシュID）
   notice:
     confirmed: 下記にトランザクションIDを記入してください。24時間以内にアカウントをアクティベーション完了のメールをお送りします。
     is-not-confirmed: 仮想通貨での取引をご希望の場合は、トークンとネットワークの種類をご教授ください。送付先のアドレスを連絡いたします。
   payment-by-crypto: 仮想通貨で支払う
+  subtitle: "{{plan}}プランに申し込む"
   subtotal: 小計
+  title: Wisdomise AG
   total-due-today: 本日のご請求金額
 overlay-subscription:
-  title: 現在のサブスクリプション契約はありません。
   btn-subscribe: サブスクリプション契約
   customs-description: 質問をする場合、Wisdomiseのプランのいずれかの契約が必要です。
   signaling-description: 通知機能の利用はサブスクリプション契約が必要です。
   signals-description: シグナルを確認する場合は、<1>サブスクリプション</1> へのまたは、現在のプランを<3>アップグレード</3>する必要があります。
+  title: 現在のサブスクリプション契約はありません。
 periodicity:
   month:
-    title: 毎月
     per: 月々<br>
+    title: 毎月
   year:
-    title: 毎年
     per: 年次<br>
+    title: 毎年
 pricing-card:
   annually: 年
   btn-action:
@@ -48,10 +48,9 @@ pricing-card:
   notification-upgrade-success: サブスクリプションのアップデートが完了しました。アクティベーションまで数分かかる場合がございます。しばらく経ってからこのページを更新してください。
   page-subtitle: このセクションからパッケージの種類を選択できます
   page-title: 課金パッケージ
-  this-includes: '次を含みます:'
+  this-includes: "次を含みます:"
   token: トークン
 subscription-details:
-  title: サブスクリプション詳細
   invoices:
     amount: 価格
     issue-date: 発行日
@@ -67,42 +66,42 @@ subscription-details:
     current-plan: 現在ご契約のプランは<1>{{plan}}</1>です。
     in-order-to-renew: 更新するにはトランザクションを再度お送りください。
     is-on-the-way:
+      description: サブスクリプション契約のお支払いを仮想通貨で受け付けました。確認に24-48時間かかります。アカウントのアクティベーションが完了出来次第メールにてご連絡いたします。
       title: サブスクリプションのアクティベーション準備中
-      description: >-
-        サブスクリプション契約のお支払いを仮想通貨で受け付けました。確認に24-48時間かかります。アカウントのアクティベーションが完了出来次第メールにてご連絡いたします。
     periodEnd: プランは<3>{{date}}</3>日で{{action}}されます。
     plan-details: プラン詳細
   payment-methods:
-    title: 支払い方法
     auto-renew-notice: 次のお支払いはご登録カードに請求いたします。
+    title: 支払い方法
+  title: サブスクリプション詳細
 subscription-modal:
-  title: サブスクリプション方法
-  subtitle: ご希望のお支払い方法をお選びください。
   btn-crypto: 仮想通貨での支払い
   btn-fiat: 法定通貨での支払い
+  subtitle: ご希望のお支払い方法をお選びください。
+  title: サブスクリプション方法
 success-modal:
-  title: サブスクリプションのご契約ありがとうございます
-  subtitle: 次のステップに進められます
   btn-details: サブスクリプション詳細
   btn-goto-athena: Athenaを確認
   redirecting-msg: <1>({{timeout}})</1>秒でリダイレクトされます。
+  subtitle: 次のステップに進められます
+  title: サブスクリプションのご契約ありがとうございます
 tabs:
   invoices: 請求書
   overview: 概要
   payment-methods: 支払い方法
 token-modal:
-  title: Wisdomise AG
-  description: Wisdomiseトークンは差し引かれません。サブスクリプション期間中、アクセスを得るためにトークンをウォレットに保持する必要があります。
   activate-subscription: サブスクリプションを起動させる
   congratulations: おめでとうございます！
+  description: Wisdomiseトークンは差し引かれません。サブスクリプション期間中、アクセスを得るためにトークンをウォレットに保持する必要があります。
   done: 完了
   for-1-year: 1年間
   purchase-token: Wisdomiseトークンの購入
   refresh: 更新
-  subscribe-to: '次のプランに契約する:'
+  subscribe-to: "次のプランに契約する:"
   subtotal: 小計
+  title: Wisdomise AG
   token: tWSDM
   token-name: Wisdomise トークン (tWSDM)
   total-amount: ウォレットに保有が必要な量
-  you-can: '{{name}} 機能にアクセス可能です。'
+  you-can: "{{name}} 機能にアクセス可能です。"
   your-balance: tWSDMトークン保有量

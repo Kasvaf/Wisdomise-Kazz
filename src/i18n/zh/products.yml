@@ -1,8 +1,8 @@
 action-confirm:
-  title: 你确定吗 <1>{{typeLabel}}</1> 这个产品？
   cancel: 取消
   stop-description: 请注意，通过停止策略，您的所有未平仓交易都将在“市场”上出售。价格。最终盈亏将在平仓后计算。
-  'yes': 是的， <1>{{typeLabel}}</1>
+  title: 你确定吗 <1>{{typeLabel}}</1> 这个产品？
+  yes: 是的， <1>{{typeLabel}}</1>
 actions:
   activate: 启用
   deactivate: 停用
@@ -11,45 +11,47 @@ actions:
   start: 开始
   stop: 停止
 disclaimer:
-  title: 注意力
-  description: >-
-    您的钱包将于 Binance 打开。
+  description: 您的钱包将于 Binance 打开。
     Wisdomise（瑞士）AG本身不提供任何钱包和/或托管服务。请注意，您转移到此钱包的加密货币将存储在币安上。币安是一家不受瑞士监管的第三方加密货币交易提供商。因此，在币安上持有钱包存在风险。
     Wisdomise (Switzerland) AG 无法控制与币安相关的风险。此类风险可能包括但不限于：
   risk-1: bankruptcy of Binance;
   risk-2: 由于黑客攻击或类似事件，第三方未经授权访问币安上持有的钱包；
   risk-3: 禁止公共机构经营其业务。
-  warn: >-
-    这些风险包括转移到币安钱包的加密货币出现重大或全部损失的风险。通过创建钱包来使用 Wisdomise
+  title: 注意力
+  warn: 这些风险包括转移到币安钱包的加密货币出现重大或全部损失的风险。通过创建钱包来使用 Wisdomise
     的服务，您同意承担与在币安钱包中持有加密货币相关的所有风险。 Wisdomise (瑞士) AG
     对于因在币安钱包中保存加密货币而造成的任何损害不承担任何责任。
 fpi-page:
   title: 金融产品详情
 list:
-  title: 您的活跃金融产品
-  description: 借助人工智能驱动的加密货币交易机器人，可以根据先进的算法和模式自动买卖加密货币，从而最大限度地提高您的利润。
   add-new: 添加金融产品
   aum-in: 资产管理规模 {{title}}
   btn-details: 细节
+  description: 借助人工智能驱动的加密货币交易机器人，可以根据先进的算法和模式自动买卖加密货币，从而最大限度地提高您的利润。
   of-total-balance: 总余额
+  title: 您的活跃金融产品
 notification-activated:
   btn-dashboard: 仪表板
+  btn-kyc: 前往了解您的客户
+  kyc-notice: 但请注意，只要您尚未验证您的账户，我们最多只能使用您钱包中的 1000 美元进行交易。
   message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何人工智能驱动的策略
+  title: 恭喜！
 notification-deactivated:
   message: 策略停用成功！
 product-catalog:
+  btn-details: 细节
   btn-explore: 探索
+  description: 您对任何可用策略的投资都将具有流动性，这意味着您的资产不会被锁定，并且可以随时释放。不同策略的预期投资回报率、最大回撤和交易数量仅供参考，绝不是对这些指标的保证或确认。最终，金融市场的投资总是会带来风险和波动，而我们最先进的人工智能模型只能在一定程度上减轻这些风险和波动。享受通过我们专有的人工智能积累财富的乐趣！
   stake:
-    title: DeFi 质押选项
     description: 探索领先的 DeFi 协议，展示质押池、TVL 和最大 APY。选择一个协议以获得详细的解释和见解。
+    title: DeFi 质押选项
   state-running: 跑步
+  title: 人工智能驱动策略
   trade:
+    description: 灵活投资——您的资产保持流动性，可以随时提取。回报、回撤和交易数量均为估计值，而非保证值。尽管我们先进的人工智能可以缓解风险，但市场风险仍然存在。利用我们的人工智能技术增加您的财富。
     title: 人工智能驱动策略
-    description: >-
-      灵活投资——您的资产保持流动性，可以随时提取。回报、回撤和交易数量均为估计值，而非保证值。尽管我们先进的人工智能可以缓解风险，但市场风险仍然存在。利用我们的人工智能技术增加您的财富。
 product-detail:
-  disclaimer: >-
-    本网站包含前瞻性陈述。此类前瞻性陈述基于 Wisdomise (Switzerland) AG
+  disclaimer: 本网站包含前瞻性陈述。此类前瞻性陈述基于 Wisdomise (Switzerland) AG
     目前认为合理的估计、假设和假设。这些前瞻性陈述本质上受到与未来事件相关的风险和不确定性的影响。因此，实际事件（包括加密货币的表现）可能与预测存在重大差异。您还应该注意，过去的事件和结果并不能保证未来的事件或结果。
     Wisdomise (Switzerland) AG
     或任何其他人不保证本网站所描述的发展将会发生。因此，用户不应仅根据本网站上表达的前瞻性陈述来做出有关 Wisdomise（瑞士）AG
@@ -62,10 +64,10 @@ product-detail:
   max-apy: 最大年收益
   max-drawdown: 最大回撤
   min: 最小
-  min-subscription-level: Available with <1>{{minPlan}}</1> plan.
+  min-subscription-level: 可用 <1>{{minPlan}}</1> 计划。
   risk:
-    label: '{{risk}} 风险'
     high: 高的
+    label: "{{risk}} 风险"
     low: 低的
     medium: 中等的
   tvl: TVL
@@ -73,17 +75,17 @@ product-detail:
     stake: 赌注
     trade: 贸易
 status:
-  title: 地位
   draft: 草稿
   paused: 已暂停
   running: 跑步
+  title: 地位
 subscription:
   subscribe:
-    title: 订阅
-    description: 要激活产品，您需要 <1>订阅</1> 给我们的 <3>Wisdomise Expert</3> 计划。
     btn-confirm: 订阅
+    description: 要激活产品，您需要 <1>订阅</1> 给我们的 <3>Wisdomise Expert</3> 计划。
+    title: 订阅
   upgrade:
-    title: 升级订阅
-    subtitle: 您当前的订阅不包括您要激活的产品。
-    description: 要使用该产品，您需要 <1>升级</1> 您的订阅。
     btn-confirm: 升级
+    description: 要使用该产品，您需要 <1>升级</1> 您的订阅。
+    subtitle: 您当前的订阅不包括您要激活的产品。
+    title: 升级订阅

@@ -1,7 +1,9 @@
+banner:
+  athena-bot: アテナのTelegramボット
+  stay-connected: 通信を継続
 email-address: 電子メールアドレス
 footer: © 2024 Wisdomise. All rights reserved.
 page-referral:
-  title: 紹介プログラム
   all-time: 歴上
   friends-invited: 友達を招待しました
   invited: 招待されました
@@ -9,35 +11,43 @@ page-referral:
   referral-insight: 紹介状況
   referral-link: 紹介リンク
   subscribed-friends: 紹介リンクで登録した人
+  title: 紹介プログラム
   wisdomise-revenue: Wisdomise紹介による収益
   your-profit: あなたの利益
+secodary:
+  email-verified: あなたのメールアドレスが確認されました!
 secondary:
   btn-submit:
     label: 提出する
     loading: 送信中...
   contract:
+    btn-check: "{{title}}を読み、承諾します。"
     label: <1>{{title}}</1>を承諾します。
-    btn-check: '{{title}}を読み、承諾します。'
     required-error: 続けるには {{title}} を承諾してください。
   country:
     label: 国名
-    placeholder: お住まいの国
     not-empty: 国を空にすることはできません
+    placeholder: お住まいの国
   email-verified: あなたのメールアドレスが確認されました!
   invitation:
     label: 招待コード <1>(オプション)</1>
-    placeholder: 招待コード
     not-found: 紹介者が見つかりません
+    placeholder: 招待コード
   nickname:
     label: ニックネーム
-    placeholder: あなたのニックネーム
     length-limit: この欄が 32 文字以下であることを確認してください。
     not-empty: ニックネームを記入する必要があります。
-  welcome: '<br><b>Wisdomise</b> へようこそ '
+    placeholder: あなたのニックネーム
+  welcome: "<br><b>Wisdomise</b> へようこそ "
 verify-email:
-  title: <b>メールアドレス</b> を確認
+  btn-check:
+    label: 確認
+    loading: 確認中...
   btn-resend:
     label: 確認メールを再送
     loading: 確認メールを再送信しています...
+  error: あなたのメールアドレスを確認できませんでした
+  error-title: エラー
   link-sent: リンクがメール <1>{{email}}</1><br> に送信されました。リンクからアカウントを承認してください。
   notification-email-sent: 確認メールが正常に送信されました。
+  title: <b>メールアドレス</b> を確認

@@ -1,21 +1,21 @@
 account:
-  name: アカウント名
   account: アカウント
   accounts: アカウント
   exchange: エクスチェンジ
   market: 市場（マーケット）
+  name: アカウント名
   status: ステータス
 modal-account-selector:
-  title: アカウントの選択
   btn-connect-new: 新しいアカウントの連携
   btn-continue: 続ける
   not-supported: このプロダクトは外部のエクスチェンジアカウントの対応はしていません。
+  title: アカウントの選択
 modal-add-exchange:
-  title: エクスチェンジのアカウントを追加
   input-api-key: API キー
   input-exchange: エクスチェンジ
   input-secret-key: シークレットキー
   notice-ip-restriction: 次の情報をBinanceの<1>IP access restrictions（アクセス制限）</1>にご利用ください。
+  title: エクスチェンジのアカウントを追加
 page-accounts:
   btn-add-account: アカウントの追加
   empty-description: 外部の取引所口座は未登録です。

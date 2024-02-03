@@ -1,5 +1,4 @@
 matrix:
-  title: 最新职位
   date: 日期
   entry-price: 入场价
   exit-price: 退出价格
@@ -7,20 +6,21 @@ matrix:
   side: 边
   sl: SL
   suggestion: 建议
+  title: 最新职位
   tp: TP
 positions-history:
-  title: 职位历史
   entry-point: 入口点
   exit-point: 退出点
   pairs: 对
   pnl: P/L
   status: 地位
   strategy: 战略
+  title: 职位历史
 positions-timeline:
-  title: 职位时间表
   empty-message: 该时间段内没有职位。
   entry-point: 入口点
   exit-point: 退出点
+  title: 职位时间表
 status:
   closed: 关闭
   open: 打开

@@ -24,6 +24,7 @@ menu:
   billing:
     title: Subscription
     subtitle: Subscription preferences.
+    remains: remains
   financial-products:
     title: Financial Products
     subtitle: Explore different investment package opportunities

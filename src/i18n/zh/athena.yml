@@ -1,11 +1,10 @@
 answer: 回答
 athena-bot: Athena Bot!
 bot-alert:
-  freemium-stage: >-
-    你正处于一个 <1>免费增值阶段</1> 并可以提出任何与加密货币相关的问题，我将为您提供答案和相关小部件，以便您获得更好的体验。
+  freemium-stage: 你正处于一个 <1>免费增值阶段</1>
+    并可以提出任何与加密货币相关的问题，我将为您提供答案和相关小部件，以便您获得更好的体验。
     <4>目前涵盖ETH、BTC、LTC、XRP、ADA、BNB、TRX币种。</4>
-  loving-athena: >-
-    您最多可以询问 <1>{{athenaQuestionsCount}} 个问题</1>
+  loving-athena: 您最多可以询问 <1>{{athenaQuestionsCount}} 个问题</1>
     免费，因此请明智地使用它们！如有更多问题，您可以订阅我们的套餐之一。您可以在聊天框中输入您的问题或使用答案末尾附加的相关问题。
   message-limit: 您已达到当前 Athena 聊天机器人计划允许的最大消息数。要继续不间断地使用聊天机器人，请升级到更高的订阅级别。,
   pro-version: 您已达到免费问题的最大数量。订阅即可解锁更多问题、酷炫小部件和 Athena 创新功能的机会。
@@ -14,9 +13,9 @@ box-ask-athena: 向 Athena 询问有关加密货币的任何问题
 enjoy-remain-question_other: 享受你剩下的 {{leftQuestions}} 问题
 generate: 产生
 heading:
-  title: Wisdomise Super App
   second-title: 用人工智能驾驭加密货币 <1></1> 聊天
   second-title-word1: 助理
+  title: Wisdomise Super App
 input-placeholder: 向 Athena 询问您的加密问题
 new-question: 新问题
 other-sources: 其他来源
