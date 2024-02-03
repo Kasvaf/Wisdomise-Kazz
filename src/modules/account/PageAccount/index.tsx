@@ -54,14 +54,6 @@ const PageAccount = () => {
             <div className="text-2xl font-medium leading-6 mobile:text-xl">
               {subscription.title}
             </div>
-            <div
-              className={clsx(
-                'text-xs',
-                subscription.remaining ? 'text-[#34A3DA]' : 'text-error',
-              )}
-            >
-              {String(subscription.remaining) + 'd'} {t('menu.billing.remains')}
-            </div>
           </div>
         </CardPageLink>
         <CardPageLink

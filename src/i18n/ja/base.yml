@@ -24,7 +24,6 @@ menu:
   billing:
     title: '確認する '
     subtitle: サブスクリプションの設定。
-    remains: 残っている
   financial-products:
     title: 金融商品
     subtitle: さまざまな投資パッケージの機会を探る

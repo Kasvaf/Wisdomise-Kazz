@@ -6,13 +6,14 @@ export function useSubscription() {
   const plan = subs?.subscription_plan;
   const status = subs?.status;
   const isActive = status === 'active';
+  const title = plan?.name || 'none';
 
   return {
     refetch,
     plan,
     isActive,
     isLoading,
-    title: plan?.name || 'none',
+    title: title === 'Trial' ? 'Free' : title,
     isTrialPlan: plan?.name === 'Trial',
     level: isActive ? plan?.level ?? 0 : 0,
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),

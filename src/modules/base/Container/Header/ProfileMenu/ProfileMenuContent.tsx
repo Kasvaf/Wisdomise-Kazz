@@ -125,18 +125,6 @@ const ProfileMenuContent = () => {
           <WithChevron>
             <div className="text-right">
               <div className="text-[#34A3DA]">{subscription.title}</div>
-              <div>
-                <span
-                  className={clsx(
-                    subscription.remaining ? 'text-white' : 'text-error',
-                  )}
-                >
-                  {String(subscription.remaining) + 'd'}
-                </span>
-                <span className="ml-1 text-white/40">
-                  {t('menu.billing.remains')}
-                </span>
-              </div>
             </div>
           </WithChevron>
         </NavLink>
