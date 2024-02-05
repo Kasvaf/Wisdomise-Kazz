@@ -12,8 +12,8 @@ import PlanLogo from './PlanLogo';
 
 interface Props {
   className?: string;
-  plan: SubscriptionPlan;
   isUpdate?: boolean;
+  plan: SubscriptionPlan;
   onPlanUpdate: () => void;
 }
 
@@ -31,8 +31,8 @@ export default function PricingCard({
   );
 
   const hasUserThisPlan = isActive && plan.key === userPlan?.key;
-  const isPlanCheaperThanUserPlan =
-    isActive && plan.price < (userPlan?.price ?? 0);
+  const isPlanLowerThanUserPlan =
+    isActive && plan.level < (userPlan?.level ?? 0);
 
   const onClick = async () => {
     if (isActive && !isTrialPlan) {
@@ -129,7 +129,7 @@ export default function PricingCard({
           ? hasUserThisPlan
             ? t('pricing-card.btn-action.current-plan')
             : isUpdate
-            ? isPlanCheaperThanUserPlan
+            ? isPlanLowerThanUserPlan
               ? t('pricing-card.btn-action.downgrade')
               : t('pricing-card.btn-action.upgrade')
             : t('pricing-card.btn-action.buy-now')
