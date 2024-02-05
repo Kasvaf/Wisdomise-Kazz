@@ -36,10 +36,7 @@ export default function BillingActions() {
       }
       case 'FIAT': {
         if (pendingInvoice.stripe_payment_link) {
-          window.location.href =
-            pendingInvoice.stripe_payment_link +
-            '?prefilled_email=' +
-            encodeURIComponent(account?.data?.email || '');
+          window.location.href = pendingInvoice.stripe_payment_link;
         }
       }
     }

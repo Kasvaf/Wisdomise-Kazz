@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
+import { useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'modules/shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
 import { ReactComponent as Check } from '../images/check.svg';
@@ -25,7 +25,6 @@ export default function PricingCard({
 }: Props) {
   const { t } = useTranslation('billing');
   const mutation = useSubscriptionMutation();
-  const { data: account } = useAccountQuery();
   const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
   const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
     SubscriptionMethodModalContent,
@@ -50,10 +49,7 @@ export default function PricingCard({
     } else {
       void openSubscriptionMethodModal({
         onFiatClick: () => {
-          window.location.href =
-            plan.stripe_payment_link +
-            '?prefilled_email=' +
-            encodeURIComponent(account?.email || '');
+          window.location.href = plan.stripe_payment_link;
         },
         plan,
       });
