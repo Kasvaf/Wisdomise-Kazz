@@ -5,10 +5,10 @@ import Button from 'shared/Button';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { ReactComponent as LogoWithText } from 'assets/logo-horizontal-beta.svg';
 import { addComma } from 'utils/numbers';
-import TokenCheckout from 'modules/account/PageBilling/TokenPayment/TokenCheckout';
-import { ReactComponent as WisdomiseLogo } from '../images/wisdomise-logo.svg';
-import { ReactComponent as Done } from '../images/done.svg';
+import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
+import { ReactComponent as Done } from '../../images/done.svg';
 import ConnectWalletWrapper from './ConnectWalletWrapper';
+import TokenCheckout from './TokenCheckout';
 
 interface Props {
   plan: SubscriptionPlan;

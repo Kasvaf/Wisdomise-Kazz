@@ -3,13 +3,9 @@ import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import {
-  useAccountQuery,
-  useSubscription,
-  useSubscriptionMutation,
-  useUserLastPaymentMethod,
-} from 'api';
+import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'modules/shared/useModal';
+import { unwrapErrorMessage } from 'utils/error';
 import { ReactComponent as Check } from '../images/check.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 import PlanLogo from './PlanLogo';
@@ -30,44 +26,35 @@ export default function PricingCard({
   const { t } = useTranslation('billing');
   const mutation = useSubscriptionMutation();
   const { data: account } = useAccountQuery();
-  const { isActive, plan: userPlan } = useSubscription();
-  const lastPaymentMethod = useUserLastPaymentMethod();
+  const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
   const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
     SubscriptionMethodModalContent,
-    { centered: true },
   );
 
   const hasUserThisPlan = isActive && plan.key === userPlan?.key;
   const isPlanCheaperThanUserPlan =
     isActive && plan.price < (userPlan?.price ?? 0);
 
-  const handleFiatPayment = async () => {
-    if (account?.stripe_customer_id) {
-      if (plan.key === userPlan?.key && isActive) {
-        return;
+  const onClick = async () => {
+    if (isActive && !isTrialPlan) {
+      try {
+        await mutation.mutateAsync({ subscription_plan_key: plan.key });
+        notification.success({
+          message: t('pricing-card.notification-upgrade-success'),
+          duration: 5000,
+        });
+        onPlanUpdate();
+      } catch (error) {
+        notification.error({ message: unwrapErrorMessage(error) });
       }
-      await mutation.mutateAsync({ price_id: plan.stripe_price_id });
-      notification.success({
-        message: t('pricing-card.notification-upgrade-success'),
-        duration: 5000,
-      });
-      onPlanUpdate();
-    } else {
-      window.location.href =
-        plan.stripe_payment_link +
-        '?prefilled_email=' +
-        encodeURIComponent(account?.email || '');
-    }
-  };
-
-  const onClick = () => {
-    // JUST in upgrade scenario for fiat we need this condition to not show modal,
-    // Crypto up to now does not have upgrade.
-    if (lastPaymentMethod === 'FIAT') {
-      void handleFiatPayment();
     } else {
       void openSubscriptionMethodModal({
-        onFiatClick: handleFiatPayment,
+        onFiatClick: () => {
+          window.location.href =
+            plan.stripe_payment_link +
+            '?prefilled_email=' +
+            encodeURIComponent(account?.email || '');
+        },
         plan,
       });
     }
@@ -135,9 +122,7 @@ export default function PricingCard({
 
       <Button
         onClick={onClick}
-        disabled={
-          !plan.is_active || isPlanCheaperThanUserPlan || hasUserThisPlan
-        }
+        disabled={!plan.is_active || hasUserThisPlan}
         className={clsx(
           'my-8 block !w-full !font-medium',
           // active plan is disabled, but has different styling
@@ -148,7 +133,9 @@ export default function PricingCard({
           ? hasUserThisPlan
             ? t('pricing-card.btn-action.current-plan')
             : isUpdate
-            ? t('pricing-card.btn-action.upgrade')
+            ? isPlanCheaperThanUserPlan
+              ? t('pricing-card.btn-action.downgrade')
+              : t('pricing-card.btn-action.upgrade')
             : t('pricing-card.btn-action.buy-now')
           : t('pricing-card.btn-action.available-soon')}
       </Button>

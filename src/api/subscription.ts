@@ -10,11 +10,11 @@ export function useSubscription() {
   const title = planName === 'Trial' ? 'Free' : planName;
 
   return {
-    refetch,
     plan,
+    title,
+    refetch,
     isActive,
     isLoading,
-    title,
     isFreePlan: title === 'Free',
     isTrialPlan: plan?.name === 'Trial',
     level: isActive ? plan?.level ?? 0 : 0,

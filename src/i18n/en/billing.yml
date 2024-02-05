@@ -1,5 +1,4 @@
 change-payment:
-  title: Change Payment Method
   change-payment-method: Change payment method
   order-summary: Order Summary
   total: Total
@@ -43,6 +42,7 @@ pricing-card:
     available-soon: Available soon
     buy-now: Buy Now
     current-plan: Current Plan
+    downgrade: Downgrade
     upgrade: Upgrade
   hold: Hold
   just-yearly: Just In Yearly
@@ -54,6 +54,8 @@ pricing-card:
   page-title: Billing Package
   this-includes: 'This includes:'
   token: Token
+stripe:
+  change-card-info: Change card info
 subscription-details:
   title: Subscription details
   invoices:
@@ -80,9 +82,6 @@ subscription-details:
         activated
     periodEnd: Your plan will {{action}} on <3>{{date}}</3>.
     plan-details: Plan Details
-  payment-methods:
-    title: Payment Methods
-    auto-renew-notice: Next payment will be automatically collected from this card.
 subscription-modal:
   title: Subscription Method
   subtitle: Please select the payment method that suits your preferences.
@@ -97,7 +96,6 @@ success-modal:
 tabs:
   invoices: Invoices
   overview: Overview
-  payment-methods: Payment Methods
 token-modal:
   title: Wisdomise AG
   description: >-

@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
@@ -9,13 +10,12 @@ import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
-import useSignInWithEthereum from 'modules/account/PageBilling/TokenPayment/useSiwe';
 import { shortenAddress } from 'utils/shortenAddress';
 import { isProduction } from 'utils/version';
 import { unwrapErrorMessage } from 'utils/error';
-import { ReactComponent as Wallet } from '../images/wallet.svg';
-// eslint-disable-next-line import/max-dependencies
-import { ReactComponent as Key } from '../images/key.svg';
+import { ReactComponent as Wallet } from '../../images/wallet.svg';
+import { ReactComponent as Key } from '../../images/key.svg';
+import useSignInWithEthereum from './useSiwe';
 
 interface Props {
   children: ReactNode;

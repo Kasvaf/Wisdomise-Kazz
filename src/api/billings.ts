@@ -5,8 +5,14 @@ import {
   type Invoice,
   type PaymentMethodsResponse,
 } from 'modules/account/models';
+import queryClient from 'config/reactQuery';
 import { type PageResponse } from './types/page';
-import { type PlanPeriod, type SubscriptionPlan } from './types/subscription';
+import {
+  type PaymentMethod,
+  type PlanPeriod,
+  type SubscriptionPlan,
+} from './types/subscription';
+import { useAccountQuery } from './account';
 
 export const usePlansQuery = (periodicity?: PlanPeriod) =>
   useQuery(
@@ -27,7 +33,7 @@ export const usePlansQuery = (periodicity?: PlanPeriod) =>
 
 export const useInvoicesQuery = () =>
   useQuery(
-    ['getInvoices'],
+    ['invoices'],
     async () => {
       const { data } = await axios.get<PageResponse<Invoice>>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`,
@@ -39,46 +45,46 @@ export const useInvoicesQuery = () =>
     },
   );
 
-export const useStripePaymentMethodsQuery = () => {
-  const lastPaymentMethod = useUserLastPaymentMethod();
-  return useQuery(
-    ['getPaymentMethods'],
-    async () => {
-      const { data } = await axios.get<PaymentMethodsResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/payment-methods`,
-      );
-      return data;
-    },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: lastPaymentMethod === 'FIAT',
-    },
-  );
-};
-
 interface UpdateSubscriptionRequest {
-  price_id: string;
+  subscription_plan_key: string | null;
 }
 
 export const useSubscriptionMutation = () =>
-  useMutation<unknown, unknown, UpdateSubscriptionRequest>(
-    ['patchSubscription'],
-    async body => {
+  useMutation<unknown, unknown, UpdateSubscriptionRequest>({
+    mutationKey: ['patchSubscription'],
+    mutationFn: async body => {
       const { data } = await axios.patch<
         unknown,
         PaymentMethodsResponse,
         UpdateSubscriptionRequest
       >(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/subscriptions`,
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/subscription-plan`,
         body,
       );
       return data;
     },
-  );
+    onSuccess: () => queryClient.invalidateQueries(['invoices']),
+  });
 
+export const useChangePaymentMethodMutation = () => {
+  return useMutation({
+    mutationFn: async (variables: { payment_method: PaymentMethod }) => {
+      await axios.patch(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/payment-method`,
+        variables,
+      );
+    },
+    onSuccess: () => queryClient.invalidateQueries(['account']),
+  });
+};
+
+/**
+ * *********************** Crypto Payment ***********************
+ */
 interface SubmitCryptoPaymentVariables {
-  amount_paid: number;
-  subscription_plan_key: string;
+  invoice_key?: string;
+  amount_paid?: number;
+  subscription_plan_key?: string;
   crypto_invoice: {
     transaction_id: string;
     symbol_name: string;
@@ -96,17 +102,14 @@ export const useSubmitCryptoPayment = () =>
     },
   });
 
-export const useUserLastPaymentMethod = () => {
-  // this returns user's LAST payment method, but invoices are in reverse order
-  const { data } = useInvoicesQuery();
-  return data?.results.at(0)?.payment_method;
-};
-
 interface SubmitTokenPaymentVariables {
   amount_paid: number;
   subscription_plan_key: string;
 }
 
+/**
+ * *********************** Token Payment ***********************
+ */
 export const useSubmitTokenPayment = () =>
   useMutation<unknown, unknown, SubmitTokenPaymentVariables>({
     mutationFn: async variables => {
@@ -116,3 +119,24 @@ export const useSubmitTokenPayment = () =>
       });
     },
   });
+
+/**
+ * *********************** Fiat Payment ***********************
+ */
+
+export const useStripePaymentMethodsQuery = () => {
+  const account = useAccountQuery();
+  return useQuery(
+    ['getPaymentMethods'],
+    async () => {
+      const { data } = await axios.get<PaymentMethodsResponse>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/payment-methods`,
+      );
+      return data;
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+      enabled: !!account.data?.stripe_customer_id,
+    },
+  );
+};
