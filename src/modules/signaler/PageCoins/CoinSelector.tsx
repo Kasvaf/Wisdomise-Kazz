@@ -2,15 +2,9 @@ import type React from 'react';
 import { clsx } from 'clsx';
 import ComboBox from 'shared/ComboBox';
 import CoinsIcons from 'shared/CoinsIcons';
-import { useSignalerPairs } from 'api/signaler';
+import { type SignalerPair, useSignalerPairs } from 'api/signaler';
 
-export interface CoinItem {
-  name: string;
-  base: { name: string };
-  quote: { name: string };
-}
-
-const CoinOptionItem = (item: CoinItem | string) => {
+const CoinOptionItem = (item: SignalerPair | string) => {
   return (
     <div className="flex items-center">
       {typeof item === 'string' ? (
@@ -23,7 +17,7 @@ const CoinOptionItem = (item: CoinItem | string) => {
             size={'large'}
           />
           <div className="">
-            <span className="text-lg font-semibold">{item.name}</span>
+            <span className="text-lg font-semibold">{item.display_name}</span>
             <span className="ml-1 text-xs text-white/40">
               {item.base.name}/{item.quote.name}
             </span>
@@ -35,8 +29,8 @@ const CoinOptionItem = (item: CoinItem | string) => {
 };
 
 interface Props {
-  selectedItem: CoinItem;
-  onSelect?: (net: CoinItem) => void;
+  selectedItem: SignalerPair;
+  onSelect?: (net: SignalerPair) => void;
   disabled?: boolean;
   className?: string;
 }
