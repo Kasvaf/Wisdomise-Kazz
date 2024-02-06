@@ -5,6 +5,7 @@ import {
   type SignalerPair,
   type StrategyItem,
 } from 'api/signaler';
+import Spinner from 'modules/shared/Spinner';
 import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
 import StrategySelector from './StrategySelector';
@@ -48,15 +49,23 @@ export default function PageCoins() {
 
         <div className="mt-10 border-b border-white/5" />
 
-        {Boolean(activePositions?.length) && (
-          <div className="mt-10">
-            <h2 className="text-xl text-white/40">
-              {strategy?.profile?.title || strategy?.name} Active Positions
-            </h2>
-            {activePositions?.map(p => (
-              <ActivePosition key={p.entry_time} signaler={p} />
-            ))}
+        {allPositions.isLoading ? (
+          <div className="mt-10 flex justify-center">
+            <Spinner />
           </div>
+        ) : (
+          <>
+            {Boolean(activePositions?.length) && (
+              <div className="mt-10">
+                <h2 className="text-xl text-white/40">
+                  {strategy?.profile?.title || strategy?.name} Active Positions
+                </h2>
+                {activePositions?.map(p => (
+                  <ActivePosition key={p.entry_time} signaler={p} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </PageWrapper>
