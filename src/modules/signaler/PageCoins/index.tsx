@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
-import CoinSelector from './CoinSelector';
+import { useSignalerPairs } from 'api/signaler';
+import CoinSelector from '../CoinSelector';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
 
 export default function PageCoins() {
+  const coins = useSignalerPairs();
   const [coin, setCoin] = useState({
     display_name: 'Bitcoin',
     name: 'BTCUSDT',
@@ -16,6 +18,8 @@ export default function PageCoins() {
     <PageWrapper loading={false}>
       <div>
         <CoinSelector
+          coins={coins.data}
+          loading={coins.isLoading}
           selectedItem={coin}
           onSelect={setCoin}
           className="mb-8 w-[300px] mobile:w-full"

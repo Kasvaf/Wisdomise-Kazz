@@ -14,6 +14,7 @@ const PageSignalsMatrix = React.lazy(
   () => import('modules/strategy/PageSignalsMatrix'),
 );
 const PageCoins = React.lazy(() => import('modules/signaler/PageCoins'));
+const PageSignaler = React.lazy(() => import('modules/signaler/PageSignaler'));
 
 const PageProductsCatalog = React.lazy(
   () => import('modules/products/PageProductsCatalog'),
@@ -66,6 +67,7 @@ const appRoutes: RouteObject[] = [
       { path: 'signals', element: <PageSignalsMatrix /> },
       { path: 'athena', element: <PageAthena /> },
       { path: 'coins', element: <PageCoins /> },
+      { path: 'signaler', element: <PageSignaler /> },
     ],
   },
   {

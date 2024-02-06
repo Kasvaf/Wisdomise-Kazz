@@ -50,13 +50,13 @@ export const useSignalerPairDetails = (name: string) =>
     },
   );
 
-interface PairSignalerItem {
+export interface PairSignalerItem {
   pair_name: string;
   position_side: string;
   entry_time: string;
   entry_price: number;
-  exit_time: string;
-  exit_price: number;
+  exit_time?: string | null;
+  exit_price?: number | null;
   strategy: Strategy;
   pnl_equity: number;
   stop_loss: number;
@@ -95,6 +95,63 @@ export const usePairSignalers = (base: string, quote: string) => {
       return data;
     },
     {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
+
+export interface StrategyItem {
+  is_active: boolean;
+  key: string;
+  name: string;
+  version: string;
+  internal: boolean;
+  resolution: string;
+  market_name: string;
+  is_approved_manually: boolean;
+  schedule?: any;
+  config?: any;
+  profile?: {
+    title: string;
+    description: string;
+    position_sides: string[];
+  };
+  is_public: boolean;
+  supported_pairs: SignalerPair[];
+  manual_approval_time_limit_sec: number;
+}
+
+export const useStrategiesList = () => {
+  return useQuery<StrategyItem[]>(
+    ['signaler-strategies'],
+    async () => {
+      const { data } = await axios.get<StrategyItem[]>(
+        'strategy/strategies?is_public=False',
+      );
+      return data;
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
+
+export const useStrategyPositions = (
+  key?: string,
+  base?: string,
+  quote?: string,
+) => {
+  return useQuery<PairSignalerItem[]>(
+    ['signaler-positions', key, base, quote],
+    async () => {
+      if (!(key && base && quote)) return [];
+      const { data } = await axios.get<PairSignalerItem[]>(
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}&is_public=False`,
+      );
+      return data;
+    },
+    {
+      enabled: Boolean(key && base && quote),
       staleTime: Number.POSITIVE_INFINITY,
     },
   );

@@ -2,7 +2,7 @@ import type React from 'react';
 import { clsx } from 'clsx';
 import ComboBox from 'shared/ComboBox';
 import CoinsIcons from 'shared/CoinsIcons';
-import { type SignalerPair, useSignalerPairs } from 'api/signaler';
+import { type SignalerPair } from 'api/signaler';
 
 const CoinOptionItem = (item: SignalerPair | string) => {
   return (
@@ -17,7 +17,9 @@ const CoinOptionItem = (item: SignalerPair | string) => {
             size={'large'}
           />
           <div className="">
-            <span className="text-lg font-semibold">{item.display_name}</span>
+            <span className="text-lg font-semibold">
+              {item.display_name ?? item.name}
+            </span>
             <span className="ml-1 text-xs text-white/40">
               {item.base.name}/{item.quote.name}
             </span>
@@ -29,27 +31,29 @@ const CoinOptionItem = (item: SignalerPair | string) => {
 };
 
 interface Props {
-  selectedItem: SignalerPair;
+  loading?: boolean;
+  coins?: SignalerPair[];
+  selectedItem?: SignalerPair;
   onSelect?: (net: SignalerPair) => void;
   disabled?: boolean;
   className?: string;
 }
 
 const CoinSelector: React.FC<Props> = ({
+  coins,
   selectedItem,
   onSelect,
   disabled = false,
+  loading = false,
   className,
 }) => {
-  const coins = useSignalerPairs();
-
   return (
     <ComboBox
-      options={coins.data ?? []}
-      selectedItem={coins.isLoading ? 'Loading...' : selectedItem}
+      options={coins ?? []}
+      selectedItem={loading ? 'Loading...' : selectedItem ?? 'Select Coin'}
       onSelect={onSelect}
       renderItem={CoinOptionItem}
-      disabled={disabled || coins.isLoading}
+      disabled={disabled || loading}
       className={clsx('h-[72px]', className)}
     />
   );
