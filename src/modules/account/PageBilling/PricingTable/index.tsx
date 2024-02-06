@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { usePlansQuery } from 'api';
+import { usePlansQuery, useSubscription } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
 import PageWrapper from 'modules/base/PageWrapper';
 import PricingCard from './PricingCard';
@@ -16,8 +16,11 @@ export default function PricingTable({
   onResolve,
 }: PricingTableProps) {
   const { t } = useTranslation('billing');
+  const { plan } = useSubscription();
   const { data, isLoading } = usePlansQuery();
-  const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
+  const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>(
+    plan?.periodicity || 'MONTHLY',
+  );
 
   return (
     <PageWrapper loading={isLoading}>

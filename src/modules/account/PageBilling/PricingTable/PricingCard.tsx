@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import { useSubscription, useSubscriptionMutation } from 'api';
+import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'modules/shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
 import { ReactComponent as Check } from '../images/check.svg';
@@ -14,7 +14,7 @@ interface Props {
   className?: string;
   isUpdate?: boolean;
   plan: SubscriptionPlan;
-  onPlanUpdate: () => void;
+  onPlanUpdate: VoidFunction;
 }
 
 export default function PricingCard({
@@ -23,21 +23,22 @@ export default function PricingCard({
   className,
   onPlanUpdate,
 }: Props) {
+  const account = useAccountQuery();
   const { t } = useTranslation('billing');
-  const mutation = useSubscriptionMutation();
+  const subsMutation = useSubscriptionMutation();
   const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
-  const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
-    SubscriptionMethodModalContent,
-  );
+  const [model, openModal] = useModal(SubscriptionMethodModalContent);
 
   const hasUserThisPlan = isActive && plan.key === userPlan?.key;
-  const isPlanLowerThanUserPlan =
-    isActive && plan.level < (userPlan?.level ?? 0);
+  const hasUserThisPlanAsNextPlan =
+    isActive &&
+    plan.key ===
+      account.data?.subscription_item?.next_subs_item?.subscription_plan.key;
 
   const onClick = async () => {
     if (isActive && !isTrialPlan) {
       try {
-        await mutation.mutateAsync({ subscription_plan_key: plan.key });
+        await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
         notification.success({
           message: t('pricing-card.notification-upgrade-success'),
           duration: 5000,
@@ -47,7 +48,7 @@ export default function PricingCard({
         notification.error({ message: unwrapErrorMessage(error) });
       }
     } else {
-      void openSubscriptionMethodModal({
+      void openModal({
         onFiatClick: () => {
           window.location.href = plan.stripe_payment_link;
         },
@@ -118,20 +119,23 @@ export default function PricingCard({
 
       <Button
         onClick={onClick}
-        disabled={!plan.is_active || hasUserThisPlan}
+        loading={subsMutation.isLoading}
+        disabled={
+          !plan.is_active || hasUserThisPlan || hasUserThisPlanAsNextPlan
+        }
         className={clsx(
           'my-8 block !w-full !font-medium',
-          // active plan is disabled, but has different styling
-          hasUserThisPlan && '!cursor-default !text-white',
+          (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
+            '!cursor-default !text-white',
         )}
       >
         {plan.is_active
-          ? hasUserThisPlan
-            ? t('pricing-card.btn-action.current-plan')
+          ? hasUserThisPlan || hasUserThisPlanAsNextPlan
+            ? hasUserThisPlan
+              ? t('pricing-card.btn-action.current-plan')
+              : t('pricing-card.btn-action.next-plan')
             : isUpdate
-            ? isPlanLowerThanUserPlan
-              ? t('pricing-card.btn-action.downgrade')
-              : t('pricing-card.btn-action.upgrade')
+            ? t('pricing-card.btn-action.choose')
             : t('pricing-card.btn-action.buy-now')
           : t('pricing-card.btn-action.available-soon')}
       </Button>
@@ -148,8 +152,7 @@ export default function PricingCard({
           ))}
         </ul>
       </div>
-
-      {subscriptionMethodModal}
+      {model}
     </div>
   );
 }

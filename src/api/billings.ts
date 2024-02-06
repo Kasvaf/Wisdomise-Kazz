@@ -53,17 +53,17 @@ export const useSubscriptionMutation = () =>
   useMutation<unknown, unknown, UpdateSubscriptionRequest>({
     mutationKey: ['patchSubscription'],
     mutationFn: async body => {
-      const { data } = await axios.patch<
-        unknown,
-        PaymentMethodsResponse,
-        UpdateSubscriptionRequest
-      >(
+      const { data } = await axios.patch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/subscription-plan`,
         body,
       );
       return data;
     },
-    onSuccess: () => queryClient.invalidateQueries(['invoices']),
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries(['account']),
+        queryClient.invalidateQueries(['invoices']),
+      ]),
   });
 
 export const useChangePaymentMethodMutation = () => {

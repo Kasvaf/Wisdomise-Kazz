@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import Button from 'modules/shared/Button';
 import useModal from 'modules/shared/useModal';
-import { useChangePaymentMethodMutation } from 'api';
+import { useAccountQuery, useChangePaymentMethodMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import { type PaymentMethod } from 'api/types/subscription';
 import { ReactComponent as SIcon } from '../../images/s-icon.svg';
@@ -18,6 +18,7 @@ export default function useChangePaymentMethodModal() {
 }
 
 function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
+  const account = useAccountQuery();
   const changePaymentMethod = useChangePaymentMethodMutation();
 
   const handleChangePayment = async (payment: PaymentMethod) => {
@@ -30,42 +31,56 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
     }
   };
 
+  const nextSub = account.data?.subscription_item?.next_subs_item;
   const clickedPayment = changePaymentMethod.variables?.payment_method;
 
   return (
     <div className="flex flex-col items-center">
       <p className="text-lg font-semibold">Change Payment Method</p>
       <div className="mt-4 flex flex-wrap justify-center gap-4">
-        <Button
-          size="small"
-          loading={clickedPayment === 'FIAT' && changePaymentMethod.isLoading}
-          onClick={() => handleChangePayment('FIAT')}
-        >
-          <div className="flex items-center gap-2">
-            <SIcon />
-            Fiat
-          </div>
-        </Button>
-        <Button
-          size="small"
-          loading={clickedPayment === 'CRYPTO' && changePaymentMethod.isLoading}
-          onClick={() => handleChangePayment('CRYPTO')}
-        >
-          <div className="flex items-center gap-2">
-            <CryptoPaymentIcon />
-            Crypto
-          </div>
-        </Button>
-        <Button
-          size="small"
-          loading={clickedPayment === 'TOKEN' && changePaymentMethod.isLoading}
-          onClick={() => handleChangePayment('TOKEN')}
-        >
-          <div className="flex items-center gap-2">
-            <TokenIcon />
-            Wisdomise Token (tWSDM)
-          </div>
-        </Button>
+        {nextSub?.payment_method !== 'FIAT' && (
+          <Button
+            size="small"
+            loading={clickedPayment === 'FIAT' && changePaymentMethod.isLoading}
+            onClick={() => handleChangePayment('FIAT')}
+          >
+            <div className="flex items-center gap-2">
+              <SIcon />
+              Fiat
+            </div>
+          </Button>
+        )}
+
+        {nextSub?.payment_method !== 'CRYPTO' && (
+          <Button
+            size="small"
+            loading={
+              clickedPayment === 'CRYPTO' && changePaymentMethod.isLoading
+            }
+            onClick={() => handleChangePayment('CRYPTO')}
+          >
+            <div className="flex items-center gap-2">
+              <CryptoPaymentIcon />
+              Crypto
+            </div>
+          </Button>
+        )}
+
+        {nextSub?.subscription_plan.periodicity === 'YEARLY' &&
+          nextSub.payment_method !== 'TOKEN' && (
+            <Button
+              size="small"
+              loading={
+                clickedPayment === 'TOKEN' && changePaymentMethod.isLoading
+              }
+              onClick={() => handleChangePayment('TOKEN')}
+            >
+              <div className="flex items-center gap-2">
+                <TokenIcon />
+                Wisdomise Token (tWSDM)
+              </div>
+            </Button>
+          )}
       </div>
     </div>
   );

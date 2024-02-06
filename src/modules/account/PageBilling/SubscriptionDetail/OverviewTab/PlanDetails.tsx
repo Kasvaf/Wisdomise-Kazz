@@ -3,22 +3,17 @@ import dayjs from 'dayjs';
 import { notification } from 'antd';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'shared/useModal';
+import { type PaymentMethod } from 'api/types/subscription';
 import PricingTable from '../../PricingTable';
 
 export default function PlanDetails() {
   const { data } = useAccountQuery();
   const { t } = useTranslation('billing');
+  const { currentPeriodEnd, plan } = useSubscription();
   const subscriptionMutation = useSubscriptionMutation();
-  const { currentPeriodEnd, plan, refetch } = useSubscription();
   const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
     width: 1200,
   });
-
-  const handleChangePlan = async () => {
-    if (await openPricingTable({ isUpdate: true })) {
-      void refetch();
-    }
-  };
 
   const onCancelPlan = async () => {
     try {
@@ -40,6 +35,7 @@ export default function PlanDetails() {
   };
 
   const subItem = data?.subscription_item;
+  const nextSubs = subItem?.next_subs_item;
   const paymentMethod =
     subItem?.next_subs_item?.payment_method || subItem?.payment_method;
 
@@ -49,16 +45,28 @@ export default function PlanDetails() {
         <h2 className="mb-4 text-base font-semibold text-white">
           {t('subscription-details.overview.plan-details')}
         </h2>
-        <p className="text-base leading-relaxed text-white/70">
+
+        <p className="text-base text-white/70">
           <Trans
             i18nKey="subscription-details.overview.current-plan"
             ns="billing"
           >
             Your plan is
-            <strong className="text-white">{{ plan: plan?.name ?? '' }}</strong>
+            <strong className="capitalize text-white">
+              {{
+                plan:
+                  (plan?.name || '') +
+                  ' (' +
+                  (plan?.periodicity.toLowerCase() || '') +
+                  ')',
+              }}
+            </strong>
             .
           </Trans>
-          <button onClick={handleChangePlan} className="ml-2 text-blue-600">
+          <button
+            className="ml-2 text-blue-600"
+            onClick={() => openPricingTable({ isUpdate: true })}
+          >
             {t('subscription-details.overview.btn-change-plan')}
           </button>
 
@@ -73,7 +81,7 @@ export default function PlanDetails() {
           <Trans i18nKey="subscription-details.overview.periodEnd" ns="billing">
             Your plan will
             {{
-              action: paymentMethod === 'FIAT' ? 'renew' : 'expire',
+              action: paymentMethod === 'FIAT' && nextSubs ? 'renew' : 'expire',
             }}
             on
             <strong className="text-white">
@@ -81,7 +89,7 @@ export default function PlanDetails() {
             </strong>
             .
           </Trans>{' '}
-          {paymentMethod === 'CRYPTO' && (
+          {paymentMethod === 'CRYPTO' && nextSubs && (
             <span>
               <Trans
                 i18nKey="subscription-details.overview.in-order-to-renew"
@@ -96,12 +104,12 @@ export default function PlanDetails() {
               </Trans>
             </span>
           )}
-          {paymentMethod === 'TOKEN' && (
+          {paymentMethod === 'TOKEN' && nextSubs && (
             <span>
               {t('subscription-details.overview.automatically-renew')}
             </span>
           )}
-          {paymentMethod === 'FIAT' && (
+          {paymentMethod === 'FIAT' && nextSubs && (
             <Trans
               i18nKey="subscription-details.overview.charging"
               ns="billing"
@@ -125,8 +133,29 @@ export default function PlanDetails() {
             </>
           )}
         </p>
+        {nextSubs && (
+          <p className="text-base text-white/70">
+            Your next plan is{' '}
+            <b className="capitalize text-white">
+              {nextSubs.subscription_plan.name}{' '}
+              {`(${nextSubs.subscription_plan.periodicity.toLowerCase()})`}
+            </b>{' '}
+            with{' '}
+            <b className="text-white">
+              {' '}
+              {paymentMethodText[nextSubs.payment_method]}
+            </b>{' '}
+            payment method.
+          </p>
+        )}
       </section>
       {PricingTableMod}
     </div>
   );
 }
+const paymentMethodText: Record<PaymentMethod, string> = {
+  CRYPTO: 'Crypto',
+  FIAT: 'Fiat',
+  TOKEN: 'Wisdomise Token (tWSDM)',
+  MANUAL: 'Manual',
+};

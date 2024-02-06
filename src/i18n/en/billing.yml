@@ -41,9 +41,9 @@ pricing-card:
   btn-action:
     available-soon: Available soon
     buy-now: Buy Now
+    choose: Choose
     current-plan: Current Plan
-    downgrade: Downgrade
-    upgrade: Upgrade
+    next-plan: Next Plan
   hold: Hold
   just-yearly: Just In Yearly
   monthly: Monthly
