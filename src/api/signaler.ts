@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { type Quote } from './types/investorAssetStructure';
+import { type LastPosition } from './types/signalResponse';
 
 export interface SignalerPair {
   base: Quote;
@@ -20,3 +21,81 @@ export const useSignalerPairs = () =>
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
+
+interface PairDetails {
+  id: number;
+  name: string;
+  base: string;
+  quote: string;
+  price_data: {
+    last_price: number;
+    percent_change_1h: number;
+    percent_change_24h: number;
+    percent_change_7d: number;
+    percent_change_30d: number;
+    volume_24h: number;
+    market_cap?: number;
+  };
+}
+
+export const useSignalerPairDetails = (name: string) =>
+  useQuery<PairDetails>(
+    ['signaler-pairs', name],
+    async () => {
+      const { data } = await axios.get<PairDetails>('strategy/pairs/' + name);
+      return data;
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+
+interface PairSignalerItem {
+  pair_name: string;
+  position_side: string;
+  entry_time: string;
+  entry_price: number;
+  exit_time: string;
+  exit_price: number;
+  strategy: Strategy;
+  pnl_equity: number;
+  stop_loss: number;
+  take_profit: number;
+  suggested_action: LastPosition['suggested_action'];
+  leverage: number;
+  pnl: number;
+}
+
+interface Strategy {
+  is_active: boolean;
+  key: string;
+  name: string;
+  version: string;
+  internal: boolean;
+  resolution: string;
+  market_name: string;
+  is_public: boolean;
+  profile: Profile;
+}
+
+interface Profile {
+  title: string;
+  description: string;
+  position_sides: string[];
+  subscription_level: number;
+}
+
+export const usePairSignalers = (base: string, quote: string) => {
+  return useQuery<PairSignalerItem[]>(
+    ['pair-signaler', base, quote],
+    async () => {
+      const { data } = await axios.get<PairSignalerItem[]>(
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True&is_public=False`,
+      );
+      return data;
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
