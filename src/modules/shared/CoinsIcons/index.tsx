@@ -20,9 +20,10 @@ interface Props {
   size?: AvatarProps['size'];
   maxShow?: number;
   coins: string[] | string;
+  className?: string;
 }
 
-const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
+const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size, className }) => {
   const [_coins, isMaxShowEnable] = useMemo(() => {
     const coinsArray = Array.isArray(coins)
       ? coins
@@ -37,7 +38,7 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
   }, [coins, maxShow]);
 
   return (
-    <Avatar.Group>
+    <Avatar.Group className={className}>
       {_coins.map(c =>
         c in coinsIcons ? (
           <Avatar

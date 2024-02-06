@@ -21,6 +21,15 @@ const PageInsight = () => {
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
         <CardPageLink
+          to="/insight/coins"
+          title={t('menu.signaler.title')}
+          subtitle={t('menu.signaler.subtitle')}
+          icon={<IconSignals />}
+          height={250}
+          onClick={trackClick('signaler_menu')}
+        />
+
+        <CardPageLink
           to="/insight/signals"
           title={t('menu.signal-matrix.title')}
           subtitle={t('menu.signal-matrix.subtitle')}
