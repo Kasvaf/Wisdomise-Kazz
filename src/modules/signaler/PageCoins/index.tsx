@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
-import { type SignalerPair, useSignalerPairs } from 'api/signaler';
+import { useSignalerPairs } from 'api/signaler';
+import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import CoinSelector from '../CoinSelector';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
 
 export default function PageCoins() {
-  const [searchParams, setSearchParams] = useSearchParams();
   const coins = useSignalerPairs();
-  const [coin, setCoin] = useState<SignalerPair>();
-
-  useEffect(() => {
-    if (!coin) {
-      setCoin(
-        coins.data?.find(x => x.name === searchParams.get('coin')) ??
-          coins.data?.[0],
-      );
-    }
-  }, [coin, coins.data, searchParams]);
-
-  useEffect(() => {
-    if (coin) {
-      setSearchParams({ coin: coin.name });
-    }
-  }, [coin, setSearchParams]);
+  const [coinName, setCoinName] = useSearchParamAsState(
+    'coin',
+    () => coins.data?.[0].name ?? '',
+  );
+  const coin = coins.data?.find(c => c.name === coinName);
 
   return (
     <PageWrapper loading={false}>
@@ -33,7 +20,7 @@ export default function PageCoins() {
           coins={coins.data}
           loading={coins.isLoading}
           selectedItem={coin}
-          onSelect={setCoin}
+          onSelect={c => setCoinName(c.name)}
           className="mb-8 w-[300px] mobile:w-full"
         />
 

@@ -1,49 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
-import {
-  useStrategyPositions,
-  type SignalerPair,
-  type StrategyItem,
-  useStrategiesList,
-} from 'api/signaler';
+import { useStrategyPositions, useStrategiesList } from 'api/signaler';
 import Spinner from 'modules/shared/Spinner';
+import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
 import StrategySelector from './StrategySelector';
 
 export default function PageCoins() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const strategies = useStrategiesList();
-  const [strategy, setStrategy] = useState<StrategyItem>();
-  const [coin, setCoin] = useState<SignalerPair>();
+  const [strategyKey, setStrategyKey] = useSearchParamAsState('strategy');
+  const strategy = strategies.data?.find(x => x.key === strategyKey);
 
-  useEffect(() => {
-    if (!strategy && strategies.data) {
-      setStrategy(
-        strategies.data.find(x => x.key === searchParams.get('strategy')) ??
-          strategies.data[0],
-      );
-    }
-  }, [strategy, strategies.data, searchParams]);
-
-  useEffect(() => {
-    const sp = strategy?.supported_pairs;
-    if (!sp) return;
-    if (!coin || !sp.some(x => x.name === coin.name)) {
-      setCoin(sp.find(x => x.name === searchParams.get('coin')) ?? sp[0]);
-    }
-  }, [coin, searchParams, strategy?.supported_pairs]);
-
-  useEffect(() => {
-    if (coin && strategy) {
-      setSearchParams({
-        coin: coin.name,
-        strategy: strategy.key,
-      });
-    }
-  }, [coin, strategy, setSearchParams]);
+  const [coinName, setCoinName] = useSearchParamAsState('coin');
+  const coin = strategy?.supported_pairs.find(x => x.name === coinName);
 
   const allPositions = useStrategyPositions(
     strategy?.key,
@@ -62,7 +31,7 @@ export default function PageCoins() {
             strategies={strategies.data}
             loading={strategies.isLoading}
             selectedItem={strategy}
-            onSelect={setStrategy}
+            onSelect={s => setStrategyKey(s.key)}
             className="mb-8 w-[300px]"
           />
 
@@ -70,7 +39,7 @@ export default function PageCoins() {
             <CoinSelector
               coins={strategy.supported_pairs}
               selectedItem={coin}
-              onSelect={setCoin}
+              onSelect={c => setCoinName(c.name)}
               className="mb-8 w-[300px]"
             />
           )}
