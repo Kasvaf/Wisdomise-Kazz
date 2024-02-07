@@ -11,11 +11,12 @@ import ConnectWalletWrapper from './ConnectWalletWrapper';
 import TokenCheckout from './TokenCheckout';
 
 interface Props {
+  invoiceKey?: string;
   plan: SubscriptionPlan;
-  onResolve: () => void;
+  onResolve: VoidFunction;
 }
 
-export default function TokenPaymentModalContent({ plan }: Props) {
+export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
   const [done, setDone] = useState(false);
   const { t } = useTranslation('billing');
 
@@ -107,7 +108,11 @@ export default function TokenPaymentModalContent({ plan }: Props) {
               'wisdomise-token:connect-wallet.billing.description',
             )}
           >
-            <TokenCheckout plan={plan} setDone={setDone} />
+            <TokenCheckout
+              plan={plan}
+              setDone={setDone}
+              invoiceKey={invoiceKey}
+            />
           </ConnectWalletWrapper>
         )}
       </div>

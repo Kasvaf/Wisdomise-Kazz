@@ -7,11 +7,13 @@ import PageWrapper from 'modules/base/PageWrapper';
 import PricingCard from './PricingCard';
 
 export interface PricingTableProps {
+  isRenew?: boolean;
   isUpdate?: boolean;
   onResolve?: (result: boolean) => void;
 }
 
 export default function PricingTable({
+  isRenew,
   isUpdate,
   onResolve,
 }: PricingTableProps) {
@@ -59,6 +61,7 @@ export default function PricingTable({
               <PricingCard
                 plan={plan}
                 key={plan.key}
+                isRenew={isRenew}
                 isUpdate={isUpdate}
                 className="col-span-1"
                 onPlanUpdate={() => onResolve?.(true)}

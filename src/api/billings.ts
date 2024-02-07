@@ -102,14 +102,14 @@ export const useSubmitCryptoPayment = () =>
     },
   });
 
-interface SubmitTokenPaymentVariables {
-  amount_paid: number;
-  subscription_plan_key: string;
-}
-
 /**
  * *********************** Token Payment ***********************
  */
+interface SubmitTokenPaymentVariables {
+  amount_paid?: number;
+  invoice_key?: string;
+  subscription_plan_key?: string;
+}
 export const useSubmitTokenPayment = () =>
   useMutation<unknown, unknown, SubmitTokenPaymentVariables>({
     mutationFn: async variables => {

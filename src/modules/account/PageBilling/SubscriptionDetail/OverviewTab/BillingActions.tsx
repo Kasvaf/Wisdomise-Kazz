@@ -4,6 +4,7 @@ import { useAccountQuery, useStripePaymentMethodsQuery } from 'api';
 import { type PaymentMethod } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
 import CryptoPaymentModalContent from '../../paymentMethods/Crypto';
+import TokenPaymentModalContent from '../../paymentMethods/Token';
 import useChangePaymentMethodModal from './useChangePaymentMethod';
 
 export default function BillingActions() {
@@ -16,6 +17,11 @@ export default function BillingActions() {
     CryptoPaymentModalContent,
     { fullscreen: true, destroyOnClose: true },
   );
+  const [TokenPaymentModal, openTokenPaymentModal] = useModal(
+    TokenPaymentModalContent,
+    { fullscreen: true, destroyOnClose: true },
+  );
+
   const pendingInvoice = account.data?.subscription_item?.pending_invoice;
   const subItem = account.data?.subscription_item;
   const paymentMethod =
@@ -38,6 +44,15 @@ export default function BillingActions() {
         if (pendingInvoice.stripe_payment_link) {
           window.location.href = pendingInvoice.stripe_payment_link;
         }
+        break;
+      }
+      case 'TOKEN': {
+        pendingInvoice.subscription_plan.price = pendingInvoice.amount_paid;
+        void openTokenPaymentModal({
+          invoiceKey: pendingInvoice.key,
+          plan: pendingInvoice.subscription_plan,
+        });
+        break;
       }
     }
   };
@@ -119,6 +134,7 @@ export default function BillingActions() {
       </section>
       {PaymentMethodModal}
       {CryptoPaymentModal}
+      {TokenPaymentModal}
     </>
   );
 }

@@ -18,19 +18,7 @@ export default function PlanDetails() {
   const onCancelPlan = async () => {
     try {
       await subscriptionMutation.mutateAsync({ subscription_plan_key: null });
-      notification.success({ message: 'Plan canceled successfully' });
-    } catch {}
-  };
-
-  const onRenewPlan = async () => {
-    const currentPlanKey = data?.subscription_item?.subscription_plan.key;
-    try {
-      if (currentPlanKey) {
-        await subscriptionMutation.mutateAsync({
-          subscription_plan_key: currentPlanKey,
-        });
-        notification.success({ message: 'Plan renewed successfully' });
-      }
+      notification.success({ message: 'Next plan canceled successfully' });
     } catch {}
   };
 
@@ -63,16 +51,12 @@ export default function PlanDetails() {
             </strong>
             .
           </Trans>
-          <button
-            className="ml-2 text-blue-600"
-            onClick={() => openPricingTable({ isUpdate: true })}
-          >
-            {t('subscription-details.overview.btn-change-plan')}
-          </button>
-
-          {data?.subscription_item?.next_subs_item && (
-            <button onClick={onCancelPlan} className="ml-2 text-red-400">
-              Cancel Plan
+          {nextSubs && (
+            <button
+              className="ml-2 text-blue-600"
+              onClick={() => openPricingTable({ isUpdate: true })}
+            >
+              {t('subscription-details.overview.btn-change-plan')}
             </button>
           )}
         </p>
@@ -125,9 +109,12 @@ export default function PlanDetails() {
             <>
               <br />
               <span>
-                You have canceled you plan.{' '}
-                <button onClick={onRenewPlan} className="ml-2 text-blue-600">
-                  Renew Plan
+                Your next plan has been canceled.
+                <button
+                  onClick={() => openPricingTable({ isRenew: true })}
+                  className="ml-2 text-blue-600"
+                >
+                  Renew Next Plan
                 </button>
               </span>
             </>
@@ -146,6 +133,9 @@ export default function PlanDetails() {
               {paymentMethodText[nextSubs.payment_method]}
             </b>{' '}
             payment method.
+            <button onClick={onCancelPlan} className="ml-2 text-red-400">
+              Cancel Next Plan
+            </button>
           </p>
         )}
       </section>

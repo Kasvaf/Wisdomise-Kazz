@@ -11,6 +11,7 @@ import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 import PlanLogo from './PlanLogo';
 
 interface Props {
+  isRenew?: boolean;
   className?: string;
   isUpdate?: boolean;
   plan: SubscriptionPlan;
@@ -19,6 +20,7 @@ interface Props {
 
 export default function PricingCard({
   plan,
+  isRenew,
   isUpdate,
   className,
   onPlanUpdate,
@@ -29,7 +31,7 @@ export default function PricingCard({
   const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent);
 
-  const hasUserThisPlan = isActive && plan.key === userPlan?.key;
+  const hasUserThisPlan = isActive && !isRenew && plan.key === userPlan?.key;
   const hasUserThisPlanAsNextPlan =
     isActive &&
     plan.key ===
@@ -135,6 +137,8 @@ export default function PricingCard({
               ? t('pricing-card.btn-action.current-plan')
               : t('pricing-card.btn-action.next-plan')
             : isUpdate
+            ? t('pricing-card.btn-action.choose')
+            : isRenew
             ? t('pricing-card.btn-action.choose')
             : t('pricing-card.btn-action.buy-now')
           : t('pricing-card.btn-action.available-soon')}
