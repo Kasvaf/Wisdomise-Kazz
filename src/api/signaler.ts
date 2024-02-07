@@ -3,6 +3,8 @@ import axios from 'axios';
 import { type Quote } from './types/investorAssetStructure';
 import { type LastPosition } from './types/signalResponse';
 
+const isPublic = 'is_public=True';
+
 export interface SignalerPair {
   base: Quote;
   quote: Quote;
@@ -90,7 +92,7 @@ export const usePairSignalers = (base: string, quote: string) => {
     ['pair-signaler', base, quote],
     async () => {
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True&is_public=False`,
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True&${isPublic}`,
       );
       return data;
     },
@@ -126,7 +128,7 @@ export const useStrategiesList = () => {
     ['signaler-strategies'],
     async () => {
       const { data } = await axios.get<StrategyItem[]>(
-        'strategy/strategies?is_public=False',
+        'strategy/strategies?' + isPublic,
       );
       return data;
     },
@@ -146,7 +148,7 @@ export const useStrategyPositions = (
     async () => {
       if (!(key && base && quote)) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}&is_public=False`,
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}&${isPublic}`,
       );
       return data;
     },
