@@ -5,6 +5,7 @@ import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
 import StrategySelector from './StrategySelector';
+import SimulatedPositions from './SimulatedPositions';
 
 export default function PageCoins() {
   const strategies = useStrategiesList();
@@ -21,7 +22,7 @@ export default function PageCoins() {
   );
 
   const activePositions = allPositions.data?.filter(x => !x.exit_time);
-  // const positionsHistory = allPositions.data?.filter(x => x.exit_time);
+  const simulatedPositions = allPositions.data?.filter(x => x.exit_time);
 
   return (
     <PageWrapper loading={false}>
@@ -54,15 +55,24 @@ export default function PageCoins() {
             </div>
           ) : (
             <>
-              {Boolean(activePositions?.length) && (
+              {!!activePositions?.length && (
                 <div className="mt-10">
-                  <h2 className="text-xl text-white/40">
+                  <h2 className="mb-3 text-xl text-white/40">
                     {strategy?.profile?.title || strategy?.name} Active
                     Positions
                   </h2>
-                  {activePositions?.map(p => (
+                  {activePositions.map(p => (
                     <ActivePosition key={p.entry_time} signaler={p} />
                   ))}
+                </div>
+              )}
+
+              {!!simulatedPositions?.length && (
+                <div className="mt-10">
+                  <h2 className="mb-3 text-xl text-white/40">
+                    Simulated Position History
+                  </h2>
+                  <SimulatedPositions items={simulatedPositions} />
                 </div>
               )}
             </>
