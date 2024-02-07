@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
   useStrategyPositions,
   type SignalerPair,
   type StrategyItem,
+  useStrategiesList,
 } from 'api/signaler';
 import Spinner from 'modules/shared/Spinner';
 import CoinSelector from '../CoinSelector';
@@ -11,12 +13,37 @@ import ActivePosition from '../ActivePosition';
 import StrategySelector from './StrategySelector';
 
 export default function PageCoins() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const strategies = useStrategiesList();
   const [strategy, setStrategy] = useState<StrategyItem>();
   const [coin, setCoin] = useState<SignalerPair>();
 
   useEffect(() => {
-    setCoin(strategy?.supported_pairs[0]);
-  }, [strategy?.supported_pairs]);
+    if (!strategy && strategies.data) {
+      setStrategy(
+        strategies.data.find(x => x.key === searchParams.get('strategy')) ??
+          strategies.data[0],
+      );
+    }
+  }, [strategy, strategies.data, searchParams]);
+
+  useEffect(() => {
+    const sp = strategy?.supported_pairs;
+    if (!sp) return;
+    if (!coin || !sp.some(x => x.name === coin.name)) {
+      setCoin(sp.find(x => x.name === searchParams.get('coin')) ?? sp[0]);
+    }
+  }, [coin, searchParams, strategy?.supported_pairs]);
+
+  useEffect(() => {
+    if (coin && strategy) {
+      setSearchParams({
+        coin: coin.name,
+        strategy: strategy.key,
+      });
+    }
+  }, [coin, strategy, setSearchParams]);
 
   const allPositions = useStrategyPositions(
     strategy?.key,
@@ -32,6 +59,8 @@ export default function PageCoins() {
       <div>
         <div className="flex items-center gap-4">
           <StrategySelector
+            strategies={strategies.data}
+            loading={strategies.isLoading}
             selectedItem={strategy}
             onSelect={setStrategy}
             className="mb-8 w-[300px]"

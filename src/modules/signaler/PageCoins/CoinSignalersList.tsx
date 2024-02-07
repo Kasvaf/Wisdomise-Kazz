@@ -30,7 +30,9 @@ const CoinSignalersList: React.FC<{ coin: SignalerPair }> = ({ coin }) => {
             </div>
 
             <div className="flex items-center">
-              <Button to="/insight/coins/signaler">
+              <Button
+                to={`/insight/coins/signaler?coin=${coin.name}&strategy=${s.strategy.key}`}
+              >
                 Explore
                 <Icon name={bxRightArrowAlt} />
               </Button>

@@ -1,7 +1,7 @@
 import type React from 'react';
 import { clsx } from 'clsx';
 import ComboBox from 'shared/ComboBox';
-import { useStrategiesList, type StrategyItem } from 'api/signaler';
+import { type StrategyItem } from 'api/signaler';
 
 const CoinOptionItem = (item: StrategyItem | string) => {
   return (
@@ -18,29 +18,29 @@ const CoinOptionItem = (item: StrategyItem | string) => {
 };
 
 interface Props {
+  strategies?: StrategyItem[];
   selectedItem?: StrategyItem;
   onSelect?: (net: StrategyItem) => void;
   disabled?: boolean;
+  loading?: boolean;
   className?: string;
 }
 
 const StrategySelector: React.FC<Props> = ({
+  strategies,
   selectedItem,
   onSelect,
   disabled = false,
+  loading = false,
   className,
 }) => {
-  const strategies = useStrategiesList();
-
   return (
     <ComboBox
-      options={strategies.data?.filter(x => x.supported_pairs.length) ?? []}
-      selectedItem={
-        strategies.isLoading ? 'Loading...' : selectedItem ?? 'Select Strategy'
-      }
+      options={strategies?.filter(x => x.supported_pairs.length) ?? []}
+      selectedItem={loading ? 'Loading...' : selectedItem ?? 'Select Strategy'}
       onSelect={onSelect}
       renderItem={CoinOptionItem}
-      disabled={disabled || strategies.isLoading}
+      disabled={disabled || loading}
       className={clsx('h-[72px]', className)}
     />
   );

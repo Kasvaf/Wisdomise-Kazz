@@ -31,11 +31,11 @@ const CoinOptionItem = (item: SignalerPair | string) => {
 };
 
 interface Props {
-  loading?: boolean;
   coins?: SignalerPair[];
   selectedItem?: SignalerPair;
   onSelect?: (net: SignalerPair) => void;
   disabled?: boolean;
+  loading?: boolean;
   className?: string;
 }
 
