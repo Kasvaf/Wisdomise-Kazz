@@ -75,14 +75,13 @@ export interface StrategyPosition {
   strategy_position?: TheoreticalPosition | null;
 }
 
-interface TheoreticalPosition {
+export interface TheoreticalPosition {
   position_side: string;
   entry_time: string;
   entry_price: number;
   exit_time?: string;
   exit_price?: number;
   pnl: number;
-  pair: AssetPairInfo;
 }
 
 interface ActualPosition {
@@ -93,7 +92,6 @@ interface ActualPosition {
   exit_time?: string;
   exit_price?: number;
   pnl: number;
-  sti_key: string;
   pair: AssetPairInfo;
 }
 

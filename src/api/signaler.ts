@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { type Quote } from './types/investorAssetStructure';
 import { type LastPosition } from './types/signalResponse';
+import { type TheoreticalPosition } from './strategy';
 
 const isPublic = 'is_public=True';
 
@@ -52,20 +53,14 @@ export const useSignalerPairDetails = (name: string) =>
     },
   );
 
-export interface PairSignalerItem {
+export interface PairSignalerItem extends TheoreticalPosition {
   pair_name: string;
-  position_side: string;
-  entry_time: string;
-  entry_price: number;
-  exit_time?: string | null;
-  exit_price?: number | null;
   strategy: Strategy;
   pnl_equity: number;
   stop_loss: number;
   take_profit: number;
   suggested_action: LastPosition['suggested_action'];
   leverage: number;
-  pnl: number;
 }
 
 interface Strategy {
