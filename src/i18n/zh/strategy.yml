@@ -1,31 +1,31 @@
 matrix:
   date: 日期
-  entry-price: 入场价
+  entry-price: 出场价格
   exit-price: 退出价格
-  none: 没有任何
-  side: 边
-  sl: SL
+  none: 无
+  side: 方向
+  sl: 止损
   suggestion: 建议
-  title: 最新职位
-  tp: TP
+  title: 最新点位
+  tp: 止盈
 positions-history:
-  entry-point: 入口点
-  exit-point: 退出点
-  pairs: 对
+  entry-point: 入场点
+  exit-point: 出场点
+  pairs: 交易对
   pnl: P/L
-  status: 地位
-  strategy: 战略
-  title: 职位历史
+  status: 状态
+  strategy: 策略
+  title: 點位历史
 positions-timeline:
-  empty-message: 该时间段内没有职位。
-  entry-point: 入口点
-  exit-point: 退出点
-  title: 职位时间表
+  empty-message: 该时间段内没有点位。
+  entry-point: 入场点
+  exit-point: 出场点
+  title: 点位时间表
 status:
   closed: 关闭
-  open: 打开
-  opened: 已开通
+  open: 开仓
+  opened: 已开仓
 suggest:
   close: 关闭
   no-action: 无行动
-  open: 打开
+  open: 开仓

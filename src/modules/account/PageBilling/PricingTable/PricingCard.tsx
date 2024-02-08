@@ -123,7 +123,12 @@ export default function PricingCard({
         onClick={onClick}
         loading={subsMutation.isLoading}
         disabled={
-          !plan.is_active || hasUserThisPlan || hasUserThisPlanAsNextPlan
+          !plan.is_active ||
+          hasUserThisPlan ||
+          hasUserThisPlanAsNextPlan ||
+          (isRenew &&
+            account.data?.subscription_item?.payment_method === 'TOKEN' &&
+            plan.periodicity === 'MONTHLY')
         }
         className={clsx(
           'my-8 block !w-full !font-medium',

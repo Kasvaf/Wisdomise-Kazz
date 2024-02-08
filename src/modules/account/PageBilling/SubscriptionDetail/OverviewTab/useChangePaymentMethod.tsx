@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 import Button from 'modules/shared/Button';
 import useModal from 'modules/shared/useModal';
 import { useAccountQuery, useChangePaymentMethodMutation } from 'api';
@@ -18,6 +19,7 @@ export default function useChangePaymentMethodModal() {
 }
 
 function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
+  const { t } = useTranslation('billing');
   const account = useAccountQuery();
   const changePaymentMethod = useChangePaymentMethodMutation();
 
@@ -36,7 +38,9 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
 
   return (
     <div className="flex flex-col items-center">
-      <p className="text-lg font-semibold">Change Payment Method</p>
+      <p className="text-lg font-semibold">{t('change-pay-method.title')}</p>
+      <p className="mt-1 font-normal">{t('change-pay-method.sub-title')}</p>
+
       <div className="mt-4 flex flex-wrap justify-center gap-4">
         {nextSub?.payment_method !== 'FIAT' && (
           <Button
@@ -46,7 +50,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
           >
             <div className="flex items-center gap-2">
               <SIcon />
-              Fiat
+              {t('change-pay-method.fiat')}
             </div>
           </Button>
         )}
@@ -61,7 +65,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
           >
             <div className="flex items-center gap-2">
               <CryptoPaymentIcon />
-              Crypto
+              {t('change-pay-method.crypto')}
             </div>
           </Button>
         )}
@@ -77,7 +81,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             >
               <div className="flex items-center gap-2">
                 <TokenIcon />
-                Wisdomise Token (tWSDM)
+                {t('change-pay-method.token')}
               </div>
             </Button>
           )}

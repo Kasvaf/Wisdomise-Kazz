@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
+import { clsx } from 'clsx';
 import { useAccountQuery, useStripePaymentMethodsQuery } from 'api';
 import { type PaymentMethod } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
@@ -73,50 +74,69 @@ export default function BillingActions() {
 
         <div className="text-base text-white/70">
           {pendingInvoice && (
+            <Trans
+              ns="billing"
+              i18nKey="subscription-details.overview.pending-invoice"
+            >
+              <div>
+                <span className="font-semibold text-white">
+                  You have 1 pending invoice.
+                </span>
+                <button
+                  onClick={payPendingInvoice}
+                  className="ml-2 text-blue-600"
+                >
+                  Pay Now
+                </button>
+              </div>
+            </Trans>
+          )}
+
+          <Trans
+            ns="billing"
+            i18nKey="subscription-details.overview.pay-method"
+          >
             <div>
-              <span className="font-semibold text-white">
-                You have 1 pending invoice.
-              </span>
+              Next Payment method:{' '}
+              <strong className="text-white">
+                {{
+                  payMethod: paymentMethod && paymentMethodText[paymentMethod],
+                }}
+                .
+              </strong>
               <button
-                onClick={payPendingInvoice}
-                className="ml-2 text-blue-600"
+                onClick={openPaymentMethodModal}
+                className={clsx(
+                  'ml-2 text-blue-600',
+                  !subItem?.next_subs_item && 'hidden',
+                )}
               >
-                Pay Now
+                Change payment method
               </button>
             </div>
-          )}
+          </Trans>
+          {stripePaymentMethod.data?.data[0]?.card &&
+            subItem?.next_subs_item?.payment_method === 'FIAT' && (
+              <p>
+                <Trans
+                  i18nKey="subscription-details.overview.card"
+                  ns="billing"
+                >
+                  Future charges will be applied to the card
+                  <strong className="text-white">
+                    ****{{ last4: stripePaymentMethod.data.data[0].card.last4 }}
+                  </strong>
+                  .
+                </Trans>
 
-          <div>
-            Payment method:{' '}
-            <strong className="text-white">
-              {paymentMethod && paymentMethodText[paymentMethod]}.
-            </strong>
-            <button
-              onClick={openPaymentMethodModal}
-              className="ml-2 text-blue-600"
-            >
-              Change payment method
-            </button>
-          </div>
-
-          {stripePaymentMethod.data?.data[0]?.card && (
-            <p>
-              <Trans i18nKey="subscription-details.overview.card" ns="billing">
-                Future charges will be applied to the card
-                <strong className="text-white">
-                  ****{{ last4: stripePaymentMethod.data.data[0].card.last4 }}
-                </strong>
-                .
-              </Trans>
-
-              <Link
-                className="ml-2 text-blue-600"
-                to="/account/billing/change-stripe-card-info"
-              >
-                {t('stripe.change-card-info')}
-              </Link>
-            </p>
-          )}
+                <Link
+                  className="ml-2 text-blue-600"
+                  to="/account/billing/change-stripe-card-info"
+                >
+                  {t('stripe.change-card-info.title')}
+                </Link>
+              </p>
+            )}
 
           <p>
             <Trans

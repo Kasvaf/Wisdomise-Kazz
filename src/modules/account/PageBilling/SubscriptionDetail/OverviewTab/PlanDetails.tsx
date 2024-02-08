@@ -4,6 +4,7 @@ import { notification } from 'antd';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'shared/useModal';
 import { type PaymentMethod } from 'api/types/subscription';
+import { unwrapErrorMessage } from 'utils/error';
 import PricingTable from '../../PricingTable';
 
 export default function PlanDetails() {
@@ -19,7 +20,9 @@ export default function PlanDetails() {
     try {
       await subscriptionMutation.mutateAsync({ subscription_plan_key: null });
       notification.success({ message: 'Next plan canceled successfully' });
-    } catch {}
+    } catch (error) {
+      notification.error({ message: unwrapErrorMessage(error) });
+    }
   };
 
   const subItem = data?.subscription_item;
@@ -39,7 +42,7 @@ export default function PlanDetails() {
             i18nKey="subscription-details.overview.current-plan"
             ns="billing"
           >
-            Your plan is
+            Your current plan is
             <strong className="capitalize text-white">
               {{
                 plan:
@@ -53,7 +56,7 @@ export default function PlanDetails() {
           </Trans>
           {nextSubs && (
             <button
-              className="ml-2 text-blue-600"
+              className="ml-1 text-blue-600"
               onClick={() => openPricingTable({ isUpdate: true })}
             >
               {t('subscription-details.overview.btn-change-plan')}
@@ -106,7 +109,10 @@ export default function PlanDetails() {
             </Trans>
           )}
           {!data?.subscription_item?.next_subs_item && (
-            <>
+            <Trans
+              ns="billing"
+              i18nKey="subscription-details.overview.next-plan-canceled"
+            >
               <br />
               <span>
                 Your next plan has been canceled.
@@ -117,26 +123,33 @@ export default function PlanDetails() {
                   Renew Next Plan
                 </button>
               </span>
-            </>
+            </Trans>
           )}
         </p>
         {nextSubs && (
-          <p className="text-base text-white/70">
-            Your next plan is{' '}
-            <b className="capitalize text-white">
-              {nextSubs.subscription_plan.name}{' '}
-              {`(${nextSubs.subscription_plan.periodicity.toLowerCase()})`}
-            </b>{' '}
-            with{' '}
-            <b className="text-white">
-              {' '}
-              {paymentMethodText[nextSubs.payment_method]}
-            </b>{' '}
-            payment method.
-            <button onClick={onCancelPlan} className="ml-2 text-red-400">
-              Cancel Next Plan
-            </button>
-          </p>
+          <Trans
+            ns="billing"
+            i18nKey="subscription-details.overview.next-plan-info"
+          >
+            <p className="text-base text-white/70">
+              Your next plan is{' '}
+              <b className="capitalize text-white">
+                {{ nextPlanName: nextSubs.subscription_plan.name }}{' '}
+                {{
+                  period: `(${nextSubs.subscription_plan.periodicity.toLowerCase()})`,
+                }}
+              </b>{' '}
+              with{' '}
+              <b className="text-white">
+                {' '}
+                {{ payMethod: paymentMethodText[nextSubs.payment_method] }}
+              </b>{' '}
+              payment method.
+              <button onClick={onCancelPlan} className="ml-1 text-red-400">
+                Cancel Next Plan
+              </button>
+            </p>
+          </Trans>
         )}
       </section>
       {PricingTableMod}

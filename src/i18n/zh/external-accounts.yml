@@ -4,7 +4,7 @@ account:
   exchange: 交换
   market: 市场
   name: 帐户名称
-  status: 地位
+  status: 状态
 modal-account-selector:
   btn-connect-new: 连接新帐户
   btn-continue: 继续

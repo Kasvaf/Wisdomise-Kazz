@@ -43,7 +43,7 @@ export default function ChangeStripeCardInfoForm() {
   return (
     <div>
       <h1 className="mb-4 text-base font-semibold capitalize text-white">
-        {t('stripe.change-card-info')}
+        {t('stripe.change-card-info.title')}
       </h1>
       <form
         className="grid grid-cols-12 gap-8"
@@ -62,14 +62,16 @@ export default function ChangeStripeCardInfoForm() {
         </div>
         <Card className="col-span-12 flex flex-col justify-between text-white lg:col-span-4">
           <div>
-            <h1 className="mb-4">{t('change-payment.order-summary')}</h1>
+            <h1 className="mb-4">
+              {t('stripe.change-card-info.order-summary')}
+            </h1>
             <div className="flex justify-between gap-4 text-gray-400">
-              <span>{t('change-payment.change-payment-method')}</span>
+              <span>{t('stripe.change-card-info.title')}</span>
               <span>$0.00</span>
             </div>
             <hr className="my-3" />
             <div className="flex justify-between gap-4 font-bold">
-              <span>{t('change-payment.total')}</span>
+              <span>{t('stripe.change-card-info.total')}</span>
               <span>$0.00</span>
             </div>
           </div>

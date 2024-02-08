@@ -1,7 +1,9 @@
-change-payment:
-  change-payment-method: Change payment method
-  order-summary: Order Summary
-  total: Total
+change-pay-method:
+  title: Change Payment Method
+  crypto: Crypto
+  fiat: Fiat
+  sub-title: 'Choose a payment method for your next plan:'
+  token: Wisdomise Token (tWSDM)
 crypto-modal:
   title: Wisdomise AG
   subtitle: Subscribe to {{plan}}
@@ -55,7 +57,10 @@ pricing-card:
   this-includes: 'This includes:'
   token: Token
 stripe:
-  change-card-info: Change card info
+  change-card-info:
+    title: Change payment method
+    order-summary: Order Summary
+    total: Total
 subscription-details:
   title: Subscription details
   invoices:
@@ -70,7 +75,7 @@ subscription-details:
     btn-change-plan: Change plan
     card: Future charges will be applied to the card <1>****{{last4}}</1>.
     charging: Charging your credit card <1>${{ amount }}</1>.
-    current-plan: Your plan is <1>{{plan}}</1>.
+    current-plan: Your current plan is <1>{{plan}}</1>.
     in-order-to-renew: >-
       In order to renew, you will have to send the transaction again on
       <0>{{date}}</0>.
@@ -80,6 +85,14 @@ subscription-details:
         You paid for your subscription via crypto payment, it takes 24-48 hours
         to verify your transaction. We will email you when your subscription is
         activated
+    next-plan-canceled: <0></0><1>Your next plan has been canceled.<1>Renew Next Plan</1></1>
+    next-plan-info: >-
+      <0>Your next plan is <2>{{nextPlanName}} {{period}}</2> with <6>
+      {{payMethod}}</6> payment method.<9>Cancel Next Plan</9></0>
+    pay-method: >-
+      <0>Next Payment method: <2>{{payMethod}}.</2><3>Change payment
+      method</3></0>
+    pending-invoice: <0><0>You have 1 pending invoice.</0><1>Pay Now</1></0>
     periodEnd: Your plan will {{action}} on <3>{{date}}</3>.
     plan-details: Plan Details
 subscription-modal:
