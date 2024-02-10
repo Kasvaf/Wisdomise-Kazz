@@ -6,6 +6,7 @@ import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
 import StrategySelector from './StrategySelector';
 import SimulatedPositions from './SimulatedPositions';
+import SimulatedChart from './SimulatedChart';
 
 export default function PageCoins() {
   const strategies = useStrategiesList();
@@ -74,6 +75,13 @@ export default function PageCoins() {
                   </h2>
                   <SimulatedPositions items={simulatedPositions} />
                 </div>
+              )}
+
+              {!!allPositions.data?.length && coin && (
+                <SimulatedChart
+                  asset={coin.base.name}
+                  positions={allPositions.data}
+                />
               )}
             </>
           )

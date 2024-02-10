@@ -5,7 +5,24 @@ import {
   type MarkPointOption,
 } from 'echarts/types/dist/shared';
 import { bxsDownArrow } from 'boxicons-quasar';
-import { type StrategyPosition, type Candle, type Resolution } from 'api';
+import { type Candle, type Resolution } from 'api';
+
+export interface ChartPosition {
+  actual_position: ActualPosition;
+  strategy_position?: Position | null;
+}
+
+interface Position {
+  entry_time: string;
+  entry_price: number;
+  exit_time?: string;
+  exit_price?: number;
+}
+
+interface ActualPosition extends Position {
+  position_side: 'LONG' | 'SHORT';
+  pnl: number;
+}
 
 const formatter = 'YYYY-MM-DD HH:mm';
 const durs: Record<Resolution, number> = {
@@ -54,7 +71,7 @@ export function parseCandles(candles: Candle[], resolution: Resolution) {
 }
 
 export function parsePositions(
-  positions: StrategyPosition[],
+  positions: ChartPosition[],
   resolution: Resolution,
   lastCandle?: string,
 ) {
@@ -71,7 +88,7 @@ export function parsePositions(
           entry_time: roundDate(sp.entry_time + 'Z', resolution),
           exit_time: sp.exit_time && roundDate(sp.exit_time + 'Z', resolution),
         },
-      }) satisfies StrategyPosition,
+      }) satisfies ChartPosition,
   );
 
   const brushes = roundedPositions.map(({ actual_position: ap }) => ({
@@ -86,8 +103,8 @@ export function parsePositions(
       ap.exit_time !== undefined &&
       ap.entry_time !== ap.exit_time,
   ) as Array<{
-    actual_position: Required<StrategyPosition['actual_position']>;
-    strategy_position: Required<StrategyPosition['strategy_position']>;
+    actual_position: Required<ChartPosition['actual_position']>;
+    strategy_position: Required<ChartPosition['strategy_position']>;
   }>;
 
   // make areas data

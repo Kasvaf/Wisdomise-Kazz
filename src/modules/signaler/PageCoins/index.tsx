@@ -1,15 +1,11 @@
-import { useMemo } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useSignalerPairs } from 'api/signaler';
+import { useRecentCandlesQuery } from 'api';
 import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import CandleChart from 'modules/strategy/PageStrategyDetails/TabPositions/CandleChart';
-import { useCandlesQuery } from 'api';
 import CoinSelector from '../CoinSelector';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
-
-const startDateTime = new Date();
-startDateTime.setMonth(startDateTime.getMonth() - 3);
 
 export default function PageCoins() {
   const coins = useSignalerPairs();
@@ -18,17 +14,9 @@ export default function PageCoins() {
     () => coins.data?.[0].name ?? '',
   );
   const coin = coins.data?.find(c => c.name === coinName);
-
-  const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
-    asset: coin?.base.name,
-    resolution: '1h',
-    startDateTime: useMemo(() => {
-      const startDateTime = new Date();
-      startDateTime.setMonth(startDateTime.getMonth() - 3);
-      return startDateTime.toISOString();
-    }, []),
-    endDateTime: useMemo(() => new Date().toISOString(), []),
-  });
+  const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
+    coin?.base.name,
+  );
 
   return (
     <PageWrapper loading={false}>
