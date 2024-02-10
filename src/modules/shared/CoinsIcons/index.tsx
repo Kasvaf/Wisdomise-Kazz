@@ -20,7 +20,7 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size }) => {
 
     return [
       [...new Set(coinsArray)].filter(
-        (_, i) => i < (maxShow || Number.POSITIVE_INFINITY),
+        (name, i) => name && i < (maxShow || Number.POSITIVE_INFINITY),
       ),
       coinsArray.length > (maxShow || Number.POSITIVE_INFINITY),
     ];

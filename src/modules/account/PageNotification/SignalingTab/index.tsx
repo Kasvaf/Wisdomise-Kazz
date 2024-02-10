@@ -31,9 +31,9 @@ export default function SignalingTab() {
 
       <Locker overlay={overlay}>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {strategies.data?.results?.map(s => (
-            <StrategyCard key={s.key} strategy={s} />
-          ))}
+          {strategies.data?.results
+            ?.filter(x => x.profile)
+            .map(s => <StrategyCard key={s.key} strategy={s} />)}
         </div>
       </Locker>
     </>
