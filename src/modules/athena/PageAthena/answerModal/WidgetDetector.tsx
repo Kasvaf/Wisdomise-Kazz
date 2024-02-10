@@ -23,7 +23,7 @@ export const WidgetDetector: React.FC<Props> = memo(
   ({ data }) => {
     const navigate = useNavigate();
     const user = useAccountQuery();
-    const { isActive, isTrialPlan } = useSubscription();
+    const { plan } = useSubscription();
 
     switch (data.type) {
       case 'price_chart': {
@@ -44,21 +44,15 @@ export const WidgetDetector: React.FC<Props> = memo(
         return <TrendingNFTsWidget />;
       }
       case 'smart_crypto_portfolio': {
-        return (
-          <SPOWidget
-            riskType={data.settings?.risk_type}
-            isSubscribed={isActive && !isTrialPlan}
-            onSubscribeClick={() => navigate('/account/billing')}
-          />
-        );
+        return <SPOWidget riskType={data.settings?.risk_type} />;
       }
       case 'last_positions': {
         return (
           <SignalsWidget
             token={getJwtToken() || undefined}
             telegramId={user.data?.telegram_id}
-            isSubscribed={isActive && !isTrialPlan}
-            onSubscribeClick={() => navigate('/account/billing')}
+            userPlanLevel={plan?.level || 0}
+            onUpgradeClick={() => navigate('/account/billing')}
           />
         );
       }

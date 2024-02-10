@@ -1,28 +1,4 @@
 answer: Answer
-athena-bot: Athena Bot!
-bot-alert:
-  freemium-stage: >-
-    You are in a <1>freemium stage</1> and can ask any question related to
-    Cryptocurrencies and I will provide you an answer and a relevant widget so
-    you can have a better experience. <4>Currently covering ETH, BTC, LTC, XRP,
-    ADA, BNB, TRX coins.</4>
-  loving-athena: >-
-    You can ask up to <1>{{athenaQuestionsCount}} questions</1> free of charge,
-    hence use them wisely! For more questions, you shall subscribe to one of our
-    packages. You can type your question in the chat box or use the related
-    questions attached to the end of the answer.
-  message-limit: >-
-    You have reached the maximum number of messages allowed with your current
-    Athena chatbot plan. To continue using the chatbot without interruption,
-    please upgrade to a higher subscription tier.,
-  pro-version: >-
-    You have reached the maximum number of free questions. Subscribe to unlock
-    the opportunity for more questions, cool widgets, and innovative features
-    from Athena.
-  subscribe-congratulations: >-
-    You’ve subscribed to one of our plans.Enjoy using Athena and ask your
-    questions about cryptocurrency world and whitepapers, AI Curated price
-    predictions, market analysis and much more!
 enjoy-remain-question_one: Enjoy your remaining {{leftQuestions}} question
 enjoy-remain-question_other: Enjoy your remaining {{leftQuestions}} questions
 generate: Generate
