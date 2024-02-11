@@ -2,7 +2,7 @@ ask:
   active-limit: 已达到问题限制。升级您的计划以继续
   athena: Athena
   athena-subtitle: 您的AI财务助手
-  input-placeholder: 问你的问题
+  input-placeholder: 你的问题
   remain-questions: 享受你剩下的 {{leftQuestions}} 问题
   suggested-prompts: 建议的提示
   trial-limit: 试用问题已达到限制，订阅以继续

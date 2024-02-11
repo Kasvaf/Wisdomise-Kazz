@@ -1,21 +1,51 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import useNow from 'utils/useNow';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
-import { AFTER_CHECKOUT_KEY } from 'modules/auth/constants';
+import {
+  AFTER_CHECKOUT_KEY,
+  SUCCESSFUL_CHECKOUT_KEY,
+} from 'modules/auth/constants';
+import { useSubscription } from 'api';
 import { ReactComponent as CongratsBG } from './images/congrats.svg';
 import { ReactComponent as CongratsLogo } from './images/congrats-logo.svg';
 
-interface Props {
-  onResolve?: () => void;
+export default function SuccessfulPaymentMessage() {
+  const navigate = useNavigate();
+  const { isActive } = useSubscription();
+  const [searchParams] = useSearchParams();
+  const [successShown, setSuccessShow] = useState(false);
+  const [modal, showModal] = useModal(ModalContent, {
+    width: '700px',
+    centered: true,
+  });
+
+  useEffect(() => {
+    const afterCheckout = searchParams.get(AFTER_CHECKOUT_KEY);
+    if (afterCheckout) {
+      sessionStorage.setItem(AFTER_CHECKOUT_KEY, afterCheckout);
+    }
+
+    if (
+      searchParams.has(SUCCESSFUL_CHECKOUT_KEY) &&
+      isActive &&
+      !successShown
+    ) {
+      setSuccessShow(true);
+      void showModal({}).then(() => navigate('/account/billing'));
+    }
+  }, [isActive, navigate, searchParams, showModal, successShown]);
+
+  return modal;
 }
 
 const RESEND_TIMEOUT = 10;
 
-function ModalSuccessful({ onResolve }: Props) {
-  const { t } = useTranslation('billing');
+function ModalContent({ onResolve }: { onResolve: VoidFunction }) {
   const now = useNow();
+  const { t } = useTranslation('billing');
   const [ttl] = useState(Date.now() + RESEND_TIMEOUT * 1000);
   const afterCheckoutUrl = sessionStorage.getItem(AFTER_CHECKOUT_KEY);
 
@@ -74,14 +104,4 @@ function ModalSuccessful({ onResolve }: Props) {
       )}
     </div>
   );
-}
-
-export default function useModalSuccessful(
-  p: Omit<Props, 'onResolve'>,
-): [JSX.Element, () => Promise<boolean>] {
-  const [Component, update] = useModal(ModalSuccessful, {
-    width: '80ch',
-    centered: true,
-  });
-  return [Component, async () => Boolean(await update(p))];
 }

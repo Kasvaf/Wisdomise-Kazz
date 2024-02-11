@@ -27,7 +27,7 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
       <Button to="/account/billing" className="mt-6">
         {isFreePlan
           ? t('overlay-subscription.btn-subscribe')
-          : t('pricing-card.btn-action.upgrade')}
+          : t('overlay-subscription.btn-upgrade')}
       </Button>
     </Card>
   );
