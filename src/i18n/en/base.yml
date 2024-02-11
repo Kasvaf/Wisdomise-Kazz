@@ -50,14 +50,14 @@ menu:
   signal-matrix:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
+  signaler:
+    title: Signaler
+    subtitle: Get AI-powered trading signals for leading cryptocurrencies.
   strategies:
     title: Strategies
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access.
-  signaler:
-    title: Signaler
-    subtitle: Get AI-powered trading signals for leading cryptocurrencies.
 support:
   title: Question?
   hint: Chat with us
