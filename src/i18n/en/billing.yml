@@ -26,6 +26,7 @@ crypto-modal:
 overlay-subscription:
   title: You are not subscribed
   btn-subscribe: Subscribe
+  btn-upgrade: Upgrade
   customs-description: To add a question, you need to subscribe to one of the Wisdomise plans
   signaling-description: You need to buy one of our subscription plans to have notifications enabled.
   signals-description: >-
