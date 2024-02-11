@@ -13,11 +13,12 @@ import { ReactComponent as MailIcon } from '../../images/mail.svg';
 import SubmitTransactionID from './SubmitTransactionID';
 
 interface Props {
+  invoiceKey?: string;
   plan: SubscriptionPlan;
-  onResolve: () => void;
+  onResolve: VoidFunction;
 }
 
-export default function RightSection({ plan, onResolve }: Props) {
+export default function RightSection({ plan, onResolve, invoiceKey }: Props) {
   const { t } = useTranslation('billing');
   const invoices = useInvoicesQuery();
   const [network, setNetwork] = useState<Network>(networkItems[0]);
@@ -81,6 +82,7 @@ export default function RightSection({ plan, onResolve }: Props) {
           <SubmitTransactionID
             plan={plan}
             network={network}
+            invoiceKey={invoiceKey}
             onSubmitSuccess={setSubmitted}
           />
         ) : (

@@ -9,8 +9,8 @@ export function useSubscription() {
   const planName = plan?.name || 'none';
 
   return {
-    refetch,
     plan,
+    refetch,
     isActive,
     isLoading,
     title: planName === 'Trial' ? 'Free' : planName,

@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
@@ -9,13 +10,12 @@ import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
-import useSignInWithEthereum from 'modules/account/PageBilling/TokenPayment/useSiwe';
 import { shortenAddress } from 'utils/shortenAddress';
 import { isProduction } from 'utils/version';
 import { unwrapErrorMessage } from 'utils/error';
-import { ReactComponent as Wallet } from '../images/wallet.svg';
-// eslint-disable-next-line import/max-dependencies
-import { ReactComponent as Key } from '../images/key.svg';
+import { ReactComponent as Wallet } from '../../images/wallet.svg';
+import { ReactComponent as Key } from '../../images/key.svg';
+import useSignInWithEthereum from './useSiwe';
 
 interface Props {
   children: ReactNode;
@@ -30,20 +30,20 @@ export default function ConnectWalletWrapper({
   title,
   description,
 }: Props) {
-  const { t } = useTranslation('wisdomise-token');
-  const { isConnected, address } = useAccount();
+  const { chain } = useNetwork();
   const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const { data: account } = useAccountQuery();
+  const { switchNetwork } = useSwitchNetwork();
+  const { isConnected, address } = useAccount();
+  const { t } = useTranslation('wisdomise-token');
   const [showNonce, setShowNonce] = useState(false);
-  const [showWrapperContent, setShowWrapperContent] = useState(false);
-  const [showConnectWallet, setShowConnectWallet] = useState(true);
   const [showError, setShowError] = useState(true);
-  const { data: nonceResponse } = useGenerateNonceQuery();
   const { mutateAsync } = useNonceVerificationMutation();
   const { signInWithEthereum } = useSignInWithEthereum();
-
-  const openWeb3Modal = useCallback(() => open(), [open]);
+  const { data: nonceResponse } = useGenerateNonceQuery();
+  const [showWrapperContent, setShowWrapperContent] = useState(false);
+  const [showConnectWallet, setShowConnectWallet] = useState(true);
 
   const handleSignAndVerification = async () => {
     if (nonceResponse?.nonce) {
@@ -58,13 +58,11 @@ export default function ConnectWalletWrapper({
     }
   };
 
+  const openWeb3Modal = useCallback(() => open(), [open]);
   const disconnectWallet = useCallback(() => disconnect(), [disconnect]);
 
-  const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
-
   useEffect(() => {
-    const suitableChainId: number = isProduction ? polygon.id : goerli.id;
+    const suitableChainId = isProduction ? polygon.id : goerli.id;
     if (chain?.id !== suitableChainId) {
       switchNetwork?.(suitableChainId);
     }

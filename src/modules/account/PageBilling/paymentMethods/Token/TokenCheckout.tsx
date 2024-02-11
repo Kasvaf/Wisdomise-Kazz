@@ -10,11 +10,12 @@ import { useUpdateTokenBalanceMutation } from 'api/defi';
 import { useAccountQuery, useSubmitTokenPayment } from 'api';
 
 interface Props {
+  invoiceKey?: string;
   plan: SubscriptionPlan;
   setDone: (state: boolean) => void;
 }
 
-export default function TokenCheckout({ plan, setDone }: Props) {
+export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const { data: account } = useAccountQuery();
   const { mutateAsync } = useSubmitTokenPayment();
   const { mutateAsync: updateBalance, isLoading } =
@@ -39,10 +40,14 @@ export default function TokenCheckout({ plan, setDone }: Props) {
   );
 
   const submitTokenPayment = async () => {
-    await mutateAsync({
-      amount_paid: 0,
-      subscription_plan_key: plan.key,
-    });
+    await mutateAsync(
+      invoiceKey
+        ? { invoice_key: invoiceKey }
+        : {
+            amount_paid: 0,
+            subscription_plan_key: plan.key,
+          },
+    );
     setDone(true);
   };
 

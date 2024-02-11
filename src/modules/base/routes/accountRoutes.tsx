@@ -17,8 +17,9 @@ const PageNotification = React.lazy(
 const PageKYC = React.lazy(() => import('modules/account/kyc/PageKYC'));
 const PageSumSub = React.lazy(() => import('modules/account/kyc/PageSumSub'));
 
-const ChangePaymentMethodPage = React.lazy(
-  () => import('modules/account/PageBilling/ChangePaymentMethodPage'),
+const ChangeStripeCardInfoPage = React.lazy(
+  () =>
+    import('modules/account/PageBilling/paymentMethods/Fiat/ChangeCardInfo'),
 );
 
 const Web3Wrapper = React.lazy(() => import('modules/account/Web3Provider'));
@@ -35,8 +36,8 @@ const accountRoutes: RouteObject[] = [
       { path: 'referral', element: <PageReferral /> },
       { path: 'notification-center', element: <PageNotification /> },
       {
-        path: 'billing/change-payment-method',
-        element: <ChangePaymentMethodPage />,
+        path: 'billing/change-stripe-card-info',
+        element: <ChangeStripeCardInfoPage />,
       },
       { path: 'kyc', element: <PageKYC /> },
       { path: 'kyc/sumsub', element: <PageSumSub /> },

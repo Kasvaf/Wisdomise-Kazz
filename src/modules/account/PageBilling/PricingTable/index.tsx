@@ -1,23 +1,28 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { usePlansQuery } from 'api';
+import { usePlansQuery, useSubscription } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
 import PageWrapper from 'modules/base/PageWrapper';
 import PricingCard from './PricingCard';
 
 export interface PricingTableProps {
+  isRenew?: boolean;
   isUpdate?: boolean;
   onResolve?: (result: boolean) => void;
 }
 
 export default function PricingTable({
+  isRenew,
   isUpdate,
   onResolve,
 }: PricingTableProps) {
   const { t } = useTranslation('billing');
+  const { plan } = useSubscription();
   const { data, isLoading } = usePlansQuery();
-  const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>('MONTHLY');
+  const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>(
+    plan?.periodicity || 'MONTHLY',
+  );
 
   return (
     <PageWrapper loading={isLoading}>
@@ -56,6 +61,7 @@ export default function PricingTable({
               <PricingCard
                 plan={plan}
                 key={plan.key}
+                isRenew={isRenew}
                 isUpdate={isUpdate}
                 className="col-span-1"
                 onPlanUpdate={() => onResolve?.(true)}
