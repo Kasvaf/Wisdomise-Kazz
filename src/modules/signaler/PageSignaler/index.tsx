@@ -7,6 +7,7 @@ import Spinner from 'modules/shared/Spinner';
 import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import Button from 'modules/shared/Button';
 import Icon from 'modules/shared/Icon';
+import { useSubscription } from 'api';
 import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
 import StrategySelector from './StrategySelector';
@@ -31,9 +32,13 @@ const FieldTitle: React.FC<
 };
 
 export default function PageCoins() {
-  const strategies = useStrategiesList();
+  const { level: myLevel } = useSubscription();
+  const allStrategies = useStrategiesList();
+  const strategies = allStrategies.data?.filter(
+    x => (x.profile?.subscription_level ?? 0) <= myLevel,
+  );
   const [strategyKey, setStrategyKey] = useSearchParamAsState('strategy');
-  const strategy = strategies.data?.find(x => x.key === strategyKey);
+  const strategy = strategies?.find(x => x.key === strategyKey);
 
   const [coinName, setCoinName] = useSearchParamAsState('coin');
   const coin = strategy?.supported_pairs.find(x => x.name === coinName);
@@ -57,8 +62,8 @@ export default function PageCoins() {
             className="w-[320px] mobile:w-full"
           >
             <StrategySelector
-              strategies={strategies.data}
-              loading={strategies.isLoading}
+              strategies={strategies}
+              loading={allStrategies.isLoading}
               selectedItem={strategy}
               onSelect={s => setStrategyKey(s.key)}
             />
@@ -79,16 +84,18 @@ export default function PageCoins() {
           )}
           <div className="grow" />
 
-          <FieldTitle
-            title="Telegram Notification"
-            description="Dont miss a signal by connecting your telegram"
-            className="mobile:w-full"
-          >
-            <Button variant="alternative">
-              <Icon name={bxBell} className="mr-2" />
-              Turn On Notification
-            </Button>
-          </FieldTitle>
+          {false && (
+            <FieldTitle
+              title="Telegram Notification"
+              description="Dont miss a signal by connecting your telegram"
+              className="mobile:w-full"
+            >
+              <Button variant="alternative">
+                <Icon name={bxBell} className="mr-2" />
+                Turn On Notification
+              </Button>
+            </FieldTitle>
+          )}
         </div>
 
         <div className="mt-10 border-b border-white/5" />

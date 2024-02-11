@@ -79,7 +79,7 @@ interface Profile {
   title: string;
   description: string;
   position_sides: string[];
-  subscription_level: number;
+  subscription_level?: number;
 }
 
 export const usePairSignalers = (base: string, quote: string) => {
@@ -112,6 +112,7 @@ export interface StrategyItem {
     title: string;
     description: string;
     position_sides: string[];
+    subscription_level?: number;
   };
   is_public: boolean;
   supported_pairs: SignalerPair[];
