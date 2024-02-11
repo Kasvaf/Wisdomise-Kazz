@@ -10,12 +10,14 @@ import { analytics } from 'config/segment';
 interface Props {
   network: Network;
   plan: SubscriptionPlan;
+  invoiceKey?: string;
   onSubmitSuccess: () => void;
 }
 
 export default function SubmitTransactionID({
   plan,
   network,
+  invoiceKey,
   onSubmitSuccess,
 }: Props) {
   const { t } = useTranslation('billing');
@@ -24,8 +26,9 @@ export default function SubmitTransactionID({
 
   const onClick = async () => {
     await submitCryptoPayment.mutateAsync({
-      amount_paid: plan.price,
-      subscription_plan_key: plan.key,
+      invoice_key: invoiceKey,
+      amount_paid: invoiceKey ? undefined : plan.price,
+      subscription_plan_key: invoiceKey ? undefined : plan.key,
       crypto_invoice: {
         symbol_name: 'USDT',
         network_name: network.name,

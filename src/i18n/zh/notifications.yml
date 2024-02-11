@@ -7,7 +7,7 @@ customs:
       title: 问题限制
     placeholder: 输入您的问题...
     title: 添加新问题
-  disclaimer: 通过打开此功能，您将收到两次默认的每日更新，并且您可以设置一些自定义提示以每周发送给您。
+  disclaimer: 通过打开此功能，您将收到两次內建的每日更新，并且您可以设置一些自定义提示，將每周发送给您。
   suggested-prompts:
     title: 建议的每周提示
   title: 自定义通知
@@ -24,12 +24,12 @@ signaling:
   modal-connected:
     description: 您的 Telegram 帐户现已同步。
     title: 连接成功
-  notification-activate-chip-message: 您已在“中订阅了所选币种”{{strategy}}”并且每次电报中有新职位时都会收到通知。
+  notification-activate-chip-message: 您已訂閱了"所选币种”{{strategy}}”并且每次电报中有新交易点位时都会收到通知。
   overlay-telegram:
-    description: 转到 Telegram 并使用 <1>/subscribe_to_signals</1> 命令。
+    description: 转到 Telegram 并使用 <1>/subscribe_to_signals</1> 指令。
     title: 您的 Telegram 尚未连接
   strategy:
-    choose-coin: 选择硬币以接收通知
+    choose-coin: 选择想接收通知的代币
     sl-tp: SL / TP
     timeframe: 大体时间
     type: 类型

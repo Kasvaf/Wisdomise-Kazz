@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import ConnectWalletWrapper from 'modules/account/PageBilling/TokenPayment/ConnectWalletWrapper';
 import Card from 'shared/Card';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useAccountQuery, useSubscription } from 'api';
@@ -8,6 +7,7 @@ import Button from 'shared/Button';
 import { INVESTMENT_FE } from 'config/constants';
 import { addComma } from 'utils/numbers';
 import { useUpdateTokenBalanceMutation } from 'api/defi';
+import ConnectWalletWrapper from '../PageBilling/paymentMethods/Token/ConnectWalletWrapper';
 import { ReactComponent as WalletIcon } from './images/wallet.svg';
 import { ReactComponent as UtilityIcon } from './images/utility.svg';
 

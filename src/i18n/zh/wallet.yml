@@ -1,12 +1,12 @@
 amount: 数量
 available: 可用的
-btn-deposit: 订金
-btn-withdraw: 提取
+btn-deposit: 储值
+btn-withdraw: 领取
 confirm-withdrawal:
   btn-confirm: 确认
   btn-return: 返回
   title: 确认提现
-equity-description_other: 你有 <1>{{count}}</1> 运行产品<br> 那个街区 <5>{{blocked}}</5> {{mainQuote}} 您的权益。
+equity-description_other: 你有 <1>{{count}}</1> 运行产品<br> 那个区块 <5>{{blocked}}</5> {{mainQuote}} 的权益。
 modal-deposit:
   banner: 您必须从经过验证的钱包存款。使用未经验证的钱包将导致您的帐户 <1>受限制的</1>。
   deposit-address: 仅发送 <1>{{coin}}</1> 到这个存款地址。
@@ -20,7 +20,7 @@ modal-withdraw:
   banner:
     btn-verify-wallet: 验证钱包
     description: 要提款，您必须从经过验证的钱包地址中进行选择。
-  btn-withdraw: 提取
+  btn-withdraw: 领取
   error-max-amount: 您提取的金额不能超过您的可用金额。
   error-min-amount: 您提款的金额不得少于 {{minAmount}} {{symbol}} 在 {{wallet}} 网络。
   min-withdrawal: 分钟。退出
@@ -38,4 +38,4 @@ withdraw-info:
   fee: 费用
   source: 来源
   source-value: "{{source}} 钱包"
-withdrawable: 可抽出式
+withdrawable: 可领取

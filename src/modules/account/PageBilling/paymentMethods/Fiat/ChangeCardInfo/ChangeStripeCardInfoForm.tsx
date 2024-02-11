@@ -9,11 +9,11 @@ import { useAccountQuery } from 'api';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 
-export default function ChangePaymentMethodForm() {
-  const { t } = useTranslation('billing');
+export default function ChangeStripeCardInfoForm() {
   const stripe = useStripe();
   const elements = useElements();
   const { data } = useAccountQuery();
+  const { t } = useTranslation('billing');
   const [message, setMessage] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,6 @@ export default function ChangePaymentMethodForm() {
     if (!stripe || !elements) {
       return;
     }
-
     setIsLoading(true);
     const { error } = await stripe.confirmSetup({
       elements,
@@ -43,8 +42,8 @@ export default function ChangePaymentMethodForm() {
 
   return (
     <div>
-      <h1 className="mb-4 text-base font-semibold text-white">
-        {t('change-payment.title')}
+      <h1 className="mb-4 text-base font-semibold capitalize text-white">
+        {t('stripe.change-card-info.title')}
       </h1>
       <form
         className="grid grid-cols-12 gap-8"
@@ -63,14 +62,16 @@ export default function ChangePaymentMethodForm() {
         </div>
         <Card className="col-span-12 flex flex-col justify-between text-white lg:col-span-4">
           <div>
-            <h1 className="mb-4">{t('change-payment.order-summary')}</h1>
+            <h1 className="mb-4">
+              {t('stripe.change-card-info.order-summary')}
+            </h1>
             <div className="flex justify-between gap-4 text-gray-400">
-              <span>{t('change-payment.change-payment-method')}</span>
+              <span>{t('stripe.change-card-info.title')}</span>
               <span>$0.00</span>
             </div>
             <hr className="my-3" />
             <div className="flex justify-between gap-4 font-bold">
-              <span>{t('change-payment.total')}</span>
+              <span>{t('stripe.change-card-info.total')}</span>
               <span>$0.00</span>
             </div>
           </div>

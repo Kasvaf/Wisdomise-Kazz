@@ -14,10 +14,10 @@ disclaimer:
   description: 您的钱包将于 Binance 打开。
     Wisdomise（瑞士）AG本身不提供任何钱包和/或托管服务。请注意，您转移到此钱包的加密货币将存储在币安上。币安是一家不受瑞士监管的第三方加密货币交易提供商。因此，在币安上持有钱包存在风险。
     Wisdomise (Switzerland) AG 无法控制与币安相关的风险。此类风险可能包括但不限于：
-  risk-1: bankruptcy of Binance;
+  risk-1: 币安倒闭
   risk-2: 由于黑客攻击或类似事件，第三方未经授权访问币安上持有的钱包；
   risk-3: 禁止公共机构经营其业务。
-  title: 注意力
+  title: 注意
   warn: 这些风险包括转移到币安钱包的加密货币出现重大或全部损失的风险。通过创建钱包来使用 Wisdomise
     的服务，您同意承担与在币安钱包中持有加密货币相关的所有风险。 Wisdomise (瑞士) AG
     对于因在币安钱包中保存加密货币而造成的任何损害不承担任何责任。
@@ -31,21 +31,21 @@ list:
   of-total-balance: 总余额
   title: 您的活跃金融产品
 notification-activated:
-  btn-dashboard: 仪表板
-  btn-kyc: 前往了解您的客户
+  btn-dashboard: 後台
+  btn-kyc: 前往实名认证
   kyc-notice: 但请注意，只要您尚未验证您的账户，我们最多只能使用您钱包中的 1000 美元进行交易。
   message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何人工智能驱动的策略
   title: 恭喜！
 notification-deactivated:
   message: 策略停用成功！
 product-catalog:
-  btn-details: 细节
+  btn-details: 详细内容
   btn-explore: 探索
   description: 您对任何可用策略的投资都将具有流动性，这意味着您的资产不会被锁定，并且可以随时释放。不同策略的预期投资回报率、最大回撤和交易数量仅供参考，绝不是对这些指标的保证或确认。最终，金融市场的投资总是会带来风险和波动，而我们最先进的人工智能模型只能在一定程度上减轻这些风险和波动。享受通过我们专有的人工智能积累财富的乐趣！
   stake:
     description: 探索领先的 DeFi 协议，展示质押池、TVL 和最大 APY。选择一个协议以获得详细的解释和见解。
     title: DeFi 质押选项
-  state-running: 跑步
+  state-running: 运行中
   title: 人工智能驱动策略
   trade:
     description: 灵活投资——您的资产保持流动性，可以随时提取。回报、回撤和交易数量均为估计值，而非保证值。尽管我们先进的人工智能可以缓解风险，但市场风险仍然存在。利用我们的人工智能技术增加您的财富。
@@ -59,7 +59,7 @@ product-detail:
   expected-apy: 预期年收益
   expected-max-drawdown: 预期最大回撤
   expected-yield-apy: 预期收益率 (APY)
-  investment: 投资
+  investment: 私募
   max: 最大限度
   max-apy: 最大年收益
   max-drawdown: 最大回撤
@@ -72,17 +72,17 @@ product-detail:
     medium: 中等的
   tvl: TVL
   type:
-    stake: 赌注
-    trade: 贸易
+    stake: 质押
+    trade: 交易
 status:
   draft: 草稿
   paused: 已暂停
-  running: 跑步
+  running: 运行中
   title: 地位
 subscription:
   subscribe:
     btn-confirm: 订阅
-    description: 要激活产品，您需要 <1>订阅</1> 给我们的 <3>Wisdomise Expert</3> 计划。
+    description: 要激活产品，您需要 <1>订阅</1> 给我们的 <3>Wisdomise Expert</3> 方案。
     title: 订阅
   upgrade:
     btn-confirm: 升级
