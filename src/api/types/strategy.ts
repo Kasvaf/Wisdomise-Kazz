@@ -23,4 +23,5 @@ interface Profile {
   'description': string;
   'position_sides': string[];
   'SL/TP'?: string;
+  'subscription_level'?: number;
 }
