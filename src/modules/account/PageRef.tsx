@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { REDIRECT_APP_KEY } from 'modules/auth/constants';
-import { REFERRER_CODE_KEY } from './keys';
+import { REDIRECT_APP_KEY, REFERRER_CODE_KEY } from 'modules/auth/constants';
 
 export default function PageRef() {
   const { referrerCode } = useParams<'referrerCode'>();
@@ -10,7 +9,7 @@ export default function PageRef() {
   useEffect(() => {
     if (referrerCode) {
       sessionStorage.setItem(REDIRECT_APP_KEY, 'landing');
-      sessionStorage.setItem(REFERRER_CODE_KEY, referrerCode);
+      localStorage.setItem(REFERRER_CODE_KEY, referrerCode);
       navigate('/');
     }
   }, [navigate, referrerCode]);
