@@ -1,7 +1,10 @@
-import { bxRightArrowAlt } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { bxBell, bxRightArrowAlt, bxsBell } from 'boxicons-quasar';
 import { Trans, useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import { type PairSignalerItem } from 'api/signaler';
+import useToggleNotification from 'modules/account/PageNotification/SignalingTab/useToggleNotification';
+import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Locker from 'shared/Locker';
@@ -34,10 +37,37 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
   );
 };
 
+const NotificationButton: React.FC<{
+  signaler: PairSignalerItem;
+  ensureConnected: () => Promise<boolean>;
+}> = ({ signaler, ensureConnected }) => {
+  const { handler, isSelected, isSubmitting } = useToggleNotification({
+    pairName: signaler.pair_name,
+    strategy: signaler.strategy,
+    ensureConnected,
+  });
+
+  return (
+    <Button
+      className={clsx(
+        'mr-2 !px-4',
+        isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
+      )}
+      variant="alternative"
+      onClick={handler}
+      loading={isSubmitting}
+    >
+      <Icon name={isSelected ? bxsBell : bxBell} />
+    </Button>
+  );
+};
+
 const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
   signalers,
 }) => {
   const { level } = useSubscription();
+  const [ModalTelegramConnected, ensureTelegramConnected] =
+    useEnsureTelegramConnected();
   if (!signalers) return null;
 
   return (
@@ -63,6 +93,10 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
               </div>
 
               <div className="flex items-center">
+                <NotificationButton
+                  signaler={s}
+                  ensureConnected={ensureTelegramConnected}
+                />
                 <Button
                   to={`/insight/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                 >
@@ -76,6 +110,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
           </div>
         </Locker>
       ))}
+      {ModalTelegramConnected}
     </div>
   );
 };
