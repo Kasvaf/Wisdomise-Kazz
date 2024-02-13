@@ -1,7 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ConfigProvider, theme } from 'antd';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
@@ -32,7 +31,7 @@ createRoot(root).render(
       >
         <App />
       </ConfigProvider>
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
+      {/* <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" /> */}
     </QueryClientProvider>
   </Sentry.ErrorBoundary>,
 );

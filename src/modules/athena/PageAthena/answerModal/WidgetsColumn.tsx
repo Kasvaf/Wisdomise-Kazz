@@ -67,11 +67,7 @@ export const WidgetsColumn = () => {
   return !question ||
     (question && isMobile && isAnswerFinished) ||
     (question && !isMobile) ? (
-    <div className="max-xl:px-0 relative flex overflow-hidden pl-6 pr-8 mobile:mt-4 mobile:flex-col mobile:gap-4 mobile:px-0">
-      <div className="absolute right-4 flex items-center gap-2 text-xs tracking-tighter mobile:hidden">
-        <div className="real-time-data h-2 w-2 rounded-full text-xs" />
-        Real-time data
-      </div>
+    <div className="max-xl:px-0 relative flex overflow-hidden pl-6 pr-8 mobile:mt-4 mobile:flex-col mobile:gap-4 mobile:overflow-visible mobile:px-0">
       <section
         ref={widgetWrapper}
         className={clsx(
@@ -88,7 +84,6 @@ export const WidgetsColumn = () => {
             <WidgetDetector data={data} />
           </section>
         ))}
-        <section className="w-full shrink-0 grow-0 basis-6 mobile:hidden" />
       </section>
 
       <section
