@@ -1,7 +1,7 @@
 account:
   account: アカウント
   accounts: アカウント
-  exchange: エクスチェンジ
+  exchange: 取引所
   market: 市場（マーケット）
   name: アカウント名
   status: ステータス
@@ -12,7 +12,7 @@ modal-account-selector:
   title: アカウントの選択
 modal-add-exchange:
   input-api-key: API キー
-  input-exchange: エクスチェンジ
+  input-exchange: 取引所
   input-secret-key: シークレットキー
   notice-ip-restriction: 次の情報をBinanceの<1>IP access restrictions（アクセス制限）</1>にご利用ください。
   title: エクスチェンジのアカウントを追加
@@ -20,5 +20,5 @@ page-accounts:
   btn-add-account: アカウントの追加
   empty-description: 外部の取引所口座は未登録です。
   exchanges-title: 取引所口座の情報
-  subscription: サブスクリプション
+  subscription: サブスクリプション設定
   wisdomise-account: Wisdomiseアカウント

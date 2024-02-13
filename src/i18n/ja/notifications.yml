@@ -8,20 +8,20 @@ customs:
       title: 質問上限数
     placeholder: 質問してください...
     title: 新しい質問の追加
-  disclaimer: この機能を起動させると、毎日２つのアップデートを受け取ることができます。週ごとにカスタム設定した通知を受け取ることも可能でs。
+  disclaimer: この機能をオンにすることで、デフォルトの1日2回の通知を受け取ることができ、毎週1回カスタマイズしたプロンプトの通知を受け取ることが可能です。
   suggested-prompts:
     title: 推奨の週次プロンプト
-  title: 通知をカスタマイズする
+  title: 通知をカスタマイズ
   your-question:
     description: カスタマイズしたプロンプトは毎週月曜日に通知されます。
     title: 設定中の質問
 page:
-  description: 通知をフィルタリングできます
+  description: 受け取る通知のカスタム設定が可能です。
 signaling:
   btn-open-telegram:
     hint: 通知をSNSで受け取り
     label: Telegramを起動
-  description: 提供中の戦略を全て表示しています。
+  description: 次のシグナルからご希望のものをご選択ください。
   modal-connected:
     description: Telegramaアカウントが同期されました。
     title: 同期完了

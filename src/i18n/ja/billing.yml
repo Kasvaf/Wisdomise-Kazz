@@ -104,7 +104,7 @@ success-modal:
   subtitle: 次のステップに進められます
   title: サブスクリプションのご契約ありがとうございます
 tabs:
-  invoices: 請求書
+  invoices: 請求状況
   overview: 概要
   payment-methods: 支払い方法
 token-modal:

@@ -17,9 +17,9 @@ modal-kyc:
 title: KYC
 verification:
   btn-calendly: Calendlyで予約
-  description: アカウントの承認をするには、Calendlyにて面談の予約をお願いします。予約完了後、承認プロセスをご案内いたします。
+  description: オンライン面談にて本人確認を行います。Calendalryよりご都合の良い日程でご予約ください。予約完了後、メールにて次のステップをご連絡いたします。
   identify-first-notice: 先ずは身分証明を実施してください。
-  title: 承認
+  title: オンライン本人かくに
 wallet:
   add:
     banner: 現時点では、仮想通貨は<1>USDT</1>のみ対応しています。
