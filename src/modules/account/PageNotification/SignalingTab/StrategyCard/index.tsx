@@ -16,7 +16,10 @@ const stringifyDuration = (dur: string) =>
     units[u] ? `${d} ${units[u]}${+d > 1 ? 's' : ''}` : o,
   );
 
-const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
+const StrategyCard: React.FC<{
+  strategy: Strategy;
+  ensureConnected: () => Promise<boolean>;
+}> = ({ strategy: s, ensureConnected }) => {
   const { t } = useTranslation('notifications');
   const infos = [
     {
@@ -38,21 +41,21 @@ const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
   );
 
   return (
-    <Locker overlay={overlay}>
-      <Card>
-        <h2 className="text-xl font-semibold">{s.profile.title}</h2>
-        <p className="mt-4 text-sm text-white/60">{s.profile.description}</p>
+    <Card>
+      <h2 className="text-xl font-semibold">{s.profile.title || s.name}</h2>
+      <p className="mt-4 text-sm text-white/60">{s.profile.description}</p>
 
-        <div className="mt-8 flex justify-around rounded-lg bg-white/10 p-2">
-          {infos.map(info => (
-            <div key={info.label} className="text-center text-xs">
-              <div className="text-white/50">{info.label}</div>
-              <div className="mt-2">{info.value}</div>
-            </div>
-          ))}
-        </div>
-        <hr className="my-6 w-full border-white/10" />
+      <div className="mt-8 flex justify-around rounded-lg bg-white/10 p-2">
+        {infos.map(info => (
+          <div key={info.label} className="text-center text-xs">
+            <div className="text-white/50">{info.label}</div>
+            <div className="mt-2">{info.value}</div>
+          </div>
+        ))}
+      </div>
+      <hr className="my-6 w-full border-white/10" />
 
+      <Locker overlay={overlay} className="justify-center !bg-[#1e1e23]/80">
         <div>
           <p className="text-base text-white/60">
             {t('signaling.strategy.choose-coin')}
@@ -60,12 +63,17 @@ const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
 
           <div className="flex flex-wrap">
             {s.supported_pairs.map(pair => (
-              <SignalChip key={pair.name} pair={pair} strategy={s} />
+              <SignalChip
+                key={pair.name}
+                pair={pair}
+                strategy={s}
+                ensureConnected={ensureConnected}
+              />
             ))}
           </div>
         </div>
-      </Card>
-    </Locker>
+      </Locker>
+    </Card>
   );
 };
 

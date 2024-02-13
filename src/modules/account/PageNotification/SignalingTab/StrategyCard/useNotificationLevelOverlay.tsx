@@ -1,9 +1,6 @@
-import { bxLock } from 'boxicons-quasar';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import Button from 'shared/Button';
-import Icon from 'shared/Icon';
-import Card from 'shared/Card';
 
 const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
   requiredLevel,
@@ -14,14 +11,13 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
   const level = plans?.results.find(x => x.level === requiredLevel)?.name;
 
   return (
-    <Card className="mt-12 flex flex-col items-center !bg-[#343942] text-center">
-      <div className="mb-4 rounded-full bg-white/10 p-4">
-        <Icon name={bxLock} className="text-warning" size={40} />
-      </div>
-
-      <h1 className="text-white">{t('overlay-subscription.strategy.title')}</h1>
-      <div className="mt-2 text-slate-400">
-        {t('overlay-subscription.strategy.description', { level })}
+    <div className="flex flex-col items-center text-center">
+      <div className="mt-2 text-error/90">
+        <Trans ns="billing" i18nKey="overlay-subscription.strategy.description">
+          To reveal this strategy, you need to have{' '}
+          <span className="font-semibold text-white">{{ level }}</span> or a
+          higher plan
+        </Trans>
       </div>
 
       <Button to="/account/billing" className="mt-6">
@@ -29,14 +25,11 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
           ? t('overlay-subscription.btn-subscribe')
           : t('overlay-subscription.btn-upgrade')}
       </Button>
-    </Card>
+    </div>
   );
 };
 
 export default function useNotificationLevelOverlay(sLevel: number) {
-  const { isSignalNotificationEnable, level: myLevel } = useSubscription();
-  return (
-    isSignalNotificationEnable &&
-    sLevel > myLevel && <UnprivilegedOverlay requiredLevel={sLevel} />
-  );
+  const { level: myLevel } = useSubscription();
+  return sLevel > myLevel && <UnprivilegedOverlay requiredLevel={sLevel} />;
 }

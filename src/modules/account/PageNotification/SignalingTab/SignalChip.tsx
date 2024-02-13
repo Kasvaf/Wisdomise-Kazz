@@ -3,22 +3,23 @@ import { notification } from 'antd';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { analytics } from 'config/segment';
+import { unwrapErrorMessage } from 'utils/error';
 import {
   useCreateSignalMutation,
   useDeleteSignalMutation,
   useUserSignalQuery,
 } from 'api/notification';
 import { type SupportedPair, type Strategy } from 'api/types/strategy';
-import Chip from 'modules/shared/Chip';
-import CoinsIcons from 'modules/shared/CoinsIcons';
-import Icon from 'modules/shared/Icon';
-import Spin from 'modules/shared/Spin';
-import { unwrapErrorMessage } from 'utils/error';
+import CoinsIcons from 'shared/CoinsIcons';
+import Chip from 'shared/Chip';
+import Icon from 'shared/Icon';
+import Spin from 'shared/Spin';
 
-const SignalChip: React.FC<{ pair: SupportedPair; strategy: Strategy }> = ({
-  pair,
-  strategy,
-}) => {
+const SignalChip: React.FC<{
+  pair: SupportedPair;
+  strategy: Strategy;
+  ensureConnected: () => Promise<boolean>;
+}> = ({ pair, strategy, ensureConnected }) => {
   const { t } = useTranslation('notifications');
   const signals = useUserSignalQuery();
   const signal = useMemo(
@@ -34,6 +35,8 @@ const SignalChip: React.FC<{ pair: SupportedPair; strategy: Strategy }> = ({
   const remove = useDeleteSignalMutation();
   const create = useCreateSignalMutation();
   const handler = async () => {
+    if (!(await ensureConnected())) return;
+
     try {
       setIsSubmitting(true);
       if (isSelected) {
