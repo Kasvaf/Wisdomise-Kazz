@@ -1,6 +1,5 @@
 import PriceChange from 'modules/shared/PriceChange';
-import { useSignalerPairDetails } from 'api/signaler';
-import Spinner from 'modules/shared/Spinner';
+import { type PairDetails } from 'api/signaler';
 import FancyPrice from 'modules/shared/FancyPrice';
 
 const RangedPnL: React.FC<{ range: string; value: number }> = ({
@@ -28,35 +27,31 @@ const RangedVolume: React.FC<{ range: string; value?: number }> = ({
   );
 };
 
-const CoinOverview: React.FC<{ name: string }> = ({ name }) => {
-  const { data, isLoading } = useSignalerPairDetails(name);
-
-  if (isLoading) {
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
-  }
-
-  if (!data) return null;
+const CoinOverview: React.FC<{ details?: PairDetails }> = ({ details }) => {
+  if (!details) return null;
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-6">
       <div className="text-3xl mobile:grow">
-        <FancyPrice value={data.price_data.last_price} />
+        <FancyPrice value={details.price_data.last_price} />
       </div>
 
       <div className="flex gap-6">
-        <RangedVolume range="24h Volume" value={data.price_data.volume_24h} />
-        <RangedVolume range="Market Cap" value={data.price_data.market_cap} />
+        <RangedVolume
+          range="24h Volume"
+          value={details.price_data.volume_24h}
+        />
+        <RangedVolume
+          range="Market Cap"
+          value={details.price_data.market_cap}
+        />
       </div>
 
       <div className="flex gap-6 mobile:grow">
-        <RangedPnL range="1h" value={data.price_data.percent_change_1h} />
-        <RangedPnL range="24h" value={data.price_data.percent_change_24h} />
-        <RangedPnL range="7d" value={data.price_data.percent_change_7d} />
-        <RangedPnL range="30d" value={data.price_data.percent_change_30d} />
+        <RangedPnL range="1h" value={details.price_data.percent_change_1h} />
+        <RangedPnL range="24h" value={details.price_data.percent_change_24h} />
+        <RangedPnL range="7d" value={details.price_data.percent_change_7d} />
+        <RangedPnL range="30d" value={details.price_data.percent_change_30d} />
       </div>
     </div>
   );

@@ -1,8 +1,13 @@
 import PageWrapper from 'modules/base/PageWrapper';
-import { useSignalerPairs } from 'api/signaler';
+import {
+  usePairSignalers,
+  useSignalerPairDetails,
+  useSignalerPairs,
+} from 'api/signaler';
 import { useRecentCandlesQuery } from 'api';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import CandleChart from 'modules/strategy/PageStrategyDetails/TabPositions/CandleChart';
+import Spinner from 'modules/shared/Spinner';
 import CoinSelector from '../CoinSelector';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
@@ -14,12 +19,23 @@ export default function PageCoins() {
     () => coins.data?.[0].name ?? '',
   );
   const coin = coins.data?.find(c => c.name === coinName);
+
+  const { data: coinDetails, isLoading: detailsLoading } =
+    useSignalerPairDetails(coinName);
+
+  const { data: signalers, isLoading: signalersLoading } = usePairSignalers(
+    coin?.base.name,
+    coin?.quote.name,
+  );
+
   const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
     coin?.base.name,
   );
 
+  const loading = candlesLoading || detailsLoading || signalersLoading;
+
   return (
-    <PageWrapper loading={false}>
+    <PageWrapper>
       <div>
         <CoinSelector
           coins={coins.data}
@@ -29,25 +45,32 @@ export default function PageCoins() {
           className="mb-8 w-[320px] mobile:w-full"
         />
 
-        {coin && (
-          <>
-            <CoinOverview name={coin.name} />
+        {loading ? (
+          <div className="flex h-full w-full items-center justify-center text-white mobile:h-[calc(100vh-10rem)]">
+            <Spinner />
+          </div>
+        ) : (
+          coin &&
+          coinDetails && (
+            <>
+              <CoinOverview details={coinDetails} />
 
-            <div className="my-10 border-b border-white/5" />
+              <div className="my-10 border-b border-white/5" />
 
-            <div className="mb-10 text-white/40">
-              <h2 className="mb-3 text-2xl font-semibold">Signals Overview</h2>
-              <p className="text-sm">
-                Check Detail of any Strategy , also you can turn on notification
-                by clicking on bell icon.
-              </p>
-            </div>
-            <CoinSignalersList coin={coin} />
+              <div className="mb-10 text-white/40">
+                <h2 className="mb-3 text-2xl font-semibold">
+                  Signals Overview
+                </h2>
+                <p className="text-sm">
+                  Check Detail of any Strategy , also you can turn on
+                  notification by clicking on bell icon.
+                </p>
+              </div>
 
-            {candles && !candlesLoading && (
-              <CandleChart candles={candles} resolution="1h" />
-            )}
-          </>
+              <CoinSignalersList signalers={signalers} />
+              {candles && <CandleChart candles={candles} resolution="1h" />}
+            </>
+          )
         )}
       </div>
     </PageWrapper>

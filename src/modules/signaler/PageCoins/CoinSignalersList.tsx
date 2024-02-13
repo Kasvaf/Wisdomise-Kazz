@@ -1,10 +1,9 @@
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
-import { usePairSignalers, type SignalerPair } from 'api/signaler';
+import { type PairSignalerItem } from 'api/signaler';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
-import Spinner from 'shared/Spinner';
 import Locker from 'shared/Locker';
 import Card from 'shared/Card';
 import ActivePosition from '../ActivePosition';
@@ -31,23 +30,15 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
   );
 };
 
-const CoinSignalersList: React.FC<{ coin: SignalerPair }> = ({ coin }) => {
+const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
+  signalers,
+}) => {
   const { level } = useSubscription();
-  const { data, isLoading } = usePairSignalers(coin.base.name, coin.quote.name);
-
-  if (isLoading) {
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
-  }
-
-  if (!data) return null;
+  if (!signalers) return null;
 
   return (
     <div className="flex flex-col gap-6">
-      {data.map(s => (
+      {signalers.map(s => (
         <Locker
           key={s.strategy.key}
           overlay={
@@ -69,7 +60,7 @@ const CoinSignalersList: React.FC<{ coin: SignalerPair }> = ({ coin }) => {
 
               <div className="flex items-center">
                 <Button
-                  to={`/insight/coins/signaler?coin=${coin.name}&strategy=${s.strategy.key}`}
+                  to={`/insight/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                 >
                   Explore
                   <Icon name={bxRightArrowAlt} />

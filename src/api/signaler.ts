@@ -25,7 +25,7 @@ export const useSignalerPairs = () =>
     },
   );
 
-interface PairDetails {
+export interface PairDetails {
   id: number;
   name: string;
   base: string;
@@ -82,10 +82,11 @@ interface Profile {
   subscription_level?: number;
 }
 
-export const usePairSignalers = (base: string, quote: string) => {
+export const usePairSignalers = (base?: string, quote?: string) => {
   return useQuery<PairSignalerItem[]>(
     ['pair-signaler', base, quote],
     async () => {
+      if (!base || !quote) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
         `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True&${isPublic}`,
       );
