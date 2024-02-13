@@ -62,14 +62,19 @@ const useMenuItems = () => {
       onClick: trackClick('insight_menu'),
       children: [
         {
-          text: t('menu.signaler.title'),
+          text: t('menu.signal-matrix.title'),
+          link: '/insight/signals',
+          onClick: trackClick('signal_matrix_menu'),
+        },
+        {
+          text: t('menu.coin-view.title'),
           link: '/insight/coins',
           onClick: trackClick('signaler_menu'),
         },
         {
-          text: t('menu.signal-matrix.title'),
-          link: '/insight/signals',
-          onClick: trackClick('signal_matrix_menu'),
+          text: t('menu.signaler-view.title'),
+          link: '/insight/signaler',
+          onClick: trackClick('signaler_menu'),
         },
         {
           text: t('menu.athena.title'),

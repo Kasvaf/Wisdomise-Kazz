@@ -1,5 +1,5 @@
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import { type PairSignalerItem } from 'api/signaler';
 import Icon from 'shared/Icon';
@@ -17,9 +17,13 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
   const level = plans?.results.find(x => x.level === requiredLevel)?.name;
 
   return (
-    <Card className="flex flex-col items-center !bg-[#343942] text-center">
-      <div className="mt-2 text-slate-400">
-        {t('overlay-subscription.strategy.description', { level })}
+    <Card className="flex flex-col items-center !bg-[#343942] !p-4 text-center">
+      <div className="mt-2 text-white/70">
+        <Trans ns="billing" i18nKey="overlay-subscription.strategy.description">
+          To reveal this strategy, you need to have{' '}
+          <span className="font-semibold text-white">{{ level }}</span> or a
+          higher plan
+        </Trans>
       </div>
       <Button to="/account/billing" className="mt-3">
         {isFreePlan
@@ -60,7 +64,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
 
               <div className="flex items-center">
                 <Button
-                  to={`/insight/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
+                  to={`/insight/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                 >
                   Explore
                   <Icon name={bxRightArrowAlt} />

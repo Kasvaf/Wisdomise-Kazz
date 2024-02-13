@@ -31,16 +31,22 @@ const FieldTitle: React.FC<
   );
 };
 
-export default function PageCoins() {
+export default function PageSignaler() {
   const { level: myLevel } = useSubscription();
   const allStrategies = useStrategiesList();
   const strategies = allStrategies.data?.filter(
     x => (x.profile?.subscription_level ?? 0) <= myLevel,
   );
-  const [strategyKey, setStrategyKey] = useSearchParamAsState('strategy');
+  const [strategyKey, setStrategyKey] = useSearchParamAsState(
+    'strategy',
+    () => strategies?.[0].key ?? '',
+  );
   const strategy = strategies?.find(x => x.key === strategyKey);
 
-  const [coinName, setCoinName] = useSearchParamAsState('coin');
+  const [coinName, setCoinName] = useSearchParamAsState(
+    'coin',
+    () => strategy?.supported_pairs?.[0].name ?? '',
+  );
   const coin = strategy?.supported_pairs.find(x => x.name === coinName);
 
   const allPositions = useStrategyPositions(

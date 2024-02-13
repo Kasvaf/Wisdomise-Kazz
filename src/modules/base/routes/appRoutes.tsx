@@ -65,9 +65,9 @@ const appRoutes: RouteObject[] = [
     children: [
       { path: '', element: <PageInsight /> },
       { path: 'signals', element: <PageSignalsMatrix /> },
-      { path: 'athena', element: <PageAthena /> },
       { path: 'coins', element: <PageCoins /> },
-      { path: 'coins/signaler', element: <PageSignaler /> },
+      { path: 'signaler', element: <PageSignaler /> },
+      { path: 'athena', element: <PageAthena /> },
     ],
   },
   {

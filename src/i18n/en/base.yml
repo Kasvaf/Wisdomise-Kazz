@@ -25,6 +25,9 @@ menu:
     title: Subscription
     subtitle: Subscription preferences.
     remains: remains
+  coin-view:
+    title: Coin View
+    subtitle: Get AI-powered trading signals for leading cryptocurrencies.
   financial-products:
     title: Financial Products
     subtitle: Explore different investment package opportunities
@@ -50,9 +53,8 @@ menu:
   signal-matrix:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
-  signaler:
-    title: Signaler
-    subtitle: Get AI-powered trading signals for leading cryptocurrencies.
+  signaler-view:
+    title: Signaler View
   strategies:
     title: Strategies
   token:
