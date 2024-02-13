@@ -9,6 +9,7 @@ import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Locker from 'shared/Locker';
 import Card from 'shared/Card';
+import Spin from 'shared/Spin';
 import ActivePosition from '../ActivePosition';
 
 const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
@@ -41,23 +42,28 @@ const NotificationButton: React.FC<{
   signaler: PairSignalerItem;
   ensureConnected: () => Promise<boolean>;
 }> = ({ signaler, ensureConnected }) => {
-  const { handler, isSelected, isSubmitting } = useToggleNotification({
-    pairName: signaler.pair_name,
-    strategy: signaler.strategy,
-    ensureConnected,
-  });
+  const { handler, isSelected, isSubmitting, isLoading } =
+    useToggleNotification({
+      pairName: signaler.pair_name,
+      strategy: signaler.strategy,
+      ensureConnected,
+    });
 
   return (
     <Button
       className={clsx(
-        'mr-2 !px-4',
+        'mr-2 !items-center !justify-center !px-4',
         isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
       )}
       variant="alternative"
       onClick={handler}
-      loading={isSubmitting}
+      disabled={isSubmitting || isLoading}
     >
-      <Icon name={isSelected ? bxsBell : bxBell} />
+      {isSubmitting || isLoading ? (
+        <Spin fontSize={24} />
+      ) : (
+        <Icon name={isSelected ? bxsBell : bxBell} />
+      )}
     </Button>
   );
 };

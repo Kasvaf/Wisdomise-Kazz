@@ -74,6 +74,7 @@ const useToggleNotification = ({
     handler,
     isSelected,
     isSubmitting,
+    isLoading: signals.isLoading,
   };
 };
 
