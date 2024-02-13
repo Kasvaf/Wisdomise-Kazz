@@ -16,7 +16,10 @@ const stringifyDuration = (dur: string) =>
     units[u] ? `${d} ${units[u]}${+d > 1 ? 's' : ''}` : o,
   );
 
-const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
+const StrategyCard: React.FC<{
+  strategy: Strategy;
+  ensureConnected: () => Promise<boolean>;
+}> = ({ strategy: s, ensureConnected }) => {
   const { t } = useTranslation('notifications');
   const infos = [
     {
@@ -60,7 +63,12 @@ const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
 
           <div className="flex flex-wrap">
             {s.supported_pairs.map(pair => (
-              <SignalChip key={pair.name} pair={pair} strategy={s} />
+              <SignalChip
+                key={pair.name}
+                pair={pair}
+                strategy={s}
+                ensureConnected={ensureConnected}
+              />
             ))}
           </div>
         </div>
