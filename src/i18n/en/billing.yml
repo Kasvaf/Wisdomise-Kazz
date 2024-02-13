@@ -33,8 +33,7 @@ overlay-subscription:
     To reveal all signals, you need to <1>Subscribe</1> or <3>Upgrade</3> your
     current plan.
   strategy:
-    title: Unprivileged
-    description: To reveal this strategy, you need to have {{level}} plan or more.
+    description: To reveal this strategy, you need to have <2>{{level}}</2> or a higher plan.
 periodicity:
   month:
     title: Monthly
