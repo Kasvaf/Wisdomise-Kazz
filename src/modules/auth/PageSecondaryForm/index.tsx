@@ -63,9 +63,10 @@ const PageSecondaryForm: React.FC = () => {
   }, [account, navigate]);
 
   useEffect(() => {
-    const referrerCode = sessionStorage.getItem(REFERRER_CODE_KEY);
+    const referrerCode = localStorage.getItem(REFERRER_CODE_KEY);
     if (referrerCode) {
       setReferralCode(referrerCode);
+      localStorage.removeItem(REFERRER_CODE_KEY);
     }
   }, []);
 

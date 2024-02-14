@@ -12,7 +12,7 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
 
   return (
     <div className="flex flex-col items-center text-center">
-      <div className="mt-2 text-error/90">
+      <div className="text-error/90">
         <Trans ns="billing" i18nKey="overlay-subscription.strategy.description">
           To reveal this strategy, you need to have{' '}
           <span className="font-semibold text-white">{{ level }}</span> or a
@@ -20,7 +20,7 @@ const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
         </Trans>
       </div>
 
-      <Button to="/account/billing" className="mt-6">
+      <Button to="/account/billing" className="mt-2">
         {isFreePlan
           ? t('overlay-subscription.btn-subscribe')
           : t('overlay-subscription.btn-upgrade')}

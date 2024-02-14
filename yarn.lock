@@ -5047,24 +5047,24 @@
     react-dom ">=17"
     vue ">=3"
 
-"@wisdomise/utils@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@wisdomise/utils/-/utils-0.1.2.tgz#62c4831ee97880f67b983ec82866aaa3ecf97a6a"
-  integrity sha512-wJZ64TJ2pmPXb6bYhalDLtsBXYCCX2ibvdgej1Gz6ENeJvD5ZjVR0UzV+i10xN8p6ogmfGWERf4sDkS1u0oLSQ==
+"@wisdomise/utils@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@wisdomise/utils/-/utils-0.2.1.tgz#25fdd447c9fbbbe7d0e010753c6b93b1b95ee145"
+  integrity sha512-80l16/zhfGaYeOmuxmeUMHPAYOj/mTWE1HV9s/i5FNuIqD23zr6YoSAaJ1CVjcgNuofPeKNiZvUXXVHpb9BzAg==
   dependencies:
     antd "^5.7.3"
     clsx "^2.0.0"
     overlayscrollbars "^2.3.2"
     overlayscrollbars-react "^0.5.2"
 
-"@wisdomise/widgets@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@wisdomise/widgets/-/widgets-1.1.1.tgz#d864da862e70be929aae8e02e131e4182ced0960"
-  integrity sha512-ycLKhVT/GzpufRsrbu5fU6k3M3LVgQ52fff/O8mCAcKmoBvfdO7YhL9uSpbjWQhlNHCQYfL5aedG9YzJ7b5g7Q==
+"@wisdomise/widgets@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@wisdomise/widgets/-/widgets-1.3.1.tgz#b65cc2285d1139cd16d00524eb928a8460f5c40d"
+  integrity sha512-j8lzyplLRqL3OWDvToPAbq5O5lzKRUDQEFYqmpaLrxNyyYjeeYQOTlc7o7Ops0+PXnhjt/G4HUYHmBUiaDbilg==
   dependencies:
     "@ant-design/plots" "^1.2.5"
     "@nivo/pie" "^0.83.0"
-    "@wisdomise/utils" "^0.1.2"
+    "@wisdomise/utils" "^0.2.1"
     numerable "^0.3.15"
     react-ts-tradingview-widgets "^1.2.0"
 
