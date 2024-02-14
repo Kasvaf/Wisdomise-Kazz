@@ -1,16 +1,14 @@
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
-import { bxBell } from 'boxicons-quasar';
-import PageWrapper from 'modules/base/PageWrapper';
-import { useStrategyPositions, useStrategiesList } from 'api/signaler';
-import Spinner from 'modules/shared/Spinner';
-import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
-import Button from 'modules/shared/Button';
-import Icon from 'modules/shared/Icon';
 import { useSubscription } from 'api';
+import { useStrategyPositions, useStrategiesList } from 'api/signaler';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import Spinner from 'shared/Spinner';
+import PageWrapper from 'modules/base/PageWrapper';
 import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
 import StrategySelector from './StrategySelector';
+import ButtonNotificationModifier from './ButtonNotificationModifier';
 import SimulatedPositions from './SimulatedPositions';
 import SimulatedChart from './SimulatedChart';
 
@@ -90,16 +88,13 @@ export default function PageSignaler() {
           )}
           <div className="grow" />
 
-          {false && (
+          {strategy && (
             <FieldTitle
               title="Telegram Notification"
               description="Dont miss a signal by connecting your telegram"
               className="mobile:w-full"
             >
-              <Button variant="alternative">
-                <Icon name={bxBell} className="mr-2" />
-                Turn On Notification
-              </Button>
+              <ButtonNotificationModifier strategy={strategy} />
             </FieldTitle>
           )}
         </div>

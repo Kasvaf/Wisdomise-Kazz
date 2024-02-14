@@ -2,7 +2,16 @@ import { type PageResponse } from './page';
 
 export type StrategiesResponse = PageResponse<Strategy>;
 
-export interface Strategy {
+export interface BareStrategyInfo {
+  name: string;
+  profile?:
+    | {
+        title: string;
+      }
+    | undefined;
+}
+
+export interface Strategy extends BareStrategyInfo {
   key: string;
   name: string;
   version: string;
@@ -14,8 +23,8 @@ export interface Strategy {
 
 export interface SupportedPair {
   name: string;
-  base_name: string;
-  quote_name: string;
+  base: { name: string };
+  quote: { name: string };
 }
 
 interface Profile {

@@ -1,5 +1,5 @@
 import { bxPlus, bxX } from 'boxicons-quasar';
-import { type SupportedPair, type Strategy } from 'api/types/strategy';
+import { type BareStrategyInfo, type SupportedPair } from 'api/types/strategy';
 import CoinsIcons from 'shared/CoinsIcons';
 import Chip from 'shared/Chip';
 import Icon from 'shared/Icon';
@@ -8,7 +8,7 @@ import useToggleNotification from './useToggleNotification';
 
 const SignalChip: React.FC<{
   pair: SupportedPair;
-  strategy: Strategy;
+  strategy: BareStrategyInfo;
   ensureConnected: () => Promise<boolean>;
 }> = ({ pair, strategy, ensureConnected }) => {
   const { handler, isSelected, isSubmitting } = useToggleNotification({
@@ -20,8 +20,8 @@ const SignalChip: React.FC<{
   return (
     <Chip
       key={pair.name}
-      label={pair.base_name}
-      leadingIcon={<CoinsIcons coins={[pair.base_name]} size="small" />}
+      label={pair.base.name}
+      leadingIcon={<CoinsIcons coins={[pair.base.name]} size="small" />}
       trailingIcon={
         isSubmitting ? <Spin /> : <Icon name={isSelected ? bxX : bxPlus} />
       }
