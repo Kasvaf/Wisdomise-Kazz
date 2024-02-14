@@ -31,7 +31,7 @@ const ButtonNotificationModifier: React.FC<{
         {t('signaling.strategy.choose-coin')}
       </p>
 
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap justify-center">
         {s.supported_pairs.map(pair => (
           <SignalChip
             key={pair.name}
