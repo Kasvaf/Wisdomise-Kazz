@@ -34,7 +34,7 @@ menu:
     passive-income: 不労所得
     strategy-builder: 戦略ビルダー
   coin-view:
-    subtitle: AIによる市場シグナルをご確認頂けます。
+    subtitle: すべての信号発信者から信号と位置履歴を取得
     title: コインビュー
   dashboard: ダッシュボード
   financial-products:
@@ -72,6 +72,7 @@ menu:
     subtitle: AIによる市場シグナルをご確認頂けます。
     title: 市場シグナル
   signaler-view:
+    subtitle: すべての信号発信者から信号と位置履歴を取得
     title: シグナラービュー
   strategies:
     mobile: 戦略

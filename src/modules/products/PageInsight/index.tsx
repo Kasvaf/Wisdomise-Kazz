@@ -26,7 +26,16 @@ const PageInsight = () => {
           subtitle={t('menu.coin-view.subtitle')}
           icon={<IconSignals />}
           height={250}
-          onClick={trackClick('signaler_menu')}
+          onClick={trackClick('signaler_coin_menu')}
+        />
+
+        <CardPageLink
+          to="/insight/signaler"
+          title={t('menu.signaler-view.title')}
+          subtitle={t('menu.signaler-view.subtitle')}
+          icon={<IconSignals />}
+          height={250}
+          onClick={trackClick('signaler_signals_menu')}
         />
 
         <CardPageLink

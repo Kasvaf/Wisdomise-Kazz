@@ -34,7 +34,7 @@ menu:
     passive-income: 被动收入
     strategy-builder: 策略生成器
   coin-view:
-    subtitle: 获取主流币种的人工智能交易信号
+    subtitle: 获取所有信号员的信号和位置历史记录
     title: 硬币视图
   dashboard: 後台
   financial-products:
@@ -72,6 +72,7 @@ menu:
     subtitle: 获取主流币种的人工智能交易信号
     title: AI交易信号资讯
   signaler-view:
+    subtitle: 获取所有信号员的信号和位置历史记录
     title: 信号员视图
   strategies:
     mobile: 策略
