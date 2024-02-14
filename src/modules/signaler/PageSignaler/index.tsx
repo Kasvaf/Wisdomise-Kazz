@@ -39,7 +39,7 @@ export default function PageSignaler() {
   );
   const [strategyKey, setStrategyKey] = useSearchParamAsState(
     'strategy',
-    () => strategies?.[0].key ?? '',
+    () => strategies?.[0]?.key ?? '',
   );
   const strategy = strategies?.find(x => x.key === strategyKey);
 

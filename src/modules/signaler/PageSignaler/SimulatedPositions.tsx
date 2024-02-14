@@ -42,7 +42,7 @@ const SimulatedPositions: React.FC<{ items: PairSignalerItem[] }> = ({
         render: (_, { pnl }) => (
           <PriceChange
             value={pnl}
-            textClassName="!text-base"
+            textClassName="!desktop:text-base !mobile:text-sm"
             className="!justify-start"
           />
         ),
