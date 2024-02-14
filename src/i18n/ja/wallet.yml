@@ -38,4 +38,4 @@ withdraw-info:
   fee: 料金
   source: 出典
   source-value: "{{source}} ウォレット"
-withdrawable: 出金可能
+withdrawable: 運用可能残高（引き出し可能）

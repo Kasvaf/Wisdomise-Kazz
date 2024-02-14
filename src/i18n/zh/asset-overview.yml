@@ -18,7 +18,7 @@ portfolio:
       subtitle: 数量
       title: 储值
     working-capital:
-      subtitle: 资产管理规模
+      subtitle: (AUM)
       title: 营运资金
   table:
     amount: 数量

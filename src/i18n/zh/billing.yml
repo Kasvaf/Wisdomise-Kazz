@@ -30,9 +30,12 @@ crypto-modal:
   total-due-today: 今天到期总计
 overlay-subscription:
   btn-subscribe: 订阅
+  btn-upgrade: 升级
   customs-description: 要添加问题，您需要订阅 Wisdomise 方案
   signaling-description: 您需要订阅方案才能启用通知。
   signals-description: 要揭示所有信号，您需要 <1>订阅</1> 或者 <3>升级</3> 你目前的方案。
+  strategy:
+    description: 要揭示此策略，您需要 <2>{{level}}</2> 或者更高的计划。
   title: 您还没有订阅
 periodicity:
   month:

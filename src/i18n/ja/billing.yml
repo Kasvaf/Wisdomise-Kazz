@@ -30,9 +30,12 @@ crypto-modal:
   total-due-today: 本日のご請求金額
 overlay-subscription:
   btn-subscribe: サブスクリプション契約
+  btn-upgrade: アップグレード
   customs-description: 質問をする場合、Wisdomiseのプランのいずれかの契約が必要です。
   signaling-description: 通知機能の利用はサブスクリプション契約が必要です。
   signals-description: シグナルを確認する場合は、<1>サブスクリプション</1> へのまたは、現在のプランを<3>アップグレード</3>する必要があります。
+  strategy:
+    description: この戦略を明らかにするには、以下が必要です <2>{{level}}</2> またはそれ以上のプラン。
   title: 現在のサブスクリプション契約はありません。
 periodicity:
   month:
@@ -104,7 +107,7 @@ success-modal:
   subtitle: 次のステップに進められます
   title: サブスクリプションのご契約ありがとうございます
 tabs:
-  invoices: 請求書
+  invoices: 請求状況
   overview: 概要
   payment-methods: 支払い方法
 token-modal:

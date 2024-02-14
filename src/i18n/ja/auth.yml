@@ -1,18 +1,18 @@
 banner:
   athena-bot: アテナのTelegramボット
   stay-connected: 通信を継続
-email-address: 電子メールアドレス
+email-address: メールアドレス
 footer: © 2024 Wisdomise. All rights reserved.
 page-referral:
-  all-time: 歴上
-  friends-invited: 友達を招待しました
+  all-time: 歴上→累計
+  friends-invited: 紹介者数
   invited: 招待されました
   referral-code: 紹介コード
-  referral-insight: 紹介状況
+  referral-insight: リファーラル状況
   referral-link: 紹介リンク
   subscribed-friends: 紹介リンクで登録した人
   title: 紹介プログラム
-  wisdomise-revenue: Wisdomise紹介による収益
+  wisdomise-revenue: リファーラルによる収益
   your-profit: あなたの利益
 secodary:
   email-verified: あなたのメールアドレスが確認されました!

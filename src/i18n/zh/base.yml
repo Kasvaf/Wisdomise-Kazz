@@ -33,6 +33,9 @@ menu:
     market-predication: 市场预测
     passive-income: 被动收入
     strategy-builder: 策略生成器
+  coin-view:
+    subtitle: 获取主流币种的人工智能交易信号
+    title: 硬币视图
   dashboard: 後台
   financial-products:
     active-product: 活跃产品
@@ -68,6 +71,8 @@ menu:
     mobile: 交易信号
     subtitle: 获取主流币种的人工智能交易信号
     title: AI交易信号资讯
+  signaler-view:
+    title: 信号员视图
   strategies:
     mobile: 策略
     title: 策略

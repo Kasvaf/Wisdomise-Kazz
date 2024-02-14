@@ -24,6 +24,7 @@ signaling:
   modal-connected:
     description: 您的 Telegram 帐户现已同步。
     title: 连接成功
+  modify-notification: 修改通知
   notification-activate-chip-message: 您已訂閱了"所选币种”{{strategy}}”并且每次电报中有新交易点位时都会收到通知。
   overlay-telegram:
     description: 转到 Telegram 并使用 <1>/subscribe_to_signals</1> 指令。
@@ -34,4 +35,6 @@ signaling:
     timeframe: 大体时间
     type: 类型
   subtitle: 策略列表
+  telegram-notification: 电报通知
   title: 信令
+  turn-on-notification: 打开通知
