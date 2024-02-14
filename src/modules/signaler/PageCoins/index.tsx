@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
   usePairSignalers,
@@ -13,8 +14,12 @@ import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
 
 export default function PageCoins() {
+  const { t } = useTranslation('strategy');
   const coins = useSignalerPairs();
-  const [coinName, setCoinName] = useSearchParamAsState('coin', 'SOLUSDT');
+  const [coinName, setCoinName] = useSearchParamAsState<string>(
+    'coin',
+    'SOLUSDT',
+  );
   const coin = coins.data?.find(c => c.name === coinName);
 
   const { data: coinDetails, isLoading: detailsLoading } =
@@ -56,11 +61,10 @@ export default function PageCoins() {
 
               <div className="mb-10 text-white/40">
                 <h2 className="mb-3 text-2xl font-semibold">
-                  Signals Overview
+                  {t('signaler.signals-overview.title')}
                 </h2>
                 <p className="text-sm">
-                  Check Detail of any Strategy , also you can turn on
-                  notification by clicking on bell icon.
+                  {t('signaler.signals-overview.description')}
                 </p>
               </div>
 

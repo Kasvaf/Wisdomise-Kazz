@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import PriceChange from 'modules/shared/PriceChange';
 import { type PairDetails } from 'api/signaler';
 import FancyPrice from 'modules/shared/FancyPrice';
@@ -28,6 +29,7 @@ const RangedVolume: React.FC<{ range: string; value?: number }> = ({
 };
 
 const CoinOverview: React.FC<{ details?: PairDetails }> = ({ details }) => {
+  const { t } = useTranslation('strategy');
   if (!details) return null;
 
   return (
@@ -38,11 +40,11 @@ const CoinOverview: React.FC<{ details?: PairDetails }> = ({ details }) => {
 
       <div className="flex gap-6">
         <RangedVolume
-          range="24h Volume"
+          range={t('signaler.24h-volume')}
           value={details.price_data.volume_24h}
         />
         <RangedVolume
-          range="Market Cap"
+          range={t('signaler.market-cap')}
           value={details.price_data.market_cap}
         />
       </div>

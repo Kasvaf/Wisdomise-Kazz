@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
+import { type PairSignalerItem } from 'api/signaler';
 import { useSuggestionsMap } from 'modules/strategy/PageSignalsMatrix/constants';
 import Badge from 'shared/Badge';
 import FancyPrice from 'shared/FancyPrice';
 import PriceChange from 'shared/PriceChange';
-import { type PairSignalerItem } from 'api/signaler';
 
 const Labeled: React.FC<
   PropsWithChildren<{ label: string; className?: string }>
@@ -26,11 +27,12 @@ const Labeled: React.FC<
 const ActivePosition: React.FC<{ signaler: PairSignalerItem }> = ({
   signaler: s,
 }) => {
+  const { t } = useTranslation('strategy');
   const suggestions = useSuggestionsMap();
 
   return (
     <div className="mt-3 flex min-h-[72px] flex-wrap justify-between gap-3 rounded-xl bg-white/5 p-3">
-      <Labeled label="Suggest">
+      <Labeled label={t('positions-history.suggest')}>
         <Badge
           label={suggestions[s.suggested_action].label}
           color={suggestions[s.suggested_action].color}
@@ -38,23 +40,25 @@ const ActivePosition: React.FC<{ signaler: PairSignalerItem }> = ({
         />
       </Labeled>
 
-      <Labeled label="Market Side">{s.position_side}</Labeled>
-      <Labeled label="Entry Time">
+      <Labeled label={t('positions-history.market-side')}>
+        {s.position_side}
+      </Labeled>
+      <Labeled label={t('positions-history.entry-time')}>
         {dayjs(s.entry_time).format('HH:mm MMM DD')}
       </Labeled>
       <Labeled
-        label="P/L"
+        label={t('positions-history.pnl')}
         className="mobile:basis-full mobile:border-y mobile:border-y-white/5 mobile:py-3"
       >
         <PriceChange value={s.pnl} textClassName="!text-2xl" />
       </Labeled>
-      <Labeled label="Entry Price">
+      <Labeled label={t('positions-history.entry-price')}>
         <FancyPrice value={s.entry_price} />
       </Labeled>
-      <Labeled label="Take Profit">
+      <Labeled label={t('positions-history.take-profit')}>
         <FancyPrice value={s.take_profit} />
       </Labeled>
-      <Labeled label="Stop Loss">
+      <Labeled label={t('positions-history.stop-loss')}>
         <FancyPrice value={s.stop_loss} />
       </Labeled>
     </div>

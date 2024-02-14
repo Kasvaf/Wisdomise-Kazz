@@ -32,6 +32,7 @@ signaling:
   modal-connected:
     title: Connected successfully
     description: Your Telegram account is now synced.
+  modify-notification: Modify Notification
   notification-activate-chip-message: >-
     You have subscribed to the selected coin in “{{strategy}}” and will receive
     notifications every time in telegram there is a new position.
@@ -43,3 +44,5 @@ signaling:
     sl-tp: SL / TP
     timeframe: Timeframe
     type: Type
+  telegram-notification: Telegram Notification
+  turn-on-notification: Turn On Notification

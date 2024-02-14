@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
 import { useStrategyPositions, useStrategiesList } from 'api/signaler';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
@@ -30,6 +31,7 @@ const FieldTitle: React.FC<
 };
 
 export default function PageSignaler() {
+  const { t } = useTranslation('strategy');
   const { level: myLevel } = useSubscription();
   const allStrategies = useStrategiesList();
   const strategies = allStrategies.data?.filter(
@@ -61,8 +63,8 @@ export default function PageSignaler() {
       <div>
         <div className="mb-8 flex flex-wrap items-stretch gap-4 mobile:flex-col">
           <FieldTitle
-            title="Strategy"
-            description="Choose Strategy then choose from crypto list"
+            title={t('signaler.info.strategy.label')}
+            description={t('signaler.info.strategy.description')}
             className="w-[320px] mobile:w-full"
           >
             <StrategySelector
@@ -75,8 +77,8 @@ export default function PageSignaler() {
 
           {strategy && (
             <FieldTitle
-              title="Crypto"
-              description="Choose from supported coin"
+              title={t('signaler.info.crypto.label')}
+              description={t('signaler.info.crypto.description')}
               className="w-[320px] mobile:w-full"
             >
               <CoinSelector
@@ -90,8 +92,8 @@ export default function PageSignaler() {
 
           {strategy && (
             <FieldTitle
-              title="Telegram Notification"
-              description="Dont miss a signal by connecting your telegram"
+              title={t('signaler.info.telegram-notification.label')}
+              description={t('signaler.info.telegram-notification.description')}
               className="mobile:w-full"
             >
               <ButtonNotificationModifier strategy={strategy} />
@@ -111,8 +113,8 @@ export default function PageSignaler() {
               {!!activePositions?.length && (
                 <div className="mt-10">
                   <h2 className="mb-3 text-xl text-white/40">
-                    {strategy?.profile?.title || strategy?.name} Active
-                    Positions
+                    {strategy?.profile?.title || strategy?.name}{' '}
+                    {t('signaler.active-positions')}
                   </h2>
                   {activePositions.map(p => (
                     <ActivePosition key={p.entry_time} signaler={p} />
@@ -123,7 +125,7 @@ export default function PageSignaler() {
               {!!simulatedPositions?.length && (
                 <div className="mt-10">
                   <h2 className="mb-3 text-xl text-white/40">
-                    Simulated Position History
+                    {t('signaler.simulated-position-history')}
                   </h2>
                   <SimulatedPositions items={simulatedPositions} />
                 </div>

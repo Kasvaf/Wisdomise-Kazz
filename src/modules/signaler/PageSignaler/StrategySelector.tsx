@@ -1,7 +1,8 @@
 import type React from 'react';
 import { clsx } from 'clsx';
-import ComboBox from 'shared/ComboBox';
+import { useTranslation } from 'react-i18next';
 import { type StrategyItem } from 'api/signaler';
+import ComboBox from 'shared/ComboBox';
 
 const CoinOptionItem = (item: StrategyItem | string) => {
   return (
@@ -34,10 +35,13 @@ const StrategySelector: React.FC<Props> = ({
   loading = false,
   className,
 }) => {
+  const { t } = useTranslation('strategy');
   return (
     <ComboBox
       options={strategies?.filter(x => x.supported_pairs.length) ?? []}
-      selectedItem={loading ? 'Loading...' : selectedItem ?? 'Select Strategy'}
+      selectedItem={
+        loading ? 'Loading...' : selectedItem ?? t('select-strategy')
+      }
       onSelect={onSelect}
       renderItem={CoinOptionItem}
       disabled={disabled || loading}

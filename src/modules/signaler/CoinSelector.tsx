@@ -1,9 +1,10 @@
 import type React from 'react';
 import { clsx } from 'clsx';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { type SignalerPair } from 'api/signaler';
 import ComboBox from 'shared/ComboBox';
 import CoinsIcons from 'shared/CoinsIcons';
-import { type SignalerPair } from 'api/signaler';
 
 const CoinOptionItem = (item: SignalerPair | string) => {
   return (
@@ -48,6 +49,7 @@ const CoinSelector: React.FC<Props> = ({
   loading = false,
   className,
 }) => {
+  const { t } = useTranslation('strategy');
   useEffect(() => {
     if (!coins) return;
     if (!selectedItem || !coins?.find(c => c.name === selectedItem.name)) {
@@ -58,7 +60,7 @@ const CoinSelector: React.FC<Props> = ({
   return (
     <ComboBox
       options={coins ?? []}
-      selectedItem={loading ? 'Loading...' : selectedItem ?? 'Select Coin'}
+      selectedItem={loading ? 'Loading...' : selectedItem ?? t('select-coin')}
       onSelect={onSelect}
       renderItem={CoinOptionItem}
       disabled={disabled || loading}

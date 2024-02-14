@@ -1,42 +1,16 @@
 import { clsx } from 'clsx';
 import { bxBell, bxRightArrowAlt, bxsBell } from 'boxicons-quasar';
-import { Trans, useTranslation } from 'react-i18next';
-import { usePlansQuery, useSubscription } from 'api';
+import { useTranslation } from 'react-i18next';
+import { useSubscription } from 'api';
 import { type PairSignalerItem } from 'api/signaler';
 import useToggleNotification from 'modules/account/PageNotification/SignalingTab/useToggleNotification';
 import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Locker from 'shared/Locker';
-import Card from 'shared/Card';
 import Spin from 'shared/Spin';
 import ActivePosition from '../ActivePosition';
-
-const UnprivilegedOverlay: React.FC<{ requiredLevel: number }> = ({
-  requiredLevel,
-}) => {
-  const { t } = useTranslation('billing');
-  const { isFreePlan } = useSubscription();
-  const { data: plans } = usePlansQuery();
-  const level = plans?.results.find(x => x.level === requiredLevel)?.name;
-
-  return (
-    <Card className="flex flex-col items-center !bg-[#343942] !p-4 text-center">
-      <div className="mt-2 text-white/70">
-        <Trans ns="billing" i18nKey="overlay-subscription.strategy.description">
-          To reveal this strategy, you need to have{' '}
-          <span className="font-semibold text-white">{{ level }}</span> or a
-          higher plan
-        </Trans>
-      </div>
-      <Button to="/account/billing" className="mt-3">
-        {isFreePlan
-          ? t('overlay-subscription.btn-subscribe')
-          : t('overlay-subscription.btn-upgrade')}
-      </Button>
-    </Card>
-  );
-};
+import UnprivilegedOverlay from './UnprivilegedOverlay';
 
 const NotificationButton: React.FC<{
   signaler: PairSignalerItem;
@@ -71,6 +45,7 @@ const NotificationButton: React.FC<{
 const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
   signalers,
 }) => {
+  const { t } = useTranslation('strategy');
   const { level } = useSubscription();
   const [ModalTelegramConnected, ensureTelegramConnected] =
     useEnsureTelegramConnected();
@@ -105,7 +80,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                   className="mobile:!p-[10px_12px]"
                   to={`/insight/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                 >
-                  Explore
+                  {t('signaler.btn-explore')}
                   <Icon name={bxRightArrowAlt} />
                 </Button>
               </div>

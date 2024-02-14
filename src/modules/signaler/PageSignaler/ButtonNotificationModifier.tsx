@@ -20,7 +20,7 @@ const ButtonNotificationModifier: React.FC<{
   const [Modal, showModal] = useModal(() => (
     <div className="flex flex-col items-center">
       <div className="mb-8 text-center font-semibold">
-        Telegram Notification
+        {t('signaling.telegram-notification')}
       </div>
 
       <div className="mb-6 rounded-xl bg-white/10 px-6 py-3 text-2xl">
@@ -60,7 +60,9 @@ const ButtonNotificationModifier: React.FC<{
         )}
       >
         <Icon name={isConnected ? bxsBell : bxBell} className="mr-2" />
-        {isConnected ? 'Modify Notification' : 'Turn On Notification'}
+        {isConnected
+          ? t('signaling.modify-notification')
+          : t('signaling.turn-on-notification')}
       </Button>
       {Modal}
       {ModalTelegramConnected}
