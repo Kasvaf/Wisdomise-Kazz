@@ -44,7 +44,7 @@ const ActivePosition: React.FC<{ signaler: PairSignalerItem }> = ({
         {s.position_side}
       </Labeled>
       <Labeled label={t('positions-history.entry-time')}>
-        {dayjs(s.entry_time).format('HH:mm MMM DD')}
+        {s.entry_time ? dayjs(s.entry_time).format('HH:mm MMM DD') : '-'}
       </Labeled>
       <Labeled
         label={t('positions-history.pnl')}
