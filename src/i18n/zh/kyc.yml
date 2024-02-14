@@ -16,6 +16,7 @@ modal-kyc:
 title: 实名认证
 verification:
   btn-calendly: 於Calendly中預約時間
+  btn-meeting: 安排会议
   description: 要验证您的帐户，请在 Calendly 上安排会议，我们将与您联系以协助您完成验证过程。
   identify-first-notice: 首先完成身份验证
   title: 确认

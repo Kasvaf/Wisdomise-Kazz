@@ -17,6 +17,7 @@ modal-kyc:
 title: KYC
 verification:
   btn-calendly: Calendlyで予約
+  btn-meeting: 会議を設定する
   description: オンライン面談にて本人確認を行います。Calendalryよりご都合の良い日程でご予約ください。予約完了後、メールにて次のステップをご連絡いたします。
   identify-first-notice: 先ずは身分証明を実施してください。
   title: オンライン本人かくに

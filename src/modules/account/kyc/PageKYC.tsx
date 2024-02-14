@@ -115,7 +115,7 @@ export default function PageKYC() {
                   target="_blank"
                   href={
                     sumsubVerified.data === 'VERIFIED'
-                      ? 'https://calendly.com/wisdomise-kyc/15-minute-kyc'
+                      ? 'https://sites.google.com/wisdomise.io/kyc-video-meeting'
                       : undefined
                   }
                   className={clsx(
@@ -126,7 +126,7 @@ export default function PageKYC() {
                   )}
                   rel="noreferrer noopener"
                 >
-                  {t('verification.btn-calendly')}
+                  {t('verification.btn-meeting')}
                 </a>
               )}
             </div>

@@ -16,7 +16,7 @@ verification:
   description: >-
     To verify your account, kindly schedule a meeting on Calendly, and we will
     reach out to assist you with the verification process.
-  btn-calendly: Schedule in Calendly
+  btn-meeting: Schedule a Meeting
   identify-first-notice: Complete Identification first
 wallet:
   title: Wallet Verification
