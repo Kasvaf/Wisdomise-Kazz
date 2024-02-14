@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { type Strategy } from 'api/types/strategy';
-import Card from 'modules/shared/Card';
-import SignalChip from './SignalChip';
+import Card from 'shared/Card';
+import Locker from 'shared/Locker';
+import SignalChip from '../SignalChip';
+import useNotificationLevelOverlay from './useNotificationLevelOverlay';
 
 const units: Record<string, string> = {
   s: 'second',
@@ -14,7 +16,10 @@ const stringifyDuration = (dur: string) =>
     units[u] ? `${d} ${units[u]}${+d > 1 ? 's' : ''}` : o,
   );
 
-const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
+const StrategyCard: React.FC<{
+  strategy: Strategy;
+  ensureConnected: () => Promise<boolean>;
+}> = ({ strategy: s, ensureConnected }) => {
   const { t } = useTranslation('notifications');
   const infos = [
     {
@@ -31,9 +36,13 @@ const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
     },
   ];
 
+  const overlay = useNotificationLevelOverlay(
+    s.profile.subscription_level ?? 0,
+  );
+
   return (
     <Card>
-      <h2 className="text-xl font-semibold">{s.profile.title}</h2>
+      <h2 className="text-xl font-semibold">{s.profile.title || s.name}</h2>
       <p className="mt-4 text-sm text-white/60">{s.profile.description}</p>
 
       <div className="mt-8 flex justify-around rounded-lg bg-white/10 p-2">
@@ -46,17 +55,24 @@ const StrategyCard: React.FC<{ strategy: Strategy }> = ({ strategy: s }) => {
       </div>
       <hr className="my-6 w-full border-white/10" />
 
-      <div>
-        <p className="text-base text-white/60">
-          {t('signaling.strategy.choose-coin')}
-        </p>
+      <Locker overlay={overlay} className="justify-center !bg-[#1e1e23]/80">
+        <div>
+          <p className="text-base text-white/60">
+            {t('signaling.strategy.choose-coin')}
+          </p>
 
-        <div className="flex flex-wrap">
-          {s.supported_pairs.map(pair => (
-            <SignalChip key={pair.name} pair={pair} strategy={s} />
-          ))}
+          <div className="flex flex-wrap">
+            {s.supported_pairs.map(pair => (
+              <SignalChip
+                key={pair.name}
+                pair={pair}
+                strategy={s}
+                ensureConnected={ensureConnected}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      </Locker>
     </Card>
   );
 };
