@@ -14,10 +14,7 @@ import CoinSignalersList from './CoinSignalersList';
 
 export default function PageCoins() {
   const coins = useSignalerPairs();
-  const [coinName, setCoinName] = useSearchParamAsState(
-    'coin',
-    () => coins.data?.[0].name ?? '',
-  );
+  const [coinName, setCoinName] = useSearchParamAsState('coin', 'SOLUSDT');
   const coin = coins.data?.find(c => c.name === coinName);
 
   const { data: coinDetails, isLoading: detailsLoading } =

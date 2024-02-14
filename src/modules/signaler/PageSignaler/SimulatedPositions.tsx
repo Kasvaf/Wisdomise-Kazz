@@ -47,14 +47,14 @@ const SimulatedPositions: React.FC<{ items: PairSignalerItem[] }> = ({
       },
       {
         title: 'Entry Point',
-        dataIndex: 'entry',
+        dataIndex: 'entry_price',
         render: (_, { entry_price: ep, entry_time: et }) => (
           <PriceTime price={ep} time={et} />
         ),
       },
       {
         title: 'Exit Point',
-        dataIndex: 'exit',
+        dataIndex: 'exit_price',
         render: (_, { exit_price: ep, exit_time: et }) => (
           <PriceTime price={ep} time={et} />
         ),

@@ -12,6 +12,11 @@ export interface ChartPosition {
   strategy_position?: Position | null;
 }
 
+function ensureZ(date?: string) {
+  if (!date) return '';
+  return date.endsWith('Z') || /\+\d+$/.test(date) ? date : date + 'Z';
+}
+
 interface Position {
   entry_time: string;
   entry_price: number;
@@ -80,13 +85,15 @@ export function parsePositions(
       ({
         actual_position: {
           ...ap,
-          entry_time: roundDate(ap.entry_time + 'Z', resolution),
-          exit_time: ap.exit_time && roundDate(ap.exit_time + 'Z', resolution),
+          entry_time: roundDate(ensureZ(ap.entry_time), resolution),
+          exit_time:
+            ap.exit_time && roundDate(ensureZ(ap.exit_time), resolution),
         },
         strategy_position: sp && {
           ...sp,
-          entry_time: roundDate(sp.entry_time + 'Z', resolution),
-          exit_time: sp.exit_time && roundDate(sp.exit_time + 'Z', resolution),
+          entry_time: roundDate(ensureZ(sp.entry_time), resolution),
+          exit_time:
+            sp.exit_time && roundDate(ensureZ(sp.exit_time), resolution),
         },
       }) satisfies ChartPosition,
   );

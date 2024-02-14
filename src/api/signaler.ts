@@ -50,6 +50,7 @@ export const useSignalerPairDetails = (name: string) =>
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
+      enabled: !!name,
     },
   );
 

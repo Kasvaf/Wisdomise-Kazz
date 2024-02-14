@@ -1,5 +1,6 @@
 import type React from 'react';
 import { clsx } from 'clsx';
+import { useEffect } from 'react';
 import ComboBox from 'shared/ComboBox';
 import CoinsIcons from 'shared/CoinsIcons';
 import { type SignalerPair } from 'api/signaler';
@@ -47,6 +48,13 @@ const CoinSelector: React.FC<Props> = ({
   loading = false,
   className,
 }) => {
+  useEffect(() => {
+    if (!coins) return;
+    if (!selectedItem || !coins?.find(c => c.name === selectedItem.name)) {
+      onSelect?.(coins[0]);
+    }
+  }, [coins, onSelect, selectedItem]);
+
   return (
     <ComboBox
       options={coins ?? []}

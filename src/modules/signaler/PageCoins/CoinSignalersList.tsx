@@ -52,7 +52,7 @@ const NotificationButton: React.FC<{
   return (
     <Button
       className={clsx(
-        'mr-2 !items-center !justify-center !px-4',
+        'mr-2 !items-center !justify-center !px-4 mobile:!p-[10px]',
         isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
       )}
       variant="alternative"
@@ -92,11 +92,9 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
         >
           <div className="rounded-2xl bg-white/5 p-3">
             <div className="flex items-center justify-between">
-              <div>
-                <h2 className="mx-3 text-2xl">
-                  {s.strategy.profile.title || s.strategy.name}
-                </h2>
-              </div>
+              <h2 className="mx-3 line-clamp-1 text-2xl">
+                {s.strategy.profile.title || s.strategy.name}
+              </h2>
 
               <div className="flex items-center">
                 <NotificationButton
@@ -104,6 +102,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                   ensureConnected={ensureTelegramConnected}
                 />
                 <Button
+                  className="mobile:!p-[10px_12px]"
                   to={`/insight/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                 >
                   Explore

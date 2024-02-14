@@ -39,7 +39,7 @@ const ActivePosition: React.FC<{ signaler: PairSignalerItem }> = ({
       </Labeled>
 
       <Labeled label="Market Side">{s.position_side}</Labeled>
-      <Labeled label="Time">
+      <Labeled label="Entry Time">
         {dayjs(s.entry_time).format('HH:mm MMM DD')}
       </Labeled>
       <Labeled
