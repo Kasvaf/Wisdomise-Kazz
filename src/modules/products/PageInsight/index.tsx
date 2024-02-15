@@ -30,15 +30,6 @@ const PageInsight = () => {
         />
 
         <CardPageLink
-          to="/insight/signaler"
-          title={t('menu.signaler-view.title')}
-          subtitle={t('menu.signaler-view.subtitle')}
-          icon={<IconSignals />}
-          height={250}
-          onClick={trackClick('signaler_signals_menu')}
-        />
-
-        <CardPageLink
           to="/insight/signals"
           title={t('menu.signal-matrix.title')}
           subtitle={t('menu.signal-matrix.subtitle')}

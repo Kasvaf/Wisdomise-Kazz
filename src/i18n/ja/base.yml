@@ -35,7 +35,7 @@ menu:
     strategy-builder: 戦略ビルダー
   coin-view:
     subtitle: すべての信号発信者から信号と位置履歴を取得
-    title: コインビュー
+    title: コイン一覧
   dashboard: ダッシュボード
   financial-products:
     active-product: 稼働中ストラテジー

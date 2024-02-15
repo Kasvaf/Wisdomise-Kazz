@@ -78,7 +78,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                 />
                 <Button
                   className="mobile:!p-[10px_12px]"
-                  to={`/insight/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
+                  to={`/insight/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                 >
                   {t('signaler.btn-explore')}
                   <Icon name={bxRightArrowAlt} />

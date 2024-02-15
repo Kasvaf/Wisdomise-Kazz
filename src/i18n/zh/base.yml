@@ -35,7 +35,7 @@ menu:
     strategy-builder: 策略生成器
   coin-view:
     subtitle: 获取所有信号员的信号和位置历史记录
-    title: 硬币视图
+    title: 币种列表
   dashboard: 後台
   financial-products:
     active-product: 活跃产品

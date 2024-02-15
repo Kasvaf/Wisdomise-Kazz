@@ -66,7 +66,7 @@ const appRoutes: RouteObject[] = [
       { path: '', element: <PageInsight /> },
       { path: 'signals', element: <PageSignalsMatrix /> },
       { path: 'coins', element: <PageCoins /> },
-      { path: 'signaler', element: <PageSignaler /> },
+      { path: 'coins/signaler', element: <PageSignaler /> },
       { path: 'athena', element: <PageAthena /> },
     ],
   },

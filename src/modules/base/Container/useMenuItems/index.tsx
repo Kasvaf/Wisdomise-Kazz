@@ -72,11 +72,6 @@ const useMenuItems = () => {
           onClick: trackClick('signaler_menu'),
         },
         {
-          text: t('menu.signaler-view.title'),
-          link: '/insight/signaler',
-          onClick: trackClick('signaler_menu'),
-        },
-        {
           text: t('menu.athena.title'),
           link: '/insight/athena',
           onClick: trackClick('crypto_chatbot_menu'),
