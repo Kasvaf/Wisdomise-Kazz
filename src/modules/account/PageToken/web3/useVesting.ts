@@ -18,7 +18,8 @@ import {
 export function useVesting() {
   const { refetch: refetchWsdmBalance } = useWsdmBalance();
 
-  const { data: angelTotalAmount } = useReadAngelAccountShares();
+  const { data: angelTotalAmount, refetch: refetchAngelTotalAmount } =
+    useReadAngelAccountShares();
   const { data: angelClaimable, refetch: refetchAngelClaimable } =
     useReadAngelReleasable();
   const {
@@ -33,7 +34,8 @@ export function useVesting() {
     hash: claimAngelResult?.hash,
   });
 
-  const { data: strategicTotalAmount } = useReadStrategicAccountShares();
+  const { data: strategicTotalAmount, refetch: refetchStrategicTotalAmount } =
+    useReadStrategicAccountShares();
   const { data: strategicClaimable, refetch: refetchStrategicClaimable } =
     useReadStrategicReleasable();
   const {
@@ -90,6 +92,13 @@ export function useVesting() {
     strategicTotalAmount,
   ]);
 
+  const refetchAll = () => {
+    void refetchAngelTotalAmount();
+    void refetchAngelClaimable();
+    void refetchStrategicTotalAmount();
+    void refetchStrategicClaimable();
+  };
+
   return {
     roundDetails,
     refetchAngelClaimable,
@@ -101,5 +110,6 @@ export function useVesting() {
     refetchStrategicClaimable,
     angelTotalAmount,
     strategicTotalAmount,
+    refetchAll,
   };
 }

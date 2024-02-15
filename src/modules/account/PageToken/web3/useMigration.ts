@@ -10,9 +10,11 @@ import {
   MIGRATION_CONTRACT_ADDRESS,
   useWriteMigrate,
 } from 'modules/account/PageToken/web3/migration/migrationContract';
+import { useVesting } from 'modules/account/PageToken/web3/useVesting';
 
 export function useMigration() {
   const { address } = useAccount();
+  const { refetchAll } = useVesting();
   const { data: tWSDMBalance, refetch: refetchTwsdmBalance } =
     useTwsdmBalance();
   const { data: allowance, refetch: refetchAllowance } =
@@ -86,9 +88,10 @@ export function useMigration() {
       notification.success({
         message: 'Migration process started successfully',
       });
+      refetchAll();
       void refetchTwsdmBalance();
     }
-  }, [migrateTrxReceipt, refetchTwsdmBalance]);
+  }, [migrateTrxReceipt, refetchAll, refetchTwsdmBalance]);
 
   useEffect(() => {
     if (migrationError) {
