@@ -4,7 +4,7 @@ balance:
   your-balance: 您的 tWSDM 代币余额
 connect-wallet:
   billing:
-    description: 您的 Wisdomise 代币不会被扣除，您只需在订阅期内将代币保留在钱包中即可获得访问权限。
+    description: 您的 Wisdomise 代币不会被扣除，您只需在订阅期内将代币保留在钱包中即可获得使用权限。
     title: Wisdomise Token支付
   connect: 连接钱包
   disconnect: 断开
@@ -14,13 +14,13 @@ connect-wallet:
   verify-nonce: 请通过签署随机数来验证所有权
   wallet-address: 钱包地址
   wisdomise-token:
-    description: 要查看公用事业状态和您的 tWSDM 余额，请连接您的钱包。
+    description: 要查看赋能状态和您的 tWSDM 余额，请连接您的钱包。
     title: 连接钱包
 utility:
   activate: 启用
   activated: 活性
-  description: 只需持有您的 $tWSDM 代币，即可解锁一整年对 Wisdomise
-    高级订阅套餐的独家访问权限。您的代币不会被扣除——只需将它们放在您的钱包中即可。这种轻松的方法可确保您享受所有高级福利，而无需任何额外成本或麻烦。这是一种明智的方式，可以让您的投资价值最大化，同时探索
+  description: 只需持有您的 $tWSDM 代币，即可解锁一整年Wisdomise
+    高级订阅方案权限。您的代币不会被扣除——只需将它们放在您的钱包中即可。这种轻松的方法可确保您享受所有高级福利，而无需任何额外成本或麻烦。这是一种明智的方式，可以让您的投资价值最大化，同时探索
     Wisdomise 提供的全方位服务。
   not-activated: 未激活
-  title: 实用程序激活
+  title: 赋能激活

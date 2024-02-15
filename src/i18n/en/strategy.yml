@@ -11,16 +11,46 @@ matrix:
 positions-history:
   title: Positions History
   entry-point: Entry Point
+  entry-price: Entry Price
+  entry-time: Entry Time
   exit-point: Exit Point
+  market-side: Market Side
   pairs: Pairs
   pnl: P/L
   status: Status
+  stop-loss: Stop Loss
   strategy: Strategy
+  suggest: Suggest
+  take-profit: Take Profit
+  type: Type
 positions-timeline:
   title: Positions Timeline
   empty-message: There were no positions in this time period.
   entry-point: Entry point
   exit-point: Exit point
+select-coin: Select Coin
+select-strategy: Select Strategy
+signaler:
+  24h-volume: 24h Volume
+  active-positions: Active Positions
+  btn-explore: Explore
+  info:
+    crypto:
+      label: Crypto
+      description: Choose from supported coin
+    strategy:
+      label: Strategy
+      description: Choose Strategy then choose from crypto list
+    telegram-notification:
+      label: Telegram Notification
+      description: Dont miss a signal by connecting your telegram
+  market-cap: Market Cap
+  signals-overview:
+    title: Signals Overview
+    description: >-
+      Check Detail of any Strategy , also you can turn on notification by
+      clicking on bell icon.
+  simulated-position-history: Simulated Position History
 status:
   closed: Closed
   open: Open

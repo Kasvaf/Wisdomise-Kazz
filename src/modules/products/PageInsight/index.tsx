@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'modules/shared/CardPageLink';
+import { trackClick } from 'config/segment';
 import { ReactComponent as IconSignals } from './icon-signals.svg';
 import { ReactComponent as IconAthena } from './icon-athena.svg';
 
@@ -20,11 +21,30 @@ const PageInsight = () => {
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
         <CardPageLink
+          to="/insight/coins"
+          title={t('menu.coin-view.title')}
+          subtitle={t('menu.coin-view.subtitle')}
+          icon={<IconSignals />}
+          height={250}
+          onClick={trackClick('signaler_coin_menu')}
+        />
+
+        <CardPageLink
+          to="/insight/signaler"
+          title={t('menu.signaler-view.title')}
+          subtitle={t('menu.signaler-view.subtitle')}
+          icon={<IconSignals />}
+          height={250}
+          onClick={trackClick('signaler_signals_menu')}
+        />
+
+        <CardPageLink
           to="/insight/signals"
           title={t('menu.signal-matrix.title')}
           subtitle={t('menu.signal-matrix.subtitle')}
           icon={<IconSignals />}
           height={250}
+          onClick={trackClick('signal_matrix_menu')}
         />
 
         <CardPageLink
@@ -33,6 +53,7 @@ const PageInsight = () => {
           subtitle={t('menu.athena.subtitle')}
           icon={<IconAthena />}
           height={250}
+          onClick={trackClick('crypto_chatbot_menu')}
         >
           <div className="text-2xl font-medium mobile:text-xl">
             {t('menu.athena.features')}

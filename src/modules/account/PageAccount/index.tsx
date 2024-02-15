@@ -8,6 +8,7 @@ import {
   useReferralStatusQuery,
   useSubscription,
 } from 'api';
+import { trackClick } from 'config/segment';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
 import { ReactComponent as IconSubscription } from './icons/subscription.svg';
 import { ReactComponent as IconKYC } from './icons/kyc.svg';
@@ -40,25 +41,30 @@ const PageAccount = () => {
           title={t('menu.profile.title')}
           subtitle={t('menu.profile.subtitle')}
           icon={<IconProfile />}
+          onClick={trackClick('profile_menu')}
         />
         <CardPageLink
           to="/account/billing"
           title={t('menu.billing.title')}
           subtitle={t('menu.billing.subtitle')}
           icon={<IconSubscription />}
+          onClick={trackClick('subscription_menu')}
         >
           <div className="flex flex-wrap items-end gap-x-2">
             <div className="text-2xl font-medium leading-6 mobile:text-xl">
               {subscription.title}
             </div>
-            <div
-              className={clsx(
-                'text-xs',
-                subscription.remaining ? 'text-[#34A3DA]' : 'text-error',
-              )}
-            >
-              {String(subscription.remaining) + 'd'} {t('menu.billing.remains')}
-            </div>
+            {!subscription.isFreePlan && (
+              <div
+                className={clsx(
+                  'text-xs',
+                  subscription.remaining ? 'text-[#34A3DA]' : 'text-error',
+                )}
+              >
+                {String(subscription.remaining) + 'd'}{' '}
+                {t('menu.billing.remains')}
+              </div>
+            )}
           </div>
         </CardPageLink>
         <CardPageLink
@@ -66,6 +72,7 @@ const PageAccount = () => {
           title={t('menu.kyc.title')}
           subtitle={t('menu.kyc.subtitle')}
           icon={<IconKYC />}
+          onClick={trackClick('kyc_menu')}
         >
           <div className="flex flex-wrap items-end gap-x-2">
             <div className="text-2xl font-medium leading-6 mobile:text-xl">
@@ -86,12 +93,14 @@ const PageAccount = () => {
           title={t('menu.token.title')}
           subtitle={t('menu.token.subtitle')}
           icon={<IconWSDM />}
+          onClick={trackClick('wsdm_token_menu')}
         />
         <CardPageLink
           to="/account/exchange-accounts"
           title={t('menu.account-manager.title')}
           subtitle={t('menu.account-manager.subtitle')}
           icon={<IconEA />}
+          onClick={trackClick('external_account_menu')}
         >
           {exchanges != null && (
             <div className="flex flex-wrap items-end gap-x-2">
@@ -109,12 +118,14 @@ const PageAccount = () => {
           title={t('menu.notification-center.title')}
           subtitle={t('menu.notification-center.subtitle')}
           icon={<IconNotifications />}
+          onClick={trackClick('notifications_menu')}
         />
         <CardPageLink
           to="/account/referral"
           title={t('menu.referral.title')}
           subtitle={t('menu.referral.subtitle')}
           icon={<IconReferral />}
+          onClick={trackClick('referral_menu')}
         >
           {referral != null && (
             <div className="flex flex-wrap items-end gap-x-2">

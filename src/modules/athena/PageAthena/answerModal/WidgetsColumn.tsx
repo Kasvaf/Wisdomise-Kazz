@@ -125,10 +125,10 @@ const widgetsInfo = {
   news: { name: 'News', icon: newsIcon },
   price_chart: { name: 'Chart', icon: chartIcon },
   no_specific_widget: { name: '', icon: newsIcon }, // just for typing. will not used
-  lunar_crush_top_nfts: { name: 'NFT Rank', icon: nftIcon },
+  top_trending_nfts: { name: 'NFT Rank', icon: nftIcon },
   smart_crypto_portfolio: { name: 'SPO', icon: spoIcon },
   last_positions: { name: 'Signals', icon: signalsIcon },
-  lunar_crush_top_coins: { name: 'Crypto Rank', icon: topCoinsIcon },
-  lunar_crush_top_tweets: { name: 'Tweets', icon: tweetsIcon },
+  top_trending_alt_coins: { name: 'Crypto Rank', icon: topCoinsIcon },
+  top_trending_tweets: { name: 'Tweets', icon: tweetsIcon },
   passive_income_defi: { name: 'DeFi', icon: DeFiSrc },
 };

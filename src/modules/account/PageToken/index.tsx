@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useDisconnect } from 'wagmi';
-import ConnectWalletWrapper from 'modules/account/PageBilling/TokenPayment/ConnectWalletWrapper';
 import Card from 'shared/Card';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useAccountQuery, useSubscription } from 'api';
@@ -15,6 +14,7 @@ import Migration from 'modules/account/PageToken/Migration';
 import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdmContract';
 import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdmContract';
 import Airdrop from 'modules/account/PageToken/Airdrop';
+import ConnectWalletWrapper from '../PageBilling/paymentMethods/Token/ConnectWalletWrapper';
 import { ReactComponent as WalletIcon } from './icons/wallet.svg';
 import { ReactComponent as UtilityIcon } from './icons/utility.svg';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';

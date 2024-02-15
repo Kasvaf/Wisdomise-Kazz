@@ -51,17 +51,17 @@ interface SignalMatrixWidget {
 }
 
 interface TrendingTweetsWidget {
-  type: 'lunar_crush_top_tweets';
+  type: 'top_trending_tweets';
   symbol?: string;
 }
 
 interface TopCoinsWidget {
-  type: 'lunar_crush_top_coins';
+  type: 'top_trending_alt_coins';
   symbol?: string;
 }
 
 interface TopNftsWidget {
-  type: 'lunar_crush_top_nfts';
+  type: 'top_trending_nfts';
   symbol?: string;
 }
 

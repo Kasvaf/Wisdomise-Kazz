@@ -6,17 +6,18 @@ export function useSubscription() {
   const plan = subs?.subscription_plan;
   const status = subs?.status;
   const isActive = status === 'active';
+  const planName = plan?.name || 'none';
 
   return {
-    refetch,
     plan,
+    refetch,
     isActive,
     isLoading,
-    title: plan?.name || 'none',
+    title: planName === 'Trial' ? 'Free' : planName,
+    isFreePlan: !plan?.level,
     isTrialPlan: plan?.name === 'Trial',
+    level: isActive ? plan?.level ?? 0 : 0,
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
-    isSignalNotificationEnable:
-      isActive && plan?.metadata.enable_signal_notifications,
     remaining: Math.max(
       Math.round(
         (+new Date(subs?.end_at ?? 0) - Date.now()) / (1000 * 60 * 60 * 24),

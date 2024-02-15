@@ -10,70 +10,76 @@ links:
 menu:
   account-manager:
     mobile: アカウント
-    subtitle: Exchange アカウントを統合します。
-    title: 外部アカウント
+    subtitle: 取引所のアカウントと連携することができます。
+    title: アカウント連携
   account:
-    subtitle: アカウントの設定と基本設定を管理する
+    subtitle: アカウントの設定と管理
     title: アカウント
   asset-overview:
     mobile: 資産
-    subtitle: 金融商品を監視および管理します。
-    title: 資産概要
+    subtitle: ストラテジーの確認や管理
+    title: ポートフォリオ管理
   athena:
-    features: +10 の機能
-    subtitle: 暗号通貨の世界をガイドするインテリジェンス チャットボット
-    title: 暗号チャットボット
+    features: 10以上の機能
+    subtitle: 暗号資産に特化したAIチャットボット
+    title: 暗号資産チャットボット
   billing:
     mobile: 請求情報
-    remains: 残っている
-    subtitle: サブスクリプションの設定。
-    title: "確認する "
+    remains: 残り
+    subtitle: ご契約中のサブスクリプションの確認
+    title: サブスクリプション
   category:
     account: アカウント
     market-predication: 市場予測
     passive-income: 不労所得
     strategy-builder: 戦略ビルダー
+  coin-view:
+    subtitle: すべての信号発信者から信号と位置履歴を取得
+    title: コインビュー
   dashboard: ダッシュボード
   financial-products:
-    active-product: アクティブな製品
-    subtitle: さまざまな投資パッケージの機会を探る
-    title: 金融商品
+    active-product: 稼働中ストラテジー
+    subtitle: 多様な投資ストラテジーをご確認いただけます。
+    title: 金融商品（ストラテジー）
   insight:
-    subtitle: 戦略的な仮想通貨投資のためのリアルタイムの洞察にアクセス
-    title: 洞察力
+    subtitle: 戦略的な仮想通貨の投資を実現に欠かせないインサイトを確認しましょう。
+    title: インサイト
   investment:
-    subtitle: オートトレーダーまたはDeFiステーキング金融商品の詳細を見る
+    subtitle: 自動トレード・DeFiステーキング等の金融商品
     title: 投資
   kyc:
     mobile: 本人確認 (KYC)
-    subtitle: 機能にアクセスするには身元を確認します。
+    subtitle: 一部のサービスを利用する際にはKYCが必要です。
     title: 本人確認 (KYC)
   notification-center:
     mobile: 通知
-    subtitle: シグナルとアラートの設定。
-    title: 通知センター
+    subtitle: 市場シグナルの通知設定が可能です。
+    title: 通知
   products-catalog:
     mobile: プロダクト
     title: プロダクト一覧
   profile-dashboard: プロフィールダッシュボード
   profile:
     mobile: プロフィール
-    subtitle: ログイン認証情報を編集します。
+    subtitle: ログイン情報の管理
     title: プロフィール
   referral:
-    mobile: リファーラル
-    subtitle: 招待して報酬を獲得しましょう。
-    title: リファーラル
+    mobile: 紹介プログラム
+    subtitle: ご友人を紹介して、リワードをゲットしましょう！
+    title: 紹介プログラム
   signal-matrix:
     mobile: シグナル
-    subtitle: 主要な暗号通貨の AI を利用した取引シグナルを取得する
-    title: シグナルマトリクス
+    subtitle: AIによる市場シグナルをご確認頂けます。
+    title: 市場シグナル
+  signaler-view:
+    subtitle: すべての信号発信者から信号と位置履歴を取得
+    title: シグナラービュー
   strategies:
     mobile: 戦略
     title: 戦略
   token:
     mobile: WSDM
-    subtitle: プレミアム アクセスにはトークンを使用します。
+    subtitle: 保有しているWSDMトークンをサブスクリプションにご利用いただけます。
     title: WSDMトークン
 mobile-menu:
   close: 閉じる

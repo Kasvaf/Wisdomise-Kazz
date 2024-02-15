@@ -1,9 +1,13 @@
+import { type SubscriptionPlan } from 'api/types/subscription';
+
 export interface Invoice {
   key: string;
   amount_paid: number;
   created_at: string;
   updated_at: string;
-  status: 'paid' | 'open' | 'draft';
+  stripe_payment_link?: string;
+  subscription_plan: SubscriptionPlan;
+  status: 'paid' | 'open' | 'draft' | 'pending';
   payment_method: 'FIAT' | 'CRYPTO' | 'TOKEN' | 'MANUAL';
 }
 

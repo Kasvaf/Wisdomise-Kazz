@@ -2,19 +2,18 @@ import { useTranslation } from 'react-i18next';
 import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import useModal from 'modules/shared/useModal';
-import { useUserLastPaymentMethod } from 'api';
-import TokenPaymentModalContent from 'modules/account/PageBilling/TokenPayment/TokenPaymentModalContent';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
 import { ReactComponent as SIcon } from '../images/s-icon.svg';
 import { ReactComponent as Token } from '../images/token.svg';
-import CryptoPaymentModalContent from './CryptoPaymentModalContent';
+import CryptoPaymentModalContent from '../paymentMethods/Crypto';
+import TokenPaymentModalContent from '../paymentMethods/Token';
 
 interface Props {
   plan: SubscriptionPlan;
-  onResolve?: () => void;
-  onFiatClick: () => Promise<void>;
+  onResolve?: VoidFunction;
+  onFiatClick: VoidFunction;
 }
 
 export default function SubscriptionMethodModal({
@@ -23,7 +22,6 @@ export default function SubscriptionMethodModal({
   onResolve,
 }: Props) {
   const { t } = useTranslation('billing');
-  const lastPaymentMethod = useUserLastPaymentMethod();
   const [cryptoPaymentModal, openCryptoPaymentModal] = useModal(
     CryptoPaymentModalContent,
     { fullscreen: true, destroyOnClose: true },
@@ -40,7 +38,7 @@ export default function SubscriptionMethodModal({
   };
 
   const onFiatClick = async () => {
-    await propOnFiatClick();
+    propOnFiatClick();
     onResolve?.();
   };
 
@@ -61,32 +59,20 @@ export default function SubscriptionMethodModal({
       <SubscriptionMethodLogos className="mb-12 mt-8" />
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
-        <Button
-          className="col-span-1"
-          onClick={onFiatClick}
-          disabled={lastPaymentMethod && lastPaymentMethod !== 'FIAT'}
-        >
+        <Button className="col-span-1" onClick={onFiatClick}>
           <div className="flex items-center gap-2">
             <SIcon />
             {t('subscription-modal.btn-fiat')}
           </div>
         </Button>
-        <Button
-          className="col-span-1"
-          onClick={onCryptoClick}
-          disabled={lastPaymentMethod && lastPaymentMethod !== 'CRYPTO'}
-        >
+        <Button className="col-span-1" onClick={onCryptoClick}>
           <div className="flex items-center gap-2">
             <CryptoPaymentIcon />
             {t('subscription-modal.btn-crypto')}
           </div>
         </Button>
         {plan.periodicity === 'YEARLY' && (
-          <Button
-            onClick={onTokenClick}
-            className="col-span-2"
-            // disabled={firstPaymentMethod && firstPaymentMethod !== 'CRYPTO'}
-          >
+          <Button onClick={onTokenClick} className="col-span-2">
             <div className="flex items-center gap-2">
               <Token />
               {t('token-modal.token-name')}

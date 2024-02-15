@@ -6,9 +6,9 @@ import {
   type MarkPointOption,
 } from 'echarts/types/dist/shared';
 import { useEffect, useState } from 'react';
-import { type StrategyPosition, type Candle, type Resolution } from 'api';
-import { echartsDark, type EChartsOption } from 'modules/shared/echarts';
-import { parseCandles, parsePositions } from './utils';
+import { type Candle, type Resolution } from 'api';
+import { echartsDark, type EChartsOption } from 'shared/echarts';
+import { type ChartPosition, parseCandles, parsePositions } from './utils';
 
 const upColor = '#00da3c';
 const downColor = '#ec0000';
@@ -121,7 +121,7 @@ const makeOption = (
 
 const CandleChart: React.FC<{
   candles: Candle[];
-  positions?: StrategyPosition[];
+  positions?: ChartPosition[];
   resolution: Resolution;
 }> = ({ candles, positions = [], resolution = '1h' }) => {
   const parsedCandles = parseCandles(candles, resolution);

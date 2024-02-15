@@ -4,8 +4,8 @@ balance:
   your-balance: tWSDMトークン保有量
 connect-wallet:
   billing:
-    description: Wisdomiseトークンは差し引かれません。サブスクリプション期間中、アクセスを得るためにトークンをウォレットに保持する必要があります。
-    title: Wisdomiseトークンでのお支払い
+    description: サブスクリプション期間中Wisdomiseトークンを保有する事で、サブスクリプションを購読できます。トークンの消費は発生しません。
+    title: Wisdomise トークンによる支払い
   connect: ウォレットに接続
   disconnect: 切断する
   not-sync: このウォレットは現在のアカウントと同期されていません。以前に使用していたウォレットに切り替えてください。新しいウォレットを使用する場合は、お問い合わせください。

@@ -4,10 +4,12 @@ import {
   useInvestorAssetStructuresQuery,
   useFinancialProductsQuery,
 } from 'api';
+import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
 import PriceChange from 'modules/shared/PriceChange';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import { type FinancialProduct } from 'api/types/financialProduct';
+import ProductSubscriptionNotice from '../PageProductCatalogDetail/ProductSubscriptionNotice';
 import useIsFPRunning from '../useIsFPRunning';
 import ProductCard from './ProductCard';
 
@@ -24,6 +26,10 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
       icon={<CoinsIcons maxShow={3} coins={fp.config.assets} />}
       description={fp.description}
       to={`/investment/products-catalog/${fp.key}`}
+      onClick={trackClick('ai_driven_strategies_list', {
+        strategy_name: fp.title,
+      })}
+      notice={<ProductSubscriptionNotice fp={fp} />}
     >
       <div className="text-left">
         <p className="text-xl font-normal">
@@ -34,11 +40,11 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
         </p>
       </div>
 
-      <div className="text-right">
+      <div className="text-center">
         <PriceChange
           valueToFixed={false}
           value={Number(fp.profile.expected_yield.replace('%', ''))}
-          className="!justify-end"
+          className="!justify-center"
           textClassName="!text-xl font-normal"
         />
         <p className="font-normal text-white/30">

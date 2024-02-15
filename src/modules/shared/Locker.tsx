@@ -3,9 +3,14 @@ import { type PropsWithChildren } from 'react';
 
 interface Props {
   overlay?: React.ReactNode;
+  className?: string;
 }
 
-const Locker: React.FC<PropsWithChildren<Props>> = ({ children, overlay }) => {
+const Locker: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  overlay,
+  className,
+}) => {
   if (!overlay) return <>{children}</>;
 
   return (
@@ -16,6 +21,7 @@ const Locker: React.FC<PropsWithChildren<Props>> = ({ children, overlay }) => {
           'absolute inset-0',
           'flex flex-col items-center overflow-hidden rounded-xl',
           'bg-page/60 backdrop-blur-[2px]',
+          className,
         )}
       >
         {overlay}

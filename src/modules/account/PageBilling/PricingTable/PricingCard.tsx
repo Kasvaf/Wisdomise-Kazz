@@ -3,71 +3,57 @@ import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
-import {
-  useAccountQuery,
-  useSubscription,
-  useSubscriptionMutation,
-  useUserLastPaymentMethod,
-} from 'api';
+import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'modules/shared/useModal';
+import { unwrapErrorMessage } from 'utils/error';
 import { ReactComponent as Check } from '../images/check.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 import PlanLogo from './PlanLogo';
 
 interface Props {
+  isRenew?: boolean;
   className?: string;
-  plan: SubscriptionPlan;
   isUpdate?: boolean;
-  onPlanUpdate: () => void;
+  plan: SubscriptionPlan;
+  onPlanUpdate: VoidFunction;
 }
 
 export default function PricingCard({
   plan,
+  isRenew,
   isUpdate,
   className,
   onPlanUpdate,
 }: Props) {
+  const account = useAccountQuery();
   const { t } = useTranslation('billing');
-  const mutation = useSubscriptionMutation();
-  const { data: account } = useAccountQuery();
-  const { isActive, plan: userPlan } = useSubscription();
-  const lastPaymentMethod = useUserLastPaymentMethod();
-  const [subscriptionMethodModal, openSubscriptionMethodModal] = useModal(
-    SubscriptionMethodModalContent,
-    { centered: true },
-  );
+  const subsMutation = useSubscriptionMutation();
+  const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
+  const [model, openModal] = useModal(SubscriptionMethodModalContent);
 
-  const hasUserThisPlan = isActive && plan.key === userPlan?.key;
-  const isPlanCheaperThanUserPlan =
-    isActive && plan.price < (userPlan?.price ?? 0);
+  const hasUserThisPlan = isActive && !isRenew && plan.key === userPlan?.key;
+  const hasUserThisPlanAsNextPlan =
+    isActive &&
+    plan.key ===
+      account.data?.subscription_item?.next_subs_item?.subscription_plan.key;
 
-  const handleFiatPayment = async () => {
-    if (account?.stripe_customer_id) {
-      if (plan.key === userPlan?.key) {
-        return;
+  const onClick = async () => {
+    if (isActive && !isTrialPlan) {
+      try {
+        await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
+        notification.success({
+          message: t('pricing-card.notification-upgrade-success'),
+          duration: 5000,
+        });
+        onPlanUpdate();
+      } catch (error) {
+        notification.error({ message: unwrapErrorMessage(error) });
       }
-      await mutation.mutateAsync({ price_id: plan.stripe_price_id });
-      notification.success({
-        message: t('pricing-card.notification-upgrade-success'),
-        duration: 5000,
-      });
-      onPlanUpdate();
     } else {
-      window.location.href =
-        plan.stripe_payment_link +
-        '?prefilled_email=' +
-        encodeURIComponent(account?.email || '');
-    }
-  };
-
-  const onClick = () => {
-    // JUST in upgrade scenario for fiat we need this condition to not show modal,
-    // Crypto up to now does not have upgrade.
-    if (lastPaymentMethod === 'FIAT') {
-      void handleFiatPayment();
-    } else {
-      void openSubscriptionMethodModal({
-        onFiatClick: handleFiatPayment,
+      void openModal({
+        onFiatClick: () => {
+          window.location.href = plan.stripe_payment_link;
+        },
         plan,
       });
     }
@@ -135,20 +121,30 @@ export default function PricingCard({
 
       <Button
         onClick={onClick}
+        loading={subsMutation.isLoading}
         disabled={
-          !plan.is_active || isPlanCheaperThanUserPlan || hasUserThisPlan
+          !plan.is_active ||
+          hasUserThisPlan ||
+          hasUserThisPlanAsNextPlan ||
+          (isRenew &&
+            account.data?.subscription_item?.payment_method === 'TOKEN' &&
+            plan.periodicity === 'MONTHLY')
         }
         className={clsx(
           'my-8 block !w-full !font-medium',
-          // active plan is disabled, but has different styling
-          hasUserThisPlan && '!cursor-default !text-white',
+          (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
+            '!cursor-default !text-white',
         )}
       >
         {plan.is_active
-          ? hasUserThisPlan
-            ? t('pricing-card.btn-action.current-plan')
+          ? hasUserThisPlan || hasUserThisPlanAsNextPlan
+            ? hasUserThisPlan
+              ? t('pricing-card.btn-action.current-plan')
+              : t('pricing-card.btn-action.next-plan')
             : isUpdate
-            ? t('pricing-card.btn-action.upgrade')
+            ? t('pricing-card.btn-action.choose')
+            : isRenew
+            ? t('pricing-card.btn-action.choose')
             : t('pricing-card.btn-action.buy-now')
           : t('pricing-card.btn-action.available-soon')}
       </Button>
@@ -165,8 +161,7 @@ export default function PricingCard({
           ))}
         </ul>
       </div>
-
-      {subscriptionMethodModal}
+      {model}
     </div>
   );
 }

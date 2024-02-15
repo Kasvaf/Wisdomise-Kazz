@@ -48,10 +48,15 @@ list:
   btn-details: Details
   of-total-balance: Of Total Balance
 notification-activated:
-  btn-dashboard: Dashboard
+  title: Congratulations
+  btn-dashboard: Go to Dashboard
+  btn-kyc: Go to KYC
+  kyc-notice: >-
+    However note that as long as you have not verified your account, we only
+    trade with at most 1000$ of your wallet.
   message: >-
     Thank you for trusting us. You can now deposit any amount to your account
-    and activate any of the AI-powered strategies
+    and activate any of the AI-powered strategies.
 notification-deactivated:
   message: Strategy Deactivated Successfully!
 product-catalog:
@@ -92,6 +97,7 @@ product-detail:
   max-apy: Max APY
   max-drawdown: Max Drawdown
   min: Min
+  min-subscription-level: Available with <1>{{minPlan}}</1> plan.
   risk:
     label: '{{risk}} Risk'
     high: High
@@ -110,13 +116,15 @@ subscription:
   subscribe:
     title: Subscription
     description: >-
-      To activate a product, you need to <1>Subscribe</1> to our <3>Wisdomise
-      Expert</3> plan.
+      To activate this product, you need to <1>Subscribe</1> to our
+      <3>{{minPlan}}</3> plan.
     btn-confirm: Subscribe
   upgrade:
     title: Upgrade Subscription
     subtitle: >-
       Your current subscription does not include the products you want to
       activate.
-    description: To use this product, you need to <1>Upgrade</1> your subscription.
+    description: >-
+      To use this product, you need to <1>Upgrade</1> your subscription to
+      <4>{{minPlan}}</4>.
     btn-confirm: Upgrade

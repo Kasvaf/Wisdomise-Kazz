@@ -1,6 +1,6 @@
 error-page:
   title: Something went wrong and we don't know how :(
-  subtitle: But we'll try our best so that it won't happen again.
+  subtitle: But we'll try our best so that it won't happen again
   btn-reload: Reload
 language: Language
 links:
@@ -13,18 +13,21 @@ menu:
     subtitle: Manage your account settings and preferences
   account-manager:
     title: External Account
-    subtitle: Integrate exchange accounts.
+    subtitle: Integrate exchange accounts
   asset-overview:
     title: Asset Overview
-    subtitle: Monitor and manage your financial products.
+    subtitle: Monitor and manage your financial products
   athena:
     title: Crypto Chatbot
     subtitle: Intelligence chatbot that guides you through the world of cryptocurrency
     features: +10 Features
   billing:
     title: Subscription
-    subtitle: Subscription preferences.
+    subtitle: Subscription preferences
     remains: remains
+  coin-view:
+    title: Coin View
+    subtitle: Get signals and position histories from all signalers
   financial-products:
     title: Financial Products
     subtitle: Explore different investment package opportunities
@@ -37,24 +40,27 @@ menu:
     subtitle: Explore Auto Trader or DeFi Staking financial products
   kyc:
     title: KYC
-    subtitle: Verify identity to access features.
+    subtitle: Verify identity to access features
   notification-center:
     title: Notifications
-    subtitle: Signal and alert settings.
+    subtitle: Signal and alert settings
   profile:
     title: Profile
-    subtitle: Edit login credentials.
+    subtitle: Edit login credentials
   referral:
     title: Referral
-    subtitle: Invite and earn rewards.
+    subtitle: Invite and earn rewards
   signal-matrix:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
+  signaler-view:
+    title: Signaler View
+    subtitle: Get signals and position histories from all signalers
   strategies:
     title: Strategies
   token:
     title: WSDM Token
-    subtitle: Use tokens for premium access.
+    subtitle: Use tokens for premium access
 support:
   title: Question?
   hint: Chat with us

@@ -16,6 +16,8 @@ interface RiskCardProps {
   icon: ReactElement;
   description: string;
   to: string;
+  onClick?: () => void;
+  notice?: string | JSX.Element;
 }
 
 const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
@@ -24,10 +26,11 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
   type,
   title,
   icon,
-  description,
   to,
+  notice,
   className,
   children,
+  onClick,
 }) => {
   const { t } = useTranslation('products');
 
@@ -38,22 +41,21 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
         'flex flex-col rounded-3xl bg-black/20 !text-white hover:bg-black/40',
         className,
       )}
+      onClick={onClick}
     >
-      <div className="flex grow flex-col p-6">
+      <div className="flex grow flex-col gap-6 p-6">
         <section className="flex items-center justify-between">
           <h5 className="text-base font-semibold">{title}</h5>
           {icon}
         </section>
 
-        <section className="mt-6 flex justify-between border-y border-y-black py-6 text-sm font-medium">
+        <section className="flex justify-between border-t border-t-black pt-6 text-sm font-medium">
           {children}
         </section>
 
-        <section className="mt-6 line-clamp-3 grow text-xs text-white/80">
-          {description}
-        </section>
+        <section className="grow">{notice}</section>
 
-        <section className="mt-6 flex items-center justify-between">
+        <section className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <RiskBadge
               risk={risk}

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import PriceChange from 'shared/PriceChange';
 import Card from 'modules/shared/Card';
+import ProductSubscriptionNotice from './ProductSubscriptionNotice';
 
 const ProfilePropsBox: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
   const { t } = useTranslation('products');
@@ -27,6 +28,8 @@ const ProfilePropsBox: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
           value={Number(fp?.profile.max_drawdown.replace('%', ''))}
         />
       </div>
+
+      {fp && <ProductSubscriptionNotice className="mt-4" fp={fp} />}
     </Card>
   );
 };

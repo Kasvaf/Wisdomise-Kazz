@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useDefiProjectsQuestionPool } from 'api/staking';
 import { useAthena } from 'modules/athena/core';
+import { trackClick } from 'config/segment';
 import useProtocolInfo from '../../useProtocolInfo';
 
 export default function QuestionPool() {
@@ -10,6 +11,7 @@ export default function QuestionPool() {
   const questionPool = useDefiProjectsQuestionPool();
 
   const onClick = (templateQuestion: string) => {
+    trackClick('suggested_prompts_defi', { question: templateQuestion })();
     askQuestion(
       templateQuestion.replace('{{project_name}}', info.data?.name || ''),
     );

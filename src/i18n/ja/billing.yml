@@ -2,6 +2,12 @@ banner:
   btn-subscription-plans: サブスクリプションプラン
   checkout-message: サブスクリプションのプラン一覧はこちら
   ends-in: サブスクリプション期間終了まで <1>{{remaining}}</1> 日！
+change-pay-method:
+  crypto: Crypto
+  fiat: Fiat
+  sub-title: "次のプランのお支払い方法を選択してください:"
+  title: 支払い方法の変更
+  token: Wisdomise Token (tWSDM)
 change-payment:
   change-payment-method: 支払い方法を変更
   order-summary: 注文概要
@@ -24,9 +30,12 @@ crypto-modal:
   total-due-today: 本日のご請求金額
 overlay-subscription:
   btn-subscribe: サブスクリプション契約
+  btn-upgrade: アップグレード
   customs-description: 質問をする場合、Wisdomiseのプランのいずれかの契約が必要です。
   signaling-description: 通知機能の利用はサブスクリプション契約が必要です。
   signals-description: シグナルを確認する場合は、<1>サブスクリプション</1> へのまたは、現在のプランを<3>アップグレード</3>する必要があります。
+  strategy:
+    description: この戦略を明らかにするには、以下が必要です <2>{{level}}</2> またはそれ以上のプラン。
   title: 現在のサブスクリプション契約はありません。
 periodicity:
   month:
@@ -40,7 +49,9 @@ pricing-card:
   btn-action:
     available-soon: 近日公開
     buy-now: 今すぐ購入する
+    choose: 選ぶ
     current-plan: 現在ご契約中のプラン
+    next-plan: 次の計画
     upgrade: アップグレード
   hold: ホルド
   just-yearly: 毎年恒例
@@ -49,7 +60,12 @@ pricing-card:
   page-subtitle: このセクションからパッケージの種類を選択できます
   page-title: 課金パッケージ
   this-includes: "次を含みます:"
-  token: トークン
+  token: Token
+stripe:
+  change-card-info:
+    order-summary: 注文概要
+    title: 支払い方法を変更
+    total: 合計
 subscription-details:
   invoices:
     amount: 価格
@@ -68,6 +84,11 @@ subscription-details:
     is-on-the-way:
       description: サブスクリプション契約のお支払いを仮想通貨で受け付けました。確認に24-48時間かかります。アカウントのアクティベーションが完了出来次第メールにてご連絡いたします。
       title: サブスクリプションのアクティベーション準備中
+    next-plan-canceled: <0></0><1>次の計画はキャンセルされました。<1>次のプランを更新する</1></1>
+    next-plan-info: <0>あなたの次の計画は <2>{{nextPlanName}} {{period}}</2> と <6>
+      {{payMethod}}</6> 支払方法。<9>次のプランをキャンセルする</9></0>
+    pay-method: "<0>次の支払い方法: <2>{{payMethod}}。</2><3>支払い方法を変更する</3></0>"
+    pending-invoice: <0><0>保留中の請求書が 1 件あります。</0><1>今払う</1></0>
     periodEnd: プランは<3>{{date}}</3>日で{{action}}されます。
     plan-details: プラン詳細
   payment-methods:
@@ -86,7 +107,7 @@ success-modal:
   subtitle: 次のステップに進められます
   title: サブスクリプションのご契約ありがとうございます
 tabs:
-  invoices: 請求書
+  invoices: 請求状況
   overview: 概要
   payment-methods: 支払い方法
 token-modal:

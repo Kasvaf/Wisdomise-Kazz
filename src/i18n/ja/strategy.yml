@@ -10,17 +10,45 @@ matrix:
   tp: TP
 positions-history:
   entry-point: エントリーポイント
+  entry-price: エントリープライス
+  entry-time: エントリープライス
   exit-point: エグジットポイント
+  market-side: マーケットサイド
   pairs: ペア
   pnl: P/L
   status: ステータス
+  stop-loss: ストップロス
   strategy: 戦略
+  suggest: 提案する
+  take-profit: 利食い
   title: ポジション履歴
+  type: タイプ
 positions-timeline:
   empty-message: この時間枠でのポジションはありません。
   entry-point: エントリーポイント
   exit-point: エグジットポイント
   title: ポジションのタイムライン
+select-coin: コインを選択
+select-strategy: 戦略の選択
+signaler:
+  24h-volume: 24時間ボリューム
+  active-positions: アクティブなポジション
+  btn-explore: 詳細を確認
+  info:
+    crypto:
+      description: サポートされているコインから選択
+      label: 暗号
+    strategy:
+      description: 戦略を選択し、暗号通貨リストから選択します
+      label: 戦略
+    telegram-notification:
+      description: 電報を接続して信号を見逃さないでください
+      label: 電報通知
+  market-cap: 時価総額
+  signals-overview:
+    description: 戦略の詳細を確認し、ベルのアイコンをクリックして通知をオンにすることもできます。
+    title: シグナルの概要
+  simulated-position-history: シミュレートされた位置履歴
 status:
   closed: クローズ
   open: オープン

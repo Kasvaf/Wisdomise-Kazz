@@ -5,15 +5,15 @@ error-page:
 language: 语言
 links:
   about-us: 关于我们
-  blog: 博客
+  blog: 部落格
   solutions: 解决方案
 menu:
   account-manager:
     mobile: 账户
-    subtitle: 整合兑换账户。
+    subtitle: 整合交易所账户。
     title: 外部账户
   account:
-    subtitle: 管理您的帐户设置和首选项
+    subtitle: 管理您的帐户设置和偏好
     title: 帐户
   asset-overview:
     mobile: 资产
@@ -24,8 +24,8 @@ menu:
     subtitle: 智能聊天机器人，带您畅游加密货币世界
     title: 加密聊天机器人
   billing:
-    mobile: 计费
-    remains: 遗迹
+    mobile: 帐单
+    remains: 剩余
     subtitle: 订阅偏好。
     title: 订阅
   category:
@@ -33,53 +33,59 @@ menu:
     market-predication: 市场预测
     passive-income: 被动收入
     strategy-builder: 策略生成器
-  dashboard: 仪表板
+  coin-view:
+    subtitle: 获取所有信号员的信号和位置历史记录
+    title: 硬币视图
+  dashboard: 後台
   financial-products:
     active-product: 活跃产品
-    subtitle: 探索不同的投资组合机会
+    subtitle: 探索不同的投资组合
     title: 理财产品
   insight:
-    subtitle: 获取战略加密货币投资的实时见解
-    title: 洞察力
+    subtitle: 获取加密货币投资的实时投资资讯
+    title: 投资工具
   investment:
-    subtitle: 探索 Auto Trader 或 DeFi Stake 金融产品
-    title: 投资
+    subtitle: 探索 Auto Trader 或 DeFi 质押 金融产品
+    title: 私募
   kyc:
-    mobile: 了解您的客户
+    mobile: 实名认证
     subtitle: 验证身份以访问功能。
-    title: 了解您的客户
+    title: 实名认证
   notification-center:
     mobile: 通知
-    subtitle: 信号和警报设置。
+    subtitle: 交易信号和警报设置。
     title: 通知
   products-catalog:
     mobile: 产品
-    title: 产品目录
-  profile-dashboard: 个人资料仪表板
+    title: 产品种类
+  profile-dashboard: 个人后台
   profile:
-    mobile: 轮廓
+    mobile: 个人资料
     subtitle: 编辑登录凭据。
-    title: 轮廓
+    title: 个人资料
   referral:
-    mobile: 推荐
+    mobile: 邀请奖励
     subtitle: 邀请并获得奖励。
-    title: 推荐
+    title: 邀请奖励
   signal-matrix:
-    mobile: 信号
-    subtitle: 获取领先加密货币的人工智能驱动的交易信号
-    title: 信号矩阵
+    mobile: 交易信号
+    subtitle: 获取主流币种的人工智能交易信号
+    title: AI交易信号资讯
+  signaler-view:
+    subtitle: 获取所有信号员的信号和位置历史记录
+    title: 信号员视图
   strategies:
     mobile: 策略
     title: 策略
   token:
     mobile: WSDM
-    subtitle: 使用令牌进行高级访问。
+    subtitle: 质押代币开通会员(无需任何消耗)
     title: WSDM代币
 mobile-menu:
   close: 关闭
   open: 菜单
 support:
-  hint: 与我们聊天
+  hint: 与我们联络
   title: 问题？
 user:
   logout: 登出

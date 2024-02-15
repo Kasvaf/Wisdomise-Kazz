@@ -46,12 +46,12 @@ const ConfirmModal: React.FC<Props> = ({
     <div className="text-white">
       {title && <div className="mb-8 text-center font-semibold">{title}</div>}
       {icon && <div className="mb-8 flex justify-center">{icon}</div>}
-      <div className="mb-8 text-white/80">{message}</div>
+      <div className="text-white/80">{message}</div>
 
       {buttons.length > 0 && (
         <div
           className={clsx(
-            '-mx-3 flex',
+            '-mx-3 mt-8 flex',
             buttons.length < 2 ? 'justify-center' : 'justify-stretch',
           )}
         >

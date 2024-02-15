@@ -3,6 +3,7 @@ import { Tabs, type TabsProps } from 'antd';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
+import { trackClick } from 'config/segment';
 import TabTrade from './TabTrade';
 import TabStake from './TabStake';
 
@@ -26,9 +27,14 @@ const PageProductsCatalog = () => {
     },
   ];
 
+  const onTabChange = (newTab: string) => {
+    trackClick(newTab + '_tab')();
+    setActiveTab(newTab);
+  };
+
   return (
     <PageWrapper>
-      <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
+      <Tabs activeKey={activeTab} onChange={onTabChange} items={items} />
     </PageWrapper>
   );
 };

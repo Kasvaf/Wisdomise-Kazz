@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import { type AssetPairInfo } from 'api/types/investorAssetStructure';
 import { type Resolution } from '.';
 
@@ -43,6 +44,18 @@ export const useCandlesQuery = ({
     },
   );
 
+export const useRecentCandlesQuery = (asset: string | undefined) =>
+  useCandlesQuery({
+    asset,
+    resolution: '1h',
+    startDateTime: useMemo(() => {
+      const startDateTime = new Date();
+      startDateTime.setMonth(startDateTime.getMonth() - 3);
+      return startDateTime.toISOString();
+    }, []),
+    endDateTime: useMemo(() => new Date().toISOString(), []),
+  });
+
 // ========================================================================
 export interface StrategySpi {
   title: string;
@@ -75,14 +88,13 @@ export interface StrategyPosition {
   strategy_position?: TheoreticalPosition | null;
 }
 
-interface TheoreticalPosition {
-  position_side: string;
+export interface TheoreticalPosition {
+  position_side: 'LONG' | 'SHORT';
   entry_time: string;
   entry_price: number;
   exit_time?: string;
   exit_price?: number;
   pnl: number;
-  pair: AssetPairInfo;
 }
 
 interface ActualPosition {
@@ -93,7 +105,6 @@ interface ActualPosition {
   exit_time?: string;
   exit_price?: number;
   pnl: number;
-  sti_key: string;
   pair: AssetPairInfo;
 }
 

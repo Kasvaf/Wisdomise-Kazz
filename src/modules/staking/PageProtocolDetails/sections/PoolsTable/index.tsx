@@ -112,7 +112,7 @@ export default function PoolsTable() {
             disabled={!url}
             className="block w-full"
             target="_blank"
-            onClick={trackClick('defi_invest_button')}
+            onClick={trackClick('invest_defi')}
           >
             {t('pools-table.invest')}
           </Button>
