@@ -1,5 +1,5 @@
 import { useContractRead } from 'wagmi';
-import { LOCKING_ABI } from 'modules/account/PageToken/web3/lockingAbi';
+import { LOCKING_ABI } from 'modules/account/PageToken/web3/locking/abi';
 
 export const LOCKING_CONTRACT_ADDRESS = '0x0';
 

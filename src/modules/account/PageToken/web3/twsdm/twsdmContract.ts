@@ -5,9 +5,9 @@ import {
   useContractWrite,
 } from 'wagmi';
 import { zeroAddress } from 'viem';
-import { MIGRATION_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/migrationContract';
+import { MIGRATION_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/migration/migrationContract';
 import { isProduction } from 'utils/version';
-import { TWSDM_ABI } from 'modules/account/PageToken/web3/twsdmAbi';
+import { TWSDM_ABI } from 'modules/account/PageToken/web3/twsdm/twsdmAbi';
 
 export const TWSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
@@ -24,6 +24,7 @@ export function useReadTwsdmAllowance() {
     ...twsdmContractDefaultConfig,
     functionName: 'allowance',
     args: [address ?? zeroAddress, MIGRATION_CONTRACT_ADDRESS],
+    enabled: !!address,
   });
 }
 
@@ -36,5 +37,9 @@ export function useWriteTwsdmApprove() {
 
 export function useTwsdmBalance() {
   const { address } = useAccount();
-  return useBalance({ address, token: TWSDM_CONTRACT_ADDRESS });
+  return useBalance({
+    address,
+    token: TWSDM_CONTRACT_ADDRESS,
+    enabled: !!address,
+  });
 }

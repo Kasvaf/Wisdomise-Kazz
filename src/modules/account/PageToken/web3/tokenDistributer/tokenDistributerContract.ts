@@ -1,6 +1,6 @@
 import { useAccount, useContractRead, useContractWrite } from 'wagmi';
 import { zeroAddress } from 'viem';
-import { TOKEN_DISTRIBUTOR_ABI } from 'modules/account/PageToken/web3/tokenDistributorAbi';
+import { TOKEN_DISTRIBUTOR_ABI } from 'modules/account/PageToken/web3/tokenDistributer/tokenDistributorAbi';
 import { isProduction } from 'utils/version';
 
 export const ANGEL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
@@ -21,7 +21,7 @@ const strategicTokenDistributorDefaultConfig = {
   abi: TOKEN_DISTRIBUTOR_ABI,
 } as const;
 
-export function useAngelRoundAccountShares() {
+export function useReadAngelAccountShares() {
   const { address } = useAccount();
   return useContractRead({
     ...angelTokenDistributorDefaultConfig,
@@ -30,7 +30,7 @@ export function useAngelRoundAccountShares() {
   });
 }
 
-export function useAngelRoundReleasable() {
+export function useReadAngelReleasable() {
   const { address } = useAccount();
   return useContractRead({
     ...angelTokenDistributorDefaultConfig,
@@ -39,7 +39,7 @@ export function useAngelRoundReleasable() {
   });
 }
 
-export function useStrategicRoundAccountShares() {
+export function useReadStrategicAccountShares() {
   const { address } = useAccount();
   return useContractRead({
     ...strategicTokenDistributorDefaultConfig,
@@ -48,7 +48,7 @@ export function useStrategicRoundAccountShares() {
   });
 }
 
-export function useStrategicRoundReleasable() {
+export function useReadStrategicReleasable() {
   const { address } = useAccount();
   return useContractRead({
     ...strategicTokenDistributorDefaultConfig,

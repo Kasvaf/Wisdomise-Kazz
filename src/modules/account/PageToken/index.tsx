@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import Card from 'shared/Card';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useAccountQuery, useSubscription } from 'api';
@@ -11,9 +11,11 @@ import { useUpdateTokenBalanceMutation } from 'api/defi';
 import CopyInputBox from 'shared/CopyInputBox';
 import Vesting from 'modules/account/PageToken/Vesting';
 import Migration from 'modules/account/PageToken/Migration';
-import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdmContract';
-import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdmContract';
+import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/wsdmContract';
+import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdm/twsdmContract';
 import Airdrop from 'modules/account/PageToken/Airdrop';
+import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
+import { useVesting } from 'modules/account/PageToken/web3/useVesting';
 import ConnectWalletWrapper from '../PageBilling/paymentMethods/Token/ConnectWalletWrapper';
 import { ReactComponent as WalletIcon } from './icons/wallet.svg';
 import { ReactComponent as UtilityIcon } from './icons/utility.svg';
@@ -31,6 +33,8 @@ export default function PageToken() {
   const { disconnect } = useDisconnect();
   const { data: wsdmBalance } = useWsdmBalance();
   const { data: twsdmBalance } = useTwsdmBalance();
+  const { isConnected } = useAccount();
+  const { angelTotalAmount, strategicTotalAmount } = useVesting();
 
   const openInvestmentPanel = () => {
     window.location.href = INVESTMENT_FE;
@@ -48,13 +52,15 @@ export default function PageToken() {
 
   return (
     <PageWrapper loading={isLoading}>
-      <h1 className="mb-6">
-        <strong className="text-5xl font-bold text-white/20">
-          Wisdomise Token
-        </strong>
-        <span className="ms-2 text-3xl text-white/60">&quot;WSDM&quot;</span>
-        {/* {t('base:menu.token.title')} */}
-      </h1>
+      <div className="flex flex-wrap items-center justify-between gap-6">
+        <h1 className="mb-6">
+          <strong className="text-5xl font-bold text-white/20">
+            Wisdomise Token
+          </strong>
+          <span className="ms-2 text-3xl text-white/60">&quot;WSDM&quot;</span>
+        </h1>
+        {isConnected && <ImportTokenButton />}
+      </div>
       <ConnectWalletWrapper
         title={t('wisdomise-token:connect-wallet.wisdomise-token.title')}
         description={t(
@@ -62,7 +68,7 @@ export default function PageToken() {
         )}
       >
         {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
-        <Vesting />
+        {angelTotalAmount || strategicTotalAmount ? <Vesting /> : null}
         <Airdrop />
         <h1 className="my-8 text-white/20">
           <strong className="text-3xl font-bold">WSDM</strong>
