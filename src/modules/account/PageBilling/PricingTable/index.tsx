@@ -54,7 +54,7 @@ export default function PricingTable({
             ))}
           </div>
         </div>
-        <div className="-mx-6 flex gap-6 overflow-auto px-6">
+        <div className="-mx-6 flex justify-center gap-6 overflow-auto px-6 mobile:justify-start">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
             .map(plan => (
