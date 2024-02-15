@@ -57,9 +57,9 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
         <Locker
           key={s.strategy.key}
           overlay={
-            (s.strategy.profile.subscription_level ?? 0) > level && (
+            (s.strategy.profile?.subscription_level ?? 0) > level && (
               <UnprivilegedOverlay
-                requiredLevel={s.strategy.profile.subscription_level ?? 0}
+                requiredLevel={s.strategy.profile?.subscription_level ?? 0}
               />
             )
           }
@@ -68,7 +68,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
           <div className="rounded-2xl bg-white/5 p-3">
             <div className="flex items-center justify-between">
               <h2 className="mx-3 line-clamp-1 text-2xl">
-                {s.strategy.profile.title || s.strategy.name}
+                {s.strategy.profile?.title || s.strategy.name}
               </h2>
 
               <div className="flex items-center">
