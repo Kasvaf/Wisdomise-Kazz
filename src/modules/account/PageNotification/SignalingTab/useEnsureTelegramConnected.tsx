@@ -20,7 +20,7 @@ const useEnsureTelegramConnected = () => {
         </div>
 
         <h1 className="text-white">{t('signaling.overlay-telegram.title')}</h1>
-        <p className="mt-2 text-slate-400">
+        <p className="mt-2 text-center text-slate-400">
           <Trans
             i18nKey="signaling.overlay-telegram.description"
             ns="notifications"

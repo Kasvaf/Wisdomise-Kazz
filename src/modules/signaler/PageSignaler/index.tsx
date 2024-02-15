@@ -3,6 +3,7 @@ import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
 import { useStrategyPositions, useStrategiesList } from 'api/signaler';
+import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -32,14 +33,20 @@ const FieldTitle: React.FC<
 
 export default function PageSignaler() {
   const { t } = useTranslation('strategy');
+  const isMobile = useIsMobile();
+
   const { level: myLevel } = useSubscription();
   const allStrategies = useStrategiesList();
   const strategies = allStrategies.data?.filter(
     x => (x.profile?.subscription_level ?? 0) <= myLevel,
   );
+
   const [strategyKey, setStrategyKey] = useSearchParamAsState(
     'strategy',
-    () => strategies?.[0]?.key ?? '',
+    () =>
+      strategies?.find(x => !x.profile?.subscription_level)?.key ??
+      strategies?.[0].key ??
+      '',
   );
   const strategy = strategies?.find(x => x.key === strategyKey);
 
@@ -131,7 +138,7 @@ export default function PageSignaler() {
                 </div>
               )}
 
-              {!!allPositions.data?.length && coin && (
+              {!isMobile && !!allPositions.data?.length && coin && (
                 <SimulatedChart
                   asset={coin.base.name}
                   positions={allPositions.data}

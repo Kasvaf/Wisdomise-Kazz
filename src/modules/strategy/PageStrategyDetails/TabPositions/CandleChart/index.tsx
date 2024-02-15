@@ -71,7 +71,7 @@ const makeOption = (
         show: true,
         type: 'slider',
         top: '90%',
-        start: 50,
+        start: Math.round(100 * (1 - 200 / candles.values.length)),
         end: 100,
       },
     ],
