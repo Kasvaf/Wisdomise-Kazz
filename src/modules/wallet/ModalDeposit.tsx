@@ -1,14 +1,11 @@
 import QRCode from 'react-qr-code';
-import { bxInfoCircle } from 'boxicons-quasar';
-import { NavLink } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDepositWalletAddressQuery } from 'api';
 import Spinner from 'shared/Spinner';
-import Banner from 'shared/Banner';
 import CopyInputBox from 'shared/CopyInputBox';
 import useCryptoNetworkSelector from './useCryptoNetworkSelector';
 
-const ModalDeposit: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
+const ModalDeposit: React.FC<{ onResolve?: () => void }> = () => {
   const { t } = useTranslation('wallet');
   const {
     component: CryptoNetworkSelector,
@@ -25,21 +22,6 @@ const ModalDeposit: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   return (
     <div className="text-white">
       <h1 className="mb-10 text-center text-xl">{t('modal-deposit.title')}</h1>
-      <Banner icon={bxInfoCircle} className="mb-10">
-        <Trans i18nKey="modal-deposit.banner" ns="wallet">
-          You have to Deposit from a Verified wallet. Using an unverified wallet
-          will result in your account being
-          <span className="text-warning">restricted</span>.
-        </Trans>
-        <NavLink
-          className="ml-2 underline"
-          to="/account/kyc"
-          onClick={onResolve}
-        >
-          {t('modal-deposit.verify-wallet')}
-        </NavLink>
-      </Banner>
-
       {CryptoNetworkSelector}
 
       {depositAddress.isLoading || cryptoNetLoading ? (

@@ -2,6 +2,7 @@ import type React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { roundDown } from 'utils/numbers';
 import { useInvestorAssetStructuresQuery } from 'api';
+import { trackClick } from 'config/segment';
 import useMainQuote from 'shared/useMainQuote';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
@@ -22,6 +23,11 @@ const WalletDropdownContent: React.FC = () => {
   const mea = ias.data?.[0]?.main_exchange_account;
   const withdrawable = mea?.quote_equity || 0;
   const fpiCount = ias.data?.[0]?.financial_product_instances.length ?? 0;
+
+  const openDepositHandler = async () => {
+    trackClick('open_deposit_modal')();
+    await openDeposit({});
+  };
 
   if (ias.isLoading || !mainQuote) return <></>;
 
@@ -61,7 +67,7 @@ const WalletDropdownContent: React.FC = () => {
       <div className="mt-0 flex justify-around text-xs">
         <Button
           variant="link"
-          onClick={() => openDeposit({})}
+          onClick={openDepositHandler}
           className="rounded-lg hover:bg-black/10"
         >
           <div className="flex flex-col items-center justify-center gap-2">

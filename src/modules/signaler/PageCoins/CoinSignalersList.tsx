@@ -24,6 +24,13 @@ const NotificationButton: React.FC<{
       ensureConnected,
     });
 
+  const clickHandler = async () => {
+    trackClick('signalers_list_enable_notification', {
+      signaler: signaler.strategy.name,
+    })();
+    await handler();
+  };
+
   return (
     <Button
       className={clsx(
@@ -31,7 +38,7 @@ const NotificationButton: React.FC<{
         isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
       )}
       variant="alternative"
-      onClick={handler}
+      onClick={clickHandler}
       disabled={isSubmitting || isLoading}
     >
       {isSubmitting || isLoading ? (
