@@ -78,14 +78,16 @@ const PageAccount = () => {
             <div className="text-2xl font-medium leading-6 mobile:text-xl">
               {verifiedCount}/3
             </div>
-            <div
-              className={clsx(
-                'text-xs',
-                verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
-              )}
-            >
-              {t('kyc:completed')}
-            </div>
+            {+verifiedCount > 0 && (
+              <div
+                className={clsx(
+                  'text-xs',
+                  verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
+                )}
+              >
+                {t('kyc:completed')}
+              </div>
+            )}
           </div>
         </CardPageLink>
         <CardPageLink
