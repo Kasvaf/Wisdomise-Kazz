@@ -9,6 +9,7 @@ import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Locker from 'shared/Locker';
 import Spin from 'shared/Spin';
+import { trackClick } from 'config/segment';
 import ActivePosition from '../ActivePosition';
 import UnprivilegedOverlay from './UnprivilegedOverlay';
 
@@ -79,6 +80,10 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                 <Button
                   className="mobile:!p-[10px_12px]"
                   to={`/insight/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
+                  onClick={trackClick('coin_signaler', {
+                    coin_name: s.pair_name,
+                    strategy_name: s.strategy.name,
+                  })}
                 >
                   {t('signaler.btn-explore')}
                   <Icon name={bxRightArrowAlt} />

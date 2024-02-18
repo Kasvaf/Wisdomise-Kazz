@@ -69,7 +69,7 @@ const useMenuItems = () => {
         {
           text: t('menu.coin-view.title'),
           link: '/insight/coins',
-          onClick: trackClick('signaler_menu'),
+          onClick: trackClick('coin_list_menu'),
         },
         {
           text: t('menu.athena.title'),

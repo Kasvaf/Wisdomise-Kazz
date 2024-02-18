@@ -35,7 +35,7 @@ const PageInsight = () => {
           subtitle={t('menu.coin-view.subtitle')}
           icon={<IconSignals />}
           height={250}
-          onClick={trackClick('signaler_coin_menu')}
+          onClick={trackClick('coin_list_menu')}
         />
 
         <CardPageLink
