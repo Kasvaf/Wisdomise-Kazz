@@ -73,9 +73,7 @@ export default function PricingCard({
       <section>
         <PlanLogo name={plan.name} />
         <h2 className="mb-3 mt-6 text-lg font-semibold">{plan.name}</h2>
-        <p className="min-h-[100px] text-xs text-white/60">
-          {plan.description}
-        </p>
+        <p className="min-h-[90px] text-xs text-white/60">{plan.description}</p>
       </section>
 
       <div className="flex items-center justify-between rounded-lg bg-white/10 px-2 py-3 leading-none">
@@ -131,7 +129,7 @@ export default function PricingCard({
             plan.periodicity === 'MONTHLY')
         }
         className={clsx(
-          'my-8 block !w-full !font-medium',
+          'my-6 block !w-full !font-medium',
           (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
             '!cursor-default !text-white',
         )}
@@ -146,6 +144,8 @@ export default function PricingCard({
             : isRenew
             ? t('pricing-card.btn-action.choose')
             : t('pricing-card.btn-action.buy-now')
+          : plan.level === 0
+          ? t('pricing-card.btn-action.free')
           : t('pricing-card.btn-action.available-soon')}
       </Button>
       <div className="text-xs text-white/90">
