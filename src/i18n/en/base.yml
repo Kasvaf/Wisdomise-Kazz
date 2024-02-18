@@ -25,6 +25,15 @@ menu:
     title: Subscription
     subtitle: Subscription preferences
     remains: remains
+  builder:
+    title: Builder
+    subtitle: Manage your account settings and preferences
+  signal-builder:
+    title: My Signalers
+    subtitle: Generate Signals for supported Cryptocurrency
+  fp-builder:
+    title: My Financial Products
+    subtitle: Explore different investment package opportunities
   coin-view:
     title: Coin List
     subtitle: Get signals and position histories from all signalers

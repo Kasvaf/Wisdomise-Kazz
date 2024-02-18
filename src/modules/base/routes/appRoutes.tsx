@@ -36,6 +36,12 @@ const PageStrategyCreate = React.lazy(
 const PageStrategyDetails = React.lazy(
   () => import('modules/strategy/PageStrategyDetails'),
 );
+
+const PageBuilder = React.lazy(() => import('modules/builder/PageBuilder'));
+const PageSignalersList = React.lazy(
+  () => import('modules/builder/PageSignalersList'),
+);
+
 const PageProtocolDetails = React.lazy(
   () => import('modules/staking/PageProtocolDetails'),
 );
@@ -82,6 +88,19 @@ const appRoutes: RouteObject[] = [
         element: <PageProtocolDetails />,
       },
       { path: '', element: <Navigate to="/investment" /> },
+    ],
+  },
+  {
+    element: <Container />,
+    path: 'builder',
+    children: [
+      { path: '', element: <PageBuilder /> },
+      { path: 'signalers', element: <PageSignalersList /> },
+      { path: 'signalers/new', element: <PageStrategyCreate /> },
+      { path: 'signalers/:id', element: <PageStrategyDetails /> },
+      { path: 'fp', element: <PageStrategyCreate /> },
+      { path: 'fp/new', element: <PageStrategyCreate /> },
+      { path: 'fp/:id', element: <PageStrategyDetails /> },
     ],
   },
 ];
