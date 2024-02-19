@@ -57,7 +57,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
   );
 
   return (
-    <div className={clsx('flex gap-3', className)}>
+    <div className={clsx('flex flex-wrap gap-3', className)}>
       {items.map(p => (
         <div
           key={p.name}

@@ -5,16 +5,12 @@ import {
   type MarkPointOption,
 } from 'echarts/types/dist/shared';
 import { bxsDownArrow } from 'boxicons-quasar';
+import { ensureZ } from 'utils/dates';
 import { type Candle, type Resolution } from 'api';
 
 export interface ChartPosition {
   actual_position: ActualPosition;
   strategy_position?: Position | null;
-}
-
-function ensureZ(date?: string) {
-  if (!date) return '';
-  return date.endsWith('Z') || /\+\d+$/.test(date) ? date : date + 'Z';
 }
 
 interface Position {

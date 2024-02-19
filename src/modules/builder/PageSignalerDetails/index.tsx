@@ -5,6 +5,7 @@ import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabApi from './TabApi';
 import TabConfig from './TabConfig';
+import TabPerformance from './TabPerformance';
 
 const items: TabsProps['items'] = [
   {
@@ -25,7 +26,7 @@ const items: TabsProps['items'] = [
   {
     key: 'perf',
     label: 'Performance',
-    children: 'Content of Tab Pane 3',
+    children: <TabPerformance />,
   },
   {
     key: 'api',

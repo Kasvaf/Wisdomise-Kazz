@@ -135,3 +135,48 @@ export const useSignalerAllowedAssetsQuery = (strategyKey?: string) =>
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
+
+// ======================================================================
+
+interface PerfData {
+  positions: number;
+  pnl: number;
+  max_drawdown: number;
+  pnl_timeseries: Array<{
+    d: string;
+    v: number;
+  }>;
+}
+
+export const useSignalerPerfQuery = ({
+  signalerKey,
+  assetName,
+  startTime,
+  endTime,
+}: {
+  signalerKey?: string;
+  assetName?: string;
+  startTime?: string;
+  endTime?: string;
+}) =>
+  useQuery(
+    ['signalerPerf', signalerKey, assetName, startTime, endTime],
+    async () => {
+      if (!signalerKey) throw new Error('unexpected');
+      const { data } = await axios.get<PerfData>(
+        `/factory/strategies/${signalerKey}/performance`,
+        {
+          params: {
+            asset_name: assetName,
+            start_time: startTime,
+            end_time: endTime,
+          },
+        },
+      );
+      return data;
+    },
+    {
+      enabled: !!signalerKey && !!assetName && !!startTime && !!endTime,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );

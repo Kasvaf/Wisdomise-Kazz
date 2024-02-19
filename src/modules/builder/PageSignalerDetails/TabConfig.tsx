@@ -103,7 +103,7 @@ const TabConfig = () => {
         onChange={v => update('assets', v)}
       />
 
-      <section className="flex justify-center gap-3">
+      <section className="mt-8 flex justify-center">
         <Button disabled={!hasChanges} loading={isSaving} onClick={saveChanges}>
           Save
         </Button>
