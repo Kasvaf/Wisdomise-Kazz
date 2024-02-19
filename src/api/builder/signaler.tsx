@@ -31,6 +31,24 @@ export const useMySignalersQuery = () =>
 
 // ======================================================================
 
+export const useSignalerQuery = (signaler?: string) =>
+  useQuery(
+    ['signaler', signaler],
+    async () => {
+      if (!signaler) throw new Error('unexpected');
+      const { data } = await axios.get<SignalerData>(
+        `factory/strategies/${signaler}`,
+      );
+      return data;
+    },
+    {
+      enabled: !!signaler,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+
+// ======================================================================
+
 export interface Asset {
   display_name: string;
   name: string;
