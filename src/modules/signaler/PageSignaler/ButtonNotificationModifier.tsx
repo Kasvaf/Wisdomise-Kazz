@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { bxBell, bxsBell } from 'boxicons-quasar';
 import { useAccountQuery } from 'api';
 import { type StrategyItem } from 'api/signaler';
+import { trackClick } from 'config/segment';
 import SignalChip from 'modules/account/PageNotification/SignalingTab/SignalChip';
 import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
 import useModal from 'shared/useModal';
@@ -45,6 +46,9 @@ const ButtonNotificationModifier: React.FC<{
   ));
 
   const clickHandler = async () => {
+    trackClick('signaler_enable_notification', {
+      signaler: s.name,
+    })();
     if (!(await ensureTelegramConnected())) return;
     await showModal({});
   };

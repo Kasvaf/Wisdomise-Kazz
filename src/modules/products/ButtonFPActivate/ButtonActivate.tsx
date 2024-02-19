@@ -42,7 +42,7 @@ const ButtonActivate: React.FC<Props> = ({
   const [SubscribeModal, ensureSubscribed] = useEnsureSubscription(fp);
 
   const onActivateClick = async () => {
-    trackClick('activate_strategie_button')();
+    trackClick('activate_strategy_button')();
     if (!(await ensureSubscribed())) return;
 
     if (fp.config.no_withdraw) {
@@ -52,6 +52,10 @@ const ButtonActivate: React.FC<Props> = ({
 
     const acc = await showModalExchangeAccountSelector({ market });
     if (!acc) return;
+
+    trackClick('activate_strategy_wallet', {
+      wallet_type: acc === 'wisdomise' ? acc : 'binance',
+    })();
 
     if (acc !== 'wisdomise' || hasIas || (await openDisclaimer())) {
       const account = !acc || acc === 'wisdomise' ? undefined : acc;
