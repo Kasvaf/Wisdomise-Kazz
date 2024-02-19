@@ -1,7 +1,10 @@
 import { Tabs, type TabsProps } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
-import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabApi from './TabApi';
+import TabConfig from './TabConfig';
 
 const items: TabsProps['items'] = [
   {
@@ -17,7 +20,7 @@ const items: TabsProps['items'] = [
   {
     key: 'config',
     label: 'Configuration',
-    children: 'Config tab',
+    children: <TabConfig />,
   },
   {
     key: 'perf',
@@ -32,6 +35,14 @@ const items: TabsProps['items'] = [
 ];
 
 export default function PageSignalerDetails() {
+  const params = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!params.id) {
+      navigate('/builder/signalers');
+    }
+  }, [params.id, navigate]);
+
   const [activeTab, setActiveTab] = useSearchParamAsState<string>('tab', 'pos');
 
   return (

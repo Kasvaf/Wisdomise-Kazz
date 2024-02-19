@@ -55,12 +55,7 @@ export interface Asset {
   symbol: string;
 }
 
-export interface AssetAsset {
-  share: number;
-  asset: Asset;
-}
-
-interface SignalerData {
+export interface SignalerData {
   key: string;
   is_active: boolean;
   market_name: MarketTypes;
@@ -69,7 +64,7 @@ interface SignalerData {
   strategy_id: string;
   secret_key: string;
   signal_api_call_example: string;
-  assets: AssetAsset[];
+  assets: Asset[];
   resolution: Resolution;
 }
 
@@ -99,3 +94,44 @@ export const useCreateSignalerMutation = () => {
     },
   );
 };
+
+export const useUpdateSignalerMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    SignalerData,
+    unknown,
+    {
+      key: string;
+      name: string;
+      tags: string[];
+      assets: Asset[];
+      resolution: Resolution;
+    }
+  >(async ({ key, ...params }) => {
+    const { data } = await axios.patch<SignalerData>(
+      `/factory/strategies/${key}`,
+      params,
+    );
+    await queryClient.invalidateQueries(['signalers']);
+    await queryClient.invalidateQueries(['signaler', key]);
+    return data;
+  });
+};
+
+// ======================================================================
+
+export const useSignalerAllowedAssetsQuery = (strategyKey?: string) =>
+  useQuery(
+    ['signalerAllowedAssets', strategyKey],
+    async () => {
+      if (!strategyKey) throw new Error('unexpected');
+      const { data } = await axios.get<{ assets: Asset[] }>(
+        `/factory/strategies/${strategyKey}/allowed-assets`,
+      );
+      return data.assets;
+    },
+    {
+      enabled: strategyKey != null,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
