@@ -93,6 +93,19 @@ const useMenuItems = () => {
       link: '/builder',
       hide: isProduction,
       mobileHide: true,
+      children: [
+        {
+          text: t('menu.signal-builder.title'),
+          link: '/builder/signalers',
+          mobileHide: true,
+          onClick: trackClick('builder_signals_menu'),
+        },
+        {
+          text: t('menu.fp-builder.title'),
+          link: '/builders/fp',
+          onClick: trackClick('builder_fp_menu'),
+        },
+      ],
     },
     {
       icon: Icon(AccountIconEmpty, AccountIconFull),
