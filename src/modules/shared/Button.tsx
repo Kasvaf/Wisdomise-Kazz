@@ -9,7 +9,13 @@ interface Props extends PropsWithChildren {
   to?: To;
   size?: 'small' | 'large';
   loading?: boolean;
-  variant?: 'primary' | 'alternative' | 'secondary' | 'link';
+  variant?:
+    | 'primary'
+    | 'alternative'
+    | 'secondary'
+    | 'link'
+    | 'green'
+    | 'secondary-red';
   className?: string;
   contentClassName?: string;
   disabled?: boolean;
@@ -96,6 +102,26 @@ const Button: React.FC<Props> = ({
     );
   }
 
+  if (variant === 'secondary-red') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'rounded-xl border border-[#F14056] bg-transparent px-8 py-4 text-sm font-medium leading-none text-[#F14056] hover:border-[#F14056]/40',
+          disabled &&
+            'cursor-not-allowed !border-[#F14056]/10 !bg-white/10 text-[#F14056]/10',
+          sizeClass,
+          loading && 'cursor-wait',
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
   if (variant === 'alternative') {
     return (
       <LinkOrButton
@@ -104,6 +130,26 @@ const Button: React.FC<Props> = ({
           disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
           sizeClass,
           loading && 'cursor-wait',
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
+  if (variant === 'green') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'rounded-xl bg-[#11C37E99] px-8 py-4 text-sm font-medium leading-none text-white hover:bg-[#11C37E99]/80',
+          disabled &&
+            'cursor-not-allowed !border-[#11C37E99]/40 !bg-[#11C37E99]/10 text-white/10',
+          loading && 'cursor-wait',
+          sizeClass,
           className,
         )}
         disabled={disabled}

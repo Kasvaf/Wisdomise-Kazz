@@ -32,7 +32,7 @@ select-coin: Select Coin
 select-strategy: Select Strategy
 signaler:
   24h-volume: 24h Volume
-  active-positions: Active Positions
+  active-positions: Active Position
   btn-explore: Explore
   info:
     crypto:
