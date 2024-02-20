@@ -3,8 +3,8 @@ banner:
   checkout-message: サブスクリプションのプラン一覧はこちら
   ends-in: サブスクリプション期間終了まで <1>{{remaining}}</1> 日！
 change-pay-method:
-  crypto: Crypto
-  fiat: Fiat
+  crypto: 仮想通貨
+  fiat: 法定通貨
   sub-title: "次のプランのお支払い方法を選択してください:"
   title: 支払い方法の変更
   token: Wisdomise Token (tWSDM)
@@ -21,7 +21,7 @@ crypto-modal:
     title: メールをご確認ください
   input-hash-id: トランザクションID（ハッシュID）
   notice:
-    confirmed: 下記にトランザクションIDを記入してください。24時間以内にアカウントをアクティベーション完了のメールをお送りします。
+    confirmed: 下記にトランザクションIDを記入してください。24時間以内にアカウントを確認し、アクティベーション完了のメールをお送りします。
     is-not-confirmed: 仮想通貨での取引をご希望の場合は、トークンとネットワークの種類をご教授ください。送付先のアドレスを連絡いたします。
   payment-by-crypto: 仮想通貨で支払う
   subtitle: "{{plan}}プランに申し込む"
@@ -39,27 +39,27 @@ overlay-subscription:
   title: 現在のサブスクリプション契約はありません。
 periodicity:
   month:
-    per: 月々<br>
-    title: 毎月
+    per: 月額<br>
+    title: 月額
   year:
-    per: 年次<br>
-    title: 毎年
+    per: 年間利用<br>
+    title: 年間利用
 pricing-card:
-  annually: 年
+  annually: 年額
   btn-action:
     available-soon: 近日公開
     buy-now: 今すぐ購入する
     choose: 選ぶ
     current-plan: 現在ご契約中のプラン
     free: 無料
-    next-plan: 次の計画
+    next-plan: 次のプラン
     upgrade: アップグレード
-  hold: ホルド
-  just-yearly: 毎年恒例
-  monthly: 毎月
+  hold: ホールド
+  just-yearly: 年間利用のみ
+  monthly: 月額
   notification-upgrade-success: サブスクリプションのアップデートが完了しました。アクティベーションまで数分かかる場合がございます。しばらく経ってからこのページを更新してください。
   page-subtitle: このセクションからパッケージの種類を選択できます
-  page-title: 課金パッケージ
+  page-title: プランと料金
   this-includes: "次を含みます:"
   token: Token
 stripe:
@@ -85,8 +85,8 @@ subscription-details:
     is-on-the-way:
       description: サブスクリプション契約のお支払いを仮想通貨で受け付けました。確認に24-48時間かかります。アカウントのアクティベーションが完了出来次第メールにてご連絡いたします。
       title: サブスクリプションのアクティベーション準備中
-    next-plan-canceled: <0></0><1>次の計画はキャンセルされました。<1>次のプランを更新する</1></1>
-    next-plan-info: <0>あなたの次の計画は <2>{{nextPlanName}} {{period}}</2> と <6>
+    next-plan-canceled: <0></0><1>次のサブスクリプション更新はありません。<1>次の契約を更新する</1></1>
+    next-plan-info: <0>あなたの次のプランは <2>{{nextPlanName}} {{period}}</2> と <6>
       {{payMethod}}</6> 支払方法。<9>次のプランをキャンセルする</9></0>
     pay-method: "<0>次の支払い方法: <2>{{payMethod}}。</2><3>支払い方法を変更する</3></0>"
     pending-invoice: <0><0>保留中の請求書が 1 件あります。</0><1>今払う</1></0>

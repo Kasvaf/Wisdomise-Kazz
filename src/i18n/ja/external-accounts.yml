@@ -8,14 +8,14 @@ account:
 modal-account-selector:
   btn-connect-new: 新しいアカウントの連携
   btn-continue: 続ける
-  not-supported: このプロダクトは外部のエクスチェンジアカウントの対応はしていません。
+  not-supported: このプロダクトは外部取引所アカウントの対応はしていません。
   title: アカウントの選択
 modal-add-exchange:
   input-api-key: API キー
   input-exchange: 取引所
   input-secret-key: シークレットキー
   notice-ip-restriction: 次の情報をBinanceの<1>IP access restrictions（アクセス制限）</1>にご利用ください。
-  title: エクスチェンジのアカウントを追加
+  title: 取引所のアカウントを追加
 page-accounts:
   btn-add-account: アカウントの追加
   empty-description: 外部の取引所口座は未登録です。

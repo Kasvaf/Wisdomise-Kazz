@@ -14,10 +14,10 @@ connect-wallet:
   verify-nonce: nonce に署名して所有権を確認してください
   wallet-address: ウォレットアドレス
   wisdomise-token:
-    description: 公共料金のステータスと tWSDM 残高を表示するには、ウォレットに接続します。
+    description: ユーティリティのステータスと tWSDM 残高を表示するには、ウォレットに接続します。
     title: ウォレットに接続
 utility:
-  activate: 起動させる
+  activate: アクティベート
   activated: 有効化済み
   description: $tWSDM トークンを保持するだけで、Wisdomise のプレミアム サブスクリプション パッケージへの 1
     年間の独占アクセスのロックが解除されます。トークンからの控除はありません。トークンをウォレットに保管しておくだけです。この簡単なアプローチにより、追加のコストや手間をかけることなく、すべてのプレミアム特典を確実に享受できます。これは、Wisdomise
