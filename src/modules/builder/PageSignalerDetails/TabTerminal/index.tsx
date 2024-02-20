@@ -1,17 +1,51 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Asset, useSignalerQuery } from 'api/builder/signaler';
-import { useMySignalerOpenPositions } from 'api/builder/positions';
-import Spinner from 'modules/shared/Spinner';
+import { notification } from 'antd';
+import {
+  type Asset,
+  useSignalerQuery,
+  useCreateSignalMutation,
+  useMySignalerOpenPositions,
+} from 'api/builder';
+import { unwrapErrorMessage } from 'utils/error';
 import ActivePosition from 'modules/signaler/ActivePosition';
 import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
-import AmountInputBox from 'modules/shared/AmountInputBox';
-import Button from 'modules/shared/Button';
+import AmountInputBox from 'shared/AmountInputBox';
+import Spinner from 'shared/Spinner';
+import Button from 'shared/Button';
 import AssetSelector from '../AssetSelector';
 import MarketToggle from './MarketToggle';
-import OrderTypeToggle from './OrderTypeToggle';
 import DurationInput from './DurationInput';
+import OrderTypeToggle from './OrderTypeToggle';
+
+function parseDur(dur: string) {
+  const val = Number.parseInt(dur);
+  const d = new Date();
+  switch (dur.replace(/\d+/, '')) {
+    case 's': {
+      d.setSeconds(d.getSeconds() + val);
+      break;
+    }
+    case 'm': {
+      d.setMinutes(d.getMinutes() + val);
+      break;
+    }
+    case 'h': {
+      d.setHours(d.getHours() + val);
+      break;
+    }
+    case 'd': {
+      d.setDate(d.getDate() + val);
+      break;
+    }
+    case 'M': {
+      d.setMonth(d.getMonth() + val);
+      break;
+    }
+  }
+  return d.toISOString();
+}
 
 const TabTerminal = () => {
   const { t } = useTranslation('strategy');
@@ -28,15 +62,79 @@ const TabTerminal = () => {
       | undefined,
   }));
   const activePosition = openPositions?.find(x => x.pair_name === asset?.name);
+  const isUpdate = !!activePosition;
 
-  const [market, setMarket] = useState<'LONG' | 'SHORT'>('LONG');
+  const [market, setMarket] = useState<'long' | 'short'>('long');
   const [orderType, setOrderType] = useState<'limit' | 'market'>('limit');
   const [price, setPrice] = useState('');
   const [tp, setTP] = useState('');
   const [sl, setSL] = useState('');
   const [exp, setExp] = useState('30s');
   const [orderExp, setOrderExp] = useState('30s');
-  const isUpdate = false;
+
+  const { mutateAsync, isLoading: isSubmitting } = useCreateSignalMutation();
+
+  const isFireDisabled = !asset || !params.id || !price || !tp || !sl;
+  const fireHandler = async () => {
+    if (!asset || !params.id || !price || !tp || !sl) return;
+    try {
+      await mutateAsync({
+        signalerKey: params.id,
+        action: 'open',
+        pair: asset.name,
+        position: {
+          type: market,
+          order_type: orderType,
+          price: {
+            value: Number.parseFloat(price),
+          },
+          suggested_action_expires_at: parseDur(exp),
+          order_expires_at: parseDur(orderExp),
+        },
+        take_profit: {
+          price: { value: Number.parseFloat(tp) },
+        },
+        stop_loss: {
+          price: { value: Number.parseFloat(sl) },
+        },
+      });
+    } catch (error) {
+      notification.error({ message: unwrapErrorMessage(error) });
+    }
+  };
+
+  const closeHandler = async () => {
+    if (!asset || !params.id || !activePosition?.signal) return;
+    try {
+      await mutateAsync({
+        signalerKey: params.id,
+        ...activePosition.signal,
+        action: 'close',
+      });
+    } catch (error) {
+      notification.error({ message: unwrapErrorMessage(error) });
+    }
+  };
+
+  const isUpdateDisabled = !asset || !params.id || !tp || !sl;
+  const updateHandler = async () => {
+    if (!asset || !params.id || !activePosition?.signal) return;
+    try {
+      await mutateAsync({
+        signalerKey: params.id,
+        ...activePosition.signal,
+        action: 'open',
+        take_profit: {
+          price: { value: Number.parseFloat(tp) },
+        },
+        stop_loss: {
+          price: { value: Number.parseFloat(sl) },
+        },
+      });
+    } catch (error) {
+      notification.error({ message: unwrapErrorMessage(error) });
+    }
+  };
 
   return (
     <div className="mt-12">
@@ -123,15 +221,35 @@ const TabTerminal = () => {
               )}
 
               {isUpdate && (
-                <Button variant="alternative">Update Position</Button>
+                <Button
+                  variant="alternative"
+                  onClick={updateHandler}
+                  loading={isSubmitting}
+                  disabled={isUpdateDisabled}
+                >
+                  Update Position
+                </Button>
               )}
 
               <div className="border-b border-white/5" />
 
               {isUpdate ? (
-                <Button variant="secondary-red">Close</Button>
+                <Button
+                  variant="secondary-red"
+                  onClick={closeHandler}
+                  loading={isSubmitting}
+                >
+                  Close
+                </Button>
               ) : (
-                <Button variant="green">Fire Signal</Button>
+                <Button
+                  variant="green"
+                  onClick={fireHandler}
+                  loading={isSubmitting}
+                  disabled={isFireDisabled}
+                >
+                  Fire Signal
+                </Button>
               )}
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-type Market = 'LONG' | 'SHORT';
+type Market = 'long' | 'short';
 interface Props {
   value: Market;
   onChange: (value: Market) => void;
@@ -12,18 +12,18 @@ const MarketToggle: React.FC<Props> = ({ value, onChange }) => {
       <div
         className={clsx(
           'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/70',
-          value === 'LONG' ? '!bg-[#11C37E99]' : 'text-white/40',
+          value === 'long' ? '!bg-[#11C37E99]' : 'text-white/40',
         )}
-        onClick={() => onChange('LONG')}
+        onClick={() => onChange('long')}
       >
         Long
       </div>
       <div
         className={clsx(
           'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/70',
-          value === 'SHORT' ? '!bg-[#11C37E99]' : 'text-white/40',
+          value === 'short' ? '!bg-[#11C37E99]' : 'text-white/40',
         )}
-        onClick={() => onChange('SHORT')}
+        onClick={() => onChange('short')}
       >
         Short
       </div>
