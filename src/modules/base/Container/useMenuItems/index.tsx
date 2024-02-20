@@ -94,7 +94,7 @@ const useMenuItems = () => {
         },
         {
           text: t('menu.fp-builder.title'),
-          link: '/builders/fp',
+          link: '/builder/fp',
           onClick: trackClick('builder_fp_menu'),
         },
       ],
