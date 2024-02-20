@@ -7,7 +7,7 @@ import {
 } from 'echarts/types/dist/shared';
 import { useEffect, useState } from 'react';
 import { type Candle, type Resolution } from 'api';
-import { echartsDark, type EChartsOption } from 'shared/echarts';
+import { echartsDark, type EChartsOption } from './echarts';
 import { type ChartPosition, parseCandles, parsePositions } from './utils';
 
 const upColor = '#00da3c';

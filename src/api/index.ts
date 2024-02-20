@@ -9,3 +9,4 @@ export * from './subscription';
 export * from './exchange-accounts';
 export * from './billings';
 export * from './athena';
+export * from './candles';

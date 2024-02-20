@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { type Resolution } from 'api';
 import { type SignalsResponse } from '../types/signalResponse';
 import { type MarketTypes } from '../types/financialProduct';
 
@@ -10,8 +11,6 @@ export const useSignalsQuery = () =>
     );
     return data;
   });
-
-export type Resolution = '1m' | '3m' | '5m' | '15m' | '30m' | '1h';
 
 interface StrategyListItem {
   key: string;

@@ -1,6 +1,6 @@
 import { useRecentCandlesQuery } from 'api';
 import { type PairSignalerItem } from 'api/signaler';
-import CandleChart from 'modules/strategy/PageStrategyDetails/TabPositions/CandleChart';
+import CandleChart from 'shared/CandleChart';
 
 const SimulatedChart: React.FC<{
   asset: string;

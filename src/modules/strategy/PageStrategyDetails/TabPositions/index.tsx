@@ -7,12 +7,12 @@ import {
   useStrategyQuery,
   useStrategyPositionsQuery,
 } from 'api';
-import Spinner from 'modules/shared/Spinner';
-import CandleChart from './CandleChart';
-import AssetSelector from './AssetSelector';
+import { bestResolution } from 'shared/CandleChart/utils';
+import CandleChart from 'shared/CandleChart';
+import Spinner from 'shared/Spinner';
 import SpiSelector from './SpiSelector';
+import AssetSelector from './AssetSelector';
 import PositionsTable from './PositionsTable';
-import { bestResolution } from './CandleChart/utils';
 
 const { RangePicker } = DatePicker;
 

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type MarketTypes } from 'api/types/financialProduct';
-
-type Resolution = '1m' | '3m' | '5m' | '15m' | '30m' | '1h';
+import { type Resolution } from 'api';
 
 interface SignalerListItem {
   key: string;
