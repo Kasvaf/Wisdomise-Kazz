@@ -16,6 +16,7 @@ interface Props {
   type?: 'text' | 'number' | 'tel';
   filter?: (v: string) => string;
   suffix?: string | React.ReactNode;
+  noSuffixPad?: boolean;
   onChange?: (item: string) => void;
   onKeyDown?: React.DOMAttributes<HTMLInputElement>['onKeyDown'];
 }
@@ -31,6 +32,7 @@ const TextBox: FC<Props> = ({
   onBlur,
   disabled = false,
   suffix,
+  noSuffixPad = false,
   onKeyDown,
   className,
   placeholder,
@@ -72,8 +74,9 @@ const TextBox: FC<Props> = ({
         />
         <div
           className={clsx(
-            'absolute right-0 top-0 flex h-full items-center pr-4',
+            'absolute right-0 top-0 flex h-full items-center',
             !isValidElement(suffix) && 'pointer-events-none',
+            !noSuffixPad && 'pr-4',
           )}
         >
           {isValidElement(suffix) ? suffix : <span>{suffix}</span>}

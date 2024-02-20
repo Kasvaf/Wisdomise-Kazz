@@ -99,7 +99,7 @@
   @apply !h-auto rounded-xl !bg-black/40 !px-6 !py-2;
 
   .bg-transparent & {
-    @apply !bg-transparent;
+    @apply !border-transparent !bg-transparent !shadow-none;
   }
 
   .ant-select-selection-search-input {

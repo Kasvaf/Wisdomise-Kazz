@@ -13,12 +13,12 @@ import {
 } from 'api';
 import { roundDown } from 'utils/numbers';
 import Spinner from 'shared/Spinner';
-import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import MultiButton from 'shared/MultiButton';
 import { unwrapErrorMessage } from 'utils/error';
 import { type VerifiedWallet } from 'api/kyc';
-import Banner from 'modules/shared/Banner';
+import Banner from 'shared/Banner';
+import AmountInputBox from 'shared/AmountInputBox';
 import useWithdrawalConfirm from './useWithdrawalConfirm';
 import useWithdrawSuccess from './useWithdrawSuccess';
 import useSecurityInput from './useSecurityInput';
@@ -47,13 +47,6 @@ const InfoLabel = ({
     </div>
   );
 };
-
-const toAmount = (v: string) =>
-  v
-    .replaceAll(/[^\d.]+/g, '')
-    .replace(/^(0+)/, '')
-    .replace(/^\./, '0.')
-    .replace(/^(\d+(\.\d*))\..*$/, '$1') || '0';
 
 const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const { t } = useTranslation('wallet');
@@ -237,10 +230,8 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
 
       <div className="mb-9">
         <div className="mb-1 ml-3">{t('amount')}</div>
-        <TextBox
-          type="tel"
+        <AmountInputBox
           value={String(amount)}
-          filter={toAmount}
           onChange={setAmount}
           suffix={wallet?.symbol.name}
           error={amountError}

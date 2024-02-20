@@ -1,53 +1,43 @@
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type RawPosition } from 'api/types/signalResponse';
 
-interface BaseSignalPosition {
+interface SignalPosition {
   type: 'long' | 'short';
-  order_expires_at: string;
-  suggested_action_expires_at: string;
-}
-
-interface LimitOrder extends BaseSignalPosition {
-  order_type: 'limit';
+  order_type: 'limit' | 'market';
   price: {
     // mandatory for limit orders
     value: number;
   };
+  order_expires_at: string;
+  suggested_action_expires_at: string;
 }
 
-interface MarketOrder extends BaseSignalPosition {
-  order_type: 'market';
-  price?: {
-    value?: number;
+interface Signal {
+  action: 'open' | 'close';
+  pair: string; // "BTC/USDT",
+  leverage: {
+    value: number;
+  };
+  position: SignalPosition;
+  stop_loss: {
+    price: {
+      value: number;
+    };
+  };
+  take_profit: {
+    price: {
+      value: number;
+    };
   };
 }
-
-type SignalPosition = LimitOrder | MarketOrder;
 
 interface FullPosition extends RawPosition {
   pair_name: string;
   leverage: number;
   stop_loss: number;
   take_profit: number;
-  signal?: {
-    action: 'open' | 'close';
-    pair: string; // "BTC/USDT",
-    leverage: {
-      value: number;
-    };
-    position: SignalPosition;
-    stop_loss: {
-      price: {
-        value: number;
-      };
-    };
-    take_profit: {
-      price: {
-        value: number;
-      };
-    };
-  };
+  signal?: Signal;
 }
 
 export const useMySignalerOpenPositions = (
@@ -82,7 +72,7 @@ export const useMySignalerAllPositions = ({
   endTime?: string;
 }) =>
   useQuery(
-    ['signaler-op', signalerKey, assetName, startTime, endTime],
+    ['signaler-ap', signalerKey, assetName, startTime, endTime],
     async () => {
       if (!signalerKey) throw new Error('unexpected');
       const { data } = await axios.get<{ positions: FullPosition[] }>(
@@ -102,3 +92,27 @@ export const useMySignalerAllPositions = ({
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
+
+interface CreateSignalInput extends Omit<Signal, 'leverage'> {
+  signalerKey: string;
+}
+
+export const useCreateSignalMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<unknown, unknown, CreateSignalInput>(
+    async ({ signalerKey, ...body }) => {
+      const { data } = await axios.post<any>(
+        `factory/strategies/${signalerKey}/signal`,
+        body,
+      );
+      return data;
+    },
+    {
+      onSuccess: () =>
+        Promise.all([
+          queryClient.invalidateQueries(['signaler-op']),
+          queryClient.invalidateQueries(['signaler-ap']),
+        ]),
+    },
+  );
+};

@@ -109,7 +109,7 @@ export const useUpdateSignalerMutation = () => {
   >(async ({ key, ...params }) => {
     const { data } = await axios.patch<SignalerData>(
       `/factory/strategies/${key}`,
-      params,
+      { ...params, is_active: true },
     );
     await queryClient.invalidateQueries(['signalers']);
     await queryClient.invalidateQueries(['signaler', key]);

@@ -5,6 +5,7 @@ import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabApi from './TabApi';
 import TabConfig from './TabConfig';
+import TabTerminal from './TabTerminal';
 import TabPositions from './TabPositions';
 import TabPerformance from './TabPerformance';
 
@@ -17,7 +18,7 @@ const items: TabsProps['items'] = [
   {
     key: 'term',
     label: 'Terminal',
-    children: 'Content of Tab Pane 2',
+    children: <TabTerminal />,
   },
   {
     key: 'config',
