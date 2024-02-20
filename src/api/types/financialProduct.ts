@@ -69,6 +69,7 @@ export interface Config {
   'external_account_market_type'?: MarketTypes;
   'can_use_external_account'?: boolean;
   'subscription_level'?: number;
+  'weight'?: number;
 }
 
 interface SpBinding {
