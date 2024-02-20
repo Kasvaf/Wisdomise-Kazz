@@ -1,13 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { type RawPosition } from 'api/types/signalResponse';
 
-interface BasePosition {
+interface BaseSignalPosition {
   type: 'long' | 'short';
   order_expires_at: string;
   suggested_action_expires_at: string;
 }
 
-interface LimitOrder extends BasePosition {
+interface LimitOrder extends BaseSignalPosition {
   order_type: 'limit';
   price: {
     // mandatory for limit orders
@@ -15,23 +16,17 @@ interface LimitOrder extends BasePosition {
   };
 }
 
-interface MarketOrder extends BasePosition {
+interface MarketOrder extends BaseSignalPosition {
   order_type: 'market';
   price?: {
     value?: number;
   };
 }
 
-type Position = LimitOrder | MarketOrder;
+type SignalPosition = LimitOrder | MarketOrder;
 
-interface FullPosition {
+interface FullPosition extends RawPosition {
   pair_name: string;
-  position_side: 'LONG' | 'SHORT';
-  entry_time: string;
-  entry_price: number;
-  exit_time?: string;
-  exit_price?: number;
-  pnl: number;
   leverage: number;
   stop_loss: number;
   take_profit: number;
@@ -41,7 +36,7 @@ interface FullPosition {
     leverage: {
       value: number;
     };
-    position: Position;
+    position: SignalPosition;
     stop_loss: {
       price: {
         value: number;

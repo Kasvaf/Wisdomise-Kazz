@@ -1,18 +1,10 @@
 import { useRecentCandlesQuery } from 'api';
+import { type RawPosition } from 'api/types/signalResponse';
 import CandleChart from 'shared/CandleChart';
-
-interface Position {
-  entry_time: string;
-  entry_price: number;
-  exit_time?: string;
-  exit_price?: number;
-  position_side: 'LONG' | 'SHORT';
-  pnl: number;
-}
 
 const SimulatedPositionsChart: React.FC<{
   asset: string;
-  positions: Position[];
+  positions: RawPosition[];
 }> = ({ positions, asset }) => {
   const { data: candles, isLoading: candlesLoading } =
     useRecentCandlesQuery(asset);

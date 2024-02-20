@@ -6,7 +6,10 @@ import { useSuggestionsMap } from 'modules/signaler/PageSignalsMatrix/constants'
 import Badge from 'shared/Badge';
 import FancyPrice from 'shared/FancyPrice';
 import PriceChange from 'shared/PriceChange';
-import { type SuggestedAction } from 'api/types/signalResponse';
+import {
+  type RawPosition,
+  type SuggestedAction,
+} from 'api/types/signalResponse';
 import { ReactComponent as IconEmpty } from './empty-icon.svg';
 
 const Labeled: React.FC<
@@ -25,11 +28,7 @@ const Labeled: React.FC<
   );
 };
 
-interface Position {
-  position_side: 'LONG' | 'SHORT';
-  entry_time: string;
-  entry_price: number;
-  pnl: number;
+interface Position extends RawPosition {
   suggested_action?: SuggestedAction;
   take_profit: number;
   stop_loss: number;

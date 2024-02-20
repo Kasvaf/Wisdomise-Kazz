@@ -28,19 +28,21 @@ export type SuggestedAction =
   | 'OPEN_DELAYED'
   | 'CLOSE_DELAYED';
 
-export interface LastPosition {
+export interface RawPosition {
+  position_side: 'LONG' | 'SHORT';
+  entry_time: string;
+  entry_price: number;
+  exit_time?: string;
+  exit_price?: number;
+  pnl: number;
+}
+
+export interface LastPosition extends RawPosition {
   strategy_name: string;
   pair_name: string;
+
   take_profit?: number;
   stop_loss: number;
 
-  entry_time: string;
-  entry_price?: number;
-
-  exit_time?: string;
-  exit_price?: number;
-
-  pnl: number;
-  position_side: 'SHORT' | 'LONG';
   suggested_action: SuggestedAction;
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { type Quote } from './types/investorAssetStructure';
 // import { type TheoreticalPosition } from './strategy';
 import {
+  type RawPosition,
   type SignalsResponse,
   type SuggestedAction,
 } from './types/signalResponse';
@@ -57,16 +58,7 @@ export const useSignalerPairDetails = (name: string) =>
     },
   );
 
-export interface TheoreticalPosition {
-  position_side: 'LONG' | 'SHORT';
-  entry_time: string;
-  entry_price: number;
-  exit_time?: string;
-  exit_price?: number;
-  pnl: number;
-}
-
-export interface PairSignalerItem extends TheoreticalPosition {
+export interface PairSignalerItem extends RawPosition {
   pair_name: string;
   strategy: Strategy;
   pnl_equity: number;
