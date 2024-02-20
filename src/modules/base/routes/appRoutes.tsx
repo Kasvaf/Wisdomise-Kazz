@@ -11,7 +11,7 @@ const PageAssetOverview = React.lazy(
 );
 
 const PageSignalsMatrix = React.lazy(
-  () => import('modules/strategy/PageSignalsMatrix'),
+  () => import('modules/signaler/PageSignalsMatrix'),
 );
 const PageCoins = React.lazy(() => import('modules/signaler/PageCoins'));
 const PageSignaler = React.lazy(() => import('modules/signaler/PageSignaler'));
@@ -28,7 +28,7 @@ const PageFPIPositions = React.lazy(
 );
 
 const PageProtocolDetails = React.lazy(
-  () => import('modules/staking/PageProtocolDetails'),
+  () => import('modules/products/PageProtocolDetails'),
 );
 const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
 
