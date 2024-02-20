@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { type Quote } from './types/investorAssetStructure';
-import { type LastPosition } from './types/signalResponse';
 import { type TheoreticalPosition } from './strategy';
+import { type SuggestedAction } from './types/signalResponse';
 
 const isPublic = 'is_public=True';
 
@@ -60,7 +60,7 @@ export interface PairSignalerItem extends TheoreticalPosition {
   pnl_equity: number;
   stop_loss: number;
   take_profit: number;
-  suggested_action: LastPosition['suggested_action'];
+  suggested_action: SuggestedAction;
   leverage: number;
 }
 

@@ -1,10 +1,18 @@
 import { useRecentCandlesQuery } from 'api';
-import { type PairSignalerItem } from 'api/signaler';
 import CandleChart from 'shared/CandleChart';
 
-const SimulatedChart: React.FC<{
+interface Position {
+  entry_time: string;
+  entry_price: number;
+  exit_time?: string;
+  exit_price?: number;
+  position_side: 'LONG' | 'SHORT';
+  pnl: number;
+}
+
+const SimulatedPositionsChart: React.FC<{
   asset: string;
-  positions: PairSignalerItem[];
+  positions: Position[];
 }> = ({ positions, asset }) => {
   const { data: candles, isLoading: candlesLoading } =
     useRecentCandlesQuery(asset);
@@ -25,4 +33,4 @@ const SimulatedChart: React.FC<{
   );
 };
 
-export default SimulatedChart;
+export default SimulatedPositionsChart;

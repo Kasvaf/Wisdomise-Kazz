@@ -9,10 +9,10 @@ import Spinner from 'shared/Spinner';
 import PageWrapper from 'modules/base/PageWrapper';
 import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
+import SimulatedPositionsTable from '../SimulatedPositionsTable';
+import SimulatedPositionsChart from '../SimulatedPositionsChart';
 import StrategySelector from './StrategySelector';
 import ButtonNotificationModifier from './ButtonNotificationModifier';
-import SimulatedPositions from './SimulatedPositions';
-import SimulatedChart from './SimulatedChart';
 
 const FieldTitle: React.FC<
   PropsWithChildren<{
@@ -121,7 +121,7 @@ export default function PageSignaler() {
                     {t('signaler.active-positions')}
                   </h2>
                   {activePositions.map(p => (
-                    <ActivePosition key={p.entry_time} signaler={p} />
+                    <ActivePosition key={p.entry_time} position={p} />
                   ))}
                 </div>
               )}
@@ -131,12 +131,12 @@ export default function PageSignaler() {
                   <h2 className="mb-3 text-xl text-white/40">
                     {t('signaler.simulated-position-history')}
                   </h2>
-                  <SimulatedPositions items={simulatedPositions} />
+                  <SimulatedPositionsTable items={simulatedPositions} />
                 </div>
               )}
 
               {!isMobile && !!allPositions.data?.length && coin && (
-                <SimulatedChart
+                <SimulatedPositionsChart
                   asset={coin.base.name}
                   positions={allPositions.data}
                 />

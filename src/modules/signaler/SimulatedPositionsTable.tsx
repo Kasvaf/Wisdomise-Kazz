@@ -3,9 +3,17 @@ import { Table } from 'antd';
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
-import { type PairSignalerItem } from 'api/signaler';
 import PriceChange from 'shared/PriceChange';
 import FancyPrice from 'shared/FancyPrice';
+
+interface Position {
+  position_side: 'LONG' | 'SHORT';
+  entry_time: string;
+  entry_price: number;
+  exit_time?: string;
+  exit_price?: number;
+  pnl: number;
+}
 
 const PriceTime: React.FC<{ price?: number | null; time?: string | null }> = ({
   price,
@@ -23,11 +31,11 @@ const PriceTime: React.FC<{ price?: number | null; time?: string | null }> = ({
   );
 };
 
-const SimulatedPositions: React.FC<{ items: PairSignalerItem[] }> = ({
+const SimulatedPositionsTable: React.FC<{ items: Position[] }> = ({
   items,
 }) => {
   const { t } = useTranslation('strategy');
-  const columns = useMemo<Array<ColumnType<PairSignalerItem>>>(
+  const columns = useMemo<Array<ColumnType<Position>>>(
     () => [
       {
         title: t('positions-history.type'),
@@ -68,4 +76,4 @@ const SimulatedPositions: React.FC<{ items: PairSignalerItem[] }> = ({
   return <Table columns={columns} dataSource={items ?? []} />;
 };
 
-export default SimulatedPositions;
+export default SimulatedPositionsTable;

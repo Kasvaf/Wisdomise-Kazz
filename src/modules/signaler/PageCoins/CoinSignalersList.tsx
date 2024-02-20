@@ -98,7 +98,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
               </div>
             </div>
 
-            <ActivePosition signaler={s} />
+            <ActivePosition position={s} />
           </div>
         </Locker>
       ))}

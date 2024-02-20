@@ -1,17 +1,16 @@
 import { type PropsWithChildren, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { DatePicker } from 'antd';
 import {
   type Asset,
   useSignalerQuery,
   useSignalerPerfQuery,
 } from 'api/builder/signaler';
-import PriceChange from 'modules/shared/PriceChange';
-import Spinner from 'modules/shared/Spinner';
+import PriceChange from 'shared/PriceChange';
+import Spinner from 'shared/Spinner';
+import DateRangeSelector from 'modules/shared/DateRangeSelector';
 import TitleHint from '../../TitleHint';
-import AssetSelector from './AssetSelector';
+import AssetSelector from '../AssetSelector';
 import PnlChart from './PnlChart';
-const { RangePicker } = DatePicker;
 
 const InfoBox: React.FC<PropsWithChildren<{ title: JSX.Element | string }>> = ({
   title,
@@ -29,23 +28,6 @@ const TabPerformance = () => {
 
   const [asset, setAsset] = useState<Asset>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
-  const rangeSelectHandler = (
-    val?: Array<{
-      $D: number;
-      $M: number;
-      $y: number;
-    }> | null,
-  ) => {
-    if (val?.[0] && val[1]) {
-      const [start, end] = val;
-      setDateRange([
-        new Date(start.$y, start.$M, start.$D, 0, 0, 0, 0),
-        new Date(end.$y, end.$M, end.$D, 23, 59, 59, 999),
-      ]);
-    } else {
-      setDateRange(undefined);
-    }
-  };
 
   const { data, isLoading } = useSignalerPerfQuery({
     signalerKey: params.id,
@@ -69,10 +51,11 @@ const TabPerformance = () => {
           onSelect={setAsset}
           className="w-[250px]"
         />
-        <div className="flex flex-col">
-          <div className="mb-2 ml-4 block">Date</div>
-          <RangePicker className="grow" onChange={rangeSelectHandler as any} />
-        </div>
+        <DateRangeSelector
+          onChange={setDateRange}
+          value={dateRange}
+          label="Date"
+        />
       </div>
 
       {inputted && isLoading && (

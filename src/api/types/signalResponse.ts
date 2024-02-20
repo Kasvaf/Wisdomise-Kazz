@@ -21,6 +21,13 @@ interface Strategy {
   premium: boolean;
 }
 
+export type SuggestedAction =
+  | 'OPEN'
+  | 'CLOSE'
+  | 'NO_ACTION'
+  | 'OPEN_DELAYED'
+  | 'CLOSE_DELAYED';
+
 export interface LastPosition {
   strategy_name: string;
   pair_name: string;
@@ -35,10 +42,5 @@ export interface LastPosition {
 
   pnl: number;
   position_side: 'SHORT' | 'LONG';
-  suggested_action:
-    | 'OPEN'
-    | 'CLOSE'
-    | 'NO_ACTION'
-    | 'OPEN_DELAYED'
-    | 'CLOSE_DELAYED';
+  suggested_action: SuggestedAction;
 }

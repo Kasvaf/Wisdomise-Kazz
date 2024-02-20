@@ -5,13 +5,14 @@ import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabApi from './TabApi';
 import TabConfig from './TabConfig';
+import TabPositions from './TabPositions';
 import TabPerformance from './TabPerformance';
 
 const items: TabsProps['items'] = [
   {
     key: 'pos',
     label: 'Positions',
-    children: 'Positions tab',
+    children: <TabPositions />,
   },
   {
     key: 'term',
