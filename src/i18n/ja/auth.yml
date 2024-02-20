@@ -6,7 +6,7 @@ footer: © 2024 Wisdomise. All rights reserved.
 page-referral:
   all-time: 歴上→累計
   friends-invited: 紹介者数
-  invited: 招待されました
+  invited: 紹介
   referral-code: 紹介コード
   referral-insight: リファーラル状況
   referral-link: 紹介リンク
@@ -15,7 +15,7 @@ page-referral:
   wisdomise-revenue: リファーラルによる収益
   your-profit: あなたの利益
 secodary:
-  email-verified: あなたのメールアドレスが確認されました!
+  email-verified: メールアドレスが確認されました！
 secondary:
   btn-submit:
     label: 提出する
@@ -26,9 +26,9 @@ secondary:
     required-error: 続けるには {{title}} を承諾してください。
   country:
     label: 国名
-    not-empty: 国を空にすることはできません
+    not-empty: 国の欄を空欄にすることはできません
     placeholder: お住まいの国
-  email-verified: あなたのメールアドレスが確認されました!
+  email-verified: メールアドレスが確認されました！
   invitation:
     label: 招待コード <1>(オプション)</1>
     not-found: 紹介者が見つかりません

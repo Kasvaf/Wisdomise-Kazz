@@ -8,11 +8,11 @@ badges:
 completed: 完了
 identification:
   btn-start-sumsub: Sumsubで始めましょう
-  description: 本人確認をして、アカウントを開設しましょう。
+  description: 身分証明書を完了させ、アカウントをよりセキュアにしましょう。
   title: 本人確認
 modal-kyc:
-  footer: Wisdomiseのプロダクト・サービスを利用するには、<1>身分証明</1>, <4>承認</4>, and
-    <7>少なくとも１つのウォレットの承認</7>を実施が必要です。
+  footer: Wisdomiseのプロダクト・サービスを利用するには、<1>身分証明</1>、<4>承認</4>, そして、
+    <7>少なくとも１つのウォレットの連携</7>をする必要があります。
   title: KYC状況
 title: KYC
 verification:
@@ -20,7 +20,7 @@ verification:
   btn-meeting: 会議を設定する
   description: オンライン面談にて本人確認を行います。Calendalryよりご都合の良い日程でご予約ください。予約完了後、メールにて次のステップをご連絡いたします。
   identify-first-notice: 先ずは身分証明を実施してください。
-  title: オンライン本人かくに
+  title: オンライン本人確認
 wallet:
   add:
     banner: 現時点では、仮想通貨は<1>USDT</1>のみ対応しています。
@@ -28,7 +28,7 @@ wallet:
     help:
       screenshot-title: "<0>例</0>: USDT ウォレットアドレス"
       step-0: "USDTウォレットアドレスとネットワークを送るには、次のステップをトラストウォレットで実施してください:"
-      step-1-networks: 選択したネットワークでUSDTコインを選択してください。
+      step-1-networks: USDTのネットワークを選択してください。
       step-2-receive: Receive（受け取り）ボタンを選択
       step-3-screenshot: アドレスとUSDTのネットワークが表示されている入金するウォレットのスクリーンショットを撮ってください。
       step-4-email: スクリーンショットをカスタマーサポートへメール（<1>support@wisdomise.io</1>）にてご送付ください。
@@ -36,7 +36,7 @@ wallet:
     verify-more: 他のウォレットを確認する
     verify-wallet: ウォレット認証
   column:
-    coin: コイン
+    coin: トークン
     name: ウォレット名
     wallet-address: ウォレットアドレス
   description: プロダクト・サービスを利用するにはウォレットを承認してください。

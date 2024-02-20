@@ -76,9 +76,9 @@ const TabTrade = () => {
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(_350px,1fr))] gap-6 mobile:justify-center">
-        {fps?.data?.results
-          .filter(fp => fp.is_active)
-          .map(fp => <ProductCardTrade key={fp.key} fp={fp} />)}
+        {fps?.data
+          ?.filter(fp => fp.is_active)
+          ?.map(fp => <ProductCardTrade key={fp.key} fp={fp} />)}
       </div>
     </PageWrapper>
   );

@@ -4,9 +4,9 @@ error-page:
   title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
 language: 言語
 links:
-  about-us: 私たちについて
+  about-us: 企業概要
   blog: ブログ
-  solutions: 解決策
+  solutions: プロダクト
 menu:
   account-manager:
     mobile: アカウント
@@ -21,8 +21,8 @@ menu:
     title: ポートフォリオ管理
   athena:
     features: 10以上の機能
-    subtitle: 暗号資産に特化したAIチャットボット
-    title: 暗号資産チャットボット
+    subtitle: 仮想通貨に特化したAIチャットボット
+    title: 仮想通貨チャットボット
   billing:
     mobile: 請求情報
     remains: 残り
@@ -31,18 +31,18 @@ menu:
   category:
     account: アカウント
     market-predication: 市場予測
-    passive-income: 不労所得
+    passive-income: AI資産運用ツール
     strategy-builder: 戦略ビルダー
   coin-view:
     subtitle: すべての信号発信者から信号と位置履歴を取得
     title: コイン一覧
   dashboard: ダッシュボード
   financial-products:
-    active-product: 稼働中ストラテジー
+    active-product: アクティブな商品
     subtitle: 多様な投資ストラテジーをご確認いただけます。
     title: 金融商品（ストラテジー）
   insight:
-    subtitle: 戦略的な仮想通貨の投資を実現に欠かせないインサイトを確認しましょう。
+    subtitle: 戦略的な仮想通貨投資のためのリアルタイムのインサイトにアクセス
     title: インサイト
   investment:
     subtitle: 自動トレード・DeFiステーキング等の金融商品

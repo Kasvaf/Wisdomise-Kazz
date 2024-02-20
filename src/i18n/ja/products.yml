@@ -4,7 +4,7 @@ action-confirm:
   title: このプロダクトを本当に<1>{{typeLabel}}</1>してもいいですか？
   yes: はい、 <1>{{typeLabel}}</1>
 actions:
-  activate: 活性化
+  activate: アクティベート
   deactivate: 停止
   pause: 一時停止
   resume: 再開する
@@ -30,8 +30,8 @@ list:
 notification-activated:
   btn-dashboard: ダッシュボード
   btn-kyc: KYCに行く
-  kyc-notice: ただし、アカウントを認証していない限り、取引できるのは最大 1000 ドルのウォレットのみであることに注意してください。
-  message: 私たちを信頼していただきありがとうございます。アカウントに任意の金額を入金し、AIを活用した戦略のいずれかを稼働できるようになりました
+  kyc-notice: アカウントの承認（KYC）を実施せずに取引できるのは最大 1000 ドルのウォレットのみであることに注意してください。
+  message: 私たちを信頼していただきありがとうございます。アカウントに任意の金額を入金し、AIを活用した戦略を稼働できるようになりました
   title: おめでとうございます！
 notification-deactivated:
   message: 戦略が正常に停止されました！
