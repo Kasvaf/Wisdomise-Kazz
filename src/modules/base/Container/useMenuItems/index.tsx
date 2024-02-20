@@ -9,7 +9,6 @@ import { ReactComponent as InsightIconEmpty } from './icons/insight-empty.svg';
 import { ReactComponent as InsightIconFull } from './icons/insight-full.svg';
 import { ReactComponent as AccountIconEmpty } from './icons/account-empty.svg';
 import { ReactComponent as AccountIconFull } from './icons/account-full.svg';
-import { ReactComponent as StrategiesIcon } from './icons/strategies.svg';
 import { ReactComponent as BuilderIconEmpty } from './icons/builder-empty.svg';
 import { ReactComponent as BuilderIconFull } from './icons/builder-full.svg';
 
@@ -79,13 +78,6 @@ const useMenuItems = () => {
           onClick: trackClick('crypto_chatbot_menu'),
         },
       ],
-    },
-    {
-      icon: <StrategiesIcon />,
-      text: t('menu.strategies.title'),
-      link: '/app/strategy',
-      hide: isProduction,
-      mobileHide: true,
     },
     {
       icon: Icon(BuilderIconEmpty, BuilderIconFull),

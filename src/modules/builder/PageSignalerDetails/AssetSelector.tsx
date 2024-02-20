@@ -1,7 +1,7 @@
 import type React from 'react';
+import { type Asset } from 'api/builder/signaler';
 import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
-import { type Asset } from 'api';
 
 const AssetOptionItem = (asset: Asset) => {
   if (!asset?.symbol) {

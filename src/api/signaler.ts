@@ -1,8 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { type Quote } from './types/investorAssetStructure';
-import { type TheoreticalPosition } from './strategy';
-import { type SuggestedAction } from './types/signalResponse';
+// import { type TheoreticalPosition } from './strategy';
+import {
+  type SignalsResponse,
+  type SuggestedAction,
+} from './types/signalResponse';
 
 const isPublic = 'is_public=True';
 
@@ -53,6 +56,15 @@ export const useSignalerPairDetails = (name: string) =>
       enabled: !!name,
     },
   );
+
+export interface TheoreticalPosition {
+  position_side: 'LONG' | 'SHORT';
+  entry_time: string;
+  entry_price: number;
+  exit_time?: string;
+  exit_price?: number;
+  pnl: number;
+}
 
 export interface PairSignalerItem extends TheoreticalPosition {
   pair_name: string;
@@ -151,3 +163,11 @@ export const useStrategyPositions = (
     },
   );
 };
+
+export const useSignalsQuery = () =>
+  useQuery(['signals'], async () => {
+    const { data } = await axios.get<SignalsResponse>(
+      'strategy/last-positions',
+    );
+    return data;
+  });

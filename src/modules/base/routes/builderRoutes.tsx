@@ -4,13 +4,6 @@ import { type RouteObject } from 'react-router-dom';
 
 import Container from '../Container';
 
-const PageStrategyCreate = React.lazy(
-  () => import('modules/strategy/PageStrategyCreate'),
-);
-const PageStrategyDetails = React.lazy(
-  () => import('modules/strategy/PageStrategyDetails'),
-);
-
 const PageBuilder = React.lazy(() => import('modules/builder/PageBuilder'));
 const PageSignalersList = React.lazy(
   () => import('modules/builder/PageSignalersList'),
@@ -22,6 +15,8 @@ const PageSignalerDetails = React.lazy(
   () => import('modules/builder/PageSignalerDetails'),
 );
 
+const PageFpList = React.lazy(() => import('modules/builder/PageFpList'));
+
 const builderRoutes: RouteObject[] = [
   {
     element: <Container />,
@@ -31,9 +26,9 @@ const builderRoutes: RouteObject[] = [
       { path: 'signalers', element: <PageSignalersList /> },
       { path: 'signalers/new', element: <PageSignalerCreate /> },
       { path: 'signalers/:id', element: <PageSignalerDetails /> },
-      { path: 'fp', element: <PageStrategyCreate /> },
-      { path: 'fp/new', element: <PageStrategyCreate /> },
-      { path: 'fp/:id', element: <PageStrategyDetails /> },
+      { path: 'fp', element: <PageFpList /> },
+      { path: 'fp/new', element: <PageFpList /> },
+      { path: 'fp/:id', element: <PageFpList /> },
     ],
   },
 ];

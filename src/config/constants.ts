@@ -11,7 +11,6 @@ const makeOrigin = (name: string) =>
 
 export const API_ORIGIN = makeOrigin('api');
 export const CHATAPP_ORIGIN = makeOrigin('chatapp');
-export const STRATEGY_ORIGIN = makeOrigin('strategy');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const MAIN_LANDING = (lng: string) =>
   `https://${isProduction ? '' : 'stage.'}${DOMAIN}/${lng}`;

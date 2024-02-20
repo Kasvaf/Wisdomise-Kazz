@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useFpiPositionHistory } from 'api/fpi';
 import Pager from 'shared/Pager';
 import Spinner from 'shared/Spinner';
-import PositionsTable from 'modules/strategy/PositionsTable';
+import PositionsTable from './PositionsTable';
 
 const PAGE_SIZE = 7;
 const FPIPositionHistory: React.FC<{ fpiKey?: string; className?: string }> = ({

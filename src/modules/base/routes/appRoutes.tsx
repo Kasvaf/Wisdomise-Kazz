@@ -27,16 +27,6 @@ const PageFPIPositions = React.lazy(
   () => import('modules/products/PageFPIPositions'),
 );
 
-const PageStrategiesList = React.lazy(
-  () => import('modules/strategy/PageStrategiesList'),
-);
-const PageStrategyCreate = React.lazy(
-  () => import('modules/strategy/PageStrategyCreate'),
-);
-const PageStrategyDetails = React.lazy(
-  () => import('modules/strategy/PageStrategyDetails'),
-);
-
 const PageProtocolDetails = React.lazy(
   () => import('modules/staking/PageProtocolDetails'),
 );
@@ -75,9 +65,6 @@ const appRoutes: RouteObject[] = [
     element: <Container />,
     path: 'app',
     children: [
-      { path: 'strategy', element: <PageStrategiesList /> },
-      { path: 'strategy/new', element: <PageStrategyCreate /> },
-      { path: 'strategy/:id', element: <PageStrategyDetails /> },
       {
         path: 'staking/protocol/:id',
         element: <PageProtocolDetails />,
