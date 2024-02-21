@@ -14,6 +14,7 @@ export interface Account {
   referrer?: any;
   info: Info;
   telegram_id?: string;
+  telegram_code?: string;
   terms_and_conditions_accepted: boolean;
   privacy_policy_accepted: boolean;
   register_status: string;

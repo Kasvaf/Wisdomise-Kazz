@@ -1,14 +1,15 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'api';
-import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import { trackClick } from 'config/segment';
 import useConfirm from 'shared/useConfirm';
 import Button from 'shared/Button';
 import TelegramIcon from './TelegramIcon';
+import useTelegramAddress from './useTelegramAddress';
 
 const useEnsureTelegramConnected = () => {
   const { t } = useTranslation('notifications');
   const account = useAccountQuery();
+  const telegramBot = useTelegramAddress();
 
   const [Modal, showModal] = useConfirm({
     yesTitle: '',
@@ -36,7 +37,7 @@ const useEnsureTelegramConnected = () => {
 
         <Button
           className="mt-6"
-          to={ATHENA_TELEGRAM_BOT}
+          to={telegramBot}
           onClick={trackClick('open_telegram_button')}
         >
           {t('signaling.btn-open-telegram.label')}

@@ -31,8 +31,5 @@ export const INVESTMENT_FE = `https://${
 
 export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
 
-export const ATHENA_TELEGRAM_BOT = import.meta.env
-  .VITE_ATHENA_BOT_BASE_URL as string;
-
 export const STRIPE_CLIENT_PUBLIC_KEY = import.meta.env
   .VITE_STRIPE_CLIENT_PUBLIC_KEY as string;
