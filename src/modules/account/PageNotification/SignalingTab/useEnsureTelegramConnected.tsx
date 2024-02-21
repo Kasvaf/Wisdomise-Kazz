@@ -27,11 +27,11 @@ const useEnsureTelegramConnected = () => {
             i18nKey="signaling.overlay-telegram.description"
             ns="notifications"
           >
-            Go to telegram and use
+            In order to receive notifications, open Telegram and press on the
             <code className="rounded bg-gray-700 px-2 py-1 text-cyan-400">
-              /subscribe_to_signals
-            </code>
-            command.
+              start
+            </code>{' '}
+            button.
           </Trans>
         </p>
 

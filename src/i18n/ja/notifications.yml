@@ -28,7 +28,7 @@ signaling:
   modify-notification: 通知の変更
   notification-activate-chip-message: 指定のトークンで“{{strategy}}”戦略に登録しました。新しいポジションができた際にはTelegramにて通知を送ります。
   overlay-telegram:
-    description: Telegramで<1>/subscribe_to_signals</1> コマンドを使用してください。
+    description: 通知を受信するには、Telegram を開き、 <1>始める</1> ボタン。
     title: Telegramの同期がされていません。
   strategy:
     choose-coin: 通知の対象とするトークンを選んでください。
