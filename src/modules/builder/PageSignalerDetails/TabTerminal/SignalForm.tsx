@@ -72,7 +72,7 @@ const SignalForm: React.FC<Props> = ({
 
   const isFireDisabled = (orderType === 'limit' && !price) || !tp || !sl;
   const fireHandler = async () => {
-    if (!price || !tp || !sl) return;
+    if ((orderType === 'limit' && !price) || !tp || !sl) return;
     try {
       await mutateAsync({
         signalerKey: signaler.key,
@@ -81,9 +81,12 @@ const SignalForm: React.FC<Props> = ({
         position: {
           type: signaler?.market_name === 'SPOT' ? 'long' : market,
           order_type: orderType,
-          price: {
-            value: Number.parseFloat(price),
-          },
+          price:
+            orderType === 'limit'
+              ? {
+                  value: Number.parseFloat(price),
+                }
+              : undefined,
           suggested_action_expires_at: parseDur(exp),
           order_expires_at: parseDur(orderExp),
         },
@@ -94,6 +97,7 @@ const SignalForm: React.FC<Props> = ({
           price: { value: Number.parseFloat(sl) },
         },
       });
+      notification.success({ message: 'Signal fired successfully.' });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -107,6 +111,7 @@ const SignalForm: React.FC<Props> = ({
         ...activePosition.signal,
         action: 'close',
       });
+      notification.success({ message: 'Position closed successfully.' });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -127,6 +132,7 @@ const SignalForm: React.FC<Props> = ({
           price: { value: Number.parseFloat(sl) },
         },
       });
+      notification.success({ message: 'Position updated successfully.' });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

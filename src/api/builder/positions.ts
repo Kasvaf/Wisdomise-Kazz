@@ -5,7 +5,7 @@ import { type RawPosition } from 'api/types/signalResponse';
 interface SignalPosition {
   type: 'long' | 'short';
   order_type: 'limit' | 'market';
-  price: {
+  price?: {
     // mandatory for limit orders
     value: number;
   };
