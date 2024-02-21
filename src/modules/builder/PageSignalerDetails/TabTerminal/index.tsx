@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { notification } from 'antd';
 import {
@@ -69,8 +69,15 @@ const TabTerminal = () => {
   const [price, setPrice] = useState('');
   const [tp, setTP] = useState('');
   const [sl, setSL] = useState('');
-  const [exp, setExp] = useState('30s');
-  const [orderExp, setOrderExp] = useState('30s');
+  const [exp, setExp] = useState('1h');
+  const [orderExp, setOrderExp] = useState('1h');
+
+  useEffect(() => {
+    if (activePosition) {
+      setTP(String(activePosition.take_profit));
+      setSL(String(activePosition.stop_loss));
+    }
+  }, [activePosition]);
 
   const { mutateAsync, isLoading: isSubmitting } = useCreateSignalMutation();
 
@@ -83,7 +90,7 @@ const TabTerminal = () => {
         action: 'open',
         pair: asset.name,
         position: {
-          type: market,
+          type: signaler?.market_name === 'SPOT' ? 'long' : market,
           order_type: orderType,
           price: {
             value: Number.parseFloat(price),
@@ -172,7 +179,9 @@ const TabTerminal = () => {
             <div className="flex basis-1/3 flex-col gap-4">
               {!isUpdate && (
                 <>
-                  <MarketToggle value={market} onChange={setMarket} />
+                  {signaler?.market_name === 'FUTURES' && (
+                    <MarketToggle value={market} onChange={setMarket} />
+                  )}
                   <div className="flex items-end gap-2">
                     <AmountInputBox
                       label="Price"
