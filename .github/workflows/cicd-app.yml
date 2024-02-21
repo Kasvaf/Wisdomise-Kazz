@@ -61,7 +61,7 @@ jobs:
 
   Lint-Build-Prod:
     name: Lint-Build-Prod
-    if: ${{ github.ref_name == 'main' && !contains(github.event.head_commit.message, 'ci-skip') }}
+    if: ${{ github.ref_name == 'main' && !contains(github.event.head_commit.message, 'ci-skip') && !contains(github.event.head_commit.message, 'ci-prod-skip') }}
 
     runs-on: ubuntu-latest
     strategy:
