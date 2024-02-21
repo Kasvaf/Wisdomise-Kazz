@@ -110,7 +110,7 @@ const Button: React.FC<Props> = ({
           disabled &&
             'cursor-not-allowed !border-[#F14056]/10 !bg-white/10 text-[#F14056]/10',
           sizeClass,
-          loading && 'cursor-wait',
+          loading && 'cursor-wait text-[#F14056]/50',
           className,
         )}
         disabled={disabled}
@@ -148,7 +148,7 @@ const Button: React.FC<Props> = ({
           'rounded-xl bg-[#11C37E99] px-8 py-4 text-sm font-medium leading-none text-white hover:bg-[#11C37E99]/80',
           disabled &&
             'cursor-not-allowed !border-[#11C37E99]/40 !bg-[#11C37E99]/10 text-white/10',
-          loading && 'cursor-wait',
+          loading && 'cursor-wait text-white/50',
           sizeClass,
           className,
         )}

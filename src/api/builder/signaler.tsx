@@ -80,10 +80,10 @@ export const useCreateSignalerMutation = () => {
     }
   >(
     async body => {
-      const { data } = await axios.post<SignalerData>(
-        '/factory/strategies',
-        body,
-      );
+      const { data } = await axios.post<SignalerData>('/factory/strategies', {
+        is_active: true,
+        ...body,
+      });
       return data;
     },
     {
@@ -109,7 +109,7 @@ export const useUpdateSignalerMutation = () => {
   >(async ({ key, ...params }) => {
     const { data } = await axios.patch<SignalerData>(
       `/factory/strategies/${key}`,
-      { ...params, is_active: true },
+      { is_active: true, ...params },
     );
     await queryClient.invalidateQueries(['signalers']);
     await queryClient.invalidateQueries(['signaler', key]);

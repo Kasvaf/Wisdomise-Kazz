@@ -5,7 +5,7 @@ import { type RawPosition } from 'api/types/signalResponse';
 interface SignalPosition {
   type: 'long' | 'short';
   order_type: 'limit' | 'market';
-  price: {
+  price?: {
     // mandatory for limit orders
     value: number;
   };
@@ -32,7 +32,7 @@ interface Signal {
   };
 }
 
-interface FullPosition extends RawPosition {
+export interface FullPosition extends RawPosition {
   pair_name: string;
   leverage: number;
   stop_loss: number;

@@ -39,6 +39,11 @@ const DurationInput: React.FC<Props> = ({ onChange, value, ...props }) => {
       onChange={v => setNumeric(Number.parseInt(v))}
       suffix={selectAfter}
       noSuffixPad
+      onBlur={() => {
+        if (unit === 's' && numeric < 30) {
+          setNumeric(30);
+        }
+      }}
       {...props}
     />
   );
