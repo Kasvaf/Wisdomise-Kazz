@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,7 @@ import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
 import AmountInputBox from 'shared/AmountInputBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
+import { useRecentCandlesQuery } from 'api';
 import AssetSelector from '../AssetSelector';
 import MarketToggle from './MarketToggle';
 import DurationInput from './DurationInput';
@@ -52,6 +54,10 @@ const TabTerminal = () => {
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
   const [asset, setAsset] = useState<Asset>();
+
+  const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
+    asset?.name,
+  );
 
   const { data, isLoading } = useMySignalerOpenPositions(params.id);
   const openPositions = data?.map(p => ({
@@ -173,7 +179,11 @@ const TabTerminal = () => {
         asset && (
           <div className="flex gap-4">
             <div className="basis-2/3 rounded-xl bg-black/20">
-              <SimulatedPositionsChart asset={asset.name} positions={[]} />
+              <SimulatedPositionsChart
+                candles={candles}
+                loading={candlesLoading}
+                positions={[]}
+              />
             </div>
 
             <div className="flex basis-1/3 flex-col gap-4">

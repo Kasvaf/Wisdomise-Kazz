@@ -9,6 +9,8 @@ import SimulatedPositionsTable from 'modules/signaler/SimulatedPositionsTable';
 import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import Spinner from 'shared/Spinner';
+import { useCandlesQuery } from 'api';
+import { bestResolution } from 'modules/shared/CandleChart/utils';
 import AssetSelector from './AssetSelector';
 
 const TabPositions = () => {
@@ -39,6 +41,13 @@ const TabPositions = () => {
   }));
   const activePosition = allPositions?.filter(x => !x.exit_time)?.[0];
   const simulatedPositions = allPositions?.filter(x => x.exit_time);
+
+  const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
+    asset: asset?.name,
+    resolution: bestResolution(dateRange),
+    startDateTime: dateRange?.[0]?.toISOString(),
+    endDateTime: dateRange?.[1]?.toISOString(),
+  });
 
   return (
     <div className="mt-12">
@@ -85,7 +94,8 @@ const TabPositions = () => {
 
               {!isMobile && asset && (
                 <SimulatedPositionsChart
-                  asset={asset.name}
+                  candles={candles}
+                  loading={candlesLoading}
                   positions={allPositions ?? []}
                 />
               )}

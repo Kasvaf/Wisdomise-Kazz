@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSubscription } from 'api';
+import { useRecentCandlesQuery, useSubscription } from 'api';
 import { useStrategyPositions, useStrategiesList } from 'api/signaler';
 import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
@@ -61,6 +61,8 @@ export default function PageSignaler() {
 
   const activePositions = allPositions.data?.filter(x => !x.exit_time);
   const simulatedPositions = allPositions.data?.filter(x => x.exit_time);
+  const { data: candles, isLoading: candlesLoading } =
+    useRecentCandlesQuery(coinName);
 
   return (
     <PageWrapper loading={false}>
@@ -137,7 +139,8 @@ export default function PageSignaler() {
 
               {!isMobile && !!allPositions.data?.length && coin && (
                 <SimulatedPositionsChart
-                  asset={coin.base.name}
+                  candles={candles}
+                  loading={candlesLoading}
                   positions={allPositions.data}
                 />
               )}
