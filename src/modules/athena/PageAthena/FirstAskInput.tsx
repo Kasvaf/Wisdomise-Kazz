@@ -10,7 +10,7 @@ export const FirstAskInput = () => {
   const remains = useRemainQuestionsCount();
   const [question, setQuestion] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const { askQuestion, leftQuestions } = useAthena();
+  const { askQuestion, leftQuestions, question: athenaQuestion } = useAthena();
 
   const onKeyDown = (
     e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -18,6 +18,7 @@ export const FirstAskInput = () => {
     if (e.key === 'Enter') {
       if (question.length > 0) {
         askQuestion(question.trim());
+        setQuestion('');
       }
       e.preventDefault();
     }
@@ -28,7 +29,12 @@ export const FirstAskInput = () => {
   }, []);
 
   return (
-    <div className="w-3/4 mobile:w-[calc(100vw-3rem)]">
+    <div
+      className={clsx(
+        'w-3/4 mobile:w-[calc(100vw-3rem)]',
+        athenaQuestion && 'invisible opacity-0',
+      )}
+    >
       <div className="relative h-[71px] mobile:h-auto">
         <input
           ref={inputRef}
@@ -56,7 +62,10 @@ export const FirstAskInput = () => {
           )}
         />
         <button
-          onClick={() => askQuestion(question.trim())}
+          onClick={() => {
+            askQuestion(question.trim());
+            setQuestion('');
+          }}
           className={clsx(
             'rounded-lg border border-white/30 px-4 py-1 leading-7 transition hover:bg-white/10',
             'invisible absolute right-5 top-1/2 flex -translate-y-1/2 items-center gap-2 opacity-0 duration-300',
