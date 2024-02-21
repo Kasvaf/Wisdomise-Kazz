@@ -32,7 +32,7 @@ interface Signal {
   };
 }
 
-interface FullPosition extends RawPosition {
+export interface FullPosition extends RawPosition {
   pair_name: string;
   leverage: number;
   stop_loss: number;
