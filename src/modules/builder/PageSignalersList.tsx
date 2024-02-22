@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { useMySignalersQuery } from 'api/builder/signaler';
+import { useMySignalersQuery } from 'api/builder';
 import PageWrapper from 'modules/base/PageWrapper';
 import CoinsIcons from 'shared/CoinsIcons';
 import Button from 'shared/Button';

@@ -6,7 +6,7 @@ import {
   useSignalerQuery,
   useSignalerAllowedAssetsQuery,
   useUpdateSignalerMutation,
-} from 'api/builder/signaler';
+} from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import deepEqual from 'shared/deepEqual';
 import TextBox from 'shared/TextBox';

@@ -119,24 +119,6 @@ export const useUpdateSignalerMutation = () => {
 
 // ======================================================================
 
-export const useSignalerAllowedAssetsQuery = (strategyKey?: string) =>
-  useQuery(
-    ['signalerAllowedAssets', strategyKey],
-    async () => {
-      if (!strategyKey) throw new Error('unexpected');
-      const { data } = await axios.get<{ assets: Asset[] }>(
-        `/factory/strategies/${strategyKey}/allowed-assets`,
-      );
-      return data.assets;
-    },
-    {
-      enabled: strategyKey != null,
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-
-// ======================================================================
-
 interface PerfData {
   positions: number;
   pnl: number;

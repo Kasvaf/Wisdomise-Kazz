@@ -3,8 +3,10 @@ import { notification } from 'antd';
 import {
   type SignalerData,
   type FullPosition,
+  useSignalerAssetPrice,
   useCreateSignalMutation,
 } from 'api/builder';
+import { roundDown } from 'utils/numbers';
 import { unwrapErrorMessage } from 'utils/error';
 import AmountInputBox from 'shared/AmountInputBox';
 import Button from 'shared/Button';
@@ -67,6 +69,21 @@ const SignalForm: React.FC<Props> = ({
       setSL(String(activePosition.stop_loss));
     }
   }, [activePosition]);
+
+  const { data: assetPrice } = useSignalerAssetPrice({
+    strategyKey: signaler.key,
+    assetName,
+  });
+
+  useEffect(() => {
+    if (assetPrice) {
+      setPrice(x => x || String(roundDown(assetPrice, 2)));
+      setTP(x => x || String(roundDown(assetPrice * 1.1, 2)));
+      setSL(x => x || String(roundDown(assetPrice * 0.9, 2)));
+    }
+  }, [assetPrice]);
+
+  // ======================================================================
 
   const { mutateAsync, isLoading: isSubmitting } = useCreateSignalMutation();
 

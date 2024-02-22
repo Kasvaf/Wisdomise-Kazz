@@ -4,10 +4,10 @@ import {
   type Asset,
   useSignalerQuery,
   useSignalerPerfQuery,
-} from 'api/builder/signaler';
+} from 'api/builder';
+import DateRangeSelector from 'shared/DateRangeSelector';
 import PriceChange from 'shared/PriceChange';
 import Spinner from 'shared/Spinner';
-import DateRangeSelector from 'modules/shared/DateRangeSelector';
 import TitleHint from '../../TitleHint';
 import AssetSelector from '../AssetSelector';
 import PnlChart from './PnlChart';
