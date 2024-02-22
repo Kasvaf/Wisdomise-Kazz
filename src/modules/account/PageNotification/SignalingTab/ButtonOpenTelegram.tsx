@@ -1,16 +1,17 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { ATHENA_TELEGRAM_BOT } from 'config/constants';
 import { useAccountQuery } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import TelegramIcon from './TelegramIcon';
+import useTelegramAddress from './useTelegramAddress';
 
 export default function ButtonOpenTelegram() {
   const { t } = useTranslation('notifications');
   const account = useAccountQuery();
   const isMobile = useIsMobile();
+  const telegramBot = useTelegramAddress();
   if (!account.data?.telegram_id) return null;
 
   return (
@@ -25,7 +26,7 @@ export default function ButtonOpenTelegram() {
       </div>
       <div>
         <Button
-          to={ATHENA_TELEGRAM_BOT}
+          to={telegramBot}
           target="_blank"
           className="inline-block !py-1 !pl-1 pr-3"
           size="small"

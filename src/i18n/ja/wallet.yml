@@ -6,7 +6,7 @@ confirm-withdrawal:
   btn-confirm: 確認
   btn-return: 戻る
   title: 引き出しを確認
-equity-description_other: 合計資産のうち<5>{{blocked}}</5> {{mainQuote}} 分の資産を<1>{{count}}</1>のプロダクトで運用しています。
+equity-description_other: 合計資産のうち<5>{{blocked}}</5> {{mainQuote}} 分の資産を<1>{{count}}</1>個のプロダクトで運用しています。
 modal-deposit:
   banner: 承認済みのウォレットから入金する必要があります。未承認のウォレットから入金するとアカウントに<1>制限</1>がかかりますのでご留意ください。
   deposit-address: 預け入れ専用のアドレスに<1>{{coin}}</1> のみ送金ください。

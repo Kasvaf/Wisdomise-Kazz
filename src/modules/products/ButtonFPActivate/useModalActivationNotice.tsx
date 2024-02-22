@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import Button from 'modules/shared/Button';
-import useConfirm from 'shared/useConfirm';
 import { useIsVerified } from 'api';
-import Spin from 'modules/shared/Spin';
+import { trackClick } from 'config/segment';
+import useConfirm from 'shared/useConfirm';
+import Button from 'shared/Button';
+import Spin from 'shared/Spin';
 
 const useModalActivationNotice = () => {
   const { t } = useTranslation('products');
@@ -46,6 +47,7 @@ const useModalActivationNotice = () => {
               to="/account/kyc"
               className="mx-3 basis-1/2"
               loading={isVerified.isLoading}
+              onClick={trackClick('activated_goto_kyc')}
             >
               {t('notification-activated.btn-kyc')}
             </Button>
@@ -56,6 +58,7 @@ const useModalActivationNotice = () => {
             variant="primary"
             to="/investment/assets"
             className="mx-3 basis-1/2"
+            onClick={trackClick('activated_goto_dashboard')}
           >
             {t('notification-activated.btn-dashboard')}
           </Button>

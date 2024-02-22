@@ -15,14 +15,10 @@ equity-description_other: >-
   {{mainQuote}} of your equity.
 modal-deposit:
   title: Deposit
-  banner: >-
-    You have to Deposit from a Verified wallet. Using an unverified wallet will
-    result in your account being <1>restricted</1>.
   deposit-address: Send only <1>{{coin}}</1> to this deposit address.
   disclaimer: >-
     Sending coin or token other than {{coin}} to this address may result in the
     loss of your deposit.
-  verify-wallet: Verify Wallet
 modal-success:
   title: Withdrawal Request Submitted
   description: Please note that you will receive an email once it is completed.

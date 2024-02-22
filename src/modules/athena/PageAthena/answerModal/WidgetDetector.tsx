@@ -1,3 +1,7 @@
+import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAccountQuery, useSubscription } from 'api';
+import { type AthenaWidget } from 'modules/athena/core';
 import {
   AltRankWidget,
   NewsWidget,
@@ -7,13 +11,7 @@ import {
   TradingViewWidget,
   TrendingNFTsWidget,
   TrendingTweetsWidget,
-} from '@wisdomise/widgets';
-import '@wisdomise/widgets/dist/style.css';
-import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getJwtToken } from 'modules/auth/jwt-store';
-import { useAccountQuery, useSubscription } from 'api';
-import { type AthenaWidget } from 'modules/athena/core';
+} from '../widgets';
 
 interface Props {
   data: AthenaWidget;
@@ -49,9 +47,8 @@ export const WidgetDetector: React.FC<Props> = memo(
       case 'last_positions': {
         return (
           <SignalsWidget
-            token={getJwtToken() || undefined}
-            telegramId={user.data?.telegram_id}
             userPlanLevel={plan?.level || 0}
+            telegramId={user.data?.telegram_id}
             onUpgradeClick={() => navigate('/account/billing')}
           />
         );

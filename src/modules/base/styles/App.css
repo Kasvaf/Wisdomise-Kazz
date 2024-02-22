@@ -10,7 +10,7 @@
 
 @layer base {
   body {
-    @apply relative bg-[#151619];
+    @apply relative bg-[#151619] mobile:bg-page;
   }
   html,
   body {

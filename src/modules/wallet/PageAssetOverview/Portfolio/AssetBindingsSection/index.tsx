@@ -38,7 +38,7 @@ const AssetBindingsSection = () => {
 
   return (
     <Card className="col-span-3 row-span-2 flex justify-start !p-6 mobile:order-last mobile:flex-col ">
-      <div className="basis-7/12 mobile:basis-auto">
+      <div className="max-w-[59%] basis-7/12 mobile:max-w-full mobile:basis-auto">
         <AssetBindingsSectionTable />
       </div>
       <div className="relative flex h-full shrink-0 grow-0 basis-5/12 justify-end p-4 mobile:mt-4 mobile:h-36 mobile:basis-auto mobile:p-0">

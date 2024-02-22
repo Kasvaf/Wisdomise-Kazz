@@ -11,7 +11,7 @@ const PageAssetOverview = React.lazy(
 );
 
 const PageSignalsMatrix = React.lazy(
-  () => import('modules/strategy/PageSignalsMatrix'),
+  () => import('modules/signaler/PageSignalsMatrix'),
 );
 const PageCoins = React.lazy(() => import('modules/signaler/PageCoins'));
 const PageSignaler = React.lazy(() => import('modules/signaler/PageSignaler'));
@@ -27,17 +27,8 @@ const PageFPIPositions = React.lazy(
   () => import('modules/products/PageFPIPositions'),
 );
 
-const PageStrategiesList = React.lazy(
-  () => import('modules/strategy/PageStrategiesList'),
-);
-const PageStrategyCreate = React.lazy(
-  () => import('modules/strategy/PageStrategyCreate'),
-);
-const PageStrategyDetails = React.lazy(
-  () => import('modules/strategy/PageStrategyDetails'),
-);
 const PageProtocolDetails = React.lazy(
-  () => import('modules/staking/PageProtocolDetails'),
+  () => import('modules/products/PageProtocolDetails'),
 );
 const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
 
@@ -66,7 +57,7 @@ const appRoutes: RouteObject[] = [
       { path: '', element: <PageInsight /> },
       { path: 'signals', element: <PageSignalsMatrix /> },
       { path: 'coins', element: <PageCoins /> },
-      { path: 'signaler', element: <PageSignaler /> },
+      { path: 'coins/signaler', element: <PageSignaler /> },
       { path: 'athena', element: <PageAthena /> },
     ],
   },
@@ -74,9 +65,6 @@ const appRoutes: RouteObject[] = [
     element: <Container />,
     path: 'app',
     children: [
-      { path: 'strategy', element: <PageStrategiesList /> },
-      { path: 'strategy/new', element: <PageStrategyCreate /> },
-      { path: 'strategy/:id', element: <PageStrategyDetails /> },
       {
         path: 'staking/protocol/:id',
         element: <PageProtocolDetails />,

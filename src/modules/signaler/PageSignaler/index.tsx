@@ -1,17 +1,18 @@
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSubscription } from 'api';
+import { useRecentCandlesQuery, useSubscription } from 'api';
 import { useStrategyPositions, useStrategiesList } from 'api/signaler';
+import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import PageWrapper from 'modules/base/PageWrapper';
 import CoinSelector from '../CoinSelector';
 import ActivePosition from '../ActivePosition';
+import SimulatedPositionsTable from '../SimulatedPositionsTable';
+import SimulatedPositionsChart from '../SimulatedPositionsChart';
 import StrategySelector from './StrategySelector';
 import ButtonNotificationModifier from './ButtonNotificationModifier';
-import SimulatedPositions from './SimulatedPositions';
-import SimulatedChart from './SimulatedChart';
 
 const FieldTitle: React.FC<
   PropsWithChildren<{
@@ -32,11 +33,14 @@ const FieldTitle: React.FC<
 
 export default function PageSignaler() {
   const { t } = useTranslation('strategy');
+  const isMobile = useIsMobile();
+
   const { level: myLevel } = useSubscription();
   const allStrategies = useStrategiesList();
   const strategies = allStrategies.data?.filter(
     x => (x.profile?.subscription_level ?? 0) <= myLevel,
   );
+
   const [strategyKey, setStrategyKey] = useSearchParamAsState(
     'strategy',
     () => strategies?.[0]?.key ?? '',
@@ -57,6 +61,8 @@ export default function PageSignaler() {
 
   const activePositions = allPositions.data?.filter(x => !x.exit_time);
   const simulatedPositions = allPositions.data?.filter(x => x.exit_time);
+  const { data: candles, isLoading: candlesLoading } =
+    useRecentCandlesQuery(coinName);
 
   return (
     <PageWrapper loading={false}>
@@ -117,7 +123,7 @@ export default function PageSignaler() {
                     {t('signaler.active-positions')}
                   </h2>
                   {activePositions.map(p => (
-                    <ActivePosition key={p.entry_time} signaler={p} />
+                    <ActivePosition key={p.entry_time} position={p} />
                   ))}
                 </div>
               )}
@@ -127,13 +133,14 @@ export default function PageSignaler() {
                   <h2 className="mb-3 text-xl text-white/40">
                     {t('signaler.simulated-position-history')}
                   </h2>
-                  <SimulatedPositions items={simulatedPositions} />
+                  <SimulatedPositionsTable items={simulatedPositions} />
                 </div>
               )}
 
-              {!!allPositions.data?.length && coin && (
-                <SimulatedChart
-                  asset={coin.base.name}
+              {!isMobile && !!allPositions.data?.length && coin && (
+                <SimulatedPositionsChart
+                  candles={candles}
+                  loading={candlesLoading}
                   positions={allPositions.data}
                 />
               )}

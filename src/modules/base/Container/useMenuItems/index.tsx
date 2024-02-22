@@ -9,7 +9,8 @@ import { ReactComponent as InsightIconEmpty } from './icons/insight-empty.svg';
 import { ReactComponent as InsightIconFull } from './icons/insight-full.svg';
 import { ReactComponent as AccountIconEmpty } from './icons/account-empty.svg';
 import { ReactComponent as AccountIconFull } from './icons/account-full.svg';
-import { ReactComponent as StrategiesIcon } from './icons/strategies.svg';
+import { ReactComponent as BuilderIconEmpty } from './icons/builder-empty.svg';
+import { ReactComponent as BuilderIconFull } from './icons/builder-full.svg';
 
 const Icon = (
   Empty: React.FC<React.SVGProps<SVGSVGElement>>,
@@ -69,12 +70,7 @@ const useMenuItems = () => {
         {
           text: t('menu.coin-view.title'),
           link: '/insight/coins',
-          onClick: trackClick('signaler_menu'),
-        },
-        {
-          text: t('menu.signaler-view.title'),
-          link: '/insight/signaler',
-          onClick: trackClick('signaler_menu'),
+          onClick: trackClick('coin_list_menu'),
         },
         {
           text: t('menu.athena.title'),
@@ -84,11 +80,24 @@ const useMenuItems = () => {
       ],
     },
     {
-      icon: <StrategiesIcon />,
-      text: t('menu.strategies.title'),
-      link: '/app/strategy',
+      icon: Icon(BuilderIconEmpty, BuilderIconFull),
+      text: t('menu.builder.title'),
+      link: '/builder',
       hide: isProduction,
       mobileHide: true,
+      children: [
+        {
+          text: t('menu.signal-builder.title'),
+          link: '/builder/signalers',
+          mobileHide: true,
+          onClick: trackClick('builder_signals_menu'),
+        },
+        {
+          text: t('menu.fp-builder.title'),
+          link: '/builder/fp',
+          onClick: trackClick('builder_fp_menu'),
+        },
+      ],
     },
     {
       icon: Icon(AccountIconEmpty, AccountIconFull),

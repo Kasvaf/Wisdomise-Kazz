@@ -1,6 +1,7 @@
 import axios, { type AxiosError } from 'axios';
 import { getJwtToken } from 'modules/auth/jwt-store';
 import { AFTER_LOGIN_KEY } from 'modules/auth/constants';
+import { login } from 'modules/auth/authHandlers';
 import { API_ORIGIN, RouterBaseName, TEMPLE_ORIGIN } from './constants';
 
 export default function configAxios() {
@@ -33,12 +34,11 @@ export default function configAxios() {
   axios.interceptors.response.use(null, async (error: AxiosError) => {
     if (error.response?.status === 403) {
       const { hash, pathname, search } = window.location;
-
-      window.location.href = sessionStorage.getItem(AFTER_LOGIN_KEY)
-        ? '/auth/login'
-        : `/auth/login?${AFTER_LOGIN_KEY}=${
-            RouterBaseName ? hash.substring(1) : pathname + search
-          }`;
+      login(
+        `${AFTER_LOGIN_KEY}=${
+          RouterBaseName ? hash.substring(1) : pathname + search
+        }`,
+      );
     }
     throw error;
   });

@@ -25,13 +25,19 @@ menu:
     title: Subscription
     subtitle: Subscription preferences
     remains: remains
+  builder:
+    title: Builder
+    subtitle: Manage your account settings and preferences
   coin-view:
-    title: Coin View
+    title: Coin List
     subtitle: Get signals and position histories from all signalers
   financial-products:
     title: Financial Products
     subtitle: Explore different investment package opportunities
     active-product: Active Product
+  fp-builder:
+    title: My Products
+    subtitle: Explore different investment package opportunities
   insight:
     title: Insight
     subtitle: Access Real-Time Insights for Strategic Crypto Investing
@@ -50,14 +56,12 @@ menu:
   referral:
     title: Referral
     subtitle: Invite and earn rewards
+  signal-builder:
+    title: My Signalers
+    subtitle: Generate Signals for supported Cryptocurrency
   signal-matrix:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
-  signaler-view:
-    title: Signaler View
-    subtitle: Get signals and position histories from all signalers
-  strategies:
-    title: Strategies
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access

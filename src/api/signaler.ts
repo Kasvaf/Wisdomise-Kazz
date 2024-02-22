@@ -1,8 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { type Quote } from './types/investorAssetStructure';
-import { type LastPosition } from './types/signalResponse';
-import { type TheoreticalPosition } from './strategy';
+// import { type TheoreticalPosition } from './strategy';
+import {
+  type RawPosition,
+  type SignalsResponse,
+  type SuggestedAction,
+} from './types/signalResponse';
 
 const isPublic = 'is_public=True';
 
@@ -54,26 +58,23 @@ export const useSignalerPairDetails = (name: string) =>
     },
   );
 
-export interface PairSignalerItem extends TheoreticalPosition {
+export interface PairSignalerItem extends RawPosition {
   pair_name: string;
   strategy: Strategy;
   pnl_equity: number;
   stop_loss: number;
   take_profit: number;
-  suggested_action: LastPosition['suggested_action'];
+  suggested_action: SuggestedAction;
   leverage: number;
 }
 
-interface Strategy {
-  is_active: boolean;
+export interface Strategy {
   key: string;
   name: string;
   version: string;
-  internal: boolean;
   resolution: string;
   market_name: string;
-  is_public: boolean;
-  profile: Profile;
+  profile?: Profile;
 }
 
 interface Profile {
@@ -81,6 +82,15 @@ interface Profile {
   description: string;
   position_sides: string[];
   subscription_level?: number;
+}
+
+function strategyComparer(a: Strategy, b: Strategy) {
+  const subDiff =
+    (a.profile?.subscription_level ?? 0) - (b.profile?.subscription_level ?? 0);
+  return (
+    subDiff ||
+    (a.profile?.title ?? a.name).localeCompare(b.profile?.title ?? b.name)
+  );
 }
 
 export const usePairSignalers = (base?: string, quote?: string) => {
@@ -91,7 +101,7 @@ export const usePairSignalers = (base?: string, quote?: string) => {
       const { data } = await axios.get<PairSignalerItem[]>(
         `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True&${isPublic}`,
       );
-      return data;
+      return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
@@ -100,25 +110,14 @@ export const usePairSignalers = (base?: string, quote?: string) => {
 };
 
 export interface StrategyItem {
-  is_active: boolean;
   key: string;
   name: string;
   version: string;
-  internal: boolean;
   resolution: string;
   market_name: string;
-  is_approved_manually: boolean;
-  schedule?: any;
   config?: any;
-  profile?: {
-    title: string;
-    description: string;
-    position_sides: string[];
-    subscription_level?: number;
-  };
-  is_public: boolean;
+  profile?: Profile;
   supported_pairs: SignalerPair[];
-  manual_approval_time_limit_sec: number;
 }
 
 export const useStrategiesList = () => {
@@ -128,7 +127,7 @@ export const useStrategiesList = () => {
       const { data } = await axios.get<StrategyItem[]>(
         'strategy/strategies?' + isPublic,
       );
-      return data;
+      return data.sort(strategyComparer);
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
@@ -156,3 +155,11 @@ export const useStrategyPositions = (
     },
   );
 };
+
+export const useSignalsQuery = () =>
+  useQuery(['signals'], async () => {
+    const { data } = await axios.get<SignalsResponse>(
+      'strategy/last-positions',
+    );
+    return data;
+  });

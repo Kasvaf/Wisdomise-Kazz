@@ -6,15 +6,18 @@ import {
   useSignalerPairs,
 } from 'api/signaler';
 import { useRecentCandlesQuery } from 'api';
+import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import CandleChart from 'modules/strategy/PageStrategyDetails/TabPositions/CandleChart';
-import Spinner from 'modules/shared/Spinner';
+import CandleChart from 'shared/CandleChart';
+import Spinner from 'shared/Spinner';
 import CoinSelector from '../CoinSelector';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
 
 export default function PageCoins() {
   const { t } = useTranslation('strategy');
+  const isMobile = useIsMobile();
+
   const coins = useSignalerPairs();
   const [coinName, setCoinName] = useSearchParamAsState<string>(
     'coin',
@@ -69,7 +72,9 @@ export default function PageCoins() {
               </div>
 
               <CoinSignalersList signalers={signalers} />
-              {candles && <CandleChart candles={candles} resolution="1h" />}
+              {candles && !isMobile && (
+                <CandleChart candles={candles} resolution="1h" />
+              )}
             </>
           )
         )}

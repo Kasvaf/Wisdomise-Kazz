@@ -4,10 +4,15 @@ import { useAthena } from 'modules/athena/core';
 
 export const PredefinedQuestions = () => {
   const questions = useLandingQuestions();
-  const { askQuestion, leftQuestions } = useAthena();
+  const { askQuestion, leftQuestions, question } = useAthena();
 
   return (
-    <section className="w-3/4 mobile:w-[calc(100vw-3rem)]">
+    <section
+      className={clsx(
+        'w-3/4 mobile:w-[calc(100vw-3rem)]',
+        question && 'invisible',
+      )}
+    >
       <section
         className={clsx(
           'no-scrollbar grid grid-cols-3 justify-between gap-10',

@@ -10,8 +10,6 @@ module.exports = {
   content: [
     './src/**/*.{html,js,ts,jsx,tsx}',
     './node_modules/tw-elements/dist/js/**/*.js',
-    './node_modules/@wisdomise/widgets/dist/**/*.js',
-    './node_modules/@wisdomise/utils/dist/**/*.js',
   ],
   safelist: ['opacity-100', 'opacity-50'],
   theme: {
@@ -20,6 +18,7 @@ module.exports = {
       'max-md': { max: '750px' },
       'max-sm': { max: '640px' },
       'max-xs': { max: '420px' },
+      'xs': '420px',
       ...defaultTheme.screens,
     },
     extend: {

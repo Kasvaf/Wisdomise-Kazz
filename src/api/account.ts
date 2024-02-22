@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { type Account } from './types/UserInfoResponse';
-import { type PageResponse } from './types/page';
 
 export function useAccountQuery() {
   return useQuery<Account>(
@@ -44,31 +43,6 @@ export const useResendVerificationEmailMutation = () => async () => {
   );
   return status >= 200 && status < 400;
 };
-
-interface AppDetail {
-  key: string;
-  name: string;
-  frontend_url: string;
-}
-
-export function useAppsInfoQuery(appName?: string) {
-  return useQuery(
-    ['getApp', appName],
-    async ({ queryKey }) => {
-      const [, name] = queryKey;
-      const { data } = await axios.get<PageResponse<AppDetail>>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/apps${
-          name ? 'name=' + name : ''
-        }`,
-      );
-      return data;
-    },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      retry: false,
-    },
-  );
-}
 
 export interface ReferralStatus {
   referral_code: string;

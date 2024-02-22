@@ -1,6 +1,6 @@
 import { useFpiPositionHistory } from 'api/fpi';
-import PositionsTimeline from 'modules/strategy/PositionsTimeline';
-import useRangeSelector from 'modules/strategy/PositionsTimeline/useRangeSelector';
+import PositionsTimeline from './PositionsTimeline';
+import useRangeSelector from './PositionsTimeline/useRangeSelector';
 
 interface Props {
   fpiKey?: string;

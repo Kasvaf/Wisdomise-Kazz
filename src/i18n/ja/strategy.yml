@@ -37,7 +37,7 @@ signaler:
   info:
     crypto:
       description: サポートされているコインから選択
-      label: 暗号
+      label: 仮想通貨
     strategy:
       description: 戦略を選択し、暗号通貨リストから選択します
       label: 戦略

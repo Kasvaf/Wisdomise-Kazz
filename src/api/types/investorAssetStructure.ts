@@ -1,4 +1,5 @@
 import { type Config } from './financialProduct';
+import { type RawPosition } from './signalResponse';
 
 export type InvestorAssetStructures = [
   {
@@ -93,13 +94,7 @@ export interface AssetPairInfo {
   quote: Quote;
 }
 
-export interface FpiPosition {
+export interface FpiPosition extends RawPosition {
   pair: AssetPairInfo;
-  pnl: number;
   amount: number;
-  entry_price: number;
-  exit_price?: number;
-  entry_time: string;
-  exit_time?: string;
-  position_side: 'LONG' | 'SHORT';
 }

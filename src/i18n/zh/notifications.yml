@@ -27,7 +27,7 @@ signaling:
   modify-notification: 修改通知
   notification-activate-chip-message: 您已訂閱了"所选币种”{{strategy}}”并且每次电报中有新交易点位时都会收到通知。
   overlay-telegram:
-    description: 转到 Telegram 并使用 <1>/subscribe_to_signals</1> 指令。
+    description: 要接收通知，请打开 Telegram 并按 <1>开始</1> 按钮。
     title: 您的 Telegram 尚未连接
   strategy:
     choose-coin: 选择想接收通知的代币

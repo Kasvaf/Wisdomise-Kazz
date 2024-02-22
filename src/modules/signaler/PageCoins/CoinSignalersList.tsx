@@ -9,6 +9,7 @@ import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Locker from 'shared/Locker';
 import Spin from 'shared/Spin';
+import { trackClick } from 'config/segment';
 import ActivePosition from '../ActivePosition';
 import UnprivilegedOverlay from './UnprivilegedOverlay';
 
@@ -23,6 +24,13 @@ const NotificationButton: React.FC<{
       ensureConnected,
     });
 
+  const clickHandler = async () => {
+    trackClick('signalers_list_enable_notification', {
+      signaler: signaler.strategy.name,
+    })();
+    await handler();
+  };
+
   return (
     <Button
       className={clsx(
@@ -30,7 +38,7 @@ const NotificationButton: React.FC<{
         isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
       )}
       variant="alternative"
-      onClick={handler}
+      onClick={clickHandler}
       disabled={isSubmitting || isLoading}
     >
       {isSubmitting || isLoading ? (
@@ -57,9 +65,9 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
         <Locker
           key={s.strategy.key}
           overlay={
-            (s.strategy.profile.subscription_level ?? 0) > level && (
+            (s.strategy.profile?.subscription_level ?? 0) > level && (
               <UnprivilegedOverlay
-                requiredLevel={s.strategy.profile.subscription_level ?? 0}
+                requiredLevel={s.strategy.profile?.subscription_level ?? 0}
               />
             )
           }
@@ -68,7 +76,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
           <div className="rounded-2xl bg-white/5 p-3">
             <div className="flex items-center justify-between">
               <h2 className="mx-3 line-clamp-1 text-2xl">
-                {s.strategy.profile.title || s.strategy.name}
+                {s.strategy.profile?.title || s.strategy.name}
               </h2>
 
               <div className="flex items-center">
@@ -78,7 +86,11 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                 />
                 <Button
                   className="mobile:!p-[10px_12px]"
-                  to={`/insight/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
+                  to={`/insight/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
+                  onClick={trackClick('coin_signaler', {
+                    coin_name: s.pair_name,
+                    strategy_name: s.strategy.name,
+                  })}
                 >
                   {t('signaler.btn-explore')}
                   <Icon name={bxRightArrowAlt} />
@@ -86,7 +98,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
               </div>
             </div>
 
-            <ActivePosition signaler={s} />
+            <ActivePosition position={s} />
           </div>
         </Locker>
       ))}

@@ -5,6 +5,7 @@ import { bxPause, bxPlay, bxStop } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { type FpiStatusMutationType, useUpdateFPIStatusMutation } from 'api';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
+import { trackClick } from 'config/segment';
 import FabButton from 'shared/FabButton';
 import PopConfirmChangeFPIStatus from './PopConfirmChangeFPIStatus';
 
@@ -28,10 +29,12 @@ const FpiActions: React.FC<{
     status: FpiStatusMutationType,
   ) => {
     try {
+      trackClick(status.toLowerCase() + '_fp')();
       await updateFPIStatus.mutateAsync({
         status,
         fpiKey,
       });
+      trackClick(status.toLowerCase() + 'ed_fp')();
 
       if (status === 'stop') {
         navigate('/investment/assets');

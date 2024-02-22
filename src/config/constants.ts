@@ -11,7 +11,6 @@ const makeOrigin = (name: string) =>
 
 export const API_ORIGIN = makeOrigin('api');
 export const CHATAPP_ORIGIN = makeOrigin('chatapp');
-export const STRATEGY_ORIGIN = makeOrigin('strategy');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const MAIN_LANDING = (lng: string) =>
   `https://${isProduction ? '' : 'stage.'}${DOMAIN}/${lng}`;
@@ -31,9 +30,6 @@ export const INVESTMENT_FE = `https://${
 }investment.${DOMAIN}`;
 
 export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
-
-export const ATHENA_TELEGRAM_BOT = import.meta.env
-  .VITE_ATHENA_BOT_BASE_URL as string;
 
 export const STRIPE_CLIENT_PUBLIC_KEY = import.meta.env
   .VITE_STRIPE_CLIENT_PUBLIC_KEY as string;
