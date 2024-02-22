@@ -4,7 +4,7 @@ import {
   type SignalerData,
   type FullPosition,
   useSignalerAssetPrice,
-  useCreateSignalMutation,
+  useFireSignalMutation,
 } from 'api/builder';
 import { roundDown } from 'utils/numbers';
 import { unwrapErrorMessage } from 'utils/error';
@@ -85,7 +85,7 @@ const SignalForm: React.FC<Props> = ({
 
   // ======================================================================
 
-  const { mutateAsync, isLoading: isSubmitting } = useCreateSignalMutation();
+  const { mutateAsync, isLoading: isSubmitting } = useFireSignalMutation();
 
   const isFireDisabled = (orderType === 'limit' && !price) || !tp || !sl;
   const fireHandler = async () => {
