@@ -23,7 +23,12 @@ export default function PageAthena({ isFloat }: { isFloat?: boolean }) {
         )}
       >
         <AthenaProvider>
-          <section className="mx-auto flex max-w-[1400px] flex-col items-center gap-14 mobile:gap-10">
+          <section
+            className={clsx(
+              'mx-auto flex max-w-[1400px] flex-col items-center gap-14 mobile:gap-10',
+              isFloat && 'gap-9',
+            )}
+          >
             <Header isFloat={isFloat} />
             <FirstAskInput />
             <PredefinedQuestions />
