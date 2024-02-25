@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import TabUsage from './TabUsage';
 
 const items: TabsProps['items'] = [
   {
@@ -23,7 +24,7 @@ const items: TabsProps['items'] = [
   {
     key: 'usage',
     label: 'Usage',
-    children: <>Usage</>,
+    children: <TabUsage />,
   },
 ];
 

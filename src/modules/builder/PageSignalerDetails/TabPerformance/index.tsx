@@ -1,26 +1,17 @@
-import { type PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   type Asset,
   useSignalerQuery,
   useSignalerPerfQuery,
 } from 'api/builder';
+import InfoBox from 'modules/builder/InfoBox';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import PriceChange from 'shared/PriceChange';
 import Spinner from 'shared/Spinner';
 import TitleHint from '../../TitleHint';
 import AssetSelector from '../AssetSelector';
 import PnlChart from './PnlChart';
-
-const InfoBox: React.FC<PropsWithChildren<{ title: JSX.Element | string }>> = ({
-  title,
-  children,
-}) => (
-  <div className="flex h-[110px] flex-col justify-between rounded-2xl bg-black/30 p-6">
-    <div className="self-start text-base text-white/40">{title}</div>
-    <div className="flex self-end text-xl">{children}</div>
-  </div>
-);
 
 const TabPerformance = () => {
   const params = useParams<{ id: string }>();

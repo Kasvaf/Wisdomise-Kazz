@@ -72,3 +72,37 @@ export const useCreateMyFinancialProductMutation = () => {
     },
   );
 };
+
+export const useMyFinancialProductQuery = (fpKey?: string) =>
+  useQuery(
+    ['my-product', fpKey],
+    async () => {
+      if (!fpKey) throw new Error('unexpected');
+      const { data } = await axios.get<MyFinancialProduct>(
+        `factory/financial-products/${fpKey}`,
+      );
+      return data;
+    },
+    {
+      enabled: !!fpKey,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+
+export const useMyFinancialProductUsageQuery = (fpKey?: string) =>
+  useQuery(
+    ['my-product', fpKey],
+    async () => {
+      if (!fpKey) throw new Error('unexpected');
+      const { data } = await axios.get<{
+        subscribers: number;
+        aum: number;
+        trading_volume: number;
+      }>(`factory/financial-products/${fpKey}/usage-stats`);
+      return data;
+    },
+    {
+      enabled: !!fpKey,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
