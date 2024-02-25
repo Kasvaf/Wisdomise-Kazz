@@ -27,12 +27,17 @@ export default function Header({ isFloat }: { isFloat?: boolean }) {
       <p
         className={clsx(
           'text-2xl font-light tracking-[-1.4px] text-white/80 mobile:text-xl',
-          isFloat && 'invisible mobile:hidden',
+          isFloat && 'hidden mobile:hidden',
         )}
       >
         {t('heading.title')}
       </p>
-      <p className="mt-6 text-5xl font-bold !leading-[137%] tracking-[-2.8px] text-white/90 mobile:text-3xl mobile:!leading-[200%] mobile:tracking-[-1.8px]">
+      <p
+        className={clsx(
+          'mt-6 text-5xl font-bold !leading-[137%] tracking-[-2.8px] text-white/90 mobile:text-3xl mobile:!leading-[200%] mobile:tracking-[-1.8px]',
+          isFloat && '!text-4xl',
+        )}
+      >
         <Trans i18nKey="heading.second-title" ns="athena">
           Navigating Crypto with AI <br /> Chat
         </Trans>{' '}
