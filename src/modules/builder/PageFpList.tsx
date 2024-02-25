@@ -20,7 +20,7 @@ export default function PageFpList() {
 
       <div className="grid grid-cols-3 gap-4">
         {data?.map(s => (
-          <NavLink key={s.key} to={`/builder/signalers/${s.key}`}>
+          <NavLink key={s.key} to={`/builder/fp/${s.key}`}>
             <Card className="cursor-pointer !px-6 !py-4 hover:bg-black/40">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">

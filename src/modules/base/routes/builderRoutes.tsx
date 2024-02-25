@@ -17,6 +17,7 @@ const PageSignalerDetails = React.lazy(
 
 const PageFpList = React.lazy(() => import('modules/builder/PageFpList'));
 const PageFpCreate = React.lazy(() => import('modules/builder/PageFpCreate'));
+const PageFpDetails = React.lazy(() => import('modules/builder/PageFpDetails'));
 
 const builderRoutes: RouteObject[] = [
   {
@@ -29,7 +30,7 @@ const builderRoutes: RouteObject[] = [
       { path: 'signalers/:id', element: <PageSignalerDetails /> },
       { path: 'fp', element: <PageFpList /> },
       { path: 'fp/new', element: <PageFpCreate /> },
-      { path: 'fp/:id', element: <PageFpList /> },
+      { path: 'fp/:id', element: <PageFpDetails /> },
     ],
   },
 ];
