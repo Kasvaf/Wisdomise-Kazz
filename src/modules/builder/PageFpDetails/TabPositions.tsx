@@ -45,7 +45,7 @@ const TabPositions = () => {
   });
 
   return (
-    <div className="mt-12">
+    <div className="mt-8">
       <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
         <AssetSelector
           label="Crypto"

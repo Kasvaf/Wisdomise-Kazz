@@ -23,7 +23,7 @@ const TabApi = () => {
   if (!signaler) return null;
 
   return (
-    <section className="flex gap-10">
+    <section className="mt-8 flex gap-10">
       <div className="flex w-1/2 grow-0 basis-1/2 flex-col gap-8">
         <div>
           <TitleHint title="Signaler ID">

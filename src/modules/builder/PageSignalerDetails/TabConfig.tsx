@@ -70,7 +70,7 @@ const TabConfig = () => {
 
   return (
     <div>
-      <div className="mt-4 flex max-w-4xl gap-6">
+      <div className="mt-8 flex max-w-4xl gap-6">
         <TextBox
           label="Signaler Name"
           placeholder="Signaler Name"

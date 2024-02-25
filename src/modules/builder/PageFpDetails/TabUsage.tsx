@@ -19,7 +19,7 @@ const TabUsage = () => {
   if (!fp) return null;
 
   return (
-    <section className="mt-10 flex justify-stretch gap-10 mobile:flex-col">
+    <section className="mt-8 flex justify-stretch gap-10 mobile:flex-col">
       <InfoBox title="Active Accounts">{fp.subscribers}</InfoBox>
       <InfoBox
         title={
