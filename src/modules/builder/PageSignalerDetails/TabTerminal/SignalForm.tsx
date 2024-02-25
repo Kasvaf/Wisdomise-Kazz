@@ -64,6 +64,12 @@ const SignalForm: React.FC<Props> = ({
   const [orderExp, setOrderExp] = useState('1h');
 
   useEffect(() => {
+    setPrice('');
+    setTP('');
+    setSL('');
+  }, [assetName]);
+
+  useEffect(() => {
     if (activePosition) {
       setTP(String(activePosition.take_profit));
       setSL(String(activePosition.stop_loss));
@@ -165,7 +171,13 @@ const SignalForm: React.FC<Props> = ({
           <div className="flex items-end gap-2">
             <AmountInputBox
               label="Price"
-              value={orderType === 'market' ? '-' : price}
+              value={
+                orderType === 'market'
+                  ? assetPrice === undefined
+                    ? '-'
+                    : String(roundDown(assetPrice, 2))
+                  : price
+              }
               onChange={setPrice}
               suffix="USDT"
               className="grow"
