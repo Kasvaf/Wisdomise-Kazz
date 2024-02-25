@@ -52,6 +52,7 @@ export const useSignalerQuery = (signaler?: string) =>
       const { data } = await axios.get<SignalerData>(
         `factory/strategies/${signaler}`,
       );
+      data.assets.sort((a, b) => a.name.localeCompare(b.name));
       return data;
     },
     {

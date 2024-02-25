@@ -40,7 +40,11 @@ const MultiCoinsSelector: React.FC<Props> = ({
             <div
               key={a.name}
               className="flex cursor-pointer items-center rounded-lg bg-black/30 !p-2 hover:bg-black/70"
-              onClick={() => onChange([...items, a])}
+              onClick={() =>
+                onChange(
+                  [...items, a].sort((a, b) => a.name.localeCompare(b.name)),
+                )
+              }
             >
               <PairInfo
                 title={a.display_name}
