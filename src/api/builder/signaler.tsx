@@ -9,7 +9,12 @@ interface SignalerListItem {
   market_name: MarketTypes;
   name: string;
   tags: string[];
-  symbols: string[];
+  assets: Array<{
+    name: string;
+    display_name: string;
+    base: { name: string };
+    quote: { name: string };
+  }>;
   open_positions: number;
   last_week_positions: number;
 }
@@ -21,7 +26,16 @@ export const useMySignalersQuery = () =>
       const { data } = await axios.get<SignalerListItem[]>(
         '/factory/strategies',
       );
-      return data;
+      return data.map(s => ({
+        ...s,
+        assets: s.assets.map((a: any) => ({
+          name: a.symbol?.name,
+          display_name: a.symbol?.title || a.pair?.title,
+          base: a.symbol,
+          quote: { name: 'USDT' },
+          ...a.pair,
+        })),
+      })) as SignalerListItem[];
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
