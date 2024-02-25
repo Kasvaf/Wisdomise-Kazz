@@ -14,8 +14,7 @@ interface MyFinancialProduct {
   assets: Array<{
     name: string;
     display_name: string;
-    base: { name: string };
-    quote: { name: string };
+    symbol: string;
   }>;
 }
 

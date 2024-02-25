@@ -1,31 +1,33 @@
-import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCandlesQuery } from 'api';
 import {
   type Asset,
-  useSignalerQuery,
-  useMySignalerAllPositions,
+  useFpPositionsQuery,
+  useMyFinancialProductQuery,
 } from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
 import { bestResolution } from 'shared/CandleChart/utils';
 import DateRangeSelector from 'shared/DateRangeSelector';
+import CandleChart from 'shared/CandleChart';
 import Spinner from 'shared/Spinner';
-import ActivePosition from 'modules/signaler/ActivePosition';
-import SimulatedPositionsTable from 'modules/signaler/SimulatedPositionsTable';
-import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
 import AssetSelector from '../AssetSelector';
+import PositionsTable from './ActualPositionsTable';
+import SubscriberSelector from './SubscriberSelector';
 
 const TabPositions = () => {
   const { t } = useTranslation('strategy');
   const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
-  const { data: signaler } = useSignalerQuery(params.id);
+  const { data: fp } = useMyFinancialProductQuery(params.id);
   const [asset, setAsset] = useState<Asset>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
+  const [subscriberKey, setSubscriberKey] = useState('');
 
-  const { data, isLoading } = useMySignalerAllPositions({
-    signalerKey: params.id,
+  const { data, isLoading } = useFpPositionsQuery({
+    fpKey: params.id,
+    subscriberKey,
     assetName: asset?.name,
     startTime: dateRange?.[0]?.toISOString(),
     endTime: dateRange?.[1]?.toISOString(),
@@ -34,16 +36,6 @@ const TabPositions = () => {
   const inputted = Boolean(
     params.id && asset?.name && dateRange?.[0] && dateRange?.[1],
   );
-
-  const allPositions = data?.map(p => ({
-    ...p,
-    suggested_action: p.signal?.action.toUpperCase() as
-      | 'CLOSE'
-      | 'OPEN'
-      | undefined,
-  }));
-  const activePosition = allPositions?.filter(x => !x.exit_time)?.[0];
-  const simulatedPositions = allPositions?.filter(x => x.exit_time);
 
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
     asset: asset?.name,
@@ -58,7 +50,7 @@ const TabPositions = () => {
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
-          assets={signaler?.assets}
+          assets={fp?.assets}
           selectedItem={asset}
           onSelect={setAsset}
           className="w-[250px]"
@@ -68,6 +60,13 @@ const TabPositions = () => {
           onChange={setDateRange}
           value={dateRange}
           label="Date"
+        />
+
+        <SubscriberSelector
+          label="Subscriber"
+          fpKey={params.id}
+          selectedItem={subscriberKey}
+          onSelect={setSubscriberKey}
         />
       </div>
 
@@ -79,28 +78,23 @@ const TabPositions = () => {
             </div>
           ) : (
             <>
-              <div className="mt-10">
-                <h2 className="mb-3 text-xl text-white/40">
-                  {signaler?.name} {t('strategy:signaler.active-positions')}
-                </h2>
-                <ActivePosition position={activePosition} />
-              </div>
-
-              {!!simulatedPositions && (
+              {!!data && (
                 <div className="mt-10">
                   <h2 className="mb-3 text-xl text-white/40">
                     {t('signaler.simulated-position-history')}
                   </h2>
-                  <SimulatedPositionsTable items={simulatedPositions} />
+                  <PositionsTable positions={data} />
                 </div>
               )}
 
-              {!isMobile && asset && (
-                <SimulatedPositionsChart
-                  candles={candles}
-                  loading={candlesLoading}
-                  positions={allPositions ?? []}
-                />
+              {!isMobile && asset && candles && !candlesLoading && (
+                <>
+                  <CandleChart
+                    candles={candles}
+                    positions={data}
+                    resolution={bestResolution(dateRange)}
+                  />
+                </>
               )}
             </>
           )}

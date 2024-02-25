@@ -10,7 +10,7 @@ import {
 import ActivePosition from 'modules/signaler/ActivePosition';
 import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
 import Spinner from 'shared/Spinner';
-import AssetSelector from '../AssetSelector';
+import AssetSelector from '../../AssetSelector';
 import SignalForm from './SignalForm';
 
 const TabTerminal = () => {

@@ -11,7 +11,7 @@ import PriceChange from 'shared/PriceChange';
 import Spinner from 'shared/Spinner';
 import TitleHint from '../TitleHint';
 import PnlChart from '../PnlChart';
-import AssetSelector from './AssetSelector';
+import AssetSelector from '../AssetSelector';
 
 const TabPerformance = () => {
   const params = useParams<{ id: string }>();
