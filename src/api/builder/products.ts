@@ -106,3 +106,38 @@ export const useMyFinancialProductUsageQuery = (fpKey?: string) =>
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
+
+export const useMyFinancialProductPerfQuery = ({
+  fpKey,
+  startTime,
+  endTime,
+}: {
+  fpKey?: string;
+  startTime?: string;
+  endTime?: string;
+}) =>
+  useQuery(
+    ['productPerf', fpKey, startTime, endTime],
+    async () => {
+      if (!fpKey) throw new Error('unexpected');
+      const { data } = await axios.get<{
+        positions: number;
+        pnl: number;
+        max_drawdown: number;
+        equities: Array<{
+          d: string;
+          v: number;
+        }>;
+      }>(`/factory/financial-products/${fpKey}/performance`, {
+        params: {
+          start_time: startTime,
+          end_time: endTime,
+        },
+      });
+      return data;
+    },
+    {
+      enabled: !!fpKey && !!startTime && !!endTime,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );

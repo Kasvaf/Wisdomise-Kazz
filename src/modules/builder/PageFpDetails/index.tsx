@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabUsage from './TabUsage';
+import TabPerformance from './TabPerformance';
 
 const items: TabsProps['items'] = [
   {
@@ -14,7 +15,7 @@ const items: TabsProps['items'] = [
   {
     key: 'perf',
     label: 'Performance',
-    children: <>Performance</>,
+    children: <TabPerformance />,
   },
   {
     key: 'pos',

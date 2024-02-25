@@ -1,47 +1,28 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  type Asset,
-  useSignalerQuery,
-  useSignalerPerfQuery,
-} from 'api/builder';
+import { useMyFinancialProductPerfQuery } from 'api/builder';
 import InfoBox from 'modules/builder/InfoBox';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import PriceChange from 'shared/PriceChange';
 import Spinner from 'shared/Spinner';
-import TitleHint from '../../TitleHint';
-import AssetSelector from '../AssetSelector';
-import PnlChart from './PnlChart';
+import TitleHint from '../TitleHint';
+import PnlChart from '../PnlChart';
 
 const TabPerformance = () => {
   const params = useParams<{ id: string }>();
-  const { data: signaler } = useSignalerQuery(params.id);
-
-  const [asset, setAsset] = useState<Asset>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
-  const { data, isLoading } = useSignalerPerfQuery({
-    signalerKey: params.id,
-    assetName: asset?.name,
+  const { data, isLoading } = useMyFinancialProductPerfQuery({
+    fpKey: params.id,
     startTime: dateRange?.[0].toISOString(),
     endTime: dateRange?.[1].toISOString(),
   });
 
-  const inputted = Boolean(
-    params.id && asset?.name && dateRange?.[0] && dateRange?.[1],
-  );
+  const inputted = Boolean(params.id && dateRange?.[0] && dateRange?.[1]);
 
   return (
     <div className="mt-12">
       <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
-        <AssetSelector
-          label="Crypto"
-          placeholder="Select Crypto"
-          assets={signaler?.assets}
-          selectedItem={asset}
-          onSelect={setAsset}
-          className="w-[250px]"
-        />
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}
@@ -62,7 +43,7 @@ const TabPerformance = () => {
           <div className="flex items-stretch gap-3 mobile:flex-col">
             <div className="flex basis-2/3 flex-col">
               <div className="grow rounded-2xl bg-black/40 p-4">
-                <PnlChart data={data.pnl_timeseries} />
+                <PnlChart data={data.equities} />
               </div>
             </div>
             <div className="flex basis-1/3 flex-col gap-3">
