@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { type CSSProperties, type PropsWithChildren } from 'react';
 
-export interface CardProps {
+interface CardProps {
   className?: string;
   style?: CSSProperties;
   variant?: 'outline';

@@ -3,7 +3,7 @@ import type { TabsProps } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import { analytics } from 'config/segment';
-import { useStrategiesQuery } from 'api/notification';
+import { useStrategiesList } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import SignalingTab from './SignalingTab';
@@ -11,7 +11,7 @@ import CustomNotificationTab from './CustomNotificationTab';
 
 export default function PageNotification() {
   const { t } = useTranslation('notifications');
-  const strategies = useStrategiesQuery();
+  const strategies = useStrategiesList();
   const [activeTab, setActiveTab] = useSearchParamAsState<string>(
     'tab',
     'center',

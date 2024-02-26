@@ -7,7 +7,7 @@ import { useMarketNetworksQuery } from './market';
 import { useInvestorAssetStructuresQuery } from './ias';
 import { type Network } from './types/NetworksResponse';
 
-export interface RawVerifiedWallet {
+interface RawVerifiedWallet {
   name?: string | null;
   address: string;
   network: {

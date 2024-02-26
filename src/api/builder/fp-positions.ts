@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { type AssetPairInfo } from 'api/types/investorAssetStructure';
 
-export interface FpSubscriber {
+interface FpSubscriber {
   title: string;
   key: string;
 }
@@ -30,7 +30,7 @@ export interface StrategyPosition {
   strategy_position?: TheoreticalPosition | null;
 }
 
-export interface TheoreticalPosition {
+interface TheoreticalPosition {
   position_side: 'LONG' | 'SHORT';
   entry_time: string;
   entry_price: number;

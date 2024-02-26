@@ -48,10 +48,7 @@ export function bestResolution(rng?: [Date, Date]): Resolution {
   return '1h';
 }
 
-export const roundDate = (
-  dateString: string | Date,
-  resolution: Resolution,
-) => {
+const roundDate = (dateString: string | Date, resolution: Resolution) => {
   const dateMs = +new Date(dateString);
   const dur = durs[resolution];
   const roundedDate = new Date(Math.round(dateMs / dur) * dur);

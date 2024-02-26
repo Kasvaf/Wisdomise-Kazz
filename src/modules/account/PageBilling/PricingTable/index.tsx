@@ -6,7 +6,7 @@ import { type PlanPeriod } from 'api/types/subscription';
 import PageWrapper from 'modules/base/PageWrapper';
 import PricingCard from './PricingCard';
 
-export interface PricingTableProps {
+interface PricingTableProps {
   isRenew?: boolean;
   isUpdate?: boolean;
   onResolve?: (result: boolean) => void;
