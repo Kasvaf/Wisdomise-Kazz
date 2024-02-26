@@ -49,7 +49,7 @@ export const AthenaModal = ({ isFloat }: { isFloat?: boolean }) => {
   return (
     <div
       className={clsx(
-        'z-40 grid grid-cols-[1.2fr_1fr] p-6 pr-0',
+        'z-40 grid grid-cols-[1fr_1fr] p-6 pr-0',
         'invisible absolute h-[calc(100vh-8.5rem)] w-full rounded-3xl bg-[#343942] opacity-0 transition-opacity duration-500',
         isOpen && '!visible !opacity-100',
         'mobile:fixed mobile:bottom-0 mobile:top-[unset] mobile:block mobile:h-full mobile:w-[100vw] mobile:rounded-none',

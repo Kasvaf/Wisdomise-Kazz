@@ -37,3 +37,9 @@
 :root {
   --wcm-z-index: 1001 !important;
 }
+
+.widgetsScroll {
+  --os-size: 2px !important;
+  --os-handle-bg: white !important;
+  --os-handle-border-radius: 10px !important;
+}

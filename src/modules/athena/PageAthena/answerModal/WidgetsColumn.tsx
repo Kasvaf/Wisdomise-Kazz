@@ -67,7 +67,12 @@ export const WidgetsColumn = () => {
   return !question ||
     (question && isMobile && isAnswerFinished) ||
     (question && !isMobile) ? (
-    <div className="max-xl:px-0 relative flex overflow-hidden pl-6 pr-8 mobile:mt-4 mobile:flex-col mobile:gap-4 mobile:overflow-visible mobile:px-0">
+    <div
+      className={clsx(
+        'max-xl:px-0 relative flex overflow-hidden pl-6 pr-8 mobile:mt-4 mobile:flex-col mobile:gap-4 mobile:overflow-visible mobile:px-0',
+        'ml-auto w-fit',
+      )}
+    >
       <section
         ref={widgetWrapper}
         className={clsx(

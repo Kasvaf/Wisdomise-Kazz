@@ -53,7 +53,7 @@ export const WidgetWrapper = forwardRef<
               defer
               ref={ref}
               className="max-h-[365px]"
-              options={{ scrollbars: { theme: 'wisdomiseScroll' } }}
+              options={{ scrollbars: { theme: 'widgetsScroll' } }}
             >
               {content}
             </OverlayScrollbarsComponent>
