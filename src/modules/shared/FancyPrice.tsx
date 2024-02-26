@@ -4,6 +4,8 @@ const FancyPrice: React.FC<{ value: number; className?: string }> = ({
   value,
   className,
 }) => {
+  if (!value && value !== 0) return <div />;
+
   return (
     <span className={className}>
       <span className="text-white/40">$</span>

@@ -7,6 +7,8 @@ const RangedPnL: React.FC<{ range: string; value: number }> = ({
   range,
   value,
 }) => {
+  if (!value && value !== 0) return <div />;
+
   return (
     <div className="mobile:grow">
       <div className="text-xs text-white/40">{range}</div>
