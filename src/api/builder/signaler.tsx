@@ -9,7 +9,12 @@ interface SignalerListItem {
   market_name: MarketTypes;
   name: string;
   tags: string[];
-  symbols: string[];
+  assets: Array<{
+    name: string;
+    display_name: string;
+    base: { name: string };
+    quote: { name: string };
+  }>;
   open_positions: number;
   last_week_positions: number;
 }
@@ -21,7 +26,16 @@ export const useMySignalersQuery = () =>
       const { data } = await axios.get<SignalerListItem[]>(
         '/factory/strategies',
       );
-      return data;
+      return data.map(s => ({
+        ...s,
+        assets: s.assets.map((a: any) => ({
+          name: a.symbol?.name,
+          display_name: a.symbol?.title || a.pair?.title,
+          base: a.symbol,
+          quote: { name: 'USDT' },
+          ...a.pair,
+        })),
+      })) as SignalerListItem[];
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
@@ -38,6 +52,7 @@ export const useSignalerQuery = (signaler?: string) =>
       const { data } = await axios.get<SignalerData>(
         `factory/strategies/${signaler}`,
       );
+      data.assets.sort((a, b) => a.name.localeCompare(b.name));
       return data;
     },
     {
@@ -116,24 +131,6 @@ export const useUpdateSignalerMutation = () => {
     return data;
   });
 };
-
-// ======================================================================
-
-export const useSignalerAllowedAssetsQuery = (strategyKey?: string) =>
-  useQuery(
-    ['signalerAllowedAssets', strategyKey],
-    async () => {
-      if (!strategyKey) throw new Error('unexpected');
-      const { data } = await axios.get<{ assets: Asset[] }>(
-        `/factory/strategies/${strategyKey}/allowed-assets`,
-      );
-      return data.assets;
-    },
-    {
-      enabled: strategyKey != null,
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
 
 // ======================================================================
 

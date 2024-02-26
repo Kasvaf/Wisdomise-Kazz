@@ -97,7 +97,7 @@ interface CreateSignalInput extends Omit<Signal, 'leverage'> {
   signalerKey: string;
 }
 
-export const useCreateSignalMutation = () => {
+export const useFireSignalMutation = () => {
   const queryClient = useQueryClient();
   return useMutation<unknown, unknown, CreateSignalInput>(
     async ({ signalerKey, ...body }) => {

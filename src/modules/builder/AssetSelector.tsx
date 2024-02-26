@@ -1,5 +1,5 @@
 import type React from 'react';
-import { type Asset } from 'api/builder/signaler';
+import { type Asset } from 'api/builder';
 import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
 
