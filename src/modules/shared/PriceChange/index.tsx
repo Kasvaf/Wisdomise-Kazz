@@ -48,7 +48,12 @@ const PriceChange: React.FC<Props> = ({
           textClassName,
         )}
       >
-        {valueToFixed ? Math.abs(value).toFixed(2) : Math.abs(value)} %
+        {valueToFixed
+          ? Math.abs(value)
+              .toFixed(value > -10 && value < 10 ? 4 : 2)
+              .replaceAll(/\.?0+$/g, '')
+          : Math.abs(value)}{' '}
+        %
       </p>
     </div>
   );

@@ -45,7 +45,7 @@
 
 .ant-table {
   @apply !bg-transparent p-4 !text-white mobile:!min-h-full;
-  min-height: 248px;
+  /* min-height: 248px; */
 
   .ant-table-header {
     @apply mb-2;

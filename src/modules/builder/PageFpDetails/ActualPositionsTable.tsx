@@ -109,6 +109,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
             <PriceChange
               value={p.actual_position.pnl}
               className="!justify-start"
+              valueToFixed
             />
 
             {p.strategy_position && (
@@ -117,6 +118,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
                 <PriceChange
                   value={p.strategy_position.pnl}
                   className="!justify-start opacity-30"
+                  valueToFixed
                 />
               </>
             )}

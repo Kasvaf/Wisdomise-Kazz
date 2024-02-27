@@ -43,6 +43,7 @@ const TabTerminal = () => {
           selectedItem={asset}
           onSelect={setAsset}
           className="w-[250px]"
+          selectFirst
         />
 
         {!isLoading && asset && (

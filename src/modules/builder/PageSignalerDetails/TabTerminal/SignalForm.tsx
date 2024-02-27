@@ -120,7 +120,9 @@ const SignalForm: React.FC<Props> = ({
           price: { value: Number.parseFloat(sl) },
         },
       });
-      notification.success({ message: 'Signal fired successfully.' });
+      notification.success({
+        message: 'Signal fired successfully and will be visible in 90 seconds.',
+      });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -134,7 +136,10 @@ const SignalForm: React.FC<Props> = ({
         ...activePosition.signal,
         action: 'close',
       });
-      notification.success({ message: 'Position closed successfully.' });
+      notification.success({
+        message:
+          'Position closed successfully and will be visible in 90 seconds.',
+      });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -193,12 +198,15 @@ const SignalForm: React.FC<Props> = ({
         value={tp}
         onChange={setTP}
         suffix="USDT"
+        disabled={!!activePosition}
       />
       <AmountInputBox
         label="Stop Loss"
         value={sl}
         onChange={setSL}
         suffix="USDT"
+        min={market === 'long' ? activePosition?.stop_loss : undefined}
+        max={market === 'short' ? activePosition?.stop_loss : undefined}
       />
 
       {!isUpdate && (

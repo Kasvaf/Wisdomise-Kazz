@@ -8,14 +8,15 @@ import {
   useUpdateSignalerMutation,
 } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
+import MarketSelector from 'modules/account/MarketSelector';
 import deepEqual from 'shared/deepEqual';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
-import MarketSelector from 'modules/account/MarketSelector';
 import ResolutionSelector from '../ResolutionSelector';
 import TitleHint from '../TitleHint';
 import MultiCoinsSelector from './MultiCoinsSelector';
+import PublishNotice from './PublishNotice';
 
 const TabConfig = () => {
   const params = useParams<{ id: string }>();
@@ -108,6 +109,8 @@ const TabConfig = () => {
           Save
         </Button>
       </section>
+
+      <PublishNotice />
     </div>
   );
 };

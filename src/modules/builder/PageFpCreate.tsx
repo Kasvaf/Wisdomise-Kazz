@@ -74,7 +74,7 @@ export default function PageFpCreate() {
             <AmountInputBox
               label="Expected Drawdown"
               placeholder="Expected Drawdown"
-              className="basis-3/5"
+              className="basis-1/3"
               value={expectedDrawdown}
               onChange={setExpectedDrawdown}
               error={
@@ -84,15 +84,16 @@ export default function PageFpCreate() {
             <AmountInputBox
               label="Expected APY"
               placeholder="Expected APY"
-              className="basis-3/5"
+              className="basis-1/3"
               value={expectedApy}
               onChange={setExpectedApy}
               error={showErrors && !expectedApy && 'This field is required.'}
             />
 
-            <div>
+            <div className="basis-1/3">
               <div className="mb-2 ml-4">Risk Level</div>
               <Select
+                className="w-full"
                 placeholder="Risk Level"
                 value={riskLevel}
                 onChange={setRiskLevel}

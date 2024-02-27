@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useEffect } from 'react';
 import { type Asset } from 'api/builder';
 import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
@@ -30,6 +31,7 @@ interface Props {
   all?: boolean;
   placeholder?: string;
   className?: string;
+  selectFirst?: boolean;
 }
 
 const ALL = {
@@ -47,7 +49,14 @@ const AssetSelector: React.FC<Props> = ({
   all,
   placeholder = label,
   className,
+  selectFirst,
 }) => {
+  useEffect(() => {
+    if (selectFirst && assets.length > 0 && !selectedItem) {
+      onSelect?.(assets[0]);
+    }
+  }, [assets, onSelect, selectFirst, selectedItem]);
+
   return (
     <div className={className}>
       {label && <label className="mb-2 ml-4 block">{label}</label>}
