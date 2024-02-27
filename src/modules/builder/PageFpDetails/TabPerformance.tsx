@@ -27,6 +27,7 @@ const TabPerformance = () => {
           onChange={setDateRange}
           value={dateRange}
           label="Date"
+          defaultRecent={7}
         />
       </div>
 

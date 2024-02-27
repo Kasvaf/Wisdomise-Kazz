@@ -27,7 +27,7 @@ const TabPerformance = () => {
     endTime: dateRange?.[1].toISOString(),
   });
 
-  const rangeDays =
+  const dateRangeDiff =
     dateRange?.[0] && dateRange?.[1]
       ? Math.round((+dateRange[1] - +dateRange[0]) / (2460 * 60 * 1000))
       : undefined;
@@ -52,6 +52,7 @@ const TabPerformance = () => {
           onChange={setDateRange}
           value={dateRange}
           label="Date"
+          defaultRecent={7}
         />
       </div>
 
@@ -91,8 +92,8 @@ const TabPerformance = () => {
                 title={
                   <>
                     Max Drawdown{' '}
-                    {rangeDays !== undefined && (
-                      <span className="text-[#34A3DA99]">{rangeDays}d</span>
+                    {dateRangeDiff !== undefined && (
+                      <span className="text-[#34A3DA99]">{dateRangeDiff}d</span>
                     )}
                   </>
                 }
