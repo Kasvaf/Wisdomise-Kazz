@@ -15,7 +15,7 @@ export const Answer = () => {
       </p>
       {!answer && <ThinkingLoading />}
       <div
-        className="text-base leading-6 tracking-[-0.6px] mobile:text-sm"
+        className="text-base leading-6 mobile:text-sm"
         dangerouslySetInnerHTML={{
           __html: answer.replaceAll('<br><br>', '<br/><br/>'),
         }}
