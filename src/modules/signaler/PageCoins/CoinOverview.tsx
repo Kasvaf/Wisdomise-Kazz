@@ -1,12 +1,14 @@
 import { useTranslation } from 'react-i18next';
-import PriceChange from 'modules/shared/PriceChange';
 import { type PairDetails } from 'api/signaler';
-import FancyPrice from 'modules/shared/FancyPrice';
+import PriceChange from 'shared/PriceChange';
+import FancyPrice from 'shared/FancyPrice';
 
 const RangedPnL: React.FC<{ range: string; value: number }> = ({
   range,
   value,
 }) => {
+  if (!value && value !== 0) return <div />;
+
   return (
     <div className="mobile:grow">
       <div className="text-xs text-white/40">{range}</div>

@@ -1,11 +1,11 @@
 import { bxDownload, bxLinkExternal } from 'boxicons-quasar';
 import { useParams } from 'react-router-dom';
-import CopyInputBox from 'modules/shared/CopyInputBox';
-import Card from 'modules/shared/Card';
-import Button from 'modules/shared/Button';
-import Icon from 'modules/shared/Icon';
-import { useSignalerQuery } from 'api/builder/signaler';
-import Spinner from 'modules/shared/Spinner';
+import { useSignalerQuery } from 'api/builder';
+import CopyInputBox from 'shared/CopyInputBox';
+import Spinner from 'shared/Spinner';
+import Button from 'shared/Button';
+import Card from 'shared/Card';
+import Icon from 'shared/Icon';
 import TitleHint from '../TitleHint';
 
 const TabApi = () => {
@@ -23,7 +23,7 @@ const TabApi = () => {
   if (!signaler) return null;
 
   return (
-    <section className="flex gap-10">
+    <section className="mt-8 flex gap-10">
       <div className="flex w-1/2 grow-0 basis-1/2 flex-col gap-8">
         <div>
           <TitleHint title="Signaler ID">

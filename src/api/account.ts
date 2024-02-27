@@ -44,7 +44,7 @@ export const useResendVerificationEmailMutation = () => async () => {
   return status >= 200 && status < 400;
 };
 
-export interface ReferralStatus {
+interface ReferralStatus {
   referral_code: string;
   referrer?: string;
   referred_users_count: number;
@@ -77,7 +77,7 @@ export function useReferralStatusQuery(intervalDays?: number) {
   );
 }
 
-export interface SetupIntentResponse {
+interface SetupIntentResponse {
   client_secret: string;
 }
 

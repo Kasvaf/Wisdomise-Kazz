@@ -94,6 +94,7 @@ export default function PageSignaler() {
               />
             </FieldTitle>
           )}
+
           <div className="grow" />
 
           {strategy && (
@@ -107,6 +108,11 @@ export default function PageSignaler() {
           )}
         </div>
 
+        {strategy?.profile?.description && (
+          <p className="text-sm text-white/70">
+            {strategy?.profile?.description}
+          </p>
+        )}
         <div className="mt-10 border-b border-white/5" />
 
         {strategy?.key ? (

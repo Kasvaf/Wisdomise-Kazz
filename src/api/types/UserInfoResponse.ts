@@ -1,11 +1,5 @@
 import { type SubscriptionItem } from './subscription';
 
-export interface UserInfoResponse {
-  key: string;
-  user: User;
-  kyc_level_bindings: any[];
-}
-
 export interface Account {
   key: string;
   email: string;
@@ -30,10 +24,6 @@ export interface Account {
   wallet_address?: `0x${string}`;
   wsdm_balance?: number;
   hub_spot_token: string;
-}
-
-interface User {
-  email: string;
 }
 
 interface Info {

@@ -1,11 +1,11 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance.svg';
-import Card from 'shared/Card';
-import Badge from 'modules/shared/Badge';
-import Button from 'modules/shared/Button';
 import { useExchangeAccountsQuery } from 'api';
-import Spinner from 'modules/shared/Spinner';
+import Card from 'shared/Card';
+import Badge from 'shared/Badge';
+import Button from 'shared/Button';
+import Spinner from 'shared/Spinner';
+import { ReactComponent as BinanceLogoSvg } from 'assets/logo-binance.svg';
 import useModalAddExchangeAccount from '../useModalAddExchangeAccount';
 
 const CardExchangeAccounts: React.FC<{ className?: string }> = ({

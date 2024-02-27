@@ -2,7 +2,7 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type React from 'react';
-import PriceChange from 'modules/shared/PriceChange';
+import PriceChange from 'shared/PriceChange';
 import { useSignals } from './components/SignalsProvider';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
 import { type LastPosition, type Strategy } from './types/signalResponse';

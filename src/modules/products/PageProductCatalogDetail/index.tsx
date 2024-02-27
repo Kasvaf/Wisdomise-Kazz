@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFinancialProductQuery, useFPBacktestQuery } from 'api';
-import Button from 'shared/Button';
-import LineChart from 'shared/LineChart';
-import CoinsIcons from 'shared/CoinsIcons';
 import PageWrapper from 'modules/base/PageWrapper';
-import Card from 'modules/shared/Card';
+import CoinsIcons from 'shared/CoinsIcons';
+import LineChart from 'shared/LineChart';
+import Button from 'shared/Button';
+import Card from 'shared/Card';
 import ButtonFPActivate from '../ButtonFPActivate';
 import RiskBadge from '../RiskBadge';
 import NoticeBox from './NoticeBox';

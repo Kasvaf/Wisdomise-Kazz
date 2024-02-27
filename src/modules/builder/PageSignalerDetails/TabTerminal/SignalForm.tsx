@@ -3,8 +3,10 @@ import { notification } from 'antd';
 import {
   type SignalerData,
   type FullPosition,
-  useCreateSignalMutation,
+  useSignalerAssetPrice,
+  useFireSignalMutation,
 } from 'api/builder';
+import { roundDown } from 'utils/numbers';
 import { unwrapErrorMessage } from 'utils/error';
 import AmountInputBox from 'shared/AmountInputBox';
 import Button from 'shared/Button';
@@ -62,13 +64,34 @@ const SignalForm: React.FC<Props> = ({
   const [orderExp, setOrderExp] = useState('1h');
 
   useEffect(() => {
+    setPrice('');
+    setTP('');
+    setSL('');
+  }, [assetName]);
+
+  useEffect(() => {
     if (activePosition) {
       setTP(String(activePosition.take_profit));
       setSL(String(activePosition.stop_loss));
     }
   }, [activePosition]);
 
-  const { mutateAsync, isLoading: isSubmitting } = useCreateSignalMutation();
+  const { data: assetPrice } = useSignalerAssetPrice({
+    strategyKey: signaler.key,
+    assetName,
+  });
+
+  useEffect(() => {
+    if (assetPrice) {
+      setPrice(x => x || String(roundDown(assetPrice, 2)));
+      setTP(x => x || String(roundDown(assetPrice * 1.1, 2)));
+      setSL(x => x || String(roundDown(assetPrice * 0.9, 2)));
+    }
+  }, [assetPrice]);
+
+  // ======================================================================
+
+  const { mutateAsync, isLoading: isSubmitting } = useFireSignalMutation();
 
   const isFireDisabled = (orderType === 'limit' && !price) || !tp || !sl;
   const fireHandler = async () => {
@@ -148,7 +171,13 @@ const SignalForm: React.FC<Props> = ({
           <div className="flex items-end gap-2">
             <AmountInputBox
               label="Price"
-              value={orderType === 'market' ? '-' : price}
+              value={
+                orderType === 'market'
+                  ? assetPrice === undefined
+                    ? '-'
+                    : String(roundDown(assetPrice, 2))
+                  : price
+              }
               onChange={setPrice}
               suffix="USDT"
               className="grow"

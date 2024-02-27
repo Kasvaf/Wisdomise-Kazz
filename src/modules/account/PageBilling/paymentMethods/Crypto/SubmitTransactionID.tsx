@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useSubmitCryptoPayment } from 'api';
 import { type Network } from 'api/types/NetworksResponse';
 import { type SubscriptionPlan } from 'api/types/subscription';
-import Button from 'modules/shared/Button';
-import TextBox from 'modules/shared/TextBox';
 import { analytics } from 'config/segment';
+import Button from 'shared/Button';
+import TextBox from 'shared/TextBox';
 
 interface Props {
   network: Network;

@@ -33,23 +33,3 @@ export const useInvestorAssetStructuresQuery = () =>
           : false,
     },
   );
-
-export const useAccountHistoricalStatisticQuery = () => {
-  const ias = useInvestorAssetStructuresQuery();
-  const iasKey = ias?.data?.[0]?.key;
-
-  return useQuery<InvestorAssetStructures>(
-    ['ahs'],
-    async () => {
-      if (!iasKey) throw new Error('unexpected');
-
-      const { data } = await axios.get<InvestorAssetStructures>(
-        `/ias/investor-asset-structures/${iasKey}/historical-statistics?resolution=1d`,
-      );
-      return data;
-    },
-    {
-      enabled: Boolean(iasKey),
-    },
-  );
-};

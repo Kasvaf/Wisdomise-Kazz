@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import PageWrapper from 'modules/base/PageWrapper';
-import CardPageLink from 'modules/shared/CardPageLink';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { trackClick } from 'config/segment';
+import CardPageLink from 'shared/CardPageLink';
+import PageWrapper from 'modules/base/PageWrapper';
 import { ReactComponent as IconFP } from './icon-fp.svg';
 import { ReactComponent as IconAO } from './icon-ao.svg';
 

@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
-import Icon from 'modules/shared/Icon';
+import Icon from 'shared/Icon';
 
 const CardPageLink: React.FC<
   PropsWithChildren<{

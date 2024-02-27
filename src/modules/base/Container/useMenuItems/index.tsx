@@ -22,7 +22,7 @@ const Icon = (
   </div>
 );
 
-export interface MenuItem {
+interface MenuItem {
   text: string;
   link: string;
   hide?: boolean;

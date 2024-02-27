@@ -43,7 +43,7 @@ const DateRangeSelector: React.FC<Props> = ({
     <div className={clsx('flex flex-col', className)}>
       {label && <label className="mb-2 ml-4 block">{label}</label>}
       <RangePicker
-        className="grow"
+        className="h-12"
         onChange={rangeSelectHandler as any}
         value={value && [dayjs(value[0]), dayjs(value[1])]}
         disabled={disabled}

@@ -1,17 +1,20 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Asset, useSignalerQuery } from 'api/builder/signaler';
-import { useMySignalerAllPositions } from 'api/builder/positions';
+import { useCandlesQuery } from 'api';
+import {
+  type Asset,
+  useSignalerQuery,
+  useMySignalerAllPositions,
+} from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
+import { bestResolution } from 'shared/CandleChart/utils';
+import DateRangeSelector from 'shared/DateRangeSelector';
+import Spinner from 'shared/Spinner';
 import ActivePosition from 'modules/signaler/ActivePosition';
 import SimulatedPositionsTable from 'modules/signaler/SimulatedPositionsTable';
 import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
-import DateRangeSelector from 'shared/DateRangeSelector';
-import Spinner from 'shared/Spinner';
-import { useCandlesQuery } from 'api';
-import { bestResolution } from 'modules/shared/CandleChart/utils';
-import AssetSelector from './AssetSelector';
+import AssetSelector from '../AssetSelector';
 
 const TabPositions = () => {
   const { t } = useTranslation('strategy');
@@ -50,7 +53,7 @@ const TabPositions = () => {
   });
 
   return (
-    <div className="mt-12">
+    <div className="mt-8">
       <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
         <AssetSelector
           label="Crypto"

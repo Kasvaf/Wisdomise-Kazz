@@ -19,12 +19,6 @@ export const ACCOUNT_PANEL_ORIGIN = makeOrigin('account-panel');
 
 // account info:
 
-export const APP_NAME = isLocal
-  ? 'local-dashboard'
-  : hostname.endsWith(`app.${DOMAIN}`)
-  ? 'dashboard'
-  : 'wealth';
-
 export const INVESTMENT_FE = `https://${
   isProduction ? '' : 'stage-'
 }investment.${DOMAIN}`;

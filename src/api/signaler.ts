@@ -68,7 +68,7 @@ export interface PairSignalerItem extends RawPosition {
   leverage: number;
 }
 
-export interface Strategy {
+interface Strategy {
   key: string;
   name: string;
   version: string;
@@ -78,10 +78,11 @@ export interface Strategy {
 }
 
 interface Profile {
-  title: string;
-  description: string;
-  position_sides: string[];
-  subscription_level?: number;
+  'title': string;
+  'description': string;
+  'position_sides': string[];
+  'subscription_level'?: number;
+  'SL/TP'?: string;
 }
 
 function strategyComparer(a: Strategy, b: Strategy) {

@@ -1,7 +1,7 @@
 import { bxLock } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import Button from 'modules/shared/Button';
-import Icon from 'modules/shared/Icon';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 
 export default function SubscribeModalContent() {
   const { t } = useTranslation('billing');

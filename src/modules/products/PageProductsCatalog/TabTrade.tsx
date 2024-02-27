@@ -4,11 +4,11 @@ import {
   useInvestorAssetStructuresQuery,
   useFinancialProductsQuery,
 } from 'api';
+import { type FinancialProduct } from 'api/types/financialProduct';
 import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
-import PriceChange from 'modules/shared/PriceChange';
-import CoinsIcons from 'modules/shared/CoinsIcons';
-import { type FinancialProduct } from 'api/types/financialProduct';
+import PriceChange from 'shared/PriceChange';
+import CoinsIcons from 'shared/CoinsIcons';
 import ProductSubscriptionNotice from '../PageProductCatalogDetail/ProductSubscriptionNotice';
 import useIsFPRunning from '../useIsFPRunning';
 import ProductCard from './ProductCard';

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useStrategiesQuery } from 'api/notification';
+import { useStrategiesList } from 'api';
 import useModalConnected from './useModalConnected';
 import ButtonOpenTelegram from './ButtonOpenTelegram';
 import useEnsureTelegramConnected from './useEnsureTelegramConnected';
@@ -7,7 +7,7 @@ import StrategyCard from './StrategyCard';
 
 export default function SignalingTab() {
   const { t } = useTranslation('notifications');
-  const strategies = useStrategiesQuery();
+  const strategies = useStrategiesList();
   const ModalConnected = useModalConnected();
   const [ModalTelegramConnected, ensureTelegramConnected] =
     useEnsureTelegramConnected();
@@ -30,7 +30,7 @@ export default function SignalingTab() {
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {strategies.data?.results
+        {strategies.data
           ?.filter(x => x.profile)
           .map(s => (
             <StrategyCard

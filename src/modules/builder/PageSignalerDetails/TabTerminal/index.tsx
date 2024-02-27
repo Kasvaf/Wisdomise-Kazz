@@ -10,7 +10,7 @@ import {
 import ActivePosition from 'modules/signaler/ActivePosition';
 import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
 import Spinner from 'shared/Spinner';
-import AssetSelector from '../AssetSelector';
+import AssetSelector from '../../AssetSelector';
 import SignalForm from './SignalForm';
 
 const TabTerminal = () => {
@@ -34,7 +34,7 @@ const TabTerminal = () => {
   const activePosition = openPositions?.find(x => x.pair_name === asset?.name);
 
   return (
-    <div className="mt-12">
+    <div className="mt-8">
       <div className="mb-8 flex flex-col justify-start gap-4 border-b border-white/5 pb-8">
         <AssetSelector
           label="Crypto"

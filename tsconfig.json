@@ -21,8 +21,8 @@
       "api": ["./src/api/index"],
       "api/*": ["./src/api/*"],
       "old-api/*": ["./src/old-api/*"],
-      "modules/*": ["./src/modules/*"],
       "shared/*": ["./src/modules/shared/*"],
+      "modules/*": ["./src/modules/*"],
       "assets/*": ["./src/assets/*"]
     }
   },

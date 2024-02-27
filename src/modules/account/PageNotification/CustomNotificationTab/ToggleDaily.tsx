@@ -6,7 +6,7 @@ import {
   useDailyMagicStatusMutation,
   useSubscription,
 } from 'api';
-import useModal from 'modules/shared/useModal';
+import useModal from 'shared/useModal';
 import SubscribeModalContent from './SubscribeModalContent';
 
 export default function ToggleDaily() {

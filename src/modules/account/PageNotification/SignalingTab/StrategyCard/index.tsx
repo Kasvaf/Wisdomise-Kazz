@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { type Strategy } from 'api/types/strategy';
+import { type StrategyItem } from 'api';
 import Card from 'shared/Card';
 import Locker from 'shared/Locker';
 import SignalChip from '../SignalChip';
@@ -17,7 +17,7 @@ const stringifyDuration = (dur: string) =>
   );
 
 const StrategyCard: React.FC<{
-  strategy: Strategy;
+  strategy: StrategyItem;
   ensureConnected: () => Promise<boolean>;
 }> = ({ strategy: s, ensureConnected }) => {
   const { t } = useTranslation('notifications');
@@ -32,18 +32,18 @@ const StrategyCard: React.FC<{
     },
     {
       label: t('signaling.strategy.sl-tp'),
-      value: s.profile['SL/TP'] || 'None',
+      value: s.profile?.['SL/TP'] || 'None',
     },
   ];
 
   const overlay = useNotificationLevelOverlay(
-    s.profile.subscription_level ?? 0,
+    s.profile?.subscription_level ?? 0,
   );
 
   return (
     <Card>
-      <h2 className="text-xl font-semibold">{s.profile.title || s.name}</h2>
-      <p className="mt-4 text-sm text-white/60">{s.profile.description}</p>
+      <h2 className="text-xl font-semibold">{s.profile?.title || s.name}</h2>
+      <p className="mt-4 text-sm text-white/60">{s.profile?.description}</p>
 
       <div className="mt-8 flex justify-around rounded-lg bg-white/10 p-2">
         {infos.map(info => (

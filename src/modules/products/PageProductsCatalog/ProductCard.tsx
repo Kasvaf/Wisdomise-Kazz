@@ -3,8 +3,8 @@ import { bxRightArrowAlt } from 'boxicons-quasar';
 import { type ReactElement, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import Icon from 'modules/shared/Icon';
-import Badge from 'modules/shared/Badge';
+import Icon from 'shared/Icon';
+import Badge from 'shared/Badge';
 import RiskBadge from '../RiskBadge';
 
 interface RiskCardProps {

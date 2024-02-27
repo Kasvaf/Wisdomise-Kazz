@@ -5,7 +5,7 @@ import { type SignalsResponse } from 'api/types/signalResponse';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
-import Card from 'modules/shared/Card';
+import Card from 'shared/Card';
 import SignalBox from './SignalBox';
 
 const EmptySignal = styled.div`
