@@ -198,12 +198,15 @@ const SignalForm: React.FC<Props> = ({
         value={tp}
         onChange={setTP}
         suffix="USDT"
+        disabled={!!activePosition}
       />
       <AmountInputBox
         label="Stop Loss"
         value={sl}
         onChange={setSL}
         suffix="USDT"
+        min={market === 'long' ? activePosition?.stop_loss : undefined}
+        max={market === 'short' ? activePosition?.stop_loss : undefined}
       />
 
       {!isUpdate && (

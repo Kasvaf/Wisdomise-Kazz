@@ -61,7 +61,7 @@ const TextBox: FC<Props> = ({
             'items-center justify-between',
             'border bg-black/40 pl-3 pr-2 outline-none',
             error ? 'border-error text-error' : 'border-transparent',
-            !disabled && 'focus:bg-black/60',
+            disabled ? 'text-white/30' : 'focus:bg-black/60',
             suffix && 'pr-[56px]',
             inputClassName,
           )}
@@ -76,6 +76,7 @@ const TextBox: FC<Props> = ({
           className={clsx(
             'absolute right-0 top-0 flex h-full items-center',
             !isValidElement(suffix) && 'pointer-events-none',
+            disabled && 'text-white/30',
             !noSuffixPad && 'pr-4',
           )}
         >
