@@ -56,7 +56,11 @@ const TabPerformance = () => {
                   </>
                 }
               >
-                <PriceChange value={data.pnl} textClassName="!text-xl" />
+                <PriceChange
+                  value={data.pnl}
+                  textClassName="!text-xl"
+                  valueToFixed
+                />
               </InfoBox>
               <InfoBox
                 title={
@@ -68,6 +72,7 @@ const TabPerformance = () => {
                 <PriceChange
                   value={data.max_drawdown}
                   textClassName="!text-xl"
+                  valueToFixed
                 />
               </InfoBox>
             </div>

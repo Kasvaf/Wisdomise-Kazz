@@ -36,8 +36,9 @@ export default function PageFpList() {
               <div className="mt-8 flex items-center justify-between">
                 <div className="flex flex-col justify-between">
                   <PriceChange
-                    textClassName="!text-xl"
                     value={Number(s.expected_apy)}
+                    textClassName="!text-xl"
+                    valueToFixed
                   />
                   <div className="text-sm text-white/30">Expected APY</div>
                 </div>
