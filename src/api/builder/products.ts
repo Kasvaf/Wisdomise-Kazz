@@ -3,18 +3,23 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export type RiskLevel = 'High' | 'Medium' | 'Low';
 
-interface MyFinancialProduct {
+export interface MyFinancialProduct {
   key: string;
   is_active: boolean;
   title: string;
+  description: string;
   risk_level: RiskLevel;
   expected_drawdown: string;
   expected_apy: string;
   symbols: string[];
   assets: Array<{
-    name: string;
-    display_name: string;
-    symbol: string;
+    strategy: string;
+    share: number;
+    asset: {
+      name: string;
+      display_name: string;
+      symbol: string;
+    };
   }>;
 }
 
@@ -28,11 +33,15 @@ export const useMyFinancialProductsQuery = () =>
       return data.map(s => ({
         ...s,
         assets: s.assets.map((a: any) => ({
-          name: a.symbol?.name,
-          display_name: a.symbol?.title || a.pair?.title,
-          base: a.symbol,
-          quote: { name: 'USDT' },
-          ...a.pair,
+          strategy: a.strategy,
+          share: a.share,
+          asset: {
+            name: a.asset.symbol?.name,
+            display_name: a.asset.symbol?.title || a.asset.pair?.title,
+            base: a.asset.symbol,
+            quote: { name: 'USDT' },
+            ...a.asset.pair,
+          },
         })),
       })) as MyFinancialProduct[];
     },
@@ -87,6 +96,39 @@ export const useMyFinancialProductQuery = (fpKey?: string) =>
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
+
+export const useUpdateMyFinancialProductMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    { key: string },
+    unknown,
+    {
+      fpKey: string;
+      title: string;
+      description: string;
+      risk_level: RiskLevel;
+      expected_drawdown: string;
+      expected_apy: string;
+      assets: Array<{
+        strategy: string;
+        share: number;
+        asset: {
+          name: string;
+        };
+      }>;
+    }
+  >(async body => {
+    const { data } = await axios.put<{ key: string }>(
+      '/factory/financial-products/' + body.fpKey,
+      {
+        is_active: true,
+        ...body,
+      },
+    );
+    await queryClient.invalidateQueries(['my-products', body.fpKey]);
+    return data;
+  });
+};
 
 export const useMyFinancialProductUsageQuery = (fpKey?: string) =>
   useQuery(
