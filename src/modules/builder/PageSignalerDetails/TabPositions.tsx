@@ -31,9 +31,7 @@ const TabPositions = () => {
     endTime: dateRange?.[1]?.toISOString(),
   });
 
-  const inputted = Boolean(
-    params.id && asset?.name && dateRange?.[0] && dateRange?.[1],
-  );
+  const inputted = Boolean(params.id && dateRange?.[0] && dateRange?.[1]);
 
   const allPositions = data?.map(p => ({
     ...p,
@@ -42,7 +40,7 @@ const TabPositions = () => {
       | 'OPEN'
       | undefined,
   }));
-  const activePosition = allPositions?.filter(x => !x.exit_time)?.[0];
+  const activePosition = allPositions?.filter(x => !x.exit_time);
   const simulatedPositions = allPositions?.filter(x => x.exit_time);
 
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
@@ -53,7 +51,7 @@ const TabPositions = () => {
   });
 
   return (
-    <div className="mt-8">
+    <div className="my-8">
       <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
         <AssetSelector
           label="Crypto"
@@ -62,6 +60,7 @@ const TabPositions = () => {
           selectedItem={asset}
           onSelect={setAsset}
           className="w-[250px]"
+          selectFirst
         />
 
         <DateRangeSelector
@@ -83,7 +82,13 @@ const TabPositions = () => {
                 <h2 className="mb-3 text-xl text-white/40">
                   {signaler?.name} {t('strategy:signaler.active-positions')}
                 </h2>
-                <ActivePosition position={activePosition} />
+                {activePosition?.length ? (
+                  activePosition.map(pos => (
+                    <ActivePosition key={pos.entry_time} position={pos} />
+                  ))
+                ) : (
+                  <ActivePosition />
+                )}
               </div>
 
               {!!simulatedPositions && (
@@ -91,7 +96,7 @@ const TabPositions = () => {
                   <h2 className="mb-3 text-xl text-white/40">
                     {t('signaler.simulated-position-history')}
                   </h2>
-                  <SimulatedPositionsTable items={simulatedPositions} />
+                  <SimulatedPositionsTable items={allPositions ?? []} />
                 </div>
               )}
 

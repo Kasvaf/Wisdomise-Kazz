@@ -46,6 +46,7 @@ const TabPerformance = () => {
           selectedItem={asset}
           onSelect={setAsset}
           className="w-[250px]"
+          selectFirst
         />
         <DateRangeSelector
           onChange={setDateRange}

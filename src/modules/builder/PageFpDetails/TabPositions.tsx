@@ -50,10 +50,11 @@ const TabPositions = () => {
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
-          assets={fp?.assets}
+          assets={fp?.assets?.map(x => x.asset)}
           selectedItem={asset}
           onSelect={setAsset}
           className="w-[250px]"
+          selectFirst
         />
 
         <DateRangeSelector

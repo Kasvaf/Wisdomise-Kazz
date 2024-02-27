@@ -76,7 +76,7 @@ export const useMySignalerAllPositions = ({
     async () => {
       if (!signalerKey) throw new Error('unexpected');
       const { data } = await axios.get<{ positions: FullPosition[] }>(
-        `factory/strategies/${signalerKey}/open-positions`,
+        `factory/strategies/${signalerKey}/positions`,
         {
           params: {
             asset_name: assetName,
@@ -88,7 +88,7 @@ export const useMySignalerAllPositions = ({
       return data.positions;
     },
     {
-      enabled: !!signalerKey && !!assetName && !!startTime && !!endTime,
+      enabled: !!signalerKey && !!startTime && !!endTime,
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
