@@ -29,7 +29,7 @@ const TabPerformance = () => {
 
   const dateRangeDiff =
     dateRange?.[0] && dateRange?.[1]
-      ? Math.round((+dateRange[1] - +dateRange[0]) / (2460 * 60 * 1000))
+      ? Math.round((+dateRange[1] - +dateRange[0]) / (24 * 60 * 60 * 1000)) - 1
       : undefined;
 
   const inputted = Boolean(
