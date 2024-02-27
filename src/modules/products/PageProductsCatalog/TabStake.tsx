@@ -1,10 +1,10 @@
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
 import { useInvestmentProtocolsQuery } from 'api';
+import { type InvestmentProtocol } from 'api/types/financialProduct';
 import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
-import PriceChange from 'modules/shared/PriceChange';
-import { type InvestmentProtocol } from 'api/types/financialProduct';
+import PriceChange from 'shared/PriceChange';
 import ProductCard from './ProductCard';
 
 const ProductCardStake: React.FC<{ ip: InvestmentProtocol }> = ({ ip }) => {

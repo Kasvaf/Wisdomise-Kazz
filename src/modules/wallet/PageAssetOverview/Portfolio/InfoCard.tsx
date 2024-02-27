@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import * as numerable from 'numerable';
-import Card from 'modules/shared/Card';
+import Card from 'shared/Card';
 import useMainQuote from 'shared/useMainQuote';
 
 const InfoCard: React.FC<{

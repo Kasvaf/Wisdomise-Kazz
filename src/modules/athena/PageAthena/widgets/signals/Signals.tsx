@@ -1,5 +1,5 @@
-import CoinsIcons from 'modules/shared/CoinsIcons';
-import PriceChange from 'modules/shared/PriceChange';
+import CoinsIcons from 'shared/CoinsIcons';
+import PriceChange from 'shared/PriceChange';
 import { WidgetWrapper } from '../WidgetWrapper';
 import { SignalBox } from './SignalBox';
 import { Notification } from './components/Notification';

@@ -1,10 +1,10 @@
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Button from 'modules/shared/Button';
-import useModal from 'modules/shared/useModal';
 import { useAccountQuery, useChangePaymentMethodMutation } from 'api';
-import { unwrapErrorMessage } from 'utils/error';
 import { type PaymentMethod } from 'api/types/subscription';
+import { unwrapErrorMessage } from 'utils/error';
+import Button from 'shared/Button';
+import useModal from 'shared/useModal';
 import { ReactComponent as SIcon } from '../../images/s-icon.svg';
 import { ReactComponent as CryptoPaymentIcon } from '../../images/crypto-pay-icon.svg';
 import { ReactComponent as TokenIcon } from '../../images/token.svg';

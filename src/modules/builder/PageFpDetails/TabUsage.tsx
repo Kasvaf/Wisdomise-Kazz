@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useMyFinancialProductUsageQuery } from 'api/builder';
+import FancyPrice from 'shared/FancyPrice';
 import Spinner from 'shared/Spinner';
-import FancyPrice from 'modules/shared/FancyPrice';
 import InfoBox from '../InfoBox';
 
 const TabUsage = () => {

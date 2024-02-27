@@ -6,7 +6,7 @@ import { bxErrorCircle } from 'boxicons-quasar';
 import { useAccountQuery, useResendVerificationEmailMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import Button from 'shared/Button';
-import Icon from 'modules/shared/Icon';
+import Icon from 'shared/Icon';
 import ContainerAuth from '../ContainerAuth';
 import { login } from '../authHandlers';
 import inboxImg from './email.svg';

@@ -1,9 +1,9 @@
 import { Tabs, type TabsProps } from 'antd';
 
 import { useTranslation } from 'react-i18next';
-import PageWrapper from 'modules/base/PageWrapper';
-import useSearchParamAsState from 'modules/shared/useSearchParamAsState';
 import { trackClick } from 'config/segment';
+import PageWrapper from 'modules/base/PageWrapper';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabTrade from './TabTrade';
 import TabStake from './TabStake';
 

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import PriceChange from 'shared/PriceChange';
-import Card from 'modules/shared/Card';
+import Card from 'shared/Card';
 import ProductSubscriptionNotice from './ProductSubscriptionNotice';
 
 const ProfilePropsBox: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {

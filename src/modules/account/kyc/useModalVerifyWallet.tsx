@@ -1,10 +1,10 @@
 import { bxInfoCircle, bxLinkExternal } from 'boxicons-quasar';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Banner from 'shared/Banner';
-import useModal from 'shared/useModal';
-import Icon from 'modules/shared/Icon';
+import Icon from 'shared/Icon';
 import screenshot from './screenshot.png';
 
 const ModalVerifyWallet: React.FC<{ onResolve?: () => void }> = () => {

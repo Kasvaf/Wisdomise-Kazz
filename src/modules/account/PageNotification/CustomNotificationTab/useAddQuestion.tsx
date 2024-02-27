@@ -1,13 +1,13 @@
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
-import useModal from 'modules/shared/useModal';
-import { unwrapErrorMessage } from 'utils/error';
+import { useSubscription } from 'api';
 import {
   useAddUserPromptMutation,
   useUserPromptsQuery,
 } from 'api/notification';
-import { useSubscription } from 'api';
-import useConfirm from 'modules/shared/useConfirm';
+import { unwrapErrorMessage } from 'utils/error';
+import useModal from 'shared/useModal';
+import useConfirm from 'shared/useConfirm';
 import SubscribeModalContent from './SubscribeModalContent';
 import limitIcon from './icons/limit.svg';
 

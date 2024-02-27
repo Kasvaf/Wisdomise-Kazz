@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import PriceChange from 'modules/shared/PriceChange';
 import { type PairDetails } from 'api/signaler';
-import FancyPrice from 'modules/shared/FancyPrice';
+import PriceChange from 'shared/PriceChange';
+import FancyPrice from 'shared/FancyPrice';
 
 const RangedPnL: React.FC<{ range: string; value: number }> = ({
   range,

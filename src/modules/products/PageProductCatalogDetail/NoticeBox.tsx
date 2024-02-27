@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
-import Card from 'modules/shared/Card';
+import Card from 'shared/Card';
 
 const NoticeBox: React.FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation('products');
