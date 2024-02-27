@@ -27,6 +27,11 @@ const TabPerformance = () => {
     endTime: dateRange?.[1].toISOString(),
   });
 
+  const rangeDays =
+    dateRange?.[0] && dateRange?.[1]
+      ? Math.round((+dateRange[1] - +dateRange[0]) / (2460 * 60 * 1000))
+      : undefined;
+
   const inputted = Boolean(
     params.id && asset?.name && dateRange?.[0] && dateRange?.[1],
   );
@@ -84,7 +89,10 @@ const TabPerformance = () => {
               <InfoBox
                 title={
                   <>
-                    Max Drawdown <span className="text-[#34A3DA99]">7d</span>
+                    Max Drawdown{' '}
+                    {rangeDays !== undefined && (
+                      <span className="text-[#34A3DA99]">{rangeDays}d</span>
+                    )}
                   </>
                 }
               >
