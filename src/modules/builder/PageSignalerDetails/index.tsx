@@ -11,9 +11,9 @@ import TabPerformance from './TabPerformance';
 
 const items: TabsProps['items'] = [
   {
-    key: 'pos',
-    label: 'Positions',
-    children: <TabPositions />,
+    key: 'config',
+    label: 'Configuration',
+    children: <TabConfig />,
   },
   {
     key: 'term',
@@ -21,9 +21,9 @@ const items: TabsProps['items'] = [
     children: <TabTerminal />,
   },
   {
-    key: 'config',
-    label: 'Configuration',
-    children: <TabConfig />,
+    key: 'pos',
+    label: 'Positions',
+    children: <TabPositions />,
   },
   {
     key: 'perf',
@@ -46,7 +46,10 @@ export default function PageSignalerDetails() {
     }
   }, [params.id, navigate]);
 
-  const [activeTab, setActiveTab] = useSearchParamAsState<string>('tab', 'pos');
+  const [activeTab, setActiveTab] = useSearchParamAsState<string>(
+    'tab',
+    'config',
+  );
 
   return (
     <PageWrapper>
