@@ -45,13 +45,14 @@ periodicity:
 pricing-card:
   annually: Annually
   btn-action:
+    activate-now: Activate Now
     available-soon: Available soon
     buy-now: Buy Now
     choose: Choose
     current-plan: Current Plan
     free: Free
     next-plan: Next Plan
-  hold: Hold
+  lock: Lock
   just-yearly: Just In Yearly
   monthly: Monthly
   notification-upgrade-success: >-
@@ -128,7 +129,7 @@ token-modal:
   subscribe-to: Subscribe to
   subtotal: Subtotal
   token: tWSDM
-  token-name: Wisdomise Token (tWSDM)
+  token-name: Wisdomise Token (WSDM)
   total-amount: Total amount need to be hold in your wallet
   you-can: you can now access {{name}} Features.
-  your-balance: Your tWSDM Token Balance
+  your-balance: Your WSDM Token Balance

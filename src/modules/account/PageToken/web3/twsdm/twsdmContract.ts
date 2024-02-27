@@ -1,13 +1,12 @@
 import {
+  erc20ABI,
   useAccount,
   useBalance,
   useContractRead,
   useContractWrite,
 } from 'wagmi';
 import { zeroAddress } from 'viem';
-import { MIGRATION_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/migration/migrationContract';
 import { isProduction } from 'utils/version';
-import { TWSDM_ABI } from 'modules/account/PageToken/web3/twsdm/twsdmAbi';
 
 export const TWSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
@@ -15,15 +14,15 @@ export const TWSDM_CONTRACT_ADDRESS = isProduction
 
 const twsdmContractDefaultConfig = {
   address: TWSDM_CONTRACT_ADDRESS,
-  abi: TWSDM_ABI,
+  abi: erc20ABI,
 } as const;
 
-export function useReadTwsdmAllowance() {
+export function useReadTwsdmAllowance(contractAddress: `0x${string}`) {
   const { address } = useAccount();
   return useContractRead({
     ...twsdmContractDefaultConfig,
     functionName: 'allowance',
-    args: [address ?? zeroAddress, MIGRATION_CONTRACT_ADDRESS],
+    args: [address ?? zeroAddress, contractAddress],
     enabled: !!address,
   });
 }

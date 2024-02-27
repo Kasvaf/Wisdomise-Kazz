@@ -17,8 +17,9 @@ export function useMigration() {
   const { refetchAll } = useVesting();
   const { data: tWSDMBalance, refetch: refetchTwsdmBalance } =
     useTwsdmBalance();
-  const { data: allowance, refetch: refetchAllowance } =
-    useReadTwsdmAllowance();
+  const { data: allowance, refetch: refetchAllowance } = useReadTwsdmAllowance(
+    MIGRATION_CONTRACT_ADDRESS,
+  );
 
   const {
     write: migrate,

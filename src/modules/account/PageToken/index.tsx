@@ -16,10 +16,10 @@ import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdm/twsdmContr
 import Airdrop from 'modules/account/PageToken/Airdrop';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useVesting } from 'modules/account/PageToken/web3/useVesting';
+import Utility from 'modules/account/PageToken/Utility';
 import ConnectWalletWrapper from '../PageBilling/paymentMethods/Token/ConnectWalletWrapper';
 import { ReactComponent as WalletIcon } from './icons/wallet.svg';
 import { ReactComponent as UtilityIcon } from './icons/utility.svg';
-import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as WSDMIcon } from './icons/wsdm-token.svg';
 
@@ -75,22 +75,7 @@ export default function PageToken() {
           <span className="ms-2 text-lg">Utility</span>
           {/* {t('base:menu.token.title')} */}
         </h1>
-        <Card className="relative flex flex-col gap-3">
-          <SubscriptionIcon className="absolute right-0 top-0" />
-          <h2 className="mb-2 text-2xl font-medium">Utility Activation</h2>
-          <div className="flex flex-col items-center text-center">
-            <strong className="mb-2 font-medium">Activate Subscription</strong>
-            <p className="mb-2 text-white/40">
-              Lock your $WSDM tokens to gain access to our products.
-            </p>
-            <div>
-              <Button variant="alternative">Lock WSDM</Button>
-              <Button variant="link" className="underline">
-                Check Services
-              </Button>
-            </div>
-          </div>
-        </Card>
+        <Utility />
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <Card className="relative flex flex-col justify-between gap-8">
             <WalletIcon className="absolute right-0 top-0 m-7" />

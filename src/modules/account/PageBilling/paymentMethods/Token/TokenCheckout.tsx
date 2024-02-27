@@ -8,6 +8,8 @@ import { type SubscriptionPlan } from 'api/types/subscription';
 import { INVESTMENT_FE } from 'config/constants';
 import { useUpdateTokenBalanceMutation } from 'api/defi';
 import { useAccountQuery, useSubmitTokenPayment } from 'api';
+import { useLocking } from 'modules/account/PageToken/web3/useLocking';
+import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/wsdmContract';
 
 interface Props {
   invoiceKey?: string;
@@ -20,6 +22,8 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const { mutateAsync } = useSubmitTokenPayment();
   const { mutateAsync: updateBalance, isLoading } =
     useUpdateTokenBalanceMutation();
+  const { handleLocking, lockTrxReceipt } = useLocking();
+  const { data: wsdmBalance } = useWsdmBalance();
 
   const updateTokenBalance = useCallback(async () => {
     await updateBalance();
@@ -39,7 +43,12 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
     [plan, account],
   );
 
-  const submitTokenPayment = async () => {
+  const lockTokens = async () => {
+    // FIXME: use actual plan price in WSDM
+    handleLocking(plan.wsdm_token_hold * 10 ** 6);
+  };
+
+  const submitTokenPayment = useCallback(async () => {
     await mutateAsync(
       invoiceKey
         ? { invoice_key: invoiceKey }
@@ -49,7 +58,13 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           },
     );
     setDone(true);
-  };
+  }, [invoiceKey, mutateAsync, plan.key, setDone]);
+
+  useEffect(() => {
+    if (lockTrxReceipt?.status === 'success') {
+      void submitTokenPayment();
+    }
+  }, [lockTrxReceipt, submitTokenPayment]);
 
   return (
     <Card className="flex flex-col items-center gap-6 text-center">
@@ -79,7 +94,10 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
               canSubscribe ? 'text-green-400' : 'text-red-400',
             )}
           >
-            {addComma(account?.wsdm_balance ?? 0)}
+            {addComma(
+              Number(wsdmBalance?.value ?? 0) /
+                10 ** (wsdmBalance?.decimals ?? 1),
+            )}
           </div>
           <div className="text-sm opacity-50">
             {t('token-modal.your-balance')}
@@ -90,11 +108,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
         <p className="text-sm text-white/80">{t('token-modal.description')}</p>
       </Card>
       <div className="max-w-[18rem]">
-        <Button
-          onClick={submitTokenPayment}
-          disabled={!canSubscribe}
-          className="mb-6 w-full"
-        >
+        <Button onClick={lockTokens} className="mb-6 w-full">
           {t('token-modal.activate-subscription')}
         </Button>
         <Button

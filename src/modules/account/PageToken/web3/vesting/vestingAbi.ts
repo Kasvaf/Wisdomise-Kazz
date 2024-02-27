@@ -241,4 +241,4 @@ export const VESTING_ABI = [
     stateMutability: 'payable',
     type: 'receive',
   },
-] as const;
+];

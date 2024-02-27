@@ -9,19 +9,21 @@ import PricingCard from './PricingCard';
 export interface PricingTableProps {
   isRenew?: boolean;
   isUpdate?: boolean;
+  isTokenUtility?: boolean;
   onResolve?: (result: boolean) => void;
 }
 
 export default function PricingTable({
   isRenew,
   isUpdate,
+  isTokenUtility,
   onResolve,
 }: PricingTableProps) {
   const { t } = useTranslation('billing');
   const { plan } = useSubscription();
   const { data, isLoading } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>(
-    plan?.periodicity || 'MONTHLY',
+    (isTokenUtility ? 'YEARLY' : undefined) || plan?.periodicity || 'MONTHLY',
   );
 
   return (
@@ -43,9 +45,10 @@ export default function PricingTable({
                 key={period}
                 onClick={() => setCurrentPeriod(period)}
                 className={clsx(
-                  'w-full rounded-full px-8 py-2 text-sm text-white transition-colors',
+                  'w-full rounded-full px-8 py-2 text-sm text-white transition-colors disabled:opacity-60',
                   currentPeriod === period && 'bg-white !text-black',
                 )}
+                disabled={isTokenUtility}
               >
                 {period === 'MONTHLY'
                   ? t('periodicity.month.title')
@@ -63,6 +66,7 @@ export default function PricingTable({
                 key={plan.key}
                 isRenew={isRenew}
                 isUpdate={isUpdate}
+                isTokenUtility={isTokenUtility}
                 className="col-span-1"
                 onPlanUpdate={() => onResolve?.(true)}
               />

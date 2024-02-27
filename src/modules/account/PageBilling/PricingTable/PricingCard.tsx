@@ -6,6 +6,7 @@ import Button from 'shared/Button';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'modules/shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
+import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { ReactComponent as Check } from '../images/check.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 import PlanLogo from './PlanLogo';
@@ -14,6 +15,7 @@ interface Props {
   isRenew?: boolean;
   className?: string;
   isUpdate?: boolean;
+  isTokenUtility?: boolean;
   plan: SubscriptionPlan;
   onPlanUpdate: VoidFunction;
 }
@@ -22,6 +24,7 @@ export default function PricingCard({
   plan,
   isRenew,
   isUpdate,
+  isTokenUtility,
   className,
   onPlanUpdate,
 }: Props) {
@@ -30,6 +33,10 @@ export default function PricingCard({
   const subsMutation = useSubscriptionMutation();
   const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent);
+  const [tokenPaymentModal, openTokenPaymentModal] = useModal(
+    TokenPaymentModalContent,
+    { fullscreen: true, destroyOnClose: true },
+  );
 
   const hasUserThisPlan = isActive && !isRenew && plan.key === userPlan?.key;
   const hasUserThisPlanAsNextPlan =
@@ -50,19 +57,23 @@ export default function PricingCard({
         notification.error({ message: unwrapErrorMessage(error) });
       }
     } else {
-      void openModal({
-        onFiatClick: () => {
-          window.location.href = plan.stripe_payment_link;
-        },
-        plan,
-      });
+      if (isTokenUtility) {
+        void openTokenPaymentModal({ plan });
+      } else {
+        void openModal({
+          onFiatClick: () => {
+            window.location.href = plan.stripe_payment_link;
+          },
+          plan,
+        });
+      }
     }
   };
 
   return (
     <div
       className={clsx(
-        'relative flex shrink-0 grow-0 basis-64 flex-col rounded-2xl p-8',
+        'relative flex shrink-0 grow-0 basis-72 flex-col rounded-2xl p-8',
         'bg-gradient-to-b from-white/5 to-black/0',
         className,
       )}
@@ -76,26 +87,30 @@ export default function PricingCard({
         <p className="min-h-[90px] text-xs text-white/60">{plan.description}</p>
       </section>
 
-      <div className="flex items-center justify-between rounded-lg bg-white/10 px-2 py-3 leading-none">
-        <p className="text-xs text-white/50">$ USD</p>
-        <span className="font-semibold">${plan.price}</span>
-        <div className="text-xs text-white/40">
-          {plan.periodicity === 'MONTHLY'
-            ? t('pricing-card.monthly')
-            : t('pricing-card.annually')}
+      {!isTokenUtility && (
+        <div className="flex items-center justify-between rounded-lg bg-white/10 px-2 py-3 leading-none">
+          <p className="text-xs text-white/50">$ USD</p>
+          <span className="font-semibold">${plan.price}</span>
+          <div className="text-xs text-white/40">
+            {plan.periodicity === 'MONTHLY'
+              ? t('pricing-card.monthly')
+              : t('pricing-card.annually')}
+          </div>
         </div>
-      </div>
+      )}
 
       <div>
-        <div className="my-3 flex items-center gap-4">
-          <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
-          <span className="text-xs">OR</span>
-          <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
-        </div>
+        {!isTokenUtility && (
+          <div className="my-3 flex items-center gap-4">
+            <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
+            <span className="text-xs">OR</span>
+            <div className="h-px w-full bg-gradient-to-r from-gray-500"></div>
+          </div>
+        )}
 
         <div className="flex items-center justify-between rounded-lg bg-white/10 px-2 py-3 leading-none">
-          <p className="bg-gradient-to-r from-[#00A3FF] to-[#FF00C7] to-100% bg-clip-text text-xs text-transparent">
-            $ tWSDM
+          <p className="bg-gradient-to-l from-[#00A3FF] to-[#FF00C7] to-100% bg-clip-text text-xs font-black text-transparent">
+            $WSDM
           </p>
           {plan.periodicity === 'YEARLY' ? (
             <span className="font-medium">
@@ -112,7 +127,7 @@ export default function PricingCard({
               plan.periodicity === 'MONTHLY' && 'invisible',
             )}
           >
-            {t('pricing-card.hold')}
+            {t('pricing-card.lock')}
           </div>
         </div>
       </div>
@@ -143,6 +158,8 @@ export default function PricingCard({
             ? t('pricing-card.btn-action.choose')
             : isRenew
             ? t('pricing-card.btn-action.choose')
+            : isTokenUtility
+            ? t('pricing-card.btn-action.activate-now')
             : t('pricing-card.btn-action.buy-now')
           : plan.level === 0
           ? t('pricing-card.btn-action.free')
@@ -162,6 +179,7 @@ export default function PricingCard({
         </ul>
       </div>
       {model}
+      {tokenPaymentModal}
     </div>
   );
 }
