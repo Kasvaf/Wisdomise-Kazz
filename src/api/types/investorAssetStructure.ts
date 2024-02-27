@@ -53,7 +53,7 @@ interface SymbolAsset {
   symbol: { name: string };
 }
 
-export interface PairAsset {
+interface PairAsset {
   type: 'PAIR';
   pair: {
     base: {

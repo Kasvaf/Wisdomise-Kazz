@@ -2,11 +2,11 @@ import { NavLink } from 'react-router-dom';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { useMyFinancialProductsQuery } from 'api/builder';
 import PageWrapper from 'modules/base/PageWrapper';
+import PriceChange from 'shared/PriceChange';
 import CoinsIcons from 'shared/CoinsIcons';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Card from 'shared/Card';
-import PriceChange from 'modules/shared/PriceChange';
 
 export default function PageFpList() {
   const { data, isLoading } = useMyFinancialProductsQuery();

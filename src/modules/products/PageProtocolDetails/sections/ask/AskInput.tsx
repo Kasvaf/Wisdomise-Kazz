@@ -1,8 +1,8 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import TextBox from 'modules/shared/TextBox';
 import { useAthena, useRemainQuestionsCount } from 'modules/athena/core';
+import TextBox from 'shared/TextBox';
 import { ReactComponent as Arrow } from '../../images/arrow-right.svg';
 
 export default function AskInput() {

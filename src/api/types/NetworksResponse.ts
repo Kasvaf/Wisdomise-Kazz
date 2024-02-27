@@ -1,16 +1,10 @@
 export type NetworksResponse = PagedResponse<Network>;
-export type CryptosResponse = PagedResponse<Crypto>;
 
 interface PagedResponse<T> {
   count: number;
   next: any;
   previous: any;
   results: T[];
-}
-
-interface Crypto {
-  key: string;
-  name: string;
 }
 
 export interface Network {

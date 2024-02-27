@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import { Trans } from 'react-i18next';
-import Spin from 'modules/shared/Spin';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { usePlansQuery, useSubscription } from 'api';
+import Spin from 'shared/Spin';
 
 const ProductSubscriptionNotice: React.FC<{
   fp: FinancialProduct;

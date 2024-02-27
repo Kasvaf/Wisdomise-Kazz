@@ -5,6 +5,7 @@ import { useSubscription } from 'api';
 import { type PairSignalerItem } from 'api/signaler';
 import useToggleNotification from 'modules/account/PageNotification/SignalingTab/useToggleNotification';
 import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
+import InfoButton from 'shared/InfoButton';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Locker from 'shared/Locker';
@@ -75,8 +76,15 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
         >
           <div className="rounded-2xl bg-white/5 p-3">
             <div className="flex items-center justify-between">
-              <h2 className="mx-3 line-clamp-1 text-2xl">
+              <h2 className="mx-3 line-clamp-1 flex items-center text-2xl">
                 {s.strategy.profile?.title || s.strategy.name}
+                {s.strategy.profile?.description && (
+                  <InfoButton
+                    className="ml-2"
+                    title={s.strategy.profile?.title || s.strategy.name}
+                    text={s.strategy.profile?.description}
+                  />
+                )}
               </h2>
 
               <div className="flex items-center">

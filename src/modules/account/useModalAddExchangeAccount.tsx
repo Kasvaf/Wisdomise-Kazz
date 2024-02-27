@@ -7,8 +7,8 @@ import { unwrapErrorMessage } from 'utils/error';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
-import LabelInfo from 'modules/shared/LabelInfo';
-import CopyInputBox from 'modules/shared/CopyInputBox';
+import LabelInfo from 'shared/LabelInfo';
+import CopyInputBox from 'shared/CopyInputBox';
 import ExchangeSelector from './ExchangeSelector';
 import MarketSelector from './MarketSelector';
 

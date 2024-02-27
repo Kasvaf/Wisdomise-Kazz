@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import CardPageLink from 'modules/shared/CardPageLink';
+import CardPageLink from 'shared/CardPageLink';
 import { trackClick } from 'config/segment';
 import { ReactComponent as IconSignals } from './icon-signals.svg';
 import { ReactComponent as IconFP } from './icon-fp.svg';

@@ -1,10 +1,10 @@
 import type React from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ComboBox from 'shared/ComboBox';
 import { useInvestorAssetStructuresQuery } from 'api';
 import { type VerifiedWallet, useVerifiedWallets } from 'api/kyc';
-import CoinsIcons from 'modules/shared/CoinsIcons';
+import ComboBox from 'shared/ComboBox';
+import CoinsIcons from 'shared/CoinsIcons';
 
 const WalletOptionItemFn = (wallet: VerifiedWallet) => {
   if (!wallet.symbol.name || !wallet.network?.name) {

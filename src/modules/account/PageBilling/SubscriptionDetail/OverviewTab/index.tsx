@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useInvoicesQuery, useSubscription } from 'api';
-import Card from 'modules/shared/Card';
+import Card from 'shared/Card';
 import mailIconSrc from '../../images/mail.svg';
 import PlanDetails from './PlanDetails';
 import BillingActions from './BillingActions';

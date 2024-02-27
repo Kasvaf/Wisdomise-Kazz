@@ -1,4 +1,4 @@
-import PriceChange from 'modules/shared/PriceChange';
+import PriceChange from 'shared/PriceChange';
 import { ReactComponent as WalletIcon } from '../icons/wallet.svg';
 import { useFPBacktestQuery } from '../services';
 import { PriceAreaChart } from './PriceAreaChart';

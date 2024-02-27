@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import CardPageLink from 'modules/shared/CardPageLink';
+import CardPageLink from 'shared/CardPageLink';
 import {
   useExchangeAccountsQuery,
   useIsVerified,

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import Button from 'modules/shared/Button';
 import type { SubscriptionPlan } from 'api/types/subscription';
-import useModal from 'modules/shared/useModal';
+import Button from 'shared/Button';
+import useModal from 'shared/useModal';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';

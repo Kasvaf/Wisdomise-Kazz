@@ -1,14 +1,14 @@
 /* eslint-disable import/max-dependencies */
+import { clsx } from 'clsx';
+import { Select, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Select, notification } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
 import { bxCheckCircle } from 'boxicons-quasar';
-import { clsx } from 'clsx';
 import { useAccountQuery, useCountriesQuery, useUserInfoMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import Button from 'shared/Button';
-import Icon from 'modules/shared/Icon';
+import Icon from 'shared/Icon';
 import { REFERRER_CODE_KEY } from '../constants';
 import ContainerAuth from '../ContainerAuth';
 import useModalContract from './useModalContract';

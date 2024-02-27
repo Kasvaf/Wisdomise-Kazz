@@ -1,4 +1,4 @@
-export const JWT_TOKEN_KEY = 'TOKEN';
+const JWT_TOKEN_KEY = 'TOKEN';
 
 export const getJwtToken = () => {
   return localStorage.getItem(JWT_TOKEN_KEY);

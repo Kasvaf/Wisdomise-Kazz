@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { Select, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { Select, notification } from 'antd';
 import {
   type RiskLevel,
   useCreateMyFinancialProductMutation,
 } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import PageWrapper from 'modules/base/PageWrapper';
+import AmountInputBox from 'shared/AmountInputBox';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
-import AmountInputBox from 'modules/shared/AmountInputBox';
 const { Option } = Select;
 
 export default function PageFpCreate() {

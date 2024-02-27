@@ -1,11 +1,11 @@
+import dayjs from 'dayjs';
 import { Table } from 'antd';
 import { useMemo } from 'react';
 import * as numerable from 'numerable';
 import { type ColumnType } from 'antd/es/table';
-import dayjs from 'dayjs';
-import PriceChange from 'modules/shared/PriceChange';
-import useMainQuote from 'modules/shared/useMainQuote';
-import PairInfo from 'modules/shared/PairInfo';
+import useMainQuote from 'shared/useMainQuote';
+import PriceChange from 'shared/PriceChange';
+import PairInfo from 'shared/PairInfo';
 import { type StrategyPosition } from 'api/builder';
 
 interface Props {

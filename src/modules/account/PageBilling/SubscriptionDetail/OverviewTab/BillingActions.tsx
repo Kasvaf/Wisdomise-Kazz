@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useAccountQuery, useStripePaymentMethodsQuery } from 'api';
 import { type PaymentMethod } from 'api/types/subscription';
-import useModal from 'modules/shared/useModal';
+import useModal from 'shared/useModal';
 import CryptoPaymentModalContent from '../../paymentMethods/Crypto';
 import TokenPaymentModalContent from '../../paymentMethods/Token';
 import useChangePaymentMethodModal from './useChangePaymentMethod';

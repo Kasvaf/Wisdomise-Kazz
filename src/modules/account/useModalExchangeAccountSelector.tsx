@@ -4,9 +4,9 @@ import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
+import ComboBox from 'shared/ComboBox';
 import WisdomiseLogoSvg from 'assets/logo-horizontal-beta.svg';
 import BinanceLogoSvg from 'assets/logo-binance.svg';
-import ComboBox from 'modules/shared/ComboBox';
 import useModalAddExchangeAccount from './useModalAddExchangeAccount';
 
 const exchangeIcons = {

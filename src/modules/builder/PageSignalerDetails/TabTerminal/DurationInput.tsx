@@ -1,6 +1,6 @@
 import { Select } from 'antd';
 import { useEffect, useState } from 'react';
-import TextBox from 'modules/shared/TextBox';
+import TextBox from 'shared/TextBox';
 const { Option } = Select;
 
 interface Props {

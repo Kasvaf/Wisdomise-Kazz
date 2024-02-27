@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
-import TextBox from 'modules/shared/TextBox';
+import TextBox from 'shared/TextBox';
 
 export default function PageProfile() {
   const { t } = useTranslation();

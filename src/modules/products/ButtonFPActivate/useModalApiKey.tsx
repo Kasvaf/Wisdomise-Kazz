@@ -1,4 +1,4 @@
-import useConfirm from 'modules/shared/useConfirm';
+import useConfirm from 'shared/useConfirm';
 
 export default function useModalApiKey() {
   return useConfirm({
