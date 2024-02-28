@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import normalizePair from 'api/normalizePair';
 
 export const useSignalerAllowedAssetsQuery = (strategyKey?: string) =>
@@ -8,7 +8,7 @@ export const useSignalerAllowedAssetsQuery = (strategyKey?: string) =>
     ['signalerAllowedAssets', strategyKey],
     async () => {
       if (!strategyKey) throw new Error('unexpected');
-      const { data } = await axios.get<{ assets: SupportedPair[] }>(
+      const { data } = await axios.get<{ assets: PairData[] }>(
         `/factory/strategies/${strategyKey}/allowed-assets`,
       );
       return data.assets.map(normalizePair);

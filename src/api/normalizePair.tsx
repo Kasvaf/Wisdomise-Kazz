@@ -1,6 +1,6 @@
-import { type SupportedPair } from './types/strategy';
+import { type PairData } from './types/strategy';
 
-const normalizePair = (a: any): SupportedPair => {
+const normalizePair = (a: any): PairData => {
   if (typeof a === 'string') {
     let [base, quote] = a.split('/');
     base = base.replace(/USDT$/, '');

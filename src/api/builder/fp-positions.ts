@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import normalizePair from 'api/normalizePair';
 
 interface FpSubscriber {
@@ -48,7 +48,7 @@ interface ActualPosition {
   exit_time?: string;
   exit_price?: number;
   pnl: number;
-  pair: SupportedPair;
+  pair: PairData;
 }
 
 export const useFpPositionsQuery = ({

@@ -2,11 +2,11 @@ import type React from 'react';
 import { clsx } from 'clsx';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import ComboBox from 'shared/ComboBox';
 import CoinsIcons from 'shared/CoinsIcons';
 
-const CoinOptionItem = (item: SupportedPair | string) => {
+const CoinOptionItem = (item: PairData | string) => {
   return (
     <div className="flex items-center">
       {typeof item === 'string' ? (
@@ -33,9 +33,9 @@ const CoinOptionItem = (item: SupportedPair | string) => {
 };
 
 interface Props {
-  coins?: SupportedPair[];
-  selectedItem?: SupportedPair;
-  onSelect?: (net: SupportedPair) => void;
+  coins?: PairData[];
+  selectedItem?: PairData;
+  onSelect?: (net: PairData) => void;
   disabled?: boolean;
   loading?: boolean;
   className?: string;

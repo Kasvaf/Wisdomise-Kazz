@@ -6,16 +6,16 @@ import {
   type SignalsResponse,
   type SuggestedAction,
 } from './types/signalResponse';
-import { type SupportedPair } from './types/strategy';
+import { type PairData } from './types/strategy';
 import normalizePair from './normalizePair';
 
 const isPublic = 'is_public=True';
 
 export const useSignalerPairs = () =>
-  useQuery<SupportedPair[]>(
+  useQuery<PairData[]>(
     ['signaler-pairs'],
     async () => {
-      const { data } = await axios.get<SupportedPair[]>('strategy/pairs');
+      const { data } = await axios.get<PairData[]>('strategy/pairs');
       return data.map(normalizePair);
     },
     {
@@ -112,7 +112,7 @@ export interface StrategyItem {
   market_name: MarketTypes;
   config?: any;
   profile?: Profile;
-  supported_pairs: SupportedPair[];
+  supported_pairs: PairData[];
 }
 
 export const useStrategiesList = () => {

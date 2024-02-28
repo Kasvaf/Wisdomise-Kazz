@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type MarketTypes } from 'api/types/financialProduct';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import normalizePair from 'api/normalizePair';
 
 export type RiskLevel = 'High' | 'Medium' | 'Low';
@@ -9,7 +9,7 @@ export type RiskLevel = 'High' | 'Medium' | 'Low';
 export type MyFpAssets = Array<{
   strategy: string;
   share: number;
-  asset: SupportedPair;
+  asset: PairData;
 }>;
 
 export interface MyFinancialProduct {

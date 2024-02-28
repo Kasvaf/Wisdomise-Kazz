@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type MarketTypes } from 'api/types/financialProduct';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import { type Resolution } from 'api';
 import normalizePair from 'api/normalizePair';
 
@@ -11,7 +11,7 @@ interface SignalerListItem {
   market_name: MarketTypes;
   name: string;
   tags: string[];
-  assets: SupportedPair[];
+  assets: PairData[];
   open_positions: number;
   last_week_positions: number;
 }
@@ -65,7 +65,7 @@ export interface SignalerData {
   strategy_id: string;
   secret_key: string;
   signal_api_call_example: string;
-  assets: SupportedPair[];
+  assets: PairData[];
   resolution: Resolution;
 }
 

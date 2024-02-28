@@ -1,6 +1,6 @@
 import { type Config } from './financialProduct';
 import { type RawPosition } from './signalResponse';
-import { type SupportedPair } from './strategy';
+import { type PairData } from './strategy';
 
 export type InvestorAssetStructures = Array<{
   key: string;
@@ -40,7 +40,7 @@ interface FinancialProduct {
 }
 
 export interface AssetBinding {
-  asset: SupportedPair;
+  asset: PairData;
   equity: number;
   amount: number;
   share: number;
@@ -69,6 +69,6 @@ interface Market {
 }
 
 export interface FpiPosition extends RawPosition {
-  pair: SupportedPair;
+  pair: PairData;
   amount: number;
 }

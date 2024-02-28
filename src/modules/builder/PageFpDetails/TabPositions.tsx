@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCandlesQuery } from 'api';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import { useFpPositionsQuery, useMyFinancialProductQuery } from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
 import { bestResolution } from 'shared/CandleChart/utils';
@@ -18,7 +18,7 @@ const TabPositions = () => {
   const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
   const { data: fp } = useMyFinancialProductQuery(params.id);
-  const [asset, setAsset] = useState<SupportedPair>();
+  const [asset, setAsset] = useState<PairData>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
   const [subscriberKey, setSubscriberKey] = useState('');
 

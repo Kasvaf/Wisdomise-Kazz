@@ -1,10 +1,10 @@
 import type React from 'react';
 import { useEffect } from 'react';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
 
-const AssetOptionItem = (asset: SupportedPair) => {
+const AssetOptionItem = (asset: PairData) => {
   if (!asset?.name) {
     return (
       <div className="flex items-center justify-start p-2 pl-6">
@@ -26,9 +26,9 @@ const AssetOptionItem = (asset: SupportedPair) => {
 
 interface Props {
   label?: string;
-  assets?: SupportedPair[];
-  selectedItem?: SupportedPair;
-  onSelect?: (asset: SupportedPair) => void;
+  assets?: PairData[];
+  selectedItem?: PairData;
+  onSelect?: (asset: PairData) => void;
   disabled?: boolean;
   all?: boolean;
   placeholder?: string;

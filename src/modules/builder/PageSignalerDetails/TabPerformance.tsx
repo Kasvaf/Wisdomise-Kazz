@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import { useSignalerQuery, useSignalerPerfQuery } from 'api/builder';
 import InfoBox from 'modules/builder/InfoBox';
 import DateRangeSelector from 'shared/DateRangeSelector';
@@ -14,7 +14,7 @@ const TabPerformance = () => {
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
 
-  const [asset, setAsset] = useState<SupportedPair>();
+  const [asset, setAsset] = useState<PairData>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
   const { data, isLoading } = useSignalerPerfQuery({

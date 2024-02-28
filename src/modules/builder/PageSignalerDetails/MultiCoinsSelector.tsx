@@ -2,16 +2,16 @@ import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { bxPlus, bxX } from 'boxicons-quasar';
 import { useCallback, useMemo, useState } from 'react';
-import { type SupportedPair } from 'api/types/strategy';
+import { type PairData } from 'api/types/strategy';
 import DropdownContainer from 'shared/DropdownContainer';
 import PairInfo from 'shared/PairInfo';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 
 interface Props {
-  options: SupportedPair[];
-  items: SupportedPair[];
-  onChange: (newItems: SupportedPair[]) => void;
+  options: PairData[];
+  items: PairData[];
+  onChange: (newItems: PairData[]) => void;
   className?: string;
 }
 
