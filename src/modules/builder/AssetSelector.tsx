@@ -5,7 +5,7 @@ import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
 
 const AssetOptionItem = (asset: PairData) => {
-  if (!asset?.name) {
+  if (!asset?.name || !asset.base) {
     return (
       <div className="flex items-center justify-start p-2 pl-6">
         {asset.display_name}
@@ -26,6 +26,7 @@ const AssetOptionItem = (asset: PairData) => {
 
 interface Props {
   label?: string;
+  loading?: boolean;
   assets?: PairData[];
   selectedItem?: PairData;
   onSelect?: (asset: PairData) => void;
@@ -39,6 +40,7 @@ interface Props {
 const ALL = { display_name: 'All assets' };
 const AssetSelector: React.FC<Props> = ({
   label,
+  loading,
   assets = [],
   selectedItem,
   onSelect,
@@ -49,10 +51,10 @@ const AssetSelector: React.FC<Props> = ({
   selectFirst,
 }) => {
   useEffect(() => {
-    if (selectFirst && assets.length > 0 && !selectedItem) {
+    if (selectFirst && assets.length > 0 && !selectedItem && !loading) {
       onSelect?.(assets[0]);
     }
-  }, [assets, onSelect, selectFirst, selectedItem]);
+  }, [assets, loading, onSelect, selectFirst, selectedItem]);
 
   return (
     <div className={className}>
@@ -60,7 +62,9 @@ const AssetSelector: React.FC<Props> = ({
       <ComboBox
         options={all ? [ALL, ...assets] : assets}
         selectedItem={
-          selectedItem ?? (all ? ALL : { display_name: placeholder })
+          loading
+            ? { display_name: 'Loading...' }
+            : selectedItem ?? (all ? ALL : { display_name: placeholder })
         }
         onSelect={onSelect}
         renderItem={AssetOptionItem}

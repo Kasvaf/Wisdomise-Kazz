@@ -12,6 +12,7 @@ import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
 import AmountInputBox from 'shared/AmountInputBox';
+import AssetManager from './AssetManager';
 const { Option } = Select;
 
 const TabBuilder = () => {
@@ -118,6 +119,14 @@ const TabBuilder = () => {
               <Option value="High">High</Option>
             </Select>
           </div>
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <AssetManager
+            fpKey={params.id}
+            value={changes.assets ?? fp.assets}
+            onChange={v => update('assets', v)}
+          />
         </div>
       </section>
 

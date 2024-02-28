@@ -34,10 +34,10 @@ export const useMyFinancialProductsQuery = () =>
       );
       return data.map(s => ({
         ...s,
-        assets: s.assets.map((a: any) => ({
+        assets: s.assets.map(a => ({
           strategy: a.strategy,
           share: a.share,
-          asset: normalizePair(a),
+          asset: normalizePair(a.asset),
         })),
       })) as MyFinancialProduct[];
     },
@@ -85,6 +85,11 @@ export const useMyFinancialProductQuery = (fpKey?: string) =>
       const { data } = await axios.get<MyFinancialProduct>(
         `factory/financial-products/${fpKey}`,
       );
+      data.assets = data.assets.map(a => ({
+        strategy: a.strategy,
+        share: a.share,
+        asset: normalizePair(a.asset),
+      }));
       return data;
     },
     {
