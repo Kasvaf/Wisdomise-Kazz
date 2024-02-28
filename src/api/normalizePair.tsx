@@ -24,7 +24,7 @@ const normalizePair = (a: any): SupportedPair => {
     a.symbol?.name ||
     a.pair?.base?.name ||
     a.symbol ||
-    name.split('/')[0];
+    name.split('/')[0].replace(/USDT$/, '');
 
   const quoteName =
     a.quote_name ||
