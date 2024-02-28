@@ -19,6 +19,7 @@ const normalizePair = (a: any): SupportedPair => {
     a.display_name || a.symbol?.title || a.pair?.base?.title || a.title || name;
 
   const baseName =
+    a.base_name ||
     a.base?.name ||
     a.symbol?.name ||
     a.pair?.base?.name ||
@@ -26,6 +27,7 @@ const normalizePair = (a: any): SupportedPair => {
     name.split('/')[0];
 
   const quoteName =
+    a.quote_name ||
     a.quote?.name ||
     a.pair?.quote.name ||
     a.symbol?.quote?.name ||
