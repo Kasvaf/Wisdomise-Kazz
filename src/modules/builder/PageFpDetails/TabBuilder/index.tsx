@@ -5,8 +5,10 @@ import {
   type MyFinancialProduct,
   useMyFinancialProductQuery,
   useUpdateMyFinancialProductMutation,
+  productAssetCompare,
 } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
+import MarketSelector from 'modules/account/MarketSelector';
 import deepEqual from 'shared/deepEqual';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
@@ -51,6 +53,9 @@ const TabBuilder = () => {
   const saveChanges = async () => {
     if (!params.id || !fp) return;
     try {
+      if (changes.assets) {
+        update('assets', changes.assets.sort(productAssetCompare));
+      }
       await mutateAsync({
         fpKey: params.id,
         title: changes.title ?? fp.title,
@@ -98,19 +103,27 @@ const TabBuilder = () => {
           <AmountInputBox
             label="Expected Drawdown"
             placeholder="Expected Drawdown"
-            className="basis-1/3"
+            className="basis-1/4"
             value={changes.expected_drawdown ?? fp.expected_drawdown}
             onChange={v => update('expected_drawdown', v)}
           />
           <AmountInputBox
             label="Expected APY"
             placeholder="Expected APY"
-            className="basis-1/3"
+            className="basis-1/4"
             value={changes.expected_apy ?? fp.expected_apy}
             onChange={v => update('expected_apy', v)}
           />
 
-          <div className="basis-1/3">
+          <MarketSelector
+            label="Market"
+            className="basis-1/4"
+            selectedItem={changes.market_name ?? fp.market_name}
+            onSelect={v => update('market_name', v)}
+            disabled
+          />
+
+          <div className="basis-1/4">
             <div className="mb-2 ml-4">Risk Level</div>
             <Select
               className="w-full"

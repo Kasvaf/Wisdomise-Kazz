@@ -25,6 +25,13 @@ export interface MyFinancialProduct {
   assets: MyFpAssets;
 }
 
+export const productAssetCompare = (
+  a: { share: number; strategy: string; asset: { name: string } },
+  b: { share: number; strategy: string; asset: { name: string } },
+) =>
+  b.share - a.share ||
+  (a.strategy + a.asset.name).localeCompare(b.strategy + b.asset.name);
+
 export const useMyFinancialProductsQuery = () =>
   useQuery(
     ['my-products'],
@@ -34,11 +41,13 @@ export const useMyFinancialProductsQuery = () =>
       );
       return data.map(s => ({
         ...s,
-        assets: s.assets.map(a => ({
-          strategy: a.strategy,
-          share: a.share,
-          asset: normalizePair(a.asset),
-        })),
+        assets: s.assets
+          .map(a => ({
+            strategy: a.strategy,
+            share: a.share,
+            asset: normalizePair(a.asset),
+          }))
+          .sort(productAssetCompare),
       })) as MyFinancialProduct[];
     },
     {
@@ -54,6 +63,7 @@ export const useCreateMyFinancialProductMutation = () => {
     {
       title: string;
       description: string;
+      market_name: MarketTypes;
       risk_level: RiskLevel;
       expected_drawdown: string;
       expected_apy: string;
@@ -85,11 +95,13 @@ export const useMyFinancialProductQuery = (fpKey?: string) =>
       const { data } = await axios.get<MyFinancialProduct>(
         `factory/financial-products/${fpKey}`,
       );
-      data.assets = data.assets.map(a => ({
-        strategy: a.strategy,
-        share: a.share,
-        asset: normalizePair(a.asset),
-      }));
+      data.assets = data.assets
+        .map(a => ({
+          strategy: a.strategy,
+          share: a.share,
+          asset: normalizePair(a.asset),
+        }))
+        .sort(productAssetCompare);
       return data;
     },
     {

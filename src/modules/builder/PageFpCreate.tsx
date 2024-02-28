@@ -7,16 +7,19 @@ import {
 } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import PageWrapper from 'modules/base/PageWrapper';
+import MarketSelector from 'modules/account/MarketSelector';
 import AmountInputBox from 'shared/AmountInputBox';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
+import { type MarketTypes } from 'api/types/financialProduct';
 const { Option } = Select;
 
 export default function PageFpCreate() {
   const [showErrors, setShowErrors] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [marketType, setMarketType] = useState<MarketTypes>('FUTURES');
   const [riskLevel, setRiskLevel] = useState<RiskLevel>('Medium');
   const [expectedApy, setExpectedApy] = useState('');
   const [expectedDrawdown, setExpectedDrawdown] = useState('');
@@ -32,6 +35,7 @@ export default function PageFpCreate() {
       const { key } = await mutateAsync({
         title,
         description,
+        market_name: marketType,
         risk_level: riskLevel,
         expected_apy: expectedApy,
         expected_drawdown: expectedDrawdown,
@@ -74,7 +78,7 @@ export default function PageFpCreate() {
             <AmountInputBox
               label="Expected Drawdown"
               placeholder="Expected Drawdown"
-              className="basis-1/3"
+              className="basis-1/4"
               value={expectedDrawdown}
               onChange={setExpectedDrawdown}
               error={
@@ -84,13 +88,20 @@ export default function PageFpCreate() {
             <AmountInputBox
               label="Expected APY"
               placeholder="Expected APY"
-              className="basis-1/3"
+              className="basis-1/4"
               value={expectedApy}
               onChange={setExpectedApy}
               error={showErrors && !expectedApy && 'This field is required.'}
             />
 
-            <div className="basis-1/3">
+            <MarketSelector
+              label="Market"
+              className="basis-1/4"
+              selectedItem={marketType}
+              onSelect={setMarketType}
+            />
+
+            <div className="basis-1/4">
               <div className="mb-2 ml-4">Risk Level</div>
               <Select
                 className="w-full"
