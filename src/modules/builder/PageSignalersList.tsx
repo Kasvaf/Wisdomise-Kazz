@@ -13,12 +13,12 @@ export default function PageSignalersList() {
 
   return (
     <PageWrapper loading={isLoading}>
-      <div className="flex items-center justify-between">
-        <h1 className="mb-8 text-xl font-semibold">My Signalers</h1>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-xl font-semibold">My Signalers</h1>
         <Button to="/builder/signalers/new">Create New Signaler</Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 mobile:grid-cols-1">
         {data?.map(s => (
           <NavLink key={s.key} to={`/builder/signalers/${s.key}`}>
             <Card className="cursor-pointer !px-6 !py-4 hover:bg-black/40">

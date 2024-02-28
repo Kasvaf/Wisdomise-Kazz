@@ -13,12 +13,12 @@ export default function PageFpList() {
 
   return (
     <PageWrapper loading={isLoading}>
-      <div className="flex items-center justify-between">
-        <h1 className="mb-8 text-xl font-semibold">My Financial Products</h1>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-xl font-semibold">My Financial Products</h1>
         <Button to="/builder/fp/new">Create New Financial Product</Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 mobile:grid-cols-1">
         {data?.map(s => (
           <NavLink key={s.key} to={`/builder/fp/${s.key}`}>
             <Card className="cursor-pointer !px-6 !py-4 hover:bg-black/40">
