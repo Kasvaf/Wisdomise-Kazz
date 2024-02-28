@@ -40,6 +40,10 @@ const TabBuilder = () => {
     fieldHasChanges('risk_level') ||
     fieldHasChanges('assets');
 
+  const assetsError =
+    !!changes.assets?.length &&
+    changes.assets?.reduce((a, v) => a + v.share, 0) !== 100 &&
+    'Total of assets shares must be 100.';
   // ----------------------------------------------------------------------
 
   const { mutateAsync, isLoading: isSaving } =
@@ -121,17 +125,22 @@ const TabBuilder = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex flex-col items-center">
           <AssetManager
             fpKey={params.id}
             value={changes.assets ?? fp.assets}
             onChange={v => update('assets', v)}
           />
+          <div className="mt-2 text-error">{assetsError}</div>
         </div>
       </section>
 
       <section className="mt-8 flex justify-center">
-        <Button disabled={!hasChanges} loading={isSaving} onClick={saveChanges}>
+        <Button
+          disabled={!hasChanges && !assetsError}
+          loading={isSaving}
+          onClick={saveChanges}
+        >
           Save
         </Button>
       </section>

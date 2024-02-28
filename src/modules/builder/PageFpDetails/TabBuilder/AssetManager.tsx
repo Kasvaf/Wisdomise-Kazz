@@ -55,22 +55,14 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             )}
             selectedItem={a.strategy}
             onSelect={strategy =>
-              onChange(
-                value.map(v =>
-                  v.strategy === a.strategy ? { ...a, strategy } : v,
-                ),
-              )
+              onChange(value.map(v => (v === a ? { ...a, strategy } : v)))
             }
           />
           <AssetSelector
             assets={signalerByKey[a.strategy]?.assets}
             selectedItem={a.asset}
             onSelect={asset =>
-              onChange(
-                value.map(v =>
-                  v.strategy === a.strategy ? { ...a, asset } : v,
-                ),
-              )
+              onChange(value.map(v => (v === a ? { ...a, asset } : v)))
             }
             className="w-[168px]"
           />
@@ -78,19 +70,13 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             className="w-[50px]"
             value={String(a.share)}
             onChange={share =>
-              onChange(
-                value.map(v =>
-                  v.strategy === a.strategy ? { ...a, share: +share } : v,
-                ),
-              )
+              onChange(value.map(v => (v === a ? { ...a, share: +share } : v)))
             }
           />
 
           <div
             className="grow-0 cursor-pointer rounded-full p-2 hover:bg-white/5"
-            onClick={() =>
-              onChange(value.filter(x => x.strategy !== a.strategy))
-            }
+            onClick={() => onChange(value.filter(x => x !== a))}
           >
             <Icon name={bxX} />
           </div>
@@ -107,7 +93,10 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
               {
                 strategy: signalers?.[0].key,
                 asset: signalers?.[0].assets[0],
-                share: 0,
+                share: Math.max(
+                  0,
+                  100 - value.reduce((a, v) => a + v.share, 0),
+                ),
               },
             ])
           }
