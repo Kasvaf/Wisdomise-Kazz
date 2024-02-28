@@ -1,36 +1,29 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import {
-  type InvestorAssetStructures,
   type FinancialProductInstance,
   type FpiPosition,
 } from './types/investorAssetStructure';
+import normalizePair from './normalizePair';
+import { useInvestorAssetStructuresQuery } from './ias';
 
-export const useFpiQuery = (fpiKey?: string) =>
-  useQuery<FinancialProductInstance>(
+export const useFpiQuery = (fpiKey?: string) => {
+  const ias = useInvestorAssetStructuresQuery();
+  return useQuery<FinancialProductInstance>(
     ['fpid', fpiKey],
     async () => {
       if (!fpiKey) throw new Error('unexpected');
-      const { data } = await axios.get<InvestorAssetStructures>(
-        '/ias/investor-asset-structures',
+      const one = ias?.data?.[0]?.financial_product_instances?.find(
+        x => x.key === fpiKey,
       );
-      for (const fpi of data[0]?.financial_product_instances ?? []) {
-        if (fpi.key === fpiKey) {
-          for (const ab of fpi.asset_bindings) {
-            ab.name =
-              ab.asset.type === 'SYMBOL'
-                ? ab.asset.symbol.name
-                : ab.asset.pair.base.name;
-          }
-          return fpi;
-        }
-      }
+      if (one) return one;
       throw new Error('not found');
     },
     {
-      enabled: Boolean(fpiKey),
+      enabled: Boolean(fpiKey && !ias.isLoading),
     },
   );
+};
 
 const useFpiPositionHistoryFullQuery = (fpiKey?: string) =>
   useQuery<FpiPosition[]>(
@@ -40,7 +33,7 @@ const useFpiPositionHistoryFullQuery = (fpiKey?: string) =>
       const { data } = await axios.get<FpiPosition[]>(
         `/ias/financial-product-instances/${fpiKey}/positions`,
       );
-      return data;
+      return data.map(p => ({ ...p, pair: normalizePair(p.pair) }));
     },
     { enabled: fpiKey != null },
   );
@@ -62,7 +55,10 @@ export const useFpiPositionHistory = ({
   return useQuery<{ position_history: FpiPosition[]; total: number }>(
     ['fpiHistory', fullHistory, fpiKey, start, end, offset, limit],
     async () => {
-      const h = fullHistory.data;
+      const h = fullHistory.data?.map(p => ({
+        ...p,
+        pair: normalizePair(p.pair),
+      }));
       if (!fpiKey || !h) throw new Error('unexpected');
 
       if (offset != null && limit != null) {

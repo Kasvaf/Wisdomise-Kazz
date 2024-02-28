@@ -69,7 +69,7 @@ const PositionsTimeline: React.FC<Props> = ({
                   <div className="flex py-3" key={key}>
                     <div className="flex w-[130px] flex-none">
                       <PairInfo
-                        title={pair.title}
+                        title={pair.display_name}
                         base={pair.base.name}
                         quote={pair.quote.name}
                       />
@@ -101,7 +101,9 @@ function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
   const toRatio = (d: string | Date) => (+new Date(d) - +start) / dur;
 
   const maxPnl = positions.reduce((acc, x) => Math.max(acc, x.pnl), 0);
-  const positionsGrouped = Object.entries(groupBy(positions, p => p.pair.title))
+  const positionsGrouped = Object.entries(
+    groupBy(positions, p => p.pair.display_name),
+  )
     .sort((a, b) => b[0].localeCompare(a[0]))
     .map(([key, items]) => ({
       key,

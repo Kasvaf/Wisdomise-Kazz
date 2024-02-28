@@ -78,7 +78,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
           <PairInfo
             base={p.actual_position.pair.base.name}
             quote={p.actual_position.pair.quote.name}
-            title={p.actual_position.pair.title}
+            title={p.actual_position.pair.display_name}
             className="!justify-start"
           />
         ),

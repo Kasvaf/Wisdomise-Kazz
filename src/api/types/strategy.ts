@@ -9,6 +9,7 @@ export interface BareStrategyInfo {
 
 export interface SupportedPair {
   name: string;
+  display_name: string;
   base: { name: string };
   quote: { name: string };
 }

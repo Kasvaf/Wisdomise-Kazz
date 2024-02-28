@@ -77,6 +77,7 @@ module.exports = {
     'unicorn/consistent-function-scoping': 'off',
     'unicorn/no-useless-undefined': ['error', { checkArguments: false }],
     'unicorn/no-array-reduce': 'off',
+    'unicorn/no-array-callback-reference': 'off',
 
     // 'quote-props': ['error', 'consistent-as-needed'],
     'jsx-a11y/no-static-element-interactions': 'off',

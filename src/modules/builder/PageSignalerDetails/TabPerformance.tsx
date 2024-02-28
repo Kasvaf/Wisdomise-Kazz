@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  type Asset,
-  useSignalerQuery,
-  useSignalerPerfQuery,
-} from 'api/builder';
+import { type SupportedPair } from 'api/types/strategy';
+import { useSignalerQuery, useSignalerPerfQuery } from 'api/builder';
 import InfoBox from 'modules/builder/InfoBox';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import PriceChange from 'shared/PriceChange';
@@ -17,7 +14,7 @@ const TabPerformance = () => {
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
 
-  const [asset, setAsset] = useState<Asset>();
+  const [asset, setAsset] = useState<SupportedPair>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
   const { data, isLoading } = useSignalerPerfQuery({

@@ -30,7 +30,9 @@ export default function PageFpList() {
                   </div>
                 </div>
 
-                <CoinsIcons coins={s.assets.map(x => x.asset.symbol) ?? []} />
+                <CoinsIcons
+                  coins={s.assets.map(x => x.asset.base.name) ?? []}
+                />
               </div>
 
               <div className="mt-8 flex items-center justify-between">

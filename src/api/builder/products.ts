@@ -1,26 +1,28 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { type MarketTypes } from 'api/types/financialProduct';
+import { type SupportedPair } from 'api/types/strategy';
+import normalizePair from 'api/normalizePair';
 
 export type RiskLevel = 'High' | 'Medium' | 'Low';
+
+export type MyFpAssets = Array<{
+  strategy: string;
+  share: number;
+  asset: SupportedPair;
+}>;
 
 export interface MyFinancialProduct {
   key: string;
   is_active: boolean;
   title: string;
   description: string;
+  market_name: MarketTypes;
   risk_level: RiskLevel;
   expected_drawdown: string;
   expected_apy: string;
   symbols: string[];
-  assets: Array<{
-    strategy: string;
-    share: number;
-    asset: {
-      name: string;
-      display_name: string;
-      symbol: string;
-    };
-  }>;
+  assets: MyFpAssets;
 }
 
 export const useMyFinancialProductsQuery = () =>
@@ -35,13 +37,7 @@ export const useMyFinancialProductsQuery = () =>
         assets: s.assets.map((a: any) => ({
           strategy: a.strategy,
           share: a.share,
-          asset: {
-            name: a.asset.symbol?.name,
-            display_name: a.asset.symbol?.title || a.asset.pair?.title,
-            base: a.asset.symbol,
-            quote: { name: 'USDT' },
-            ...a.asset.pair,
-          },
+          asset: normalizePair(a),
         })),
       })) as MyFinancialProduct[];
     },

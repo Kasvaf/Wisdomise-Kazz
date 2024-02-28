@@ -2,11 +2,11 @@ import type React from 'react';
 import { clsx } from 'clsx';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SignalerPair } from 'api/signaler';
+import { type SupportedPair } from 'api/types/strategy';
 import ComboBox from 'shared/ComboBox';
 import CoinsIcons from 'shared/CoinsIcons';
 
-const CoinOptionItem = (item: SignalerPair | string) => {
+const CoinOptionItem = (item: SupportedPair | string) => {
   return (
     <div className="flex items-center">
       {typeof item === 'string' ? (
@@ -33,9 +33,9 @@ const CoinOptionItem = (item: SignalerPair | string) => {
 };
 
 interface Props {
-  coins?: SignalerPair[];
-  selectedItem?: SignalerPair;
-  onSelect?: (net: SignalerPair) => void;
+  coins?: SupportedPair[];
+  selectedItem?: SupportedPair;
+  onSelect?: (net: SupportedPair) => void;
   disabled?: boolean;
   loading?: boolean;
   className?: string;

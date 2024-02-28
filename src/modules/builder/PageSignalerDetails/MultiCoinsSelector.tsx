@@ -2,16 +2,16 @@ import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { bxPlus, bxX } from 'boxicons-quasar';
 import { useCallback, useMemo, useState } from 'react';
-import { type Asset } from 'api/builder';
+import { type SupportedPair } from 'api/types/strategy';
 import DropdownContainer from 'shared/DropdownContainer';
 import PairInfo from 'shared/PairInfo';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 
 interface Props {
-  options: Asset[];
-  items: Asset[];
-  onChange: (newItems: Asset[]) => void;
+  options: SupportedPair[];
+  items: SupportedPair[];
+  onChange: (newItems: SupportedPair[]) => void;
   className?: string;
 }
 
@@ -48,7 +48,8 @@ const MultiCoinsSelector: React.FC<Props> = ({
             >
               <PairInfo
                 title={a.display_name}
-                base={a.symbol}
+                base={a.base.name}
+                quote={a.quote.name}
                 name={a.name}
                 className="!p-1"
               />
@@ -69,7 +70,8 @@ const MultiCoinsSelector: React.FC<Props> = ({
         >
           <PairInfo
             title={p.display_name}
-            base={p.symbol}
+            base={p.base.name}
+            quote={p.quote.name}
             name={p.name}
             className="!p-1"
           />

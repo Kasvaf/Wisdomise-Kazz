@@ -2,11 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCandlesQuery } from 'api';
-import {
-  type Asset,
-  useSignalerQuery,
-  useMySignalerAllPositions,
-} from 'api/builder';
+import { type SupportedPair } from 'api/types/strategy';
+import { useSignalerQuery, useMySignalerAllPositions } from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
 import { bestResolution } from 'shared/CandleChart/utils';
 import DateRangeSelector from 'shared/DateRangeSelector';
@@ -21,7 +18,7 @@ const TabPositions = () => {
   const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
-  const [asset, setAsset] = useState<Asset>();
+  const [asset, setAsset] = useState<SupportedPair>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
   const { data, isLoading } = useMySignalerAllPositions({

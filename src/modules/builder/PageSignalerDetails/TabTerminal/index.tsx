@@ -2,11 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecentCandlesQuery } from 'api';
-import {
-  type Asset,
-  useSignalerQuery,
-  useMySignalerOpenPositions,
-} from 'api/builder';
+import { type SupportedPair } from 'api/types/strategy';
+import { useSignalerQuery, useMySignalerOpenPositions } from 'api/builder';
 import ActivePosition from 'modules/signaler/ActivePosition';
 import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
 import Spinner from 'shared/Spinner';
@@ -17,7 +14,7 @@ const TabTerminal = () => {
   const { t } = useTranslation('strategy');
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
-  const [asset, setAsset] = useState<Asset>();
+  const [asset, setAsset] = useState<SupportedPair>();
 
   const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
     asset?.name,
