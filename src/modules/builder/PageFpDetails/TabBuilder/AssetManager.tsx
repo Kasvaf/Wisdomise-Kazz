@@ -69,7 +69,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
 
   if (value.length === 0 && signalers.length === 0) return null;
   return (
-    <div className="flex max-w-[850px] grow flex-col items-stretch rounded-xl bg-black/30 p-3">
+    <div className="flex min-w-[320px] max-w-[850px] grow flex-col items-stretch rounded-xl bg-black/30 p-3">
       {value.map(a => (
         <div
           key={a.strategy + a.asset.name}

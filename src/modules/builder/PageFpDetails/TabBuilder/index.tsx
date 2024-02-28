@@ -126,6 +126,7 @@ const TabBuilder = () => {
         </div>
 
         <div className="mt-8 flex flex-col items-center">
+          <h2 className="mb-3 text-lg text-white/40">Asset Management</h2>
           <AssetManager
             fpKey={params.id}
             value={changes.assets ?? fp.assets}
