@@ -126,7 +126,8 @@ export const useUpdateMyFinancialProductMutation = () => {
         ...body,
       },
     );
-    await queryClient.invalidateQueries(['my-products', body.fpKey]);
+    await queryClient.invalidateQueries(['my-product', body.fpKey]);
+    await queryClient.invalidateQueries(['my-products']);
     return data;
   });
 };
