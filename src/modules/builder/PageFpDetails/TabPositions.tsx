@@ -43,14 +43,14 @@ const TabPositions = () => {
 
   return (
     <div className="mt-8">
-      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
+      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
           assets={fp?.assets?.map(x => x.asset)}
           selectedItem={asset}
           onSelect={setAsset}
-          className="w-[250px]"
+          className="w-[250px] mobile:w-full"
           selectFirst
         />
 
@@ -63,6 +63,7 @@ const TabPositions = () => {
 
         <SubscriberSelector
           label="Subscriber"
+          className="w-[250px] mobile:w-full"
           fpKey={params.id}
           selectedItem={subscriberKey}
           onSelect={setSubscriberKey}

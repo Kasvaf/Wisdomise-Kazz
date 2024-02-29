@@ -49,14 +49,14 @@ const TabPositions = () => {
 
   return (
     <div className="my-8">
-      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
+      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
           assets={signaler?.assets}
           selectedItem={asset}
           onSelect={setAsset}
-          className="w-[250px]"
+          className="w-[250px] mobile:w-full"
           selectFirst
         />
 

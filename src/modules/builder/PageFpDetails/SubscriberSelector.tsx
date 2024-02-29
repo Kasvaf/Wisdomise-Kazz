@@ -44,7 +44,7 @@ const SubscriberSelector: React.FC<Props> = ({
         options={options}
         disabled={disabled}
         value={selectedItem}
-        className="w-[250px]"
+        className="w-full"
       />
     </div>
   );

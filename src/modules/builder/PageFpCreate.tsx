@@ -54,7 +54,7 @@ export default function PageFpCreate() {
 
       <Card>
         <section>
-          <div className="mt-4 flex gap-6">
+          <div className="mt-4 flex gap-6 mobile:flex-col">
             <TextBox
               label="Financial Product Name"
               placeholder="Financial Product Name"
@@ -74,7 +74,7 @@ export default function PageFpCreate() {
             />
           </div>
 
-          <div className="mt-8 flex gap-6">
+          <div className="mt-8 flex gap-6 mobile:flex-col">
             <AmountInputBox
               label="Expected Drawdown"
               placeholder="Expected Drawdown"
@@ -117,7 +117,7 @@ export default function PageFpCreate() {
           </div>
         </section>
 
-        <section className="mt-12">
+        <section className="mt-12 justify-center mobile:flex">
           <Button onClick={onCreateHandler} loading={isLoading}>
             Create Financial Product
           </Button>

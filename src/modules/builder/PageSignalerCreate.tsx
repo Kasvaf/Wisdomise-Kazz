@@ -50,7 +50,7 @@ export default function PageSignalerCreate() {
             Pick a name to help you identify this signaler.
           </TitleHint>
 
-          <div className="mt-4 flex max-w-4xl gap-6">
+          <div className="mt-4 flex max-w-4xl gap-6 mobile:flex-col">
             <TextBox
               placeholder="Signaler Name"
               className="basis-3/5"

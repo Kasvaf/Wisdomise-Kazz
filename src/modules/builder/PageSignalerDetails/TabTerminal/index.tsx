@@ -39,7 +39,7 @@ const TabTerminal = () => {
           assets={signaler?.assets}
           selectedItem={asset}
           onSelect={setAsset}
-          className="w-[250px]"
+          className="w-[250px] mobile:w-full"
           selectFirst
         />
 
@@ -60,7 +60,7 @@ const TabTerminal = () => {
       ) : (
         !!asset &&
         !!signaler && (
-          <div className="flex gap-4">
+          <div className="flex gap-4 mobile:flex-col-reverse">
             <div className="basis-2/3 rounded-xl bg-black/20">
               <SimulatedPositionsChart
                 candles={candles}

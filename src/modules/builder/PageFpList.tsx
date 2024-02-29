@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { bxRightArrowAlt } from 'boxicons-quasar';
+import { bxPlus, bxRightArrowAlt } from 'boxicons-quasar';
 import { useMyFinancialProductsQuery } from 'api/builder';
 import PageWrapper from 'modules/base/PageWrapper';
 import PriceChange from 'shared/PriceChange';
 import CoinsIcons from 'shared/CoinsIcons';
+import FabButton from 'shared/FabButton';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Card from 'shared/Card';
@@ -15,7 +16,14 @@ export default function PageFpList() {
     <PageWrapper loading={isLoading}>
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-xl font-semibold">My Financial Products</h1>
-        <Button to="/builder/fp/new">Create New Financial Product</Button>
+        <Button className="mobile:hidden" to="/builder/fp/new">
+          Create New Financial Product
+        </Button>
+        <FabButton
+          icon={bxPlus}
+          to="/builder/fp/new"
+          className="hidden mobile:block"
+        />
       </div>
 
       <div className="grid grid-cols-3 gap-4 mobile:grid-cols-1">

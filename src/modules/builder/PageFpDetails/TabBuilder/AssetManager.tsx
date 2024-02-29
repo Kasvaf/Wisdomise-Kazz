@@ -69,11 +69,11 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
 
   if (value.length === 0 && signalers.length === 0) return null;
   return (
-    <div className="flex min-w-[320px] max-w-[850px] grow flex-col items-stretch rounded-xl bg-black/30 p-3">
+    <div className="flex min-w-[320px] max-w-[850px] grow flex-col items-stretch gap-2 rounded-xl bg-black/30 p-3">
       {value.map(a => (
         <div
           key={a.strategy + a.asset.name}
-          className="flex grow items-center gap-2 rounded-lg bg-black/30 p-2"
+          className="flex grow items-center gap-2 rounded-lg bg-black/30 p-2 mobile:flex-col mobile:items-stretch"
         >
           <SignalerSelector
             className="grow"
@@ -106,10 +106,10 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             onSelect={asset =>
               onChange(value.map(v => (v === a ? { ...a, asset } : v)))
             }
-            className="w-[220px]"
+            className="w-[220px] mobile:w-full"
           />
           <AmountInputBox
-            className="w-[50px]"
+            className="w-[50px] mobile:w-full"
             value={String(a.share)}
             onChange={share =>
               onChange(value.map(v => (v === a ? { ...a, share: +share } : v)))
@@ -117,10 +117,11 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
           />
 
           <div
-            className="grow-0 cursor-pointer rounded-full p-2 hover:bg-white/5"
+            className="flex grow-0 cursor-pointer items-center rounded-full p-2 hover:bg-white/5 mobile:self-center"
             onClick={() => onChange(value.filter(x => x !== a))}
           >
             <Icon name={bxX} />
+            <span className="mr-2 hidden mobile:block">Remove</span>
           </div>
         </div>
       ))}

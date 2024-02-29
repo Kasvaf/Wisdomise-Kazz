@@ -81,7 +81,7 @@ const TabBuilder = () => {
   return (
     <div>
       <section>
-        <div className="mt-4 flex gap-6">
+        <div className="mt-4 flex gap-6 mobile:flex-col">
           <TextBox
             label="Financial Product Name"
             placeholder="Financial Product Name"
@@ -99,7 +99,7 @@ const TabBuilder = () => {
           />
         </div>
 
-        <div className="mt-8 flex gap-6">
+        <div className="mt-8 flex gap-6 mobile:flex-col">
           <AmountInputBox
             label="Expected Drawdown"
             placeholder="Expected Drawdown"

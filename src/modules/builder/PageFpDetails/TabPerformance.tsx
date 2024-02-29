@@ -22,7 +22,7 @@ const TabPerformance = () => {
 
   return (
     <div className="mt-8">
-      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
+      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}

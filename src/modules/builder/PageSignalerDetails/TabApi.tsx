@@ -23,8 +23,8 @@ const TabApi = () => {
   if (!signaler) return null;
 
   return (
-    <section className="mt-8 flex gap-10">
-      <div className="flex w-1/2 grow-0 basis-1/2 flex-col gap-8">
+    <section className="mt-8 flex gap-10 mobile:flex-col">
+      <div className="desktop:w-1/2 flex grow-0 basis-1/2 flex-col gap-8">
         <div>
           <TitleHint title="Signaler ID">
             For webhooks and S3 integrations, you can differentiate strategy by
@@ -47,7 +47,7 @@ const TabApi = () => {
           </div>
         </div>
 
-        <Card className="flex items-center gap-4 !py-4">
+        <Card className="flex items-center gap-4 !py-4 mobile:flex-col">
           <TitleHint title="Documentation">
             API documentation is a set of readable instructions for using and
             integrating with an API
@@ -58,7 +58,7 @@ const TabApi = () => {
           </Button>
         </Card>
 
-        <Card className="flex items-center gap-4 !py-4">
+        <Card className="flex items-center gap-4 !py-4 mobile:flex-col">
           <TitleHint title="SDK">
             Download the SDK to get the tools and resources you need to create
             apps for your desired platform.
@@ -70,7 +70,7 @@ const TabApi = () => {
         </Card>
       </div>
 
-      <div className="flex w-1/2 grow-0 basis-1/2 flex-col gap-8">
+      <div className="desktop:w-1/2 flex grow-0 basis-1/2 flex-col gap-8">
         <div>
           <TitleHint title="Signaler API">
             {
