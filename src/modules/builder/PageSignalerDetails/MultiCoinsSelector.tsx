@@ -35,7 +35,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
         setOpen={setCoinsOpen}
       >
         <div className="mb-3 text-center text-white">Add Coin</div>
-        <div className="flex flex-col gap-2">
+        <div className="flex h-[300px] flex-col gap-2 overflow-y-scroll">
           {unusedAssets.map(a => (
             <div
               key={a.name}
@@ -91,6 +91,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
           onOpenChange={setCoinsOpen}
           placement="bottomRight"
           dropdownRender={dropDownFn}
+          autoAdjustOverflow
         >
           <Button variant="alternative" className="h-[60px] w-[60px]">
             <Icon name={bxPlus} />
