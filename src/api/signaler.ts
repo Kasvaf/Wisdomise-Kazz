@@ -122,11 +122,12 @@ export const useStrategiesList = () => {
       const { data } = await axios.get<StrategyItem[]>(
         'strategy/strategies?' + isPublic,
       );
-      data.map(s => ({
-        ...s,
-        supported_pairs: s.supported_pairs.map(normalizePair),
-      }));
-      return data.sort(strategyComparer);
+      return data
+        .map(s => ({
+          ...s,
+          supported_pairs: s.supported_pairs.map(normalizePair),
+        }))
+        .sort(strategyComparer);
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
