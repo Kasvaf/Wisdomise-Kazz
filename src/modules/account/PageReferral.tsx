@@ -52,7 +52,7 @@ export default function ReferralPage() {
               })}
             </div>
           </div>
-          <div className="mb-4 grid grid-cols-12 gap-9">
+          <div className="mb-4 grid grid-cols-1 gap-9 sm:grid-cols-2 xl:grid-cols-4">
             <ReferralCard
               title={t('page-referral.friends-invited')}
               interval={referral.interval_referred_users_count}
@@ -89,7 +89,7 @@ interface ReferralCardProps {
 function ReferralCard({ title, interval, all }: ReferralCardProps) {
   const { t } = useTranslation('auth');
   return (
-    <Card className="col-span-6 flex flex-col items-center justify-between xl:col-span-3">
+    <Card className="flex flex-col items-center justify-between">
       <div className="text-center">{title}</div>
       <div className="my-4 text-2xl font-bold">{interval}</div>
       <div>
