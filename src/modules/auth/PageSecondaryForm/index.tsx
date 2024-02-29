@@ -4,7 +4,7 @@ import { Select, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { bxCheckCircle } from 'boxicons-quasar';
+import { bxCheckCircle, bxChevronDown } from 'boxicons-quasar';
 import { useAccountQuery, useCountriesQuery, useUserInfoMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import Button from 'shared/Button';
@@ -169,6 +169,9 @@ const PageSecondaryForm: React.FC = () => {
               placeholder={t('secondary.country.label')}
               size="large"
               className="mt-1 block w-[300px] rounded-xl border-2 border-solid border-[#ffffff1a] bg-transparent md:w-[400px]"
+              suffixIcon={
+                <Icon name={bxChevronDown} className="mr-2 text-white" />
+              }
             />
             {errors && !country && (
               <p className="ml-2 text-error">

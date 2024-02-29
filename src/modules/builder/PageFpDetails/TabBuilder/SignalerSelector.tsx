@@ -1,5 +1,7 @@
 import { Select } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import type React from 'react';
+import Icon from 'shared/Icon';
 
 interface SignalerInfo {
   key: string;
@@ -49,6 +51,7 @@ const SignalerSelector: React.FC<Props> = ({
         }))}
         disabled={disabled}
         value={selectedItem}
+        suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
         className="w-full"
       />
     </div>

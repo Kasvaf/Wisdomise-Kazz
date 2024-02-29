@@ -1,6 +1,8 @@
 import { Select } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import { useEffect, useState } from 'react';
 import TextBox from 'shared/TextBox';
+import Icon from 'shared/Icon';
 const { Option } = Select;
 
 interface Props {
@@ -20,7 +22,12 @@ const DurationInput: React.FC<Props> = ({ onChange, value, ...props }) => {
   const [unit, setUnit] = useState(value.replace(/^\d+/, ''));
 
   const selectAfter = (
-    <Select value={unit} onChange={setUnit} className="bg-transparent">
+    <Select
+      value={unit}
+      onChange={setUnit}
+      className="bg-transparent"
+      suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
+    >
       <Option value="s">Second</Option>
       <Option value="m">Minute</Option>
       <Option value="h">Hour</Option>

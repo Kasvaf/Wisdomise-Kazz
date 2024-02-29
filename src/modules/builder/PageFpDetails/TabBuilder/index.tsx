@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Select, notification } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import {
   type MyFinancialProduct,
   useMyFinancialProductQuery,
@@ -13,6 +14,7 @@ import deepEqual from 'shared/deepEqual';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 import AmountInputBox from 'shared/AmountInputBox';
 import AssetManager from './AssetManager';
 const { Option } = Select;
@@ -135,6 +137,9 @@ const TabBuilder = () => {
               placeholder="Risk Level"
               value={changes.risk_level ?? fp.risk_level}
               onChange={v => update('risk_level', v)}
+              suffixIcon={
+                <Icon name={bxChevronDown} className="mr-2 text-white" />
+              }
             >
               <Option value="Low">Low</Option>
               <Option value="Medium">Medium</Option>

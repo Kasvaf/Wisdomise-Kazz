@@ -1,6 +1,8 @@
 import type React from 'react';
 import { Select } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import { useFpSubscribersQuery } from 'api/builder';
+import Icon from 'shared/Icon';
 
 interface Props {
   fpKey?: string;
@@ -45,6 +47,7 @@ const SubscriberSelector: React.FC<Props> = ({
         disabled={disabled}
         value={selectedItem}
         className="w-full"
+        suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
       />
     </div>
   );

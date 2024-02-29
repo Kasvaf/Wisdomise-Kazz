@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Select, notification } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import {
   type RiskLevel,
   useCreateMyFinancialProductMutation,
 } from 'api/builder';
+import { type MarketTypes } from 'api/types/financialProduct';
 import { unwrapErrorMessage } from 'utils/error';
 import PageWrapper from 'modules/base/PageWrapper';
 import MarketSelector from 'modules/account/MarketSelector';
@@ -12,7 +14,7 @@ import AmountInputBox from 'shared/AmountInputBox';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
-import { type MarketTypes } from 'api/types/financialProduct';
+import Icon from 'shared/Icon';
 const { Option } = Select;
 
 export default function PageFpCreate() {
@@ -108,6 +110,9 @@ export default function PageFpCreate() {
                 placeholder="Risk Level"
                 value={riskLevel}
                 onChange={setRiskLevel}
+                suffixIcon={
+                  <Icon name={bxChevronDown} className="mr-2 text-white" />
+                }
               >
                 <Option value="Low">Low</Option>
                 <Option value="Medium">Medium</Option>

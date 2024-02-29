@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import { Select } from 'antd';
+import { useQuery } from '@tanstack/react-query';
+import { bxChevronDown } from 'boxicons-quasar';
 import { RouterBaseName } from 'config/constants';
+import Icon from 'shared/Icon';
 
 const gotoBranch = (value: string) => {
   window.location.href = value + window.location.hash;
@@ -26,6 +28,7 @@ const BranchSelector = () => {
       onChange={gotoBranch}
       options={branches.data}
       className="mr-2 text-white"
+      suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
     />
   );
 };
