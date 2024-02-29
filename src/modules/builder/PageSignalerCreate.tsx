@@ -90,7 +90,11 @@ export default function PageSignalerCreate() {
         </section>
 
         <section className="mt-12">
-          <Button onClick={onCreateHandler} loading={isLoading}>
+          <Button
+            disabled={!name}
+            onClick={onCreateHandler}
+            loading={isLoading}
+          >
             Create Signaler
           </Button>
         </section>

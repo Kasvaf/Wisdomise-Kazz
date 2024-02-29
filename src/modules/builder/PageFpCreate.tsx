@@ -118,7 +118,13 @@ export default function PageFpCreate() {
         </section>
 
         <section className="mt-12 justify-center mobile:flex">
-          <Button onClick={onCreateHandler} loading={isLoading}>
+          <Button
+            disabled={
+              !title || !description || !expectedDrawdown || !expectedApy
+            }
+            onClick={onCreateHandler}
+            loading={isLoading}
+          >
             Create Financial Product
           </Button>
         </section>

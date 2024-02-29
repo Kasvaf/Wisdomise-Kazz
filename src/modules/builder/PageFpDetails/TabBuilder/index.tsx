@@ -28,7 +28,8 @@ const TabBuilder = () => {
       [field]: value,
     }));
   }, []);
-
+  const requiredCheck = (field: keyof MyFinancialProduct) =>
+    !(changes[field] ?? fp?.[field]) && 'This field is required';
   // ----------------------------------------------------------------------
 
   const fieldHasChanges = (field: keyof MyFinancialProduct) =>
@@ -88,6 +89,7 @@ const TabBuilder = () => {
             className="basis-2/5"
             value={changes.title ?? fp.title}
             onChange={v => update('title', v)}
+            error={requiredCheck('title')}
           />
 
           <TextBox
@@ -96,6 +98,7 @@ const TabBuilder = () => {
             className="basis-3/5"
             value={changes.description ?? fp.description}
             onChange={v => update('description', v)}
+            error={requiredCheck('description')}
           />
         </div>
 
@@ -106,6 +109,7 @@ const TabBuilder = () => {
             className="basis-1/4"
             value={changes.expected_drawdown ?? fp.expected_drawdown}
             onChange={v => update('expected_drawdown', v)}
+            error={requiredCheck('expected_drawdown')}
           />
           <AmountInputBox
             label="Expected APY"
@@ -113,6 +117,7 @@ const TabBuilder = () => {
             className="basis-1/4"
             value={changes.expected_apy ?? fp.expected_apy}
             onChange={v => update('expected_apy', v)}
+            error={requiredCheck('expected_apy')}
           />
 
           <MarketSelector
@@ -145,13 +150,20 @@ const TabBuilder = () => {
             value={changes.assets ?? fp.assets}
             onChange={v => update('assets', v)}
           />
-          <div className="mt-2 text-error">{assetsError}</div>
+          <div className="ml-5 mt-2 text-error">{assetsError}</div>
         </div>
       </section>
 
       <section className="mt-8 flex justify-center">
         <Button
-          disabled={!hasChanges && !assetsError}
+          disabled={
+            !hasChanges ||
+            !!assetsError ||
+            !!requiredCheck('title') ||
+            !!requiredCheck('description') ||
+            !!requiredCheck('expected_drawdown') ||
+            !!requiredCheck('expected_apy')
+          }
           loading={isSaving}
           onClick={saveChanges}
         >

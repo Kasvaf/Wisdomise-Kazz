@@ -31,6 +31,9 @@ const TabConfig = () => {
     }));
   }, []);
 
+  const requiredCheck = (field: keyof SignalerData) =>
+    !(changes[field] ?? signaler?.[field]) && 'This field is required';
+
   // ----------------------------------------------------------------------
 
   const fieldHasChanges = (field: keyof SignalerData) =>
@@ -78,6 +81,7 @@ const TabConfig = () => {
           value={changes.name ?? signaler.name}
           onChange={v => update('name', v)}
           className="basis-3/5"
+          error={requiredCheck('name')}
         />
 
         <MarketSelector
@@ -105,7 +109,11 @@ const TabConfig = () => {
       />
 
       <section className="mt-8 flex justify-center">
-        <Button disabled={!hasChanges} loading={isSaving} onClick={saveChanges}>
+        <Button
+          disabled={!hasChanges || !!requiredCheck('name')}
+          loading={isSaving}
+          onClick={saveChanges}
+        >
           Save
         </Button>
       </section>
