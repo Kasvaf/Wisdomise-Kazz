@@ -35,14 +35,19 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
   );
 
   const usedPairs = useMemo(
-    () => Object.fromEntries(value.map(v => [v.strategy + v.asset.name, true])),
+    () =>
+      Object.fromEntries(
+        value.map(v => [v.strategy + v.asset.base.name, true]),
+      ),
     [value],
   );
 
   const nextItemToAdd = useMemo(() => {
+    console.log(signalers, usedPairs);
     for (const s of signalers) {
       for (const asset of s.assets) {
-        if (!usedPairs[s.key + asset.name]) {
+        if (!usedPairs[s.key + asset.base.name]) {
+          console.log(s.key + asset.base.name);
           return {
             strategy: s.key,
             asset,
@@ -55,7 +60,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
 
   function signalerUnusedAssets(signalerKey: string, assetName?: string) {
     return signalerByKey[signalerKey]?.assets?.filter(
-      b => b.name === assetName || !usedPairs[signalerKey + b.name],
+      b => b.base.name === assetName || !usedPairs[signalerKey + b.base.name],
     );
   }
 
@@ -72,7 +77,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
     <div className="flex min-w-[320px] max-w-[850px] grow flex-col items-stretch gap-2 rounded-xl bg-black/30 p-3">
       {value.map(a => (
         <div
-          key={a.strategy + a.asset.name}
+          key={a.strategy + a.asset.base.name}
           className="flex grow items-center gap-2 rounded-lg bg-black/30 p-2 mobile:flex-col mobile:items-stretch"
         >
           <SignalerSelector
@@ -80,7 +85,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             signalers={signalers.filter(
               s =>
                 s.key === a.strategy ||
-                s.assets.some(a => !usedPairs[s.key + a.name]),
+                s.assets.some(a => !usedPairs[s.key + a.base.name]),
             )}
             selectedItem={a.strategy}
             onSelect={strategy => {
@@ -92,8 +97,9 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
                         ...a,
                         strategy,
                         asset:
-                          unusedAssets.find(x => x.name === a.asset.name) ??
-                          unusedAssets[0],
+                          unusedAssets.find(
+                            x => x.base.name === a.asset.base.name,
+                          ) ?? unusedAssets[0],
                       }
                     : v,
                 ),
@@ -101,7 +107,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             }}
           />
           <AssetSelector
-            assets={signalerUnusedAssets(a.strategy, a.asset.name)}
+            assets={signalerUnusedAssets(a.strategy, a.asset.base.name)}
             selectedItem={a.asset}
             onSelect={asset =>
               onChange(value.map(v => (v === a ? { ...a, asset } : v)))
