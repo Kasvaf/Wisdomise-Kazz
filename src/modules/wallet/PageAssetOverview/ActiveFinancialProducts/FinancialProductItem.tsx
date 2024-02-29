@@ -80,7 +80,7 @@ const FinancialProductItem: React.FC<{
 
           <section className="flex overflow-x-auto mobile:flex-col mobile:justify-between">
             {ias.data?.[0]?.asset_bindings.map(a => (
-              <FpiAssetItem asset={a} key={a.name} />
+              <FpiAssetItem asset={a} key={a.asset.name} />
             ))}
           </section>
 

@@ -44,7 +44,6 @@ export interface AssetBinding {
   equity: number;
   amount: number;
   share: number;
-  name: string;
 }
 
 interface MainExchangeAccount {

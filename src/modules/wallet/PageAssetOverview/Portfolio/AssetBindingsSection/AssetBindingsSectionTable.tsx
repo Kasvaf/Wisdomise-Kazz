@@ -57,8 +57,8 @@ const AssetBindingsSectionTable = () => {
 
   const tableData =
     data?.asset_bindings.map<Row>(a => ({
-      key: a.name,
-      coin: a.name,
+      key: a.asset.base.name,
+      coin: a.asset.base.name,
       amount: a.amount,
       equity: a.equity,
       share: a.share,
