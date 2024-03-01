@@ -30,11 +30,7 @@ export default function ImportTokenButton() {
   };
 
   return (
-    <Button
-      variant="alternative"
-      className="bg-gradient-to-bl from-[rgba(97,82,152,0.40)] from-15% to-[rgba(66,66,123,0.40)] to-75% brightness-125"
-      onClick={importToken}
-    >
+    <Button variant="primary-purple" onClick={importToken}>
       <div className="flex items-center gap-2">
         <WIcon />
         Import WSDM

@@ -7,8 +7,10 @@ import {
 } from 'modules/account/PageToken/web3/wsdm/wsdmContract';
 import {
   LOCKING_CONTRACT_ADDRESS,
+  useReadLockedBalance,
   useWriteLock,
 } from 'modules/account/PageToken/web3/locking/contract';
+import { addComma } from 'utils/numbers';
 
 export function useLocking() {
   const { address } = useAccount();
@@ -16,6 +18,7 @@ export function useLocking() {
     LOCKING_CONTRACT_ADDRESS,
   );
   const [amount, setAmount] = useState<bigint>();
+  const { data: lockedBalance } = useReadLockedBalance();
 
   const {
     write: lock,
@@ -95,5 +98,11 @@ export function useLocking() {
     [approveIsLoading, approveTrxIsLoading, lockIsLoading, lockTrxIsLoading],
   );
 
-  return { handleLocking, isLoading, lockTrxReceipt };
+  return {
+    handleLocking,
+    isLoading,
+    lockTrxReceipt,
+    hasLockedToken: lockedBalance,
+    lockedBalance: addComma((lockedBalance ?? 0n) / 10n ** 6n),
+  };
 }

@@ -1,5 +1,11 @@
-import { useContractWrite } from 'wagmi';
+import {
+  useContractRead,
+  useContractWrite,
+  useWaitForTransaction,
+} from 'wagmi';
 import { zeroAddress } from 'viem';
+import { useEffect } from 'react';
+import { notification } from 'antd';
 import { LOCKING_ABI } from 'modules/account/PageToken/web3/locking/abi';
 import { isProduction } from 'utils/version';
 
@@ -15,6 +21,41 @@ const LOCKING_CONTRACT_DEFAULT_CONFIG = {
 export function useWriteLock() {
   return useContractWrite({
     ...LOCKING_CONTRACT_DEFAULT_CONFIG,
-    functionName: 'lock',
+    functionName: 'lockWithPermit',
   });
+}
+
+export function useReadLockedBalance() {
+  return useContractRead({
+    ...LOCKING_CONTRACT_DEFAULT_CONFIG,
+    functionName: 'balanceOf',
+  });
+}
+
+export function useWriteUnlock() {
+  return useContractWrite({
+    ...LOCKING_CONTRACT_DEFAULT_CONFIG,
+    functionName: 'unlock',
+  });
+}
+
+export function useUnlock() {
+  const { write, data: result, isLoading, error } = useWriteUnlock();
+  const { data: trxReceipt, isLoading: isWaiting } = useWaitForTransaction({
+    hash: result?.hash,
+    enabled: !!result?.hash,
+  });
+
+  useEffect(() => {
+    if (error) {
+      notification.error({ message: error.message });
+    }
+  }, [error]);
+
+  return {
+    unlock: write,
+    isLoading: isLoading || isWaiting,
+    trxReceipt,
+    error,
+  };
 }

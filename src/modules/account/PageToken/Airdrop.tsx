@@ -34,8 +34,7 @@ export default function Airdrop() {
         {/*  </div> */}
         {/* </div> */}
         <Button
-          variant="alternative"
-          className="bg-gradient-to-bl from-[rgba(97,82,152,0.40)] from-15% to-[rgba(66,66,123,0.40)] to-75%"
+          variant="primary-purple"
           onClick={checkEligibility}
           loading={isFetching}
           disabled={isFetching}

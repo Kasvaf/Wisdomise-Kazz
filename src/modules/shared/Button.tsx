@@ -11,6 +11,7 @@ interface Props extends PropsWithChildren {
   loading?: boolean;
   variant?:
     | 'primary'
+    | 'primary-purple'
     | 'alternative'
     | 'secondary'
     | 'link'
@@ -19,7 +20,7 @@ interface Props extends PropsWithChildren {
   className?: string;
   contentClassName?: string;
   disabled?: boolean;
-  onClick?: React.MouseEventHandler<any>;
+  onClick?: React.MouseEventHandler<unknown>;
   target?: string;
 }
 
@@ -148,6 +149,26 @@ const Button: React.FC<Props> = ({
           'rounded-xl bg-[#11C37E99] px-8 py-4 text-sm font-medium leading-none text-white hover:bg-[#11C37E99]/80',
           disabled &&
             'cursor-not-allowed !border-[#11C37E99]/40 !bg-[#11C37E99]/10 text-white/10',
+          loading && 'cursor-wait text-white/50',
+          sizeClass,
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
+  if (variant === 'primary-purple') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          'rounded-xl bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-8 py-4 text-sm font-medium leading-none text-white hover:bg-[#11C37E99]/80',
+          disabled &&
+            'cursor-not-allowed !border-[#11C37E99]/40 text-white/10 grayscale',
           loading && 'cursor-wait text-white/50',
           sizeClass,
           className,
