@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  type Asset,
-  useSignalerQuery,
-  useSignalerPerfQuery,
-} from 'api/builder';
+import { type PairData } from 'api/types/strategy';
+import { useSignalerQuery, useSignalerPerfQuery } from 'api/builder';
 import InfoBox from 'modules/builder/InfoBox';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import PriceChange from 'shared/PriceChange';
@@ -17,7 +14,7 @@ const TabPerformance = () => {
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
 
-  const [asset, setAsset] = useState<Asset>();
+  const [asset, setAsset] = useState<PairData>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
   const { data, isLoading } = useSignalerPerfQuery({
@@ -27,25 +24,32 @@ const TabPerformance = () => {
     endTime: dateRange?.[1].toISOString(),
   });
 
+  const dateRangeDiff =
+    dateRange?.[0] && dateRange?.[1]
+      ? Math.round((+dateRange[1] - +dateRange[0]) / (24 * 60 * 60 * 1000)) - 1
+      : undefined;
+
   const inputted = Boolean(
     params.id && asset?.name && dateRange?.[0] && dateRange?.[1],
   );
 
   return (
     <div className="mt-8">
-      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
+      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
           assets={signaler?.assets}
           selectedItem={asset}
           onSelect={setAsset}
-          className="w-[250px]"
+          className="w-[250px] mobile:w-full"
+          selectFirst
         />
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}
           label="Date"
+          defaultRecent={7}
         />
       </div>
 
@@ -75,18 +79,26 @@ const TabPerformance = () => {
                   </>
                 }
               >
-                <PriceChange value={data.pnl} textClassName="!text-xl" />
+                <PriceChange
+                  value={data.pnl}
+                  textClassName="!text-xl"
+                  valueToFixed
+                />
               </InfoBox>
               <InfoBox
                 title={
                   <>
-                    Max Drawdown <span className="text-[#34A3DA99]">7d</span>
+                    Max Drawdown{' '}
+                    {dateRangeDiff !== undefined && (
+                      <span className="text-[#34A3DA99]">{dateRangeDiff}d</span>
+                    )}
                   </>
                 }
               >
                 <PriceChange
                   value={data.max_drawdown}
                   textClassName="!text-xl"
+                  valueToFixed
                 />
               </InfoBox>
             </div>

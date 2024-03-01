@@ -23,14 +23,26 @@ export default function BottomNavbar() {
 
   return (
     <div className="fixed bottom-0 z-50 hidden h-16 w-full items-stretch justify-between bg-[#1E1F24] text-white mobile:grid mobile:grid-cols-5">
-      <div className="col-span-2 self-center">
-        {items[1] && renderItem(items[0])}
-      </div>
-      <div className="w-20">
-        <AthenaFloatMobileIcon />
-      </div>
-      {items[0] && renderItem(items[1])}
-      {items[0] && renderItem(items[2])}
+      {items.length < 4 ? (
+        <>
+          <div className="col-span-2 self-center">{renderItem(items[0])}</div>
+          <div className="w-20">
+            <AthenaFloatMobileIcon />
+          </div>
+          {renderItem(items[1])}
+          {renderItem(items[2])}
+        </>
+      ) : (
+        <>
+          {renderItem(items[1])}
+          {renderItem(items[0])}
+          <div className="w-20">
+            <AthenaFloatMobileIcon />
+          </div>
+          {renderItem(items[2])}
+          {renderItem(items[3])}
+        </>
+      )}
     </div>
   );
 }

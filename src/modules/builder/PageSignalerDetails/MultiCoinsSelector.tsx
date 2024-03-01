@@ -2,16 +2,16 @@ import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { bxPlus, bxX } from 'boxicons-quasar';
 import { useCallback, useMemo, useState } from 'react';
-import { type Asset } from 'api/builder';
+import { type PairData } from 'api/types/strategy';
 import DropdownContainer from 'shared/DropdownContainer';
 import PairInfo from 'shared/PairInfo';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 
 interface Props {
-  options: Asset[];
-  items: Asset[];
-  onChange: (newItems: Asset[]) => void;
+  options: PairData[];
+  items: PairData[];
+  onChange: (newItems: PairData[]) => void;
   className?: string;
 }
 
@@ -35,7 +35,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
         setOpen={setCoinsOpen}
       >
         <div className="mb-3 text-center text-white">Add Coin</div>
-        <div className="flex flex-col gap-2">
+        <div className="flex h-[300px] flex-col gap-2 overflow-y-scroll">
           {unusedAssets.map(a => (
             <div
               key={a.name}
@@ -48,7 +48,8 @@ const MultiCoinsSelector: React.FC<Props> = ({
             >
               <PairInfo
                 title={a.display_name}
-                base={a.symbol}
+                base={a.base.name}
+                quote={a.quote.name}
                 name={a.name}
                 className="!p-1"
               />
@@ -69,7 +70,8 @@ const MultiCoinsSelector: React.FC<Props> = ({
         >
           <PairInfo
             title={p.display_name}
-            base={p.symbol}
+            base={p.base.name}
+            quote={p.quote.name}
             name={p.name}
             className="!p-1"
           />
@@ -89,6 +91,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
           onOpenChange={setCoinsOpen}
           placement="bottomRight"
           dropdownRender={dropDownFn}
+          autoAdjustOverflow
         >
           <Button variant="alternative" className="h-[60px] w-[60px]">
             <Icon name={bxPlus} />

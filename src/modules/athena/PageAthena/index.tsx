@@ -20,13 +20,14 @@ export default function PageAthena({ isFloat }: { isFloat?: boolean }) {
       <div
         className={clsx(
           'min-h-[calc(100vh-7rem)] mobile:min-h-[unset] md:relative',
+          isFloat && 'flex',
         )}
       >
         <AthenaProvider>
           <section
             className={clsx(
               'mx-auto flex max-w-[1400px] flex-col items-center gap-14 mobile:gap-10',
-              isFloat && 'gap-9',
+              isFloat && 'w-full justify-center gap-9',
             )}
           >
             <Header isFloat={isFloat} />

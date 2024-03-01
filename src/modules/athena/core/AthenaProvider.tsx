@@ -69,6 +69,7 @@ export const AthenaProvider: React.FC<PropsWithChildren> = ({ children }) => {
       setLeftQuestions(v => v - 1);
 
       const jwtToken = getJwtToken();
+      abort.current?.();
       const controller = new AbortController();
       abort.current = () => controller.abort();
 

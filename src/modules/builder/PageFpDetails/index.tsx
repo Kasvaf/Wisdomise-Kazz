@@ -4,14 +4,15 @@ import { useEffect } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabUsage from './TabUsage';
+import TabBuilder from './TabBuilder';
 import TabPositions from './TabPositions';
 import TabPerformance from './TabPerformance';
 
 const items: TabsProps['items'] = [
   {
-    key: 'config',
+    key: 'build',
     label: 'Product Builder',
-    children: <>Product Builder</>,
+    children: <TabBuilder />,
   },
   {
     key: 'perf',
@@ -41,7 +42,7 @@ export default function PageFpDetails() {
 
   const [activeTab, setActiveTab] = useSearchParamAsState<string>(
     'tab',
-    'config',
+    'build',
   );
 
   return (

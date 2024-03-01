@@ -1,15 +1,21 @@
-import type React from 'react';
 import { Select } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
-import { useFpSubscribersQuery } from 'api/builder';
+import type React from 'react';
 import Icon from 'shared/Icon';
 
+interface SignalerInfo {
+  key: string;
+  name: string;
+}
+
 interface Props {
-  fpKey?: string;
   label?: string;
+  isLoading?: boolean;
+  signalers?: SignalerInfo[];
   selectedItem?: string;
-  onSelect?: (spi: string) => void;
+  onSelect?: (signaler: string) => void;
   disabled?: boolean;
+  placeholder?: string;
   className?: string;
 }
 
@@ -18,39 +24,38 @@ const filterOption = (
   option?: { label: string; value: string },
 ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-const SubscriberSelector: React.FC<Props> = ({
-  fpKey,
+const SignalerSelector: React.FC<Props> = ({
   label,
+  signalers = [],
   selectedItem,
   onSelect,
   disabled = false,
+  placeholder = label,
+  isLoading,
   className,
 }) => {
-  const { data: spis, isLoading } = useFpSubscribersQuery({ fpKey });
-  const options = spis?.map(sub => ({
-    value: sub.key,
-    label: sub.title,
-  }));
-
   return (
     <div className={className}>
       {label && <label className="mb-2 ml-4 block">{label}</label>}
 
       <Select
         showSearch
-        placeholder="Choose Account"
+        placeholder={placeholder}
         optionFilterProp="children"
         onChange={onSelect}
         filterOption={filterOption}
         loading={isLoading}
-        options={options}
+        options={signalers.map(sub => ({
+          value: sub.key,
+          label: sub.name,
+        }))}
         disabled={disabled}
         value={selectedItem}
-        className="w-full"
         suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
+        className="w-full"
       />
     </div>
   );
 };
 
-export default SubscriberSelector;
+export default SignalerSelector;

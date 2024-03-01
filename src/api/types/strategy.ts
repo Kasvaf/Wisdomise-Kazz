@@ -7,8 +7,9 @@ export interface BareStrategyInfo {
     | undefined;
 }
 
-export interface SupportedPair {
+export interface PairData {
   name: string;
+  display_name: string;
   base: { name: string };
   quote: { name: string };
 }

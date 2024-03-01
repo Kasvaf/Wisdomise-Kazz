@@ -22,11 +22,12 @@ const TabPerformance = () => {
 
   return (
     <div className="mt-8">
-      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
+      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}
           label="Date"
+          defaultRecent={7}
         />
       </div>
 
@@ -56,7 +57,11 @@ const TabPerformance = () => {
                   </>
                 }
               >
-                <PriceChange value={data.pnl} textClassName="!text-xl" />
+                <PriceChange
+                  value={data.pnl}
+                  textClassName="!text-xl"
+                  valueToFixed
+                />
               </InfoBox>
               <InfoBox
                 title={
@@ -68,6 +73,7 @@ const TabPerformance = () => {
                 <PriceChange
                   value={data.max_drawdown}
                   textClassName="!text-xl"
+                  valueToFixed
                 />
               </InfoBox>
             </div>

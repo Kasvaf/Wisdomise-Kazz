@@ -1,5 +1,5 @@
 import { bxPlus, bxX } from 'boxicons-quasar';
-import { type BareStrategyInfo, type SupportedPair } from 'api/types/strategy';
+import { type BareStrategyInfo, type PairData } from 'api/types/strategy';
 import CoinsIcons from 'shared/CoinsIcons';
 import Chip from 'shared/Chip';
 import Icon from 'shared/Icon';
@@ -7,7 +7,7 @@ import Spin from 'shared/Spin';
 import useToggleNotification from './useToggleNotification';
 
 const SignalChip: React.FC<{
-  pair: SupportedPair;
+  pair: PairData;
   strategy: BareStrategyInfo;
   ensureConnected: () => Promise<boolean>;
 }> = ({ pair, strategy, ensureConnected }) => {

@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { bxRightArrowAlt } from 'boxicons-quasar';
+import { bxPlus, bxRightArrowAlt } from 'boxicons-quasar';
 import { useMySignalersQuery } from 'api/builder';
 import PageWrapper from 'modules/base/PageWrapper';
 import CoinsIcons from 'shared/CoinsIcons';
+import FabButton from 'shared/FabButton';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Card from 'shared/Card';
@@ -13,12 +14,19 @@ export default function PageSignalersList() {
 
   return (
     <PageWrapper loading={isLoading}>
-      <div className="flex items-center justify-between">
-        <h1 className="mb-8 text-xl font-semibold">My Signalers</h1>
-        <Button to="/builder/signalers/new">Create New Signaler</Button>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-xl font-semibold">My Signalers</h1>
+        <Button className="mobile:hidden" to="/builder/signalers/new">
+          Create New Signaler
+        </Button>
+        <FabButton
+          icon={bxPlus}
+          to="/builder/signalers/new"
+          className="hidden mobile:block"
+        />
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 mobile:grid-cols-1">
         {data?.map(s => (
           <NavLink key={s.key} to={`/builder/signalers/${s.key}`}>
             <Card className="cursor-pointer !px-6 !py-4 hover:bg-black/40">

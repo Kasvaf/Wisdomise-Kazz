@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type MarketTypes } from 'api/types/financialProduct';
+import { type PairData } from 'api/types/strategy';
 import { type Resolution } from 'api';
+import normalizePair from 'api/normalizePair';
 
 interface SignalerListItem {
   key: string;
@@ -9,12 +11,7 @@ interface SignalerListItem {
   market_name: MarketTypes;
   name: string;
   tags: string[];
-  assets: Array<{
-    name: string;
-    display_name: string;
-    base: { name: string };
-    quote: { name: string };
-  }>;
+  assets: PairData[];
   open_positions: number;
   last_week_positions: number;
 }
@@ -28,13 +25,7 @@ export const useMySignalersQuery = () =>
       );
       return data.map(s => ({
         ...s,
-        assets: s.assets.map((a: any) => ({
-          name: a.symbol?.name,
-          display_name: a.symbol?.title || a.pair?.title,
-          base: a.symbol,
-          quote: { name: 'USDT' },
-          ...a.pair,
-        })),
+        assets: s.assets.map(normalizePair),
       })) as SignalerListItem[];
     },
     {
@@ -52,7 +43,9 @@ export const useSignalerQuery = (signaler?: string) =>
       const { data } = await axios.get<SignalerData>(
         `factory/strategies/${signaler}`,
       );
-      data.assets.sort((a, b) => a.name.localeCompare(b.name));
+      data.assets = data.assets
+        .map(normalizePair)
+        .sort((a, b) => a.name.localeCompare(b.name));
       return data;
     },
     {
@@ -63,12 +56,6 @@ export const useSignalerQuery = (signaler?: string) =>
 
 // ======================================================================
 
-export interface Asset {
-  display_name: string;
-  name: string;
-  symbol: string;
-}
-
 export interface SignalerData {
   key: string;
   is_active: boolean;
@@ -78,7 +65,7 @@ export interface SignalerData {
   strategy_id: string;
   secret_key: string;
   signal_api_call_example: string;
-  assets: Asset[];
+  assets: PairData[];
   resolution: Resolution;
 }
 
@@ -99,6 +86,7 @@ export const useCreateSignalerMutation = () => {
         is_active: true,
         ...body,
       });
+      data.assets = data.assets.map(normalizePair);
       return data;
     },
     {
@@ -118,7 +106,7 @@ export const useUpdateSignalerMutation = () => {
       key: string;
       name: string;
       tags: string[];
-      assets: Asset[];
+      assets: Array<{ name: string }>;
       resolution: Resolution;
     }
   >(async ({ key, ...params }) => {

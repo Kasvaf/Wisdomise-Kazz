@@ -18,7 +18,8 @@ const PnlChart: React.FC<{
   }>;
 }> = ({ data }) => {
   const configs = useMemo<AreaConfig>(() => {
-    const max = Math.min(...data.map(r => Math.abs(r.v))) || 1;
+    const max = Math.max(...data.map(r => Math.abs(r.v)));
+    const min = Math.min(...data.map(r => Math.abs(r.v)));
 
     return {
       data,
@@ -40,16 +41,16 @@ const PnlChart: React.FC<{
         line: null,
       },
       yAxis: {
-        min: -max,
-        max,
+        min: min || -max || -100,
+        max: max || -min || 100,
         grid,
         label: {
           formatter(text) {
             const num = +text;
             return num
               ? num < 0
-                ? (num * 100).toFixed(0) + '%'
-                : '+' + (num * 100).toFixed(0) + '%'
+                ? num.toFixed(0) + '%'
+                : '+' + num.toFixed(0) + '%'
               : '0';
           },
         },

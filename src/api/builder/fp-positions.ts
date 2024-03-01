@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { type AssetPairInfo } from 'api/types/investorAssetStructure';
+import { type PairData } from 'api/types/strategy';
+import normalizePair from 'api/normalizePair';
 
 interface FpSubscriber {
   title: string;
@@ -47,7 +48,7 @@ interface ActualPosition {
   exit_time?: string;
   exit_price?: number;
   pnl: number;
-  pair: AssetPairInfo;
+  pair: PairData;
 }
 
 export const useFpPositionsQuery = ({
@@ -79,7 +80,13 @@ export const useFpPositionsQuery = ({
           },
         },
       );
-      return data;
+      return data.map(sp => ({
+        actual_position: {
+          ...sp.actual_position,
+          pair: normalizePair(sp.actual_position.pair),
+        },
+        strategy_position: sp.strategy_position,
+      })) satisfies StrategyPosition[];
     },
     {
       enabled: Boolean(

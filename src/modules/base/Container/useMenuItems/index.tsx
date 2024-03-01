@@ -84,7 +84,6 @@ const useMenuItems = () => {
       text: t('menu.builder.title'),
       link: '/builder',
       hide: isProduction,
-      mobileHide: true,
       children: [
         {
           text: t('menu.signal-builder.title'),

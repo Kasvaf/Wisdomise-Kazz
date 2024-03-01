@@ -10,6 +10,8 @@ interface Props {
   inputClassName?: string;
   error?: string | boolean;
   suffix?: string | React.ReactNode;
+  min?: number;
+  max?: number;
   onChange?: (item: string) => void;
 }
 
@@ -20,8 +22,23 @@ const toAmount = (v: string) =>
     .replace(/^\./, '0.')
     .replace(/^(\d+(\.\d*))\..*$/, '$1') || '0';
 
-const AmountInputBox: React.FC<Props> = props => {
-  return <TextBox type="tel" filter={toAmount} {...props} />;
+const AmountInputBox: React.FC<Props> = ({ min, max, ...props }) => {
+  return (
+    <TextBox
+      type="tel"
+      filter={toAmount}
+      {...props}
+      onBlur={() =>
+        props.onChange?.(
+          min !== undefined && +props.value < min
+            ? String(min)
+            : max !== undefined && +props.value > max
+            ? String(max)
+            : props.value,
+        )
+      }
+    />
+  );
 };
 
 export default AmountInputBox;

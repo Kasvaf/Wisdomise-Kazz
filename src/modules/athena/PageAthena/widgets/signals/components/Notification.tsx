@@ -74,11 +74,11 @@ export const Notification: React.FC<Props> = ({
             <TelegramIcon className="h-20 w-20" />
           </div>
           <p className="text-lg  text-white/60">
-            Login With Wisdomise Telegram Bot
+            Your Telegram is not connected
           </p>
-          <p className="text-lg font-bold text-white">
-            You need to join to our Telegram bot and click on the
-            /subscribe_to_signals.
+          <p className="text-sm font-bold text-white">
+            In order to receive notifications, open Telegram and press on the{' '}
+            <code className="text-info">start</code> button.
           </p>
           <a
             target="_blank"

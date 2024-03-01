@@ -8,14 +8,15 @@ import {
   useUpdateSignalerMutation,
 } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
+import MarketSelector from 'modules/account/MarketSelector';
 import deepEqual from 'shared/deepEqual';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
-import MarketSelector from 'modules/account/MarketSelector';
 import ResolutionSelector from '../ResolutionSelector';
 import TitleHint from '../TitleHint';
 import MultiCoinsSelector from './MultiCoinsSelector';
+import PublishNotice from './PublishNotice';
 
 const TabConfig = () => {
   const params = useParams<{ id: string }>();
@@ -29,6 +30,9 @@ const TabConfig = () => {
       [field]: value,
     }));
   }, []);
+
+  const requiredCheck = (field: keyof SignalerData) =>
+    !(changes[field] ?? signaler?.[field]) && 'This field is required';
 
   // ----------------------------------------------------------------------
 
@@ -70,13 +74,14 @@ const TabConfig = () => {
 
   return (
     <div>
-      <div className="mt-8 flex max-w-4xl gap-6">
+      <div className="mt-8 flex max-w-4xl gap-6 mobile:flex-col">
         <TextBox
           label="Signaler Name"
           placeholder="Signaler Name"
           value={changes.name ?? signaler.name}
           onChange={v => update('name', v)}
           className="basis-3/5"
+          error={requiredCheck('name')}
         />
 
         <MarketSelector
@@ -104,10 +109,16 @@ const TabConfig = () => {
       />
 
       <section className="mt-8 flex justify-center">
-        <Button disabled={!hasChanges} loading={isSaving} onClick={saveChanges}>
+        <Button
+          disabled={!hasChanges || !!requiredCheck('name')}
+          loading={isSaving}
+          onClick={saveChanges}
+        >
           Save
         </Button>
       </section>
+
+      <PublishNotice />
     </div>
   );
 };

@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCandlesQuery } from 'api';
-import {
-  type Asset,
-  useFpPositionsQuery,
-  useMyFinancialProductQuery,
-} from 'api/builder';
+import { type PairData } from 'api/types/strategy';
+import { useFpPositionsQuery, useMyFinancialProductQuery } from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
 import { bestResolution } from 'shared/CandleChart/utils';
 import DateRangeSelector from 'shared/DateRangeSelector';
@@ -21,7 +18,7 @@ const TabPositions = () => {
   const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
   const { data: fp } = useMyFinancialProductQuery(params.id);
-  const [asset, setAsset] = useState<Asset>();
+  const [asset, setAsset] = useState<PairData>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
   const [subscriberKey, setSubscriberKey] = useState('');
 
@@ -46,24 +43,27 @@ const TabPositions = () => {
 
   return (
     <div className="mt-8">
-      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8">
+      <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
-          assets={fp?.assets}
+          assets={fp?.assets?.map(x => x.asset)}
           selectedItem={asset}
           onSelect={setAsset}
-          className="w-[250px]"
+          className="w-[250px] mobile:w-full"
+          selectFirst
         />
 
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}
           label="Date"
+          defaultRecent={3}
         />
 
         <SubscriberSelector
           label="Subscriber"
+          className="w-[250px] mobile:w-full"
           fpKey={params.id}
           selectedItem={subscriberKey}
           onSelect={setSubscriberKey}

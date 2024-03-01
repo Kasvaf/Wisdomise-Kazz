@@ -1,20 +1,19 @@
 import { type Config } from './financialProduct';
 import { type RawPosition } from './signalResponse';
+import { type PairData } from './strategy';
 
-export type InvestorAssetStructures = [
-  {
-    key: string;
-    type: string;
-    total_equity: number;
-    pnl: number;
-    net_deposit: number;
-    working_capital: number;
-    investor: Investor;
-    financial_product_instances: FinancialProductInstance[];
-    main_exchange_account?: MainExchangeAccount;
-    asset_bindings: AssetBinding[];
-  } | null,
-];
+export type InvestorAssetStructures = Array<{
+  key: string;
+  type: string;
+  total_equity: number;
+  pnl: number;
+  net_deposit: number;
+  working_capital: number;
+  investor: Investor;
+  financial_product_instances: FinancialProductInstance[];
+  main_exchange_account?: MainExchangeAccount;
+  asset_bindings: AssetBinding[];
+}>;
 
 interface Investor {
   key: string;
@@ -41,32 +40,16 @@ interface FinancialProduct {
 }
 
 export interface AssetBinding {
-  asset: SymbolAsset | PairAsset;
+  asset: PairData;
   equity: number;
   amount: number;
   share: number;
-  name: string;
-}
-
-interface SymbolAsset {
-  type: 'SYMBOL';
-  symbol: { name: string };
-}
-
-interface PairAsset {
-  type: 'PAIR';
-  pair: {
-    base: {
-      name: string;
-    };
-    quote: Quote;
-  };
 }
 
 interface MainExchangeAccount {
   key: string;
   exchange_market: ExchangeMarket;
-  quote: Quote;
+  quote: { name: string };
   quote_equity: number;
   total_equity: number;
 }
@@ -84,17 +67,7 @@ interface Market {
   name: string;
 }
 
-export interface Quote {
-  name: string;
-}
-
-export interface AssetPairInfo {
-  title: string;
-  base: Quote;
-  quote: Quote;
-}
-
 export interface FpiPosition extends RawPosition {
-  pair: AssetPairInfo;
+  pair: PairData;
   amount: number;
 }

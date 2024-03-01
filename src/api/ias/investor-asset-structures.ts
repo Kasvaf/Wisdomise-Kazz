@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import normalizePair from 'api/normalizePair';
 import { type InvestorAssetStructures } from '../types/investorAssetStructure';
 
 export const useInvestorAssetStructuresQuery = () =>
@@ -9,21 +10,22 @@ export const useInvestorAssetStructuresQuery = () =>
       const { data } = await axios.get<InvestorAssetStructures>(
         '/ias/investor-asset-structures',
       );
-      for (const ab of data[0]?.asset_bindings ?? []) {
-        ab.name =
-          ab.asset.type === 'SYMBOL'
-            ? ab.asset.symbol.name
-            : ab.asset.pair.base.name;
-      }
-      for (const fpi of data[0]?.financial_product_instances ?? []) {
-        for (const ab of fpi.asset_bindings) {
-          ab.name =
-            ab.asset.type === 'SYMBOL'
-              ? ab.asset.symbol.name
-              : ab.asset.pair.base.name;
-        }
-      }
-      return data;
+      return data.map(fpi => ({
+        ...fpi,
+        asset_bindings: fpi?.asset_bindings.map(ab => ({
+          ...ab,
+          asset: normalizePair(ab.asset),
+        })),
+        financial_product_instances: fpi?.financial_product_instances.map(
+          fpi => ({
+            ...fpi,
+            asset_bindings: fpi.asset_bindings.map(ab => ({
+              ...ab,
+              asset: normalizePair(ab.asset),
+            })),
+          }),
+        ),
+      }));
     },
     {
       staleTime: Number.POSITIVE_INFINITY,

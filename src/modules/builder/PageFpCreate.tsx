@@ -1,22 +1,27 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Select, notification } from 'antd';
+import { bxChevronDown } from 'boxicons-quasar';
 import {
   type RiskLevel,
   useCreateMyFinancialProductMutation,
 } from 'api/builder';
+import { type MarketTypes } from 'api/types/financialProduct';
 import { unwrapErrorMessage } from 'utils/error';
 import PageWrapper from 'modules/base/PageWrapper';
+import MarketSelector from 'modules/account/MarketSelector';
 import AmountInputBox from 'shared/AmountInputBox';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
+import Icon from 'shared/Icon';
 const { Option } = Select;
 
 export default function PageFpCreate() {
   const [showErrors, setShowErrors] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [marketType, setMarketType] = useState<MarketTypes>('FUTURES');
   const [riskLevel, setRiskLevel] = useState<RiskLevel>('Medium');
   const [expectedApy, setExpectedApy] = useState('');
   const [expectedDrawdown, setExpectedDrawdown] = useState('');
@@ -32,6 +37,7 @@ export default function PageFpCreate() {
       const { key } = await mutateAsync({
         title,
         description,
+        market_name: marketType,
         risk_level: riskLevel,
         expected_apy: expectedApy,
         expected_drawdown: expectedDrawdown,
@@ -50,7 +56,7 @@ export default function PageFpCreate() {
 
       <Card>
         <section>
-          <div className="mt-4 flex gap-6">
+          <div className="mt-4 flex gap-6 mobile:flex-col">
             <TextBox
               label="Financial Product Name"
               placeholder="Financial Product Name"
@@ -70,11 +76,11 @@ export default function PageFpCreate() {
             />
           </div>
 
-          <div className="mt-8 flex gap-6">
+          <div className="mt-8 flex gap-6 mobile:flex-col">
             <AmountInputBox
               label="Expected Drawdown"
               placeholder="Expected Drawdown"
-              className="basis-3/5"
+              className="basis-1/4"
               value={expectedDrawdown}
               onChange={setExpectedDrawdown}
               error={
@@ -84,18 +90,29 @@ export default function PageFpCreate() {
             <AmountInputBox
               label="Expected APY"
               placeholder="Expected APY"
-              className="basis-3/5"
+              className="basis-1/4"
               value={expectedApy}
               onChange={setExpectedApy}
               error={showErrors && !expectedApy && 'This field is required.'}
             />
 
-            <div>
+            <MarketSelector
+              label="Market"
+              className="basis-1/4"
+              selectedItem={marketType}
+              onSelect={setMarketType}
+            />
+
+            <div className="basis-1/4">
               <div className="mb-2 ml-4">Risk Level</div>
               <Select
+                className="w-full"
                 placeholder="Risk Level"
                 value={riskLevel}
                 onChange={setRiskLevel}
+                suffixIcon={
+                  <Icon name={bxChevronDown} className="mr-2 text-white" />
+                }
               >
                 <Option value="Low">Low</Option>
                 <Option value="Medium">Medium</Option>
@@ -105,8 +122,14 @@ export default function PageFpCreate() {
           </div>
         </section>
 
-        <section className="mt-12">
-          <Button onClick={onCreateHandler} loading={isLoading}>
+        <section className="mt-12 justify-center mobile:flex">
+          <Button
+            disabled={
+              !title || !description || !expectedDrawdown || !expectedApy
+            }
+            onClick={onCreateHandler}
+            loading={isLoading}
+          >
             Create Financial Product
           </Button>
         </section>

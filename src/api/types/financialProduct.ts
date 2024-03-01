@@ -35,7 +35,6 @@ export interface FinancialProduct {
   min_deposit: number;
   max_deposit: number;
   total_subscribers: number;
-  sp_bindings: SpBinding[];
 }
 
 interface Profile {
@@ -70,39 +69,4 @@ export interface Config {
   'can_use_external_account'?: boolean;
   'subscription_level'?: number;
   'weight'?: number;
-}
-
-interface SpBinding {
-  strategy_product: StrategyProduct;
-  weight: number;
-}
-
-interface StrategyProduct {
-  key: string;
-  title: string;
-  strategy_name: string;
-  market_name: string;
-  quote: Quote;
-  asset_bindings: AssetBinding[];
-}
-
-interface Quote {
-  key: string;
-  name: string;
-}
-
-interface AssetBinding {
-  asset: Asset;
-  share: number;
-}
-
-interface Asset {
-  key: string;
-  type: string;
-  symbol: SSymbol;
-}
-
-interface SSymbol {
-  key: string;
-  name: string;
 }

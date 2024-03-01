@@ -23,17 +23,19 @@ const AssetBindingsSection = () => {
 
   const onMouseEnter = useCallback(
     (e: ComputedDatum<any>) => {
-      setCurrentHoverCoin(data?.asset_bindings.find(d => d.name === e.id));
+      setCurrentHoverCoin(
+        data?.asset_bindings.find(d => d.asset.base.name === e.id),
+      );
     },
     [data?.asset_bindings],
   );
 
   const pieData =
     data?.asset_bindings.map(a => ({
-      id: a.name,
-      label: a.name,
+      id: a.asset.base.name,
+      label: a.asset.base.name,
       value: a.equity,
-      color: getCoinColor(a.name),
+      color: getCoinColor(a.asset.base.name),
     })) ?? [];
 
   return (
@@ -49,11 +51,11 @@ const AssetBindingsSection = () => {
                 <>
                   <CoinsIcons
                     size={isMobile ? 15 : 'small'}
-                    coins={[currentHoverCoin.name]}
+                    coins={[currentHoverCoin.asset.base.name]}
                   />
                 </>
                 <span className="ml-2 text-xs text-white">
-                  {currentHoverCoin.name}
+                  {currentHoverCoin.asset.base.name}
                 </span>
               </div>
               <p className="ml-4 text-sm font-medium text-white/90 mobile:ml-2">

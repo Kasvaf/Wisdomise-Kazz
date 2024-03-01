@@ -1,9 +1,12 @@
 import type React from 'react';
 import ComboBox from 'shared/ComboBox';
 import CoinsIcons from 'shared/CoinsIcons';
-import { type Quote } from 'api/types/investorAssetStructure';
 
-const CryptoOptionItem = (item: Quote) => {
+interface Crypto {
+  name: string;
+}
+
+const CryptoOptionItem = (item: Crypto) => {
   return (
     <div className="flex items-center">
       <div className="my-2 mr-2 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white">
@@ -15,9 +18,9 @@ const CryptoOptionItem = (item: Quote) => {
 };
 
 interface Props {
-  cryptos?: Quote[];
-  selectedItem: Quote;
-  onSelect?: (net: Quote) => void;
+  cryptos?: Crypto[];
+  selectedItem: Crypto;
+  onSelect?: (net: Crypto) => void;
   disabled?: boolean;
 }
 

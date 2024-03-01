@@ -1,28 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { type Quote } from './types/investorAssetStructure';
-// import { type TheoreticalPosition } from './strategy';
+import { type MarketTypes } from './types/financialProduct';
 import {
   type RawPosition,
   type SignalsResponse,
   type SuggestedAction,
 } from './types/signalResponse';
+import { type PairData } from './types/strategy';
+import normalizePair from './normalizePair';
 
 const isPublic = 'is_public=True';
 
-export interface SignalerPair {
-  base: Quote;
-  quote: Quote;
-  name: string;
-  display_name: string;
-}
-
 export const useSignalerPairs = () =>
-  useQuery<SignalerPair[]>(
+  useQuery<PairData[]>(
     ['signaler-pairs'],
     async () => {
-      const { data } = await axios.get<SignalerPair[]>('strategy/pairs');
-      return data;
+      const { data } = await axios.get<PairData[]>('strategy/pairs');
+      return data.map(normalizePair);
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
@@ -73,7 +67,7 @@ interface Strategy {
   name: string;
   version: string;
   resolution: string;
-  market_name: string;
+  market_name: MarketTypes;
   profile?: Profile;
 }
 
@@ -115,10 +109,10 @@ export interface StrategyItem {
   name: string;
   version: string;
   resolution: string;
-  market_name: string;
+  market_name: MarketTypes;
   config?: any;
   profile?: Profile;
-  supported_pairs: SignalerPair[];
+  supported_pairs: PairData[];
 }
 
 export const useStrategiesList = () => {
@@ -128,7 +122,12 @@ export const useStrategiesList = () => {
       const { data } = await axios.get<StrategyItem[]>(
         'strategy/strategies?' + isPublic,
       );
-      return data.sort(strategyComparer);
+      return data
+        .map(s => ({
+          ...s,
+          supported_pairs: s.supported_pairs.map(normalizePair),
+        }))
+        .sort(strategyComparer);
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
