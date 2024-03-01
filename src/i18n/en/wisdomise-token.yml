@@ -1,7 +1,3 @@
-balance:
-  add-token: Add tWSDM
-  token-name: tWSDM
-  your-balance: Your tWSDM token balance
 connect-wallet:
   billing:
     title: Payment by Wisdomise Token
@@ -19,15 +15,3 @@ connect-wallet:
   wisdomise-token:
     title: Connect Wallet
     description: To view utility status and your tWSDM balance, connect your wallet.
-utility:
-  title: Utility Activation
-  description: >-
-    Unlock exclusive access to Wisdomise’s premium subscription packages for an
-    entire year just by holding onto your $tWSDM tokens. There’s no deduction
-    from your tokens – simply keep them in your wallet. This effortless approach
-    ensures you enjoy all the premium benefits without any additional cost or
-    hassle. It’s a smart way to maximize the value of your investment while
-    exploring the full range of services that Wisdomise has to offer.
-  activate: Activate
-  activated: Activated
-  not-activated: Not Activated

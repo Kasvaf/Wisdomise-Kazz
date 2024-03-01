@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useCountdown } from 'usehooks-ts';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { type SubscriptionPlan } from 'api/types/subscription';
@@ -19,6 +20,11 @@ interface Props {
 export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
   const [done, setDone] = useState(false);
   const { t } = useTranslation('billing');
+  const [count, { startCountdown }] = useCountdown({ countStart: 30 * 60 });
+
+  useEffect(() => {
+    startCountdown();
+  }, [startCountdown]);
 
   const onDoneClick = async () => {
     window.location.reload();
@@ -28,9 +34,10 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
     <div className="grid h-screen grid-cols-12 overflow-auto text-white">
       <div className="col-span-12 flex h-full flex-col items-center justify-center bg-page lg:col-span-6">
         <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
-          <div className="flex items-center gap-3 mobile:hidden">
-            <p className="text-xl text-white">{t('token-modal.title')}</p>
-          </div>
+          <p className="text-xl text-white mobile:hidden">
+            {t('token-modal.title')}
+          </p>
+          <div>{count}</div>
 
           <LogoWithText className="hidden mobile:block" />
 
@@ -82,6 +89,17 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
                 </span>
               </div>
             </div>
+          </div>
+          <div className="mt-6 rounded-2xl bg-black/30 p-4">
+            <p className="mb-3 text-white/60">
+              By engaging in the WSDM Tokens Lockup, you hereby consent to the
+              following terms.
+            </p>
+            <p className="text-white/60">
+              <span className="font-bold text-white">Unlock Period:</span> WSDM
+              Tokens are subject to a 7-day unlock period. WSDM Tokens are fully
+              withdrawable without incurring any fees.
+            </p>
           </div>
         </div>
       </div>

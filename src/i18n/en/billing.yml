@@ -52,8 +52,8 @@ pricing-card:
     current-plan: Current Plan
     free: Free
     next-plan: Next Plan
-  lock: Lock
   just-yearly: Just In Yearly
+  lock: Lock
   monthly: Monthly
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
@@ -118,8 +118,8 @@ tabs:
 token-modal:
   title: Wisdomise AG
   description: >-
-    Your Wisdomise Tokens will not be deducted, you will only need to hold the
-    tokens in your wallet for the subscription period in order to gain access.
+    Your Wisdomise Tokens will be locked in a vault for the subscription period
+    in order to gain access.
   activate-subscription: Activate Subscription
   congratulations: Congratulations!
   done: Done
@@ -130,6 +130,6 @@ token-modal:
   subtotal: Subtotal
   token: tWSDM
   token-name: Wisdomise Token (WSDM)
-  total-amount: Total amount need to be hold in your wallet
+  total-amount: Total due today
   you-can: you can now access {{name}} Features.
   your-balance: Your WSDM Token Balance
