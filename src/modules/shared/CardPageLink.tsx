@@ -36,7 +36,7 @@ const CardPageLink: React.FC<
         </p>
       </div>
 
-      <div className="flex items-end justify-between">
+      <div className="flex items-center justify-between">
         <div>{children}</div>
         <Icon name={bxRightArrowAlt} className="group-hover:scale-110" />
       </div>

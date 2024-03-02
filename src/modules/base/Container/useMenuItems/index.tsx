@@ -26,6 +26,7 @@ interface MenuItem {
   text: string;
   link: string;
   hide?: boolean;
+  isBeta?: boolean;
   mobileHide?: boolean;
   onClick?: () => void;
 }
@@ -76,6 +77,13 @@ const useMenuItems = () => {
           text: t('menu.athena.title'),
           link: '/insight/athena',
           onClick: trackClick('crypto_chatbot_menu'),
+        },
+        {
+          text: t('menu.social-radar.title'),
+          link: '/insight/social-radar',
+          onClick: trackClick('social_radar_menu'),
+          isBeta: true,
+          hide: isProduction,
         },
       ],
     },

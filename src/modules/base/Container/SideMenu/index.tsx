@@ -4,6 +4,7 @@ import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
 import { MAIN_LANDING } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
+import BetaVersion from 'shared/BetaVersion';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as TreeMid } from './tree-mid.svg';
 import { ReactComponent as TreeLast } from './tree-last.svg';
@@ -50,11 +51,12 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
                 {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
                 <div
                   className={clsx(
-                    'my-1 ml-1 flex grow items-center rounded-xl px-4 text-sm group-hover:bg-[#FFFFFF0D]',
+                    'my-1 ml-1 flex grow items-center justify-between rounded-xl px-3 text-sm group-hover:bg-[#FFFFFF0D]',
                     'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
                   )}
                 >
                   {subItem.text}
+                  {subItem.isBeta && <BetaVersion minimal />}
                 </div>
               </NavLink>
             ))}

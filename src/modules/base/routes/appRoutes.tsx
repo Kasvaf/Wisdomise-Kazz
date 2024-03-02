@@ -31,6 +31,12 @@ const PageProtocolDetails = React.lazy(
   () => import('modules/products/PageProtocolDetails'),
 );
 const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
+const PageSocialRadar = React.lazy(
+  () => import('modules/insight/PageSocialRadar'),
+);
+const PageSocialRadarDetail = React.lazy(
+  () => import('modules/insight/PageSocialRadarDetail'),
+);
 
 const appRoutes: RouteObject[] = [
   {
@@ -59,6 +65,8 @@ const appRoutes: RouteObject[] = [
       { path: 'coins', element: <PageCoins /> },
       { path: 'coins/signaler', element: <PageSignaler /> },
       { path: 'athena', element: <PageAthena /> },
+      { path: 'social-radar', element: <PageSocialRadar /> },
+      { path: 'social-radar/:symbol', element: <PageSocialRadarDetail /> },
     ],
   },
   {

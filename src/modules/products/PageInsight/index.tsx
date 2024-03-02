@@ -2,8 +2,10 @@ import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'shared/CardPageLink';
 import { trackClick } from 'config/segment';
+import BetaVersion from 'shared/BetaVersion';
 import { ReactComponent as IconSignals } from './icon-signals.svg';
 import { ReactComponent as IconAthena } from './icon-athena.svg';
+import { ReactComponent as IconSocialRardar } from './icon-social-radar.svg';
 
 const PageInsight = () => {
   const { t } = useTranslation('base');
@@ -49,6 +51,17 @@ const PageInsight = () => {
           <div className="text-2xl font-medium mobile:text-xl">
             {t('menu.athena.features')}
           </div>
+        </CardPageLink>
+
+        <CardPageLink
+          to="/insight/social-radar"
+          title={t('menu.social-radar.title')}
+          subtitle={t('menu.social-radar.subtitle')}
+          icon={<IconSocialRardar />}
+          height={250}
+          onClick={trackClick('crypto_chatbot_menu')}
+        >
+          <BetaVersion />
         </CardPageLink>
       </div>
     </PageWrapper>
