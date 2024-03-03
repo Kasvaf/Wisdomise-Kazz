@@ -18,7 +18,9 @@ export default function PageSocialRadarDetail() {
       className="leading-none mobile:leading-normal"
     >
       <p className="font-semibold">{t('title')}</p>
-      <p className="mt-4 text-sm text-white/60">{t('detail-page.subtitle')}</p>
+      <p className="mt-4 text-sm text-white/60">
+        {t('detail-page.subtitle', { symbol: params.symbol })}
+      </p>
 
       <section className="mt-6 columns-2 gap-4 mobile:columns-1">
         {messages.data?.map(msg => (

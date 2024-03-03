@@ -26,4 +26,4 @@ more-telegram-signal:
     price: Realtime Price
     price-change: 24H Price Change
 detail-page:
-  subtitle: Analyze signals for Bitcoin in Telegram channels
+  subtitle: Analyze signals for {{symbol}} in Telegram channels
