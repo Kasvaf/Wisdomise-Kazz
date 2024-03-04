@@ -47,8 +47,8 @@ const TabBuilder = () => {
 
   const assetsError =
     !!changes.assets?.length &&
-    changes.assets?.reduce((a, v) => a + v.share, 0) !== 100 &&
-    'Total of assets shares must be 100.';
+    changes.assets?.reduce((a, v) => a + v.share, 0) > 100 &&
+    'Total of assets shares must be less than or equal to 100.';
   // ----------------------------------------------------------------------
 
   const { mutateAsync, isLoading: isSaving } =
