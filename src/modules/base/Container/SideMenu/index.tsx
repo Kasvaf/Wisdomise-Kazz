@@ -38,28 +38,30 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
           className="mt-3"
         >
           <div className="ml-6">
-            {children.map((subItem, ind, all) => (
-              <NavLink
-                key={subItem.link}
-                to={subItem.link}
-                target={
-                  subItem.link.startsWith('https://') ? '_blank' : undefined
-                }
-                className={clsx('group flex h-12 items-stretch')}
-                onClick={subItem.onClick}
-              >
-                {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
-                <div
-                  className={clsx(
-                    'my-1 ml-1 flex grow items-center justify-between rounded-xl px-3 text-sm group-hover:bg-[#FFFFFF0D]',
-                    'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
-                  )}
+            {children
+              .filter(x => !x.hide)
+              .map((subItem, ind, all) => (
+                <NavLink
+                  key={subItem.link}
+                  to={subItem.link}
+                  target={
+                    subItem.link.startsWith('https://') ? '_blank' : undefined
+                  }
+                  className={clsx('group flex h-12 items-stretch')}
+                  onClick={subItem.onClick}
                 >
-                  {subItem.text}
-                  {subItem.isBeta && <BetaVersion minimal />}
-                </div>
-              </NavLink>
-            ))}
+                  {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
+                  <div
+                    className={clsx(
+                      'my-1 ml-1 flex grow items-center justify-between rounded-xl px-3 text-sm group-hover:bg-[#FFFFFF0D]',
+                      'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
+                    )}
+                  >
+                    {subItem.text}
+                    {subItem.isBeta && <BetaVersion minimal />}
+                  </div>
+                </NavLink>
+              ))}
           </div>
         </AnimateHeight>
       )}

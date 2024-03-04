@@ -9,6 +9,7 @@ import {
   useSubscription,
 } from 'api';
 import { trackClick } from 'config/segment';
+import { isProduction } from 'utils/version';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
 import { ReactComponent as IconSubscription } from './icons/subscription.svg';
 import { ReactComponent as IconKYC } from './icons/kyc.svg';
@@ -115,13 +116,15 @@ const PageAccount = () => {
             </div>
           )}
         </CardPageLink>
-        <CardPageLink
-          to="/account/notification-center"
-          title={t('menu.notification-center.title')}
-          subtitle={t('menu.notification-center.subtitle')}
-          icon={<IconNotifications />}
-          onClick={trackClick('notifications_menu')}
-        />
+        {!isProduction && (
+          <CardPageLink
+            to="/account/notification-center"
+            title={t('menu.notification-center.title')}
+            subtitle={t('menu.notification-center.subtitle')}
+            icon={<IconNotifications />}
+            onClick={trackClick('notifications_menu')}
+          />
+        )}
         <CardPageLink
           to="/account/referral"
           title={t('menu.referral.title')}

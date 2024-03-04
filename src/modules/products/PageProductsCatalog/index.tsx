@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { isProduction } from 'utils/version';
 import TabTrade from './TabTrade';
 import TabStake from './TabStake';
 
@@ -20,11 +21,15 @@ const PageProductsCatalog = () => {
       label: t('product-detail.type.trade'),
       children: <TabTrade />,
     },
-    {
-      key: 'stake',
-      label: t('product-detail.type.stake'),
-      children: <TabStake />,
-    },
+    ...(isProduction
+      ? []
+      : [
+          {
+            key: 'stake',
+            label: t('product-detail.type.stake'),
+            children: <TabStake />,
+          },
+        ]),
   ];
 
   const onTabChange = (newTab: string) => {

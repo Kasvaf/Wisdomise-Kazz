@@ -142,6 +142,7 @@ const useMenuItems = () => {
           text: t('menu.notification-center.title'),
           link: '/account/notification-center',
           onClick: trackClick('notifications_menu'),
+          hide: isProduction,
         },
         {
           text: t('menu.referral.title'),
