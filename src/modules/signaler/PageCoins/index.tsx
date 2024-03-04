@@ -8,9 +8,9 @@ import {
 import { useRecentCandlesQuery } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import CoinSelector from 'shared/CoinSelector';
 import CandleChart from 'shared/CandleChart';
 import Spinner from 'shared/Spinner';
-import CoinSelector from '../CoinSelector';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
 

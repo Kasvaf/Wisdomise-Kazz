@@ -9,11 +9,11 @@ import {
 } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import MarketSelector from 'modules/account/MarketSelector';
+import ResolutionSelector from 'shared/ResolutionSelector';
 import deepEqual from 'shared/deepEqual';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
-import ResolutionSelector from '../ResolutionSelector';
 import TitleHint from '../TitleHint';
 import MultiCoinsSelector from './MultiCoinsSelector';
 import PublishNotice from './PublishNotice';
