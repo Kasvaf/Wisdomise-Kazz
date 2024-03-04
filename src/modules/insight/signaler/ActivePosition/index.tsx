@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSuggestionsMap } from 'modules/signaler/PageSignalsMatrix/constants';
+import { useSuggestionsMap } from 'modules/insight/PageSignalsMatrix/constants';
 import Badge from 'shared/Badge';
 import FancyPrice from 'shared/FancyPrice';
 import PriceChange from 'shared/PriceChange';

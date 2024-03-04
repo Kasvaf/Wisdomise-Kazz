@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFpiQuery } from 'api/fpi';
 import PageWrapper from 'modules/base/PageWrapper';
-import FinancialProductItem from '../../wallet/PageAssetOverview/ActiveFinancialProducts/FinancialProductItem';
+import FinancialProductItem from '../PageAssetOverview/ActiveFinancialProducts/FinancialProductItem';
 import FPIPositionHistory from './FPIPositionHistory';
 import FPITimeline from './FPITimeline';
 
