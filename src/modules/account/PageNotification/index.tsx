@@ -6,6 +6,7 @@ import { analytics } from 'config/segment';
 import { useStrategiesList } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { isProduction } from 'utils/version';
 import SignalingTab from './SignalingTab';
 import CustomNotificationTab from './CustomNotificationTab';
 
@@ -23,11 +24,15 @@ export default function PageNotification() {
       label: t('signaling.title'),
       children: <SignalingTab />,
     },
-    {
-      key: 'customize',
-      label: t('customs.title'),
-      children: <CustomNotificationTab />,
-    },
+    ...(isProduction
+      ? []
+      : [
+          {
+            key: 'customize',
+            label: t('customs.title'),
+            children: <CustomNotificationTab />,
+          },
+        ]),
   ];
 
   useEffect(() => {
