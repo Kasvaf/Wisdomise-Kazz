@@ -7,11 +7,11 @@ import { unwrapErrorMessage } from 'utils/error';
 import { type MarketTypes } from 'api/types/financialProduct';
 import MarketSelector from 'modules/account/MarketSelector';
 import PageWrapper from 'modules/base/PageWrapper';
+import ResolutionSelector from 'shared/ResolutionSelector';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import TitleHint from './TitleHint';
-import ResolutionSelector from './ResolutionSelector';
 
 export default function PageSignalerCreate() {
   const [showErrors, setShowErrors] = useState(false);

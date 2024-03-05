@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
@@ -49,26 +49,27 @@ const ExchangeAccountSelector: React.FC<Props> = ({
 }) => {
   const { data, isLoading } = useExchangeAccountsQuery();
 
-  const items: ExchangeAccount[] = useMemo(() => {
-    const wisdomise = {
-      key: 'wisdomise',
-      exchange_name: 'WISDOMISE' as const,
-      market_name: 'SPOT' as const,
-      status: 'INACTIVE' as const,
-      title: 'Wisdomise Account',
-    };
+  // const items: ExchangeAccount[] = useMemo(() => {
+  //   const wisdomise = {
+  //     key: 'wisdomise',
+  //     exchange_name: 'WISDOMISE' as const,
+  //     market_name: 'SPOT' as const,
+  //     status: 'INACTIVE' as const,
+  //     title: 'Wisdomise Account',
+  //   };
 
-    return market
-      ? [
-          wisdomise,
-          {
-            ...wisdomise,
-            market_name: 'FUTURES' as const,
-          },
-          ...(data ?? []),
-        ].filter(acc => acc.status === 'INACTIVE' && acc.market_name === market)
-      : [wisdomise];
-  }, [data, market]);
+  //   return market
+  //     ? [
+  //         wisdomise,
+  //         {
+  //           ...wisdomise,
+  //           market_name: 'FUTURES' as const,
+  //         },
+  //         ...(data ?? []),
+  //       ].filter(acc => acc.status === 'INACTIVE' && acc.market_name === market)
+  //     : [wisdomise];
+  // }, [data, market]);
+  const items = data ?? [];
 
   return (
     <div className={className}>
@@ -79,7 +80,10 @@ const ExchangeAccountSelector: React.FC<Props> = ({
         selectedItem={
           market && isLoading
             ? 'loading...'
-            : items.find(x => x.key === selectedItem)
+            : items.find(x => x.key === selectedItem) ??
+              (items.length > 0
+                ? 'Select account'
+                : 'You have not connected your Exchange Account')
         }
         onSelect={acc => onSelect?.(acc.key)}
         renderItem={ExchangeAccountOptionItem}
@@ -94,7 +98,7 @@ const ModalExchangeAccountSelector: React.FC<{
   onResolve?: (account?: string) => void;
 }> = ({ market, onResolve }) => {
   const { t } = useTranslation('external-accounts');
-  const [account, setAccount] = useState('wisdomise');
+  const [account, setAccount] = useState('');
 
   const [ModalAddExchange, showAddExchange] =
     useModalAddExchangeAccount(market);
@@ -131,7 +135,11 @@ const ModalExchangeAccountSelector: React.FC<{
           </Button>
         )}
 
-        <Button className="grow" onClick={() => onResolve?.(account)}>
+        <Button
+          disabled={!account}
+          className="grow"
+          onClick={() => onResolve?.(account)}
+        >
           {t('modal-account-selector.btn-continue')}
         </Button>
       </div>

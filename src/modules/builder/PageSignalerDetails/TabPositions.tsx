@@ -8,9 +8,9 @@ import useIsMobile from 'utils/useIsMobile';
 import { bestResolution } from 'shared/CandleChart/utils';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import Spinner from 'shared/Spinner';
-import ActivePosition from 'modules/signaler/ActivePosition';
-import SimulatedPositionsTable from 'modules/signaler/SimulatedPositionsTable';
-import SimulatedPositionsChart from 'modules/signaler/SimulatedPositionsChart';
+import ActivePosition from 'modules/insight/signaler/ActivePosition';
+import SimulatedPositionsTable from 'modules/insight/signaler/SimulatedPositionsTable';
+import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
 import AssetSelector from '../AssetSelector';
 
 const TabPositions = () => {

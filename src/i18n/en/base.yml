@@ -62,6 +62,9 @@ menu:
   signal-matrix:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
+  social-radar:
+    title: Social Radar
+    subtitle: Uncover Market Trends with AI-Powered Insights
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access
@@ -72,3 +75,5 @@ user:
   logout: Logout
   sign-out: Sign Out
 wisdomise-is-loading: Wisdomise is loading ...
+beta-version: Beta Version
+beta: Beta

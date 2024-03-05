@@ -4,10 +4,10 @@ import type React from 'react';
 import { useMemo } from 'react';
 
 interface Props {
-  size?: AvatarProps['size'];
   maxShow?: number;
-  coins: string[] | string;
   className?: string;
+  coins: string[] | string;
+  size?: AvatarProps['size'];
 }
 
 const cdnIcon = (name: string) =>
@@ -34,7 +34,7 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size, className }) => {
           key={c}
           size={size}
           className="!border-0"
-          src={cdnIcon(c.toLowerCase())}
+          src={c.startsWith('http') ? c : cdnIcon(c.toLowerCase())}
         />
       ))}
       {isMaxShowEnable && (

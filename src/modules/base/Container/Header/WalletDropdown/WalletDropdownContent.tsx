@@ -6,8 +6,8 @@ import { trackClick } from 'config/segment';
 import useMainQuote from 'shared/useMainQuote';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
-import ModalDeposit from 'modules/wallet/ModalDeposit';
-import ModalWithdraw from 'modules/wallet/ModalWithdraw';
+import ModalDeposit from 'modules/account/wallet/ModalDeposit';
+import ModalWithdraw from 'modules/account/wallet/ModalWithdraw';
 import { ReactComponent as DepositIcon } from './deposit.svg';
 import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 

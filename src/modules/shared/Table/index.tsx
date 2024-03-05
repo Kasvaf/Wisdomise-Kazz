@@ -4,7 +4,7 @@ import expandSrc from './expand.svg';
 import preSrc from './pre.svg';
 import nextSrc from './next.svg';
 
-export default function Table<RecordType extends Record<string, unknown>>({
+export default function Table<RecordType extends object>({
   pagination,
   ...props
 }: TableProps<RecordType>) {

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useInvoicesQuery } from 'api';
 import type { Network } from 'api/types/NetworksResponse';
 import { type SubscriptionPlan } from 'api/types/subscription';
-import NetworkSelector from 'modules/wallet/useCryptoNetworkSelector/NetworkSelector';
+import NetworkSelector from 'modules/account/wallet/useCryptoNetworkSelector/NetworkSelector';
 import Button from 'shared/Button';
 import CoinsIcons from 'shared/CoinsIcons';
 import CopyInputBox from 'shared/CopyInputBox';

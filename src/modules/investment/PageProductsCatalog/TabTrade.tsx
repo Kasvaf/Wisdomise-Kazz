@@ -25,7 +25,7 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
       title={fp.title}
       icon={<CoinsIcons maxShow={3} coins={fp.config.assets} />}
       description={fp.description}
-      to={`/investment/products-catalog/${fp.key}`}
+      to={`/investment/products-catalog/fp/${fp.key}`}
       onClick={trackClick('ai_driven_strategies_list', {
         strategy_name: fp.title,
       })}

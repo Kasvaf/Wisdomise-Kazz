@@ -3,16 +3,18 @@ import Boundary from './Boundary';
 import authRoutes from './authRoutes';
 import accountRoutes from './accountRoutes';
 import builderRoutes from './builderRoutes';
-import appRoutes from './appRoutes';
+import investmentRoutes from './investmentRoutes';
+import insightRoutes from './insightRoutes';
 
 const routes: RouteObject[] = [
   {
     element: <Boundary />,
     children: [
       ...authRoutes,
-      ...accountRoutes,
+      ...investmentRoutes,
+      ...insightRoutes,
       ...builderRoutes,
-      ...appRoutes,
+      ...accountRoutes,
       { path: '*', element: <Navigate to="/investment" /> },
     ],
   },

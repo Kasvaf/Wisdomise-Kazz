@@ -1,0 +1,29 @@
+title: Social Radar
+market-info:
+  title: Community-Sourced Market Insights
+  description: Real-Time Insights from Telegram Channels
+  telegram-channel-count: >-
+    <0>Wisdomise Social Radar Scanned <2>{{channelsCount}}</2> Telegram Channels
+    in the Past 24 Hours.</0>
+  title-badge: Realtime Market Data
+  side:
+    title: Market Side
+    description: Past 24H, Telegram Community Data Insights
+  telegram-community:
+    title: Telegram Community Activity
+    description: Number of Messages Analyzed
+hot-coins:
+  title: Hot Coins
+  description: Community-Sourced Market Insights, Not Wisdomise Recommendations
+  side-suggest: Side Suggestion
+  24-chg: 24H Chg
+  explore: Explore
+more-telegram-signal:
+  title: More Telegram Scan Discoveries 24H
+  table:
+    coin: Discovered Coin
+    side: Community Side Suggestion
+    price: Realtime Price
+    price-change: 24H Price Change
+detail-page:
+  subtitle: Analyze signals for {{symbol}} in Telegram channels
