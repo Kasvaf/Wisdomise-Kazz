@@ -61,7 +61,7 @@ const TabTerminal = () => {
         !!asset &&
         !!signaler && (
           <div className="flex gap-4 mobile:flex-col-reverse">
-            <div className="basis-2/3 rounded-xl bg-black/20">
+            <div className="basis-2/3">
               <SimulatedPositionsChart
                 candles={candles}
                 loading={candlesLoading}
