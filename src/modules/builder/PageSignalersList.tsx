@@ -37,7 +37,10 @@ export default function PageSignalersList() {
                   {s.market_name}
                 </div>
 
-                <CoinsIcons coins={s.assets.map(x => x.base.name) ?? []} />
+                <CoinsIcons
+                  coins={s.assets.map(x => x.base.name) ?? []}
+                  maxShow={3}
+                />
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-4">

@@ -40,6 +40,7 @@ export default function PageFpList() {
 
                 <CoinsIcons
                   coins={s.assets.map(x => x.asset.base.name) ?? []}
+                  maxShow={3}
                 />
               </div>
 
