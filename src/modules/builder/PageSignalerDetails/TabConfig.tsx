@@ -15,8 +15,8 @@ import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
 import TitleHint from '../TitleHint';
+import PublishNotice from '../PublishNotice';
 import MultiCoinsSelector from './MultiCoinsSelector';
-import PublishNotice from './PublishNotice';
 
 const TabConfig = () => {
   const params = useParams<{ id: string }>();
@@ -118,7 +118,7 @@ const TabConfig = () => {
         </Button>
       </section>
 
-      <PublishNotice />
+      <PublishNotice type="signaler" />
     </div>
   );
 };

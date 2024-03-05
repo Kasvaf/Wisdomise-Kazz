@@ -16,6 +16,7 @@ import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import AmountInputBox from 'shared/AmountInputBox';
+import PublishNotice from '../../PublishNotice';
 import AssetManager from './AssetManager';
 const { Option } = Select;
 
@@ -175,6 +176,8 @@ const TabBuilder = () => {
           Save
         </Button>
       </section>
+
+      <PublishNotice type="fp" />
     </div>
   );
 };
