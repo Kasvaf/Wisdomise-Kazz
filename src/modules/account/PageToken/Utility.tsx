@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import dayjs from 'dayjs';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
@@ -20,10 +19,10 @@ export default function Utility() {
   const [pricingTableModal, openPricingTable] = useModal(PricingTable, {
     width: 1200,
   });
-  const { lockedBalance } = useLocking();
+  const { lockedBalance, unlockedBalance, withdrawTimestamp, utilityStatus } =
+    useLocking();
   const [unlockModal, openUnlockModal] = useModal(UnlockModalContent);
   const { title } = useSubscription();
-  const [utilityStatus] = useState<UtilityStatus>('pending_lock');
 
   const openBillings = () => {
     void openPricingTable({ isTokenUtility: true });
@@ -58,17 +57,17 @@ export default function Utility() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               {utilityStatus === 'pending_unlock' && (
                 <div>
-                  <h4 className="mb-3 text-sm text-white/60">
+                  <h4 className="mb-2 text-sm text-white/60">
                     Withdrawal available in
                   </h4>
                   <div className="text-xl font-semibold">
-                    {dayjs(Date.now() + 700_000_000).toNow(true)}
+                    {dayjs(withdrawTimestamp).toNow(true)}
                   </div>
                 </div>
               )}
               {utilityStatus === 'pending_withdraw' && (
                 <div>
-                  <h4 className="mb-3 text-sm text-white/60">
+                  <h4 className="mb-2 text-sm text-white/60">
                     Time to withdrawal
                   </h4>
                   <div className="flex items-center gap-2">
@@ -78,9 +77,13 @@ export default function Utility() {
                 </div>
               )}
               <div>
-                <h3 className="mb-3 text-sm text-white/60">Amount</h3>
+                <h3 className="mb-2 text-sm text-white/60">Amount</h3>
                 <div className="flex items-end gap-2">
-                  <span className="text-xl font-semibold">{lockedBalance}</span>{' '}
+                  <span className="text-xl font-semibold">
+                    {utilityStatus === 'locked'
+                      ? lockedBalance
+                      : unlockedBalance}
+                  </span>{' '}
                   <span className="font-light">WSDM</span>
                 </div>
               </div>
@@ -92,18 +95,18 @@ export default function Utility() {
               {(utilityStatus === 'pending_withdraw' ||
                 utilityStatus === 'pending_unlock') && (
                 <div className="flex gap-4">
-                  {utilityStatus === 'pending_unlock' && (
-                    <Button
-                      disabled={utilityStatus === 'pending_unlock'}
-                      variant="secondary"
-                      onClick={openUnlockModal}
-                    >
-                      Withdraw
+                  <Button
+                    disabled={utilityStatus === 'pending_unlock'}
+                    variant="secondary"
+                    onClick={openUnlockModal}
+                  >
+                    Withdraw
+                  </Button>
+                  {utilityStatus === 'pending_withdraw' && (
+                    <Button variant="primary-purple" onClick={openBillings}>
+                      Lock Tokens
                     </Button>
                   )}
-                  <Button variant="primary-purple" onClick={openBillings}>
-                    Lock Tokens
-                  </Button>
                 </div>
               )}
             </div>

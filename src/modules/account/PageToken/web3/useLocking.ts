@@ -8,9 +8,11 @@ import {
 import {
   LOCKING_CONTRACT_ADDRESS,
   useReadLockedBalance,
+  useReadUnlockedInfo,
   useWriteLock,
 } from 'modules/account/PageToken/web3/locking/contract';
 import { addComma } from 'utils/numbers';
+import { type UtilityStatus } from 'modules/account/PageToken/Utility';
 
 export function useLocking() {
   const { address } = useAccount();
@@ -19,6 +21,8 @@ export function useLocking() {
   );
   const [amount, setAmount] = useState<bigint>();
   const { data: lockedBalance } = useReadLockedBalance();
+  const { data: unlockedInfo } = useReadUnlockedInfo();
+  const [utilityStatus] = useState<UtilityStatus>('pending_withdraw');
 
   const {
     write: lock,
@@ -102,7 +106,9 @@ export function useLocking() {
     handleLocking,
     isLoading,
     lockTrxReceipt,
-    hasLockedToken: lockedBalance,
     lockedBalance: addComma((lockedBalance ?? 0n) / 10n ** 6n),
+    unlockedBalance: addComma((unlockedInfo?.unlockAmount ?? 0n) / 10n ** 6n),
+    withdrawTimestamp: Number(unlockedInfo?.withdrawTimestamp ?? 0),
+    utilityStatus,
   };
 }

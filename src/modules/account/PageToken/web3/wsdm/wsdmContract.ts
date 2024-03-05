@@ -32,6 +32,14 @@ export function useReadWsdmAllowance(contractAddress: `0x${string}`) {
   });
 }
 
+// export function useReadWsdmNonce() {
+//   const { address } = useAccount();
+//   return useContractRead({
+//     ...wsdmContractDefaultConfig,
+//     functionName: 'nonce',
+//   });
+// }
+
 export function useWriteWsdmApprove() {
   return useContractWrite({
     ...wsdmContractDefaultConfig,
