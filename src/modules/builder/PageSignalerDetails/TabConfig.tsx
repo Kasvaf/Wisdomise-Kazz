@@ -59,6 +59,7 @@ const TabConfig = () => {
         tags: changes.tags ?? signaler.tags,
         assets: changes.assets ?? signaler.assets,
       });
+      notification.success({ message: 'Changes saved successfully.' });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

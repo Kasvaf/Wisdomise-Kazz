@@ -69,6 +69,7 @@ const TabBuilder = () => {
         risk_level: changes.risk_level ?? fp.risk_level,
         assets: changes.assets ?? fp.assets,
       });
+      notification.success({ message: 'Changes saved successfully.' });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
