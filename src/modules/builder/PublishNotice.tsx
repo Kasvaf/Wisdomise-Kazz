@@ -9,8 +9,9 @@ const PublishNotice: React.FC<{
     <div className="flex items-center gap-4">
       {/* <Icon name={bxInfoCircle} className="shrink-0 text-warning" /> */}
       <div>
+        <span className="mr-1 font-bold text-white">Note:</span>
         To publish your {type === 'fp' ? 'financial product' : 'signaler'},
-        contact support via the button at the bottom right or email{' '}
+        contact support via support button or email us at{' '}
         <a href="mailto:support@wisdomise.com" className="text-info">
           support@wisdomise.com
         </a>
