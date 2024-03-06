@@ -14,18 +14,20 @@ const PageLogin = React.lazy(() => import('modules/auth/PageLogin'));
 const PageLogout = React.lazy(() => import('modules/auth/PageLogout'));
 
 const defaultNav = '/investment';
-const authRoutes: RouteObject[] = [
-  {
-    path: 'auth',
-    children: [
-      { path: 'callback', element: <PageAuthCallback /> },
-      { path: 'login', element: <PageLogin /> },
-      { path: 'logout', element: <PageLogout /> },
-      { path: 'verify-email', element: <PageConfirmSignUp /> },
-      { path: 'secondary-signup', element: <PageSecondaryForm /> },
-      { path: '', element: <Navigate to={defaultNav} /> },
-    ],
-  },
-];
+const useAuthRoutes = () => {
+  return [
+    {
+      path: 'auth',
+      children: [
+        { path: 'callback', element: <PageAuthCallback /> },
+        { path: 'login', element: <PageLogin /> },
+        { path: 'logout', element: <PageLogout /> },
+        { path: 'verify-email', element: <PageConfirmSignUp /> },
+        { path: 'secondary-signup', element: <PageSecondaryForm /> },
+        { path: '', element: <Navigate to={defaultNav} /> },
+      ],
+    },
+  ] satisfies RouteObject[];
+};
 
-export default authRoutes;
+export default useAuthRoutes;
