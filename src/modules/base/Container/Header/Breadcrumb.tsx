@@ -1,4 +1,4 @@
-import { Breadcrumb, type BreadcrumbProps } from 'antd';
+import { Breadcrumb as AntBreadcrumb, type BreadcrumbProps } from 'antd';
 import { type Params, useLocation, useMatches, Link } from 'react-router-dom';
 
 interface Handle {
@@ -8,7 +8,7 @@ interface Handle {
 const itemRender: BreadcrumbProps['itemRender'] = ({ href, title }) =>
   href ? <Link to={href}>{title}</Link> : <span>{title}</span>;
 
-const Breadcrumbs: React.FC<{ className?: string }> = ({ className }) => {
+const Breadcrumb: React.FC<{ className?: string }> = ({ className }) => {
   const { pathname } = useLocation();
   const matches = useMatches();
   const items = matches
@@ -22,7 +22,7 @@ const Breadcrumbs: React.FC<{ className?: string }> = ({ className }) => {
     });
 
   return items.length > 1 ? (
-    <Breadcrumb
+    <AntBreadcrumb
       items={items}
       itemRender={itemRender}
       separator={<span className="text-white/10">/</span>}
@@ -31,4 +31,4 @@ const Breadcrumbs: React.FC<{ className?: string }> = ({ className }) => {
   ) : null;
 };
 
-export default Breadcrumbs;
+export default Breadcrumb;
