@@ -16,7 +16,7 @@ export function useSubscription() {
     title: planName === 'Trial' ? 'Free' : planName,
     isFreePlan: !plan?.level,
     isTrialPlan: plan?.name === 'Trial',
-    level: 3, // isActive ? plan?.level ?? 0 : 0,
+    level: isActive ? plan?.level ?? 0 : 0,
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
     remaining: Math.max(
       Math.round(

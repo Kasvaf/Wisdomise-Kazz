@@ -77,7 +77,6 @@ export const useCreateSignalerMutation = () => {
     {
       name: string;
       market_name: MarketTypes;
-      tags: string[];
       resolution: Resolution;
     }
   >(

@@ -18,7 +18,6 @@ export default function PageSignalerCreate() {
   const [name, setName] = useState('');
   const [market, setMarket] = useState<MarketTypes>('SPOT');
   const [resolution, setResolution] = useState<Resolution>('1m');
-  const [tags, setTags] = useState('');
 
   const { mutateAsync, isLoading } = useCreateSignalerMutation();
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ export default function PageSignalerCreate() {
         name,
         market_name: market,
         resolution,
-        tags: tags.split(/[\s,]+/).filter(Boolean),
       });
       navigate(`/builder/signalers/${key}`);
     } catch (error) {
@@ -69,22 +67,6 @@ export default function PageSignalerCreate() {
               selectedItem={resolution}
               onSelect={setResolution}
               className="basis-1/5"
-            />
-          </div>
-        </section>
-
-        <section className="mt-12">
-          <TitleHint className="ml-3" title="Labels & Tags">
-            Set labels to help organize and filter your sources, as well as
-            enforce more granular access permissions.
-          </TitleHint>
-
-          <div className="mt-4 flex max-w-xl gap-6">
-            <TextBox
-              placeholder="Signaler tags"
-              className="basis-2/3"
-              value={tags}
-              onChange={setTags}
             />
           </div>
         </section>

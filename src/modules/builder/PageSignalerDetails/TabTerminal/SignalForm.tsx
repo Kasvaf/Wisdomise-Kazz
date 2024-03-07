@@ -8,6 +8,7 @@ import {
 } from 'api/builder';
 import { roundDown } from 'utils/numbers';
 import { unwrapErrorMessage } from 'utils/error';
+import useConfirm from 'shared/useConfirm';
 import AmountInputBox from 'shared/AmountInputBox';
 import Button from 'shared/Button';
 import MarketToggle from './MarketToggle';
@@ -91,11 +92,24 @@ const SignalForm: React.FC<Props> = ({
 
   // ======================================================================
 
+  const [ModalConfirm, confirm] = useConfirm({
+    title: 'Confirmation',
+    icon: null,
+    yesTitle: 'Yes',
+    noTitle: 'No',
+  });
   const { mutateAsync, isLoading: isSubmitting } = useFireSignalMutation();
 
   const isFireDisabled = (orderType === 'limit' && !price) || !tp || !sl;
   const fireHandler = async () => {
     if ((orderType === 'limit' && !price) || !tp || !sl) return;
+    if (
+      !(await confirm({
+        message: 'Are you sure you want to fire this signal?',
+      }))
+    )
+      return;
+
     try {
       await mutateAsync({
         signalerKey: signaler.key,
@@ -130,6 +144,13 @@ const SignalForm: React.FC<Props> = ({
 
   const closeHandler = async () => {
     if (!activePosition?.signal) return;
+    if (
+      !(await confirm({
+        message: 'Are you sure you want to close this position?',
+      }))
+    )
+      return;
+
     try {
       await mutateAsync({
         signalerKey: signaler.key,
@@ -148,6 +169,13 @@ const SignalForm: React.FC<Props> = ({
   const isUpdateDisabled = !tp || !sl;
   const updateHandler = async () => {
     if (!activePosition?.signal) return;
+    if (
+      !(await confirm({
+        message: 'Are you sure you want to update this signal?',
+      }))
+    )
+      return;
+
     try {
       await mutateAsync({
         signalerKey: signaler.key,
@@ -257,6 +285,8 @@ const SignalForm: React.FC<Props> = ({
           Fire Signal
         </Button>
       )}
+
+      {ModalConfirm}
     </div>
   );
 };

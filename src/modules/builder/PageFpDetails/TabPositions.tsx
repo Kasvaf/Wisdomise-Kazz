@@ -22,7 +22,7 @@ const TabPositions = () => {
   const [dateRange, setDateRange] = useState<[Date, Date]>();
   const [subscriberKey, setSubscriberKey] = useState('');
 
-  const { data, isLoading } = useFpPositionsQuery({
+  const { data: positionsDiff, isLoading } = useFpPositionsQuery({
     fpKey: params.id,
     subscriberKey,
     assetName: asset?.name,
@@ -70,7 +70,7 @@ const TabPositions = () => {
         />
       </div>
 
-      {inputted && (
+      {inputted && subscriberKey && (
         <>
           {isLoading ? (
             <div className="flex justify-center">
@@ -78,12 +78,12 @@ const TabPositions = () => {
             </div>
           ) : (
             <>
-              {!!data && (
+              {!!positionsDiff && (
                 <div className="mt-10">
                   <h2 className="mb-3 text-xl text-white/40">
                     {t('signaler.simulated-position-history')}
                   </h2>
-                  <PositionsTable positions={data} />
+                  <PositionsTable positions={positionsDiff} />
                 </div>
               )}
 
@@ -91,7 +91,7 @@ const TabPositions = () => {
                 <>
                   <CandleChart
                     candles={candles}
-                    positions={data}
+                    positions={positionsDiff}
                     resolution={bestResolution(dateRange)}
                   />
                 </>

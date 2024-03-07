@@ -50,7 +50,8 @@ const PriceChange: React.FC<Props> = ({
       >
         {valueToFixed
           ? Math.abs(value)
-              .toFixed(value > -10 && value < 10 ? 4 : 2)
+              .toFixed(value > -1 && value < 1 ? 6 : 2)
+              .replace(/(\.0*\d{2})\d*/, (a, b) => b)
               .replaceAll(/\.?0+$/g, '')
           : Math.abs(value)}{' '}
         %
