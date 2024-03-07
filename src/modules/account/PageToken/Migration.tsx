@@ -1,6 +1,6 @@
 import Button from 'shared/Button';
 import Card from 'shared/Card';
-import { useMigration } from 'modules/account/PageToken/web3/useMigration';
+import { useMigration } from 'modules/account/PageToken/web3/migration/useMigration';
 import { ReactComponent as MigrateIcon } from './icons/migrate.svg';
 
 export default function Migration() {

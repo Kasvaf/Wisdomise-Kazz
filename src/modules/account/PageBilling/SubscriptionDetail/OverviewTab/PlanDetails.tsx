@@ -159,6 +159,6 @@ export default function PlanDetails() {
 const paymentMethodText: Record<PaymentMethod, string> = {
   CRYPTO: 'Crypto',
   FIAT: 'Fiat',
-  TOKEN: 'Wisdomise Token (tWSDM)',
+  TOKEN: 'Wisdomise Token (WSDM)',
   MANUAL: 'Manual',
 };

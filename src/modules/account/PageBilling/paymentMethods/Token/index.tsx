@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCountdown } from 'usehooks-ts';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { ReactComponent as LogoWithText } from 'assets/logo-horizontal-beta.svg';
-import { addComma } from 'utils/numbers';
+import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
+import { useLockingRequirementQuery } from 'api/defi';
 import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 import { ReactComponent as Done } from '../../images/done.svg';
+import { ReactComponent as ClockIcon } from './clock.svg';
 import ConnectWalletWrapper from './ConnectWalletWrapper';
 import TokenCheckout from './TokenCheckout';
 
@@ -21,6 +23,12 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
   const [done, setDone] = useState(false);
   const { t } = useTranslation('billing');
   const [count, { startCountdown }] = useCountdown({ countStart: 30 * 60 });
+  const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
+
+  const price = useMemo(
+    () => lockingRequirement?.requirement_locking_amount.toLocaleString(),
+    [lockingRequirement],
+  );
 
   useEffect(() => {
     startCountdown();
@@ -37,7 +45,12 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
           <p className="text-xl text-white mobile:hidden">
             {t('token-modal.title')}
           </p>
-          <div>{count}</div>
+          <div className="flex items-center gap-2">
+            <ClockIcon />
+            <span className="text-white/60">
+              {Math.floor(count / 60)}m {count % 60}s
+            </span>
+          </div>
 
           <LogoWithText className="hidden mobile:block" />
 
@@ -46,9 +59,7 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
           </p>
 
           <div className="mt-6 flex items-center gap-5">
-            <p className="text-[40px] text-white mobile:text-3xl">
-              {addComma(plan.wsdm_token_hold)}
-            </p>
+            <p className="text-[40px] text-white mobile:text-3xl">{price}</p>
             <p className="text-lg mobile:text-sm">
               <Trans i18nKey="token-modal.token-name" ns="billing" />
               <br />
@@ -67,7 +78,7 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
                 <div className="flex justify-between gap-4">
                   <span>{plan.name}</span>
                   <span className="whitespace-nowrap">
-                    {addComma(plan.wsdm_token_hold)} {t('token-modal.token')}
+                    {price} {t('token-modal.token')}
                   </span>
                 </div>
                 <p className="mt-6 text-sm text-white/50 mobile:mt-4">
@@ -78,14 +89,14 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
               <div className="flex justify-between gap-4 border-b border-white/20">
                 <span>{t('token-modal.subtotal')}</span>
                 <span className="whitespace-nowrap">
-                  {addComma(plan.wsdm_token_hold)} {t('token-modal.token')}
+                  {price} {t('token-modal.token')}
                 </span>
               </div>
 
               <div className="flex justify-between gap-4">
                 <span className="text-sm">{t('token-modal.total-amount')}</span>
                 <span className="whitespace-nowrap">
-                  {addComma(plan.wsdm_token_hold)} {t('token-modal.token')}
+                  {price} {t('token-modal.token')}
                 </span>
               </div>
             </div>
@@ -105,9 +116,9 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
       </div>
       <div className="col-span-12 flex flex-col items-center justify-center bg-white/5 lg:col-span-6">
         {done ? (
-          <Card className="flex flex-col items-center gap-12">
+          <Card className="flex flex-col items-center gap-6">
             <Done className="mobile:w-24" />
-            <div className="text-center">
+            <div className="mb-6 text-center">
               <p className="mb-6 text-2xl font-medium">
                 {t('token-modal.congratulations')}
               </p>
@@ -116,7 +127,10 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
               </p>
             </div>
 
-            <Button onClick={onDoneClick}>{t('token-modal.done')}</Button>
+            <Button onClick={onDoneClick} className="w-full">
+              {t('token-modal.done')}
+            </Button>
+            <ImportTokenButton tokenSymbol="lcWSDM" variant="secondary" />
           </Card>
         ) : (
           <ConnectWalletWrapper

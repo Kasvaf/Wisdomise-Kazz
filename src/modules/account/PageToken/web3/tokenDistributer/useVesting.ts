@@ -8,8 +8,8 @@ import {
   useReadStrategicReleasable,
   useWriteAngelRelease,
   useWriteStrategicRelease,
-} from 'modules/account/PageToken/web3/tokenDistributer/tokenDistributerContract';
-import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/wsdmContract';
+} from 'modules/account/PageToken/web3/tokenDistributer/contract';
+import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import {
   ANGEL_RELEASE_PERCENTAGE,
   STRATEGIC_RELEASE_PERCENTAGE,

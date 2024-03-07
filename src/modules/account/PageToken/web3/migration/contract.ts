@@ -1,5 +1,5 @@
 import { useContractWrite } from 'wagmi';
-import { MIGRATION_ABI } from 'modules/account/PageToken/web3/migration/migrationAbi';
+import { MIGRATION_ABI } from 'modules/account/PageToken/web3/migration/abi';
 
 export const MIGRATION_CONTRACT_ADDRESS =
   '0xD50AABd5498142eE17535c06d6ED4d68a711040F';

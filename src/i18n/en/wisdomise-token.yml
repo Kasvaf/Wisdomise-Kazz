@@ -14,4 +14,4 @@ connect-wallet:
   verify-nonce: Please verify ownership by signing the nonce
   wisdomise-token:
     title: Connect Wallet
-    description: To view utility status and your tWSDM balance, connect your wallet.
+    description: To view utility status and your WSDM balance, connect your wallet.

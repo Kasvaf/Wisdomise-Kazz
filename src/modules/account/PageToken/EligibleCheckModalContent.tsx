@@ -1,12 +1,8 @@
-import { useAccount, useWaitForTransaction } from 'wagmi';
 import { useEffect } from 'react';
 import { notification } from 'antd';
 import Button from 'shared/Button';
-import {
-  useWriteClaimAirdrop,
-  useReadAirdropIsClaimed,
-} from 'modules/account/PageToken/web3/airdrop/contract';
 import { type AirdropEligibility } from 'api/airdrop';
+import { useAirdrop } from 'modules/account/PageToken/web3/airdrop/useAirdrop';
 import { ReactComponent as AirdropIcon } from './icons/airdrop.svg';
 
 export default function EligibleCheckModalContent({
@@ -16,52 +12,13 @@ export default function EligibleCheckModalContent({
   eligibility?: AirdropEligibility;
   onResolve: VoidFunction;
 }) {
-  const {
-    writeAsync,
-    data: claimResult,
-    isLoading: claimIsLoading,
-  } = useWriteClaimAirdrop();
-  const { data: isClaimed } = useReadAirdropIsClaimed(eligibility?.index);
-  const { address } = useAccount();
-  const { data: claimReceipt, isLoading: claimReceiptIsLoading } =
-    useWaitForTransaction({
-      hash: claimResult?.hash,
-      enabled: !!claimResult?.hash,
-    });
-
-  const claim = async () => {
-    if (
-      eligibility?.amount &&
-      address &&
-      eligibility?.index !== undefined &&
-      eligibility?.proofs
-    ) {
-      void writeAsync({
-        args: [
-          BigInt(eligibility.index),
-          address,
-          BigInt(eligibility.amount),
-          eligibility.proofs,
-        ],
-      }).catch(() =>
-        notification.error({
-          message: 'Claim Failed',
-        }),
-      );
-    }
-  };
+  const { isLoading, isClaimed, claim, claimReceipt } = useAirdrop(eligibility);
 
   useEffect(() => {
-    if (claimReceipt) {
-      if (claimReceipt?.status === 'success') {
-        notification.success({
-          message: 'You claimed your tokens successfully',
-        });
-      } else {
-        notification.error({
-          message: 'Transaction reverted',
-        });
-      }
+    if (claimReceipt?.status === 'success') {
+      notification.success({
+        message: 'You claimed your tokens successfully',
+      });
       onResolve();
     }
   }, [claimReceipt, onResolve]);
@@ -81,8 +38,8 @@ export default function EligibleCheckModalContent({
           ) : (
             <Button
               variant="primary-purple"
-              disabled={claimIsLoading || claimReceiptIsLoading}
-              loading={claimIsLoading || claimReceiptIsLoading}
+              disabled={isLoading}
+              loading={isLoading}
               onClick={claim}
             >
               Claim WSDM

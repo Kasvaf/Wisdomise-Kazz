@@ -7,7 +7,7 @@ import {
   ANGEL_RELEASE_TIMESTAMPS,
   STRATEGIC_RELEASE_TIMESTAMPS,
 } from 'modules/account/PageToken/constants';
-import { useVesting } from 'modules/account/PageToken/web3/useVesting';
+import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
 
 export default function Vesting() {

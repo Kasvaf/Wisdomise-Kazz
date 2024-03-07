@@ -1,0 +1,37 @@
+import { useWaitForTransaction } from 'wagmi';
+import { useEffect } from 'react';
+import { notification } from 'antd';
+import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
+import { useWriteWithdraw } from 'modules/account/PageToken/web3/locking/contract';
+
+export function useWithdraw() {
+  const { refetchUnlockedInfo, refetchLockedInfo } = useLocking();
+  const { write, data: result, isLoading, error } = useWriteWithdraw();
+  const { data: trxReceipt, isLoading: isWaiting } = useWaitForTransaction({
+    hash: result?.hash,
+    enabled: !!result?.hash,
+  });
+
+  useEffect(() => {
+    if (error) {
+      notification.error({ message: error.message });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (trxReceipt?.status === 'success') {
+      notification.success({
+        message: 'You claimed your tokens successfully.',
+      });
+      void refetchUnlockedInfo();
+      void refetchLockedInfo();
+    }
+  }, [refetchLockedInfo, refetchUnlockedInfo, trxReceipt]);
+
+  return {
+    withdraw: write,
+    isLoading: isLoading || isWaiting,
+    trxReceipt,
+    error,
+  };
+}

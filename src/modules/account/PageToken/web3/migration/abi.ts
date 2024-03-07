@@ -54,6 +54,12 @@ export const MIGRATION_ABI = [
         name: 'investor',
         type: 'address',
       },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'totalShares',
+        type: 'uint256',
+      },
     ],
     name: 'InvestorMigrated',
     type: 'event',

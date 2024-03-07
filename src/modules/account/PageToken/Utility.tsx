@@ -4,8 +4,9 @@ import Card from 'shared/Card';
 import useModal from 'shared/useModal';
 import PricingTable from 'modules/account/PageBilling/PricingTable';
 import { useSubscription } from 'api';
-import { useLocking } from 'modules/account/PageToken/web3/useLocking';
+import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
+import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
 
@@ -23,6 +24,7 @@ export default function Utility() {
     useLocking();
   const [unlockModal, openUnlockModal] = useModal(UnlockModalContent);
   const { title } = useSubscription();
+  const { withdraw, isLoading } = useWithdraw();
 
   const openBillings = () => {
     void openPricingTable({ isTokenUtility: true });
@@ -52,7 +54,7 @@ export default function Utility() {
                 ? 'Pending for Unlock'
                 : utilityStatus === 'pending_withdraw'
                 ? 'Pending for Withdraw'
-                : ''}
+                : 'Loading'}
             </h3>
             <div className="flex flex-wrap items-center justify-between gap-4">
               {utilityStatus === 'pending_unlock' && (
@@ -61,7 +63,7 @@ export default function Utility() {
                     Withdrawal available in
                   </h4>
                   <div className="text-xl font-semibold">
-                    {dayjs(withdrawTimestamp).toNow(true)}
+                    {dayjs(withdrawTimestamp * 1000).toNow(true)}
                   </div>
                 </div>
               )}
@@ -96,9 +98,10 @@ export default function Utility() {
                 utilityStatus === 'pending_unlock') && (
                 <div className="flex gap-4">
                   <Button
-                    disabled={utilityStatus === 'pending_unlock'}
+                    disabled={utilityStatus === 'pending_unlock' || isLoading}
                     variant="secondary"
-                    onClick={openUnlockModal}
+                    loading={isLoading}
+                    onClick={() => withdraw()}
                   >
                     Withdraw
                   </Button>

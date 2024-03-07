@@ -7,6 +7,7 @@ import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
+import { useLockingRequirementQuery } from 'api/defi';
 import { ReactComponent as Check } from '../images/check.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 import PlanLogo from './PlanLogo';
@@ -37,6 +38,7 @@ export default function PricingCard({
     TokenPaymentModalContent,
     { fullscreen: true, destroyOnClose: true },
   );
+  const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
 
   const hasUserThisPlan = isActive && !isRenew && plan.key === userPlan?.key;
   const hasUserThisPlanAsNextPlan =
@@ -114,7 +116,8 @@ export default function PricingCard({
           </p>
           {plan.periodicity === 'YEARLY' ? (
             <span className="font-medium">
-              {plan.wsdm_token_hold.toLocaleString()}{' '}
+              {lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
+                0}{' '}
               <span className="text-xxs">{t('pricing-card.token')}</span>
             </span>
           ) : (

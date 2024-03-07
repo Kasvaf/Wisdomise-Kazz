@@ -5,12 +5,12 @@ import {
   useReadTwsdmAllowance,
   useTwsdmBalance,
   useWriteTwsdmApprove,
-} from 'modules/account/PageToken/web3/twsdm/twsdmContract';
+} from 'modules/account/PageToken/web3/twsdm/contract';
 import {
   MIGRATION_CONTRACT_ADDRESS,
   useWriteMigrate,
-} from 'modules/account/PageToken/web3/migration/migrationContract';
-import { useVesting } from 'modules/account/PageToken/web3/useVesting';
+} from 'modules/account/PageToken/web3/migration/contract';
+import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 
 export function useMigration() {
   const { address } = useAccount();

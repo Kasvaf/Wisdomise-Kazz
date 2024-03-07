@@ -1,4 +1,5 @@
 import {
+  useAccount,
   useContractRead,
   useContractWrite,
   useWaitForTransaction,
@@ -13,28 +14,32 @@ export const LOCKING_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
   : '0x491b8293bffd71f9f649444f509301a8928d64b0';
 
-const LOCKING_CONTRACT_DEFAULT_CONFIG = {
+const lockingContractDefaultConfig = {
   address: LOCKING_CONTRACT_ADDRESS,
   abi: LOCKING_ABI,
 } as const;
 
-export function useWriteLock() {
+export function useWriteLockWithPermit() {
   return useContractWrite({
-    ...LOCKING_CONTRACT_DEFAULT_CONFIG,
+    ...lockingContractDefaultConfig,
     functionName: 'lockWithPermit',
   });
 }
 
 export function useReadLockedBalance() {
+  const { address } = useAccount();
   return useContractRead({
-    ...LOCKING_CONTRACT_DEFAULT_CONFIG,
+    ...lockingContractDefaultConfig,
     functionName: 'balanceOf',
+    args: [address ?? zeroAddress],
+    enabled: !!address,
   });
 }
 
-export function useReadUnlockedInfo(address?: `0x${string}`) {
+export function useReadUnlockedInfo() {
+  const { address } = useAccount();
   return useContractRead({
-    ...LOCKING_CONTRACT_DEFAULT_CONFIG,
+    ...lockingContractDefaultConfig,
     functionName: 'getUserUnLockedInfo',
     args: [address ?? zeroAddress],
     enabled: !!address,
@@ -43,8 +48,15 @@ export function useReadUnlockedInfo(address?: `0x${string}`) {
 
 export function useWriteUnlock() {
   return useContractWrite({
-    ...LOCKING_CONTRACT_DEFAULT_CONFIG,
+    ...lockingContractDefaultConfig,
     functionName: 'unlock',
+  });
+}
+
+export function useWriteWithdraw() {
+  return useContractWrite({
+    ...lockingContractDefaultConfig,
+    functionName: 'withdraw',
   });
 }
 

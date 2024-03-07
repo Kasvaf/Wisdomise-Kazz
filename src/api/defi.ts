@@ -6,8 +6,16 @@ interface NonceResponse {
   nonce: string;
 }
 
+interface LockingRequirementResponse {
+  start_time: string;
+  current_locking_amount: number;
+  requirement_locking_amount: number;
+  current_locking_amount_in_usd: number;
+  requirement_locking_amount_in_usd: number;
+}
+
 export function useGenerateNonceQuery() {
-  return useQuery<NonceResponse>(
+  return useQuery(
     ['getNonce'],
     async () => {
       const { data } = await axios.get<NonceResponse>(
@@ -39,14 +47,23 @@ export const useNonceVerificationMutation = () => {
   );
 };
 
-export const useUpdateTokenBalanceMutation = () => {
-  const client = useQueryClient();
-  return useMutation<unknown, unknown>(
+export function useLockingRequirementQuery(
+  amountInUSD: number,
+  address?: `0x${string}`,
+) {
+  return useQuery(
+    ['getLockingRequirement', amountInUSD, address],
     async () => {
-      await axios.patch(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/wsdm-balance`,
+      const { data } = await axios.get<LockingRequirementResponse>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/locking-requirement?amount_in_usd=${amountInUSD}${
+          address ? `&wallet_address=${address}` : ''
+        }`,
       );
+      return data;
     },
-    { onSuccess: () => client.invalidateQueries(['account']) },
+    {
+      staleTime: 30 * 60 * 1000,
+      enabled: !!amountInUSD,
+    },
   );
-};
+}

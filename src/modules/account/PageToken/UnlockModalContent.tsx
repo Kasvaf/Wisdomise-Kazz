@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { useEffect } from 'react';
-import { useLocking } from 'modules/account/PageToken/web3/useLocking';
+import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import Button from 'shared/Button';
 import { useUnlock } from 'modules/account/PageToken/web3/locking/contract';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
@@ -10,7 +10,7 @@ export default function UnlockModalContent({
 }: {
   onResolve: VoidFunction;
 }) {
-  const { lockedBalance } = useLocking();
+  const { lockedBalance, refetchUnlockedInfo } = useLocking();
   const { unlock, isLoading, trxReceipt } = useUnlock();
 
   useEffect(() => {
@@ -20,12 +20,13 @@ export default function UnlockModalContent({
           message:
             'You unlocked your tokens successfully. your withdrawal will be available in 7 days',
         });
+        void refetchUnlockedInfo();
         onResolve();
       } else {
         notification.error({ message: 'Transaction reverted' });
       }
     }
-  }, [onResolve, trxReceipt]);
+  }, [onResolve, refetchUnlockedInfo, trxReceipt]);
 
   return (
     <div className="mt-10 flex flex-col items-center px-8 text-center">
@@ -38,7 +39,7 @@ export default function UnlockModalContent({
         services.
         <span className="text-white">Withdrawals are available in 7 days.</span>
       </p>
-      <div className="my-8 flex w-full items-center justify-between rounded-2xl bg-black/30 p-12 text-start">
+      <div className="my-8 flex w-full items-center justify-between rounded-2xl bg-black/30 p-10 text-start">
         <div>
           <h2 className="mb-3 text-sm text-white/60">
             Withdrawal available in
@@ -53,6 +54,9 @@ export default function UnlockModalContent({
           </div>
         </div>
       </div>
+      <p className="mb-6 text-amber-400">
+        Be aware that your subscription will be canceled by the end of the day
+      </p>
       <div className="mb-4 flex w-full gap-4">
         <Button className="grow" variant="secondary" onClick={onResolve}>
           Cancel

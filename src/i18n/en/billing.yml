@@ -3,7 +3,7 @@ change-pay-method:
   crypto: Crypto
   fiat: Fiat
   sub-title: 'Choose a payment method for your next plan:'
-  token: Wisdomise Token (tWSDM)
+  token: Wisdomise Token (WSDM)
 crypto-modal:
   title: Wisdomise AG
   subtitle: Subscribe to {{plan}}
@@ -128,7 +128,7 @@ token-modal:
   refresh: Refresh
   subscribe-to: Subscribe to
   subtotal: Subtotal
-  token: tWSDM
+  token: WSDM
   token-name: Wisdomise Token (WSDM)
   total-amount: Total due today
   you-can: you can now access {{name}} Features.
