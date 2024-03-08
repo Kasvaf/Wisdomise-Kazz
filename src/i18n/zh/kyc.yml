@@ -43,3 +43,6 @@ wallet:
   list-title: 钱包状态
   title: 钱包验证
   unnamed: （未命名）
+wisdomise-only:
+  subtitle: KYC专门针对通过Wisdomise钱包账户激活金融产品的用户。
+  title: 如果您使用币安钱包 API，则不需要 KYC。

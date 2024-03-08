@@ -1,3 +1,5 @@
+beta: ベータ
+beta-version: ベータ版
 error-page:
   btn-reload: 再読み込み
   subtitle: 同じエラーが発生しないよう改善いたします。
@@ -28,6 +30,9 @@ menu:
     remains: 残り
     subtitle: ご契約中のサブスクリプションの確認
     title: サブスクリプション
+  builder:
+    subtitle: アカウントの設定と管理
+    title: ビルダー
   category:
     account: アカウント
     market-predication: 市場予測
@@ -41,6 +46,9 @@ menu:
     active-product: アクティブな商品
     subtitle: 多様な投資ストラテジーをご確認いただけます。
     title: 金融商品（ストラテジー）
+  fp-builder:
+    subtitle: 多様な投資ストラテジーをご確認いただけます。
+    title: 私の製品
   insight:
     subtitle: 戦略的な仮想通貨投資のためのリアルタイムのインサイトにアクセス
     title: インサイト
@@ -67,6 +75,9 @@ menu:
     mobile: 紹介プログラム
     subtitle: ご友人を紹介して、リワードをゲットしましょう！
     title: 紹介プログラム
+  signal-builder:
+    subtitle: サポートされている暗号通貨のシグナルを生成する
+    title: 私の信号者
   signal-matrix:
     mobile: シグナル
     subtitle: AIによる市場シグナルをご確認頂けます。
@@ -74,6 +85,9 @@ menu:
   signaler-view:
     subtitle: すべての信号発信者から信号と位置履歴を取得
     title: シグナラービュー
+  social-radar:
+    subtitle: AI を活用した洞察で市場トレンドを明らかにする
+    title: ソーシャルレーダー
   strategies:
     mobile: 戦略
     title: 戦略
