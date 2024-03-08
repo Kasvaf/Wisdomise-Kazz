@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import { useEffect } from 'react';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import Button from 'shared/Button';
-import { useUnlock } from 'modules/account/PageToken/web3/locking/contract';
+import { useUnlock } from 'modules/account/PageToken/web3/locking/useUnlock';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
 
 export default function UnlockModalContent({

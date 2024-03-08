@@ -1,7 +1,6 @@
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
-import { goerli, polygon } from 'wagmi/chains';
 import { notification } from 'antd';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -10,8 +9,8 @@ import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { shortenAddress } from 'utils/shortenAddress';
-import { isProduction } from 'utils/version';
 import { unwrapErrorMessage } from 'utils/error';
+import { defaultChain } from 'config/wagmi';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
 // eslint-disable-next-line import/max-dependencies
@@ -40,7 +39,7 @@ export default function ConnectWalletWrapper({
   const [showError, setShowError] = useState(true);
   const { mutateAsync } = useNonceVerificationMutation();
   const { signInWithEthereum } = useSignInWithEthereum();
-  const { data: nonceResponse } = useGenerateNonceQuery();
+  const { data: nonceResponse, refetch } = useGenerateNonceQuery();
   const [showWrapperContent, setShowWrapperContent] = useState(false);
   const [showConnectWallet, setShowConnectWallet] = useState(true);
 
@@ -60,7 +59,7 @@ export default function ConnectWalletWrapper({
   const openWeb3Modal = useCallback(() => open(), [open]);
 
   useEffect(() => {
-    const suitableChainId = isProduction ? polygon.id : goerli.id;
+    const suitableChainId = defaultChain.id;
     if (chain?.id !== suitableChainId) {
       switchNetwork?.(suitableChainId);
     }
@@ -80,13 +79,14 @@ export default function ConnectWalletWrapper({
         }
       } else {
         setShowNonce(true);
+        void refetch();
       }
     } else {
       setShowConnectWallet(true);
       setShowNonce(false);
       setShowError(false);
     }
-  }, [account, address, isConnected]);
+  }, [account, address, isConnected, refetch]);
 
   return (
     <div className={clsx(className, 'text-white')}>

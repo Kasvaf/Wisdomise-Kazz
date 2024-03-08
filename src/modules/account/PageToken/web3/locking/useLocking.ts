@@ -11,8 +11,9 @@ import {
 } from 'modules/account/PageToken/web3/locking/contract';
 import { addComma } from 'utils/numbers';
 import { type UtilityStatus } from 'modules/account/PageToken/Utility';
+import { useSubscription } from 'api';
 
-export function useLockAndWait() {
+export function useLockWithPermit() {
   const {
     write: lockWithPermit,
     data: lockResult,
@@ -55,8 +56,9 @@ export function useLocking() {
     useReadUnlockedInfo();
   const { sign, signature } = useWSDMPermitSignature();
   const { address } = useAccount();
-  const [utilityStatus, setUtilityStatus] = useState<UtilityStatus>('locked');
-  const { lockWithPermit, lockTrxReceipt, isLoading } = useLockAndWait();
+  const [utilityStatus, setUtilityStatus] = useState<UtilityStatus>();
+  const { lockWithPermit, lockTrxReceipt, isLoading } = useLockWithPermit();
+  const { isFreePlan } = useSubscription();
 
   useEffect(() => {
     if (lockedBalance !== undefined && unlockedInfo !== undefined) {
@@ -68,13 +70,17 @@ export function useLocking() {
         }
       } else {
         if (lockedBalance === 0n) {
-          setUtilityStatus('pending_lock');
+          if (isFreePlan) {
+            setUtilityStatus('pending_lock');
+          } else {
+            setUtilityStatus('already_active');
+          }
         } else {
           setUtilityStatus('locked');
         }
       }
     }
-  }, [lockedBalance, unlockedInfo]);
+  }, [isFreePlan, lockedBalance, unlockedInfo]);
 
   const handleLocking = async (amount: number) => {
     const d = await sign(amount * 10 ** 6);

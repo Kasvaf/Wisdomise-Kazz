@@ -25,6 +25,7 @@ export function useGenerateNonceQuery() {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
+      enabled: false,
     },
   );
 }
@@ -62,7 +63,7 @@ export function useLockingRequirementQuery(
       return data;
     },
     {
-      staleTime: 30 * 60 * 1000,
+      refetchInterval: 60 * 60 * 1000,
       enabled: !!amountInUSD,
     },
   );

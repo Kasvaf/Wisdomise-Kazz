@@ -10,7 +10,7 @@ import { isProduction } from 'utils/version';
 
 export const TWSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
-  : '0x7880C04C5EECE6cfE1Ef40490C5595b7e35Be864';
+  : '0x0DB3430FF725D9d957749732144Ec791704A058f';
 
 const twsdmContractDefaultConfig = {
   address: TWSDM_CONTRACT_ADDRESS,

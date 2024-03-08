@@ -7,10 +7,12 @@ import { useSubscription } from 'api';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
+import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
 
 export type UtilityStatus =
+  | 'already_active'
   | 'pending_lock'
   | 'locked'
   | 'pending_unlock'
@@ -34,7 +36,11 @@ export default function Utility() {
     <Card className="relative flex gap-8">
       <SubscriptionIcon className="absolute right-0 top-0" />
       <h2 className="mb-2 text-2xl font-medium">Utility Activation</h2>
-      {utilityStatus === 'pending_lock' ? (
+      {utilityStatus === 'already_active' ? (
+        <p className="mt-2 text-white/60">
+          You already have an active subscription.
+        </p>
+      ) : utilityStatus === 'pending_lock' ? (
         <div className="me-40 mt-4 flex grow flex-col items-center text-center">
           <strong className="mb-2 font-medium">Activate Subscription</strong>
           <p className="mb-2 text-white/40">
@@ -90,9 +96,15 @@ export default function Utility() {
                 </div>
               </div>
               {utilityStatus === 'locked' && (
-                <Button variant="secondary" onClick={openUnlockModal}>
-                  Unlock / Withdraw
-                </Button>
+                <div className="flex gap-4">
+                  <ImportTokenButton
+                    tokenSymbol="lcWSDM"
+                    variant="alternative"
+                  />
+                  <Button variant="secondary" onClick={openUnlockModal}>
+                    Unlock
+                  </Button>
+                </div>
               )}
               {(utilityStatus === 'pending_withdraw' ||
                 utilityStatus === 'pending_unlock') && (

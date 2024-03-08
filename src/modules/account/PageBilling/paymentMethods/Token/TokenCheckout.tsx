@@ -39,7 +39,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   );
 
   const openInvestmentPanel = () => {
-    window.location.href = INVESTMENT_FE;
+    window.open(INVESTMENT_FE, '_blank');
   };
 
   const canSubscribe = useMemo(
@@ -145,10 +145,20 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
         >
           {t('token-modal.activate-subscription')}
         </Button>
-        <Button className="w-full" onClick={openInvestmentPanel}>
+        <Button
+          disabled={isLoading}
+          className="w-full"
+          onClick={openInvestmentPanel}
+        >
           {t('token-modal.purchase-token')}
         </Button>
       </div>
+      {isLoading && (
+        <p className="text-xl text-yellow-400">
+          Please do not refresh or close the page as we proceed your
+          transactions
+        </p>
+      )}
     </Card>
   );
 }

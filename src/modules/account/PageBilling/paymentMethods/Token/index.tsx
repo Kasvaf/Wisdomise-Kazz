@@ -19,11 +19,17 @@ interface Props {
   onResolve: VoidFunction;
 }
 
-export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
+export default function TokenPaymentModalContent({
+  plan,
+  invoiceKey,
+  onResolve,
+}: Props) {
   const [done, setDone] = useState(false);
   const { t } = useTranslation('billing');
   const [count, { startCountdown }] = useCountdown({ countStart: 30 * 60 });
-  const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
+  const { data: lockingRequirement, refetch } = useLockingRequirementQuery(
+    plan.price,
+  );
 
   const price = useMemo(
     () => lockingRequirement?.requirement_locking_amount.toLocaleString(),
@@ -31,8 +37,15 @@ export default function TokenPaymentModalContent({ plan, invoiceKey }: Props) {
   );
 
   useEffect(() => {
+    void refetch();
     startCountdown();
-  }, [startCountdown]);
+  }, [startCountdown, refetch]);
+
+  useEffect(() => {
+    if (count === 0) {
+      onResolve();
+    }
+  }, [count, onResolve]);
 
   const onDoneClick = async () => {
     window.location.reload();

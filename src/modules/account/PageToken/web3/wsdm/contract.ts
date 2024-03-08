@@ -13,7 +13,7 @@ import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/locking
 
 export const WSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
-  : '0xF19a1bFe94Bfe98F7568A7cB5002B8B8080f71fe';
+  : '0xDCCA28B4938Aa48f15d93555Ed24542A559CE3df';
 
 const wsdmContractDefaultConfig = {
   address: WSDM_CONTRACT_ADDRESS,
