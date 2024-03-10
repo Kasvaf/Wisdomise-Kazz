@@ -143,24 +143,26 @@ const ProfileMenuContent = () => {
           </WithChevron>
         </NavLink>
 
-        <NavLink
-          to="/account/kyc"
-          className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40"
-        >
-          <div className="text-white/80">KYC</div>
-          <WithChevron>
-            <div className="text-right">
-              <div
-                className={clsx(
-                  'text-base font-medium leading-6',
-                  verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
-                )}
-              >
-                {verifiedCount}/3
+        {false && (
+          <NavLink
+            to="/account/kyc"
+            className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40"
+          >
+            <div className="text-white/80">KYC</div>
+            <WithChevron>
+              <div className="text-right">
+                <div
+                  className={clsx(
+                    'text-base font-medium leading-6',
+                    verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
+                  )}
+                >
+                  {verifiedCount}/3
+                </div>
               </div>
-            </div>
-          </WithChevron>
-        </NavLink>
+            </WithChevron>
+          </NavLink>
+        )}
 
         {!isMobile && <ReferralSection />}
       </div>
