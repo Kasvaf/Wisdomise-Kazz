@@ -4,6 +4,7 @@ import type React from 'react';
 import { useCallback, useState } from 'react';
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import PriceChange from 'shared/PriceChange';
@@ -76,6 +77,7 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
       setSummary(x => !x);
     }
   }, [isTouch]);
+
   const enterHandler = useCallback(() => {
     if (!isTouch) {
       setSummary(false);
@@ -89,8 +91,12 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
 
   const side = p.position_side?.toLowerCase();
   return (
-    <div
-      className="flex h-full w-[160px] cursor-pointer select-none flex-col justify-center rounded-lg bg-white/5"
+    <Link
+      to={`/insight/coins/signaler?coin=${p.pair_name}&strategy=${p.strategy.key}`}
+      className={clsx(
+        'flex h-full w-[160px] cursor-pointer select-none flex-col justify-center rounded-lg bg-white/5',
+        // (p.strategy.profile?.subscription_level ?? 0) > level && 'blur',
+      )}
       onClick={clickHandler}
       onMouseEnter={enterHandler}
       onMouseLeave={leaveHandler}
@@ -160,7 +166,7 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
           />
         </>
       )}
-    </div>
+    </Link>
   );
 };
 
