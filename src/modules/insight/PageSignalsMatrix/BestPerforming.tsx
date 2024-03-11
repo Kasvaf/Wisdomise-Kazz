@@ -5,9 +5,11 @@ import SimulatedPositionsTable from '../signaler/SimulatedPositionsTable';
 
 const BestPerforming = () => {
   const [params] = useSearchParams();
-  const { data: positions, isLoading } = useBestPerformingQuery(
-    Number.parseInt(params.get('tab') || '7'),
-  );
+  const days = Number.parseInt(params.get('tab') || '7');
+  const { data: positions, isLoading } = useBestPerformingQuery({
+    days: Number.parseInt(params.get('tab') || '7'),
+    limit: days === 30 ? 50 : 30,
+  });
 
   if (isLoading) {
     return (

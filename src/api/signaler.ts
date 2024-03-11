@@ -120,7 +120,13 @@ export const useStrategyPositions = (
   );
 };
 
-export const useBestPerformingQuery = (days: number) => {
+export const useBestPerformingQuery = ({
+  days,
+  limit,
+}: {
+  days: number;
+  limit: number;
+}) => {
   return useQuery<PairSignalerItem[]>(
     ['best-positions', days],
     async () => {
@@ -131,12 +137,12 @@ export const useBestPerformingQuery = (days: number) => {
       const startDate = new Date(endDate);
       startDate.setDate(startDate.getDate() - days);
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?order_by=-pnl&start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
+        `strategy/positions?order_by=-pnl&start=${startDate.toISOString()}&end=${endDate.toISOString()}&limit=${limit}`,
       );
       return data;
     },
     {
-      enabled: Boolean(days),
+      enabled: Boolean(days && limit),
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
