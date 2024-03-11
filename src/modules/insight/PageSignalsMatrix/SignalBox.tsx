@@ -90,7 +90,7 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
   const side = p.position_side?.toLowerCase();
   return (
     <div
-      className="flex h-full w-[160px] cursor-pointer select-none flex-col justify-center rounded-lg bg-white/10"
+      className="flex h-full w-[160px] cursor-pointer select-none flex-col justify-center rounded-lg bg-white/5"
       onClick={clickHandler}
       onMouseEnter={enterHandler}
       onMouseLeave={leaveHandler}

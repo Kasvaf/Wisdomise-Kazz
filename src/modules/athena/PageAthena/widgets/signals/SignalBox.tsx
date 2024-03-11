@@ -3,12 +3,13 @@ import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type React from 'react';
 import PriceChange from 'shared/PriceChange';
+import { type StrategyItem } from 'api';
+import { type LastPosition } from 'api/types/signalResponse';
 import { useSignals } from './components/SignalsProvider';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
-import { type LastPosition, type Strategy } from './types/signalResponse';
 
 interface Props {
-  strategy: Strategy;
+  strategy: StrategyItem;
   position: LastPosition;
 }
 
@@ -26,7 +27,8 @@ export const SignalBox: React.FC<Props> = ({
   },
 }) => {
   const { userPlanLevel, onUpgradeClick } = useSignals();
-  const hideSignal = userPlanLevel < strategy.profile.subscription_level;
+  const hideSignal =
+    userPlanLevel < (strategy.profile?.subscription_level ?? 0);
   return (
     <div className="relative">
       <div
@@ -57,7 +59,9 @@ export const SignalBox: React.FC<Props> = ({
               >
                 {exit_time ? 'Closed' : 'Opened'}{' '}
                 <span className="text-white/40">|</span>{' '}
-                <span className="text-white">{strategy?.title}</span>
+                <span className="text-white">
+                  {strategy?.profile?.title || strategy.name}
+                </span>
               </span>
               <span
                 className={clsx(

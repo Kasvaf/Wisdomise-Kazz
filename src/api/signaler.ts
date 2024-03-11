@@ -9,8 +9,6 @@ import {
 import { type PairData } from './types/strategy';
 import normalizePair from './normalizePair';
 
-const isPublic = 'is_public=True';
-
 export const useSignalerPairs = () =>
   useQuery<PairData[]>(
     ['signaler-pairs'],
@@ -54,7 +52,7 @@ export const useSignalerPairDetails = (name: string) =>
 
 export interface PairSignalerItem extends RawPosition {
   pair_name: string;
-  strategy: Strategy;
+  strategy: ThinStrategy;
   pnl_equity: number;
   stop_loss: number;
   take_profit: number;
@@ -62,12 +60,9 @@ export interface PairSignalerItem extends RawPosition {
   leverage: number;
 }
 
-interface Strategy {
+export interface ThinStrategy {
   key: string;
   name: string;
-  version: string;
-  resolution: string;
-  market_name: MarketTypes;
   profile?: Profile;
 }
 
@@ -79,7 +74,7 @@ interface Profile {
   'SL/TP'?: string;
 }
 
-function strategyComparer(a: Strategy, b: Strategy) {
+function strategyComparer(a: ThinStrategy, b: ThinStrategy) {
   const subDiff =
     (a.profile?.subscription_level ?? 0) - (b.profile?.subscription_level ?? 0);
   return (
@@ -94,7 +89,7 @@ export const usePairSignalers = (base?: string, quote?: string) => {
     async () => {
       if (!base || !quote) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True&${isPublic}`,
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True`,
       );
       return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
     },
@@ -119,9 +114,7 @@ export const useStrategiesList = () => {
   return useQuery<StrategyItem[]>(
     ['signaler-strategies'],
     async () => {
-      const { data } = await axios.get<StrategyItem[]>(
-        'strategy/strategies?' + isPublic,
-      );
+      const { data } = await axios.get<StrategyItem[]>('strategy/strategies');
       return data
         .map(s => ({
           ...s,
@@ -145,7 +138,7 @@ export const useStrategyPositions = (
     async () => {
       if (!(key && base && quote)) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}&${isPublic}`,
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
       );
       return data;
     },

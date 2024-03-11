@@ -1,5 +1,6 @@
 import CoinsIcons from 'shared/CoinsIcons';
 import PriceChange from 'shared/PriceChange';
+import { useSignalsQuery } from 'api';
 import { WidgetWrapper } from '../WidgetWrapper';
 import { SignalBox } from './SignalBox';
 import { Notification } from './components/Notification';
@@ -7,7 +8,7 @@ import { PriceAreaChart } from './components/PriceAreaChart';
 import { VirtualWallet } from './components/VirtualWallet';
 import LastPositionsIconSrc from './icons/lastPositions.svg';
 import { ReactComponent as LoadingIcon } from './icons/loading.svg';
-import { useSignalsQuery, useSubscribedSignalsQuery } from './services';
+import { useSubscribedSignalsQuery } from './services';
 
 export const Signals = () => {
   const { data, isLoading } = useSignalsQuery();
@@ -50,18 +51,20 @@ export const Signals = () => {
                     <section className="flex flex-col items-start justify-between gap-3">
                       <div className="flex w-full items-center justify-between">
                         <div className="flex w-full items-center">
-                          <CoinsIcons coins={[pair.base_name]} />
+                          <CoinsIcons coins={[pair.base.name]} />
                           <div className="ml-2">
-                            <p className="text-sm text-white ">{pair.title}</p>
+                            <p className="text-sm text-white ">
+                              {pair.display_name}
+                            </p>
                             <p className="text-[10px] text-white/40 ">
-                              {pair.base_name} / {pair.quote_name}
+                              {pair.base.name} / {pair.quote.name}
                             </p>
                           </div>
                         </div>
                         <Notification
                           pairName={pair.name}
                           strategyName={strategy.name}
-                          level={strategy.profile.subscription_level}
+                          level={strategy.profile?.subscription_level ?? 0}
                           subscribedKey={
                             subscribedSignals.data?.find(
                               item =>

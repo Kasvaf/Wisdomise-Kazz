@@ -3,27 +3,9 @@ import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import { getJwtToken } from 'modules/auth/jwt-store';
 import { isLocal, isProduction } from 'utils/version';
-import { type SignalsResponse } from './types/signalResponse';
 
 const USER_SIGNALS_REST =
   ACCOUNT_PANEL_ORIGIN + '/api/v1/notification/user-signals';
-
-export const useSignalsQuery = () =>
-  useQuery(['signals'], async () => {
-    const { data } = await axios.get<SignalsResponse>(
-      `${TEMPLE_ORIGIN}/api/v1/strategy/last-positions`,
-    );
-    data.last_positions.sort((a, b) => b.pnl - a.pnl);
-    for (const p of data.last_positions) {
-      p.subscription_level =
-        data.strategies.find(s => p.strategy_name === s.name)?.profile
-          .subscription_level ?? 0;
-    }
-    data.last_positions.sort(
-      (a, b) => a.subscription_level - b.subscription_level,
-    );
-    return data;
-  });
 
 export const useSubscribedSignalsQuery = () =>
   useQuery(
