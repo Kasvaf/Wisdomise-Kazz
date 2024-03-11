@@ -1,14 +1,25 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { type SignalsResponse } from 'api/types/signalResponse';
+import { useSignalsQuery } from 'api';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
+import Spinner from 'shared/Spinner';
 import Card from 'shared/Card';
 import SignalBox from './SignalBox';
 
-const SignalMatrix: React.FC<{ signals: SignalsResponse }> = ({ signals }) => {
+const SignalMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
+  const { data: signals, isLoading: isLoadingSignals } = useSignalsQuery();
+  if (isLoadingSignals) {
+    return (
+      <div className="mt-8 flex justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+  if (!signals) return null;
+
   return (
     <Card
       className="mr-4 grid w-min overflow-hidden bg-black/10 !p-0"

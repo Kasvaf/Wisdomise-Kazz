@@ -1,12 +1,17 @@
 import dayjs from 'dayjs';
 import { Table } from 'antd';
 import { useMemo } from 'react';
-import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
+import { type TableProps, type ColumnType } from 'antd/es/table';
+import { type ThinStrategy, useSignalerPairs } from 'api';
 import PriceChange from 'shared/PriceChange';
 import FancyPrice from 'shared/FancyPrice';
+import PairInfo from 'shared/PairInfo';
 
 interface Position {
+  pair_name: string;
+  strategy?: ThinStrategy;
+
   position_side: 'LONG' | 'SHORT';
   entry_time: string;
   entry_price: number;
@@ -31,12 +36,46 @@ const PriceTime: React.FC<{ price?: number | null; time?: string | null }> = ({
   );
 };
 
-const SimulatedPositionsTable: React.FC<{ items: Position[] }> = ({
-  items,
-}) => {
+const SimulatedPositionsTable: React.FC<{
+  items: Position[];
+  withCoins?: boolean;
+  withStrategy?: boolean;
+  pagination?: TableProps<ColumnType<Position>>['pagination'];
+}> = ({ items, withCoins, withStrategy, pagination }) => {
   const { t } = useTranslation('strategy');
+  const { data: pairs } = useSignalerPairs();
   const columns = useMemo<Array<ColumnType<Position>>>(
     () => [
+      ...(withCoins
+        ? ([
+            {
+              title: t('positions-history.pairs'),
+              dataIndex: 'pair_name',
+              render: (_, { pair_name: pn }) => {
+                const pair = pairs?.find(p => p.name === pn);
+                if (!pair) return null;
+                return (
+                  <PairInfo
+                    base={pair.base.name}
+                    quote={pair.quote.name}
+                    title={pair.display_name}
+                    className="!justify-start"
+                  />
+                );
+              },
+            },
+          ] satisfies Array<ColumnType<Position>>)
+        : []),
+      ...(withStrategy
+        ? ([
+            {
+              title: t('positions-history.strategy'),
+              dataIndex: 'strategy',
+              render: (_, { strategy }) =>
+                strategy?.profile?.title || strategy?.name,
+            },
+          ] satisfies Array<ColumnType<Position>>)
+        : []),
       {
         title: t('positions-history.type'),
         dataIndex: 'position_side',
@@ -70,10 +109,12 @@ const SimulatedPositionsTable: React.FC<{ items: Position[] }> = ({
         ),
       },
     ],
-    [t],
+    [withCoins, t, withStrategy, pairs],
   );
 
-  return <Table columns={columns} dataSource={items ?? []} />;
+  return (
+    <Table columns={columns} dataSource={items ?? []} pagination={pagination} />
+  );
 };
 
 export default SimulatedPositionsTable;

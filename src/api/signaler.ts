@@ -99,6 +99,46 @@ export const usePairSignalers = (base?: string, quote?: string) => {
   );
 };
 
+export const useStrategyPositions = (
+  key?: string,
+  base?: string,
+  quote?: string,
+) => {
+  return useQuery<PairSignalerItem[]>(
+    ['signaler-positions', key, base, quote],
+    async () => {
+      if (!(key && base && quote)) return [];
+      const { data } = await axios.get<PairSignalerItem[]>(
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
+      );
+      return data;
+    },
+    {
+      enabled: Boolean(key && base && quote),
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
+
+export const useBestPerformingQuery = (days: number) => {
+  return useQuery<PairSignalerItem[]>(
+    ['best-positions', days],
+    async () => {
+      const endDate = new Date();
+      const startDate = new Date(endDate);
+      startDate.setDate(startDate.getDate() - days);
+      const { data } = await axios.get<PairSignalerItem[]>(
+        `strategy/positions?last=True&start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
+      );
+      return data;
+    },
+    {
+      enabled: Boolean(days),
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
+
 export interface StrategyItem {
   key: string;
   name: string;
@@ -123,27 +163,6 @@ export const useStrategiesList = () => {
         .sort(strategyComparer);
     },
     {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-};
-
-export const useStrategyPositions = (
-  key?: string,
-  base?: string,
-  quote?: string,
-) => {
-  return useQuery<PairSignalerItem[]>(
-    ['signaler-positions', key, base, quote],
-    async () => {
-      if (!(key && base && quote)) return [];
-      const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
-      );
-      return data;
-    },
-    {
-      enabled: Boolean(key && base && quote),
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
