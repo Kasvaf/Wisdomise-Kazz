@@ -1,8 +1,10 @@
 matrix:
-  title: Latest Positions
+  best-performing-30d: Best Performing 30D
+  best-performing-7d: Best Performing 7D
   date: date
   entry-price: entry price
   exit-price: exit price
+  latest-positions: Latest Positions
   none: None
   side: side
   sl: SL

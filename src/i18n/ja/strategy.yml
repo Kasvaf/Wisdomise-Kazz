@@ -1,7 +1,10 @@
 matrix:
+  best-performing-30d: 最高のパフォーマンスの 30日
+  best-performing-7d: 最高のパフォーマンスの 7日
   date: 日付
   entry-price: エントリープライス
   exit-price: エグジットプライス
+  latest-positions: 直近のポジション
   none: 無し
   side: サイド
   sl: SL

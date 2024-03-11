@@ -1,7 +1,10 @@
 matrix:
+  best-performing-30d: 最佳表现 30天
+  best-performing-7d: 最佳表现 7天
   date: 日期
   entry-price: 出场价格
   exit-price: 退出价格
+  latest-positions: 最新点位
   none: 无
   side: 方向
   sl: 止损

@@ -9,24 +9,6 @@ import SignalMatrix from './SignalMatrix';
 import SignalsOverlay from './SignalsOverlay';
 import BestPerforming from './BestPerforming';
 
-const items: TabsProps['items'] = [
-  {
-    key: 'matrix',
-    label: 'All Coins',
-    children: <SignalMatrix />,
-  },
-  {
-    key: '7d',
-    label: 'Best Performing 7D',
-    children: <BestPerforming />,
-  },
-  {
-    key: '30d',
-    label: 'Best Performing 30D',
-    children: <BestPerforming />,
-  },
-];
-
 const PageSignalsMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
   const subscription = useSubscription();
@@ -38,11 +20,26 @@ const PageSignalsMatrix: React.FC = () => {
     'matrix',
   );
 
+  const items: TabsProps['items'] = [
+    {
+      key: 'matrix',
+      label: t('matrix.latest-positions'),
+      children: <SignalMatrix />,
+    },
+    {
+      key: '7d',
+      label: t('matrix.best-performing-7d'),
+      children: <BestPerforming />,
+    },
+    {
+      key: '30d',
+      label: t('matrix.best-performing-30d'),
+      children: <BestPerforming />,
+    },
+  ];
+
   return (
     <PageWrapper loading={subscription.isLoading}>
-      <h1 className="mb-7 mt-2 text-xl font-semibold text-white">
-        {t('matrix.title')}
-      </h1>
       <Locker overlay={null && !canView && <SignalsOverlay />}>
         <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
       </Locker>
