@@ -124,7 +124,10 @@ export const useBestPerformingQuery = (days: number) => {
   return useQuery<PairSignalerItem[]>(
     ['best-positions', days],
     async () => {
-      const endDate = new Date();
+      // dates rounded to 10 minutes intervals!
+      const rndInt = 1000 * 60 * 10;
+      const now = Math.round(Date.now() / rndInt) * rndInt;
+      const endDate = new Date(now);
       const startDate = new Date(endDate);
       startDate.setDate(startDate.getDate() - days);
       const { data } = await axios.get<PairSignalerItem[]>(
