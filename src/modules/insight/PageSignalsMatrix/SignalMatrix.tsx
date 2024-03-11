@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { useSignalsQuery } from 'api';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
@@ -42,12 +43,17 @@ const SignalMatrix: React.FC = () => {
 
       {signals.pairs.map(pair => (
         <React.Fragment key={pair.name}>
-          <PairInfo
-            title={pair.display_name}
-            base={pair.base.name}
-            quote={pair.quote.name}
-            name={pair.name}
-          />
+          <Link
+            to={`/insight/coins?coin=${pair.name}`}
+            className="flex items-center pl-2"
+          >
+            <PairInfo
+              title={pair.display_name}
+              base={pair.base.name}
+              quote={pair.quote.name}
+              name={pair.name}
+            />
+          </Link>
           <div className="flex flex-col items-center justify-center p-2">
             <PriceChange value={pair.time_window_pnl} className="mb-2" />
             <div className="w-36">
