@@ -128,7 +128,7 @@ export const useBestPerformingQuery = (days: number) => {
       const startDate = new Date(endDate);
       startDate.setDate(startDate.getDate() - days);
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?last=True&start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
+        `strategy/positions?start=${startDate.toISOString()}&end=${endDate.toISOString()}`,
       );
       return data;
     },
