@@ -5,6 +5,7 @@ matrix:
   entry-price: 出场价格
   exit-price: 退出价格
   latest-positions: 最新点位
+  locked: 锁定
   none: 无
   side: 方向
   sl: 止损

@@ -5,6 +5,7 @@ matrix:
   entry-price: エントリープライス
   exit-price: エグジットプライス
   latest-positions: 直近のポジション
+  locked: ロック中
   none: 無し
   side: サイド
   sl: SL

@@ -9,6 +9,7 @@ import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import PriceChange from 'shared/PriceChange';
 import Badge from 'shared/Badge';
+import { useSubscription } from 'api';
 import { useSuggestionsMap } from './constants';
 import ValuesRow from './ValuesRow';
 
@@ -68,15 +69,25 @@ const SignalBoxSuggestion: React.FC<{
 
 const SignalBox: React.FC<Props> = ({ position: p }) => {
   const { t } = useTranslation('strategy');
+  const { level } = useSubscription();
+  const isLocked = (p.strategy.profile?.subscription_level ?? 0) > level;
+
   const suggestions = useSuggestionsMap();
   const isTouch = isTouchDevice();
-
   const [summary, setSummary] = useState(true);
-  const clickHandler = useCallback(() => {
-    if (isTouch) {
-      setSummary(x => !x);
-    }
-  }, [isTouch]);
+
+  const clickHandler: React.MouseEventHandler<HTMLAnchorElement> = useCallback(
+    e => {
+      if (isLocked) {
+        e.preventDefault();
+        // void showSub();
+      }
+      if (isTouch) {
+        setSummary(x => !x);
+      }
+    },
+    [isLocked, isTouch],
+  );
 
   const enterHandler = useCallback(() => {
     if (!isTouch) {
@@ -95,7 +106,6 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
       to={`/insight/coins/signaler?coin=${p.pair_name}&strategy=${p.strategy.key}`}
       className={clsx(
         'flex h-full w-[160px] cursor-pointer select-none flex-col justify-center rounded-lg bg-white/5',
-        // (p.strategy.profile?.subscription_level ?? 0) > level && 'blur',
       )}
       onClick={clickHandler}
       onMouseEnter={enterHandler}
@@ -152,12 +162,14 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
                 : [
                     {
                       label: t('matrix.tp'),
+                      isLocked,
                       value:
                         p.take_profit &&
                         numerable.format(p.take_profit, '0,0.00'),
                     },
                     {
                       label: t('matrix.sl'),
+                      isLocked,
                       value:
                         p.stop_loss && numerable.format(p.stop_loss, '0,0.00'),
                     },

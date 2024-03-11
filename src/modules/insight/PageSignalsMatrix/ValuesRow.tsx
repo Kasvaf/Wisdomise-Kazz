@@ -1,8 +1,15 @@
+import { bxLock } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import Icon from 'shared/Icon';
 
 const ValuesRow: React.FC<{
-  values: Array<{ label: string; value?: string | number; isMuted?: boolean }>;
+  values: Array<{
+    label: string;
+    value?: string | number;
+    isMuted?: boolean;
+    isLocked?: boolean;
+  }>;
   className?: string;
 }> = ({ values, className }) => {
   const { t } = useTranslation('strategy');
@@ -28,8 +35,15 @@ const ValuesRow: React.FC<{
               v.isMuted && '!text-white/20',
             )}
           >
-            {v.value || (
-              <span className="text-white/20">{t('matrix.none')}</span>
+            {v.isLocked ? (
+              <span className="flex items-center text-white/40">
+                <Icon name={bxLock} size={12} className="!inline-block" />
+                {t('matrix.locked')}
+              </span>
+            ) : (
+              v.value || (
+                <span className="text-white/20">{t('matrix.none')}</span>
+              )
             )}
           </span>
         </div>

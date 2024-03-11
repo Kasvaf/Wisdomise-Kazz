@@ -5,6 +5,7 @@ matrix:
   entry-price: entry price
   exit-price: exit price
   latest-positions: Latest Positions
+  locked: Locked
   none: None
   side: side
   sl: SL
