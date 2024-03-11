@@ -24,6 +24,7 @@ const BestPerforming = () => {
     <SimulatedPositionsTable
       items={positions}
       pagination={false}
+      withNumbering
       withStrategy
       withCoins
     />

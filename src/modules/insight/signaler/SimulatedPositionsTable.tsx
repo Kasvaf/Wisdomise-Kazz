@@ -40,12 +40,22 @@ const SimulatedPositionsTable: React.FC<{
   items: Position[];
   withCoins?: boolean;
   withStrategy?: boolean;
+  withNumbering?: boolean;
   pagination?: TableProps<ColumnType<Position>>['pagination'];
-}> = ({ items, withCoins, withStrategy, pagination }) => {
+}> = ({ items, withCoins, withStrategy, withNumbering, pagination }) => {
   const { t } = useTranslation('strategy');
   const { data: pairs } = useSignalerPairs();
   const columns = useMemo<Array<ColumnType<Position>>>(
     () => [
+      ...(withNumbering
+        ? ([
+            {
+              title: '#',
+              dataIndex: 'pair_name',
+              render: (_, _2, index) => String(index + 1),
+            },
+          ] satisfies Array<ColumnType<Position>>)
+        : []),
       ...(withCoins
         ? ([
             {
@@ -109,7 +119,7 @@ const SimulatedPositionsTable: React.FC<{
         ),
       },
     ],
-    [withCoins, t, withStrategy, pairs],
+    [withNumbering, t, withCoins, withStrategy, pairs],
   );
 
   return (
