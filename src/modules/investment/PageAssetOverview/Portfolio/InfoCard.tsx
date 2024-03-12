@@ -11,7 +11,6 @@ const InfoCard: React.FC<{
   subtitle?: string;
   className?: string;
   valueClassName?: string;
-  diffMobileView?: boolean;
   colorizeValue?: boolean;
 }> = ({
   title,
@@ -22,23 +21,17 @@ const InfoCard: React.FC<{
   colorizeValue = false,
   className,
   valueClassName,
-  diffMobileView,
 }) => {
   const mainQuote = useMainQuote();
 
   return (
     <Card
       className={clsx(
-        '!p-6',
+        'flex !p-6 mobile:border-t mobile:border-white/5',
         className,
-        diffMobileView &&
-          'mobile:flex mobile:flex-row-reverse mobile:border-t mobile:border-white/5',
       )}
     >
-      <div className="mb-2 flex justify-end mobile:mb-0">
-        <Icon />
-      </div>
-      <div className={clsx(diffMobileView && 'mobile:grow')}>
+      <div className="flex grow flex-col justify-between">
         <p className="text-sm leading-none text-white/60">
           {title} <span className="text-xxs text-white/40">{subtitle}</span>
         </p>
@@ -55,6 +48,9 @@ const InfoCard: React.FC<{
           })}
           <span className="ml-1 text-xs text-white/40">{mainQuote}</span>
         </p>
+      </div>
+      <div className="mb-2 flex justify-end mobile:mb-0">
+        <Icon />
       </div>
     </Card>
   );
