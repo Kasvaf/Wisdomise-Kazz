@@ -31,14 +31,14 @@ const InfoCard: React.FC<{
         className,
       )}
     >
-      <div className="flex grow flex-col justify-between">
+      <div className="flex h-16 grow flex-col justify-between">
         <p className="text-sm leading-none text-white/60">
           {title} <span className="text-xxs text-white/40">{subtitle}</span>
         </p>
 
         <p
           className={clsx(
-            'mt-4 text-xl font-semibold leading-none text-white',
+            'text-xl font-semibold leading-none text-white',
             colorizeValue && value >= 0 && '!text-[#40F19C]',
             valueClassName,
           )}
