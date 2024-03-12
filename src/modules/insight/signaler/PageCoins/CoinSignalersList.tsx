@@ -1,63 +1,21 @@
-import { clsx } from 'clsx';
-import { bxBell, bxRightArrowAlt, bxsBell } from 'boxicons-quasar';
+import { bxRightArrowAlt } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
 import { type PairSignalerItem } from 'api/signaler';
-import useToggleNotification from 'modules/account/PageNotification/SignalingTab/useToggleNotification';
-import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
 import InfoButton from 'shared/InfoButton';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Locker from 'shared/Locker';
-import Spin from 'shared/Spin';
 import { trackClick } from 'config/segment';
+import NotificationButton from 'modules/account/PageNotification/NotificationButton';
 import ActivePosition from '../ActivePosition';
 import UnprivilegedOverlay from './UnprivilegedOverlay';
-
-const NotificationButton: React.FC<{
-  signaler: PairSignalerItem;
-  ensureConnected: () => Promise<boolean>;
-}> = ({ signaler, ensureConnected }) => {
-  const { handler, isSelected, isSubmitting, isLoading } =
-    useToggleNotification({
-      pairName: signaler.pair_name,
-      strategy: signaler.strategy,
-      ensureConnected,
-    });
-
-  const clickHandler = async () => {
-    trackClick('signalers_list_enable_notification', {
-      signaler: signaler.strategy.name,
-    })();
-    await handler();
-  };
-
-  return (
-    <Button
-      className={clsx(
-        'mr-2 !items-center !justify-center !px-4 mobile:!p-[10px]',
-        isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
-      )}
-      variant="alternative"
-      onClick={clickHandler}
-      disabled={isSubmitting || isLoading}
-    >
-      {isSubmitting || isLoading ? (
-        <Spin fontSize={24} />
-      ) : (
-        <Icon name={isSelected ? bxsBell : bxBell} />
-      )}
-    </Button>
-  );
-};
 
 const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
   signalers,
 }) => {
   const { t } = useTranslation('strategy');
   const { level } = useSubscription();
-  const [ModalTelegramConnected, ensureTelegramConnected] =
-    useEnsureTelegramConnected();
   if (!signalers) return null;
 
   return (
@@ -89,8 +47,9 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
 
               <div className="flex items-center">
                 <NotificationButton
-                  signaler={s}
-                  ensureConnected={ensureTelegramConnected}
+                  pairName={s.pair_name}
+                  strategy={s.strategy}
+                  className="mr-2"
                 />
                 <Button
                   className="mobile:!p-[10px_12px]"
@@ -110,7 +69,6 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
           </div>
         </Locker>
       ))}
-      {ModalTelegramConnected}
     </div>
   );
 };

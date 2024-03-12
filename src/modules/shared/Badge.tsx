@@ -11,7 +11,7 @@ const badgeColors = {
 };
 
 const Badge: React.FC<{
-  label: string;
+  label: string | React.ReactElement;
   color: BadgeColors;
   className?: string;
 }> = ({ color, label, className }) => {

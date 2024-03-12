@@ -73,10 +73,10 @@ const SignalMatrix: React.FC = () => {
             return (
               <div
                 key={strategy.name}
-                className="min-h-[149px] min-w-[170px] p-2"
+                className="flex min-h-[144px] min-w-[170px] items-center justify-center p-2"
               >
                 {position == null ? (
-                  <div className="h-full w-full rounded-lg bg-white/[.02]" />
+                  <div className="h-[112px] w-[200px] rounded-lg bg-white/[.02]" />
                 ) : (
                   <SignalBox position={position} />
                 )}

@@ -1,13 +1,13 @@
 matrix:
   best-performing-30d: Best Performing 30D
   best-performing-7d: Best Performing 7D
-  date: date
-  entry-price: entry price
-  exit-price: exit price
+  date: Date
+  entry-price: Entry Price
+  exit-price: Exit Price
   latest-positions: Latest Positions
   locked: Locked
   none: None
-  side: side
+  side: Side
   sl: SL
   suggestion: Suggestion
   tp: TP
