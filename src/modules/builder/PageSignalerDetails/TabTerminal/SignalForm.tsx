@@ -57,7 +57,7 @@ const SignalForm: React.FC<Props> = ({
   const isUpdate = !!activePosition;
 
   const [market, setMarket] = useState<'long' | 'short'>('long');
-  const [orderType, setOrderType] = useState<'limit' | 'market'>('limit');
+  const [orderType, setOrderType] = useState<'limit' | 'market'>('market');
   const [price, setPrice] = useState('');
   const [tp, setTP] = useState('');
   const [sl, setSL] = useState('');
@@ -208,7 +208,7 @@ const SignalForm: React.FC<Props> = ({
                 orderType === 'market'
                   ? assetPrice === undefined
                     ? '-'
-                    : String(roundDown(assetPrice, 2))
+                    : '~ ' + String(roundDown(assetPrice, 2))
                   : price
               }
               onChange={setPrice}
