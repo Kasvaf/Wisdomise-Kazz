@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { notification } from 'antd';
 import {
   type SignalerData,
@@ -82,13 +82,43 @@ const SignalForm: React.FC<Props> = ({
     assetName,
   });
 
+  const effectivePrice =
+    orderType === 'market'
+      ? assetPrice === undefined
+        ? 0
+        : assetPrice
+      : +price;
+
+  const isValidP = useCallback(
+    (p: number | string, type: 'TP' | 'SL') => {
+      if (p === '') return false;
+      const typeSign = type === 'TP' ? 1 : -1;
+      const marketSign = market === 'long' ? 1 : -1;
+      const sgn = typeSign * marketSign;
+      return +p * sgn > effectivePrice * sgn;
+    },
+    [effectivePrice, market],
+  );
+
   useEffect(() => {
-    if (assetPrice) {
-      setPrice(x => x || String(roundDown(assetPrice, 2)));
-      setTP(x => x || String(roundDown(assetPrice * 1.1, 2)));
-      setSL(x => x || String(roundDown(assetPrice * 0.9, 2)));
-    }
-  }, [assetPrice]);
+    if (!assetPrice) return;
+
+    setPrice(x => x || String(roundDown(assetPrice, 2)));
+    setTP(x =>
+      isValidP(x, 'TP')
+        ? x
+        : String(
+            roundDown(effectivePrice * (market === 'long' ? 1.1 : 0.9), 2),
+          ),
+    );
+    setSL(x =>
+      isValidP(x, 'SL')
+        ? x
+        : String(
+            roundDown(effectivePrice * (market === 'short' ? 1.1 : 0.9), 2),
+          ),
+    );
+  }, [assetPrice, price, effectivePrice, isValidP, market]);
 
   // ======================================================================
 
@@ -227,14 +257,22 @@ const SignalForm: React.FC<Props> = ({
         onChange={setTP}
         suffix="USDT"
         disabled={!!activePosition}
+        min={(market === 'long' && effectivePrice) || undefined}
+        max={(market === 'short' && effectivePrice) || undefined}
       />
       <AmountInputBox
         label="Stop Loss"
         value={sl}
         onChange={setSL}
         suffix="USDT"
-        min={market === 'long' ? activePosition?.stop_loss : undefined}
-        max={market === 'short' ? activePosition?.stop_loss : undefined}
+        min={Math.max(
+          (market === 'long' && activePosition?.stop_loss) || 0,
+          (market === 'short' && effectivePrice) || 0,
+        )}
+        max={Math.min(
+          (market === 'short' && activePosition?.stop_loss) || 1e100,
+          (market === 'long' && effectivePrice) || 1e100,
+        )}
       />
 
       {!isUpdate && (
