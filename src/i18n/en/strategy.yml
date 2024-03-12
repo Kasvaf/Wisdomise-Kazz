@@ -9,7 +9,6 @@ matrix:
   none: None
   side: Side
   sl: SL
-  suggestion: Suggestion
   tp: TP
 positions-history:
   title: Positions History
