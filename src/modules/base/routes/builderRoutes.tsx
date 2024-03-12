@@ -1,10 +1,10 @@
 /* eslint-disable import/max-dependencies */
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { type RouteObject } from 'react-router-dom';
-
+import PageBuilder from 'modules/builder/PageBuilder';
 import Container from '../Container';
 
-const PageBuilder = React.lazy(() => import('modules/builder/PageBuilder'));
 const PageSignalersList = React.lazy(
   () => import('modules/builder/PageSignalersList'),
 );
@@ -19,20 +19,55 @@ const PageFpList = React.lazy(() => import('modules/builder/PageFpList'));
 const PageFpCreate = React.lazy(() => import('modules/builder/PageFpCreate'));
 const PageFpDetails = React.lazy(() => import('modules/builder/PageFpDetails'));
 
-const builderRoutes: RouteObject[] = [
-  {
-    element: <Container />,
-    path: 'builder',
-    children: [
-      { path: '', element: <PageBuilder /> },
-      { path: 'signalers', element: <PageSignalersList /> },
-      { path: 'signalers/new', element: <PageSignalerCreate /> },
-      { path: 'signalers/:id', element: <PageSignalerDetails /> },
-      { path: 'fp', element: <PageFpList /> },
-      { path: 'fp/new', element: <PageFpCreate /> },
-      { path: 'fp/:id', element: <PageFpDetails /> },
-    ],
-  },
-];
+const useBuilderRoutes = () => {
+  const { t } = useTranslation('base');
+  return [
+    {
+      element: <Container />,
+      path: 'builder',
+      handle: { crumb: t('menu.builder.title') },
+      children: [
+        { path: '', element: <PageBuilder /> },
+        {
+          path: 'signalers',
+          handle: { crumb: t('menu.signal-builder.title') },
+          children: [
+            {
+              path: '',
+              element: <PageSignalersList />,
+            },
+            {
+              path: 'new',
+              element: <PageSignalerCreate />,
+              handle: { crumb: 'New Signaler' },
+            },
+            {
+              path: ':id',
+              element: <PageSignalerDetails />,
+              handle: { crumb: 'Signaler' },
+            },
+          ],
+        },
+        {
+          path: 'fp',
+          handle: { crumb: t('menu.fp-builder.title') },
+          children: [
+            { path: '', element: <PageFpList /> },
+            {
+              path: 'new',
+              element: <PageFpCreate />,
+              handle: { crumb: 'New Product' },
+            },
+            {
+              path: ':id',
+              element: <PageFpDetails />,
+              handle: { crumb: 'Product' },
+            },
+          ],
+        },
+      ],
+    },
+  ] satisfies RouteObject[];
+};
 
-export default builderRoutes;
+export default useBuilderRoutes;

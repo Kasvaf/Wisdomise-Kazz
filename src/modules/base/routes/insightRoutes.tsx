@@ -1,6 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import * as React from 'react';
-import { type RouteObject } from 'react-router-dom';
+import { type Params, type RouteObject } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import PageInsight from 'modules/insight/PageInsight';
 import Container from '../Container';
 
@@ -22,20 +23,55 @@ const PageSocialRadarDetail = React.lazy(
   () => import('modules/insight/PageSocialRadarDetail'),
 );
 
-const insightRoutes: RouteObject[] = [
-  {
-    element: <Container />,
-    path: 'insight',
-    children: [
-      { path: '', element: <PageInsight /> },
-      { path: 'signals', element: <PageSignalsMatrix /> },
-      { path: 'coins', element: <PageCoins /> },
-      { path: 'coins/signaler', element: <PageSignaler /> },
-      { path: 'athena', element: <PageAthena /> },
-      { path: 'social-radar', element: <PageSocialRadar /> },
-      { path: 'social-radar/:symbol', element: <PageSocialRadarDetail /> },
-    ],
-  },
-];
+const useInsightRoutes = () => {
+  const { t } = useTranslation('base');
+  return [
+    {
+      element: <Container />,
+      path: 'insight',
+      handle: { crumb: t('menu.insight.title') },
+      children: [
+        { path: '', element: <PageInsight /> },
+        {
+          path: 'signals',
+          element: <PageSignalsMatrix />,
+          handle: { crumb: t('menu.signal-matrix.title') },
+        },
+        {
+          path: 'coins',
+          handle: { crumb: t('menu.coin-view.title') },
+          children: [
+            {
+              path: '',
+              element: <PageCoins />,
+            },
+            {
+              path: 'signaler',
+              element: <PageSignaler />,
+              handle: { crumb: t('strategy:signaler.info.strategy.label') },
+            },
+          ],
+        },
+        {
+          path: 'athena',
+          element: <PageAthena />,
+          handle: { crumb: t('menu.athena.title') },
+        },
+        {
+          path: 'social-radar',
+          handle: { crumb: t('menu.social-radar.title') },
+          children: [
+            { path: '', element: <PageSocialRadar /> },
+            {
+              path: ':symbol',
+              element: <PageSocialRadarDetail />,
+              handle: { crumb: (p: Params<string>) => p.symbol },
+            },
+          ],
+        },
+      ],
+    },
+  ] satisfies RouteObject[];
+};
 
-export default insightRoutes;
+export default useInsightRoutes;

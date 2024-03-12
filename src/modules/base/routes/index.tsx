@@ -1,23 +1,31 @@
 import { Navigate, type RouteObject } from 'react-router-dom';
 import Boundary from './Boundary';
-import authRoutes from './authRoutes';
-import accountRoutes from './accountRoutes';
-import builderRoutes from './builderRoutes';
-import investmentRoutes from './investmentRoutes';
-import insightRoutes from './insightRoutes';
+import useAuthRoutes from './authRoutes';
+import useInvestmentRoutes from './investmentRoutes';
+import useInsightRoutes from './insightRoutes';
+import useBuilderRoutes from './builderRoutes';
+import useAccountRoutes from './accountRoutes';
 
-const routes: RouteObject[] = [
-  {
-    element: <Boundary />,
-    children: [
-      ...authRoutes,
-      ...investmentRoutes,
-      ...insightRoutes,
-      ...builderRoutes,
-      ...accountRoutes,
-      { path: '*', element: <Navigate to="/investment" /> },
-    ],
-  },
-];
+const useRoutes = () => {
+  const authRoutes = useAuthRoutes();
+  const investmentRoutes = useInvestmentRoutes();
+  const insightRoutes = useInsightRoutes();
+  const builderRoutes = useBuilderRoutes();
+  const accountRoutes = useAccountRoutes();
 
-export default routes;
+  return [
+    {
+      element: <Boundary />,
+      children: [
+        ...authRoutes,
+        ...investmentRoutes,
+        ...insightRoutes,
+        ...builderRoutes,
+        ...accountRoutes,
+        { path: '*', element: <Navigate to="/investment" /> },
+      ],
+    },
+  ] satisfies RouteObject[];
+};
+
+export default useRoutes;

@@ -1,3 +1,5 @@
+beta: 贝塔
+beta-version: 测试版
 error-page:
   btn-reload: 重新加载
   subtitle: 但我们会尽力避免类似情况再次发生。
@@ -28,6 +30,9 @@ menu:
     remains: 剩余
     subtitle: 订阅偏好。
     title: 订阅
+  builder:
+    subtitle: 管理您的帐户设置和偏好
+    title: 建设者
   category:
     account: 帐户
     market-predication: 市场预测
@@ -41,6 +46,9 @@ menu:
     active-product: 活跃产品
     subtitle: 探索不同的投资组合
     title: 理财产品
+  fp-builder:
+    subtitle: 探索不同的投资组合
+    title: 我的产品
   insight:
     subtitle: 获取加密货币投资的实时投资资讯
     title: 投资工具
@@ -67,6 +75,9 @@ menu:
     mobile: 邀请奖励
     subtitle: 邀请并获得奖励。
     title: 邀请奖励
+  signal-builder:
+    subtitle: 为支持的加密货币生成信号
+    title: 我的信号员
   signal-matrix:
     mobile: 交易信号
     subtitle: 获取主流币种的人工智能交易信号
@@ -74,6 +85,9 @@ menu:
   signaler-view:
     subtitle: 获取所有信号员的信号和位置历史记录
     title: 信号员视图
+  social-radar:
+    subtitle: 通过人工智能驱动的洞察力揭示市场趋势
+    title: 社会雷达
   strategies:
     mobile: 策略
     title: 策略

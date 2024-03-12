@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
+import {
+  type ExchangeAccount,
+  useExchangeAccountsQuery,
+  useInvestorAssetStructuresQuery,
+} from 'api';
 import { type MarketTypes } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
@@ -47,29 +51,46 @@ const ExchangeAccountSelector: React.FC<Props> = ({
   onSelect,
   disabled = false,
 }) => {
-  const { data, isLoading } = useExchangeAccountsQuery();
+  const { data, isLoading: exchangesLoading } = useExchangeAccountsQuery();
+  const { data: ias, isLoading: iasLoading } =
+    useInvestorAssetStructuresQuery();
+  const mea = !!ias?.[0]?.main_exchange_account;
 
-  // const items: ExchangeAccount[] = useMemo(() => {
-  //   const wisdomise = {
-  //     key: 'wisdomise',
-  //     exchange_name: 'WISDOMISE' as const,
-  //     market_name: 'SPOT' as const,
-  //     status: 'INACTIVE' as const,
-  //     title: 'Wisdomise Account',
-  //   };
+  const isLoading = exchangesLoading || iasLoading;
+  const items: ExchangeAccount[] = useMemo(() => {
+    if (!mea) return data ?? [];
 
-  //   return market
-  //     ? [
-  //         wisdomise,
-  //         {
-  //           ...wisdomise,
-  //           market_name: 'FUTURES' as const,
-  //         },
-  //         ...(data ?? []),
-  //       ].filter(acc => acc.status === 'INACTIVE' && acc.market_name === market)
-  //     : [wisdomise];
-  // }, [data, market]);
-  const items = data ?? [];
+    const wisdomise = {
+      key: 'wisdomise',
+      exchange_name: 'WISDOMISE' as const,
+      market_name: 'SPOT' as const,
+      status: 'INACTIVE' as const,
+      title: 'Wisdomise Account',
+    };
+
+    return market
+      ? [
+          wisdomise,
+          {
+            ...wisdomise,
+            market_name: 'FUTURES' as const,
+          },
+          ...(data ?? []),
+        ].filter(acc => acc.status === 'INACTIVE' && acc.market_name === market)
+      : [wisdomise];
+  }, [data, market, mea]);
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    if (items.length > 0 && !selectedItem) {
+      onSelect?.(items[0].key);
+    }
+
+    if (selectedItem && !items?.find(x => x.key === selectedItem)) {
+      onSelect?.('');
+    }
+  }, [isLoading, items, selectedItem, onSelect]);
 
   return (
     <div className={className}>

@@ -1,9 +1,11 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { bxInfoCircle } from 'boxicons-quasar';
 import { useSumsubVerified, useVerifiedWallets, useAccountQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import CoinsIcons from 'shared/CoinsIcons';
+import Banner from 'shared/Banner';
 import Card from 'shared/Card';
 import Badge from './Badge';
 import { ReactComponent as VerificationSvg } from './verification.svg';
@@ -48,6 +50,15 @@ export default function PageKYC() {
   return (
     <PageWrapper loading={loading}>
       <h1 className="mb-8 text-xl font-semibold">KYC</h1>
+
+      <Banner style="warn" icon={bxInfoCircle} className="mb-3">
+        <div className="mobile:flex mobile:flex-col mobile:gap-3 mobile:text-xs">
+          <span className="mr-1 font-semibold">
+            {t('wisdomise-only.title')}
+          </span>
+          <span>{t('wisdomise-only.subtitle')}</span>
+        </div>
+      </Banner>
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-6 md:flex-row">
@@ -103,11 +114,13 @@ export default function PageKYC() {
                     account.data?.wisdomise_verification_status || 'UNKNOWN'
                   ]
                 }
-                {sumsubVerified.data !== 'VERIFIED' && (
-                  <ul className="ml-3 mt-1 list-disc text-[10px] text-[#F1AA40]">
-                    <li>{t('verification.identify-first-notice')}</li>
-                  </ul>
-                )}
+                {sumsubVerified.data !== 'VERIFIED' &&
+                  account.data?.wisdomise_verification_status !==
+                    'VERIFIED' && (
+                    <ul className="ml-3 mt-1 list-disc text-[10px] text-[#F1AA40]">
+                      <li>{t('verification.identify-first-notice')}</li>
+                    </ul>
+                  )}
               </div>
 
               {account.data?.wisdomise_verification_status === 'UNVERIFIED' && (
