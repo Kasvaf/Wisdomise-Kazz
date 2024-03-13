@@ -7,7 +7,9 @@ import Card from 'shared/Card';
 import TelegramIcon from './TelegramIcon';
 import useTelegramAddress from './useTelegramAddress';
 
-export default function ButtonOpenTelegram() {
+const ButtonOpenTelegram: React.FC<{ className?: string }> = ({
+  className,
+}) => {
   const { t } = useTranslation('notifications');
   const account = useAccountQuery();
   const isMobile = useIsMobile();
@@ -19,6 +21,7 @@ export default function ButtonOpenTelegram() {
       className={clsx(
         'flex flex-col items-center justify-center gap-4 md:flex-row',
         isMobile && 'mb-10 !p-6',
+        className,
       )}
     >
       <div className="text-sm sm:hidden lg:block">
@@ -37,4 +40,6 @@ export default function ButtonOpenTelegram() {
       </div>
     </Card>
   );
-}
+};
+
+export default ButtonOpenTelegram;
