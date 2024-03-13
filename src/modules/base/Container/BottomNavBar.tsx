@@ -34,8 +34,8 @@ export default function BottomNavbar() {
         </>
       ) : (
         <>
-          {renderItem(items[1])}
           {renderItem(items[0])}
+          {renderItem(items[1])}
           <div className="w-20">
             <AthenaFloatMobileIcon />
           </div>
