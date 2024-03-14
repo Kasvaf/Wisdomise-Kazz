@@ -60,28 +60,32 @@ export default function Vesting() {
               <div>
                 <div className="mb-3">
                   <span className="text-sm text-white/40">Next unlock</span>
-                  <span className="ms-2">
-                    <span>
-                      {dayjs(findNextRelease(round.id) * 1000).format(
-                        'D MMM YYYY',
-                      )}
+                  {findNextRelease(round.id) !== 0 && (
+                    <span className="ms-2">
+                      <span>
+                        {dayjs(findNextRelease(round.id) * 1000).format(
+                          'D MMM YYYY',
+                        )}
+                      </span>
+                      <span className="ms-1 text-sm">
+                        (
+                        {Math.ceil(
+                          (findNextRelease(round.id) * 1000 - Date.now()) /
+                            (1000 * 60 * 60 * 24),
+                        )}{' '}
+                        Days)
+                      </span>
                     </span>
-                    <span className="ms-1 text-sm">
-                      (
-                      {Math.ceil(
-                        (findNextRelease(round.id) * 1000 - Date.now()) /
-                          (1000 * 60 * 60 * 24),
-                      )}{' '}
-                      Days)
-                    </span>
-                  </span>
+                  )}
                 </div>
                 <div>
-                  {addComma(
-                    (Number(round.totalAmount ?? 0n) *
-                      round.releasePercentage) /
-                      10 ** 6,
-                  )}{' '}
+                  {findNextRelease(round.id) === 0
+                    ? 0
+                    : addComma(
+                        (Number(round.totalAmount ?? 0n) *
+                          round.releasePercentage) /
+                          10 ** 6,
+                      )}{' '}
                   <span className="text-white/40">WSDM</span>
                 </div>
               </div>
@@ -90,13 +94,6 @@ export default function Vesting() {
                   <span>Claimable</span>
                 </div>
                 <div>
-                  {/* <span className="text-white/40"> */}
-                  {/*  {Number( */}
-                  {/*    ((round.claimable ?? 0n) * 100n) / */}
-                  {/*      (round.totalAmount || 1n), */}
-                  {/*  )} */}
-                  {/*  % */}
-                  {/* </span>{' '} */}
                   {addComma((round.claimable ?? 0n) / 10n ** 6n)}{' '}
                   <span className="text-white/40">WSDM</span>
                 </div>

@@ -92,7 +92,7 @@ export default function Utility() {
                       ? lockedBalance
                       : unlockedBalance}
                   </span>{' '}
-                  <span className="font-light">WSDM</span>
+                  <span className="font-light text-green-400">WSDM</span>
                 </div>
               </div>
               {utilityStatus === 'locked' && (
