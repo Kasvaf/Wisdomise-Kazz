@@ -7,6 +7,9 @@ matrix:
   latest-positions: 最新点位
   locked: 锁定
   none: 无
+  radar:
+    across: 穿过 <1>{{cnt}}</1> 过去 24 小时内的 Telegram 消息
+    consensus: 社区共识：
   side: 方向
   sl: 止损
   subscription:

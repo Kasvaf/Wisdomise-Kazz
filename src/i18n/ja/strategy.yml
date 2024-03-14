@@ -7,6 +7,9 @@ matrix:
   latest-positions: 直近のポジション
   locked: ロック中
   none: 無し
+  radar:
+    across: 横切って <1>{{cnt}}</1> 過去 24 時間の電報メッセージ
+    consensus: コミュニティの合意：
   side: サイド
   sl: SL
   subscription:

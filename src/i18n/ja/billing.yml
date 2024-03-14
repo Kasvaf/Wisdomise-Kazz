@@ -75,20 +75,34 @@ subscription-details:
     status: ステータス
   overview:
     automatically-renew: 自動で更新されます。
-    billing-actions: 支払い状況
+    billing-actions: 請求アクション
     billing-email: ご請求メールは<1>{{email}}</1>にお送りします。
-    btn-change-plan: プランの変更
+    btn-change-plan: プラン変更
     card: 下4桁<1>****{{last4}}</1>のカードに請求します。
     charging: <1>${{ amount }}</1>をご登録カードに請求いたします。
-    current-plan: 現在ご契約のプランは<1>{{plan}}</1>です。
+    current-plan:
+      expire: プランは
+      pay-method: お支払い方法は、
+      pay-now: 今払う！
+      pending-invoice: <0>お支払いステータスは<1></1></0>
+      title: 現在ご契約中のプラン
+      your-subs: あなたのサブスクリプションプランは、<1></1>
     in-order-to-renew: 更新するにはトランザクションを再度お送りください。
     is-on-the-way:
       description: サブスクリプション契約のお支払いを仮想通貨で受け付けました。確認に24-48時間かかります。アカウントのアクティベーションが完了出来次第メールにてご連絡いたします。
-      title: サブスクリプションのアクティベーション準備中
+      title: 定期購読はもうすぐ届きます
     next-plan-canceled: <0></0><1>次のサブスクリプション更新はありません。<1>次の契約を更新する</1></1>
     next-plan-info: <0>あなたの次のプランは <2>{{nextPlanName}} {{period}}</2> と <6>
       {{payMethod}}</6> 支払方法。<9>次のプランをキャンセルする</9></0>
-    pay-method: "<0>次の支払い方法: <2>{{payMethod}}。</2><3>支払い方法を変更する</3></0>"
+    next-plan:
+      automatically-renew: 自動で更新されます。
+      cancel-btn: 次のプランをキャンセルする
+      canceled: <0>次の計画はキャンセルされました。<1>次のプランを更新する</1></0>
+      card: 今後の料金はカードに適用されます<1></1>
+      charging: クレジットカードにチャージする<1></1>
+      pay-method: お支払い方法は、
+      your-subs: あなたのサブスクリプションプランは、<1></1>
+    pay-method: "<0>次のお支払い方法: <2>{{payMethod}}。</2><3>支払い方法を変更する</3></0>"
     pending-invoice: <0><0>保留中の請求書が 1 件あります。</0><1>今払う</1></0>
     periodEnd: プランは<3>{{date}}</3>日で{{action}}されます。
     plan-details: プラン詳細
