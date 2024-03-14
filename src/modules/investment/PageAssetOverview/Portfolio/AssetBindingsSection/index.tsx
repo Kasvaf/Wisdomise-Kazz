@@ -39,7 +39,7 @@ const AssetBindingsSection = () => {
     })) ?? [];
 
   return (
-    <Card className="col-span-3 row-span-2 flex justify-start !p-6 mobile:order-last mobile:flex-col ">
+    <Card className="col-span-4 row-span-2 flex justify-start !p-6 mobile:order-last mobile:flex-col ">
       <div className="max-w-[59%] basis-7/12 mobile:max-w-full mobile:basis-auto">
         <AssetBindingsSectionTable />
       </div>

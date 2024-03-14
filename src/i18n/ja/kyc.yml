@@ -44,3 +44,6 @@ wallet:
   list-title: ウォレットのステータス
   title: ウォレットの承認
   unnamed: (無名)
+wisdomise-only:
+  subtitle: KYC は、特に Wisdomise ウォレット アカウント経由で金融商品をアクティベートするユーザーを対象としています。
+  title: Binance Wallet API を使用している場合、KYC は必要ありません。

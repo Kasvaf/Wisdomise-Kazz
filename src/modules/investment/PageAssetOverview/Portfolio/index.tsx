@@ -19,12 +19,11 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'grid grid-cols-3 gap-6 mobile:flex mobile:flex-col mobile:gap-0',
+        'grid grid-cols-4 gap-6 mobile:flex mobile:flex-col mobile:gap-0',
         className,
       )}
     >
       <InfoCard
-        diffMobileView
         icon={BalanceIcon}
         title={t('portfolio.info.balance')}
         value={data?.total_equity || 0}
@@ -33,17 +32,15 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
       />
 
       <InfoCard
-        diffMobileView
         icon={data?.pnl && data?.pnl < 0 ? PNLIconWhite : PNLIconGreen}
         title={t('portfolio.info.PnL.title')}
         subtitle={t('portfolio.info.PnL.unrealized')}
         colorizeValue
-        className="!hidden mobile:mb-4"
+        className="mobile:mb-4"
         value={data?.pnl || 0}
       />
 
       <InfoCard
-        diffMobileView
         title={t('portfolio.info.available.title')}
         icon={AvailableIcon}
         subtitle={t('portfolio.info.available.subtitle')}
@@ -52,7 +49,6 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
       />
 
       <InfoCard
-        diffMobileView
         title={t('portfolio.info.deposit.title')}
         subtitle={t('portfolio.info.deposit.subtitle')}
         icon={DepositIcon}
@@ -61,7 +57,6 @@ const Portfolio: React.FC<{ className?: string }> = ({ className }) => {
       />
 
       <InfoCard
-        diffMobileView
         title={t('portfolio.info.working-capital.title')}
         subtitle={t('portfolio.info.working-capital.subtitle')}
         icon={WorkingCapitalIcon}
