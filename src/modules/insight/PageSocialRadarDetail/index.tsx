@@ -46,7 +46,7 @@ export default function PageSocialRadarDetail() {
                   src={API_ORIGIN + msg.photo_url}
                 />
               )}
-              <pre className="overflow-hidden whitespace-pre-line font-jakarta text-xs text-white/60">
+              <pre className="overflow-hidden whitespace-pre-line text-xs text-white/60">
                 {msg.message_text}
               </pre>
             </div>
