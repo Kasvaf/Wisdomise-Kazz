@@ -1,10 +1,21 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, type TabsProps } from 'antd';
+import { type PropsWithChildren } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import BestPerforming from './BestPerforming';
 import SignalMatrix from './SignalMatrix';
+
+const PanelWrapper: React.FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className="overflow-x-scroll mobile:-mx-6">
+      <div className="w-max min-w-full mobile:mx-6 mobile:min-w-[calc(100%-48px)]">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 const PageSignalsMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
@@ -17,17 +28,29 @@ const PageSignalsMatrix: React.FC = () => {
     {
       key: 'matrix',
       label: t('matrix.latest-positions'),
-      children: <SignalMatrix />,
+      children: (
+        <PanelWrapper>
+          <SignalMatrix />
+        </PanelWrapper>
+      ),
     },
     {
       key: '7d',
       label: t('matrix.best-performing-7d'),
-      children: <BestPerforming />,
+      children: (
+        <PanelWrapper>
+          <BestPerforming />
+        </PanelWrapper>
+      ),
     },
     {
       key: '30d',
       label: t('matrix.best-performing-30d'),
-      children: <BestPerforming />,
+      children: (
+        <PanelWrapper>
+          <BestPerforming />
+        </PanelWrapper>
+      ),
     },
   ];
 

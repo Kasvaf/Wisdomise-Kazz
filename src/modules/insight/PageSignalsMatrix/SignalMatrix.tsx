@@ -23,7 +23,7 @@ const SignalMatrix: React.FC = () => {
 
   return (
     <Card
-      className="mr-4 grid w-min overflow-hidden bg-black/10 !p-0"
+      className="grid w-min overflow-hidden bg-black/10 !p-0"
       style={{
         gridTemplateColumns: `max-content max-content repeat(${signals.strategies.length},max-content)`,
       }}
