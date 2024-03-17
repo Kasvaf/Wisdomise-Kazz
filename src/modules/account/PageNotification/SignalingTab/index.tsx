@@ -24,7 +24,7 @@ export default function SignalingTab() {
           </p>
         </div>
         <div>
-          <ButtonOpenTelegram />
+          <ButtonOpenTelegram className="mb-4" />
           {ModalConnected}
         </div>
       </div>
