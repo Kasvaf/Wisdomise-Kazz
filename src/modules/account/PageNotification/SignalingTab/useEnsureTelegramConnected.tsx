@@ -39,8 +39,9 @@ const useEnsureTelegramConnected = () => {
           className="mt-6"
           to={telegramBot}
           onClick={trackClick('open_telegram_button')}
+          target="_blank"
         >
-          {t('signaling.btn-open-telegram.label')}
+          {t('signaling.btn-open-telegram.open')}
         </Button>
       </div>
     ),
