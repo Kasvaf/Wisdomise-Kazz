@@ -9,6 +9,19 @@ matrix:
   none: None
   side: Side
   sl: SL
+  subscription:
+    subscribe:
+      title: Subscription
+      description: >-
+        To view this signal, you need to <1>Subscribe</1> to our
+        <3>{{minPlan}}</3> plan.
+      btn-confirm: Subscribe
+    upgrade:
+      title: Upgrade Subscription
+      description: >-
+        To view this signal, you need to <1>Upgrade</1> your subscription to
+        <4>{{minPlan}}</4>.
+      btn-confirm: Upgrade
   tp: TP
 positions-history:
   title: Positions History

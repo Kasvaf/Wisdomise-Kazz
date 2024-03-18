@@ -4,13 +4,14 @@ import type React from 'react';
 import { useCallback, useState } from 'react';
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import NotificationButton from 'modules/account/PageNotification/NotificationButton';
 import PriceChange from 'shared/PriceChange';
 import Badge from 'shared/Badge';
+import useSignalSubscriptionModal from './useSignalSubscriptionModal';
 import { useSuggestionsMap } from './constants';
 import ValuesRow from './ValuesRow';
 
@@ -83,22 +84,27 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p, className }) => {
 const SignalBox: React.FC<Props> = ({ position: p, className }) => {
   const { t } = useTranslation('strategy');
   const { level } = useSubscription();
-  const isLocked = (p.strategy.profile?.subscription_level ?? 0) > level;
+  const requiredLevel = p.strategy.profile?.subscription_level ?? 0;
+  const isLocked = requiredLevel > level;
 
   const isTouch = isTouchDevice();
   const [summary, setSummary] = useState(true);
 
+  const navigate = useNavigate();
+  const [SubModal, showSubModal] = useSignalSubscriptionModal(requiredLevel);
   const clickHandler: React.MouseEventHandler<HTMLAnchorElement> = useCallback(
-    e => {
+    async e => {
       if (isLocked) {
         e.preventDefault();
-        // void showSub();
+        if (await showSubModal()) {
+          navigate('/account/billing');
+        }
       }
       if (isTouch) {
         setSummary(x => !x);
       }
     },
-    [isLocked, isTouch],
+    [isLocked, isTouch, navigate, showSubModal],
   );
 
   const enterHandler = useCallback(() => {
@@ -191,6 +197,7 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
           </ValuesRow>
         </>
       )}
+      {SubModal}
     </Link>
   );
 };
