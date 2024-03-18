@@ -19,8 +19,11 @@ page:
   description: 受け取る通知のカスタム設定が可能です。
 signaling:
   btn-open-telegram:
-    hint: 通知をSNSで受け取り
-    label: Telegramを起動
+    connect: Telegram に接続
+    hint: ソーシャルで通知を受け取る
+    is-connected: 電報が接続されました。
+    label: Telegram に接続
+    open: Telegram を開く
   description: 次のシグナルからご希望のものをご選択ください。
   modal-connected:
     description: Telegramaアカウントが同期されました。
