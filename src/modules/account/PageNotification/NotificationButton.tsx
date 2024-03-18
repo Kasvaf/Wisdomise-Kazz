@@ -36,24 +36,26 @@ const NotificationButton: React.FC<{
   };
 
   return (
-    <Button
-      className={clsx(
-        '!items-center !justify-center !px-4 mobile:!p-[10px]',
-        isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
-        className,
-      )}
-      variant="alternative"
-      onClick={clickHandler}
-      disabled={isSubmitting || isLoading}
-      size={size}
-    >
-      {isSubmitting || isLoading ? (
-        <Spin fontSize={24} />
-      ) : (
-        <Icon name={isSelected ? bxsBell : bxBell} />
-      )}
+    <>
+      <Button
+        className={clsx(
+          '!items-center !justify-center !px-4 mobile:!p-[10px]',
+          isSelected && 'bg-gradient-to-bl from-[#615298] to-[#42427B]',
+          className,
+        )}
+        variant="alternative"
+        onClick={clickHandler}
+        disabled={isSubmitting || isLoading}
+        size={size}
+      >
+        {isSubmitting || isLoading ? (
+          <Spin fontSize={24} />
+        ) : (
+          <Icon name={isSelected ? bxsBell : bxBell} />
+        )}
+      </Button>
       {ModalTelegramConnected}
-    </Button>
+    </>
   );
 };
 

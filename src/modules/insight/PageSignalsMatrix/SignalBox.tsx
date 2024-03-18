@@ -119,86 +119,90 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
   }, [isTouch]);
 
   return (
-    <Link
-      to={`/insight/coins/signaler?coin=${p.pair_name}&strategy=${p.strategy.key}`}
-      className={clsx(
-        'flex h-[112px] w-[200px] cursor-pointer select-none flex-col justify-center overflow-hidden rounded-lg bg-white/5',
-        className,
-      )}
-      onClick={clickHandler}
-      onMouseEnter={enterHandler}
-      onMouseLeave={leaveHandler}
-    >
-      {summary ? (
-        <>
-          <SignalBoxTitle position={p} className="h-1/2" />
-          <div className="mx-4 border-b border-white/5" />
-          <SignalBoxSuggestion position={p} className="h-1/2" />
-        </>
-      ) : (
-        <>
-          <ValuesRow
-            values={[
-              {
-                label: t('matrix.entry-price'),
-                value:
-                  p.entry_price && numerable.format(p.entry_price, '0,0.00'),
-              },
-              {
-                label: t('matrix.date'),
-                value: dayjs(p.entry_time).format('HH:mm MMM DD'),
-                isMuted: true,
-              },
-            ]}
-            className="h-1/2 bg-white/5"
-          />
-          <ValuesRow
-            className="h-1/2"
-            values={
-              isClosed(p) // is closed
-                ? [
-                    {
-                      label: t('matrix.exit-price'),
-                      value:
-                        p.entry_price &&
-                        numerable.format(p.exit_price, '0,0.00'),
-                    },
-                    {
-                      label: t('matrix.date'),
-                      value: dayjs(p.exit_time).format('HH:mm MMM DD'),
-                      isMuted: true,
-                    },
-                  ]
-                : [
-                    {
-                      label: t('matrix.tp'),
-                      isLocked,
-                      value:
-                        p.take_profit &&
-                        numerable.format(p.take_profit, '0,0.00'),
-                    },
-                    {
-                      label: t('matrix.sl'),
-                      isLocked,
-                      value:
-                        p.stop_loss && numerable.format(p.stop_loss, '0,0.00'),
-                    },
-                  ]
-            }
-          >
-            {!isLocked && !isClosed(p) && (
-              <NotificationButton
-                size="small"
-                className="h-10 w-10"
-                pairName={p.pair_name}
-                strategy={p.strategy}
-              />
-            )}
-          </ValuesRow>
-        </>
-      )}
+    <>
+      <Link
+        to={`/insight/coins/signaler?coin=${p.pair_name}&strategy=${p.strategy.key}`}
+        className={clsx(
+          'flex h-[112px] w-[200px] cursor-pointer select-none flex-col justify-center overflow-hidden rounded-lg bg-white/5',
+          className,
+        )}
+        onClick={clickHandler}
+        onMouseEnter={enterHandler}
+        onMouseLeave={leaveHandler}
+      >
+        {summary ? (
+          <>
+            <SignalBoxTitle position={p} className="h-1/2" />
+            <div className="mx-4 border-b border-white/5" />
+            <SignalBoxSuggestion position={p} className="h-1/2" />
+          </>
+        ) : (
+          <>
+            <ValuesRow
+              values={[
+                {
+                  label: t('matrix.entry-price'),
+                  value:
+                    p.entry_price && numerable.format(p.entry_price, '0,0.00'),
+                },
+                {
+                  label: t('matrix.date'),
+                  value: dayjs(p.entry_time).format('HH:mm MMM DD'),
+                  isMuted: true,
+                },
+              ]}
+              className="h-1/2 bg-white/5"
+            />
+            <ValuesRow
+              className="h-1/2"
+              values={
+                isClosed(p) // is closed
+                  ? [
+                      {
+                        label: t('matrix.exit-price'),
+                        value:
+                          p.entry_price &&
+                          numerable.format(p.exit_price, '0,0.00'),
+                      },
+                      {
+                        label: t('matrix.date'),
+                        value: dayjs(p.exit_time).format('HH:mm MMM DD'),
+                        isMuted: true,
+                      },
+                    ]
+                  : [
+                      {
+                        label: t('matrix.tp'),
+                        isLocked,
+                        value:
+                          p.take_profit &&
+                          numerable.format(p.take_profit, '0,0.00'),
+                      },
+                      {
+                        label: t('matrix.sl'),
+                        isLocked,
+                        value:
+                          p.stop_loss &&
+                          numerable.format(p.stop_loss, '0,0.00'),
+                      },
+                    ]
+              }
+            >
+              {!isLocked && !isClosed(p) && (
+                <NotificationButton
+                  size="small"
+                  className="h-10 w-10"
+                  pairName={p.pair_name}
+                  strategy={p.strategy}
+                />
+              )}
+            </ValuesRow>
+          </>
+        )}
+      </Link>
+
       {SubModal}
-    </Link>
+    </>
   );
 };
 
