@@ -1,26 +1,62 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSignalsQuery, useSubscription } from 'api';
+import { Tabs, type TabsProps } from 'antd';
+import { type PropsWithChildren } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
-import Locker from 'shared/Locker';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import BestPerforming from './BestPerforming';
 import SignalMatrix from './SignalMatrix';
-import SignalsOverlay from './SignalsOverlay';
+
+const PanelWrapper: React.FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <div className="overflow-x-scroll mobile:-mx-6">
+      <div className="w-max min-w-full mobile:mx-6 mobile:min-w-[calc(100%-48px)]">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 const PageSignalsMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
-  const { data, isLoading: isLoadingSignals } = useSignalsQuery();
-  const subscription = useSubscription();
-  const canView =
-    subscription.isActive && subscription.plan?.metadata.view_signal_matrix;
+  const [activeTab, setActiveTab] = useSearchParamAsState<string>(
+    'tab',
+    'matrix',
+  );
+
+  const items: TabsProps['items'] = [
+    {
+      key: 'matrix',
+      label: t('matrix.latest-positions'),
+      children: (
+        <PanelWrapper>
+          <SignalMatrix />
+        </PanelWrapper>
+      ),
+    },
+    {
+      key: '7d',
+      label: t('matrix.best-performing-7d'),
+      children: (
+        <PanelWrapper>
+          <BestPerforming />
+        </PanelWrapper>
+      ),
+    },
+    {
+      key: '30d',
+      label: t('matrix.best-performing-30d'),
+      children: (
+        <PanelWrapper>
+          <BestPerforming />
+        </PanelWrapper>
+      ),
+    },
+  ];
 
   return (
-    <PageWrapper loading={subscription.isLoading || isLoadingSignals}>
-      <h1 className="mb-7 mt-2 text-xl font-semibold text-white">
-        {t('matrix.title')}
-      </h1>
-      <Locker overlay={!canView && <SignalsOverlay />}>
-        {data && <SignalMatrix signals={data} />}
-      </Locker>
+    <PageWrapper>
+      <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
     </PageWrapper>
   );
 };

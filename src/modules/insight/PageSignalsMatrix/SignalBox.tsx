@@ -4,27 +4,37 @@ import type React from 'react';
 import { useCallback, useState } from 'react';
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSubscription } from 'api';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
+import NotificationButton from 'modules/account/PageNotification/NotificationButton';
 import PriceChange from 'shared/PriceChange';
 import Badge from 'shared/Badge';
+import useSignalSubscriptionModal from './useSignalSubscriptionModal';
 import { useSuggestionsMap } from './constants';
 import ValuesRow from './ValuesRow';
 
 interface Props {
   position: LastPosition;
+  className?: string;
 }
 
 const isClosed = (p: LastPosition) => Boolean(p.exit_time);
 
-const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
+const SignalBoxTitle: React.FC<Props> = ({ position: p, className }) => {
   const { t } = useTranslation('strategy');
   const suggestions = useSuggestionsMap();
   const { greyTitle } = suggestions[p.suggested_action];
 
   return (
-    <div className="flex w-full items-center justify-between p-1">
-      <div className="flex flex-col items-start justify-start pl-2">
+    <div
+      className={clsx(
+        'flex w-full items-center justify-between px-4',
+        className,
+      )}
+    >
+      <div className="flex flex-col items-start justify-start">
         <span
           className={clsx(
             'text-sm',
@@ -44,38 +54,59 @@ const SignalBoxTitle: React.FC<Props> = ({ position: p }) => {
   );
 };
 
-const SignalBoxSuggestion: React.FC<{
-  position: LastPosition;
-}> = ({ position: p }) => {
+const SignalBoxSuggestion: React.FC<Props> = ({ position: p, className }) => {
   const { t } = useTranslation('strategy');
   const suggestions = useSuggestionsMap();
-  const { label, color } = suggestions[p.suggested_action];
+  const { label, color, greyTitle } = suggestions[p.suggested_action];
+  const side = p.position_side?.toLowerCase();
   return (
-    <div className="flex w-full items-center justify-between p-2">
-      <span
-        className={clsx(
-          'text-xxs',
-          color === 'grey' ? 'text-white/40' : 'text-white',
-        )}
-      >
-        {t('matrix.suggestion')}
-      </span>
-      <Badge label={label} color={color} />
+    <div
+      className={clsx(
+        'flex w-full items-center justify-between gap-1 px-4',
+        className,
+      )}
+    >
+      <Badge className="grow !text-xs" label={label} color={color} />
+      <Badge
+        className="grow !text-xs"
+        label={
+          <span>
+            {t('matrix.side')}:{' '}
+            <span className={greyTitle ? '' : 'text-white'}>{side}</span>
+          </span>
+        }
+        color="grey"
+      />
     </div>
   );
 };
 
-const SignalBox: React.FC<Props> = ({ position: p }) => {
+const SignalBox: React.FC<Props> = ({ position: p, className }) => {
   const { t } = useTranslation('strategy');
-  const suggestions = useSuggestionsMap();
-  const isTouch = isTouchDevice();
+  const { level } = useSubscription();
+  const requiredLevel = p.strategy.profile?.subscription_level ?? 0;
+  const isLocked = requiredLevel > level;
 
+  const isTouch = isTouchDevice();
   const [summary, setSummary] = useState(true);
-  const clickHandler = useCallback(() => {
-    if (isTouch) {
-      setSummary(x => !x);
-    }
-  }, [isTouch]);
+
+  const navigate = useNavigate();
+  const [SubModal, showSubModal] = useSignalSubscriptionModal(requiredLevel);
+  const clickHandler: React.MouseEventHandler<HTMLAnchorElement> = useCallback(
+    async e => {
+      if (isLocked) {
+        e.preventDefault();
+        if (await showSubModal()) {
+          navigate('/account/billing');
+        }
+      }
+      if (isTouch) {
+        setSummary(x => !x);
+      }
+    },
+    [isLocked, isTouch, navigate, showSubModal],
+  );
+
   const enterHandler = useCallback(() => {
     if (!isTouch) {
       setSummary(false);
@@ -87,80 +118,91 @@ const SignalBox: React.FC<Props> = ({ position: p }) => {
     }
   }, [isTouch]);
 
-  const side = p.position_side?.toLowerCase();
   return (
-    <div
-      className="flex h-full w-[160px] cursor-pointer select-none flex-col justify-center rounded-lg bg-white/10"
-      onClick={clickHandler}
-      onMouseEnter={enterHandler}
-      onMouseLeave={leaveHandler}
-    >
-      {summary ? (
-        <>
-          <SignalBoxTitle position={p} />
-          <ValuesRow
-            values={[
-              {
-                label: t('matrix.side'),
-                value: side,
-                isMuted: suggestions[p.suggested_action].greyTitle,
-              },
-            ]}
-            className="mb-1"
-          />
-          <SignalBoxSuggestion position={p} />
-        </>
-      ) : (
-        <>
-          <ValuesRow
-            values={[
-              {
-                label: t('matrix.entry-price'),
-                value:
-                  p.entry_price && numerable.format(p.entry_price, '0,0.00'),
-              },
-              {
-                label: t('matrix.date'),
-                value: dayjs(p.entry_time).format('HH:mm MMM DD'),
-                isMuted: true,
-              },
-            ]}
-            className="mb-1.5"
-          />
-          <ValuesRow
-            values={
-              isClosed(p) // is closed
-                ? [
-                    {
-                      label: t('matrix.exit-price'),
-                      value:
-                        p.entry_price &&
-                        numerable.format(p.exit_price, '0,0.00'),
-                    },
-                    {
-                      label: t('matrix.date'),
-                      value: dayjs(p.exit_time).format('HH:mm MMM DD'),
-                      isMuted: true,
-                    },
-                  ]
-                : [
-                    {
-                      label: t('matrix.tp'),
-                      value:
-                        p.take_profit &&
-                        numerable.format(p.take_profit, '0,0.00'),
-                    },
-                    {
-                      label: t('matrix.sl'),
-                      value:
-                        p.stop_loss && numerable.format(p.stop_loss, '0,0.00'),
-                    },
-                  ]
-            }
-          />
-        </>
-      )}
-    </div>
+    <>
+      <Link
+        to={`/insight/coins/signaler?coin=${p.pair_name}&strategy=${p.strategy.key}`}
+        className={clsx(
+          'flex h-[112px] w-[200px] cursor-pointer select-none flex-col justify-center overflow-hidden rounded-lg bg-white/5',
+          className,
+        )}
+        onClick={clickHandler}
+        onMouseEnter={enterHandler}
+        onMouseLeave={leaveHandler}
+      >
+        {summary ? (
+          <>
+            <SignalBoxTitle position={p} className="h-1/2" />
+            <div className="mx-4 border-b border-white/5" />
+            <SignalBoxSuggestion position={p} className="h-1/2" />
+          </>
+        ) : (
+          <>
+            <ValuesRow
+              values={[
+                {
+                  label: t('matrix.entry-price'),
+                  value:
+                    p.entry_price && numerable.format(p.entry_price, '0,0.00'),
+                },
+                {
+                  label: t('matrix.date'),
+                  value: dayjs(p.entry_time).format('HH:mm MMM DD'),
+                  isMuted: true,
+                },
+              ]}
+              className="h-1/2 bg-white/5"
+            />
+            <ValuesRow
+              className="h-1/2"
+              values={
+                isClosed(p) // is closed
+                  ? [
+                      {
+                        label: t('matrix.exit-price'),
+                        value:
+                          p.entry_price &&
+                          numerable.format(p.exit_price, '0,0.00'),
+                      },
+                      {
+                        label: t('matrix.date'),
+                        value: dayjs(p.exit_time).format('HH:mm MMM DD'),
+                        isMuted: true,
+                      },
+                    ]
+                  : [
+                      {
+                        label: t('matrix.tp'),
+                        isLocked,
+                        value:
+                          p.take_profit &&
+                          numerable.format(p.take_profit, '0,0.00'),
+                      },
+                      {
+                        label: t('matrix.sl'),
+                        isLocked,
+                        value:
+                          p.stop_loss &&
+                          numerable.format(p.stop_loss, '0,0.00'),
+                      },
+                    ]
+              }
+            >
+              {!isLocked && !isClosed(p) && (
+                <NotificationButton
+                  size="small"
+                  className="h-10 w-10"
+                  pairName={p.pair_name}
+                  strategy={p.strategy}
+                />
+              )}
+            </ValuesRow>
+          </>
+        )}
+      </Link>
+
+      {SubModal}
+    </>
   );
 };
 

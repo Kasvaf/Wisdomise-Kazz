@@ -1,24 +1,15 @@
+import { type ThinStrategy, type StrategyItem } from 'api/signaler';
+import { type PairData } from './strategy';
+
 export interface SignalsResponse {
   pairs: Pair[];
-  strategies: Strategy[];
+  strategies: StrategyItem[];
   last_positions: LastPosition[];
 }
 
-interface Pair {
-  name: string;
-  title: string;
-  base_name: string;
-  quote_name: string;
+interface Pair extends PairData {
   time_window_pnl: number;
   time_window_prices: number[];
-}
-
-interface Strategy {
-  name: string;
-  title: string;
-  resolution: string;
-  position_sides: string[];
-  premium: boolean;
 }
 
 export type SuggestedAction =
@@ -38,7 +29,10 @@ export interface RawPosition {
 }
 
 export interface LastPosition extends RawPosition {
-  strategy_name: string;
+  strategy: ThinStrategy;
+  leverage: number;
+
+  strategy_name: string; // removed
   pair_name: string;
 
   take_profit?: number;
