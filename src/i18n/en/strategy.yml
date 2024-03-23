@@ -1,12 +1,27 @@
 matrix:
-  title: Latest Positions
-  date: date
-  entry-price: entry price
-  exit-price: exit price
+  best-performing-30d: Best Performing 30D
+  best-performing-7d: Best Performing 7D
+  date: Date
+  entry-price: Entry Price
+  exit-price: Exit Price
+  latest-positions: Latest Positions
+  locked: Locked
   none: None
-  side: side
+  side: Side
   sl: SL
-  suggestion: Suggestion
+  subscription:
+    subscribe:
+      title: Subscription
+      description: >-
+        To view this signal, you need to <1>Subscribe</1> to our
+        <3>{{minPlan}}</3> plan.
+      btn-confirm: Subscribe
+    upgrade:
+      title: Upgrade Subscription
+      description: >-
+        To view this signal, you need to <1>Upgrade</1> your subscription to
+        <4>{{minPlan}}</4>.
+      btn-confirm: Upgrade
   tp: TP
 positions-history:
   title: Positions History

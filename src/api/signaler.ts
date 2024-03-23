@@ -9,8 +9,6 @@ import {
 import { type PairData } from './types/strategy';
 import normalizePair from './normalizePair';
 
-const isPublic = 'is_public=True';
-
 export const useSignalerPairs = () =>
   useQuery<PairData[]>(
     ['signaler-pairs'],
@@ -54,7 +52,7 @@ export const useSignalerPairDetails = (name: string) =>
 
 export interface PairSignalerItem extends RawPosition {
   pair_name: string;
-  strategy: Strategy;
+  strategy: ThinStrategy;
   pnl_equity: number;
   stop_loss: number;
   take_profit: number;
@@ -62,12 +60,9 @@ export interface PairSignalerItem extends RawPosition {
   leverage: number;
 }
 
-interface Strategy {
+export interface ThinStrategy {
   key: string;
   name: string;
-  version: string;
-  resolution: string;
-  market_name: MarketTypes;
   profile?: Profile;
 }
 
@@ -79,7 +74,7 @@ interface Profile {
   'SL/TP'?: string;
 }
 
-function strategyComparer(a: Strategy, b: Strategy) {
+function strategyComparer(a: ThinStrategy, b: ThinStrategy) {
   const subDiff =
     (a.profile?.subscription_level ?? 0) - (b.profile?.subscription_level ?? 0);
   return (
@@ -94,11 +89,60 @@ export const usePairSignalers = (base?: string, quote?: string) => {
     async () => {
       if (!base || !quote) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True&${isPublic}`,
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True`,
       );
       return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
     },
     {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
+
+export const useStrategyPositions = (
+  key?: string,
+  base?: string,
+  quote?: string,
+) => {
+  return useQuery<PairSignalerItem[]>(
+    ['signaler-positions', key, base, quote],
+    async () => {
+      if (!(key && base && quote)) return [];
+      const { data } = await axios.get<PairSignalerItem[]>(
+        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
+      );
+      return data;
+    },
+    {
+      enabled: Boolean(key && base && quote),
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+};
+
+export const useBestPerformingQuery = ({
+  days,
+  limit,
+}: {
+  days: number;
+  limit: number;
+}) => {
+  return useQuery<PairSignalerItem[]>(
+    ['best-positions', days],
+    async () => {
+      // dates rounded to 10 minutes intervals!
+      const rndInt = 1000 * 60 * 10;
+      const now = Math.round(Date.now() / rndInt) * rndInt;
+      const endDate = new Date(now);
+      const startDate = new Date(endDate);
+      startDate.setDate(startDate.getDate() - days);
+      const { data } = await axios.get<PairSignalerItem[]>(
+        `strategy/positions?order_by=-pnl&start=${startDate.toISOString()}&end=${endDate.toISOString()}&limit=${limit}`,
+      );
+      return data;
+    },
+    {
+      enabled: Boolean(days && limit),
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
@@ -119,9 +163,7 @@ export const useStrategiesList = () => {
   return useQuery<StrategyItem[]>(
     ['signaler-strategies'],
     async () => {
-      const { data } = await axios.get<StrategyItem[]>(
-        'strategy/strategies?' + isPublic,
-      );
+      const { data } = await axios.get<StrategyItem[]>('strategy/strategies');
       return data
         .map(s => ({
           ...s,
@@ -130,27 +172,6 @@ export const useStrategiesList = () => {
         .sort(strategyComparer);
     },
     {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-};
-
-export const useStrategyPositions = (
-  key?: string,
-  base?: string,
-  quote?: string,
-) => {
-  return useQuery<PairSignalerItem[]>(
-    ['signaler-positions', key, base, quote],
-    async () => {
-      if (!(key && base && quote)) return [];
-      const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}&${isPublic}`,
-      );
-      return data;
-    },
-    {
-      enabled: Boolean(key && base && quote),
       staleTime: Number.POSITIVE_INFINITY,
     },
   );

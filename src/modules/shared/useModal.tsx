@@ -17,22 +17,24 @@ function useModal<T>(ModalContent: React.FC<T>, config?: ModalConfigs) {
   const Component = useMemo(() => {
     if (!props.current) return <></>;
     return (
-      <Modal
-        centered
-        open={open}
-        footer={false}
-        width={500}
-        onCancel={closeHandler}
-        wrapClassName={clsx(
-          config?.fullscreen && 'fullscreen', // styles in override.css
-        )}
-        {...config}
-      >
-        <ModalContent
-          {...(props.current as T)}
-          onResolve={resolveHandler.current}
-        />
-      </Modal>
+      <div onClick={e => e.stopPropagation()}>
+        <Modal
+          centered
+          open={open}
+          footer={false}
+          width={500}
+          onCancel={closeHandler}
+          wrapClassName={clsx(
+            config?.fullscreen && 'fullscreen', // styles in override.css
+          )}
+          {...config}
+        >
+          <ModalContent
+            {...(props.current as T)}
+            onResolve={resolveHandler.current}
+          />
+        </Modal>
+      </div>
     );
   }, [ModalContent, open, closeHandler, config]);
 

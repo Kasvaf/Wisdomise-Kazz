@@ -1,10 +1,24 @@
 matrix:
+  best-performing-30d: 最高のパフォーマンスの 30日
+  best-performing-7d: 最高のパフォーマンスの 7日
   date: 日付
   entry-price: エントリープライス
   exit-price: エグジットプライス
+  latest-positions: 直近のポジション
+  locked: ロック中
   none: 無し
   side: サイド
   sl: SL
+  subscription:
+    subscribe:
+      btn-confirm: 購読する
+      description: この信号を表示するには、次のことを行う必要があります。 <1>購読する</1> 私たちへ <3>{{minPlan}}</3> プラン。
+      title: サブスクリプション
+    upgrade:
+      btn-confirm: アップグレード
+      description: この信号を表示するには、次のことを行う必要があります。 <1>アップグレード</1> あなたのサブスクリプション
+        <4>{{minPlan}}</4>。
+      title: 今すぐサブスクリプションをアップグレードする
   suggestion: 推奨
   title: 直近のポジション
   tp: TP

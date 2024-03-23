@@ -27,8 +27,10 @@ signaling:
   subtitle: Strategies List
   description: We have listed all the strategies we provide.
   btn-open-telegram:
-    label: Open Telegram
     hint: Receive notification in socials
+    connect: Connect Telegram
+    is-connected: Your telegram is connected.
+    open: Open Telegram
   modal-connected:
     title: Connected successfully
     description: Your Telegram account is now synced.

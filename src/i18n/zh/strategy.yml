@@ -1,10 +1,23 @@
 matrix:
+  best-performing-30d: 最佳表现 30天
+  best-performing-7d: 最佳表现 7天
   date: 日期
   entry-price: 出场价格
   exit-price: 退出价格
+  latest-positions: 最新点位
+  locked: 锁定
   none: 无
   side: 方向
   sl: 止损
+  subscription:
+    subscribe:
+      btn-confirm: 订阅
+      description: 要查看此信号，您需要 <1>订阅</1> 给我们的 <3>{{minPlan}}</3> 计划。
+      title: 订阅
+    upgrade:
+      btn-confirm: 升级
+      description: 要查看此信号，您需要 <1>升级</1> 您订阅的 <4>{{minPlan}}</4>。
+      title: 升级订阅
   suggestion: 建议
   title: 最新点位
   tp: 止盈

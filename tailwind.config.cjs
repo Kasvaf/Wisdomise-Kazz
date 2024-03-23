@@ -58,7 +58,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      jakarta: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
+      poppins: ['"Poppins"', ...defaultTheme.fontFamily.sans],
     },
   },
   plugins: [animationDelay, twElements, typography, 'tailwindcss/nesting'],
