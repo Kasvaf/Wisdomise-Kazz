@@ -10,7 +10,7 @@ connect-wallet:
     This wallet is not synced with the current account, please switch back to
     your previously used wallet. In order to use a new wallet, contact us.
   prev-wallet: previously used wallet address
-  sign: Sign and Verify
+  sign: Sign Now
   verify-nonce: Please verify ownership by signing the nonce
   wisdomise-token:
     title: Connect Wallet

@@ -24,14 +24,16 @@ export default function EligibleCheckModalContent({
   }, [claimReceipt, onResolve]);
 
   return (
-    <div className="flex flex-col items-center gap-4 text-center">
+    <div className="flex min-h-[16rem] flex-col items-center gap-4 text-center">
       {eligibility ? (
         <>
           <AirdropIcon />
-          <div>You are eligible</div>
+          <div>
+            You are <span className="text-green-400">eligible</span> to claim
+          </div>
           <div className="text-3xl italic">
             <strong>{((eligibility?.amount ?? 0) / 10 ** 6).toFixed(2)}</strong>{' '}
-            <strong className="text-green-400">WSDM</strong>
+            <strong>WSDM</strong>
           </div>
           {isClaimed === undefined ? null : isClaimed ? (
             <p className="text-amber-400">You already claimed your tokens.</p>
@@ -42,12 +44,21 @@ export default function EligibleCheckModalContent({
               loading={isLoading}
               onClick={claim}
             >
-              Claim WSDM
+              Claim Now
             </Button>
           )}
         </>
       ) : (
-        <p className="text-white/60">You are not eligible for airdrop</p>
+        <>
+          <AirdropIcon className="hue-rotate-[200deg]" />
+          <p className="mb-4">
+            You are <span className="text-red-400">not eligible</span> for this
+            round of WSDM Airdrop
+          </p>
+          <Button variant="alternative" onClick={() => onResolve()}>
+            Close
+          </Button>
+        </>
       )}
     </div>
   );

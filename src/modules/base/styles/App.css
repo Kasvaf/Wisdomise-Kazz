@@ -34,6 +34,12 @@
   height: 100%;
 }
 
+@media screen and (max-width: 740px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
 :root {
   --wcm-z-index: 1001 !important;
 }

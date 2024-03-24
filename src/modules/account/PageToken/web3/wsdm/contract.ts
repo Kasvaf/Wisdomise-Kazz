@@ -62,7 +62,7 @@ export function useWriteWsdmPermit() {
 export function useWSDMPermitSignature() {
   const { refetch } = useReadWsdmNonces();
   const { data: name } = useReadWsdmName();
-  const { signTypedData, data: signature } = useSignTypedData();
+  const { signTypedData, data: signature, isLoading } = useSignTypedData();
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -103,5 +103,5 @@ export function useWSDMPermitSignature() {
     return deadline;
   };
 
-  return { sign, signature };
+  return { sign, signature, isLoading };
 }

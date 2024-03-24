@@ -1,5 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin as Spinner } from 'antd';
+import { ReactComponent as SpinSvg } from './spin.svg';
 
 const Spin: React.FC<{ className?: string; fontSize?: number }> = ({
   className,
@@ -7,7 +8,13 @@ const Spin: React.FC<{ className?: string; fontSize?: number }> = ({
 }) => (
   <Spinner
     className={className}
-    indicator={<LoadingOutlined style={{ fontSize }} spin rev="false" />}
+    indicator={
+      fontSize === 24 ? (
+        <LoadingOutlined style={{ fontSize }} spin rev="false" />
+      ) : (
+        <SpinSvg className="animate-spin" />
+      )
+    }
   />
 );
 

@@ -35,22 +35,21 @@ export default function Vesting() {
     <Card className="relative mt-6">
       <LockIcon className="absolute right-0 top-0 m-7" />
       <h2 className="mb-2 text-2xl font-medium">Vesting</h2>
-      <p className="pb-3 text-white/40">Wallet transactions and balance</p>
+      <p className="pb-3 text-sm text-white/40 max-md:max-w-60">
+        Private Token Rounds Are Shown Here:
+      </p>
       {roundDetails.map(round => {
         return (
           <div
             key={round.name}
-            className="my-3 flex items-center rounded-xl bg-[rgba(51,59,92,0.20)] p-3"
+            className="my-3 flex items-center gap-y-4 rounded-xl bg-[rgba(51,59,92,0.20)] p-3 max-md:flex-wrap"
           >
-            <div className="w-1/5">
-              <h3 className="mb-2 font-bold italic">{round.name}</h3>
-              <span className="text-sm text-white/40">{round.date}</span>
-            </div>
-            <div className="me-8 h-10 !w-px bg-white/10"></div>
-            <div className="flex grow items-center justify-between">
+            <h3 className="font-bold italic md:w-1/5">{round.name}</h3>
+            <div className="me-8 h-10 !w-px bg-white/10 max-md:hidden"></div>
+            <div className="flex grow items-center justify-between gap-y-6 max-md:flex-wrap">
               <div>
                 <div className="mb-3 text-sm text-white/40">
-                  <span>Total Amount</span>
+                  <span>Total Investment Amount</span>
                 </div>
                 <div>
                   <span>{addComma((round.totalAmount ?? 0n) / 10n ** 6n)}</span>{' '}
@@ -91,7 +90,7 @@ export default function Vesting() {
               </div>
               <div>
                 <div className="mb-3 text-sm text-white/40">
-                  <span>Claimable</span>
+                  <span>Claimable Amount</span>
                 </div>
                 <div>
                   {addComma((round.claimable ?? 0n) / 10n ** 6n)}{' '}

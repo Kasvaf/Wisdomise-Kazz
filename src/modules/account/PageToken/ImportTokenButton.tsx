@@ -23,7 +23,7 @@ interface ImportTokenButtonProps {
 const TOKENS = [
   { name: 'WSDM', symbol: 'WSDM', address: WSDM_CONTRACT_ADDRESS },
   { name: 'tWSDM', symbol: 'tWSDM', address: TWSDM_CONTRACT_ADDRESS },
-  { name: 'Locked WSDM', symbol: 'lcWSDM', address: LOCKING_CONTRACT_ADDRESS },
+  { name: 'lcWSDM', symbol: 'lcWSDM', address: LOCKING_CONTRACT_ADDRESS },
 ];
 
 export default function ImportTokenButton({

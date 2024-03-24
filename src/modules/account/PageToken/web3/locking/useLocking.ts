@@ -42,6 +42,7 @@ export function useLockWithPermit() {
 
   return {
     isLoading: isLoading || isWaiting,
+    isLocking: isWaiting,
     lockTrxReceipt,
     lockWithPermit,
   };
@@ -54,10 +55,11 @@ export function useLocking() {
     useReadLockedBalance();
   const { data: unlockedInfo, refetch: refetchUnlockedInfo } =
     useReadUnlockedInfo();
-  const { sign, signature } = useWSDMPermitSignature();
+  const { sign, signature, isLoading: isSigning } = useWSDMPermitSignature();
   const { address } = useAccount();
   const [utilityStatus, setUtilityStatus] = useState<UtilityStatus>();
-  const { lockWithPermit, lockTrxReceipt, isLoading } = useLockWithPermit();
+  const { lockWithPermit, lockTrxReceipt, isLoading, isLocking } =
+    useLockWithPermit();
   const { isFreePlan } = useSubscription();
 
   useEffect(() => {
@@ -100,7 +102,8 @@ export function useLocking() {
 
   return {
     handleLocking,
-    isLoading,
+    isLoading: isLoading || isSigning,
+    isLocking,
     lockTrxReceipt,
     refetchUnlockedInfo,
     refetchLockedInfo,

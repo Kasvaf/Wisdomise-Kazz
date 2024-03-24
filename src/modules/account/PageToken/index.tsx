@@ -20,7 +20,7 @@ export default function PageToken() {
 
   return (
     <PageWrapper>
-      <div className="flex flex-wrap items-center justify-between gap-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 md:gap-6">
         <h1 className="mb-6">
           <strong className="text-5xl font-bold text-white/20">
             Wisdomise Token
@@ -40,12 +40,15 @@ export default function PageToken() {
         {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
         {angelTotalAmount || strategicTotalAmount ? <Vesting /> : null}
         <Airdrop />
-        <h1 className="my-8 text-xl text-white/20">
-          <strong className="text-3xl font-bold">WSDM</strong>
-          <span className="ms-2 text-lg">Utility</span>
+        <h1 className="my-8 flex items-center justify-between text-xl text-white/20">
+          <div className="flex items-center gap-2">
+            <strong className="text-3xl font-bold">WSDM</strong>
+            <span className="ms-2 text-lg">Utility</span>
+          </div>
+          <ImportTokenButton tokenSymbol="lcWSDM" variant="primary-purple" />
         </h1>
         <Utility />
-        <div className="mb-20 mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <Wallet />
           <Balance />
         </div>

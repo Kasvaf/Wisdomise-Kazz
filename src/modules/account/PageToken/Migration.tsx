@@ -7,30 +7,18 @@ export default function Migration() {
   const { handleMigration, isLoading } = useMigration();
 
   return (
-    <Card className="relative mt-4">
+    <Card className="relative mt-4 flex items-center justify-between max-md:flex-wrap">
       <MigrateIcon className="absolute right-0 top-0" />
-      <h2 className="mb-2 text-2xl font-medium">Migration</h2>
-      <p className="text-white/40">Migrate from tWSDM to WSDM</p>
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-        <ul className="ms-4 list-disc text-white/80">
-          <li>
-            Claim with Confidence: Use the ‘Claim’ button to securely exchange
-            your tWSDM for WSDM tokens.
-          </li>
-          <li>
-            Stay Informed: Keep track of your migration status and vesting
-            milestones all in one place.
-          </li>
-        </ul>
-        <Button
-          variant="secondary"
-          onClick={handleMigration}
-          loading={isLoading}
-          disabled={isLoading}
-        >
-          Lets Migrate
-        </Button>
-      </div>
+      <h2 className="text-2xl font-medium">tWSDM Migration</h2>
+      <Button
+        className="relative max-md:mt-6 max-md:w-full md:me-28"
+        variant="secondary"
+        onClick={handleMigration}
+        loading={isLoading}
+        disabled={isLoading}
+      >
+        Migrate Now
+      </Button>
     </Card>
   );
 }

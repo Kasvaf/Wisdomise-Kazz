@@ -120,6 +120,16 @@ export const useSubmitTokenPayment = () =>
     },
   });
 
+export const useInstantCancelMutation = () =>
+  useMutation({
+    mutationFn: async () => {
+      await axios.patch(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/cancel`,
+      );
+      await queryClient.invalidateQueries(['account']);
+    },
+  });
+
 /**
  * *********************** Fiat Payment ***********************
  */

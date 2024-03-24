@@ -21,7 +21,9 @@ export default function Balance() {
       <WSDMIcon className="absolute right-0 top-0" />
       <div>
         <h2 className="mb-2 text-2xl font-medium">WSDM Token</h2>
-        <p className="text-white/40">Use tokens for premium access</p>
+        <p className="text-sm text-white/40 max-md:w-48">
+          Use tokens for premium access
+        </p>
       </div>
       <Button
         variant="alternative"
@@ -32,7 +34,7 @@ export default function Balance() {
         <Icon name={bxRefresh} className="me-2" />
         {t('billing:token-modal.refresh')}
       </Button>
-      <div className="flex w-full items-end justify-between gap-4">
+      <div className="flex w-full items-end justify-between gap-4 max-md:flex-wrap">
         <div>
           <div>Balance</div>
           <div className="flex flex-wrap items-end gap-2">
@@ -42,7 +44,11 @@ export default function Balance() {
             <span className="text-xl text-green-400">WSDM</span>
           </div>
         </div>
-        <Button variant="primary-purple" onClick={openInvestmentPanel}>
+        <Button
+          className="max-md:w-full"
+          variant="primary-purple"
+          onClick={openInvestmentPanel}
+        >
           Add WSDM
         </Button>
       </div>

@@ -29,7 +29,7 @@ export default function Airdrop() {
           loading={isFetching}
           disabled={isFetching}
         >
-          Eligible Check
+          Check Eligibility
         </Button>
       </Card>
       {Modal}

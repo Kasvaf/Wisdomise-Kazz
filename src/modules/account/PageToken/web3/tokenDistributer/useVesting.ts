@@ -71,7 +71,6 @@ export function useVesting() {
       {
         id: 'angel',
         name: 'Angel Round',
-        date: 'Q3 2023',
         totalAmount: angelTotalAmount,
         claimable: angelClaimable,
         releasePercentage: ANGEL_RELEASE_PERCENTAGE,
@@ -79,7 +78,6 @@ export function useVesting() {
       {
         id: 'strategic',
         name: 'Strategic Round',
-        date: 'Q1 2024',
         totalAmount: strategicTotalAmount,
         claimable: strategicClaimable,
         releasePercentage: STRATEGIC_RELEASE_PERCENTAGE,

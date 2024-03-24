@@ -7,7 +7,6 @@ import { useSubscription } from 'api';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
-import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
 
@@ -33,7 +32,7 @@ export default function Utility() {
   };
 
   return (
-    <Card className="relative flex gap-8">
+    <Card className="relative flex gap-8 max-md:flex-wrap">
       <SubscriptionIcon className="absolute right-0 top-0" />
       <h2 className="mb-2 text-2xl font-medium">Utility Activation</h2>
       {utilityStatus === 'already_active' ? (
@@ -51,7 +50,7 @@ export default function Utility() {
           </Button>
         </div>
       ) : (
-        <div className="me-32 mt-4 flex grow justify-between gap-9">
+        <div className="mt-2 flex grow justify-between gap-9 max-md:flex-wrap md:me-32">
           <div className="grow">
             <h3 className="mb-6">
               {utilityStatus === 'locked'
@@ -96,15 +95,9 @@ export default function Utility() {
                 </div>
               </div>
               {utilityStatus === 'locked' && (
-                <div className="flex gap-4">
-                  <ImportTokenButton
-                    tokenSymbol="lcWSDM"
-                    variant="alternative"
-                  />
-                  <Button variant="secondary" onClick={openUnlockModal}>
-                    Unlock
-                  </Button>
-                </div>
+                <Button variant="secondary" onClick={openUnlockModal}>
+                  Unlock
+                </Button>
               )}
               {(utilityStatus === 'pending_withdraw' ||
                 utilityStatus === 'pending_unlock') && (
@@ -126,7 +119,8 @@ export default function Utility() {
               )}
             </div>
           </div>
-          <div className="h-full w-px border-r border-white/20"></div>
+          <div className="h-full w-px border-r border-white/20 max-md:hidden"></div>
+          <div className="h-px w-full border-t border-white/20 md:hidden"></div>
           <div>
             <h3 className="mb-9">Subscription</h3>
             <div className="text-4xl">{title}</div>

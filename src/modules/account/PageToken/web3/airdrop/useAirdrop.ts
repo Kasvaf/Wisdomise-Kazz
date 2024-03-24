@@ -32,7 +32,7 @@ export function useAirdrop(eligibility?: AirdropEligibility) {
         ],
       }).catch(() =>
         notification.error({
-          message: 'Claim Failed',
+          message: 'Claim Failed. The deadline is probably reached.',
         }),
       );
     }

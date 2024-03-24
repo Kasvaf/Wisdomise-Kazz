@@ -12,6 +12,9 @@ import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import { useLockingRequirementQuery } from 'api/defi';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
+import useModal from 'shared/useModal';
+// eslint-disable-next-line import/max-dependencies
+import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymentMethods/Token/TransactionConfirmedModalContent';
 
 interface Props {
   invoiceKey?: string;
@@ -23,7 +26,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const { t } = useTranslation('billing');
   const { mutateAsync } = useSubmitTokenPayment();
   const { data: lockedBalance } = useReadLockedBalance();
-  const { handleLocking, lockTrxReceipt, isLoading } = useLocking();
+  const { handleLocking, lockTrxReceipt, isLoading, isLocking } = useLocking();
   const {
     data: wsdmBalance,
     refetch: updateBalance,
@@ -33,10 +36,19 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const { data: generalLockingRequirement } = useLockingRequirementQuery(
     plan.price,
   );
-  const { data: lockingRequirement } = useLockingRequirementQuery(
+  const { data: userLockingRequirement } = useLockingRequirementQuery(
     plan.price,
     address,
   );
+  const [Modal, showModal] = useModal(TransactionConfirmedModalContent, {
+    width: 800,
+    closable: false,
+    maskClosable: false,
+  });
+
+  useEffect(() => {
+    void showModal({});
+  }, [showModal]);
 
   const openInvestmentPanel = () => {
     window.open(INVESTMENT_FE, '_blank');
@@ -45,18 +57,19 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const canSubscribe = useMemo(
     () =>
       (generalLockingRequirement?.requirement_locking_amount ?? 0) <
-      ((wsdmBalance?.value ?? 0n) + (lockedBalance ?? 0n)) / 10n ** 6n,
+      Number(wsdmBalance?.value) +
+        (userLockingRequirement?.current_locking_amount ?? 0),
     [
       generalLockingRequirement?.requirement_locking_amount,
-      lockedBalance,
+      userLockingRequirement?.current_locking_amount,
       wsdmBalance?.value,
     ],
   );
 
   const activate = async () => {
-    await (lockingRequirement?.requirement_locking_amount === 0
+    await (userLockingRequirement?.requirement_locking_amount === 0
       ? submitTokenPayment()
-      : handleLocking(lockingRequirement?.requirement_locking_amount ?? 0));
+      : handleLocking(userLockingRequirement?.requirement_locking_amount ?? 0));
   };
 
   const submitTokenPayment = useCallback(async () => {
@@ -109,7 +122,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
                 canSubscribe ? 'text-green-400' : 'text-red-400',
               )}
             >
-              {(Number(lockedBalance) / 10 ** 6).toLocaleString()}
+              {userLockingRequirement?.current_locking_amount?.toLocaleString()}
             </div>
             <div className="text-sm opacity-50">Already Locked Balance</div>
           </div>
@@ -153,12 +166,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           {t('token-modal.purchase-token')}
         </Button>
       </div>
-      {isLoading && (
-        <p className="text-xl text-yellow-400">
-          Please do not refresh or close the page as we proceed your
-          transactions
-        </p>
-      )}
+      {isLocking && Modal}
     </Card>
   );
 }
