@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useHasFlag } from 'api';
 import { MAIN_LANDING } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import BetaVersion from 'shared/BetaVersion';
@@ -14,6 +15,8 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
   isActive,
 }) => {
   const children = item.children?.filter(item => !item.hide);
+  const hasFlag = useHasFlag();
+
   return (
     <div className="text-white">
       <NavLink
@@ -39,7 +42,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
         >
           <div className="ml-6">
             {children
-              .filter(x => !x.hide)
+              .filter(x => !x.hide && hasFlag(x.link))
               .map((subItem, ind, all) => (
                 <NavLink
                   key={subItem.link}
@@ -73,6 +76,7 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
   const { i18n } = useTranslation();
   const { pathname } = useLocation();
   const { items: MenuItems } = useMenuItems();
+  const hasFlag = useHasFlag();
 
   return (
     <div
@@ -90,7 +94,7 @@ const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
             <img className="h-12" src={Logo} alt="logo" />
           </a>
           <div>
-            {MenuItems.filter(i => !i.hide).map(item => (
+            {MenuItems.filter(i => !i.hide && hasFlag(i.link)).map(item => (
               <MenuItemsGroup
                 key={item.link}
                 item={item}

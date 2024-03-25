@@ -24,6 +24,7 @@ export interface Account {
   wallet_address?: string;
   wsdm_balance?: number;
   hub_spot_token: string;
+  features: string[];
 }
 
 interface Info {
