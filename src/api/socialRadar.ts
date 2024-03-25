@@ -28,7 +28,7 @@ export interface CoinTelegramSignal {
   long_count: number;
   short_count: number;
   messages_count: number;
-  gauge_tag: string;
+  gauge_tag: 'LONG' | 'SHORT';
   gauge_measure: -1 | 0 | 1;
   price_change?: number;
   price_change_percentage?: number;

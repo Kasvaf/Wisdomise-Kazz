@@ -1,16 +1,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { useSignalsQuery } from 'api';
+import { useCoinTelegramSignals, useSignalsQuery } from 'api';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
 import Spinner from 'shared/Spinner';
 import Card from 'shared/Card';
 import SignalBox from './SignalBox';
+import RadarBrief from './RadarBrief';
 
 const SignalMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
+  const { data: radar } = useCoinTelegramSignals();
   const { data: signals, isLoading: isLoadingSignals } = useSignalsQuery();
   if (isLoadingSignals) {
     return (
@@ -43,25 +45,35 @@ const SignalMatrix: React.FC = () => {
 
       {signals.pairs.map(pair => (
         <React.Fragment key={pair.name}>
-          <Link
-            to={`/insight/coins?coin=${pair.name}`}
-            className="flex items-center pl-2"
-          >
-            <PairInfo
-              title={pair.display_name}
-              base={pair.base.name}
-              quote={pair.quote.name}
-              name={pair.name}
-            />
-          </Link>
-          <div className="flex flex-col items-center justify-center p-2">
-            <PriceChange value={pair.time_window_pnl} className="mb-2" />
-            <div className="w-36">
-              <PriceAreaChart
-                data={pair.time_window_prices.map((d, i) => ({
-                  x: i,
-                  y: d,
-                }))}
+          <div className="col-span-2 flex flex-col items-stretch justify-center">
+            <div className="flex w-full items-center justify-between">
+              <Link
+                to={`/insight/coins?coin=${pair.name}`}
+                className="flex max-w-[120px] items-center pl-2"
+              >
+                <PairInfo
+                  title={pair.display_name}
+                  base={pair.base.name}
+                  quote={pair.quote.name}
+                  name={pair.name}
+                />
+              </Link>
+              <div className="flex flex-col items-center justify-center p-2">
+                <PriceChange value={pair.time_window_pnl} className="mb-2" />
+                <div className="w-24">
+                  <PriceAreaChart
+                    data={pair.time_window_prices.map((d, i) => ({
+                      x: i,
+                      y: d,
+                    }))}
+                    height={28}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="px-2">
+              <RadarBrief
+                radar={radar?.find(x => x.symbol_name === pair.base.name)}
               />
             </div>
           </div>
