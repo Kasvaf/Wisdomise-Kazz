@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Tooltip } from 'antd';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 
@@ -9,6 +10,7 @@ import {
 } from 'modules/account/PageToken/constants';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
+import { ReactComponent as InfoIcon } from './icons/info.svg';
 
 export default function Vesting() {
   const {
@@ -34,7 +36,12 @@ export default function Vesting() {
   return (
     <Card className="relative mt-6">
       <LockIcon className="absolute right-0 top-0 m-7" />
-      <h2 className="mb-2 text-2xl font-medium">Vesting</h2>
+      <h2 className="mb-2 flex items-center gap-2 text-2xl font-medium">
+        Vesting
+        <Tooltip title="Private Rounds are subject to a cliff and vesting period based on our Tokenomics. After the cliff period, vesting starts and you can claim your tokens on a monthly basis here.">
+          <InfoIcon className="mb-4" />
+        </Tooltip>
+      </h2>
       <p className="pb-3 text-sm text-white/40 max-md:max-w-60">
         Private Token Rounds Are Shown Here:
       </p>

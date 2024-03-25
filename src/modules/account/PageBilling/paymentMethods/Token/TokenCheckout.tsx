@@ -67,7 +67,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   );
 
   const activate = async () => {
-    await (userLockingRequirement?.requirement_locking_amount === 0
+    await ((userLockingRequirement?.requirement_locking_amount ?? 0) <= 0
       ? submitTokenPayment()
       : handleLocking(userLockingRequirement?.requirement_locking_amount ?? 0));
   };

@@ -54,7 +54,7 @@ export default function PlanDetails() {
             </strong>
             .
           </Trans>
-          {nextSubs && (
+          {nextSubs && subItem?.payment_method !== 'TOKEN' && (
             <button
               className="ml-1 text-blue-600"
               onClick={() => openPricingTable({ isUpdate: true })}
@@ -89,11 +89,6 @@ export default function PlanDetails() {
                 </strong>
                 .
               </Trans>
-            </span>
-          )}
-          {paymentMethod === 'TOKEN' && nextSubs && (
-            <span>
-              {t('subscription-details.overview.automatically-renew')}
             </span>
           )}
           {paymentMethod === 'FIAT' && nextSubs && (

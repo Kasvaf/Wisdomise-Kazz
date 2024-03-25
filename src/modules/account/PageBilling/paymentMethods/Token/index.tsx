@@ -143,7 +143,11 @@ export default function TokenPaymentModalContent({
             <Button onClick={onDoneClick} className="w-full">
               {t('token-modal.done')}
             </Button>
-            <ImportTokenButton tokenSymbol="lcWSDM" variant="secondary" />
+            <ImportTokenButton
+              className="w-full"
+              tokenSymbol="lcWSDM"
+              variant="secondary"
+            />
           </Card>
         ) : (
           <ConnectWalletWrapper

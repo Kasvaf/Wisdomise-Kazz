@@ -18,6 +18,7 @@ export interface Ethereum {
 interface ImportTokenButtonProps {
   tokenSymbol: 'WSDM' | 'tWSDM' | 'lcWSDM';
   variant: 'primary-purple' | 'secondary' | 'alternative';
+  className?: string;
 }
 
 const TOKENS = [
@@ -29,6 +30,7 @@ const TOKENS = [
 export default function ImportTokenButton({
   tokenSymbol,
   variant = 'primary-purple',
+  className,
 }: ImportTokenButtonProps) {
   const token = useMemo(
     () => TOKENS.find(token => token.symbol === tokenSymbol),
@@ -52,7 +54,7 @@ export default function ImportTokenButton({
   };
 
   return (
-    <Button variant={variant} onClick={importToken}>
+    <Button className={className} variant={variant} onClick={importToken}>
       <div className="flex items-center gap-2">
         <WIcon />
         Import {token?.name}

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Tooltip } from 'antd';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import useModal from 'shared/useModal';
@@ -9,6 +10,7 @@ import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
+import { ReactComponent as InfoIcon } from './icons/info.svg';
 
 export type UtilityStatus =
   | 'already_active'
@@ -24,7 +26,7 @@ export default function Utility() {
   const { lockedBalance, unlockedBalance, withdrawTimestamp, utilityStatus } =
     useLocking();
   const [unlockModal, openUnlockModal] = useModal(UnlockModalContent);
-  const { title } = useSubscription();
+  const { title, isFreePlan } = useSubscription();
   const { withdraw, isLoading } = useWithdraw();
 
   const openBillings = () => {
@@ -34,10 +36,21 @@ export default function Utility() {
   return (
     <Card className="relative flex gap-8 max-md:flex-wrap">
       <SubscriptionIcon className="absolute right-0 top-0" />
-      <h2 className="mb-2 text-2xl font-medium">Utility Activation</h2>
+      <h2 className="mb-2 flex items-center gap-2 self-start text-2xl font-medium">
+        Utility Activation
+        <Tooltip title="Utilities your WSDM Tokens to get access to the Wisdomise Platform">
+          <InfoIcon className="mb-4" />
+        </Tooltip>
+      </h2>
       {utilityStatus === 'already_active' ? (
-        <p className="mt-2 text-white/60">
+        <p className="flex flex-wrap items-center gap-2 text-white/60">
           You already have an active subscription.
+          <Button disabled={true} variant="alternative">
+            Lock WSDM
+          </Button>
+          <Tooltip title="You already have an active subscription, you either need to cancel or wait until it ends to utilize your tokens to get access.">
+            <InfoIcon className="mb-4" />
+          </Tooltip>
         </p>
       ) : utilityStatus === 'pending_lock' ? (
         <div className="me-40 mt-4 flex grow flex-col items-center text-center">
@@ -110,7 +123,7 @@ export default function Utility() {
                   >
                     Withdraw
                   </Button>
-                  {utilityStatus === 'pending_withdraw' && (
+                  {utilityStatus === 'pending_withdraw' && isFreePlan && (
                     <Button variant="primary-purple" onClick={openBillings}>
                       Lock Tokens
                     </Button>
