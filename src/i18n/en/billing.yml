@@ -75,7 +75,6 @@ subscription-details:
     method: Payment Method
     status: Status
   overview:
-    automatically-renew: It will automatically renew when the time comes.
     billing-actions: Billing actions
     billing-email: Billing emails are sent to <1>{{email}}</1>.
     btn-change-plan: Change plan
