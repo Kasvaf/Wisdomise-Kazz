@@ -1,9 +1,8 @@
-import { type ThinStrategy, type StrategyItem } from 'api/signaler';
+import { type ThinStrategy } from 'api/signaler';
 import { type PairData } from './strategy';
 
 export interface SignalsResponse {
   pairs: Pair[];
-  strategies: StrategyItem[];
   last_positions: LastPosition[];
 }
 
