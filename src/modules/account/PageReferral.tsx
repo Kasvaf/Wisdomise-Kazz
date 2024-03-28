@@ -65,13 +65,13 @@ export default function ReferralPage() {
             />
             <ReferralCard
               title={t('page-referral.wisdomise-revenue')}
-              interval={`$${referral.interval_wisdomise_referral_revenue ?? 0}`}
-              all={referral.wisdomise_referral_revenue}
+              interval={`$${referral.interval_wisdomise_referral_revenue.toLocaleString()}`}
+              all={referral.wisdomise_referral_revenue.toLocaleString()}
             />
             <ReferralCard
               title={t('page-referral.your-profit')}
-              interval={`$${referral.interval_referral_revenue ?? 0}`}
-              all={referral.referral_revenue}
+              interval={`$${referral.interval_referral_revenue.toLocaleString()}`}
+              all={referral.referral_revenue.toLocaleString()}
             />
           </div>
         </>
