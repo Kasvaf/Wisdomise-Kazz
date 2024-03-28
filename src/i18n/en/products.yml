@@ -3,8 +3,8 @@ action-confirm:
   cancel: Cancel
   stop-description: >-
     Please be aware that by Stopping the Strategy, all your open trades will be
-    sold on 'Market' price. The final PnL will be calculated after
-    closing open positions.
+    sold on 'Market' price. The final PnL will be calculated after closing open
+    positions.
   'yes': Yes, <1>{{typeLabel}}</1>
 actions:
   activate: Activate
