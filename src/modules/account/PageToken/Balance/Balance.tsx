@@ -5,16 +5,12 @@ import Icon from 'shared/Icon';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
 import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
-import { INVESTMENT_FE } from 'config/constants';
-import { ReactComponent as WSDMIcon } from './icons/wsdm-token.svg';
+import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
+import { ReactComponent as WSDMIcon } from '../icons/wsdm-token.svg';
 
 export default function Balance() {
   const { t } = useTranslation('wisdomise-token');
   const { data: wsdmBalance, refetch, isLoading } = useWsdmBalance();
-
-  const openInvestmentPanel = () => {
-    window.location.href = INVESTMENT_FE;
-  };
 
   return (
     <Card className="relative flex flex-col items-start justify-between gap-8">
@@ -34,7 +30,7 @@ export default function Balance() {
         <Icon name={bxRefresh} className="me-2" />
         {t('billing:token-modal.refresh')}
       </Button>
-      <div className="flex w-full items-end justify-between gap-4 max-md:flex-wrap">
+      <div className="flex w-full flex-col gap-4">
         <div>
           <div>Balance</div>
           <div className="flex flex-wrap items-end gap-2">
@@ -44,13 +40,7 @@ export default function Balance() {
             <span className="text-xl text-green-400">WSDM</span>
           </div>
         </div>
-        <Button
-          className="max-md:w-full"
-          variant="primary-purple"
-          onClick={openInvestmentPanel}
-        >
-          Add WSDM
-        </Button>
+        <BuyWSDM className="self-end" />
       </div>
     </Card>
   );

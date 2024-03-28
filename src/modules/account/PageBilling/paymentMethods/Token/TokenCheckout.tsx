@@ -6,15 +6,15 @@ import Button from 'shared/Button';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
 import { type SubscriptionPlan } from 'api/types/subscription';
-import { INVESTMENT_FE } from 'config/constants';
 import { useSubmitTokenPayment } from 'api';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import { useLockingRequirementQuery } from 'api/defi';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
 import useModal from 'shared/useModal';
-// eslint-disable-next-line import/max-dependencies
 import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymentMethods/Token/TransactionConfirmedModalContent';
+// eslint-disable-next-line import/max-dependencies
+import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 
 interface Props {
   invoiceKey?: string;
@@ -49,10 +49,6 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   useEffect(() => {
     void showModal({});
   }, [showModal]);
-
-  const openInvestmentPanel = () => {
-    window.open(INVESTMENT_FE, '_blank');
-  };
 
   const canSubscribe = useMemo(
     () =>
@@ -103,7 +99,7 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
           {t('token-modal.refresh')}
         </Button>
       </h3>
-      <div className="flex items-center justify-center gap-10">
+      <div className="flex items-center justify-center gap-6">
         <div>
           <div className="mb-5 text-4xl">
             {addComma(generalLockingRequirement?.requirement_locking_amount)}
@@ -149,22 +145,19 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
         <p className="text-sm text-white/80">{t('token-modal.description')}</p>
       </Card>
       <div className="max-w-[18rem]">
-        <Button
-          variant="primary-purple"
-          disabled={!canSubscribe || isLoading}
-          loading={isLoading}
-          onClick={activate}
-          className="mb-6 w-full"
-        >
-          {t('token-modal.activate-subscription')}
-        </Button>
-        <Button
-          disabled={isLoading}
-          className="w-full"
-          onClick={openInvestmentPanel}
-        >
-          {t('token-modal.purchase-token')}
-        </Button>
+        {canSubscribe ? (
+          <Button
+            variant="primary-purple"
+            disabled={isLoading}
+            loading={isLoading}
+            onClick={activate}
+            className="mb-6 w-full"
+          >
+            {t('token-modal.activate-subscription')}
+          </Button>
+        ) : (
+          <BuyWSDM className="w-full" />
+        )}
       </div>
       {isLocking && Modal}
     </Card>

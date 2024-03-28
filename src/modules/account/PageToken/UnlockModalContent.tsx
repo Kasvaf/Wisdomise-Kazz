@@ -4,6 +4,7 @@ import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import Button from 'shared/Button';
 import { useUnlock } from 'modules/account/PageToken/web3/locking/useUnlock';
 import { useInstantCancelMutation } from 'api';
+import { unwrapErrorMessage } from 'utils/error';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
 
 export default function UnlockModalContent({
@@ -23,7 +24,11 @@ export default function UnlockModalContent({
           message: 'Your WSDM Tokens are unlocked successfully',
         });
         void refetchUnlockedInfo();
-        void cancelSub().then(() => onResolve());
+        void cancelSub()
+          .then(() => onResolve())
+          .catch(error => {
+            notification.error({ message: unwrapErrorMessage(error) });
+          });
       } else {
         notification.error({ message: 'Transaction reverted' });
       }

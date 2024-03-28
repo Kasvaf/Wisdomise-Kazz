@@ -1,5 +1,5 @@
 import { useWaitForTransaction } from 'wagmi';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { notification } from 'antd';
 import {
   useReadAngelAccountShares,
@@ -66,29 +66,22 @@ export function useVesting() {
     }
   }, [claimStrategicTrxReceipt, refetchStrategicClaimable, refetchWsdmBalance]);
 
-  const roundDetails = useMemo(() => {
-    return [
-      {
-        id: 'angel',
-        name: 'Angel Round',
-        totalAmount: angelTotalAmount,
-        claimable: angelClaimable,
-        releasePercentage: ANGEL_RELEASE_PERCENTAGE,
-      },
-      {
-        id: 'strategic',
-        name: 'Strategic Round',
-        totalAmount: strategicTotalAmount,
-        claimable: strategicClaimable,
-        releasePercentage: STRATEGIC_RELEASE_PERCENTAGE,
-      },
-    ] as const;
-  }, [
-    angelClaimable,
-    angelTotalAmount,
-    strategicClaimable,
-    strategicTotalAmount,
-  ]);
+  const roundDetails = [
+    {
+      id: 'angel',
+      name: 'Angel Round',
+      totalAmount: angelTotalAmount,
+      claimable: angelClaimable,
+      releasePercentage: ANGEL_RELEASE_PERCENTAGE,
+    },
+    {
+      id: 'strategic',
+      name: 'Strategic Round',
+      totalAmount: strategicTotalAmount,
+      claimable: strategicClaimable,
+      releasePercentage: STRATEGIC_RELEASE_PERCENTAGE,
+    },
+  ] as const;
 
   const refetchAll = () => {
     void refetchAngelTotalAmount();

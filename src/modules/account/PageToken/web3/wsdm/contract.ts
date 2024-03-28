@@ -7,6 +7,8 @@ import {
   useSignTypedData,
 } from 'wagmi';
 import { zeroAddress } from 'viem';
+import { useEffect } from 'react';
+import { notification } from 'antd';
 import { isProduction } from 'utils/version';
 import { WSDM_ABI } from 'modules/account/PageToken/web3/wsdm/abi';
 import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/locking/contract';
@@ -62,9 +64,20 @@ export function useWriteWsdmPermit() {
 export function useWSDMPermitSignature() {
   const { refetch } = useReadWsdmNonces();
   const { data: name } = useReadWsdmName();
-  const { signTypedData, data: signature, isLoading } = useSignTypedData();
+  const {
+    signTypedData,
+    data: signature,
+    isLoading,
+    error,
+  } = useSignTypedData();
   const chainId = useChainId();
   const { address } = useAccount();
+
+  useEffect(() => {
+    if (error) {
+      notification.error({ message: error.message });
+    }
+  }, [error]);
 
   const sign = async (value: number) => {
     const deadline = Math.floor(Date.now() / 1000) + 30 * 60;

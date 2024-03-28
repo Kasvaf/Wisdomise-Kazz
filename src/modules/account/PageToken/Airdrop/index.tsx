@@ -5,7 +5,8 @@ import Card from 'shared/Card';
 import useModal from 'shared/useModal';
 import EligibleCheckModalContent from 'modules/account/PageToken/EligibleCheckModalContent';
 import { useCheckAirdropEligibilityQuery } from 'api/airdrop';
-import { ReactComponent as InfoIcon } from './icons/info.svg';
+import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
+import { ReactComponent as InfoIcon } from '../icons/info.svg';
 
 export default function Airdrop() {
   const [Modal, showModal] = useModal(EligibleCheckModalContent, {
@@ -16,18 +17,19 @@ export default function Airdrop() {
 
   const checkEligibility = async () => {
     const { data } = await refetch();
-    void showModal({ eligibility: data || undefined });
+    void showModal({ eligibility: data });
   };
 
   return (
     <>
-      <Card className="relative mt-6 flex items-center justify-between bg-gradient-to-bl from-[rgba(97,82,152,0.40)] from-15% to-[rgba(66,66,123,0.40)] to-75%">
+      <Card className="relative mt-6 flex flex-wrap items-center justify-between gap-6 bg-gradient-to-bl from-[rgba(97,82,152,0.40)] from-15% to-[rgba(66,66,123,0.40)] to-75%">
         <h2 className="flex items-center gap-2 text-2xl font-medium">
           Airdrop
           <Tooltip title="Airdrop Tokens are distributed to eligible participants who took part in our campaigns. More info available on our socials.">
             <InfoIcon className="mb-4" />
           </Tooltip>
         </h2>
+        <Countdown />
         <Button
           variant="primary-purple"
           onClick={checkEligibility}

@@ -8,7 +8,7 @@ import Airdrop from 'modules/account/PageToken/Airdrop';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import Utility from 'modules/account/PageToken/Utility';
-import Balance from 'modules/account/PageToken/Balance';
+import Balance from 'modules/account/PageToken/Balance/Balance';
 import Wallet from 'modules/account/PageToken/Wallet';
 import ConnectWalletWrapper from '../PageBilling/paymentMethods/Token/ConnectWalletWrapper';
 
@@ -20,15 +20,21 @@ export default function PageToken() {
 
   return (
     <PageWrapper>
-      <div className="flex flex-wrap items-center justify-between gap-2 md:gap-6">
-        <h1 className="mb-6">
-          <strong className="text-5xl font-bold text-white/20">
+      <div className="my-10 flex flex-wrap items-center justify-between gap-4 md:gap-6">
+        <h1 className="text-center">
+          <strong className="text-5xl font-semibold text-white/20">
             Wisdomise Token
           </strong>
-          <span className="ms-2 text-3xl text-white/60">&quot;WSDM&quot;</span>
+          <span className="ms-2 text-3xl font-thin text-white/60">
+            &quot;WSDM&quot;
+          </span>
         </h1>
         {isConnected && (
-          <ImportTokenButton tokenSymbol="WSDM" variant="primary-purple" />
+          <ImportTokenButton
+            tokenSymbol="WSDM"
+            variant="primary-purple"
+            className="max-md:w-full"
+          />
         )}
       </div>
       <ConnectWalletWrapper
@@ -40,12 +46,16 @@ export default function PageToken() {
         {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
         {angelTotalAmount || strategicTotalAmount ? <Vesting /> : null}
         <Airdrop />
-        <h1 className="my-8 flex items-center justify-between text-xl text-white/20">
+        <h1 className="my-8 flex flex-wrap items-center justify-between gap-4 text-xl text-white/20">
           <div className="flex items-center gap-2">
             <strong className="text-3xl font-bold">WSDM</strong>
             <span className="ms-2 text-lg">Utility</span>
           </div>
-          <ImportTokenButton tokenSymbol="lcWSDM" variant="primary-purple" />
+          <ImportTokenButton
+            tokenSymbol="lcWSDM"
+            variant="primary-purple"
+            className="max-md:w-full"
+          />
         </h1>
         <Utility />
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">

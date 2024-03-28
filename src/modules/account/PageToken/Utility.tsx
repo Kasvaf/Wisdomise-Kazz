@@ -53,12 +53,12 @@ export default function Utility() {
           </Tooltip>
         </p>
       ) : utilityStatus === 'pending_lock' ? (
-        <div className="me-40 mt-4 flex grow flex-col items-center text-center">
+        <div className="mt-2 flex grow flex-col items-center text-center md:me-40">
           <strong className="mb-2 font-medium">Activate Subscription</strong>
-          <p className="mb-2 text-white/40">
+          <p className="mb-4 text-white/40">
             Lock your $WSDM tokens to gain access to our products.
           </p>
-          <Button variant="alternative" onClick={openBillings}>
+          <Button variant="primary-purple" onClick={openBillings}>
             Lock WSDM
           </Button>
         </div>
@@ -124,7 +124,7 @@ export default function Utility() {
                     Withdraw
                   </Button>
                   {utilityStatus === 'pending_withdraw' && isFreePlan && (
-                    <Button variant="primary-purple" onClick={openBillings}>
+                    <Button variant="alternative" onClick={openBillings}>
                       Lock Tokens
                     </Button>
                   )}
@@ -135,7 +135,7 @@ export default function Utility() {
           <div className="h-full w-px border-r border-white/20 max-md:hidden"></div>
           <div className="h-px w-full border-t border-white/20 md:hidden"></div>
           <div>
-            <h3 className="mb-9">Subscription</h3>
+            <h3 className="mb-3 md:mb-9">Subscription</h3>
             <div className="text-4xl">{title}</div>
           </div>
         </div>
