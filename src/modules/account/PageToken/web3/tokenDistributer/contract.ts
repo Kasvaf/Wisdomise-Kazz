@@ -5,11 +5,11 @@ import { isProduction } from 'utils/version';
 
 export const ANGEL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
   ? '0x0'
-  : '0x7B987340d6413908Bf0bbd8729192538d5dF7451';
+  : '0x7d4D49397cf030a0Dc097E8d11A8EDa321D4C451';
 
 export const STRATEGIC_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
   ? '0x0'
-  : '0x5844E9042298374844bc5D9273eca55a8375Ee05';
+  : '0x7A34764bDccFB48c9Fe354CA8169f9305D9758c1';
 
 const angelTokenDistributorDefaultConfig = {
   address: ANGEL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,

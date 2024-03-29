@@ -53,7 +53,7 @@ export default function Vesting() {
           >
             <h3 className="font-bold italic md:w-1/5">{round.name}</h3>
             <div className="me-8 h-10 !w-px bg-white/10 max-md:hidden"></div>
-            <div className="flex grow items-center justify-between gap-y-6 max-md:flex-wrap">
+            <div className="flex grow items-center justify-between gap-y-6 max-md:flex-wrap md:gap-x-4">
               <div>
                 <div className="mb-3 text-sm text-white/40">
                   <span>Total Investment Amount</span>

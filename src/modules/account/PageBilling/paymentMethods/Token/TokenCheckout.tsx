@@ -2,6 +2,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
+import { notification } from 'antd';
 import Button from 'shared/Button';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
@@ -13,8 +14,9 @@ import { useLockingRequirementQuery } from 'api/defi';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
 import useModal from 'shared/useModal';
 import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymentMethods/Token/TransactionConfirmedModalContent';
-// eslint-disable-next-line import/max-dependencies
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
+// eslint-disable-next-line import/max-dependencies
+import { unwrapErrorMessage } from 'utils/error';
 
 interface Props {
   invoiceKey?: string;
@@ -69,15 +71,18 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   };
 
   const submitTokenPayment = useCallback(async () => {
-    await mutateAsync(
+    mutateAsync(
       invoiceKey
         ? { invoice_key: invoiceKey }
         : {
             amount_paid: 0,
             subscription_plan_key: plan.key,
           },
-    );
-    setDone(true);
+    )
+      .then(() => setDone(true))
+      .catch(error =>
+        notification.error({ message: unwrapErrorMessage(error) }),
+      );
   }, [invoiceKey, mutateAsync, plan.key, setDone]);
 
   useEffect(() => {

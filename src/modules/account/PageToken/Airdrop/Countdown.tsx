@@ -47,7 +47,7 @@ export default function Countdown() {
         const hour = minute * 60;
         const day = hour * 24;
         const now = Date.now();
-        const distance = deadline - now;
+        const distance = Math.max(deadline - now, 0);
 
         const daysLetters = [
           ...String(Math.floor(distance / day)).padStart(2, '0'),
