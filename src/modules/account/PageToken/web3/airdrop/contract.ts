@@ -5,7 +5,7 @@ import { AIRDROP_ABI } from 'modules/account/PageToken/web3/airdrop/abi';
 
 export const AIRDROP_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
-  : '0x824e15d8B53aAc9b7Cc1060A46eEd1C6D29AACB1';
+  : '0xc2431fd5aa88c9ECF6Fb1a3b3c77E58F58E9245E';
 
 const airdropContractDefaultConfig = {
   address: AIRDROP_CONTRACT_ADDRESS,
