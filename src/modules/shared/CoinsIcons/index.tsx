@@ -30,7 +30,10 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size, className }) => {
   return (
     <Avatar.Group className={className}>
       {_coins.map(c => (
-        <div key={c} className="rounded-full bg-white p-[1px]">
+        <div
+          key={c}
+          className="grow-0 self-center rounded-full bg-white p-[1px]"
+        >
           <Avatar
             size={size}
             className="!border-0"
@@ -40,7 +43,7 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size, className }) => {
       ))}
       {isMaxShowEnable && (
         <p
-          className="ml-2 ms-2 flex items-center text-white"
+          className="ml-2 ms-2 flex items-center text-nowrap text-white"
           style={{ marginInlineStart: '0.5rem' }}
         >
           {'. . .'}
