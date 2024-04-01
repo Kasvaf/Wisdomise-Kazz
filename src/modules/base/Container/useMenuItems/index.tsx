@@ -1,7 +1,6 @@
 /* eslint-disable import/max-dependencies */
 
 import { useTranslation } from 'react-i18next';
-import { isProduction } from 'utils/version';
 import { trackClick } from 'config/segment';
 import { ReactComponent as InvestmentIconEmpty } from './icons/investment-empty.svg';
 import { ReactComponent as InvestmentIconFull } from './icons/investment-full.svg';
@@ -83,7 +82,6 @@ const useMenuItems = () => {
           link: '/insight/social-radar',
           onClick: trackClick('social_radar_menu'),
           isBeta: true,
-          hide: isProduction,
         },
       ],
     },
@@ -91,12 +89,10 @@ const useMenuItems = () => {
       icon: Icon(BuilderIconEmpty, BuilderIconFull),
       text: t('menu.builder.title'),
       link: '/builder',
-      hide: isProduction,
       children: [
         {
           text: t('menu.signal-builder.title'),
           link: '/builder/signalers',
-          mobileHide: true,
           onClick: trackClick('builder_signals_menu'),
         },
         {
@@ -115,7 +111,6 @@ const useMenuItems = () => {
         {
           text: t('menu.profile.title'),
           link: '/account/profile',
-          mobileHide: true,
           onClick: trackClick('profile_menu'),
         },
         {

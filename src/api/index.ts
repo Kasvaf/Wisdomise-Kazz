@@ -1,4 +1,5 @@
 export * from './account';
+export * from './feature-flags';
 export * from './ias';
 export * from './market';
 export * from './catalog';
