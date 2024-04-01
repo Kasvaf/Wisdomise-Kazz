@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
+import { useHasFlag } from 'api';
 import { ReactComponent as TelegramIcon } from './TelegramIcon.svg';
 
 const RadarBrief: React.FC<{
@@ -10,7 +11,8 @@ const RadarBrief: React.FC<{
   className?: string;
 }> = ({ radar, className }) => {
   const { t } = useTranslation('strategy');
-  if (!radar) return null;
+  const hasFlag = useHasFlag();
+  if (!radar || !hasFlag('?social-brief')) return null;
 
   const side = radar.gauge_tag;
   const cnt = radar.messages_count;
