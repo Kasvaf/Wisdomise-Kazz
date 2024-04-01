@@ -74,12 +74,7 @@ export default function Vesting() {
                         )}
                       </span>
                       <span className="ms-1 text-sm">
-                        (
-                        {Math.ceil(
-                          (findNextRelease(round.id) * 1000 - Date.now()) /
-                            (1000 * 60 * 60 * 24),
-                        )}{' '}
-                        Days)
+                        ({dayjs(findNextRelease(round.id) * 1000).toNow(true)})
                       </span>
                     </span>
                   )}
