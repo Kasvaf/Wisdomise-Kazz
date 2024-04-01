@@ -12,7 +12,7 @@ const Spin: React.FC<{ className?: string; fontSize?: number }> = ({
       fontSize === 24 ? (
         <LoadingOutlined style={{ fontSize }} spin rev="false" />
       ) : (
-        <SpinSvg className="animate-spin" />
+        <SpinSvg className="!h-[14px] animate-spin" />
       )
     }
   />

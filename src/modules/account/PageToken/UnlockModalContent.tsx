@@ -43,7 +43,7 @@ export default function UnlockModalContent({
       <h1 className="mb-3 text-2xl font-medium">Unlock WSDM tokens</h1>
       <p className="text-sm text-white/60">
         By unlocking your WSDM tokens, you are opting out of our subscription
-        services.{' '}
+        services. <br />
         <span className="text-white">Withdrawals are available in 7 days.</span>
       </p>
       <div className="my-8 flex w-full items-center justify-between gap-y-8 rounded-2xl bg-black/30 p-10 text-start max-md:flex-wrap">

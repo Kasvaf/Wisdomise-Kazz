@@ -3,7 +3,6 @@ import {
   useBalance,
   useChainId,
   useContractRead,
-  useContractWrite,
   useSignTypedData,
 } from 'wagmi';
 import { zeroAddress } from 'viem';
@@ -27,16 +26,6 @@ export function useWsdmBalance() {
   return useBalance({ address, token: WSDM_CONTRACT_ADDRESS });
 }
 
-export function useReadWsdmAllowance(contractAddress: `0x${string}`) {
-  const { address } = useAccount();
-  return useContractRead({
-    ...wsdmContractDefaultConfig,
-    functionName: 'allowance',
-    args: [address ?? zeroAddress, contractAddress],
-    enabled: !!address,
-  });
-}
-
 export function useReadWsdmNonces() {
   const { address } = useAccount();
   return useContractRead({
@@ -54,24 +43,12 @@ export function useReadWsdmName() {
   });
 }
 
-export function useWriteWsdmPermit() {
-  return useContractWrite({
-    ...wsdmContractDefaultConfig,
-    functionName: 'permit',
-  });
-}
-
 export function useWSDMPermitSignature() {
-  const { refetch } = useReadWsdmNonces();
-  const { data: name } = useReadWsdmName();
-  const {
-    signTypedData,
-    data: signature,
-    isLoading,
-    error,
-  } = useSignTypedData();
   const chainId = useChainId();
+  const { refetch: fetchNonce } = useReadWsdmNonces();
   const { address } = useAccount();
+  const { data: name } = useReadWsdmName();
+  const { signTypedDataAsync, isLoading, error } = useSignTypedData();
 
   useEffect(() => {
     if (error) {
@@ -79,8 +56,7 @@ export function useWSDMPermitSignature() {
     }
   }, [error]);
 
-  const sign = async (value: number) => {
-    const deadline = Math.floor(Date.now() / 1000) + 30 * 60;
+  const sign = async (value: number, deadline: number) => {
     const domain = {
       name,
       version: '1',
@@ -102,19 +78,17 @@ export function useWSDMPermitSignature() {
       owner: address,
       spender: LOCKING_CONTRACT_ADDRESS,
       value,
-      nonce: (await refetch()).data,
+      nonce: (await fetchNonce()).data,
       deadline,
     };
 
-    signTypedData({
+    return await signTypedDataAsync({
       domain,
       types,
       message: values,
       primaryType: 'Permit',
     });
-
-    return deadline;
   };
 
-  return { sign, signature, isLoading };
+  return { sign, isLoading };
 }

@@ -19,16 +19,22 @@ import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 import { unwrapErrorMessage } from 'utils/error';
 
 interface Props {
+  countdown: number;
   invoiceKey?: string;
   plan: SubscriptionPlan;
   setDone: (state: boolean) => void;
 }
 
-export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
+export default function TokenCheckout({
+  plan,
+  setDone,
+  invoiceKey,
+  countdown,
+}: Props) {
   const { t } = useTranslation('billing');
   const { mutateAsync } = useSubmitTokenPayment();
   const { data: lockedBalance } = useReadLockedBalance();
-  const { handleLocking, lockTrxReceipt, isLoading, isLocking } = useLocking();
+  const { startLocking, lockTrxReceipt, isLoading, isLocking } = useLocking();
   const {
     data: wsdmBalance,
     refetch: updateBalance,
@@ -67,7 +73,10 @@ export default function TokenCheckout({ plan, setDone, invoiceKey }: Props) {
   const activate = async () => {
     await ((userLockingRequirement?.requirement_locking_amount ?? 0) <= 0
       ? submitTokenPayment()
-      : handleLocking(userLockingRequirement?.requirement_locking_amount ?? 0));
+      : startLocking(
+          userLockingRequirement?.requirement_locking_amount ?? 0,
+          countdown,
+        ));
   };
 
   const submitTokenPayment = useCallback(async () => {

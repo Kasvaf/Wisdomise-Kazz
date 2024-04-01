@@ -1,4 +1,4 @@
-import { useAccount, useWaitForTransaction } from 'wagmi';
+import { useWaitForTransaction } from 'wagmi';
 import { useEffect, useState } from 'react';
 import { notification } from 'antd';
 import { hexToNumber, toHex } from 'viem';
@@ -49,14 +49,11 @@ export function useLockWithPermit() {
 }
 
 export function useLocking() {
-  const [amount, setAmount] = useState<bigint>();
-  const [deadline, setDeadline] = useState(0);
   const { data: lockedBalance, refetch: refetchLockedInfo } =
     useReadLockedBalance();
   const { data: unlockedInfo, refetch: refetchUnlockedInfo } =
     useReadUnlockedInfo();
-  const { sign, signature, isLoading: isSigning } = useWSDMPermitSignature();
-  const { address } = useAccount();
+  const { sign, isLoading: isSigning } = useWSDMPermitSignature();
   const [utilityStatus, setUtilityStatus] = useState<UtilityStatus>();
   const { lockWithPermit, lockTrxReceipt, isLoading, isLocking } =
     useLockWithPermit();
@@ -84,24 +81,22 @@ export function useLocking() {
     }
   }, [isFreePlan, lockedBalance, unlockedInfo]);
 
-  const handleLocking = async (amount: number) => {
-    const d = await sign(amount * 10 ** 6);
-    setDeadline(d);
-    setAmount(BigInt(amount * 10 ** 6));
+  const lock = (signature: `0x${string}`, amount: bigint, deadline: number) => {
+    const { r, s } = secp256k1.Signature.fromCompact(signature.slice(2, 130));
+    const v = hexToNumber(`0x${signature.slice(130)}`);
+    lockWithPermit({
+      args: [amount, amount, BigInt(deadline), v, toHex(r), toHex(s)],
+    });
   };
 
-  useEffect(() => {
-    if (signature && amount) {
-      const { r, s } = secp256k1.Signature.fromCompact(signature.slice(2, 130));
-      const v = hexToNumber(`0x${signature.slice(130)}`);
-      lockWithPermit({
-        args: [amount, amount, BigInt(deadline), v, toHex(r), toHex(s)],
-      });
-    }
-  }, [address, amount, deadline, lockWithPermit, signature]);
+  const startLocking = async (amount: number, countdown: number) => {
+    const deadline = Math.floor(Date.now() / 1000) + countdown;
+    const signature = await sign(amount * 10 ** 6, deadline);
+    lock(signature, BigInt(amount * 10 ** 6), deadline);
+  };
 
   return {
-    handleLocking,
+    startLocking,
     isLoading: isLoading || isSigning,
     isLocking,
     lockTrxReceipt,

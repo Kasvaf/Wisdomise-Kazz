@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCountdown } from 'usehooks-ts';
 import Card from 'shared/Card';
@@ -31,10 +31,7 @@ export default function TokenPaymentModalContent({
     plan.price,
   );
 
-  const price = useMemo(
-    () => lockingRequirement?.requirement_locking_amount.toLocaleString(),
-    [lockingRequirement],
-  );
+  const price = lockingRequirement?.requirement_locking_amount.toLocaleString();
 
   useEffect(() => {
     void refetch();
@@ -158,6 +155,7 @@ export default function TokenPaymentModalContent({
             )}
           >
             <TokenCheckout
+              countdown={count}
               plan={plan}
               setDone={setDone}
               invoiceKey={invoiceKey}

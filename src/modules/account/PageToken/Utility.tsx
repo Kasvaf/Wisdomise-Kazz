@@ -25,7 +25,9 @@ export default function Utility() {
   });
   const { lockedBalance, unlockedBalance, withdrawTimestamp, utilityStatus } =
     useLocking();
-  const [unlockModal, openUnlockModal] = useModal(UnlockModalContent);
+  const [unlockModal, openUnlockModal] = useModal(UnlockModalContent, {
+    width: 600,
+  });
   const { title, isFreePlan } = useSubscription();
   const { withdraw, isLoading } = useWithdraw();
 
@@ -48,7 +50,7 @@ export default function Utility() {
           <Button disabled={true} variant="alternative">
             Lock WSDM
           </Button>
-          <Tooltip title="You already have an active subscription, you either need to cancel or wait until it ends to utilize your tokens to get access.">
+          <Tooltip title="You already have an active subscription, you either need wait until it ends to utilize your tokens to get access.">
             <InfoIcon className="mb-4" />
           </Tooltip>
         </p>
@@ -123,7 +125,7 @@ export default function Utility() {
                   >
                     Withdraw
                   </Button>
-                  {utilityStatus === 'pending_withdraw' && isFreePlan && (
+                  {isFreePlan && (
                     <Button variant="alternative" onClick={openBillings}>
                       Lock Tokens
                     </Button>
