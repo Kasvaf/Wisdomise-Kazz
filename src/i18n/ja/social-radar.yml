@@ -1,0 +1,29 @@
+detail-page:
+  subtitle: 信号を分析する {{symbol}} テレグラムチャンネルで
+hot-coins:
+  24-chg: 24時間変更
+  description: 知恵による推奨事項ではなく、コミュニティから得た市場洞察
+  explore: 詳細を確認
+  side-suggest: サイドの提案
+  title: ホットコイン
+market-info:
+  description: 電報チャネルからのリアルタイムの洞察
+  side:
+    description: 過去 24 時間、テレグラム コミュニティ データ インサイト
+    title: マーケットサイド
+  telegram-channel-count: <0>Wisdomise ソーシャル レーダーがスキャンされました
+    <2>{{channelsCount}}</2> 過去 24 時間の Telegram チャンネル。</0>
+  telegram-community:
+    description: 分析されたメッセージの数
+    title: テレグラムコミュニティ活動
+  title: コミュニティから得た市場洞察
+  title-badge: リアルタイムの市場データ
+more-telegram-signal:
+  table:
+    coin: 発見されたコイン
+    explore: 詳細を確認
+    price: リアルタイム価格
+    price-change: 24時間の価格変更
+    side: コミュニティの感情に関する提案
+  title: 24時間、より多くの電報スキャン発見
+title: ソーシャルレーダー

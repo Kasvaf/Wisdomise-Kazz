@@ -5,6 +5,7 @@ import CoinsIcons from 'modules/shared/CoinsIcons';
 import PriceChange from 'modules/shared/PriceChange';
 import { type CoinTelegramSignal } from 'api';
 import Table from 'modules/shared/Table';
+import Button from 'shared/Button';
 
 export default function SignalsTable({
   signals,
@@ -55,6 +56,16 @@ export default function SignalsTable({
           ) : (
             '-'
           ),
+      },
+      {
+        render: (row: CoinTelegramSignal) => (
+          <Button
+            className="block w-fit"
+            to={'/insight/social-radar/' + row.symbol_name}
+          >
+            {t('more-telegram-signal.table.explore')}
+          </Button>
+        ),
       },
     ],
     [signals, t],
