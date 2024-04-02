@@ -73,31 +73,30 @@ export default function Utility() {
                 : utilityStatus === 'pending_unlock'
                 ? 'Pending for Unlock'
                 : utilityStatus === 'pending_withdraw'
-                ? 'Pending for Withdraw'
+                ? 'Pending for Withdrawal'
                 : 'Loading'}
             </h3>
             <div className="flex flex-wrap items-center justify-between gap-4">
-              {utilityStatus === 'pending_unlock' && (
+              {(utilityStatus === 'pending_unlock' ||
+                utilityStatus === 'pending_withdraw') && (
                 <div>
                   <h4 className="mb-2 text-sm text-white/60">
-                    Withdrawal available in
+                    Remaining Time:
                   </h4>
-                  <div className="text-xl font-semibold">
-                    {dayjs(withdrawTimestamp * 1000).toNow(true)}
-                  </div>
+                  {utilityStatus === 'pending_unlock' && (
+                    <div className="text-xl font-semibold">
+                      {dayjs(withdrawTimestamp * 1000).toNow(true)}
+                    </div>
+                  )}
+                  {utilityStatus === 'pending_withdraw' && (
+                    <div className="flex items-center gap-2">
+                      <BadgeIcon />
+                      <div>Ready</div>
+                    </div>
+                  )}
                 </div>
               )}
-              {utilityStatus === 'pending_withdraw' && (
-                <div>
-                  <h4 className="mb-2 text-sm text-white/60">
-                    Time to withdrawal
-                  </h4>
-                  <div className="flex items-center gap-2">
-                    <BadgeIcon />
-                    <div>Ready</div>
-                  </div>
-                </div>
-              )}
+
               <div>
                 <h3 className="mb-2 text-sm text-white/60">Amount</h3>
                 <div className="flex items-end gap-2">
@@ -137,7 +136,9 @@ export default function Utility() {
           <div className="h-full w-px border-r border-white/20 max-md:hidden"></div>
           <div className="h-px w-full border-t border-white/20 md:hidden"></div>
           <div>
-            <h3 className="mb-3 md:mb-9">Subscription</h3>
+            <h3 className="mb-3 w-40 md:mb-9">
+              Your Current Subscription Plan
+            </h3>
             <div className="text-4xl">{title}</div>
           </div>
         </div>

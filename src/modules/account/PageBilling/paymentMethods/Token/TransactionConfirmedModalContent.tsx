@@ -4,7 +4,7 @@ export default function TransactionConfirmedModalContent() {
   return (
     <div className="flex flex-col items-center p-6 text-center">
       <WisdomiseLogo className="animate-pulse" />
-      <h3 className="my-5 text-2xl font-bold text-white">
+      <h3 className="my-5 text-2xl text-white">
         Do not refresh or close your browser
       </h3>
       <p>

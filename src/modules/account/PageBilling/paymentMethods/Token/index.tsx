@@ -127,7 +127,7 @@ export default function TokenPaymentModalContent({
       <div className="col-span-12 flex flex-col items-center justify-center bg-white/5 lg:col-span-6">
         {done ? (
           <Card className="flex flex-col items-center gap-6">
-            <Done className="mobile:w-24" />
+            <Done className="text-green-400 mobile:w-24" />
             <div className="mb-6 text-center">
               <p className="mb-6 text-2xl font-medium">
                 {t('token-modal.congratulations')}
@@ -137,7 +137,11 @@ export default function TokenPaymentModalContent({
               </p>
             </div>
 
-            <Button onClick={onDoneClick} className="w-full">
+            <Button
+              onClick={onDoneClick}
+              variant="primary-purple"
+              className="w-full"
+            >
               {t('token-modal.done')}
             </Button>
             <ImportTokenButton
