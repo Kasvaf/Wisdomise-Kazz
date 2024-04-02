@@ -1,0 +1,28 @@
+detail-page:
+  subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
+hot-coins:
+  24-chg: 24小时更改
+  description: 来自社区的市场洞察，而不是智慧建议
+  explore: 探索
+  side-suggest: 侧面建议
+  title: 热门硬币
+market-info:
+  description: 来自 Telegram 频道的实时见解
+  side:
+    description: 过去 24 小时，Telegram 社区数据洞察
+    title: 市场方
+  telegram-channel-count: <0>智慧社会雷达扫描 <2>{{channelsCount}}</2> 过去 24 小时内的 Telegram 频道。</0>
+  telegram-community:
+    description: 分析的消息数
+    title: Telegram 社区活动
+  title: 来自社区的市场洞察
+  title-badge: 实时市场数据
+more-telegram-signal:
+  table:
+    coin: 发现硬币
+    explore: 探索
+    price: 实时价格
+    price-change: 24小时价格变动
+    side: 社区情绪建议
+  title: 更多 Telegram 扫描发现 24 小时
+title: 社会雷达

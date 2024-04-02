@@ -1,22 +1,20 @@
-import proSrc from '../images/pro.png';
-import eliteSrc from '../images/elite.png';
-import masterSrc from '../images/master.png';
-import expertSrc from '../images/expert.png';
-
+import freeSrc from '../images/free.png';
+import insightSrc from '../images/insight.png';
+import investmentSrc from '../images/investment.png';
 interface Props {
   name: string;
 }
 
 export default function PlanLogo({ name }: Props) {
-  let src: string;
-  if (name.toLowerCase().includes('pro')) {
-    src = proSrc;
-  } else if (name.toLowerCase().includes('expert')) {
-    src = expertSrc;
-  } else if (name.toLowerCase().includes('master')) {
-    src = masterSrc;
-  } else {
-    src = eliteSrc;
+  let src = '';
+
+  if (name.toLowerCase().includes('free')) {
+    src = freeSrc;
+  } else if (name.toLowerCase().includes('insight')) {
+    src = insightSrc;
+  } else if (name.toLowerCase().includes('investment')) {
+    src = investmentSrc;
   }
-  return <img className="h-16 w-16" src={src} />;
+
+  return <img className="size-12 mobile:size-10" src={src} />;
 }

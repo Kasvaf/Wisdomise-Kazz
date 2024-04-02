@@ -43,27 +43,25 @@ periodicity:
     title: Yearly
     per: per<br>year
 pricing-card:
-  annually: Annually
+  annually: Yearly
   btn-action:
-    available-soon: Available soon
     buy-now: Buy Now
     choose: Choose
     current-plan: Current Plan
-    free: Free
     next-plan: Next Plan
-  hold: Hold
-  just-yearly: Just In Yearly
+  forever: Forever
+  free-subtitle: feel free to explore wisdomise
   monthly: Monthly
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
-  page-subtitle: You can choose your package type from this section
-  page-title: Billing Package
+  pay-by-stacking: Pay By Stacking<1>{{token}}<1>WSDM</1></1>Token
+  pay-by-stacking-in-yearly-only: 'Pay By Stacking<1>WSDM</1>Token: Just In Annually'
+  recommended: Wisdomise Recommend
   this-includes: 'This includes:'
-  token: Token
 stripe:
   change-card-info:
-    title: Change payment method
+    title: Change Card Info
     order-summary: Order Summary
     total: Total
 subscription-details:
@@ -74,32 +72,32 @@ subscription-details:
     method: Payment Method
     status: Status
   overview:
-    automatically-renew: It will automatically renew when the time comes.
-    billing-actions: Billing actions
-    billing-email: Billing emails are sent to <1>{{email}}</1>.
-    btn-change-plan: Change plan
-    card: Future charges will be applied to the card <1>****{{last4}}</1>.
-    charging: Charging your credit card <1>${{ amount }}</1>.
-    current-plan: Your current plan is <1>{{plan}}</1>.
-    in-order-to-renew: >-
-      In order to renew, you will have to send the transaction again on
-      <0>{{date}}</0>.
+    btn-change-plan: Change Plan
+    current-plan:
+      title: Current Plan
+      expire: Your plan will renew on
+      pay-method: Your payment method is
+      pay-now: Pay Now!
+      pending-invoice: <0>You payment status is<1></1></0>
+      renew: Your plan expires in
+      your-subs: Your subscription plan is<1></1>
     is-on-the-way:
       title: Your subscription is on the way
       description: >-
         You paid for your subscription via crypto payment, it takes 24-48 hours
         to verify your transaction. We will email you when your subscription is
         activated
-    next-plan-canceled: <0></0><1>Your next plan has been canceled.<1>Renew Next Plan</1></1>
-    next-plan-info: >-
-      <0>Your next plan is <2>{{nextPlanName}} {{period}}</2> with <6>
-      {{payMethod}}</6> payment method.<9>Cancel Next Plan</9></0>
-    pay-method: >-
-      <0>Next Payment method: <2>{{payMethod}}.</2><3>Change payment
-      method</3></0>
-    pending-invoice: <0><0>You have 1 pending invoice.</0><1>Pay Now</1></0>
-    periodEnd: Your plan will {{action}} on <3>{{date}}</3>.
-    plan-details: Plan Details
+    next-plan:
+      title: Next Plan
+      automatically-renew: It will automatically renew when the time comes.
+      cancel-btn: Cancel Next Plan
+      canceled: <0>Your next plan has been canceled.<1>Renew Next Plan</1></0>
+      card: Future charges will be applied to the card<1></1>
+      change-pay-method: Change Payment Method
+      charging: Charging your credit card<1></1>
+      in-order-to-renew: In order to renew, you will have to send the transaction again on<1></1>
+      pay-method: Your payment method is
+      your-subs: Your subscription plan is<1></1>
 subscription-modal:
   title: Subscription Method
   subtitle: Please select the payment method that suits your preferences.
