@@ -59,6 +59,7 @@ pricing-card:
   pay-by-stacking-in-yearly-only: 'Pay By Stacking<1>WSDM</1>Token: Just In Annually'
   recommended: Wisdomise Recommend
   this-includes: 'This includes:'
+  notification-call-support: Call Support
 stripe:
   change-card-info:
     title: Change Card Info

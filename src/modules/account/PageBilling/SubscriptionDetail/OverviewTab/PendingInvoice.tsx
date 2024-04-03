@@ -1,5 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
+import { notification } from 'antd';
 import { useAccountQuery } from 'api';
 import useModal from 'shared/useModal';
 import CryptoPaymentModalContent from '../../paymentMethods/Crypto';
@@ -37,6 +38,10 @@ export default function PendingInvoice() {
       case 'FIAT': {
         if (pendingInvoice.stripe_payment_link) {
           window.location.href = pendingInvoice.stripe_payment_link;
+        } else {
+          notification.error({
+            message: t('pricing-card.notification-call-support'),
+          });
         }
         break;
       }

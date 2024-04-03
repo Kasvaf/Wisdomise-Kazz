@@ -62,7 +62,13 @@ export default function PricingCard({
     } else {
       void openModal({
         onFiatClick: () => {
-          window.location.href = plan.stripe_payment_link;
+          if (plan.stripe_payment_link) {
+            window.location.href = plan.stripe_payment_link;
+          } else {
+            notification.error({
+              message: t('pricing-card.notification-call-support'),
+            });
+          }
         },
         plan,
       });
