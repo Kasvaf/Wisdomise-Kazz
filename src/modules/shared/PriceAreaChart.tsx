@@ -4,9 +4,10 @@ import { Area, type AreaConfig } from '@ant-design/plots';
 
 interface Props {
   data: AreaConfig['data'];
+  height?: number;
 }
 
-const PriceAreaChart: React.FC<Props> = ({ data }) => {
+const PriceAreaChart: React.FC<Props> = ({ data, height = 30 }) => {
   const configs = useMemo<AreaConfig>(() => {
     const isUpTrend = data.at(-1)?.y - data.at(0)?.y >= 0;
     const min = Math.min(...data.map(r => r.y));
@@ -19,7 +20,7 @@ const PriceAreaChart: React.FC<Props> = ({ data }) => {
       yField: 'y',
       color: isUpTrend ? '#00DA98' : '#FF3939',
       smooth: true,
-      height: 30,
+      height,
 
       xAxis: {
         range: [0, 1],
@@ -45,7 +46,7 @@ const PriceAreaChart: React.FC<Props> = ({ data }) => {
         };
       },
     };
-  }, [data]);
+  }, [data, height]);
 
   return <Area {...configs} />;
 };

@@ -49,7 +49,7 @@ export default function Vesting() {
         return (
           <div
             key={round.name}
-            className="my-3 flex items-center gap-y-4 rounded-xl bg-[rgba(51,59,92,0.20)] p-3 max-md:flex-wrap"
+            className="mt-3 flex items-center gap-y-4 rounded-xl bg-[rgba(51,59,92,0.20)] px-4 py-3 max-md:flex-wrap"
           >
             <h3 className="font-bold italic md:w-1/5">{round.name}</h3>
             <div className="me-8 h-10 !w-px bg-white/10 max-md:hidden"></div>

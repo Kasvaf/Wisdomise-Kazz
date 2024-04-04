@@ -49,3 +49,13 @@
   --os-handle-bg: white !important;
   --os-handle-border-radius: 10px !important;
 }
+
+.text-gradient-to-black70 {
+  background-image: linear-gradient(
+    90deg,
+    #fff 0%,
+    rgba(255, 255, 255, 0.7) 100%
+  );
+  color: transparent;
+  background-clip: text;
+}

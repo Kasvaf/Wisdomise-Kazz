@@ -3,13 +3,13 @@ import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type React from 'react';
 import PriceChange from 'shared/PriceChange';
-import { type StrategyItem } from 'api';
+import { type ThinStrategy } from 'api';
 import { type LastPosition } from 'api/types/signalResponse';
 import { useSignals } from './components/SignalsProvider';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
 
 interface Props {
-  strategy: StrategyItem;
+  strategy: ThinStrategy;
   position: LastPosition;
 }
 

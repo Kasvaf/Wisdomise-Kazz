@@ -70,21 +70,20 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
           </Button>
         )}
 
-        {nextSub?.subscription_plan.periodicity === 'YEARLY' &&
-          nextSub.payment_method !== 'TOKEN' && (
-            <Button
-              size="small"
-              loading={
-                clickedPayment === 'TOKEN' && changePaymentMethod.isLoading
-              }
-              onClick={() => handleChangePayment('TOKEN')}
-            >
-              <div className="flex items-center gap-2">
-                <TokenIcon />
-                {t('change-pay-method.token')}
-              </div>
-            </Button>
-          )}
+        {nextSub?.payment_method !== 'TOKEN' && (
+          <Button
+            size="small"
+            loading={
+              clickedPayment === 'TOKEN' && changePaymentMethod.isLoading
+            }
+            onClick={() => handleChangePayment('TOKEN')}
+          >
+            <div className="flex items-center gap-2">
+              <TokenIcon />
+              {t('change-pay-method.token')}
+            </div>
+          </Button>
+        )}
       </div>
     </div>
   );

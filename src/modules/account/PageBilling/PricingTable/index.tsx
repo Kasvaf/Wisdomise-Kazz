@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
-import PageWrapper from 'modules/base/PageWrapper';
 import PricingCard from './PricingCard';
 
 interface PricingTableProps {
@@ -20,33 +19,25 @@ export default function PricingTable({
   onResolve,
 }: PricingTableProps) {
   const { t } = useTranslation('billing');
-  const { plan } = useSubscription();
-  const { data, isLoading } = usePlansQuery();
+  const { plan, isFreePlan } = useSubscription();
+  const { data } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>(
-    (isTokenUtility ? 'YEARLY' : undefined) || plan?.periodicity || 'MONTHLY',
+    isRenew || isFreePlan || !plan ? 'YEARLY' : plan.periodicity,
   );
 
   return (
-    <PageWrapper loading={isLoading}>
-      <div className="flex flex-col">
-        <div className="mb-8 flex items-center justify-start mobile:flex-col mobile:gap-4">
-          <div className="mr-24">
-            <p className="mb-4 text-xl font-semibold">
-              {t('pricing-card.page-title')}
-            </p>
-            <p className="text-sm text-white/60">
-              {t('pricing-card.page-subtitle')}
-            </p>
-          </div>
-
-          <div className="flex rounded-full border border-white/20 bg-white/5 p-1 mobile:w-full">
-            {(['MONTHLY', 'YEARLY'] as const).map(period => (
+    <>
+      <div className={clsx('flex flex-col', (isRenew || isUpdate) && 'mt-7')}>
+        <div className="mb-8 flex items-center justify-center mobile:mb-4 mobile:flex-col mobile:gap-4">
+          <div className="flex gap-3 rounded-xl bg-white/10 p-2 mobile:w-full">
+            {(['YEARLY', 'MONTHLY'] as const).map(period => (
               <button
                 key={period}
                 onClick={() => setCurrentPeriod(period)}
                 className={clsx(
-                  'w-full rounded-full px-8 py-2 text-sm text-white transition-colors disabled:opacity-60',
-                  currentPeriod === period && 'bg-white !text-black',
+                  'w-44 rounded-xl bg-white/10 px-8 py-2 text-sm text-white transition-colors disabled:opacity-60',
+                  currentPeriod === period &&
+                    '!bg-white font-medium !text-black',
                 )}
                 disabled={isTokenUtility}
               >
@@ -57,7 +48,7 @@ export default function PricingTable({
             ))}
           </div>
         </div>
-        <div className="-mx-6 flex justify-center gap-6 overflow-auto px-6 mobile:justify-start">
+        <div className="-mx-6 flex grow justify-center gap-6 overflow-auto px-6 mobile:justify-start">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
             .map(plan => (
@@ -73,6 +64,6 @@ export default function PricingTable({
             ))}
         </div>
       </div>
-    </PageWrapper>
+    </>
   );
 }

@@ -66,7 +66,7 @@ export default function Utility() {
         </div>
       ) : (
         <div className="mt-2 flex grow justify-between gap-9 max-md:flex-wrap md:me-32">
-          <div className="grow">
+          <div className="flex grow flex-col justify-between">
             <h3 className="mb-6">
               {utilityStatus === 'locked'
                 ? 'Locked'

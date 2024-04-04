@@ -168,7 +168,7 @@ const Button: React.FC<Props> = ({
         className={clsx(
           'rounded-xl bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-8 py-4 text-sm font-medium leading-none text-white',
           disabled &&
-            'cursor-not-allowed !border-[#11C37E99]/40 !bg-neutral-700 bg-none text-white/10',
+            'cursor-not-allowed !border-[#11C37E99]/40 !bg-neutral-700 bg-none text-white/30',
           loading && 'cursor-wait text-white/50',
           sizeClass,
           className,

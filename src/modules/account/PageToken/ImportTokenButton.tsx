@@ -30,6 +30,7 @@ const TOKENS = [
     symbol: 'WSDM',
     address: WSDM_CONTRACT_ADDRESS,
     description: 'Import the WSDM Token into your Wallet',
+    image: 'https://s2.coinmarketcap.com/static/img/coins/64x64/30102.png',
   },
   {
     name: 'tWSDM',
@@ -62,8 +63,7 @@ export default function ImportTokenButton({
           address: token?.address,
           symbol: tokenSymbol,
           decimals: 6,
-          // image:
-          //   'https://cash-content.s3.eu-west-3.amazonaws.com/content/WSDM-Token-01.png',
+          image: token?.image ?? undefined,
         },
       },
     });

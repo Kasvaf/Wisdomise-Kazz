@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { useInvoicesQuery, useSubscription } from 'api';
 import Card from 'shared/Card';
 import mailIconSrc from '../../images/mail.svg';
-import PlanDetails from './PlanDetails';
-import BillingActions from './BillingActions';
+import CurrentPlan from './CurrentPlan';
+import NextPlan from './NextPlan';
 
 export default function OverviewTab() {
   const { level } = useSubscription();
@@ -32,9 +32,9 @@ export default function OverviewTab() {
   }
 
   return (
-    <div>
-      <PlanDetails />
-      <BillingActions />
+    <div className="text-base">
+      <CurrentPlan />
+      <NextPlan />
     </div>
   );
 }

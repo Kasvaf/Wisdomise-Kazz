@@ -5,6 +5,7 @@ export interface Invoice {
   amount_paid: number;
   created_at: string;
   updated_at: string;
+  due_date?: string;
   stripe_payment_link?: string;
   subscription_plan: SubscriptionPlan;
   status: 'paid' | 'open' | 'draft' | 'pending';

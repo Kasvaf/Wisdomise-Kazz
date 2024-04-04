@@ -30,16 +30,20 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size, className }) => {
   return (
     <Avatar.Group className={className}>
       {_coins.map(c => (
-        <Avatar
+        <div
           key={c}
-          size={size}
-          className="!border-0"
-          src={c.startsWith('http') ? c : cdnIcon(c.toLowerCase())}
-        />
+          className="grow-0 self-center rounded-full bg-white p-[1px]"
+        >
+          <Avatar
+            size={size}
+            className="!border-0"
+            src={c.startsWith('http') ? c : cdnIcon(c.toLowerCase())}
+          />
+        </div>
       ))}
       {isMaxShowEnable && (
         <p
-          className="ml-2 ms-2 flex items-center text-white"
+          className="ml-2 ms-2 flex items-center text-nowrap text-white"
           style={{ marginInlineStart: '0.5rem' }}
         >
           {'. . .'}

@@ -31,6 +31,7 @@ export default function Airdrop() {
         </h2>
         <Countdown />
         <Button
+          className="max-md:w-full"
           variant="primary-purple"
           onClick={checkEligibility}
           loading={isFetching}

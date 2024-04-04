@@ -77,10 +77,16 @@ subscription-details:
     automatically-renew: 时间到将自动更新。
     billing-actions: 计费操作
     billing-email: 帐单电子邮件发送至 <1>{{email}}</1>。
-    btn-change-plan: 改变方案
+    btn-change-plan: 变更计划
     card: 未来的费用将计入该卡 <1>****{{last4}}</1>。
     charging: 向您的信用卡收费 <1>${{ amount }}</1>。
-    current-plan: 你的方案是 <1>{{plan}}</1>。
+    current-plan:
+      expire: 您的计划将于
+      pay-method: 您的付款方式是
+      pay-now: 现在付款！
+      pending-invoice: <0>您的付款状态是<1></1></0>
+      title: 当前计划
+      your-subs: 您的订阅计划是<1></1>
     in-order-to-renew: 为了续订，您必须再次发送交易 <0>{{date}}</0>。
     is-on-the-way:
       description: 您通过加密货币支付订阅费用，需要 24-48 小时来验证您的交易。当您的订阅被激活时，我们会向您发送电子邮件
@@ -88,7 +94,15 @@ subscription-details:
     next-plan-canceled: <0></0><1>你的下一个计划已被取消。<1>更新下一个计划</1></1>
     next-plan-info: <0>你的下一个计划是 <2>{{nextPlanName}} {{period}}</2> 和 <6>
       {{payMethod}}</6> 付款方式。<9>取消下一个计划</9></0>
-    pay-method: <0>下一个付款方式： <2>{{payMethod}}。</2><3>更改付款方式</3></0>
+    next-plan:
+      automatically-renew: 时间到将自动更新。
+      cancel-btn: 取消下一个计划
+      canceled: <0>你的下一个计划已被取消。<1>更新下一个计划</1></0>
+      card: 未来的费用将计入该卡<1></1>
+      charging: 为您的信用卡收费<1></1>
+      pay-method: 您的付款方式是
+      your-subs: 您的订阅计划是<1></1>
+    pay-method: <0>下一步付款方式： <2>{{payMethod}}。</2><3>更改付款方式</3></0>
     pending-invoice: <0><0>您有 1 张待处理发票。</0><1>现在付款</1></0>
     periodEnd: 你的订阅方案将 {{action}} 在 <3>{{date}}</3>。
     plan-details: 计划详情

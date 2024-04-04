@@ -1,6 +1,3 @@
-/** Used for redirecting after checkout */
-export const AFTER_CHECKOUT_KEY = 'after_checkout';
-
 /** Used in billing page to show a success modal after successful checkout */
 export const SUCCESSFUL_CHECKOUT_KEY = 'successful_checkout';
 

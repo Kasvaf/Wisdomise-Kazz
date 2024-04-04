@@ -35,9 +35,7 @@ export const Signals = () => {
                 const pair = data.pairs.find(
                   p => p.name === position.pair_name,
                 );
-                const strategy = data.strategies.find(
-                  s => s.name === position.strategy_name,
-                );
+                const strategy = position.strategy;
                 const firstPrice = pair?.time_window_prices.at(0);
                 const lastPrice = pair?.time_window_prices.at(-1);
                 if (!pair || !strategy) return null;

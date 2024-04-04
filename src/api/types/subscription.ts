@@ -30,7 +30,7 @@ export interface SubscriptionPlan {
   stripe_price_id: string;
   features: string[];
   periodicity: PlanPeriod;
-  stripe_payment_link: string;
+  stripe_payment_link?: string;
   metadata: SubscriptionPlanMetadata;
   wsdm_token_hold: number;
   level: number;

@@ -72,6 +72,7 @@ interface Profile {
   'position_sides': string[];
   'subscription_level'?: number;
   'SL/TP'?: string;
+  'weight'?: number;
 }
 
 function strategyComparer(a: ThinStrategy, b: ThinStrategy) {

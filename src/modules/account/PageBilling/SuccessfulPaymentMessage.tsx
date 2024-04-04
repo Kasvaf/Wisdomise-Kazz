@@ -1,13 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import useNow from 'utils/useNow';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
-import {
-  AFTER_CHECKOUT_KEY,
-  SUCCESSFUL_CHECKOUT_KEY,
-} from 'modules/auth/constants';
+import { SUCCESSFUL_CHECKOUT_KEY } from 'modules/auth/constants';
 import { useSubscription } from 'api';
 import { ReactComponent as CongratsBG } from './images/congrats.svg';
 import { ReactComponent as CongratsLogo } from './images/congrats-logo.svg';
@@ -23,11 +19,6 @@ export default function SuccessfulPaymentMessage() {
   });
 
   useEffect(() => {
-    const afterCheckout = searchParams.get(AFTER_CHECKOUT_KEY);
-    if (afterCheckout) {
-      sessionStorage.setItem(AFTER_CHECKOUT_KEY, afterCheckout);
-    }
-
     if (
       searchParams.has(SUCCESSFUL_CHECKOUT_KEY) &&
       isActive &&
@@ -41,26 +32,8 @@ export default function SuccessfulPaymentMessage() {
   return modal;
 }
 
-const RESEND_TIMEOUT = 10;
-
 function ModalContent({ onResolve }: { onResolve: VoidFunction }) {
-  const now = useNow();
   const { t } = useTranslation('billing');
-  const [ttl] = useState(Date.now() + RESEND_TIMEOUT * 1000);
-  const afterCheckoutUrl = sessionStorage.getItem(AFTER_CHECKOUT_KEY);
-
-  const contHandler = useCallback(() => {
-    if (afterCheckoutUrl) {
-      onResolve?.();
-      window.location.href = afterCheckoutUrl;
-    }
-  }, [onResolve, afterCheckoutUrl]);
-
-  useEffect(() => {
-    if (ttl < now) {
-      contHandler();
-    }
-  }, [afterCheckoutUrl, ttl, now, contHandler]);
 
   return (
     <div className="mt-10 flex flex-col items-center text-white">
@@ -76,32 +49,7 @@ function ModalContent({ onResolve }: { onResolve: VoidFunction }) {
         >
           {t('success-modal.btn-details')}
         </Button>
-
-        {afterCheckoutUrl && (
-          <Button className="mt-5 mobile:w-full" onClick={contHandler}>
-            {t('success-modal.btn-goto-athena')}
-          </Button>
-        )}
       </div>
-
-      {afterCheckoutUrl && ttl > now && (
-        <p className="mt-6 text-white/60">
-          <Trans i18nKey="success-modal.redirecting-msg" ns="billing">
-            Will Be Redirected in
-            <strong className="text-white">
-              (
-              {{
-                timeout: Math.min(
-                  Math.floor((ttl - now) / 1000) + 1,
-                  RESEND_TIMEOUT,
-                ),
-              }}
-              )
-            </strong>
-            Seconds.
-          </Trans>
-        </p>
-      )}
     </div>
   );
 }
