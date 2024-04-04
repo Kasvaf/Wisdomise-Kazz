@@ -52,9 +52,8 @@ pricing-card:
     next-plan: Next Plan
   forever: Forever
   free-subtitle: feel free to explore wisdomise
-  just-yearly: Just In Yearly
-  lock: Lock
   monthly: Monthly
+  notification-call-support: Call Support
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
@@ -62,7 +61,6 @@ pricing-card:
   pay-by-locking-in-yearly-only: 'Pay By Locking<1>WSDM</1>Token: Just In Annually'
   recommended: Wisdomise Recommend
   this-includes: 'This includes:'
-  notification-call-support: Call Support
 stripe:
   change-card-info:
     title: Change Card Info
@@ -111,8 +109,6 @@ success-modal:
   title: Thanks for subscribing
   subtitle: You can continue your journey
   btn-details: Subscription Details
-  btn-goto-athena: Go to Athena
-  redirecting-msg: Will Be Redirected in <1>({{timeout}})</1> Seconds.
 tabs:
   invoices: Invoices
   overview: Overview
