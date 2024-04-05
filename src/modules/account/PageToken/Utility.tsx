@@ -28,7 +28,7 @@ export default function Utility() {
   const [unlockModal, openUnlockModal] = useModal(UnlockModalContent, {
     width: 600,
   });
-  const { title, isFreePlan } = useSubscription();
+  const { title, plan, isFreePlan } = useSubscription();
   const { withdraw, isLoading } = useWithdraw();
 
   const openBillings = () => {
@@ -109,9 +109,16 @@ export default function Utility() {
                 </div>
               </div>
               {utilityStatus === 'locked' && (
-                <Button variant="secondary" onClick={openUnlockModal}>
-                  Unlock
-                </Button>
+                <div className="flex gap-4">
+                  {isFreePlan && (
+                    <Button variant="alternative" onClick={openBillings}>
+                      Activate
+                    </Button>
+                  )}
+                  <Button variant="secondary" onClick={openUnlockModal}>
+                    Unlock
+                  </Button>
+                </div>
               )}
               {(utilityStatus === 'pending_withdraw' ||
                 utilityStatus === 'pending_unlock') && (
@@ -136,10 +143,17 @@ export default function Utility() {
           <div className="h-full w-px border-r border-white/20 max-md:hidden"></div>
           <div className="h-px w-full border-t border-white/20 md:hidden"></div>
           <div>
-            <h3 className="mb-3 w-40 md:mb-9">
+            <h3 className="mb-3 md:mb-9 md:w-40">
               Your Current Subscription Plan
             </h3>
-            <div className="text-4xl">{title}</div>
+            <div className="text-nowrap text-4xl">
+              {title}
+              {!isFreePlan && (
+                <span className="ms-3 text-base text-white/60">
+                  / {plan?.periodicity.toLowerCase()}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       )}

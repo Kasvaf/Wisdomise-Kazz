@@ -12,6 +12,7 @@ import {
 import { addComma } from 'utils/numbers';
 import { type UtilityStatus } from 'modules/account/PageToken/Utility';
 import { useSubscription } from 'api';
+import { extractWagmiErrorMessage } from 'utils/error';
 
 export function useLockWithPermit() {
   const {
@@ -27,7 +28,7 @@ export function useLockWithPermit() {
   useEffect(() => {
     if (lockTrxReceipt?.status === 'success') {
       notification.success({
-        message: 'Your tokens locked successfully',
+        message: 'Your tokens are locked successfully',
       });
     }
   }, [lockTrxReceipt]);
@@ -35,7 +36,7 @@ export function useLockWithPermit() {
   useEffect(() => {
     if (error) {
       notification.error({
-        message: error.message,
+        message: extractWagmiErrorMessage(error.message),
       });
     }
   }, [error]);

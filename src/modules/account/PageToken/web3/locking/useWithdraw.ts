@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { notification } from 'antd';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWriteWithdraw } from 'modules/account/PageToken/web3/locking/contract';
+import { extractWagmiErrorMessage } from 'utils/error';
 
 export function useWithdraw() {
   const { refetchUnlockedInfo, refetchLockedInfo } = useLocking();
@@ -14,7 +15,7 @@ export function useWithdraw() {
 
   useEffect(() => {
     if (error) {
-      notification.error({ message: error.message });
+      notification.error({ message: extractWagmiErrorMessage(error.message) });
     }
   }, [error]);
 

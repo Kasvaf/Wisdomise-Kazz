@@ -11,6 +11,7 @@ import {
   useWriteMigrate,
 } from 'modules/account/PageToken/web3/migration/contract';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
+import { extractWagmiErrorMessage } from 'utils/error';
 
 export function useMigration() {
   const { address } = useAccount();
@@ -97,7 +98,7 @@ export function useMigration() {
   useEffect(() => {
     if (migrationError) {
       notification.error({
-        message: migrationError.message,
+        message: extractWagmiErrorMessage(migrationError.message),
       });
     }
   }, [migrationError]);

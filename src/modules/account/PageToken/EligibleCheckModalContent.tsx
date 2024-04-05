@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { notification } from 'antd';
 import Button from 'shared/Button';
 import { type AirdropEligibility } from 'api/airdrop';
 import { useAirdrop } from 'modules/account/PageToken/web3/airdrop/useAirdrop';
@@ -16,9 +15,6 @@ export default function EligibleCheckModalContent({
 
   useEffect(() => {
     if (claimReceipt?.status === 'success') {
-      notification.success({
-        message: 'You claimed your tokens successfully',
-      });
       onResolve();
     }
   }, [claimReceipt, onResolve]);

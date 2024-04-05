@@ -6,6 +6,7 @@ import {
   useWriteClaimAirdrop,
 } from 'modules/account/PageToken/web3/airdrop/contract';
 import type { AirdropEligibility } from 'api/airdrop';
+import { extractWagmiErrorMessage } from 'utils/error';
 
 export function useAirdrop(eligibility?: AirdropEligibility) {
   const { writeAsync, data: claimResult, isLoading } = useWriteClaimAirdrop();
@@ -30,9 +31,9 @@ export function useAirdrop(eligibility?: AirdropEligibility) {
           BigInt(eligibility.amount),
           eligibility.proofs,
         ],
-      }).catch(() =>
+      }).catch(error =>
         notification.error({
-          message: 'Claim Failed. The deadline is probably reached.',
+          message: extractWagmiErrorMessage(error.message),
         }),
       );
     }

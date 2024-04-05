@@ -2,6 +2,7 @@ import { useWaitForTransaction } from 'wagmi';
 import { useEffect } from 'react';
 import { notification } from 'antd';
 import { useWriteUnlock } from 'modules/account/PageToken/web3/locking/contract';
+import { extractWagmiErrorMessage } from 'utils/error';
 
 export function useUnlock() {
   const { write, data: result, isLoading, error } = useWriteUnlock();
@@ -12,7 +13,7 @@ export function useUnlock() {
 
   useEffect(() => {
     if (error) {
-      notification.error({ message: error.message });
+      notification.error({ message: extractWagmiErrorMessage(error.message) });
     }
   }, [error]);
 

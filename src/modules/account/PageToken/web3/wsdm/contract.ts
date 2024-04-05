@@ -11,6 +11,7 @@ import { notification } from 'antd';
 import { isProduction } from 'utils/version';
 import { WSDM_ABI } from 'modules/account/PageToken/web3/wsdm/abi';
 import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/locking/contract';
+import { extractWagmiErrorMessage } from 'utils/error';
 
 export const WSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
@@ -52,7 +53,7 @@ export function useWSDMPermitSignature() {
 
   useEffect(() => {
     if (error) {
-      notification.error({ message: error.message });
+      notification.error({ message: extractWagmiErrorMessage(error.message) });
     }
   }, [error]);
 

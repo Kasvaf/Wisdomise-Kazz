@@ -1,6 +1,17 @@
+import { useEffect } from 'react';
 import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 
 export default function TransactionConfirmedModalContent() {
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) =>
+      event.preventDefault();
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col items-center p-6 text-center">
       <WisdomiseLogo className="animate-pulse" />
