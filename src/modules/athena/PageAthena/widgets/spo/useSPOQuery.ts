@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { API_ORIGIN } from 'config/constants';
+import { TEMPLE_ORIGIN } from 'config/constants';
 import { type Risk } from './types';
 
 /**
@@ -13,7 +13,7 @@ export const useSPOQuery = (risk: Risk) =>
     ['spo', risk],
     async () => {
       const { data } = await axios.get(
-        `${API_ORIGIN}/api/v0/delphi/spo/last/?risk_profile=${risk}_risk`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/spo/last/?risk_profile=${risk}_risk`,
       );
       return {
         coins: (

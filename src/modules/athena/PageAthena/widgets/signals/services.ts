@@ -1,25 +1,20 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
-import { getJwtToken } from 'modules/auth/jwt-store';
 import { isLocal, isProduction } from 'utils/version';
 
 const USER_SIGNALS_REST =
   ACCOUNT_PANEL_ORIGIN + '/api/v1/notification/user-signals';
 
 export const useSubscribedSignalsQuery = () =>
-  useQuery(
-    ['subscribedSignals'],
-    async () => {
-      const { data } = await axios.get(ACCOUNT_PANEL_ORIGIN);
-      return data.results as Array<{
-        pair_name: string;
-        strategy_name: string;
-        key: string;
-      }>;
-    },
-    { enabled: !!getJwtToken() },
-  );
+  useQuery(['subscribedSignals'], async () => {
+    const { data } = await axios.get(USER_SIGNALS_REST);
+    return data.results as Array<{
+      pair_name: string;
+      strategy_name: string;
+      key: string;
+    }>;
+  });
 
 export const useSubscribeToSignalMutation = () =>
   useMutation<unknown, unknown, { pairName: string; strategyName: string }>({

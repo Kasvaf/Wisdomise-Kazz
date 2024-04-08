@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { API_ORIGIN } from 'config/constants';
+import { TEMPLE_ORIGIN } from 'config/constants';
 
 interface MarketInfoFromTelegramSignals {
   long_count: number;
@@ -17,7 +17,7 @@ export const useMarketInfoFromTelegramSignals = () =>
     queryKey: ['market-telegram-signal'],
     queryFn: async () => {
       const { data } = await axios.get<MarketInfoFromTelegramSignals>(
-        `${API_ORIGIN}/api/v0/delphi/telegram-radar/market-telegram-signal/?window_hours=24`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/telegram-radar/market-telegram-signal/?window_hours=24`,
       );
       return data;
     },
@@ -41,7 +41,7 @@ export const useCoinTelegramSignals = () =>
     queryKey: ['coins-telegram-signal'],
     queryFn: async () => {
       const { data } = await axios.get<CoinTelegramSignal[]>(
-        `${API_ORIGIN}/api/v0/delphi/telegram-radar/coins-telegram-signal/?window_hours=24`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/telegram-radar/coins-telegram-signal/?window_hours=24`,
       );
       return data;
     },
@@ -67,7 +67,7 @@ export const useCoinTelegramMessages = (symbol: string) =>
     queryKey: ['coins-telegram-message', symbol],
     queryFn: async () => {
       const { data } = await axios.get(
-        `${API_ORIGIN}/api/v0/delphi/telegram-radar/coin-telegram-messages/?window_hours=24&symbol_name=${symbol}`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/telegram-radar/coin-telegram-messages/?window_hours=24&symbol_name=${symbol}`,
       );
       return data;
     },
