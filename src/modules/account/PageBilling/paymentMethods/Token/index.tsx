@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCountdown } from 'usehooks-ts';
+import { useAccount } from 'wagmi';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { type SubscriptionPlan } from 'api/types/subscription';
@@ -27,11 +28,14 @@ export default function TokenPaymentModalContent({
   const [done, setDone] = useState(false);
   const { t } = useTranslation('billing');
   const [count, { startCountdown }] = useCountdown({ countStart: 30 * 60 });
-  const { data: lockingRequirement, refetch } = useLockingRequirementQuery(
+  const { address } = useAccount();
+  const { data: userLockingRequirement, refetch } = useLockingRequirementQuery(
     plan.price,
+    address,
   );
 
-  const price = lockingRequirement?.requirement_locking_amount.toLocaleString();
+  const price =
+    userLockingRequirement?.requirement_locking_amount.toLocaleString();
 
   useEffect(() => {
     void refetch();
