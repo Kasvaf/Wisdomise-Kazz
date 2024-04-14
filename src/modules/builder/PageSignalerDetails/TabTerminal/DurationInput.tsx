@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { Select } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useEffect, useState } from 'react';
@@ -25,8 +26,9 @@ const DurationInput: React.FC<Props> = ({ onChange, value, ...props }) => {
     <Select
       value={unit}
       onChange={setUnit}
-      className="bg-transparent"
+      className={clsx('bg-transparent', props.disabled && 'opacity-30')}
       suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
+      disabled={props.disabled}
     >
       <Option value="s">Second</Option>
       <Option value="m">Minute</Option>

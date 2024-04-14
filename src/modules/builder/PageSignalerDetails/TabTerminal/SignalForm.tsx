@@ -287,6 +287,7 @@ const SignalForm: React.FC<Props> = ({
               label="Order Expiration Time"
               value={orderExp}
               onChange={setOrderExp}
+              disabled={orderType === 'market'}
             />
           </div>
         </>
