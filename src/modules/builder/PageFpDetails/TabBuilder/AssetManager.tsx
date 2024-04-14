@@ -34,20 +34,15 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
     [allSignalers],
   );
 
-  const usedPairs = useMemo(
-    () =>
-      Object.fromEntries(
-        value.map(v => [v.strategy + v.asset.base.name, true]),
-      ),
+  const usedCoins = useMemo(
+    () => Object.fromEntries(value.map(v => [v.asset.base.name, true])),
     [value],
   );
 
   const nextItemToAdd = useMemo(() => {
-    console.log(signalers, usedPairs);
     for (const s of signalers) {
       for (const asset of s.assets) {
-        if (!usedPairs[s.key + asset.base.name]) {
-          console.log(s.key + asset.base.name);
+        if (!usedCoins[asset.base.name]) {
           return {
             strategy: s.key,
             asset,
@@ -56,11 +51,11 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
         }
       }
     }
-  }, [signalers, usedPairs, value]);
+  }, [signalers, usedCoins, value]);
 
   function signalerUnusedAssets(signalerKey: string, assetName?: string) {
     return signalerByKey[signalerKey]?.assets?.filter(
-      b => b.base.name === assetName || !usedPairs[signalerKey + b.base.name],
+      b => b.base.name === assetName || !usedCoins[b.base.name],
     );
   }
 
@@ -85,7 +80,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             signalers={signalers.filter(
               s =>
                 s.key === a.strategy ||
-                s.assets.some(a => !usedPairs[s.key + a.base.name]),
+                s.assets.some(a => !usedCoins[a.base.name]),
             )}
             selectedItem={a.strategy}
             onSelect={strategy => {
