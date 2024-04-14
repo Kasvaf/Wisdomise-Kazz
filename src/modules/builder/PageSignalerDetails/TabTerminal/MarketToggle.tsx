@@ -21,7 +21,7 @@ const MarketToggle: React.FC<Props> = ({ value, onChange }) => {
       <div
         className={clsx(
           'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/70',
-          value === 'short' ? '!bg-[#11C37E99]' : 'text-white/40',
+          value === 'short' ? '!bg-[#F1405699]' : 'text-white/40',
         )}
         onClick={() => onChange('short')}
       >
