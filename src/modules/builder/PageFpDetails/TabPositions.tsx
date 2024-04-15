@@ -58,7 +58,7 @@ const TabPositions = () => {
           onChange={setDateRange}
           value={dateRange}
           label="Date"
-          defaultRecent={3}
+          defaultRecent={7}
         />
 
         <SubscriberSelector
