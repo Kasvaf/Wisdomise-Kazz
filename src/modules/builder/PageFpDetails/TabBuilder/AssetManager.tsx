@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { bxX } from 'boxicons-quasar';
+import { NavLink } from 'react-router-dom';
 import {
   type MyFpAssets,
   useMyFinancialProductQuery,
@@ -8,6 +9,7 @@ import {
 import Button from 'shared/Button';
 import AmountInputBox from 'shared/AmountInputBox';
 import Icon from 'shared/Icon';
+import Banner from 'shared/Banner';
 import Spinner from 'shared/Spinner';
 import AssetSelector from '../../AssetSelector';
 import SignalerSelector from './SignalerSelector';
@@ -67,7 +69,18 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
     );
   }
 
-  if (value.length === 0 && signalers.length === 0) return null;
+  if (value.length === 0 && signalers.length === 0) {
+    return (
+      <Banner className="">
+        You haven&apos;t created any{' '}
+        <NavLink to="/builder/signalers" className="text-info">
+          Signlers
+        </NavLink>{' '}
+        to use in your product yet.
+      </Banner>
+    );
+  }
+
   return (
     <div className="flex min-w-[320px] max-w-[850px] grow flex-col items-stretch gap-2 rounded-xl bg-black/30 p-3">
       {value.map(a => (
