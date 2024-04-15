@@ -186,6 +186,10 @@ const SignalForm: React.FC<Props> = ({
         signalerKey: signaler.key,
         ...activePosition.signal,
         action: 'close',
+        position: {
+          ...activePosition.signal.position,
+          order_type: 'market',
+        },
       });
       notification.success({
         message:
