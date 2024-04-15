@@ -20,7 +20,7 @@ interface Props {
   onChange: (val: MyFpAssets) => void;
 }
 
-const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
+const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
   const { data: allSignalers, isLoading: signalersLoading } =
     useMySignalersQuery();
   const { data: fp } = useMyFinancialProductQuery(fpKey);
