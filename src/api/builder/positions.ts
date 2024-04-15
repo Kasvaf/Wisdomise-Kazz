@@ -57,6 +57,8 @@ export const useMySignalerOpenPositions = (
     {
       enabled: !!signaler,
       staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: 10 * 1000,
+      refetchIntervalInBackground: true,
     },
   );
 
