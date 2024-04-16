@@ -6,15 +6,15 @@ import {
   type SignalsResponse,
   type SuggestedAction,
 } from './types/signalResponse';
-import { type PairData } from './types/strategy';
+import { type PairDataFull, type PairData } from './types/strategy';
 import normalizePair from './normalizePair';
 
 export const useSignalerPairs = () =>
-  useQuery<PairData[]>(
+  useQuery<PairDataFull[]>(
     ['signaler-pairs'],
     async () => {
-      const { data } = await axios.get<PairData[]>('strategy/pairs');
-      return data.map(normalizePair);
+      const { data } = await axios.get<PairDataFull[]>('strategy/pairs');
+      return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,

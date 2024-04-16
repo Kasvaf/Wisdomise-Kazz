@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCoinTelegramSignals, useSignalsQuery } from 'api';
+import { useCoinTelegramSignals, useSignalerPairs, useSignalsQuery } from 'api';
 import uniqueBy from 'utils/uniqueBy';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
@@ -15,10 +15,10 @@ const SignalMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
   const { data: radar } = useCoinTelegramSignals();
   const {
-    data: { last_positions: positions, pairs } = {},
+    data: { last_positions: positions } = {},
     isLoading: isLoadingSignals,
   } = useSignalsQuery();
-  // const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
+  const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
 
   const strategies = useMemo(
     () =>
@@ -49,7 +49,7 @@ const SignalMatrix: React.FC = () => {
     [pairs, positions, radar],
   );
 
-  if (isLoadingSignals /* || isLoadingPairs */) {
+  if (isLoadingSignals || isLoadingPairs) {
     return (
       <div className="mt-8 flex justify-center">
         <Spinner />

@@ -13,3 +13,8 @@ export interface PairData {
   base: { name: string };
   quote: { name: string };
 }
+
+export interface PairDataFull extends PairData {
+  time_window_pnl: number;
+  time_window_prices: number[];
+}

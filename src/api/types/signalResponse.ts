@@ -1,14 +1,7 @@
 import { type ThinStrategy } from 'api/signaler';
-import { type PairData } from './strategy';
 
 export interface SignalsResponse {
-  pairs: Pair[];
   last_positions: LastPosition[];
-}
-
-interface Pair extends PairData {
-  time_window_pnl: number;
-  time_window_prices: number[];
 }
 
 export type SuggestedAction =
