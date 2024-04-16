@@ -108,16 +108,18 @@ function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
     .map(([key, items]) => ({
       key,
       pair: items[0].pair,
-      items: items.map(p => {
-        const si: SegmentItem = {
-          start: toRatio(p.entry_time),
-          end: toRatio(p.exit_time || end),
-          color: p.pnl < 0 ? 'error' : 'success',
-          weight: Math.abs(p.pnl) / maxPnl,
-          hover: <PositionHover p={p} />,
-        };
-        return si;
-      }),
+      items: items
+        .filter(p => p.entry_time)
+        .map(p => {
+          const si: SegmentItem = {
+            start: toRatio(p.entry_time || start),
+            end: toRatio(p.exit_time || end),
+            color: p.pnl < 0 ? 'error' : 'success',
+            weight: Math.abs(p.pnl) / maxPnl,
+            hover: <PositionHover p={p} />,
+          };
+          return si;
+        }),
     }));
 
   return positionsGrouped;

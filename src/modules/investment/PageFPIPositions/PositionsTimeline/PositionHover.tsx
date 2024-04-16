@@ -7,8 +7,8 @@ import PriceChange from 'shared/PriceChange';
 
 const TimeBox: React.FC<{
   title: string;
-  price: number;
-  time: string;
+  price?: number;
+  time?: string;
   className?: string;
 }> = ({ title, price, time, className }) => (
   <div className={clsx('rounded-2xl bg-black/20 p-3', className)}>

@@ -1,6 +1,6 @@
 import * as numerable from 'numerable';
 
-const FancyPrice: React.FC<{ value: number; className?: string }> = ({
+const FancyPrice: React.FC<{ value?: number; className?: string }> = ({
   value,
   className,
 }) => {
