@@ -1,9 +1,8 @@
 import type React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { roundDown } from 'utils/numbers';
-import { useInvestorAssetStructuresQuery } from 'api';
+import { useInvestorAssetStructuresQuery, useMainQuote } from 'api';
 import { trackClick } from 'config/segment';
-import useMainQuote from 'shared/useMainQuote';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import ModalDeposit from 'modules/account/wallet/ModalDeposit';

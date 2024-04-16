@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { type FinancialProduct } from 'api/types/financialProduct';
-import useMainQuote from 'shared/useMainQuote';
+import { useMainQuote } from 'api';
 import Card from 'shared/Card';
 
 const InvestmentInfoBox: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {

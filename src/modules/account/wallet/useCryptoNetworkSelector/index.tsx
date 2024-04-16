@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInvestorAssetStructuresQuery, useMarketNetworksQuery } from 'api';
+import {
+  useInvestorAssetStructuresQuery,
+  useMarketNetworksQuery,
+  useMainQuote,
+} from 'api';
 import { type Network } from 'api/types/NetworksResponse';
-import useMainQuote from 'shared/useMainQuote';
 import CryptoSelector from './CryptoSelector';
 import NetworkSelector from './NetworkSelector';
 

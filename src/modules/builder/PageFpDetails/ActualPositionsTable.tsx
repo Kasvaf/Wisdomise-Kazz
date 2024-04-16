@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import { useMemo } from 'react';
 import * as numerable from 'numerable';
 import { type ColumnType } from 'antd/es/table';
-import useMainQuote from 'shared/useMainQuote';
+import { useMainQuote } from 'api';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
 import { type StrategyPosition } from 'api/builder';
