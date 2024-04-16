@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { type PairData } from 'api/types/strategy';
 import { useSignalerQuery, useSignalerPerfQuery } from 'api/builder';
 import InfoBox from 'modules/builder/InfoBox';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import PriceChange from 'shared/PriceChange';
 import Spinner from 'shared/Spinner';
@@ -14,12 +14,12 @@ const TabPerformance = () => {
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
 
-  const [asset, setAsset] = useState<PairData>();
+  const [assetName, setAssetName] = useSearchParamAsState('asset');
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
   const { data, isLoading } = useSignalerPerfQuery({
     signalerKey: params.id,
-    assetName: asset?.name,
+    assetName,
     startTime: dateRange?.[0].toISOString(),
     endTime: dateRange?.[1].toISOString(),
   });
@@ -30,7 +30,7 @@ const TabPerformance = () => {
       : undefined;
 
   const inputted = Boolean(
-    params.id && asset?.name && dateRange?.[0] && dateRange?.[1],
+    params.id && assetName && dateRange?.[0] && dateRange?.[1],
   );
 
   return (
@@ -39,9 +39,9 @@ const TabPerformance = () => {
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
-          assets={signaler?.assets}
-          selectedItem={asset}
-          onSelect={setAsset}
+          assets={signaler?.assets.map(x => x.name)}
+          selectedItem={assetName}
+          onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
         />

@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCandlesQuery } from 'api';
-import { type PairData } from 'api/types/strategy';
 import { useFpPositionsQuery, useMyFinancialProductQuery } from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
 import { bestResolution } from 'shared/CandleChart/utils';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import CandleChart from 'shared/CandleChart';
 import Spinner from 'shared/Spinner';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import AssetSelector from '../AssetSelector';
 import PositionsTable from './ActualPositionsTable';
 import SubscriberSelector from './SubscriberSelector';
@@ -18,24 +18,24 @@ const TabPositions = () => {
   const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
   const { data: fp } = useMyFinancialProductQuery(params.id);
-  const [asset, setAsset] = useState<PairData>();
+  const [assetName, setAssetName] = useSearchParamAsState('asset');
   const [dateRange, setDateRange] = useState<[Date, Date]>();
   const [subscriberKey, setSubscriberKey] = useState('');
 
   const { data: positionsDiff, isLoading } = useFpPositionsQuery({
     fpKey: params.id,
     subscriberKey,
-    assetName: asset?.name,
+    assetName,
     startTime: dateRange?.[0]?.toISOString(),
     endTime: dateRange?.[1]?.toISOString(),
   });
 
   const inputted = Boolean(
-    params.id && asset?.name && dateRange?.[0] && dateRange?.[1],
+    params.id && assetName && dateRange?.[0] && dateRange?.[1],
   );
 
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
-    asset: asset?.name,
+    asset: assetName,
     resolution: bestResolution(dateRange),
     startDateTime: dateRange?.[0]?.toISOString(),
     endDateTime: dateRange?.[1]?.toISOString(),
@@ -47,9 +47,9 @@ const TabPositions = () => {
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
-          assets={fp?.assets?.map(x => x.asset)}
-          selectedItem={asset}
-          onSelect={setAsset}
+          assets={fp?.assets?.map(x => x.asset.name)}
+          selectedItem={assetName}
+          onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
         />
@@ -87,7 +87,7 @@ const TabPositions = () => {
                 </div>
               )}
 
-              {!isMobile && asset && candles && !candlesLoading && (
+              {!isMobile && assetName && candles && !candlesLoading && (
                 <>
                   <CandleChart
                     candles={candles}

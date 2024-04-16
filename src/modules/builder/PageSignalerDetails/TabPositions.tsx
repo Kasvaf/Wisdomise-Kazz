@@ -2,28 +2,28 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCandlesQuery } from 'api';
-import { type PairData } from 'api/types/strategy';
 import { useSignalerQuery, useMySignalerAllPositions } from 'api/builder';
-import useIsMobile from 'utils/useIsMobile';
 import { bestResolution } from 'shared/CandleChart/utils';
-import DateRangeSelector from 'shared/DateRangeSelector';
-import Spinner from 'shared/Spinner';
+import useIsMobile from 'utils/useIsMobile';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import ActivePosition from 'modules/insight/signaler/ActivePosition';
 import SimulatedPositionsTable from 'modules/insight/signaler/SimulatedPositionsTable';
 import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
+import DateRangeSelector from 'shared/DateRangeSelector';
+import Spinner from 'shared/Spinner';
 import AssetSelector from '../AssetSelector';
 
 const TabPositions = () => {
   const { t } = useTranslation('strategy');
-  const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
+  const isMobile = useIsMobile();
   const { data: signaler } = useSignalerQuery(params.id);
-  const [asset, setAsset] = useState<PairData>();
+  const [assetName, setAssetName] = useSearchParamAsState('asset');
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
   const { data, isLoading } = useMySignalerAllPositions({
     signalerKey: params.id,
-    assetName: asset?.name,
+    assetName,
     startTime: dateRange?.[0]?.toISOString(),
     endTime: dateRange?.[1]?.toISOString(),
   });
@@ -41,7 +41,7 @@ const TabPositions = () => {
   const simulatedPositions = allPositions?.filter(x => x.exit_time);
 
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({
-    asset: asset?.name,
+    asset: assetName,
     resolution: bestResolution(dateRange),
     startDateTime: dateRange?.[0]?.toISOString(),
     endDateTime: dateRange?.[1]?.toISOString(),
@@ -53,9 +53,9 @@ const TabPositions = () => {
         <AssetSelector
           label="Crypto"
           placeholder="Select Crypto"
-          assets={signaler?.assets}
-          selectedItem={asset}
-          onSelect={setAsset}
+          assets={signaler?.assets.map(x => x.name)}
+          selectedItem={assetName}
+          onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
         />
@@ -98,7 +98,7 @@ const TabPositions = () => {
                 </div>
               )}
 
-              {!isMobile && asset && (
+              {!isMobile && assetName && (
                 <SimulatedPositionsChart
                   candles={candles}
                   loading={candlesLoading}

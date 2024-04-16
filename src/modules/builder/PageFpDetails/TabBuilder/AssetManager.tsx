@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { bxX } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
+import { useSignalerPairByNames } from 'api';
 import {
   type MyFpAssets,
   useMyFinancialProductQuery,
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
+  const pairByName = useSignalerPairByNames();
   const { data: allSignalers, isLoading: signalersLoading } =
     useMySignalersQuery();
   const { data: fp } = useMyFinancialProductQuery(fpKey);
@@ -115,10 +117,16 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
             }}
           />
           <AssetSelector
-            assets={signalerUnusedAssets(a.strategy, a.asset.base.name)}
-            selectedItem={a.asset}
+            assets={signalerUnusedAssets(a.strategy, a.asset.base.name).map(
+              x => x.name,
+            )}
+            selectedItem={a.asset.name}
             onSelect={asset =>
-              onChange(value.map(v => (v === a ? { ...a, asset } : v)))
+              onChange(
+                value.map(v =>
+                  v === a ? { ...a, asset: pairByName[asset] } : v,
+                ),
+              )
             }
             className="w-[220px] mobile:w-full"
           />

@@ -10,7 +10,7 @@ export default function useSearchParamAsState<T extends string>(
 ) {
   const [searchParams, setSearchParams] = useSearchParams();
   return [
-    String(searchParams.get(paramName) ?? unwrap(defaultVal)) as T,
+    String(searchParams.get(paramName) ?? unwrap(defaultVal) ?? '') as T,
     (newVal: T) => {
       setSearchParams(
         currentSearchParams => {

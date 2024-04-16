@@ -1,14 +1,15 @@
 import type React from 'react';
 import { useEffect } from 'react';
-import { type PairData } from 'api/types/strategy';
 import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
+import { useSignalerPair } from 'api';
 
-const AssetOptionItem = (asset: PairData) => {
+const AssetOptionItem: React.FC<{ assetName: string }> = ({ assetName }) => {
+  const asset = useSignalerPair(assetName);
   if (!asset?.name || !asset.base) {
     return (
       <div className="flex items-center justify-start p-2 pl-6">
-        {asset.display_name}
+        {asset?.display_name || assetName}
       </div>
     );
   }
@@ -27,9 +28,9 @@ const AssetOptionItem = (asset: PairData) => {
 interface Props {
   label?: string;
   loading?: boolean;
-  assets?: PairData[];
-  selectedItem?: PairData;
-  onSelect?: (asset: PairData) => void;
+  assets?: string[];
+  selectedItem?: string;
+  onSelect?: (asset: string) => void;
   disabled?: boolean;
   all?: boolean;
   placeholder?: string;
@@ -37,7 +38,6 @@ interface Props {
   selectFirst?: boolean;
 }
 
-const ALL = { display_name: 'All assets' };
 const AssetSelector: React.FC<Props> = ({
   label,
   loading,
@@ -60,14 +60,16 @@ const AssetSelector: React.FC<Props> = ({
     <div className={className}>
       {label && <label className="mb-2 ml-4 block">{label}</label>}
       <ComboBox
-        options={all ? [ALL, ...assets] : assets}
+        options={all ? ['All assets', ...assets] : assets}
         selectedItem={
           loading
-            ? { display_name: 'Loading...' }
-            : selectedItem ?? (all ? ALL : { display_name: placeholder })
+            ? 'Loading...'
+            : selectedItem ?? (all ? 'All assets' : placeholder)
         }
         onSelect={onSelect}
-        renderItem={AssetOptionItem}
+        renderItem={(assetName: string) => (
+          <AssetOptionItem assetName={assetName} />
+        )}
         disabled={disabled}
         className="!justify-start !px-2"
         optionClassName="!p-0"
