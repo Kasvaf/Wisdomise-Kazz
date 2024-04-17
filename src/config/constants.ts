@@ -9,7 +9,6 @@ const subdomainPrefix = isProduction ? '' : 'stage-';
 const makeOrigin = (name: string) =>
   `https://${subdomainPrefix}${name}.${DOMAIN}`;
 
-export const API_ORIGIN = makeOrigin('api');
 export const CHATAPP_ORIGIN = makeOrigin('chatapp');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const MAIN_LANDING = (lng: string) =>

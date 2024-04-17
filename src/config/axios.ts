@@ -2,7 +2,7 @@ import axios, { type AxiosError } from 'axios';
 import { getJwtToken } from 'modules/auth/jwt-store';
 import { AFTER_LOGIN_KEY } from 'modules/auth/constants';
 import { login } from 'modules/auth/authHandlers';
-import { API_ORIGIN, RouterBaseName, TEMPLE_ORIGIN } from './constants';
+import { RouterBaseName, TEMPLE_ORIGIN } from './constants';
 
 export default function configAxios() {
   axios.defaults.baseURL = TEMPLE_ORIGIN + '/api/v1/';
@@ -12,16 +12,9 @@ export default function configAxios() {
    * Add Authorization Token
    */
   axios.interceptors.request.use(config => {
-    if (config.url?.startsWith(API_ORIGIN)) {
-      config.headers.set(
-        'Authorization',
-        `Token ${import.meta.env.VITE_API_TOKEN as string}`,
-      );
-    } else {
-      const jwtToken = getJwtToken();
-      if (jwtToken) {
-        config.headers.set('Authorization', 'Bearer ' + jwtToken);
-      }
+    const jwtToken = getJwtToken();
+    if (jwtToken) {
+      config.headers.set('Authorization', 'Bearer ' + jwtToken);
     }
 
     return config;

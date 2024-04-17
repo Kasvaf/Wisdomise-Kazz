@@ -5,7 +5,7 @@ import {
   type FinancialProduct,
   type FinancialProductsResponse,
 } from 'api/types/financialProduct';
-import { API_ORIGIN } from 'config/constants';
+import { TEMPLE_ORIGIN } from 'config/constants';
 
 export const useFinancialProductsQuery = () =>
   useQuery(
@@ -30,7 +30,7 @@ export const useInvestmentProtocolsQuery = () =>
     ['ipq'],
     async () => {
       const { data } = await axios.get<{ protocols: InvestmentProtocol[] }>(
-        `${API_ORIGIN}/api/v0/delphi/protocol/`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/protocols/`,
       );
       return data.protocols;
     },
