@@ -1,35 +1,13 @@
 import { Tabs, type TabsProps } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useHasFlag } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import TabUsage from './TabUsage';
 import TabBuilder from './TabBuilder';
 import TabPositions from './TabPositions';
 import TabPerformance from './TabPerformance';
-
-const items: TabsProps['items'] = [
-  {
-    key: 'build',
-    label: 'Product Builder',
-    children: <TabBuilder />,
-  },
-  {
-    key: 'perf',
-    label: 'Performance',
-    children: <TabPerformance />,
-  },
-  {
-    key: 'pos',
-    label: 'Positions',
-    children: <TabPositions />,
-  },
-  {
-    key: 'usage',
-    label: 'Usage',
-    children: <TabUsage />,
-  },
-];
 
 export default function PageFpDetails() {
   const params = useParams<{ id: string }>();
@@ -44,6 +22,31 @@ export default function PageFpDetails() {
     'tab',
     'build',
   );
+
+  const hasFlag = useHasFlag();
+  const items: TabsProps['items'] = [
+    {
+      key: 'build',
+      label: 'Product Builder',
+      children: <TabBuilder />,
+    },
+    {
+      key: 'perf',
+      label: 'Performance',
+      children: <TabPerformance />,
+    },
+    {
+      key: 'pos',
+      label: 'Positions',
+      children: <TabPositions />,
+    },
+    {
+      key: 'usage',
+      label: 'Usage',
+      children: <TabUsage />,
+    },
+  ].filter(x => hasFlag('?tab=' + x.key));
+  // 🚩 /builder/fp/[id]?tab=key
 
   return (
     <PageWrapper>
