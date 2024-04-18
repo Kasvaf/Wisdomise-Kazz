@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 
 export default function TransactionConfirmedModalContent() {
+  const { t } = useTranslation('billing');
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) =>
       event.preventDefault();
@@ -16,12 +18,9 @@ export default function TransactionConfirmedModalContent() {
     <div className="flex flex-col items-center p-6 text-center">
       <WisdomiseLogo className="animate-pulse" />
       <h3 className="my-5 text-2xl text-white">
-        Do not refresh or close your browser
+        {t('token-modal.confirmed.title')}
       </h3>
-      <p>
-        Your transaction has been successfully submitted and is being processed.
-        Please wait for the transaction to complete.
-      </p>
+      <p>{t('token-modal.confirmed.description')}</p>
     </div>
   );
 }

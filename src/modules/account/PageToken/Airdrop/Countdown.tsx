@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Countdown() {
+  const { t } = useTranslation('wisdomise-token');
   const countdownRef = useRef<HTMLDivElement>(null);
   const daysFirstLetterRef = useRef<HTMLSpanElement>(null);
   const daysSecondLetterRef = useRef<HTMLSpanElement>(null);
@@ -12,14 +14,20 @@ export default function Countdown() {
   const secondsSecondLetterRef = useRef<HTMLSpanElement>(null);
 
   const UNITS = [
-    { name: 'days', lettersRefs: [daysFirstLetterRef, daysSecondLetterRef] },
-    { name: 'hours', lettersRefs: [hoursFirstLetterRef, hoursSecondLetterRef] },
     {
-      name: 'minutes',
+      name: t('airdrop.countdown.days'),
+      lettersRefs: [daysFirstLetterRef, daysSecondLetterRef],
+    },
+    {
+      name: t('airdrop.countdown.hours'),
+      lettersRefs: [hoursFirstLetterRef, hoursSecondLetterRef],
+    },
+    {
+      name: t('airdrop.countdown.minutes'),
       lettersRefs: [minutesFirstLetterRef, minutesSecondLetterRef],
     },
     {
-      name: 'seconds',
+      name: t('airdrop.countdown.seconds'),
       lettersRefs: [secondsFirstLetterRef, secondsSecondLetterRef],
     },
   ];
@@ -87,8 +95,8 @@ export default function Countdown() {
 
   return (
     <div className="max-md:w-full">
-      <p className="mb-3">Remaining time to claim</p>
-      <div id="countdown" className="text-center text-white" ref={countdownRef}>
+      <p className="mb-3">{t('airdrop.countdown.remaining-time')}</p>
+      <div className="text-center text-white" ref={countdownRef}>
         <ul className="grid grid-cols-4 gap-6">
           {UNITS.map(time => {
             return (

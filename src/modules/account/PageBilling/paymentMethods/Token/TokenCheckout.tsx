@@ -134,7 +134,9 @@ export default function TokenCheckout({
             >
               {userLockingRequirement?.current_locking_amount?.toLocaleString()}
             </div>
-            <div className="text-sm opacity-50">Already Locked Balance</div>
+            <div className="text-sm opacity-50">
+              {t('token-modal.already-locked')}
+            </div>
           </div>
         ) : (
           <div className="text-center">

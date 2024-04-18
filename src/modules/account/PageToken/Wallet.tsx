@@ -14,12 +14,12 @@ export default function Wallet() {
   return (
     <Card className="relative flex flex-col justify-between gap-8">
       <WalletIcon className="absolute right-0 top-0 m-7" />
-      <h2 className="mb-2 text-2xl font-medium">My Wallet</h2>
+      <h2 className="mb-2 text-2xl font-medium">{t('wallet.title')}</h2>
       <div className="flex items-end gap-6 max-md:flex-wrap">
         <CopyInputBox
           className="-mb-6 grow"
           value={account?.wallet_address}
-          label="Connected Wallet"
+          label={t('wallet.connected-wallet')}
           style="alt"
         />
         <Button
@@ -27,7 +27,7 @@ export default function Wallet() {
           variant="alternative"
           onClick={() => disconnect()}
         >
-          {t('connect-wallet.disconnect')}
+          {t('wallet.disconnect')}
         </Button>
       </div>
     </Card>

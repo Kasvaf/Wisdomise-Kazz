@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { Tooltip } from 'antd';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import { WSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/wsdm/contract';
 import { TWSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/twsdm/contract';
@@ -51,6 +52,7 @@ export default function ImportTokenButton({
   variant = 'primary-purple',
   className,
 }: ImportTokenButtonProps) {
+  const { t } = useTranslation('wisdomise-token');
   const token = TOKENS.find(token => token.symbol === tokenSymbol);
 
   const importToken = async () => {
@@ -84,7 +86,7 @@ export default function ImportTokenButton({
         ) : (
           <WIcon className="h-6 w-6" />
         )}
-        Import {token?.name}
+        {t('import')} {token?.name}
         <Tooltip title={token?.description}>
           <InfoIcon className="mb-4" />
         </Tooltip>

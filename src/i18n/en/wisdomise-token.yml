@@ -1,3 +1,27 @@
+title: <0>Wisdomise Token</0><1>WSDM</1>
+airdrop:
+  title: Airdrop
+  description: >-
+    Airdrop Tokens are distributed to eligible participants who took part in our
+    campaigns. More info available on our socials.
+  check: Check Eligibility
+  countdown:
+    days: days
+    hours: hours
+    minutes: minutes
+    remaining-time: Remaining time to claim
+    seconds: seconds
+  eligibility:
+    already-claimed: You already claimed your tokens.
+    claim: Claim Now
+    close: Close
+    eligible: You are <1>eligible<1> to claim
+    not-eligible: You are <1>not eligible<1> for this round of WSDM Airdrop
+balance:
+  title: WSDM Token
+  subtitle: Balance
+  description: Use tokens for premium access
+  buy: Buy WSDM
 connect-wallet:
   billing:
     title: Payment by Wisdomise Token
@@ -5,7 +29,6 @@ connect-wallet:
       Your Wisdomise Tokens will not be deducted, you will only need to hold the
       tokens in your wallet for the subscription period in order to gain access.
   connect: Connect Wallet
-  disconnect: Disconnect
   not-sync: >-
     This wallet is not synced with the current account, please switch back to
     your previously used wallet. In order to use a new wallet, contact us.
@@ -15,3 +38,59 @@ connect-wallet:
   wisdomise-token:
     title: Connect Wallet
     description: To view utility status and your WSDM balance, connect your wallet.
+import: Import
+migration:
+  title: tWSDM Migration
+  description: >-
+    You participated to our private Round and own tWSDM Tokens, you MUST migrate
+    to WSDM Tokens (1:1 ratio) here.
+  migrate: Migrate Now
+utility:
+  title: <0>WSDM</0><1>Utility</1>
+  subtitle: Utility Activation
+  description: Utilities your WSDM Tokens to get access to the Wisdomise Platform
+  activate: Activate
+  activate-sub: Activate Subscription
+  already-active: You already have an active subscription.
+  amount: Amount
+  current-sub: Your Current Subscription Plan
+  loading: Loading
+  lock-description: Lock your $WSDM tokens to gain access to our products.
+  lock-tokens: Lock Tokens
+  lock-tooltip: >-
+    You already have an active subscription, you either need wait until it ends
+    to utilize your tokens to get access.
+  lock-wsdm: Lock WSDM
+  locked: Locked
+  pending-unlock: Pending for Unlock
+  pending-withdrawal: Pending for Withdrawal
+  ready: Ready
+  remaining-time: 'Remaining Time:'
+  unlock: Unlock
+  unlock-modal:
+    title: Unlock WSDM tokens
+    description: >-
+      By unlocking your WSDM tokens, you are opting out of our subscription
+      services. <1></1><2>Withdrawals are available in 7 days.</2>
+    amount: Amount
+    cancel-sub: Cancel Subscription
+    days: 7 Days
+    downgrade-warn: 'Warning: your current subscription will be downgraded to free plan.'
+    not-now: Not Now
+    withdraw-available: Withdraw available in
+  withdraw: Withdraw
+vesting:
+  title: Vesting
+  description: 'Private Token Rounds Are Shown Here:'
+  claim: Claim
+  claimable: Claimable Amount
+  next-unlock: Next Unlock
+  tooltip: >-
+    Private Rounds are subject to a cliff and vesting period based on our
+    Tokenomics. After the cliff period, vesting starts and you can claim your
+    tokens on a monthly basis here.
+  total-investment: Total Investment Amount
+wallet:
+  title: My Wallet
+  connected-wallet: Connected Wallet
+  disconnect: Disconnect Wallet

@@ -11,7 +11,7 @@ import { useLockingRequirementQuery } from 'api/defi';
 import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 import { ReactComponent as Done } from '../../images/done.svg';
 import { ReactComponent as ClockIcon } from './clock.svg';
-import ConnectWalletWrapper from './ConnectWalletWrapper';
+import ConnectWalletGuard from './ConnectWalletGuard';
 import TokenCheckout from './TokenCheckout';
 
 interface Props {
@@ -116,14 +116,13 @@ export default function TokenPaymentModalContent({
             </div>
           </div>
           <div className="mt-6 rounded-2xl bg-black/30 p-4">
-            <p className="mb-3 text-white/60">
-              By engaging in the WSDM Tokens Lockup, you hereby consent to the
-              following terms.
-            </p>
+            <p className="mb-3 text-white/60">{t('token-modal.disclaimer')}</p>
             <p className="text-white/60">
-              <span className="font-bold text-white">Unlock Period:</span> WSDM
-              Tokens are subject to a 7-day unlock period. WSDM Tokens are fully
-              withdrawable without incurring any fees.
+              <Trans i18nKey="billing:token-modal.unlock-period" ns="billing">
+                <span className="font-bold text-white">Unlock Period:</span>{' '}
+                WSDM Tokens are subject to a 7-day unlock period. WSDM Tokens
+                are fully withdrawable without incurring any fees.
+              </Trans>
             </p>
           </div>
         </div>
@@ -155,7 +154,7 @@ export default function TokenPaymentModalContent({
             />
           </Card>
         ) : (
-          <ConnectWalletWrapper
+          <ConnectWalletGuard
             className="mobile:m-4 lg:w-3/4"
             title={t('wisdomise-token:connect-wallet.billing.title')}
             description={t(
@@ -168,7 +167,7 @@ export default function TokenPaymentModalContent({
               setDone={setDone}
               invoiceKey={invoiceKey}
             />
-          </ConnectWalletWrapper>
+          </ConnectWalletGuard>
         )}
       </div>
     </div>

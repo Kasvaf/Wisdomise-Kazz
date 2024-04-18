@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { Tooltip } from 'antd';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 
@@ -13,6 +14,7 @@ import { ReactComponent as LockIcon } from './icons/lock.svg';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 
 export default function Vesting() {
+  const { t } = useTranslation('wisdomise-token');
   const {
     roundDetails,
     claimStrategicShare,
@@ -37,13 +39,13 @@ export default function Vesting() {
     <Card className="relative mt-6">
       <LockIcon className="absolute right-0 top-0 m-7" />
       <h2 className="mb-2 flex items-center gap-2 text-2xl font-medium">
-        Vesting
-        <Tooltip title="Private Rounds are subject to a cliff and vesting period based on our Tokenomics. After the cliff period, vesting starts and you can claim your tokens on a monthly basis here.">
+        {t('vesting.title')}
+        <Tooltip title={t('vesting.tooltip')}>
           <InfoIcon className="mb-4" />
         </Tooltip>
       </h2>
       <p className="pb-3 text-sm text-white/40 max-md:max-w-60">
-        Private Token Rounds Are Shown Here:
+        {t('vesting.description')}
       </p>
       {roundDetails.map(round => {
         return (
@@ -56,7 +58,7 @@ export default function Vesting() {
             <div className="flex grow items-center justify-between gap-y-6 max-md:flex-wrap md:gap-x-4">
               <div>
                 <div className="mb-3 text-sm text-white/40">
-                  <span>Total Investment Amount</span>
+                  <span>{t('vesting.total-investment')}</span>
                 </div>
                 <div>
                   <span>{addComma((round.totalAmount ?? 0n) / 10n ** 6n)}</span>{' '}
@@ -65,7 +67,9 @@ export default function Vesting() {
               </div>
               <div>
                 <div className="mb-3">
-                  <span className="text-sm text-white/40">Next unlock</span>
+                  <span className="text-sm text-white/40">
+                    {t('vesting.next-unlock')}
+                  </span>
                   {findNextRelease(round.id) !== 0 && (
                     <span className="ms-2">
                       <span>
@@ -92,7 +96,7 @@ export default function Vesting() {
               </div>
               <div>
                 <div className="mb-3 text-sm text-white/40">
-                  <span>Claimable Amount</span>
+                  <span>{t('vesting.claimable')}</span>
                 </div>
                 <div>
                   {addComma((round.claimable ?? 0n) / 10n ** 6n)}{' '}
@@ -110,7 +114,7 @@ export default function Vesting() {
                 }
                 onClick={() => handleClaim(round.id)}
               >
-                Claim
+                {t('vesting.claim')}
               </Button>
             </div>
           </div>

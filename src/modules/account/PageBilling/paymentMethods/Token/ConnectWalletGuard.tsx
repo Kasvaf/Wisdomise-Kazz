@@ -23,7 +23,7 @@ interface Props {
   description: string;
 }
 
-export default function ConnectWalletWrapper({
+export default function ConnectWalletGuard({
   children,
   className,
   title,

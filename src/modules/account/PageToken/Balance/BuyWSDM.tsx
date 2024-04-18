@@ -1,6 +1,7 @@
 import { Dropdown } from 'antd';
 import { useCallback, useState } from 'react';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import DropdownContainer from 'shared/DropdownContainer';
 import { ReactComponent as Bybit } from './images/bybit.svg';
@@ -21,6 +22,7 @@ const EXCHANGES = [
 ];
 
 export default function BuyWSDM({ className }: { className?: string }) {
+  const { t } = useTranslation('wisdomise-token');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedExchangeName, setSelectedExchangeName] = useState('Bybit');
 
@@ -56,7 +58,7 @@ export default function BuyWSDM({ className }: { className?: string }) {
           className="text-nowrap px-6 py-4"
           onClick={() => window.open(selectedExchange?.url, '_blank')}
         >
-          Buy WSDM
+          {t('balance.buy')}
         </div>
         <Dropdown
           open={isOpen}

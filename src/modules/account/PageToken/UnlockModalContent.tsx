@@ -1,5 +1,6 @@
 import { notification } from 'antd';
 import { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import Button from 'shared/Button';
 import { useUnlock } from 'modules/account/PageToken/web3/locking/useUnlock';
@@ -12,6 +13,7 @@ export default function UnlockModalContent({
 }: {
   onResolve: VoidFunction;
 }) {
+  const { t } = useTranslation('wisdomise-token');
   const { lockedBalance, refetchUnlockedInfo } = useLocking();
   const { unlock, isLoading, trxReceipt } = useUnlock();
   const { mutateAsync: cancelSub, isLoading: isCanceling } =
@@ -40,21 +42,34 @@ export default function UnlockModalContent({
       <div className="mb-6 flex h-28 w-28 items-center justify-between rounded-full bg-black/20">
         <UnlockIcon />
       </div>
-      <h1 className="mb-3 text-2xl font-medium">Unlock WSDM tokens</h1>
+      <h1 className="mb-3 text-2xl font-medium">
+        {t('utility.unlock-modal.title')}
+      </h1>
       <p className="text-sm text-white/60">
-        By unlocking your WSDM tokens, you are opting out of our subscription
-        services. <br />
-        <span className="text-white">Withdrawals are available in 7 days.</span>
+        <Trans
+          i18nKey="wisdomise-token:utility.unlock-modal.description"
+          ns="wisdomise-token"
+        >
+          By unlocking your WSDM tokens, you are opting out of our subscription
+          services. <br />
+          <span className="text-white">
+            Withdrawals are available in 7 days.
+          </span>
+        </Trans>
       </p>
       <div className="my-8 flex w-full items-center justify-between gap-y-8 rounded-2xl bg-black/30 p-10 text-start max-md:flex-wrap">
         <div>
           <h2 className="mb-3 text-sm text-white/60">
-            Withdrawal available in
+            {t('utility.unlock-modal.withdraw-available')}
           </h2>
-          <div className="text-xl font-semibold">7 Days</div>
+          <div className="text-xl font-semibold">
+            {t('utility.unlock-modal.days')}
+          </div>
         </div>
         <div>
-          <h2 className="mb-3 text-sm text-white/60">Amount</h2>
+          <h2 className="mb-3 text-sm text-white/60">
+            {t('utility.unlock-modal.amount')}
+          </h2>
           <div className="flex items-end gap-2">
             <span className="text-xl font-semibold">{lockedBalance}</span>{' '}
             <span className="font-light">WSDM</span>
@@ -62,11 +77,11 @@ export default function UnlockModalContent({
         </div>
       </div>
       <p className="mb-6 text-sm text-red-400">
-        Warning: your current subscription will be downgraded to free plan.
+        {t('utility.unlock-modal.downgrade-warn')}
       </p>
       <div className="mb-4 flex w-full gap-4 max-md:flex-col">
         <Button className="grow" variant="secondary" onClick={onResolve}>
-          Not Now
+          {t('utility.unlock-modal.not-now')}
         </Button>
         <Button
           className="grow"
@@ -75,7 +90,7 @@ export default function UnlockModalContent({
           variant="secondary-red"
           onClick={() => unlock()}
         >
-          Cancel Subscription
+          {t('utility.unlock-modal.cancel-sub')}
         </Button>
       </div>
     </div>

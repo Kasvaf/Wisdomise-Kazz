@@ -16,9 +16,9 @@ export default function Balance() {
     <Card className="relative flex flex-col items-start justify-between gap-8">
       <WSDMIcon className="absolute right-0 top-0" />
       <div>
-        <h2 className="mb-2 text-2xl font-medium">WSDM Token</h2>
+        <h2 className="mb-2 text-2xl font-medium">{t('balance.title')}</h2>
         <p className="text-sm text-white/40 max-md:w-48">
-          Use tokens for premium access
+          {t('balance.description')}
         </p>
       </div>
       <Button
@@ -32,7 +32,7 @@ export default function Balance() {
       </Button>
       <div className="flex w-full flex-col gap-4">
         <div>
-          <div>Balance</div>
+          <div>{t('balance.subtitle')}</div>
           <div className="flex flex-wrap items-end gap-2">
             <span className="text-3xl">
               {addComma(Number(wsdmBalance?.value ?? 0n) / 10 ** 6)}

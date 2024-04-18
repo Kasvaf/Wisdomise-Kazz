@@ -1,5 +1,6 @@
 import { useAccount } from 'wagmi';
 import { Tooltip } from 'antd';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import useModal from 'shared/useModal';
@@ -9,6 +10,7 @@ import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
 import { ReactComponent as InfoIcon } from '../icons/info.svg';
 
 export default function Airdrop() {
+  const { t } = useTranslation('wisdomise-token');
   const [Modal, showModal] = useModal(EligibleCheckModalContent, {
     destroyOnClose: true,
   });
@@ -24,8 +26,8 @@ export default function Airdrop() {
     <>
       <Card className="relative mt-6 flex flex-wrap items-center justify-between gap-6 bg-gradient-to-bl from-[rgba(97,82,152,0.40)] from-15% to-[rgba(66,66,123,0.40)] to-75%">
         <h2 className="flex items-center gap-2 text-2xl font-medium">
-          Airdrop
-          <Tooltip title="Airdrop Tokens are distributed to eligible participants who took part in our campaigns. More info available on our socials.">
+          {t('airdrop.title')}
+          <Tooltip title={t('airdrop.description')}>
             <InfoIcon className="mb-4" />
           </Tooltip>
         </h2>
@@ -37,7 +39,7 @@ export default function Airdrop() {
           loading={isFetching}
           disabled={isFetching}
         >
-          Check Eligibility
+          {t('airdrop.check')}
         </Button>
       </Card>
       {Modal}

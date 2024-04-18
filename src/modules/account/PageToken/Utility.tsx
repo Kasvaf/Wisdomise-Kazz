@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { Tooltip } from 'antd';
+import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import useModal from 'shared/useModal';
@@ -20,6 +21,7 @@ export type UtilityStatus =
   | 'pending_withdraw';
 
 export default function Utility() {
+  const { t } = useTranslation('wisdomise-token');
   const [pricingTableModal, openPricingTable] = useModal(PricingTable, {
     width: 1200,
   });
@@ -39,29 +41,29 @@ export default function Utility() {
     <Card className="relative flex gap-8 max-md:flex-wrap">
       <SubscriptionIcon className="absolute right-0 top-0" />
       <h2 className="mb-2 flex items-center gap-2 self-start text-2xl font-medium">
-        Utility Activation
-        <Tooltip title="Utilities your WSDM Tokens to get access to the Wisdomise Platform">
+        {t('utility.subtitle')}
+        <Tooltip title={t('utility.description')}>
           <InfoIcon className="mb-4" />
         </Tooltip>
       </h2>
       {utilityStatus === 'already_active' ? (
         <p className="flex flex-wrap items-center gap-2 text-white/60">
-          You already have an active subscription.
+          {t('utility.already-active')}
           <Button disabled={true} variant="alternative">
-            Lock WSDM
+            {t('utility.lock-wsdm')}
           </Button>
-          <Tooltip title="You already have an active subscription, you either need wait until it ends to utilize your tokens to get access.">
+          <Tooltip title={t('utility.lock-tooltip')}>
             <InfoIcon className="mb-4" />
           </Tooltip>
         </p>
       ) : utilityStatus === 'pending_lock' ? (
         <div className="mt-2 flex grow flex-col items-center text-center md:me-40">
-          <strong className="mb-2 font-medium">Activate Subscription</strong>
-          <p className="mb-4 text-white/40">
-            Lock your $WSDM tokens to gain access to our products.
-          </p>
+          <strong className="mb-2 font-medium">
+            {t('utility.activate-sub')}
+          </strong>
+          <p className="mb-4 text-white/40">{t('utility.lock-description')}</p>
           <Button variant="primary-purple" onClick={openBillings}>
-            Lock WSDM
+            {t('utility.lock-wsdm')}
           </Button>
         </div>
       ) : (
@@ -69,19 +71,19 @@ export default function Utility() {
           <div className="flex grow flex-col justify-between">
             <h3 className="mb-6">
               {utilityStatus === 'locked'
-                ? 'Locked'
+                ? t('utility.locked')
                 : utilityStatus === 'pending_unlock'
-                ? 'Pending for Unlock'
+                ? t('utility.pending-unlock')
                 : utilityStatus === 'pending_withdraw'
-                ? 'Pending for Withdrawal'
-                : 'Loading'}
+                ? t('utility.pending-withdrawal')
+                : t('utility.loading')}
             </h3>
             <div className="flex flex-wrap items-center justify-between gap-4">
               {(utilityStatus === 'pending_unlock' ||
                 utilityStatus === 'pending_withdraw') && (
                 <div>
                   <h4 className="mb-2 text-sm text-white/60">
-                    Remaining Time:
+                    {t('utility.remaining-time')}
                   </h4>
                   {utilityStatus === 'pending_unlock' && (
                     <div className="text-xl font-semibold">
@@ -91,14 +93,16 @@ export default function Utility() {
                   {utilityStatus === 'pending_withdraw' && (
                     <div className="flex items-center gap-2">
                       <BadgeIcon />
-                      <div>Ready</div>
+                      <div>{t('utility.ready')}</div>
                     </div>
                   )}
                 </div>
               )}
 
               <div>
-                <h3 className="mb-2 text-sm text-white/60">Amount</h3>
+                <h3 className="mb-2 text-sm text-white/60">
+                  {t('utility.amount')}
+                </h3>
                 <div className="flex items-end gap-2">
                   <span className="text-xl font-semibold">
                     {utilityStatus === 'locked'
@@ -112,11 +116,11 @@ export default function Utility() {
                 <div className="flex gap-4">
                   {isFreePlan && (
                     <Button variant="alternative" onClick={openBillings}>
-                      Activate
+                      {t('utility.activate')}
                     </Button>
                   )}
                   <Button variant="secondary" onClick={openUnlockModal}>
-                    Unlock
+                    {t('utility.unlock')}
                   </Button>
                 </div>
               )}
@@ -129,11 +133,11 @@ export default function Utility() {
                     loading={isLoading}
                     onClick={() => withdraw()}
                   >
-                    Withdraw
+                    {t('utility.withdraw')}
                   </Button>
                   {isFreePlan && (
                     <Button variant="alternative" onClick={openBillings}>
-                      Lock Tokens
+                      {t('utility.lock-tokens')}
                     </Button>
                   )}
                 </div>
@@ -143,9 +147,7 @@ export default function Utility() {
           <div className="h-full w-px border-r border-white/20 max-md:hidden"></div>
           <div className="h-px w-full border-t border-white/20 md:hidden"></div>
           <div>
-            <h3 className="mb-3 md:mb-9 md:w-40">
-              Your Current Subscription Plan
-            </h3>
+            <h3 className="mb-3 md:mb-9 md:w-40">{t('utility.current-sub')}</h3>
             <div className="text-nowrap text-4xl">
               {title}
               {!isFreePlan && (
