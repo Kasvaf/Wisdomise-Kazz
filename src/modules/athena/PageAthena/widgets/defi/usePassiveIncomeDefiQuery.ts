@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { API_ORIGIN } from 'config/constants';
+import { TEMPLE_ORIGIN } from 'config/constants';
 
 export const usePassiveIncomeDefiQuery = () =>
   useQuery(['passiveIncomeDeFi'], async () => {
-    const { data } = await axios.get(`${API_ORIGIN}/api/v0/delphi/protocol/`);
+    const { data } = await axios.get(
+      `${TEMPLE_ORIGIN}/api/v1/delphi/protocols/`,
+    );
     return data.protocols as DefiProtocol[];
   });
 

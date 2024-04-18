@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useCoinTelegramMessages } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
-import { API_ORIGIN } from 'config/constants';
+import { TEMPLE_ORIGIN } from 'config/constants';
 import AuthorizedImage from 'shared/AuthorizedImage';
 import { ReactComponent as TelegramIcon } from './images/Telegram.svg';
 
@@ -43,7 +43,7 @@ export default function PageSocialRadarDetail() {
               {msg.photo_url && (
                 <AuthorizedImage
                   className="mb-2 max-h-[700px] w-full rounded"
-                  src={API_ORIGIN + msg.photo_url}
+                  src={TEMPLE_ORIGIN + msg.photo_url}
                 />
               )}
               <pre className="overflow-hidden whitespace-pre-line text-xs text-white/60">

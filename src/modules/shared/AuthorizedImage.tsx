@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getJwtToken } from 'modules/auth/jwt-store';
 
 export default function AuthorizedImage(
   props: React.DetailedHTMLProps<
@@ -13,7 +14,7 @@ export default function AuthorizedImage(
     if (src) {
       void fetch(src, {
         headers: {
-          Authorization: `Token ${import.meta.env.VITE_API_TOKEN as string}`,
+          Authorization: `Bearer ${getJwtToken() || ''}`,
         },
       }).then(async res => {
         const blob = await res.blob();

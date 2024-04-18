@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { API_ORIGIN, CHATAPP_ORIGIN } from 'config/constants';
+import { CHATAPP_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 
 interface ProtocolInfo {
   name: string;
@@ -23,7 +23,7 @@ interface ProtocolInfo {
 export const useProtocolInfoQuery = (id?: string) =>
   useQuery(['protocol', id], async () => {
     const { data } = await axios.get<ProtocolInfo>(
-      `${API_ORIGIN}/api/v0/delphi/protocol/${id ?? ''}`,
+      `${TEMPLE_ORIGIN}/api/v1/delphi/protocols/${id ?? ''}`,
     );
     return data;
   });
@@ -60,7 +60,7 @@ export const useProtocolPoolsQuery = (
       search && params.set('search', search);
       page && params.set('page', page.toString());
       const { data } = await axios.get<ProtocolPools>(
-        `${API_ORIGIN}/api/v0/delphi/protocol/${
+        `${TEMPLE_ORIGIN}/api/v1/delphi/protocols/${
           id ?? ''
         }/pools?${params.toString()}`,
         { signal },
@@ -105,7 +105,7 @@ interface ProtocolTvlHistory {
 export const useProtocolTvlHistory = (id?: string) =>
   useQuery(['protocolTvlHistory', id], async () => {
     const { data } = await axios.get<ProtocolTvlHistory>(
-      `${API_ORIGIN}/api/v0/delphi/protocol/${id ?? ''}/hist_tvl?res=7d`,
+      `${TEMPLE_ORIGIN}/api/v1/delphi/protocols/${id ?? ''}/hist_tvl?res=7d`,
     );
     return data.data;
   });
@@ -113,7 +113,7 @@ export const useProtocolTvlHistory = (id?: string) =>
 export const usePoolTvlHistory = (id?: string) =>
   useQuery(['poolTvlHistory', id], async () => {
     const { data } = await axios.get<Array<{ tvl: number; date: string }>>(
-      `${API_ORIGIN}/api/v0/delphi/pool/${id ?? ''}/hist_tvl?res=7d`,
+      `${TEMPLE_ORIGIN}/api/v1/delphi/pools/${id ?? ''}/hist_tvl?res=7d`,
     );
     return data;
   });
@@ -121,7 +121,7 @@ export const usePoolTvlHistory = (id?: string) =>
 export const usePoolApyHistory = (id?: string) =>
   useQuery(['poolApyHistory', id], async () => {
     const { data } = await axios.get<Array<{ tvl: number; date: string }>>(
-      `${API_ORIGIN}/api/v0/delphi/pool/${id ?? ''}/hist_apy?res=7d`,
+      `${TEMPLE_ORIGIN}/api/v1/delphi/pools/${id ?? ''}/hist_apy?res=7d`,
     );
     return data;
   });
