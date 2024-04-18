@@ -104,7 +104,7 @@ export default function PageFpCreate() {
             />
 
             <div className="basis-1/4">
-              <div className="mb-2 ml-4">Risk Level</div>
+              <div className="mb-2 ml-2">Risk Level</div>
               <Select
                 className="w-full"
                 placeholder="Risk Level"

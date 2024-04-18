@@ -8,9 +8,10 @@ interface Props {
   title?: string;
   text: string;
   className?: string;
+  size?: number;
 }
 
-const InfoButton: React.FC<Props> = ({ title, text, className }) => {
+const InfoButton: React.FC<Props> = ({ title, text, size = 12, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -26,7 +27,7 @@ const InfoButton: React.FC<Props> = ({ title, text, className }) => {
       </Modal>
       <FabButton
         className={clsx('opacity-70', className)}
-        size={12}
+        size={size}
         icon={bxQuestionMark}
         onClick={() => setIsOpen(true)}
       />

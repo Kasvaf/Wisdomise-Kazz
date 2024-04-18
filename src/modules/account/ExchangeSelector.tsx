@@ -41,7 +41,7 @@ const ExchangeSelector: React.FC<Props> = ({
 
   return (
     <div className={className}>
-      {label && <label className="mb-2 ml-4 block">{label}</label>}
+      {label && <label className="mb-2 ml-2 block">{label}</label>}
 
       <ComboBox
         options={exchanges}

@@ -8,8 +8,9 @@ import {
 } from 'api/builder';
 import { roundDown } from 'utils/numbers';
 import { unwrapErrorMessage } from 'utils/error';
-import useConfirm from 'shared/useConfirm';
 import AmountInputBox from 'shared/AmountInputBox';
+import useConfirm from 'shared/useConfirm';
+import InfoButton from 'shared/InfoButton';
 import Button from 'shared/Button';
 import MarketToggle from './MarketToggle';
 import DurationInput from './DurationInput';
@@ -283,12 +284,32 @@ const SignalForm: React.FC<Props> = ({
         <>
           <div className="flex items-end gap-2">
             <DurationInput
-              label="Expiration Time"
+              label={
+                <div className="flex items-center">
+                  Expiration Time
+                  <InfoButton
+                    size={10}
+                    className="ml-1 !opacity-50"
+                    title="Expiration Time"
+                    text="Specifies how long a signal remains valid for entry."
+                  />
+                </div>
+              }
               value={exp}
               onChange={setExp}
             />
             <DurationInput
-              label="Order Expiration Time"
+              label={
+                <div className="flex items-center">
+                  Order Expiration Time
+                  <InfoButton
+                    size={10}
+                    className="ml-1 !opacity-50"
+                    title="Order Expiration Time"
+                    text="Sets a time limit for the execution of a limit order. If the order isn't filled by this time, it's automatically canceled."
+                  />
+                </div>
+              }
               value={orderExp}
               onChange={setOrderExp}
               disabled={orderType === 'market'}
