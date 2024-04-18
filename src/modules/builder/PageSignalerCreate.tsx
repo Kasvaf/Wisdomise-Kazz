@@ -16,7 +16,7 @@ import TitleHint from './TitleHint';
 export default function PageSignalerCreate() {
   const [showErrors, setShowErrors] = useState(false);
   const [name, setName] = useState('');
-  const [market, setMarket] = useState<MarketTypes>('SPOT');
+  const [market, setMarket] = useState<MarketTypes>('FUTURES');
   const [resolution, setResolution] = useState<Resolution>('1m');
 
   const { mutateAsync, isLoading } = useCreateSignalerMutation();
