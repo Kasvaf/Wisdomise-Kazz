@@ -118,7 +118,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
           />
           <AssetSelector
             assets={signalerUnusedAssets(a.strategy, a.asset.base.name).map(
-              x => x.name,
+              x => x.base.name,
             )}
             selectedItem={a.asset.name}
             onSelect={asset =>
