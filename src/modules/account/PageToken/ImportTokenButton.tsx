@@ -6,7 +6,6 @@ import { TWSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/twsdm/con
 import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/locking/contract';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 import { ReactComponent as WIcon } from './icons/w.svg';
-import { ReactComponent as WSDMIcon } from './icons/wsdm.svg';
 
 export interface Ethereum {
   request: (args: {
@@ -77,9 +76,13 @@ export default function ImportTokenButton({
     >
       <div className="flex items-center gap-2">
         {token?.symbol === 'WSDM' ? (
-          <WSDMIcon className="h-8 w-8" />
+          <img
+            src="https://s2.coinmarketcap.com/static/img/coins/64x64/30102.png"
+            className="h-8 w-8"
+            alt="wsdm-token"
+          />
         ) : (
-          <WIcon className="h-8 w-8" />
+          <WIcon className="h-6 w-6" />
         )}
         Import {token?.name}
         <Tooltip title={token?.description}>
