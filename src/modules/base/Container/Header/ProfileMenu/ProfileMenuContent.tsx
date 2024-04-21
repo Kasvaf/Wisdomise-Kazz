@@ -4,12 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bxChevronRight, bxLinkExternal } from 'boxicons-quasar';
 import { type PropsWithChildren } from 'react';
-import {
-  useIsVerified,
-  useAccountQuery,
-  useSubscription,
-  useReferralStatusQuery,
-} from 'api';
+import { useAccountQuery, useSubscription, useReferralStatusQuery } from 'api';
 import { openHubSpot } from 'config/hubSpot';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
@@ -90,7 +85,6 @@ const ProfileMenuContent = () => {
   const { t, i18n } = useTranslation('base');
   const subscription = useSubscription();
   const { data: account } = useAccountQuery();
-  const { verifiedCount } = useIsVerified();
   const isMobile = useIsMobile();
 
   return (
@@ -142,27 +136,6 @@ const ProfileMenuContent = () => {
             </div>
           </WithChevron>
         </NavLink>
-
-        {false && (
-          <NavLink
-            to="/account/kyc"
-            className="flex h-16 items-center justify-between border-b border-b-black/10 p-3 hover:bg-black/40"
-          >
-            <div className="text-white/80">KYC</div>
-            <WithChevron>
-              <div className="text-right">
-                <div
-                  className={clsx(
-                    'text-base font-medium leading-6',
-                    verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
-                  )}
-                >
-                  {verifiedCount}/3
-                </div>
-              </div>
-            </WithChevron>
-          </NavLink>
-        )}
 
         {!isMobile && <ReferralSection />}
       </div>

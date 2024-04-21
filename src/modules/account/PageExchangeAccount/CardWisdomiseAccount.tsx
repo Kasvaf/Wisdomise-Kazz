@@ -2,14 +2,13 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as LogoSvg } from 'assets/logo-horizontal-beta.svg';
 import Card from 'shared/Card';
-import { useIsVerified, useSubscription } from 'api';
+import { useSubscription } from 'api';
 
 const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
   className,
 }) => {
   const { t } = useTranslation('external-accounts');
   const sub = useSubscription();
-  const { verifiedCount } = useIsVerified();
 
   return (
     <Card className={className}>
@@ -38,11 +37,6 @@ const CardWisdomiseAccount: React.FC<{ className?: string }> = ({
             {t('page-accounts.subscription')}
           </div>
           <div className="flex h-full items-center">{sub.title}</div>
-        </div>
-
-        <div className="flex flex-col">
-          <div className="mb-3 text-xs text-white/60">{t('kyc:title')}</div>
-          <div className="flex h-full items-center">{verifiedCount}/3</div>
         </div>
       </div>
     </Card>

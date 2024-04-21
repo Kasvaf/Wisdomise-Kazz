@@ -1,68 +1,6 @@
 import axios from 'axios';
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { useAccountQuery } from './account';
-import { useMarketNetworksQuery } from './market';
-import { useInvestorAssetStructuresQuery } from './ias';
-import { type Network } from './types/NetworksResponse';
-
-interface RawVerifiedWallet {
-  name?: string | null;
-  address: string;
-  network: {
-    name: string; // TRX
-    description: string; // Tron (TRC20)
-  };
-  symbol: {
-    name: string; // USDT
-    title: string; // Tether USDt
-  };
-}
-
-const useRawWallets = () =>
-  useQuery<RawVerifiedWallet[]>(['wallets'], async () => {
-    const { data } = await axios.get<{ results: RawVerifiedWallet[] }>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/kyc/wallets`,
-    );
-    return data.results;
-  });
-
-export interface VerifiedWallet {
-  name?: string | null;
-  address: string;
-  network?: Network;
-  symbol: {
-    name: string; // USDT
-    title: string; // Tether USDt
-  };
-}
-
-export const useVerifiedWallets = () => {
-  const ias = useInvestorAssetStructuresQuery();
-  const mea = ias.data?.[0]?.main_exchange_account;
-  const mainQuote = mea?.quote.name || '';
-
-  const networks = useMarketNetworksQuery({
-    usage: 'withdrawable',
-    symbol: mainQuote,
-    exchangeAccountKey: mea?.key,
-  });
-  const wallets = useRawWallets();
-
-  return useMemo(
-    () => ({
-      isLoading: (mea && networks.isLoading) || wallets.isLoading,
-      data: wallets.data?.map(wallet => ({
-        ...wallet,
-        network:
-          networks.data?.find(net => net.name === wallet.network.name) ||
-          wallet.network,
-      })),
-    }),
-    [networks, wallets, mea],
-  );
-};
 
 export const useSumsubVerified = () =>
   useQuery(['ssLevels'], async () => {
@@ -73,35 +11,6 @@ export const useSumsubVerified = () =>
     }>(`${ACCOUNT_PANEL_ORIGIN}/api/v1/kyc/user-kyc-levels`);
     return data.results?.[0]?.status || 'UNVERIFIED';
   });
-
-export const useIsVerified = () => {
-  const sumsubVerified = useSumsubVerified();
-  const account = useAccountQuery();
-  const wallets = useRawWallets();
-  return useMemo(() => {
-    const isLoading =
-      sumsubVerified.isLoading || account.isLoading || wallets.isLoading;
-    const identified = sumsubVerified.data;
-    const verified = account.data?.wisdomise_verification_status;
-    const addedWallet = Boolean(wallets.data?.length);
-
-    return {
-      isLoading,
-      isAllVerified:
-        sumsubVerified.data === 'VERIFIED' &&
-        account.data?.wisdomise_verification_status === 'VERIFIED' &&
-        Boolean(wallets.data?.length),
-      identified,
-      verified,
-      addedWallet,
-      verifiedCount: isLoading
-        ? '?'
-        : (identified === 'VERIFIED' ? 1 : 0) +
-          (verified === 'VERIFIED' ? 1 : 0) +
-          (addedWallet ? 1 : 0),
-    };
-  }, [sumsubVerified, account, wallets]);
-};
 
 // const levelName = 'basic-kyc-level';
 const levelName = 'Onlineident natural person';

@@ -2,8 +2,6 @@
 import * as numerable from 'numerable';
 import { useCallback, useRef, useState } from 'react';
 import { notification } from 'antd';
-import { bxInfoCircle } from 'boxicons-quasar';
-import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   useConfirmWithdrawMutation,
@@ -16,13 +14,12 @@ import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
 import MultiButton from 'shared/MultiButton';
 import { unwrapErrorMessage } from 'utils/error';
-import { type VerifiedWallet } from 'api/kyc';
-import Banner from 'shared/Banner';
 import AmountInputBox from 'shared/AmountInputBox';
+import TextBox from 'shared/TextBox';
+import useCryptoNetworkSelector from '../useCryptoNetworkSelector';
 import useWithdrawalConfirm from './useWithdrawalConfirm';
 import useWithdrawSuccess from './useWithdrawSuccess';
 import useSecurityInput from './useSecurityInput';
-import WalletSelector from './WalletSelector';
 
 const InfoLabel = ({
   label,
@@ -52,11 +49,22 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   const { t } = useTranslation('wallet');
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
-  const [wallet, setWallet] = useState<VerifiedWallet>();
+  const [wallet, setWallet] = useState<string>('');
+
+  const {
+    component: CryptoNetworkSelector,
+    loading: cryptoNetLoading,
+    crypto,
+    network,
+  } = useCryptoNetworkSelector({ usage: 'withdrawable' });
 
   const available = roundDown(mea?.quote_equity ?? 0);
-  const fee = +(wallet?.network?.binance_info?.withdrawFee ?? 0);
-  const minWithdrawable = +(wallet?.network?.binance_info?.withdrawMin ?? 0);
+  const fee = +(network?.binance_info?.withdrawFee ?? 0);
+  const minWithdrawable = +(network?.binance_info?.withdrawMin ?? 0);
+  const isWalletValid = new RegExp(
+    network.binance_info?.addressRegex ?? '',
+  ).test(wallet);
+  const [showError, setShowErrors] = useState(false);
 
   // ----------------------------------------------------
 
@@ -65,8 +73,8 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   if (Number.parseFloat(amount) < minWithdrawable) {
     amountError = t('modal-withdraw.error-min-amount', {
       minAmount: String(minWithdrawable),
-      symbol: wallet?.symbol.name || '',
-      wallet: wallet?.network?.name || '',
+      symbol: crypto.name || '',
+      wallet: network?.name || '',
     });
   } else if (Number.parseFloat(amount) > available) {
     amountError = t('modal-withdraw.error-max-amount');
@@ -93,10 +101,10 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
   );
 
   const withdrawInfo = {
-    crypto: wallet?.symbol.name || '',
-    network: wallet?.network,
+    crypto: crypto.name || '',
+    network,
     amount: Number.parseFloat(amount),
-    wallet: wallet?.address || '',
+    wallet: wallet || '',
     fee,
     source: mea?.exchange_market.market.name || '',
   };
@@ -112,13 +120,13 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     if (!exchangeAccountKey) throw new Error('unexpected');
     return await createWithdraw({
       tx_type: 'WITHDRAW',
-      symbol_name: wallet.symbol.name,
-      network_name: wallet.network?.name || '',
-      address: wallet.address,
+      symbol_name: crypto.name,
+      network_name: network?.name || '',
+      address: wallet,
       amount,
       exchangeAccountKey,
     });
-  }, [amount, createWithdraw, ias.data, wallet]);
+  }, [amount, createWithdraw, crypto.name, ias.data, network?.name, wallet]);
 
   const transactionKey = useRef('');
   const resendWithdrawEmail = useResendWithdrawEmailMutation();
@@ -209,23 +217,15 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
     <div className="text-white">
       <h1 className="mb-6 text-center text-xl">{t('modal-withdraw.title')}</h1>
 
-      <Banner icon={bxInfoCircle} className="mb-10">
-        <span className="text-white/80">
-          {t('modal-withdraw.banner.description')}
-        </span>{' '}
-        <NavLink
-          to="/account/kyc"
-          className="font-bold underline"
-          rel="noreferrer"
-          onClick={onResolve}
-        >
-          {t('modal-withdraw.banner.btn-verify-wallet')}
-        </NavLink>
-      </Banner>
-
+      <div className="mb-9">{CryptoNetworkSelector}</div>
       <div className="mb-9">
         <div className="mb-1 ml-3">{t('wallet-address')}</div>
-        <WalletSelector selectedItem={wallet} onSelect={setWallet} />
+        <TextBox
+          onChange={setWallet}
+          value={wallet}
+          error={showError && isWalletValid && 'Invalid wallet address.'}
+          onBlur={() => setShowErrors(true)}
+        />
       </div>
 
       <div className="mb-9">
@@ -233,7 +233,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         <AmountInputBox
           value={String(amount)}
           onChange={setAmount}
-          suffix={wallet?.symbol.name}
+          suffix={crypto.name}
           error={amountError}
         />
       </div>
@@ -249,14 +249,14 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         <InfoLabel
           label={t('available')}
           value={available}
-          unit={wallet?.symbol.name}
+          unit={crypto.name}
         />
         <InfoLabel
           label={t('modal-withdraw.min-withdrawal')}
           value={minWithdrawable}
-          unit={wallet?.symbol.name}
+          unit={crypto.name}
         />
-        <InfoLabel label="Network-Fee" value={fee} unit={wallet?.symbol.name} />
+        <InfoLabel label="Network-Fee" value={fee} unit={crypto.name} />
       </div>
 
       <div className="flex justify-center">
@@ -265,10 +265,11 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
           variant="primary"
           onClick={withdrawHandler}
           disabled={Boolean(
-            !wallet?.symbol.name ||
-              !wallet?.network?.name ||
-              !wallet ||
+            cryptoNetLoading ||
+              !crypto.name ||
+              !network.name ||
               !amount ||
+              !wallet ||
               amountError,
           )}
         >
