@@ -22,7 +22,7 @@ signaling:
     connect: Telegram に接続
     hint: ソーシャルで通知を受け取る
     is-connected: 電報が接続されました。
-    label: Telegram に接続
+    label: テレグラムを開く
     open: Telegram を開く
   description: 次のシグナルからご希望のものをご選択ください。
   modal-connected:

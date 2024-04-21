@@ -1,6 +1,6 @@
 action-confirm:
   cancel: 取消
-  stop-description: 请注意，通过停止策略，您的所有未平仓交易都将在“市场”上出售。价格。最终盈亏将在平仓后计算。
+  stop-description: 请注意，停止策略后，您所有未平仓交易将以“市场”价格出售。最终的盈亏将在平仓后计算。
   title: 你确定吗 <1>{{typeLabel}}</1> 这个产品？
   yes: 是的， <1>{{typeLabel}}</1>
 actions:
@@ -31,10 +31,10 @@ list:
   of-total-balance: 总余额
   title: 您的活跃金融产品
 notification-activated:
-  btn-dashboard: 後台
+  btn-dashboard: 转至仪表板
   btn-kyc: 前往实名认证
   kyc-notice: 但请注意，只要您尚未验证您的账户，我们最多只能使用您钱包中的 1000 美元进行交易。
-  message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何人工智能驱动的策略
+  message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何 AI 驱动的策略。
   title: 恭喜！
 notification-deactivated:
   message: 策略停用成功！
@@ -86,6 +86,6 @@ subscription:
     title: 订阅
   upgrade:
     btn-confirm: 升级
-    description: 要使用该产品，您需要 <1>升级</1> 您的订阅。
+    description: 要使用本产品，您需要 <1>升级</1> 您订阅 <4>{{minPlan}}</4>。
     subtitle: 您当前的订阅不包括您要激活的产品。
     title: 升级订阅

@@ -8,6 +8,7 @@ import configI18n from './i18n';
 import { configSegment } from './segment';
 import configSentry from './sentry';
 import configAnalytics from './analytics';
+import queryClient from './reactQuery';
 
 configAxios();
 configSentry();
@@ -27,5 +28,6 @@ export default function useConfig() {
   useEffect(() => {
     dayjs.locale(i18n.language);
     lang = i18n.language;
-  }, [i18n]);
+    void queryClient.refetchQueries();
+  }, [i18n.language]);
 }
