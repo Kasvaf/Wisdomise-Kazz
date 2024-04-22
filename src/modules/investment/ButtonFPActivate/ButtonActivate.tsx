@@ -5,10 +5,10 @@ import { useInvestorAssetStructuresQuery, useCreateFPIMutation } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { trackClick } from 'config/segment';
 import Button from 'shared/Button';
-import useModalExchangeAccountSelector from 'modules/account/useModalExchangeAccountSelector';
 import useModalApiKey from './useModalApiKey';
 import useModalDisclaimer from './useModalDisclaimer';
 import useEnsureSubscription from './useEnsureSubscription';
+import useModalFpActivation from './useModalFpActivation';
 
 interface Props {
   inDetailPage?: boolean;
@@ -26,17 +26,12 @@ const ButtonActivate: React.FC<Props> = ({
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
   const hasIas = Boolean(ias.data?.[0]?.main_exchange_account);
-  const market =
-    (fp.config.can_use_external_account &&
-      fp.config.external_account_market_type) ||
-    undefined;
 
   const fpis = ias.data?.[0]?.financial_product_instances;
   const isOtherFPActive =
     (fpis?.length || 0) > 0 && fp?.key !== fpis?.[0]?.financial_product.key;
 
-  const [ModalExchangeAccountSelector, showModalExchangeAccountSelector] =
-    useModalExchangeAccountSelector();
+  const [ModalFpActivation, showModalFpActivation] = useModalFpActivation();
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
   const [ModalApiKey, showModalApiKey] = useModalApiKey();
   const [SubscribeModal, ensureSubscribed] = useEnsureSubscription(fp);
@@ -50,7 +45,7 @@ const ButtonActivate: React.FC<Props> = ({
       return;
     }
 
-    const acc = await showModalExchangeAccountSelector({ market });
+    const acc = await showModalFpActivation({ financialProduct: fp });
     if (!acc) return;
 
     trackClick('activate_strategy_wallet', {
@@ -77,7 +72,7 @@ const ButtonActivate: React.FC<Props> = ({
       </Button>
 
       {SubscribeModal}
-      {ModalExchangeAccountSelector}
+      {ModalFpActivation}
       {ModalDisclaimer}
       {ModalApiKey}
     </>

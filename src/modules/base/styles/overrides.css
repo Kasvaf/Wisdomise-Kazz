@@ -32,6 +32,16 @@
   }
 }
 /*
+* ************** Steps ******************
+*/
+.ant-steps {
+  .ant-steps-item-title {
+    font-size: 13px;
+    font-weight: 400;
+  }
+}
+
+/*
 * ************** Progress ******************
 */
 

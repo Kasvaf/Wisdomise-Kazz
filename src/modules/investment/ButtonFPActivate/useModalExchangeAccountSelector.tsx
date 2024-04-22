@@ -11,7 +11,7 @@ import Button from 'shared/Button';
 import ComboBox from 'shared/ComboBox';
 import WisdomiseLogoSvg from 'assets/logo-horizontal-beta.svg';
 import BinanceLogoSvg from 'assets/logo-binance.svg';
-import useModalAddExchangeAccount from './useModalAddExchangeAccount';
+import useModalAddExchangeAccount from 'modules/account/useModalAddExchangeAccount';
 
 const exchangeIcons = {
   WISDOMISE: WisdomiseLogoSvg,

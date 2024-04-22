@@ -22,7 +22,7 @@ function useModal<T>(ModalContent: React.FC<T>, config?: ModalConfigs) {
           centered
           open={open}
           footer={false}
-          width={500}
+          width={config?.width ?? 500}
           onCancel={closeHandler}
           wrapClassName={clsx(
             config?.fullscreen && 'fullscreen', // styles in override.css
