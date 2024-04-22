@@ -18,7 +18,6 @@ const useCryptoNetworkSelector = ({
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
   const mainQuote = useMainQuote();
-  const crypto = { name: mainQuote };
 
   // ----------------------------------------------------
 
@@ -27,6 +26,7 @@ const useCryptoNetworkSelector = ({
     name: 'loading',
     description: '',
   });
+  const crypto = { name: network.binance_info?.coin || mainQuote };
   const networks = useMarketNetworksQuery({
     usage,
     symbol: crypto.name,

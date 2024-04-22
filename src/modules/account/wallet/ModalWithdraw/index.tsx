@@ -223,7 +223,7 @@ const ModalWithdraw: React.FC<{ onResolve?: () => void }> = ({ onResolve }) => {
         <TextBox
           onChange={setWallet}
           value={wallet}
-          error={showError && isWalletValid && 'Invalid wallet address.'}
+          error={showError && !isWalletValid && 'Invalid wallet address.'}
           onBlur={() => setShowErrors(true)}
         />
       </div>
