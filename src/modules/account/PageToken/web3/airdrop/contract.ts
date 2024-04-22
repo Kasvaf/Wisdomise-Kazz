@@ -6,7 +6,7 @@ import { AIRDROP_ABI } from 'modules/account/PageToken/web3/airdrop/abi';
 // merkle distributor contract
 export const AIRDROP_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
-  : '0xc2431fd5aa88c9ECF6Fb1a3b3c77E58F58E9245E';
+  : '0xB2C466B013Cfbcd7614cf3e63790f24a462F9E78';
 
 const airdropContractDefaultConfig = {
   address: AIRDROP_CONTRACT_ADDRESS,
