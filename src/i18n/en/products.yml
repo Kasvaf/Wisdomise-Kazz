@@ -50,10 +50,6 @@ list:
 notification-activated:
   title: Congratulations
   btn-dashboard: Go to Dashboard
-  btn-kyc: Go to KYC
-  kyc-notice: >-
-    However note that as long as you have not verified your account, we only
-    trade with at most 1000$ of your wallet.
   message: >-
     Thank you for trusting us. You can now deposit any amount to your account
     and activate any of the AI-powered strategies.

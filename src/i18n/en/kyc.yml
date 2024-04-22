@@ -1,54 +1,12 @@
-title: KYC
 badges:
   pending: Pending
-  pending-meeting: Pending Meeting
   rejected: Rejected
-  unknown: loading
   unverified: Unverified
   verified: Verified
-completed: Completed
 identification:
   title: Identification
   description: Identify yourself to help us secure your account.
   btn-start-sumsub: Let’s Start in Sumsub
-verification:
-  title: Verification
-  description: >-
-    To verify your account, kindly schedule a meeting on Calendly, and we will
-    reach out to assist you with the verification process.
-  btn-meeting: Schedule a Meeting
-  identify-first-notice: Complete Identification first
-wallet:
-  title: Wallet Verification
-  description: Verify your wallets to activate and unlock all of our products and features.
-  add:
-    banner: >-
-      Please be aware that we currently only support <1>USDT</1> as a
-      cryptocurrency.
-    btn-send-email: Send Email
-    help:
-      screenshot-title: '<0>Example</0>: USDT Wallet Address'
-      step-0: >-
-        To send us your USDT wallet address and network, you need to follow
-        these steps in your Trust wallet:
-      step-1-networks: Select USDT coin on your preferred network
-      step-2-receive: Choose receive button.
-      step-3-screenshot: >-
-        Take a screenshot of the page that shows your deposit wallet address and
-        network for USDT.
-      step-4-email: >-
-        Attach the screenshot to an email and send it to our support email:
-        <1>support@wisdomise.io</1>
-  btn-add:
-    verify-more: Verify More Wallets
-    verify-wallet: Verify Wallet
-  column:
-    name: Wallet name
-    coin: Coin
-    wallet-address: Wallet Address
-  empty-message: You have no verified wallet address.
-  list-title: Wallet Status
-  unnamed: (unnamed)
 wisdomise-only:
   title: If you're using your Binance Wallet API, KYC is not required.
   subtitle: >-
