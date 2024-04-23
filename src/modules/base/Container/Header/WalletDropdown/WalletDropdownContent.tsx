@@ -28,27 +28,29 @@ const WalletDropdownContent: React.FC = () => {
     await openDeposit({});
   };
 
-  if (ias.isLoading || !mainQuote) return <></>;
+  if (ias.isLoading) return <></>;
 
   return (
     <>
-      <div className="flex justify-around gap-2 rounded-lg bg-white/5 p-4 mobile:bg-black/5">
-        <div className="flex flex-col items-center">
-          <p className="text-xs text-white/80">{t('total-balance')}</p>
-          <p className="text-white">
-            {roundDown(totalBalance)}{' '}
-            <span className="text-white/80">{mainQuote}</span>
-          </p>
+      {mainQuote && (
+        <div className="flex justify-around gap-2 rounded-lg bg-white/5 p-4 mobile:bg-black/5">
+          <div className="flex flex-col items-center">
+            <p className="text-xs text-white/80">{t('total-balance')}</p>
+            <p className="text-white">
+              {roundDown(totalBalance)}{' '}
+              <span className="text-white/80">{mainQuote}</span>
+            </p>
+          </div>
+          <div className="border-l border-white/10" />
+          <div className="flex flex-col items-center ">
+            <p className="text-xs text-white/80">{t('withdrawable')}</p>
+            <p className="text-white">
+              {roundDown(withdrawable)}{' '}
+              <span className="text-white/80">{mainQuote}</span>
+            </p>
+          </div>
         </div>
-        <div className="border-l border-white/10" />
-        <div className="flex flex-col items-center ">
-          <p className="text-xs text-white/80">{t('withdrawable')}</p>
-          <p className="text-white">
-            {roundDown(withdrawable)}{' '}
-            <span className="text-white/80">{mainQuote}</span>
-          </p>
-        </div>
-      </div>
+      )}
       {(ias.data?.[0]?.financial_product_instances.length || 0) > 0 &&
         ias.data?.[0]?.financial_product_instances[0].status !== 'DRAFT' && (
           <p className="mt-2 px-2 text-center text-xs text-white/80">
