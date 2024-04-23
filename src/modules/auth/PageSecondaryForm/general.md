@@ -25,7 +25,7 @@ This “Wisdomise Passive Income” Service Providing Agreement (hereinafter “
 6. If the Service Provider identifies a malfunction of the AI or another risk related to the AI, it shall take all necessary actions to remedy this malfunction and/or risk.
 
 7. The Service Provider offers neither trade execution services nor custody services for cryptocurrencies under this Wisdomise Passive Income Agreement.
-The Service Provider’s sole activity is to provide the Wisdomise Passive Income Services as a software. The Service Provider does not provide financial, investment, legal, tax or any other professional advice. He is not a broker, financial advisor, investment advisor, portfolio manager or tax advisor. Nothing on or in the software shall constitute or be construed as an offering of any currency or any financial instrument or as investment advice or investment recommendations (such as recommendations as to whether to purchase a currency or instrument) by the Service Provider or a recommendation as to an investment strategy by the Service Provider. The Service Provider does not provide any licensable services. In case you find that any functionality or part thereof provided in the software of the Service Provider is licensable in your jurisdiction, you expressly agree and understand that you are obliged to inform the Service Provider of such circumstance and terminate your use of the respective functionality or part thereof. You acknowledge and agree that the Service Provider is not responsible for your use of any information that you obtain on the software. Your decisions made in reliance on the products or services in the software or your interpretations of the data found in the software are your own for which you have full responsibility. You expressly agree that you use the software at your own sole risk.
+   The Service Provider’s sole activity is to provide the Wisdomise Passive Income Services as a software. The Service Provider does not provide financial, investment, legal, tax or any other professional advice. He is not a broker, financial advisor, investment advisor, portfolio manager or tax advisor. Nothing on or in the software shall constitute or be construed as an offering of any currency or any financial instrument or as investment advice or investment recommendations (such as recommendations as to whether to purchase a currency or instrument) by the Service Provider or a recommendation as to an investment strategy by the Service Provider. The Service Provider does not provide any licensable services. In case you find that any functionality or part thereof provided in the software of the Service Provider is licensable in your jurisdiction, you expressly agree and understand that you are obliged to inform the Service Provider of such circumstance and terminate your use of the respective functionality or part thereof. You acknowledge and agree that the Service Provider is not responsible for your use of any information that you obtain on the software. Your decisions made in reliance on the products or services in the software or your interpretations of the data found in the software are your own for which you have full responsibility. You expressly agree that you use the software at your own sole risk.
 
 ### 2. Authorization
 
@@ -46,9 +46,9 @@ The Service Provider’s sole activity is to provide the Wisdomise Passive Incom
 1. The investment strategy implemented by the AI is based on the Client's Risk Profile, which is created on the basis of the Client's knowledge and investment experience, the Client’s trading patterns and the Client’s risk appetite.
 
 2. The Client must specify a maximum risk level for the Portfolio. The Client is provided with the definitions of the risk levels during the process of opening an Account.
-Generally, the Client may choose between the following risk profiles: low risk low return (“LRLR”), medium risk medium return (“MRMR”) and high risk high return (“HRHR”). The higher the maximum risk level set by the Client, the greater the profit expectations usually are, but the higher the risk of loss.
-The determination of a maximum risk level does not mean that the potential losses of the Portfolio are limited. However, the AI sets limits, such as a “stop loss”, which does not limit the potential loss to a fixed level, but dynamically sets the stop loss levels based on the Client’s entry point.
-If the maximum risk level determined by the Client is exceeded, the composition of the Portfolio will be adjusted to bring the risk of the Portfolio back to a level below the maximum risk level determined by the Client. The maximum risk level determined by the Client may therefore be temporarily exceeded until the composition of the Portfolio has been adjusted.
+   Generally, the Client may choose between the following risk profiles: low risk low return (“LRLR”), medium risk medium return (“MRMR”) and high risk high return (“HRHR”). The higher the maximum risk level set by the Client, the greater the profit expectations usually are, but the higher the risk of loss.
+   The determination of a maximum risk level does not mean that the potential losses of the Portfolio are limited. However, the AI sets limits, such as a “stop loss”, which does not limit the potential loss to a fixed level, but dynamically sets the stop loss levels based on the Client’s entry point.
+   If the maximum risk level determined by the Client is exceeded, the composition of the Portfolio will be adjusted to bring the risk of the Portfolio back to a level below the maximum risk level determined by the Client. The maximum risk level determined by the Client may therefore be temporarily exceeded until the composition of the Portfolio has been adjusted.
 
 3. In carrying out this Wisdomise Passive Income Agreement and within the limits set by the Client through the Client’s Risk Profile, the Service Provider reserves the right to limit the risk of the Portfolio to a level that the AI considers appropriate in accordance with this Wisdomise Passive Income Agreement. The Service Provider is not obliged to maintain the portfolio risk at the highest level accepted by the Client, nor at a level just below it. In the event of the death of the Client and in the absence of instructions from his heirs or their representative, the Service Provider is entitled to limit the level of risk of the Portfolio.
 
@@ -69,9 +69,9 @@ If the maximum risk level determined by the Client is exceeded, the composition 
 ### 7. Investment Policy
 
 1. The Service Provider provides the Wisdomise Passive Income Services under this Wisdomise Passive Income Agreement using artificial intelligence, which enables it to make sale and/or purchase decisions on the Cryptocurrencies held in the Client’s Portfolio based on the Client's Risk Profile. The artificial intelligence used by the Service Provider consists of two main modules, a smart portfolio optimizer and an artificial intelligence core.
-The Service Provider may define one or more strategies concerning the sale and purchase of the Cryptocurrencies, either for the entirety of clients, for specific client groups or only for certain clients.
-The Service Provider uses quantitative (e.g., price changes) and other factors influencing the price of Cryptocurrencies for carrying out the Wisdomise Passive Income Services. The Service Provider does not use qualitative methods like following the latest news and tweets on the Cryptocurrencies for carrying out the Wisdomise Passive Income Services.
-Consequently, it does not carry out any qualitative analysis of the Cryptocurrencies, does not take note of any analysis that third parties may carry out on the Cryptocurrencies (but reserves the right to use the results of third parties' analysis of the Cryptocurrencies in a quantitative manner) and does not follow the latest news on the Cryptocurrencies. The Service Provider refrains from making any subjective assessment of the development of the Cryptocurrencies.
+   The Service Provider may define one or more strategies concerning the sale and purchase of the Cryptocurrencies, either for the entirety of clients, for specific client groups or only for certain clients.
+   The Service Provider uses quantitative (e.g., price changes) and other factors influencing the price of Cryptocurrencies for carrying out the Wisdomise Passive Income Services. The Service Provider does not use qualitative methods like following the latest news and tweets on the Cryptocurrencies for carrying out the Wisdomise Passive Income Services.
+   Consequently, it does not carry out any qualitative analysis of the Cryptocurrencies, does not take note of any analysis that third parties may carry out on the Cryptocurrencies (but reserves the right to use the results of third parties' analysis of the Cryptocurrencies in a quantitative manner) and does not follow the latest news on the Cryptocurrencies. The Service Provider refrains from making any subjective assessment of the development of the Cryptocurrencies.
 
 2. The AI checks on a regular basis, in accordance with the frequency of Reallocation, whether the Portfolio risk is in line with the Client’s Risk Profile.
 
@@ -163,22 +163,22 @@ The Client confirms that he has read and understood and accepts all the provisio
 
 **The Cryptocurrencies (Section **‎**4.4)**
 
-* Binance USD (BUSD)
-* Tether USD (USDT)
-* Bitcoin (BTC)
-* Ethereum (ETH)
-* Ripple (XRP)
-* Tron (TRX)
-* Near Protocol (NEAR)
-* Solana (SOL)
-* Litecoin (LTC)
-* Filecoin (FIL)
-* The Graph (GRT)
-* Avalanche (AVAX)
-* Cardano (ADA)
-* Binance Coin (BNB)
-* Polygon (MATIC)
-* Uniswap (UNI)
+- Binance USD (BUSD)
+- Tether USD (USDT)
+- Bitcoin (BTC)
+- Ethereum (ETH)
+- Ripple (XRP)
+- Tron (TRX)
+- Near Protocol (NEAR)
+- Solana (SOL)
+- Litecoin (LTC)
+- Filecoin (FIL)
+- The Graph (GRT)
+- Avalanche (AVAX)
+- Cardano (ADA)
+- Binance Coin (BNB)
+- Polygon (MATIC)
+- Uniswap (UNI)
 
 ## Wisdomise Insight Service Providing Agreement
 
@@ -226,7 +226,7 @@ This “Wisdomise Insight” Service Providing Agreement (hereinafter “**Wisdo
 
 4. The Service Provider may change the Fees by posting notice to the Client’s account and/or to the Service Provider’s website. The Client may object to the price changes within 30 days by sending an email to eye2Service Provider.io. After expiry of the 30-days period, the changes will be deemed to have been approved. Any price changes will apply to the Fees charged to the Client’s account immediately after the effective date of the changes.
 
-5. The Client undertakes to pay the invoiced Fees within 30 days after delivery of the invoice (“**Payment Period**”). The invoice is considered delivered when it has been deposited in the Client’s account for retrieval. After expiration of the Payment Period, the Service Provider is  entitled to charge interest on arrears of 5 % p. a. on the invoiced Fees. If any amount of your Fees is past due, we may suspend your access to the Services after we provide you written notice of late payment.
+5. The Client undertakes to pay the invoiced Fees within 30 days after delivery of the invoice (“**Payment Period**”). The invoice is considered delivered when it has been deposited in the Client’s account for retrieval. After expiration of the Payment Period, the Service Provider is entitled to charge interest on arrears of 5 % p. a. on the invoiced Fees. If any amount of your Fees is past due, we may suspend your access to the Services after we provide you written notice of late payment.
 
 ### 5. Data Protection
 
@@ -245,10 +245,10 @@ If the Client uses the Wisdomise Insight Services to process personal data, the 
 2. The Service Provider will perform its contractual and legal obligations towards the Client with ordinary business diligence.
 
 3. The Service Provider shall only be liable to the Client for direct losses caused by fraudulent or grossly negligent breaches of the Service Provider’s obligations under applicable Swiss law or the Agreement. In particular, but not limited to, the Service Provider shall not be liable for:
-**7.3.A.** Damages arising from the access to and use, or any hindrance to the access and use, of Service Provider’s website, the Client’s Account and the use of the information and Services available thereon;
-**7.3.B.** Damages arising from Service Provider’s lawful intervention pursuant to legal requirements and/or the Agreement;
-**7.3.C** Damages brought about directly or indirectly by extraordinary circumstances beyond the reasonable control of Service Provider, which it may determine at its reasonable discretion and may only affect part of Service Provider, and may include (but are not limited to) (i) technical difficulties (such as an electrical power cut, failures or breakdowns of information technology or communication channels and equipment), (ii) unavailability and/or malfunctioning of Service Provider’s website and/or malfunctioning of software to access Service Provider’s website for any reason whatsoever, (iii) declared or imminent wars, terrorist attacks, revolutions, civil unrest, hurricanes, earthquakes, floods and other natural disasters, (iv) mandatory provisions, steps taken by authorities, riots, strikes, lock-outs, boycotts, blockades and other significant labour disputes, regardless of whether or not the Service Provider is a party to the conflict, (v) the suspension, cessation or closure of any market for cryptocurrencies, or cryptocurrency (vi) the imposition of limits or special or unusual terms on the trading in any market for cryptocurrencies or cryptocurrency, (vii) the occurrence of a market disruption or of an exceptional movement in any market for cryptocurrencies or any cryptocurrency, and (viii) any other situation that may be defined as “act of God” (hereinafter collectively, “**Force Majeure Events**”).
-**7.3.D** Damages resulting from Client’s decision to buy, sell or invest in crypto assets made after using Wisdomise Insight Services. The Service Provider does not make any recommendations to sell and / or buy cryptocurrencies.
+   **7.3.A.** Damages arising from the access to and use, or any hindrance to the access and use, of Service Provider’s website, the Client’s Account and the use of the information and Services available thereon;
+   **7.3.B.** Damages arising from Service Provider’s lawful intervention pursuant to legal requirements and/or the Agreement;
+   **7.3.C** Damages brought about directly or indirectly by extraordinary circumstances beyond the reasonable control of Service Provider, which it may determine at its reasonable discretion and may only affect part of Service Provider, and may include (but are not limited to) (i) technical difficulties (such as an electrical power cut, failures or breakdowns of information technology or communication channels and equipment), (ii) unavailability and/or malfunctioning of Service Provider’s website and/or malfunctioning of software to access Service Provider’s website for any reason whatsoever, (iii) declared or imminent wars, terrorist attacks, revolutions, civil unrest, hurricanes, earthquakes, floods and other natural disasters, (iv) mandatory provisions, steps taken by authorities, riots, strikes, lock-outs, boycotts, blockades and other significant labour disputes, regardless of whether or not the Service Provider is a party to the conflict, (v) the suspension, cessation or closure of any market for cryptocurrencies, or cryptocurrency (vi) the imposition of limits or special or unusual terms on the trading in any market for cryptocurrencies or cryptocurrency, (vii) the occurrence of a market disruption or of an exceptional movement in any market for cryptocurrencies or any cryptocurrency, and (viii) any other situation that may be defined as “act of God” (hereinafter collectively, “**Force Majeure Events**”).
+   **7.3.D** Damages resulting from Client’s decision to buy, sell or invest in crypto assets made after using Wisdomise Insight Services. The Service Provider does not make any recommendations to sell and / or buy cryptocurrencies.
 
 4. Under no circumstances shall the Service Provider be liable for indirect, accumulated or subsequent damages, nor shall Service Provider have any liability whatsoever for damages caused by failure on the part of the Client to mitigate any damages, in particular by failing to take immediate measures to prevent potential damages or reduce existing damages known or foreseeable or that should have been known or foreseeable if the Client had exercised due care and diligence. For instance, in the event that a Service Provider’s website and/or the Account are unavailable (e.g. due to technical problems).
 
@@ -321,10 +321,10 @@ These Terms and Conditions (hereinafter the “**Terms and Conditions**”) cont
 ### 6. DECLARATION OF NON-US STATUS OR US STATUS
 
 1. If the Client is an individual, he has confirmed that:
-he is a “non-US person”, i.e. he is not a US citizen (be it by single, dual or multiple nationalities) and does not have a “resident alien” status (e.g. he is not holding a “Green Card” and has not been a long-term resident in the USA in the current year and the previous two years). Further, the Client confirms that he is the beneficial owner of the cryptocurrencies held and the income generated therewith in accordance with US tax law.
+   he is a “non-US person”, i.e. he is not a US citizen (be it by single, dual or multiple nationalities) and does not have a “resident alien” status (e.g. he is not holding a “Green Card” and has not been a long-term resident in the USA in the current year and the previous two years). Further, the Client confirms that he is the beneficial owner of the cryptocurrencies held and the income generated therewith in accordance with US tax law.
 
 2. If the Client is not an individual, it has confirmed that:
-it is a “non-US person”, i.e. it has not been created, is not registered or incorporated in the US and it is not a US person for any other reason. Further the Client confirms that it is the beneficial owner of the cryptocurrencies held and the income generated therewith in accordance with US tax law.
+   it is a “non-US person”, i.e. it has not been created, is not registered or incorporated in the US and it is not a US person for any other reason. Further the Client confirms that it is the beneficial owner of the cryptocurrencies held and the income generated therewith in accordance with US tax law.
 
 3. If the Client is an individual, he shall inform the Service Provider immediately of any change to his “non-US person” status.
 
@@ -338,17 +338,17 @@ it is a “non-US person”, i.e. it has not been created, is not registered or 
 
 1. As of the date of the opening of the Account, the date of any operation for the purpose of providing Services to the Client in relation to the Account and any date on which the Agreement or any part thereof is revised, updated or amended, the Client confirms to the Service Provider and agrees to the following for the benefit of the Service Provider that:
 
-   * **A.** The Client is not legally incapacitated or interdicted to act in respect of the establishment of the business relationship with the Service Provider or the use of any and all Services and is not bound by any law or regulation preventing him from entering into such a business relationship, from accessing the Service Provider’s website or from using any form of the Services with the Service Provider.
+   - **A.** The Client is not legally incapacitated or interdicted to act in respect of the establishment of the business relationship with the Service Provider or the use of any and all Services and is not bound by any law or regulation preventing him from entering into such a business relationship, from accessing the Service Provider’s website or from using any form of the Services with the Service Provider.
 
-   * **B.** In case of a corporation, limited liability company, trust, partnership, unincorporated association, entity without legal personality or another non-natural person, the Client is duly organized and validly existing under the applicable laws of the jurisdiction of its organization and the Service Provider will be notified in writing of any changes to the powers held by representatives or agents. The Client confirms that if such written notice is not provided, the Service Provider shall not assume any liability and that no official publication shall be binding on the Service Provider.
+   - **B.** In case of a corporation, limited liability company, trust, partnership, unincorporated association, entity without legal personality or another non-natural person, the Client is duly organized and validly existing under the applicable laws of the jurisdiction of its organization and the Service Provider will be notified in writing of any changes to the powers held by representatives or agents. The Client confirms that if such written notice is not provided, the Service Provider shall not assume any liability and that no official publication shall be binding on the Service Provider.
 
-   * **C.** The Client has obtained all necessary (corporate or other) consents and authorizations and is competent to establish a business relationship with the Service Provider.
+   - **C.** The Client has obtained all necessary (corporate or other) consents and authorizations and is competent to establish a business relationship with the Service Provider.
 
-   * **D.** The Client has taken note of and undertakes to comply with all laws, market rules and regulations applicable to him, notably as a result of his place of domicile and nationality, including, without restriction, all regulations and requirements in respect of foreign exchange controls.
+   - **D.** The Client has taken note of and undertakes to comply with all laws, market rules and regulations applicable to him, notably as a result of his place of domicile and nationality, including, without restriction, all regulations and requirements in respect of foreign exchange controls.
 
-   * **E.** The Client confirms that he is in compliance with all tax rules and requirements by tax authorities of the country or countries in which he assumes fiscal responsibility. The Service Provider is not responsible for advising the Client on any tax liabilities or obligations whatsoever that may arise directly or indirectly in relation to the Accounts. The Client will, if need be, request advice from tax experts.
+   - **E.** The Client confirms that he is in compliance with all tax rules and requirements by tax authorities of the country or countries in which he assumes fiscal responsibility. The Service Provider is not responsible for advising the Client on any tax liabilities or obligations whatsoever that may arise directly or indirectly in relation to the Accounts. The Client will, if need be, request advice from tax experts.
 
-   * **F.** The information that the Client has given to the Service Provider, in particular but not limited to the information provided for the creation of the Client’s Risk Profile, is complete, accurate, up to date and not misleading.
+   - **F.** The information that the Client has given to the Service Provider, in particular but not limited to the information provided for the creation of the Client’s Risk Profile, is complete, accurate, up to date and not misleading.
 
 1. The Client undertakes to inform the Service Provider immediately by written notice of any changes regarding any information provided to the Service Provider herein, in the Account or otherwise, whether in relation to himself or any person authorised by him.
 
@@ -382,11 +382,11 @@ _Notices from the Service Provider_
 
 13. The Service Provider accepts no liability and gives no guarantee that data transmitted and published via the Internet are correct, accurate and complete. In particular, account related data (e.g. current value of the portfolio, executed purchase and/or sale decisions) and information in the public domain shall not be binding. The Client is particularly aware of the following Internet specific risks for which the Service Provider cannot accept liability:
 
-    * **A.** Inadequate knowledge of the system and defective security measures can facilitate unauthorized access. The Client is aware of the risk that his Account may be infiltrated by computer viruses and other harmful programs that infected the Client’s hardware or software (e.g. via the Internet, e-mails or the exchange of data carriers) or may be misused by an unauthorized third party. The hardware and software used by the Client should always be from a trustworthy source The Client shall be responsible for informing himself of the necessary security measures (e.g. anti-virus programs, firewalls) and for taking such measures;
+    - **A.** Inadequate knowledge of the system and defective security measures can facilitate unauthorized access. The Client is aware of the risk that his Account may be infiltrated by computer viruses and other harmful programs that infected the Client’s hardware or software (e.g. via the Internet, e-mails or the exchange of data carriers) or may be misused by an unauthorized third party. The hardware and software used by the Client should always be from a trustworthy source The Client shall be responsible for informing himself of the necessary security measures (e.g. anti-virus programs, firewalls) and for taking such measures;
 
-    * **B.** The compilation of user statistics by internet providers, from which it may be deduced that the Client has contacted the Service Provider;
+    - **B.** The compilation of user statistics by internet providers, from which it may be deduced that the Client has contacted the Service Provider;
 
-    * **C.** The use of the Client’s hardware and software by persons other than the Client brings additional risks. If the Client uses and stores any information (notably his password, user ID, portfolio information, account statements, etc.) on an accessible manner on his hardware, he does so at his own risk and is fully responsible for all consequences.
+    - **C.** The use of the Client’s hardware and software by persons other than the Client brings additional risks. If the Client uses and stores any information (notably his password, user ID, portfolio information, account statements, etc.) on an accessible manner on his hardware, he does so at his own risk and is fully responsible for all consequences.
 
 14. The Client acknowledges that certain software components, such as coding algorithms, artificial intelligence, the sale and purchase of cryptocurrencies and cryptocurrencies may be subject to (in particular import and export) restrictions in certain countries. The Client must inform himself accordingly and shall assume sole liability for risks in this regard. The Service Provider accepts no liability for the infringement of provisions governing the import, export and use of prohibited software components or provisions governing the holding or the sale and/or purchase of cryptocurrencies.
 
@@ -404,13 +404,13 @@ _Notices from the Service Provider_
 
 2. The Service Provider shall only be liable to the Client for direct losses caused by fraudulent or grossly negligent breaches of the Service Provider’s obligations under applicable Swiss law or the Agreement. In particular, but not limited to, the Service Provider shall not be liable for:
 
-   * **A.** Damages arising from the access to and use, or any hindrance to the access and use, of the Service Provider’s website, the Client’s Account and the use of the information and Services available thereon;
+   - **A.** Damages arising from the access to and use, or any hindrance to the access and use, of the Service Provider’s website, the Client’s Account and the use of the information and Services available thereon;
 
-   * **B.** Damages arising from the Service Provider’s lawful intervention pursuant to legal requirements and/or the Agreement;
+   - **B.** Damages arising from the Service Provider’s lawful intervention pursuant to legal requirements and/or the Agreement;
 
-   * **C.** Damages arising from events as described in Articles ‎9.11 to ‎9.14 or any other materialization of any risks associated with Internet;
+   - **C.** Damages arising from events as described in Articles ‎9.11 to ‎9.14 or any other materialization of any risks associated with Internet;
 
-   * **D.** Damages brought about directly or indirectly by extraordinary circumstances beyond the reasonable control of the Service Provider, which it may determine at its reasonable discretion and may only affect part of the Service Provider, and may include (but are not limited to) (i) technical difficulties (such as an electrical power cut, failures or breakdowns of information technology or communication channels and equipment), (ii) unavailability and/or malfunctioning of the Service Provider’s website and/or malfunctioning of software to access the Service Provider’s website for any reason whatsoever, (iii) declared or imminent wars, terrorist attacks, revolutions, civil unrest, hurricanes, earthquakes, floods and other natural disasters, (iv) mandatory provisions, steps taken by authorities, riots, strikes, lock-outs, boycotts, blockades and other significant labour disputes, regardless of whether or not the Service Provider is a party to the conflict, (v) the suspension, cessation or closure of any market for cryptocurrencies, or cryptocurrency (vi) the imposition of limits or special or unusual terms on the trading in any market for cryptocurrencies or cryptocurrency, (vii) the occurrence of a market disruption or of an exceptional movement in any market for cryptocurrencies or any cryptocurrency, and (viii) any other situation that may be defined as “act of God” (hereinafter collectively, “**Force Majeure Events**”).
+   - **D.** Damages brought about directly or indirectly by extraordinary circumstances beyond the reasonable control of the Service Provider, which it may determine at its reasonable discretion and may only affect part of the Service Provider, and may include (but are not limited to) (i) technical difficulties (such as an electrical power cut, failures or breakdowns of information technology or communication channels and equipment), (ii) unavailability and/or malfunctioning of the Service Provider’s website and/or malfunctioning of software to access the Service Provider’s website for any reason whatsoever, (iii) declared or imminent wars, terrorist attacks, revolutions, civil unrest, hurricanes, earthquakes, floods and other natural disasters, (iv) mandatory provisions, steps taken by authorities, riots, strikes, lock-outs, boycotts, blockades and other significant labour disputes, regardless of whether or not the Service Provider is a party to the conflict, (v) the suspension, cessation or closure of any market for cryptocurrencies, or cryptocurrency (vi) the imposition of limits or special or unusual terms on the trading in any market for cryptocurrencies or cryptocurrency, (vii) the occurrence of a market disruption or of an exceptional movement in any market for cryptocurrencies or any cryptocurrency, and (viii) any other situation that may be defined as “act of God” (hereinafter collectively, “**Force Majeure Events**”).
 
 3. Under no circumstances shall the Service Provider be liable for indirect, accumulated or subsequent Damages, nor shall the Service Provider have any liability whatsoever for Damages caused by failure on the part of the Client to mitigate any Damages, in particular by failing to take immediate measures to prevent potential Damages or reduce existing Damages known or foreseeable or that should have been known or foreseeable if the Client had exercised due care and diligence. For instance, in the event that the Service Provider’s website and/or the Account are unavailable (e.g. due to technical problems).
 
@@ -464,23 +464,23 @@ _Notices from the Service Provider_
 
 1. Acting at its sole discretion and without being obliged to issue prior Notice to the Client, the Service Provider is entitled to (i) terminate the Agreement or any part thereof, (ii) suspend the fulfillment of its own obligations or (iii) take any other measures, if the Service Provider considers it necessary for its own protection, in particular, upon or following the occurrence of a Force Majeure Event or if any of the events set out below (hereinafter individually, an “**Event of Default**”) arise or at any time after an Event of Default set out below has arisen:
 
-   * **A)** The Client fails to make any due payment to the Service Provider for whatever reason.
+   - **A)** The Client fails to make any due payment to the Service Provider for whatever reason.
 
-   * **B)** The Client violates or fails to comply with any or all of the provisions of the Agreement or any part thereof, any or all of the provisions of any other applicable contract between the Service Provider and the Client.
+   - **B)** The Client violates or fails to comply with any or all of the provisions of the Agreement or any part thereof, any or all of the provisions of any other applicable contract between the Service Provider and the Client.
 
-   * **C)** The Client fails to fulfill any obligation towards the Service Provider or commits a breach of his/her representations, warranties, confirmations or acknowledgements.
+   - **C)** The Client fails to fulfill any obligation towards the Service Provider or commits a breach of his/her representations, warranties, confirmations or acknowledgements.
 
-   * **D)** The Client dies, is declared missing or is otherwise incapacitated or interdicted.
+   - **D)** The Client dies, is declared missing or is otherwise incapacitated or interdicted.
 
-   * **E)** The Client becomes insolvent, ceases activities, or files for pre-insolvency proceedings or any other comparable proceedings.
+   - **E)** The Client becomes insolvent, ceases activities, or files for pre-insolvency proceedings or any other comparable proceedings.
 
-   * **F)** The Client is subject to Service Providerruptcy, restructuring proceedings, or any other comparable proceedings, including protective measures pursuant to Article 27 of the Swiss Service Providers Act and/or reorganization proceedings pursuant to Articles 47 ss of the FINMA Ordinance on the Insolvency of Service Providers and Securities Dealers.
+   - **F)** The Client is subject to Service Providerruptcy, restructuring proceedings, or any other comparable proceedings, including protective measures pursuant to Article 27 of the Swiss Service Providers Act and/or reorganization proceedings pursuant to Articles 47 ss of the FINMA Ordinance on the Insolvency of Service Providers and Securities Dealers.
 
-   * **G)** Debt enforcement proceedings (incl. foreclosure) are commenced against the Client or the Client is unable or refuses to settle all or part of his debts or fulfill his financial obligations.
+   - **G)** Debt enforcement proceedings (incl. foreclosure) are commenced against the Client or the Client is unable or refuses to settle all or part of his debts or fulfill his financial obligations.
 
-   * **H)** The Client is subject to any other liquidation proceedings, or the appointment of an administrator, liquidator or receiver at the request of or by a regulatory authority or court.
+   - **H)** The Client is subject to any other liquidation proceedings, or the appointment of an administrator, liquidator or receiver at the request of or by a regulatory authority or court.
 
-   * **I)** The Client is subject to any procedure equivalent or comparable to those covered under (e) to (h) above.
+   - **I)** The Client is subject to any procedure equivalent or comparable to those covered under (e) to (h) above.
 
 2. Unless otherwise decided by the Service Provider, where an Event of Default listed under e), f) or h) above occurs, the Agreement shall be deemed to have been terminated immediately prior to the occurrence of said Event of Default.
 
@@ -540,21 +540,21 @@ In the following, you will be informed about which personal data we collect and 
 
 Whenever you visit our website, your browser automatically sends information to our website server where it is temporarily saved in a log file. The following files are automatically recorded and stored until they are automatically deleted:
 
-* Browser type and browser version
+- Browser type and browser version
 
-* Operating system used
+- Operating system used
 
-* Referrer URL
+- Referrer URL
 
-* Host name of the computer making access
+- Host name of the computer making access
 
-* Time of the server inquiry
+- Time of the server inquiry
 
-* IP address
+- IP address
 
-* Operating system used
+- Operating system used
 
-* Amount of data sent in bytes
+- Amount of data sent in bytes
 
 The collection and processing of this data is carried out for the purpose of enabling the use of our website (connection setup), to ensure system security and stability on a permanent basis, to enable the technical administration of the network infrastructure and the optimization of our Internet offer as well as for internal statistical purposes.
 
@@ -604,17 +604,17 @@ The legal basis for data processing is Art. 6 para. 1 lit. b) GDPR or Art. 6 par
 
 Your personal data will only be transferred to third parties if
 
-* you have given us consent to transmit data to third parties
+- you have given us consent to transmit data to third parties
 
-* this is necessary in accordance with Art. 6(1)(b) GDPR for the processing of a contractual relationships with you,
+- this is necessary in accordance with Art. 6(1)(b) GDPR for the processing of a contractual relationships with you,
 
-* this is for the purpose of satisfying statutory requirements, under which we are obliged to provide information, to report or forward data,
+- this is for the purpose of satisfying statutory requirements, under which we are obliged to provide information, to report or forward data,
 
-* for purposes where we are obligated or entitled to give information, notification or forward data, to the extent that external service providers commissioned by us process data as contract processors or parties that assume certain functions (e.g. external data centers, support and maintenance of IT applications, archiving, document processing, call center services, compliance services, controlling, data screening for anti-money laundering purposes, data validation and data protection, plausibility check, data destruction, purchasing/procurement, customer administration, letter shops, marketing, media technology, research, risk controlling, billing, telephony, website management, auditing services, credit institutions, printing plants or companies for data disposal, courier services, logistics, press relations work).We will moreover refrain from transmitting your data to third parties if we have not informed you of such separately. If we commission service providers within the framework of processing an order, your data will be subject to the security standards stipulated by us in order to adequately protect your data. In all other cases, recipients may only use the data for purposes for which the data have been sent to them.
+- for purposes where we are obligated or entitled to give information, notification or forward data, to the extent that external service providers commissioned by us process data as contract processors or parties that assume certain functions (e.g. external data centers, support and maintenance of IT applications, archiving, document processing, call center services, compliance services, controlling, data screening for anti-money laundering purposes, data validation and data protection, plausibility check, data destruction, purchasing/procurement, customer administration, letter shops, marketing, media technology, research, risk controlling, billing, telephony, website management, auditing services, credit institutions, printing plants or companies for data disposal, courier services, logistics, press relations work).We will moreover refrain from transmitting your data to third parties if we have not informed you of such separately. If we commission service providers within the framework of processing an order, your data will be subject to the security standards stipulated by us in order to adequately protect your data. In all other cases, recipients may only use the data for purposes for which the data have been sent to them.
 
-* Those employees of our firm who come into contact with your data are, like ourselves, subject to a strict confidentiality obligation, compliance with which we constantly monitor. Other persons with whom we work and who come or could come into contact with your data have also been or will be obliged by us in writing to maintain confidentiality.
+- Those employees of our firm who come into contact with your data are, like ourselves, subject to a strict confidentiality obligation, compliance with which we constantly monitor. Other persons with whom we work and who come or could come into contact with your data have also been or will be obliged by us in writing to maintain confidentiality.
 
-* Within our firm, the internal departments and organizational units who need your data in order to fulfill our contractual and legal obligation or within the processing and implementation of our justified interest will receive your data.
+- Within our firm, the internal departments and organizational units who need your data in order to fulfill our contractual and legal obligation or within the processing and implementation of our justified interest will receive your data.
 
 ### 5. Cookies
 
@@ -626,13 +626,13 @@ This website uses cookies for pseudonymised reach measurement, which are transfe
 
 If you do not want cookies to be stored on your end device for the purpose of measuring reach, you can object to the use of these files here:
 
-* Cookie deactivation page of the Network Advertising Initiative:https://optout.networkadvertising.org/?c=1#!/
+- Cookie deactivation page of the Network Advertising Initiative:https://optout.networkadvertising.org/?c=1#!/
 
-* Cookie deactivation page of the US website:https://optout.aboutads.info/?c=2#!/
+- Cookie deactivation page of the US website:https://optout.aboutads.info/?c=2#!/
 
-* Cookie deactivation page of the European website:https://optout.networkadvertising.org/?c=1#!/
+- Cookie deactivation page of the European website:https://optout.networkadvertising.org/?c=1#!/
 
-* Common browsers offer the setting option to not allow cookies.
+- Common browsers offer the setting option to not allow cookies.
 
 Please note: It is not guaranteed that you will be able to access all functions of this website without restrictions if you make the corresponding settings.
 
@@ -648,31 +648,31 @@ You can also visit this website without providing any personal information. Howe
 
 If certain conditions are met, you can assert the following data protection rights against us:
 
-* In accordance with Art. 7(3) GDPR, you may revoke the consent that you have granted to us at any time. The result of this is that we may no longer perform the data processing that this consent relates to in future.
+- In accordance with Art. 7(3) GDPR, you may revoke the consent that you have granted to us at any time. The result of this is that we may no longer perform the data processing that this consent relates to in future.
 
-* Under Art. 15 GDPR, you have the right to obtain information on your personal data processed by us. In particular, you can request information about the processing purposes, the category of personal data, the categories of recipients to whom your data has been or will be disclosed, the planned storage period, the existence of a right to rectification, erasure, restriction of processing or objection, the existence of a right of complaint, the origin of your data if it has not been collected by us, as well as the existence of automated decision-making including profiling and, if applicable, meaningful information about its details.
+- Under Art. 15 GDPR, you have the right to obtain information on your personal data processed by us. In particular, you can request information about the processing purposes, the category of personal data, the categories of recipients to whom your data has been or will be disclosed, the planned storage period, the existence of a right to rectification, erasure, restriction of processing or objection, the existence of a right of complaint, the origin of your data if it has not been collected by us, as well as the existence of automated decision-making including profiling and, if applicable, meaningful information about its details.
 
-* Upon request, we will rectify or complete data stored on you in accordance with Art. 16 GDPR if such data is inaccurate or faulty.
+- Upon request, we will rectify or complete data stored on you in accordance with Art. 16 GDPR if such data is inaccurate or faulty.
 
-* Upon your request, we will erase your data in accordance with the principles of Art. 17 GDPR unless we are prohibited to do so by other statutory provisions (e.g., statutory retention obligations) or an overriding interest on our part (for example, to defend our rights and claims into account the preconditions laid down in Art. 18 GDPR, you may request from us to restrict the processing of your data.
+- Upon your request, we will erase your data in accordance with the principles of Art. 17 GDPR unless we are prohibited to do so by other statutory provisions (e.g., statutory retention obligations) or an overriding interest on our part (for example, to defend our rights and claims into account the preconditions laid down in Art. 18 GDPR, you may request from us to restrict the processing of your data.
 
-* In accordance with the provisions of Art. 20 GDPR, you also have the right to receive the personal data concerning you in a structured, commonly used and machine-readable format or transmit such data to a third party.
+- In accordance with the provisions of Art. 20 GDPR, you also have the right to receive the personal data concerning you in a structured, commonly used and machine-readable format or transmit such data to a third party.
 
-* Furthermore, you may file an objection to the processing of your data in accordance with Art. 21 GDPR, as a result of which we have to stop processing your data. This right of objection only applies, however, if very special circumstances characterize your personal situation, whereby the rights of our firm may run counter to your right of objection.
+- Furthermore, you may file an objection to the processing of your data in accordance with Art. 21 GDPR, as a result of which we have to stop processing your data. This right of objection only applies, however, if very special circumstances characterize your personal situation, whereby the rights of our firm may run counter to your right of objection.
 
-* You furthermore have the right to revoke consent that has been issued to us to process personal data at any time with effect for the future.
+- You furthermore have the right to revoke consent that has been issued to us to process personal data at any time with effect for the future.
 
-* In addition, you have the right to complain to a data protection authority (Art. 77 GDPR).
+- In addition, you have the right to complain to a data protection authority (Art. 77 GDPR).
 
 Your applications regarding the exercising of your rights should be addressed if possible in writing to the above mentioned address.
 
 ### 7. Information on your right of objection under Art. 21 GDPR
 
-* You have the right to file an objection at any time against processing of your data which is performed on the basis of Art. 6(1)(f) GDPR (data processing on the basis of a weighing out of interests) or Art. Art. 6(1)(e) GDPR (data processing in the public interest). The precondition for this, however, is that there are grounds for your objection emanating from your special personal situation. This also applies to profiling that is based on this purpose within the meaning of Art. 4(4) GDPR.
+- You have the right to file an objection at any time against processing of your data which is performed on the basis of Art. 6(1)(f) GDPR (data processing on the basis of a weighing out of interests) or Art. Art. 6(1)(e) GDPR (data processing in the public interest). The precondition for this, however, is that there are grounds for your objection emanating from your special personal situation. This also applies to profiling that is based on this purpose within the meaning of Art. 4(4) GDPR.
 
-* If you file an objection, we will no longer process your personal data unless we can demonstrate compelling reasons warranting protection for the processing that outweigh your interests, rights and freedoms, or the processing serves the purpose of asserting, exercising or defending legal claims.
+- If you file an objection, we will no longer process your personal data unless we can demonstrate compelling reasons warranting protection for the processing that outweigh your interests, rights and freedoms, or the processing serves the purpose of asserting, exercising or defending legal claims.
 
-* We also process your personal data in order to perform direct advertising. If you do not want to receive any advertising, you have the right to file an objection thereto at any time. This also applies to the profiling to the extent that it is connected with such direct advertising. We will respect this objection with effect for the future.We will no longer process your data for the purpose of direct advertising if you object to processing for this purpose. The objection may be filed without adhering to any form requirements and should be sent to support@wisdomise.io.
+- We also process your personal data in order to perform direct advertising. If you do not want to receive any advertising, you have the right to file an objection thereto at any time. This also applies to the profiling to the extent that it is connected with such direct advertising. We will respect this objection with effect for the future.We will no longer process your data for the purpose of direct advertising if you object to processing for this purpose. The objection may be filed without adhering to any form requirements and should be sent to support@wisdomise.io.
 
 ### 8. Data security
 
