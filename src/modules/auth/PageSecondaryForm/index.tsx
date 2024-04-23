@@ -15,29 +15,23 @@ import useModalContract from './useModalContract';
 import CheckBox from './CheckBox';
 import InputBox from './InputBox';
 
-import * as privacyMd from './privacy.md';
-import * as termsMd from './terms.md';
-import * as riskMd from './risk.md';
+import * as generalMd from './general.md';
+import * as disclaimerMd from './disclaimer.md';
 
 const staticContracts: Array<{
-  type: 'privacy' | 'terms' | 'risk';
+  type: 'general' | 'disclaimer';
   title: string;
   ContractDoc: React.FC;
 }> = [
   {
-    type: 'privacy',
-    title: privacyMd.attributes.title,
-    ContractDoc: privacyMd.ReactComponent,
+    type: 'general',
+    title: generalMd.attributes.title,
+    ContractDoc: generalMd.ReactComponent,
   },
   {
-    type: 'terms',
-    title: termsMd.attributes.title,
-    ContractDoc: termsMd.ReactComponent,
-  },
-  {
-    type: 'risk',
-    title: riskMd.attributes.title,
-    ContractDoc: riskMd.ReactComponent,
+    type: 'disclaimer',
+    title: disclaimerMd.attributes.title,
+    ContractDoc: disclaimerMd.ReactComponent,
   },
 ];
 
@@ -50,9 +44,8 @@ const PageSecondaryForm: React.FC = () => {
   const [country, setCountry] = useState();
   const [referralCode, setReferralCode] = useState<string | undefined>('');
   const [contracts, setContracts] = useState({
-    privacy: true,
-    terms: true,
-    risk: true,
+    general: true,
+    disclaimer: true,
   });
 
   useEffect(() => {
@@ -96,9 +89,8 @@ const PageSecondaryForm: React.FC = () => {
   const agreeToTerms = useUserInfoMutation();
   const anyErrorExists =
     !nickname ||
-    !contracts.privacy ||
-    !contracts.terms ||
-    !contracts.risk ||
+    !contracts.general ||
+    !contracts.disclaimer ||
     !country ||
     nickname.length > 32;
 
