@@ -5,7 +5,7 @@ import { isProduction } from 'utils/version';
 
 export const LOCKING_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
-  : '0x4792B74D02a60F6019288663eD7f01cB0632dfA2';
+  : '0xF7767abb9E240f66c1a14D18e52a928C69f26e22';
 
 const lockingContractDefaultConfig = {
   address: LOCKING_CONTRACT_ADDRESS,

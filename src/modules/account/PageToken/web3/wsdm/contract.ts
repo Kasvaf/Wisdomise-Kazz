@@ -15,7 +15,7 @@ import { extractWagmiErrorMessage } from 'utils/error';
 
 export const WSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
-  : '0xDCCA28B4938Aa48f15d93555Ed24542A559CE3df';
+  : '0x05da7738999C5917Fc054a1222C91D75901b03B7';
 
 const wsdmContractDefaultConfig = {
   address: WSDM_CONTRACT_ADDRESS,

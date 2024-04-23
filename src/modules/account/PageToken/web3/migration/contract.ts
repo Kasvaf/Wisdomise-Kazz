@@ -5,7 +5,7 @@ import { isProduction } from 'utils/version';
 
 export const MIGRATION_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
-  : '0xDd581Ec3F2a527660f951b567364907cBFBe928c';
+  : '0x33E5b1D5f78a0Fed4B436bbE4580579f0EA399d0';
 
 const migrationContractDefaultConfig = {
   address: MIGRATION_CONTRACT_ADDRESS,
