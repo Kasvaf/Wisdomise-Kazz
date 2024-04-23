@@ -2,7 +2,7 @@
 title: General Terms and Conditions
 ---
 
-These General Terms and Conditions (“**this Agreement**”)** **contains provisions governing together with the Privacy Policy and the Cryptocurrency Risk Disclosure the contractual relationship between Wisdomise (Estonia) OÜ, Pärnu mnt 139e/2-8, 11317 Tallinn, Estonia. (hereinafter the "**Service Provider**" or “**Wisdomise**”) and the signatory (hereinafter the “**Client**”). For ease of reading, the masculine form refers to any gender.
+These General Terms and Conditions (“**this Agreement**”) contains provisions governing together with the Privacy Policy and the Cryptocurrency Risk Disclosure the contractual relationship between Wisdomise (Estonia) OÜ, Pärnu mnt 139e/2-8, 11317 Tallinn, Estonia. (hereinafter the "**Service Provider**" or “**Wisdomise**”) and the signatory (hereinafter the “**Client**”). For ease of reading, the masculine form refers to any gender.
 
 Please note that different paragraphs of these General Terms and Conditions may apply depending on the services used by the Client.
 
