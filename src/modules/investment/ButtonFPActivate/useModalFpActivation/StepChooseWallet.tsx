@@ -25,8 +25,10 @@ const StepChooseWallet: React.FC<{
       fp.config.external_account_market_type) ||
     undefined;
 
-  const [ModalAddExchange, showAddExchange] =
-    useModalAddExchangeAccount(market);
+  const [ModalAddExchange, showAddExchange] = useModalAddExchangeAccount(
+    market,
+    { introStyle: true },
+  );
 
   const onAddExchange = async () => {
     const newWalletKey = await showAddExchange();
