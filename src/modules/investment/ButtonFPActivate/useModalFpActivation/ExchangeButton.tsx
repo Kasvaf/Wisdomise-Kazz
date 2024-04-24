@@ -1,17 +1,19 @@
 import { clsx } from 'clsx';
 import * as numerable from 'numerable';
-import YellowCard from './YellowCard';
-import { ReactComponent as GridIconSvg } from './grid-icon.svg';
+import BrandedCard from './BrandedCard';
+import { ReactComponent as BinanceIconSvg } from './binance-icon.svg';
 
 const ExchangeButton: React.FC<{
+  walletType: 'Wisdomise' | 'Binance';
   walletName?: string;
   available?: number;
   selected?: boolean;
   className?: string;
   onClick?: () => void;
-}> = ({ walletName, available, selected, className, onClick }) => {
+}> = ({ walletType, walletName, available, selected, className, onClick }) => {
   return (
-    <YellowCard
+    <BrandedCard
+      type={walletType}
       onClick={onClick}
       className={clsx(
         available === undefined ? 'justify-center' : 'justify-between',
@@ -29,13 +31,17 @@ const ExchangeButton: React.FC<{
     >
       <div className="flex items-center justify-between">
         <div>
-          <div className="text-base font-semibold leading-4">Binance</div>
+          <div className="text-base font-semibold leading-4">{walletType}</div>
           {walletName && (
             <div className="text-xs text-black/40">{walletName}</div>
           )}
         </div>
 
-        <GridIconSvg className="h-8 w-8" />
+        {walletType === 'Binance' ? (
+          <BinanceIconSvg className="h-8 w-8" />
+        ) : (
+          <div />
+        )}
       </div>
 
       {available !== undefined && (
@@ -47,7 +53,7 @@ const ExchangeButton: React.FC<{
           </span>
         </div>
       )}
-    </YellowCard>
+    </BrandedCard>
   );
 };
 

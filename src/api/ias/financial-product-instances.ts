@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
 
 export type FpiStatusMutationType = 'stop' | 'start' | 'pause' | 'resume';
 
@@ -28,21 +29,24 @@ export const useCreateFPIMutation = () => {
 
   return useMutation<
     { key: string },
-    unknown,
+    FinancialProductInstance,
     { fpKey: string; account?: string }
   >(
     async ({ fpKey, account }) => {
-      const { data } = await axios.post('/ias/financial-product-instances', {
-        financial_product: {
-          key: fpKey,
+      const { data } = await axios.post<FinancialProductInstance>(
+        '/ias/financial-product-instances',
+        {
+          financial_product: {
+            key: fpKey,
+          },
+          external_account: account
+            ? {
+                key: account,
+              }
+            : undefined,
+          // equity: 123, // 0-main_quote_equity (TODO: partial deposit)
         },
-        external_account: account
-          ? {
-              key: account,
-            }
-          : undefined,
-        // equity: 123, // 0-main_quote_equity (TODO: partial deposit)
-      });
+      );
       return data;
     },
     {

@@ -1,13 +1,13 @@
 import { Steps } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { type ExchangeAccount } from 'api';
+import { useCreateFPIMutation, useInvestorAssetStructuresQuery } from 'api';
 import {
   type FinancialProduct,
   type MarketTypes,
 } from 'api/types/financialProduct';
-import useModalAddExchangeAccount from 'modules/account/useModalAddExchangeAccount';
 import useModal from 'shared/useModal';
+import useModalDisclaimer from './useModalDisclaimer';
 import StepChooseWallet from './StepChooseWallet';
 import StepConfirm from './StepConfirm';
 import StepDone from './StepDone';
@@ -16,22 +16,27 @@ const ModalFpActivation: React.FC<{
   financialProduct: FinancialProduct;
   onResolve?: (account?: string) => void;
 }> = ({ financialProduct: fp }) => {
-  const market =
-    (fp.config.can_use_external_account &&
-      fp.config.external_account_market_type) ||
-    undefined;
-
-  const [ModalAddExchange, showAddExchange] =
-    useModalAddExchangeAccount(market);
-
-  const [wallet, setWallet] = useState<ExchangeAccount>();
+  const [wallet, setWallet] = useState<string>();
   const [step, setStep] = useState(0);
+  const [fpiKey, setFpiKey] = useState('');
+
   const navigate = useNavigate();
-  const gotoFpi = () => {
-    if (wallet) {
-      navigate('');
+
+  const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
+  const createFPI = useCreateFPIMutation();
+  const ias = useInvestorAssetStructuresQuery();
+  const hasIas = Boolean(ias.data?.[0]?.main_exchange_account);
+  const createFP = async () => {
+    if (wallet !== 'wisdomise' || hasIas || (await openDisclaimer())) {
+      const account = !wallet || wallet === 'wisdomise' ? undefined : wallet;
+      const { key } = await createFPI.mutateAsync({ fpKey: fp.key, account });
+      setFpiKey(key);
+      setStep(2);
     }
-    return true;
+  };
+
+  const gotoFpiDetails = () => {
+    navigate('/investment/assets/' + fpiKey);
   };
 
   useEffect(() => {
@@ -59,7 +64,6 @@ const ModalFpActivation: React.FC<{
           financialProduct={fp}
           selected={wallet}
           onSelect={setWallet}
-          onAddExchange={showAddExchange}
           onContinue={() => setStep(1)}
         />
       )}
@@ -68,13 +72,14 @@ const ModalFpActivation: React.FC<{
         <StepConfirm
           financialProduct={fp}
           wallet={wallet}
-          onContinue={() => setStep(2)}
+          onBack={() => setStep(0)}
+          onContinue={createFP}
         />
       )}
 
-      {step === 2 && <StepDone onContinue={gotoFpi} />}
+      {step === 2 && <StepDone onContinue={gotoFpiDetails} />}
 
-      {ModalAddExchange}
+      {ModalDisclaimer}
     </div>
   );
 };

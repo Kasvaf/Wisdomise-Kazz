@@ -1,6 +1,7 @@
 import { bxCameraMovie, bxPlus } from 'boxicons-quasar';
-import { useExchangeAccountsQuery, type ExchangeAccount } from 'api';
+import { useExchangeAccountsQuery, useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
+import useModalAddExchangeAccount from 'modules/account/useModalAddExchangeAccount';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Spinner from 'shared/Spinner';
@@ -9,18 +10,26 @@ import ExchangeButton from './ExchangeButton';
 
 const StepChooseWallet: React.FC<{
   financialProduct: FinancialProduct;
-  selected?: ExchangeAccount;
-  onSelect: (val: ExchangeAccount) => void;
-  onAddExchange: () => void;
+  selected?: string;
+  onSelect: (val: string) => void;
   onContinue: () => void;
-}> = ({
-  financialProduct: fp,
-  selected,
-  onSelect,
-  onAddExchange,
-  onContinue,
-}) => {
+}> = ({ financialProduct: fp, selected, onSelect, onContinue }) => {
   const { data: wallets, isLoading } = useExchangeAccountsQuery();
+  const { data: ias } = useInvestorAssetStructuresQuery();
+  const mea = !!ias?.[0]?.main_exchange_account;
+
+  const market =
+    (fp.config.can_use_external_account &&
+      fp.config.external_account_market_type) ||
+    undefined;
+
+  const [ModalAddExchange, showAddExchange] =
+    useModalAddExchangeAccount(market);
+
+  const onAddExchange = async () => {
+    const newWalletKey = await showAddExchange();
+    if (newWalletKey) onSelect(newWalletKey);
+  };
 
   return (
     <div>
@@ -43,17 +52,33 @@ const StepChooseWallet: React.FC<{
           ) : (
             <>
               <div className="flex h-[84px] shrink-0 items-center gap-2 pl-6">
-                {wallets?.map(w => (
-                  <ExchangeButton
-                    key={w.key}
-                    selected={selected?.key === w.key}
-                    walletName={w.title}
-                    available={w.available}
-                    onClick={() => onSelect(w)}
-                  />
-                ))}
+                {wallets
+                  ?.filter(w => w.market_name === market)
+                  .map(w => (
+                    <ExchangeButton
+                      key={w.key}
+                      selected={selected === w.key}
+                      walletType="Binance"
+                      walletName={w.title}
+                      available={w.available}
+                      onClick={() => onSelect(w.key)}
+                    />
+                  ))}
                 {!wallets?.length && (
-                  <ExchangeButton selected={true} onClick={onAddExchange} />
+                  <ExchangeButton
+                    walletType="Binance"
+                    selected={true}
+                    onClick={onAddExchange}
+                  />
+                )}
+
+                {mea && (
+                  <ExchangeButton
+                    walletType="Wisdomise"
+                    walletName="Internal Wallet"
+                    selected={selected === 'wisdomise'}
+                    onClick={() => onSelect('wisdomise')}
+                  />
                 )}
 
                 <Button
@@ -80,6 +105,8 @@ const StepChooseWallet: React.FC<{
           Continue
         </Button>
       </div>
+
+      {ModalAddExchange}
     </div>
   );
 };

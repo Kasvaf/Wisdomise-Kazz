@@ -2,7 +2,7 @@ import { type FinancialProduct } from 'api/types/financialProduct';
 import useIsFPRunning from '../useIsFPRunning';
 import ButtonActivate from './ButtonActivate';
 import ButtonDeactivate from './ButtonDeactivate';
-import useModalActivationNotice from './useModalActivationNotice';
+import useModalFpActivation from './useModalFpActivation';
 
 interface Props {
   inDetailPage?: boolean;
@@ -16,8 +16,7 @@ const ButtonFPActivate: React.FC<Props> = ({
   financialProduct: fp,
 }) => {
   const isRunning = useIsFPRunning(fp?.key);
-  const [ModalActivationNotice, showActivationNotice] =
-    useModalActivationNotice();
+  const [ModalFpActivation, showModalFpActivation] = useModalFpActivation();
   if (!fp) return null;
 
   return (
@@ -32,10 +31,10 @@ const ButtonFPActivate: React.FC<Props> = ({
         <ButtonActivate
           financialProduct={fp}
           className={className}
-          onSuccess={showActivationNotice}
+          onCreate={() => showModalFpActivation({ financialProduct: fp })}
         />
       )}
-      {ModalActivationNotice}
+      {ModalFpActivation}
     </>
   );
 };
