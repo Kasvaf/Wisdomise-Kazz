@@ -1,4 +1,4 @@
-import { bxCameraMovie, bxPlus } from 'boxicons-quasar';
+import { bxPlus } from 'boxicons-quasar';
 import { useExchangeAccountsQuery, useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import useModalAddExchangeAccount from 'modules/account/useModalAddExchangeAccount';
@@ -8,6 +8,7 @@ import Spinner from 'shared/Spinner';
 import useIsMobile from 'utils/useIsMobile';
 import MinMaxInfo from './MinMaxInfo';
 import ExchangeButton from './ExchangeButton';
+import BinanceApiIntroVideo from './BinanceApiIntroVideo';
 
 const StepChooseWallet: React.FC<{
   financialProduct: FinancialProduct;
@@ -33,12 +34,6 @@ const StepChooseWallet: React.FC<{
   };
 
   const isMobile = useIsMobile();
-  const videoButton = (
-    <a className="flex items-center text-info">
-      <Icon name={bxCameraMovie} className="mr-1" />
-      How to Add Binance Wallet
-    </a>
-  );
 
   return (
     <div>
@@ -47,7 +42,7 @@ const StepChooseWallet: React.FC<{
       <section className="mt-9">
         <div className="mb-3 flex items-center justify-between">
           <div>Choose your wallet to continue:</div>
-          {!isMobile && videoButton}
+          {!isMobile && <BinanceApiIntroVideo />}
         </div>
 
         <div className="-mx-6 overflow-x-scroll py-3">
@@ -102,7 +97,9 @@ const StepChooseWallet: React.FC<{
       </section>
 
       {isMobile && (
-        <div className="my-3 flex justify-center">{videoButton}</div>
+        <div className="my-3 flex justify-center">
+          <BinanceApiIntroVideo />
+        </div>
       )}
 
       <div className="mt-6 flex justify-center">
