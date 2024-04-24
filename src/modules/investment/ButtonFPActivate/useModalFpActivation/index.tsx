@@ -16,8 +16,8 @@ const ModalFpActivation: React.FC<{
   financialProduct: FinancialProduct;
   onResolve?: (account?: string) => void;
 }> = ({ financialProduct: fp }) => {
-  const [wallet, setWallet] = useState<string>();
   const [step, setStep] = useState(0);
+  const [wallet, setWallet] = useState<string>();
   const [fpiKey, setFpiKey] = useState('');
 
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const ModalFpActivation: React.FC<{
 
   return (
     <div>
-      <h1 className="mb-9 text-center text-2xl">FP Name</h1>
+      <h1 className="mb-9 text-center text-2xl">{fp.title}</h1>
       <Steps
         className="mb-9"
         progressDot
