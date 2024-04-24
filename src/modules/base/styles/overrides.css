@@ -16,6 +16,10 @@
   .anticon-close {
     color: white;
   }
+
+  .intro-style & {
+    background: linear-gradient(260deg, #41226c 0%, #2d1f41 100%);
+  }
 }
 
 .ant-modal {

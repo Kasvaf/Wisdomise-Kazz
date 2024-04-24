@@ -88,7 +88,10 @@ export default function useModalFpActivation(): [
   JSX.Element,
   (p: { financialProduct: FinancialProduct }) => Promise<string | undefined>,
 ] {
-  const [Modal, showModal] = useModal(ModalFpActivation, { width: 750 });
+  const [Modal, showModal] = useModal(ModalFpActivation, {
+    width: 750,
+    introStyle: true,
+  });
   return [
     Modal,
     async (p: { market?: MarketTypes; financialProduct: FinancialProduct }) =>

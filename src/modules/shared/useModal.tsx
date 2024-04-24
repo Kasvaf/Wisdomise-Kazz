@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 
 interface ModalConfigs extends ModalProps {
   fullscreen?: boolean;
+  introStyle?: boolean;
 }
 
 function useModal<T>(ModalContent: React.FC<T>, config?: ModalConfigs) {
@@ -25,6 +26,7 @@ function useModal<T>(ModalContent: React.FC<T>, config?: ModalConfigs) {
           width={config?.width ?? 500}
           onCancel={closeHandler}
           wrapClassName={clsx(
+            config?.introStyle && 'intro-style',
             config?.fullscreen && 'fullscreen', // styles in override.css
           )}
           {...config}
