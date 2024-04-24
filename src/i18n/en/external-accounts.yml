@@ -5,11 +5,6 @@ account:
   exchange: Exchange
   market: Market
   status: Status
-modal-account-selector:
-  title: Select Account
-  btn-connect-new: Connect New Account
-  btn-continue: Continue
-  not-supported: External exchange accounts are not supported for this product.
 modal-add-exchange:
   title: Add Exchange Account
   input-api-key: API KEY
