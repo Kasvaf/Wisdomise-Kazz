@@ -5,6 +5,7 @@ import useModalAddExchangeAccount from 'modules/account/useModalAddExchangeAccou
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import Spinner from 'shared/Spinner';
+import useIsMobile from 'utils/useIsMobile';
 import MinMaxInfo from './MinMaxInfo';
 import ExchangeButton from './ExchangeButton';
 
@@ -31,6 +32,14 @@ const StepChooseWallet: React.FC<{
     if (newWalletKey) onSelect(newWalletKey);
   };
 
+  const isMobile = useIsMobile();
+  const videoButton = (
+    <a className="flex items-center text-info">
+      <Icon name={bxCameraMovie} className="mr-1" />
+      How to Add Binance Wallet
+    </a>
+  );
+
   return (
     <div>
       <MinMaxInfo min={fp.min_deposit} max={fp.max_deposit} />
@@ -38,10 +47,7 @@ const StepChooseWallet: React.FC<{
       <section className="mt-9">
         <div className="mb-3 flex items-center justify-between">
           <div>Choose your wallet to continue:</div>
-          <a className="flex items-center">
-            <Icon name={bxCameraMovie} className="mr-1" />
-            How to Add Binance Wallet
-          </a>
+          {!isMobile && videoButton}
         </div>
 
         <div className="-mx-6 overflow-x-scroll py-3">
@@ -94,6 +100,10 @@ const StepChooseWallet: React.FC<{
           )}
         </div>
       </section>
+
+      {isMobile && (
+        <div className="my-3 flex justify-center">{videoButton}</div>
+      )}
 
       <div className="mt-6 flex justify-center">
         <Button
