@@ -7,6 +7,7 @@ import {
   type MarketTypes,
 } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
+import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
 import useModalDisclaimer from './useModalDisclaimer';
 import StepChooseWallet from './StepChooseWallet';
 import StepConfirm from './StepConfirm';
@@ -18,7 +19,7 @@ const ModalFpActivation: React.FC<{
 }> = ({ financialProduct: fp }) => {
   const [step, setStep] = useState(0);
   const [wallet, setWallet] = useState<string>();
-  const [fpiKey, setFpiKey] = useState('');
+  const [fpi, setFpi] = useState<FinancialProductInstance>();
 
   const navigate = useNavigate();
 
@@ -29,21 +30,24 @@ const ModalFpActivation: React.FC<{
   const createFP = async () => {
     if (wallet !== 'wisdomise' || hasIas || (await openDisclaimer())) {
       const account = !wallet || wallet === 'wisdomise' ? undefined : wallet;
-      const { key } = await createFPI.mutateAsync({ fpKey: fp.key, account });
-      setFpiKey(key);
+      const fpi = await createFPI.mutateAsync({ fpKey: fp.key, account });
+      setFpi(fpi);
       setStep(2);
     }
   };
 
   const gotoFpiDetails = () => {
-    navigate('/investment/assets/' + fpiKey);
+    if (fpi?.key) {
+      navigate('/investment/assets/' + fpi?.key);
+    }
   };
 
+  const fpiLen = ias.data?.[0].financial_product_instances.length;
   useEffect(() => {
-    if (!wallet) {
+    if (!wallet || !fpiLen) {
       setStep(0);
     }
-  }, [wallet]);
+  }, [fpiLen, wallet]);
 
   return (
     <div>
@@ -77,7 +81,9 @@ const ModalFpActivation: React.FC<{
         />
       )}
 
-      {step === 2 && <StepDone onContinue={gotoFpiDetails} />}
+      {step === 2 && fpi && (
+        <StepDone financialProductInstance={fpi} onContinue={gotoFpiDetails} />
+      )}
 
       {ModalDisclaimer}
     </div>

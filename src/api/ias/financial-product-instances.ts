@@ -28,8 +28,8 @@ export const useCreateFPIMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation<
-    { key: string },
     FinancialProductInstance,
+    unknown,
     { fpKey: string; account?: string }
   >(
     async ({ fpKey, account }) => {
