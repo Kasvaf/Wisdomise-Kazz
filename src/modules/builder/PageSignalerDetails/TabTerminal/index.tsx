@@ -15,8 +15,10 @@ const TabTerminal = () => {
   const { data: signaler } = useSignalerQuery(params.id);
   const [assetName, setAssetName] = useSearchParamAsState('asset');
 
-  const { data: candles, isLoading: candlesLoading } =
-    useRecentCandlesQuery(assetName);
+  const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
+    assetName,
+    signaler?.market_name,
+  );
 
   const { data, isLoading } = useMySignalerOpenPositions(params.id);
   const openPositions = data?.map(p => ({

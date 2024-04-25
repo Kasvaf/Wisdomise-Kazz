@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { type MarketTypes } from './types/financialProduct';
 
 export type Resolution = '1m' | '3m' | '5m' | '15m' | '30m' | '1h';
 
@@ -19,14 +20,16 @@ export const useCandlesQuery = ({
   resolution,
   startDateTime,
   endDateTime,
+  market,
 }: {
   asset?: string;
   resolution?: Resolution;
   startDateTime?: string | Date;
   endDateTime?: string | Date;
+  market?: MarketTypes;
 }) =>
   useQuery(
-    ['candles', asset, resolution, startDateTime, endDateTime],
+    ['candles', asset, resolution, startDateTime, endDateTime, market],
     async () => {
       const { data } = await axios.get<Candle[]>('/delphi/candles', {
         params: {
@@ -34,17 +37,27 @@ export const useCandlesQuery = ({
           resolution,
           start_datetime: startDateTime,
           end_datetime: endDateTime,
+          market_type: market,
         },
       });
       return data;
     },
     {
-      enabled: Boolean(asset && resolution && startDateTime && endDateTime),
+      enabled: Boolean(
+        asset &&
+          resolution &&
+          startDateTime &&
+          endDateTime &&
+          market !== undefined,
+      ),
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
 
-export const useRecentCandlesQuery = (asset: string | undefined) =>
+export const useRecentCandlesQuery = (
+  asset: string | undefined,
+  market: MarketTypes | undefined,
+) =>
   useCandlesQuery({
     asset,
     resolution: '1h',
@@ -54,4 +67,5 @@ export const useRecentCandlesQuery = (asset: string | undefined) =>
       return startDateTime.toISOString();
     }, []),
     endDateTime: useMemo(() => new Date().toISOString(), []),
+    market,
   });
