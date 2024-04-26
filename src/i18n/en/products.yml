@@ -63,6 +63,40 @@ list:
   of-total-balance: Of Total Balance
 notification-deactivated:
   message: Strategy Deactivated Successfully!
+onboarding:
+  sec-1:
+    title: 'AI-Driven Auto Trader: Secure Your Future'
+    content: >-
+      Step into the world of automated trading with our AI-Driven Auto Trader.
+      The video will reveal how our AI utilizes trend analysis and market data
+      to manage your investments. Lock in your assets for at least three months
+      to harness optimum performance. Discover our complimentary 'High-Risk
+      Master' product, or explore further with an 'Investment subscription' for
+      access to our full suite of financial products.
+  sec-2:
+    title: Select Coins & Forecast Returns
+    content: >-
+      <0><0><0>Specialized Products:</0> Engage with financial products designed
+      for specific cryptocurrencies.</0><1><0>Risk & APY:</0> Balance your risk
+      tolerance with the anticipated APY range of each product.</1></0>
+  sec-3:
+    title: Getting Started with Your Financial Product
+    content: >-
+      <0><0><0>Exchange Connection:</0> Seamlessly connect your exchange account
+      using your API key.</0><1><0>Product Activation:</0> Follow our detailed
+      video guide to activate your chosen financial product by adding your
+      exchange wallet. Easily kickstart your auto trading journey with our
+      step-by-step activation process.</1><2>Video box for explaining how to
+      connect their binance API</2></0>
+  sec-4:
+    title: Track Your Financial Success
+    content: >-
+      <0><0><0>Asset Overview Access:</0> Once activated, monitor your financial
+      product's performance in the Asset Overview section.</0><1><0>Profit/Loss
+      Updates:</0> Stay informed with real-time P/L updates.</1><2><0>Position
+      History:</0> Review the trade history to understand your product’s market
+      moves. Keep a close eye on your investments and make informed decisions
+      with comprehensive insights.</2></0>
 product-catalog:
   btn-explore: Explore
   stake:

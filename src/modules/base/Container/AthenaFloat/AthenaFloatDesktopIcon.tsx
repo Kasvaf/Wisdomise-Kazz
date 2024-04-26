@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
+import athenaIcon from 'assets/athena.mp4';
 import { ReactComponent as Background } from './assets/desktop-icon-bg.svg';
-import athenaIcon from './assets/athena.mp4';
 import { useAthenaFloat } from './AthenaFloatProvider';
 
 export default function AthenaFloatDesktopIcon() {

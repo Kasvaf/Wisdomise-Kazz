@@ -7,6 +7,7 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { isProduction } from 'utils/version';
 import TabTrade from './TabTrade';
 import TabStake from './TabStake';
+import { ProductsCatalogOnboarding } from './ProductsCatalogOnboarding';
 
 const PageProductsCatalog = () => {
   const { t } = useTranslation('products');
@@ -39,6 +40,7 @@ const PageProductsCatalog = () => {
 
   return (
     <PageWrapper>
+      <ProductsCatalogOnboarding />
       <Tabs activeKey={activeTab} onChange={onTabChange} items={items} />
     </PageWrapper>
   );

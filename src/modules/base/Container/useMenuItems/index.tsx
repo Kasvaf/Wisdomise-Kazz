@@ -10,6 +10,8 @@ import { ReactComponent as AccountIconEmpty } from './icons/account-empty.svg';
 import { ReactComponent as AccountIconFull } from './icons/account-full.svg';
 import { ReactComponent as BuilderIconEmpty } from './icons/builder-empty.svg';
 import { ReactComponent as BuilderIconFull } from './icons/builder-full.svg';
+import { ReactComponent as HomeIconFull } from './icons/home-full.svg';
+import { ReactComponent as HomeIconEmpty } from './icons/home-empty.svg';
 
 const Icon = (
   Empty: React.FC<React.SVGProps<SVGSVGElement>>,
@@ -39,23 +41,12 @@ const useMenuItems = () => {
   const { t } = useTranslation('base');
   const items: RootMenuItem[] = [
     {
-      icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
-      text: t('menu.investment.title'),
-      link: '/investment',
-      onClick: trackClick('investment_menu'),
-      children: [
-        {
-          text: t('menu.asset-overview.title'),
-          link: '/investment/assets',
-          onClick: trackClick('asset_overview_menu'),
-        },
-        {
-          text: t('menu.financial-products.title'),
-          link: '/investment/products-catalog',
-          onClick: trackClick('financial_products_menu'),
-        },
-      ],
+      icon: Icon(HomeIconEmpty, HomeIconFull),
+      text: t('menu.home.title'),
+      link: '/home',
+      onClick: trackClick('home_menu'),
     },
+
     {
       icon: Icon(InsightIconEmpty, InsightIconFull),
       text: t('menu.insight.title'),
@@ -82,6 +73,24 @@ const useMenuItems = () => {
           link: '/insight/social-radar',
           onClick: trackClick('social_radar_menu'),
           isBeta: true,
+        },
+      ],
+    },
+    {
+      icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
+      text: t('menu.investment.title'),
+      link: '/investment',
+      onClick: trackClick('investment_menu'),
+      children: [
+        {
+          text: t('menu.asset-overview.title'),
+          link: '/investment/assets',
+          onClick: trackClick('asset_overview_menu'),
+        },
+        {
+          text: t('menu.financial-products.title'),
+          link: '/investment/products-catalog',
+          onClick: trackClick('financial_products_menu'),
         },
       ],
     },
