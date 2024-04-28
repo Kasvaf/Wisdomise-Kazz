@@ -61,8 +61,10 @@ export default function PageSignaler() {
 
   const activePositions = allPositions.data?.filter(x => !x.exit_time);
   const simulatedPositions = allPositions.data?.filter(x => x.exit_time);
-  const { data: candles, isLoading: candlesLoading } =
-    useRecentCandlesQuery(coinName);
+  const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
+    coinName,
+    strategy?.market_name,
+  );
 
   return (
     <PageWrapper loading={false}>

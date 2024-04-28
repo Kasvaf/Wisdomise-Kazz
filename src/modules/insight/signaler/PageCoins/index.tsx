@@ -35,6 +35,7 @@ export default function PageCoins() {
 
   const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
     coin?.base.name,
+    'SPOT',
   );
 
   const loading = candlesLoading || detailsLoading || signalersLoading;

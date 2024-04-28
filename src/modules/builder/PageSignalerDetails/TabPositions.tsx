@@ -45,6 +45,7 @@ const TabPositions = () => {
     resolution: bestResolution(dateRange),
     startDateTime: dateRange?.[0]?.toISOString(),
     endDateTime: dateRange?.[1]?.toISOString(),
+    market: signaler?.market_name,
   });
 
   return (

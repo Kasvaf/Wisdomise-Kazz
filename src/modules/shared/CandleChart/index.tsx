@@ -36,7 +36,7 @@ const makeOption = (
     },
     grid: {
       top: '5%',
-      left: '8%',
+      left: '50px',
       right: '5%',
       bottom: '15%',
     },

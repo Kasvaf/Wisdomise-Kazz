@@ -70,7 +70,7 @@ export const WidgetsColumn = () => {
     <div
       className={clsx(
         'max-xl:px-0 relative flex overflow-hidden pl-6 pr-8 mobile:mt-4 mobile:flex-col mobile:gap-4 mobile:overflow-visible mobile:px-0',
-        'ml-auto w-fit',
+        'ml-auto w-fit mobile:w-full',
       )}
     >
       <section
