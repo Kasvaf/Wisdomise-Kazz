@@ -33,7 +33,7 @@ const ModalFpActivation: React.FC<{
     }
   };
 
-  const fpiLen = ias.data?.[0].financial_product_instances.length;
+  const fpiLen = ias.data?.[0]?.financial_product_instances.length;
   useEffect(() => {
     if (!wallet || !fpiLen) {
       setStep(0);
