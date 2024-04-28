@@ -35,6 +35,16 @@ disclaimer:
     holding the cryptocurrencies in a wallet on Binance. Wisdomise (Switzerland)
     AG accepts no liability whatsoever for any damage incurred in connection
     with holding the cryptocurrencies in a wallet on Binance.
+fp-activation:
+  btn-continue: Continue
+  btn-create-fp: Create Financial Product
+  btn-start: Start Your Financial Product
+  choose-your-wallet: 'Choose your wallet to continue:'
+  congratulations: Congratulations!
+  created-success: Your financial product has been created.
+  max-investment: Max Investment
+  min-investment: Min Investment
+  video-into-title: How to Add Binance Wallet
 fpi-page:
   title: Financial Product Details
 list:

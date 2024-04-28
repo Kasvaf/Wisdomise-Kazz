@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { useExchangeAccountsQuery } from 'api';
 import Button from 'shared/Button';
@@ -11,6 +12,7 @@ const StepConfirm: React.FC<{
   onBack: () => void;
   onContinue: () => Promise<void>;
 }> = ({ financialProduct: fp, wallet, onBack, onContinue }) => {
+  const { t } = useTranslation('products');
   const { data: wallets } = useExchangeAccountsQuery();
   const walletRef =
     wallet === 'wisdomise'
@@ -49,7 +51,7 @@ const StepConfirm: React.FC<{
           disabled={false}
           loading={isCreating}
         >
-          Back
+          {t('common:actions.back')}
         </Button>
 
         <Button
@@ -59,7 +61,7 @@ const StepConfirm: React.FC<{
           disabled={false}
           loading={isCreating}
         >
-          Create Financial Product
+          {t('fp-activation.btn-create-fp')}
         </Button>
       </div>
     </div>

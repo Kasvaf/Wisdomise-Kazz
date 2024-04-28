@@ -1,4 +1,5 @@
 import { bxPlus } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { useExchangeAccountsQuery, useInvestorAssetStructuresQuery } from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import useModalAddExchangeAccount from 'modules/account/useModalAddExchangeAccount';
@@ -16,6 +17,7 @@ const StepChooseWallet: React.FC<{
   onSelect: (val: string) => void;
   onContinue: () => void;
 }> = ({ financialProduct: fp, selected, onSelect, onContinue }) => {
+  const { t } = useTranslation('products');
   const { data: wallets, isLoading } = useExchangeAccountsQuery();
   const { data: ias } = useInvestorAssetStructuresQuery();
   const mea = !!ias?.[0]?.main_exchange_account;
@@ -43,7 +45,7 @@ const StepChooseWallet: React.FC<{
 
       <section className="mt-9">
         <div className="mb-3 flex items-center justify-between">
-          <div>Choose your wallet to continue:</div>
+          <div>{t('fp-activation.choose-your-wallet')}</div>
           {!isMobile && <BinanceApiIntroVideo />}
         </div>
 
@@ -111,7 +113,7 @@ const StepChooseWallet: React.FC<{
           onClick={onContinue}
           disabled={!selected}
         >
-          Continue
+          {t('fp-activation.btn-continue')}
         </Button>
       </div>
 

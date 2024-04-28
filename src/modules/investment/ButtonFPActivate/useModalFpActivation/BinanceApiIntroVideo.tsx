@@ -3,10 +3,12 @@ import YouTube from 'react-youtube';
 import { useWindowSize } from 'usehooks-ts';
 import { useRef, useState } from 'react';
 import { Modal } from 'antd';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 
 const BinanceApiIntroVideo = () => {
+  const { t } = useTranslation('products');
   const ws = useWindowSize();
   const isMobile = useIsMobile();
   const width = Math.min(ws.width - 32, 800);
@@ -19,7 +21,7 @@ const BinanceApiIntroVideo = () => {
     <div>
       <a className="flex items-center text-info" onClick={() => setOpen(true)}>
         <Icon name={bxCameraMovie} className="mr-1" />
-        How to Add Binance Wallet
+        {t('fp-activation.video-into-title')}
       </a>
 
       {open && (
@@ -32,7 +34,9 @@ const BinanceApiIntroVideo = () => {
           wrapClassName="intro-style"
         >
           <div className="mobile:-mx-6 mobile:-mb-6">
-            <div className="mb-3 mobile:ml-3">How to Add Binance Wallet</div>
+            <div className="mb-3 mobile:ml-3">
+              {t('fp-activation.video-into-title')}
+            </div>
             <YouTube
               ref={player}
               videoId="Z0X7FzgaCgw"

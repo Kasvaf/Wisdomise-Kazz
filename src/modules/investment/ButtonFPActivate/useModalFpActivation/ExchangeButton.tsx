@@ -1,5 +1,7 @@
 import { clsx } from 'clsx';
 import * as numerable from 'numerable';
+import { useTranslation } from 'react-i18next';
+import { useMainQuote } from 'api';
 import BrandedCard from './BrandedCard';
 import { ReactComponent as BinanceIconSvg } from './binance-icon.svg';
 import { ReactComponent as WisdomiseIconSvg } from './wisdomise-icon.svg';
@@ -12,6 +14,8 @@ const ExchangeButton: React.FC<{
   className?: string;
   onClick?: () => void;
 }> = ({ walletType, walletName, available, selected, className, onClick }) => {
+  const { t } = useTranslation('wallet');
+  const quote = useMainQuote();
   const BrandIcon =
     walletType === 'Binance' ? BinanceIconSvg : WisdomiseIconSvg;
   return (
@@ -45,10 +49,10 @@ const ExchangeButton: React.FC<{
 
       {available !== undefined && (
         <div className="flex items-center justify-between">
-          <div className="text-black/80">Available</div>
+          <div className="text-black/80">{t('available')}</div>
           <span>
             <span>{numerable.format(available, '0,0')}</span>
-            <span className="ml-1 text-xs text-black/40">USDT</span>
+            <span className="ml-1 text-xs text-black/40">{quote}</span>
           </span>
         </div>
       )}
