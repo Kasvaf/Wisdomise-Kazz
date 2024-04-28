@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useMyFinancialProductPerfQuery } from 'api/builder';
 import InfoBox from 'modules/builder/InfoBox';
 import DateRangeSelector from 'shared/DateRangeSelector';
@@ -9,6 +10,7 @@ import TitleHint from '../TitleHint';
 import PnlChart from '../PnlChart';
 
 const TabPerformance = () => {
+  const { t } = useTranslation('builder');
   const params = useParams<{ id: string }>();
   const [dateRange, setDateRange] = useState<[Date, Date]>();
 
@@ -19,6 +21,10 @@ const TabPerformance = () => {
   });
 
   const inputted = Boolean(params.id && dateRange?.[0] && dateRange?.[1]);
+  const dateRangeDiff =
+    dateRange?.[0] && dateRange?.[1]
+      ? Math.round((+dateRange[1] - +dateRange[0]) / (24 * 60 * 60 * 1000)) - 1
+      : undefined;
 
   return (
     <div className="mt-8">
@@ -26,7 +32,7 @@ const TabPerformance = () => {
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}
-          label="Date"
+          label={t('common:date')}
           defaultRecent={14}
         />
       </div>
@@ -39,9 +45,9 @@ const TabPerformance = () => {
       {data && inputted && (
         <>
           <TitleHint title="P/L Chart" className="mb-3">
-            Your Chart data updates by changing date range
+            {t('performance.title')}
           </TitleHint>
-          <div className="flex items-stretch gap-3 mobile:flex-col">
+          <div className="flex items-stretch gap-3 mobile:flex-col-reverse">
             <div className="flex basis-2/3 flex-col">
               <div className="grow rounded-2xl bg-black/40 p-4">
                 <PnlChart data={data.equities} />
@@ -52,8 +58,10 @@ const TabPerformance = () => {
               <InfoBox
                 title={
                   <>
-                    P/L{' '}
-                    <span className="ml-1 text-xs">Asset Under Management</span>
+                    {t('strategy:positions-history.pnl')}{' '}
+                    <span className="ml-1 text-xs">
+                      {t('performance.asset-under-management')}
+                    </span>
                   </>
                 }
               >
@@ -66,7 +74,10 @@ const TabPerformance = () => {
               <InfoBox
                 title={
                   <>
-                    Max Drawdown <span className="text-[#34A3DA99]">7d</span>
+                    {t('products:product-detail.max-drawdown')}{' '}
+                    {dateRangeDiff !== undefined && (
+                      <span className="text-[#34A3DA99]">{dateRangeDiff}d</span>
+                    )}
                   </>
                 }
               >

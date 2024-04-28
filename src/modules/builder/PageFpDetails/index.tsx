@@ -1,6 +1,7 @@
 import { Tabs, type TabsProps } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHasFlag } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
@@ -10,6 +11,7 @@ import TabPositions from './TabPositions';
 import TabPerformance from './TabPerformance';
 
 export default function PageFpDetails() {
+  const { t } = useTranslation('builder');
   const params = useParams<{ id: string }>();
   const navigate = useNavigate();
   useEffect(() => {
@@ -27,22 +29,22 @@ export default function PageFpDetails() {
   const items: TabsProps['items'] = [
     {
       key: 'build',
-      label: 'Product Builder',
+      label: t('fp.tabs.product-builder'),
       children: <TabBuilder />,
     },
     {
       key: 'perf',
-      label: 'Performance',
+      label: t('fp.tabs.performance'),
       children: <TabPerformance />,
     },
     {
       key: 'pos',
-      label: 'Positions',
+      label: t('fp.tabs.positions'),
       children: <TabPositions />,
     },
     {
       key: 'usage',
-      label: 'Usage',
+      label: t('fp.tabs.usage'),
       children: <TabUsage />,
     },
   ].filter(x => hasFlag('?tab=' + x.key));

@@ -1,7 +1,24 @@
 actions:
   back: Back
+  explore: Explore
+  'no': 'No'
+  remove: Remove
+  save: Save
+  'yes': 'Yes'
+aum: AUM
+confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
+crypto: Crypto
 cryptocurrency: Cryptocurrency
+date: Date
 errors:
   field-required: This field may not be blank.
+loading-dot-dot-dot: Loading...
+market:
+  long: Long
+  short: Short
 network: Network
+order-type:
+  limit: Limit
+  market: Market
+select-crypto: Select Crypto

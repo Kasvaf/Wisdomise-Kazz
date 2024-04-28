@@ -1,0 +1,124 @@
+actual-pos-table:
+  actual: Actual
+  asset: Asset
+  entry-point: Entry Point
+  exit-point: Exit Point
+  p-l: P/L
+  signal: Signal
+  size: Size
+  type: Type
+all-assets: All assets
+api:
+  documentation:
+    title: Documentation
+    description: >-
+      API documentation is a set of readable instructions for using and
+      integrating with an API
+  secret-key:
+    title: Secret Key
+    description: >-
+      Use this write key to send data to this strategy from our partners,
+      plugins, libraries or REST API.
+  signaler-api:
+    title: Signaler API
+    description: Copy the Signaler snippet and paste it in the <head> of your website.
+  signaler-id:
+    title: Signaler ID
+    description: >-
+      For webhooks and S3 integrations, you can differentiate strategy by the
+      strategy id.
+asset-manager:
+  asset-management: Asset Management
+  banner: You haven't created any <1>Signlers</1> to use in your product yet.
+  btn-new-asset: New Asset
+  err-bad-total: Total of assets shares must be less than or equal to 100.
+  expected-drawdown: Expected Drawdown
+  financial-product-description: Financial Product Description
+  financial-product-name: Financial Product Name
+config:
+  assets:
+    title: Assets
+    description: Click on plus button to add from crypto supported list
+  market: Market
+  resolution: Resolution
+  signaler-name: Signaler Name
+duration:
+  day: Day
+  hour: Hour
+  minute: Minute
+  month: Month
+  second: Second
+fp:
+  card:
+    expected-apy: Expected APY
+  create-new:
+    name: Financial Product Name
+    title: Create New Financial Product
+    description: Financial Product Description
+    btn-create-financial-product: Create Financial Product
+    expected-apy: Expected APY
+    expected-drawdown: Expected Drawdown
+    market: Market
+    risk-level: Risk Level
+  tabs:
+    performance: Performance
+    positions: Positions
+    product-builder: Product Builder
+    usage: Usage
+multi-coin-selector:
+  add-coin: Add Coin
+notif-saved-successfully: Changes saved successfully.
+performance:
+  title: Your Chart data updates by changing date range
+  asset-under-management: Asset Under Management
+  p-l-chart:
+    title: P/L Chart
+    description: Your Chart data updates by changing date range
+publish-notice:
+  description: To publish your {{type}}, contact support via support button or email us at
+  note: 'Note:'
+signal-form:
+  btn-close: Close
+  btn-fire-signal: Fire Signal
+  btn-update: Update Position
+  confirm-close: Are you sure you want to close this position?
+  confirm-fire: Are you sure you want to fire this signal?
+  confirm-update: Are you sure you want to update this signal?
+  expiration-time:
+    title: Expiration Time
+    info-text: Specifies how long a signal remains valid for entry.
+    info-title: Expiration Time
+  notif-success-close: Position closed successfully and will be visible in 90 seconds.
+  notif-success-fire: Signal fired successfully and will be visible in 90 seconds.
+  notif-success-update: Position updated successfully.
+  order-expiration-time:
+    title: Order Expiration Time
+    info-text: >-
+      Sets a time limit for the execution of a limit order. If the order isn't
+      filled by this time, it's automatically canceled.
+    info-title: Order Expiration Time
+  price: Price
+  stop-loss: Stop Loss
+  take-profit: Take Profit
+signaler:
+  card:
+    active-positions: Active positions
+    last-week: Last week
+    open-signaler: Open Signaler
+    positions: Positions
+  create-new:
+    title: Create New Signaler
+    description: Pick a name to help you identify this signaler.
+    btn-create-signaler: Create Signaler
+    signaler-name: Signaler Name
+  tabs:
+    api: API
+    configuration: Configuration
+    performance: Performance
+    positions: Positions
+    terminal: Terminal
+subscriber-selector:
+  label: Subscriber
+  choose-account: Choose Account
+usage:
+  trading-volume: Trading Volume

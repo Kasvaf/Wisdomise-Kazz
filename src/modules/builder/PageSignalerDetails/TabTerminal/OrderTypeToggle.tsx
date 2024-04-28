@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 type OrderType = 'limit' | 'market';
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const OrderTypeToggle: React.FC<Props> = ({ value, onChange }) => {
+  const { t } = useTranslation('builder');
   return (
     <div className="flex h-[48px] w-[62px] flex-col items-stretch justify-stretch gap-1 text-center text-xs">
       <div
@@ -16,7 +18,7 @@ const OrderTypeToggle: React.FC<Props> = ({ value, onChange }) => {
         )}
         onClick={() => onChange('limit')}
       >
-        Limit
+        {t('common:order-type.limit')}
       </div>
       <div
         className={clsx(
@@ -25,7 +27,7 @@ const OrderTypeToggle: React.FC<Props> = ({ value, onChange }) => {
         )}
         onClick={() => onChange('market')}
       >
-        Market
+        {t('common:order-type.market')}
       </div>
     </div>
   );

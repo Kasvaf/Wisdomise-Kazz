@@ -34,8 +34,8 @@ const TabTerminal = () => {
     <div className="mt-8">
       <div className="mb-8 flex flex-col justify-start gap-4 border-b border-white/5 pb-8">
         <AssetSelector
-          label="Crypto"
-          placeholder="Select Crypto"
+          label={t('common:crypto')}
+          placeholder={t('common:select-crypto')}
           assets={signaler?.assets.map(x => x.name)}
           selectedItem={assetName}
           onSelect={setAssetName}

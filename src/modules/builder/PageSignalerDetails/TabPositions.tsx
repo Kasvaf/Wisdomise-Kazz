@@ -14,7 +14,7 @@ import Spinner from 'shared/Spinner';
 import AssetSelector from '../AssetSelector';
 
 const TabPositions = () => {
-  const { t } = useTranslation('strategy');
+  const { t } = useTranslation('builder');
   const params = useParams<{ id: string }>();
   const isMobile = useIsMobile();
   const { data: signaler } = useSignalerQuery(params.id);
@@ -52,8 +52,8 @@ const TabPositions = () => {
     <div className="my-8">
       <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <AssetSelector
-          label="Crypto"
-          placeholder="Select Crypto"
+          label={t('common:crypto')}
+          placeholder={t('common:select-crypto')}
           assets={signaler?.assets.map(x => x.name)}
           selectedItem={assetName}
           onSelect={setAssetName}
@@ -64,7 +64,7 @@ const TabPositions = () => {
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}
-          label="Date"
+          label={t('common:date')}
           defaultRecent={7}
         />
       </div>
@@ -93,7 +93,7 @@ const TabPositions = () => {
               {!!simulatedPositions && (
                 <div className="mt-10">
                   <h2 className="mb-3 text-xl text-white/40">
-                    {t('signaler.simulated-position-history')}
+                    {t('strategy:signaler.simulated-position-history')}
                   </h2>
                   <SimulatedPositionsTable items={allPositions ?? []} />
                 </div>

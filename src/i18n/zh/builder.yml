@@ -1,0 +1,116 @@
+actual-pos-table:
+  actual: 实际的
+  asset: 资产
+  entry-point: 入场点
+  exit-point: 出场点
+  p-l: P/L
+  signal: 信号
+  size: 尺寸
+  type: 类型
+all-assets: 所有资产
+api:
+  documentation:
+    description: API 文档是一组关于使用和集成 API 的可读说明
+    title: 文档
+  secret-key:
+    description: 使用此写入密钥从我们的合作伙伴、插件、库或 REST API 向此策略发送数据。
+    title: 密钥
+  signaler-api:
+    description: 复制 Signaler 代码片段并将其粘贴到 <head> 您的网站。
+    title: 信号发送器 API
+  signaler-id:
+    description: 对于 webhook 和 S3 集成，您可以通过策略 id 区分策略。
+    title: 信号员识别号
+asset-manager:
+  asset-management: 资产管理
+  banner: 您尚未创建任何 <1>信号员</1> 尚未在您的产品中使用。
+  btn-new-asset: 新资产
+  err-bad-total: 资产股份总数必须小于或等于100。
+  expected-drawdown: 预期回撤
+  financial-product-description: 金融产品描述
+  financial-product-name: 金融产品名称
+config:
+  assets:
+    description: 单击加号按钮从加密支持列表中添加
+    title: 资产
+  market: 市场
+  resolution: 解决
+  signaler-name: 信号员姓名
+duration:
+  day: 天
+  hour: 小时
+  minute: 分钟
+  month: 月
+  second: 第二
+fp:
+  card:
+    expected-apy: 预期年收益
+  create-new:
+    btn-create-financial-product: 创建金融产品
+    description: 金融产品描述
+    expected-apy: 预期年收益
+    expected-drawdown: 预期回撤
+    market: 市场
+    name: 金融产品名称
+    risk-level: 风险等级
+    title: 创建新的金融产品
+  tabs:
+    performance: 表现
+    positions: 职位
+    product-builder: 产品生成器
+    usage: 用法
+multi-coin-selector:
+  add-coin: 添加硬币
+notif-saved-successfully: 更改已成功保存。
+performance:
+  asset-under-management: 资产管理规模
+  p-l-chart:
+    description: 您的图表数据会通过更改日期范围来更新
+    title: 盈亏图表
+  title: 您的图表数据会通过更改日期范围来更新
+publish-notice:
+  description: 发布您的 {{type}}，通过支持按钮联系支持人员或发送电子邮件至
+  note: 笔记：
+signal-form:
+  btn-close: 关闭
+  btn-fire-signal: 火警信号
+  btn-update: 更新职位
+  confirm-close: 您确定要关闭此仓位吗？
+  confirm-fire: 您确定要发射此信号吗？
+  confirm-update: 您确实要更新此信号吗？
+  expiration-time:
+    info-text: 指定信号保持有效的时间长度。
+    info-title: 到期时间
+    title: 到期时间
+  notif-success-close: 仓位已成功关闭并将在 90 秒后显示。
+  notif-success-fire: 信号发射成功并将在 90 秒后可见。
+  notif-success-update: 职位更新成功。
+  order-expiration-time:
+    info-text: 为限价订单的执行设定一个时间限制。如果订单在这段时间内没有成交，它将被自动取消。
+    info-title: 订单到期时间
+    title: 订单到期时间
+  price: 价格
+  stop-loss: 止损
+  take-profit: 从中受益
+signaler:
+  card:
+    active-positions: 活跃职位
+    last-week: 上星期
+    open-signaler: 打开信号器
+    positions: 职位
+  create-new:
+    btn-create-signaler: 创建信号器
+    description: 选择一个名字来帮助您识别这个信号器。
+    signaler-name: 信号员姓名
+    title: 创建新信号器
+  tabs:
+    api: API
+    configuration: 配置
+    performance: 表现
+    positions: 职位
+    terminal: 终端
+subscriber-selector:
+  choose-account: 选择账户
+  label: 订户
+usage:
+  trading-volume: 交易量

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 import {
   type SignalerData,
   useSignalerQuery,
@@ -19,6 +20,7 @@ import PublishNotice from '../PublishNotice';
 import MultiCoinsSelector from './MultiCoinsSelector';
 
 const TabConfig = () => {
+  const { t } = useTranslation('builder');
   const params = useParams<{ id: string }>();
   const { data: signaler, isLoading } = useSignalerQuery(params.id);
   const { data: allowed } = useSignalerAllowedAssetsQuery(params.id);
@@ -59,7 +61,7 @@ const TabConfig = () => {
         tags: changes.tags ?? signaler.tags,
         assets: changes.assets ?? signaler.assets,
       });
-      notification.success({ message: 'Changes saved successfully.' });
+      notification.success({ message: t('notif-saved-successfully') });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -77,8 +79,8 @@ const TabConfig = () => {
     <div>
       <div className="mt-8 flex max-w-4xl gap-6 mobile:flex-col">
         <TextBox
-          label="Signaler Name"
-          placeholder="Signaler Name"
+          label={t('config.signaler-name')}
+          placeholder={t('config.signaler-name')}
           value={changes.name ?? signaler.name}
           onChange={v => update('name', v)}
           className="basis-3/5"
@@ -86,22 +88,22 @@ const TabConfig = () => {
         />
 
         <MarketSelector
-          label="Market"
+          label={t('config.market')}
           selectedItem={changes.market_name ?? signaler.market_name}
           className="basis-1/5"
           disabled
         />
 
         <ResolutionSelector
-          label="Resolution"
+          label={t('config.resolution')}
           selectedItem={changes.resolution ?? signaler.resolution}
           onSelect={v => update('resolution', v)}
           className="basis-1/5"
         />
       </div>
 
-      <TitleHint title="Assets" className="mb-2 mt-10">
-        Click on plus button to add from crypto supported list
+      <TitleHint title={t('config.assets.title')} className="mb-2 mt-10">
+        {t('config.assets.description')}
       </TitleHint>
       <MultiCoinsSelector
         options={allowed ?? []}
@@ -115,7 +117,7 @@ const TabConfig = () => {
           loading={isSaving}
           onClick={saveChanges}
         >
-          Save
+          {t('common:actions.save')}
         </Button>
       </section>
 
