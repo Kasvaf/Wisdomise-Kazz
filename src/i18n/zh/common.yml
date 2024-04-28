@@ -1,8 +1,25 @@
 actions:
   back: 返回
+  explore: 探索
+  no: 不
+  remove: 消除
+  save: 节省
+  yes: 是的
+aum: AUM
+confirmation: 确认
 copied-to-clipboard: 已复制到剪贴板
+crypto: 加密货币
 cryptocurrency: 加密货币
+date: 日期
 errors:
   field-required: 该字段不能为空。
 loading: 加载中...
+loading-dot-dot-dot: 加载中...
+market:
+  long: 长的
+  short: 短的
 network: 网络
+order-type:
+  limit: 限制
+  market: 市场
+select-crypto: 暗号を選択

@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 type Market = 'long' | 'short';
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const MarketToggle: React.FC<Props> = ({ value, onChange }) => {
+  const { t } = useTranslation();
   return (
     <div className="flex h-[48px] justify-stretch gap-2 rounded-xl bg-black/20 p-2 text-center">
       <div
@@ -16,7 +18,7 @@ const MarketToggle: React.FC<Props> = ({ value, onChange }) => {
         )}
         onClick={() => onChange('long')}
       >
-        Long
+        {t('common:market.long')}
       </div>
       <div
         className={clsx(
@@ -25,7 +27,7 @@ const MarketToggle: React.FC<Props> = ({ value, onChange }) => {
         )}
         onClick={() => onChange('short')}
       >
-        Short
+        {t('common:market.short')}
       </div>
     </div>
   );

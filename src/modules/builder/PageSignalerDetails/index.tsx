@@ -1,6 +1,7 @@
 import { Tabs, type TabsProps } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useHasFlag } from 'api';
@@ -11,6 +12,7 @@ import TabPositions from './TabPositions';
 import TabPerformance from './TabPerformance';
 
 export default function PageSignalerDetails() {
+  const { t } = useTranslation('builder');
   const params = useParams<{ id: string }>();
   const navigate = useNavigate();
   useEffect(() => {
@@ -28,27 +30,27 @@ export default function PageSignalerDetails() {
   const items: TabsProps['items'] = [
     {
       key: 'config',
-      label: 'Configuration',
+      label: t('signaler.tabs.configuration'),
       children: <TabConfig />,
     },
     {
       key: 'term',
-      label: 'Terminal',
+      label: t('signaler.tabs.terminal'),
       children: <TabTerminal />,
     },
     {
       key: 'pos',
-      label: 'Positions',
+      label: t('signaler.tabs.positions'),
       children: <TabPositions />,
     },
     {
       key: 'perf',
-      label: 'Performance',
+      label: t('signaler.tabs.performance'),
       children: <TabPerformance />,
     },
     {
       key: 'api',
-      label: 'API',
+      label: t('signaler.tabs.api'),
       children: <TabApi />,
     },
   ].filter(x => hasFlag('?tab=' + x.key));

@@ -1,0 +1,116 @@
+actual-pos-table:
+  actual: 実際の
+  asset: 資産
+  entry-point: エントリーポイント
+  exit-point: エグジットポイント
+  p-l: P/L
+  signal: 信号
+  size: サイズ
+  type: タイプ
+all-assets: すべての資産
+api:
+  documentation:
+    description: APIドキュメントは、APIの使用と統合に関する読みやすい手順書のセットです。
+    title: ドキュメンテーション
+  secret-key:
+    description: この書き込みキーを使用して、パートナー、プラグイン、ライブラリ、または REST API からこの戦略にデータを送信します。
+    title: シークレットキー
+  signaler-api:
+    description: Signalerスニペットをコピーして貼り付けます <head> あなたのウェブサイトの。
+    title: シグナラーAPI
+  signaler-id:
+    description: Webhook と S3 統合の場合、戦略 ID によって戦略を区別できます。
+    title: 信号者ID
+asset-manager:
+  asset-management: 資産運用管理
+  banner: 作成されていません <1>署名者</1> まだ製品に使用できません。
+  btn-new-asset: 新しい資産
+  err-bad-total: 資産シェアの合計は 100 以下である必要があります。
+  expected-drawdown: 予想されるドローダウン
+  financial-product-description: 金融商品の説明
+  financial-product-name: 金融商品名称
+config:
+  assets:
+    description: プラスボタンをクリックして暗号化サポートリストから追加します
+    title: 資産
+  market: 市場（マーケット）
+  resolution: 解決
+  signaler-name: 信号発信者名
+duration:
+  day: 日
+  hour: 時間
+  minute: 分
+  month: 月
+  second: 2番
+fp:
+  card:
+    expected-apy: 予想年間利回り
+  create-new:
+    btn-create-financial-product: 金融商品の作成
+    description: 金融商品の説明
+    expected-apy: 予想年間利回り
+    expected-drawdown: 予想されるドローダウン
+    market: 市場（マーケット）
+    name: 金融商品名称
+    risk-level: リスクレベル
+    title: 新しい金融商品を作成する
+  tabs:
+    performance: 実行
+    positions: ポジション
+    product-builder: 製品ビルダー
+    usage: 使用法
+multi-coin-selector:
+  add-coin: コインを追加
+notif-saved-successfully: 変更が正常に保存されました。
+performance:
+  asset-under-management: 運用資産
+  p-l-chart:
+    description: 日付範囲を変更するとチャートデータが更新されます
+    title: 損益チャート
+  title: 日付範囲を変更するとチャートデータが更新されます
+publish-notice:
+  description: 公開するには {{type}}サポートボタンからお問い合わせいただくか、メールでお問い合わせください。
+  note: 注記：
+signal-form:
+  btn-close: 完了
+  btn-fire-signal: 信号弾
+  btn-update: 位置を更新
+  confirm-close: このポジションをクローズしてもよろしいですか?
+  confirm-fire: この信号を送信してもよろしいですか?
+  confirm-update: この信号を更新してもよろしいですか?
+  expiration-time:
+    info-text: 信号がエントリに対して有効な期間を指定します。
+    info-title: 有効期限
+    title: 有効期限
+  notif-success-close: ポジションは正常にクローズされ、90 秒後に表示されます。
+  notif-success-fire: 信号は正常に発せられ、90 秒後に表示されます。
+  notif-success-update: 位置が正常に更新されました。
+  order-expiration-time:
+    info-text: 指値注文の実行に時間制限を設定します。この時間までに注文が約定しない場合は、自動的にキャンセルされます。
+    info-title: 注文有効期限
+    title: 注文有効期限
+  price: 価格
+  stop-loss: ストップロス
+  take-profit: 利食い
+signaler:
+  card:
+    active-positions: アクティブなポジション
+    last-week: 先週
+    open-signaler: オープンシグナラー
+    positions: ポジション
+  create-new:
+    btn-create-signaler: シグナラーの作成
+    description: このシグナラーを識別しやすい名前を選択してください。
+    signaler-name: 信号発信者名
+    title: 新しいシグナラーの作成
+  tabs:
+    api: API
+    configuration: 構成
+    performance: 実行
+    positions: ポジション
+    terminal: ターミナル
+subscriber-selector:
+  choose-account: アカウントの選択
+  label: 購読者
+usage:
+  trading-volume: 取引量

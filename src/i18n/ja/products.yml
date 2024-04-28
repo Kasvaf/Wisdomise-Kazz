@@ -19,6 +19,16 @@ disclaimer:
   title: 注意
   warn: これらのリスクには、Binanceのウォレットに転送された暗号通貨の多くまたは完全な損失のリスクが含まれます。ユーザーは、Wisdomiseのサービスを使用するためのウォレットを作成することにより、Binanceのウォレットに暗号通貨を保有することに関連するすべてのリスクを負担することに同意するものとします。Wisdomise
     （スイス） AGは、Binanceのウォレットに暗号通貨を保管することに関連して生じた損害について一切の責任を負いません。
+fp-activation:
+  btn-continue: 続ける
+  btn-create-fp: 金融商品の作成
+  btn-start: 金融商品を始める
+  choose-your-wallet: "ウォレットを選択して続行してください:"
+  congratulations: おめでとうございます！
+  created-success: 金融商品が作成されました。
+  max-investment: 最大投資額
+  min-investment: 最低投資額
+  video-into-title: Binanceウォレットを追加する方法
 fpi-page:
   title: 金融商品の詳細
 list:

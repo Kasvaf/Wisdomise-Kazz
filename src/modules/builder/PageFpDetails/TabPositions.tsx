@@ -14,7 +14,7 @@ import PositionsTable from './ActualPositionsTable';
 import SubscriberSelector from './SubscriberSelector';
 
 const TabPositions = () => {
-  const { t } = useTranslation('strategy');
+  const { t } = useTranslation('builder');
   const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
   const { data: fp } = useMyFinancialProductQuery(params.id);
@@ -46,8 +46,8 @@ const TabPositions = () => {
     <div className="mt-8">
       <div className="mb-8 flex justify-start gap-4 border-b border-white/5 pb-8 mobile:flex-col">
         <AssetSelector
-          label="Crypto"
-          placeholder="Select Crypto"
+          label={t('common:crypto')}
+          placeholder={t('common:select-crypto')}
           assets={fp?.assets?.map(x => x.asset.name)}
           selectedItem={assetName}
           onSelect={setAssetName}
@@ -58,12 +58,12 @@ const TabPositions = () => {
         <DateRangeSelector
           onChange={setDateRange}
           value={dateRange}
-          label="Date"
+          label={t('common:date')}
           defaultRecent={7}
         />
 
         <SubscriberSelector
-          label="Subscriber"
+          label={t('subscriber-selector.label')}
           className="w-[250px] mobile:w-full"
           fpKey={params.id}
           selectedItem={subscriberKey}
@@ -82,7 +82,7 @@ const TabPositions = () => {
               {!!positionsDiff && (
                 <div className="mt-10">
                   <h2 className="mb-3 text-xl text-white/40">
-                    {t('signaler.simulated-position-history')}
+                    {t('strategy:signaler.simulated-position-history')}
                   </h2>
                   <PositionsTable positions={positionsDiff} />
                 </div>

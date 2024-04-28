@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import { useMemo } from 'react';
 import * as numerable from 'numerable';
 import { type ColumnType } from 'antd/es/table';
+import { useTranslation } from 'react-i18next';
 import { useMainQuote } from 'api';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
@@ -31,11 +32,12 @@ const PositionInfo: React.FC<{
   signalTime?: string;
   diff?: number;
 }> = p => {
+  const { t } = useTranslation('builder');
   return (
     <div>
       {p.actualPrice != null && (
         <div className="flex items-center justify-between rounded-lg bg-black/20 p-3 text-white/80">
-          <div>Actual</div>
+          <div>{t('actual-pos-table.actual')}</div>
           <div className="text-right">
             <div>${formatPrice(p.actualPrice)}</div>
             <div className="mt-2 text-white/20">
@@ -47,7 +49,7 @@ const PositionInfo: React.FC<{
 
       {p.signalPrice != null && (
         <div className="flex items-center justify-between px-3 py-1 text-xxs text-white/20">
-          <div>Signal</div>
+          <div>{t('actual-pos-table.signal')}</div>
           <div className="text-right">
             {p.diff && (
               <div
@@ -68,12 +70,13 @@ const PositionInfo: React.FC<{
 };
 
 const PositionsTable: React.FC<Props> = ({ positions }) => {
+  const { t } = useTranslation('builder');
   const quote = useMainQuote() || 'USDT';
 
   const columns = useMemo<Array<ColumnType<StrategyPosition>>>(
     () => [
       {
-        title: 'Asset',
+        title: t('actual-pos-table.asset'),
         render: (_, p) => (
           <PairInfo
             base={p.actual_position.pair.base.name}
@@ -84,7 +87,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
         ),
       },
       {
-        title: 'Type',
+        title: t('actual-pos-table.type'),
         dataIndex: '',
         render: (_, p) => (
           <div className="capitalize">
@@ -93,7 +96,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
         ),
       },
       {
-        title: 'Size',
+        title: t('actual-pos-table.size'),
         render: (_, p) => (
           <div>
             {formatPrice(p.actual_position.amount)}
@@ -102,10 +105,10 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
         ),
       },
       {
-        title: 'P/L',
+        title: t('actual-pos-table.p-l'),
         render: (_, p) => (
           <div className="grid grid-cols-[max-content_1fr] gap-3">
-            <div>Actual:</div>
+            <div>{t('actual-pos-table.actual')}:</div>
             <PriceChange
               value={p.actual_position.pnl}
               className="!justify-start"
@@ -114,7 +117,9 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
 
             {p.strategy_position && (
               <>
-                <div className="opacity-30">Signal:</div>
+                <div className="opacity-30">
+                  {t('actual-pos-table.signal')}:
+                </div>
                 <PriceChange
                   value={p.strategy_position.pnl}
                   className="!justify-start opacity-30"
@@ -126,7 +131,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
         ),
       },
       {
-        title: 'Entry Point',
+        title: t('actual-pos-table.entry-point'),
         render: (_, p) => (
           <PositionInfo
             actualPrice={p.actual_position.entry_price}
@@ -142,7 +147,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
         ),
       },
       {
-        title: 'Exit Point',
+        title: t('actual-pos-table.exit-point'),
         render: (_, p) => (
           <PositionInfo
             actualPrice={p.actual_position.exit_price}
@@ -161,7 +166,7 @@ const PositionsTable: React.FC<Props> = ({ positions }) => {
         ),
       },
     ],
-    [quote],
+    [quote, t],
   );
 
   return <Table columns={columns} dataSource={positions ?? []} />;

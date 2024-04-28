@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useMyFinancialProductUsageQuery } from 'api/builder';
 import FancyPrice from 'shared/FancyPrice';
 import Spinner from 'shared/Spinner';
 import InfoBox from '../InfoBox';
 
 const TabUsage = () => {
+  const { t } = useTranslation('builder');
   const params = useParams<{ id: string }>();
   const { data: fp, isLoading } = useMyFinancialProductUsageQuery(params.id);
 
@@ -24,7 +26,10 @@ const TabUsage = () => {
       <InfoBox
         title={
           <>
-            AUM <span className="text-xs">Asset Under Management</span>
+            {t('common:aum')}{' '}
+            <span className="text-xs">
+              {t('performance.asset-under-management')}
+            </span>
           </>
         }
       >
@@ -33,7 +38,8 @@ const TabUsage = () => {
       <InfoBox
         title={
           <>
-            Trading Volume <span className="text-xs text-[#34A3DA99]">7d</span>
+            {t('usage.trading-volume')}{' '}
+            <span className="text-xs text-[#34A3DA99]">{'7d'}</span>
           </>
         }
       >

@@ -21,6 +21,16 @@ disclaimer:
   warn: 这些风险包括转移到币安钱包的加密货币出现重大或全部损失的风险。通过创建钱包来使用 Wisdomise
     的服务，您同意承担与在币安钱包中持有加密货币相关的所有风险。 Wisdomise (瑞士) AG
     对于因在币安钱包中保存加密货币而造成的任何损害不承担任何责任。
+fp-activation:
+  btn-continue: 继续
+  btn-create-fp: 创建金融产品
+  btn-start: 开始您的金融产品
+  choose-your-wallet: 选择您的钱包以继续：
+  congratulations: 恭喜！
+  created-success: 您的金融产品已创建。
+  max-investment: 最大投资
+  min-investment: 最低投资
+  video-into-title: 如何添加币安钱包
 fpi-page:
   title: 金融产品详情
 list:

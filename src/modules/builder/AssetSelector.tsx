@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
 import { useSignalerPair } from 'api';
@@ -50,6 +51,7 @@ const AssetSelector: React.FC<Props> = ({
   className,
   selectFirst,
 }) => {
+  const { t } = useTranslation('builder');
   useEffect(() => {
     if (selectFirst && assets.length > 0 && !selectedItem && !loading) {
       onSelect?.(assets[0]);
@@ -60,11 +62,11 @@ const AssetSelector: React.FC<Props> = ({
     <div className={className}>
       {label && <label className="mb-2 ml-2 block">{label}</label>}
       <ComboBox
-        options={all ? ['All assets', ...assets] : assets}
+        options={all ? [t('all-assets'), ...assets] : assets}
         selectedItem={
           loading
-            ? 'Loading...'
-            : selectedItem ?? (all ? 'All assets' : placeholder)
+            ? t('common:loading-dot-dot-dot')
+            : selectedItem ?? (all ? t('all-assets') : placeholder)
         }
         onSelect={onSelect}
         renderItem={(assetName: string) => (

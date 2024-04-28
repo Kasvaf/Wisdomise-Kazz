@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { bxX } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { useSignalerPairByNames } from 'api';
 import {
   type MyFpAssets,
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
+  const { t } = useTranslation('builder');
   const pairByName = useSignalerPairByNames();
   const { data: allSignalers, isLoading: signalersLoading } =
     useMySignalersQuery();
@@ -74,11 +76,13 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
   if (value.length === 0 && signalers.length === 0) {
     return (
       <Banner className="">
-        You haven&apos;t created any{' '}
-        <NavLink to="/builder/signalers" className="text-info">
-          Signlers
-        </NavLink>{' '}
-        to use in your product yet.
+        <Trans ns="builder" i18nKey="asset-manager.banner">
+          You haven&apos;t created any
+          <NavLink to="/builder/signalers" className="text-info">
+            Signlers
+          </NavLink>
+          to use in your product yet.
+        </Trans>
       </Banner>
     );
   }
@@ -143,7 +147,9 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
             onClick={() => onChange(value.filter(x => x !== a))}
           >
             <Icon name={bxX} />
-            <span className="mr-2 hidden mobile:block">Remove</span>
+            <span className="mr-2 hidden mobile:block">
+              {t('common:actions.remove')}
+            </span>
           </div>
         </div>
       ))}
@@ -154,7 +160,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
           variant="alternative"
           onClick={() => onChange([...value, nextItemToAdd])}
         >
-          New Asset
+          {t('asset-manager.btn-new-asset')}
         </Button>
       )}
     </div>

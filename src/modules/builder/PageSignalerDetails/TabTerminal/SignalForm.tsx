@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { notification } from 'antd';
+import { useTranslation } from 'react-i18next';
 import {
   type SignalerData,
   type FullPosition,
@@ -55,6 +56,7 @@ const SignalForm: React.FC<Props> = ({
   assetName,
   activePosition,
 }) => {
+  const { t } = useTranslation('builder');
   const isUpdate = !!activePosition;
 
   const [market, setMarket] = useState<'long' | 'short'>('long');
@@ -124,10 +126,10 @@ const SignalForm: React.FC<Props> = ({
   // ======================================================================
 
   const [ModalConfirm, confirm] = useConfirm({
-    title: 'Confirmation',
+    title: t('common:confirmation'),
     icon: null,
-    yesTitle: 'Yes',
-    noTitle: 'No',
+    yesTitle: t('common:actions.yes'),
+    noTitle: t('common:actions.no'),
   });
   const { mutateAsync, isLoading: isSubmitting } = useFireSignalMutation();
 
@@ -136,7 +138,7 @@ const SignalForm: React.FC<Props> = ({
     if ((orderType === 'limit' && !price) || !tp || !sl) return;
     if (
       !(await confirm({
-        message: 'Are you sure you want to fire this signal?',
+        message: t('signal-form.confirm-fire'),
       }))
     )
       return;
@@ -166,7 +168,7 @@ const SignalForm: React.FC<Props> = ({
         },
       });
       notification.success({
-        message: 'Signal fired successfully and will be visible in 90 seconds.',
+        message: t('signal-form.notif-success-fire'),
       });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -177,7 +179,7 @@ const SignalForm: React.FC<Props> = ({
     if (!activePosition?.signal) return;
     if (
       !(await confirm({
-        message: 'Are you sure you want to close this position?',
+        message: t('signal-form.confirm-close'),
       }))
     )
       return;
@@ -193,8 +195,7 @@ const SignalForm: React.FC<Props> = ({
         },
       });
       notification.success({
-        message:
-          'Position closed successfully and will be visible in 90 seconds.',
+        message: t('signal-form.notif-success-close'),
       });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -206,7 +207,7 @@ const SignalForm: React.FC<Props> = ({
     if (!activePosition?.signal) return;
     if (
       !(await confirm({
-        message: 'Are you sure you want to update this signal?',
+        message: t('signal-form.confirm-update'),
       }))
     )
       return;
@@ -223,7 +224,7 @@ const SignalForm: React.FC<Props> = ({
           price: { value: Number.parseFloat(sl) },
         },
       });
-      notification.success({ message: 'Position updated successfully.' });
+      notification.success({ message: t('signal-form.notif-success-update') });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -238,7 +239,7 @@ const SignalForm: React.FC<Props> = ({
           )}
           <div className="flex items-end gap-2">
             <AmountInputBox
-              label="Price"
+              label={t('signal-form.price')}
               value={
                 orderType === 'market'
                   ? assetPrice === undefined
@@ -257,7 +258,7 @@ const SignalForm: React.FC<Props> = ({
       )}
 
       <AmountInputBox
-        label="Take Profit"
+        label={t('signal-form.take-profit')}
         value={tp}
         onChange={setTP}
         suffix="USDT"
@@ -266,7 +267,7 @@ const SignalForm: React.FC<Props> = ({
         max={(market === 'short' && effectivePrice) || undefined}
       />
       <AmountInputBox
-        label="Stop Loss"
+        label={t('signal-form.stop-loss')}
         value={sl}
         onChange={setSL}
         suffix="USDT"
@@ -286,12 +287,12 @@ const SignalForm: React.FC<Props> = ({
             <DurationInput
               label={
                 <div className="flex items-center">
-                  Expiration Time
+                  {t('signal-form.expiration-time.title')}
                   <InfoButton
                     size={10}
                     className="ml-1 !opacity-50"
-                    title="Expiration Time"
-                    text="Specifies how long a signal remains valid for entry."
+                    title={t('signal-form.expiration-time.info-title')}
+                    text={t('signal-form.expiration-time.info-text')}
                   />
                 </div>
               }
@@ -301,12 +302,12 @@ const SignalForm: React.FC<Props> = ({
             <DurationInput
               label={
                 <div className="flex items-center">
-                  Order Expiration Time
+                  {t('signal-form.order-expiration-time.title')}
                   <InfoButton
                     size={10}
                     className="ml-1 !opacity-50"
-                    title="Order Expiration Time"
-                    text="Sets a time limit for the execution of a limit order. If the order isn't filled by this time, it's automatically canceled."
+                    title={t('signal-form.order-expiration-time.info-title')}
+                    text={t('signal-form.order-expiration-time.info-text')}
                   />
                 </div>
               }
@@ -325,7 +326,7 @@ const SignalForm: React.FC<Props> = ({
           loading={isSubmitting}
           disabled={isUpdateDisabled}
         >
-          Update Position
+          {t('signal-form.btn-update')}
         </Button>
       )}
 
@@ -337,7 +338,7 @@ const SignalForm: React.FC<Props> = ({
           onClick={closeHandler}
           loading={isSubmitting}
         >
-          Close
+          {t('signal-form.btn-close')}
         </Button>
       ) : (
         <Button
@@ -346,7 +347,7 @@ const SignalForm: React.FC<Props> = ({
           loading={isSubmitting}
           disabled={isFireDisabled}
         >
-          Fire Signal
+          {t('signal-form.btn-fire-signal')}
         </Button>
       )}
 

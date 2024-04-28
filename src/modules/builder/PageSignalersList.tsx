@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { bxPlus, bxRightArrowAlt } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { useMySignalersQuery } from 'api/builder';
 import PageWrapper from 'modules/base/PageWrapper';
 import CoinsIcons from 'shared/CoinsIcons';
@@ -10,14 +11,17 @@ import Card from 'shared/Card';
 import TitleHint from './TitleHint';
 
 export default function PageSignalersList() {
+  const { t } = useTranslation('builder');
   const { data, isLoading } = useMySignalersQuery();
 
   return (
     <PageWrapper loading={isLoading}>
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">My Signalers</h1>
+        <h1 className="text-xl font-semibold">
+          {t('base:menu.signal-builder.title')}
+        </h1>
         <Button className="mobile:hidden" to="/builder/signalers/new">
-          Create New Signaler
+          {t('signaler.create-new.title')}
         </Button>
         <FabButton
           icon={bxPlus}
@@ -45,7 +49,9 @@ export default function PageSignalersList() {
 
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="flex flex-col justify-between rounded-md bg-black/20 p-3">
-                  <div className="text-sm">Active positions</div>
+                  <div className="text-sm">
+                    {t('signaler.card.active-positions')}
+                  </div>
                   <div className="text-end text-2xl">
                     {s.open_positions ?? 0}
                   </div>
@@ -53,8 +59,10 @@ export default function PageSignalersList() {
 
                 <div className="flex flex-col justify-between rounded-md bg-black/20 p-3">
                   <div>
-                    <div>Positions</div>
-                    <div className="text-xs text-white/40">Last week</div>
+                    <div>{t('signaler.card.positions')}</div>
+                    <div className="text-xs text-white/40">
+                      {t('signaler.card.last-week')}
+                    </div>
                   </div>
                   <div className="text-end text-2xl">
                     {s.last_week_positions ?? 0}
@@ -63,7 +71,7 @@ export default function PageSignalersList() {
               </div>
 
               <div className="mt-6 flex items-center justify-center text-center text-sm text-white/30">
-                <div className="mr-2">Open Signaler</div>
+                <div className="mr-2">{t('signaler.card.open-signaler')}</div>
                 <Icon name={bxRightArrowAlt} />
               </div>
             </Card>

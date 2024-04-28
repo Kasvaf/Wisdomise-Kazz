@@ -1,5 +1,6 @@
 import { bxLinkExternal } from 'boxicons-quasar';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useSignalerQuery } from 'api/builder';
 import CopyInputBox from 'shared/CopyInputBox';
 import Spinner from 'shared/Spinner';
@@ -9,6 +10,7 @@ import Icon from 'shared/Icon';
 import TitleHint from '../TitleHint';
 
 const TabApi = () => {
+  const { t } = useTranslation('builder');
   const params = useParams<{ id: string }>();
   const { data: signaler, isLoading } = useSignalerQuery(params.id);
 
@@ -26,9 +28,8 @@ const TabApi = () => {
     <section className="mt-8 flex gap-10 mobile:flex-col">
       <div className="flex grow-0 basis-1/2 flex-col gap-8 md:w-1/2">
         <div>
-          <TitleHint title="Signaler ID">
-            For webhooks and S3 integrations, you can differentiate strategy by
-            the strategy id.
+          <TitleHint title={t('api.signaler-id.title')}>
+            {t('api.signaler-id.description')}
           </TitleHint>
 
           <div className="mt-4">
@@ -37,9 +38,8 @@ const TabApi = () => {
         </div>
 
         <div>
-          <TitleHint title="Secret Key">
-            Use this write key to send data to this strategy from our partners,
-            plugins, libraries or REST API.
+          <TitleHint title={t('api.secret-key.title')}>
+            {t('api.secret-key.description')}
           </TitleHint>
 
           <div className="mt-4">
@@ -48,22 +48,19 @@ const TabApi = () => {
         </div>
 
         <Card className="flex items-center gap-4 !py-4 mobile:flex-col">
-          <TitleHint title="Documentation">
-            API documentation is a set of readable instructions for using and
-            integrating with an API
+          <TitleHint title={t('api.documentation.title')}>
+            {t('api.documentation.description')}
           </TitleHint>
           <Button className="shrink-0">
-            <span className="mr-2">Documentation</span>
+            <span className="mr-2">{t('api.documentation.title')}</span>
             <Icon name={bxLinkExternal} />
           </Button>
         </Card>
       </div>
 
       <div className="flex grow-0 basis-1/2 flex-col gap-8 md:w-1/2">
-        <TitleHint title="Signaler API">
-          {
-            'Copy the Signaler snippet and paste it in the <head> of your website.'
-          }
+        <TitleHint title={t('api.signaler-api.title')}>
+          {t('api.signaler-api.description')}
         </TitleHint>
 
         <Card className="mt-4 max-w-full overflow-x-scroll !py-4">
