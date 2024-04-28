@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import * as numerable from 'numerable';
 import BrandedCard from './BrandedCard';
 import { ReactComponent as BinanceIconSvg } from './binance-icon.svg';
+import { ReactComponent as WisdomiseIconSvg } from './wisdomise-icon.svg';
 
 const ExchangeButton: React.FC<{
   walletType: 'Wisdomise' | 'Binance';
@@ -11,6 +12,8 @@ const ExchangeButton: React.FC<{
   className?: string;
   onClick?: () => void;
 }> = ({ walletType, walletName, available, selected, className, onClick }) => {
+  const BrandIcon =
+    walletType === 'Binance' ? BinanceIconSvg : WisdomiseIconSvg;
   return (
     <BrandedCard
       type={walletType}
@@ -37,11 +40,7 @@ const ExchangeButton: React.FC<{
           )}
         </div>
 
-        {walletType === 'Binance' ? (
-          <BinanceIconSvg className="h-8 w-8" />
-        ) : (
-          <div />
-        )}
+        <BrandIcon className="h-8 w-8" />
       </div>
 
       {available !== undefined && (

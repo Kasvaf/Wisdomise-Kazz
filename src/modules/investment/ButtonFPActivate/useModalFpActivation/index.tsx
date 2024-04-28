@@ -1,6 +1,5 @@
 import { Steps } from 'antd';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useCreateFPIMutation, useInvestorAssetStructuresQuery } from 'api';
 import {
   type FinancialProduct,
@@ -21,8 +20,6 @@ const ModalFpActivation: React.FC<{
   const [wallet, setWallet] = useState<string>();
   const [fpi, setFpi] = useState<FinancialProductInstance>();
 
-  const navigate = useNavigate();
-
   const [ModalDisclaimer, openDisclaimer] = useModalDisclaimer();
   const createFPI = useCreateFPIMutation();
   const ias = useInvestorAssetStructuresQuery();
@@ -33,12 +30,6 @@ const ModalFpActivation: React.FC<{
       const fpi = await createFPI.mutateAsync({ fpKey: fp.key, account });
       setFpi(fpi);
       setStep(2);
-    }
-  };
-
-  const gotoFpiDetails = () => {
-    if (fpi?.key) {
-      navigate('/investment/assets/' + fpi?.key);
     }
   };
 
@@ -81,9 +72,7 @@ const ModalFpActivation: React.FC<{
         />
       )}
 
-      {step === 2 && fpi && (
-        <StepDone financialProductInstance={fpi} onContinue={gotoFpiDetails} />
-      )}
+      {step === 2 && fpi && <StepDone financialProductInstance={fpi} />}
 
       {ModalDisclaimer}
     </div>

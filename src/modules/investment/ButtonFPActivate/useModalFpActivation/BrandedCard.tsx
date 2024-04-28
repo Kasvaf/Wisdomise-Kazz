@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { styled } from '@linaria/react';
 import { type PropsWithChildren } from 'react';
 import { ReactComponent as BinanceBackSvg } from './binance-back.svg';
+import { ReactComponent as WisdomiseBackSvg } from './wisdomise-back.svg';
 
 const BrandedCard: React.FC<
   PropsWithChildren<{
@@ -11,6 +12,7 @@ const BrandedCard: React.FC<
   }>
 > = ({ type, children, className, onClick }) => {
   const BrandedDiv = type === 'Wisdomise' ? PurpleGradient : YellowGradient;
+  const BackSvg = type === 'Binance' ? BinanceBackSvg : WisdomiseBackSvg;
   return (
     <BrandedDiv
       onClick={onClick}
@@ -20,9 +22,7 @@ const BrandedCard: React.FC<
         className,
       )}
     >
-      {type === 'Binance' && (
-        <BinanceBackSvg className="absolute -left-10 -top-6 z-[0] h-[120px] w-[120px]" />
-      )}
+      <BackSvg className="absolute -left-10 -top-6 z-[0] h-[120px] w-[120px]" />
       {children}
     </BrandedDiv>
   );
@@ -36,7 +36,7 @@ const YellowGradient = styled.div`
 `;
 
 const PurpleGradient = styled.div`
-  background: linear-gradient(133deg, #9581de -24.22%, #c85ad9 128.59%);
+  background: linear-gradient(133deg, #b680eb -24.22%, #4e21a6 128.59%);
   box-shadow:
     0px 13px 27px -5px rgba(50, 50, 93, 0.25),
     0px 8px 16px -8px rgba(0, 0, 0, 0.3);
