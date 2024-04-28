@@ -17,7 +17,7 @@ export default function PageSignalerCreate() {
   const [showErrors, setShowErrors] = useState(false);
   const [name, setName] = useState('');
   const [market, setMarket] = useState<MarketTypes>('FUTURES');
-  const [resolution, setResolution] = useState<Resolution>('1m');
+  const [resolution, setResolution] = useState<Resolution>('5m');
 
   const { mutateAsync, isLoading } = useCreateSignalerMutation();
   const navigate = useNavigate();

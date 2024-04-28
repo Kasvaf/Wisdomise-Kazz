@@ -66,7 +66,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
       {items.map(p => (
         <div
           key={p.name}
-          className="flex items-center justify-between rounded-xl bg-black/20 p-2"
+          className="flex items-center justify-between rounded-xl bg-black/20 p-2 mobile:w-full"
         >
           <PairInfo
             title={p.display_name}
@@ -93,7 +93,10 @@ const MultiCoinsSelector: React.FC<Props> = ({
           dropdownRender={dropDownFn}
           autoAdjustOverflow
         >
-          <Button variant="alternative" className="h-[60px] w-[60px]">
+          <Button
+            variant="alternative"
+            className="h-[60px] w-[60px] mobile:mx-auto"
+          >
             <Icon name={bxPlus} />
           </Button>
         </Dropdown>

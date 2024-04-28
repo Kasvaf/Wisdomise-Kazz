@@ -41,7 +41,7 @@ const TabPerformance = () => {
           <TitleHint title="P/L Chart" className="mb-3">
             Your Chart data updates by changing date range
           </TitleHint>
-          <div className="flex items-stretch gap-3 mobile:flex-col">
+          <div className="flex items-stretch gap-3 mobile:flex-col-reverse">
             <div className="flex basis-2/3 flex-col">
               <div className="grow rounded-2xl bg-black/40 p-4">
                 <PnlChart data={data.equities} />
