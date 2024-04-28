@@ -7,7 +7,7 @@ export type ExchangeTypes = 'BINANCE' | 'WISDOMISE';
 export interface ExchangeAccount {
   key: string;
   title: string;
-  available?: number;
+  total_equity?: number;
   exchange_name: ExchangeTypes;
   market_name: MarketTypes;
   status: 'RUNNING' | 'INACTIVE';

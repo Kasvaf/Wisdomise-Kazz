@@ -28,7 +28,11 @@ fp-activation:
   created-success: 金融商品が作成されました。
   max-investment: 最大投資額
   min-investment: 最低投資額
+  not-enough-balance:
+    head: 利用可能な残高が足りません。
+    hint: この製品を実行するには、少なくとも {{minInvestment}} USDT。
   video-into-title: Binanceウォレットを追加する方法
+  your-wallet: あなたの財布
 fpi-page:
   title: 金融商品の詳細
 list:

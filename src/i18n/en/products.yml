@@ -44,7 +44,11 @@ fp-activation:
   created-success: Your financial product has been created.
   max-investment: Max Investment
   min-investment: Min Investment
+  not-enough-balance:
+    hint: To run this product you need at least {{minInvestment}} USDT.
+    head: Not enough available balance.
   video-into-title: How to Add Binance Wallet
+  your-wallet: Your Wallet
 fpi-page:
   title: Financial Product Details
 list:

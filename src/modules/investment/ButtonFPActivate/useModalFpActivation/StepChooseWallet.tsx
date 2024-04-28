@@ -21,6 +21,7 @@ const StepChooseWallet: React.FC<{
   const { data: wallets, isLoading } = useExchangeAccountsQuery();
   const { data: ias } = useInvestorAssetStructuresQuery();
   const mea = !!ias?.[0]?.main_exchange_account;
+  const wisdomiseBalance = ias?.[0]?.total_equity || 0;
 
   const market =
     (fp.config.can_use_external_account &&
@@ -65,7 +66,7 @@ const StepChooseWallet: React.FC<{
                       selected={selected === w.key}
                       walletType="Binance"
                       walletName={w.title}
-                      available={w.available}
+                      available={w.total_equity}
                       onClick={() => onSelect(w.key)}
                     />
                   ))}
@@ -83,6 +84,7 @@ const StepChooseWallet: React.FC<{
                     walletName="Internal Wallet"
                     selected={selected === 'wisdomise'}
                     onClick={() => onSelect('wisdomise')}
+                    available={wisdomiseBalance}
                   />
                 )}
 

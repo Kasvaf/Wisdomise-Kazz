@@ -30,7 +30,11 @@ fp-activation:
   created-success: 您的金融产品已创建。
   max-investment: 最大投资
   min-investment: 最低投资
+  not-enough-balance:
+    head: 可用余额不足。
+    hint: 要运行此产品，您至少需要 {{minInvestment}} USDT。
   video-into-title: 如何添加币安钱包
+  your-wallet: 你的钱包
 fpi-page:
   title: 金融产品详情
 list:

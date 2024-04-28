@@ -17,7 +17,7 @@ const BrandedCard: React.FC<
     <BrandedDiv
       onClick={onClick}
       className={clsx(
-        'relative shrink-0 border-2 border-transparent',
+        'relative shrink-0 border-2 border-transparent !bg-origin-border',
         'h-full overflow-hidden rounded-xl p-3 leading-4 text-black',
         className,
       )}

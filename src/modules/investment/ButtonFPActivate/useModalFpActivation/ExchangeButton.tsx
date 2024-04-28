@@ -27,9 +27,9 @@ const ExchangeButton: React.FC<{
         'flex h-full w-[220px] flex-col',
         onClick
           ? [
-              'cursor-pointer hover:border-white/70',
+              'cursor-pointer overflow-hidden hover:border-white/70',
               selected
-                ? 'border-white/70 opacity-100'
+                ? '!border-white/70 opacity-100'
                 : 'opacity-40 hover:opacity-70',
             ]
           : undefined,
