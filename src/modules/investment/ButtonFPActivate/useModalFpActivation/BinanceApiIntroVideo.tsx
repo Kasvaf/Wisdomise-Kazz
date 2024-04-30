@@ -1,7 +1,7 @@
 import { bxCameraMovie } from 'boxicons-quasar';
 import YouTube from 'react-youtube';
 import { useWindowSize } from 'usehooks-ts';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
@@ -15,7 +15,6 @@ const BinanceApiIntroVideo = () => {
   const height = (width * 360) / 640;
 
   const [open, setOpen] = useState(false);
-  const player = useRef<YouTube>(null);
 
   return (
     <div>
@@ -37,11 +36,7 @@ const BinanceApiIntroVideo = () => {
             <div className="mb-3 mobile:ml-3">
               {t('fp-activation.video-into-title')}
             </div>
-            <YouTube
-              ref={player}
-              videoId="Z0X7FzgaCgw"
-              opts={{ width, height }}
-            />
+            <YouTube videoId="Z0X7FzgaCgw" opts={{ width, height }} />
           </div>
         </Modal>
       )}
