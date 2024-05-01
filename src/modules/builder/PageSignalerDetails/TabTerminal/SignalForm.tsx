@@ -216,7 +216,7 @@ const SignalForm: React.FC<Props> = ({
       await mutateAsync({
         signalerKey: signaler.key,
         ...activePosition.signal,
-        action: 'open',
+        action: 'update',
         take_profit: {
           price: { value: Number.parseFloat(tp) },
         },

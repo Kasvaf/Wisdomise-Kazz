@@ -14,7 +14,7 @@ interface SignalPosition {
 }
 
 interface Signal {
-  action: 'open' | 'close';
+  action: 'open' | 'close' | 'update';
   pair: string; // "BTC/USDT",
   leverage: {
     value: number;
