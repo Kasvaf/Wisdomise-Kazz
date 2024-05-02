@@ -4,7 +4,6 @@ import PageWrapper from 'modules/base/PageWrapper';
 import CardPageLink from 'shared/CardPageLink';
 import {
   useExchangeAccountsQuery,
-  useIsVerified,
   useReferralStatusQuery,
   useSubscription,
 } from 'api';
@@ -20,7 +19,6 @@ import { ReactComponent as IconReferral } from './icons/referral.svg';
 const PageAccount = () => {
   const { t } = useTranslation('base');
   const subscription = useSubscription();
-  const { verifiedCount } = useIsVerified();
   const { data: exchanges } = useExchangeAccountsQuery();
   const { data: referral } = useReferralStatusQuery();
 
@@ -73,23 +71,7 @@ const PageAccount = () => {
           subtitle={t('menu.kyc.subtitle')}
           icon={<IconKYC />}
           onClick={trackClick('kyc_menu')}
-        >
-          <div className="flex flex-wrap items-end gap-x-2">
-            <div className="text-2xl font-medium leading-6 mobile:text-xl">
-              {verifiedCount}/3
-            </div>
-            {+verifiedCount > 0 && (
-              <div
-                className={clsx(
-                  'text-xs',
-                  verifiedCount === 3 ? 'text-success' : 'text-[#F1AA40]',
-                )}
-              >
-                {t('kyc:completed')}
-              </div>
-            )}
-          </div>
-        </CardPageLink>
+        />
         <CardPageLink
           to="/account/token"
           title={t('menu.token.title')}

@@ -38,7 +38,7 @@ const PositionsTable: React.FC<Props> = ({ history, className }) => {
           <div className="col-span-6 border-b border-b-white/10" />
 
           {history.map(h => (
-            <React.Fragment key={h.entry_time + String(h.exit_time)}>
+            <React.Fragment key={String(h.entry_time) + String(h.exit_time)}>
               <div className="flex">
                 <PairInfo
                   title={h.pair.display_name}

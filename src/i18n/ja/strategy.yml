@@ -2,15 +2,15 @@ matrix:
   best-performing-30d: 最高のパフォーマンスの 30日
   best-performing-7d: 最高のパフォーマンスの 7日
   date: 日付
-  entry-price: エントリープライス
-  exit-price: エグジットプライス
+  entry-price: 入場料
+  exit-price: 終了価格
   latest-positions: 直近のポジション
   locked: ロック中
   none: 無し
   radar:
     across: 横切って <1>{{cnt}}</1> 過去 24 時間の電報メッセージ
     consensus: コミュニティの合意：
-  side: サイド
+  side: 側
   sl: SL
   subscription:
     subscribe:
@@ -49,7 +49,7 @@ select-coin: コインを選択
 select-strategy: 戦略の選択
 signaler:
   24h-volume: 24時間ボリューム
-  active-positions: アクティブなポジション
+  active-positions: アクティブポジション
   btn-explore: 詳細を確認
   info:
     crypto:

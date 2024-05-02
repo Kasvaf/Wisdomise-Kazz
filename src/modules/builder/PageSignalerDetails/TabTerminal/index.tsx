@@ -1,11 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRecentCandlesQuery } from 'api';
-import { type PairData } from 'api/types/strategy';
 import { useSignalerQuery, useMySignalerOpenPositions } from 'api/builder';
-import ActivePosition from 'modules/insight/signaler/ActivePosition';
 import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
+import ActivePosition from 'modules/insight/signaler/ActivePosition';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import AssetSelector from '../../AssetSelector';
 import SignalForm from './SignalForm';
@@ -14,10 +13,11 @@ const TabTerminal = () => {
   const { t } = useTranslation('strategy');
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
-  const [asset, setAsset] = useState<PairData>();
+  const [assetName, setAssetName] = useSearchParamAsState('asset');
 
   const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
-    asset?.name,
+    assetName,
+    signaler?.market_name,
   );
 
   const { data, isLoading } = useMySignalerOpenPositions(params.id);
@@ -28,22 +28,22 @@ const TabTerminal = () => {
       | 'OPEN'
       | undefined,
   }));
-  const activePosition = openPositions?.find(x => x.pair_name === asset?.name);
+  const activePosition = openPositions?.find(x => x.pair_name === assetName);
 
   return (
     <div className="mt-8">
       <div className="mb-8 flex flex-col justify-start gap-4 border-b border-white/5 pb-8">
         <AssetSelector
-          label="Crypto"
-          placeholder="Select Crypto"
-          assets={signaler?.assets}
-          selectedItem={asset}
-          onSelect={setAsset}
+          label={t('common:crypto')}
+          placeholder={t('common:select-crypto')}
+          assets={signaler?.assets.map(x => x.name)}
+          selectedItem={assetName}
+          onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
         />
 
-        {!isLoading && asset && (
+        {!isLoading && assetName && (
           <div className="mt-6">
             <h2 className="mb-3 text-xl text-white/40">
               {signaler?.name} {t('strategy:signaler.active-positions')}
@@ -58,7 +58,7 @@ const TabTerminal = () => {
           <Spinner />
         </div>
       ) : (
-        !!asset &&
+        !!assetName &&
         !!signaler && (
           <div className="flex gap-4 mobile:flex-col-reverse">
             <div className="basis-2/3">
@@ -71,7 +71,7 @@ const TabTerminal = () => {
 
             <SignalForm
               signaler={signaler}
-              assetName={asset.name}
+              assetName={assetName}
               activePosition={activePosition}
             />
           </div>

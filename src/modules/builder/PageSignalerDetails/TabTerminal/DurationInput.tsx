@@ -1,6 +1,8 @@
+import { clsx } from 'clsx';
 import { Select } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import TextBox from 'shared/TextBox';
 import Icon from 'shared/Icon';
 const { Option } = Select;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const DurationInput: React.FC<Props> = ({ onChange, value, ...props }) => {
+  const { t } = useTranslation('builder');
   const [numeric, setNumeric] = useState(Number.parseInt(value));
   const [unit, setUnit] = useState(value.replace(/^\d+/, ''));
 
@@ -25,14 +28,15 @@ const DurationInput: React.FC<Props> = ({ onChange, value, ...props }) => {
     <Select
       value={unit}
       onChange={setUnit}
-      className="bg-transparent"
+      className={clsx('bg-transparent', props.disabled && 'opacity-30')}
       suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
+      disabled={props.disabled}
     >
-      <Option value="s">Second</Option>
-      <Option value="m">Minute</Option>
-      <Option value="h">Hour</Option>
-      <Option value="d">Day</Option>
-      <Option value="M">Month</Option>
+      <Option value="s">{t('duration.second')}</Option>
+      <Option value="m">{t('duration.minute')}</Option>
+      <Option value="h">{t('duration.hour')}</Option>
+      <Option value="d">{t('duration.day')}</Option>
+      <Option value="M">{t('duration.month')}</Option>
     </Select>
   );
 

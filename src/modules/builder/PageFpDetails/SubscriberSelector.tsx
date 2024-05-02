@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Select } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { useFpSubscribersQuery } from 'api/builder';
 import Icon from 'shared/Icon';
 
@@ -26,6 +27,7 @@ const SubscriberSelector: React.FC<Props> = ({
   disabled = false,
   className,
 }) => {
+  const { t } = useTranslation('builder');
   const { data: spis, isLoading } = useFpSubscribersQuery({ fpKey });
   const options = spis?.map(sub => ({
     value: sub.key,
@@ -34,11 +36,11 @@ const SubscriberSelector: React.FC<Props> = ({
 
   return (
     <div className={className}>
-      {label && <label className="mb-2 ml-4 block">{label}</label>}
+      {label && <label className="mb-2 ml-2 block">{label}</label>}
 
       <Select
         showSearch
-        placeholder="Choose Account"
+        placeholder={t('subscriber-selector.choose-account')}
         optionFilterProp="children"
         onChange={onSelect}
         filterOption={filterOption}

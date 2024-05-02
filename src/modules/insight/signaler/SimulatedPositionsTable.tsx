@@ -13,8 +13,8 @@ interface Position {
   strategy?: ThinStrategy;
 
   position_side: 'LONG' | 'SHORT';
-  entry_time: string;
-  entry_price: number;
+  entry_time?: string;
+  entry_price?: number;
   exit_time?: string;
   exit_price?: number;
   pnl: number;

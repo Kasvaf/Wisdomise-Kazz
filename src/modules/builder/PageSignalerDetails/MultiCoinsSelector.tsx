@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { bxPlus, bxX } from 'boxicons-quasar';
 import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { type PairData } from 'api/types/strategy';
 import DropdownContainer from 'shared/DropdownContainer';
 import PairInfo from 'shared/PairInfo';
@@ -21,6 +22,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
   onChange,
   className,
 }) => {
+  const { t } = useTranslation('builder');
   const [coinsOpen, setCoinsOpen] = useState(false);
 
   const unusedAssets = useMemo(
@@ -34,7 +36,9 @@ const MultiCoinsSelector: React.FC<Props> = ({
         className="min-w-[180px] bg-black/20 !p-2"
         setOpen={setCoinsOpen}
       >
-        <div className="mb-3 text-center text-white">Add Coin</div>
+        <div className="mb-3 text-center text-white">
+          {t('multi-coin-selector.add-coin')}
+        </div>
         <div className="flex h-[300px] flex-col gap-2 overflow-y-scroll">
           {unusedAssets.map(a => (
             <div
@@ -58,7 +62,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
         </div>
       </DropdownContainer>
     ),
-    [items, unusedAssets, onChange],
+    [t, unusedAssets, onChange, items],
   );
 
   return (
@@ -66,7 +70,7 @@ const MultiCoinsSelector: React.FC<Props> = ({
       {items.map(p => (
         <div
           key={p.name}
-          className="flex items-center justify-between rounded-xl bg-black/20 p-2"
+          className="flex items-center justify-between rounded-xl bg-black/20 p-2 mobile:w-full"
         >
           <PairInfo
             title={p.display_name}
@@ -93,7 +97,10 @@ const MultiCoinsSelector: React.FC<Props> = ({
           dropdownRender={dropDownFn}
           autoAdjustOverflow
         >
-          <Button variant="alternative" className="h-[60px] w-[60px]">
+          <Button
+            variant="alternative"
+            className="h-[60px] w-[60px] mobile:mx-auto"
+          >
             <Icon name={bxPlus} />
           </Button>
         </Dropdown>

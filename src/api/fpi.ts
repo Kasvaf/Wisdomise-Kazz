@@ -74,6 +74,7 @@ export const useFpiPositionHistory = ({
           position_history: h.filter(
             x =>
               (!x.exit_time || +new Date(x.exit_time) > +new Date(start)) &&
+              x.entry_time &&
               +new Date(x.entry_time) < +new Date(end),
           ),
         };

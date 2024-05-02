@@ -24,16 +24,12 @@ modal-success:
   description: Please note that you will receive an email once it is completed.
 modal-withdraw:
   title: Withdraw
-  banner:
-    description: To Withdraw you have to choose from a Verified Wallet Address.
-    btn-verify-wallet: Verify Wallet
   btn-withdraw: Withdraw
   error-max-amount: You cannot withdraw more than your available amount.
   error-min-amount: >-
     You cannot withdraw less than {{minAmount}} {{symbol}} in {{wallet}}
     network.
   min-withdrawal: Min. Withdrawal
-no-verified-wallet: You have no verified wallet.
 security-verification:
   title: Security verification
   btn-resend: Resend

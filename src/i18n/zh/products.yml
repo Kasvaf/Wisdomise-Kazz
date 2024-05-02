@@ -1,6 +1,6 @@
 action-confirm:
   cancel: 取消
-  stop-description: 请注意，通过停止策略，您的所有未平仓交易都将在“市场”上出售。价格。最终盈亏将在平仓后计算。
+  stop-description: 请注意，停止策略后，您所有未平仓交易将以“市场”价格出售。最终的盈亏将在平仓后计算。
   title: 你确定吗 <1>{{typeLabel}}</1> 这个产品？
   yes: 是的， <1>{{typeLabel}}</1>
 actions:
@@ -21,6 +21,20 @@ disclaimer:
   warn: 这些风险包括转移到币安钱包的加密货币出现重大或全部损失的风险。通过创建钱包来使用 Wisdomise
     的服务，您同意承担与在币安钱包中持有加密货币相关的所有风险。 Wisdomise (瑞士) AG
     对于因在币安钱包中保存加密货币而造成的任何损害不承担任何责任。
+fp-activation:
+  btn-continue: 继续
+  btn-create-fp: 创建金融产品
+  btn-start: 开始您的金融产品
+  choose-your-wallet: 选择您的钱包以继续：
+  congratulations: 恭喜！
+  created-success: 您的金融产品已创建。
+  max-investment: 最大投资
+  min-investment: 最低投资
+  not-enough-balance:
+    head: 可用余额不足。
+    hint: 要运行此产品，您至少需要 {{minInvestment}} USDT。
+  video-into-title: 如何添加币安钱包
+  your-wallet: 你的钱包
 fpi-page:
   title: 金融产品详情
 list:
@@ -31,10 +45,10 @@ list:
   of-total-balance: 总余额
   title: 您的活跃金融产品
 notification-activated:
-  btn-dashboard: 後台
+  btn-dashboard: 转至仪表板
   btn-kyc: 前往实名认证
   kyc-notice: 但请注意，只要您尚未验证您的账户，我们最多只能使用您钱包中的 1000 美元进行交易。
-  message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何人工智能驱动的策略
+  message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何 AI 驱动的策略。
   title: 恭喜！
 notification-deactivated:
   message: 策略停用成功！
@@ -86,6 +100,6 @@ subscription:
     title: 订阅
   upgrade:
     btn-confirm: 升级
-    description: 要使用该产品，您需要 <1>升级</1> 您的订阅。
+    description: 要使用本产品，您需要 <1>升级</1> 您订阅 <4>{{minPlan}}</4>。
     subtitle: 您当前的订阅不包括您要激活的产品。
     title: 升级订阅

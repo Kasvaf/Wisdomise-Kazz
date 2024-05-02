@@ -20,8 +20,9 @@ const NextActionByStatus: Record<
 
 const FpiActions: React.FC<{
   fpi: FinancialProductInstance;
+  iconSize?: number;
   className?: string;
-}> = ({ fpi, className }) => {
+}> = ({ fpi, iconSize, className }) => {
   const navigate = useNavigate();
   const updateFPIStatus = useUpdateFPIStatusMutation();
   const changeFpiStatus = async (
@@ -54,7 +55,7 @@ const FpiActions: React.FC<{
         type="stop"
         onConfirm={() => changeFpiStatus(fpi.key, 'stop')}
       >
-        <FabButton icon={bxStop} />
+        <FabButton size={iconSize} icon={bxStop} />
       </PopConfirmChangeFPIStatus>
 
       <PopConfirmChangeFPIStatus
@@ -64,7 +65,11 @@ const FpiActions: React.FC<{
           changeFpiStatus(fpi.key, NextActionByStatus[fpi.status])
         }
       >
-        <FabButton disabled={fpi.status !== 'RUNNING'} icon={bxPause} />
+        <FabButton
+          size={iconSize}
+          disabled={fpi.status !== 'RUNNING'}
+          icon={bxPause}
+        />
       </PopConfirmChangeFPIStatus>
 
       <PopConfirmChangeFPIStatus
@@ -74,7 +79,11 @@ const FpiActions: React.FC<{
           changeFpiStatus(fpi.key, NextActionByStatus[fpi.status])
         }
       >
-        <FabButton disabled={fpi.status === 'RUNNING'} icon={bxPlay} />
+        <FabButton
+          size={iconSize}
+          disabled={fpi.status === 'RUNNING'}
+          icon={bxPlay}
+        />
       </PopConfirmChangeFPIStatus>
     </div>
   );

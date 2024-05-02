@@ -1,6 +1,6 @@
 import CoinsIcons from 'shared/CoinsIcons';
 import PriceChange from 'shared/PriceChange';
-import { useSignalsQuery } from 'api';
+import { useSignalerPairs, useSignalsQuery } from 'api';
 import { WidgetWrapper } from '../WidgetWrapper';
 import { SignalBox } from './SignalBox';
 import { Notification } from './components/Notification';
@@ -12,6 +12,7 @@ import { useSubscribedSignalsQuery } from './services';
 
 export const Signals = () => {
   const { data, isLoading } = useSignalsQuery();
+  const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
   const subscribedSignals = useSubscribedSignalsQuery();
 
   return (
@@ -23,7 +24,7 @@ export const Signals = () => {
         iconSrc={LastPositionsIconSrc}
         title="Recent Market Predictions"
       >
-        {isLoading ? (
+        {isLoading || isLoadingPairs ? (
           <div className="relative -mx-8 h-[300px] w-[450px]">
             <LoadingIcon className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
@@ -32,9 +33,7 @@ export const Signals = () => {
             <VirtualWallet />
             <section className="flex flex-col gap-1">
               {data?.last_positions.map(position => {
-                const pair = data.pairs.find(
-                  p => p.name === position.pair_name,
-                );
+                const pair = pairs?.find(p => p.name === position.pair_name);
                 const strategy = position.strategy;
                 const firstPrice = pair?.time_window_prices.at(0);
                 const lastPrice = pair?.time_window_prices.at(-1);

@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
 import { bxX } from 'boxicons-quasar';
+import { NavLink } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
+import { useSignalerPairByNames } from 'api';
 import {
   type MyFpAssets,
   useMyFinancialProductQuery,
@@ -8,6 +11,7 @@ import {
 import Button from 'shared/Button';
 import AmountInputBox from 'shared/AmountInputBox';
 import Icon from 'shared/Icon';
+import Banner from 'shared/Banner';
 import Spinner from 'shared/Spinner';
 import AssetSelector from '../../AssetSelector';
 import SignalerSelector from './SignalerSelector';
@@ -18,7 +22,9 @@ interface Props {
   onChange: (val: MyFpAssets) => void;
 }
 
-const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
+const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
+  const { t } = useTranslation('builder');
+  const pairByName = useSignalerPairByNames();
   const { data: allSignalers, isLoading: signalersLoading } =
     useMySignalersQuery();
   const { data: fp } = useMyFinancialProductQuery(fpKey);
@@ -34,20 +40,15 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
     [allSignalers],
   );
 
-  const usedPairs = useMemo(
-    () =>
-      Object.fromEntries(
-        value.map(v => [v.strategy + v.asset.base.name, true]),
-      ),
+  const usedCoins = useMemo(
+    () => Object.fromEntries(value.map(v => [v.asset.base.name, true])),
     [value],
   );
 
   const nextItemToAdd = useMemo(() => {
-    console.log(signalers, usedPairs);
     for (const s of signalers) {
       for (const asset of s.assets) {
-        if (!usedPairs[s.key + asset.base.name]) {
-          console.log(s.key + asset.base.name);
+        if (!usedCoins[asset.base.name]) {
           return {
             strategy: s.key,
             asset,
@@ -56,11 +57,11 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
         }
       }
     }
-  }, [signalers, usedPairs, value]);
+  }, [signalers, usedCoins, value]);
 
   function signalerUnusedAssets(signalerKey: string, assetName?: string) {
     return signalerByKey[signalerKey]?.assets?.filter(
-      b => b.base.name === assetName || !usedPairs[signalerKey + b.base.name],
+      b => b.base.name === assetName || !usedCoins[b.base.name],
     );
   }
 
@@ -72,7 +73,20 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
     );
   }
 
-  if (value.length === 0 && signalers.length === 0) return null;
+  if (value.length === 0 && signalers.length === 0) {
+    return (
+      <Banner className="">
+        <Trans ns="builder" i18nKey="asset-manager.banner">
+          You haven&apos;t created any
+          <NavLink to="/builder/signalers" className="text-info">
+            Signlers
+          </NavLink>
+          to use in your product yet.
+        </Trans>
+      </Banner>
+    );
+  }
+
   return (
     <div className="flex min-w-[320px] max-w-[850px] grow flex-col items-stretch gap-2 rounded-xl bg-black/30 p-3">
       {value.map(a => (
@@ -85,7 +99,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             signalers={signalers.filter(
               s =>
                 s.key === a.strategy ||
-                s.assets.some(a => !usedPairs[s.key + a.base.name]),
+                s.assets.some(a => !usedCoins[a.base.name]),
             )}
             selectedItem={a.strategy}
             onSelect={strategy => {
@@ -107,10 +121,16 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             }}
           />
           <AssetSelector
-            assets={signalerUnusedAssets(a.strategy, a.asset.base.name)}
-            selectedItem={a.asset}
+            assets={signalerUnusedAssets(a.strategy, a.asset.base.name).map(
+              x => x.base.name,
+            )}
+            selectedItem={a.asset.name}
             onSelect={asset =>
-              onChange(value.map(v => (v === a ? { ...a, asset } : v)))
+              onChange(
+                value.map(v =>
+                  v === a ? { ...a, asset: pairByName[asset] } : v,
+                ),
+              )
             }
             className="w-[220px] mobile:w-full"
           />
@@ -127,7 +147,9 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
             onClick={() => onChange(value.filter(x => x !== a))}
           >
             <Icon name={bxX} />
-            <span className="mr-2 hidden mobile:block">Remove</span>
+            <span className="mr-2 hidden mobile:block">
+              {t('common:actions.remove')}
+            </span>
           </div>
         </div>
       ))}
@@ -138,7 +160,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value, onChange }) => {
           variant="alternative"
           onClick={() => onChange([...value, nextItemToAdd])}
         >
-          New Asset
+          {t('asset-manager.btn-new-asset')}
         </Button>
       )}
     </div>

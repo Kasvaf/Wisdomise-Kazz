@@ -21,10 +21,10 @@ const ResolutionSelector: React.FC<Props> = ({
   onSelect,
   disabled = false,
 }) => {
-  const resolutions: Resolution[] = ['1m', '3m', '5m', '15m', '30m', '1h'];
+  const resolutions: Resolution[] = ['5m', '15m', '30m', '1h'];
   return (
     <div className={className}>
-      {label && <label className="mb-2 ml-4 block">{label}</label>}
+      {label && <label className="mb-2 ml-2 block">{label}</label>}
 
       <ComboBox
         options={resolutions}

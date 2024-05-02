@@ -1,9 +1,9 @@
 import * as numerable from 'numerable';
 import React from 'react';
+import { useMainQuote } from 'api';
 import { type AssetBinding } from 'api/types/investorAssetStructure';
 import useIsMobile from 'utils/useIsMobile';
 import CoinsIcons from 'shared/CoinsIcons';
-import useMainQuote from 'shared/useMainQuote';
 
 const FpiAssetItem = ({ asset: a }: { asset: AssetBinding }) => {
   const isMobile = useIsMobile();

@@ -21,7 +21,7 @@ signaling:
     connect: 连接 Telegram
     hint: 在社交中接收通知
     is-connected: 您的电报已连接。
-    label: 连接Telegram
+    label: 打开 Telegram
     open: 打开 Telegram
   description: 我们列出了我们提供的所有策略。
   modal-connected:

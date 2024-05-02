@@ -54,18 +54,24 @@ pricing-card:
     free: 自由的
     next-plan: 下一步计划
     upgrade: 升级
+  forever: 永远
+  free-subtitle: 随意探索wiseise
   hold: 持有
   just-yearly: 年度
   monthly: 每月
+  notification-call-support: 致电支持
   notification-upgrade-success: 您的订阅已成功更新。可能需要几分钟才能激活。请在几分钟后重新加载此页面。
   page-subtitle: 您可以从此部分选择您的方案类型
   page-title: 方案计费
+  pay-by-stacking: 堆叠付款<1>{{token}}<1>WSDM</1></1>代币
+  pay-by-stacking-in-yearly-only: 堆叠付款<1>WSDM</1>代币：每年刚刚到
+  recommended: 智慧推荐
   this-includes: 包括：
   token: Token
 stripe:
   change-card-info:
     order-summary: 订单摘要
-    title: 更改付款方式
+    title: 更改卡信息
     total: 总共
 subscription-details:
   invoices:
@@ -85,6 +91,7 @@ subscription-details:
       pay-method: 您的付款方式是
       pay-now: 现在付款！
       pending-invoice: <0>您的付款状态是<1></1></0>
+      renew: 您的计划将于
       title: 当前计划
       your-subs: 您的订阅计划是<1></1>
     in-order-to-renew: 为了续订，您必须再次发送交易 <0>{{date}}</0>。
@@ -99,8 +106,11 @@ subscription-details:
       cancel-btn: 取消下一个计划
       canceled: <0>你的下一个计划已被取消。<1>更新下一个计划</1></0>
       card: 未来的费用将计入该卡<1></1>
+      change-pay-method: 更改付款方式
       charging: 为您的信用卡收费<1></1>
+      in-order-to-renew: 为了续订，您必须在<1></1>
       pay-method: 您的付款方式是
+      title: 下一步计划
       your-subs: 您的订阅计划是<1></1>
     pay-method: <0>下一步付款方式： <2>{{payMethod}}。</2><3>更改付款方式</3></0>
     pending-invoice: <0><0>您有 1 张待处理发票。</0><1>现在付款</1></0>

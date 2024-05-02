@@ -1,0 +1,63 @@
+import { clsx } from 'clsx';
+import * as numerable from 'numerable';
+import { useTranslation } from 'react-i18next';
+import { useMainQuote } from 'api';
+import BrandedCard from './BrandedCard';
+import { ReactComponent as BinanceIconSvg } from './binance-icon.svg';
+import { ReactComponent as WisdomiseIconSvg } from './wisdomise-icon.svg';
+
+const ExchangeButton: React.FC<{
+  walletType: 'Wisdomise' | 'Binance';
+  walletName?: string;
+  available?: number;
+  selected?: boolean;
+  className?: string;
+  onClick?: () => void;
+}> = ({ walletType, walletName, available, selected, className, onClick }) => {
+  const { t } = useTranslation('wallet');
+  const quote = useMainQuote();
+  const BrandIcon =
+    walletType === 'Binance' ? BinanceIconSvg : WisdomiseIconSvg;
+  return (
+    <BrandedCard
+      type={walletType}
+      onClick={onClick}
+      className={clsx(
+        available === undefined ? 'justify-center' : 'justify-between',
+        'flex h-full w-[220px] flex-col',
+        onClick
+          ? [
+              'cursor-pointer overflow-hidden hover:border-white/70',
+              selected
+                ? '!border-white/70 opacity-100'
+                : 'opacity-40 hover:opacity-70',
+            ]
+          : undefined,
+        className,
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="text-base font-semibold leading-4">{walletType}</div>
+          {walletName && (
+            <div className="text-xs text-black/40">{walletName}</div>
+          )}
+        </div>
+
+        <BrandIcon className="h-8 w-8" />
+      </div>
+
+      {available !== undefined && (
+        <div className="flex items-center justify-between">
+          <div className="text-black/80">{t('available')}</div>
+          <span>
+            <span>{numerable.format(available, '0,0')}</span>
+            <span className="ml-1 text-xs text-black/40">{quote}</span>
+          </span>
+        </div>
+      )}
+    </BrandedCard>
+  );
+};
+
+export default ExchangeButton;

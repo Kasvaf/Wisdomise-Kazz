@@ -1,8 +1,25 @@
 actions:
   back: 戻る
+  explore: 詳細を確認
+  no: いいえ
+  remove: 取り除く
+  save: 保存
+  yes: はい
+aum: AUM
+confirmation: 確認
 copied-to-clipboard: クリップボードにコピー
+crypto: 仮想通貨
 cryptocurrency: 仮想通貨
+date: 日付
 errors:
   field-required: このフィールドは空白にできません。
 loading: 読み込み中…
+loading-dot-dot-dot: 読み込み中...
+market:
+  long: 長さ
+  short: 短い
 network: ネットワーク
+order-type:
+  limit: 限界
+  market: 市場（マーケット）
+select-crypto: 暗号を選択

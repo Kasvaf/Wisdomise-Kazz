@@ -1,6 +1,7 @@
 action-confirm:
   cancel: キャンセル
-  stop-description: 戦略を停止すると、開いている取引はすべて売却されることにご注意ください。最終PnLはポジションがクローズされ次第反映されます。
+  stop-description: 戦略を停止すると、すべてのオープントレードが「市場」価格で売却されることに注意してください。最終 PnL
+    は、オープンポジションをクローズした後に計算されます。
   title: このプロダクトを本当に<1>{{typeLabel}}</1>してもいいですか？
   yes: はい、 <1>{{typeLabel}}</1>
 actions:
@@ -18,6 +19,20 @@ disclaimer:
   title: 注意
   warn: これらのリスクには、Binanceのウォレットに転送された暗号通貨の多くまたは完全な損失のリスクが含まれます。ユーザーは、Wisdomiseのサービスを使用するためのウォレットを作成することにより、Binanceのウォレットに暗号通貨を保有することに関連するすべてのリスクを負担することに同意するものとします。Wisdomise
     （スイス） AGは、Binanceのウォレットに暗号通貨を保管することに関連して生じた損害について一切の責任を負いません。
+fp-activation:
+  btn-continue: 続ける
+  btn-create-fp: 金融商品の作成
+  btn-start: 金融商品を始める
+  choose-your-wallet: "ウォレットを選択して続行してください:"
+  congratulations: おめでとうございます！
+  created-success: 金融商品が作成されました。
+  max-investment: 最大投資額
+  min-investment: 最低投資額
+  not-enough-balance:
+    head: 利用可能な残高が足りません。
+    hint: この製品を実行するには、少なくとも {{minInvestment}} USDT。
+  video-into-title: Binanceウォレットを追加する方法
+  your-wallet: あなたの財布
 fpi-page:
   title: 金融商品の詳細
 list:
@@ -28,7 +43,7 @@ list:
   of-total-balance: 合計残高
   title: 稼働中ストラテジー（金融商品）
 notification-activated:
-  btn-dashboard: ダッシュボード
+  btn-dashboard: ダッシュボードに進め
   btn-kyc: KYCに行く
   kyc-notice: アカウントの承認（KYC）を実施せずに取引できるのは最大 1000 ドルのウォレットのみであることに注意してください。
   message: 私たちを信頼していただきありがとうございます。アカウントに任意の金額を入金し、AIを活用した戦略を稼働できるようになりました
@@ -81,10 +96,10 @@ status:
 subscription:
   subscribe:
     btn-confirm: 購読する
-    description: プロダクトをアクティベートするには、 <3>Wisdomise Expert</3> プランの <1>購読</1> が必要です。
+    description: この製品を有効化するには、 <1>購読する</1> 私たちの <3>{{minPlan}}</3> プラン。
     title: サブスクリプション
   upgrade:
     btn-confirm: アップグレード
-    description: このプロダクトを使用するには、 <1>アップグレード</1> する必要があります。
+    description: この製品を使用するには、 <1>アップグレード</1> あなたの購読 <4>{{minPlan}}</4>。
     subtitle: 現在のサブスクリプションには、アクティベートしたいプロダクトが含まれていません。
     title: 今すぐサブスクリプションをアップグレードする

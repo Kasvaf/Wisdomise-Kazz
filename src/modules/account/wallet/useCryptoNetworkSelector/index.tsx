@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInvestorAssetStructuresQuery, useMarketNetworksQuery } from 'api';
+import {
+  useInvestorAssetStructuresQuery,
+  useMarketNetworksQuery,
+  useMainQuote,
+} from 'api';
 import { type Network } from 'api/types/NetworksResponse';
-import useMainQuote from 'shared/useMainQuote';
 import CryptoSelector from './CryptoSelector';
 import NetworkSelector from './NetworkSelector';
 
@@ -15,7 +18,6 @@ const useCryptoNetworkSelector = ({
   const ias = useInvestorAssetStructuresQuery();
   const mea = ias.data?.[0]?.main_exchange_account;
   const mainQuote = useMainQuote();
-  const crypto = { name: mainQuote };
 
   // ----------------------------------------------------
 
@@ -24,6 +26,7 @@ const useCryptoNetworkSelector = ({
     name: 'loading',
     description: '',
   });
+  const crypto = { name: network.binance_info?.coin || mainQuote };
   const networks = useMarketNetworksQuery({
     usage,
     symbol: crypto.name,

@@ -146,7 +146,7 @@ export const useUpdateMyFinancialProductMutation = () => {
 
 export const useMyFinancialProductUsageQuery = (fpKey?: string) =>
   useQuery(
-    ['my-product', fpKey],
+    ['my-fp-usage', fpKey],
     async () => {
       if (!fpKey) throw new Error('unexpected');
       const { data } = await axios.get<{

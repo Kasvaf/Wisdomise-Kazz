@@ -2,7 +2,7 @@ matrix:
   best-performing-30d: 最佳表现 30天
   best-performing-7d: 最佳表现 7天
   date: 日期
-  entry-price: 出场价格
+  entry-price: 入场价格
   exit-price: 退出价格
   latest-positions: 最新点位
   locked: 锁定
@@ -10,7 +10,7 @@ matrix:
   radar:
     across: 穿过 <1>{{cnt}}</1> 过去 24 小时内的 Telegram 消息
     consensus: 社区共识：
-  side: 方向
+  side: 边
   sl: 止损
   subscription:
     subscribe:
@@ -48,7 +48,7 @@ select-coin: 选择硬币
 select-strategy: 选择策略
 signaler:
   24h-volume: 24小时交易量
-  active-positions: 活跃职位
+  active-positions: 主动立场
   btn-explore: 探索
   info:
     crypto:

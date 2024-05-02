@@ -45,7 +45,7 @@ periodicity:
     per: 年間利用<br>
     title: 年間利用
 pricing-card:
-  annually: 年額
+  annually: 年間
   btn-action:
     available-soon: 近日公開
     buy-now: 今すぐ購入する
@@ -54,18 +54,24 @@ pricing-card:
     free: 無料
     next-plan: 次のプラン
     upgrade: アップグレード
+  forever: 永遠に
+  free-subtitle: お気軽にwisdomiseを探索してください
   hold: ホールド
   just-yearly: 年間利用のみ
   monthly: 月額
+  notification-call-support: サポートに電話する
   notification-upgrade-success: サブスクリプションのアップデートが完了しました。アクティベーションまで数分かかる場合がございます。しばらく経ってからこのページを更新してください。
   page-subtitle: このセクションからパッケージの種類を選択できます
   page-title: プランと料金
+  pay-by-stacking: 積み重ねて支払う<1>{{token}}<1>WSDM</1></1>トークン
+  pay-by-stacking-in-yearly-only: "積み重ねて支払う<1>WSDM</1>トークン: 毎年の最新情報"
+  recommended: ウィズダムズ推奨
   this-includes: "次を含みます:"
   token: Token
 stripe:
   change-card-info:
     order-summary: 注文概要
-    title: 支払い方法を変更
+    title: カード情報の変更
     total: 合計
 subscription-details:
   invoices:
@@ -85,6 +91,7 @@ subscription-details:
       pay-method: お支払い方法は、
       pay-now: 今払う！
       pending-invoice: <0>お支払いステータスは<1></1></0>
+      renew: プランの有効期限は
       title: 現在ご契約中のプラン
       your-subs: あなたのサブスクリプションプランは、<1></1>
     in-order-to-renew: 更新するにはトランザクションを再度お送りください。
@@ -99,8 +106,11 @@ subscription-details:
       cancel-btn: 次のプランをキャンセルする
       canceled: <0>次の計画はキャンセルされました。<1>次のプランを更新する</1></0>
       card: 今後の料金はカードに適用されます<1></1>
+      change-pay-method: 支払い方法の変更
       charging: クレジットカードにチャージする<1></1>
+      in-order-to-renew: 更新するには、取引を再度送信する必要があります。<1></1>
       pay-method: お支払い方法は、
+      title: 次のプラン
       your-subs: あなたのサブスクリプションプランは、<1></1>
     pay-method: "<0>次のお支払い方法: <2>{{payMethod}}。</2><3>支払い方法を変更する</3></0>"
     pending-invoice: <0><0>保留中の請求書が 1 件あります。</0><1>今払う</1></0>

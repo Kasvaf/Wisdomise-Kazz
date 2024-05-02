@@ -1,25 +1,57 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useMemo } from 'react';
+import { useMainQuote } from './ias/investor-asset-structures';
 import { type MarketTypes } from './types/financialProduct';
 import {
   type RawPosition,
   type SignalsResponse,
   type SuggestedAction,
 } from './types/signalResponse';
-import { type PairData } from './types/strategy';
+import { type PairDataFull, type PairData } from './types/strategy';
 import normalizePair from './normalizePair';
 
 export const useSignalerPairs = () =>
-  useQuery<PairData[]>(
+  useQuery<PairDataFull[]>(
     ['signaler-pairs'],
     async () => {
-      const { data } = await axios.get<PairData[]>('strategy/pairs');
-      return data.map(normalizePair);
+      const { data } = await axios.get<PairDataFull[]>('strategy/pairs');
+      return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
+
+export const useSignalerPairByNames = () => {
+  const { data: pairs } = useSignalerPairs();
+  return useMemo(
+    () => Object.fromEntries(pairs?.map(x => [x.base.name, x]) ?? []),
+    [pairs],
+  );
+};
+
+export const useSignalerPair = (name?: string): PairDataFull | undefined => {
+  const mainQuote = useMainQuote();
+  const pairsByName = useSignalerPairByNames();
+
+  if (!name) return undefined;
+  name = name.toUpperCase();
+  const match = name.match(/\/?(BUSD|USDT)$/);
+  const base = name.replace(/\/?(BUSD|USDT)$/, '');
+  const quote = match?.[1] || mainQuote;
+  const pair = pairsByName[base + quote];
+  return (
+    pair || {
+      name,
+      display_name: base,
+      base: { name: base },
+      quote: { name: quote },
+      time_window_pnl: 0,
+      time_window_prices: [],
+    }
+  );
+};
 
 export interface PairDetails {
   id: number;

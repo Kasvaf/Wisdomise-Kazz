@@ -35,3 +35,9 @@ export const useInvestorAssetStructuresQuery = () =>
           : false,
     },
   );
+
+export function useMainQuote() {
+  const ias = useInvestorAssetStructuresQuery();
+  const mea = ias.data?.[0]?.main_exchange_account;
+  return mea?.quote.name || '';
+}

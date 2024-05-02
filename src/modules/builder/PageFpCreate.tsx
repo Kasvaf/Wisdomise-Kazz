@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Select, notification } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import {
   type RiskLevel,
   useCreateMyFinancialProductMutation,
@@ -18,6 +19,7 @@ import Icon from 'shared/Icon';
 const { Option } = Select;
 
 export default function PageFpCreate() {
+  const { t } = useTranslation('builder');
   const [showErrors, setShowErrors] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -50,16 +52,14 @@ export default function PageFpCreate() {
 
   return (
     <PageWrapper>
-      <h1 className="mb-8 text-xl font-semibold">
-        Create New Financial Product
-      </h1>
+      <h1 className="mb-8 text-xl font-semibold">{t('fp.create-new.title')}</h1>
 
       <Card>
         <section>
           <div className="mt-4 flex gap-6 mobile:flex-col">
             <TextBox
-              label="Financial Product Name"
-              placeholder="Financial Product Name"
+              label={t('fp.create-new.name')}
+              placeholder={t('fp.create-new.name')}
               className="basis-2/5"
               value={title}
               onChange={setTitle}
@@ -67,8 +67,8 @@ export default function PageFpCreate() {
             />
 
             <TextBox
-              label="Financial Product Description"
-              placeholder="Financial Product Description"
+              label={t('fp.create-new.description')}
+              placeholder={t('fp.create-new.description')}
               className="basis-3/5"
               value={description}
               onChange={setDescription}
@@ -78,8 +78,8 @@ export default function PageFpCreate() {
 
           <div className="mt-8 flex gap-6 mobile:flex-col">
             <AmountInputBox
-              label="Expected Drawdown"
-              placeholder="Expected Drawdown"
+              label={t('fp.create-new.expected-drawdown')}
+              placeholder={t('fp.create-new.expected-drawdown')}
               className="basis-1/4"
               value={expectedDrawdown}
               onChange={setExpectedDrawdown}
@@ -88,8 +88,8 @@ export default function PageFpCreate() {
               }
             />
             <AmountInputBox
-              label="Expected APY"
-              placeholder="Expected APY"
+              label={t('fp.create-new.expected-apy')}
+              placeholder={t('fp.create-new.expected-apy')}
               className="basis-1/4"
               value={expectedApy}
               onChange={setExpectedApy}
@@ -97,26 +97,32 @@ export default function PageFpCreate() {
             />
 
             <MarketSelector
-              label="Market"
+              label={t('fp.create-new.market')}
               className="basis-1/4"
               selectedItem={marketType}
               onSelect={setMarketType}
             />
 
             <div className="basis-1/4">
-              <div className="mb-2 ml-4">Risk Level</div>
+              <div className="mb-2 ml-2">{t('fp.create-new.risk-level')}</div>
               <Select
                 className="w-full"
-                placeholder="Risk Level"
+                placeholder={t('fp.create-new.risk-level')}
                 value={riskLevel}
                 onChange={setRiskLevel}
                 suffixIcon={
                   <Icon name={bxChevronDown} className="mr-2 text-white" />
                 }
               >
-                <Option value="Low">Low</Option>
-                <Option value="Medium">Medium</Option>
-                <Option value="High">High</Option>
+                <Option value="Low">
+                  {t('products:product-detail.risk.low')}
+                </Option>
+                <Option value="Medium">
+                  {t('products:product-detail.risk.medium')}
+                </Option>
+                <Option value="High">
+                  {t('products:product-detail.risk.high')}
+                </Option>
               </Select>
             </div>
           </div>
@@ -130,7 +136,7 @@ export default function PageFpCreate() {
             onClick={onCreateHandler}
             loading={isLoading}
           >
-            Create Financial Product
+            {t('fp.create-new.btn-create-financial-product')}
           </Button>
         </section>
       </Card>

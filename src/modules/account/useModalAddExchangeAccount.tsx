@@ -140,8 +140,9 @@ const ModalAddExchangeAccount: React.FC<{
 
 export default function useModalAddExchangeAccount(
   market?: MarketTypes,
+  opts?: { introStyle: boolean },
 ): [JSX.Element, () => Promise<string | undefined>] {
-  const [Modal, showModal] = useModal(ModalAddExchangeAccount);
+  const [Modal, showModal] = useModal(ModalAddExchangeAccount, opts);
   return [
     Modal,
     async () =>

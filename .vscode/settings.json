@@ -27,7 +27,12 @@
     "markdown"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["clsx", "undraws", "Wisdomise"],
+  "cSpell.words": [
+    "clsx",
+    "undraws",
+    "unparam",
+    "Wisdomise"
+  ],
   "[svg]": {
     "editor.defaultFormatter": "jock.svg"
   },

@@ -14,8 +14,8 @@ export interface ChartPosition {
 }
 
 interface Position {
-  entry_time: string;
-  entry_price: number;
+  entry_time?: string;
+  entry_price?: number;
   exit_time?: string;
   exit_price?: number;
 }
@@ -27,8 +27,6 @@ interface ActualPosition extends Position {
 
 const formatter = 'YYYY-MM-DD HH:mm';
 const durs: Record<Resolution, number> = {
-  '1m': 1000 * 60,
-  '3m': 1000 * 60 * 3,
   '5m': 1000 * 60 * 5,
   '15m': 1000 * 60 * 15,
   '30m': 1000 * 60 * 30,
@@ -101,6 +99,8 @@ export function parsePositions(
     ({ actual_position: ap }) =>
       ap.exit_price !== undefined &&
       ap.exit_time !== undefined &&
+      ap.entry_price !== undefined &&
+      ap.entry_time !== undefined &&
       ap.entry_time !== ap.exit_time,
   ) as Array<{
     actual_position: Required<ChartPosition['actual_position']>;
@@ -145,7 +145,9 @@ export function parsePositions(
     ({ actual_position: ap, strategy_position: sp }) => {
       const dir = ap.position_side === 'LONG' ? 1 : -1;
       const markers: NonNullable<MarkPointOption['data']> = [];
-      markers.push(marker([ap.entry_time, ap.entry_price], dir, '#11C37E'));
+      if (ap.entry_price) {
+        markers.push(marker([ap.entry_time, ap.entry_price], dir, '#11C37E'));
+      }
       if (ap.exit_time && ap.exit_price) {
         markers.push(
           marker([ap.exit_time, ap.exit_price], -1 * dir, '#F14056'),
@@ -153,7 +155,7 @@ export function parsePositions(
       }
 
       if (sp) {
-        if (sp.entry_time !== ap.entry_time) {
+        if (sp.entry_price && sp.entry_time !== ap.entry_time) {
           markers.push(marker([sp.entry_time, sp.entry_price], dir, '#fff'));
         }
         if (sp.exit_time && sp.exit_price && sp.exit_time !== ap.exit_time) {
