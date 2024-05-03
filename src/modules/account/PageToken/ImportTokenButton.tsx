@@ -2,9 +2,11 @@ import { clsx } from 'clsx';
 import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
-import { WSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/wsdm/contract';
-import { TWSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/twsdm/contract';
-import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/locking/contract';
+import {
+  WSDM_CONTRACT_ADDRESS,
+  TWSDM_CONTRACT_ADDRESS,
+  LOCKING_CONTRACT_ADDRESS,
+} from 'modules/account/PageToken/constants';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 import { ReactComponent as WIcon } from './icons/w.svg';
 

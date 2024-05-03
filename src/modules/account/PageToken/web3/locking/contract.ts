@@ -1,11 +1,7 @@
 import { useAccount, useContractRead, useContractWrite } from 'wagmi';
 import { zeroAddress } from 'viem';
 import { LOCKING_ABI } from 'modules/account/PageToken/web3/locking/abi';
-import { isProduction } from 'utils/version';
-
-export const LOCKING_CONTRACT_ADDRESS = isProduction
-  ? zeroAddress
-  : '0xF7767abb9E240f66c1a14D18e52a928C69f26e22';
+import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
 
 const lockingContractDefaultConfig = {
   address: LOCKING_CONTRACT_ADDRESS,

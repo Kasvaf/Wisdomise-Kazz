@@ -6,12 +6,10 @@ import {
   useTwsdmBalance,
   useWriteTwsdmApprove,
 } from 'modules/account/PageToken/web3/twsdm/contract';
-import {
-  MIGRATION_CONTRACT_ADDRESS,
-  useWriteMigrate,
-} from 'modules/account/PageToken/web3/migration/contract';
+import { useWriteMigrate } from 'modules/account/PageToken/web3/migration/contract';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import { extractWagmiErrorMessage } from 'utils/error';
+import { TOKEN_MIGRATION_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
 
 export function useMigration() {
   const { address } = useAccount();
@@ -19,7 +17,7 @@ export function useMigration() {
   const { data: tWSDMBalance, refetch: refetchTwsdmBalance } =
     useTwsdmBalance();
   const { data: allowance, refetch: refetchAllowance } = useReadTwsdmAllowance(
-    MIGRATION_CONTRACT_ADDRESS,
+    TOKEN_MIGRATION_CONTRACT_ADDRESS,
   );
 
   const {
@@ -42,7 +40,7 @@ export function useMigration() {
   const handleMigration = () => {
     if (!isAllowed(allowance, tWSDMBalance?.value) && address) {
       approve({
-        args: [MIGRATION_CONTRACT_ADDRESS, tWSDMBalance?.value ?? 0n],
+        args: [TOKEN_MIGRATION_CONTRACT_ADDRESS, tWSDMBalance?.value ?? 0n],
       });
     } else {
       migrate();

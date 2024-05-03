@@ -6,8 +6,8 @@ import Card from 'shared/Card';
 
 import { addComma } from 'utils/numbers';
 import {
-  ANGEL_RELEASE_TIMESTAMPS,
-  STRATEGIC_RELEASE_TIMESTAMPS,
+  angelReleaseTimestamps,
+  strategicReleaseTimestamps,
 } from 'modules/account/PageToken/constants';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
@@ -29,8 +29,8 @@ export default function Vesting() {
   const findNextRelease = (roundId: 'angel' | 'strategic') => {
     return (
       (roundId === 'angel'
-        ? ANGEL_RELEASE_TIMESTAMPS
-        : STRATEGIC_RELEASE_TIMESTAMPS
+        ? angelReleaseTimestamps
+        : strategicReleaseTimestamps
       ).find(timestamp => timestamp * 1000 > Date.now()) ?? 0
     );
   };

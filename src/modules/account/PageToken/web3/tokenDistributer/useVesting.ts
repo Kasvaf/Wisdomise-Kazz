@@ -11,8 +11,8 @@ import {
 } from 'modules/account/PageToken/web3/tokenDistributer/contract';
 import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
 import {
-  ANGEL_RELEASE_PERCENTAGE,
-  STRATEGIC_RELEASE_PERCENTAGE,
+  angelReleasePercentage,
+  strategicReleasePercentage,
 } from 'modules/account/PageToken/constants';
 
 export function useVesting() {
@@ -72,14 +72,14 @@ export function useVesting() {
       name: 'Angel Round',
       totalAmount: angelTotalAmount,
       claimable: angelClaimable,
-      releasePercentage: ANGEL_RELEASE_PERCENTAGE,
+      releasePercentage: angelReleasePercentage,
     },
     {
       id: 'strategic',
       name: 'Strategic Round',
       totalAmount: strategicTotalAmount,
       claimable: strategicClaimable,
-      releasePercentage: STRATEGIC_RELEASE_PERCENTAGE,
+      releasePercentage: strategicReleasePercentage,
     },
   ] as const;
 

@@ -6,11 +6,7 @@ import {
   useContractWrite,
 } from 'wagmi';
 import { zeroAddress } from 'viem';
-import { isProduction } from 'utils/version';
-
-export const TWSDM_CONTRACT_ADDRESS = isProduction
-  ? zeroAddress
-  : '0x0DB3430FF725D9d957749732144Ec791704A058f';
+import { TWSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
 
 const twsdmContractDefaultConfig = {
   address: TWSDM_CONTRACT_ADDRESS,

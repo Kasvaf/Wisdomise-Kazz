@@ -8,14 +8,12 @@ import {
 import { zeroAddress } from 'viem';
 import { useEffect } from 'react';
 import { notification } from 'antd';
-import { isProduction } from 'utils/version';
 import { WSDM_ABI } from 'modules/account/PageToken/web3/wsdm/abi';
-import { LOCKING_CONTRACT_ADDRESS } from 'modules/account/PageToken/web3/locking/contract';
 import { extractWagmiErrorMessage } from 'utils/error';
-
-export const WSDM_CONTRACT_ADDRESS = isProduction
-  ? zeroAddress
-  : '0x05da7738999C5917Fc054a1222C91D75901b03B7';
+import {
+  LOCKING_CONTRACT_ADDRESS,
+  WSDM_CONTRACT_ADDRESS,
+} from 'modules/account/PageToken/constants';
 
 const wsdmContractDefaultConfig = {
   address: WSDM_CONTRACT_ADDRESS,
