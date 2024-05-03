@@ -4,7 +4,6 @@ import PageWrapper from 'modules/base/PageWrapper';
 import Vesting from 'modules/account/PageToken/Vesting';
 import Migration from 'modules/account/PageToken/Migration';
 import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdm/contract';
-import Airdrop from 'modules/account/PageToken/Airdrop';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import Utility from 'modules/account/PageToken/Utility';
@@ -45,7 +44,6 @@ export default function PageToken() {
       >
         {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
         {angelTotalAmount || strategicTotalAmount ? <Vesting /> : null}
-        <Airdrop />
         <h1 className="my-8 flex flex-wrap items-center justify-between gap-4 text-xl text-white/20">
           <div className="flex items-center gap-2">
             <Trans i18nKey="wisdomise-token:utility.title" ns="wisdomise-token">
