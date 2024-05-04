@@ -15,7 +15,7 @@ export default function PageToken() {
   const { t } = useTranslation('wisdomise-token');
   const { data: twsdmBalance } = useTwsdmBalance();
   const { isConnected } = useAccount();
-  const { angelTotalAmount, strategicTotalAmount } = useVesting();
+  const { hasShareInBucket } = useVesting();
 
   return (
     <PageWrapper>
@@ -43,7 +43,7 @@ export default function PageToken() {
         )}
       >
         {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
-        {angelTotalAmount || strategicTotalAmount ? <Vesting /> : null}
+        {hasShareInBucket ? <Vesting /> : null}
         <h1 className="my-8 flex flex-wrap items-center justify-between gap-4 text-xl text-white/20">
           <div className="flex items-center gap-2">
             <Trans i18nKey="wisdomise-token:utility.title" ns="wisdomise-token">

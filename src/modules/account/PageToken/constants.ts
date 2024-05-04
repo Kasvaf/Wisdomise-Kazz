@@ -21,6 +21,14 @@ export const STRATEGIC_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
   : '0x64a6768417B31EB0F2d240f9175e2D12E88382cd';
 
+export const KOL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
+  ? zeroAddress
+  : '0x4785E52599e6146C24A7A5f59D89E8d064c2cf4B';
+
+export const INSTITUTIONAL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
+  ? zeroAddress
+  : '0x23c48587ede1246707c8e77d46B8B5C4678F7e53';
+
 export const TWSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
   : '0x0DB3430FF725D9d957749732144Ec791704A058f';
@@ -34,19 +42,58 @@ const VESTING_INTERVAL = 1800;
 const ANGEL_ROUND_VESTING_START = 1_714_725_300;
 const ANGEL_ROUND_VESTING_LENGTH = 540;
 const FIRST_ANGEL_RELEASE_PERCENTAGE = 0.05;
-export const angelReleaseTimestamps = Array.from(
-  { length: ANGEL_ROUND_VESTING_LENGTH },
-  (_, i) => ANGEL_ROUND_VESTING_START + VESTING_INTERVAL * i,
+export const angelReleaseTimestamps = calculateReleaseTimestamps(
+  ANGEL_ROUND_VESTING_LENGTH,
+  ANGEL_ROUND_VESTING_START,
 );
-export const angelReleasePercentage =
-  (1 - FIRST_ANGEL_RELEASE_PERCENTAGE) / angelReleaseTimestamps.length;
+export const angelReleasePercentage = calculateReleasePercentage(
+  FIRST_ANGEL_RELEASE_PERCENTAGE,
+  ANGEL_ROUND_VESTING_LENGTH,
+);
 
 const STRATEGIC_ROUND_VESTING_START = 1_714_725_300;
 const STRATEGIC_ROUND_VESTING_LENGTH = 450;
 const FIRST_STRATEGIC_RELEASE_PERCENTAGE = 0.05;
-export const strategicReleaseTimestamps = Array.from(
-  { length: STRATEGIC_ROUND_VESTING_LENGTH },
-  (_, i) => STRATEGIC_ROUND_VESTING_START + VESTING_INTERVAL * i,
+export const strategicReleaseTimestamps = calculateReleaseTimestamps(
+  STRATEGIC_ROUND_VESTING_LENGTH,
+  STRATEGIC_ROUND_VESTING_START,
 );
-export const strategicReleasePercentage =
-  (1 - FIRST_STRATEGIC_RELEASE_PERCENTAGE) / strategicReleaseTimestamps.length;
+export const strategicReleasePercentage = calculateReleasePercentage(
+  FIRST_STRATEGIC_RELEASE_PERCENTAGE,
+  STRATEGIC_ROUND_VESTING_LENGTH,
+);
+
+const KOL_ROUND_VESTING_START = 1_714_725_300;
+const KOL_ROUND_VESTING_LENGTH = 270;
+const FIRST_KOL_RELEASE_PERCENTAGE = 0.05;
+export const kolReleaseTimestamps = calculateReleaseTimestamps(
+  KOL_ROUND_VESTING_LENGTH,
+  KOL_ROUND_VESTING_START,
+);
+export const kolReleasePercentage = calculateReleasePercentage(
+  FIRST_KOL_RELEASE_PERCENTAGE,
+  KOL_ROUND_VESTING_LENGTH,
+);
+
+const INSTITUTIONAL_ROUND_VESTING_START = 1_714_728_900;
+const INSTITUTIONAL_ROUND_VESTING_LENGTH = 450;
+const FIRST_INSTITUTIONAL_RELEASE_PERCENTAGE = 0;
+export const institutionalReleaseTimestamps = calculateReleaseTimestamps(
+  INSTITUTIONAL_ROUND_VESTING_LENGTH,
+  INSTITUTIONAL_ROUND_VESTING_START,
+);
+export const institutionalReleasePercentage = calculateReleasePercentage(
+  FIRST_INSTITUTIONAL_RELEASE_PERCENTAGE,
+  INSTITUTIONAL_ROUND_VESTING_LENGTH,
+);
+
+function calculateReleaseTimestamps(length: number, startTime: number) {
+  return Array.from({ length }, (_, i) => startTime + VESTING_INTERVAL * i);
+}
+
+function calculateReleasePercentage(
+  firstReleasePercentage: number,
+  length: number,
+) {
+  return (1 - firstReleasePercentage) / length;
+}
