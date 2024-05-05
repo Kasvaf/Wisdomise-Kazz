@@ -41,6 +41,19 @@
   }
 
   .intro-style & {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      z-index: -1;
+      border-radius: 10px;
+      background: linear-gradient(227.11deg, #9747ff 0%, #141518 30.3%);
+    }
+
     background: linear-gradient(260deg, #41226c 0%, #2d1f41 100%);
   }
 }
