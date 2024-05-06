@@ -1,10 +1,8 @@
 import { type FinancialProduct } from 'api/types/financialProduct';
-import { useHasFlag } from 'api';
 import useIsFPRunning from '../useIsFPRunning';
 import ButtonActivate from './ButtonActivate';
 import ButtonDeactivate from './ButtonDeactivate';
 import useModalFpActivation from './useModalFpActivation';
-import useModalFpWaitList from './useModalFpWaitList';
 
 interface Props {
   inDetailPage?: boolean;
@@ -17,17 +15,9 @@ const ButtonFPActivate: React.FC<Props> = ({
   inDetailPage,
   financialProduct: fp,
 }) => {
-  const hasFlag = useHasFlag();
   const isRunning = useIsFPRunning(fp?.key);
-  const [ModalFpWaitList, showModalFpWaitList] = useModalFpWaitList();
   const [ModalFpActivation, showModalFpActivation] = useModalFpActivation();
   if (!fp) return null;
-
-  const activateHandler = async () => {
-    await (hasFlag('?activate-no-wait')
-      ? showModalFpActivation({ financialProduct: fp })
-      : showModalFpWaitList());
-  };
 
   return (
     <>
@@ -41,10 +31,9 @@ const ButtonFPActivate: React.FC<Props> = ({
         <ButtonActivate
           financialProduct={fp}
           className={className}
-          onCreate={activateHandler}
+          onCreate={() => showModalFpActivation({ financialProduct: fp })}
         />
       )}
-      {ModalFpWaitList}
       {ModalFpActivation}
     </>
   );
