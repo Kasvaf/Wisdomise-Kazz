@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import { useJoinWaitList } from 'api';
+import { unwrapErrorMessage } from 'utils/error';
 import imgWaitList from './fp-wait-list.png';
 
 const ModalFpWaitList: React.FC<{ onResolve?: () => void }> = ({
@@ -11,11 +12,17 @@ const ModalFpWaitList: React.FC<{ onResolve?: () => void }> = ({
   const { t } = useTranslation('products');
   const { mutateAsync: join, isLoading } = useJoinWaitList();
   const handler = async () => {
-    await join();
-    onResolve?.();
-    notification.success({
-      message: t('wait-list.notif-success'),
-    });
+    try {
+      await join();
+      onResolve?.();
+      notification.success({
+        message: t('wait-list.notif-success'),
+      });
+    } catch (error) {
+      notification.error({
+        message: unwrapErrorMessage(error),
+      });
+    }
   };
 
   return (
