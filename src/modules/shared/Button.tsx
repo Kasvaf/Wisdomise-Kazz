@@ -57,13 +57,14 @@ const Button: React.FC<Props> = ({
     [loading, disabled, onClick],
   );
 
-  const sharedClasses = 'text-sm font-medium leading-none';
-  const sizeClass =
+  const sharedClasses = clsx('text-center text-sm font-medium leading-none');
+  const sizeClass = clsx(
     size === 'small'
       ? '!p-[10px_12px]'
       : size === 'large'
       ? '!px-9 !py-3 md:!px-16 md:!py-5 md:text-xl'
-      : '';
+      : '',
+  );
 
   if (variant === 'link') {
     return (
