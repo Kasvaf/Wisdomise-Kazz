@@ -24,12 +24,12 @@ interface Signal {
     price: {
       value: number;
     };
-  };
+  } | null;
   take_profit?: {
     price: {
       value: number;
     };
-  };
+  } | null;
 }
 
 export interface FullPosition extends RawPosition {

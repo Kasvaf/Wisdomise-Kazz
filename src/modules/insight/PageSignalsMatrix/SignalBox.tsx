@@ -174,16 +174,16 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
                       {
                         label: t('matrix.tp'),
                         isLocked,
-                        value:
-                          p.take_profit &&
-                          numerable.format(p.take_profit, '0,0.00'),
+                        value: p.take_profit
+                          ? numerable.format(p.take_profit, '0,0.00')
+                          : undefined,
                       },
                       {
                         label: t('matrix.sl'),
                         isLocked,
-                        value:
-                          p.stop_loss &&
-                          numerable.format(p.stop_loss, '0,0.00'),
+                        value: p.stop_loss
+                          ? numerable.format(p.stop_loss, '0,0.00')
+                          : undefined,
                       },
                     ]
               }

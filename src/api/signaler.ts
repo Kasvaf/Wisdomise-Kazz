@@ -86,8 +86,8 @@ export interface PairSignalerItem extends RawPosition {
   pair_name: string;
   strategy: ThinStrategy;
   pnl_equity: number;
-  stop_loss?: number;
-  take_profit?: number;
+  stop_loss?: number | null;
+  take_profit?: number | null;
   suggested_action: SuggestedAction;
   leverage: number;
 }
