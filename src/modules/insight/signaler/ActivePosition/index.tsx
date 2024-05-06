@@ -30,8 +30,8 @@ const Labeled: React.FC<
 
 interface Position extends RawPosition {
   suggested_action?: SuggestedAction;
-  take_profit: number;
-  stop_loss: number;
+  take_profit?: number;
+  stop_loss?: number;
 }
 
 const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {

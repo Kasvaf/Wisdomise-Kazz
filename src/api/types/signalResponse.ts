@@ -28,7 +28,7 @@ export interface LastPosition extends RawPosition {
   pair_name: string;
 
   take_profit?: number;
-  stop_loss: number;
+  stop_loss?: number;
 
   suggested_action: SuggestedAction;
 }

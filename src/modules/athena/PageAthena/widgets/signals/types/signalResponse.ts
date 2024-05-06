@@ -31,7 +31,7 @@ export interface LastPosition {
   strategy_name: string;
   pair_name: string;
   take_profit?: number;
-  stop_loss: number;
+  stop_loss?: number;
   entry_time: string;
   entry_price: number;
   exit_time?: string;

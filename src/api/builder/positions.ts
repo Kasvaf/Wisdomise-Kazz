@@ -20,12 +20,12 @@ interface Signal {
     value: number;
   };
   position: SignalPosition;
-  stop_loss: {
+  stop_loss?: {
     price: {
       value: number;
     };
   };
-  take_profit: {
+  take_profit?: {
     price: {
       value: number;
     };
@@ -35,8 +35,8 @@ interface Signal {
 export interface FullPosition extends RawPosition {
   pair_name: string;
   leverage: number;
-  stop_loss: number;
-  take_profit: number;
+  stop_loss?: number;
+  take_profit?: number;
   signal?: Signal;
 }
 
