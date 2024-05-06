@@ -29,7 +29,7 @@ const ModalFpWaitList: React.FC<{ onResolve?: () => void }> = ({
 
       <p className="mt-4 w-full text-center">{t('wait-list.description-2')}</p>
 
-      <div className="mt-12 flex w-full gap-4">
+      <div className="mt-12 flex w-full gap-4 mobile:flex-col">
         <Button
           loading={isLoading}
           className="grow"
