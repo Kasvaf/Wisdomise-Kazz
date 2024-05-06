@@ -15,6 +15,7 @@ interface Props extends PropsWithChildren {
     | 'secondary'
     | 'link'
     | 'green'
+    | 'purple'
     | 'secondary-red';
   className?: string;
   contentClassName?: string;
@@ -56,6 +57,7 @@ const Button: React.FC<Props> = ({
     [loading, disabled, onClick],
   );
 
+  const sharedClasses = 'text-sm font-medium leading-none';
   const sizeClass =
     size === 'small'
       ? '!p-[10px_12px]'
@@ -67,7 +69,8 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:text-warning',
+          sharedClasses,
+          'bg-transparent px-8 py-4 text-white hover:text-warning',
           disabled && 'cursor-not-allowed !text-white/40',
           loading && 'cursor-wait',
           sizeClass,
@@ -86,7 +89,8 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-xl border border-white bg-transparent px-8 py-4 text-sm font-medium leading-none text-white hover:border-white/40',
+          sharedClasses,
+          'rounded-xl border border-white bg-transparent px-8 py-4 text-white hover:border-white/40',
           disabled &&
             'cursor-not-allowed !border-white/10 !bg-white/10 text-white/10',
           sizeClass,
@@ -106,7 +110,8 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-xl border border-[#F14056] bg-transparent px-8 py-4 text-sm font-medium leading-none text-[#F14056] hover:border-[#F14056]/40',
+          sharedClasses,
+          'rounded-xl border border-[#F14056] bg-transparent px-8 py-4 text-[#F14056] hover:border-[#F14056]/40',
           disabled &&
             'cursor-not-allowed !border-[#F14056]/10 !bg-white/10 text-[#F14056]/10',
           sizeClass,
@@ -126,7 +131,8 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-xl bg-white/10 px-8 py-4 text-sm font-medium leading-none text-white hover:bg-black/20 [&.active]:bg-black/30',
+          sharedClasses,
+          'rounded-xl bg-white/10 px-8 py-4 text-white hover:bg-black/20 [&.active]:bg-black/30',
           disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
           sizeClass,
           loading && 'cursor-wait',
@@ -145,9 +151,30 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-xl bg-[#11C37E99] px-8 py-4 text-sm font-medium leading-none text-white hover:bg-[#11C37E99]/80',
+          sharedClasses,
+          'rounded-xl bg-[#11C37E99] px-8 py-4 text-white hover:bg-[#11C37E99]/80',
           disabled &&
             'cursor-not-allowed !border-[#11C37E99]/40 !bg-[#11C37E99]/10 text-white/10',
+          loading && 'cursor-wait text-white/50',
+          sizeClass,
+          className,
+        )}
+        disabled={disabled}
+        onClick={clickHandler}
+        {...restOfProps}
+      >
+        {btnContent}
+      </LinkOrButton>
+    );
+  }
+
+  if (variant === 'purple') {
+    return (
+      <LinkOrButton
+        className={clsx(
+          sharedClasses,
+          'rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] px-8 py-4 !text-white hover:saturate-200',
+          disabled && 'cursor-not-allowed text-white/10',
           loading && 'cursor-wait text-white/50',
           sizeClass,
           className,
@@ -164,7 +191,8 @@ const Button: React.FC<Props> = ({
   return (
     <LinkOrButton
       className={clsx(
-        'rounded-xl bg-white px-8 py-4 text-sm font-medium leading-none text-black hover:bg-white/80',
+        sharedClasses,
+        'rounded-xl bg-white px-8 py-4 text-black hover:bg-white/80',
         disabled &&
           'cursor-not-allowed !border-white/40 !bg-white/10 text-white/10',
         loading && 'cursor-wait',

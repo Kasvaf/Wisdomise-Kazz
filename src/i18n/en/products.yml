@@ -132,3 +132,18 @@ subscription:
       To use this product, you need to <1>Upgrade</1> your subscription to
       <4>{{minPlan}}</4>.
     btn-confirm: Upgrade
+wait-list:
+  title: Feature at Capacity
+  btn-explore: Explore Insights
+  btn-join: Join Waitlist
+  description-1: >-
+    Our Automated Crypto Passive Income feature is currently at full capacity to
+    ensure sustained performance for our users. All our AI funds have reached
+    their investment cap, but we're excited to announce that we'll soon reopen
+    for the next batch, including new features. To secure your spot, please join
+    our exclusive waitlist on a first-come, first-served basis.
+  description-2: >-
+    We will notify you when investment opportunities reopen. Meanwhile, we
+    encourage you to explore our Proprietary Insights features to stay ahead of
+    the market and continue enjoying high yields. Thank you!
+  notif-success: You successfully joined wait list.
