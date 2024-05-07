@@ -1,28 +1,26 @@
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { bxRightArrowAlt } from 'boxicons-quasar';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import PriceChange from 'modules/shared/PriceChange';
-import { type CoinTelegramSignal } from 'api';
+import { type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
-import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 
-export default function SignalsTable({
-  signals,
-}: {
-  signals: CoinTelegramSignal[];
-}) {
+export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
   const { t } = useTranslation('social-radar');
 
-  const columns = useMemo<Array<ColumnType<CoinTelegramSignal>>>(
+  const columns = useMemo<Array<ColumnType<CoinSignal>>>(
     () => [
       {
         title: '#',
-        render: (row: CoinTelegramSignal) => signals.indexOf(row) + 1,
+        render: (row: CoinSignal) => signals.indexOf(row) + 1,
       },
       {
         title: t('more-telegram-signal.table.coin'),
-        render: (row: CoinTelegramSignal) => (
+        render: (row: CoinSignal) => (
           <div className="flex items-center gap-2">
             <CoinsIcons coins={[row.image]} />
             <p>{row.symbol_name}</p>
@@ -31,13 +29,13 @@ export default function SignalsTable({
       },
       {
         title: t('more-telegram-signal.table.side'),
-        render: (row: CoinTelegramSignal) => (
+        render: (row: CoinSignal) => (
           <p className="capitalize">{row.gauge_tag.toLowerCase()}</p>
         ),
       },
       {
         title: t('more-telegram-signal.table.price'),
-        render: (row: CoinTelegramSignal) =>
+        render: (row: CoinSignal) =>
           row.current_price ? (
             <p>{row.current_price.toString() + ' USDT'}</p>
           ) : (
@@ -46,7 +44,7 @@ export default function SignalsTable({
       },
       {
         title: t('more-telegram-signal.table.price-change'),
-        render: (row: CoinTelegramSignal) =>
+        render: (row: CoinSignal) =>
           row.price_change_percentage ? (
             <PriceChange
               valueToFixed
@@ -58,13 +56,14 @@ export default function SignalsTable({
           ),
       },
       {
-        render: (row: CoinTelegramSignal) => (
-          <Button
-            className="block w-fit"
+        render: (row: CoinSignal) => (
+          <NavLink
             to={'/insight/social-radar/' + row.symbol_name}
+            className="mx-auto inline-flex items-center justify-end text-sm opacity-40"
           >
-            {t('more-telegram-signal.table.explore')}
-          </Button>
+            <p className="leading-none">{t('hot-coins.signals')}</p>
+            <Icon name={bxRightArrowAlt} />
+          </NavLink>
         ),
       },
     ],

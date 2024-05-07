@@ -3,12 +3,12 @@ import { bxRightArrowAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CoinsIcons from 'modules/shared/CoinsIcons';
-import { type CoinTelegramSignal } from 'api';
+import { type CoinSignal } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
 import Icon from 'modules/shared/Icon';
 import SideSuggestGauge from './SideSuggestGauge';
 
-export default function HotCoinSignal({ data }: { data: CoinTelegramSignal }) {
+export default function HotCoinSignal({ data }: { data: CoinSignal }) {
   const { t } = useTranslation('social-radar');
 
   return (
@@ -59,7 +59,7 @@ export default function HotCoinSignal({ data }: { data: CoinTelegramSignal }) {
       </div>
 
       <div className="flex items-center justify-end pt-4 text-sm opacity-40">
-        <p className="-mt-1 leading-none">{t('hot-coins.explore')}</p>
+        <p className="leading-none">{t('hot-coins.signals')}</p>
         <Icon name={bxRightArrowAlt} />
       </div>
     </NavLink>

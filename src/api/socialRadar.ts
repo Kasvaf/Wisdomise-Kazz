@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
 
-interface MarketInfoFromTelegramSignals {
+interface MarketInfoFromSignals {
   long_count: number;
   short_count: number;
   gauge_measure: number;
@@ -12,18 +12,18 @@ interface MarketInfoFromTelegramSignals {
   gauge_tag: 'NOT SURE' | 'NEUTRAL' | 'LONG' | 'SHORT';
 }
 
-export const useMarketInfoFromTelegramSignals = () =>
+export const useMarketInfoFromSignals = () =>
   useQuery({
-    queryKey: ['market-telegram-signal'],
+    queryKey: ['market-social-signal'],
     queryFn: async () => {
-      const { data } = await axios.get<MarketInfoFromTelegramSignals>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/telegram-radar/market-telegram-signal/?window_hours=24`,
+      const { data } = await axios.get<MarketInfoFromSignals>(
+        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/market-social-signal/?window_hours=24`,
       );
       return data;
     },
   });
 
-export interface CoinTelegramSignal {
+export interface CoinSignal {
   symbol_name: string;
   long_count: number;
   short_count: number;
@@ -36,18 +36,18 @@ export interface CoinTelegramSignal {
   image: string;
 }
 
-export const useCoinTelegramSignals = () =>
+export const useCoinSignals = () =>
   useQuery({
-    queryKey: ['coins-telegram-signal'],
+    queryKey: ['coins-social-signal'],
     queryFn: async () => {
-      const { data } = await axios.get<CoinTelegramSignal[]>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/telegram-radar/coins-telegram-signal/?window_hours=24`,
+      const { data } = await axios.get<CoinSignal[]>(
+        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/?window_hours=24`,
       );
       return data;
     },
   });
 
-export interface CoinTelegramMessage {
+export interface CoinMessage {
   key: string;
   related_at: string;
   channel_id: number;
@@ -62,12 +62,12 @@ export interface CoinTelegramMessage {
   channel_language: string;
 }
 
-export const useCoinTelegramMessages = (symbol: string) =>
-  useQuery<CoinTelegramMessage[]>({
-    queryKey: ['coins-telegram-message', symbol],
+export const useCoinMessages = (symbol: string) =>
+  useQuery<CoinMessage[]>({
+    queryKey: ['coins-social-message', symbol],
     queryFn: async () => {
       const { data } = await axios.get(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/telegram-radar/coin-telegram-messages/?window_hours=24&symbol_name=${symbol}`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&symbol_name=${symbol}`,
       );
       return data;
     },

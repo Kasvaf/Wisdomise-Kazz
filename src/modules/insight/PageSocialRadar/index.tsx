@@ -3,7 +3,7 @@
 import * as numerable from 'numerable';
 import { Trans, useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import { useCoinTelegramSignals, useMarketInfoFromTelegramSignals } from 'api';
+import { useCoinSignals, useMarketInfoFromSignals } from 'api';
 import BetaVersion from 'shared/BetaVersion';
 import img1 from './images/img1.png';
 import infoImg from './images/info.svg';
@@ -12,9 +12,9 @@ import HotCoinSignal from './HotCoinSignal';
 import { SocialRadarOnboarding } from './SocialRadarOnboarding';
 
 export default function PageSocialRadar() {
+  const signals = useCoinSignals();
   const { t } = useTranslation('social-radar');
-  const signals = useCoinTelegramSignals();
-  const marketInfo = useMarketInfoFromTelegramSignals();
+  const marketInfo = useMarketInfoFromSignals();
 
   return (
     <PageWrapper

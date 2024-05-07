@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { useCoinTelegramMessages } from 'api';
+import { useCoinMessages } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import AuthorizedImage from 'shared/AuthorizedImage';
@@ -10,7 +10,7 @@ import { ReactComponent as TelegramIcon } from './images/Telegram.svg';
 export default function PageSocialRadarDetail() {
   const { t } = useTranslation('social-radar');
   const params = useParams<{ symbol: string }>();
-  const messages = useCoinTelegramMessages(params.symbol || '');
+  const messages = useCoinMessages(params.symbol || '');
 
   return (
     <PageWrapper
