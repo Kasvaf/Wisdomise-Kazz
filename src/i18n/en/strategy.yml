@@ -84,6 +84,7 @@ matrix:
         <4>{{minPlan}}</4>.
       btn-confirm: Upgrade
   tp: TP
+no-active-positions: There is no active positions yet.
 positions-history:
   title: Positions History
   entry-point: Entry Point
@@ -96,7 +97,6 @@ positions-history:
   status: Status
   stop-loss: Stop Loss
   strategy: Strategy
-  suggest: Suggest
   take-profit: Take Profit
   type: Type
 positions-timeline:
@@ -128,12 +128,11 @@ signaler:
       clicking on bell icon.
   simulated-position-history: Simulated Position History
 status:
+  canceled: Canceled
   closed: Closed
   open: Open
   opened: Opened
-  canceled: Canceled
 suggest:
   close: Close
   no-action: No Action
   open: Open
-no-active-positions: There is no active positions yet.

@@ -57,6 +57,7 @@ matrix:
   suggestion: 建议
   title: 最新点位
   tp: 止盈
+no-active-positions: 尚无活跃职位。
 positions-history:
   entry-point: 入场点
   entry-price: 出场价格
@@ -99,6 +100,7 @@ signaler:
     title: 信号概述
   simulated-position-history: 模拟仓位历史记录
 status:
+  canceled: 取消
   closed: 关闭
   open: 开仓
   opened: 已开仓
