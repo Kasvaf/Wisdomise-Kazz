@@ -13,6 +13,7 @@ auto-trade:
     title: 金融商品（ストラテジー）
   subtitle: 取引プロセスを自動化するように設計されたさまざまな金融商品と戦略ビルダーをご覧ください。
   title: 自動取引と受動的収入ソリューション
+explore: 詳細を確認
 guid:
   sub-title: Wisdomise の潜在能力を最大限に引き出し、取引体験を最適化するには、次の手順に従ってください。
 guide:
@@ -39,3 +40,17 @@ insight:
     title: ソーシャルレーダー
   subtitle: 情報に基づいた意思決定のために、暗号シグナル、ソーシャルシグナル、インサイトスキャナー、トレーディングアシスタントにアクセスします。
   title: アクティブトレーディングの洞察
+watch-video: ビデオを見る
+wsdm:
+  activate-utility:
+    description: $WSDM ユーティリティをアクティブ化して、Wisdomise 製品の使用を開始しましょう。
+    title: ユーティリティをアクティブ化
+  claim-airdrop:
+    description: $WSDMエアドロップの資格を確認してください
+    title: エアドロップを請求する
+  sub-title: $WSDM ダッシュボードにアクセスして、$WSDM
+    を請求し、権利確定スケジュールを確認し、ユーティリティをアクティブ化し、エアドロップを請求しましょう。
+  title: WSDM
+  vesting-schedule:
+    description: 当社のプラットフォームから $tWSDM を購入した場合は、権利確定スケジュールを確認し、$WSDM を請求してください。
+    title: 権利確定スケジュール

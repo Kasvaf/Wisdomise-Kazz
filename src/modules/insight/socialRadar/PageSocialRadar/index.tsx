@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable i18next/no-literal-string */
 import * as numerable from 'numerable';
 import { Trans, useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -10,6 +8,7 @@ import infoImg from './images/info.svg';
 import SignalsTable from './SignalsTable';
 import HotCoinSignal from './HotCoinSignal';
 import { SocialRadarOnboarding } from './SocialRadarOnboarding';
+import RecommendAccount from './RecommendAccount';
 
 export default function PageSocialRadar() {
   const signals = useCoinSignals();
@@ -22,13 +21,20 @@ export default function PageSocialRadar() {
       loading={marketInfo.isLoading || signals.isLoading}
     >
       <SocialRadarOnboarding />
-      <p className="flex items-center gap-3 pl-2 font-semibold">
-        {t('title')}
-        <BetaVersion />
-      </p>
+      <div className="flex justify-between mobile:flex-col mobile:gap-5">
+        <p className="flex items-center gap-3 pl-2 font-semibold">
+          {t('title')}
+          <BetaVersion />
+        </p>
+
+        <div className="flex gap-3 mobile:flex-col mobile:gap-5">
+          <RecommendAccount />
+          {/* <SetNotification /> */}
+        </div>
+      </div>
 
       <section className="mt-9 w-full rounded-2xl bg-[#1E1F24]">
-        <div className="rounded-t-2xl bg-[#1A1B20] px-6 py-5 text-sm">
+        <div className="rounded-t-2xl bg-[#1A1B20] px-6 py-5 text-sm mobile:p-4">
           {t('market-info.title')}
           <span className="ml-1 rounded-full bg-[#40F19C33] px-2 py-1 text-xxs leading-none text-[#40F19C] mobile:hidden">
             {t('market-info.title-badge')}
@@ -38,17 +44,19 @@ export default function PageSocialRadar() {
         <div className="flex justify-between p-6 mobile:p-3">
           <div className="flex flex-col justify-between">
             <div>
-              <p className="font-medium">{t('market-info.description')}</p>
+              <p className="font-medium mobile:text-sm">
+                {t('market-info.description')}
+              </p>
               <Trans
                 ns="social-radar"
-                i18nKey="market-info.telegram-channel-count"
+                i18nKey="market-info.social-channel-count"
               >
                 <p className="mt-4 text-xs text-white/60">
                   Wisdomise Social Radar Scanned{' '}
                   <span className="font-bold text-[#34A3DA]">
                     {{ channelsCount: marketInfo.data?.total_channels || 0 }}
                   </span>{' '}
-                  Telegram Channels in the Past 24 Hours.
+                  Social Accounts in the Past 24 Hours.
                 </p>
               </Trans>
             </div>
@@ -65,10 +73,10 @@ export default function PageSocialRadar() {
               </div>
               <div className="rounded-xl bg-black/10 p-3">
                 <p className="text-xs">
-                  {t('market-info.telegram-community.title')}
+                  {t('market-info.community-activity.title')}
                 </p>
                 <p className="mt-2 text-xxs text-white/40">
-                  {t('market-info.telegram-community.description')}
+                  {t('market-info.community-activity.description')}
                 </p>
                 <p className="mt-7 text-right text-xl text-white/80">
                   {numerable.format(marketInfo.data?.analyzed_messages, '0 a')}
@@ -95,6 +103,7 @@ export default function PageSocialRadar() {
             .map((d, i) => <HotCoinSignal key={i} data={d} />)}
         </div>
       </section>
+
       <SignalsTable signals={signals.data?.slice(6) || []} />
     </PageWrapper>
   );

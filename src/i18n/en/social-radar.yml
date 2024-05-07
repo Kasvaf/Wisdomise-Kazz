@@ -1,32 +1,32 @@
 title: Social Radar
-detail-page:
-  subtitle: Analyze signals for {{symbol}} in Telegram channels
 hot-coins:
   title: Hot Coins
   description: Community-Sourced Market Insights, Not Wisdomise Recommendations
   24-chg: 24H Chg
-  signals: Signals
   side-suggest: Side Suggestion
+  signals: Signals
 market-info:
   title: Community-Sourced Market Insights
-  description: Real-Time Insights from Telegram Channels
+  description: Real-Time AI-Driven Insights from Socials
+  community-activity:
+    title: Community Activity
+    description: Number of Posts Analyzed
   side:
     title: Market Side
-    description: Past 24H, Telegram Community Data Insights
-  telegram-channel-count: >-
-    <0>Wisdomise Social Radar Scanned <2>{{channelsCount}}</2> Telegram Channels
+    description: Past 24H, Community Data Insights
+  social-channel-count: >-
+    <0>Wisdomise Social Radar Scanned <2>{{channelsCount}}</2> Social Accounts
     in the Past 24 Hours.</0>
-  telegram-community:
-    title: Telegram Community Activity
-    description: Number of Messages Analyzed
   title-badge: Realtime Market Data
-more-telegram-signal:
-  title: More Telegram Scan Discoveries 24H
+more-social-signal:
+  title: More Socials Scan Discoveries 24H
   table:
     coin: Discovered Coin
-    explore: Explore
+    market-cap: Market Cap
+    mentions: Mentions
     price: Realtime Price
     price-change: 24H Price Change
+    rank: 'Rank #'
     side: Community Sentiment Suggestion
 onboarding:
   sec-1:
@@ -53,3 +53,35 @@ onboarding:
       the Social Scanner with your preferred sources.</1></0><1></1>Harness the
       collective intelligence of the crypto community to inform your trading
       strategy.
+recommend-account:
+  button: Recommend Account
+  modal:
+    title: Recommend an Account
+    description:
+      label: Description <2>(optional)</2>
+      placeholder: Additional details about the channel
+      rules:
+        minLength: Must be greater than 3 character
+    cancel: Cancel
+    channel-address:
+      label: Telegram Channel ID, Subreddit or Account
+      placeholder: '@ID or sharable link'
+      rules:
+        minLength: Must be greater than 3 character
+        required: Channel address is required
+    recommend: Recommend
+    sub-title: >-
+      Share a Telegram channel ID, Subreddit or Account and details to enhance
+      Social Radar with valuable market insights. Your suggestions will be
+      reviewed by our AI system for inclusion based on signal value.
+set-notification:
+  modal:
+    title: Social Radar Notification
+    daily: Daily
+    email: Email
+    period: Period
+    sub-title: >-
+      Don’t miss out on the next big opportunity in the crypto world. Our
+      notification system lets you be the first to know about hot coins and
+      fresh discoveries.
+  open-modal-btn: Set Notification

@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import * as numerable from 'numerable';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import { type CoinSignal } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
@@ -14,11 +15,11 @@ export default function HotCoinSignal({ data }: { data: CoinSignal }) {
   return (
     <NavLink
       to={`/insight/social-radar/${data.symbol_name}`}
-      className="flex flex-col rounded-2xl bg-black/30 p-8 transition-colors hover:bg-black/20 mobile:p-5"
+      className="flex flex-col rounded-2xl bg-black/30 p-6 transition-colors hover:bg-black/20 mobile:p-5"
     >
       <div className="flex justify-between border-b border-white/5 pb-4">
         <div className="flex items-center gap-2">
-          <CoinsIcons coins={[data.image]} />{' '}
+          <CoinsIcons coins={[data.image || '']} />{' '}
           <span className="text-xl font-medium">{data.symbol_name}</span>
         </div>
         <p
@@ -27,7 +28,8 @@ export default function HotCoinSignal({ data }: { data: CoinSignal }) {
             !data.current_price && 'invisible',
           )}
         >
-          {data.current_price} <span className="text-xs">USDT</span>
+          {numerable.format(data.current_price, '0,0.00')}
+          <span className="ml-[2px] text-xs">USDT</span>
         </p>
       </div>
       <div className="flex justify-between border-b border-white/5 py-4">
