@@ -12,6 +12,7 @@ export type SuggestedAction =
   | 'CLOSE_DELAYED';
 
 export interface RawPosition {
+  status: 'OPEN' | 'CLOSED' | 'CANCELED';
   position_side: 'LONG' | 'SHORT';
   entry_time?: string;
   entry_price?: number;

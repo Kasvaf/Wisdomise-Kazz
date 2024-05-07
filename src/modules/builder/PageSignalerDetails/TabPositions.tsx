@@ -37,7 +37,7 @@ const TabPositions = () => {
       | 'OPEN'
       | undefined,
   }));
-  const activePosition = allPositions?.filter(x => !x.exit_time);
+  const activePosition = allPositions?.filter(x => x.status === 'OPEN');
   const simulatedPositions = allPositions?.filter(x => x.exit_time);
 
   const { data: candles, isLoading: candlesLoading } = useCandlesQuery({

@@ -73,7 +73,9 @@ status:
   closed: Closed
   open: Open
   opened: Opened
+  canceled: Canceled
 suggest:
   close: Close
   no-action: No Action
   open: Open
+no-active-positions: There is no active positions yet.

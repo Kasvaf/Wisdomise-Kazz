@@ -59,7 +59,7 @@ export default function PageSignaler() {
     coin?.quote.name,
   );
 
-  const activePositions = allPositions.data?.filter(x => !x.exit_time);
+  const activePositions = allPositions.data?.filter(x => x.status === 'OPEN');
   const simulatedPositions = allPositions.data?.filter(x => x.exit_time);
   const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
     coinName,
