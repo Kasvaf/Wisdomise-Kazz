@@ -7,6 +7,7 @@ import { AthenaModal } from './answerModal';
 import './styles.css';
 import { PredefinedQuestions } from './PredefinedQuestions';
 import Header from './Header';
+import { AthenaOnboarding } from './AthenaOnboarding';
 
 export default function PageAthena({ isFloat }: { isFloat?: boolean }) {
   const user = useAccountQuery();
@@ -17,6 +18,7 @@ export default function PageAthena({ isFloat }: { isFloat?: boolean }) {
 
   return (
     <PageWrapper loading={isLoading}>
+      {!isFloat && <AthenaOnboarding />}
       <div
         className={clsx(
           'min-h-[calc(100vh-7rem)] mobile:min-h-[unset] md:relative',

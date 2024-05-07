@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import PageAthena from 'modules/athena/PageAthena';
+import { useHasFlag } from 'api';
 import { useAthenaFloat } from './AthenaFloatProvider';
 
 export default function AthenaFloat() {
@@ -10,6 +11,7 @@ export default function AthenaFloat() {
   const toggleOpen = ctx.toggleOpen;
   const { pathname } = useLocation();
   const prePathname = useRef<string | null>(null);
+  const hasFlag = useHasFlag();
 
   useEffect(() => {
     if (prePathname.current && pathname !== prePathname.current && isOpen) {
@@ -18,6 +20,7 @@ export default function AthenaFloat() {
     prePathname.current = pathname;
   }, [isOpen, pathname, toggleOpen]);
 
+  if (!hasFlag('/?athena-float')) return null;
   return (
     <div
       className={clsx(

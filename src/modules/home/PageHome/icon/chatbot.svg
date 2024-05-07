@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="34.838 5.717 112.162 107.015" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip0_5459_6780">
+      <rect width="112" height="112" fill="white" transform="translate(35)"/>
+    </clipPath>
+    <linearGradient id="paint0_linear_5459_6780" x1="13.6665" y1="-0.999992" x2="157.351" y2="119.894" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF00C7"/>
+      <stop offset="1" stop-color="#00A3FF"/>
+    </linearGradient>
+  </defs>
+  <path d="M49 72.3333L58.3333 72.3334" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M49.001 55.9979L58.3335 55.9995" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M49.002 39.6667L58.3336 39.6667" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M133 39.6667L123.667 39.6667" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M132.999 56.0021L123.667 56.0005" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M132.999 72.3334L123.667 72.3333" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M74.667 14L74.667 23.3333" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M91.0026 14.0009L91.001 23.3333" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M107.333 14.0017L107.333 23.3333" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M107.333 98L107.333 88.6667" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M90.998 97.9992L90.9996 88.6667" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M74.667 97.9983L74.667 88.6667" stroke="#272933" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M105 88.6667H76.9997C72.049 88.6667 67.301 86.7 63.8003 83.1993C60.2997 79.6987 58.333 74.9507 58.333 70V42C58.333 37.0493 60.2997 32.3014 63.8003 28.8007C67.301 25.3 72.049 23.3333 76.9997 23.3333H105C109.95 23.3333 114.698 25.3 118.199 28.8007C121.7 32.3014 123.666 37.0493 123.666 42V70C123.666 74.9507 121.7 79.6987 118.199 83.1993C114.698 86.7 109.95 88.6667 105 88.6667Z" fill="#17181A" stroke="url(#paint0_linear_5459_6780)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M75.75 62.44H92.2901" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M93.7067 66.7333L86.7534 45.2667H81.3401L74.3867 66.7333" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+  <path d="M105.514 66.7333V45.2667" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip0_5459_6780)" filter="url(#filter0_dddd_5459_6780)"/>
+</svg>

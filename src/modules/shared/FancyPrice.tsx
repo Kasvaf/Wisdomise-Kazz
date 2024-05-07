@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import * as numerable from 'numerable';
 
 const FancyPrice: React.FC<{
-  value?: number;
+  value?: number | null;
   className?: string;
   greyClassName?: string;
 }> = ({ value, className, greyClassName }) => {

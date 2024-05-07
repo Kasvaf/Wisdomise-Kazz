@@ -1,3 +1,31 @@
+coins:
+  onboarding:
+    sec-1:
+      title: Embark on the Coin Quest
+      content: >-
+        Begin your personalized crypto journey in our Coin List section,
+        complete with a dynamic video introduction. Explore signalers, set
+        notifications, and visualize performance for each coin. Catch a preview
+        of the power at your fingertip
+    sec-2:
+      title: Coin Specific Insights
+      content: >-
+        <0><0><0>Coin Selection:</0> Discover the signalers available for your
+        chosen cryptocurrency.</0><1><0>Tailored Notifications:</0> Configure
+        Telegram alerts for immediate updates from each
+        signaler.</1><2><0>Exclusive Access:</0> Enjoy full details of the Range
+        Master signaler for Solana at no cost.</2></0><1></1>Delve into the
+        world of crypto with precision - your portfolio, personalized.
+    sec-3:
+      title: In-Depth Analysis & Insights
+      content: >-
+        <0><0><0>Signal Exploration:</0> Click to explore each signaler's
+        history with detailed open and closed positions and their
+        P/L.</0><1><0>Chart Visualization:</0> See your potential profits and
+        losses come to life on intuitive charts.</1><2><0>Insight
+        Subscription:</0> Expand your horizon with premium access to all coins
+        and signalers for informed decision-making.</2></0><1></1>Your strategic
+        edge in crypto, charted clearly with our Insight subscription.
 matrix:
   best-performing-30d: Best Performing 30D
   best-performing-7d: Best Performing 7D
@@ -7,6 +35,36 @@ matrix:
   latest-positions: Latest Positions
   locked: Locked
   none: None
+  onboarding:
+    sec-1:
+      title: Welcome to Signal Matrix
+      content: >-
+        Dive into our comprehensive signal center where you can watch all active
+        and historical performance with a quick video overview. Get a glimpse of
+        what's ahead!<1></1>
+    sec-2:
+      title: All Signals at a Glance
+      content: >-
+        View active and closed signals for various coins on one screen. Analyze
+        top-performers over the past 7 and 30 days, and tailor your strategy
+        with ease.
+    sec-3:
+      title: Personalized Notifications
+      content: >-
+        Set up Telegram alerts for the coins and signalers you follow. Stay
+        informed with updates that matter to you, right when you need
+        them.<1></1><2></2><3>Set Notification</3>
+    sec-4:
+      title: Vector, Flash, and Range Master
+      content: >-
+        Explore our trio of signalers in one
+        frame:<1></1><2></2><3><0><0>Vector:</0> AI-powered trend analysis for
+        aggressive gains with higher take-profit and stop-loss
+        thresholds.</0><1><0>Flash:</0> Operates on the same AI trend logic as
+        Vector but designed for lower risk with smaller targets.</1><2><0>Range
+        Master:</0> A unique blend of human acumen and AI, offering a stable
+        signaling strategy, exclusively optimized for Solana with adaptable
+        timeframes.</2></3>
   radar:
     across: Across <1>{{cnt}}</1> Telegram Messages in the Past 24h
     consensus: 'Community Consensus:'

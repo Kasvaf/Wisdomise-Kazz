@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable i18next/no-literal-string */
 import * as numerable from 'numerable';
 import { Trans, useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -7,6 +9,7 @@ import img1 from './images/img1.png';
 import infoImg from './images/info.svg';
 import SignalsTable from './SignalsTable';
 import HotCoinSignal from './HotCoinSignal';
+import { SocialRadarOnboarding } from './SocialRadarOnboarding';
 
 export default function PageSocialRadar() {
   const { t } = useTranslation('social-radar');
@@ -18,6 +21,7 @@ export default function PageSocialRadar() {
       className="leading-none mobile:leading-normal"
       loading={marketInfo.isLoading || signals.isLoading}
     >
+      <SocialRadarOnboarding />
       <p className="flex items-center gap-3 pl-2 font-semibold">
         {t('title')}
         <BetaVersion />

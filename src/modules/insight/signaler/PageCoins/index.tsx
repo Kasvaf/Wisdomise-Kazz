@@ -13,6 +13,7 @@ import CandleChart from 'shared/CandleChart';
 import Spinner from 'shared/Spinner';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
+import { CoinsOnboarding } from './CoinsOnboarding';
 
 export default function PageCoins() {
   const { t } = useTranslation('strategy');
@@ -42,6 +43,7 @@ export default function PageCoins() {
 
   return (
     <PageWrapper>
+      <CoinsOnboarding />
       <div>
         <CoinSelector
           coins={coins.data}

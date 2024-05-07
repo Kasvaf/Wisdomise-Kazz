@@ -73,10 +73,10 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
 };
 
 const SideMenu: React.FC<{ className?: string }> = ({ className }) => {
+  const hasFlag = useHasFlag();
   const { i18n } = useTranslation();
   const { pathname } = useLocation();
   const { items: MenuItems } = useMenuItems();
-  const hasFlag = useHasFlag();
 
   return (
     <div

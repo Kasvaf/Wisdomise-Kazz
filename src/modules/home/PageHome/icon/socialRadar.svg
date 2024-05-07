@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="26.259 -2.698 123.978 120.504" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+
+    <linearGradient id="paint0_linear_5459_6799" x1="-2" y1="-20.5" x2="179.942" y2="133.068" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF00C7"/>
+      <stop offset="1" stop-color="#00A3FF"/>
+    </linearGradient>
+  </defs>
+  <g id="OBJECTS" filter="url(#filter0_dddd_5459_6799)">
+    <path id="Vector" d="M91.5 99C114.972 99 134 79.7482 134 56C134 32.2518 114.972 13 91.5 13C68.0279 13 49 32.2518 49 56C49 79.7482 68.0279 99 91.5 99Z" fill="#17181A" stroke="url(#paint0_linear_5459_6799)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <g id="Group">
+      <path id="Vector_2" d="M89.8579 68.889L83.993 74.5949C82.9762 75.5833 81.275 75.1459 80.8631 73.7883L76.9551 60.9224" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <g id="Vector_3">
+        <path d="M96.4161 51.9077C96.4161 51.9077 89.063 58.5423 85.2912 61.9477C84.1637 62.9645 84.2574 64.7538 85.4787 65.6541L100.753 76.9381C102.256 78.0486 104.403 77.2334 104.792 75.4044L112.293 40.0529C112.656 38.3431 110.978 36.9145 109.347 37.5422L65.2823 54.5377C63.9843 55.0376 64.0468 56.8922 65.3732 57.3069L76.9525 60.9195" fill="#1A1C20"/>
+        <path d="M96.4161 51.9077C96.4161 51.9077 89.063 58.5423 85.2912 61.9477C84.1637 62.9645 84.2574 64.7538 85.4787 65.6541L100.753 76.9381C102.256 78.0486 104.403 77.2334 104.792 75.4044L112.293 40.0529C112.656 38.3431 110.978 36.9145 109.347 37.5422L65.2823 54.5377C63.9843 55.0376 64.0468 56.8922 65.3732 57.3069L76.9525 60.9196" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+</svg>

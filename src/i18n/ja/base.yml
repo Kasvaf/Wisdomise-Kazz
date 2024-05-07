@@ -49,6 +49,8 @@ menu:
   fp-builder:
     subtitle: 多様な投資ストラテジーをご確認いただけます。
     title: 私の製品
+  home:
+    title: 家
   insight:
     subtitle: 戦略的な仮想通貨投資のためのリアルタイムのインサイトにアクセス
     title: インサイト
@@ -98,6 +100,10 @@ menu:
 mobile-menu:
   close: 閉じる
   open: メニュー
+onboarding:
+  back: 戻る
+  got-it: わかった。
+  next: 次
 support:
   hint: チャットで相談
   title: 質問？
