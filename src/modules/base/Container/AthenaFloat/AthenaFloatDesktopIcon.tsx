@@ -1,11 +1,14 @@
 import { clsx } from 'clsx';
+import { useHasFlag } from 'api';
 import { ReactComponent as Background } from './assets/desktop-icon-bg.svg';
 import athenaIcon from './assets/athena.mp4';
 import { useAthenaFloat } from './AthenaFloatProvider';
 
 export default function AthenaFloatDesktopIcon() {
   const ctx = useAthenaFloat();
+  const hasFlag = useHasFlag();
 
+  if (!hasFlag('/?athena-float')) return null;
   return (
     <>
       <div

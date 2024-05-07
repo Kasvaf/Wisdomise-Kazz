@@ -1,10 +1,14 @@
 import { clsx } from 'clsx';
+import { useHasFlag } from 'api';
 import background from './assets/mobile-icon-bg.svg';
 import athenaIcon from './assets/athena.mp4';
 import { useAthenaFloat } from './AthenaFloatProvider';
 
 export default function AthenaFloatMobileIcon() {
   const ctx = useAthenaFloat();
+  const hasFlag = useHasFlag();
+
+  if (!hasFlag('/?athena-float')) return null;
   return (
     <>
       <div
