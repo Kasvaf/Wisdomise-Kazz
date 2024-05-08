@@ -324,7 +324,7 @@
 }
 
 #CookiebotWidget {
-  bottom: 80px !important;
+  display: none;
 }
 
 #hubspot-messages-iframe-container:not(.open) {
