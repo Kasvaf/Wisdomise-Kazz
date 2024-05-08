@@ -104,7 +104,7 @@ const SignalForm: React.FC<Props> = ({
   );
 
   useEffect(() => {
-    if (!assetPrice) return;
+    if (!assetPrice || activePosition) return;
 
     setPrice(x => x || String(roundDown(assetPrice, 2)));
     setTP(x =>
@@ -121,7 +121,7 @@ const SignalForm: React.FC<Props> = ({
             roundDown(effectivePrice * (market === 'short' ? 1.1 : 0.9), 2),
           ),
     );
-  }, [assetPrice, price, effectivePrice, isValidP, market]);
+  }, [assetPrice, price, effectivePrice, isValidP, market, activePosition]);
 
   // ======================================================================
 
@@ -262,23 +262,12 @@ const SignalForm: React.FC<Props> = ({
         value={tp}
         onChange={setTP}
         suffix="USDT"
-        disabled={!!activePosition}
-        min={(market === 'long' && effectivePrice) || undefined}
-        max={(market === 'short' && effectivePrice) || undefined}
       />
       <AmountInputBox
         label={t('signal-form.stop-loss')}
         value={sl}
         onChange={setSL}
         suffix="USDT"
-        min={Math.max(
-          (market === 'long' && activePosition?.stop_loss) || 0,
-          (market === 'short' && effectivePrice) || 0,
-        )}
-        max={Math.min(
-          (market === 'short' && activePosition?.stop_loss) || 1e100,
-          (market === 'long' && effectivePrice) || 1e100,
-        )}
       />
 
       {!isUpdate && (
