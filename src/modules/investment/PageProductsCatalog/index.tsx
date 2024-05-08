@@ -1,7 +1,6 @@
 import { Tabs, type TabsProps } from 'antd';
 
 import { useTranslation } from 'react-i18next';
-import { isProduction } from 'utils/version';
 import { trackClick } from 'config/segment';
 import { useHasFlag } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -24,26 +23,18 @@ const PageProductsCatalog = () => {
       label: t('product-detail.type.trade'),
       children: <TabTrade type="WISDOMISE" />,
     },
-    // 🚩 /investment/products-catalog?my-products
-    ...(hasFlag('?my-products')
-      ? [
-          {
-            key: 'mine',
-            label: t('product-detail.type.mine'),
-            children: <TabTrade type="MINE" />,
-          },
-        ]
-      : []),
-    ...(isProduction
-      ? []
-      : [
-          {
-            key: 'stake',
-            label: t('product-detail.type.stake'),
-            children: <TabStake />,
-          },
-        ]),
-  ];
+    {
+      key: 'mine',
+      label: t('product-detail.type.mine'),
+      children: <TabTrade type="MINE" />,
+    },
+    {
+      key: 'stake',
+      label: t('product-detail.type.stake'),
+      children: <TabStake />,
+    },
+  ].filter(x => hasFlag('?tab=' + x.key));
+  // 🚩 /investment/products-catalog?tab=[key]
 
   const onTabChange = (newTab: string) => {
     trackClick(newTab + '_tab')();
