@@ -6,7 +6,7 @@ import PairInfo from 'shared/PairInfo';
 import { useSignalerPair } from 'api';
 
 const AssetOptionItem: React.FC<{ assetName: string }> = ({ assetName }) => {
-  const asset = useSignalerPair(assetName);
+  const asset = useSignalerPair()(assetName);
   if (!asset?.name || !asset.base) {
     return (
       <div className="flex items-center justify-start p-2 pl-6">

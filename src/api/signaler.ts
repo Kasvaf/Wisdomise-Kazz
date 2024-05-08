@@ -31,26 +31,34 @@ export const useSignalerPairByNames = () => {
   );
 };
 
-export const useSignalerPair = (name?: string): PairDataFull | undefined => {
+export const useSignalerPair = () => {
   const mainQuote = useMainQuote();
   const pairsByName = useSignalerPairByNames();
 
-  if (!name) return undefined;
-  name = name.toUpperCase();
-  const match = name.match(/\/?(BUSD|USDT)$/);
-  const base = name.replace(/\/?(BUSD|USDT)$/, '');
-  const quote = match?.[1] || mainQuote;
-  const pair = pairsByName[base + quote];
-  return (
-    pair || {
-      name,
-      display_name: base,
-      base: { name: base },
-      quote: { name: quote },
-      time_window_pnl: 0,
-      time_window_prices: [],
-    }
-  );
+  return (name?: string): PairDataFull | undefined => {
+    if (!name) return;
+    name = name.toUpperCase();
+    const match = name.match(/\/?(BUSD|USDT)$/);
+    const base = name.replace(/\/?(BUSD|USDT)$/, '');
+    const quote = match?.[1] || mainQuote;
+    const pair = pairsByName[base + quote];
+    return (
+      pair || {
+        name,
+        display_name: base,
+        base: { name: base },
+        quote: { name: quote },
+        time_window_pnl: 0,
+        time_window_prices: [],
+      }
+    );
+  };
+};
+
+export const useIsSamePairs = () => {
+  const pairByName = useSignalerPair();
+  return (p1: string, p2: string) =>
+    pairByName(p1)?.base.name === pairByName(p2)?.base.name;
 };
 
 export interface PairDetails {
