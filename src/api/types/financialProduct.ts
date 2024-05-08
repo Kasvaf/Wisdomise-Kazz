@@ -35,6 +35,7 @@ export interface FinancialProduct {
   min_deposit: number;
   max_deposit: number;
   total_subscribers: number;
+  owner: string;
 }
 
 interface Profile {

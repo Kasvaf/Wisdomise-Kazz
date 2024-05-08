@@ -99,6 +99,7 @@ onboarding:
       with comprehensive insights.</2></0>
 product-catalog:
   btn-explore: Explore
+  empty-message: You have not created any products yet.
   stake:
     title: DeFi Staking Options
     description: >-
@@ -143,6 +144,7 @@ product-detail:
     medium: Medium
   tvl: TVL
   type:
+    mine: My Products
     stake: Stake
     trade: Trade
 status:

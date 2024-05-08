@@ -21,7 +21,7 @@ export default function HomePage() {
   const { t } = useTranslation('home');
   const userSignals = useUserSignalQuery();
   const ias = useInvestorAssetStructuresQuery();
-  const financialProducts = useFinancialProductsQuery();
+  const financialProducts = useFinancialProductsQuery({ page: 1 });
 
   return (
     <PageWrapper
@@ -84,7 +84,7 @@ export default function HomePage() {
             to="/investment/products-catalog"
             ctaSegmentEvent="onboarding_FP"
             ctaTitle={t('auto-trade.fps.cta-title')}
-            tag={`${financialProducts.data?.length || ''} ${t(
+            tag={`${financialProducts.data?.count || ''} ${t(
               'auto-trade.fps.tag',
             )}`}
             hint={t('auto-trade.fps.hint')}

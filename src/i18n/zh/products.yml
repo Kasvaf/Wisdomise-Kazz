@@ -74,6 +74,7 @@ product-catalog:
   btn-details: 详细内容
   btn-explore: 探索
   description: 您对任何可用策略的投资都将具有流动性，这意味着您的资产不会被锁定，并且可以随时释放。不同策略的预期投资回报率、最大回撤和交易数量仅供参考，绝不是对这些指标的保证或确认。最终，金融市场的投资总是会带来风险和波动，而我们最先进的人工智能模型只能在一定程度上减轻这些风险和波动。享受通过我们专有的人工智能积累财富的乐趣！
+  empty-message: 您还没有创建任何产品。
   stake:
     description: 探索领先的 DeFi 协议，展示质押池、TVL 和最大 APY。选择一个协议以获得详细的解释和见解。
     title: DeFi 质押选项
@@ -104,6 +105,7 @@ product-detail:
     medium: 中等的
   tvl: TVL
   type:
+    mine: 我的产品
     stake: 质押
     trade: 交易
 status:
