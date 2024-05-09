@@ -5,16 +5,18 @@ import {
   ANGEL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   INSTITUTIONAL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   KOL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
+  PUBLIC_ROUND_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   STRATEGIC_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
 } from 'modules/account/PageToken/constants';
 
-export type Bucket = 'angel' | 'strategic' | 'kol' | 'institutional';
+export type Bucket = 'angel' | 'strategic' | 'kol' | 'institutional' | 'public';
 
 const bucketTokenDistributorAddressMap: Record<Bucket, `0x${string}`> = {
   angel: ANGEL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   strategic: STRATEGIC_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   kol: KOL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
   institutional: INSTITUTIONAL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
+  public: PUBLIC_ROUND_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS,
 };
 
 export function useReadAccountShares(bucket: Bucket) {

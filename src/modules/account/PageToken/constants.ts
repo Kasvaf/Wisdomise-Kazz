@@ -29,6 +29,10 @@ export const INSTITUTIONAL_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
   : '0x23c48587ede1246707c8e77d46B8B5C4678F7e53';
 
+export const PUBLIC_ROUND_TOKEN_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
+  ? zeroAddress
+  : '0x56F5D125F899A35f3264B0B6B2942Efaf8858d21';
+
 export const TWSDM_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
   : '0x0DB3430FF725D9d957749732144Ec791704A058f';
@@ -63,28 +67,40 @@ export const strategicReleasePercentage = calculateReleasePercentage(
   STRATEGIC_ROUND_VESTING_LENGTH,
 );
 
-const KOL_ROUND_VESTING_START = 1_714_725_300;
-const KOL_ROUND_VESTING_LENGTH = 270;
+const KOL_VESTING_START = 1_714_725_300;
+const KOL_VESTING_LENGTH = 270;
 const FIRST_KOL_RELEASE_PERCENTAGE = 0.05;
 export const kolReleaseTimestamps = calculateReleaseTimestamps(
-  KOL_ROUND_VESTING_LENGTH,
-  KOL_ROUND_VESTING_START,
+  KOL_VESTING_LENGTH,
+  KOL_VESTING_START,
 );
 export const kolReleasePercentage = calculateReleasePercentage(
   FIRST_KOL_RELEASE_PERCENTAGE,
-  KOL_ROUND_VESTING_LENGTH,
+  KOL_VESTING_LENGTH,
 );
 
-const INSTITUTIONAL_ROUND_VESTING_START = 1_714_728_900;
-const INSTITUTIONAL_ROUND_VESTING_LENGTH = 450;
+const INSTITUTIONAL_VESTING_START = 1_714_728_900;
+const INSTITUTIONAL_VESTING_LENGTH = 450;
 const FIRST_INSTITUTIONAL_RELEASE_PERCENTAGE = 0;
 export const institutionalReleaseTimestamps = calculateReleaseTimestamps(
-  INSTITUTIONAL_ROUND_VESTING_LENGTH,
-  INSTITUTIONAL_ROUND_VESTING_START,
+  INSTITUTIONAL_VESTING_LENGTH,
+  INSTITUTIONAL_VESTING_START,
 );
 export const institutionalReleasePercentage = calculateReleasePercentage(
   FIRST_INSTITUTIONAL_RELEASE_PERCENTAGE,
-  INSTITUTIONAL_ROUND_VESTING_LENGTH,
+  INSTITUTIONAL_VESTING_LENGTH,
+);
+
+const PUBLIC_ROUND_VESTING_START = 1_715_238_000;
+const PUBLIC_ROUND_VESTING_LENGTH = 150;
+const FIRST_PUBLIC_RELEASE_PERCENTAGE = 0.12;
+export const publicRoundReleaseTimestamps = calculateReleaseTimestamps(
+  PUBLIC_ROUND_VESTING_LENGTH,
+  PUBLIC_ROUND_VESTING_START,
+);
+export const publicRoundReleasePercentage = calculateReleasePercentage(
+  FIRST_PUBLIC_RELEASE_PERCENTAGE,
+  PUBLIC_ROUND_VESTING_LENGTH,
 );
 
 function calculateReleaseTimestamps(length: number, startTime: number) {

@@ -15,6 +15,8 @@ import {
   institutionalReleaseTimestamps,
   kolReleasePercentage,
   kolReleaseTimestamps,
+  publicRoundReleasePercentage,
+  publicRoundReleaseTimestamps,
   strategicReleasePercentage,
   strategicReleaseTimestamps,
 } from 'modules/account/PageToken/constants';
@@ -52,9 +54,16 @@ export function useVesting() {
     isLoading: institutionalIsLoading,
   } = useBucketVesting('institutional');
 
+  const {
+    totalAmount: publicTotalAmount,
+    claimable: publicClaimable,
+    refetch: refetchPublic,
+    claimShare: claimPublicShare,
+    isLoading: publicIsLoading,
+  } = useBucketVesting('public');
+
   const bucketsDetails = [
     {
-      id: 'angel',
       name: 'Angel Round',
       totalAmount: angelTotalAmount,
       claimable: angelClaimable,
@@ -70,7 +79,6 @@ export function useVesting() {
       },
     },
     {
-      id: 'strategic',
       name: 'Strategic Round',
       totalAmount: strategicTotalAmount,
       claimable: strategicClaimable,
@@ -86,7 +94,6 @@ export function useVesting() {
       },
     },
     {
-      id: 'kol',
       name: 'KOL',
       totalAmount: kolTotalAmount,
       claimable: kolClaimable,
@@ -102,7 +109,6 @@ export function useVesting() {
       },
     },
     {
-      id: 'institutional',
       name: 'Institutional',
       totalAmount: institutionalTotalAmount,
       claimable: institutionalClaimable,
@@ -117,6 +123,21 @@ export function useVesting() {
         ),
       },
     },
+    {
+      name: 'Public Round',
+      totalAmount: publicTotalAmount,
+      claimable: publicClaimable,
+      claim: claimPublicShare,
+      claimIsLoading: publicIsLoading,
+      nextRelease: {
+        timestamp: findNextReleaseTimestamp(publicRoundReleaseTimestamps),
+        amount: calculateNextReleaseAmount(
+          publicRoundReleaseTimestamps,
+          publicTotalAmount,
+          publicRoundReleasePercentage,
+        ),
+      },
+    },
   ] as const;
 
   const refetchAll = () => {
@@ -124,6 +145,7 @@ export function useVesting() {
     void refetchStrategic();
     void refetchKol();
     void refetchInstitutional();
+    void refetchPublic();
   };
 
   return {
@@ -132,7 +154,8 @@ export function useVesting() {
       angelTotalAmount ||
       strategicTotalAmount ||
       kolTotalAmount ||
-      institutionalTotalAmount,
+      institutionalTotalAmount ||
+      publicTotalAmount,
     refetchAll,
   };
 }
