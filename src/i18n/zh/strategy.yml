@@ -102,8 +102,10 @@ signaler:
 status:
   canceled: 取消
   closed: 关闭
+  closing: 结束语
   open: 开仓
   opened: 已开仓
+  opening: 开场
 suggest:
   close: 关闭
   no-action: 无行动

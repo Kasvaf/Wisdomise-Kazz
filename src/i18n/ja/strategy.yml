@@ -109,8 +109,10 @@ signaler:
 status:
   canceled: キャンセル
   closed: クローズ
+  closing: 閉鎖
   open: オープン
   opened: オープン
+  opening: 開店時間
 suggest:
   close: 完了
   no-action: アクション無し

@@ -130,8 +130,10 @@ signaler:
 status:
   canceled: Canceled
   closed: Closed
+  closing: Closing
   open: Open
   opened: Opened
+  opening: Opening
 suggest:
   close: Close
   no-action: No Action

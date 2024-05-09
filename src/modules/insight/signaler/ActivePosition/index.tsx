@@ -44,9 +44,17 @@ const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {
   }
 
   const statusMap = {
+    OPENING: {
+      color: 'green',
+      label: t('status.opening'),
+    },
     OPEN: {
       color: 'green',
       label: t('status.open'),
+    },
+    CLOSING: {
+      color: 'red',
+      label: t('status.closing'),
     },
     CLOSED: {
       color: 'red',
