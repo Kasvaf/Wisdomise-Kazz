@@ -5,7 +5,6 @@ import { WidgetWrapper } from '../WidgetWrapper';
 import { SignalBox } from './SignalBox';
 import { Notification } from './components/Notification';
 import { PriceAreaChart } from './components/PriceAreaChart';
-import { VirtualWallet } from './components/VirtualWallet';
 import LastPositionsIconSrc from './icons/lastPositions.svg';
 import { ReactComponent as LoadingIcon } from './icons/loading.svg';
 import { useSubscribedSignalsQuery } from './services';
@@ -30,7 +29,7 @@ export const Signals = () => {
           </div>
         ) : (
           <div className="-mx-8 min-w-[450px] max-md:-mx-3 max-md:min-w-full">
-            <VirtualWallet />
+            {/* <VirtualWallet /> */}
             <section className="flex flex-col gap-1">
               {data?.last_positions.map(position => {
                 const pair = pairs?.find(p => p.name === position.pair_name);
