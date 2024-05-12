@@ -2,6 +2,7 @@ import type React from 'react';
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { Tooltip } from 'antd';
+import { useTranslation } from 'react-i18next';
 import useIsMobile from 'utils/useIsMobile';
 import { trackClick } from 'config/segment';
 import { ReactComponent as ArrowIcon } from './icon/arrow.svg';
@@ -35,10 +36,11 @@ export default function Card(props: Props) {
     ctaSegmentEvent,
   } = props;
   const isMobile = useIsMobile();
+  const { t } = useTranslation('home');
 
   return (
     <section className="flex flex-col justify-between rounded-2xl bg-gradient-to-bl from-[#1A1C20] to-[#161718]">
-      <div className="flex justify-between p-8 mobile:p-6">
+      <div className="flex justify-between p-6 mobile:p-6">
         <div className="flex flex-col gap-5">
           <p className="flex items-center gap-1 font-semibold">
             {title}
@@ -93,7 +95,7 @@ export default function Card(props: Props) {
           onClick={() => ctaSegmentEvent && trackClick(ctaSegmentEvent)}
           className="ml-auto flex items-center gap-1 text-sm font-medium mobile:text-xs"
         >
-          {ctaTitle || 'Explore'} <ArrowIcon className="" />
+          {ctaTitle || t('explore')} <ArrowIcon />
         </NavLink>
       </div>
     </section>

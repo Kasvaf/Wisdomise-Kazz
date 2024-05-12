@@ -13,6 +13,7 @@ auto-trade:
     title: 理财产品
   subtitle: 探索旨在自动化您的交易历程的一系列金融产品和策略构建器。
   title: 自动化交易和被动收入解决方案
+explore: 探索
 guid:
   sub-title: 按照以下步骤充分发挥 Wisdomise 的潜力并优化您的交易体验。
 guide:
@@ -38,3 +39,16 @@ insight:
     title: 社会雷达
   subtitle: 访问加密信号、社交信号和洞察扫描仪和交易助手以做出明智的决策。
   title: 积极交易的见解
+watch-video: 看视频
+wsdm:
+  activate-utility:
+    description: 通过激活您的 $WSDM 实用程序开始您的 Wisdomise 产品之旅！
+    title: 激活实用程序
+  claim-airdrop:
+    description: 检查您是否有资格获得 $WSDM 空投
+    title: 领取空投
+  sub-title: 访问您的 $WSDM 仪表板以领取 $WSDM、检查归属计划、激活实用程序并领取您的空投！
+  title: WSDM
+  vesting-schedule:
+    description: 如果您从我们的平台购买了 $tWSDM，请检查您的归属时间表并领取您的 $WSDM！
+    title: 归属时间表
