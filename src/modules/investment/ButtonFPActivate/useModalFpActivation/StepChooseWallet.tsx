@@ -1,6 +1,10 @@
 import { bxPlus } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import { useExchangeAccountsQuery, useInvestorAssetStructuresQuery } from 'api';
+import {
+  useAccountQuery,
+  useExchangeAccountsQuery,
+  useInvestorAssetStructuresQuery,
+} from 'api';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import useModalAddExchangeAccount from 'modules/account/useModalAddExchangeAccount';
 import Icon from 'shared/Icon';
@@ -18,15 +22,18 @@ const StepChooseWallet: React.FC<{
   onContinue: () => void;
 }> = ({ financialProduct: fp, selected, onSelect, onContinue }) => {
   const { t } = useTranslation('products');
+  const { data: account } = useAccountQuery();
   const { data: wallets, isLoading } = useExchangeAccountsQuery();
   const { data: ias } = useInvestorAssetStructuresQuery();
   const mea = !!ias?.[0]?.main_exchange_account;
   const wisdomiseBalance = ias?.[0]?.total_equity || 0;
 
-  const market =
-    (fp.config.can_use_external_account &&
-      fp.config.external_account_market_type) ||
-    undefined;
+  const isMine = fp.owner === account?.email;
+  const market = isMine
+    ? fp.market_names?.[0]
+    : (fp.config.can_use_external_account &&
+        fp.config.external_account_market_type) ||
+      undefined;
 
   const [ModalAddExchange, showAddExchange] = useModalAddExchangeAccount(
     market,
@@ -70,7 +77,7 @@ const StepChooseWallet: React.FC<{
                       onClick={() => onSelect(w.key)}
                     />
                   ))}
-                {!wallets?.length && (
+                {!wallets?.length && !!market && (
                   <ExchangeButton
                     walletType="Binance"
                     selected={true}
@@ -88,13 +95,15 @@ const StepChooseWallet: React.FC<{
                   />
                 )}
 
-                <Button
-                  variant="alternative"
-                  className="h-full !px-4"
-                  onClick={onAddExchange}
-                >
-                  <Icon name={bxPlus} />
-                </Button>
+                {!!market && (
+                  <Button
+                    variant="alternative"
+                    className="h-full !px-4"
+                    onClick={onAddExchange}
+                  >
+                    <Icon name={bxPlus} />
+                  </Button>
+                )}
                 <div className="h-full w-4 shrink-0" />
               </div>
             </>
