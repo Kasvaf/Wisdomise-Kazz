@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useFinancialProductQuery } from 'api';
+import { useAccountQuery, useFinancialProductQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import CoinsIcons from 'shared/CoinsIcons';
 import Button from 'shared/Button';
@@ -16,6 +16,7 @@ const PageProductCatalogDetail = () => {
   const fpKey = params.fpKey;
   if (!fpKey) throw new Error('unexpected');
 
+  const { data: account } = useAccountQuery();
   const fp = useFinancialProductQuery(fpKey);
   // const backtest = useFPBacktestQuery(fpKey);
   const rrr = fp.data?.profile.return_risk_ratio;
@@ -33,7 +34,9 @@ const PageProductCatalogDetail = () => {
           <Button
             className="mr-4 w-1/2"
             variant="secondary"
-            to="/investment/products-catalog?tab=trade"
+            to={`/investment/products-catalog?tab=${
+              fp.data?.owner === account?.email ? 'mine' : 'trade'
+            }`}
           >
             {t('common:actions.back')}
           </Button>
