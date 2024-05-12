@@ -4,27 +4,37 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import DropdownContainer from 'shared/DropdownContainer';
-import { ReactComponent as Bybit } from './images/bybit.svg';
 import { ReactComponent as Kucoin } from './images/kucoin.svg';
-import { ReactComponent as Bitmart } from './images/bitmart.svg';
-import { ReactComponent as Uniswap } from './images/uniswap.svg';
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 const EXCHANGES = [
-  { name: 'Bybit', icon: <Bybit />, url: 'https://www.bybit.com/' },
-  { name: 'Kucoin', icon: <Kucoin />, url: 'https://www.kucoin.com/' },
-  { name: 'Bitmart', icon: <Bitmart />, url: 'https://www.bitmart.com/' },
   {
-    name: 'Uniswap',
-    icon: <Uniswap className="h-4" />,
-    url: 'https://uniswap.org/',
+    name: 'Kucoin',
+    icon: <Kucoin />,
+    url: 'https://www.kucoin.com/price/WSDM',
+  },
+  { name: 'HTX', icon: <Kucoin />, url: 'https://www.htx.com/' },
+  {
+    name: 'Bitget',
+    icon: <Kucoin />,
+    url: 'https://www.bitget.com/price/wisdomise',
+  },
+  {
+    name: 'Gate',
+    icon: <Kucoin />,
+    url: 'https://www.gate.io/trade/WSDM_USDT',
+  },
+  {
+    name: 'MEXC',
+    icon: <Kucoin />,
+    url: 'https://www.mexc.com/',
   },
 ];
 
 export default function BuyWSDM({ className }: { className?: string }) {
   const { t } = useTranslation('wisdomise-token');
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedExchangeName, setSelectedExchangeName] = useState('Bybit');
+  const [selectedExchangeName, setSelectedExchangeName] = useState('Kucoin');
 
   const selectedExchange = EXCHANGES.find(
     exchange => exchange.name === selectedExchangeName,
