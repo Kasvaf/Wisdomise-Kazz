@@ -79,7 +79,7 @@ const TabTrade: React.FC<{ type: 'WISDOMISE' | 'MINE' | 'ALL' }> = ({
         </div>
       )}
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(_350px,1fr))] gap-6 mobile:justify-center">
+      <div className="grid grid-cols-1 gap-6 mobile:justify-center lg:grid-cols-2 xl:grid-cols-3">
         {fps?.data?.products
           ?.filter(fp => fp.is_active)
           ?.map(fp => <ProductCardTrade key={fp.key} fp={fp} />)}
