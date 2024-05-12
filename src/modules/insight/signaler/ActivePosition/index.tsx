@@ -6,6 +6,7 @@ import Badge from 'shared/Badge';
 import FancyPrice from 'shared/FancyPrice';
 import PriceChange from 'shared/PriceChange';
 import { type RawPosition } from 'api/types/signalResponse';
+import usePositionStatusMap from '../usePositionStatusMap';
 import { ReactComponent as IconEmpty } from './empty-icon.svg';
 
 const Labeled: React.FC<
@@ -31,6 +32,7 @@ interface Position extends RawPosition {
 
 const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {
   const { t } = useTranslation('strategy');
+  const statusMap = usePositionStatusMap();
 
   if (!p) {
     return (
@@ -42,29 +44,6 @@ const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {
       </div>
     );
   }
-
-  const statusMap = {
-    OPENING: {
-      color: 'green',
-      label: t('status.opening'),
-    },
-    OPEN: {
-      color: 'green',
-      label: t('status.open'),
-    },
-    CLOSING: {
-      color: 'red',
-      label: t('status.closing'),
-    },
-    CLOSED: {
-      color: 'red',
-      label: t('status.closed'),
-    },
-    CANCELED: {
-      color: 'grey',
-      label: t('status.canceled'),
-    },
-  } as const;
 
   return (
     <div className="mt-3 flex min-h-[72px] flex-wrap justify-between gap-3 rounded-xl bg-white/5 p-3">
