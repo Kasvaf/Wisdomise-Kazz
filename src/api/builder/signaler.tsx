@@ -91,6 +91,10 @@ export const useCreateSignalerMutation = () => {
     {
       onSuccess: async () => {
         await queryClient.invalidateQueries(['signalers']);
+        await queryClient.invalidateQueries(['fps', 'MINE', undefined]);
+        await queryClient.invalidateQueries(['fps', 'MINE', 1]);
+        await queryClient.invalidateQueries(['fps', 'ALL', undefined]);
+        await queryClient.invalidateQueries(['fps', 'ALL', 1]);
       },
     },
   );
