@@ -46,6 +46,7 @@ const TabPerformance = () => {
           onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
+          market={signaler?.market_name}
         />
         <DateRangeSelector
           onChange={setDateRange}

@@ -51,7 +51,7 @@ const TabBuilder = () => {
 
   const assetsError =
     !!changes.assets?.length &&
-    changes.assets?.reduce((a, v) => a + v.share, 0) > 100 &&
+    changes.assets?.reduce((a, v) => a + v.share, 0) !== 100 &&
     t('asset-manager.err-bad-total');
   // ----------------------------------------------------------------------
 

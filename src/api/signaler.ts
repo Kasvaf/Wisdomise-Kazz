@@ -31,32 +31,33 @@ export const useSignalerPairByNames = () => {
   );
 };
 
-export const useSignalerPair = () => {
-  const mainQuote = useMainQuote();
+export const useSignalerPair = (market: MarketTypes) => {
+  const mainQuote = useMainQuote() || 'USDT';
   const pairsByName = useSignalerPairByNames();
 
-  return (name?: string): PairDataFull | undefined => {
-    if (!name) return;
-    name = name.toUpperCase();
-    const match = name.match(/\/?(BUSD|USDT)$/);
-    const base = name.replace(/\/?(BUSD|USDT)$/, '');
+  return (searchName?: string): PairDataFull | undefined => {
+    if (!searchName) return;
+    searchName = searchName.toUpperCase();
+    const match = searchName.match(/\/?(BUSD|USDT)$/);
+    const base = searchName.replace(/\/?(BUSD|USDT)$/, '');
     const quote = match?.[1] || mainQuote;
     const pair = pairsByName[base + quote];
-    return (
-      pair || {
-        name,
-        display_name: base,
-        base: { name: base },
-        quote: { name: quote },
-        time_window_pnl: 0,
-        time_window_prices: [],
-      }
-    );
+    const name = market === 'FUTURES' ? base + quote : base;
+    return pair
+      ? { ...pair, name }
+      : {
+          name,
+          display_name: base,
+          base: { name: base },
+          quote: { name: quote },
+          time_window_pnl: 0,
+          time_window_prices: [],
+        };
   };
 };
 
 export const useIsSamePairs = () => {
-  const pairByName = useSignalerPair();
+  const pairByName = useSignalerPair('SPOT');
   return (p1: string, p2: string) =>
     pairByName(p1)?.base.name === pairByName(p2)?.base.name;
 };

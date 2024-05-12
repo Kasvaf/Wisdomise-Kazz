@@ -44,6 +44,7 @@ const TabTerminal = () => {
           onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
+          market={signaler?.market_name}
         />
 
         {!isLoading && assetName && (
