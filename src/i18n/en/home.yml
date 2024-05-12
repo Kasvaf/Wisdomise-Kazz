@@ -53,3 +53,14 @@ insight:
       AI-Powered social media scanner which scans various social medias to find
       trending and hot coins, signals related to those coins, conversations and
       technical analysis.
+wsdm:
+  title: WSDM
+  subtitle: Gain access to your $WSDM dashboard to claim $WSDM, check vesting schedules, activate utilities and to claim your Airdrops!
+  utility:
+    title: Activate Utility
+    description: Start your Wisdomise product journey by activating your $WSDM Utilities!
+    cta-title: Explore
+  vesting:
+    title: Vesting schedule
+    description: If you have purchased $tWSDM from our platform, check your vesting schedule and claim your $WSDM!
+    cta-title: Explore

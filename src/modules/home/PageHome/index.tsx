@@ -6,6 +6,9 @@ import {
   useInvestorAssetStructuresQuery,
 } from 'api';
 import { useUserSignalQuery } from 'api/notification';
+import { ReactComponent as WSDMIcon } from './icon/wsdm.svg';
+import { ReactComponent as UtilityIcon } from './icon/utility.svg';
+import { ReactComponent as VestingIcon } from './icon/vesting.svg';
 import { ReactComponent as InsightIcon } from './icon/insight.svg';
 import { ReactComponent as InvestmentIcon } from './icon/investment.svg';
 import Card from './Card';
@@ -14,6 +17,7 @@ import { ReactComponent as SocialRadarIcon } from './icon/socialRadar.svg';
 import { ReactComponent as ChatBotIcon } from './icon/chatbot.svg';
 import { ReactComponent as FinancialProductsIcon } from './icon/financialProducts.svg';
 import Title from './title';
+// eslint-disable-next-line import/max-dependencies
 import GuideSection from './Guide';
 
 export default function HomePage() {
@@ -31,6 +35,33 @@ export default function HomePage() {
     >
       <GuideSection />
       <section>
+        <Title
+          icon={WSDMIcon}
+          title={t('wsdm.title')}
+          subTitle={t('wsdm.subtitle')}
+        />
+
+        <section className="mt-8 grid grid-cols-2 gap-4 mobile:grid-cols-1">
+          <Card
+            title={t('wsdm.utility.title')}
+            icon={UtilityIcon}
+            to="/account/token"
+            ctaTitle={t('wsdm.utility.cta-title')}
+            description={t('wsdm.utility.description')}
+            videoId="s-Z27Phzqu8"
+          />
+          <Card
+            to="/account/token"
+            title={t('wsdm.vesting.title')}
+            icon={VestingIcon}
+            ctaTitle={t('wsdm.vesting.cta-title')}
+            description={t('wsdm.vesting.description')}
+            videoId="jdMFq0vU7-U"
+          />
+        </section>
+      </section>
+
+      <section className="mt-12">
         <Title
           icon={InsightIcon}
           title={t('insight.title')}

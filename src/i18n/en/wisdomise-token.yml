@@ -94,3 +94,10 @@ wallet:
   title: My Wallet
   connected-wallet: Connected Wallet
   disconnect: Disconnect Wallet
+onboarding:
+  sec-1:
+    title: WSDM Migration Guide
+    content: This video is your one-stop guide for migrating your WSDM tokens on the Wisdomise platform.
+  sec-2:
+    title: WSDM Utilities Guide
+    content: This comprehensive video guide walks you through utilizing your WSDM tokens and accessing the full potential of the Wisdomise platform.

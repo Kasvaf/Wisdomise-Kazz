@@ -9,6 +9,7 @@ import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useV
 import Utility from 'modules/account/PageToken/Utility';
 import Balance from 'modules/account/PageToken/Balance/Balance';
 import Wallet from 'modules/account/PageToken/Wallet';
+import { WsdmOnboarding } from 'modules/account/PageToken/WsdmOnboarding';
 import ConnectWalletGuard from '../PageBilling/paymentMethods/Token/ConnectWalletGuard';
 
 export default function PageToken() {
@@ -62,6 +63,7 @@ export default function PageToken() {
           <Wallet />
           <Balance />
         </div>
+        <WsdmOnboarding />
       </ConnectWalletGuard>
     </PageWrapper>
   );
