@@ -99,7 +99,7 @@ onboarding:
       with comprehensive insights.</2></0>
 product-catalog:
   btn-explore: Explore
-  empty-message: You have not created any products yet.
+  empty-message: You haven't created any products, or they are not active yet.
   stake:
     title: DeFi Staking Options
     description: >-

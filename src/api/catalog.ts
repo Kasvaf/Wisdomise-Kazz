@@ -14,9 +14,9 @@ export const useFinancialProductsQuery = ({
   type?: 'WISDOMISE' | 'MINE' | 'ALL';
   page?: number;
 }) =>
-  useQuery(
-    ['fps', type, page],
-    async () => {
+  useQuery({
+    queryKey: ['fp-catalog', type, page],
+    queryFn: async () => {
       const allProducts = [];
       let count = 1;
 
@@ -43,8 +43,8 @@ export const useFinancialProductsQuery = ({
       );
       return { products, count };
     },
-    { staleTime: Number.POSITIVE_INFINITY },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 export const useInvestmentProtocolsQuery = () =>
   useQuery(

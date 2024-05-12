@@ -90,11 +90,14 @@ export const useCreateSignalerMutation = () => {
     },
     {
       onSuccess: async () => {
-        await queryClient.invalidateQueries(['signalers']);
-        await queryClient.invalidateQueries(['fps', 'MINE', undefined]);
-        await queryClient.invalidateQueries(['fps', 'MINE', 1]);
-        await queryClient.invalidateQueries(['fps', 'ALL', undefined]);
-        await queryClient.invalidateQueries(['fps', 'ALL', 1]);
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: ['signalers'],
+          }),
+          queryClient.invalidateQueries({
+            queryKey: ['fp-catalog'],
+          }),
+        ]);
       },
     },
   );
@@ -117,8 +120,21 @@ export const useUpdateSignalerMutation = () => {
       `/factory/strategies/${key}`,
       { is_active: true, ...params },
     );
-    await queryClient.invalidateQueries(['signalers']);
-    await queryClient.invalidateQueries(['signaler', key]);
+
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: ['signalers'],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['signaler', key],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['fp-catalog'],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['fp', key],
+      }),
+    ]);
     return data;
   });
 };
