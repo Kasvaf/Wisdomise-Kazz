@@ -55,31 +55,43 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
   );
 };
 
-const TabTrade = () => {
+const TabTrade: React.FC<{ type: 'WISDOMISE' | 'MINE' | 'ALL' }> = ({
+  type,
+}) => {
   const { t } = useTranslation('products');
-  const fps = useFinancialProductsQuery();
+  const fps = useFinancialProductsQuery({ type });
   const ias = useInvestorAssetStructuresQuery();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const activeFps = fps?.data?.products?.filter(
+    fp => fp.is_active && fp.config.assets.length > 0,
+  );
+
   return (
     <PageWrapper loading={fps.isLoading || ias.isLoading}>
-      <div className="mt-2">
-        <h1 className="mb-4 text-xl font-semibold text-white">
-          {t('product-catalog.trade.title')}
-        </h1>
-        <p className="mb-6 text-sm font-medium text-white/60">
-          {t('product-catalog.trade.description')}
-        </p>
+      {type !== 'MINE' && (
+        <div className="mt-2">
+          <h1 className="mb-4 text-xl font-semibold text-white">
+            {t('product-catalog.trade.title')}
+          </h1>
+          <p className="mb-6 text-sm font-medium text-white/60">
+            {t('product-catalog.trade.description')}
+          </p>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 gap-6 mobile:justify-center lg:grid-cols-2 xl:grid-cols-3">
+        {activeFps?.map(fp => <ProductCardTrade key={fp.key} fp={fp} />)}
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(_350px,1fr))] gap-6 mobile:justify-center">
-        {fps?.data
-          ?.filter(fp => fp.is_active)
-          ?.map(fp => <ProductCardTrade key={fp.key} fp={fp} />)}
-      </div>
+      {type === 'MINE' && !activeFps?.length && (
+        <div className="text-white/60">
+          {t('product-catalog.empty-message')}
+        </div>
+      )}
     </PageWrapper>
   );
 };

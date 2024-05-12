@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useRecentCandlesQuery } from 'api';
+import { useIsSamePairs, useRecentCandlesQuery } from 'api';
 import { useSignalerQuery, useMySignalerOpenPositions } from 'api/builder';
 import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
 import ActivePosition from 'modules/insight/signaler/ActivePosition';
@@ -14,6 +14,7 @@ const TabTerminal = () => {
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
   const [assetName, setAssetName] = useSearchParamAsState('asset');
+  const isSamePairs = useIsSamePairs();
 
   const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
     assetName,
@@ -28,7 +29,9 @@ const TabTerminal = () => {
       | 'OPEN'
       | undefined,
   }));
-  const activePosition = openPositions?.find(x => x.pair_name === assetName);
+  const activePosition = openPositions?.find(x =>
+    isSamePairs(x.pair_name, assetName),
+  );
 
   return (
     <div className="mt-8">
@@ -41,6 +44,7 @@ const TabTerminal = () => {
           onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
+          market={signaler?.market_name}
         />
 
         {!isLoading && assetName && (

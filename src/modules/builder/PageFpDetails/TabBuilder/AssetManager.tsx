@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { bxX } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { useSignalerPairByNames } from 'api';
+import { useSignalerPair } from 'api';
 import {
   type MyFpAssets,
   useMyFinancialProductQuery,
@@ -24,10 +24,10 @@ interface Props {
 
 const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
   const { t } = useTranslation('builder');
-  const pairByName = useSignalerPairByNames();
   const { data: allSignalers, isLoading: signalersLoading } =
     useMySignalersQuery();
   const { data: fp } = useMyFinancialProductQuery(fpKey);
+  const pairByName = useSignalerPair(fp?.market_name ?? 'FUTURES');
   const signalers = useMemo(
     () =>
       allSignalers?.filter(
@@ -125,13 +125,13 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
               x => x.base.name,
             )}
             selectedItem={a.asset.name}
-            onSelect={asset =>
-              onChange(
-                value.map(v =>
-                  v === a ? { ...a, asset: pairByName[asset] } : v,
-                ),
-              )
-            }
+            onSelect={assetName => {
+              const asset = pairByName(assetName);
+              if (asset) {
+                onChange(value.map(v => (v === a ? { ...a, asset } : v)));
+              }
+            }}
+            market={fp?.market_name}
             className="w-[220px] mobile:w-full"
           />
           <AmountInputBox

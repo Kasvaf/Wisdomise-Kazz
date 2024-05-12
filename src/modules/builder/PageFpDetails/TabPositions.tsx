@@ -53,6 +53,7 @@ const TabPositions = () => {
           onSelect={setAssetName}
           className="w-[250px] mobile:w-full"
           selectFirst
+          market={fp?.market_name}
         />
 
         <DateRangeSelector

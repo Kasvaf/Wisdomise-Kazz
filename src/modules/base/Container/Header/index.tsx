@@ -9,14 +9,16 @@ import LanguageSelector from './LanguageSelector';
 import WalletDropdown from './WalletDropdown';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
+import OnBoardingMessageButton from './OnBoardingMessageButton';
 
 interface Props {
   className?: string;
 }
 
 const Header: React.FC<Props> = ({ className }) => {
-  const { i18n } = useTranslation();
   const isMobile = useIsMobile();
+  const { i18n } = useTranslation();
+
   return (
     <div
       className={clsx(
@@ -41,6 +43,7 @@ const Header: React.FC<Props> = ({ className }) => {
             <Breadcrumb className="pl-6" />
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
+            <OnBoardingMessageButton />
             <LanguageSelector />
             <WalletDropdown />
           </>

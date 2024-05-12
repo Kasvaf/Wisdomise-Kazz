@@ -61,7 +61,7 @@ const useInsightRoutes = () => {
           path: 'social-radar',
           handle: { crumb: t('menu.social-radar.title') },
           children: [
-            { path: '', element: <PageSocialRadar /> },
+            { index: true, element: <PageSocialRadar /> },
             {
               path: ':symbol',
               element: <PageSocialRadarDetail />,

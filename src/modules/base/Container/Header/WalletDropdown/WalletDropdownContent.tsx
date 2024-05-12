@@ -14,6 +14,12 @@ const WalletDropdownContent: React.FC = () => {
   const { t } = useTranslation('wallet');
   const mainQuote = useMainQuote();
   const ias = useInvestorAssetStructuresQuery();
+  const noWithdraw =
+    ias.data?.[0]?.financial_product_instances?.[0]?.financial_product?.config
+      ?.no_withdraw;
+  const hasWallet = Boolean(
+    ias?.data?.[0]?.main_exchange_account && !noWithdraw,
+  );
 
   const [DepositMod, openDeposit] = useModal(ModalDeposit);
   const [WithdrawMod, openWithdraw] = useModal(ModalWithdraw);
@@ -28,7 +34,7 @@ const WalletDropdownContent: React.FC = () => {
     await openDeposit({});
   };
 
-  if (ias.isLoading) return <></>;
+  if (!hasWallet || ias.isLoading) return <></>;
 
   return (
     <>

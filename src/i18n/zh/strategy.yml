@@ -1,3 +1,20 @@
+coins:
+  onboarding:
+    sec-1:
+      content: 在我们的 Coin List 部分开始您的个性化加密之旅，并附有动态视频介绍。探索信号器、设置通知并可视化每种货币的性能。触手可及，预览其威力
+      title: 踏上寻金币之旅
+    sec-2:
+      content: <0><0><0>硬币选择：</0> 发现适用于您选择的加密货币的信号器。</0><1><0>定制通知：</0>
+        配置电报警报以获取来自每个信号器的即时更新。</1><2><0>独家访问：</0> 免费了解 Solana Range Master
+        信号器的完整详细信息。</2></0><1></1>深入探索加密世界，精准定制您的投资组合。
+      title: 硬币具体见解
+    sec-3:
+      content: <0><0><0>信号探索：</0>
+        单击即可探索每个信号器的历史记录，包括详细的开仓和平仓头寸及其盈亏。</0><1><0>图表可视化：</0>
+        在直观的图表上查看您的潜在利润和损失。</1><2><0>Insight 订阅：</0>
+        通过对所有硬币和信号器的高级访问来扩展您的视野，以便做出明智的决策。</2></0><1></1>通过我们的 Insight
+        订阅，您可以清晰地了解您在加密方面的战略优势。
+      title: 深入分析和见解
 matrix:
   best-performing-30d: 最佳表现 30天
   best-performing-7d: 最佳表现 7天
@@ -7,6 +24,22 @@ matrix:
   latest-positions: 最新点位
   locked: 锁定
   none: 无
+  onboarding:
+    sec-1:
+      content: 进入我们全面的信号中心，您可以通过快速视频概览查看所有活动和历史表现。一窥未来！<1></1>
+      title: 欢迎来到 Signal Matrix
+    sec-2:
+      content: 在一个屏幕上查看各种货币的有效和关闭信号。分析过去 7 天和 30 天内表现最佳的货币，轻松定制您的策略。
+      title: 所有信号一览
+    sec-3:
+      content: 为您关注的货币和信号器设置 Telegram 提醒。在您需要时及时了解对您重要的更新。<1></1><2></2><3>设置通知</3>
+      title: 个性化通知
+    sec-4:
+      content: 在一帧中探索我们的三种信号器：<1></1><2></2><3><0><0>向量：</0>
+        通过人工智能趋势分析，以更高的获利和止损门槛获得积极收益。</0><1><0>闪光：</0> 采用与 Vector 相同的 AI
+        趋势逻辑进行操作，但设计用于以较小的目标降低风险。</1><2><0>靶场管理员：</0>
+        人类智慧与人工智能的独特融合，提供稳定的信号策略，专门针对 Solana 进行了优化，具有可适应的时间范围。</2></3>
+      title: 矢量、闪光和范围主控
   radar:
     across: 穿过 <1>{{cnt}}</1> 过去 24 小时内的 Telegram 消息
     consensus: 社区共识：
@@ -24,6 +57,7 @@ matrix:
   suggestion: 建议
   title: 最新点位
   tp: 止盈
+no-active-positions: 尚无活跃职位。
 positions-history:
   entry-point: 入场点
   entry-price: 出场价格
@@ -66,9 +100,12 @@ signaler:
     title: 信号概述
   simulated-position-history: 模拟仓位历史记录
 status:
+  canceled: 取消
   closed: 关闭
+  closing: 结束语
   open: 开仓
   opened: 已开仓
+  opening: 开场
 suggest:
   close: 关闭
   no-action: 无行动

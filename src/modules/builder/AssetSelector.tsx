@@ -4,9 +4,13 @@ import { useTranslation } from 'react-i18next';
 import ComboBox from 'shared/ComboBox';
 import PairInfo from 'shared/PairInfo';
 import { useSignalerPair } from 'api';
+import { type MarketTypes } from 'api/types/financialProduct';
 
-const AssetOptionItem: React.FC<{ assetName: string }> = ({ assetName }) => {
-  const asset = useSignalerPair(assetName);
+const AssetOptionItem: React.FC<{ assetName: string; market: MarketTypes }> = ({
+  assetName,
+  market,
+}) => {
+  const asset = useSignalerPair(market)(assetName);
   if (!asset?.name || !asset.base) {
     return (
       <div className="flex items-center justify-start p-2 pl-6">
@@ -17,10 +21,9 @@ const AssetOptionItem: React.FC<{ assetName: string }> = ({ assetName }) => {
 
   return (
     <PairInfo
-      base={asset.base.name}
-      quote={asset.quote.name}
       title={asset.display_name}
       name={asset.name}
+      market={market}
       className="!justify-start"
     />
   );
@@ -37,6 +40,7 @@ interface Props {
   placeholder?: string;
   className?: string;
   selectFirst?: boolean;
+  market?: MarketTypes;
 }
 
 const AssetSelector: React.FC<Props> = ({
@@ -50,6 +54,7 @@ const AssetSelector: React.FC<Props> = ({
   placeholder = label,
   className,
   selectFirst,
+  market = 'FUTURES',
 }) => {
   const { t } = useTranslation('builder');
   useEffect(() => {
@@ -70,7 +75,7 @@ const AssetSelector: React.FC<Props> = ({
         }
         onSelect={onSelect}
         renderItem={(assetName: string) => (
-          <AssetOptionItem assetName={assetName} />
+          <AssetOptionItem assetName={assetName} market={market} />
         )}
         disabled={disabled}
         className="!justify-start !px-2"

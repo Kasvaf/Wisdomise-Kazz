@@ -20,8 +20,8 @@ function unparam(
 
 export function useHasFlag() {
   const loc = useLocation();
-  const params = useParams<Record<string, string>>();
   const acc = useAccountQuery();
+  const params = useParams<Record<string, string>>();
   const flagsObj = useMemo(
     () =>
       Object.fromEntries(acc.data?.features.map(flag => [flag, true]) ?? []),
@@ -47,7 +47,7 @@ export function useHasFlag() {
 
 /*
 All flags and Available ones for normal-user:
-
+  [ ] /home
   [*] /investment
   [*] /investment/assets
   [*] /investment/products-catalog

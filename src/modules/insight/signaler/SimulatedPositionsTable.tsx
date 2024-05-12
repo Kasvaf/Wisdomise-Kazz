@@ -7,11 +7,14 @@ import { type ThinStrategy, useSignalerPairs } from 'api';
 import PriceChange from 'shared/PriceChange';
 import FancyPrice from 'shared/FancyPrice';
 import PairInfo from 'shared/PairInfo';
+import Badge from 'shared/Badge';
+import usePositionStatusMap from './usePositionStatusMap';
 
 interface Position {
   pair_name: string;
   strategy?: ThinStrategy;
 
+  status: 'OPENING' | 'OPEN' | 'CLOSING' | 'CLOSED' | 'CANCELED';
   position_side: 'LONG' | 'SHORT';
   entry_time?: string;
   entry_price?: number;
@@ -45,6 +48,9 @@ const SimulatedPositionsTable: React.FC<{
 }> = ({ items, withCoins, withStrategy, withNumbering, pagination }) => {
   const { t } = useTranslation('strategy');
   const { data: pairs } = useSignalerPairs();
+  const statusMap = usePositionStatusMap();
+  const hasStatus = items.length === 0 || !!items[0]?.status;
+
   const columns = useMemo<Array<ColumnType<Position>>>(
     () => [
       ...(withNumbering
@@ -118,8 +124,24 @@ const SimulatedPositionsTable: React.FC<{
           <PriceTime price={ep} time={et} />
         ),
       },
+      ...(hasStatus
+        ? ([
+            {
+              title: t('positions-history.status'),
+              dataIndex: 'status',
+              render: (_, { status }) => (
+                <div className="flex justify-start">
+                  <Badge
+                    color={statusMap[status].color}
+                    label={statusMap[status].label}
+                  />
+                </div>
+              ),
+            },
+          ] satisfies Array<ColumnType<Position>>)
+        : []),
     ],
-    [withNumbering, t, withCoins, withStrategy, pairs],
+    [withNumbering, withCoins, t, withStrategy, hasStatus, pairs, statusMap],
   );
 
   return (

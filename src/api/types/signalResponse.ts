@@ -12,6 +12,7 @@ export type SuggestedAction =
   | 'CLOSE_DELAYED';
 
 export interface RawPosition {
+  status: 'OPENING' | 'OPEN' | 'CLOSING' | 'CLOSED' | 'CANCELED';
   position_side: 'LONG' | 'SHORT';
   entry_time?: string;
   entry_price?: number;
@@ -27,8 +28,8 @@ export interface LastPosition extends RawPosition {
   strategy_name: string; // removed
   pair_name: string;
 
-  take_profit?: number;
-  stop_loss: number;
+  take_profit?: number | null;
+  stop_loss?: number | null;
 
   suggested_action: SuggestedAction;
 }

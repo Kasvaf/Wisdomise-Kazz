@@ -2,14 +2,11 @@ import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSuggestionsMap } from 'modules/insight/PageSignalsMatrix/constants';
 import Badge from 'shared/Badge';
 import FancyPrice from 'shared/FancyPrice';
 import PriceChange from 'shared/PriceChange';
-import {
-  type RawPosition,
-  type SuggestedAction,
-} from 'api/types/signalResponse';
+import { type RawPosition } from 'api/types/signalResponse';
+import usePositionStatusMap from '../usePositionStatusMap';
 import { ReactComponent as IconEmpty } from './empty-icon.svg';
 
 const Labeled: React.FC<
@@ -29,21 +26,20 @@ const Labeled: React.FC<
 };
 
 interface Position extends RawPosition {
-  suggested_action?: SuggestedAction;
-  take_profit: number;
-  stop_loss: number;
+  take_profit?: number | null;
+  stop_loss?: number | null;
 }
 
 const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {
   const { t } = useTranslation('strategy');
-  const suggestions = useSuggestionsMap();
+  const statusMap = usePositionStatusMap();
 
   if (!p) {
     return (
       <div className="flex flex-col items-center rounded-xl border border-white/10 bg-white/5 p-3">
         <IconEmpty />
         <span className="mt-2 text-xs text-white/20">
-          There is no active positions yet.
+          {t('no-active-positions')}
         </span>
       </div>
     );
@@ -51,11 +47,11 @@ const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {
 
   return (
     <div className="mt-3 flex min-h-[72px] flex-wrap justify-between gap-3 rounded-xl bg-white/5 p-3">
-      <Labeled label={t('positions-history.suggest')}>
-        {p.suggested_action && (
+      <Labeled label={t('positions-history.status')}>
+        {p.status && (
           <Badge
-            label={suggestions[p.suggested_action].label}
-            color={suggestions[p.suggested_action].color}
+            label={statusMap[p.status].label}
+            color={statusMap[p.status].color}
             className="min-w-[80px] !text-sm"
           />
         )}

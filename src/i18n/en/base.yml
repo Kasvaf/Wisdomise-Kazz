@@ -40,6 +40,8 @@ menu:
   fp-builder:
     title: My Products
     subtitle: Explore different investment package opportunities
+  home:
+    title: Home
   insight:
     title: Insight
     subtitle: Access Real-Time Insights for Strategic Crypto Investing
@@ -70,6 +72,10 @@ menu:
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access
+onboarding:
+  back: Back
+  got-it: Got it.
+  next: Next
 support:
   title: Question?
   hint: Chat with us

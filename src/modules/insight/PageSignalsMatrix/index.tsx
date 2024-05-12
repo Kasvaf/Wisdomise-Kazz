@@ -6,6 +6,7 @@ import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import BestPerforming from './BestPerforming';
 import SignalMatrix from './SignalMatrix';
+import { SignalMatrixOnboarding } from './SignalMatrixOnboarding';
 
 const PanelWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -56,6 +57,7 @@ const PageSignalsMatrix: React.FC = () => {
 
   return (
     <PageWrapper>
+      <SignalMatrixOnboarding />
       <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
     </PageWrapper>
   );

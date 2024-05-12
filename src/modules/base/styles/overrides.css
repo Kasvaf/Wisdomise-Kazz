@@ -27,6 +27,16 @@
 /*
 * ************** Modal ******************
 */
+.onboarding-modal {
+  box-shadow:
+    -167px 157px 64px 0px rgba(0, 0, 0, 0),
+    -107px 100px 59px 0px rgba(0, 0, 0, 0.02),
+    -60px 56px 49px 0px rgba(0, 0, 0, 0.08),
+    -27px 25px 37px 0px rgba(0, 0, 0, 0.14),
+    -7px 6px 20px 0px rgba(0, 0, 0, 0.16);
+  background: linear-gradient(239deg, #362253 0%, #340f6b 131.46%);
+}
+
 .ant-modal-body {
   @apply bg-transparent p-0;
   background-color: transparent !important;
@@ -41,6 +51,19 @@
   }
 
   .intro-style & {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      z-index: -1;
+      border-radius: 10px;
+      background: linear-gradient(227.11deg, #9747ff 0%, #141518 30.3%);
+    }
+
     background: linear-gradient(260deg, #41226c 0%, #2d1f41 100%);
   }
 }
@@ -301,7 +324,7 @@
 }
 
 #CookiebotWidget {
-  bottom: 80px !important;
+  display: none;
 }
 
 #hubspot-messages-iframe-container:not(.open) {

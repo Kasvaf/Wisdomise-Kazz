@@ -11,7 +11,7 @@ module.exports = {
     './src/**/*.{html,js,ts,jsx,tsx}',
     './node_modules/tw-elements/dist/js/**/*.js',
   ],
-  safelist: ['opacity-100', 'opacity-50', 'intro-style'],
+  safelist: ['opacity-100', 'opacity-50', 'intro-style', 'onboarding-modal'],
   theme: {
     screens: {
       'mobile': { max: '750px' },

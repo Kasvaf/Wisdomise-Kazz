@@ -31,26 +31,35 @@ export const useSignalerPairByNames = () => {
   );
 };
 
-export const useSignalerPair = (name?: string): PairDataFull | undefined => {
-  const mainQuote = useMainQuote();
+export const useSignalerPair = (market: MarketTypes) => {
+  const mainQuote = useMainQuote() || 'USDT';
   const pairsByName = useSignalerPairByNames();
 
-  if (!name) return undefined;
-  name = name.toUpperCase();
-  const match = name.match(/\/?(BUSD|USDT)$/);
-  const base = name.replace(/\/?(BUSD|USDT)$/, '');
-  const quote = match?.[1] || mainQuote;
-  const pair = pairsByName[base + quote];
-  return (
-    pair || {
-      name,
-      display_name: base,
-      base: { name: base },
-      quote: { name: quote },
-      time_window_pnl: 0,
-      time_window_prices: [],
-    }
-  );
+  return (searchName?: string): PairDataFull | undefined => {
+    if (!searchName) return;
+    searchName = searchName.toUpperCase();
+    const match = searchName.match(/\/?(BUSD|USDT)$/);
+    const base = searchName.replace(/\/?(BUSD|USDT)$/, '');
+    const quote = match?.[1] || mainQuote;
+    const pair = pairsByName[base + quote];
+    const name = market === 'FUTURES' ? base + quote : base;
+    return pair
+      ? { ...pair, name }
+      : {
+          name,
+          display_name: base,
+          base: { name: base },
+          quote: { name: quote },
+          time_window_pnl: 0,
+          time_window_prices: [],
+        };
+  };
+};
+
+export const useIsSamePairs = () => {
+  const pairByName = useSignalerPair('SPOT');
+  return (p1: string, p2: string) =>
+    pairByName(p1)?.base.name === pairByName(p2)?.base.name;
 };
 
 export interface PairDetails {
@@ -86,8 +95,8 @@ export interface PairSignalerItem extends RawPosition {
   pair_name: string;
   strategy: ThinStrategy;
   pnl_equity: number;
-  stop_loss: number;
-  take_profit: number;
+  stop_loss?: number | null;
+  take_profit?: number | null;
   suggested_action: SuggestedAction;
   leverage: number;
 }

@@ -1,0 +1,55 @@
+auto-trade:
+  title: Automation Trading and Passive Income Solutions
+  subtitle: >-
+    Explore the range of financial products and strategy builders designed to
+    automate your trading journey.
+  builder:
+    title: Strategy Builder
+    description: Build and customize your own investment financial products
+    cat-title: Start Building Now
+    info: >-
+      Build your own custom strategies, signalers and financial products.
+      Allowing you to automated your crypto trading with personalized needs.
+  fps:
+    title: Financial Products
+    hint: Require a 90-day lock-up period to optimize performance.
+    description: Explore flexible AI-Driven Investment Options tailored to your needs.
+    cta-title: Try Financial Products
+    info: >-
+      Automated crypto trading, choose from various financial products and enjoy
+      automated day to day trading with our AI-powered trend detector.
+    tag: Unique Options
+guid:
+  sub-title: >-
+    Follow these steps to unlock the full potential of Wisdomise and optimize
+    your trading experience.
+guide:
+  title: Getting Started Guide
+  step-1:
+    title: 1. Set Up Alert for Insight
+    cta-title: Explore
+    not-ok-title: Haven't Been Set Up Yet
+    ok-title: Done - Successfully Set Up
+insight:
+  title: Insights For Active Trading
+  subtitle: >-
+    Access Crypto Signals, Social Signal and insight scanner & Trading Assistant
+    for Informed Decision-Making.
+  chatbot:
+    title: Crypto Chatbot
+    description: Your Guide to the World of Cryptocurrency
+    cta-title: Try ChatBot
+    info: >-
+      ChatGPT for crypto, research, ask and query your different questions
+      regarding cryptocurrencies.
+  signal-matrix:
+    title: Signal Matrix
+    description: Get AI-Powered trading signals for leading cryptocurrencies
+    tag: +100 Monthly Signals
+  social-radar:
+    title: Social Radar
+    description: Real-Time Insights from Telegram Channels
+    info: >-
+      AI-Powered social media scanner which scans various social medias to find
+      trending and hot coins, signals related to those coins, conversations and
+      technical analysis.
