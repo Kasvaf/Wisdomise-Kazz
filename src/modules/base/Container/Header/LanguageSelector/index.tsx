@@ -58,7 +58,7 @@ const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
           loading={loading}
         >
           <div className="flex items-center">
-            <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3" />
+            <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3 text-white" />
             <div>{i18n.language.toUpperCase()}</div>
           </div>
         </DropButton>
