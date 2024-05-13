@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import YouTube from 'react-youtube';
 import athenaIcon from 'assets/athena.mp4';
 import Icon from 'shared/Icon';
 import { ReactComponent as CloseIcon } from './icons/close.svg';
@@ -54,6 +55,16 @@ export default function OnboardingMessageNotification() {
           )}
         >
           {message.content}
+
+          {message.video && (
+            <div className="aspect-video w-full">
+              <YouTube
+                className="h-full w-full"
+                opts={{ width: '100%', height: '100%' }}
+                videoId={message.video}
+              />
+            </div>
+          )}
         </div>
 
         <section className="mt-6 flex items-center justify-between">

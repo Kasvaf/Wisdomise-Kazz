@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import YouTube from 'react-youtube';
 import { Onboarding } from 'shared/Onboarding';
 
 export function SignalMatrixOnboarding() {
@@ -19,9 +18,9 @@ export function SignalMatrixOnboarding() {
             Dive into our comprehensive signal center where you can watch all
             active and historical performance with a quick video overview. Get a
             glimpse of what's ahead!
-            <YouTube videoId="12CWx7r2WY8" />
           </Trans>
         ),
+        video: '12CWx7r2WY8',
       },
       {
         title: t('matrix.onboarding.sec-2.title'),
