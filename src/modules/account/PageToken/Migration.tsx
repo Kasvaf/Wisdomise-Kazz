@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import { useMigration } from 'modules/account/PageToken/web3/migration/useMigration';
+import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { ReactComponent as MigrateIcon } from './icons/migrate.svg';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 
@@ -24,7 +25,7 @@ export default function Migration() {
         variant="secondary"
         onClick={handleMigration}
         loading={isLoading}
-        disabled={isLoading}
+        disabled={isLoading || !WSDM_IS_ACTIVE}
       >
         {t('migration.migrate')}
       </Button>

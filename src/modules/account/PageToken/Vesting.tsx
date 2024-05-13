@@ -6,6 +6,7 @@ import Card from 'shared/Card';
 
 import { addComma } from 'utils/numbers';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
+import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 
@@ -82,7 +83,9 @@ export default function Vesting() {
                   variant="primary-purple"
                   loading={bucket.claimIsLoading}
                   disabled={
-                    (bucket.claimable ?? 0n) === 0n || bucket.claimIsLoading
+                    (bucket.claimable ?? 0n) === 0n ||
+                    bucket.claimIsLoading ||
+                    !WSDM_IS_ACTIVE
                   }
                   onClick={() => bucket.claim()}
                 >

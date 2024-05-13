@@ -9,6 +9,7 @@ import { useSubscription } from 'api';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
+import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
@@ -34,6 +35,7 @@ export default function Utility() {
   const { withdraw, isLoading } = useWithdraw();
 
   const openBillings = () => {
+    if (!WSDM_IS_ACTIVE) return;
     void openPricingTable({ isTokenUtility: true });
   };
 
@@ -62,7 +64,11 @@ export default function Utility() {
             {t('utility.activate-sub')}
           </strong>
           <p className="mb-4 text-white/40">{t('utility.lock-description')}</p>
-          <Button variant="primary-purple" onClick={openBillings}>
+          <Button
+            variant="primary-purple"
+            onClick={openBillings}
+            disabled={!WSDM_IS_ACTIVE}
+          >
             {t('utility.lock-wsdm')}
           </Button>
         </div>
