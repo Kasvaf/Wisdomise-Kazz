@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import * as numerable from 'numerable';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import { type CoinSignal } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
@@ -28,7 +27,7 @@ export default function HotCoinSignal({ data }: { data: CoinSignal }) {
             !data.current_price && 'invisible',
           )}
         >
-          {numerable.format(data.current_price, '0,0.00')}
+          {data.current_price}
           <span className="ml-[2px] text-xs">USDT</span>
         </p>
       </div>
