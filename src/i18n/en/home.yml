@@ -26,18 +26,18 @@ guid:
 guide:
   title: Getting Started Guide
   step-1:
-    title: 1. Set Up Alert for Insight
+    title: 1. Setup Alert for Insight
     cta-title: Explore
-    not-ok-title: Haven't Been Set Up Yet
-    ok-title: Done - Successfully Set Up
+    not-ok-title: Haven't been setup yet
+    ok-title: Done - Successfully Setup
 insight:
   title: Insights For Active Trading
   subtitle: >-
-    Access Crypto Signals, Social Signal and insight scanner & Trading Assistant
+    Access Crypto Signals, Social Signal, Insight Scanner and Trading Assistant
     for Informed Decision-Making.
   chatbot:
     title: Crypto Chatbot
-    description: Your Guide to the World of Cryptocurrency
+    description: Your guide to the World of Cryptocurrency
     cta-title: Try ChatBot
     info: >-
       ChatGPT for crypto, research, ask and query your different questions
@@ -48,7 +48,7 @@ insight:
     tag: +100 Monthly Signals
   social-radar:
     title: Social Radar
-    description: Real-Time Insights from Telegram Channels
+    description: Real-time insights from Telegram channels
     info: >-
       AI-Powered social media scanner which scans various social medias to find
       trending and hot coins, signals related to those coins, conversations and

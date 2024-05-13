@@ -5,8 +5,6 @@ import { useUserSignalQuery } from 'api/notification';
 import { trackClick } from 'config/segment';
 import Title from './title';
 import { ReactComponent as GuildIcon } from './icon/guide.svg';
-import { ReactComponent as NotOkIcon } from './icon/notOk.svg';
-import { ReactComponent as OkIcon } from './icon/ok.svg';
 import { ReactComponent as ArrowIcon } from './icon/arrow.svg';
 
 // if want to enable rest of card
@@ -110,7 +108,7 @@ const Card = ({
             ok && 'text-[#11C37E]',
           )}
         >
-          {ok ? <OkIcon /> : <NotOkIcon />} {ok ? okTitle : notOkTitle}
+          {ok ? okTitle : notOkTitle}
         </p>
         <NavLink
           to={to}
