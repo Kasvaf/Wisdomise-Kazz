@@ -3,6 +3,7 @@ import Card from './Card';
 import { ReactComponent as WsdmIcon } from './icon/wsdm.svg';
 import { ReactComponent as WisdomiseIcon } from './icon/wisdomise.svg';
 import { ReactComponent as LockIcon } from './icon/lock.svg';
+import { ReactComponent as AirdropIcon } from './icon/airdrop.svg';
 import Title from './title';
 
 export default function WsdmSection() {
@@ -17,12 +18,14 @@ export default function WsdmSection() {
       />
 
       <section className="mt-8 grid grid-cols-3 gap-4 mobile:grid-cols-1">
-        {/* <Card */}
-        {/*  icon={AirdropIcon} */}
-        {/*  to="/account/token" */}
-        {/*  title={t('wsdm.claim-airdrop.title')} */}
-        {/*  description={t('wsdm.claim-airdrop.description')} */}
-        {/* /> */}
+        <div className="hidden">
+          <Card
+            icon={AirdropIcon}
+            to="/account/token"
+            title={t('wsdm.claim-airdrop.title')}
+            description={t('wsdm.claim-airdrop.description')}
+          />
+        </div>
         <Card
           icon={WisdomiseIcon}
           to="/account/token"
