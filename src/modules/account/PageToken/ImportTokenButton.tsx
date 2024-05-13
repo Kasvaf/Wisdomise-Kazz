@@ -6,6 +6,7 @@ import {
   WSDM_CONTRACT_ADDRESS,
   TWSDM_CONTRACT_ADDRESS,
   LOCKING_CONTRACT_ADDRESS,
+  WSDM_IS_ACTIVE,
 } from 'modules/account/PageToken/constants';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 import { ReactComponent as WIcon } from './icons/w.svg';
@@ -54,7 +55,6 @@ export default function ImportTokenButton({
   tokenSymbol,
   variant = 'primary-purple',
   className,
-  disabled,
 }: ImportTokenButtonProps) {
   const { t } = useTranslation('wisdomise-token');
   const token = TOKENS.find(token => token.symbol === tokenSymbol);
@@ -79,7 +79,7 @@ export default function ImportTokenButton({
       className={clsx(className, '!py-2')}
       variant={variant}
       onClick={importToken}
-      disabled={disabled}
+      disabled={!WSDM_IS_ACTIVE}
     >
       <div className="flex items-center gap-2">
         {token?.symbol === 'WSDM' ? (
