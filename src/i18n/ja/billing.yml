@@ -7,7 +7,7 @@ change-pay-method:
   fiat: 法定通貨
   sub-title: "次のプランのお支払い方法を選択してください:"
   title: 支払い方法の変更
-  token: Wisdomise Token (tWSDM)
+  token: Wisdomise Token (WSDM)
 change-payment:
   change-payment-method: 支払い方法を変更
   order-summary: 注文概要
@@ -47,6 +47,7 @@ periodicity:
 pricing-card:
   annually: 年間
   btn-action:
+    activate-now: 今すぐ有効化
     available-soon: 近日公開
     buy-now: 今すぐ購入する
     choose: 選ぶ
@@ -63,6 +64,8 @@ pricing-card:
   notification-upgrade-success: サブスクリプションのアップデートが完了しました。アクティベーションまで数分かかる場合がございます。しばらく経ってからこのページを更新してください。
   page-subtitle: このセクションからパッケージの種類を選択できます
   page-title: プランと料金
+  pay-by-locking: ロックによる支払い<1>{{token}}<1>WSDM</1></1>トークン
+  pay-by-locking-in-yearly-only: "ロックによる支払い<1>WSDM</1>トークン: 毎年の最新情報"
   pay-by-stacking: 積み重ねて支払う<1>{{token}}<1>WSDM</1></1>トークン
   pay-by-stacking-in-yearly-only: "積み重ねて支払う<1>WSDM</1>トークン: 毎年の最新情報"
   recommended: ウィズダムズ推奨
@@ -137,8 +140,13 @@ tabs:
   payment-methods: 支払い方法
 token-modal:
   activate-subscription: サブスクリプションを起動させる
+  already-locked: すでにロックされた残高
+  confirmed:
+    description: 取引は正常に送信され、処理中です。取引が完了するまでお待ちください。
+    title: ブラウザを更新したり閉じたりしないでください
   congratulations: おめでとうございます！
-  description: Wisdomiseトークンは差し引かれません。サブスクリプション期間中、アクセスを得るためにトークンをウォレットに保持する必要があります。
+  description: アクセスするには、サブスクリプション期間中、Wisdomise トークンは金庫にロックされます。
+  disclaimer: WSDM トークン ロックアップに参加することにより、お客様は以下の条件に同意するものとします。
   done: 完了
   for-1-year: 1年間
   purchase-token: Wisdomiseトークンの購入
@@ -146,8 +154,10 @@ token-modal:
   subscribe-to: "次のプランに契約する:"
   subtotal: 小計
   title: Wisdomise AG
-  token: tWSDM
-  token-name: Wisdomise トークン (tWSDM)
-  total-amount: ウォレットに保有が必要な量
+  token: WSDM
+  token-name: Wisdomise トークン (WSDM)
+  total-amount: 本日の合計支払額
+  unlock-period: <0>ロック解除期間:</0> WSDM トークンには 7 日間のロック解除期間が適用されます。WSDM
+    トークンは手数料なしで完全に引き出すことができます。
   you-can: "{{name}} 機能にアクセス可能です。"
-  your-balance: tWSDMトークン保有量
+  your-balance: WSDMトークン残高

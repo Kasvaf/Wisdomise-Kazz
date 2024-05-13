@@ -5,18 +5,33 @@ hot-coins:
   description: 来自社区的市场洞察，而不是智慧建议
   explore: 探索
   side-suggest: 侧面建议
+  signals: 交易信号
   title: 热门硬币
 market-info:
-  description: 来自 Telegram 频道的实时见解
+  community-activity:
+    description: 分析的帖子数量
+    title: 社区活动
+  description: 来自社交媒体的实时人工智能驱动洞察
   side:
-    description: 过去 24 小时，Telegram 社区数据洞察
+    description: 过去 24 小时，社区数据洞察
     title: 市场方
+  social-channel-count: <0>Wisdomise 社交雷达扫描 <2>{{channelsCount}}</2> 过去 24 小时内的社交账户。</0>
   telegram-channel-count: <0>智慧社会雷达扫描 <2>{{channelsCount}}</2> 过去 24 小时内的 Telegram 频道。</0>
   telegram-community:
     description: 分析的消息数
     title: Telegram 社区活动
   title: 来自社区的市场洞察
   title-badge: 实时市场数据
+more-social-signal:
+  table:
+    coin: 发现硬币
+    market-cap: 市值
+    mentions: 提及
+    price: 实时价格
+    price-change: 24小时价格变动
+    rank: "排名 #"
+    side: 社区情绪建议
+  title: 更多社交扫描发现 24 小时
 more-telegram-signal:
   table:
     coin: 发现硬币
@@ -38,4 +53,31 @@ onboarding:
       建议我们扫描新的 Telegram 频道或 X/Reddit
       句柄。通过使用您首选的来源塑造社交扫描仪，帮助我们为您提供帮助。</1></0><1></1>利用加密社区的集体智慧来指导您的交易策略。
     title: 您的定制社交见解
+recommend-account:
+  button: 推荐账户
+  modal:
+    cancel: 取消
+    channel-address:
+      label: Telegram 频道 ID、子版块或账户
+      placeholder: "@ID 或可分享链接"
+      rules:
+        minLength: 必须大于3个字符
+        required: 频道地址为必填项
+    description:
+      label: 描述 <2>（选修的）</2>
+      placeholder: 有关频道的其他详细信息
+      rules:
+        minLength: 必须大于3个字符
+    recommend: 推荐
+    sub-title: 分享 Telegram 频道 ID、Subreddit 或帐户和详细信息，以通过有价值的市场洞察增强社交雷达。我们的 AI
+      系统将根据信号值审核您的建议并将其纳入。
+    title: 推荐一个帐户
+set-notification:
+  modal:
+    daily: 日常的
+    email: 电子邮件
+    period: 时期
+    sub-title: 不要错过加密货币世界的下一个重大机遇。我们的通知系统让您第一时间了解热门货币和新发现。
+    title: 社交雷达通知
+  open-modal-btn: 设置通知
 title: 社会雷达

@@ -5,12 +5,17 @@ hot-coins:
   description: 知恵による推奨事項ではなく、コミュニティから得た市場洞察
   explore: 詳細を確認
   side-suggest: サイドの提案
+  signals: シグナル
   title: ホットコイン
 market-info:
+  community-activity:
+    description: 分析された投稿の数
+    title: コミュニティ活動
   description: 電報チャネルからのリアルタイムの洞察
   side:
     description: 過去 24 時間、テレグラム コミュニティ データ インサイト
     title: マーケットサイド
+  social-channel-count: <0>Wisdomise ソーシャルレーダースキャン <2>{{channelsCount}}</2> 過去 24 時間のソーシャル アカウント。</0>
   telegram-channel-count: <0>Wisdomise ソーシャル レーダーがスキャンされました
     <2>{{channelsCount}}</2> 過去 24 時間の Telegram チャンネル。</0>
   telegram-community:
@@ -18,6 +23,16 @@ market-info:
     title: テレグラムコミュニティ活動
   title: コミュニティから得た市場洞察
   title-badge: リアルタイムの市場データ
+more-social-signal:
+  table:
+    coin: 発見されたコイン
+    market-cap: 時価総額
+    mentions: 言及
+    price: リアルタイム価格
+    price-change: 24時間の価格変更
+    rank: "ランク #"
+    side: コミュニティの感情に関する提案
+  title: ソーシャルスキャンで24時間発見
 more-telegram-signal:
   table:
     coin: 発見されたコイン
@@ -43,4 +58,32 @@ onboarding:
       スキャンする新しい Telegram チャンネルまたは X/Reddit ハンドルを提案してください。お好みのソースでソーシャル
       スキャナーを構成することで、私たちがあなたを助けるのを手伝ってください。</1></0><1></1>暗号通貨コミュニティの集合知を活用して、取引戦略を策定します。
     title: あなたに合わせたソーシャルインサイト
+recommend-account:
+  button: アカウントを推奨
+  modal:
+    cancel: キャンセル
+    channel-address:
+      label: Telegram チャンネル ID、サブレディット、またはアカウント
+      placeholder: "@IDまたは共有可能なリンク"
+      rules:
+        minLength: 3文字以上である必要があります
+        required: チャンネルアドレスは必須です
+    description:
+      label: 説明 <2>（オプション）</2>
+      placeholder: チャンネルに関する追加情報
+      rules:
+        minLength: 3文字以上である必要があります
+    recommend: 推薦する
+    sub-title: Telegram チャンネル
+      ID、Subreddit、またはアカウントと詳細を共有して、ソーシャルレーダーに貴重な市場洞察を盛り込みましょう。あなたの提案は、シグナル値に基づいて
+      AI システムによって審査され、採用されます。
+    title: アカウントを推薦する
+set-notification:
+  modal:
+    daily: 毎日
+    email: Eメール
+    period: 期間
+    sub-title: 暗号通貨の世界で次に起こる大きなチャンスを逃さないでください。当社の通知システムにより、注目のコインや新たな発見について誰よりも早く知ることができます。
+    title: ソーシャルレーダー通知
+  open-modal-btn: 通知を設定する
 title: ソーシャルレーダー
