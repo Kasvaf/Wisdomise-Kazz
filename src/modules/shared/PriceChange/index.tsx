@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import type React from 'react';
+import { roundSensible } from 'utils/numbers';
 import { ReactComponent as PriceDownIcon } from './priceDown.svg';
 import { ReactComponent as PriceUpIcon } from './priceUp.svg';
 
@@ -48,13 +49,7 @@ const PriceChange: React.FC<Props> = ({
           textClassName,
         )}
       >
-        {valueToFixed
-          ? Math.abs(value)
-              .toFixed(value > -1 && value < 1 ? 6 : 2)
-              .replace(/(\.0*\d{2})\d*/, (a, b) => b)
-              .replaceAll(/\.?0+$/g, '')
-          : Math.abs(value)}{' '}
-        %
+        {valueToFixed ? roundSensible(value) : Math.abs(value)} %
       </p>
     </div>
   );

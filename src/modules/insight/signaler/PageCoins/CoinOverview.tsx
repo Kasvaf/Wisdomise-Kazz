@@ -12,7 +12,11 @@ const RangedPnL: React.FC<{ range: string; value: number }> = ({
   return (
     <div className="mobile:grow">
       <div className="text-xs text-white/40">{range}</div>
-      <PriceChange value={value} className="!justify-start" />
+      <PriceChange
+        value={value}
+        className="!justify-start"
+        textClassName="!text-base"
+      />
     </div>
   );
 };
@@ -25,7 +29,7 @@ const RangedVolume: React.FC<{ range: string; value?: number }> = ({
   return (
     <div className="mobile:grow">
       <div className="text-xs text-white/40">{range}</div>
-      <FancyPrice value={value} />
+      <FancyPrice className="text-base" value={value} format="0,0" />
     </div>
   );
 };
@@ -40,7 +44,7 @@ const CoinOverview: React.FC<{ details?: PairDetails }> = ({ details }) => {
         <FancyPrice value={details.price_data.last_price} />
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex gap-6 mobile:grow mobile:justify-between">
         <RangedVolume
           range={t('signaler.24h-volume')}
           value={details.price_data.volume_24h}
@@ -51,7 +55,7 @@ const CoinOverview: React.FC<{ details?: PairDetails }> = ({ details }) => {
         />
       </div>
 
-      <div className="flex gap-6 mobile:grow">
+      <div className="flex gap-6 mobile:grow mobile:justify-between mobile:gap-0">
         <RangedPnL range="1h" value={details.price_data.percent_change_1h} />
         <RangedPnL range="24h" value={details.price_data.percent_change_24h} />
         <RangedPnL range="7d" value={details.price_data.percent_change_7d} />
