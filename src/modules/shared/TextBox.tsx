@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { isValidElement } from 'react';
-import { type ChangeEventHandler, type FC, useCallback } from 'react';
+import { forwardRef, isValidElement } from 'react';
+import { type ChangeEventHandler, useCallback } from 'react';
 
 interface Props {
   label?: string | React.ReactNode;
@@ -21,23 +21,24 @@ interface Props {
   onKeyDown?: React.DOMAttributes<HTMLInputElement>['onKeyDown'];
 }
 
-const TextBox: FC<Props> = ({
-  type = 'text',
-  label,
-  value,
-  error,
-  hint,
-  filter = v => v,
-  onChange,
-  onBlur,
-  disabled = false,
-  suffix,
-  noSuffixPad = false,
-  onKeyDown,
-  className,
-  placeholder,
-  inputClassName,
-}) => {
+const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const {
+    type = 'text',
+    label,
+    value,
+    error,
+    hint,
+    filter = v => v,
+    onChange,
+    onBlur,
+    disabled = false,
+    suffix,
+    noSuffixPad = false,
+    onKeyDown,
+    className,
+    placeholder,
+    inputClassName,
+  } = props;
   const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
     e => {
       const val = filter((e.target as HTMLInputElement).value);
@@ -55,6 +56,7 @@ const TextBox: FC<Props> = ({
 
       <div className="relative">
         <input
+          ref={ref}
           type={type}
           className={clsx(
             'flex h-12 w-full rounded-xl',
@@ -95,6 +97,6 @@ const TextBox: FC<Props> = ({
       )}
     </div>
   );
-};
-
+});
+TextBox.displayName = 'TextBox';
 export default TextBox;
