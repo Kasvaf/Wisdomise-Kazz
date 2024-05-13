@@ -24,6 +24,7 @@ interface ImportTokenButtonProps {
   tokenSymbol: 'WSDM' | 'tWSDM' | 'lcWSDM';
   variant: 'primary-purple' | 'secondary' | 'alternative';
   className?: string;
+  disabled?: boolean;
 }
 
 const TOKENS = [
@@ -53,6 +54,7 @@ export default function ImportTokenButton({
   tokenSymbol,
   variant = 'primary-purple',
   className,
+  disabled,
 }: ImportTokenButtonProps) {
   const { t } = useTranslation('wisdomise-token');
   const token = TOKENS.find(token => token.symbol === tokenSymbol);
@@ -77,6 +79,7 @@ export default function ImportTokenButton({
       className={clsx(className, '!py-2')}
       variant={variant}
       onClick={importToken}
+      disabled={disabled}
     >
       <div className="flex items-center gap-2">
         {token?.symbol === 'WSDM' ? (

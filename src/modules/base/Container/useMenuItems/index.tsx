@@ -41,14 +41,14 @@ const useMenuItems = () => {
   const { t } = useTranslation('base');
   const items: RootMenuItem[] = [
     {
-      icon: Icon(HomeIconEmpty, HomeIconFull),
+      Icon: Icon(HomeIconEmpty, HomeIconFull),
       text: t('menu.home.title'),
       link: '/home',
       onClick: trackClick('home_menu'),
     },
 
     {
-      icon: Icon(InsightIconEmpty, InsightIconFull),
+      Icon: Icon(InsightIconEmpty, InsightIconFull),
       text: t('menu.insight.title'),
       link: '/insight',
       onClick: trackClick('insight_menu'),
@@ -77,7 +77,7 @@ const useMenuItems = () => {
       ],
     },
     {
-      icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
+      Icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
       text: t('menu.investment.title'),
       link: '/investment',
       onClick: trackClick('investment_menu'),
@@ -95,7 +95,7 @@ const useMenuItems = () => {
       ],
     },
     {
-      icon: Icon(BuilderIconEmpty, BuilderIconFull),
+      Icon: Icon(BuilderIconEmpty, BuilderIconFull),
       text: t('menu.builder.title'),
       link: '/builder',
       children: [
@@ -112,7 +112,7 @@ const useMenuItems = () => {
       ],
     },
     {
-      icon: Icon(AccountIconEmpty, AccountIconFull),
+      Icon: Icon(AccountIconEmpty, AccountIconFull),
       text: t('menu.account.title'),
       link: '/account',
       onClick: trackClick('account_menu'),

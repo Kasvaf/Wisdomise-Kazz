@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import DropdownContainer from 'shared/DropdownContainer';
 import { ReactComponent as Kucoin } from './images/kucoin.svg';
+import { ReactComponent as Bitget } from './images/bitget.svg';
+import { ReactComponent as Gate } from './images/gate.svg';
+import { ReactComponent as HTX } from './images/htx.svg';
+import { ReactComponent as MEXC } from './images/mexc.svg';
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 const EXCHANGES = [
@@ -13,21 +17,25 @@ const EXCHANGES = [
     icon: <Kucoin />,
     url: 'https://www.kucoin.com/price/WSDM',
   },
-  { name: 'HTX', icon: <Kucoin />, url: 'https://www.htx.com/' },
+  {
+    name: 'HTX',
+    icon: <HTX />,
+    url: 'https://www.htx.com/trade/wsdm_usdt?type=spot',
+  },
   {
     name: 'Bitget',
-    icon: <Kucoin />,
+    icon: <Bitget />,
     url: 'https://www.bitget.com/price/wisdomise',
   },
   {
     name: 'Gate',
-    icon: <Kucoin />,
+    icon: <Gate />,
     url: 'https://www.gate.io/trade/WSDM_USDT',
   },
   {
     name: 'MEXC',
-    icon: <Kucoin />,
-    url: 'https://www.mexc.com/',
+    icon: <MEXC />,
+    url: 'https://www.mexc.com/exchange/WSDM_USDT?_from=search_spot_trade',
   },
 ];
 
@@ -79,7 +87,7 @@ export default function BuyWSDM({ className }: { className?: string }) {
           autoAdjustOverflow
         >
           <div className="flex items-center gap-4 rounded-e-xl bg-white/10 p-4">
-            <span>{selectedExchange?.icon}</span>
+            <div>{selectedExchange?.icon}</div>
             <Arrow />
           </div>
         </Dropdown>
