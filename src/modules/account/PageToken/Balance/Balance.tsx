@@ -1,5 +1,7 @@
 import { bxRefresh } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { clsx } from 'clsx';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { addComma } from 'utils/numbers';
@@ -11,6 +13,7 @@ import { ReactComponent as WSDMIcon } from '../icons/wsdm-token.svg';
 export default function Balance() {
   const { t } = useTranslation('wisdomise-token');
   const { data: wsdmBalance, refetch, isLoading } = useWsdmBalance();
+  const [isSpinning, setIsSpinnig] = useState(false);
 
   return (
     <Card className="relative flex flex-col items-start justify-between gap-8">
@@ -24,10 +27,17 @@ export default function Balance() {
       <Button
         variant="alternative"
         disabled={isLoading}
-        onClick={() => refetch()}
+        onClick={() => {
+          setIsSpinnig(true);
+          void refetch();
+          setTimeout(() => setIsSpinnig(false), 1000);
+        }}
         className="!px-4 !py-2"
       >
-        <Icon name={bxRefresh} className="me-2" />
+        <Icon
+          name={bxRefresh}
+          className={clsx('me-2', isSpinning && 'animate-spin')}
+        />
         {t('billing:token-modal.refresh')}
       </Button>
       <div className="flex w-full flex-col gap-4">
