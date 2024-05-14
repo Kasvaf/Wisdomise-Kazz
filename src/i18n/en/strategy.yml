@@ -3,29 +3,30 @@ coins:
     sec-1:
       title: Embark on the Coin Quest
       content: >-
-        Begin your personalized crypto journey in our Coin List section,
+        Begin your personalized crypto journey through our Coin List section and
         complete with a dynamic video introduction. Explore signalers, set
         notifications, and visualize performance for each coin. Catch a preview
-        of the power at your fingertip
+        of the power at your fingertips.
     sec-2:
       title: Coin Specific Insights
       content: >-
-        <0><0><0>Coin Selection:</0> Discover the signalers available for your
-        chosen cryptocurrency.</0><1><0>Tailored Notifications:</0> Configure
-        Telegram alerts for immediate updates from each
-        signaler.</1><2><0>Exclusive Access:</0> Enjoy full details of the Range
-        Master signaler for Solana at no cost.</2></0><1></1>Delve into the
-        world of crypto with precision - your portfolio, personalized.
+        Delve into the world of cryptos with high precision - your portfolio,
+        personalized. <0><0><0>Coin Selection:</0> Discover the signalers
+        available for your chosen cryptocurrency.</0><1><0>Tailored
+        Notifications:</0> Configure Telegram alerts for immediate updates from
+        each signaler.</1><2><0>Exclusive Access:</0> Enjoy full details of the
+        Range Master signaler for Solana at no cost, while for other coins and
+        signals, you need to upgrade your subscription.</2></0><1></1>
     sec-3:
       title: In-Depth Analysis & Insights
       content: >-
-        <0><0><0>Signal Exploration:</0> Click to explore each signaler's
-        history with detailed open and closed positions and their
+        Your strategic edge in crypto, charted clearly with our Insight
+        subscription. <0><0><0>Signal Exploration:</0> Click to explore each
+        signaler's history with detailed open and closed positions and their
         P/L.</0><1><0>Chart Visualization:</0> See your potential profits and
         losses come to life on intuitive charts.</1><2><0>Insight
         Subscription:</0> Expand your horizon with premium access to all coins
-        and signalers for informed decision-making.</2></0><1></1>Your strategic
-        edge in crypto, charted clearly with our Insight subscription.
+        and signalers for informed decision-making.</2></0><1></1>
 matrix:
   best-performing-30d: Best Performing 30D
   best-performing-7d: Best Performing 7D
@@ -41,7 +42,7 @@ matrix:
       content: >-
         Dive into our comprehensive signal center where you can watch all active
         and historical performance with a quick video overview. Get a glimpse of
-        what's ahead!<1></1>
+        what's ahead!
     sec-2:
       title: All Signals at a Glance
       content: >-

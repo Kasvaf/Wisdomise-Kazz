@@ -17,10 +17,10 @@ const PageSignaler = React.lazy(
 
 const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
 const PageSocialRadar = React.lazy(
-  () => import('modules/insight/PageSocialRadar'),
+  () => import('modules/insight/socialRadar/PageSocialRadar'),
 );
 const PageSocialRadarDetail = React.lazy(
-  () => import('modules/insight/PageSocialRadarDetail'),
+  () => import('modules/insight/socialRadar/PageSocialRadarDetail'),
 );
 
 const useInsightRoutes = () => {

@@ -3,22 +3,22 @@ import { bxRightArrowAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CoinsIcons from 'modules/shared/CoinsIcons';
-import { type CoinTelegramSignal } from 'api';
+import { type CoinSignal } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
 import Icon from 'modules/shared/Icon';
 import SideSuggestGauge from './SideSuggestGauge';
 
-export default function HotCoinSignal({ data }: { data: CoinTelegramSignal }) {
+export default function HotCoinSignal({ data }: { data: CoinSignal }) {
   const { t } = useTranslation('social-radar');
 
   return (
     <NavLink
       to={`/insight/social-radar/${data.symbol_name}`}
-      className="flex flex-col rounded-2xl bg-black/30 p-8 transition-colors hover:bg-black/20 mobile:p-5"
+      className="flex flex-col rounded-2xl bg-black/30 p-6 transition-colors hover:bg-black/20 mobile:p-5"
     >
       <div className="flex justify-between border-b border-white/5 pb-4">
         <div className="flex items-center gap-2">
-          <CoinsIcons coins={[data.image]} />{' '}
+          <CoinsIcons coins={[data.image || '']} />{' '}
           <span className="text-xl font-medium">{data.symbol_name}</span>
         </div>
         <p
@@ -27,7 +27,8 @@ export default function HotCoinSignal({ data }: { data: CoinTelegramSignal }) {
             !data.current_price && 'invisible',
           )}
         >
-          {data.current_price} <span className="text-xs">USDT</span>
+          {data.current_price}
+          <span className="ml-[2px] text-xs">USDT</span>
         </p>
       </div>
       <div className="flex justify-between border-b border-white/5 py-4">
@@ -59,7 +60,7 @@ export default function HotCoinSignal({ data }: { data: CoinTelegramSignal }) {
       </div>
 
       <div className="flex items-center justify-end pt-4 text-sm opacity-40">
-        <p className="-mt-1 leading-none">{t('hot-coins.explore')}</p>
+        <p className="leading-none">{t('hot-coins.signals')}</p>
         <Icon name={bxRightArrowAlt} />
       </div>
     </NavLink>

@@ -23,7 +23,7 @@ const RadarBrief: React.FC<{
         className,
       )}
     >
-      <TelegramIcon className="h-6 w-6" />
+      <TelegramIcon className="size-8" />
       <div className="text-[8px] text-white/60">
         <div>
           {t('matrix.radar.consensus')}

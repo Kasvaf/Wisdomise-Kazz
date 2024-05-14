@@ -4,6 +4,7 @@ import type React from 'react';
 export type OnboardingMessageSections = Array<{
   title: string;
   content: React.ReactNode;
+  video?: string;
 }>;
 
 export interface OnboardingMessageContextInterface {

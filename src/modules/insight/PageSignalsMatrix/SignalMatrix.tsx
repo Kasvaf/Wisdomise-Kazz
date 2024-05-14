@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCoinTelegramSignals, useSignalerPairs, useSignalsQuery } from 'api';
+import { useCoinSignals, useSignalerPairs, useSignalsQuery } from 'api';
 import uniqueBy from 'utils/uniqueBy';
 import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
@@ -13,7 +13,7 @@ import RadarBrief from './RadarBrief';
 
 const SignalMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
-  const { data: radar } = useCoinTelegramSignals();
+  const { data: radar } = useCoinSignals();
   const {
     data: { last_positions: positions } = {},
     isLoading: isLoadingSignals,
