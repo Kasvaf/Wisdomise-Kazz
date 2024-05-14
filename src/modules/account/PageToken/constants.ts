@@ -4,11 +4,11 @@ import { isProduction } from 'utils/version';
 export const WSDM_IS_ACTIVE = Date.now() > Date.UTC(2024, 4, 14, 11, 15);
 
 export const MERKLE_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
-  ? '0x32De11070594b28640dF060D77Baf9fBE12f5Ee7'
+  ? zeroAddress
   : '0xAc4b19F508bdDfFb9fa4015515EA2Eb804632dE6';
 
 export const LOCKING_CONTRACT_ADDRESS = isProduction
-  ? zeroAddress
+  ? '0x32De11070594b28640dF060D77Baf9fBE12f5Ee7'
   : '0x4792B74D02a60F6019288663eD7f01cB0632dfA2';
 
 export const TOKEN_MIGRATION_CONTRACT_ADDRESS = isProduction
