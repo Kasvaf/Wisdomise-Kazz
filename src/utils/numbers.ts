@@ -9,4 +9,5 @@ export const roundSensible = (value: number) =>
     .replace(/(\.0*\d{2})\d*/, (a, b) => b)
     .replaceAll(/\.?0+$/g, '');
 
-export const addComma = (number: number) => number.toLocaleString();
+export const addComma = (number?: number | bigint) =>
+  number?.toLocaleString() ?? 0;

@@ -1,8 +1,6 @@
-/* eslint-disable import/max-dependencies */
-import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
+import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
-import { goerli, polygon } from 'wagmi/chains';
 import { notification } from 'antd';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -11,10 +9,11 @@ import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { shortenAddress } from 'utils/shortenAddress';
-import { isProduction } from 'utils/version';
 import { unwrapErrorMessage } from 'utils/error';
+import { defaultChain } from 'config/wagmi';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
+// eslint-disable-next-line import/max-dependencies
 import useSignInWithEthereum from './useSiwe';
 
 interface Props {
@@ -24,7 +23,7 @@ interface Props {
   description: string;
 }
 
-export default function ConnectWalletWrapper({
+export default function ConnectWalletGuard({
   children,
   className,
   title,
@@ -32,7 +31,6 @@ export default function ConnectWalletWrapper({
 }: Props) {
   const { chain } = useNetwork();
   const { open } = useWeb3Modal();
-  const { disconnect } = useDisconnect();
   const { data: account } = useAccountQuery();
   const { switchNetwork } = useSwitchNetwork();
   const { isConnected, address } = useAccount();
@@ -41,7 +39,7 @@ export default function ConnectWalletWrapper({
   const [showError, setShowError] = useState(true);
   const { mutateAsync } = useNonceVerificationMutation();
   const { signInWithEthereum } = useSignInWithEthereum();
-  const { data: nonceResponse } = useGenerateNonceQuery();
+  const { data: nonceResponse, refetch } = useGenerateNonceQuery();
   const [showWrapperContent, setShowWrapperContent] = useState(false);
   const [showConnectWallet, setShowConnectWallet] = useState(true);
 
@@ -59,10 +57,9 @@ export default function ConnectWalletWrapper({
   };
 
   const openWeb3Modal = useCallback(() => open(), [open]);
-  const disconnectWallet = useCallback(() => disconnect(), [disconnect]);
 
   useEffect(() => {
-    const suitableChainId = isProduction ? polygon.id : goerli.id;
+    const suitableChainId = defaultChain.id;
     if (chain?.id !== suitableChainId) {
       switchNetwork?.(suitableChainId);
     }
@@ -82,29 +79,17 @@ export default function ConnectWalletWrapper({
         }
       } else {
         setShowNonce(true);
+        void refetch();
       }
     } else {
       setShowConnectWallet(true);
       setShowNonce(false);
       setShowError(false);
     }
-  }, [account, address, isConnected]);
+  }, [account, address, isConnected, refetch]);
 
   return (
     <div className={clsx(className, 'text-white')}>
-      {isConnected && address && (
-        <div className="mb-2 flex items-center justify-between gap-4 rounded-xl bg-white/5 p-2 pl-6">
-          <div>
-            <span className="text-gray-400">
-              {t('connect-wallet.wallet-address')}:
-            </span>{' '}
-            {shortenAddress(address)}
-          </div>
-          <Button variant="alternative" onClick={disconnectWallet}>
-            {t('connect-wallet.disconnect')}
-          </Button>
-        </div>
-      )}
       {showWrapperContent && <div>{children}</div>}
       {showError && (
         <Card>

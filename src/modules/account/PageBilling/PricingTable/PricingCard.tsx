@@ -7,15 +7,20 @@ import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
 import Icon from 'shared/Icon';
+import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
+import { useLockingRequirementQuery } from 'api/defi';
+import Button from 'shared/Button';
 import { ReactComponent as Check } from '../images/check.svg';
 import starts from '../images/stars.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
+// eslint-disable-next-line import/max-dependencies
 import PlanLogo from './PlanLogo';
 
 interface Props {
   isRenew?: boolean;
   className?: string;
   isUpdate?: boolean;
+  isTokenUtility?: boolean;
   plan: SubscriptionPlan;
   onPlanUpdate: VoidFunction;
 }
@@ -24,6 +29,7 @@ export default function PricingCard({
   plan,
   isRenew,
   isUpdate,
+  isTokenUtility,
   className,
   onPlanUpdate,
 }: Props) {
@@ -32,6 +38,11 @@ export default function PricingCard({
   const subsMutation = useSubscriptionMutation();
   const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent);
+  const [tokenPaymentModal, openTokenPaymentModal] = useModal(
+    TokenPaymentModalContent,
+    { fullscreen: true, destroyOnClose: true },
+  );
+  const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
 
   const hasUserThisPlan = isActive && !isRenew && plan.key === userPlan?.key;
   const hasUserThisPlanAsNextPlan =
@@ -60,18 +71,22 @@ export default function PricingCard({
         notification.error({ message: unwrapErrorMessage(error) });
       }
     } else {
-      void openModal({
-        onFiatClick: () => {
-          if (plan.stripe_payment_link) {
-            window.location.href = plan.stripe_payment_link;
-          } else {
-            notification.error({
-              message: t('pricing-card.notification-call-support'),
-            });
-          }
-        },
-        plan,
-      });
+      if (isTokenUtility) {
+        void openTokenPaymentModal({ plan });
+      } else {
+        void openModal({
+          onFiatClick: () => {
+            if (plan.stripe_payment_link) {
+              window.location.href = plan.stripe_payment_link;
+            } else {
+              notification.error({
+                message: t('pricing-card.notification-call-support'),
+              });
+            }
+          },
+          plan,
+        });
+      }
     }
   };
 
@@ -133,10 +148,14 @@ export default function PricingCard({
             <>
               {plan.periodicity === 'YEARLY' ? (
                 <p className="text-xs text-white/70">
-                  <Trans ns="billing" i18nKey="pricing-card.pay-by-stacking">
-                    Pay By Stacking
+                  <Trans ns="billing" i18nKey="pricing-card.pay-by-locking">
+                    Pay By Locking
                     <span className="mx-1 text-base font-semibold text-white">
-                      {{ token: plan.wsdm_token_hold.toLocaleString() }}
+                      {{
+                        token:
+                          lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
+                          0,
+                      }}
                       <span className="ml-1 bg-gradient-to-r from-[#FF00C7] to-[#00A3FF] to-100% bg-clip-text text-transparent">
                         WSDM
                       </span>
@@ -148,9 +167,9 @@ export default function PricingCard({
                 <p>
                   <Trans
                     ns="billing"
-                    i18nKey="pricing-card.pay-by-stacking-in-yearly-only"
+                    i18nKey="pricing-card.pay-by-locking-in-yearly-only"
                   >
-                    Pay By Stacking
+                    Pay By Locking
                     <span className="mx-1 bg-gradient-to-r from-[#FF00C7] to-[#00A3FF] to-100% bg-clip-text text-base font-semibold text-transparent">
                       WSDM
                     </span>
@@ -190,32 +209,35 @@ export default function PricingCard({
               'invisible',
           )}
         >
-          <button
+          <Button
             onClick={onClick}
             disabled={isActionButtonDisabled}
+            variant="primary-purple"
             className={clsx(
-              'w-full rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] px-8 py-4 font-medium leading-none text-white',
-              'flex items-center justify-center gap-1',
-              isActionButtonDisabled && '!bg-white/10 [background-image:none]',
-              subsMutation.isLoading && 'cursor-wait text-white/50',
+              'w-full !text-base',
               (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
                 '!cursor-default !text-white',
             )}
           >
-            {plan.is_active
-              ? hasUserThisPlan || hasUserThisPlanAsNextPlan
-                ? hasUserThisPlan
-                  ? currentPlanRender
-                  : t('pricing-card.btn-action.next-plan')
-                : isUpdate
-                ? t('pricing-card.btn-action.choose')
-                : isRenew
-                ? t('pricing-card.btn-action.choose')
-                : t('pricing-card.btn-action.buy-now')
-              : currentPlanRender}
-          </button>
+            <div className="flex items-center justify-center gap-2">
+              {plan.is_active
+                ? hasUserThisPlan || hasUserThisPlanAsNextPlan
+                  ? hasUserThisPlan
+                    ? currentPlanRender
+                    : t('pricing-card.btn-action.next-plan')
+                  : isUpdate
+                  ? t('pricing-card.btn-action.choose')
+                  : isRenew
+                  ? t('pricing-card.btn-action.choose')
+                  : isTokenUtility
+                  ? t('pricing-card.btn-action.activate-now')
+                  : t('pricing-card.btn-action.buy-now')
+                : currentPlanRender}
+            </div>
+          </Button>
         </div>
         {model}
+        {tokenPaymentModal}
       </div>
     </div>
   );

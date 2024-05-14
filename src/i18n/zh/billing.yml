@@ -7,7 +7,7 @@ change-pay-method:
   fiat: Fiat
   sub-title: 为您的下一个计划选择付款方式：
   title: 更改付款方式
-  token: Wisdomise Token (tWSDM)
+  token: Wisdomise Token (WSDM)
 change-payment:
   change-payment-method: 更改付款方式
   order-summary: 订单摘要
@@ -47,6 +47,7 @@ periodicity:
 pricing-card:
   annually: 每年
   btn-action:
+    activate-now: 立即激活
     available-soon: 即将推出
     buy-now: 開始購買
     choose: 选择
@@ -63,6 +64,8 @@ pricing-card:
   notification-upgrade-success: 您的订阅已成功更新。可能需要几分钟才能激活。请在几分钟后重新加载此页面。
   page-subtitle: 您可以从此部分选择您的方案类型
   page-title: 方案计费
+  pay-by-locking: 锁定付款<1>{{token}}<1>WSDM</1></1>代币
+  pay-by-locking-in-yearly-only: 锁定付款<1>WSDM</1>代币：每年刚刚到
   pay-by-stacking: 堆叠付款<1>{{token}}<1>WSDM</1></1>代币
   pay-by-stacking-in-yearly-only: 堆叠付款<1>WSDM</1>代币：每年刚刚到
   recommended: 智慧推荐
@@ -137,8 +140,13 @@ tabs:
   payment-methods: 支付方式
 token-modal:
   activate-subscription: 激活订阅
+  already-locked: 已锁定余额
+  confirmed:
+    description: 您的交易已成功提交并正在处理中。请等待交易完成。
+    title: 不要刷新或关闭浏览器
   congratulations: 恭喜！
-  description: 您的 Wisdomise 代币不会被扣除，您只需在订阅期内将代币保留在钱包中即可获得使用权限。
+  description: 为了获得访问权限，您的 Wisdomise Tokens 将在订阅期间被锁定在保险库中。
+  disclaimer: 通过参与 WSDM 代币锁定，您特此同意以下条款。
   done: 完成
   for-1-year: 1年
   purchase-token: 购买 Wisdomise 代币
@@ -146,8 +154,9 @@ token-modal:
   subscribe-to: 订阅
   subtotal: 小计
   title: Wisdomise AG
-  token: tWSDM
-  token-name: Wisdomise Token (tWSDM)
-  total-amount: 您的钱包中需要持有的总金额
+  token: WSDM
+  token-name: Wisdomise Token (WSDM)
+  total-amount: 今天到期总额
+  unlock-period: <0>解锁期限：</0> WSDM 代币有 7 天的解锁期。WSDM 代币可完全提取，无需支付任何费用。
   you-can: 您现在可以访问 {{name}} 功能
-  your-balance: 您的 tWSDM 代币余额
+  your-balance: 您的 WSDM 代币余额

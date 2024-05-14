@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
+import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
@@ -72,7 +73,11 @@ export default function SubscriptionMethodModal({
           </div>
         </Button>
         {plan.periodicity === 'YEARLY' && (
-          <Button onClick={onTokenClick} className="col-span-2">
+          <Button
+            onClick={onTokenClick}
+            className="col-span-2"
+            disabled={!WSDM_IS_ACTIVE}
+          >
             <div className="flex items-center gap-2">
               <Token />
               {t('token-modal.token-name')}

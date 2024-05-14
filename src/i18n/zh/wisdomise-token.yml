@@ -1,5 +1,25 @@
+airdrop:
+  check: 检查资格
+  countdown:
+    days: 天
+    hours: 小时
+    minutes: 分钟
+    remaining-time: 剩余领取时间
+    seconds: 秒
+  description: 空投代币将分发给参与我们活动的合格参与者。更多信息请参阅我们的社交媒体。
+  eligibility:
+    already-claimed: 您已经领取了您的代币。
+    claim: 现在宣称
+    close: 关闭
+    eligible: 你是 <1>有资格的<1> 索取
+    not-eligible: 你是 <1>不容忽视<1> 此轮 WSDM 空投
+  title: 空投
 balance:
-  add-token: 添加 tWSDM
+  add-token: 添加 WSDM
+  buy: 购买 WSDM
+  description: 质押代币开通会员(无需任何消耗)
+  subtitle: 余额
+  title: WSDM代币
   token-name: tWSDM
   your-balance: 您的 tWSDM 代币余额
 connect-wallet:
@@ -16,11 +36,62 @@ connect-wallet:
   wisdomise-token:
     description: 要查看赋能状态和您的 tWSDM 余额，请连接您的钱包。
     title: 连接钱包
+import: 进口
+migration:
+  description: 您参与了我们的私人轮次并拥有 tWSDM 代币，您必须在此处迁移到 WSDM 代币（比例为 1：1）。
+  migrate: 立即迁移
+  title: tWSDM 迁移
+onboarding:
+  sec-1:
+    content: 该视频是您在 Wisdomise 平台上迁移 WSDM 令牌的一站式指南。
+    title: WSDM 迁移指南
+  sec-2:
+    content: 这个全面的视频指南将引导您如何使用 WSDM 令牌并充分发挥 Wisdomise 平台的潜力。
+    title: WSDM 实用程序指南
+title: <0>智慧代币</0><1>WSDM</1>
 utility:
   activate: 启用
+  activate-sub: 激活订阅
   activated: 活性
+  already-active: 您已经拥有有效订阅。
+  amount: 数量
+  current-sub: 您当前的订阅计划
   description: 只需持有您的 $tWSDM 代币，即可解锁一整年Wisdomise
     高级订阅方案权限。您的代币不会被扣除——只需将它们放在您的钱包中即可。这种轻松的方法可确保您享受所有高级福利，而无需任何额外成本或麻烦。这是一种明智的方式，可以让您的投资价值最大化，同时探索
     Wisdomise 提供的全方位服务。
+  loading: 加载中
+  lock-description: 锁定您的 $WSDM 代币以访问我们的产品。
+  lock-tokens: 锁定令牌
+  lock-tooltip: 您已经拥有有效订阅，您需要等到订阅结束后才能使用您的令牌获取访问权限。
+  lock-wsdm: 锁定 WSDM
+  locked: 锁定
   not-activated: 未激活
+  pending-unlock: 等待解锁
+  pending-withdrawal: 等待提款
+  ready: 准备好
+  remaining-time: 剩余时间：
+  subtitle: 实用程序激活
   title: 赋能激活
+  unlock: 开锁
+  unlock-modal:
+    amount: 数量
+    cancel-sub: 取消订阅
+    days: 7天
+    description: 通过解锁您的 WSDM 令牌，您选择退出我们的订阅服务。 <1></1><2>7 天内可提款。</2>
+    downgrade-warn: 警告：您当前的订阅将降级为免费计划。
+    not-now: 现在不要
+    title: 解锁 WSDM 令牌
+    withdraw-available: 提现可用
+  withdraw: 领取
+vesting:
+  claim: 宣称
+  claimable: 可索偿金额
+  description: 私人代币轮次显示如下：
+  next-unlock: 下一頁 解锁
+  title: 归属
+  tooltip: 根据我们的代币经济学，私募轮次会受到悬崖期和归属期的影响。悬崖期过后，归属期开始，您可以在此处按月领取代币。
+  total-investment: 总投资额
+wallet:
+  connected-wallet: 联网钱包
+  disconnect: 断开钱包
+  title: 我的钱包

@@ -40,7 +40,8 @@ export default function CurrentPlan() {
           {!(plan?.level === 2 && plan?.periodicity === 'YEARLY') && (
             <button
               onClick={() => openPricingTable({ isUpdate: true })}
-              className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
+              className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4 disabled:text-white/40"
+              disabled={paymentMethod === 'TOKEN'}
             >
               {t('subscription-details.overview.btn-change-plan')}
             </button>
@@ -74,6 +75,6 @@ export default function CurrentPlan() {
 const paymentMethodText: Record<PaymentMethod, string> = {
   CRYPTO: 'Crypto',
   FIAT: 'Fiat',
-  TOKEN: 'Wisdomise Token (tWSDM)',
+  TOKEN: 'Wisdomise Token (WSDM)',
   MANUAL: 'Manual',
 };

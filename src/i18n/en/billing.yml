@@ -3,7 +3,7 @@ change-pay-method:
   crypto: Crypto
   fiat: Fiat
   sub-title: 'Choose a payment method for your next plan:'
-  token: Wisdomise Token (tWSDM)
+  token: Wisdomise Token (WSDM)
 crypto-modal:
   title: Wisdomise AG
   subtitle: Subscribe to {{plan}}
@@ -45,6 +45,7 @@ periodicity:
 pricing-card:
   annually: Yearly
   btn-action:
+    activate-now: Activate Now
     buy-now: Buy Now
     choose: Choose
     current-plan: Current Plan
@@ -56,8 +57,8 @@ pricing-card:
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
-  pay-by-stacking: Pay By Stacking<1>{{token}}<1>WSDM</1></1>Token
-  pay-by-stacking-in-yearly-only: 'Pay By Stacking<1>WSDM</1>Token: Just In Annually'
+  pay-by-locking: Pay By Locking<1>{{token}}<1>WSDM</1></1>Token
+  pay-by-locking-in-yearly-only: 'Pay By Locking<1>WSDM</1>Token: Just In Annually'
   recommended: Wisdomise Recommend
   this-includes: 'This includes:'
 stripe:
@@ -114,18 +115,29 @@ tabs:
 token-modal:
   title: Wisdomise AG
   description: >-
-    Your Wisdomise Tokens will not be deducted, you will only need to hold the
-    tokens in your wallet for the subscription period in order to gain access.
+    Your Wisdomise Tokens will be locked in a vault for the subscription period
+    in order to gain access.
   activate-subscription: Activate Subscription
+  already-locked: Already Locked Balance
+  confirmed:
+    title: Do not refresh or close your browser
+    description: >-
+      Your transaction has been successfully submitted and is being processed.
+      Please wait for the transaction to complete.
   congratulations: Congratulations!
+  disclaimer: >-
+    By engaging in the WSDM Tokens Lockup, you hereby consent to the following
+    terms.
   done: Done
   for-1-year: For 1 year
-  purchase-token: Purchase Wisdomise Token
   refresh: Refresh
   subscribe-to: Subscribe to
   subtotal: Subtotal
-  token: tWSDM
-  token-name: Wisdomise Token (tWSDM)
-  total-amount: Total amount need to be hold in your wallet
+  token: WSDM
+  token-name: Wisdomise Token (WSDM)
+  total-amount: Total due today
+  unlock-period: >-
+    <0>Unlock Period:</0> WSDM Tokens are subject to a 7-day unlock period. WSDM
+    Tokens are fully withdrawable without incurring any fees.
   you-can: you can now access {{name}} Features.
-  your-balance: Your tWSDM Token Balance
+  your-balance: Your WSDM Token Balance

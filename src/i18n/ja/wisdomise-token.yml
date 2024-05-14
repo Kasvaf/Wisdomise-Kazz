@@ -1,5 +1,25 @@
+airdrop:
+  check: 資格を確認する
+  countdown:
+    days: 日々
+    hours: 時間
+    minutes: 分
+    remaining-time: 請求できる残り時間
+    seconds: 秒
+  description: エアドロップ トークンは、キャンペーンに参加した資格のある参加者に配布されます。詳細は当社のソーシャル メディアでご覧いただけます。
+  eligibility:
+    already-claimed: すでにトークンを請求しています。
+    claim: 今すぐ請求
+    close: 閉じる
+    eligible: あなたは <1>適格<1> 申し立てる
+    not-eligible: あなたは <1>資格なし<1> このWSDMエアドロップラウンドでは
+  title: エアドロップ
 balance:
-  add-token: tWSDMの追加
+  add-token: WSDMの追加
+  buy: WSDMを購入する
+  description: 保有しているWSDMトークンをサブスクリプションにご利用いただけます。
+  subtitle: 残高
+  title: WSDMトークン
   token-name: tWSDM
   your-balance: tWSDMトークン保有量
 connect-wallet:
@@ -16,11 +36,64 @@ connect-wallet:
   wisdomise-token:
     description: ユーティリティのステータスと tWSDM 残高を表示するには、ウォレットに接続します。
     title: ウォレットに接続
+import: 輸入
+migration:
+  description: プライベート ラウンドに参加し、tWSDM トークンを所有している場合は、ここで WSDM トークン (1:1 比率) に移行する必要があります。
+  migrate: 今すぐ移行
+  title: tWSDM 移行
+onboarding:
+  sec-1:
+    content: このビデオは、Wisdomise プラットフォームで WSDM トークンを移行するためのワンストップ ガイドです。
+    title: WSDM 移行ガイド
+  sec-2:
+    content: この包括的なビデオ ガイドでは、WSDM トークンの利用方法と Wisdomise プラットフォームの可能性を最大限に引き出す方法について説明します。
+    title: WSDM ユーティリティ ガイド
+title: <0>ウィズダムトークン</0><1>WSDM</1>
 utility:
   activate: アクティベート
+  activate-sub: サブスクリプションを起動させる
   activated: 有効化済み
+  already-active: すでに有効なサブスクリプションがあります。
+  amount: 金額
+  current-sub: 現在のサブスクリプションプラン
   description: $tWSDM トークンを保持するだけで、Wisdomise のプレミアム サブスクリプション パッケージへの 1
     年間の独占アクセスのロックが解除されます。トークンからの控除はありません。トークンをウォレットに保管しておくだけです。この簡単なアプローチにより、追加のコストや手間をかけることなく、すべてのプレミアム特典を確実に享受できます。これは、Wisdomise
     が提供するあらゆるサービスを探索しながら、投資の価値を最大化するための賢い方法です。
+  loading: 読み込み中
+  lock-description: 当社の製品にアクセスするには、$WSDM トークンをロックしてください。
+  lock-tokens: トークンをロックする
+  lock-tooltip: すでにアクティブなサブスクリプションをお持ちの場合は、トークンを使用してアクセスするには、サブスクリプションが終了するまで待つ必要があります。
+  lock-wsdm: WSDM をロックする
+  locked: ロック中
   not-activated: アクティブ化されていません
+  pending-unlock: ロック解除待ち
+  pending-withdrawal: 撤回待ち
+  ready: 準備ができて
+  remaining-time: 残り時間：
+  subtitle: ユーティリティの有効化
   title: ユーティリティのアクティベーション
+  unlock: ロック解除
+  unlock-modal:
+    amount: 金額
+    cancel-sub: サブスクリプションをキャンセル
+    days: 7日
+    description: WSDM トークンのロックを解除すると、サブスクリプション サービスからオプトアウトすることになります。
+      <1></1><2>出金は7日以内に可能です。</2>
+    downgrade-warn: "警告: 現在のサブスクリプションは無料プランにダウングレードされます。"
+    not-now: 今じゃない
+    title: WSDMトークンのロックを解除する
+    withdraw-available: 出金可能
+  withdraw: 引き出し
+vesting:
+  claim: 請求
+  claimable: 請求可能額
+  description: "プライベートトークンラウンドはここに表示されます:"
+  next-unlock: 次のロック解除
+  title: 権利確定
+  tooltip: プライベート
+    ラウンドは、当社のトークノミクスに基づくクリフ期間と権利確定期間の対象となります。クリフ期間後、権利確定が開始され、こちらから毎月トークンを請求できます。
+  total-investment: 総投資額
+wallet:
+  connected-wallet: コネクテッドウォレット
+  disconnect: ウォレットを切断する
+  title: 私の財布

@@ -1,100 +1,70 @@
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import Card from 'shared/Card';
+import { Trans, useTranslation } from 'react-i18next';
+import { useAccount } from 'wagmi';
 import PageWrapper from 'modules/base/PageWrapper';
-import { useAccountQuery, useSubscription } from 'api';
-import Button from 'shared/Button';
-import { INVESTMENT_FE } from 'config/constants';
-import { addComma } from 'utils/numbers';
-import { useUpdateTokenBalanceMutation } from 'api/defi';
-import ConnectWalletWrapper from '../PageBilling/paymentMethods/Token/ConnectWalletWrapper';
-import { ReactComponent as WalletIcon } from './images/wallet.svg';
-import { ReactComponent as UtilityIcon } from './images/utility.svg';
+import Vesting from 'modules/account/PageToken/Vesting';
+import Migration from 'modules/account/PageToken/Migration';
+import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdm/contract';
+import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
+import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
+import Utility from 'modules/account/PageToken/Utility';
+import Balance from 'modules/account/PageToken/Balance/Balance';
+import Wallet from 'modules/account/PageToken/Wallet';
+import { WsdmOnboarding } from 'modules/account/PageToken/WsdmOnboarding';
+import ConnectWalletGuard from '../PageBilling/paymentMethods/Token/ConnectWalletGuard';
 
 export default function PageToken() {
   const { t } = useTranslation('wisdomise-token');
-  const { isActive, isLoading, isTrialPlan } = useSubscription();
-  const { data: account } = useAccountQuery();
-  const { mutateAsync: updateBalance, isLoading: isRefreshing } =
-    useUpdateTokenBalanceMutation();
-  const navigate = useNavigate();
-
-  const openInvestmentPanel = () => {
-    window.location.href = INVESTMENT_FE;
-  };
-
-  const openBillingPage = () => {
-    navigate('/account/billing');
-  };
-
-  const updateTokenBalance = async () => {
-    await updateBalance();
-  };
+  const { data: twsdmBalance } = useTwsdmBalance();
+  const { isConnected } = useAccount();
+  const { hasShareInBucket } = useVesting();
 
   return (
-    <PageWrapper loading={isLoading}>
-      <h1 className="mb-6 text-xl font-semibold">
-        {t('base:menu.token.title')}
-      </h1>
-      <ConnectWalletWrapper
+    <PageWrapper>
+      <div className="my-10 flex flex-wrap items-center justify-between gap-4 md:gap-6">
+        <h1 className="text-center">
+          <Trans i18nKey="wisdomise-token:title" ns="wisdomise-token">
+            <strong className="text-5xl font-semibold text-white/20">
+              Wisdomise Token
+            </strong>
+            <span className="ms-2 text-3xl font-thin text-white/60">WSDM</span>
+          </Trans>
+        </h1>
+        {isConnected && (
+          <ImportTokenButton
+            tokenSymbol="WSDM"
+            variant="primary-purple"
+            className="max-md:w-full"
+          />
+        )}
+      </div>
+      <ConnectWalletGuard
         title={t('wisdomise-token:connect-wallet.wisdomise-token.title')}
         description={t(
           'wisdomise-token:connect-wallet.wisdomise-token.description',
         )}
       >
-        <div className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2">
-          <Card className="flex flex-col justify-between">
-            <div className="flex justify-between">
-              <div>
-                <h1 className="mb-6 text-xl font-semibold">
-                  {t('balance.your-balance')}
-                </h1>
-                <Button
-                  variant="secondary"
-                  disabled={isRefreshing}
-                  onClick={updateTokenBalance}
-                >
-                  {t('billing:token-modal.refresh')}
-                </Button>
-              </div>
-              <WalletIcon />
-            </div>
-            <div className="flex items-center justify-between pt-8">
-              <span className="text-3xl font-bold">
-                {addComma(account?.wsdm_balance ?? 0)} {t('balance.token-name')}
-              </span>
-              <Button onClick={openInvestmentPanel}>
-                {t('balance.add-token')}
-              </Button>
-            </div>
-          </Card>
-          <Card>
-            <div className="flex justify-between">
-              <div>
-                <h1 className="mb-6 text-xl font-semibold">
-                  {t('utility.title')}
-                </h1>
-                <p className="text-xs text-white/60">
-                  {t('utility.description')}
-                </p>
-              </div>
-              <UtilityIcon className="shrink-0" />
-            </div>
-            <div className="flex items-center justify-between pt-8">
-              <span className="text-3xl font-bold">
-                {isActive && !isTrialPlan
-                  ? t('utility.activated')
-                  : t('utility.not-activated')}
-              </span>
-              {(!isActive || isTrialPlan) && (
-                <Button onClick={openBillingPage}>
-                  {t('utility.activate')}
-                </Button>
-              )}
-            </div>
-          </Card>
+        {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
+        {hasShareInBucket ? <Vesting /> : null}
+        <h1 className="my-8 flex flex-wrap items-center justify-between gap-4 text-xl text-white/20">
+          <div className="flex items-center gap-2">
+            <Trans i18nKey="wisdomise-token:utility.title" ns="wisdomise-token">
+              <strong className="text-3xl font-bold">WSDM</strong>
+              <span className="ms-2 text-lg">Utility</span>
+            </Trans>
+          </div>
+          <ImportTokenButton
+            tokenSymbol="lcWSDM"
+            variant="primary-purple"
+            className="max-md:w-full"
+          />
+        </h1>
+        <Utility />
+        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <Wallet />
+          <Balance />
         </div>
-      </ConnectWalletWrapper>
+        <WsdmOnboarding />
+      </ConnectWalletGuard>
     </PageWrapper>
   );
 }
