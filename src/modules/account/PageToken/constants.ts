@@ -46,7 +46,7 @@ export const WSDM_CONTRACT_ADDRESS = isProduction
 
 const VESTING_INTERVAL = 1800;
 
-const ANGEL_ROUND_VESTING_START = 1_714_725_300;
+const ANGEL_ROUND_VESTING_START = isProduction ? 1_731_237_300 : 1_714_725_300;
 const ANGEL_ROUND_VESTING_LENGTH = 540;
 const FIRST_ANGEL_RELEASE_PERCENTAGE = 0.05;
 export const angelReleaseTimestamps = calculateReleaseTimestamps(
@@ -58,7 +58,9 @@ export const angelReleasePercentage = calculateReleasePercentage(
   ANGEL_ROUND_VESTING_LENGTH,
 );
 
-const STRATEGIC_ROUND_VESTING_START = 1_714_725_300;
+const STRATEGIC_ROUND_VESTING_START = isProduction
+  ? 1_731_237_300
+  : 1_714_725_300;
 const STRATEGIC_ROUND_VESTING_LENGTH = 450;
 const FIRST_STRATEGIC_RELEASE_PERCENTAGE = 0.05;
 export const strategicReleaseTimestamps = calculateReleaseTimestamps(
@@ -70,9 +72,9 @@ export const strategicReleasePercentage = calculateReleasePercentage(
   STRATEGIC_ROUND_VESTING_LENGTH,
 );
 
-const KOL_VESTING_START = 1_714_725_300;
+const KOL_VESTING_START = isProduction ? 1_720_869_300 : 1_714_725_300;
 const KOL_VESTING_LENGTH = 270;
-const FIRST_KOL_RELEASE_PERCENTAGE = 0.05;
+const FIRST_KOL_RELEASE_PERCENTAGE = isProduction ? 0.12 : 0.05;
 export const kolReleaseTimestamps = calculateReleaseTimestamps(
   KOL_VESTING_LENGTH,
   KOL_VESTING_START,
@@ -82,8 +84,10 @@ export const kolReleasePercentage = calculateReleasePercentage(
   KOL_VESTING_LENGTH,
 );
 
-const INSTITUTIONAL_VESTING_START = 1_714_728_900;
-const INSTITUTIONAL_VESTING_LENGTH = 450;
+const INSTITUTIONAL_VESTING_START = isProduction
+  ? 1_726_053_300
+  : 1_714_728_900;
+const INSTITUTIONAL_VESTING_LENGTH = isProduction ? 360 : 450;
 const FIRST_INSTITUTIONAL_RELEASE_PERCENTAGE = 0;
 export const institutionalReleaseTimestamps = calculateReleaseTimestamps(
   INSTITUTIONAL_VESTING_LENGTH,
@@ -94,7 +98,7 @@ export const institutionalReleasePercentage = calculateReleasePercentage(
   INSTITUTIONAL_VESTING_LENGTH,
 );
 
-const PUBLIC_ROUND_VESTING_START = 1_715_238_000;
+const PUBLIC_ROUND_VESTING_START = isProduction ? 1_718_277_300 : 1_715_238_000;
 const PUBLIC_ROUND_VESTING_LENGTH = 150;
 const FIRST_PUBLIC_RELEASE_PERCENTAGE = 0.12;
 export const publicRoundReleaseTimestamps = calculateReleaseTimestamps(
