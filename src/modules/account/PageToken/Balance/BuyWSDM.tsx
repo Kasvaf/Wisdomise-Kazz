@@ -25,7 +25,7 @@ const EXCHANGES = [
   {
     name: 'Bitget',
     icon: <Bitget />,
-    url: 'https://www.bitget.com/price/wisdomise',
+    url: 'https://www.bitget.com/spot/WSDMUSDT?type=spot',
   },
   {
     name: 'Gate',
