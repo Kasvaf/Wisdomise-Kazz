@@ -1,7 +1,8 @@
 import { zeroAddress } from 'viem';
 import { isProduction } from 'utils/version';
 
-export const WSDM_IS_ACTIVE = Date.now() > Date.UTC(2024, 4, 14, 11, 15);
+export const WSDM_IS_ACTIVE =
+  !isProduction || Date.now() > Date.UTC(2024, 4, 14, 11, 15);
 
 export const MERKLE_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
   ? zeroAddress
