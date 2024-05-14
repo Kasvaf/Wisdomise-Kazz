@@ -15,7 +15,7 @@ const EXCHANGES = [
   {
     name: 'Kucoin',
     icon: <Kucoin />,
-    url: 'https://www.kucoin.com/price/WSDM',
+    url: 'https://www.kucoin.com/trade/WSDM-USDT',
   },
   {
     name: 'HTX',
