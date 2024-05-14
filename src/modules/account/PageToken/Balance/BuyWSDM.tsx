@@ -18,24 +18,24 @@ const EXCHANGES = [
     url: 'https://www.kucoin.com/trade/WSDM-USDT',
   },
   {
-    name: 'HTX',
-    icon: <HTX />,
-    url: 'https://www.htx.com/trade/wsdm_usdt?type=spot',
-  },
-  {
-    name: 'Bitget',
-    icon: <Bitget />,
-    url: 'https://www.bitget.com/spot/WSDMUSDT?type=spot',
-  },
-  {
     name: 'Gate',
     icon: <Gate />,
     url: 'https://www.gate.io/trade/WSDM_USDT',
   },
   {
+    name: 'HTX',
+    icon: <HTX />,
+    url: 'https://www.htx.com/trade/wsdm_usdt?type=spot',
+  },
+  {
     name: 'MEXC',
     icon: <MEXC />,
     url: 'https://www.mexc.com/exchange/WSDM_USDT?_from=search_spot_trade',
+  },
+  {
+    name: 'Bitget',
+    icon: <Bitget />,
+    url: 'https://www.bitget.com/spot/WSDMUSDT?type=spot',
   },
 ];
 
