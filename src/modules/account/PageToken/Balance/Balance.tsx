@@ -13,7 +13,7 @@ import { ReactComponent as WSDMIcon } from '../icons/wsdm-token.svg';
 export default function Balance() {
   const { t } = useTranslation('wisdomise-token');
   const { data: wsdmBalance, refetch, isLoading } = useWsdmBalance();
-  const [isSpinning, setIsSpinnig] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
 
   return (
     <Card className="relative flex flex-col items-start justify-between gap-8">
@@ -28,9 +28,9 @@ export default function Balance() {
         variant="alternative"
         disabled={isLoading}
         onClick={() => {
-          setIsSpinnig(true);
+          setIsSpinning(true);
           void refetch();
-          setTimeout(() => setIsSpinnig(false), 1000);
+          setTimeout(() => setIsSpinning(false), 1000);
         }}
         className="!px-4 !py-2"
       >
