@@ -1,5 +1,6 @@
 import { useEffect, type PropsWithChildren, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 import { useAccountQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { analytics } from 'config/segment';
@@ -21,8 +22,9 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         userId: email,
         email,
       });
+      Sentry.setUser({ email, wallet_address: account.wallet_address });
     }
-  }, [account?.email]);
+  }, [account?.email, account?.wallet_address]);
 
   useEffect(() => {
     if (!account || !loading) return;
