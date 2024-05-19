@@ -48,3 +48,10 @@ export function useWriteWithdraw() {
     functionName: 'withdraw',
   });
 }
+
+export function useWriteLock() {
+  return useContractWrite({
+    ...lockingContractDefaultConfig,
+    functionName: 'lock',
+  });
+}

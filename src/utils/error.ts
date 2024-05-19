@@ -3,8 +3,12 @@ export function unwrapErrorMessage(e: any) {
 }
 
 export function extractWagmiErrorMessage(message: string) {
-  if (message.startsWith('User rejected')) {
+  if (isUserRejectionError(message)) {
     return message.split('.')[0];
   }
   return message;
+}
+
+export function isUserRejectionError(message: string) {
+  return message.startsWith('User rejected');
 }
