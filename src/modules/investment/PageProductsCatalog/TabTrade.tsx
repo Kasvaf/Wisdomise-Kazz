@@ -13,7 +13,10 @@ import ProductSubscriptionNotice from '../PageProductCatalogDetail/ProductSubscr
 import useIsFPRunning from '../useIsFPRunning';
 import ProductCard from './ProductCard';
 
-const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
+const ProductCardTrade: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
+  fp,
+  mine,
+}) => {
   const { t } = useTranslation('products');
   const isRunning = useIsFPRunning(fp.key);
 
@@ -25,6 +28,7 @@ const ProductCardTrade: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
       title={fp.title}
       icon={<CoinsIcons maxShow={3} coins={fp.config.assets} />}
       description={fp.description}
+      market={mine ? fp.market_names?.[0] : undefined}
       to={`/investment/products-catalog/fp/${fp.key}`}
       onClick={trackClick('ai_driven_strategies_list', {
         strategy_name: fp.title,
@@ -84,7 +88,9 @@ const TabTrade: React.FC<{ type: 'WISDOMISE' | 'MINE' | 'ALL' }> = ({
       )}
 
       <div className="grid grid-cols-1 gap-6 mobile:justify-center lg:grid-cols-2 xl:grid-cols-3">
-        {activeFps?.map(fp => <ProductCardTrade key={fp.key} fp={fp} />)}
+        {activeFps?.map(fp => (
+          <ProductCardTrade mine={type === 'MINE'} key={fp.key} fp={fp} />
+        ))}
       </div>
 
       {type === 'MINE' && !activeFps?.length && (

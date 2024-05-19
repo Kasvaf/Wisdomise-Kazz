@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import Badge from 'shared/Badge';
+import { type MarketTypes } from 'api/types/financialProduct';
 import RiskBadge from '../RiskBadge';
 
 interface RiskCardProps {
   className?: string;
   isRunning?: boolean;
   risk: 'High' | 'Medium' | 'Low';
+  market?: MarketTypes;
   type: string;
   title: string;
   icon: ReactElement;
@@ -23,6 +25,7 @@ interface RiskCardProps {
 const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
   isRunning = false,
   risk,
+  market,
   type,
   title,
   icon,
@@ -62,6 +65,9 @@ const ProductCard: React.FC<PropsWithChildren<RiskCardProps>> = ({
               className="!bg-white/5 px-3 py-1 text-xs font-normal !text-white/40"
             />
             <Badge label={type} color="grey" className="!text-xs" />
+            {market && (
+              <Badge label={market} color="grey" className="!text-xs" />
+            )}
           </div>
 
           <div className="flex items-center gap-1 text-xs">
