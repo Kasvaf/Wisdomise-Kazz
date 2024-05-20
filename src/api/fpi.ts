@@ -1,28 +1,15 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import {
-  type FinancialProductInstance,
-  type FpiPosition,
-} from './types/investorAssetStructure';
-import normalizePair from './normalizePair';
+import { type FpiPosition } from './types/investorAssetStructure';
 import { useInvestorAssetStructuresQuery } from './ias';
+import normalizePair from './normalizePair';
 
 export const useFpiQuery = (fpiKey?: string) => {
-  const ias = useInvestorAssetStructuresQuery();
-  return useQuery<FinancialProductInstance>(
-    ['fpid', fpiKey],
-    async () => {
-      if (!fpiKey) throw new Error('unexpected');
-      const one = ias?.data?.[0]?.financial_product_instances?.find(
-        x => x.key === fpiKey,
-      );
-      if (one) return one;
-      throw new Error('not found');
-    },
-    {
-      enabled: Boolean(fpiKey && !ias.isLoading),
-    },
-  );
+  const { data, isLoading } = useInvestorAssetStructuresQuery();
+  return {
+    isLoading,
+    data: data?.[0]?.financial_product_instances?.find(x => x.key === fpiKey),
+  };
 };
 
 const useFpiPositionHistoryFullQuery = (fpiKey?: string) =>

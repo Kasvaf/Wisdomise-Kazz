@@ -11,17 +11,12 @@ export const useUpdateFPIStatusMutation = () => {
     unknown,
     unknown,
     { fpiKey: string; status: FpiStatusMutationType }
-  >(
-    async data =>
-      await axios.post(
-        `/ias/financial-product-instances/${data.fpiKey}/${data.status}`,
-      ),
-    {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries(['ias']);
-      },
-    },
-  );
+  >(async data => {
+    await axios.post(
+      `/ias/financial-product-instances/${data.fpiKey}/${data.status}`,
+    );
+    await queryClient.invalidateQueries(['ias']);
+  });
 };
 
 export const useCreateFPIMutation = () => {
