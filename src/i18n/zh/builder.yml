@@ -82,8 +82,8 @@ signal-form:
     info-text: 指定信号保持有效的时间长度。
     info-title: 到期时间
     title: 到期时间
-  notif-success-close: 仓位已成功关闭并将在 90 秒后显示。
-  notif-success-fire: 信号发射成功并将在 90 秒后可见。
+  notif-success-close: 仓位成功平仓。
+  notif-success-fire: 信号发射成功。
   notif-success-update: 职位更新成功。
   order-expiration-time:
     info-text: 为限价订单的执行设定一个时间限制。如果订单在这段时间内没有成交，它将被自动取消。

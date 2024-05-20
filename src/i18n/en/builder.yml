@@ -88,8 +88,8 @@ signal-form:
     title: Expiration Time
     info-text: Specifies how long a signal remains valid for entry.
     info-title: Expiration Time
-  notif-success-close: Position closed successfully and will be visible in 90 seconds.
-  notif-success-fire: Signal fired successfully and will be visible in 90 seconds.
+  notif-success-close: Position closed successfully.
+  notif-success-fire: Signal fired successfully.
   notif-success-update: Position updated successfully.
   order-expiration-time:
     title: Order Expiration Time

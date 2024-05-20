@@ -82,8 +82,8 @@ signal-form:
     info-text: 信号がエントリに対して有効な期間を指定します。
     info-title: 有効期限
     title: 有効期限
-  notif-success-close: ポジションは正常にクローズされ、90 秒後に表示されます。
-  notif-success-fire: 信号は正常に発せられ、90 秒後に表示されます。
+  notif-success-close: ポジションは正常にクローズされました。
+  notif-success-fire: 信号は正常に発射されました。
   notif-success-update: 位置が正常に更新されました。
   order-expiration-time:
     info-text: 指値注文の実行に時間制限を設定します。この時間までに注文が約定しない場合は、自動的にキャンセルされます。

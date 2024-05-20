@@ -13,23 +13,34 @@ interface SignalPosition {
   suggested_action_expires_at: string;
 }
 
+// ----------------------------------------------------------------------------
+interface SignalItemBase {
+  key: string;
+  amount_ratio: number;
+}
+interface SignalItemExact extends SignalItemBase {
+  price_exact: number;
+}
+interface SignalItemRatio extends SignalItemBase {
+  price_ratio: number;
+}
+type SignalItem = SignalItemExact | SignalItemRatio;
+
+// ----------------------------------------------------------------------------
+
 interface Signal {
   action: 'open' | 'close' | 'update';
   pair: string; // "BTC/USDT",
-  leverage: {
+  leverage?: {
     value: number;
   };
   position: SignalPosition;
   stop_loss?: {
-    price: {
-      value: number;
-    };
-  } | null;
+    items: SignalItem[];
+  };
   take_profit?: {
-    price: {
-      value: number;
-    };
-  } | null;
+    items: SignalItem[];
+  };
 }
 
 export interface FullPosition extends RawPosition {
@@ -95,7 +106,7 @@ export const useMySignalerAllPositions = ({
     },
   );
 
-interface CreateSignalInput extends Omit<Signal, 'leverage'> {
+interface CreateSignalInput extends Signal {
   signalerKey: string;
 }
 
