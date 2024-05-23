@@ -10643,11 +10643,6 @@ react-hook-form@^7.51.4:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.51.4.tgz#c3a47aeb22b699c45de9fc12b58763606cb52f0c"
   integrity sha512-V14i8SEkh+V1gs6YtD0hdHYnoL4tp/HX/A45wWQN15CYr9bFRmmRdYStSO5L65lCCZRF+kYiSKhm9alqbcdiVA==
 
-react-hotjar@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.npmjs.org/react-hotjar/-/react-hotjar-5.5.0.tgz"
-  integrity sha512-cXp1DKUruibmbSvCCRl4hXLagT7fVUiFJbpXtVDovVjNxooClf7ZXdkkzbATpPSU4+IuvYP773T4vXXnjrV3dg==
-
 react-html-attributes@^1.4.6:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/react-html-attributes/-/react-html-attributes-1.4.6.tgz#9558b56bb81c60f6cee9ae7d5e97434a59c086ff"
