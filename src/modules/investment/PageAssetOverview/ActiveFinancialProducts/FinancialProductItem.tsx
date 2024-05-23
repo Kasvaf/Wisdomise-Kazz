@@ -21,7 +21,7 @@ const FinancialProductItem: React.FC<{
   const ias = useInvestorAssetStructuresQuery();
   const badges = (
     <div className="flex">
-      {[fpi.financial_product.asset_class.toLowerCase(), 'Spot'].map(e => (
+      {[fpi.financial_product.asset_class.toLowerCase()].map(e => (
         <Card
           key={e}
           className="mr-2 !px-2 !py-1 text-xxs leading-none text-white/20 first-letter:uppercase last:mr-0"

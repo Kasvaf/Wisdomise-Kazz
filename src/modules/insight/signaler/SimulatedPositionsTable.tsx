@@ -14,7 +14,7 @@ interface Position {
   pair_name: string;
   strategy?: ThinStrategy;
 
-  status: 'OPENING' | 'OPEN' | 'CLOSING' | 'CLOSED' | 'CANCELED';
+  status: 'OPENING' | 'OPEN' | 'CLOSING' | 'CLOSED' | 'CANCELLED';
   position_side: 'LONG' | 'SHORT';
   entry_time?: string;
   entry_price?: number;

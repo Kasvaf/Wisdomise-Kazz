@@ -9,6 +9,7 @@ import SignalsTable from './SignalsTable';
 import HotCoinSignal from './HotCoinSignal';
 import { SocialRadarOnboarding } from './SocialRadarOnboarding';
 import RecommendAccount from './RecommendAccount';
+import SetNotification from './SetNotification';
 
 export default function PageSocialRadar() {
   const signals = useCoinSignals();
@@ -29,7 +30,7 @@ export default function PageSocialRadar() {
 
         <div className="flex gap-3 mobile:flex-col mobile:gap-5">
           <RecommendAccount />
-          {/* <SetNotification /> */}
+          <SetNotification />
         </div>
       </div>
 

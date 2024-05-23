@@ -46,7 +46,7 @@ export default function CoinInfo() {
         title="Price"
         value={
           <>
-            {numerable.format(info.current_price, '0,0.00')}
+            {info.current_price}
             <span className="ml-[2px] text-xs">USDT</span>
           </>
         }

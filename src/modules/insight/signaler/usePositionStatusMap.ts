@@ -23,7 +23,7 @@ const usePositionStatusMap = () => {
           color: 'red',
           label: t('status.closed'),
         },
-        CANCELED: {
+        CANCELLED: {
           color: 'grey',
           label: t('status.canceled'),
         },
