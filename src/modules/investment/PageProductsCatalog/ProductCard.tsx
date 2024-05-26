@@ -80,7 +80,7 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
       >
         {isRunning ? (
           <>
-            <Icon name={bxsCog} className="mr-2 animate-spin" />
+            <Icon name={bxsCog} size={20} className="mr-2 animate-spin" />
             {t('product-catalog.state-running')}
             <Icon
               className="transition-all group-hover:ml-1"
