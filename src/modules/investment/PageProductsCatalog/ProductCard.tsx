@@ -25,8 +25,8 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
         strategy_name: fp.title,
       })}
       className={clsx(
-        'flex flex-col justify-between gap-6 overflow-hidden rounded-2xl bg-[#1A1B1F] !text-white',
-        'cursor-pointer border border-transparent hover:border-white/70 hover:saturate-200',
+        'group flex flex-col justify-between gap-6 overflow-hidden rounded-2xl bg-[#1A1B1F] !text-white',
+        'cursor-pointer transition-all hover:contrast-[1.1] hover:saturate-200',
       )}
     >
       <div className="flex h-12 items-center justify-center gap-1 bg-black/10 py-3">
@@ -86,7 +86,10 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
         ) : (
           <>
             {t('common:actions.explore')}
-            <Icon name={bxRightArrowAlt} />
+            <Icon
+              className="transition-all group-hover:ml-1"
+              name={bxRightArrowAlt}
+            />
           </>
         )}
       </div>
