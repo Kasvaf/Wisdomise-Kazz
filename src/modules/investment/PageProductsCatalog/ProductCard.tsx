@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { bxRightArrowAlt } from 'boxicons-quasar';
+import { bxRightArrowAlt, bxsCog } from 'boxicons-quasar';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import { trackClick } from 'config/segment';
 import { ReactComponent as LogoWisdomise } from 'assets/logo.svg';
@@ -78,10 +78,17 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
           'bg-gradient-to-r from-[#09090A]/30 to-[#2314364D]/30',
         )}
       >
-        {isRunning
-          ? t('product-catalog.state-running')
-          : t('common:actions.explore')}
-        <Icon name={bxRightArrowAlt} />
+        {isRunning ? (
+          <>
+            <Icon name={bxsCog} className="mr-2 animate-spin" />
+            {t('product-catalog.state-running')}
+          </>
+        ) : (
+          <>
+            {t('common:actions.explore')}
+            <Icon name={bxRightArrowAlt} />
+          </>
+        )}
       </div>
     </Link>
   );

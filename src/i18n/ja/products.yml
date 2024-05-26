@@ -147,7 +147,7 @@ subscription:
     description: この製品を使用するには、 <1>アップグレード</1> あなたの購読 <4>{{minPlan}}</4>。
     subtitle: 現在のサブスクリプションには、アクティベートしたいプロダクトが含まれていません。
     title: 今すぐサブスクリプションをアップグレードする
-user-product: ユーザー製品
+user-product: 私の製品
 wait-list:
   btn-explore: 洞察を探索する
   btn-join: 順番待ちリストに参加
