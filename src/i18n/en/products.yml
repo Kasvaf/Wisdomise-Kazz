@@ -51,6 +51,35 @@ fp-activation:
   your-wallet: Your Wallet
 fpi-page:
   title: Financial Product Details
+info:
+  performance:
+    title: Performance
+    info: >-
+      Reflects the historical returns of the investment. High performance
+      indicates strong past results, but is not a guarantee of future
+      performance.
+  risk:
+    title: Risk
+    info: >-
+      Evaluates the potential for financial loss in this investment. Higher risk
+      levels typically offer higher returns but also greater chances of loss.
+  side:
+    title: Side
+    futures: Long & Short
+    info: >-
+      Describes the trading strategy approach. 'Long' involves buying assets
+      anticipating price rises, while 'Short' involves selling assets
+      anticipating price drops.
+    spot: Long
+  volatility:
+    title: Volatility
+    considerable: Considerable
+    info: >-
+      Measures the rate at which the investment's price increases or decreases
+      for a given set of returns. Moderate volatility indicates less extreme
+      price fluctuations.
+    minimal: Minimal
+    moderate: Moderate
 list:
   title: Your Active Financial Products
   description: >-
@@ -128,7 +157,6 @@ product-detail:
     investment decision with regard to the services offered by Wisdomise
     (Switzerland) AG on the forward-looking statements expressed on this
     website.
-  expected-apy: Expected APY
   expected-max-drawdown: Expected Max Drawdown
   expected-yield-apy: Expected Yield (APY)
   investment: Investment
@@ -139,6 +167,9 @@ product-detail:
   min-subscription-level: Available with <1>{{minPlan}}</1> plan.
   risk:
     label: '{{risk}} Risk'
+    high: ''
+    low: ''
+    medium: ''
   tvl: TVL
   type:
     mine: My Products
@@ -180,32 +211,3 @@ wait-list:
     encourage you to explore our Proprietary Insights features to stay ahead of
     the market and continue enjoying high yields. Thank you!
   notif-success: You successfully joined wait list.
-info:
-  risk:
-    title: Risk
-    info: >-
-      Evaluates the potential for financial loss in this investment. Higher risk
-      levels typically offer higher returns but also greater chances of loss.
-  performance:
-    title: Performance
-    info: >-
-      Reflects the historical returns of the investment. High performance
-      indicates strong past results, but is not a guarantee of future
-      performance.
-  volatility:
-    title: Volatility
-    info: >-
-      Measures the rate at which the investment's price increases or decreases
-      for a given set of returns. Moderate volatility indicates less extreme
-      price fluctuations.
-    minimal: Minimal
-    moderate: Moderate
-    considerable: Considerable
-  side:
-    title: Side
-    info: >-
-      Describes the trading strategy approach. 'Long' involves buying assets
-      anticipating price rises, while 'Short' involves selling assets
-      anticipating price drops.
-    futures: Long & Short
-    spot: Long

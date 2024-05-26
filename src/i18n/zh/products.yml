@@ -37,6 +37,24 @@ fp-activation:
   your-wallet: 你的钱包
 fpi-page:
   title: 金融产品详情
+info:
+  performance:
+    info: 反映投资的历史回报。高绩效表明过去的业绩强劲，但并不能保证未来的业绩。
+    title: 表现
+  risk:
+    info: 评估此投资的财务损失可能性。风险水平越高，回报越高，但损失的可能性也越大。
+    title: 风险
+  side:
+    futures: 长短
+    info: 描述交易策略方法。“多头”指预期价格上涨而买入资产，而“空头”指预期价格下跌而卖出资产。
+    spot: 长的
+    title: 边
+  volatility:
+    considerable: 大量
+    info: 衡量给定收益条件下投资价格上涨或下跌的速度。中等波动率表示价格波动幅度较小。
+    minimal: 最小
+    moderate: 缓和
+    title: 挥发性
 list:
   add-new: 添加金融产品
   aum-in: 资产管理规模 {{title}}

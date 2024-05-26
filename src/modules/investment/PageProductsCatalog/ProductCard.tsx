@@ -64,16 +64,16 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
         <div className="border-b border-white/5 py-2" />
         <div className="mb-3 flex items-center gap-1 pt-3">
           {fp.config.subscription_level ? (
-            <Badge color="purple" label="Paid Plan" />
+            <Badge color="purple" label={t('common:paid-plan')} />
           ) : (
-            <Badge color="green" label="Free Plan" />
+            <Badge color="green" label={t('common:free-plan')} />
           )}
 
           {fp.market_names?.length &&
             (fp.market_names[0] === 'FUTURES' ? (
-              <Badge color="orange" label="Futures" />
+              <Badge color="orange" label={t('common:futures')} />
             ) : (
-              <Badge color="blue" label="Spot" />
+              <Badge color="blue" label={t('common:spot')} />
             ))}
         </div>
       </div>

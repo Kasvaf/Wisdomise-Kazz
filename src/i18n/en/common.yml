@@ -13,6 +13,8 @@ cryptocurrency: Cryptocurrency
 date: Date
 errors:
   field-required: This field may not be blank.
+free-plan: Free Plan
+futures: Futures
 loading-dot-dot-dot: Loading...
 market:
   long: Long
@@ -21,8 +23,10 @@ network: Network
 order-type:
   limit: Limit
   market: Market
-select-crypto: Select Crypto
+paid-plan: Paid Plan
 quality:
   high: High
   low: Low
   medium: Medium
+select-crypto: Select Crypto
+spot: Spot
