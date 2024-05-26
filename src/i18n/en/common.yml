@@ -22,3 +22,7 @@ order-type:
   limit: Limit
   market: Market
 select-crypto: Select Crypto
+quality:
+  high: High
+  low: Low
+  medium: Medium

@@ -139,9 +139,6 @@ product-detail:
   min-subscription-level: Available with <1>{{minPlan}}</1> plan.
   risk:
     label: '{{risk}} Risk'
-    high: High
-    low: Low
-    medium: Medium
   tvl: TVL
   type:
     mine: My Products
@@ -183,3 +180,32 @@ wait-list:
     encourage you to explore our Proprietary Insights features to stay ahead of
     the market and continue enjoying high yields. Thank you!
   notif-success: You successfully joined wait list.
+info:
+  risk:
+    title: Risk
+    info: >-
+      Evaluates the potential for financial loss in this investment. Higher risk
+      levels typically offer higher returns but also greater chances of loss.
+  performance:
+    title: Performance
+    info: >-
+      Reflects the historical returns of the investment. High performance
+      indicates strong past results, but is not a guarantee of future
+      performance.
+  volatility:
+    title: Volatility
+    info: >-
+      Measures the rate at which the investment's price increases or decreases
+      for a given set of returns. Moderate volatility indicates less extreme
+      price fluctuations.
+    minimal: Minimal
+    moderate: Moderate
+    considerable: Considerable
+  side:
+    title: Side
+    info: >-
+      Describes the trading strategy approach. 'Long' involves buying assets
+      anticipating price rises, while 'Short' involves selling assets
+      anticipating price drops.
+    futures: Long & Short
+    spot: Long

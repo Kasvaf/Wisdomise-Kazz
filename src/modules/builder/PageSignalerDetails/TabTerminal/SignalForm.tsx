@@ -278,7 +278,6 @@ const SignalForm: React.FC<Props> = ({
                 <div className="flex items-center">
                   {t('signal-form.expiration-time.title')}
                   <InfoButton
-                    size={10}
                     className="ml-1 !opacity-50"
                     title={t('signal-form.expiration-time.info-title')}
                     text={t('signal-form.expiration-time.info-text')}
@@ -293,7 +292,6 @@ const SignalForm: React.FC<Props> = ({
                 <div className="flex items-center">
                   {t('signal-form.order-expiration-time.title')}
                   <InfoButton
-                    size={10}
                     className="ml-1 !opacity-50"
                     title={t('signal-form.order-expiration-time.info-title')}
                     text={t('signal-form.order-expiration-time.info-text')}

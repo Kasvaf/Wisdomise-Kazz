@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
-import { bxQuestionMark } from 'boxicons-quasar';
+import { bxInfoCircle } from 'boxicons-quasar';
 import { useState } from 'react';
 import { Modal } from 'antd';
-import FabButton from './FabButton';
+import Icon from './Icon';
 
 interface Props {
   title?: string;
@@ -11,7 +11,7 @@ interface Props {
   size?: number;
 }
 
-const InfoButton: React.FC<Props> = ({ title, text, size = 12, className }) => {
+const InfoButton: React.FC<Props> = ({ title, text, size = 24, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -25,11 +25,14 @@ const InfoButton: React.FC<Props> = ({ title, text, size = 12, className }) => {
         {title && <div className="mb-4">{title}</div>}
         <div className="flex items-center text-white/70">{text}</div>
       </Modal>
-      <FabButton
-        className={clsx('opacity-70', className)}
-        size={size}
-        icon={bxQuestionMark}
+      <Icon
+        name={bxInfoCircle}
+        className={clsx(
+          'block cursor-pointer text-base text-white/40 hover:text-white',
+          className,
+        )}
         onClick={() => setIsOpen(true)}
+        size={size}
       />
     </>
   );
