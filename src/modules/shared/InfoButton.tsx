@@ -14,7 +14,12 @@ interface Props {
 const InfoButton: React.FC<Props> = ({ title, text, size = 24, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <>
+    <div
+      onClick={e => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       <Modal
         centered
         footer={false}
@@ -34,7 +39,7 @@ const InfoButton: React.FC<Props> = ({ title, text, size = 24, className }) => {
         onClick={() => setIsOpen(true)}
         size={size}
       />
-    </>
+    </div>
   );
 };
 
