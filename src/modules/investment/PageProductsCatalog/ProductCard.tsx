@@ -1,11 +1,13 @@
 import { clsx } from 'clsx';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { type FinancialProduct } from 'api/types/financialProduct';
+import { trackClick } from 'config/segment';
+import { ReactComponent as LogoWisdomise } from 'assets/logo.svg';
 import CoinsIcons from 'shared/CoinsIcons';
 import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
-import { ReactComponent as LogoWisdomise } from 'assets/logo.svg';
 import InfoButton from 'shared/InfoButton';
 import useIsFPRunning from '../useIsFPRunning';
 import useQualityLocales from '../useQualityLocales';
@@ -45,9 +47,13 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
   const isRunning = useIsFPRunning(fp.key);
 
   return (
-    <div
+    <Link
+      to={`/investment/products-catalog/fp/${fp.key}`}
+      onClick={trackClick('ai_driven_strategies_list', {
+        strategy_name: fp.title,
+      })}
       className={clsx(
-        'flex flex-col justify-between gap-6 overflow-hidden rounded-2xl bg-[#1A1B1F]',
+        'flex flex-col justify-between gap-6 overflow-hidden rounded-2xl bg-[#1A1B1F] !text-white',
         'cursor-pointer border border-transparent hover:border-white/70 hover:saturate-200',
       )}
     >
@@ -133,7 +139,7 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
           : t('common:actions.explore')}
         <Icon name={bxRightArrowAlt} />
       </div>
-    </div>
+    </Link>
   );
 };
 
