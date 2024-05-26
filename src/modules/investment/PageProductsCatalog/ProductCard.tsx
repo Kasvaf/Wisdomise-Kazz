@@ -49,7 +49,7 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
             </p>
           </div>
 
-          <CoinsIcons maxShow={3} coins={fp.config.assets} />
+          <CoinsIcons maxShow={2} coins={fp.config.assets} />
         </div>
         <div className="border-b border-white/5 py-2" />
         <div className="mb-3 flex items-center gap-1 pt-3">

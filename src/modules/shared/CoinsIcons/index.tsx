@@ -13,26 +13,30 @@ interface Props {
 const cdnIcon = (name: string) =>
   `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${name}.svg`;
 
-const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size, className }) => {
-  const [_coins, isMaxShowEnable] = useMemo(() => {
+const CoinsIcons: React.FC<Props> = ({
+  coins,
+  maxShow = Number.POSITIVE_INFINITY,
+  size,
+  className,
+}) => {
+  const _coins = useMemo(() => {
     const coinsArray = Array.isArray(coins)
       ? coins
       : coins.split('#').map(c => c.split('_')[1]?.toUpperCase());
 
-    return [
-      [...new Set(coinsArray)].filter(
-        (name, i) => name && i < (maxShow || Number.POSITIVE_INFINITY),
-      ),
-      coinsArray.length > (maxShow || Number.POSITIVE_INFINITY),
-    ];
-  }, [coins, maxShow]);
+    return [...new Set(coinsArray)].filter(Boolean);
+  }, [coins]);
+
+  const fCoins =
+    _coins.length > maxShow + 1 ? _coins.slice(0, maxShow) : _coins;
+  const excessCoins = _coins.length - fCoins.length;
 
   return (
     <Avatar.Group className={className}>
-      {_coins.map(c => (
+      {fCoins.map(c => (
         <div
           key={c}
-          className="grow-0 self-center rounded-full bg-white p-[1px]"
+          className="z-[1] grow-0 self-center rounded-full bg-white p-[1px]"
         >
           <Avatar
             size={size}
@@ -41,13 +45,12 @@ const CoinsIcons: React.FC<Props> = ({ coins, maxShow, size, className }) => {
           />
         </div>
       ))}
-      {isMaxShowEnable && (
-        <p
-          className="ml-2 ms-2 flex items-center text-nowrap text-white"
-          style={{ marginInlineStart: '0.5rem' }}
-        >
-          {'. . .'}
-        </p>
+      {!!excessCoins && (
+        <div className="z-[2] grow-0 self-center rounded-full bg-white p-[1px]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#5f5f62]">
+            +{excessCoins}
+          </div>
+        </div>
       )}
     </Avatar.Group>
   );
