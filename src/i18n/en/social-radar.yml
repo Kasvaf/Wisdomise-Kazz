@@ -84,4 +84,6 @@ set-notification:
       Don’t miss out on the next big opportunity in the crypto world. Our
       notification system lets you be the first to know about hot coins and
       fresh discoveries.
-  open-modal-btn: Set Notification
+  open-modal-btn:
+    not-set: Set Notification
+    set: Notification Is Set

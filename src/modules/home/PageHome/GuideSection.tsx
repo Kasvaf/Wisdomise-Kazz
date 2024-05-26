@@ -45,11 +45,12 @@ export default function GuideSection() {
         {/* <Card
           ok={hasIas}
           ctaTitle="Start"
-          active={hasSubscribedSignal}
           okTitle="Done - Connected"
+          active={hasSubscribedSignal}
           to="/account/exchange-accounts"
           title="2. Connect the Exchange"
           notOkTitle="Haven’t Connected Yet"
+          ctaSegmentEvent="onboarding_set_up_signal"
         />
         <Card
           okTitle=""
