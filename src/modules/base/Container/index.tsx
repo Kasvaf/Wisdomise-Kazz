@@ -10,6 +10,7 @@ import BottomNavBar from './BottomNavBar';
 import { AthenaFloatProvider } from './AthenaFloat/AthenaFloatProvider';
 import AthenaFloat from './AthenaFloat';
 import AthenaFloatDesktopIcon from './AthenaFloat/AthenaFloatDesktopIcon';
+import ScrollToTop from './ScrollToTop';
 
 const Container = () => {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -34,6 +35,7 @@ const Container = () => {
             <AthenaFloat />
             <BottomNavBar />
             <AthenaFloatDesktopIcon />
+            <ScrollToTop />
           </OnboardingMessageProvider>
         </main>
       </AthenaFloatProvider>
