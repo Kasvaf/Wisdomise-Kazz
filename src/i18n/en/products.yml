@@ -196,6 +196,7 @@ subscription:
       To use this product, you need to <1>Upgrade</1> your subscription to
       <4>{{minPlan}}</4>.
     btn-confirm: Upgrade
+user-product: User Product
 wait-list:
   title: Feature at Capacity
   btn-explore: Explore Insights

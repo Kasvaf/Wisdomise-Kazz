@@ -141,6 +141,7 @@ subscription:
     description: 要使用本产品，您需要 <1>升级</1> 您订阅 <4>{{minPlan}}</4>。
     subtitle: 您当前的订阅不包括您要激活的产品。
     title: 升级订阅
+user-product: 用户产品
 wait-list:
   btn-explore: 探索见解
   btn-join: 加入候补名单

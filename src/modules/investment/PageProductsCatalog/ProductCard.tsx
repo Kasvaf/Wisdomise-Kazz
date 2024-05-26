@@ -33,6 +33,7 @@ const InfoLine: React.FC<{
 
 const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
   fp,
+  mine,
 }) => {
   const { t } = useTranslation('products');
   const qualityLocales = useQualityLocales();
@@ -51,8 +52,14 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
       )}
     >
       <div className="flex h-12 items-center justify-center gap-1 bg-black/10 py-3">
-        <LogoWisdomise />
-        <span className="text-xs">Wisdomise</span>
+        {mine ? (
+          <>{t('user-product')}</>
+        ) : (
+          <>
+            <LogoWisdomise />
+            <span className="text-xs">Wisdomise</span>
+          </>
+        )}
       </div>
 
       <div className="px-3">
