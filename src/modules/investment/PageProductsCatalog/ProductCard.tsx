@@ -44,7 +44,12 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
   const isRunning = useIsFPRunning(fp.key);
 
   return (
-    <div className="flex flex-col justify-between gap-6 overflow-hidden rounded-2xl bg-[#1A1B1F]">
+    <div
+      className={clsx(
+        'flex flex-col justify-between gap-6 overflow-hidden rounded-2xl bg-[#1A1B1F]',
+        'cursor-pointer border border-transparent hover:border-white/70 hover:saturate-200',
+      )}
+    >
       <div className="flex h-12 items-center justify-center gap-1 bg-black/10 py-3">
         <LogoWisdomise />
         <span className="text-xs">Wisdomise</span>
