@@ -35,11 +35,13 @@ const ProductInfoLines: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
 
   return (
     <>
-      <InfoLine
-        label={t('info.risk.title')}
-        value={qualityLocales(fp?.profile.return_risk_ratio || '')}
-        info={t('info.risk.info')}
-      />
+      {fp?.profile.return_risk_ratio && (
+        <InfoLine
+          label={t('info.risk.title')}
+          value={qualityLocales(fp?.profile.return_risk_ratio || '')}
+          info={t('info.risk.info')}
+        />
+      )}
       {fp?.profile.performance && (
         <InfoLine
           label={t('info.performance.title')}
@@ -57,7 +59,7 @@ const ProductInfoLines: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
       <InfoLine
         label={t('info.side.title')}
         value={
-          fp?.market_names?.[0] === 'FUTURES'
+          (fp?.config.market_type || fp?.market_names?.[0]) === 'FUTURES'
             ? t('info.side.futures')
             : t('info.side.spot')
         }
