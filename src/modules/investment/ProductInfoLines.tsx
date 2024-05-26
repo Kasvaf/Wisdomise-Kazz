@@ -33,6 +33,10 @@ const ProductInfoLines: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
     Considerable: t('info.volatility.considerable'),
   };
 
+  const market = (
+    fp?.config.market_type || fp?.market_names?.[0]
+  )?.toUpperCase();
+
   return (
     <>
       {fp?.profile.return_risk_ratio && (
@@ -59,9 +63,7 @@ const ProductInfoLines: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
       <InfoLine
         label={t('info.side.title')}
         value={
-          (fp?.config.market_type || fp?.market_names?.[0]) === 'FUTURES'
-            ? t('info.side.futures')
-            : t('info.side.spot')
+          market === 'FUTURES' ? t('info.side.futures') : t('info.side.spot')
         }
         info={t('info.side.info')}
         noBorder
