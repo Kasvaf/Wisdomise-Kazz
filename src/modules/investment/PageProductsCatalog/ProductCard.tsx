@@ -69,7 +69,7 @@ const ProductCard: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
             <Badge color="green" label={t('common:free-plan')} />
           )}
 
-          {fp.market_names?.length &&
+          {Boolean(fp.market_names?.length) &&
             (fp.market_names[0] === 'FUTURES' ? (
               <Badge color="orange" label={t('common:futures')} />
             ) : (
