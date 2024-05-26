@@ -13,6 +13,8 @@ cryptocurrency: 仮想通貨
 date: 日付
 errors:
   field-required: このフィールドは空白にできません。
+free-plan: 無料プラン
+futures: 先物
 loading: 読み込み中…
 loading-dot-dot-dot: 読み込み中...
 market:
@@ -22,4 +24,10 @@ network: ネットワーク
 order-type:
   limit: 限界
   market: 市場（マーケット）
+paid-plan: 有料プラン
+quality:
+  high: 高い
+  low: 低い
+  medium: 中くらい
 select-crypto: 暗号を選択
+spot: スポット

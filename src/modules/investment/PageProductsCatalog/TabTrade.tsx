@@ -4,60 +4,8 @@ import {
   useInvestorAssetStructuresQuery,
   useFinancialProductsQuery,
 } from 'api';
-import { type FinancialProduct } from 'api/types/financialProduct';
-import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
-import PriceChange from 'shared/PriceChange';
-import CoinsIcons from 'shared/CoinsIcons';
-import ProductSubscriptionNotice from '../PageProductCatalogDetail/ProductSubscriptionNotice';
-import useIsFPRunning from '../useIsFPRunning';
 import ProductCard from './ProductCard';
-
-const ProductCardTrade: React.FC<{ fp: FinancialProduct; mine: boolean }> = ({
-  fp,
-  mine,
-}) => {
-  const { t } = useTranslation('products');
-  const isRunning = useIsFPRunning(fp.key);
-
-  return (
-    <ProductCard
-      isRunning={isRunning}
-      risk={fp.profile.return_risk_ratio}
-      type={t('product-detail.type.trade')}
-      title={fp.title}
-      icon={<CoinsIcons maxShow={3} coins={fp.config.assets} />}
-      description={fp.description}
-      market={mine ? fp.market_names?.[0] : undefined}
-      to={`/investment/products-catalog/fp/${fp.key}`}
-      onClick={trackClick('ai_driven_strategies_list', {
-        strategy_name: fp.title,
-      })}
-      notice={<ProductSubscriptionNotice fp={fp} />}
-    >
-      <div className="text-left">
-        <p className="text-xl font-normal">
-          {Math.abs(Number(fp.profile.max_drawdown.replace('%', '')))} %
-        </p>
-        <p className="font-normal text-white/30">
-          {t('product-detail.max-drawdown')}
-        </p>
-      </div>
-
-      <div className="text-center">
-        <PriceChange
-          valueToFixed={false}
-          value={Number(fp.profile.expected_yield.replace('%', ''))}
-          className="!justify-center"
-          textClassName="!text-xl font-normal"
-        />
-        <p className="font-normal text-white/30">
-          {t('product-detail.expected-apy')}
-        </p>
-      </div>
-    </ProductCard>
-  );
-};
 
 const TabTrade: React.FC<{ type: 'WISDOMISE' | 'MINE' | 'ALL' }> = ({
   type,
@@ -87,9 +35,9 @@ const TabTrade: React.FC<{ type: 'WISDOMISE' | 'MINE' | 'ALL' }> = ({
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-6 mobile:justify-center lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 mobile:justify-center lg:grid-cols-2 xl:grid-cols-4">
         {activeFps?.map(fp => (
-          <ProductCardTrade mine={type === 'MINE'} key={fp.key} fp={fp} />
+          <ProductCard mine={type === 'MINE'} key={fp.key} fp={fp} />
         ))}
       </div>
 

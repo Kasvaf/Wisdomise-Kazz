@@ -35,6 +35,24 @@ fp-activation:
   your-wallet: あなたの財布
 fpi-page:
   title: 金融商品の詳細
+info:
+  performance:
+    info: 投資の過去の収益を反映します。高いパフォーマンスは過去の優れた結果を示しますが、将来のパフォーマンスを保証するものではありません。
+    title: 実行
+  risk:
+    info: この投資における経済的損失の可能性を評価します。通常、リスク レベルが高いほど、収益は高くなりますが、損失の可能性も高くなります。
+    title: 危険
+  side:
+    futures: ロング＆ショート
+    info: 取引戦略のアプローチについて説明します。「ロング」では価格の上昇を予想して資産を購入し、「ショート」では価格の下落を予想して資産を売却します。
+    spot: 長さ
+    title: 側
+  volatility:
+    considerable: かなり
+    info: 特定の収益に対して投資価格が上昇または下降する率を測定します。中程度のボラティリティは、価格変動がそれほど極端ではないことを示します。
+    minimal: 最小限
+    moderate: 適度
+    title: ボラティリティ
 list:
   add-new: 金融商品の追加
   aum-in: 運用資産額 {{title}}
@@ -129,6 +147,7 @@ subscription:
     description: この製品を使用するには、 <1>アップグレード</1> あなたの購読 <4>{{minPlan}}</4>。
     subtitle: 現在のサブスクリプションには、アクティベートしたいプロダクトが含まれていません。
     title: 今すぐサブスクリプションをアップグレードする
+user-product: 私の製品
 wait-list:
   btn-explore: 洞察を探索する
   btn-join: 順番待ちリストに参加
