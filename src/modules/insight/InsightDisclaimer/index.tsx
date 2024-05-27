@@ -43,15 +43,13 @@ function InsightDisclaimer() {
       </section>
 
       <section className="mt-6 flex items-center justify-end">
-        <Button variant="alternative" className="!rounded !p-2">
-          {t('onboarding.got-it')}
-        </Button>
-        <button
+        <Button
+          variant="alternative"
+          className="!rounded !p-2"
           onClick={closeMessage}
-          className={clsx('hidden items-center gap-1 rounded bg-white/10 p-2')}
         >
           {t('onboarding.got-it')}
-        </button>
+        </Button>
       </section>
     </div>
   );
