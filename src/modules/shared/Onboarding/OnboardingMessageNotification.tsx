@@ -21,7 +21,7 @@ export default function OnboardingMessageNotification() {
   return (
     <div
       className={clsx(
-        'absolute bottom-14 right-6 min-w-[500px] max-w-[550px] rounded-xl p-6 pt-8 text-white',
+        'absolute bottom-14 right-6 z-[2] min-w-[500px] max-w-[550px] rounded-xl p-6 pt-8 text-white',
         'onboarding-modal mobile:hidden',
       )}
     >

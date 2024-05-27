@@ -4,6 +4,7 @@ import { Tabs, type TabsProps } from 'antd';
 import { type PropsWithChildren } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import InsightDisclaimer from '../InsightDisclaimer';
 import BestPerforming from './BestPerforming';
 import SignalMatrix from './SignalMatrix';
 import { SignalMatrixOnboarding } from './SignalMatrixOnboarding';
@@ -57,6 +58,7 @@ const PageSignalsMatrix: React.FC = () => {
 
   return (
     <PageWrapper>
+      <InsightDisclaimer />
       <SignalMatrixOnboarding />
       <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
     </PageWrapper>

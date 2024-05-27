@@ -4,6 +4,9 @@ error-page:
   btn-reload: 重新加载
   subtitle: 但我们会尽力避免类似情况再次发生。
   title: 出了点问题，我们不知道怎么办:(
+insight-declaimer:
+  content: Wisdomise 的见解和信号并非财务建议。请自行承担风险并酌情使用。请自行研究或咨询财务顾问（如有必要）。
+  title: 免责声明
 language: 语言
 links:
   about-us: 关于我们
