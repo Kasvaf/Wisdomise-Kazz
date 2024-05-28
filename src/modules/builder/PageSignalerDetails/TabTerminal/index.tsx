@@ -6,11 +6,14 @@ import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositions
 import ActivePosition from 'modules/insight/signaler/ActivePosition';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
+import useIsMobile from 'utils/useIsMobile';
 import AssetSelector from '../../AssetSelector';
 import SignalForm from './SignalForm';
+import CoinInfo from './CoinInfo';
 
 const TabTerminal = () => {
   const { t } = useTranslation('strategy');
+  const isMobile = useIsMobile();
   const params = useParams<{ id: string }>();
   const { data: signaler } = useSignalerQuery(params.id);
   const [assetName, setAssetName] = useSearchParamAsState('asset');
@@ -36,16 +39,21 @@ const TabTerminal = () => {
   return (
     <div className="mt-8">
       <div className="mb-8 flex flex-col justify-start gap-4 border-b border-white/5 pb-8">
-        <AssetSelector
-          label={t('common:crypto')}
-          placeholder={t('common:select-crypto')}
-          assets={signaler?.assets.map(x => x.name)}
-          selectedItem={assetName}
-          onSelect={setAssetName}
-          className="w-[250px] mobile:w-full"
-          selectFirst
-          market={signaler?.market_name}
-        />
+        <div className="flex items-end gap-3">
+          <AssetSelector
+            label={t('common:crypto')}
+            placeholder={t('common:select-crypto')}
+            assets={signaler?.assets.map(x => x.name)}
+            selectedItem={assetName}
+            onSelect={setAssetName}
+            className="w-[250px] mobile:w-full"
+            comboClassName="!h-14"
+            selectFirst
+            market={signaler?.market_name}
+          />
+
+          {!isMobile && <CoinInfo assetName={assetName} />}
+        </div>
 
         {!isLoading && assetName && (
           <div className="mt-6">
