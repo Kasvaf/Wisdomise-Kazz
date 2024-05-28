@@ -1,21 +1,18 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from 'usehooks-ts';
-import { useLocation } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from 'shared/Onboarding/icons/close.svg';
 import Button from 'shared/Button';
 import { ReactComponent as WarnIcon } from './warn.svg';
 
 function InsightDisclaimer() {
   const { t } = useTranslation('base');
-  const { pathname } = useLocation();
-  const [isClosed, setIsClosed] = useLocalStorage<string[]>(
-    'insight-disclaimer',
-    [],
+  const [isClosed, setIsClosed] = useLocalStorage<boolean>(
+    'i-disclaimer-closed',
+    false,
   );
-  const isOpen = !isClosed.includes(pathname);
   const closeMessage = () => {
-    setIsClosed(x => [...x, pathname]);
+    setIsClosed(true);
   };
 
   return (
@@ -23,7 +20,7 @@ function InsightDisclaimer() {
       className={clsx(
         'absolute right-6 top-0 z-[2] min-w-[500px] max-w-[550px] rounded-xl p-6 pt-8 text-white',
         'onboarding-modal mobile:hidden',
-        !isOpen && 'hidden',
+        isClosed && 'hidden',
       )}
     >
       <CloseIcon
