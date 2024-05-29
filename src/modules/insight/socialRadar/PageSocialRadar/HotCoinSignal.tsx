@@ -6,6 +6,7 @@ import CoinsIcons from 'modules/shared/CoinsIcons';
 import { useHasFlag, type CoinSignal } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
 import Icon from 'modules/shared/Icon';
+import { track } from 'config/segment';
 import SideSuggestGauge from './SideSuggestGauge';
 
 export default function HotCoinSignal({ data }: { data: CoinSignal }) {
@@ -16,6 +17,12 @@ export default function HotCoinSignal({ data }: { data: CoinSignal }) {
     <NavLink
       to={`/insight/social-radar/${data.symbol_name}`}
       className="flex flex-col rounded-2xl bg-black/30 p-6 transition-colors hover:bg-black/20 mobile:p-5"
+      onClick={() =>
+        track('Click On', {
+          place: 'social_radar_explore',
+          coin: data.symbol_name,
+        })
+      }
     >
       <div className="flex justify-between border-b border-white/5 pb-4">
         <div className="flex items-center gap-2">

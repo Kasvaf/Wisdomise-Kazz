@@ -1,9 +1,11 @@
 import * as numerable from 'numerable';
 import { Trans, useTranslation } from 'react-i18next';
+import { useEffectOnce } from 'usehooks-ts';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useCoinSignals, useMarketInfoFromSignals } from 'api';
 import BetaVersion from 'shared/BetaVersion';
 import InsightDisclaimer from 'modules/insight/InsightDisclaimer';
+import { track } from 'config/segment';
 import img1 from './images/img1.png';
 import infoImg from './images/info.svg';
 import SignalsTable from './SignalsTable';
@@ -16,6 +18,9 @@ export default function PageSocialRadar() {
   const signals = useCoinSignals();
   const { t } = useTranslation('social-radar');
   const marketInfo = useMarketInfoFromSignals();
+  useEffectOnce(() => {
+    track('Feedback Social Radar');
+  });
 
   return (
     <PageWrapper

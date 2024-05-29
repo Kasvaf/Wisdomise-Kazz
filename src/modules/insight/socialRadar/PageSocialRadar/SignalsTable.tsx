@@ -10,6 +10,7 @@ import PriceChange from 'modules/shared/PriceChange';
 import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import Icon from 'shared/Icon';
+import { track } from 'config/segment';
 
 export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
   const { t } = useTranslation('social-radar');
@@ -95,6 +96,12 @@ export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
           <NavLink
             to={'/insight/social-radar/' + row.symbol_name}
             className="mx-auto inline-flex items-center justify-end text-sm opacity-40"
+            onClick={() =>
+              track('Click On', {
+                place: 'social_radar_explore',
+                coin: row.symbol_name,
+              })
+            }
           >
             <p className="leading-none">{t('hot-coins.signals')}</p>
             <Icon name={bxRightArrowAlt} />
