@@ -1,5 +1,6 @@
 import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { clsx } from 'clsx';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import {
@@ -7,27 +8,36 @@ import {
   useIsSubscribedToSocialRadarNotification,
   useToggleSubscribeToSocialRadarNotification,
 } from 'api';
+import { track } from 'config/segment';
 import { ReactComponent as NotificationIcon } from './images/notification.svg';
-import { ReactComponent as NotificationModalIcon } from './images/noti-modal.svg';
+import { ReactComponent as NotificationIsSetIcon } from './images/notif-is-set.svg';
+import { ReactComponent as NotificationModalIcon } from './images/notif-modal.svg';
 
 export default function SetNotification() {
-  useIsSubscribedToSocialRadarNotification();
   const { t } = useTranslation('social-radar');
   const [modal, open] = useModal(SetNotificationModal);
+  const { data: isSubscribed } = useIsSubscribedToSocialRadarNotification();
 
   return (
-    <>
+    <div>
       <Button
-        onClick={open}
+        onClick={e => {
+          track('Click On', {
+            place: 'social_radar_notification',
+          });
+          void open(e);
+        }}
         variant="primary"
-        className="h-10 !py-1"
-        contentClassName="flex gap-1"
+        className={clsx('h-10 w-full !py-1', isSubscribed && '!bg-white/10')}
+        contentClassName={clsx('flex gap-1', isSubscribed && 'text-white')}
       >
-        <NotificationIcon />
-        {t('set-notification.open-modal-btn')}
+        {isSubscribed ? <NotificationIsSetIcon /> : <NotificationIcon />}
+        {isSubscribed
+          ? t('set-notification.open-modal-btn.set')
+          : t('set-notification.open-modal-btn.not-set')}
       </Button>
       {modal}
-    </>
+    </div>
   );
 }
 
@@ -68,7 +78,13 @@ const SetNotificationModal = () => {
           <Switch
             checked={isSubscribed.data}
             loading={toggleSubscription.isLoading}
-            onChange={() => toggleSubscription.mutate()}
+            onChange={value => {
+              track('Click On', {
+                place: 'social_radar_notification_changed',
+                status: value ? 'on' : 'off',
+              });
+              toggleSubscription.mutate();
+            }}
           />
         </div>
       </div>

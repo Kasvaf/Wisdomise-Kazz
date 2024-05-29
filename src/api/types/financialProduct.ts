@@ -43,6 +43,8 @@ interface Profile {
   max_drawdown: string;
   expected_yield: string;
   return_risk_ratio: 'High' | 'Medium' | 'Low';
+  performance?: 'High' | 'Medium' | 'Low';
+  volatility?: 'Minimal' | 'Moderate' | 'Considerable';
 }
 
 export interface Config {

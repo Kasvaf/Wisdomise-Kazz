@@ -79,5 +79,7 @@ set-notification:
     period: 时期
     sub-title: 不要错过加密货币世界的下一个重大机遇。我们的通知系统让您第一时间了解热门货币和新发现。
     title: 社交雷达通知
-  open-modal-btn: 设置通知
+  open-modal-btn:
+    not-set: 设置通知
+    set: 已设置通知
 title: 社会雷达

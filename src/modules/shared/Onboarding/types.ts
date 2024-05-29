@@ -7,6 +7,16 @@ export type OnboardingMessageSections = Array<{
   video?: string;
 }>;
 
+export interface OnboardingMessageEvents {
+  onIntract?: (
+    segmentKey:
+      | 'gotit'
+      | `next_in_step${number}`
+      | `back_in_step${number}`
+      | `close_in_step${number}`,
+  ) => void;
+}
+
 export interface OnboardingMessageContextInterface {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -14,4 +24,6 @@ export interface OnboardingMessageContextInterface {
   closeMessage: () => void;
   sections: OnboardingMessageSections | null;
   setSections: (sections: OnboardingMessageSections | null) => void;
+  events: OnboardingMessageEvents;
+  setEvents: Dispatch<SetStateAction<OnboardingMessageEvents>>;
 }

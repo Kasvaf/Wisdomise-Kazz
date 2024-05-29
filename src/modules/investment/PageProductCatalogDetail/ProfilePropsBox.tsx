@@ -1,34 +1,12 @@
-import { useTranslation } from 'react-i18next';
 import { type FinancialProduct } from 'api/types/financialProduct';
-import PriceChange from 'shared/PriceChange';
 import Card from 'shared/Card';
+import ProductInfoLines from '../ProductInfoLines';
 import ProductSubscriptionNotice from './ProductSubscriptionNotice';
 
 const ProfilePropsBox: React.FC<{ fp?: FinancialProduct }> = ({ fp }) => {
-  const { t } = useTranslation('products');
-
   return (
     <Card className="!px-4 !py-6 text-sm font-medium">
-      <div className="mb-4 flex justify-between">
-        <p className="text-white">{t('product-detail.expected-yield-apy')}</p>
-        <PriceChange
-          valueToFixed={false}
-          value={Number(fp?.profile.expected_yield.replace('%', ''))}
-        />
-      </div>
-
-      <div className="flex justify-between">
-        <p className="text-white">
-          {t('product-detail.expected-max-drawdown')}
-        </p>
-        <PriceChange
-          bg={false}
-          colorize={false}
-          valueToFixed={false}
-          value={Number(fp?.profile.max_drawdown.replace('%', ''))}
-        />
-      </div>
-
+      <ProductInfoLines fp={fp} />
       {fp && <ProductSubscriptionNotice className="mt-4" fp={fp} />}
     </Card>
   );

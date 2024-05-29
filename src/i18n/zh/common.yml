@@ -13,6 +13,8 @@ cryptocurrency: 加密货币
 date: 日期
 errors:
   field-required: 该字段不能为空。
+free-plan: 免费计划
+futures: 期货
 loading: 加载中...
 loading-dot-dot-dot: 加载中...
 market:
@@ -22,4 +24,10 @@ network: 网络
 order-type:
   limit: 限制
   market: 市场
+paid-plan: 付费计划
+quality:
+  high: 高的
+  low: 低的
+  medium: 中等的
 select-crypto: 暗号を選択
+spot: 点

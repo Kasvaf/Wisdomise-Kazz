@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { v4 } from 'uuid';
 import {
   type SignalerData,
   type FullPosition,
@@ -148,6 +149,7 @@ const SignalForm: React.FC<Props> = ({
         signalerKey: signaler.key,
         action: 'open',
         pair: assetName,
+        leverage: { value: 1 },
         position: {
           type: signaler?.market_name === 'SPOT' ? 'long' : market,
           order_type: orderType,
@@ -161,10 +163,22 @@ const SignalForm: React.FC<Props> = ({
           order_expires_at: parseDur(orderExp),
         },
         take_profit: {
-          price: { value: Number.parseFloat(tp) },
+          items: [
+            {
+              key: v4(),
+              amount_ratio: 1,
+              price_exact: Number.parseFloat(tp),
+            },
+          ],
         },
         stop_loss: {
-          price: { value: Number.parseFloat(sl) },
+          items: [
+            {
+              key: v4(),
+              amount_ratio: 1,
+              price_exact: Number.parseFloat(sl),
+            },
+          ],
         },
       });
       notification.success({
@@ -192,7 +206,10 @@ const SignalForm: React.FC<Props> = ({
         position: {
           ...activePosition.signal.position,
           order_type: 'market',
+          price: undefined,
         },
+        stop_loss: { items: [] },
+        take_profit: { items: [] },
       });
       notification.success({
         message: t('signal-form.notif-success-close'),
@@ -218,10 +235,22 @@ const SignalForm: React.FC<Props> = ({
         ...activePosition.signal,
         action: 'update',
         take_profit: {
-          price: { value: Number.parseFloat(tp) },
+          items: [
+            {
+              key: v4(),
+              amount_ratio: 1,
+              price_exact: Number.parseFloat(tp),
+            },
+          ],
         },
         stop_loss: {
-          price: { value: Number.parseFloat(sl) },
+          items: [
+            {
+              key: v4(),
+              amount_ratio: 1,
+              price_exact: Number.parseFloat(sl),
+            },
+          ],
         },
       });
       notification.success({ message: t('signal-form.notif-success-update') });
@@ -278,7 +307,6 @@ const SignalForm: React.FC<Props> = ({
                 <div className="flex items-center">
                   {t('signal-form.expiration-time.title')}
                   <InfoButton
-                    size={10}
                     className="ml-1 !opacity-50"
                     title={t('signal-form.expiration-time.info-title')}
                     text={t('signal-form.expiration-time.info-text')}
@@ -293,7 +321,6 @@ const SignalForm: React.FC<Props> = ({
                 <div className="flex items-center">
                   {t('signal-form.order-expiration-time.title')}
                   <InfoButton
-                    size={10}
                     className="ml-1 !opacity-50"
                     title={t('signal-form.order-expiration-time.info-title')}
                     text={t('signal-form.order-expiration-time.info-text')}

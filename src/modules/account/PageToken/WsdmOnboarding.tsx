@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import YouTube from 'react-youtube';
+import { track } from 'config/segment';
 import { Onboarding } from 'shared/Onboarding';
 
 export function WsdmOnboarding() {
@@ -35,5 +36,16 @@ export function WsdmOnboarding() {
     [t],
   );
 
-  return <Onboarding sections={sections} />;
+  return (
+    <Onboarding
+      sections={sections}
+      onIntract={segmentKey =>
+        track('Click On', {
+          place: 'wizard',
+          where: 'wsdm',
+          step: segmentKey,
+        })
+      }
+    />
+  );
 }

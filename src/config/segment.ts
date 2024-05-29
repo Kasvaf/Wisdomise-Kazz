@@ -18,3 +18,13 @@ export const trackClick =
   () => {
     void analytics.track('click_on', { place, location: 'dashboard', ...rest });
   };
+
+export const track = (
+  eventName: 'click_on' | 'Click On' | `Feedback ${string}`,
+  payload: Record<string, string | number> = {},
+) => {
+  void analytics.track(eventName, {
+    location: 'dashboard',
+    ...payload,
+  });
+};

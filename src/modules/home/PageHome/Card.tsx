@@ -92,7 +92,7 @@ export default function Card(props: Props) {
 
         <NavLink
           to={to}
-          onClick={() => ctaSegmentEvent && trackClick(ctaSegmentEvent)}
+          onClick={() => ctaSegmentEvent && trackClick(ctaSegmentEvent)()}
           className="ml-auto flex items-center gap-1 text-sm font-medium mobile:text-xs"
         >
           {ctaTitle || t('explore')} <ArrowIcon />

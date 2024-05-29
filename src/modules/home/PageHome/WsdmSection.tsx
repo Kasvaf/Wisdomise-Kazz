@@ -23,6 +23,7 @@ export default function WsdmSection() {
             icon={AirdropIcon}
             to="/account/token"
             title={t('wsdm.claim-airdrop.title')}
+            ctaSegmentEvent="onboarding_WSDM_aridrop"
             description={t('wsdm.claim-airdrop.description')}
           />
         </div>
@@ -31,6 +32,7 @@ export default function WsdmSection() {
           to="/account/token"
           videoId="s-Z27Phzqu8"
           title={t('wsdm.activate-utility.title')}
+          ctaSegmentEvent="onboarding_WSDM_utility"
           description={t('wsdm.activate-utility.description')}
         />
         <Card
@@ -38,6 +40,7 @@ export default function WsdmSection() {
           to="/account/token"
           videoId="jdMFq0vU7-U"
           title={t('wsdm.vesting-schedule.title')}
+          ctaSegmentEvent="onboarding_WSDM_vesting"
           description={t('wsdm.vesting-schedule.description')}
         />
       </section>

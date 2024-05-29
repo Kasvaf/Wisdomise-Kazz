@@ -5,13 +5,13 @@ import { type InvestmentProtocol } from 'api/types/financialProduct';
 import { trackClick } from 'config/segment';
 import PageWrapper from 'modules/base/PageWrapper';
 import PriceChange from 'shared/PriceChange';
-import ProductCard from './ProductCard';
+import StakeCard from './StakeCard';
 
 const ProductCardStake: React.FC<{ ip: InvestmentProtocol }> = ({ ip }) => {
   const { t } = useTranslation('products');
 
   return (
-    <ProductCard
+    <StakeCard
       risk={ip.risk}
       type={t('product-detail.type.stake')}
       title={ip.name}
@@ -40,7 +40,7 @@ const ProductCardStake: React.FC<{ ip: InvestmentProtocol }> = ({ ip }) => {
           {t('product-detail.max-apy')}
         </p>
       </div>
-    </ProductCard>
+    </StakeCard>
   );
 };
 

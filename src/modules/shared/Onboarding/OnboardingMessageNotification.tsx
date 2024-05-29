@@ -11,7 +11,7 @@ import { useOnboardingMessage } from './utils';
 export default function OnboardingMessageNotification() {
   const { t } = useTranslation('base');
   const [currentSec, setCurrentSec] = useState(0);
-  const { sections, isOpen, closeMessage } = useOnboardingMessage();
+  const { sections, isOpen, closeMessage, events } = useOnboardingMessage();
   const message = sections?.[currentSec];
 
   if (!message || !isOpen) {
@@ -21,12 +21,19 @@ export default function OnboardingMessageNotification() {
   return (
     <div
       className={clsx(
-        'absolute bottom-14 right-6 min-w-[500px] max-w-[550px] rounded-xl p-6 pt-8 text-white',
+        'absolute bottom-14 right-6 z-[2] min-w-[500px] max-w-[550px] rounded-xl p-6 pt-8 text-white',
         'onboarding-modal mobile:hidden',
       )}
     >
       <CloseIcon
-        onClick={closeMessage}
+        onClick={() => {
+          events.onIntract?.(
+            currentSec === sections.length - 1
+              ? 'gotit'
+              : `close_in_step${currentSec + 1}`,
+          );
+          closeMessage();
+        }}
         className="absolute right-4 top-4 cursor-pointer"
       />
 
@@ -78,7 +85,10 @@ export default function OnboardingMessageNotification() {
                 'p-2 text-white/70',
                 currentSec === 0 && 'invisible',
               )}
-              onClick={() => setCurrentSec(pre => --pre)}
+              onClick={() => {
+                events.onIntract?.(`back_in_step${currentSec + 1}`);
+                setCurrentSec(pre => --pre);
+              }}
             >
               {t('onboarding.back')}
             </button>
@@ -87,13 +97,19 @@ export default function OnboardingMessageNotification() {
                 'flex items-center gap-1 p-2',
                 currentSec === sections.length - 1 && 'hidden',
               )}
-              onClick={() => setCurrentSec(pre => ++pre)}
+              onClick={() => {
+                events.onIntract?.(`next_in_step${currentSec + 1}`);
+                setCurrentSec(pre => ++pre);
+              }}
             >
               {t('onboarding.next')} <Icon name={bxRightArrowAlt} />
             </button>
 
             <button
-              onClick={closeMessage}
+              onClick={() => {
+                events.onIntract?.('gotit');
+                closeMessage();
+              }}
               className={clsx(
                 'hidden items-center gap-1 rounded bg-white/10 p-2',
                 currentSec === sections.length - 1 && '!flex',

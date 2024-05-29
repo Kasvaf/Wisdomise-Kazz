@@ -4,6 +4,10 @@ error-page:
   btn-reload: 再読み込み
   subtitle: 同じエラーが発生しないよう改善いたします。
   title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
+insight-declaimer:
+  content: Wisdomise
+    からの洞察とシグナルは財務アドバイスではありません。ご自身の責任と判断でご利用ください。ご自身で調査するか、必要に応じて財務アドバイザーに相談してください。
+  title: 宣言者
 language: 言語
 links:
   about-us: 企業概要

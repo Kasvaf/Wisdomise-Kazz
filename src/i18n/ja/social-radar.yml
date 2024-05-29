@@ -85,5 +85,7 @@ set-notification:
     period: 期間
     sub-title: 暗号通貨の世界で次に起こる大きなチャンスを逃さないでください。当社の通知システムにより、注目のコインや新たな発見について誰よりも早く知ることができます。
     title: ソーシャルレーダー通知
-  open-modal-btn: 通知を設定する
+  open-modal-btn:
+    not-set: 通知を設定する
+    set: 通知が設定されました
 title: ソーシャルレーダー

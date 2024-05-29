@@ -2,6 +2,7 @@
 /* eslint-disable i18next/no-literal-string */
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { track } from 'config/segment';
 import { Onboarding } from 'shared/Onboarding';
 
 export function CoinsOnboarding() {
@@ -71,5 +72,16 @@ export function CoinsOnboarding() {
     ],
     [t],
   );
-  return <Onboarding sections={sections} />;
+  return (
+    <Onboarding
+      sections={sections}
+      onIntract={segmentKey =>
+        track('Click On', {
+          place: 'wizard',
+          where: 'coin_list',
+          step: segmentKey,
+        })
+      }
+    />
+  );
 }
