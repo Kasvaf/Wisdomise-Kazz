@@ -7,13 +7,18 @@ import * as numerable from 'numerable';
 import { Select } from 'antd';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import PriceChange from 'modules/shared/PriceChange';
-import { type CoinSignal } from 'api';
+import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import Icon from 'shared/Icon';
 
 export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
   const { t } = useTranslation('social-radar');
   const [filters, setFilters] = useState({ sentiment: '' });
+  const hasFlag = useHasFlag();
+
+  const hasSideSuggestionFlag = hasFlag(
+    '/insight/social-radar?side-suggestion',
+  );
 
   const columns = useMemo<Array<ColumnType<CoinSignal>>>(
     () => [
@@ -32,12 +37,16 @@ export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
           </div>
         ),
       },
-      {
-        title: t('more-social-signal.table.side'),
-        render: (row: CoinSignal) => (
-          <p className="capitalize">{row.gauge_tag.toLowerCase()}</p>
-        ),
-      },
+      ...(hasSideSuggestionFlag
+        ? [
+            {
+              title: t('more-social-signal.table.side'),
+              render: (row: CoinSignal) => (
+                <p className="capitalize">{row.gauge_tag.toLowerCase()}</p>
+              ),
+            },
+          ]
+        : []),
       {
         title: t('more-social-signal.table.price'),
         dataIndex: 'current_price',
@@ -93,7 +102,7 @@ export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
         ),
       },
     ],
-    [t],
+    [t, hasSideSuggestionFlag],
   );
 
   const filteredSignals = useMemo(
@@ -112,17 +121,19 @@ export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
         <p className="py-8 pl-2 font-semibold mobile:pb-4">
           {t('more-social-signal.title')}
         </p>
-        <Select
-          allowClear
-          className="min-w-60"
-          onChange={sentiment => setFilters({ sentiment })}
-          placeholder={t('more-social-signal.table.side')}
-          options={[
-            { label: 'Long', value: 'long' },
-            { label: 'Short', value: 'short' },
-            { label: 'Neutral', value: 'neutral' },
-          ]}
-        />
+        {hasFlag('/insight/social-radar?side-suggestion') && (
+          <Select
+            allowClear
+            className="min-w-60"
+            onChange={sentiment => setFilters({ sentiment })}
+            placeholder={t('more-social-signal.table.side')}
+            options={[
+              { label: 'Long', value: 'long' },
+              { label: 'Short', value: 'short' },
+              { label: 'Neutral', value: 'neutral' },
+            ]}
+          />
+        )}
       </div>
       <div className="mobile:w-[700px]">
         <Table

@@ -3,13 +3,14 @@ import { bxRightArrowAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CoinsIcons from 'modules/shared/CoinsIcons';
-import { type CoinSignal } from 'api';
+import { useHasFlag, type CoinSignal } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
 import Icon from 'modules/shared/Icon';
 import SideSuggestGauge from './SideSuggestGauge';
 
 export default function HotCoinSignal({ data }: { data: CoinSignal }) {
   const { t } = useTranslation('social-radar');
+  const hasFlag = useHasFlag();
 
   return (
     <NavLink
@@ -31,33 +32,35 @@ export default function HotCoinSignal({ data }: { data: CoinSignal }) {
           <span className="ml-[2px] text-xs">USDT</span>
         </p>
       </div>
-      <div className="flex justify-between border-b border-white/5 py-4">
-        <div className="flex items-center gap-2">
-          <SideSuggestGauge measure={data.gauge_measure} />
-          <div>
-            <p className="font-medium capitalize">
-              {data.gauge_tag.toLowerCase()}
-            </p>
-            <p className="mt-2 text-xxs text-white/60">
-              {t('hot-coins.side-suggest')}
-            </p>
+      {hasFlag('/insight/social-radar?side-suggestion') && (
+        <div className="flex justify-between border-b border-white/5 py-4">
+          <div className="flex items-center gap-2">
+            <SideSuggestGauge measure={data.gauge_measure} />
+            <div>
+              <p className="font-medium capitalize">
+                {data.gauge_tag.toLowerCase()}
+              </p>
+              <p className="mt-2 text-xxs text-white/60">
+                {t('hot-coins.side-suggest')}
+              </p>
+            </div>
+          </div>
+
+          <div
+            className={clsx(
+              'flex flex-col items-end justify-center gap-2',
+              !data.price_change_percentage && 'invisible',
+            )}
+          >
+            <PriceChange
+              valueToFixed
+              textClassName="!text-base"
+              value={data.price_change_percentage || 0}
+            />
+            <p className="text-xxs text-white/60">{t('hot-coins.24-chg')}</p>
           </div>
         </div>
-
-        <div
-          className={clsx(
-            'flex flex-col items-end justify-center gap-2',
-            !data.price_change_percentage && 'invisible',
-          )}
-        >
-          <PriceChange
-            valueToFixed
-            textClassName="!text-base"
-            value={data.price_change_percentage || 0}
-          />
-          <p className="text-xxs text-white/60">{t('hot-coins.24-chg')}</p>
-        </div>
-      </div>
+      )}
 
       <div className="flex items-center justify-end pt-4 text-sm opacity-40">
         <p className="leading-none">{t('hot-coins.signals')}</p>
