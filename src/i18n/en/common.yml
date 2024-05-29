@@ -5,6 +5,7 @@ actions:
   remove: Remove
   save: Save
   'yes': 'Yes'
+  reset: reset
 aum: AUM
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard

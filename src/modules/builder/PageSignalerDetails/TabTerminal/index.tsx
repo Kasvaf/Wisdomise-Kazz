@@ -8,8 +8,8 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import useIsMobile from 'utils/useIsMobile';
 import AssetSelector from '../../AssetSelector';
-import SignalForm from './SignalForm';
 import CoinInfo from './CoinInfo';
+import AdvancedSignalForm from './AdvancedSignalForm';
 
 const TabTerminal = () => {
   const { t } = useTranslation('strategy');
@@ -81,10 +81,11 @@ const TabTerminal = () => {
               />
             </div>
 
-            <SignalForm
+            <AdvancedSignalForm
               signaler={signaler}
               assetName={assetName}
               activePosition={activePosition}
+              className="basis-1/3"
             />
           </div>
         )

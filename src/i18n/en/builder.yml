@@ -80,7 +80,10 @@ publish-notice:
 signal-form:
   btn-close: Close
   btn-fire-signal: Fire Signal
+  btn-new-take-profit: New Take Profit
+  btn-new-stop-loss: New Stop Loss
   btn-update: Update Position
+  conditions-use-market-price: conditions use market price
   confirm-close: Are you sure you want to close this position?
   confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
@@ -100,6 +103,7 @@ signal-form:
   price: Price
   stop-loss: Stop Loss
   take-profit: Take Profit
+  position-side: Position Side
 signaler:
   card:
     active-positions: Active positions
