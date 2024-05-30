@@ -13,6 +13,9 @@ const useSignalFormStates = () => {
     orderType: useState<'limit' | 'market'>('market'),
     price: useState(''),
 
+    exp: useState('1h'),
+    orderExp: useState('1h'),
+
     hasTakeProfit: useState(true),
     takeProfits: useState<TpSlData[]>([]),
     hasStopLosses: useState(true),

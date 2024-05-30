@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useEffect } from 'react';
 import { type FullPosition, type SignalerData } from 'api/builder';
 import PartOpen from './PartOpen';
 import useSignalFormStates from './useSignalFormStates';
@@ -14,10 +15,16 @@ interface Props {
 const AdvancedSignalForm: React.FC<Props> = ({
   signaler,
   assetName,
-  // activePosition,
+  activePosition,
   className,
 }) => {
   const formState = useSignalFormStates();
+
+  useEffect(() => {
+    if (activePosition) {
+      // formState.hasOpen[1](activePosition.)
+    }
+  }, [activePosition]);
 
   return (
     <div className={clsx('flex flex-col gap-3 px-3', className)}>

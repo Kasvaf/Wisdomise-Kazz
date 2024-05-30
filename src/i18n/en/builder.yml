@@ -95,7 +95,7 @@ signal-form:
   notif-success-fire: Signal fired successfully.
   notif-success-update: Position updated successfully.
   order-expiration-time:
-    title: Order Expiration Time
+    title: Order Expiration
     info-text: >-
       Sets a time limit for the execution of a limit order. If the order isn't
       filled by this time, it's automatically canceled.
