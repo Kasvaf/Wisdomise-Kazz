@@ -3,9 +3,9 @@ actions:
   explore: Explore
   'no': 'No'
   remove: Remove
+  reset: reset
   save: Save
   'yes': 'Yes'
-  reset: reset
 aum: AUM
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
