@@ -19,6 +19,34 @@ interface Props {
   onChange: (item: string) => void;
 }
 
+export function parseDur(dur: string) {
+  const val = Number.parseInt(dur);
+  const d = new Date();
+  switch (dur.replace(/\d+/, '')) {
+    case 's': {
+      d.setSeconds(d.getSeconds() + val);
+      break;
+    }
+    case 'm': {
+      d.setMinutes(d.getMinutes() + val);
+      break;
+    }
+    case 'h': {
+      d.setHours(d.getHours() + val);
+      break;
+    }
+    case 'd': {
+      d.setDate(d.getDate() + val);
+      break;
+    }
+    case 'M': {
+      d.setMonth(d.getMonth() + val);
+      break;
+    }
+  }
+  return d.toISOString();
+}
+
 const DurationInput: React.FC<Props> = ({ onChange, value, ...props }) => {
   const { t } = useTranslation('builder');
   const [numeric, setNumeric] = useState(Number.parseInt(value));

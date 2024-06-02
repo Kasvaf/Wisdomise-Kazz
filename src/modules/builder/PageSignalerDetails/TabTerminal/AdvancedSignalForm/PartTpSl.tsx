@@ -3,9 +3,10 @@ import { clsx } from 'clsx';
 import { bxPlus } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
-import AmountInputBox from 'shared/AmountInputBox';
-import Button from 'shared/Button';
+import { roundDown } from 'utils/numbers';
 import Icon from 'shared/Icon';
+import Button from 'shared/Button';
+import AmountInputBox from 'shared/AmountInputBox';
 import ClosablePart from './ClosablePart';
 import Collapsible from './Collapsible';
 import { type SignalFormState } from './useSignalFormStates';
@@ -18,6 +19,9 @@ const PartTpSl: React.FC<{
 }> = ({ type, signaler, assetName, data }) => {
   const { t } = useTranslation('builder');
   const {
+    price: [price],
+    market: [market],
+    orderType: [orderType],
     [type === 'TP' ? 'hasTakeProfit' : 'hasStopLosses']: [
       isEnabled,
       setIsEnabled,
@@ -29,6 +33,13 @@ const PartTpSl: React.FC<{
     strategyKey: signaler.key,
     assetName,
   });
+
+  const effectivePrice =
+    orderType === 'market'
+      ? assetPrice === undefined
+        ? 0
+        : assetPrice
+      : +price;
 
   const colorClassName = clsx(
     type === 'TP' ? 'bg-[#11C37E0D]' : 'bg-[#F140560D]',
@@ -96,7 +107,17 @@ const PartTpSl: React.FC<{
               {
                 key: v4(),
                 amountRatio: 100,
-                priceExact: assetPrice ?? 0,
+                priceExact: roundDown(
+                  effectivePrice *
+                    (market === 'long'
+                      ? type === 'TP'
+                        ? 1.1
+                        : 0.9
+                      : type === 'TP'
+                      ? 0.9
+                      : 1.1),
+                  2,
+                ),
               },
             ])
           }

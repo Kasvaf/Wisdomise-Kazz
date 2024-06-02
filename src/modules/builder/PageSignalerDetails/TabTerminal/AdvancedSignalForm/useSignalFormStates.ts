@@ -6,9 +6,20 @@ interface TpSlData {
   priceExact: number;
 }
 
-const useSignalFormStates = () => {
+function toApiContract(items: TpSlData[]) {
   return {
-    hasOpen: useState(true),
+    items: items.map(x => ({
+      key: x.key,
+      amount_ratio: x.amountRatio / 100,
+      price_exact: x.priceExact,
+    })),
+  };
+}
+
+const useSignalFormStates = () => {
+  const result = {
+    isUpdate: useState(false),
+
     market: useState<'long' | 'short'>('long'),
     orderType: useState<'limit' | 'market'>('market'),
     price: useState(''),
@@ -20,7 +31,11 @@ const useSignalFormStates = () => {
     takeProfits: useState<TpSlData[]>([]),
     hasStopLosses: useState(true),
     stopLosses: useState<TpSlData[]>([]),
+
+    getTakeProfits: () => toApiContract(result.takeProfits[0]),
+    getStopLosses: () => toApiContract(result.stopLosses[0]),
   };
+  return result;
 };
 
 export type SignalFormState = ReturnType<typeof useSignalFormStates>;

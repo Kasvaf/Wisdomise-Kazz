@@ -14,17 +14,13 @@ interface SignalPosition {
 }
 
 // ----------------------------------------------------------------------------
-interface SignalItemBase {
+interface SignalItem {
   key: string;
   amount_ratio: number;
+  applied?: boolean;
+  price_exact?: number;
+  price_ratio?: number;
 }
-interface SignalItemExact extends SignalItemBase {
-  price_exact: number;
-}
-interface SignalItemRatio extends SignalItemBase {
-  price_ratio: number;
-}
-type SignalItem = SignalItemExact | SignalItemRatio;
 
 // ----------------------------------------------------------------------------
 
@@ -49,6 +45,10 @@ export interface FullPosition extends RawPosition {
   stop_loss?: number;
   take_profit?: number;
   signal?: Signal;
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+  };
 }
 
 export const useMySignalerOpenPositions = (
