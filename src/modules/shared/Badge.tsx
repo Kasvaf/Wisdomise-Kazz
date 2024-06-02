@@ -5,6 +5,7 @@ const badgeColors = {
   red: clsx('bg-[#F14056]/20 text-[#F14056]/80'),
   blue: 'bg-[#34A3DA]/20 text-[#34A3DA]',
   white: clsx('bg-white/10 text-white/80'),
+  black: clsx('bg-black text-white'),
   grey: clsx('bg-white/5 text-white/40'),
   purple: clsx('bg-[#B634DA4D] text-[#C968E4]'),
   orange: clsx('bg-[#C371114D] text-[#EBA24C]'),

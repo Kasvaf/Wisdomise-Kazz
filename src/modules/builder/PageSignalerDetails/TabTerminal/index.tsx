@@ -2,14 +2,14 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useIsSamePairs, useRecentCandlesQuery } from 'api';
 import { useSignalerQuery, useMySignalerOpenPositions } from 'api/builder';
-import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
-import ActivePosition from 'modules/insight/signaler/ActivePosition';
+import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
-import useIsMobile from 'utils/useIsMobile';
+import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
 import AssetSelector from '../../AssetSelector';
-import CoinInfo from './CoinInfo';
 import AdvancedSignalForm from './AdvancedSignalForm';
+import PositionDetails from './PositionDetails';
+import CoinInfo from './CoinInfo';
 
 const TabTerminal = () => {
   const { t } = useTranslation('strategy');
@@ -54,15 +54,6 @@ const TabTerminal = () => {
 
           {!isMobile && <CoinInfo assetName={assetName} />}
         </div>
-
-        {!isLoading && assetName && (
-          <div className="mt-6">
-            <h2 className="mb-3 text-xl text-white/40">
-              {signaler?.name} {t('strategy:signaler.active-positions')}
-            </h2>
-            <ActivePosition position={activePosition} />
-          </div>
-        )}
       </div>
 
       {isLoading ? (
@@ -79,6 +70,10 @@ const TabTerminal = () => {
                 loading={candlesLoading}
                 positions={[]}
               />
+
+              {!isLoading && assetName && activePosition && (
+                <PositionDetails activePosition={activePosition} />
+              )}
             </div>
 
             <AdvancedSignalForm
