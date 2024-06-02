@@ -44,10 +44,10 @@ const PositionDetails: React.FC<{
 
   return (
     <div>
-      <h1 className="mb-4 flex items-center gap-1 text-base font-semibold">
+      <h2 className="mb-4 flex items-center gap-1 text-base font-semibold">
         <DetailsIcon />
         <span>Position Details</span>
-      </h1>
+      </h2>
 
       <div className="mb-2 flex h-14 grow items-center justify-around rounded-xl bg-black/30 py-2">
         <div className="flex items-center gap-2">

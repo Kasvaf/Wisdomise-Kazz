@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { bxLineChart } from 'boxicons-quasar';
 import { useIsSamePairs, useRecentCandlesQuery } from 'api';
 import { useSignalerQuery, useMySignalerOpenPositions } from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
+import Icon from 'shared/Icon';
 import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
 import AssetSelector from '../../AssetSelector';
 import AdvancedSignalForm from './AdvancedSignalForm';
@@ -65,6 +67,10 @@ const TabTerminal = () => {
         !!signaler && (
           <div className="flex gap-4 mobile:flex-col-reverse">
             <div className="basis-2/3">
+              <h2 className="flex items-center gap-1 text-base font-semibold">
+                <Icon name={bxLineChart} />
+                <span>Wisdomise Chart</span>
+              </h2>
               <SimulatedPositionsChart
                 candles={candles}
                 loading={candlesLoading}
