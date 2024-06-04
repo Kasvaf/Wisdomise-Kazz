@@ -18,7 +18,13 @@ const Collapsible: React.FC<
   const [isCollapsed, setIsCollapsed] = useState(!!applied);
 
   return (
-    <div className={clsx('overflow-hidden rounded-lg', className)}>
+    <div
+      className={clsx(
+        'overflow-hidden rounded-lg',
+        applied && 'opacity-70 saturate-50',
+        className,
+      )}
+    >
       <div
         className={clsx(
           'flex items-center justify-between p-2',
