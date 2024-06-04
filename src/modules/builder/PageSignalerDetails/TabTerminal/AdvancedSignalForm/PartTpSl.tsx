@@ -79,6 +79,11 @@ const PartTpSl: React.FC<{
                     ),
                   )
                 }
+                onBlur={() =>
+                  setItems(items =>
+                    [...items].sort((a, b) => +a.priceExact - +b.priceExact),
+                  )
+                }
               />
               <AmountInputBox
                 label="Volume"
@@ -97,6 +102,14 @@ const PartTpSl: React.FC<{
                 }
               />
             </div>
+
+            {items.findIndex(x => +x.amountRatio >= 100) < ind && (
+              <div className="px-2 pb-2 text-error">
+                {t('signal-form.error-100', {
+                  type,
+                })}
+              </div>
+            )}
           </Collapsible>
         ))}
 

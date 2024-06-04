@@ -13,6 +13,7 @@ interface Props {
   min?: number;
   max?: number;
   onChange?: (item: string) => void;
+  onBlur?: () => void;
 }
 
 const toAmount = (v: string) =>
@@ -28,15 +29,16 @@ const AmountInputBox: React.FC<Props> = ({ min, max, ...props }) => {
       type="tel"
       filter={toAmount}
       {...props}
-      onBlur={() =>
+      onBlur={() => {
         props.onChange?.(
           min !== undefined && +props.value < min
             ? String(min)
             : max !== undefined && +props.value > max
             ? String(max)
             : props.value,
-        )
-      }
+        );
+        props.onBlur?.();
+      }}
     />
   );
 };
