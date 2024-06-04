@@ -24,12 +24,14 @@ export default function EligibleCheckModalContent({
   }, [claimReceipt, onResolve, refetch]);
 
   const share = () => {
-    const text = `Just claimed my airdrop! ${(
+    const text = `Feeling over-excited 😍%0A
+I just claimed ${(
       (eligibility?.amount ?? 0) /
       10 ** 6
-    ).toLocaleString()} WSDM`;
-    const url = 'wisdomise.com';
-    const hashtags = 'Wisdomise,WSDM,Web3_Gateway';
+    ).toLocaleString()} $WSDM of @Wisdomise 1st season airdrop! 🎉
+2nd Phase is coming!  Don't miss the chance to win big!%0A`;
+    const url = 'wisdomise.com/airdrop';
+    const hashtags = 'Wisdomise,WSDM,airdrop';
     window.open(
       `https://x.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}`,
       '_blank',

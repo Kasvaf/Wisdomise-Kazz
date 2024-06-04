@@ -15,8 +15,8 @@ airdrop:
     already-claimed: You already claimed your tokens.
     claim: Claim Now
     close: Close
-    eligible: You are <1>eligible<1> to claim
-    not-eligible: You are <1>not eligible<1> for this round of WSDM Airdrop
+    eligible: You are <1>eligible</1> to claim
+    not-eligible: You are <1>not eligible</1> for this round of WSDM Airdrop
     share: Share With Community
 balance:
   title: WSDM Token

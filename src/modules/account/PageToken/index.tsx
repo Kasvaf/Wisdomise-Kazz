@@ -10,7 +10,7 @@ import Utility from 'modules/account/PageToken/Utility';
 import Balance from 'modules/account/PageToken/Balance/Balance';
 import Wallet from 'modules/account/PageToken/Wallet';
 import { WsdmOnboarding } from 'modules/account/PageToken/WsdmOnboarding';
-// import Airdrop from 'modules/account/PageToken/Airdrop';
+import Airdrop from 'modules/account/PageToken/Airdrop';
 import ConnectWalletGuard from '../PageBilling/paymentMethods/Token/ConnectWalletGuard';
 
 export default function PageToken() {
@@ -46,7 +46,7 @@ export default function PageToken() {
       >
         {(twsdmBalance?.value ?? 0n) > 0n && <Migration />}
         {hasShareInBucket ? <Vesting /> : null}
-        {/* <Airdrop /> */}
+        <Airdrop />
         <h1 className="my-8 flex flex-wrap items-center justify-between gap-4 text-xl text-white/20">
           <div className="flex items-center gap-2">
             <Trans i18nKey="wisdomise-token:utility.title" ns="wisdomise-token">
