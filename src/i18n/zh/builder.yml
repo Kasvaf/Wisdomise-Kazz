@@ -36,6 +36,14 @@ config:
   market: 市场
   resolution: 解决
   signaler-name: 信号员姓名
+delete-fp:
+  btn-yes: 是，我确定
+  confirm-message: 您确定删除该理财产品吗？
+  title: 删除我的产品
+delete-signaler:
+  btn-yes: 是，我确定
+  confirm-message: 您确定要删除该信号器吗？
+  title: 删除信号员
 duration:
   day: 天
   hour: 小时

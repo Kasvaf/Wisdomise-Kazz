@@ -36,6 +36,14 @@ config:
   market: 市場（マーケット）
   resolution: 解決
   signaler-name: 信号発信者名
+delete-fp:
+  btn-yes: はい、確かです
+  confirm-message: この金融商品を削除してもよろしいですか?
+  title: 製品を削除する
+delete-signaler:
+  btn-yes: はい、確かです
+  confirm-message: このシグナラーを削除してもよろしいですか?
+  title: シグナルを削除
 duration:
   day: 日
   hour: 時間

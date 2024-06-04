@@ -139,6 +139,37 @@ export const useUpdateSignalerMutation = () => {
   });
 };
 
+export const useDeleteSignalerMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    SignalerData,
+    unknown,
+    {
+      key: string;
+    }
+  >(async ({ key }) => {
+    const { data } = await axios.delete<SignalerData>(
+      `/factory/strategies/${key}`,
+    );
+
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: ['signalers'],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['signaler', key],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['fp-catalog'],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ['fp', key],
+      }),
+    ]);
+    return data;
+  });
+};
+
 // ======================================================================
 
 interface PerfData {

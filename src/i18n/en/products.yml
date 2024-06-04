@@ -165,9 +165,9 @@ product-detail:
   min-subscription-level: Available with <1>{{minPlan}}</1> plan.
   risk:
     label: '{{risk}} Risk'
-    high: ''
-    low: ''
-    medium: ''
+    high: High
+    low: Low
+    medium: Medium
   tvl: TVL
   type:
     mine: My Products

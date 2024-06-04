@@ -144,6 +144,24 @@ export const useUpdateMyFinancialProductMutation = () => {
   });
 };
 
+export const useDeleteMyFinancialProductMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    { key: string },
+    unknown,
+    {
+      fpKey: string;
+    }
+  >(async body => {
+    const { data } = await axios.delete<{ key: string }>(
+      '/factory/financial-products/' + body.fpKey,
+    );
+    await queryClient.invalidateQueries(['my-product', body.fpKey]);
+    await queryClient.invalidateQueries(['my-products']);
+    return data;
+  });
+};
+
 export const useMyFinancialProductUsageQuery = (fpKey?: string) =>
   useQuery(
     ['my-fp-usage', fpKey],
