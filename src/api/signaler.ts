@@ -86,8 +86,10 @@ export const useSignalerPairDetails = (name: string) =>
       return data;
     },
     {
-      staleTime: Number.POSITIVE_INFINITY,
       enabled: !!name,
+      staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: 30 * 1000,
+      refetchIntervalInBackground: true,
     },
   );
 
