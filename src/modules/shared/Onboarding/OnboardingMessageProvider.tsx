@@ -1,7 +1,10 @@
 import { type PropsWithChildren, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import OnboardingMessageNotification from './OnboardingMessageNotification';
-import { type OnboardingMessageSections } from './types';
+import {
+  type OnboardingMessageEvents,
+  type OnboardingMessageSections,
+} from './types';
 import { OnboardingMessageContext } from './utils';
 
 export default function OnboardingMessageProvider({
@@ -12,6 +15,7 @@ export default function OnboardingMessageProvider({
   const [sections, _setSections] = useState<OnboardingMessageSections | null>(
     null,
   );
+  const [events, setEvents] = useState<OnboardingMessageEvents>({});
 
   const closeMessage = useCallback(() => {
     setIsOpen(false);
@@ -36,6 +40,8 @@ export default function OnboardingMessageProvider({
   return (
     <OnboardingMessageContext.Provider
       value={{
+        events,
+        setEvents,
         sections,
         setSections,
         isOpen,

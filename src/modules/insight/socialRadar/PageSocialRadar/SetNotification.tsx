@@ -8,6 +8,7 @@ import {
   useIsSubscribedToSocialRadarNotification,
   useToggleSubscribeToSocialRadarNotification,
 } from 'api';
+import { track } from 'config/segment';
 import { ReactComponent as NotificationIcon } from './images/notification.svg';
 import { ReactComponent as NotificationIsSetIcon } from './images/notif-is-set.svg';
 import { ReactComponent as NotificationModalIcon } from './images/notif-modal.svg';
@@ -20,7 +21,12 @@ export default function SetNotification() {
   return (
     <div>
       <Button
-        onClick={open}
+        onClick={e => {
+          track('Click On', {
+            place: 'social_radar_notification',
+          });
+          void open(e);
+        }}
         variant="primary"
         className={clsx('h-10 w-full !py-1', isSubscribed && '!bg-white/10')}
         contentClassName={clsx('flex gap-1', isSubscribed && 'text-white')}
@@ -72,7 +78,13 @@ const SetNotificationModal = () => {
           <Switch
             checked={isSubscribed.data}
             loading={toggleSubscription.isLoading}
-            onChange={() => toggleSubscription.mutate()}
+            onChange={value => {
+              track('Click On', {
+                place: 'social_radar_notification_changed',
+                status: value ? 'on' : 'off',
+              });
+              toggleSubscription.mutate();
+            }}
           />
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { track } from 'config/segment';
 import { Onboarding } from 'shared/Onboarding';
 
 export function SignalMatrixOnboarding() {
@@ -74,5 +75,16 @@ export function SignalMatrixOnboarding() {
     ],
     [navigate, t],
   );
-  return <Onboarding sections={sections} />;
+  return (
+    <Onboarding
+      sections={sections}
+      onIntract={segmentKey =>
+        track('Click On', {
+          place: 'wizard',
+          where: 'signal_matrix',
+          step: segmentKey,
+        })
+      }
+    />
+  );
 }

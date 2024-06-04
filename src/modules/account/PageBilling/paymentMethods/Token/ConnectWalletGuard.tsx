@@ -1,4 +1,4 @@
-import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
+import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
 import { notification } from 'antd';
@@ -31,6 +31,7 @@ export default function ConnectWalletGuard({
 }: Props) {
   const { chain } = useNetwork();
   const { open } = useWeb3Modal();
+  const { disconnect } = useDisconnect();
   const { data: account } = useAccountQuery();
   const { switchNetwork } = useSwitchNetwork();
   const { isConnected, address } = useAccount();
@@ -119,9 +120,14 @@ export default function ConnectWalletGuard({
           <div className="w-full rounded-xl bg-white/10 py-6 text-lg font-semibold text-white/60">
             {nonceResponse?.nonce}
           </div>
-          <Button onClick={handleSignAndVerification}>
-            {t('connect-wallet.sign')}
-          </Button>
+          <div className="flex flex-wrap gap-4">
+            <Button onClick={handleSignAndVerification}>
+              {t('connect-wallet.sign')}
+            </Button>
+            <Button variant="alternative" onClick={() => disconnect()}>
+              {t('connect-wallet.disconnect')}
+            </Button>
+          </div>
         </Card>
       )}
     </div>

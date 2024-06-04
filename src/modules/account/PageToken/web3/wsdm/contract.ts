@@ -6,10 +6,7 @@ import {
   useSignTypedData,
 } from 'wagmi';
 import { zeroAddress } from 'viem';
-import { useEffect } from 'react';
-import { notification } from 'antd';
 import { WSDM_ABI } from 'modules/account/PageToken/web3/wsdm/abi';
-import { extractWagmiErrorMessage } from 'utils/error';
 import {
   LOCKING_CONTRACT_ADDRESS,
   WSDM_CONTRACT_ADDRESS,
@@ -42,18 +39,12 @@ export function useReadWsdmName() {
   });
 }
 
-export function useWSDMPermitSignature() {
+export function useWsdmSignTypedDataForLocking() {
   const chainId = useChainId();
   const { refetch: fetchNonce } = useReadWsdmNonces();
   const { address } = useAccount();
   const { data: name } = useReadWsdmName();
-  const { signTypedDataAsync, isLoading, error } = useSignTypedData();
-
-  useEffect(() => {
-    if (error) {
-      notification.error({ message: extractWagmiErrorMessage(error.message) });
-    }
-  }, [error]);
+  const { signTypedDataAsync, isLoading } = useSignTypedData();
 
   const sign = async (value: number, deadline: number) => {
     const domain = {
