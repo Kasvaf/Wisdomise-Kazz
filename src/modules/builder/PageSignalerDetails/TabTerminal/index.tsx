@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bxLineChart } from 'boxicons-quasar';
@@ -27,15 +28,21 @@ const TabTerminal = () => {
   );
 
   const { data, isLoading } = useMySignalerOpenPositions(params.id);
-  const openPositions = data?.map(p => ({
-    ...p,
-    suggested_action: p.signal?.action.toUpperCase() as
-      | 'CLOSE'
-      | 'OPEN'
-      | undefined,
-  }));
-  const activePosition = openPositions?.find(x =>
-    isSamePairs(x.pair_name, assetName),
+  const activeP = useMemo(
+    () => data?.find(x => isSamePairs(x.pair_name, assetName)),
+    [assetName, data, isSamePairs],
+  );
+
+  const activePosition = useMemo(
+    () =>
+      activeP && {
+        ...activeP,
+        suggested_action: activeP?.signal?.action.toUpperCase() as
+          | 'CLOSE'
+          | 'OPEN'
+          | undefined,
+      },
+    [activeP],
   );
 
   return (
