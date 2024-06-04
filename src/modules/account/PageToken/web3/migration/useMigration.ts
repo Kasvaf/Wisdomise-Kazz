@@ -1,22 +1,21 @@
-import { useAccount, useWaitForTransaction } from 'wagmi';
+import { useWaitForTransaction } from 'wagmi';
 import { notification } from 'antd';
-import { useCallback, useEffect, useMemo } from 'react';
-import {
-  useReadTwsdmAllowance,
-  useTwsdmBalance,
-  useWriteTwsdmApprove,
-} from 'modules/account/PageToken/web3/twsdm/contract';
+import { useEffect } from 'react';
+import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdm/contract';
 import { useWriteMigrate } from 'modules/account/PageToken/web3/migration/contract';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
 import { extractWagmiErrorMessage } from 'utils/error';
-import { TOKEN_MIGRATION_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
+import {
+  TOKEN_MIGRATION_CONTRACT_ADDRESS,
+  TWSDM_CONTRACT_ADDRESS,
+} from 'modules/account/PageToken/constants';
+import { useIncreaseAllowance } from '../shared';
 
 export function useMigration() {
-  const { address } = useAccount();
   const { refetchAll } = useVesting();
-  const { data: tWSDMBalance, refetch: refetchTwsdmBalance } =
-    useTwsdmBalance();
-  const { data: allowance, refetch: refetchAllowance } = useReadTwsdmAllowance(
+  const { refetch: refetchTwsdmBalance } = useTwsdmBalance();
+  const { checkAllowance, isAllowed, isLoading } = useIncreaseAllowance(
+    TWSDM_CONTRACT_ADDRESS,
     TOKEN_MIGRATION_CONTRACT_ADDRESS,
   );
 
@@ -29,59 +28,13 @@ export function useMigration() {
   const { data: migrateTrxReceipt, isLoading: migrateTrxIsLoading } =
     useWaitForTransaction({ hash: migrateResult?.hash });
 
-  const {
-    write: approve,
-    isLoading: approveIsLoading,
-    data: approveResult,
-  } = useWriteTwsdmApprove();
-  const { data: approveTrxReceipt, isLoading: approveTrxIsLoading } =
-    useWaitForTransaction({ hash: approveResult?.hash });
-
   const handleMigration = () => {
-    if (!isAllowed(allowance, tWSDMBalance?.value) && address) {
-      approve({
-        args: [TOKEN_MIGRATION_CONTRACT_ADDRESS, tWSDMBalance?.value ?? 0n],
-      });
-    } else {
-      migrate();
-    }
+    checkAllowance();
   };
-
-  const isAllowed = (allowance?: bigint, balance?: bigint) => {
-    return (allowance ?? 0n) >= (balance ?? 0n);
-  };
-
-  const checkForMigration = useCallback(async () => {
-    if (approveTrxReceipt?.status === 'success') {
-      const { data: currentAllowance } = await refetchAllowance();
-      if (isAllowed(currentAllowance, tWSDMBalance?.value)) {
-        migrate();
-      } else {
-        notification.error({
-          message: 'Allowance cap is less than your tWSDM balance.',
-        });
-      }
-    } else if (approveTrxReceipt?.status === 'reverted') {
-      notification.error({
-        message: 'Approve transaction reverted.',
-      });
-    }
-  }, [
-    approveTrxReceipt?.status,
-    migrate,
-    refetchAllowance,
-    tWSDMBalance?.value,
-  ]);
 
   useEffect(() => {
-    void checkForMigration();
-  }, [
-    approveTrxReceipt?.status,
-    migrate,
-    refetchAllowance,
-    tWSDMBalance?.value,
-    checkForMigration,
-  ]);
+    if (isAllowed) migrate();
+  }, [isAllowed, migrate]);
 
   useEffect(() => {
     if (migrateTrxReceipt?.status === 'success') {
@@ -101,19 +54,8 @@ export function useMigration() {
     }
   }, [migrationError]);
 
-  const isLoading = useMemo(
-    () =>
-      approveIsLoading ||
-      approveTrxIsLoading ||
-      migrateIsLoading ||
-      migrateTrxIsLoading,
-    [
-      approveIsLoading,
-      approveTrxIsLoading,
-      migrateIsLoading,
-      migrateTrxIsLoading,
-    ],
-  );
-
-  return { handleMigration, isLoading };
+  return {
+    handleMigration,
+    isLoading: isLoading || migrateIsLoading || migrateTrxIsLoading,
+  };
 }

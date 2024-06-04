@@ -1,6 +1,6 @@
-import { createConfig, configureChains, sepolia } from 'wagmi';
+import { createConfig, configureChains } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
-import { polygon } from 'wagmi/chains';
+import { polygon, sepolia } from 'wagmi/chains';
 import { createWeb3Modal } from '@web3modal/wagmi/react';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { InjectedConnector } from 'wagmi/connectors/injected';

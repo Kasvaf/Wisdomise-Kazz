@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useAccountQuery, useChatAppProfile, useLandingQuestions } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
+import InsightDisclaimer from 'modules/insight/InsightDisclaimer';
 import { AthenaProvider } from '../core/AthenaProvider';
 import { FirstAskInput } from './FirstAskInput';
 import { AthenaModal } from './answerModal';
@@ -18,7 +19,12 @@ export default function PageAthena({ isFloat }: { isFloat?: boolean }) {
 
   return (
     <PageWrapper loading={isLoading}>
-      {!isFloat && <AthenaOnboarding />}
+      {!isFloat && (
+        <>
+          <InsightDisclaimer />
+          <AthenaOnboarding />
+        </>
+      )}
       <div
         className={clsx(
           'min-h-[calc(100vh-7rem)] mobile:min-h-[unset] md:relative',

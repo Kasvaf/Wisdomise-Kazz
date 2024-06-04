@@ -17,6 +17,7 @@ airdrop:
     close: Close
     eligible: You are <1>eligible<1> to claim
     not-eligible: You are <1>not eligible<1> for this round of WSDM Airdrop
+    share: Share With Community
 balance:
   title: WSDM Token
   subtitle: Balance
@@ -29,6 +30,7 @@ connect-wallet:
       Your Wisdomise Tokens will not be deducted, you will only need to hold the
       tokens in your wallet for the subscription period in order to gain access.
   connect: Connect Wallet
+  disconnect: Disconnect
   not-sync: >-
     This wallet is not synced with the current account, please switch back to
     your previously used wallet. In order to use a new wallet, contact us.

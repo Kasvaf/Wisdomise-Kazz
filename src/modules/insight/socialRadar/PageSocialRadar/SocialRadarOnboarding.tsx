@@ -2,6 +2,7 @@
 /* eslint-disable i18next/no-literal-string */
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { track } from 'config/segment';
 import { Onboarding } from 'shared/Onboarding';
 
 export function SocialRadarOnboarding() {
@@ -63,5 +64,16 @@ export function SocialRadarOnboarding() {
     ],
     [t],
   );
-  return <Onboarding sections={sections} />;
+  return (
+    <Onboarding
+      sections={sections}
+      onIntract={segmentKey =>
+        track('Click On', {
+          place: 'wizard',
+          where: 'social_radar',
+          step: segmentKey,
+        })
+      }
+    />
+  );
 }

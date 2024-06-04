@@ -59,7 +59,7 @@ const PageInsight = () => {
           subtitle={t('menu.social-radar.subtitle')}
           icon={<IconSocialRardar />}
           height={250}
-          onClick={trackClick('crypto_chatbot_menu')}
+          onClick={trackClick('social_radar_menu')}
         >
           <BetaVersion />
         </CardPageLink>

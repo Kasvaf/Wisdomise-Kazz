@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { notification } from 'antd';
@@ -18,6 +19,7 @@ import Button from 'shared/Button';
 import TitleHint from '../TitleHint';
 import PublishNotice from '../PublishNotice';
 import MultiCoinsSelector from './MultiCoinsSelector';
+import useDeleteSignaler from './useDeleteSignaler';
 
 const TabConfig = () => {
   const { t } = useTranslation('builder');
@@ -67,6 +69,10 @@ const TabConfig = () => {
     }
   };
 
+  const { ModalDeleteConfirm, deleteHandler, isDeleting } = useDeleteSignaler(
+    params.id,
+  );
+
   if (!signaler || isLoading || !params.id) {
     return (
       <div className="flex justify-center">
@@ -111,7 +117,14 @@ const TabConfig = () => {
         onChange={v => update('assets', v)}
       />
 
-      <section className="mt-8 flex justify-center">
+      <section className="mt-8 flex justify-center gap-4">
+        <Button
+          loading={isDeleting}
+          onClick={deleteHandler}
+          variant="secondary-red"
+        >
+          {t('delete-signaler.title')}
+        </Button>
         <Button
           disabled={!hasChanges || !!requiredCheck('name')}
           loading={isSaving}
@@ -122,6 +135,7 @@ const TabConfig = () => {
       </section>
 
       <PublishNotice type="signaler" />
+      {ModalDeleteConfirm}
     </div>
   );
 };

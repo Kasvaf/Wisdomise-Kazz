@@ -11,6 +11,7 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import CoinSelector from 'shared/CoinSelector';
 import CandleChart from 'shared/CandleChart';
 import Spinner from 'shared/Spinner';
+import InsightDisclaimer from 'modules/insight/InsightDisclaimer';
 import CoinOverview from './CoinOverview';
 import CoinSignalersList from './CoinSignalersList';
 import { CoinsOnboarding } from './CoinsOnboarding';
@@ -43,6 +44,7 @@ export default function PageCoins() {
 
   return (
     <PageWrapper>
+      <InsightDisclaimer />
       <CoinsOnboarding />
       <div>
         <CoinSelector

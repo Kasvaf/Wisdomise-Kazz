@@ -42,6 +42,14 @@ config:
   market: Market
   resolution: Resolution
   signaler-name: Signaler Name
+delete-fp:
+  title: Delete My Product
+  btn-yes: Yes, I'm sure
+  confirm-message: Are you sure to delete this financial product?
+delete-signaler:
+  title: Delete Signaler
+  btn-yes: Yes, I'm sure
+  confirm-message: Are you sure to delete this signaler?
 duration:
   day: Day
   hour: Hour

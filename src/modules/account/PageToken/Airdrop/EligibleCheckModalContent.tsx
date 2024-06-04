@@ -3,7 +3,8 @@ import { Trans, useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import { type AirdropEligibility } from 'api/airdrop';
 import { useAirdrop } from 'modules/account/PageToken/web3/airdrop/useAirdrop';
-import { ReactComponent as AirdropIcon } from './icons/airdrop.svg';
+import { ReactComponent as AirdropIcon } from '../icons/airdrop.svg';
+import { ReactComponent as XIcon } from './x.svg';
 
 export default function EligibleCheckModalContent({
   eligibility,
@@ -13,13 +14,27 @@ export default function EligibleCheckModalContent({
   onResolve: VoidFunction;
 }) {
   const { t } = useTranslation('wisdomise-token');
-  const { isLoading, isClaimed, claim, claimReceipt } = useAirdrop(eligibility);
+  const { isLoading, isClaimed, claim, claimReceipt, refetch } =
+    useAirdrop(eligibility);
 
   useEffect(() => {
     if (claimReceipt?.status === 'success') {
-      onResolve();
+      void refetch();
     }
-  }, [claimReceipt, onResolve]);
+  }, [claimReceipt, onResolve, refetch]);
+
+  const share = () => {
+    const text = `Just claimed my airdrop! ${(
+      (eligibility?.amount ?? 0) /
+      10 ** 6
+    ).toLocaleString()} WSDM`;
+    const url = 'wisdomise.com';
+    const hashtags = 'Wisdomise,WSDM,Web3_Gateway';
+    window.open(
+      `https://x.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}`,
+      '_blank',
+    );
+  };
 
   return (
     <div className="flex min-h-[16rem] flex-col items-center gap-4 text-center">
@@ -32,7 +47,9 @@ export default function EligibleCheckModalContent({
             </Trans>
           </div>
           <div className="text-3xl italic">
-            <strong>{((eligibility?.amount ?? 0) / 10 ** 6).toFixed(2)}</strong>{' '}
+            <strong>
+              {((eligibility?.amount ?? 0) / 10 ** 6).toLocaleString()}
+            </strong>{' '}
             <strong>WSDM</strong>
           </div>
           {isClaimed === undefined ? null : isClaimed ? (
@@ -41,14 +58,25 @@ export default function EligibleCheckModalContent({
             </p>
           ) : (
             <Button
+              className="mt-6 w-64 max-md:w-full"
               variant="primary-purple"
-              disabled={isLoading}
+              disabled={true || isLoading}
               loading={isLoading}
               onClick={claim}
             >
               {t('airdrop.eligibility.claim')}
             </Button>
           )}
+          <Button
+            className="w-64 max-md:w-full"
+            variant="alternative"
+            onClick={share}
+          >
+            <div className="flex items-center gap-2">
+              <XIcon />
+              {t('airdrop.eligibility.share')}
+            </div>
+          </Button>
         </>
       ) : (
         <>

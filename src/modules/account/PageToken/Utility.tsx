@@ -6,13 +6,13 @@ import Card from 'shared/Card';
 import useModal from 'shared/useModal';
 import PricingTable from 'modules/account/PageBilling/PricingTable';
 import { useSubscription } from 'api';
-import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
 import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
+import { useUtility } from './web3/locking/useUtility';
 
 export type UtilityStatus =
   | 'already_active'
@@ -27,7 +27,7 @@ export default function Utility() {
     width: 1200,
   });
   const { lockedBalance, unlockedBalance, withdrawTimestamp, utilityStatus } =
-    useLocking();
+    useUtility();
   const [unlockModal, openUnlockModal] = useModal(UnlockModalContent, {
     width: 600,
   });
