@@ -75,7 +75,7 @@ const PartTpSl: React.FC<{
                 onChange={val =>
                   setItems(
                     items.map(x =>
-                      x.key === tp.key ? { ...x, priceExact: +val } : x,
+                      x.key === tp.key ? { ...x, priceExact: val } : x,
                     ),
                   )
                 }
@@ -91,7 +91,7 @@ const PartTpSl: React.FC<{
                 onChange={val =>
                   setItems(
                     items.map(x =>
-                      x.key === tp.key ? { ...x, amountRatio: +val } : x,
+                      x.key === tp.key ? { ...x, amountRatio: val } : x,
                     ),
                   )
                 }
@@ -111,17 +111,19 @@ const PartTpSl: React.FC<{
               ...items,
               {
                 key: v4(),
-                amountRatio: 100,
-                priceExact: roundDown(
-                  effectivePrice *
-                    (market === 'long'
-                      ? type === 'TP'
-                        ? 1.1
-                        : 0.9
-                      : type === 'TP'
-                      ? 0.9
-                      : 1.1),
-                  2,
+                amountRatio: '100',
+                priceExact: String(
+                  roundDown(
+                    effectivePrice *
+                      (market === 'long'
+                        ? type === 'TP'
+                          ? 1.1
+                          : 0.9
+                        : type === 'TP'
+                        ? 0.9
+                        : 1.1),
+                    2,
+                  ),
                 ),
                 applied: false,
               },

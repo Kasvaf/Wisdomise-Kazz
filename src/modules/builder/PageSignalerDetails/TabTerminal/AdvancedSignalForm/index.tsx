@@ -39,8 +39,8 @@ const AdvancedSignalForm: React.FC<Props> = ({
     setTakeProfits(
       activePosition?.manager?.take_profit?.map(x => ({
         key: x.applied ? x.key : v4(),
-        amountRatio: x.amount_ratio * 100,
-        priceExact: x.price_exact ?? 0,
+        amountRatio: String(x.amount_ratio * 100),
+        priceExact: String(x.price_exact ?? 0),
         applied: x.applied ?? false,
       })) ?? [],
     );
@@ -52,8 +52,8 @@ const AdvancedSignalForm: React.FC<Props> = ({
     setStopLosses(
       activePosition?.manager?.stop_loss?.map(x => ({
         key: x.applied ? x.key : v4(),
-        amountRatio: x.amount_ratio * 100,
-        priceExact: x.price_exact ?? 0,
+        amountRatio: String(x.amount_ratio * 100),
+        priceExact: String(x.price_exact ?? 0),
         applied: x.applied ?? false,
       })) ?? [],
     );

@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 interface TpSlData {
   key: string;
-  amountRatio: number;
-  priceExact: number;
+  amountRatio: string;
+  priceExact: string;
   applied: boolean;
 }
 
@@ -11,8 +11,8 @@ function toApiContract(items: TpSlData[]) {
   return {
     items: items.map(x => ({
       key: x.key,
-      amount_ratio: x.amountRatio / 100,
-      price_exact: x.priceExact,
+      amount_ratio: +x.amountRatio / 100,
+      price_exact: +x.priceExact,
     })),
   };
 }
