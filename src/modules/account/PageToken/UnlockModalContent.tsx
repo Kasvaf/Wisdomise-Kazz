@@ -1,12 +1,12 @@
 import { notification } from 'antd';
 import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import Button from 'shared/Button';
 import { useUnlock } from 'modules/account/PageToken/web3/locking/useUnlock';
 import { useInstantCancelMutation } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import { ReactComponent as UnlockIcon } from './icons/unlock.svg';
+import { useUtility } from './web3/locking/useUtility';
 
 export default function UnlockModalContent({
   onResolve,
@@ -14,7 +14,7 @@ export default function UnlockModalContent({
   onResolve: VoidFunction;
 }) {
   const { t } = useTranslation('wisdomise-token');
-  const { lockedBalance, refetchUnlockedInfo } = useLocking();
+  const { lockedBalance, refetchUnlockedInfo } = useUtility();
   const { unlock, isLoading, trxReceipt } = useUnlock();
   const { mutateAsync: cancelSub, isLoading: isCanceling } =
     useInstantCancelMutation();

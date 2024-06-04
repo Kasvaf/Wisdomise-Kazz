@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import useModal from 'shared/useModal';
-import EligibleCheckModalContent from 'modules/account/PageToken/EligibleCheckModalContent';
+import EligibleCheckModalContent from 'modules/account/PageToken/Airdrop/EligibleCheckModalContent';
 import { useCheckAirdropEligibilityQuery } from 'api/airdrop';
-import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
 import { ReactComponent as InfoIcon } from '../icons/info.svg';
 
 export default function Airdrop() {
@@ -31,7 +30,7 @@ export default function Airdrop() {
             <InfoIcon className="mb-4" />
           </Tooltip>
         </h2>
-        <Countdown />
+        {/* <Countdown /> */}
         <Button
           className="max-md:w-full"
           variant="primary-purple"

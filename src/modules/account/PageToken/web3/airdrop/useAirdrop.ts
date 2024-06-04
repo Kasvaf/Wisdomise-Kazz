@@ -10,7 +10,9 @@ import { extractWagmiErrorMessage } from 'utils/error';
 
 export function useAirdrop(eligibility?: AirdropEligibility) {
   const { writeAsync, data: claimResult, isLoading } = useWriteClaimAirdrop();
-  const { data: isClaimed } = useReadAirdropIsClaimed(eligibility?.index);
+  const { data: isClaimed, refetch } = useReadAirdropIsClaimed(
+    eligibility?.index,
+  );
   const { address } = useAccount();
   const { data: claimReceipt, isLoading: isWaiting } = useWaitForTransaction({
     hash: claimResult?.hash,
@@ -53,5 +55,11 @@ export function useAirdrop(eligibility?: AirdropEligibility) {
     }
   }, [claimReceipt]);
 
-  return { isClaimed, claimReceipt, claim, isLoading: isLoading || isWaiting };
+  return {
+    isClaimed,
+    claimReceipt,
+    claim,
+    isLoading: isLoading || isWaiting,
+    refetch,
+  };
 }
