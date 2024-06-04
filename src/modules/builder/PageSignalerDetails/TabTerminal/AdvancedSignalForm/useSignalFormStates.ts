@@ -4,6 +4,7 @@ interface TpSlData {
   key: string;
   amountRatio: number;
   priceExact: number;
+  applied: boolean;
 }
 
 function toApiContract(items: TpSlData[]) {

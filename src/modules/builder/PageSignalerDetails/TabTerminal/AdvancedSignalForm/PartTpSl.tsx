@@ -62,6 +62,7 @@ const PartTpSl: React.FC<{
             headerClassName={colorClassName}
             key={tp.key}
             title={`${type} #${String(ind + 1)}`}
+            applied={tp.applied}
             onDelete={() => setItems(items.filter(x => x.key !== tp.key))}
           >
             <div className="flex items-center gap-2 p-2">
@@ -69,6 +70,7 @@ const PartTpSl: React.FC<{
                 label="Order Price"
                 suffix="USDT"
                 className="w-2/3"
+                disabled={tp.applied}
                 value={String(tp.priceExact)}
                 onChange={val =>
                   setItems(
@@ -80,8 +82,9 @@ const PartTpSl: React.FC<{
               />
               <AmountInputBox
                 label="Volume"
-                className="w-1/3"
                 suffix="%"
+                className="w-1/3"
+                disabled={tp.applied}
                 value={String(tp.amountRatio)}
                 onChange={val =>
                   setItems(
@@ -118,6 +121,7 @@ const PartTpSl: React.FC<{
                       : 1.1),
                   2,
                 ),
+                applied: false,
               },
             ])
           }
