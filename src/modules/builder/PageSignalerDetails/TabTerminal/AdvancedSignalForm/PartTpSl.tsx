@@ -86,6 +86,8 @@ const PartTpSl: React.FC<{
                 className="w-1/3"
                 disabled={tp.applied}
                 value={String(tp.amountRatio)}
+                min={0}
+                max={100}
                 onChange={val =>
                   setItems(
                     items.map(x =>
