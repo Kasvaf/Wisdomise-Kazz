@@ -1,5 +1,6 @@
 import { v4 } from 'uuid';
 import { clsx } from 'clsx';
+import { useEffect } from 'react';
 import { bxPlus } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
@@ -45,6 +46,19 @@ const PartTpSl: React.FC<{
     type === 'TP' ? 'bg-[#11C37E0D]' : 'bg-[#F140560D]',
   );
 
+  const sortItems = () => {
+    setItems(items =>
+      [...items].sort(
+        (a, b) =>
+          (+a.priceExact - +b.priceExact) *
+          (type === 'TP' ? 1 : -1) *
+          (market === 'long' ? 1 : -1),
+      ),
+    );
+  };
+
+  useEffect(sortItems, [setItems, type, market]);
+
   return (
     <ClosablePart
       title={
@@ -79,11 +93,7 @@ const PartTpSl: React.FC<{
                     ),
                   )
                 }
-                onBlur={() =>
-                  setItems(items =>
-                    [...items].sort((a, b) => +a.priceExact - +b.priceExact),
-                  )
-                }
+                onBlur={sortItems}
               />
               <AmountInputBox
                 label="Volume"
