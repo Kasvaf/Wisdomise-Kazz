@@ -62,7 +62,7 @@ I just claimed ${(
             <Button
               className="mt-6 w-64 max-md:w-full"
               variant="primary-purple"
-              disabled={true || isLoading}
+              disabled={isLoading}
               loading={isLoading}
               onClick={claim}
             >
