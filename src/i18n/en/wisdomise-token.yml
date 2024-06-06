@@ -9,7 +9,7 @@ airdrop:
     days: days
     hours: hours
     minutes: minutes
-    remaining-time: Remaining time to claim
+    remaining-time: Remaining time to claim phase
     seconds: seconds
   eligibility:
     already-claimed: You already claimed your tokens.

@@ -6,6 +6,7 @@ import Card from 'shared/Card';
 import useModal from 'shared/useModal';
 import EligibleCheckModalContent from 'modules/account/PageToken/Airdrop/EligibleCheckModalContent';
 import { useCheckAirdropEligibilityQuery } from 'api/airdrop';
+// import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
 import { ReactComponent as InfoIcon } from '../icons/info.svg';
 
 export default function Airdrop() {

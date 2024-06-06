@@ -36,7 +36,7 @@ export default function Countdown() {
     let intervalId: NodeJS.Timeout | undefined;
 
     const initializeCountdown = () => {
-      const deadline = new Date('2024-06-07T08:00:00').getTime();
+      const deadline = new Date('2024-06-14T08:00:00').getTime();
       intervalId = setInterval(() => {
         if (
           !daysFirstLetterRef.current ||
