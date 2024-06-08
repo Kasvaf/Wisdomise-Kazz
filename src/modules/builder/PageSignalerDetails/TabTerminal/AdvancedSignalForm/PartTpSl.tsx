@@ -58,6 +58,7 @@ const PartTpSl: React.FC<{
   };
 
   useEffect(sortItems, [setItems, type, market]);
+  const first100Index = items.findIndex(x => +x.amountRatio >= 100);
 
   return (
     <ClosablePart
@@ -113,7 +114,7 @@ const PartTpSl: React.FC<{
               />
             </div>
 
-            {items.findIndex(x => +x.amountRatio >= 100) < ind && (
+            {first100Index >= 0 && first100Index < ind && (
               <div className="px-2 pb-2 text-error">
                 {t('signal-form.error-100', {
                   type,
