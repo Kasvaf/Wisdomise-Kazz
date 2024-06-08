@@ -26,16 +26,13 @@ const AdvancedSignalForm: React.FC<Props> = ({
   const formState = useSignalFormStates();
   const {
     isUpdate: [isUpdate, setIsUpdate],
-    hasTakeProfit: [, setHasTakeProfit],
-    hasStopLosses: [, setHasStopLosses],
     takeProfits: [, setTakeProfits],
     stopLosses: [, setStopLosses],
   } = formState;
 
   useEffect(() => {
-    setHasTakeProfit(
-      !activePosition || !!activePosition.manager?.take_profit?.length,
-    );
+    setIsUpdate(!!activePosition);
+
     setTakeProfits(
       activePosition?.manager?.take_profit?.map(x => ({
         key: x.applied ? x.key : v4(),
@@ -45,10 +42,6 @@ const AdvancedSignalForm: React.FC<Props> = ({
       })) ?? [],
     );
 
-    setIsUpdate(!!activePosition);
-    setHasStopLosses(
-      !activePosition || !!activePosition.manager?.stop_loss?.length,
-    );
     setStopLosses(
       activePosition?.manager?.stop_loss?.map(x => ({
         key: x.applied ? x.key : v4(),
@@ -57,14 +50,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
         applied: x.applied ?? false,
       })) ?? [],
     );
-  }, [
-    activePosition,
-    setIsUpdate,
-    setHasTakeProfit,
-    setHasStopLosses,
-    setTakeProfits,
-    setStopLosses,
-  ]);
+  }, [activePosition, setIsUpdate, setTakeProfits, setStopLosses]);
 
   const {
     isSubmitting,

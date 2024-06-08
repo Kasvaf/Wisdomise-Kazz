@@ -28,9 +28,7 @@ const useSignalFormStates = () => {
     exp: useState('1h'),
     orderExp: useState('1h'),
 
-    hasTakeProfit: useState(true),
     takeProfits: useState<TpSlData[]>([]),
-    hasStopLosses: useState(true),
     stopLosses: useState<TpSlData[]>([]),
 
     getTakeProfits: () => toApiContract(result.takeProfits[0]),

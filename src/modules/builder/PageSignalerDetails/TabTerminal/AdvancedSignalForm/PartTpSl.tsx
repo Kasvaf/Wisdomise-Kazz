@@ -23,10 +23,6 @@ const PartTpSl: React.FC<{
     price: [price],
     market: [market],
     orderType: [orderType],
-    [type === 'TP' ? 'hasTakeProfit' : 'hasStopLosses']: [
-      isEnabled,
-      setIsEnabled,
-    ],
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
   } = data;
 
@@ -67,8 +63,6 @@ const PartTpSl: React.FC<{
           ? t('signal-form.take-profit')
           : t('signal-form.stop-loss')
       }
-      isOpen={isEnabled}
-      onIsOpenChanged={setIsEnabled}
     >
       <div className="flex flex-col gap-2">
         {items.map((tp, ind) => (
