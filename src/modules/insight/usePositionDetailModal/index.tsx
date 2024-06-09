@@ -43,7 +43,7 @@ const ItemsList: React.FC<{
       {items.map((item, ind) => (
         <div
           key={item.key}
-          className="flex items-center justify-between rounded-sm bg-black/10 px-2 py-1 text-xxs"
+          className="mb-1.5 flex items-center justify-between rounded-lg bg-black/15 px-2 py-1 text-xxs"
         >
           <div className="flex items-center gap-1">
             {ind + 1}. {title}{' '}
