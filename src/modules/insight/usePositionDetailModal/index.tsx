@@ -114,23 +114,29 @@ const PositionDetailModal: React.FC<{
               <Badge
                 label={statusMap[position.status].label}
                 color={statusMap[position.status].color}
-                className="grow-0"
+                className="grow-0 !text-sm"
               />
             </Labeled>
             <Labeled label="P/L" className="w-1/2">
-              <PriceChange value={position.pnl} valueToFixed />
+              <PriceChange
+                value={position.pnl}
+                valueToFixed
+                textClassName="!text-sm"
+              />
             </Labeled>
             <Labeled label="Position Side" className="mt-3 w-1/2">
-              {position.position_side}
+              <div className="text-sm">{position.position_side}</div>
             </Labeled>
             <Labeled label="Current Size" className="mt-3 w-1/2">
-              {[
-                ...(position.manager?.take_profit ?? []),
-                ...(position.manager?.stop_loss ?? []),
-              ]
-                .filter(x => x.applied)
-                .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100}{' '}
-              %
+              <div className="text-sm">
+                {[
+                  ...(position.manager?.take_profit ?? []),
+                  ...(position.manager?.stop_loss ?? []),
+                ]
+                  .filter(x => x.applied)
+                  .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100}{' '}
+                %
+              </div>
             </Labeled>
           </div>
         </section>
