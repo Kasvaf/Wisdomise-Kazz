@@ -14,12 +14,13 @@ interface SignalPosition {
 }
 
 // ----------------------------------------------------------------------------
-interface SignalItem {
+export interface SignalItem {
   key: string;
   amount_ratio: number;
   applied?: boolean;
   price_exact?: number;
   price_ratio?: number;
+  date?: string;
 }
 
 // ----------------------------------------------------------------------------
@@ -42,8 +43,8 @@ interface Signal {
 export interface FullPosition extends RawPosition {
   pair_name: string;
   leverage: number;
-  stop_loss?: number;
-  take_profit?: number;
+  stop_loss?: number | null;
+  take_profit?: number | null;
   signal?: Signal;
   manager?: {
     stop_loss?: SignalItem[];

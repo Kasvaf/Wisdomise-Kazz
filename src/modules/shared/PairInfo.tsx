@@ -4,7 +4,7 @@ import { useSignalerPair } from 'api';
 import CoinsIcons from './CoinsIcons';
 
 interface Props {
-  title: string;
+  title?: string;
   name?: string;
   base?: string;
   quote?: string;
