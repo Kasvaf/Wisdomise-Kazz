@@ -185,7 +185,7 @@ const TabBuilder = () => {
           onClick={deleteHandler}
           variant="secondary-red"
         >
-          {t('delete-signaler.title')}
+          {t('delete-fp.title')}
         </Button>
         <Button
           disabled={

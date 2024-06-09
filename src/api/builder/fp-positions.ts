@@ -69,7 +69,7 @@ export const useFpPositionsQuery = ({
     async () => {
       if (!fpKey || !subscriberKey) return;
 
-      const { data } = await axios.get<StrategyPosition[]>(
+      const { data } = await axios.get<{ positions: StrategyPosition[] }>(
         `/factory/financial-products/${fpKey}/position-differences`,
         {
           params: {
@@ -80,7 +80,7 @@ export const useFpPositionsQuery = ({
           },
         },
       );
-      return data.map(sp => ({
+      return data.positions.map(sp => ({
         actual_position: {
           ...sp.actual_position,
           pair: normalizePair(sp.actual_position.pair),
