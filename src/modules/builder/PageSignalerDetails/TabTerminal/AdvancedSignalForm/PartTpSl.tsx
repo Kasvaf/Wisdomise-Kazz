@@ -65,26 +65,26 @@ const PartTpSl: React.FC<{
       }
     >
       <div className="flex flex-col gap-2">
-        {items.map((tp, ind) => (
+        {items.map((item, ind) => (
           <Collapsible
             className={colorClassName}
             headerClassName={colorClassName}
-            key={tp.key}
+            key={item.key}
             title={`${type} #${String(ind + 1)}`}
-            applied={tp.applied}
-            onDelete={() => setItems(items.filter(x => x.key !== tp.key))}
+            applied={item.applied}
+            onDelete={() => setItems(items.filter(x => x.key !== item.key))}
           >
             <div className="flex items-center gap-2 p-2">
               <AmountInputBox
                 label="Order Price"
                 suffix="USDT"
                 className="w-2/3"
-                disabled={tp.applied}
-                value={String(tp.priceExact)}
+                disabled={item.applied}
+                value={String(item.priceExact)}
                 onChange={val =>
                   setItems(
                     items.map(x =>
-                      x.key === tp.key ? { ...x, priceExact: val } : x,
+                      x.key === item.key ? { ...x, priceExact: val } : x,
                     ),
                   )
                 }
@@ -94,14 +94,14 @@ const PartTpSl: React.FC<{
                 label="Volume"
                 suffix="%"
                 className="w-1/3"
-                disabled={tp.applied}
-                value={String(tp.amountRatio)}
+                disabled={item.applied}
+                value={String(item.amountRatio)}
                 min={0}
                 max={100}
                 onChange={val =>
                   setItems(
                     items.map(x =>
-                      x.key === tp.key ? { ...x, amountRatio: val } : x,
+                      x.key === item.key ? { ...x, amountRatio: val } : x,
                     ),
                   )
                 }
@@ -111,6 +111,16 @@ const PartTpSl: React.FC<{
             {first100Index >= 0 && first100Index < ind && (
               <div className="px-2 pb-2 text-error">
                 {t('signal-form.error-100', {
+                  type,
+                })}
+              </div>
+            )}
+
+            {items.some(
+              (x, ind0) => ind0 < ind && x.priceExact === item.priceExact,
+            ) && (
+              <div className="px-2 pb-2 text-error">
+                {t('signal-form.error-dup', {
                   type,
                 })}
               </div>
