@@ -4,7 +4,7 @@ import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useHasFlag } from 'api';
 import { MAIN_LANDING } from 'config/constants';
-import Logo from 'assets/logo-horizontal-beta.svg';
+import Logo from 'assets/logo-horizontal.svg';
 import BetaVersion from 'shared/BetaVersion';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as TreeMid } from './tree-mid.svg';
@@ -24,7 +24,7 @@ const MenuItemsGroup: React.FC<{ item: RootMenuItem; isActive: boolean }> = ({
         target={item.link.startsWith('https://') ? '_blank' : undefined}
         onClick={item.onClick}
         className={clsx(
-          'group mb-4 flex cursor-pointer items-center justify-between rounded-xl p-4 text-sm',
+          'group mb-4 flex h-12 cursor-pointer items-center justify-between rounded-xl px-4 text-sm',
           'opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:bg-[#FFFFFF1A] [&.active]:opacity-100',
         )}
       >
