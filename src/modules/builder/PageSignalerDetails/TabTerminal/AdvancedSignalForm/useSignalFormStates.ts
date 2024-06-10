@@ -24,6 +24,7 @@ const useSignalFormStates = () => {
     market: useState<'long' | 'short'>('long'),
     orderType: useState<'limit' | 'market'>('market'),
     price: useState(''),
+    priceUpdated: useState(false),
 
     exp: useState('1h'),
     orderExp: useState('1h'),

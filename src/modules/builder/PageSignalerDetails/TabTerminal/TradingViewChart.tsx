@@ -7,10 +7,7 @@ import {
 } from 'lightweight-charts';
 import { useEffect, useRef } from 'react';
 import { type Candle } from 'api';
-import {
-  type TpSlData,
-  type SignalFormState,
-} from './AdvancedSignalForm/useSignalFormStates';
+import { type SignalFormState } from './AdvancedSignalForm/useSignalFormStates';
 
 const addPriceLines = ({
   series,
@@ -19,12 +16,11 @@ const addPriceLines = ({
   prefix,
 }: {
   series: ISeriesApi<'Candlestick', any>;
-  items: TpSlData[];
+  items: number[];
   color: string;
   prefix: string;
 }) => {
-  for (const [i, item] of items.entries()) {
-    const price = Number(+item.priceExact);
+  for (const [i, price] of items.entries()) {
     if (!Number.isNaN(price)) {
       series.createPriceLine({
         title: prefix + ' #' + String(i + 1),
@@ -87,14 +83,21 @@ const TradingViewChart: React.FC<{
 
     addPriceLines({
       series: candleSeries,
-      items: formState.takeProfits[0],
+      items: [Number(+formState.price[0])],
+      color: '#fff',
+      prefix: 'Open',
+    });
+
+    addPriceLines({
+      series: candleSeries,
+      items: formState.takeProfits[0].map(x => Number(+x.priceExact)),
       color: '#11C37E',
       prefix: 'TP',
     });
 
     addPriceLines({
       series: candleSeries,
-      items: formState.stopLosses[0],
+      items: formState.stopLosses[0].map(x => Number(+x.priceExact)),
       color: '#F14056',
       prefix: 'SL',
     });
@@ -107,7 +110,7 @@ const TradingViewChart: React.FC<{
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, [candles, formState.stopLosses, formState.takeProfits]);
+  }, [candles, formState.price, formState.stopLosses, formState.takeProfits]);
 
   return <div ref={el} className="overflow-hidden rounded-xl" />;
 };

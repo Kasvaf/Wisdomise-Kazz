@@ -26,13 +26,20 @@ const AdvancedSignalForm: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation('builder');
   const {
+    price: [, setPrice],
+    priceUpdated: [, setPriceUpdated],
     isUpdate: [isUpdate, setIsUpdate],
     takeProfits: [, setTakeProfits],
     stopLosses: [, setStopLosses],
   } = formState;
 
+  useEffect(() => setPriceUpdated(false), [assetName, setPriceUpdated]);
   useEffect(() => {
     setIsUpdate(!!activePosition);
+
+    if (activePosition) {
+      setPrice(String(activePosition.entry_price));
+    }
 
     setTakeProfits(
       activePosition?.manager?.take_profit?.map(x => ({
@@ -51,7 +58,14 @@ const AdvancedSignalForm: React.FC<Props> = ({
         applied: x.applied ?? false,
       })) ?? [],
     );
-  }, [activePosition, setIsUpdate, setTakeProfits, setStopLosses]);
+  }, [
+    assetName,
+    activePosition,
+    setIsUpdate,
+    setTakeProfits,
+    setStopLosses,
+    setPrice,
+  ]);
 
   const {
     isSubmitting,
