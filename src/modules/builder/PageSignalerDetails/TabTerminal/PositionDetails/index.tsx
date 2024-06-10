@@ -39,11 +39,12 @@ const BoxItem: React.FC<PropsWithChildren<{ checked?: boolean }>> = ({
 
 const PositionDetails: React.FC<{
   activePosition: FullPosition;
-}> = ({ activePosition }) => {
+  className?: string;
+}> = ({ activePosition, className }) => {
   const statusMap = usePositionStatusMap();
 
   return (
-    <div>
+    <div className={className}>
       <h2 className="mb-4 flex items-center gap-1 text-base font-semibold">
         <DetailsIcon />
         <span>Position Details</span>

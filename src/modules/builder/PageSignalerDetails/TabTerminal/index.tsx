@@ -8,8 +8,8 @@ import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import Icon from 'shared/Icon';
-import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
 import AssetSelector from '../../AssetSelector';
+import TradingViewChart from './TradingViewChart';
 import AdvancedSignalForm from './AdvancedSignalForm';
 import PositionDetails from './PositionDetails';
 import CoinInfo from './CoinInfo';
@@ -74,18 +74,17 @@ const TabTerminal = () => {
         !!signaler && (
           <div className="flex gap-4 mobile:flex-col-reverse">
             <div className="basis-2/3">
-              <h2 className="flex items-center gap-1 text-base font-semibold">
+              <h2 className="mb-3 flex items-center gap-1 text-base font-semibold">
                 <Icon name={bxLineChart} />
                 <span>Wisdomise Chart</span>
               </h2>
-              <SimulatedPositionsChart
-                candles={candles}
-                loading={candlesLoading}
-                positions={[]}
-              />
+              <TradingViewChart candles={candles} loading={candlesLoading} />
 
               {!isLoading && assetName && activePosition && (
-                <PositionDetails activePosition={activePosition} />
+                <PositionDetails
+                  activePosition={activePosition}
+                  className="mt-6"
+                />
               )}
             </div>
 
