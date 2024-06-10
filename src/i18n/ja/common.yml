@@ -1,7 +1,13 @@
 actions:
   back: 戻る
+  cancel: キャンセル
+  complete: 完了
+  edit: 編集
   explore: 詳細を確認
+  invite: 招待する
+  more: もっと
   no: いいえ
+  ok: わかりました
   remove: 取り除く
   save: 保存
   yes: はい
@@ -21,6 +27,7 @@ market:
   long: 長さ
   short: 短い
 network: ネットワーク
+nothing-to-show: 表示するものがありません
 order-type:
   limit: 限界
   market: 市場（マーケット）
@@ -29,5 +36,9 @@ quality:
   high: 高い
   low: 低い
   medium: 中くらい
+recommended-size: 推奨サイズ
 select-crypto: 暗号を選択
+show-more: もっと見せる
 spot: スポット
+upload-failed: アップロードに失敗しました!
+uploading: アップロード中

@@ -1,3 +1,16 @@
+available-exchanges:
+  table:
+    exchange: 交换
+    price: 价格
+    rank: "#"
+    volume_24h: 24小时交易量
+    volume_percentage: 体积 ％
+  title: 可用交易所
+coin-info:
+  24h_chg: 24小时变化
+  market_cap: 市值
+  price: 价格
+  volume_24h: 24小时变化
 detail-page:
   subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
 hot-coins:
@@ -82,4 +95,22 @@ set-notification:
   open-modal-btn:
     not-set: 设置通知
     set: 已设置通知
+socials:
+  all:
+    subtitle: 分析信号 {{symbol}} 在所有社交动态中
+    title: 所有社交动态
+  reddit:
+    followers: 成员
+    subtitle: 分析信号 {{symbol}} 在 Reddit 社区
+    title: Reddit
+  telegram:
+    followers: 订阅者
+    subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
+    title: Telegram
+  trading-view:
+    subtitle: 分析信号 {{symbol}} 在技术分析思路中
+    title: 技术分析思路
+  twitter:
+    subtitle: 分析信号 {{symbol}} 在 Twitter、X 社区
+    title: X、推特
 title: 社会雷达

@@ -4,11 +4,9 @@ airdrop:
   description: >-
     Airdrop Tokens are distributed to eligible participants who took part in our
     campaigns. More info available on our socials.
+  calculation: Calculation
   check: Check Eligibility
   claim: Claim
-  calculation: Calculation
-  now: Now
-  soon: Soon
   countdown:
     days: days
     hours: hours
@@ -19,9 +17,13 @@ airdrop:
     already-claimed: You already claimed your tokens.
     claim: Claim Now
     close: Close
-    eligible:  You are <1>eligible</1> to receive $WSDM airdrop!
-    not-eligible: You are <1>not eligible</1> to receive $WSDM airdrop in this phase! Try your chance in the next phase fam!
+    eligible: You are <1>eligible</1> to receive $WSDM airdrop!
+    not-eligible: >-
+      You are <1>not eligible</1> to receive $WSDM airdrop in this phase! Try
+      your chance in the next phase fam!
     share: Share With Community
+  now: Now
+  soon: Soon
 balance:
   title: WSDM Token
   subtitle: Balance

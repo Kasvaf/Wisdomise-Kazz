@@ -1,7 +1,13 @@
 actions:
   back: 返回
+  cancel: 取消
+  complete: 完全的
+  edit: 编辑
   explore: 探索
+  invite: 邀请
+  more: 更多的
   no: 不
+  ok: 好的
   remove: 消除
   save: 节省
   yes: 是的
@@ -21,6 +27,7 @@ market:
   long: 长的
   short: 短的
 network: 网络
+nothing-to-show: 沒有顯示
 order-type:
   limit: 限制
   market: 市场
@@ -29,5 +36,9 @@ quality:
   high: 高的
   low: 低的
   medium: 中等的
+recommended-size: 建议尺寸
 select-crypto: 暗号を選択
+show-more: 展示更多
 spot: 点
+upload-failed: 上传失败！
+uploading: 上传
