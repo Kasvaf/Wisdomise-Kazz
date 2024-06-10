@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-interface TpSlData {
+export interface TpSlData {
   key: string;
   amountRatio: string;
   priceExact: string;

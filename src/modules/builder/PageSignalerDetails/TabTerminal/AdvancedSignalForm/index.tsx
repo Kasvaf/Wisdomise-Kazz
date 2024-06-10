@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type FullPosition, type SignalerData } from 'api/builder';
 import Button from 'shared/Button';
-import useSignalFormStates from './useSignalFormStates';
+import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
@@ -13,6 +13,7 @@ interface Props {
   signaler: SignalerData;
   assetName: string;
   activePosition?: FullPosition;
+  formState: SignalFormState;
   className?: string;
 }
 
@@ -20,10 +21,10 @@ const AdvancedSignalForm: React.FC<Props> = ({
   signaler,
   assetName,
   activePosition,
+  formState,
   className,
 }) => {
   const { t } = useTranslation('builder');
-  const formState = useSignalFormStates();
   const {
     isUpdate: [isUpdate, setIsUpdate],
     takeProfits: [, setTakeProfits],

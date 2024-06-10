@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -9,8 +10,9 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import Icon from 'shared/Icon';
 import AssetSelector from '../../AssetSelector';
-import TradingViewChart from './TradingViewChart';
+import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
+import TradingViewChart from './TradingViewChart';
 import PositionDetails from './PositionDetails';
 import CoinInfo from './CoinInfo';
 
@@ -44,6 +46,7 @@ const TabTerminal = () => {
       },
     [activeP],
   );
+  const formState = useSignalFormStates();
 
   return (
     <div className="mt-8">
@@ -78,7 +81,11 @@ const TabTerminal = () => {
                 <Icon name={bxLineChart} />
                 <span>Wisdomise Chart</span>
               </h2>
-              <TradingViewChart candles={candles} loading={candlesLoading} />
+              <TradingViewChart
+                candles={candles}
+                loading={candlesLoading}
+                formState={formState}
+              />
 
               {!isLoading && assetName && activePosition && (
                 <PositionDetails
@@ -93,6 +100,7 @@ const TabTerminal = () => {
               assetName={assetName}
               activePosition={activePosition}
               className="basis-1/3"
+              formState={formState}
             />
           </div>
         )

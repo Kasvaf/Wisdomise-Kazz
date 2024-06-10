@@ -1,11 +1,48 @@
-import { type UTCTimestamp, createChart } from 'lightweight-charts';
+import {
+  type UTCTimestamp,
+  createChart,
+  LineStyle,
+  type LineWidth,
+  type ISeriesApi,
+} from 'lightweight-charts';
 import { useEffect, useRef } from 'react';
 import { type Candle } from 'api';
+import {
+  type TpSlData,
+  type SignalFormState,
+} from './AdvancedSignalForm/useSignalFormStates';
+
+const addPriceLines = ({
+  series,
+  items,
+  color,
+  prefix,
+}: {
+  series: ISeriesApi<'Candlestick', any>;
+  items: TpSlData[];
+  color: string;
+  prefix: string;
+}) => {
+  for (const [i, item] of items.entries()) {
+    const price = Number(+item.priceExact);
+    if (!Number.isNaN(price)) {
+      series.createPriceLine({
+        title: prefix + ' #' + String(i + 1),
+        price,
+        color,
+        lineWidth: 2 as LineWidth,
+        lineStyle: LineStyle.Solid,
+        axisLabelVisible: true,
+      });
+    }
+  }
+};
 
 const TradingViewChart: React.FC<{
   loading?: boolean;
   candles?: Candle[];
-}> = ({ candles }) => {
+  formState: SignalFormState;
+}> = ({ candles, formState }) => {
   const el = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,10 +53,18 @@ const TradingViewChart: React.FC<{
         textColor: '#fff',
         background: { color: 'rgba(0,0,0,0.3)' },
       },
+      grid: {
+        horzLines: {
+          color: '#333',
+        },
+        vertLines: {
+          color: '#333',
+        },
+      },
     });
 
+    const candleSeries = chart.addCandlestickSeries();
     if (candles?.length) {
-      const candleSeries = chart.addCandlestickSeries();
       candleSeries?.setData(
         candles
           .map(c => ({
@@ -34,6 +79,20 @@ const TradingViewChart: React.FC<{
       chart.timeScale().fitContent();
     }
 
+    addPriceLines({
+      series: candleSeries,
+      items: formState.takeProfits[0],
+      color: '#11C37E',
+      prefix: 'TP',
+    });
+
+    addPriceLines({
+      series: candleSeries,
+      items: formState.stopLosses[0],
+      color: '#F14056',
+      prefix: 'SL',
+    });
+
     const handleResize = () => {
       chart.applyOptions({ width: el.current?.clientWidth });
     };
@@ -42,7 +101,7 @@ const TradingViewChart: React.FC<{
       window.removeEventListener('resize', handleResize);
       chart.remove();
     };
-  }, [candles]);
+  }, [candles, formState.stopLosses, formState.takeProfits]);
 
   return <div ref={el} className="overflow-hidden rounded-xl" />;
 };
