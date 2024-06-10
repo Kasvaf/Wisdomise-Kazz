@@ -12,15 +12,13 @@ import { type SignalFormState } from './AdvancedSignalForm/useSignalFormStates';
 const addPriceLines = ({
   series,
   items,
-  color,
   prefix,
 }: {
   series: ISeriesApi<'Candlestick', any>;
-  items: number[];
-  color: string;
+  items: Array<{ price: number; color: string }>;
   prefix: string;
 }) => {
-  for (const [i, price] of items.entries()) {
+  for (const [i, { price, color }] of items.entries()) {
     if (!Number.isNaN(price)) {
       series.createPriceLine({
         title: prefix + ' #' + String(i + 1),
@@ -83,22 +81,30 @@ const TradingViewChart: React.FC<{
 
     addPriceLines({
       series: candleSeries,
-      items: [Number(+formState.price[0])],
-      color: '#fff',
+      items: [
+        {
+          price: Number(+formState.price[0]),
+          color: '#fff',
+        },
+      ],
       prefix: 'Open',
     });
 
     addPriceLines({
       series: candleSeries,
-      items: formState.takeProfits[0].map(x => Number(+x.priceExact)),
-      color: '#11C37E',
+      items: formState.takeProfits[0].map(x => ({
+        price: Number(+x.priceExact),
+        color: x.applied ? '#095538' : '#11C37E',
+      })),
       prefix: 'TP',
     });
 
     addPriceLines({
       series: candleSeries,
-      items: formState.stopLosses[0].map(x => Number(+x.priceExact)),
-      color: '#F14056',
+      items: formState.stopLosses[0].map(x => ({
+        price: Number(+x.priceExact),
+        color: x.applied ? '#7e1b27' : '#F14056',
+      })),
       prefix: 'SL',
     });
 
