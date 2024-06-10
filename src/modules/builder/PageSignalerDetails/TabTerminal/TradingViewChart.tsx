@@ -63,7 +63,10 @@ const TradingViewChart: React.FC<{
       },
     });
 
-    const candleSeries = chart.addCandlestickSeries();
+    const candleSeries = chart.addCandlestickSeries({
+      priceLineColor: '#333',
+    });
+
     if (candles?.length) {
       candleSeries?.setData(
         candles
@@ -76,7 +79,10 @@ const TradingViewChart: React.FC<{
           }))
           .sort((a, b) => a.time - b.time),
       );
-      chart.timeScale().fitContent();
+      chart.timeScale().setVisibleLogicalRange({
+        from: candles.length - 200,
+        to: candles.length,
+      });
     }
 
     addPriceLines({
