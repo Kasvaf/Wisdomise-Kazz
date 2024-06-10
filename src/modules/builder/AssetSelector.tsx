@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import type React from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +40,7 @@ interface Props {
   all?: boolean;
   placeholder?: string;
   className?: string;
+  comboClassName?: string;
   selectFirst?: boolean;
   market?: MarketTypes;
 }
@@ -53,6 +55,7 @@ const AssetSelector: React.FC<Props> = ({
   all,
   placeholder = label,
   className,
+  comboClassName,
   selectFirst,
   market = 'FUTURES',
 }) => {
@@ -78,7 +81,7 @@ const AssetSelector: React.FC<Props> = ({
           <AssetOptionItem assetName={assetName} market={market} />
         )}
         disabled={disabled}
-        className="!justify-start !px-2"
+        className={clsx('!justify-start !px-2', comboClassName)}
         optionClassName="!p-0"
       />
     </div>
