@@ -24,7 +24,7 @@ export default function Airdrop() {
 
   return (
     <>
-      <Card className="relative mt-6 flex flex-wrap items-center justify-between gap-12">
+      <Card className="relative mt-6 flex flex-wrap items-center justify-between gap-16">
         <h2 className="flex items-center gap-2 text-2xl font-medium">
           {t('airdrop.title')}
           <Tooltip title={t('airdrop.description')}>
@@ -34,8 +34,8 @@ export default function Airdrop() {
 
         <div className="flex grow items-center justify-between">
           <div className="flex flex-col items-center justify-between gap-4 text-center">
-            <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4">
-              13-06-2024
+            <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4 max-md:text-xs">
+              {t('airdrop.now')}
             </div>
             <div className="flex w-full items-center">
               <div className="grow"></div>
@@ -44,19 +44,31 @@ export default function Airdrop() {
               </div>
               <div className="grow border-b border-white/20"></div>
             </div>
-            <div className="h-10 text-xl">Check Eligibility</div>
+            <div className="h-10 md:text-xl">{t('airdrop.check')}</div>
           </div>
           <div className="grow border-b border-white/20"></div>
           <div className="flex flex-col items-center justify-between gap-4 text-center">
-            <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4">
-              Soon
+            <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4 max-md:text-xs">
+              18-06-2024
+            </div>
+            <div className="flex w-full items-center">
+              <div className="grow border-b border-white/20"></div>
+              <div className="h-4 w-4 shrink-0 rounded-full bg-white/50"></div>
+              <div className="grow border-b border-white/20"></div>
+            </div>
+            <div className="h-10 md:text-xl">{t('airdrop.calculation')}</div>
+          </div>
+          <div className="grow border-b border-white/20"></div>
+          <div className="flex flex-col items-center justify-between gap-4 text-center">
+            <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4 max-md:text-xs">
+              {t('airdrop.soon')}
             </div>
             <div className="flex w-full items-center">
               <div className="grow border-b border-white/20"></div>
               <div className="h-4 w-4 shrink-0 rounded-full bg-white/50"></div>
               <div className="grow"></div>
             </div>
-            <div className="h-10 text-xl">Claim</div>
+            <div className="h-10 md:text-xl">{t('airdrop.claim')}</div>
           </div>
         </div>
 
