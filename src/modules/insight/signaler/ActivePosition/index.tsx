@@ -2,10 +2,14 @@ import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
+import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
+import { type FullPosition } from 'api/builder';
+import usePositionDetailModal from 'modules/insight/usePositionDetailModal';
 import Badge from 'shared/Badge';
 import FancyPrice from 'shared/FancyPrice';
 import PriceChange from 'shared/PriceChange';
-import { type RawPosition } from 'api/types/signalResponse';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 import usePositionStatusMap from '../usePositionStatusMap';
 import { ReactComponent as IconEmpty } from './empty-icon.svg';
 
@@ -25,14 +29,14 @@ const Labeled: React.FC<
   );
 };
 
-interface Position extends RawPosition {
-  take_profit?: number | null;
-  stop_loss?: number | null;
-}
-
-const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {
+const ActivePosition: React.FC<{ position?: FullPosition }> = ({
+  position: p,
+}) => {
   const { t } = useTranslation('strategy');
   const statusMap = usePositionStatusMap();
+
+  const [PositionDetailModal, showPositionDetailModal] =
+    usePositionDetailModal(p);
 
   if (!p) {
     return (
@@ -46,39 +50,66 @@ const ActivePosition: React.FC<{ position?: Position }> = ({ position: p }) => {
   }
 
   return (
-    <div className="mt-3 flex min-h-[72px] flex-wrap justify-between gap-3 rounded-xl bg-white/5 p-3">
-      <Labeled label={t('positions-history.status')}>
-        {p.status && (
-          <Badge
-            label={statusMap[p.status].label}
-            color={statusMap[p.status].color}
-            className="min-w-[80px] !text-sm"
-          />
-        )}
-      </Labeled>
+    <>
+      <div className="mt-3 flex min-h-[72px] flex-wrap justify-between gap-3 rounded-xl bg-white/5 p-3">
+        <Labeled label={t('positions-history.status')}>
+          {p.status && (
+            <Badge
+              label={statusMap[p.status].label}
+              color={statusMap[p.status].color}
+              className="min-w-[80px] !text-sm"
+            />
+          )}
+        </Labeled>
 
-      <Labeled label={t('positions-history.market-side')}>
-        {p.position_side}
-      </Labeled>
-      <Labeled label={t('positions-history.entry-time')}>
-        {p.entry_time ? dayjs(p.entry_time).format('HH:mm MMM DD') : '-'}
-      </Labeled>
-      <Labeled
-        label={t('positions-history.pnl')}
-        className="mobile:basis-full mobile:border-y mobile:border-y-white/5 mobile:py-3"
-      >
-        <PriceChange value={p.pnl} textClassName="!text-2xl" />
-      </Labeled>
-      <Labeled label={t('positions-history.entry-price')}>
-        <FancyPrice value={p.entry_price} />
-      </Labeled>
-      <Labeled label={t('positions-history.take-profit')}>
-        <FancyPrice value={p.take_profit} />
-      </Labeled>
-      <Labeled label={t('positions-history.stop-loss')}>
-        <FancyPrice value={p.stop_loss} />
-      </Labeled>
-    </div>
+        <Labeled label={t('positions-history.market-side')}>
+          {p.position_side}
+        </Labeled>
+        <Labeled label={t('positions-history.entry-time')}>
+          {p.entry_time ? dayjs(p.entry_time).format('HH:mm MMM DD') : '-'}
+        </Labeled>
+        <Labeled
+          label={t('positions-history.pnl')}
+          className="mobile:basis-full mobile:border-y mobile:border-y-white/5 mobile:py-3"
+        >
+          <PriceChange value={p.pnl} textClassName="!text-2xl" />
+        </Labeled>
+        <Labeled label={t('positions-history.entry-price')}>
+          <FancyPrice value={p.entry_price} />
+        </Labeled>
+        <Labeled label={t('positions-history.take-profit')}>
+          {(p.manager?.take_profit?.length ?? 0) > 1 ? (
+            <Button
+              variant="link"
+              className="!p-0"
+              onClick={showPositionDetailModal}
+            >
+              <Icon size={16} name={bxChevronLeft} />
+              Multi-TP
+              <Icon size={16} name={bxChevronRight} />
+            </Button>
+          ) : (
+            <FancyPrice value={p.take_profit} />
+          )}
+        </Labeled>
+        <Labeled label={t('positions-history.stop-loss')}>
+          {(p.manager?.stop_loss?.length ?? 0) > 1 ? (
+            <Button
+              variant="link"
+              className="!p-0"
+              onClick={showPositionDetailModal}
+            >
+              <Icon size={16} name={bxChevronLeft} />
+              Multi-SL
+              <Icon size={16} name={bxChevronRight} />
+            </Button>
+          ) : (
+            <FancyPrice value={p.stop_loss} />
+          )}
+        </Labeled>
+      </div>
+      {PositionDetailModal}
+    </>
   );
 };
 

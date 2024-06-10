@@ -20,6 +20,7 @@ import Icon from 'shared/Icon';
 import AmountInputBox from 'shared/AmountInputBox';
 import PublishNotice from '../../PublishNotice';
 import AssetManager from './AssetManager';
+import useDeleteFp from './useDeleteFp';
 const { Option } = Select;
 
 const TabBuilder = () => {
@@ -79,6 +80,10 @@ const TabBuilder = () => {
       notification.error({ message: unwrapErrorMessage(error) });
     }
   };
+
+  const { ModalDeleteConfirm, deleteHandler, isDeleting } = useDeleteFp(
+    params.id,
+  );
 
   if (!fp || isLoading || !params.id) {
     return (
@@ -174,7 +179,14 @@ const TabBuilder = () => {
         </div>
       </section>
 
-      <section className="mt-8 flex justify-center">
+      <section className="mt-8 flex justify-center gap-4">
+        <Button
+          loading={isDeleting}
+          onClick={deleteHandler}
+          variant="secondary-red"
+        >
+          {t('delete-fp.title')}
+        </Button>
         <Button
           disabled={
             !hasChanges ||
@@ -192,6 +204,7 @@ const TabBuilder = () => {
       </section>
 
       <PublishNotice type="fp" />
+      {ModalDeleteConfirm}
     </div>
   );
 };

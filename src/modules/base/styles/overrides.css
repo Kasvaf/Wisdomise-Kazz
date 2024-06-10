@@ -177,6 +177,9 @@
     @apply !bg-black;
   }
 }
+.no-padding .ant-select-selector.ant-select-selector {
+  @apply !p-0;
+}
 /* ------------------------------------------------- */
 
 .ant-notification-notice {

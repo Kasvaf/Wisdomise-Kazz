@@ -3,6 +3,7 @@ actions:
   explore: Explore
   'no': 'No'
   remove: Remove
+  reset: reset
   save: Save
   'yes': 'Yes'
 aum: AUM
