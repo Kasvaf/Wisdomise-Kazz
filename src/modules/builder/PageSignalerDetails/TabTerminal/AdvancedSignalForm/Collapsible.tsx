@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { bxChevronUp } from 'boxicons-quasar';
+import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { useState, type PropsWithChildren } from 'react';
 import Icon from 'shared/Icon';
 import Badge from 'shared/Badge';
@@ -46,11 +46,11 @@ const Collapsible: React.FC<
           className="!p-0"
           onClick={() => setIsCollapsed(x => !x)}
         >
-          <Icon name={bxChevronUp} />
+          <Icon name={isCollapsed ? bxChevronDown : bxChevronUp} />
         </Button>
       </div>
 
-      {!isCollapsed && children}
+      <div className={isCollapsed ? 'hidden' : ''}>{children}</div>
     </div>
   );
 };
