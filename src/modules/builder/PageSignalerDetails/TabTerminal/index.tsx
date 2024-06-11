@@ -88,7 +88,7 @@ const TabTerminal = () => {
             <div className="basis-2/3">
               <h2 className="mb-3 flex items-center gap-1 text-base font-semibold">
                 <Icon name={bxLineChart} />
-                <span>Wisdomise Chart</span>
+                <span>{t('builder:signal-form.chart-title')}</span>
               </h2>
               <TradingViewChart
                 candles={candles}

@@ -82,10 +82,18 @@ publish-notice:
 signal-form:
   btn-close: 完了
   btn-fire-signal: 信号弾
+  btn-new-stop-loss: 新しいストップロス
+  btn-new-take-profit: 新しいテイクプロフィット
   btn-update: 位置を更新
+  chart-title: 知恵チャート
+  conditions-use-market-price: 条件は市場価格を使用する
   confirm-close: このポジションをクローズしてもよろしいですか?
   confirm-fire: この信号を送信してもよろしいですか?
   confirm-update: この信号を更新してもよろしいですか?
+  error-100: これ {{type}} トリガーされない、別の {{type}} まずすべてのボリュームを埋めます。
+  error-dup: すでに定義されています {{type}} まったく同じ価格で。
+  error-max: これ {{type}} 注文価格より低く、発動直後にトリガーされます {{market}} 信号。
+  error-min: これ {{type}} 注文価格よりも大きく、発動直後にトリガーされます {{market}} 信号。
   expiration-time:
     info-text: 信号がエントリに対して有効な期間を指定します。
     info-title: 有効期限
@@ -97,9 +105,15 @@ signal-form:
     info-text: 指値注文の実行に時間制限を設定します。この時間までに注文が約定しない場合は、自動的にキャンセルされます。
     info-title: 注文有効期限
     title: 注文有効期限
-  price: 価格
+  position-details:
+    not-opened-yet: 未開封
+    status: ステータス
+    title: 求人の詳細
+  position-side: 位置側
+  price: 注文価格
   stop-loss: ストップロス
   take-profit: 利食い
+  volume: 音量
 signaler:
   card:
     active-positions: アクティブなポジション

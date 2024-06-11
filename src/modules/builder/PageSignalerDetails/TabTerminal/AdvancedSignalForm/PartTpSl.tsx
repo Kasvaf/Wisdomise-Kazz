@@ -80,7 +80,7 @@ const PartTpSl: React.FC<{
             >
               <div className="flex items-center gap-2 p-2">
                 <AmountInputBox
-                  label="Order Price"
+                  label={t('signal-form.price')}
                   suffix="USDT"
                   className="w-2/3"
                   disabled={item.applied}
@@ -95,7 +95,7 @@ const PartTpSl: React.FC<{
                   onBlur={sortItems}
                 />
                 <AmountInputBox
-                  label="Volume"
+                  label={t('signal-form.volume')}
                   suffix="%"
                   className="w-1/3"
                   disabled={item.applied}
@@ -114,13 +114,25 @@ const PartTpSl: React.FC<{
 
               {dir === 1 && +item.priceExact <= effectivePrice && (
                 <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-max', { type, market })}
+                  {t('signal-form.error-max', {
+                    type,
+                    market:
+                      market === 'long'
+                        ? t('common:market.long')
+                        : t('common:market.short'),
+                  })}
                 </div>
               )}
 
               {dir === -1 && +item.priceExact >= effectivePrice && (
                 <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-min', { type, market })}
+                  {t('signal-form.error-min', {
+                    type,
+                    market:
+                      market === 'long'
+                        ? t('common:market.long')
+                        : t('common:market.short'),
+                  })}
                 </div>
               )}
 
