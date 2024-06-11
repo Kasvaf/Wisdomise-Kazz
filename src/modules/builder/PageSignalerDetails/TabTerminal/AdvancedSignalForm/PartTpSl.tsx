@@ -50,6 +50,8 @@ const PartTpSl: React.FC<{
     x => !x.removed && +x.amountRatio >= 100,
   );
 
+  const dir = (type === 'TP' ? 1 : -1) * (market === 'long' ? 1 : -1);
+
   return (
     <ClosablePart
       title={
@@ -110,11 +112,15 @@ const PartTpSl: React.FC<{
                 />
               </div>
 
-              {first100Index >= 0 && first100Index < ind && (
+              {dir === 1 && +item.priceExact <= effectivePrice && (
                 <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-100', {
-                    type,
-                  })}
+                  {t('signal-form.error-max', { type, market })}
+                </div>
+              )}
+
+              {dir === -1 && +item.priceExact >= effectivePrice && (
+                <div className="px-2 pb-2 text-error">
+                  {t('signal-form.error-min', { type, market })}
                 </div>
               )}
 
@@ -123,9 +129,13 @@ const PartTpSl: React.FC<{
                   !x.removed && ind0 < ind && x.priceExact === item.priceExact,
               ) && (
                 <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-dup', {
-                    type,
-                  })}
+                  {t('signal-form.error-dup', { type })}
+                </div>
+              )}
+
+              {first100Index >= 0 && first100Index < ind && (
+                <div className="px-2 pb-2 text-error">
+                  {t('signal-form.error-100', { type })}
                 </div>
               )}
             </Collapsible>

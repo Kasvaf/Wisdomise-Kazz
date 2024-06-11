@@ -96,6 +96,8 @@ signal-form:
   confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
   error-100: This {{type}} won't trigger, another {{type}} fills all volume first.
+  error-max: This {{type}} is less than order price and will trigger immediately after firing a {{market}} signal.
+  error-min: This {{type}} is bigger than order price and will trigger immediately after firing a {{market}} signal.
   error-dup: You have already defined a {{type}} with the exact same price.
   expiration-time:
     title: Expiration Time
