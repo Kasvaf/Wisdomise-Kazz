@@ -100,7 +100,9 @@ function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
   const dur = +end - +start;
   const toRatio = (d: string | Date) => (+new Date(d) - +start) / dur;
 
-  const maxPnl = positions.reduce((acc, x) => Math.max(acc, x.pnl), 0);
+  const maxPnl = positions
+    .filter(x => x.pnl != null)
+    .reduce((acc, x) => Math.max(acc, x.pnl ?? 0), 0);
   const positionsGrouped = Object.entries(
     groupBy(positions, p => p.pair.display_name),
   )
@@ -114,8 +116,8 @@ function parsePositions(positions: FpiPosition[], start: Date, end: Date) {
           const si: SegmentItem = {
             start: toRatio(p.entry_time || start),
             end: toRatio(p.exit_time || end),
-            color: p.pnl < 0 ? 'error' : 'success',
-            weight: Math.abs(p.pnl) / maxPnl,
+            color: p.pnl == null || p.pnl < 0 ? 'error' : 'success',
+            weight: Math.abs(p.pnl ?? 0) / maxPnl,
             hover: <PositionHover p={p} />,
           };
           return si;

@@ -28,8 +28,8 @@ const ItemsList: React.FC<{
     key: string;
     amount_ratio: number;
     applied?: boolean;
-    price_exact?: number;
-    date?: string;
+    applied_at?: string | null;
+    price_exact?: number | null;
   }>;
   className?: string;
   priceClassName?: string;
@@ -48,9 +48,9 @@ const ItemsList: React.FC<{
           <div className="flex items-center gap-1">
             {ind + 1}. {title}{' '}
             {item.applied && <Badge color="white" label="Hitted" />}
-            {item.date && (
+            {item.applied_at && (
               <span className="font-normal text-white/50">
-                {dayjs(item.date).format('HH:mm, MMM DD')}
+                {dayjs(item.applied_at).format('HH:mm, MMM DD')}
               </span>
             )}
           </div>
@@ -149,7 +149,7 @@ const PositionDetailModal: React.FC<{
               amount_ratio: 1,
               applied: true,
               price_exact: position.entry_price,
-              date: position.entry_time,
+              applied_at: position.entry_time,
             },
           ]}
           className="mb-3"

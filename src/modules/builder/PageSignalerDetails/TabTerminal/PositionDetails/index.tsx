@@ -65,28 +65,42 @@ const PositionDetails: React.FC<{
           <span className="text-sm text-white/50">Position Side:</span>
           <Badge label={activePosition.position_side} color="black" />
         </div>
+
         <div className="h-full border-r border-white/5" />
         <div className="flex items-center gap-2">
           <span className="text-sm text-white/50">P/L:</span>
           <PriceChange value={activePosition.pnl} valueToFixed />
         </div>
+
         <div className="h-full border-r border-white/5" />
         <div className="flex items-center gap-2">
           <span className="text-sm text-white/50">Entry Time:</span>
-          <span className="text-sm">
-            {dayjs(activePosition.entry_time).format('HH:mm, MMM DD')}
-          </span>
-          <span className="text-xs text-white/50">
-            ({dayjs(activePosition.entry_time).fromNow()})
-          </span>
+          {activePosition.entry_time == null ? (
+            '-'
+          ) : (
+            <>
+              <span className="text-sm">
+                {dayjs(activePosition.entry_time).format('HH:mm, MMM DD')}
+              </span>
+              <span className="text-xs text-white/50">
+                ({dayjs(activePosition.entry_time).fromNow()})
+              </span>
+            </>
+          )}
         </div>
       </div>
 
       <div className="flex items-start justify-between gap-2">
         <Box title="Open Details">
           <BoxItem>
-            Open 100% at $
-            {numerable.format(activePosition.entry_price, '0,0.00')}
+            {activePosition.entry_time == null ? (
+              <>Not opened yet</>
+            ) : (
+              <>
+                Open 100% at $
+                {numerable.format(activePosition.entry_price, '0,0.00')}
+              </>
+            )}
           </BoxItem>
         </Box>
         <Box title="Take Profit Details">

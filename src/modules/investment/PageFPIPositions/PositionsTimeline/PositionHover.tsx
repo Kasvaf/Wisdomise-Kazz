@@ -7,17 +7,17 @@ import PriceChange from 'shared/PriceChange';
 
 const TimeBox: React.FC<{
   title: string;
-  price?: number;
-  time?: string;
+  price?: number | null;
+  time?: string | null;
   className?: string;
 }> = ({ title, price, time, className }) => (
   <div className={clsx('rounded-2xl bg-black/20 p-3', className)}>
     <div className="text-xs text-white/40">{title}</div>
     <div className="py-1 text-sm text-white/80">
-      ${numerable.format(price, '0,0.00')}
+      {price == null ? '-' : <>${numerable.format(price, '0,0.00')}</>}
     </div>
     <div className="text-xs text-white/40">
-      {dayjs(time).format('HH:mm, MMMM DD')}
+      {price == null ? '-' : dayjs(time).format('HH:mm, MMMM DD')}
     </div>
   </div>
 );

@@ -6,7 +6,7 @@ import { ReactComponent as PriceUpIcon } from './priceUp.svg';
 
 interface Props {
   bg?: boolean;
-  value: number;
+  value?: number | null;
   colorize?: boolean;
   valueToFixed?: boolean;
   className?: string;
@@ -21,7 +21,7 @@ const PriceChange: React.FC<Props> = ({
   valueToFixed,
   colorize = true,
 }) => {
-  if (Number.isNaN(value)) return <div className="p-2" />;
+  if (value == null || Number.isNaN(+value)) return <div className="p-2" />;
 
   const bgColorized = value >= 0 ? 'bg-[#43D76E0D]' : 'bg-[#F140560D]';
   const bgColor = colorize ? bgColorized : 'bg-white/5';

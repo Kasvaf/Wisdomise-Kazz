@@ -8,7 +8,7 @@ const ValuesRow: React.FC<
   PropsWithChildren<{
     values: Array<{
       label: string;
-      value?: string | number;
+      value?: string | number | null;
       isMuted?: boolean;
       isLocked?: boolean;
     }>;
@@ -37,7 +37,7 @@ const ValuesRow: React.FC<
                   {t('matrix.locked')}
                 </span>
               ) : (
-                v.value || (
+                v.value ?? (
                   <span className="text-white/20">{t('matrix.none')}</span>
                 )
               )}
