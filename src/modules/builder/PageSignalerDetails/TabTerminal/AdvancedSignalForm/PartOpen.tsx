@@ -68,6 +68,7 @@ const PartOpen: React.FC<{
 
       <div className="flex items-end gap-2">
         <DurationInput
+          className="grow"
           label={
             <div className="flex items-center">
               {t('signal-form.expiration-time.title')}
@@ -81,21 +82,23 @@ const PartOpen: React.FC<{
           value={exp}
           onChange={setExp}
         />
-        <DurationInput
-          label={
-            <div className="flex items-center">
-              {t('signal-form.order-expiration-time.title')}
-              <InfoButton
-                className="ml-1 !opacity-50"
-                title={t('signal-form.order-expiration-time.info-title')}
-                text={t('signal-form.order-expiration-time.info-text')}
-              />
-            </div>
-          }
-          value={orderExp}
-          onChange={setOrderExp}
-          disabled={orderType === 'market'}
-        />
+        {orderType === 'limit' && (
+          <DurationInput
+            className="grow"
+            label={
+              <div className="flex items-center">
+                {t('signal-form.order-expiration-time.title')}
+                <InfoButton
+                  className="ml-1 !opacity-50"
+                  title={t('signal-form.order-expiration-time.info-title')}
+                  text={t('signal-form.order-expiration-time.info-text')}
+                />
+              </div>
+            }
+            value={orderExp}
+            onChange={setOrderExp}
+          />
+        )}
       </div>
     </ClosablePart>
   );
