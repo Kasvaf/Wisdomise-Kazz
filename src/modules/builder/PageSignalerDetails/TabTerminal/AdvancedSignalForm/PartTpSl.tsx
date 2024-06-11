@@ -112,28 +112,32 @@ const PartTpSl: React.FC<{
                 />
               </div>
 
-              {dir === 1 && +item.priceExact <= effectivePrice && (
-                <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-max', {
-                    type,
-                    market:
-                      market === 'long'
-                        ? t('common:market.long')
-                        : t('common:market.short'),
-                  })}
-                </div>
-              )}
+              {!item.applied && (
+                <>
+                  {dir === 1 && +item.priceExact <= effectivePrice && (
+                    <div className="px-2 pb-2 text-error">
+                      {t('signal-form.error-max', {
+                        type,
+                        market:
+                          market === 'long'
+                            ? t('common:market.long')
+                            : t('common:market.short'),
+                      })}
+                    </div>
+                  )}
 
-              {dir === -1 && +item.priceExact >= effectivePrice && (
-                <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-min', {
-                    type,
-                    market:
-                      market === 'long'
-                        ? t('common:market.long')
-                        : t('common:market.short'),
-                  })}
-                </div>
+                  {dir === -1 && +item.priceExact >= effectivePrice && (
+                    <div className="px-2 pb-2 text-error">
+                      {t('signal-form.error-min', {
+                        type,
+                        market:
+                          market === 'long'
+                            ? t('common:market.long')
+                            : t('common:market.short'),
+                      })}
+                    </div>
+                  )}
+                </>
               )}
 
               {items.some(
