@@ -1,11 +1,10 @@
-import { v4 } from 'uuid';
 import { clsx } from 'clsx';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type FullPosition, type SignalerData } from 'api/builder';
 import Button from 'shared/Button';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
+import useSyncFormState from './useSyncFormState';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
 
@@ -26,46 +25,14 @@ const AdvancedSignalForm: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation('builder');
   const {
-    price: [, setPrice],
-    priceUpdated: [, setPriceUpdated],
-    isUpdate: [isUpdate, setIsUpdate],
-    takeProfits: [, setTakeProfits],
-    stopLosses: [, setStopLosses],
+    isUpdate: [isUpdate],
   } = formState;
 
-  useEffect(() => setPriceUpdated(false), [assetName, setPriceUpdated]);
-  useEffect(() => {
-    setIsUpdate(!!activePosition);
-
-    if (activePosition) {
-      setPrice(String(activePosition.entry_price));
-    }
-
-    setTakeProfits(
-      activePosition?.manager?.take_profit?.map(x => ({
-        key: x.applied ? x.key : v4(),
-        amountRatio: String(x.amount_ratio * 100),
-        priceExact: String(x.price_exact ?? 0),
-        applied: x.applied ?? false,
-      })) ?? [],
-    );
-
-    setStopLosses(
-      activePosition?.manager?.stop_loss?.map(x => ({
-        key: x.applied ? x.key : v4(),
-        amountRatio: String(x.amount_ratio * 100),
-        priceExact: String(x.price_exact ?? 0),
-        applied: x.applied ?? false,
-      })) ?? [],
-    );
-  }, [
+  useSyncFormState({
+    formState,
     assetName,
     activePosition,
-    setIsUpdate,
-    setTakeProfits,
-    setStopLosses,
-    setPrice,
-  ]);
+  });
 
   const {
     isSubmitting,
