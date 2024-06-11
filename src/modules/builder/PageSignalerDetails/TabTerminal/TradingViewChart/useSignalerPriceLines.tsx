@@ -55,19 +55,23 @@ const useSignalerPriceLines = ({
 
     const tpLines = addPriceLines({
       series: candleSeries,
-      items: formState.takeProfits[0].map(x => ({
-        price: Number(+x.priceExact),
-        color: x.applied ? '#095538' : '#11C37E',
-      })),
+      items: formState.takeProfits[0]
+        .filter(x => !x.removed)
+        .map(x => ({
+          price: Number(+x.priceExact),
+          color: x.applied ? '#095538' : '#11C37E',
+        })),
       prefix: 'TP',
     });
 
     const slLines = addPriceLines({
       series: candleSeries,
-      items: formState.stopLosses[0].map(x => ({
-        price: Number(+x.priceExact),
-        color: x.applied ? '#7e1b27' : '#F14056',
-      })),
+      items: formState.stopLosses[0]
+        .filter(x => !x.removed)
+        .map(x => ({
+          price: Number(+x.priceExact),
+          color: x.applied ? '#7e1b27' : '#F14056',
+        })),
       prefix: 'SL',
     });
 
