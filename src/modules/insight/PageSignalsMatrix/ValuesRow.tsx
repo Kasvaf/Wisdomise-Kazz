@@ -1,6 +1,6 @@
 import { bxLock } from 'boxicons-quasar';
 import { clsx } from 'clsx';
-import { type PropsWithChildren } from 'react';
+import { type ReactElement, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 
@@ -8,7 +8,7 @@ const ValuesRow: React.FC<
   PropsWithChildren<{
     values: Array<{
       label: string;
-      value?: string | number | null;
+      value?: ReactElement | string | number | null;
       isMuted?: boolean;
       isLocked?: boolean;
     }>;

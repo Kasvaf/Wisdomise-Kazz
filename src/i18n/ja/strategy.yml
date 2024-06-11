@@ -65,6 +65,15 @@ matrix:
   title: 直近のポジション
   tp: TP
 no-active-positions: まだ有効なポジションはありません。
+position-detail-modal:
+  current-size: 現在のサイズ
+  hitted: ヒット
+  open: オープン
+  signaler: 信号機
+  stop-loss: ストップロス
+  suggestion: 推奨
+  take-profit: 利食い
+  title: 求人の詳細
 positions-history:
   entry-point: エントリーポイント
   entry-price: エントリープライス
@@ -73,6 +82,7 @@ positions-history:
   market-side: マーケットサイド
   pairs: ペア
   pnl: P/L
+  position-side: 位置側
   status: ステータス
   stop-loss: ストップロス
   strategy: 戦略

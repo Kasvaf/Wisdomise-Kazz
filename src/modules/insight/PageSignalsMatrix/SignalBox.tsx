@@ -1,16 +1,19 @@
+/* eslint-disable import/max-dependencies */
 import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import type React from 'react';
-import { useCallback, useState } from 'react';
+import { type PropsWithChildren, useCallback, useState } from 'react';
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import { useSubscription } from 'api';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import NotificationButton from 'modules/account/PageNotification/NotificationButton';
 import PriceChange from 'shared/PriceChange';
 import Badge from 'shared/Badge';
+import Icon from 'shared/Icon';
+import usePositionDetailModal from '../usePositionDetailModal';
 import useSignalSubscriptionModal from './useSignalSubscriptionModal';
 import { useSuggestionsMap } from './constants';
 import ValuesRow from './ValuesRow';
@@ -81,6 +84,14 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p, className }) => {
   );
 };
 
+const Quoted: React.FC<PropsWithChildren> = ({ children }) => (
+  <div className="flex items-center">
+    <Icon size={16} name={bxChevronLeft} />
+    {children}
+    <Icon size={16} name={bxChevronRight} />
+  </div>
+);
+
 const SignalBox: React.FC<Props> = ({ position: p, className }) => {
   const { t } = useTranslation('strategy');
   const { level } = useSubscription();
@@ -90,21 +101,30 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
   const isTouch = isTouchDevice();
   const [summary, setSummary] = useState(true);
 
-  const navigate = useNavigate();
+  const [PositionDetailModal, showPositionDetailModal] =
+    usePositionDetailModal(p);
+
   const [SubModal, showSubModal] = useSignalSubscriptionModal(requiredLevel);
-  const clickHandler: React.MouseEventHandler<HTMLAnchorElement> = useCallback(
+  const clickHandler: React.MouseEventHandler<HTMLDivElement> = useCallback(
     async e => {
       if (isLocked) {
         e.preventDefault();
         if (await showSubModal()) {
-          navigate('/account/billing');
+          await showPositionDetailModal();
         }
       }
       if (isTouch) {
-        setSummary(x => !x);
+        setSummary(currentSummary => {
+          if (currentSummary) {
+            void showPositionDetailModal();
+          }
+          return !currentSummary;
+        });
+      } else {
+        await showPositionDetailModal();
       }
     },
-    [isLocked, isTouch, navigate, showSubModal],
+    [isLocked, isTouch, showPositionDetailModal, showSubModal],
   );
 
   const enterHandler = useCallback(() => {
@@ -120,8 +140,7 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
 
   return (
     <>
-      <Link
-        to={`/insight/coins/signaler?coin=${p.pair_name}&strategy=${p.strategy.key}`}
+      <div
         className={clsx(
           'flex h-[112px] w-[200px] cursor-pointer select-none flex-col justify-center overflow-hidden rounded-lg bg-white/5',
           className,
@@ -174,16 +193,22 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
                       {
                         label: t('matrix.tp'),
                         isLocked,
-                        value: p.take_profit
-                          ? numerable.format(p.take_profit, '0,0.00')
-                          : undefined,
+                        value:
+                          (p.manager?.take_profit?.length ?? 0) > 1 ? (
+                            <Quoted>Multi-TP</Quoted>
+                          ) : p.take_profit ? (
+                            numerable.format(p.take_profit, '0,0.00')
+                          ) : undefined,
                       },
                       {
                         label: t('matrix.sl'),
                         isLocked,
-                        value: p.stop_loss
-                          ? numerable.format(p.stop_loss, '0,0.00')
-                          : undefined,
+                        value:
+                          (p.manager?.stop_loss?.length ?? 0) > 1 ? (
+                            <Quoted>Multi-SL</Quoted>
+                          ) : p.stop_loss ? (
+                            numerable.format(p.stop_loss, '0,0.00')
+                          ) : undefined,
                       },
                     ]
               }
@@ -199,9 +224,10 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
             </ValuesRow>
           </>
         )}
-      </Link>
+      </div>
 
       {SubModal}
+      {PositionDetailModal}
     </>
   );
 };

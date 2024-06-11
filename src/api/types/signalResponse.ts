@@ -1,3 +1,4 @@
+import { type SignalItem } from 'api/builder';
 import { type ThinStrategy } from 'api/signaler';
 
 export interface SignalsResponse {
@@ -32,4 +33,9 @@ export interface LastPosition extends RawPosition {
   stop_loss?: number | null;
 
   suggested_action: SuggestedAction;
+
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+  };
 }
