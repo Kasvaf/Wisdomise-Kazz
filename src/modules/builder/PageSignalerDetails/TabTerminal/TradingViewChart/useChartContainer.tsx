@@ -25,8 +25,11 @@ const useChartContainer = () => {
     window.addEventListener('resize', handleResize);
 
     return () => {
-      _chart.remove();
-      window.removeEventListener('resize', handleResize);
+      try {
+        setChart(undefined);
+        _chart.remove();
+        window.removeEventListener('resize', handleResize);
+      } catch {}
     };
   }, [container]);
 

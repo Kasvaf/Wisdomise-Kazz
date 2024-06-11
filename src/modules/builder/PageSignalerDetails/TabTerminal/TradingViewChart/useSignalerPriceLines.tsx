@@ -76,9 +76,11 @@ const useSignalerPriceLines = ({
     });
 
     return () => {
-      for (const ln of [...openLines, ...tpLines, ...slLines]) {
-        candleSeries.removePriceLine(ln);
-      }
+      try {
+        for (const ln of [...openLines, ...tpLines, ...slLines]) {
+          candleSeries.removePriceLine(ln);
+        }
+      } catch {}
     };
   }, [
     chart,

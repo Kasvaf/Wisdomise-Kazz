@@ -48,9 +48,12 @@ const useCandleSeries = ({
 
     setCandleSeries(_candleSeries);
     return () => {
-      if (_candleSeries) {
-        chart?.removeSeries(_candleSeries);
-      }
+      try {
+        setCandleSeries(undefined);
+        if (_candleSeries) {
+          chart?.removeSeries(_candleSeries);
+        }
+      } catch {}
     };
   }, [chart, candles]);
 
