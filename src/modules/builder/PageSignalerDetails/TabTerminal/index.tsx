@@ -4,7 +4,11 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bxLineChart } from 'boxicons-quasar';
 import { useIsSamePairs, useRecentCandlesQuery } from 'api';
-import { useSignalerQuery, useMySignalerOpenPositions } from 'api/builder';
+import {
+  useSignalerQuery,
+  useMySignalerOpenPositions,
+  useSignalerAssetPrice,
+} from 'api/builder';
 import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
@@ -48,6 +52,11 @@ const TabTerminal = () => {
   );
   const formState = useSignalFormStates();
 
+  const { data: marketPrice } = useSignalerAssetPrice({
+    strategyKey: params.id,
+    assetName,
+  });
+
   return (
     <div className="mt-8">
       <div className="mb-8 flex flex-col justify-start gap-4 border-b border-white/5 pb-8">
@@ -85,6 +94,7 @@ const TabTerminal = () => {
                 candles={candles}
                 loading={candlesLoading}
                 formState={formState}
+                marketPrice={marketPrice}
               />
 
               {!isLoading && assetName && activePosition && (

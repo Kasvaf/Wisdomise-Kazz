@@ -34,24 +34,39 @@ const useSignalerPriceLines = ({
   chart,
   candleSeries,
   formState,
+  marketPrice,
 }: {
   chart?: IChartApi;
   candleSeries?: ISeriesApi<'Candlestick', any>;
   formState: SignalFormState;
+  marketPrice?: number;
 }) => {
   useEffect(() => {
     if (!chart || !candleSeries) return;
 
-    const openLines = addPriceLines({
-      series: candleSeries,
-      items: [
-        {
-          price: Number(+formState.price[0]),
-          color: '#fff',
-        },
-      ],
-      prefix: 'Open',
-    });
+    const otherLines = [
+      candleSeries.createPriceLine({
+        title: 'Open',
+        price: Number(+formState.price[0]),
+        color: '#fff',
+        lineWidth: 2 as LineWidth,
+        lineStyle: LineStyle.Solid,
+        axisLabelVisible: true,
+      }),
+    ];
+
+    if (marketPrice) {
+      otherLines.push(
+        candleSeries.createPriceLine({
+          title: 'Market',
+          price: marketPrice,
+          color: '#333',
+          lineWidth: 2 as LineWidth,
+          lineStyle: LineStyle.Solid,
+          axisLabelVisible: true,
+        }),
+      );
+    }
 
     const tpLines = addPriceLines({
       series: candleSeries,
@@ -77,7 +92,7 @@ const useSignalerPriceLines = ({
 
     return () => {
       try {
-        for (const ln of [...openLines, ...tpLines, ...slLines]) {
+        for (const ln of [...otherLines, ...tpLines, ...slLines]) {
           candleSeries.removePriceLine(ln);
         }
       } catch {}
@@ -88,6 +103,7 @@ const useSignalerPriceLines = ({
     formState.price,
     formState.stopLosses,
     formState.takeProfits,
+    marketPrice,
   ]);
 };
 

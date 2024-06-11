@@ -28,6 +28,7 @@ const useCandleSeries = ({
 
     const _candleSeries = chart?.addCandlestickSeries({
       priceLineColor: '#333',
+      lastValueVisible: false,
     });
 
     _candleSeries?.setData(

@@ -8,7 +8,8 @@ const TradingViewChart: React.FC<{
   loading?: boolean;
   candles?: Candle[];
   formState: SignalFormState;
-}> = ({ candles, formState }) => {
+  marketPrice?: number;
+}> = ({ candles, formState, marketPrice }) => {
   const { chart, containerEl } = useChartContainer();
   const candleSeries = useCandleSeries({ chart, candles });
 
@@ -16,6 +17,7 @@ const TradingViewChart: React.FC<{
     chart,
     candleSeries,
     formState,
+    marketPrice,
   });
 
   return containerEl;
