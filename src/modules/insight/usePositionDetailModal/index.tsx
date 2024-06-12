@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { type FullPosition } from 'api/builder';
 import { type MarketTypes } from 'api/types/financialProduct';
-import { roundSensible } from 'utils/numbers';
 import PriceChange from 'shared/PriceChange';
 import useModal from 'shared/useModal';
 import PairInfo from 'shared/PairInfo';
@@ -63,8 +62,7 @@ const ItemsList: React.FC<{
           <div className="flex items-center gap-1">
             <span>{item.amount_ratio * 100}% at</span>
             <span className={clsx('text-sm', priceClassName)}>
-              {typeof item.price_exact === 'number' &&
-                roundSensible(item.price_exact)}
+              {typeof item.price_exact === 'number' && item.price_exact}
             </span>
           </div>
         </div>
@@ -196,7 +194,7 @@ const PositionDetailModal: React.FC<{
         />
         <ItemsList
           title={t('position-detail-modal.stop-loss')}
-          items={position.manager?.take_profit}
+          items={position.manager?.stop_loss}
           priceClassName="text-error"
         />
       </div>

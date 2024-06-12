@@ -12,7 +12,9 @@ const FancyPrice: React.FC<{
   return (
     <span className={className}>
       <span className={clsx(greyClassName ?? 'text-white/40')}>$</span>
-      <span>{numerable.format(value, format)}</span>
+      <span>
+        {value > -1 && value < 1 ? value : numerable.format(value, format)}
+      </span>
     </span>
   );
 };

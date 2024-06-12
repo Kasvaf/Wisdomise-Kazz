@@ -26,9 +26,17 @@ const useCandleSeries = ({
   useEffect(() => {
     if (!chart || !candles) return;
 
+    const lowestRecent = Math.min(...candles.map(x => x.low).slice(-300));
+    const lowestDigits = Math.ceil(Math.log10(lowestRecent));
+    const precision = Math.max(0, 5 - lowestDigits);
+
     const _candleSeries = chart?.addCandlestickSeries({
       priceLineColor: '#333',
       lastValueVisible: false,
+      priceFormat: {
+        type: 'price',
+        minMove: 1 / Math.pow(10, precision),
+      },
     });
 
     _candleSeries?.setData(
