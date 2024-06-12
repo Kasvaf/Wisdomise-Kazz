@@ -32,6 +32,7 @@ const useSyncFormState = ({
   const {
     isUpdate: [, setIsUpdate],
     price: [, setPrice],
+    market: [, setMarket],
     priceUpdated: [, setPriceUpdated],
     takeProfits: [, setTakeProfits],
     stopLosses: [, setStopLosses],
@@ -50,6 +51,10 @@ const useSyncFormState = ({
 
     if (activePosition?.entry_price) {
       setPrice(String(activePosition.entry_price));
+    }
+
+    if (activePosition?.position_side) {
+      setMarket(activePosition.position_side.toLowerCase() as 'long' | 'short');
     }
 
     setTakeProfits(takeProfits =>
@@ -79,7 +84,14 @@ const useSyncFormState = ({
           })) ?? [],
       }),
     );
-  }, [activePosition, setPrice, setIsUpdate, setStopLosses, setTakeProfits]);
+  }, [
+    activePosition,
+    setPrice,
+    setMarket,
+    setIsUpdate,
+    setStopLosses,
+    setTakeProfits,
+  ]);
 };
 
 export default useSyncFormState;
