@@ -82,10 +82,18 @@ publish-notice:
 signal-form:
   btn-close: 关闭
   btn-fire-signal: 火警信号
+  btn-new-stop-loss: 新的止损
+  btn-new-take-profit: 新获利
   btn-update: 更新职位
+  chart-title: 智慧图表
+  conditions-use-market-price: 条件使用市场价格
   confirm-close: 您确定要关闭此仓位吗？
   confirm-fire: 您确定要发射此信号吗？
   confirm-update: 您确实要更新此信号吗？
+  error-100: 这 {{type}} 不会触发，另一个 {{type}} 首先填满所有体积。
+  error-dup: 您已经定义了一个 {{type}} 价格完全相同。
+  error-max: 这 {{type}} 低于订单价格，并将在触发后立即触发 {{market}} 信号。
+  error-min: 这 {{type}} 大于订单价格，并将在触发后立即触发 {{market}} 信号。
   expiration-time:
     info-text: 指定信号保持有效的时间长度。
     info-title: 到期时间
@@ -97,9 +105,15 @@ signal-form:
     info-text: 为限价订单的执行设定一个时间限制。如果订单在这段时间内没有成交，它将被自动取消。
     info-title: 订单到期时间
     title: 订单到期时间
-  price: 价格
+  position-details:
+    not-opened-yet: 尚未开通
+    status: 狀態
+    title: 职位详细信息
+  position-side: 位置方
+  price: 订单价格
   stop-loss: 止损
   take-profit: 从中受益
+  volume: 体积
 signaler:
   card:
     active-positions: 活跃职位

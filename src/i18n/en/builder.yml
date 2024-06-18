@@ -91,11 +91,19 @@ signal-form:
   btn-new-stop-loss: New Stop Loss
   btn-new-take-profit: New Take Profit
   btn-update: Update Position
+  chart-title: Wisdomise Chart
   conditions-use-market-price: conditions use market price
   confirm-close: Are you sure you want to close this position?
   confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
   error-100: This {{type}} won't trigger, another {{type}} fills all volume first.
+  error-dup: You have already defined a {{type}} with the exact same price.
+  error-max: >-
+    This {{type}} is less than order price and will trigger immediately after
+    firing a {{market}} signal.
+  error-min: >-
+    This {{type}} is bigger than order price and will trigger immediately after
+    firing a {{market}} signal.
   expiration-time:
     title: Expiration Time
     info-text: Specifies how long a signal remains valid for entry.
@@ -109,10 +117,15 @@ signal-form:
       Sets a time limit for the execution of a limit order. If the order isn't
       filled by this time, it's automatically canceled.
     info-title: Order Expiration Time
+  position-details:
+    title: Position Details
+    not-opened-yet: Not opened yet
+    status: Status
   position-side: Position Side
-  price: Price
+  price: Order Price
   stop-loss: Stop Loss
   take-profit: Take Profit
+  volume: Volume
 signaler:
   card:
     active-positions: Active positions

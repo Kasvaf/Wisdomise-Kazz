@@ -1,5 +1,5 @@
 import { useWaitForTransaction } from 'wagmi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { notification } from 'antd';
 import { hexToNumber, toHex } from 'viem';
 import { secp256k1 } from '@noble/curves/secp256k1';
@@ -39,8 +39,9 @@ export function useLocking() {
         return null;
       })
       .catch(error => {
+        // probably wallet doesn't support eth_signTypedData_v4
         if (!isUserRejectionError(error.message)) {
-          startLockingWithApprove();
+          startLockingWithApprove(BigInt(amount * 10 ** 6));
         }
       });
   };
@@ -101,12 +102,7 @@ export function useLockWithPermit() {
 }
 
 export function useLockWithApprove() {
-  const {
-    write: lockWithApprove,
-    data: lockResult,
-    isLoading,
-    error,
-  } = useWriteLock();
+  const { write: lock, data: lockResult, isLoading, error } = useWriteLock();
   const { data: lockTrxReceipt, isLoading: isWaiting } = useWaitForTransaction({
     hash: lockResult?.hash,
   });
@@ -115,10 +111,11 @@ export function useLockWithApprove() {
     isAllowed,
     isLoading: approveIsLoading,
   } = useIncreaseAllowance(WSDM_CONTRACT_ADDRESS, LOCKING_CONTRACT_ADDRESS);
+  const [amount, setAmount] = useState(0n);
 
   useEffect(() => {
-    if (isAllowed) lockWithApprove();
-  }, [isAllowed, lockWithApprove]);
+    if (isAllowed) lock({ args: [amount] });
+  }, [amount, isAllowed, lock]);
 
   useEffect(() => {
     if (lockTrxReceipt?.status === 'success') {
@@ -136,10 +133,15 @@ export function useLockWithApprove() {
     }
   }, [error]);
 
+  const startLockingWithApprove = (amount: bigint) => {
+    setAmount(amount);
+    checkAllowance();
+  };
+
   return {
     isLoading: isLoading || isWaiting || approveIsLoading,
     isLocking: isWaiting,
     lockTrxReceipt,
-    startLockingWithApprove: checkAllowance,
+    startLockingWithApprove,
   };
 }

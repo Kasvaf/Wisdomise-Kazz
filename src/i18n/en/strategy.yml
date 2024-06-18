@@ -86,6 +86,15 @@ matrix:
       btn-confirm: Upgrade
   tp: TP
 no-active-positions: There is no active positions yet.
+position-detail-modal:
+  title: Position Detail
+  current-size: Current Size
+  hitted: Hitted
+  open: Open
+  signaler: Signaler
+  stop-loss: Stop Loss
+  suggestion: Suggestion
+  take-profit: Take Profit
 positions-history:
   title: Positions History
   entry-point: Entry Point
@@ -95,6 +104,7 @@ positions-history:
   market-side: Market Side
   pairs: Pairs
   pnl: P/L
+  position-side: Position Side
   status: Status
   stop-loss: Stop Loss
   strategy: Strategy

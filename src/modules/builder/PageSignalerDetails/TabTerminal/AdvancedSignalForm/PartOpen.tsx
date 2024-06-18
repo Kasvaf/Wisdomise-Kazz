@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
 import { roundDown } from 'utils/numbers';
@@ -19,6 +20,7 @@ const PartOpen: React.FC<{
     market: [market, setMarket],
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
+    priceUpdated: [priceUpdated, setPriceUpdated],
     exp: [exp, setExp],
     orderExp: [orderExp, setOrderExp],
   } = data;
@@ -27,6 +29,12 @@ const PartOpen: React.FC<{
     strategyKey: signaler.key,
     assetName,
   });
+
+  useEffect(() => {
+    if (!priceUpdated && assetPrice) {
+      setPrice(String(assetPrice));
+    }
+  }, [assetPrice, priceUpdated, setPrice]);
 
   return (
     <ClosablePart title="Open">
@@ -45,9 +53,12 @@ const PartOpen: React.FC<{
               ? assetPrice === undefined
                 ? '-'
                 : '~ ' + String(roundDown(assetPrice, 2))
-              : price
+              : price ?? '-'
           }
-          onChange={setPrice}
+          onChange={p => {
+            setPrice(p);
+            setPriceUpdated(true);
+          }}
           suffix="USDT"
           className="grow"
           disabled={orderType === 'market'}
@@ -57,6 +68,7 @@ const PartOpen: React.FC<{
 
       <div className="flex items-end gap-2">
         <DurationInput
+          className="grow"
           label={
             <div className="flex items-center">
               {t('signal-form.expiration-time.title')}
@@ -70,21 +82,23 @@ const PartOpen: React.FC<{
           value={exp}
           onChange={setExp}
         />
-        <DurationInput
-          label={
-            <div className="flex items-center">
-              {t('signal-form.order-expiration-time.title')}
-              <InfoButton
-                className="ml-1 !opacity-50"
-                title={t('signal-form.order-expiration-time.info-title')}
-                text={t('signal-form.order-expiration-time.info-text')}
-              />
-            </div>
-          }
-          value={orderExp}
-          onChange={setOrderExp}
-          disabled={orderType === 'market'}
-        />
+        {orderType === 'limit' && (
+          <DurationInput
+            className="grow"
+            label={
+              <div className="flex items-center">
+                {t('signal-form.order-expiration-time.title')}
+                <InfoButton
+                  className="ml-1 !opacity-50"
+                  title={t('signal-form.order-expiration-time.info-title')}
+                  text={t('signal-form.order-expiration-time.info-text')}
+                />
+              </div>
+            }
+            value={orderExp}
+            onChange={setOrderExp}
+          />
+        )}
       </div>
     </ClosablePart>
   );

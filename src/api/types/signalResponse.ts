@@ -1,3 +1,4 @@
+import { type SignalItem } from 'api/builder';
 import { type ThinStrategy } from 'api/signaler';
 
 export interface SignalsResponse {
@@ -14,11 +15,11 @@ export type SuggestedAction =
 export interface RawPosition {
   status: 'OPENING' | 'OPEN' | 'CLOSING' | 'CLOSED' | 'CANCELLED';
   position_side: 'LONG' | 'SHORT';
-  entry_time?: string;
-  entry_price?: number;
-  exit_time?: string;
-  exit_price?: number;
-  pnl: number;
+  entry_time?: string | null;
+  entry_price?: number | null;
+  exit_time?: string | null;
+  exit_price?: number | null;
+  pnl: number | null;
 }
 
 export interface LastPosition extends RawPosition {
@@ -32,4 +33,9 @@ export interface LastPosition extends RawPosition {
   stop_loss?: number | null;
 
   suggested_action: SuggestedAction;
+
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+  };
 }

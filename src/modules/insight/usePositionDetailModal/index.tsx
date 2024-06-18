@@ -1,14 +1,16 @@
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import { type FullPosition } from 'api/builder';
 import { type MarketTypes } from 'api/types/financialProduct';
-import { roundSensible } from 'utils/numbers';
 import PriceChange from 'shared/PriceChange';
 import useModal from 'shared/useModal';
 import PairInfo from 'shared/PairInfo';
 import Badge from 'shared/Badge';
+import { type SuggestedAction } from 'api/types/signalResponse';
 import usePositionStatusMap from '../signaler/usePositionStatusMap';
+import { useSuggestionsMap } from '../PageSignalsMatrix/constants';
 import { ReactComponent as HeaderIcon } from './header-icon.svg';
 
 const Labeled: React.FC<
@@ -28,12 +30,13 @@ const ItemsList: React.FC<{
     key: string;
     amount_ratio: number;
     applied?: boolean;
-    price_exact?: number;
-    date?: string;
+    applied_at?: string | null;
+    price_exact?: number | null;
   }>;
   className?: string;
   priceClassName?: string;
 }> = ({ title, items, className, priceClassName }) => {
+  const { t } = useTranslation('strategy');
   if (!items) return null;
 
   return (
@@ -47,18 +50,19 @@ const ItemsList: React.FC<{
         >
           <div className="flex items-center gap-1">
             {ind + 1}. {title}{' '}
-            {item.applied && <Badge color="white" label="Hitted" />}
-            {item.date && (
+            {item.applied && (
+              <Badge color="white" label={t('position-detail-modal.hitted')} />
+            )}
+            {item.applied_at && (
               <span className="font-normal text-white/50">
-                {dayjs(item.date).format('HH:mm, MMM DD')}
+                {dayjs(item.applied_at).format('HH:mm, MMM DD')}
               </span>
             )}
           </div>
           <div className="flex items-center gap-1">
             <span>{item.amount_ratio * 100}% at</span>
             <span className={clsx('text-sm', priceClassName)}>
-              {typeof item.price_exact === 'number' &&
-                roundSensible(item.price_exact)}
+              {typeof item.price_exact === 'number' && item.price_exact}
             </span>
           </div>
         </div>
@@ -68,6 +72,7 @@ const ItemsList: React.FC<{
 };
 
 interface PositionDetails extends FullPosition {
+  suggested_action?: SuggestedAction;
   strategy?: {
     name: string;
     market_name?: MarketTypes;
@@ -81,15 +86,17 @@ const PositionDetailModal: React.FC<{
   position: PositionDetails;
   onResolve?: (account?: string) => void;
 }> = ({ position }) => {
+  const { t } = useTranslation('strategy');
   const market = position.strategy?.market_name || 'FUTURES';
   const statusMap = usePositionStatusMap();
+  const suggestionsMap = useSuggestionsMap();
 
   return (
     <div>
       <h2 className="mb-3 flex items-center justify-between text-base font-semibold">
         <div className="flex items-center gap-1">
           <HeaderIcon />
-          <span>Position Detail</span>
+          <span>{t('position-detail-modal.title')}</span>
         </div>
       </h2>
 
@@ -100,7 +107,9 @@ const PositionDetailModal: React.FC<{
           className="w-1/2 !justify-start"
         />
         <div className="w-1/2">
-          <div className="text-xs text-white/50">Signaler</div>
+          <div className="text-xs text-white/50">
+            {t('position-detail-modal.signaler')}
+          </div>
           <div className="line-clamp-1 text-base">
             {position.strategy?.profile?.title || position.strategy?.name}
           </div>
@@ -110,24 +119,46 @@ const PositionDetailModal: React.FC<{
       <div className="rounded-xl bg-black/10 p-3">
         <section>
           <div className="flex flex-wrap items-center">
-            <Labeled label="Status" className="w-1/2">
-              <Badge
-                label={statusMap[position.status].label}
-                color={statusMap[position.status].color}
-                className="grow-0 !text-sm"
-              />
-            </Labeled>
-            <Labeled label="P/L" className="w-1/2">
+            {position.status ? (
+              <Labeled label={t('positions-history.status')} className="w-1/2">
+                <Badge
+                  label={statusMap[position.status].label}
+                  color={statusMap[position.status].color}
+                  className="grow-0 !text-sm"
+                />
+              </Labeled>
+            ) : position.suggested_action ? (
+              <Labeled
+                label={t('position-detail-modal.suggestion')}
+                className="w-1/2"
+              >
+                <Badge
+                  label={suggestionsMap[position.suggested_action].label}
+                  color={suggestionsMap[position.suggested_action].color}
+                  className="grow-0 !text-sm"
+                />
+              </Labeled>
+            ) : (
+              <div />
+            )}
+
+            <Labeled label={t('positions-history.pnl')} className="w-1/2">
               <PriceChange
                 value={position.pnl}
                 valueToFixed
                 textClassName="!text-sm"
               />
             </Labeled>
-            <Labeled label="Position Side" className="mt-3 w-1/2">
+            <Labeled
+              label={t('positions-history.position-side')}
+              className="mt-3 w-1/2"
+            >
               <div className="text-sm">{position.position_side}</div>
             </Labeled>
-            <Labeled label="Current Size" className="mt-3 w-1/2">
+            <Labeled
+              label={t('position-detail-modal.current-size')}
+              className="mt-3 w-1/2"
+            >
               <div className="text-sm">
                 {[
                   ...(position.manager?.take_profit ?? []),
@@ -142,28 +173,28 @@ const PositionDetailModal: React.FC<{
         </section>
         <div className="my-3 border-b border-white/10" />
         <ItemsList
-          title="Open"
+          title={t('position-detail-modal.open')}
           items={[
             {
               key: 'any',
               amount_ratio: 1,
               applied: true,
               price_exact: position.entry_price,
-              date: position.entry_time,
+              applied_at: position.entry_time,
             },
           ]}
           className="mb-3"
           priceClassName="text-info"
         />
         <ItemsList
-          title="Take Profit"
+          title={t('position-detail-modal.take-profit')}
           items={position.manager?.take_profit}
           className="mb-3"
           priceClassName="text-success"
         />
         <ItemsList
-          title="Stop Loss"
-          items={position.manager?.take_profit}
+          title={t('position-detail-modal.stop-loss')}
+          items={position.manager?.stop_loss}
           priceClassName="text-error"
         />
       </div>

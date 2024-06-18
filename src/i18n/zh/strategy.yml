@@ -59,6 +59,15 @@ matrix:
   title: 最新点位
   tp: 止盈
 no-active-positions: 尚无活跃职位。
+position-detail-modal:
+  current-size: 目前的规模
+  hitted: 被击中
+  open: 开仓
+  signaler: 信号员
+  stop-loss: 止损
+  suggestion: 建议
+  take-profit: 从中受益
+  title: 职位详细信息
 positions-history:
   entry-point: 入场点
   entry-price: 出场价格
@@ -67,6 +76,7 @@ positions-history:
   market-side: 市场方
   pairs: 交易对
   pnl: P/L
+  position-side: 位置方
   status: 状态
   stop-loss: 止损
   strategy: 策略

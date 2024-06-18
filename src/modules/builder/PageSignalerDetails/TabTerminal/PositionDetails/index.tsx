@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import * as numerable from 'numerable';
 import { type PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 import { type FullPosition } from 'api/builder';
 import usePositionStatusMap from 'modules/insight/signaler/usePositionStatusMap';
 import Badge from 'shared/Badge';
@@ -41,18 +42,21 @@ const PositionDetails: React.FC<{
   activePosition: FullPosition;
   className?: string;
 }> = ({ activePosition, className }) => {
+  const { t } = useTranslation('builder');
   const statusMap = usePositionStatusMap();
 
   return (
     <div className={className}>
       <h2 className="mb-4 flex items-center gap-1 text-base font-semibold">
         <DetailsIcon />
-        <span>Position Details</span>
+        <span>{t('signal-form.position-details.title')}</span>
       </h2>
 
       <div className="mb-2 flex h-14 grow items-center justify-around rounded-xl bg-black/30 py-2">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">Status:</span>
+          <span className="text-sm text-white/50">
+            {t('signal-form.position-details.status')}:
+          </span>
           {activePosition.status && (
             <Badge
               label={statusMap[activePosition.status].label}
@@ -62,31 +66,51 @@ const PositionDetails: React.FC<{
         </div>
         <div className="h-full border-r border-white/5" />
         <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">Position Side:</span>
+          <span className="text-sm text-white/50">
+            {t('signal-form.position-side')}:
+          </span>
           <Badge label={activePosition.position_side} color="black" />
         </div>
+
         <div className="h-full border-r border-white/5" />
         <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">P/L:</span>
+          <span className="text-sm text-white/50">
+            {t('actual-pos-table.p-l')}:
+          </span>
           <PriceChange value={activePosition.pnl} valueToFixed />
         </div>
+
         <div className="h-full border-r border-white/5" />
         <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">Entry Time:</span>
-          <span className="text-sm">
-            {dayjs(activePosition.entry_time).format('HH:mm, MMM DD')}
+          <span className="text-sm text-white/50">
+            {t('strategy:positions-history.entry-time')}:
           </span>
-          <span className="text-xs text-white/50">
-            ({dayjs(activePosition.entry_time).fromNow()})
-          </span>
+          {activePosition.entry_time == null ? (
+            '-'
+          ) : (
+            <>
+              <span className="text-sm">
+                {dayjs(activePosition.entry_time).format('HH:mm, MMM DD')}
+              </span>
+              <span className="text-xs text-white/50">
+                ({dayjs(activePosition.entry_time).fromNow()})
+              </span>
+            </>
+          )}
         </div>
       </div>
 
       <div className="flex items-start justify-between gap-2">
         <Box title="Open Details">
           <BoxItem>
-            Open 100% at $
-            {numerable.format(activePosition.entry_price, '0,0.00')}
+            {activePosition.entry_time == null ? (
+              <>{t('signal-form.position-details.not-opened-yet')}</>
+            ) : (
+              <>
+                Open 100% at $
+                {numerable.format(activePosition.entry_price, '0,0.00')}
+              </>
+            )}
           </BoxItem>
         </Box>
         <Box title="Take Profit Details">

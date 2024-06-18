@@ -14,15 +14,15 @@ export interface ChartPosition {
 }
 
 interface Position {
-  entry_time?: string;
-  entry_price?: number;
-  exit_time?: string;
-  exit_price?: number;
+  entry_time?: string | null;
+  entry_price?: number | null;
+  exit_time?: string | null;
+  exit_price?: number | null;
 }
 
 interface ActualPosition extends Position {
   position_side: 'LONG' | 'SHORT';
-  pnl: number;
+  pnl?: number | null;
 }
 
 const formatter = 'YYYY-MM-DD HH:mm';
@@ -97,10 +97,10 @@ export function parsePositions(
 
   const cleanRoundedPositions = roundedPositions.filter(
     ({ actual_position: ap }) =>
-      ap.exit_price !== undefined &&
-      ap.exit_time !== undefined &&
-      ap.entry_price !== undefined &&
-      ap.entry_time !== undefined &&
+      ap.exit_price != null &&
+      ap.exit_time != null &&
+      ap.entry_price != null &&
+      ap.entry_time != null &&
       ap.entry_time !== ap.exit_time,
   ) as Array<{
     actual_position: Required<ChartPosition['actual_position']>;
@@ -112,16 +112,16 @@ export function parsePositions(
     ({ actual_position: ap }) =>
       [
         {
-          xAxis: ap.entry_time,
-          yAxis: ap.entry_price,
+          xAxis: ap.entry_time ?? undefined,
+          yAxis: ap.entry_price ?? undefined,
           itemStyle: {
-            color: ap.pnl >= 0 ? '#00ff00' : '#ff0000',
+            color: ap.pnl != null && ap.pnl >= 0 ? '#00ff00' : '#ff0000',
           },
           value: 'text',
         },
         {
-          xAxis: ap.exit_time,
-          yAxis: ap.exit_price,
+          xAxis: ap.exit_time ?? undefined,
+          yAxis: ap.exit_price ?? undefined,
         },
       ] satisfies NonNullable<MarkAreaOption['data']>[number],
   );
@@ -131,12 +131,12 @@ export function parsePositions(
     ({ actual_position: ap }) =>
       [
         {
-          coord: [ap.entry_time, ap.entry_price],
+          coord: [ap.entry_time as string, ap.entry_price as number],
           lineStyle: { color: '#fff' },
-          value: ap.pnl,
+          value: ap.pnl ?? 0,
         },
         {
-          coord: [ap.exit_time, ap.exit_price],
+          coord: [ap.exit_time as string, ap.exit_price as number],
         },
       ] satisfies NonNullable<MarkLineOption['data']>[number],
   );
