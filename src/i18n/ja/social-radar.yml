@@ -1,3 +1,16 @@
+available-exchanges:
+  table:
+    exchange: 交換
+    price: 価格
+    rank: "#"
+    volume_24h: 24時間あたりのボリューム
+    volume_percentage: 音量 ％
+  title: 利用可能な取引所
+coin-info:
+  24h_chg: 24時間変更
+  market_cap: 時価総額
+  price: 価格
+  volume_24h: 24時間あたりのボリューム
 detail-page:
   subtitle: 信号を分析する {{symbol}} テレグラムチャンネルで
 hot-coins:
@@ -80,12 +93,42 @@ recommend-account:
     title: アカウントを推薦する
 set-notification:
   modal:
+    alert-channel-section: アラートチャンネル
+    browser-alert-input: ブラウザ通知
     daily: 毎日
+    description: 暗号通貨の世界で次に起こる大きなチャンスを逃さないでください。当社の通知システムにより、注目のコインや新たな発見について誰よりも早く知ることができます。
+    discord-alert-input: 不和メッセージ
     email: Eメール
+    email-alert-input: Eメール
+    interval-section: 間隔
     period: 期間
+    push-alert-input: プッシュ通知
+    save-button: アラート設定を保存
+    slack-alert-input: Slackメッセージ
+    sms-alert-input: SMS
+    soon: すぐ...
     sub-title: 暗号通貨の世界で次に起こる大きなチャンスを逃さないでください。当社の通知システムにより、注目のコインや新たな発見について誰よりも早く知ることができます。
+    telegram-alert-input: テレグラムメッセージ
     title: ソーシャルレーダー通知
   open-modal-btn:
     not-set: 通知を設定する
     set: 通知が設定されました
+socials:
+  all:
+    subtitle: 信号を分析する {{symbol}} すべてのソーシャルフィード
+    title: すべてのソーシャルフィード
+  reddit:
+    followers: メンバー
+    subtitle: 信号を分析する {{symbol}} Redditコミュニティ
+    title: Reddit
+  telegram:
+    followers: 購読者
+    subtitle: 信号を分析する {{symbol}} テレグラムチャンネルで
+    title: Telegram
+  trading-view:
+    subtitle: 信号を分析する {{symbol}} テクニカル分析のアイデア
+    title: テクニカル分析のアイデア
+  twitter:
+    subtitle: 信号を分析する {{symbol}} Twitter、Xコミュニティ
+    title: X、ツイッター
 title: ソーシャルレーダー

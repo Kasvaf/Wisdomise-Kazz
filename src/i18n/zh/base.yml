@@ -64,6 +64,10 @@ menu:
     mobile: 实名认证
     subtitle: 验证身份以访问功能。
     title: 实名认证
+  marketplace:
+    subtitle: 接受条款 通过访问和使用
+      [您的公司/您的姓名]（“提供商”）提供的交易策略，您同意遵守并受以下条款和条件的约束。如果您不同意这些条款，则不得使用所提供的服务。
+    title: 市场
   notification-center:
     mobile: 通知
     subtitle: 交易信号和警报设置。
@@ -100,6 +104,8 @@ menu:
     mobile: WSDM
     subtitle: 质押代币开通会员(无需任何消耗)
     title: WSDM代币
+  users:
+    title: 用户
 mobile-menu:
   close: 关闭
   open: 菜单

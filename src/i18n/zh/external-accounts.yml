@@ -17,8 +17,10 @@ modal-add-exchange:
   notice-ip-restriction: 使用以下值 <1>IP访问限制</1> 在币安：
   title: 添加兑换账户
 page-accounts:
+  accounts-connected: 已连接账户
   btn-add-account: 新增帐户
   empty-description: 您还没有添加任何外部兑换账户。
   exchanges-title: 我的兑换账户
   subscription: 订阅
+  users-invited: 已邀请用户
   wisdomise-account: Wisdomise 帐户

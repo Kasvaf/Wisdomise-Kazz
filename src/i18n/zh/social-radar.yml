@@ -1,3 +1,16 @@
+available-exchanges:
+  table:
+    exchange: 交换
+    price: 价格
+    rank: "#"
+    volume_24h: 24小时交易量
+    volume_percentage: 体积 ％
+  title: 可用交易所
+coin-info:
+  24h_chg: 24小时变化
+  market_cap: 市值
+  price: 价格
+  volume_24h: 24小时交易量
 detail-page:
   subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
 hot-coins:
@@ -74,12 +87,42 @@ recommend-account:
     title: 推荐一个帐户
 set-notification:
   modal:
+    alert-channel-section: 报警通道
+    browser-alert-input: 浏览器通知
     daily: 日常的
+    description: 不要错过加密货币世界的下一个重大机遇。我们的通知系统让您第一时间了解热门货币和新发现。
+    discord-alert-input: Discord 消息
     email: 电子邮件
+    email-alert-input: 电子邮件
+    interval-section: 间隔
     period: 时期
+    push-alert-input: 推送通知
+    save-button: 保存警报设置
+    slack-alert-input: Slack 消息
+    sms-alert-input: 短信
+    soon: 很快...
     sub-title: 不要错过加密货币世界的下一个重大机遇。我们的通知系统让您第一时间了解热门货币和新发现。
+    telegram-alert-input: 电报消息
     title: 社交雷达通知
   open-modal-btn:
     not-set: 设置通知
     set: 已设置通知
+socials:
+  all:
+    subtitle: 分析信号 {{symbol}} 在所有社交动态中
+    title: 所有社交动态
+  reddit:
+    followers: 成员
+    subtitle: 分析信号 {{symbol}} 在 Reddit 社区
+    title: Reddit
+  telegram:
+    followers: 订阅者
+    subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
+    title: Telegram
+  trading-view:
+    subtitle: 分析信号 {{symbol}} 在技术分析思路中
+    title: 技术分析思路
+  twitter:
+    subtitle: 分析信号 {{symbol}} 在 Twitter、X 社区
+    title: X、推特
 title: 社会雷达

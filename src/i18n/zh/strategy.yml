@@ -23,6 +23,7 @@ matrix:
   exit-price: 退出价格
   latest-positions: 最新点位
   locked: 锁定
+  marketplace: 市场
   none: 无
   onboarding:
     sec-1:

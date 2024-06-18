@@ -25,6 +25,7 @@ matrix:
   exit-price: 終了価格
   latest-positions: 直近のポジション
   locked: ロック中
+  marketplace: 市場
   none: 無し
   onboarding:
     sec-1:

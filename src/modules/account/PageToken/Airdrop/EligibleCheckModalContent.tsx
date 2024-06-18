@@ -6,6 +6,8 @@ import { useAirdrop } from 'modules/account/PageToken/web3/airdrop/useAirdrop';
 import { ReactComponent as AirdropIcon } from '../icons/airdrop.svg';
 import { ReactComponent as XIcon } from './x.svg';
 
+export const X_LINK = 'https://x.com/wisdomise';
+
 export default function EligibleCheckModalContent({
   eligibility,
   onResolve,
@@ -23,44 +25,50 @@ export default function EligibleCheckModalContent({
     }
   }, [claimReceipt, onResolve, refetch]);
 
+  const openX = () => {
+    window.open(X_LINK, '_blank');
+  };
+
   const share = () => {
-    const text = `Just claimed my airdrop! ${(
-      (eligibility?.amount ?? 0) /
-      10 ** 6
-    ).toLocaleString()} WSDM`;
-    const url = 'wisdomise.com';
-    const hashtags = 'Wisdomise,WSDM,Web3_Gateway';
-    window.open(
-      `https://x.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}`,
-      '_blank',
-    );
+    //     const text = `Feeling over-excited! 😍%0A
+    // I just claimed ${(
+    //       (eligibility?.amount ?? 0) /
+    //       10 ** 6
+    //     ).toLocaleString()} $WSDM of @Wisdomise 1st season airdrop! 🎉
+    // 2nd Phase is coming!  Don't miss the chance to win big! 🧠%0A`;
+    //     const url = 'wisdomise.com/airdrop';
+    //     const hashtags = 'Wisdomise,WSDM,airdrop';
+    //     window.open(
+    //       `https://x.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}`,
+    //       '_blank',
+    //     );
   };
 
   return (
     <div className="flex min-h-[16rem] flex-col items-center gap-4 text-center">
-      {eligibility ? (
+      {eligibility?.exists ? (
         <>
           <AirdropIcon />
-          <div>
+          <div className="text-lg">
             <Trans i18nKey="airdrop.eligibility.eligible" ns="wisdomise-token">
               You are <span className="text-green-400">eligible</span> to claim
             </Trans>
           </div>
-          <div className="text-3xl italic">
-            <strong>
-              {((eligibility?.amount ?? 0) / 10 ** 6).toLocaleString()}
-            </strong>{' '}
-            <strong>WSDM</strong>
-          </div>
+          {/* <div className="text-3xl italic"> */}
+          {/*   <strong> */}
+          {/*     {((eligibility?.amount ?? 0) / 10 ** 6).toLocaleString()} */}
+          {/*   </strong>{' '} */}
+          {/*   <strong>WSDM</strong> */}
+          {/* </div> */}
           {isClaimed === undefined ? null : isClaimed ? (
             <p className="text-amber-400">
               {t('airdrop.eligibility.already-claimed')}
             </p>
           ) : (
             <Button
-              className="mt-6 w-64 max-md:w-full"
+              className="mt-6 hidden w-64 max-md:w-full"
               variant="primary-purple"
-              disabled={true || isLoading}
+              disabled={isLoading}
               loading={isLoading}
               onClick={claim}
             >
@@ -68,7 +76,7 @@ export default function EligibleCheckModalContent({
             </Button>
           )}
           <Button
-            className="w-64 max-md:w-full"
+            className="hidden w-64 max-md:w-full"
             variant="alternative"
             onClick={share}
           >
@@ -81,7 +89,7 @@ export default function EligibleCheckModalContent({
       ) : (
         <>
           <AirdropIcon className="hue-rotate-[200deg]" />
-          <p className="mb-4">
+          <p className="mb-4 text-lg">
             <Trans
               i18nKey="airdrop.eligibility.not-eligible"
               ns="wisdomise-token"
@@ -90,11 +98,14 @@ export default function EligibleCheckModalContent({
               this round of WSDM Airdrop
             </Trans>
           </p>
-          <Button variant="alternative" onClick={() => onResolve()}>
-            {t('airdrop.eligibility.close')}
-          </Button>
         </>
       )}
+      <Button variant="alternative" onClick={() => openX()} className="mt-4">
+        <div className="flex items-center gap-3">
+          <XIcon />
+          {t('airdrop.eligibility.stay-tuned')}
+        </div>
+      </Button>
     </div>
   );
 }
