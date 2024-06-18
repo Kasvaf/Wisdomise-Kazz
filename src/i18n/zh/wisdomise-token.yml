@@ -13,9 +13,10 @@ airdrop:
     already-claimed: 您已经领取了您的代币。
     claim: 现在宣称
     close: 关闭
-    eligible: 你是 <1>有资格的</1> 接收$WSDM 空投！
-    not-eligible: 你是 <1>不容忽视</1> 在此阶段接收 $WSDM 空投！在下一阶段试试你的机会吧！
+    eligible: 恭喜！您是 <1>有资格的</1> 在此阶段接收$WSDM 空投！
+    not-eligible: 哎呀！你是 <1>不容忽视</1> 在此阶段接收 $WSDM 空投！在下一阶段试试你的机会吧！
     share: 与社区分享
+    stay-tuned: 敬请关注！
   now: 现在
   soon: 很快
   title: 空投
