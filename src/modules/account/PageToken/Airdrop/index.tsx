@@ -49,7 +49,7 @@ export default function Airdrop() {
           <div className="grow border-b border-white/20"></div>
           <div className="flex flex-col items-center justify-between gap-4 text-center">
             <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4 max-md:text-xs">
-              18-06-2024
+              25-06-2024
             </div>
             <div className="flex w-full items-center">
               <div className="grow border-b border-white/20"></div>

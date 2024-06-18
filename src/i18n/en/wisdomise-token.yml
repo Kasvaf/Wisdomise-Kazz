@@ -16,11 +16,11 @@ airdrop:
   eligibility:
     already-claimed: You already claimed your tokens.
     claim: Claim Now
-    close: Close
-    eligible: You are <1>eligible</1> to receive $WSDM airdrop!
+    stay-tuned: Stay Tuned Here!
+    eligible: Congrats! You are <1>eligible</1> to receive $WSDM airdrop in this phase!
     not-eligible: >-
-      You are <1>not eligible</1> to receive $WSDM airdrop in this phase! Try
-      your chance in the next phase fam!
+      Oops! You are <1>not eligible</1> to receive $WSDM airdrop in this phase!
+      Try your chance in the next phases!
     share: Share With Community
   now: Now
   soon: Soon

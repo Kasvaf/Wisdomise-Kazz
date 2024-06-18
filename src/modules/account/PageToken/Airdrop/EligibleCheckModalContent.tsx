@@ -6,6 +6,8 @@ import { useAirdrop } from 'modules/account/PageToken/web3/airdrop/useAirdrop';
 import { ReactComponent as AirdropIcon } from '../icons/airdrop.svg';
 import { ReactComponent as XIcon } from './x.svg';
 
+export const X_LINK = 'https://x.com/wisdomise';
+
 export default function EligibleCheckModalContent({
   eligibility,
   onResolve,
@@ -22,6 +24,10 @@ export default function EligibleCheckModalContent({
       void refetch();
     }
   }, [claimReceipt, onResolve, refetch]);
+
+  const openX = () => {
+    window.open(X_LINK, '_blank');
+  };
 
   const share = () => {
     //     const text = `Feeling over-excited! 😍%0A
@@ -43,7 +49,7 @@ export default function EligibleCheckModalContent({
       {eligibility?.exists ? (
         <>
           <AirdropIcon />
-          <div>
+          <div className="text-lg">
             <Trans i18nKey="airdrop.eligibility.eligible" ns="wisdomise-token">
               You are <span className="text-green-400">eligible</span> to claim
             </Trans>
@@ -83,7 +89,7 @@ export default function EligibleCheckModalContent({
       ) : (
         <>
           <AirdropIcon className="hue-rotate-[200deg]" />
-          <p className="mb-4">
+          <p className="mb-4 text-lg">
             <Trans
               i18nKey="airdrop.eligibility.not-eligible"
               ns="wisdomise-token"
@@ -94,8 +100,11 @@ export default function EligibleCheckModalContent({
           </p>
         </>
       )}
-      <Button variant="alternative" onClick={() => onResolve()}>
-        {t('airdrop.eligibility.close')}
+      <Button variant="alternative" onClick={() => openX()} className="mt-4">
+        <div className="flex items-center gap-3">
+          <XIcon />
+          {t('airdrop.eligibility.stay-tuned')}
+        </div>
       </Button>
     </div>
   );
