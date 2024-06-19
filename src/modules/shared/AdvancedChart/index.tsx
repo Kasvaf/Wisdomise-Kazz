@@ -27,9 +27,9 @@ const AdvancedChart: React.FC<{
       library_path: '/charting_library/',
 
       locale: language as any,
-      // disabled_features: ['use_localstorage_for_settings'],
       // enabled_features: ['study_templates'],
       disabled_features: [
+        'use_localstorage_for_settings',
         'header_symbol_search',
         'symbol_search_hot_key',
         'hide_price_scale_global_last_bar_value',
