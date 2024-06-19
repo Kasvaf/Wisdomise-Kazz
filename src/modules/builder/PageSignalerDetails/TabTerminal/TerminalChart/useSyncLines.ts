@@ -122,7 +122,7 @@ const useSyncLines = ({
             onChange: newPrice =>
               setTakeProfits(tps =>
                 tps.map(x =>
-                  x === tp ? { ...x, priceExact: String(newPrice) } : tp,
+                  x.key === tp.key ? { ...x, priceExact: String(newPrice) } : x,
                 ),
               ),
           }),
@@ -141,7 +141,7 @@ const useSyncLines = ({
             onChange: newPrice =>
               setStopLosses(sls =>
                 sls.map(x =>
-                  x === sl ? { ...x, priceExact: String(newPrice) } : sl,
+                  x.key === sl.key ? { ...x, priceExact: String(newPrice) } : x,
                 ),
               ),
           }),
