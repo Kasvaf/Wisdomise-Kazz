@@ -3,7 +3,10 @@ import {
   type IChartingLibraryWidget,
   type IChartWidgetApi,
 } from 'shared/AdvancedChart/charting_library/charting_library';
-import { type SignalFormState } from '../AdvancedSignalForm/useSignalFormStates';
+import {
+  sortTpSlItems,
+  type SignalFormState,
+} from '../AdvancedSignalForm/useSignalFormStates';
 
 function makeLine({
   chart,
@@ -54,6 +57,7 @@ const useSyncLines = ({
     isUpdate: [isUpdate],
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
+    market: [market],
     stopLosses: [stopLosses, setStopLosses],
     takeProfits: [takeProfits, setTakeProfits],
   } = formState;
@@ -123,9 +127,15 @@ const useSyncLines = ({
             textColor: '#fff',
             onChange: newPrice =>
               setTakeProfits(tps =>
-                tps.map(x =>
-                  x.key === tp.key ? { ...x, priceExact: String(newPrice) } : x,
-                ),
+                sortTpSlItems({
+                  items: tps.map(x =>
+                    x.key === tp.key
+                      ? { ...x, priceExact: String(newPrice) }
+                      : x,
+                  ),
+                  market,
+                  type: 'TP',
+                }),
               ),
           }),
         );
@@ -142,9 +152,15 @@ const useSyncLines = ({
             textColor: '#fff',
             onChange: newPrice =>
               setStopLosses(sls =>
-                sls.map(x =>
-                  x.key === sl.key ? { ...x, priceExact: String(newPrice) } : x,
-                ),
+                sortTpSlItems({
+                  items: sls.map(x =>
+                    x.key === sl.key
+                      ? { ...x, priceExact: String(newPrice) }
+                      : x,
+                  ),
+                  market,
+                  type: 'SL',
+                }),
               ),
           }),
         );
@@ -161,6 +177,7 @@ const useSyncLines = ({
     orderType,
     marketPrice,
     price,
+    market,
     stopLosses,
     takeProfits,
     setOrderType,
