@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bxLineChart } from 'boxicons-quasar';
-import { useIsSamePairs, useRecentCandlesQuery } from 'api';
+import { useIsSamePairs } from 'api';
 import {
   useSignalerQuery,
   useMySignalerOpenPositions,
@@ -16,8 +16,8 @@ import Icon from 'shared/Icon';
 import AssetSelector from '../../AssetSelector';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
-import TradingViewChart from './TradingViewChart';
 import PositionDetails from './PositionDetails';
+import TerminalChart from './TerminalChart';
 import CoinInfo from './CoinInfo';
 
 const TabTerminal = () => {
@@ -27,11 +27,6 @@ const TabTerminal = () => {
   const { data: signaler } = useSignalerQuery(params.id);
   const [assetName, setAssetName] = useSearchParamAsState('asset');
   const isSamePairs = useIsSamePairs();
-
-  const { data: candles, isLoading: candlesLoading } = useRecentCandlesQuery(
-    assetName,
-    signaler?.market_name,
-  );
 
   const { data, isLoading } = useMySignalerOpenPositions(params.id);
   const activeP = useMemo(
@@ -90,9 +85,8 @@ const TabTerminal = () => {
                 <Icon name={bxLineChart} />
                 <span>{t('builder:signal-form.chart-title')}</span>
               </h2>
-              <TradingViewChart
-                candles={candles}
-                loading={candlesLoading}
+              <TerminalChart
+                assetName={assetName}
                 formState={formState}
                 marketPrice={marketPrice}
               />

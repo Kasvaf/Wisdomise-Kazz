@@ -10,7 +10,7 @@ interface Props {
   size?: AvatarProps['size'];
 }
 
-const cdnIcon = (name: string) =>
+export const cdnCoinIcon = (name: string) =>
   `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${name}.svg`;
 
 const CoinsIcons: React.FC<Props> = ({
@@ -41,7 +41,7 @@ const CoinsIcons: React.FC<Props> = ({
           <Avatar
             size={size}
             className="!border-0"
-            src={c.startsWith('http') ? c : cdnIcon(c.toLowerCase())}
+            src={c.startsWith('http') ? c : cdnCoinIcon(c.toLowerCase())}
           />
         </div>
       ))}
