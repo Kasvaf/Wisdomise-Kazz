@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { RouterBaseName } from 'config/constants';
 import {
   widget as Widget,
   type IChartingLibraryWidget,
@@ -24,7 +25,8 @@ const AdvancedChart: React.FC<{
       datafeed: DataFeed,
       interval: '60' as ResolutionString,
       container: chartContainerRef.current,
-      library_path: '/charting_library/',
+      library_path:
+        (RouterBaseName ? '/' + RouterBaseName : '') + '/charting_library/',
 
       locale: language as any,
       // enabled_features: ['study_templates'],
