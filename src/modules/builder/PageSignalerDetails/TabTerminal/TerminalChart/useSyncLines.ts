@@ -16,6 +16,7 @@ function makeLine({
   bgColor,
   textColor,
   onChange,
+  onRemove,
 }: {
   chart: IChartWidgetApi;
   title: string;
@@ -24,6 +25,7 @@ function makeLine({
   bgColor: string;
   textColor: string;
   onChange?: false | ((newPrice: number) => unknown);
+  onRemove?: false | (() => unknown);
 }) {
   const ln = chart
     .createOrderLine()
@@ -37,6 +39,14 @@ function makeLine({
     .setQuantityBackgroundColor(bgColor)
     .setQuantityBorderColor('#000');
 
+  if (onRemove) {
+    ln.setCancellable(true)
+      .setCancelButtonBackgroundColor(bgColor)
+      .setCancelButtonBorderColor(bgColor)
+      .setCancelTooltip('Remove')
+      .setCancelButtonIconColor(textColor)
+      .onCancel(onRemove);
+  }
   if (onChange) {
     ln.onMove(() => onChange(ln.getPrice()));
   }
@@ -86,7 +96,7 @@ const useSyncLines = ({
       const chart = getChartCleaned();
       if (!chart) return;
 
-      if (marketPrice !== undefined) {
+      if (marketPrice != null) {
         lines.push(
           makeLine({
             chart,
@@ -117,6 +127,7 @@ const useSyncLines = ({
       }
 
       for (const [ind, tp] of takeProfits.entries()) {
+        if (tp.removed) continue;
         const color = tp.applied ? '#095538' : '#11C37E';
         lines.push(
           makeLine({
@@ -137,11 +148,16 @@ const useSyncLines = ({
                   type: 'TP',
                 }),
               ),
+            onRemove: () =>
+              setTakeProfits(tps =>
+                tps.map(x => (x.key === tp.key ? { ...x, removed: true } : x)),
+              ),
           }),
         );
       }
 
       for (const [ind, sl] of stopLosses.entries()) {
+        if (sl.removed) continue;
         const color = sl.applied ? '#7e1b27' : '#F14056';
         lines.push(
           makeLine({
@@ -161,6 +177,10 @@ const useSyncLines = ({
                   market,
                   type: 'SL',
                 }),
+              ),
+            onRemove: () =>
+              setStopLosses(tps =>
+                tps.map(x => (x.key === sl.key ? { ...x, removed: true } : x)),
               ),
           }),
         );
