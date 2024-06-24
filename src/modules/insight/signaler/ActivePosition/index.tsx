@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
+import { bxChevronRight } from 'boxicons-quasar';
 import { type FullPosition } from 'api/builder';
 import usePositionDetailModal from 'modules/insight/usePositionDetailModal';
 import Badge from 'shared/Badge';
@@ -80,11 +80,10 @@ const ActivePosition: React.FC<{ position?: FullPosition }> = ({
         <Labeled label={t('positions-history.take-profit')}>
           {(p.manager?.take_profit?.length ?? 0) > 1 ? (
             <Button
-              variant="link"
-              className="!p-0"
+              variant="alternative"
+              className="!rounded-lg !py-1 !pl-2 !pr-1"
               onClick={showPositionDetailModal}
             >
-              <Icon size={16} name={bxChevronLeft} />
               Multi-TP
               <Icon size={16} name={bxChevronRight} />
             </Button>
@@ -96,10 +95,9 @@ const ActivePosition: React.FC<{ position?: FullPosition }> = ({
           {(p.manager?.stop_loss?.length ?? 0) > 1 ? (
             <Button
               variant="link"
-              className="!p-0"
+              className="!rounded-lg !py-1 !pl-2 !pr-1"
               onClick={showPositionDetailModal}
             >
-              <Icon size={16} name={bxChevronLeft} />
               Multi-SL
               <Icon size={16} name={bxChevronRight} />
             </Button>

@@ -2,17 +2,15 @@
 import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import type React from 'react';
-import { type PropsWithChildren, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
-import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import { useSubscription } from 'api';
 import { type LastPosition } from 'api/types/signalResponse';
 import isTouchDevice from 'utils/isTouchDevice';
 import NotificationButton from 'modules/account/PageNotification/NotificationButton';
 import PriceChange from 'shared/PriceChange';
 import Badge from 'shared/Badge';
-import Icon from 'shared/Icon';
 import usePositionDetailModal from '../usePositionDetailModal';
 import useSignalSubscriptionModal from './useSignalSubscriptionModal';
 import { useSuggestionsMap } from './constants';
@@ -83,14 +81,6 @@ const SignalBoxSuggestion: React.FC<Props> = ({ position: p, className }) => {
     </div>
   );
 };
-
-const Quoted: React.FC<PropsWithChildren> = ({ children }) => (
-  <div className="flex items-center">
-    <Icon size={16} name={bxChevronLeft} />
-    {children}
-    <Icon size={16} name={bxChevronRight} />
-  </div>
-);
 
 const SignalBox: React.FC<Props> = ({ position: p, className }) => {
   const { t } = useTranslation('strategy');
@@ -194,21 +184,21 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
                         label: t('matrix.tp'),
                         isLocked,
                         value:
-                          (p.manager?.take_profit?.length ?? 0) > 1 ? (
-                            <Quoted>Multi-TP</Quoted>
-                          ) : p.take_profit ? (
-                            numerable.format(p.take_profit, '0,0.00')
-                          ) : undefined,
+                          (p.manager?.take_profit?.length ?? 0) > 1
+                            ? 'Multi-TP'
+                            : p.take_profit
+                            ? numerable.format(p.take_profit, '0,0.00')
+                            : undefined,
                       },
                       {
                         label: t('matrix.sl'),
                         isLocked,
                         value:
-                          (p.manager?.stop_loss?.length ?? 0) > 1 ? (
-                            <Quoted>Multi-SL</Quoted>
-                          ) : p.stop_loss ? (
-                            numerable.format(p.stop_loss, '0,0.00')
-                          ) : undefined,
+                          (p.manager?.stop_loss?.length ?? 0) > 1
+                            ? 'Multi-SL'
+                            : p.stop_loss
+                            ? numerable.format(p.stop_loss, '0,0.00')
+                            : undefined,
                       },
                     ]
               }
