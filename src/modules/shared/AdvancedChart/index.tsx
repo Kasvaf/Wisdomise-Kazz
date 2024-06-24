@@ -43,6 +43,7 @@ const AdvancedChart: React.FC<{
         'scalesProperties.showSeriesPrevCloseValue': false,
         'scalesProperties.seriesLastValueMode': 1,
         'mainSeriesProperties.showPriceLine': false,
+        // 'mainSeriesProperties.minTick': '10000,1,false',
         'paneProperties.showSymbolLabels': false,
       },
       fullscreen: false,

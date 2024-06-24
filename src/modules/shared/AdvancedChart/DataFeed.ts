@@ -67,13 +67,16 @@ const DataFeed = {
       exchange: 'Binance',
       listed_exchange: 'Binance',
       format: 'volume',
+
       minmov: 1,
-      pricescale: 100,
+      fractional: false,
+      pricescale: 100_000,
+
+      volume_precision: 2,
       has_intraday: true,
       visible_plots_set: 'ohlc',
       has_weekly_and_monthly: false,
       supported_resolutions: config.supported_resolutions,
-      volume_precision: 2,
       data_status: 'streaming',
       logo_urls: [cdnCoinIcon(pair.base.name.toLowerCase())] as [string],
     } satisfies LibrarySymbolInfo;
