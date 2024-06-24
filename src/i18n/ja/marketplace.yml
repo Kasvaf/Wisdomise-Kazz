@@ -1,0 +1,9 @@
+page-title: シグナラーマーケットプレイス
+signaler: 信号機
+table:
+  action: アクション
+  coin: トークン
+  detail: 詳細
+  max_drawdown: 最大ドローダウン <1>月次</1>
+  name: 名前
+  pl: 損益 <1>月次</1>

@@ -7,6 +7,7 @@ import useInvestmentRoutes from './investmentRoutes';
 import useInsightRoutes from './insightRoutes';
 import useBuilderRoutes from './builderRoutes';
 import useAccountRoutes from './accountRoutes';
+import useUsersRoutes from './usersRoutes';
 
 const useRoutes = () => {
   const authRoutes = useAuthRoutes();
@@ -14,6 +15,7 @@ const useRoutes = () => {
   const builderRoutes = useBuilderRoutes();
   const accountRoutes = useAccountRoutes();
   const investmentRoutes = useInvestmentRoutes();
+  const usersRoutes = useUsersRoutes();
 
   return [
     {
@@ -24,6 +26,7 @@ const useRoutes = () => {
         ...insightRoutes,
         ...builderRoutes,
         ...accountRoutes,
+        ...usersRoutes,
         {
           path: 'home',
           element: <Container />,

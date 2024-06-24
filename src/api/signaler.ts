@@ -10,6 +10,7 @@ import {
 } from './types/signalResponse';
 import { type PairDataFull, type PairData } from './types/strategy';
 import normalizePair from './normalizePair';
+import { type CommunityProfile } from './account';
 
 export const useSignalerPairs = () =>
   useQuery<PairDataFull[]>(
@@ -228,3 +229,68 @@ export const useSignalsQuery = () =>
     );
     return data;
   });
+
+export type StrategiesPerformanceBulkResolution = 'MONTH3' | 'MONTH' | 'WEEK';
+
+interface StrategyPerformanceBulkBase {
+  name: string;
+  strategy_key: string;
+  owner: {
+    key: string;
+    cprofile: CommunityProfile;
+  };
+}
+
+interface StrategyPerformanceBulkInfo {
+  pair: {
+    display_name: string;
+    name: string;
+    base: {
+      name: string;
+    };
+    quote: {
+      name: string;
+    };
+  };
+  positions: number;
+  pnl: number;
+  max_drawdown: number;
+  pnl_timeseries: Array<{
+    d: string;
+    v: number;
+  }>;
+}
+
+export type StrategyPerformanceBulkUngrouped = StrategyPerformanceBulkBase &
+  StrategyPerformanceBulkInfo;
+
+export type StrategyPerformanceBulkGrouped = StrategyPerformanceBulkBase & {
+  pairs_performance: StrategyPerformanceBulkInfo[];
+};
+
+export const useStrategiesPerformanceBulk = <G extends boolean>(filters: {
+  resolution: StrategiesPerformanceBulkResolution;
+  groupByStrategy: G;
+  userId?: string;
+}) =>
+  useQuery(
+    [
+      'strategies/performance_bulk',
+      `strategies/performance_bulk?${JSON.stringify(filters)}`,
+    ],
+    async () => {
+      const { data } = await axios.get<
+        G extends true
+          ? StrategyPerformanceBulkGrouped[]
+          : StrategyPerformanceBulkUngrouped[]
+      >(
+        `factory/strategies/performance_bulk?resolution=${filters.resolution}${
+          filters.groupByStrategy ? '&group_by_strategy=true' : ''
+        }${filters.userId ? `&user_id=${filters.userId}` : ''}`,
+      );
+      return data;
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );

@@ -7,7 +7,7 @@ import Spin from './Spin';
 
 interface Props extends PropsWithChildren {
   to?: To;
-  size?: 'small' | 'large';
+  size?: 'small' | 'large' | 'manual';
   loading?: boolean;
   variant?:
     | 'primary'
@@ -64,7 +64,9 @@ const Button: React.FC<Props> = ({
       ? '!p-[10px_12px]'
       : size === 'large'
       ? '!px-9 !py-3 md:!px-16 md:!py-5 md:text-xl'
-      : '',
+      : size === 'manual'
+      ? ''
+      : 'px-8 py-4',
   );
 
   if (variant === 'link') {
@@ -72,7 +74,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'bg-transparent px-8 py-4 text-white hover:text-warning',
+          'bg-transparent text-white hover:text-warning',
           disabled && 'cursor-not-allowed !text-white/40',
           loading && 'cursor-wait',
           sizeClass,
@@ -92,7 +94,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'rounded-xl border border-white bg-transparent px-8 py-4 text-white hover:border-white/40',
+          'rounded-xl border border-white bg-transparent text-white hover:border-white/40',
           disabled &&
             'cursor-not-allowed !border-white/10 !bg-white/10 text-white/10',
           sizeClass,
@@ -113,7 +115,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'rounded-xl border border-[#F14056] bg-transparent px-8 py-4 text-[#F14056] hover:border-[#F14056]/40',
+          'rounded-xl border border-[#F14056] bg-transparent text-[#F14056] hover:border-[#F14056]/40',
           disabled &&
             'cursor-not-allowed !border-[#F14056]/10 !bg-white/10 text-[#F14056]/10',
           sizeClass,
@@ -134,7 +136,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'rounded-xl bg-white/10 px-8 py-4 text-white hover:bg-black/20 [&.active]:bg-black/30',
+          'rounded-xl bg-white/10 text-white hover:bg-black/20 [&.active]:bg-black/30',
           disabled && 'cursor-not-allowed !bg-white/10 text-white/10',
           sizeClass,
           loading && 'cursor-wait',
@@ -154,7 +156,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'rounded-xl bg-[#11C37E99] px-8 py-4 text-white hover:bg-[#11C37E99]/80',
+          'rounded-xl bg-[#11C37E99] text-white hover:bg-[#11C37E99]/80',
           disabled &&
             'cursor-not-allowed !border-[#11C37E99]/40 !bg-[#11C37E99]/10 text-white/10',
           loading && 'cursor-wait text-white/50',
@@ -174,7 +176,7 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-xl bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-8 py-4 text-sm font-medium leading-none text-white',
+          'rounded-xl bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% text-sm font-medium leading-none text-white',
           disabled &&
             'cursor-not-allowed !border-[#11C37E99]/40 !bg-neutral-700 bg-none text-white/30',
           loading && 'cursor-wait text-white/50',
@@ -195,7 +197,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] px-8 py-4 !text-white hover:saturate-200',
+          'rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] !text-white hover:saturate-200',
           disabled && 'cursor-not-allowed text-white/10',
           loading && 'cursor-wait text-white/50',
           sizeClass,
@@ -214,7 +216,7 @@ const Button: React.FC<Props> = ({
     <LinkOrButton
       className={clsx(
         sharedClasses,
-        'rounded-xl bg-white px-8 py-4 text-black hover:bg-white/80',
+        'rounded-xl bg-white text-black hover:bg-white/80',
         disabled &&
           'cursor-not-allowed !border-white/40 !bg-white/10 text-white/10',
         loading && 'cursor-wait',

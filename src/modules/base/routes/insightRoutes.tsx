@@ -8,6 +8,9 @@ import Container from '../Container';
 const PageSignalsMatrix = React.lazy(
   () => import('modules/insight/PageSignalsMatrix'),
 );
+const PageMarketplace = React.lazy(
+  () => import('modules/insight/PageMarketplace'),
+);
 const PageCoins = React.lazy(
   () => import('modules/insight/signaler/PageCoins'),
 );
@@ -36,6 +39,11 @@ const useInsightRoutes = () => {
           path: 'signals',
           element: <PageSignalsMatrix />,
           handle: { crumb: t('menu.signal-matrix.title') },
+        },
+        {
+          path: 'marketplace',
+          element: <PageMarketplace />,
+          handle: { crumb: t('menu.marketplace.title') },
         },
         {
           path: 'coins',

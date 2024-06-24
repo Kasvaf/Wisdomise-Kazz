@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
+import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import { type Account } from './types/UserInfoResponse';
 
 export function useAccountQuery() {
@@ -122,3 +122,94 @@ export function useCountriesQuery() {
     },
   );
 }
+
+export interface CommunityProfile {
+  overview: string | null;
+  profile_image: string | null;
+  profile_cover: string | null;
+  nickname: string | null;
+  support_email: string | null;
+  website: string | null;
+  telegram: string | null;
+  twitter: string | null;
+  discord: string | null;
+  youtube: string | null;
+  linked_in: string | null;
+  verified: boolean;
+  active_since: string;
+}
+
+export type TraderProfile = CommunityProfile & {
+  performance: Record<
+    'week' | 'month' | 'month3',
+    {
+      positions: number;
+      pnl: number;
+      max_drawdown: number;
+    }
+  >;
+  active_pairs: Array<{
+    base: { name: string };
+    display_name: string;
+    name: string;
+    quote: { name: string };
+  }>;
+};
+
+export function useCommunityProfileQuery() {
+  return useQuery(['community-profile'], async () => {
+    const { data } = await axios.get<CommunityProfile>(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile`,
+    );
+    return data;
+  });
+}
+
+export function useCommunityProfileMutation() {
+  const client = useQueryClient();
+  return useMutation<unknown, unknown, Partial<CommunityProfile>>(
+    async newProfile => {
+      await axios.patch(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile`,
+        newProfile,
+      );
+    },
+    {
+      onSuccess: () =>
+        client.invalidateQueries([
+          'community-profile',
+          // TODO Invalidate related trader profile
+        ]),
+    },
+  );
+}
+
+export function useTraderProfileQuery(userId: string) {
+  return useQuery([`trader-profile-${userId}`], async () => {
+    const { data } = await axios.get<TraderProfile>(
+      `${TEMPLE_ORIGIN}/api/v1/factory/trader/${userId}`,
+    );
+    return data;
+  });
+}
+
+export type ImageUploaderTarget = 'profile_image' | 'profile_cover';
+
+export const useUploaderMutation = (target: ImageUploaderTarget) => {
+  return useMutation<string, unknown, File>({
+    mutationFn: async file => {
+      const formData = new FormData();
+      formData.append('image', file);
+      const resp = await axios.put<{
+        image_url: string;
+      }>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile/${target}`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        },
+      );
+      return resp.data.image_url;
+    },
+  });
+};

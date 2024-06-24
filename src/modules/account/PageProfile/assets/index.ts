@@ -1,0 +1,13 @@
+export { ReactComponent as MailIcon } from './mail.svg';
+export { ReactComponent as LinkIcon } from './link.svg';
+export { ReactComponent as TelegramIcon } from './telegram.svg';
+export { ReactComponent as TwitterIcon } from './twitter.svg';
+export { ReactComponent as DiscordIcon } from './discord.svg';
+export { ReactComponent as YoutubeIcon } from './youtube.svg';
+export { ReactComponent as LinkedinIcon } from './linkedin.svg';
+export { ReactComponent as UserIcon } from './user.svg';
+export { ReactComponent as EditIcon } from './edit.svg';
+export { ReactComponent as CameraIcon } from './camera.svg';
+export { ReactComponent as VerifiedBadge } from './verified-badge.svg';
+export { default as ProfileCoverPlaceholder } from './profile-cover-placeholder.svg';
+export { default as ProfilePicturePlaceholder } from './profile-picture-placeholder.svg';

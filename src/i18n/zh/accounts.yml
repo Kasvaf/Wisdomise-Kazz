@@ -1,0 +1,48 @@
+page-accounts:
+  accounts-connected: 已连接账户
+  users-invited: 已邀请用户
+page-profile:
+  buttons:
+    edit_info: 編輯資料
+  error-occured: 保存时发生错误
+  inputs:
+    discord: Discord Channel
+    linkedin: Linkedin
+    nickname: 昵称
+    overview: 描述...
+    support_email: 支持电子邮件
+    telegram: Telegram
+    twitter: X / Twitter
+    website: 网站
+    youtube: Youtube
+  sections:
+    info: 我的信息
+    overview: 概述
+  title: 我的简历
+page-public-profile:
+  footer: 本网站包含前瞻性陈述。此类前瞻性陈述基于 Wisdomise (Switzerland) AG
+    认为目前合理的估计、假设和推定。这些前瞻性陈述本质上受与未来事件相关的风险和不确定性的影响。因此，实际事件（包括加密货币的表现）可能与预测存在重大差异。您还应注意，过去的事件和结果并不能保证未来的事件或结果。Wisdomise
+    (Switzerland) AG 或任何其他人均不保证本网站上描述的发展会发生。因此，用户不应根据本网站上表达的前瞻性陈述对 Wisdomise
+    (Switzerland) AG 提供的服务做出投资决策。
+  overview: 概述
+  performance: 表现
+  performance-content:
+    filters:
+      month: 每月
+      month3: 3个月
+      week: 每周
+    max_drawdown: 最大回撤
+    pl: P/L
+    positions: 职位数量
+  signalers: 信号员
+  signalers-table:
+    max_drawdown: 最大回撤 <1>每月</1>
+    name: 信号员姓名
+    pair: 一对
+    pl: 盈亏 <1>每月</1>
+  top-financial-products: 顶级金融产品
+profile-header:
+  cant-change: 无法改变
+  change-header: 改变标题
+  from: 从
+  unknown-nickname: 未知昵称

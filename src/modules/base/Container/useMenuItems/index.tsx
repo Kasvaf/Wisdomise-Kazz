@@ -74,6 +74,11 @@ const useMenuItems = () => {
           onClick: trackClick('social_radar_menu'),
           isBeta: true,
         },
+        {
+          text: t('menu.marketplace.title'),
+          link: '/insight/marketplace',
+          onClick: trackClick('marketplace_menu'),
+        },
       ],
     },
     {

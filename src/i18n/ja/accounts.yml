@@ -1,0 +1,50 @@
+page-accounts:
+  accounts-connected: アカウントが接続されました
+  users-invited: 招待されたユーザー
+page-profile:
+  buttons:
+    edit_info: 情報を編集
+  error-occured: 保存中にエラーが発生しました
+  inputs:
+    discord: Discord Channel
+    linkedin: Linkedin
+    nickname: ニックネーム
+    overview: 説明...
+    support_email: サポートメール
+    telegram: Telegram
+    twitter: X / Twitter
+    website: ウェブサイト
+    youtube: Youtube
+  sections:
+    info: 私の情報
+    overview: 概要
+  title: 私のプロフィール
+page-public-profile:
+  footer: このウェブサイトには、将来予想に関する記述が含まれています。このような将来予想に関する記述は、Wisdomise (Switzerland)
+    AG
+    が現時点で妥当であると考える推定、仮定、推定に基づいています。これらの将来予想に関する記述は、将来の出来事に関連するため、本質的にリスクと不確実性に左右されます。したがって、仮想通貨のパフォーマンスを含む実際の出来事は、これらの予測とは大幅に異なる可能性があります。また、過去の出来事や結果は、将来の出来事や結果を保証するものではないことにも留意してください。Wisdomise
+    (Switzerland) AG
+    またはその他の人物は、このウェブサイトに記載されている展開が起こることを保証しません。したがって、ユーザーは、このウェブサイトで表現されている将来予想に関する記述に基づいて、Wisdomise
+    (Switzerland) AG が提供するサービスに関する投資決定を下すべきではありません。
+  overview: 概要
+  performance: パフォーマンス
+  performance-content:
+    filters:
+      month: 月額
+      month3: 3ヶ月
+      week: 毎週
+    max_drawdown: 最大ドローダウン
+    pl: P/L
+    positions: ポジション数
+  signalers: 信号機
+  signalers-table:
+    max_drawdown: 最大ドローダウン <1>月次</1>
+    name: 信号発信者名
+    pair: ペア
+    pl: 損益 <1>月次</1>
+  top-financial-products: トップ金融商品
+profile-header:
+  cant-change: 変更できません
+  change-header: ヘッダーを変える
+  from: から
+  unknown-nickname: ニックネーム不明
