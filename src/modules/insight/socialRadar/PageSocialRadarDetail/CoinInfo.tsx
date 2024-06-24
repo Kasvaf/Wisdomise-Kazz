@@ -1,94 +1,209 @@
-import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import * as numerable from 'numerable';
 import { clsx } from 'clsx';
-import { type ReactNode } from 'react';
-import { useCoinSignals } from 'api';
+import { useMemo, type FC, type ReactNode } from 'react';
+import { type ColumnType } from 'antd/es/table';
+import {
+  useCoinSignals,
+  useCoinAvailableExchanges,
+  type SocialRadarExchange,
+  useHasFlag,
+} from 'api';
 import CoinsIcons from 'shared/CoinsIcons';
 import PriceChange from 'shared/PriceChange';
+import useIsMobile from 'utils/useIsMobile';
+import useModal from 'shared/useModal';
+import Table from 'shared/Table';
+import { formatNumber } from 'utils/numbers';
 import SideSuggestGauge from '../PageSocialRadar/SideSuggestGauge';
+import { ReactComponent as ArrowRight } from './images/arrow-right.svg';
 
-export default function CoinInfo() {
-  const signals = useCoinSignals();
+export const ExchangesModal: FC<{
+  exchanges: SocialRadarExchange[];
+}> = ({ exchanges }) => {
   const { t } = useTranslation('social-radar');
-  const params = useParams<{ symbol: string }>();
-  const info = signals.data?.find(sig => sig.symbol_name === params.symbol);
+  const columns = useMemo<Array<ColumnType<SocialRadarExchange>>>(
+    () => [
+      {
+        title: t('available-exchanges.table.rank'),
+        dataIndex: 'coin_ranking_rank',
+        render: (rank: number) => rank,
+      },
+      {
+        title: t('available-exchanges.table.exchange'),
+        render: (row: SocialRadarExchange) => (
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <img
+              src={row.exchange.icon_url}
+              alt={row.exchange.name}
+              className="h-6 w-6 rounded-full bg-white object-scale-down p-1"
+            />
+            <p>{row.exchange.name}</p>
+          </div>
+        ),
+      },
+      {
+        title: t('available-exchanges.table.price'),
+        dataIndex: 'price_in_usd',
+        render: (value?: number) => <>${formatNumber(value || 0)}</>,
+      },
+      {
+        title: t('available-exchanges.table.volume_24h'),
+        dataIndex: 'volume_24h',
+        render: (value?: number) => <>${formatNumber(value || 0)}</>,
+      },
+      {
+        title: t('available-exchanges.table.volume_percentage'),
+        dataIndex: 'volume_percentage',
+        render: (value: number) => <>{formatNumber(value || 0)}%</>,
+      },
+    ],
+    [t],
+  );
+  return (
+    <div className="max-h-[calc(100vh-4rem)] overflow-auto rounded-3xl px-4">
+      <div className="mb-2 py-4 text-base mobile:py-5">
+        {t('available-exchanges.title')}
+      </div>
+      <Table
+        columns={columns}
+        dataSource={exchanges}
+        rowKey={row => row.exchange.id}
+        bordered={false}
+      />
+    </div>
+  );
+};
 
-  if (!info) return null;
+export default function CoinInfo({
+  className,
+  symbol,
+}: {
+  className?: string;
+  symbol: string;
+}) {
+  const { t } = useTranslation('social-radar');
+  const hasFlag = useHasFlag();
+  const signals = useCoinSignals();
+  const exchanges = useCoinAvailableExchanges(symbol);
+  const info = signals.data?.find(sig => sig.symbol_name === symbol);
+  const isMobile = useIsMobile();
+  const [exchangesModal, openExchangesModal] = useModal(ExchangesModal, {
+    width: isMobile ? '95%' : '60%',
+    wrapClassName: '[&_.ant-modal-content]:!p-0',
+    className: '!bg-transparent rounded-3xl',
+  });
 
   return (
     <section
       className={clsx(
-        'mb-8 grid h-[72px] grid-cols-6 rounded-lg bg-black/20 p-3',
-        '[&>div:first-child]:pl-0 [&>div:last-child]:border-none [&>div:last-child]:pr-0 [&>div]:border-r [&>div]:border-white/5 [&>div]:px-5',
-        'mobile:h-auto mobile:grid-cols-2 mobile:gap-y-6 mobile:[&>div:first-child]:pl-5 mobile:[&>div:last-child]:pr-5',
-        'mobile:px-0 mobile:[&>div:nth-child(2n)]:!border-r-0 ',
+        'flex flex-col gap-3 rounded-xl bg-black/10 p-4',
+        signals.isLoading && 'animate-pulse blur-sm',
+        className,
       )}
     >
-      <div className="flex items-center gap-2 mobile:justify-center">
-        <CoinsIcons coins={[info.image || '']} />
-        <p className="text-xl font-medium">{params.symbol}</p>
+      <div
+        className={clsx(
+          'flex rounded-lg bg-black/20 p-3',
+          'h-[72px] items-center justify-between',
+          'mobile:grid mobile:h-auto mobile:grid-cols-2 mobile:gap-6',
+        )}
+      >
+        <InfoSection
+          value={
+            <div className="flex items-center gap-2 mobile:justify-center">
+              <CoinsIcons coins={[info?.image || '']} />
+              <p className="text-xl font-medium">{symbol}</p>
+            </div>
+          }
+        />
+
+        {hasFlag('/insight/social-radar?side-suggestion') && (
+          <>
+            <InfoSection
+              value={
+                <div className="flex items-center gap-2 mobile:justify-center">
+                  <SideSuggestGauge measure={info?.gauge_measure || 0} />
+                  <div>
+                    <p className="font-medium capitalize">
+                      {info?.gauge_tag.toLowerCase()}
+                    </p>
+                    <p className="mt-1 text-xxs text-white/60">
+                      {t('hot-coins.side-suggest')}
+                    </p>
+                  </div>
+                </div>
+              }
+            />
+          </>
+        )}
+
+        <InfoSection
+          title={t('coin-info.price')}
+          value={
+            <>
+              {formatNumber(info?.current_price || 0)}
+              <span className="ml-[2px] text-xs">USDT</span>
+            </>
+          }
+        />
+
+        <InfoSection
+          title={t('coin-info.24h_chg')}
+          value={
+            <PriceChange
+              valueToFixed
+              textClassName="!text-base !leading-none"
+              value={info?.price_change_percentage || 0}
+            />
+          }
+        />
+
+        <InfoSection
+          title={t('coin-info.market_cap')}
+          value={
+            <>
+              <span className="font-light text-white/40">$</span>
+              {formatNumber(info?.market_cap || 0)}
+            </>
+          }
+        />
+
+        <InfoSection
+          title={t('coin-info.volume_24h')}
+          value={
+            <>
+              <span className="font-light text-white/40">$</span>
+              {formatNumber(info?.total_volume || 0)}
+            </>
+          }
+        />
       </div>
-
-      <div className="flex items-center gap-2 mobile:justify-center">
-        <SideSuggestGauge measure={info.gauge_measure} />
-        <div>
-          <p className="font-medium capitalize">
-            {info.gauge_tag.toLowerCase()}
-          </p>
-          <p className="mt-2 text-xxs text-white/60">
-            {t('hot-coins.side-suggest')}
-          </p>
-        </div>
+      <div className="flex justify-end px-1">
+        <button
+          className={clsx(
+            'flex items-center gap-2 text-sm',
+            !exchanges.isFetched && 'animate-pulse',
+          )}
+          disabled={!exchanges.isFetched}
+          onClick={() =>
+            openExchangesModal({
+              exchanges: exchanges.data || [],
+            })
+          }
+        >
+          {t('available-exchanges.title')} <ArrowRight />
+        </button>
+        {exchangesModal}
       </div>
-
-      <InfoSection
-        title="Price"
-        value={
-          <>
-            {info.current_price}
-            <span className="ml-[2px] text-xs">USDT</span>
-          </>
-        }
-      />
-
-      <InfoSection
-        title="24h Chg"
-        value={
-          <PriceChange
-            valueToFixed
-            textClassName="!text-base !leading-none"
-            value={info.price_change_percentage || 0}
-          />
-        }
-      />
-
-      <InfoSection
-        title="Market Cap"
-        value={
-          <>
-            <span className="font-light text-white/40">$</span>
-            {numerable.format(info.market_cap, '0,0')}
-          </>
-        }
-      />
-
-      <InfoSection
-        title="Volume 24h"
-        value={
-          <>
-            <span className="font-light text-white/40">$</span>
-            {numerable.format(info.total_volume, '0,0')}
-          </>
-        }
-      />
     </section>
   );
 }
 
-const InfoSection = (props: { title: string; value: ReactNode }) => (
-  <div className="flex h-full flex-col items-center justify-between">
-    <p className="text-xs font-light text-white/60">{props.title}</p>
-    <p className="text-white/80 mobile:mt-3 mobile:text-sm">{props.value}</p>
+const InfoSection = (props: { title?: string; value: ReactNode }) => (
+  <div className="flex h-auto flex-col items-center justify-between gap-2 px-2">
+    {props.title && (
+      <div className="text-xs font-light text-white/60">{props.title}</div>
+    )}
+    <div className="text-white/80">{props.value}</div>
   </div>
 );

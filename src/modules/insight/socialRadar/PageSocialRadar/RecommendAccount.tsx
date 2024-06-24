@@ -5,8 +5,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';
 import { useRecommendChannelMutation } from 'api';
-import { ReactComponent as RedditIcon } from '../PageSocialRadarDetail/images/reddit.svg';
-import { ReactComponent as TelegramIcon } from '../PageSocialRadarDetail/images/telegram.svg';
 import { ReactComponent as RecommendIcon } from './images/recommend.svg';
 
 export default function RecommendAccount() {
@@ -57,8 +55,7 @@ const RecommendAccountModal = ({ onResolve }: { onResolve: () => void }) => {
   return (
     <section className="p-6 mobile:p-0">
       <div className="flex justify-center gap-4 ">
-        <RedditIcon className="size-20 mobile:size-16" />
-        <TelegramIcon className="size-20 mobile:size-16" />
+        <RecommendIcon className="w-52" />
       </div>
       <p className="mt-6 text-center text-xl font-medium mobile:text-base">
         {t('recommend-account.modal.title')}

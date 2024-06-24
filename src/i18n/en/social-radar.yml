@@ -1,4 +1,17 @@
 title: Social Radar
+available-exchanges:
+  title: Available Exchanges
+  table:
+    exchange: Exchange
+    price: Price
+    rank: '#'
+    volume_24h: Volume 24h
+    volume_percentage: Volume %
+coin-info:
+  24h_chg: 24h Chg
+  market_cap: Market Cap
+  price: Price
+  volume_24h: Volume 24h
 hot-coins:
   title: Hot Coins
   description: Community-Sourced Market Insights, Not Wisdomise Recommendations
@@ -87,3 +100,21 @@ set-notification:
   open-modal-btn:
     not-set: Set Notification
     set: Notification Is Set
+socials:
+  all:
+    title: All Socials Feed
+    subtitle: Analyze signals for {{symbol}} in all socials feed
+  reddit:
+    title: Reddit
+    subtitle: Analyze signals for {{symbol}} in Reddit community
+    followers: Members
+  telegram:
+    title: Telegram
+    subtitle: Analyze signals for {{symbol}} in Telegram channels
+    followers: Subscribers
+  trading-view:
+    title: Technical Analysis Ideas
+    subtitle: Analyze signals for {{symbol}} in Technical Analysis Ideas
+  twitter:
+    title: X, Twitter
+    subtitle: Analyze signals for {{symbol}} in Twitter, X community
