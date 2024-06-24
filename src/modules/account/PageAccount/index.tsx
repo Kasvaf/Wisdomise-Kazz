@@ -1,125 +1,130 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { type FC } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
-import CardPageLink from 'shared/CardPageLink';
 import {
   useExchangeAccountsQuery,
   useReferralStatusQuery,
   useSubscription,
+  useSumsubVerified,
 } from 'api';
 import { trackClick } from 'config/segment';
-import { ReactComponent as IconProfile } from './icons/profile.svg';
-import { ReactComponent as IconSubscription } from './icons/subscription.svg';
-import { ReactComponent as IconKYC } from './icons/kyc.svg';
-import { ReactComponent as IconWSDM } from './icons/wsdm-token.svg';
-import { ReactComponent as IconEA } from './icons/external-account.svg';
-import { ReactComponent as IconNotifications } from './icons/notifications.svg';
-import { ReactComponent as IconReferral } from './icons/referral.svg';
+import { CardPageLink, CardPageLinkBadge } from '../../shared/CardPageLinkV2';
+import KycBadge from './KycBadge';
+import {
+  ProfileIcon,
+  UserIcon,
+  SubscriptionIcon,
+  KycIcon,
+  WsdmTokenIcon,
+  ExternalAccountIcon,
+  NotificationsIcon,
+  ReferralIcon,
+} from './icons';
 
-const PageAccount = () => {
+const PageAccount: FC = () => {
   const { t } = useTranslation('base');
   const subscription = useSubscription();
   const { data: exchanges } = useExchangeAccountsQuery();
   const { data: referral } = useReferralStatusQuery();
+  const { data: kycStatus } = useSumsubVerified();
 
   return (
     <PageWrapper>
-      <div className="mb-6 mobile:text-center">
-        <h1 className="mb-3 text-3xl mobile:text-2xl">
-          {t('menu.account.title')}
-        </h1>
-        <p className="text-base text-white/80 mobile:text-xs">
-          {t('menu.account.subtitle')}
-        </p>
-      </div>
+      <h1 className="mb-2 flex flex-row items-center gap-2 text-base font-bold">
+        <UserIcon className="h-5 w-5" />
+        {t('menu.account.title')}
+      </h1>
+      <p className="mb-10 text-xs text-white/60">
+        {t('menu.account.subtitle')}
+      </p>
 
-      <div className="grid grid-cols-3 items-stretch gap-6 mobile:grid-cols-2">
+      <div className="grid grid-cols-3 items-stretch gap-6 mobile:grid-cols-1">
         <CardPageLink
           to="/account/profile"
           title={t('menu.profile.title')}
-          subtitle={t('menu.profile.subtitle')}
-          icon={<IconProfile />}
-          onClick={trackClick('profile_menu')}
+          description={t('menu.profile.subtitle')}
+          cta={t('common:actions.edit')}
+          icon={ProfileIcon}
+          onCtaClick={trackClick('profile_menu')}
         />
         <CardPageLink
           to="/account/billing"
           title={t('menu.billing.title')}
-          subtitle={t('menu.billing.subtitle')}
-          icon={<IconSubscription />}
-          onClick={trackClick('subscription_menu')}
-        >
-          <div className="flex flex-wrap items-end gap-x-2">
-            <div className="text-2xl font-medium leading-6 mobile:text-xl">
-              {subscription.title}
-            </div>
-            {!subscription.isFreePlan && (
-              <div
-                className={clsx(
-                  'text-xs',
-                  subscription.remaining ? 'text-[#34A3DA]' : 'text-error',
-                )}
-              >
-                {String(subscription.remaining) + 'd'}{' '}
-                {t('menu.billing.remains')}
-              </div>
-            )}
-          </div>
-        </CardPageLink>
+          description={t('menu.billing.subtitle')}
+          cta={t('common:actions.more')}
+          icon={SubscriptionIcon}
+          onCtaClick={trackClick('subscription_menu')}
+          footer={
+            <CardPageLinkBadge color="purple">
+              <span>{subscription.title}</span>
+              {!subscription.isFreePlan && (
+                <span
+                  className={clsx(
+                    'border-l border-l-white/60 pl-2',
+                    subscription.remaining ? 'text-white/60' : 'text-error/60',
+                  )}
+                >
+                  {String(subscription.remaining) + 'd'}{' '}
+                  {t('menu.billing.remains')}
+                </span>
+              )}
+            </CardPageLinkBadge>
+          }
+        />
         <CardPageLink
           to="/account/kyc"
           title={t('menu.kyc.title')}
-          subtitle={t('menu.kyc.subtitle')}
-          icon={<IconKYC />}
-          onClick={trackClick('kyc_menu')}
+          description={t('menu.kyc.subtitle')}
+          cta={t('actions.complete', { ns: 'common' })}
+          icon={KycIcon}
+          onCtaClick={trackClick('kyc_menu')}
+          footer={<KycBadge status={kycStatus} />}
         />
         <CardPageLink
           to="/account/token"
           title={t('menu.token.title')}
-          subtitle={t('menu.token.subtitle')}
-          icon={<IconWSDM />}
-          onClick={trackClick('wsdm_token_menu')}
+          description={t('menu.token.subtitle')}
+          cta={t('common:actions.more')}
+          icon={WsdmTokenIcon}
+          onCtaClick={trackClick('wsdm_token_menu')}
         />
         <CardPageLink
           to="/account/exchange-accounts"
           title={t('menu.account-manager.title')}
-          subtitle={t('menu.account-manager.subtitle')}
-          icon={<IconEA />}
-          onClick={trackClick('external_account_menu')}
-        >
-          {exchanges != null && (
-            <div className="flex flex-wrap items-end gap-x-2">
-              <div className="text-2xl font-medium leading-6 mobile:text-xl">
-                {exchanges?.length}
-              </div>
-              <div className="text-xs">
-                {t('external-accounts:account.accounts')}
-              </div>
-            </div>
-          )}
-        </CardPageLink>
+          description={t('menu.account-manager.subtitle')}
+          cta={t('common:actions.more')}
+          icon={ExternalAccountIcon}
+          onCtaClick={trackClick('external_account_menu')}
+          footer={
+            <CardPageLinkBadge color="purple">
+              {exchanges?.length}{' '}
+              {t('accounts:page-accounts.accounts-connected')}
+            </CardPageLinkBadge>
+          }
+        />
         <CardPageLink
           to="/account/notification-center"
           title={t('menu.notification-center.title')}
-          subtitle={t('menu.notification-center.subtitle')}
-          icon={<IconNotifications />}
-          onClick={trackClick('notifications_menu')}
+          description={t('menu.notification-center.subtitle')}
+          cta={t('common:actions.more')}
+          icon={NotificationsIcon}
+          onCtaClick={trackClick('notifications_menu')}
         />
         <CardPageLink
           to="/account/referral"
           title={t('menu.referral.title')}
-          subtitle={t('menu.referral.subtitle')}
-          icon={<IconReferral />}
-          onClick={trackClick('referral_menu')}
-        >
-          {referral != null && (
-            <div className="flex flex-wrap items-end gap-x-2">
-              <div className="text-2xl font-medium leading-6 mobile:text-xl">
-                {referral?.referred_users_count}
-              </div>
-              <div className="text-xs">{t('auth:page-referral.invited')}</div>
-            </div>
-          )}
-        </CardPageLink>
+          description={t('menu.referral.subtitle')}
+          cta={t('common:actions.invite')}
+          icon={ReferralIcon}
+          onCtaClick={trackClick('referral_menu')}
+          footer={
+            <CardPageLinkBadge color="purple">
+              {referral?.referred_users_count}{' '}
+              {t('accounts:page-accounts.users-invited')}
+            </CardPageLinkBadge>
+          }
+        />
       </div>
     </PageWrapper>
   );

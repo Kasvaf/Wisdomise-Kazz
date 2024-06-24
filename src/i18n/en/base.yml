@@ -57,6 +57,9 @@ menu:
   kyc:
     title: KYC
     subtitle: Verify identity to access features
+  marketplace:
+    title: Marketplace
+    subtitle: Trade confidently with expert-driven crypto signal
   notification-center:
     title: Notifications
     subtitle: Signal and alert settings
@@ -72,12 +75,15 @@ menu:
   signal-matrix:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
+    card-badge: +100 Monthly Signals
   social-radar:
     title: Social Radar
     subtitle: Uncover Market Trends with AI-Powered Insights
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access
+  users:
+    title: Users
 onboarding:
   back: Back
   got-it: Got it

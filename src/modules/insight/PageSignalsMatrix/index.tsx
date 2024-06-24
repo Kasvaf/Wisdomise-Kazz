@@ -2,8 +2,10 @@ import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs, type TabsProps } from 'antd';
 import { type PropsWithChildren } from 'react';
+import { Navigate } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useHasFlag } from 'api';
 import InsightDisclaimer from '../InsightDisclaimer';
 import BestPerforming from './BestPerforming';
 import SignalMatrix from './SignalMatrix';
@@ -21,6 +23,7 @@ const PanelWrapper: React.FC<PropsWithChildren> = ({ children }) => {
 
 const PageSignalsMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
+  const hasFlag = useHasFlag();
   const [activeTab, setActiveTab] = useSearchParamAsState<string>(
     'tab',
     'matrix',
@@ -54,6 +57,15 @@ const PageSignalsMatrix: React.FC = () => {
         </PanelWrapper>
       ),
     },
+    ...(hasFlag('/insight/marketplace')
+      ? [
+          {
+            key: 'marketplace',
+            label: t('matrix.marketplace'),
+            children: <Navigate to="/insight/marketplace" />,
+          },
+        ]
+      : []),
   ];
 
   return (

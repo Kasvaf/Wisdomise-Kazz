@@ -1,0 +1,13 @@
+.wsdm-uploader {
+  input {
+    @apply text-transparent;
+
+    &::-webkit-file-upload-button {
+      @apply cursor-pointer opacity-0;
+    }
+
+    &::before {
+      @apply inline-block cursor-pointer select-none;
+    }
+  }
+}

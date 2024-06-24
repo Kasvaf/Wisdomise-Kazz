@@ -1,0 +1,9 @@
+page-title: 信号市场
+signaler: 信号员
+table:
+  action: 行动
+  coin: 代幣
+  detail: 细节
+  max_drawdown: 最大回撤 <1>每月</1>
+  name: 姓名
+  pl: 盈亏 <1>每月</1>

@@ -4,3 +4,4 @@ package.json
 index.html
 .vscode/*
 src/i18n/*
+src/modules/shared/Uploader/style.css

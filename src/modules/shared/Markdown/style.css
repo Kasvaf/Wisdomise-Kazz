@@ -1,0 +1,115 @@
+/* @import '@mdxeditor/editor/style.css'; */
+
+.wsdm-markdown {
+  @apply text-sm text-white;
+
+  &.wsdm-markdown-editable {
+    @apply overflow-hidden rounded-xl bg-black/30;
+  }
+
+  &.mdxeditor-popup-container {
+    @apply absolute;
+    > div {
+      @apply my-1 h-auto overflow-hidden rounded-lg bg-[#151619] p-[0.4rem] text-xs text-white/80;
+    }
+
+    [role='option'] {
+      @apply h-auto cursor-pointer rounded-md px-4 py-[0.3rem] text-xs;
+
+      &:hover,
+      &[aria-selected='true'] {
+        @apply bg-white/30 outline-none;
+      }
+
+      &:not(:last-child) {
+        @apply mb-1;
+      }
+    }
+  }
+
+  .mdxeditor-toolbar {
+    @apply rounded-none bg-black/30 p-2 text-inherit shadow-none backdrop-blur-sm;
+
+    &,
+    > div,
+    & div > div {
+      @apply flex gap-2;
+    }
+
+    button {
+      @apply flex h-6 w-auto cursor-pointer items-center justify-center !rounded-md px-2 text-xs;
+
+      &:hover {
+        @apply bg-white/10;
+      }
+      &[data-state='on'] {
+        @apply bg-white/20;
+      }
+
+      svg {
+        @apply -mx-1 h-5 w-5 text-inherit;
+      }
+    }
+  }
+
+  .mdxeditor-root-contenteditable {
+    @apply relative h-[calc(100%-2.5rem)] overflow-auto;
+
+    > div[role='textbox'] {
+      @apply h-full font-light text-inherit !outline-none;
+
+      &[contenteditable='true'] {
+        @apply p-4 text-inherit;
+      }
+    }
+
+    > div[class*='placeholder'] {
+      @apply absolute top-0 p-4 text-white/60;
+    }
+
+    ul {
+      @apply list-inside list-disc;
+    }
+
+    strong {
+      @apply font-semibold;
+    }
+
+    em {
+      @apply !italic;
+    }
+
+    [class*='underline'] {
+      @apply underline;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @apply mb-2;
+    }
+
+    h1 {
+      @apply text-[1.45em] leading-8;
+    }
+    h2 {
+      @apply text-[1.3em] leading-7;
+    }
+    h3 {
+      @apply text-[1.15em] leading-6;
+    }
+    h4 {
+      @apply text-[1em];
+    }
+    h5 {
+      @apply text-[0.85em] leading-5;
+    }
+    h6 {
+      @apply text-[0.7em] leading-4;
+    }
+  }
+}

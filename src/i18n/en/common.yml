@@ -1,7 +1,13 @@
 actions:
   back: Back
+  cancel: Cancel
+  complete: Complete
+  edit: Edit
   explore: Explore
+  invite: Invite
+  more: More
   'no': 'No'
+  ok: Ok
   remove: Remove
   reset: reset
   save: Save
@@ -21,6 +27,7 @@ market:
   long: Long
   short: Short
 network: Network
+nothing-to-show: Nothing to show
 order-type:
   limit: Limit
   market: Market
@@ -29,5 +36,9 @@ quality:
   high: High
   low: Low
   medium: Medium
+recommended-size: Recommended Size
 select-crypto: Select Crypto
+show-more: Show more
 spot: Spot
+upload-failed: Upload failed!
+uploading: Uploading

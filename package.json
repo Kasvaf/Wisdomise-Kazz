@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
+    "@mdxeditor/editor": "^3.4.0",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@nivo/pie": "^0.83.0",
     "@segment/analytics-next": "^1.59.0",

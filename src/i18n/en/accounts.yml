@@ -1,0 +1,32 @@
+page-accounts:
+  accounts-connected: Account(s) Connected
+  users-invited: User(s) Invited
+page-profile:
+  title: My Profile
+  buttons:
+    edit_info: Edit Info
+  error-occured: An error occurred during save
+  inputs:
+    discord: Discord Channel
+    linkedin: Linkedin
+    nickname: Nickname
+    overview: Description...
+    support_email: Support Email
+    telegram: Telegram
+    twitter: X / Twitter
+    website: Website
+    youtube: Youtube
+  sections:
+    info: My Info
+    overview: Overview
+page-public-profile:
+  signalers-table:
+    name: ''
+    max_drawdown: Max Drawdown<1>Monthly</1>
+    pair: ''
+    pl: P/L <1>Monthly</1>
+profile-header:
+  cant-change: Can't Change
+  change-header: Change Header
+  from: from
+  unknown-nickname: Unknown Nickname

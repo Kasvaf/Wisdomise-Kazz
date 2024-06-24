@@ -35,6 +35,7 @@ matrix:
   exit-price: Exit Price
   latest-positions: Latest Positions
   locked: Locked
+  marketplace: Marketplace
   none: None
   onboarding:
     sec-1:
