@@ -5,6 +5,10 @@ account:
   exchange: Exchange
   market: Market
   status: Status
+delete-account:
+  title: Delete External Account
+  btn-yes: Yes, I'm sure
+  confirm-message: Are you sure to delete this external account?
 modal-add-exchange:
   title: Add Exchange Account
   input-api-key: API KEY

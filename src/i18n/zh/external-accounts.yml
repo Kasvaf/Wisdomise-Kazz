@@ -5,6 +5,10 @@ account:
   market: 市场
   name: 帐户名称
   status: 状态
+delete-account:
+  btn-yes: 是，我确定
+  confirm-message: 您确定要删除该外部帐户吗？
+  title: 删除外部帐户
 modal-account-selector:
   btn-connect-new: 连接新帐户
   btn-continue: 继续

@@ -5,6 +5,10 @@ account:
   market: 市場（マーケット）
   name: アカウント名
   status: ステータス
+delete-account:
+  btn-yes: はい、確かです
+  confirm-message: この外部アカウントを削除してもよろしいですか?
+  title: 外部アカウントの削除
 modal-account-selector:
   btn-connect-new: 新しいアカウントの連携
   btn-continue: 続ける
