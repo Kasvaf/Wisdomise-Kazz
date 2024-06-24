@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';
 import { useRecommendChannelMutation } from 'api';
-import { ReactComponent as RecommendIcon } from './images/recommend.svg';
+import { RecommendedIcon } from './assets';
 
 export default function RecommendAccount() {
   const { t } = useTranslation('social-radar');
@@ -24,7 +24,7 @@ export default function RecommendAccount() {
           'mobile:w-full mobile:justify-center',
         )}
       >
-        <RecommendIcon className="-mb-1 size-10" />
+        <RecommendedIcon className="-mb-1 size-10" />
         {t('recommend-account.button')}
       </button>
       {modal}
@@ -55,7 +55,7 @@ const RecommendAccountModal = ({ onResolve }: { onResolve: () => void }) => {
   return (
     <section className="p-6 mobile:p-0">
       <div className="flex justify-center gap-4 ">
-        <RecommendIcon className="w-52" />
+        <RecommendedIcon className="w-52" />
       </div>
       <p className="mt-6 text-center text-xl font-medium mobile:text-base">
         {t('recommend-account.modal.title')}

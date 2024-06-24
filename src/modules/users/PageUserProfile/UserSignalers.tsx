@@ -143,6 +143,7 @@ export const UserSignalers = memo<{
       columns={columns}
       dataSource={signalersWithRank}
       className={clsx('w-full overflow-auto', className)}
+      rowKey="strategy_key"
     />
   );
 });

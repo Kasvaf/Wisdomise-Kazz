@@ -89,17 +89,26 @@ recommend-account:
       reviewed by our AI system for inclusion based on signal value.
 set-notification:
   modal:
-    title: Social Radar Notification
-    daily: Daily
-    email: Email
-    period: Period
-    sub-title: >-
+    title: Set Alert for New Potential Coin Detection
+    description: >-
       Don’t miss out on the next big opportunity in the crypto world. Our
       notification system lets you be the first to know about hot coins and
       fresh discoveries.
+    alert-channel-section: Alert Channel
+    browser-alert-input: Browser Notification
+    daily: Daily
+    discord-alert-input: Discord Message
+    email-alert-input: Email
+    interval-section: Interval
+    push-alert-input: Push Notification
+    save-button: Save Alert Setting
+    slack-alert-input: Slack Message
+    sms-alert-input: Sms
+    soon: Soon...
+    telegram-alert-input: Telegram Message
   open-modal-btn:
-    not-set: Set Notification
-    set: Notification Is Set
+    not-set: Set Alert
+    set: Alert Is Set
 socials:
   all:
     title: All Socials Feed
@@ -118,3 +127,4 @@ socials:
   twitter:
     title: X, Twitter
     subtitle: Analyze signals for {{symbol}} in Twitter, X community
+

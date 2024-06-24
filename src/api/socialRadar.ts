@@ -309,20 +309,14 @@ export const useIsSubscribedToSocialRadarNotification = () =>
     },
   });
 
-export const useToggleSubscribeToSocialRadarNotification = () => {
-  const isSubscribed = useIsSubscribedToSocialRadarNotification();
-  return useMutation({
-    mutationFn: async () => {
-      await axios.post(
+export const useToggleSubscribeToSocialRadarNotification = () =>
+  useMutation({
+    mutationFn: (form: { isSubscribed: boolean }) =>
+      axios.post(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/${
-          isSubscribed.data ? 'unsubscribe' : 'subscribe'
+          form.isSubscribed ? 'subscribe' : 'unsubscribe'
         }`,
-      );
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries([
-        'is_subscribed_to_radar_notification',
-      ]);
-    },
+      ),
+    onSuccess: () =>
+      queryClient.invalidateQueries(['is_subscribed_to_radar_notification']),
   });
-};

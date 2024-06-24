@@ -6,13 +6,12 @@ import { useCoinSignals, useMarketInfoFromSignals } from 'api';
 import BetaVersion from 'shared/BetaVersion';
 import InsightDisclaimer from 'modules/insight/InsightDisclaimer';
 import { track } from 'config/segment';
-import img1 from './images/img1.png';
-import infoImg from './images/info.svg';
 import SignalsTable from './SignalsTable';
 import HotCoinSignal from './HotCoinSignal';
 import { SocialRadarOnboarding } from './SocialRadarOnboarding';
 import RecommendAccount from './RecommendAccount';
 import SetNotification from './SetNotification';
+import { Img1, InfoIcon } from './assets';
 
 export default function PageSocialRadar() {
   const signals = useCoinSignals();
@@ -92,7 +91,7 @@ export default function PageSocialRadar() {
               </div>
             </section>
           </div>
-          <img src={img1} className="-my-6 -mr-6 w-1/2 mobile:hidden" />
+          <img src={Img1} className="-my-6 -mr-6 w-1/2 mobile:hidden" />
         </div>
       </section>
 
@@ -100,7 +99,7 @@ export default function PageSocialRadar() {
         <div className="my-8 flex w-full items-center justify-between mobile:flex-col mobile:items-start mobile:gap-4">
           <p className="pl-2 font-semibold">{t('hot-coins.title')}</p>
           <p className="flex items-center gap-1 text-xs text-white/80">
-            <img src={infoImg} />
+            <InfoIcon />
             {t('hot-coins.description')}
           </p>
         </div>

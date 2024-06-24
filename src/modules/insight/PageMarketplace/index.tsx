@@ -179,6 +179,7 @@ const PageMarketplace: React.FC = () => {
         columns={columns}
         dataSource={strategiesPerformanceBulkWithRank}
         className="w-full overflow-auto"
+        rowKey="strategy_key"
       />
     </PageWrapper>
   );
