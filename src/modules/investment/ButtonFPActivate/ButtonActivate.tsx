@@ -39,7 +39,7 @@ const ButtonActivate: React.FC<Props> = ({
 
   const hasFlag = useHasFlag();
   const onActivateClick = async () => {
-    if (!hasFlag('?activate-no-wait') && fp.owner !== account.data?.email) {
+    if (!hasFlag('?activate-no-wait') && fp.owner.key !== account.data?.key) {
       await showModalFpWaitList();
       return;
     }

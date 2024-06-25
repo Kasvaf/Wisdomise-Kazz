@@ -28,7 +28,7 @@ const StepChooseWallet: React.FC<{
   const mea = !!ias?.[0]?.main_exchange_account;
   const wisdomiseBalance = ias?.[0]?.total_equity || 0;
 
-  const isMine = fp.owner === account?.email;
+  const isMine = fp.owner.key === account?.key;
   const market = isMine
     ? fp.market_names?.[0]
     : (fp.config.can_use_external_account &&

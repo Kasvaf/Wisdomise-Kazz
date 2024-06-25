@@ -1,3 +1,5 @@
+import { type CommunityProfile } from 'api/account';
+
 export type MarketTypes = 'SPOT' | 'FUTURES';
 
 export interface FinancialProductsResponse {
@@ -35,7 +37,10 @@ export interface FinancialProduct {
   min_deposit: number;
   max_deposit: number;
   total_subscribers: number;
-  owner: string;
+  owner: {
+    key: string;
+    cprofile: CommunityProfile;
+  };
 }
 
 interface Profile {
