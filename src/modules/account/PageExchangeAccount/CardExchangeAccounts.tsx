@@ -31,7 +31,7 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
             className={clsx(
               'flex flex-col items-stretch justify-between gap-8 sm:flex-row sm:gap-6',
               'mb-6 rounded-xl bg-black/20 px-6 py-4',
-              'max-w-xl',
+              'max-w-2xl',
             )}
           >
             <div className="flex grow flex-col">
@@ -71,8 +71,10 @@ const CardExchangeAccounts: React.FC<{ className?: string }> = ({
             </div>
 
             <div className="flex flex-col sm:basis-[24px]">
-              <div className="mb-3 text-xs text-white/60">&nbsp;</div>
-              <div className="flex h-full items-center">
+              <div className="mb-3 text-xs text-white/60 mobile:hidden">
+                &nbsp;
+              </div>
+              <div className="flex h-full items-center justify-center">
                 <ButtonExchangeDelete account={acc} />
               </div>
             </div>

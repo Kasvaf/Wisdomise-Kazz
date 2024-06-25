@@ -1,10 +1,11 @@
 import { notification } from 'antd';
-import { bxTrash, bxX } from 'boxicons-quasar';
+import { bxTrash } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
 import Icon from 'shared/Icon';
 import { type ExchangeAccount, useDeleteExchangeAccount } from 'api';
+import Button from 'shared/Button';
 import Spin from 'shared/Spin';
 
 const ButtonExchangeDelete: React.FC<{ account: ExchangeAccount }> = ({
@@ -43,12 +44,14 @@ const ButtonExchangeDelete: React.FC<{ account: ExchangeAccount }> = ({
       {isDeleting ? (
         <Spin fontSize={20} />
       ) : (
-        <div
+        <Button
           onClick={deleteHandler}
-          className="cursor-pointer rounded-full bg-white/30 p-1 text-black hover:bg-white/70"
+          variant="secondary-red"
+          className="!px-3 !py-1 !text-xs"
         >
-          <Icon name={bxX} size={16} />
-        </div>
+          <Icon name={bxTrash} size={12} className="mr-2" />
+          {t('common:actions.remove')}
+        </Button>
       )}
     </>
   );
