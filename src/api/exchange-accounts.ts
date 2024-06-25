@@ -44,6 +44,6 @@ export const useDeleteExchangeAccount = () => {
   const queryClient = useQueryClient();
   return useMutation(async ({ key }: { key: string }) => {
     await axios.delete<ExchangeAccount>('/ias/external-accounts/' + key);
-    await queryClient.invalidateQueries(['my-products']);
+    await queryClient.invalidateQueries(['exchng-acc']);
   });
 };
