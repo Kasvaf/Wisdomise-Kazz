@@ -31,7 +31,7 @@ export const Signals = () => {
           <div className="-mx-8 min-w-[450px] max-md:-mx-3 max-md:min-w-full">
             {/* <VirtualWallet /> */}
             <section className="flex flex-col gap-1">
-              {data?.last_positions.map(position => {
+              {data?.map(position => {
                 const pair = pairs?.find(p => p.name === position.pair_name);
                 const strategy = position.strategy;
                 const firstPrice = pair?.time_window_prices.at(0);
@@ -40,7 +40,7 @@ export const Signals = () => {
 
                 return (
                   <section
-                    key={position.strategy_name + pair.name}
+                    key={position.strategy.name + pair.name}
                     // eslint-disable-next-line tailwindcss/no-custom-classname
                     className="signal-item flex gap-8 overflow-y-auto bg-black/20 px-6 py-4 max-md:gap-4 max-md:px-2"
                   >
@@ -97,7 +97,7 @@ export const Signals = () => {
                       </div>
                     </section>
                     <section className="grow">
-                      <SignalBox position={position} strategy={strategy} />
+                      <SignalBox position={position} />
                     </section>
                   </section>
                 );

@@ -5,8 +5,7 @@ import type React from 'react';
 import { useCallback, useState } from 'react';
 import * as numerable from 'numerable';
 import { useTranslation } from 'react-i18next';
-import { useSubscription } from 'api';
-import { type LastPosition } from 'api/types/signalResponse';
+import { type PairSignalerItem, useSubscription } from 'api';
 import isTouchDevice from 'utils/isTouchDevice';
 import NotificationButton from 'modules/account/PageNotification/NotificationButton';
 import PriceChange from 'shared/PriceChange';
@@ -17,11 +16,11 @@ import { useSuggestionsMap } from './constants';
 import ValuesRow from './ValuesRow';
 
 interface Props {
-  position: LastPosition;
+  position: PairSignalerItem;
   className?: string;
 }
 
-const isClosed = (p: LastPosition) => Boolean(p.exit_time);
+const isClosed = (p: PairSignalerItem) => Boolean(p.exit_time);
 
 const SignalBoxTitle: React.FC<Props> = ({ position: p, className }) => {
   const { t } = useTranslation('strategy');

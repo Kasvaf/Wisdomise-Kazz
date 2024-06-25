@@ -3,14 +3,11 @@ import axios from 'axios';
 import { useMemo } from 'react';
 import { useMainQuote } from './ias/investor-asset-structures';
 import { type MarketTypes } from './types/financialProduct';
-import {
-  type RawPosition,
-  type SignalsResponse,
-  type SuggestedAction,
-} from './types/signalResponse';
+import { type RawPosition, type SuggestedAction } from './types/signalResponse';
 import { type PairDataFull, type PairData } from './types/strategy';
-import normalizePair from './normalizePair';
 import { type CommunityProfile } from './account';
+import { type SignalItem } from './builder';
+import normalizePair from './normalizePair';
 
 export const useSignalerPairs = () =>
   useQuery<PairDataFull[]>(
@@ -102,6 +99,10 @@ export interface PairSignalerItem extends RawPosition {
   take_profit?: number | null;
   suggested_action: SuggestedAction;
   leverage: number;
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+  };
 }
 
 export interface ThinStrategy {
@@ -134,7 +135,7 @@ export const usePairSignalers = (base?: string, quote?: string) => {
     async () => {
       if (!base || !quote) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True`,
+        `catalog/positions?pair_base=${base}&pair_quote=${quote}&last=True`,
       );
       return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
     },
@@ -154,7 +155,7 @@ export const useStrategyPositions = (
     async () => {
       if (!(key && base && quote)) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
+        `catalog/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
       );
       return data;
     },
@@ -182,7 +183,7 @@ export const useBestPerformingQuery = ({
       const startDate = new Date(endDate);
       startDate.setDate(startDate.getDate() - days);
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?order_by=-pnl&start=${startDate.toISOString()}&end=${endDate.toISOString()}&limit=${limit}`,
+        `catalog/positions?order_by=-pnl&start=${startDate.toISOString()}&end=${endDate.toISOString()}&limit=${limit}`,
       );
       return data;
     },
@@ -208,7 +209,7 @@ export const useStrategiesList = () => {
   return useQuery<StrategyItem[]>(
     ['signaler-strategies'],
     async () => {
-      const { data } = await axios.get<StrategyItem[]>('strategy/strategies');
+      const { data } = await axios.get<StrategyItem[]>('catalog/strategies');
       return data
         .map(s => ({
           ...s,
@@ -224,10 +225,12 @@ export const useStrategiesList = () => {
 
 export const useSignalsQuery = () =>
   useQuery(['signals'], async () => {
-    const { data } = await axios.get<SignalsResponse>(
-      'strategy/last-positions',
+    const { data } = await axios.get<PairSignalerItem[]>(
+      'catalog/positions?thin=True&last=True',
     );
-    return data;
+    return data
+      .filter(x => x.strategy.profile?.title)
+      .sort((a, b) => strategyComparer(a.strategy, b.strategy));
   });
 
 export type StrategiesPerformanceBulkResolution = 'MONTH3' | 'MONTH' | 'WEEK';
