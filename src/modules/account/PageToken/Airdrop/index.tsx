@@ -39,9 +39,7 @@ export default function Airdrop() {
             </div>
             <div className="flex w-full items-center">
               <div className="grow"></div>
-              <div className="h-4 w-4 shrink-0 rounded-full bg-violet-500">
-                <div className="h-4 w-4 shrink-0 animate-ping rounded-full bg-violet-500"></div>
-              </div>
+              <div className="h-4 w-4 shrink-0 rounded-full bg-violet-500"></div>
               <div className="grow border-b border-white/20"></div>
             </div>
             <div className="h-10 md:text-xl">{t('airdrop.check')}</div>
@@ -53,7 +51,9 @@ export default function Airdrop() {
             </div>
             <div className="flex w-full items-center">
               <div className="grow border-b border-white/20"></div>
-              <div className="h-4 w-4 shrink-0 rounded-full bg-white/50"></div>
+              <div className="h-4 w-4 shrink-0 rounded-full bg-violet-500">
+                <div className="h-4 w-4 shrink-0 animate-ping rounded-full bg-violet-500"></div>
+              </div>
               <div className="grow border-b border-white/20"></div>
             </div>
             <div className="h-10 md:text-xl">{t('airdrop.calculation')}</div>
@@ -61,7 +61,7 @@ export default function Airdrop() {
           <div className="grow border-b border-white/20"></div>
           <div className="flex flex-col items-center justify-between gap-4 text-center">
             <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4 max-md:text-xs">
-              {t('airdrop.soon')}
+              11-07-2024
             </div>
             <div className="flex w-full items-center">
               <div className="grow border-b border-white/20"></div>
