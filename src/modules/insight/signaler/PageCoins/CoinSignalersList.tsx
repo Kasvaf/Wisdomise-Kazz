@@ -47,7 +47,8 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                 className="mr-2"
               />
               <Button
-                className="mobile:!p-[10px_12px]"
+                variant="link"
+                className="!px-3 mobile:!p-[10px_12px]"
                 to={`/insight/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                 onClick={trackClick('coin_signaler', {
                   coin_name: s.pair_name,

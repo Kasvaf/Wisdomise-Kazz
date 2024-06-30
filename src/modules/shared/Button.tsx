@@ -74,7 +74,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'bg-transparent text-white hover:text-warning',
+          'bg-transparent text-white hover:text-info',
           disabled && 'cursor-not-allowed !text-white/40',
           loading && 'cursor-wait',
           sizeClass,
