@@ -2,12 +2,14 @@ import { bxRightArrowAlt } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
 import { type PairSignalerItem } from 'api/signaler';
-import InfoButton from 'shared/InfoButton';
-import Icon from 'shared/Icon';
-import Button from 'shared/Button';
 import { trackClick } from 'config/segment';
+import useIsMobile from 'utils/useIsMobile';
+import InfoButton from 'shared/InfoButton';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 import NotificationButton from 'modules/account/PageNotification/NotificationButton';
 import ActivePosition from '../ActivePosition';
+import SignalerOwnerLink from './SignalerOwnerLink';
 import UnprivilegedOverlay from './UnprivilegedOverlay';
 
 const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
@@ -15,6 +17,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
 }) => {
   const { t } = useTranslation('strategy');
   const { level } = useSubscription();
+  const isMobile = useIsMobile();
   if (!signalers) return null;
 
   return (
@@ -32,8 +35,9 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                 />
               )}
 
-              {/* <ProfileLink userId={'ss'} className="ml-2" />
-              <div className="flex rounded bg-white/5 px-2">hello</div> */}
+              {!isMobile && (
+                <SignalerOwnerLink user={s.strategy?.owner} className="ml-3" />
+              )}
             </h2>
 
             <div className="flex items-center">
@@ -55,6 +59,9 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
               </Button>
             </div>
           </div>
+          {isMobile && (
+            <SignalerOwnerLink user={s.strategy?.owner} className="my-3" />
+          )}
 
           <ActivePosition
             position={s}

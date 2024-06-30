@@ -1,4 +1,4 @@
-import { type CommunityProfile } from 'api/account';
+import { type ItemOwner } from 'api/account';
 
 export type MarketTypes = 'SPOT' | 'FUTURES';
 
@@ -37,10 +37,7 @@ export interface FinancialProduct {
   min_deposit: number;
   max_deposit: number;
   total_subscribers: number;
-  owner: {
-    key: string;
-    cprofile: CommunityProfile;
-  };
+  owner: ItemOwner;
 }
 
 interface Profile {

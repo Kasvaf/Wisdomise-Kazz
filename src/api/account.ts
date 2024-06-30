@@ -123,6 +123,11 @@ export function useCountriesQuery() {
   );
 }
 
+export interface ItemOwner {
+  key: string;
+  cprofile: CommunityProfile;
+}
+
 export interface CommunityProfile {
   overview: string | null;
   profile_image: string | null;

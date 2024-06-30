@@ -5,7 +5,7 @@ import { useMainQuote } from './ias/investor-asset-structures';
 import { type MarketTypes } from './types/financialProduct';
 import { type RawPosition, type SuggestedAction } from './types/signalResponse';
 import { type PairDataFull, type PairData } from './types/strategy';
-import { type CommunityProfile } from './account';
+import { type ItemOwner } from './account';
 import { type SignalItem } from './builder';
 import normalizePair from './normalizePair';
 
@@ -109,6 +109,7 @@ export interface ThinStrategy {
   key: string;
   name: string;
   profile?: Profile;
+  owner?: ItemOwner;
 }
 
 interface Profile {
@@ -236,10 +237,7 @@ export type StrategiesPerformanceBulkResolution = 'MONTH3' | 'MONTH' | 'WEEK';
 interface StrategyPerformanceBulkBase {
   name: string;
   strategy_key: string;
-  owner: {
-    key: string;
-    cprofile: CommunityProfile;
-  };
+  owner: ItemOwner;
 }
 
 interface StrategyPerformanceBulkInfo {

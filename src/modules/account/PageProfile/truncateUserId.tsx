@@ -1,2 +1,2 @@
 export const truncateUserId = (userId: string) =>
-  userId.slice(0, 8) + '...' + userId.slice(-6);
+  userId.slice(0, 4) + '...' + userId.slice(-4);
