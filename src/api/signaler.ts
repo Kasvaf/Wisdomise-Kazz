@@ -13,7 +13,7 @@ export const useSignalerPairs = () =>
   useQuery<PairDataFull[]>(
     ['signaler-pairs'],
     async () => {
-      const { data } = await axios.get<PairDataFull[]>('strategy/pairs');
+      const { data } = await axios.get<PairDataFull[]>('catalog/pairs');
       return data;
     },
     {
@@ -80,7 +80,7 @@ export const useSignalerPairDetails = (name: string) =>
   useQuery<PairDetails>(
     ['signaler-pairs', name],
     async () => {
-      const { data } = await axios.get<PairDetails>('strategy/pairs/' + name);
+      const { data } = await axios.get<PairDetails>('catalog/pairs/' + name);
       return data;
     },
     {
@@ -228,9 +228,7 @@ export const useSignalsQuery = () =>
     const { data } = await axios.get<PairSignalerItem[]>(
       'catalog/positions?thin=True&last=True',
     );
-    return data
-      .filter(x => x.strategy.profile?.title)
-      .sort((a, b) => strategyComparer(a.strategy, b.strategy));
+    return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
   });
 
 export type StrategiesPerformanceBulkResolution = 'MONTH3' | 'MONTH' | 'WEEK';
