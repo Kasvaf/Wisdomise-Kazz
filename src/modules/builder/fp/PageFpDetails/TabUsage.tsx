@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useMyFinancialProductUsageQuery } from 'api/builder';
 import FancyPrice from 'shared/FancyPrice';
 import Spinner from 'shared/Spinner';
-import InfoBox from '../InfoBox';
+import InfoBox from '../../InfoBox';
 
 const TabUsage = () => {
   const { t } = useTranslation('builder');

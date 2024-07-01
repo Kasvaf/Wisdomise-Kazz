@@ -76,6 +76,94 @@ fp:
 multi-coin-selector:
   add-coin: Add Coin
 notif-saved-successfully: Changes saved successfully.
+onboarding:
+  builder:
+    page1:
+      title: 'Builder: Your Command Center for Trading'
+      description: >-
+        Welcome to the Builder Dashboard, the nerve center of your trading
+        journey with us. The Builder is ingeniously designed to give you
+        seamless control over your trading strategies and financial products,
+        all with the ease of a few clicks.
+    page2:
+      title: Managing Your Signalers
+      description: >-
+        Under "My Signalers", you'll find the tools to create and dispatch
+        signals for an array of supported cryptocurrencies. Whether you're
+        analyzing trends or setting up automated alerts, this is where your
+        strategies take form and come to life.
+    page3:
+      title: Creating Financial Products
+      description: >-
+        Moving to "My Products", you can create Financial Products that offer
+        unique opportunities to investors. This section allows you to define the
+        structure and potential yields of your financial products, making them
+        attractive for subscription.
+  fp:
+    page1:
+      title: 'My Financial Products: Cultivating Your Investment Offerings'
+      description: >-
+        Embark on the creation and customization of your unique financial
+        products in the "My Products" section. Here, you are presented with a
+        comprehensive view of all the Financial Products (FPs) you've created.
+        Whether your goal is to offer subscription-based opportunities or to
+        allocate your assets, this is where your strategies take form.
+    page2:
+      title: Creating Financial Products
+      description: >-
+        Simply click on the "Create New Financial Product" button. This action
+        leads you to a guided process where you can:
+      item1: Assign a unique name and description to your product.
+      item2: Define the risk parameters and expected returns.
+    page3:
+      title: Financial Product Configuration
+      description: >-
+        Remember, the decisions you make here aren’t set in stone. You can
+        revisit and adjust description, risk parameters, expected returns and
+        assets.
+      item1:
+        title: '1. Asset Management:'
+        item1: Click on the New Asset button to add a new line for asset allocation.
+        item2: In the newly created line, select a Signaler from your list.
+        item3: Choose the Cryptocurrency Pair associated with the selected Signaler.
+        item4: >-
+          Specify the Percentage Allocation for this Signaler-Pair combination,
+          which should be a portion of the total 100% allocation.
+        notice: >-
+          Please note that you can only select each coin once in each financial
+          product
+      item2:
+        title: >-
+          2. Saving Your Setup: After tuning your Financial Product with the
+          right name, description, assets, hit "Save" to lock in your
+          configurations.
+  signaler:
+    page1:
+      title: 'My Signalers: Tracking Your Strategy Signals'
+      description: >-
+        Discover your trading signalers at a glance in the "My Signalers"
+        section of your Builder Dashboard. It's where the pulse of your trading
+        strategies is constantly monitored and refined.
+    page2:
+      title: Creating Signalers
+      description: >-
+        The journey begins with "Create New Signaler", choose a name for your
+        Signaler and your desired market type: FUTURES or SPOT.
+    page3:
+      title: Configuration For Your Signaler
+      item1: >-
+        Assets: In this area click on the + button to browse and add
+        cryptocurrencies from the supported list to your Signaler. Each asset
+        can be easily removed with a click on the 'X'.
+      item2: >-
+        Saving Your Setup: After tuning your Signaler with the right name,
+        market, resolution, and assets, hit "Save" to lock in your
+        configurations.
+      item3: >-
+        For deleting your Signaler you can easily click on "Delete Signaler"
+        button from Configuration tab. Remember not to have any open positions
+        before deleting Signaler. In the case of having open positions it
+        wouldn't stop automatically.
 performance:
   title: Your Chart data updates by changing date range
   asset-under-management: Asset Under Management

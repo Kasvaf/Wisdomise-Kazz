@@ -6,8 +6,8 @@ import InfoBox from 'modules/builder/InfoBox';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import PriceChange from 'shared/PriceChange';
 import Spinner from 'shared/Spinner';
-import TitleHint from '../TitleHint';
-import PnlChart from '../PnlChart';
+import TitleHint from '../../TitleHint';
+import PnlChart from '../../PnlChart';
 
 const TabPerformance = () => {
   const { t } = useTranslation('builder');

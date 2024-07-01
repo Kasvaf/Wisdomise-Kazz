@@ -4,12 +4,14 @@ import CardPageLink from 'shared/CardPageLink';
 import { trackClick } from 'config/segment';
 import { ReactComponent as IconSignals } from './icon-signals.svg';
 import { ReactComponent as IconFP } from './icon-fp.svg';
+import BuilderOnboarding from './BuilderOnboarding';
 
 const PageBuilder = () => {
   const { t } = useTranslation('base');
 
   return (
     <PageWrapper>
+      <BuilderOnboarding />
       <div className="mb-6 mobile:text-center">
         <h1 className="mb-3 text-3xl mobile:text-2xl">
           {t('menu.builder.title')}

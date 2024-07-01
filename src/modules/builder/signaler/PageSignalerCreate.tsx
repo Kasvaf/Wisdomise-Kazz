@@ -12,7 +12,7 @@ import ResolutionSelector from 'shared/ResolutionSelector';
 import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
-import TitleHint from './TitleHint';
+import TitleHint from '../TitleHint';
 
 export default function PageSignalerCreate() {
   const { t } = useTranslation('builder');

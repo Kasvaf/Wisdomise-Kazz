@@ -18,7 +18,7 @@ import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import AmountInputBox from 'shared/AmountInputBox';
-import PublishNotice from '../../PublishNotice';
+import PublishNotice from '../../../PublishNotice';
 import AssetManager from './AssetManager';
 import useDeleteFp from './useDeleteFp';
 const { Option } = Select;

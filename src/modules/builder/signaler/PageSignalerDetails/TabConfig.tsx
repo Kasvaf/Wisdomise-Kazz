@@ -16,8 +16,8 @@ import deepEqual from 'shared/deepEqual';
 import TextBox from 'shared/TextBox';
 import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
-import TitleHint from '../TitleHint';
-import PublishNotice from '../PublishNotice';
+import TitleHint from '../../TitleHint';
+import PublishNotice from '../../PublishNotice';
 import MultiCoinsSelector from './MultiCoinsSelector';
 import useDeleteSignaler from './useDeleteSignaler';
 

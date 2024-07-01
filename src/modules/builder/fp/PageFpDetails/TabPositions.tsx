@@ -9,7 +9,7 @@ import DateRangeSelector from 'shared/DateRangeSelector';
 import CandleChart from 'shared/CandleChart';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import AssetSelector from '../AssetSelector';
+import AssetSelector from '../../AssetSelector';
 import PositionsTable from './ActualPositionsTable';
 import SubscriberSelector from './SubscriberSelector';
 

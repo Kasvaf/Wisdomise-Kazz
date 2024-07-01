@@ -11,7 +11,7 @@ import SimulatedPositionsTable from 'modules/insight/signaler/SimulatedPositions
 import SimulatedPositionsChart from 'modules/insight/signaler/SimulatedPositionsChart';
 import DateRangeSelector from 'shared/DateRangeSelector';
 import Spinner from 'shared/Spinner';
-import AssetSelector from '../AssetSelector';
+import AssetSelector from '../../AssetSelector';
 
 const TabPositions = () => {
   const { t } = useTranslation('builder');

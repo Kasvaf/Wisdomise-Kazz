@@ -7,7 +7,7 @@ import Spinner from 'shared/Spinner';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
 import Icon from 'shared/Icon';
-import TitleHint from '../TitleHint';
+import TitleHint from '../../TitleHint';
 
 const TabApi = () => {
   const { t } = useTranslation('builder');
