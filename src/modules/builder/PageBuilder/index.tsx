@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import CardPageLink from 'shared/CardPageLink';
 import { trackClick } from 'config/segment';
+import { PageCard } from 'shared/PageCard';
+import { PageTitle } from 'shared/PageTitle';
 import { ReactComponent as IconSignals } from './icon-signals.svg';
 import { ReactComponent as IconFP } from './icon-fp.svg';
 import BuilderOnboarding from './BuilderOnboarding';
+import { ReactComponent as BuilderIcon } from './builder-empty.svg';
 
 const PageBuilder = () => {
   const { t } = useTranslation('base');
@@ -12,32 +14,31 @@ const PageBuilder = () => {
   return (
     <PageWrapper>
       <BuilderOnboarding />
-      <div className="mb-6 mobile:text-center">
-        <h1 className="mb-3 text-3xl mobile:text-2xl">
-          {t('menu.builder.title')}
-        </h1>
-        <p className="text-base text-white/80 mobile:text-xs">
-          {t('menu.builder.subtitle')}
-        </p>
-      </div>
+      <PageTitle
+        className="mb-10"
+        icon={BuilderIcon}
+        title={t('menu.builder.title')}
+        description={t('menu.builder.subtitle')}
+      />
 
-      <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
-        <CardPageLink
+      <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
+        <PageCard
           to="/builder/signalers"
           title={t('menu.signal-builder.title')}
-          subtitle={t('menu.signal-builder.subtitle')}
-          icon={<IconSignals />}
-          height={250}
+          description={t('menu.signal-builder.subtitle')}
+          icon={IconSignals}
           onClick={trackClick('builder_signals_menu')}
+          cta={t('menu.signal-builder.card-button')}
         />
 
-        <CardPageLink
+        <PageCard
           to="/builder/fp"
           title={t('menu.fp-builder.title')}
-          subtitle={t('menu.fp-builder.subtitle')}
-          icon={<IconFP />}
-          height={250}
+          description={t('menu.fp-builder.subtitle')}
+          icon={IconFP}
           onClick={trackClick('builder_fp_menu')}
+          cta={t('menu.fp-builder.card-button')}
+          badge={t('menu.fp-builder.card-badge')}
         />
       </div>
     </PageWrapper>

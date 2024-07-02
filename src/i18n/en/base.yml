@@ -1,3 +1,8 @@
+badges:
+  pending: ''
+  rejected: ''
+  unverified: ''
+  verified: ''
 beta: Beta
 beta-version: Beta Version
 error-page:
@@ -45,7 +50,9 @@ menu:
     active-product: Active Product
   fp-builder:
     title: My Products
-    subtitle: Explore different investment package opportunities
+    subtitle: Explore flexible AI-Driven Investment Options tailored to your needs.
+    card-badge: Unique Options
+    card-button: Try Financial Products
   home:
     title: Home
   insight:
@@ -71,7 +78,8 @@ menu:
     subtitle: Invite and earn rewards
   signal-builder:
     title: My Signalers
-    subtitle: Generate Signals for supported Cryptocurrency
+    subtitle: Create Signals for Supported Cryptocurrencies
+    card-button: Start Building Now
   signal-matrix:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies

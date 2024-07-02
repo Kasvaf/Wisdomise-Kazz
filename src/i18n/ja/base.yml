@@ -51,6 +51,8 @@ menu:
     subtitle: 多様な投資ストラテジーをご確認いただけます。
     title: 金融商品（ストラテジー）
   fp-builder:
+    card-badge: ユニークなオプション
+    card-button: 金融商品を試す
     subtitle: 多様な投資ストラテジーをご確認いただけます。
     title: 私の製品
   home:
@@ -86,9 +88,11 @@ menu:
     subtitle: ご友人を紹介して、リワードをゲットしましょう！
     title: 紹介プログラム
   signal-builder:
+    card-button: 今すぐ構築を開始
     subtitle: サポートされている暗号通貨のシグナルを生成する
     title: 私の信号者
   signal-matrix:
+    card-badge: 毎月のシグナル +100
     mobile: シグナル
     subtitle: AIによる市場シグナルをご確認頂けます。
     title: 市場シグナル
