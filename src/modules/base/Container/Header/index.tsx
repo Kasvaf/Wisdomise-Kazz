@@ -28,7 +28,7 @@ const Header: React.FC<Props> = ({ className }) => {
     >
       <div
         className={clsx(
-          'flex h-20 items-center justify-end bg-page p-6 pl-[260px] mobile:justify-between mobile:px-4 mobile:py-3',
+          'flex h-20 items-center bg-page p-6 pl-[260px] mobile:px-4 mobile:py-3',
         )}
       >
         {isMobile ? (
@@ -36,7 +36,9 @@ const Header: React.FC<Props> = ({ className }) => {
             <a href={MAIN_LANDING(i18n.language)}>
               <img src={Logo} />
             </a>
+            <div className="grow" />
             {RouterBaseName && <BranchSelector />}
+            <OnBoardingMessageButton />
           </>
         ) : (
           <>
