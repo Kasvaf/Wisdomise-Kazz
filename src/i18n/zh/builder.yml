@@ -43,6 +43,7 @@ delete-fp:
 delete-signaler:
   btn-yes: 是，我确定
   confirm-message: 您确定要删除该信号器吗？
+  notice: 请记住，在删除信号器之前不要有任何未平仓头寸。如果有未平仓头寸，它不会自动停止。
   title: 删除信号员
 duration:
   day: 天

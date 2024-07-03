@@ -50,6 +50,9 @@ delete-signaler:
   title: Delete Signaler
   btn-yes: Yes, I'm sure
   confirm-message: Are you sure to delete this signaler?
+  notice: >-
+    Remember not to have any open positions before deleting a Signaler. In the
+    case of having open positions, it wouldn't stop automatically.
 duration:
   day: Day
   hour: Hour

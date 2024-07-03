@@ -43,6 +43,7 @@ delete-fp:
 delete-signaler:
   btn-yes: はい、確かです
   confirm-message: このシグナラーを削除してもよろしいですか?
+  notice: シグナラーを削除する前に、ポジションをオープンにしないようにしてください。ポジションをオープンにしている場合は、自動的に停止しません。
   title: シグナルを削除
 duration:
   day: 日

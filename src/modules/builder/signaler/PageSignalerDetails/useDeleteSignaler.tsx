@@ -18,6 +18,9 @@ const useDeleteSignaler = (signalerKey?: string) => {
         <div className="mt-2 text-slate-400">
           {t('delete-signaler.confirm-message')}
         </div>
+        <div className="mt-3 text-xs text-white/70">
+          {t('delete-signaler.notice')}
+        </div>
       </div>
     ),
     yesTitle: t('delete-signaler.btn-yes'),
