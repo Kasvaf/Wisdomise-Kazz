@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
@@ -8,16 +9,17 @@ import { Expandable } from 'shared/Expandable';
 import CoinsIcons from 'shared/CoinsIcons';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { ProfileHeader } from '../../account/PageProfile/ProfileHeader';
-import { ProfileLinks } from './ProfileLinks';
-import { ProfileSection } from './ProfileSection';
+import ProfileLinks from './ProfileLinks';
+import ProfileSection from './ProfileSection';
 import {
   InfoIcon,
   OverviewIcon,
   SignalersIcon,
   TopFinancialProductsIcon,
 } from './assets';
-import { PerformanceContent } from './Performance';
-import { UserSignalers } from './UserSignalers';
+import PerformanceContent from './Performance';
+import UserSignalers from './UserSignalers';
+import UserProducts from './UserProducts';
 
 export default function PageUserProfile() {
   const { t } = useTranslation();
@@ -102,9 +104,7 @@ export default function PageUserProfile() {
         label={t('users:page-profile.top-financial-products')}
         icon={TopFinancialProductsIcon}
       >
-        <p className="rounded-lg bg-black/10 p-4 py-10 text-center text-sm font-light text-white/70">
-          {t('common:nothing-to-show')}
-        </p>
+        {userId && <UserProducts userId={userId} />}
       </ProfileSection>
       <div className="flex items-start justify-start gap-2">
         <InfoIcon className="shrink-0" />

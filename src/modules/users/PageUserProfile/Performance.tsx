@@ -34,7 +34,7 @@ const useAutoResetState = (initialState: unknown) => {
   return state;
 };
 
-export const PerformanceContent: FC<{
+const PerformanceContent: FC<{
   className?: string;
   data?: TraderProfile['performance']['week'];
 }> = ({ className, data }) => {
@@ -77,3 +77,5 @@ export const PerformanceContent: FC<{
     </div>
   );
 };
+
+export default PerformanceContent;

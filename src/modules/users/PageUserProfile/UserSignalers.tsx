@@ -11,7 +11,7 @@ import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
 import Icon from 'shared/Icon';
 
-export const UserSignalers = memo<{
+const UserSignalers = memo<{
   className?: string;
   userId?: string;
 }>(({ userId, className }) => {
@@ -149,3 +149,5 @@ export const UserSignalers = memo<{
 });
 
 UserSignalers.displayName = 'UserSignalers';
+
+export default UserSignalers;
