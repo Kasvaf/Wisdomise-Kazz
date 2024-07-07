@@ -5,6 +5,7 @@ import Button from 'shared/Button';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
+import PartSafetyOpen from './PartSafetyOpen';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
 
@@ -54,6 +55,11 @@ const AdvancedSignalForm: React.FC<Props> = ({
       {!isUpdate && (
         <PartOpen data={formState} signaler={signaler} assetName={assetName} />
       )}
+      <PartSafetyOpen
+        data={formState}
+        signaler={signaler}
+        assetName={assetName}
+      />
       <PartTpSl
         type="TP"
         data={formState}

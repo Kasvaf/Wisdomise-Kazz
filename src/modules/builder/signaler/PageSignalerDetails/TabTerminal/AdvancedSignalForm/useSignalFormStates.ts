@@ -48,6 +48,7 @@ const useSignalFormStates = () => {
   const orderExp = useState('1h');
   const [takeProfits, setTakeProfits] = useState<TpSlData[]>([]);
   const [stopLosses, setStopLosses] = useState<TpSlData[]>([]);
+  const [safetyOpens, setSafetyOpens] = useState<TpSlData[]>([]);
 
   const result = {
     isUpdate,
@@ -59,6 +60,7 @@ const useSignalFormStates = () => {
     orderExp,
     takeProfits: [takeProfits, setTakeProfits] as const,
     stopLosses: [stopLosses, setStopLosses] as const,
+    safetyOpens: [safetyOpens, setSafetyOpens] as const,
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
@@ -72,6 +74,7 @@ const useSignalFormStates = () => {
       orderExp[1]('1h');
       setTakeProfits([]);
       setStopLosses([]);
+      setSafetyOpens([]);
     },
   };
   return result;
