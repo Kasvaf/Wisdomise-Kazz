@@ -33,6 +33,7 @@ const useActionHandlers = ({
     orderExp: [orderExp],
     getTakeProfits,
     getStopLosses,
+    reset,
   } = data;
 
   const { mutateAsync, isLoading: isSubmitting } = useFireSignalMutation();
@@ -127,6 +128,7 @@ const useActionHandlers = ({
         stop_loss: { items: [] },
         take_profit: { items: [] },
       });
+      reset();
       notification.success({
         message: t('signal-form.notif-success-close'),
       });

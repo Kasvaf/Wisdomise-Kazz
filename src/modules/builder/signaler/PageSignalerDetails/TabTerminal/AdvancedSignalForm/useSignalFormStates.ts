@@ -62,6 +62,17 @@ const useSignalFormStates = () => {
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
+    reset: () => {
+      isUpdate[1](false);
+      market[1]('long');
+      orderType[1]('market');
+      price[1]('');
+      priceUpdated[1](false);
+      exp[1]('1h');
+      orderExp[1]('1h');
+      setTakeProfits([]);
+      setStopLosses([]);
+    },
   };
   return result;
 };
