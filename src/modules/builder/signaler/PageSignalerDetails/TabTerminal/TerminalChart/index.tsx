@@ -8,7 +8,8 @@ const TerminalChart: React.FC<{
   assetName: string;
   formState: SignalFormState;
   marketPrice?: number;
-}> = ({ assetName, formState, marketPrice }) => {
+  className?: string;
+}> = ({ assetName, formState, marketPrice, className }) => {
   const [widget, setWidget] = useState<IChartingLibraryWidget>();
 
   useSyncLines({
@@ -17,7 +18,13 @@ const TerminalChart: React.FC<{
     marketPrice,
   });
 
-  return <AdvancedChart assetName={assetName} widgetRef={setWidget} />;
+  return (
+    <AdvancedChart
+      assetName={assetName}
+      widgetRef={setWidget}
+      className={className}
+    />
+  );
 };
 
 export default TerminalChart;

@@ -89,6 +89,7 @@ const TabTerminal = () => {
                 assetName={assetName}
                 formState={formState}
                 marketPrice={marketPrice}
+                className="mobile:-mx-4"
               />
 
               {!isLoading && assetName && activePosition && (

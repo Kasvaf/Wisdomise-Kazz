@@ -15,7 +15,7 @@ const Box: React.FC<
   }>
 > = ({ title, children }) => {
   return (
-    <div className="grow overflow-hidden rounded-lg bg-black/30">
+    <div className="w-full grow overflow-hidden rounded-lg bg-black/30">
       <div className="flex h-8 items-center bg-black px-2">{title}</div>
       <div className="p-2">{children}</div>
     </div>
@@ -100,7 +100,7 @@ const PositionDetails: React.FC<{
         </div>
       </div>
 
-      <div className="flex items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-2 mobile:flex-col">
         <Box title="Open Details">
           <BoxItem>
             {activePosition.entry_time == null ? (
