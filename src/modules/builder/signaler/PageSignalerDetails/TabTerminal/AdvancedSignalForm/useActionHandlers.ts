@@ -4,6 +4,7 @@ import {
   type FullPosition,
   type SignalerData,
   useFireSignalMutation,
+  useSignalerAssetPrice,
 } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
@@ -33,8 +34,21 @@ const useActionHandlers = ({
     orderExp: [orderExp],
     getTakeProfits,
     getStopLosses,
+    getOpenOrders,
     reset,
   } = data;
+
+  const { data: assetPrice } = useSignalerAssetPrice({
+    strategyKey: signaler.key,
+    assetName,
+  });
+
+  const effectivePrice =
+    orderType === 'market'
+      ? assetPrice === undefined
+        ? 0
+        : assetPrice
+      : +price;
 
   const { mutateAsync, isLoading: isSubmitting } = useFireSignalMutation();
 
@@ -62,18 +76,12 @@ const useActionHandlers = ({
         leverage: { value: 1 },
         position: {
           type: signaler?.market_name === 'SPOT' ? 'long' : market,
-          order_type: orderType,
-          price:
-            orderType === 'limit'
-              ? {
-                  value: Number.parseFloat(price),
-                }
-              : undefined,
-          suggested_action_expires_at: parseDur(exp),
           order_expires_at: parseDur(orderExp),
+          suggested_action_expires_at: parseDur(exp),
         },
         take_profit: getTakeProfits(),
         stop_loss: getStopLosses(),
+        open_orders: getOpenOrders(effectivePrice),
       });
       notification.success({
         message: t('signal-form.notif-success-fire'),
@@ -99,6 +107,7 @@ const useActionHandlers = ({
         action: 'update',
         take_profit: getTakeProfits(),
         stop_loss: getStopLosses(),
+        open_orders: getOpenOrders(effectivePrice),
       });
       notification.success({ message: t('signal-form.notif-success-update') });
     } catch (error) {
@@ -120,13 +129,10 @@ const useActionHandlers = ({
         signalerKey: signaler.key,
         ...activePosition.signal,
         action: 'close',
-        position: {
-          ...activePosition.signal.position,
-          order_type: 'market',
-          price: undefined,
-        },
+        position: activePosition.signal.position,
         stop_loss: { items: [] },
         take_profit: { items: [] },
+        open_orders: { items: [] },
       });
       reset();
       notification.success({

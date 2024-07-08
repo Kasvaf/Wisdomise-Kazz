@@ -4,11 +4,6 @@ import { type RawPosition } from 'api/types/signalResponse';
 
 interface SignalPosition {
   type: 'long' | 'short';
-  order_type: 'limit' | 'market';
-  price?: {
-    // mandatory for limit orders
-    value: number;
-  };
   order_expires_at: string;
   suggested_action_expires_at: string;
 }
@@ -25,6 +20,23 @@ export interface SignalItem {
 
 // ----------------------------------------------------------------------------
 
+export interface OpenOrder {
+  key: string;
+  amount?: number;
+  price?: { value: number };
+  order_type: 'limit' | 'market';
+  condition:
+    | {
+        type: 'true';
+      }
+    | {
+        type: 'compare';
+        op: '>=' | '<=';
+        left: 'price';
+        right: number;
+      };
+}
+
 interface Signal {
   action: 'open' | 'close' | 'update';
   pair: string; // "BTC/USDT",
@@ -37,6 +49,9 @@ interface Signal {
   };
   take_profit?: {
     items: SignalItem[];
+  };
+  open_orders: {
+    items: OpenOrder[];
   };
 }
 

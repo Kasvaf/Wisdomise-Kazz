@@ -1,5 +1,6 @@
 import { v4 } from 'uuid';
 import { useState } from 'react';
+import { type OpenOrder } from 'api/builder';
 
 export interface TpSlData {
   key: string;
@@ -38,12 +39,32 @@ export function sortTpSlItems({
   );
 }
 
+function getSafetyOpens(orders: TpSlData[], effectivePrice: number) {
+  return orders
+    .filter(x => !x.removed)
+    .map(
+      x =>
+        ({
+          key: x.applied ? x.key : v4(),
+          amount: +x.amountRatio / 100,
+          order_type: 'market',
+          condition: {
+            type: 'compare',
+            op: +x.priceExact < effectivePrice ? '<=' : '>=',
+            left: 'price',
+            right: +x.priceExact,
+          },
+        }) as const,
+    );
+}
+
 const useSignalFormStates = () => {
   const isUpdate = useState(false);
   const market = useState<'long' | 'short'>('long');
-  const orderType = useState<'limit' | 'market'>('market');
-  const price = useState('');
+  const [orderType, setOrderType] = useState<'limit' | 'market'>('market');
+  const [price, setPrice] = useState('');
   const priceUpdated = useState(false);
+  const [volume, setVolume] = useState('100');
   const exp = useState('1h');
   const orderExp = useState('1h');
   const [takeProfits, setTakeProfits] = useState<TpSlData[]>([]);
@@ -53,22 +74,38 @@ const useSignalFormStates = () => {
   const result = {
     isUpdate,
     market,
-    orderType,
-    price,
+    orderType: [orderType, setOrderType],
+    price: [price, setPrice],
     priceUpdated,
+    volume: [volume, setVolume],
     exp,
     orderExp,
-    takeProfits: [takeProfits, setTakeProfits] as const,
-    stopLosses: [stopLosses, setStopLosses] as const,
-    safetyOpens: [safetyOpens, setSafetyOpens] as const,
+    takeProfits: [takeProfits, setTakeProfits],
+    stopLosses: [stopLosses, setStopLosses],
+    safetyOpens: [safetyOpens, setSafetyOpens],
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
+    getOpenOrders: (effectivePrice: number) => ({
+      items: [
+        {
+          key: v4(),
+          condition: { type: 'true' as const },
+          amount: +volume / 100,
+          price:
+            orderType === 'limit'
+              ? { value: Number.parseFloat(price) }
+              : undefined,
+          order_type: orderType,
+        },
+        ...(+volume < 100 ? getSafetyOpens(safetyOpens, effectivePrice) : []),
+      ] satisfies OpenOrder[],
+    }),
     reset: () => {
       isUpdate[1](false);
       market[1]('long');
-      orderType[1]('market');
-      price[1]('');
+      setOrderType('market');
+      setPrice('');
       priceUpdated[1](false);
       exp[1]('1h');
       orderExp[1]('1h');
@@ -76,7 +113,7 @@ const useSignalFormStates = () => {
       setStopLosses([]);
       setSafetyOpens([]);
     },
-  };
+  } as const;
   return result;
 };
 

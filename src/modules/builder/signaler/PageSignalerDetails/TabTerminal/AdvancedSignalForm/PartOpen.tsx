@@ -21,6 +21,7 @@ const PartOpen: React.FC<{
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
     priceUpdated: [priceUpdated, setPriceUpdated],
+    volume: [volume, setVolume],
     exp: [exp, setExp],
     orderExp: [orderExp, setOrderExp],
   } = data;
@@ -65,6 +66,15 @@ const PartOpen: React.FC<{
         />
         <OrderTypeToggle value={orderType} onChange={setOrderType} />
       </div>
+
+      <AmountInputBox
+        label={t('signal-form.volume')}
+        suffix="%"
+        value={volume}
+        min={0}
+        max={100}
+        onChange={setVolume}
+      />
 
       <div className="flex items-end gap-2">
         <DurationInput

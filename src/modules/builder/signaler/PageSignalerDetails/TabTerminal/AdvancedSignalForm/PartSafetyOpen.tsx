@@ -19,6 +19,7 @@ const PartSafetyOpen: React.FC<{
   const { t } = useTranslation('builder');
   const {
     price: [price],
+    volume: [volume],
     orderType: [orderType],
     safetyOpens: [items, setItems],
   } = data;
@@ -37,6 +38,7 @@ const PartSafetyOpen: React.FC<{
 
   const colorClassName = clsx('bg-[#34A3DA0D]');
 
+  if (volume === '100') return null;
   return (
     <ClosablePart title="Safety Open">
       <div className="flex flex-col gap-2">
