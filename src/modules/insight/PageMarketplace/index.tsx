@@ -36,7 +36,7 @@ const PageMarketplace: React.FC = () => {
     return [
       {
         title: '#',
-        className: 'w-14 !pr-0',
+        className: 'w-14 !pr-0 !py-8',
         dataIndex: 'rank',
         render(value) {
           return <span className="text-white/40">{value}</span>;
@@ -44,7 +44,7 @@ const PageMarketplace: React.FC = () => {
       },
       {
         title: t('marketplace:table.name'),
-        className: 'w-auto',
+        className: 'w-auto !py-8',
         width: 'auto',
         render(_, record) {
           return (
@@ -68,7 +68,7 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-42 w-48',
+        className: 'min-w-42 w-48 !py-8',
         title: t('marketplace:table.coin'),
         render(_, record) {
           return (
@@ -95,7 +95,7 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-48 w-56',
+        className: 'min-w-48 w-56 !py-8',
         title: (
           <Trans i18nKey="table.pl" ns="marketplace">
             P/L <span className="ml-1 text-xxs opacity-60">Monthly</span>
@@ -125,7 +125,7 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-48 w-56',
+        className: 'min-w-48 w-56 !py-8',
         title: (
           <Trans i18nKey="table.max_drawdown" ns="marketplace">
             Max Drawdown
@@ -152,7 +152,7 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-10 w-10',
+        className: 'min-w-10 w-10 !py-8',
         title: t('marketplace:table.action'),
         render(_, record) {
           return (
