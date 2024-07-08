@@ -37,6 +37,12 @@ const PartSafetyOpen: React.FC<{
       : +price;
 
   const colorClassName = clsx('bg-[#34A3DA0D]');
+  const remainingVolume =
+    100 -
+    +volume -
+    items
+      .filter(x => !x.removed)
+      .reduce((a, b) => a + Number(b.amountRatio), 0);
 
   if (volume === '100') return null;
   return (
@@ -103,27 +109,36 @@ const PartSafetyOpen: React.FC<{
             </Collapsible>
           ))}
 
+        {remainingVolume < 0 && (
+          <div className="text-center text-xs text-error">
+            Total sum of open volumes cannot be more than 100%
+          </div>
+        )}
+
         <div className="text-center text-xs text-white/50">
           {t('signal-form.conditions-use-market-price')}
         </div>
-        <Button
-          variant="alternative"
-          className="!py-2"
-          onClick={() =>
-            setItems([
-              ...items,
-              {
-                key: v4(),
-                amountRatio: '100',
-                priceExact: String(roundDown(effectivePrice, 2)),
-                applied: false,
-                removed: false,
-              },
-            ])
-          }
-        >
-          <Icon name={bxPlus} /> New Safety Open
-        </Button>
+
+        {remainingVolume > 0 && (
+          <Button
+            variant="alternative"
+            className="!py-2"
+            onClick={() =>
+              setItems([
+                ...items,
+                {
+                  key: v4(),
+                  amountRatio: String(remainingVolume),
+                  priceExact: String(roundDown(effectivePrice, 2)),
+                  applied: false,
+                  removed: false,
+                },
+              ])
+            }
+          >
+            <Icon name={bxPlus} /> New Safety Open
+          </Button>
+        )}
       </div>
     </ClosablePart>
   );
