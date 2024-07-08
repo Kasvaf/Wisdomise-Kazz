@@ -6,18 +6,22 @@ import PageBuilder from 'modules/builder/PageBuilder';
 import Container from '../Container';
 
 const PageSignalersList = React.lazy(
-  () => import('modules/builder/PageSignalersList'),
+  () => import('modules/builder/signaler/PageSignalersList'),
 );
 const PageSignalerCreate = React.lazy(
-  () => import('modules/builder/PageSignalerCreate'),
+  () => import('modules/builder/signaler/PageSignalerCreate'),
 );
 const PageSignalerDetails = React.lazy(
-  () => import('modules/builder/PageSignalerDetails'),
+  () => import('modules/builder/signaler/PageSignalerDetails'),
 );
 
-const PageFpList = React.lazy(() => import('modules/builder/PageFpList'));
-const PageFpCreate = React.lazy(() => import('modules/builder/PageFpCreate'));
-const PageFpDetails = React.lazy(() => import('modules/builder/PageFpDetails'));
+const PageFpList = React.lazy(() => import('modules/builder/fp/PageFpList'));
+const PageFpCreate = React.lazy(
+  () => import('modules/builder/fp/PageFpCreate'),
+);
+const PageFpDetails = React.lazy(
+  () => import('modules/builder/fp/PageFpDetails'),
+);
 
 const useBuilderRoutes = () => {
   const { t } = useTranslation('base');

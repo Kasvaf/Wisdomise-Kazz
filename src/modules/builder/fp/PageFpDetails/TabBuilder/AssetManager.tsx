@@ -13,7 +13,7 @@ import AmountInputBox from 'shared/AmountInputBox';
 import Icon from 'shared/Icon';
 import Banner from 'shared/Banner';
 import Spinner from 'shared/Spinner';
-import AssetSelector from '../../AssetSelector';
+import AssetSelector from '../../../AssetSelector';
 import SignalerSelector from './SignalerSelector';
 
 interface Props {

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUserSignalQuery } from 'api/notification';
 import { trackClick } from 'config/segment';
-import Title from './title';
+import { PageTitle } from 'shared/PageTitle';
 import { ReactComponent as GuildIcon } from './icon/guide.svg';
 import { ReactComponent as ArrowIcon } from './icon/arrow.svg';
 
@@ -25,10 +25,10 @@ export default function GuideSection() {
 
   return (
     <section className="mb-8">
-      <Title
+      <PageTitle
         icon={GuildIcon}
         title={t('guide.title')}
-        subTitle={t('guid.sub-title')}
+        description={t('guid.sub-title')}
       />
 
       <section className="mt-8 grid grid-cols-3 gap-4 mobile:grid-cols-1">
@@ -85,12 +85,21 @@ const Card = ({
   ctaSegmentEvent?: string;
 }) => {
   return (
-    <section
+    <NavLink
+      to={to}
+      onClick={e => {
+        if (!active || ok) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        ctaSegmentEvent && trackClick(ctaSegmentEvent);
+      }}
       className={clsx(
-        'rounded-2xl bg-[#1A1C20] px-8 py-6 !text-white/40 mobile:px-6 mobile:py-4',
+        'group rounded-2xl bg-[#1A1C20] px-8 py-6 !text-white/40 duration-150 mobile:px-6 mobile:py-4',
+        (!active || ok) && 'pointer-events-none',
         active &&
           !ok &&
-          'border-[2px] border-[#9747FF] bg-gradient-to-r from-[#1D152766] to-[#1D1527]',
+          'cursor-pointer border-[2px] border-[#9747FF] bg-gradient-to-r from-[#1D152766] to-[#1D1527] hover:brightness-110',
       )}
     >
       <p
@@ -111,18 +120,16 @@ const Card = ({
         >
           {ok ? okTitle : notOkTitle}
         </p>
-        <NavLink
-          to={to}
-          onClick={() => ctaSegmentEvent && trackClick(ctaSegmentEvent)}
+        <span
           className={clsx(
             'invisible ml-auto flex items-center gap-1 text-sm font-medium text-white',
             active && !ok && '!visible',
           )}
         >
           {ctaTitle}
-          <ArrowIcon />
-        </NavLink>
+          <ArrowIcon className="duration-150 group-hover:translate-x-1" />
+        </span>
       </div>
-    </section>
+    </NavLink>
   );
 };

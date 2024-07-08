@@ -13,7 +13,7 @@ import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import Icon from 'shared/Icon';
-import AssetSelector from '../../AssetSelector';
+import AssetSelector from '../../../AssetSelector';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
 import PositionDetails from './PositionDetails';

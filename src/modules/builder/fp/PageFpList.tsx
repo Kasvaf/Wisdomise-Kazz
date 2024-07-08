@@ -9,6 +9,7 @@ import FabButton from 'shared/FabButton';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Card from 'shared/Card';
+import { FpBuilderOnboarding } from './FpBuilderOnboarding';
 
 export default function PageFpList() {
   const { t } = useTranslation('builder');
@@ -16,6 +17,8 @@ export default function PageFpList() {
 
   return (
     <PageWrapper loading={isLoading}>
+      <FpBuilderOnboarding />
+
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-xl font-semibold">
           {t('base:menu.fp-builder.title')}

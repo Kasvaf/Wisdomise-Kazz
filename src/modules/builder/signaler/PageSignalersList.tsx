@@ -8,7 +8,8 @@ import FabButton from 'shared/FabButton';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Card from 'shared/Card';
-import TitleHint from './TitleHint';
+import TitleHint from '../TitleHint';
+import { SignalBuilderOnboarding } from './SignalBuilderOnboarding';
 
 export default function PageSignalersList() {
   const { t } = useTranslation('builder');
@@ -16,6 +17,8 @@ export default function PageSignalersList() {
 
   return (
     <PageWrapper loading={isLoading}>
+      <SignalBuilderOnboarding />
+
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-xl font-semibold">
           {t('base:menu.signal-builder.title')}

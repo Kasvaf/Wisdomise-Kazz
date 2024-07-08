@@ -50,6 +50,8 @@ menu:
     subtitle: 探索不同的投资组合
     title: 理财产品
   fp-builder:
+    card-badge: 独特选择
+    card-button: 尝试金融产品
     subtitle: 探索不同的投资组合
     title: 我的产品
   home:
@@ -85,9 +87,11 @@ menu:
     subtitle: 邀请并获得奖励。
     title: 邀请奖励
   signal-builder:
+    card-button: 立即开始构建
     subtitle: 为支持的加密货币生成信号
     title: 我的信号员
   signal-matrix:
+    card-badge: +100 每月信号
     mobile: 交易信号
     subtitle: 获取主流币种的人工智能交易信号
     title: AI交易信号资讯
