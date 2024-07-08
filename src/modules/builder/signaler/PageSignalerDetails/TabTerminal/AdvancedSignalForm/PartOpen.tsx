@@ -8,6 +8,7 @@ import OrderTypeToggle from '../OrderTypeToggle';
 import MarketToggle from '../MarketToggle';
 import DurationInput from '../DurationInput';
 import ClosablePart from './ClosablePart';
+import OpenConditions from './OpenConditions';
 import { type SignalFormState } from './useSignalFormStates';
 
 const PartOpen: React.FC<{
@@ -110,6 +111,10 @@ const PartOpen: React.FC<{
           />
         )}
       </div>
+
+      {orderType === 'market' && (
+        <OpenConditions assetName={assetName} data={data} signaler={signaler} />
+      )}
     </ClosablePart>
   );
 };

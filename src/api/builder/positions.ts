@@ -20,20 +20,22 @@ export interface SignalItem {
 
 // ----------------------------------------------------------------------------
 
+export interface OpenOrderCondition {
+  type: 'compare';
+  op: '>=' | '<=';
+  left: 'price';
+  right: number;
+}
+
 export interface OpenOrder {
   key: string;
   amount?: number;
   price?: { value: number };
   order_type: 'limit' | 'market';
   condition:
+    | OpenOrderCondition
     | {
         type: 'true';
-      }
-    | {
-        type: 'compare';
-        op: '>=' | '<=';
-        left: 'price';
-        right: number;
       };
 }
 

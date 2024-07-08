@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { useState } from 'react';
-import { type OpenOrder } from 'api/builder';
+import { type OpenOrderCondition, type OpenOrder } from 'api/builder';
 
 export interface TpSlData {
   key: string;
@@ -65,6 +65,7 @@ const useSignalFormStates = () => {
   const [price, setPrice] = useState('');
   const priceUpdated = useState(false);
   const [volume, setVolume] = useState('100');
+  const conditions = useState<OpenOrderCondition[]>([]);
   const exp = useState('1h');
   const orderExp = useState('1h');
   const [takeProfits, setTakeProfits] = useState<TpSlData[]>([]);
@@ -78,6 +79,7 @@ const useSignalFormStates = () => {
     price: [price, setPrice],
     priceUpdated,
     volume: [volume, setVolume],
+    conditions,
     exp,
     orderExp,
     takeProfits: [takeProfits, setTakeProfits],
@@ -107,6 +109,8 @@ const useSignalFormStates = () => {
       setOrderType('market');
       setPrice('');
       priceUpdated[1](false);
+      setVolume('100');
+      conditions[1]([]);
       exp[1]('1h');
       orderExp[1]('1h');
       setTakeProfits([]);
