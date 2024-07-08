@@ -65,7 +65,7 @@ const useSignalFormStates = () => {
   const [price, setPrice] = useState('');
   const priceUpdated = useState(false);
   const [volume, setVolume] = useState('100');
-  const conditions = useState<OpenOrderCondition[]>([]);
+  const [conditions, setConditions] = useState<OpenOrderCondition[]>([]);
   const exp = useState('1h');
   const orderExp = useState('1h');
   const [takeProfits, setTakeProfits] = useState<TpSlData[]>([]);
@@ -79,7 +79,7 @@ const useSignalFormStates = () => {
     price: [price, setPrice],
     priceUpdated,
     volume: [volume, setVolume],
-    conditions,
+    conditions: [conditions, setConditions],
     exp,
     orderExp,
     takeProfits: [takeProfits, setTakeProfits],
@@ -92,7 +92,10 @@ const useSignalFormStates = () => {
       items: [
         {
           key: v4(),
-          condition: { type: 'true' as const },
+          condition:
+            orderType === 'limit' || conditions.length === 0
+              ? { type: 'true' as const }
+              : conditions[0],
           amount: +volume / 100,
           price:
             orderType === 'limit'
@@ -110,7 +113,7 @@ const useSignalFormStates = () => {
       setPrice('');
       priceUpdated[1](false);
       setVolume('100');
-      conditions[1]([]);
+      setConditions([]);
       exp[1]('1h');
       orderExp[1]('1h');
       setTakeProfits([]);
