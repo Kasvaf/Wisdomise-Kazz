@@ -102,10 +102,7 @@ export function parsePositions(
       ap.entry_price != null &&
       ap.entry_time != null &&
       ap.entry_time !== ap.exit_time,
-  ) as Array<{
-    actual_position: Required<ChartPosition['actual_position']>;
-    strategy_position: Required<ChartPosition['strategy_position']>;
-  }>;
+  );
 
   // make areas data
   const areas = cleanRoundedPositions.map(
@@ -131,7 +128,7 @@ export function parsePositions(
     ({ actual_position: ap }) =>
       [
         {
-          coord: [ap.entry_time as string, ap.entry_price as number],
+          coord: [ap.entry_time, ap.entry_price as number],
           lineStyle: { color: '#fff' },
           value: ap.pnl ?? 0,
         },
