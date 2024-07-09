@@ -15,10 +15,10 @@ const Locker: React.FC<PropsWithChildren<Props>> = ({
 
   return (
     <div className="relative">
-      <div className="overflow-hidden rounded-xl">{children}</div>
+      <div className="relative overflow-hidden rounded-xl">{children}</div>
       <div
         className={clsx(
-          'absolute inset-0',
+          'absolute inset-0 z-[3]',
           'flex flex-col items-center overflow-hidden rounded-xl',
           'bg-page/60 backdrop-blur-[2px]',
           className,
