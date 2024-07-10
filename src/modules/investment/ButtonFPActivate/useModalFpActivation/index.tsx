@@ -1,4 +1,4 @@
-import { Steps } from 'antd';
+import { notification, Steps } from 'antd';
 import { useEffect, useState } from 'react';
 import { useCreateFPIMutation, useInvestorAssetStructuresQuery } from 'api';
 import {
@@ -7,6 +7,7 @@ import {
 } from 'api/types/financialProduct';
 import useModal from 'shared/useModal';
 import { type FinancialProductInstance } from 'api/types/investorAssetStructure';
+import { unwrapErrorMessage } from 'utils/error';
 import useModalDisclaimer from './useModalDisclaimer';
 import StepChooseWallet from './StepChooseWallet';
 import StepConfirm from './StepConfirm';
@@ -26,10 +27,14 @@ const ModalFpActivation: React.FC<{
   const hasIas = Boolean(ias.data?.[0]?.main_exchange_account);
   const createFP = async () => {
     if (wallet !== 'wisdomise' || hasIas || (await openDisclaimer())) {
-      const account = !wallet || wallet === 'wisdomise' ? undefined : wallet;
-      const fpi = await createFPI.mutateAsync({ fpKey: fp.key, account });
-      setFpi(fpi);
-      setStep(2);
+      try {
+        const account = !wallet || wallet === 'wisdomise' ? undefined : wallet;
+        const fpi = await createFPI.mutateAsync({ fpKey: fp.key, account });
+        setFpi(fpi);
+        setStep(2);
+      } catch (error) {
+        notification.error({ message: unwrapErrorMessage(error) });
+      }
     }
   };
 
