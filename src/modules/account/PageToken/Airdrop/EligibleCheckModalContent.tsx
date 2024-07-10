@@ -1,23 +1,27 @@
 import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useAccount } from 'wagmi';
+import { zeroAddress } from 'viem';
 import Button from 'shared/Button';
-import { type AirdropEligibility } from 'api/airdrop';
+import { type AirdropEligibilityStatus, useAirdropQuery } from 'api/airdrop';
 import { useAirdrop } from 'modules/account/PageToken/web3/airdrop/useAirdrop';
 import { ReactComponent as AirdropIcon } from '../icons/airdrop.svg';
 import { ReactComponent as XIcon } from './x.svg';
-
-export const X_LINK = 'https://x.com/wisdomise';
 
 export default function EligibleCheckModalContent({
   eligibility,
   onResolve,
 }: {
-  eligibility?: AirdropEligibility;
+  eligibility?: AirdropEligibilityStatus;
   onResolve: VoidFunction;
 }) {
+  const { address } = useAccount();
   const { t } = useTranslation('wisdomise-token');
+  const { data: airdrop, refetch: fetchAirdropDetails } = useAirdropQuery(
+    address ?? zeroAddress,
+  );
   const { isLoading, isClaimed, claim, claimReceipt, refetch } =
-    useAirdrop(eligibility);
+    useAirdrop(airdrop);
 
   useEffect(() => {
     if (claimReceipt?.status === 'success') {
@@ -25,23 +29,25 @@ export default function EligibleCheckModalContent({
     }
   }, [claimReceipt, onResolve, refetch]);
 
-  const openX = () => {
-    window.open(X_LINK, '_blank');
-  };
+  useEffect(() => {
+    if (eligibility?.exists) {
+      void fetchAirdropDetails();
+    }
+  }, [eligibility, fetchAirdropDetails]);
 
   const share = () => {
-    //     const text = `Feeling over-excited! 😍%0A
-    // I just claimed ${(
-    //       (eligibility?.amount ?? 0) /
-    //       10 ** 6
-    //     ).toLocaleString()} $WSDM of @Wisdomise 1st season airdrop! 🎉
-    // 2nd Phase is coming!  Don't miss the chance to win big! 🧠%0A`;
-    //     const url = 'wisdomise.com/airdrop';
-    //     const hashtags = 'Wisdomise,WSDM,airdrop';
-    //     window.open(
-    //       `https://x.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}`,
-    //       '_blank',
-    //     );
+    const text = `Feeling over-excited! 😍%0A
+    I just claimed ${(
+      (airdrop?.amount ?? 0) /
+      10 ** 6
+    ).toLocaleString()} $WSDM of @Wisdomise 1st season airdrop! 🎉
+    2nd Phase is coming!  Don't miss the chance to win big! 🧠%0A`;
+    const url = 'wisdomise.com/airdrop';
+    const hashtags = 'Wisdomise,WSDM,airdrop';
+    window.open(
+      `https://x.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}`,
+      '_blank',
+    );
   };
 
   return (
@@ -49,24 +55,24 @@ export default function EligibleCheckModalContent({
       {eligibility?.exists ? (
         <>
           <AirdropIcon />
-          <div className="text-lg">
+          <div>
             <Trans i18nKey="airdrop.eligibility.eligible" ns="wisdomise-token">
               You are <span className="text-green-400">eligible</span> to claim
             </Trans>
           </div>
-          {/* <div className="text-3xl italic"> */}
-          {/*   <strong> */}
-          {/*     {((eligibility?.amount ?? 0) / 10 ** 6).toLocaleString()} */}
-          {/*   </strong>{' '} */}
-          {/*   <strong>WSDM</strong> */}
-          {/* </div> */}
+          <div className="text-3xl italic">
+            <strong>
+              {((airdrop?.amount ?? 0) / 10 ** 6).toLocaleString()}
+            </strong>{' '}
+            <strong>WSDM</strong>
+          </div>
           {isClaimed === undefined ? null : isClaimed ? (
             <p className="text-amber-400">
               {t('airdrop.eligibility.already-claimed')}
             </p>
           ) : (
             <Button
-              className="mt-6 hidden w-64 max-md:w-full"
+              className="mt-6 w-64 max-md:w-full"
               variant="primary-purple"
               disabled={isLoading}
               loading={isLoading}
@@ -76,7 +82,7 @@ export default function EligibleCheckModalContent({
             </Button>
           )}
           <Button
-            className="hidden w-64 max-md:w-full"
+            className="w-64 max-md:w-full"
             variant="alternative"
             onClick={share}
           >
@@ -89,7 +95,7 @@ export default function EligibleCheckModalContent({
       ) : (
         <>
           <AirdropIcon className="hue-rotate-[200deg]" />
-          <p className="mb-4 text-lg">
+          <p className="mb-4">
             <Trans
               i18nKey="airdrop.eligibility.not-eligible"
               ns="wisdomise-token"
@@ -100,12 +106,6 @@ export default function EligibleCheckModalContent({
           </p>
         </>
       )}
-      <Button variant="alternative" onClick={() => openX()} className="mt-4">
-        <div className="flex items-center gap-3">
-          <XIcon />
-          {t('airdrop.eligibility.stay-tuned')}
-        </div>
-      </Button>
     </div>
   );
 }
