@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { WidgetWrapper } from '../WidgetWrapper';
 import nftIcon from './nft.svg';
 import { useTopNFTsQuery } from './useTopNFTsQuery';
@@ -31,17 +32,19 @@ export default function TrendingNFTsWidget() {
             />
             <p className="w-4/5 truncate text-center">{nft.name}</p>
             <div className="flex items-center gap-2 text-xs max-md:flex-col ">
-              <div className="whitespace-nowrap">
-                {Number(nft.current_price.toFixed(4))} <span>ETH</span>
-              </div>
-              <div
+              <ReadableNumber
+                className="whitespace-nowrap"
+                value={nft.current_price}
+                label="eth"
+              />
+              <ReadableNumber
                 className={clsx(
                   'text-[#00FFA3]',
                   nft.percent_change < 0 && 'text-[#F23645]',
                 )}
-              >
-                {Number(nft.percent_change.toFixed(1))}%
-              </div>
+                value={nft.percent_change}
+                label="%"
+              />
             </div>
           </div>
         ))}
@@ -53,18 +56,19 @@ export default function TrendingNFTsWidget() {
         >
           <img className="w-8 rounded-lg" src={nft.logo} title={nft.name} />
           <p className="mr-auto text-base">{nft.name}</p>
-          <div className="whitespace-nowrap">
-            {Number(nft.current_price.toFixed(4))}{' '}
-            <span className="text-sm">ETH</span>
-          </div>
-          <div
+          <ReadableNumber
+            className="whitespace-nowrap"
+            value={nft.current_price}
+            label="eth"
+          />
+          <ReadableNumber
             className={clsx(
-              'text-sm text-[#00FFA3]',
+              'text-[#00FFA3]',
               nft.percent_change < 0 && 'text-[#F23645]',
             )}
-          >
-            {Number(nft.percent_change.toFixed(1))}%
-          </div>
+            value={nft.percent_change}
+            label="%"
+          />
         </div>
       ))}
     </WidgetWrapper>

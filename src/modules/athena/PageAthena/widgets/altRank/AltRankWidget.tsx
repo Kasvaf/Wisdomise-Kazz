@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { roundSensible } from 'utils/numbers';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { WidgetWrapper } from '../WidgetWrapper';
 import rankIcon from './rank.svg';
 import { useTopCoinsQuery } from './useTopCoinsQuery';
@@ -21,8 +21,6 @@ export default function AltRankWidget() {
     >
       <section className="mt-6 flex justify-between border-b border-solid border-white/10 pb-4">
         {theFirstThree?.map(coin => {
-          const price = roundSensible(coin.current_price);
-
           return (
             <div
               key={coin.asset_id}
@@ -35,27 +33,25 @@ export default function AltRankWidget() {
               />
               <p className="w-4/5 truncate text-center">{coin.name}</p>
               <div className="flex items-center gap-2 text-xs">
-                <div className="whitespace-nowrap text-xxs">
-                  {price.toString() === coin.current_price.toString()
-                    ? ''
-                    : '~'}
-                  {roundSensible(coin.current_price)} <span>USD</span>
-                </div>
-                <div
+                <ReadableNumber
+                  className="whitespace-nowrap text-xxs"
+                  value={coin.current_price}
+                  label="$"
+                />
+                <ReadableNumber
                   className={clsx(
                     'text-[#00FFA3]',
                     coin.percent_change < 0 && 'text-[#F23645]',
                   )}
-                >
-                  {Number(coin.percent_change.toFixed(1))}%
-                </div>
+                  value={coin.percent_change}
+                  label="%"
+                />
               </div>
             </div>
           );
         })}
       </section>
       {data?.map(coin => {
-        const price = roundSensible(coin.current_price);
         return (
           <div
             key={coin.asset_id}
@@ -63,18 +59,19 @@ export default function AltRankWidget() {
           >
             <img className="w-8 rounded-lg" src={coin.logo} title={coin.name} />
             <p className="mr-auto text-base">{coin.name}</p>
-            <div className="whitespace-nowrap">
-              {price.toString() === coin.current_price.toString() ? '' : '~'}
-              {price} <span className="text-sm">USD</span>
-            </div>
-            <div
+            <ReadableNumber
+              className="whitespace-nowrap"
+              value={coin.current_price}
+              label="$"
+            />
+            <ReadableNumber
               className={clsx(
                 'text-sm text-[#00FFA3]',
                 coin.percent_change < 0 && 'text-[#F23645]',
               )}
-            >
-              {Number(coin.percent_change.toFixed(1))}%
-            </div>
+              value={coin.percent_change}
+              label="%"
+            />
           </div>
         );
       })}
