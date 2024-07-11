@@ -55,31 +55,49 @@ export default function EligibleCheckModalContent({
       {eligibility?.exists ? (
         <>
           <AirdropIcon />
-          <div>
-            <Trans i18nKey="airdrop.eligibility.eligible" ns="wisdomise-token">
-              You are <span className="text-green-400">eligible</span> to claim
-            </Trans>
-          </div>
-          <div className="text-3xl italic">
-            <strong>
-              {((airdrop?.amount ?? 0) / 10 ** 6).toLocaleString()}
-            </strong>{' '}
-            <strong>WSDM</strong>
-          </div>
           {isClaimed === undefined ? null : isClaimed ? (
-            <p className="text-amber-400">
-              {t('airdrop.eligibility.already-claimed')}
-            </p>
+            <div>
+              <p className="my-5">
+                Congratulations on your airdrop! Did you know you can stake and
+                earn up to 32% APY? Don’t let this opportunity pass!
+              </p>
+              <Button
+                variant="primary-purple"
+                className="mt-3 w-64"
+                onClick={() =>
+                  window.open('https://staking.wisdomise.com', '_blank')
+                }
+              >
+                Stake $WSDM
+              </Button>
+            </div>
           ) : (
-            <Button
-              className="mt-6 w-64 max-md:w-full"
-              variant="primary-purple"
-              disabled={isLoading}
-              loading={isLoading}
-              onClick={claim}
-            >
-              {t('airdrop.eligibility.claim')}
-            </Button>
+            <div>
+              <div>
+                <Trans
+                  i18nKey="airdrop.eligibility.eligible"
+                  ns="wisdomise-token"
+                >
+                  You are <span className="text-green-400">eligible</span> to
+                  claim
+                </Trans>
+              </div>
+              <div className="mt-3 text-3xl italic">
+                <strong>
+                  {((airdrop?.amount ?? 0) / 10 ** 6).toLocaleString()}
+                </strong>{' '}
+                <strong>WSDM</strong>
+              </div>
+              <Button
+                className="mt-6 w-64 max-md:w-full"
+                variant="primary-purple"
+                disabled={isLoading}
+                loading={isLoading}
+                onClick={claim}
+              >
+                {t('airdrop.eligibility.claim')}
+              </Button>
+            </div>
           )}
           <Button
             className="w-64 max-md:w-full"

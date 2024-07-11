@@ -14,7 +14,6 @@ airdrop:
     remaining-time: Remaining time to claim phase
     seconds: seconds
   eligibility:
-    already-claimed: You already claimed your tokens.
     claim: Claim Now
     eligible: Congrats! You are <1>eligible</1> to receive $WSDM airdrop in this phase!
     not-eligible: >-
