@@ -6,7 +6,6 @@ import Card from 'shared/Card';
 import useModal from 'shared/useModal';
 import EligibleCheckModalContent from 'modules/account/PageToken/Airdrop/EligibleCheckModalContent';
 import { useCheckAirdropEligibilityQuery } from 'api/airdrop';
-// import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
 import { ReactComponent as InfoIcon } from '../icons/info.svg';
 
 export default function Airdrop() {
@@ -51,9 +50,7 @@ export default function Airdrop() {
             </div>
             <div className="flex w-full items-center">
               <div className="grow border-b border-white/20"></div>
-              <div className="h-4 w-4 shrink-0 rounded-full bg-violet-500">
-                <div className="h-4 w-4 shrink-0 animate-ping rounded-full bg-violet-500"></div>
-              </div>
+              <div className="h-4 w-4 shrink-0 rounded-full bg-violet-500"></div>
               <div className="grow border-b border-white/20"></div>
             </div>
             <div className="h-10 md:text-xl">{t('airdrop.calculation')}</div>
@@ -65,7 +62,9 @@ export default function Airdrop() {
             </div>
             <div className="flex w-full items-center">
               <div className="grow border-b border-white/20"></div>
-              <div className="h-4 w-4 shrink-0 rounded-full bg-white/50"></div>
+              <div className="h-4 w-4 shrink-0 rounded-full bg-violet-500">
+                <div className="h-4 w-4 shrink-0 animate-ping rounded-full bg-violet-500"></div>
+              </div>
               <div className="grow"></div>
             </div>
             <div className="h-10 md:text-xl">{t('airdrop.claim')}</div>
