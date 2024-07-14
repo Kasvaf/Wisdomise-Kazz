@@ -238,6 +238,7 @@ interface StrategyPerformanceBulkBase {
   name: string;
   strategy_key: string;
   owner: ItemOwner;
+  profile?: Profile;
 }
 
 interface StrategyPerformanceBulkInfo {

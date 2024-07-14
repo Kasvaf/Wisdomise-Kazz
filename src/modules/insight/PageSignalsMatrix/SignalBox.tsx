@@ -98,10 +98,10 @@ const SignalBox: React.FC<Props> = ({ position: p, className }) => {
     async e => {
       if (isLocked) {
         e.preventDefault();
-        if (await showSubModal()) {
-          await showPositionDetailModal();
-        }
+        await showSubModal();
+        return;
       }
+
       if (isTouch) {
         setSummary(currentSummary => {
           if (currentSummary) {

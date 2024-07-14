@@ -3,7 +3,11 @@ import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { useStrategiesPerformanceBulk } from 'api';
+import {
+  type StrategyPerformanceBulkGrouped,
+  useStrategiesPerformanceBulk,
+  useSubscription,
+} from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import Table from 'shared/Table';
 import CoinsIcons from 'shared/CoinsIcons';
@@ -12,7 +16,39 @@ import PriceChange from 'shared/PriceChange';
 import { ProfileLink } from 'modules/account/PageProfile/ProfileLink';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
+import useSignalSubscriptionModal from '../PageSignalsMatrix/useSignalSubscriptionModal';
 import { TableArrayColumn } from './TableArrayColumn';
+
+const PairDetailsButton: React.FC<{
+  record: StrategyPerformanceBulkGrouped;
+  pairName: string;
+}> = ({ record, pairName }) => {
+  const { t } = useTranslation();
+  const { level } = useSubscription();
+  const requiredLevel = record.profile?.subscription_level ?? 0;
+  const isLocked = requiredLevel > level;
+  const [SubModal, showSubModal] = useSignalSubscriptionModal(requiredLevel);
+
+  return (
+    <>
+      {SubModal}
+      <Button
+        to={`/insight/coins/signaler?strategy=${record.strategy_key}&coin=${pairName}`}
+        variant="alternative"
+        className="!p-2 !pl-3 text-sm !font-normal"
+        onClick={e => {
+          if (isLocked) {
+            e.preventDefault();
+            void showSubModal();
+          }
+        }}
+      >
+        {t('marketplace:table.detail')}
+        <Icon name={bxRightArrowAlt} size={18} />
+      </Button>
+    </>
+  );
+};
 
 const PageMarketplace: React.FC = () => {
   const { t } = useTranslation();
@@ -162,14 +198,10 @@ const PageMarketplace: React.FC = () => {
                   className="inline-flex flex-col items-start justify-center"
                   key={pairPerf.pair.name}
                 >
-                  <Button
-                    to={`/insight/coins/signaler?strategy=${record.strategy_key}&coin=${pairPerf.pair.name}`}
-                    variant="alternative"
-                    className="!p-2 !pl-3 text-sm !font-normal"
-                  >
-                    {t('marketplace:table.detail')}
-                    <Icon name={bxRightArrowAlt} size={18} />
-                  </Button>
+                  <PairDetailsButton
+                    record={record}
+                    pairName={pairPerf.pair.name}
+                  />
                 </div>
               ))}
             </TableArrayColumn>
