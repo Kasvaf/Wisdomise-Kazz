@@ -3,7 +3,6 @@ import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import * as numerable from 'numerable';
 import { Select } from 'antd';
 import CoinsIcons from 'modules/shared/CoinsIcons';
 import PriceChange from 'modules/shared/PriceChange';
@@ -11,6 +10,7 @@ import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import Icon from 'shared/Icon';
 import { track } from 'config/segment';
+import { ReadableNumber } from 'shared/ReadableNumber';
 
 export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
   const { t } = useTranslation('social-radar');
@@ -53,7 +53,11 @@ export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
         dataIndex: 'current_price',
         sorter: (a, b) => (a.current_price || 0) - (b.current_price || 0),
         render: (currentPrice?: number) =>
-          currentPrice ? <p>{`${currentPrice} USDT`}</p> : '-',
+          currentPrice ? (
+            <ReadableNumber value={currentPrice} label="usdt" />
+          ) : (
+            <>-</>
+          ),
       },
       {
         title: t('more-social-signal.table.price-change'),
@@ -76,14 +80,7 @@ export default function SignalsTable({ signals }: { signals: CoinSignal[] }) {
         dataIndex: 'market_cap',
         sorter: (a, b) => (a.market_cap || 0) - (b.market_cap || 0),
         render: (marketCap?: number) =>
-          marketCap ? (
-            <>
-              <span className="mr-[2px] font-light text-white/40">$</span>
-              {numerable.format(marketCap, '0,0.0 a')}
-            </>
-          ) : (
-            '-'
-          ),
+          marketCap ? <ReadableNumber value={marketCap} label="$" /> : <>-</>,
       },
       {
         title: t('more-social-signal.table.mentions'),

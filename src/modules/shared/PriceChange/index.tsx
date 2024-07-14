@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { roundSensible } from 'utils/numbers';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReactComponent as PriceDownIcon } from './priceDown.svg';
 import { ReactComponent as PriceUpIcon } from './priceUp.svg';
 
@@ -8,7 +8,7 @@ interface Props {
   bg?: boolean;
   value?: number | null;
   colorize?: boolean;
-  valueToFixed?: boolean;
+  valueToFixed?: boolean; // no need anymore
   className?: string;
   textClassName?: string;
 }
@@ -18,7 +18,6 @@ const PriceChange: React.FC<Props> = ({
   bg,
   className,
   textClassName,
-  valueToFixed,
   colorize = true,
 }) => {
   if (value == null || Number.isNaN(+value)) return <div className="p-2" />;
@@ -49,7 +48,8 @@ const PriceChange: React.FC<Props> = ({
           textClassName,
         )}
       >
-        {valueToFixed ? roundSensible(value) : Math.abs(value)} %
+        <ReadableNumber value={Math.abs(value)} label="%" />
+        {/* {valueToFixed ? roundSensible(value) : Math.abs(value)} % */}
       </p>
     </div>
   );

@@ -12,29 +12,131 @@ export const roundSensible = (value: number) =>
 export const addComma = (number?: number | bigint) =>
   number?.toLocaleString() ?? 0;
 
-export const formatNumber = (
-  input: number | bigint,
-  useOptions: {
-    addComma?: boolean; // should seperate int part with "," char? for example 1000 becomes 1,000 and 1000.1234 becomes 1,000.1234
-    reduceDecimals?: boolean; // should reduce decimals? for example 1.1234 becomes 1.12 and 1.01234 become 1.012
-  } = {},
-): string => {
-  const options: Required<typeof useOptions> = {
-    addComma: true,
-    reduceDecimals: true,
-    ...useOptions,
-  };
-  let output = input.toString();
-  if (options.reduceDecimals) {
-    const matched = output.match(/-?\d+\.0*\d{2}/g);
-    if (matched && typeof matched[0] === 'string') {
-      output = matched[0].replace(/0$/, '');
+const resolvePower = (number: number) => {
+  const strNumber = number.toString();
+  const ePosition = strNumber.search(/(e|E).+$/g);
+  if (ePosition === -1) return number.toString();
+  const positiveFloatLength = strNumber
+    .slice(0, ePosition - 1)
+    .replace('.', '').length;
+  const ePower = ePosition === -1 ? 0 : +strNumber.slice(ePosition + 1);
+  if (ePower < 0) return number.toFixed(Math.abs(ePower) + positiveFloatLength);
+  return number.toLocaleString('en-US').replaceAll(',', '');
+};
+
+const compressByLabel = (number: number) => {
+  let label = '';
+  let value = '';
+  if (number > 1e3 - 1) {
+    const sectors = [
+      { label: 'K', max: 1e6, divide: 1e3 },
+      { label: 'M', max: 1e9, divide: 1e6 },
+      { label: 'B', max: 1e12, divide: 1e9 },
+      { label: 'T', max: Number.POSITIVE_INFINITY, divide: 1e12 },
+    ];
+    for (const sector of sectors) {
+      if (number < sector.max) {
+        const [intPart, decPart] = resolvePower(number / sector.divide).split(
+          '.',
+        );
+        label = sector.label;
+        value = `${intPart}${decPart ? `.${decPart}` : ''}`;
+        break;
+      }
     }
   }
-  if (options.addComma) {
-    const [int, dec] = output.split('.');
-    output = `${(+int).toLocaleString()}${dec === undefined ? '' : `.${dec}`}`;
+  return {
+    value: value || resolvePower(number),
+    label,
+  };
+};
+
+const cutEndOfNumber = (decimalStr: string, length: number) => {
+  let value = decimalStr;
+  if (length <= 0 || !decimalStr) return value;
+  if (length < Number.POSITIVE_INFINITY) {
+    const numStrs = [...decimalStr];
+    const firstNonZeroIndex = numStrs.findIndex(numStr => numStr !== '0');
+    value = decimalStr.slice(0, firstNonZeroIndex + length);
   }
-  // return `${output} (${input.toString()})`;
+  return value.replaceAll(/0*$/g, '');
+};
+
+// TODO it should handle other numbers too!
+const minifyNumberRepeats = (numbStr: string) => {
+  let zeroLength = 0;
+  let output = '';
+  for (const char of numbStr) {
+    if (char === '0') {
+      zeroLength += 1;
+    } else {
+      if (zeroLength > 0) {
+        output +=
+          zeroLength <= 2
+            ? '0'.repeat(zeroLength)
+            : `0₍${zeroLength
+                .toString()
+                .replaceAll(/\d/g, n => '₀₁₂₃₄₅₆₇₈₉'[+n])}₎`;
+        zeroLength = 0;
+      }
+      output += char;
+    }
+  }
   return output;
+};
+
+export interface FormatNumberOptions {
+  compactInteger: boolean; /// If true: 1520000 => 1.52M
+  seperateByComma: boolean; // If true: 1234 => 1,234
+  decimalLength: number; // If 2: 2.001234 => 2.0012, 2.120 => 2.12, 2.100 => 2.1
+  minifyDecimalRepeats: boolean; // If true: 1.1000002 => 1.10₍₅₎2
+}
+export const formatNumber = (input: number, options: FormatNumberOptions) => {
+  let output = {
+    integerPart: '',
+    decimalPart: '',
+    label: '',
+  };
+  if (options.compactInteger) {
+    const { label, value } = compressByLabel(input);
+    const [integerPart = '', decimalPart = ''] = value.split('.');
+    output = {
+      label,
+      integerPart,
+      decimalPart,
+    };
+  } else {
+    const [integerPart = '', decimalPart = ''] = resolvePower(input).split('.');
+    output = {
+      label: '',
+      integerPart,
+      decimalPart,
+    };
+  }
+
+  // Dividing integer by comma
+  if (options.seperateByComma) {
+    output = {
+      ...output,
+      integerPart: output.integerPart.replaceAll(/\B(?=(\d{3})+(?!\d))/g, ','),
+    };
+  }
+
+  // Cutting unnecessary decimal
+  output = {
+    ...output,
+    decimalPart: cutEndOfNumber(output.decimalPart, options.decimalLength),
+  };
+
+  // Minify decimal
+  if (options.minifyDecimalRepeats) {
+    output = {
+      ...output,
+      decimalPart: minifyNumberRepeats(output.decimalPart),
+    };
+  }
+
+  return `${output.integerPart}${
+    output.decimalPart ? `.${output.decimalPart}` : ''
+  }${output.label || ''}`;
 };

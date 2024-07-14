@@ -7,6 +7,7 @@ import { useHasFlag, type CoinSignal } from 'api';
 import PriceChange from 'modules/shared/PriceChange';
 import Icon from 'modules/shared/Icon';
 import { track } from 'config/segment';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import SideSuggestGauge from './SideSuggestGauge';
 
 export default function HotCoinSignal({ data }: { data: CoinSignal }) {
@@ -35,8 +36,7 @@ export default function HotCoinSignal({ data }: { data: CoinSignal }) {
             !data.current_price && 'invisible',
           )}
         >
-          {data.current_price}
-          <span className="ml-[2px] text-xs">USDT</span>
+          <ReadableNumber label="usdt" value={data.current_price || 0} />
         </p>
       </div>
       {hasFlag('/insight/social-radar?side-suggestion') && (

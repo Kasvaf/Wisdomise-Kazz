@@ -1,6 +1,6 @@
-import * as numerable from 'numerable';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { WidgetWrapper } from '../WidgetWrapper';
 import DeFiSrc from './passive-income-defi.svg';
 import arrowSrc from './arrow-defi.svg';
@@ -29,15 +29,17 @@ export default function PassiveIncomeDeFiWidget() {
         {data?.map(row => (
           <React.Fragment key={row.key}>
             <div className="contents text-white">
-              <div className="flex items-center gap-2 max-sm:max-w-[100px]">
+              <div className="flex max-w-[130px] items-center gap-2 max-sm:max-w-[100px]">
                 <img src={row.logo_address} className="h-8 w-8 rounded-full" />
                 <p className="truncate">{row.name}</p>
               </div>
               <p className="truncate">{row.category}</p>
-              <p>{numerable.format(row.tvl_usd, '0,0.0 a')}</p>
-              <p className="text-[#00FFA3]">
-                {numerable.format(row.max_apy / 100, '0,0.0 %')}
-              </p>
+              <ReadableNumber value={row.tvl_usd} label="$" />
+              <ReadableNumber
+                className="text-[#00FFA3]"
+                value={row.max_apy / 100}
+                label="%"
+              />
               <NavLink
                 rel="noreferrer"
                 target="_blank"

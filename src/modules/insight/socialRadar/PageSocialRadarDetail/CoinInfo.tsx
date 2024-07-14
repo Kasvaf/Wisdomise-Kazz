@@ -13,7 +13,7 @@ import PriceChange from 'shared/PriceChange';
 import useIsMobile from 'utils/useIsMobile';
 import useModal from 'shared/useModal';
 import Table from 'shared/Table';
-import { formatNumber } from 'utils/numbers';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import SideSuggestGauge from '../PageSocialRadar/SideSuggestGauge';
 import { ReactComponent as ArrowRight } from './images/arrow-right.svg';
 
@@ -44,17 +44,23 @@ export const ExchangesModal: FC<{
       {
         title: t('available-exchanges.table.price'),
         dataIndex: 'price_in_usd',
-        render: (value?: number) => <>${formatNumber(value || 0)}</>,
+        render: (value?: number) => (
+          <ReadableNumber value={value || 0} label="$" />
+        ),
       },
       {
         title: t('available-exchanges.table.volume_24h'),
         dataIndex: 'volume_24h',
-        render: (value?: number) => <>${formatNumber(value || 0)}</>,
+        render: (value?: number) => (
+          <ReadableNumber value={value || 0} label="$" />
+        ),
       },
       {
         title: t('available-exchanges.table.volume_percentage'),
         dataIndex: 'volume_percentage',
-        render: (value: number) => <>{formatNumber(value || 0)}%</>,
+        render: (value: number) => (
+          <ReadableNumber value={value || 0} label="%" />
+        ),
       },
     ],
     [t],
@@ -140,10 +146,11 @@ export default function CoinInfo({
         <InfoSection
           title={t('coin-info.price')}
           value={
-            <>
-              {formatNumber(info?.current_price || 0)}
-              <span className="ml-[2px] text-xs">USDT</span>
-            </>
+            info?.current_price ? (
+              <ReadableNumber value={info?.current_price} label="usdt" />
+            ) : (
+              <>-</>
+            )
           }
         />
 
@@ -160,22 +167,12 @@ export default function CoinInfo({
 
         <InfoSection
           title={t('coin-info.market_cap')}
-          value={
-            <>
-              <span className="font-light text-white/40">$</span>
-              {formatNumber(info?.market_cap || 0)}
-            </>
-          }
+          value={<ReadableNumber value={info?.market_cap || 0} label="%" />}
         />
 
         <InfoSection
           title={t('coin-info.volume_24h')}
-          value={
-            <>
-              <span className="font-light text-white/40">$</span>
-              {formatNumber(info?.total_volume || 0)}
-            </>
-          }
+          value={<ReadableNumber value={info?.total_volume || 0} label="%" />}
         />
       </div>
       <div className="flex justify-end px-1">

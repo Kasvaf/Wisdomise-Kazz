@@ -5,43 +5,38 @@ import {
   useReadAirdropIsClaimed,
   useWriteClaimAirdrop,
 } from 'modules/account/PageToken/web3/airdrop/contract';
-import type { AirdropEligibility } from 'api/airdrop';
+import type { Airdrop } from 'api/airdrop';
+import { extractWagmiErrorMessage } from 'utils/error';
 
-export function useAirdrop(eligibility?: AirdropEligibility) {
-  const {
-    writeAsync: _,
-    data: claimResult,
-    isLoading,
-  } = useWriteClaimAirdrop();
-  const { data: isClaimed, refetch } = useReadAirdropIsClaimed(
-    eligibility?.index,
-  );
-  const { address: _a } = useAccount();
+export function useAirdrop(airdrop?: Airdrop) {
+  const { writeAsync, data: claimResult, isLoading } = useWriteClaimAirdrop();
+  const { data: isClaimed, refetch } = useReadAirdropIsClaimed(airdrop?.index);
+  const { address } = useAccount();
   const { data: claimReceipt, isLoading: isWaiting } = useWaitForTransaction({
     hash: claimResult?.hash,
     enabled: !!claimResult?.hash,
   });
 
   const claim = async () => {
-    // if (
-    //   eligibility?.amount &&
-    //   address &&
-    //   eligibility?.index !== undefined &&
-    //   eligibility?.proofs
-    // ) {
-    //   void writeAsync({
-    //     args: [
-    //       BigInt(eligibility.index),
-    //       address,
-    //       BigInt(eligibility.amount),
-    //       eligibility.proofs,
-    //     ],
-    //   }).catch(error =>
-    //     notification.error({
-    //       message: extractWagmiErrorMessage(error.message),
-    //     }),
-    //   );
-    // }
+    if (
+      airdrop?.amount &&
+      address &&
+      airdrop?.index !== undefined &&
+      airdrop?.proofs
+    ) {
+      void writeAsync({
+        args: [
+          BigInt(airdrop.index),
+          address,
+          BigInt(airdrop.amount),
+          airdrop.proofs,
+        ],
+      }).catch(error =>
+        notification.error({
+          message: extractWagmiErrorMessage(error.message),
+        }),
+      );
+    }
   };
 
   useEffect(() => {
