@@ -25,7 +25,7 @@ const Container = () => {
             <div
               ref={mainRef}
               className={clsx(
-                'ml-[16.25rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-16 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto',
+                'ml-[16.25rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto',
               )}
             >
               <React.Suspense fallback={<PageWrapper loading />}>
