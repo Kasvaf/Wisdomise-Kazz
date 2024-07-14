@@ -192,7 +192,7 @@ export function useCommunityProfileMutation() {
 export function useTraderProfileQuery(userId: string) {
   return useQuery([`trader-profile-${userId}`], async () => {
     const { data } = await axios.get<TraderProfile>(
-      `${TEMPLE_ORIGIN}/api/v1/factory/trader/${userId}`,
+      `${TEMPLE_ORIGIN}/api/v1/catalog/traders/${userId}`,
     );
     return data;
   });
