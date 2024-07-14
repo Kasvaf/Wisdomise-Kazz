@@ -1,39 +1,21 @@
-import dayjs from 'dayjs';
-import * as numerable from 'numerable';
-import { type PropsWithChildren } from 'react';
+import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { type FullPosition } from 'api/builder';
+import { type PropsWithChildren } from 'react';
+import { type SignalItem, type FullPosition } from 'api/builder';
 import usePositionStatusMap from 'modules/insight/signaler/usePositionStatusMap';
 import Badge from 'shared/Badge';
 import PriceChange from 'shared/PriceChange';
+import { roundSensible } from 'utils/numbers';
 import { ReactComponent as DetailsIcon } from './details-icon.svg';
-import { ReactComponent as CheckIcon } from './check-icon.svg';
 
-const Box: React.FC<
-  PropsWithChildren<{
-    title: string;
-  }>
-> = ({ title, children }) => {
-  return (
-    <div className="w-full grow overflow-hidden rounded-lg bg-black/30">
-      <div className="flex h-8 items-center bg-black px-2">{title}</div>
-      <div className="p-2">{children}</div>
-    </div>
-  );
-};
-
-const BoxItem: React.FC<PropsWithChildren<{ checked?: boolean }>> = ({
-  checked,
+const DetailInfo: React.FC<PropsWithChildren<{ label: string }>> = ({
+  label,
   children,
 }) => {
   return (
-    <div className="flex items-center border-b border-white/5 py-3">
-      {checked ? (
-        <CheckIcon className="mr-1 h-2 w-2 text-success" />
-      ) : (
-        <div className="w-3" />
-      )}
-      {children}
+    <div className="flex flex-col items-start gap-1">
+      <span className="text-xs text-white/50">{label}</span>
+      <div className="text-sm">{children}</div>
     </div>
   );
 };
@@ -45,90 +27,62 @@ const PositionDetails: React.FC<{
   const { t } = useTranslation('builder');
   const statusMap = usePositionStatusMap();
 
+  const size =
+    [
+      ...(activePosition.manager?.take_profit ?? []),
+      ...(activePosition.manager?.stop_loss ?? []),
+    ]
+      .filter(x => x.applied)
+      .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100;
+
+  const avg = (items: SignalItem[]) =>
+    items.reduce((a, b) => a + (b.price_exact ?? 0), 0) / items.length;
+
   return (
-    <div className={className}>
-      <h2 className="mb-4 flex items-center gap-1 text-base font-semibold">
+    <div
+      className={clsx(
+        'rounded-xl border border-[#615298] bg-black/30 p-3',
+        className,
+      )}
+    >
+      <h2 className="mb-3 flex items-center gap-1 border-b border-white/5 pb-3 text-base font-semibold">
         <DetailsIcon />
         <span>{t('signal-form.position-details.title')}</span>
       </h2>
 
-      <div className="mb-2 flex h-14 grow items-center justify-around rounded-xl bg-black/30 py-2">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">
-            {t('signal-form.position-details.status')}:
-          </span>
+      <div className="mb-2 flex grow flex-wrap items-center justify-between gap-4">
+        <DetailInfo label={t('signal-form.position-details.status')}>
           {activePosition.status && (
             <Badge
               label={statusMap[activePosition.status].label}
               color={statusMap[activePosition.status].color}
             />
           )}
-        </div>
-        <div className="h-full border-r border-white/5" />
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">
-            {t('signal-form.position-side')}:
-          </span>
+        </DetailInfo>
+
+        <DetailInfo label="Leverage">{activePosition.leverage}x</DetailInfo>
+
+        <DetailInfo label="Size">{roundSensible(size) + '%'}</DetailInfo>
+
+        <DetailInfo label="Avg Entry Points">
+          {activePosition.entry_price}
+        </DetailInfo>
+
+        <DetailInfo label="Avg Liquidity Price">
+          {avg(activePosition.manager?.take_profit ?? [])}
+        </DetailInfo>
+
+        <DetailInfo label="Avg Stop Losses">
+          {avg(activePosition.manager?.stop_loss ?? [])}
+        </DetailInfo>
+
+        <DetailInfo label={t('signal-form.position-side')}>
           <Badge label={activePosition.position_side} color="black" />
-        </div>
+        </DetailInfo>
 
-        <div className="h-full border-r border-white/5" />
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">
-            {t('actual-pos-table.p-l')}:
-          </span>
+        <DetailInfo label={t('actual-pos-table.p-l')}>
           <PriceChange value={activePosition.pnl} valueToFixed />
-        </div>
-
-        <div className="h-full border-r border-white/5" />
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-white/50">
-            {t('strategy:positions-history.entry-time')}:
-          </span>
-          {activePosition.entry_time == null ? (
-            '-'
-          ) : (
-            <>
-              <span className="text-sm">
-                {dayjs(activePosition.entry_time).format('HH:mm, MMM DD')}
-              </span>
-              <span className="text-xs text-white/50">
-                ({dayjs(activePosition.entry_time).fromNow()})
-              </span>
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className="flex items-start justify-between gap-2 mobile:flex-col">
-        <Box title="Open Details">
-          <BoxItem>
-            {activePosition.entry_time == null ? (
-              <>{t('signal-form.position-details.not-opened-yet')}</>
-            ) : (
-              <>
-                Open 100% at $
-                {numerable.format(activePosition.entry_price, '0,0.00')}
-              </>
-            )}
-          </BoxItem>
-        </Box>
-        <Box title="Take Profit Details">
-          {activePosition.manager?.take_profit?.map((tp, ind) => (
-            <BoxItem key={tp.key} checked={tp.applied}>
-              TP #{ind + 1}: {tp.amount_ratio * 100}% at $
-              {numerable.format(tp.price_exact, '0,0.00')}
-            </BoxItem>
-          ))}
-        </Box>
-        <Box title="Stop Loss Details">
-          {activePosition.manager?.stop_loss?.map((sl, ind) => (
-            <BoxItem key={sl.key} checked={sl.applied}>
-              SL #{ind + 1}: {sl.amount_ratio * 100}% at $
-              {numerable.format(sl.price_exact, '0,0.00')}
-            </BoxItem>
-          ))}
-        </Box>
+        </DetailInfo>
       </div>
     </div>
   );
