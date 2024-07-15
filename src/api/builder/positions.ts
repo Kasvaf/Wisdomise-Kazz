@@ -12,10 +12,10 @@ interface SignalPosition {
 export interface SignalItem {
   key: string;
   amount_ratio: number;
-  applied?: boolean;
   price_exact?: number;
   price_ratio?: number;
-  date?: string;
+  applied?: boolean;
+  applied_at?: string | null;
 }
 
 // ----------------------------------------------------------------------------
@@ -37,6 +37,8 @@ export interface OpenOrder {
     | {
         type: 'true';
       };
+  applied?: boolean;
+  applied_at?: string | null;
 }
 
 interface Signal {

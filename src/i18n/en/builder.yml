@@ -239,3 +239,10 @@ subscriber-selector:
   choose-account: Choose Account
 usage:
   trading-volume: Trading Volume
+rr:
+  avg:
+    title: Average Reward to Risk
+    subtitle: Table updates automatically based on your inputs.
+    average-entry-points: Average Entry Points
+    avg-stop-losses: Avg Stop Losses
+    take-profit-x: Take Profit {{ind}}

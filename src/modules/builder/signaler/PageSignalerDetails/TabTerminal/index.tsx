@@ -16,9 +16,10 @@ import Icon from 'shared/Icon';
 import AssetSelector from '../../../AssetSelector';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
-import PositionDetails from './PositionDetails';
+import ActivePositionDetails from './ActivePositionDetails';
 import TerminalChart from './TerminalChart';
 import CoinInfo from './CoinInfo';
+import AvgRewardToRisk from './AvgRewardToRisk';
 
 const TabTerminal = () => {
   const { t } = useTranslation('strategy');
@@ -93,10 +94,17 @@ const TabTerminal = () => {
               />
 
               {!isLoading && assetName && activePosition && (
-                <PositionDetails
-                  activePosition={activePosition}
-                  className="mt-6"
-                />
+                <>
+                  <ActivePositionDetails
+                    activePosition={activePosition}
+                    className="mt-6"
+                  />
+
+                  <AvgRewardToRisk
+                    activePosition={activePosition}
+                    className="mt-4"
+                  />
+                </>
               )}
             </div>
 
