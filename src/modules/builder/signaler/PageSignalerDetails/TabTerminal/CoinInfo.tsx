@@ -29,35 +29,12 @@ const CoinInfo: React.FC<{ assetName: string; className?: string }> = ({
       <div className="text-2xl">
         <FancyPrice value={coinDetails?.price_data.last_price} />
       </div>
-      <div className="h-full border-r border-white/5" />
-      <div className="text-xs">
-        <div className="text-white/50">Mark Price</div>
-        <FancyPrice value={coinDetails?.price_data.last_price} />
-      </div>
-      {coinDetails?.price_data.percent_change_30d && (
-        <>
-          <div className="h-full border-r border-white/5" />
-          <div className="text-xs">
-            <div className="text-white/50">30d Change</div>
-            <PriceChange value={coinDetails?.price_data.percent_change_30d} />
-          </div>
-        </>
-      )}
       {coinDetails?.price_data.percent_change_24h && (
         <>
           <div className="h-full border-r border-white/5" />
           <div className="text-xs">
             <div className="text-white/50">24h Change</div>
             <PriceChange value={coinDetails?.price_data.percent_change_24h} />
-          </div>
-        </>
-      )}
-      {coinDetails?.price_data.percent_change_1h && (
-        <>
-          <div className="h-full border-r border-white/5" />
-          <div className="text-xs">
-            <div className="text-white/50">1h Change</div>
-            <PriceChange value={coinDetails?.price_data.percent_change_1h} />
           </div>
         </>
       )}

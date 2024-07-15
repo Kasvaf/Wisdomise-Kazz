@@ -53,71 +53,79 @@ const TabTerminal = () => {
     assetName,
   });
 
+  const coinRow = (
+    <div className="mb-4 flex flex-col justify-start gap-4 border-b border-white/5 pb-4">
+      <div className="flex items-end gap-3 mobile:flex-col mobile:items-stretch">
+        <AssetSelector
+          placeholder={t('common:select-crypto')}
+          assets={signaler?.assets.map(x => x.name)}
+          selectedItem={assetName}
+          onSelect={setAssetName}
+          className="w-[250px] mobile:w-full"
+          comboClassName="!h-14"
+          selectFirst
+          market={signaler?.market_name}
+        />
+
+        <CoinInfo assetName={assetName} />
+      </div>
+    </div>
+  );
+
   return (
     <div className="mt-8">
-      <div className="mb-8 flex flex-col justify-start gap-4 border-b border-white/5 pb-8">
-        <div className="flex items-end gap-3">
-          <AssetSelector
-            label={t('common:crypto')}
-            placeholder={t('common:select-crypto')}
-            assets={signaler?.assets.map(x => x.name)}
-            selectedItem={assetName}
-            onSelect={setAssetName}
-            className="w-[250px] mobile:w-full"
-            comboClassName="!h-14"
-            selectFirst
-            market={signaler?.market_name}
-          />
+      {isMobile && coinRow}
+      <div className="flex gap-4 mobile:flex-col-reverse">
+        <div className="basis-2/3">
+          {!isMobile && coinRow}
 
-          {!isMobile && <CoinInfo assetName={assetName} />}
-        </div>
-      </div>
-
-      {isLoading ? (
-        <div className="flex justify-center">
-          <Spinner />
-        </div>
-      ) : (
-        !!assetName &&
-        !!signaler && (
-          <div className="flex gap-4 mobile:flex-col-reverse">
-            <div className="basis-2/3">
-              <h2 className="mb-3 flex items-center gap-1 text-base font-semibold">
-                <Icon name={bxLineChart} />
-                <span>{t('builder:signal-form.chart-title')}</span>
-              </h2>
-              <TerminalChart
-                assetName={assetName}
-                formState={formState}
-                marketPrice={marketPrice}
-                className="mobile:-mx-4"
-              />
-
-              {!isLoading && assetName && activePosition && (
-                <>
-                  <ActivePositionDetails
-                    activePosition={activePosition}
-                    className="mt-6"
-                  />
-
-                  <AvgRewardToRisk
-                    activePosition={activePosition}
-                    className="mt-4"
-                  />
-                </>
-              )}
+          {isLoading ? (
+            <div className="flex justify-center">
+              <Spinner />
             </div>
+          ) : (
+            !!assetName &&
+            !!signaler && (
+              <>
+                <h2 className="mb-3 flex items-center gap-1 text-base font-semibold">
+                  <Icon name={bxLineChart} />
+                  <span>{t('builder:signal-form.chart-title')}</span>
+                </h2>
+                <TerminalChart
+                  assetName={assetName}
+                  formState={formState}
+                  marketPrice={marketPrice}
+                  className="mobile:-mx-4"
+                />
 
-            <AdvancedSignalForm
-              signaler={signaler}
-              assetName={assetName}
-              activePosition={activePosition}
-              className="basis-1/3"
-              formState={formState}
-            />
-          </div>
-        )
-      )}
+                {activePosition && (
+                  <>
+                    <ActivePositionDetails
+                      activePosition={activePosition}
+                      className="mt-6"
+                    />
+
+                    <AvgRewardToRisk
+                      activePosition={activePosition}
+                      className="mt-4"
+                    />
+                  </>
+                )}
+              </>
+            )
+          )}
+        </div>
+
+        {!!assetName && !!signaler && !isLoading && (
+          <AdvancedSignalForm
+            signaler={signaler}
+            assetName={assetName}
+            activePosition={activePosition}
+            className="basis-1/3"
+            formState={formState}
+          />
+        )}
+      </div>
     </div>
   );
 };

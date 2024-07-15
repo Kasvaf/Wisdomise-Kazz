@@ -51,7 +51,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
   // ======================================================================
 
   return (
-    <div className={clsx('flex flex-col gap-3 px-3', className)}>
+    <div className={clsx('flex flex-col gap-3 px-3 mobile:px-0', className)}>
       {!isUpdate && (
         <PartOpen data={formState} signaler={signaler} assetName={assetName} />
       )}
