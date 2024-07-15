@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { useState } from 'react';
-import { type OpenOrderCondition, type OpenOrder } from 'api/builder';
+import { type OpenOrder, type OpenOrderCondition } from 'api/builder';
 
 export interface TpSlData {
   key: string;
