@@ -6,7 +6,6 @@ import usePositionStatusMap from 'modules/insight/signaler/usePositionStatusMap'
 import Badge from 'shared/Badge';
 import PriceChange from 'shared/PriceChange';
 import { roundSensible } from 'utils/numbers';
-import { ReactComponent as DetailsIcon } from './details-icon.svg';
 
 const DetailInfo: React.FC<PropsWithChildren<{ label: string }>> = ({
   label,
@@ -20,7 +19,7 @@ const DetailInfo: React.FC<PropsWithChildren<{ label: string }>> = ({
   );
 };
 
-const PositionDetails: React.FC<{
+const ActivePositionDetails: React.FC<{
   activePosition: FullPosition;
   className?: string;
 }> = ({ activePosition, className }) => {
@@ -45,9 +44,8 @@ const PositionDetails: React.FC<{
         className,
       )}
     >
-      <h2 className="mb-3 flex items-center gap-1 border-b border-white/5 pb-3 text-base font-semibold">
-        <DetailsIcon />
-        <span>{t('signal-form.position-details.title')}</span>
+      <h2 className="mb-3 border-b border-white/5 pb-3 text-base font-semibold">
+        {t('signal-form.position-details.title')}
       </h2>
 
       <div className="mb-2 flex grow flex-wrap items-center justify-between gap-4">
@@ -88,4 +86,4 @@ const PositionDetails: React.FC<{
   );
 };
 
-export default PositionDetails;
+export default ActivePositionDetails;
