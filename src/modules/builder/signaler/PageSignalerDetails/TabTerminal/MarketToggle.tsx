@@ -5,10 +5,16 @@ type Market = 'long' | 'short';
 interface Props {
   value: Market;
   onChange: (value: Market) => void;
+  disabled?: boolean;
   className?: string;
 }
 
-const MarketToggle: React.FC<Props> = ({ value, onChange, className }) => {
+const MarketToggle: React.FC<Props> = ({
+  value,
+  onChange,
+  disabled,
+  className,
+}) => {
   const { t } = useTranslation();
   return (
     <div
@@ -19,7 +25,8 @@ const MarketToggle: React.FC<Props> = ({ value, onChange, className }) => {
     >
       <div
         className={clsx(
-          'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/70',
+          'flex grow items-center justify-center rounded-lg',
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-white/10',
           value === 'long' ? '!bg-[#11C37E99]' : 'text-white/40',
         )}
         onClick={() => onChange('long')}
@@ -28,7 +35,8 @@ const MarketToggle: React.FC<Props> = ({ value, onChange, className }) => {
       </div>
       <div
         className={clsx(
-          'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/70',
+          'flex grow items-center justify-center rounded-lg',
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-white/10',
           value === 'short' ? '!bg-[#F1405699]' : 'text-white/40',
         )}
         onClick={() => onChange('short')}

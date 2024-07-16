@@ -5,13 +5,14 @@ type OrderType = 'limit' | 'market';
 interface Props {
   value: OrderType;
   onChange: (value: OrderType) => void;
+  disabled?: boolean;
 }
 
-const OrderTypeToggle: React.FC<Props> = ({ value, onChange }) => {
+const OrderTypeToggle: React.FC<Props> = ({ value, onChange, disabled }) => {
   const { t } = useTranslation('builder');
 
   const itemClassName = clsx(
-    'flex grow cursor-pointer items-center justify-center rounded-lg px-3 hover:bg-black/20',
+    'flex grow items-center justify-center rounded-lg px-3',
   );
 
   return (
@@ -19,18 +20,20 @@ const OrderTypeToggle: React.FC<Props> = ({ value, onChange }) => {
       <div
         className={clsx(
           itemClassName,
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-black/20',
           value === 'limit' ? '!bg-white text-black' : 'text-white/50',
         )}
-        onClick={() => onChange('limit')}
+        onClick={() => !disabled && onChange('limit')}
       >
         {t('common:order-type.limit')}
       </div>
       <div
         className={clsx(
           itemClassName,
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-black/20',
           value === 'market' ? '!bg-white text-black' : 'text-white/50',
         )}
-        onClick={() => onChange('market')}
+        onClick={() => !disabled && onChange('market')}
       >
         {t('common:order-type.market')}
       </div>

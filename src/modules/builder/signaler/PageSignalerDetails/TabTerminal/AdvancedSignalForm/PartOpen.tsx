@@ -17,6 +17,7 @@ const PartOpen: React.FC<{
 }> = ({ signaler, assetName, data }) => {
   const { t } = useTranslation('builder');
   const {
+    isUpdate: [isUpdate],
     market: [market, setMarket],
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
@@ -41,7 +42,12 @@ const PartOpen: React.FC<{
     <div>
       {signaler?.market_name === 'FUTURES' && (
         <div className="mb-5 flex gap-2 border-b border-white/10 pb-5">
-          <MarketToggle className="grow" value={market} onChange={setMarket} />
+          <MarketToggle
+            className="grow"
+            value={market}
+            onChange={setMarket}
+            disabled={isUpdate}
+          />
           {/* <AmountInputBox className="w-14" value="2x" /> */}
         </div>
       )}
@@ -49,7 +55,11 @@ const PartOpen: React.FC<{
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
           <div>Open: </div>
-          <OrderTypeToggle value={orderType} onChange={setOrderType} />
+          <OrderTypeToggle
+            value={orderType}
+            onChange={setOrderType}
+            disabled={isUpdate}
+          />
         </div>
         {orderType === 'market' && (
           <OpenConditions
@@ -72,9 +82,10 @@ const PartOpen: React.FC<{
           setPrice(p);
           setPriceUpdated(true);
         }}
+        disabledPrice={isUpdate || orderType === 'market'}
         volume={volume}
         onVolumeChange={setVolume}
-        disabledPrice={orderType === 'market'}
+        disabledVolume={isUpdate}
         className="mb-5 grow"
       />
 
@@ -93,6 +104,7 @@ const PartOpen: React.FC<{
           }
           value={exp}
           onChange={setExp}
+          disabled={isUpdate}
         />
         {orderType === 'limit' && (
           <DurationInput
@@ -109,6 +121,7 @@ const PartOpen: React.FC<{
             }
             value={orderExp}
             onChange={setOrderExp}
+            disabled={isUpdate}
           />
         )}
       </div>
