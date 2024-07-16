@@ -89,9 +89,9 @@ const useSignalFormStates = () => {
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
-    getOpenOrders: (effectivePrice: number) => ({
+    getOpenOrders: (effectivePrice: number, firstOrder?: OpenOrder) => ({
       items: [
-        {
+        firstOrder || {
           key: v4(),
           condition:
             orderType === 'limit' || conditions.length === 0

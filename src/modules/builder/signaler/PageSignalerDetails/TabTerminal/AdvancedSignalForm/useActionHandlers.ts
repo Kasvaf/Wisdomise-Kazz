@@ -107,7 +107,10 @@ const useActionHandlers = ({
         action: 'update',
         take_profit: getTakeProfits(),
         stop_loss: getStopLosses(),
-        open_orders: getOpenOrders(effectivePrice),
+        open_orders: getOpenOrders(
+          effectivePrice,
+          activePosition.manager?.open_orders?.[0],
+        ),
       });
       notification.success({ message: t('signal-form.notif-success-update') });
     } catch (error) {
@@ -132,7 +135,10 @@ const useActionHandlers = ({
         position: activePosition.signal.position,
         stop_loss: { items: [] },
         take_profit: { items: [] },
-        open_orders: getOpenOrders(effectivePrice),
+        open_orders: getOpenOrders(
+          effectivePrice,
+          activePosition.manager?.open_orders?.[0],
+        ),
       });
       reset();
       notification.success({

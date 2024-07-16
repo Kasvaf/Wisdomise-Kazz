@@ -176,6 +176,13 @@ performance:
 publish-notice:
   description: To publish your {{type}}, contact support via support button or email us at
   note: 'Note:'
+rr:
+  avg:
+    title: Average Reward to Risk
+    subtitle: Table updates automatically based on your inputs.
+    average-entry-points: Average Entry Points
+    avg-stop-losses: Avg Stop Losses
+    take-profit-x: Take Profit {{ind}}
 signal-form:
   btn-close: Close
   btn-fire-signal: Fire Signal
@@ -183,7 +190,6 @@ signal-form:
   btn-new-take-profit: New Take Profit
   btn-update: Update Position
   chart-title: Wisdomise Chart
-  conditions-use-market-price: conditions use market price
   confirm-close: Are you sure you want to close this position?
   confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
@@ -210,13 +216,10 @@ signal-form:
     info-title: Order Expiration Time
   position-details:
     title: Position Details
-    not-opened-yet: Not opened yet
     status: Status
   position-side: Position Side
-  price: Order Price
   stop-loss: Stop Loss
   take-profit: Take Profit
-  volume: Volume
 signaler:
   card:
     active-positions: Active positions
@@ -239,10 +242,3 @@ subscriber-selector:
   choose-account: Choose Account
 usage:
   trading-volume: Trading Volume
-rr:
-  avg:
-    title: Average Reward to Risk
-    subtitle: Table updates automatically based on your inputs.
-    average-entry-points: Average Entry Points
-    avg-stop-losses: Avg Stop Losses
-    take-profit-x: Take Profit {{ind}}
