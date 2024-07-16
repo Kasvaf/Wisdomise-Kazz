@@ -132,7 +132,7 @@ const useActionHandlers = ({
         position: activePosition.signal.position,
         stop_loss: { items: [] },
         take_profit: { items: [] },
-        open_orders: { items: [] },
+        open_orders: getOpenOrders(effectivePrice),
       });
       reset();
       notification.success({
