@@ -89,7 +89,9 @@ const useSyncFormState = ({
           activePosition?.manager?.open_orders?.slice(1)?.map(x => ({
             key: x.key,
             amountRatio: String((x.amount ?? 0) * 100),
-            priceExact: String(x.price ?? 0),
+            priceExact: String(
+              (x.condition.type === 'true' ? x.price : x.condition.right) ?? 0,
+            ),
             applied: x.applied ?? false,
             appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
             removed: false,

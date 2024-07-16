@@ -91,19 +91,21 @@ const useSignalFormStates = () => {
     getStopLosses: () => toApiContract(stopLosses),
     getOpenOrders: (effectivePrice: number, firstOrder?: OpenOrder) => ({
       items: [
-        firstOrder || {
-          key: v4(),
-          condition:
-            orderType === 'limit' || conditions.length === 0
-              ? { type: 'true' as const }
-              : conditions[0],
-          amount: +volume / 100,
-          price:
-            orderType === 'limit'
-              ? { value: Number.parseFloat(price) }
-              : undefined,
-          order_type: orderType,
-        },
+        firstOrder?.applied
+          ? firstOrder
+          : {
+              key: v4(),
+              condition:
+                orderType === 'limit' || conditions.length === 0
+                  ? { type: 'true' as const }
+                  : conditions[0],
+              amount: +volume / 100,
+              price:
+                orderType === 'limit'
+                  ? { value: Number.parseFloat(price) }
+                  : undefined,
+              order_type: orderType,
+            },
         ...(+volume < 100 ? getSafetyOpens(safetyOpens, effectivePrice) : []),
       ] satisfies OpenOrder[],
     }),
