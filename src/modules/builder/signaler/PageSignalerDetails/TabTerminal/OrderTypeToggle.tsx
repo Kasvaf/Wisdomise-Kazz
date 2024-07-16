@@ -9,12 +9,17 @@ interface Props {
 
 const OrderTypeToggle: React.FC<Props> = ({ value, onChange }) => {
   const { t } = useTranslation('builder');
+
+  const itemClassName = clsx(
+    'flex grow cursor-pointer items-center justify-center rounded-lg px-3 hover:bg-black/20',
+  );
+
   return (
-    <div className="flex h-[48px] w-[62px] flex-col items-stretch justify-stretch gap-1 text-center text-xs">
+    <div className="flex h-5 items-stretch justify-stretch gap-1 px-3 text-center text-xs">
       <div
         className={clsx(
-          'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/20',
-          value === 'limit' ? '!bg-black/30' : 'text-white/40',
+          itemClassName,
+          value === 'limit' ? '!bg-white text-black' : 'text-white/50',
         )}
         onClick={() => onChange('limit')}
       >
@@ -22,8 +27,8 @@ const OrderTypeToggle: React.FC<Props> = ({ value, onChange }) => {
       </div>
       <div
         className={clsx(
-          'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/20',
-          value === 'market' ? '!bg-black/30' : 'text-white/40',
+          itemClassName,
+          value === 'market' ? '!bg-white text-black' : 'text-white/50',
         )}
         onClick={() => onChange('market')}
       >

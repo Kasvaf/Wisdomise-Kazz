@@ -44,6 +44,8 @@ const PriceVolumeInput: React.FC<{
   onPriceChange?: (p: string) => void;
   onVolumeChange?: (p: string) => void;
   appliedAt?: Date;
+  disabledPrice?: boolean;
+  disabledVolume?: boolean;
   className?: string;
 }> = ({
   price,
@@ -51,6 +53,8 @@ const PriceVolumeInput: React.FC<{
   onPriceChange,
   onVolumeChange,
   appliedAt,
+  disabledPrice,
+  disabledVolume,
   className,
 }) => {
   return (
@@ -63,15 +67,17 @@ const PriceVolumeInput: React.FC<{
       <InternalInput
         value={price}
         onChange={onPriceChange}
-        readonly={!!appliedAt}
+        readonly={!!appliedAt || disabledPrice}
         className="pr-[2px]"
       />
-      <span>%</span>
-      <span className="mx-2 text-white/50">% at</span>
+      <span className={clsx((!!appliedAt || disabledPrice) && 'text-white/50')}>
+        %
+      </span>
+      <span className="mx-2 text-white/50">at</span>
       <InternalInput
         value={volume}
         onChange={onVolumeChange}
-        readonly={!!appliedAt}
+        readonly={!!appliedAt || disabledVolume}
         className="pr-1"
       />
       <span className="text-xs text-white/50">USDT</span>

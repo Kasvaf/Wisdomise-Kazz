@@ -10,6 +10,7 @@ import DurationInput from '../DurationInput';
 import ClosablePart from './ClosablePart';
 import OpenConditions from './OpenConditions';
 import { type SignalFormState } from './useSignalFormStates';
+import PriceVolumeInput from './PriceVolumeInput';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
@@ -41,40 +42,42 @@ const PartOpen: React.FC<{
   return (
     <ClosablePart title="Open">
       {signaler?.market_name === 'FUTURES' && (
-        <div>
-          <div className="pl-2">{t('signal-form.position-side')}</div>
-          <MarketToggle value={market} onChange={setMarket} />
+        <div className="mb-5 flex gap-2 border-b border-white/10 pb-5">
+          <MarketToggle className="grow" value={market} onChange={setMarket} />
+          <AmountInputBox className="w-14" value="2x" />
         </div>
       )}
 
-      <div className="flex items-end gap-2">
-        <AmountInputBox
-          label={t('signal-form.price')}
-          value={
-            orderType === 'market'
-              ? assetPrice === undefined
-                ? '-'
-                : '~ ' + String(roundDown(assetPrice, 2))
-              : price ?? '-'
-          }
-          onChange={p => {
-            setPrice(p);
-            setPriceUpdated(true);
-          }}
-          suffix="USDT"
-          className="grow"
-          disabled={orderType === 'market'}
-        />
-        <OrderTypeToggle value={orderType} onChange={setOrderType} />
+      <div className="mb-2 flex items-center justify-between">
+        <div className="flex items-center">
+          <div>Open: </div>
+          <OrderTypeToggle value={orderType} onChange={setOrderType} />
+        </div>
+        {orderType === 'market' && (
+          <OpenConditions
+            assetName={assetName}
+            data={data}
+            signaler={signaler}
+          />
+        )}
       </div>
 
-      <AmountInputBox
-        label={t('signal-form.volume')}
-        suffix="%"
-        value={volume}
-        min={0}
-        max={100}
-        onChange={setVolume}
+      <PriceVolumeInput
+        price={
+          orderType === 'market'
+            ? assetPrice === undefined
+              ? '-'
+              : '~ ' + String(roundDown(assetPrice, 2))
+            : price ?? '-'
+        }
+        onPriceChange={p => {
+          setPrice(p);
+          setPriceUpdated(true);
+        }}
+        volume={volume}
+        onVolumeChange={setVolume}
+        disabledPrice={orderType === 'market'}
+        className="mb-5 grow"
       />
 
       <div className="flex items-end gap-2">
@@ -111,10 +114,6 @@ const PartOpen: React.FC<{
           />
         )}
       </div>
-
-      {orderType === 'market' && (
-        <OpenConditions assetName={assetName} data={data} signaler={signaler} />
-      )}
     </ClosablePart>
   );
 };

@@ -5,12 +5,18 @@ type Market = 'long' | 'short';
 interface Props {
   value: Market;
   onChange: (value: Market) => void;
+  className?: string;
 }
 
-const MarketToggle: React.FC<Props> = ({ value, onChange }) => {
+const MarketToggle: React.FC<Props> = ({ value, onChange, className }) => {
   const { t } = useTranslation();
   return (
-    <div className="flex h-[48px] justify-stretch gap-2 rounded-xl bg-black/20 p-2 text-center">
+    <div
+      className={clsx(
+        'flex h-[48px] justify-stretch gap-2 rounded-xl bg-white/5 p-[2px] text-center',
+        className,
+      )}
+    >
       <div
         className={clsx(
           'flex grow cursor-pointer items-center justify-center rounded-lg hover:bg-black/70',

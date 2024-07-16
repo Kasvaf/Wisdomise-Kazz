@@ -40,7 +40,7 @@ const ClosablePart: React.FC<
         </div>
       </div>
 
-      <div className={isOpen ? 'flex flex-col gap-4 px-3 pb-3' : 'hidden'}>
+      <div className={isOpen ? 'flex flex-col px-3 pb-3' : 'hidden'}>
         {children}
       </div>
     </div>
