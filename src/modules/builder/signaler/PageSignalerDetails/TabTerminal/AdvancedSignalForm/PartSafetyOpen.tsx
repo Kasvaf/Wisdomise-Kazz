@@ -26,12 +26,7 @@ const PartSafetyOpen: React.FC<{
     assetName,
   });
 
-  const effectivePrice =
-    orderType === 'market'
-      ? assetPrice === undefined
-        ? 0
-        : assetPrice
-      : +price;
+  const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
   const remainingVolume =
     100 -
@@ -45,26 +40,28 @@ const PartSafetyOpen: React.FC<{
     <div>
       <div className="mb-2 flex justify-between">
         <h1>Safety Open</h1>
-        {remainingVolume > 0 && (
-          <Button
-            variant="alternative"
-            className="!p-2 text-xxs"
-            onClick={() =>
-              setItems([
-                ...items,
-                {
-                  key: v4(),
-                  amountRatio: String(remainingVolume),
-                  priceExact: String(roundDown(effectivePrice, 2)),
-                  applied: false,
-                  removed: false,
-                },
-              ])
-            }
-          >
-            + New Safety Open
-          </Button>
-        )}
+        {remainingVolume > 0 &&
+          !Number.isNaN(effectivePrice) &&
+          !Number.isNaN(remainingVolume) && (
+            <Button
+              variant="alternative"
+              className="!p-2 text-xxs"
+              onClick={() =>
+                setItems([
+                  ...items,
+                  {
+                    key: v4(),
+                    amountRatio: String(remainingVolume),
+                    priceExact: String(roundDown(effectivePrice, 2)),
+                    applied: false,
+                    removed: false,
+                  },
+                ])
+              }
+            >
+              + New Safety Open
+            </Button>
+          )}
       </div>
       <div className="flex flex-col gap-2">
         {items

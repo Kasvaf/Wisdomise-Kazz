@@ -28,12 +28,7 @@ const PartTpSl: React.FC<{
     assetName,
   });
 
-  const effectivePrice =
-    orderType === 'market'
-      ? assetPrice === undefined
-        ? 0
-        : assetPrice
-      : +price;
+  const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
   const sortItems = () =>
     setItems(items => sortTpSlItems({ items, type, market }));
@@ -53,39 +48,42 @@ const PartTpSl: React.FC<{
             ? t('signal-form.take-profit')
             : t('signal-form.stop-loss')}
         </h1>
-        <Button
-          variant="alternative"
-          className="!p-2 text-xxs"
-          onClick={() =>
-            setItems([
-              ...items,
-              {
-                key: v4(),
-                amountRatio: '100',
-                priceExact: String(
-                  roundDown(
-                    effectivePrice *
-                      (market === 'long'
-                        ? type === 'TP'
-                          ? 1.1
-                          : 0.9
-                        : type === 'TP'
-                        ? 0.9
-                        : 1.1),
-                    2,
+
+        {!Number.isNaN(effectivePrice) && (
+          <Button
+            variant="alternative"
+            className="!p-2 text-xxs"
+            onClick={() =>
+              setItems([
+                ...items,
+                {
+                  key: v4(),
+                  amountRatio: '100',
+                  priceExact: String(
+                    roundDown(
+                      effectivePrice *
+                        (market === 'long'
+                          ? type === 'TP'
+                            ? 1.1
+                            : 0.9
+                          : type === 'TP'
+                          ? 0.9
+                          : 1.1),
+                      2,
+                    ),
                   ),
-                ),
-                applied: false,
-                removed: false,
-              },
-            ])
-          }
-        >
-          {'+ '}
-          {type === 'TP'
-            ? t('signal-form.btn-new-take-profit')
-            : t('signal-form.btn-new-stop-loss')}
-        </Button>
+                  applied: false,
+                  removed: false,
+                },
+              ])
+            }
+          >
+            {'+ '}
+            {type === 'TP'
+              ? t('signal-form.btn-new-take-profit')
+              : t('signal-form.btn-new-stop-loss')}
+          </Button>
+        )}
       </div>
       <div className="flex flex-col gap-2">
         {items

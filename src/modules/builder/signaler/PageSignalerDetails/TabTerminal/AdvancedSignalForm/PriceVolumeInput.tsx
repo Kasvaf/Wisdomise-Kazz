@@ -17,7 +17,7 @@ const InternalInput: React.FC<{
       ref.style.width = `${ref.scrollWidth}px`;
     }
   };
-  useEffect(resize, [ref]);
+  useEffect(resize, [ref, value]);
 
   return (
     <input
