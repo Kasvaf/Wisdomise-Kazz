@@ -59,12 +59,15 @@ const PageMarketplace: React.FC = () => {
     });
 
   const strategiesPerformanceBulkWithRank = (strategiesPerformanceBulk || [])
-    .map((row, idx) => ({
+    .map(row => ({
       ...row,
       pairs_performance: row.pairs_performance.filter(x => x.positions),
-      rank: idx + 1,
     }))
-    .filter(x => x.pairs_performance.length);
+    .filter(x => x.pairs_performance.length)
+    .map((row, idx) => ({
+      ...row,
+      rank: idx + 1,
+    }));
 
   const columns = useMemo<
     Array<ColumnType<(typeof strategiesPerformanceBulkWithRank)[number]>>
