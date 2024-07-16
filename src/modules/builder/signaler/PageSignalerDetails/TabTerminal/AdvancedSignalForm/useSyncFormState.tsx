@@ -71,7 +71,7 @@ const useSyncFormState = ({
 
       const firstOrder = activePosition?.manager?.open_orders?.[0];
       if (firstOrder) {
-        setPrice(String(firstOrder.price?.value));
+        setPrice(String(firstOrder.price?.value ?? activePosition.entry_price));
         setOrderType(firstOrder.order_type);
         setVolume(String((firstOrder.amount ?? 1) * 100));
         setConditions(
