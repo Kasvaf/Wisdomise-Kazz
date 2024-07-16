@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { type FullPosition } from 'api/builder';
 import { type SignalFormState } from './useSignalFormStates';
 
@@ -54,6 +54,7 @@ const useSyncFormState = ({
     setStopLosses([]);
   }, [assetName, setPriceUpdated, setStopLosses, setTakeProfits]);
 
+  const [pair, setPair] = useState<string>();
   // merge remote changes of active-position to local form state
   useEffect(() => {
     setIsUpdate(!!activePosition);
@@ -62,16 +63,23 @@ const useSyncFormState = ({
       setMarket(activePosition.position_side.toLowerCase() as 'long' | 'short');
     }
 
-    const firstOrder = activePosition?.manager?.open_orders?.[0];
-    if (firstOrder) {
-      setPrice(String(firstOrder.price?.value));
-      setOrderType(firstOrder.order_type);
-      setVolume(String((firstOrder.amount ?? 1) * 100));
-      if (firstOrder.condition.type !== 'true') {
-        setConditions([firstOrder.condition]);
+    if (activePosition?.pair_name !== pair) {
+      setPair(activePosition?.pair_name);
+      setOrderType('market');
+      setVolume('100');
+      setConditions([]);
+
+      const firstOrder = activePosition?.manager?.open_orders?.[0];
+      if (firstOrder) {
+        setPrice(String(firstOrder.price?.value));
+        setOrderType(firstOrder.order_type);
+        setVolume(String((firstOrder.amount ?? 1) * 100));
+        setConditions(
+          firstOrder.condition.type === 'compare' ? [firstOrder.condition] : [],
+        );
+      } else if (activePosition?.entry_price) {
+        setPrice(String(activePosition.entry_price));
       }
-    } else if (activePosition?.entry_price) {
-      setPrice(String(activePosition.entry_price));
     }
 
     setSafetyOpens(safetyOpens =>
@@ -117,6 +125,7 @@ const useSyncFormState = ({
     );
   }, [
     activePosition,
+    pair,
     setPrice,
     setMarket,
     setIsUpdate,

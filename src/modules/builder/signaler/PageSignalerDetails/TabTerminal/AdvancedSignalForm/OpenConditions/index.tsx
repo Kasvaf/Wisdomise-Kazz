@@ -33,7 +33,7 @@ const OpenConditions: React.FC<{
     <div className="flex flex-col gap-2">
       {conditions.map((cond, ind) => {
         const ConditionForm =
-          (cond.type && conditionDefs[cond.type].Component) ?? (() => null);
+          (cond.type && conditionDefs[cond.type]?.Component) ?? (() => null);
 
         return (
           <Collapsible
@@ -54,7 +54,7 @@ const OpenConditions: React.FC<{
                   onChange={type =>
                     setConditions(conditions =>
                       conditions.map(x =>
-                        x === cond ? conditionDefs[type].default : x,
+                        x === cond ? conditionDefs[type]?.default : x,
                       ),
                     )
                   }
@@ -66,7 +66,7 @@ const OpenConditions: React.FC<{
                   {/* unique set of usable conditions and current one */}
                   {[...new Set([...usableConditionTypes, cond.type])].map(c => (
                     <Option key={c} value={c}>
-                      {conditionDefs[c].title}
+                      {conditionDefs[c]?.title}
                     </Option>
                   ))}
                 </Select>
@@ -97,7 +97,7 @@ const OpenConditions: React.FC<{
           onClick={() =>
             setConditions(conditions => [
               ...conditions,
-              conditionDefs[usableConditionTypes[0]].default,
+              conditionDefs[usableConditionTypes[0]]?.default,
             ])
           }
         >
