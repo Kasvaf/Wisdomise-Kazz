@@ -29,7 +29,7 @@ const MarketToggle: React.FC<Props> = ({
           disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-white/10',
           value === 'long' ? '!bg-[#11C37E99]' : 'text-white/40',
         )}
-        onClick={() => onChange('long')}
+        onClick={() => !disabled && onChange('long')}
       >
         {t('common:market.long')}
       </div>
@@ -39,7 +39,7 @@ const MarketToggle: React.FC<Props> = ({
           disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-white/10',
           value === 'short' ? '!bg-[#F1405699]' : 'text-white/40',
         )}
-        onClick={() => onChange('short')}
+        onClick={() => !disabled && onChange('short')}
       >
         {t('common:market.short')}
       </div>
