@@ -75,8 +75,7 @@ const PartTpSl: React.FC<{
                     2,
                   ),
                 ),
-                applied: true,
-                appliedAt: new Date(),
+                applied: false,
                 removed: false,
               },
             ])
