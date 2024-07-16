@@ -3,11 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
 import { roundDown } from 'utils/numbers';
 import InfoButton from 'shared/InfoButton';
-import AmountInputBox from 'shared/AmountInputBox';
 import OrderTypeToggle from '../OrderTypeToggle';
 import MarketToggle from '../MarketToggle';
 import DurationInput from '../DurationInput';
-import ClosablePart from './ClosablePart';
 import OpenConditions from './OpenConditions';
 import { type SignalFormState } from './useSignalFormStates';
 import PriceVolumeInput from './PriceVolumeInput';
@@ -40,11 +38,11 @@ const PartOpen: React.FC<{
   }, [assetPrice, priceUpdated, setPrice]);
 
   return (
-    <ClosablePart title="Open">
+    <div>
       {signaler?.market_name === 'FUTURES' && (
         <div className="mb-5 flex gap-2 border-b border-white/10 pb-5">
           <MarketToggle className="grow" value={market} onChange={setMarket} />
-          <AmountInputBox className="w-14" value="2x" />
+          {/* <AmountInputBox className="w-14" value="2x" /> */}
         </div>
       )}
 
@@ -114,7 +112,7 @@ const PartOpen: React.FC<{
           />
         )}
       </div>
-    </ClosablePart>
+    </div>
   );
 };
 

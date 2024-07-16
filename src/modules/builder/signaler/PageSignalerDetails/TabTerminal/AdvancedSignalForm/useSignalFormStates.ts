@@ -7,6 +7,7 @@ export interface TpSlData {
   amountRatio: string;
   priceExact: string;
   applied: boolean;
+  appliedAt?: Date;
   removed: boolean;
 }
 
