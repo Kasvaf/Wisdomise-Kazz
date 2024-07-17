@@ -38,7 +38,7 @@ const PartSafetyOpen: React.FC<{
 
   const nextLine = () => {
     const dir = market === 'long' ? 0.01 : -0.01;
-    for (let i = 1; i <= items.length; ++i) {
+    for (let i = 1; i <= items.length + 1; ++i) {
       const price = String(roundDown(effectivePrice * (1 + dir * i), 2));
       if (!items.some(x => !x.removed && x.priceExact === price)) {
         return price;
