@@ -25,6 +25,10 @@ const PartOpen: React.FC<{
     volume: [volume, setVolume],
     exp: [exp, setExp],
     orderExp: [orderExp, setOrderExp],
+
+    takeProfits: [takeProfits, setTakeProfits],
+    stopLosses: [stopLosses, setStopLosses],
+    safetyOpens: [, setSafetyOpens],
   } = data;
 
   const { data: assetPrice } = useSignalerAssetPrice({
@@ -38,6 +42,23 @@ const PartOpen: React.FC<{
     }
   }, [assetPrice, priceUpdated, setPrice]);
 
+  const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
+  const onMarketChangeHandler = (x: 'long' | 'short') => {
+    if (x === market) return;
+    const oldTakeProfits = takeProfits;
+    setTakeProfits(stopLosses);
+    setStopLosses(oldTakeProfits);
+    setSafetyOpens(items =>
+      items.map(x => ({
+        ...x,
+        priceExact: String(
+          roundDown(effectivePrice - (+x.priceExact - effectivePrice), 2),
+        ),
+      })),
+    );
+    setMarket(x);
+  };
+
   return (
     <div>
       {signaler?.market_name === 'FUTURES' && (
@@ -45,7 +66,7 @@ const PartOpen: React.FC<{
           <MarketToggle
             className="grow"
             value={market}
-            onChange={setMarket}
+            onChange={onMarketChangeHandler}
             disabled={isUpdate}
           />
           {/* <AmountInputBox className="w-14" value="2x" /> */}
