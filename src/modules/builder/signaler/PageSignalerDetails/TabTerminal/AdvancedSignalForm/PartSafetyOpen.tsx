@@ -18,6 +18,7 @@ const PartSafetyOpen: React.FC<{
     price: [price],
     volume: [volume],
     orderType: [orderType],
+    market: [market],
     safetyOpens: [items, setItems],
   } = data;
 
@@ -35,33 +36,41 @@ const PartSafetyOpen: React.FC<{
       .filter(x => !x.removed)
       .reduce((a, b) => a + Number(b.amountRatio), 0);
 
-  if (volume === '100') return null;
+  const nextLine = () => {
+    const dir = market === 'long' ? 0.01 : -0.01;
+    for (let i = 1; i <= items.length; ++i) {
+      const price = String(roundDown(effectivePrice * (1 + dir * i), 2));
+      if (!items.some(x => !x.removed && x.priceExact === price)) {
+        return price;
+      }
+    }
+    return String(effectivePrice);
+  };
+
   return (
     <div>
       <div className="mb-2 flex justify-between">
         <h1>Safety Open</h1>
-        {remainingVolume > 0 &&
-          !Number.isNaN(effectivePrice) &&
-          !Number.isNaN(remainingVolume) && (
-            <Button
-              variant="alternative"
-              className="!p-2 text-xxs"
-              onClick={() =>
-                setItems([
-                  ...items,
-                  {
-                    key: v4(),
-                    amountRatio: String(remainingVolume),
-                    priceExact: String(roundDown(effectivePrice, 2)),
-                    applied: false,
-                    removed: false,
-                  },
-                ])
-              }
-            >
-              + New Safety Open
-            </Button>
-          )}
+        {!Number.isNaN(effectivePrice) && !Number.isNaN(remainingVolume) && (
+          <Button
+            variant="alternative"
+            className="!p-2 text-xxs"
+            onClick={() =>
+              setItems([
+                ...items,
+                {
+                  key: v4(),
+                  amountRatio: String(remainingVolume),
+                  priceExact: nextLine(),
+                  applied: false,
+                  removed: false,
+                },
+              ])
+            }
+          >
+            + New Safety Open
+          </Button>
+        )}
       </div>
       <div className="flex flex-col gap-2">
         {items

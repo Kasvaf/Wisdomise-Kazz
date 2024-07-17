@@ -39,6 +39,24 @@ const PartTpSl: React.FC<{
   );
 
   const dir = (type === 'TP' ? 1 : -1) * (market === 'long' ? 1 : -1);
+  const nextLine = () => {
+    const dir =
+      market === 'long'
+        ? type === 'TP'
+          ? 0.01
+          : -0.01
+        : type === 'TP'
+        ? -0.01
+        : 0.01;
+
+    for (let i = 1; i <= items.length; ++i) {
+      const price = String(roundDown(effectivePrice * (1 + dir * i), 2));
+      if (!items.some(x => !x.removed && x.priceExact === price)) {
+        return price;
+      }
+    }
+    return String(effectivePrice);
+  };
 
   return (
     <div>
@@ -59,19 +77,7 @@ const PartTpSl: React.FC<{
                 {
                   key: v4(),
                   amountRatio: '100',
-                  priceExact: String(
-                    roundDown(
-                      effectivePrice *
-                        (market === 'long'
-                          ? type === 'TP'
-                            ? 1.1
-                            : 0.9
-                          : type === 'TP'
-                          ? 0.9
-                          : 1.1),
-                      2,
-                    ),
-                  ),
+                  priceExact: nextLine(),
                   applied: false,
                   removed: false,
                 },
