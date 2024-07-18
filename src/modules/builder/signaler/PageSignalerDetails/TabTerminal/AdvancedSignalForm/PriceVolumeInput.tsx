@@ -25,7 +25,7 @@ const InternalInput: React.FC<{
       value={value}
       onChange={resize}
       className={clsx(
-        'bg-transparent outline-none',
+        '-mr-32 bg-transparent pr-32 outline-none',
         readonly && 'text-white/50',
         className,
       )}
@@ -66,7 +66,7 @@ const PriceVolumeInput: React.FC<{
   return (
     <div
       className={clsx(
-        'flex h-10 items-center rounded-lg bg-black/30 px-2',
+        'flex h-10 items-center rounded-lg bg-black/30 pr-2',
         className,
       )}
     >
@@ -78,24 +78,33 @@ const PriceVolumeInput: React.FC<{
           onVolumeBlur?.();
         }}
         readonly={!!appliedAt || disabledVolume}
-        className="pr-[2px]"
+        className="pl-2"
       />
-      <span className={clsx((!!appliedAt || disabledPrice) && 'text-white/50')}>
+      <span
+        className={clsx(
+          'pointer-events-none ml-[2px] select-none',
+          (!!appliedAt || disabledPrice) && 'text-white/50',
+        )}
+      >
         %
       </span>
-      <span className="mx-2 text-white/50">at</span>
+      <span className="pointer-events-none ml-2 select-none text-white/50">
+        at
+      </span>
       <InternalInput
         value={price}
         onChange={onPriceChange}
         onBlur={onPriceBlur}
         readonly={!!appliedAt || disabledPrice}
-        className="pr-1"
+        className="pl-2"
       />
-      <span className="text-xs text-white/50">USDT</span>
+      <span className="pointer-events-none ml-1 select-none text-xs text-white/50">
+        USDT
+      </span>
 
       <div className="grow" />
       {appliedAt && (
-        <span className="text-white/50">
+        <span className="select-none text-white/50">
           {dayjs(appliedAt).format('D MMM HH:mm')}
         </span>
       )}
