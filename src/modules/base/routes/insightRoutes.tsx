@@ -26,6 +26,10 @@ const PageSocialRadarDetail = React.lazy(
   () => import('modules/insight/socialRadar/PageSocialRadarDetail'),
 );
 
+const PageMarketPulse = React.lazy(
+  () => import('modules/insight/PageMarketPulse'),
+);
+
 const useInsightRoutes = () => {
   const { t } = useTranslation('base');
   return [
@@ -76,6 +80,11 @@ const useInsightRoutes = () => {
               handle: { crumb: (p: Params<string>) => p.symbol },
             },
           ],
+        },
+        {
+          path: 'market-pulse',
+          element: <PageMarketPulse />,
+          handle: { crumb: t('menu.market-pulse.title') },
         },
       ],
     },

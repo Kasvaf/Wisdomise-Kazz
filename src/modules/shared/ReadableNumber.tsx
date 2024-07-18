@@ -1,60 +1,38 @@
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { Tooltip } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { type FormatNumberOptions, formatNumber } from 'utils/numbers';
-
-interface NumberLabelConfig {
-  text: string;
-  position: 'before' | 'after';
-  small: boolean;
-}
-
-const PRECONFIGURED_LABELS: Record<
-  '%' | '$' | 'usdt' | 'eth',
-  NumberLabelConfig
-> = {
-  '%': {
-    text: '%',
-    position: 'after',
-    small: false,
-  },
-  '$': {
-    text: '$',
-    position: 'before',
-    small: false,
-  },
-  'usdt': {
-    text: 'USDT',
-    position: 'after',
-    small: true,
-  },
-  'eth': {
-    text: 'ETH',
-    position: 'after',
-    small: true,
-  },
-};
 
 function NumberWithLabel({
   label,
   value,
+  emptyText,
   className,
   ...props
 }: {
-  label?: keyof typeof PRECONFIGURED_LABELS | NumberLabelConfig;
-  value: string;
+  label?: string | null;
+  emptyText?: string;
+  value?: string;
   className?: string;
 }) {
-  const formatObject =
-    typeof label === 'string'
-      ? PRECONFIGURED_LABELS[label]
-      : label || undefined;
+  const { t } = useTranslation('common');
+  const labelObject = useMemo(
+    () => ({
+      text: label ? label.toUpperCase() : '',
+      position: (label?.length || 0) > 1 || label === '%' ? 'after' : 'before',
+      small: (label?.length || 0) > 1,
+    }),
+    [label],
+  );
+
   return (
     <span
       {...props}
       className={clsx(
         'inline-flex flex-wrap items-baseline overflow-hidden',
-        formatObject?.position === 'before'
+        typeof value !== 'string' && 'font-light opacity-70',
+        labelObject?.position === 'before'
           ? 'flex-row-reverse gap-x-px'
           : 'gap-x-[2px]',
         className,
@@ -63,15 +41,17 @@ function NumberWithLabel({
         justifyContent: 'left',
       }}
     >
-      <span>{value}</span>
-      {formatObject?.text && (
+      <span>
+        {typeof value === 'string' ? value : emptyText ?? t('not-set')}
+      </span>
+      {labelObject?.text && (
         <span
           className={clsx(
             'opacity-70',
-            formatObject?.small && 'origin-bottom scale-90',
+            labelObject?.small && 'origin-bottom scale-90',
           )}
         >
-          {formatObject?.text}
+          {labelObject?.text}
         </span>
       )}
     </span>
@@ -81,17 +61,20 @@ function NumberWithLabel({
 export function ReadableNumber({
   className,
   label,
-  popup = 'auto',
   value,
+  emptyText,
+  popup = 'auto',
   format,
 }: {
   className?: string;
-  label?: keyof typeof PRECONFIGURED_LABELS | NumberLabelConfig;
-  value: number;
+  label?: string | null;
+  value?: number | null;
+  emptyText?: string;
   popup?: 'auto' | 'always' | 'never';
   format?: Partial<FormatNumberOptions>;
 }) {
   const displayValue = useMemo(() => {
+    if (typeof value !== 'number') return;
     return formatNumber(value, {
       compactInteger: value >= 1e6,
       decimalLength: 3,
@@ -101,6 +84,7 @@ export function ReadableNumber({
     });
   }, [value, format]);
   const tooltipValue = useMemo(() => {
+    if (typeof value !== 'number') return;
     return formatNumber(value, {
       compactInteger: false,
       decimalLength: Number.POSITIVE_INFINITY,
@@ -120,14 +104,21 @@ export function ReadableNumber({
         fontSize: '0.9rem',
         fontFamily: 'monospace',
       }}
-      title={<NumberWithLabel label={label} value={tooltipValue} />}
+      title={
+        <NumberWithLabel
+          label={label}
+          value={tooltipValue}
+          emptyText={emptyText}
+        />
+      }
       overlayClassName="pointer-events-none"
       open={noPopup ? false : undefined}
     >
       <NumberWithLabel
         label={label}
         value={displayValue}
-        className={clsx('cursor-default', className)}
+        emptyText={emptyText}
+        className={clsx(displayValue && !noPopup && 'cursor-alias', className)}
       />
     </Tooltip>
   );

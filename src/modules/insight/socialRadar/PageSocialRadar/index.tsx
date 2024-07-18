@@ -3,9 +3,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useEffectOnce } from 'usehooks-ts';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useCoinSignals, useMarketInfoFromSignals } from 'api';
-import BetaVersion from 'shared/BetaVersion';
 import InsightDisclaimer from 'modules/insight/InsightDisclaimer';
 import { track } from 'config/segment';
+import { PageTitle } from 'shared/PageTitle';
 import SignalsTable from './SignalsTable';
 import HotCoinSignal from './HotCoinSignal';
 import { SocialRadarOnboarding } from './SocialRadarOnboarding';
@@ -29,10 +29,11 @@ export default function PageSocialRadar() {
       <InsightDisclaimer />
       <SocialRadarOnboarding />
       <div className="flex justify-between mobile:flex-col mobile:gap-5">
-        <p className="flex items-center gap-3 pl-2 font-semibold">
-          {t('title')}
-          <BetaVersion />
-        </p>
+        <PageTitle
+          title={t('title')}
+          isBeta
+          className="self-center mobile:self-start"
+        />
 
         <div className="flex gap-3 mobile:flex-col mobile:gap-5">
           <RecommendAccount />

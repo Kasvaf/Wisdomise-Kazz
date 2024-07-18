@@ -1,0 +1,34 @@
+indicator_list:
+  macd:
+    label: MACD
+    soon: soon
+  rsi:
+    title: Crypto Market RSI
+    label: RSI
+    description: >-
+      A bullish divergence occurs when the RSI displays an oversold reading
+      followed by a higher low that appears with lower lows in the price. This
+      may indicate rising bullish momentum, and a break above oversold territory
+      could be used to trigger a new long position. Conversely, a bearish
+      divergence occurs when the RSI creates an overbought reading followed by a
+      lower high that appears with higher highs on the price. This may indicate
+      rising bearish momentum, and a break below overbought territory could be
+      used to trigger a new short position.
+    bearish: Bearish Divergence
+    bullish: Bullish Divergence
+    overbought: OverBought
+    oversold: OverSold
+    statistics: Market RSI Statistics
+    table:
+      name: Name
+      duration: Duration
+      price: Price
+      price_change: Price Chg
+      resolution: Resolution
+      rsi: RSI
+indicators: Indicators
+not-set: ''
+periods:
+  daily: Daily
+  hour: h
+  min: min

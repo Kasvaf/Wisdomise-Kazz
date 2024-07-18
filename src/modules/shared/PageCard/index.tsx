@@ -23,7 +23,7 @@ export interface PageCardProps {
   to: string;
   info?: string;
   hint?: string;
-  icon: FC<SVGProps<SVGSVGElement>>;
+  icon?: FC<SVGProps<SVGSVGElement>>;
   title: ReactNode;
   description: ReactNode;
   footer?: ReactNode;
@@ -64,7 +64,9 @@ export const PageCard: FC<PageCardProps> = props => {
       onClick={onClick}
     >
       <div className="relative h-auto overflow-auto">
-        <Icon className="absolute right-6 top-1/2 h-auto w-[112px] -translate-y-1/2 mobile:w-[88px]" />
+        {Icon && (
+          <Icon className="absolute right-6 top-1/2 h-auto w-[112px] -translate-y-1/2 mobile:w-[88px]" />
+        )}
         <div className="relative flex min-h-40 w-full max-w-[70%] basis-auto flex-col gap-4 bg-gradient-to-r from-[#1A1C20] to-transparent p-6 mobile:max-w-[calc(100%-90px)]">
           <p className="flex items-center gap-2 text-base font-semibold">
             {title}

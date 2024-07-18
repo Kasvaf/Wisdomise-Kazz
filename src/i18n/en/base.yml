@@ -64,6 +64,9 @@ menu:
   kyc:
     title: KYC
     subtitle: Verify identity to access features
+  market-pulse:
+    title: Market Pulse
+    subtitle: Find cryptocurrencies to buy or sell based on key indicators
   marketplace:
     title: Marketplace
     subtitle: Trade confidently with expert-driven crypto signal

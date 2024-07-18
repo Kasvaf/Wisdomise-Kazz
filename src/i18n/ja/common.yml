@@ -27,6 +27,7 @@ market:
   long: 長さ
   short: 短い
 network: ネットワーク
+not-set: 設定されていません
 nothing-to-show: 表示するものがありません
 order-type:
   limit: 限界
