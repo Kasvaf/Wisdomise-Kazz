@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { type PropsWithChildren } from 'react';
 import { type FullPosition } from 'api/builder';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { isLocal } from 'utils/version';
 
 const Labeled: React.FC<
   PropsWithChildren<{ label: string; className?: string }>
@@ -23,7 +24,7 @@ const AvgRewardToRisk: React.FC<{
   const takeProfits = activePosition.manager?.take_profit ?? [];
   const tpLen = takeProfits.length;
 
-  if (takeProfits.length === 0) return null;
+  if (takeProfits.length === 0 || !isLocal) return null;
   return (
     <div className={clsx('rounded-xl bg-black/30 p-3', className)}>
       <div className="mb-3 border-b border-white/5 pb-3">
