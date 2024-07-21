@@ -1,6 +1,10 @@
 import { v4 } from 'uuid';
 import { useState } from 'react';
-import { type OpenOrder, type OpenOrderCondition } from 'api/builder';
+import {
+  type OpenOrderInput,
+  type OpenOrderCondition,
+  type OpenOrderResponse,
+} from 'api/builder';
 
 export interface TpSlData {
   key: string;
@@ -89,10 +93,22 @@ const useSignalFormStates = () => {
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
-    getOpenOrders: (effectivePrice: number, firstOrder?: OpenOrder) => ({
+    getOpenOrders: (
+      effectivePrice: number,
+      firstOrder?: OpenOrderResponse,
+    ) => ({
       items: [
         firstOrder?.applied
-          ? firstOrder
+          ? {
+              key: firstOrder.key,
+              condition: firstOrder.condition,
+              amount: +volume / 100,
+              price:
+                orderType === 'limit'
+                  ? { value: Number(firstOrder.price) }
+                  : undefined,
+              order_type: orderType,
+            }
           : {
               key: v4(),
               condition:
@@ -107,7 +123,7 @@ const useSignalFormStates = () => {
               order_type: orderType,
             },
         ...(+volume < 100 ? getSafetyOpens(safetyOpens, effectivePrice) : []),
-      ] satisfies OpenOrder[],
+      ] satisfies OpenOrderInput[],
     }),
     reset: () => {
       isUpdate[1](false);

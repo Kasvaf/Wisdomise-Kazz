@@ -27,10 +27,24 @@ export interface OpenOrderCondition {
   right: number;
 }
 
-export interface OpenOrder {
+export interface OpenOrderInput {
   key: string;
   amount?: number;
   price?: { value: number };
+  order_type: 'limit' | 'market';
+  condition:
+    | OpenOrderCondition
+    | {
+        type: 'true';
+      };
+  applied?: boolean;
+  applied_at?: string | null;
+}
+
+export interface OpenOrderResponse {
+  key: string;
+  amount?: number;
+  price?: number;
   order_type: 'limit' | 'market';
   condition:
     | OpenOrderCondition
@@ -55,7 +69,7 @@ interface Signal {
     items: SignalItem[];
   };
   open_orders: {
-    items: OpenOrder[];
+    items: OpenOrderInput[];
   };
 }
 
@@ -68,7 +82,7 @@ export interface FullPosition extends RawPosition {
   manager?: {
     stop_loss?: SignalItem[];
     take_profit?: SignalItem[];
-    open_orders?: OpenOrder[];
+    open_orders?: OpenOrderResponse[];
   };
 }
 
