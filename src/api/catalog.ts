@@ -9,26 +9,31 @@ import { TEMPLE_ORIGIN } from 'config/constants';
 
 export const useFinancialProductsQuery = ({
   type = 'ALL',
+  userId,
   page,
 }: {
   type?: 'WISDOMISE' | 'MINE' | 'ALL';
+  userId?: string;
   page?: number;
 }) =>
   useQuery({
-    queryKey: ['fp-catalog', type, page],
+    queryKey: ['fp-catalog', type, userId, page],
     queryFn: async () => {
       const allProducts = [];
       let count = 1;
 
+      let urlBase = '/catalog/financial-products?';
+      urlBase += userId ? `user_id=${userId}` : `type=${type}`;
+
       if (page === undefined) {
         for (let page = 1; page <= Math.ceil(count / 10); ++page) {
-          const url = `/catalog/financial-products?type=${type}&page=${page}`;
+          const url = `${urlBase}&page=${page}`;
           const { data } = await axios.get<FinancialProductsResponse>(url);
           allProducts.push(...data.results);
           count = data.count;
         }
       } else {
-        const url = `/catalog/financial-products?type=${type}&page=${page}`;
+        const url = `${urlBase}&page=${page}`;
         const { data } = await axios.get<FinancialProductsResponse>(url);
         allProducts.push(...data.results);
         count = data.count;

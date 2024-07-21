@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 
-export const ProfileSection: FC<
+const ProfileSection: FC<
   PropsWithChildren<{
     className?: string;
     contentClassName?: string;
@@ -38,3 +38,5 @@ export const ProfileSection: FC<
     </div>
   );
 };
+
+export default ProfileSection;

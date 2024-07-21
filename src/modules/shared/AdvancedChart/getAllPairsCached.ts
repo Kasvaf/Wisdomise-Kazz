@@ -4,7 +4,7 @@ import { type PairDataFull } from 'api/types/strategy';
 let cachedPairs: PairDataFull[];
 const getAllPairsCached = async () => {
   if (!cachedPairs) {
-    const { data } = await axios.get<PairDataFull[]>('strategy/pairs');
+    const { data } = await axios.get<PairDataFull[]>('catalog/pairs');
     cachedPairs = data;
   }
 

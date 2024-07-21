@@ -2,9 +2,12 @@ import type React from 'react';
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { useStrategiesPerformanceBulk } from 'api';
+import {
+  type StrategyPerformanceBulkGrouped,
+  useStrategiesPerformanceBulk,
+  useSubscription,
+} from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import Table from 'shared/Table';
 import CoinsIcons from 'shared/CoinsIcons';
@@ -12,7 +15,40 @@ import PriceAreaChart from 'shared/PriceAreaChart';
 import PriceChange from 'shared/PriceChange';
 import { ProfileLink } from 'modules/account/PageProfile/ProfileLink';
 import Icon from 'shared/Icon';
+import Button from 'shared/Button';
+import useSignalSubscriptionModal from '../PageSignalsMatrix/useSignalSubscriptionModal';
 import { TableArrayColumn } from './TableArrayColumn';
+
+const PairDetailsButton: React.FC<{
+  record: StrategyPerformanceBulkGrouped;
+  pairName: string;
+}> = ({ record, pairName }) => {
+  const { t } = useTranslation();
+  const { level } = useSubscription();
+  const requiredLevel = record.profile?.subscription_level ?? 0;
+  const isLocked = requiredLevel > level;
+  const [SubModal, showSubModal] = useSignalSubscriptionModal(requiredLevel);
+
+  return (
+    <>
+      {SubModal}
+      <Button
+        to={`/insight/coins/signaler?strategy=${record.strategy_key}&coin=${pairName}`}
+        variant="alternative"
+        className="!p-2 !pl-3 text-sm !font-normal"
+        onClick={e => {
+          if (isLocked) {
+            e.preventDefault();
+            void showSubModal();
+          }
+        }}
+      >
+        {t('marketplace:table.detail')}
+        <Icon name={bxRightArrowAlt} size={18} />
+      </Button>
+    </>
+  );
+};
 
 const PageMarketplace: React.FC = () => {
   const { t } = useTranslation();
@@ -22,12 +58,16 @@ const PageMarketplace: React.FC = () => {
       groupByStrategy: true,
     });
 
-  const strategiesPerformanceBulkWithRank = (
-    strategiesPerformanceBulk || []
-  ).map((row, idx) => ({
-    ...row,
-    rank: idx + 1,
-  }));
+  const strategiesPerformanceBulkWithRank = (strategiesPerformanceBulk || [])
+    .map(row => ({
+      ...row,
+      pairs_performance: row.pairs_performance.filter(x => x.positions),
+    }))
+    .filter(x => x.pairs_performance.length)
+    .map((row, idx) => ({
+      ...row,
+      rank: idx + 1,
+    }));
 
   const columns = useMemo<
     Array<ColumnType<(typeof strategiesPerformanceBulkWithRank)[number]>>
@@ -35,7 +75,7 @@ const PageMarketplace: React.FC = () => {
     return [
       {
         title: '#',
-        className: 'w-14 !pr-0',
+        className: 'w-14 !pr-0 !py-8',
         dataIndex: 'rank',
         render(value) {
           return <span className="text-white/40">{value}</span>;
@@ -43,7 +83,7 @@ const PageMarketplace: React.FC = () => {
       },
       {
         title: t('marketplace:table.name'),
-        className: 'w-auto',
+        className: 'w-auto !py-8',
         width: 'auto',
         render(_, record) {
           return (
@@ -67,7 +107,7 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-42 w-48',
+        className: 'min-w-42 w-48 !py-8',
         title: t('marketplace:table.coin'),
         render(_, record) {
           return (
@@ -94,7 +134,7 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-48 w-56',
+        className: 'min-w-48 w-56 !py-8',
         title: (
           <Trans i18nKey="table.pl" ns="marketplace">
             P/L <span className="ml-1 text-xxs opacity-60">Monthly</span>
@@ -124,7 +164,7 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-48 w-56',
+        className: 'min-w-48 w-56 !py-8',
         title: (
           <Trans i18nKey="table.max_drawdown" ns="marketplace">
             Max Drawdown
@@ -151,17 +191,23 @@ const PageMarketplace: React.FC = () => {
         },
       },
       {
-        className: 'min-w-10 w-10',
+        className: 'min-w-10 w-10 !py-8',
         title: t('marketplace:table.action'),
         render(_, record) {
           return (
-            <Link
-              to={`/insight/coins/signaler?strategy=${record.strategy_key}`}
-              className="inline-flex h-7 cursor-pointer items-center gap-1 rounded-lg bg-white/10 p-2 text-xs hover:bg-white/20 hover:text-white"
-            >
-              {t('marketplace:table.detail')}
-              <Icon name={bxRightArrowAlt} size={18} />
-            </Link>
+            <TableArrayColumn>
+              {record.pairs_performance.map(pairPerf => (
+                <div
+                  className="inline-flex flex-col items-start justify-center"
+                  key={pairPerf.pair.name}
+                >
+                  <PairDetailsButton
+                    record={record}
+                    pairName={pairPerf.pair.name}
+                  />
+                </div>
+              ))}
+            </TableArrayColumn>
           );
         },
       },

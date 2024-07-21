@@ -102,7 +102,6 @@ positions-history:
   entry-price: Entry Price
   entry-time: Entry Time
   exit-point: Exit Point
-  market-side: Market Side
   pairs: Pairs
   pnl: P/L
   position-side: Position Side
