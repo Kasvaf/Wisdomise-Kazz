@@ -2,7 +2,7 @@ import type React from 'react';
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
-import { bxRightArrowAlt } from 'boxicons-quasar';
+import { bxLockAlt, bxRightArrowAlt } from 'boxicons-quasar';
 import {
   type StrategyPerformanceBulkGrouped,
   useStrategiesPerformanceBulk,
@@ -43,8 +43,9 @@ const PairDetailsButton: React.FC<{
           }
         }}
       >
-        {t('marketplace:table.detail')}
-        <Icon name={bxRightArrowAlt} size={18} />
+        {isLocked && <Icon name={bxLockAlt} size={18} />}
+        <span className="mx-1">{t('marketplace:table.detail')}</span>
+        {!isLocked && <Icon name={bxRightArrowAlt} size={18} />}
       </Button>
     </>
   );
