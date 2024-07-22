@@ -1,4 +1,5 @@
 import { bxLock } from 'boxicons-quasar';
+import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import useConfirm from 'shared/useConfirm';
@@ -16,7 +17,7 @@ export default function useSignalSubscriptionModal(requiredLevel: number) {
   const { data: plans } = usePlansQuery();
   const minPlan = plans?.results.find(x => x.level === requiredLevel)?.name;
 
-  return useConfirm({
+  const [SubModal, showSubModal] = useConfirm({
     title: myLevel
       ? t('matrix.subscription.upgrade.title')
       : t('matrix.subscription.subscribe.title'),
@@ -50,4 +51,14 @@ export default function useSignalSubscriptionModal(requiredLevel: number) {
       </div>
     ),
   });
+
+  const navigate = useNavigate();
+  return [
+    SubModal,
+    async () => {
+      if (await showSubModal()) {
+        navigate('/account/billing');
+      }
+    },
+  ] as const;
 }

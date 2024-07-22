@@ -44,6 +44,9 @@ menu:
   coin-view:
     subtitle: 获取所有信号员的信号和位置历史记录
     title: 币种列表
+  crypto-screener:
+    subtitle: 本页面介绍根据指标寻找要买入或卖出的加密货币。
+    title: 加密货币筛选器
   dashboard: 後台
   financial-products:
     active-product: 活跃产品
@@ -66,6 +69,9 @@ menu:
     mobile: 实名认证
     subtitle: 验证身份以访问功能。
     title: 实名认证
+  market-pulse:
+    subtitle: 本页面介绍根据指标寻找要买入或卖出的加密货币。
+    title: 市场脉搏
   marketplace:
     subtitle: 接受条款 通过访问和使用
       [您的公司/您的姓名]（“提供商”）提供的交易策略，您同意遵守并受以下条款和条件的约束。如果您不同意这些条款，则不得使用所提供的服务。

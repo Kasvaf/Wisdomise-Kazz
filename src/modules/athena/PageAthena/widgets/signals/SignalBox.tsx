@@ -3,19 +3,17 @@ import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import type React from 'react';
 import PriceChange from 'shared/PriceChange';
-import { type ThinStrategy } from 'api';
-import { type LastPosition } from 'api/types/signalResponse';
+import { type PairSignalerItem } from 'api';
 import { useSignals } from './components/SignalsProvider';
 import { ReactComponent as LockIcon } from './icons/lock.svg';
 
 interface Props {
-  strategy: ThinStrategy;
-  position: LastPosition;
+  position: PairSignalerItem;
 }
 
 export const SignalBox: React.FC<Props> = ({
-  strategy,
   position: {
+    strategy,
     pnl,
     entry_time,
     exit_time,

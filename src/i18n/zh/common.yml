@@ -27,6 +27,7 @@ market:
   long: 长的
   short: 短的
 network: 网络
+not-set: 没有设置
 nothing-to-show: 沒有顯示
 order-type:
   limit: 限制

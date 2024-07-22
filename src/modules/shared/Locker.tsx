@@ -4,17 +4,19 @@ import { type PropsWithChildren } from 'react';
 interface Props {
   overlay?: React.ReactNode;
   className?: string;
+  containerClassName?: string;
 }
 
 const Locker: React.FC<PropsWithChildren<Props>> = ({
   children,
   overlay,
   className,
+  containerClassName,
 }) => {
   if (!overlay) return <>{children}</>;
 
   return (
-    <div className="relative">
+    <div className={clsx('relative', containerClassName)}>
       <div className="relative overflow-hidden rounded-xl">{children}</div>
       <div
         className={clsx(

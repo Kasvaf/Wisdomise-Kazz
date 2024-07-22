@@ -36,9 +36,7 @@ const TabTrade: React.FC<{ type: 'WISDOMISE' | 'MINE' | 'ALL' }> = ({
       )}
 
       <div className="grid grid-cols-1 gap-6 mobile:justify-center lg:grid-cols-2 xl:grid-cols-4">
-        {activeFps?.map(fp => (
-          <ProductCard mine={type === 'MINE'} key={fp.key} fp={fp} />
-        ))}
+        {activeFps?.map(fp => <ProductCard key={fp.key} fp={fp} />)}
       </div>
 
       {type === 'MINE' && !activeFps?.length && (

@@ -62,7 +62,6 @@ const cutEndOfNumber = (decimalStr: string, length: number) => {
   return value.replaceAll(/0*$/g, '');
 };
 
-// TODO it should handle other numbers too!
 const minifyNumberRepeats = (numbStr: string) => {
   let zeroLength = 0;
   let output = '';

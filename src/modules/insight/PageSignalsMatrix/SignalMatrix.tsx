@@ -14,10 +14,7 @@ import RadarBrief from './RadarBrief';
 const SignalMatrix: React.FC = () => {
   const { t } = useTranslation('strategy');
   const { data: radar } = useCoinSignals();
-  const {
-    data: { last_positions: positions } = {},
-    isLoading: isLoadingSignals,
-  } = useSignalsQuery();
+  const { data: positions, isLoading: isLoadingSignals } = useSignalsQuery();
   const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
 
   const strategies = useMemo(

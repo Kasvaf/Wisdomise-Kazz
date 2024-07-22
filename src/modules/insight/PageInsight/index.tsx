@@ -11,6 +11,7 @@ import {
   MarketplaceIcon,
   SocialMatrixIcon,
   SocialsIcon,
+  MarketPulseIcon,
 } from './icons';
 
 const PageInsight = () => {
@@ -36,6 +37,15 @@ const PageInsight = () => {
           badge={<BetaVersion />}
         />
         <PageCard
+          to="/insight/market-pulse"
+          title={t('menu.market-pulse.title')}
+          description={t('menu.market-pulse.subtitle')}
+          icon={MarketPulseIcon}
+          onClick={trackClick('market_pulse_menu')}
+          badgeType="manual"
+          badge={<BetaVersion />}
+        />
+        <PageCard
           to="/insight/marketplace"
           title={t('menu.marketplace.title')}
           description={t('menu.marketplace.subtitle')}
@@ -43,13 +53,12 @@ const PageInsight = () => {
           onClick={trackClick('marketplace_menu')}
         />
         <PageCard
-          to="/insight/signals"
-          title={t('menu.signal-matrix.title')}
-          description={t('menu.signal-matrix.subtitle')}
-          icon={SocialMatrixIcon}
-          onClick={trackClick('signal_matrix_menu')}
-          videoId="12CWx7r2WY8"
-          badge={t('menu.signal-matrix.card-badge')}
+          to="/insight/athena"
+          title={t('menu.athena.title')}
+          description={t('menu.athena.subtitle')}
+          icon={AiIcon}
+          onClick={trackClick('crypto_chatbot_menu')}
+          badge={t('menu.athena.features')}
         />
         <PageCard
           to="/insight/coins"
@@ -59,12 +68,13 @@ const PageInsight = () => {
           onClick={trackClick('coin_list_menu')}
         />
         <PageCard
-          to="/insight/athena"
-          title={t('menu.athena.title')}
-          description={t('menu.athena.subtitle')}
-          icon={AiIcon}
-          onClick={trackClick('crypto_chatbot_menu')}
-          badge={t('menu.athena.features')}
+          to="/insight/signals"
+          title={t('menu.signal-matrix.title')}
+          description={t('menu.signal-matrix.subtitle')}
+          icon={SocialMatrixIcon}
+          onClick={trackClick('signal_matrix_menu')}
+          videoId="12CWx7r2WY8"
+          badge={t('menu.signal-matrix.card-badge')}
         />
       </div>
     </PageWrapper>

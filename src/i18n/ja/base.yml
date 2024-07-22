@@ -45,6 +45,9 @@ menu:
   coin-view:
     subtitle: すべての信号発信者から信号と位置履歴を取得
     title: コイン一覧
+  crypto-screener:
+    subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
+    title: 暗号スクリーナー
   dashboard: ダッシュボード
   financial-products:
     active-product: アクティブな商品
@@ -67,6 +70,9 @@ menu:
     mobile: 本人確認 (KYC)
     subtitle: 一部のサービスを利用する際にはKYCが必要です。
     title: 本人確認 (KYC)
+  market-pulse:
+    subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
+    title: マーケットパルス
   marketplace:
     subtitle: 利用規約の承諾
       [貴社/貴社名]（以下「プロバイダー」）が提供する取引戦略にアクセスし、これを使用することにより、お客様は以下の利用規約を遵守し、これに拘束されることに同意するものとします。これらの条件に同意しない場合は、提供されるサービスを利用しないでください。

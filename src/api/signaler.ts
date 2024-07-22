@@ -3,20 +3,17 @@ import axios from 'axios';
 import { useMemo } from 'react';
 import { useMainQuote } from './ias/investor-asset-structures';
 import { type MarketTypes } from './types/financialProduct';
-import {
-  type RawPosition,
-  type SignalsResponse,
-  type SuggestedAction,
-} from './types/signalResponse';
+import { type RawPosition, type SuggestedAction } from './types/signalResponse';
 import { type PairDataFull, type PairData } from './types/strategy';
+import { type ItemOwner } from './account';
+import { type SignalItem } from './builder';
 import normalizePair from './normalizePair';
-import { type CommunityProfile } from './account';
 
 export const useSignalerPairs = () =>
   useQuery<PairDataFull[]>(
     ['signaler-pairs'],
     async () => {
-      const { data } = await axios.get<PairDataFull[]>('strategy/pairs');
+      const { data } = await axios.get<PairDataFull[]>('catalog/pairs');
       return data;
     },
     {
@@ -83,7 +80,7 @@ export const useSignalerPairDetails = (name: string) =>
   useQuery<PairDetails>(
     ['signaler-pairs', name],
     async () => {
-      const { data } = await axios.get<PairDetails>('strategy/pairs/' + name);
+      const { data } = await axios.get<PairDetails>('catalog/pairs/' + name);
       return data;
     },
     {
@@ -102,12 +99,17 @@ export interface PairSignalerItem extends RawPosition {
   take_profit?: number | null;
   suggested_action: SuggestedAction;
   leverage: number;
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+  };
 }
 
 export interface ThinStrategy {
   key: string;
   name: string;
   profile?: Profile;
+  owner?: ItemOwner;
 }
 
 interface Profile {
@@ -134,7 +136,7 @@ export const usePairSignalers = (base?: string, quote?: string) => {
     async () => {
       if (!base || !quote) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&last=True`,
+        `catalog/positions?pair_base=${base}&pair_quote=${quote}&last=True`,
       );
       return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
     },
@@ -154,7 +156,7 @@ export const useStrategyPositions = (
     async () => {
       if (!(key && base && quote)) return [];
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
+        `catalog/positions?pair_base=${base}&pair_quote=${quote}&strategy_key=${key}`,
       );
       return data;
     },
@@ -182,7 +184,7 @@ export const useBestPerformingQuery = ({
       const startDate = new Date(endDate);
       startDate.setDate(startDate.getDate() - days);
       const { data } = await axios.get<PairSignalerItem[]>(
-        `strategy/positions?order_by=-pnl&start=${startDate.toISOString()}&end=${endDate.toISOString()}&limit=${limit}`,
+        `catalog/positions?order_by=-pnl&start=${startDate.toISOString()}&end=${endDate.toISOString()}&limit=${limit}`,
       );
       return data;
     },
@@ -208,7 +210,7 @@ export const useStrategiesList = () => {
   return useQuery<StrategyItem[]>(
     ['signaler-strategies'],
     async () => {
-      const { data } = await axios.get<StrategyItem[]>('strategy/strategies');
+      const { data } = await axios.get<StrategyItem[]>('catalog/strategies');
       return data
         .map(s => ({
           ...s,
@@ -224,10 +226,10 @@ export const useStrategiesList = () => {
 
 export const useSignalsQuery = () =>
   useQuery(['signals'], async () => {
-    const { data } = await axios.get<SignalsResponse>(
-      'strategy/last-positions',
+    const { data } = await axios.get<PairSignalerItem[]>(
+      'catalog/positions?thin=True&last=True',
     );
-    return data;
+    return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
   });
 
 export type StrategiesPerformanceBulkResolution = 'MONTH3' | 'MONTH' | 'WEEK';
@@ -235,10 +237,8 @@ export type StrategiesPerformanceBulkResolution = 'MONTH3' | 'MONTH' | 'WEEK';
 interface StrategyPerformanceBulkBase {
   name: string;
   strategy_key: string;
-  owner: {
-    key: string;
-    cprofile: CommunityProfile;
-  };
+  owner: ItemOwner;
+  profile?: Profile;
 }
 
 interface StrategyPerformanceBulkInfo {
@@ -274,17 +274,14 @@ export const useStrategiesPerformanceBulk = <G extends boolean>(filters: {
   userId?: string;
 }) =>
   useQuery(
-    [
-      'strategies/performance_bulk',
-      `strategies/performance_bulk?${JSON.stringify(filters)}`,
-    ],
+    ['performance_bulk', JSON.stringify(filters)],
     async () => {
       const { data } = await axios.get<
         G extends true
           ? StrategyPerformanceBulkGrouped[]
           : StrategyPerformanceBulkUngrouped[]
       >(
-        `factory/strategies/performance_bulk?resolution=${filters.resolution}${
+        `catalog/strategies/performance_bulk?resolution=${filters.resolution}${
           filters.groupByStrategy ? '&group_by_strategy=true' : ''
         }${filters.userId ? `&user_id=${filters.userId}` : ''}`,
       );

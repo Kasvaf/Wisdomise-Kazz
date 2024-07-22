@@ -76,7 +76,7 @@ const useProfileLinks = (): Array<{
   ];
 };
 
-export const ProfileLinks: FC<{
+const ProfileLinks: FC<{
   className?: string;
   profile?: CommunityProfile;
 }> = ({ className, profile }) => {
@@ -122,3 +122,5 @@ export const ProfileLinks: FC<{
     </div>
   );
 };
+
+export default ProfileLinks;
