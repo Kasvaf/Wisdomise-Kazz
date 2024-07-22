@@ -25,9 +25,9 @@ const useToggleNotification = ({
   const signal = useMemo(
     () =>
       signals.data?.results.find(
-        x => x.pair_name === pairName && x.strategy_name === strategy.name,
+        x => x.pair_name === pairName && x.strategy_key === strategy.key,
       ),
-    [pairName, strategy.name, signals.data?.results],
+    [signals.data?.results, pairName, strategy.key],
   );
   const isSelected = !!signal;
 

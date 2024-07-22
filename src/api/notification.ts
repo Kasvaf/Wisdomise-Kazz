@@ -5,7 +5,7 @@ import { type PageResponse } from './types/page';
 
 interface UserSignal {
   key: string;
-  strategy_name: string;
+  strategy_key: string;
   pair_name: string;
 }
 
