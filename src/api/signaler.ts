@@ -274,17 +274,14 @@ export const useStrategiesPerformanceBulk = <G extends boolean>(filters: {
   userId?: string;
 }) =>
   useQuery(
-    [
-      'strategies/performance_bulk',
-      `strategies/performance_bulk?${JSON.stringify(filters)}`,
-    ],
+    ['performance_bulk', JSON.stringify(filters)],
     async () => {
       const { data } = await axios.get<
         G extends true
           ? StrategyPerformanceBulkGrouped[]
           : StrategyPerformanceBulkUngrouped[]
       >(
-        `factory/strategies/performance_bulk?resolution=${filters.resolution}${
+        `catalog/strategies/performance_bulk?resolution=${filters.resolution}${
           filters.groupByStrategy ? '&group_by_strategy=true' : ''
         }${filters.userId ? `&user_id=${filters.userId}` : ''}`,
       );
