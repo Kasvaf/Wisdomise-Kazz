@@ -25,7 +25,7 @@ export const useUserSignalQuery = () =>
 
 export const useCreateSignalMutation = () => {
   const client = useQueryClient();
-  return async (body: { strategy_name: string; pair_name: string }) => {
+  return async (body: { strategy_key: string; pair_name: string }) => {
     const { data } = await axios.post<UserSignal>(
       `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/user-signals`,
       body,

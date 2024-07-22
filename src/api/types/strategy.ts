@@ -1,4 +1,5 @@
 export interface BareStrategyInfo {
+  key: string;
   name: string;
   profile?:
     | {

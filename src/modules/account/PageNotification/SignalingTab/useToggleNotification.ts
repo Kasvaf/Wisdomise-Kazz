@@ -15,7 +15,7 @@ const useToggleNotification = ({
   ensureConnected,
 }: {
   pairName: string;
-  strategy: { name: string; profile?: { title: string } };
+  strategy: { key: string; name: string; profile?: { title: string } };
   ensureConnected: () => Promise<boolean>;
 }) => {
   const { t } = useTranslation('notifications');
@@ -49,7 +49,7 @@ const useToggleNotification = ({
       } else {
         await create({
           pair_name: pairName,
-          strategy_name: strategy.name,
+          strategy_key: strategy.key,
         });
         void analytics.track('add_signal_for_strategy', {
           strategy: strategy.name,
