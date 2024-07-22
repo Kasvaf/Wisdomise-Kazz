@@ -9,7 +9,6 @@ actions:
   'no': 'No'
   ok: Ok
   remove: Remove
-  reset: reset
   save: Save
   'yes': 'Yes'
 aum: AUM
