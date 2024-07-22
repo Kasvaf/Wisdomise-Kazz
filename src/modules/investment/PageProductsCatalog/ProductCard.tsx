@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { bxRightArrowAlt, bxsCog } from 'boxicons-quasar';
 import { type FinancialProduct } from 'api/types/financialProduct';
@@ -19,6 +19,10 @@ const ProductCard: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
     fp?.config.market_type || fp?.market_names?.[0]
   )?.toUpperCase();
 
+  const { pathname } = useLocation();
+  const userPageLink = `/users/${fp.owner.key}`;
+  const isUserPage = pathname === userPageLink;
+
   return (
     <div
       className={clsx(
@@ -27,8 +31,11 @@ const ProductCard: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
       )}
     >
       <NavLink
-        to={`/users/${fp.owner.key}`}
-        className="group flex h-12 items-center justify-center gap-1 bg-black/10 py-3 hover:bg-black/40 hover:text-white"
+        to={userPageLink}
+        className={clsx(
+          'group flex h-12 items-center justify-center gap-1 bg-black/10 py-3',
+          !isUserPage && 'hover:bg-black/40 hover:text-white',
+        )}
       >
         <ProfilePhoto
           className="size-6 shrink-0 rounded-full"
@@ -38,11 +45,13 @@ const ProductCard: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
         <span className="ml-1 text-xs">
           {fp.owner?.cprofile.nickname || truncateUserId(fp.owner.key)}
         </span>
-        <Icon
-          className="transition-all group-hover:ml-1"
-          name={bxRightArrowAlt}
-          size={16}
-        />
+        {!isUserPage && (
+          <Icon
+            className="transition-all group-hover:ml-1"
+            name={bxRightArrowAlt}
+            size={16}
+          />
+        )}
       </NavLink>
 
       <Link
