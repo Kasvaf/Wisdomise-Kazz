@@ -176,7 +176,7 @@ const Button: React.FC<Props> = ({
     return (
       <LinkOrButton
         className={clsx(
-          'rounded-xl bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% text-sm font-medium leading-none text-white',
+          'rounded-xl bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% text-sm font-medium leading-none text-white hover:saturate-150',
           disabled &&
             'cursor-not-allowed !border-[#11C37E99]/40 !bg-neutral-700 bg-none text-white/30',
           loading && 'cursor-wait text-white/50',
@@ -197,7 +197,7 @@ const Button: React.FC<Props> = ({
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] !text-white hover:saturate-200',
+          'rounded-xl bg-[linear-gradient(235deg,#615298_13.43%,#42427B_77.09%)] !text-white hover:saturate-150',
           disabled && 'cursor-not-allowed text-white/10',
           loading && 'cursor-wait text-white/50',
           sizeClass,

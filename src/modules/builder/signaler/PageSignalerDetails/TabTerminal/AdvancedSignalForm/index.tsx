@@ -77,7 +77,11 @@ const AdvancedSignalForm: React.FC<Props> = ({
 
       {isUpdate ? (
         <>
-          <Button onClick={updateHandler} loading={isSubmitting}>
+          <Button
+            variant="primary-purple"
+            onClick={updateHandler}
+            loading={isSubmitting}
+          >
             {t('signal-form.btn-update')}
           </Button>
           <Button
@@ -89,7 +93,11 @@ const AdvancedSignalForm: React.FC<Props> = ({
           </Button>
         </>
       ) : (
-        <Button onClick={fireHandler} loading={isSubmitting}>
+        <Button
+          variant="primary-purple"
+          onClick={fireHandler}
+          loading={isSubmitting}
+        >
           {t('signal-form.btn-fire-signal')}
         </Button>
       )}
