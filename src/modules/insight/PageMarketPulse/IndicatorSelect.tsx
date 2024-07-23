@@ -38,7 +38,6 @@ export const IndicatorSelect: FC<{
             disabled: true,
           },
         ]}
-        buttonClassName="h-10 text-base px-6 !rounded-full disabled:!text-white/50"
         value={value}
         onChange={onChange}
       />

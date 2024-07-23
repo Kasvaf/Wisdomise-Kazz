@@ -1,4 +1,3 @@
-title: Social Radar
 available-exchanges:
   title: Available Exchanges
   table:
@@ -13,34 +12,36 @@ coin-info:
   price: Price
   volume_24h: Volume 24h
 hot-coins:
-  title: Hot Coins
-  description: Community-Sourced Market Insights, Not Wisdomise Recommendations
-  24-chg: 24H Chg
   side-suggest: Side Suggestion
-  signals: Signals
+hot-coins-section:
+  title: Hot Coins
+  filters:
+    24h: 24h
+    30d: 30D
+    7d: 7D
+    all-coins: All Coins
+    gainers: Gainers
+    losers: Losers
+    search: Search Coin...
+  table:
+    name: Name
+    24h-voume: 24h Vol
+    actions: Actions
+    call-time: Call Time
+    chg-24: Chg(24h)
+    insights: Insights
+    market-cap: Market Cap
+    negative: Negative
+    positive: Positive
+    rank: '# Rank'
+    realtime-price: Realtime Price
+    sentiment: Sentiment
+    tvl: TVL
 market-info:
-  title: Community-Sourced Market Insights
-  description: Real-Time AI-Driven Insights from Socials
-  community-activity:
-    title: Community Activity
-    description: Number of Posts Analyzed
-  side:
-    title: Market Side
-    description: Past 24H, Community Data Insights
+  description: Real-Time AI-Driven Insights from Socials and Markets
   social-channel-count: >-
     <0>Wisdomise Social Radar Scanned <2>{{channelsCount}}</2> Social Accounts
     in the Past 24 Hours.</0>
-  title-badge: Realtime Market Data
-more-social-signal:
-  title: More Socials Scan Discoveries 24H
-  table:
-    coin: Discovered Coin
-    market-cap: Market Cap
-    mentions: Mentions
-    price: Realtime Price
-    price-change: 24H Price Change
-    rank: 'Rank #'
-    side: Community Sentiment Suggestion
 onboarding:
   sec-1:
     title: Discover What’s Trending with Social Scanner
@@ -127,3 +128,6 @@ socials:
   twitter:
     title: X, Twitter
     subtitle: Analyze signals for {{symbol}} in Twitter, X community
+tops-section:
+  gainers: Top Gainers
+  losers: Top Losers

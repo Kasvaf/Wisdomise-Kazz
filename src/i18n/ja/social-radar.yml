@@ -13,6 +13,30 @@ coin-info:
   volume_24h: 24時間あたりのボリューム
 detail-page:
   subtitle: 信号を分析する {{symbol}} テレグラムチャンネルで
+hot-coins-section:
+  filters:
+    24h: 24時間
+    30d: 30D
+    7d: 7D
+    all-coins: すべてのコイン
+    gainers: 利益獲得者
+    losers: 敗者
+    search: コインを検索...
+  table:
+    24h-voume: 24時間ボリューム
+    actions: 行動
+    call-time: 呼び出し時間
+    chg-24: 変化(24時間)
+    insights: 洞察
+    market-cap: 時価総額
+    name: 名前
+    negative: ネガティブ
+    positive: ポジティブ
+    rank: "# ランク"
+    realtime-price: リアルタイム価格
+    sentiment: 感情
+    tvl: TVL
+  title: ホットコイン
 hot-coins:
   24-chg: 24時間変更
   description: 知恵による推奨事項ではなく、コミュニティから得た市場洞察
@@ -132,3 +156,6 @@ socials:
     subtitle: 信号を分析する {{symbol}} Twitter、Xコミュニティ
     title: X、ツイッター
 title: ソーシャルレーダー
+tops-section:
+  gainers: 上位の上昇銘柄
+  losers: トップ敗者

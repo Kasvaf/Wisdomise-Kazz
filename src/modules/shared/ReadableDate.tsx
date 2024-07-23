@@ -59,7 +59,7 @@ export const ReadableDate: FC<{
           className,
         )}
       >
-        {content?.label ?? emptyText ?? t('not-set')}
+        {content?.label ?? emptyText ?? t('not-available')}
       </time>
     </Tooltip>
   );

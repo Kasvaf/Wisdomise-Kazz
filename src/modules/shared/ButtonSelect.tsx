@@ -1,16 +1,13 @@
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
-import Button from './Button';
 
 export function ButtonSelect<T>({
   className,
-  buttonClassName,
   options,
   value,
   onChange,
 }: {
   className?: string;
-  buttonClassName?: string;
   options: Array<{
     value: T;
     label: ReactNode;
@@ -22,24 +19,28 @@ export function ButtonSelect<T>({
   return (
     <div
       className={clsx(
-        'inline-flex items-center justify-start gap-2 overflow-auto',
+        'inline-flex items-center justify-start gap-1 overflow-auto',
+        'h-12 whitespace-nowrap rounded-xl bg-black/40 p-1 text-white',
         className,
       )}
     >
       {options.map((option, index) => (
-        <Button
+        <button
           onClick={() => onChange?.(option.value)}
           key={`${option.value?.toString() || ''}-${index}`}
-          size="manual"
-          variant="alternative"
+          role="radio"
+          aria-checked={value === option.value}
           disabled={option.disabled}
           className={clsx(
-            buttonClassName || 'h-6 px-3 text-xs mobile:px-2 mobile:text-xxs',
-            value === option.value ? '!bg-white !text-black' : '',
+            'h-full rounded-lg px-3 text-sm text-white/60',
+            'transition-colors duration-150',
+            'enabled:hover:bg-white/5',
+            'aria-checked:text-white enabled:aria-checked:bg-white/10',
+            'disabled:opacity-40',
           )}
         >
           {option.label}
-        </Button>
+        </button>
       ))}
     </div>
   );

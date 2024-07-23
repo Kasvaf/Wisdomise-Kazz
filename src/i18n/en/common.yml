@@ -27,7 +27,7 @@ market:
   long: Long
   short: Short
 network: Network
-not-set: Not Set
+not-available: N/A
 nothing-to-show: Nothing to show
 order-type:
   limit: Limit

@@ -31,14 +31,14 @@ import {
   TelegramIcon,
 } from './assets';
 
-export default function SetNotification() {
+export default function SetNotification({ className }: { className?: string }) {
   const { t } = useTranslation('social-radar');
   const { data: isSubscribed, isLoading } =
     useIsSubscribedToSocialRadarNotification();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div>
+    <>
       <Button
         onClick={() => {
           track('Click On', {
@@ -48,9 +48,10 @@ export default function SetNotification() {
         }}
         variant="primary"
         className={clsx(
-          'h-10 w-48 !py-1 mobile:w-full',
+          'h-10 w-auto !py-1 mobile:w-full',
           isSubscribed || isLoading ? '!bg-white/10' : '!bg-white',
           isLoading && 'animate-pulse',
+          className,
         )}
         contentClassName={clsx(
           'flex gap-1',
@@ -74,7 +75,7 @@ export default function SetNotification() {
       >
         <SetNotificationModalContent onDone={() => setIsModalOpen(false)} />
       </DrawerModal>
-    </div>
+    </>
   );
 }
 

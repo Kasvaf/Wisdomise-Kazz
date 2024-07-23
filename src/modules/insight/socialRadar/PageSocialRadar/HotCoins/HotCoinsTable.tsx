@@ -1,0 +1,137 @@
+import { type FC, useMemo } from 'react';
+import { type ColumnType } from 'antd/es/table';
+import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { bxRightArrowAlt } from 'boxicons-quasar';
+import { useHasFlag, type CoinSignal } from 'api';
+import Table from 'modules/shared/Table';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { ReadableDate } from 'shared/ReadableDate';
+import PriceChange from 'shared/PriceChange';
+import { track } from 'config/segment';
+import Icon from 'shared/Icon';
+import { SignalSentiment } from './SignalSentiment';
+
+export const HotCoinsTable: FC<{
+  loading?: boolean;
+  dataSource?: CoinSignal[];
+}> = ({ loading, dataSource }) => {
+  const { t } = useTranslation('social-radar');
+  const hasFlag = useHasFlag();
+
+  const columns = useMemo<Array<ColumnType<CoinSignal>>>(
+    () => [
+      {
+        className: 'w-14',
+        title: t('hot-coins-section.table.rank'),
+        sorter: (a, b) => a.rank - b.rank,
+        render: row => row.rank,
+      },
+      {
+        className: 'w-36',
+        title: t('hot-coins-section.table.name'),
+        render: (row: CoinSignal) => (
+          <div className="flex items-center gap-2">
+            {row.image ? (
+              <img src={row.image} className="size-6 rounded-full" />
+            ) : (
+              <div className="size-6 rounded-full bg-white/5" />
+            )}
+            <p>{row.symbol_name}</p>
+          </div>
+        ),
+      },
+      {
+        className: 'w-36',
+        title: t('hot-coins-section.table.realtime-price'),
+        sorter: (a, b) => (a.current_price ?? 0) - (b.current_price ?? 0),
+        render: (row: CoinSignal) => (
+          <ReadableNumber value={row.current_price} label="usdt" />
+        ),
+      },
+      {
+        title: t('hot-coins-section.table.call-time'),
+        sorter: (a, b) =>
+          new Date(a.first_signal_related_at ?? Date.now()).getTime() -
+          new Date(b.first_signal_related_at ?? Date.now()).getTime(),
+        render: (row: CoinSignal) => (
+          <ReadableDate value={row.first_signal_related_at} />
+        ),
+      },
+      {
+        className: 'w-32',
+        title: t('hot-coins-section.table.chg-24'),
+        sorter: (a, b) =>
+          (a.price_change_percentage ?? 0) - (b.price_change_percentage ?? 0),
+        render: (row: CoinSignal) => (
+          <PriceChange
+            value={row.price_change_percentage ?? 0}
+            className="inline-flex"
+          />
+        ),
+      },
+      {
+        title: t('hot-coins-section.table.24h-voume'),
+        sorter: (a, b) => (a.total_volume ?? 0) - (b.total_volume ?? 0),
+        render: (row: CoinSignal) => (
+          <ReadableNumber value={row.total_volume} label="$" />
+        ),
+      },
+      {
+        title: t('hot-coins-section.table.market-cap'),
+        sorter: (a, b) => (a.market_cap ?? 0) - (b.market_cap ?? 0),
+        render: (row: CoinSignal) => (
+          <ReadableNumber value={row.market_cap} label="$" />
+        ),
+      },
+      {
+        title: t('hot-coins-section.table.tvl'),
+        sorter: (a, b) =>
+          (a.circulating_supply ?? 0) - (b.circulating_supply ?? 0),
+        render: (row: CoinSignal) => (
+          <ReadableNumber value={row.circulating_supply} />
+        ),
+      },
+      ...(hasFlag('/insight/social-radar?side-suggestion')
+        ? [
+            {
+              title: t('hot-coins-section.table.sentiment'),
+              render: (row: CoinSignal) => <SignalSentiment signal={row} />,
+            },
+          ]
+        : []),
+      {
+        className: 'w-32',
+        title: t('hot-coins-section.table.actions'),
+        render: (row: CoinSignal) => (
+          <NavLink
+            to={'/insight/social-radar/' + row.symbol_name}
+            className="mx-auto inline-flex items-center justify-end text-sm text-white/60 hover:text-white hover:opacity-100"
+            onClick={() =>
+              track('Click On', {
+                place: 'social_radar_explore',
+                coin: row.symbol_name,
+              })
+            }
+          >
+            <p className="leading-none">
+              {t('hot-coins-section.table.insights')}
+            </p>
+            <Icon name={bxRightArrowAlt} />
+          </NavLink>
+        ),
+      },
+    ],
+    [t, hasFlag],
+  );
+
+  return (
+    <Table
+      className="whitespace-nowrap mobile:min-w-max"
+      columns={columns}
+      dataSource={dataSource}
+      rowKey={row => row.symbol_name}
+      loading={loading}
+    />
+  );
+};

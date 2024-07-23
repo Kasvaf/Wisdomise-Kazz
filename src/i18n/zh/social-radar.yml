@@ -13,6 +13,30 @@ coin-info:
   volume_24h: 24小时交易量
 detail-page:
   subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
+hot-coins-section:
+  filters:
+    24h: 24 小时
+    30d: 30D
+    7d: 7D
+    all-coins: 所有硬币
+    gainers: 赢家
+    losers: 失败者
+    search: 搜索硬币...
+  table:
+    24h-voume: 24小时交易量
+    actions: 行动
+    call-time: 通话时间
+    chg-24: 变化(24小时)
+    insights: 洞察
+    market-cap: 市值
+    name: 姓名
+    negative: 消极的
+    positive: 积极的
+    rank: "# 排名"
+    realtime-price: 实时价格
+    sentiment: 情绪
+    tvl: TVL
+  title: 热门硬币
 hot-coins:
   24-chg: 24小时更改
   description: 来自社区的市场洞察，而不是智慧建议
@@ -126,3 +150,6 @@ socials:
     subtitle: 分析信号 {{symbol}} 在 Twitter、X 社区
     title: X、推特
 title: 社会雷达
+tops-section:
+  gainers: 涨幅最大的股票
+  losers: 最大输家

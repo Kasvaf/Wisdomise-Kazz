@@ -52,4 +52,13 @@
   "i18n-ally.editor.preferEditor": true,
   "i18n-ally.extract.keygenStyle": "kebab-case",
   "i18n-ally.includeSubfolders": false,
+  "search.exclude": {
+    ".huskey/**": true,
+    "**/*.lock": true,
+    "**/charting_library/**": true,
+    "**/i18n/ja/**": true,
+    "**/i18n/zh/**": true,
+    "dist/**": true,
+    "patches/**": true
+  },
 }

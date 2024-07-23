@@ -1,4 +1,8 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery,
+  type UseQueryOptions,
+} from '@tanstack/react-query';
 import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import queryClient from 'config/reactQuery';
@@ -56,6 +60,8 @@ export interface CoinSignal {
   market_cap?: number;
   total_volume?: number;
   circulating_supply?: number;
+  last_signal_related_at?: string;
+  first_signal_related_at?: string;
   image?: string;
   telegram?: {
     long_count: number;
@@ -73,12 +79,20 @@ export interface CoinSignal {
   };
 }
 
-export const useCoinSignals = () =>
+export const useCoinSignals = (
+  options?: Partial<UseQueryOptions<CoinSignal[]>> & {
+    meta?: {
+      windowHours: number;
+    };
+  },
+) =>
   useQuery({
-    queryKey: ['coins-social-signal'],
+    queryKey: ['coins-social-signal', options?.meta],
     queryFn: async () => {
       const { data } = await axios.get<CoinSignal[]>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/?window_hours=24`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/?window_hours=${
+          options?.meta?.windowHours ?? 24
+        }`,
       );
       return data;
     },

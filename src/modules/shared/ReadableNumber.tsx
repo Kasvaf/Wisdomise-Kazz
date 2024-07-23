@@ -42,9 +42,9 @@ function NumberWithLabel({
       }}
     >
       <span>
-        {typeof value === 'string' ? value : emptyText ?? t('not-set')}
+        {typeof value === 'string' ? value : emptyText ?? t('not-available')}
       </span>
-      {labelObject?.text && (
+      {labelObject?.text && typeof value === 'string' && (
         <span
           className={clsx(
             'opacity-70',
