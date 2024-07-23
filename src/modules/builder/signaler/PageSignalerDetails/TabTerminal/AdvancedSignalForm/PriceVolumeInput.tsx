@@ -1,6 +1,8 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { useMainQuote } from 'api';
+import { roundSensible } from 'utils/numbers';
 import { toAmount } from 'shared/AmountInputBox';
 
 const InternalInput: React.FC<{
@@ -63,6 +65,10 @@ const PriceVolumeInput: React.FC<{
   disabledVolume,
   className,
 }) => {
+  const mainQuote = useMainQuote();
+  const disVol = !!appliedAt || disabledVolume;
+  const disPrc = !!appliedAt || disabledPrice;
+
   return (
     <div
       className={clsx(
@@ -71,19 +77,19 @@ const PriceVolumeInput: React.FC<{
       )}
     >
       <InternalInput
-        value={volume}
+        value={disVol ? roundSensible(volume) : volume}
         onChange={onVolumeChange}
         onBlur={() => {
           onVolumeChange?.(+volume < 0 ? '0' : +volume > 100 ? '100' : volume);
           onVolumeBlur?.();
         }}
-        readonly={!!appliedAt || disabledVolume}
+        readonly={disVol}
         className="pl-2"
       />
       <span
         className={clsx(
           'pointer-events-none ml-[2px] select-none',
-          (!!appliedAt || disabledPrice) && 'text-white/50',
+          disPrc && 'text-white/50',
         )}
       >
         %
@@ -92,19 +98,19 @@ const PriceVolumeInput: React.FC<{
         at
       </span>
       <InternalInput
-        value={price}
+        value={disPrc ? roundSensible(price) : price}
         onChange={onPriceChange}
         onBlur={onPriceBlur}
-        readonly={!!appliedAt || disabledPrice}
+        readonly={disPrc}
         className="pl-2"
       />
       <span className="pointer-events-none ml-1 select-none text-xs text-white/50">
-        USDT
+        {mainQuote}
       </span>
 
       <div className="grow" />
-      {appliedAt && (
-        <span className="select-none text-white/50">
+      {(appliedAt || 1) && (
+        <span className="ml-1 min-w-20 select-none text-white/50">
           {dayjs(appliedAt).format('D MMM HH:mm')}
         </span>
       )}

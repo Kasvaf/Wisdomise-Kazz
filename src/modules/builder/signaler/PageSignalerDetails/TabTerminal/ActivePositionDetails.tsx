@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { type PropsWithChildren } from 'react';
+import { roundSensible } from 'utils/numbers';
 import { type SignalItem, type FullPosition } from 'api/builder';
 import usePositionStatusMap from 'modules/insight/signaler/usePositionStatusMap';
-import Badge from 'shared/Badge';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
-import { roundSensible } from 'utils/numbers';
+import Badge from 'shared/Badge';
 
 const DetailInfo: React.FC<PropsWithChildren<{ label: string }>> = ({
   label,
@@ -35,7 +36,9 @@ const ActivePositionDetails: React.FC<{
       .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100;
 
   const avg = (items: SignalItem[]) =>
-    items.reduce((a, b) => a + (b.price_exact ?? 0), 0) / items.length;
+    items.length > 0
+      ? items.reduce((a, b) => a + (b.price_exact ?? 0), 0) / items.length
+      : undefined;
 
   return (
     <div
@@ -63,15 +66,27 @@ const ActivePositionDetails: React.FC<{
         <DetailInfo label="Size">{roundSensible(size) + '%'}</DetailInfo>
 
         <DetailInfo label="Avg Entry Points">
-          {activePosition.entry_price}
+          <ReadableNumber
+            value={activePosition.entry_price}
+            emptyText="N/A"
+            label="$"
+          />
         </DetailInfo>
 
         <DetailInfo label="Avg Liquidity Price">
-          {avg(activePosition.manager?.take_profit ?? [])}
+          <ReadableNumber
+            value={avg(activePosition.manager?.take_profit ?? [])}
+            emptyText="N/A"
+            label="$"
+          />
         </DetailInfo>
 
         <DetailInfo label="Avg Stop Losses">
-          {avg(activePosition.manager?.stop_loss ?? [])}
+          <ReadableNumber
+            value={avg(activePosition.manager?.stop_loss ?? [])}
+            emptyText="N/A"
+            label="$"
+          />
         </DetailInfo>
 
         <DetailInfo label={t('signal-form.position-side')}>
