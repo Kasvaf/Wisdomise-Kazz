@@ -121,7 +121,7 @@ const TabTerminal = () => {
             signaler={signaler}
             assetName={assetName}
             activePosition={activePosition}
-            className="basis-1/3"
+            className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
             formState={formState}
           />
         )}

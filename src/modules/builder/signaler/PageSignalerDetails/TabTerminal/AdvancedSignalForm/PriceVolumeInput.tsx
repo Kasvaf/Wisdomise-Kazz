@@ -27,7 +27,7 @@ const InternalInput: React.FC<{
       value={value}
       onChange={resize}
       className={clsx(
-        '-mr-32 bg-transparent pr-32 outline-none',
+        '-mr-32 max-w-[calc(40%+128px)] bg-transparent pr-32 outline-none',
         readonly && 'text-white/50',
         className,
       )}
@@ -72,7 +72,7 @@ const PriceVolumeInput: React.FC<{
   return (
     <div
       className={clsx(
-        'flex h-10 items-center rounded-lg bg-black/30 pr-2',
+        'flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2',
         className,
       )}
     >
@@ -109,7 +109,7 @@ const PriceVolumeInput: React.FC<{
       </span>
 
       <div className="grow" />
-      {(appliedAt || 1) && (
+      {appliedAt && (
         <span className="ml-1 min-w-20 select-none text-white/50">
           {dayjs(appliedAt).format('D MMM HH:mm')}
         </span>
