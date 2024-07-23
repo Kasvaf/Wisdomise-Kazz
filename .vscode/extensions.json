@@ -5,7 +5,8 @@
     "editorconfig.editorconfig",
     "wayou.vscode-todo-highlight",
     "styled-components.vscode-styled-components",
-    "lokalise.i18n-ally"
+    "lokalise.i18n-ally",
+    "bradlc.vscode-tailwindcss"
   ],
   "unwantedRecommendations": [
     "hookyqr.beautify",
