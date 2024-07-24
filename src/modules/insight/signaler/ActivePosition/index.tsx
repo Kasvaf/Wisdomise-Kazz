@@ -20,7 +20,7 @@ const Labeled: React.FC<
   return (
     <div
       className={clsx(
-        'flex h-full flex-col items-center justify-between mobile:items-start',
+        'desktop:h-full flex flex-col items-center justify-between mobile:items-start',
         className,
       )}
     >
