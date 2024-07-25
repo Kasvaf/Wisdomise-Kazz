@@ -81,6 +81,9 @@ menu:
   referral:
     title: Referral
     subtitle: Invite and earn rewards
+  whales:
+    title: Whale Analysis
+    subtitle: Explore top crypto whales, their trades, PNL, volume, and more
   signal-builder:
     title: My Signalers
     subtitle: Create Signals for Supported Cryptocurrencies

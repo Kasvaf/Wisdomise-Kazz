@@ -1,0 +1,7 @@
+sections:
+  top-whales:
+    title: Top Whales List
+    subtitle: Discover the wealthiest addresses (whales) across blockchains
+  top-coins:
+    title: Top Whale Coins
+    subtitle: See the most traded coins by whales, ranked by transaction volume and frequency.

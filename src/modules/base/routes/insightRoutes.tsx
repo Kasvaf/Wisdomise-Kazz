@@ -3,6 +3,7 @@ import * as React from 'react';
 import { type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageInsight from 'modules/insight/PageInsight';
+import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
 
 const PageSignalsMatrix = React.lazy(
@@ -32,6 +33,12 @@ const PageSocialRadarRedirect = React.lazy(
 
 const PageMarketPulse = React.lazy(
   () => import('modules/insight/PageMarketPulse'),
+);
+
+const PageWhales = React.lazy(() => import('modules/insight/whale/PageWhales'));
+
+const PageWhaleDetail = React.lazy(
+  () => import('modules/insight/whale/PageWhaleDetail'),
 );
 
 const useInsightRoutes = () => {
@@ -93,6 +100,20 @@ const useInsightRoutes = () => {
           path: 'market-pulse',
           element: <PageMarketPulse />,
           handle: { crumb: t('menu.market-pulse.title') },
+        },
+        {
+          path: 'whales',
+          handle: { crumb: t('menu.whales.title') },
+          children: [
+            { index: true, element: <PageWhales /> },
+            {
+              path: ':whale',
+              element: <PageWhaleDetail />,
+              handle: {
+                crumb: (p: Params<string>) => shortenAddress(p.whale || ''),
+              },
+            },
+          ],
         },
       ],
     },

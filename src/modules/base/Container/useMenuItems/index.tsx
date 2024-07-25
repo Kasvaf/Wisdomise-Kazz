@@ -66,6 +66,12 @@ const useMenuItems = () => {
           isBeta: true,
         },
         {
+          text: t('menu.whales.title'),
+          link: '/insight/whales',
+          onClick: trackClick('whales_menu'),
+          isBeta: true,
+        },
+        {
           text: t('menu.marketplace.title'),
           link: '/insight/marketplace',
           onClick: trackClick('marketplace_menu'),
