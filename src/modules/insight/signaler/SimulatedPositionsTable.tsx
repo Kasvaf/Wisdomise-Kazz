@@ -4,16 +4,13 @@ import { Table } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type TableProps, type ColumnType } from 'antd/es/table';
-import { bxRightArrowAlt } from 'boxicons-quasar';
 import { type ThinStrategy, useSignalerPairs } from 'api';
+import BtnMultiTpSl from 'modules/insight/usePositionDetailModal/BtnMultiTpSl';
 import PriceChange from 'shared/PriceChange';
 import FancyPrice from 'shared/FancyPrice';
 import PairInfo from 'shared/PairInfo';
 import Badge from 'shared/Badge';
-import Button from 'shared/Button';
-import Icon from 'shared/Icon';
 import { type FullPosition } from 'api/builder';
-import usePositionDetailModal from '../usePositionDetailModal';
 import usePositionStatusMap from './usePositionStatusMap';
 
 interface Position extends FullPosition {
@@ -40,14 +37,6 @@ const StatusInfo: React.FC<{
   position: Position;
 }> = ({ position: p }) => {
   const statusMap = usePositionStatusMap();
-
-  const { manager } = p || {};
-  const isMulti =
-    Number(manager?.take_profit?.length) > 1 ||
-    Number(manager?.stop_loss?.length) > 1;
-  const [PositionDetailModal, showPositionDetailModal] =
-    usePositionDetailModal(p);
-
   return (
     <div className="flex flex-col items-start gap-1">
       <div className="flex justify-start">
@@ -57,19 +46,7 @@ const StatusInfo: React.FC<{
         />
       </div>
 
-      {isMulti && (
-        <div className="col-span-2">
-          {PositionDetailModal}
-          <Button
-            variant="alternative"
-            className="mx-auto !px-2 !py-0 text-xxs"
-            onClick={showPositionDetailModal}
-          >
-            Multi TP/SL
-            <Icon name={bxRightArrowAlt} size={16} />
-          </Button>
-        </div>
-      )}
+      <BtnMultiTpSl className="col-span-2 mt-1" position={p} />
     </div>
   );
 };

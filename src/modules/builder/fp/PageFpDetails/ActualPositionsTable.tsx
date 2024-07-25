@@ -4,14 +4,11 @@ import { useMemo } from 'react';
 import * as numerable from 'numerable';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
-import { bxRightArrowAlt } from 'boxicons-quasar';
 import { useMainQuote } from 'api';
 import { type StrategyPosition } from 'api/builder';
-import usePositionDetailModal from 'modules/insight/usePositionDetailModal';
+import BtnMultiTpSl from 'modules/insight/usePositionDetailModal/BtnMultiTpSl';
 import PriceChange from 'shared/PriceChange';
 import PairInfo from 'shared/PairInfo';
-import Button from 'shared/Button';
-import Icon from 'shared/Icon';
 
 interface Props {
   positions: StrategyPosition[];
@@ -84,15 +81,6 @@ const PnlInfo: React.FC<{
   position: StrategyPosition;
 }> = ({ position: p }) => {
   const { t } = useTranslation('builder');
-  const { manager } = p.strategy_position || {};
-  const isMulti =
-    Number(manager?.take_profit?.length) > 1 ||
-    Number(manager?.stop_loss?.length) > 1;
-
-  const [PositionDetailModal, showPositionDetailModal] = usePositionDetailModal(
-    p.strategy_position,
-  );
-
   return (
     <div className="grid grid-cols-[max-content_1fr] gap-3">
       <div>{t('actual-pos-table.actual')}:</div>
@@ -113,19 +101,10 @@ const PnlInfo: React.FC<{
         </>
       )}
 
-      {isMulti && (
-        <div className="col-span-2 ml-2 mt-1">
-          {PositionDetailModal}
-          <Button
-            variant="alternative"
-            className="mx-auto !px-2 !py-0 text-xxs"
-            onClick={showPositionDetailModal}
-          >
-            Multi TP/SL
-            <Icon name={bxRightArrowAlt} size={16} />
-          </Button>
-        </div>
-      )}
+      <BtnMultiTpSl
+        className="col-span-2 ml-2 mt-1"
+        position={p.strategy_position}
+      />
     </div>
   );
 };
