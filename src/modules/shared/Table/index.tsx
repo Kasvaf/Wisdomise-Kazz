@@ -14,7 +14,7 @@ export default function Table<RecordType extends object>({
       pagination={{
         ...pagination,
         showSizeChanger: false,
-        showPrevNextJumpers: false,
+        showPrevNextJumpers: true,
         nextIcon: <img src={nextSrc} />,
         prevIcon: <img src={preSrc} />,
       }}

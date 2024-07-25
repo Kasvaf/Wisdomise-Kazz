@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { type PairData } from 'api/types/strategy';
 import normalizePair from 'api/normalizePair';
+import { type PairSignalerItem } from 'api/signaler';
 
 interface FpSubscriber {
   title: string;
@@ -28,16 +29,7 @@ export const useFpSubscribersQuery = ({ fpKey }: { fpKey?: string }) =>
 
 export interface StrategyPosition {
   actual_position: ActualPosition;
-  strategy_position?: TheoreticalPosition | null;
-}
-
-interface TheoreticalPosition {
-  position_side: 'LONG' | 'SHORT';
-  entry_time: string;
-  entry_price: number;
-  exit_time?: string;
-  exit_price?: number;
-  pnl: number;
+  strategy_position?: PairSignalerItem | null;
 }
 
 interface ActualPosition {

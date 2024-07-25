@@ -1,26 +1,23 @@
+/* eslint-disable import/max-dependencies */
 import dayjs from 'dayjs';
 import { Table } from 'antd';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type TableProps, type ColumnType } from 'antd/es/table';
+import { bxRightArrowAlt } from 'boxicons-quasar';
 import { type ThinStrategy, useSignalerPairs } from 'api';
 import PriceChange from 'shared/PriceChange';
 import FancyPrice from 'shared/FancyPrice';
 import PairInfo from 'shared/PairInfo';
 import Badge from 'shared/Badge';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
+import { type FullPosition } from 'api/builder';
+import usePositionDetailModal from '../usePositionDetailModal';
 import usePositionStatusMap from './usePositionStatusMap';
 
-interface Position {
-  pair_name: string;
+interface Position extends FullPosition {
   strategy?: ThinStrategy;
-
-  status: 'OPENING' | 'OPEN' | 'CLOSING' | 'CLOSED' | 'CANCELLED';
-  position_side: 'LONG' | 'SHORT';
-  entry_time?: string | null;
-  entry_price?: number | null;
-  exit_time?: string | null;
-  exit_price?: number | null;
-  pnl?: number | null;
 }
 
 const PriceTime: React.FC<{ price?: number | null; time?: string | null }> = ({
@@ -39,6 +36,44 @@ const PriceTime: React.FC<{ price?: number | null; time?: string | null }> = ({
   );
 };
 
+const StatusInfo: React.FC<{
+  position: Position;
+}> = ({ position: p }) => {
+  const statusMap = usePositionStatusMap();
+
+  const { manager } = p || {};
+  const isMulti =
+    Number(manager?.take_profit?.length) > 1 ||
+    Number(manager?.stop_loss?.length) > 1;
+  const [PositionDetailModal, showPositionDetailModal] =
+    usePositionDetailModal(p);
+
+  return (
+    <div className="flex flex-col items-start gap-1">
+      <div className="flex justify-start">
+        <Badge
+          color={statusMap[p.status].color}
+          label={statusMap[p.status].label}
+        />
+      </div>
+
+      {isMulti && (
+        <div className="col-span-2">
+          {PositionDetailModal}
+          <Button
+            variant="alternative"
+            className="mx-auto !px-2 !py-0 text-xxs"
+            onClick={showPositionDetailModal}
+          >
+            Multi TP/SL
+            <Icon name={bxRightArrowAlt} size={16} />
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const SimulatedPositionsTable: React.FC<{
   items: Position[];
   withCoins?: boolean;
@@ -48,7 +83,6 @@ const SimulatedPositionsTable: React.FC<{
 }> = ({ items, withCoins, withStrategy, withNumbering, pagination }) => {
   const { t } = useTranslation('strategy');
   const { data: pairs } = useSignalerPairs();
-  const statusMap = usePositionStatusMap();
   const hasStatus = items.length === 0 || !!items[0]?.status;
 
   const columns = useMemo<Array<ColumnType<Position>>>(
@@ -129,19 +163,12 @@ const SimulatedPositionsTable: React.FC<{
             {
               title: t('positions-history.status'),
               dataIndex: 'status',
-              render: (_, { status }) => (
-                <div className="flex justify-start">
-                  <Badge
-                    color={statusMap[status].color}
-                    label={statusMap[status].label}
-                  />
-                </div>
-              ),
+              render: (_, p) => <StatusInfo position={p} />,
             },
           ] satisfies Array<ColumnType<Position>>)
         : []),
     ],
-    [withNumbering, withCoins, t, withStrategy, hasStatus, pairs, statusMap],
+    [withNumbering, withCoins, t, withStrategy, hasStatus, pairs],
   );
 
   return (

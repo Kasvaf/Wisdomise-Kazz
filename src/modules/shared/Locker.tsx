@@ -20,7 +20,7 @@ const Locker: React.FC<PropsWithChildren<Props>> = ({
       <div className="relative overflow-hidden rounded-xl">{children}</div>
       <div
         className={clsx(
-          'absolute inset-0 z-[3]',
+          'absolute inset-0 z-[1]',
           'flex flex-col items-center overflow-hidden rounded-xl',
           'bg-page/60 backdrop-blur-[2px]',
           className,

@@ -13,3 +13,6 @@ export { ReactComponent as RecommendedIcon } from './recommend.svg';
 export { ReactComponent as SlackIcon } from './slack.svg';
 export { ReactComponent as SmsIcon } from './sms.svg';
 export { ReactComponent as TelegramIcon } from './telegram.svg';
+export { default as DekstopBanner } from './desktop-banner.png';
+// eslint-disable-next-line import/max-dependencies
+export { default as MobileBanner } from './mobile-banner.png'; // NAITODO

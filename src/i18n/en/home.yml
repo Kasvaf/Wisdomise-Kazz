@@ -47,7 +47,7 @@ insight:
     description: Get AI-Powered trading signals for leading cryptocurrencies
     tag: +100 Monthly Signals
   social-radar:
-    title: Social Radar
+    title: Coin Radar
     description: Real-time insights from Telegram channels
     info: >-
       AI-Powered social media scanner which scans various social medias to find

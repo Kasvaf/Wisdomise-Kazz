@@ -12,5 +12,5 @@ export interface RawPosition {
   entry_price?: number | null;
   exit_time?: string | null;
   exit_price?: number | null;
-  pnl: number | null;
+  pnl?: number | null;
 }

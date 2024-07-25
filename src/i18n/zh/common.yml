@@ -9,6 +9,7 @@ actions:
   no: 不
   ok: 好的
   remove: 消除
+  reset: 重置
   save: 节省
   yes: 是的
 aum: AUM
@@ -27,6 +28,7 @@ market:
   long: 长的
   short: 短的
 network: 网络
+not-available: 不适用
 not-set: 没有设置
 nothing-to-show: 沒有顯示
 order-type:

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { useHasFlag } from 'api';
 import { PageTitle } from 'shared/PageTitle';
 import { PageCard } from 'shared/PageCard';
 import { trackClick } from 'config/segment';
@@ -9,7 +8,6 @@ import { ReactComponent as SocialRadarIcon } from './icon/socialRadar.svg';
 import { ReactComponent as ChatBotIcon } from './icon/chatbot.svg';
 
 export default function InsightSection() {
-  const hasFlag = useHasFlag();
   const { t } = useTranslation('home');
 
   return (
@@ -30,16 +28,14 @@ export default function InsightSection() {
           onClick={trackClick('onboarding_signal_matrix')}
           description={t('insight.signal-matrix.description')}
         />
-        {hasFlag('/insight/social-radar') && (
-          <PageCard
-            title={t('insight.social-radar.title')}
-            icon={SocialRadarIcon}
-            to="/insight/social-radar"
-            onClick={trackClick('onboarding_social_radar')}
-            info={t('insight.social-radar.info')}
-            description={t('insight.social-radar.description')}
-          />
-        )}
+        <PageCard
+          title={t('insight.social-radar.title')}
+          icon={SocialRadarIcon}
+          to="/insight/social-radar"
+          onClick={trackClick('onboarding_social_radar')}
+          info={t('insight.social-radar.info')}
+          description={t('insight.social-radar.description')}
+        />
 
         <PageCard
           icon={ChatBotIcon}
