@@ -41,6 +41,9 @@ menu:
   builder:
     title: Builder
     subtitle: Manage your account settings and preferences
+  coin-radar:
+    title: Coin Radar
+    subtitle: Uncover Market Trends with AI-Powered Insights
   coin-view:
     title: Coin List
     subtitle: Get signals and position histories from all signalers
@@ -87,9 +90,6 @@ menu:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
     card-badge: +100 Monthly Signals
-  social-radar:
-    title: Coin Radar
-    subtitle: Uncover Market Trends with AI-Powered Insights
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access

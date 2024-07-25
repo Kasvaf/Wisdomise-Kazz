@@ -5,7 +5,7 @@ import { type ColumnType } from 'antd/es/table';
 import {
   useCoinSignals,
   useCoinAvailableExchanges,
-  type SocialRadarExchange,
+  type CoinExchange,
   useHasFlag,
 } from 'api';
 import CoinsIcons from 'shared/CoinsIcons';
@@ -14,14 +14,14 @@ import useIsMobile from 'utils/useIsMobile';
 import useModal from 'shared/useModal';
 import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import SideSuggestGauge from '../PageSocialRadar/SideSuggestGauge';
+import SideSuggestGauge from '../PageCoinRadar/SideSuggestGauge';
 import { ReactComponent as ArrowRight } from './images/arrow-right.svg';
 
 export const ExchangesModal: FC<{
-  exchanges: SocialRadarExchange[];
+  exchanges: CoinExchange[];
 }> = ({ exchanges }) => {
-  const { t } = useTranslation('social-radar');
-  const columns = useMemo<Array<ColumnType<SocialRadarExchange>>>(
+  const { t } = useTranslation('coin-radar');
+  const columns = useMemo<Array<ColumnType<CoinExchange>>>(
     () => [
       {
         title: t('available-exchanges.table.rank'),
@@ -30,7 +30,7 @@ export const ExchangesModal: FC<{
       },
       {
         title: t('available-exchanges.table.exchange'),
-        render: (row: SocialRadarExchange) => (
+        render: (row: CoinExchange) => (
           <div className="flex items-center gap-2 whitespace-nowrap">
             <img
               src={row.exchange.icon_url}
@@ -87,7 +87,7 @@ export default function CoinInfo({
   className?: string;
   symbol: string;
 }) {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
   const signals = useCoinSignals();
   const exchanges = useCoinAvailableExchanges(symbol);
@@ -123,7 +123,7 @@ export default function CoinInfo({
           }
         />
 
-        {hasFlag('/insight/social-radar?side-suggestion') && (
+        {hasFlag('/insight/coin-radar?side-suggestion') && (
           <>
             <InfoSection
               value={

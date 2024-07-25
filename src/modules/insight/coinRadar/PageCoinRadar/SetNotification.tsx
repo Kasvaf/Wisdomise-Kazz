@@ -12,8 +12,8 @@ import { Controller, useForm } from 'react-hook-form';
 import Button from 'shared/Button';
 import {
   useAccountQuery,
-  useIsSubscribedToSocialRadarNotification,
-  useToggleSubscribeToSocialRadarNotification,
+  useIsSubscribedToCoinNotification,
+  useToggleSubscribeToCoinNotification,
 } from 'api';
 import { track } from 'config/segment';
 import { DrawerModal } from 'shared/DrawerModal';
@@ -32,9 +32,8 @@ import {
 } from './assets';
 
 export default function SetNotification({ className }: { className?: string }) {
-  const { t } = useTranslation('social-radar');
-  const { data: isSubscribed, isLoading } =
-    useIsSubscribedToSocialRadarNotification();
+  const { t } = useTranslation('coin-radar');
+  const { data: isSubscribed, isLoading } = useIsSubscribedToCoinNotification();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -88,7 +87,7 @@ const AlertChannelRow: FC<
     lockIcon?: boolean;
   }>
 > = ({ className, icon: Icon, label, subtitle, children, lockIcon }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   return (
     <div className={clsx('flex items-center justify-between p-4', className)}>
       <div>
@@ -123,9 +122,9 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
   onDone,
 }) => {
   const account = useAccountQuery();
-  const { t } = useTranslation('social-radar');
-  const isSubscribedQuery = useIsSubscribedToSocialRadarNotification();
-  const toggleSubscription = useToggleSubscribeToSocialRadarNotification();
+  const { t } = useTranslation('coin-radar');
+  const isSubscribedQuery = useIsSubscribedToCoinNotification();
+  const toggleSubscription = useToggleSubscribeToCoinNotification();
 
   const alertForm = useForm<{
     isSubscribed: boolean;

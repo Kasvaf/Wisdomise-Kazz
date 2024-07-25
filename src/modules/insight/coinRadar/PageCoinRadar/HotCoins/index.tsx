@@ -12,7 +12,7 @@ import {
 import { HotCoinsTable } from './HotCoinsTable';
 
 export const HotCoins: FC<{ className?: string }> = ({ className }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   const [windowHours, setWindowHours] = useState(24);
   const [priceChangeType, setPriceChangeType] =
     useState<PriceChangeType>('all');

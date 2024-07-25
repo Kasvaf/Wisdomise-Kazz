@@ -70,7 +70,7 @@ export const RsiDivergenceTable: FC<{
       //   title: t('indicator_list.rsi.table.action'),
       //   render: (_, row) => (
       //     <Link
-      //       to={`/insight/social-radar/${row.candle_base_abbreviation}`}
+      //       to={`/insight/coin-radar/${row.candle_base_abbreviation}`}
       //       className="inline-flex items-center gap-1 whitespace-nowrap text-white/60 hover:!text-white"
       //     >
       //       {t('indicator_list.rsi.table.coin_detail')}

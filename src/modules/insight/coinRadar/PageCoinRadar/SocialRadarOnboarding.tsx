@@ -5,15 +5,15 @@ import { Trans, useTranslation } from 'react-i18next';
 import { track } from 'config/segment';
 import { Onboarding } from 'shared/Onboarding';
 
-export function SocialRadarOnboarding() {
-  const { t } = useTranslation('social-radar');
+export function CoinRadarOnboarding() {
+  const { t } = useTranslation('coin-radar');
 
   const sections = useMemo(
     () => [
       {
         title: t('onboarding.sec-1.title'),
         content: (
-          <Trans i18nKey="onboarding.sec-1.content" ns="social-radar">
+          <Trans i18nKey="onboarding.sec-1.content" ns="coin-radar">
             Embark on a social exploration with our AI-driven Social Scanner.
             Our introductory video will guide you through the buzzing world of
             social media trends and sentiments toward the hottest coins. Stay
@@ -25,7 +25,7 @@ export function SocialRadarOnboarding() {
       {
         title: t('onboarding.sec-2.title'),
         content: (
-          <Trans i18nKey="onboarding.sec-2.content" ns="social-radar">
+          <Trans i18nKey="onboarding.sec-2.content" ns="coin-radar">
             <ol>
               <li>
                 <h1>Heat Map of Trends:</h1> Spot the hottest and most discussed
@@ -43,7 +43,7 @@ export function SocialRadarOnboarding() {
       {
         title: t('onboarding.sec-3.title'),
         content: (
-          <Trans i18nKey="onboarding.sec-3.content" ns="social-radar">
+          <Trans i18nKey="onboarding.sec-3.content" ns="coin-radar">
             <ol>
               <li>
                 <h1>Focused Exploration:</h1> Delve into specific conversations
@@ -70,7 +70,7 @@ export function SocialRadarOnboarding() {
       onIntract={segmentKey =>
         track('Click On', {
           place: 'wizard',
-          where: 'social_radar',
+          where: 'coin_radar',
           step: segmentKey,
         })
       }

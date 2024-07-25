@@ -54,9 +54,9 @@ const useMenuItems = () => {
       onClick: trackClick('insight_menu'),
       children: [
         {
-          text: t('menu.social-radar.title'),
-          link: '/insight/social-radar',
-          onClick: trackClick('social_radar_menu'),
+          text: t('menu.coin-radar.title'),
+          link: '/insight/coin-radar',
+          onClick: trackClick('coin_radar_menu'),
           isBeta: true,
         },
         {

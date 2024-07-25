@@ -11,30 +11,30 @@ import {
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import {
-  useCoinMessages,
+  useSocialMessages,
   useHasFlag,
-  type SocialRadarMessage as SocialRadarMessageType,
+  type SocialMessage as SocialMessageType,
 } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import CoinInfo from './CoinInfo';
-import { SocialRadarMessage } from './SocialRadarMessage';
+import { SocialMessage } from './SocialMessage';
 import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as TradingViewIcon } from './images/trading_view.svg';
 import { ReactComponent as RedditIcon } from './images/reddit.svg';
 import { ReactComponent as TwitterIcon } from './images/twitter.svg';
 
-export default function PageSocialRadarDetail() {
+export default function PageCoinRadarDetail() {
   const { symbol } = useParams<{ symbol: string }>();
   const hasFlag = useHasFlag();
   const [activeTab, setActiveTab] = useSearchParamAsState<
-    SocialRadarMessageType['social_type'] | 'all'
+    SocialMessageType['social_type'] | 'all'
   >('tab', 'all');
-  const messages = useCoinMessages(symbol || '');
+  const messages = useSocialMessages(symbol || '');
   const activeTabMessages = messages.data?.filter(
     message =>
       (activeTab === 'all' || message.social_type === activeTab) &&
-      hasFlag(`/insight/social-radar/[symbol]?tab=${message.social_type}`),
+      hasFlag(`/insight/coin-radar/[symbol]?tab=${message.social_type}`),
   );
   const { t } = useTranslation();
 
@@ -47,19 +47,19 @@ export default function PageSocialRadarDetail() {
       {
         label: (
           <TabTitle isActive={activeTab === 'all'}>
-            {t('social-radar:socials.all.title')}
+            {t('coin-radar:socials.all.title')}
           </TabTitle>
         ),
         key: 'all',
         children: (
           <TabSubTitle>
-            {t('social-radar:socials.all.subtitle', {
+            {t('coin-radar:socials.all.subtitle', {
               symbol,
             })}
           </TabSubTitle>
         ),
       },
-      ...(hasFlag('/insight/social-radar/[symbol]?tab=telegram')
+      ...(hasFlag('/insight/coin-radar/[symbol]?tab=telegram')
         ? [
             {
               label: (
@@ -67,13 +67,13 @@ export default function PageSocialRadarDetail() {
                   isActive={activeTab === 'telegram'}
                   icon={TelegramIcon}
                 >
-                  {t('social-radar:socials.telegram.title')}
+                  {t('coin-radar:socials.telegram.title')}
                 </TabTitle>
               ),
               key: 'telegram',
               children: (
                 <TabSubTitle>
-                  {t('social-radar:socials.telegram.subtitle', {
+                  {t('coin-radar:socials.telegram.subtitle', {
                     symbol,
                   })}
                 </TabSubTitle>
@@ -81,18 +81,18 @@ export default function PageSocialRadarDetail() {
             },
           ]
         : []),
-      ...(hasFlag('/insight/social-radar/[symbol]?tab=reddit')
+      ...(hasFlag('/insight/coin-radar/[symbol]?tab=reddit')
         ? [
             {
               label: (
                 <TabTitle isActive={activeTab === 'reddit'} icon={RedditIcon}>
-                  {t('social-radar:socials.reddit.title')}
+                  {t('coin-radar:socials.reddit.title')}
                 </TabTitle>
               ),
               key: 'reddit',
               children: (
                 <TabSubTitle>
-                  {t('social-radar:socials.reddit.subtitle', {
+                  {t('coin-radar:socials.reddit.subtitle', {
                     symbol,
                   })}
                 </TabSubTitle>
@@ -100,18 +100,18 @@ export default function PageSocialRadarDetail() {
             },
           ]
         : []),
-      ...(hasFlag('/insight/social-radar/[symbol]?tab=twitter')
+      ...(hasFlag('/insight/coin-radar/[symbol]?tab=twitter')
         ? [
             {
               label: (
                 <TabTitle isActive={activeTab === 'twitter'} icon={TwitterIcon}>
-                  {t('social-radar:socials.twitter.title')}
+                  {t('coin-radar:socials.twitter.title')}
                 </TabTitle>
               ),
               key: 'twitter',
               children: (
                 <TabSubTitle>
-                  {t('social-radar:socials.twitter.subtitle', {
+                  {t('coin-radar:socials.twitter.subtitle', {
                     symbol,
                   })}
                 </TabSubTitle>
@@ -119,7 +119,7 @@ export default function PageSocialRadarDetail() {
             },
           ]
         : []),
-      ...(hasFlag('/insight/social-radar/[symbol]?tab=trading_view')
+      ...(hasFlag('/insight/coin-radar/[symbol]?tab=trading_view')
         ? [
             {
               label: (
@@ -127,13 +127,13 @@ export default function PageSocialRadarDetail() {
                   isActive={activeTab === 'trading_view'}
                   icon={TradingViewIcon}
                 >
-                  {t('social-radar:socials.trading-view.title')}
+                  {t('coin-radar:socials.trading-view.title')}
                 </TabTitle>
               ),
               key: 'trading_view',
               children: (
                 <TabSubTitle>
-                  {t('social-radar:socials.trading-view.subtitle', {
+                  {t('coin-radar:socials.trading-view.subtitle', {
                     symbol,
                   })}
                 </TabSubTitle>
@@ -157,11 +157,7 @@ export default function PageSocialRadarDetail() {
 
       <section className="mt-6 columns-2 gap-6 mobile:columns-1">
         {activeTabMessages?.map(message => (
-          <SocialRadarMessage
-            key={message.id}
-            message={message}
-            className="mb-6"
-          />
+          <SocialMessage key={message.id} message={message} className="mb-6" />
         ))}
       </section>
     </PageWrapper>

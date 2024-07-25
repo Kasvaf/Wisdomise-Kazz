@@ -41,6 +41,9 @@ menu:
     market-predication: 市场预测
     passive-income: 被动收入
     strategy-builder: 策略生成器
+  coin-radar:
+    subtitle: 通过人工智能驱动的洞察力揭示市场趋势
+    title: 社会雷达
   coin-view:
     subtitle: 获取所有信号员的信号和位置历史记录
     title: 币种列表

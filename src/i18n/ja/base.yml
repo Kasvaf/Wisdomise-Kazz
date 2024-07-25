@@ -42,6 +42,9 @@ menu:
     market-predication: 市場予測
     passive-income: AI資産運用ツール
     strategy-builder: 戦略ビルダー
+  coin-radar:
+    subtitle: AI を活用した洞察で市場トレンドを明らかにする
+    title: ソーシャルレーダー
   coin-view:
     subtitle: すべての信号発信者から信号と位置履歴を取得
     title: コイン一覧

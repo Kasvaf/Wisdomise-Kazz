@@ -8,7 +8,7 @@ import { useRecommendChannelMutation } from 'api';
 import { RecommendedIcon } from './assets';
 
 export default function RecommendAccount() {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   const [modal, open] = useModal(RecommendAccountModal, {
     centered: false,
     destroyOnClose: true,
@@ -33,7 +33,7 @@ export default function RecommendAccount() {
 }
 
 const RecommendAccountModal = ({ onResolve }: { onResolve: () => void }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   const recommendChannel = useRecommendChannelMutation();
   const { control, handleSubmit, formState } = useForm({
     mode: 'onChange',
@@ -109,7 +109,7 @@ const RecommendAccountModal = ({ onResolve }: { onResolve: () => void }) => {
             className="mt-6"
             label={
               <Trans
-                ns="social-radar"
+                ns="coin-radar"
                 i18nKey="recommend-account.modal.description.label"
               >
                 Description{' '}

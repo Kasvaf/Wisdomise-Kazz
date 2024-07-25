@@ -40,8 +40,8 @@ hot-coins-section:
 market-info:
   description: Real-Time AI-Driven Insights from Socials and Markets
   social-channel-count: >-
-    <0>Wisdomise Social Radar Scanned <2>{{channelsCount}}</2> Social Accounts
-    in the Past 24 Hours.</0>
+    <0>Wisdomise Coin Radar Scanned <2>{{channelsCount}}</2> Social Accounts in
+    the Past 24 Hours.</0>
 onboarding:
   sec-1:
     title: Discover What’s Trending with Social Scanner
@@ -86,7 +86,7 @@ recommend-account:
     recommend: Recommend
     sub-title: >-
       Share a Telegram channel ID, Subreddit or Account and details to enhance
-      Social Radar with valuable market insights. Your suggestions will be
+      Coin Radar with valuable market insights. Your suggestions will be
       reviewed by our AI system for inclusion based on signal value.
 set-notification:
   modal:

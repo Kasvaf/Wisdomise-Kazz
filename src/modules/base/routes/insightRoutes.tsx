@@ -19,11 +19,15 @@ const PageSignaler = React.lazy(
 );
 
 const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
-const PageSocialRadar = React.lazy(
-  () => import('modules/insight/socialRadar/PageSocialRadar'),
+const PageCoinRadar = React.lazy(
+  () => import('modules/insight/coinRadar/PageCoinRadar'),
 );
-const PageSocialRadarDetail = React.lazy(
-  () => import('modules/insight/socialRadar/PageSocialRadarDetail'),
+const PageCoinRadarDetail = React.lazy(
+  () => import('modules/insight/coinRadar/PageCoinRadarDetail'),
+);
+
+const PageSocialRadarRedirect = React.lazy(
+  () => import('modules/insight/coinRadar/PageSocialRadarRedirect'),
 );
 
 const PageMarketPulse = React.lazy(
@@ -70,16 +74,20 @@ const useInsightRoutes = () => {
           handle: { crumb: t('menu.athena.title') },
         },
         {
-          path: 'social-radar',
-          handle: { crumb: t('menu.social-radar.title') },
+          path: 'coin-radar',
+          handle: { crumb: t('menu.coin-radar.title') },
           children: [
-            { index: true, element: <PageSocialRadar /> },
+            { index: true, element: <PageCoinRadar /> },
             {
               path: ':symbol',
-              element: <PageSocialRadarDetail />,
+              element: <PageCoinRadarDetail />,
               handle: { crumb: (p: Params<string>) => p.symbol },
             },
           ],
+        },
+        {
+          path: 'social-radar/*',
+          element: <PageSocialRadarRedirect />,
         },
         {
           path: 'market-pulse',

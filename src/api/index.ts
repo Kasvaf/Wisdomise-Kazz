@@ -11,4 +11,4 @@ export * from './billings';
 export * from './athena';
 export * from './candles';
 export * from './signaler';
-export * from './socialRadar';
+export * from './coinRadar';

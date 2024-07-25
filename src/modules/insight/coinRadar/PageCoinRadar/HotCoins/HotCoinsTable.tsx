@@ -16,7 +16,7 @@ export const HotCoinsTable: FC<{
   loading?: boolean;
   dataSource?: CoinSignal[];
 }> = ({ loading, dataSource }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
 
   const columns = useMemo<Array<ColumnType<CoinSignal>>>(
@@ -92,7 +92,7 @@ export const HotCoinsTable: FC<{
           <ReadableNumber value={row.circulating_supply} />
         ),
       },
-      ...(hasFlag('/insight/social-radar?side-suggestion')
+      ...(hasFlag('/insight/coin-radar?side-suggestion')
         ? [
             {
               title: t('hot-coins-section.table.sentiment'),
@@ -105,11 +105,11 @@ export const HotCoinsTable: FC<{
         title: t('hot-coins-section.table.actions'),
         render: (row: CoinSignal) => (
           <NavLink
-            to={'/insight/social-radar/' + row.symbol_name}
+            to={'/insight/coin-radar/' + row.symbol_name}
             className="mx-auto inline-flex items-center justify-end text-sm text-white/60 hover:text-white hover:opacity-100"
             onClick={() =>
               track('Click On', {
-                place: 'social_radar_explore',
+                place: 'coin_radar_explore',
                 coin: row.symbol_name,
               })
             }

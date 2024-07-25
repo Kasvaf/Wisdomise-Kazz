@@ -55,7 +55,7 @@ All flags and Available ones for normal-user:
   [*] /insight/signals
   [*] /insight/coins
   [*] /insight/athena
-  [ ] /insight/social-radar
+  [ ] /insight/coin-radar
   [ ] /builder
   [ ] /builder/signalers
   [ ] /builder/signalers/[id]?tab=config

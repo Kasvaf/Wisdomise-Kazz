@@ -13,7 +13,7 @@ import { ReactComponent as LikesIcon } from '../images/likes.svg';
 import { ReactComponent as RetweetIcon } from '../images/retweet.svg';
 import { formatCount, formatDate } from './utils';
 
-export const SocialRadarMessageHeader: FC<{
+export const SocialMessageHeader: FC<{
   className?: string;
   title: string;
   followers?: number;
@@ -45,7 +45,7 @@ const CountItem: FC<{
   </span>
 );
 
-export const SocialRadarMessageFooter: FC<{
+export const SocialMessageFooter: FC<{
   className?: string;
   commentCount?: number;
   boostCount?: number;
@@ -84,7 +84,7 @@ export const SocialRadarMessageFooter: FC<{
   </div>
 );
 
-export const SocialRadarMessageBody: FC<{
+export const SocialMessageBody: FC<{
   className?: string;
   title?: string;
   content?: string;
@@ -131,7 +131,7 @@ export const SocialRadarMessageBody: FC<{
   );
 };
 
-export const SocialRadarMessageContainer: FC<
+export const SocialMessageContainer: FC<
   PropsWithChildren<{
     className?: string;
   }>

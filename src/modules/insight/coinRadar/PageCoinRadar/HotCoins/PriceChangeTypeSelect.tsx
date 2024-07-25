@@ -8,7 +8,7 @@ export const PriceChangeTypeSelect: FC<{
   value: PriceChangeType;
   onChange: (newValue: PriceChangeType) => void;
 }> = ({ value, onChange }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
 
   return (
     <ButtonSelect

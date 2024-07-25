@@ -6,7 +6,7 @@ export const WindowHoursSelect: FC<{
   value: number;
   onChange: (newValue: number) => void;
 }> = ({ value, onChange }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
 
   return (
     <ButtonSelect

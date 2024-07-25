@@ -28,11 +28,11 @@ const PageInsight = () => {
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
         <PageCard
-          to="/insight/social-radar"
-          title={t('menu.social-radar.title')}
-          description={t('menu.social-radar.subtitle')}
+          to="/insight/coin-radar"
+          title={t('menu.coin-radar.title')}
+          description={t('menu.coin-radar.subtitle')}
           icon={SocialsIcon}
-          onClick={trackClick('social_radar_menu')}
+          onClick={trackClick('coin_radar_menu')}
           badgeType="manual"
           badge={<BetaVersion />}
         />

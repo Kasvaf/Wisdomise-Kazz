@@ -7,18 +7,19 @@ import SetNotification from './SetNotification';
 import { HotCoins } from './HotCoins';
 import { HotCoinsBanner } from './HotCoinsBanner';
 import { TopSignals } from './TopSignals';
+import { CoinRadarOnboarding } from './SocialRadarOnboarding';
 
-export default function PageSocialRadar() {
+export default function PageCoinRadar() {
   const signals = useCoinSignals({
     meta: {
       windowHours: 24,
     },
   });
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   const marketInfo = useMarketInfoFromSignals();
 
   useEffectOnce(() => {
-    track('Feedback Social Radar');
+    track('Feedback Coin Radar');
   });
 
   return (
@@ -40,6 +41,7 @@ export default function PageSocialRadar() {
         <TopSignals signalType="gainer" />
         <TopSignals signalType="loser" />
       </div>
+      <CoinRadarOnboarding />
     </PageWrapper>
   );
 }

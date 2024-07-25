@@ -1,0 +1,114 @@
+available-exchanges:
+  table:
+    exchange: 交换
+    price: 价格
+    rank: "#"
+    volume_24h: 24小时交易量
+    volume_percentage: 体积 ％
+  title: 可用交易所
+coin-info:
+  24h_chg: 24小时变化
+  market_cap: 市值
+  price: 价格
+  volume_24h: 24小时交易量
+hot-coins-section:
+  filters:
+    24h: 24 小时
+    30d: 30D
+    7d: 7D
+    all-coins: 所有硬币
+    gainers: 赢家
+    losers: 失败者
+    search: 搜索硬币...
+  table:
+    24h-voume: 24小时交易量
+    actions: 行动
+    call-time: 通话时间
+    chg-24: 变化(24小时)
+    insights: 洞察
+    market-cap: 市值
+    name: 姓名
+    negative: 消极的
+    positive: 积极的
+    rank: "# 排名"
+    realtime-price: 实时价格
+    sentiment: 情绪
+    tvl: TVL
+  title: 热门硬币
+hot-coins:
+  side-suggest: 侧面建议
+market-info:
+  description: 来自社交媒体的实时人工智能驱动洞察
+  social-channel-count: <0>Wisdomise Coin 雷达扫描 <2>{{channelsCount}}</2> 过去 24 小时内的社交账户。</0>
+onboarding:
+  sec-1:
+    content: 使用我们的人工智能驱动的社交扫描仪开始社交探索。我们的介绍视频将引导您了解社交媒体趋势和对最热门货币的看法。通过顶级交易员和加密货币社区的见解领先一步。
+    title: 使用社交扫描仪发现流行趋势
+  sec-2:
+    content: <0><0><0>趋势热图：</0> 发现过去 24 小时内最热门、讨论最多的硬币。</0><1><0>情绪分析：</0>
+      利用我们的人工智能对每种流行货币的情绪分析来衡量情绪。利用永不停歇的数据深入了解加密货币的社会潮流。</1></0>
+    title: 加密货币世界的当前氛围
+  sec-3:
+    content: <0><0><0>重点探索：</0> 深入研究特定的对话，看看人们对你感兴趣的硬币有何评价。</0><1><0>社区驱动的数据：</0>
+      建议我们扫描新的 Telegram 频道或 X/Reddit
+      句柄。通过使用您首选的来源塑造社交扫描仪，帮助我们为您提供帮助。</1></0><1></1>利用加密社区的集体智慧来指导您的交易策略。
+    title: 您的定制社交见解
+recommend-account:
+  button: 推荐账户
+  modal:
+    cancel: 取消
+    channel-address:
+      label: Telegram 频道 ID、子版块或账户
+      placeholder: "@ID 或可分享链接"
+      rules:
+        minLength: 必须大于3个字符
+        required: 频道地址为必填项
+    description:
+      label: 描述 <2>（选修的）</2>
+      placeholder: 有关频道的其他详细信息
+      rules:
+        minLength: 必须大于3个字符
+    recommend: 推荐
+    sub-title: 分享 Telegram 频道 ID、Subreddit 或帐户和详细信息，以通过有价值的市场洞察增强 Coin Radar。我们的 AI
+      系统将根据信号值审核您的建议并将其纳入。
+    title: 推荐一个帐户
+set-notification:
+  modal:
+    alert-channel-section: 报警通道
+    browser-alert-input: 浏览器通知
+    daily: 日常的
+    description: 不要错过加密货币世界的下一个重大机遇。我们的通知系统让您第一时间了解热门货币和新发现。
+    discord-alert-input: Discord 消息
+    email-alert-input: 电子邮件
+    interval-section: 间隔
+    push-alert-input: 推送通知
+    save-button: 保存警报设置
+    slack-alert-input: Slack 消息
+    sms-alert-input: 短信
+    soon: 很快...
+    telegram-alert-input: 电报消息
+    title: 社交雷达通知
+  open-modal-btn:
+    not-set: 设置通知
+    set: 已设置通知
+socials:
+  all:
+    subtitle: 分析信号 {{symbol}} 在所有社交动态中
+    title: 所有社交动态
+  reddit:
+    followers: 成员
+    subtitle: 分析信号 {{symbol}} 在 Reddit 社区
+    title: Reddit
+  telegram:
+    followers: 订阅者
+    subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
+    title: Telegram
+  trading-view:
+    subtitle: 分析信号 {{symbol}} 在技术分析思路中
+    title: 技术分析思路
+  twitter:
+    subtitle: 分析信号 {{symbol}} 在 Twitter、X 社区
+    title: X、推特
+tops-section:
+  gainers: 涨幅最大的股票
+  losers: 最大输家

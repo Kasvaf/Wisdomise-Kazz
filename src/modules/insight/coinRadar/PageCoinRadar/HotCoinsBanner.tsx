@@ -6,7 +6,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { DekstopBanner, MobileBanner } from './assets';
 
 export const HotCoinsBanner: FC<{ className?: string }> = ({ className }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
   const marketInfo = useMarketInfoFromSignals();
   return (
     <div className={clsx('relative overflow-hidden rounded-xl', className)}>
@@ -22,9 +22,9 @@ export const HotCoinsBanner: FC<{ className?: string }> = ({ className }) => {
         <p className="max-w-xs text-lg font-medium">
           {t('market-info.description')}
         </p>
-        <Trans ns="social-radar" i18nKey="market-info.social-channel-count">
+        <Trans ns="coin-radar" i18nKey="market-info.social-channel-count">
           <p className="max-w-md text-sm text-white/60">
-            Wisdomise Social Radar Scanned{' '}
+            Wisdomise Coin Radar Scanned{' '}
             <ReadableNumber
               className="font-semibold text-white"
               value={marketInfo.data?.total_channels || 0}

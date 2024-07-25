@@ -1,0 +1,118 @@
+available-exchanges:
+  table:
+    exchange: 取引所
+    price: 価格
+    rank: "#"
+    volume_24h: 24時間あたりのボリューム
+    volume_percentage: 音量 ％
+  title: 利用可能な取引所
+coin-info:
+  24h_chg: 24時間変更
+  market_cap: 時価総額
+  price: 価格
+  volume_24h: 24時間あたりのボリューム
+hot-coins-section:
+  filters:
+    24h: 24時間
+    30d: 30D
+    7d: 7D
+    all-coins: すべてのコイン
+    gainers: 利益獲得者
+    losers: 敗者
+    search: コインを検索...
+  table:
+    24h-voume: 24時間ボリューム
+    actions: 行動
+    call-time: 呼び出し時間
+    chg-24: 変化(24時間)
+    insights: 洞察
+    market-cap: 時価総額
+    name: 名前
+    negative: ネガティブ
+    positive: ポジティブ
+    rank: "# ランク"
+    realtime-price: リアルタイム価格
+    sentiment: 感情
+    tvl: TVL
+  title: ホットコイン
+hot-coins:
+  side-suggest: サイドの提案
+market-info:
+  description: 電報チャネルからのリアルタイムの洞察
+  social-channel-count: <0>Wisdomise コインレーダースキャン <2>{{channelsCount}}</2> 過去 24 時間のソーシャル アカウント。</0>
+onboarding:
+  sec-1:
+    content: AI 駆動型ソーシャル スキャナーでソーシャル探索に乗り出しましょう。紹介ビデオでは、ソーシャル
+      メディアのトレンドや、最もホットなコインに対する感情など、活気に満ちた世界をご案内します。トップ
+      トレーダーや暗号通貨コミュニティからの洞察で、常に一歩先を進みましょう。
+    title: ソーシャルスキャナーでトレンドを発見
+  sec-2:
+    content: <0><0><0>トレンドのヒートマップ:</0> 過去 24
+      時間で最も人気があり、最も話題になったコインを見つけます。</0><1><0>感情分析：</0> トレンドの各コインに対する当社の AI
+      による感情分析で、ムードを測ります。眠らないデータで暗号通貨の社会的潮流に飛び込んでみましょう。</1></0>
+    title: 暗号通貨界の現在の雰囲気
+  sec-3:
+    content: <0><0><0>集中的な探索:</0>
+      特定の会話を詳しく調べて、興味のあるコインについて人々が何を言っているかを確認します。</0><1><0>コミュニティ主導のデータ:</0>
+      スキャンする新しい Telegram チャンネルまたは X/Reddit ハンドルを提案してください。お好みのソースでソーシャル
+      スキャナーを構成することで、私たちがあなたを助けるのを手伝ってください。</1></0><1></1>暗号通貨コミュニティの集合知を活用して、取引戦略を策定します。
+    title: あなたに合わせたソーシャルインサイト
+recommend-account:
+  button: アカウントを推奨
+  modal:
+    cancel: キャンセル
+    channel-address:
+      label: Telegram チャンネル ID、サブレディット、またはアカウント
+      placeholder: "@IDまたは共有可能なリンク"
+      rules:
+        minLength: 3文字以上である必要があります
+        required: チャンネルアドレスは必須です
+    description:
+      label: 説明 <2>（オプション）</2>
+      placeholder: チャンネルに関する追加情報
+      rules:
+        minLength: 3文字以上である必要があります
+    recommend: 推薦する
+    sub-title: Telegram チャンネル ID、Subreddit、またはアカウントと詳細を共有して、Coin Radar
+      を貴重な市場洞察で強化してください。あなたの提案は、シグナル値に基づいて AI システムによってレビューされ、採用されます。
+    title: アカウントを推薦する
+set-notification:
+  modal:
+    alert-channel-section: アラートチャンネル
+    browser-alert-input: ブラウザ通知
+    daily: 毎日
+    description: 暗号通貨の世界で次に起こる大きなチャンスを逃さないでください。当社の通知システムにより、注目のコインや新たな発見について誰よりも早く知ることができます。
+    discord-alert-input: 不和メッセージ
+    email-alert-input: Eメール
+    interval-section: 間隔
+    push-alert-input: プッシュ通知
+    save-button: アラート設定を保存
+    slack-alert-input: Slackメッセージ
+    sms-alert-input: SMS
+    soon: すぐ...
+    telegram-alert-input: テレグラムメッセージ
+    title: ソーシャルレーダー通知
+  open-modal-btn:
+    not-set: 通知を設定する
+    set: 通知が設定されました
+socials:
+  all:
+    subtitle: 信号を分析する {{symbol}} すべてのソーシャルフィード
+    title: すべてのソーシャルフィード
+  reddit:
+    followers: メンバー
+    subtitle: 信号を分析する {{symbol}} Redditコミュニティ
+    title: Reddit
+  telegram:
+    followers: 購読者
+    subtitle: 信号を分析する {{symbol}} テレグラムチャンネルで
+    title: Telegram
+  trading-view:
+    subtitle: 信号を分析する {{symbol}} テクニカル分析のアイデア
+    title: テクニカル分析のアイデア
+  twitter:
+    subtitle: 信号を分析する {{symbol}} Twitter、Xコミュニティ
+    title: X、ツイッター
+tops-section:
+  gainers: 上位の上昇銘柄
+  losers: トップ敗者

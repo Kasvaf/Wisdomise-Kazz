@@ -4,7 +4,7 @@ import { PageCard } from 'shared/PageCard';
 import { trackClick } from 'config/segment';
 import { ReactComponent as InsightIcon } from './icon/insight.svg';
 import { ReactComponent as SignalMatrixIcon } from './icon/signalMatrix.svg';
-import { ReactComponent as SocialRadarIcon } from './icon/socialRadar.svg';
+import { ReactComponent as CoinRadarIcon } from './icon/coinRadar.svg';
 import { ReactComponent as ChatBotIcon } from './icon/chatbot.svg';
 
 export default function InsightSection() {
@@ -29,12 +29,12 @@ export default function InsightSection() {
           description={t('insight.signal-matrix.description')}
         />
         <PageCard
-          title={t('insight.social-radar.title')}
-          icon={SocialRadarIcon}
-          to="/insight/social-radar"
-          onClick={trackClick('onboarding_social_radar')}
-          info={t('insight.social-radar.info')}
-          description={t('insight.social-radar.description')}
+          title={t('insight.coin-radar.title')}
+          icon={CoinRadarIcon}
+          to="/insight/coin-radar"
+          onClick={trackClick('onboarding_coin_radar')}
+          info={t('insight.coin-radar.info')}
+          description={t('insight.coin-radar.description')}
         />
 
         <PageCard

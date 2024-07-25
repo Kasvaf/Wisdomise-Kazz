@@ -8,7 +8,7 @@ export const TopSignals: FC<{
   signalType: 'gainer' | 'loser';
   className?: string;
 }> = ({ signalType, className }) => {
-  const { t } = useTranslation('social-radar');
+  const { t } = useTranslation('coin-radar');
 
   const signals = useCoinSignals({
     meta: {

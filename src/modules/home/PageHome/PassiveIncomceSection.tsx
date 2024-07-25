@@ -4,7 +4,7 @@ import { PageTitle } from 'shared/PageTitle';
 import { PageCard } from 'shared/PageCard';
 import { trackClick } from 'config/segment';
 import { ReactComponent as InvestmentIcon } from './icon/investment.svg';
-import { ReactComponent as SocialRadarIcon } from './icon/socialRadar.svg';
+import { ReactComponent as CoinRadarIcon } from './icon/coinRadar.svg';
 import { ReactComponent as FinancialProductsIcon } from './icon/financialProducts.svg';
 
 export default function PassiveIncomeSection() {
@@ -38,7 +38,7 @@ export default function PassiveIncomeSection() {
           <PageCard
             to="/builder/signalers"
             title={t('auto-trade.builder.title')}
-            icon={SocialRadarIcon}
+            icon={CoinRadarIcon}
             cta={t('auto-trade.builder.cat-title')}
             onClick={trackClick('onboarding_strategy_builder')}
             description={t('auto-trade.builder.description')}

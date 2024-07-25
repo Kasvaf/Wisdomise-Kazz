@@ -98,14 +98,14 @@ export const useCoinSignals = (
     },
   });
 
-interface SocialRadarMessageTemplate<S, O> {
+interface SocialMessageTemplate<S, O> {
   social_type: S;
   content: O;
   timestamp: number;
   id: string;
 }
 
-export interface SocialRadarTelegramMessage {
+export interface TelegramMessage {
   key: string;
   related_at: string;
   channel_id: number;
@@ -122,7 +122,7 @@ export interface SocialRadarTelegramMessage {
   channel_language: string;
 }
 
-export interface SocialRadarRedditMessage {
+export interface RedditMessage {
   post_id: string;
   subreddit: string;
   author: string;
@@ -146,7 +146,7 @@ export interface SocialRadarRedditMessage {
   }>;
 }
 
-export interface SocialRadarTwitterMessage {
+export interface TwitterMessage {
   tweet_id: number;
   related_at: string;
   retweet_count: number;
@@ -175,7 +175,8 @@ export interface SocialRadarTwitterMessage {
     username: string;
   };
 }
-export interface SocialRadarTradingViewIdeasMessage {
+
+export interface TradingViewIdeasMessage {
   id: number;
   key: string;
   is_active: boolean;
@@ -198,28 +199,25 @@ export interface SocialRadarTradingViewIdeasMessage {
   }>;
 }
 
-export type SocialRadarMessage =
-  | SocialRadarMessageTemplate<'telegram', SocialRadarTelegramMessage>
-  | SocialRadarMessageTemplate<'reddit', SocialRadarRedditMessage>
-  | SocialRadarMessageTemplate<'twitter', SocialRadarTwitterMessage>
-  | SocialRadarMessageTemplate<
-      'trading_view',
-      SocialRadarTradingViewIdeasMessage
-    >;
+export type SocialMessage =
+  | SocialMessageTemplate<'telegram', TelegramMessage>
+  | SocialMessageTemplate<'reddit', RedditMessage>
+  | SocialMessageTemplate<'twitter', TwitterMessage>
+  | SocialMessageTemplate<'trading_view', TradingViewIdeasMessage>;
 
-export const useCoinMessages = (symbol: string) =>
+export const useSocialMessages = (symbol: string) =>
   useQuery({
     queryKey: ['coins-social-message', symbol],
     queryFn: async () => {
       const { data } = await axios.get<{
-        reddit: null | SocialRadarRedditMessage[];
-        telegram: null | SocialRadarTelegramMessage[];
-        trading_view_ideas: null | SocialRadarTradingViewIdeasMessage[];
-        twitter: null | SocialRadarTwitterMessage[];
+        reddit: null | RedditMessage[];
+        telegram: null | TelegramMessage[];
+        trading_view_ideas: null | TradingViewIdeasMessage[];
+        twitter: null | TwitterMessage[];
       }>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&symbol_name=${symbol}`,
       );
-      const response: SocialRadarMessage[] = [
+      const response: SocialMessage[] = [
         ...(data.reddit || []).map(
           redditMessage =>
             ({
@@ -227,7 +225,7 @@ export const useCoinMessages = (symbol: string) =>
               social_type: 'reddit',
               timestamp: new Date(redditMessage.related_at).getTime(),
               content: redditMessage,
-            }) satisfies SocialRadarMessage,
+            }) satisfies SocialMessage,
         ),
         ...(data.telegram || []).map(
           telegramMessage =>
@@ -236,7 +234,7 @@ export const useCoinMessages = (symbol: string) =>
               social_type: 'telegram',
               timestamp: new Date(telegramMessage.related_at).getTime(),
               content: telegramMessage,
-            }) satisfies SocialRadarMessage,
+            }) satisfies SocialMessage,
         ),
         ...(data.trading_view_ideas || []).map(
           tradingViewIdeasMessage =>
@@ -245,7 +243,7 @@ export const useCoinMessages = (symbol: string) =>
               social_type: 'trading_view',
               timestamp: new Date(tradingViewIdeasMessage.updated_at).getTime(),
               content: tradingViewIdeasMessage,
-            }) satisfies SocialRadarMessage,
+            }) satisfies SocialMessage,
         ),
         ...(data.twitter || []).map(
           twitterMessage =>
@@ -254,7 +252,7 @@ export const useCoinMessages = (symbol: string) =>
               social_type: 'twitter',
               timestamp: new Date(twitterMessage.related_at).getTime(),
               content: twitterMessage,
-            }) satisfies SocialRadarMessage,
+            }) satisfies SocialMessage,
         ),
       ].sort((a, b) =>
         a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0,
@@ -263,7 +261,7 @@ export const useCoinMessages = (symbol: string) =>
     },
   });
 
-export interface SocialRadarExchange {
+export interface CoinExchange {
   coin_ranking_rank: number;
   number_of_markets: number;
   price_in_btc: number;
@@ -284,7 +282,7 @@ export const useCoinAvailableExchanges = (symbol: string) =>
   useQuery({
     queryKey: ['coin-available-exchanges', symbol],
     queryFn: async () => {
-      const { data } = await axios.get<SocialRadarExchange[]>(
+      const { data } = await axios.get<CoinExchange[]>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/symbol-exchanges/?symbol_abbreviation=${symbol}`,
       );
       return (data || []).sort((a, b) =>
@@ -312,7 +310,7 @@ export const useRecommendChannelMutation = () =>
     },
   });
 
-export const useIsSubscribedToSocialRadarNotification = () =>
+export const useIsSubscribedToCoinNotification = () =>
   useQuery({
     queryKey: ['is_subscribed_to_radar_notification'],
     queryFn: async () => {
@@ -323,7 +321,7 @@ export const useIsSubscribedToSocialRadarNotification = () =>
     },
   });
 
-export const useToggleSubscribeToSocialRadarNotification = () =>
+export const useToggleSubscribeToCoinNotification = () =>
   useMutation({
     mutationFn: (form: { isSubscribed: boolean }) =>
       axios.post(
