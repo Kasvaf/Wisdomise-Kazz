@@ -4,11 +4,12 @@ import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { type FullPosition } from 'api/builder';
 import { type MarketTypes } from 'api/types/financialProduct';
+import { type SuggestedAction } from 'api/types/signalResponse';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import useModal from 'shared/useModal';
 import PairInfo from 'shared/PairInfo';
 import Badge from 'shared/Badge';
-import { type SuggestedAction } from 'api/types/signalResponse';
 import usePositionStatusMap from '../signaler/usePositionStatusMap';
 import { useSuggestionsMap } from '../PageSignalsMatrix/constants';
 import { ReactComponent as HeaderIcon } from './header-icon.svg';
@@ -60,9 +61,14 @@ const ItemsList: React.FC<{
             )}
           </div>
           <div className="flex items-center gap-1">
-            <span>{item.amount_ratio * 100}% at</span>
+            <ReadableNumber label="%" value={item.amount_ratio * 100} />
+            <span>at</span>
             <span className={clsx('text-sm', priceClassName)}>
-              {typeof item.price_exact === 'number' && item.price_exact}
+              <ReadableNumber
+                label="$"
+                value={item.price_exact}
+                emptyText="N/A"
+              />
             </span>
           </div>
         </div>
@@ -160,13 +166,17 @@ const PositionDetailModal: React.FC<{
               className="mt-3 w-1/2"
             >
               <div className="text-sm">
-                {[
-                  ...(position.manager?.take_profit ?? []),
-                  ...(position.manager?.stop_loss ?? []),
-                ]
-                  .filter(x => x.applied)
-                  .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100}{' '}
-                %
+                <ReadableNumber
+                  label="%"
+                  value={
+                    [
+                      ...(position.manager?.take_profit ?? []),
+                      ...(position.manager?.stop_loss ?? []),
+                    ]
+                      .filter(x => x.applied)
+                      .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100
+                  }
+                />
               </div>
             </Labeled>
           </div>
@@ -202,7 +212,7 @@ const PositionDetailModal: React.FC<{
   );
 };
 
-const usePositionDetailModal = (position?: PositionDetails) => {
+const usePositionDetailModal = (position?: PositionDetails | null) => {
   const [Modal, showModal] = useModal(PositionDetailModal, {
     width: 400,
   });

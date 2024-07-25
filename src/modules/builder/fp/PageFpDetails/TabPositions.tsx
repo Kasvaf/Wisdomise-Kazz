@@ -10,7 +10,7 @@ import CandleChart from 'shared/CandleChart';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import AssetSelector from '../../AssetSelector';
-import PositionsTable from './ActualPositionsTable';
+import ActualPositionsTable from './ActualPositionsTable';
 import SubscriberSelector from './SubscriberSelector';
 
 const TabPositions = () => {
@@ -85,7 +85,7 @@ const TabPositions = () => {
                   <h2 className="mb-3 text-xl text-white/40">
                     {t('strategy:signaler.simulated-position-history')}
                   </h2>
-                  <PositionsTable positions={positionsDiff} />
+                  <ActualPositionsTable positions={positionsDiff} />
                 </div>
               )}
 
