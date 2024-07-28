@@ -1,20 +1,29 @@
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
-import { PageTitle } from 'shared/PageTitle';
+import { useIsWhalesFetching } from '../useIsWhalesFetching';
+import { WhalesTable } from './WhalesTable';
+import { CoinsTable } from './CoinsTable';
+import { TopCoins } from './TopCoins';
 
 export default function PageWhales() {
-  const { t } = useTranslation('whale');
+  const isFetching = useIsWhalesFetching();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if (!isFetching) setIsLoading(false);
+  }, [isFetching]);
 
   return (
-    <PageWrapper>
-      <PageTitle
-        title={t('sections.top-whales.title')}
-        description={t('sections.top-whales.subtitle')}
-      />
-      <PageTitle
-        title={t('sections.top-coins.title')}
-        description={t('sections.top-coins.subtitle')}
-      />
+    <PageWrapper loading={isLoading} mountWhileLoading>
+      <div className="flex flex-col gap-4">
+        <WhalesTable />
+        <hr className="opacity-5" />
+        <CoinsTable />
+        <hr className="opacity-5" />
+        <div className="grid grid-cols-2 gap-8 mobile:grid-cols-1">
+          <TopCoins signalType="gainer" />
+          <TopCoins signalType="loser" />
+        </div>
+      </div>
     </PageWrapper>
   );
 }

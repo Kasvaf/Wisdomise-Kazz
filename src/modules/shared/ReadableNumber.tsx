@@ -103,6 +103,7 @@ export function ReadableNumber({
         padding: '0.75rem',
         fontSize: '0.9rem',
         fontFamily: 'monospace',
+        width: 'max-content',
       }}
       title={
         <NumberWithLabel

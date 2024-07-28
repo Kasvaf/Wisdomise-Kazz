@@ -26,7 +26,6 @@ export const useMarketNetworksQuery = ({
     },
     { enabled: !!exchangeAccountKey && !!symbol },
   );
-
 export interface Exchange {
   key: string;
   is_active: boolean;
@@ -35,10 +34,27 @@ export interface Exchange {
   exchange_name: string;
   market_name: string;
 }
+
 export const useMarketExchangesQuery = () =>
   useQuery(['exchanges'], async () => {
     const { data } = await axios.get<PageResponse<Exchange>>(
       'market/exchange-markets',
     );
     return data.results;
+  });
+
+export const useNetworks = () =>
+  useQuery({
+    queryKey: ['networks'],
+    queryFn: () =>
+      axios
+        .get<
+          Array<{
+            abbreviation: string;
+            icon_url: string;
+            id: number;
+            name: string;
+          }>
+        >('/delphi/market/networks/')
+        .then(({ data }) => data),
   });

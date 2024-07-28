@@ -6,6 +6,7 @@ import { ReactComponent as PriceUpIcon } from './priceUp.svg';
 
 interface Props {
   bg?: boolean;
+  staticValue?: number | null;
   value?: number | null;
   colorize?: boolean;
   valueToFixed?: boolean; // no need anymore
@@ -14,19 +15,29 @@ interface Props {
 }
 
 const PriceChange: React.FC<Props> = ({
+  staticValue,
   value,
   bg,
   className,
   textClassName,
   colorize = true,
 }) => {
-  if (value == null || Number.isNaN(+value)) return <div className="p-2" />;
+  const color =
+    typeof value === 'number' ? (value >= 0 ? 'green' : 'red') : null;
 
-  const bgColorized = value >= 0 ? 'bg-[#43D76E0D]' : 'bg-[#F140560D]';
-  const bgColor = colorize ? bgColorized : 'bg-white/5';
+  const bgColor =
+    !colorize || !color
+      ? 'bg-white/5'
+      : color === 'green'
+      ? 'bg-[#43D76E0D]'
+      : 'bg-[#F140560D]';
 
-  const textColorized = value >= 0 ? 'text-[#40F19C]' : 'text-[#F14056]';
-  const textColor = colorize ? textColorized : 'text-white';
+  const textColor =
+    !colorize || !color
+      ? 'text-white'
+      : color === 'green'
+      ? 'text-[#40F19C]'
+      : 'text-[#F14056]';
 
   return (
     <div
@@ -37,8 +48,12 @@ const PriceChange: React.FC<Props> = ({
         className,
       )}
     >
-      <div className={clsx(textColor)}>
-        {value >= 0 ? <PriceUpIcon /> : <PriceDownIcon />}
+      <div className={textColor}>
+        {color === 'green' ? (
+          <PriceUpIcon />
+        ) : color === 'red' ? (
+          <PriceDownIcon />
+        ) : null}
       </div>
 
       <p
@@ -48,8 +63,17 @@ const PriceChange: React.FC<Props> = ({
           textClassName,
         )}
       >
-        <ReadableNumber value={Math.abs(value)} label="%" />
-        {/* {valueToFixed ? roundSensible(value) : Math.abs(value)} % */}
+        {typeof staticValue === 'number' && (
+          <>
+            <ReadableNumber value={staticValue} />
+            {' ('}
+          </>
+        )}
+        <ReadableNumber
+          value={typeof value === 'number' ? Math.abs(value) : undefined}
+          label="%"
+        />
+        {typeof staticValue === 'number' && ')'}
       </p>
     </div>
   );
