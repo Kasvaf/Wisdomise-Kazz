@@ -90,6 +90,8 @@ menu:
     title: Signal Matrix
     subtitle: Get AI-powered trading signals for leading cryptocurrencies
     card-badge: +100 Monthly Signals
+  signalers:
+    title: Signalers
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access

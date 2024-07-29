@@ -81,6 +81,11 @@ const useMenuItems = () => {
           onClick: trackClick('coin_list_menu'),
         },
         {
+          text: t('menu.signalers.title'),
+          link: '/insight/signals',
+          onClick: trackClick('signalers_menu'),
+        },
+        {
           text: t('menu.signal-matrix.title'),
           link: '/insight/signals',
           onClick: trackClick('signal_matrix_menu'),
