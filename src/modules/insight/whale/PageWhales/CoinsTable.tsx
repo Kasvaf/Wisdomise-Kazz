@@ -34,7 +34,7 @@ export function CoinsTable({ className }: { className?: string }) {
       {
         title: t('sections.top-coins.table.coin'),
         dataIndex: 'symbol_abbreviation',
-        render: (_, row: WhaleCoin) => (
+        render: (_, row) => (
           <span className="inline-flex items-center gap-1">
             <img
               src={row.market_data.image}
@@ -49,15 +49,13 @@ export function CoinsTable({ className }: { className?: string }) {
         title: t('sections.top-coins.table.transactions'),
         dataIndex: 'total_transactions',
         sorter: true,
-        render: (_, row: WhaleCoin) => (
-          <ReadableNumber value={row.total_transactions} />
-        ),
+        render: (_, row) => <ReadableNumber value={row.total_transactions} />,
       },
       {
         title: t('sections.top-coins.table.total-vol'),
         dataIndex: 'total_volume',
         sorter: true,
-        render: (_, row: WhaleCoin) => (
+        render: (_, row) => (
           <ReadableNumber
             value={row.total_volume}
             label={row.symbol_abbreviation}
@@ -68,7 +66,7 @@ export function CoinsTable({ className }: { className?: string }) {
         title: t('sections.top-coins.table.price'),
         dataIndex: 'current_price',
         sorter: true,
-        render: (_, row: WhaleCoin) => (
+        render: (_, row) => (
           <ReadableNumber value={row.market_data.current_price} label="usdt" />
         ),
       },
@@ -76,7 +74,7 @@ export function CoinsTable({ className }: { className?: string }) {
         title: t('sections.top-coins.table.24h_chg'),
         dataIndex: 'price_change_percentage_24h',
         sorter: true,
-        render: (_, row: WhaleCoin) => (
+        render: (_, row) => (
           <PriceChange
             className="inline-flex"
             staticValue={row.market_data.price_change_24h}
@@ -119,7 +117,6 @@ export function CoinsTable({ className }: { className?: string }) {
             }
           }}
           loading={coins.isFetching}
-          className="[&_td]:!text-center [&_th]:!text-center"
           rowKey="symbol_abbreviation"
         />
       </div>

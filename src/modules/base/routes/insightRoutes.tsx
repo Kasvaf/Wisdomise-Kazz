@@ -107,10 +107,10 @@ const useInsightRoutes = () => {
           children: [
             { index: true, element: <PageWhales /> },
             {
-              path: ':whale',
+              path: ':network/:address',
               element: <PageWhaleDetail />,
               handle: {
-                crumb: (p: Params<string>) => shortenAddress(p.whale || ''),
+                crumb: (p: Params<string>) => shortenAddress(p.address || ''),
               },
             },
           ],

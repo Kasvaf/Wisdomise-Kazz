@@ -11,6 +11,7 @@ actions:
   ok: Ok
   remove: Remove
   save: Save
+  share: Share
   'yes': 'Yes'
 aum: AUM
 below: Below

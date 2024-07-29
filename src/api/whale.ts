@@ -3,7 +3,7 @@ import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { type PageResponse } from './types/page';
 
-export interface Whale {
+export interface WhaleShort {
   rank: number;
   balance_usdt: number;
   holder_address: string;
@@ -35,7 +35,7 @@ export const useWhales = (filters?: {
     ],
     keepPreviousData: true,
     queryFn: async () => {
-      const { data } = await axios.get<PageResponse<Whale>>(
+      const { data } = await axios.get<PageResponse<WhaleShort>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/tops/`,
         {
           params: {
@@ -102,6 +102,85 @@ export const useWhalesCoins = (filters?: {
                   ? 'True'
                   : 'False'
                 : undefined,
+          },
+        },
+      );
+      return data;
+    },
+  });
+
+export interface SingleWhale {
+  assets_details: Array<{
+    amount: number;
+    last_30_days_trading_pnl: number;
+    last_30_days_trading_pnl_percentage: number;
+    last_30_days_trading_realized_pnl: number;
+    market_data: {
+      id?: string;
+      ath?: number | null;
+      atl?: number | null;
+      roi?: {
+        times: number | null;
+        currency: string | null;
+        percentage: number | null;
+      } | null;
+      image?: string | null;
+      low_24h?: number | null;
+      ath_date?: string | null;
+      atl_date?: string | null;
+      high_24h?: number | null;
+      market_cap?: number | null;
+      max_supply?: number | null;
+      last_updated?: string | null;
+      total_supply?: number | null;
+      total_volume?: number | null;
+      current_price?: number | null;
+      market_cap_rank?: number | null;
+      price_change_24h?: number | null;
+      circulating_supply?: number | null;
+      ath_change_percentage?: number | null;
+      atl_change_percentage?: number | null;
+      market_cap_change_24h?: number | null;
+      fully_diluted_valuation?: number | null;
+      price_change_percentage_24h?: number | null;
+      market_cap_change_percentage_24h?: number | null;
+    } | null;
+    symbol_abbreviation?: string;
+    symbol_name?: string;
+    total_last_30_days_transfers?: number;
+    total_last_30_days_volume_transferred?: number;
+    worth?: number;
+  }>;
+  holder_address: string;
+  last_30_balance_updates: Array<{
+    balance_usdt: number;
+    related_at_date: string;
+  }>;
+  last_30_days_trading_pnl: number;
+  last_30_days_trading_pnl_percentage: number;
+  last_30_days_trading_realized_pnl: number;
+  network_abbreviation: string;
+  network_icon_url: string;
+  network_name: string;
+  total_last_30_days_transfers: number;
+}
+export const useWhaleDetails = (filters: {
+  holderAddress: string;
+  networkAbbreviation: string;
+}) =>
+  useQuery({
+    queryKey: [
+      'whale-details',
+      filters.holderAddress,
+      filters.networkAbbreviation,
+    ],
+    queryFn: async () => {
+      const { data } = await axios.get<SingleWhale>(
+        `${TEMPLE_ORIGIN}/api/v1/delphi/holders/holder-details/`,
+        {
+          params: {
+            holder_address: filters.holderAddress,
+            network_abbreviation: filters.networkAbbreviation,
           },
         },
       );

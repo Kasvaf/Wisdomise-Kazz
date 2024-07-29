@@ -4,15 +4,15 @@ import { type ColumnType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
-import { useWhales, type Whale } from 'api';
+import { useWhales, type WhaleShort } from 'api';
 import { shortenAddress } from 'utils/shortenAddress';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { PageTitle } from 'shared/PageTitle';
-import { NetworkSelect } from '../NetworkSelect';
-import { WalletInput } from '../WalletInput';
-import { Copyable } from '../Copyable';
+import { NetworkSelect } from './NetworkSelect';
+import { WalletInput } from './WalletInput';
+import { Copyable } from './Copyable';
 
 const PAGE_SIZE = 10;
 
@@ -42,7 +42,7 @@ export function WhalesTable({ className }: { className?: string }) {
     holderAddress: debouncedWalletAddress,
   });
 
-  const columns = useMemo<Array<ColumnType<Whale>>>(
+  const columns = useMemo<Array<ColumnType<WhaleShort>>>(
     () => [
       {
         title: t('sections.top-whales.table.rank'),
@@ -55,7 +55,7 @@ export function WhalesTable({ className }: { className?: string }) {
         render: (_, row) => (
           <Copyable content={row.holder_address}>
             <Link
-              to={`/insight/whales/${row.holder_address}`}
+              to={`/insight/whales/${row.network_abbreviation}/${row.holder_address}`}
               className="font-mono text-blue-400 hover:text-blue-300"
             >
               {shortenAddress(row.holder_address)}
@@ -81,7 +81,7 @@ export function WhalesTable({ className }: { className?: string }) {
         title: t('sections.top-whales.table.pnl_percent'),
         sorter: true,
         dataIndex: 'last_30_days_trading_pnl_percentage',
-        render: (_, row: Whale) => (
+        render: (_, row) => (
           <PriceChange
             className="inline-flex"
             value={row.last_30_days_trading_pnl_percentage}
@@ -92,7 +92,7 @@ export function WhalesTable({ className }: { className?: string }) {
         title: t('sections.top-whales.table.total_worth'),
         sorter: true,
         dataIndex: 'balance_usdt',
-        render: (_, row: Whale) => (
+        render: (_, row) => (
           <ReadableNumber value={row.balance_usdt} label="usdt" />
         ),
       },
@@ -100,7 +100,7 @@ export function WhalesTable({ className }: { className?: string }) {
         title: t('sections.top-whales.table.trades'),
         sorter: true,
         dataIndex: 'total_last_30_days_transfers',
-        render: (_, row: Whale) => (
+        render: (_, row) => (
           <ReadableNumber value={row.total_last_30_days_transfers} />
         ),
       },

@@ -1,20 +1,43 @@
-import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
-import { PageTitle } from 'shared/PageTitle';
+import { useWhaleDetails } from 'api';
+import { WhaleBalanceChart } from './WhaleBalanceChart';
+import { WalletAddressTitle } from './WalletAddressTitle';
+import { WhaletInfo } from './WalletInfo';
+import { WhaleAssetsTable } from './WhaleAssetsTable';
 
 export default function PageWhaleDetail() {
-  const { t } = useTranslation('whale');
+  const { network, address } = useParams<{
+    network: string;
+    address: string;
+  }>();
+  if (!address || !network) throw new Error('unexpected');
+
+  const whale = useWhaleDetails({
+    holderAddress: address,
+    networkAbbreviation: network,
+  });
 
   return (
-    <PageWrapper>
-      <PageTitle
-        title={t('sections.top-whales.title')}
-        description={t('sections.top-whales.subtitle')}
-      />
-      <PageTitle
-        title={t('sections.top-coins.title')}
-        description={t('sections.top-coins.subtitle')}
-      />
+    <PageWrapper loading={whale.isLoading}>
+      <div className="grid grid-cols-3 items-start gap-6 mobile:grid-cols-1">
+        <WalletAddressTitle address={address} />
+        <div className="col-span-2 mobile:col-span-full" />
+        <WhaletInfo
+          whale={whale.data}
+          className="col-span-1 h-full rounded-xl bg-black/30 mobile:col-span-full"
+          loading={whale.isFetching}
+          onRefresh={whale.refetch}
+        />
+        <WhaleBalanceChart
+          whale={whale.data}
+          className="col-span-2 rounded-xl mobile:col-span-full"
+        />
+        <WhaleAssetsTable
+          whale={whale.data}
+          className="col-span-full rounded-xl"
+        />
+      </div>
     </PageWrapper>
   );
 }

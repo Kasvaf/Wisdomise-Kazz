@@ -27,3 +27,13 @@ sections:
       total_worth: Total Worth
       trades: Trades
       wallet-address: Wallet Address
+  whale-coins:
+    table:
+      amount: Quantity Held
+      asset: Assets
+      pnl: PNL
+      price: Price
+      worth: Total Worth
+  whale-info:
+    realized-pnl: Realized PNL
+    unrealized-pnl: Unrealized PNL

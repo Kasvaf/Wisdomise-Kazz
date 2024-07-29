@@ -48,7 +48,7 @@ function NumberWithLabel({
         <span
           className={clsx(
             'opacity-70',
-            labelObject?.small && 'origin-bottom scale-90',
+            labelObject?.small && 'ms-px text-[80%]',
           )}
         >
           {labelObject?.text}
