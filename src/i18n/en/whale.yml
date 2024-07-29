@@ -19,7 +19,7 @@ sections:
     filters:
       title: Search Whale
       all-chains: All Chains
-      wallet: wallet Addresses, Coins
+      wallet: Wallet Address
     table:
       network: Network
       pnl_percent: PNL Percentage
@@ -30,7 +30,7 @@ sections:
   whale-coins:
     table:
       amount: Quantity Held
-      asset: Assets
+      asset: Asset
       pnl: PNL
       price: Price
       worth: Total Worth
