@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { useWhalesCoins } from 'api';
+import { Coin } from 'shared/Coin';
 
 export const TopCoins: FC<{
   signalType: 'gainer' | 'loser';
@@ -32,24 +33,12 @@ export const TopCoins: FC<{
           >
             <div className="text-sm font-medium">{index + 1}</div>
             <div className="grow text-sm font-medium">
-              <div className="flex items-center gap-2">
-                {row.market_data.image ? (
-                  <img
-                    src={row.market_data.image}
-                    className="size-7 rounded-full"
-                  />
-                ) : (
-                  <div className="size-7 rounded-full bg-white/5" />
-                )}
-                <div>
-                  <p className="overflow-hidden whitespace-nowrap text-xs">
-                    {row.symbol_name}
-                  </p>
-                  <p className="text-xxs font-light opacity-60">
-                    {row.symbol_abbreviation}
-                  </p>
-                </div>
-              </div>
+              <Coin
+                abbrevation={row.symbol_abbreviation}
+                fullName={row.symbol_name}
+                image={row.market_data.image}
+                imageClassName="size-7"
+              />
             </div>
             <div className="flex basis-1/2 items-center justify-between gap-2 text-sm mobile:flex-col mobile:items-end">
               <ReadableNumber

@@ -6,6 +6,7 @@ import { type SingleWhale } from 'api';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
+import { Coin } from 'shared/Coin';
 
 export function WhaleAssetsTable({
   className,
@@ -22,18 +23,11 @@ export function WhaleAssetsTable({
         title: t('sections.whale-coins.table.asset'),
         dataIndex: 'symbol_abbreviation',
         render: (_, row) => (
-          <span className="inline-flex items-center gap-1">
-            {row.market_data?.image ? (
-              <img
-                src={row.market_data?.image}
-                className="size-5 rounded-full bg-white"
-                alt={row.symbol_abbreviation}
-              />
-            ) : (
-              <div className="inline-block size-5 rounded-full bg-white/10" />
-            )}
-            {row.symbol_abbreviation}
-          </span>
+          <Coin
+            abbrevation={row.symbol_abbreviation}
+            fullName={row.symbol_name}
+            image={row.market_data?.image}
+          />
         ),
       },
       {
@@ -46,7 +40,12 @@ export function WhaleAssetsTable({
         title: t('sections.whale-coins.table.worth'),
         dataIndex: 'worth',
         sorter: (a, b) => (a.worth ?? 0) - (b.worth ?? 0),
-        render: (_, row) => <ReadableNumber value={row.worth} label="usdt" />,
+        render: (_, row) => (
+          <ReadableNumber
+            value={row.worth !== undefined && row.worth > 0 ? row.worth : null}
+            label="usdt"
+          />
+        ),
       },
       {
         title: t('sections.whale-coins.table.price'),
@@ -65,7 +64,11 @@ export function WhaleAssetsTable({
         render: (_, row) => (
           <PriceChange
             className="inline-flex"
-            value={row.last_30_days_trading_pnl_percentage}
+            value={
+              row.worth !== undefined && row.worth > 0
+                ? row.last_30_days_trading_pnl_percentage
+                : null
+            }
           />
         ),
       },

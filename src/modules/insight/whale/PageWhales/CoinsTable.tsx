@@ -7,6 +7,7 @@ import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { PageTitle } from 'shared/PageTitle';
+import { Coin } from 'shared/Coin';
 
 const PAGE_SIZE = 10;
 
@@ -35,14 +36,11 @@ export function CoinsTable({ className }: { className?: string }) {
         title: t('sections.top-coins.table.coin'),
         dataIndex: 'symbol_abbreviation',
         render: (_, row) => (
-          <span className="inline-flex items-center gap-1">
-            <img
-              src={row.market_data.image}
-              className="size-5 rounded-full bg-white"
-              alt={row.symbol_abbreviation}
-            />
-            {row.symbol_abbreviation}
-          </span>
+          <Coin
+            abbrevation={row.symbol_abbreviation}
+            fullName={row.symbol_name}
+            image={row.market_data.image}
+          />
         ),
       },
       {

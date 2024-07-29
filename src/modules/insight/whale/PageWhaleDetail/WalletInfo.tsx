@@ -20,7 +20,7 @@ export const WhaletInfo: FC<{
       <div className="flex items-center justify-between">
         <ReadableNumber
           className="text-3xl font-bold"
-          value={whale?.last_30_balance_updates.at(-1)?.balance_usdt}
+          value={whale?.last_30_balance_updates[0]?.balance_usdt}
           label="usdt"
         />
         <button disabled={loading} onClick={onRefresh}>

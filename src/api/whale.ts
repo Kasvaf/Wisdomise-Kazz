@@ -145,7 +145,7 @@ export interface SingleWhale {
       price_change_percentage_24h?: number | null;
       market_cap_change_percentage_24h?: number | null;
     } | null;
-    symbol_abbreviation?: string;
+    symbol_abbreviation: string;
     symbol_name?: string;
     total_last_30_days_transfers?: number;
     total_last_30_days_volume_transferred?: number;
