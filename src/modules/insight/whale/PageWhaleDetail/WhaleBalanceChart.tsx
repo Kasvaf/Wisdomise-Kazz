@@ -43,6 +43,12 @@ export const WhaleBalanceChart = memo<{
       },
       xAxis: {
         grid: null,
+        tickLine: {
+          style: {
+            strokeOpacity: 0,
+            opacity: 0,
+          },
+        },
         label: {
           autoEllipsis: true,
           autoHide: true,
