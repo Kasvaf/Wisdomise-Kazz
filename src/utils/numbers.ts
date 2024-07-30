@@ -38,7 +38,8 @@ const compressByLabel = (number: number) => {
       { label: 'K', max: 1e6, divide: 1e3 },
       { label: 'M', max: 1e9, divide: 1e6 },
       { label: 'B', max: 1e12, divide: 1e9 },
-      { label: 'T', max: Number.POSITIVE_INFINITY, divide: 1e12 },
+      { label: 'T', max: 1e15, divide: 1e12 },
+      { label: 'Q', max: Number.POSITIVE_INFINITY, divide: 1e15 },
     ];
     for (const sector of sectors) {
       if (number < sector.max) {
