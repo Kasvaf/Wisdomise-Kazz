@@ -82,7 +82,7 @@ const useMenuItems = () => {
         },
         {
           text: t('menu.signalers.title'),
-          link: '/insight/signals',
+          link: '/insight/signalers',
           onClick: trackClick('signalers_menu'),
         },
         {

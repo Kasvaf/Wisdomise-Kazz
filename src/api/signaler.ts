@@ -39,7 +39,7 @@ export const useSignalerPair = (market: MarketTypes) => {
     const match = searchName.match(/\/?(BUSD|USDT)$/);
     const base = searchName.replace(/\/?(BUSD|USDT)$/, '');
     const quote = match?.[1] || mainQuote;
-    const pair = pairsByName[base + quote];
+    const pair = pairsByName[base + quote] || pairsByName[base];
     const name = market === 'FUTURES' ? base + quote : base;
     return pair
       ? { ...pair, name }
