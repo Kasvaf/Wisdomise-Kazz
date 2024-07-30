@@ -8,10 +8,19 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { PageTitle } from 'shared/PageTitle';
 import { Coin } from 'shared/Coin';
+import { ButtonSelect } from 'shared/ButtonSelect';
 
 const PAGE_SIZE = 10;
 
-export function CoinsTable({ className }: { className?: string }) {
+export function CoinsTable({
+  className,
+  timeFrame,
+  onTimeFrameChange,
+}: {
+  className?: string;
+  timeFrame: number;
+  onTimeFrameChange?: (newDays: number) => void;
+}) {
   const { t } = useTranslation('whale');
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
@@ -24,6 +33,7 @@ export function CoinsTable({ className }: { className?: string }) {
     pageSize: PAGE_SIZE,
     isAscending,
     sortBy,
+    days: timeFrame,
   });
   const columns = useMemo<Array<ColumnType<WhaleCoin>>>(
     () => [
@@ -86,10 +96,31 @@ export function CoinsTable({ className }: { className?: string }) {
 
   return (
     <div className={clsx('flex flex-col gap-6', className)}>
-      <PageTitle
-        title={t('sections.top-coins.title')}
-        description={t('sections.top-coins.subtitle')}
-      />
+      <div className="flex justify-between mobile:flex-col mobile:justify-start">
+        <PageTitle
+          title={t('sections.top-coins.title')}
+          description={t('sections.top-coins.subtitle')}
+        />
+        <ButtonSelect
+          value={timeFrame}
+          onChange={onTimeFrameChange}
+          options={[
+            {
+              label: t('sections.top-coins.filters.1d'),
+              value: 1,
+            },
+            {
+              label: t('sections.top-coins.filters.7d'),
+              value: 7,
+            },
+            {
+              label: t('sections.top-coins.filters.30d'),
+              value: 30,
+              disabled: true,
+            },
+          ]}
+        />
+      </div>
       <div className="-mx-6 overflow-auto px-6">
         <Table
           columns={columns}

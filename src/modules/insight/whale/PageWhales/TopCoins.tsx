@@ -7,8 +7,9 @@ import { Coin } from 'shared/Coin';
 
 export const TopCoins: FC<{
   signalType: 'gainer' | 'loser';
+  timeFrame: number;
   className?: string;
-}> = ({ signalType, className }) => {
+}> = ({ signalType, className, timeFrame }) => {
   const { t } = useTranslation('whale');
 
   const coins = useWhalesCoins({
@@ -16,6 +17,7 @@ export const TopCoins: FC<{
     pageSize: 5,
     isAscending: signalType === 'loser',
     sortBy: 'price_change_percentage_24h',
+    days: timeFrame,
   });
 
   return (

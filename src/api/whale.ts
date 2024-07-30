@@ -24,15 +24,7 @@ export const useWhales = (filters?: {
   holderAddress?: string;
 }) =>
   useQuery({
-    queryKey: [
-      'whales',
-      filters?.page ?? 1,
-      filters?.pageSize ?? 10,
-      filters?.sortBy,
-      filters?.isAscending,
-      filters?.networkAbbreviation,
-      filters?.holderAddress,
-    ],
+    queryKey: ['whales', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
       const { data } = await axios.get<PageResponse<WhaleShort>>(
@@ -75,17 +67,12 @@ export interface WhaleCoin {
 export const useWhalesCoins = (filters?: {
   page: number;
   pageSize: number;
+  days?: number;
   sortBy?: string;
   isAscending?: boolean;
 }) =>
   useQuery({
-    queryKey: [
-      'whales-coins',
-      filters?.page ?? 1,
-      filters?.pageSize ?? 10,
-      filters?.sortBy,
-      filters?.isAscending,
-    ],
+    queryKey: ['whales-coins', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
       const { data } = await axios.get<PageResponse<WhaleCoin>>(
@@ -94,7 +81,7 @@ export const useWhalesCoins = (filters?: {
           params: {
             page_size: filters?.pageSize ?? 10,
             page: filters?.page ?? 1,
-            days: 30, // It's static!
+            days: filters?.days ?? 1,
             sorted_by: filters?.sortBy,
             ascending:
               typeof filters?.isAscending === 'boolean'
@@ -169,11 +156,7 @@ export const useWhaleDetails = (filters: {
   networkAbbreviation: string;
 }) =>
   useQuery({
-    queryKey: [
-      'whale-details',
-      filters.holderAddress,
-      filters.networkAbbreviation,
-    ],
+    queryKey: ['whale-details', JSON.stringify(filters)],
     queryFn: async () => {
       const { data } = await axios.get<SingleWhale>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/holder-details/`,

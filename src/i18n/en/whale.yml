@@ -4,6 +4,10 @@ sections:
     subtitle: >-
       See the most traded coins by whales, ranked by transaction volume and
       frequency.
+    filters:
+      1d: 24H
+      30d: 30D
+      7d: 7D
     table:
       24h_chg: 24h Price Change
       coin: Discovered Coin
@@ -17,7 +21,9 @@ sections:
     title: Top Whales List
     subtitle: Discover the wealthiest addresses (whales) across blockchains
     filters:
-      title: Search Whale
+      1d: 24H
+      30d: 30D
+      7d: 7D
       all-chains: All Chains
       wallet: Wallet Address
     table:

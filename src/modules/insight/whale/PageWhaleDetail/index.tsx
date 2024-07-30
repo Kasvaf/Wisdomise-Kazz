@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useWhaleDetails } from 'api';
+import { WalletAddress } from '../WalletAddress';
 import { WhaleBalanceChart } from './WhaleBalanceChart';
-import { WalletAddressTitle } from './WalletAddressTitle';
 import { WhaletInfo } from './WalletInfo';
 import { WhaleAssetsTable } from './WhaleAssetsTable';
 
@@ -21,7 +21,7 @@ export default function PageWhaleDetail() {
   return (
     <PageWrapper loading={whale.isLoading}>
       <div className="grid grid-cols-3 items-start gap-6 mobile:grid-cols-1">
-        <WalletAddressTitle address={address} />
+        <WalletAddress address={address} network={network} mode="title" />
         <div className="col-span-2 mobile:col-span-full" />
         <WhaletInfo
           whale={whale.data}

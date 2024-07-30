@@ -1,18 +1,17 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type ColumnType } from 'antd/es/table';
-import { Link } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { useWhales, type WhaleShort } from 'api';
-import { shortenAddress } from 'utils/shortenAddress';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { PageTitle } from 'shared/PageTitle';
+import { ButtonSelect } from 'shared/ButtonSelect';
+import { WalletAddress } from '../WalletAddress';
 import { NetworkSelect } from './NetworkSelect';
 import { WalletInput } from './WalletInput';
-import { Copyable } from './Copyable';
 
 const PAGE_SIZE = 10;
 
@@ -53,14 +52,11 @@ export function WhalesTable({ className }: { className?: string }) {
         title: t('sections.top-whales.table.wallet-address'),
         dataIndex: 'holder_address',
         render: (_, row) => (
-          <Copyable content={row.holder_address}>
-            <Link
-              to={`/insight/whales/${row.network_abbreviation}/${row.holder_address}`}
-              className="font-mono text-blue-400 hover:text-blue-300"
-            >
-              {shortenAddress(row.holder_address)}
-            </Link>
-          </Copyable>
+          <WalletAddress
+            address={row.holder_address}
+            network={row.network_abbreviation}
+            mode="link"
+          />
         ),
       },
       {
@@ -110,23 +106,43 @@ export function WhalesTable({ className }: { className?: string }) {
 
   return (
     <div className={clsx('flex flex-col gap-6', className)}>
-      <div className="flex items-end gap-2 mobile:flex-col mobile:items-stretch">
-        <div className="basis-80 mobile:basis-auto">
-          <p className="mb-2 text-xs">
-            {t('sections.top-whales.filters.title')}
-          </p>
-          <WalletInput value={walletAddress} onChange={setWalletAddress} />
-        </div>
+      <div className="flex flex-wrap items-end gap-2">
+        <PageTitle
+          title={t('sections.top-whales.title')}
+          description={t('sections.top-whales.subtitle')}
+          className="mb-4 w-full"
+        />
+        <WalletInput
+          value={walletAddress}
+          className="w-80 mobile:w-full"
+          onChange={setWalletAddress}
+        />
         <NetworkSelect
           valueType="abbreviation"
           value={networkAbbreviation}
           onChange={setNetworkAbbrevation}
         />
+        <div className="grow" />
+        <ButtonSelect
+          value={30}
+          options={[
+            {
+              label: t('sections.top-whales.filters.1d'),
+              value: 1,
+              disabled: true,
+            },
+            {
+              label: t('sections.top-whales.filters.7d'),
+              value: 7,
+              disabled: true,
+            },
+            {
+              label: t('sections.top-whales.filters.30d'),
+              value: 30,
+            },
+          ]}
+        />
       </div>
-      <PageTitle
-        title={t('sections.top-whales.title')}
-        description={t('sections.top-whales.subtitle')}
-      />
       <div className="-mx-6 overflow-auto px-6">
         <Table
           columns={columns}
