@@ -1,7 +1,8 @@
-import { bxRefresh } from 'boxicons-quasar';
+import { bxInfoCircle, bxRefresh } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { Tooltip } from 'antd';
 import Icon from 'shared/Icon';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
@@ -22,6 +23,9 @@ export const WhaletInfo: FC<{
           className="text-3xl font-bold"
           value={whale?.last_30_balance_updates[0]?.balance_usdt}
           label="usdt"
+          format={{
+            decimalLength: 1,
+          }}
         />
         <button disabled={loading} onClick={onRefresh}>
           <Icon
@@ -42,6 +46,24 @@ export const WhaletInfo: FC<{
       <div className="flex items-center justify-between">
         <label className="text-sm opacity-30">
           {t('sections.whale-info.realized-pnl')}
+          <Tooltip
+            title={
+              <Trans
+                i18nKey="sections.whale-info.realized-pnl-info"
+                ns="whale"
+                components={{
+                  b: <div className="mb-1 text-sm font-bold" />,
+                  p: <p className="text-xxs font-light opacity-80" />,
+                }}
+              />
+            }
+          >
+            <Icon
+              name={bxInfoCircle}
+              className="ms-1 inline-block align-middle"
+              size={16}
+            />
+          </Tooltip>
         </label>
         <ReadableNumber
           className={clsx(
@@ -58,6 +80,24 @@ export const WhaletInfo: FC<{
       <div className="flex items-center justify-between">
         <label className="text-sm opacity-30">
           {t('sections.whale-info.unrealized-pnl')}
+          <Tooltip
+            title={
+              <Trans
+                i18nKey="sections.whale-info.unrealized-pnl-info"
+                ns="whale"
+                components={{
+                  b: <div className="mb-1 text-sm font-bold" />,
+                  p: <p className="text-xxs font-light opacity-80" />,
+                }}
+              />
+            }
+          >
+            <Icon
+              name={bxInfoCircle}
+              className="ms-1 inline-block align-middle"
+              size={16}
+            />
+          </Tooltip>
         </label>
         <ReadableNumber
           className={clsx(

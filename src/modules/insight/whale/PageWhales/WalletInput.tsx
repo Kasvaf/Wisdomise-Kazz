@@ -17,7 +17,6 @@ export const WalletInput: FC<{
       onChange={v => onChange?.(v || undefined)}
       placeholder={t('sections.top-whales.filters.wallet')}
       suffix={<Icon name={bxSearch} size={20} />}
-      inputClassName="placeholder:text-white/30"
       className={className}
     />
   );

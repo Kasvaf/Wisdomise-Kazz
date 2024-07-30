@@ -18,6 +18,7 @@ export const NetworkSelect: FC<
     <Select
       className={clsx(
         '[&_.ant-select-selector]:!pl-4 [&_.ant-select-selector]:!text-base',
+        '[&_.ant-select-selection-placeholder]:!text-white/60',
         className,
       )}
       value={value}
@@ -29,7 +30,7 @@ export const NetworkSelect: FC<
         <span>
           <Icon
             name={bxGlobe}
-            size={22}
+            size={20}
             className="me-2 inline-block align-middle"
           />
           {t('sections.top-whales.filters.all-chains')}
@@ -41,7 +42,7 @@ export const NetworkSelect: FC<
             <img
               src={network.icon_url}
               alt={network.name}
-              className="me-2 inline-block size-4 rounded-full bg-white"
+              className="me-3 ms-px inline-block size-4 rounded-full bg-white"
             />
             {network.name}
           </>

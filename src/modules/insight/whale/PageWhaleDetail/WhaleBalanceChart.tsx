@@ -34,9 +34,9 @@ export const WhaleBalanceChart = memo<{
           name: 'Balance',
           value:
             formatNumber(dt.balance_usdt as number, {
-              compactInteger: true,
-              decimalLength: 2,
-              minifyDecimalRepeats: true,
+              compactInteger: false,
+              decimalLength: 99,
+              minifyDecimalRepeats: false,
               seperateByComma: true,
             }) + ' USDT',
         }),

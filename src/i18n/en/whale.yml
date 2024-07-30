@@ -25,7 +25,7 @@ sections:
       30d: 30D
       7d: 7D
       all-chains: All Chains
-      wallet: Wallet Address
+      wallet: Search by wallet address
     table:
       network: Network
       pnl_percent: PNL Percentage
@@ -42,4 +42,16 @@ sections:
       worth: Total Worth
   whale-info:
     realized-pnl: Realized PNL
+    realized-pnl-info: >-
+      <b>Realized PNL</b><p>Realized PNL (Profit and Loss) represents the actual
+      profit or loss made from completed trades. It reflects the difference
+      between the purchase price and the selling price of assets that have been
+      sold. This metric helps you understand the tangible gains or losses from
+      your trading activities.</p>
     unrealized-pnl: Unrealized PNL
+    unrealized-pnl-info: >-
+      <b>Unrealized PNL</b><p>Unrealized PNL (Profit and Loss) represents the
+      potential profit or loss on currently held assets that have not yet been
+      sold. It reflects the difference between the current market value and the
+      purchase price of these assets. This metric helps you gauge the
+      performance of your holdings based on their current market prices.</p>
