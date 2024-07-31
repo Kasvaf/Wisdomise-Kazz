@@ -1,6 +1,6 @@
 import { Tooltip } from 'antd';
 import { clsx } from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, createSearchParams } from 'react-router-dom';
 
 export const cdnCoinIcon = (name: string) =>
   `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${name}.svg`;
@@ -53,7 +53,14 @@ export function Coin({
           'group rounded-md transition-all hover:bg-white/10 hover:text-white',
           className,
         )}
-        to={`/insight/coin-radar/${abbrevation}`}
+        to={{
+          pathname: `/insight/coin-radar/${abbrevation}`,
+          search: createSearchParams({
+            ...(fullName && {
+              name: fullName,
+            }),
+          }).toString(),
+        }}
       >
         <div
           className={clsx(
