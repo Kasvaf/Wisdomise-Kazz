@@ -15,9 +15,13 @@ indicator_list:
       rising bearish momentum, and a break below overbought territory could be
       used to trigger a new short position.
     bearish: Bearish Divergence
+    bearish-info: RSI forms a lower high while the price forms higher highs
     bullish: Bullish Divergence
-    overbought: OverBought
-    oversold: OverSold
+    bullish-info: RSI forms a higher low while the price forms lower lows
+    overbought: Overbought
+    overbought-info: RSI>70
+    oversold: Oversold
+    oversold-info: RSI<30
     statistics: Market RSI Statistics
     table:
       name: Name
@@ -27,7 +31,7 @@ indicator_list:
       resolution: Resolution
       rsi: RSI
 indicators: Indicators
-not-set: ''
+not-available: ''
 periods:
   daily: Daily
   hour: h

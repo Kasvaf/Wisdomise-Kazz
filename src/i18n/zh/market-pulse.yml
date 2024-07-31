@@ -4,14 +4,18 @@ indicator_list:
     soon: 很快
   rsi:
     bearish: 看跌背离
+    bearish-info: RSI 形成较低的高点，而价格形成较高的高点
     bullish: 看涨背离
+    bullish-info: RSI 形成较高的低点，而价格形成较低的低点
     description: 当 RSI
       显示超卖读数，随后出现更高的低点，而价格出现更低的低点时，就会出现看涨背离。这可能表明看涨势头正在上升，突破超卖区域可能被用来触发新的多头仓位。相反，当
       RSI
       产生超买读数，随后出现更低的高点，而价格出现更高的高点时，就会出现看跌背离。这可能表明看跌势头正在上升，突破超买区域可能被用来触发新的空头仓位。
     label: RSI
     overbought: 超买
+    overbought-info: RSI>70
     oversold: 超卖
+    oversold-info: RSI<30
     statistics: 市场 RSI 统计
     table:
       duration: 期间
