@@ -1,10 +1,26 @@
 import { clsx } from 'clsx';
-import { useMemo, useState, type FC } from 'react';
+import { type ReactNode, useMemo, useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tabs } from 'antd';
+import { Tabs, Tooltip } from 'antd';
+import { bxInfoCircle } from 'boxicons-quasar';
 import { type useRsiDivergence, type useRsiOverness } from 'api/market-pulse';
+import Icon from 'shared/Icon';
 import { RsiOvernessTable } from './RsiOvernessTable';
 import { RsiDivergenceTable } from './RsiDivergenceTable';
+
+const RsiTabLabel: FC<{
+  label: string;
+  info?: ReactNode;
+}> = ({ label, info }) => (
+  <span className="inline-flex items-center gap-2">
+    {label}
+    {info && (
+      <Tooltip title={info}>
+        <Icon name={bxInfoCircle} size={16} className="text-white/60" />
+      </Tooltip>
+    )}
+  </span>
+);
 
 export const RsiTables: FC<{
   className?: string;
@@ -19,17 +35,32 @@ export const RsiTables: FC<{
   const tabsItems = useMemo(() => {
     return [
       {
-        label: t('indicator_list.rsi.oversold'),
+        label: (
+          <RsiTabLabel
+            label={t('indicator_list.rsi.oversold')}
+            info={t('indicator_list.rsi.oversold-info')}
+          />
+        ),
         key: 'over_sold',
         children: <RsiOvernessTable type="over_sold" overness={overness} />,
       },
       {
-        label: t('indicator_list.rsi.overbought'),
+        label: (
+          <RsiTabLabel
+            label={t('indicator_list.rsi.overbought')}
+            info={t('indicator_list.rsi.overbought-info')}
+          />
+        ),
         key: 'over_bought',
         children: <RsiOvernessTable type="over_bought" overness={overness} />,
       },
       {
-        label: t('indicator_list.rsi.bullish'),
+        label: (
+          <RsiTabLabel
+            label={t('indicator_list.rsi.bullish')}
+            info={t('indicator_list.rsi.bullish-info')}
+          />
+        ),
         key: 'bullish_divergence',
         children: (
           <RsiDivergenceTable
@@ -39,7 +70,12 @@ export const RsiTables: FC<{
         ),
       },
       {
-        label: t('indicator_list.rsi.bearish'),
+        label: (
+          <RsiTabLabel
+            label={t('indicator_list.rsi.bearish')}
+            info={t('indicator_list.rsi.bearish-info')}
+          />
+        ),
         key: 'bearish_divergence',
         children: (
           <RsiDivergenceTable

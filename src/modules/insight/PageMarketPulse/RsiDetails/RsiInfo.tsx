@@ -1,24 +1,35 @@
 import { clsx } from 'clsx';
-import { type FC } from 'react';
+import { type ReactNode, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { bxInfoCircle } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { type useRsiDivergence, type useRsiOverness } from 'api/market-pulse';
+import Icon from 'shared/Icon';
 
 const RsiStatistic: FC<{
   label: string;
   value?: number | null;
-}> = ({ label, value }) => {
+  info?: ReactNode;
+}> = ({ label, value, info }) => {
   const { t } = useTranslation('common');
   const hasValue = typeof value === 'number';
   return (
     <div className="inline-flex flex-col justify-between">
-      <div className="mb-px text-xs font-light">{label}</div>
+      <div className="mb-px flex items-center gap-2 text-xs font-light">
+        {label}
+        {info && (
+          <Tooltip title={info}>
+            <Icon name={bxInfoCircle} size={16} className="text-white/60" />
+          </Tooltip>
+        )}
+      </div>
       <div
         className={clsx(
           'font-normal',
           hasValue ? 'text-2xl' : 'pb-2 text-base opacity-60',
         )}
       >
-        {hasValue ? value : t('not-set')}
+        {hasValue ? value : t('not-available')}
       </div>
     </div>
   );
@@ -63,18 +74,22 @@ export const RsiInfo: FC<{
           >
             <RsiStatistic
               label={t('indicator_list.rsi.oversold')}
+              info={t('indicator_list.rsi.oversold-info')}
               value={statistics.oversold}
             />
             <RsiStatistic
               label={t('indicator_list.rsi.overbought')}
+              info={t('indicator_list.rsi.overbought-info')}
               value={statistics.overbought}
             />
             <RsiStatistic
               label={t('indicator_list.rsi.bullish')}
+              info={t('indicator_list.rsi.bullish-info')}
               value={statistics.bullish}
             />
             <RsiStatistic
               label={t('indicator_list.rsi.bearish')}
+              info={t('indicator_list.rsi.bearish-info')}
               value={statistics.bearish}
             />
           </div>

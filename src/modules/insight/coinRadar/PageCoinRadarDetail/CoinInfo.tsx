@@ -16,6 +16,7 @@ import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import SideSuggestGauge from '../PageCoinRadar/SideSuggestGauge';
 import { ReactComponent as ArrowRight } from './images/arrow-right.svg';
+import { PriceAlertButton } from './PriceAlert';
 
 export const ExchangesModal: FC<{
   exchanges: CoinExchange[];
@@ -175,7 +176,9 @@ export default function CoinInfo({
           value={<ReadableNumber value={info?.total_volume || 0} label="%" />}
         />
       </div>
-      <div className="flex justify-end px-1">
+      <div className="flex justify-between px-1">
+        <PriceAlertButton symbol={symbol} />
+        <div className="grow" />
         <button
           className={clsx(
             'flex items-center gap-2 text-sm',

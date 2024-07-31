@@ -16,7 +16,7 @@ interface Props {
   onBlur?: () => void;
 }
 
-const toAmount = (v: string) =>
+export const toAmount = (v: string) =>
   v
     .replaceAll(/[^\d.]+/g, '')
     .replace(/^(0+)/, '')

@@ -1,39 +1,54 @@
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { analytics } from 'config/segment';
-import { useStrategiesList } from 'api';
+import { useHasFlag, useStrategiesList } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { isProduction } from 'utils/version';
+import { PageTitle } from 'shared/PageTitle';
 import SignalingTab from './SignalingTab';
+import AlertsTab from './AlertsTab';
 import CustomNotificationTab from './CustomNotificationTab';
 
 export default function PageNotification() {
   const { t } = useTranslation('notifications');
   const strategies = useStrategiesList();
+  const hasFlag = useHasFlag();
   const [activeTab, setActiveTab] = useSearchParamAsState<string>(
     'tab',
     'center',
   );
 
-  const tabs: TabsProps['items'] = [
-    {
-      key: 'center',
-      label: t('signaling.title'),
-      children: <SignalingTab />,
-    },
-    ...(isProduction
-      ? []
-      : [
-          {
-            key: 'customize',
-            label: t('customs.title'),
-            children: <CustomNotificationTab />,
-          },
-        ]),
-  ];
+  const tabs: TabsProps['items'] = useMemo(
+    () => [
+      {
+        key: 'center',
+        label: t('signaling.title'),
+        children: <SignalingTab />,
+      },
+      ...(hasFlag('/account/notification-center?tab=alerts')
+        ? [
+            {
+              key: 'alerts',
+              label: t('alerts.title'),
+              children: <AlertsTab />,
+            },
+          ]
+        : []),
+      ...(isProduction
+        ? []
+        : [
+            {
+              key: 'customize',
+              label: t('customs.title'),
+              children: <CustomNotificationTab />,
+            },
+          ]),
+    ],
+    [hasFlag, t],
+  );
 
   useEffect(() => {
     void analytics.track('click_on', {
@@ -50,10 +65,11 @@ export default function PageNotification() {
 
   return (
     <PageWrapper loading={strategies.isLoading}>
-      <h1 className="mb-6 text-xl font-semibold">
-        {t('base:menu.notification-center.title')}
-      </h1>
-      <p className="mb-4 text-white/60">{t('page.description')}</p>
+      <PageTitle
+        title={t('base:menu.notification-center.title')}
+        description={t('base:menu.notification-center.subtitle')}
+        className="mb-8"
+      />
       <Tabs activeKey={activeTab} items={tabs} onChange={tabChangeHandler} />
     </PageWrapper>
   );

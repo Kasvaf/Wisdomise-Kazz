@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterBaseName } from 'config/constants';
@@ -11,7 +12,8 @@ import DataFeed from './DataFeed';
 const AdvancedChart: React.FC<{
   assetName: string;
   widgetRef: (ref: IChartingLibraryWidget | undefined) => void;
-}> = ({ assetName, widgetRef }) => {
+  className?: string;
+}> = ({ assetName, widgetRef, className }) => {
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
 
@@ -57,7 +59,9 @@ const AdvancedChart: React.FC<{
     return () => widget.remove();
   }, [assetName, language, widgetRef]);
 
-  return <div ref={chartContainerRef} className="h-[600px]" />;
+  return (
+    <div ref={chartContainerRef} className={clsx('h-[600px]', className)} />
+  );
 };
 
 export default AdvancedChart;

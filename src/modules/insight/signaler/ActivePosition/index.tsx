@@ -103,7 +103,7 @@ const ActivePosition: React.FC<{
               <FancyPrice value={p.entry_price} />
             </Labeled>
             <Labeled label={t('positions-history.take-profit')}>
-              {(p.manager?.take_profit?.length ?? 0) > 1 ? (
+              {(p.manager?.take_profit?.length ?? 0) > 0 ? (
                 <Button
                   variant="alternative"
                   className="!rounded-lg !py-1 !pl-2 !pr-1"

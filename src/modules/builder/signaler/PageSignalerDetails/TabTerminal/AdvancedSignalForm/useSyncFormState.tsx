@@ -1,13 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { type FullPosition } from 'api/builder';
-import { type TpSlData, type SignalFormState } from './useSignalFormStates';
+import { type SignalFormState } from './useSignalFormStates';
 
-function mergeItems({
+interface Mergeable {
+  key: string;
+  applied: boolean;
+}
+
+function mergeItems<T extends Mergeable>({
   local,
   remote,
 }: {
-  local: TpSlData[];
-  remote: TpSlData[];
+  local: T[];
+  remote: T[];
 }) {
   if (remote.length > local.length) return remote;
 
@@ -33,9 +38,13 @@ const useSyncFormState = ({
     isUpdate: [, setIsUpdate],
     price: [, setPrice],
     market: [, setMarket],
+    volume: [, setVolume],
+    orderType: [, setOrderType],
+    conditions: [, setConditions],
     priceUpdated: [, setPriceUpdated],
     takeProfits: [, setTakeProfits],
     stopLosses: [, setStopLosses],
+    safetyOpens: [, setSafetyOpens],
   } = formState;
 
   // reset all when asset is changed
@@ -45,17 +54,50 @@ const useSyncFormState = ({
     setStopLosses([]);
   }, [assetName, setPriceUpdated, setStopLosses, setTakeProfits]);
 
+  const [pair, setPair] = useState<string>();
   // merge remote changes of active-position to local form state
   useEffect(() => {
     setIsUpdate(!!activePosition);
 
-    if (activePosition?.entry_price) {
-      setPrice(String(activePosition.entry_price));
-    }
-
     if (activePosition?.position_side) {
       setMarket(activePosition.position_side.toLowerCase() as 'long' | 'short');
     }
+
+    if (activePosition?.pair_name !== pair) {
+      setPair(activePosition?.pair_name);
+      setOrderType('market');
+      setVolume('100');
+      setConditions([]);
+
+      const firstOrder = activePosition?.manager?.open_orders?.[0];
+      if (firstOrder) {
+        setPrice(String(firstOrder.price ?? activePosition.entry_price));
+        setOrderType(firstOrder.order_type);
+        setVolume(String((firstOrder.amount ?? 1) * 100));
+        setConditions(
+          firstOrder.condition.type === 'compare' ? [firstOrder.condition] : [],
+        );
+      } else if (activePosition?.entry_price) {
+        setPrice(String(activePosition.entry_price));
+      }
+    }
+
+    setSafetyOpens(safetyOpens =>
+      mergeItems({
+        local: safetyOpens,
+        remote:
+          activePosition?.manager?.open_orders?.slice(1)?.map(x => ({
+            key: x.key,
+            amountRatio: String((x.amount ?? 0) * 100),
+            priceExact: String(
+              (x.condition.type === 'true' ? x.price : x.condition.right) ?? 0,
+            ),
+            applied: x.applied ?? false,
+            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
+            removed: false,
+          })) ?? [],
+      }),
+    );
 
     setTakeProfits(takeProfits =>
       mergeItems({
@@ -66,6 +108,7 @@ const useSyncFormState = ({
             amountRatio: String(x.amount_ratio * 100),
             priceExact: String(x.price_exact ?? 0),
             applied: x.applied ?? false,
+            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
             removed: false,
           })) ?? [],
       }),
@@ -80,17 +123,23 @@ const useSyncFormState = ({
             amountRatio: String(x.amount_ratio * 100),
             priceExact: String(x.price_exact ?? 0),
             applied: x.applied ?? false,
+            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
             removed: false,
           })) ?? [],
       }),
     );
   }, [
     activePosition,
+    pair,
     setPrice,
     setMarket,
     setIsUpdate,
     setStopLosses,
     setTakeProfits,
+    setSafetyOpens,
+    setOrderType,
+    setConditions,
+    setVolume,
   ]);
 };
 

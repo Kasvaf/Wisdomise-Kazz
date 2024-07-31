@@ -1,34 +1,23 @@
-import { Switch } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import {
-  type FC,
-  useState,
-  type SVGProps,
-  type PropsWithChildren,
-  useEffect,
-} from 'react';
+import { type FC, useState, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Button from 'shared/Button';
 import {
-  useAccountQuery,
   useIsSubscribedToCoinNotification,
   useToggleSubscribeToCoinNotification,
 } from 'api';
 import { track } from 'config/segment';
 import { DrawerModal } from 'shared/DrawerModal';
-import ComboBox from 'shared/ComboBox';
+import {
+  IntervalSelect,
+  AlertChannelsSelect,
+} from 'modules/account/PageNotification/AlertsTab/AlertSaveModal';
 import {
   BellIcon,
-  DiscordIcon,
-  EmailIcon,
-  LockIcon,
   NotifIsSetIcon,
   NotifModalIcon,
   NotificationIcon,
-  SlackIcon,
-  SmsIcon,
-  TelegramIcon,
 } from './assets';
 
 export default function SetNotification({ className }: { className?: string }) {
@@ -78,50 +67,9 @@ export default function SetNotification({ className }: { className?: string }) {
   );
 }
 
-const AlertChannelRow: FC<
-  PropsWithChildren<{
-    className?: string;
-    icon: FC<SVGProps<SVGSVGElement>>;
-    label: string;
-    subtitle?: string;
-    lockIcon?: boolean;
-  }>
-> = ({ className, icon: Icon, label, subtitle, children, lockIcon }) => {
-  const { t } = useTranslation('coin-radar');
-  return (
-    <div className={clsx('flex items-center justify-between p-4', className)}>
-      <div>
-        <label
-          className={clsx('flex items-center gap-1', !children && 'opacity-40')}
-        >
-          <Icon className="size-4" />
-          {label}
-        </label>
-        {subtitle && (
-          <div className="text-xs font-light text-white/60">{subtitle}</div>
-        )}
-      </div>
-      <div className="flex items-center justify-center gap-4">
-        {lockIcon && (
-          <div className="flex size-7 items-center justify-center rounded-full bg-black/20">
-            <LockIcon className="size-6 opacity-90" />
-          </div>
-        )}
-        <span>
-          {children || (
-            <span className="inline-flex h-6 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-4 text-xxs text-white/70">
-              {t('set-notification.modal.soon')}
-            </span>
-          )}
-        </span>
-      </div>
-    </div>
-  );
-};
 const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
   onDone,
 }) => {
-  const account = useAccountQuery();
   const { t } = useTranslation('coin-radar');
   const isSubscribedQuery = useIsSubscribedToCoinNotification();
   const toggleSubscription = useToggleSubscribeToCoinNotification();
@@ -168,11 +116,11 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
             {t('set-notification.modal.interval-section')}
           </h3>
           <div>
-            <ComboBox
-              className="!bg-black/20 !text-white/70"
-              options={[t('set-notification.modal.daily')]}
-              selectedItem={[t('set-notification.modal.daily')]}
-              renderItem={item => <>{item}</>}
+            <IntervalSelect
+              className="block !text-white/70 [&_.ant-select-selector]:!bg-black/20"
+              disabled
+              value={86_400}
+              cooldownMode={false}
             />
           </div>
         </section>
@@ -181,50 +129,18 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
           <h3 className="mb-2 pl-2 text-xs font-normal">
             {t('set-notification.modal.alert-channel-section')}
           </h3>
-          <div className="relative h-[270px] divide-y divide-white/5 overflow-y-auto rounded-xl bg-black/20 text-white mobile:h-[245px]">
-            <AlertChannelRow
-              icon={EmailIcon}
-              label={t('set-notification.modal.email-alert-input')}
-              subtitle={account.data?.email}
-            >
-              <Controller
-                control={alertForm.control}
-                name="isSubscribed"
-                render={({ field: { value, onChange } }) => (
-                  <Switch
-                    checked={value}
-                    onChange={onChange}
-                    loading={isSubscribedQuery.isLoading}
-                    className="!duration-0 [&.ant-switch-checked_.ant-switch-inner]:!bg-[#9747FF]"
-                  />
-                )}
+          <Controller
+            control={alertForm.control}
+            name="isSubscribed"
+            render={({ field: { value, onChange } }) => (
+              <AlertChannelsSelect
+                value={value ? ['EMAIL'] : []}
+                onChange={e => onChange(e.includes('EMAIL'))}
+                loading={isSubscribedQuery.isLoading}
+                className="h-[270px] mobile:h-[245px]"
               />
-            </AlertChannelRow>
-            <AlertChannelRow
-              icon={TelegramIcon}
-              label={t('set-notification.modal.telegram-alert-input')}
-            />
-            <AlertChannelRow
-              icon={BellIcon}
-              label={t('set-notification.modal.browser-alert-input')}
-            />
-            <AlertChannelRow
-              icon={BellIcon}
-              label={t('set-notification.modal.push-alert-input')}
-            />
-            <AlertChannelRow
-              icon={DiscordIcon}
-              label={t('set-notification.modal.discord-alert-input')}
-            />
-            <AlertChannelRow
-              icon={SlackIcon}
-              label={t('set-notification.modal.slack-alert-input')}
-            />
-            <AlertChannelRow
-              icon={SmsIcon}
-              label={t('set-notification.modal.sms-alert-input')}
-            />
-          </div>
+            )}
+          />
         </section>
 
         <Button

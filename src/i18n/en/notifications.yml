@@ -1,3 +1,47 @@
+alerts:
+  title: Active Alerts
+  form:
+    title: Get notified when a coin hits your specified price target.
+    alert-channel: Alert Channel
+    cooldown: Cooldown
+    cooldown-info: Specify an amount of time that pass before this alert can fire again.
+    delete-confirm:
+      title: Are you sure?
+      subtitle: You’re about to delete this alert.
+      'no': Nevermind
+      'yes': Yes, Delete
+    disable-after-trigger: Disable this alert after it triggers once.
+    next: Next
+    notif-tab: Alert Preferences
+    price-tab: Set Price Details
+    set-alert: Set Alert
+    subscription-banner-link: Subscribe to our Insight Plan for access.
+    subscription-banner-title: Get real-time coin alerts, Customize notifications.
+    success-message: Alert saved successfully!
+  invervals:
+    after: After {{seconds}} Seconds
+    daily: Daily
+    every: Every {{seconds}} Seconds
+    hour: hour
+    hourly: Hourly
+    min: min
+    monthly: Monthly
+    weekly: Weekly
+  messangers:
+    browser: Browser Notification
+    discord: Discord Message
+    email: Email
+    push: Push Notification
+    slack: Slack Message
+    sms: Sms
+    telegram: Telegram Message
+  sentences:
+    price-alert: >-
+      Send an alert as soon as <Badge><Base>Unknown Coin</Base></Badge> <Br/>
+      Goes <Badge><Operator>Unknown Operator</Operator></Badge> the price of
+      <Badge><Threshold>Unknown Threshold</Threshold></Badge> <Br />
+      <Badge><Quote>Unknown Quote</Quote></Badge> on <Badge><Exchange>Unknown
+      Exchange</Exchange></Badge>
 customs:
   title: Customize Notification
   custom-question:
@@ -20,8 +64,6 @@ customs:
   your-question:
     title: Your Question
     description: You can receive customized prompts via email every Monday.
-page:
-  description: Here you can filter your notifications
 signaling:
   title: Signaling
   subtitle: Strategies List

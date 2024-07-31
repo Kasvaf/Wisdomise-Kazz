@@ -149,6 +149,7 @@ export default function PageCoinRadarDetail() {
       loading={messages.isLoading}
       className="leading-none mobile:leading-normal"
     >
+      {symbol && <button></button>}
       {symbol && <CoinInfo className="mb-4" symbol={symbol} />}
       <Tabs
         onChange={newTab => setActiveTab(newTab as typeof activeTab)}

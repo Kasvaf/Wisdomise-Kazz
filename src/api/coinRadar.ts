@@ -314,10 +314,10 @@ export const useIsSubscribedToCoinNotification = () =>
   useQuery({
     queryKey: ['is_subscribed_to_radar_notification'],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
-      );
-      return data.is_subscribed as boolean;
+      const { data } = await axios.get<{
+        is_subscribed: boolean;
+      }>(`${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`);
+      return data.is_subscribed;
     },
   });
 

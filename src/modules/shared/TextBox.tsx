@@ -28,7 +28,7 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
     value,
     error,
     hint,
-    filter = v => v,
+    filter,
     onChange,
     onBlur,
     disabled = false,
@@ -41,9 +41,14 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
   } = props;
   const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
     e => {
-      const val = filter((e.target as HTMLInputElement).value);
+      let val = (e.target as HTMLInputElement).value;
+      if (typeof filter === 'function') {
+        val = filter(val);
+      }
       onChange?.(val);
-      e.target.value = val;
+      if (e.target.value !== val) {
+        e.target.value = val;
+      }
     },
     [onChange, filter],
   );

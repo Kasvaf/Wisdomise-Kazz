@@ -1,3 +1,46 @@
+alerts:
+  form:
+    alert-channel: アラートチャンネル
+    cooldown: クールダウン
+    cooldown-info: このアラートが再度発生するまでの経過時間を指定します。
+    delete-confirm:
+      no: どうでも
+      subtitle: このアラートを削除しようとしています。
+      title: 本気ですか？
+      yes: はい、削除
+    disable-after-trigger: このアラートは一度トリガーされたら無効にします。
+    next: 次
+    notif-tab: アラート設定
+    price-tab: 価格設定の詳細
+    set-alert: 通知を設定する
+    subscription-banner-link: アクセスするには、Insight プランにご登録ください。
+    subscription-banner-title: リアルタイムのコインアラートを取得し、通知をカスタマイズします。
+    success-message: アラートが正常に保存されました。
+    title: コインが指定した価格目標に達したときに通知を受け取ります。
+  invervals:
+    after: 後 {{seconds}} 秒
+    daily: 毎日
+    every: 毎 {{seconds}} 秒
+    hour: 時間
+    hourly: 時間単位
+    min: min
+    monthly: 月額
+    weekly: 毎週
+  messangers:
+    browser: ブラウザ通知
+    discord: 不和メッセージ
+    email: Eメール
+    push: プッシュ通知
+    slack: Slackメッセージ
+    sms: SMS
+    telegram: テレグラムメッセージ
+  sentences:
+    price-alert: すぐにアラートを送信 <Badge><Base>不明なコイン</Base></Badge> <Br/> 行く
+      <Badge><Operator>不明なオペレーター</Operator></Badge> の価格
+      <Badge><Threshold>不明な閾値</Threshold></Badge> <Br />
+      <Badge><Quote>不明な引用</Quote></Badge> の上
+      <Badge><Exchange>不明な取引所</Exchange></Badge>
+  title: アクティブアラート
 customs:
   custom-question:
     btn-add: 追加

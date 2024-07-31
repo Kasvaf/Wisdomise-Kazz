@@ -1,3 +1,4 @@
+above: Above
 actions:
   back: Back
   cancel: Cancel
@@ -9,15 +10,16 @@ actions:
   'no': 'No'
   ok: Ok
   remove: Remove
-  reset: reset
   save: Save
   'yes': 'Yes'
 aum: AUM
+below: Below
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
 crypto: Crypto
 cryptocurrency: Cryptocurrency
 date: Date
+equal: Equal
 errors:
   field-required: This field may not be blank.
 free-plan: Free Plan
@@ -40,6 +42,7 @@ quality:
 recommended-size: Recommended Size
 select-crypto: Select Crypto
 show-more: Show more
+soon: Soon
 spot: Spot
 upload-failed: Upload failed!
 uploading: Uploading

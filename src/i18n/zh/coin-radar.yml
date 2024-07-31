@@ -91,6 +91,9 @@ set-notification:
   open-modal-btn:
     not-set: 设置通知
     set: 已设置通知
+set-price-notification:
+  open-existing-modal-btn: 已设置价格警报
+  open-modal-btn: 设置价格警报
 socials:
   all:
     subtitle: 分析信号 {{symbol}} 在所有社交动态中

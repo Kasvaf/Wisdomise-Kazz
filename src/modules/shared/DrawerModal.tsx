@@ -13,7 +13,10 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
   const isMobile = useIsMobile();
   return (
     <Drawer
-      className={clsx('bg-[#31333B] text-white', className)}
+      className={clsx(
+        '!bg-[#1E1F24] text-white mobile:max-h-[85svh]',
+        className,
+      )}
       height="auto"
       width="auto"
       closeIcon={
@@ -26,7 +29,7 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
       placement={isMobile ? 'bottom' : 'right'}
       {...props}
     >
-      <div className="w-[640px] mobile:w-full">{children}</div>
+      <div className="w-[640px] max-w-full mobile:w-full">{children}</div>
     </Drawer>
   );
 };

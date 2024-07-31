@@ -15,6 +15,7 @@ function makeLine({
   quantity,
   bgColor,
   textColor,
+  editable,
   onChange,
   onRemove,
 }: {
@@ -24,6 +25,7 @@ function makeLine({
   quantity?: string;
   bgColor: string;
   textColor: string;
+  editable?: boolean;
   onChange?: false | ((newPrice: number) => unknown);
   onRemove?: false | (() => unknown);
 }) {
@@ -39,7 +41,7 @@ function makeLine({
     .setQuantityBackgroundColor(bgColor)
     .setQuantityBorderColor('#000');
 
-  if (onRemove) {
+  if (onRemove && editable) {
     ln.setCancellable(true)
       .setCancelButtonBackgroundColor(bgColor)
       .setCancelButtonBorderColor(bgColor)
@@ -47,7 +49,7 @@ function makeLine({
       .setCancelButtonIconColor(textColor)
       .onCancel(onRemove);
   }
-  if (onChange) {
+  if (onChange && editable) {
     ln.onMove(() => onChange(ln.getPrice()));
   }
 
@@ -70,6 +72,7 @@ const useSyncLines = ({
     market: [market],
     stopLosses: [stopLosses, setStopLosses],
     takeProfits: [takeProfits, setTakeProfits],
+    safetyOpens: [safetyOpens, setSafetyOpens],
   } = formState;
 
   useEffect(() => {
@@ -116,12 +119,38 @@ const useSyncLines = ({
             price: +price,
             bgColor: '#fff',
             textColor: '#000',
+            editable: true,
             onChange:
               !isUpdate &&
               (newOpen => {
                 setOrderType('limit');
                 setPrice(String(newOpen));
               }),
+          }),
+        );
+      }
+
+      for (const [ind, so] of safetyOpens.entries()) {
+        if (so.removed) continue;
+        const color = so.applied ? '#0d3f58' : '#34A3DA';
+        lines.push(
+          makeLine({
+            chart,
+            title: `SO #${String(ind + 1)} (${String(+so.amountRatio)}%)`,
+            price: Number(+so.priceExact),
+            bgColor: color,
+            textColor: '#fff',
+            editable: !so.applied,
+            onChange: newPrice =>
+              setSafetyOpens(tps =>
+                tps.map(x =>
+                  x.key === so.key ? { ...x, priceExact: String(newPrice) } : x,
+                ),
+              ),
+            onRemove: () =>
+              setSafetyOpens(tps =>
+                tps.map(x => (x.key === so.key ? { ...x, removed: true } : x)),
+              ),
           }),
         );
       }
@@ -136,6 +165,7 @@ const useSyncLines = ({
             price: Number(+tp.priceExact),
             bgColor: color,
             textColor: '#fff',
+            editable: !tp.applied,
             onChange: newPrice =>
               setTakeProfits(tps =>
                 sortTpSlItems({
@@ -166,6 +196,7 @@ const useSyncLines = ({
             price: Number(+sl.priceExact),
             bgColor: color,
             textColor: '#fff',
+            editable: !sl.applied,
             onChange: newPrice =>
               setStopLosses(sls =>
                 sortTpSlItems({
@@ -198,12 +229,14 @@ const useSyncLines = ({
     marketPrice,
     price,
     market,
+    safetyOpens,
     stopLosses,
     takeProfits,
     setOrderType,
     setPrice,
     setStopLosses,
     setTakeProfits,
+    setSafetyOpens,
   ]);
 };
 

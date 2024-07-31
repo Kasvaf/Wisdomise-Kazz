@@ -4,7 +4,9 @@ indicator_list:
     soon: すぐ
   rsi:
     bearish: 弱気のダイバージェンス
+    bearish-info: RSIは低い高値を形成し、価格は高い高値を形成する
     bullish: 強気のダイバージェンス
+    bullish-info: RSIはより高い安値を形成し、価格はより低い安値を形成する
     description: 強気のダイバージェンスは、RSI
       が売られ過ぎの読み取り値を示し、その後、価格がさらに低い安値とともに高値に変化したときに発生します。これは、強気の勢いが高まっていることを示している可能性があり、売られ過ぎの領域を上抜けることで、新しいロング
       ポジションが引き起こされる可能性があります。逆に、弱気のダイバージェンスは、RSI
@@ -12,7 +14,9 @@ indicator_list:
       ポジションが引き起こされる可能性があります。
     label: RSI
     overbought: 買われ過ぎ
-    oversold: 売られ過ぎ
+    overbought-info: RSI>70
+    oversold: 売り過ぎ
+    oversold-info: RSI<30
     statistics: 市場RSI統計
     table:
       duration: 間隔

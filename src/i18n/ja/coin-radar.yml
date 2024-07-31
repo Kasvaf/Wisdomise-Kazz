@@ -95,6 +95,9 @@ set-notification:
   open-modal-btn:
     not-set: 通知を設定する
     set: 通知が設定されました
+set-price-notification:
+  open-existing-modal-btn: 価格アラートが設定されました
+  open-modal-btn: 価格アラートを設定する
 socials:
   all:
     subtitle: 信号を分析する {{symbol}} すべてのソーシャルフィード
