@@ -1,14 +1,80 @@
-import { useMemo } from 'react';
+import { clsx } from 'clsx';
+import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCoinSignals, useSignalerPairs, useSignalsQuery } from 'api';
+import {
+  type PairSignalerItem,
+  useCoinSignals,
+  useSignalerPairs,
+  useSignalsQuery,
+} from 'api';
+import useIsMobile from 'utils/useIsMobile';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import Spinner from 'shared/Spinner';
 import PairBox from './PairBox';
 import StrategyPositionBox from './StrategyPositionBox';
 
+const HorizontalPositions: React.FC<{
+  positions: PairSignalerItem[];
+  pairName: string;
+}> = ({ positions, pairName }) => {
+  const scrollContEl = useRef<HTMLDivElement>(null);
+  const contEl = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const scrollHandler = () => {
+    if (!scrollContEl.current || !contEl.current) return;
+    setActive(
+      Math.round(scrollContEl.current.scrollLeft / contEl.current.clientWidth),
+    );
+  };
+
+  return (
+    <PairBox pairName={pairName}>
+      <div className="my-4 border-b border-white/10" />
+      <div
+        ref={scrollContEl}
+        onScroll={scrollHandler}
+        className="-mx-6 snap-x snap-mandatory overflow-x-auto"
+      >
+        <div ref={contEl} className="flex gap-3 px-6 pb-3">
+          {positions.map(pos => (
+            <StrategyPositionBox
+              key={pos.strategy.key}
+              position={pos}
+              className="w-full shrink-0 snap-center flex-col"
+            />
+          ))}
+          <div className="w-3 shrink-0" />
+        </div>
+      </div>
+
+      {positions.length > 1 && (
+        <div className="mt-2 flex justify-center gap-1">
+          {positions.map((p, ind) => (
+            <div
+              key={p.strategy.key}
+              className={clsx(
+                'h-3 w-3 cursor-pointer rounded-full',
+                ind === active ? 'bg-info' : 'bg-white/5',
+              )}
+              onClick={() => {
+                if (!contEl.current) return;
+                scrollContEl.current?.scrollTo({
+                  left: ind * contEl.current.clientWidth,
+                  behavior: 'smooth',
+                });
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </PairBox>
+  );
+};
+
 const PageSignalersOverview = () => {
   const { t } = useTranslation('strategy');
+  const isMobile = useIsMobile();
 
   const { data: radar } = useCoinSignals();
   const { data: positions, isLoading: isLoadingSignals } = useSignalsQuery();
@@ -47,21 +113,30 @@ const PageSignalersOverview = () => {
       ) : (
         <div className="flex flex-col gap-12">
           {pairsFull.map(pair => (
-            <div key={pair.pair.name} className="flex gap-6">
-              <PairBox
-                pairName={pair.pair.name}
-                className="w-2/5 max-w-[363px]"
-              />
-              <div className="h-[481px] w-3/5 overflow-y-auto rounded-xl bg-black/40">
-                <div className="flex flex-col gap-4 p-6">
-                  {pair.positions.map(pos => (
-                    <StrategyPositionBox
-                      key={pos.strategy.key}
-                      position={pos}
-                    />
-                  ))}
-                </div>
-              </div>
+            <div key={pair.pair.name} className="flex gap-6 mobile:flex-col">
+              {isMobile ? (
+                <HorizontalPositions
+                  pairName={pair.pair.name}
+                  positions={pair.positions}
+                />
+              ) : (
+                <>
+                  <PairBox
+                    pairName={pair.pair.name}
+                    className="w-2/5 max-w-[363px]"
+                  />
+                  <div className="h-[481px] w-3/5 overflow-y-auto rounded-xl bg-black/40">
+                    <div className="flex flex-col gap-4 p-6">
+                      {pair.positions.map(pos => (
+                        <StrategyPositionBox
+                          key={pos.strategy.key}
+                          position={pos}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>

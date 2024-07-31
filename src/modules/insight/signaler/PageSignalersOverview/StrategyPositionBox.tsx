@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { bxLockAlt } from 'boxicons-quasar';
 import { useSubscription, type PairSignalerItem } from 'api';
-import { ProfilePhoto } from 'modules/account/PageProfile/ProfilePhoto';
-import PriceChange from 'shared/PriceChange';
+import useIsMobile from 'utils/useIsMobile';
 import { useSuggestionsMap } from 'modules/insight/PageSignalsMatrix/constants';
-import { ReadableDate } from 'shared/ReadableDate';
+import { ProfilePhoto } from 'modules/account/PageProfile/ProfilePhoto';
 import { truncateUserId } from 'modules/account/PageProfile/truncateUserId';
-import Badge from 'shared/Badge';
 import useSignalSubscriptionModal from 'modules/insight/PageSignalsMatrix/useSignalSubscriptionModal';
+import { ReadableDate } from 'shared/ReadableDate';
+import PriceChange from 'shared/PriceChange';
+import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
 
 const isClosed = (p: PairSignalerItem) => Boolean(p.exit_time);
@@ -19,7 +20,7 @@ const LabeledInfo: React.FC<
   PropsWithChildren<{ label: string; labelClassName?: string }>
 > = ({ label, children, labelClassName }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center mobile:mb-3 mobile:justify-between">
       <div className={clsx('text-xxs text-white/70', labelClassName)}>
         {label}:
       </div>
@@ -28,10 +29,13 @@ const LabeledInfo: React.FC<
   );
 };
 
-const StrategyPositionBox: React.FC<{ position: PairSignalerItem }> = ({
-  position: pos,
-}) => {
+const StrategyPositionBox: React.FC<{
+  position: PairSignalerItem;
+  className?: string;
+}> = ({ position: pos, className }) => {
   const { t } = useTranslation('strategy');
+  const isMobile = useIsMobile();
+
   const { level } = useSubscription();
   const requiredLevel = pos.strategy.profile?.subscription_level ?? 0;
   const [SubModal, showSubModal] = useSignalSubscriptionModal(requiredLevel);
@@ -51,7 +55,10 @@ const StrategyPositionBox: React.FC<{ position: PairSignalerItem }> = ({
   const detailsLink = `/insight/coins/signaler?coin=${pos.pair_name}&strategy=${pos.strategy.key}`;
   return (
     <NavLink
-      className="flex cursor-pointer rounded-lg bg-white/[.02] p-6 hover:bg-white/[0.03]"
+      className={clsx(
+        'flex cursor-pointer rounded-lg bg-white/[.02] p-6 hover:bg-white/[0.03]',
+        className,
+      )}
       to={detailsLink}
       onClick={e => {
         if (isLocked) {
@@ -61,7 +68,7 @@ const StrategyPositionBox: React.FC<{ position: PairSignalerItem }> = ({
         }
       }}
     >
-      <div className="flex h-10 w-2/5 items-stretch gap-3 overflow-hidden pr-2">
+      <div className="flex h-10 w-2/5 items-stretch gap-3 overflow-hidden mobile:w-full">
         <ProfilePhoto
           src={pos.strategy.owner?.cprofile.profile_image}
           type="avatar"
@@ -87,7 +94,13 @@ const StrategyPositionBox: React.FC<{ position: PairSignalerItem }> = ({
         </div>
       </div>
 
-      <div className="flex w-3/5 justify-between border-l border-white/10 pl-8">
+      {isMobile ? (
+        <div className="my-5 border-t border-white/10" />
+      ) : (
+        <div className="ml-2 mr-8 border-l border-white/10" />
+      )}
+
+      <div className="flex w-3/5 justify-between mobile:w-full mobile:flex-col">
         <div className="flex flex-col justify-between">
           <LabeledInfo label="Action" labelClassName="w-24">
             {SubModal}

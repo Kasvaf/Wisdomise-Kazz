@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
-import { useMemo } from 'react';
+import { type PropsWithChildren, useMemo } from 'react';
 import { Area, type AreaConfig } from '@ant-design/plots';
-import PairInfo from 'shared/PairInfo';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import PriceChange from 'shared/PriceChange';
 import { useSignalerPair, useSignalerPairDetails } from 'api';
 import { roundSensible } from 'utils/numbers';
+import useIsMobile from 'utils/useIsMobile';
+import PairInfo from 'shared/PairInfo';
+import PriceChange from 'shared/PriceChange';
+import { ReadableNumber } from 'shared/ReadableNumber';
 
 const PairInfoLabel: React.FC<{ label: string; value?: number }> = ({
   label,
@@ -21,10 +22,10 @@ const PairInfoLabel: React.FC<{ label: string; value?: number }> = ({
   );
 };
 
-const PairBox: React.FC<{ pairName: string; className?: string }> = ({
-  pairName,
-  className,
-}) => {
+const PairBox: React.FC<
+  PropsWithChildren<{ pairName: string; className?: string }>
+> = ({ pairName, children, className }) => {
+  const isMobile = useIsMobile();
   const pair = useSignalerPair('FUTURES')(pairName);
   const { data: pairDetails } = useSignalerPairDetails(pairName);
 
@@ -93,8 +94,8 @@ const PairBox: React.FC<{ pairName: string; className?: string }> = ({
 
   return (
     <div className={clsx('rounded-xl bg-black/40 p-6', className)}>
-      <PairInfo name={pairName} className="!justify-start" />
-      <div className="mb-5 mt-6 border-b border-white/5" />
+      <PairInfo name={pairName} className="!justify-start !p-0" />
+      <div className="my-5 border-b border-white/5" />
       <div className="flex items-end justify-between">
         <div>
           <div className="mb-1 text-xs font-normal text-white/50">Price</div>
@@ -111,17 +112,22 @@ const PairBox: React.FC<{ pairName: string; className?: string }> = ({
           suffix="  (24h)"
         />
       </div>
-      {chartConfig && <Area {...chartConfig} className="my-10" />}
+      {!isMobile && (
+        <>
+          {chartConfig && <Area {...chartConfig} className="my-10" />}
 
-      <PairInfoLabel
-        label="Volume"
-        value={pairDetails?.price_data.volume_24h}
-      />
-      <div className="my-3 border-b border-white/10" />
-      <PairInfoLabel
-        label="Market Cap"
-        value={pairDetails?.price_data.market_cap}
-      />
+          <PairInfoLabel
+            label="Volume"
+            value={pairDetails?.price_data.volume_24h}
+          />
+          <div className="my-3 border-b border-white/10" />
+          <PairInfoLabel
+            label="Market Cap"
+            value={pairDetails?.price_data.market_cap}
+          />
+        </>
+      )}
+      {children}
     </div>
   );
 };
