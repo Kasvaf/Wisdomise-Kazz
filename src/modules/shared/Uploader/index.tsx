@@ -1,9 +1,8 @@
 import { clsx } from 'clsx';
-import { forwardRef, useState, type PropsWithChildren } from 'react';
-import { Modal, Tooltip } from 'antd';
+import { forwardRef, type PropsWithChildren } from 'react';
+import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 import './style.css';
-import Button from 'shared/Button';
 import { useUploaderMutation, type ImageUploaderTarget } from 'api';
 
 export const ImageUploader = forwardRef<
@@ -33,7 +32,6 @@ export const ImageUploader = forwardRef<
     },
     forwardedRef,
   ) => {
-    const [errorModal, setErrorModal] = useState(false);
     const { t } = useTranslation();
     const uploader = useUploaderMutation(target);
     const tooltip = uploader.isLoading
@@ -70,7 +68,7 @@ export const ImageUploader = forwardRef<
               placeholder={placeholder}
               className={clsx('absolute left-0 top-0 h-full w-full')}
               disabled={uploader.isLoading || disabled}
-              accept="image/*"
+              // accept="image/*"
               onChange={async e => {
                 const file = e.target?.files?.[0];
                 if (file === undefined) {
@@ -80,7 +78,6 @@ export const ImageUploader = forwardRef<
                     const uploadedFileUrl = await uploader.mutateAsync(file);
                     onChange?.(uploadedFileUrl);
                   } catch {
-                    setErrorModal(true);
                   } finally {
                     e.target.value = '';
                   }
@@ -89,19 +86,6 @@ export const ImageUploader = forwardRef<
             />
           </div>
         </Tooltip>
-        <Modal
-          open={errorModal}
-          onCancel={() => setErrorModal(false)}
-          footer={false}
-          centered
-        >
-          <p className="mt-4">{t('common:upload-failed')}</p>
-          <div className="mt-8 flex w-full justify-end">
-            <Button variant="primary" onClick={() => setErrorModal(false)}>
-              {t('common:actions.ok')}
-            </Button>
-          </div>
-        </Modal>
       </>
     );
   },

@@ -203,11 +203,6 @@ export default function PageProfile() {
           >
             {t('common:actions.save')}
           </Button>
-          {profileMutation.isError && (
-            <div className="mt-4 text-center text-sm text-red-500">
-              {t('accounts:page-profile.error-occured')}
-            </div>
-          )}
         </form>
       </div>
 

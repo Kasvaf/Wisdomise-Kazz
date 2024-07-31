@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import { type FC, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
-import { isAxiosError } from 'axios';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import {
@@ -11,7 +10,6 @@ import {
 } from 'modules/account/PageNotification/AlertsTab/AlertSaveModal';
 import { type Alert, useAlerts, useSaveAlert } from 'api/alert';
 import { useHasFlag } from 'api';
-import { unwrapErrorMessage } from 'utils/error';
 
 export const PriceAlertButton: FC<{
   className?: string;
@@ -56,18 +54,10 @@ export const PriceAlertButton: FC<{
         onClose={() => setIsModalOpen(false)}
         alert={initialAlert}
         onSubmit={dto =>
-          alertMutation
-            .mutateAsync(dto)
-            .then(() => {
-              setIsModalOpen(false);
-              return showSuccessModal();
-            })
-            .catch(error => {
-              if (isAxiosError(error)) {
-                alert(unwrapErrorMessage(error));
-              }
-              throw error;
-            })
+          alertMutation.mutateAsync(dto).then(() => {
+            setIsModalOpen(false);
+            return showSuccessModal();
+          })
         }
         loading={alertMutation.isLoading || possibleRelatedAlerts.isLoading}
         assetLock

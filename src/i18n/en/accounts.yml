@@ -5,7 +5,6 @@ page-profile:
   title: My Profile
   buttons:
     edit_info: Edit Info
-  error-occured: An error occurred during save
   inputs:
     discord: Discord Channel
     linkedin: Linkedin

@@ -1,3 +1,4 @@
+above: その上
 actions:
   back: 戻る
   cancel: キャンセル
@@ -13,13 +14,17 @@ actions:
   save: 保存
   yes: はい
 aum: AUM
+below: 下に
 confirmation: 確認
 copied-to-clipboard: クリップボードにコピー
 crypto: 仮想通貨
 cryptocurrency: 仮想通貨
 date: 日付
+equal: 等しい
+error: エラー
 errors:
   field-required: このフィールドは空白にできません。
+  network-error: インターネット接続に問題があります。
 free-plan: 無料プラン
 futures: 先物
 loading: 読み込み中…
@@ -42,6 +47,7 @@ quality:
 recommended-size: 推奨サイズ
 select-crypto: 暗号を選択
 show-more: もっと見せる
+soon: すぐ
 spot: スポット
 upload-failed: アップロードに失敗しました!
 uploading: アップロード中

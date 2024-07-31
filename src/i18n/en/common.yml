@@ -20,8 +20,10 @@ crypto: Crypto
 cryptocurrency: Cryptocurrency
 date: Date
 equal: Equal
+error: Error
 errors:
   field-required: This field may not be blank.
+  network-error: Something wrong with your internet connection.
 free-plan: Free Plan
 futures: Futures
 loading-dot-dot-dot: Loading...
@@ -44,5 +46,4 @@ select-crypto: Select Crypto
 show-more: Show more
 soon: Soon
 spot: Spot
-upload-failed: Upload failed!
 uploading: Uploading

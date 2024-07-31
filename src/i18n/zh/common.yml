@@ -1,3 +1,4 @@
+above: 多于
 actions:
   back: 返回
   cancel: 取消
@@ -13,13 +14,17 @@ actions:
   save: 节省
   yes: 是的
 aum: AUM
+below: 以下
 confirmation: 确认
 copied-to-clipboard: 已复制到剪贴板
 crypto: 加密货币
 cryptocurrency: 加密货币
 date: 日期
+equal: 平等的
+error: 错误
 errors:
   field-required: 该字段不能为空。
+  network-error: 您的互联网连接有问题。
 free-plan: 免费计划
 futures: 期货
 loading: 加载中...
@@ -42,6 +47,7 @@ quality:
 recommended-size: 建议尺寸
 select-crypto: 暗号を選択
 show-more: 展示更多
+soon: 很快
 spot: 点
 upload-failed: 上传失败！
 uploading: 上传

@@ -10,7 +10,6 @@ import {
 } from 'api/alert';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import FabButton from 'shared/FabButton';
-import { unwrapErrorMessage } from 'utils/error';
 import {
   AlertChannel,
   AlertSaveModal,
@@ -174,16 +173,10 @@ export function AlertRow<D extends AlertDataSource>({
         onClose={() => setIsEditing(false)}
         alert={alertItem}
         onSubmit={dto =>
-          saveAlertMutation
-            .mutateAsync(dto)
-            .then(() => {
-              setIsEditing(false);
-              return showSaveToast();
-            })
-            .catch(error => {
-              alert(unwrapErrorMessage(error));
-              throw error;
-            })
+          saveAlertMutation.mutateAsync(dto).then(() => {
+            setIsEditing(false);
+            return showSaveToast();
+          })
         }
         loading={saveAlertMutation.isLoading}
       />
