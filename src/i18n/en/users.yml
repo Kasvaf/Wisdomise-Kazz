@@ -18,7 +18,6 @@ page-profile:
     filters:
       month: Monthly
       month3: 3Months
-      week: Weekly
     max_drawdown: Max Drawdown
     pl: P/L
     positions: '# of Positions'

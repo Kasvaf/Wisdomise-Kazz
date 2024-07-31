@@ -146,7 +146,7 @@ export interface CommunityProfile {
 
 export type TraderProfile = CommunityProfile & {
   performance: Record<
-    'week' | 'month' | 'month3',
+    'month' | 'month3',
     {
       positions: number;
       pnl: number;

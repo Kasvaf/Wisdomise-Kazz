@@ -36,7 +36,7 @@ const useAutoResetState = (initialState: unknown) => {
 
 const PerformanceContent: FC<{
   className?: string;
-  data?: TraderProfile['performance']['week'];
+  data?: TraderProfile['performance']['month'];
 }> = ({ className, data }) => {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useAutoResetState(true);

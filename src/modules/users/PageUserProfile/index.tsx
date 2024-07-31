@@ -27,7 +27,7 @@ export default function PageUserProfile() {
   const profile = useTraderProfileQuery(userId || '');
 
   const [selectedPerformanceFilter, setSelectedPerformanceFilter] =
-    useState<keyof TraderProfile['performance']>('week');
+    useState<keyof TraderProfile['performance']>('month');
 
   return (
     <PageWrapper
@@ -52,10 +52,6 @@ export default function PageUserProfile() {
             value={selectedPerformanceFilter}
             onChange={setSelectedPerformanceFilter}
             options={[
-              {
-                value: 'week',
-                label: t('users:page-profile.performance-content.filters.week'),
-              },
               {
                 value: 'month',
                 label: t(
