@@ -15,7 +15,7 @@ indicator_list:
     label: RSI
     overbought: 買われ過ぎ
     overbought-info: RSI>70
-    oversold: 売られ過ぎ
+    oversold: 売り過ぎ
     oversold-info: RSI<30
     statistics: 市場RSI統計
     table:

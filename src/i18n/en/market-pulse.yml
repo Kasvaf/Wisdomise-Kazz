@@ -18,9 +18,9 @@ indicator_list:
     bearish-info: RSI forms a lower high while the price forms higher highs
     bullish: Bullish Divergence
     bullish-info: RSI forms a higher low while the price forms lower lows
-    overbought: Overbought
+    overbought: Over Bought
     overbought-info: RSI>70
-    oversold: Oversold
+    oversold: Over Sold
     oversold-info: RSI<30
     statistics: Market RSI Statistics
     table:
