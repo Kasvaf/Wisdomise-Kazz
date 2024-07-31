@@ -5,6 +5,7 @@ import Button from 'shared/Button';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
+import PartSafetyOpen from './PartSafetyOpen';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
 
@@ -50,28 +51,37 @@ const AdvancedSignalForm: React.FC<Props> = ({
   // ======================================================================
 
   return (
-    <div className={clsx('flex flex-col gap-3 px-3', className)}>
-      {!isUpdate && (
+    <div className={clsx('flex flex-col gap-3 px-3 mobile:px-0', className)}>
+      <div className="flex flex-col gap-5 rounded-lg bg-[#303137] p-3">
         <PartOpen data={formState} signaler={signaler} assetName={assetName} />
-      )}
-      <PartTpSl
-        type="TP"
-        data={formState}
-        signaler={signaler}
-        assetName={assetName}
-      />
-      <PartTpSl
-        type="SL"
-        data={formState}
-        signaler={signaler}
-        assetName={assetName}
-      />
-
-      <div className="border-b border-white/10" />
+        <PartSafetyOpen
+          data={formState}
+          signaler={signaler}
+          assetName={assetName}
+        />
+        <div className="border-b border-white/10" />
+        <PartTpSl
+          type="TP"
+          data={formState}
+          signaler={signaler}
+          assetName={assetName}
+        />
+        <div className="border-b border-white/10" />
+        <PartTpSl
+          type="SL"
+          data={formState}
+          signaler={signaler}
+          assetName={assetName}
+        />
+      </div>
 
       {isUpdate ? (
         <>
-          <Button onClick={updateHandler} loading={isSubmitting}>
+          <Button
+            variant="primary-purple"
+            onClick={updateHandler}
+            loading={isSubmitting}
+          >
             {t('signal-form.btn-update')}
           </Button>
           <Button
@@ -83,7 +93,11 @@ const AdvancedSignalForm: React.FC<Props> = ({
           </Button>
         </>
       ) : (
-        <Button onClick={fireHandler} loading={isSubmitting}>
+        <Button
+          variant="primary-purple"
+          onClick={fireHandler}
+          loading={isSubmitting}
+        >
           {t('signal-form.btn-fire-signal')}
         </Button>
       )}

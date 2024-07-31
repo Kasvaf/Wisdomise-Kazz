@@ -29,7 +29,7 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
       placement={isMobile ? 'bottom' : 'right'}
       {...props}
     >
-      <div className="w-[640px] mobile:w-full">{children}</div>
+      <div className="w-[640px] max-w-full mobile:w-full">{children}</div>
     </Drawer>
   );
 };

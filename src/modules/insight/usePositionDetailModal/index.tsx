@@ -77,7 +77,7 @@ const ItemsList: React.FC<{
   );
 };
 
-interface PositionDetails extends FullPosition {
+export interface PositionDetails extends FullPosition {
   suggested_action?: SuggestedAction;
   strategy?: {
     name: string;

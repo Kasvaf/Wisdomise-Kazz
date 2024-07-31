@@ -4,11 +4,6 @@ import { type RawPosition } from 'api/types/signalResponse';
 
 interface SignalPosition {
   type: 'long' | 'short';
-  order_type: 'limit' | 'market';
-  price?: {
-    // mandatory for limit orders
-    value: number;
-  };
   order_expires_at: string;
   suggested_action_expires_at: string;
 }
@@ -17,13 +12,48 @@ interface SignalPosition {
 export interface SignalItem {
   key: string;
   amount_ratio: number;
-  applied?: boolean;
   price_exact?: number;
   price_ratio?: number;
-  date?: string;
+  applied?: boolean;
+  applied_at?: string | null;
 }
 
 // ----------------------------------------------------------------------------
+
+export interface OpenOrderCondition {
+  type: 'compare';
+  op: '>=' | '<=';
+  left: 'price';
+  right: number;
+}
+
+export interface OpenOrderInput {
+  key: string;
+  amount?: number;
+  price?: { value: number };
+  order_type: 'limit' | 'market';
+  condition:
+    | OpenOrderCondition
+    | {
+        type: 'true';
+      };
+  applied?: boolean;
+  applied_at?: string | null;
+}
+
+export interface OpenOrderResponse {
+  key: string;
+  amount?: number;
+  price?: number;
+  order_type: 'limit' | 'market';
+  condition:
+    | OpenOrderCondition
+    | {
+        type: 'true';
+      };
+  applied?: boolean;
+  applied_at?: string | null;
+}
 
 interface Signal {
   action: 'open' | 'close' | 'update';
@@ -38,6 +68,9 @@ interface Signal {
   take_profit?: {
     items: SignalItem[];
   };
+  open_orders: {
+    items: OpenOrderInput[];
+  };
 }
 
 export interface FullPosition extends RawPosition {
@@ -49,6 +82,7 @@ export interface FullPosition extends RawPosition {
   manager?: {
     stop_loss?: SignalItem[];
     take_profit?: SignalItem[];
+    open_orders?: OpenOrderResponse[];
   };
 }
 
