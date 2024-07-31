@@ -19,7 +19,6 @@ language: Language
 links:
   about-us: About Us
   blog: Blog
-  solutions: Solutions
 menu:
   account:
     title: Account
