@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
 import AuthGuard from 'modules/auth/AuthGuard';
@@ -14,18 +14,27 @@ import ScrollToTop from './ScrollToTop';
 
 const Container = () => {
   const mainRef = useRef<HTMLDivElement>(null);
+  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
 
   return (
     <AuthGuard>
       <AthenaFloatProvider>
-        <main className="relative mx-auto max-w-screen-2xl bg-page">
+        <main
+          className="relative mx-auto max-w-[2304px] bg-page"
+          style={{
+            ['--side-menu-width' as any]: `${sideMenuCollapsed ? 74 : 260}px`,
+          }}
+        >
           <OnboardingMessageProvider>
-            <SideMenu />
+            <SideMenu
+              collapsed={sideMenuCollapsed}
+              onCollapseClick={() => setSideMenuCollapsed(c => !c)}
+            />
             <Header />
             <div
               ref={mainRef}
               className={clsx(
-                'ml-[16.25rem] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto',
+                'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto',
               )}
             >
               <React.Suspense fallback={<PageWrapper loading />}>

@@ -22,13 +22,13 @@ const Header: React.FC<Props> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'fixed top-0 z-20 mx-auto w-full max-w-screen-2xl',
+        'fixed top-0 z-20 mx-auto w-full max-w-[2304px]',
         className,
       )}
     >
       <div
         className={clsx(
-          'flex h-20 items-center bg-page p-6 pl-[260px] mobile:px-4 mobile:py-3',
+          'flex h-20 items-center bg-page p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
         )}
       >
         {isMobile ? (
