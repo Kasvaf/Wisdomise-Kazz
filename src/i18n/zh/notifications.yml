@@ -1,3 +1,46 @@
+alerts:
+  form:
+    alert-channel: 报警通道
+    cooldown: 冷却
+    cooldown-info: 指定此警报再次触发之前经过的时间量。
+    delete-confirm:
+      no: 没关系
+      subtitle: 您即将删除此警报。
+      title: 你确定吗？
+      yes: 是的，删除
+    disable-after-trigger: 触发一次后禁用此警报。
+    next: 下一个
+    notif-tab: 警报首选项
+    price-tab: 设置价格详情
+    set-alert: 设置通知
+    subscription-banner-link: 订阅我们的 Insight Plan 以获取访问权限。
+    subscription-banner-title: 获取实时硬币警报，自定义通知。
+    success-message: 警报保存成功！
+    title: 当某种货币达到您指定的价格目标时收到通知。
+  invervals:
+    after: 后 {{seconds}} 秒
+    daily: 日常的
+    every: 每一个 {{seconds}} 秒
+    hour: 小时
+    hourly: 每小时
+    min: min
+    monthly: 每月
+    weekly: 每周
+  messangers:
+    browser: 浏览器通知
+    discord: Discord 消息
+    email: 电子邮件
+    push: 推送通知
+    slack: Slack 消息
+    sms: 短信
+    telegram: 电报消息
+  sentences:
+    price-alert: 尽快发送警报 <Badge><Base>未知硬币</Base></Badge> <Br/> 去
+      <Badge><Operator>未知操作员</Operator></Badge> 的价格
+      <Badge><Threshold>未知阈值</Threshold></Badge> <Br />
+      <Badge><Quote>未知引文</Quote></Badge> 在
+      <Badge><Exchange>未知交易所</Exchange></Badge>
+  title: 主动警报
 customs:
   custom-question:
     btn-add: 添加

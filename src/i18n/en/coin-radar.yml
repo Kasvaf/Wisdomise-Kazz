@@ -96,20 +96,14 @@ set-notification:
       notification system lets you be the first to know about hot coins and
       fresh discoveries.
     alert-channel-section: Alert Channel
-    browser-alert-input: Browser Notification
-    daily: Daily
-    discord-alert-input: Discord Message
-    email-alert-input: Email
     interval-section: Interval
-    push-alert-input: Push Notification
     save-button: Save Alert Setting
-    slack-alert-input: Slack Message
-    sms-alert-input: Sms
-    soon: Soon...
-    telegram-alert-input: Telegram Message
   open-modal-btn:
     not-set: Set Alert
     set: Alert Is Set
+set-price-notification:
+  open-existing-modal-btn: Price Alert is Set
+  open-modal-btn: Set Price Alert
 socials:
   all:
     title: All Socials Feed

@@ -1,0 +1,15 @@
+import { Input, type InputProps } from 'antd';
+import { clsx } from 'clsx';
+import { type FC } from 'react';
+
+export const PriceInput: FC<InputProps> = ({ className, ...props }) => (
+  <Input
+    className={clsx(
+      'h-[46px] rounded-xl border-black/20 bg-black/20',
+      className,
+    )}
+    type="number"
+    defaultValue={'0'}
+    {...props}
+  />
+);
