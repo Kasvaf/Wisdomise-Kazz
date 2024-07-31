@@ -33,7 +33,7 @@ export const NetworkSelect: FC<
             size={20}
             className="me-2 inline-block align-middle"
           />
-          {t('sections.top-whales.filters.all-chains')}
+          {t('filters.all-chains')}
         </span>
       }
       options={networks.data?.map(network => ({

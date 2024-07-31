@@ -10,27 +10,18 @@ import { PageTitle } from 'shared/PageTitle';
 import { Coin } from 'shared/Coin';
 import { ButtonSelect } from 'shared/ButtonSelect';
 
-const PAGE_SIZE = 10;
-
-export function CoinsTable({
-  className,
-  timeFrame,
-  onTimeFrameChange,
-}: {
-  className?: string;
-  timeFrame: number;
-  onTimeFrameChange?: (newDays: number) => void;
-}) {
+export function CoinsTable({ className }: { className?: string }) {
   const { t } = useTranslation('whale');
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
   );
+  const [timeFrame, setTimeFrame] = useState(1);
 
   const coins = useWhalesCoins({
     page,
-    pageSize: PAGE_SIZE,
+    pageSize: 5,
     isAscending,
     sortBy,
     days: timeFrame,
@@ -96,14 +87,15 @@ export function CoinsTable({
 
   return (
     <div className={clsx('flex flex-col gap-6', className)}>
-      <div className="flex justify-between mobile:flex-col mobile:justify-start">
+      <div className="flex flex-nowrap items-center justify-between gap-4">
         <PageTitle
           title={t('sections.top-coins.title')}
           description={t('sections.top-coins.subtitle')}
         />
         <ButtonSelect
+          className="shrink-0"
           value={timeFrame}
-          onChange={onTimeFrameChange}
+          onChange={setTimeFrame}
           options={[
             {
               label: t('sections.top-coins.filters.1d'),

@@ -18,6 +18,7 @@ export default function Table<RecordType extends object>({
         nextIcon: <img src={nextSrc} />,
         prevIcon: <img src={preSrc} />,
       }}
+      className={clsx('[&_.ant-table-thead]:bg-[#262830]', props.className)}
       expandable={{
         ...props.expandable,
         expandIcon: props.expandable

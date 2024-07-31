@@ -1,16 +1,19 @@
-import { type FC } from 'react';
+import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { clsx } from 'clsx';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { useWhalesCoins } from 'api';
 import { Coin } from 'shared/Coin';
+import { PageTitle } from 'shared/PageTitle';
+import { ButtonSelect } from 'shared/ButtonSelect';
 
 export const TopCoins: FC<{
   signalType: 'gainer' | 'loser';
-  timeFrame: number;
   className?: string;
-}> = ({ signalType, className, timeFrame }) => {
+}> = ({ signalType, className }) => {
   const { t } = useTranslation('whale');
+  const [timeFrame, setTimeFrame] = useState(1);
 
   const coins = useWhalesCoins({
     page: 1,
@@ -22,12 +25,41 @@ export const TopCoins: FC<{
 
   return (
     <div className={className}>
-      <h2 className="mb-4 text-xl font-semibold">
-        {signalType === 'gainer'
-          ? t('sections.top-gainers')
-          : t('sections.top-losers')}
-      </h2>
-      <div className="divide-y divide-white/5 rounded-xl bg-black/20">
+      <div className="mb-4 flex flex-nowrap items-center justify-between gap-4">
+        <PageTitle
+          title={
+            signalType === 'gainer'
+              ? t('sections.top-gainers')
+              : t('sections.top-losers')
+          }
+        />
+        <ButtonSelect
+          className="shrink-0"
+          value={timeFrame}
+          onChange={setTimeFrame}
+          options={[
+            {
+              label: t('sections.top-coins.filters.1d'),
+              value: 1,
+            },
+            {
+              label: t('sections.top-coins.filters.7d'),
+              value: 7,
+            },
+            {
+              label: t('sections.top-coins.filters.30d'),
+              value: 30,
+              disabled: true,
+            },
+          ]}
+        />
+      </div>
+      <div
+        className={clsx(
+          'divide-y divide-white/5 rounded-xl bg-black/20',
+          !coins.isFetched && 'animate-pulse blur-sm',
+        )}
+      >
         {coins.data?.results.map((row, index) => (
           <div
             key={row.symbol_abbreviation}

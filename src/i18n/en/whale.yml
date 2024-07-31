@@ -1,3 +1,7 @@
+filters:
+  all-chains: All Chains
+  search-whale: Search Whale
+  wallet: Search by wallet address
 sections:
   top-coins:
     title: Top Whale Coins
@@ -24,8 +28,6 @@ sections:
       1d: 24H
       30d: 30D
       7d: 7D
-      all-chains: All Chains
-      wallet: Search by wallet address
     table:
       network: Network
       pnl_percent: PNL Percentage

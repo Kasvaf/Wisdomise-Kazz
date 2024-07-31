@@ -27,7 +27,7 @@ const PageWrapper: React.FC<Props> = ({
     <div
       className={clsx(
         loading
-          ? 'pointer-events-none absolute -z-10 h-0 w-0 opacity-0'
+          ? 'pointer-events-none absolute -z-10 h-0 w-0 overflow-hidden opacity-0'
           : 'contents',
       )}
     >

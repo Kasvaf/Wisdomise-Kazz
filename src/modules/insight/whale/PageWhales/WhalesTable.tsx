@@ -10,23 +10,20 @@ import Table from 'shared/Table';
 import { PageTitle } from 'shared/PageTitle';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { WalletAddress } from '../WalletAddress';
-import { NetworkSelect } from './NetworkSelect';
-import { WalletInput } from './WalletInput';
 
-const PAGE_SIZE = 10;
-
-export function WhalesTable({ className }: { className?: string }) {
+export function WhalesTable({
+  className,
+  networkAbbreviation,
+  walletAddress,
+}: {
+  className?: string;
+  networkAbbreviation?: string;
+  walletAddress?: string;
+}) {
   const { t } = useTranslation('whale');
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
-    undefined,
-  );
-  const [networkAbbreviation, setNetworkAbbrevation] = useState<
-    string | undefined
-  >(undefined);
-
-  const [walletAddress, setWalletAddress] = useState<string | undefined>(
     undefined,
   );
 
@@ -34,7 +31,7 @@ export function WhalesTable({ className }: { className?: string }) {
 
   const whales = useWhales({
     page,
-    pageSize: PAGE_SIZE,
+    pageSize: 5,
     isAscending,
     sortBy,
     networkAbbreviation,
@@ -106,25 +103,14 @@ export function WhalesTable({ className }: { className?: string }) {
 
   return (
     <div className={clsx('flex flex-col gap-6', className)}>
-      <div className="flex flex-wrap items-end gap-2">
+      <div className="flex flex-nowrap items-center justify-between gap-4">
         <PageTitle
           title={t('sections.top-whales.title')}
           description={t('sections.top-whales.subtitle')}
-          className="mb-4 w-full"
         />
-        <WalletInput
-          value={walletAddress}
-          className="w-80 mobile:w-full"
-          onChange={setWalletAddress}
-        />
-        <NetworkSelect
-          valueType="abbreviation"
-          value={networkAbbreviation}
-          onChange={setNetworkAbbrevation}
-        />
-        <div className="grow" />
         <ButtonSelect
           value={30}
+          className="shrink-0"
           options={[
             {
               label: t('sections.top-whales.filters.1d'),

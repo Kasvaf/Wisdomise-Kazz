@@ -15,7 +15,7 @@ export const WalletInput: FC<{
     <TextBox
       value={value ?? ''}
       onChange={v => onChange?.(v || undefined)}
-      placeholder={t('sections.top-whales.filters.wallet')}
+      placeholder={t('filters.wallet')}
       suffix={<Icon name={bxSearch} size={20} />}
       className={className}
     />
