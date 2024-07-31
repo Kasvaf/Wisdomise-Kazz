@@ -60,7 +60,7 @@ const Pager: React.FC<Props> = ({ total, active, onChange, className }) => {
         className,
       )}
     >
-      {active > 2 && (
+      {active > 1 && (
         <PageItem onClick={onChange} page={active - 1}>
           <Icon name={bxChevronLeft} size={16} />
         </PageItem>
@@ -72,7 +72,7 @@ const Pager: React.FC<Props> = ({ total, active, onChange, className }) => {
             key={ind}
             onClick={onChange}
             page={p}
-            className={clsx(active === p && '!bg-secondary/40')}
+            className={clsx(active === p && '!bg-[#00A3FF]/40')}
           >
             {p}
           </PageItem>
@@ -81,7 +81,7 @@ const Pager: React.FC<Props> = ({ total, active, onChange, className }) => {
         ),
       )}
 
-      {active < total - 1 && (
+      {active < total && (
         <PageItem onClick={onChange} page={active + 1}>
           <Icon name={bxChevronRight} size={16} />
         </PageItem>

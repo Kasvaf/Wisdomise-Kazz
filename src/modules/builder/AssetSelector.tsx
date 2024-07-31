@@ -37,7 +37,7 @@ interface Props {
   selectedItem?: string;
   onSelect?: (asset: string) => void;
   disabled?: boolean;
-  all?: boolean;
+  all?: string;
   placeholder?: string;
   className?: string;
   comboClassName?: string;
@@ -70,16 +70,20 @@ const AssetSelector: React.FC<Props> = ({
     <div className={className}>
       {label && <label className="mb-2 ml-2 block">{label}</label>}
       <ComboBox
-        options={all ? [t('all-assets'), ...assets] : assets}
+        options={all ? [all, ...assets] : assets}
         selectedItem={
           loading
             ? t('common:loading-dot-dot-dot')
-            : selectedItem ?? (all ? t('all-assets') : placeholder)
+            : selectedItem ?? (all || placeholder)
         }
-        onSelect={onSelect}
-        renderItem={(assetName: string) => (
-          <AssetOptionItem assetName={assetName} market={market} />
-        )}
+        onSelect={x => onSelect?.(x === all ? '' : x)}
+        renderItem={(assetName: string) =>
+          !assetName || assetName === all ? (
+            <div className="flex h-12 items-center p-2">{all}</div>
+          ) : (
+            <AssetOptionItem assetName={assetName} market={market} />
+          )
+        }
         disabled={disabled}
         className={clsx('!justify-start !px-2', comboClassName)}
         optionClassName="!p-0"

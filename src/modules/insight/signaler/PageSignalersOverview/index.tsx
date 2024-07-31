@@ -9,8 +9,10 @@ import {
 } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import PageWrapper from 'modules/base/PageWrapper';
+import AssetSelector from 'modules/builder/AssetSelector';
 import { PageTitle } from 'shared/PageTitle';
 import Spinner from 'shared/Spinner';
+import Pager from 'shared/Pager';
 import PairBox from './PairBox';
 import StrategyPositionBox from './StrategyPositionBox';
 
@@ -72,10 +74,14 @@ const HorizontalPositions: React.FC<{
   );
 };
 
+const PAGE_SIZE = 4;
+
 const PageSignalersOverview = () => {
   const { t } = useTranslation('strategy');
   const isMobile = useIsMobile();
 
+  const [selected, setSelected] = useState('');
+  const [page, setPage] = useState(1);
   const { data: radar } = useCoinSignals();
   const { data: positions, isLoading: isLoadingSignals } = useSignalsQuery();
   const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
@@ -112,7 +118,17 @@ const PageSignalersOverview = () => {
         </div>
       ) : (
         <div className="flex flex-col gap-12">
-          {pairsFull.map(pair => (
+          <AssetSelector
+            assets={pairsFull.map(x => x.pair.name)}
+            selectedItem={selected}
+            onSelect={setSelected}
+            className="w-64 mobile:w-full"
+            all="All Coins"
+          />
+          {(selected
+            ? pairsFull.filter(x => selected === x.pair.name)
+            : pairsFull.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+          ).map(pair => (
             <div key={pair.pair.name} className="flex gap-6 mobile:flex-col">
               {isMobile ? (
                 <HorizontalPositions
@@ -139,6 +155,15 @@ const PageSignalersOverview = () => {
               )}
             </div>
           ))}
+
+          {!selected && (
+            <Pager
+              total={Math.ceil(pairsFull.length / PAGE_SIZE)}
+              active={page}
+              onChange={setPage}
+              className="mx-auto justify-center"
+            />
+          )}
         </div>
       )}
     </PageWrapper>
