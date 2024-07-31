@@ -1,24 +1,19 @@
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type PairSignalerItem } from 'api';
+import { NavLink } from 'react-router-dom';
+import { bxLockAlt } from 'boxicons-quasar';
+import { useSubscription, type PairSignalerItem } from 'api';
 import { ProfilePhoto } from 'modules/account/PageProfile/ProfilePhoto';
 import PriceChange from 'shared/PriceChange';
-import Badge from 'shared/Badge';
 import { useSuggestionsMap } from 'modules/insight/PageSignalsMatrix/constants';
 import { ReadableDate } from 'shared/ReadableDate';
 import { truncateUserId } from 'modules/account/PageProfile/truncateUserId';
+import Badge from 'shared/Badge';
+import useSignalSubscriptionModal from 'modules/insight/PageSignalsMatrix/useSignalSubscriptionModal';
+import Icon from 'shared/Icon';
 
 const isClosed = (p: PairSignalerItem) => Boolean(p.exit_time);
-
-const SignalBoxSuggestion: React.FC<{
-  position: PairSignalerItem;
-  className?: string;
-}> = ({ position: p }) => {
-  const suggestions = useSuggestionsMap();
-  const { label, color } = suggestions[p.suggested_action];
-  return <Badge className="grow !text-xxs" label={label} color={color} />;
-};
 
 const LabeledInfo: React.FC<
   PropsWithChildren<{ label: string; labelClassName?: string }>
@@ -37,9 +32,35 @@ const StrategyPositionBox: React.FC<{ position: PairSignalerItem }> = ({
   position: pos,
 }) => {
   const { t } = useTranslation('strategy');
+  const { level } = useSubscription();
+  const requiredLevel = pos.strategy.profile?.subscription_level ?? 0;
+  const [SubModal, showSubModal] = useSignalSubscriptionModal(requiredLevel);
+  const isLocked = requiredLevel > level;
+  const subLink = (
+    <div className="-ml-6 flex items-center">
+      <div className="mr-2 flex h-4 w-4 items-center justify-center rounded-full bg-white/10">
+        <Icon name={bxLockAlt} size={12} />
+      </div>
+      <span className="text-[#00a3f0] underline">Subscribe to Unlock</span>
+    </div>
+  );
 
+  const suggestions = useSuggestionsMap();
+  const { label: actionLabel } = suggestions[pos.suggested_action];
+
+  const detailsLink = `/insight/coins/signaler?coin=${pos.pair_name}&strategy=${pos.strategy.key}`;
   return (
-    <div key={pos.strategy.key} className="flex rounded-lg bg-black/40 p-6">
+    <NavLink
+      className="flex cursor-pointer rounded-lg bg-white/[.02] p-6 hover:bg-white/[0.03]"
+      to={detailsLink}
+      onClick={e => {
+        if (isLocked) {
+          e.preventDefault();
+          e.stopPropagation();
+          void showSubModal();
+        }
+      }}
+    >
       <div className="flex h-10 w-2/5 items-stretch gap-3 overflow-hidden pr-2">
         <ProfilePhoto
           src={pos.strategy.owner?.cprofile.profile_image}
@@ -68,11 +89,12 @@ const StrategyPositionBox: React.FC<{ position: PairSignalerItem }> = ({
 
       <div className="flex w-3/5 justify-between border-l border-white/10 pl-8">
         <div className="flex flex-col justify-between">
-          <LabeledInfo label="Status" labelClassName="w-24">
-            {isClosed(pos) ? t('status.closed') : t('status.opened')}
+          <LabeledInfo label="Action" labelClassName="w-24">
+            {SubModal}
+            {isLocked ? subLink : actionLabel}
           </LabeledInfo>
           <LabeledInfo label="Position Side" labelClassName="w-24">
-            {pos.position_side.toLowerCase()}
+            {isLocked ? subLink : pos.position_side.toLowerCase()}
           </LabeledInfo>
         </div>
 
@@ -80,12 +102,24 @@ const StrategyPositionBox: React.FC<{ position: PairSignalerItem }> = ({
           <LabeledInfo label="P/L" labelClassName="w-16">
             <PriceChange className="text-xs" value={pos.pnl} />
           </LabeledInfo>
-          <LabeledInfo label="Action" labelClassName="w-16">
-            <SignalBoxSuggestion className="text-xs" position={pos} />
+          <LabeledInfo label="Status" labelClassName="w-16">
+            {isClosed(pos) ? (
+              <Badge
+                className="grow !text-xxs"
+                label={t('status.closed')}
+                color="red"
+              />
+            ) : (
+              <Badge
+                className="grow !text-xxs"
+                label={t('status.opened')}
+                color="green"
+              />
+            )}
           </LabeledInfo>
         </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 
