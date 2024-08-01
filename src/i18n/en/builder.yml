@@ -7,7 +7,6 @@ actual-pos-table:
   signal: Signal
   size: Size
   type: Type
-all-assets: All assets
 api:
   documentation:
     title: Documentation
