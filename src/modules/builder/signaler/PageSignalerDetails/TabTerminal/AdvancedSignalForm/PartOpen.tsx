@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
-import { roundDown } from 'utils/numbers';
+import { roundDown, roundSensible } from 'utils/numbers';
 import InfoButton from 'shared/InfoButton';
 import OrderTypeToggle from '../OrderTypeToggle';
 import MarketToggle from '../MarketToggle';
@@ -93,10 +93,10 @@ const PartOpen: React.FC<{
 
       <PriceVolumeInput
         price={
-          orderType === 'market'
+          orderType === 'market' && !isUpdate
             ? assetPrice === undefined
               ? '-'
-              : '~ ' + String(roundDown(assetPrice, 2))
+              : '~ ' + roundSensible(assetPrice)
             : price ?? '-'
         }
         onPriceChange={p => {

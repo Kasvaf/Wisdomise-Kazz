@@ -52,7 +52,20 @@ const useSyncFormState = ({
     setPriceUpdated(false);
     setTakeProfits([]);
     setStopLosses([]);
-  }, [assetName, setPriceUpdated, setStopLosses, setTakeProfits]);
+    setSafetyOpens([]);
+    setOrderType('market');
+    setVolume('100');
+    setConditions([]);
+  }, [
+    assetName,
+    setConditions,
+    setOrderType,
+    setPriceUpdated,
+    setSafetyOpens,
+    setStopLosses,
+    setTakeProfits,
+    setVolume,
+  ]);
 
   const [pair, setPair] = useState<string>();
   // merge remote changes of active-position to local form state
@@ -63,23 +76,19 @@ const useSyncFormState = ({
       setMarket(activePosition.position_side.toLowerCase() as 'long' | 'short');
     }
 
-    if (activePosition?.pair_name !== pair) {
-      setPair(activePosition?.pair_name);
-      setOrderType('market');
-      setVolume('100');
-      setConditions([]);
-
-      const firstOrder = activePosition?.manager?.open_orders?.[0];
-      if (firstOrder) {
-        setPrice(String(firstOrder.price ?? activePosition.entry_price));
-        setOrderType(firstOrder.order_type);
-        setVolume(String((firstOrder.amount ?? 1) * 100));
-        setConditions(
-          firstOrder.condition.type === 'compare' ? [firstOrder.condition] : [],
-        );
-      } else if (activePosition?.entry_price) {
-        setPrice(String(activePosition.entry_price));
-      }
+    const firstOrder = activePosition?.manager?.open_orders?.[0];
+    if (
+      activePosition &&
+      firstOrder &&
+      (firstOrder.applied || activePosition.pair_name !== pair)
+    ) {
+      setPair(activePosition.pair_name);
+      setPrice(String(firstOrder.price ?? activePosition.entry_price));
+      setOrderType(firstOrder.order_type);
+      setVolume(String((firstOrder.amount ?? 1) * 100));
+      setConditions(
+        firstOrder.condition.type === 'compare' ? [firstOrder.condition] : [],
+      );
     }
 
     setSafetyOpens(safetyOpens =>
