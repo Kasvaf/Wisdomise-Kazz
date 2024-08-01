@@ -29,7 +29,7 @@ const ItemsList: React.FC<{
   title: string;
   items?: Array<{
     key: string;
-    amount_ratio: number;
+    amount_ratio?: number;
     applied?: boolean;
     applied_at?: string | null;
     price_exact?: number | null;
@@ -61,7 +61,7 @@ const ItemsList: React.FC<{
             )}
           </div>
           <div className="flex items-center gap-1">
-            <ReadableNumber label="%" value={item.amount_ratio * 100} />
+            <ReadableNumber label="%" value={(item.amount_ratio ?? 0) * 100} />
             <span>at</span>
             <span className={clsx('text-sm', priceClassName)}>
               <ReadableNumber
@@ -184,15 +184,11 @@ const PositionDetailModal: React.FC<{
         <div className="my-3 border-b border-white/10" />
         <ItemsList
           title={t('position-detail-modal.open')}
-          items={[
-            {
-              key: 'any',
-              amount_ratio: 1,
-              applied: true,
-              price_exact: position.entry_price,
-              applied_at: position.entry_time,
-            },
-          ]}
+          items={position.manager?.open_orders?.map(oo => ({
+            ...oo,
+            amount_ratio: oo.amount,
+            price_exact: oo.price,
+          }))}
           className="mb-3"
           priceClassName="text-info"
         />

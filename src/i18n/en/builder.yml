@@ -188,7 +188,7 @@ signal-form:
   btn-new-stop-loss: New Stop Loss
   btn-new-take-profit: New Take Profit
   btn-update: Update Position
-  chart-title: Wisdomise Chart
+  chart-title: Chart
   confirm-close: Are you sure you want to close this position?
   confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
