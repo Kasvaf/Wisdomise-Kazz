@@ -97,7 +97,7 @@ const PartOpen: React.FC<{
             ? assetPrice === undefined
               ? '-'
               : '~ ' + roundSensible(assetPrice)
-            : price ?? '-'
+            : price ?? assetPrice ?? '-'
         }
         onPriceChange={p => {
           setPrice(p);

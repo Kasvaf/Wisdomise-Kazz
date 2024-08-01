@@ -83,7 +83,10 @@ const useSyncFormState = ({
       (firstOrder.applied || activePosition.pair_name !== pair)
     ) {
       setPair(activePosition.pair_name);
-      setPrice(String(firstOrder.price ?? activePosition.entry_price));
+
+      const price = firstOrder.price ?? activePosition.entry_price;
+      setPrice(price ? String(price) : '');
+
       setOrderType(firstOrder.order_type);
       setVolume(String((firstOrder.amount ?? 1) * 100));
       setConditions(
