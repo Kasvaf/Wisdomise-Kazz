@@ -44,7 +44,12 @@ export function sortTpSlItems({
   );
 }
 
-function getSafetyOpens(orders: TpSlData[], effectivePrice: number) {
+function getSafetyOpens(
+  orders: TpSlData[],
+  remoteOrders: OpenOrderResponse[],
+  marketPrice: number,
+): OpenOrderInput[] {
+  const remotesByKey = Object.fromEntries(remoteOrders.map(x => [x.key, x]));
   return orders
     .filter(x => !x.removed)
     .map(
@@ -53,12 +58,14 @@ function getSafetyOpens(orders: TpSlData[], effectivePrice: number) {
           key: x.applied ? x.key : v4(),
           amount: +x.amountRatio / 100,
           order_type: 'market',
-          condition: {
-            type: 'compare',
-            op: +x.priceExact < effectivePrice ? '<=' : '>=',
-            left: 'price',
-            right: +x.priceExact,
-          },
+          condition: x.applied
+            ? remotesByKey[x.key].condition
+            : {
+                type: 'compare',
+                op: +x.priceExact < marketPrice ? '<=' : '>=',
+                left: 'price',
+                right: +x.priceExact,
+              },
         }) as const,
     );
 }
@@ -94,18 +101,18 @@ const useSignalFormStates = () => {
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
     getOpenOrders: (
-      effectivePrice: number,
-      firstOrder?: OpenOrderResponse,
+      marketPrice: number,
+      openOrders: OpenOrderResponse[] = [],
     ) => ({
       items: [
-        firstOrder?.applied
+        openOrders?.[0]?.applied
           ? {
-              key: firstOrder.key,
-              condition: firstOrder.condition,
+              key: openOrders[0].key,
+              condition: openOrders[0].condition,
               amount: +volume / 100,
               price:
                 orderType === 'limit'
-                  ? { value: Number(firstOrder.price) }
+                  ? { value: Number(openOrders[0].price) }
                   : undefined,
               order_type: orderType,
             }
@@ -122,7 +129,9 @@ const useSignalFormStates = () => {
                   : undefined,
               order_type: orderType,
             },
-        ...(+volume < 100 ? getSafetyOpens(safetyOpens, effectivePrice) : []),
+        ...(+volume < 100
+          ? getSafetyOpens(safetyOpens, openOrders, marketPrice)
+          : []),
       ] satisfies OpenOrderInput[],
     }),
     reset: () => {

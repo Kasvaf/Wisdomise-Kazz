@@ -36,6 +36,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
   });
 
   const {
+    isEnabled,
     isSubmitting,
     fireHandler,
     updateHandler,
@@ -81,6 +82,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
             variant="primary-purple"
             onClick={updateHandler}
             loading={isSubmitting}
+            disabled={!isEnabled}
           >
             {t('signal-form.btn-update')}
           </Button>
@@ -88,6 +90,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
             variant="secondary-red"
             onClick={closeHandler}
             loading={isSubmitting}
+            disabled={!isEnabled}
           >
             {t('signal-form.btn-close')}
           </Button>
@@ -97,6 +100,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
           variant="primary-purple"
           onClick={fireHandler}
           loading={isSubmitting}
+          disabled={!isEnabled}
         >
           {t('signal-form.btn-fire-signal')}
         </Button>

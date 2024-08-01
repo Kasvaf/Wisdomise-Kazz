@@ -43,13 +43,6 @@ const useActionHandlers = ({
     assetName,
   });
 
-  const effectivePrice =
-    orderType === 'market'
-      ? assetPrice === undefined
-        ? 0
-        : assetPrice
-      : +price;
-
   const { mutateAsync, isLoading: isSubmitting } = useFireSignalMutation();
 
   const [ModalConfirm, confirm] = useConfirm({
@@ -60,7 +53,7 @@ const useActionHandlers = ({
   });
 
   const fireHandler = async () => {
-    if (orderType === 'limit' && !price) return;
+    if ((orderType === 'limit' && !price) || !assetPrice) return;
     if (
       !(await confirm({
         message: t('signal-form.confirm-fire'),
@@ -81,7 +74,7 @@ const useActionHandlers = ({
         },
         take_profit: getTakeProfits(),
         stop_loss: getStopLosses(),
-        open_orders: getOpenOrders(effectivePrice),
+        open_orders: getOpenOrders(assetPrice),
       });
       notification.success({
         message: t('signal-form.notif-success-fire'),
@@ -92,7 +85,7 @@ const useActionHandlers = ({
   };
 
   const updateHandler = async () => {
-    if (!activePosition?.signal) return;
+    if (!activePosition?.signal || !assetPrice) return;
     if (
       !(await confirm({
         message: t('signal-form.confirm-update'),
@@ -108,8 +101,8 @@ const useActionHandlers = ({
         take_profit: getTakeProfits(),
         stop_loss: getStopLosses(),
         open_orders: getOpenOrders(
-          effectivePrice,
-          activePosition.manager?.open_orders?.[0],
+          assetPrice,
+          activePosition.manager?.open_orders,
         ),
       });
       notification.success({ message: t('signal-form.notif-success-update') });
@@ -119,7 +112,7 @@ const useActionHandlers = ({
   };
 
   const closeHandler = async () => {
-    if (!activePosition?.signal) return;
+    if (!activePosition?.signal || !assetPrice) return;
     if (
       !(await confirm({
         message: t('signal-form.confirm-close'),
@@ -136,8 +129,8 @@ const useActionHandlers = ({
         stop_loss: { items: [] },
         take_profit: { items: [] },
         open_orders: getOpenOrders(
-          effectivePrice,
-          activePosition.manager?.open_orders?.[0],
+          assetPrice,
+          activePosition.manager?.open_orders,
         ),
       });
       reset();
@@ -150,6 +143,7 @@ const useActionHandlers = ({
   };
 
   return {
+    isEnabled: !!assetPrice,
     isSubmitting,
     fireHandler,
     updateHandler,
