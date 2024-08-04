@@ -54,8 +54,6 @@ export default function PageWhales() {
         <WhalesTable />
         <div className={clsx('contents', onlyShowWhales && 'hidden')}>
           <hr className="opacity-5" />
-          <CoinsTable />
-          <hr className="opacity-5" />
           <div className="grid grid-cols-2 gap-8 mobile:grid-cols-1">
             <TopCoins signalType="gainer" />
             <TopCoins signalType="loser" />
