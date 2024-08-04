@@ -8,6 +8,7 @@ import {
   useSignalsQuery,
 } from 'api';
 import useIsMobile from 'utils/useIsMobile';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import AssetSelector from 'modules/builder/AssetSelector';
 import { PageTitle } from 'shared/PageTitle';
@@ -80,7 +81,7 @@ const PageSignalersOverview = () => {
   const { t } = useTranslation('strategy');
   const isMobile = useIsMobile();
 
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useSearchParamAsState<string>('coin', '');
   const [page, setPage] = useState(1);
   const { data: radar } = useCoinSignals();
   const { data: positions, isLoading: isLoadingSignals } = useSignalsQuery();
