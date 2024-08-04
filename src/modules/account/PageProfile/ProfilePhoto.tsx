@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { useState, type FC } from 'react';
-import AuthorizedImage from 'shared/AuthorizedImage';
 import { ProfileCoverPlaceholder, ProfilePicturePlaceholder } from './assets';
 
 export const ProfilePhoto: FC<{
@@ -14,7 +13,7 @@ export const ProfilePhoto: FC<{
   const hasPhoto = typeof src === 'string' && src;
   const trueSrc = hasPhoto && !error ? src : placeholder;
   return (
-    <AuthorizedImage
+    <img
       className={clsx(
         'object-cover object-center',
         type === 'avatar' ? 'bg-white' : 'bg-[#161b34]',
