@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,7 @@ import { useSuggestionsMap } from 'modules/insight/PageSignalsMatrix/constants';
 import { ProfilePhoto } from 'modules/account/PageProfile/ProfilePhoto';
 import { truncateUserId } from 'modules/account/PageProfile/truncateUserId';
 import useSignalSubscriptionModal from 'modules/insight/PageSignalsMatrix/useSignalSubscriptionModal';
+import usePositionDetailModal from 'modules/insight/usePositionDetailModal';
 import { ReadableDate } from 'shared/ReadableDate';
 import PriceChange from 'shared/PriceChange';
 import Badge from 'shared/Badge';
@@ -49,10 +51,15 @@ const StrategyPositionBox: React.FC<{
     </div>
   );
 
+  const detailsLink = `/insight/coins/signaler?coin=${pos.pair_name}&strategy=${pos.strategy.key}`;
+  const [PositionDetailModal, showPositionDetailModal] = usePositionDetailModal(
+    pos,
+    detailsLink,
+  );
+
   const suggestions = useSuggestionsMap();
   const { label: actionLabel } = suggestions[pos.suggested_action];
 
-  const detailsLink = `/insight/coins/signaler?coin=${pos.pair_name}&strategy=${pos.strategy.key}`;
   return (
     <NavLink
       className={clsx(
@@ -61,11 +68,12 @@ const StrategyPositionBox: React.FC<{
       )}
       to={detailsLink}
       onClick={e => {
+        e.preventDefault();
         if (isLocked) {
-          e.preventDefault();
-          e.stopPropagation();
           void showSubModal();
+          return;
         }
+        void showPositionDetailModal();
       }}
     >
       <div className="flex h-10 w-2/5 items-stretch gap-3 overflow-hidden mobile:w-full">
@@ -104,6 +112,7 @@ const StrategyPositionBox: React.FC<{
         <div className="flex flex-col justify-between">
           <LabeledInfo label="Action" labelClassName="w-24">
             {SubModal}
+            {PositionDetailModal}
             {isLocked ? subLink : actionLabel}
           </LabeledInfo>
           <LabeledInfo label="Position Side" labelClassName="w-24">
