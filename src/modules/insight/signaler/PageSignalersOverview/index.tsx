@@ -108,7 +108,7 @@ const PageSignalersOverview = () => {
     <PageWrapper>
       <PageTitle
         title={t('base:menu.signalers.title')}
-        description={t('base:menu.signalers.description')}
+        description={t('base:menu.signalers.subtitle')}
         className="mb-8"
       />
 

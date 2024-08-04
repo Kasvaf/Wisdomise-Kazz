@@ -92,7 +92,7 @@ menu:
     card-badge: +100 Monthly Signals
   signalers:
     title: Signalers
-    description: Discover the Leading Cryptocurrencies With Active Signals and Positions
+    subtitle: Discover the Leading Cryptocurrencies With Active Signals and Positions
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access

@@ -68,6 +68,14 @@ const PageInsight = () => {
           onClick={trackClick('coin_list_menu')}
         />
         <PageCard
+          to="/insight/signalers"
+          title={t('menu.signalers.title')}
+          description={t('menu.signalers.subtitle')}
+          icon={SocialMatrixIcon}
+          onClick={trackClick('signalers_menu')}
+          badge={t('menu.signal-matrix.card-badge')}
+        />
+        <PageCard
           to="/insight/signals"
           title={t('menu.signal-matrix.title')}
           description={t('menu.signal-matrix.subtitle')}
