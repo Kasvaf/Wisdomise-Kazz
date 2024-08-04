@@ -77,18 +77,20 @@ const StrategyPositionBox: React.FC<{
       }}
     >
       <div className="flex h-10 w-2/5 items-stretch gap-3 overflow-hidden mobile:w-full">
-        <ProfilePhoto
-          src={pos.strategy.owner?.cprofile.profile_image}
-          type="avatar"
-          className="h-10 w-10 rounded-full"
-        />
+        <NavLink to={`/users/${pos.strategy.owner?.key ?? ''}`}>
+          <ProfilePhoto
+            src={pos.strategy.owner?.cprofile.profile_image}
+            type="avatar"
+            className="h-10 w-10 rounded-full hover:saturate-150"
+          />
+        </NavLink>
         <div className="flex flex-col justify-between py-0.5">
           <div className="line-clamp-1 text-xs">
-            <span>
+            <NavLink to={`/users/${pos.strategy.owner?.key ?? ''}`}>
               {pos.strategy.owner?.cprofile.nickname ||
                 truncateUserId(pos.strategy.owner?.key ?? 'Unknown')}
               &nbsp;
-            </span>
+            </NavLink>
             <span className="text-white/70">
               ({pos.strategy.profile?.title ?? pos.strategy.name})
             </span>
