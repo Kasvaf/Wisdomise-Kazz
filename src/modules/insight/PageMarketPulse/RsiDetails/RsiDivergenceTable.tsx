@@ -9,7 +9,7 @@ import {
 import Table from 'shared/Table';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Coin } from '../Coin';
+import { Coin } from 'shared/Coin';
 
 export const RsiDivergenceTable: FC<{
   type: keyof RsiDivergenceResponse;
@@ -34,7 +34,7 @@ export const RsiDivergenceTable: FC<{
       {
         title: t('indicator_list.rsi.table.name'),
         render: (_, row) => (
-          <Coin icon={row.image} name={row.candle_base_abbreviation} />
+          <Coin image={row.image} abbrevation={row.candle_base_abbreviation} />
         ),
       },
       {
