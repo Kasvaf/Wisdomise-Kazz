@@ -141,7 +141,7 @@ const PageSignalersOverview = () => {
                     pairName={pair.pair.name}
                     className="w-2/5 max-w-[363px]"
                   />
-                  <div className="h-[481px] w-3/5 overflow-y-auto rounded-xl bg-black/40">
+                  <div className="h-[481px] grow basis-3/5 overflow-y-auto rounded-xl bg-black/40">
                     <div className="flex flex-col gap-4 p-6">
                       {pair.positions.map(pos => (
                         <StrategyPositionBox
