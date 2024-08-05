@@ -33,7 +33,6 @@ const UserSignalers = memo<{
     return [
       {
         title: '#',
-        className: 'w-14',
         dataIndex: 'rank',
         sorter: (a, b) => a.rank - b.rank,
         render(value) {
@@ -42,8 +41,6 @@ const UserSignalers = memo<{
       },
       {
         title: t('accounts:page-public-profile.signalers-table.name'),
-        className: 'w-auto',
-        width: 'auto',
         render(_, record) {
           return (
             <span className="block max-w-56 truncate text-lg group-hover:text-white/70 mobile:text-base">
@@ -53,7 +50,6 @@ const UserSignalers = memo<{
         },
       },
       {
-        className: 'min-w-42 w-48',
         title: t('accounts:page-public-profile.signalers-table.pair'),
         render(_, { pair }) {
           return (
@@ -73,7 +69,6 @@ const UserSignalers = memo<{
         },
       },
       {
-        className: 'min-w-48 w-56',
         title: (
           <Trans i18nKey="page-public-profile.signalers-table.pl" ns="accounts">
             P/L <span className="ml-1 text-xxs opacity-60">Monthly</span>
@@ -97,7 +92,6 @@ const UserSignalers = memo<{
         },
       },
       {
-        className: 'min-w-48 w-56',
         title: (
           <Trans
             i18nKey="page-public-profile.signalers-table.max_drawdown"
