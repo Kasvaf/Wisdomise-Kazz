@@ -47,17 +47,24 @@ export default function PageCoinRadarDetail() {
       {overview.data && (
         <CoinInfo className="mb-4" signal={signal} overview={overview.data} />
       )}
+      {(messages.data?.length ?? 0) > 0 && (
+        <>
+          <Tabs
+            onChange={newTab => setActiveTab(newTab as typeof activeTab)}
+            items={socialTabs}
+          />
 
-      <Tabs
-        onChange={newTab => setActiveTab(newTab as typeof activeTab)}
-        items={socialTabs}
-      />
-
-      <section className="mt-6 columns-2 gap-6 mobile:columns-1">
-        {activeTabMessages?.map(message => (
-          <SocialMessage key={message.id} message={message} className="mb-6" />
-        ))}
-      </section>
+          <section className="mt-6 columns-2 gap-6 mobile:columns-1">
+            {activeTabMessages?.map(message => (
+              <SocialMessage
+                key={message.id}
+                message={message}
+                className="mb-6"
+              />
+            ))}
+          </section>
+        </>
+      )}
     </PageWrapper>
   );
 }

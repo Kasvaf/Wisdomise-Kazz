@@ -32,7 +32,7 @@ export const HotCoinsTable: FC<{
         className: 'w-36',
         title: t('hot-coins-section.table.name'),
         render: (row: CoinSignal) => (
-          <Coin abbrevation={row.symbol_name} image={row.image} nonLink />
+          <Coin abbrevation={row.symbol_name} image={row.image} />
         ),
       },
       {
