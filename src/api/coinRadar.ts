@@ -254,9 +254,7 @@ export const useSocialMessages = (symbol: string) =>
               content: twitterMessage,
             }) satisfies SocialMessage,
         ),
-      ].sort((a, b) =>
-        a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0,
-      );
+      ].sort((a, b) => b.timestamp ?? a.timestamp > 0 ?? 0);
       return response;
     },
   });
