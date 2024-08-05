@@ -1,7 +1,8 @@
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
-import usePositionDetailModal, { type PositionDetails } from '.';
+import { type PositionDetails } from './PositionDetailModal';
+import usePositionDetailModal from '.';
 
 const BtnMultiTpSl: React.FC<{
   position?: PositionDetails | null;
