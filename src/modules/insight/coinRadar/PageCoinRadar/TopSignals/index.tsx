@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useCoinSignals } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
+import { Coin } from 'shared/Coin';
 
 export const TopSignals: FC<{
   signalType: 'gainer' | 'loser';
@@ -18,6 +19,7 @@ export const TopSignals: FC<{
 
   const filteredSignals = useMemo(() => {
     return (signals.data ?? [])
+      .filter(row => typeof row.price_change_percentage === 'number')
       .sort((a, b) => {
         if (signalType === 'gainer') {
           return (
@@ -46,14 +48,7 @@ export const TopSignals: FC<{
           >
             <div className="text-sm font-medium">{index + 1}</div>
             <div className="grow text-sm font-medium">
-              <div className="flex items-center gap-2">
-                {row.image ? (
-                  <img src={row.image} className="size-7 rounded-full" />
-                ) : (
-                  <div className="size-7 rounded-full bg-white/5" />
-                )}
-                <p>{row.symbol_name}</p>
-              </div>
+              <Coin abbrevation={row.symbol_name} image={row.image} />
             </div>
             <div className="flex basis-1/2 items-center justify-between gap-2 text-sm mobile:flex-col mobile:items-end">
               <ReadableNumber value={row.current_price} label="usdt" />

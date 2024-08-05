@@ -10,6 +10,7 @@ import { ReadableDate } from 'shared/ReadableDate';
 import PriceChange from 'shared/PriceChange';
 import { track } from 'config/segment';
 import Icon from 'shared/Icon';
+import { Coin } from 'shared/Coin';
 import { SignalSentiment } from './SignalSentiment';
 
 export const HotCoinsTable: FC<{
@@ -31,14 +32,7 @@ export const HotCoinsTable: FC<{
         className: 'w-36',
         title: t('hot-coins-section.table.name'),
         render: (row: CoinSignal) => (
-          <div className="flex items-center gap-2">
-            {row.image ? (
-              <img src={row.image} className="size-6 rounded-full" />
-            ) : (
-              <div className="size-6 rounded-full bg-white/5" />
-            )}
-            <p>{row.symbol_name}</p>
-          </div>
+          <Coin abbrevation={row.symbol_name} image={row.image} nonLink />
         ),
       },
       {
