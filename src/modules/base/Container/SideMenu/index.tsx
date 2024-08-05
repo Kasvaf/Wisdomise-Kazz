@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
-import { bxLeftArrowAlt, bxRightArrowAlt } from 'boxicons-quasar';
+import { bxLeftArrowAlt, bxLogOut, bxRightArrowAlt } from 'boxicons-quasar';
 import { useHasFlag } from 'api';
 import { MAIN_LANDING } from 'config/constants';
 import BetaVersion from 'shared/BetaVersion';
@@ -82,7 +82,7 @@ const SideMenu: React.FC<{
   onCollapseClick: () => void;
 }> = ({ className, collapsed, onCollapseClick }) => {
   const hasFlag = useHasFlag();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const { items: MenuItems } = useMenuItems();
 
@@ -99,7 +99,7 @@ const SideMenu: React.FC<{
           collapsed ? 'p-4' : 'p-6',
         )}
       >
-        <div>
+        <div className="flex min-h-full flex-col">
           <div className="mb-4 mt-8 flex items-center justify-between border-b border-white/5 pb-4">
             <a
               href={MAIN_LANDING(i18n.language)}
@@ -124,6 +124,23 @@ const SideMenu: React.FC<{
                 collapsed={collapsed}
               />
             ))}
+          </div>
+
+          <div className="grow" />
+          <div className="text-error">
+            <NavLink
+              to="/auth/logout"
+              className={clsx(
+                'mb-4 flex h-12 cursor-pointer items-center rounded-xl text-sm',
+                'hover:bg-[#FFFFFF0D]',
+                'justify-between px-4',
+              )}
+            >
+              <div className="flex items-center justify-start">
+                <Icon name={bxLogOut} />
+                <p className="ml-2">{t('base:user.sign-out')}</p>
+              </div>
+            </NavLink>
           </div>
         </div>
       </div>
