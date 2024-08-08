@@ -17,8 +17,8 @@ sections:
       total-vol: 总交易量
       transactions: 鲸鱼交易
     title: 顶级鲸鱼币
-  top-gainers: 涨幅最大的股票
-  top-losers: 最大输家
+  top-gainers: 鲸鱼涨幅最大的股票
+  top-losers: 鲸鱼最大的输家
   top-whales:
     filters:
       1d: 24小时

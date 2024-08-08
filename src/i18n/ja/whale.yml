@@ -17,8 +17,8 @@ sections:
       total-vol: 総取引量
       transactions: クジラ取引
     title: トップクジラコイン
-  top-gainers: 上位の上昇銘柄
-  top-losers: トップ敗者
+  top-gainers: クジラ株の上昇率上位銘柄
+  top-losers: クジラのトップ敗者
   top-whales:
     filters:
       1d: 24時間
