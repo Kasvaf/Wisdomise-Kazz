@@ -153,7 +153,7 @@ export function WhalesTable({
               );
             }
           }}
-          loading={whales.isFetching}
+          loading={whales.isFetching && whales.isPreviousData}
           rowKey="holder_address"
         />
       </div>

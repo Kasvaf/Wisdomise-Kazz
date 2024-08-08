@@ -137,7 +137,7 @@ export function CoinsTable({ className }: { className?: string }) {
               );
             }
           }}
-          loading={coins.isFetching}
+          loading={coins.isFetching && coins.isPreviousData}
           rowKey="symbol_abbreviation"
         />
       </div>

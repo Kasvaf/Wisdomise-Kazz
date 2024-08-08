@@ -26,6 +26,7 @@ export const useWhales = (filters?: {
   useQuery({
     queryKey: ['whales', JSON.stringify(filters)],
     keepPreviousData: true,
+    refetchInterval: 3000,
     queryFn: async () => {
       const { data } = await axios.get<PageResponse<WhaleShort>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/tops/`,
@@ -74,6 +75,7 @@ export const useWhalesCoins = (filters?: {
   useQuery({
     queryKey: ['whales-coins', JSON.stringify(filters)],
     keepPreviousData: true,
+    refetchInterval: 3000,
     queryFn: async () => {
       const { data } = await axios.get<PageResponse<WhaleCoin>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
