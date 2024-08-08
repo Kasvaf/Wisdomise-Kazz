@@ -35,6 +35,7 @@ function NumberWithLabel({
         labelObject?.position === 'before'
           ? 'flex-row-reverse gap-x-px'
           : 'gap-x-[2px]',
+        'tracking-[0.045em]',
         className,
       )}
       style={{
@@ -76,7 +77,7 @@ export function ReadableNumber({
   const displayValue = useMemo(() => {
     if (typeof value !== 'number') return;
     return formatNumber(value, {
-      compactInteger: value >= 1e6,
+      compactInteger: true,
       decimalLength: 3,
       minifyDecimalRepeats: true,
       seperateByComma: true,
