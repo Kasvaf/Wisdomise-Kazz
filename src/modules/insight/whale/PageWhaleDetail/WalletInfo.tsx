@@ -23,9 +23,6 @@ export const WhaletInfo: FC<{
           className="text-3xl font-bold"
           value={whale?.last_30_balance_updates[0]?.balance_usdt}
           label="usdt"
-          format={{
-            decimalLength: 1,
-          }}
         />
         <button disabled={loading} onClick={onRefresh}>
           <Icon
