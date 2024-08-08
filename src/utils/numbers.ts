@@ -33,16 +33,21 @@ const resolvePower = (number: number) => {
 const compressByLabel = (number: number) => {
   let label = '';
   let value = '';
-  if (number > 1e3 - 1) {
+  const positiveNumber = Math.abs(number);
+  if (positiveNumber > 1e3 - 1) {
     const sectors = [
       { label: 'K', max: 1e6, divide: 1e3 },
       { label: 'M', max: 1e9, divide: 1e6 },
       { label: 'B', max: 1e12, divide: 1e9 },
       { label: 'T', max: 1e15, divide: 1e12 },
-      { label: 'Q', max: Number.POSITIVE_INFINITY, divide: 1e15 },
+      { label: 'Qa', max: 1e18, divide: 1e15 },
+      { label: 'Qi', max: 1e21, divide: 1e18 },
+      { label: 'Sx', max: 1e24, divide: 1e21 },
+      { label: 'Sp', max: 1e27, divide: 1e24 },
+      { label: 'Oc', max: Number.POSITIVE_INFINITY, divide: 1e27 },
     ];
     for (const sector of sectors) {
-      if (number < sector.max) {
+      if (positiveNumber < sector.max) {
         const [intPart, decPart] = resolvePower(number / sector.divide).split(
           '.',
         );
@@ -53,7 +58,7 @@ const compressByLabel = (number: number) => {
     }
   }
   return {
-    value: value || resolvePower(number),
+    value: `${value || resolvePower(number)}`,
     label,
   };
 };
@@ -142,7 +147,12 @@ export const formatNumber = (input: number, options: FormatNumberOptions) => {
     };
   }
 
-  return `${output.integerPart}${
-    output.decimalPart ? `.${output.decimalPart}` : ''
-  }${output.label || ''}`;
+  return [
+    `${output.integerPart}${
+      output.decimalPart ? `.${output.decimalPart}` : ''
+    }`,
+    output.label,
+  ]
+    .filter(x => !!x)
+    .join(' ');
 };
