@@ -1,15 +1,11 @@
 import { type FC, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
-import { bxRightArrowAlt } from 'boxicons-quasar';
 import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import PriceChange from 'shared/PriceChange';
-import { track } from 'config/segment';
-import Icon from 'shared/Icon';
 import { Coin } from 'shared/Coin';
 import { SignalSentiment } from './SignalSentiment';
 
@@ -94,27 +90,6 @@ export const HotCoinsTable: FC<{
             },
           ]
         : []),
-      {
-        className: 'w-32',
-        title: t('hot-coins-section.table.actions'),
-        render: (row: CoinSignal) => (
-          <NavLink
-            to={'/insight/coin-radar/' + row.symbol_name}
-            className="mx-auto inline-flex items-center justify-end text-sm text-white/60 hover:text-white hover:opacity-100"
-            onClick={() =>
-              track('Click On', {
-                place: 'coin_radar_explore',
-                coin: row.symbol_name,
-              })
-            }
-          >
-            <p className="leading-none">
-              {t('hot-coins-section.table.insights')}
-            </p>
-            <Icon name={bxRightArrowAlt} />
-          </NavLink>
-        ),
-      },
     ],
     [t, hasFlag],
   );

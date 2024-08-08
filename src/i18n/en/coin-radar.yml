@@ -26,10 +26,8 @@ hot-coins-section:
   table:
     name: Name
     24h-voume: 24h Vol
-    actions: Actions
     call-time: Call Time
     chg-24: Chg(24h)
-    insights: Insights
     market-cap: Market Cap
     negative: Negative
     positive: Positive
