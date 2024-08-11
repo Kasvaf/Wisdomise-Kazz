@@ -42,20 +42,20 @@ export const HotCoinsTable: FC<{
           ]
         : []),
       {
-        className: 'w-36',
-        title: t('hot-coins-section.table.realtime-price'),
-        sorter: (a, b) => (a.current_price ?? 0) - (b.current_price ?? 0),
-        render: (row: CoinSignal) => (
-          <ReadableNumber value={row.current_price} label="usdt" />
-        ),
-      },
-      {
         title: t('hot-coins-section.table.call-time'),
         sorter: (a, b) =>
           new Date(a.first_signal_related_at ?? Date.now()).getTime() -
           new Date(b.first_signal_related_at ?? Date.now()).getTime(),
         render: (row: CoinSignal) => (
           <ReadableDate value={row.first_signal_related_at} />
+        ),
+      },
+      {
+        className: 'w-36',
+        title: t('hot-coins-section.table.realtime-price'),
+        sorter: (a, b) => (a.current_price ?? 0) - (b.current_price ?? 0),
+        render: (row: CoinSignal) => (
+          <ReadableNumber value={row.current_price} label="usdt" />
         ),
       },
       {
