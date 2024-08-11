@@ -154,5 +154,5 @@ export const formatNumber = (input: number, options: FormatNumberOptions) => {
     output.label,
   ]
     .filter(x => !!x)
-    .join(' ');
+    .join(' ');
 };
