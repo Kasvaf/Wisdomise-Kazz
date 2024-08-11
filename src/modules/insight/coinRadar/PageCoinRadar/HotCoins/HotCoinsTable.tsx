@@ -31,6 +31,16 @@ export const HotCoinsTable: FC<{
           <Coin abbrevation={row.symbol_name} image={row.image} />
         ),
       },
+      ...(hasFlag('/insight/coin-radar?side-suggestion')
+        ? [
+            {
+              title: t('hot-coins-section.table.sentiment'),
+              sorter: (a: CoinSignal, b: CoinSignal) =>
+                (a.gauge_measure ?? 0) - (b.gauge_measure ?? 0),
+              render: (row: CoinSignal) => <SignalSentiment signal={row} />,
+            },
+          ]
+        : []),
       {
         className: 'w-36',
         title: t('hot-coins-section.table.realtime-price'),
@@ -82,14 +92,6 @@ export const HotCoinsTable: FC<{
           <ReadableNumber value={row.circulating_supply} />
         ),
       },
-      ...(hasFlag('/insight/coin-radar?side-suggestion')
-        ? [
-            {
-              title: t('hot-coins-section.table.sentiment'),
-              render: (row: CoinSignal) => <SignalSentiment signal={row} />,
-            },
-          ]
-        : []),
     ],
     [t, hasFlag],
   );

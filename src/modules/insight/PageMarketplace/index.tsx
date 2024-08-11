@@ -222,7 +222,6 @@ const PageMarketplace: React.FC = () => {
         {t('base:menu.marketplace.subtitle')}
       </p>
       <Table
-        rootClassName="[&_tbody_tr:nth-child(even)]:bg-black/15 bg-transparent"
         columns={columns}
         dataSource={strategiesPerformanceBulkWithRank}
         className="w-full overflow-auto"

@@ -18,6 +18,10 @@ export default function Table<RecordType extends object>({
         nextIcon: <img src={nextSrc} />,
         prevIcon: <img src={preSrc} />,
       }}
+      rowClassName={clsx(
+        '[&:nth-child(even)]:bg-black/20 [&:nth-child(odd)]:bg-transparent',
+        props.rowClassName,
+      )}
       className={clsx('[&_.ant-table-thead]:bg-[#262830]', props.className)}
       expandable={{
         ...props.expandable,
