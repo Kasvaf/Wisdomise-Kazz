@@ -36,7 +36,8 @@ export const WhaletInfo: FC<{
         <PriceChange
           className="!inline-flex"
           textClassName="!text-xl"
-          value={whale?.last_30_days_trading_pnl_percentage}
+          value={whale?.last_30_days_balance_change_percentage}
+          staticValue={whale?.last_30_days_balance_change}
         />
       </div>
       <div className="grow" />

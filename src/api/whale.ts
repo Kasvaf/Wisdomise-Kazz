@@ -148,10 +148,10 @@ export interface SingleWhale {
   last_30_days_trading_pnl: number;
   last_30_days_trading_pnl_percentage: number;
   last_30_days_trading_realized_pnl: number;
-  network_abbreviation: string;
-  network_icon_url: string;
-  network_name: string;
+  last_30_days_trading_realized_pnl_percentage: number;
   total_last_30_days_transfers: number;
+  last_30_days_balance_change: number;
+  last_30_days_balance_change_percentage: number;
 }
 export const useWhaleDetails = (filters: {
   holderAddress: string;
