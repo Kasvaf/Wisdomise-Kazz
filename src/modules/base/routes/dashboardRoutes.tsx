@@ -21,8 +21,8 @@ const useDashboardRoutes = () => {
       path: 'dashboard',
       element: <Container />,
       children: [
-        { path: '', element: <Navigate to="/dashboard/home" /> },
-        { path: 'home', element: <PageHome /> },
+        { path: '', element: <Navigate to="/dashboard/overview" /> },
+        { path: 'overview', element: <PageHome /> },
         {
           path: 'portfolio',
           handle: { crumb: t('menu.portfolio.title') },

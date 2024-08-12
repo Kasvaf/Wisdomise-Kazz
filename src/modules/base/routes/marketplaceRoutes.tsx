@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { type RouteObject } from 'react-router-dom';
+import { Navigate, type RouteObject } from 'react-router-dom';
 import PageInvestment from 'modules/investment/PageInvestment';
 import Container from '../Container';
 import useBuilderRoutes from './builderRoutes';
@@ -24,7 +24,8 @@ const useMarketplaceRoutes = () => {
       path: 'marketplace',
       handle: { crumb: t('menu.marketplace.title') },
       children: [
-        { path: '', element: <PageInvestment /> },
+        { path: '', element: <Navigate to="/marketplace/overview" /> },
+        { path: 'overview', element: <PageInvestment /> },
         {
           path: 'products-catalog',
           handle: { crumb: t('menu.financial-products.title') },

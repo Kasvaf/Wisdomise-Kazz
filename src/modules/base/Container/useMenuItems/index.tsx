@@ -28,11 +28,12 @@ const useMenuItems = () => {
       icon: <IconDashboard />,
       text: t('menu.dashboard.title'),
       link: '/dashboard',
+      onClick: trackClick('dashboard_menu'),
       children: [
         {
           text: t('menu.overview.title'),
-          link: '/dashboard/home',
-          onClick: trackClick('home_menu'),
+          link: '/dashboard/overview',
+          onClick: trackClick('dashboard_menu'),
         },
         {
           text: t('menu.portfolio.title'),
@@ -46,8 +47,13 @@ const useMenuItems = () => {
       icon: <IconMarketplace />,
       text: t('menu.marketplace.title'),
       link: '/marketplace',
-      onClick: trackClick('investment_menu'),
+      onClick: trackClick('marketplace_menu'),
       children: [
+        {
+          text: t('menu.overview.title'),
+          link: '/marketplace/overview',
+          onClick: trackClick('marketplace_menu'),
+        },
         {
           text: t('menu.financial-products.title'),
           link: '/marketplace/products-catalog',
@@ -66,6 +72,11 @@ const useMenuItems = () => {
       link: '/insight',
       onClick: trackClick('insight_menu'),
       children: [
+        {
+          text: t('menu.overview.title'),
+          link: '/insight/overview',
+          onClick: trackClick('insight_menu'),
+        },
         {
           text: t('menu.coin-radar.title'),
           link: '/insight/coin-radar',
@@ -96,6 +107,11 @@ const useMenuItems = () => {
       link: '/account',
       onClick: trackClick('account_menu'),
       children: [
+        {
+          text: t('menu.overview.title'),
+          link: '/account/overview',
+          onClick: trackClick('account_menu'),
+        },
         {
           text: t('menu.profile.title'),
           link: '/account/profile',

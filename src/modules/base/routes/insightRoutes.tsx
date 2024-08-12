@@ -1,6 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import * as React from 'react';
-import { type Params, type RouteObject } from 'react-router-dom';
+import { Navigate, type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageInsight from 'modules/insight/PageInsight';
 import Container from '../Container';
@@ -42,7 +42,8 @@ const useInsightRoutes = () => {
       path: 'insight',
       handle: { crumb: t('menu.insight.title') },
       children: [
-        { path: '', element: <PageInsight /> },
+        { path: '', element: <Navigate to="/insight/overview" /> },
+        { path: 'overview', element: <PageInsight /> },
         {
           path: 'signalers',
           element: <PageSignalersOverview />,

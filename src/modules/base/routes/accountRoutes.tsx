@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { type RouteObject } from 'react-router-dom';
+import { Navigate, type RouteObject } from 'react-router-dom';
 import PageAccount from 'modules/account/PageAccount';
 import Container from '../Container';
 
@@ -36,7 +36,8 @@ const useAccountRoutes = () => {
       path: 'account',
       handle: { crumb: t('menu.account.title') },
       children: [
-        { path: '', element: <PageAccount /> },
+        { path: '', element: <Navigate to="/account/overview" /> },
+        { path: 'overview', element: <PageAccount /> },
         {
           path: 'profile',
           element: <PageProfile />,
