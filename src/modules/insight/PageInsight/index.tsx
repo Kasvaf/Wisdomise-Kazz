@@ -4,7 +4,13 @@ import { trackClick } from 'config/segment';
 import BetaVersion from 'shared/BetaVersion';
 import { PageCard } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
-import { AiIcon, InsightIcon, SocialsIcon, MarketPulseIcon } from './icons';
+import {
+  AiIcon,
+  InsightIcon,
+  SocialsIcon,
+  MarketPulseIcon,
+  SocialMatrixIcon,
+} from './icons';
 
 const PageInsight = () => {
   const { t } = useTranslation('base');
@@ -44,6 +50,13 @@ const PageInsight = () => {
           icon={AiIcon}
           onClick={trackClick('crypto_chatbot_menu')}
           badge={t('menu.athena.features')}
+        />
+        <PageCard
+          to="/insight/signalers"
+          title={t('menu.signalers.title')}
+          description={t('menu.signalers.subtitle')}
+          icon={SocialMatrixIcon}
+          onClick={trackClick('signalers_menu')}
         />
       </div>
     </PageWrapper>

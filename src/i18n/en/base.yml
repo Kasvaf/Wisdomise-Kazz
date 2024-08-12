@@ -85,8 +85,9 @@ menu:
     title: My Signalers
     subtitle: Create Signals for Supported Cryptocurrencies
     card-button: Start Building Now
-  signal-matrix:
-    title: Signal Matrix
+  signalers:
+    title: Signalers
+    subtitle: Discover the Leading Cryptocurrencies With Active Signals and Positions
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access

@@ -79,6 +79,11 @@ const useMenuItems = () => {
           isBeta: true,
         },
         {
+          text: t('menu.signalers.title'),
+          link: '/insight/signalers',
+          onClick: trackClick('signalers_menu'),
+        },
+        {
           text: t('menu.athena.title'),
           link: '/insight/athena',
           onClick: trackClick('crypto_chatbot_menu'),

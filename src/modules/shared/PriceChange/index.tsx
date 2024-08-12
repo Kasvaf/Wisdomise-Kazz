@@ -7,6 +7,7 @@ import { ReactComponent as PriceUpIcon } from './priceUp.svg';
 interface Props {
   bg?: boolean;
   value?: number | null;
+  suffix?: string;
   colorize?: boolean;
   valueToFixed?: boolean; // no need anymore
   className?: string;
@@ -16,6 +17,7 @@ interface Props {
 const PriceChange: React.FC<Props> = ({
   value,
   bg,
+  suffix,
   className,
   textClassName,
   colorize = true,
@@ -49,6 +51,7 @@ const PriceChange: React.FC<Props> = ({
         )}
       >
         <ReadableNumber value={Math.abs(value)} label="%" />
+        {suffix && <span>{suffix}</span>}
         {/* {valueToFixed ? roundSensible(value) : Math.abs(value)} % */}
       </p>
     </div>
