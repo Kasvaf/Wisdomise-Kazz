@@ -27,7 +27,7 @@ const StepDone: React.FC<{
         fpiKey: fpi.key,
       });
       trackClick('started_fp')();
-      navigate('/investment/assets');
+      navigate('/dashboard/portfolio');
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     } finally {

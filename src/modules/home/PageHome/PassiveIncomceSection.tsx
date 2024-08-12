@@ -24,7 +24,7 @@ export default function PassiveIncomeSection() {
         <PageCard
           title={t('auto-trade.fps.title')}
           icon={FinancialProductsIcon}
-          to="/investment/products-catalog"
+          to="/marketplace/products-catalog"
           onClick={trackClick('onboarding_FP')}
           cta={t('auto-trade.fps.cta-title')}
           badge={`${financialProducts.data?.count || ''} ${t(

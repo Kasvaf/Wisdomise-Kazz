@@ -55,7 +55,7 @@ const ProductCard: React.FC<{ fp: FinancialProduct }> = ({ fp }) => {
       </NavLink>
 
       <Link
-        to={`/investment/products-catalog/fp/${fp.key}`}
+        to={`/marketplace/products-catalog/fp/${fp.key}`}
         onClick={trackClick('ai_driven_strategies_list', {
           strategy_name: fp.title,
         })}

@@ -34,7 +34,7 @@ const PageProductCatalogDetail = () => {
           <Button
             className="mr-4 w-1/2"
             variant="secondary"
-            to={`/investment/products-catalog?tab=${
+            to={`/marketplace/products-catalog?tab=${
               fp.data?.owner === account?.email ? 'mine' : 'trade'
             }`}
           >

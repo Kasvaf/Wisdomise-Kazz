@@ -56,7 +56,7 @@ export default function GuideSection() {
           okTitle=""
           active={hasIas}
           ctaTitle="Explore"
-          to="/investment/products-catalog"
+          to="/marketplace/products-catalog"
           notOkTitle="Haven’t Selected Yet"
           title="3. Select your Financial Product"
         /> */}

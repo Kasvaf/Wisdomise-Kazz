@@ -38,7 +38,7 @@ const FpiActions: React.FC<{
       trackClick(status.toLowerCase() + 'ed_fp')();
 
       if (status === 'stop') {
-        navigate('/investment/assets');
+        navigate('/dashboard/portfolio');
       }
     } catch (error) {
       notification.error({

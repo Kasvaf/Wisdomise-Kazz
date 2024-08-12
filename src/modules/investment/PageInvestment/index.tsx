@@ -25,7 +25,7 @@ const PageInvestment = () => {
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
         <PageCard
-          to="/investment/products-catalog"
+          to="/marketplace/products-catalog"
           title={t('menu.financial-products.title')}
           description={t('menu.financial-products.subtitle')}
           icon={IconFP}
@@ -43,7 +43,7 @@ const PageInvestment = () => {
         />
 
         <PageCard
-          to="/investment/assets"
+          to="/marketplace/assets"
           title={t('menu.builder.title')}
           description={t('menu.builder.subtitle')}
           icon={IconAO}

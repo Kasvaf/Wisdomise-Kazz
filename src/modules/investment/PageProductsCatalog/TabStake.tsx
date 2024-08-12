@@ -17,7 +17,7 @@ const ProductCardStake: React.FC<{ ip: InvestmentProtocol }> = ({ ip }) => {
       title={ip.name}
       icon={<img src={ip.logo_address} className="h-10 w-10 rounded-full" />}
       description={ip.description}
-      to={`/investment/products-catalog/stake/${ip.key}`}
+      to={`/marketplace/products-catalog/stake/${ip.key}`}
       onClick={trackClick('defi_staking_options', {
         stake_name: ip.name,
       })}

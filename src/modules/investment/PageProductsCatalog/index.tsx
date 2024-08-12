@@ -34,7 +34,7 @@ const PageProductsCatalog = () => {
       children: <TabStake />,
     },
   ].filter(x => hasFlag('?tab=' + x.key));
-  // 🚩 /investment/products-catalog?tab=[key]
+  // 🚩 /marketplace/products-catalog?tab=[key]
 
   const onTabChange = (newTab: string) => {
     trackClick(newTab + '_tab')();

@@ -13,7 +13,7 @@ const PageAuthCallback = React.lazy(
 const PageLogin = React.lazy(() => import('modules/auth/PageLogin'));
 const PageLogout = React.lazy(() => import('modules/auth/PageLogout'));
 
-const defaultNav = '/investment';
+const defaultNav = '/marketplace';
 const useAuthRoutes = () => {
   return [
     {

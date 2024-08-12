@@ -44,7 +44,7 @@ export default function PassiveIncomeDeFiWidget() {
                 rel="noreferrer"
                 target="_blank"
                 className="flex justify-center"
-                to={'/investment/products-catalog/stake/' + row.key}
+                to={'/marketplace/products-catalog/stake/' + row.key}
               >
                 <img src={arrowSrc} />
               </NavLink>
