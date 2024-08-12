@@ -27,14 +27,6 @@ const ActivePositionDetails: React.FC<{
   const { t } = useTranslation('builder');
   const statusMap = usePositionStatusMap();
 
-  const size =
-    [
-      ...(activePosition.manager?.take_profit ?? []),
-      ...(activePosition.manager?.stop_loss ?? []),
-    ]
-      .filter(x => x.applied)
-      .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100;
-
   const avg = (items: SignalItem[]) =>
     items.length > 0
       ? items.reduce((a, b) => a + (b.price_exact ?? 0), 0) / items.length
@@ -63,7 +55,9 @@ const ActivePositionDetails: React.FC<{
 
         <DetailInfo label="Leverage">{activePosition.leverage}x</DetailInfo>
 
-        <DetailInfo label="Size">{roundSensible(size) + '%'}</DetailInfo>
+        <DetailInfo label="Size">
+          {roundSensible(activePosition.amount * 100) + '%'}
+        </DetailInfo>
 
         <DetailInfo label="Avg Entry Points">
           <ReadableNumber

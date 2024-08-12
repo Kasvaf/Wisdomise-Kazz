@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { notification } from 'antd';
@@ -109,7 +108,10 @@ const TabConfig = () => {
       </div>
 
       <TitleHint title={t('config.assets.title')} className="mb-2 mt-10">
-        {t('config.assets.description')}
+        {t('config.assets.description')}&nbsp;
+        {!!changes.assets?.length &&
+          signaler.assets.length === 0 &&
+          t('config.assets.description0')}
       </TitleHint>
       <MultiCoinsSelector
         options={allowed ?? []}

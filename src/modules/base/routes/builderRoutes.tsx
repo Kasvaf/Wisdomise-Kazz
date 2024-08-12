@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { type RouteObject } from 'react-router-dom';

@@ -1,0 +1,59 @@
+filters:
+  all-chains: All Chains
+  search-whale: Search Whale
+  wallet: Search by wallet address
+sections:
+  top-coins:
+    title: Top Whale Coins
+    subtitle: >-
+      See the most traded coins by whales, ranked by transaction volume and
+      frequency.
+    filters:
+      1d: 24H
+      30d: 30D
+      7d: 7D
+    table:
+      24h_chg: 24h Price Change
+      coin: Discovered Coin
+      price: Price
+      rank: Rank
+      total-vol: Total Volume Transacted
+      transactions: Whale Transactions
+  top-gainers: Top Gainers on Whale
+  top-losers: Top Losers on Whale
+  top-whales:
+    title: Top Whales List
+    subtitle: Discover the wealthiest addresses (whales) across blockchains
+    filters:
+      1d: 24H
+      30d: 30D
+      7d: 7D
+    table:
+      network: Network
+      pnl_percent: PNL Percentage
+      rank: Rank
+      total_worth: Total Worth
+      trades: Trades
+      wallet-address: Wallet Address
+  whale-coins:
+    table:
+      amount: Quantity Held
+      asset: Asset
+      pnl: PNL
+      price: Price
+      worth: Total Worth
+  whale-info:
+    realized-pnl: Realized PNL
+    realized-pnl-info: >-
+      <b>Realized PNL</b><p>Realized PNL (Profit and Loss) represents the actual
+      profit or loss made from completed trades. It reflects the difference
+      between the purchase price and the selling price of assets that have been
+      sold. This metric helps you understand the tangible gains or losses from
+      your trading activities.</p>
+    unrealized-pnl: Unrealized PNL
+    unrealized-pnl-info: >-
+      <b>Unrealized PNL</b><p>Unrealized PNL (Profit and Loss) represents the
+      potential profit or loss on currently held assets that have not yet been
+      sold. It reflects the difference between the current market value and the
+      purchase price of these assets. This metric helps you gauge the
+      performance of your holdings based on their current market prices.</p>

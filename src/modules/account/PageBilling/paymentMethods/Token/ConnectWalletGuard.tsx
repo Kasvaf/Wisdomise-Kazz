@@ -13,7 +13,6 @@ import { unwrapErrorMessage } from 'utils/error';
 import { defaultChain } from 'config/wagmi';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
-// eslint-disable-next-line import/max-dependencies
 import useSignInWithEthereum from './useSiwe';
 
 interface Props {

@@ -254,9 +254,7 @@ export const useSocialMessages = (symbol: string) =>
               content: twitterMessage,
             }) satisfies SocialMessage,
         ),
-      ].sort((a, b) =>
-        a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0,
-      );
+      ].sort((a, b) => b.timestamp ?? a.timestamp > 0 ?? 0);
       return response;
     },
   });
@@ -331,4 +329,67 @@ export const useToggleSubscribeToCoinNotification = () =>
       ),
     onSuccess: () =>
       queryClient.invalidateQueries(['is_subscribed_to_radar_notification']),
+  });
+
+export interface CoinOverview {
+  symbol: {
+    abbreviation: string;
+    name: string;
+  };
+  related_at: string | null;
+  data: null | {
+    id: string;
+    ath: number;
+    atl: number;
+    roi: null;
+    image: string | null;
+    low_24h: number;
+    ath_date: string;
+    atl_date: string;
+    high_24h: number;
+    market_cap: number;
+    max_supply: number;
+    last_updated: string;
+    total_supply: number;
+    total_volume: number;
+    current_price: number;
+    market_cap_rank: number;
+    price_change_24h: number;
+    circulating_supply: number;
+    ath_change_percentage: number;
+    atl_change_percentage: number;
+    market_cap_change_24h: number;
+    fully_diluted_valuation: number;
+    price_change_percentage_24h: number;
+    market_cap_change_percentage_24h: number;
+    price_history: Array<{
+      related_at_date: string;
+      mean_price: number;
+    }>;
+  };
+  exchanges: CoinExchange[];
+}
+export const useCoinOverview = ({
+  symbol,
+  name,
+  priceHistoryDays,
+}: {
+  symbol: string;
+  name?: string;
+  priceHistoryDays?: number;
+}) =>
+  useQuery({
+    queryKey: ['coin-overview', symbol, name, priceHistoryDays],
+    queryFn: () =>
+      axios
+        .get<CoinOverview>('delphi/market/token-review/', {
+          params: {
+            symbol_abbreviation: symbol,
+            ...(name && {
+              symbol_name: name,
+            }),
+            price_history_days: priceHistoryDays ?? 1,
+          },
+        })
+        .then(resp => resp.data),
   });

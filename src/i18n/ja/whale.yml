@@ -1,0 +1,49 @@
+filters:
+  all-chains: すべてのチェーン
+  search-whale: 検索クジラ
+  wallet: ウォレットアドレスで検索
+sections:
+  top-coins:
+    filters:
+      1d: 24時間
+      30d: 30D
+      7d: 7D
+    subtitle: 取引量と頻度でランク付けされた、クジラによる最も取引されているコインを確認します。
+    table:
+      24h_chg: 24時間の価格変動
+      coin: 発見されたコイン
+      price: 価格
+      rank: ランク
+      total-vol: 総取引量
+      transactions: クジラ取引
+    title: トップクジラコイン
+  top-gainers: クジラ株の上昇率上位銘柄
+  top-losers: クジラのトップ敗者
+  top-whales:
+    filters:
+      1d: 24時間
+      30d: 30D
+      7d: 7D
+    subtitle: ブロックチェーン全体で最も裕福なアドレス（クジラ）を発見
+    table:
+      network: ネットワーク
+      pnl_percent: 損益率
+      rank: ランク
+      total_worth: 総資産
+      trades: 取引
+      wallet-address: ウォレットアドレス
+    title: トップクジラリスト
+  whale-coins:
+    table:
+      amount: 保有数量
+      asset: 資産
+      pnl: PNL
+      price: 価格
+      worth: 総資産
+  whale-info:
+    realized-pnl: 実現損益
+    realized-pnl-info: <b>実現損益</b><p>実現 PNL (損益)
+      は、完了した取引から実際に得られた利益または損失を表します。これは、売却された資産の購入価格と売却価格の差を反映します。この指標は、取引活動による具体的な利益または損失を理解するのに役立ちます。</p>
+    unrealized-pnl: 未実現損益
+    unrealized-pnl-info: <b>未実現損益</b><p>未実現 PNL (損益)
+      は、現在保有しているがまだ売却されていない資産の潜在的な利益または損失を表します。これは、これらの資産の現在の市場価値と購入価格の差を反映しています。この指標は、現在の市場価格に基づいて保有資産のパフォーマンスを評価するのに役立ちます。</p>

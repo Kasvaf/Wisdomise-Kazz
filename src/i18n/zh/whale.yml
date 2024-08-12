@@ -1,0 +1,48 @@
+filters:
+  all-chains: 所有链
+  search-whale: 搜索鲸鱼
+  wallet: 通过钱包地址搜索
+sections:
+  top-coins:
+    filters:
+      1d: 24小时
+      30d: 30D
+      7d: 7D
+    subtitle: 查看鲸鱼交易最多的货币，按交易量和频率排名。
+    table:
+      24h_chg: 24小时价格变化
+      coin: 发现硬币
+      price: 价格
+      rank: 秩
+      total-vol: 总交易量
+      transactions: 鲸鱼交易
+    title: 顶级鲸鱼币
+  top-gainers: 鲸鱼涨幅最大的股票
+  top-losers: 鲸鱼最大的输家
+  top-whales:
+    filters:
+      1d: 24小时
+      30d: 30D
+      7d: 7D
+    subtitle: 发现区块链中最富有的地址（鲸鱼）
+    table:
+      network: 网络
+      pnl_percent: 盈亏百分比
+      rank: 秩
+      total_worth: 总价值
+      trades: 交易
+      wallet-address: 钱包地址
+    title: 顶级鲸鱼名单
+  whale-coins:
+    table:
+      amount: 持有数量
+      asset: 资产
+      pnl: 盈亏平衡
+      price: 价格
+      worth: 总价值
+  whale-info:
+    realized-pnl: 已实现盈亏
+    realized-pnl-info: <b>已实现盈亏</b><p>已实现盈亏 (PNL)
+      表示已完成交易的实际盈利或亏损。它反映了已售资产的买入价与卖出价之间的差额。此指标可帮助您了解交易活动的实际收益或损失。</p>
+    unrealized-pnl: 未实现盈亏
+    unrealized-pnl-info: <b>未实现盈亏</b><p>未实现盈亏（PNL）代表目前持有的尚未出售的资产的潜在利润或损失。它反映了这些资产的当前市场价值与购买价格之间的差额。此指标可帮助您根据当前市场价格衡量所持资产的表现。</p>

@@ -20,9 +20,9 @@ page-profile:
     overview: Overview
 page-public-profile:
   signalers-table:
-    name: ''
+    name: Name
     max_drawdown: Max Drawdown<1>Monthly</1>
-    pair: ''
+    pair: Pair
     pl: P/L <1>Monthly</1>
 profile-header:
   cant-change: Can't Change

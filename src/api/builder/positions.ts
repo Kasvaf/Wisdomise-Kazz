@@ -79,6 +79,7 @@ export interface FullPosition extends RawPosition {
   stop_loss?: number | null;
   take_profit?: number | null;
   signal?: Signal;
+  amount: number;
   manager?: {
     stop_loss?: SignalItem[];
     take_profit?: SignalItem[];

@@ -93,6 +93,9 @@ menu:
     subtitle: Use tokens for premium access
   users:
     title: Users
+  whales:
+    title: Whale Analysis
+    subtitle: Explore top crypto whales, their trades, PNL, volume, and more
 onboarding:
   back: Back
   got-it: Got it

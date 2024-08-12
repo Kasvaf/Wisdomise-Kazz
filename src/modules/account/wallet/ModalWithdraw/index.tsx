@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import * as numerable from 'numerable';
 import { useCallback, useRef, useState } from 'react';
 import { notification } from 'antd';

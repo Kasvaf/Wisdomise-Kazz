@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import dayjs from 'dayjs';
 import { clsx } from 'clsx';
 import type React from 'react';

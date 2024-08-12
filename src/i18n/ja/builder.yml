@@ -31,7 +31,8 @@ asset-manager:
   financial-product-name: 金融商品名称
 config:
   assets:
-    description: プラスボタンをクリックして暗号化サポートリストから追加します
+    description: シグナルを提供する予定のコインを追加してください。
+    description0: 保存すると、追加のタブと機能にアクセスできるようになります。
     title: 資産
   market: 市場（マーケット）
   resolution: 解決

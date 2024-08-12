@@ -37,7 +37,8 @@ asset-manager:
 config:
   assets:
     title: Assets
-    description: Click on plus button to add from crypto supported list
+    description: Please add the coins you plan to provide signals for.
+    description0: Once saved, additional tabs and functionalities will become accessible.
   market: Market
   resolution: Resolution
   signaler-name: Signaler Name

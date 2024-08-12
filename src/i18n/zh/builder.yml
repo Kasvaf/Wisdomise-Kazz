@@ -31,7 +31,8 @@ asset-manager:
   financial-product-name: 金融产品名称
 config:
   assets:
-    description: 单击加号按钮从加密支持列表中添加
+    description: 请添加您计划提供信号的硬币。
+    description0: 保存后，将可以访问其他选项卡和功能。
     title: 资产
   market: 市场
   resolution: 解决

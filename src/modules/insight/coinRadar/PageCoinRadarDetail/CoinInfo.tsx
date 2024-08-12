@@ -3,12 +3,11 @@ import { clsx } from 'clsx';
 import { useMemo, type FC, type ReactNode } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import {
-  useCoinSignals,
-  useCoinAvailableExchanges,
   type CoinExchange,
   useHasFlag,
+  type CoinSignal,
+  type CoinOverview,
 } from 'api';
-import CoinsIcons from 'shared/CoinsIcons';
 import PriceChange from 'shared/PriceChange';
 import useIsMobile from 'utils/useIsMobile';
 import useModal from 'shared/useModal';
@@ -83,16 +82,15 @@ export const ExchangesModal: FC<{
 
 export default function CoinInfo({
   className,
-  symbol,
+  signal,
+  overview,
 }: {
   className?: string;
-  symbol: string;
+  signal?: CoinSignal;
+  overview: CoinOverview;
 }) {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
-  const signals = useCoinSignals();
-  const exchanges = useCoinAvailableExchanges(symbol);
-  const info = signals.data?.find(sig => sig.symbol_name === symbol);
   const isMobile = useIsMobile();
   const [exchangesModal, openExchangesModal] = useModal(ExchangesModal, {
     width: isMobile ? '95%' : '60%',
@@ -104,7 +102,6 @@ export default function CoinInfo({
     <section
       className={clsx(
         'flex flex-col gap-3 rounded-xl bg-black/10 p-4',
-        signals.isLoading && 'animate-pulse blur-sm',
         className,
       )}
     >
@@ -118,40 +115,53 @@ export default function CoinInfo({
         <InfoSection
           value={
             <div className="flex items-center gap-2 mobile:justify-center">
-              <CoinsIcons coins={[info?.image || '']} />
-              <p className="text-xl font-medium">{symbol}</p>
+              {overview.data?.image ? (
+                <img
+                  src={overview.data?.image}
+                  className="size-10 rounded-full bg-white/10"
+                />
+              ) : (
+                <div className="size-10 rounded-full bg-white/10" />
+              )}
+              <div>
+                <p className="text-lg font-medium">
+                  {overview.symbol.abbreviation}
+                </p>
+                {overview.symbol.name && (
+                  <p className="-mt-px text-xs font-light opacity-70">
+                    {overview.symbol.name}
+                  </p>
+                )}
+              </div>
             </div>
           }
         />
 
-        {hasFlag('/insight/coin-radar?side-suggestion') && (
-          <>
-            <InfoSection
-              value={
-                <div className="flex items-center gap-2 mobile:justify-center">
-                  <SideSuggestGauge measure={info?.gauge_measure || 0} />
-                  <div>
-                    <p className="font-medium capitalize">
-                      {info?.gauge_tag.toLowerCase()}
-                    </p>
-                    <p className="mt-1 text-xxs text-white/60">
-                      {t('hot-coins.side-suggest')}
-                    </p>
+        {hasFlag('/insight/coin-radar?side-suggestion') &&
+          typeof signal?.gauge_measure === 'number' && (
+            <>
+              <InfoSection
+                value={
+                  <div className="flex items-center gap-2 mobile:justify-center">
+                    <SideSuggestGauge measure={signal.gauge_measure} />
+                    <div>
+                      <p className="font-medium capitalize">
+                        {signal?.gauge_tag.toLowerCase()}
+                      </p>
+                      <p className="mt-1 text-xxs text-white/60">
+                        {t('hot-coins.side-suggest')}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              }
-            />
-          </>
-        )}
+                }
+              />
+            </>
+          )}
 
         <InfoSection
           title={t('coin-info.price')}
           value={
-            info?.current_price ? (
-              <ReadableNumber value={info?.current_price} label="usdt" />
-            ) : (
-              <>-</>
-            )
+            <ReadableNumber value={overview.data?.current_price} label="usdt" />
           }
         />
 
@@ -159,35 +169,35 @@ export default function CoinInfo({
           title={t('coin-info.24h_chg')}
           value={
             <PriceChange
-              valueToFixed
               textClassName="!text-base !leading-none"
-              value={info?.price_change_percentage || 0}
+              value={overview.data?.price_change_percentage_24h}
             />
           }
         />
 
         <InfoSection
           title={t('coin-info.market_cap')}
-          value={<ReadableNumber value={info?.market_cap || 0} label="%" />}
+          value={<ReadableNumber value={overview.data?.market_cap} label="$" />}
         />
 
         <InfoSection
           title={t('coin-info.volume_24h')}
-          value={<ReadableNumber value={info?.total_volume || 0} label="%" />}
+          value={
+            <ReadableNumber value={overview.data?.total_volume} label="$" />
+          }
         />
       </div>
       <div className="flex justify-between px-1">
-        <PriceAlertButton symbol={symbol} />
+        <PriceAlertButton symbol={overview.symbol.abbreviation} />
         <div className="grow" />
         <button
           className={clsx(
-            'flex items-center gap-2 text-sm',
-            !exchanges.isFetched && 'animate-pulse',
+            'flex items-center gap-2 text-sm disabled:cursor-not-allowed disabled:opacity-50',
           )}
-          disabled={!exchanges.isFetched}
+          disabled={!overview.exchanges || overview.exchanges.length === 0}
           onClick={() =>
             openExchangesModal({
-              exchanges: exchanges.data || [],
+              exchanges: overview.exchanges,
             })
           }
         >

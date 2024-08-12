@@ -7,11 +7,12 @@ import {
 import { clsx } from 'clsx';
 import AuthorizedImage from 'shared/AuthorizedImage';
 import { TEMPLE_ORIGIN } from 'config/constants';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { ReadableDate } from 'shared/ReadableDate';
 import { ReactComponent as BoostsIcon } from '../images/boosts.svg';
 import { ReactComponent as CommentsIcon } from '../images/comments.svg';
 import { ReactComponent as LikesIcon } from '../images/likes.svg';
 import { ReactComponent as RetweetIcon } from '../images/retweet.svg';
-import { formatCount, formatDate } from './utils';
 
 export const SocialMessageHeader: FC<{
   className?: string;
@@ -26,12 +27,14 @@ export const SocialMessageHeader: FC<{
   >
     <h3 className="text-sm text-white">{title}</h3>
     {typeof followers === 'number' && (
-      <p className="text-xs text-white/40">
-        {formatCount(followers)} {followersName}
-      </p>
+      <ReadableNumber
+        className="text-xs text-white/40"
+        value={followers}
+        label={followersName}
+      />
     )}
     <div className="grow" />
-    {date && <span className="text-xs text-white/40">{formatDate(date)}</span>}
+    {date && <ReadableDate className="text-xs text-white/40" value={date} />}
     {Icon && <Icon className="h-5 w-5" />}
   </div>
 );
@@ -41,7 +44,7 @@ const CountItem: FC<{
   count: number;
 }> = ({ count, icon: Icon }) => (
   <span className="flex h-6 items-center gap-1 rounded-md bg-white/10 px-2 text-xs">
-    <Icon className="h-4 w-4" /> {formatCount(count)}
+    <Icon className="h-4 w-4" /> <ReadableNumber value={count} />
   </span>
 );
 

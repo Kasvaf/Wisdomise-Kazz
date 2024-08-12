@@ -115,17 +115,7 @@ const PositionDetailModal: React.FC<{
               className="mt-3 w-1/2"
             >
               <div className="text-sm">
-                <ReadableNumber
-                  label="%"
-                  value={
-                    [
-                      ...(position.manager?.take_profit ?? []),
-                      ...(position.manager?.stop_loss ?? []),
-                    ]
-                      .filter(x => x.applied)
-                      .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100
-                  }
-                />
+                <ReadableNumber label="%" value={position.amount * 100} />
               </div>
             </Labeled>
           </div>

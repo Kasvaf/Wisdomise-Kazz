@@ -1,5 +1,3 @@
-/* eslint-disable import/max-dependencies */
-
 import { useTranslation } from 'react-i18next';
 import { trackClick } from 'config/segment';
 import { ReactComponent as IconDashboard } from './icons/dashboard.svg';
@@ -87,6 +85,12 @@ const useMenuItems = () => {
           text: t('menu.market-pulse.title'),
           link: '/insight/market-pulse',
           onClick: trackClick('market_pulse_menu'),
+          isBeta: true,
+        },
+        {
+          text: t('menu.whales.title'),
+          link: '/insight/whales',
+          onClick: trackClick('whales_menu'),
           isBeta: true,
         },
         {

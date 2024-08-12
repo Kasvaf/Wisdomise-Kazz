@@ -35,6 +35,7 @@ function NumberWithLabel({
         labelObject?.position === 'before'
           ? 'flex-row-reverse gap-x-px'
           : 'gap-x-[2px]',
+        'tracking-[0.045em]',
         className,
       )}
       style={{
@@ -48,7 +49,7 @@ function NumberWithLabel({
         <span
           className={clsx(
             'opacity-70',
-            labelObject?.small && 'origin-bottom scale-90',
+            labelObject?.small && 'ms-px text-[80%]',
           )}
         >
           {labelObject?.text}
@@ -76,7 +77,7 @@ export function ReadableNumber({
   const displayValue = useMemo(() => {
     if (typeof value !== 'number') return;
     return formatNumber(value, {
-      compactInteger: value >= 1e6,
+      compactInteger: true,
       decimalLength: 3,
       minifyDecimalRepeats: true,
       seperateByComma: true,
@@ -103,6 +104,7 @@ export function ReadableNumber({
         padding: '0.75rem',
         fontSize: '0.9rem',
         fontFamily: 'monospace',
+        width: 'max-content',
       }}
       title={
         <NumberWithLabel

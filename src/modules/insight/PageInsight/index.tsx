@@ -10,6 +10,7 @@ import {
   SocialsIcon,
   MarketPulseIcon,
   SocialMatrixIcon,
+  WhaleIcon,
 } from './icons';
 
 const PageInsight = () => {
@@ -40,6 +41,15 @@ const PageInsight = () => {
           description={t('menu.market-pulse.subtitle')}
           icon={MarketPulseIcon}
           onClick={trackClick('market_pulse_menu')}
+          badgeType="manual"
+          badge={<BetaVersion />}
+        />
+        <PageCard
+          to="/insight/whales"
+          title={t('menu.whales.title')}
+          description={t('menu.whales.subtitle')}
+          icon={WhaleIcon}
+          onClick={trackClick('whales_menu')}
           badgeType="manual"
           badge={<BetaVersion />}
         />

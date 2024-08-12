@@ -86,15 +86,7 @@ const ActivePosition: React.FC<{
               {p.position_side}
             </Labeled>
             <Labeled label={t('position-detail-modal.current-size')}>
-              <div className="text-sm">
-                {[
-                  ...(p.manager?.take_profit ?? []),
-                  ...(p.manager?.stop_loss ?? []),
-                ]
-                  .filter(x => x.applied)
-                  .reduce((a, b) => a * (1 - b.amount_ratio), 1) * 100}{' '}
-                %
-              </div>
+              <div className="text-sm">{p.amount * 100} %</div>
             </Labeled>
             <Labeled label={t('positions-history.entry-time')}>
               {p.entry_time ? dayjs(p.entry_time).format('DD MMM HH:mm') : '-'}

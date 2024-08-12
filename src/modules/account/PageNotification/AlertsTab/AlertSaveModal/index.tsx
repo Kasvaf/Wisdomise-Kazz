@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Tooltip } from 'antd';
 import Button from 'shared/Button';
-import { useCoinSignals } from 'api';
 import { type Alert } from 'api/alert';
 import { Toggle } from 'shared/Toggle';
 import Icon from 'shared/Icon';
@@ -127,10 +126,6 @@ export function AlertSaveModal({
       };
     },
   });
-
-  const { data: allCoins } = useCoinSignals();
-  const selectedBase = alertForm.watch('params.base');
-  const coinInfo = allCoins?.find(coin => coin.symbol_name === selectedBase);
 
   const [formStep, setFormStep] = useAlertFormStep('price');
 
@@ -301,9 +296,8 @@ export function AlertSaveModal({
               ),
             }}
           />
-
-          {selectedBase && (
-            <CoinPriceInfo coinInfo={coinInfo} loading={!coinInfo} />
+          {alertItem?.params?.base && (
+            <CoinPriceInfo symbol={alertItem?.params?.base} />
           )}
         </div>
 
