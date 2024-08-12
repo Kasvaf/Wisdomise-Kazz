@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import dayjs from 'dayjs';
 import { Table } from 'antd';
 import { useMemo } from 'react';

@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { Select, notification } from 'antd';
 import React, { useEffect, useState } from 'react';

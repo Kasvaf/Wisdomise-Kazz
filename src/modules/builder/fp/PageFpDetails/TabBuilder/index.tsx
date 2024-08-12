@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Select, notification } from 'antd';

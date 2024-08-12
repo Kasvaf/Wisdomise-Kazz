@@ -13,7 +13,6 @@ import Button from 'shared/Button';
 import { ReactComponent as Check } from '../images/check.svg';
 import starts from '../images/stars.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
-// eslint-disable-next-line import/max-dependencies
 import PlanLogo from './PlanLogo';
 
 interface Props {

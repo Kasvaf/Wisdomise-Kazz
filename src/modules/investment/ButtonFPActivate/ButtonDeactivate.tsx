@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import type React from 'react';
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';

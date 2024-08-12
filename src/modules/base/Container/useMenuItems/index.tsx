@@ -1,5 +1,3 @@
-/* eslint-disable import/max-dependencies */
-
 import { useTranslation } from 'react-i18next';
 import { trackClick } from 'config/segment';
 import { ReactComponent as InvestmentIconEmpty } from './icons/investment-empty.svg';

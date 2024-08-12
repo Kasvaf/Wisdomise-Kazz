@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';

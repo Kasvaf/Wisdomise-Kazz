@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

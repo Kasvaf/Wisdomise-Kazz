@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -15,7 +16,6 @@ import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/con
 import useModal from 'shared/useModal';
 import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymentMethods/Token/TransactionConfirmedModalContent';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
-// eslint-disable-next-line import/max-dependencies
 import { unwrapErrorMessage } from 'utils/error';
 
 interface Props {

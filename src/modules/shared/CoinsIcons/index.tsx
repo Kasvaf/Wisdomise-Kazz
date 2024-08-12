@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import { Avatar, type AvatarProps } from 'antd';
 import type React from 'react';
 import { useMemo } from 'react';

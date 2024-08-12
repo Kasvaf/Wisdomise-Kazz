@@ -1,4 +1,3 @@
-/* eslint-disable import/max-dependencies */
 import * as React from 'react';
 import { type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
