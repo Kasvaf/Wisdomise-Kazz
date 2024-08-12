@@ -5,9 +5,6 @@ import { useTranslation } from 'react-i18next';
 import PageInsight from 'modules/insight/PageInsight';
 import Container from '../Container';
 
-const PageSignalsMatrix = React.lazy(
-  () => import('modules/insight/PageSignalsMatrix'),
-);
 const PageSignalersOverview = React.lazy(
   () => import('modules/insight/signaler/PageSignalersOverview'),
 );
@@ -50,11 +47,6 @@ const useInsightRoutes = () => {
           path: 'signalers',
           element: <PageSignalersOverview />,
           handle: { crumb: t('menu.signalers.title') },
-        },
-        {
-          path: 'signals',
-          element: <PageSignalsMatrix />,
-          handle: { crumb: t('menu.signal-matrix.title') },
         },
         {
           path: 'marketplace',
