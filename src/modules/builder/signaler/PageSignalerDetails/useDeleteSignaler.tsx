@@ -33,7 +33,7 @@ const useDeleteSignaler = (signalerKey?: string) => {
 
     try {
       await deleteAsync({ key: signalerKey });
-      navigate('/builder/signalers');
+      navigate('/marketplace/builder/signalers');
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

@@ -34,7 +34,7 @@ export default function PageSignalerCreate() {
         market_name: market,
         resolution,
       });
-      navigate(`/builder/signalers/${key}`);
+      navigate(`/marketplace/builder/signalers/${key}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

@@ -26,9 +26,6 @@ menu:
   account-manager:
     title: External Account
     subtitle: Integrate exchange accounts
-  asset-overview:
-    title: Asset Overview
-    subtitle: Monitor and manage your financial products
   athena:
     title: Crypto Chatbot
     subtitle: Intelligence chatbot that guides you through the world of cryptocurrency
@@ -45,7 +42,8 @@ menu:
     subtitle: Uncover Market Trends with AI-Powered Insights
   coin-view:
     title: Coin List
-    subtitle: Get signals and position histories from all signalers
+  dashboard:
+    title: My Dashboard
   financial-products:
     title: Financial Products
     subtitle: Explore different investment package opportunities
@@ -55,8 +53,6 @@ menu:
     subtitle: Explore flexible AI-Driven Investment Options tailored to your needs.
     card-badge: Unique Options
     card-button: Try Financial Products
-  home:
-    title: Home
   insight:
     title: Insight
     subtitle: Access Real-Time Insights for Strategic Crypto Investing
@@ -75,6 +71,10 @@ menu:
   notification-center:
     title: Notifications
     subtitle: Notification & Active Alert Setting
+  overview:
+    title: Overview
+  portfolio:
+    title: Portfolio
   profile:
     title: Profile
     subtitle: Edit login credentials
@@ -87,8 +87,6 @@ menu:
     card-button: Start Building Now
   signal-matrix:
     title: Signal Matrix
-    subtitle: Get AI-powered trading signals for leading cryptocurrencies
-    card-badge: +100 Monthly Signals
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access

@@ -4,15 +4,7 @@ import { trackClick } from 'config/segment';
 import BetaVersion from 'shared/BetaVersion';
 import { PageCard } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
-import {
-  AiIcon,
-  CoinsIcon,
-  InsightIcon,
-  MarketplaceIcon,
-  SocialMatrixIcon,
-  SocialsIcon,
-  MarketPulseIcon,
-} from './icons';
+import { AiIcon, InsightIcon, SocialsIcon, MarketPulseIcon } from './icons';
 
 const PageInsight = () => {
   const { t } = useTranslation('base');
@@ -46,35 +38,12 @@ const PageInsight = () => {
           badge={<BetaVersion />}
         />
         <PageCard
-          to="/insight/marketplace"
-          title={t('menu.marketplace.title')}
-          description={t('menu.marketplace.subtitle')}
-          icon={MarketplaceIcon}
-          onClick={trackClick('marketplace_menu')}
-        />
-        <PageCard
           to="/insight/athena"
           title={t('menu.athena.title')}
           description={t('menu.athena.subtitle')}
           icon={AiIcon}
           onClick={trackClick('crypto_chatbot_menu')}
           badge={t('menu.athena.features')}
-        />
-        <PageCard
-          to="/insight/coins"
-          title={t('menu.coin-view.title')}
-          description={t('menu.coin-view.subtitle')}
-          icon={CoinsIcon}
-          onClick={trackClick('coin_list_menu')}
-        />
-        <PageCard
-          to="/insight/signals"
-          title={t('menu.signal-matrix.title')}
-          description={t('menu.signal-matrix.subtitle')}
-          icon={SocialMatrixIcon}
-          onClick={trackClick('signal_matrix_menu')}
-          videoId="12CWx7r2WY8"
-          badge={t('menu.signal-matrix.card-badge')}
         />
       </div>
     </PageWrapper>

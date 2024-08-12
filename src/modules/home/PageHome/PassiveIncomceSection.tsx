@@ -36,7 +36,7 @@ export default function PassiveIncomeSection() {
         />
         {hasFlag('/builder') && (
           <PageCard
-            to="/builder/signalers"
+            to="/marketplace/builder/signalers"
             title={t('auto-trade.builder.title')}
             icon={CoinRadarIcon}
             cta={t('auto-trade.builder.cat-title')}

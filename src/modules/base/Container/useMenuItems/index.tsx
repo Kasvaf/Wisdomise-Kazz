@@ -2,26 +2,10 @@
 
 import { useTranslation } from 'react-i18next';
 import { trackClick } from 'config/segment';
-import { ReactComponent as InvestmentIconEmpty } from './icons/investment-empty.svg';
-import { ReactComponent as InvestmentIconFull } from './icons/investment-full.svg';
-import { ReactComponent as InsightIconEmpty } from './icons/insight-empty.svg';
-import { ReactComponent as InsightIconFull } from './icons/insight-full.svg';
-import { ReactComponent as AccountIconEmpty } from './icons/account-empty.svg';
-import { ReactComponent as AccountIconFull } from './icons/account-full.svg';
-import { ReactComponent as BuilderIconEmpty } from './icons/builder-empty.svg';
-import { ReactComponent as BuilderIconFull } from './icons/builder-full.svg';
-import { ReactComponent as HomeIconFull } from './icons/home-full.svg';
-import { ReactComponent as HomeIconEmpty } from './icons/home-empty.svg';
-
-const Icon = (
-  Empty: React.FC<React.SVGProps<SVGSVGElement>>,
-  Full: React.FC<React.SVGProps<SVGSVGElement>>,
-) => (
-  <div>
-    <Empty className="block group-[.active]:hidden" />
-    <Full className="hidden group-[.active]:block" />
-  </div>
-);
+import { ReactComponent as IconDashboard } from './icons/dashboard.svg';
+import { ReactComponent as IconMarketplace } from './icons/marketplace.svg';
+import { ReactComponent as IconInsight } from './icons/insight.svg';
+import { ReactComponent as IconAccount } from './icons/account.svg';
 
 interface MenuItem {
   text: string;
@@ -41,14 +25,43 @@ const useMenuItems = () => {
   const { t } = useTranslation('base');
   const items: RootMenuItem[] = [
     {
-      icon: Icon(HomeIconEmpty, HomeIconFull),
-      text: t('menu.home.title'),
-      link: '/home',
-      onClick: trackClick('home_menu'),
+      icon: <IconDashboard />,
+      text: t('menu.dashboard.title'),
+      link: '/dashboard',
+      children: [
+        {
+          text: t('menu.overview.title'),
+          link: '/dashboard/home',
+          onClick: trackClick('home_menu'),
+        },
+        {
+          text: t('menu.portfolio.title'),
+          link: '/dashboard/portfolio',
+          onClick: trackClick('portfolio_menu'),
+        },
+      ],
     },
 
     {
-      icon: Icon(InsightIconEmpty, InsightIconFull),
+      icon: <IconMarketplace />,
+      text: t('menu.marketplace.title'),
+      link: '/marketplace',
+      onClick: trackClick('investment_menu'),
+      children: [
+        {
+          text: t('menu.financial-products.title'),
+          link: '/marketplace/products-catalog',
+          onClick: trackClick('financial_products_menu'),
+        },
+        {
+          text: t('menu.builder.title'),
+          link: '/marketplace/builder',
+          onClick: trackClick('builder_menu'),
+        },
+      ],
+    },
+    {
+      icon: <IconInsight />,
       text: t('menu.insight.title'),
       link: '/insight',
       onClick: trackClick('insight_menu'),
@@ -66,64 +79,14 @@ const useMenuItems = () => {
           isBeta: true,
         },
         {
-          text: t('menu.marketplace.title'),
-          link: '/insight/marketplace',
-          onClick: trackClick('marketplace_menu'),
-        },
-        {
           text: t('menu.athena.title'),
           link: '/insight/athena',
           onClick: trackClick('crypto_chatbot_menu'),
         },
-        {
-          text: t('menu.coin-view.title'),
-          link: '/insight/coins',
-          onClick: trackClick('coin_list_menu'),
-        },
-        {
-          text: t('menu.signal-matrix.title'),
-          link: '/insight/signals',
-          onClick: trackClick('signal_matrix_menu'),
-        },
       ],
     },
     {
-      icon: Icon(InvestmentIconEmpty, InvestmentIconFull),
-      text: t('menu.investment.title'),
-      link: '/investment',
-      onClick: trackClick('investment_menu'),
-      children: [
-        {
-          text: t('menu.asset-overview.title'),
-          link: '/investment/assets',
-          onClick: trackClick('asset_overview_menu'),
-        },
-        {
-          text: t('menu.financial-products.title'),
-          link: '/investment/products-catalog',
-          onClick: trackClick('financial_products_menu'),
-        },
-      ],
-    },
-    {
-      icon: Icon(BuilderIconEmpty, BuilderIconFull),
-      text: t('menu.builder.title'),
-      link: '/builder',
-      children: [
-        {
-          text: t('menu.signal-builder.title'),
-          link: '/builder/signalers',
-          onClick: trackClick('builder_signals_menu'),
-        },
-        {
-          text: t('menu.fp-builder.title'),
-          link: '/builder/fp',
-          onClick: trackClick('builder_fp_menu'),
-        },
-      ],
-    },
-    {
-      icon: Icon(AccountIconEmpty, AccountIconFull),
+      icon: <IconAccount />,
       text: t('menu.account.title'),
       link: '/account',
       onClick: trackClick('account_menu'),

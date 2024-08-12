@@ -16,7 +16,7 @@ export default function PageFpDetails() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!params.id) {
-      navigate('/builder/fp');
+      navigate('/marketplace/builder/fp');
     }
   }, [params.id, navigate]);
 

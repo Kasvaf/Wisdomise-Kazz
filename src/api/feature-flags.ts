@@ -29,6 +29,8 @@ export function useHasFlag() {
   );
 
   return (flag: string) => {
+    return true;
+
     if (flag[0] === '?') {
       flag = unparam(loc.pathname, params) + flag;
     }

@@ -30,7 +30,7 @@ const useDeleteFp = (fpKey?: string) => {
 
     try {
       await deleteAsync({ fpKey });
-      navigate('/builder/fp');
+      navigate('/marketplace/builder/fp');
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

@@ -29,6 +29,7 @@ const Container = () => {
             <SideMenu
               collapsed={sideMenuCollapsed}
               onCollapseClick={() => setSideMenuCollapsed(c => !c)}
+              className="mobile:hidden"
             />
             <Header />
             <div

@@ -23,19 +23,22 @@ export default function PageSignalersList() {
         <h1 className="text-xl font-semibold">
           {t('base:menu.signal-builder.title')}
         </h1>
-        <Button className="mobile:hidden" to="/builder/signalers/new">
+        <Button
+          className="mobile:hidden"
+          to="/marketplace/builder/signalers/new"
+        >
           {t('signaler.create-new.title')}
         </Button>
         <FabButton
           icon={bxPlus}
-          to="/builder/signalers/new"
+          to="/marketplace/builder/signalers/new"
           className="hidden mobile:block"
         />
       </div>
 
       <div className="grid grid-cols-3 gap-4 mobile:grid-cols-1">
         {data?.map(s => (
-          <NavLink key={s.key} to={`/builder/signalers/${s.key}`}>
+          <NavLink key={s.key} to={`/marketplace/builder/signalers/${s.key}`}>
             <Card className="cursor-pointer !px-6 !py-4 hover:bg-black/40">
               <TitleHint title={s.name} />
 

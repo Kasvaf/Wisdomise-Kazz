@@ -17,7 +17,7 @@ export default function PageSignalerDetails() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!params.id) {
-      navigate('/builder/signalers');
+      navigate('/marketplace/builder/signalers');
     }
   }, [params.id, navigate]);
 

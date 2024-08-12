@@ -1,38 +1,36 @@
 import { Navigate, type RouteObject } from 'react-router-dom';
-import HomePage from 'modules/home/PageHome';
 import Container from '../Container';
+import MenuItemsContent from '../Container/SideMenu/MenuItemsContent';
 import Boundary from './Boundary';
 import useAuthRoutes from './authRoutes';
-import useInvestmentRoutes from './investmentRoutes';
+import useMarketplaceRoutes from './marketplaceRoutes';
 import useInsightRoutes from './insightRoutes';
-import useBuilderRoutes from './builderRoutes';
 import useAccountRoutes from './accountRoutes';
 import useUsersRoutes from './usersRoutes';
+import useDashboardRoutes from './dashboardRoutes';
 
 const useRoutes = () => {
-  const authRoutes = useAuthRoutes();
-  const insightRoutes = useInsightRoutes();
-  const builderRoutes = useBuilderRoutes();
-  const accountRoutes = useAccountRoutes();
-  const investmentRoutes = useInvestmentRoutes();
-  const usersRoutes = useUsersRoutes();
-
   return [
     {
       element: <Boundary />,
       children: [
-        ...authRoutes,
-        ...investmentRoutes,
-        ...insightRoutes,
-        ...builderRoutes,
-        ...accountRoutes,
-        ...usersRoutes,
+        ...useAuthRoutes(),
+        ...useDashboardRoutes(),
+        ...useMarketplaceRoutes(),
+        ...useInsightRoutes(),
+        ...useAccountRoutes(),
+        ...useUsersRoutes(),
         {
-          path: 'home',
           element: <Container />,
-          children: [{ path: '', element: <HomePage /> }],
+          path: '/menu',
+          children: [
+            {
+              path: '',
+              element: <MenuItemsContent collapsed={false} />,
+            },
+          ],
         },
-        { path: '*', element: <Navigate to="/home" /> },
+        { path: '*', element: <Navigate to="/dashboard" /> },
       ],
     },
   ] satisfies RouteObject[];

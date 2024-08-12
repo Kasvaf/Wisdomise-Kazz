@@ -3,7 +3,6 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { type RouteObject } from 'react-router-dom';
 import PageBuilder from 'modules/builder/PageBuilder';
-import Container from '../Container';
 
 const PageSignalersList = React.lazy(
   () => import('modules/builder/signaler/PageSignalersList'),
@@ -27,7 +26,7 @@ const useBuilderRoutes = () => {
   const { t } = useTranslation('base');
   return [
     {
-      element: <Container />,
+      // element: <Container />,
       path: 'builder',
       handle: { crumb: t('menu.builder.title') },
       children: [

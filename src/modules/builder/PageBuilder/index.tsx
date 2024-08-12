@@ -23,7 +23,7 @@ const PageBuilder = () => {
 
       <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
         <PageCard
-          to="/builder/signalers"
+          to="/marketplace/builder/signalers"
           title={t('menu.signal-builder.title')}
           description={t('menu.signal-builder.subtitle')}
           icon={IconSignals}
@@ -32,7 +32,7 @@ const PageBuilder = () => {
         />
 
         <PageCard
-          to="/builder/fp"
+          to="/marketplace/builder/fp"
           title={t('menu.fp-builder.title')}
           description={t('menu.fp-builder.subtitle')}
           icon={IconFP}

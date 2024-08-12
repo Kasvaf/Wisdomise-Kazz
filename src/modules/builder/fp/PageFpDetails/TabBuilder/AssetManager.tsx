@@ -78,7 +78,7 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
       <Banner className="">
         <Trans ns="builder" i18nKey="asset-manager.banner">
           You haven&apos;t created any
-          <NavLink to="/builder/signalers" className="text-info">
+          <NavLink to="/marketplace/builder/signalers" className="text-info">
             Signlers
           </NavLink>
           to use in your product yet.

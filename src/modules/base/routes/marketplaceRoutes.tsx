@@ -3,10 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { type RouteObject } from 'react-router-dom';
 import PageInvestment from 'modules/investment/PageInvestment';
 import Container from '../Container';
-
-const PageAssetOverview = React.lazy(
-  () => import('modules/investment/PageAssetOverview'),
-);
+import useBuilderRoutes from './builderRoutes';
 
 const PageProductsCatalog = React.lazy(
   () => import('modules/investment/PageProductsCatalog'),
@@ -15,38 +12,19 @@ const PageProductCatalogDetail = React.lazy(
   () => import('modules/investment/PageProductCatalogDetail'),
 );
 
-const PageFPIPositions = React.lazy(
-  () => import('modules/investment/PageFPIPositions'),
-);
-
 const PageProtocolDetails = React.lazy(
   () => import('modules/investment/PageProtocolDetails'),
 );
 
-const useInvestmentRoutes = () => {
+const useMarketplaceRoutes = () => {
   const { t } = useTranslation('base');
   return [
     {
       element: <Container />,
-      path: 'investment',
-      handle: { crumb: t('menu.investment.title') },
+      path: 'marketplace',
+      handle: { crumb: t('menu.marketplace.title') },
       children: [
         { path: '', element: <PageInvestment /> },
-        {
-          path: 'assets',
-          handle: { crumb: t('menu.asset-overview.title') },
-          children: [
-            {
-              path: '',
-              element: <PageAssetOverview />,
-            },
-            {
-              path: ':fpiKey',
-              element: <PageFPIPositions />,
-              handle: { crumb: t('products:fpi-page.title') },
-            },
-          ],
-        },
         {
           path: 'products-catalog',
           handle: { crumb: t('menu.financial-products.title') },
@@ -67,9 +45,10 @@ const useInvestmentRoutes = () => {
             },
           ],
         },
+        ...useBuilderRoutes(),
       ],
     },
   ] satisfies RouteObject[];
 };
 
-export default useInvestmentRoutes;
+export default useMarketplaceRoutes;

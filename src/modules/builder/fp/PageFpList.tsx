@@ -23,19 +23,19 @@ export default function PageFpList() {
         <h1 className="text-xl font-semibold">
           {t('base:menu.fp-builder.title')}
         </h1>
-        <Button className="mobile:hidden" to="/builder/fp/new">
+        <Button className="mobile:hidden" to="/marketplace/builder/fp/new">
           {t('fp.create-new.title')}
         </Button>
         <FabButton
           icon={bxPlus}
-          to="/builder/fp/new"
+          to="/marketplace/builder/fp/new"
           className="hidden mobile:block"
         />
       </div>
 
       <div className="grid grid-cols-3 gap-4 mobile:grid-cols-1">
         {data?.map(s => (
-          <NavLink key={s.key} to={`/builder/fp/${s.key}`}>
+          <NavLink key={s.key} to={`/marketplace/builder/fp/${s.key}`}>
             <Card className="cursor-pointer !px-6 !py-4 hover:bg-black/40">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">

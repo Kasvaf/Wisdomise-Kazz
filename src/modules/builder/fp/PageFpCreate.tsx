@@ -44,7 +44,7 @@ export default function PageFpCreate() {
         expected_apy: expectedApy,
         expected_drawdown: expectedDrawdown,
       });
-      navigate(`/builder/fp/${key}`);
+      navigate(`/marketplace/builder/fp/${key}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

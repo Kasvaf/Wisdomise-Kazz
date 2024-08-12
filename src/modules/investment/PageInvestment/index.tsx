@@ -25,14 +25,6 @@ const PageInvestment = () => {
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
         <PageCard
-          to="/investment/assets"
-          title={t('menu.asset-overview.title')}
-          description={t('menu.asset-overview.subtitle')}
-          icon={IconAO}
-          onClick={trackClick('asset_overview_menu')}
-        />
-
-        <PageCard
           to="/investment/products-catalog"
           title={t('menu.financial-products.title')}
           description={t('menu.financial-products.subtitle')}
@@ -48,6 +40,14 @@ const PageInvestment = () => {
               </>
             )
           }
+        />
+
+        <PageCard
+          to="/investment/assets"
+          title={t('menu.builder.title')}
+          description={t('menu.builder.subtitle')}
+          icon={IconAO}
+          onClick={trackClick('asset_overview_menu')}
         />
       </div>
     </PageWrapper>
