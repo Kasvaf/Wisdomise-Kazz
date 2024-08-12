@@ -44,19 +44,19 @@ const PageInsight = () => {
           badge={<BetaVersion />}
         />
         <PageCard
+          to="/insight/signalers"
+          title={t('menu.signalers.title')}
+          description={t('menu.signalers.subtitle')}
+          icon={SocialMatrixIcon}
+          onClick={trackClick('signalers_menu')}
+        />
+        <PageCard
           to="/insight/athena"
           title={t('menu.athena.title')}
           description={t('menu.athena.subtitle')}
           icon={AiIcon}
           onClick={trackClick('crypto_chatbot_menu')}
           badge={t('menu.athena.features')}
-        />
-        <PageCard
-          to="/insight/signalers"
-          title={t('menu.signalers.title')}
-          description={t('menu.signalers.subtitle')}
-          icon={SocialMatrixIcon}
-          onClick={trackClick('signalers_menu')}
         />
       </div>
     </PageWrapper>
