@@ -43,7 +43,7 @@ const PageInvestment = () => {
         />
 
         <PageCard
-          to="/marketplace/assets"
+          to="/marketplace/builder"
           title={t('menu.builder.title')}
           description={t('menu.builder.subtitle')}
           icon={IconAO}
