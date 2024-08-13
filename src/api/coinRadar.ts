@@ -96,6 +96,7 @@ export const useCoinSignals = (
       );
       return data;
     },
+    keepPreviousData: true,
   });
 
 interface SocialMessageTemplate<S, O> {
