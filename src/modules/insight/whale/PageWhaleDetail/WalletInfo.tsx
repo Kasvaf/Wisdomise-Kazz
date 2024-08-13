@@ -63,15 +63,10 @@ export const WhaletInfo: FC<{
             />
           </Tooltip>
         </label>
-        <ReadableNumber
-          className={clsx(
-            'text-base',
-            (whale?.last_30_days_trading_realized_pnl ?? 0) >= 0
-              ? 'text-[#40F19C]'
-              : 'text-[#F14056]',
-          )}
-          value={whale?.last_30_days_trading_realized_pnl}
-          label="usdt"
+        <PriceChange
+          textClassName="!text-base"
+          value={whale?.last_30_days_trading_realized_pnl_percentage}
+          staticValue={whale?.last_30_days_trading_realized_pnl}
         />
       </div>
       <hr className="opacity-5" />
@@ -97,15 +92,10 @@ export const WhaletInfo: FC<{
             />
           </Tooltip>
         </label>
-        <ReadableNumber
-          className={clsx(
-            'text-base',
-            (whale?.last_30_days_trading_pnl ?? 0) >= 0
-              ? 'text-[#40F19C]'
-              : 'text-[#F14056]',
-          )}
-          value={whale?.last_30_days_trading_pnl}
-          label="usdt"
+        <PriceChange
+          textClassName="!text-base"
+          value={whale?.last_30_days_trading_pnl_percentage}
+          staticValue={whale?.last_30_days_trading_pnl}
         />
       </div>
     </div>
