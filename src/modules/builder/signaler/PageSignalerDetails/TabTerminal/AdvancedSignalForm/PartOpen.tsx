@@ -81,6 +81,7 @@ const PartOpen: React.FC<{
               min={1}
               max={10}
               onChange={setLeverage}
+              disabled={isUpdate}
             />
           </div>
         </div>

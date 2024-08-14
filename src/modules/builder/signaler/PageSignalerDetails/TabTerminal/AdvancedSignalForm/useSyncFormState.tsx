@@ -73,11 +73,10 @@ const useSyncFormState = ({
   useEffect(() => {
     setIsUpdate(!!activePosition);
 
-    if (activePosition?.position_side) {
+    if (activePosition) {
       setMarket(activePosition.position_side.toLowerCase() as 'long' | 'short');
+      setLeverage(String(Number(activePosition?.leverage) || 1));
     }
-
-    setLeverage(String(Number(activePosition?.leverage) || 1));
 
     const firstOrder = activePosition?.manager?.open_orders?.[0];
     if (
