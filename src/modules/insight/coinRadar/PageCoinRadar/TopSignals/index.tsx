@@ -12,7 +12,7 @@ export const TopSignals: FC<{
   className?: string;
 }> = ({ signalType, className }) => {
   const { t } = useTranslation('coin-radar');
-  const [windowHours, setWindowHours] = useState(24 * 7);
+  const [windowHours, setWindowHours] = useState(24);
   const signals = useCoinSignals({
     meta: {
       windowHours,
