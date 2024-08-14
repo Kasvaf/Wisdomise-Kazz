@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
 import AuthGuard from 'modules/auth/AuthGuard';
 import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
+import useIsMobile from 'utils/useIsMobile';
 import PageWrapper from '../PageWrapper';
 import Header from './Header';
 import SideMenu from './SideMenu';
@@ -11,10 +12,14 @@ import { AthenaFloatProvider } from './AthenaFloat/AthenaFloatProvider';
 import AthenaFloat from './AthenaFloat';
 import AthenaFloatDesktopIcon from './AthenaFloat/AthenaFloatDesktopIcon';
 import ScrollToTop from './ScrollToTop';
+import { usePageSiblings } from './Header/Breadcrumb';
 
 const Container = () => {
+  const isMobile = useIsMobile();
   const mainRef = useRef<HTMLDivElement>(null);
   const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
+  const { PageSiblings, height, showSiblings, setShowSiblings } =
+    usePageSiblings();
 
   return (
     <AuthGuard>
@@ -31,13 +36,19 @@ const Container = () => {
               onCollapseClick={() => setSideMenuCollapsed(c => !c)}
               className="mobile:hidden"
             />
-            <Header />
+            <Header
+              showSiblings={showSiblings}
+              onShowSiblings={setShowSiblings}
+            >
+              {isMobile && PageSiblings}
+            </Header>
             <div
               ref={mainRef}
               className={clsx(
                 'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto',
               )}
             >
+              <div style={{ height }} />
               <React.Suspense fallback={<PageWrapper loading />}>
                 <Outlet />
               </React.Suspense>

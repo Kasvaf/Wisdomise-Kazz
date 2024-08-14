@@ -5,7 +5,7 @@ import { ReactComponent as IconMarketplace } from './icons/marketplace.svg';
 import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
 
-interface MenuItem {
+export interface MenuItem {
   text: string;
   link: string;
   hide?: boolean;
