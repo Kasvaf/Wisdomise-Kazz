@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
 import { roundDown, roundSensible } from 'utils/numbers';
 import InfoButton from 'shared/InfoButton';
+import AmountInputBox from 'shared/AmountInputBox';
 import OrderTypeToggle from '../OrderTypeToggle';
 import MarketToggle from '../MarketToggle';
 import DurationInput from '../DurationInput';
 import OpenConditions from './OpenConditions';
-import { type SignalFormState } from './useSignalFormStates';
 import PriceVolumeInput from './PriceVolumeInput';
+import { type SignalFormState } from './useSignalFormStates';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
@@ -22,6 +23,7 @@ const PartOpen: React.FC<{
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
     priceUpdated: [priceUpdated, setPriceUpdated],
+    leverage: [leverage, setLeverage],
     volume: [volume, setVolume],
     exp: [exp, setExp],
     orderExp: [orderExp, setOrderExp],
@@ -69,7 +71,18 @@ const PartOpen: React.FC<{
             onChange={onMarketChangeHandler}
             disabled={isUpdate}
           />
-          {/* <AmountInputBox className="w-14" value="2x" /> */}
+
+          <div className="flex items-center gap-2">
+            <div className="text-xs">{t('signal-form.leverage.title')}:</div>
+            <AmountInputBox
+              className="w-14"
+              inputClassName="text-center"
+              value={leverage}
+              min={1}
+              max={10}
+              onChange={setLeverage}
+            />
+          </div>
         </div>
       )}
 
