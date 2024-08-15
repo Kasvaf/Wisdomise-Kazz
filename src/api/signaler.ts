@@ -92,6 +92,7 @@ export const useSignalerPairDetails = (name: string) =>
   );
 
 export interface PairSignalerItem extends RawPosition {
+  amount: number;
   pair_name: string;
   strategy: ThinStrategy;
   pnl_equity: number;
