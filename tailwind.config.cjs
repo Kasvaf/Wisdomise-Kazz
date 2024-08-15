@@ -90,7 +90,7 @@ const semanticColors = {
   'surface-l4': '#333f4d',
   'surface-l5': '#3f4b5a',
   'surface-l6': '#4b5868',
-}
+};
 
 // Semantic (Legacy)
 const semanticLegacyColors = {
@@ -176,7 +176,7 @@ const semanticLegacyColors = {
   'surface-l4': '#3f405a',
   'surface-l5': '#47496b',
   'surface-l6': '#50527c',
-}
+};
 
 // Primitive
 const primitiveColors = {
@@ -269,7 +269,7 @@ const primitiveColors = {
   'shades-white-70': '#ffffffb2',
   'shades-white-80': '#ffffffcc',
   'shades-white-90': '#ffffffe5',
-}
+};
 
 // Primitive (Legacy)
 const primitiveLegacyColors = {
@@ -280,7 +280,7 @@ const primitiveLegacyColors = {
   'neutral-850': '#2c2d3a',
   'neutral-900': '#22232b',
   'neutral-950': '#17181c',
-}
+};
 
 module.exports = {
   content: [
@@ -329,7 +329,7 @@ module.exports = {
         'v1': {
           ...semanticColors,
           ...semanticLegacyColors,
-        }
+        },
       },
       flex: {
         shrink: 'inherit',
