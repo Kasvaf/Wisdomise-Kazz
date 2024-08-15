@@ -11,14 +11,16 @@ export function TopTable<T extends object>({
   dataSource,
   columns,
   rowKey,
+  loading,
 }: {
   className?: string;
   dataSource?: T[];
   rowKey?: (row: T) => string;
   columns: Array<TopTableColumn<T>>;
+  loading?: boolean;
 }) {
   return (
-    <div className={clsx(className)}>
+    <div className={clsx(loading && 'animate-pulse blur-[2px]', className)}>
       <table className="w-full rounded-2xl bg-black/20 text-start">
         <tbody>
           {dataSource?.map((row, index) => (

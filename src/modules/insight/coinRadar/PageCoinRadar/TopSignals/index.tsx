@@ -1,20 +1,21 @@
-import { type FC, useMemo } from 'react';
+import { type FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type CoinSignal, useCoinSignals } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
 import { TopTable, type TopTableColumn } from 'shared/TopTable';
+import { WindowHoursSelect } from '../HotCoins/WindowHoursSelect';
 
 export const TopSignals: FC<{
   signalType: 'gainer' | 'loser';
   className?: string;
 }> = ({ signalType, className }) => {
   const { t } = useTranslation('coin-radar');
-
+  const [windowHours, setWindowHours] = useState(24);
   const signals = useCoinSignals({
     meta: {
-      windowHours: 24,
+      windowHours,
     },
   });
 
@@ -56,15 +57,19 @@ export const TopSignals: FC<{
 
   return (
     <div className={className}>
-      <h2 className="mb-4 text-xl font-semibold">
-        {signalType === 'gainer'
-          ? t('tops-section.gainers')
-          : t('tops-section.losers')}
-      </h2>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-semibold">
+          {signalType === 'gainer'
+            ? t('tops-section.gainers')
+            : t('tops-section.losers')}
+        </h2>
+        <WindowHoursSelect value={windowHours} onChange={setWindowHours} />
+      </div>
       <TopTable
         dataSource={filteredSignals}
         columns={columns}
         rowKey={row => row.symbol_name}
+        loading={signals.isFetching && signals.isPreviousData}
       />
     </div>
   );
