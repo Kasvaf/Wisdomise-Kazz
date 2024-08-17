@@ -37,10 +37,10 @@ const PartOpen: React.FC<{
   });
 
   useEffect(() => {
-    if (!priceUpdated && assetPrice) {
+    if (!priceUpdated && assetPrice && !isUpdate) {
       setPrice(String(assetPrice));
     }
-  }, [assetPrice, priceUpdated, setPrice]);
+  }, [assetPrice, isUpdate, priceUpdated, setPrice]);
 
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
   const onMarketChangeHandler = (x: 'long' | 'short') => {
