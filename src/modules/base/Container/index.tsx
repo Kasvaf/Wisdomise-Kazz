@@ -10,7 +10,6 @@ import SideMenu from './SideMenu';
 import BottomNavBar from './BottomNavBar';
 import { AthenaFloatProvider } from './AthenaFloat/AthenaFloatProvider';
 import AthenaFloat from './AthenaFloat';
-import AthenaFloatDesktopIcon from './AthenaFloat/AthenaFloatDesktopIcon';
 import ScrollToTop from './ScrollToTop';
 import { usePageSiblings } from './Header/Breadcrumb';
 
@@ -55,7 +54,6 @@ const Container = () => {
             </div>
             <AthenaFloat />
             <BottomNavBar />
-            <AthenaFloatDesktopIcon />
             <ScrollToTop />
           </OnboardingMessageProvider>
         </main>
