@@ -7,6 +7,7 @@ import { PageTitle } from 'shared/PageTitle';
 import { ReactComponent as IconFP } from './icon-fp.svg';
 import { ReactComponent as IconAO } from './icon-ao.svg';
 import { ReactComponent as InvestmentIcon } from './investment-empty.svg';
+import { ReactComponent as SocialMatrixIcon } from './social-matrix.svg';
 
 const PageInvestment = () => {
   const { t } = useTranslation('base');
@@ -24,6 +25,13 @@ const PageInvestment = () => {
       />
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
+        <PageCard
+          to="/marketplace/signalers"
+          title={t('menu.signalers.title')}
+          description={t('menu.signalers.subtitle')}
+          icon={SocialMatrixIcon}
+          onClick={trackClick('signalers_menu')}
+        />
         <PageCard
           to="/marketplace/products-catalog"
           title={t('menu.financial-products.title')}

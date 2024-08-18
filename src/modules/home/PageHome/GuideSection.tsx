@@ -33,7 +33,7 @@ export default function GuideSection() {
 
       <section className="mt-8 grid grid-cols-3 gap-4 mobile:grid-cols-1">
         <Card
-          to="/insight/coins"
+          to="/marketplace/coins"
           ctaTitle={t('guide.step-1.cta-title')}
           ok={hasSubscribedSignal}
           active={!hasSubscribedSignal}

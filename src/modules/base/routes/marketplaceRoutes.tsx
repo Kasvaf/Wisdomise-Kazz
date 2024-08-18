@@ -5,6 +5,16 @@ import PageInvestment from 'modules/investment/PageInvestment';
 import Container from '../Container';
 import useBuilderRoutes from './builderRoutes';
 
+const PageSignalersOverview = React.lazy(
+  () => import('modules/insight/signaler/PageSignalersOverview'),
+);
+const PageCoins = React.lazy(
+  () => import('modules/insight/signaler/PageCoins'),
+);
+const PageSignaler = React.lazy(
+  () => import('modules/insight/signaler/PageSignaler'),
+);
+
 const PageProductsCatalog = React.lazy(
   () => import('modules/investment/PageProductsCatalog'),
 );
@@ -26,6 +36,28 @@ const useMarketplaceRoutes = () => {
       children: [
         { path: '', element: <Navigate to="/marketplace/overview" /> },
         { path: 'overview', element: <PageInvestment /> },
+
+        {
+          path: 'signalers',
+          element: <PageSignalersOverview />,
+          handle: { crumb: t('menu.signalers.title') },
+        },
+        {
+          path: 'coins',
+          handle: { crumb: t('menu.coin-view.title') },
+          children: [
+            {
+              path: '',
+              element: <PageCoins />,
+            },
+            {
+              path: 'signaler',
+              element: <PageSignaler />,
+              handle: { crumb: t('strategy:signaler.info.strategy.label') },
+            },
+          ],
+        },
+
         {
           path: 'products-catalog',
           handle: { crumb: t('menu.financial-products.title') },

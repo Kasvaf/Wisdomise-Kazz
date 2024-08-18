@@ -5,17 +5,8 @@ import PageInsight from 'modules/insight/PageInsight';
 import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
 
-const PageSignalersOverview = React.lazy(
-  () => import('modules/insight/signaler/PageSignalersOverview'),
-);
 const PageMarketplace = React.lazy(
   () => import('modules/insight/PageMarketplace'),
-);
-const PageCoins = React.lazy(
-  () => import('modules/insight/signaler/PageCoins'),
-);
-const PageSignaler = React.lazy(
-  () => import('modules/insight/signaler/PageSignaler'),
 );
 
 const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
@@ -51,29 +42,9 @@ const useInsightRoutes = () => {
         { path: '', element: <Navigate to="/insight/overview" /> },
         { path: 'overview', element: <PageInsight /> },
         {
-          path: 'signalers',
-          element: <PageSignalersOverview />,
-          handle: { crumb: t('menu.signalers.title') },
-        },
-        {
           path: 'marketplace',
           element: <PageMarketplace />,
           handle: { crumb: t('menu.marketplace.title') },
-        },
-        {
-          path: 'coins',
-          handle: { crumb: t('menu.coin-view.title') },
-          children: [
-            {
-              path: '',
-              element: <PageCoins />,
-            },
-            {
-              path: 'signaler',
-              element: <PageSignaler />,
-              handle: { crumb: t('strategy:signaler.info.strategy.label') },
-            },
-          ],
         },
         {
           path: 'athena',

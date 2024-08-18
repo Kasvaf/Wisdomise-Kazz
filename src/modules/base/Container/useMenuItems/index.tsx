@@ -53,6 +53,11 @@ const useMenuItems = () => {
           onClick: trackClick('marketplace_menu'),
         },
         {
+          text: t('menu.signalers.title'),
+          link: '/marketplace/signalers',
+          onClick: trackClick('signalers_menu'),
+        },
+        {
           text: t('menu.financial-products.title'),
           link: '/marketplace/products-catalog',
           onClick: trackClick('financial_products_menu'),
@@ -92,11 +97,6 @@ const useMenuItems = () => {
           link: '/insight/whales',
           onClick: trackClick('whales_menu'),
           isBeta: true,
-        },
-        {
-          text: t('menu.signalers.title'),
-          link: '/insight/signalers',
-          onClick: trackClick('signalers_menu'),
         },
       ],
     },

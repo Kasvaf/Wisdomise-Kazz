@@ -49,9 +49,9 @@ insight:
       AI-Powered social media scanner which scans various social medias to find
       trending and hot coins, signals related to those coins, conversations and
       technical analysis.
-  signal-matrix:
-    title: Signal Matrix
-    description: Get AI-Powered trading signals for leading cryptocurrencies
+  signals:
+    title: Signals
+    description: Get trading signals for leading cryptocurrencies
     tag: +100 Monthly Signals
 watch-video: Watch Video
 wsdm:

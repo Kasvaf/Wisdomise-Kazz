@@ -57,7 +57,7 @@ const CoinSignalersList: React.FC<{ signalers?: PairSignalerItem[] }> = ({
                   <Button
                     variant="link"
                     className="!px-3 mobile:!p-[10px_12px]"
-                    to={`/insight/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
+                    to={`/marketplace/coins/signaler?coin=${s.pair_name}&strategy=${s.strategy.key}`}
                     onClick={trackClick('coin_signaler', {
                       coin_name: s.pair_name,
                       strategy_name: s.strategy.name,

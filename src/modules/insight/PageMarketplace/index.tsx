@@ -33,7 +33,7 @@ const PairDetailsButton: React.FC<{
     <>
       {SubModal}
       <Button
-        to={`/insight/coins/signaler?strategy=${record.strategy_key}&coin=${pairName}`}
+        to={`/marketplace/coins/signaler?strategy=${record.strategy_key}&coin=${pairName}`}
         variant="alternative"
         className="!p-2 !pl-3 text-sm !font-normal"
         onClick={e => {

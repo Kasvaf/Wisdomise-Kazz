@@ -80,7 +80,7 @@ const SignalMatrix: React.FC = () => {
           <div className="col-span-2 flex flex-col items-stretch justify-center">
             <div className="flex w-full items-center justify-between">
               <Link
-                to={`/insight/coins?coin=${pair.name}`}
+                to={`/marketplace/coins?coin=${pair.name}`}
                 className="flex max-w-[120px] items-center pl-2"
               >
                 <PairInfo

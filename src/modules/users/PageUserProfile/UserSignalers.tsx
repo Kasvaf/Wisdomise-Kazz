@@ -118,7 +118,7 @@ const UserSignalers = memo<{
         render(_, record) {
           return (
             <Link
-              to={`/insight/coins/signaler?coin=${record.pair.name}&strategy=${record.strategy_key}`}
+              to={`/marketplace/coins/signaler?coin=${record.pair.name}&strategy=${record.strategy_key}`}
               className="inline-flex h-7 cursor-pointer items-center gap-1 rounded-lg bg-white/10 p-2 text-xs hover:bg-white/20 hover:text-white"
             >
               {t('marketplace:table.detail')}

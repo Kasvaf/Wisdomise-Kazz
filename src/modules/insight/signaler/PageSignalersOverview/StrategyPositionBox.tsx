@@ -51,7 +51,7 @@ const StrategyPositionBox: React.FC<{
     </div>
   );
 
-  const detailsLink = `/insight/coins/signaler?coin=${pos.pair_name}&strategy=${pos.strategy.key}`;
+  const detailsLink = `/marketplace/coins/signaler?coin=${pos.pair_name}&strategy=${pos.strategy.key}`;
   const [PositionDetailModal, showPositionDetailModal] = usePositionDetailModal(
     pos,
     detailsLink,
