@@ -60,8 +60,10 @@ const AssetManager: React.FC<Props> = ({ fpKey, value = [], onChange }) => {
   }, [signalers, usedCoins, value]);
 
   function signalerUnusedAssets(signalerKey: string, assetName?: string) {
-    return signalerByKey[signalerKey]?.assets?.filter(
-      b => b.base.name === assetName || !usedCoins[b.base.name],
+    return (
+      signalerByKey[signalerKey]?.assets?.filter(
+        b => b.base.name === assetName || !usedCoins[b.base.name],
+      ) ?? []
     );
   }
 
