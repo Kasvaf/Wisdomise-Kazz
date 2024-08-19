@@ -1,12 +1,7 @@
 import { clsx } from 'clsx';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  type PairSignalerItem,
-  useCoinSignals,
-  useSignalerPairs,
-  useSignalsQuery,
-} from 'api';
+import { type PairSignalerItem, useSignalerPairs, useSignalsQuery } from 'api';
 import useIsMobile from 'utils/useIsMobile';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -14,13 +9,14 @@ import AssetSelector from 'modules/builder/AssetSelector';
 import { PageTitle } from 'shared/PageTitle';
 import Spinner from 'shared/Spinner';
 import Pager from 'shared/Pager';
+import { type PairDataFull } from 'api/types/strategy';
 import PairBox from './PairBox';
 import StrategyPositionBox from './StrategyPositionBox';
 
 const HorizontalPositions: React.FC<{
   positions: PairSignalerItem[];
-  pairName: string;
-}> = ({ positions, pairName }) => {
+  pair: PairDataFull;
+}> = ({ positions, pair }) => {
   const scrollContEl = useRef<HTMLDivElement>(null);
   const contEl = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -32,7 +28,7 @@ const HorizontalPositions: React.FC<{
   };
 
   return (
-    <PairBox pairName={pairName}>
+    <PairBox pair={pair}>
       <div className="my-4 border-b border-white/10" />
       <div
         ref={scrollContEl}
@@ -83,7 +79,6 @@ const PageSignalersOverview = () => {
 
   const [selected, setSelected] = useSearchParamAsState<string>('coin', '');
   const [page, setPage] = useState(1);
-  const { data: radar } = useCoinSignals();
   const { data: positions, isLoading: isLoadingSignals } = useSignalsQuery();
   const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
 
@@ -93,7 +88,6 @@ const PageSignalersOverview = () => {
         ?.map(pair => ({
           pair,
           positions: positions?.filter(p => p.pair_name === pair.name) ?? [],
-          social: radar?.find(x => x.symbol_name === pair.base.name),
         }))
         .filter(p => p.positions.length > 0)
         .sort(
@@ -102,7 +96,7 @@ const PageSignalersOverview = () => {
             (b.pair.time_window_prices.at(-1) ?? 0) -
             (a.pair.time_window_prices.at(-1) ?? 0),
         ) ?? [],
-    [pairs, positions, radar],
+    [pairs, positions],
   );
 
   return (
@@ -133,17 +127,20 @@ const PageSignalersOverview = () => {
             <div key={pair.pair.name} className="flex gap-6 mobile:flex-col">
               {isMobile ? (
                 <HorizontalPositions
-                  pairName={pair.pair.name}
+                  pair={pair.pair}
                   positions={pair.positions}
                 />
               ) : (
                 <>
-                  <PairBox
-                    pairName={pair.pair.name}
-                    className="w-2/5 max-w-[363px]"
-                  />
-                  <div className="h-[481px] grow basis-3/5 overflow-y-auto rounded-xl bg-black/40">
+                  <PairBox pair={pair.pair} className="w-2/5 max-w-[363px]" />
+                  <div className="max-h-[533px] grow basis-3/5 overflow-y-auto rounded-xl bg-black/40">
                     <div className="flex flex-col gap-4 p-6">
+                      {pair.positions.map(pos => (
+                        <StrategyPositionBox
+                          key={pos.strategy.key}
+                          position={pos}
+                        />
+                      ))}
                       {pair.positions.map(pos => (
                         <StrategyPositionBox
                           key={pos.strategy.key}

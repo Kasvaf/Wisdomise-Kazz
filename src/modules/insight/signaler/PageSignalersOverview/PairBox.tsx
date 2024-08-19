@@ -7,6 +7,8 @@ import useIsMobile from 'utils/useIsMobile';
 import PairInfo from 'shared/PairInfo';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { type PairDataFull } from 'api/types/strategy';
+import RadarBrief from './RadarBrief';
 
 const PairInfoLabel: React.FC<{ label: string; value?: number }> = ({
   label,
@@ -23,8 +25,15 @@ const PairInfoLabel: React.FC<{ label: string; value?: number }> = ({
 };
 
 const PairBox: React.FC<
-  PropsWithChildren<{ pairName: string; className?: string }>
-> = ({ pairName, children, className }) => {
+  PropsWithChildren<{ pair: PairDataFull; className?: string }>
+> = ({
+  pair: {
+    name: pairName,
+    base: { name: symbolName },
+  },
+  children,
+  className,
+}) => {
   const isMobile = useIsMobile();
   const pair = useSignalerPair('FUTURES')(pairName);
   const { data: pairDetails } = useSignalerPairDetails(pairName);
@@ -125,6 +134,8 @@ const PairBox: React.FC<
             label="Market Cap"
             value={pairDetails?.price_data.market_cap}
           />
+
+          <RadarBrief symbolName={symbolName} className="mt-4" />
         </>
       )}
       {children}
