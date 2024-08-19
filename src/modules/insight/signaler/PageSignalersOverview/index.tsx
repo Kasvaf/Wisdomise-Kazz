@@ -44,7 +44,7 @@ const HorizontalPositions: React.FC<{
             <StrategyPositionBox
               key={pos.strategy.key}
               position={pos}
-              className="w-full shrink-0 snap-center flex-col"
+              className="w-full shrink-0 snap-center"
             />
           ))}
           <div className="w-3 shrink-0" />
