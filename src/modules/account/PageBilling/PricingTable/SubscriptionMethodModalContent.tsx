@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { notification } from 'antd';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
@@ -8,7 +9,6 @@ import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
 import { ReactComponent as SIcon } from '../images/s-icon.svg';
 import { ReactComponent as Token } from '../images/token.svg';
-import CryptoPaymentModalContent from '../paymentMethods/Crypto';
 import TokenPaymentModalContent from '../paymentMethods/Token';
 
 interface Props {
@@ -23,10 +23,6 @@ export default function SubscriptionMethodModal({
   onResolve,
 }: Props) {
   const { t } = useTranslation('billing');
-  const [cryptoPaymentModal, openCryptoPaymentModal] = useModal(
-    CryptoPaymentModalContent,
-    { fullscreen: true, destroyOnClose: true },
-  );
 
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
@@ -35,7 +31,13 @@ export default function SubscriptionMethodModal({
 
   const onCryptoClick = () => {
     onResolve?.();
-    void openCryptoPaymentModal({ plan });
+    if (plan.crypto_payment_link) {
+      window.location.href = plan.crypto_payment_link;
+    } else {
+      notification.error({
+        message: t('pricing-card.notification-call-support'),
+      });
+    }
   };
 
   const onFiatClick = async () => {
@@ -43,9 +45,19 @@ export default function SubscriptionMethodModal({
     onResolve?.();
   };
 
-  const onTokenClick = async () => {
+  const onLockClick = async () => {
     onResolve?.();
     void openTokenPaymentModal({ plan });
+  };
+
+  const onWSDMClick = () => {
+    if (plan.wsdm_payment_link) {
+      window.location.href = plan.wsdm_payment_link;
+    } else {
+      notification.error({
+        message: t('pricing-card.notification-call-support'),
+      });
+    }
   };
 
   return (
@@ -72,20 +84,25 @@ export default function SubscriptionMethodModal({
             {t('subscription-modal.btn-crypto')}
           </div>
         </Button>
+        <Button className="col-span-1" onClick={onWSDMClick}>
+          <div className="flex items-center gap-2">
+            <Token />
+            {t('subscription-modal.btn-wsdm')}
+          </div>
+        </Button>
         {plan.periodicity === 'YEARLY' && (
           <Button
-            onClick={onTokenClick}
-            className="col-span-2"
+            onClick={onLockClick}
+            className="col-span-1"
             disabled={!WSDM_IS_ACTIVE}
           >
             <div className="flex items-center gap-2">
               <Token />
-              {t('token-modal.token-name')}
+              {t('subscription-modal.btn-lock')}
             </div>
           </Button>
         )}
       </div>
-      {cryptoPaymentModal}
       {tokenPaymentModal}
     </div>
   );

@@ -1,7 +1,7 @@
 import { type Invoice } from 'modules/account/models';
 
 export type PlanPeriod = 'MONTHLY' | 'YEARLY';
-export type PaymentMethod = 'TOKEN' | 'CRYPTO' | 'FIAT' | 'MANUAL';
+export type PaymentMethod = 'TOKEN' | 'CRYPTO' | 'FIAT' | 'MANUAL' | 'WSDM';
 
 export interface SubscriptionItem {
   subscription_plan: SubscriptionPlan;
@@ -31,6 +31,8 @@ export interface SubscriptionPlan {
   features: string[];
   periodicity: PlanPeriod;
   stripe_payment_link?: string;
+  wsdm_payment_link?: string;
+  crypto_payment_link?: string;
   metadata: SubscriptionPlanMetadata;
   wsdm_token_hold: number;
   level: number;
