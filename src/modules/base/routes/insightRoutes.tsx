@@ -39,7 +39,7 @@ const useInsightRoutes = () => {
       path: 'insight',
       handle: { crumb: t('menu.insight.title') },
       children: [
-        { path: '', element: <Navigate to="/insight/overview" /> },
+        { path: '', element: <Navigate to="/insight/overview" replace /> },
         { path: 'overview', element: <PageInsight /> },
         {
           path: 'marketplace',

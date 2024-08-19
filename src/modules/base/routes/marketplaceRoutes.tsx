@@ -34,7 +34,7 @@ const useMarketplaceRoutes = () => {
       path: 'marketplace',
       handle: { crumb: t('menu.marketplace.title') },
       children: [
-        { path: '', element: <Navigate to="/marketplace/overview" /> },
+        { path: '', element: <Navigate to="/marketplace/overview" replace /> },
         { path: 'overview', element: <PageInvestment /> },
 
         {

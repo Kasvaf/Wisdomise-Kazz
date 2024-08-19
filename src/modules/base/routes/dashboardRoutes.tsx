@@ -21,7 +21,7 @@ const useDashboardRoutes = () => {
       path: 'dashboard',
       element: <Container />,
       children: [
-        { path: '', element: <Navigate to="/dashboard/overview" /> },
+        { path: '', element: <Navigate to="/dashboard/overview" replace /> },
         { path: 'overview', element: <PageHome /> },
         {
           path: 'portfolio',
