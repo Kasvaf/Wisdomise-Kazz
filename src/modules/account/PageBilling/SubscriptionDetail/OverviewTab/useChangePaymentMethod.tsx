@@ -84,6 +84,19 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             </div>
           </Button>
         )}
+
+        {nextSub?.payment_method !== 'WSDM' && (
+          <Button
+            size="small"
+            loading={clickedPayment === 'WSDM' && changePaymentMethod.isLoading}
+            onClick={() => handleChangePayment('WSDM')}
+          >
+            <div className="flex items-center gap-2">
+              <TokenIcon />
+              {t('change-pay-method.wsdm')}
+            </div>
+          </Button>
+        )}
       </div>
     </div>
   );

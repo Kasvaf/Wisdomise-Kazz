@@ -9,9 +9,9 @@ import {
   useSubscriptionMutation,
 } from 'api';
 import useModal from 'shared/useModal';
-import { type PaymentMethod } from 'api/types/subscription';
 import { unwrapErrorMessage } from 'utils/error';
 import Button from 'shared/Button';
+import { paymentMethodText } from 'modules/account/PageBilling/SubscriptionDetail/OverviewTab/CurrentPlan';
 import PricingTable from '../../PricingTable';
 import useChangePaymentMethodModal from './useChangePaymentMethod';
 import InfoBadge from './InfoBadge';
@@ -171,10 +171,3 @@ export default function NextPlan() {
     </div>
   );
 }
-
-const paymentMethodText: Record<PaymentMethod, string> = {
-  CRYPTO: 'Crypto',
-  FIAT: 'Fiat',
-  TOKEN: 'Wisdomise Token (WSDM)',
-  MANUAL: 'Manual',
-};

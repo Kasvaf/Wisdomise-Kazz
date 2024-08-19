@@ -3,7 +3,8 @@ change-pay-method:
   crypto: Crypto
   fiat: Fiat
   sub-title: 'Choose a payment method for your next plan:'
-  token: Wisdomise Token (WSDM)
+  token: Lock $WSDM
+  wsdm: $WSDM Payment
 crypto-modal:
   title: Wisdomise AG
   subtitle: Subscribe to {{plan}}
@@ -60,6 +61,7 @@ pricing-card:
     activate. Please reload this page after some minutes.
   pay-by-locking: Pay By Locking<1>{{token}}<1>WSDM</1></1>Token
   pay-by-locking-in-yearly-only: 'Pay By Locking<1>WSDM</1>Token: Just In Annually'
+  pay-by-wsdm: 'Pay In<1>WSDM</1>With <4>50% Off</4>'
   recommended: Wisdomise Recommend
   this-includes: 'This includes:'
 stripe:
@@ -106,6 +108,8 @@ subscription-modal:
   subtitle: Please select the payment method that suits your preferences.
   btn-crypto: Crypto Payment
   btn-fiat: Fiat Payment
+  btn-wsdm: WSDM Payment
+  btn-lock: Lock WSDM
 success-modal:
   title: Thanks for subscribing
   subtitle: You can continue your journey

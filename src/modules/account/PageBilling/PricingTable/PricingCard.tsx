@@ -180,6 +180,21 @@ export default function PricingCard({
           )}
         </div>
 
+        {plan.price !== 0 && (
+          <div className="mt-6 flex items-center justify-center rounded-lg bg-[#05010966] py-4 text-xs text-white/70">
+            <Trans ns="billing" i18nKey="pricing-card.pay-by-wsdm">
+              Pay In
+              <span className="mx-1 bg-gradient-to-r from-[#FF00C7] to-[#00A3FF] to-100% bg-clip-text text-base font-semibold text-transparent">
+                WSDM
+              </span>
+              With{' '}
+              <span className="mx-1 text-base font-semibold text-[#00A3FF]">
+                50% Off
+              </span>
+            </Trans>
+          </div>
+        )}
+
         <div className="mb-3 mt-6 text-xs mobile:mt-3 mobile:text-xxs">
           <div className="py-2 text-white/70">
             {t('pricing-card.this-includes')}
