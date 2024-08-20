@@ -9,7 +9,7 @@ export function AlertBox({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
-        'flex h-full flex-col items-center justify-between gap-2 mobile:flex-row-reverse',
+        'flex h-full flex-col items-center justify-between gap-2 overflow-hidden mobile:flex-row-reverse',
         className,
       )}
     >
@@ -17,7 +17,7 @@ export function AlertBox({ className }: { className?: string }) {
         <img
           src={bg}
           alt="Alerts"
-          className="h-full w-80 object-cover object-center mobile:w-auto mobile:scale-125"
+          className="h-full w-80 grow object-cover object-center mobile:w-auto mobile:object-contain"
         />
       </div>
       <div className="flex w-full shrink-0 flex-col justify-between gap-2 mobile:w-1/2">

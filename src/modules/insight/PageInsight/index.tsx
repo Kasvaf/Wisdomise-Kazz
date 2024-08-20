@@ -29,7 +29,7 @@ const PageInsight = () => {
           <HotCoinsTable />
         </OverviewWidget>
         <OverviewWidget
-          className="col-span-2 bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:order-first mobile:col-span-full"
+          className="col-span-2 bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:order-first mobile:col-span-full mobile:h-72"
           contentClassName="h-full"
         >
           <AlertBox />
