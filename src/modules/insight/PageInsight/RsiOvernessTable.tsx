@@ -29,10 +29,10 @@ export function RsiOvernessTable({
               <ReadableNumber
                 label="usdt"
                 value={row.current_price}
-                className="text-base"
+                className="text-sm"
               />
               <PriceChange
-                className="text-xs"
+                className="text-xxs"
                 value={row.price_change_percentage}
               />
             </div>

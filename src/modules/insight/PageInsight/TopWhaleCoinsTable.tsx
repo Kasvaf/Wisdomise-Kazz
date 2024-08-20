@@ -30,10 +30,10 @@ export function TopWhaleCoinsTable() {
               <ReadableNumber
                 label="usdt"
                 value={row.market_data.current_price}
-                className="text-base"
+                className="text-sm"
               />
               <PriceChange
-                className="text-xs"
+                className="text-xxs"
                 value={row.market_data.price_change_percentage_24h}
               />
             </div>
