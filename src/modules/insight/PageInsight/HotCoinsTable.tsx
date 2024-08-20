@@ -29,15 +29,20 @@ export function HotCoinsTable() {
         ),
       },
       {
-        title: t('hot-coins-section.table.realtime-price'),
-        render: (_, row) => (
-          <ReadableNumber value={row.current_price} label="usdt" />
-        ),
+        colSpan: hasFlag('/insight/coin-radar?side-suggestion') ? 1 : 0,
+        title: t('hot-coins-section.table.sentiment'),
+        render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
         title: t('hot-coins-section.table.call-time'),
         render: (_, row) => (
           <ReadableDate value={row.first_signal_related_at} />
+        ),
+      },
+      {
+        title: t('hot-coins-section.table.realtime-price'),
+        render: (_, row) => (
+          <ReadableNumber value={row.current_price} label="usdt" />
         ),
       },
       {
@@ -48,11 +53,6 @@ export function HotCoinsTable() {
             className="inline-flex"
           />
         ),
-      },
-      {
-        colSpan: hasFlag('/insight/coin-radar?side-suggestion') ? 1 : 0,
-        title: t('hot-coins-section.table.sentiment'),
-        render: (_, row) => <SignalSentiment signal={row} />,
       },
     ],
     [t, hasFlag],
