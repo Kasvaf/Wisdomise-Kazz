@@ -63,6 +63,7 @@ menu:
   home:
     title: 家
   insight:
+    full-title: 活跃交易的见解
     subtitle: 获取加密货币投资的实时投资资讯
     title: 投资工具
   investment:
@@ -119,6 +120,9 @@ menu:
     title: WSDM代币
   users:
     title: 用户
+  whales:
+    subtitle: 探索顶级加密货币鲸鱼、他们的交易、盈亏、交易量等
+    title: 鲸鱼分析
 mobile-menu:
   close: 关闭
   open: 菜单

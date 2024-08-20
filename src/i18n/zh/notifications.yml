@@ -34,6 +34,10 @@ alerts:
     slack: Slack 消息
     sms: 短信
     telegram: 电报消息
+  pages:
+    insight:
+      subtitle: 不要错过加密世界的下一个重大机遇。
+      title: 保持领先
   sentences:
     price-alert: 尽快发送警报 <Badge><Base>未知硬币</Base></Badge> <Br/> 去
       <Badge><Operator>未知操作员</Operator></Badge> 的价格

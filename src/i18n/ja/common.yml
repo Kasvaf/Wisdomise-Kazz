@@ -12,6 +12,7 @@ actions:
   remove: 取り除く
   reset: リセット
   save: 保存
+  share: 割合
   yes: はい
 aum: AUM
 below: 下に
@@ -45,6 +46,7 @@ quality:
   low: 低い
   medium: 中くらい
 recommended-size: 推奨サイズ
+see-more: もっと見る
 select-crypto: 暗号を選択
 show-more: もっと見せる
 soon: すぐ

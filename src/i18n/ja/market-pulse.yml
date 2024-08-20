@@ -14,8 +14,10 @@ indicator_list:
       ポジションが引き起こされる可能性があります。
     label: RSI
     overbought: 買われ過ぎ
+    overbought-full-title: 買われすぎたコインのトップ
     overbought-info: RSI>70
     oversold: 売り過ぎ
+    oversold-full-title: 売れ過ぎたコインのトップ
     oversold-info: RSI<30
     statistics: 市場RSI統計
     table:

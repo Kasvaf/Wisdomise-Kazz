@@ -34,6 +34,10 @@ alerts:
     slack: Slackメッセージ
     sms: SMS
     telegram: テレグラムメッセージ
+  pages:
+    insight:
+      subtitle: 暗号通貨の世界における次の大きなチャンスを逃さないでください。
+      title: 先を行く
   sentences:
     price-alert: すぐにアラートを送信 <Badge><Base>不明なコイン</Base></Badge> <Br/> 行く
       <Badge><Operator>不明なオペレーター</Operator></Badge> の価格

@@ -64,6 +64,7 @@ menu:
   home:
     title: 家
   insight:
+    full-title: アクティブトレーディングの洞察
     subtitle: 戦略的な仮想通貨投資のためのリアルタイムのインサイトにアクセス
     title: インサイト
   investment:
@@ -120,6 +121,9 @@ menu:
     title: WSDMトークン
   users:
     title: ユーザー
+  whales:
+    subtitle: トップの暗号通貨クジラ、その取引、損益、取引量などを調べる
+    title: クジラの分析
 mobile-menu:
   close: 閉じる
   open: メニュー
