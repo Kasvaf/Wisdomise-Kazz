@@ -10,7 +10,7 @@ import Table from 'shared/Table';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
-import { RsiNumber } from './RsiNumber';
+import { RsiNumber } from 'shared/RsiNumber';
 
 export const RsiOvernessTable: FC<{
   type: keyof RsiOvernessResponse;
@@ -54,12 +54,7 @@ export const RsiOvernessTable: FC<{
           </>
         ),
         sorter: (a, b) => a.price_change_percentage - b.price_change_percentage,
-        render: (_, row) => (
-          <PriceChange
-            className="inline-flex"
-            value={row.price_change_percentage}
-          />
-        ),
+        render: (_, row) => <PriceChange value={row.price_change_percentage} />,
       },
       {
         title: (

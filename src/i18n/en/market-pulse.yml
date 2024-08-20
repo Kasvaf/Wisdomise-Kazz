@@ -19,8 +19,10 @@ indicator_list:
     bullish: Bullish Divergence
     bullish-info: RSI forms a higher low while the price forms lower lows
     overbought: Over Bought
+    overbought-full-title: Top Over Bought Coins
     overbought-info: RSI>70
     oversold: Over Sold
+    oversold-full-title: Top Over Sold Coins
     oversold-info: RSI<30
     statistics: Market RSI Statistics
     table:

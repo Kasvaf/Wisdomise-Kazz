@@ -35,6 +35,10 @@ alerts:
     slack: Slack Message
     sms: Sms
     telegram: Telegram Message
+  pages:
+    insight:
+      title: Stay Ahead
+      subtitle: Don’t miss out on the next big opportunity in the crypto world.
   sentences:
     price-alert: >-
       Send an alert as soon as <Badge><Base>Unknown Coin</Base></Badge> <Br/>

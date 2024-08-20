@@ -9,7 +9,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { PageTitle } from 'shared/PageTitle';
 import { ButtonSelect } from 'shared/ButtonSelect';
-import { WalletAddress } from '../WalletAddress';
+import { WalletAddress } from 'shared/WalletAddress';
 
 export function WhalesTable({
   className,

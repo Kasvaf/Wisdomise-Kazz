@@ -1,50 +1,71 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import { trackClick } from 'config/segment';
-import BetaVersion from 'shared/BetaVersion';
-import { PageCard } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
-import { InsightIcon, SocialsIcon, MarketPulseIcon, WhaleIcon } from './icons';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { HotCoinsTable } from './HotCoinsTable';
+import { TopWhaleListTable } from './TopWhaleListTable';
+import { TopWhaleCoinsTable } from './TopWhaleCoinsTable';
+import { RsiOvernessTable } from './RsiOvernessTable';
+import { SeeMoreLink } from './SeeMoreLink';
+import { AlertBox } from './AlertBox';
 
 const PageInsight = () => {
-  const { t } = useTranslation('base');
+  const { t } = useTranslation();
 
   return (
     <PageWrapper>
       <PageTitle
-        icon={InsightIcon}
-        title={t('menu.insight.title')}
-        description={t('menu.insight.subtitle')}
+        title={t('base:menu.insight.full-title')}
+        description={t('base:menu.insight.subtitle')}
         className="mb-10"
       />
 
-      <div className="grid grid-cols-2 items-stretch gap-6 mobile:grid-cols-1">
-        <PageCard
-          to="/insight/coin-radar"
-          title={t('menu.coin-radar.title')}
-          description={t('menu.coin-radar.subtitle')}
-          icon={SocialsIcon}
-          onClick={trackClick('coin_radar_menu')}
-          badgeType="manual"
-        />
-        <PageCard
-          to="/insight/market-pulse"
-          title={t('menu.market-pulse.title')}
-          description={t('menu.market-pulse.subtitle')}
-          icon={MarketPulseIcon}
-          onClick={trackClick('market_pulse_menu')}
-          badgeType="manual"
-          badge={<BetaVersion variant="new" />}
-        />
-        <PageCard
-          to="/insight/whales"
-          title={t('menu.whales.title')}
-          description={t('menu.whales.subtitle')}
-          icon={WhaleIcon}
-          onClick={trackClick('whales_menu')}
-          badgeType="manual"
-          badge={<BetaVersion />}
-        />
+      <div className="grid grid-cols-6 gap-6">
+        <OverviewWidget
+          className="col-span-4 mobile:col-span-full"
+          title={t('coin-radar:hot-coins-section.title')}
+          headerActions={<SeeMoreLink to="/insight/coin-radar" />}
+        >
+          <HotCoinsTable />
+        </OverviewWidget>
+        <OverviewWidget
+          className="col-span-2 bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:order-first mobile:col-span-full"
+          contentClassName="h-full"
+        >
+          <AlertBox />
+        </OverviewWidget>
+        <OverviewWidget
+          className="col-span-2 max-h-[470px] mobile:col-span-full"
+          title={t('whale:sections.top-coins.title')}
+          info={t('whale:sections.top-coins.subtitle')}
+          headerActions={<SeeMoreLink to="/insight/whales" />}
+        >
+          <TopWhaleCoinsTable />
+        </OverviewWidget>
+        <OverviewWidget
+          className="col-span-4 mobile:col-span-full"
+          title={t('whale:sections.top-whales.title')}
+          info={t('whale:sections.top-whales.subtitle')}
+          headerActions={<SeeMoreLink to="/insight/whales" />}
+        >
+          <TopWhaleListTable />
+        </OverviewWidget>
+        <OverviewWidget
+          className="col-span-3 max-h-[470px] mobile:col-span-full "
+          title={t('market-pulse:indicator_list.rsi.oversold-full-title')}
+          info={t('market-pulse:indicator_list.rsi.oversold-info')}
+          headerActions={<SeeMoreLink to="/insight/market-pulse" />}
+        >
+          <RsiOvernessTable type="over_sold" />
+        </OverviewWidget>
+        <OverviewWidget
+          className="col-span-3 max-h-[470px] mobile:col-span-full "
+          title={t('market-pulse:indicator_list.rsi.overbought-full-title')}
+          info={t('market-pulse:indicator_list.rsi.overbought-info')}
+          headerActions={<SeeMoreLink to="/insight/market-pulse" />}
+        >
+          <RsiOvernessTable type="over_bought" />
+        </OverviewWidget>
       </div>
     </PageWrapper>
   );

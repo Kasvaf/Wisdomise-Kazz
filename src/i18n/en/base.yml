@@ -37,7 +37,6 @@ menu:
     subtitle: Manage your account settings and preferences
   coin-radar:
     title: Coin Radar
-    subtitle: Uncover Market Trends with AI-Powered Insights
   coin-view:
     title: Coin List
   dashboard:
@@ -53,7 +52,13 @@ menu:
     card-button: Try Financial Products
   insight:
     title: Insight
-    subtitle: Access Real-Time Insights for Strategic Crypto Investing
+    subtitle: >-
+      Access Crypto Signals, Social Signal and insight scanner & Trading
+      Assistant for Informed Decision-Making.
+    full-title: Insights for Active Trading
+  investment:
+    title: Investment
+    subtitle: Explore our auto trader financial products
   kyc:
     title: KYC
     subtitle: Verify identity to access features
