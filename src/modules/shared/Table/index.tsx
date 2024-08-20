@@ -1,28 +1,28 @@
 import { Table as AntTable, type TableProps } from 'antd';
 import { clsx } from 'clsx';
 import expandSrc from './expand.svg';
-import preSrc from './pre.svg';
-import nextSrc from './next.svg';
+import './style.css';
 
 export default function Table<RecordType extends object>({
   pagination,
+  columns,
   ...props
 }: TableProps<RecordType>) {
   return (
     <AntTable<RecordType>
+      bordered={false}
+      showSorterTooltip={false}
       {...props}
-      pagination={{
-        ...pagination,
-        showSizeChanger: false,
-        showPrevNextJumpers: true,
-        nextIcon: <img src={nextSrc} />,
-        prevIcon: <img src={preSrc} />,
-      }}
-      rowClassName={clsx(
-        '[&:nth-child(even)]:bg-black/15 [&:nth-child(odd)]:bg-transparent',
-        props.rowClassName,
-      )}
-      className={clsx('[&_.ant-table-thead]:bg-[#262830]', props.className)}
+      columns={columns?.filter(col => col.colSpan !== 0)}
+      pagination={
+        pagination === false
+          ? false
+          : {
+              showSizeChanger: false,
+              showPrevNextJumpers: true,
+              ...pagination,
+            }
+      }
       expandable={{
         ...props.expandable,
         expandIcon: props.expandable
