@@ -19,8 +19,8 @@ const PageInvestment = () => {
     <PageWrapper>
       <PageTitle
         icon={InvestmentIcon}
-        title={t('menu.investment.title')}
-        description={t('menu.investment.subtitle')}
+        title={t('menu.marketplace.title')}
+        description={t('menu.marketplace.subtitle')}
         className="mb-10"
       />
 
