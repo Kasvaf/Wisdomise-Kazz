@@ -148,13 +148,13 @@ const PageMarketplace: React.FC = () => {
                 <div key={pairPerf.pair.name}>
                   <div className="w-24 text-center">
                     <PriceChange value={pairPerf.pnl} colorize valueToFixed />
-                    <div className="mt-2 w-full">
+                    <div className="w-full">
                       <PriceAreaChart
                         data={pairPerf.pnl_timeseries.map(({ v: y }, x) => ({
                           y,
                           x,
                         }))}
-                        height={18}
+                        height={25}
                       />
                     </div>
                   </div>
