@@ -8,7 +8,7 @@ import {
   useWriteLock,
   useWriteLockWithPermit,
 } from 'modules/account/PageToken/web3/locking/contract';
-import { extractWagmiErrorMessage, isUserRejectionError } from 'utils/error';
+import { extractWagmiErrorMessage } from 'utils/error';
 import {
   LOCKING_CONTRACT_ADDRESS,
   WSDM_CONTRACT_ADDRESS,
@@ -16,9 +16,8 @@ import {
 import { useIncreaseAllowance } from '../shared';
 
 export function useLocking() {
-  const { sign, isLoading: isSigning } = useWsdmSignTypedDataForLocking();
+  const { isLoading: isSigning } = useWsdmSignTypedDataForLocking();
   const {
-    startLockingWithPermit,
     lockTrxReceipt: lockWithPermitTrxReceipt,
     isLoading: lockWithPermitIsLoading,
     isLocking: lockWithPermitIsLocking,
@@ -31,19 +30,19 @@ export function useLocking() {
     isLocking: lockWithApproveIsLocking,
   } = useLockWithApprove();
 
-  const startLocking = async (amount: number, countdown: number) => {
-    const deadline = Math.floor(Date.now() / 1000) + countdown;
-    sign(amount * 10 ** 6, deadline)
-      .then(signature => {
-        startLockingWithPermit(signature, BigInt(amount * 10 ** 6), deadline);
-        return null;
-      })
-      .catch(error => {
-        // probably wallet doesn't support eth_signTypedData_v4
-        if (!isUserRejectionError(error.message)) {
-          startLockingWithApprove(BigInt(amount * 10 ** 6));
-        }
-      });
+  const startLocking = async (amount: number, _countdown: number) => {
+    // const deadline = Math.floor(Date.now() / 1000) + countdown;
+    // sign(amount * 10 ** 6, deadline)
+    //   .then(signature => {
+    //     startLockingWithPermit(signature, BigInt(amount * 10 ** 6), deadline);
+    //     return null;
+    //   })
+    //   .catch(error => {
+    //     // probably wallet doesn't support eth_signTypedData_v4
+    //     if (!isUserRejectionError(error.message)) {
+    startLockingWithApprove(BigInt(amount * 10 ** 6));
+    //   }
+    // });
   };
 
   return {

@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'api';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
 import { roundDown, roundSensible } from 'utils/numbers';
 import InfoButton from 'shared/InfoButton';
+import AmountInputBox from 'shared/AmountInputBox';
 import OrderTypeToggle from '../OrderTypeToggle';
 import MarketToggle from '../MarketToggle';
 import DurationInput from '../DurationInput';
 import OpenConditions from './OpenConditions';
-import { type SignalFormState } from './useSignalFormStates';
 import PriceVolumeInput from './PriceVolumeInput';
+import { type SignalFormState } from './useSignalFormStates';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
@@ -16,12 +18,15 @@ const PartOpen: React.FC<{
   assetName: string;
 }> = ({ signaler, assetName, data }) => {
   const { t } = useTranslation('builder');
+  const hasFlag = useHasFlag();
+
   const {
     isUpdate: [isUpdate],
     market: [market, setMarket],
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
     priceUpdated: [priceUpdated, setPriceUpdated],
+    leverage: [leverage, setLeverage],
     volume: [volume, setVolume],
     exp: [exp, setExp],
     orderExp: [orderExp, setOrderExp],
@@ -69,13 +74,28 @@ const PartOpen: React.FC<{
             onChange={onMarketChangeHandler}
             disabled={isUpdate}
           />
-          {/* <AmountInputBox className="w-14" value="2x" /> */}
+
+          {hasFlag('/builder?leverage') && (
+            <div className="flex items-center gap-2">
+              <div className="text-xs">{t('signal-form.leverage.title')}:</div>
+              <AmountInputBox
+                className="w-14"
+                inputClassName="text-center !pl-0 !pr-2"
+                value={leverage}
+                min={1}
+                max={10}
+                onChange={setLeverage}
+                disabled={isUpdate}
+                suffix="X"
+              />
+            </div>
+          )}
         </div>
       )}
 
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
-          <div>Open: </div>
+          <div>{t('signal-form.open')}: </div>
           <OrderTypeToggle
             value={orderType}
             onChange={setOrderType}

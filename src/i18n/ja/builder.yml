@@ -136,6 +136,11 @@ signal-form:
   btn-new-take-profit: 新しいテイクプロフィット
   btn-update: 位置を更新
   chart-title: 知恵チャート
+  conditional-open:
+    btn-new-condition: 新品状態
+    condition-ind: 状態 {{ind}}
+    description: ポジションを開くための条件を 1 つまたは複数設定できます。
+    title: 条件付きオープン
   conditions-use-market-price: 条件は市場価格を使用する
   confirm-close: このポジションをクローズしてもよろしいですか?
   confirm-fire: この信号を送信してもよろしいですか?
@@ -144,13 +149,17 @@ signal-form:
   error-dup: すでに定義されています {{type}} まったく同じ価格で。
   error-max: これ {{type}} 注文価格より低く、発動直後にトリガーされます {{market}} 信号。
   error-min: これ {{type}} 注文価格よりも大きく、発動直後にトリガーされます {{market}} 信号。
+  error-total-open: オープンボリュームの合計は100%を超えることはできません
   expiration-time:
     info-text: 信号がエントリに対して有効な期間を指定します。
     info-title: 有効期限
     title: 有効期限
+  leverage:
+    title: てこの作用
   notif-success-close: ポジションは正常にクローズされました。
   notif-success-fire: 信号は正常に発射されました。
   notif-success-update: 位置が正常に更新されました。
+  open: オープン
   order-expiration-time:
     info-text: 指値注文の実行に時間制限を設定します。この時間までに注文が約定しない場合は、自動的にキャンセルされます。
     info-title: 注文有効期限
@@ -161,6 +170,9 @@ signal-form:
     title: 求人の詳細
   position-side: 位置側
   price: 注文価格
+  safety-open:
+    btn-new: + 新しい安全オープン
+    title: 安全オープン
   stop-loss: ストップロス
   take-profit: 利食い
   volume: 音量

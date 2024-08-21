@@ -134,6 +134,11 @@ signal-form:
   btn-new-take-profit: 新获利
   btn-update: 更新职位
   chart-title: 智慧图表
+  conditional-open:
+    btn-new-condition: 新条件
+    condition-ind: 健康）状况 {{ind}}
+    description: 您可以设定一个或多个开仓条件。
+    title: 有条件开放
   conditions-use-market-price: 条件使用市场价格
   confirm-close: 您确定要关闭此仓位吗？
   confirm-fire: 您确定要发射此信号吗？
@@ -142,13 +147,17 @@ signal-form:
   error-dup: 您已经定义了一个 {{type}} 价格完全相同。
   error-max: 这 {{type}} 低于订单价格，并将在触发后立即触发 {{market}} 信号。
   error-min: 这 {{type}} 大于订单价格，并将在触发后立即触发 {{market}} 信号。
+  error-total-open: 开仓量总和不能超过100%
   expiration-time:
     info-text: 指定信号保持有效的时间长度。
     info-title: 到期时间
     title: 到期时间
+  leverage:
+    title: 杠杆
   notif-success-close: 仓位成功平仓。
   notif-success-fire: 信号发射成功。
   notif-success-update: 职位更新成功。
+  open: 开仓
   order-expiration-time:
     info-text: 为限价订单的执行设定一个时间限制。如果订单在这段时间内没有成交，它将被自动取消。
     info-title: 订单到期时间
@@ -159,6 +168,9 @@ signal-form:
     title: 职位详细信息
   position-side: 位置方
   price: 订单价格
+  safety-open:
+    btn-new: + 全新安全开启
+    title: 安全开启
   stop-loss: 止损
   take-profit: 从中受益
   volume: 体积
