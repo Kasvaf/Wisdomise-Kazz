@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHasFlag } from 'api';
 import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
 import { roundDown, roundSensible } from 'utils/numbers';
 import InfoButton from 'shared/InfoButton';
@@ -17,6 +18,8 @@ const PartOpen: React.FC<{
   assetName: string;
 }> = ({ signaler, assetName, data }) => {
   const { t } = useTranslation('builder');
+  const hasFlag = useHasFlag();
+
   const {
     isUpdate: [isUpdate],
     market: [market, setMarket],
@@ -72,18 +75,21 @@ const PartOpen: React.FC<{
             disabled={isUpdate}
           />
 
-          <div className="flex items-center gap-2">
-            <div className="text-xs">{t('signal-form.leverage.title')}:</div>
-            <AmountInputBox
-              className="w-14"
-              inputClassName="text-center"
-              value={leverage}
-              min={1}
-              max={10}
-              onChange={setLeverage}
-              disabled={isUpdate}
-            />
-          </div>
+          {hasFlag('/builder?leverage') && (
+            <div className="flex items-center gap-2">
+              <div className="text-xs">{t('signal-form.leverage.title')}:</div>
+              <AmountInputBox
+                className="w-14"
+                inputClassName="text-center !pl-0 !pr-2"
+                value={leverage}
+                min={1}
+                max={10}
+                onChange={setLeverage}
+                disabled={isUpdate}
+                suffix="X"
+              />
+            </div>
+          )}
         </div>
       )}
 
