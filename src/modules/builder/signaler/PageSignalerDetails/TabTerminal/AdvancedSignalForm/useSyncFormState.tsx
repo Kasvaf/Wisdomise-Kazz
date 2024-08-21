@@ -37,6 +37,7 @@ const useSyncFormState = ({
   const {
     isUpdate: [, setIsUpdate],
     price: [, setPrice],
+    leverage: [, setLeverage],
     market: [, setMarket],
     volume: [, setVolume],
     orderType: [, setOrderType],
@@ -72,8 +73,9 @@ const useSyncFormState = ({
   useEffect(() => {
     setIsUpdate(!!activePosition);
 
-    if (activePosition?.position_side) {
+    if (activePosition) {
       setMarket(activePosition.position_side.toLowerCase() as 'long' | 'short');
+      setLeverage(String(Number(activePosition?.leverage) || 1));
     }
 
     const firstOrder = activePosition?.manager?.open_orders?.[0];
@@ -144,6 +146,7 @@ const useSyncFormState = ({
     activePosition,
     pair,
     setPrice,
+    setLeverage,
     setMarket,
     setIsUpdate,
     setStopLosses,

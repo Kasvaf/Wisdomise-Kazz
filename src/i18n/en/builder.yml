@@ -206,6 +206,8 @@ signal-form:
     title: Expiration Time
     info-text: Specifies how long a signal remains valid for entry.
     info-title: Expiration Time
+  leverage:
+    title: Leverage
   notif-success-close: Position closed successfully.
   notif-success-fire: Signal fired successfully.
   notif-success-update: Position updated successfully.

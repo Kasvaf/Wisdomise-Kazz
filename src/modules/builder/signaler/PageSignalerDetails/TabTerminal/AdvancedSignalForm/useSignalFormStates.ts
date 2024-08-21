@@ -76,6 +76,7 @@ const useSignalFormStates = () => {
   const [orderType, setOrderType] = useState<'limit' | 'market'>('market');
   const [price, setPrice] = useState('');
   const priceUpdated = useState(false);
+  const [leverage, setLeverage] = useState('1');
   const [volume, setVolume] = useState('100');
   const [conditions, setConditions] = useState<OpenOrderCondition[]>([]);
   const exp = useState('1h');
@@ -90,6 +91,7 @@ const useSignalFormStates = () => {
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
     priceUpdated,
+    leverage: [leverage, setLeverage],
     volume: [volume, setVolume],
     conditions: [conditions, setConditions],
     exp,
@@ -140,6 +142,7 @@ const useSignalFormStates = () => {
       setOrderType('market');
       setPrice('');
       priceUpdated[1](false);
+      setLeverage('1');
       setVolume('100');
       setConditions([]);
       exp[1]('1h');

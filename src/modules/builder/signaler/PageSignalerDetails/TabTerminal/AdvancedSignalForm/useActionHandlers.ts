@@ -28,6 +28,7 @@ const useActionHandlers = ({
 
   const {
     price: [price],
+    leverage: [leverage],
     orderType: [orderType],
     market: [market],
     exp: [exp],
@@ -66,7 +67,7 @@ const useActionHandlers = ({
         signalerKey: signaler.key,
         action: 'open',
         pair: assetName,
-        leverage: { value: 1 },
+        leverage: { value: Number(leverage) || 1 },
         position: {
           type: signaler?.market_name === 'SPOT' ? 'long' : market,
           order_expires_at: parseDur(orderExp),
