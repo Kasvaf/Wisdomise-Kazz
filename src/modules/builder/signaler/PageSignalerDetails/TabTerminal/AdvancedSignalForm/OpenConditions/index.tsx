@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { Select } from 'antd';
 import { useState } from 'react';
 import { bxChevronDown, bxPlus, bxTrash } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { type SignalerData } from 'api/builder';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
@@ -24,6 +25,7 @@ const OpenConditions: React.FC<{
   signaler: SignalerData;
   assetName: string;
 }> = ({ signaler, assetName, data }) => {
+  const { t } = useTranslation('builder');
   const conditionDefs = useConditionDefinitions();
   const {
     conditions: [conditions, setConditions],
@@ -47,7 +49,7 @@ const OpenConditions: React.FC<{
         onClick={() => setDrawerOpen(true)}
         disabled={isUpdate}
       >
-        Conditional Open
+        {t('signal-form.conditional-open.title')}
       </Button>
 
       <DrawerModal
@@ -59,10 +61,10 @@ const OpenConditions: React.FC<{
         <div className="mb-6 border-b border-white/5">
           <h1 className="flex items-center text-base font-semibold">
             <ConditionsIcon />
-            Conditional Open
+            {t('signal-form.conditional-open.title')}
           </h1>
           <p className="my-3 text-sm text-white/60">
-            You can set one or multiple conditions to open a position.
+            {t('signal-form.conditional-open.description')}
           </p>
         </div>
 
@@ -77,7 +79,9 @@ const OpenConditions: React.FC<{
                 <div className="gap-2">
                   <div className="grow">
                     <label className="mb-2 ml-2 block">
-                      {`Condition ${ind + 1}`}
+                      {t('signal-form.conditional-open.condition-ind', {
+                        ind: ind + 1,
+                      })}
                     </label>
 
                     <div className="flex items-center">
@@ -150,7 +154,8 @@ const OpenConditions: React.FC<{
                 ])
               }
             >
-              <Icon name={bxPlus} /> New Condition
+              <Icon name={bxPlus} />{' '}
+              {t('signal-form.conditional-open.btn-new-condition')}
             </Button>
           )}
         </div>

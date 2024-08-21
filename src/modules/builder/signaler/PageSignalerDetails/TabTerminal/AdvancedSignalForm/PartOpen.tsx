@@ -95,7 +95,7 @@ const PartOpen: React.FC<{
 
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
-          <div>Open: </div>
+          <div>{t('signal-form.open')}: </div>
           <OrderTypeToggle
             value={orderType}
             onChange={setOrderType}

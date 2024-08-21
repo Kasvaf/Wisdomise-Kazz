@@ -191,6 +191,11 @@ signal-form:
   btn-new-take-profit: New Take Profit
   btn-update: Update Position
   chart-title: Chart
+  conditional-open:
+    title: Conditional Open
+    description: You can set one or multiple conditions to open a position.
+    btn-new-condition: New Condition
+    condition-ind: Condition {{ind}}
   confirm-close: Are you sure you want to close this position?
   confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
@@ -202,6 +207,7 @@ signal-form:
   error-min: >-
     This {{type}} is bigger than order price and will trigger immediately after
     firing a {{market}} signal.
+  error-total-open: Total sum of open volumes cannot be more than 100%
   expiration-time:
     title: Expiration Time
     info-text: Specifies how long a signal remains valid for entry.
@@ -211,6 +217,7 @@ signal-form:
   notif-success-close: Position closed successfully.
   notif-success-fire: Signal fired successfully.
   notif-success-update: Position updated successfully.
+  open: Open
   order-expiration-time:
     title: Order Expiration
     info-text: >-
@@ -221,6 +228,9 @@ signal-form:
     title: Position Details
     status: Status
   position-side: Position Side
+  safety-open:
+    title: Safety Open
+    btn-new: + New Safety Open
   stop-loss: Stop Loss
   take-profit: Take Profit
 signaler:

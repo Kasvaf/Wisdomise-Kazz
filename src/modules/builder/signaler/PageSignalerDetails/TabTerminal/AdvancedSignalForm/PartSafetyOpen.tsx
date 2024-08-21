@@ -50,7 +50,7 @@ const PartSafetyOpen: React.FC<{
   return (
     <div>
       <div className="mb-2 flex justify-between">
-        <h1>Safety Open</h1>
+        <h1>{t('signal-form.safety-open.title')}</h1>
         {!Number.isNaN(effectivePrice) && !Number.isNaN(remainingVolume) && (
           <Button
             variant="alternative"
@@ -68,7 +68,7 @@ const PartSafetyOpen: React.FC<{
               ])
             }
           >
-            + New Safety Open
+            {t('signal-form.safety-open.btn-new')}
           </Button>
         )}
       </div>
@@ -103,7 +103,7 @@ const PartSafetyOpen: React.FC<{
                 {item.applied ? (
                   <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-xs text-black">
                     <Icon name={bxsCheckCircle} />
-                    Hitted
+                    {t('strategy:position-detail-modal.hitted')}
                   </div>
                 ) : (
                   <div className="ml-2 flex">
@@ -137,7 +137,7 @@ const PartSafetyOpen: React.FC<{
 
         {remainingVolume < 0 && (
           <div className="text-center text-xs text-error">
-            Total sum of open volumes cannot be more than 100%
+            {t('signal-form.error-total-open')}
           </div>
         )}
       </div>
