@@ -84,10 +84,13 @@ export default function SubscriptionMethodModal({
             {t('subscription-modal.btn-crypto')}
           </div>
         </Button>
-        <Button className="col-span-1" onClick={onWSDMClick}>
+        <Button className="relative col-span-1" onClick={onWSDMClick}>
           <div className="flex items-center gap-2">
             <Token />
             {t('subscription-modal.btn-wsdm')}
+            <div className="absolute -end-2 -top-3 rounded-lg bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-2 py-1 text-sm text-white">
+              50% Off
+            </div>
           </div>
         </Button>
         {plan.periodicity === 'YEARLY' && (

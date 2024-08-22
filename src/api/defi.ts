@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
+import { useAccountQuery } from 'api/account';
 
 interface NonceResponse {
   nonce: string;
@@ -52,15 +53,18 @@ export function useLockingRequirementQuery(
   amountInUSD: number,
   address?: `0x${string}`,
 ) {
+  const { data } = useAccountQuery();
   return useQuery(
     ['getLockingRequirement', amountInUSD, address],
     async () => {
-      const { data } = await axios.get<LockingRequirementResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/locking-requirement?amount_in_usd=${amountInUSD}${
-          address ? `&wallet_address=${address}` : ''
-        }`,
-      );
-      return data;
+      if (!address || data?.wallet_address === address) {
+        const { data } = await axios.get<LockingRequirementResponse>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/locking-requirement?amount_in_usd=${amountInUSD}${
+            address ? `&wallet_address=${address}` : ''
+          }`,
+        );
+        return data;
+      }
     },
     {
       refetchInterval: 60 * 60 * 1000,
