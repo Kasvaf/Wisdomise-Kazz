@@ -40,6 +40,7 @@ const Header: React.FC<
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
             <OnBoardingMessageButton />
+            <LanguageSelector />
           </>
         ) : (
           <>
@@ -49,9 +50,9 @@ const Header: React.FC<
             <OnBoardingMessageButton />
             <LanguageSelector />
             <WalletDropdown />
+            <ProfileMenu />
           </>
         )}
-        <ProfileMenu />
       </div>
       {children}
     </div>

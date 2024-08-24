@@ -96,7 +96,7 @@ const Breadcrumb: React.FC<{
     if (parent && child) {
       return (
         <div
-          className={clsx('ml-2 mt-3 flex items-center text-white', className)}
+          className={clsx('ml-2 flex items-center text-white', className)}
           onClick={() => onShowSiblings?.(x => !x)}
         >
           <div>{child.text}</div>
@@ -106,7 +106,7 @@ const Breadcrumb: React.FC<{
     }
 
     return (
-      <a href={MAIN_LANDING(i18n.language)} className="mt-2">
+      <a href={MAIN_LANDING(i18n.language)}>
         <img src={Logo} />
       </a>
     );
@@ -117,7 +117,7 @@ const Breadcrumb: React.FC<{
       items={items}
       itemRender={itemRender}
       separator={<span className="text-white/10">/</span>}
-      className={clsx('mt-3', className)}
+      className={className}
     />
   ) : null;
 };
