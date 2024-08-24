@@ -42,34 +42,6 @@ const useMenuItems = () => {
     },
 
     {
-      icon: <IconMarketplace />,
-      text: t('menu.marketplace.title'),
-      link: '/marketplace',
-      onClick: trackClick('marketplace_menu'),
-      children: [
-        {
-          text: t('menu.overview.title'),
-          link: '/marketplace/overview',
-          onClick: trackClick('marketplace_menu'),
-        },
-        {
-          text: t('menu.signalers.title'),
-          link: '/marketplace/signalers',
-          onClick: trackClick('signalers_menu'),
-        },
-        {
-          text: t('menu.financial-products.title'),
-          link: '/marketplace/products-catalog',
-          onClick: trackClick('financial_products_menu'),
-        },
-        {
-          text: t('menu.builder.title'),
-          link: '/marketplace/builder',
-          onClick: trackClick('builder_menu'),
-        },
-      ],
-    },
-    {
       icon: <IconInsight />,
       text: t('menu.insight.title'),
       link: '/insight',
@@ -97,6 +69,34 @@ const useMenuItems = () => {
           link: '/insight/whales',
           onClick: trackClick('whales_menu'),
           isBeta: true,
+        },
+      ],
+    },
+    {
+      icon: <IconMarketplace />,
+      text: t('menu.marketplace.title'),
+      link: '/marketplace',
+      onClick: trackClick('marketplace_menu'),
+      children: [
+        {
+          text: t('menu.overview.title'),
+          link: '/marketplace/overview',
+          onClick: trackClick('marketplace_menu'),
+        },
+        {
+          text: t('menu.signalers.title'),
+          link: '/marketplace/signalers',
+          onClick: trackClick('signalers_menu'),
+        },
+        {
+          text: t('menu.financial-products.title'),
+          link: '/marketplace/products-catalog',
+          onClick: trackClick('financial_products_menu'),
+        },
+        {
+          text: t('menu.builder.title'),
+          link: '/marketplace/builder',
+          onClick: trackClick('builder_menu'),
         },
       ],
     },

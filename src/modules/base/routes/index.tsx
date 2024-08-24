@@ -30,7 +30,7 @@ const useRoutes = () => {
             },
           ],
         },
-        { path: '*', element: <Navigate to="/dashboard" /> },
+        { path: '*', element: <Navigate to="/insight/overview" /> },
       ],
     },
   ] satisfies RouteObject[];
