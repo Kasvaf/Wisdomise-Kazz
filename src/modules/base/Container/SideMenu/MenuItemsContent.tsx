@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
-import { bxChevronDown, bxChevronUp, bxEdit, bxLogOut } from 'boxicons-quasar';
+import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { useState } from 'react';
 import { useHasFlag } from 'api';
 import BetaVersion from 'shared/BetaVersion';
@@ -11,6 +11,8 @@ import useIsMobile from 'utils/useIsMobile';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as TreeMid } from './tree-mid.svg';
 import { ReactComponent as TreeLast } from './tree-last.svg';
+import { ReactComponent as LogoutIcon } from './logout-icon.svg';
+import { ReactComponent as HelpIcon } from './help-icon.svg';
 
 const MenuItemsGroup: React.FC<{
   item: RootMenuItem;
@@ -101,12 +103,12 @@ const MenuItemsContent: React.FC<{
 
   const extraItems = [
     {
-      icon: <Icon name={bxEdit} />,
-      label: 'Blog',
-      to: 'https://wisdomise.medium.com/',
+      icon: <HelpIcon />,
+      label: 'Help & Guide',
+      to: 'https://help.wisdomise.com/',
     },
     {
-      icon: <Icon name={bxLogOut} />,
+      icon: <LogoutIcon />,
       label: t('base:user.sign-out'),
       to: '/auth/logout',
       className: 'text-error',
