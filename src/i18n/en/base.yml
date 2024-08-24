@@ -4,7 +4,6 @@ badges:
   unverified: ''
   verified: ''
 beta: Beta
-new: New
 beta-version: Beta Version
 error-page:
   title: Something went wrong and we don't know how :(
@@ -92,6 +91,7 @@ menu:
   whales:
     title: Whale Analysis
     subtitle: Explore top crypto whales, their trades, PNL, volume, and more
+new: New
 onboarding:
   back: Back
   got-it: Got it
