@@ -1,9 +1,11 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
+import { useLocation } from 'react-router-dom';
 import { RouterBaseName } from 'config/constants';
 import useIsMobile from 'utils/useIsMobile';
 import BranchSelector from './BranchSelector';
+import BtnLiveSupport from './BtnLiveSupport';
 import LanguageSelector from './LanguageSelector';
 import WalletDropdown from './WalletDropdown';
 import ProfileMenu from './ProfileMenu';
@@ -18,6 +20,7 @@ const Header: React.FC<
   }>
 > = ({ showSiblings, onShowSiblings, className, children }) => {
   const isMobile = useIsMobile();
+  const { pathname } = useLocation();
 
   return (
     <div
@@ -38,9 +41,13 @@ const Header: React.FC<
               onShowSiblings={onShowSiblings}
             />
             <div className="grow" />
-            {RouterBaseName && <BranchSelector />}
             <OnBoardingMessageButton />
             <LanguageSelector />
+            {RouterBaseName ? (
+              <BranchSelector />
+            ) : (
+              pathname === '/menu' && <BtnLiveSupport />
+            )}
           </>
         ) : (
           <>

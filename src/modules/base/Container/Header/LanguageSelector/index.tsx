@@ -2,7 +2,10 @@ import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
 import { type PropsWithChildren, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { bxChevronDown } from 'boxicons-quasar';
 import DropdownContainer from 'shared/DropdownContainer';
+import useIsMobile from 'utils/useIsMobile';
+import Icon from 'shared/Icon';
 import DropButton from '../DropButton';
 import { ReactComponent as LangIcon } from './lang-icon.svg';
 
@@ -14,6 +17,7 @@ const langs = [
 
 const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
   const { i18n } = useTranslation();
+  const isMobile = useIsMobile();
 
   const [loading, setLoading] = useState(false);
   const changeLang = async (value: string) => {
@@ -58,8 +62,17 @@ const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
           loading={loading}
         >
           <div className="flex items-center">
-            <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3 text-white" />
+            {!isMobile && (
+              <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3 text-white" />
+            )}
             <div>{i18n.language.toUpperCase()}</div>
+            {isMobile && (
+              <Icon
+                name={bxChevronDown}
+                size={20}
+                className="ml-1 text-white/30"
+              />
+            )}
           </div>
         </DropButton>
       )}
