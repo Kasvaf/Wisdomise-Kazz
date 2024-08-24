@@ -21,8 +21,8 @@ export default function PageMarketPulse() {
       <PageTitle
         title={t('base:menu.market-pulse.title')}
         description={t('base:menu.market-pulse.subtitle')}
-        isBeta
         className="mb-8"
+        badge="new"
       />
       <div className="flex flex-col gap-4">
         <IndicatorSelect value={indicator} onChange={setIndicator} />

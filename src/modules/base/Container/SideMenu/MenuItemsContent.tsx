@@ -78,7 +78,9 @@ const MenuItemsGroup: React.FC<{
                     )}
                   >
                     {subItem.text}
-                    {subItem.isBeta && <BetaVersion minimal />}
+                    {subItem.badge && (
+                      <BetaVersion minimal variant={subItem.badge} />
+                    )}
                   </div>
                 </NavLink>
               ))}

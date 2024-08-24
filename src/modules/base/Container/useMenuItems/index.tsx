@@ -9,7 +9,7 @@ export interface MenuItem {
   text: string;
   link: string;
   hide?: boolean;
-  isBeta?: boolean;
+  badge?: 'beta' | 'new';
   mobileHide?: boolean;
   onClick?: () => void;
 }
@@ -56,19 +56,18 @@ const useMenuItems = () => {
           text: t('menu.coin-radar.title'),
           link: '/insight/coin-radar',
           onClick: trackClick('coin_radar_menu'),
-          isBeta: true,
         },
         {
           text: t('menu.market-pulse.title'),
           link: '/insight/market-pulse',
           onClick: trackClick('market_pulse_menu'),
-          isBeta: true,
+          badge: 'new',
         },
         {
           text: t('menu.whales.title'),
           link: '/insight/whales',
           onClick: trackClick('whales_menu'),
-          isBeta: true,
+          badge: 'beta',
         },
       ],
     },

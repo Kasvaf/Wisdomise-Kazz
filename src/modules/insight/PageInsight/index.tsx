@@ -26,7 +26,6 @@ const PageInsight = () => {
           icon={SocialsIcon}
           onClick={trackClick('coin_radar_menu')}
           badgeType="manual"
-          badge={<BetaVersion />}
         />
         <PageCard
           to="/insight/market-pulse"
@@ -35,7 +34,7 @@ const PageInsight = () => {
           icon={MarketPulseIcon}
           onClick={trackClick('market_pulse_menu')}
           badgeType="manual"
-          badge={<BetaVersion />}
+          badge={<BetaVersion variant="new" />}
         />
         <PageCard
           to="/insight/whales"
