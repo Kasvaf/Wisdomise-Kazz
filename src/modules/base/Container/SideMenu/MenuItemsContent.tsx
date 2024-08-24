@@ -24,7 +24,7 @@ const MenuItemsGroup: React.FC<{
   const isMobile = useIsMobile();
 
   return (
-    <div className="text-white">
+    <div className="mb-2 text-white mobile:border-b mobile:border-white/5">
       <NavLink
         to={item.link}
         target={item.link.startsWith('https://') ? '_blank' : undefined}
@@ -38,8 +38,8 @@ const MenuItemsGroup: React.FC<{
           onClick(item.link);
         }}
         className={clsx(
-          'group mb-4 flex h-12 cursor-pointer items-center rounded-xl text-sm',
-          'opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:bg-[#FFFFFF1A] [&.active]:opacity-100',
+          'group mb-2 flex h-12 cursor-pointer items-center rounded-xl text-sm',
+          'opacity-70 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:bg-[#FFFFFF1A] [&.active]:opacity-100',
           collapsed ? 'justify-center' : 'justify-between px-4',
         )}
       >
@@ -54,7 +54,6 @@ const MenuItemsGroup: React.FC<{
           height={isActive ? 'auto' : 0}
           duration={200}
           animateOpacity
-          className="mt-3"
         >
           <div className="ml-7">
             {children
@@ -66,7 +65,7 @@ const MenuItemsGroup: React.FC<{
                   target={
                     subItem.link.startsWith('https://') ? '_blank' : undefined
                   }
-                  className={clsx('group flex h-[48px] items-stretch')}
+                  className={clsx('group flex h-[32px] items-stretch')}
                   onClick={subItem.onClick}
                 >
                   <div className="flex items-center">
@@ -138,7 +137,7 @@ const MenuItemsContent: React.FC<{
             className={clsx(
               'mb-4 flex h-12 cursor-pointer items-center rounded-xl text-sm',
               collapsed ? 'justify-center' : 'justify-between px-4',
-              'opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:opacity-100',
+              'opacity-70 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:opacity-100',
               item.className,
             )}
           >
