@@ -47,7 +47,7 @@ const MenuItemsGroup: React.FC<{
           <span>{item.icon}</span>
           {!collapsed && <p className="ml-2">{item.text}</p>}
         </div>
-        <Icon name={isActive ? bxChevronDown : bxChevronUp} />
+        {!collapsed && <Icon name={isActive ? bxChevronDown : bxChevronUp} />}
       </NavLink>
       {children?.length && !collapsed && (
         <AnimateHeight
@@ -135,14 +135,14 @@ const MenuItemsContent: React.FC<{
             target={/^https?:\/\//.test(item.to) ? '_blank' : undefined}
             className={clsx(
               'mb-4 flex h-12 cursor-pointer items-center rounded-xl text-sm',
-              'justify-between px-4',
+              collapsed ? 'justify-center' : 'justify-between px-4',
               'opacity-40 hover:bg-[#FFFFFF0D] hover:opacity-100 [&.active]:opacity-100',
               item.className,
             )}
           >
             <div className="flex items-center justify-start">
               {item.icon}
-              <p className="ml-2">{item.label}</p>
+              {!collapsed && <p className="ml-2">{item.label}</p>}
             </div>
           </NavLink>
         ))}
