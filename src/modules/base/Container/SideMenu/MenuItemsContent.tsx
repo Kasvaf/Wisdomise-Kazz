@@ -9,8 +9,6 @@ import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
-import { ReactComponent as TreeMid } from './tree-mid.svg';
-import { ReactComponent as TreeLast } from './tree-last.svg';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 import { ReactComponent as HelpIcon } from './help-icon.svg';
 
@@ -49,7 +47,7 @@ const MenuItemsGroup: React.FC<{
           <span>{item.icon}</span>
           {!collapsed && <p className="ml-2">{item.text}</p>}
         </div>
-        {!collapsed && <Icon name={isActive ? bxChevronDown : bxChevronUp} />}
+        {!collapsed && <Icon name={isActive ? bxChevronUp : bxChevronDown} />}
       </NavLink>
       {children?.length && !collapsed && (
         <AnimateHeight
@@ -58,10 +56,10 @@ const MenuItemsGroup: React.FC<{
           animateOpacity
           className="mt-3"
         >
-          <div className="ml-6">
+          <div className="ml-7">
             {children
               .filter(x => !x.hide && hasFlag(x.link))
-              .map((subItem, ind, all) => (
+              .map(subItem => (
                 <NavLink
                   key={subItem.link}
                   to={subItem.link}
@@ -71,11 +69,13 @@ const MenuItemsGroup: React.FC<{
                   className={clsx('group flex h-[48px] items-stretch')}
                   onClick={subItem.onClick}
                 >
-                  {ind < all.length - 1 ? <TreeMid /> : <TreeLast />}
+                  <div className="flex items-center">
+                    <div className="h-1 w-1 rounded-full bg-white group-hover:bg-info group-[.active]:bg-info" />
+                  </div>
                   <div
                     className={clsx(
-                      'my-1 ml-1 flex grow items-center justify-between rounded-xl px-3 text-sm group-hover:bg-[#FFFFFF0D]',
-                      'opacity-40 group-[.active]:bg-[#FFFFFF1A] group-[.active]:opacity-100',
+                      'my-1 ml-1 flex grow items-center justify-between rounded-xl px-3 text-sm group-hover:text-info',
+                      'opacity-70 group-[.active]:text-info group-[.active]:opacity-100',
                     )}
                   >
                     {subItem.text}
