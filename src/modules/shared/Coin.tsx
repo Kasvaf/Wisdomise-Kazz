@@ -1,9 +1,7 @@
 import { Tooltip } from 'antd';
 import { clsx } from 'clsx';
-import { Link, createSearchParams } from 'react-router-dom';
-
-export const cdnCoinIcon = (name: string) =>
-  `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${name}.svg`;
+import { Link } from 'react-router-dom';
+import { type Coin as CoinType } from 'api/types/shared';
 
 const MAX_LENGTH = 18;
 
@@ -12,48 +10,39 @@ const truncate = (str: string) =>
 
 export function Coin({
   className,
-  abbrevation,
-  fullName,
-  image,
+  coin,
   imageClassName,
   nonLink,
 }: {
-  abbrevation: string;
-  fullName?: string | null;
-  image?: string | null;
+  coin: CoinType;
   className?: string;
   imageClassName?: string;
   nonLink?: boolean;
 }) {
-  const logoUrl = image ?? cdnCoinIcon(abbrevation);
   const rootClassName = clsx(
-    'inline-flex items-center gap-2 p-1 pe-3',
+    'inline-flex items-center gap-2 p-1 pe-2',
     !nonLink &&
-      'group rounded-md transition-all hover:bg-white/10 hover:text-white',
+      'group rounded-md transition-all hover:bg-v1-background-hover hover:text-inherit',
     className,
   );
   const content = (
     <>
       <div
         className={clsx(
-          'shrink-0 rounded-full bg-white bg-cover bg-center bg-no-repeat',
+          'shrink-0 rounded-full bg-cover bg-center bg-no-repeat',
           imageClassName ?? 'size-8',
         )}
         style={{
-          backgroundImage: `url("${logoUrl}")`,
+          ...(typeof coin.logo_url === 'string' && {
+            backgroundImage: `url("${coin.logo_url}")`,
+          }),
         }}
       />
-      <div className="flex w-full flex-col gap-0 whitespace-nowrap">
-        {typeof fullName === 'string' && fullName ? (
-          <>
-            <span>{truncate(fullName)}</span>
-            <span className="text-[80%] opacity-70">
-              {truncate(abbrevation)}
-            </span>
-          </>
-        ) : (
-          <span>{truncate(abbrevation)}</span>
-        )}
+      <div className="w-full whitespace-nowrap leading-tight">
+        <div>{truncate(coin.name)}</div>
+        <div className="text-[80%] opacity-70">
+          {truncate(coin.abbreviation)}
+        </div>
       </div>
     </>
   );
@@ -68,30 +57,19 @@ export function Coin({
       }}
       title={
         <div className="text-sm">
-          {typeof fullName === 'string' && fullName ? (
-            <>
-              <div>{fullName}</div>
-              <div className="text-[80%] opacity-70">{abbrevation}</div>
-            </>
-          ) : (
-            <div>{abbrevation}</div>
-          )}
+          <div>{coin.name}</div>
+          <div className="text-[80%] opacity-70">{coin.abbreviation}</div>
         </div>
       }
       overlayClassName="pointer-events-none"
     >
-      {nonLink ? (
+      {nonLink || !coin.slug ? (
         <span className={rootClassName}>{content}</span>
       ) : (
         <Link
           className={rootClassName}
           to={{
-            pathname: `/insight/coin-radar/${abbrevation}`,
-            search: createSearchParams({
-              ...(fullName && {
-                name: fullName,
-              }),
-            }).toString(),
+            pathname: `/insight/coin-radar/${coin.slug}`,
           }}
         >
           {content}

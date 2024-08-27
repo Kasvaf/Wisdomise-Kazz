@@ -34,7 +34,14 @@ export const RsiDivergenceTable: FC<{
       {
         title: t('indicator_list.rsi.table.name'),
         render: (_, row) => (
-          <Coin image={row.image} abbrevation={row.candle_base_abbreviation} />
+          <Coin
+            coin={{
+              abbreviation: row.candle_base_abbreviation,
+              name: row.candle_base_name,
+              slug: row.candle_base_name,
+              logo_url: row.image,
+            }}
+          />
         ),
       },
       {
@@ -66,18 +73,6 @@ export const RsiDivergenceTable: FC<{
         title: t('indicator_list.rsi.table.duration'),
         render: (_, row) => row.divergence_length,
       },
-      // {
-      //   title: t('indicator_list.rsi.table.action'),
-      //   render: (_, row) => (
-      //     <Link
-      //       to={`/insight/coin-radar/${row.candle_base_abbreviation}`}
-      //       className="inline-flex items-center gap-1 whitespace-nowrap text-white/60 hover:!text-white"
-      //     >
-      //       {t('indicator_list.rsi.table.coin_detail')}
-      //       <Icon name={bxRightArrowAlt} />
-      //     </Link>
-      //   ),
-      // },
     ],
     [t],
   );

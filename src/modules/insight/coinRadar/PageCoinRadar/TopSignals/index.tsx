@@ -41,7 +41,7 @@ export const TopSignals: FC<{
         render: (_row, index) => index + 1,
       },
       {
-        render: row => <Coin abbrevation={row.symbol_name} image={row.image} />,
+        render: row => <Coin coin={row.symbol} />,
       },
       {
         render: row => (

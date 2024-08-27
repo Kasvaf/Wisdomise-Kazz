@@ -62,7 +62,7 @@ export const useSocialTab = (symbol: string) => {
           </TabSubTitle>
         ),
       },
-      ...(hasFlag('/insight/coin-radar/[symbol]?tab=telegram')
+      ...(hasFlag('/insight/coin-radar/[slug]?tab=telegram')
         ? [
             {
               label: (
@@ -84,7 +84,7 @@ export const useSocialTab = (symbol: string) => {
             },
           ]
         : []),
-      ...(hasFlag('/insight/coin-radar/[symbol]?tab=reddit')
+      ...(hasFlag('/insight/coin-radar/[slug]?tab=reddit')
         ? [
             {
               label: (
@@ -103,7 +103,7 @@ export const useSocialTab = (symbol: string) => {
             },
           ]
         : []),
-      ...(hasFlag('/insight/coin-radar/[symbol]?tab=twitter')
+      ...(hasFlag('/insight/coin-radar/[slug]?tab=twitter')
         ? [
             {
               label: (
@@ -122,7 +122,7 @@ export const useSocialTab = (symbol: string) => {
             },
           ]
         : []),
-      ...(hasFlag('/insight/coin-radar/[symbol]?tab=trading_view')
+      ...(hasFlag('/insight/coin-radar/[slug]?tab=trading_view')
         ? [
             {
               label: (

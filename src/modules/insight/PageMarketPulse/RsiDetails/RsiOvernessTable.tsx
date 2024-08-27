@@ -37,7 +37,14 @@ export const RsiOvernessTable: FC<{
         className: '!w-18',
         title: t('indicator_list.rsi.table.name'),
         render: (_, row) => (
-          <Coin image={row.image} abbrevation={row.candle_base_abbreviation} />
+          <Coin
+            coin={{
+              abbreviation: row.candle_base_abbreviation,
+              name: row.candle_base_name,
+              slug: row.candle_base_name,
+              logo_url: row.image,
+            }}
+          />
         ),
       },
       {

@@ -6,6 +6,7 @@ import {
 import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import queryClient from 'config/reactQuery';
+import { type Coin } from './types/shared';
 
 interface MarketInfoFromSignals {
   long_count: number;
@@ -63,6 +64,8 @@ export interface CoinSignalAnalysis {
 export interface CoinSignal {
   rank: number;
   symbol_name: string;
+  symbol_slug?: string | null;
+  symbol: Coin;
   long_count: number;
   short_count: number;
   messages_count: number;
@@ -221,9 +224,9 @@ export type SocialMessage =
   | SocialMessageTemplate<'twitter', TwitterMessage>
   | SocialMessageTemplate<'trading_view', TradingViewIdeasMessage>;
 
-export const useSocialMessages = (symbol: string) =>
+export const useSocialMessages = (slug: string) =>
   useQuery({
-    queryKey: ['coins-social-message', symbol],
+    queryKey: ['coins-social-message', slug],
     queryFn: async () => {
       const { data } = await axios.get<{
         reddit: null | RedditMessage[];
@@ -231,7 +234,7 @@ export const useSocialMessages = (symbol: string) =>
         trading_view_ideas: null | TradingViewIdeasMessage[];
         twitter: null | TwitterMessage[];
       }>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&symbol_name=${symbol}`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&slug=${slug}`,
       );
       const response: SocialMessage[] = [
         ...(data.reddit || []).map(
@@ -386,24 +389,19 @@ export interface CoinOverview {
   exchanges: CoinExchange[];
 }
 export const useCoinOverview = ({
-  symbol,
-  name,
+  slug,
   priceHistoryDays,
 }: {
-  symbol: string;
-  name?: string;
+  slug: string;
   priceHistoryDays?: number;
 }) =>
   useQuery({
-    queryKey: ['coin-overview', symbol, name, priceHistoryDays],
+    queryKey: ['coin-overview', slug, priceHistoryDays],
     queryFn: () =>
       axios
         .get<CoinOverview>('delphi/market/token-review/', {
           params: {
-            symbol_abbreviation: symbol,
-            ...(name && {
-              symbol_name: name,
-            }),
+            slug,
             price_history_days: priceHistoryDays ?? 1,
           },
         })

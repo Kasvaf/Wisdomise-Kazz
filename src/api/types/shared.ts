@@ -1,0 +1,6 @@
+export interface Coin {
+  abbreviation: string;
+  name: string;
+  slug?: string | null;
+  logo_url?: string | null;
+}

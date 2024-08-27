@@ -29,14 +29,7 @@ export const TopCoins: FC<{
         render: (_row, index) => index + 1,
       },
       {
-        render: row => (
-          <Coin
-            abbrevation={row.symbol_abbreviation}
-            fullName={row.symbol_name}
-            image={row.market_data.image}
-            imageClassName="size-7"
-          />
-        ),
+        render: row => <Coin coin={row.symbol} imageClassName="size-7" />,
       },
       {
         render: row => (
