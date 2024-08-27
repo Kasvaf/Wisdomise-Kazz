@@ -35,6 +35,7 @@ export function TopWhaleCoinsTable() {
               <PriceChange
                 className="text-xxs"
                 value={row.market_data.price_change_percentage_24h}
+                suffix=" (24h)"
               />
             </div>
           </div>
