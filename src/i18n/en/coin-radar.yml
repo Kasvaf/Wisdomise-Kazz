@@ -33,6 +33,7 @@ hot-coins-section:
     name: Name
     24h-voume: 24h Vol
     call-change: Call Change
+    call-time: Call Time
     chg-24: Chg(24h)
     market-cap: Market Cap
     negative: Negative
