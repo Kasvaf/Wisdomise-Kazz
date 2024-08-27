@@ -1,10 +1,10 @@
 import { type FC, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
+import { CoinSignalCallChange } from 'shared/CoinSignalCallChange';
 import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { ReadableDate } from 'shared/ReadableDate';
 import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
 import { SignalSentiment } from 'shared/SignalSentiment';
@@ -42,12 +42,12 @@ export const HotCoinsTable: FC<{
           ]
         : []),
       {
-        title: t('hot-coins-section.table.call-time'),
+        title: t('hot-coins-section.table.call-change'),
         sorter: (a, b) =>
           new Date(a.first_signal_related_at ?? Date.now()).getTime() -
           new Date(b.first_signal_related_at ?? Date.now()).getTime(),
         render: (row: CoinSignal) => (
-          <ReadableDate value={row.first_signal_related_at} />
+          <CoinSignalCallChange signalAnalysis={row.signals_analysis} />
         ),
       },
       {

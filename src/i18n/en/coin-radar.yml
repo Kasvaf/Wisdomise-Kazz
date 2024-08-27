@@ -6,6 +6,12 @@ available-exchanges:
     rank: '#'
     volume_24h: Volume 24h
     volume_percentage: Volume %
+call-change:
+  changes: Changes
+  current-price: Price Now
+  fire-time: Signal Fire Time
+  trigger-price: Price When Signal Fired
+  under-calculation: Under Calculation
 coin-info:
   24h_chg: 24h Chg
   market_cap: Market Cap
@@ -26,7 +32,7 @@ hot-coins-section:
   table:
     name: Name
     24h-voume: 24h Vol
-    call-time: Call Time
+    call-change: Call Change
     chg-24: Chg(24h)
     market-cap: Market Cap
     negative: Negative

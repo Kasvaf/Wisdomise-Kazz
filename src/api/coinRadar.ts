@@ -46,6 +46,18 @@ export const useMarketInfoFromSignals = () =>
     },
   });
 
+export interface CoinSignalAnalysis {
+  call_time: string;
+  signal_length: string;
+  current_pnl_percentage: number;
+  average_signal: number;
+  total_signals: number;
+  trigger_price: number;
+  current_price: number;
+  max_profit_percentage: number;
+  max_loss_percentage: number;
+  real_pnl_percentage: number;
+}
 export interface CoinSignal {
   rank: number;
   symbol_name: string;
@@ -77,6 +89,7 @@ export interface CoinSignal {
     gauge_tag: string;
     gauge_measure: number;
   };
+  signals_analysis: CoinSignalAnalysis;
 }
 
 export const useCoinSignals = (

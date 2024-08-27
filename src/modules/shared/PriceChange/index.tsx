@@ -13,6 +13,7 @@ interface Props {
   valueToFixed?: boolean; // no need anymore
   className?: string;
   textClassName?: string;
+  popup?: 'auto' | 'always' | 'never';
 }
 
 const PriceChange: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const PriceChange: React.FC<Props> = ({
   className,
   textClassName,
   colorize = true,
+  popup,
 }) => {
   const color =
     typeof value === 'number' ? (value >= 0 ? 'green' : 'red') : null;
@@ -67,13 +69,14 @@ const PriceChange: React.FC<Props> = ({
       >
         {typeof staticValue === 'number' && (
           <>
-            <ReadableNumber value={staticValue} />
+            <ReadableNumber value={staticValue} popup={popup} />
             {' ('}
           </>
         )}
         <ReadableNumber
           value={typeof value === 'number' ? Math.abs(value) : undefined}
           label="%"
+          popup={popup}
         />
         {typeof staticValue === 'number' && ')'}
         {suffix && <span>{suffix}</span>}
