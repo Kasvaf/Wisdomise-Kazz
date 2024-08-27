@@ -17,7 +17,7 @@ export default function BetaVersion({
         variant === 'new'
           ? 'bg-[#00A3FF1A]/10 text-[#00A3FF]'
           : 'bg-[#f1aa401a] text-[#F1AA40]',
-        minimal && 'w-[40px] !p-2',
+        minimal && 'w-[40px]',
         minimal ? 'px-2 py-1' : 'px-3 py-1',
       )}
     >

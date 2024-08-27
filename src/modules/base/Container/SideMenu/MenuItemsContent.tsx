@@ -65,7 +65,7 @@ const MenuItemsGroup: React.FC<{
                   target={
                     subItem.link.startsWith('https://') ? '_blank' : undefined
                   }
-                  className={clsx('group flex h-[32px] items-stretch')}
+                  className={clsx('group flex h-[40px] items-stretch')}
                   onClick={subItem.onClick}
                 >
                   <div className="flex items-center">
