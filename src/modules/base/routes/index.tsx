@@ -1,6 +1,6 @@
 import { Navigate, type RouteObject } from 'react-router-dom';
 import Container from '../Container';
-import MenuItemsContent from '../Container/SideMenu/MenuItemsContent';
+import PageMenu from '../Container/SideMenu/PageMenu';
 import Boundary from './Boundary';
 import useAuthRoutes from './authRoutes';
 import useMarketplaceRoutes from './marketplaceRoutes';
@@ -26,7 +26,7 @@ const useRoutes = () => {
           children: [
             {
               path: '',
-              element: <MenuItemsContent collapsed={false} />,
+              element: <PageMenu />,
             },
           ],
         },
