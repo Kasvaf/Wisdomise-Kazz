@@ -56,9 +56,6 @@ menu:
       Access Crypto Signals, Social Signal and insight scanner & Trading
       Assistant for Informed Decision-Making.
     full-title: Insights for Active Trading
-  investment:
-    title: Investment
-    subtitle: Explore our auto trader financial products
   kyc:
     title: KYC
     subtitle: Verify identity to access features
@@ -95,7 +92,6 @@ menu:
     title: Users
   whales:
     title: Whale Analysis
-    subtitle: Explore top crypto whales, their trades, PNL, volume, and more
 new: New
 onboarding:
   back: Back
