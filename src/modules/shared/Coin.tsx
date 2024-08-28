@@ -41,7 +41,7 @@ export function Coin({
           }),
         }}
       />
-      <div className="w-full whitespace-nowrap leading-tight">
+      <div className="w-full whitespace-nowrap leading-snug">
         <div>{mini ? truncate(coin.abbreviation) : truncate(coin.name)}</div>
         {!mini && (
           <div className="text-[80%] opacity-70">
