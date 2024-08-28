@@ -54,6 +54,8 @@ export interface CoinSignalAnalysis {
   total_signals: number;
   trigger_price: number;
   current_price: number;
+  min_price: number;
+  max_price: number;
   max_profit_percentage: number;
   max_loss_percentage: number;
   real_pnl_percentage: number;

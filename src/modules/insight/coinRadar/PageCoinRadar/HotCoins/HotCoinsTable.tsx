@@ -6,7 +6,7 @@ import Table from 'modules/shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
-import { CoinSignalCallChange } from 'shared/CoinSignalCallChange';
+import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { ReadableDate } from 'shared/ReadableDate';
 import { SignalSentiment } from 'shared/SignalSentiment';
 
@@ -52,12 +52,12 @@ export const HotCoinsTable: FC<{
         ),
       },
       {
-        title: t('hot-coins-section.table.call-change'),
+        title: t('hot-coins-section.table.pnl'),
         sorter: (a, b) =>
-          new Date(a.first_signal_related_at ?? Date.now()).getTime() -
-          new Date(b.first_signal_related_at ?? Date.now()).getTime(),
+          (a.signals_analysis.real_pnl_percentage ?? 0) -
+          (b.signals_analysis.real_pnl_percentage ?? 0),
         render: (row: CoinSignal) => (
-          <CoinSignalCallChange signalAnalysis={row.signals_analysis} />
+          <CoinSignalPnl signalAnalysis={row.signals_analysis} />
         ),
       },
       {

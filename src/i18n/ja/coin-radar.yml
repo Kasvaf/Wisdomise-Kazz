@@ -10,6 +10,9 @@ call-change:
   changes: 変更点
   current-price: 今の価格
   fire-time: 信号発射時刻
+  max-price: 最高価格
+  min-price: 最低価格
+  pnl: 損益率
   trigger-price: シグナル発動時の価格
   under-calculation: 計算中
 coin-info:
@@ -36,6 +39,7 @@ hot-coins-section:
     market-cap: 時価総額
     name: 名前
     negative: ネガティブ
+    pnl: 損益率
     positive: ポジティブ
     rank: "#"
     realtime-price: リアルタイム価格

@@ -7,7 +7,7 @@ import { type CoinSignalAnalysis } from 'api';
 import { ReadableNumber } from './ReadableNumber';
 import PriceChange from './PriceChange';
 
-export function CoinSignalCallChange({
+export function CoinSignalPnl({
   className,
   signalAnalysis,
   emptyText,
@@ -24,7 +24,7 @@ export function CoinSignalCallChange({
       <>
         {signalAnalysis ? (
           <PriceChange
-            value={signalAnalysis.current_pnl_percentage}
+            value={signalAnalysis.real_pnl_percentage}
             popup="never"
           />
         ) : (
@@ -40,7 +40,7 @@ export function CoinSignalCallChange({
     return (
       <>
         {signalAnalysis && date && (
-          <div className="space-y-3">
+          <div className="space-y-1">
             <div>
               <div className="block text-xxs text-v1-content-secondary">
                 {t('call-change.fire-time')}
@@ -53,7 +53,6 @@ export function CoinSignalCallChange({
             <div>
               <div className="block text-xxs text-v1-content-secondary">
                 {t('call-change.trigger-price')}
-                <time className="ms-1">({date.format('D MMM H:mm')})</time>
               </div>
               <ReadableNumber
                 popup="never"
@@ -64,22 +63,32 @@ export function CoinSignalCallChange({
             </div>
             <div>
               <div className="block text-xxs text-v1-content-secondary">
-                {t('call-change.current-price')}
-                <time className="ms-1">({dayjs().format('D MMM H:mm')})</time>
+                {t('call-change.min-price')}
               </div>
               <ReadableNumber
                 popup="never"
-                value={signalAnalysis.current_price}
+                value={signalAnalysis.min_price}
                 label="usdt"
                 className="text-base"
               />
             </div>
             <div>
               <div className="block text-xxs text-v1-content-secondary">
-                {t('call-change.changes')}
+                {t('call-change.max-price')}
+              </div>
+              <ReadableNumber
+                popup="never"
+                value={signalAnalysis.max_price}
+                label="usdt"
+                className="text-base"
+              />
+            </div>
+            <div>
+              <div className="block text-xxs text-v1-content-secondary">
+                {t('call-change.pnl')}
               </div>
               <PriceChange
-                value={signalAnalysis.current_pnl_percentage}
+                value={signalAnalysis.real_pnl_percentage}
                 popup="never"
                 suffix={` (${Math.abs(date.diff(undefined, 'hour'))}h)`}
                 textClassName="!text-base"
@@ -95,7 +104,7 @@ export function CoinSignalCallChange({
     <Tooltip
       color="#151619"
       overlayInnerStyle={{
-        padding: '0.75rem',
+        padding: '1rem',
       }}
       title={tooltip}
       open={tooltip ? undefined : false}
