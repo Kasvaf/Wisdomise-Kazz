@@ -33,7 +33,7 @@ export function Coin({
       <div
         className={clsx(
           'shrink-0 rounded-full bg-cover bg-center bg-no-repeat',
-          imageClassName ?? mini ? 'size-4' : 'size-8',
+          imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
         style={{
           ...(typeof coin.logo_url === 'string' && {
