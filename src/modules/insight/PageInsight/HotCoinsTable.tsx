@@ -43,8 +43,8 @@ export function HotCoinsTable() {
       {
         title: t('hot-coins-section.table.pnl'),
         sorter: (a, b) =>
-          (a.signals_analysis.real_pnl_percentage ?? 0) -
-          (b.signals_analysis.real_pnl_percentage ?? 0),
+          (a.signals_analysis?.real_pnl_percentage ?? 0) -
+          (b.signals_analysis?.real_pnl_percentage ?? 0),
         render: (row: CoinSignal) => (
           <CoinSignalPnl signalAnalysis={row.signals_analysis} />
         ),
