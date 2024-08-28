@@ -21,11 +21,7 @@ export function TopWhaleCoinsTable() {
           className="flex flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
         >
           <div className="flex items-center justify-between">
-            <Coin
-              abbrevation={row.symbol_abbreviation}
-              fullName={row.symbol_name}
-              image={row.market_data.image}
-            />
+            <Coin coin={row.symbol} />
             <div className="flex items-center gap-2">
               <ReadableNumber
                 label="usdt"

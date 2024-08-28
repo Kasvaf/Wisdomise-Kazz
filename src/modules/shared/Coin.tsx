@@ -13,14 +13,17 @@ export function Coin({
   coin,
   imageClassName,
   nonLink,
+  mini,
 }: {
   coin: CoinType;
   className?: string;
   imageClassName?: string;
   nonLink?: boolean;
+  mini?: boolean;
 }) {
   const rootClassName = clsx(
-    'inline-flex items-center gap-2 p-1 pe-2',
+    'inline-flex items-center gap-2',
+    !mini && 'p-1 pe-2',
     !nonLink &&
       'group rounded-md transition-all hover:bg-v1-background-hover hover:text-inherit',
     className,
@@ -30,7 +33,7 @@ export function Coin({
       <div
         className={clsx(
           'shrink-0 rounded-full bg-cover bg-center bg-no-repeat',
-          imageClassName ?? 'size-8',
+          imageClassName ?? mini ? 'size-4' : 'size-8',
         )}
         style={{
           ...(typeof coin.logo_url === 'string' && {
@@ -39,10 +42,12 @@ export function Coin({
         }}
       />
       <div className="w-full whitespace-nowrap leading-tight">
-        <div>{truncate(coin.name)}</div>
-        <div className="text-[80%] opacity-70">
-          {truncate(coin.abbreviation)}
-        </div>
+        <div>{mini ? truncate(coin.abbreviation) : truncate(coin.name)}</div>
+        {!mini && (
+          <div className="text-[80%] opacity-70">
+            {truncate(coin.abbreviation)}
+          </div>
+        )}
       </div>
     </>
   );

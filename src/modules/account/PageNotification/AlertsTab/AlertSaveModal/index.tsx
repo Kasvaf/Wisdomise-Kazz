@@ -297,7 +297,7 @@ export function AlertSaveModal({
             }}
           />
           {alertItem?.params?.base && (
-            <CoinPriceInfo symbol={alertItem?.params?.base} />
+            <CoinPriceInfo slug={alertItem?.params?.base} />
           )}
         </div>
 

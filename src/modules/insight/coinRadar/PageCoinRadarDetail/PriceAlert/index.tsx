@@ -13,24 +13,24 @@ import { useHasFlag } from 'api';
 
 export const PriceAlertButton: FC<{
   className?: string;
-  symbol: string;
-}> = ({ className, symbol }) => {
+  slug: string;
+}> = ({ className, slug }) => {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [successModal, showSuccessModal] = useAlertSaveToast();
 
   const possibleRelatedAlerts = useAlerts('market_data', {
-    base: symbol,
+    base: slug,
   });
   const initialAlert = useMemo(() => {
     return (possibleRelatedAlerts.data?.at(-1) || {
       dataSource: 'market_data',
       params: {
-        base: symbol,
+        base: slug,
       },
     }) as Partial<Alert<'market_data'>>;
-  }, [possibleRelatedAlerts.data, symbol]);
+  }, [possibleRelatedAlerts.data, slug]);
 
   const alertMutation = useSaveAlert(initialAlert.key);
 

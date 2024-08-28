@@ -25,9 +25,7 @@ export function HotCoinsTable() {
     () => [
       {
         title: t('hot-coins-section.table.name'),
-        render: (_, row) => (
-          <Coin abbrevation={row.symbol_name} image={row.image} />
-        ),
+        render: (_, row) => <Coin coin={row.symbol} />,
       },
       {
         colSpan: hasFlag('/insight/coin-radar?side-suggestion') ? 1 : 0,

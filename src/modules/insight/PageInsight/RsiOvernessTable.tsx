@@ -22,8 +22,12 @@ export function RsiOvernessTable({
         >
           <div className="flex items-center justify-between">
             <Coin
-              image={row.image}
-              abbrevation={row.candle_base_abbreviation}
+              coin={{
+                abbreviation: row.candle_base_abbreviation,
+                name: row.candle_base_name,
+                slug: row.candle_base_name,
+                logo_url: row.image,
+              }}
             />
             <div className="flex items-center gap-2">
               <ReadableNumber

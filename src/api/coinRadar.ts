@@ -351,10 +351,7 @@ export const useToggleSubscribeToCoinNotification = () =>
   });
 
 export interface CoinOverview {
-  symbol: {
-    abbreviation: string;
-    name: string;
-  };
+  symbol: Coin;
   related_at: string | null;
   data: null | {
     id: string;
