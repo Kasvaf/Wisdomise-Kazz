@@ -47,7 +47,7 @@ jobs:
         env:
           VITE_BRANCH: ${{ github.ref_name }}
         run: |-
-          export NODE_OPTIONS=--max-old-space-size=4096
+          export NODE_OPTIONS=--max-old-space-size=8192
           yarn build:dev
 
       - name: Upload to S3
@@ -100,7 +100,7 @@ jobs:
 
       - name: Build
         run: |-
-          export NODE_OPTIONS=--max-old-space-size=4096
+          export NODE_OPTIONS=--max-old-space-size=8192
           yarn build:prod
           find dist | grep -E ".*\.map$" | tr '\n' '\0' | xargs -0 -n1 rm -rf
 

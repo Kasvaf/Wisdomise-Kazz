@@ -30,7 +30,7 @@ function NumberWithLabel({
     <span
       {...props}
       className={clsx(
-        'inline-flex flex-wrap items-baseline overflow-hidden',
+        'inline-flex flex-nowrap items-baseline overflow-hidden',
         typeof value !== 'string' && 'font-light opacity-70',
         labelObject?.position === 'before'
           ? 'flex-row-reverse gap-x-px'
@@ -42,7 +42,7 @@ function NumberWithLabel({
         justifyContent: 'left',
       }}
     >
-      <span>
+      <span className="whitespace-nowrap">
         {typeof value === 'string' ? value : emptyText ?? t('not-available')}
       </span>
       {labelObject?.text && typeof value === 'string' && (

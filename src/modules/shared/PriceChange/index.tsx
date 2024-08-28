@@ -44,7 +44,7 @@ const PriceChange: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        'flex items-center justify-center',
+        'inline-flex flex-nowrap items-center justify-center gap-1',
         bg && 'rounded-xl p-2',
         bg && bgColor,
         className,
@@ -58,9 +58,9 @@ const PriceChange: React.FC<Props> = ({
         ) : null}
       </div>
 
-      <p
+      <div
         className={clsx(
-          'ml-[5px] text-xs font-medium',
+          'whitespace-nowrap font-medium',
           textColor,
           textClassName,
         )}
@@ -77,7 +77,7 @@ const PriceChange: React.FC<Props> = ({
         />
         {typeof staticValue === 'number' && ')'}
         {suffix && <span>{suffix}</span>}
-      </p>
+      </div>
     </div>
   );
 };

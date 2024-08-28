@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useWhaleDetails } from 'api';
-import { WalletAddress } from '../WalletAddress';
+import { WalletAddress } from 'shared/WalletAddress';
 import { WhaleBalanceChart } from './WhaleBalanceChart';
 import { WhaletInfo } from './WalletInfo';
 import { WhaleAssetsTable } from './WhaleAssetsTable';

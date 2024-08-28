@@ -13,8 +13,10 @@ indicator_list:
       产生超买读数，随后出现更低的高点，而价格出现更高的高点时，就会出现看跌背离。这可能表明看跌势头正在上升，突破超买区域可能被用来触发新的空头仓位。
     label: RSI
     overbought: 超 买
+    overbought-full-title: 最畅销的硬币
     overbought-info: RSI>70
     oversold: 超售
+    oversold-full-title: 销量最高的硬币
     oversold-info: RSI<30
     statistics: 市场 RSI 统计
     table:

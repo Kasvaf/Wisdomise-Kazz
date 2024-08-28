@@ -1,4 +1,99 @@
 .ant-table-wrapper {
+  @apply min-w-fit max-w-none overflow-visible;
+
+  /* base */
+  .ant-table {
+    @apply bg-transparent;
+  }
+
+  /* header */
+  .ant-table-thead {
+    .ant-table-cell {
+      @apply whitespace-nowrap text-[0.9em] font-normal text-v1-content-secondary;
+    }
+    .ant-table-column-has-sorters:hover {
+      @apply !bg-v1-surface-l2;
+    }
+  }
+
+  /* header + even rows */
+  .ant-table-thead .ant-table-cell,
+  .ant-table-tbody .ant-table-row:nth-child(even) .ant-table-cell,
+  .ant-table-tbody .ant-table-row:nth-child(even):hover .ant-table-cell {
+    @apply border-b-0 bg-v1-surface-l3;
+  }
+
+  /* odd rows */
+  .ant-table-row:nth-child(odd) .ant-table-cell,
+  .ant-table-row:nth-child(odd):hover .ant-table-cell {
+    @apply border-b-0 !bg-transparent;
+  }
+
+  /* all rows */
+  .ant-table-tbody .ant-table-row .ant-table-cell {
+    @apply h-16 py-3 align-middle;
+
+    > * {
+      @apply align-middle;
+    }
+  }
+
+  /* radius */
+  .ant-table-thead .ant-table-cell:first-child {
+    @apply rounded-l-lg rounded-r-none;
+  }
+  .ant-table-thead .ant-table-cell:last-child {
+    @apply rounded-l-none rounded-r-lg;
+  }
+  .ant-table-tbody .ant-table-cell:first-child {
+    @apply rounded-l-md rounded-r-none;
+  }
+  .ant-table-tbody .ant-table-cell:last-child {
+    @apply rounded-l-none rounded-r-md;
+  }
+
+  /* disable column divider */
+  th:before {
+    @apply hidden;
+  }
+
+  /* pagination */
+  .ant-pagination {
+    @apply flex-nowrap items-center justify-start pt-4;
+
+    .ant-pagination-item {
+      @apply rounded-lg border-v1-border-tertiary bg-transparent;
+    }
+
+    .ant-pagination-options {
+      @apply flex grow justify-end mobile:grow-0;
+
+      .ant-select {
+        @apply rounded-lg border border-v1-border-secondary;
+
+        .ant-select-selector {
+          @apply !bg-transparent !px-4 !py-1;
+
+          .ant-select-selection-item {
+            @apply inline-flex items-center justify-center text-xs;
+          }
+        }
+      }
+    }
+
+    .ant-pagination-item-active {
+      @apply border-none bg-v1-background-brand;
+      a {
+        @apply text-v1-content-primary;
+      }
+    }
+  }
+}
+
+/* '[&:nth-child(even)]:bg-v1-surface-l3 [&:nth-child(odd)]:bg-transparent',
+'[&_.ant-table-thead]:!bg-v1-surface-l3', */
+
+/* .ant-table-wrapper {
   .ant-pagination {
     @apply items-center !justify-center text-xs mobile:!justify-start;
 
@@ -31,9 +126,6 @@
     }
   }
 
-  /**
-   * Loading refinement
-   */
   .ant-spin-container::after {
     background: black;
     @apply rounded-xl;
@@ -45,14 +137,12 @@
 
 .ant-table {
   @apply !bg-transparent p-4 !text-white mobile:!min-h-full;
-  /* min-height: 248px; */
 
   .ant-table-header {
     @apply mb-2;
   }
 
   &.ant-table-empty .ant-table-cell {
-    /* @apply border-b-transparent; */
   }
 }
 
@@ -153,4 +243,4 @@
   > .ant-table-cell {
     @apply !border-none;
   }
-}
+} */

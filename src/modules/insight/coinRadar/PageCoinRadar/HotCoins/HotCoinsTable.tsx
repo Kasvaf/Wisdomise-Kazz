@@ -7,7 +7,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDate } from 'shared/ReadableDate';
 import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
-import { SignalSentiment } from './SignalSentiment';
+import { SignalSentiment } from 'shared/SignalSentiment';
 
 export const HotCoinsTable: FC<{
   loading?: boolean;

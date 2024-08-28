@@ -79,6 +79,10 @@ const AssetBindingsSectionTable = () => {
 const TableWrapper = styled.div`
   display: block;
 
+  .ant-table-wrapper {
+    min-width: auto;
+  }
+
   .ant-table {
     @apply rounded-2xl bg-white/5 p-4 text-white mobile:!min-h-full;
     min-height: 248px;

@@ -31,7 +31,7 @@ hot-coins-section:
     market-cap: Market Cap
     negative: Negative
     positive: Positive
-    rank: '# Rank'
+    rank: '#'
     realtime-price: Realtime Price
     sentiment: Sentiment
     tvl: TVL

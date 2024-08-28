@@ -1,0 +1,70 @@
+import { Tooltip } from 'antd';
+import { bxInfoCircle } from 'boxicons-quasar';
+import { clsx } from 'clsx';
+import { type ReactNode } from 'react';
+import Icon from 'shared/Icon';
+
+export function OverviewWidget({
+  title,
+  info,
+  headerActions,
+  footer,
+  children,
+  className,
+  contentClassName,
+  headerClassName,
+  footerClassName,
+}: {
+  title?: string;
+  info?: string;
+  headerActions?: ReactNode;
+  footer?: ReactNode;
+  children?: ReactNode;
+  className?: string;
+  contentClassName?: string;
+  headerClassName?: string;
+  footerClassName?: string;
+}) {
+  const infoIcon = info && (
+    <Tooltip title={info}>
+      <Icon name={bxInfoCircle} size={18} />
+    </Tooltip>
+  );
+  return (
+    <article
+      className={clsx(
+        'flex flex-col gap-6 rounded-2xl bg-v1-surface-l2 p-6',
+        className,
+      )}
+    >
+      {(title || info || headerActions) && (
+        <header
+          className={clsx(
+            '-mx-6 flex shrink-0 items-center justify-between gap-6 overflow-auto whitespace-nowrap px-6 text-v1-content-primary',
+            headerClassName,
+          )}
+        >
+          {(title || info) && (
+            <h2 className="flex items-center gap-1 text-base font-medium">
+              {title}
+              {infoIcon}
+            </h2>
+          )}
+          {headerActions}
+        </header>
+      )}
+      {children && (
+        <div className={clsx('-mx-6 overflow-auto px-6', contentClassName)}>
+          {children}
+        </div>
+      )}
+      {footer && (
+        <footer
+          className={clsx('-mx-6 shrink-0 overflow-auto px-6', footerClassName)}
+        >
+          {footer}
+        </footer>
+      )}
+    </article>
+  );
+}

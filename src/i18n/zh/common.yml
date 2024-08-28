@@ -12,6 +12,7 @@ actions:
   remove: 消除
   reset: 重置
   save: 节省
+  share: 股票
   yes: 是的
 aum: AUM
 below: 以下
@@ -45,6 +46,7 @@ quality:
   low: 低的
   medium: 中等的
 recommended-size: 建议尺寸
+see-more: 查看更多
 select-crypto: 暗号を選択
 show-more: 展示更多
 soon: 很快

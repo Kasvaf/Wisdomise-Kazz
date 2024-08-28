@@ -37,7 +37,6 @@ menu:
     subtitle: Manage your account settings and preferences
   coin-radar:
     title: Coin Radar
-    subtitle: Uncover Market Trends with AI-Powered Insights
   coin-view:
     title: Coin List
   dashboard:
@@ -53,7 +52,10 @@ menu:
     card-button: Try Financial Products
   insight:
     title: Insight
-    subtitle: Access Real-Time Insights for Strategic Crypto Investing
+    subtitle: >-
+      Access crypto social insights, whale insights and market indicators as
+      simple easy to understand bites.
+    full-title: Market Alpha using AI
   kyc:
     title: KYC
     subtitle: Verify identity to access features
@@ -90,7 +92,6 @@ menu:
     title: Users
   whales:
     title: Whale Analysis
-    subtitle: Explore top crypto whales, their trades, PNL, volume, and more
 new: New
 onboarding:
   back: Back

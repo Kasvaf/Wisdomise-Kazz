@@ -30,7 +30,7 @@ hot-coins-section:
     name: 姓名
     negative: 消极的
     positive: 积极的
-    rank: "# 排名"
+    rank: "#"
     realtime-price: 实时价格
     sentiment: 情绪
     tvl: TVL

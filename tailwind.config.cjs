@@ -171,8 +171,8 @@ const semanticLegacyColors = {
   'overlay-90': '#000000e5',
   'surface-l0': '#17181c',
   'surface-l1': '#22232b',
-  'surface-l2': '#2c2d3a',
-  'surface-l3': '#36374a',
+  'surface-l2': '#1a1a1f', // manually changed from '#2c2d3a' to match current dashboard colors
+  'surface-l3': '#1e1f24', // manually changed from '#36374a' to match current dashboard colors
   'surface-l4': '#3f405a',
   'surface-l5': '#47496b',
   'surface-l6': '#50527c',
