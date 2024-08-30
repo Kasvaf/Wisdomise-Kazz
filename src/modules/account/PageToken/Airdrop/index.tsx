@@ -31,7 +31,12 @@ export default function Airdrop() {
           </Tooltip>
         </h2>
 
-        <div className="flex grow items-center justify-between">
+        <p>
+          Our first round of airdrops has concluded. Stay tuned for the next
+          round!
+        </p>
+
+        <div className="hidden grow items-center justify-between">
           <div className="flex flex-col items-center justify-between gap-4 text-center">
             <div className="flex h-10 items-center justify-center rounded-full bg-white/20 px-4 max-md:text-xs">
               {t('airdrop.now')}
@@ -73,7 +78,7 @@ export default function Airdrop() {
 
         {/* <Countdown /> */}
         <Button
-          className="max-md:w-full"
+          className="hidden max-md:w-full"
           variant="primary-purple"
           onClick={checkEligibility}
           loading={isFetching}
