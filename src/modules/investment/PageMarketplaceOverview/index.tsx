@@ -1,6 +1,7 @@
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import SectionSignals from './SectionSignals';
+import SectionProducts from './SectionProducts';
 
 const PageMarketplaceOverview = () => {
   // const { t } = useTranslation();
@@ -12,6 +13,7 @@ const PageMarketplaceOverview = () => {
         description="Explore the range of financial products and strategy builders designed to automate your trading journey."
       />
 
+      <SectionProducts className="mt-6" />
       <SectionSignals className="mt-6" />
     </PageWrapper>
   );

@@ -101,7 +101,7 @@ const semanticLegacyColors = {
   'background-brand-hover': '#66c8ff',
   'background-brand-pressed': '#99daff',
   'background-disabled': '#36374a',
-  'background-hover': '#36374a',
+  'background-hover': '#25252d', // manually changed from '#36374a' to match current dashboard colors
   'background-info': '#33b5ff',
   'background-info-subtle': '#004166',
   'background-inverse': '#ffffff',
@@ -118,7 +118,7 @@ const semanticLegacyColors = {
   'background-secondary-pressed': '#d5b5ff',
   'background-selected': '#004166',
   'border-brand': '#00a3ff',
-  'border-disabled': '#47496b',
+  'border-disabled': '#333333', // manually changed from '#47496b' to match current dashboard colors
   'border-focus': '#33b5ff',
   'border-info': '#33b5ff',
   'border-inverse': '#22232b',

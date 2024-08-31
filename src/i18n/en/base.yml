@@ -43,8 +43,6 @@ menu:
     title: My Dashboard
   financial-products:
     title: Financial Products
-    subtitle: Explore different investment package opportunities
-    active-product: Active Product
   fp-builder:
     title: My Products
     subtitle: Explore flexible AI-Driven Investment Options tailored to your needs.

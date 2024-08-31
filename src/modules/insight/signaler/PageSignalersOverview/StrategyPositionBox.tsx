@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
-import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { bxLockAlt } from 'boxicons-quasar';
@@ -11,6 +10,7 @@ import { ProfilePhoto } from 'modules/account/PageProfile/ProfilePhoto';
 import { truncateUserId } from 'modules/account/PageProfile/truncateUserId';
 import useSignalSubscriptionModal from 'modules/insight/PageSignalsMatrix/useSignalSubscriptionModal';
 import usePositionDetailModal from 'modules/insight/usePositionDetailModal';
+import ResponsiveLabelInfo from 'shared/ResponsiveLabelInfo';
 import { ReadableDate } from 'shared/ReadableDate';
 import PriceChange from 'shared/PriceChange';
 import Button from 'shared/Button';
@@ -18,17 +18,6 @@ import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
 
 const isClosed = (p: PairSignalerItem) => Boolean(p.exit_time);
-
-const LabeledInfo: React.FC<
-  PropsWithChildren<{ label: string; labelClassName?: string }>
-> = ({ label, children, labelClassName }) => {
-  return (
-    <div className="items-center justify-between text-xs text-white mobile:flex">
-      <div className={clsx('text-white/70', labelClassName)}>{label}</div>
-      <div className="mt-4 mobile:mt-0">{children}</div>
-    </div>
-  );
-};
 
 const StrategyPositionBox: React.FC<{
   position: PairSignalerItem;
@@ -115,37 +104,39 @@ const StrategyPositionBox: React.FC<{
       <div className="my-5 border-t border-white/10" />
 
       <div className="flex justify-between mobile:w-full mobile:flex-col mobile:gap-6">
-        <LabeledInfo label="Entry Time">
+        <ResponsiveLabelInfo className="basis-1/6" label="Entry Time">
           <ReadableDate value={pos.entry_time} />
-        </LabeledInfo>
+        </ResponsiveLabelInfo>
 
-        <LabeledInfo label="Suggestion">
+        <ResponsiveLabelInfo className="basis-1/6" label="Suggestion">
           {SubModal}
           {PositionDetailModal}
           {isLocked ? (
             subLink
           ) : (
             <Badge
-              className="!px-0 !text-xxs"
+              className="!text-xxs"
               label={actionLabel}
               color={actionColor}
             />
           )}
-        </LabeledInfo>
+        </ResponsiveLabelInfo>
 
-        <LabeledInfo label="Position Side">
+        <ResponsiveLabelInfo className="basis-1/6" label="Position Side">
           {isLocked ? subLink : pos.position_side.toLowerCase()}
-        </LabeledInfo>
+        </ResponsiveLabelInfo>
 
-        <LabeledInfo label="Position P/L">
+        <ResponsiveLabelInfo className="basis-1/6" label="Position P/L">
           <PriceChange className="!justify-start text-xs" value={pos.pnl} />
-        </LabeledInfo>
+        </ResponsiveLabelInfo>
 
-        <LabeledInfo label="Status">
+        <ResponsiveLabelInfo className="basis-1/6" label="Status">
           {isClosed(pos) ? t('status.closed') : t('status.opened')}
-        </LabeledInfo>
+        </ResponsiveLabelInfo>
 
-        <LabeledInfo label="Strategy">{pos.strategy.name}</LabeledInfo>
+        <ResponsiveLabelInfo className="basis-1/6" label="Strategy">
+          {pos.strategy.name}
+        </ResponsiveLabelInfo>
 
         {isMobile && buttons}
       </div>

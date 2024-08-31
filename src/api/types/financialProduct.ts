@@ -74,4 +74,5 @@ export interface Config {
   'can_use_external_account'?: boolean;
   'subscription_level'?: number;
   'weight'?: number;
+  'exchanges'?: string[];
 }
