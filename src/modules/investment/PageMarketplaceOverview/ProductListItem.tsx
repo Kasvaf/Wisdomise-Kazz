@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { type FinancialProduct } from 'api/types/financialProduct';
 import ResponsiveLabelInfo from 'shared/ResponsiveLabelInfo';
 import Badge from 'shared/Badge';
+import CoinsIcons from 'shared/CoinsIcons';
 import useIsFPRunning from '../useIsFPRunning';
 import useQualityLocales from '../useQualityLocales';
 
@@ -50,6 +51,10 @@ const ProductListItem: React.FC<{
             ) : (
               <Badge color="blue" label={t('common:spot')} />
             ))}
+
+          <div className="ml-3 border-l border-v1-border-disabled pl-5 mobile:hidden">
+            <CoinsIcons size={24} maxShow={2} coins={fp.config.assets} />
+          </div>
         </div>
       </div>
 
