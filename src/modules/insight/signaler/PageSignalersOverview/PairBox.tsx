@@ -1,4 +1,3 @@
-import { clsx } from 'clsx';
 import { type PropsWithChildren, useMemo } from 'react';
 import { Area, type AreaConfig } from '@ant-design/plots';
 import { useSignalerPair, useSignalerPairDetails } from 'api';
@@ -102,7 +101,7 @@ const PairBox: React.FC<
   }, [data]);
 
   return (
-    <div className={clsx('rounded-xl bg-black/40 p-6', className)}>
+    <div className={className}>
       <PairInfo name={pairName} className="!justify-start !p-0" />
       <div className="my-5 border-b border-white/5" />
       <div className="flex items-end justify-between">
