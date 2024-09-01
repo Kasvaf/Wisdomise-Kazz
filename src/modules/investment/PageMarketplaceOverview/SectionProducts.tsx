@@ -28,7 +28,7 @@ const SectionProducts: React.FC<{ className?: string }> = ({ className }) => {
         <Spinner />
       </div>
     ) : (
-      <div className="desktop:overflow-y-auto flex max-h-[360px] flex-col gap-4">
+      <div className="flex max-h-[326px] flex-col gap-4 overflow-y-auto mobile:max-h-none mobile:overflow-y-visible">
         {isMobile ? (
           <CarouselItems
             Component={ProductListItem}
