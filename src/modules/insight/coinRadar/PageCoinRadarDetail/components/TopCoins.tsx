@@ -22,7 +22,7 @@ export function TopCoins({ slug }: { slug: string }) {
           >
             <div className="flex items-center justify-between">
               <Coin coin={row.symbol} />
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-end gap-2">
                 <ReadableNumber
                   label="usdt"
                   value={row.current_price}
