@@ -12,7 +12,7 @@ call-change:
   fire-time: 信号发射时间
   max-price: 最高价格
   min-price: 最低价格
-  pnl: 盈亏百分比
+  pnl: 看涨盈亏百分比
   trigger-price: 信号发出时的价格
   under-calculation: 正在计算
 coin-info:
@@ -39,7 +39,7 @@ hot-coins-section:
     market-cap: 市值
     name: 姓名
     negative: 消极的
-    pnl: 盈亏百分比
+    pnl: 看涨盈亏
     positive: 积极的
     rank: "#"
     realtime-price: 实时价格
