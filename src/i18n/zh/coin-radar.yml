@@ -6,6 +6,15 @@ available-exchanges:
     volume_24h: 24小时交易量
     volume_percentage: 体积 ％
   title: 可用交易所
+call-change:
+  changes: 更改
+  current-price: 现在价格
+  fire-time: 信号发射时间
+  max-price: 最高价格
+  min-price: 最低价格
+  pnl: 看涨盈亏百分比
+  trigger-price: 信号发出时的价格
+  under-calculation: 正在计算
 coin-info:
   24h_chg: 24小时变化
   market_cap: 市值
@@ -23,12 +32,14 @@ hot-coins-section:
   table:
     24h-voume: 24小时交易量
     actions: 行动
+    call-change: 呼叫变更
     call-time: 通话时间
     chg-24: 变化(24小时)
     insights: 洞察
     market-cap: 市值
     name: 姓名
     negative: 消极的
+    pnl: 看涨盈亏
     positive: 积极的
     rank: "#"
     realtime-price: 实时价格
