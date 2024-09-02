@@ -1,24 +1,38 @@
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { bxInfoCircle } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
+import Icon from 'shared/Icon';
 
 function StatRow({
   className,
   label,
+  info,
   children,
 }: {
   className?: string;
   label?: ReactNode;
+  info?: ReactNode;
   children?: ReactNode;
 }) {
   return (
     <div className={clsx('flex items-center justify-between gap-4', className)}>
       {label && (
-        <div className={'text-xs font-normal text-v1-content-secondary'}>
-          {label}
+        <div
+          className={
+            'inline-flex items-center gap-1 text-xs font-normal text-v1-content-secondary'
+          }
+        >
+          {label}{' '}
+          {info && (
+            <Tooltip title={info}>
+              <Icon name={bxInfoCircle} size={18} />
+            </Tooltip>
+          )}
         </div>
       )}
       <div
@@ -79,7 +93,10 @@ export function CoinStats({
         />
         <ReadableNumber value={coinOverview.data?.data?.market_cap} label="$" />
       </StatRow>
-      <StatRow label={t('coin-details.tabs.coin_stats.volume_market_cap')}>
+      <StatRow
+        label={t('coin-details.tabs.coin_stats.volume_market_cap')}
+        info={t('coin-details.tabs.coin_stats.volume_market_cap_info')}
+      >
         <ReadableNumber value={marketCapPercentage} label="%" />
       </StatRow>
       <div className="space-y-2">

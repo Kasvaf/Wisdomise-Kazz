@@ -32,6 +32,10 @@ coin-details:
       total_supply: Total Supply
       volume: Volume
       volume_market_cap: Volume/Market Cap
+      volume_market_cap_info: >-
+        Indicator of liquidity. The higher the ratio, the more liquid the
+        cryptocurrency is, which should make it easier for it to be bought/sold
+        on an exchange close to its value.
     markets:
       title: Available Exchange
       subtitle: >-
