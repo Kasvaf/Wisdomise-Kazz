@@ -134,7 +134,7 @@ export function useLockWithApprove() {
 
   const startLockingWithApprove = (amount: bigint) => {
     setAmount(amount);
-    checkAllowance();
+    checkAllowance(amount);
   };
 
   return {
