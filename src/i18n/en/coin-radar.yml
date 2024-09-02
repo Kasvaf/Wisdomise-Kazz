@@ -10,7 +10,7 @@ call-change:
   fire-time: Signal Fire Time
   max-price: Max Price
   min-price: Min Price
-  pnl: PNL Percentage
+  pnl: Call PnL Percentage
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
 coin-info:
