@@ -1,111 +1,154 @@
 beta: ベータ
 beta-version: ベータ版
-error-page.btn-reload: 再読み込み
-error-page.subtitle: 同じエラーが発生しないよう改善いたします。
-error-page.title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
-insight-declaimer.content: Wisdomise
-  からの洞察とシグナルは財務アドバイスではありません。ご自身の責任と判断でご利用ください。ご自身で調査するか、必要に応じて財務アドバイザーに相談してください。
-insight-declaimer.title: 免責事項
+error-page:
+  btn-reload: 再読み込み
+  subtitle: 同じエラーが発生しないよう改善いたします。
+  title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
+insight-declaimer:
+  content: Wisdomise
+    からの洞察とシグナルは財務アドバイスではありません。ご自身の責任と判断でご利用ください。ご自身で調査するか、必要に応じて財務アドバイザーに相談してください。
+  title: 免責事項
 language: 言語
-links.about-us: 企業概要
-links.blog: ブログ
-links.solutions: プロダクト
-menu.account-manager.mobile: アカウント
-menu.account-manager.subtitle: 取引所のアカウントと連携することができます。
-menu.account-manager.title: アカウント連携
-menu.account.subtitle: アカウントの設定と管理
-menu.account.title: アカウント
-menu.ai-indicators.subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
-menu.ai-indicators.title: AIインジケーター
-menu.asset-overview.mobile: 資産
-menu.asset-overview.subtitle: ストラテジーの確認や管理
-menu.asset-overview.title: ポートフォリオ管理
-menu.athena.features: 10以上の機能
-menu.athena.subtitle: 仮想通貨に特化したAIチャットボット
-menu.athena.title: 仮想通貨チャットボット
-menu.billing.mobile: 請求情報
-menu.billing.remains: 残り
-menu.billing.subtitle: ご契約中のサブスクリプションの確認
-menu.billing.title: サブスクリプション
-menu.builder.subtitle: 独自のシグナラーと金融商品を作成する
-menu.builder.title: トレードマスター
-menu.category.account: アカウント
-menu.category.market-predication: 市場予測
-menu.category.passive-income: AI資産運用ツール
-menu.category.strategy-builder: 戦略ビルダー
-menu.coin-radar.full-title: AIを活用したマーケットアルファ
-menu.coin-radar.subtitle: シンプルでわかりやすいバイトとして、暗号通貨のソーシャル インサイト、クジラのインサイト、市場指標にアクセスします。
-menu.coin-radar.title: ソーシャルレーダー
-menu.coin-view.subtitle: すべての信号発信者から信号と位置履歴を取得
-menu.coin-view.title: コイン一覧
-menu.crypto-screener.subtitle: 主要指標に基づいて売買する暗号通貨を見つける
-menu.crypto-screener.title: 暗号スクリーナー
-menu.dashboard: ダッシュボード
-menu.dashboard.title: 私のダッシュボード
-menu.financial-products.active-product: アクティブな商品
-menu.financial-products.subtitle: 多様な投資ストラテジーをご確認いただけます。
-menu.financial-products.title: 金融商品（ストラテジー）
-menu.fp-builder.card-badge: ユニークなオプション
-menu.fp-builder.card-button: 金融商品を試す
-menu.fp-builder.subtitle: ニーズに合わせた柔軟な AI 主導の投資オプションを検討してください。
-menu.fp-builder.title: 私の製品
-menu.home.title: 家
-menu.hot-coins.title: ホットコイン
-menu.insight.full-title: AIを活用したマーケットアルファ
-menu.insight.subtitle: 暗号通貨のソーシャル インサイト、クジラのインサイト、市場指標に、シンプルでわかりやすい情報としてアクセスします。
-menu.insight.title: インサイト
-menu.investment.subtitle: さまざまな暗号シグナルと完全に自動化された金融商品を探索または構築します
-menu.investment.title: 投資ハブ
-menu.kyc.mobile: 本人確認 (KYC)
-menu.kyc.subtitle: 一部のサービスを利用する際にはKYCが必要です。
-menu.kyc.title: 本人確認 (KYC)
-menu.market-pulse.subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
-menu.market-pulse.title: マーケットパルス
-menu.marketplace.subtitle: 専門家主導の暗号シグナルで自信を持って取引できます
-menu.marketplace.title: 市場
-menu.notification-center.mobile: 通知
-menu.notification-center.subtitle: 通知とアクティブアラートの設定
-menu.notification-center.title: 通知
-menu.overview.title: 概要
-menu.portfolio.title: ポートフォリオ
-menu.products-catalog.mobile: プロダクト
-menu.products-catalog.title: プロダクト一覧
-menu.profile-dashboard: プロフィールダッシュボード
-menu.profile.mobile: プロフィール
-menu.profile.subtitle: ログイン情報の管理
-menu.profile.title: プロフィール
-menu.referral.mobile: 紹介プログラム
-menu.referral.subtitle: ご友人を紹介して、リワードをゲットしましょう！
-menu.referral.title: 紹介プログラム
-menu.signal-builder.card-button: 今すぐ構築を開始
-menu.signal-builder.subtitle: サポートされている暗号通貨のシグナルを作成する
-menu.signal-builder.title: 私の信号者
-menu.signal-matrix.card-badge: 毎月のシグナル +100
-menu.signal-matrix.mobile: シグナル
-menu.signal-matrix.subtitle: AIによる市場シグナルをご確認頂けます。
-menu.signal-matrix.title: 信号マトリクス
-menu.signaler-view.subtitle: すべての信号発信者から信号と位置履歴を取得
-menu.signaler-view.title: シグナラービュー
-menu.signalers.subtitle: アクティブなシグナルとポジションで主要な暗号通貨を発見
-menu.signalers.title: AIシグナル
-menu.social-radar.subtitle: AI を活用した洞察で市場トレンドを明らかにする
-menu.social-radar.title: コインレーダー
-menu.strategies.mobile: 戦略
-menu.strategies.title: 戦略
-menu.token.mobile: WSDM
-menu.token.subtitle: 保有しているWSDMトークンをサブスクリプションにご利用いただけます。
-menu.token.title: WSDMトークン
-menu.users.title: ユーザー
-menu.whales.subtitle: トップの暗号通貨クジラ、その取引、損益、取引量などを調べる
-menu.whales.title: スマートクジラ
-mobile-menu.close: 閉じる
-mobile-menu.open: メニュー
+links:
+  about-us: 企業概要
+  blog: ブログ
+  solutions: プロダクト
+menu:
+  account-manager:
+    mobile: アカウント
+    subtitle: 取引所のアカウントと連携することができます。
+    title: アカウント連携
+  account:
+    subtitle: アカウントの設定と管理
+    title: アカウント
+  ai-indicators:
+    subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
+    title: AIインジケーター
+  asset-overview:
+    mobile: 資産
+    subtitle: ストラテジーの確認や管理
+    title: ポートフォリオ管理
+  athena:
+    features: 10以上の機能
+    subtitle: 仮想通貨に特化したAIチャットボット
+    title: 仮想通貨チャットボット
+  billing:
+    mobile: 請求情報
+    remains: 残り
+    subtitle: ご契約中のサブスクリプションの確認
+    title: サブスクリプション
+  builder:
+    subtitle: 独自のシグナラーと金融商品を作成する
+    title: トレードマスター
+  category:
+    account: アカウント
+    market-predication: 市場予測
+    passive-income: AI資産運用ツール
+    strategy-builder: 戦略ビルダー
+  coin-radar:
+    full-title: AIを活用したマーケットアルファ
+    subtitle: シンプルでわかりやすいバイトとして、暗号通貨のソーシャル インサイト、クジラのインサイト、市場指標にアクセスします。
+    title: ソーシャルレーダー
+  coin-view:
+    subtitle: すべての信号発信者から信号と位置履歴を取得
+    title: コイン一覧
+  crypto-screener:
+    subtitle: 主要指標に基づいて売買する暗号通貨を見つける
+    title: 暗号スクリーナー
+  dashboard:
+    title: 私のダッシュボード
+  financial-products:
+    active-product: アクティブな商品
+    subtitle: 多様な投資ストラテジーをご確認いただけます。
+    title: 金融商品（ストラテジー）
+  fp-builder:
+    card-badge: ユニークなオプション
+    card-button: 金融商品を試す
+    subtitle: ニーズに合わせた柔軟な AI 主導の投資オプションを検討してください。
+    title: 私の製品
+  home:
+    title: 家
+  hot-coins:
+    title: ホットコイン
+  insight:
+    full-title: AIを活用したマーケットアルファ
+    subtitle: 暗号通貨のソーシャル インサイト、クジラのインサイト、市場指標に、シンプルでわかりやすい情報としてアクセスします。
+    title: インサイト
+  investment:
+    subtitle: さまざまな暗号シグナルと完全に自動化された金融商品を探索または構築します
+    title: 投資ハブ
+  kyc:
+    mobile: 本人確認 (KYC)
+    subtitle: 一部のサービスを利用する際にはKYCが必要です。
+    title: 本人確認 (KYC)
+  market-pulse:
+    subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
+    title: マーケットパルス
+  marketplace:
+    subtitle: 専門家主導の暗号シグナルで自信を持って取引できます
+    title: 市場
+  notification-center:
+    mobile: 通知
+    subtitle: 通知とアクティブアラートの設定
+    title: 通知
+  overview:
+    title: 概要
+  portfolio:
+    title: ポートフォリオ
+  products-catalog:
+    mobile: プロダクト
+    title: プロダクト一覧
+  profile-dashboard: プロフィールダッシュボード
+  profile:
+    mobile: プロフィール
+    subtitle: ログイン情報の管理
+    title: プロフィール
+  referral:
+    mobile: 紹介プログラム
+    subtitle: ご友人を紹介して、リワードをゲットしましょう！
+    title: 紹介プログラム
+  signal-builder:
+    card-button: 今すぐ構築を開始
+    subtitle: サポートされている暗号通貨のシグナルを作成する
+    title: 私の信号者
+  signal-matrix:
+    card-badge: 毎月のシグナル +100
+    mobile: シグナル
+    subtitle: AIによる市場シグナルをご確認頂けます。
+    title: 信号マトリクス
+  signaler-view:
+    subtitle: すべての信号発信者から信号と位置履歴を取得
+    title: シグナラービュー
+  signalers:
+    subtitle: アクティブなシグナルとポジションで主要な暗号通貨を発見
+    title: AIシグナル
+  social-radar:
+    subtitle: AI を活用した洞察で市場トレンドを明らかにする
+    title: コインレーダー
+  strategies:
+    mobile: 戦略
+    title: 戦略
+  token:
+    mobile: WSDM
+    subtitle: 保有しているWSDMトークンをサブスクリプションにご利用いただけます。
+    title: WSDMトークン
+  users:
+    title: ユーザー
+  whales:
+    subtitle: トップの暗号通貨クジラ、その取引、損益、取引量などを調べる
+    title: スマートクジラ
+mobile-menu:
+  close: 閉じる
+  open: メニュー
 new: 新しい
-onboarding.back: 戻る
-onboarding.got-it: わかった
-onboarding.next: 次
-support.hint: チャットで相談
-support.title: 質問？
-user.logout: ログアウト
-user.sign-out: サインアウト
+onboarding:
+  back: 戻る
+  got-it: わかった
+  next: 次
+support:
+  hint: チャットで相談
+  title: 質問？
+user:
+  logout: ログアウト
+  sign-out: サインアウト
 wisdomise-is-loading: Wisdomiseを読み込んでいます...

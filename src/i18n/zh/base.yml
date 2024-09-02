@@ -1,110 +1,153 @@
 beta: 贝塔
 beta-version: 测试版
-error-page.btn-reload: 重新加载
-error-page.subtitle: 但我们会尽力避免类似情况再次发生。
-error-page.title: 出了点问题，我们不知道怎么办:(
-insight-declaimer.content: Wisdomise 的见解和信号并非财务建议。请自行承担风险并酌情使用。请自行研究或咨询财务顾问（如有必要）。
-insight-declaimer.title: 免责声明
+error-page:
+  btn-reload: 重新加载
+  subtitle: 但我们会尽力避免类似情况再次发生。
+  title: 出了点问题，我们不知道怎么办:(
+insight-declaimer:
+  content: Wisdomise 的见解和信号并非财务建议。请自行承担风险并酌情使用。请自行研究或咨询财务顾问（如有必要）。
+  title: 免责声明
 language: 语言
-links.about-us: 关于我们
-links.blog: 部落格
-links.solutions: 解决方案
-menu.account-manager.mobile: 账户
-menu.account-manager.subtitle: 整合交易所账户。
-menu.account-manager.title: 外部账户
-menu.account.subtitle: 管理您的帐户设置和偏好
-menu.account.title: 帐户
-menu.ai-indicators.subtitle: 根据关键指标寻找要买卖的加密货币
-menu.ai-indicators.title: 人工智能指标
-menu.asset-overview.mobile: 资产
-menu.asset-overview.subtitle: 监控和管理您的金融产品。
-menu.asset-overview.title: 资产概览
-menu.athena.features: +10 功能
-menu.athena.subtitle: 智能聊天机器人，带您畅游加密货币世界
-menu.athena.title: 加密聊天机器人
-menu.billing.mobile: 帐单
-menu.billing.remains: 剩余
-menu.billing.subtitle: 订阅偏好。
-menu.billing.title: 订阅
-menu.builder.subtitle: 创建您自己的信号器和金融产品
-menu.builder.title: 贸易大师
-menu.category.account: 帐户
-menu.category.market-predication: 市场预测
-menu.category.passive-income: 被动收入
-menu.category.strategy-builder: 策略生成器
-menu.coin-radar.full-title: 使用人工智能的市场阿尔法
-menu.coin-radar.subtitle: 通过简单易懂的方式获取加密货币社交见解、鲸鱼见解和市场指标。
-menu.coin-radar.title: 社会雷达
-menu.coin-view.subtitle: 获取所有信号员的信号和位置历史记录
-menu.coin-view.title: 币种列表
-menu.crypto-screener.subtitle: 根据关键指标寻找要买卖的加密货币
-menu.crypto-screener.title: 加密货币筛选器
-menu.dashboard: 後台
-menu.dashboard.title: 我的仪表板
-menu.financial-products.active-product: 活跃产品
-menu.financial-products.subtitle: 探索不同的投资组合
-menu.financial-products.title: 理财产品
-menu.fp-builder.card-badge: 独特选择
-menu.fp-builder.card-button: 尝试金融产品
-menu.fp-builder.subtitle: 探索根据您的需求量身定制的灵活的人工智能驱动投资选项。
-menu.fp-builder.title: 我的产品
-menu.home.title: 家
-menu.hot-coins.title: 热门硬币
-menu.insight.full-title: 利用人工智能实现市场 Alpha
-menu.insight.subtitle: 以简单易懂的方式访问加密社交洞察、鲸鱼洞察和市场指标。
-menu.insight.title: 投资工具
-menu.investment.subtitle: 探索或构建各种加密信号和全自动金融产品
-menu.investment.title: 投资中心
-menu.kyc.mobile: 实名认证
-menu.kyc.subtitle: 验证身份以访问功能。
-menu.kyc.title: 实名认证
-menu.market-pulse.subtitle: 本页面介绍根据指标寻找要买入或卖出的加密货币。
-menu.market-pulse.title: 市场脉搏
-menu.marketplace.subtitle: 通过专家驱动的加密信号自信地进行交易
-menu.marketplace.title: 市场
-menu.notification-center.mobile: 通知
-menu.notification-center.subtitle: 交易信号和警报设置。
-menu.notification-center.title: 通知
-menu.overview.title: 概述
-menu.portfolio.title: 文件夹
-menu.products-catalog.mobile: 产品
-menu.products-catalog.title: 产品种类
-menu.profile-dashboard: 个人后台
-menu.profile.mobile: 个人资料
-menu.profile.subtitle: 编辑登录凭据。
-menu.profile.title: 个人资料
-menu.referral.mobile: 邀请奖励
-menu.referral.subtitle: 邀请并获得奖励。
-menu.referral.title: 邀请奖励
-menu.signal-builder.card-button: 立即开始构建
-menu.signal-builder.subtitle: 为支持的加密货币创建信号
-menu.signal-builder.title: 我的信号员
-menu.signal-matrix.card-badge: +100 每月信号
-menu.signal-matrix.mobile: 交易信号
-menu.signal-matrix.subtitle: 获取主流币种的人工智能交易信号
-menu.signal-matrix.title: 信号矩阵
-menu.signaler-view.subtitle: 获取所有信号员的信号和位置历史记录
-menu.signaler-view.title: 信号员视图
-menu.signalers.subtitle: 发现具有活跃信号和头寸的领先加密货币
-menu.signalers.title: 人工智能信号
-menu.social-radar.subtitle: 通过人工智能驱动的洞察力揭示市场趋势
-menu.social-radar.title: 投币雷达
-menu.strategies.mobile: 策略
-menu.strategies.title: 策略
-menu.token.mobile: WSDM
-menu.token.subtitle: 质押代币开通会员(无需任何消耗)
-menu.token.title: WSDM代币
-menu.users.title: 用户
-menu.whales.subtitle: 探索顶级加密货币鲸鱼、他们的交易、盈亏、交易量等
-menu.whales.title: 聪明的鲸鱼
-mobile-menu.close: 关闭
-mobile-menu.open: 菜单
+links:
+  about-us: 关于我们
+  blog: 部落格
+  solutions: 解决方案
+menu:
+  account-manager:
+    mobile: 账户
+    subtitle: 整合交易所账户。
+    title: 外部账户
+  account:
+    subtitle: 管理您的帐户设置和偏好
+    title: 帐户
+  ai-indicators:
+    subtitle: 根据关键指标寻找要买卖的加密货币
+    title: 人工智能指标
+  asset-overview:
+    mobile: 资产
+    subtitle: 监控和管理您的金融产品。
+    title: 资产概览
+  athena:
+    features: +10 功能
+    subtitle: 智能聊天机器人，带您畅游加密货币世界
+    title: 加密聊天机器人
+  billing:
+    mobile: 帐单
+    remains: 剩余
+    subtitle: 订阅偏好。
+    title: 订阅
+  builder:
+    subtitle: 创建您自己的信号器和金融产品
+    title: 贸易大师
+  category:
+    account: 帐户
+    market-predication: 市场预测
+    passive-income: 被动收入
+    strategy-builder: 策略生成器
+  coin-radar:
+    full-title: 使用人工智能的市场阿尔法
+    subtitle: 通过简单易懂的方式获取加密货币社交见解、鲸鱼见解和市场指标。
+    title: 社会雷达
+  coin-view:
+    subtitle: 获取所有信号员的信号和位置历史记录
+    title: 币种列表
+  crypto-screener:
+    subtitle: 根据关键指标寻找要买卖的加密货币
+    title: 加密货币筛选器
+  dashboard:
+    title: 我的仪表板
+  financial-products:
+    active-product: 活跃产品
+    subtitle: 探索不同的投资组合
+    title: 理财产品
+  fp-builder:
+    card-badge: 独特选择
+    card-button: 尝试金融产品
+    subtitle: 探索根据您的需求量身定制的灵活的人工智能驱动投资选项。
+    title: 我的产品
+  home:
+    title: 家
+  hot-coins:
+    title: 热门硬币
+  insight:
+    full-title: 利用人工智能实现市场 Alpha
+    subtitle: 以简单易懂的方式访问加密社交洞察、鲸鱼洞察和市场指标。
+    title: 投资工具
+  investment:
+    subtitle: 探索或构建各种加密信号和全自动金融产品
+    title: 投资中心
+  kyc:
+    mobile: 实名认证
+    subtitle: 验证身份以访问功能。
+    title: 实名认证
+  market-pulse:
+    subtitle: 本页面介绍根据指标寻找要买入或卖出的加密货币。
+    title: 市场脉搏
+  marketplace:
+    subtitle: 通过专家驱动的加密信号自信地进行交易
+    title: 市场
+  notification-center:
+    mobile: 通知
+    subtitle: 交易信号和警报设置。
+    title: 通知
+  overview:
+    title: 概述
+  portfolio:
+    title: 文件夹
+  products-catalog:
+    mobile: 产品
+    title: 产品种类
+  profile-dashboard: 个人后台
+  profile:
+    mobile: 个人资料
+    subtitle: 编辑登录凭据。
+    title: 个人资料
+  referral:
+    mobile: 邀请奖励
+    subtitle: 邀请并获得奖励。
+    title: 邀请奖励
+  signal-builder:
+    card-button: 立即开始构建
+    subtitle: 为支持的加密货币创建信号
+    title: 我的信号员
+  signal-matrix:
+    card-badge: +100 每月信号
+    mobile: 交易信号
+    subtitle: 获取主流币种的人工智能交易信号
+    title: 信号矩阵
+  signaler-view:
+    subtitle: 获取所有信号员的信号和位置历史记录
+    title: 信号员视图
+  signalers:
+    subtitle: 发现具有活跃信号和头寸的领先加密货币
+    title: 人工智能信号
+  social-radar:
+    subtitle: 通过人工智能驱动的洞察力揭示市场趋势
+    title: 投币雷达
+  strategies:
+    mobile: 策略
+    title: 策略
+  token:
+    mobile: WSDM
+    subtitle: 质押代币开通会员(无需任何消耗)
+    title: WSDM代币
+  users:
+    title: 用户
+  whales:
+    subtitle: 探索顶级加密货币鲸鱼、他们的交易、盈亏、交易量等
+    title: 聪明的鲸鱼
+mobile-menu:
+  close: 关闭
+  open: 菜单
 new: 新的
-onboarding.back: 后退
-onboarding.got-it: 知道了
-onboarding.next: 下一个
-support.hint: 与我们联络
-support.title: 问题？
-user.logout: 登出
-user.sign-out: 登出
+onboarding:
+  back: 后退
+  got-it: 知道了
+  next: 下一个
+support:
+  hint: 与我们联络
+  title: 问题？
+user:
+  logout: 登出
+  sign-out: 登出
 wisdomise-is-loading: Wisdomise 正在加载
