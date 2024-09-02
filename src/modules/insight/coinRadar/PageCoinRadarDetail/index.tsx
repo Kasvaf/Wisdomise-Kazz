@@ -1,68 +1,126 @@
-/* eslint-disable i18next/no-literal-string */
 import { useParams } from 'react-router-dom';
-import { Tabs } from 'antd';
-import { useLayoutEffect } from 'react';
-import {
-  useSocialMessages,
-  useHasFlag,
-  useCoinOverview,
-  useCoinSignals,
-} from 'api';
+import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import CoinInfo from './CoinInfo';
-import { SocialMessage } from './SocialMessage';
-import { useSocialTab } from './useSocialTab';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { useCoinOverview, useCoinSignals, useHasFlag } from 'api';
+import Tabs from 'shared/Tabs';
+import { CoinPrice } from './components/CoinPrice';
+import { CoinSocialFeed } from './components/CoinSocialFeed';
+import { CoinStats } from './components/CoinStats';
+import { CoinCandleChart } from './components/CoinCandleChart';
+import { CoinAvailableExchanges } from './components/CoinAvailableExchanges';
+import { CoinSocialSentiment } from './components/CoinSocialSentiment';
+import { CoinPricePerformance } from './components/CoinPricePerformance';
+import { TopCoins } from './components/TopCoins';
+import { WhalePopularCoins } from './components/WhalePopularCoins';
+import { useScrollPointTabs } from './hooks/useScrollPointTabs';
+import { ReactComponent as TradingViewIcon } from './components/CoinSocialFeed/images/trading_view.svg';
 
 export default function PageCoinRadarDetail() {
-  const { slug: slugParam } = useParams<{ slug: string }>();
-  const slug = slugParam as string;
+  const { t } = useTranslation('coin-radar');
+  const { slug } = useParams<{ slug: string }>();
+  if (!slug) throw new Error('unexpected');
 
-  const overview = useCoinOverview({ slug, priceHistoryDays: 1 });
-  const messages = useSocialMessages(slug);
-  const coinSignals = useCoinSignals();
-  const signal = coinSignals.data?.find(sig => sig.symbol_slug === slug);
   const hasFlag = useHasFlag();
+  const coinOverview = useCoinOverview({ slug });
+  const signals = useCoinSignals();
+  const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
 
-  const [activeTab, setActiveTab, socialTabs] = useSocialTab(slug);
-
-  const activeTabMessages = messages.data?.filter(
-    message =>
-      (activeTab === 'all' || message.social_type === activeTab) &&
-      hasFlag(`/insight/coin-radar/[slug]?tab=${message.social_type}`),
+  const scrollPointTabs = useScrollPointTabs(
+    [
+      {
+        key: 'coinoverview_chart',
+        label: t('coin-details.tabs.chart.label'),
+      },
+      {
+        key: 'coinoverview_socials',
+        label: t('coin-details.tabs.socials.label'),
+      },
+      {
+        key: 'coinoverview_exchanges',
+        label: t('coin-details.tabs.markets.label'),
+      },
+      {
+        key: 'coinoverview_trading_view',
+        label: (
+          <div className="inline-flex items-center gap-1">
+            <TradingViewIcon className="size-4" />
+            {t('coin-details.tabs.trading_view.label')}
+          </div>
+        ),
+      },
+    ],
+    160,
   );
-
-  useLayoutEffect(() => {
-    document.documentElement.scrollTo(0, 0);
-  }, []);
-
   return (
-    <PageWrapper
-      loading={
-        messages.isLoading || overview.isLoading || coinSignals.isLoading
-      }
-      className="leading-none mobile:leading-normal"
-    >
-      {overview.data && (
-        <CoinInfo className="mb-4" signal={signal} overview={overview.data} />
-      )}
-      {(messages.data?.length ?? 0) > 0 && (
-        <>
+    <PageWrapper loading={coinOverview.isLoading || signals.isLoading}>
+      <div className="grid grid-cols-3 gap-6">
+        <div className="col-span-1 flex flex-col gap-6 mobile:col-span-full">
+          <OverviewWidget>
+            <CoinPrice slug={slug} />
+          </OverviewWidget>
+          <OverviewWidget>
+            <CoinStats slug={slug} />
+          </OverviewWidget>
+          {coinSignal && hasFlag('/insight/coin-radar?side-suggestion') && (
+            <OverviewWidget contentClassName="relative h-full overflow-hidden">
+              <CoinSocialSentiment slug={slug} />
+            </OverviewWidget>
+          )}
+          <OverviewWidget contentClassName="relative h-full overflow-hidden">
+            <CoinPricePerformance slug={slug} />
+          </OverviewWidget>
+          <OverviewWidget title={t('coin-details.tabs.trending_coins.title')}>
+            <TopCoins slug={slug} />
+          </OverviewWidget>
+          <OverviewWidget title={t('coin-details.tabs.whale_popular.title')}>
+            <WhalePopularCoins slug={slug} />
+          </OverviewWidget>
+        </div>
+        <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
           <Tabs
-            onChange={newTab => setActiveTab(newTab as typeof activeTab)}
-            items={socialTabs}
+            className="sticky top-0 z-50 bg-v1-surface-l1"
+            {...scrollPointTabs}
           />
-
-          <section className="mt-6 columns-2 gap-6 mobile:columns-1">
-            {activeTabMessages?.map(message => (
-              <SocialMessage
-                key={message.id}
-                message={message}
-                className="mb-6"
-              />
-            ))}
-          </section>
-        </>
-      )}
+          <OverviewWidget
+            id="coinoverview_chart"
+            title={t('coin-details.tabs.chart.title')}
+            className="col-span-2 min-h-[600px] mobile:col-span-full"
+            contentClassName="relative h-full overflow-hidden"
+          >
+            <CoinCandleChart slug={slug} />
+          </OverviewWidget>
+          <OverviewWidget
+            id="coinoverview_socials"
+            title={t('coin-details.tabs.socials.title')}
+            subtitle={t('coin-details.tabs.socials.subtitle')}
+          >
+            <CoinSocialFeed
+              slug={slug}
+              socials={['reddit', 'telegram', 'twitter']}
+              pageSize={4}
+            />
+          </OverviewWidget>
+          <OverviewWidget
+            id="coinoverview_exchanges"
+            title={t('coin-details.tabs.markets.title')}
+            subtitle={t('coin-details.tabs.markets.subtitle')}
+            className="col-span-2 mobile:col-span-full"
+          >
+            <CoinAvailableExchanges slug={slug} />
+          </OverviewWidget>
+          <OverviewWidget
+            id="coinoverview_trading_view"
+            title={t('coin-details.tabs.trading_view.title')}
+          >
+            <CoinSocialFeed
+              slug={slug}
+              socials={['trading_view']}
+              pageSize={1}
+            />
+          </OverviewWidget>
+        </div>
+      </div>
     </PageWrapper>
   );
 }

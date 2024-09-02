@@ -11,7 +11,6 @@ import { ReactComponent as TwitterIcon } from '../images/twitter.svg';
 import {
   SocialMessageBody,
   SocialMessageContainer,
-  SocialMessageFooter,
   SocialMessageHeader,
 } from './template';
 
@@ -83,19 +82,19 @@ export const SocialMessage: FC<{
               icon={RedditIcon}
               title={message.content.subreddit}
               followers={message.content.num_subscribers}
-              followersName={t('socials.reddit.followers')}
+              followersName={t(
+                'coin-details.tabs.socials.types.reddit.followers',
+              )}
               date={message.content.related_at}
+              commentCount={message.content.num_comments}
+              onClick={() =>
+                openable ? openCommentsModal({ message }) : undefined
+              }
             />
             <SocialMessageBody
               title={message.content.title}
               thumbnail={message.content.thumbnail}
               content={message.content.text}
-            />
-            <SocialMessageFooter
-              commentCount={message.content.num_comments}
-              onClick={() =>
-                openable ? openCommentsModal({ message }) : undefined
-              }
             />
           </>
         )}
@@ -105,7 +104,9 @@ export const SocialMessage: FC<{
               icon={TelegramIcon}
               title={message.content.channel_name}
               followers={message.content.participants_count}
-              followersName={t('socials.telegram.followers')}
+              followersName={t(
+                'coin-details.tabs.socials.types.telegram.followers',
+              )}
               date={message.content.related_at}
             />
             <SocialMessageBody
@@ -120,18 +121,16 @@ export const SocialMessage: FC<{
               icon={TradingViewIcon}
               title={message.content.author_username}
               date={message.content.updated_at}
-            />
-            <SocialMessageBody
-              title={message.content.title}
-              content={message.content.preview_text}
-              thumbnail={message.content.cover_image_link}
-            />
-            <SocialMessageFooter
               boostCount={message.content.social_boost_score}
               commentCount={message.content.total_comments}
               onClick={() =>
                 openable ? openCommentsModal({ message }) : undefined
               }
+            />
+            <SocialMessageBody
+              title={message.content.title}
+              content={message.content.preview_text}
+              thumbnail={message.content.cover_image_link}
             />
           </>
         )}
@@ -141,6 +140,12 @@ export const SocialMessage: FC<{
               icon={TwitterIcon}
               title={message.content.user.name}
               date={message.content.related_at}
+              likeCount={message.content.like_count}
+              commentCount={
+                (message.content.reply_count || 0) +
+                (message.content.quote_count || 0)
+              }
+              retweetCount={message.content.retweet_count}
             />
             <SocialMessageBody
               content={message.content.text}
@@ -149,14 +154,6 @@ export const SocialMessage: FC<{
                   ? message.content.media.find(x => x.type === 'photo')?.url
                   : message.content.media
               }
-            />
-            <SocialMessageFooter
-              likeCount={message.content.like_count}
-              commentCount={
-                (message.content.reply_count || 0) +
-                (message.content.quote_count || 0)
-              }
-              retweetCount={message.content.retweet_count}
             />
           </>
         )}

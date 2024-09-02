@@ -22,8 +22,9 @@ import UserProducts from './UserProducts';
 
 export default function PageUserProfile() {
   const { t } = useTranslation();
-  const { id: userId } = useParams<{ id: string }>();
-  const profile = useTraderProfileQuery(userId || '');
+  const { id } = useParams<{ id: string }>();
+  if (!id) throw new Error('unexpected error');
+  const profile = useTraderProfileQuery(id);
 
   const [selectedPerformanceFilter, setSelectedPerformanceFilter] =
     useState<keyof TraderProfile['performance']>('month');
@@ -33,7 +34,7 @@ export default function PageUserProfile() {
       loading={profile.isLoading}
       className="flex flex-col gap-8 mobile:gap-5"
     >
-      <ProfileHeader profile={profile.data} userId={userId || ''} />
+      <ProfileHeader profile={profile.data} userId={id} />
       <div className="flex items-center justify-between gap-8 mobile:flex-col-reverse mobile:gap-5">
         <ProfileLinks profile={profile.data} className="shrink-0" />
         <div>
@@ -93,13 +94,13 @@ export default function PageUserProfile() {
         label={t('users:page-profile.signalers')}
         icon={SignalersIcon}
       >
-        <UserSignalers userId={userId} />
+        <UserSignalers userId={id} />
       </ProfileSection>
       <ProfileSection
         label={t('users:page-profile.top-financial-products')}
         icon={TopFinancialProductsIcon}
       >
-        {userId && <UserProducts userId={userId} />}
+        <UserProducts userId={id} />
       </ProfileSection>
       <div className="flex items-start justify-start gap-2">
         <InfoIcon className="shrink-0" />

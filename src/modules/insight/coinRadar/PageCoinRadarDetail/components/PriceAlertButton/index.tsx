@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type FC, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
 import Button from 'shared/Button';
@@ -11,10 +11,13 @@ import {
 import { type Alert, useAlerts, useSaveAlert } from 'api/alert';
 import { useHasFlag } from 'api';
 
-export const PriceAlertButton: FC<{
+export function PriceAlertButton({
+  className,
+  slug,
+}: {
   className?: string;
   slug: string;
-}> = ({ className, slug }) => {
+}) {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,7 +43,7 @@ export const PriceAlertButton: FC<{
     <>
       <Button
         onClick={() => setIsModalOpen(true)}
-        variant={initialAlert.key ? 'alternative' : 'primary'}
+        variant={'' || initialAlert.key ? 'alternative' : 'primary'}
         className={clsx('h-10 w-auto !py-1 mobile:!px-4', className)}
         contentClassName="flex gap-0"
       >
@@ -66,4 +69,4 @@ export const PriceAlertButton: FC<{
       {successModal}
     </>
   );
-};
+}

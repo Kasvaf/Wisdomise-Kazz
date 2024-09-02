@@ -5,7 +5,9 @@ import { type ReactNode } from 'react';
 import Icon from 'shared/Icon';
 
 export function OverviewWidget({
+  id,
   title,
+  subtitle,
   info,
   headerActions,
   footer,
@@ -15,8 +17,10 @@ export function OverviewWidget({
   headerClassName,
   footerClassName,
 }: {
-  title?: string;
-  info?: string;
+  id?: string;
+  title?: ReactNode;
+  subtitle?: ReactNode;
+  info?: ReactNode;
   headerActions?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
@@ -36,20 +40,28 @@ export function OverviewWidget({
         'flex flex-col gap-6 rounded-2xl bg-v1-surface-l2 p-6',
         className,
       )}
+      id={id}
     >
       {(title || info || headerActions) && (
         <header
           className={clsx(
-            '-mx-6 flex shrink-0 items-center justify-between gap-6 overflow-auto whitespace-nowrap px-6 text-v1-content-primary',
+            '-mx-6 flex shrink-0 items-center justify-between gap-6 overflow-auto overflow-y-hidden whitespace-nowrap px-6 text-v1-content-primary',
             headerClassName,
           )}
         >
-          {(title || info) && (
-            <h2 className="flex items-center gap-1 text-base font-medium">
-              {title}
-              {infoIcon}
-            </h2>
-          )}
+          <div>
+            {(title || info) && (
+              <h2 className="flex items-center gap-1 text-base font-medium">
+                {title}
+                {infoIcon}
+              </h2>
+            )}
+            {subtitle && (
+              <p className="mt-2 text-xs font-normal text-v1-content-secondary">
+                {subtitle}
+              </p>
+            )}
+          </div>
           {headerActions}
         </header>
       )}
