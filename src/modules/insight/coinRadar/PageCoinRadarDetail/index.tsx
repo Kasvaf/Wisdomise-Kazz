@@ -2,7 +2,12 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { useCoinOverview, useCoinSignals, useHasFlag } from 'api';
+import {
+  useCoinOverview,
+  useCoinSignals,
+  useHasFlag,
+  useSocialMessages,
+} from 'api';
 import Tabs from 'shared/Tabs';
 import { CoinPrice } from './components/CoinPrice';
 import { CoinSocialFeed } from './components/CoinSocialFeed';
@@ -22,6 +27,7 @@ export default function PageCoinRadarDetail() {
   if (!slug) throw new Error('unexpected');
 
   const hasFlag = useHasFlag();
+  const messages = useSocialMessages(slug);
   const coinOverview = useCoinOverview({ slug });
   const signals = useCoinSignals();
   const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
@@ -53,7 +59,11 @@ export default function PageCoinRadarDetail() {
     160,
   );
   return (
-    <PageWrapper loading={coinOverview.isLoading || signals.isLoading}>
+    <PageWrapper
+      loading={
+        coinOverview.isLoading || signals.isLoading || messages.isLoading
+      }
+    >
       <div className="grid grid-cols-3 gap-6">
         <div className="col-span-1 flex flex-col gap-6 mobile:col-span-full">
           <OverviewWidget>
@@ -63,11 +73,11 @@ export default function PageCoinRadarDetail() {
             <CoinStats slug={slug} />
           </OverviewWidget>
           {coinSignal && hasFlag('/insight/coin-radar?side-suggestion') && (
-            <OverviewWidget contentClassName="relative h-full overflow-hidden">
+            <OverviewWidget>
               <CoinSocialSentiment slug={slug} />
             </OverviewWidget>
           )}
-          <OverviewWidget contentClassName="relative h-full overflow-hidden">
+          <OverviewWidget>
             <CoinPricePerformance slug={slug} />
           </OverviewWidget>
           <OverviewWidget title={t('coin-details.tabs.trending_coins.title')}>
@@ -79,14 +89,14 @@ export default function PageCoinRadarDetail() {
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
           <Tabs
-            className="sticky top-0 z-50 bg-v1-surface-l1"
+            className="sticky top-0 z-50 backdrop-blur-md mobile:hidden"
             {...scrollPointTabs}
           />
           <OverviewWidget
             id="coinoverview_chart"
             title={t('coin-details.tabs.chart.title')}
-            className="col-span-2 min-h-[600px] mobile:col-span-full"
-            contentClassName="relative h-full overflow-hidden"
+            contentClassName="min-h-[600px] overflow-hidden"
+            className="col-span-2 mobile:col-span-full"
           >
             <CoinCandleChart slug={slug} />
           </OverviewWidget>

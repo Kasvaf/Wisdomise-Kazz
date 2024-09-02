@@ -4,11 +4,7 @@ import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
 
 export function TopCoins({ slug }: { slug: string }) {
-  const signals = useCoinSignals({
-    meta: {
-      windowHours: 24,
-    },
-  });
+  const signals = useCoinSignals();
 
   return (
     <div className="flex flex-col gap-4">

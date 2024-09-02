@@ -60,7 +60,7 @@ export function CoinPricePerformance({
     <div
       className={clsx(
         !coinOverview.data && 'animate-pulse blur-sm',
-        'flex flex-col gap-8 text-xs',
+        'flex flex-col gap-8 overflow-visible text-xs',
         className,
       )}
     >

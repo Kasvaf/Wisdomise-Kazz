@@ -10,6 +10,7 @@ type ExtendedCoinExchange = CoinExchange & {
   pair_name: string;
   price?: number | null;
   price_label: string;
+  rank: number;
 };
 
 export function CoinAvailableExchanges({ slug }: { slug: string }) {
@@ -19,6 +20,7 @@ export function CoinAvailableExchanges({ slug }: { slug: string }) {
   const data = useMemo<ExtendedCoinExchange[]>(() => {
     if (!coinOverview.data) return [];
     let resp: ExtendedCoinExchange[] = [];
+    let rank = 1;
     for (const exchange of coinOverview.data?.exchanges ?? []) {
       resp = [
         ...resp,
@@ -28,6 +30,7 @@ export function CoinAvailableExchanges({ slug }: { slug: string }) {
           pair_name: `${coinOverview.data.symbol.abbreviation.toUpperCase()}/USD`,
           price: exchange.price_in_usd,
           price_label: '$',
+          rank: rank++,
         },
         {
           ...exchange,
@@ -35,6 +38,7 @@ export function CoinAvailableExchanges({ slug }: { slug: string }) {
           pair_name: `${coinOverview.data.symbol.abbreviation.toUpperCase()}/BTC`,
           price: exchange.price_in_btc,
           price_label: 'BTC',
+          rank: rank++,
         },
       ];
     }
@@ -45,9 +49,8 @@ export function CoinAvailableExchanges({ slug }: { slug: string }) {
     () => [
       {
         title: t('available-exchanges.table.rank'),
-        sorter: (a, b) =>
-          (a.coin_ranking_rank ?? 0) - (b.coin_ranking_rank ?? 0),
-        render: (_, row) => row.coin_ranking_rank,
+        sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
+        render: (_, row) => row.rank,
       },
       {
         title: t('available-exchanges.table.exchange'),

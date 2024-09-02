@@ -3,6 +3,10 @@
     @apply !bg-v1-content-brand;
   }
 
+  .ant-tabs-nav {
+    @apply mb-0;
+  }
+
   .ant-tabs-tab {
     @apply grayscale;
 

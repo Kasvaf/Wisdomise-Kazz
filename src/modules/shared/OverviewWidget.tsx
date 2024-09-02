@@ -37,7 +37,7 @@ export function OverviewWidget({
   return (
     <article
       className={clsx(
-        'flex flex-col gap-6 rounded-2xl bg-v1-surface-l2 p-6',
+        'flex h-auto flex-col gap-6 rounded-2xl bg-v1-surface-l2 p-6',
         className,
       )}
       id={id}
@@ -66,7 +66,12 @@ export function OverviewWidget({
         </header>
       )}
       {children && (
-        <div className={clsx('-mx-6 overflow-auto px-6', contentClassName)}>
+        <div
+          className={clsx(
+            'relative -mx-6 h-auto overflow-auto px-6',
+            contentClassName,
+          )}
+        >
           {children}
         </div>
       )}
