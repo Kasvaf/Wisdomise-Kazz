@@ -38,7 +38,7 @@ export const RsiDivergenceTable: FC<{
             coin={{
               abbreviation: row.candle_base_abbreviation,
               name: row.candle_base_name,
-              slug: row.candle_base_name,
+              slug: row.candle_base_slug,
               logo_url: row.image,
             }}
           />
