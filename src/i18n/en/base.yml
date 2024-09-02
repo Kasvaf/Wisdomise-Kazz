@@ -61,7 +61,9 @@ menu:
     title: Hot Coins
   investment:
     title: Investment Hub
-    subtitle: Trade confidently with expert-driven crypto signal
+    subtitle: >-
+      Explore or build various crypto signals and fully automated financial
+      products
   kyc:
     title: KYC
     subtitle: Verify identity to access features
