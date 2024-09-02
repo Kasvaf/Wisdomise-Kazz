@@ -7,7 +7,7 @@ export function CoinCandleChart({ slug }: { slug: string }) {
 
   const tradingViewSymbol = useMemo(() => {
     if (!coinOverview.data) return null;
-    return `GATEIO:${coinOverview.data.symbol.abbreviation.toUpperCase()}USDT`;
+    return `${coinOverview.data.symbol.abbreviation.toUpperCase()}USDT`;
   }, [coinOverview.data]);
 
   if (!tradingViewSymbol) return null;
