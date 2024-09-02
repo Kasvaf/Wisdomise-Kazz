@@ -219,7 +219,7 @@ const PageMarketplace: React.FC = () => {
     <PageWrapper loading={isLoading}>
       <h1 className="mb-2 text-lg font-bold">{t('marketplace:page-title')}</h1>
       <p className="mb-10 text-xs leading-relaxed text-white/60">
-        {t('base:menu.marketplace.subtitle')}
+        {t('base:menu.investment.subtitle')}
       </p>
       <Table
         columns={columns}

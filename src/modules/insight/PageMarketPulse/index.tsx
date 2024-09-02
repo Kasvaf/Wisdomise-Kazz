@@ -19,8 +19,8 @@ export default function PageMarketPulse() {
   return (
     <PageWrapper className="leading-none mobile:leading-normal">
       <PageTitle
-        title={t('base:menu.market-pulse.title')}
-        description={t('base:menu.market-pulse.subtitle')}
+        title={t('base:menu.ai-indicators.title')}
+        description={t('base:menu.ai-indicators.subtitle')}
         className="mb-8"
         badge="new"
       />

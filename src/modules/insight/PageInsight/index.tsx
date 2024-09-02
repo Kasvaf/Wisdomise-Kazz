@@ -17,8 +17,8 @@ const PageInsight = () => {
   return (
     <PageWrapper>
       <PageTitle
-        title={t('base:menu.insight.full-title')}
-        description={t('base:menu.insight.subtitle')}
+        title={t('base:menu.coin-radar.full-title')}
+        description={t('base:menu.coin-radar.subtitle')}
         className="mb-10"
       />
 

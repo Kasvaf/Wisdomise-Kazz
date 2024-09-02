@@ -37,14 +37,14 @@ const useInsightRoutes = () => {
     {
       element: <Container />,
       path: 'insight',
-      handle: { crumb: t('menu.insight.title') },
+      handle: { crumb: t('menu.coin-radar.title') },
       children: [
         { path: '', element: <Navigate to="/insight/overview" replace /> },
         { path: 'overview', element: <PageInsight /> },
         {
           path: 'marketplace',
           element: <PageMarketplace />,
-          handle: { crumb: t('menu.marketplace.title') },
+          handle: { crumb: t('menu.investment.title') },
         },
         {
           path: 'athena',
@@ -53,7 +53,7 @@ const useInsightRoutes = () => {
         },
         {
           path: 'coin-radar',
-          handle: { crumb: t('menu.coin-radar.title') },
+          handle: { crumb: t('menu.hot-coins.title') },
           children: [
             { index: true, element: <PageCoinRadar /> },
             {
@@ -70,7 +70,7 @@ const useInsightRoutes = () => {
         {
           path: 'market-pulse',
           element: <PageMarketPulse />,
-          handle: { crumb: t('menu.market-pulse.title') },
+          handle: { crumb: t('menu.ai-indicators.title') },
         },
         {
           path: 'whales',
