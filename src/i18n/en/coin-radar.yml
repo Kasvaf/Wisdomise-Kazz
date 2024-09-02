@@ -37,7 +37,7 @@ hot-coins-section:
     chg-24: Chg(24h)
     market-cap: Market Cap
     negative: Negative
-    pnl: Call PNL
+    pnl: Call PnL
     positive: Positive
     rank: '#'
     realtime-price: Realtime Price
