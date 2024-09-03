@@ -1,34 +1,31 @@
 indicator_list:
   macd:
     label: MACD
-    soon: 很快
+    soon: 即將推出
   rsi:
-    bearish: 看跌背离
-    bearish-info: RSI 形成较低的高点，而价格形成较高的高点
-    bullish: 看涨背离
-    bullish-info: RSI 形成较高的低点，而价格形成较低的低点
-    description: 当 RSI
-      显示超卖读数，随后出现更高的低点，而价格出现更低的低点时，就会出现看涨背离。这可能表明看涨势头正在上升，突破超卖区域可能被用来触发新的多头仓位。相反，当
-      RSI
-      产生超买读数，随后出现更低的高点，而价格出现更高的高点时，就会出现看跌背离。这可能表明看跌势头正在上升，突破超买区域可能被用来触发新的空头仓位。
+    bearish: 看跌背離
+    bearish-info: RSI形成較低的高點，而價格形成較高的高點
+    bullish: 看漲背離
+    bullish-info: RSI形成較高的低點，而價格形成較低的低點
+    description: 當RSI顯示超賣並隨後出現較高的低點而價格出現較低的低點時，這可能表示看漲動能增強，突破超賣區域可以用來觸發新的多頭頭寸。相反，當RSI顯示超買並隨後出現較低的高點而價格出現較高的高點時，這可能表示看跌動能增強，突破超買區域可以用來觸發新的空頭頭寸。
     label: RSI
-    overbought: 超 买
+    overbought: 超買
     overbought-full-title: 最畅销的硬币
     overbought-info: RSI>70
-    oversold: 超售
+    oversold: 超賣
     oversold-full-title: 销量最高的硬币
     oversold-info: RSI<30
-    statistics: 市场 RSI 统计
+    statistics: 市場RSI統計
     table:
-      duration: 期间
-      name: 姓名
-      price: 价格
-      price_change: 价格变动
-      resolution: 解决
+      duration: 持續時間
+      name: 名稱
+      price: 價格
+      price_change: 價格變動
+      resolution: 分辨率
       rsi: RSI
-    title: 加密货币市场 RSI
-indicators: 指标
+    title: 加密貨幣市場RSI
+indicators: 指標
 periods:
-  daily: 日常的
-  hour: h
-  min: min
+  daily: 每日
+  hour: 小時
+  min: 分鐘

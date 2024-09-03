@@ -5,12 +5,12 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReactComponent as PriceIcon } from './price.svg';
 
 export const CoinPriceInfo: FC<{
-  symbol: string;
+  slug: string;
   loading?: boolean;
   className?: string;
-}> = ({ symbol, loading, className }) => {
+}> = ({ slug, loading, className }) => {
   const { data: coinInfo } = useCoinOverview({
-    symbol,
+    slug,
   });
   return (
     <div

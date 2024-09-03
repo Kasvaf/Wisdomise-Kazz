@@ -1,22 +1,22 @@
 page-profile:
-  footer: 本网站包含前瞻性陈述。此类前瞻性陈述基于 Wisdomise (Switzerland) AG
-    认为目前合理的估计、假设和推定。这些前瞻性陈述本质上受与未来事件相关的风险和不确定性的影响。因此，实际事件（包括加密货币的表现）可能与预测存在重大差异。您还应注意，过去的事件和结果并不能保证未来的事件或结果。Wisdomise
-    (Switzerland) AG 或任何其他人均不保证本网站上描述的发展会发生。因此，用户不应根据本网站上表达的前瞻性陈述对 Wisdomise
-    (Switzerland) AG 提供的服务做出投资决策。
-  overview: 概述
-  performance: 表现
+  footer: 本網站包含前瞻性陳述。這些前瞻性陳述基於Wisdomise (Switzerland)
+    AG當前認為合理的估計、假設和推測。這些前瞻性陳述本質上涉及未來事件的風險和不確定性。因此，包括加密貨幣表現在內的實際事件可能與預測結果有重大差異。您還應該注意，過去的事件和結果不能保證未來的事件或結果。Wisdomise
+    (Switzerland) AG或任何其他人都不保證本網站中描述的發展將會發生。因此，使用者不應僅根據本網站上表達的前瞻性陳述來做出與Wisdomise
+    (Switzerland) AG提供的服務有關的投資決策。
+  overview: 概覽
+  performance: 表現
   performance-content:
     filters:
       month: 每月
-      month3: 3个月
-      week: 每周
+      month3: 3個月
+      week: 每週
     max_drawdown: 最大回撤
-    pl: P/L
-    positions: 职位数量
-  signalers: 信号员
+    pl: 損益
+    positions: 持倉數量
+  signalers: 信號器
   signalers-table:
     max_drawdown: 最大回撤 <1>每月</1>
-    name: 信号员姓名
-    pair: 一对
-    pl: 盈亏 <1>每月</1>
-  top-financial-products: 顶级金融产品
+    name: 信號器名稱
+    pair: 交易對
+    pl: 損益 <1>每月</1>
+  top-financial-products: 頂級金融產品

@@ -28,9 +28,7 @@ export const HotCoinsTable: FC<{
       {
         className: 'w-36',
         title: t('hot-coins-section.table.name'),
-        render: (row: CoinSignal) => (
-          <Coin abbrevation={row.symbol_name} image={row.image} />
-        ),
+        render: (row: CoinSignal) => <Coin coin={row.symbol} />,
       },
       ...(hasFlag('/insight/coin-radar?side-suggestion')
         ? [

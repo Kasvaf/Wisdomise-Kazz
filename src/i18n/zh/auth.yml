@@ -1,53 +1,53 @@
 banner:
-  athena-bot: Athena TG机器人
-  stay-connected: 保持钱包连结
-email-address: 电子邮件地址
-footer: © 2024 Wisdomise. 版权所有.
+  athena-bot: 雅典娜電報機器人
+  stay-connected: 保持連接
+email-address: 電子郵件地址
+footer: © 2024 Wisdomise。保留所有權利。
 page-referral:
-  all-time: 历史全日
-  friends-invited: 好友邀请
-  invited: 推荐码
-  referral-code: 推荐码
-  referral-insight: 推荐状况
-  referral-link: 推荐链接
-  subscribed-friends: 订阅的朋友
-  title: 推荐计划
-  wisdomise-revenue: 您的 Wisdomise 推荐收入
-  your-profit: 您的利润
+  all-time: 所有時間
+  friends-invited: 邀請的朋友
+  invited: 已邀請
+  referral-code: 推薦碼
+  referral-insight: 推薦見解
+  referral-link: 推薦連結
+  subscribed-friends: 訂閱的朋友
+  title: 推薦計劃
+  wisdomise-revenue: 來自您推薦的Wisdomise收入
+  your-profit: 您的利潤
 secodary:
-  email-verified: 您的电子邮件已被验证！
+  email-verified: 您的電子郵件已驗證！
 secondary:
   btn-submit:
     label: 提交
-    loading: 正在提交...
+    loading: 提交中...
   contract:
-    btn-check: 我已阅读并接受 {{title}}。
-    label: 您承认 <1>{{title}}</1>。
-    required-error: 您应该同意 {{title}} 以继续。
+    btn-check: 我已閱讀並接受{{title}}。
+    label: 您承認<1>{{title}}</1>。
+    required-error: 您應該接受{{title}}以繼續。
   country:
-    label: 国家/地区
-    not-empty: 国家不能为空
-    placeholder: 您所居住的国家
-  email-verified: 您的电子邮件已被验证！
+    label: 國家
+    not-empty: 國家不能為空
+    placeholder: 您的居住國家
+  email-verified: 您的電子郵件已驗證！
   invitation:
-    label: 邀请代码 <1>（非必填）</1>
-    not-found: 找不到此推荐人
-    placeholder: 邀请代码
+    label: 邀請碼<1>（可選）</1>
+    not-found: 找不到推薦人
+    placeholder: 邀請碼
   nickname:
-    label: 昵称
-    length-limit: 确保此字段不超过 32 个字符。
-    not-empty: 昵称不能为空
-    placeholder: 您的昵称
-  welcome: 欢迎来到 <br><b>Wisdomise</b>
+    label: 暱稱
+    length-limit: 確保此字段不超過32個字符。
+    not-empty: 暱稱不能為空
+    placeholder: 您的暱稱
+  welcome: 歡迎來到<b>Wisdomise</b>
 verify-email:
   btn-check:
     label: 查看
-    loading: 检查中...
+    loading: 檢查中...
   btn-resend:
-    label: 重新发送验证邮件
-    loading: 正在重新发送验证电子邮件...
-  error: 无法验证您的电子邮件地址
-  error-title: 错误
-  link-sent: 链接已发送至您的电子邮件 <1>{{email}}</1><br> 要验证您的帐户，请点击链接。
-  notification-email-sent: 验证邮件发送成功。
-  title: 核实 <b>你的邮件</b>
+    label: 重發驗證電子郵件
+    loading: 重發驗證電子郵件...
+  error: 無法驗證您的電子郵件地址
+  error-title: 錯誤
+  link-sent: 已向您的電子郵件<1>{{email}}</1><br>發送了一個鏈接若要驗證您的帳戶，請點擊鏈接。
+  notification-email-sent: 驗證電子郵件已成功發送。
+  title: 驗證<b>您的電子郵件</b>

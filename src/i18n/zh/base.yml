@@ -1,153 +1,153 @@
-beta: 贝塔
-beta-version: 测试版
+beta: Beta
+beta-version: Beta版本
 error-page:
-  btn-reload: 重新加载
-  subtitle: 但我们会尽力避免类似情况再次发生。
-  title: 出了点问题，我们不知道怎么办:(
+  btn-reload: 重新加載
+  subtitle: 但我們會盡力確保它不會再次發生
+  title: 出了點問題，我們不知道是怎麼回事 :(
 insight-declaimer:
-  content: Wisdomise 的见解和信号并非财务建议。请自行承担风险并酌情使用。请自行研究或咨询财务顾问（如有必要）。
-  title: 免责声明
-language: 语言
+  content: Wisdomise的見解和信號不是財務建議。使用它們需自擔風險和自行決定。需要時請進行自己的研究或諮詢財務顧問。
+  title: 免責聲明
+language: 語言
 links:
-  about-us: 关于我们
-  blog: 部落格
-  solutions: 解决方案
+  about-us: 關於我們
+  blog: 博客
+  solutions: 解決方案
 menu:
   account-manager:
-    mobile: 账户
-    subtitle: 整合交易所账户。
-    title: 外部账户
+    mobile: 帳戶
+    subtitle: 集成交易所帳戶
+    title: 外部帳戶
   account:
-    subtitle: 管理您的帐户设置和偏好
-    title: 帐户
+    subtitle: 管理您的帳戶設置和偏好
+    title: 帳戶
   ai-indicators:
-    subtitle: 根据关键指标寻找要买卖的加密货币
-    title: 人工智能指标
+    subtitle: 資產
+    title: 人工智慧指標
   asset-overview:
-    mobile: 资产
-    subtitle: 监控和管理您的金融产品。
-    title: 资产概览
+    mobile: 資產
+    subtitle: 監控和管理您的財務產品
+    title: 資產概覽
   athena:
     features: +10 功能
-    subtitle: 智能聊天机器人，带您畅游加密货币世界
-    title: 加密聊天机器人
+    subtitle: 智能聊天機器人，引導您通過加密貨幣的世界
+    title: 加密聊天機器人
   billing:
-    mobile: 帐单
-    remains: 剩余
-    subtitle: 订阅偏好。
-    title: 订阅
+    mobile: 計費
+    remains: 剩餘
+    subtitle: 訂閱偏好
+    title: 訂閱
   builder:
-    subtitle: 创建您自己的信号器和金融产品
-    title: 贸易大师
+    subtitle: 管理您的帳戶設置和偏好
+    title: 建造者
   category:
-    account: 帐户
-    market-predication: 市场预测
-    passive-income: 被动收入
-    strategy-builder: 策略生成器
+    account: 帳戶
+    market-predication: 市場預測
+    passive-income: 被動收入
+    strategy-builder: 策略建造者
   coin-radar:
     full-title: 使用人工智能的市场阿尔法
-    subtitle: 通过简单易懂的方式获取加密货币社交见解、鲸鱼见解和市场指标。
-    title: 社会雷达
+    subtitle: 使用AI驅動的見解揭示市場趨勢
+    title: Coin Rader
   coin-view:
-    subtitle: 获取所有信号员的信号和位置历史记录
-    title: 币种列表
+    subtitle: 從所有信號發送器獲取信號和位置歷史
+    title: 幣種列表
   crypto-screener:
-    subtitle: 根据关键指标寻找要买卖的加密货币
-    title: 加密货币筛选器
+    subtitle: 根據關鍵指標查找加密貨幣進行買賣
+    title: 加密篩選器
   dashboard:
     title: 我的仪表板
   financial-products:
-    active-product: 活跃产品
-    subtitle: 探索不同的投资组合
-    title: 理财产品
+    active-product: 活躍產品
+    subtitle: 探索不同的投資套餐機會
+    title: 金融產品
   fp-builder:
-    card-badge: 独特选择
-    card-button: 尝试金融产品
-    subtitle: 探索根据您的需求量身定制的灵活的人工智能驱动投资选项。
-    title: 我的产品
+    card-badge: 獨特選擇
+    card-button: 試用金融產品
+    subtitle: 探索靈活又適合您需求的AI驅動投資選項
+    title: 我的產品
   home:
-    title: 家
+    title: 主頁
   hot-coins:
     title: 热门硬币
   insight:
     full-title: 利用人工智能实现市场 Alpha
-    subtitle: 以简单易懂的方式访问加密社交洞察、鲸鱼洞察和市场指标。
-    title: 投资工具
+    subtitle: 獲取戰略性加密投資的實時見解
+    title: 見解
   investment:
-    subtitle: 探索或构建各种加密信号和全自动金融产品
-    title: 投资中心
+    subtitle: 探索我們的自動交易金融產品
+    title: 投資
   kyc:
-    mobile: 实名认证
-    subtitle: 验证身份以访问功能。
-    title: 实名认证
+    mobile: 實名認證(KYC)
+    subtitle: 驗證身份以訪問功能
+    title: 實名認證(KYC)
   market-pulse:
-    subtitle: 本页面介绍根据指标寻找要买入或卖出的加密货币。
-    title: 市场脉搏
+    subtitle: 根據關鍵指標查找加密貨幣進行買賣
+    title: 市場脈動(Market Pulse)
   marketplace:
-    subtitle: 通过专家驱动的加密信号自信地进行交易
-    title: 市场
+    subtitle: 使用由專家提供的加密貨幣信號，輕鬆掌握交易。
+    title: 市場
   notification-center:
     mobile: 通知
-    subtitle: 交易信号和警报设置。
+    subtitle: 通知與活躍警報設置
     title: 通知
   overview:
     title: 概述
   portfolio:
     title: 文件夹
   products-catalog:
-    mobile: 产品
-    title: 产品种类
-  profile-dashboard: 个人后台
+    mobile: 產品
+    title: 產品目錄
+  profile-dashboard: 個人資料儀表板
   profile:
-    mobile: 个人资料
-    subtitle: 编辑登录凭据。
-    title: 个人资料
+    mobile: 個人資料
+    subtitle: 編輯登錄憑證
+    title: 個人資料
   referral:
-    mobile: 邀请奖励
-    subtitle: 邀请并获得奖励。
-    title: 邀请奖励
+    mobile: 推薦
+    subtitle: 邀請並賺取獎勵
+    title: 推薦
   signal-builder:
-    card-button: 立即开始构建
-    subtitle: 为支持的加密货币创建信号
-    title: 我的信号员
+    card-button: 現在開始構建
+    subtitle: 為已支援的加密貨幣創建信號
+    title: 我的信號發送器
   signal-matrix:
     card-badge: +100 每月信号
-    mobile: 交易信号
-    subtitle: 获取主流币种的人工智能交易信号
+    mobile: 信號
+    subtitle: 獲取AI驅動的加密貨幣領先交易信號
     title: 信号矩阵
   signaler-view:
-    subtitle: 获取所有信号员的信号和位置历史记录
-    title: 信号员视图
+    subtitle: 獲取所有信號發送器的信號和位置歷史
+    title: 信號發送器一覽
   signalers:
     subtitle: 发现具有活跃信号和头寸的领先加密货币
     title: 人工智能信号
   social-radar:
-    subtitle: 通过人工智能驱动的洞察力揭示市场趋势
-    title: 投币雷达
+    subtitle: 用AI驅動的觀點來揭示市場趨勢
+    title: Coin Radar
   strategies:
     mobile: 策略
     title: 策略
   token:
     mobile: WSDM
-    subtitle: 质押代币开通会员(无需任何消耗)
-    title: WSDM代币
+    subtitle: 使用代幣獲取高級訪問權限
+    title: WSDM 代幣
   users:
-    title: 用户
+    title: 用戶
   whales:
-    subtitle: 探索顶级加密货币鲸鱼、他们的交易、盈亏、交易量等
-    title: 聪明的鲸鱼
+    subtitle: 探索頂級加密巨鯨，他們的交易、損益、交易量以及更多
+    title: 巨鯨分析
 mobile-menu:
-  close: 关闭
-  open: 菜单
+  close: 關閉
+  open: 菜單
 new: 新的
 onboarding:
-  back: 后退
-  got-it: 知道了
-  next: 下一个
+  back: 返回
+  got-it: 明白了
+  next: 下一步
 support:
-  hint: 与我们联络
-  title: 问题？
+  hint: 與我們聊天
+  title: 問題？
 user:
   logout: 登出
   sign-out: 登出
-wisdomise-is-loading: Wisdomise 正在加载
+wisdomise-is-loading: Wisdomise 加載中...

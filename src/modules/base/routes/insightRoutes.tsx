@@ -57,9 +57,9 @@ const useInsightRoutes = () => {
           children: [
             { index: true, element: <PageCoinRadar /> },
             {
-              path: ':symbol',
+              path: ':slug',
               element: <PageCoinRadarDetail />,
-              handle: { crumb: (p: Params<string>) => p.symbol },
+              handle: { crumb: (p: Params<string>) => p.slug },
             },
           ],
         },
