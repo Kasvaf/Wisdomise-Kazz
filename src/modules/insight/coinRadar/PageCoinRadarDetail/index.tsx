@@ -89,7 +89,7 @@ export default function PageCoinRadarDetail() {
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
           <Tabs
-            className="sticky top-0 z-50 backdrop-blur-md mobile:hidden"
+            className="sticky top-0 z-50 bg-page mobile:hidden"
             {...scrollPointTabs}
           />
           <OverviewWidget
