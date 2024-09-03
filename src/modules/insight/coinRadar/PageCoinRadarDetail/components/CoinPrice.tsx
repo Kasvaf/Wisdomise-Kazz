@@ -41,7 +41,7 @@ export function CoinPrice({
           textClassName="!text-sm"
         />
       </div>
-      {!hasFlag('/account/notification-center?tab=alerts') && (
+      {hasFlag('/account/notification-center?tab=alerts') && (
         <div className="mt-8">
           <PriceAlertButton slug={slug} className="w-full" />
         </div>
