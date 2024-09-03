@@ -18,20 +18,21 @@ export const CommentsModal: FC<{
   message: SocialMessageType;
 }> = ({ message }) => {
   return (
-    <div className="max-h-[calc(100vh-4rem)] overflow-auto pt-12">
-      <section className="bg-black/5 p-4">
+    <div className="max-h-[calc(100vh-4rem)] overflow-auto bg-v1-surface-l2 pt-12">
+      <section className="p-4">
         <SocialMessage
           message={message}
           openable={false}
-          className="m-auto w-full max-w-3xl bg-zinc-900"
+          className="m-auto w-full max-w-3xl"
         />
       </section>
-      <section className="flex flex-col gap-4 bg-white/5 p-4">
+      <div className="my-4 h-px bg-v1-border-tertiary" />
+      <section className="flex flex-col gap-8 p-4">
         {message.social_type === 'reddit' &&
           message.content.top_comments.map((comment, idx) => (
             <SocialMessageContainer
               key={`${comment.author}:${comment.score}:${idx}`}
-              className="m-auto w-full max-w-3xl bg-zinc-900"
+              className="m-auto w-full max-w-3xl"
             >
               <SocialMessageHeader
                 title={comment.author}
