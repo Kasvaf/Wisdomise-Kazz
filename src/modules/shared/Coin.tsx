@@ -3,11 +3,6 @@ import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { type Coin as CoinType } from 'api/types/shared';
 
-const MAX_LENGTH = 18;
-
-const truncate = (str: string) =>
-  str.length > MAX_LENGTH ? str.slice(0, MAX_LENGTH - 3) + '...' : str;
-
 export function Coin({
   className,
   coin,
@@ -22,7 +17,7 @@ export function Coin({
   mini?: boolean;
 }) {
   const rootClassName = clsx(
-    'inline-flex items-center gap-2',
+    'inline-flex w-auto shrink items-center gap-2',
     !mini && 'p-1 pe-2',
     !nonLink &&
       'group rounded-md transition-all hover:bg-v1-background-hover hover:text-inherit',
@@ -41,14 +36,18 @@ export function Coin({
           }),
         }}
       />
-      <div className="w-full whitespace-nowrap leading-snug">
-        <div>
-          {mini ? truncate(coin.abbreviation ?? '') : truncate(coin.name ?? '')}
+      <div className="max-w-40 shrink grow leading-snug">
+        {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+        <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+          {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
         </div>
-        {!mini && (
-          <div className="text-[80%] opacity-70">
-            {truncate(coin.abbreviation ?? '')}
-          </div>
+        {!mini && coin.abbreviation && (
+          <>
+            {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+            <div className="overflow-hidden text-ellipsis whitespace-nowrap text-[80%] opacity-70">
+              {coin.abbreviation ?? ''}
+            </div>
+          </>
         )}
       </div>
     </>
