@@ -1,123 +1,121 @@
 coins:
   onboarding:
     sec-1:
-      content: 通过我们的“硬币列表”部分开始您的个性化加密之旅，并通过动态视频介绍完成。探索信号器、设置通知并可视化每种硬币的性能。触手可及，预览其威力。
-      title: 踏上寻金币之旅
+      content: 通過我們的幣種列表部分開始您的個性化加密貨幣之旅，並完成動態視頻介紹。探索信號器，設置通知，並可視化每個幣種的表現。提前預覽掌握在您手中的力量。
+      title: 開始幣種探索
     sec-2:
-      content: 高精度地深入加密货币的世界——您的投资组合，个性化。 <0><0><0>硬币选择：</0>
-        发现适用于您选择的加密货币的信号器。</0><1><0>定制通知：</0>
-        配置电报警报以获取来自每个信号器的即时更新。</1><2><0>独家访问：</0> 免费享受 Solana Range Master
-        信号器的完整详细信息，而对于其他硬币和信号，您需要升级订阅。</2></0><1></1>
-      title: 硬币具体见解
+      content: 深入探索加密貨幣的世界，以高精度管理您的個人投資組合。<0><0><0>幣種選擇：</0>發掘適合您所選加密貨幣的信號提供者。</0><1><0>量身定制的通知：</0>設定
+        Telegram 提醒，即時接收每個信號提供者的更新。</1><2><0>獨家訪問：</0>免費享受 Solana 的 Range Master
+        信號提供者的完整資訊，對於其他幣種和信號，您需要升級訂閱。</2></0>
+      title: 特定幣種見解
     sec-3:
-      content: 通过我们的 Insight 订阅，您可以清晰地了解您在加密方面的战略优势。 <0><0><0>信号探索：</0>
-        单击即可探索每个信号器的历史记录，包括详细的开仓和平仓头寸及其盈亏。</0><1><0>图表可视化：</0>
-        在直观的图表上查看您的潜在利润和损失。</1><2><0>Insight 订阅：</0>
-        通过对所有硬币和信号器的高级访问来扩展您的视野，以便做出明智的决策。</2></0><1></1>
-      title: 深入分析和见解
+      content: 在加密貨幣領域獲得明確的戰略優勢，盡在我們的 Insight
+        訂閱服務中。<0><0><0>信號探索：</0>點擊查看每個信號提供者的歷史記錄，包括詳細的持倉和已平倉頭寸以及盈虧狀況。</0><1><0>圖表視覺化：</0>通過直觀的圖表，讓您的潛在收益和損失栩栩如生。</1><2><0>Insight
+        訂閱：</0>通過高級訪問權限，掌握所有幣種和信號提供者的資訊，擴展您的視野，做出更明智的決策。</2></0>
+      title: 深入分析與見解
 matrix:
-  best-performing-30d: 最佳表现 30天
-  best-performing-7d: 最佳表现 7天
+  best-performing-30d: 最佳表現的30天
+  best-performing-7d: 最佳表現的7天
   date: 日期
-  entry-price: 入场价格
-  exit-price: 退出价格
-  latest-positions: 最新点位
-  locked: 锁定
-  marketplace: 市场
-  none: 无
+  entry-price: 進場價格
+  exit-price: 出場價格
+  latest-positions: 最新持倉
+  locked: 鎖定中
+  marketplace: 市場
+  none: 無
   onboarding:
     sec-1:
-      content: 进入我们全面的信号中心，您可以通过快速视频概览查看所有活动和历史表现。一窥未来！
-      title: 欢迎来到 Signal Matrix
+      content: 進入我們的綜合信號中心，您可以透過快速視頻概覽查看所有活動和歷史表現。提前瞥見未來！
+      title: 歡迎來到信號矩陣
     sec-2:
-      content: 在一个屏幕上查看各种货币的有效和关闭信号。分析过去 7 天和 30 天内表现最佳的货币，轻松定制您的策略。
-      title: 所有信号一览
+      content: 在一個屏幕上查看各種幣種的活動和已關閉信號。分析過去7天和30天的最佳表現者，輕鬆調整您的策略。
+      title: 一覽所有信號
     sec-3:
-      content: 为您关注的货币和信号器设置 Telegram 提醒。在您需要时及时了解对您重要的更新。<1></1><2></2><3>设置通知</3>
-      title: 个性化通知
+      content: 為您關注的幣種和信號器設置Telegram警報。在您需要的時候，獲取對您重要的更新。
+      title: 個性化通知
     sec-4:
-      content: 在一帧中探索我们的三种信号器：<1></1><2></2><3><0><0>向量：</0>
-        通过人工智能趋势分析，以更高的获利和止损门槛获得积极收益。</0><1><0>闪光：</0> 采用与 Vector 相同的 AI
-        趋势逻辑进行操作，但设计用于以较小的目标降低风险。</1><2><0>靶场管理员：</0>
-        人类智慧与人工智能的独特融合，提供稳定的信号策略，专门针对 Solana 进行了优化，具有可适应的时间范围。</2></3>
-      title: 矢量、闪光和范围主控
+      content: 在一個框架中探索我們的三位信號signalers：<1></1><2></2><3><0><0>Vector：</0>基於 AI
+        的趨勢分析，旨在實現激進收益，設有較高的止盈和止損門檻。</0><1><0>Flash：</0>使用與 Vector 相同的 AI
+        趨勢邏輯，但設計為較低風險的小目標策略。</1><2><0>Range Master：</0>結合了人類智慧與 AI，提供穩定的信號策略，專為
+        Solana 優化，並具備靈活的時間框架。</2></3>
+      title: Vector, Flash和Range Master
   radar:
-    across: 穿过 <1>{{cnt}}</1> 过去 24 小时内的 Telegram 消息
-    consensus: 社区共识：
-  side: 边
-  sl: 止损
+    across: 在過去24小時內，跨越{{cnt}}條Telegram消息
+    consensus: 社區共識：
+  side: 方向
+  sl: 止損
   subscription:
     subscribe:
-      btn-confirm: 订阅
-      description: 要查看此信号，您需要 <1>订阅</1> 给我们的 <3>{{minPlan}}</3> 计划。
-      title: 订阅
+      btn-confirm: 訂閱
+      description: 要查看此信號，您需要<1>訂閱</1>我們的<3>{{minPlan}}</3>計劃。
+      title: 訂閱
     upgrade:
-      btn-confirm: 升级
-      description: 要查看此信号，您需要 <1>升级</1> 您订阅的 <4>{{minPlan}}</4>。
-      title: 升级订阅
-  suggestion: 建议
-  title: 最新点位
+      btn-confirm: 升級
+      description: 要查看此信號，您需要<1>升級</1>您的訂閱到<4>{{minPlan}}</4>。
+      title: 升級訂閱
+  suggestion: 建議
+  title: 最新持倉
   tp: 止盈
-no-active-positions: 尚无活跃职位。
+no-active-positions: 尚無活動持倉。
 position-detail-modal:
-  current-size: 目前的规模
-  hitted: 被击中
-  open: 开仓
-  signaler: 信号员
-  stop-loss: 止损
-  suggestion: 建议
-  take-profit: 从中受益
-  title: 职位详细信息
+  current-size: 當前規模
+  hitted: 已觸發
+  open: 開啟
+  signaler: 信號器
+  stop-loss: 止損
+  suggestion: 建議
+  take-profit: 止盈
+  title: 持倉詳情
 positions-history:
-  entry-point: 入场点
-  entry-price: 出场价格
-  entry-time: 入场时间
-  exit-point: 出场点
-  market-side: 市场方
-  pairs: 交易对
-  pnl: P/L
-  position-side: 位置方
-  status: 状态
-  stop-loss: 止损
+  entry-point: 進場點
+  entry-price: 進場價格
+  entry-time: 進場時間
+  exit-point: 出場點
+  market-side: 市場方向
+  pairs: 交易對
+  pnl: 損益
+  position-side: 持倉方向
+  status: 狀態
+  stop-loss: 止損
   strategy: 策略
-  suggest: 建议
-  take-profit: 从中受益
-  title: 點位历史
-  type: 类型
+  suggest: 建議
+  take-profit: 止盈
+  title: 持倉歷史
+  type: 類型
 positions-timeline:
-  empty-message: 该时间段内没有点位。
-  entry-point: 入场点
-  exit-point: 出场点
-  title: 点位时间表
-select-coin: 选择硬币
-select-strategy: 选择策略
+  empty-message: 該時間段內無持倉。
+  entry-point: 進場點
+  exit-point: 出場點
+  title: 持倉時間線
+select-coin: 選擇幣種
+select-strategy: 選擇策略
 signaler:
-  24h-volume: 24小时交易量
-  active-positions: 主动立场
+  24h-volume: 24小時交易量
+  active-positions: 活動持倉
   btn-explore: 探索
   info:
     crypto:
-      description: 从支持的硬币中选择
-      label: 加密货币
+      description: 從支持的幣種中選擇
+      label: 加密貨幣
     strategy:
-      description: 选择策略，然后从加密货币列表中选择
+      description: 選擇策略然後從加密貨幣列表中選擇
       label: 策略
     telegram-notification:
-      description: 连接电报，不错过任何信号
-      label: 电报通知
+      description: 連接您的Telegram，不要錯過任何信號
+      label: Telegram通知
   market-cap: 市值
   signals-overview:
-    description: 检查任何策略的详细信息，您也可以通过单击响铃图标来打开通知。
-    title: 信号概述
-  simulated-position-history: 模拟仓位历史记录
+    description: 查看任何策略的詳細信息，還可以點擊鐘形圖標開啟通知。
+    title: 信號概覽
+  simulated-position-history: 模擬持倉歷史
 status:
-  canceled: 取消
-  closed: 关闭
-  closing: 结束语
-  open: 开仓
-  opened: 已开仓
-  opening: 开场
+  canceled: 已取消
+  closed: 已關閉
+  closing: 正在關閉
+  open: 開啟
+  opened: 已開啟
+  opening: 正在開啟
 suggest:
-  close: 关闭
-  no-action: 无行动
-  open: 开仓
+  close: 關閉
+  no-action: 無操作
+  open: 開啟

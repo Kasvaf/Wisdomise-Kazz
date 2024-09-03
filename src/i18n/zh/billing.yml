@@ -1,42 +1,43 @@
 banner:
-  btn-subscription-plans: 订阅方案
-  checkout-message: 从这里查看我们的订阅方案
-  ends-in: 您的试用订阅结束于 <1>{{remaining}}</1> 天！
+  btn-subscription-plans: 訂閱計劃
+  checkout-message: 從這裡查看我們的訂閱計劃
+  ends-in: 您的試用訂閱還剩 <1>{{remaining}}</1> 天！
 change-pay-method:
-  crypto: Crypto
-  fiat: Fiat
-  sub-title: 为您的下一个计划选择付款方式：
+  crypto: 加密貨幣
+  fiat: 法幣
+  sub-title: 選擇下一個計劃的付款方式：
   title: 更改付款方式
-  token: Wisdomise Token (WSDM)
+  token: Wisdomise 代幣（WSDM）
 change-payment:
   change-payment-method: 更改付款方式
-  order-summary: 订单摘要
+  order-summary: 訂單總結
   title: 更改付款方式
-  total: 总共
+  total: 總計
 crypto-modal:
-  btn-confirm: 确认
-  btn-done: 完毕
+  btn-confirm: 確認
+  btn-done: 完成
   check-mail:
-    description: 我们将检查您的交易 ID 并通过电子邮件告知您
-    title: 请查收你的邮件
-  input-hash-id: 交易ID（哈希值)
+    description: 我們將檢查您的交易ID(哈希值)並通過電子郵件通知您
+    title: 檢查您的郵件
+  input-hash-id: 交易ID（哈希值）
   notice:
-    confirmed: 输入下面的交易 ID，我们将在 24 小时内激活并发送确认电子邮件。
-    is-not-confirmed: 要通过加密货币转账，首先选择您的货币和网络，以便系统为您提供一个可以进行转账的地址。
-  payment-by-crypto: 通过加密货币支付
-  subtitle: 订阅 {{plan}}
-  subtotal: 小计
+    confirmed: 在下面輸入交易ID(哈希值)，我們將在24小時內激活並發送確認電子郵件。
+    is-not-confirmed: 要通過加密貨幣轉賬，首先選擇您的代幣和網路，系統將為您提供一個轉賬地址。
+  payment-by-crypto: 通過加密貨幣付款
+  subtitle: 訂閱 {{plan}}
+  subtotal: 小計
   title: Wisdomise AG
-  total-due-today: 今天到期总计
+  total-due-today: 今天結算總額
 overlay-subscription:
-  btn-subscribe: 订阅
-  btn-upgrade: 升级
-  customs-description: 要添加问题，您需要订阅 Wisdomise 方案
-  signaling-description: 您需要订阅方案才能启用通知。
-  signals-description: 要揭示所有信号，您需要 <1>订阅</1> 或者 <3>升级</3> 你目前的方案。
+  btn-subscribe: 訂閱
+  btn-upgrade: 升級
+  customs-description: 要添加問題，您需要訂閱其中一個 Wisdomise 計劃
+  signaling-description: 您需要購買我們的訂閱計劃之一才能啟用通知功能。
+  signals-description: 要查看所有信號，您需要<1>訂閱</1>或<3>升級</3>您的當前計劃。
   strategy:
-    description: 要揭示此策略，您需要 <2>{{level}}</2> 或者更高的计划。
-  title: 您还没有订阅
+    description: 要查看此策略，您需要擁有<2>{{level}}</2>或更高級別的計劃。
+    title: 解鎖高級信號
+  title: 您尚未訂閱
 periodicity:
   month:
     per: 每<br>月
@@ -47,116 +48,116 @@ periodicity:
 pricing-card:
   annually: 每年
   btn-action:
-    activate-now: 立即激活
-    available-soon: 即将推出
-    buy-now: 開始購買
-    choose: 选择
-    current-plan: 当前计划
-    free: 自由的
-    next-plan: 下一步计划
-    upgrade: 升级
-  forever: 永远
-  free-subtitle: 随意探索wiseise
+    activate-now: 現在激活
+    available-soon: 即將推出
+    buy-now: 現在購買
+    choose: 選擇
+    current-plan: 當前計劃
+    free: 免費
+    next-plan: 下一個計劃
+    upgrade: 升級
+  forever: 永久
+  free-subtitle: 隨意探索 Wisdomise
   hold: 持有
-  just-yearly: 年度
+  just-yearly: 只在年度
   monthly: 每月
-  notification-call-support: 致电支持
-  notification-upgrade-success: 您的订阅已成功更新。可能需要几分钟才能激活。请在几分钟后重新加载此页面。
-  page-subtitle: 您可以从此部分选择您的方案类型
-  page-title: 方案计费
-  pay-by-locking: 锁定付款<1>{{token}}<1>WSDM</1></1>代币
-  pay-by-locking-in-yearly-only: 锁定付款<1>WSDM</1>代币：每年刚刚到
-  pay-by-stacking: 堆叠付款<1>{{token}}<1>WSDM</1></1>代币
-  pay-by-stacking-in-yearly-only: 堆叠付款<1>WSDM</1>代币：每年刚刚到
-  recommended: 智慧推荐
-  this-includes: 包括：
-  token: Token
+  notification-call-support: 請求幫助
+  notification-upgrade-success: 您的訂閱已成功更新。可能需要幾分鐘才能激活。請在幾分鐘後重新加載此頁面。
+  page-subtitle: 您可以從此部分選擇您的套餐類型
+  page-title: 計費套餐
+  pay-by-locking: 通過鎖定<1>{{token}}<1>WSDM</1></1> 代幣支付
+  pay-by-locking-in-yearly-only: 通過鎖定<1>WSDM</1>代幣支付：僅在年度方案
+  pay-by-stacking: 通過質押<1>{{token}}<1>WSDM</1></1> 代幣支付
+  pay-by-stacking-in-yearly-only: 通過質押<1>WSDM</1>代幣支付：僅在年度方案
+  recommended: Wisdomise 推薦
+  this-includes: 這包括：
+  token: 代幣
 stripe:
   change-card-info:
-    order-summary: 订单摘要
-    title: 更改卡信息
-    total: 总共
+    order-summary: 訂單摘要
+    title: 更改卡片信息
+    total: 總計
 subscription-details:
   invoices:
-    amount: 价格
-    issue-date: 释出日期
+    amount: 價格
+    issue-date: 發行日期
     method: 付款方式
     status: 狀態
   overview:
-    automatically-renew: 时间到将自动更新。
-    billing-actions: 计费操作
-    billing-email: 帐单电子邮件发送至 <1>{{email}}</1>。
-    btn-change-plan: 变更计划
-    card: 未来的费用将计入该卡 <1>****{{last4}}</1>。
-    charging: 向您的信用卡收费 <1>${{ amount }}</1>。
+    automatically-renew: 到時候會自動續訂。
+    billing-actions: 付款中
+    billing-email: 付款電子郵件發送至<1>{{email}}</1>。
+    btn-change-plan: 更改計劃
+    card: 未來的收費將使用卡片<1>****{{last4}}</1>。
+    charging: 正在向您的信用卡收取<1>${{amount}}</1>。
     current-plan:
-      expire: 您的计划将于
+      expire: 您的計劃將續訂
       pay-method: 您的付款方式是
-      pay-now: 现在付款！
-      pending-invoice: <0>您的付款状态是<1></1></0>
-      renew: 您的计划将于
-      title: 当前计划
-      your-subs: 您的订阅计划是<1></1>
-    in-order-to-renew: 为了续订，您必须再次发送交易 <0>{{date}}</0>。
+      pay-now: 現在支付！
+      pending-invoice: <0>您的付款狀態是<1></1></0>
+      renew: 您的計劃將於以下時間到期
+      title: 當前計劃
+      your-subs: 您的訂閱計劃是<1></1>
+    in-order-to-renew: 若要續訂，您將需要在<0>{{date}}</0>再次發送交易。
     is-on-the-way:
-      description: 您通过加密货币支付订阅费用，需要 24-48 小时来验证您的交易。当您的订阅被激活时，我们会向您发送电子邮件
-      title: 您的订阅正在路上
-    next-plan-canceled: <0></0><1>你的下一个计划已被取消。<1>更新下一个计划</1></1>
-    next-plan-info: <0>你的下一个计划是 <2>{{nextPlanName}} {{period}}</2> 和 <6>
-      {{payMethod}}</6> 付款方式。<9>取消下一个计划</9></0>
+      description: 您通過加密貨幣支付了訂閱費用，驗證您的交易需要24-48小時。我們會在激活您的訂閱時發送電子郵件通知您
+      title: 您的訂閱正在進行中
+    next-plan-canceled: <0></0><1>您的下個計劃已被取消。<1>續訂下個計劃</1></1>
+    next-plan-info: <0>您的下個計劃是<2>{{nextPlanName}}
+      {{period}}</2>，使用<6>{{payMethod}}</6>付款方式。<9>取消下個計劃</9></0>
     next-plan:
-      automatically-renew: 时间到将自动更新。
-      cancel-btn: 取消下一个计划
-      canceled: <0>你的下一个计划已被取消。<1>更新下一个计划</1></0>
-      card: 未来的费用将计入该卡<1></1>
+      automatically-renew: 到時候會自動續訂。
+      cancel-btn: 取消下個計劃
+      canceled: <0>您的下個計劃已被取消。<1>續訂下個計劃</1></0>
+      card: 未來的收費將適用於卡<1></1>
       change-pay-method: 更改付款方式
-      charging: 为您的信用卡收费<1></1>
-      in-order-to-renew: 为了续订，您必须在<1></1>
+      charging: 向您的信用卡收費<1></1>
+      in-order-to-renew: 為了續訂，您需要在<1></1>再次發送交易
       pay-method: 您的付款方式是
-      title: 下一步计划
-      your-subs: 您的订阅计划是<1></1>
-    pay-method: <0>下一步付款方式： <2>{{payMethod}}。</2><3>更改付款方式</3></0>
-    pending-invoice: <0><0>您有 1 张待处理发票。</0><1>现在付款</1></0>
-    periodEnd: 你的订阅方案将 {{action}} 在 <3>{{date}}</3>。
-    plan-details: 计划详情
+      title: 下一個計劃
+      your-subs: 您的訂閱計劃是<1></1>
+    pay-method: <0>下一個付款方式：<2>{{payMethod}}。</2><3>更改付款方式</3></0>
+    pending-invoice: <0><0>您有1張待處理發票。</0><1>立即支付</1></0>
+    periodEnd: 您的計劃將在<3>{{date}}</3> {{action}}。
+    plan-details: 計劃詳情
   payment-methods:
-    auto-renew-notice: 下次付款将自动从此卡扣款
-    title: 支付方式
-  title: 订阅详情
+    auto-renew-notice: 下次付款將自動從此卡中收取。
+    title: 付款方式
+  title: 訂閱詳情
 subscription-modal:
-  btn-crypto: 加密支付
-  btn-fiat: 法币支付
-  subtitle: 请选择适合您偏好的付款方式。
-  title: 认购方式
+  btn-crypto: 加密貨幣付款
+  btn-fiat: 法幣支付
+  subtitle: 請選擇適合您偏好的付款方式。
+  title: 訂閱方式
 success-modal:
-  btn-details: 订阅详情
-  btn-goto-athena: 使用Athena
-  redirecting-msg: 将被重定向到 <1>({{timeout}}）</1> 秒。
-  subtitle: 你可以继续你的旅程
-  title: 感谢您的订阅
+  btn-details: 訂閱詳情
+  btn-goto-athena: 前往雅典娜
+  redirecting-msg: 將在<1>({{timeout}})</1>秒後重定向。
+  subtitle: 您可以繼續您的旅程
+  title: 感謝您的訂閱
 tabs:
-  invoices: 发票
-  overview: 概述
-  payment-methods: 支付方式
+  invoices: 發票
+  overview: 概覽
+  payment-methods: 付款方式
 token-modal:
-  activate-subscription: 激活订阅
-  already-locked: 已锁定余额
+  activate-subscription: 激活訂閱
+  already-locked: 已鎖定餘額
   confirmed:
-    description: 您的交易已成功提交并正在处理中。请等待交易完成。
-    title: 不要刷新或关闭浏览器
+    description: 您的交易已成功提交並正在處理中。請等待交易完成。
+    title: 請勿刷新或關閉瀏覽器
   congratulations: 恭喜！
-  description: 为了获得访问权限，您的 Wisdomise Tokens 将在订阅期间被锁定在保险库中。
-  disclaimer: 通过参与 WSDM 代币锁定，您特此同意以下条款。
+  description: 為了獲得訪問權限，您的 Wisdomise 代幣將在訂閱期內被鎖定在保險庫中。
+  disclaimer: 參與 WSDM 代幣鎖定，即表示您同意以下條款。
   done: 完成
-  for-1-year: 1年
-  purchase-token: 购买 Wisdomise 代币
+  for-1-year: 為期 1 年
+  purchase-token: 購買 Wisdomise 代幣
   refresh: 刷新
-  subscribe-to: 订阅
-  subtotal: 小计
+  subscribe-to: 訂閱
+  subtotal: 小計
   title: Wisdomise AG
   token: WSDM
-  token-name: Wisdomise Token (WSDM)
-  total-amount: 今天到期总额
-  unlock-period: <0>解锁期限：</0> WSDM 代币有 7 天的解锁期。WSDM 代币可完全提取，无需支付任何费用。
-  you-can: 您现在可以访问 {{name}} 功能
-  your-balance: 您的 WSDM 代币余额
+  token-name: Wisdomise 代幣 (WSDM)
+  total-amount: 今天應付總額
+  unlock-period: <0>解鎖期：</0>WSDM 代幣需經過 7 天的解鎖期。WSDM 代幣在不產生任何費用的情況下可以完全提取。
+  you-can: 您現在可以訪問 {{name}} 功能。
+  your-balance: 您的 WSDM 代幣餘額

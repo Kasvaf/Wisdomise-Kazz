@@ -1,152 +1,145 @@
 action-confirm:
   cancel: 取消
-  stop-description: 请注意，停止策略后，您所有未平仓交易将以“市场”价格出售。最终的盈亏将在平仓后计算。
-  title: 你确定吗 <1>{{typeLabel}}</1> 这个产品？
-  yes: 是的， <1>{{typeLabel}}</1>
+  stop-description: 請注意，停止策略後，您所有的未平倉交易將以“市場”價格賣出。最終盈虧將在關閉未平倉頭寸後計算。
+  title: 您確定要<1>{{typeLabel}}</1>此產品嗎？
+  yes: 是的，<1>{{typeLabel}}</1>
 actions:
-  activate: 启用
+  activate: 激活
   deactivate: 停用
-  pause: 暂停
-  resume: 恢复
-  start: 开始
+  pause: 暫停
+  resume: 恢復
+  start: 開始
   stop: 停止
 disclaimer:
-  description: 您的钱包将于 Binance 打开。
-    Wisdomise（瑞士）AG本身不提供任何钱包和/或托管服务。请注意，您转移到此钱包的加密货币将存储在币安上。币安是一家不受瑞士监管的第三方加密货币交易提供商。因此，在币安上持有钱包存在风险。
-    Wisdomise (Switzerland) AG 无法控制与币安相关的风险。此类风险可能包括但不限于：
-  risk-1: 币安倒闭
-  risk-2: 由于黑客攻击或类似事件，第三方未经授权访问币安上持有的钱包；
-  risk-3: 禁止公共机构经营其业务。
+  description: 您的錢包將在 Binance 上開立。Wisdomise (Switzerland) AG
+    本身不提供任何錢包和/或託管服務。請注意，您轉入此錢包的加密貨幣將儲存在 Binance 上。Binance
+    是一家不受瑞士監管的第三方加密貨幣交易所。因此，持有 Binance 上的錢包存在風險，這些風險無法由 Wisdomise (Switzerland)
+    AG 控制。這些風險可能包括但不限於：
+  risk-1: Binance 破產；
+  risk-2: 由於黑客攻擊或類似事件，第三方未經授權訪問存放於 Binance 的錢包；
+  risk-3: 公共機關禁止其業務運營。
   title: 注意
-  warn: 这些风险包括转移到币安钱包的加密货币出现重大或全部损失的风险。通过创建钱包来使用 Wisdomise
-    的服务，您同意承担与在币安钱包中持有加密货币相关的所有风险。 Wisdomise (瑞士) AG
-    对于因在币安钱包中保存加密货币而造成的任何损害不承担任何责任。
+  warn: 這些風險包括轉移到Binance錢包中的加密貨幣的重大或全部損失風險。創建錢包以使用Wisdomise的服務，即表示您同意承擔所有與在Binance錢包中持有加密貨幣相關的風險。Wisdomise
+    (Switzerland) AG對於與在Binance錢包中持有加密貨幣相關的任何損害不承擔任何責任。
 fp-activation:
-  btn-continue: 继续
-  btn-create-fp: 创建金融产品
-  btn-start: 开始您的金融产品
-  choose-your-wallet: 选择您的钱包以继续：
+  btn-continue: 繼續
+  btn-create-fp: 創建金融產品
+  btn-start: 開始您的金融產品
+  choose-your-wallet: 選擇您的錢包以繼續：
   congratulations: 恭喜！
-  created-success: 您的金融产品已创建。
-  max-investment: 最大投资
-  min-investment: 最低投资
+  created-success: 您的金融產品已創建。
+  max-investment: 最大投資
+  min-investment: 最小投資
   not-enough-balance:
-    head: 可用余额不足。
-    hint: 要运行此产品，您至少需要 {{minInvestment}} USDT。
-  video-into-title: 如何添加币安钱包
-  your-wallet: 你的钱包
+    head: 可用餘額不足。
+    hint: 要運行此產品，您至少需要{{minInvestment}} USDT。
+  video-into-title: 如何添加Binance錢包
+  your-wallet: 您的錢包
 fpi-page:
-  title: 金融产品详情
+  title: 金融產品詳情
 info:
   performance:
-    info: 反映投资的历史回报。高绩效表明过去的业绩强劲，但并不能保证未来的业绩。
-    title: 表现
+    info: 反映了投資的歷史回報。高性能表示過去的結果良好，但不保證未來的表現。
+    title: 表現
   risk:
-    info: 评估此投资的财务损失可能性。风险水平越高，回报越高，但损失的可能性也越大。
-    title: 风险
+    info: 評估此投資中潛在的財務損失。較高的風險通常提供較高的回報，但也有更大的損失機會。
+    title: 風險
   side:
-    futures: 长短
-    info: 描述交易策略方法。“多头”指预期价格上涨而买入资产，而“空头”指预期价格下跌而卖出资产。
-    spot: 长的
-    title: 边
+    futures: 多頭與空頭
+    info: 描述交易策略的方式。“多頭”涉及預期價格上升時購買資產，而“空頭”涉及預期價格下跌時賣出資產。
+    spot: 多頭
+    title: 方向
   volatility:
-    considerable: 大量
-    info: 衡量给定收益条件下投资价格上涨或下跌的速度。中等波动率表示价格波动幅度较小。
+    considerable: 相當大
+    info: 衡量投資價格在特定回報下增加或減少的速度。適度的波動性表示價格波動不太劇烈。
     minimal: 最小
-    moderate: 缓和
-    title: 挥发性
+    moderate: 中等
+    title: 波動性
 list:
-  add-new: 添加金融产品
-  aum-in: 资产管理规模 {{title}}
-  btn-details: 细节
-  description: 借助人工智能驱动的加密货币交易机器人，可以根据先进的算法和模式自动买卖加密货币，从而最大限度地提高您的利润。
-  of-total-balance: 总余额
-  title: 您的活跃金融产品
+  add-new: 添加金融產品
+  aum-in: 管理資產在{{title}}
+  btn-details: 詳情
+  description: 利用AI驅動的加密貨幣交易機器人自動購買和賣出加密貨幣，根據高級算法和模式最大化您的利潤。
+  of-total-balance: 總餘額的
+  title: 您的活躍金融產品
 notification-activated:
-  btn-dashboard: 转至仪表板
-  btn-kyc: 前往实名认证
-  kyc-notice: 但请注意，只要您尚未验证您的账户，我们最多只能使用您钱包中的 1000 美元进行交易。
-  message: 感谢您对我们的信任。您现在可以将任意金额存入您的账户并激活任何 AI 驱动的策略。
-  title: 恭喜！
+  btn-dashboard: 前往儀表板
+  btn-kyc: 前往KYC
+  kyc-notice: 但是請注意，只要您尚未驗證您的帳戶，我們最多只會使用您的1000美元錢包進行交易。
+  message: 感謝您的信任。您現在可以存入任何金額到您的帳戶，並激活任何AI驅動的策略。
+  title: 恭喜
 notification-deactivated:
   message: 策略停用成功！
 onboarding:
   sec-1:
-    content: 使用我们的人工智能自动交易器进入自动交易的世界。视频将展示我们的人工智能如何利用趋势分析和市场数据来管理您的投资。锁定您的资产至少三个月以获得最佳表现。探索我们的免费“高风险大师”产品，或通过“投资订阅”进一步探索以访问我们的全套金融产品。
-    title: 人工智能驱动的自动交易者：保障你的未来
+    content: <0><0><0>加密貨幣精通助手：</0>我們的聊天機器人是您的隨需加密貨幣專家，具備即時訪問數百個數據來源的能力。</0><1><0>靈活查詢：</0>使用現成的提示或創建您自己的問題，以探索廣闊的加密貨幣世界。</1></0><1></1>與我們的聊天機器人互動，輕鬆自信地駕馭複雜的加密市場。
+    title: 問問題，學習，探索
   sec-2:
-    content: <0><0><0>专业产品：</0> 参与为特定加密货币设计的金融产品。</0><1><0>风险与年利率：</0>
-      平衡您的风险承受能力和每种产品的预期 APY 范围。</1></0>
-    title: 选择硬币并预测收益
+    content: <0><0><0>無所不在的圖標：</0>在我們網站的每個角落尋找聊天機器人圖標，以便快速獲得幫助。</0><1><0>智能集成：</0>在未來的更新中，期待個性化的分析和指導，指導功能使用和產品旅程。</1></0><1></1>我們的聊天機器人隨著您一起進化，今天提供快速訪問，明天提供更智能的見解。
+    title: 永遠在那，永遠警覺
   sec-3:
-    content: <0><0><0>交换连接：</0> 使用您的 API 密钥无缝连接您的交易账户。</0><1><0>产品激活：</0>
-      按照我们详细的视频指南，通过添加您的交易钱包来激活您选择的金融产品。通过我们的分步激活流程轻松开启您的自动交易之旅。</1><2>用于解释如何连接他们的
-      binance API 的视频框</2></0>
-    title: 开始使用您的金融产品
+    content: <0><0><0>聚焦探索：</0>深入特定的對話，看看人們對您感興趣的幣種說些什麼。</0><1><0>社區驅動的數據：</0>建議我們掃描新的Telegram頻道或X/Reddit帳號。通過提供您喜好的資源來幫助我們幫助您塑造社交掃描器。</1></0><1></1>利用加密貨幣社群的集體智慧來指導您的交易策略。
+    title: 為您量身定制的社交見解
   sec-4:
-    content: <0><0><0>资产概览访问：</0> 一旦激活，您可以在资产概览部分监控您的金融产品的表现。</0><1><0>损益更新：</0>
-      随时了解实时损益更新情况。</1><2><0>职位历史：</0>
-      查看交易历史，了解产品的市场动向。密切关注您的投资，并根据全面的见解做出明智的决策。</2></0>
-    title: 追踪您的财务成功
+    content: <0><0><0>資產概覽訪問：</0>激活後，您可以在資產概覽部分監控您的金融產品表現。</0><1><0>盈虧更新：</0>通過實時盈虧更新隨時掌握資訊。</1><2><0>持倉歷史：</0>查看交易歷史，以了解您的產品在市場中的動態。透過全面的洞察，密切關注您的投資，並做出明智的決策。</2></0>
+    title: 成功追蹤您的財務
 product-catalog:
-  btn-details: 详细内容
+  btn-details: 詳情
   btn-explore: 探索
-  description: 您对任何可用策略的投资都将具有流动性，这意味着您的资产不会被锁定，并且可以随时释放。不同策略的预期投资回报率、最大回撤和交易数量仅供参考，绝不是对这些指标的保证或确认。最终，金融市场的投资总是会带来风险和波动，而我们最先进的人工智能模型只能在一定程度上减轻这些风险和波动。享受通过我们专有的人工智能积累财富的乐趣！
-  empty-message: 您还没有创建任何产品。
+  description: 您在任何可用策略中的投資都是流動的，這意味著您的資產不會被鎖定，隨時可以釋放。對於不同策略所展示的預期回報率、最大回撤和交易次數僅作為參考，絕不構成對這些指標的保證或確認。最終，在金融市場中投資總是伴隨著自身的風險和波動性，而我們最先進的AI模型只能在一定程度上緩解這些風險。享受使用我們的專有AI積累財富的過程！
+  empty-message: 您尚未創建任何產品，或者它們尚未啟動。
   stake:
-    description: 探索领先的 DeFi 协议，展示质押池、TVL 和最大 APY。选择一个协议以获得详细的解释和见解。
-    title: DeFi 质押选项
-  state-running: 运行中
-  title: 人工智能驱动策略
+    description: 探索領先的DeFi協議，展示質押池、總鎖倉價值（TVL）和最大年收益率（APY）。選擇一個協議以獲取詳細說明和見解。
+    title: DeFi 質押選項
+  state-running: 運行中
+  title: AI 驅動策略
   trade:
-    description: 灵活投资——您的资产保持流动性，可以随时提取。回报、回撤和交易数量均为估计值，而非保证值。尽管我们先进的人工智能可以缓解风险，但市场风险仍然存在。利用我们的人工智能技术增加您的财富。
-    title: 人工智能驱动策略
+    description: 靈活投資—您的資產保持流動，可以隨時提取。回報、回撤和交易次數僅為估計，並非保證。儘管我們的先進AI能減少風險，但市場風險依然存在。利用我們的AI技術來增長您的財富。
+    title: AI 驅動策略
 product-detail:
-  disclaimer: 本网站包含前瞻性陈述。此类前瞻性陈述基于 Wisdomise (Switzerland) AG
-    目前认为合理的估计、假设和假设。这些前瞻性陈述本质上受到与未来事件相关的风险和不确定性的影响。因此，实际事件（包括加密货币的表现）可能与预测存在重大差异。您还应该注意，过去的事件和结果并不能保证未来的事件或结果。
-    Wisdomise (Switzerland) AG
-    或任何其他人不保证本网站所描述的发展将会发生。因此，用户不应仅根据本网站上表达的前瞻性陈述来做出有关 Wisdomise（瑞士）AG
-    所提供服务的投资决定。
-  expected-apy: 预期年收益
-  expected-max-drawdown: 预期最大回撤
-  expected-yield-apy: 预期收益率 (APY)
-  investment: 私募
-  max: 最大限度
-  max-apy: 最大年收益
+  disclaimer: 本網站包含前瞻性陳述。這些前瞻性陳述基於Wisdomise (Switzerland)
+    AG當前認為合理的估計、假設和推測。這些前瞻性陳述本質上涉及未來事件的風險和不確定性。因此，包括加密貨幣表現在內的實際事件可能與預測結果有重大差異。您還應該注意，過去的事件和結果不能保證未來的事件或結果。Wisdomise
+    (Switzerland) AG或任何其他人都不保證本網站中描述的發展將會發生。因此，使用者不應僅根據本網站上表達的前瞻性陳述來做出與Wisdomise
+    (Switzerland) AG提供的服務有關的投資決策。
+  expected-apy: 預期年收益率（APY）
+  expected-max-drawdown: 預期最大回撤
+  expected-yield-apy: 預期收益（年收益率APY）
+  investment: 投資
+  max: 最大
+  max-apy: 最大年收益率（APY）
   max-drawdown: 最大回撤
   min: 最小
-  min-subscription-level: 可用 <1>{{minPlan}}</1> 计划。
+  min-subscription-level: 可用於<1>{{minPlan}}</1>計劃。
   risk:
-    high: 高的
-    label: "{{risk}} 风险"
-    low: 低的
-    medium: 中等的
-  tvl: TVL
+    high: 高
+    label: "{{risk}}風險"
+    low: 低
+    medium: 中等
+  tvl: 總鎖倉價值（TVL）
   type:
-    mine: 我的产品
-    stake: 质押
+    mine: 我的產品
+    stake: 質押
     trade: 交易
 status:
   draft: 草稿
-  paused: 已暂停
-  running: 运行中
-  title: 地位
+  paused: 已暫停
+  running: 運行中
+  title: 狀態
 subscription:
   subscribe:
-    btn-confirm: 订阅
-    description: 要激活产品，您需要 <1>订阅</1> 给我们的 <3>Wisdomise Expert</3> 方案。
-    title: 订阅
+    btn-confirm: 訂閱
+    description: 要啟動此產品，您需要<1>訂閱</1>我們的<3>{{minPlan}}</3>計劃。
+    title: 訂閱
   upgrade:
-    btn-confirm: 升级
-    description: 要使用本产品，您需要 <1>升级</1> 您订阅 <4>{{minPlan}}</4>。
-    subtitle: 您当前的订阅不包括您要激活的产品。
-    title: 升级订阅
-user-product: 我的产品
+    btn-confirm: 升級
+    description: 要使用此產品，您需要<1>升級</1>您的訂閱到<4>{{minPlan}}</4>。
+    subtitle: 您當前的訂閱不包括您想要啟動的產品。
+    title: 升級訂閱
+user-product: 我的產品
 wait-list:
-  btn-explore: 探索见解
-  btn-join: 加入候补名单
-  description-1: 我们的自动加密货币被动收入功能目前已满负荷运行，以确保为用户提供持续的性能。我们所有的 AI
-    基金都已达到投资上限，但我们很高兴地宣布，我们将很快重新开放下一批基金，包括新功能。为了确保您的位置，请按照先到先得的原则加入我们的专属候补名单。
-  description-2: 当投资机会重新开放时，我们会通知您。同时，我们鼓励您探索我们的专有洞察功能，以保持领先地位并继续享受高收益。谢谢！
-  notif-success: 您已成功加入等候名单。
-  title: 容量特征
+  btn-explore: 探索見解
+  btn-join: 加入等候名單
+  description-1: 我們的自動化加密被動收入功能目前已滿員，以確保為我們的用戶持續提供高性能。我們所有的AI資金都已達到投資上限，但我們很高興地宣布，我們很快將重新開放下一批資金，並包括新功能。為確保您的席位，請加入我們的獨家等候名單，先到先得。
+  description-2: 我們將在投資機會重新開放時通知您。同時，我們鼓勵您探索我們的專有見解功能，保持市場領先，繼續享受高收益。謝謝！
+  notif-success: 您已成功加入等候名單。
+  title: 功能已達滿員

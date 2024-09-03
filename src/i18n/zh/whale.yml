@@ -1,48 +1,49 @@
 filters:
-  all-chains: 所有链
-  search-whale: 搜索鲸鱼
-  wallet: 通过钱包地址搜索
+  all-chains: 所有鏈
+  search-whale: 搜尋巨鯨
+  wallet: 通過錢包地址搜尋
 sections:
   top-coins:
     filters:
-      1d: 24小时
-      30d: 30D
-      7d: 7D
-    subtitle: 查看鲸鱼交易最多的货币，按交易量和频率排名。
+      1d: 24小時
+      30d: 30天
+      7d: 7天
+    subtitle: 查看由巨鯨交易量和頻率排序的最受交易幣種。
     table:
-      24h_chg: 24小时价格变化
-      coin: 发现硬币
-      price: 价格
-      rank: 秩
-      total-vol: 总交易量
-      transactions: 鲸鱼交易
-    title: 顶级鲸鱼币
-  top-gainers: 鲸鱼涨幅最大的股票
-  top-losers: 鲸鱼最大的输家
+      24h_chg: 24小時價格變動
+      coin: 發現幣種
+      price: 價格
+      rank: 排名
+      total-vol: 總交易量
+      transactions: 巨鯨交易
+    title: 最佳巨鯨幣
+  top-gainers: 巨鯨中漲幅最大的
+  top-losers: 巨鯨中跌幅最大的
   top-whales:
     filters:
-      1d: 24小时
-      30d: 30D
-      7d: 7D
-    subtitle: 发现区块链中最富有的地址（鲸鱼）
+      1d: 24小時
+      30d: 30天
+      7d: 7天
+    subtitle: 探索區塊鏈中最富有的地址（巨鯨）
     table:
-      network: 网络
-      pnl_percent: 盈亏百分比
-      rank: 秩
-      total_worth: 总价值
+      network: 網路
+      pnl_percent: 盈虧百分比
+      rank: 排名
+      total_worth: 總價值
       trades: 交易
-      wallet-address: 钱包地址
-    title: 顶级鲸鱼名单
+      wallet-address: 錢包地址
+    title: 巨鯨排行榜
   whale-coins:
     table:
-      amount: 持有数量
-      asset: 资产
-      pnl: 盈亏平衡
-      price: 价格
-      worth: 总价值
+      amount: 持有數量
+      asset: 資產
+      pnl: 盈虧
+      price: 價格
+      worth: 總價值
   whale-info:
-    realized-pnl: 已实现盈亏
-    realized-pnl-info: <b>已实现盈亏</b><p>已实现盈亏 (PNL)
-      表示已完成交易的实际盈利或亏损。它反映了已售资产的买入价与卖出价之间的差额。此指标可帮助您了解交易活动的实际收益或损失。</p>
-    unrealized-pnl: 未实现盈亏
-    unrealized-pnl-info: <b>未实现盈亏</b><p>未实现盈亏（PNL）代表目前持有的尚未出售的资产的潜在利润或损失。它反映了这些资产的当前市场价值与购买价格之间的差额。此指标可帮助您根据当前市场价格衡量所持资产的表现。</p>
+    realized-pnl: 實現盈虧
+    realized-pnl-info: 已實現盈虧（Profit and
+      Loss）代表完成交易後的實際利潤或損失。它反映了已售資產的購買價格與出售價格之間的差異。此指標幫助您理解交易活動中的實際收益或損失。
+    unrealized-pnl: 未實現盈虧
+    unrealized-pnl-info: 未實現盈虧（Profit and
+      Loss）代表當前持有但尚未出售的資產的潛在利潤或損失。它反映了這些資產的當前市場價值與購買價格之間的差異。此指標幫助您根據當前市場價格評估持有資產的表現。

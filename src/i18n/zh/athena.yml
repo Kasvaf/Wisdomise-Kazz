@@ -1,39 +1,33 @@
-answer: 回答
-athena-bot: Athena Bot!
+answer: 答案
+athena-bot: 雅典娜機器人！
 bot-alert:
-  freemium-stage: |-
-    "你正处于 <1>免费使用阶段</1> 可以提出任何与加密货币相关的问题，我将为您提供答案和相关资讯栏
-    ，让您享受更好的体验。 <4>目前涵盖ETH、BTC、LTC、XRP、ADA、BNB、TRX币种。</4>"
-  loving-athena: >-
-    "您最多可以免费询问 <1>{{athenaQuestionsCount}} 个问题</1>
-    ，因此请明智地使用它们！如有更多问题，您可以订阅我们任何方案
-
-    。您可以在聊天框中输入您的问题或使用答案末尾附加的相关问题。"
-  message-limit: 您已用完 Athena 聊天机器人的问题额度。要继续使用聊天机器人，请升级到更高的订阅级别。
-  pro-version: 您已用完问题额度。订阅即可解锁更多提问数、酷炫的工具栏和 Athena 创新功能的机会。
-  subscribe-congratulations: 您已订阅我们的计划之一。享受使用 Athena 的乐趣，并提出有关加密货币世界裡白皮书、AI 策划的价格预测、市场分析等的问题！
-box-ask-athena: 向 Athena 询问有关加密货币的任何问题
-enjoy-remain-question_other: 享受你剩下的 {{leftQuestions}} 提问
-generate: 产生
+  freemium-stage: 您目前處於<1>免費使用階段</1>，可以隨時提問有關加密貨幣的任何問題，我將為您提供答案並提供相關的小工具，以便您獲得更好的體驗。<4>目前涵蓋的幣種包括
+    ETH、BTC、LTC、XRP、ADA、BNB、TRX</4>。
+  loving-athena: 您可以免費提問最多 <1>{{athenaQuestionsCount}}
+    次</1>，因此請明智地使用！如需更多提問，您可以訂閱我們的套餐。您可以在聊天框中輸入問題，或使用答案結尾處附加的相關問題。
+  message-limit: 您已達到當前雅典娜聊天機器人計劃允許的最大消息數量。若要繼續不間斷地使用聊天機器人，請升級到更高級的訂閱層級。
+  pro-version: 您已達到免費問題的最大數量。訂閱以解鎖更多問題、炫酷小工具及雅典娜的創新功能。
+  subscribe-congratulations: 您已訂閱我們的其中一個方案。享受使用雅典娜並提出關於加密貨幣世界和白皮書、AI策劃的價格預測、市場分析等問題！
+box-ask-athena: 問雅典娜任何關於加密貨幣的問題
+enjoy-remain-question_one: 享受剩下的{{leftQuestions}}個問題
+enjoy-remain-question_other: 享受剩下的{{leftQuestions}}個問題
+generate: 生成
 heading:
-  second-title: "用人工智能聊天驾驭加密货币 <1></1> "
+  second-title: 使用AI導航加密<1></1>聊天
   second-title-word1: 助理
-  title: Wisdomise Super App
-input-placeholder: 询问您的加密问题
-new-question: 新问题
+  title: Wisdomise超級應用程式
+input-placeholder: 問出您的加密問題
+new-question: 新問題
 onboarding:
   sec-1:
-    content: <0><0><0>加密精明助手：</0> 我们的聊天机器人是您的按需加密专家，可以实时访问数百个数据源。</0><1><0>
-      灵活查询：</0>
-      使用现成的提示或制作自己的问题来探索加密货币的广阔世界。</1></0><1></1>与我们的聊天机器人互动，轻松自信地驾驭复杂的加密市场。
-    title: 询问、学习和发现
+    content: <0><0><0>加密貨幣精通助手：</0>我們的聊天機器人是您的隨需加密貨幣專家，具備即時訪問數百個數據來源的能力。</0><1><0>靈活查詢：</0>使用現成的提示或創建您自己的問題，以探索廣闊的加密貨幣世界。</1></0><1></1>與我們的聊天機器人互動，輕鬆自信地駕馭複雜的加密市場。
+    title: 問問題，學習，探索
   sec-2:
-    content: <0><0><0>无处不在的图标：</0> 在我们网站的每个角落寻找聊天机器人图标以获得快速帮助。</0><1><0>智能集成：</0>
-      在未来的更新中，期待对功能使用和产品旅程的个性化分析和指导。</1></0><1></1>我们的聊天机器人与您一同发展，今天提供快速访问，明天提供更智能的见解。
-    title: 始终存在，始终警觉
-other-sources: 其他来源
-question-limit: 已达到问题上限。 <2>升级您的方案以继续</2>
-related-questions: 相关问题
-resources: 资源
-thinking: 思考中
-trial-limit: <0>试用问题已达到限制， <2>订阅以继续</2></0>
+    content: <0><0><0>無所不在的圖標：</0>在我們網站的每個角落尋找聊天機器人圖標，以便快速獲得幫助。</0><1><0>智能集成：</0>在未來的更新中，期待個性化的分析和指導，指導功能使用和產品旅程。</1></0><1></1>我們的聊天機器人隨著您一起進化，今天提供快速訪問，明天提供更智能的見解。
+    title: 永遠在那，永遠警覺
+other-sources: 其他來源
+question-limit: 達到問題限制。<2>升級您的計劃以繼續</2>
+related-questions: 相關問題
+resources: 資源
+thinking: 正在思考
+trial-limit: <0>達到試用問題限制，<2>訂閱以繼續</2></0>
