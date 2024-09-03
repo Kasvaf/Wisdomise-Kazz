@@ -4,6 +4,7 @@ import { type ColumnType } from 'antd/es/table';
 import { type CoinExchange, useCoinOverview } from 'api';
 import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { OverviewWidget } from 'shared/OverviewWidget';
 
 type ExtendedCoinExchange = CoinExchange & {
   id: string;
@@ -13,7 +14,13 @@ type ExtendedCoinExchange = CoinExchange & {
   rank: number;
 };
 
-export function CoinAvailableExchanges({ slug }: { slug: string }) {
+export function CoinAvailableExchangesWidget({
+  slug,
+  id,
+}: {
+  slug: string;
+  id?: string;
+}) {
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinOverview({ slug });
 
@@ -80,23 +87,22 @@ export function CoinAvailableExchanges({ slug }: { slug: string }) {
         sorter: (a, b) => (a.volume_24h ?? 0) - (b.volume_24h ?? 0),
         render: (_, row) => <ReadableNumber value={row.volume_24h} label="$" />,
       },
-      // {
-      //   title: t('available-exchanges.table.volume_percentage'),
-      //   dataIndex: 'volume_percentage',
-      //   render: (value: number) => (
-      //     <ReadableNumber value={value || 0} label="%" />
-      //   ),
-      // },
     ],
     [t],
   );
 
   return (
-    <Table
-      loading={coinOverview.isLoading}
-      columns={columns}
-      dataSource={data}
-      rowKey={row => row.id}
-    />
+    <OverviewWidget
+      id={id}
+      title={t('coin-details.tabs.markets.title')}
+      subtitle={t('coin-details.tabs.markets.subtitle')}
+    >
+      <Table
+        loading={coinOverview.isLoading}
+        columns={columns}
+        dataSource={data}
+        rowKey={row => row.id}
+      />
+    </OverviewWidget>
   );
 }

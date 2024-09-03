@@ -1,17 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import SetNotification from 'modules/insight/coinRadar/PageCoinRadar/SetNotification';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { useHasFlag } from 'api';
 import bg from './bg.png';
 
-export function AlertBox({ className }: { className?: string }) {
+export function AlertBoxWidget({ className }: { className?: string }) {
   const { t } = useTranslation('notifications');
-
+  const hasFlag = useHasFlag();
+  if (!hasFlag('/insight/coin-radar')) return null;
   return (
-    <div
+    <OverviewWidget
       className={clsx(
-        'flex h-full flex-col items-center justify-between gap-2 overflow-hidden mobile:flex-row-reverse',
+        'bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:h-72',
         className,
       )}
+      contentClassName="h-full flex h-full flex-col items-center justify-between gap-2 overflow-hidden mobile:flex-row-reverse"
     >
       <div className="grow">
         <img
@@ -31,6 +35,6 @@ export function AlertBox({ className }: { className?: string }) {
         </div>
         <SetNotification className="mt-4" />
       </div>
-    </div>
+    </OverviewWidget>
   );
 }

@@ -9,12 +9,14 @@ export function Coin({
   imageClassName,
   nonLink,
   mini,
+  truncate = true,
 }: {
   coin: CoinType;
   className?: string;
   imageClassName?: string;
   nonLink?: boolean;
   mini?: boolean;
+  truncate?: boolean;
 }) {
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2',
@@ -36,15 +38,29 @@ export function Coin({
           }),
         }}
       />
-      <div className="max-w-40 shrink grow leading-snug">
-        {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
-        <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+      <div
+        className={clsx(
+          'shrink grow leading-snug',
+          truncate && 'max-w-[110px]',
+        )}
+      >
+        <div
+          className={clsx(
+            truncate && 'overflow-hidden text-ellipsis',
+            'whitespace-nowrap',
+          )}
+        >
           {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
         </div>
         {!mini && coin.abbreviation && (
           <>
             {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
-            <div className="overflow-hidden text-ellipsis whitespace-nowrap text-[80%] opacity-70">
+            <div
+              className={clsx(
+                truncate && 'overflow-hidden text-ellipsis',
+                'whitespace-nowrap text-[80%] opacity-70',
+              )}
+            >
               {coin.abbreviation ?? ''}
             </div>
           </>

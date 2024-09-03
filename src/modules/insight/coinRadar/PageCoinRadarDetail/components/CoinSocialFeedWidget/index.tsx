@@ -18,6 +18,7 @@ import {
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as RedditIcon } from './images/reddit.svg';
 import { ReactComponent as TwitterIcon } from './images/twitter.svg';
@@ -47,16 +48,20 @@ function SocialTabTitle({
   );
 }
 
-export function CoinSocialFeed({
-  className,
+export function CoinSocialFeedWidget({
+  id,
   slug,
   socials,
   pageSize,
+  title,
+  subtitle,
 }: {
-  className?: string;
+  id?: string;
   slug: string;
   socials: Array<SocialMessageType['social_type']>;
   pageSize: number;
+  title?: string;
+  subtitle?: string;
 }) {
   const messages = useSocialMessages(slug);
   const { t } = useTranslation('coin-radar');
@@ -150,7 +155,12 @@ export function CoinSocialFeed({
   }, [activeTab, pageSize]);
 
   return (
-    <div className={clsx(!messages.data && 'animate-pulse blur-sm', className)}>
+    <OverviewWidget
+      className={clsx(!messages.data && 'animate-pulse')}
+      id={id}
+      title={title ?? t('coin-details.tabs.socials.title')}
+      subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
+    >
       <div className="max-w-full overflow-auto">
         {tabs.length > 1 && (
           <ButtonSelect
@@ -198,6 +208,6 @@ export function CoinSocialFeed({
           </Button>
         </div>
       )}
-    </div>
+    </OverviewWidget>
   );
 }

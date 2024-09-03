@@ -9,17 +9,13 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { SignalSentiment } from 'shared/SignalSentiment';
 import { CoinSignalPnl } from 'shared/CoinSignalPnl';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { SeeMoreLink } from './SeeMoreLink';
 
-export function HotCoinsTable() {
+export function HotCoinsWidget({ className }: { className?: string }) {
   const { t } = useTranslation('coin-radar');
-
-  const signals = useCoinSignals({
-    meta: {
-      windowHours: 24,
-    },
-  });
-
   const hasFlag = useHasFlag();
+  const signals = useCoinSignals();
 
   const columns = useMemo<Array<TableColumnType<CoinSignal>>>(
     () => [
@@ -66,13 +62,21 @@ export function HotCoinsTable() {
     [t, hasFlag],
   );
 
+  if (!hasFlag('/insight/coin-radar')) return null;
+
   return (
-    <Table
-      loading={signals.isLoading}
-      columns={columns}
-      dataSource={signals.data?.slice(0, 6) ?? []}
-      rowKey="symbol_name"
-      pagination={false}
-    />
+    <OverviewWidget
+      title={t('coin-radar:hot-coins-section.title')}
+      headerActions={<SeeMoreLink to="/insight/coin-radar" />}
+      className={className}
+    >
+      <Table
+        loading={signals.isLoading}
+        columns={columns}
+        dataSource={signals.data?.slice(0, 6) ?? []}
+        rowKey="symbol_name"
+        pagination={false}
+      />
+    </OverviewWidget>
   );
 }

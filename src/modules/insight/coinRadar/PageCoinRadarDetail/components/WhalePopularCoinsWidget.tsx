@@ -6,8 +6,9 @@ import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Table from 'shared/Table';
+import { OverviewWidget } from 'shared/OverviewWidget';
 
-export function WhalePopularCoins(_: { slug: string }) {
+export function WhalePopularCoinsWidget(_: { slug: string }) {
   const { t } = useTranslation('coin-radar');
 
   const coins = useWhalesCoins({
@@ -42,12 +43,14 @@ export function WhalePopularCoins(_: { slug: string }) {
   );
 
   return (
-    <Table
-      columns={columns}
-      dataSource={coins.data?.results}
-      rowKey={row => JSON.stringify(row.symbol)}
-      loading={coins.isLoading}
-      pagination={false}
-    />
+    <OverviewWidget title={t('coin-details.tabs.whale_popular.title')}>
+      <Table
+        columns={columns}
+        dataSource={coins.data?.results}
+        rowKey={row => JSON.stringify(row.symbol)}
+        loading={coins.isLoading}
+        pagination={false}
+      />
+    </OverviewWidget>
   );
 }

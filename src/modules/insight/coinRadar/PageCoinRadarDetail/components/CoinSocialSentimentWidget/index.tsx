@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { useCoinSignals } from 'api';
+import { useCoinSignals, useHasFlag } from 'api';
 import { SignalSentiment } from 'shared/SignalSentiment';
+import { OverviewWidget } from 'shared/OverviewWidget';
 import { SentimentGuage } from './SentimentGuage';
 import { ReactComponent as Logo } from './logo.svg';
 
-export function CoinSocialSentiment({
+export function CoinSocialSentimentWidget({
   className,
   slug,
 }: {
@@ -14,10 +15,12 @@ export function CoinSocialSentiment({
 }) {
   const { t } = useTranslation('coin-radar');
   const signals = useCoinSignals();
+  const hasFlag = useHasFlag();
   const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
-  if (!coinSignal) return null;
+  if (!coinSignal || !hasFlag('/insight/coin-radar?side-suggestion'))
+    return null;
   return (
-    <div className={clsx(!coinSignal && 'animate-pulse blur-sm', className)}>
+    <OverviewWidget className={clsx(!coinSignal && 'animate-pulse', className)}>
       <div className="text-center">
         <Logo className="mx-auto size-4" />
         <p className="mt-3 text-xs">
@@ -36,6 +39,6 @@ export function CoinSocialSentiment({
           {t('coin-details.tabs.social_sentiment.footer')}
         </p>
       </div>
-    </div>
+    </OverviewWidget>
   );
 }

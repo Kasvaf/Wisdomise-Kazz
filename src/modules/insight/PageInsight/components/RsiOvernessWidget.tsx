@@ -4,21 +4,43 @@ import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import { RsiNumber } from 'shared/RsiNumber';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { useHasFlag } from 'api';
+import { SeeMoreLink } from './SeeMoreLink';
 
-export function RsiOvernessTable({
+export function RsiOvernessWidget({
   type,
+  className,
 }: {
   type: keyof RsiOvernessResponse;
+  className?: string;
 }) {
   const { t } = useTranslation('market-pulse');
   const overness = useRsiOverness();
+  const hasFlag = useHasFlag();
+
+  if (!hasFlag('/insight/market-pulse')) return null;
 
   return (
-    <div className="flex flex-col gap-4">
+    <OverviewWidget
+      title={
+        type === 'over_sold'
+          ? t('indicator_list.rsi.oversold-full-title')
+          : t('indicator_list.rsi.overbought-full-title')
+      }
+      info={
+        type === 'over_sold'
+          ? t('indicator_list.rsi.oversold-info')
+          : t('indicator_list.rsi.overbought-info')
+      }
+      className={className}
+      contentClassName="flex flex-col gap-4"
+      headerActions={<SeeMoreLink to="/insight/market-pulse" />}
+    >
       {overness.data?.data[type].slice(0, 5).map((row, idx) => (
         <div
           key={`${row.candle_base_abbreviation}-${idx}`}
-          className="flex flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
+          className="flex shrink-0 flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
         >
           <div className="flex items-center justify-between">
             <Coin
@@ -58,6 +80,6 @@ export function RsiOvernessTable({
           </div>
         </div>
       ))}
-    </div>
+    </OverviewWidget>
   );
 }

@@ -1,18 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { useHasFlag } from 'api';
-import { HotCoinsTable } from './HotCoinsTable';
-import { TopWhaleListTable } from './TopWhaleListTable';
-import { TopWhaleCoinsTable } from './TopWhaleCoinsTable';
-import { RsiOvernessTable } from './RsiOvernessTable';
-import { SeeMoreLink } from './SeeMoreLink';
-import { AlertBox } from './AlertBox';
+import { HotCoinsWidget } from './components/HotCoinsWidget';
+import { AlertBoxWidget } from './components/AlertBoxWidget';
+import { TopWhaleCoinsWidget } from './components/TopWhaleCoinsWidget';
+import { TopWhaleListWidget } from './components/TopWhaleListWidget';
+import { RsiOvernessWidget } from './components/RsiOvernessWidget';
 
 const PageInsight = () => {
   const { t } = useTranslation();
-  const hasFlag = useHasFlag();
 
   return (
     <PageWrapper>
@@ -23,63 +19,18 @@ const PageInsight = () => {
       />
 
       <div className="grid grid-cols-6 gap-6">
-        {hasFlag('/insight/coin-radar') && (
-          <OverviewWidget
-            className="col-span-4 mobile:col-span-full"
-            title={t('coin-radar:hot-coins-section.title')}
-            headerActions={<SeeMoreLink to="/insight/coin-radar" />}
-          >
-            <HotCoinsTable />
-          </OverviewWidget>
-        )}
-        {hasFlag('/insight/coin-radar') && (
-          <OverviewWidget
-            className="col-span-2 bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:order-first mobile:col-span-full mobile:h-72"
-            contentClassName="h-full"
-          >
-            <AlertBox />
-          </OverviewWidget>
-        )}
-        {hasFlag('/insight/whales') && (
-          <OverviewWidget
-            className="col-span-2 max-h-[470px] mobile:col-span-full"
-            title={t('whale:sections.top-coins.title')}
-            info={t('whale:sections.top-coins.subtitle')}
-            headerActions={<SeeMoreLink to="/insight/whales" />}
-          >
-            <TopWhaleCoinsTable />
-          </OverviewWidget>
-        )}
-        {hasFlag('/insight/whales') && (
-          <OverviewWidget
-            className="col-span-4 mobile:col-span-full"
-            title={t('whale:sections.top-whales.title')}
-            info={t('whale:sections.top-whales.subtitle')}
-            headerActions={<SeeMoreLink to="/insight/whales" />}
-          >
-            <TopWhaleListTable />
-          </OverviewWidget>
-        )}
-        {hasFlag('/insight/market-pulse') && (
-          <OverviewWidget
-            className="col-span-3 max-h-[470px] mobile:col-span-full "
-            title={t('market-pulse:indicator_list.rsi.oversold-full-title')}
-            info={t('market-pulse:indicator_list.rsi.oversold-info')}
-            headerActions={<SeeMoreLink to="/insight/market-pulse" />}
-          >
-            <RsiOvernessTable type="over_sold" />
-          </OverviewWidget>
-        )}
-        {hasFlag('/insight/market-pulse') && (
-          <OverviewWidget
-            className="col-span-3 max-h-[470px] mobile:col-span-full "
-            title={t('market-pulse:indicator_list.rsi.overbought-full-title')}
-            info={t('market-pulse:indicator_list.rsi.overbought-info')}
-            headerActions={<SeeMoreLink to="/insight/market-pulse" />}
-          >
-            <RsiOvernessTable type="over_bought" />
-          </OverviewWidget>
-        )}
+        <HotCoinsWidget className="col-span-4 mobile:col-span-full" />
+        <AlertBoxWidget className="col-span-2 mobile:order-first mobile:col-span-full" />
+        <TopWhaleCoinsWidget className="col-span-2 max-h-[470px] mobile:col-span-full" />
+        <TopWhaleListWidget className="col-span-4 mobile:col-span-full" />
+        <RsiOvernessWidget
+          className="col-span-3 max-h-[470px] mobile:col-span-full"
+          type="over_sold"
+        />
+        <RsiOvernessWidget
+          className="col-span-3 max-h-[470px] mobile:col-span-full"
+          type="over_bought"
+        />
       </div>
     </PageWrapper>
   );

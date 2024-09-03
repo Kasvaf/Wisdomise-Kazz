@@ -3,6 +3,7 @@ import { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { OverviewWidget } from 'shared/OverviewWidget';
 
 function StatRow({
   className,
@@ -32,7 +33,7 @@ function StatRow({
   );
 }
 
-export function CoinPricePerformance({
+export function CoinPricePerformanceWidget({
   className,
   slug,
 }: {
@@ -57,12 +58,9 @@ export function CoinPricePerformance({
   }, [coinOverview.data]);
 
   return (
-    <div
-      className={clsx(
-        !coinOverview.data && 'animate-pulse blur-sm',
-        'flex flex-col gap-8 overflow-visible text-xs',
-        className,
-      )}
+    <OverviewWidget
+      className={clsx(!coinOverview.data && 'animate-pulse', className)}
+      contentClassName="flex flex-col gap-8 overflow-visible text-xs"
     >
       <div>
         <p className=" text-v1-content-primary">
@@ -105,6 +103,6 @@ export function CoinPricePerformance({
       <StatRow label={t('coin-details.tabs.price_performance.atl')}>
         <ReadableNumber value={coinOverview.data?.data?.atl} label="$" />
       </StatRow>
-    </div>
+    </OverviewWidget>
   );
 }

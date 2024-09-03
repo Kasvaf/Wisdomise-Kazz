@@ -1,36 +1,27 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import {
-  useCoinOverview,
-  useCoinSignals,
-  useHasFlag,
-  useSocialMessages,
-} from 'api';
+import { useCoinOverview, useCoinSignals, useSocialMessages } from 'api';
 import Tabs from 'shared/Tabs';
-import { CoinPrice } from './components/CoinPrice';
-import { CoinSocialFeed } from './components/CoinSocialFeed';
-import { CoinStats } from './components/CoinStats';
-import { CoinCandleChart } from './components/CoinCandleChart';
-import { CoinAvailableExchanges } from './components/CoinAvailableExchanges';
-import { CoinSocialSentiment } from './components/CoinSocialSentiment';
-import { CoinPricePerformance } from './components/CoinPricePerformance';
-import { TopCoins } from './components/TopCoins';
-import { WhalePopularCoins } from './components/WhalePopularCoins';
 import { useScrollPointTabs } from './hooks/useScrollPointTabs';
-import { ReactComponent as TradingViewIcon } from './components/CoinSocialFeed/images/trading_view.svg';
+import { ReactComponent as TradingViewIcon } from './components/CoinSocialFeedWidget/images/trading_view.svg';
+import { CoinPriceWidget } from './components/CoinPriceWidget';
+import { CoinStatsWidget } from './components/CoinStatsWidget';
+import { CoinSocialSentimentWidget } from './components/CoinSocialSentimentWidget';
+import { CoinPricePerformanceWidget } from './components/CoinPricePerformanceWidget';
+import { TopCoinsWidget } from './components/TopCoinsWidget';
+import { WhalePopularCoinsWidget } from './components/WhalePopularCoinsWidget';
+import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
+import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
+import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
 
 export default function PageCoinRadarDetail() {
   const { t } = useTranslation('coin-radar');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
-
-  const hasFlag = useHasFlag();
   const messages = useSocialMessages(slug);
   const coinOverview = useCoinOverview({ slug });
   const signals = useCoinSignals();
-  const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
 
   const scrollPointTabs = useScrollPointTabs(
     [
@@ -66,69 +57,38 @@ export default function PageCoinRadarDetail() {
     >
       <div className="grid grid-cols-3 gap-6">
         <div className="col-span-1 flex flex-col gap-6 mobile:col-span-full">
-          <OverviewWidget>
-            <CoinPrice slug={slug} />
-          </OverviewWidget>
-          <OverviewWidget>
-            <CoinStats slug={slug} />
-          </OverviewWidget>
-          {coinSignal && hasFlag('/insight/coin-radar?side-suggestion') && (
-            <OverviewWidget>
-              <CoinSocialSentiment slug={slug} />
-            </OverviewWidget>
-          )}
-          <OverviewWidget>
-            <CoinPricePerformance slug={slug} />
-          </OverviewWidget>
-          <OverviewWidget title={t('coin-details.tabs.trending_coins.title')}>
-            <TopCoins slug={slug} />
-          </OverviewWidget>
-          <OverviewWidget title={t('coin-details.tabs.whale_popular.title')}>
-            <WhalePopularCoins slug={slug} />
-          </OverviewWidget>
+          <CoinPriceWidget slug={slug} />
+          <CoinStatsWidget slug={slug} />
+          <CoinSocialSentimentWidget slug={slug} />
+          <CoinPricePerformanceWidget slug={slug} />
+          <TopCoinsWidget slug={slug} />
+          <WhalePopularCoinsWidget slug={slug} />
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
           <Tabs
             className="sticky top-0 z-50 bg-page mobile:hidden"
             {...scrollPointTabs}
           />
-          <OverviewWidget
-            id="coinoverview_chart"
-            title={t('coin-details.tabs.chart.title')}
-            contentClassName="min-h-[600px] overflow-hidden"
-            className="col-span-2 mobile:col-span-full"
-          >
-            <CoinCandleChart slug={slug} />
-          </OverviewWidget>
-          <OverviewWidget
+
+          <CoinCandleChartWidget slug={slug} id="coinoverview_chart" />
+          <CoinSocialFeedWidget
             id="coinoverview_socials"
-            title={t('coin-details.tabs.socials.title')}
-            subtitle={t('coin-details.tabs.socials.subtitle')}
-          >
-            <CoinSocialFeed
-              slug={slug}
-              socials={['reddit', 'telegram', 'twitter']}
-              pageSize={4}
-            />
-          </OverviewWidget>
-          <OverviewWidget
+            slug={slug}
+            socials={['reddit', 'telegram', 'twitter']}
+            pageSize={4}
+          />
+          <CoinAvailableExchangesWidget
+            slug={slug}
             id="coinoverview_exchanges"
-            title={t('coin-details.tabs.markets.title')}
-            subtitle={t('coin-details.tabs.markets.subtitle')}
-            className="col-span-2 mobile:col-span-full"
-          >
-            <CoinAvailableExchanges slug={slug} />
-          </OverviewWidget>
-          <OverviewWidget
+          />
+          <CoinSocialFeedWidget
             id="coinoverview_trading_view"
+            slug={slug}
+            socials={['trading_view']}
+            pageSize={1}
             title={t('coin-details.tabs.trading_view.title')}
-          >
-            <CoinSocialFeed
-              slug={slug}
-              socials={['trading_view']}
-              pageSize={1}
-            />
-          </OverviewWidget>
+            subtitle=""
+          />
         </div>
       </div>
     </PageWrapper>

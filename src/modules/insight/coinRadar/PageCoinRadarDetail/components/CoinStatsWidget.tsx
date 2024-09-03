@@ -7,6 +7,7 @@ import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import Icon from 'shared/Icon';
+import { OverviewWidget } from 'shared/OverviewWidget';
 
 function StatRow({
   className,
@@ -47,7 +48,7 @@ function StatRow({
   );
 }
 
-export function CoinStats({
+export function CoinStatsWidget({
   className,
   slug,
 }: {
@@ -73,12 +74,9 @@ export function CoinStats({
           )) *
         100;
   return (
-    <div
-      className={clsx(
-        !coinOverview.data && 'animate-pulse blur-sm',
-        'flex flex-col gap-8',
-        className,
-      )}
+    <OverviewWidget
+      className={clsx(!coinOverview.data && 'animate-pulse', className)}
+      contentClassName="flex flex-col gap-8"
     >
       <StatRow label={t('coin-details.tabs.coin_stats.volume')}>
         <ReadableNumber
@@ -138,6 +136,6 @@ export function CoinStats({
           label={coinOverview.data?.symbol.abbreviation}
         />
       </StatRow>
-    </div>
+    </OverviewWidget>
   );
 }

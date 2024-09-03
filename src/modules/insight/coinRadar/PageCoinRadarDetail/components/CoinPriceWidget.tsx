@@ -3,9 +3,10 @@ import { useCoinOverview, useHasFlag } from 'api';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
+import { OverviewWidget } from 'shared/OverviewWidget';
 import { PriceAlertButton } from './PriceAlertButton';
 
-export function CoinPrice({
+export function CoinPriceWidget({
   className,
   slug,
 }: {
@@ -15,8 +16,8 @@ export function CoinPrice({
   const hasFlag = useHasFlag();
   const coinOverview = useCoinOverview({ slug });
   return (
-    <div
-      className={clsx(!coinOverview.data && 'animate-pulse blur-sm', className)}
+    <OverviewWidget
+      className={clsx(!coinOverview.data && 'animate-pulse', className)}
     >
       <Coin
         coin={
@@ -25,6 +26,7 @@ export function CoinPrice({
             abbreviation: '',
           }
         }
+        truncate={false}
         nonLink
         className="text-base"
         imageClassName="size-11"
@@ -46,6 +48,6 @@ export function CoinPrice({
           <PriceAlertButton slug={slug} className="w-full" />
         </div>
       )}
-    </div>
+    </OverviewWidget>
   );
 }

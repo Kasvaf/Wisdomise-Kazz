@@ -1,13 +1,19 @@
+import { useTranslation } from 'react-i18next';
 import { useCoinSignals } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
+import { OverviewWidget } from 'shared/OverviewWidget';
 
-export function TopCoins({ slug }: { slug: string }) {
+export function TopCoinsWidget({ slug }: { slug: string }) {
+  const { t } = useTranslation('coin-radar');
   const signals = useCoinSignals();
 
   return (
-    <div className="flex flex-col gap-4">
+    <OverviewWidget
+      contentClassName="flex flex-col gap-4"
+      title={t('coin-details.tabs.trending_coins.title')}
+    >
       {signals.data
         ?.filter(row => row.symbol.slug !== slug)
         .slice(0, 5)
@@ -32,6 +38,6 @@ export function TopCoins({ slug }: { slug: string }) {
             </div>
           </div>
         ))}
-    </div>
+    </OverviewWidget>
   );
 }
