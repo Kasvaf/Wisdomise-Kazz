@@ -1,117 +1,124 @@
 available-exchanges:
   table:
-    exchange: 交换
-    price: 价格
+    exchange: 交易所
+    price: 價格
     rank: "#"
-    volume_24h: 24小时交易量
-    volume_percentage: 体积 ％
+    volume_24h: 24小時交易量
+    volume_percentage: 交易量%
   title: 可用交易所
+call-change:
+  changes: 更改
+  current-price: 现在价格
+  fire-time: 信号发射时间
+  max-price: 最高价格
+  min-price: 最低价格
+  pnl: 看涨盈亏百分比
+  trigger-price: 信号发出时的价格
+  under-calculation: 正在计算
 coin-info:
-  24h_chg: 24小时变化
+  24h_chg: 24小時變化
   market_cap: 市值
-  price: 价格
-  volume_24h: 24小时交易量
+  price: 價格
+  volume_24h: 24小時交易量
 hot-coins-section:
   filters:
-    24h: 24 小时
-    30d: 30D
-    7d: 7D
-    all-coins: 所有硬币
-    gainers: 赢家
-    losers: 失败者
-    search: 搜索硬币...
+    24h: 24小時
+    30d: 30天
+    7d: 7天
+    all-coins: 所有幣種
+    gainers: 上漲組
+    losers: 下跌組
+    search: 搜索幣種...
   table:
-    24h-voume: 24小时交易量
-    actions: 行动
-    call-time: 通话时间
-    chg-24: 变化(24小时)
-    insights: 洞察
+    24h-voume: 24小時交易量
+    actions: 操作
+    call-change: 呼叫变更
+    call-time: 提及次數
+    chg-24: 變化(24小時)
+    insights: 見解
     market-cap: 市值
-    name: 姓名
-    negative: 消极的
-    positive: 积极的
-    rank: "#"
-    realtime-price: 实时价格
-    sentiment: 情绪
-    tvl: TVL
-  title: 热门硬币
+    name: 名稱
+    negative: 消極負面
+    pnl: 看涨盈亏
+    positive: 積極正向
+    rank: 排名
+    realtime-price: 實時價格
+    sentiment: 市場情緒
+    tvl: 鎖定總價值 (TVL)
+  title: 熱門幣種
 hot-coins:
-  side-suggest: 侧面建议
+  side-suggest: 方向建議
 market-info:
-  description: 来自社交媒体的实时人工智能驱动洞察
-  social-channel-count: <0>Wisdomise Coin 雷达扫描 <2>{{channelsCount}}</2> 过去 24 小时内的社交账户。</0>
+  description: 來自社交和市場的實時AI驅動見解
+  social-channel-count: <0>Wisdomise幣雷達在過去24小時內掃描了<2>{{channelsCount}}</2>個社交賬號。</0>
 onboarding:
   sec-1:
-    content: 使用我们的人工智能驱动的社交扫描仪开始社交探索。我们的介绍视频将引导您了解社交媒体趋势和对最热门货币的看法。通过顶级交易员和加密货币社区的见解领先一步。
-    title: 使用社交扫描仪发现流行趋势
+    content: <0><0><0>加密貨幣精通助手：</0>我們的聊天機器人是您的隨需加密貨幣專家，具備即時訪問數百個數據來源的能力。</0><1><0>靈活查詢：</0>使用現成的提示或創建您自己的問題，以探索廣闊的加密貨幣世界。</1></0><1></1>與我們的聊天機器人互動，輕鬆自信地駕馭複雜的加密市場。
+    title: 問問題，學習，探索
   sec-2:
-    content: <0><0><0>趋势热图：</0> 发现过去 24 小时内最热门、讨论最多的硬币。</0><1><0>情绪分析：</0>
-      利用我们的人工智能对每种流行货币的情绪分析来衡量情绪。利用永不停歇的数据深入了解加密货币的社会潮流。</1></0>
-    title: 加密货币世界的当前氛围
+    content: <0><0><0>無所不在的圖標：</0>在我們網站的每個角落尋找聊天機器人圖標，以便快速獲得幫助。</0><1><0>智能集成：</0>在未來的更新中，期待個性化的分析和指導，指導功能使用和產品旅程。</1></0><1></1>我們的聊天機器人隨著您一起進化，今天提供快速訪問，明天提供更智能的見解。
+    title: 永遠在那，永遠警覺
   sec-3:
-    content: <0><0><0>重点探索：</0> 深入研究特定的对话，看看人们对你感兴趣的硬币有何评价。</0><1><0>社区驱动的数据：</0>
-      建议我们扫描新的 Telegram 频道或 X/Reddit
-      句柄。通过使用您首选的来源塑造社交扫描仪，帮助我们为您提供帮助。</1></0><1></1>利用加密社区的集体智慧来指导您的交易策略。
-    title: 您的定制社交见解
+    content: <0><0><0>聚焦探索：</0>深入特定的對話，看看人們對您感興趣的幣種說些什麼。</0><1><0>社區驅動的數據：</0>建議我們掃描新的Telegram頻道或X/Reddit帳號。通過提供您喜好的資源來幫助我們幫助您塑造社交掃描器。</1></0><1></1>利用加密貨幣社群的集體智慧來指導您的交易策略。
+    title: 為您量身定制的社交見解
 recommend-account:
-  button: 推荐账户
+  button: 推薦帳號
   modal:
     cancel: 取消
     channel-address:
-      label: Telegram 频道 ID、子版块或账户
-      placeholder: "@ID 或可分享链接"
+      label: Telegram 頻道 ID，Subreddit 或帳號
+      placeholder: "@ID 或可分享連結"
       rules:
-        minLength: 必须大于3个字符
-        required: 频道地址为必填项
+        minLength: 必須超過3個字符
+        required: 頻道地址為必填項
     description:
-      label: 描述 <2>（选修的）</2>
-      placeholder: 有关频道的其他详细信息
+      label: 描述 <2>(可選)</2>
+      placeholder: 有關該頻道的其他詳情
       rules:
-        minLength: 必须大于3个字符
-    recommend: 推荐
-    sub-title: 分享 Telegram 频道 ID、Subreddit 或帐户和详细信息，以通过有价值的市场洞察增强 Coin Radar。我们的 AI
-      系统将根据信号值审核您的建议并将其纳入。
-    title: 推荐一个帐户
+        minLength: 必須超過3個字符
+    recommend: 推薦
+    sub-title: 分享一個Telegram頻道ID，Subreddit或賬號及其詳細信息，藉此通過有價值的市場見解來增強幣雷達。您的建議將由我們的AI系統根據信號價值進行審核和納入。
+    title: 推薦賬號
 set-notification:
   modal:
-    alert-channel-section: 报警通道
-    browser-alert-input: 浏览器通知
-    daily: 日常的
-    description: 不要错过加密货币世界的下一个重大机遇。我们的通知系统让您第一时间了解热门货币和新发现。
-    discord-alert-input: Discord 消息
-    email-alert-input: 电子邮件
-    interval-section: 间隔
+    alert-channel-section: 警報頻道
+    browser-alert-input: 瀏覽器通知
+    daily: 每日
+    description: 不要錯過加密貨幣世界中的下一個重大機會。我們的通知系統讓您第一時間知道熱門幣種和最新發現。
+    discord-alert-input: Discord 訊息
+    email-alert-input: 電子郵件
+    interval-section: 間隔
     push-alert-input: 推送通知
-    save-button: 保存警报设置
-    slack-alert-input: Slack 消息
+    save-button: 保存警報設置
+    slack-alert-input: Slack 訊息
     sms-alert-input: 短信
-    soon: 很快...
-    telegram-alert-input: 电报消息
-    title: 社交雷达通知
+    soon: 即將推出...
+    telegram-alert-input: Telegram 訊息
+    title: 設置新潛在幣種檢測警報
   open-modal-btn:
-    not-set: 设置通知
-    set: 已设置通知
+    not-set: 設置警報
+    set: 警報已設置
 set-price-notification:
-  open-existing-modal-btn: 已设置价格警报
-  open-modal-btn: 设置价格警报
+  open-existing-modal-btn: 價格警報已設置
+  open-modal-btn: 設置價格警報
 socials:
   all:
-    subtitle: 分析信号 {{symbol}} 在所有社交动态中
-    title: 所有社交动态
+    subtitle: 分析 {{symbol}} 在所有社交媒體中的信號
+    title: 所有社交媒體饋送
   reddit:
-    followers: 成员
-    subtitle: 分析信号 {{symbol}} 在 Reddit 社区
+    followers: 成員
+    subtitle: 分析 {{symbol}} 在 Reddit 社區中的信號
     title: Reddit
   telegram:
-    followers: 订阅者
-    subtitle: 分析信号 {{symbol}} 在 Telegram 频道中
+    followers: 訂閱者
+    subtitle: 分析 {{symbol}} 在 Telegram 頻道中的信號
     title: Telegram
   trading-view:
-    subtitle: 分析信号 {{symbol}} 在技术分析思路中
-    title: 技术分析思路
+    subtitle: 分析 {{symbol}} 在技術分析構思中的信號
+    title: 技術分析構思
   twitter:
-    subtitle: 分析信号 {{symbol}} 在 Twitter、X 社区
-    title: X、推特
+    subtitle: 分析 {{symbol}} 在 Twitter, X 社區中的信號
+    title: X, Twitter
 tops-section:
-  gainers: 涨幅最大的股票
-  losers: 最大输家
+  gainers: 最大漲幅
+  losers: 最大跌幅

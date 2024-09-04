@@ -38,6 +38,7 @@ export function useIncreaseAllowance(
     address: owner,
     token: address,
   });
+  const [a, setA] = useState(0n);
   const { data: allowance, refetch: refetchAllowance } = useAllowance(
     address,
     spender,
@@ -52,27 +53,28 @@ export function useIncreaseAllowance(
   const { data: approveTrxReceipt, isLoading: approveTrxIsLoading } =
     useWaitForTransaction({ hash: approveResult?.hash });
 
-  const checkAllowance = () => {
-    if (allowanceIsHigherThanBalance(allowance)) {
+  const checkAllowance = (amount: bigint = balance?.value ?? 0n) => {
+    setA(amount);
+    if (allowance && allowanceIsHigherThanBalance(allowance, amount)) {
       setIsAllowed({ emit: true });
     } else {
       approve({
-        args: [spender, balance?.value ?? 0n],
+        args: [spender, amount],
       });
     }
   };
 
   const allowanceIsHigherThanBalance = useCallback(
-    (allowance?: bigint) => {
-      return (allowance ?? 0n) >= (balance?.value ?? 0n);
+    (allow: bigint, amount: bigint) => {
+      return (allow ?? 0n) >= amount;
     },
-    [balance],
+    [],
   );
 
   useEffect(() => {
     if (approveTrxReceipt?.status === 'success') {
       void refetchAllowance().then(({ data }) => {
-        if (allowanceIsHigherThanBalance(data)) {
+        if (data && allowanceIsHigherThanBalance(data, a)) {
           setIsAllowed({ emit: true });
         } else {
           notification.error({
@@ -86,7 +88,7 @@ export function useIncreaseAllowance(
         message: 'Approve transaction reverted.',
       });
     }
-  }, [approveTrxReceipt, allowanceIsHigherThanBalance, refetchAllowance]);
+  }, [approveTrxReceipt, allowanceIsHigherThanBalance, refetchAllowance, a]);
 
   return {
     checkAllowance,

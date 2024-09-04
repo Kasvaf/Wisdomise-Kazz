@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { ReadableDate } from 'shared/ReadableDate';
 import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
+import { CoinSignalPnl } from 'shared/CoinSignalPnl';
+import { ReadableDate } from 'shared/ReadableDate';
 import { SignalSentiment } from 'shared/SignalSentiment';
 
 export const HotCoinsTable: FC<{
@@ -27,9 +28,7 @@ export const HotCoinsTable: FC<{
       {
         className: 'w-36',
         title: t('hot-coins-section.table.name'),
-        render: (row: CoinSignal) => (
-          <Coin abbrevation={row.symbol_name} image={row.image} />
-        ),
+        render: (row: CoinSignal) => <Coin coin={row.symbol} />,
       },
       ...(hasFlag('/insight/coin-radar?side-suggestion')
         ? [
@@ -48,6 +47,15 @@ export const HotCoinsTable: FC<{
           new Date(b.first_signal_related_at ?? Date.now()).getTime(),
         render: (row: CoinSignal) => (
           <ReadableDate value={row.first_signal_related_at} />
+        ),
+      },
+      {
+        title: t('hot-coins-section.table.pnl'),
+        sorter: (a, b) =>
+          (a.signals_analysis?.real_pnl_percentage ?? 0) -
+          (b.signals_analysis?.real_pnl_percentage ?? 0),
+        render: (row: CoinSignal) => (
+          <CoinSignalPnl signalAnalysis={row.signals_analysis} />
         ),
       },
       {

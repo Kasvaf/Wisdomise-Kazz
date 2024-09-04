@@ -1,58 +1,53 @@
 import { Tooltip } from 'antd';
 import { clsx } from 'clsx';
-import { Link, createSearchParams } from 'react-router-dom';
-
-export const cdnCoinIcon = (name: string) =>
-  `https://cdn.jsdelivr.net/gh/vadimmalykhin/binance-icons/crypto/${name}.svg`;
-
-const MAX_LENGTH = 18;
-
-const truncate = (str: string) =>
-  str.length > MAX_LENGTH ? str.slice(0, MAX_LENGTH - 3) + '...' : str;
+import { Link } from 'react-router-dom';
+import { type Coin as CoinType } from 'api/types/shared';
 
 export function Coin({
   className,
-  abbrevation,
-  fullName,
-  image,
+  coin,
   imageClassName,
   nonLink,
+  mini,
 }: {
-  abbrevation: string;
-  fullName?: string | null;
-  image?: string | null;
+  coin: CoinType;
   className?: string;
   imageClassName?: string;
   nonLink?: boolean;
+  mini?: boolean;
 }) {
-  const logoUrl = image ?? cdnCoinIcon(abbrevation);
   const rootClassName = clsx(
-    'inline-flex items-center gap-2 p-1 pe-3',
+    'inline-flex w-auto shrink items-center gap-2',
+    !mini && 'p-1 pe-2',
     !nonLink &&
-      'group rounded-md transition-all hover:bg-white/10 hover:text-white',
+      'group rounded-md transition-all hover:bg-v1-background-hover hover:text-inherit',
     className,
   );
   const content = (
     <>
       <div
         className={clsx(
-          'shrink-0 rounded-full bg-white bg-cover bg-center bg-no-repeat',
-          imageClassName ?? 'size-8',
+          'shrink-0 rounded-full bg-cover bg-center bg-no-repeat',
+          imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
         style={{
-          backgroundImage: `url("${logoUrl}")`,
+          ...(typeof coin.logo_url === 'string' && {
+            backgroundImage: `url("${coin.logo_url}")`,
+          }),
         }}
       />
-      <div className="flex w-full flex-col gap-0 whitespace-nowrap">
-        {typeof fullName === 'string' && fullName ? (
+      <div className="max-w-40 shrink grow leading-snug">
+        {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+        <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+          {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+        </div>
+        {!mini && coin.abbreviation && (
           <>
-            <span>{truncate(fullName)}</span>
-            <span className="text-[80%] opacity-70">
-              {truncate(abbrevation)}
-            </span>
+            {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+            <div className="overflow-hidden text-ellipsis whitespace-nowrap text-[80%] opacity-70">
+              {coin.abbreviation ?? ''}
+            </div>
           </>
-        ) : (
-          <span>{truncate(abbrevation)}</span>
         )}
       </div>
     </>
@@ -68,30 +63,19 @@ export function Coin({
       }}
       title={
         <div className="text-sm">
-          {typeof fullName === 'string' && fullName ? (
-            <>
-              <div>{fullName}</div>
-              <div className="text-[80%] opacity-70">{abbrevation}</div>
-            </>
-          ) : (
-            <div>{abbrevation}</div>
-          )}
+          <div>{coin.name}</div>
+          <div className="text-[80%] opacity-70">{coin.abbreviation}</div>
         </div>
       }
       overlayClassName="pointer-events-none"
     >
-      {nonLink ? (
+      {nonLink || !coin.slug ? (
         <span className={rootClassName}>{content}</span>
       ) : (
         <Link
           className={rootClassName}
           to={{
-            pathname: `/insight/coin-radar/${abbrevation}`,
-            search: createSearchParams({
-              ...(fullName && {
-                name: fullName,
-              }),
-            }).toString(),
+            pathname: `/insight/coin-radar/${coin.slug}`,
           }}
         >
           {content}

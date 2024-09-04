@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { type PageResponse } from './types/page';
+import { type Coin } from './types/shared';
 
 export interface WhaleShort {
   rank: number;
@@ -26,7 +27,6 @@ export const useWhales = (filters?: {
   useQuery({
     queryKey: ['whales', JSON.stringify(filters)],
     keepPreviousData: true,
-    refetchInterval: 3000,
     queryFn: async () => {
       const { data } = await axios.get<PageResponse<WhaleShort>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/tops/`,
@@ -54,12 +54,14 @@ export interface WhaleCoin {
   rank: number;
   symbol_abbreviation: string;
   symbol_name: string;
+  symbol_slug?: string | null;
+  symbol: Coin;
   total_last_30_days_trading_pnl: number;
   total_transactions: number;
   total_volume: number;
   market_data: {
     current_price: number;
-    image: string;
+    image?: string | null;
     price_change_24h: number;
     price_change_percentage_24h: number;
   };
@@ -75,7 +77,6 @@ export const useWhalesCoins = (filters?: {
   useQuery({
     queryKey: ['whales-coins', JSON.stringify(filters)],
     keepPreviousData: true,
-    refetchInterval: 3000,
     queryFn: async () => {
       const { data } = await axios.get<PageResponse<WhaleCoin>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
@@ -135,7 +136,9 @@ export interface SingleWhale {
       market_cap_change_percentage_24h?: number | null;
     } | null;
     symbol_abbreviation: string;
-    symbol_name?: string;
+    symbol_name: string;
+    symbol_slug?: string | null;
+    symbol: Coin;
     total_last_30_days_transfers?: number;
     total_last_30_days_volume_transferred?: number;
     worth?: number;

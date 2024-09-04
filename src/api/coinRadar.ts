@@ -6,6 +6,7 @@ import {
 import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import queryClient from 'config/reactQuery';
+import { type Coin } from './types/shared';
 
 interface MarketInfoFromSignals {
   long_count: number;
@@ -46,9 +47,25 @@ export const useMarketInfoFromSignals = () =>
     },
   });
 
+export interface CoinSignalAnalysis {
+  call_time: string;
+  signal_length: string;
+  current_pnl_percentage: number;
+  average_signal: number;
+  total_signals: number;
+  trigger_price: number;
+  current_price: number;
+  min_price: number;
+  max_price: number;
+  max_profit_percentage: number;
+  max_loss_percentage: number;
+  real_pnl_percentage: number;
+}
 export interface CoinSignal {
   rank: number;
   symbol_name: string;
+  symbol_slug?: string | null;
+  symbol: Coin;
   long_count: number;
   short_count: number;
   messages_count: number;
@@ -77,6 +94,7 @@ export interface CoinSignal {
     gauge_tag: string;
     gauge_measure: number;
   };
+  signals_analysis: CoinSignalAnalysis;
 }
 
 export const useCoinSignals = (
@@ -206,9 +224,9 @@ export type SocialMessage =
   | SocialMessageTemplate<'twitter', TwitterMessage>
   | SocialMessageTemplate<'trading_view', TradingViewIdeasMessage>;
 
-export const useSocialMessages = (symbol: string) =>
+export const useSocialMessages = (slug: string) =>
   useQuery({
-    queryKey: ['coins-social-message', symbol],
+    queryKey: ['coins-social-message', slug],
     queryFn: async () => {
       const { data } = await axios.get<{
         reddit: null | RedditMessage[];
@@ -216,7 +234,7 @@ export const useSocialMessages = (symbol: string) =>
         trading_view_ideas: null | TradingViewIdeasMessage[];
         twitter: null | TwitterMessage[];
       }>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&symbol_name=${symbol}`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&slug=${slug}`,
       );
       const response: SocialMessage[] = [
         ...(data.reddit || []).map(
@@ -333,10 +351,7 @@ export const useToggleSubscribeToCoinNotification = () =>
   });
 
 export interface CoinOverview {
-  symbol: {
-    abbreviation: string;
-    name: string;
-  };
+  symbol: Coin;
   related_at: string | null;
   data: null | {
     id: string;
@@ -371,24 +386,19 @@ export interface CoinOverview {
   exchanges: CoinExchange[];
 }
 export const useCoinOverview = ({
-  symbol,
-  name,
+  slug,
   priceHistoryDays,
 }: {
-  symbol: string;
-  name?: string;
+  slug: string;
   priceHistoryDays?: number;
 }) =>
   useQuery({
-    queryKey: ['coin-overview', symbol, name, priceHistoryDays],
+    queryKey: ['coin-overview', slug, priceHistoryDays],
     queryFn: () =>
       axios
         .get<CoinOverview>('delphi/market/token-review/', {
           params: {
-            symbol_abbreviation: symbol,
-            ...(name && {
-              symbol_name: name,
-            }),
+            slug,
             price_history_days: priceHistoryDays ?? 1,
           },
         })

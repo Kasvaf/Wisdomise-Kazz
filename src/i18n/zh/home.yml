@@ -1,58 +1,58 @@
 auto-trade:
   builder:
-    cat-title: 立即开始构建
-    description: 构建和定制您自己的投资金融产品
-    info: 建立您自己的自定义策略、信号和金融产品。让您能够根据个性化需求自动化加密货币交易。
-    title: 策略生成器
+    cat-title: 現在開始構建
+    description: 構建並自定義您自己的投資金融產品
+    info: 構建您自己的自定義策略、信號器和金融產品。這樣可以讓您根據個人需求自動化您的加密貨幣交易。
+    title: 策略構建器
   fps:
-    cta-title: 尝试金融产品
-    description: 探索适合您需求的灵活的人工智能驱动的投资选择。
-    hint: 需要 90 天的锁定期来优化性能。
-    info: 自动加密交易，从各种金融产品中进行选择，并使用我们的人工智能趋势检测器享受自动日常交易。
-    tag: 独特选择
-    title: 理财产品
-  subtitle: 探索旨在自动化您的交易历程的一系列金融产品和策略构建器。
-  title: 自动化交易和被动收入解决方案
+    cta-title: 嘗試金融產品
+    description: 探索靈活的AI驅動投資選項，以滿足您的需求。
+    hint: 需要90天的鎖倉期來優化性能。
+    info: 自動化加密貨幣交易，從各種金融產品中選擇，並通過我們的AI驅動趨勢檢測器享受每日自動交易。
+    tag: 獨特選項
+    title: 金融產品
+  subtitle: 探索旨在自動化您的交易之旅的金融產品和策略構建器範圍。
+  title: 自動交易和被動收入解決方案
 explore: 探索
 guid:
-  sub-title: 按照以下步骤充分发挥 Wisdomise 的潜力并优化您的交易体验。
+  sub-title: 遵循這些步驟來解鎖Wisdomise的全部潛力，並優化您的交易體驗。
 guide:
   step-1:
     cta-title: 探索
-    not-ok-title: 尚未设置
-    ok-title: 完成 - 设置成功
-    title: 1. 设置 Insight 警报
-  title: 入门指南
+    not-ok-title: 尚未設置
+    ok-title: 完成 - 成功設置
+    title: 設置見解警報
+  title: 入門指南
 insight:
   chatbot:
-    cta-title: 尝试 ChatBot
-    description: 加密货币世界的指南
-    info: ChatGPT 用于加密，研究、询问和查询有关加密货币的不同问题。
-    title: 加密聊天机器人
+    cta-title: 嘗試聊天機器人
+    description: 您的加密貨幣世界指南
+    info: 用於加密貨幣的ChatGPT，研究、詢問和查詢有關加密貨幣的各種問題。
+    title: 加密貨幣聊天機器人
   coin-radar:
-    description: 来自 Telegram 频道的实时见解
-    info: 人工智能社交媒体扫描仪可以扫描各种社交媒体以查找趋势和热门货币、与这些货币相关的信号、对话和技术分析。
-    title: 社会雷达
+    description: 來自Telegram頻道的實時見解
+    info: AI驅動的社交媒體掃描器，掃描各種社交媒體以查找趨勢和熱門幣種、相關信號、討論和技術分析。
+    title: 幣雷達
   signal-matrix:
-    description: 获取领先加密货币的人工智能交易信号
+    description: 獲取領先加密貨幣的AI驅動交易信號
     tag: +100 每月信号
-    title: AI交易信号资讯
+    title: 信號矩陣
   social-radar:
-    description: 来自 Telegram 频道的实时见解
-    info: 人工智能社交媒体扫描仪可以扫描各种社交媒体以查找趋势和热门货币、与这些货币相关的信号、对话和技术分析。
-    title: 社会雷达
-  subtitle: 访问加密信号、社交信号和洞察扫描仪和交易助手以做出明智的决策。
-  title: 积极交易的见解
-watch-video: 看视频
+    description: 來自Telegram頻道的實時見解
+    info: AI驅動的社交媒體掃描器，掃描各種社交媒體以查找趨勢和熱門幣種、相關信號、討論和技術分析。
+    title: 幣雷達
+  subtitle: 訪問加密貨幣信號、社交信號、見解掃描器和交易助手，以便做出明智決策。
+  title: 積極交易的見解
+watch-video: 觀看視頻
 wsdm:
   activate-utility:
-    description: 通过激活您的 $WSDM 实用程序开始您的 Wisdomise 产品之旅！
-    title: 激活实用程序
+    description: 通過激活您的$WSDM實用工具開始您的Wisdomise產品之旅！
+    title: 激活實用工具
   claim-airdrop:
-    description: 检查您是否有资格获得 $WSDM 空投
-    title: 领取空投
-  sub-title: 访问您的 $WSDM 仪表板以领取 $WSDM、检查归属计划、激活实用程序并领取您的空投！
+    description: 檢查您是否符合$WSDM空投資格
+    title: 領取空投
+  sub-title: 獲取$WSDM儀表板的訪問權限，以領取$WSDM、檢查解鎖時間表、激活實用工具並領取空投！
   title: WSDM
   vesting-schedule:
-    description: 如果您从我们的平台购买了 $tWSDM，请检查您的归属时间表并领取您的 $WSDM！
-    title: 归属时间表
+    description: 如果您從我們的平台購買了$tWSDM，請檢查您的解鎖時間表並領取您的$WSDM！
+    title: 解鎖時間表

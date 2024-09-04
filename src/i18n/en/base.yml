@@ -58,10 +58,8 @@ menu:
   hot-coins:
     title: Hot Coins
   investment:
-    title: Investment Hub
-    subtitle: >-
-      Explore or build various crypto signals and fully automated financial
-      products
+    title: Investment
+    subtitle: Explore our auto trader financial products
   kyc:
     title: KYC
     subtitle: Verify identity to access features

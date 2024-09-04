@@ -1,55 +1,55 @@
-above: 多于
+above: 以上
 actions:
   back: 返回
   cancel: 取消
-  complete: 完全的
-  edit: 编辑
+  complete: 完成
+  edit: 編輯
   explore: 探索
-  invite: 邀请
-  more: 更多的
-  no: 不
+  invite: 邀請
+  more: 更多
+  no: 否
   ok: 好的
-  remove: 消除
+  remove: 移除
   reset: 重置
-  save: 节省
-  share: 股票
-  yes: 是的
-aum: AUM
+  save: 保存
+  share: 分享
+  yes: 是
+aum: 管理資產規模
 below: 以下
-confirmation: 确认
-copied-to-clipboard: 已复制到剪贴板
-crypto: 加密货币
-cryptocurrency: 加密货币
+confirmation: 確認
+copied-to-clipboard: 已複製到剪貼板
+crypto: 加密貨幣
+cryptocurrency: 加密貨幣
 date: 日期
-equal: 平等的
-error: 错误
+equal: 等於
+error: 錯誤
 errors:
-  field-required: 该字段不能为空。
-  network-error: 您的互联网连接有问题。
-free-plan: 免费计划
-futures: 期货
-loading: 加载中...
-loading-dot-dot-dot: 加载中...
+  field-required: 此字段不得為空。
+  network-error: 您的網絡連接出現問題。
+free-plan: 免費計劃
+futures: 期貨
+loading: 加載中...
+loading-dot-dot-dot: 加載中...
 market:
-  long: 长的
-  short: 短的
-network: 网络
-not-available: 不适用
-not-set: 没有设置
-nothing-to-show: 沒有顯示
+  long: 多頭
+  short: 空頭
+network: 網絡
+not-available: 不適用
+not-set: 未設置
+nothing-to-show: 沒有要顯示的內容
 order-type:
   limit: 限制
-  market: 市场
-paid-plan: 付费计划
+  market: 市場
+paid-plan: 付費計劃
 quality:
-  high: 高的
-  low: 低的
-  medium: 中等的
-recommended-size: 建议尺寸
+  high: 高
+  low: 低
+  medium: 中等
+recommended-size: 建議大小
 see-more: 查看更多
-select-crypto: 暗号を選択
-show-more: 展示更多
-soon: 很快
-spot: 点
-upload-failed: 上传失败！
-uploading: 上传
+select-crypto: 選擇加密貨幣
+show-more: 顯示更多
+soon: 即將推出
+spot: 現貨
+upload-failed: 上傳失敗！
+uploading: 上傳中

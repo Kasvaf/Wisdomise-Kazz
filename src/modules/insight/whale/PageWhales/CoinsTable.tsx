@@ -36,13 +36,7 @@ export function CoinsTable({ className }: { className?: string }) {
       {
         title: t('sections.top-coins.table.coin'),
         dataIndex: 'symbol_abbreviation',
-        render: (_, row) => (
-          <Coin
-            abbrevation={row.symbol_abbreviation}
-            fullName={row.symbol_name}
-            image={row.market_data.image}
-          />
-        ),
+        render: (_, row) => <Coin coin={row.symbol} />,
       },
       {
         title: t('sections.top-coins.table.transactions'),

@@ -6,7 +6,7 @@ import { ReactComponent as DollarIcon } from './dollar.svg';
 const FAKE_QUOTES = [
   {
     icon: DollarIcon,
-    value: 'USDT',
+    value: 'tether',
     label: 'Dollars (USD)',
   },
 ];
