@@ -444,3 +444,16 @@ export const useTrendingCoins = () =>
         .get<TrendingCoin[]>('delphi/symbols/trending/')
         .then(resp => resp.data),
   });
+
+export const useCoinList = ({ q }: { q?: string }) =>
+  useQuery({
+    queryKey: ['coin-list', q],
+    queryFn: () =>
+      axios
+        .get<Coin[]>('delphi/symbol/search/', {
+          params: {
+            q,
+          },
+        })
+        .then(resp => resp.data),
+  });
