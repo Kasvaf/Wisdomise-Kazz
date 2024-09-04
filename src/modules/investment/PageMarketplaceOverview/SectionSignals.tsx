@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import {
@@ -7,7 +7,7 @@ import {
   bxChevronRight,
   bxRightArrowAlt,
 } from 'boxicons-quasar';
-import { useSignalerPairs, useSignalsQuery } from 'api';
+import { usePairsWithSignalers } from 'api';
 import PairSignals from 'modules/insight/signaler/PageSignalersOverview/PairSignals';
 import Icon from 'shared/Icon';
 import FabButton from 'shared/FabButton';
@@ -19,33 +19,14 @@ const SectionSignals: React.FC<{ className?: string }> = ({ className }) => {
   const isMobile = useIsMobile();
 
   const [page, setPage] = useState(1);
-  const { data: positions, isLoading: isLoadingSignals } = useSignalsQuery();
-  const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
-  const pairsFull = useMemo(
-    () =>
-      pairs
-        ?.map(pair => ({
-          pair,
-          signalers: positions?.filter(p => p.pair_name === pair.name) ?? [],
-        }))
-        .filter(p => p.signalers.length > 0)
-        .sort(
-          (a, b) =>
-            // (b.social?.messages_count ?? 0) - (a.social?.messages_count ?? 0) ||
-            (b.pair.time_window_prices.at(-1) ?? 0) -
-            (a.pair.time_window_prices.at(-1) ?? 0),
-        ) ?? [],
-    [pairs, positions],
-  );
-
-  const isLoading = isLoadingSignals || isLoadingPairs;
+  const { data, isLoading } = usePairsWithSignalers();
 
   const content = isLoading ? (
     <div className="flex justify-center">
       <Spinner />
     </div>
   ) : (
-    pairsFull
+    data
       .slice(page - 1, page)
       .map(({ pair, signalers }) => (
         <PairSignals
@@ -65,7 +46,7 @@ const SectionSignals: React.FC<{ className?: string }> = ({ className }) => {
         {!isMobile && !isLoading && (
           <div className="flex items-center gap-1 text-v1-content-secondary">
             <span className="text-v1-content-primary">{page}</span>/
-            <span>{pairsFull.length}</span>
+            <span>{data.length}</span>
             <FabButton
               icon={bxChevronLeft}
               alt
@@ -76,7 +57,7 @@ const SectionSignals: React.FC<{ className?: string }> = ({ className }) => {
             <FabButton
               icon={bxChevronRight}
               alt
-              disabled={page >= pairsFull.length}
+              disabled={page >= data.length}
               onClick={() => setPage(x => x + 1)}
             />
           </div>

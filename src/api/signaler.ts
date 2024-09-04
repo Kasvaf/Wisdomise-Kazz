@@ -233,6 +233,41 @@ export const useSignalsQuery = () =>
     return data.sort((a, b) => strategyComparer(a.strategy, b.strategy));
   });
 
+export const usePairsWithSignalers = () => {
+  const { data: positions, isLoading: isLoadingSignals } = useSignalsQuery();
+  const { data: pairs, isLoading: isLoadingPairs } = useSignalerPairs();
+
+  const sortedPositions = useMemo(
+    () =>
+      positions?.sort(
+        (a, b) => +new Date(b.entry_time ?? '') - +new Date(a.entry_time ?? ''),
+      ) ?? [],
+    [positions],
+  );
+
+  const data = useMemo(
+    () =>
+      pairs
+        ?.map(pair => ({
+          pair,
+          signalers: sortedPositions.filter(p => p.pair_name === pair.name),
+        }))
+        .filter(p => p.signalers.length > 0)
+        .sort(
+          (a, b) =>
+            // (b.social?.messages_count ?? 0) - (a.social?.messages_count ?? 0) ||
+            (b.pair.time_window_prices.at(-1) ?? 0) -
+            (a.pair.time_window_prices.at(-1) ?? 0),
+        ) ?? [],
+    [pairs, sortedPositions],
+  );
+
+  return {
+    data,
+    isLoading: isLoadingSignals || isLoadingPairs,
+  };
+};
+
 export type StrategiesPerformanceBulkResolution = 'MONTH3' | 'MONTH' | 'WEEK';
 
 interface StrategyPerformanceBulkBase {
