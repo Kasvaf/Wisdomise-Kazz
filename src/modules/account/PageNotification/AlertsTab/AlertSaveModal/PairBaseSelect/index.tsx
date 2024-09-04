@@ -1,7 +1,7 @@
 import { Select, type SelectProps } from 'antd';
-import { useMemo, type FC } from 'react';
+import { useMemo, useState, type FC } from 'react';
 import { clsx } from 'clsx';
-import { useCoinSignals } from 'api';
+import { useCoinList, useCoinOverview } from 'api';
 import { Coin } from 'shared/Coin';
 import type { Coin as CoinType } from 'api/types/shared';
 
@@ -11,23 +11,18 @@ export const PairBaseSelect: FC<SelectProps<string>> = ({
   disabled,
   ...props
 }) => {
-  const signals = useCoinSignals();
+  const [query, setQuery] = useState('');
+  const coinList = useCoinList({ q: query || 'bitcoin' });
+  const coin = useCoinOverview({ slug: value ?? 'bitcoin' });
+
   const coins = useMemo<CoinType[]>(() => {
-    const shouldInjectValue =
-      value && !signals?.data?.some(coin => coin.symbol.slug === value);
+    const selectedCoin = coin.data?.symbol;
+    const list = coinList.data ?? [];
     return [
-      ...(shouldInjectValue
-        ? [
-            {
-              abbreviation: value,
-              name: value,
-              slug: value,
-            } satisfies CoinType,
-          ]
-        : []),
-      ...(signals?.data || []).map(coin => coin.symbol).filter(x => !!x.slug),
+      ...(selectedCoin ? [selectedCoin] : []),
+      ...list.filter(x => x.slug !== selectedCoin?.slug),
     ];
-  }, [signals, value]);
+  }, [coinList, coin]);
 
   return (
     <Select
@@ -37,15 +32,15 @@ export const PairBaseSelect: FC<SelectProps<string>> = ({
       autoClearSearchValue
       showArrow={!disabled}
       disabled={disabled}
-      filterOption={(input, option) => {
-        return JSON.stringify(
-          coins.find(x => x.slug === option?.value) ?? {},
-        ).includes(input.toLowerCase());
-      }}
-      options={coins.map(coin => ({
-        label: <Coin coin={coin} nonLink mini className="align-middle" />,
-        value: coin.slug,
-      }))}
+      searchValue={query}
+      onSearch={setQuery}
+      loading={coinList.isLoading}
+      options={
+        coins.map(coin => ({
+          label: <Coin coin={coin} nonLink mini className="align-middle" />,
+          value: coin.slug,
+        })) ?? []
+      }
       {...props}
     />
   );
