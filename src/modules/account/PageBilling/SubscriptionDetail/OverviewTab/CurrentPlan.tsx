@@ -76,6 +76,6 @@ export const paymentMethodText: Record<PaymentMethod, string> = {
   CRYPTO: 'Crypto',
   FIAT: 'Fiat',
   TOKEN: 'Locked WSDM',
-  WSDM: 'Payed By WSDM',
+  WSDM: 'Paid By WSDM',
   MANUAL: 'Manual',
 };
