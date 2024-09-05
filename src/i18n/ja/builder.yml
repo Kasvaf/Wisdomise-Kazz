@@ -171,7 +171,7 @@ signal-form:
   position-side: 位置側
   price: 注文価格
   safety-open:
-    btn-new: + 新しい安全オープン
+    btn-new: "#NAME?"
     title: 安全オープン
   stop-loss: ストップロス
   take-profit: 利食い

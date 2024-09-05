@@ -6,6 +6,15 @@ available-exchanges:
     volume_24h: 24時間あたりのボリューム
     volume_percentage: 音量 ％
   title: 利用可能な取引所
+call-change:
+  changes: 変更点
+  current-price: 今の価格
+  fire-time: 信号発射時刻
+  max-price: 最高価格
+  min-price: 最低価格
+  pnl: コール PnL パーセンテージ
+  trigger-price: シグナル発動時の価格
+  under-calculation: 計算中
 coin-info:
   24h_chg: 24時間変更
   market_cap: 時価総額
@@ -23,12 +32,14 @@ hot-coins-section:
   table:
     24h-voume: 24時間ボリューム
     actions: 行動
+    call-change: 通話変更
     call-time: 呼び出し時間
     chg-24: 変化(24時間)
     insights: 洞察
     market-cap: 時価総額
     name: 名前
     negative: ネガティブ
+    pnl: 損益計算書
     positive: ポジティブ
     rank: "#"
     realtime-price: リアルタイム価格

@@ -43,7 +43,7 @@ const useMenuItems = () => {
 
     {
       icon: <IconInsight />,
-      text: t('menu.insight.title'),
+      text: t('menu.coin-radar.title'),
       link: '/insight',
       onClick: trackClick('insight_menu'),
       children: [
@@ -53,12 +53,12 @@ const useMenuItems = () => {
           onClick: trackClick('insight_menu'),
         },
         {
-          text: t('menu.coin-radar.title'),
+          text: t('menu.hot-coins.title'),
           link: '/insight/coin-radar',
           onClick: trackClick('coin_radar_menu'),
         },
         {
-          text: t('menu.market-pulse.title'),
+          text: t('menu.ai-indicators.title'),
           link: '/insight/market-pulse',
           onClick: trackClick('market_pulse_menu'),
           badge: 'new',
@@ -73,7 +73,7 @@ const useMenuItems = () => {
     },
     {
       icon: <IconMarketplace />,
-      text: t('menu.marketplace.title'),
+      text: t('menu.investment.title'),
       link: '/marketplace',
       onClick: trackClick('marketplace_menu'),
       children: [

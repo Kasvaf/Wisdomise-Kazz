@@ -1,5 +1,5 @@
 /* eslint-disable i18next/no-literal-string */
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Tabs } from 'antd';
 import { useLayoutEffect } from 'react';
 import {
@@ -14,23 +14,21 @@ import { SocialMessage } from './SocialMessage';
 import { useSocialTab } from './useSocialTab';
 
 export default function PageCoinRadarDetail() {
-  const { symbol: symbolParam } = useParams<{ symbol: string }>();
-  const [searchParams] = useSearchParams();
-  const name = searchParams.get('name') ?? undefined;
-  const symbol = symbolParam as string;
+  const { slug: slugParam } = useParams<{ slug: string }>();
+  const slug = slugParam as string;
 
-  const overview = useCoinOverview({ symbol, name, priceHistoryDays: 1 });
-  const messages = useSocialMessages(symbol);
+  const overview = useCoinOverview({ slug, priceHistoryDays: 1 });
+  const messages = useSocialMessages(slug);
   const coinSignals = useCoinSignals();
-  const signal = coinSignals.data?.find(sig => sig.symbol_name === symbol);
+  const signal = coinSignals.data?.find(sig => sig.symbol_slug === slug);
   const hasFlag = useHasFlag();
 
-  const [activeTab, setActiveTab, socialTabs] = useSocialTab(symbol);
+  const [activeTab, setActiveTab, socialTabs] = useSocialTab(slug);
 
   const activeTabMessages = messages.data?.filter(
     message =>
       (activeTab === 'all' || message.social_type === activeTab) &&
-      hasFlag(`/insight/coin-radar/[symbol]?tab=${message.social_type}`),
+      hasFlag(`/insight/coin-radar/[slug]?tab=${message.social_type}`),
   );
 
   useLayoutEffect(() => {

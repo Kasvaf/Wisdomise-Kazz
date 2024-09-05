@@ -38,7 +38,7 @@ secondary:
     length-limit: この欄が 32 文字以下であることを確認してください。
     not-empty: ニックネームを記入する必要があります。
     placeholder: あなたのニックネーム
-  welcome: "<br><b>Wisdomise</b> へようこそ "
+  welcome: <br><b>Wisdomise</b> へようこそ
 verify-email:
   btn-check:
     label: 確認

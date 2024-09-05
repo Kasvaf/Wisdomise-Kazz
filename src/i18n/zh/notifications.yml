@@ -1,90 +1,88 @@
 alerts:
   form:
-    alert-channel: 报警通道
-    cooldown: 冷却
-    cooldown-info: 指定此警报再次触发之前经过的时间量。
+    alert-channel: 警報頻道
+    cooldown: 冷卻時間
+    cooldown-info: 指定此警報在再次觸發前必須經過的時間。
     delete-confirm:
-      no: 没关系
-      subtitle: 您即将删除此警报。
-      title: 你确定吗？
-      yes: 是的，删除
-    disable-after-trigger: 触发一次后禁用此警报。
-    next: 下一个
-    notif-tab: 警报首选项
-    price-tab: 设置价格详情
-    set-alert: 设置通知
-    subscription-banner-link: 订阅我们的 Insight Plan 以获取访问权限。
-    subscription-banner-title: 获取实时硬币警报，自定义通知。
-    success-message: 警报保存成功！
-    title: 当某种货币达到您指定的价格目标时收到通知。
+      no: 沒關係
+      subtitle: 您即將刪除此警報。
+      title: 您確定嗎？
+      yes: 是的，刪除
+    disable-after-trigger: 此警報觸發一次後禁用。
+    next: 下一步
+    notif-tab: 警報偏好
+    price-tab: 設定價格詳情
+    set-alert: 設定警報
+    subscription-banner-link: 訂閱我們的Insight計劃以獲取訪問權限。
+    subscription-banner-title: 獲取實時幣種警報，自定義通知。
+    success-message: 警報保存成功！
+    title: 當幣種達到您指定的價格目標時獲取通知。
   invervals:
-    after: 后 {{seconds}} 秒
-    daily: 日常的
-    every: 每一个 {{seconds}} 秒
-    hour: 小时
-    hourly: 每小时
-    min: min
+    after: 在{{seconds}}秒後
+    daily: 每日
+    every: 每{{seconds}}秒
+    hour: 小時
+    hourly: 每小時
+    min: 分鐘
     monthly: 每月
-    weekly: 每周
+    weekly: 每週
   messangers:
-    browser: 浏览器通知
-    discord: Discord 消息
-    email: 电子邮件
+    browser: 瀏覽器通知
+    discord: Discord消息
+    email: 電子郵件
     push: 推送通知
-    slack: Slack 消息
+    slack: Slack消息
     sms: 短信
-    telegram: 电报消息
+    telegram: Telegram消息
   pages:
     insight:
       subtitle: 不要错过加密世界的下一个重大机遇。
       title: 保持领先
   sentences:
-    price-alert: 尽快发送警报 <Badge><Base>未知硬币</Base></Badge> <Br/> 去
-      <Badge><Operator>未知操作员</Operator></Badge> 的价格
-      <Badge><Threshold>未知阈值</Threshold></Badge> <Br />
-      <Badge><Quote>未知引文</Quote></Badge> 在
-      <Badge><Exchange>未知交易所</Exchange></Badge>
-  title: 主动警报
+    price-alert: 當<Badge><Base>未知幣種</Base></Badge>價格<Badge><Operator>未知操作符</Operator></Badge>達到<Badge><Threshold>未知門檻</Threshold></Badge>時發送警報<Br
+      />
+      <Badge><Quote>未知引用</Quote></Badge>於<Badge><Exchange>未知交易所</Exchange></Badge>
+  title: 活動警報
 customs:
   custom-question:
     btn-add: 添加
-    description: 您可以使用下面建议的提示或编写您自己的自定义提示。
+    description: 您可以使用以下建議的提示或編寫您自己的自定義提示。
     limit:
-      description: 您最多可以添加 {{weeklyCustomNotificationCount}} 问题，如果要添加新问题，则必须删除之前的问题
-      title: 问题限制
-    placeholder: 输入您的问题...
-    title: 添加新问题
-  disclaimer: 通过打开此功能，您将收到两次內建的每日更新，并且您可以设置一些自定义提示，將每周发送给您。
+      description: 您最多可以添加{{weeklyCustomNotificationCount}}個問題，如果要添加新問題，必須刪除之前的問題
+      title: 問題限制
+    placeholder: 輸入您的問題...
+    title: 添加新問題
+  disclaimer: 開啟此功能後，您將收到兩個預設的每日更新，並且您可以設置每週發送的自定義提示。
   suggested-prompts:
-    title: 建议的每周提示
-  title: 自定义通知
+    title: 每週建議提示
+  title: 自定義通知
   your-question:
-    description: 您可以每周一通过电子邮件收到定制提示。
-    title: 你的问题
+    description: 您可以每週一通過電子郵件接收自定義提示。
+    title: 您的問題
 page:
-  description: 在这里您可以过滤您的通知
+  description: 您可以在這裡過濾您的通知
 signaling:
   btn-open-telegram:
-    connect: 连接 Telegram
-    hint: 在社交中接收通知
-    is-connected: 您的电报已连接。
-    label: 打开 Telegram
-    open: 打开 Telegram
-  description: 我们列出了我们提供的所有策略。
+    connect: 連接Telegram
+    hint: 在社交平台上接收通知
+    is-connected: 您的Telegram已連接。
+    label: 打開Telegram
+    open: 打開Telegram
+  description: 我們已列出我們提供的所有策略。
   modal-connected:
-    description: 您的 Telegram 帐户现已同步。
-    title: 连接成功
+    description: 您的Telegram帳戶已同步。
+    title: 成功連接
   modify-notification: 修改通知
-  notification-activate-chip-message: 您已訂閱了"所选币种”{{strategy}}”并且每次电报中有新交易点位时都会收到通知。
+  notification-activate-chip-message: 您已訂閱“{{strategy}}”中的選定幣種，每當Telegram有新位置時，您都將收到通知。
   overlay-telegram:
-    description: 要接收通知，请打开 Telegram 并按 <1>开始</1> 按钮。
-    title: 您的 Telegram 尚未连接
+    description: 要接收通知，請打開Telegram並按下<1>開始</1>按鈕。
+    title: 您的Telegram未連接
   strategy:
-    choose-coin: 选择想接收通知的代币
-    sl-tp: SL / TP
-    timeframe: 大体时间
-    type: 类型
+    choose-coin: 選擇幣種接收通知
+    sl-tp: 止損 / 止盈
+    timeframe: 時間框架
+    type: 類型
   subtitle: 策略列表
-  telegram-notification: 电报通知
-  title: 信令
-  turn-on-notification: 打开通知
+  telegram-notification: Telegram通知
+  title: 信號
+  turn-on-notification: 開啟通知

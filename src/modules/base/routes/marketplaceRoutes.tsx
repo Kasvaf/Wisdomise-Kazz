@@ -32,7 +32,7 @@ const useMarketplaceRoutes = () => {
     {
       element: <Container />,
       path: 'marketplace',
-      handle: { crumb: t('menu.marketplace.title') },
+      handle: { crumb: t('menu.investment.title') },
       children: [
         { path: '', element: <Navigate to="/marketplace/overview" replace /> },
         { path: 'overview', element: <PageInvestment /> },

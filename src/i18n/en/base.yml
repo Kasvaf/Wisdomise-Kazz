@@ -26,6 +26,9 @@ menu:
   account-manager:
     title: External Account
     subtitle: Integrate exchange accounts
+  ai-indicators:
+    title: AI Indicators
+    subtitle: Find cryptocurrencies to buy or sell based on key indicators
   athena:
     title: Crypto Chatbot
   billing:
@@ -33,10 +36,14 @@ menu:
     subtitle: Subscription preferences
     remains: remains
   builder:
-    title: Builder
-    subtitle: Manage your account settings and preferences
+    title: Trade Master
+    subtitle: Create your own signaler and financial products
   coin-radar:
     title: Coin Radar
+    subtitle: >-
+      Access crypto social insights, whale insights and market indicators as
+      simple easy to understand bites.
+    full-title: Market Alpha using AI
   coin-view:
     title: Coin List
   dashboard:
@@ -50,21 +57,14 @@ menu:
     subtitle: Explore flexible AI-Driven Investment Options tailored to your needs.
     card-badge: Unique Options
     card-button: Try Financial Products
-  insight:
-    title: Insight
-    subtitle: >-
-      Access crypto social insights, whale insights and market indicators as
-      simple easy to understand bites.
-    full-title: Market Alpha using AI
+  hot-coins:
+    title: Hot Coins
+  investment:
+    title: Investment
+    subtitle: Explore our auto trader financial products
   kyc:
     title: KYC
     subtitle: Verify identity to access features
-  market-pulse:
-    title: Market Pulse
-    subtitle: Find cryptocurrencies to buy or sell based on key indicators
-  marketplace:
-    title: Marketplace
-    subtitle: Trade confidently with expert-driven crypto signal
   notification-center:
     title: Notifications
     subtitle: Notification & Active Alert Setting
@@ -83,7 +83,7 @@ menu:
     subtitle: Create Signals for Supported Cryptocurrencies
     card-button: Start Building Now
   signalers:
-    title: Signals
+    title: AI Signals
     subtitle: Discover the Leading Cryptocurrencies With Active Signals and Positions
   token:
     title: WSDM Token
@@ -91,7 +91,7 @@ menu:
   users:
     title: Users
   whales:
-    title: Whale Analysis
+    title: Smart Whales
 new: New
 onboarding:
   back: Back

@@ -188,7 +188,10 @@ export default function CoinInfo({
         />
       </div>
       <div className="flex justify-between px-1">
-        <PriceAlertButton symbol={overview.symbol.abbreviation} />
+        {overview.symbol.slug && (
+          <PriceAlertButton slug={overview.symbol.slug} />
+        )}
+
         <div className="grow" />
         <button
           className={clsx(

@@ -8,6 +8,7 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { SignalSentiment } from 'shared/SignalSentiment';
+import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 
 export function HotCoinsTable() {
   const { t } = useTranslation('coin-radar');
@@ -24,9 +25,7 @@ export function HotCoinsTable() {
     () => [
       {
         title: t('hot-coins-section.table.name'),
-        render: (_, row) => (
-          <Coin abbrevation={row.symbol_name} image={row.image} />
-        ),
+        render: (_, row) => <Coin coin={row.symbol} />,
       },
       {
         colSpan: hasFlag('/insight/coin-radar?side-suggestion') ? 1 : 0,
@@ -37,6 +36,15 @@ export function HotCoinsTable() {
         title: t('hot-coins-section.table.call-time'),
         render: (_, row) => (
           <ReadableDate value={row.first_signal_related_at} />
+        ),
+      },
+      {
+        title: t('hot-coins-section.table.pnl'),
+        sorter: (a, b) =>
+          (a.signals_analysis?.real_pnl_percentage ?? 0) -
+          (b.signals_analysis?.real_pnl_percentage ?? 0),
+        render: (row: CoinSignal) => (
+          <CoinSignalPnl signalAnalysis={row.signals_analysis} />
         ),
       },
       {

@@ -1,48 +1,48 @@
 badges:
-  pending: 待办的
-  pending-meeting: 待定会议
-  rejected: 拒绝
-  unknown: 加载中
-  unverified: 未验证
-  verified: 已验证
-completed: 完全的
+  pending: 待處理
+  pending-meeting: 待處理會議
+  rejected: 已拒絕
+  unknown: 加載中
+  unverified: 未驗證
+  verified: 已驗證
+completed: 已完成
 identification:
-  btn-start-sumsub: 让我们从 Sumsub 开始
-  description: 表明您的身份以帮助我们保护您的帐户。
-  title: 鉴别
+  btn-start-sumsub: 讓我們從Sumsub開始
+  description: 證明您的身份以幫助我們保護您的帳戶。
+  title: 身份識別
 modal-kyc:
-  footer: 完成你的 <1>鉴别</1>, <4>确认</4>， 和 <7>验证至少一个钱包地址</7> 访问我们平台上的所有功能并享受完整体验。
-  title: KYC 状态
-title: 实名认证
+  footer: 完成您的<1>身份識別</1>、<4>驗證</4>，並<7>至少驗證一個錢包地址</7>，以訪問所有功能並在我們的平台上享受無縫體驗。
+  title: KYC狀態
+title: KYC
 verification:
-  btn-calendly: 於Calendly中預約時間
-  btn-meeting: 安排会议
-  description: 要验证您的帐户，请在 Calendly 上安排会议，我们将与您联系以协助您完成验证过程。
-  identify-first-notice: 首先完成身份验证
-  title: 确认
+  btn-calendly: 在Calendly中安排會議
+  btn-meeting: 安排會議
+  description: 為了驗證您的帳戶，請在Calendly上安排會議，我們將與您聯繫以協助您完成驗證過程。
+  identify-first-notice: 首先完成身份識別
+  title: 驗證
 wallet:
   add:
-    banner: 请注意，我们目前仅支持 <1>USDT</1> 作为付費加密货币。
-    btn-send-email: 传送电子邮件
+    banner: 請注意，我們目前僅支持<1>USDT</1>作為加密貨幣。
+    btn-send-email: 發送電子郵件
     help:
-      screenshot-title: <0>例子</0>：USDT钱包地址
-      step-0: 要将您的 USDT 钱包地址和网络发送给我们，您需要在 Trust 钱包中执行以下步骤：
-      step-1-networks: 在您的首选网络上选择 USDT 币
-      step-2-receive: 选择接收按钮。
-      step-3-screenshot: 截取显示您的 USDT 存款钱包地址和网络的页面截图。
-      step-4-email: 将屏幕截图附加到电子邮件并将其发送到我们的支持电子邮件： <1>support@wisdomise.io</1>
+      screenshot-title: 示例：USDT錢包地址
+      step-0: 要向我們發送您的USDT錢包地址和網絡，您需要在您的Trust錢包中遵循以下步驟：
+      step-1-networks: 在您首選的網絡上選擇USDT幣種
+      step-2-receive: 選擇接收按鈕。
+      step-3-screenshot: 拍攝顯示您的USDT存款錢包地址和網絡的頁面的截圖。
+      step-4-email: 將截圖附加到電子郵件並發送到我們的支持郵件：support@wisdomise.io
   btn-add:
-    verify-more: 验证更多钱包
-    verify-wallet: 验证钱包
+    verify-more: 驗證更多錢包
+    verify-wallet: 驗證錢包
   column:
-    coin: 硬币
-    name: 钱包名称
-    wallet-address: 钱包地址
-  description: 验证您的钱包以激活和解锁我们的所有产品和功能。
-  empty-message: 您没有经过验证的钱包地址。
-  list-title: 钱包状态
-  title: 钱包验证
-  unnamed: （未命名）
+    coin: 幣種
+    name: 錢包名稱
+    wallet-address: 錢包地址
+  description: 驗證您的錢包以激活並解鎖我們的所有產品和功能。
+  empty-message: 您沒有經過驗證的錢包地址。
+  list-title: 錢包狀態
+  title: 錢包驗證
+  unnamed: (未命名)
 wisdomise-only:
-  subtitle: KYC专门针对通过Wisdomise钱包账户激活金融产品的用户。
-  title: 如果您使用币安钱包 API，则不需要 KYC。
+  subtitle: KYC專門針對通過Wisdomise錢包帳戶激活金融產品的用戶。
+  title: 如果您使用的是Binance錢包API，則無需KYC。

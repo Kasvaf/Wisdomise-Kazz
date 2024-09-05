@@ -1,14 +1,9 @@
 import { Select, type SelectProps } from 'antd';
 import { useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
-import { type CoinSignal, useCoinSignals } from 'api';
-import { cdnCoinIcon } from 'shared/CoinsIcons';
-
-const coinIcon = (symbolOrObject: string | CoinSignal) => {
-  if (!symbolOrObject) return '';
-  if (typeof symbolOrObject === 'string') return cdnCoinIcon(symbolOrObject);
-  return symbolOrObject.image ?? cdnCoinIcon(symbolOrObject.symbol_name);
-};
+import { useCoinSignals } from 'api';
+import { Coin } from 'shared/Coin';
+import type { Coin as CoinType } from 'api/types/shared';
 
 export const PairBaseSelect: FC<SelectProps<string>> = ({
   value,
@@ -17,24 +12,22 @@ export const PairBaseSelect: FC<SelectProps<string>> = ({
   ...props
 }) => {
   const signals = useCoinSignals();
-  const coins = useMemo(
-    () => [
-      ...(value &&
-      signals?.data?.findIndex(coin => coin.symbol_name === value) === -1
+  const coins = useMemo<CoinType[]>(() => {
+    const shouldInjectValue =
+      value && !signals?.data?.some(coin => coin.symbol.slug === value);
+    return [
+      ...(shouldInjectValue
         ? [
             {
-              symbol: value,
-              icon: coinIcon(value),
-            },
+              abbreviation: value,
+              name: value,
+              slug: value,
+            } satisfies CoinType,
           ]
         : []),
-      ...(signals?.data || []).map(coin => ({
-        symbol: coin.symbol_name,
-        icon: coinIcon(coin),
-      })),
-    ],
-    [signals, value],
-  );
+      ...(signals?.data || []).map(coin => coin.symbol).filter(x => !!x.slug),
+    ];
+  }, [signals, value]);
 
   return (
     <Select
@@ -44,24 +37,14 @@ export const PairBaseSelect: FC<SelectProps<string>> = ({
       autoClearSearchValue
       showArrow={!disabled}
       disabled={disabled}
-      filterOption={(input, option) =>
-        coins
-          .find(x => x.symbol === option?.value)
-          ?.symbol.toLowerCase()
-          .includes(input.toLowerCase()) || false
-      }
+      filterOption={(input, option) => {
+        return JSON.stringify(
+          coins.find(x => x.slug === option?.value) ?? {},
+        ).includes(input.toLowerCase());
+      }}
       options={coins.map(coin => ({
-        label: (
-          <>
-            <img
-              src={coin.icon}
-              alt={coin.symbol}
-              className="me-2 inline-block size-4 rounded-full bg-white"
-            />
-            {coin.symbol}
-          </>
-        ),
-        value: coin.symbol,
+        label: <Coin coin={coin} nonLink mini className="align-middle" />,
+        value: coin.slug,
       }))}
       {...props}
     />

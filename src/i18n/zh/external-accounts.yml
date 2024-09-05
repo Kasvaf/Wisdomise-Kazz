@@ -1,30 +1,30 @@
 account:
-  account: 帐户
-  accounts: 账户
-  exchange: 交换
-  market: 市场
-  name: 帐户名称
-  status: 状态
+  account: 帳戶
+  accounts: 帳戶
+  exchange: 交易所
+  market: 市場
+  name: 帳戶名稱
+  status: 狀態
 delete-account:
-  btn-yes: 是，我确定
-  confirm-message: 您确定要删除该外部帐户吗？
-  title: 删除外部帐户
+  btn-yes: 是的，我確定
+  confirm-message: 您確定要刪除此外部帳戶嗎？
+  title: 刪除外部帳戶
 modal-account-selector:
-  btn-connect-new: 连接新帐户
-  btn-continue: 继续
-  not-supported: 该产品不支持外部兑换账户。
-  title: 选择账户
+  btn-connect-new: 連接新帳戶
+  btn-continue: 繼續
+  not-supported: 此產品不支持外部交易所帳戶。
+  title: 選擇帳戶
 modal-add-exchange:
-  input-api-key: API密钥
-  input-exchange: 交换
-  input-secret-key: 密钥
-  notice-ip-restriction: 使用以下值 <1>IP访问限制</1> 在币安：
-  title: 添加兑换账户
+  input-api-key: API 金鑰
+  input-exchange: 交易所
+  input-secret-key: 秘鑰
+  notice-ip-restriction: 在 Binance 中使用以下值作為 <1>IP 訪問限制</1>：
+  title: 添加交易所帳戶
 page-accounts:
-  accounts-connected: 已连接账户
-  btn-add-account: 新增帐户
-  empty-description: 您还没有添加任何外部兑换账户。
-  exchanges-title: 我的兑换账户
-  subscription: 订阅
-  users-invited: 已邀请用户
-  wisdomise-account: Wisdomise 帐户
+  accounts-connected: 帳戶已連接
+  btn-add-account: 添加帳戶
+  empty-description: 您尚未添加任何外部交易所帳戶。
+  exchanges-title: 我的交易所帳戶
+  subscription: 訂閱
+  users-invited: 用戶已邀請
+  wisdomise-account: Wisdomise 帳戶

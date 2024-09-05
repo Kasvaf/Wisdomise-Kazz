@@ -4,6 +4,7 @@ import axios from 'axios';
 export interface RsiOvernessRow {
   candle_pair_name: string;
   candle_base_abbreviation: string;
+  candle_base_slug?: string | null;
   rsi_value_1d: number | null;
   candle_related_at_1d: string | null;
   rsi_value_4h: number | null;
@@ -23,12 +24,13 @@ export interface RsiOvernessRow {
   total_volume: number;
   circulating_supply: number;
   market_cap_change_24h: number;
-  image: string;
+  image?: string | null;
 }
 
 export interface RsiDivergenceRow {
   candle_pair_name: string;
   candle_base_abbreviation: string;
+  candle_base_slug?: string | null;
   candle_related_at: string;
   candle_resolution: string;
   divergence_length: string;
@@ -41,7 +43,7 @@ export interface RsiDivergenceRow {
   total_volume: number;
   circulating_supply: number;
   market_cap_change_24h: number;
-  image: string;
+  image?: string | null;
 }
 
 export interface RsiOvernessResponse {
