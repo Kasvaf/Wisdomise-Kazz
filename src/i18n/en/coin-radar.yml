@@ -5,7 +5,6 @@ available-exchanges:
     price: Price
     rank: '#'
     volume_24h: Volume 24h
-    volume_percentage: Volume %
 call-change:
   fire-time: Signal Fire Time
   max-price: Max Price
@@ -13,13 +12,6 @@ call-change:
   pnl: Call PnL Percentage
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
-coin-info:
-  24h_chg: 24h Chg
-  market_cap: Market Cap
-  price: Price
-  volume_24h: Volume 24h
-hot-coins:
-  side-suggest: Side Suggestion
 coin-details:
   tabs:
     chart:
@@ -102,9 +94,7 @@ hot-coins-section:
     call-time: Call Time
     chg-24: Chg(24h)
     market-cap: Market Cap
-    negative: Negative
     pnl: Call PnL
-    positive: Positive
     rank: '#'
     realtime-price: Realtime Price
     sentiment: Sentiment
