@@ -5,7 +5,6 @@ import { bxCheckCircle } from 'boxicons-quasar';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'shared/useModal';
-import { unwrapErrorMessage } from 'utils/error';
 import Icon from 'shared/Icon';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { useLockingRequirementQuery } from 'api/defi';
@@ -59,16 +58,12 @@ export default function PricingCard({
 
   const onClick = async () => {
     if (isActive && !isTrialPlan) {
-      try {
-        await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
-        notification.success({
-          duration: 5000,
-          message: t('pricing-card.notification-upgrade-success'),
-        });
-        onPlanUpdate();
-      } catch (error) {
-        notification.error({ message: unwrapErrorMessage(error) });
-      }
+      await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
+      notification.success({
+        duration: 5000,
+        message: t('pricing-card.notification-upgrade-success'),
+      });
+      onPlanUpdate();
     } else {
       if (isTokenUtility) {
         void openTokenPaymentModal({ plan });
