@@ -28,6 +28,12 @@ menu:
     subtitle: Integrate exchange accounts
   ai-indicators:
     title: AI Indicators
+  alerts:
+    title: My Alerts
+    subtitle: >-
+      Stay Ahead with Real-Time Alerts: Set Notifications on Your Favorite
+      Cryptos and Never Miss a Market Move!
+    full-title: Notification & Alerts
   athena:
     title: Crypto Chatbot
   billing:

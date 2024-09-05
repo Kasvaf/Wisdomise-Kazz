@@ -1,0 +1,17 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_8621_22989)">
+<path d="M14.0002 9.49998C14.0002 9.99731 13.5975 10.4 13.1002 10.4H10.1002C9.60286 10.4 9.2002 9.99731 9.2002 9.49998C9.2002 9.00264 9.60286 8.59998 10.1002 8.59998H13.1002C13.5975 8.59998 14.0002 9.00264 14.0002 9.49998Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.2002 12.2H10.1002C10.5975 12.2 11.0002 12.6027 11.0002 13.1C11.0002 13.5973 10.5975 14 10.1002 14C9.60286 14 9.2002 13.5973 9.2002 13.1V12.2Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.5001 2C9.99743 2 10.4001 2.40267 10.4001 2.9V5.9C10.4001 6.39733 9.99743 6.8 9.5001 6.8C9.00276 6.8 8.6001 6.39733 8.6001 5.9V2.9C8.6001 2.40267 9.00276 2 9.5001 2Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.2002 6.8V5.9C12.2002 5.40267 12.6029 5 13.1002 5C13.5975 5 14.0002 5.40267 14.0002 5.9C14.0002 6.39733 13.5975 6.8 13.1002 6.8H12.2002Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 6.49998C2 6.00264 2.40267 5.59998 2.9 5.59998H5.9C6.39733 5.59998 6.8 6.00264 6.8 6.49998C6.8 6.99731 6.39733 7.39998 5.9 7.39998H2.9C2.40267 7.39998 2 6.99731 2 6.49998Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.8 3.8H5.9C5.40267 3.8 5 3.39733 5 2.9C5 2.40267 5.40267 2 5.9 2C6.39733 2 6.8 2.40267 6.8 2.9V3.8Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6.5001 14C6.00276 14 5.6001 13.5973 5.6001 13.1V10.1C5.6001 9.60268 6.00276 9.20001 6.5001 9.20001C6.99743 9.20001 7.4001 9.60268 7.4001 10.1V13.1C7.4001 13.5973 6.99743 14 6.5001 14Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3.8 9.20001V10.1C3.8 10.5973 3.39733 11 2.9 11C2.40267 11 2 10.5973 2 10.1C2 9.60268 2.40267 9.20001 2.9 9.20001H3.8Z" stroke="current" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_8621_22989">
+<rect width="16" height="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>

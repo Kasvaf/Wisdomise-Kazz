@@ -38,6 +38,11 @@ const useMenuItems = () => {
           link: '/dashboard/portfolio',
           onClick: trackClick('portfolio_menu'),
         },
+        {
+          text: t('menu.alerts.title'),
+          link: '/dashboard/alerts',
+          onClick: trackClick('portfolio_menu'),
+        },
       ],
     },
 

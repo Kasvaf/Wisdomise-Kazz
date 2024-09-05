@@ -38,11 +38,7 @@ export type AlertConfig<D extends AlertDataSource> = D extends 'market_data'
       dnd_interval: number;
       one_time: boolean;
     }
-  : {
-      dnd_interval: number;
-      reset_interval?: number;
-      one_time: boolean;
-    };
+  : never;
 
 interface RawAlert<D extends AlertDataSource> {
   key: string;
@@ -108,7 +104,7 @@ const transformAlertToPayload = <D extends AlertDataSource>(
 };
 
 export const useAlerts = <D extends AlertDataSource>(
-  dataSource: D,
+  dataSource?: D,
   filters?: Partial<AlertParams<D>>,
 ) => {
   const filterKeys = filters
@@ -159,8 +155,9 @@ export const useSaveAlert = <D extends AlertDataSource>(alertId?: string) => {
   const client = useQueryClient();
   return useMutation(
     (payload: Partial<Alert<D>>) => {
-      const url = `alerting/alerts${alertId ? `/${alertId}` : ''}`;
-      const method: keyof typeof axios = alertId ? 'patch' : 'post';
+      const alertKey = payload.key ?? alertId;
+      const url = `alerting/alerts${alertKey ? `/${alertKey}` : ''}`;
+      const method: keyof typeof axios = alertKey ? 'patch' : 'post';
       return axios[method](url, transformAlertToPayload(payload));
     },
     { onSuccess: () => client.invalidateQueries(['alerts']) },

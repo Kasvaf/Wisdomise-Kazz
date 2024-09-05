@@ -9,10 +9,8 @@ import {
 } from 'api';
 import { track } from 'config/segment';
 import { DrawerModal } from 'shared/DrawerModal';
-import {
-  IntervalSelect,
-  AlertChannelsSelect,
-} from 'modules/account/PageNotification/AlertsTab/AlertSaveModal';
+import { AlertChannelsSelect } from 'modules/account/PageAlerts/components/AlertChannelsSelect';
+import { IntervalSelect } from 'modules/account/PageAlerts/components/IntervalSelect';
 import {
   BellIcon,
   NotifIsSetIcon,
@@ -88,7 +86,7 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
 
   return (
     <section className="mx-auto w-full max-w-lg mobile:max-h-[calc(100vh-10rem)]">
-      <section className="mb-6 flex flex-col items-center border-b border-white/5">
+      <section className="mb-12 flex flex-col items-center">
         <NotifModalIcon className="mb-6" />
         <h2 className="mb-1 text-base font-medium">
           {t('set-notification.modal.title')}
@@ -99,7 +97,7 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
       </section>
 
       <form
-        className="flex flex-col gap-8"
+        className="flex flex-col gap-6"
         onSubmit={alertForm.handleSubmit(data => {
           return toggleSubscription.mutateAsync(data).then(e => {
             track('Click On', {
@@ -112,7 +110,21 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
         })}
       >
         <section>
-          <h3 className="mb-2 pl-2 text-xs font-normal">
+          <Controller
+            control={alertForm.control}
+            name="isSubscribed"
+            render={({ field: { value, onChange } }) => (
+              <AlertChannelsSelect
+                value={value ? ['EMAIL'] : []}
+                onChange={e => onChange(e.includes('EMAIL'))}
+                loading={isSubscribedQuery.isLoading}
+              />
+            )}
+          />
+        </section>
+
+        <section className="mb-8 flex flex-row items-center justify-between">
+          <h3 className="text-sm font-normal">
             {t('set-notification.modal.interval-section')}
           </h3>
           <div>
@@ -123,24 +135,6 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
               cooldownMode={false}
             />
           </div>
-        </section>
-
-        <section>
-          <h3 className="mb-2 pl-2 text-xs font-normal">
-            {t('set-notification.modal.alert-channel-section')}
-          </h3>
-          <Controller
-            control={alertForm.control}
-            name="isSubscribed"
-            render={({ field: { value, onChange } }) => (
-              <AlertChannelsSelect
-                value={value ? ['EMAIL'] : []}
-                onChange={e => onChange(e.includes('EMAIL'))}
-                loading={isSubscribedQuery.isLoading}
-                className="h-[270px] mobile:h-[245px]"
-              />
-            )}
-          />
         </section>
 
         <Button

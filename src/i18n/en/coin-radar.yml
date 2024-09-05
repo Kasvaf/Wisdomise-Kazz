@@ -157,7 +157,6 @@ set-notification:
       Don’t miss out on the next big opportunity in the crypto world. Our
       notification system lets you be the first to know about hot coins and
       fresh discoveries.
-    alert-channel-section: Alert Channel
     interval-section: Interval
     save-button: Save Alert Setting
   open-modal-btn:

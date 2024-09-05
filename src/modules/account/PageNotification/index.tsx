@@ -3,19 +3,17 @@ import type { TabsProps } from 'antd';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { analytics } from 'config/segment';
-import { useHasFlag, useStrategiesList } from 'api';
+import { useStrategiesList } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { isProduction } from 'utils/version';
 import { PageTitle } from 'shared/PageTitle';
 import SignalingTab from './SignalingTab';
-import AlertsTab from './AlertsTab';
 import CustomNotificationTab from './CustomNotificationTab';
 
 export default function PageNotification() {
   const { t } = useTranslation('notifications');
   const strategies = useStrategiesList();
-  const hasFlag = useHasFlag();
   const [activeTab, setActiveTab] = useSearchParamAsState<string>(
     'tab',
     'center',
@@ -28,15 +26,6 @@ export default function PageNotification() {
         label: t('signaling.title'),
         children: <SignalingTab />,
       },
-      ...(hasFlag('/account/notification-center?tab=alerts')
-        ? [
-            {
-              key: 'alerts',
-              label: t('alerts.title'),
-              children: <AlertsTab />,
-            },
-          ]
-        : []),
       ...(isProduction
         ? []
         : [
@@ -47,7 +36,7 @@ export default function PageNotification() {
             },
           ]),
     ],
-    [hasFlag, t],
+    [t],
   );
 
   useEffect(() => {
