@@ -4,7 +4,6 @@ import { type Alert, type AlertDataSource } from 'api/alert';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinSelect } from '../CoinSelect';
 import { OperatorSelect } from '../OperatorSelect';
-import { ExchangeSelect } from '../ExchangeSelect';
 
 export function AlertTarget<D extends AlertDataSource>({
   value,
@@ -42,17 +41,17 @@ export function AlertTarget<D extends AlertDataSource>({
               />
             ),
             Threshold: <ReadableNumber value={+value.condition?.threshold} />,
-            Exchange:
-              value.params?.market_name && value.params?.market_type ? (
-                <ExchangeSelect
-                  value={value.params.market_name}
-                  marketType={value.params.market_type}
-                  disabled
-                  size="small"
-                />
-              ) : (
-                <span />
-              ),
+            // Exchange:
+            //   value.params?.market_name && value.params?.market_type ? (
+            //     <ExchangeSelect
+            //       value={value.params.market_name}
+            //       marketType={value.params.market_type}
+            //       disabled
+            //       size="small"
+            //     />
+            //   ) : (
+            //     <span />
+            //   ),
           }}
         />
       )}

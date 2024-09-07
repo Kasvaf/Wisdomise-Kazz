@@ -10,7 +10,6 @@ import Icon from 'shared/Icon';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinSelect } from '../CoinSelect';
 import { OperatorSelect } from '../OperatorSelect';
-import { ExchangeSelect } from '../ExchangeSelect';
 import { PriceInput } from '../PriceInput';
 import { FormControlWithLabel } from '../FormControlWithLabel';
 
@@ -43,8 +42,8 @@ export function ConditionForm<D extends AlertDataSource>({
         params: {
           ...value?.params,
           base: value?.params?.base ?? 'bitcoin',
-          market_name: value?.params?.market_name ?? 'BINANCE',
-          market_type: value?.params?.market_type ?? 'SPOT',
+          // market_name: value?.params?.market_name ?? 'BINANCE',
+          // market_type: value?.params?.market_type ?? 'SPOT',
           quote: value?.params?.quote ?? 'tether',
         },
         condition: {
@@ -128,19 +127,19 @@ export function ConditionForm<D extends AlertDataSource>({
                   )}
                 />
               ),
-              Exchange: (
-                <Controller
-                  control={alertFormAsMarketData.control}
-                  name="params.market_name"
-                  render={({ field: { value: fieldValue, onChange } }) => (
-                    <ExchangeSelect
-                      onChange={onChange}
-                      value={fieldValue}
-                      marketType={value?.params?.market_type || 'SPOT'}
-                    />
-                  )}
-                />
-              ),
+              // Exchange: (
+              //   <Controller
+              //     control={alertFormAsMarketData.control}
+              //     name="params.market_name"
+              //     render={({ field: { value: fieldValue, onChange } }) => (
+              //       <ExchangeSelect
+              //         onChange={onChange}
+              //         value={fieldValue}
+              //         marketType={value?.params?.market_type || 'SPOT'}
+              //       />
+              //     )}
+              //   />
+              // ),
             }}
           />
           {alertFormAsMarketData.getValues('params.base') && (

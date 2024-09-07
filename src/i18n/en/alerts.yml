@@ -57,10 +57,9 @@ forms:
     subtitle: Stay on top of market changes with instant notifications
     sentence: >-
       Send an alert as soon as <Badge><Base>Unknown Coin</Base></Badge> <Br/>
-      Goes <Badge><Operator>Unknown Operator</Operator></Badge> the price of
-      <Badge><Threshold>Unknown Threshold</Threshold></Badge> <Br />
-      <Badge><Quote>Unknown Quote</Quote></Badge> on <Badge><Exchange>Unknown
-      Exchange</Exchange></Badge>
+      Goes <Badge><Operator>Unknown Operator</Operator></Badge> the price of <Br
+      /> <Badge><Threshold>Unknown Threshold</Threshold></Badge>
+      <Badge><Quote>Unknown Quote</Quote></Badge>
     step: Set Price Details
   signaler:
     title: Signaler Alert
