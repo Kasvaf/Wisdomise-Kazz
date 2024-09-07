@@ -38,8 +38,8 @@ coin-details:
       title: Price Performance
       ath: All-Time High
       atl: All-Time Low
-      high_24h: High 24h
-      low_24h: Low 24h
+      high: High
+      low: Low
     social_sentiment:
       title: Social Sentiment By Wisdomise
       footer: Past 24H, Community Data Insights

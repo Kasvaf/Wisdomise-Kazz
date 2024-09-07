@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
-import { useMemo, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Select } from 'antd';
 import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
@@ -41,21 +42,28 @@ export function CoinPricePerformanceWidget({
   slug: string;
 }) {
   const coinOverview = useCoinOverview({ slug });
+  const [timeFrame, setTimeFrame] = useState<
+    '1_d' | '7_d' | '14_d' | '21_d' | '30_d'
+  >('1_d');
+
+  const [low, high] = [
+    coinOverview.data?.data?.[`min_price_${timeFrame}`],
+    coinOverview.data?.data?.[`max_price_${timeFrame}`],
+  ];
+
   const { t } = useTranslation('coin-radar');
 
   const priceGaugePercentage = useMemo(() => {
     if (
-      typeof coinOverview.data?.data?.high_24h !== 'number' ||
-      typeof coinOverview.data?.data?.low_24h !== 'number' ||
+      typeof low !== 'number' ||
+      typeof high !== 'number' ||
       typeof coinOverview.data?.data?.current_price !== 'number'
     )
       return null;
-    const passed =
-      coinOverview.data.data.current_price - coinOverview.data.data.low_24h;
-    const total =
-      coinOverview.data.data.high_24h - coinOverview.data.data.low_24h;
+    const passed = high - low;
+    const total = high - low;
     return (passed / total) * 100;
-  }, [coinOverview.data]);
+  }, [low, high, coinOverview]);
 
   return (
     <OverviewWidget
@@ -63,27 +71,48 @@ export function CoinPricePerformanceWidget({
       contentClassName="flex flex-col gap-8 overflow-visible text-xs"
     >
       <div>
-        <p className=" text-v1-content-primary">
-          {t('coin-details.tabs.price_performance.title')}
-        </p>
-        <div className="mt-3 flex items-center justify-between gap-4 text-xs">
+        <div className="flex items-center justify-between text-v1-content-primary">
+          <span>{t('coin-details.tabs.price_performance.title')}</span>
+          <Select
+            size="small"
+            value={timeFrame}
+            onChange={setTimeFrame}
+            options={[
+              {
+                label: '24h',
+                value: '1_d',
+              },
+              {
+                label: '7d',
+                value: '7_d',
+              },
+              {
+                label: '14d',
+                value: '14_d',
+              },
+              {
+                label: '21d',
+                value: '21_d',
+              },
+              {
+                label: '30d',
+                value: '30_d',
+              },
+            ]}
+          />
+        </div>
+        <div className="mt-4 flex items-center justify-between gap-4 text-xs">
           <div>
             <p className="mb-1 text-v1-content-secondary">
-              {t('coin-details.tabs.price_performance.low_24h')}
+              {t('coin-details.tabs.price_performance.low')}
             </p>
-            <ReadableNumber
-              value={coinOverview.data?.data?.low_24h}
-              label="$"
-            />
+            <ReadableNumber value={low} label="$" />
           </div>
           <div>
             <p className="mb-1 text-v1-content-secondary">
-              {t('coin-details.tabs.price_performance.high_24h')}
+              {t('coin-details.tabs.price_performance.high')}
             </p>
-            <ReadableNumber
-              value={coinOverview.data?.data?.high_24h}
-              label="$"
-            />
+            <ReadableNumber value={high} label="$" />
           </div>
         </div>
         {typeof priceGaugePercentage === 'number' && (
