@@ -35,6 +35,12 @@ coin-details:
         Explore Your Options, Discover the Available Exchanges for Seamless
         Trading!
       label: Markets
+    most_viewed_coins:
+      title: Most Viewed Coins
+      table:
+        name: Name
+        chg_24: Chg(24)
+        price: Price
     price_performance:
       title: Price Performance
       ath: All-Time High

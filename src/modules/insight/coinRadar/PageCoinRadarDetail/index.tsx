@@ -14,6 +14,7 @@ import { WhalePopularCoinsWidget } from './components/WhalePopularCoinsWidget';
 import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
 import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
+import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
 
 export default function PageCoinRadarDetail() {
   const { t } = useTranslation('coin-radar');
@@ -62,6 +63,7 @@ export default function PageCoinRadarDetail() {
           <CoinSocialSentimentWidget slug={slug} />
           <CoinPricePerformanceWidget slug={slug} />
           <TopCoinsWidget slug={slug} />
+          <MostViewedCoinsWidget slug={slug} />
           <WhalePopularCoinsWidget slug={slug} />
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">

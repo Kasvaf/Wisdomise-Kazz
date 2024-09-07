@@ -407,6 +407,7 @@ export interface CoinOverview {
   exchanges: CoinExchange[];
   networks: CoinNetwork[];
 }
+
 export const useCoinOverview = ({
   slug,
   priceHistoryDays,
@@ -424,5 +425,22 @@ export const useCoinOverview = ({
             price_history_days: priceHistoryDays ?? 1,
           },
         })
+        .then(resp => resp.data),
+  });
+
+export interface TrendingCoin {
+  market_cap: string;
+  total_volume: string;
+  price: number;
+  price_change_percentage_24h: number;
+  sparkline: string;
+  symbol: Coin;
+}
+export const useTrendingCoins = () =>
+  useQuery({
+    queryKey: ['trending-coins'],
+    queryFn: () =>
+      axios
+        .get<TrendingCoin[]>('delphi/symbols/trending/')
         .then(resp => resp.data),
   });
