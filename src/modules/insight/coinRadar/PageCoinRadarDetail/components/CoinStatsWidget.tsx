@@ -1,13 +1,55 @@
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxInfoCircle } from 'boxicons-quasar';
+import { bxCopy, bxInfoCircle } from 'boxicons-quasar';
 import { Tooltip } from 'antd';
+import { useCopyToClipboard } from 'usehooks-ts';
+import useNotification from 'antd/es/notification/useNotification';
 import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { shortenAddress } from 'utils/shortenAddress';
+
+function ContractAddress({
+  className,
+  value,
+}: {
+  children?: ReactNode;
+  className?: string;
+  value: string;
+}) {
+  const { t } = useTranslation('common');
+  const [, copy] = useCopyToClipboard();
+  const [notification, notificationContent] = useNotification();
+  return (
+    <Tooltip title={value}>
+      <span
+        className={clsx(
+          'inline-flex items-center gap-2 font-mono text-v1-content-link',
+          className,
+        )}
+      >
+        <Icon
+          name={bxCopy}
+          size={16}
+          className="cursor-pointer text-white/70 hover:text-white/90"
+          onClick={() =>
+            copy(value).then(() =>
+              notification.success({
+                message: t('copied-to-clipboard'),
+                className: '[&_.ant-notification-notice-description]:hidden',
+              }),
+            )
+          }
+        />
+        {shortenAddress(value)}
+      </span>
+      {notificationContent}
+    </Tooltip>
+  );
+}
 
 function StatRow({
   className,
@@ -136,6 +178,16 @@ export function CoinStatsWidget({
           label={coinOverview.data?.symbol.abbreviation}
         />
       </StatRow>
+      {coinOverview.data?.networks.map(network => (
+        <StatRow
+          key={network.network.id}
+          label={`${t('coin-details.tabs.coin_stats.contract_address')} (${
+            network.network.name
+          })`}
+        >
+          <ContractAddress value={network.contract_address} />
+        </StatRow>
+      ))}
     </OverviewWidget>
   );
 }

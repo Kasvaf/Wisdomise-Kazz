@@ -295,6 +295,7 @@ export interface CoinExchange {
     created_at: string;
   };
 }
+
 export const useCoinAvailableExchanges = (symbol: string) =>
   useQuery({
     queryKey: ['coin-available-exchanges', symbol],
@@ -350,6 +351,16 @@ export const useToggleSubscribeToCoinNotification = () =>
       queryClient.invalidateQueries(['is_subscribed_to_radar_notification']),
   });
 
+export interface CoinNetwork {
+  network: {
+    id: number;
+    name: string;
+    abbreviation: string;
+    icon_url: string;
+  };
+  contract_address: string;
+  symbol_network_type: string;
+}
 export interface CoinOverview {
   symbol: Coin;
   related_at: string | null;
@@ -394,6 +405,7 @@ export interface CoinOverview {
     }>;
   };
   exchanges: CoinExchange[];
+  networks: CoinNetwork[];
 }
 export const useCoinOverview = ({
   slug,
