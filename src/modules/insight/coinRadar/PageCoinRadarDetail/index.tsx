@@ -11,10 +11,12 @@ import { CoinSocialSentimentWidget } from './components/CoinSocialSentimentWidge
 import { CoinPricePerformanceWidget } from './components/CoinPricePerformanceWidget';
 import { TopCoinsWidget } from './components/TopCoinsWidget';
 import { WhalePopularCoinsWidget } from './components/WhalePopularCoinsWidget';
-import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
 import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
 import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
+import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
+
+const TODO_SHOW_CHART = false;
 
 export default function PageCoinRadarDetail() {
   const { t } = useTranslation('coin-radar');
@@ -26,10 +28,14 @@ export default function PageCoinRadarDetail() {
 
   const scrollPointTabs = useScrollPointTabs(
     [
-      {
-        key: 'coinoverview_chart',
-        label: t('coin-details.tabs.chart.label'),
-      },
+      ...(TODO_SHOW_CHART
+        ? [
+            {
+              key: 'coinoverview_chart',
+              label: t('coin-details.tabs.chart.label'),
+            },
+          ]
+        : []),
       {
         key: 'coinoverview_socials',
         label: t('coin-details.tabs.socials.label'),
@@ -74,7 +80,9 @@ export default function PageCoinRadarDetail() {
             {...scrollPointTabs}
           />
 
-          <CoinCandleChartWidget slug={slug} id="coinoverview_chart" />
+          {TODO_SHOW_CHART && (
+            <CoinCandleChartWidget slug={slug} id="coinoverview_chart" />
+          )}
           <CoinSocialFeedWidget
             id="coinoverview_socials"
             slug={slug}
