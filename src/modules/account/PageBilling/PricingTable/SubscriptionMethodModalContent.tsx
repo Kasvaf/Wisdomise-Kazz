@@ -4,6 +4,7 @@ import type { SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
+import { useHasFlag } from 'api';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
@@ -23,6 +24,7 @@ export default function SubscriptionMethodModal({
   onResolve,
 }: Props) {
   const { t } = useTranslation('billing');
+  const hasFlag = useHasFlag();
 
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
@@ -72,39 +74,49 @@ export default function SubscriptionMethodModal({
       <SubscriptionMethodLogos className="mb-12 mt-8" />
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
-        <Button className="col-span-1" onClick={onFiatClick}>
-          <div className="flex items-center gap-2">
-            <SIcon />
-            {t('subscription-modal.btn-fiat')}
-          </div>
-        </Button>
-        <Button className="col-span-1" onClick={onCryptoClick}>
-          <div className="flex items-center gap-2">
-            <CryptoPaymentIcon />
-            {t('subscription-modal.btn-crypto')}
-          </div>
-        </Button>
-        <Button className="relative col-span-1" onClick={onWSDMClick}>
-          <div className="flex items-center gap-2">
-            <Token />
-            {t('subscription-modal.btn-wsdm')}
-            <div className="absolute -end-2 -top-3 rounded-lg bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-2 py-1 text-sm text-white">
-              50% Off
-            </div>
-          </div>
-        </Button>
-        {plan.periodicity === 'YEARLY' && (
-          <Button
-            onClick={onLockClick}
-            className="col-span-1"
-            disabled={!WSDM_IS_ACTIVE}
-          >
+        {hasFlag('/account/billing?payment_method=fiat') && (
+          <Button className="col-span-1" onClick={onFiatClick}>
             <div className="flex items-center gap-2">
-              <Token />
-              {t('subscription-modal.btn-lock')}
+              <SIcon />
+              {t('subscription-modal.btn-fiat')}
             </div>
           </Button>
         )}
+
+        {hasFlag('/account/billing?payment_method=crypto') && (
+          <Button className="col-span-1" onClick={onCryptoClick}>
+            <div className="flex items-center gap-2">
+              <CryptoPaymentIcon />
+              {t('subscription-modal.btn-crypto')}
+            </div>
+          </Button>
+        )}
+
+        {hasFlag('/account/billing?payment_method=wsdm') && (
+          <Button className="relative col-span-1" onClick={onWSDMClick}>
+            <div className="flex items-center gap-2">
+              <Token />
+              {t('subscription-modal.btn-wsdm')}
+              <div className="absolute -end-2 -top-3 rounded-lg bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-2 py-1 text-sm text-white">
+                50% Off
+              </div>
+            </div>
+          </Button>
+        )}
+
+        {plan.periodicity === 'YEARLY' &&
+          hasFlag('/account/billing?payment_method=lock') && (
+            <Button
+              onClick={onLockClick}
+              className="col-span-1"
+              disabled={!WSDM_IS_ACTIVE}
+            >
+              <div className="flex items-center gap-2">
+                <Token />
+                {t('subscription-modal.btn-lock')}
+              </div>
+            </Button>
+          )}
       </div>
       {tokenPaymentModal}
     </div>
