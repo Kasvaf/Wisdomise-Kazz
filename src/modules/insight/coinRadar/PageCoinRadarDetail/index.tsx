@@ -56,15 +56,17 @@ export default function PageCoinRadarDetail() {
         coinOverview.isLoading || signals.isLoading || messages.isLoading
       }
     >
-      <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-1 flex flex-col gap-6 mobile:col-span-full">
-          <CoinPriceWidget slug={slug} />
-          <CoinStatsWidget slug={slug} />
-          <CoinSocialSentimentWidget slug={slug} />
-          <CoinPricePerformanceWidget slug={slug} />
-          <TopCoinsWidget slug={slug} />
-          <MostViewedCoinsWidget slug={slug} />
-          <WhalePopularCoinsWidget slug={slug} />
+      <div className="relative grid grid-cols-3 gap-6">
+        <div className="col-span-1 mobile:col-span-full">
+          <div className="sticky top-0 flex flex-col gap-6 mobile:relative">
+            <CoinPriceWidget slug={slug} />
+            <CoinStatsWidget slug={slug} />
+            <CoinSocialSentimentWidget slug={slug} />
+            <CoinPricePerformanceWidget slug={slug} />
+            <TopCoinsWidget slug={slug} />
+            <MostViewedCoinsWidget slug={slug} />
+            <WhalePopularCoinsWidget slug={slug} />
+          </div>
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
           <Tabs
