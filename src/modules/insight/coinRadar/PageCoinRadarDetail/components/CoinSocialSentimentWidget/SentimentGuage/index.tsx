@@ -15,7 +15,7 @@ export function SentimentGuage({
     );
   }, [measure]);
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <BaseIcon className="size-full" />
       <img
         src={LinesIcon}
