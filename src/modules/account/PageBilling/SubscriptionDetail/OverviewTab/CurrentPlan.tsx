@@ -72,9 +72,10 @@ export default function CurrentPlan() {
   );
 }
 
-const paymentMethodText: Record<PaymentMethod, string> = {
+export const paymentMethodText: Record<PaymentMethod, string> = {
   CRYPTO: 'Crypto',
   FIAT: 'Fiat',
-  TOKEN: 'Wisdomise Token (WSDM)',
+  TOKEN: 'Locked WSDM',
+  WSDM: 'Paid By WSDM',
   MANUAL: 'Manual',
 };

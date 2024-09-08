@@ -2,7 +2,6 @@ import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery, useChangePaymentMethodMutation } from 'api';
 import { type PaymentMethod } from 'api/types/subscription';
-import { unwrapErrorMessage } from 'utils/error';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import { ReactComponent as SIcon } from '../../images/s-icon.svg';
@@ -24,13 +23,9 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
   const changePaymentMethod = useChangePaymentMethodMutation();
 
   const handleChangePayment = async (payment: PaymentMethod) => {
-    try {
-      await changePaymentMethod.mutateAsync({ payment_method: payment });
-      notification.success({ message: 'Payment method changed successfully.' });
-      onResolve();
-    } catch (error) {
-      notification.error({ message: unwrapErrorMessage(error) });
-    }
+    await changePaymentMethod.mutateAsync({ payment_method: payment });
+    notification.success({ message: 'Payment method changed successfully.' });
+    onResolve();
   };
 
   const nextSub = account.data?.subscription_item?.next_subs_item;
@@ -81,6 +76,19 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             <div className="flex items-center gap-2">
               <TokenIcon />
               {t('change-pay-method.token')}
+            </div>
+          </Button>
+        )}
+
+        {nextSub?.payment_method !== 'WSDM' && (
+          <Button
+            size="small"
+            loading={clickedPayment === 'WSDM' && changePaymentMethod.isLoading}
+            onClick={() => handleChangePayment('WSDM')}
+          >
+            <div className="flex items-center gap-2">
+              <TokenIcon />
+              {t('change-pay-method.wsdm')}
             </div>
           </Button>
         )}
