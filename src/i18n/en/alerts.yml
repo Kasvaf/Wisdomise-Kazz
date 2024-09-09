@@ -77,8 +77,8 @@ forms:
     step: Set Whale Alert
 tables:
   slug:
-    creation_date: Creation Date
     actions: Actions
+    creation_date: Creation Date
     delivery-methods: Delivery Methods
     frequency: Frequency
     status: Status
