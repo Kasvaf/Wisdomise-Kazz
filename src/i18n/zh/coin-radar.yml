@@ -1,6 +1,7 @@
 available-exchanges:
   table:
     exchange: 交易所
+    pair: Pair
     price: 價格
     rank: "#"
     volume_24h: 24小時交易量
@@ -15,6 +16,71 @@ call-change:
   pnl: 看涨盈亏百分比
   trigger-price: 信号发出时的价格
   under-calculation: 正在计算
+coin-details:
+  tabs:
+    chart:
+      label: 圖表
+      title: 圖表
+    coin_stats:
+      circulating_supply: 流通供应量
+      contract_address: 合约地址
+      fully_diluted_valuation: 完全摊薄市值
+      market_cap: 市值
+      total_supply: 总供应量
+      volume: 交易量
+      volume_market_cap: 交易量/市值
+      volume_market_cap_info: 流动性指标。比率越高，加密货币的流动性就越强，这应该使得加密货币更容易在接近其价值的交易所买卖。
+    markets:
+      label: 市场
+      subtitle: 探索您的选择，发现可用于无缝交易的交易所！
+      title: 可用交易所
+    most_viewed_coins:
+      table:
+        chg_24: 更改(24)
+        name: 名稱
+        price: 價格
+      title: 最受关注的硬币
+    price_performance:
+      ath: 历史最高纪录
+      atl: 历史最低点
+      high: 高
+      low: 低
+      title: 价格表现
+    social_sentiment:
+      footer: 过去 24 小时，社区数据洞察
+      market_side: 市場方向
+      negative: 消極負面
+      positive: 積極正向
+      title: 智慧社会情绪
+    socials:
+      empty:
+        description: 我们的使命是提供全面的见解，以便明智地进行交易。我们收集了数千个加密货币项目的情报，尽管有些代币需要更多时间进行全面分析
+        reload: 重新加載
+        title: HODL 开始！数据即将到来
+      label: 社会的
+      load_more: 加载更多
+      subtitle: 通过实时扫描社交媒体，在加密领域保持领先地位。
+      title: 社交动态
+      types:
+        all:
+          title: 所有社交媒體饋送
+        reddit:
+          followers: 成員
+          title: Reddit
+        telegram:
+          followers: 訂閱者
+          title: Telegram
+        trading_view:
+          title: 技术理念
+        twitter:
+          title: X, Twitter
+    trading_view:
+      label: 技术理念
+      title: 技术理念
+    trending_coins:
+      title: 热门硬币和代币
+    whale_popular:
+      title: 深受鲸鱼喜爱
 coin-info:
   24h_chg: 24小時變化
   market_cap: 市值
