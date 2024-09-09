@@ -1,24 +1,34 @@
 import { useTranslation } from 'react-i18next';
-import { useWhalesCoins } from 'api';
+import { useHasFlag, useWhalesCoins } from 'api';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { SeeMoreLink } from './SeeMoreLink';
 
-export function TopWhaleCoinsTable() {
+export function TopWhaleCoinsWidget({ className }: { className?: string }) {
   const { t } = useTranslation('whale');
-
+  const hasFlag = useHasFlag();
   const coins = useWhalesCoins({
     page: 1,
     pageSize: 5,
     days: 1,
   });
 
+  if (!hasFlag('/insight/whales')) return null;
+
   return (
-    <div className="flex flex-col gap-4">
+    <OverviewWidget
+      className={className}
+      title={t('whale:sections.top-coins.title')}
+      info={t('whale:sections.top-coins.subtitle')}
+      headerActions={<SeeMoreLink to="/insight/whales" />}
+      contentClassName="flex flex-col gap-4"
+    >
       {coins.data?.results.map(row => (
         <div
           key={row.symbol_name}
-          className="flex flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
+          className="flex shrink-0 flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
         >
           <div className="flex items-center justify-between">
             <Coin coin={row.symbol} />
@@ -59,6 +69,6 @@ export function TopWhaleCoinsTable() {
           </div>
         </div>
       ))}
-    </div>
+    </OverviewWidget>
   );
 }

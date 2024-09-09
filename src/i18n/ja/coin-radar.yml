@@ -1,6 +1,7 @@
 available-exchanges:
   table:
     exchange: 取引所
+    pair: ペア
     price: 価格
     rank: "#"
     volume_24h: 24時間あたりのボリューム
@@ -15,6 +16,71 @@ call-change:
   pnl: コール PnL パーセンテージ
   trigger-price: シグナル発動時の価格
   under-calculation: 計算中
+coin-details:
+  tabs:
+    chart:
+      label: 知恵チャート
+      title: 知恵チャート
+    coin_stats:
+      circulating_supply: 循環供給
+      contract_address: 契約住所
+      fully_diluted_valuation: 完全希薄化後時価総額
+      market_cap: 時価総額
+      total_supply: 総供給量
+      volume: 音量
+      volume_market_cap: 取引量/時価総額
+      volume_market_cap_info: 流動性の指標。比率が高いほど暗号通貨の流動性が高くなり、取引所でその価値に近い価格で売買しやすくなります。
+    markets:
+      label: 市場
+      subtitle: オプションを探索し、シームレスな取引のために利用可能な取引所を見つけましょう。
+      title: 利用可能な交換
+    most_viewed_coins:
+      table:
+        chg_24: チェンジ(24)
+        name: 信号発信者名
+        price: 価格
+      title: 最も閲覧されたコイン
+    price_performance:
+      ath: 史上最高
+      atl: 史上最低
+      high: 高い
+      low: 低い
+      title: 価格パフォーマンス
+    social_sentiment:
+      footer: 過去 24 時間、コミュニティ データの洞察
+      market_side: マーケットサイド
+      negative: ネガティブ
+      positive: ポジティブ
+      title: 社会感情 ウィズダムズ
+    socials:
+      empty:
+        description: 私たちの使命は、情報に基づいた取引のための包括的な洞察を提供することです。私たちは何千もの暗号プロジェクトに関する情報を収集していますが、一部のコインは完全な分析にさらに時間がかかります。
+        reload: 再読み込み
+        title: HODLオン！データ到着
+      label: 社交
+      load_more: さらに読み込む
+      subtitle: ソーシャル メディアをリアルタイムでスキャンして、暗号通貨の最新情報を把握しましょう。
+      title: ソーシャルフィード
+      types:
+        all:
+          title: すべてのソーシャルフィード
+        reddit:
+          followers: メンバー
+          title: Reddit
+        telegram:
+          followers: 購読者
+          title: Telegram
+        trading_view:
+          title: 技術的なアイデア
+        twitter:
+          title: X、ツイッター
+    trading_view:
+      label: 技術的なアイデア
+      title: 技術的なアイデア
+    trending_coins:
+      title: トレンドのコインとトークン
+    whale_popular:
+      title: クジラに人気
 coin-info:
   24h_chg: 24時間変更
   market_cap: 時価総額

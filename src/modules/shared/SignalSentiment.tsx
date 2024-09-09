@@ -7,9 +7,9 @@ export const SignalSentiment: FC<{ signal: CoinSignal }> = ({ signal }) => {
   return (
     <span>
       {signal.gauge_tag === 'LONG'
-        ? t('hot-coins-section.table.positive')
+        ? t('coin-details.tabs.social_sentiment.positive')
         : signal.gauge_tag === 'SHORT'
-        ? t('hot-coins-section.table.negative')
+        ? t('coin-details.tabs.social_sentiment.negative')
         : signal.gauge_tag}
     </span>
   );

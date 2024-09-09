@@ -295,6 +295,7 @@ export interface CoinExchange {
     created_at: string;
   };
 }
+
 export const useCoinAvailableExchanges = (symbol: string) =>
   useQuery({
     queryKey: ['coin-available-exchanges', symbol],
@@ -350,6 +351,16 @@ export const useToggleSubscribeToCoinNotification = () =>
       queryClient.invalidateQueries(['is_subscribed_to_radar_notification']),
   });
 
+export interface CoinNetwork {
+  network: {
+    id: number;
+    name: string;
+    abbreviation: string;
+    icon_url: string;
+  };
+  contract_address: string;
+  symbol_network_type: string;
+}
 export interface CoinOverview {
   symbol: Coin;
   related_at: string | null;
@@ -360,9 +371,19 @@ export interface CoinOverview {
     roi: null;
     image: string | null;
     low_24h: number;
+    high_24h: number;
+    max_price_1_d: number;
+    max_price_7_d: number;
+    max_price_14_d: number;
+    max_price_21_d: number;
+    max_price_30_d: number;
+    min_price_1_d: number;
+    min_price_7_d: number;
+    min_price_14_d: number;
+    min_price_21_d: number;
+    min_price_30_d: number;
     ath_date: string;
     atl_date: string;
-    high_24h: number;
     market_cap: number;
     max_supply: number;
     last_updated: string;
@@ -384,7 +405,9 @@ export interface CoinOverview {
     }>;
   };
   exchanges: CoinExchange[];
+  networks: CoinNetwork[];
 }
+
 export const useCoinOverview = ({
   slug,
   priceHistoryDays,
@@ -402,5 +425,22 @@ export const useCoinOverview = ({
             price_history_days: priceHistoryDays ?? 1,
           },
         })
+        .then(resp => resp.data),
+  });
+
+export interface TrendingCoin {
+  market_cap: string;
+  total_volume: string;
+  price: number;
+  price_change_percentage_24h: number;
+  sparkline: string;
+  symbol: Coin;
+}
+export const useTrendingCoins = () =>
+  useQuery({
+    queryKey: ['trending-coins'],
+    queryFn: () =>
+      axios
+        .get<TrendingCoin[]>('delphi/symbols/trending/')
         .then(resp => resp.data),
   });

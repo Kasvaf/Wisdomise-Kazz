@@ -1,15 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { type TableColumnType } from 'antd';
-import { useWhales, type WhaleShort } from 'api';
+import { useHasFlag, useWhales, type WhaleShort } from 'api';
 import Table from 'shared/Table';
 import { WalletAddress } from 'shared/WalletAddress';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { OverviewWidget } from 'shared/OverviewWidget';
+import { SeeMoreLink } from './SeeMoreLink';
 
-export function TopWhaleListTable() {
+export function TopWhaleListWidget({ className }: { className?: string }) {
   const { t } = useTranslation('whale');
-
+  const hasFlag = useHasFlag();
   const whales = useWhales({
     page: 1,
     pageSize: 5,
@@ -48,13 +50,22 @@ export function TopWhaleListTable() {
     [t],
   );
 
+  if (!hasFlag('/insight/whales')) return null;
+
   return (
-    <Table
-      loading={whales.isLoading}
-      columns={columns}
-      dataSource={whales.data?.results.slice(0, 6) ?? []}
-      rowKey="holder_address"
-      pagination={false}
-    />
+    <OverviewWidget
+      className={className}
+      title={t('whale:sections.top-whales.title')}
+      info={t('whale:sections.top-whales.subtitle')}
+      headerActions={<SeeMoreLink to="/insight/whales" />}
+    >
+      <Table
+        loading={whales.isLoading}
+        columns={columns}
+        dataSource={whales.data?.results.slice(0, 6) ?? []}
+        rowKey="holder_address"
+        pagination={false}
+      />
+    </OverviewWidget>
   );
 }

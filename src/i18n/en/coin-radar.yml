@@ -1,11 +1,10 @@
 available-exchanges:
-  title: Available Exchanges
   table:
     exchange: Exchange
+    pair: Pair
     price: Price
     rank: '#'
     volume_24h: Volume 24h
-    volume_percentage: Volume %
 call-change:
   fire-time: Signal Fire Time
   max-price: Max Price
@@ -13,13 +12,80 @@ call-change:
   pnl: Call PnL Percentage
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
-coin-info:
-  24h_chg: 24h Chg
-  market_cap: Market Cap
-  price: Price
-  volume_24h: Volume 24h
-hot-coins:
-  side-suggest: Side Suggestion
+coin-details:
+  tabs:
+    chart:
+      title: Chart
+      label: Chart
+    coin_stats:
+      circulating_supply: Circulating Supply
+      contract_address: Contract Address
+      fully_diluted_valuation: Fully Diluted Market Cap
+      market_cap: Market Cap
+      total_supply: Total Supply
+      volume: Volume
+      volume_market_cap: Volume/Market Cap
+      volume_market_cap_info: >-
+        Indicator of liquidity. The higher the ratio, the more liquid the
+        cryptocurrency is, which should make it easier for it to be bought/sold
+        on an exchange close to its value.
+    markets:
+      title: Available Exchange
+      subtitle: >-
+        Explore Your Options, Discover the Available Exchanges for Seamless
+        Trading!
+      label: Markets
+    most_viewed_coins:
+      title: Most Viewed Coins
+      table:
+        name: Name
+        chg_24: Chg(24)
+        price: Price
+    price_performance:
+      title: Price Performance
+      ath: All-Time High
+      atl: All-Time Low
+      high: High
+      low: Low
+    social_sentiment:
+      title: Social Sentiment By Wisdomise
+      footer: Past 24H, Community Data Insights
+      market_side: Market Side
+      negative: Negative
+      positive: Positive
+    socials:
+      title: Social Feed
+      subtitle: Stay ahead in crypto with real-time scans of social media.
+      label: Social
+      empty:
+        title: HODL On! Data Incoming
+        description: >-
+          Our mission is to provide comprehensive insights for informed trading.
+          We gather intel on thousands of crypto projects, though some coins
+          need more time for full analysis
+        reload: Reload
+      load_more: Load More
+      types:
+        all:
+          title: All Socials Feed
+        reddit:
+          title: Reddit
+          followers: Members
+        telegram:
+          title: Telegram
+          followers: Subscribers
+        trading_view:
+          title: Technical Ideas
+        twitter:
+          title: X, Twitter
+    trading_view:
+      title: Technical Ideas
+      label: Technical Ideas
+    trending_coins:
+      title: Trending Coins and Tokens
+    whale_popular:
+      title: Popular With Whales
+copied-to-clipboard: ''
 hot-coins-section:
   title: Hot Coins
   filters:
@@ -36,9 +102,7 @@ hot-coins-section:
     call-time: Call Time
     chg-24: Chg(24h)
     market-cap: Market Cap
-    negative: Negative
     pnl: Call PnL
-    positive: Positive
     rank: '#'
     realtime-price: Realtime Price
     sentiment: Sentiment
@@ -108,26 +172,8 @@ set-notification:
     not-set: Set Alert
     set: Alert Is Set
 set-price-notification:
-  open-existing-modal-btn: Price Alert is Set
-  open-modal-btn: Set Price Alert
-socials:
-  all:
-    title: All Socials Feed
-    subtitle: Analyze signals for {{symbol}} in all socials feed
-  reddit:
-    title: Reddit
-    subtitle: Analyze signals for {{symbol}} in Reddit community
-    followers: Members
-  telegram:
-    title: Telegram
-    subtitle: Analyze signals for {{symbol}} in Telegram channels
-    followers: Subscribers
-  trading-view:
-    title: Technical Analysis Ideas
-    subtitle: Analyze signals for {{symbol}} in Technical Analysis Ideas
-  twitter:
-    title: X, Twitter
-    subtitle: Analyze signals for {{symbol}} in Twitter, X community
+  open-existing-modal-btn: Alert is Set
+  open-modal-btn: Set Alert
 tops-section:
   gainers: Top Gainers
   losers: Top Losers
