@@ -32,7 +32,7 @@ export function PriceAlertButton({
 
   const alertActions = useAlertActions(initialAlert);
 
-  if (!hasFlag('/account/notification-center?tab=alerts')) return null;
+  if (!hasFlag('/dashboard/alerts')) return null;
 
   return (
     <>
