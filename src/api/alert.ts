@@ -53,6 +53,8 @@ interface RawAlert<D extends AlertDataSource> {
   conditions: Array<AlertCondition<D>>;
   messengers: AlertMessanger[];
   config: AlertConfig<D>;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Alert<D extends AlertDataSource> {
@@ -63,12 +65,21 @@ export interface Alert<D extends AlertDataSource> {
   messengers: AlertMessanger[];
   config: AlertConfig<D>;
   state: AlertState;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const transformRawAlert = <D extends AlertDataSource>(
   data: RawAlert<D>,
 ): Alert<D> => {
-  const { params, conditions, data_source: dataSource, ...rest } = data;
+  const {
+    params,
+    conditions,
+    data_source: dataSource,
+    created_at: createdAt,
+    updated_at: updatedAt,
+    ...rest
+  } = data;
   return {
     ...(dataSource?.name && {
       dataSource: dataSource.name,
@@ -81,6 +92,8 @@ const transformRawAlert = <D extends AlertDataSource>(
     ...(conditions && {
       condition: conditions[0],
     }),
+    createdAt,
+    updatedAt,
     ...rest,
   } satisfies Alert<D>;
 };

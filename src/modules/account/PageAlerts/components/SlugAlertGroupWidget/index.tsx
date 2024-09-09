@@ -7,6 +7,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
+import { ReadableDate } from 'shared/ReadableDate';
 import { AlertType } from '../AlertType';
 import { AlertTarget } from '../AlertTarget';
 import { AlertDeliveryMethods } from '../AlertDeliveryMethods';
@@ -30,6 +31,10 @@ export function SlugAlertGroupWidget({
 
   const columns = useMemo<Array<ColumnType<Alert<never>>>>(
     () => [
+      {
+        title: t('tables.slug.creation_date'),
+        render: (_, row) => <ReadableDate value={row.createdAt} />,
+      },
       {
         title: t('tables.slug.type'),
         render: (_, row) => <AlertType value={row} />,
