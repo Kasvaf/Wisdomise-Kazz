@@ -97,7 +97,7 @@ export function SlugAlertGroupWidget({
           <span className="text-v1-content-secondary">
             {t('common.current-price')}:
           </span>
-          <ReadableNumber value={coin.data?.data?.current_price} label="$" />
+          <ReadableNumber value={coin.data?.data?.current_price} label="usdt" />
         </div>
       </div>
       <Table
