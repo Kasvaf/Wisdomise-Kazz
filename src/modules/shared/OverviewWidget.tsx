@@ -40,7 +40,8 @@ export function OverviewWidget({
   return (
     <article
       className={clsx(
-        'flex h-auto flex-col gap-6 rounded-2xl bg-v1-surface-l2 p-6',
+        'flex h-auto flex-col gap-6 rounded-2xl bg-v1-surface-l2',
+        'p-6 mobile:p-5',
         className,
       )}
       id={id}
@@ -48,7 +49,8 @@ export function OverviewWidget({
       {(title || info || headerActions) && (
         <header
           className={clsx(
-            '-mx-6 flex shrink-0 items-center justify-between gap-6 overflow-auto overflow-y-hidden whitespace-nowrap px-6 text-v1-content-primary',
+            'flex shrink-0 items-center justify-between gap-6 overflow-auto overflow-y-hidden whitespace-nowrap text-v1-content-primary',
+            '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
             headerClassName,
           )}
         >
@@ -80,7 +82,8 @@ export function OverviewWidget({
         children && (
           <div
             className={clsx(
-              'relative -mx-6 h-auto overflow-auto px-6',
+              'relative h-auto overflow-auto',
+              '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
               contentClassName,
             )}
           >
@@ -90,7 +93,11 @@ export function OverviewWidget({
       )}
       {footer && (
         <footer
-          className={clsx('-mx-6 shrink-0 overflow-auto px-6', footerClassName)}
+          className={clsx(
+            'shrink-0 overflow-auto',
+            '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
+            footerClassName,
+          )}
         >
           {footer}
         </footer>

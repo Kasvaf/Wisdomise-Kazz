@@ -5,7 +5,7 @@ import { ReactComponent as BearishIcon } from './bearish.svg';
 import { ReactComponent as BullishIcon } from './bullish.svg';
 
 export const RsiDivergence: FC<{
-  value?: -1 | 1 | null;
+  value?: number | null;
   className?: string;
   mini?: boolean;
 }> = ({ value, className, mini }) => {

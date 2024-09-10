@@ -77,6 +77,7 @@ export interface RsiHeatmap {
     current_price: number;
     market_cap: number;
     price_change_24h: number;
+    price_change_percentage_24h: number;
   };
 }
 
@@ -99,6 +100,73 @@ export const useRsiHeatmap = ({
             resolution,
           },
         })
+        .then(resp => {
+          const updatedList = [...initialList, ...resp.data.results];
+          if (resp.data.next !== null) {
+            return recursiveGetPageData(page + 1, updatedList);
+          }
+          return updatedList;
+        });
+    return recursiveGetPageData(1, []);
+  });
+
+export type RsiMomentumConbination =
+  | 'bullish_divergence'
+  | 'bearish_divergence'
+  | 'oversold'
+  | 'overbought';
+
+export interface RsiMomentumConfirmation {
+  symbol: Coin;
+  data: {
+    id: string;
+    current_price: number;
+    market_cap: number;
+    price_change_24h: number;
+    price_change_percentage_24h: number;
+  };
+  rsi_values?: null | Record<
+    string,
+    {
+      value: number;
+      related_at: string;
+    }
+  >;
+  divergence_types?: null | Record<
+    // NAITODO need check
+    string,
+    {
+      value: number;
+      related_at: string;
+    }
+  >;
+  oversold_resolutions?: null | string[];
+  overbought_resolutions?: null | string[];
+  bearish_divergence_resolutions?: null | string[];
+  bullish_divergence_resolutions?: null | string[];
+  analysis?: null | string;
+}
+
+export const useRsiMomentumConfirmations = ({
+  combination,
+}: {
+  combination: RsiMomentumConbination[];
+}) =>
+  useQuery(['rsi/momentum-confirmation', combination], () => {
+    const recursiveGetPageData = (
+      page: number,
+      initialList: RsiMomentumConfirmation[],
+    ): Promise<RsiMomentumConfirmation[]> =>
+      axios
+        .get<PageResponse<RsiMomentumConfirmation>>(
+          'delphi/rsi/momentum-confirmation/',
+          {
+            params: {
+              page,
+              ...Object.fromEntries(combination.map(comb => [comb, 'True'])),
+            },
+          },
+        )
         .then(resp => {
           const updatedList = [...initialList, ...resp.data.results];
           if (resp.data.next !== null) {

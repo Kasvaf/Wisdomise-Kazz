@@ -8,18 +8,17 @@ import { RsiHeatmapChart } from './RsiHeatmapChart';
 export function RsiHeatmapWidget({ className }: { className?: string }) {
   const { t } = useTranslation('market-pulse');
   const [resolution, setResolution] = useState<RsiHeatmapResolution>('1h');
-  const heatmapData = useRsiHeatmap({
+  const heatmap = useRsiHeatmap({
     resolution,
   });
   return (
     <OverviewWidget
       className={className}
-      contentClassName="h-full"
       title={t('indicator_list.rsi.heatmap.title')}
       headerClassName="flex-wrap"
       headerActions={
         <ButtonSelect
-          className="mobile:w-full mobile:justify-center [&>button]:grow"
+          className="mobile:w-full"
           value={resolution}
           onChange={setResolution}
           options={[
@@ -46,11 +45,11 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
           ]}
         />
       }
+      loading={heatmap.isLoading}
     >
       <RsiHeatmapChart
         className="h-full"
-        data={heatmapData.data ?? []}
-        loading={heatmapData.isLoading}
+        data={heatmap.data ?? []}
         resolution={resolution}
       />
     </OverviewWidget>

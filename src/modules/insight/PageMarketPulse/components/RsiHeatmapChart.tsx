@@ -9,9 +9,8 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { RsiNumber } from 'shared/RsiNumber';
 import { RsiDivergence } from 'shared/RsiDivergence';
-import Spinner from 'shared/Spinner';
 
-const AREA_SIZE_PERCENT = 43;
+const AREA_SIZE_PERCENT = 42;
 const POINT_SIZE = 14;
 
 function HeatMapArea({
@@ -127,7 +126,7 @@ function CoinPoint({
           </div>
           <div className="flex items-center justify-between gap-6">
             {t('indicator_list.rsi.heatmap.24h_change')}
-            <PriceChange value={value.data.price_change_24h} />
+            <PriceChange value={value.data.price_change_percentage_24h} />
           </div>
           <div className="flex items-center justify-between gap-6">
             {t('indicator_list.rsi.heatmap.market_cap')}
@@ -202,7 +201,10 @@ function CoinPoint({
             bottom:
               value.data.price_change_24h < 0 ? `${POINT_SIZE}px` : 'auto',
             height: isReady
-              ? `${Math.max(Math.abs(value.data.price_change_24h * 3), 8)}px`
+              ? `${Math.max(
+                  Math.abs(value.data.price_change_percentage_24h * 5),
+                  8,
+                )}px`
               : '0px',
           }}
         />
@@ -215,12 +217,10 @@ export function RsiHeatmapChart({
   className,
   data,
   resolution,
-  loading,
 }: {
   className?: string;
   data: RsiHeatmap[];
   resolution: RsiHeatmapResolution;
-  loading?: boolean;
 }) {
   const sortedData = useMemo(
     () =>
@@ -231,37 +231,25 @@ export function RsiHeatmapChart({
     [data],
   );
   return (
-    <div
-      className={clsx(
-        'flex flex-col gap-3',
-        loading && 'items-center justify-center',
-        className,
-      )}
-    >
-      {loading ? (
-        <Spinner />
-      ) : (
-        <>
-          <GuideBar />
-          <div className="relative shrink-0 grow overflow-hidden rounded-xl">
-            <HeatMapArea type="overbought" />
-            <HeatMapArea type="oversold" />
-            <div
-              className={clsx(
-                'absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-center gap-12 overflow-x-auto overflow-y-hidden px-6',
-              )}
-            >
-              {sortedData.map(row => (
-                <CoinPoint
-                  key={row.symbol.slug}
-                  value={row}
-                  resolution={resolution}
-                />
-              ))}
-            </div>
-          </div>
-        </>
-      )}
+    <div className={clsx('flex flex-col gap-3', className)}>
+      <GuideBar />
+      <div className="relative min-h-96 shrink-0 grow overflow-hidden rounded-xl">
+        <HeatMapArea type="overbought" />
+        <HeatMapArea type="oversold" />
+        <div
+          className={clsx(
+            'absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-auto px-6',
+          )}
+        >
+          {sortedData.map(row => (
+            <CoinPoint
+              key={row.symbol.slug}
+              value={row}
+              resolution={resolution}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,3 +1,11 @@
+common:
+  divergence: Divergence
+  hide: Close
+  in_timeframe: in Timeframe
+  price: Price
+  price_change: Price Change
+  rsi: RSI
+  show: Show Detail
 indicator_list:
   advanced:
     label: Advanced
@@ -5,45 +13,62 @@ indicator_list:
     label: MACD
   rsi:
     label: RSI
-    heatmap:
-      title: RSI Heatmap
-      oversold_area: Oversold Area
-      overbought_area: Overbought Area
-      price_change: Price Change
-      bullish_divergence: Bullish Divergence
-      bearish_divergence: Bearish Divergence
-      24h_change: 24H Change
-      market_cap: Market Cap
-      rsi: RSI
-      div: Div
     bearish: Bearish
     bullish: Bullish
-
-    description: >-
-      A bullish divergence occurs when the RSI displays an oversold reading
-      followed by a higher low that appears with lower lows in the price. This
-      may indicate rising bullish momentum, and a break above oversold territory
-      could be used to trigger a new long position. Conversely, a bearish
-      divergence occurs when the RSI creates an overbought reading followed by a
-      lower high that appears with higher highs on the price. This may indicate
-      rising bearish momentum, and a break below overbought territory could be
-      used to trigger a new short position.
-    overbought: Over Bought
-    overbought-full-title: Top Over Bought Coins
-    overbought-info: RSI>70
-    oversold: Over Sold
-    oversold-full-title: Top Over Sold Coins
-    oversold-info: RSI<30
-    statistics: Market RSI Statistics
-    table:
-      name: Name
-      duration: Duration
-      price: Price
-      price_change: Price Chg
-      resolution: Resolution
+    heatmap:
+      title: RSI Heatmap
+      24h_change: 24H Change
+      bearish_divergence: Bearish Divergence
+      bullish_divergence: Bullish Divergence
+      div: Div
+      market_cap: Market Cap
+      overbought_area: Overbought Area
+      oversold_area: Oversold Area
+      price_change: Price Change
       rsi: RSI
-not-available: ''
-periods:
-  daily: Daily
-  hour: h
-  min: min
+    momentum:
+      bearish:
+        title: Bearish Divergence
+        description: >-
+          This Tab Monitors Assets With an RSI Above 70, Signaling Overbought
+          Conditions. Such Assets May Face a Pullback as the Uptrend Weakens,
+          Potentially Indicating a Selling Opportunity for Traders.
+      bearish_momentum_confirmation: Bearish Momentum Confirmation
+      bullish:
+        title: Bullish Divergence
+        description: >-
+          This Tab Highlights Assets That Have Entered Oversold Territory
+          According to the Relative Strength Index (RSI). an RSI Below 30
+          Typically Suggests That the Asset Has Been Excessively Sold and May Be
+          Due for a Price Correction or Reversal, Offering a Potential Buying
+          Opportunity.
+      bullish_momentum_confirmation: Bullish Momentum Confirmation
+      overbought:
+        title: Overbought
+        description: >-
+          This Tab Monitors Assets With an RSI Above 70, Signaling Overbought
+          Conditions. Such Assets May Face a Pullback as the Uptrend Weakens,
+          Potentially Indicating a Selling Opportunity for Traders.
+      overbought_bearish:
+        title: Overbought & Bearish
+        description: >-
+          This Tab Identifies Cryptocurrencies That Are Potentially Overvalued
+          and Are Showing Signs of a Trend Reversal. an Overbought Condition
+          Combined With Bearish Momentum Suggests That the Asset Could Be
+          Reaching a Peak, and a Price Decline May Follow. This Is a Signal for
+          Traders to Consider Selling or Shorting.
+      oversold:
+        title: Oversold
+        description: >-
+          This Tab Highlights Assets That Have Entered Oversold Territory
+          According to the Relative Strength Index (RSI). an RSI Below 30
+          Typically Suggests That the Asset Has Been Excessively Sold and May Be
+          Due for a Price Correction or Reversal, Offering a Potential Buying
+          Opportunity.
+      oversold_bullish:
+        title: Oversold & Bullish
+        description: >-
+          This Combination Suggests That the Market Has Potentially Bottomed
+          Out, and the Asset Is Now Gaining Positive Momentum. Traders Can
+          Consider This as an Indication of a Possible Uptrend, Making It a
+          Favorable Time to Buy.
