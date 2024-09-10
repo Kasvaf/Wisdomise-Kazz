@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { type PageResponse } from './types/page';
+import { type Coin } from './types/shared';
 
 export interface RsiOvernessRow {
   candle_pair_name: string;
@@ -64,3 +66,45 @@ export const useRsiDivergence = () =>
   useQuery(['rsi/divergence'], () =>
     axios.get<RsiDivergenceResponse>('delphi/rsi/divergence'),
   );
+
+export interface RsiHeatmap {
+  symbol: Coin;
+  rsi_value: number;
+  related_at: string;
+  divergence_type: -1 | 1 | null;
+  data: {
+    id: string;
+    current_price: number;
+    market_cap: number;
+    price_change_24h: number;
+  };
+}
+
+export type RsiHeatmapResolution = '15m' | '30m' | '1h' | '4h' | '1d';
+
+export const useRsiHeatmap = ({
+  resolution,
+}: {
+  resolution: RsiHeatmapResolution;
+}) =>
+  useQuery(['rsi/heatmap', resolution], () => {
+    const recursiveGetPageData = (
+      page: number,
+      initialList: RsiHeatmap[],
+    ): Promise<RsiHeatmap[]> =>
+      axios
+        .get<PageResponse<RsiHeatmap>>('delphi/rsi/heatmap/', {
+          params: {
+            page,
+            resolution,
+          },
+        })
+        .then(resp => {
+          const updatedList = [...initialList, ...resp.data.results];
+          if (resp.data.next !== null) {
+            return recursiveGetPageData(page + 1, updatedList);
+          }
+          return updatedList;
+        });
+    return recursiveGetPageData(1, []);
+  });

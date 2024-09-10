@@ -19,8 +19,8 @@ export function Coin({
   truncate?: boolean;
 }) {
   const rootClassName = clsx(
-    'inline-flex w-auto shrink items-center gap-2',
-    !mini && 'p-1 pe-2',
+    'inline-flex w-auto shrink items-center gap-2 pe-2',
+    !mini && 'p-1',
     !nonLink &&
       'group rounded-md transition-all hover:bg-v1-background-hover hover:text-inherit',
     className,
