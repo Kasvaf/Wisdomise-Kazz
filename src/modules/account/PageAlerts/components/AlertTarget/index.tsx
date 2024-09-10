@@ -40,7 +40,17 @@ export function AlertTarget<D extends AlertDataSource>({
                 size="small"
               />
             ),
-            Threshold: <ReadableNumber value={+value.condition?.threshold} />,
+            Threshold: (
+              <ReadableNumber
+                value={+value.condition?.threshold}
+                format={{
+                  compactInteger: false,
+                  decimalLength: 0,
+                  minifyDecimalRepeats: false,
+                  seperateByComma: true,
+                }}
+              />
+            ),
             // Exchange:
             //   value.params?.market_name && value.params?.market_type ? (
             //     <ExchangeSelect
