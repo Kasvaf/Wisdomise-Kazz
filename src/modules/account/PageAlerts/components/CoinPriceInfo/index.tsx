@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useEffect, useRef, type FC } from 'react';
 import { clsx } from 'clsx';
 import { Trans } from 'react-i18next';
 import { useCoinOverview } from 'api';
@@ -10,10 +10,18 @@ export const CoinPriceInfo: FC<{
   slug: string;
   loading?: boolean;
   className?: string;
-}> = ({ slug, loading, className }) => {
+  onReady?: (lastPrice?: number) => void;
+}> = ({ slug, loading, className, onReady }) => {
   const { data: coinInfo } = useCoinOverview({
     slug,
   });
+  const onReadyCalled = useRef(false);
+  useEffect(() => {
+    if (!coinInfo || onReadyCalled.current || !onReady) return;
+    onReady(coinInfo.data?.current_price);
+    onReadyCalled.current = true;
+  }, [coinInfo, onReady]);
+
   if (!coinInfo?.symbol) return null;
   return (
     <div

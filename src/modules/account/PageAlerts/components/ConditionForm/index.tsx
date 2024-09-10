@@ -146,6 +146,13 @@ export function ConditionForm<D extends AlertDataSource>({
             <CoinPriceInfo
               slug={alertFormAsMarketData.getValues('params.base') as string}
               className="mt-6"
+              onReady={lastPrice => {
+                if (value?.condition?.threshold) return;
+                alertFormAsMarketData.setValue(
+                  'condition.threshold',
+                  lastPrice?.toString() ?? '0.0',
+                );
+              }}
             />
           )}
         </>
