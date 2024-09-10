@@ -3,6 +3,7 @@ import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
 import Icon from 'shared/Icon';
+import Spinner from './Spinner';
 
 export function OverviewWidget({
   id,
@@ -16,6 +17,7 @@ export function OverviewWidget({
   contentClassName,
   headerClassName,
   footerClassName,
+  loading,
 }: {
   id?: string;
   title?: ReactNode;
@@ -28,6 +30,7 @@ export function OverviewWidget({
   contentClassName?: string;
   headerClassName?: string;
   footerClassName?: string;
+  loading?: boolean;
 }) {
   const infoIcon = info && (
     <Tooltip title={info}>
@@ -65,15 +68,25 @@ export function OverviewWidget({
           {headerActions}
         </header>
       )}
-      {children && (
+      {loading ? (
         <div
           className={clsx(
-            'relative -mx-6 h-auto overflow-auto px-6',
-            contentClassName,
+            'relative flex h-auto items-center justify-center overflow-hidden p-10',
           )}
         >
-          {children}
+          <Spinner />
         </div>
+      ) : (
+        children && (
+          <div
+            className={clsx(
+              'relative -mx-6 h-auto overflow-auto px-6',
+              contentClassName,
+            )}
+          >
+            {children}
+          </div>
+        )
       )}
       {footer && (
         <footer
