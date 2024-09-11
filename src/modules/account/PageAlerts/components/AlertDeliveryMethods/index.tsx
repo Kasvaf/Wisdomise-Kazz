@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
+import { Tooltip } from 'antd';
 import { type Alert, type AlertDataSource } from 'api/alert';
-import { AlertChannelIcon } from '../AlertChannelsSelect';
+import { AlertChannelIcon, AlertChannelTitle } from '../AlertChannelsSelect';
 
 export function AlertDeliveryMethods<D extends AlertDataSource>({
   value,
@@ -12,11 +13,12 @@ export function AlertDeliveryMethods<D extends AlertDataSource>({
   return (
     <span className={clsx('inline-flex items-center gap-2', className)}>
       {value.messengers.map(messanger => (
-        <AlertChannelIcon
-          className="size-6 stroke-v1-border-brand"
-          key={messanger}
-          name={messanger}
-        />
+        <Tooltip title={<AlertChannelTitle name={messanger} />} key={messanger}>
+          <AlertChannelIcon
+            className="size-6 cursor-alias stroke-v1-border-brand"
+            name={messanger}
+          />
+        </Tooltip>
       ))}
     </span>
   );

@@ -1,4 +1,5 @@
 import { Trans, useTranslation } from 'react-i18next';
+import { useState } from 'react';
 import { useAccountQuery } from 'api';
 import { trackClick } from 'config/segment';
 import useConfirm from 'shared/useConfirm';
@@ -47,13 +48,35 @@ const useEnsureTelegramConnected = () => {
     ),
   });
 
-  const ensureConnected = async () => {
-    if (account.data?.telegram_id) return true;
-    await showModal();
-    return false;
+  const [isConnected, setIsConnected] = useState(!!account.data?.telegram_id);
+
+  const ensureConnected = () => {
+    return new Promise<boolean>(resolve => {
+      if (isConnected) return resolve(true);
+      let stopChecking = false;
+      const keepSyncing = (): Promise<boolean> =>
+        account.refetch().then(resp => {
+          if (resp.data?.telegram_id) {
+            setIsConnected(true);
+            resolve(true);
+            return true;
+          } else if (stopChecking) {
+            resolve(false);
+            return false;
+          }
+          return new Promise(_resolve =>
+            setTimeout(() => _resolve(keepSyncing()), 3000),
+          );
+        });
+      void keepSyncing();
+      void showModal()
+        .then(() => resolve(false))
+        .catch(() => resolve(false))
+        .finally(() => (stopChecking = true));
+    });
   };
 
-  return [Modal, ensureConnected] as const;
+  return [isConnected ? null : Modal, ensureConnected] as const;
 };
 
 export default useEnsureTelegramConnected;

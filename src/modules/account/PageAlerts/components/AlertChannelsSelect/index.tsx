@@ -4,6 +4,7 @@ import { type FC, type SVGProps, type PropsWithChildren } from 'react';
 import { useAccountQuery } from 'api';
 import { Toggle } from 'shared/Toggle';
 import { type AlertMessanger } from 'api/alert';
+import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
 import { ReactComponent as BellIcon } from './bell.svg';
 import { ReactComponent as DiscordIcon } from './discord.svg';
 import { ReactComponent as EmailIcon } from './email.svg';
@@ -28,10 +29,11 @@ export const AlertChannelIcon: FC<
   return <Component {...props} />;
 };
 
-export const AlertChannel: FC<{
-  className?: string;
-  name: AlertMessanger;
-}> = ({ className, name }) => {
+export const AlertChannelTitle: FC<
+  SVGProps<SVGSVGElement> & {
+    name: AlertMessanger;
+  }
+> = ({ name }) => {
   const { t } = useTranslation('alerts');
   const title = {
     EMAIL: t('forms.notifications.messangers.email'),
@@ -42,6 +44,13 @@ export const AlertChannel: FC<{
     PUSH: t('forms.notifications.messangers.push'),
     BROWSER: t('forms.notifications.messangers.browser'),
   }[name];
+  return <>{title}</>;
+};
+
+export const AlertChannel: FC<{
+  className?: string;
+  name: AlertMessanger;
+}> = ({ className, name }) => {
   return (
     <div
       className={clsx(
@@ -50,7 +59,7 @@ export const AlertChannel: FC<{
       )}
     >
       <AlertChannelIcon name={name} />
-      {title}
+      <AlertChannelTitle name={name} />
     </div>
   );
 };
@@ -104,6 +113,7 @@ export const AlertChannelsSelect: FC<{
 }> = ({ value, onChange, loading, disabled, className }) => {
   const account = useAccountQuery();
   const { t } = useTranslation('alerts');
+  const [telegramModal, ensureTelegramConnected] = useEnsureTelegramConnected();
 
   const toggleValue = (messanger: string, addToList: boolean) =>
     onChange([
@@ -127,13 +137,27 @@ export const AlertChannelsSelect: FC<{
           checked={(value || []).includes('EMAIL')}
           onChange={e => toggleValue('EMAIL', e)}
           loading={loading}
-          disabled={disabled || false}
+          disabled={disabled}
         />
       </AlertChannelRow>
       <AlertChannelRow
         icon={TelegramIcon}
         label={t('forms.notifications.messangers.telegram')}
-      />
+      >
+        <Toggle
+          checked={(value || []).includes('TELEGRAM')}
+          onChange={async e => {
+            if (e) {
+              const isConnected = await ensureTelegramConnected();
+              return toggleValue('TELEGRAM', isConnected);
+            }
+            toggleValue('TELEGRAM', e);
+          }}
+          loading={loading}
+          disabled={disabled}
+        />
+        {telegramModal}
+      </AlertChannelRow>
       {/* <AlertChannelRow
         icon={BellIcon}
         label={t('forms.notifications.messangers.browser')}
