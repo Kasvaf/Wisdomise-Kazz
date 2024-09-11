@@ -12,6 +12,8 @@ const SectionBuilder: React.FC<{ className?: string }> = ({ className }) => {
     });
   };
 
+  if (!hasFlag('/marketplace/builder')) return null;
+
   return (
     <div className={clsx('relative overflow-hidden rounded-xl', className)}>
       <div
