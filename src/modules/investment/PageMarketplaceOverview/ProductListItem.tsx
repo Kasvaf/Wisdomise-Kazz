@@ -64,20 +64,29 @@ const ProductListItem: React.FC<{
             qualityLocales(fp.profile.return_risk_ratio || '')}
         </ResponsiveLabelInfo>
 
-        <ResponsiveLabelInfo label="Performance" className="basis-1/5">
+        <ResponsiveLabelInfo
+          label={t('info.performance.title')}
+          className="basis-1/5"
+        >
           {fp?.profile.performance && qualityLocales(fp.profile.performance)}
         </ResponsiveLabelInfo>
 
-        <ResponsiveLabelInfo label="Volatility" className="basis-1/5">
+        <ResponsiveLabelInfo
+          label={t('info.volatility.title')}
+          className="basis-1/5"
+        >
           {(fp?.profile.volatility && volatility[fp.profile.volatility]) ||
             fp?.profile.volatility}
         </ResponsiveLabelInfo>
 
-        <ResponsiveLabelInfo label="Side" className="basis-1/5">
+        <ResponsiveLabelInfo label={t('info.side.title')} className="basis-1/5">
           {market === 'FUTURES' ? t('info.side.futures') : t('info.side.spot')}
         </ResponsiveLabelInfo>
 
-        <ResponsiveLabelInfo label="Supported Exchanges" className="basis-1/5">
+        <ResponsiveLabelInfo
+          label={t('info.supported-exchanges.title')}
+          className="basis-1/5"
+        >
           {fp.config.exchanges?.length && fp.config.exchanges.join(',')}
         </ResponsiveLabelInfo>
       </div>

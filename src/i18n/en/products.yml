@@ -71,6 +71,8 @@ info:
       anticipating price rises, while 'Short' involves selling assets
       anticipating price drops.
     spot: Long
+  supported-exchanges:
+    title: Supported Exchanges
   volatility:
     title: Volatility
     considerable: Considerable
