@@ -1,37 +1,13 @@
 import { clsx } from 'clsx';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
-import { useSearchParams } from 'react-router-dom';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { type Alert, useAlerts } from 'api/alert';
 import { useHasFlag } from 'api';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
-
-const useAutoOpenAlertSaveModal = ({
-  active,
-  alertActions,
-}: {
-  active: boolean;
-  alertActions: ReturnType<typeof useAlertActions>;
-}) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const isAutoOpeningHandled = useRef(false);
-
-  useEffect(() => {
-    if (
-      searchParams.has('open-price-alert') &&
-      !isAutoOpeningHandled.current &&
-      active
-    ) {
-      searchParams.delete('open-price-alert');
-      setSearchParams(searchParams);
-      isAutoOpeningHandled.current = true;
-      alertActions.openSaveModal();
-    }
-  }, [alertActions, active, searchParams, setSearchParams]);
-};
+import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 
 export function PriceAlertButton({
   className,
@@ -57,9 +33,10 @@ export function PriceAlertButton({
 
   const alertActions = useAlertActions(initialAlert);
 
-  useAutoOpenAlertSaveModal({
-    alertActions,
+  useOnSearchParamDetectedOnce({
+    callback: () => alertActions.openSaveModal(),
     active: possibleRelatedAlerts.isFetched,
+    searchParam: 'open-alert',
   });
 
   if (!hasFlag('/dashboard/alerts')) return null;

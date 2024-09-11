@@ -11,6 +11,7 @@ import { track } from 'config/segment';
 import { DrawerModal } from 'shared/DrawerModal';
 import { AlertChannelsSelect } from 'modules/account/PageAlerts/components/AlertChannelsSelect';
 import { IntervalSelect } from 'modules/account/PageAlerts/components/IntervalSelect';
+import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import {
   BellIcon,
   NotifIsSetIcon,
@@ -22,6 +23,12 @@ export default function SetNotification({ className }: { className?: string }) {
   const { t } = useTranslation('coin-radar');
   const { data: isSubscribed, isLoading } = useIsSubscribedToCoinNotification();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useOnSearchParamDetectedOnce({
+    callback: () => setIsModalOpen(true),
+    active: !isLoading,
+    searchParam: 'open-alert',
+  });
 
   return (
     <>
