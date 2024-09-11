@@ -123,7 +123,11 @@ export function ConditionForm<D extends AlertDataSource>({
                   control={alertFormAsMarketData.control}
                   name="params.quote"
                   render={({ field: { value: fieldValue, onChange } }) => (
-                    <CoinSelect value={fieldValue} onChange={onChange} />
+                    <CoinSelect
+                      value={fieldValue}
+                      onChange={onChange}
+                      disabled
+                    />
                   )}
                 />
               ),
