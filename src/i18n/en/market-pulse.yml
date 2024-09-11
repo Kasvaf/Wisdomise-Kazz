@@ -30,45 +30,38 @@ indicator_list:
       bearish:
         title: Bearish Divergence
         description: >-
-          This Tab Monitors Assets With an RSI Above 70, Signaling Overbought
-          Conditions. Such Assets May Face a Pullback as the Uptrend Weakens,
-          Potentially Indicating a Selling Opportunity for Traders.
+          This Tab Tracks Assets Where the Price Rises, but Momentum Is Getting
+          Weaker. This Difference Suggests the Price Could Drop Soon, Offering a
+          Good Chance to Sell.
       bearish_momentum_confirmation: Bearish Momentum Confirmation
       bullish:
         title: Bullish Divergence
         description: >-
-          This Tab Highlights Assets That Have Entered Oversold Territory
-          According to the Relative Strength Index (RSI). an RSI Below 30
-          Typically Suggests That the Asset Has Been Excessively Sold and May Be
-          Due for a Price Correction or Reversal, Offering a Potential Buying
-          Opportunity.
+          This Tab Tracks Assets Where the Price Drops, but Momentum Shows Signs
+          of Getting Stronger. This Difference Suggests the Price Could Turn
+          Around and Rise, Offering a Good Chance to Buy.
       bullish_momentum_confirmation: Bullish Momentum Confirmation
       overbought:
         title: Overbought
         description: >-
-          This Tab Monitors Assets With an RSI Above 70, Signaling Overbought
-          Conditions. Such Assets May Face a Pullback as the Uptrend Weakens,
-          Potentially Indicating a Selling Opportunity for Traders.
+          This Tab Tracks Assets That Are Overbought, Meaning Their Price Is
+          High and Could Start to Fall. This Gives Traders a Chance to Sell
+          Before the Price Drops.
       overbought_bearish:
         title: Overbought & Bearish
         description: >-
-          This Tab Identifies Cryptocurrencies That Are Potentially Overvalued
-          and Are Showing Signs of a Trend Reversal. an Overbought Condition
-          Combined With Bearish Momentum Suggests That the Asset Could Be
-          Reaching a Peak, and a Price Decline May Follow. This Is a Signal for
-          Traders to Consider Selling or Shorting.
+          This Tab Tracks Assets That Are Overbought and Showing Signs of
+          Falling. This Means the Asset Is Overvalued and Is Likely to Drop in
+          Price, Offering a Good Chance to Sell.
       oversold:
         title: Oversold
         description: >-
-          This Tab Highlights Assets That Have Entered Oversold Territory
-          According to the Relative Strength Index (RSI). an RSI Below 30
-          Typically Suggests That the Asset Has Been Excessively Sold and May Be
-          Due for a Price Correction or Reversal, Offering a Potential Buying
-          Opportunity.
+          This Tab Tracks Assets That Are Oversold, Meaning Their Price Is Low
+          and They Could Be Ready to Bounce Back. This Gives Traders a Chance to
+          Buy Before the Price Goes Up.
       oversold_bullish:
         title: Oversold & Bullish
         description: >-
-          This Combination Suggests That the Market Has Potentially Bottomed
-          Out, and the Asset Is Now Gaining Positive Momentum. Traders Can
-          Consider This as an Indication of a Possible Uptrend, Making It a
-          Favorable Time to Buy.
+          This Tab Tracks Assets That Are Oversold and Showing Signs of Rising.
+          This Means the Asset Is Undervalued and Is Likely to Increase in
+          Price, Offering a Good Chance to Buy.
