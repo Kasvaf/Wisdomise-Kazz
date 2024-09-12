@@ -2,8 +2,9 @@ import { Tooltip } from 'antd';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
-import Spinner from './Spinner';
+import { ReactComponent as EmptyIcon } from './empty.svg';
 
 export function OverviewWidget({
   id,
@@ -18,6 +19,7 @@ export function OverviewWidget({
   headerClassName,
   footerClassName,
   loading,
+  empty,
 }: {
   id?: string;
   title?: ReactNode;
@@ -31,7 +33,9 @@ export function OverviewWidget({
   headerClassName?: string;
   footerClassName?: string;
   loading?: boolean;
+  empty?: boolean;
 }) {
+  const { t } = useTranslation('common');
   const infoIcon = info && (
     <Tooltip title={info}>
       <Icon name={bxInfoCircle} size={18} />
@@ -70,27 +74,32 @@ export function OverviewWidget({
           {headerActions}
         </header>
       )}
-      {loading ? (
-        <div
-          className={clsx(
-            'relative flex h-auto items-center justify-center overflow-hidden p-10',
-          )}
-        >
-          <Spinner />
-        </div>
-      ) : (
-        children && (
-          <div
-            className={clsx(
-              'relative h-auto overflow-auto',
-              '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
-              contentClassName,
-            )}
-          >
-            {children}
+      <div
+        className={clsx(
+          'relative h-auto overflow-auto',
+          '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
+          (loading || empty) && '!flex !items-center !justify-center',
+          contentClassName,
+        )}
+      >
+        {loading ? (
+          <p className="animate-pulse bg-v1-surface-l3 text-base text-v1-content-primary">
+            {t('almost-there')}
+          </p>
+        ) : empty ? (
+          <div className="flex flex-col items-center gap-2 text-center">
+            <EmptyIcon />
+            <p className="text-xl text-v1-content-primary">
+              {t('data-incoming')}
+            </p>
+            <p className="max-w-lg text-sm font-light text-v1-content-secondary">
+              {t('data-incoming-description')}
+            </p>
           </div>
-        )
-      )}
+        ) : (
+          <>{children}</>
+        )}
+      </div>
       {footer && (
         <footer
           className={clsx(

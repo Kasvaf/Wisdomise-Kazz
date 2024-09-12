@@ -21,7 +21,7 @@ const PageInsight = () => {
       <div className="grid grid-cols-6 gap-6">
         <HotCoinsWidget className="col-span-4 mobile:col-span-full" />
         <AlertBoxWidget className="col-span-2 mobile:order-first mobile:col-span-full" />
-        <TopWhaleCoinsWidget className="col-span-2 max-h-[470px] mobile:col-span-full" />
+        <TopWhaleCoinsWidget className="col-span-2 mobile:col-span-full" />
         <TopWhaleListWidget className="col-span-4 mobile:col-span-full" />
         <RsiMomentumConfirmationWidget
           className="col-span-3 max-h-[570px] mobile:col-span-full"

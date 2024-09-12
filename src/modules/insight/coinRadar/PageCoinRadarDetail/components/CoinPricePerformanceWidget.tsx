@@ -67,8 +67,9 @@ export function CoinPricePerformanceWidget({
 
   return (
     <OverviewWidget
-      className={clsx(!coinOverview.data && 'animate-pulse', className)}
-      contentClassName="flex flex-col gap-8 overflow-visible text-xs"
+      className={className}
+      loading={coinOverview.isLoading}
+      contentClassName="flex flex-col gap-8 overflow-visible text-xs min-h-[206px] mobile:min-h-[194px]"
     >
       <div>
         <div className="flex items-center justify-between text-v1-content-primary">

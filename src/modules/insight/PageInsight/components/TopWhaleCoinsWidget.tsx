@@ -23,7 +23,9 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
       title={t('whale:sections.top-coins.title')}
       info={t('whale:sections.top-coins.subtitle')}
       headerActions={<SeeMoreLink to="/insight/whales" />}
-      contentClassName="flex flex-col gap-4"
+      contentClassName="flex flex-col gap-4 min-h-[435px] mobile:min-h-[411px] max-h-[435px]"
+      loading={coins.isLoading}
+      empty={coins.data?.results.length === 0}
     >
       {coins.data?.results.map(row => (
         <div

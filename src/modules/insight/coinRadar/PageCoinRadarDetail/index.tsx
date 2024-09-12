@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import { useCoinOverview, useCoinSignals, useSocialMessages } from 'api';
 import Tabs from 'shared/Tabs';
 import { useScrollPointTabs } from './hooks/useScrollPointTabs';
 import { ReactComponent as TradingViewIcon } from './components/CoinSocialFeedWidget/images/trading_view.svg';
@@ -22,9 +21,6 @@ export default function PageCoinRadarDetail() {
   const { t } = useTranslation('coin-radar');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
-  const messages = useSocialMessages(slug);
-  const coinOverview = useCoinOverview({ slug });
-  const signals = useCoinSignals();
 
   const scrollPointTabs = useScrollPointTabs(
     [
@@ -57,11 +53,7 @@ export default function PageCoinRadarDetail() {
     160,
   );
   return (
-    <PageWrapper
-      loading={
-        coinOverview.isLoading || signals.isLoading || messages.isLoading
-      }
-    >
+    <PageWrapper>
       <div className="relative grid grid-cols-3 gap-6">
         <div className="col-span-1 mobile:col-span-full">
           <div className="sticky top-0 flex flex-col gap-6 mobile:relative">
@@ -87,7 +79,7 @@ export default function PageCoinRadarDetail() {
             id="coinoverview_socials"
             slug={slug}
             socials={['reddit', 'telegram', 'twitter']}
-            pageSize={4}
+            pageSize={2}
           />
           <CoinAvailableExchangesWidget
             slug={slug}

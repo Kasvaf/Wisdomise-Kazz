@@ -129,14 +129,15 @@ export function RsiMomentumConfirmationWidget({
           />
         </>
       }
-      contentClassName="max-h-[500px]"
+      contentClassName="h-[500px]"
       loading={rsiMomentumConfirmations.isLoading}
+      empty={rsiMomentumConfirmations.data?.results.length === 0}
     >
       <p className="text-xs text-v1-content-secondary">
         {selectedTab.description}
       </p>
       <div className="mt-4 flex flex-col items-start gap-3">
-        {rsiMomentumConfirmations.data?.map(row => (
+        {rsiMomentumConfirmations.data?.results.map(row => (
           <RsiMomentumConfirmationRow
             value={row}
             key={row.symbol.slug}

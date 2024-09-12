@@ -16,6 +16,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       className={className}
       title={t('indicator_list.rsi.heatmap.title')}
       headerClassName="flex-wrap"
+      contentClassName="min-h-[450px]"
       headerActions={
         <ButtonSelect
           className="mobile:w-full"
@@ -46,10 +47,11 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
         />
       }
       loading={heatmap.isLoading}
+      empty={heatmap.data?.results?.length === 0}
     >
       <RsiHeatmapChart
         className="h-full"
-        data={heatmap.data ?? []}
+        data={heatmap.data?.results ?? []}
         resolution={resolution}
       />
     </OverviewWidget>

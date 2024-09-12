@@ -43,7 +43,11 @@ export function WhalePopularCoinsWidget(_: { slug: string }) {
   );
 
   return (
-    <OverviewWidget title={t('coin-details.tabs.whale_popular.title')}>
+    <OverviewWidget
+      title={t('coin-details.tabs.whale_popular.title')}
+      loading={coins.isLoading}
+      empty={coins.data?.results.length === 0}
+    >
       <Table
         columns={columns}
         dataSource={coins.data?.results}

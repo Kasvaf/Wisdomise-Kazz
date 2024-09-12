@@ -83,32 +83,22 @@ export interface RsiHeatmap {
 
 export type RsiHeatmapResolution = '15m' | '30m' | '1h' | '4h' | '1d';
 
-export const useRsiHeatmap = ({
-  resolution,
-}: {
+export const useRsiHeatmap = (filters: {
   resolution: RsiHeatmapResolution;
+  page?: number;
+  pageSize?: number;
 }) =>
-  useQuery(['rsi/heatmap', resolution], () => {
-    const recursiveGetPageData = (
-      page: number,
-      initialList: RsiHeatmap[],
-    ): Promise<RsiHeatmap[]> =>
-      axios
-        .get<PageResponse<RsiHeatmap>>('delphi/rsi/heatmap/', {
-          params: {
-            page,
-            resolution,
-          },
-        })
-        .then(resp => {
-          const updatedList = [...initialList, ...resp.data.results];
-          if (resp.data.next !== null) {
-            return recursiveGetPageData(page + 1, updatedList);
-          }
-          return updatedList;
-        });
-    return recursiveGetPageData(1, []);
-  });
+  useQuery(['rsi/heatmap', JSON.stringify(filters)], () =>
+    axios
+      .get<PageResponse<RsiHeatmap>>('delphi/rsi/heatmap/', {
+        params: {
+          page_size: filters?.pageSize ?? 10,
+          page: filters?.page ?? 1,
+          resolution: filters.resolution,
+        },
+      })
+      .then(resp => resp.data),
+  );
 
 export type RsiMomentumConbination =
   | 'bullish_divergence'
@@ -147,32 +137,24 @@ export interface RsiMomentumConfirmation {
   analysis?: null | string;
 }
 
-export const useRsiMomentumConfirmations = ({
-  combination,
-}: {
+export const useRsiMomentumConfirmations = (filters: {
   combination: RsiMomentumConbination[];
+  page?: number;
+  pageSize?: number;
 }) =>
-  useQuery(['rsi/momentum-confirmation', combination], () => {
-    const recursiveGetPageData = (
-      page: number,
-      initialList: RsiMomentumConfirmation[],
-    ): Promise<RsiMomentumConfirmation[]> =>
-      axios
-        .get<PageResponse<RsiMomentumConfirmation>>(
-          'delphi/rsi/momentum-confirmation/',
-          {
-            params: {
-              page,
-              ...Object.fromEntries(combination.map(comb => [comb, 'True'])),
-            },
+  useQuery(['rsi/momentum-confirmation', JSON.stringify(filters)], () =>
+    axios
+      .get<PageResponse<RsiMomentumConfirmation>>(
+        'delphi/rsi/momentum-confirmation/',
+        {
+          params: {
+            page_size: filters?.pageSize ?? 10,
+            page: filters?.page ?? 1,
+            ...Object.fromEntries(
+              filters.combination.map(comb => [comb, 'True']),
+            ),
           },
-        )
-        .then(resp => {
-          const updatedList = [...initialList, ...resp.data.results];
-          if (resp.data.next !== null) {
-            return recursiveGetPageData(page + 1, updatedList);
-          }
-          return updatedList;
-        });
-    return recursiveGetPageData(1, []);
-  });
+        },
+      )
+      .then(resp => resp.data),
+  );

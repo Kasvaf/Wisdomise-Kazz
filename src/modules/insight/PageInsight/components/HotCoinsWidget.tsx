@@ -69,6 +69,9 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       title={t('coin-radar:hot-coins-section.title')}
       headerActions={<SeeMoreLink to="/insight/coin-radar" />}
       className={className}
+      loading={signals.isLoading}
+      contentClassName="min-h-[460px]"
+      empty={signals.data?.length === 0}
     >
       <Table
         loading={signals.isLoading}

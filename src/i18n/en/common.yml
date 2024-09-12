@@ -13,12 +13,17 @@ actions:
   save: Save
   share: Share
   'yes': 'Yes'
+almost-there: Almost There...
 aum: AUM
 below: Below
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
 crypto: Crypto
 cryptocurrency: Cryptocurrency
+data-incoming: HODL On! Data Incoming
+data-incoming-description: >-
+  Our mission is to provide insights for informed trading by analyzing thousands
+  of crypto projects, though some may need more time.
 date: Date
 equal: Equal
 error: Error
