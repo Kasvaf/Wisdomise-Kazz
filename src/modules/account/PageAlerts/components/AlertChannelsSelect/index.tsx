@@ -17,7 +17,7 @@ export const AlertChannelIcon: FC<
     name: AlertMessanger;
   }
 > = ({ name, ...props }) => {
-  const Component = {
+  const components: Record<AlertMessanger, FC<SVGProps<SVGSVGElement>>> = {
     EMAIL: EmailIcon,
     SLACK: SlackIcon,
     SMS: SmsIcon,
@@ -25,7 +25,8 @@ export const AlertChannelIcon: FC<
     DISCORD: DiscordIcon,
     PUSH: BellIcon,
     BROWSER: BellIcon,
-  }[name];
+  };
+  const Component = components[name];
   return <Component {...props} />;
 };
 
@@ -35,7 +36,7 @@ export const AlertChannelTitle: FC<
   }
 > = ({ name }) => {
   const { t } = useTranslation('alerts');
-  const title = {
+  const titles: Record<AlertMessanger, string> = {
     EMAIL: t('forms.notifications.messangers.email'),
     SLACK: t('forms.notifications.messangers.slack'),
     SMS: t('forms.notifications.messangers.sms'),
@@ -43,7 +44,8 @@ export const AlertChannelTitle: FC<
     DISCORD: t('forms.notifications.messangers.discord'),
     PUSH: t('forms.notifications.messangers.push'),
     BROWSER: t('forms.notifications.messangers.browser'),
-  }[name];
+  };
+  const title = titles[name];
   return <>{title}</>;
 };
 
@@ -110,7 +112,8 @@ export const AlertChannelsSelect: FC<{
   loading?: boolean;
   disabled?: boolean;
   className?: string;
-}> = ({ value, onChange, loading, disabled, className }) => {
+  channels?: AlertMessanger[];
+}> = ({ value, onChange, loading, disabled, className, channels }) => {
   const account = useAccountQuery();
   const { t } = useTranslation('alerts');
   const [telegramModal, ensureTelegramConnected] = useEnsureTelegramConnected();
@@ -121,6 +124,8 @@ export const AlertChannelsSelect: FC<{
       ...(addToList ? [messanger] : []),
     ]);
 
+  const renderingChannels: AlertMessanger[] = channels ?? ['EMAIL', 'TELEGRAM'];
+
   return (
     <div
       className={clsx(
@@ -128,56 +133,70 @@ export const AlertChannelsSelect: FC<{
         className,
       )}
     >
-      <AlertChannelRow
-        icon={EmailIcon}
-        label={t('forms.notifications.messangers.email')}
-        subtitle={account.data?.email}
-      >
-        <Toggle
-          checked={(value || []).includes('EMAIL')}
-          onChange={e => toggleValue('EMAIL', e)}
-          loading={loading}
-          disabled={disabled}
+      {renderingChannels.includes('EMAIL') && (
+        <AlertChannelRow
+          icon={EmailIcon}
+          label={t('forms.notifications.messangers.email')}
+          subtitle={account.data?.email}
+        >
+          <Toggle
+            checked={(value || []).includes('EMAIL')}
+            onChange={e => toggleValue('EMAIL', e)}
+            loading={loading}
+            disabled={disabled}
+          />
+        </AlertChannelRow>
+      )}
+      {renderingChannels.includes('TELEGRAM') && (
+        <AlertChannelRow
+          icon={TelegramIcon}
+          label={t('forms.notifications.messangers.telegram')}
+        >
+          <Toggle
+            checked={(value || []).includes('TELEGRAM')}
+            onChange={async e => {
+              if (e) {
+                const isConnected = await ensureTelegramConnected();
+                return toggleValue('TELEGRAM', isConnected);
+              }
+              toggleValue('TELEGRAM', e);
+            }}
+            loading={loading}
+            disabled={disabled}
+          />
+          {telegramModal}
+        </AlertChannelRow>
+      )}
+      {renderingChannels.includes('BROWSER') && (
+        <AlertChannelRow
+          icon={BellIcon}
+          label={t('forms.notifications.messangers.browser')}
         />
-      </AlertChannelRow>
-      <AlertChannelRow
-        icon={TelegramIcon}
-        label={t('forms.notifications.messangers.telegram')}
-      >
-        <Toggle
-          checked={(value || []).includes('TELEGRAM')}
-          onChange={async e => {
-            if (e) {
-              const isConnected = await ensureTelegramConnected();
-              return toggleValue('TELEGRAM', isConnected);
-            }
-            toggleValue('TELEGRAM', e);
-          }}
-          loading={loading}
-          disabled={disabled}
+      )}
+      {renderingChannels.includes('PUSH') && (
+        <AlertChannelRow
+          icon={BellIcon}
+          label={t('forms.notifications.messangers.push')}
         />
-        {telegramModal}
-      </AlertChannelRow>
-      {/* <AlertChannelRow
-        icon={BellIcon}
-        label={t('forms.notifications.messangers.browser')}
-      />
-      <AlertChannelRow
-        icon={BellIcon}
-        label={t('forms.notifications.messangers.push')}
-      />
-      <AlertChannelRow
-        icon={DiscordIcon}
-        label={t('forms.notifications.messangers.discord')}
-      />
-      <AlertChannelRow
-        icon={SlackIcon}
-        label={t('forms.notifications.messangers.slack')}
-      />
-      <AlertChannelRow
-        icon={SmsIcon}
-        label={t('forms.notifications.messangers.sms')}
-      /> */}
+      )}
+      {renderingChannels.includes('DISCORD') && (
+        <AlertChannelRow
+          icon={DiscordIcon}
+          label={t('forms.notifications.messangers.discord')}
+        />
+      )}
+      {renderingChannels.includes('SLACK') && (
+        <AlertChannelRow
+          icon={SlackIcon}
+          label={t('forms.notifications.messangers.slack')}
+        />
+      )}
+      {renderingChannels.includes('SMS') && (
+        <AlertChannelRow
+          icon={SmsIcon}
+          label={t('forms.notifications.messangers.sms')}
+        />
+      )}
     </div>
   );
 };

@@ -125,6 +125,7 @@ const SetNotificationModalContent: FC<{ onDone: () => void }> = ({
                 value={value ? ['EMAIL'] : []}
                 onChange={e => onChange(e.includes('EMAIL'))}
                 loading={isSubscribedQuery.isLoading}
+                channels={['EMAIL']}
               />
             )}
           />
