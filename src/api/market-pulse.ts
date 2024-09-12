@@ -123,10 +123,9 @@ export interface RsiMomentumConfirmation {
     }
   >;
   divergence_types?: null | Record<
-    // NAITODO need check
     string,
     {
-      value: number;
+      type: -1 | 1 | null;
       related_at: string;
     }
   >;

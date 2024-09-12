@@ -60,7 +60,7 @@ export function MomentumDetailsTable({
             {columns.map(col => (
               <td key={col}>
                 <RsiDivergence
-                  value={value.divergence_types?.[col]?.value ?? null}
+                  value={value.divergence_types?.[col]?.type ?? null}
                   mini
                 />
               </td>
