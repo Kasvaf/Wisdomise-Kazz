@@ -53,12 +53,12 @@ export function SlugAlertGroupWidget({
         render: (_, row) => <AlertFrequency value={row} />,
       },
       {
-        title: t('tables.slug.status'),
-        render: (_, row) => <AlertStateChanger value={row} />,
-      },
-      {
         title: t('tables.slug.actions'),
         render: (_, row) => <AlertActions value={row} />,
+      },
+      {
+        title: t('tables.slug.status'),
+        render: (_, row) => <AlertStateChanger value={row} />,
       },
     ],
     [t],
@@ -83,22 +83,29 @@ export function SlugAlertGroupWidget({
 
   return (
     <OverviewWidget>
-      <div className="mb-2 flex flex-row items-center justify-start gap-4">
-        {coin.data?.symbol && (
-          <div className="min-w-36">
-            <Coin
-              coin={coin.data?.symbol}
-              className="text-xs"
-              imageClassName="size-7"
-            />
-          </div>
+      <div className="mb-2 flex min-h-[37px] flex-row items-center justify-start gap-4">
+        {coin.data && (
+          <>
+            {coin.data?.symbol && (
+              <div className="min-w-36">
+                <Coin
+                  coin={coin.data?.symbol}
+                  className="text-xs"
+                  imageClassName="size-7"
+                />
+              </div>
+            )}
+            <div className="inline-flex items-center gap-1 text-xs">
+              <span className="text-v1-content-secondary">
+                {t('common.current-price')}:
+              </span>
+              <ReadableNumber
+                value={coin.data?.data?.current_price}
+                label="usdt"
+              />
+            </div>
+          </>
         )}
-        <div className="inline-flex items-center gap-1 text-xs">
-          <span className="text-v1-content-secondary">
-            {t('common.current-price')}:
-          </span>
-          <ReadableNumber value={coin.data?.data?.current_price} label="usdt" />
-        </div>
       </div>
       <Table
         columns={columns}
