@@ -30,7 +30,7 @@ export function MomentumDetailsTable({
   );
   return (
     <div className="max-w-full overflow-auto">
-      <table className="w-full text-center text-xs [&_tbody_tr:first-child>td]:pt-4 [&_tr>*]:p-2 [&_tr>*]:px-3">
+      <table className="w-full text-center text-xs [&_tbody_tr:first-child>td]:pt-4 [&_tr>*]:p-2 [&_tr>*]:px-3 mobile:[&_tr>*]:px-2">
         <thead className="mb-2 overflow-hidden text-xxs text-v1-content-secondary">
           <tr className="[&>th]:bg-v1-surface-l4">
             <th className="w-full overflow-hidden rounded-l" />

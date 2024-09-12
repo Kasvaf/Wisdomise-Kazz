@@ -61,7 +61,7 @@ function RsiMomentumConfirmationRow({
             </p>
             <div className="flex items-center gap-2">
               <ReadableNumber
-                className="text-sm"
+                className="text-sm mobile:hidden"
                 value={value.data.price_change_24h}
                 label="usdt"
               />
@@ -129,7 +129,7 @@ export function RsiMomentumConfirmationWidget({
           />
         </>
       }
-      contentClassName="h-[500px]"
+      contentClassName="h-[650px]"
       loading={rsiMomentumConfirmations.isLoading}
       empty={rsiMomentumConfirmations.data?.results.length === 0}
     >

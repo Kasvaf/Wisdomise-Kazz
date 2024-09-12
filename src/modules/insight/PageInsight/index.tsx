@@ -24,11 +24,11 @@ const PageInsight = () => {
         <TopWhaleCoinsWidget className="col-span-2 mobile:col-span-full" />
         <TopWhaleListWidget className="col-span-4 mobile:col-span-full" />
         <RsiMomentumConfirmationWidget
-          className="col-span-3 max-h-[570px] mobile:col-span-full"
+          className="col-span-3 mobile:col-span-full"
           type="bullish"
         />
         <RsiMomentumConfirmationWidget
-          className="col-span-3 max-h-[570px] mobile:col-span-full"
+          className="col-span-3 mobile:col-span-full"
           type="bearish"
         />
       </div>
