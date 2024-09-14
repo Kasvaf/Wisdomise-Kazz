@@ -9,7 +9,7 @@ import { ReactComponent as Bitget } from './images/bitget.svg';
 import { ReactComponent as Gate } from './images/gate.svg';
 import { ReactComponent as HTX } from './images/htx.svg';
 import { ReactComponent as MEXC } from './images/mexc.svg';
-import { ReactComponent as Uniswap } from './images/uniswap.svg';
+import { ReactComponent as Quickswap } from './images/quickswap.svg';
 import { ReactComponent as Arrow } from './images/arrow.svg';
 
 const EXCHANGES = [
@@ -39,9 +39,9 @@ const EXCHANGES = [
     url: 'https://www.bitget.com/spot/WSDMUSDT?type=spot',
   },
   {
-    name: 'Uniswap',
-    icon: <Uniswap />,
-    url: 'https://app.uniswap.org/explore/tokens/polygon/0x5F2F8818002dc64753daeDF4A6CB2CcB757CD220',
+    name: 'Quickswap',
+    icon: <Quickswap />,
+    url: 'https://quickswap.exchange/#/swap?currency0=0xc2132D05D31c914a87C6611C10748AEb04B58e8F&currency1=0x5F2F8818002dc64753daeDF4A6CB2CcB757CD220&swapIndex=0',
   },
 ];
 
