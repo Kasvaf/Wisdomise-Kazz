@@ -83,7 +83,7 @@ export function OverviewWidget({
         )}
       >
         {loading ? (
-          <p className="animate-pulse bg-v1-surface-l3 text-base text-v1-content-primary">
+          <p className="animate-pulse text-base text-v1-content-primary">
             {t('almost-there')}
           </p>
         ) : empty ? (
