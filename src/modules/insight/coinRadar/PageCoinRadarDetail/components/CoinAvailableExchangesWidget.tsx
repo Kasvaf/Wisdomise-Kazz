@@ -98,7 +98,7 @@ export function CoinAvailableExchangesWidget({
       subtitle={t('coin-details.tabs.markets.subtitle')}
       loading={coinOverview.isLoading}
       empty={data.length === 0}
-      contentClassName="!min-h-[300px]"
+      className="min-h-[500px]"
     >
       <Table
         loading={coinOverview.isLoading}

@@ -44,7 +44,7 @@ export function OverviewWidget({
   return (
     <article
       className={clsx(
-        'flex h-auto flex-col gap-6 rounded-2xl bg-v1-surface-l2',
+        'flex h-auto flex-col gap-6 overflow-hidden rounded-2xl bg-v1-surface-l2',
         'p-6 mobile:p-5',
         className,
       )}
@@ -76,9 +76,9 @@ export function OverviewWidget({
       )}
       <div
         className={clsx(
-          'relative h-auto overflow-auto',
+          'relative h-auto grow overflow-auto',
           '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
-          (loading || empty) && '!flex !items-center !justify-center',
+          (loading || empty) && '!flex !items-center !justify-center py-4',
           contentClassName,
         )}
       >

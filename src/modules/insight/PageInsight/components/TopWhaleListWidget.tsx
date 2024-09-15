@@ -58,7 +58,6 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       title={t('whale:sections.top-whales.title')}
       info={t('whale:sections.top-whales.subtitle')}
       headerActions={<SeeMoreLink to="/insight/whales" />}
-      contentClassName="min-h-[435px] mobile:min-h-[411px]"
       loading={whales.isLoading}
       empty={whales.data?.results.length === 0}
     >

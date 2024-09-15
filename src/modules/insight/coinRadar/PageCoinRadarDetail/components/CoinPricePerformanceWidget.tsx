@@ -67,9 +67,9 @@ export function CoinPricePerformanceWidget({
 
   return (
     <OverviewWidget
-      className={className}
+      className={clsx('min-h-[250px]', className)}
       loading={coinOverview.isLoading}
-      contentClassName="flex flex-col gap-8 overflow-visible text-xs min-h-[206px] mobile:min-h-[194px]"
+      contentClassName="flex flex-col gap-8 overflow-visible text-xs"
     >
       <div>
         <div className="flex items-center justify-between text-v1-content-primary">

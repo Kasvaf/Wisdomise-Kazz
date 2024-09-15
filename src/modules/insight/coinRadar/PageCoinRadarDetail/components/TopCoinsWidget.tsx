@@ -11,7 +11,7 @@ export function TopCoinsWidget(_: { slug?: string }) {
 
   return (
     <OverviewWidget
-      contentClassName="flex flex-col gap-4 min-h-[461px] mobile:min-h-[433px]"
+      contentClassName="flex flex-col gap-4"
       title={t('coin-details.tabs.trending_coins.title')}
       loading={signals.isLoading}
       empty={signals.data?.length === 0}

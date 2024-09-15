@@ -159,18 +159,21 @@ export function CoinSocialFeedWidget({
       title={title ?? t('coin-details.tabs.socials.title')}
       subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
       loading={messages.isLoading}
-      contentClassName="min-h-[450px]"
+      className="min-h-[480px]"
       empty={activeTabMessages?.length === 0}
+      headerClassName="flex-wrap"
+      headerActions={
+        <div className="w-full grow overflow-auto">
+          {tabs.length > 1 && (
+            <ButtonSelect
+              options={tabs}
+              value={activeTab}
+              onChange={setActiveTab}
+            />
+          )}
+        </div>
+      }
     >
-      <div className="max-w-full overflow-auto">
-        {tabs.length > 1 && (
-          <ButtonSelect
-            options={tabs}
-            value={activeTab}
-            onChange={setActiveTab}
-          />
-        )}
-      </div>
       <div className="mt-4 flex flex-col gap-4">
         {activeTabMessages?.slice(0, limit)?.map((message, idx, self) => (
           <Fragment key={message.id}>

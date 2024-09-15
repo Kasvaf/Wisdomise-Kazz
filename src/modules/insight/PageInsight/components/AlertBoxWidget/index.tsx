@@ -12,10 +12,10 @@ export function AlertBoxWidget({ className }: { className?: string }) {
   return (
     <OverviewWidget
       className={clsx(
-        'bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:h-72',
+        'bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:h-56',
         className,
       )}
-      contentClassName="min-h-[450px] mobile:min-h-[230px] h-full flex h-full flex-col items-center justify-between gap-2 overflow-hidden mobile:flex-row-reverse"
+      contentClassName="h-full flex h-full flex-col items-center justify-between gap-2 overflow-hidden mobile:flex-row-reverse"
     >
       <div className="grow">
         <img

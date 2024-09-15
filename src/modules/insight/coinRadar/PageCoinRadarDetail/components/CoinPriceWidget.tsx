@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { useCoinOverview, useHasFlag } from 'api';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -16,10 +17,9 @@ export function CoinPriceWidget({
   const coinOverview = useCoinOverview({ slug });
   return (
     <OverviewWidget
-      className={className}
+      className={clsx('min-h-[233px] mobile:min-h-[213px]', className)}
       loading={coinOverview.isLoading}
       empty={coinOverview.data?.data?.current_price === null}
-      contentClassName="min-h-[185px] mobile:min-h-[173px]"
     >
       <Coin
         coin={

@@ -117,8 +117,8 @@ export function CoinStatsWidget({
         100;
   return (
     <OverviewWidget
-      className={className}
-      contentClassName="flex flex-col gap-8 min-h-[285px] mobile:min-h-[268px]"
+      className={clsx('min-h-[333px] mobile:min-h-[306px]', className)}
+      contentClassName="flex flex-col gap-8"
       loading={coinOverview.isLoading}
     >
       <StatRow label={t('coin-details.tabs.coin_stats.volume')}>
