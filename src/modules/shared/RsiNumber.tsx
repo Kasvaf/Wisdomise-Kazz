@@ -24,7 +24,16 @@ export const RsiNumber: FC<{
         color: hasValue ? getColorAsString(getRsiColor(value)) : 'inherit',
       }}
     >
-      <ReadableNumber value={value} className={className} />
+      <ReadableNumber
+        value={value}
+        className={className}
+        format={{
+          compactInteger: false,
+          decimalLength: 0,
+          minifyDecimalRepeats: false,
+          seperateByComma: true,
+        }}
+      />
     </span>
   );
 };

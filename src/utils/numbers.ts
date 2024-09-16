@@ -65,7 +65,7 @@ const compressByLabel = (number: number) => {
 
 const cutEndOfNumber = (decimalStr: string, length: number) => {
   let value = decimalStr;
-  if (length <= 0 || !decimalStr) return value;
+  if (length < 0 || !decimalStr) return value;
   if (length < Number.POSITIVE_INFINITY) {
     const numStrs = [...decimalStr];
     const firstNonZeroIndex = numStrs.findIndex(numStr => numStr !== '0');

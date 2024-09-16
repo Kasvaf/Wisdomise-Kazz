@@ -14,7 +14,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
   const hasFlag = useHasFlag();
   const whales = useWhales({
     page: 1,
-    pageSize: 5,
+    pageSize: 6,
   });
 
   const columns = useMemo<Array<TableColumnType<WhaleShort>>>(
@@ -58,11 +58,13 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       title={t('whale:sections.top-whales.title')}
       info={t('whale:sections.top-whales.subtitle')}
       headerActions={<SeeMoreLink to="/insight/whales" />}
+      loading={whales.isLoading}
+      empty={whales.data?.results.length === 0}
     >
       <Table
         loading={whales.isLoading}
         columns={columns}
-        dataSource={whales.data?.results.slice(0, 6) ?? []}
+        dataSource={whales.data?.results ?? []}
         rowKey="holder_address"
         pagination={false}
       />

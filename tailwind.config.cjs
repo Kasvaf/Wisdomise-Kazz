@@ -173,9 +173,9 @@ const semanticLegacyColors = {
   'surface-l1': '#22232b',
   'surface-l2': '#1a1a1f', // manually changed from '#2c2d3a' to match current dashboard colors
   'surface-l3': '#1e1f24', // manually changed from '#36374a' to match current dashboard colors
-  'surface-l4': '#3f405a',
-  'surface-l5': '#47496b',
-  'surface-l6': '#50527c',
+  'surface-l4': '#282a32', // manually changed from '#3f405a' to match current dashboard colors
+  'surface-l5': '#33353f', // manually changed from '#282a32' to match current dashboard colors
+  'surface-l6': '#3a3c48', // manually changed from '#50527c' to match current dashboard colors
 };
 
 // Primitive

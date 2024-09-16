@@ -17,7 +17,9 @@ export function CoinPriceWidget({
   const coinOverview = useCoinOverview({ slug });
   return (
     <OverviewWidget
-      className={clsx(!coinOverview.data && 'animate-pulse', className)}
+      className={clsx('min-h-[233px] mobile:min-h-[213px]', className)}
+      loading={coinOverview.isLoading}
+      empty={coinOverview.data?.data?.current_price === null}
     >
       <Coin
         coin={
@@ -31,7 +33,7 @@ export function CoinPriceWidget({
         className="text-base"
         imageClassName="size-11"
       />
-      <div className="mt-4 flex items-end justify-between gap-2">
+      <div className="mt-4 flex items-baseline justify-between gap-2">
         <ReadableNumber
           value={coinOverview.data?.data?.current_price}
           label="usdt"

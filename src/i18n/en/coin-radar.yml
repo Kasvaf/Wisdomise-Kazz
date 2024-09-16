@@ -57,13 +57,6 @@ coin-details:
       title: Social Feed
       subtitle: Stay ahead in crypto with real-time scans of social media.
       label: Social
-      empty:
-        title: HODL On! Data Incoming
-        description: >-
-          Our mission is to provide comprehensive insights for informed trading.
-          We gather intel on thousands of crypto projects, though some coins
-          need more time for full analysis
-        reload: Reload
       load_more: Load More
       types:
         all:

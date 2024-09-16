@@ -18,6 +18,10 @@
       @apply !text-v1-content-primary;
     }
 
+    &.ant-tabs-tab-disabled {
+      @apply opacity-40;
+    }
+
     &.ant-tabs-tab-active {
       @apply grayscale-0;
       .ant-tabs-tab-btn {

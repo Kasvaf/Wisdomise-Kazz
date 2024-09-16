@@ -2,7 +2,9 @@ import { Tooltip } from 'antd';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
+import { ReactComponent as EmptyIcon } from './empty.svg';
 
 export function OverviewWidget({
   id,
@@ -16,6 +18,8 @@ export function OverviewWidget({
   contentClassName,
   headerClassName,
   footerClassName,
+  loading,
+  empty,
 }: {
   id?: string;
   title?: ReactNode;
@@ -28,7 +32,10 @@ export function OverviewWidget({
   contentClassName?: string;
   headerClassName?: string;
   footerClassName?: string;
+  loading?: boolean;
+  empty?: boolean;
 }) {
+  const { t } = useTranslation('common');
   const infoIcon = info && (
     <Tooltip title={info}>
       <Icon name={bxInfoCircle} size={18} />
@@ -37,7 +44,8 @@ export function OverviewWidget({
   return (
     <article
       className={clsx(
-        'flex h-auto flex-col gap-6 rounded-2xl bg-v1-surface-l2 p-6',
+        'flex flex-col gap-6 overflow-hidden rounded-2xl bg-v1-surface-l2',
+        'p-6 mobile:p-5',
         className,
       )}
       id={id}
@@ -45,7 +53,8 @@ export function OverviewWidget({
       {(title || info || headerActions) && (
         <header
           className={clsx(
-            '-mx-6 flex shrink-0 items-center justify-between gap-6 overflow-auto overflow-y-hidden whitespace-nowrap px-6 text-v1-content-primary',
+            'flex shrink-0 items-center justify-between gap-6 overflow-auto overflow-y-hidden whitespace-nowrap text-v1-content-primary',
+            '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
             headerClassName,
           )}
         >
@@ -65,19 +74,39 @@ export function OverviewWidget({
           {headerActions}
         </header>
       )}
-      {children && (
-        <div
-          className={clsx(
-            'relative -mx-6 h-auto overflow-auto px-6',
-            contentClassName,
-          )}
-        >
-          {children}
-        </div>
-      )}
+      <div
+        className={clsx(
+          'relative h-auto grow overflow-auto',
+          '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
+          (loading || empty) && '!flex !items-center !justify-center py-4',
+          contentClassName,
+        )}
+      >
+        {loading ? (
+          <p className="animate-pulse text-base text-v1-content-primary">
+            {t('almost-there')}
+          </p>
+        ) : empty ? (
+          <div className="flex flex-col items-center gap-2 text-center">
+            <EmptyIcon />
+            <p className="text-xl text-v1-content-primary">
+              {t('data-incoming')}
+            </p>
+            <p className="max-w-lg text-sm font-light text-v1-content-secondary">
+              {t('data-incoming-description')}
+            </p>
+          </div>
+        ) : (
+          <>{children}</>
+        )}
+      </div>
       {footer && (
         <footer
-          className={clsx('-mx-6 shrink-0 overflow-auto px-6', footerClassName)}
+          className={clsx(
+            'shrink-0 overflow-auto',
+            '-mx-6 px-6 mobile:-mx-5 mobile:px-5',
+            footerClassName,
+          )}
         >
           {footer}
         </footer>

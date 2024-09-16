@@ -1,46 +1,48 @@
-import { clsx } from 'clsx';
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ButtonSelect } from 'shared/ButtonSelect';
+import Tabs from 'shared/Tabs';
 
-type Indicator = 'rsi' | 'macd';
+export type MarketPulseIndicators = 'rsi' | 'macd' | 'advanced';
 
 export const IndicatorSelect: FC<{
-  className?: string;
-  onChange: (newValue: Indicator) => void;
-  value: Indicator;
-}> = ({ className, onChange, value }) => {
+  onChange: (newValue: MarketPulseIndicators) => void;
+  value: MarketPulseIndicators;
+}> = ({ onChange, value }) => {
   const { t } = useTranslation('market-pulse');
   return (
-    <div
-      className={clsx(
-        'flex items-center justify-start gap-4 border-b border-b-white/10 pb-4',
-        className,
-      )}
-    >
-      <h3 className="text-base font-normal">{t('indicators')}:</h3>
-      <ButtonSelect
-        options={[
-          {
-            label: t('indicator_list.rsi.label'),
-            value: 'rsi',
-          },
-          {
-            label: (
-              <>
-                {t('indicator_list.macd.label')}
-                <span className="ms-2 text-xs font-light opacity-60">
-                  {t('indicator_list.macd.soon')}
-                </span>
-              </>
-            ),
-            value: 'macd',
-            disabled: true,
-          },
-        ]}
-        value={value}
-        onChange={onChange}
-      />
-    </div>
+    <Tabs
+      items={[
+        {
+          label: t('indicator_list.rsi.label'),
+          key: 'rsi',
+        },
+        {
+          label: (
+            <>
+              {t('indicator_list.macd.label')}
+              <span className="ms-2 text-xs font-light opacity-80">
+                {t('common:soon')}
+              </span>
+            </>
+          ),
+          key: 'macd',
+          disabled: true,
+        },
+        {
+          label: (
+            <>
+              {t('indicator_list.advanced.label')}
+              <span className="ms-2 text-xs font-light opacity-80">
+                {t('common:soon')}
+              </span>
+            </>
+          ),
+          key: 'advanced',
+          disabled: true,
+        },
+      ]}
+      activeKey={value}
+      onChange={newKey => onChange?.(newKey as MarketPulseIndicators)}
+    />
   );
 };

@@ -19,7 +19,7 @@ export function ButtonSelect<T>({
   return (
     <div
       className={clsx(
-        'inline-flex items-center justify-start gap-1 overflow-auto',
+        'inline-flex max-w-full items-center justify-start gap-1 overflow-auto',
         'h-12 whitespace-nowrap rounded-xl bg-black/40 p-1 text-white',
         className,
       )}
@@ -33,7 +33,7 @@ export function ButtonSelect<T>({
           disabled={option.disabled}
           className={clsx(
             'h-full rounded-lg px-3 text-sm text-white/60',
-            'transition-colors duration-150',
+            'grow transition-colors duration-150',
             'enabled:hover:bg-white/5',
             'aria-checked:text-white enabled:aria-checked:bg-white/10',
             'disabled:opacity-40',

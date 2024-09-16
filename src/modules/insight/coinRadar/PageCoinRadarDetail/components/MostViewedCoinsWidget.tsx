@@ -37,7 +37,11 @@ export function MostViewedCoinsWidget(_: { slug?: string }) {
   );
 
   return (
-    <OverviewWidget title={t('coin-details.tabs.most_viewed_coins.title')}>
+    <OverviewWidget
+      title={t('coin-details.tabs.most_viewed_coins.title')}
+      loading={coins.isLoading}
+      empty={coins.data?.length === 0}
+    >
       <Table
         columns={columns}
         dataSource={coins.data?.slice(0, 5) ?? []}

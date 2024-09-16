@@ -12,7 +12,7 @@ export function AlertBoxWidget({ className }: { className?: string }) {
   return (
     <OverviewWidget
       className={clsx(
-        'bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:h-72',
+        'bg-gradient-to-t from-v1-background-brand via-v1-background-brand/30 to-v1-surface-l3 mobile:h-56',
         className,
       )}
       contentClassName="h-full flex h-full flex-col items-center justify-between gap-2 overflow-hidden mobile:flex-row-reverse"
@@ -21,7 +21,7 @@ export function AlertBoxWidget({ className }: { className?: string }) {
         <img
           src={bg}
           alt="Alerts"
-          className="h-full w-80 grow object-cover object-center mobile:w-auto mobile:object-contain"
+          className="h-full w-[350px] grow object-contain object-center mobile:w-auto"
         />
       </div>
       <div className="flex w-full shrink-0 flex-col justify-between gap-2 mobile:w-1/2">

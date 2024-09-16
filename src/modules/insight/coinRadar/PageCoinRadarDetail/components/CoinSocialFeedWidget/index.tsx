@@ -23,7 +23,6 @@ import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as RedditIcon } from './images/reddit.svg';
 import { ReactComponent as TwitterIcon } from './images/twitter.svg';
 import { ReactComponent as TradingViewIcon } from './images/trading_view.svg';
-import { ReactComponent as EmptyImage } from './images/empty.svg';
 import { SocialMessage } from './SocialMessage';
 
 function SocialTabTitle({
@@ -156,20 +155,25 @@ export function CoinSocialFeedWidget({
 
   return (
     <OverviewWidget
-      className={clsx(!messages.data && 'animate-pulse')}
       id={id}
       title={title ?? t('coin-details.tabs.socials.title')}
       subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
+      loading={messages.isLoading}
+      className="min-h-[480px]"
+      empty={activeTabMessages?.length === 0}
+      headerClassName="flex-wrap"
+      headerActions={
+        <div className="w-full grow overflow-auto">
+          {tabs.length > 1 && (
+            <ButtonSelect
+              options={tabs}
+              value={activeTab}
+              onChange={setActiveTab}
+            />
+          )}
+        </div>
+      }
     >
-      <div className="max-w-full overflow-auto">
-        {tabs.length > 1 && (
-          <ButtonSelect
-            options={tabs}
-            value={activeTab}
-            onChange={setActiveTab}
-          />
-        )}
-      </div>
       <div className="mt-4 flex flex-col gap-4">
         {activeTabMessages?.slice(0, limit)?.map((message, idx, self) => (
           <Fragment key={message.id}>
@@ -179,26 +183,6 @@ export function CoinSocialFeedWidget({
             )}
           </Fragment>
         ))}
-        {activeTabMessages?.length === 0 && (
-          <div className="mx-auto flex max-w-screen-sm flex-col items-center gap-4 py-12">
-            <EmptyImage className="h-[171px] w-[220px]" />
-            <p className="text-xl text-v1-content-primary">
-              {t('coin-details.tabs.socials.empty.title')}
-            </p>
-            <p className="text-sm text-v1-content-secondary">
-              {t('coin-details.tabs.socials.empty.description')}
-            </p>
-            <Button
-              variant="link"
-              className="mt-6"
-              onClick={() => messages.refetch()}
-              loading={messages.isFetching}
-            >
-              {t('coin-details.tabs.socials.empty.reload')}
-              <Icon name={bxRefresh} className="ms-1" />
-            </Button>
-          </div>
-        )}
       </div>
       {limit < (activeTabMessages?.length ?? 0) && (
         <div className="mt-4 flex items-center justify-center">

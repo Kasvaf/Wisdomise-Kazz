@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
+import { RsiMomentumConfirmationWidget } from './components/RsiMomentumConfirmationWidget';
 import { HotCoinsWidget } from './components/HotCoinsWidget';
 import { AlertBoxWidget } from './components/AlertBoxWidget';
 import { TopWhaleCoinsWidget } from './components/TopWhaleCoinsWidget';
 import { TopWhaleListWidget } from './components/TopWhaleListWidget';
-import { RsiOvernessWidget } from './components/RsiOvernessWidget';
 
 const PageInsight = () => {
   const { t } = useTranslation();
@@ -21,15 +21,15 @@ const PageInsight = () => {
       <div className="grid grid-cols-6 gap-6">
         <HotCoinsWidget className="col-span-4 mobile:col-span-full" />
         <AlertBoxWidget className="col-span-2 mobile:order-first mobile:col-span-full" />
-        <TopWhaleCoinsWidget className="col-span-2 max-h-[470px] mobile:col-span-full" />
-        <TopWhaleListWidget className="col-span-4 mobile:col-span-full" />
-        <RsiOvernessWidget
-          className="col-span-3 max-h-[470px] mobile:col-span-full"
-          type="over_sold"
+        <TopWhaleCoinsWidget className="col-span-2 h-[530px]  mobile:col-span-full" />
+        <TopWhaleListWidget className="col-span-4 h-[530px] mobile:col-span-full" />
+        <RsiMomentumConfirmationWidget
+          className="col-span-3 mobile:col-span-full"
+          type="bullish"
         />
-        <RsiOvernessWidget
-          className="col-span-3 max-h-[470px] mobile:col-span-full"
-          type="over_bought"
+        <RsiMomentumConfirmationWidget
+          className="col-span-3 mobile:col-span-full"
+          type="bearish"
         />
       </div>
     </PageWrapper>

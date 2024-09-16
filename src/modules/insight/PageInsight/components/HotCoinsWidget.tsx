@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { type TableColumnType } from 'antd';
+import { clsx } from 'clsx';
 import { type CoinSignal, useCoinSignals, useHasFlag } from 'api';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
@@ -68,7 +69,9 @@ export function HotCoinsWidget({ className }: { className?: string }) {
     <OverviewWidget
       title={t('coin-radar:hot-coins-section.title')}
       headerActions={<SeeMoreLink to="/insight/coin-radar" />}
-      className={className}
+      className={clsx('min-h-[548px]', className)}
+      loading={signals.isLoading}
+      empty={signals.data?.length === 0}
     >
       <Table
         loading={signals.isLoading}

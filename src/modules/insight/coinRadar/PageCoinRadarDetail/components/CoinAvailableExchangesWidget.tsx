@@ -96,6 +96,9 @@ export function CoinAvailableExchangesWidget({
       id={id}
       title={t('coin-details.tabs.markets.title')}
       subtitle={t('coin-details.tabs.markets.subtitle')}
+      loading={coinOverview.isLoading}
+      empty={data.length === 0}
+      className="min-h-[500px]"
     >
       <Table
         loading={coinOverview.isLoading}

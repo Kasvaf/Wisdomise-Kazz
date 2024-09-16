@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { ReactComponent as PriceDownIcon } from './priceDown.svg';
-import { ReactComponent as PriceUpIcon } from './priceUp.svg';
+import { ReactComponent as PriceDownIcon } from './down.svg';
+import { ReactComponent as PriceUpIcon } from './up.svg';
 
 interface Props {
   bg?: boolean;
@@ -38,10 +38,10 @@ const PriceChange: React.FC<Props> = ({
 
   const textColor =
     !colorize || !color
-      ? 'text-white'
+      ? 'text-v1-content-primary'
       : color === 'green'
-      ? 'text-[#40F19C]'
-      : 'text-[#F14056]';
+      ? 'text-v1-content-positive'
+      : 'text-v1-content-negative';
 
   return (
     <div
