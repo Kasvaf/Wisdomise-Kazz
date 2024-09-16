@@ -9,10 +9,15 @@ export const HotCoinsBanner: FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation('coin-radar');
   const marketInfo = useMarketInfoFromSignals();
   return (
-    <div className={clsx('relative overflow-hidden rounded-xl', className)}>
+    <div
+      className={clsx(
+        'relative overflow-hidden rounded-xl bg-[#191919]',
+        className,
+      )}
+    >
       <img
         src={DekstopBanner}
-        className="col-span-full h-auto min-h-44 w-full object-cover mobile:hidden"
+        className="col-span-full h-auto min-h-44 w-full object-contain mobile:hidden"
       />
       <img
         src={MobileBanner}
