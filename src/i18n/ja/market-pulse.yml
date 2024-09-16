@@ -1,4 +1,14 @@
+common:
+  divergence: 発散
+  hide: 閉じる
+  in_timeframe: 時間枠内
+  price: 価格
+  price_change: 価格変更
+  rsi: RSI
+  show: 詳細を表示
 indicator_list:
+  advanced:
+    label: 高度な
   macd:
     label: MACD
     soon: すぐ
@@ -12,7 +22,39 @@ indicator_list:
       ポジションが引き起こされる可能性があります。逆に、弱気のダイバージェンスは、RSI
       が買われ過ぎの読み取り値を示し、その後、価格がさらに高い高値とともに低値に変化したときに発生します。これは、弱気の勢いが高まっていることを示している可能性があり、買われ過ぎの領域を下抜けることで、新しいショート
       ポジションが引き起こされる可能性があります。
+    heatmap:
+      24h_change: 24時間変更
+      bearish_divergence: 弱気のダイバージェンス
+      bullish_divergence: 強気のダイバージェンス
+      div: 部門
+      market_cap: 時価総額
+      overbought_area: 買われすぎエリア
+      oversold_area: 売られ過ぎエリア
+      price_change: 価格変更
+      rsi: RSI
+      title: RSI ヒートマップ
     label: RSI
+    momentum:
+      bearish:
+        description: このタブは、価格が上昇しているものの勢いが弱まっている資産を追跡します。この差は、価格がすぐに下落する可能性があることを示唆しており、売却の好機を提供しています。
+        title: 弱気のダイバージェンス
+      bearish_momentum_confirmation: 弱気の勢いの確認
+      bullish:
+        description: このタブは、価格が下落しているものの、勢いが強まっている兆候を示している資産を追跡します。この差は、価格が反転して上昇する可能性があることを示唆しており、購入の好機を提供しています。
+        title: 強気のダイバージェンス
+      bullish_momentum_confirmation: 強気の勢いの確認
+      overbought:
+        description: このタブは、買われ過ぎの資産を追跡します。つまり、価格が高く、下落し始める可能性がある資産を追跡します。これにより、トレーダーは価格が下落する前に売却するチャンスを得ることができます。
+        title: 買われすぎ
+      overbought_bearish:
+        description: このタブは、買われ過ぎで下落の兆候を示している資産を追跡します。これは、資産が過大評価されており、価格が下落する可能性が高いことを意味し、売却のチャンスが生まれます。
+        title: 買われ過ぎと弱気
+      oversold:
+        description: このタブは、売られ過ぎの資産を追跡します。つまり、価格が低く、回復する準備ができている資産を追跡します。これにより、トレーダーは価格が上昇する前に購入する機会を得ることができます。
+        title: 売られ過ぎ
+      oversold_bullish:
+        description: このタブは、売られ過ぎで上昇の兆しを見せている資産を追跡します。これは、資産が過小評価されており、価格が上昇する可能性が高いことを意味し、購入の好機を提供します。
+        title: 売られ過ぎと強気
     overbought: 買われ過ぎ
     overbought-full-title: 買われすぎたコインのトップ
     overbought-info: RSI>70

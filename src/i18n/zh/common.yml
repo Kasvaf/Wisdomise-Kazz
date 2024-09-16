@@ -14,12 +14,15 @@ actions:
   save: 保存
   share: 分享
   yes: 是
+almost-there: 快到了...
 aum: 管理資產規模
 below: 以下
 confirmation: 確認
 copied-to-clipboard: 已複製到剪貼板
 crypto: 加密貨幣
 cryptocurrency: 加密貨幣
+data-incoming: HODL 开始！数据即将到来
+data-incoming-description: 我们的使命是通过分析数千个加密项目来提供明智交易的见解，尽管有些项目可能需要更多时间。
 date: 日期
 equal: 等於
 error: 錯誤

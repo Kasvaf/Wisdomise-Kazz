@@ -1,4 +1,14 @@
+common:
+  divergence: 分歧
+  hide: 關閉
+  in_timeframe: 在时间范围内
+  price: 價格
+  price_change: 价格变动
+  rsi: RSI
+  show: 显示详细信息
 indicator_list:
+  advanced:
+    label: 先进的
   macd:
     label: MACD
     soon: 即將推出
@@ -8,7 +18,39 @@ indicator_list:
     bullish: 看漲背離
     bullish-info: RSI形成較高的低點，而價格形成較低的低點
     description: 當RSI顯示超賣並隨後出現較高的低點而價格出現較低的低點時，這可能表示看漲動能增強，突破超賣區域可以用來觸發新的多頭頭寸。相反，當RSI顯示超買並隨後出現較低的高點而價格出現較高的高點時，這可能表示看跌動能增強，突破超買區域可以用來觸發新的空頭頭寸。
+    heatmap:
+      24h_change: 24小时变化
+      bearish_divergence: 看跌背离
+      bullish_divergence: 看涨背离
+      div: 股利
+      market_cap: 市值
+      overbought_area: 超买区域
+      oversold_area: 超卖区域
+      price_change: 价格变动
+      rsi: RSI
+      title: RSI 热图
     label: RSI
+    momentum:
+      bearish:
+        description: 此标签跟踪价格上涨但势头减弱的资产。这种差异表明价格可能很快下跌，提供良好的卖出机会。
+        title: 看跌背离
+      bearish_momentum_confirmation: 看跌动能确认
+      bullish:
+        description: 此标签跟踪价格下跌但动能有增强迹象的资产。这种差异表明价格可能回升，提供良好的买入机会。
+        title: 看涨背离
+      bullish_momentum_confirmation: 看涨势头确认
+      overbought:
+        description: 此标签跟踪超买资产，这意味着它们的价格很高，可能会开始下跌。这为交易者提供了在价格下跌前出售的机会。
+        title: 超买
+      overbought_bearish:
+        description: 此标签跟踪超买且有下跌迹象的资产。这意味着资产被高估，价格可能下跌，这是出售的好机会。
+        title: 超买和看跌
+      oversold:
+        description: 此标签跟踪超卖资产，这意味着它们的价格很低，可能准备反弹。这为交易者提供了在价格上涨之前买入的机会。
+        title: 超卖
+      oversold_bullish:
+        description: 此标签跟踪超卖且有上涨迹象的资产。这意味着资产被低估且价格可能上涨，提供了良好的买入机会。
+        title: 超卖与看涨
     overbought: 超買
     overbought-full-title: 最畅销的硬币
     overbought-info: RSI>70
