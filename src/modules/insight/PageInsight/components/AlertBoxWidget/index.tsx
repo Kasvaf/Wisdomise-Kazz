@@ -21,7 +21,7 @@ export function AlertBoxWidget({ className }: { className?: string }) {
         <img
           src={bg}
           alt="Alerts"
-          className="h-full w-80 grow object-cover object-center mobile:w-auto mobile:object-contain"
+          className="h-full w-[350px] grow object-contain object-center mobile:w-auto"
         />
       </div>
       <div className="flex w-full shrink-0 flex-col justify-between gap-2 mobile:w-1/2">
