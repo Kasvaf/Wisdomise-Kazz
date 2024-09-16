@@ -14,6 +14,7 @@ import { MAIN_LANDING } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
+import { useHasFlag } from 'api';
 import useMenuItems from '../useMenuItems';
 
 interface Handle {
@@ -41,6 +42,7 @@ export const usePageSiblings = () => {
   const [showSiblings, setShowSiblings] = useState(false);
   const [el, setEl] = useState<HTMLDivElement | null>(null);
   const [height, setHeight] = useState(0);
+  const hasFlag = useHasFlag();
 
   useEffect(() => {
     if (el) {
@@ -57,16 +59,18 @@ export const usePageSiblings = () => {
         ref={setEl}
         className="flex flex-col border-y border-white/5 py-3 pl-6 text-white"
       >
-        {parent.children?.map(x => (
-          <NavLink
-            key={x.link}
-            to={x.link}
-            className={clsx('py-3', x === child && 'text-info')}
-            onClick={() => setShowSiblings(false)}
-          >
-            {x.text}
-          </NavLink>
-        ))}
+        {parent.children
+          ?.filter(x => hasFlag(x.link))
+          .map(x => (
+            <NavLink
+              key={x.link}
+              to={x.link}
+              className={clsx('py-3', x === child && 'text-info')}
+              onClick={() => setShowSiblings(false)}
+            >
+              {x.text}
+            </NavLink>
+          ))}
       </div>
     ) : null;
 
