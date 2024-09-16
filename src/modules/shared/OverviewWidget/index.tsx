@@ -44,7 +44,7 @@ export function OverviewWidget({
   return (
     <article
       className={clsx(
-        'flex h-auto flex-col gap-6 overflow-hidden rounded-2xl bg-v1-surface-l2',
+        'flex flex-col gap-6 overflow-hidden rounded-2xl bg-v1-surface-l2',
         'p-6 mobile:p-5',
         className,
       )}

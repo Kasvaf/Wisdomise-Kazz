@@ -110,7 +110,7 @@ export function RsiMomentumConfirmationWidget({
 
   return (
     <OverviewWidget
-      className={className}
+      className={clsx('h-[750px]', className)}
       title={title}
       headerClassName="flex-wrap !justify-start"
       headerActions={
@@ -129,7 +129,6 @@ export function RsiMomentumConfirmationWidget({
           />
         </>
       }
-      contentClassName="h-[650px]"
       loading={rsiMomentumConfirmations.isLoading}
       empty={rsiMomentumConfirmations.data?.results.length === 0}
     >
