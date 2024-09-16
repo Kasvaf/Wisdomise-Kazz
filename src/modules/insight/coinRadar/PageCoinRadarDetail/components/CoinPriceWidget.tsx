@@ -33,7 +33,7 @@ export function CoinPriceWidget({
         className="text-base"
         imageClassName="size-11"
       />
-      <div className="mt-4 flex items-end justify-between gap-2">
+      <div className="mt-4 flex items-baseline justify-between gap-2">
         <ReadableNumber
           value={coinOverview.data?.data?.current_price}
           label="usdt"
