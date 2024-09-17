@@ -38,7 +38,6 @@ forms:
       every: Every {{seconds}} Seconds
       hour: hour
       hourly: Hourly
-      min: min
       monthly: Monthly
       weekly: Weekly
     messangers:

@@ -55,26 +55,6 @@ const useIntervalOptions = (
     let options: DefaultOptionType[] = cooldownMode
       ? [
           {
-            label: `1 ${t('forms.notifications.invervals.min')}`,
-            value: 60,
-          },
-          {
-            label: `3 ${t('forms.notifications.invervals.min')}`,
-            value: 180,
-          },
-          {
-            label: `10 ${t('forms.notifications.invervals.min')}`,
-            value: 600,
-          },
-          {
-            label: `15 ${t('forms.notifications.invervals.min')}`,
-            value: 900,
-          },
-          {
-            label: `30 ${t('forms.notifications.invervals.min')}`,
-            value: 1800,
-          },
-          {
             label: `1 ${t('forms.notifications.invervals.hour')}`,
             value: 3600,
           },
@@ -156,7 +136,7 @@ export const IntervalSelect: FC<
       className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
       showArrow={!disabled}
       disabled={disabled}
-      showSearch
+      showSearch={!cooldownMode}
       onSearch={setQuery}
       searchValue={query}
       autoClearSearchValue
