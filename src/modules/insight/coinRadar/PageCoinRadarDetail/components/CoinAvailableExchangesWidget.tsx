@@ -1,18 +1,13 @@
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
+import { bxSearch } from 'boxicons-quasar';
 import { type CoinExchange, useCoinOverview } from 'api';
 import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
-
-type ExtendedCoinExchange = CoinExchange & {
-  id: string;
-  pair_name: string;
-  price?: number | null;
-  price_label: string;
-  rank: number;
-};
+import TextBox from 'shared/TextBox';
+import Icon from 'shared/Icon';
 
 export function CoinAvailableExchangesWidget({
   slug,
@@ -23,46 +18,15 @@ export function CoinAvailableExchangesWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinOverview({ slug });
+  const [query, setQuery] = useState('');
 
-  const data = useMemo<ExtendedCoinExchange[]>(() => {
-    if (!coinOverview.data) return [];
-    let resp: ExtendedCoinExchange[] = [];
-    let rank = 1;
-    for (const exchange of coinOverview.data?.exchanges ?? []) {
-      resp = [
-        ...resp,
-        {
-          ...exchange,
-          id: `${exchange.exchange.id}-usd`,
-          pair_name: `${coinOverview.data.symbol.abbreviation.toUpperCase()}/USD`,
-          price: exchange.price_in_usd,
-          price_label: '$',
-          rank: rank++,
-        },
-        {
-          ...exchange,
-          id: `${exchange.exchange.id}-btc`,
-          pair_name: `${coinOverview.data.symbol.abbreviation.toUpperCase()}/BTC`,
-          price: exchange.price_in_btc,
-          price_label: 'BTC',
-          rank: rank++,
-        },
-      ];
-    }
-    return resp;
-  }, [coinOverview.data]);
-
-  const columns = useMemo<Array<ColumnType<ExtendedCoinExchange>>>(
+  const columns = useMemo<Array<ColumnType<CoinExchange>>>(
     () => [
       {
-        title: t('available-exchanges.table.rank'),
-        sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
-        render: (_, row) => row.rank,
-      },
-      {
         title: t('available-exchanges.table.exchange'),
+        width: '45%',
         render: (_, row) => (
-          <div className="inline-flex items-center gap-2 whitespace-nowrap">
+          <div className="inline-flex items-center gap-2 leading-tight">
             <img
               src={row.exchange.icon_url}
               alt={row.exchange.name}
@@ -73,13 +37,10 @@ export function CoinAvailableExchangesWidget({
         ),
       },
       {
-        title: t('available-exchanges.table.pair'),
-        render: (_, row) => row.pair_name,
-      },
-      {
         title: t('available-exchanges.table.price'),
+        sorter: (a, b) => (a.price_in_usd ?? 0) - (b.price_in_usd ?? 0),
         render: (_, row) => (
-          <ReadableNumber value={row.price} label={row.price_label} />
+          <ReadableNumber value={row.price_in_usd} label="usdt" />
         ),
       },
       {
@@ -91,6 +52,14 @@ export function CoinAvailableExchangesWidget({
     [t],
   );
 
+  const data = useMemo(
+    () =>
+      (coinOverview.data?.exchanges ?? []).filter(row =>
+        row.exchange.name.toLowerCase().includes(query.toLowerCase()),
+      ),
+    [coinOverview.data?.exchanges, query],
+  );
+
   return (
     <OverviewWidget
       id={id}
@@ -98,13 +67,24 @@ export function CoinAvailableExchangesWidget({
       subtitle={t('coin-details.tabs.markets.subtitle')}
       loading={coinOverview.isLoading}
       empty={data.length === 0}
-      className="min-h-[500px]"
+      headerActions={
+        <TextBox
+          value={query}
+          onChange={setQuery}
+          className="text-sm mobile:w-full"
+          suffix={<Icon name={bxSearch} />}
+          placeholder={t('available-exchanges.search')}
+          disabled={(coinOverview.data?.exchanges ?? []).length === 0}
+        />
+      }
+      headerClassName="flex-wrap"
     >
       <Table
         loading={coinOverview.isLoading}
         columns={columns}
         dataSource={data}
-        rowKey={row => row.id}
+        rowKey={row => row.exchange.id}
+        tableLayout="fixed"
       />
     </OverviewWidget>
   );

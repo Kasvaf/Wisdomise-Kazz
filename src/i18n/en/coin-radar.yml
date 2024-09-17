@@ -1,9 +1,8 @@
 available-exchanges:
+  search: Search Exchange...
   table:
     exchange: Exchange
-    pair: Pair
     price: Price
-    rank: '#'
     volume_24h: Volume 24h
 call-change:
   fire-time: Signal Fire Time
