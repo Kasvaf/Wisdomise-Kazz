@@ -38,11 +38,6 @@ const useMenuItems = () => {
           link: '/dashboard/portfolio',
           onClick: trackClick('portfolio_menu'),
         },
-        {
-          text: t('menu.alerts.title'),
-          link: '/dashboard/alerts',
-          onClick: trackClick('portfolio_menu'),
-        },
       ],
     },
 
@@ -73,6 +68,11 @@ const useMenuItems = () => {
           link: '/insight/whales',
           onClick: trackClick('whales_menu'),
           badge: 'beta',
+        },
+        {
+          text: t('menu.alerts.title'),
+          link: '/insight/alerts',
+          onClick: trackClick('alerts_menu'),
         },
       ],
     },

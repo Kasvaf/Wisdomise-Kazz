@@ -13,8 +13,6 @@ const PageFPIPositions = React.lazy(
   () => import('modules/investment/PageFPIPositions'),
 );
 
-const PageAlerts = React.lazy(() => import('modules/account/PageAlerts'));
-
 const useDashboardRoutes = () => {
   const { t } = useTranslation('base');
 
@@ -39,11 +37,6 @@ const useDashboardRoutes = () => {
               handle: { crumb: t('products:fpi-page.title') },
             },
           ],
-        },
-        {
-          path: 'alerts',
-          handle: { crumb: t('menu.alerts.title') },
-          element: <PageAlerts />,
         },
       ],
     },
