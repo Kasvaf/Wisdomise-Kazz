@@ -96,8 +96,8 @@ hot-coins-section:
     chg-24: Chg(24h)
     market-cap: Market Cap
     pnl: Call PnL
-    rank: '#'
-    realtime-price: Realtime Price
+    rank: Rank
+    realtime-price: Price
     sentiment: Sentiment
     tvl: TVL
 market-info:
