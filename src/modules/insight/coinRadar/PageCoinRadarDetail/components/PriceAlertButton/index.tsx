@@ -39,7 +39,7 @@ export function PriceAlertButton({
     searchParam: 'open-alert',
   });
 
-  if (!hasFlag('/dashboard/alerts')) return null;
+  if (!hasFlag('/insight/alerts')) return null;
 
   return (
     <>

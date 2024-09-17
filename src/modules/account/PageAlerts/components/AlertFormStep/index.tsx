@@ -81,7 +81,7 @@ export const useAlertFormStep = ({
               <li
                 onClick={() => {
                   onClose?.();
-                  navigate('/dashboard/alerts');
+                  navigate('/insight/alerts');
                 }}
               >
                 {t('common.alerts-list')}
