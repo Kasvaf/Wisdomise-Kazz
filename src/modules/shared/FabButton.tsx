@@ -9,15 +9,18 @@ const FabButton: React.FC<{
   icon: string;
   size?: number;
   className?: string;
-}> = ({ disabled, icon, onClick, to, size, className }) => {
+  alt?: boolean;
+}> = ({ disabled, icon, onClick, to, size, alt, className }) => {
   const navigate = useNavigate();
   return (
     <div
-      onClick={onClick ?? (() => to && navigate(to))}
+      onClick={disabled ? undefined : onClick ?? (() => to && navigate(to))}
       className={clsx(
-        'rounded-full p-1',
+        'rounded-full border border-transparent p-1',
         disabled
-          ? 'bg-white/10 text-black/40'
+          ? 'cursor-not-allowed bg-white/10 text-black/40'
+          : alt
+          ? 'cursor-pointer border border-v1-border-secondary text-v1-content-primary hover:border-v1-border-primary'
           : 'cursor-pointer bg-white text-black hover:bg-white/70',
         className,
       )}

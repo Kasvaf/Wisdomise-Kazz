@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, type RouteObject } from 'react-router-dom';
-import PageInvestment from 'modules/investment/PageInvestment';
 import Container from '../Container';
 import useBuilderRoutes from './builderRoutes';
 
+const PageMarketplaceOverview = React.lazy(
+  () => import('modules/investment/PageMarketplaceOverview'),
+);
 const PageSignalersOverview = React.lazy(
   () => import('modules/insight/signaler/PageSignalersOverview'),
 );
@@ -35,7 +37,7 @@ const useMarketplaceRoutes = () => {
       handle: { crumb: t('menu.investment.title') },
       children: [
         { path: '', element: <Navigate to="/marketplace/overview" replace /> },
-        { path: 'overview', element: <PageInvestment /> },
+        { path: 'overview', element: <PageMarketplaceOverview /> },
 
         {
           path: 'signalers',
