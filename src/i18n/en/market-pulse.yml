@@ -22,6 +22,7 @@ indicator_list:
       bullish_divergence: Bullish Divergence
       div: Div
       market_cap: Market Cap
+      no_divergence: No Divergence
       overbought_area: Overbought Area
       oversold_area: Oversold Area
       price_change: Price Change

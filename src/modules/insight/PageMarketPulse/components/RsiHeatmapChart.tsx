@@ -79,6 +79,16 @@ function GuideBar() {
       </div>
       <div>
         <div
+          className="rounded-full border-[3px] border-v1-border-primary bg-v1-background-primary"
+          style={{
+            width: `${POINT_SIZE}px`,
+            height: `${POINT_SIZE}px`,
+          }}
+        />
+        {t('indicator_list.rsi.heatmap.no_divergence')}
+      </div>
+      <div>
+        <div
           className="rounded-full border-[3px] border-v1-content-positive bg-v1-background-primary"
           style={{
             width: `${POINT_SIZE}px`,
