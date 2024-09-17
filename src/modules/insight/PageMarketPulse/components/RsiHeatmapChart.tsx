@@ -156,15 +156,18 @@ function CoinPoint({
         )}
         style={{
           /*
-            90 === top: 0
-            70 === top: AREA_SIZE_PERCENT
-            10 === bottom: 0
-            30 === bottom: AREA_SIZE_PERCENT
+            90 === top: 0%
+            70 === top: AREA_SIZE_PERCENT%
+            10 === bottom: 0%
+            30 === bottom: AREA_SIZE_PERCENT%
+            30 < x < 70: top: 50%
           */
           top: `calc(${
             value.rsi_value <= 30
               ? 100 - (value.rsi_value - 10) * (AREA_SIZE_PERCENT / 20)
-              : (90 - value.rsi_value) * (90 / AREA_SIZE_PERCENT)
+              : value.rsi_value >= 70
+              ? (90 - value.rsi_value) * (90 / AREA_SIZE_PERCENT)
+              : 50
           }% - ${POINT_SIZE / 2}px)`,
           width: `${POINT_SIZE}px`,
           height: `${POINT_SIZE}px`,
@@ -238,7 +241,7 @@ export function RsiHeatmapChart({
         <HeatMapArea type="oversold" />
         <div
           className={clsx(
-            'absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-auto px-6',
+            'absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-x-auto overflow-y-hidden px-6',
           )}
         >
           {sortedData.map(row => (
