@@ -1,7 +1,7 @@
-import { useEffect, useRef, type FC } from 'react';
+import { useEffect, type FC } from 'react';
 import { clsx } from 'clsx';
 import { Trans } from 'react-i18next';
-import { useCoinOverview } from 'api';
+import { type CoinOverview, useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import { ReactComponent as PriceIcon } from './price.svg';
@@ -10,24 +10,22 @@ export const CoinPriceInfo: FC<{
   slug: string;
   loading?: boolean;
   className?: string;
-  onReady?: (lastPrice?: number) => void;
-}> = ({ slug, loading, className, onReady }) => {
+  onLoad?: (coin: CoinOverview) => void;
+}> = ({ slug, loading, className, onLoad }) => {
   const { data: coinInfo } = useCoinOverview({
     slug,
   });
-  const onReadyCalled = useRef(false);
   useEffect(() => {
-    if (!coinInfo || onReadyCalled.current || !onReady) return;
-    onReady(coinInfo.data?.current_price);
-    onReadyCalled.current = true;
-  }, [coinInfo, onReady]);
+    if (coinInfo) {
+      onLoad?.(coinInfo);
+    }
+  }, [coinInfo, onLoad]);
 
-  if (!coinInfo?.symbol) return null;
   return (
     <div
       className={clsx(
         'flex items-center gap-1 py-6 text-xs',
-        loading ? 'animate-pulse blur-sm' : !coinInfo && 'hidden',
+        loading || (!coinInfo && 'animate-pulse blur-sm'),
         className,
       )}
     >
@@ -36,7 +34,17 @@ export const CoinPriceInfo: FC<{
         i18nKey="common.price-info"
         ns="alerts"
         components={{
-          Coin: <Coin coin={coinInfo?.symbol} mini imageClassName="hidden" />,
+          Coin: coinInfo?.symbol ? (
+            <Coin
+              coin={coinInfo?.symbol}
+              mini
+              nonLink
+              className="!p-0"
+              imageClassName="hidden"
+            />
+          ) : (
+            <></>
+          ),
           Price: (
             <ReadableNumber
               className="text-sky-400"

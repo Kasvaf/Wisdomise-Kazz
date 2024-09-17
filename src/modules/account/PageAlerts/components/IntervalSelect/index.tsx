@@ -137,8 +137,8 @@ export const IntervalSelect: FC<
       showArrow={!disabled}
       disabled={disabled}
       showSearch={!cooldownMode}
-      onSearch={setQuery}
-      searchValue={query}
+      onSearch={cooldownMode ? undefined : setQuery}
+      searchValue={cooldownMode ? undefined : query}
       autoClearSearchValue
       filterOption={false}
       options={options.map(option => ({

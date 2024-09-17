@@ -40,7 +40,9 @@ export const CoinSelect: FC<SelectProps<string>> = ({
       loading={coinList.isLoading}
       options={
         coins.map(coin => ({
-          label: <Coin coin={coin} nonLink mini className="align-middle" />,
+          label: (
+            <Coin coin={coin} nonLink mini className="!p-0 align-middle" />
+          ),
           value: coin.slug,
         })) ?? []
       }

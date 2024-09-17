@@ -56,6 +56,11 @@ export function ConditionForm<D extends AlertDataSource>({
     }
   }, [value, alertFormAsMarketData]);
 
+  const selectedCoin =
+    value.dataSource === 'market_data'
+      ? alertFormAsMarketData.watch('params.base')
+      : undefined;
+
   return (
     <form
       className={clsx(
@@ -146,16 +151,21 @@ export function ConditionForm<D extends AlertDataSource>({
               // ),
             }}
           />
-          {alertFormAsMarketData.getValues('params.base') && (
+          {selectedCoin && (
             <CoinPriceInfo
-              slug={alertFormAsMarketData.getValues('params.base') as string}
+              slug={selectedCoin}
               className="mt-6"
-              onReady={lastPrice => {
-                if (value?.condition?.threshold) return;
-                alertFormAsMarketData.setValue(
-                  'condition.threshold',
-                  lastPrice?.toString() ?? '0.0',
-                );
+              onLoad={coinOverview => {
+                if (
+                  !alertFormAsMarketData.formState.dirtyFields.condition
+                    ?.threshold &&
+                  !value.condition?.threshold
+                ) {
+                  alertFormAsMarketData.setValue(
+                    'condition.threshold',
+                    coinOverview.data?.current_price?.toString() ?? '0.0',
+                  );
+                }
               }}
             />
           )}

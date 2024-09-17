@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useCoinOverview, useHasFlag } from 'api';
+import { useCoinOverview } from 'api';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
@@ -13,7 +13,6 @@ export function CoinPriceWidget({
   className?: string;
   slug: string;
 }) {
-  const hasFlag = useHasFlag();
   const coinOverview = useCoinOverview({ slug });
   return (
     <OverviewWidget
@@ -45,11 +44,9 @@ export function CoinPriceWidget({
           textClassName="!text-sm"
         />
       </div>
-      {hasFlag('/account/notification-center?tab=alerts') && (
-        <div className="mt-8">
-          <PriceAlertButton slug={slug} className="w-full" />
-        </div>
-      )}
+      <div className="mt-8">
+        <PriceAlertButton slug={slug} className="w-full" />
+      </div>
     </OverviewWidget>
   );
 }
