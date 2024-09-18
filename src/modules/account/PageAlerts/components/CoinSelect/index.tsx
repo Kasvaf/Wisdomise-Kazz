@@ -5,6 +5,7 @@ import { useDebounce } from 'usehooks-ts';
 import { useCoinList, useCoinOverview } from 'api';
 import { Coin } from 'shared/Coin';
 import type { Coin as CoinType } from 'api/types/shared';
+import Spin from 'shared/Spin';
 
 export const CoinSelect: FC<SelectProps<string>> = ({
   value,
@@ -22,10 +23,10 @@ export const CoinSelect: FC<SelectProps<string>> = ({
     const selectedCoin = value ? coin.data?.symbol : undefined;
     const list = coinList.data ?? [];
     return [
-      ...(selectedCoin ? [selectedCoin] : []),
-      ...list.filter(x => x.slug !== selectedCoin?.slug),
+      ...(selectedCoin && !query ? [selectedCoin] : []),
+      ...list.filter(x => x.slug && x.slug !== selectedCoin?.slug),
     ];
-  }, [value, coin.data, coinList.data]);
+  }, [value, coin.data, coinList.data, query]);
 
   return (
     <Select
@@ -37,7 +38,16 @@ export const CoinSelect: FC<SelectProps<string>> = ({
       disabled={disabled}
       searchValue={query}
       onSearch={setQuery}
+      filterOption={false}
       loading={coinList.isLoading}
+      popupMatchSelectWidth={false}
+      notFoundContent={
+        coinList.isLoading ? (
+          <div className="animate-pulse px-1 py-8 text-center text-xxs text-v1-content-primary">
+            <Spin />
+          </div>
+        ) : undefined
+      }
       options={
         coins.map(coin => ({
           label: (
