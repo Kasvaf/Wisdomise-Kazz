@@ -6,6 +6,8 @@ export const DOMAIN = isLocal
   : hostname.replace(/^(?:[\w-]+\.)*([\w-]+\.\w+)$/, '$1');
 const subdomainPrefix = isProduction ? '' : 'stage-';
 
+export const SUPPORT_EMAIL = 'support@wisdomise.com';
+
 const makeOrigin = (name: string) =>
   `https://${subdomainPrefix}${name}.${DOMAIN}`;
 

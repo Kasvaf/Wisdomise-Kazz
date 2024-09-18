@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { SUPPORT_EMAIL } from 'config/constants';
 import Card from 'shared/Card';
 
-const supportEmail = 'support@wisdomise.com';
 const PublishNotice: React.FC<{
   type: 'signaler' | 'fp';
   className?: string;
@@ -19,8 +19,8 @@ const PublishNotice: React.FC<{
           {t('publish-notice.description', {
             type: type === 'fp' ? 'financial product' : 'signaler',
           })}{' '}
-          <a href={`mailto:${supportEmail}`} className="text-info">
-            {supportEmail}
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="text-info">
+            {SUPPORT_EMAIL}
           </a>
           .
         </div>

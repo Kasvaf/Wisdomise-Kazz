@@ -1,3 +1,4 @@
+import { SUPPORT_EMAIL } from 'config/constants';
 import useConfirm from 'shared/useConfirm';
 
 export default function useModalApiKey() {
@@ -10,7 +11,7 @@ export default function useModalApiKey() {
           In order to continue with setting up your account, please send your
           Binance API Key and Secret Key to{' '}
           <a href="mailto:support@wisdomise.io" className="underline">
-            support@wisdomise.io
+            {SUPPORT_EMAIL}
           </a>
           .
         </p>
