@@ -45,7 +45,7 @@ export function AlertTarget<D extends AlertDataSource>({
                 value={+value.condition?.threshold}
                 format={{
                   compactInteger: false,
-                  decimalLength: 0,
+                  decimalLength: -1,
                   minifyDecimalRepeats: false,
                   seperateByComma: true,
                 }}
