@@ -23,8 +23,10 @@ export const CoinSelect: FC<SelectProps<string>> = ({
     const selectedCoin = value ? coin.data?.symbol : undefined;
     const list = coinList.data ?? [];
     return [
-      ...(selectedCoin && !query ? [selectedCoin] : []),
-      ...list.filter(x => x.slug && x.slug !== selectedCoin?.slug),
+      ...(selectedCoin && !query && list.findIndex(x => x.slug !== value) === -1
+        ? [selectedCoin]
+        : []),
+      ...list.filter(x => x.slug),
     ];
   }, [value, coin.data, coinList.data, query]);
 

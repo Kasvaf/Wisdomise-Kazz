@@ -448,6 +448,7 @@ export const useTrendingCoins = () =>
 export const useCoinList = ({ q }: { q?: string }) =>
   useQuery({
     queryKey: ['coin-list', q],
+    staleTime: Number.POSITIVE_INFINITY,
     queryFn: () =>
       axios
         .get<Coin[]>('delphi/symbol/search/', {
