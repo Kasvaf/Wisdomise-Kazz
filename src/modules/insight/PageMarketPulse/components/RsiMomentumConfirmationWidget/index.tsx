@@ -51,7 +51,7 @@ function RsiMomentumConfirmationRow({
             </p>
             <ReadableNumber
               className="text-sm"
-              value={value.data.current_price}
+              value={value.data?.current_price}
               label="usdt"
             />
           </div>
@@ -62,12 +62,12 @@ function RsiMomentumConfirmationRow({
             <div className="flex items-center gap-2">
               <ReadableNumber
                 className="text-sm mobile:hidden"
-                value={value.data.price_change_24h}
+                value={value.data?.price_change_24h}
                 label="usdt"
               />
               <PriceChange
                 textClassName="!text-xs"
-                value={value.data.price_change_percentage_24h}
+                value={value.data?.price_change_percentage_24h}
                 suffix=" (24H)"
               />
             </div>

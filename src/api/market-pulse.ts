@@ -108,7 +108,7 @@ export type RsiMomentumConbination =
 
 export interface RsiMomentumConfirmation {
   symbol: Coin;
-  data: {
+  data?: null | {
     id: string;
     current_price: number;
     market_cap: number;
