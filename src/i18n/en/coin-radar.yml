@@ -151,14 +151,6 @@ recommend-account:
       Coin Radar with valuable market insights. Your suggestions will be
       reviewed by our AI system for inclusion based on signal value.
 set-notification:
-  modal:
-    title: Set Alert for New Potential Coin Detection
-    description: >-
-      Don’t miss out on the next big opportunity in the crypto world. Our
-      notification system lets you be the first to know about hot coins and
-      fresh discoveries.
-    interval-section: Interval
-    save-button: Save Alert Setting
   open-modal-btn:
     not-set: Set Alert
     set: Alert Is Set

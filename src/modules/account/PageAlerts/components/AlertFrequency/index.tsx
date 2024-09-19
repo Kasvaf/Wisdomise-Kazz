@@ -9,9 +9,10 @@ export function AlertFrequency<D extends AlertDataSource>({
   className?: string;
 }) {
   const { t } = useTranslation('alerts');
+  const isOneTime = value.config?.one_time;
   return (
     <span className={className}>
-      {value.config.one_time
+      {isOneTime
         ? t('forms.notifications.one-time')
         : t('forms.notifications.unlimited-times')}
     </span>

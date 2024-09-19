@@ -1,4 +1,4 @@
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { type Alert, type AlertDataSource } from 'api/alert';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -12,6 +12,8 @@ export function AlertTarget<D extends AlertDataSource>({
   value: Alert<D>;
   className?: string;
 }) {
+  const { t } = useTranslation('alerts');
+  const valueAsMarketData = value as Alert<'market_data'>;
   return (
     <div
       className={clsx(
@@ -27,14 +29,22 @@ export function AlertTarget<D extends AlertDataSource>({
             Br: <i />,
             Badge: <span />,
             Base: (
-              <CoinSelect value={value.params.base} disabled size="small" />
+              <CoinSelect
+                value={valueAsMarketData.params.base}
+                disabled
+                size="small"
+              />
             ),
             Quote: (
-              <CoinSelect value={value.params.quote} disabled size="small" />
+              <CoinSelect
+                value={valueAsMarketData.params.quote}
+                disabled
+                size="small"
+              />
             ),
             Operator: (
               <OperatorSelect
-                value={value.condition?.operator as string}
+                value={valueAsMarketData.condition?.operator as string}
                 disabled
                 showEqual
                 size="small"
@@ -42,7 +52,7 @@ export function AlertTarget<D extends AlertDataSource>({
             ),
             Threshold: (
               <ReadableNumber
-                value={+value.condition?.threshold}
+                value={+valueAsMarketData.condition?.threshold}
                 format={{
                   compactInteger: false,
                   decimalLength: -1,
@@ -64,6 +74,9 @@ export function AlertTarget<D extends AlertDataSource>({
             //   ),
           }}
         />
+      )}
+      {value.dataSource === 'custom:coin_radar_notification' && (
+        <>{t('forms.coin-radar.sentence')}</>
       )}
     </div>
   );

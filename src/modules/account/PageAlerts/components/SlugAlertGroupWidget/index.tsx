@@ -32,32 +32,32 @@ export function SlugAlertGroupWidget({
   const columns = useMemo<Array<ColumnType<Alert<never>>>>(
     () => [
       {
-        title: t('tables.slug.creation_date'),
+        title: t('tables.creation-date'),
         render: (_, row) => <ReadableDate value={row.createdAt} />,
       },
       {
-        title: t('tables.slug.type'),
+        title: t('tables.type'),
         render: (_, row) => <AlertType value={row} />,
       },
       {
-        title: t('tables.slug.target'),
+        title: t('tables.target'),
         className: '!max-w-72',
         render: (_, row) => <AlertTarget value={row} />,
       },
       {
-        title: t('tables.slug.delivery-methods'),
+        title: t('tables.delivery-methods'),
         render: (_, row) => <AlertDeliveryMethods value={row} />,
       },
       {
-        title: t('tables.slug.frequency'),
+        title: t('tables.frequency'),
         render: (_, row) => <AlertFrequency value={row} />,
       },
       {
-        title: t('tables.slug.actions'),
+        title: t('tables.actions'),
         render: (_, row) => <AlertActions value={row} />,
       },
       {
-        title: t('tables.slug.status'),
+        title: t('tables.status'),
         render: (_, row) => <AlertStateChanger value={row} />,
       },
     ],

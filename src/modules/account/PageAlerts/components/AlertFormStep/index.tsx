@@ -45,6 +45,11 @@ const AlertStep: FC<{
   </div>
 );
 
+const ALERT_STEP_CONFIGS: Record<AlertDataSource, AlertStepType[]> = {
+  'market_data': ['condition', 'notification'],
+  'custom:coin_radar_notification': ['notification'],
+};
+
 export const useAlertFormStep = ({
   dataSource,
   onClose,
@@ -57,13 +62,25 @@ export const useAlertFormStep = ({
   const navigate = useNavigate();
   const dataSources = useDataSources();
   const dataSourceObject = dataSources.find(dt => dt.value === dataSource);
+  const showConditionStep = dataSource
+    ? ALERT_STEP_CONFIGS[dataSource].includes('condition') ||
+      ALERT_STEP_CONFIGS[dataSource].length === 1
+    : true;
+  const showNotificationStep = dataSource
+    ? ALERT_STEP_CONFIGS[dataSource].includes('notification') &&
+      ALERT_STEP_CONFIGS[dataSource].length > 1
+    : true;
+  const showBackBtn =
+    step === 'notification' && showConditionStep && showNotificationStep;
 
   return useMemo(
     () => ({
       header: (
-        <>
+        <div
+          className={clsx('mt-4 space-y-12', step !== 'data_source' && 'mb-12')}
+        >
           <div className="flex items-center gap-2">
-            {step === 'notification' && (
+            {showBackBtn && (
               <button
                 onClick={() => setStep('condition')}
                 className="size-9 shrink-0"
@@ -91,11 +108,13 @@ export const useAlertFormStep = ({
                   {dataSourceObject.step}
                 </li>
               )}
-              {step === 'notification' && (
-                <li onClick={() => setStep('notification')}>
-                  {t('forms.notifications.step')}
-                </li>
-              )}
+              {step === 'notification' &&
+                showNotificationStep &&
+                showConditionStep && (
+                  <li onClick={() => setStep('notification')}>
+                    {t('forms.notifications.step')}
+                  </li>
+                )}
             </ul>
             <button
               onClick={onClose}
@@ -104,88 +123,57 @@ export const useAlertFormStep = ({
               <Icon name={bxX} size={32} />
             </button>
           </div>
-          {step !== 'data_source' && dataSourceObject ? (
+          {step !== 'data_source' && dataSourceObject && (
             <div
               className={clsx(
-                'mx-auto mb-12 mt-16 flex max-w-xs items-start justify-center gap-2',
+                'mx-auto flex max-w-xs items-start justify-center gap-2',
               )}
             >
-              <AlertStep
-                icon={dataSourceObject.icon}
-                isActive
-                label={dataSourceObject.step}
-              />
-              <div
-                className={clsx(
-                  'mt-3 h-px w-full max-w-32 grow overflow-hidden bg-transparent bg-gradient-to-r from-white',
-                  step === 'notification' && 'to-white',
-                  step !== 'notification' && 'to-transparent',
-                  'transition-all duration-300',
-                )}
-              />
-              <AlertStep
-                icon={NotificationIcon}
-                isActive={step === 'notification'}
-                label={t('forms.notifications.step')}
-              />
+              {showConditionStep && (
+                <AlertStep
+                  icon={dataSourceObject.icon}
+                  isActive
+                  label={dataSourceObject.step}
+                />
+              )}
+              {showConditionStep && showNotificationStep && (
+                <div
+                  className={clsx(
+                    'mt-3 h-px w-full max-w-32 grow overflow-hidden bg-transparent bg-gradient-to-r from-white',
+                    step === 'notification' && 'to-white',
+                    step !== 'notification' && 'to-transparent',
+                    'transition-all duration-300',
+                  )}
+                />
+              )}
+              {showNotificationStep && (
+                <AlertStep
+                  icon={NotificationIcon}
+                  isActive={step === 'notification'}
+                  label={t('forms.notifications.step')}
+                />
+              )}
             </div>
-          ) : (
-            <div className="mb-16" />
           )}
-        </>
+          {dataSourceObject?.stepSubtitle && (
+            <div className="!mt-8 text-center text-xs font-light text-v1-content-secondary">
+              {dataSourceObject.stepSubtitle}
+            </div>
+          )}
+        </div>
       ),
       setStep,
       step,
     }),
-    [t, step, dataSourceObject, onClose, navigate],
+    [
+      step,
+      showBackBtn,
+      t,
+      dataSourceObject,
+      showNotificationStep,
+      showConditionStep,
+      onClose,
+      navigate,
+    ],
   );
 };
-
-export const useAlertFormStepOld = (step: AlertStepType) =>
-  useState<AlertStepType>(step);
-
-export function AlertFormStep({
-  step,
-  dataSource,
-}: {
-  step: AlertStepType;
-  dataSource: AlertDataSource;
-}) {
-  const dataSources = useDataSources();
-  const { t } = useTranslation('alerts');
-  const dataSourceObject = dataSources.find(
-    dt => dt.value === dataSource ?? 'market_data',
-  );
-  if (!dataSourceObject) throw new Error('unexpected');
-
-  if (step === 'data_source') return null;
-
-  return (
-    <div className="flex flex-col items-center space-y-4">
-      <div className="inline-flex items-center justify-center gap-2 pb-10">
-        <AlertStep
-          icon={dataSourceObject.icon}
-          isActive
-          label={dataSourceObject.step}
-        />
-        <div
-          className={clsx(
-            'h-[3px] w-32 grow rounded-full',
-            step !== 'notification' && 'bg-white',
-            step === 'notification' &&
-              'bg-gradient-to-r from-white to-transparent',
-            'transition-all duration-300',
-          )}
-        />
-        <AlertStep
-          icon={NotificationIcon}
-          isActive={step === 'notification'}
-          label={t('forms.notifications.step')}
-        />
-      </div>
-      <div className="text-center text-xs opacity-60">
-        {dataSourceObject.subtitle}
-      </div>
-    </div>
-  );
-}

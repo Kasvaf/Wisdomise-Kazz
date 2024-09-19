@@ -16,7 +16,9 @@ export const useAlertActions = <D extends AlertDataSource>(
 ) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const saveAlertMutation = useSaveAlert(initialAlert?.key);
-  const deleteAlertMutation = useDeleteAlert(initialAlert?.key as string);
+  const deleteAlertMutation = useDeleteAlert(
+    initialAlert as Partial<Alert<never>>,
+  );
   const [deleteConfirmModal, showDeleteConfirm] = useAlertDeleteConfirm();
   const [saveToast, showSaveToast] = useAlertSaveToast();
 

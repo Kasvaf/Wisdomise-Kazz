@@ -11,19 +11,23 @@ import { useAlertActions } from './components/useAlertActions';
 import { SlugAlertGroupWidget } from './components/SlugAlertGroupWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
 import { AlertEmptyWidget } from './components/AlertEmptyWidget';
+import { CustomAlertGroupWidget } from './components/CustomAlertGroupWidget';
 
 export default function AlertsPage() {
   const { t } = useTranslation('alerts');
-  const alerts = useAlerts();
+  const marketDataAlerts = useAlerts('market_data');
+  const coinRadarAlerts = useAlerts('custom:coin_radar_notification');
   const alertActions = useAlertActions();
   const [searchQuery, setSearchQuery] = useState('');
   const [alertState, setAlertState] = useState<AlertState | undefined>(
     undefined,
   );
 
-  const alertsGroupedByBase = useMemo(() => {
-    if (!alerts.data) return [];
-    const hasBaseRows = alerts.data.filter(row => row.params.base);
+  const marketDataAlertsGroupedByBase = useMemo(() => {
+    if (!marketDataAlerts.data) return [];
+    const hasBaseRows = marketDataAlerts.data.filter(
+      row => row.dataSource === 'market_data' && row.params.base,
+    );
     const baseSlugs = hasBaseRows
       .map(row => row.params.base as string)
       .filter((row, i, self) => self.indexOf(row) === i);
@@ -33,12 +37,12 @@ export default function AlertsPage() {
         hasBaseRows.filter(row => row.params.base === slug),
       ]),
     );
-  }, [alerts]);
+  }, [marketDataAlerts]);
 
   return (
     <PageWrapper
       className="leading-none mobile:leading-normal"
-      loading={alerts.isLoading}
+      loading={marketDataAlerts.isLoading || coinRadarAlerts.isLoading}
     >
       <PageTitle
         title={t('base:menu.alerts.full-title')}
@@ -48,7 +52,7 @@ export default function AlertsPage() {
         <TextBox
           value={searchQuery}
           onChange={setSearchQuery}
-          placeholder={t('common.search-coin')}
+          placeholder={t('common.search')}
           className="shrink-0 basis-80 mobile:basis-full"
           inputClassName="text-sm"
           suffix={<Icon name={bxSearch} />}
@@ -67,7 +71,13 @@ export default function AlertsPage() {
       </div>
 
       <div className="space-y-4">
-        {Object.entries(alertsGroupedByBase).map(([slug, alerts]) => (
+        {coinRadarAlerts.data?.length !== 0 && (
+          <CustomAlertGroupWidget
+            alerts={coinRadarAlerts.data ?? []}
+            stateQuery={alertState}
+          />
+        )}
+        {Object.entries(marketDataAlertsGroupedByBase).map(([slug, alerts]) => (
           <SlugAlertGroupWidget
             slug={slug}
             alerts={alerts}
@@ -76,9 +86,10 @@ export default function AlertsPage() {
             stateQuery={alertState}
           />
         ))}
-        {Object.entries(alertsGroupedByBase).length === 0 && (
-          <AlertEmptyWidget className="h-[600px]" />
-        )}
+        {Object.entries(marketDataAlertsGroupedByBase).length === 0 &&
+          coinRadarAlerts.data?.length === 0 && (
+            <AlertEmptyWidget className="h-[600px]" />
+          )}
       </div>
       {alertActions.content}
     </PageWrapper>

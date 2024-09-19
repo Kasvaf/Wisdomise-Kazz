@@ -7,7 +7,8 @@ common:
   empty-description: Hit the "Set Alert" button and set up your first crypto alert adventure!
   empty-title: Your notifications list is feeling lonely!
   price-info: The price of <Coin>Unknown Coin</Coin> is currently <Price>Unknown</Price>
-  search-coin: Search Coin...
+  save-alert: Save Alert
+  search: Search...
   set-alert: Set Alert
   subscription-banner-link: Subscribe to our Insight Plan for access.
   subscription-banner-title: Get real-time coin alerts, Customize notifications.
@@ -16,7 +17,11 @@ forms:
   coin-radar:
     title: Coin Radar Alert
     subtitle: Track your favorite coins with real-time alerts!
-    step: Soon
+    sentence: Set Crypto Alerts and Never Miss a Move!
+    step: Coin Radar Alert
+    step-subtitle: >-
+      Stay ahead with instant notifications on trending coins and new market
+      opportunities.
   data-source:
     title: Choose Alert You Want To Set
   delete-confirm:
@@ -32,6 +37,7 @@ forms:
     cooldown: Cooldown
     cooldown-info: Specify an amount of time that pass before this alert can fire again.
     disable-after-trigger: Disable this alert after it triggers once.
+    interval: Interval
     invervals:
       after: After {{seconds}} Seconds
       daily: Daily
@@ -75,11 +81,13 @@ forms:
       moves
     step: Set Whale Alert
 tables:
-  slug:
-    actions: Actions
-    creation_date: Creation Date
-    delivery-methods: Delivery Methods
-    frequency: Frequency
-    status: Status
-    target: Notification Targets
-    type: Alert Type
+  description: Description
+  actions: Actions
+  creation-date: Creation Date
+  delivery-methods: Delivery Methods
+  frequency: Frequency
+  interval: Interval
+  notifications: Notifications
+  status: Status
+  target: Notification Targets
+  type: Alert Type

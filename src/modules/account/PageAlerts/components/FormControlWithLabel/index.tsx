@@ -24,10 +24,12 @@ export const FormControlWithLabel: FC<{
     <>
       {type === 'normal' ? (
         <div className={clsx('space-y-2', className)}>
-          <label className="inline-flex items-center gap-1 px-2 text-xs text-v1-content-primary">
-            {label}
-            {infoContent}
-          </label>
+          {label && (
+            <label className="inline-flex items-center gap-1 px-2 text-xs text-v1-content-primary">
+              {label}
+              {infoContent}
+            </label>
+          )}
           <div>{children}</div>
         </div>
       ) : type === 'box' ? (

@@ -13,15 +13,18 @@ import { OperatorSelect } from '../OperatorSelect';
 import { PriceInput } from '../PriceInput';
 import { FormControlWithLabel } from '../FormControlWithLabel';
 
-export function ConditionForm<D extends AlertDataSource>({
+export function ConditionForm<
+  D extends AlertDataSource,
+  A extends Partial<Alert<D>>,
+>({
   value,
   onSubmit,
   lock,
   loading,
   className,
 }: {
-  value: Partial<Alert<D>>;
-  onSubmit?: (newValue: Partial<Alert<D>>) => void;
+  value: A;
+  onSubmit?: (newValue: A) => void;
   lock?: boolean;
   loading?: boolean;
   className?: string;
@@ -30,31 +33,34 @@ export function ConditionForm<D extends AlertDataSource>({
 
   const { t } = useTranslation('alerts');
 
-  const alertForm = useForm<Partial<Alert<D>>>();
-  const alertFormAsMarketData = alertForm as UseFormReturn<
+  const alertForm = useForm<A>();
+  const alertFormAsMarketData = alertForm as unknown as UseFormReturn<
     Partial<Alert<'market_data'>>
   >;
 
   useEffect(() => {
     if (value.dataSource === 'market_data') {
+      const valueAsMarketData = value as Partial<Alert<'market_data'>>;
       alertFormAsMarketData.reset({
-        ...value,
+        ...valueAsMarketData,
         params: {
-          ...value?.params,
-          base: value?.params?.base ?? 'bitcoin',
+          ...valueAsMarketData?.params,
+          base: valueAsMarketData?.params?.base ?? 'bitcoin',
           // market_name: value?.params?.market_name ?? 'BINANCE',
           // market_type: value?.params?.market_type ?? 'SPOT',
-          quote: value?.params?.quote ?? 'tether',
+          quote: valueAsMarketData?.params?.quote ?? 'tether',
         },
         condition: {
-          ...value?.condition,
-          field_name: value?.condition?.field_name ?? 'last_price',
-          operator: value?.condition?.operator ?? 'GREATER',
-          threshold: value?.condition?.threshold ?? '0.0',
+          ...valueAsMarketData?.condition,
+          field_name: valueAsMarketData?.condition?.field_name ?? 'last_price',
+          operator: valueAsMarketData?.condition?.operator ?? 'GREATER',
+          threshold: valueAsMarketData?.condition?.threshold ?? '0.0',
         },
       });
+    } else if (value.dataSource === 'custom:coin_radar_notification') {
+      onSubmit?.(value);
     }
-  }, [value, alertFormAsMarketData]);
+  }, [value, alertFormAsMarketData, onSubmit]);
 
   const selectedCoin =
     value.dataSource === 'market_data'

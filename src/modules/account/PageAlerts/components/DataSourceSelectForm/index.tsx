@@ -20,6 +20,7 @@ export const useDataSources = () => {
       title: ReactNode;
       subtitle: ReactNode;
       step: ReactNode;
+      stepSubtitle?: ReactNode;
       value: AlertDataSource;
       disabled?: boolean;
       hidden?: boolean;
@@ -32,6 +33,14 @@ export const useDataSources = () => {
         step: t('forms.price.step'),
         icon: PriceIcon,
         value: 'market_data',
+      },
+      {
+        title: t('forms.coin-radar.title'),
+        subtitle: t('forms.coin-radar.subtitle'),
+        step: t('forms.coin-radar.step'),
+        stepSubtitle: t('forms.coin-radar.step-subtitle'),
+        icon: CoinRadarIcon,
+        value: 'custom:coin_radar_notification',
       },
       {
         title: t('forms.whale.title'),
@@ -48,15 +57,6 @@ export const useDataSources = () => {
         icon: IndicatorsIcon,
         value: 'market_data',
         disabled: true,
-      },
-      {
-        title: t('forms.coin-radar.title'),
-        subtitle: t('forms.coin-radar.subtitle'),
-        step: t('forms.coin-radar.step'),
-        icon: CoinRadarIcon,
-        value: 'market_data',
-        disabled: true,
-        hidden: true,
       },
       {
         title: t('forms.social-sentiment.title'),

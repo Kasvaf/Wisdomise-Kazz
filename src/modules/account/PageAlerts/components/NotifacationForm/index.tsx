@@ -18,22 +18,28 @@ import { FormControlWithLabel } from '../FormControlWithLabel';
 import { ReactComponent as CooldownIcon } from './cooldown.svg';
 import { ReactComponent as FrequencyIcon } from './frequency.svg';
 
-export function NotifacationForm<D extends AlertDataSource>({
+export function NotifacationForm<
+  D extends AlertDataSource,
+  A extends Partial<Alert<D>>,
+>({
   value,
   loading,
   onSubmit,
   className,
 }: {
-  value: Partial<Alert<D>>;
-  onSubmit?: (newAlert: Partial<Alert<D>>) => void;
+  value: A;
+  onSubmit?: (newAlert: A) => void;
   loading?: boolean;
   className?: string;
 }) {
   const { t } = useTranslation('alerts');
 
-  const alertForm = useForm<Partial<Alert<D>>>();
-  const alertFormAsMarketData = alertForm as UseFormReturn<
+  const alertForm = useForm<A>();
+  const alertFormAsMarketData = alertForm as unknown as UseFormReturn<
     Partial<Alert<'market_data'>>
+  >;
+  const alertFormAsCoinRadarNotif = alertForm as unknown as UseFormReturn<
+    Partial<Alert<'custom:coin_radar_notification'>>
   >;
 
   useEffect(() => {
@@ -49,8 +55,14 @@ export function NotifacationForm<D extends AlertDataSource>({
           one_time: value.config?.one_time ?? false,
         },
       });
+    } else if (value.dataSource === 'custom:coin_radar_notification') {
+      alertFormAsCoinRadarNotif.reset({
+        ...alertFormAsCoinRadarNotif,
+        dataSource: 'custom:coin_radar_notification',
+        messengers: value.messengers ?? ['EMAIL'],
+      });
     }
-  }, [value, alertFormAsMarketData]);
+  }, [value, alertFormAsMarketData, alertFormAsCoinRadarNotif]);
 
   return (
     <form
@@ -64,7 +76,7 @@ export function NotifacationForm<D extends AlertDataSource>({
         return Promise.resolve();
       })}
     >
-      {alertForm.getValues('dataSource') === 'market_data' && (
+      {value.dataSource === 'market_data' && (
         <>
           <FormControlWithLabel type="normal">
             <Controller
@@ -130,6 +142,46 @@ export function NotifacationForm<D extends AlertDataSource>({
               disabled={loading}
             >
               {t('common.set-alert')}
+              <Icon name={bxBell} className="ms-2" />
+            </Button>
+          </div>
+        </>
+      )}
+      {value.dataSource === 'custom:coin_radar_notification' && (
+        <>
+          <FormControlWithLabel
+            label={
+              <>
+                <CooldownIcon />
+                {t('forms.notifications.interval')}
+              </>
+            }
+            type="inline"
+            className="!flex justify-between"
+          >
+            <IntervalSelect disabled value={86_400} cooldownMode={false} />
+          </FormControlWithLabel>
+          <FormControlWithLabel type="normal">
+            <Controller
+              control={alertFormAsCoinRadarNotif.control}
+              name="messengers"
+              render={({ field: { value: fieldValue, onChange } }) => (
+                <AlertChannelsSelect
+                  onChange={onChange}
+                  value={fieldValue as AlertMessanger[]}
+                  channels={['EMAIL']}
+                />
+              )}
+            />
+          </FormControlWithLabel>
+          <div>
+            <Button
+              variant="primary"
+              className="mt-6 w-full grow"
+              loading={loading}
+              disabled={loading}
+            >
+              {t('common.save-alert')}
               <Icon name={bxBell} className="ms-2" />
             </Button>
           </div>
