@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { useHasFlag } from 'api';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
-import useIsMobile from 'utils/useIsMobile';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 import { ReactComponent as HelpIcon } from './help-icon.svg';
@@ -21,20 +20,14 @@ const MenuItemsGroup: React.FC<{
   const children = item.children?.filter(item => !item.hide);
   const hasFlag = useHasFlag();
 
-  const isMobile = useIsMobile();
-
   return (
     <div className="mb-2 text-white mobile:border-b mobile:border-white/5">
       <NavLink
         to={item.link}
         target={item.link.startsWith('https://') ? '_blank' : undefined}
         onClick={e => {
-          if (isMobile) {
-            e.preventDefault();
-          } else {
-            item.onClick?.();
-          }
-
+          e.preventDefault();
+          item.onClick?.();
           onClick(item.link);
         }}
         className={clsx(
@@ -98,7 +91,6 @@ const MenuItemsContent: React.FC<{
   const { t } = useTranslation();
   const { items: MenuItems } = useMenuItems();
 
-  const isMobile = useIsMobile();
   const { pathname } = useLocation();
   const [activeMenu, setActiveMenu] = useState(pathname);
 
@@ -123,8 +115,10 @@ const MenuItemsContent: React.FC<{
             key={item.link}
             item={item}
             collapsed={collapsed}
-            onClick={setActiveMenu}
-            isActive={(isMobile ? activeMenu : pathname)?.startsWith(item.link)}
+            onClick={newActiveMenu =>
+              setActiveMenu(p => (p === newActiveMenu ? '' : newActiveMenu))
+            }
+            isActive={activeMenu?.startsWith(item.link)}
           />
         ))}
       </div>
