@@ -56,14 +56,12 @@ const useInsightRoutes = () => {
         {
           path: 'coin-radar',
           handle: { crumb: t('menu.hot-coins.title') },
-          children: [
-            { index: true, element: <PageCoinRadar /> },
-            {
-              path: ':slug',
-              element: <PageCoinRadarDetail />,
-              handle: { crumb: (p: Params<string>) => p.slug },
-            },
-          ],
+          element: <PageCoinRadar />,
+        },
+        {
+          path: 'coin-radar/:slug',
+          element: <PageCoinRadarDetail />,
+          handle: { crumb: (p: Params<string>) => p.slug },
         },
         {
           path: 'social-radar/*',
@@ -77,16 +75,15 @@ const useInsightRoutes = () => {
         {
           path: 'whales',
           handle: { crumb: t('menu.whales.title') },
-          children: [
-            { index: true, element: <PageWhales /> },
-            {
-              path: ':network/:address',
-              element: <PageWhaleDetail />,
-              handle: {
-                crumb: (p: Params<string>) => shortenAddress(p.address || ''),
-              },
-            },
-          ],
+          element: <PageWhales />,
+        },
+        {
+          path: 'whales/:network/:address',
+          element: <PageWhaleDetail />,
+          handle: {
+            crumb: (p: Params<string>) =>
+              `${p.network ?? ''}-${shortenAddress(p.address || '')}`,
+          },
         },
         {
           path: 'alerts',
