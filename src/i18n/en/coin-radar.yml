@@ -38,7 +38,6 @@ coin-details:
       title: Most Viewed Coins
       table:
         name: Name
-        chg_24: Chg(24)
         price: Price
     price_performance:
       title: Price Performance
@@ -92,7 +91,6 @@ hot-coins-section:
     name: Name
     24h-voume: 24h Vol
     call-time: Call Time
-    chg-24: Chg(24h)
     market-cap: Market Cap
     pnl: Call PnL
     rank: Rank

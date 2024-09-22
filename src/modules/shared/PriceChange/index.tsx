@@ -75,6 +75,12 @@ const PriceChange: React.FC<Props> = ({
         )}
         <ReadableNumber
           value={typeof value === 'number' ? Math.abs(value) : undefined}
+          format={{
+            minifyDecimalRepeats: false,
+            decimalLength: 2,
+            seperateByComma: false,
+            compactInteger: false,
+          }}
           label="%"
           popup={popup}
         />

@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
 import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { ReadableDate } from 'shared/ReadableDate';
 import { SignalSentiment } from 'shared/SignalSentiment';
+import { InformativePrice } from 'shared/InformativePrice';
 
 export const HotCoinsTable: FC<{
   loading?: boolean;
@@ -63,18 +63,9 @@ export const HotCoinsTable: FC<{
         title: t('hot-coins-section.table.realtime-price'),
         sorter: (a, b) => (a.current_price ?? 0) - (b.current_price ?? 0),
         render: (row: CoinSignal) => (
-          <ReadableNumber value={row.current_price} label="usdt" />
-        ),
-      },
-      {
-        className: 'w-32',
-        title: t('hot-coins-section.table.chg-24'),
-        sorter: (a, b) =>
-          (a.price_change_percentage ?? 0) - (b.price_change_percentage ?? 0),
-        render: (row: CoinSignal) => (
-          <PriceChange
-            value={row.price_change_percentage ?? 0}
-            className="inline-flex"
+          <InformativePrice
+            price={row.current_price}
+            priceChange={row.price_change_percentage}
           />
         ),
       },

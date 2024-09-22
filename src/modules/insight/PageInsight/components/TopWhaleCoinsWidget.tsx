@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { useHasFlag, useWhalesCoins } from 'api';
-import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { InformativePrice } from 'shared/InformativePrice';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function TopWhaleCoinsWidget({ className }: { className?: string }) {
@@ -34,16 +34,11 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
         >
           <div className="flex items-center justify-between">
             <Coin coin={row.symbol} />
-            <div className="flex items-center gap-2">
-              <ReadableNumber
-                label="usdt"
-                value={row.market_data.current_price}
-                className="text-sm"
-              />
-              <PriceChange
-                className="text-xxs"
-                value={row.market_data.price_change_percentage_24h}
-                suffix=" (24h)"
+            <div className="text-sm">
+              <InformativePrice
+                price={row.market_data.current_price}
+                priceChange={row.market_data.price_change_percentage_24h}
+                className="items-end"
               />
             </div>
           </div>

@@ -6,11 +6,10 @@ import { type CoinSignal, useCoinSignals, useHasFlag } from 'api';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { ReadableDate } from 'shared/ReadableDate';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import PriceChange from 'shared/PriceChange';
 import { SignalSentiment } from 'shared/SignalSentiment';
 import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { InformativePrice } from 'shared/InformativePrice';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -20,6 +19,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
 
   const columns = useMemo<Array<TableColumnType<CoinSignal>>>(
     () => [
+      {
+        title: t('hot-coins-section.table.rank'),
+        render: (_, row) => row.rank,
+      },
       {
         title: t('hot-coins-section.table.name'),
         render: (_, row) => <Coin coin={row.symbol} />,
@@ -47,15 +50,9 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       {
         title: t('hot-coins-section.table.realtime-price'),
         render: (_, row) => (
-          <ReadableNumber value={row.current_price} label="usdt" />
-        ),
-      },
-      {
-        title: t('hot-coins-section.table.chg-24'),
-        render: (_, row) => (
-          <PriceChange
-            value={row.price_change_percentage ?? 0}
-            className="inline-flex"
+          <InformativePrice
+            price={row.current_price}
+            priceChange={row.price_change_percentage}
           />
         ),
       },

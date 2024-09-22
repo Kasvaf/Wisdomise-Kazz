@@ -2,11 +2,10 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useWhalesCoins, type WhaleCoin } from 'api';
-import PriceChange from 'shared/PriceChange';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Table from 'shared/Table';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { InformativePrice } from 'shared/InformativePrice';
 
 export function WhalePopularCoinsWidget(_: { slug: string }) {
   const { t } = useTranslation('coin-radar');
@@ -26,15 +25,9 @@ export function WhalePopularCoinsWidget(_: { slug: string }) {
       {
         title: t('hot-coins-section.table.realtime-price'),
         render: (_, row) => (
-          <ReadableNumber value={row.market_data.current_price} label="usdt" />
-        ),
-      },
-      {
-        title: t('hot-coins-section.table.chg-24'),
-        render: (_, row) => (
-          <PriceChange
-            value={row.market_data.price_change_percentage_24h ?? 0}
-            className="inline-flex"
+          <InformativePrice
+            price={row.market_data.current_price}
+            priceChange={row.market_data.price_change_percentage_24h}
           />
         ),
       },

@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { useCoinSignals } from 'api';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { InformativePrice } from 'shared/InformativePrice';
 
 export function TopCoinsWidget(_: { slug?: string }) {
   const { t } = useTranslation('coin-radar');
@@ -21,17 +20,13 @@ export function TopCoinsWidget(_: { slug?: string }) {
           key={row.symbol_name}
           className="flex flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <Coin coin={row.symbol} />
-            <div className="flex flex-col items-end gap-2">
-              <ReadableNumber
-                label="usdt"
-                value={row.current_price}
-                className="text-sm"
-              />
-              <PriceChange
-                className="text-xxs"
-                value={row.price_change_percentage}
+            <div className="flex items-end">
+              <InformativePrice
+                price={row.current_price}
+                priceChange={row.price_change_percentage}
+                className="items-end text-sm"
               />
             </div>
           </div>

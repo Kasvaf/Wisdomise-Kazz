@@ -113,6 +113,7 @@ export const useCoinSignals = (
       );
       return data;
     },
+    refetchInterval: 30_000,
     keepPreviousData: true,
   });
 

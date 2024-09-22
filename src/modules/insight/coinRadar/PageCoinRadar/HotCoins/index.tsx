@@ -61,9 +61,10 @@ export const HotCoins: FC<{ className?: string }> = ({ className }) => {
         </div>
       </div>
       <div className="overflow-auto mobile:-mx-6 mobile:px-6">
+        {signals.isLoading ? 'LOADING' : 'OK'}
         <HotCoinsTable
           dataSource={filteredSignals}
-          loading={signals.isLoading}
+          loading={signals.isFetching && signals.isPreviousData}
         />
       </div>
     </div>

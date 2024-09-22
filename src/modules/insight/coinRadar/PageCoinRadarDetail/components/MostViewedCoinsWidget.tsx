@@ -3,10 +3,9 @@ import { type ColumnType } from 'antd/es/table';
 import { useMemo } from 'react';
 import { type TrendingCoin, useTrendingCoins } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import PriceChange from 'shared/PriceChange';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Table from 'shared/Table';
+import { InformativePrice } from 'shared/InformativePrice';
 
 export function MostViewedCoinsWidget(_: { slug?: string }) {
   const { t } = useTranslation('coin-radar');
@@ -21,14 +20,10 @@ export function MostViewedCoinsWidget(_: { slug?: string }) {
       },
       {
         title: t('coin-details.tabs.most_viewed_coins.table.price'),
-        render: (_, row) => <ReadableNumber value={row.price} label="$" />,
-      },
-      {
-        title: t('coin-details.tabs.most_viewed_coins.table.chg_24'),
         render: (_, row) => (
-          <PriceChange
-            value={row.price_change_percentage_24h}
-            className="inline-flex"
+          <InformativePrice
+            price={row.price}
+            priceChange={row.price_change_percentage_24h}
           />
         ),
       },

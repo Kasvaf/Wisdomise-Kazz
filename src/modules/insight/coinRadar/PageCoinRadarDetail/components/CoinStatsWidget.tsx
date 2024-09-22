@@ -162,6 +162,7 @@ export function CoinStatsWidget({
             value={circulationPercentage}
             label="%"
             className="shrink-0"
+            popup="never"
           />
         </StatRow>
       </div>

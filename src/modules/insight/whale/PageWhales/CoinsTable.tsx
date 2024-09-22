@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { type ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
 import { useWhalesCoins, type WhaleCoin } from 'api';
-import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { PageTitle } from 'shared/PageTitle';
 import { Coin } from 'shared/Coin';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import { InformativePrice } from 'shared/InformativePrice';
 
 export function CoinsTable({ className }: { className?: string }) {
   const { t } = useTranslation('whale');
@@ -60,18 +60,9 @@ export function CoinsTable({ className }: { className?: string }) {
         dataIndex: 'current_price',
         sorter: true,
         render: (_, row) => (
-          <ReadableNumber value={row.market_data.current_price} label="usdt" />
-        ),
-      },
-      {
-        title: t('sections.top-coins.table.24h_chg'),
-        dataIndex: 'price_change_percentage_24h',
-        sorter: true,
-        render: (_, row) => (
-          <PriceChange
-            className="inline-flex"
-            staticValue={row.market_data.price_change_24h}
-            value={row.market_data.price_change_percentage_24h}
+          <InformativePrice
+            price={row.market_data.current_price}
+            priceChange={row.market_data.price_change_percentage_24h}
           />
         ),
       },

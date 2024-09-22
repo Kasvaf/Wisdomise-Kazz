@@ -13,7 +13,6 @@ sections:
       30d: 30D
       7d: 7D
     table:
-      24h_chg: 24h Price Change
       coin: Discovered Coin
       price: Price
       rank: Rank
