@@ -60,7 +60,7 @@ export function OverviewWidget({
         >
           <div>
             {(title || info) && (
-              <h2 className="flex items-center gap-1 text-base font-medium">
+              <h2 className="flex items-center gap-2 text-base font-medium">
                 {title}
                 {infoIcon}
               </h2>

@@ -10,6 +10,7 @@ import { SignalSentiment } from 'shared/SignalSentiment';
 import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
+import { RealtimeBadge } from 'modules/insight/coinRadar/PageCoinRadar/assets';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -64,7 +65,12 @@ export function HotCoinsWidget({ className }: { className?: string }) {
 
   return (
     <OverviewWidget
-      title={t('coin-radar:hot-coins-section.title')}
+      title={
+        <>
+          {t('coin-radar:hot-coins-section.title')}
+          <RealtimeBadge />
+        </>
+      }
       headerActions={<SeeMoreLink to="/insight/coin-radar" />}
       className={clsx('min-h-[548px]', className)}
       loading={signals.isLoading}

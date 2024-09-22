@@ -5,5 +5,6 @@ export { ReactComponent as NotifIsSetIcon } from './notif-is-set.svg';
 export { ReactComponent as NotifModalIcon } from './notif-modal.svg';
 export { ReactComponent as NotificationIcon } from './notification.svg';
 export { ReactComponent as RecommendedIcon } from './recommend.svg';
+export { ReactComponent as RealtimeBadge } from './realtime.svg';
 export { default as DekstopBanner } from './desktop-banner.png';
 export { default as MobileBanner } from './mobile-banner.png';
