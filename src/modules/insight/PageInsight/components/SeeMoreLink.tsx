@@ -18,7 +18,7 @@ export function SeeMoreLink({
         className,
       )}
     >
-      <span className="mobile:hidden">{t('see-more')}</span>
+      <span className="hidden 2xl:block">{t('see-more')}</span>
       <Icon name={bxRightArrowAlt} size={22} />
     </Link>
   );

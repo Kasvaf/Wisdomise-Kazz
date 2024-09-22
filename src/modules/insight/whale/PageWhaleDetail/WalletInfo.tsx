@@ -64,7 +64,7 @@ export const WhaletInfo: FC<{
           </Tooltip>
         </label>
         <PriceChange
-          textClassName="!text-base"
+          textClassName="!text-sm 2xl:!text-base"
           value={whale?.last_30_days_trading_realized_pnl_percentage}
           staticValue={whale?.last_30_days_trading_realized_pnl}
         />
@@ -93,7 +93,7 @@ export const WhaletInfo: FC<{
           </Tooltip>
         </label>
         <PriceChange
-          textClassName="!text-base"
+          textClassName="!text-sm 2xl:!text-base"
           value={whale?.last_30_days_trading_pnl_percentage}
           staticValue={whale?.last_30_days_trading_pnl}
         />

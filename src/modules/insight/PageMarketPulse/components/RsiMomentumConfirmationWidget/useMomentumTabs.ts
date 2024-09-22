@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { useMediaQuery } from 'usehooks-ts';
 import { type RsiMomentumConbination } from 'api/market-pulse';
-import useIsMobile from 'utils/useIsMobile';
 
 export type MomentumType = 'bullish' | 'bearish';
 
@@ -13,7 +13,7 @@ export interface MomentumSubTab {
 
 export const useMomentumTabs = (type: MomentumType): MomentumSubTab[] => {
   const { t } = useTranslation('market-pulse');
-  const isMobile = useIsMobile();
+  const isSmallDevice = useMediaQuery('(max-width: 1536px)');
   return type === 'bullish'
     ? [
         {
@@ -31,7 +31,7 @@ export const useMomentumTabs = (type: MomentumType): MomentumSubTab[] => {
           key: 'oversold',
         },
         {
-          title: isMobile
+          title: isSmallDevice
             ? t('indicator_list.rsi.bullish')
             : t('indicator_list.rsi.momentum.bullish.title'),
           description: t('indicator_list.rsi.momentum.bullish.description'),
@@ -55,7 +55,7 @@ export const useMomentumTabs = (type: MomentumType): MomentumSubTab[] => {
           key: 'overbought',
         },
         {
-          title: isMobile
+          title: isSmallDevice
             ? t('indicator_list.rsi.bearish')
             : t('indicator_list.rsi.momentum.bearish.title'),
           description: t('indicator_list.rsi.momentum.bearish.description'),

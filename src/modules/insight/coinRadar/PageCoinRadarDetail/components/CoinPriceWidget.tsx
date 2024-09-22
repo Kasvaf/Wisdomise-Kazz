@@ -40,7 +40,6 @@ export function CoinPriceWidget({
         />
         <PriceChange
           value={coinOverview.data?.data?.price_change_percentage_24h}
-          suffix="(24h)"
           textClassName="!text-sm"
         />
       </div>

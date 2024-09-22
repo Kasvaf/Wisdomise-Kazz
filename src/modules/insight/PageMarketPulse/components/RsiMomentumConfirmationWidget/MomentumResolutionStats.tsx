@@ -21,7 +21,7 @@ function MomentumResolutionRow({
           {t('common.in_timeframe')}
         </span>
       </div>
-      <div className="flex flex-wrap items-center justify-start gap-2">
+      <div className="flex flex-wrap items-center justify-start gap-1">
         {!value && (
           <span className="text-v1-content-secondary">
             {t('common:not-available')}
@@ -33,7 +33,7 @@ function MomentumResolutionRow({
         {value?.map(row => (
           <div
             key={row}
-            className="inline-flex h-5 items-center justify-center rounded bg-v1-surface-l4 p-3 text-xs font-medium"
+            className="inline-flex h-5 items-center justify-center rounded bg-v1-surface-l4 p-3 text-xxs font-medium"
           >
             {row.toUpperCase()}
           </div>

@@ -32,15 +32,13 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
           key={row.symbol_name}
           className="flex shrink-0 flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
         >
-          <div className="flex items-center justify-between">
-            <Coin coin={row.symbol} />
-            <div className="text-sm">
-              <InformativePrice
-                price={row.market_data.current_price}
-                priceChange={row.market_data.price_change_percentage_24h}
-                className="items-end"
-              />
-            </div>
+          <div className="flex items-center justify-between gap-1 overflow-hidden">
+            <Coin coin={row.symbol} className="overflow-auto" />
+            <InformativePrice
+              price={row.market_data.current_price}
+              priceChange={row.market_data.price_change_percentage_24h}
+              className="shrink-0 items-end text-sm"
+            />
           </div>
           <hr className="border-v1-border-tertiary" />
           <div className="flex items-center justify-between gap-4">

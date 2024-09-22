@@ -9,8 +9,7 @@ import {
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import PriceChange from 'shared/PriceChange';
+import { InformativePrice } from 'shared/InformativePrice';
 import { useMomentumTabs, type MomentumType } from './useMomentumTabs';
 import { MomentumResolutionStats } from './MomentumResolutionStats';
 import { MomentumDetailsTable } from './MomentumDetailsTable';
@@ -26,7 +25,6 @@ function RsiMomentumConfirmationRow({
   className?: string;
   combination: RsiMomentumConbination[];
 }) {
-  const { t } = useTranslation('market-pulse');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -36,43 +34,13 @@ function RsiMomentumConfirmationRow({
         className,
       )}
     >
-      <div className="grid grid-cols-12 items-start justify-start gap-4 mobile:flex-wrap">
-        <div className="col-span-4 mobile:col-span-12">
-          <Coin
-            coin={value.symbol}
-            className="text-xs"
-            imageClassName="size-6"
-          />
-        </div>
-        <div className="contents flex-row items-center justify-between gap-2 mobile:col-span-12 mobile:flex">
-          <div className="col-span-3 flex flex-col justify-between gap-px">
-            <p className="text-xxs text-v1-content-secondary">
-              {t('common.price')}
-            </p>
-            <ReadableNumber
-              className="text-sm"
-              value={value.data?.current_price}
-              label="usdt"
-            />
-          </div>
-          <div className="col-span-5 flex flex-col justify-between gap-px">
-            <p className="text-xxs text-v1-content-secondary">
-              {t('common.price_change')}
-            </p>
-            <div className="flex items-center gap-2">
-              <ReadableNumber
-                className="text-sm mobile:hidden"
-                value={value.data?.price_change_24h}
-                label="usdt"
-              />
-              <PriceChange
-                textClassName="!text-xs"
-                value={value.data?.price_change_percentage_24h}
-                suffix=" (24H)"
-              />
-            </div>
-          </div>
-        </div>
+      <div className="flex items-start justify-between gap-4 mobile:flex-wrap">
+        <Coin coin={value.symbol} className="text-xs" imageClassName="size-6" />
+        <InformativePrice
+          className="items-end text-sm"
+          price={value.data?.current_price}
+          priceChange={value.data?.price_change_24h}
+        />
       </div>
       <div className="h-px bg-v1-content-primary/5" />
       <MomentumResolutionStats combination={combination} value={value} />
