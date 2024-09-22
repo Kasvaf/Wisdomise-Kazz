@@ -78,8 +78,8 @@ const PriceChange: React.FC<Props> = ({
           format={{
             minifyDecimalRepeats: false,
             decimalLength: 2,
-            seperateByComma: false,
-            compactInteger: false,
+            seperateByComma: true,
+            compactInteger: true,
           }}
           label="%"
           popup={popup}
