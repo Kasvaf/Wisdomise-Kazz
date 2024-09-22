@@ -66,7 +66,7 @@ export function CoinSocialFeedWidget({
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
 
-  const [activeTab, setActiveTab] = useState<
+  const [activeSocial, setActiveSocial] = useState<
     null | SocialMessageType['social_type']
   >(socials.length > 1 ? null : socials[0]);
 
@@ -74,55 +74,63 @@ export function CoinSocialFeedWidget({
     const list: Array<{
       label: ReactNode;
       value: SocialMessageType['social_type'] | null;
+      messages?: SocialMessageType[];
     }> = [
       {
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.all.title')}
-            isActive={activeTab === null}
+            isActive={activeSocial === null}
           />
         ),
         value: null,
+        messages: messages.data,
       },
       {
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.telegram.title')}
-            isActive={activeTab === 'telegram'}
+            isActive={activeSocial === 'telegram'}
             icon={TelegramIcon}
           />
         ),
         value: 'telegram',
+        messages: messages.data?.filter(row => row.social_type === 'telegram'),
       },
       {
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.reddit.title')}
-            isActive={activeTab === 'reddit'}
+            isActive={activeSocial === 'reddit'}
             icon={RedditIcon}
           />
         ),
         value: 'reddit',
+        messages: messages.data?.filter(row => row.social_type === 'reddit'),
       },
       {
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.twitter.title')}
-            isActive={activeTab === 'twitter'}
+            isActive={activeSocial === 'twitter'}
             icon={TwitterIcon}
           />
         ),
         value: 'twitter',
+        messages: messages.data?.filter(row => row.social_type === 'twitter'),
       },
       {
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.trading_view.title')}
-            isActive={activeTab === 'trading_view'}
+            isActive={activeSocial === 'trading_view'}
             icon={TradingViewIcon}
           />
         ),
         value: 'trading_view',
+        messages: messages.data?.filter(
+          row => row.social_type === 'trading_view',
+        ),
       },
     ];
     return list.filter(x => {
@@ -131,27 +139,22 @@ export function CoinSocialFeedWidget({
       }
       return (
         hasFlag(`/insight/coin-radar/[slug]?tab=${x.value}`) &&
-        socials.includes(x.value)
+        socials.includes(x.value) &&
+        (x.messages ?? []).length > 0
       );
     });
-  }, [t, activeTab, hasFlag, socials]);
+  }, [t, activeSocial, messages.data, hasFlag, socials]);
 
-  const activeTabMessages = useMemo(
-    () =>
-      messages.data?.filter(
-        message =>
-          socials.includes(message.social_type) &&
-          (activeTab === null || message.social_type === activeTab) &&
-          hasFlag(`/insight/coin-radar/[slug]?tab=${message.social_type}`),
-      ),
-    [activeTab, hasFlag, messages.data, socials],
+  const activeTab = useMemo(
+    () => tabs.find(tab => tab.value === activeSocial),
+    [activeSocial, tabs],
   );
 
   const [limit, setLimit] = useState(pageSize);
 
   useEffect(() => {
     setLimit(pageSize);
-  }, [activeTab, pageSize]);
+  }, [activeTab?.value, pageSize]);
 
   return (
     <OverviewWidget
@@ -160,22 +163,22 @@ export function CoinSocialFeedWidget({
       subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
       loading={messages.isLoading}
       className="min-h-[480px]"
-      empty={activeTabMessages?.length === 0}
+      empty={(activeTab?.messages?.length ?? 0) === 0}
       headerClassName="flex-wrap"
       headerActions={
         <div className="w-full grow overflow-auto">
           {tabs.length > 1 && (
             <ButtonSelect
               options={tabs}
-              value={activeTab}
-              onChange={setActiveTab}
+              value={activeSocial}
+              onChange={setActiveSocial}
             />
           )}
         </div>
       }
     >
       <div className="mt-4 flex flex-col gap-4">
-        {activeTabMessages?.slice(0, limit)?.map((message, idx, self) => (
+        {activeTab?.messages?.slice(0, limit)?.map((message, idx, self) => (
           <Fragment key={message.id}>
             <SocialMessage message={message} className="mb-6" />
             {idx !== self.length - 1 && (
@@ -184,7 +187,7 @@ export function CoinSocialFeedWidget({
           </Fragment>
         ))}
       </div>
-      {limit < (activeTabMessages?.length ?? 0) && (
+      {limit < (activeTab?.messages?.length ?? 0) && (
         <div className="mt-4 flex items-center justify-center">
           <Button variant="link" onClick={() => setLimit(p => p + pageSize)}>
             {t('coin-details.tabs.socials.load_more')}
