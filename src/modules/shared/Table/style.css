@@ -10,9 +10,18 @@
   .ant-table-thead {
     .ant-table-cell {
       @apply whitespace-nowrap text-[0.9em] font-normal text-v1-content-secondary;
+
+      &.ant-table-column-has-sorters:hover {
+        @apply !bg-v1-surface-l2;
+      }
     }
-    .ant-table-column-has-sorters:hover {
-      @apply !bg-v1-surface-l2;
+
+    .ant-table-column-sorters {
+      @apply !flex-row-reverse gap-1;
+
+      .ant-table-column-sorter {
+        @apply !m-0 scale-90;
+      }
     }
   }
 
