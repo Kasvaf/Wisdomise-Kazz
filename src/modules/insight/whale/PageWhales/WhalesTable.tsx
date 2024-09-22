@@ -13,11 +13,11 @@ import { WalletAddress } from 'shared/WalletAddress';
 
 export function WhalesTable({
   className,
-  networkAbbreviation,
+  networkName,
   walletAddress,
 }: {
   className?: string;
-  networkAbbreviation?: string;
+  networkName?: string;
   walletAddress?: string;
 }) {
   const { t } = useTranslation('whale');
@@ -34,7 +34,7 @@ export function WhalesTable({
     pageSize: 5,
     isAscending,
     sortBy,
-    networkAbbreviation,
+    networkName,
     holderAddress: debouncedWalletAddress,
   });
 
@@ -51,14 +51,14 @@ export function WhalesTable({
         render: (_, row) => (
           <WalletAddress
             address={row.holder_address}
-            network={row.network_abbreviation}
+            network={row.network_name}
             mode="link"
           />
         ),
       },
       {
         title: t('sections.top-whales.table.network'),
-        dataIndex: 'network_abbreviation',
+        dataIndex: 'network_name',
         render: (_, row) => (
           <span className="inline-flex items-center gap-1">
             <img

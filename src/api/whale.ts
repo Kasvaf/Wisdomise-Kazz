@@ -9,7 +9,6 @@ export interface WhaleShort {
   balance_usdt: number;
   holder_address: string;
   last_30_days_trading_pnl_percentage: number;
-  network_abbreviation: string;
   network_icon_url: string;
   network_name: string;
   total_last_30_days_transfers: number;
@@ -21,7 +20,7 @@ export const useWhales = (filters?: {
   pageSize: number;
   sortBy?: string;
   isAscending?: boolean;
-  networkAbbreviation?: string;
+  networkName?: string;
   holderAddress?: string;
 }) =>
   useQuery({
@@ -41,7 +40,7 @@ export const useWhales = (filters?: {
                   ? 'True'
                   : 'False'
                 : undefined,
-            network_abbreviation: filters?.networkAbbreviation,
+            network_name: filters?.networkName,
             holder_address: filters?.holderAddress,
           },
         },
@@ -158,7 +157,7 @@ export interface SingleWhale {
 }
 export const useWhaleDetails = (filters: {
   holderAddress: string;
-  networkAbbreviation: string;
+  networkName: string;
 }) =>
   useQuery({
     queryKey: ['whale-details', JSON.stringify(filters)],
@@ -168,7 +167,7 @@ export const useWhaleDetails = (filters: {
         {
           params: {
             holder_address: filters.holderAddress,
-            network_abbreviation: filters.networkAbbreviation,
+            network_name: filters.networkName,
           },
         },
       );

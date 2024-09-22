@@ -8,7 +8,7 @@ import Icon from 'shared/Icon';
 
 export const NetworkSelect: FC<
   SelectProps<string> & {
-    valueType: 'abbreviation' | 'id';
+    valueType: 'name' | 'id';
   }
 > = ({ valueType, value, className, disabled, loading, ...props }) => {
   const networks = useNetworks();

@@ -50,7 +50,6 @@ export const useNetworks = () =>
       axios
         .get<
           Array<{
-            abbreviation: string;
             icon_url: string;
             id: number;
             name: string;

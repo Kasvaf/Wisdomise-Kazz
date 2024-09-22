@@ -15,7 +15,7 @@ export default function PageWhaleDetail() {
 
   const whale = useWhaleDetails({
     holderAddress: address,
-    networkAbbreviation: network,
+    networkName: network,
   });
 
   return (
