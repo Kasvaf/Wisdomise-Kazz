@@ -45,7 +45,7 @@ export function AlertSaveModal({
       onClose={onClose}
       destroyOnClose
       className="max-w-lg mobile:!h-[85svh] mobile:max-w-full"
-      title={formStep.header}
+      title={formStep.content}
       closable={false}
     >
       {formStep.step === 'data_source' && (
