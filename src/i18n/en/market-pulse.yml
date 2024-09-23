@@ -2,8 +2,6 @@ common:
   divergence: Divergence
   hide: Close
   in_timeframe: in Timeframe
-  price: Price
-  price_change: Price Change
   rsi: RSI
   show: Show Detail
 indicator_list:
