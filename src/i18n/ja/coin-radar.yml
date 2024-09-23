@@ -1,4 +1,5 @@
 available-exchanges:
+  search: Exchangeを検索...
   table:
     exchange: 取引所
     pair: ペア
@@ -100,15 +101,18 @@ hot-coins-section:
     actions: 行動
     call-change: 通話変更
     call-time: 呼び出し時間
+    call-time-info: 当社の AI
+      が重要な機会を検出し、この資産に関するシグナルを送信した正確な瞬間。これを使用して、このトークンを検討するように警告されたタイミングを追跡します。
     chg-24: 変化(24時間)
     insights: 洞察
     market-cap: 時価総額
     name: 名前
     negative: ネガティブ
     pnl: 損益計算書
+    pnl-info: シグナルがトリガーされてからの損益 (PNL) を表示します。アラートが通知された瞬間から資産のパフォーマンスを追跡するのに役立ちます。
     positive: ポジティブ
-    rank: "#"
-    realtime-price: リアルタイム価格
+    rank: ランク
+    realtime-price: 価格
     sentiment: 感情
     tvl: TVL
   title: ホットコイン

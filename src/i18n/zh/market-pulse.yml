@@ -24,6 +24,7 @@ indicator_list:
       bullish_divergence: 看涨背离
       div: 股利
       market_cap: 市值
+      no_divergence: 无分歧
       overbought_area: 超买区域
       oversold_area: 超卖区域
       price_change: 价格变动

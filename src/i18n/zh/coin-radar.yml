@@ -1,4 +1,5 @@
 available-exchanges:
+  search: 搜索交流...
   table:
     exchange: 交易所
     pair: Pair
@@ -100,15 +101,17 @@ hot-coins-section:
     actions: 操作
     call-change: 呼叫变更
     call-time: 提及次數
+    call-time-info: 我们的 AI 检测到关键机会并发出此资产信号的确切时刻。使用它来跟踪您何时收到考虑此代币的提醒。
     chg-24: 變化(24小時)
     insights: 見解
     market-cap: 市值
     name: 名稱
     negative: 消極負面
     pnl: 看涨盈亏
+    pnl-info: 显示自触发信号以来的盈利或亏损 (PNL)。它可以帮助您从我们向您发出警报的那一刻起跟踪资产的表现。
     positive: 積極正向
-    rank: 排名
-    realtime-price: 實時價格
+    rank: 秩
+    realtime-price: 价格
     sentiment: 市場情緒
     tvl: 鎖定總價值 (TVL)
   title: 熱門幣種

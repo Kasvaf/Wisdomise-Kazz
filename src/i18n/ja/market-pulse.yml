@@ -28,6 +28,7 @@ indicator_list:
       bullish_divergence: 強気のダイバージェンス
       div: 部門
       market_cap: 時価総額
+      no_divergence: 相違なし
       overbought_area: 買われすぎエリア
       oversold_area: 売られ過ぎエリア
       price_change: 価格変更
