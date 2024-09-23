@@ -91,8 +91,14 @@ hot-coins-section:
     name: Name
     24h-voume: 24h Vol
     call-time: Call Time
+    call-time-info: >-
+      The exact moment our AI detected a key opportunity and sent a signal for
+      this asset. Use it to track when you were alerted to consider this token.
     market-cap: Market Cap
     pnl: Call PnL
+    pnl-info: >-
+      Shows the profit or loss (PNL) since our signal was triggered. It helps
+      you track the performance of the asset from the moment we alerted you.
     rank: Rank
     realtime-price: Price
     sentiment: Sentiment

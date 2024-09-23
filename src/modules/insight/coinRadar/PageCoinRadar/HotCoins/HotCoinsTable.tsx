@@ -1,6 +1,8 @@
 import { type FC, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
+import { bxInfoCircle } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { useHasFlag, type CoinSignal } from 'api';
 import Table from 'modules/shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -9,6 +11,7 @@ import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { ReadableDate } from 'shared/ReadableDate';
 import { SignalSentiment } from 'shared/SignalSentiment';
 import { InformativePrice } from 'shared/InformativePrice';
+import Icon from 'shared/Icon';
 
 export const HotCoinsTable: FC<{
   loading?: boolean;
@@ -41,7 +44,14 @@ export const HotCoinsTable: FC<{
           ]
         : []),
       {
-        title: t('hot-coins-section.table.call-time'),
+        title: (
+          <span className="inline-flex items-center gap-1">
+            {t('hot-coins-section.table.call-time')}
+            <Tooltip title={t('hot-coins-section.table.call-time-info')}>
+              <Icon name={bxInfoCircle} size={16} />
+            </Tooltip>
+          </span>
+        ),
         sorter: (a, b) =>
           new Date(a.first_signal_related_at ?? Date.now()).getTime() -
           new Date(b.first_signal_related_at ?? Date.now()).getTime(),
@@ -50,7 +60,14 @@ export const HotCoinsTable: FC<{
         ),
       },
       {
-        title: t('hot-coins-section.table.pnl'),
+        title: (
+          <span className="inline-flex items-center gap-1">
+            {t('hot-coins-section.table.pnl')}
+            <Tooltip title={t('hot-coins-section.table.pnl-info')}>
+              <Icon name={bxInfoCircle} size={16} />
+            </Tooltip>
+          </span>
+        ),
         sorter: (a, b) =>
           (a.signals_analysis?.real_pnl_percentage ?? 0) -
           (b.signals_analysis?.real_pnl_percentage ?? 0),

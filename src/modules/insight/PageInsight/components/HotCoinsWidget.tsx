@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { type TableColumnType } from 'antd';
+import { Tooltip, type TableColumnType } from 'antd';
 import { clsx } from 'clsx';
+import { bxInfoCircle } from 'boxicons-quasar';
 import { type CoinSignal, useCoinSignals, useHasFlag } from 'api';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
@@ -11,6 +12,7 @@ import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
 import { RealtimeBadge } from 'modules/insight/coinRadar/PageCoinRadar/assets';
+import Icon from 'shared/Icon';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -34,16 +36,27 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
-        title: t('hot-coins-section.table.call-time'),
+        title: (
+          <span className="inline-flex items-center gap-1">
+            {t('hot-coins-section.table.call-time')}
+            <Tooltip title={t('hot-coins-section.table.call-time-info')}>
+              <Icon name={bxInfoCircle} size={16} />
+            </Tooltip>
+          </span>
+        ),
         render: (_, row) => (
           <ReadableDate value={row.first_signal_related_at} />
         ),
       },
       {
-        title: t('hot-coins-section.table.pnl'),
-        sorter: (a, b) =>
-          (a.signals_analysis?.real_pnl_percentage ?? 0) -
-          (b.signals_analysis?.real_pnl_percentage ?? 0),
+        title: (
+          <span className="inline-flex items-center gap-1">
+            {t('hot-coins-section.table.pnl')}
+            <Tooltip title={t('hot-coins-section.table.pnl-info')}>
+              <Icon name={bxInfoCircle} size={16} />
+            </Tooltip>
+          </span>
+        ),
         render: (row: CoinSignal) => (
           <CoinSignalPnl signalAnalysis={row.signals_analysis} />
         ),
