@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import SetNotification from 'modules/insight/coinRadar/PageCoinRadar/SetNotification';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { useHasFlag } from 'api';
 import bg from './bg.png';
+import InsightAlertButton from './AlertButton';
 
 export function AlertBoxWidget({ className }: { className?: string }) {
   const { t } = useTranslation('notifications');
@@ -33,7 +33,7 @@ export function AlertBoxWidget({ className }: { className?: string }) {
             {t('alerts.pages.insight.subtitle')}
           </p>
         </div>
-        <SetNotification className="mt-4" />
+        <InsightAlertButton className="mt-4" />
       </div>
     </OverviewWidget>
   );

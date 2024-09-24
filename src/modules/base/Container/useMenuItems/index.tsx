@@ -69,6 +69,11 @@ const useMenuItems = () => {
           onClick: trackClick('whales_menu'),
           badge: 'beta',
         },
+        {
+          text: t('menu.alerts.title'),
+          link: '/insight/alerts',
+          onClick: trackClick('alerts_menu'),
+        },
       ],
     },
     {

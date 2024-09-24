@@ -14,7 +14,7 @@ export const DrawerModal: FC<PropsWithChildren<DrawerProps>> = ({
   return (
     <Drawer
       className={clsx(
-        '!bg-[#1E1F24] text-white mobile:max-h-[85svh]',
+        '!bg-v1-surface-l3 text-white mobile:max-h-[85svh]',
         className,
       )}
       height="auto"

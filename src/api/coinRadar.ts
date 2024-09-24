@@ -4,8 +4,7 @@ import {
   type UseQueryOptions,
 } from '@tanstack/react-query';
 import axios from 'axios';
-import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
-import queryClient from 'config/reactQuery';
+import { TEMPLE_ORIGIN } from 'config/constants';
 import { type Coin } from './types/shared';
 
 interface MarketInfoFromSignals {
@@ -328,29 +327,6 @@ export const useRecommendChannelMutation = () =>
     },
   });
 
-export const useIsSubscribedToCoinNotification = () =>
-  useQuery({
-    queryKey: ['is_subscribed_to_radar_notification'],
-    queryFn: async () => {
-      const { data } = await axios.get<{
-        is_subscribed: boolean;
-      }>(`${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`);
-      return data.is_subscribed;
-    },
-  });
-
-export const useToggleSubscribeToCoinNotification = () =>
-  useMutation({
-    mutationFn: (form: { isSubscribed: boolean }) =>
-      axios.post(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/${
-          form.isSubscribed ? 'subscribe' : 'unsubscribe'
-        }`,
-      ),
-    onSuccess: () =>
-      queryClient.invalidateQueries(['is_subscribed_to_radar_notification']),
-  });
-
 export interface CoinNetwork {
   network: {
     id: number;
@@ -442,5 +418,19 @@ export const useTrendingCoins = () =>
     queryFn: () =>
       axios
         .get<TrendingCoin[]>('delphi/symbols/trending/')
+        .then(resp => resp.data),
+  });
+
+export const useCoinList = ({ q }: { q?: string }) =>
+  useQuery({
+    queryKey: ['coin-list', q],
+    staleTime: Number.POSITIVE_INFINITY,
+    queryFn: () =>
+      axios
+        .get<Coin[]>('delphi/symbol/search/', {
+          params: {
+            q,
+          },
+        })
         .then(resp => resp.data),
   });

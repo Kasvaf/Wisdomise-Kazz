@@ -31,6 +31,8 @@ const PageWhaleDetail = React.lazy(
   () => import('modules/insight/whale/PageWhaleDetail'),
 );
 
+const PageAlerts = React.lazy(() => import('modules/account/PageAlerts'));
+
 const useInsightRoutes = () => {
   const { t } = useTranslation('base');
   return [
@@ -85,6 +87,11 @@ const useInsightRoutes = () => {
               },
             },
           ],
+        },
+        {
+          path: 'alerts',
+          handle: { crumb: t('menu.alerts.title') },
+          element: <PageAlerts />,
         },
       ],
     },
