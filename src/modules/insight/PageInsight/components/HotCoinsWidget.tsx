@@ -52,9 +52,11 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         title: (
           <span className="inline-flex items-center gap-1">
             {t('hot-coins-section.table.pnl')}
-            <Tooltip title={t('hot-coins-section.table.pnl-info')}>
-              <Icon name={bxInfoCircle} size={16} />
-            </Tooltip>
+            {false && (
+              <Tooltip title={t('hot-coins-section.table.pnl-info')}>
+                <Icon name={bxInfoCircle} size={16} />
+              </Tooltip>
+            )}
           </span>
         ),
         render: (row: CoinSignal) => (
