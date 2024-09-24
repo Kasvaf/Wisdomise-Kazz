@@ -113,7 +113,7 @@ export function CoinSignalPnl({
     >
       <span
         className={clsx(
-          tooltip ? 'cursor-help' : 'font-light opacity-70',
+          tooltip ? 'cursor-help' : 'text-xs font-light opacity-70',
           className,
         )}
       >
