@@ -83,7 +83,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       title={
         <>
           {t('coin-radar:hot-coins-section.title')}
-          <RealtimeBadge />
+          <RealtimeBadge className="animate-pulse" />
         </>
       }
       headerActions={<SeeMoreLink to="/insight/coin-radar" />}

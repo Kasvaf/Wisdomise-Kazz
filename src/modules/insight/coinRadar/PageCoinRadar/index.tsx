@@ -31,7 +31,8 @@ export default function PageCoinRadar() {
       <div className="mb-10 grid grid-cols-2 items-center gap-10 mobile:mb-4 mobile:gap-6 mobile:pt-4">
         <HotCoinsBanner className="col-span-full h-auto w-full mobile:order-2" />
         <h2 className="flex items-center gap-4 text-xl font-semibold mobile:order-3">
-          {t('hot-coins-section.title')} <RealtimeBadge />
+          {t('hot-coins-section.title')}
+          <RealtimeBadge className="animate-pulse" />
         </h2>
         <div className="flex items-center justify-end mobile:order-1 mobile:col-span-full mobile:justify-stretch">
           <SetNotification className="mobile:!w-full" />
