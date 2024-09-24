@@ -55,7 +55,7 @@ export const ReadableDate: FC<{
     >
       <time
         className={clsx(
-          content?.label ? 'cursor-alias' : 'font-light opacity-70',
+          content?.label ? 'cursor-help' : 'font-light opacity-70',
           className,
         )}
       >

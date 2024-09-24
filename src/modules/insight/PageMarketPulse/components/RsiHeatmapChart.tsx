@@ -181,7 +181,7 @@ function CoinPoint({
     >
       <div
         className={clsx(
-          'group relative cursor-alias rounded-full border-[3px] bg-v1-background-primary transition-all duration-150 hover:contrast-150',
+          'group relative cursor-help rounded-full border-[3px] bg-v1-background-primary transition-all duration-150 hover:contrast-150',
           typeof value.divergence_type === 'number'
             ? value.divergence_type >= 0
               ? 'border-v1-border-positive'

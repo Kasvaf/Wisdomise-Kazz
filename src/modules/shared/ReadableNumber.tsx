@@ -120,7 +120,7 @@ export function ReadableNumber({
         label={label}
         value={displayValue}
         emptyText={emptyText}
-        className={clsx(displayValue && !noPopup && 'cursor-alias', className)}
+        className={clsx(displayValue && !noPopup && 'cursor-help', className)}
       />
     </Tooltip>
   );
