@@ -7,6 +7,7 @@ import Icon from 'shared/Icon';
 import { type Alert, useAlerts } from 'api/alert';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
+import { useHasFlag } from 'api';
 
 export function PriceAlertButton({
   className,
@@ -16,6 +17,7 @@ export function PriceAlertButton({
   slug: string;
 }) {
   const { t } = useTranslation('coin-radar');
+  const hasFlag = useHasFlag();
 
   const possibleRelatedAlerts = useAlerts('market_data', {
     base: slug,
@@ -36,6 +38,8 @@ export function PriceAlertButton({
     active: possibleRelatedAlerts.isFetched,
     searchParam: 'open-alert',
   });
+
+  if (!hasFlag('insight/alerts?price')) return null;
 
   return (
     <>
