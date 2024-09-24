@@ -1,0 +1,88 @@
+common:
+  active: アクティブ
+  alerts-list: アラートリスト
+  all: 全て
+  current-price: 現在の価格
+  disabled: 無効
+  empty-description: 「アラートを設定」ボタンを押して、最初の暗号通貨アラートアドベンチャーを設定しましょう!
+  empty-title: 通知リストが寂しく感じます!
+  price-info: の価格は <Coin>不明なコイン</Coin> 現在 <Price>未知</Price>
+  save-alert: アラートを保存
+  search: 検索...
+  set-alert: 通知を設定する
+  subscription-banner-link: アクセスするには、Insight プランにご登録ください。
+  subscription-banner-title: リアルタイムのコインアラートを取得し、通知をカスタマイズします。
+  success-message: アラートが正常に保存されました。
+forms:
+  coin-radar:
+    sentence: 暗号通貨アラートを設定して、動きを見逃さないようにしましょう!
+    step: コインレーダーアラート
+    step-subtitle: トレンドのコインや新しい市場機会に関する即時通知を利用して、常に先を行きましょう。
+    subtitle: リアルタイムアラートでお気に入りのコインを追跡しましょう!
+    title: コインレーダーアラート
+  data-source:
+    title: 設定したいアラートを選択してください
+  delete-confirm:
+    no: どうでも
+    subtitle: このアラートを削除しようとしています。
+    title: 本気ですか？
+    yes: はい、削除
+  indicators:
+    step: すぐ
+    subtitle: 主要な指標が重要な傾向を示したときに通知を受け取ります。
+    title: インジケーターアラート
+  notifications:
+    cooldown: クールダウン
+    cooldown-info: このアラートが再度発生するまでの経過時間を指定します。
+    disable-after-trigger: このアラートは一度トリガーされたら無効にします。
+    interval: 間隔
+    invervals:
+      after: 後 {{seconds}} 秒
+      daily: 毎日
+      every: 毎 {{seconds}} 秒
+      hour: 時間
+      hourly: 時間単位
+      monthly: 月額
+      weekly: 毎週
+    messangers:
+      browser: ブラウザ通知
+      discord: 不和メッセージ
+      email: Eメール
+      push: プッシュ通知
+      slack: Slackメッセージ
+      sms: SMS
+      telegram: テレグラムメッセージ
+    one-time: 一度
+    step: アラート設定
+    unlimited-times: 回数無制限
+  price:
+    sentence: すぐにアラートを送信 <Badge><Base>不明なコイン</Base></Badge> <Br/> 行く
+      <Badge><Operator>不明なオペレーター</Operator></Badge> の価格 <Br />
+      <Badge><Threshold>不明な閾値</Threshold></Badge>
+      <Badge><Quote>不明な引用</Quote></Badge>
+    step: 価格設定の詳細
+    subtitle: 即時通知で市場の変化を把握
+    title: 価格アラート
+  signaler:
+    step: すぐ
+    subtitle: よりスマートな取引のために専門家の洞察とアラートを受け取りましょう。
+    title: シグナルアラート
+  social-sentiment:
+    step: すぐ
+    subtitle: 市場の雰囲気を測り、センチメントの最新情報で先手を打ってください。
+    title: ソーシャルセンチメントアラート
+  whale:
+    step: クジラアラートを設定する
+    subtitle: 主要プレーヤーが暗号通貨で重要な動きをしたときに即座に通知を受け取る
+    title: クジラ警報
+tables:
+  actions: 行動
+  creation-date: 作成日
+  delivery-methods: 配送方法
+  description: 説明
+  frequency: 頻度
+  interval: 間隔
+  notifications: 通知
+  status: ステータス
+  target: 通知対象
+  type: アラートの種類

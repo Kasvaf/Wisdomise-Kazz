@@ -24,6 +24,10 @@ menu:
   ai-indicators:
     subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
     title: AIインジケーター
+  alerts:
+    full-title: 通知とアラート
+    subtitle: "リアルタイムアラートで先手を打つ: お気に入りの暗号通貨に通知を設定して、市場の動きを見逃さないようにしましょう!"
+    title: マイアラート
   asset-overview:
     mobile: 資産
     subtitle: ストラテジーの確認や管理

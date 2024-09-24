@@ -1,0 +1,88 @@
+common:
+  active: 积极的
+  alerts-list: 警报列表
+  all: 全部
+  current-price: 当前价格
+  disabled: 已禁用
+  empty-description: 点击“设置警报”按钮并设置您的第一个加密警报冒险！
+  empty-title: 您的通知列表感觉很孤独！
+  price-info: 的价格 <Coin>未知硬币</Coin> 目前 <Price>未知</Price>
+  save-alert: 保存警报
+  search: 搜索...
+  set-alert: 設置警報
+  subscription-banner-link: 訂閱我們的Insight計劃以獲取訪問權限。
+  subscription-banner-title: 獲取實時幣種警報，自定義通知。
+  success-message: 警報保存成功！
+forms:
+  coin-radar:
+    sentence: 设置加密警报，绝不错过任何举动！
+    step: 硬币雷达警报
+    step-subtitle: 通过即时通知了解流行货币和新的市场机会，保持领先地位。
+    subtitle: 通过实时警报追踪您最喜欢的硬币！
+    title: 硬币雷达警报
+  data-source:
+    title: 选择您要设置的警报
+  delete-confirm:
+    no: 沒關係
+    subtitle: 您即將刪除此警報。
+    title: 您確定嗎？
+    yes: 是的，刪除
+  indicators:
+    step: 即將推出
+    subtitle: 当关键指标预示重要趋势时得到通知！
+    title: 指标警报
+  notifications:
+    cooldown: 冷卻時間
+    cooldown-info: 指定此警報在再次觸發前必須經過的時間。
+    disable-after-trigger: 此警報觸發一次後禁用。
+    interval: 間隔
+    invervals:
+      after: 在{{seconds}}秒後
+      daily: 每日
+      every: 每{{seconds}}秒
+      hour: 小時
+      hourly: 每小時
+      monthly: 每月
+      weekly: 每週
+    messangers:
+      browser: 瀏覽器通知
+      discord: Discord 訊息
+      email: 電子郵件
+      push: 推送通知
+      slack: Slack 訊息
+      sms: 短信
+      telegram: Telegram 訊息
+    one-time: 一度
+    step: 警報偏好
+    unlimited-times: 不限次数
+  price:
+    sentence: 尽快发送警报 <Badge><Base>未知硬币</Base></Badge> <Br/> 戈斯
+      <Badge><Operator>未知操作员</Operator></Badge> 的价格 <Br />
+      <Badge><Threshold>未知阈值</Threshold></Badge>
+      <Badge><Quote>未知引文</Quote></Badge>
+    step: 設定價格詳情
+    subtitle: 通过即时通知掌握市场变化
+    title: 价格警报
+  signaler:
+    step: 即將推出
+    subtitle: 获得专家见解和警报，实现更明智的交易！
+    title: 信号警报
+  social-sentiment:
+    step: 即將推出
+    subtitle: 衡量市场情绪——关注情绪更新！
+    title: 社会情绪警报
+  whale:
+    step: 设置鲸鱼警报
+    subtitle: 当主要参与者做出重大加密货币举动时接收即时通知
+    title: 鲸鱼警报
+tables:
+  actions: 操作
+  creation-date: 创建日期
+  delivery-methods: 交付方式
+  description: 描述
+  frequency: 频率
+  interval: 間隔
+  notifications: 通知
+  status: 狀態
+  target: 通知目标
+  type: 警报类型

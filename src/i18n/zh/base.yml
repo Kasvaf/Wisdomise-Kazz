@@ -23,6 +23,10 @@ menu:
   ai-indicators:
     subtitle: 資產
     title: 人工智慧指標
+  alerts:
+    full-title: 通知和警报
+    subtitle: 通过实时警报保持领先：设置您最喜欢的加密货币的通知，永远不会错过市场动向！
+    title: 我的警报
   asset-overview:
     mobile: 資產
     subtitle: 監控和管理您的財務產品
