@@ -34,7 +34,24 @@ export function NotifacationForm<
 }) {
   const { t } = useTranslation('alerts');
 
-  const alertForm = useForm<A>();
+  const alertForm = useForm<A>({
+    resolver: values => {
+      if (values.dataSource === 'market_data') {
+        return {
+          errors: {
+            ...((values.messengers?.length || 0) < 1 && {
+              messengers: 'error',
+            }),
+          },
+          values,
+        };
+      }
+      return {
+        errors: {},
+        values,
+      };
+    },
+  });
   const alertFormAsMarketData = alertForm as unknown as UseFormReturn<
     Partial<Alert<'market_data'>>
   >;
@@ -139,7 +156,7 @@ export function NotifacationForm<
               variant="primary"
               className="mt-6 w-full grow"
               loading={loading}
-              disabled={loading}
+              disabled={loading || !alertFormAsMarketData.formState.isValid}
             >
               {t('common.set-alert')}
               <Icon name={bxBell} className="ms-2" />
@@ -179,7 +196,7 @@ export function NotifacationForm<
               variant="primary"
               className="mt-6 w-full grow"
               loading={loading}
-              disabled={loading}
+              disabled={loading || !alertFormAsCoinRadarNotif.formState.isValid}
             >
               {t('common.save-alert')}
               <Icon name={bxBell} className="ms-2" />

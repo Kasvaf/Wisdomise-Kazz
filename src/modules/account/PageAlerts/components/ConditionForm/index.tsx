@@ -33,7 +33,24 @@ export function ConditionForm<
 
   const { t } = useTranslation('alerts');
 
-  const alertForm = useForm<A>();
+  const alertForm = useForm<A>({
+    resolver: values => {
+      if (values.dataSource === 'market_data') {
+        return {
+          errors: {
+            ...(!/^\d*\.?\d+$/g.test(values.condition?.threshold ?? '') && {
+              condition: 'error',
+            }),
+          },
+          values,
+        };
+      }
+      return {
+        errors: {},
+        values,
+      };
+    },
+  });
   const alertFormAsMarketData = alertForm as unknown as UseFormReturn<
     Partial<Alert<'market_data'>>
   >;
@@ -124,7 +141,6 @@ export function ConditionForm<
                       value={fieldValue || ''}
                       placeholder="Price"
                       className="inline-block w-32"
-                      required
                     />
                   )}
                 />
@@ -161,7 +177,7 @@ export function ConditionForm<
             <CoinPriceInfo
               slug={selectedCoin}
               className="mt-6"
-              onLoad={coinOverview => {
+              onCurrentPriceChange={newPrice => {
                 if (
                   !alertFormAsMarketData.formState.dirtyFields.condition
                     ?.threshold &&
@@ -169,7 +185,7 @@ export function ConditionForm<
                 ) {
                   alertFormAsMarketData.setValue(
                     'condition.threshold',
-                    coinOverview.data?.current_price?.toString() ?? '0.0',
+                    newPrice.toString(),
                   );
                 }
               }}
@@ -179,7 +195,11 @@ export function ConditionForm<
       )}
 
       <div className="mt-6 flex items-center justify-stretch gap-2">
-        <Button variant="primary" className="grow" disabled={loading}>
+        <Button
+          variant="primary"
+          className="grow"
+          disabled={loading || !alertForm.formState.isValid}
+        >
           {t('common:actions.next')}
           <Icon name={bxRightArrowAlt} className="ms-2" />
         </Button>
