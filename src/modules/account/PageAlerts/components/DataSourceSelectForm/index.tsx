@@ -5,6 +5,7 @@ import { type FC, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { bxRightArrowAlt } from 'boxicons-quasar';
 import { type Alert, type AlertDataSource } from 'api/alert';
 import Icon from 'shared/Icon';
+import { useHasFlag } from 'api';
 import { ReactComponent as PriceIcon } from './price.svg';
 import { ReactComponent as WhaleIcon } from './whale.svg';
 import { ReactComponent as IndicatorsIcon } from './indicators.svg';
@@ -14,6 +15,7 @@ import { ReactComponent as SignalerIcon } from './signaler.svg';
 
 export const useDataSources = () => {
   const { t } = useTranslation('alerts');
+  const hasFlag = useHasFlag();
   return useMemo<
     Array<{
       icon: FC<{ className?: string }>;
@@ -33,6 +35,8 @@ export const useDataSources = () => {
         step: t('forms.price.step'),
         icon: PriceIcon,
         value: 'market_data',
+        disabled:
+          !hasFlag('/insight/alerts') || !hasFlag('/insight/alerts?price'),
       },
       {
         title: t('forms.coin-radar.title'),
@@ -41,6 +45,8 @@ export const useDataSources = () => {
         stepSubtitle: t('forms.coin-radar.step-subtitle'),
         icon: CoinRadarIcon,
         value: 'custom:coin_radar_notification',
+        disabled:
+          !hasFlag('/insight/alerts') || !hasFlag('/insight/alerts?coinradar'),
       },
       {
         title: t('forms.whale.title'),
@@ -75,7 +81,7 @@ export const useDataSources = () => {
         disabled: true,
       },
     ],
-    [t],
+    [t, hasFlag],
   );
 };
 
@@ -103,6 +109,7 @@ export function DataSourceSelectForm<D extends AlertDataSource>({
     <div className={clsx('flex flex-col items-center gap-4', className)}>
       <h2 className="mb-4 text-base">{t('forms.data-source.title')}</h2>
       {dataSources
+        .sort((a, b) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0))
         .filter(dt => !dt.hidden)
         .map(({ icon: DtIcon, ...dt }, i) => (
           <button

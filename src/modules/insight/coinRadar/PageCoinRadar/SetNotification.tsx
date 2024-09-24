@@ -5,10 +5,12 @@ import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import { useAlerts } from 'api/alert';
+import { useHasFlag } from 'api';
 import { NotifIsSetIcon, NotificationIcon } from './assets';
 
 export default function SetNotification({ className }: { className?: string }) {
   const { t } = useTranslation('coin-radar');
+  const hasFlag = useHasFlag();
   const { data, isLoading } = useAlerts('custom:coin_radar_notification');
   const isSubscribed = data?.findIndex(row => row.state === 'ACTIVE') !== -1;
 
@@ -22,6 +24,8 @@ export default function SetNotification({ className }: { className?: string }) {
     active: !isLoading,
     searchParam: 'open-alert',
   });
+
+  if (!hasFlag('/insight/alerts?coinradar')) return null;
 
   return (
     <>
