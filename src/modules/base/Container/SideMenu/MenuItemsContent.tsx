@@ -1,10 +1,11 @@
 import { clsx } from 'clsx';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
-import { useState } from 'react';
 import { useHasFlag } from 'api';
+import { useIsLoggedIn } from 'modules/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
@@ -89,23 +90,32 @@ const MenuItemsContent: React.FC<{
 }> = ({ collapsed }) => {
   const hasFlag = useHasFlag();
   const { t } = useTranslation();
+  const isLoggedIn = useIsLoggedIn();
   const { items: MenuItems } = useMenuItems();
 
   const { pathname } = useLocation();
   const [activeMenu, setActiveMenu] = useState(pathname);
 
+  // TODO: sign-in/out handlers
   const extraItems = [
     {
       icon: <HelpIcon />,
       label: 'Help & Guide',
       to: 'https://help.wisdomise.com/',
     },
-    {
-      icon: <LogoutIcon />,
-      label: t('base:user.sign-out'),
-      to: '/auth/logout',
-      className: 'text-error',
-    },
+    isLoggedIn
+      ? {
+          icon: <LogoutIcon />,
+          label: t('base:user.sign-out'),
+          to: '/auth/logout',
+          className: 'text-error',
+        }
+      : {
+          icon: <LogoutIcon />,
+          label: t('base:user.sign-in'),
+          to: '/auth/login',
+          className: 'text-success',
+        },
   ];
   return (
     <>

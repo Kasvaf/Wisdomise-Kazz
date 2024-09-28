@@ -27,6 +27,9 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   }, [account?.email, account?.wallet_address]);
 
   useEffect(() => {
+    if (account === null) {
+      setLoading(false);
+    }
     if (!account || !loading) return;
     if (!account.info.email_verified) {
       navigate('/auth/verify-email');

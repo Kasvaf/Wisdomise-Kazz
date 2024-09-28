@@ -1,8 +1,6 @@
 import axios, { type AxiosError } from 'axios';
 import { getJwtToken } from 'modules/auth/jwt-store';
-import { AFTER_LOGIN_KEY } from 'modules/auth/constants';
-import { login } from 'modules/auth/authHandlers';
-import { RouterBaseName, TEMPLE_ORIGIN } from './constants';
+import { TEMPLE_ORIGIN } from './constants';
 
 export default function configAxios() {
   axios.defaults.baseURL = TEMPLE_ORIGIN + '/api/v1/';
@@ -26,12 +24,7 @@ export default function configAxios() {
    */
   axios.interceptors.response.use(null, async (error: AxiosError) => {
     if (error.response?.status === 403) {
-      const { hash, pathname, search } = window.location;
-      login(
-        `${AFTER_LOGIN_KEY}=${
-          RouterBaseName ? hash.substring(1) : pathname + search
-        }`,
-      );
+      console.log('🔴', error.config?.url);
     }
     throw error;
   });

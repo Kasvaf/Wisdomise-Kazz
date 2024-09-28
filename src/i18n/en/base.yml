@@ -105,5 +105,6 @@ support:
   hint: Chat with us
 user:
   logout: Logout
+  sign-in: Sign In
   sign-out: Sign Out
 wisdomise-is-loading: Wisdomise is loading ...
