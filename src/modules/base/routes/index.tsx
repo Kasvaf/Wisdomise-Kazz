@@ -2,7 +2,6 @@ import { Navigate, type RouteObject } from 'react-router-dom';
 import Container from '../Container';
 import PageMenu from '../Container/SideMenu/PageMenu';
 import Boundary from './Boundary';
-import useAuthRoutes from './authRoutes';
 import useMarketplaceRoutes from './marketplaceRoutes';
 import useInsightRoutes from './insightRoutes';
 import useAccountRoutes from './accountRoutes';
@@ -14,7 +13,6 @@ const useRoutes = () => {
     {
       element: <Boundary />,
       children: [
-        ...useAuthRoutes(),
         ...useDashboardRoutes(),
         ...useMarketplaceRoutes(),
         ...useInsightRoutes(),
