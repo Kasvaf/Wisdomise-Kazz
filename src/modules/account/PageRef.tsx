@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { REFERRER_CODE_KEY } from 'modules/auth/constants';
+
+export const REFERRER_CODE_KEY = 'referrer_code';
 
 export default function PageRef() {
   const { referrerCode } = useParams<'referrerCode'>();

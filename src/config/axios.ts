@@ -1,5 +1,5 @@
 import axios, { type AxiosError } from 'axios';
-import { getJwtToken } from 'modules/auth/jwt-store';
+import { getJwtToken } from 'modules/base/auth/jwt-store';
 import { TEMPLE_ORIGIN } from './constants';
 
 export default function configAxios() {

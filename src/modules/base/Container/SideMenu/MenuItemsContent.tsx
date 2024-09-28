@@ -5,7 +5,7 @@ import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { useHasFlag } from 'api';
-import { useIsLoggedIn } from 'modules/auth/jwt-store';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';

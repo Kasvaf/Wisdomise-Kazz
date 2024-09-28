@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { useIsLoggedIn } from 'modules/auth/jwt-store';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type PageResponse } from '../types/page';
 import {
   type Alert,

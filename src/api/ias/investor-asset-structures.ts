@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import normalizePair from 'api/normalizePair';
-import { useIsLoggedIn } from 'modules/auth/jwt-store';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type InvestorAssetStructures } from '../types/investorAssetStructure';
 
 export const useInvestorAssetStructuresQuery = () => {
