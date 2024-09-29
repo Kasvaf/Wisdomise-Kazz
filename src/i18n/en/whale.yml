@@ -1,3 +1,32 @@
+14d_stats:
+  title: 14-Day Stats Overview
+  avg_trade_day: Avg of Trades/Day
+  avg_trade_duration: Avg Trade Duration
+  largest_gain: Largest Gain
+  largest_losses: Largest Losses
+  transfer_volume: Transfer Volume
+asset_badges:
+  exit_portfolio: Exit Portfolio
+  exit_portfolio_info: >-
+    This whale has sold nearly 95% of their assets, signaling an exit from the
+    investment.
+  holding: Holding
+  holding_info: >-
+    This whale is holding steady, with no significant changes in their asset
+    volume.
+  loading: Loading
+  loading_info: >-
+    This whale is increasing their asset volume by more than 5%, building up
+    their position.
+  new_investment: New Investment
+  new_investment_info: >-
+    This whale has made a new investment with minimal selling, expanding their
+    position.
+  trading: Trading
+  unloading: Unloading
+  unloading_info: >-
+    This whale is reducing their holdings by more than 5%, but not exiting
+    completely.
 filters:
   all-chains: All Chains
   search-whale: Search Whale
@@ -34,25 +63,42 @@ sections:
       total_worth: Total Worth
       trades: Trades
       wallet-address: Wallet Address
-  whale-coins:
-    table:
-      amount: Quantity Held
-      asset: Asset
-      pnl: PNL
-      price: Price
-      worth: Total Worth
-  whale-info:
-    realized-pnl: Realized PNL
-    realized-pnl-info: >-
-      <b>Realized PNL</b><p>Realized PNL (Profit and Loss) represents the actual
-      profit or loss made from completed trades. It reflects the difference
-      between the purchase price and the selling price of assets that have been
-      sold. This metric helps you understand the tangible gains or losses from
-      your trading activities.</p>
-    unrealized-pnl: Unrealized PNL
-    unrealized-pnl-info: >-
-      <b>Unrealized PNL</b><p>Unrealized PNL (Profit and Loss) represents the
-      potential profit or loss on currently held assets that have not yet been
-      sold. It reflects the difference between the current market value and the
-      purchase price of these assets. This metric helps you gauge the
-      performance of your holdings based on their current market prices.</p>
+whale_assets:
+  title: User Assets
+whale_balance_chart:
+  title: Wallet Balance Chart
+  balance: Balance
+  current_balance: Current Balance
+whale_historical_pnl:
+  title: Historical PNL Chart
+  last_30_trading_pnl: Last 30 Days Trading PnL
+whale_holds:
+  name: Name
+  title: Holds
+  badge: Badge
+  chg_30d: Chg(30D)
+  market_cap: Market Cap
+  price: Price
+  total_volume: Total Volume
+  worth: Worth
+whale_netflow_histogram:
+  title: Netflow Histogram
+  inflow: In Flow
+  outflow: Out Flow
+whale_overview:
+  holding_tokens: Holding Tokens
+  losses: Losses
+  trading_pnl: Trading PNL (Unrealized)
+  trading_tokens: Trading Tokens
+  trading_volume: Trading Volume
+  trading_win_rate: Trading Win Rate
+  wins: Wins
+whale_trades:
+  name: Name
+  title: Trades
+  avg_duration: Avg Duration
+  number_of_trades: Number of Trades
+  price: Price
+  returns: Returns
+  trading_pnl: Trading PNL
+  volume_of_trades: Volume Of Trades
