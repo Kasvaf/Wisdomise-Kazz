@@ -54,17 +54,7 @@ export function WhaleHistoricalPnlWidget({
       },
       yAxis: {
         grid: null,
-        label: {
-          autoHide: true,
-          autoRotate: false,
-          formatter: text => `${text}%`,
-          style: (_, index) =>
-            index % 2 === 0
-              ? {
-                  fill: 'transparent',
-                }
-              : null,
-        },
+        label: null,
       },
       theme: 'light',
       tooltip: {
@@ -110,7 +100,7 @@ export function WhaleHistoricalPnlWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[317px]', className)}
+      className={clsx('min-h-[250px]', className)}
       loading={whale.isLoading}
       empty={!whale.data?.holder_address}
       title={t('whale_historical_pnl.title')}
