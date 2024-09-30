@@ -78,7 +78,7 @@ export function Whale14DaysStats({
               'number' &&
             typeof whale.data?.last_14_days_number_of_trades === 'number'
               ? (whale.data?.last_14_days_total_trade_duration_seconds * 1000) /
-                (whale.data?.last_14_days_number_of_trades ?? 1)
+                (whale.data?.last_14_days_number_of_trades || 1)
               : null
           }
         />
