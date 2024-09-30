@@ -22,6 +22,7 @@
     "@mdxeditor/editor": "^3.4.0",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@nivo/pie": "^0.83.0",
+    "@react-oauth/google": "^0.12.1",
     "@segment/analytics-next": "^1.59.0",
     "@sentry/react": "^7.45.0",
     "@sentry/tracing": "^7.45.0",

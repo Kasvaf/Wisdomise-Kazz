@@ -7,8 +7,8 @@ import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import useModal from 'shared/useModal';
 import useNow from 'utils/useNow';
+import ContinueWithGoogle from './ContinueWithGoogle';
 import { ReactComponent as LoginBg } from './Login.svg';
-import { ReactComponent as GoogleIcon } from './Google.svg';
 
 const ModalLogin: React.FC<{
   onResolve?: (success: boolean) => void;
@@ -92,10 +92,7 @@ const ModalLogin: React.FC<{
       <div className="my-8 border-b border-v1-inverse-overlay-10" />
 
       <div className="flex justify-center">
-        <Button variant="secondary">
-          <GoogleIcon className="mr-1" />{' '}
-          {t('login.step-1.continue-with-google')}
-        </Button>
+        <ContinueWithGoogle />
       </div>
 
       <div className="grow" />
