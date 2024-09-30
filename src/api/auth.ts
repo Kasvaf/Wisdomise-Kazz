@@ -10,6 +10,8 @@ interface SuccessResponse {
 export async function refreshAccessToken() {
   const { data } = await axios.post<{ access_token: string }>(
     `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/access-token/`,
+    {},
+    { withCredentials: true },
   );
   setJwtToken(data.access_token);
 }
