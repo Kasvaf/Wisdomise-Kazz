@@ -57,6 +57,7 @@
     "react-qr-code": "^2.0.11",
     "react-router-dom": "^6.9.0",
     "react-ts-tradingview-widgets": "^1.2.3",
+    "react-verification-input": "^4.1.2",
     "react-youtube": "^10.1.0",
     "siwe": "^2.1.4",
     "tailwindcss-animation-delay": "^1.0.7",

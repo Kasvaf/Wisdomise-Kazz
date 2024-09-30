@@ -1,3 +1,18 @@
+login:
+  notice: By continuing, you agree to our Privacy Policy and Terms of Use.
+  step-1:
+    title: Log In to Access the Pro Features
+    subtitle: >-
+      <0>Log In</0> to your account to explore Wisdomise Pro and enjoy a
+      <2>14-day free trial</2> of powerful trading tools!
+    continue-with-google: Continue with Google
+    field-email: Email
+  step-2:
+    title: Enter Magic Code
+    subtitle: Enter the 6-digit Magic code we sent to {{email}} to continue.
+    btn-change-email: Change Email Address
+    btn-resend: Resend Code
+    field-nonce: 6-Digit Magic Code
 page-referral:
   title: Referral Program
   all-time: all time

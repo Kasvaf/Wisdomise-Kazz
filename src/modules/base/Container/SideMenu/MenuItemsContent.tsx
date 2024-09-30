@@ -1,10 +1,11 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { type MouseEventHandler, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { useHasFlag } from 'api';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
@@ -96,6 +97,8 @@ const MenuItemsContent: React.FC<{
   const { pathname } = useLocation();
   const [activeMenu, setActiveMenu] = useState(pathname);
 
+  const [ModalLogin, showModalLogin] = useModalLogin();
+
   // TODO: sign-in/out handlers
   const extraItems = [
     {
@@ -113,7 +116,10 @@ const MenuItemsContent: React.FC<{
       : {
           icon: <LogoutIcon />,
           label: t('base:user.sign-in'),
-          to: '/auth/login',
+          onClick: (e => {
+            e.preventDefault();
+            void showModalLogin();
+          }) satisfies MouseEventHandler<HTMLAnchorElement>,
           className: 'text-success',
         },
   ];
@@ -133,13 +139,15 @@ const MenuItemsContent: React.FC<{
         ))}
       </div>
 
+      {ModalLogin}
       <div className="grow" />
       <div className="mt-12 text-white">
         {extraItems.map(item => (
           <NavLink
             key={item.to}
-            to={item.to}
-            target={/^https?:\/\//.test(item.to) ? '_blank' : undefined}
+            onClick={item.onClick}
+            to={item.to ?? ''}
+            target={/^https?:\/\//.test(item.to ?? '') ? '_blank' : undefined}
             className={clsx(
               'mb-4 flex h-12 cursor-pointer items-center rounded-xl text-sm',
               collapsed ? 'justify-center' : 'justify-between px-4',
