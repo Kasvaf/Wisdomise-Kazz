@@ -1,6 +1,9 @@
 import axios, { type AxiosError } from 'axios';
-import { getJwtToken } from 'modules/base/auth/jwt-store';
+import { delJwtToken, getJwtToken } from 'modules/base/auth/jwt-store';
+import { refreshAccessToken } from 'api/auth';
 import { TEMPLE_ORIGIN } from './constants';
+
+const isAuthError = (status?: number) => status === 401 || status === 403;
 
 export default function configAxios() {
   axios.defaults.baseURL = TEMPLE_ORIGIN + '/api/v1/';
@@ -23,8 +26,16 @@ export default function configAxios() {
    * Redirect to login on 403
    */
   axios.interceptors.response.use(null, async (error: AxiosError) => {
-    if (error.response?.status === 403) {
+    if (isAuthError(error.response?.status)) {
       console.log('🔴', error.config?.url);
+
+      if (error.config?.url?.includes('account/auth/access-token')) {
+        delJwtToken();
+      } else {
+        try {
+          await refreshAccessToken();
+        } catch {}
+      }
     }
     throw error;
   });

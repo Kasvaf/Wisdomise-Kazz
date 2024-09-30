@@ -50,7 +50,7 @@ const ModalLogin: React.FC<{
   };
 
   const notice = (
-    <p className="mb-5 text-xs text-white/70">{t('login.notice')}</p>
+    <p className="my-5 text-xs text-white/70">{t('login.notice')}</p>
   );
 
   const emailContent = (
@@ -181,13 +181,15 @@ const ModalLogin: React.FC<{
   return (
     <div className="flex w-full">
       {step === 'email' ? emailContent : codeContent}
-      <LoginBg className="-my-5 -mr-7 w-[440px] shrink-0" />
+      <LoginBg className="-my-5 -mr-7 w-[440px] shrink-0 mobile:hidden" />
     </div>
   );
 };
 
 export const useModalLogin = () => {
-  const [Modal, showModal] = useModal(ModalLogin, { width: 880 });
+  const [Modal, showModal] = useModal(ModalLogin, {
+    width: 880,
+  });
   return [Modal, () => showModal({}) as Promise<boolean>] as const;
 };
 

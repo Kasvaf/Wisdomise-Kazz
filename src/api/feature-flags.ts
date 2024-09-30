@@ -24,6 +24,7 @@ const defaultFlags = [
   '/insight/coin-radar',
   '/insight/whales',
   '/insight/market-pulse',
+  '/menu',
 ];
 
 export function useHasFlag() {
