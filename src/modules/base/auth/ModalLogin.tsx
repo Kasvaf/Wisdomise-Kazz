@@ -2,12 +2,12 @@ import { clsx } from 'clsx';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
+import { GoogleLogin } from '@react-oauth/google';
 import { useEmailLoginMutation, useVerifyEmailMutation } from 'api/auth';
 import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import useModal from 'shared/useModal';
 import useNow from 'utils/useNow';
-import ContinueWithGoogle from './ContinueWithGoogle';
 import { ReactComponent as LoginBg } from './Login.svg';
 
 const ModalLogin: React.FC<{
@@ -92,7 +92,12 @@ const ModalLogin: React.FC<{
       <div className="my-8 border-b border-v1-inverse-overlay-10" />
 
       <div className="flex justify-center">
-        <ContinueWithGoogle />
+        <GoogleLogin
+          onSuccess={credentialResponse => {
+            console.log(credentialResponse);
+          }}
+          theme="filled_blue"
+        />
       </div>
 
       <div className="grow" />
