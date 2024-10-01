@@ -9,6 +9,7 @@ import { useHubSpot } from 'config/hubSpot';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
 import OneTapLogin from './OneTapLogin';
+import { useIsLoggedIn } from './jwt-store';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
@@ -35,11 +36,12 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     customerIo.loadScript();
   }, [account, navigate, isLoading]);
 
+  const isLoggedIn = useIsLoggedIn();
   return isLoading ? (
     <Splash />
   ) : (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <OneTapLogin />
+      {!isLoggedIn && <OneTapLogin />}
       {children}
     </GoogleOAuthProvider>
   );

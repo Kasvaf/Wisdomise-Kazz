@@ -7,13 +7,24 @@ interface SuccessResponse {
   message: 'ok';
 }
 
-export async function refreshAccessToken() {
+async function _refreshAccessToken() {
   const { data } = await axios.post<{ access_token: string }>(
     `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/access-token/`,
     {},
     { withCredentials: true },
   );
   setJwtToken(data.access_token);
+}
+
+let refreshing: Promise<void> | undefined;
+export function refreshAccessToken() {
+  if (!refreshing) {
+    refreshing = _refreshAccessToken();
+    void refreshing.finally(() => {
+      refreshing = undefined;
+    });
+  }
+  return refreshing;
 }
 
 export function useEmailLoginMutation() {
@@ -37,6 +48,7 @@ export function useVerifyEmailMutation() {
       const { data } = await axios.post<SuccessResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/verify-email/`,
         body,
+        { withCredentials: true },
       );
 
       await refreshAccessToken();
