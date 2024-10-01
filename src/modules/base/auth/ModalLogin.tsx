@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
-import { useEmailLoginMutation, useVerifyEmailMutation } from 'api/auth';
+import {
+  useEmailLoginMutation,
+  useGoogleLoginMutation,
+  useVerifyEmailMutation,
+} from 'api/auth';
 import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import useModal from 'shared/useModal';
@@ -46,6 +50,13 @@ const ModalLogin: React.FC<{
       onResolve?.(true);
     } else {
       setFieldError('Invalid code');
+    }
+  };
+
+  const { mutateAsync: mutateGoogleLogin } = useGoogleLoginMutation();
+  const googleHandler = async ({ credential }: { credential?: string }) => {
+    if (credential && (await mutateGoogleLogin({ id_token: credential }))) {
+      onResolve?.(true);
     }
   };
 
@@ -92,12 +103,7 @@ const ModalLogin: React.FC<{
       <div className="my-8 border-b border-v1-inverse-overlay-10" />
 
       <div className="flex justify-center">
-        <GoogleLogin
-          onSuccess={credentialResponse => {
-            console.log(credentialResponse);
-          }}
-          theme="filled_blue"
-        />
+        <GoogleLogin onSuccess={googleHandler} theme="filled_blue" />
       </div>
 
       <div className="grow" />

@@ -29,7 +29,7 @@ export default function configAxios() {
     if (isAuthError(error.response?.status)) {
       console.log('🔴', error.config?.url);
 
-      if (error.config?.url?.includes('account/auth/access-token')) {
+      if (error.config?.url?.includes('account/auth/')) {
         delJwtToken();
       } else {
         try {

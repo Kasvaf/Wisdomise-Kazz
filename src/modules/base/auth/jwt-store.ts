@@ -1,4 +1,4 @@
-import { useLocalStorage } from 'usehooks-ts';
+import { useEffect, useState } from 'react';
 
 const JWT_TOKEN_KEY = 'TOKEN';
 
@@ -6,10 +6,27 @@ export const getJwtToken = () => {
   return localStorage.getItem(JWT_TOKEN_KEY);
 };
 
+const handlers: Array<() => void> = [];
+const callHandlers = () => {
+  setTimeout(() => {
+    for (const handler of handlers) {
+      handler();
+    }
+  }, 0);
+};
+
 const useJwtToken = () => {
-  return useLocalStorage(JWT_TOKEN_KEY, '', {
-    deserializer: x => x,
-  })[0];
+  const [jwt, setJwt] = useState(localStorage.getItem(JWT_TOKEN_KEY));
+  useEffect(() => {
+    const handler = () => setJwt(localStorage.getItem(JWT_TOKEN_KEY));
+    window.addEventListener('storage', handler);
+    handlers.push(handler);
+    return () => {
+      window.removeEventListener('storage', handler);
+      handlers.splice(handlers.indexOf(handler), 1);
+    };
+  }, []);
+  return jwt;
 };
 
 export const useIsLoggedIn = () => {
@@ -18,8 +35,10 @@ export const useIsLoggedIn = () => {
 
 export const setJwtToken = (token: string) => {
   localStorage.setItem(JWT_TOKEN_KEY, token);
+  callHandlers();
 };
 
 export const delJwtToken = () => {
   localStorage.removeItem(JWT_TOKEN_KEY);
+  callHandlers();
 };

@@ -5,10 +5,12 @@ import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { useHasFlag } from 'api';
+import { useLogoutMutation } from 'api/auth';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
+import Spin from 'shared/Spin';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 import { ReactComponent as HelpIcon } from './help-icon.svg';
@@ -98,8 +100,8 @@ const MenuItemsContent: React.FC<{
   const [activeMenu, setActiveMenu] = useState(pathname);
 
   const [ModalLogin, showModalLogin] = useModalLogin();
+  const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
 
-  // TODO: sign-in/out handlers
   const extraItems = [
     {
       icon: <HelpIcon />,
@@ -112,10 +114,16 @@ const MenuItemsContent: React.FC<{
           label: t('base:user.sign-out'),
           to: '/auth/logout',
           className: 'text-error',
+          loading: loggingOut,
+          onClick: (e => {
+            e.preventDefault();
+            void mutateAsync({});
+          }) satisfies MouseEventHandler<HTMLAnchorElement>,
         }
       : {
           icon: <LogoutIcon />,
           label: t('base:user.sign-in'),
+          to: '/auth/login',
           onClick: (e => {
             e.preventDefault();
             void showModalLogin();
@@ -157,7 +165,12 @@ const MenuItemsContent: React.FC<{
           >
             <div className="flex items-center justify-start">
               {item.icon}
-              {!collapsed && <p className="ml-2">{item.label}</p>}
+              {!collapsed && (
+                <p className="ml-2 flex items-center">
+                  {item.label}
+                  {item.loading && <Spin className="ml-1" />}
+                </p>
+              )}
             </div>
           </NavLink>
         ))}
