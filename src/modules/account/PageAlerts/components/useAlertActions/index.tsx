@@ -5,6 +5,7 @@ import {
   useDeleteAlert,
   useSaveAlert,
 } from 'api/alert';
+import { track } from 'config/segment';
 import { AlertSaveModal } from '../AlertSaveModal';
 import {
   useAlertDeleteConfirm,
@@ -21,6 +22,14 @@ export const useAlertActions = <D extends AlertDataSource>(
   );
   const [deleteConfirmModal, showDeleteConfirm] = useAlertDeleteConfirm();
   const [saveToast, showSaveToast] = useAlertSaveToast();
+  const alertSavePostActions = (alertItem: Alert<never>) => {
+    if (alertItem.dataSource === 'custom:coin_radar_notification') {
+      track('Click On', {
+        place: 'social_radar_notification_changed',
+        status: alertItem.messengers.includes('EMAIL') ? 'on' : 'off',
+      });
+    }
+  };
 
   return useMemo(
     () => ({
@@ -39,6 +48,7 @@ export const useAlertActions = <D extends AlertDataSource>(
               saveAlertMutation
                 .mutateAsync(payload)
                 .then(() => setIsModalOpen(false))
+                .then(() => alertSavePostActions(payload))
                 .then(() => showSaveToast())
             }
           />
