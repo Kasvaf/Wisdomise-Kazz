@@ -211,7 +211,7 @@ export const useModalLogin = () => {
   const [Modal, showModal] = useModal(ModalLogin, {
     width: 880,
   });
-  return [Modal, () => showModal({}) as Promise<boolean>] as const;
+  return [Modal, async () => !!(await showModal({}))] as const;
 };
 
 export default ModalLogin;

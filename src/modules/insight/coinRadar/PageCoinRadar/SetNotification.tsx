@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import Button from 'shared/Button';
+import { useHasFlag } from 'api';
+import { useAlerts } from 'api/alert';
 import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
-import { useAlerts } from 'api/alert';
-import { useHasFlag } from 'api';
+import useEnsureAuthenticated from 'modules/base/auth/useEnsureAuthenticated';
+import Button from 'shared/Button';
 import { NotifIsSetIcon, NotificationIcon } from './assets';
 
 export default function SetNotification({ className }: { className?: string }) {
@@ -25,12 +26,14 @@ export default function SetNotification({ className }: { className?: string }) {
     searchParam: 'open-alert',
   });
 
+  const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   if (!hasFlag('/insight/alerts?coinradar')) return null;
 
   return (
     <>
       <Button
-        onClick={() => {
+        onClick={async () => {
+          if (!(await ensureAuthenticated())) return;
           track('Click On', {
             place: 'social_radar_notification',
           });
@@ -49,6 +52,7 @@ export default function SetNotification({ className }: { className?: string }) {
           isLoading && 'opacity-10',
         )}
       >
+        {ModalLogin}
         {isSubscribed || isLoading ? (
           <NotifIsSetIcon className="shrink-0" />
         ) : (
