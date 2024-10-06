@@ -8,6 +8,7 @@ import {
   useGoogleLoginMutation,
   useVerifyEmailMutation,
 } from 'api/auth';
+import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import useModal from 'shared/useModal';
@@ -47,7 +48,13 @@ const ModalLogin: React.FC<{
   const { mutateAsync: verifyEmail, isLoading: verifyEmailLoading } =
     useVerifyEmailMutation();
   const submitCode = async () => {
-    if (await verifyEmail({ email, nonce })) {
+    if (
+      await verifyEmail({
+        email,
+        nonce,
+        referrer_code: localStorage.getItem(REFERRER_CODE_KEY) ?? undefined,
+      })
+    ) {
       onResolve?.(true);
     } else {
       setFieldError('Invalid code');
@@ -56,7 +63,13 @@ const ModalLogin: React.FC<{
 
   const { mutateAsync: mutateGoogleLogin } = useGoogleLoginMutation();
   const googleHandler = async ({ credential }: { credential?: string }) => {
-    if (credential && (await mutateGoogleLogin({ id_token: credential }))) {
+    if (
+      credential &&
+      (await mutateGoogleLogin({
+        id_token: credential,
+        referrer_code: localStorage.getItem(REFERRER_CODE_KEY) ?? undefined,
+      }))
+    ) {
       onResolve?.(true);
     }
   };
