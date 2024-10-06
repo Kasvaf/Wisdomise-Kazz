@@ -20,10 +20,12 @@ function unparam(
 
 const defaultFlags = [
   '/insight',
+  '/insight/overview',
   '/insight/coin-radar?side-suggestion',
   '/insight/coin-radar',
-  '/insight/whales',
   '/insight/market-pulse',
+  '/insight/alerts?price',
+  '/insight/alerts?coinradar',
   '/menu',
 ];
 
