@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider, theme } from 'antd';
 import { useEffectOnce } from 'usehooks-ts';
+import { HelmetProvider } from 'react-helmet-async';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
 import { RouterBaseName } from 'config/constants';
@@ -43,7 +44,9 @@ function Root() {
             },
           }}
         >
-          <App />
+          <HelmetProvider context={{}}>
+            <App />
+          </HelmetProvider>
           {errorNotificationContent}
         </ConfigProvider>
         {/* <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" /> */}
