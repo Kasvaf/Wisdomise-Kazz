@@ -1,6 +1,9 @@
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { IndicatorSelect, type MarketPulseIndicators } from './IndicatorSelect';
+import {
+  IndicatorSelect,
+  type MarketPulseIndicators,
+} from './components/IndicatorSelect';
 import { RsiTabContent } from './components/RsiTabContent';
 
 export default function PageMarketPulse() {

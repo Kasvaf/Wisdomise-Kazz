@@ -6,11 +6,12 @@ common:
   show: Show Detail
 indicator_list:
   advanced:
-    label: Advanced
+    label: Advanced Filter
   macd:
-    label: MACD
+    label: MACD Indicator
   rsi:
-    label: RSI
+    label: RSI Indicator
+    subtitle: Get Customized RSI Insights to Refine Your Trading Strategy, Leveraging Advanced Filters for Improved Decision-Making and Clarity.
     bearish: Bearish
     bullish: Bullish
     heatmap:
