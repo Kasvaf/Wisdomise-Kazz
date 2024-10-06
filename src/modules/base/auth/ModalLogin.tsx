@@ -12,6 +12,7 @@ import Button from 'shared/Button';
 import TextBox from 'shared/TextBox';
 import useModal from 'shared/useModal';
 import useNow from 'utils/useNow';
+import Spinner from 'shared/Spinner';
 import { ReactComponent as LoginBg } from './Login.svg';
 
 const ModalLogin: React.FC<{
@@ -103,7 +104,11 @@ const ModalLogin: React.FC<{
       <div className="my-8 border-b border-v1-inverse-overlay-10" />
 
       <div className="flex justify-center">
-        <GoogleLogin onSuccess={googleHandler} theme="filled_blue" />
+        <GoogleLogin
+          onSuccess={googleHandler}
+          theme="filled_blue"
+          use_fedcm_for_prompt
+        />
       </div>
 
       <div className="grow" />
@@ -188,7 +193,15 @@ const ModalLogin: React.FC<{
 
   return (
     <div className="flex w-full">
-      {step === 'email' ? emailContent : codeContent}
+      {emailLoginLoading || verifyEmailLoading ? (
+        <div className="mr-6 flex grow flex-col items-center justify-center">
+          <Spinner />
+        </div>
+      ) : step === 'email' ? (
+        emailContent
+      ) : (
+        codeContent
+      )}
       <LoginBg className="-my-5 -mr-7 w-[440px] shrink-0 mobile:hidden" />
     </div>
   );
