@@ -27,8 +27,8 @@ function HeatMapArea({
         'absolute w-full',
         type === 'oversold' ? 'bottom-0' : 'top-0',
         type === 'oversold'
-          ? 'bg-v1-background-positive-subtle'
-          : 'bg-v1-background-negative-subtle',
+          ? 'bg-gradient-to-b from-[#1B7D61] to-[#30C299]'
+          : 'bg-gradient-to-t from-[#8D1F2B] to-[#E74457]',
       )}
       style={{
         height: `${AREA_SIZE_PERCENT}%`,
@@ -36,7 +36,7 @@ function HeatMapArea({
     >
       <div
         className={clsx(
-          'absolute left-0 flex h-full flex-col justify-between px-2 text-xs text-v1-content-secondary',
+          'absolute left-0 flex h-full flex-col justify-between px-2 text-xs text-v1-content-primary',
           type === 'oversold' ? 'top-[-1ch]' : 'bottom-[-1ch]',
         )}
       >
@@ -66,15 +66,15 @@ function GuideBar() {
       )}
     >
       <div>
-        <div className="size-4 rounded bg-v1-background-positive-subtle" />
+        <div className="size-4 rounded bg-v1-content-positive" />
         {t('indicator_list.rsi.heatmap.oversold_area')}
       </div>
       <div>
-        <div className="size-4 rounded bg-v1-background-negative-subtle" />
+        <div className="size-4 rounded bg-v1-content-negative" />
         {t('indicator_list.rsi.heatmap.overbought_area')}
       </div>
       <div>
-        <div className="h-4 w-0 border-r border-dashed border-r-v1-content-primary" />
+        <div className="h-4 w-0 border-r-2 border-dashed border-r-v1-content-primary" />
         {t('indicator_list.rsi.heatmap.price_change')}
       </div>
       <div>
@@ -219,7 +219,7 @@ function CoinPoint({
           }}
         />
         <p
-          className="relative flex h-full items-center justify-center text-center text-xs"
+          className="relative flex h-full items-center justify-center text-center text-xs font-semibold"
           style={{
             top:
               value.data.price_change_24h < 0 ? `${POINT_SIZE + 4}px` : 'auto',
@@ -231,7 +231,7 @@ function CoinPoint({
         </p>
         <div
           className={clsx(
-            'absolute w-0 border-r border-dashed border-v1-content-primary',
+            'absolute w-0 border-r-2 border-dashed border-v1-content-primary',
             'transition-all delay-75 duration-300 will-change-contents',
           )}
           style={{
@@ -273,8 +273,16 @@ export function RsiHeatmapChart({
     <div className={clsx('flex flex-col gap-3', className)}>
       <GuideBar />
       <div className="relative min-h-96 shrink-0 grow overflow-hidden rounded-xl">
-        <HeatMapArea type="overbought" />
-        <HeatMapArea type="oversold" />
+        <div
+          className="absolute size-full"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(-60deg, #40414f, #40414f 3rem, #2a2a31 3rem, #2a2a31 6rem)',
+          }}
+        >
+          <HeatMapArea type="overbought" />
+          <HeatMapArea type="oversold" />
+        </div>
         <div
           className={clsx(
             'absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-x-auto overflow-y-hidden px-6',
