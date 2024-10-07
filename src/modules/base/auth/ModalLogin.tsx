@@ -8,12 +8,13 @@ import {
   useGoogleLoginMutation,
   useVerifyEmailMutation,
 } from 'api/auth';
-import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
-import Button from 'shared/Button';
-import TextBox from 'shared/TextBox';
-import useModal from 'shared/useModal';
 import useNow from 'utils/useNow';
+import useModal from 'shared/useModal';
 import Spinner from 'shared/Spinner';
+import TextBox from 'shared/TextBox';
+import Button from 'shared/Button';
+import Link from 'shared/Link';
+import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import { ReactComponent as LoginBg } from './Login.svg';
 
 const ModalLogin: React.FC<{
@@ -75,7 +76,19 @@ const ModalLogin: React.FC<{
   };
 
   const notice = (
-    <p className="my-5 text-xs text-white/70">{t('login.notice')}</p>
+    <p className="my-5 text-xs text-white/70">
+      <Trans ns="auth" i18nKey="login.notice">
+        By continuing, you agree to our
+        <Link target="_blank" href="https://whitepaper.wisdomise.com/">
+          Privacy Policy
+        </Link>
+        and
+        <Link target="_blank" href="https://whitepaper.wisdomise.com/">
+          Terms of Service
+        </Link>
+        .
+      </Trans>
+    </p>
   );
 
   const emailContent = (

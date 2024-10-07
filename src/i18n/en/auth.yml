@@ -1,7 +1,9 @@
 login:
   error-code: Invalid code
   error-email: Email is invalid
-  notice: By continuing, you agree to our Privacy Policy and Terms of Use.
+  notice: >-
+    By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
+    Service</3>.
   step-1:
     title: Log In to Access the Pro Features
     subtitle: >-
