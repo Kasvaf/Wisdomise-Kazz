@@ -30,13 +30,15 @@ const ModalLogin: React.FC<{
 
   const { mutateAsync: emailLogin, isLoading: emailLoginLoading } =
     useEmailLoginMutation();
+
+  const isValidEmail = /^[\w.-]+@[\w.-]+\.\w+$/.test(email);
   const submitEmail = async () => {
     if (!email.trim()) {
       setFieldError(t('common:errors.field-required'));
       return;
     }
 
-    if (!/[\w.-]+@[\w.-]+\.\w+/.test(email)) {
+    if (!isValidEmail) {
       setFieldError(t('login.error-email'));
       return;
     }
@@ -153,6 +155,7 @@ const ModalLogin: React.FC<{
         variant="primary-purple"
         onClick={submitEmail}
         loading={emailLoginLoading}
+        disabled={!isValidEmail}
       >
         {t('common:actions.next')}
       </Button>
@@ -169,6 +172,7 @@ const ModalLogin: React.FC<{
       <div>
         <div className="mb-3 text-xs">{t('login.step-2.field-nonce')}</div>
         <VerificationInput
+          autoFocus
           validChars="0-9"
           placeholder=" "
           classNames={{
@@ -220,6 +224,7 @@ const ModalLogin: React.FC<{
         variant="primary-purple"
         onClick={submitCode}
         loading={verifyEmailLoading}
+        disabled={nonce.length < 6}
       >
         {t('base:user.sign-in')}
       </Button>

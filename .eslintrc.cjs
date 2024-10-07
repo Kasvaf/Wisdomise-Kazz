@@ -80,6 +80,7 @@ module.exports = {
     'unicorn/no-array-callback-reference': 'off',
 
     // 'quote-props': ['error', 'consistent-as-needed'],
+    'jsx-a11y/no-autofocus': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
