@@ -32,9 +32,11 @@ export default function configAxios() {
       if (error.config?.url?.includes('account/auth/')) {
         delJwtToken();
       } else {
-        try {
-          await refreshAccessToken();
-        } catch {}
+        if (getJwtToken()) {
+          try {
+            await refreshAccessToken();
+          } catch {}
+        }
       }
     }
     throw error;
