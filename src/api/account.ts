@@ -9,7 +9,7 @@ export function useAccountQuery() {
   return useQuery<Account | null>(
     ['account', isLoggedIn],
     async () => {
-      if (!isLoggedIn) return null;
+      // if (!isLoggedIn) return null;
       const { data } = await axios.get<Account>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
       );
