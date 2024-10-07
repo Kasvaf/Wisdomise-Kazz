@@ -31,6 +31,11 @@ const ModalLogin: React.FC<{
   const { mutateAsync: emailLogin, isLoading: emailLoginLoading } =
     useEmailLoginMutation();
   const submitEmail = async () => {
+    if (!email.trim()) {
+      setFieldError(t('common:errors.field-required'));
+      return;
+    }
+
     if (!/[\w.-]+@[\w.-]+\.\w+/.test(email)) {
       setFieldError(t('login.error-email'));
       return;
