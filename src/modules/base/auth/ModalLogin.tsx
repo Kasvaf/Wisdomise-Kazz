@@ -117,6 +117,7 @@ const ModalLogin: React.FC<{
           value={email}
           onChange={x => {
             setEmail(x);
+            setNonce('');
             setFieldError('');
           }}
           onKeyDown={e => {
