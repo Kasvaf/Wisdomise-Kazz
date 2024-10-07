@@ -84,11 +84,14 @@ const ModalLogin: React.FC<{
     <p className="my-5 text-xs text-white/70">
       <Trans ns="auth" i18nKey="login.notice">
         By continuing, you agree to our
-        <Link target="_blank" href="https://whitepaper.wisdomise.com/">
+        <Link target="_blank" href="https://help.wisdomise.com/privacy-policy">
           Privacy Policy
         </Link>
         and
-        <Link target="_blank" href="https://whitepaper.wisdomise.com/">
+        <Link
+          target="_blank"
+          href="https://help.wisdomise.com/terms-and-conditions"
+        >
           Terms of Service
         </Link>
         .
