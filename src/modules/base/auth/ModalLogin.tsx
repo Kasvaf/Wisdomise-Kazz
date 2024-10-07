@@ -31,7 +31,7 @@ const ModalLogin: React.FC<{
     useEmailLoginMutation();
   const submitEmail = async () => {
     if (!/[\w.-]+@[\w.-]+\.\w+/.test(email)) {
-      setFieldError('Email is invalid');
+      setFieldError(t('login.error-email'));
       return;
     }
 
@@ -57,7 +57,7 @@ const ModalLogin: React.FC<{
     ) {
       onResolve?.(true);
     } else {
-      setFieldError('Invalid code');
+      setFieldError(t('login.error-code'));
     }
   };
 
