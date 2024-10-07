@@ -1,17 +1,17 @@
 common:
-  divergence: Divergence
-  hide: Close
-  in_timeframe: in Timeframe
-  rsi: RSI
-  show: Show Detail
+  active_timeframe: Active Timeframe
+  long_term: Long-Term
+  short_term: Short-Term
 indicator_list:
   advanced:
     label: Advanced Filter
   macd:
     label: MACD Indicator
   rsi:
+    subtitle: >-
+      Get Customized RSI Insights to Refine Your Trading Strategy, Leveraging
+      Advanced Filters for Improved Decision-Making and Clarity.
     label: RSI Indicator
-    subtitle: Get Customized RSI Insights to Refine Your Trading Strategy, Leveraging Advanced Filters for Improved Decision-Making and Clarity.
     bearish: Bearish
     bullish: Bullish
     heatmap:
@@ -28,40 +28,30 @@ indicator_list:
       rsi: RSI
     momentum:
       bearish:
-        title: Bearish Divergence
-        description: >-
-          This Tab Tracks Assets Where the Price Rises, but Momentum Is Getting
-          Weaker. This Difference Suggests the Price Could Drop Soon, Offering a
-          Good Chance to Sell.
-      bearish_momentum_confirmation: Bearish Momentum Confirmation
+        title: Bearish
+        badge: Bearish Div
+        full_badge: Bearish Divergence
+      bearish_momentum_confirmation: Bearish Confirmation
+      bearish_momentum_confirmation_info: >-
+        Spot Potential Selling Points When Coins Are Overvalued and Indicate a
+        Slowdown in Momentum.
       bullish:
-        title: Bullish Divergence
-        description: >-
-          This Tab Tracks Assets Where the Price Drops, but Momentum Shows Signs
-          of Getting Stronger. This Difference Suggests the Price Could Turn
-          Around and Rise, Offering a Good Chance to Buy.
-      bullish_momentum_confirmation: Bullish Momentum Confirmation
+        title: Bullish
+        badge: Bullish Div
+        full_badge: Bullish Divergence
+      bullish_momentum_confirmation: Bullish Confirmation
+      bullish_momentum_confirmation_info: >-
+        Identify Potential Buying Opportunities When Coins Are Undervalued and
+        Show Signs of Reversal.
       overbought:
-        title: Overbought
-        description: >-
-          This Tab Tracks Assets That Are Overbought, Meaning Their Price Is
-          High and Could Start to Fall. This Gives Traders a Chance to Sell
-          Before the Price Drops.
+        title: Expensive
+        badge: Overbought
+        full_badge: RSI Overbought
       overbought_bearish:
-        title: Overbought & Bearish
-        description: >-
-          This Tab Tracks Assets That Are Overbought and Showing Signs of
-          Falling. This Means the Asset Is Overvalued and Is Likely to Drop in
-          Price, Offering a Good Chance to Sell.
+        title: Expensive & Bearish
       oversold:
-        title: Oversold
-        description: >-
-          This Tab Tracks Assets That Are Oversold, Meaning Their Price Is Low
-          and They Could Be Ready to Bounce Back. This Gives Traders a Chance to
-          Buy Before the Price Goes Up.
+        title: Cheap
+        badge: Oversold
+        full_badge: RSI Oversold
       oversold_bullish:
-        title: Oversold & Bullish
-        description: >-
-          This Tab Tracks Assets That Are Oversold and Showing Signs of Rising.
-          This Means the Asset Is Undervalued and Is Likely to Increase in
-          Price, Offering a Good Chance to Buy.
+        title: Cheap & Bullish

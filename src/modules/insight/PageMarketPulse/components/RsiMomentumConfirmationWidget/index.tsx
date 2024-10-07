@@ -4,17 +4,18 @@ import { clsx } from 'clsx';
 import {
   type RsiMomentumConfirmation,
   useRsiMomentumConfirmations,
-  type RsiMomentumConbination,
+  type RsiMomentumConfirmationCombination,
 } from 'api/market-pulse';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
-import { InformativePrice } from 'shared/InformativePrice';
-import { useMomentumTabs, type MomentumType } from './useMomentumTabs';
-import { MomentumResolutionStats } from './MomentumResolutionStats';
-import { MomentumDetailsTable } from './MomentumDetailsTable';
-import { MomentumAnalysis } from './MomentumAnalysis';
-import { ExpandButton } from './ExpandButton';
+import {
+  useConfirmationTabs,
+  type ConfirmationType,
+} from './useConfirmationTabs';
+import { ConfirmationAnalysis } from './ConfirmationAnalysis';
+import { ConfirmationInfoBadge } from './ConfirmationInfoBadge';
+import { ConfirmationTimeframeBadge } from './ConfirmationTimeframeBadge';
 
 function RsiMomentumConfirmationRow({
   value,
@@ -23,10 +24,8 @@ function RsiMomentumConfirmationRow({
 }: {
   value: RsiMomentumConfirmation;
   className?: string;
-  combination: RsiMomentumConbination[];
+  combination: RsiMomentumConfirmationCombination[];
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div
       className={clsx(
@@ -35,21 +34,34 @@ function RsiMomentumConfirmationRow({
       )}
     >
       <div className="flex items-start justify-between gap-4 mobile:flex-wrap">
-        <Coin coin={value.symbol} className="text-xs" imageClassName="size-6" />
-        <InformativePrice
-          className="items-end text-sm"
-          price={value.data?.current_price}
-          priceChange={value.data?.price_change_24h}
+        <Coin
+          coin={value.symbol}
+          className="text-xs"
+          imageClassName="size-10 mobile:size-6"
         />
+        <div className="flex items-center gap-6">
+          <ConfirmationTimeframeBadge combination={combination} value={value} />
+          <ConfirmationInfoBadge
+            type={
+              combination.includes('oversold') ||
+              combination.includes('bullish_divergence')
+                ? 'oversold'
+                : 'overbought'
+            }
+            value={value}
+          />
+          <ConfirmationInfoBadge
+            type={
+              combination.includes('oversold') ||
+              combination.includes('bullish_divergence')
+                ? 'bullish_divergence'
+                : 'bearish_divergence'
+            }
+            value={value}
+          />
+        </div>
       </div>
-      <div className="h-px bg-v1-content-primary/5" />
-      <MomentumResolutionStats combination={combination} value={value} />
-      <div className="h-px bg-v1-content-primary/5" />
-      {isOpen && <MomentumDetailsTable value={value} />}
-      {isOpen && <MomentumAnalysis value={value} />}
-      <div className="flex justify-center">
-        <ExpandButton value={isOpen} onClick={() => setIsOpen(p => !p)} />
-      </div>
+      <ConfirmationAnalysis value={value} />
     </div>
   );
 }
@@ -60,11 +72,11 @@ export function RsiMomentumConfirmationWidget({
   headerActions,
 }: {
   className?: string;
-  type: MomentumType;
+  type: ConfirmationType;
   headerActions?: ReactNode;
 }) {
   const { t } = useTranslation('market-pulse');
-  const tabs = useMomentumTabs(type);
+  const tabs = useConfirmationTabs(type);
   const [selectedTabKey, setSelectedTabKey] = useState<string>(tabs[0].key);
   const selectedTab = tabs.find(row => row.key === selectedTabKey);
   if (!selectedTab) throw new Error('unexpected error');
@@ -72,6 +84,10 @@ export function RsiMomentumConfirmationWidget({
     type === 'bullish'
       ? t('indicator_list.rsi.momentum.bullish_momentum_confirmation')
       : t('indicator_list.rsi.momentum.bearish_momentum_confirmation');
+  const info =
+    type === 'bullish'
+      ? t('indicator_list.rsi.momentum.bullish_momentum_confirmation_info')
+      : t('indicator_list.rsi.momentum.bearish_momentum_confirmation_info');
   const rsiMomentumConfirmations = useRsiMomentumConfirmations({
     combination: selectedTab.combination,
   });
@@ -80,6 +96,7 @@ export function RsiMomentumConfirmationWidget({
     <OverviewWidget
       className={clsx('h-[750px]', className)}
       title={title}
+      info={info}
       headerClassName="flex-wrap !justify-start"
       headerActions={
         <>
@@ -100,10 +117,7 @@ export function RsiMomentumConfirmationWidget({
       loading={rsiMomentumConfirmations.isLoading}
       empty={rsiMomentumConfirmations.data?.results.length === 0}
     >
-      <p className="text-xs text-v1-content-secondary">
-        {selectedTab.description}
-      </p>
-      <div className="mt-4 flex flex-col items-start gap-3">
+      <div className="flex flex-col items-start gap-3">
         {rsiMomentumConfirmations.data?.results.map(row => (
           <RsiMomentumConfirmationRow
             value={row}

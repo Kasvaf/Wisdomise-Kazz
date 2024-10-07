@@ -100,7 +100,7 @@ export const useRsiHeatmap = (filters: {
       .then(resp => resp.data),
   );
 
-export type RsiMomentumConbination =
+export type RsiMomentumConfirmationCombination =
   | 'bullish_divergence'
   | 'bearish_divergence'
   | 'oversold'
@@ -137,7 +137,7 @@ export interface RsiMomentumConfirmation {
 }
 
 export const useRsiMomentumConfirmations = (filters: {
-  combination: RsiMomentumConbination[];
+  combination: RsiMomentumConfirmationCombination[];
   page?: number;
   pageSize?: number;
 }) =>

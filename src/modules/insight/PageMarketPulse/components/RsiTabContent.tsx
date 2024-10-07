@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { RsiHeatmapWidget } from './RsiHeatmapWidget';
 import { RsiMomentumConfirmationWidget } from './RsiMomentumConfirmationWidget';
-import { type MomentumType } from './RsiMomentumConfirmationWidget/useMomentumTabs';
+import { type ConfirmationType } from './RsiMomentumConfirmationWidget/useConfirmationTabs';
 
 export function RsiTabContent() {
   const { t } = useTranslation('market-pulse');
   const [mobileMomentumTab, setMobileMomentumTab] =
-    useState<MomentumType>('bullish');
+    useState<ConfirmationType>('bullish');
   return (
     <div className="grid grid-cols-2 gap-6">
       <RsiHeatmapWidget className="col-span-full" />
