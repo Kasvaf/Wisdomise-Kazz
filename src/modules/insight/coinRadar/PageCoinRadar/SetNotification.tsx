@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import Button from 'shared/Button';
+import { useHasFlag } from 'api';
+import { useAlerts } from 'api/alert';
 import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
-import { useAlerts } from 'api/alert';
-import { useHasFlag } from 'api';
+import Button from 'shared/Button';
 import { NotifIsSetIcon, NotificationIcon } from './assets';
 
 export default function SetNotification({ className }: { className?: string }) {
@@ -30,11 +30,11 @@ export default function SetNotification({ className }: { className?: string }) {
   return (
     <>
       <Button
-        onClick={() => {
+        onClick={async () => {
           track('Click On', {
             place: 'social_radar_notification',
           });
-          alertActions.openSaveModal();
+          void alertActions.openSaveModal();
         }}
         variant="primary"
         className={clsx(

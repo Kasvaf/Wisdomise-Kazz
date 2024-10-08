@@ -3853,6 +3853,11 @@
   resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.2.1.tgz#c06dac2d011f36d61259aa1c6df4f0d5e28bc55e"
   integrity sha512-IwEphTD75liO8g+6taS+4oqz+nnroocNfWVHWz7j+N+ZO2vYrc6PV1q7GQhuahL0IOR7JccFTsFKQ/mb6iZWAg==
 
+"@react-oauth/google@^0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@react-oauth/google/-/google-0.12.1.tgz#b76432c3a525e9afe076f787d2ded003fcc1bee9"
+  integrity sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==
+
 "@react-spring/animated@~9.7.3":
   version "9.7.3"
   resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.7.3.tgz#4211b1a6d48da0ff474a125e93c0f460ff816e0f"
@@ -12866,6 +12871,11 @@ react-ts-tradingview-widgets@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/react-ts-tradingview-widgets/-/react-ts-tradingview-widgets-1.2.3.tgz#8b73199058412ebf6dcab3e13eb4ef66d9063845"
   integrity sha512-PEQeU2RI6AF+TOH5GPHaAKxpPlficps8EFWdHRbLwqTua2NYmsgC8VdffAiLzeWlfCpKQR/Ukx+z7zagpPT9lw==
+
+react-verification-input@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-verification-input/-/react-verification-input-4.1.2.tgz#ff53b07cf5b6944bb7c0b1fcfad4d5ac9b9b7c64"
+  integrity sha512-lCEpso4S0SS7zLhDxXo/iuycEfJP7kj1glTPDEb8rYehtovRTG4wegg/naloRzWuM+EWfmfN0/4/xKNsOl5zuQ==
 
 react-youtube@^10.1.0:
   version "10.1.0"

@@ -18,13 +18,26 @@ function unparam(
   return path;
 }
 
+const defaultFlags = [
+  '/insight',
+  '/insight/overview',
+  '/insight/coin-radar?side-suggestion',
+  '/insight/coin-radar',
+  '/insight/market-pulse',
+  '/insight/alerts?price',
+  '/insight/alerts?coinradar',
+  '/menu',
+];
+
 export function useHasFlag() {
   const loc = useLocation();
   const acc = useAccountQuery();
   const params = useParams<Record<string, string>>();
   const flagsObj = useMemo(
     () =>
-      Object.fromEntries(acc.data?.features.map(flag => [flag, true]) ?? []),
+      Object.fromEntries(
+        (acc.data?.features ?? defaultFlags).map(flag => [flag, true]) ?? [],
+      ),
     [acc.data?.features],
   );
 

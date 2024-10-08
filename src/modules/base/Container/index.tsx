@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
-import AuthGuard from 'modules/auth/AuthGuard';
 import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import useIsMobile from 'utils/useIsMobile';
 import PageWrapper from '../PageWrapper';
+import AuthGuard from '../auth/AuthGuard';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import BottomNavBar from './BottomNavBar';

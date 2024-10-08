@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
-import { SUCCESSFUL_CHECKOUT_KEY } from 'modules/auth/constants';
 import { useSubscription } from 'api';
 import { ReactComponent as CongratsBG } from './images/congrats.svg';
 import { ReactComponent as CongratsLogo } from './images/congrats-logo.svg';
+
+export const SUCCESSFUL_CHECKOUT_KEY = 'successful_checkout';
 
 export default function SuccessfulPaymentMessage() {
   const navigate = useNavigate();

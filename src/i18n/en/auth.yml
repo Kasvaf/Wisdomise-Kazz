@@ -1,4 +1,21 @@
-footer: © 2024 Wisdomise. All rights reserved.
+login:
+  error-code: Invalid code
+  error-email: Email is invalid
+  notice: >-
+    By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
+    Service</3>.
+  step-1:
+    title: Sign In / Sign Up
+    subtitle: >-
+      Sign In or Sign Up to explore Wisdomise Pro and enjoy powerful trading
+      tools!
+    field-email: Email
+  step-2:
+    title: Enter Magic Code
+    subtitle: Enter the 6-digit Magic code we sent to {{email}} to continue.
+    btn-change-email: Change Email Address
+    btn-resend: Resend Code
+    field-nonce: 6-Digit Magic Code
 page-referral:
   title: Referral Program
   all-time: all time
@@ -10,37 +27,3 @@ page-referral:
   subscribed-friends: Subscribed Friends
   wisdomise-revenue: Wisdomise revenue from your referral
   your-profit: Your profit
-secondary:
-  btn-submit:
-    label: Submit
-    loading: Submitting...
-  contract:
-    label: You are acknowledging the <1>{{title}}</1>.
-    btn-check: I have read and accept the {{title}}.
-    required-error: You should accept the {{title}} in order to continue.
-  country:
-    label: Country
-    placeholder: Your country of residence
-    not-empty: Country can't be empty
-  email-verified: your email has been verified!
-  invitation:
-    label: Invitation code <1>(Optional)</1>
-    placeholder: Invitation code
-    not-found: Referrer not found
-  nickname:
-    label: Nickname
-    placeholder: Your nickname
-    length-limit: Ensure this field has no more than 32 characters.
-    not-empty: Nickname can't be empty
-  welcome: Welcome to <b>Wisdomise</b>
-verify-email:
-  title: Verify <b>Your Email</b>
-  btn-resend:
-    label: Resend Verification Email
-    loading: Resending Verification Email ...
-  error: your email address could not be verified
-  error-title: Error
-  link-sent: >-
-    A link has been sent to your email <1>{{email}}</1><br> To verify your
-    account, please click on the link.
-  notification-email-sent: Verification Email Sent Successfully.

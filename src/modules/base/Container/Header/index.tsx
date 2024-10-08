@@ -45,8 +45,10 @@ const Header: React.FC<
             <LanguageSelector />
             {RouterBaseName ? (
               <BranchSelector />
+            ) : pathname === '/menu' ? (
+              <BtnLiveSupport />
             ) : (
-              pathname === '/menu' && <BtnLiveSupport />
+              <ProfileMenu />
             )}
           </>
         ) : (

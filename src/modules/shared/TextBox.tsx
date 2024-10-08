@@ -13,7 +13,7 @@ interface Props {
   placeholder?: string;
   inputClassName?: string;
   error?: string | boolean;
-  type?: 'text' | 'number' | 'tel';
+  type?: 'text' | 'number' | 'tel' | 'email';
   filter?: (v: string) => string;
   suffix?: string | React.ReactNode;
   noSuffixPad?: boolean;

@@ -2,12 +2,12 @@ import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
-import Button from 'shared/Button';
-import Icon from 'shared/Icon';
+import { useHasFlag } from 'api';
 import { type Alert, useAlerts } from 'api/alert';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
-import { useHasFlag } from 'api';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 
 export function PriceAlertButton({
   className,

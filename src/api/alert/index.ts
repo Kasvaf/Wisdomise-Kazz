@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type PageResponse } from '../types/page';
 import {
   type Alert,
@@ -16,14 +17,17 @@ export const useAlerts = <D extends AlertDataSource>(
   dataSource: D,
   filters?: Partial<AlertParams<D>>,
 ) => {
+  const isLoggedIn = useIsLoggedIn();
   const filterKeys = filters
     ? (Object.keys(filters) as Array<keyof typeof filters>)
     : [];
   if (filterKeys.length > 1)
     throw new Error('useAlerts method only support one filter!');
   return useQuery(
-    ['alerts', dataSource, filters],
+    ['alerts', dataSource, filters, isLoggedIn],
     (): Promise<Array<Alert<D>>> => {
+      if (!isLoggedIn) return Promise.resolve([]);
+
       if (dataSource === 'custom:coin_radar_notification') {
         const fetchIsSubbed = () =>
           axios
