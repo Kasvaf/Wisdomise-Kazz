@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { type ReactNode, useState } from 'react';
+import { type ComponentProps, type ReactNode, useMemo, useState } from 'react';
 import { clsx } from 'clsx';
 import {
-  type RsiMomentumConfirmation,
-  useRsiMomentumConfirmations,
-  type RsiMomentumConfirmationCombination,
+  type Indicator,
+  useIndicatorConfirmations,
+  type IndicatorConfirmation,
+  type IndicatorConfirmationCombination,
 } from 'api/market-pulse';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
@@ -17,15 +18,45 @@ import { ConfirmationAnalysis } from './ConfirmationAnalysis';
 import { ConfirmationInfoBadge } from './ConfirmationInfoBadge';
 import { ConfirmationTimeframeBadge } from './ConfirmationTimeframeBadge';
 
-function RsiMomentumConfirmationRow({
+function ConfirmationRow<I extends Indicator>({
+  indicator,
   value,
   className,
   combination,
+  type,
 }: {
-  value: RsiMomentumConfirmation;
+  indicator: I;
+  value: IndicatorConfirmation<I>;
+  combination: Array<IndicatorConfirmationCombination<I>>;
+  type: ConfirmationType;
   className?: string;
-  combination: RsiMomentumConfirmationCombination[];
 }) {
+  const infoBadges = useMemo(() => {
+    let returnValue: Array<ComponentProps<typeof ConfirmationInfoBadge>> = [];
+    returnValue =
+      type === 'bullish'
+        ? [
+            {
+              value,
+              type: indicator === 'rsi' ? 'oversold' : 'macd_cross_up',
+            },
+            {
+              value,
+              type: 'bullish_divergence',
+            },
+          ]
+        : [
+            {
+              value,
+              type: indicator === 'rsi' ? 'overbought' : 'macd_cross_down',
+            },
+            {
+              value,
+              type: 'bullish_divergence',
+            },
+          ];
+    return returnValue;
+  }, [value, type, indicator]);
   return (
     <div
       className={clsx(
@@ -40,25 +71,17 @@ function RsiMomentumConfirmationRow({
           imageClassName="size-10 mobile:size-6"
         />
         <div className="flex items-center gap-6">
-          <ConfirmationTimeframeBadge combination={combination} value={value} />
-          <ConfirmationInfoBadge
-            type={
-              combination.includes('oversold') ||
-              combination.includes('bullish_divergence')
-                ? 'oversold'
-                : 'overbought'
-            }
+          <ConfirmationTimeframeBadge
+            indicator={indicator}
+            combination={combination}
             value={value}
           />
-          <ConfirmationInfoBadge
-            type={
-              combination.includes('oversold') ||
-              combination.includes('bullish_divergence')
-                ? 'bullish_divergence'
-                : 'bearish_divergence'
-            }
-            value={value}
-          />
+          {infoBadges.map((badgeProps, i) => (
+            <ConfirmationInfoBadge
+              key={`${indicator}-${type}-${i}`}
+              {...badgeProps}
+            />
+          ))}
         </div>
       </div>
       <ConfirmationAnalysis value={value} />
@@ -66,29 +89,36 @@ function RsiMomentumConfirmationRow({
   );
 }
 
-export function RsiMomentumConfirmationWidget({
+export function ConfirmationWidget<I extends Indicator>({
   className,
+  indicator,
   type,
   headerActions,
 }: {
   className?: string;
+  indicator: I;
   type: ConfirmationType;
   headerActions?: ReactNode;
 }) {
   const { t } = useTranslation('market-pulse');
-  const tabs = useConfirmationTabs(type);
+  const tabs = useConfirmationTabs(indicator, type);
   const [selectedTabKey, setSelectedTabKey] = useState<string>(tabs[0].key);
   const selectedTab = tabs.find(row => row.key === selectedTabKey);
   if (!selectedTab) throw new Error('unexpected error');
   const title =
     type === 'bullish'
-      ? t('indicator_list.rsi.momentum.bullish_momentum_confirmation')
-      : t('indicator_list.rsi.momentum.bearish_momentum_confirmation');
+      ? t('common.bullish_momentum_confirmation')
+      : t('common.bearish_momentum_confirmation');
   const info =
     type === 'bullish'
-      ? t('indicator_list.rsi.momentum.bullish_momentum_confirmation_info')
-      : t('indicator_list.rsi.momentum.bearish_momentum_confirmation_info');
-  const rsiMomentumConfirmations = useRsiMomentumConfirmations({
+      ? indicator === 'rsi'
+        ? t('indicator_list.rsi.bullish_info')
+        : t('indicator_list.macd.bullish_info')
+      : indicator === 'rsi'
+      ? t('indicator_list.rsi.bearish_info')
+      : t('indicator_list.macd.bearish_info');
+  const confirmations = useIndicatorConfirmations({
+    indicator,
     combination: selectedTab.combination,
   });
 
@@ -114,15 +144,17 @@ export function RsiMomentumConfirmationWidget({
           />
         </>
       }
-      loading={rsiMomentumConfirmations.isLoading}
-      empty={rsiMomentumConfirmations.data?.results.length === 0}
+      loading={confirmations.isLoading}
+      empty={confirmations.data?.results.length === 0}
     >
       <div className="flex flex-col items-start gap-3">
-        {rsiMomentumConfirmations.data?.results.map(row => (
-          <RsiMomentumConfirmationRow
+        {confirmations.data?.results.map(row => (
+          <ConfirmationRow
             value={row}
             key={row.symbol.slug}
             combination={selectedTab.combination}
+            indicator={indicator}
+            type={type}
           />
         ))}
       </div>

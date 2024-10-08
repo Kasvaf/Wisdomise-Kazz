@@ -4,14 +4,17 @@ import { clsx } from 'clsx';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { Tooltip } from 'antd';
 import {
-  type RsiMomentumConfirmationCombination,
-  type RsiMomentumConfirmation,
+  type Indicator,
+  type IndicatorConfirmationCombination,
+  type IndicatorConfirmation,
 } from 'api/market-pulse';
 import Icon from 'shared/Icon';
 import { ReactComponent as OversoldIcon } from './oversold.svg';
 import { ReactComponent as OverboughtIcon } from './overbought.svg';
 import { ReactComponent as BearishIcon } from './bearish.svg';
 import { ReactComponent as BullishIcon } from './bullish.svg';
+import { ReactComponent as CrossupIcon } from './crossup.svg';
+import { ReactComponent as CrossdownIcon } from './crossdown.svg';
 
 function ConfirmationResolutionRow({ value }: { value: string[] }) {
   const { t } = useTranslation('market-pulse');
@@ -37,19 +40,24 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
   );
 }
 
-export function ConfirmationInfoBadge({
+export function ConfirmationInfoBadge<I extends Indicator>({
   type,
   value,
 }: {
-  type: RsiMomentumConfirmationCombination;
-  value: RsiMomentumConfirmation;
+  type: IndicatorConfirmationCombination<I>;
+  value: IndicatorConfirmation<I>;
 }) {
   const { t } = useTranslation('market-pulse');
 
   const timeframes = useMemo(
     () =>
       [
-        ...Object.keys(value.rsi_values ?? {}),
+        ...Object.keys(
+          (value as IndicatorConfirmation<'rsi'>)?.rsi_values ?? {},
+        ),
+        ...Object.keys(
+          (value as IndicatorConfirmation<'macd'>)?.macd_values ?? {},
+        ),
         ...Object.keys(value.divergence_types ?? {}),
       ]
         .filter((key, i, self) => self.indexOf(key) === i)
@@ -72,29 +80,51 @@ export function ConfirmationInfoBadge({
     resolutions: string[];
     textColor: string;
   }>(() => {
-    if (type === 'oversold') {
+    const typeAsRsi = type as IndicatorConfirmationCombination<'rsi'>;
+    const typeAsMacd = type as IndicatorConfirmationCombination<'macd'>;
+    const valueAsRsi = value as IndicatorConfirmation<'rsi'>;
+    const valueAsMacd = value as IndicatorConfirmation<'macd'>;
+    if (typeAsRsi === 'oversold') {
       return {
         icon: OversoldIcon,
-        title: t('indicator_list.rsi.momentum.oversold.badge'),
-        fullTitle: t('indicator_list.rsi.momentum.oversold.full_badge'),
+        title: t('indicator_list.rsi.oversold.badge'),
+        fullTitle: t('indicator_list.rsi.oversold.full_badge'),
         textColor: 'text-v1-content-brand',
-        resolutions: value.oversold_resolutions ?? [],
+        resolutions: valueAsRsi.oversold_resolutions ?? [],
       };
     }
-    if (type === 'overbought') {
+    if (typeAsRsi === 'overbought') {
       return {
         icon: OverboughtIcon,
-        title: t('indicator_list.rsi.momentum.overbought.badge'),
-        fullTitle: t('indicator_list.rsi.momentum.overbought.full_badge'),
+        title: t('indicator_list.rsi.overbought.badge'),
+        fullTitle: t('indicator_list.rsi.overbought.full_badge'),
         textColor: 'text-v1-content-notice',
-        resolutions: value.overbought_resolutions ?? [],
+        resolutions: valueAsRsi.overbought_resolutions ?? [],
+      };
+    }
+    if (typeAsMacd === 'macd_cross_up') {
+      return {
+        icon: CrossupIcon,
+        title: t('indicator_list.macd.crossup.badge'),
+        fullTitle: t('indicator_list.macd.crossup.full_badge'),
+        textColor: 'text-v1-content-notice',
+        resolutions: valueAsMacd.macd_cross_up_resolutions ?? [],
+      };
+    }
+    if (typeAsMacd === 'macd_cross_down') {
+      return {
+        icon: CrossdownIcon,
+        title: t('indicator_list.macd.crossdown.badge'),
+        fullTitle: t('indicator_list.macd.crossdown.full_badge'),
+        textColor: 'text-v1-content-notice',
+        resolutions: valueAsMacd.macd_cross_down_resolutions ?? [],
       };
     }
     if (type === 'bearish_divergence') {
       return {
         icon: BearishIcon,
-        title: t('indicator_list.rsi.momentum.bearish.badge'),
-        fullTitle: t('indicator_list.rsi.momentum.bearish.full_badge'),
+        title: t('common.bearish.badge'),
+        fullTitle: t('common.bearish.full_badge'),
         textColor: 'text-v1-content-negative',
         resolutions: value.bearish_divergence_resolutions ?? [],
       };
@@ -102,8 +132,8 @@ export function ConfirmationInfoBadge({
     if (type === 'bullish_divergence') {
       return {
         icon: BullishIcon,
-        title: t('indicator_list.rsi.momentum.bullish.badge'),
-        fullTitle: t('indicator_list.rsi.momentum.bullish.full_badge'),
+        title: t('common.bullish.badge'),
+        fullTitle: t('common.bullish.full_badge'),
         textColor: 'text-v1-content-positive',
         resolutions: value.bullish_divergence_resolutions ?? [],
       };

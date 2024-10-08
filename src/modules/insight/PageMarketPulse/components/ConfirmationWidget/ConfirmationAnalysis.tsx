@@ -1,10 +1,10 @@
-import { type RsiMomentumConfirmation } from 'api/market-pulse';
+import { type Indicator, type IndicatorConfirmation } from 'api/market-pulse';
 import { ReactComponent as Logo } from './logo.svg';
 
-export function ConfirmationAnalysis({
+export function ConfirmationAnalysis<I extends Indicator>({
   value,
 }: {
-  value: RsiMomentumConfirmation;
+  value: IndicatorConfirmation<I>;
 }) {
   if (!value.analysis) return null;
   return (

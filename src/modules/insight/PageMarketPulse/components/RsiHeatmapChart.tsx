@@ -3,7 +3,10 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { Tooltip } from 'antd';
 import { useTimeout } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
-import { type RsiHeatmapResolution, type RsiHeatmap } from 'api/market-pulse';
+import {
+  type IndicatorHeatmapResolution,
+  type IndicatorHeatmap,
+} from 'api/market-pulse';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
@@ -115,8 +118,8 @@ function CoinPoint({
   value,
   resolution,
 }: {
-  value: RsiHeatmap;
-  resolution: RsiHeatmapResolution;
+  value: IndicatorHeatmap<'rsi'>;
+  resolution: IndicatorHeatmapResolution;
 }) {
   const { t } = useTranslation('market-pulse');
   const [isReady, setIsReady] = useState(false);
@@ -258,8 +261,8 @@ export function RsiHeatmapChart({
   resolution,
 }: {
   className?: string;
-  data: RsiHeatmap[];
-  resolution: RsiHeatmapResolution;
+  data: Array<IndicatorHeatmap<'rsi'>>;
+  resolution: IndicatorHeatmapResolution;
 }) {
   const sortedData = useMemo(
     () =>
