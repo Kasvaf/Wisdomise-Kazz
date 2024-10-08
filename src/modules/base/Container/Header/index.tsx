@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { RouterBaseName } from 'config/constants';
 import useIsMobile from 'utils/useIsMobile';
 import BranchSelector from './BranchSelector';
@@ -22,7 +21,6 @@ const Header: React.FC<
 > = ({ showSiblings, onShowSiblings, className, children }) => {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
-  const isLoggedIn = useIsLoggedIn();
 
   return (
     <div
@@ -59,7 +57,7 @@ const Header: React.FC<
             <OnBoardingMessageButton />
             <LanguageSelector />
             <WalletDropdown />
-            {isLoggedIn && <ProfileMenu />}
+            <ProfileMenu />
           </>
         )}
       </div>

@@ -3,7 +3,7 @@ import { type MouseEventHandler, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
-import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
+import { bxChevronDown, bxChevronUp, bxLogIn } from 'boxicons-quasar';
 import { useHasFlag } from 'api';
 import { useLogoutMutation } from 'api/auth';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
@@ -121,7 +121,7 @@ const MenuItemsContent: React.FC<{
           }) satisfies MouseEventHandler<HTMLAnchorElement>,
         }
       : {
-          icon: <LogoutIcon />,
+          icon: <Icon name={bxLogIn} />,
           label: t('base:user.sign-in'),
           to: '/auth/login',
           onClick: (e => {
