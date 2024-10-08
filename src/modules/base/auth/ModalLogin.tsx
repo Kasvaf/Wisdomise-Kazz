@@ -104,14 +104,7 @@ const ModalLogin: React.FC<{
   const emailContent = (
     <div className="mr-6 flex grow flex-col">
       <h1 className="mb-5 text-xl font-medium">{t('login.step-1.title')}</h1>
-      <p className="mb-9 text-xs text-white/70">
-        <Trans ns="auth" i18nKey="login.step-1.subtitle">
-          <span className="text-white">Log In</span> to your account to explore
-          Wisdomise Pro and enjoy a
-          <span className="text-white">14-day free trial</span> of powerful
-          trading tools!
-        </Trans>
-      </p>
+      <p className="mb-9 text-xs text-white/70">{t('login.step-1.subtitle')}</p>
 
       <div>
         <TextBox
