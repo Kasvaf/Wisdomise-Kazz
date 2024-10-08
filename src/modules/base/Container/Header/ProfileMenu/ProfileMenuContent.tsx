@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { bxChevronRight, bxLinkExternal } from 'boxicons-quasar';
 import { type PropsWithChildren } from 'react';
 import { useAccountQuery, useSubscription, useReferralStatusQuery } from 'api';
+import { useLogoutMutation } from 'api/auth';
 import { openHubSpot } from 'config/hubSpot';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
@@ -81,6 +82,7 @@ const ProfileMenuContent = () => {
   const subscription = useSubscription();
   const { data: account } = useAccountQuery();
   const isMobile = useIsMobile();
+  const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
 
   return (
     <div className="text-white">
@@ -140,6 +142,11 @@ const ProfileMenuContent = () => {
         contentClassName="text-error gap-3"
         variant="secondary"
         to="/auth/logout"
+        loading={loggingOut}
+        onClick={e => {
+          e.preventDefault();
+          void mutateAsync({});
+        }}
       >
         <SignOutIcon />
         {t('user.sign-out')}

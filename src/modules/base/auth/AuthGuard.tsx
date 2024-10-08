@@ -1,18 +1,22 @@
-import { useEffect, type PropsWithChildren, useState } from 'react';
+import { useEffect, type PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useAccountQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { analytics } from 'config/segment';
 import { useHubSpot } from 'config/hubSpot';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
+import OneTapLogin from './OneTapLogin';
+import { useIsLoggedIn } from './jwt-store';
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
 export default function AuthGuard({ children }: PropsWithChildren) {
   useHubSpot();
   const navigate = useNavigate();
-  const { data: account } = useAccountQuery();
-  const [loading, setLoading] = useState(true);
+  const { data: account, isLoading } = useAccountQuery();
 
   useEffect(() => {
     const email = account?.email;
@@ -27,17 +31,18 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   }, [account?.email, account?.wallet_address]);
 
   useEffect(() => {
-    if (!account || !loading) return;
-    if (!account.info.email_verified) {
-      navigate('/auth/verify-email');
-    } else if (account.register_status === 'PRIMARY') {
-      navigate('/auth/secondary-signup');
-    } else {
-      setLoading(false);
-      configCookieBot();
-      customerIo.loadScript();
-    }
-  }, [loading, account, navigate]);
+    if (isLoading) return;
+    configCookieBot();
+    customerIo.loadScript();
+  }, [account, navigate, isLoading]);
 
-  return loading ? <Splash /> : <>{children}</>;
+  const isLoggedIn = useIsLoggedIn();
+  return isLoading ? (
+    <Splash />
+  ) : (
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      {!isLoggedIn && <OneTapLogin />}
+      {children}
+    </GoogleOAuthProvider>
+  );
 }

@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type Account } from './types/UserInfoResponse';
 
 export function useAccountQuery() {
-  return useQuery<Account>(
-    ['account'],
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery<Account | null>(
+    ['account', isLoggedIn],
     async () => {
+      // if (!isLoggedIn) return null;
       const { data } = await axios.get<Account>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
       );

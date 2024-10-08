@@ -23,11 +23,11 @@ export default function InsightAlertButton({
   return (
     <>
       <Button
-        onClick={() => {
+        onClick={async () => {
           track('Click On', {
             place: 'social_radar_notification',
           });
-          alertActions.openSaveModal();
+          void alertActions.openSaveModal();
         }}
         variant="primary"
         className={clsx('h-10 w-auto !bg-white !py-1 mobile:w-full', className)}

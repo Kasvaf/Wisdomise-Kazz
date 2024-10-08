@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useChatAppProfile, useCreateChatSessionMutation } from 'api';
-import { getJwtToken } from 'modules/auth/jwt-store';
+import { getJwtToken } from 'modules/base/auth/jwt-store';
 import { CHATAPP_ORIGIN } from 'config/constants';
 import {
   type AthenaResponse,

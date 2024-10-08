@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import normalizePair from 'api/normalizePair';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type InvestorAssetStructures } from '../types/investorAssetStructure';
 
-export const useInvestorAssetStructuresQuery = () =>
-  useQuery<InvestorAssetStructures>(
-    ['ias'],
+export const useInvestorAssetStructuresQuery = () => {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery<InvestorAssetStructures | null>(
+    ['ias', isLoggedIn],
     async () => {
+      if (!isLoggedIn) return null;
+
       const { data } = await axios.get<InvestorAssetStructures>(
         '/ias/investor-asset-structures',
       );
@@ -29,12 +33,13 @@ export const useInvestorAssetStructuresQuery = () =>
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: (data?: InvestorAssetStructures) =>
-        data?.[0] != null && data?.[0].financial_product_instances.length > 0
+      refetchInterval: (data?: InvestorAssetStructures | null) =>
+        data?.[0] != null && data?.[0]?.financial_product_instances.length > 0
           ? 3000
           : false,
     },
   );
+};
 
 export function useMainQuote() {
   const ias = useInvestorAssetStructuresQuery();

@@ -3,6 +3,20 @@ banner:
   stay-connected: 保持連接
 email-address: 電子郵件地址
 footer: © 2024 Wisdomise。保留所有權利。
+login:
+  error-code: 代码无效
+  error-email: 电子邮件无效
+  notice: 继续，即表示您同意我们的 <1>隐私政策</1> 和 <3>服务条款</3>。
+  step-1:
+    field-email: 電子郵件
+    subtitle: 登录或注册探索 Wisdomise Pro 并享受强大的交易工具！
+    title: 登录/注册
+  step-2:
+    btn-change-email: 更改电子邮件地址
+    btn-resend: 重新发送代码
+    field-nonce: 6 位魔法代码
+    subtitle: 输入我们发送至的 6 位 Magic 代码 {{email}} 继续。
+    title: 输入魔法码
 page-referral:
   all-time: 所有時間
   friends-invited: 邀請的朋友

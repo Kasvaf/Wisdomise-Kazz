@@ -3,6 +3,20 @@ banner:
   stay-connected: 通信を継続
 email-address: メールアドレス
 footer: © 2024 Wisdomise. All rights reserved.
+login:
+  error-code: 無効なコード
+  error-email: 電子メールが無効です
+  notice: 続行すると、次のことに同意したことになります <1>プライバシーポリシー</1> そして <3>利用規約</3>。
+  step-1:
+    field-email: Eメール
+    subtitle: サインインまたはサインアップして Wisdomise Pro を探索し、強力な取引ツールをお楽しみください。
+    title: ログイン/登録
+  step-2:
+    btn-change-email: メールアドレス変更
+    btn-resend: コードを再送信
+    field-nonce: 6桁のマジックコード
+    subtitle: に送信した 6 桁の Magic コードを入力してください {{email}} 続けます。
+    title: マジックコードを入力してください
 page-referral:
   all-time: 歴上→累計
   friends-invited: 紹介者数

@@ -1,12 +1,16 @@
 import { clsx } from 'clsx';
+import { type MouseEventHandler, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
-import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
-import { useState } from 'react';
+import { bxChevronDown, bxChevronUp, bxLogIn } from 'boxicons-quasar';
 import { useHasFlag } from 'api';
+import { useLogoutMutation } from 'api/auth';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
+import Spin from 'shared/Spin';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 import { ReactComponent as HelpIcon } from './help-icon.svg';
@@ -89,10 +93,14 @@ const MenuItemsContent: React.FC<{
 }> = ({ collapsed }) => {
   const hasFlag = useHasFlag();
   const { t } = useTranslation();
+  const isLoggedIn = useIsLoggedIn();
   const { items: MenuItems } = useMenuItems();
 
   const { pathname } = useLocation();
   const [activeMenu, setActiveMenu] = useState(pathname);
+
+  const [ModalLogin, showModalLogin] = useModalLogin();
+  const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
 
   const extraItems = [
     {
@@ -100,12 +108,28 @@ const MenuItemsContent: React.FC<{
       label: 'Help & Guide',
       to: 'https://help.wisdomise.com/',
     },
-    {
-      icon: <LogoutIcon />,
-      label: t('base:user.sign-out'),
-      to: '/auth/logout',
-      className: 'text-error',
-    },
+    isLoggedIn
+      ? {
+          icon: <LogoutIcon />,
+          label: t('base:user.sign-out'),
+          to: '/auth/logout',
+          className: 'text-error',
+          loading: loggingOut,
+          onClick: (e => {
+            e.preventDefault();
+            void mutateAsync({});
+          }) satisfies MouseEventHandler<HTMLAnchorElement>,
+        }
+      : {
+          icon: <Icon name={bxLogIn} />,
+          label: t('base:user.sign-in'),
+          to: '/auth/login',
+          onClick: (e => {
+            e.preventDefault();
+            void showModalLogin();
+          }) satisfies MouseEventHandler<HTMLAnchorElement>,
+          className: 'text-success',
+        },
   ];
   return (
     <>
@@ -123,13 +147,15 @@ const MenuItemsContent: React.FC<{
         ))}
       </div>
 
+      {ModalLogin}
       <div className="grow" />
       <div className="mt-12 text-white">
         {extraItems.map(item => (
           <NavLink
             key={item.to}
-            to={item.to}
-            target={/^https?:\/\//.test(item.to) ? '_blank' : undefined}
+            onClick={item.onClick}
+            to={item.to ?? ''}
+            target={/^https?:\/\//.test(item.to ?? '') ? '_blank' : undefined}
             className={clsx(
               'mb-4 flex h-12 cursor-pointer items-center rounded-xl text-sm',
               collapsed ? 'justify-center' : 'justify-between px-4',
@@ -139,7 +165,12 @@ const MenuItemsContent: React.FC<{
           >
             <div className="flex items-center justify-start">
               {item.icon}
-              {!collapsed && <p className="ml-2">{item.label}</p>}
+              {!collapsed && (
+                <p className="ml-2 flex items-center">
+                  {item.label}
+                  {item.loading && <Spin className="ml-1" />}
+                </p>
+              )}
             </div>
           </NavLink>
         ))}

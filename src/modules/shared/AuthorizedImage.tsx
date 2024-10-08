@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getJwtToken } from 'modules/auth/jwt-store';
+import { getJwtToken } from 'modules/base/auth/jwt-store';
 
 export default function AuthorizedImage({
   onError,
