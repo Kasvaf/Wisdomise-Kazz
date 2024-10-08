@@ -6,6 +6,7 @@ import {
   useSaveAlert,
 } from 'api/alert';
 import { track } from 'config/segment';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { AlertSaveModal } from '../AlertSaveModal';
 import {
   useAlertDeleteConfirm,
@@ -31,6 +32,7 @@ export const useAlertActions = <D extends AlertDataSource>(
     }
   };
 
+  const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   return useMemo(
     () => ({
       content: (
@@ -52,11 +54,13 @@ export const useAlertActions = <D extends AlertDataSource>(
                 .then(() => showSaveToast())
             }
           />
+          {ModalLogin}
           {deleteConfirmModal}
           {saveToast}
         </>
       ),
-      openSaveModal: () => setIsModalOpen(true),
+      openSaveModal: async () =>
+        (await ensureAuthenticated()) && setIsModalOpen(true),
       delete: () =>
         showDeleteConfirm().then(confirmed => {
           if (!confirmed) return;
@@ -66,8 +70,10 @@ export const useAlertActions = <D extends AlertDataSource>(
       isSaving: saveAlertMutation.isLoading,
     }),
     [
+      ModalLogin,
       deleteAlertMutation,
       deleteConfirmModal,
+      ensureAuthenticated,
       initialAlert,
       isModalOpen,
       saveAlertMutation,

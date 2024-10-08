@@ -1,5 +1,5 @@
-import { useIsLoggedIn } from './jwt-store';
-import { useModalLogin } from './ModalLogin';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 
 const useEnsureAuthenticated = () => {
   const isLoggedIn = useIsLoggedIn();

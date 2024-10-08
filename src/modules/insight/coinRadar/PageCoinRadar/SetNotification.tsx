@@ -5,7 +5,6 @@ import { useAlerts } from 'api/alert';
 import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
-import useEnsureAuthenticated from 'modules/base/auth/useEnsureAuthenticated';
 import Button from 'shared/Button';
 import { NotifIsSetIcon, NotificationIcon } from './assets';
 
@@ -26,18 +25,16 @@ export default function SetNotification({ className }: { className?: string }) {
     searchParam: 'open-alert',
   });
 
-  const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   if (!hasFlag('/insight/alerts?coinradar')) return null;
 
   return (
     <>
       <Button
         onClick={async () => {
-          if (!(await ensureAuthenticated())) return;
           track('Click On', {
             place: 'social_radar_notification',
           });
-          alertActions.openSaveModal();
+          void alertActions.openSaveModal();
         }}
         variant="primary"
         className={clsx(
@@ -52,7 +49,6 @@ export default function SetNotification({ className }: { className?: string }) {
           isLoading && 'opacity-10',
         )}
       >
-        {ModalLogin}
         {isSubscribed || isLoading ? (
           <NotifIsSetIcon className="shrink-0" />
         ) : (

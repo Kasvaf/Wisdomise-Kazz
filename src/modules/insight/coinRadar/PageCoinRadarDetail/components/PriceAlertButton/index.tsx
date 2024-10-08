@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
 import { useHasFlag } from 'api';
 import { type Alert, useAlerts } from 'api/alert';
-import useEnsureAuthenticated from 'modules/base/auth/useEnsureAuthenticated';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import Button from 'shared/Button';
@@ -40,20 +39,16 @@ export function PriceAlertButton({
     searchParam: 'open-alert',
   });
 
-  const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   if (!hasFlag('/insight/alerts?price')) return null;
 
   return (
     <>
       <Button
-        onClick={async () =>
-          (await ensureAuthenticated()) && alertActions.openSaveModal()
-        }
+        onClick={() => alertActions.openSaveModal()}
         variant={initialAlert.key ? 'alternative' : 'primary'}
         className={clsx('h-10 w-auto !py-1 mobile:!px-4', className)}
         contentClassName="flex gap-0"
       >
-        {ModalLogin}
         <Icon size={20} name={bxBell} className="mr-1" />
         {initialAlert.key
           ? t('set-price-notification.open-existing-modal-btn')
