@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { bxLeftArrowAlt, bxRightArrowAlt } from 'boxicons-quasar';
+import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import { MAIN_LANDING } from 'config/constants';
 import Icon from 'shared/Icon';
 import Logo from 'assets/logo-horizontal.svg';
@@ -35,10 +35,10 @@ const SideMenu: React.FC<{
               <img className="h-12" src={Logo} alt="logo" />
             </a>
             <button
-              className="rounded-xl bg-white/[.03] p-2 text-white hover:bg-white/10 active:bg-black/5"
+              className="rounded-xl bg-white/[.02] p-2 text-white hover:bg-white/10 active:bg-black/5"
               onClick={onCollapseClick}
             >
-              <Icon name={collapsed ? bxRightArrowAlt : bxLeftArrowAlt} />
+              <Icon name={collapsed ? bxChevronRight : bxChevronLeft} />
             </button>
           </div>
 
