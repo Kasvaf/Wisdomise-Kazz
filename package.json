@@ -15,7 +15,8 @@
     "execute-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
     "prepare": "husky install",
     "i18n": "i18next",
-    "sync-locize": "i18next && node sync-locize.js"
+    "sync-locize": "i18next && node sync-locize.js",
+    "generate-sitemap": "node generate-sitemap.js"
   },
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
@@ -53,6 +54,7 @@
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
     "react-ga4": "^2.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.51.4",
     "react-i18next": "^13.3.1",
     "react-qr-code": "^2.0.11",
@@ -111,6 +113,7 @@
     "postcss-preset-env": "^8.2.0",
     "prettier": "3.0.2",
     "prettier-plugin-tailwindcss": "^0.5.3",
+    "sitemap": "^8.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "*",
     "vite": "^4.2.0",
