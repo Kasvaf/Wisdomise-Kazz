@@ -28,7 +28,7 @@ export function PageCoinRadarDetailMeta({ slug }: { slug: string }) {
       {coinName && (
         <>
           <title>
-            {coinName} to USDT Live Price + Indicators, Prediction, Analysis
+            {coinName} Live Price + Indicators, Prediction, Analysis
           </title>
           <meta
             name="description"
