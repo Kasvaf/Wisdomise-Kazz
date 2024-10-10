@@ -12,6 +12,7 @@ import { AthenaFloatProvider } from './AthenaFloat/AthenaFloatProvider';
 import AthenaFloat from './AthenaFloat';
 import ScrollToTop from './ScrollToTop';
 import { usePageSiblings } from './Header/Breadcrumb';
+import { GeneralMeta } from './GeneralMeta';
 
 const Container = () => {
   const isMobile = useIsMobile();
@@ -22,6 +23,7 @@ const Container = () => {
 
   return (
     <AuthGuard>
+      <GeneralMeta />
       <AthenaFloatProvider>
         <main
           className="relative mx-auto max-w-[2304px] bg-page"
