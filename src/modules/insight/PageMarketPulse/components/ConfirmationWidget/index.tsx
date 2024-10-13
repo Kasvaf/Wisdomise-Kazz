@@ -1,5 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { type ComponentProps, type ReactNode, useMemo, useState } from 'react';
+import {
+  type ComponentProps,
+  type ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { clsx } from 'clsx';
 import {
   type Indicator,
@@ -98,6 +104,7 @@ export function ConfirmationWidget<I extends Indicator>({
 }) {
   const { t } = useTranslation('market-pulse');
   const tabs = useConfirmationTabs(indicator, type);
+  const [autoSelect, setAutoSelect] = useState(true);
   const [selectedTabKey, setSelectedTabKey] = useState<string>(tabs[0].key);
   const selectedTab = tabs.find(row => row.key === selectedTabKey);
   if (!selectedTab) throw new Error('unexpected error');
@@ -118,6 +125,19 @@ export function ConfirmationWidget<I extends Indicator>({
     combination: selectedTab.combination,
   });
 
+  useEffect(() => {
+    if (!autoSelect) return;
+    if (confirmations.isFetched && confirmations.data?.results.length === 0) {
+      const nextTabKey =
+        tabs[tabs.findIndex(r => r.key === selectedTabKey) + 1]?.key;
+      if (nextTabKey) {
+        setSelectedTabKey(nextTabKey);
+      } else {
+        setAutoSelect(false);
+      }
+    }
+  }, [confirmations, selectedTabKey, setSelectedTabKey, tabs, autoSelect]);
+
   return (
     <OverviewWidget
       className={clsx('h-[750px]', className)}
@@ -132,7 +152,10 @@ export function ConfirmationWidget<I extends Indicator>({
           <ButtonSelect
             className="w-full grow"
             value={selectedTabKey}
-            onChange={setSelectedTabKey}
+            onChange={newTabKey => {
+              setAutoSelect(false);
+              setSelectedTabKey(newTabKey);
+            }}
             options={tabs.map(tab => ({
               label: tab.title,
               value: tab.key,

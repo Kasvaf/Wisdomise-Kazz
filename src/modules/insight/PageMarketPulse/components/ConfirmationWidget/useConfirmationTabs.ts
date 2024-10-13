@@ -26,6 +26,11 @@ export const useConfirmationTabs = <I extends Indicator>(
         type === 'bullish'
           ? [
               {
+                title: t('indicator_list.rsi.oversold_bullish.title'),
+                combination: ['oversold', 'bullish_divergence'],
+                key: 'oversold_bullish',
+              },
+              {
                 title: t('indicator_list.rsi.oversold.title'),
                 combination: ['oversold'],
                 key: 'oversold',
@@ -35,13 +40,13 @@ export const useConfirmationTabs = <I extends Indicator>(
                 combination: ['bullish_divergence'],
                 key: 'bullish',
               },
-              {
-                title: t('indicator_list.rsi.oversold_bullish.title'),
-                combination: ['oversold', 'bullish_divergence'],
-                key: 'oversold_bullish',
-              },
             ]
           : [
+              {
+                title: t('indicator_list.rsi.overbought_bearish.title'),
+                combination: ['overbought', 'bearish_divergence'],
+                key: 'overbought_bearish',
+              },
               {
                 title: t('indicator_list.rsi.overbought.title'),
                 combination: ['overbought'],
@@ -51,11 +56,6 @@ export const useConfirmationTabs = <I extends Indicator>(
                 title: t('common.bearish.title'),
                 combination: ['bearish_divergence'],
                 key: 'bearish',
-              },
-              {
-                title: t('indicator_list.rsi.overbought_bearish.title'),
-                combination: ['overbought', 'bearish_divergence'],
-                key: 'overbought_bearish',
               },
             ]
       ) as Array<ConfirmationSubTab<I>>;
