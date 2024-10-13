@@ -22,7 +22,7 @@ function ConfirmationRow<I extends Indicator>({
   indicator,
   value,
   className,
-  // combination,
+  combination,
   type,
 }: {
   indicator: I;
@@ -71,15 +71,7 @@ function ConfirmationRow<I extends Indicator>({
           imageClassName="size-10 mobile:size-6"
         />
         <div className="flex items-center gap-6">
-          <ConfirmationTimeframeBadge
-            indicator={indicator}
-            combination={
-              infoBadges.map(r => r.type) as Array<
-                IndicatorConfirmationCombination<typeof indicator>
-              >
-            }
-            value={value}
-          />
+          <ConfirmationTimeframeBadge combination={combination} value={value} />
           {infoBadges.map((badgeProps, i) => (
             <ConfirmationInfoBadge
               key={`${indicator}-${type}-${i}`}
