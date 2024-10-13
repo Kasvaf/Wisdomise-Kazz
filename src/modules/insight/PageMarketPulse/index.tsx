@@ -5,6 +5,7 @@ import {
   type MarketPulseIndicators,
 } from './components/IndicatorSelect';
 import { TabContent } from './components/TabContent';
+import { MarketPulseOnboarding } from './components/MarketPulseOnboarding';
 
 export default function PageMarketPulse() {
   const [indicator, setIndicator] =
@@ -15,6 +16,7 @@ export default function PageMarketPulse() {
       <IndicatorSelect value={indicator} onChange={setIndicator} />
       {indicator === 'rsi' && <TabContent indicator="rsi" />}
       {indicator === 'macd' && <TabContent indicator="macd" />}
+      <MarketPulseOnboarding />
     </PageWrapper>
   );
 }

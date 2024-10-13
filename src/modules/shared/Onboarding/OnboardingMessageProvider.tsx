@@ -51,7 +51,7 @@ export default function OnboardingMessageProvider({
       }}
     >
       {children}
-      {isOpen && <OnboardingMessageNotification />}
+      {isOpen && <OnboardingMessageNotification key={location.key} />}
     </OnboardingMessageContext.Provider>
   );
 }

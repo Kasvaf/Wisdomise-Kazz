@@ -7,7 +7,7 @@ import SetNotification from './SetNotification';
 import { HotCoins } from './HotCoins';
 import { HotCoinsBanner } from './HotCoinsBanner';
 import { TopSignals } from './TopSignals';
-import { CoinRadarOnboarding } from './SocialRadarOnboarding';
+import { CoinRadarOnboarding } from './CoinRadarOnboarding';
 import { RealtimeBadge } from './assets';
 
 export default function PageCoinRadar() {

@@ -26,16 +26,6 @@
 /*
 * ************** Modal ******************
 */
-.onboarding-modal {
-  box-shadow:
-    -167px 157px 64px 0px rgba(0, 0, 0, 0),
-    -107px 100px 59px 0px rgba(0, 0, 0, 0.02),
-    -60px 56px 49px 0px rgba(0, 0, 0, 0.08),
-    -27px 25px 37px 0px rgba(0, 0, 0, 0.14),
-    -7px 6px 20px 0px rgba(0, 0, 0, 0.16);
-  background: linear-gradient(239deg, #362253 0%, #340f6b 131.46%);
-}
-
 .ant-modal-body {
   @apply bg-transparent p-0;
   background-color: transparent !important;

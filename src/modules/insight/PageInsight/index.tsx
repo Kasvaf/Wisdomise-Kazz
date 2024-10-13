@@ -7,6 +7,7 @@ import { AlertBoxWidget } from './components/AlertBoxWidget';
 import { TopWhaleCoinsWidget } from './components/TopWhaleCoinsWidget';
 import { TopWhaleListWidget } from './components/TopWhaleListWidget';
 import { PageInsightMeta } from './components/PageInsightMeta';
+import { InsightOnboarding } from './components/InsightOnboarding';
 
 const PageInsight = () => {
   const { t } = useTranslation();
@@ -34,6 +35,7 @@ const PageInsight = () => {
           type="bearish"
         />
       </div>
+      <InsightOnboarding />
     </PageWrapper>
   );
 };
