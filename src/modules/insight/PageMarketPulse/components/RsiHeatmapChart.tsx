@@ -49,8 +49,8 @@ function HeatMapArea({
           </span>
         ))}
       </div>
-      <div className="absolute right-0 flex h-full items-center justify-start px-4 text-xs text-v1-content-primary">
-        <div className="h-auto -rotate-90 whitespace-nowrap px-[50%]">
+      <div className="absolute right-0 flex h-full w-0 items-center justify-center px-4 text-xs text-v1-content-primary">
+        <div className="h-auto -rotate-90 whitespace-nowrap">
           {type === 'oversold' ? 'Oversold Area' : 'Overbought Area'}
         </div>
       </div>
