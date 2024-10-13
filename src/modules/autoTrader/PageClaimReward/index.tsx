@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react';
+import { clsx } from 'clsx';
 import Card from 'shared/Card';
 import {
   type TicketType,
@@ -181,7 +182,7 @@ export default function ClaimRewardPage() {
         className="rounded-3xl"
         maskClosable={true}
       >
-        <div className="flex flex-col items-center pt-8 text-center">
+        <div className="flex flex-col items-center px-2 pt-8 text-center">
           <h1 className="font-bold">
             {eligibility?.[0] ? (
               <>
@@ -202,23 +203,26 @@ export default function ClaimRewardPage() {
             (ticket, index) => (
               <Card
                 key={ticket}
-                className="mb-2 flex w-full items-center gap-3"
+                className={clsx(
+                  'mb-2 flex w-full items-center gap-3 border border-transparent text-xs',
+                  eligibility?.[0]?.ticket_number === ticket &&
+                    '!border-[#00FFA3]',
+                )}
               >
+                {/* fill: linear-gradient(270deg, #1D262F 43.27%, rgba(0, 134, 85, 0.00) 208.48%); */}
                 <img
                   src={selectedTicket === 'silver_ticket' ? silver : ton}
                   className="h-8 w-8"
                 />
-                <div>
+                <div className="text-white/40">
                   <span>
                     {index}.{' '}
                     {selectedTicket === 'silver_ticket' ? 'Silver Ticket' : ''}
                   </span>
                 </div>
-                <div className="h-4 rounded bg-[#28323E] px-1">
-                  ID: {ticket}
-                </div>
+                <div className="rounded bg-[#28323E] px-1">ID: {ticket}</div>
                 {eligibility?.[0]?.ticket_number === ticket && (
-                  <div className="flex">
+                  <div className="ms-auto flex gap-2 text-[#00FFA3]">
                     <img src={star} />
                     <span>Winner</span>
                   </div>
@@ -227,6 +231,13 @@ export default function ClaimRewardPage() {
             ),
           )}
         </div>
+        <Button
+          variant="tg-blue"
+          className="fixed bottom-10 end-6 start-6"
+          onClick={() => setOpen(false)}
+        >
+          Claim Reward
+        </Button>
       </BottomDrawer>
     </div>
   );
