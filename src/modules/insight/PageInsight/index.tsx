@@ -6,12 +6,14 @@ import { HotCoinsWidget } from './components/HotCoinsWidget';
 import { AlertBoxWidget } from './components/AlertBoxWidget';
 import { TopWhaleCoinsWidget } from './components/TopWhaleCoinsWidget';
 import { TopWhaleListWidget } from './components/TopWhaleListWidget';
+import { PageInsightMeta } from './components/PageInsightMeta';
 
 const PageInsight = () => {
   const { t } = useTranslation();
 
   return (
     <PageWrapper>
+      <PageInsightMeta />
       <PageTitle
         title={t('base:menu.coin-radar.full-title')}
         description={t('base:menu.coin-radar.subtitle')}
