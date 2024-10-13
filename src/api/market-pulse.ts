@@ -85,7 +85,7 @@ export type IndicatorHeatmap<I extends Indicator> = I extends 'rsi'
       rsi_value: number;
       related_at: string;
       divergence_type: -1 | 1 | null;
-      data: CoinMarketPulseMarketData;
+      data?: CoinMarketPulseMarketData;
     }
   : never;
 

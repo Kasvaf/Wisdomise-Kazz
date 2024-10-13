@@ -157,18 +157,18 @@ function CoinPoint({
           <div className="flex items-center justify-between gap-6">
             <Coin coin={value.symbol} mini />
             <ReadableNumber
-              value={value.data.current_price}
+              value={value.data?.current_price}
               label="usdt"
               className="mt-[2px]"
             />
           </div>
           <div className="flex items-center justify-between gap-6">
             {t('indicator_list.rsi.heatmap.24h_change')}
-            <PriceChange value={value.data.price_change_percentage_24h} />
+            <PriceChange value={value.data?.price_change_percentage_24h} />
           </div>
           <div className="flex items-center justify-between gap-6">
             {t('indicator_list.rsi.heatmap.market_cap')}
-            <ReadableNumber value={value.data.market_cap} label="$" />
+            <ReadableNumber value={value.data?.market_cap} label="$" />
           </div>
           <div className="h-px bg-v1-content-primary opacity-10" />
           <div className="flex items-center justify-between gap-6">
@@ -225,9 +225,13 @@ function CoinPoint({
           className="relative flex h-full items-center justify-center text-center text-xs font-semibold"
           style={{
             top:
-              value.data.price_change_24h < 0 ? `${POINT_SIZE + 4}px` : 'auto',
+              (value.data?.price_change_24h ?? 0) < 0
+                ? `${POINT_SIZE + 4}px`
+                : 'auto',
             bottom:
-              value.data.price_change_24h >= 0 ? `${POINT_SIZE + 4}px` : 'auto',
+              (value.data?.price_change_24h ?? 0) >= 0
+                ? `${POINT_SIZE + 4}px`
+                : 'auto',
           }}
         >
           {value.symbol.abbreviation}
@@ -239,12 +243,17 @@ function CoinPoint({
           )}
           style={{
             left: 'calc(50% - 1px)',
-            top: value.data.price_change_24h >= 0 ? `${POINT_SIZE}px` : 'auto',
+            top:
+              (value?.data?.price_change_24h ?? 0) >= 0
+                ? `${POINT_SIZE}px`
+                : 'auto',
             bottom:
-              value.data.price_change_24h < 0 ? `${POINT_SIZE}px` : 'auto',
+              (value.data?.price_change_24h ?? 0) < 0
+                ? `${POINT_SIZE}px`
+                : 'auto',
             height: isReady
               ? `${Math.max(
-                  Math.abs(value.data.price_change_percentage_24h * 5),
+                  Math.abs((value.data?.price_change_percentage_24h ?? 0) * 5),
                   8,
                 )}px`
               : '0px',
