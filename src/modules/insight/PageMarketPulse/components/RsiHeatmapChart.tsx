@@ -302,7 +302,7 @@ export function RsiHeatmapChart({
         >
           {sortedData.map(row => (
             <CoinPoint
-              key={row.symbol.slug}
+              key={JSON.stringify(row.symbol)}
               value={row}
               resolution={resolution}
             />

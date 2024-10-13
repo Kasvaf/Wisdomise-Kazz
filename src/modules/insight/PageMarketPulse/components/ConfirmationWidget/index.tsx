@@ -155,7 +155,7 @@ export function ConfirmationWidget<I extends Indicator>({
         {confirmations.data?.results.map(row => (
           <ConfirmationRow
             value={row}
-            key={row.symbol.slug}
+            key={JSON.stringify(row.symbol)}
             combination={selectedTab.combination}
             indicator={indicator}
             type={type}
