@@ -147,6 +147,7 @@ export function ConfirmationInfoBadge<I extends Indicator>({
         <DataIcon
           className={clsx(
             data.resolutions.length === 0 && 'opacity-80 contrast-0 grayscale',
+            'h-auto w-5 2xl:w-6',
           )}
         />
         <span className="inline-flex items-center gap-px">
@@ -177,7 +178,7 @@ export function ConfirmationInfoBadge<I extends Indicator>({
         >
           <Icon
             name={bxInfoCircle}
-            size={18}
+            size={16}
             strokeWidth={1}
             className="cursor-help"
           />

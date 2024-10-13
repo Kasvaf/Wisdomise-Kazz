@@ -64,17 +64,17 @@ function ConfirmationRow<I extends Indicator>({
         className,
       )}
     >
-      <div className="flex items-start justify-between gap-4 mobile:flex-wrap">
+      <div className="flex flex-wrap items-start justify-between gap-4 2xl:flex-nowrap">
         <Coin
           coin={value.symbol}
           className="text-xs"
-          imageClassName="size-10 mobile:size-6"
+          imageClassName="2xl:size-10 size-6"
         />
-        <div className="flex items-center gap-6">
+        <div className="flex grow items-center justify-end gap-3 2xl:gap-10">
           <ConfirmationTimeframeBadge combination={combination} value={value} />
           {infoBadges.map((badgeProps, i) => (
             <ConfirmationInfoBadge
-              key={`${indicator}-${type}-${i}`}
+              key={`${indicator as string}-${type}-${i}`}
               {...badgeProps}
             />
           ))}
