@@ -14,7 +14,7 @@ export default function configAxios() {
    */
   axios.interceptors.request.use(config => {
     const jwtToken = getJwtToken();
-    if (jwtToken) {
+    if (jwtToken && !config.url?.includes('/account/mini_app/login')) {
       config.headers.set('Authorization', 'Bearer ' + jwtToken);
     }
 
