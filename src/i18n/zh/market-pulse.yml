@@ -1,74 +1,90 @@
-common:
-  divergence: 分歧
-  hide: 關閉
-  in_timeframe: 在时间范围内
-  price: 價格
-  price_change: 价格变动
-  rsi: RSI
-  show: 显示详细信息
-indicator_list:
-  advanced:
-    label: 先进的
-  macd:
-    label: MACD
-    soon: 即將推出
-  rsi:
-    bearish: 看跌背離
-    bearish-info: RSI形成較低的高點，而價格形成較高的高點
-    bullish: 看漲背離
-    bullish-info: RSI形成較高的低點，而價格形成較低的低點
-    description: 當RSI顯示超賣並隨後出現較高的低點而價格出現較低的低點時，這可能表示看漲動能增強，突破超賣區域可以用來觸發新的多頭頭寸。相反，當RSI顯示超買並隨後出現較低的高點而價格出現較高的高點時，這可能表示看跌動能增強，突破超買區域可以用來觸發新的空頭頭寸。
-    heatmap:
-      24h_change: 24小时变化
-      bearish_divergence: 看跌背离
-      bullish_divergence: 看涨背离
-      div: 股利
-      market_cap: 市值
-      no_divergence: 无分歧
-      overbought_area: 超买区域
-      oversold_area: 超卖区域
-      price_change: 价格变动
-      rsi: RSI
-      title: RSI 热图
-    label: RSI
-    momentum:
-      bearish:
-        description: 此标签跟踪价格上涨但势头减弱的资产。这种差异表明价格可能很快下跌，提供良好的卖出机会。
-        title: 看跌背离
-      bearish_momentum_confirmation: 看跌动能确认
-      bullish:
-        description: 此标签跟踪价格下跌但动能有增强迹象的资产。这种差异表明价格可能回升，提供良好的买入机会。
-        title: 看涨背离
-      bullish_momentum_confirmation: 看涨势头确认
-      overbought:
-        description: 此标签跟踪超买资产，这意味着它们的价格很高，可能会开始下跌。这为交易者提供了在价格下跌前出售的机会。
-        title: 超买
-      overbought_bearish:
-        description: 此标签跟踪超买且有下跌迹象的资产。这意味着资产被高估，价格可能下跌，这是出售的好机会。
-        title: 超买和看跌
-      oversold:
-        description: 此标签跟踪超卖资产，这意味着它们的价格很低，可能准备反弹。这为交易者提供了在价格上涨之前买入的机会。
-        title: 超卖
-      oversold_bullish:
-        description: 此标签跟踪超卖且有上涨迹象的资产。这意味着资产被低估且价格可能上涨，提供了良好的买入机会。
-        title: 超卖与看涨
-    overbought: 超買
-    overbought-full-title: 最畅销的硬币
-    overbought-info: RSI>70
-    oversold: 超賣
-    oversold-full-title: 销量最高的硬币
-    oversold-info: RSI<30
-    statistics: 市場RSI統計
-    table:
-      duration: 持續時間
-      name: 名稱
-      price: 價格
-      price_change: 價格變動
-      resolution: 分辨率
-      rsi: RSI
-    title: 加密貨幣市場RSI
+common.active_timeframe: 活动时间范围
+common.bearish.badge: 看跌股息
+common.bearish.full_badge: 看跌背离
+common.bearish.title: 看跌
+common.bearish_momentum_confirmation: 看跌确认
+common.bullish.badge: 看涨股息
+common.bullish.full_badge: 看涨背离
+common.bullish.title: 看涨
+common.bullish_momentum_confirmation: 看涨确认
+common.divergence: 分歧
+common.hide: 關閉
+common.in_timeframe: 在时间范围内
+common.long_term: 长期
+common.price: 價格
+common.price_change: 价格变动
+common.rsi: RSI
+common.short_term: 短期
+common.show: 显示详细信息
+indicator_list.advanced.label: 先进的
+indicator_list.macd.bearish_info: 当 MACD 显示动能减弱并发出可能出现下行趋势的信号时，发现潜在的卖点。
+indicator_list.macd.bullish_info: 当 MACD 指示动量转变且看涨趋势正在形成时，识别潜在的买入机会。
+indicator_list.macd.crossdown.badge: MACD 交叉信号
+indicator_list.macd.crossdown.full_badge: MACD交叉信号线
+indicator_list.macd.crossdown.title: 信号线
+indicator_list.macd.crossdown_bearish.title: 昂贵且利空
+indicator_list.macd.crossup.badge: MACD 交叉信号
+indicator_list.macd.crossup.full_badge: MACD交叉信号线
+indicator_list.macd.crossup.title: 信号线
+indicator_list.macd.crossup_bullish.title: 便宜且看涨
+indicator_list.macd.label: MACD
+indicator_list.macd.soon: 即將推出
+indicator_list.macd.subtitle: 获得 MACD 洞察以优化您的交易策略，使用高级过滤器增强决策支持并做出更自信的交易选择。
+indicator_list.rsi.bearish-info: RSI形成較低的高點，而價格形成較高的高點
+indicator_list.rsi.bearish_info: 当硬币被高估并表明势头放缓时，发现潜在的卖点。
+indicator_list.rsi.bullish-info: RSI形成較高的低點，而價格形成較低的低點
+indicator_list.rsi.bullish_info: 当硬币被低估并出现逆转迹象时，识别潜在的购买机会。
+indicator_list.rsi.description: 當RSI顯示超賣並隨後出現較高的低點而價格出現較低的低點時，這可能表示看漲動能增強，突破超賣區域可以用來觸發新的多頭頭寸。相反，當RSI顯示超買並隨後出現較低的高點而價格出現較高的高點時，這可能表示看跌動能增強，突破超買區域可以用來觸發新的空頭頭寸。
+indicator_list.rsi.heatmap.24h_change: 24小时变化
+indicator_list.rsi.heatmap.bearish_divergence: 看跌背离
+indicator_list.rsi.heatmap.bullish_divergence: 看涨背离
+indicator_list.rsi.heatmap.div: 股利
+indicator_list.rsi.heatmap.market_cap: 市值
+indicator_list.rsi.heatmap.no_divergence: 无分歧
+indicator_list.rsi.heatmap.overbought_area: 超买区域
+indicator_list.rsi.heatmap.oversold_area: 超卖区域
+indicator_list.rsi.heatmap.price_change: 价格变动
+indicator_list.rsi.heatmap.rsi: RSI
+indicator_list.rsi.heatmap.title: RSI 热图
+indicator_list.rsi.label: RSI
+indicator_list.rsi.momentum.bearish.description: 此标签跟踪价格上涨但势头减弱的资产。这种差异表明价格可能很快下跌，提供良好的卖出机会。
+indicator_list.rsi.momentum.bearish.title: 看跌背离
+indicator_list.rsi.momentum.bearish_momentum_confirmation: 看跌动能确认
+indicator_list.rsi.momentum.bullish.description: 此标签跟踪价格下跌但动能有增强迹象的资产。这种差异表明价格可能回升，提供良好的买入机会。
+indicator_list.rsi.momentum.bullish.title: 看涨背离
+indicator_list.rsi.momentum.bullish_momentum_confirmation: 看涨势头确认
+indicator_list.rsi.momentum.overbought.description: 此标签跟踪超买资产，这意味着它们的价格很高，可能会开始下跌。这为交易者提供了在价格下跌前出售的机会。
+indicator_list.rsi.momentum.overbought.title: 超买
+indicator_list.rsi.momentum.overbought_bearish.description: 此标签跟踪超买且有下跌迹象的资产。这意味着资产被高估，价格可能下跌，这是出售的好机会。
+indicator_list.rsi.momentum.overbought_bearish.title: 超买和看跌
+indicator_list.rsi.momentum.oversold.description: 此标签跟踪超卖资产，这意味着它们的价格很低，可能准备反弹。这为交易者提供了在价格上涨之前买入的机会。
+indicator_list.rsi.momentum.oversold.title: 超卖
+indicator_list.rsi.momentum.oversold_bullish.description: 此标签跟踪超卖且有上涨迹象的资产。这意味着资产被低估且价格可能上涨，提供了良好的买入机会。
+indicator_list.rsi.momentum.oversold_bullish.title: 超卖与看涨
+indicator_list.rsi.overbought: 超買
+indicator_list.rsi.overbought-full-title: 最畅销的硬币
+indicator_list.rsi.overbought-info: RSI>70
+indicator_list.rsi.overbought.badge: 超买
+indicator_list.rsi.overbought.full_badge: RSI 超买
+indicator_list.rsi.overbought.title: 昂贵的
+indicator_list.rsi.overbought_bearish.title: 昂贵且利空
+indicator_list.rsi.oversold: 超賣
+indicator_list.rsi.oversold-full-title: 销量最高的硬币
+indicator_list.rsi.oversold-info: RSI<30
+indicator_list.rsi.oversold.badge: 超卖
+indicator_list.rsi.oversold.full_badge: RSI 超卖
+indicator_list.rsi.oversold.title: 便宜的
+indicator_list.rsi.oversold_bullish.title: 便宜且看涨
+indicator_list.rsi.statistics: 市場RSI統計
+indicator_list.rsi.subtitle: 获取定制的 RSI 洞察来完善您的交易策略，利用高级过滤器来改善决策并提高清晰度。
+indicator_list.rsi.table.duration: 持續時間
+indicator_list.rsi.table.name: 名稱
+indicator_list.rsi.table.price: 價格
+indicator_list.rsi.table.price_change: 價格變動
+indicator_list.rsi.table.resolution: 分辨率
+indicator_list.rsi.table.rsi: RSI
+indicator_list.rsi.title: 加密貨幣市場RSI
 indicators: 指標
-periods:
-  daily: 每日
-  hour: 小時
-  min: 分鐘
+periods.daily: 每日
+periods.hour: 小時
+periods.min: 分鐘
