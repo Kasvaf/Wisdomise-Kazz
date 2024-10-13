@@ -16,7 +16,7 @@ export default function SetNotification({ className }: { className?: string }) {
 
   const alertActions = useAlertActions({
     dataSource: 'custom:coin_radar_notification',
-    messengers: isSubscribed ? ['EMAIL'] : [],
+    messengers: isSubscribed ? [] : ['EMAIL'],
   });
 
   useOnSearchParamDetectedOnce({
@@ -34,7 +34,7 @@ export default function SetNotification({ className }: { className?: string }) {
           track('Click On', {
             place: 'social_radar_notification',
           });
-          void alertActions.openSaveModal();
+          void alertActions.save();
         }}
         variant="primary"
         className={clsx(
@@ -48,6 +48,7 @@ export default function SetNotification({ className }: { className?: string }) {
           isSubscribed || isLoading ? '!text-white' : '!text-black',
           isLoading && 'opacity-10',
         )}
+        loading={alertActions.isSaving}
       >
         {isSubscribed || isLoading ? (
           <NotifIsSetIcon className="shrink-0" />

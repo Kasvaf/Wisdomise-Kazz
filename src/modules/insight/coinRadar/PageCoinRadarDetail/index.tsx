@@ -14,6 +14,7 @@ import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
 import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
 import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
+import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
 
 const TODO_SHOW_CHART = false;
 
@@ -54,6 +55,7 @@ export default function PageCoinRadarDetail() {
   );
   return (
     <PageWrapper>
+      <PageCoinRadarDetailMeta slug={slug} />
       <div className="relative grid grid-cols-3 gap-6">
         <div className="col-span-1 mobile:col-span-full">
           <div className="sticky top-0 flex flex-col gap-6 mobile:relative">

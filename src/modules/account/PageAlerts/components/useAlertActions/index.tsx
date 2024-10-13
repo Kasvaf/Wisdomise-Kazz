@@ -23,11 +23,11 @@ export const useAlertActions = <D extends AlertDataSource>(
   );
   const [deleteConfirmModal, showDeleteConfirm] = useAlertDeleteConfirm();
   const [saveToast, showSaveToast] = useAlertSaveToast();
-  const alertSavePostActions = (alertItem: Alert<never>) => {
+  const alertSavePostActions = (alertItem: Partial<Alert<never>>) => {
     if (alertItem.dataSource === 'custom:coin_radar_notification') {
       track('Click On', {
         place: 'social_radar_notification_changed',
-        status: alertItem.messengers.includes('EMAIL') ? 'on' : 'off',
+        status: alertItem.messengers?.includes('EMAIL') ? 'on' : 'off',
       });
     }
   };
@@ -61,6 +61,19 @@ export const useAlertActions = <D extends AlertDataSource>(
       ),
       openSaveModal: async () =>
         (await ensureAuthenticated()) && setIsModalOpen(true),
+      save: async () => {
+        if (!initialAlert) {
+          throw new Error(
+            'You must set initial alert in order to save without modal!',
+          );
+        }
+        if (!(await ensureAuthenticated())) return false;
+        return await saveAlertMutation
+          .mutateAsync(initialAlert)
+          .then(() => setIsModalOpen(false))
+          .then(() => alertSavePostActions(initialAlert))
+          .then(() => showSaveToast());
+      },
       delete: () =>
         showDeleteConfirm().then(confirmed => {
           if (!confirmed) return;
