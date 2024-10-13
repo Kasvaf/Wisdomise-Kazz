@@ -78,13 +78,27 @@ indicator_list:
 onboarding:
   sec-1:
     title: 'Welcome to the AI Indicator Page: Simplified Insights from Complex Data'
-    content: Our AI Indicator page takes complex technical indicators and breaks them down into simple, actionable insights. Whether you're a beginner or an expert, you'll be able to make quick and informed decisions with ease.
+    content: >-
+      Our AI Indicator page takes complex technical indicators and breaks them
+      down into simple, actionable insights. Whether you're a beginner or an
+      expert, you'll be able to make quick and informed decisions with ease.
   sec-2:
-    title: 'What is RSI?<br>Understand Market Momentum'
-    content: The Relative Strength Index (RSI) measures the speed and change of price movements, indicating whether a coin is overbought or oversold. Our heat map visually highlights these coins, helping you spot potential buying or selling opportunities at a glance.
+    title: What is RSI?<br>Understand Market Momentum
+    content: >-
+      The Relative Strength Index (RSI) measures the speed and change of price
+      movements, indicating whether a coin is overbought or oversold. Our heat
+      map visually highlights these coins, helping you spot potential buying or
+      selling opportunities at a glance.
   sec-3:
     title: 'Bullish & Bearish Divergence: Spot the Momentum Shifts'
-    content: Look for <b>Bullish and Bearish Divergence</b> to identify potential market reversals. Bullish divergence indicates upward momentum, while bearish signals a downward trend. Use these insights to stay ahead of the market.
+    content: >-
+      Look for <b>Bullish and Bearish Divergence</b> to identify potential
+      market reversals. Bullish divergence indicates upward momentum, while
+      bearish signals a downward trend. Use these insights to stay ahead of the
+      market.
   sec-4:
     title: 'Stay Informed: Set Alerts for Key Indicators'
-    content: Customize notifications for when coins hit critical RSI levels or show signs of divergence. Get instant alerts, so you never miss out on key trading opportunities.
+    content: >-
+      Customize notifications for when coins hit critical RSI levels or show
+      signs of divergence. Get instant alerts, so you never miss out on key
+      trading opportunities.

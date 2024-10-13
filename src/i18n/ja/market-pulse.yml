@@ -89,6 +89,19 @@ indicator_list.rsi.table.resolution: 解決
 indicator_list.rsi.table.rsi: RSI
 indicator_list.rsi.title: 暗号通貨市場のRSI
 indicators: 指標
+onboarding.sec-1.content: 当社の AI インジケーター ページでは、複雑なテクニカル
+  インジケーターを、シンプルで実用的な洞察に分解します。初心者でもエキスパートでも、情報に基づいた迅速な意思決定を簡単に行うことができます。
+onboarding.sec-1.title: "AIインジケーターページへようこそ: 複雑なデータから得られるシンプルな洞察"
+onboarding.sec-2.content: 相対力指数 (RSI)
+  は、価格変動の速度と変化を測定し、コインが買われ過ぎか売られ過ぎかを示します。当社のヒート
+  マップはこれらのコインを視覚的に強調表示し、一目で潜在的な購入または販売の機会を見つけるのに役立ちます。
+onboarding.sec-2.title: RSIとは何ですか?<br>市場の勢いを理解する
+onboarding.sec-3.content: 探す <b>強気と弱気の乖離</b>
+  潜在的な市場の反転を特定します。強気の乖離は上昇の勢いを示し、弱気の乖離は下降傾向を示します。これらの洞察を活用して、市場の先を進みましょう。
+onboarding.sec-3.title: 強気と弱気の乖離：勢いの変化を見極める
+onboarding.sec-4.content: コインが重要な RSI
+  レベルに達したときや乖離の兆候が見られたときの通知をカスタマイズします。即時アラートを受け取ることで、重要な取引機会を逃すことはありません。
+onboarding.sec-4.title: "最新情報を入手: 重要な指標のアラートを設定する"
 periods.daily: 毎日
 periods.hour: h
 periods.min: min

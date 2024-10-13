@@ -2,6 +2,34 @@ filters:
   all-chains: All Chains
   search-whale: Search Whale
   wallet: Search by wallet address
+onboarding:
+  sec-1:
+    title: 'Welcome to Smart Wallets: Track Top Whales & Traders'
+    content: >-
+      Our Smart Wallets feature identifies top-performing whales and traders for
+      each coin, based on their historical profits. We track their movements
+      across various coins and chains, so you can gain insight into the best
+      trading opportunities.
+  sec-2:
+    title: Find Trending Coins That Whales Are Trading
+    content: >-
+      Discover which coins are trending among the most successful whales on
+      different chains. Our platform provides real-time updates on which assets
+      they're accumulating or selling, so you can follow their moves with
+      confidence.
+  sec-3:
+    title: 'Detailed Wallet Analysis: Dive Into Holdings'
+    content: >-
+      Access in-depth analysis of each whale's wallet, including a breakdown of
+      their current holdings, trade history, and performance metrics. Use these
+      insights to better understand their strategies and the market dynamics.
+  sec-4:
+    title: 'Set Alerts & Auto-Trader: Never Miss a Trade'
+    content: >-
+      Stay ahead by setting alerts for whale movements, trending coins, and
+      wallet changes. Soon, you'll be able to activate Auto-Trader to
+      automatically execute trades based on the top whales actions—letting you
+      sit back and relax.
 sections:
   top-coins:
     title: Top Whale Coins
@@ -56,16 +84,3 @@ sections:
       sold. It reflects the difference between the current market value and the
       purchase price of these assets. This metric helps you gauge the
       performance of your holdings based on their current market prices.</p>
-onboarding:
-  sec-1:
-    title: 'Welcome to Smart Wallets: Track Top Whales & Traders'
-    content: Our Smart Wallets feature identifies top-performing whales and traders for each coin, based on their historical profits. We track their movements across various coins and chains, so you can gain insight into the best trading opportunities.
-  sec-2:
-    title: 'Find Trending Coins That Whales Are Trading'
-    content: Discover which coins are trending among the most successful whales on different chains. Our platform provides real-time updates on which assets they're accumulating or selling, so you can follow their moves with confidence.
-  sec-3:
-    title: 'Detailed Wallet Analysis: Dive Into Holdings'
-    content: Access in-depth analysis of each whale's wallet, including a breakdown of their current holdings, trade history, and performance metrics. Use these insights to better understand their strategies and the market dynamics.
-  sec-4:
-    title: 'Set Alerts & Auto-Trader: Never Miss a Trade'
-    content: Stay ahead by setting alerts for whale movements, trending coins, and wallet changes. Soon, you'll be able to activate Auto-Trader to automatically execute trades based on the top whales actions—letting you sit back and relax.
