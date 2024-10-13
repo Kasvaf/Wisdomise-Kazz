@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
-import { RsiMomentumConfirmationWidget } from './components/RsiMomentumConfirmationWidget';
+import { RsiConfirmationWidget } from './components/RsiConfirmationWidget';
 import { HotCoinsWidget } from './components/HotCoinsWidget';
 import { AlertBoxWidget } from './components/AlertBoxWidget';
 import { TopWhaleCoinsWidget } from './components/TopWhaleCoinsWidget';
@@ -25,11 +25,11 @@ const PageInsight = () => {
         <AlertBoxWidget className="col-span-2 mobile:order-first mobile:col-span-full" />
         <TopWhaleCoinsWidget className="col-span-2 h-[530px]  mobile:col-span-full" />
         <TopWhaleListWidget className="col-span-4 h-[530px] mobile:col-span-full" />
-        <RsiMomentumConfirmationWidget
+        <RsiConfirmationWidget
           className="col-span-3 mobile:col-span-full"
           type="bullish"
         />
-        <RsiMomentumConfirmationWidget
+        <RsiConfirmationWidget
           className="col-span-3 mobile:col-span-full"
           type="bearish"
         />

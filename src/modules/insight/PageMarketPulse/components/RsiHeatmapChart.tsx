@@ -3,7 +3,10 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { Tooltip } from 'antd';
 import { useTimeout } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
-import { type RsiHeatmapResolution, type RsiHeatmap } from 'api/market-pulse';
+import {
+  type IndicatorHeatmapResolution,
+  type IndicatorHeatmap,
+} from 'api/market-pulse';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
@@ -27,8 +30,8 @@ function HeatMapArea({
         'absolute w-full',
         type === 'oversold' ? 'bottom-0' : 'top-0',
         type === 'oversold'
-          ? 'bg-v1-background-positive-subtle'
-          : 'bg-v1-background-negative-subtle',
+          ? 'bg-gradient-to-b from-[#1B7D61] to-[#30C299]'
+          : 'bg-gradient-to-t from-[#8D1F2B] to-[#E74457]',
       )}
       style={{
         height: `${AREA_SIZE_PERCENT}%`,
@@ -36,7 +39,7 @@ function HeatMapArea({
     >
       <div
         className={clsx(
-          'absolute left-0 flex h-full flex-col justify-between px-2 text-xs text-v1-content-secondary',
+          'absolute left-0 flex h-full flex-col justify-between px-2 text-xs text-v1-content-primary',
           type === 'oversold' ? 'top-[-1ch]' : 'bottom-[-1ch]',
         )}
       >
@@ -46,8 +49,8 @@ function HeatMapArea({
           </span>
         ))}
       </div>
-      <div className="absolute right-0 flex h-full items-center justify-start px-4 text-xs text-v1-content-primary">
-        <div className="h-auto -rotate-90 whitespace-nowrap px-[50%]">
+      <div className="absolute right-0 flex h-full w-0 items-center justify-center px-4 text-xs text-v1-content-primary">
+        <div className="h-auto -rotate-90 whitespace-nowrap">
           {type === 'oversold' ? 'Oversold Area' : 'Overbought Area'}
         </div>
       </div>
@@ -66,15 +69,15 @@ function GuideBar() {
       )}
     >
       <div>
-        <div className="size-4 rounded bg-v1-background-positive-subtle" />
+        <div className="size-4 rounded bg-v1-content-positive" />
         {t('indicator_list.rsi.heatmap.oversold_area')}
       </div>
       <div>
-        <div className="size-4 rounded bg-v1-background-negative-subtle" />
+        <div className="size-4 rounded bg-v1-content-negative" />
         {t('indicator_list.rsi.heatmap.overbought_area')}
       </div>
       <div>
-        <div className="h-4 w-0 border-r border-dashed border-r-v1-content-primary" />
+        <div className="h-4 w-0 border-r-2 border-dashed border-r-v1-content-primary" />
         {t('indicator_list.rsi.heatmap.price_change')}
       </div>
       <div>
@@ -115,8 +118,8 @@ function CoinPoint({
   value,
   resolution,
 }: {
-  value: RsiHeatmap;
-  resolution: RsiHeatmapResolution;
+  value: IndicatorHeatmap<'rsi'>;
+  resolution: IndicatorHeatmapResolution;
 }) {
   const { t } = useTranslation('market-pulse');
   const [isReady, setIsReady] = useState(false);
@@ -154,18 +157,18 @@ function CoinPoint({
           <div className="flex items-center justify-between gap-6">
             <Coin coin={value.symbol} mini />
             <ReadableNumber
-              value={value.data.current_price}
+              value={value.data?.current_price}
               label="usdt"
               className="mt-[2px]"
             />
           </div>
           <div className="flex items-center justify-between gap-6">
             {t('indicator_list.rsi.heatmap.24h_change')}
-            <PriceChange value={value.data.price_change_percentage_24h} />
+            <PriceChange value={value.data?.price_change_percentage_24h} />
           </div>
           <div className="flex items-center justify-between gap-6">
             {t('indicator_list.rsi.heatmap.market_cap')}
-            <ReadableNumber value={value.data.market_cap} label="$" />
+            <ReadableNumber value={value.data?.market_cap} label="$" />
           </div>
           <div className="h-px bg-v1-content-primary opacity-10" />
           <div className="flex items-center justify-between gap-6">
@@ -219,29 +222,38 @@ function CoinPoint({
           }}
         />
         <p
-          className="relative flex h-full items-center justify-center text-center text-xs"
+          className="relative flex h-full items-center justify-center text-center text-xs font-semibold"
           style={{
             top:
-              value.data.price_change_24h < 0 ? `${POINT_SIZE + 4}px` : 'auto',
+              (value.data?.price_change_24h ?? 0) < 0
+                ? `${POINT_SIZE + 4}px`
+                : 'auto',
             bottom:
-              value.data.price_change_24h >= 0 ? `${POINT_SIZE + 4}px` : 'auto',
+              (value.data?.price_change_24h ?? 0) >= 0
+                ? `${POINT_SIZE + 4}px`
+                : 'auto',
           }}
         >
           {value.symbol.abbreviation}
         </p>
         <div
           className={clsx(
-            'absolute w-0 border-r border-dashed border-v1-content-primary',
+            'absolute w-0 border-r-2 border-dashed border-v1-content-primary',
             'transition-all delay-75 duration-300 will-change-contents',
           )}
           style={{
             left: 'calc(50% - 1px)',
-            top: value.data.price_change_24h >= 0 ? `${POINT_SIZE}px` : 'auto',
+            top:
+              (value?.data?.price_change_24h ?? 0) >= 0
+                ? `${POINT_SIZE}px`
+                : 'auto',
             bottom:
-              value.data.price_change_24h < 0 ? `${POINT_SIZE}px` : 'auto',
+              (value.data?.price_change_24h ?? 0) < 0
+                ? `${POINT_SIZE}px`
+                : 'auto',
             height: isReady
               ? `${Math.max(
-                  Math.abs(value.data.price_change_percentage_24h * 5),
+                  Math.abs((value.data?.price_change_percentage_24h ?? 0) * 5),
                   8,
                 )}px`
               : '0px',
@@ -258,8 +270,8 @@ export function RsiHeatmapChart({
   resolution,
 }: {
   className?: string;
-  data: RsiHeatmap[];
-  resolution: RsiHeatmapResolution;
+  data: Array<IndicatorHeatmap<'rsi'>>;
+  resolution: IndicatorHeatmapResolution;
 }) {
   const sortedData = useMemo(
     () =>
@@ -273,8 +285,16 @@ export function RsiHeatmapChart({
     <div className={clsx('flex flex-col gap-3', className)}>
       <GuideBar />
       <div className="relative min-h-96 shrink-0 grow overflow-hidden rounded-xl">
-        <HeatMapArea type="overbought" />
-        <HeatMapArea type="oversold" />
+        <div
+          className="absolute size-full"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(-60deg, #40414f, #40414f 3rem, #2a2a31 3rem, #2a2a31 6rem)',
+          }}
+        >
+          <HeatMapArea type="overbought" />
+          <HeatMapArea type="oversold" />
+        </div>
         <div
           className={clsx(
             'absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-x-auto overflow-y-hidden px-6',
@@ -282,7 +302,7 @@ export function RsiHeatmapChart({
         >
           {sortedData.map(row => (
             <CoinPoint
-              key={row.symbol.slug}
+              key={JSON.stringify(row.symbol)}
               value={row}
               resolution={resolution}
             />
