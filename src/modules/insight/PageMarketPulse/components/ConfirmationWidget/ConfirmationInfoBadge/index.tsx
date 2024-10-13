@@ -107,7 +107,7 @@ export function ConfirmationInfoBadge<I extends Indicator>({
         icon: CrossupIcon,
         title: t('indicator_list.macd.crossup.badge'),
         fullTitle: t('indicator_list.macd.crossup.full_badge'),
-        textColor: 'text-v1-content-notice',
+        textColor: 'text-v1-content-brand',
         resolutions: valueAsMacd.macd_cross_up_resolutions ?? [],
       };
     }
@@ -142,14 +142,14 @@ export function ConfirmationInfoBadge<I extends Indicator>({
   }, [type, t, value]);
 
   return (
-    <div className="inline-flex flex-col items-center justify-center gap-1">
+    <div className="inline-flex flex-col items-center justify-center gap-px">
       <div className="inline-flex items-center gap-[0.3rem]">
         <DataIcon
           className={clsx(
-            data.resolutions.length === 0 && 'opacity-80 grayscale',
+            data.resolutions.length === 0 && 'opacity-80 contrast-0 grayscale',
           )}
         />
-        <span className="space-x-px">
+        <span className="inline-flex items-center gap-px">
           <span
             className={clsx(
               'text-xs font-medium',
@@ -175,7 +175,12 @@ export function ConfirmationInfoBadge<I extends Indicator>({
             </div>
           }
         >
-          <Icon name={bxInfoCircle} size={18} strokeWidth={1} />
+          <Icon
+            name={bxInfoCircle}
+            size={18}
+            strokeWidth={1}
+            className="cursor-help"
+          />
         </Tooltip>
       </div>
       <p className="text-center text-xxs text-v1-content-secondary">

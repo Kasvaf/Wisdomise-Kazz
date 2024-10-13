@@ -22,7 +22,7 @@ function ConfirmationRow<I extends Indicator>({
   indicator,
   value,
   className,
-  combination,
+  // combination,
   type,
 }: {
   indicator: I;
@@ -52,7 +52,7 @@ function ConfirmationRow<I extends Indicator>({
             },
             {
               value,
-              type: 'bullish_divergence',
+              type: 'bearish_divergence',
             },
           ];
     return returnValue;
@@ -73,7 +73,11 @@ function ConfirmationRow<I extends Indicator>({
         <div className="flex items-center gap-6">
           <ConfirmationTimeframeBadge
             indicator={indicator}
-            combination={combination}
+            combination={
+              infoBadges.map(r => r.type) as Array<
+                IndicatorConfirmationCombination<typeof indicator>
+              >
+            }
             value={value}
           />
           {infoBadges.map((badgeProps, i) => (
