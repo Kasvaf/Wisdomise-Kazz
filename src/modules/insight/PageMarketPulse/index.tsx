@@ -1,7 +1,11 @@
 import PageWrapper from 'modules/base/PageWrapper';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { IndicatorSelect, type MarketPulseIndicators } from './IndicatorSelect';
-import { RsiTabContent } from './components/RsiTabContent';
+import {
+  IndicatorSelect,
+  type MarketPulseIndicators,
+} from './components/IndicatorSelect';
+import { TabContent } from './components/TabContent';
+import { MarketPulseOnboarding } from './components/MarketPulseOnboarding';
 
 export default function PageMarketPulse() {
   const [indicator, setIndicator] =
@@ -10,7 +14,9 @@ export default function PageMarketPulse() {
   return (
     <PageWrapper className="flex flex-col gap-6">
       <IndicatorSelect value={indicator} onChange={setIndicator} />
-      {indicator === 'rsi' && <RsiTabContent />}
+      {indicator === 'rsi' && <TabContent indicator="rsi" />}
+      {indicator === 'macd' && <TabContent indicator="macd" />}
+      <MarketPulseOnboarding />
     </PageWrapper>
   );
 }

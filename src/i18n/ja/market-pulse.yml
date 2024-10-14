@@ -1,78 +1,107 @@
-common:
-  divergence: 発散
-  hide: 閉じる
-  in_timeframe: 時間枠内
-  price: 価格
-  price_change: 価格変更
-  rsi: RSI
-  show: 詳細を表示
-indicator_list:
-  advanced:
-    label: 高度な
-  macd:
-    label: MACD
-    soon: すぐ
-  rsi:
-    bearish: 弱気のダイバージェンス
-    bearish-info: RSIは低い高値を形成し、価格は高い高値を形成する
-    bullish: 強気のダイバージェンス
-    bullish-info: RSIはより高い安値を形成し、価格はより低い安値を形成する
-    description: 強気のダイバージェンスは、RSI
-      が売られ過ぎの読み取り値を示し、その後、価格がさらに低い安値とともに高値に変化したときに発生します。これは、強気の勢いが高まっていることを示している可能性があり、売られ過ぎの領域を上抜けることで、新しいロング
-      ポジションが引き起こされる可能性があります。逆に、弱気のダイバージェンスは、RSI
-      が買われ過ぎの読み取り値を示し、その後、価格がさらに高い高値とともに低値に変化したときに発生します。これは、弱気の勢いが高まっていることを示している可能性があり、買われ過ぎの領域を下抜けることで、新しいショート
-      ポジションが引き起こされる可能性があります。
-    heatmap:
-      24h_change: 24時間変更
-      bearish_divergence: 弱気のダイバージェンス
-      bullish_divergence: 強気のダイバージェンス
-      div: 部門
-      market_cap: 時価総額
-      no_divergence: 相違なし
-      overbought_area: 買われすぎエリア
-      oversold_area: 売られ過ぎエリア
-      price_change: 価格変更
-      rsi: RSI
-      title: RSI ヒートマップ
-    label: RSI
-    momentum:
-      bearish:
-        description: このタブは、価格が上昇しているものの勢いが弱まっている資産を追跡します。この差は、価格がすぐに下落する可能性があることを示唆しており、売却の好機を提供しています。
-        title: 弱気のダイバージェンス
-      bearish_momentum_confirmation: 弱気の勢いの確認
-      bullish:
-        description: このタブは、価格が下落しているものの、勢いが強まっている兆候を示している資産を追跡します。この差は、価格が反転して上昇する可能性があることを示唆しており、購入の好機を提供しています。
-        title: 強気のダイバージェンス
-      bullish_momentum_confirmation: 強気の勢いの確認
-      overbought:
-        description: このタブは、買われ過ぎの資産を追跡します。つまり、価格が高く、下落し始める可能性がある資産を追跡します。これにより、トレーダーは価格が下落する前に売却するチャンスを得ることができます。
-        title: 買われすぎ
-      overbought_bearish:
-        description: このタブは、買われ過ぎで下落の兆候を示している資産を追跡します。これは、資産が過大評価されており、価格が下落する可能性が高いことを意味し、売却のチャンスが生まれます。
-        title: 買われ過ぎと弱気
-      oversold:
-        description: このタブは、売られ過ぎの資産を追跡します。つまり、価格が低く、回復する準備ができている資産を追跡します。これにより、トレーダーは価格が上昇する前に購入する機会を得ることができます。
-        title: 売られ過ぎ
-      oversold_bullish:
-        description: このタブは、売られ過ぎで上昇の兆しを見せている資産を追跡します。これは、資産が過小評価されており、価格が上昇する可能性が高いことを意味し、購入の好機を提供します。
-        title: 売られ過ぎと強気
-    overbought: 買われ過ぎ
-    overbought-full-title: 買われすぎたコインのトップ
-    overbought-info: RSI>70
-    oversold: 売り過ぎ
-    oversold-full-title: 売れ過ぎたコインのトップ
-    oversold-info: RSI<30
-    statistics: 市場RSI統計
-    table:
-      duration: 間隔
-      name: 名前
-      price: 価格
-      price_change: 価格変更
-      resolution: 解決
-      rsi: RSI
-    title: 暗号通貨市場のRSI
+common.active_timeframe: アクティブ期間
+common.bearish.badge: 弱気配当
+common.bearish.full_badge: 弱気のダイバージェンス
+common.bearish.title: 弱気
+common.bearish_momentum_confirmation: 弱気相場の確認
+common.bullish.badge: 強気な配当
+common.bullish.full_badge: 強気のダイバージェンス
+common.bullish.title: 強気
+common.bullish_momentum_confirmation: 強気の確認
+common.divergence: 発散
+common.hide: 閉じる
+common.in_timeframe: 時間枠内
+common.long_term: 長期
+common.price: 価格
+common.price_change: 価格変更
+common.rsi: RSI
+common.short_term: 短期
+common.show: 詳細を表示
+indicator_list.advanced.label: 高度な
+indicator_list.macd.bearish_info: MACD が勢いの弱まりを示し、下降トレンドの可能性を示唆しているときに、潜在的な売りポイントを見つけます。
+indicator_list.macd.bullish_info: MACD が勢いの変化を示し、強気トレンドが形成されているときに、潜在的な購入機会を特定します。
+indicator_list.macd.crossdown.badge: MACDクロスシグナル
+indicator_list.macd.crossdown.full_badge: MACDクロスシグナルライン
+indicator_list.macd.crossdown.title: 信号線
+indicator_list.macd.crossdown_bearish.title: 高価で弱気
+indicator_list.macd.crossup.badge: MACDクロスシグナル
+indicator_list.macd.crossup.full_badge: MACDクロスシグナルライン
+indicator_list.macd.crossup.title: 信号線
+indicator_list.macd.crossup_bullish.title: 安くて強気
+indicator_list.macd.label: MACD
+indicator_list.macd.soon: すぐ
+indicator_list.macd.subtitle: 高度なフィルターを使用して意思決定のサポートを強化し、より自信を持って取引を選択できるようにすることで、MACD の洞察を得て取引戦略を最適化します。
+indicator_list.rsi.bearish-info: RSIは低い高値を形成し、価格は高い高値を形成する
+indicator_list.rsi.bearish_info: コインが過大評価され、勢いが鈍化していることを示す潜在的な売りポイントを見つけます。
+indicator_list.rsi.bullish-info: RSIはより高い安値を形成し、価格はより低い安値を形成する
+indicator_list.rsi.bullish_info: コインが過小評価され、反転の兆候が見られる場合、潜在的な購入機会を特定します。
+indicator_list.rsi.description: 強気のダイバージェンスは、RSI
+  が売られ過ぎの読み取り値を示し、その後、価格がさらに低い安値とともに高値に変化したときに発生します。これは、強気の勢いが高まっていることを示している可能性があり、売られ過ぎの領域を上抜けることで、新しいロング
+  ポジションが引き起こされる可能性があります。逆に、弱気のダイバージェンスは、RSI
+  が買われ過ぎの読み取り値を示し、その後、価格がさらに高い高値とともに低値に変化したときに発生します。これは、弱気の勢いが高まっていることを示している可能性があり、買われ過ぎの領域を下抜けることで、新しいショート
+  ポジションが引き起こされる可能性があります。
+indicator_list.rsi.heatmap.24h_change: 24時間変更
+indicator_list.rsi.heatmap.bearish_divergence: 弱気のダイバージェンス
+indicator_list.rsi.heatmap.bullish_divergence: 強気のダイバージェンス
+indicator_list.rsi.heatmap.div: 部門
+indicator_list.rsi.heatmap.market_cap: 時価総額
+indicator_list.rsi.heatmap.no_divergence: 相違なし
+indicator_list.rsi.heatmap.overbought_area: 買われすぎエリア
+indicator_list.rsi.heatmap.oversold_area: 売られ過ぎエリア
+indicator_list.rsi.heatmap.price_change: 価格変更
+indicator_list.rsi.heatmap.rsi: RSI
+indicator_list.rsi.heatmap.title: RSI ヒートマップ
+indicator_list.rsi.label: RSI
+indicator_list.rsi.momentum.bearish.description: このタブは、価格が上昇しているものの勢いが弱まっている資産を追跡します。この差は、価格がすぐに下落する可能性があることを示唆しており、売却の好機を提供しています。
+indicator_list.rsi.momentum.bearish.title: 弱気のダイバージェンス
+indicator_list.rsi.momentum.bearish_momentum_confirmation: 弱気の勢いの確認
+indicator_list.rsi.momentum.bullish.description: このタブは、価格が下落しているものの、勢いが強まっている兆候を示している資産を追跡します。この差は、価格が反転して上昇する可能性があることを示唆しており、購入の好機を提供しています。
+indicator_list.rsi.momentum.bullish.title: 強気のダイバージェンス
+indicator_list.rsi.momentum.bullish_momentum_confirmation: 強気の勢いの確認
+indicator_list.rsi.momentum.overbought.description: このタブは、買われ過ぎの資産を追跡します。つまり、価格が高く、下落し始める可能性がある資産を追跡します。これにより、トレーダーは価格が下落する前に売却するチャンスを得ることができます。
+indicator_list.rsi.momentum.overbought.title: 買われすぎ
+indicator_list.rsi.momentum.overbought_bearish.description: このタブは、買われ過ぎで下落の兆候を示している資産を追跡します。これは、資産が過大評価されており、価格が下落する可能性が高いことを意味し、売却のチャンスが生まれます。
+indicator_list.rsi.momentum.overbought_bearish.title: 買われ過ぎと弱気
+indicator_list.rsi.momentum.oversold.description: このタブは、売られ過ぎの資産を追跡します。つまり、価格が低く、回復する準備ができている資産を追跡します。これにより、トレーダーは価格が上昇する前に購入する機会を得ることができます。
+indicator_list.rsi.momentum.oversold.title: 売られ過ぎ
+indicator_list.rsi.momentum.oversold_bullish.description: このタブは、売られ過ぎで上昇の兆しを見せている資産を追跡します。これは、資産が過小評価されており、価格が上昇する可能性が高いことを意味し、購入の好機を提供します。
+indicator_list.rsi.momentum.oversold_bullish.title: 売られ過ぎと強気
+indicator_list.rsi.overbought: 買われ過ぎ
+indicator_list.rsi.overbought-full-title: 買われすぎたコインのトップ
+indicator_list.rsi.overbought-info: RSI>70
+indicator_list.rsi.overbought.badge: 買われすぎ
+indicator_list.rsi.overbought.full_badge: RSI 買われすぎ
+indicator_list.rsi.overbought.title: 高い
+indicator_list.rsi.overbought_bearish.title: 高価で弱気
+indicator_list.rsi.oversold: 売り過ぎ
+indicator_list.rsi.oversold-full-title: 売れ過ぎたコインのトップ
+indicator_list.rsi.oversold-info: RSI<30
+indicator_list.rsi.oversold.badge: 売られ過ぎ
+indicator_list.rsi.oversold.full_badge: RSI 売られすぎ
+indicator_list.rsi.oversold.title: 安い
+indicator_list.rsi.oversold_bullish.title: 安くて強気
+indicator_list.rsi.statistics: 市場RSI統計
+indicator_list.rsi.subtitle: カスタマイズされた RSI 分析情報を取得して取引戦略を改良し、高度なフィルターを活用して意思決定と明確さを向上させます。
+indicator_list.rsi.table.duration: 間隔
+indicator_list.rsi.table.name: 名前
+indicator_list.rsi.table.price: 価格
+indicator_list.rsi.table.price_change: 価格変更
+indicator_list.rsi.table.resolution: 解決
+indicator_list.rsi.table.rsi: RSI
+indicator_list.rsi.title: 暗号通貨市場のRSI
 indicators: 指標
-periods:
-  daily: 毎日
-  hour: h
-  min: min
+onboarding.sec-1.content: 当社の AI インジケーター ページでは、複雑なテクニカル
+  インジケーターを、シンプルで実用的な洞察に分解します。初心者でもエキスパートでも、情報に基づいた迅速な意思決定を簡単に行うことができます。
+onboarding.sec-1.title: "AIインジケーターページへようこそ: 複雑なデータから得られるシンプルな洞察"
+onboarding.sec-2.content: 相対力指数 (RSI)
+  は、価格変動の速度と変化を測定し、コインが買われ過ぎか売られ過ぎかを示します。当社のヒート
+  マップはこれらのコインを視覚的に強調表示し、一目で潜在的な購入または販売の機会を見つけるのに役立ちます。
+onboarding.sec-2.title: RSIとは何ですか?<br>市場の勢いを理解する
+onboarding.sec-3.content: 探す <b>強気と弱気の乖離</b>
+  潜在的な市場の反転を特定します。強気の乖離は上昇の勢いを示し、弱気の乖離は下降傾向を示します。これらの洞察を活用して、市場の先を進みましょう。
+onboarding.sec-3.title: 強気と弱気の乖離：勢いの変化を見極める
+onboarding.sec-4.content: コインが重要な RSI
+  レベルに達したときや乖離の兆候が見られたときの通知をカスタマイズします。即時アラートを受け取ることで、重要な取引機会を逃すことはありません。
+onboarding.sec-4.title: "最新情報を入手: 重要な指標のアラートを設定する"
+periods.daily: 毎日
+periods.hour: h
+periods.min: min

@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { type RsiHeatmapResolution, useRsiHeatmap } from 'api/market-pulse';
+import {
+  type IndicatorHeatmapResolution,
+  useIndicatorHeatmap,
+} from 'api/market-pulse';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
 
 export function RsiHeatmapWidget({ className }: { className?: string }) {
   const { t } = useTranslation('market-pulse');
-  const [resolution, setResolution] = useState<RsiHeatmapResolution>('1h');
-  const heatmap = useRsiHeatmap({
+  const [resolution, setResolution] =
+    useState<IndicatorHeatmapResolution>('1h');
+  const heatmap = useIndicatorHeatmap({
+    indicator: 'rsi',
     resolution,
   });
   return (

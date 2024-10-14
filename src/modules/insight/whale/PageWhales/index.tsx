@@ -7,6 +7,7 @@ import { WhalesTable } from './WhalesTable';
 import { CoinsTable } from './CoinsTable';
 import { TopCoins } from './TopCoins';
 import { WalletInput } from './WalletInput';
+import { WhalesOnboarding } from './WhalesOnboarding';
 
 export default function PageWhales() {
   const { t } = useTranslation('whale');
@@ -50,6 +51,7 @@ export default function PageWhales() {
           </div>
         </div>
       </div>
+      <WhalesOnboarding />
     </PageWrapper>
   );
 }
