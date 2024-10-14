@@ -1,17 +1,19 @@
 import { useEffect } from 'react';
 import { useAccountQuery } from 'api';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 export const useHubSpot = () => {
   const { data: account } = useAccountQuery();
+  const isLoggedIn = useIsLoggedIn();
 
   useEffect(() => {
-    if (account?.email) {
+    if (account?.email && isLoggedIn) {
       configHubSpot({
         email: account.email,
         token: account.hub_spot_token,
       });
     }
-  }, [account?.email, account?.hub_spot_token]);
+  }, [account?.email, account?.hub_spot_token, isLoggedIn]);
 };
 
 let loaded = false;
