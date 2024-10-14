@@ -117,7 +117,7 @@ interface WithdrawRequest {
 
 export const useWithdrawMutation = () =>
   useMutation(async (body: WithdrawRequest) => {
-    const { data } = await axios.post<CheckEligibilityResponse[]>(
+    const { data } = await axios.post(
       `${TEMPLE_ORIGIN}/api/v1/investment/gamification/user/withdraw`,
       body,
     );

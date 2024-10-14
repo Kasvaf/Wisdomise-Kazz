@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react';
 import { clsx } from 'clsx';
+import { notification } from 'antd';
 import Card from 'shared/Card';
 import {
   type TicketType,
@@ -35,7 +36,8 @@ export default function ClaimRewardPage() {
   const [open, setOpen] = useState(false);
   const { data: userTickets } = useUserTicketsQuery();
   const [tonConnect] = useTonConnectUI();
-  const { mutateAsync: withdraw } = useWithdrawMutation();
+  const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
+    useWithdrawMutation();
 
   useEffect(() => {
     sync({});
@@ -43,7 +45,21 @@ export default function ClaimRewardPage() {
 
   const check = (ticketType: TicketType) => {
     setSelectedTicket(ticketType);
-    void mutateAsync({ ticket_type: ticketType }).then(() => setOpen(true));
+    void mutateAsync({ ticket_type: ticketType }).then(() => {
+      setOpen(true);
+      sync({});
+      return null;
+    });
+  };
+
+  const handleWithdraw = () => {
+    void withdraw({ token: 'wsdm' }).then(() => {
+      notification.success({
+        message: 'Withdrawal registered! You will get your tokens in few days',
+      });
+      sync({});
+      return null;
+    });
   };
 
   return (
@@ -100,7 +116,9 @@ export default function ClaimRewardPage() {
               variant="tg-blue"
               size="small"
               className="ms-auto w-36"
-              onClick={() => withdraw({ token: 'wsdm' })}
+              onClick={() => handleWithdraw()}
+              loading={withdrawIsLoading}
+              disabled={data?.wsdm_balance === 0 || withdrawIsLoading}
             >
               Withdraw
             </Button>
@@ -130,6 +148,7 @@ export default function ClaimRewardPage() {
             className="ms-auto w-36"
             loading={isLoading}
             onClick={() => check('silver_ticket')}
+            disabled={isLoading}
           >
             Check Eligibility
           </Button>
