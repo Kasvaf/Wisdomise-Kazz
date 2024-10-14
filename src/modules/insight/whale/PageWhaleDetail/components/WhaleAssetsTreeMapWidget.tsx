@@ -31,7 +31,7 @@ export function WhaleAssetsTreeMapWidget({
         self.findIndex(
           subRow =>
             JSON.stringify(subRow.symbol) === JSON.stringify(row.symbol),
-        ) === index,
+        ) === index && row.market_data.id,
     );
     return {
       data: {
