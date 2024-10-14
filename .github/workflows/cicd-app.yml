@@ -76,7 +76,7 @@ jobs:
 
       - name: Install dependencies
         run: |-
-          python3 -m pip install awscli
+          python3 -m pipx install awscli
           yarn install --production=false
 
       - name: Run linter and prettier
