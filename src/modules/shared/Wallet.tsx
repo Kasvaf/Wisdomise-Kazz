@@ -9,19 +9,21 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { shortenAddress } from 'utils/shortenAddress';
 
-export const WalletAddress: FC<{
-  address: string;
-  network: string;
+export const Wallet: FC<{
+  wallet: {
+    address: string;
+    network: string;
+  };
   mode?: 'link' | 'title';
   className?: string;
-}> = ({ className, address, mode, network }) => {
+}> = ({ className, wallet, mode }) => {
   const { t } = useTranslation('common');
   const [, copyToClipboard] = useCopyToClipboard();
   const [notification, notificationContent] = useNotification();
-  const shortAddress = shortenAddress(address);
+  const shortAddress = shortenAddress(wallet.address);
 
   const copy = () => {
-    void copyToClipboard(address).then(() => {
+    void copyToClipboard(wallet.address).then(() => {
       notification.success({
         message: t('copied-to-clipboard'),
         className: '[&_.ant-notification-notice-description]:hidden',
@@ -34,11 +36,11 @@ export const WalletAddress: FC<{
       'share' in navigator &&
       'canShare' in navigator &&
       navigator.canShare({
-        text: address,
+        text: wallet.address,
       })
     ) {
       return navigator.share({
-        text: address,
+        text: wallet.address,
       });
     }
     return copy();
@@ -67,7 +69,7 @@ export const WalletAddress: FC<{
             onClick={() => copy()}
           />
           <Link
-            to={`/insight/whales/${network}/${address}`}
+            to={`/insight/whales/${wallet.network}/${wallet.address}`}
             className="font-mono text-blue-400 hover:text-blue-300"
           >
             {shortAddress}

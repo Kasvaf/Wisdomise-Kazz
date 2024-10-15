@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { type TableColumnType } from 'antd';
 import { useHasFlag, useWhales, type WhaleShort } from 'api';
 import Table from 'shared/Table';
-import { WalletAddress } from 'shared/WalletAddress';
+import { Wallet } from 'shared/Wallet';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
@@ -22,9 +22,11 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       {
         title: t('sections.top-whales.table.wallet-address'),
         render: (_, row) => (
-          <WalletAddress
-            address={row.holder_address}
-            network={row.network_name}
+          <Wallet
+            wallet={{
+              address: row.holder_address,
+              network: row.network_name,
+            }}
           />
         ),
       },
@@ -43,7 +45,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       {
         title: t('sections.top-whales.table.trades'),
         render: (_, row) => (
-          <ReadableNumber value={row.total_last_30_days_transfers} />
+          <ReadableNumber value={row.last_14_days_number_of_trades} />
         ),
       },
     ],

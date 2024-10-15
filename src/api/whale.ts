@@ -6,14 +6,38 @@ import { type Coin } from './types/shared';
 
 export interface WhaleShort {
   rank: number;
-  balance_usdt: number;
   holder_address: string;
-  last_30_days_trading_pnl_percentage: number;
-  network_icon_url: string;
   network_name: string;
-  total_last_30_days_transfers: number;
-  symbol_name: string;
+  network_icon_url?: string | null;
+  balance_usdt?: number | null;
+  last_30_days_transfer_volume?: number | null;
+  last_30_days_trading_pnl?: number | null;
+  last_30_days_trading_pnl_percentage?: number | null;
+  last_30_days_trading_wins?: number | null;
+  last_30_days_trading_losses?: number | null;
+  last_30_days_total_buys?: number | null;
+  last_30_days_total_sells?: number | null;
+  last_30_days_in_flow?: number | null;
+  last_30_days_out_flow?: number | null;
+  last_14_days_number_of_trades?: number | null;
+  last_14_days_total_trade_duration_seconds?: number | null;
+  total_trading_assets?: number | null;
+  total_holding_assets?: number | null;
+  top_assets: Array<{
+    symbol: Coin;
+    amount?: number | null;
+    worth?: number | null;
+    label?: string | null;
+    last_30_days_trading_pnl?: number | null;
+    last_30_days_trading_pnl_percentage?: number | null;
+  }>;
 }
+
+export type WhalesFilter =
+  | 'all'
+  | 'best_to_copy'
+  | 'holders'
+  | 'wealthy_wallets';
 
 export const useWhales = (filters?: {
   page: number;
@@ -21,7 +45,7 @@ export const useWhales = (filters?: {
   sortBy?: string;
   isAscending?: boolean;
   networkName?: string;
-  holderAddress?: string;
+  filter?: WhalesFilter;
 }) =>
   useQuery({
     queryKey: ['whales', JSON.stringify(filters)],
@@ -41,7 +65,7 @@ export const useWhales = (filters?: {
                   : 'False'
                 : undefined,
             network_name: filters?.networkName,
-            holder_address: filters?.holderAddress,
+            filter: filters?.filter ?? 'all',
           },
         },
       );
@@ -55,23 +79,33 @@ export interface WhaleCoin {
   symbol_name: string;
   symbol_slug?: string | null;
   symbol: Coin;
-  total_last_30_days_trading_pnl: number;
-  total_transactions: number;
-  total_volume: number;
+  total_buy_number?: null | number;
+  total_buy_volume?: null | number;
+  total_holding_volume?: null | number;
+  total_last_30_days_trading_pnl?: null | number;
+  total_sell_number?: null | number;
+  total_sell_volume?: null | number;
+  total_transfer_volume?: null | number;
   market_data: {
-    current_price: number;
-    image?: string | null;
-    price_change_24h: number;
-    price_change_percentage_24h: number;
+    circulating_supply?: null | number;
+    current_price?: null | number;
+    market_cap?: null | number;
+    price_change_24h?: null | number;
+    price_change_percentage_24h?: null | number;
+    total_supply?: null | number;
   };
 }
+
+export type WhaleCoinsFilter = 'all' | 'buy' | 'sell' | 'total_volume' | 'hold';
 
 export const useWhalesCoins = (filters?: {
   page: number;
   pageSize: number;
-  days?: number;
   sortBy?: string;
   isAscending?: boolean;
+  networkName?: string;
+  filter?: WhaleCoinsFilter;
+  days?: number;
 }) =>
   useQuery({
     queryKey: ['whales-coins', JSON.stringify(filters)],
@@ -84,6 +118,7 @@ export const useWhalesCoins = (filters?: {
             page_size: filters?.pageSize ?? 10,
             page: filters?.page ?? 1,
             days: filters?.days ?? 1,
+            network_name: filters?.networkName,
             sorted_by: filters?.sortBy,
             ascending:
               typeof filters?.isAscending === 'boolean'
@@ -91,6 +126,7 @@ export const useWhalesCoins = (filters?: {
                   ? 'True'
                   : 'False'
                 : undefined,
+            filter: filters?.filter ?? 'all',
           },
         },
       );

@@ -48,7 +48,9 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
               </div>
               <ReadableNumber
                 className="text-sm"
-                value={row.total_transactions}
+                value={
+                  (row.total_sell_number ?? 0) + (row.total_buy_number ?? 0)
+                }
               />
             </div>
             <div>
@@ -57,7 +59,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
               </div>
               <ReadableNumber
                 className="text-sm"
-                value={row.total_volume}
+                value={row.total_transfer_volume}
                 label={row.symbol_abbreviation}
               />
             </div>

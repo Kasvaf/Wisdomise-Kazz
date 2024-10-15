@@ -28,9 +28,15 @@ asset_badges:
     This whale is reducing their holdings by more than 5%, but not exiting
     completely.
 filters:
-  all-chains: All Chains
-  search-whale: Search Whale
-  wallet: Search by wallet address
+  all: All
+  all-networks: All Networks
+  best_to_copy: Best To Copy
+  buy: Buy
+  hold: Hold
+  holders: Holders
+  sell: Sell
+  total_volume: Trading Volume
+  wealthy_wallets: Wealthy Wallets
 onboarding:
   sec-1:
     title: 'Welcome to Smart Wallets: Track Top Whales & Traders'
@@ -65,32 +71,73 @@ sections:
     subtitle: >-
       See the most traded coins by whales, ranked by transaction volume and
       frequency.
-    filters:
-      1d: 24H
-      30d: 30D
-      7d: 7D
     table:
-      coin: Discovered Coin
-      price: Price
-      rank: Rank
       total-vol: Total Volume Transacted
       transactions: Whale Transactions
-  top-gainers: Top Gainers on Whale
-  top-losers: Top Losers on Whale
   top-whales:
     title: Top Whales List
     subtitle: Discover the wealthiest addresses (whales) across blockchains
-    filters:
-      1d: 24H
-      30d: 30D
-      7d: 7D
     table:
-      network: Network
       pnl_percent: PNL Percentage
-      rank: Rank
       total_worth: Total Worth
       trades: Trades
       wallet-address: Wallet Address
+top_coins:
+  name: Name
+  title: Top Tokens Chosen by Whales
+  buy_volume:
+    title: Buy Volume
+    info: >-
+      The total volume bought from smart wallets and total wallet in the last
+      7D.
+  buys:
+    title: Buys
+    info: >-
+      The total number of smart wallets and total wallet that bought in the last
+      7D.
+  info:
+    title: Info
+    info: The current price, fully diluted Market Cap, and liquidity.
+  sell_volume:
+    title: Sell Volume
+    info: The total volume sold from smart wallets and total wallet in the last 7D.
+  sells:
+    title: Sells
+    info: >-
+      The total number of smart wallets and total wallet that sold in the last
+      7D.
+top_whales:
+  title: Top Whales
+  description: >-
+    this wallets rank in top 10% our wallets based on pnl from trades in last 30
+    days
+  14_days: 14 Days
+  address: Address
+  balance:
+    title: Balance
+    info: The current wallet balance in quote asset.
+  buy_sell: Buy/Sell
+  network: Network
+  returns:
+    title: Returns
+    info: >-
+      The total returns of the wallet in the last 30 days, calculated as the P&L
+      in the quote asset (e.g., ETH) divided by the maximum value of tokens held
+      (in ETH) during the period.
+  tokens: Tokens
+  trades_per_day: 'Avg # Of Trades/Day'
+  trading_holding: Trading/Holding
+  trading_pnl:
+    title: Trading PNL
+    info: >-
+      The total profit and loss of the wallet in the last 30 days (realized +
+      unrealized PnL).
+  trading_volume:
+    title: Trading Volume
+    info: The total value of tokens swapped in the last 30 days, expressed in USD.
+  wins:
+    title: Wins
+    info: The total number of wins vs the amount of unique tokens swapped.
 whale_assets:
   title: User Assets
   others: Others
