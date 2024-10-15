@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import { useEffect, type PropsWithChildren } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useHasFlag } from 'api';
+import { useAccountQuery, useHasFlag } from 'api';
 import Button from 'shared/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { useIsLoggedIn } from './jwt-store';
@@ -12,13 +12,14 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   const hasFlag = useHasFlag();
   const isAuthorized = hasFlag('?');
   const isLoggedIn = useIsLoggedIn();
+  const { isFetching } = useAccountQuery();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
 
   useEffect(() => {
-    if (isLoggedIn && !isAuthorized) {
+    if (isLoggedIn && !isAuthorized && !isFetching) {
       navigate('/');
     }
-  }, [isAuthorized, isLoggedIn, navigate]);
+  }, [isAuthorized, isFetching, isLoggedIn, navigate]);
 
   return isAuthorized ? (
     <>{children}</>
