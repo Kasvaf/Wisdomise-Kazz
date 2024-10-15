@@ -1,5 +1,6 @@
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 import { useTelegram } from 'modules/autoTrader/TelegramProvider';
 import { isLocal } from 'utils/version';
 import { useMiniAppLoginQuery } from 'api';
@@ -32,16 +33,12 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
         setShow(true);
         return null;
       });
-      // sendGTMEvent({
-      //   event: 'userData',
-      //   user_id: webApp?.initDataUnsafe.user?.id,
-      // });
-      // Sentry.setUser({
-      //   id: webApp?.initDataUnsafe.user?.id,
-      //   username: webApp?.initDataUnsafe.user?.username,
-      // });
+      Sentry.setUser({
+        telegram_id: webApp?.initDataUnsafe.user?.id,
+        username: webApp?.initDataUnsafe.user?.username,
+      });
     }
-  }, [data, mutateAsync, navigate]);
+  }, [data, mutateAsync, navigate, webApp?.initDataUnsafe.user]);
 
   return show && data ? (
     <div>{children}</div>
