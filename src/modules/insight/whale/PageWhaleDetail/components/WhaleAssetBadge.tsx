@@ -45,9 +45,15 @@ const useBadgeDetail = (
       info: t('asset_badges.exit_portfolio_info'),
       className: 'bg-v1-content-negative/10 text-v1-content-negative',
     };
+  if (badge === 'trading') {
+    return {
+      title: t('asset_badges.trading'),
+      className: 'bg-v1-content-primary/10 text-v1-content-primary',
+    };
+  }
   return {
-    title: t('asset_badges.trading'),
-    className: 'bg-v1-content-primary/10 text-v1-content-primary',
+    title: t('common:not-available'),
+    className: 'text-v1-content-secondary',
   };
 };
 

@@ -113,7 +113,7 @@ export function WhaleHoldsWidget({
       className={className}
       title={t('whale_holds.title')}
       loading={whale.isLoading}
-      empty={whale.data?.trading_assets?.length === 0}
+      empty={whale.data?.holding_assets?.length === 0}
     >
       <Table
         columns={columns}

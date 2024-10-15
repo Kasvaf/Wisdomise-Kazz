@@ -8,6 +8,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import Icon from 'shared/Icon';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 
 function StatRow({
   className,
@@ -99,14 +100,10 @@ export function WhaleOverviewWidget({
       </div>
       <div className="h-px bg-v1-content-disabled" />
       <StatRow label={t('whale_overview.trading_pnl')}>
-        <ReadableNumber
+        <DirectionalNumber
           value={whale.data?.last_30_days_trading_pnl}
           label="usdt"
-          className={clsx(
-            (whale.data?.last_30_days_trading_pnl ?? 0) >= 0
-              ? 'text-v1-content-positive'
-              : 'text-v1-content-negative',
-          )}
+          showIcon={false}
         />
       </StatRow>
       <StatRow label={t('whale_overview.trading_volume')}>

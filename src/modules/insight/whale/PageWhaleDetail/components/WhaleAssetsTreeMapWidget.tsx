@@ -69,7 +69,7 @@ export function WhaleAssetsTreeMapWidget({
               },
             )}`,
             name: asset.market_data.id as string,
-            value: Math.log2(asset.worth + 1),
+            value: Math.log10(asset.worth + 1),
             tooltip: `${asset.symbol?.name ?? ''}: $${formatNumber(
               asset.worth ?? 0,
               {

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
-import { WalletAddress } from 'shared/WalletAddress';
+import { Wallet } from 'shared/Wallet';
 import { WhaleOverviewWidget } from './components/WhaleOverviewWidget';
 import { WhaleAssetsTreeMapWidget } from './components/WhaleAssetsTreeMapWidget';
 import { WhaleBalanceChartWidget } from './components/WhaleBalanceChartWidget';
@@ -21,9 +21,11 @@ export default function PageWhaleDetail() {
   return (
     <PageWrapper>
       <div className="grid grid-cols-6 items-start gap-6">
-        <WalletAddress
-          address={holderAddress}
-          network={networkName}
+        <Wallet
+          wallet={{
+            network: networkName,
+            address: holderAddress,
+          }}
           mode="title"
           className="col-span-2 mobile:col-span-6"
         />
