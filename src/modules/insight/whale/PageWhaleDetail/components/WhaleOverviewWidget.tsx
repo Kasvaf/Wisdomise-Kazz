@@ -120,7 +120,10 @@ export function WhaleOverviewWidget({
         className="w-full flex-wrap"
       >
         <div className="w-full basis-full space-y-2">
-          <div className="relative h-1 w-full overflow-hidden rounded bg-v1-content-negative">
+          <div className="relative h-1 w-full overflow-hidden rounded bg-v1-content-secondary">
+            {(whale.data?.last_30_days_trading_losses ?? 0) > 0 && (
+              <div className="absolute left-0 top-0 h-full w-full bg-v1-content-negative" />
+            )}
             <div
               className="absolute left-0 top-0 h-full bg-v1-content-positive"
               style={{
