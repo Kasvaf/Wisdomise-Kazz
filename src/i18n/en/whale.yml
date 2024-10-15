@@ -93,6 +93,7 @@ sections:
       wallet-address: Wallet Address
 whale_assets:
   title: User Assets
+  others: Others
 whale_balance_chart:
   title: Wallet Balance Chart
   balance: Balance
