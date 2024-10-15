@@ -15,10 +15,10 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !isAuthorized) {
       navigate('/');
     }
-  }, [isLoggedIn, navigate]);
+  }, [isAuthorized, isLoggedIn, navigate]);
 
   return isAuthorized ? (
     <>{children}</>
