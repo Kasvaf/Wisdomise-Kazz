@@ -15,7 +15,8 @@ import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Link from 'shared/Link';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
-import { ReactComponent as LoginBg } from './Login.svg';
+// import { ReactComponent as LoginBg } from './Login.svg';
+import LoginBg from './login-bg.png';
 
 const ModalLogin: React.FC<{
   onResolve?: (success: boolean) => void;
@@ -235,7 +236,10 @@ const ModalLogin: React.FC<{
       ) : (
         codeContent
       )}
-      <LoginBg className="-my-5 -mr-7 w-[440px] shrink-0 mobile:hidden" />
+      <img
+        src={LoginBg}
+        className="-my-5 -mr-6 h-[524px] w-[440px] shrink-0 bg-black/30 mobile:hidden"
+      />
     </div>
   );
 };
