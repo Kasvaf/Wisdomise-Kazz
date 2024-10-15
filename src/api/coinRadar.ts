@@ -260,7 +260,9 @@ export const useSocialMessages = (slug: string) =>
             ({
               id: `trading_view:${tradingViewIdeasMessage.id}`,
               social_type: 'trading_view',
-              timestamp: new Date(tradingViewIdeasMessage.updated_at).getTime(),
+              timestamp: new Date(
+                tradingViewIdeasMessage.author_updated_at,
+              ).getTime(),
               content: tradingViewIdeasMessage,
             }) satisfies SocialMessage,
         ),
