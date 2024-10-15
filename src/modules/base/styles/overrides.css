@@ -36,6 +36,10 @@
   background: linear-gradient(239deg, #362253 0%, #340f6b 131.46%);
 }
 
+.ant-modal-mask {
+  @apply backdrop-blur-sm;
+}
+
 .ant-modal-body {
   @apply bg-transparent p-0;
   background-color: transparent !important;
