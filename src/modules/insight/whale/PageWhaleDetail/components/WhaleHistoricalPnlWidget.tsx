@@ -23,17 +23,24 @@ export function WhaleHistoricalPnlWidget({
   });
 
   const config = useMemo<LineConfig>(() => {
-    return {
-      data: [...(whale?.data?.last_30_days_pnls ?? [])].sort(
+    const data = [...(whale?.data?.last_30_days_pnls ?? [])]
+      .sort(
         (a, b) =>
           new Date(a.related_at_date).getTime() -
           new Date(b.related_at_date).getTime(),
-      ),
-      xField: 'related_at_date',
-      yField: 'last_30_days_trading_pnl',
+      )
+      .filter(r => r.related_at_date)
+      .map(r => ({
+        y: r.last_30_days_trading_pnl ?? 0,
+        x: r.related_at_date,
+      }));
+    return {
+      data,
+      xField: 'x',
+      yField: 'y',
       padding: 'auto',
       connectNulls: true,
-      color: '#727272',
+      color: '#00DA98',
       xAxis: {
         grid: null,
         label: {
@@ -61,7 +68,7 @@ export function WhaleHistoricalPnlWidget({
         title: dt => dayjs(dt).format('ddd, MMM D, YYYY'),
         formatter: dt => ({
           name: t('whale_historical_pnl.last_30_trading_pnl'),
-          value: `${formatNumber(dt.last_30_days_trading_pnl, {
+          value: `${formatNumber(dt.y, {
             compactInteger: true,
             decimalLength: 1,
             minifyDecimalRepeats: true,
@@ -81,20 +88,20 @@ export function WhaleHistoricalPnlWidget({
         {
           type: 'regionFilter',
           start: ['min', '0'],
-          end: ['max', '-999'],
+          end: ['max', 'min'],
           color: '#F14056',
         },
-        {
-          type: 'regionFilter',
-          start: ['min', '0'],
-          end: ['max', '999'],
-          color: '#00DA98',
-        },
+        // {
+        //   type: 'regionFilter',
+        //   start: ['min', '0'],
+        //   end: ['max', 'max'],
+        //   color: '#00DA98',
+        // },
       ],
       smooth: true,
       autoFit: true,
       loading: whale.isLoading,
-      height: 170,
+      height: 180,
     };
   }, [t, whale]);
 
