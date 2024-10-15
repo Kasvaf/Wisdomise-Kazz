@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHasFlag } from 'api';
@@ -8,10 +8,9 @@ import { useIsLoggedIn } from './jwt-store';
 
 const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation('auth');
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const hasFlag = useHasFlag();
-  const isAuthorized = hasFlag(pathname);
+  const isAuthorized = hasFlag('?');
   const isLoggedIn = useIsLoggedIn();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
 
