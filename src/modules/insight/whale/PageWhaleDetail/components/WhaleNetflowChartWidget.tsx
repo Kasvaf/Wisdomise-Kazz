@@ -186,10 +186,10 @@ export function WhaleNetflowChartWidget({
             }
             placement="right"
           >
-            <div className="relative h-full w-full min-w-1 overflow-visible transition-all hover:!opacity-100 group-hover:opacity-50">
+            <div className="relative h-full w-2 shrink-0 overflow-visible transition-all hover:!opacity-100 group-hover:opacity-50">
               <div className="relative h-1/2">
                 <div
-                  className="absolute bottom-0 min-h-1 w-full rounded-t  bg-v1-content-positive"
+                  className="absolute bottom-0 min-h-1 w-full shrink-0 rounded-t bg-v1-content-positive"
                   style={{
                     height: `${(r.today_in_flow / config.maxInFlow) * 100}%`,
                   }}
@@ -197,7 +197,7 @@ export function WhaleNetflowChartWidget({
               </div>
               <div className="relative h-1/2">
                 <div
-                  className="absolute top-0 min-h-1 w-full rounded-b bg-v1-content-negative"
+                  className="absolute top-0 min-h-1 w-full shrink-0 rounded-b bg-v1-content-negative"
                   style={{
                     height: `${(r.today_out_flow / config.maxOutFlow) * 100}%`,
                   }}
