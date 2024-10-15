@@ -66,16 +66,15 @@ export default function ClaimRewardPage() {
     <div className="mb-28 p-6 pt-4">
       <div className="flex items-center justify-between">
         <img className="h-6" src={logo} alt="logo" />
-        {tonConnect.connected ? (
-          <p className="text-xs text-white/40">
+        <TonConnectButton />
+      </div>
+      <div className="mt-6">
+        {tonConnect.connected && (
+          <p className="mb-6 text-xs text-white/40">
             Your WSDM balance:{' '}
             <span className="text-white">{addComma(0)} WSDM</span>
           </p>
-        ) : (
-          <TonConnectButton />
         )}
-      </div>
-      <div className="mt-6">
         <Card className="mt-3 py-3">
           <div className="flex gap-3">
             <img src={ton} alt="ton" className="h-10 w-10 scale-x-[-1]" />
@@ -118,7 +117,7 @@ export default function ClaimRewardPage() {
               className="ms-auto w-36"
               onClick={() => handleWithdraw()}
               loading={withdrawIsLoading}
-              disabled={data?.wsdm_balance === 0 || withdrawIsLoading}
+              disabled={(data?.wsdm_balance ?? 0) === 0 || withdrawIsLoading}
             >
               Withdraw
             </Button>
@@ -239,9 +238,11 @@ export default function ClaimRewardPage() {
                     {selectedTicket === 'silver_ticket' ? 'Silver Ticket' : ''}
                   </span>
                 </div>
-                <div className="rounded bg-[#28323E] px-1">ID: {ticket}</div>
+                <div className="rounded bg-[#28323E] px-2 py-px">
+                  ID: {ticket}
+                </div>
                 {eligibility?.[0]?.ticket_number === ticket && (
-                  <div className="ms-auto flex gap-2 text-[#00FFA3]">
+                  <div className="me-2 ms-auto flex gap-2 text-[#00FFA3]">
                     <img src={star} />
                     <span>Winner</span>
                   </div>

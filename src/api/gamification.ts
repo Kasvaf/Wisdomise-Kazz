@@ -56,6 +56,7 @@ export interface SyncDataResponse {
   total_bets: 0;
   total_bets_won: 0;
   wallet_address: string;
+  joined_waitlist_at?: string;
   tickets: {
     golden_ticket: number;
     plat_ticket: number;

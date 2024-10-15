@@ -17,7 +17,7 @@ const useMiniAppRoutes = () => {
       path: '',
       children: [
         {
-          path: '',
+          path: 'join-waitlist',
           element: <PageWaitlist />,
         },
         {

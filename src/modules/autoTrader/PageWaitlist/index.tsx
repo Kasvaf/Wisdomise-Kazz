@@ -9,6 +9,9 @@ import { useWaitlistMutation } from 'api/gamification';
 import { Background } from 'modules/autoTrader/TelegramAuthGuard';
 import tickets from '../tickets.png';
 import check from '../check.svg';
+import sparkler from './sparkler.png';
+import target from './target.png';
+import lightBulb from './lightBulb.png';
 
 export default function PageWaitlist() {
   const [tonConnect] = useTonConnectUI();
@@ -72,6 +75,38 @@ export default function PageWaitlist() {
               Connect your wallet to claim rewards and access Wisdomise
               Autotrader’s automated trading features.
             </p>
+            <div className="flex flex-wrap justify-center gap-1">
+              <div
+                className="flex items-center gap-1 rounded-3xl px-2 py-1"
+                style={{
+                  background:
+                    'linear-gradient(91deg, rgba(255, 255, 255, 0.40) -7.03%, rgba(255, 255, 255, 0.20) 113.62%)',
+                }}
+              >
+                <img className="h-8 w-8" src={sparkler} alt="insight" />
+                AI-driven Insights
+              </div>
+              <div
+                className="flex items-center gap-1 rounded-3xl px-2 py-1"
+                style={{
+                  background:
+                    'linear-gradient(91deg, rgba(255, 255, 255, 0.40) -7.03%, rgba(255, 255, 255, 0.20) 113.62%)',
+                }}
+              >
+                <img className="h-8 w-8" src={target} alt="insight" />
+                Limit Orders
+              </div>
+              <div
+                className="flex items-center gap-1 rounded-3xl px-2 py-1"
+                style={{
+                  background:
+                    'linear-gradient(91deg, rgba(255, 255, 255, 0.40) -7.03%, rgba(255, 255, 255, 0.20) 113.62%)',
+                }}
+              >
+                <img className="h-8 w-8" src={lightBulb} alt="insight" />
+                Real-time Market Updates
+              </div>
+            </div>
             <Button
               onClick={() => {
                 void tonConnect.openModal();
@@ -90,7 +125,6 @@ export default function PageWaitlist() {
             <h1 className="mt-2 font-semibold">
               Wallet Connected Successfully!
             </h1>
-            <p className="mt-2 text-xs opacity-40">{address}</p>
             <p className="my-4">
               Your wallet is connected! You can now claim your rewards. Join our
               waitlist to access Wisdomise Autotrader and start automated
