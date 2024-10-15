@@ -38,7 +38,7 @@ export function OverviewWidget({
   const { t } = useTranslation('common');
   const infoIcon = info && (
     <Tooltip title={info}>
-      <Icon name={bxInfoCircle} size={18} />
+      <Icon name={bxInfoCircle} size={18} className="cursor-help" />
     </Tooltip>
   );
   return (

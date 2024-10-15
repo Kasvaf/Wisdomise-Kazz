@@ -2,7 +2,7 @@ import { type Dispatch, type SetStateAction } from 'react';
 import type React from 'react';
 
 export type OnboardingMessageSections = Array<{
-  title: string;
+  title: React.ReactNode;
   content: React.ReactNode;
   video?: string;
 }>;

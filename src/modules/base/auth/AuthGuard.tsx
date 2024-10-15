@@ -17,10 +17,11 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   useHubSpot();
   const navigate = useNavigate();
   const { data: account, isLoading } = useAccountQuery();
+  const isLoggedIn = useIsLoggedIn();
 
   useEffect(() => {
     const email = account?.email;
-    if (email) {
+    if (isLoggedIn && email) {
       customerIo.identify(email);
       void analytics.identify(email, {
         userId: email,
@@ -28,7 +29,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
       });
       Sentry.setUser({ email, wallet_address: account.wallet_address });
     }
-  }, [account?.email, account?.wallet_address]);
+  }, [account?.email, account?.wallet_address, isLoggedIn]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -36,7 +37,6 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     customerIo.loadScript();
   }, [account, navigate, isLoading]);
 
-  const isLoggedIn = useIsLoggedIn();
   return isLoading ? (
     <Splash />
   ) : (
