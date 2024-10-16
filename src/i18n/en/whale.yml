@@ -111,7 +111,7 @@ top_whales:
   description: >-
     this wallets rank in top 10% our wallets based on pnl from trades in last 30
     days
-  14_days: 14 Days
+  14_days: 14 days
   address: Address
   balance:
     title: Balance
