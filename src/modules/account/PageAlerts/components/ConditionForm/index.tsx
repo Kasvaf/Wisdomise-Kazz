@@ -38,7 +38,7 @@ export function ConditionForm<
       if (values.dataSource === 'market_data') {
         return {
           errors: {
-            ...(!/^\d*\.?\d+$/g.test(values.condition?.threshold ?? '') && {
+            ...((values.condition?.threshold ?? '').length === 0 && {
               condition: 'error',
             }),
           },
