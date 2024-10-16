@@ -57,7 +57,7 @@ const start = async () => {
 
   console.log('[5/6] Write tokens urls...');
   slugs.forEach(slug =>
-    sms.write({ url: `/insight/coin-radar/${slug}`, changefreq: 'always' }),
+    sms.write({ url: `/coin/${slug}`, changefreq: 'always' }),
   );
 
   console.log('[6/6] Close sitemap write stream...');
