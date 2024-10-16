@@ -1,4 +1,4 @@
-import { useEffect, useRef, type FC } from 'react';
+import { useEffect, type FC } from 'react';
 import { clsx } from 'clsx';
 import { Trans } from 'react-i18next';
 import { useCoinOverview } from 'api';
@@ -15,17 +15,12 @@ export const CoinPriceInfo: FC<{
   const coinOverview = useCoinOverview({
     slug,
   });
-  const lastCurrentPrice = useRef<null | number>(null);
+
   useEffect(() => {
-    if (
-      !coinOverview.isLoading &&
-      (coinOverview.data?.data?.current_price ?? null) !==
-        lastCurrentPrice.current
-    ) {
-      lastCurrentPrice.current = coinOverview.data?.data?.current_price ?? null;
-      onCurrentPriceChange?.(lastCurrentPrice.current ?? 0);
+    if (typeof coinOverview.data?.data?.current_price === 'number') {
+      onCurrentPriceChange?.(coinOverview.data?.data?.current_price);
     }
-  }, [coinOverview, onCurrentPriceChange]);
+  }, [coinOverview.data?.data?.current_price, onCurrentPriceChange]);
 
   return (
     <div

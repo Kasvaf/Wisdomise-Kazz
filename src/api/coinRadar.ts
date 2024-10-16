@@ -395,7 +395,7 @@ export const useCoinOverview = ({
   priceHistoryDays?: number;
 }) =>
   useQuery({
-    queryKey: ['coin-overview', slug, priceHistoryDays],
+    queryKey: ['coin-overview', slug, priceHistoryDays ?? 1],
     queryFn: () =>
       axios
         .get<CoinOverview>('delphi/market/token-review/', {
