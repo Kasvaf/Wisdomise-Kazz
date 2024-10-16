@@ -7,6 +7,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import { type AlertDataSource, type Alert } from 'api/alert';
 import Icon from 'shared/Icon';
+import { formatNumber } from 'utils/numbers';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinSelect } from '../CoinSelect';
 import { OperatorSelect } from '../OperatorSelect';
@@ -185,7 +186,12 @@ export function ConditionForm<
                 ) {
                   alertFormAsMarketData.setValue(
                     'condition.threshold',
-                    newPrice.toString(),
+                    formatNumber(newPrice, {
+                      compactInteger: false,
+                      decimalLength: -1,
+                      minifyDecimalRepeats: false,
+                      seperateByComma: false,
+                    }),
                   );
                 }
               }}
