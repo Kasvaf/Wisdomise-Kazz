@@ -158,27 +158,16 @@ export function WhaleTopHoldersWidget({
         title: t('top_whales.buy_sell'),
         align: 'right',
         render: (_, row) => (
-          <div>
+          <div className="text-xs">
             <ReadableNumber
-              label="$"
-              value={
-                (row.last_30_days_in_flow ?? 0) +
-                (row.last_30_days_out_flow ?? 0)
-              }
+              value={row.last_30_days_total_buys}
+              className="text-v1-content-positive"
             />
-            <div className="text-xs">
-              (
-              <ReadableNumber
-                value={row.last_30_days_total_buys}
-                className="text-v1-content-positive"
-              />
-              <span className="text-v1-content-secondary">/</span>
-              <ReadableNumber
-                value={row.last_30_days_total_sells}
-                className="text-v1-content-negative"
-              />
-              )
-            </div>
+            <span className="text-v1-content-secondary">/</span>
+            <ReadableNumber
+              value={row.last_30_days_total_sells}
+              className="text-v1-content-negative"
+            />
           </div>
         ),
       },
