@@ -216,7 +216,10 @@ export function WhaleTopHoldersWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[612px]', className)}
+      className={clsx(
+        'min-h-[647px] xl:min-h-[620px] 2xl:min-h-[627px]',
+        className,
+      )}
       title={t('top_whales.title')}
       info={t('top_whales.description')}
       loading={whales.isInitialLoading}
