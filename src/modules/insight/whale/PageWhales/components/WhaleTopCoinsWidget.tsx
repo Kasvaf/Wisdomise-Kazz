@@ -178,7 +178,7 @@ export function WhaleTopCoinsWidget({
       <Table
         columns={columns}
         dataSource={coins.data?.results ?? []}
-        rowKey="holder_address"
+        rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
         pagination={{
           total: coins.data?.count ?? 1,
