@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { type Coin } from 'api/types/shared';
 import { ReactComponent as DropIcon } from './drop.svg';
 import { ReactComponent as CapIcon } from './cap.svg';
 
@@ -8,9 +9,11 @@ export function CoinMarketDataInfo({
   className,
   linesClassName,
   marketData,
+  coin,
 }: {
   className?: string;
   linesClassName?: string;
+  coin: Coin;
   marketData: {
     circulating_supply?: null | number;
     current_price?: null | number;
@@ -43,9 +46,12 @@ export function CoinMarketDataInfo({
           <CapIcon />
           <ReadableNumber value={marketData.market_cap} label="$" />
         </span>
-        <span className="hidden items-center gap-1">
-          {/* NAITODO ask what is this */}
+        <span className="inline-flex items-center gap-1">
           <DropIcon />
+          <ReadableNumber
+            value={marketData.circulating_supply}
+            label={coin.abbreviation}
+          />
         </span>
       </div>
     </span>

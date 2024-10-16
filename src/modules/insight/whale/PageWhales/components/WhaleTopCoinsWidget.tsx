@@ -62,6 +62,7 @@ export function WhaleTopCoinsWidget({
     sortBy,
     isAscending,
     networkName,
+    days: 7,
   });
 
   const columns = useMemo<Array<ColumnType<WhaleCoin>>>(
@@ -76,6 +77,7 @@ export function WhaleTopCoinsWidget({
         render: (_, row) => (
           <CoinMarketDataInfo
             marketData={row.market_data}
+            coin={row.symbol}
             linesClassName="justify-end"
           />
         ),
@@ -140,7 +142,10 @@ export function WhaleTopCoinsWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[612px]', className)}
+      className={clsx(
+        'min-h-[670px] shrink-0 xl:min-h-[631px] 2xl:min-h-[640px]',
+        className,
+      )}
       title={t('top_coins.title')}
       loading={coins.isInitialLoading}
       empty={coins.data?.results?.length === 0}
