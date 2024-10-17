@@ -1,5 +1,5 @@
 .ant-table-wrapper {
-  @apply min-w-fit max-w-none overflow-visible;
+  @apply w-full min-w-full max-w-full overflow-auto;
 
   /* base */
   .ant-table {
@@ -29,10 +29,17 @@
     }
   }
 
-  /* fix unwanted scroll shadow
-  .ant-table-container::after {
-    @apply hidden;
-  } */
+  /* scroll shadows */
+  .ant-table-ping-right:not(.ant-table-has-fix-right)
+    .ant-table-container::after,
+  .ant-table-ping-right .ant-table-cell-fix-right-first::after {
+    @apply w-4 bg-gradient-to-r from-transparent to-black/20 !shadow-none;
+  }
+  .ant-table-ping-left:not(.ant-table-has-fix-left)
+    .ant-table-container::before,
+  .ant-table-ping-left .ant-table-cell-fix-left-last::after {
+    @apply w-4 bg-gradient-to-l from-transparent to-black/20 !shadow-none;
+  }
 
   /* header + even rows */
   .ant-table-thead .ant-table-cell,
@@ -54,6 +61,12 @@
     > * {
       @apply align-middle;
     }
+  }
+
+  /* all td, ths */
+  .ant-table-thead .ant-table-cell,
+  .ant-table-tbody .ant-table-row .ant-table-cell {
+    @apply px-4 mobile:px-3;
   }
 
   /* radius */
@@ -94,7 +107,7 @@
     }
 
     .ant-pagination-options {
-      @apply flex grow justify-end mobile:grow-0;
+      @apply flex grow justify-end;
 
       .ant-select {
         @apply rounded-lg bg-v1-surface-l4;

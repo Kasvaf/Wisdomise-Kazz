@@ -45,6 +45,8 @@ export default function Table<RecordType extends object>({
           : {
               showSizeChanger: false,
               showPrevNextJumpers: true,
+              showLessItems: true,
+              responsive: false,
               ...pagination,
             }
       }
