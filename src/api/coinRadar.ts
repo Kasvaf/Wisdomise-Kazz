@@ -260,7 +260,9 @@ export const useSocialMessages = (slug: string) =>
             ({
               id: `trading_view:${tradingViewIdeasMessage.id}`,
               social_type: 'trading_view',
-              timestamp: new Date(tradingViewIdeasMessage.updated_at).getTime(),
+              timestamp: new Date(
+                tradingViewIdeasMessage.author_updated_at,
+              ).getTime(),
               content: tradingViewIdeasMessage,
             }) satisfies SocialMessage,
         ),
@@ -393,7 +395,7 @@ export const useCoinOverview = ({
   priceHistoryDays?: number;
 }) =>
   useQuery({
-    queryKey: ['coin-overview', slug, priceHistoryDays],
+    queryKey: ['coin-overview', slug, priceHistoryDays ?? 1],
     queryFn: () =>
       axios
         .get<CoinOverview>('delphi/market/token-review/', {

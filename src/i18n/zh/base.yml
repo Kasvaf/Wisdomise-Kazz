@@ -55,6 +55,8 @@ menu:
   coin-view:
     subtitle: 從所有信號發送器獲取信號和位置歷史
     title: 幣種列表
+  coin:
+    title: 幣種
   crypto-screener:
     subtitle: 根據關鍵指標查找加密貨幣進行買賣
     title: 加密篩選器

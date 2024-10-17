@@ -103,7 +103,7 @@ export const HotCoinsTable: FC<{
         ),
       },
       {
-        title: t('hot-coins-section.table.tvl'),
+        title: t('hot-coins-section.table.circulating_supply'),
         sorter: (a, b) =>
           (a.circulating_supply ?? 0) - (b.circulating_supply ?? 0),
         render: (row: CoinSignal) => (

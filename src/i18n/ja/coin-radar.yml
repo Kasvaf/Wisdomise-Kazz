@@ -104,6 +104,7 @@ hot-coins-section:
     call-time-info: 当社の AI
       が重要な機会を検出し、この資産に関するシグナルを送信した正確な瞬間。これを使用して、このトークンを検討するように警告されたタイミングを追跡します。
     chg-24: 変化(24時間)
+    circulating_supply: 循環供給
     insights: 洞察
     market-cap: 時価総額
     name: 名前
