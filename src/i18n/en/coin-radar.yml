@@ -94,6 +94,7 @@ hot-coins-section:
     call-time-info: >-
       The exact moment our AI detected a key opportunity and sent a signal for
       this asset. Use it to track when you were alerted to consider this token.
+    circulating_supply: Circulating Supply
     market-cap: Market Cap
     pnl: Call PnL
     pnl-info: >-
@@ -102,7 +103,6 @@ hot-coins-section:
     rank: Rank
     realtime-price: Price
     sentiment: Sentiment
-    tvl: TVL
 market-info:
   description: Real-Time AI-Driven Insights from Socials and Markets
   social-channel-count: >-
