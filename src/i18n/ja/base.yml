@@ -56,6 +56,8 @@ menu:
   coin-view:
     subtitle: すべての信号発信者から信号と位置履歴を取得
     title: コイン一覧
+  coin:
+    title: コイン
   crypto-screener:
     subtitle: 主要指標に基づいて売買する暗号通貨を見つける
     title: 暗号スクリーナー

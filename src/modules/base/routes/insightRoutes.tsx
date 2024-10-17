@@ -3,6 +3,7 @@ import { Navigate, type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageInsight from 'modules/insight/PageInsight';
 import { shortenAddress } from 'utils/shortenAddress';
+import PageCoinDetailRedirect from 'modules/insight/coinRadar/PageCoinDetailRedirect';
 import Container from '../Container';
 
 const PageMarketplace = React.lazy(
@@ -60,8 +61,7 @@ const useInsightRoutes = () => {
         },
         {
           path: 'coin-radar/:slug',
-          element: <PageCoinRadarDetail />,
-          handle: { crumb: (p: Params<string>) => p.slug },
+          element: <PageCoinDetailRedirect />,
         },
         {
           path: 'social-radar/*',
@@ -89,6 +89,29 @@ const useInsightRoutes = () => {
           path: 'alerts',
           handle: { crumb: t('menu.alerts.title') },
           element: <PageAlerts />,
+        },
+      ],
+    },
+    {
+      path: 'coin',
+      element: <Container />,
+      handle: { crumb: t('menu.coin.title') },
+      children: [
+        {
+          path: '',
+          element: (
+            <Navigate
+              replace
+              to={{
+                pathname: '/insight/coin-radar',
+              }}
+            />
+          ),
+        },
+        {
+          path: ':slug',
+          element: <PageCoinRadarDetail />,
+          handle: { crumb: (p: Params<string>) => p.slug },
         },
       ],
     },

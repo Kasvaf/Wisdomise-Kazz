@@ -2,11 +2,12 @@
 import { clsx } from 'clsx';
 import { Controller, useForm, type UseFormReturn } from 'react-hook-form';
 import { bxRightArrowAlt } from 'boxicons-quasar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import { type AlertDataSource, type Alert } from 'api/alert';
 import Icon from 'shared/Icon';
+import { formatNumber } from 'utils/numbers';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinSelect } from '../CoinSelect';
 import { OperatorSelect } from '../OperatorSelect';
@@ -38,7 +39,7 @@ export function ConditionForm<
       if (values.dataSource === 'market_data') {
         return {
           errors: {
-            ...(!/^\d*\.?\d+$/g.test(values.condition?.threshold ?? '') && {
+            ...((values.condition?.threshold ?? '').length === 0 && {
               condition: 'error',
             }),
           },
@@ -54,6 +55,10 @@ export function ConditionForm<
   const alertFormAsMarketData = alertForm as unknown as UseFormReturn<
     Partial<Alert<'market_data'>>
   >;
+
+  const [autoUpdate, setAutoUpdate] = useState(
+    value.dataSource === 'market_data' ? !value.condition?.threshold : true,
+  );
 
   useEffect(() => {
     if (value.dataSource === 'market_data') {
@@ -137,7 +142,10 @@ export function ConditionForm<
                   name="condition.threshold"
                   render={({ field: { value: fieldValue, onChange } }) => (
                     <PriceInput
-                      onChange={onChange}
+                      onChange={newFieldValue => {
+                        onChange(newFieldValue);
+                        setAutoUpdate(false);
+                      }}
                       value={fieldValue || ''}
                       placeholder="Price"
                       className="inline-block w-32"
@@ -178,14 +186,15 @@ export function ConditionForm<
               slug={selectedCoin}
               className="mt-6"
               onCurrentPriceChange={newPrice => {
-                if (
-                  !alertFormAsMarketData.formState.dirtyFields.condition
-                    ?.threshold &&
-                  !value.condition?.threshold
-                ) {
+                if (autoUpdate && !value.condition?.threshold) {
                   alertFormAsMarketData.setValue(
                     'condition.threshold',
-                    newPrice.toString(),
+                    formatNumber(newPrice, {
+                      compactInteger: false,
+                      decimalLength: -1,
+                      minifyDecimalRepeats: false,
+                      seperateByComma: false,
+                    }),
                   );
                 }
               }}

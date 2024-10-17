@@ -43,6 +43,8 @@ menu:
   builder:
     title: Trade Master
     subtitle: Create your own signaler and financial products
+  coin:
+    title: Coin
   coin-radar:
     title: Coin Radar
     subtitle: >-
