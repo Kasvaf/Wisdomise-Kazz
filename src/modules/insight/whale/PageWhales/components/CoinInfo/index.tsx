@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
+import { bxSync } from 'boxicons-quasar';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { type Coin } from 'api/types/shared';
-import { ReactComponent as DropIcon } from './drop.svg';
+import Icon from 'shared/Icon';
 import { ReactComponent as CapIcon } from './cap.svg';
 
-export function CoinMarketDataInfo({
+export function CoinInfo({
   className,
   linesClassName,
   marketData,
@@ -47,7 +48,7 @@ export function CoinMarketDataInfo({
           <ReadableNumber value={marketData.market_cap} label="$" />
         </span>
         <span className="inline-flex items-center gap-1">
-          <DropIcon />
+          <Icon name={bxSync} size={16} className="text-v1-content-secondary" />
           <ReadableNumber
             value={marketData.circulating_supply}
             label={coin.abbreviation}

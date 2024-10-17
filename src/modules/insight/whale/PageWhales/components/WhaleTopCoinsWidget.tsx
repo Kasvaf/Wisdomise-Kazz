@@ -8,7 +8,7 @@ import { type WhaleCoinsFilter, useWhalesCoins, type WhaleCoin } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { CoinMarketDataInfo } from 'shared/CoinMarketDataInfo';
+import { CoinInfo } from './CoinInfo';
 import { NetworkSelect } from './NetworkSelect';
 
 const useWhaleCoinsFilters = () => {
@@ -75,7 +75,7 @@ export function WhaleTopCoinsWidget({
         title: [t('top_coins.info.title'), t('top_coins.info.info')],
         align: 'right',
         render: (_, row) => (
-          <CoinMarketDataInfo
+          <CoinInfo
             marketData={row.market_data}
             coin={row.symbol}
             linesClassName="justify-end"
