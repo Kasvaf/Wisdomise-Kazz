@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { type CSSProperties, type PropsWithChildren } from 'react';
-import { isMiniApp } from 'utils/version';
 
 interface CardProps {
   className?: string;
@@ -17,8 +16,7 @@ export default function Card({
   return (
     <div
       className={clsx(
-        'rounded-xl bg-black/20 p-2 md:rounded-3xl md:p-6',
-        isMiniApp && 'bg-[#1D262F]',
+        'rounded-3xl bg-black/20 p-6',
         variant === 'outline' && 'border-2',
         className,
       )}

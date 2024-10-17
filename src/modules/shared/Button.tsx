@@ -18,7 +18,7 @@ interface Props extends PropsWithChildren {
     | 'green'
     | 'purple'
     | 'secondary-red'
-    | 'tg-blue';
+    | 'brand';
   className?: string;
   contentClassName?: string;
   disabled?: boolean;
@@ -49,7 +49,7 @@ const Button: React.FC<Props> = ({
   const btnContent = (
     <div className={clsx('flex items-center justify-center', contentClassName)}>
       {loading && (
-        <Spin className={clsx(variant === 'tg-blue' && 'text-white', 'mr-2')} />
+        <Spin className={clsx(variant === 'brand' && 'text-white', 'mr-2')} />
       )}
       {children}
     </div>
@@ -215,12 +215,12 @@ const Button: React.FC<Props> = ({
     );
   }
 
-  if (variant === 'tg-blue') {
+  if (variant === 'brand') {
     return (
       <LinkOrButton
         className={clsx(
           sharedClasses,
-          'rounded-xl bg-[#00A3FF] !text-white hover:brightness-90',
+          'rounded-xl bg-v1-background-brand !text-white hover:brightness-90',
           disabled &&
             'cursor-not-allowed !border-white/40 !bg-white/10 !text-white/10',
           loading && 'cursor-wait',

@@ -71,13 +71,16 @@ export default function PageWaitlist() {
             <h1 className="mt-6 font-semibold">
               Join the Autotrader Waitlist <br /> & Claim Your First
             </h1>
-            <p className="my-4">
-              Connect your wallet to claim rewards and access Wisdomise
-              Autotrader’s automated trading features.
+            <p className="my-4 text-sm">
+              Connect your wallet to{' '}
+              <strong className="font-semibold">claim rewards</strong> and
+              access Wisdomise Autotrader’s{' '}
+              <strong className="font-semibold">automated trading</strong>{' '}
+              features.
             </p>
-            <div className="flex flex-wrap justify-center gap-1">
+            <div className="flex flex-wrap justify-center gap-1 text-sm">
               <div
-                className="flex items-center gap-1 rounded-3xl px-2 py-1"
+                className="flex items-center gap-1 rounded-3xl px-3 py-1"
                 style={{
                   background:
                     'linear-gradient(91deg, rgba(255, 255, 255, 0.40) -7.03%, rgba(255, 255, 255, 0.20) 113.62%)',
@@ -87,7 +90,7 @@ export default function PageWaitlist() {
                 AI-driven Insights
               </div>
               <div
-                className="flex items-center gap-1 rounded-3xl px-2 py-1"
+                className="flex items-center gap-1 rounded-3xl px-3 py-1 text-sm"
                 style={{
                   background:
                     'linear-gradient(91deg, rgba(255, 255, 255, 0.40) -7.03%, rgba(255, 255, 255, 0.20) 113.62%)',
@@ -97,7 +100,7 @@ export default function PageWaitlist() {
                 Limit Orders
               </div>
               <div
-                className="flex items-center gap-1 rounded-3xl px-2 py-1"
+                className="flex items-center gap-1 rounded-3xl px-3 py-1 text-sm"
                 style={{
                   background:
                     'linear-gradient(91deg, rgba(255, 255, 255, 0.40) -7.03%, rgba(255, 255, 255, 0.20) 113.62%)',
@@ -125,7 +128,7 @@ export default function PageWaitlist() {
             <h1 className="mt-2 font-semibold">
               Wallet Connected Successfully!
             </h1>
-            <p className="my-4">
+            <p className="my-4 text-sm">
               Your wallet is connected! You can now claim your rewards. Join our
               waitlist to access Wisdomise Autotrader and start automated
               trading when it launches.

@@ -7,7 +7,7 @@ import WalletGuard from 'modules/autoTrader/WalletGuard';
 
 export default function TelegramContainer() {
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-[#131920] text-white">
+    <div className="mx-auto min-h-screen max-w-md text-white">
       <TelegramProvider>
         <TelegramAuthGuard>
           <TonConnectUIProvider

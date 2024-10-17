@@ -12,5 +12,4 @@ export default function configTelegramMiniApp() {
   script.type = 'text/javascript';
   script.src = 'https://telegram.org/js/telegram-web-app.js';
   document.head.append(script);
-  console.log('he');
 }

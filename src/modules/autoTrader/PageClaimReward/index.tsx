@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react';
 import { clsx } from 'clsx';
 import { notification } from 'antd';
-import Card from 'shared/Card';
 import {
   type TicketType,
   useCheckEligibilityMutation,
@@ -12,9 +11,9 @@ import {
   useWithdrawMutation,
 } from 'api/gamification';
 import logo from 'assets/logo-horizontal-beta.svg';
-import BottomDrawer from 'modules/autoTrader/BottomDrawer';
 import Button from 'shared/Button';
 import { addComma } from 'utils/numbers';
+import { DrawerModal } from 'shared/DrawerModal';
 import ton from './images/ton.png';
 import wsdm from './images/wsdm.png';
 import plat from './images/plat.png';
@@ -75,7 +74,7 @@ export default function ClaimRewardPage() {
             <span className="text-white">{addComma(0)} WSDM</span>
           </p>
         )}
-        <Card className="mt-3 py-3">
+        <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
           <div className="flex gap-3">
             <img src={ton} alt="ton" className="h-10 w-10 scale-x-[-1]" />
             <div>
@@ -97,9 +96,9 @@ export default function ClaimRewardPage() {
               Coming Soon...
             </Button>
           </div>
-        </Card>
+        </div>
 
-        <Card className="mt-3 py-3">
+        <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
           <div className="flex gap-3">
             <img src={wsdm} alt="ton" className="h-10 w-10" />
             <div>
@@ -112,7 +111,7 @@ export default function ClaimRewardPage() {
               </p>
             </div>
             <Button
-              variant="tg-blue"
+              variant="brand"
               size="small"
               className="ms-auto w-36"
               onClick={() => handleWithdraw()}
@@ -122,17 +121,17 @@ export default function ClaimRewardPage() {
               Withdraw
             </Button>
           </div>
-        </Card>
+        </div>
       </div>
 
       <h1 className="mb-3 mt-8 font-semibold">WSDM Pools</h1>
       <p>
         Silver Ticket Pool Reward Size is{' '}
-        <span className="font-semibold text-[#00A3FF]">$100K</span>. Check if
-        you’ve won shares of the Pool. Stay tuned for Gold & Platinum Reward
-        Pools coming soon!
+        <span className="font-semibold text-v1-content-brand">$100K</span>.
+        Check if you’ve won shares of the Pool. Stay tuned for Gold & Platinum
+        Reward Pools coming soon!
       </p>
-      <Card className="mt-3 py-3">
+      <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
         <div className="flex gap-3">
           <img src={silver} alt="ton" className="h-10 w-10 scale-x-[-1]" />
           <div>
@@ -142,7 +141,7 @@ export default function ClaimRewardPage() {
             </p>
           </div>
           <Button
-            variant="tg-blue"
+            variant="brand"
             size="small"
             className="ms-auto w-36"
             loading={isLoading}
@@ -152,9 +151,9 @@ export default function ClaimRewardPage() {
             Check Eligibility
           </Button>
         </div>
-      </Card>
+      </div>
 
-      <Card className="mt-3 py-3">
+      <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
         <div className="flex gap-3">
           <img src={gold} alt="ton" className="h-10 w-10 scale-x-[-1]" />
           <div>
@@ -172,9 +171,9 @@ export default function ClaimRewardPage() {
             Coming Soon...
           </Button>
         </div>
-      </Card>
+      </div>
 
-      <Card className="mt-3 py-3">
+      <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
         <div className="flex gap-3">
           <img src={plat} alt="ton" className="h-10 w-10 scale-x-[-1]" />
           <div>
@@ -192,19 +191,22 @@ export default function ClaimRewardPage() {
             Coming Soon...
           </Button>
         </div>
-      </Card>
+      </div>
 
-      <BottomDrawer
+      <DrawerModal
         open={open}
         onClose={() => setOpen(false)}
-        className="rounded-3xl"
+        destroyOnClose
+        className="max-w-lg mobile:!h-[30rem] mobile:max-w-full"
         maskClosable={true}
       >
-        <div className="flex flex-col items-center px-2 pt-8 text-center">
-          <h1 className="font-bold">
+        <div className="flex flex-col items-center text-center">
+          <h1 className="-mt-5 font-bold">
             {eligibility?.[0] ? (
               <>
-                <span className="text-[#00FFA3]">Congratulations!</span>
+                <span className="text-v1-content-positive">
+                  Congratulations!
+                </span>
                 <br />
                 You’ve Got a Winning Ticket!
               </>
@@ -219,15 +221,20 @@ export default function ClaimRewardPage() {
           </p>
           {userTickets?.[selectedTicket ?? 'silver_ticket'].map(
             (ticket, index) => (
-              <Card
+              <div
                 key={ticket}
                 className={clsx(
-                  'mb-2 flex w-full items-center gap-3 border border-transparent text-xs',
+                  'mb-2 flex w-full items-center gap-3 rounded-xl border border-transparent bg-v1-surface-l2 p-2 text-xs',
                   eligibility?.[0]?.ticket_number === ticket &&
-                    '!border-[#00FFA3]',
+                    '!border-v1-border-positive',
                 )}
+                style={{
+                  background:
+                    eligibility?.[0]?.ticket_number === ticket
+                      ? 'linear-gradient(270deg, #1D262F 43.27%, rgba(0, 134, 85, 0.00) 208.48%)'
+                      : '',
+                }}
               >
-                {/* fill: linear-gradient(270deg, #1D262F 43.27%, rgba(0, 134, 85, 0.00) 208.48%); */}
                 <img
                   src={selectedTicket === 'silver_ticket' ? silver : ton}
                   className="h-8 w-8"
@@ -238,27 +245,27 @@ export default function ClaimRewardPage() {
                     {selectedTicket === 'silver_ticket' ? 'Silver Ticket' : ''}
                   </span>
                 </div>
-                <div className="rounded bg-[#28323E] px-2 py-px">
+                <div className="rounded bg-v1-surface-l3 px-2 py-px">
                   ID: {ticket}
                 </div>
                 {eligibility?.[0]?.ticket_number === ticket && (
-                  <div className="me-2 ms-auto flex gap-2 text-[#00FFA3]">
+                  <div className="me-2 ms-auto flex gap-2 text-v1-content-positive">
                     <img src={star} />
                     <span>Winner</span>
                   </div>
                 )}
-              </Card>
+              </div>
             ),
           )}
         </div>
         <Button
-          variant="tg-blue"
-          className="fixed bottom-10 end-6 start-6"
+          variant="brand"
+          className="absolute bottom-10 end-4 start-4"
           onClick={() => setOpen(false)}
         >
           Claim Reward
         </Button>
-      </BottomDrawer>
+      </DrawerModal>
     </div>
   );
 }
