@@ -29,15 +29,27 @@ export function Coin({
     <>
       <div
         className={clsx(
-          'shrink-0 rounded-full bg-cover bg-center bg-no-repeat',
+          'relative shrink-0 overflow-hidden rounded-full bg-v1-surface-l6',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
-        style={{
-          ...(typeof coin.logo_url === 'string' && {
-            backgroundImage: `url("${coin.logo_url}")`,
-          }),
-        }}
-      />
+      >
+        <div
+          className="absolute inset-0 size-full scale-150 bg-cover bg-center bg-no-repeat blur-md invert"
+          style={{
+            ...(typeof coin.logo_url === 'string' && {
+              backgroundImage: `url("${coin.logo_url}")`,
+            }),
+          }}
+        />
+        <div
+          className="absolute inset-0 size-full bg-cover bg-center bg-no-repeat"
+          style={{
+            ...(typeof coin.logo_url === 'string' && {
+              backgroundImage: `url("${coin.logo_url}")`,
+            }),
+          }}
+        />
+      </div>
       <div
         className={clsx(
           'shrink grow leading-snug',
