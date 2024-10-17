@@ -46,6 +46,7 @@ export function WhaleTopHoldersWidget({
 }) {
   const { t } = useTranslation('whale');
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
@@ -55,7 +56,7 @@ export function WhaleTopHoldersWidget({
   const filters = useWhaleTopHoldersFilters();
   const whales = useWhales({
     page,
-    pageSize: 5,
+    pageSize,
     filter,
     sortBy,
     isAscending,
@@ -66,6 +67,7 @@ export function WhaleTopHoldersWidget({
     () => [
       {
         title: t('top_whales.address'),
+        fixed: 'left',
         render: (_, row) => (
           <Wallet
             wallet={{
@@ -259,9 +261,12 @@ export function WhaleTopHoldersWidget({
           total: whales.data?.count ?? 1,
           current: page,
           showSizeChanger: true,
+          pageSize,
+          pageSizeOptions: [5, 10, 20],
         }}
         onChange={(pagination, _, sorter) => {
           setPage(pagination.current ?? 1);
+          setPageSize(pagination.pageSize ?? 5);
           if (!Array.isArray(sorter)) {
             setSortBy(
               typeof sorter.field === 'string' && sorter.order

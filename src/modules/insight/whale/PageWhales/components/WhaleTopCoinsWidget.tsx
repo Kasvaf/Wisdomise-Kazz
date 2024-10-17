@@ -48,6 +48,7 @@ export function WhaleTopCoinsWidget({
 }) {
   const { t } = useTranslation('whale');
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
@@ -57,7 +58,7 @@ export function WhaleTopCoinsWidget({
   const filters = useWhaleCoinsFilters();
   const coins = useWhalesCoins({
     page,
-    pageSize: 5,
+    pageSize,
     filter,
     sortBy,
     isAscending,
@@ -69,6 +70,7 @@ export function WhaleTopCoinsWidget({
     () => [
       {
         title: t('top_coins.name'),
+        fixed: 'left',
         render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
       },
       {
@@ -184,9 +186,12 @@ export function WhaleTopCoinsWidget({
           total: coins.data?.count ?? 1,
           current: page,
           showSizeChanger: true,
+          pageSize,
+          pageSizeOptions: [5, 10, 20],
         }}
         onChange={(pagination, _, sorter) => {
           setPage(pagination.current ?? 1);
+          setPageSize(pagination.pageSize ?? 5);
           if (!Array.isArray(sorter)) {
             setSortBy(
               typeof sorter.field === 'string' && sorter.order
