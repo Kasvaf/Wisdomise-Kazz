@@ -97,7 +97,7 @@ top_coins:
       7D.
   info:
     title: Info
-    info: The current price, fully diluted Market Cap, and liquidity.
+    info: The current price, fully diluted Market Cap, and Circulating Supply.
   sell_volume:
     title: Sell Volume
     info: The total volume sold from smart wallets and total wallet in the last 7D.

@@ -146,19 +146,28 @@ export function WhaleTopHoldersWidget({
       {
         title: [t('top_whales.wins.title'), t('top_whales.wins.info')],
         align: 'right',
-        render: (_, row) => (
-          <span>
-            {row.last_30_days_trading_wins ?? 0}/
-            {(row.last_30_days_trading_losses ?? 0) +
-              (row.last_30_days_trading_wins ?? 0)}
-          </span>
-        ),
+        render: (_, row) => {
+          const total =
+            (row.last_30_days_trading_wins ?? 0) +
+            (row.last_30_days_trading_losses ?? 0);
+          return (
+            <div>
+              <ReadableNumber value={row.last_30_days_trading_wins} />
+              {total > 0 && (
+                <>
+                  <span>/</span>
+                  <ReadableNumber value={total} />
+                </>
+              )}
+            </div>
+          );
+        },
       },
       {
         title: t('top_whales.buy_sell'),
         align: 'right',
         render: (_, row) => (
-          <div className="text-xs">
+          <div>
             <ReadableNumber
               value={row.last_30_days_total_buys}
               className="text-v1-content-positive"
@@ -175,9 +184,11 @@ export function WhaleTopHoldersWidget({
         title: t('top_whales.trading_holding'),
         align: 'right',
         render: (_, row) => (
-          <span>
-            {row.total_trading_assets ?? 0}/{row.total_holding_assets ?? 0}
-          </span>
+          <div>
+            <ReadableNumber value={row.total_trading_assets ?? 0} />
+            <span>/</span>
+            <ReadableNumber value={row.total_holding_assets ?? 0} />
+          </div>
         ),
       },
       {
