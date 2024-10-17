@@ -134,7 +134,7 @@ top_whales:
       unrealized PnL).
   trading_volume:
     title: Trading Volume
-    info: The total value of tokens swapped in the last 30 days, expressed in USD.
+    info: The total value of tokens swapped in the last 30 days, expressed in USDT.
   wins:
     title: Wins
     info: The total number of wins vs the amount of unique tokens swapped.
