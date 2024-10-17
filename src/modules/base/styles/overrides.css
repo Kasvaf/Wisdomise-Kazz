@@ -329,6 +329,10 @@
   display: none !important;
 }
 
+div#CybotCookiebotDialog {
+  z-index: 9998 !important;
+}
+
 #CookiebotWidget {
   display: none;
 }
