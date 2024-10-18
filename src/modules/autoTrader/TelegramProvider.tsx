@@ -31,9 +31,6 @@ export function TelegramProvider({ children }: PropsWithChildren) {
         Telegram?.WebApp.disableVerticalSwipes();
         Telegram?.WebApp.ready();
         console.log('Platform:', window.Telegram?.WebApp.platform);
-        if (window.Telegram?.WebApp.platform === 'weba') {
-          document.documentElement.style.fontSize = '12px';
-        }
       } else {
         console.log('Telegram WebApp is undefined, Retrying…');
         setTimeout(initTelegram, 500);

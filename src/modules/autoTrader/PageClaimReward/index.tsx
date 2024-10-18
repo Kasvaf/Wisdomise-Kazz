@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
-import { TonConnectButton, useTonConnectUI } from '@tonconnect/ui-react';
+import {
+  TonConnectButton,
+  useTonAddress,
+  useTonConnectUI,
+} from '@tonconnect/ui-react';
 import { clsx } from 'clsx';
 import { notification } from 'antd';
 import {
   type TicketType,
+  useAccountJettonBalance,
   useCheckEligibilityMutation,
   useFriends,
   useSyncDataMutation,
@@ -24,6 +29,7 @@ import star from './images/star.svg';
 export const TON_PER_REFERRAL = 0.01;
 
 export default function ClaimRewardPage() {
+  const address = useTonAddress();
   const { data: friends } = useFriends();
   const { data, mutate: sync } = useSyncDataMutation();
   const {
@@ -37,24 +43,32 @@ export default function ClaimRewardPage() {
   const [tonConnect] = useTonConnectUI();
   const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
     useWithdrawMutation();
+  const { data: accountJettonBalance } = useAccountJettonBalance();
 
   useEffect(() => {
     sync({});
   }, [sync]);
 
   const check = (ticketType: TicketType) => {
-    setSelectedTicket(ticketType);
-    void mutateAsync({ ticket_type: ticketType }).then(() => {
-      setOpen(true);
-      sync({});
-      return null;
-    });
+    if (address) {
+      setSelectedTicket(ticketType);
+      void mutateAsync({ ticket_type: ticketType }).then(() => {
+        setOpen(true);
+        sync({});
+        return null;
+      });
+    } else {
+      notification.error({
+        message: 'Please connect your wallet address',
+      });
+    }
   };
 
   const handleWithdraw = () => {
     void withdraw({ token: 'wsdm' }).then(() => {
       notification.success({
-        message: 'Withdrawal registered! You will get your tokens in few days',
+        message:
+          'Withdrawal registered! You will get your tokens in a few days',
       });
       sync({});
       return null;
@@ -64,14 +78,17 @@ export default function ClaimRewardPage() {
   return (
     <div className="mb-28 p-6 pt-4">
       <div className="flex items-center justify-between">
-        <img className="h-6" src={logo} alt="logo" />
+        <img className="h-8" src={logo} alt="logo" />
         <TonConnectButton />
       </div>
       <div className="mt-6">
         {tonConnect.connected && (
           <p className="mb-6 text-xs text-white/40">
             Your WSDM balance:{' '}
-            <span className="text-white">{addComma(0)} WSDM</span>
+            <span className="text-white">
+              {addComma(Number(accountJettonBalance?.balance ?? 0) / 10 ** 6)}{' '}
+              WSDM
+            </span>
           </p>
         )}
         <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
@@ -126,10 +143,10 @@ export default function ClaimRewardPage() {
 
       <h1 className="mb-3 mt-8 font-semibold">WSDM Pools</h1>
       <p>
-        Silver Ticket Pool Reward Size is{' '}
+        Silver ticket pool reward size is{' '}
         <span className="font-semibold text-v1-content-brand">$100K</span>.
-        Check if you’ve won shares of the Pool. Stay tuned for Gold & Platinum
-        Reward Pools coming soon!
+        Check if you’ve won shares of the pool. Stay tuned for gold & platinum
+        reward pools coming soon!
       </p>
       <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
         <div className="flex gap-3">
@@ -263,7 +280,7 @@ export default function ClaimRewardPage() {
           className="absolute bottom-10 end-4 start-4"
           onClick={() => setOpen(false)}
         >
-          Claim Reward
+          Done
         </Button>
       </DrawerModal>
     </div>

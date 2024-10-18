@@ -1,7 +1,12 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useTonAddress } from '@tonconnect/ui-react';
 import type { PageResponse } from 'api/types/page';
 import { TEMPLE_ORIGIN } from 'config/constants';
+
+const WSDM_CONTRACT_ADDRESS = import.meta.env
+  .VITE_WSDM_CONTRACT_ADDRESS as string;
+const TON_API_BASE_URL = import.meta.env.VITE_TON_API_BASE_URL as string;
 
 export interface Friend {
   telegram_id: number;
@@ -30,7 +35,7 @@ export interface SyncDataRequest {
   new_item?: string;
   new_task_done?: string;
   block_question_answer?: string;
-  bet?: BetType;
+  bet?: unknown;
   bet_amount?: number;
   bet_question_answer?: string;
   spin?: boolean;
@@ -63,8 +68,6 @@ export interface SyncDataResponse {
     silver_ticket: number;
   };
 }
-
-type BetType = 'up' | 'down';
 
 export const useSyncDataMutation = () => {
   return useMutation(async (body: SyncDataRequest) => {
@@ -131,3 +134,29 @@ export const useWaitlistMutation = () =>
       `${TEMPLE_ORIGIN}/api/v1/investment/gamification/user/wait-list`,
     );
   });
+
+export interface AccountJettonBalance {
+  balance: string;
+}
+
+export const useAccountJettonBalance = () => {
+  const address = useTonAddress();
+  return useQuery(
+    ['accountJettonBalance', address],
+    async () => {
+      const { data } = await axios.get<AccountJettonBalance>(
+        `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${WSDM_CONTRACT_ADDRESS}`,
+        {
+          transformRequest: [
+            (data, headers) => {
+              delete headers.Authorization;
+              return data;
+            },
+          ],
+        },
+      );
+      return data;
+    },
+    { enabled: !!address },
+  );
+};

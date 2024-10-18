@@ -232,6 +232,14 @@ export function useMiniAppLoginQuery(query?: string) {
     async () => {
       const { data } = await axios.get<MiniAppLoginResponse>(
         `${TEMPLE_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
+        {
+          transformRequest: [
+            (data, headers) => {
+              delete headers.Authorization;
+              return data;
+            },
+          ],
+        },
       );
       return data;
     },

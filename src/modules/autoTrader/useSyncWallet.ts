@@ -7,10 +7,10 @@ export function useSyncWallet() {
   const address = useTonAddress();
 
   useEffect(() => {
-    void mutateAsync({});
-  }, [mutateAsync]);
-
-  useEffect(() => {
-    void mutateAsync({ wallet_address: address });
+    if (address) {
+      void mutateAsync({ wallet_address: address });
+    } else {
+      void mutateAsync({});
+    }
   }, [address, mutateAsync]);
 }

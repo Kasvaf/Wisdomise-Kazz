@@ -2,8 +2,10 @@ import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Outlet } from 'react-router-dom';
 import { TelegramProvider } from 'modules/autoTrader/TelegramProvider';
 import TelegramAuthGuard from 'modules/autoTrader/TelegramAuthGuard';
-import { isProduction } from 'utils/version';
 import WalletGuard from 'modules/autoTrader/WalletGuard';
+
+const AUTO_TRADER_WEB_APP = import.meta.env
+  .VITE_ATHENA_BOT_BASE_URL as `${string}://${string}`;
 
 export default function TelegramContainer() {
   return (
@@ -14,9 +16,7 @@ export default function TelegramContainer() {
             manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
             uiPreferences={{ theme: THEME.DARK }}
             actionsConfiguration={{
-              twaReturnUrl: isProduction
-                ? 'https://t.me/WisdomiseTon_bot/autotrader'
-                : 'https://t.me/TonGamificationBot/autotrader',
+              twaReturnUrl: AUTO_TRADER_WEB_APP,
             }}
           >
             <WalletGuard>
