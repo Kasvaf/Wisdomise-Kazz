@@ -138,7 +138,7 @@ export function CoinSocialFeedWidget({
         return socials.length > 1;
       }
       return (
-        hasFlag(`/insight/coin-radar/[slug]?tab=${x.value}`) &&
+        hasFlag(`/coin/[slug]?tab=${x.value}`) &&
         socials.includes(x.value) &&
         (x.messages ?? []).length > 0
       );

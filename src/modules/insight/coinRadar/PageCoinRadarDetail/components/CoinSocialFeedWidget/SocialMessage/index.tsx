@@ -121,7 +121,7 @@ export const SocialMessage: FC<{
             <SocialMessageHeader
               icon={TradingViewIcon}
               title={message.content.author_username}
-              date={message.content.updated_at}
+              date={message.content.author_updated_at}
               boostCount={message.content.social_boost_score}
               commentCount={message.content.total_comments}
               onClick={() =>

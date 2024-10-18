@@ -21,6 +21,9 @@ function Root() {
   const [showError, errorNotificationContent] = useErrorNotification();
   useEffectOnce(() => {
     queryClient.setDefaultOptions({
+      queries: {
+        refetchOnWindowFocus: false,
+      },
       mutations: {
         onError(error) {
           showError(error);

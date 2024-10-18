@@ -215,7 +215,7 @@ export const useStrategiesList = () => {
       return data
         .map(s => ({
           ...s,
-          supported_pairs: s.supported_pairs.map(normalizePair),
+          supported_pairs: s?.supported_pairs?.map?.(normalizePair) ?? [],
         }))
         .sort(strategyComparer);
     },

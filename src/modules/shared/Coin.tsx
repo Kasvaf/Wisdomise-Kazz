@@ -91,7 +91,7 @@ export function Coin({
         <Link
           className={rootClassName}
           to={{
-            pathname: `/insight/coin-radar/${coin.slug}`,
+            pathname: `/coin/${coin.slug}`,
           }}
         >
           {content}
