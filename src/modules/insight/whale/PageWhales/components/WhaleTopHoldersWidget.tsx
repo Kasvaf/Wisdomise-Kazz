@@ -147,24 +147,15 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: [t('top_whales.wins.title'), t('top_whales.wins.info')], // NAITODO win/lose , n/a == 0
+        title: t('top_whales.wins_losses'),
         align: 'right',
-        render: (_, row) => {
-          const total =
-            (row.last_30_days_trading_wins ?? 0) +
-            (row.last_30_days_trading_losses ?? 0);
-          return (
-            <div>
-              <ReadableNumber value={row.last_30_days_trading_wins} />
-              {total > 0 && (
-                <>
-                  <span>/</span>
-                  <ReadableNumber value={total} />
-                </>
-              )}
-            </div>
-          );
-        },
+        render: (_, row) => (
+          <div>
+            <ReadableNumber value={row.last_30_days_trading_wins ?? 0} />
+            <span>/</span>
+            <ReadableNumber value={row.last_30_days_trading_losses ?? 0} />
+          </div>
+        ),
       },
       {
         title: t('top_whales.buy_sell'),
