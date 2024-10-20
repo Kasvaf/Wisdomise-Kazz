@@ -25,9 +25,15 @@ export function Coins({
         width: 'auto',
       }}
       title={
-        <div className="flex flex-col gap-2 text-sm">
+        <div className="grid grid-cols-3 gap-2">
           {coins.map(coin => (
-            <Coin truncate key={JSON.stringify(coin)} coin={coin} />
+            <Coin
+              truncate
+              mini
+              key={JSON.stringify(coin)}
+              coin={coin}
+              className="text-xs"
+            />
           ))}
         </div>
       }
