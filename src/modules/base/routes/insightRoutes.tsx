@@ -75,15 +75,20 @@ const useInsightRoutes = () => {
         {
           path: 'whales',
           handle: { crumb: t('menu.whales.title') },
-          element: <PageWhales />,
-        },
-        {
-          path: 'whales/:network/:address',
-          element: <PageWhaleDetail />,
-          handle: {
-            crumb: (p: Params<string>) =>
-              `${p.network ?? ''}-${shortenAddress(p.address || '')}`,
-          },
+          children: [
+            {
+              path: '',
+              element: <PageWhales />,
+            },
+            {
+              path: ':network/:address',
+              element: <PageWhaleDetail />,
+              handle: {
+                crumb: (p: Params<string>) =>
+                  `${p.network ?? ''}-${shortenAddress(p.address || '')}`,
+              },
+            },
+          ],
         },
         {
           path: 'alerts',

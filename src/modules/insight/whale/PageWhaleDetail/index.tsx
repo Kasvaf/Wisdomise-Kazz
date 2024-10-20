@@ -20,7 +20,6 @@ export default function PageWhaleDetail() {
 
   return (
     <PageWrapper>
-      {/* NAITODO breadcrumb update beshe & liste whale ha biad rush */}
       <div className="grid grid-cols-6 items-start gap-6">
         <Wallet
           wallet={{
