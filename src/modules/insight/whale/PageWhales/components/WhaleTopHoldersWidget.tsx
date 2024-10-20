@@ -186,22 +186,20 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: t('top_whales.trades_per_day'),
+        title: [
+          t('top_whales.trades_per_day.title'),
+          t('top_whales.trades_per_day.info'),
+        ],
         align: 'right',
         render: (_, row) => (
-          <span>
-            <ReadableNumber
-              value={
-                typeof row?.last_14_days_number_of_trades === 'number'
-                  ? row?.last_14_days_number_of_trades / 14
-                  : null
-              }
-              popup="never"
-            />
-            {typeof row?.last_14_days_number_of_trades === 'number' && (
-              <span>({t('top_whales.14_days')})</span>
-            )}
-          </span>
+          <ReadableNumber
+            value={
+              typeof row?.last_14_days_number_of_trades === 'number'
+                ? row?.last_14_days_number_of_trades / 14
+                : null
+            }
+            popup="never"
+          />
         ),
       },
     ],

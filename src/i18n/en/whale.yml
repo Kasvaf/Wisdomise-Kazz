@@ -108,7 +108,6 @@ top_coins:
       7D.
 top_whales:
   title: Top Whales
-  14_days: 14 days
   address: Address
   balance:
     title: Balance
@@ -121,8 +120,10 @@ top_whales:
       The total returns of the wallet in the last 30 days, calculated as the P&L
       in the quote asset (e.g., ETH) divided by the maximum value of tokens held
       (in ETH) during the period.
-  tokens: Tokens
-  trades_per_day: 'Avg # Of Trades/Day'
+  tokens: Top Tokens
+  trades_per_day:
+    title: 'Avg # Of Trades/Day'
+    info: Average number of trades per day in the last 14 days.
   trading_holding: Trading/Holding
   trading_pnl:
     title: Trading PNL
