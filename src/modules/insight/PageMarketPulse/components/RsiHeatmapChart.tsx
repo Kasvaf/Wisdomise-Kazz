@@ -125,6 +125,13 @@ function CoinPoint({
   const [isReady, setIsReady] = useState(false);
   useTimeout(() => setIsReady(true), 50);
   const top = useMemo(() => {
+    /*
+      90 === top: 0%
+      70 === top: AREA_SIZE_PERCENT%
+      10 === bottom: 0%
+      30 === bottom: AREA_SIZE_PERCENT%
+      30 < x < 70: top: 50%
+    */
     let bottom = 0;
     const { rsi_value: rsi } = value;
     if (rsi < 0 || rsi > 100) return '-10%';
@@ -147,8 +154,11 @@ function CoinPoint({
         (100 - AREA_SIZE_PERCENT * 2) +
         AREA_SIZE_PERCENT / 2;
     }
-    return `calc(${100 - bottom}% - ${POINT_SIZE / 2}px)`;
+    return `calc(${Math.min(93, Math.max(7, 100 - bottom))}% - ${
+      POINT_SIZE / 2
+    }px)`;
   }, [value]);
+
   return (
     <Tooltip
       className="bg-v1-surface-l4"
@@ -193,20 +203,6 @@ function CoinPoint({
           isReady ? 'scale-100' : 'scale-0 opacity-0',
         )}
         style={{
-          /*
-            90 === top: 0%
-            70 === top: AREA_SIZE_PERCENT%
-            10 === bottom: 0%
-            30 === bottom: AREA_SIZE_PERCENT%
-            30 < x < 70: top: 50%
-          */
-          // top: `calc(${
-          //   value.rsi_value <= 30
-          //     ? 100 - (value.rsi_value - 10) * (AREA_SIZE_PERCENT / 20)
-          //     : value.rsi_value >= 70
-          //     ? (90 - value.rsi_value) * (90 / AREA_SIZE_PERCENT)
-          //     : 50
-          // }% - ${POINT_SIZE / 2}px)`,
           top,
           width: `${POINT_SIZE}px`,
           height: `${POINT_SIZE}px`,
@@ -238,7 +234,7 @@ function CoinPoint({
         </p>
         <div
           className={clsx(
-            'absolute w-0 border-r-2 border-dashed border-v1-content-primary',
+            'absolute max-h-48 w-0 border-r-2 border-dashed border-v1-content-primary',
             'transition-all delay-75 duration-300 will-change-contents',
           )}
           style={{
