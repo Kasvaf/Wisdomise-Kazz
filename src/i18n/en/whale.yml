@@ -171,7 +171,7 @@ whale_trades:
   name: Name
   title: Trades
   avg_duration: Avg Duration
-  number_of_trades: Number of Trades
+  number_of_transactions: Number of Transactions
   price: Price
   returns: Returns
   trading_pnl: Trading PNL
