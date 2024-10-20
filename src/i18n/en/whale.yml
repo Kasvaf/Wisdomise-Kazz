@@ -3,7 +3,7 @@
   avg_trade_day: Avg of Trades/Day
   avg_trade_duration: Avg Trade Duration
   largest_gain: Largest Gain
-  largest_losses: Largest Losses
+  largest_loss: Largest Loss
   transfer_volume: Transfer Volume
 asset_badges:
   exit_portfolio: Exit Portfolio

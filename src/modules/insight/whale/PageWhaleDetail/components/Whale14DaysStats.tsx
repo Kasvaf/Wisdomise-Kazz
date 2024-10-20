@@ -93,7 +93,7 @@ export function Whale14DaysStats({
           popup="never"
         />
       </StatRow>
-      <StatRow label={t('14d_stats.largest_losses')}>
+      <StatRow label={t('14d_stats.largest_loss')}>
         <ReadableNumber
           value={whale.data?.last_14_days_largest_loss}
           className="text-v1-content-negative"
