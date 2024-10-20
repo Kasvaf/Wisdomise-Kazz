@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useWhaleDetails } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import PriceChange from 'shared/PriceChange';
 import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 
@@ -91,25 +90,36 @@ export function WhaleOverviewWidget({
             />
           </button>
         </div>
-        <PriceChange
-          className="!flex !justify-start"
-          textClassName="!text-sm"
-          value={whale.data?.last_30_days_balance_change_percentage}
-          staticValue={whale.data?.last_30_days_balance_change}
-        />
+        <div className="flex items-center justify-start gap-1">
+          <DirectionalNumber
+            value={whale.data?.last_30_days_balance_change}
+            label="$"
+            showSign={false}
+            className="text-sm"
+          />
+          <DirectionalNumber
+            className="text-sm"
+            value={whale.data?.last_30_days_balance_change_percentage}
+            label="%"
+            prefix="("
+            suffix=")"
+            showSign
+            showIcon={false}
+          />
+        </div>
       </div>
       <div className="h-px bg-v1-content-disabled" />
       <StatRow label={t('whale_overview.trading_pnl')}>
         <DirectionalNumber
           value={whale.data?.last_30_days_trading_pnl}
-          label="usdt"
+          label="$"
           showIcon={false}
         />
       </StatRow>
       <StatRow label={t('whale_overview.trading_volume')}>
         <ReadableNumber
           value={whale.data?.last_30_days_transfer_volume}
-          label="usdt"
+          label="$"
         />
       </StatRow>
       <StatRow

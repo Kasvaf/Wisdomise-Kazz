@@ -134,16 +134,16 @@ export function WhaleNetflowChartWidget({
         <div className="relative flex h-full w-auto flex-col justify-between text-xxs text-v1-content-secondary">
           {config.maxInFlow || config.maxOutFlow ? (
             <ReadableNumber
-              label="usdt"
+              label="$"
               value={config.maxInFlow || config.maxOutFlow}
             />
           ) : (
             <span />
           )}
-          <ReadableNumber label="usdt" value={0} />
+          <ReadableNumber label="$" value={0} />
           {config.maxOutFlow || config.maxInFlow ? (
             <ReadableNumber
-              label="usdt"
+              label="$"
               value={config.maxOutFlow || config.maxInFlow}
             />
           ) : (
@@ -168,7 +168,7 @@ export function WhaleNetflowChartWidget({
                   </p>
                   <ReadableNumber
                     value={r.today_in_flow}
-                    label="usdt"
+                    label="$"
                     className="text-xs"
                   />
                 </div>
@@ -178,7 +178,7 @@ export function WhaleNetflowChartWidget({
                   </p>
                   <ReadableNumber
                     value={r.today_out_flow}
-                    label="usdt"
+                    label="$"
                     className="text-xs"
                   />
                 </div>

@@ -81,7 +81,7 @@ export function WhaleHoldsWidget({
         render: (_, row) => (
           <ReadableNumber
             value={row.market_data.market_cap}
-            label="usdt"
+            label="$"
             popup="never"
           />
         ),
@@ -91,7 +91,7 @@ export function WhaleHoldsWidget({
         render: (_, row) => (
           <ReadableNumber
             value={row.market_data.total_volume}
-            label="usdt"
+            label="$"
             popup="never"
           />
         ),
@@ -99,13 +99,13 @@ export function WhaleHoldsWidget({
       {
         title: t('whale_holds.worth'),
         render: (_, row) => (
-          <ReadableNumber value={row.worth} label="usdt" popup="never" />
+          <ReadableNumber value={row.worth} label="$" popup="never" />
         ),
       },
       {
         title: t('whale_holds.price'),
         render: (_, row) => (
-          <ReadableNumber value={row.market_data.current_price} label="usdt" />
+          <ReadableNumber value={row.market_data.current_price} label="$" />
         ),
       },
       {

@@ -65,7 +65,7 @@ export function WhaleTradesWidget({
         render: (_, row) => (
           <ReadableNumber
             value={row.total_last_30_days_volume_transferred}
-            label="usdt"
+            label="$"
             popup="never"
           />
         ),
@@ -73,7 +73,7 @@ export function WhaleTradesWidget({
       {
         title: t('whale_trades.price'),
         render: (_, row) => (
-          <ReadableNumber value={row.market_data.current_price} label="usdt" />
+          <ReadableNumber value={row.market_data.current_price} label="$" />
         ),
       },
       {

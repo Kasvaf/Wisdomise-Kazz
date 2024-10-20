@@ -50,12 +50,13 @@ export function WhaleBalanceChartWidget({
         formatter: dt => ({
           name: t('whale_balance_chart.balance'),
           value:
+            '$' +
             formatNumber(dt.balance_usdt as number, {
               compactInteger: true,
               decimalLength: 3,
               minifyDecimalRepeats: true,
               seperateByComma: true,
-            }) + ' USDT',
+            }),
         }),
       },
       xAxis: {
@@ -89,7 +90,7 @@ export function WhaleBalanceChartWidget({
           </p>
           <ReadableNumber
             value={whale.data?.last_30_balance_updates[0].balance_usdt}
-            label="usdt"
+            label="$"
             className="block text-2xl"
           />
         </div>
