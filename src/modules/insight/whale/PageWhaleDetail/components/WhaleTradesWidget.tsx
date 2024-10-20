@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { type SingleWhale, useWhaleDetails } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
-import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDuration } from 'shared/ReadableDuration';
 import Table from 'shared/Table';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 
 export function WhaleTradesWidget({
   className,
@@ -41,13 +41,23 @@ export function WhaleTradesWidget({
       {
         title: t('whale_trades.trading_pnl'),
         render: (_, row) => (
-          <ReadableNumber value={row.last_30_days_trading_pnl} label="usdt" />
+          <DirectionalNumber
+            value={row.last_30_days_trading_pnl}
+            label="$"
+            showSign
+            showIcon
+          />
         ),
       },
       {
         title: t('whale_trades.returns'),
         render: (_, row) => (
-          <PriceChange value={row.last_30_days_trading_pnl_percentage} />
+          <DirectionalNumber
+            value={row.last_30_days_trading_pnl_percentage}
+            label="%"
+            showSign
+            showIcon
+          />
         ),
       },
       {

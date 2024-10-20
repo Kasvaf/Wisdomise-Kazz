@@ -8,8 +8,8 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
-import PriceChange from 'shared/PriceChange';
 import Icon from 'shared/Icon';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { WhaleAssetBadge } from './WhaleAssetBadge';
 
 export function WhaleHoldsWidget({
@@ -101,7 +101,12 @@ export function WhaleHoldsWidget({
       {
         title: t('whale_holds.chg_30d'),
         render: (_, row) => (
-          <PriceChange value={row.last_30_days_price_change} />
+          <DirectionalNumber
+            value={row.last_30_days_price_change}
+            showIcon
+            showSign
+            label="%"
+          />
         ),
       },
     ],
