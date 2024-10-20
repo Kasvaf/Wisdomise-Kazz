@@ -1,5 +1,5 @@
 import useNotification from 'antd/es/notification/useNotification';
-import { bxCopy, bxShareAlt } from 'boxicons-quasar';
+import { bxShareAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -45,10 +45,21 @@ export const Wallet: FC<{
     }
     return copy();
   };
+
+  const avatar = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${(
+    wallet.network + wallet.address
+  ).toLowerCase()}`;
+
   return (
     <>
       {mode === 'title' ? (
-        <div className={clsx('flex items-center gap-4', className)}>
+        <div className={clsx('flex items-center gap-3', className)}>
+          <img
+            src={avatar}
+            width={48}
+            height={48}
+            className="size-10 rounded-full"
+          />
           <h1 className="text-lg font-bold"> {shortAddress} </h1>
           <Button
             contentClassName="!text-xs"
@@ -61,20 +72,22 @@ export const Wallet: FC<{
           </Button>
         </div>
       ) : (
-        <span className={clsx('inline-flex items-center gap-2', className)}>
-          <Icon
-            name={bxCopy}
-            size={16}
-            className="cursor-pointer text-white/70 hover:text-white/90"
-            onClick={() => copy()}
+        <Link
+          className={clsx(
+            'inline-flex w-max items-center gap-2 overflow-hidden rounded-md p-1 pe-2 font-mono',
+            'bg-transparent text-v1-content-primary transition-all hover:bg-v1-background-hover hover:text-inherit',
+            className,
+          )}
+          to={`/insight/whales/${wallet.network}/${wallet.address}`}
+        >
+          <img
+            src={avatar}
+            width={32}
+            height={32}
+            className="size-7 rounded-full"
           />
-          <Link
-            to={`/insight/whales/${wallet.network}/${wallet.address}`}
-            className="font-mono text-blue-400 hover:text-blue-300"
-          >
-            {shortAddress}
-          </Link>
-        </span>
+          <span>{shortAddress}</span>
+        </Link>
       )}
       {notificationContent}
     </>
