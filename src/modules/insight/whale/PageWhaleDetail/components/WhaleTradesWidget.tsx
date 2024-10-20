@@ -33,7 +33,7 @@ export function WhaleTradesWidget({
         render: (_, row) => <Coin coin={row.symbol} />,
       },
       {
-        title: t('whale_trades.number_of_trades'),
+        title: t('whale_trades.number_of_trades'), // NAITODO number of transactions/ hoveraye gheyre price ro vardar az addad
         render: (_, row) => (
           <ReadableNumber value={row.total_last_30_days_transfers} />
         ),
@@ -66,6 +66,7 @@ export function WhaleTradesWidget({
           <ReadableNumber
             value={row.total_last_30_days_volume_transferred}
             label="usdt"
+            popup="never"
           />
         ),
       },

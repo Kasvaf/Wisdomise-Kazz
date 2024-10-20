@@ -34,12 +34,14 @@ export function DirectionalNumber({
   prefix,
   value,
   className,
+  popup,
   direction: directionType,
   label,
 }: {
   className?: string;
   value?: number | null;
   direction?: 'up' | 'down' | 'neutral' | 'auto';
+  popup?: 'never' | 'auto';
   showIcon?: boolean;
   showSign?: boolean;
   prefix?: ReactNode;
@@ -75,7 +77,7 @@ export function DirectionalNumber({
       )}
       <ReadableNumber
         value={typeof value === 'number' ? Math.abs(value) : null}
-        popup="auto"
+        popup={popup ?? 'never'}
         label={label}
         className="text-inherit"
       />

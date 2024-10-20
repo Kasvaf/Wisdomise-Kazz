@@ -95,7 +95,7 @@ export function WhaleTopHoldersWidget({
         dataIndex: 'balance_usdt',
         sorter: true,
         render: (_, row) => (
-          <ReadableNumber label="usdt" value={row.balance_usdt} />
+          <ReadableNumber label="usdt" value={row.balance_usdt} popup="never" />
         ),
       },
       {
@@ -108,6 +108,7 @@ export function WhaleTopHoldersWidget({
           <ReadableNumber
             label="usdt"
             value={row.last_30_days_transfer_volume}
+            popup="never"
           />
         ),
       },

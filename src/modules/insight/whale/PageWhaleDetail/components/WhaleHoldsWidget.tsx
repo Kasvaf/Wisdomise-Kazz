@@ -79,18 +79,28 @@ export function WhaleHoldsWidget({
       {
         title: t('whale_holds.market_cap'),
         render: (_, row) => (
-          <ReadableNumber value={row.market_data.market_cap} label="usdt" />
+          <ReadableNumber
+            value={row.market_data.market_cap}
+            label="usdt"
+            popup="never"
+          />
         ),
       },
       {
         title: t('whale_holds.total_volume'),
         render: (_, row) => (
-          <ReadableNumber value={row.market_data.total_volume} label="usdt" />
+          <ReadableNumber
+            value={row.market_data.total_volume}
+            label="usdt"
+            popup="never"
+          />
         ),
       },
       {
         title: t('whale_holds.worth'),
-        render: (_, row) => <ReadableNumber value={row.worth} label="usdt" />,
+        render: (_, row) => (
+          <ReadableNumber value={row.worth} label="usdt" popup="never" />
+        ),
       },
       {
         title: t('whale_holds.price'),
