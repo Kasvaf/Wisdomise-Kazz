@@ -64,6 +64,7 @@ export default function AlertsPage() {
           variant="primary"
           size="manual"
           className="h-12 px-7"
+          data-id="set-alert"
         >
           <Icon name={bxBell} className="mr-2" size={24} />
           {t('common.set-alert')}

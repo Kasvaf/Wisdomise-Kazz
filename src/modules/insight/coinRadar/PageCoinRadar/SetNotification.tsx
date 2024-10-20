@@ -36,6 +36,7 @@ export default function SetNotification({ className }: { className?: string }) {
           });
           void alertActions.save();
         }}
+        data-id="set-alert"
         variant="primary"
         className={clsx(
           'h-10 w-auto !py-1 mobile:w-full',
