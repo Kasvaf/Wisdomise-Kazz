@@ -147,7 +147,7 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: [t('top_whales.wins.title'), t('top_whales.wins.info')], // NAITODO win lose
+        title: [t('top_whales.wins.title'), t('top_whales.wins.info')], // NAITODO win/lose , n/a == 0
         align: 'right',
         render: (_, row) => {
           const total =
