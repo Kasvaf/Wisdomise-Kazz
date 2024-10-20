@@ -147,7 +147,7 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: [t('top_whales.wins.title'), t('top_whales.wins.info')],
+        title: [t('top_whales.wins.title'), t('top_whales.wins.info')], // NAITODO win lose
         align: 'right',
         render: (_, row) => {
           const total =
@@ -195,7 +195,7 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: t('top_whales.trades_per_day'),
+        title: t('top_whales.trades_per_day'), // NAITODO 14 days biad tu info
         align: 'right',
         render: (_, row) => (
           <span>

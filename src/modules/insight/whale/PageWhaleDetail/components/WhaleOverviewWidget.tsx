@@ -89,6 +89,7 @@ export function WhaleOverviewWidget({
               size={24}
               className={clsx(whale.isLoading && 'animate-spin')}
             />
+            {/* NAITODO check this btn */}
           </button>
         </div>
         <PriceChange
