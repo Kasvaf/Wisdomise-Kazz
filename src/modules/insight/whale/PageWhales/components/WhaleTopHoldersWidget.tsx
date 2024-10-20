@@ -186,7 +186,7 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: t('top_whales.trades_per_day'), // NAITODO 14 days biad tu info
+        title: t('top_whales.trades_per_day'),
         align: 'right',
         render: (_, row) => (
           <span>
@@ -215,7 +215,6 @@ export function WhaleTopHoldersWidget({
         className,
       )}
       title={t('top_whales.title')}
-      info={t('top_whales.description')}
       loading={whales.isInitialLoading}
       empty={whales.data?.results?.length === 0}
       headerClassName="flex-wrap !justify-start"

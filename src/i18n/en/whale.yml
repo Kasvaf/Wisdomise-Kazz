@@ -108,9 +108,6 @@ top_coins:
       7D.
 top_whales:
   title: Top Whales
-  description: >-
-    this wallets rank in top 10% our wallets based on pnl from trades in last 30
-    days
   14_days: 14 days
   address: Address
   balance:
