@@ -87,9 +87,8 @@ export function WhaleOverviewWidget({
             <Icon
               name={bxRefresh}
               size={24}
-              className={clsx(whale.isLoading && 'animate-spin')}
+              className={clsx(whale.isFetching && 'animate-spin')}
             />
-            {/* NAITODO check this btn */}
           </button>
         </div>
         <PriceChange
