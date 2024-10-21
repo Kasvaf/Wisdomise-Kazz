@@ -35,14 +35,14 @@ export function WhaleTradesWidget({
       {
         title: t('whale_trades.number_of_transactions'),
         render: (_, row) => (
-          <ReadableNumber value={row.total_last_30_days_transfers} />
+          <ReadableNumber value={row.total_recent_transfers} />
         ),
       },
       {
         title: t('whale_trades.trading_pnl'),
         render: (_, row) => (
           <DirectionalNumber
-            value={row.last_30_days_trading_pnl}
+            value={row.recent_trading_pnl}
             label="$"
             showSign
             showIcon
@@ -53,7 +53,7 @@ export function WhaleTradesWidget({
         title: t('whale_trades.returns'),
         render: (_, row) => (
           <DirectionalNumber
-            value={row.last_30_days_trading_pnl_percentage}
+            value={row.recent_trading_pnl_percentage}
             label="%"
             showSign
             showIcon
@@ -64,7 +64,7 @@ export function WhaleTradesWidget({
         title: t('whale_trades.volume_of_trades'),
         render: (_, row) => (
           <ReadableNumber
-            value={row.total_last_30_days_volume_transferred}
+            value={row.total_recent_volume_transferred}
             label="$"
             popup="never"
           />
@@ -79,9 +79,7 @@ export function WhaleTradesWidget({
       {
         title: t('whale_trades.avg_duration'),
         render: (_, row) => (
-          <ReadableDuration
-            value={row.last_30_days_avg_trade_duration_seconds}
-          />
+          <ReadableDuration value={row.recent_avg_trade_duration_seconds} />
         ),
       },
     ],

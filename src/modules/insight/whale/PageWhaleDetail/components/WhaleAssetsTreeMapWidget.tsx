@@ -35,7 +35,7 @@ export function WhaleAssetsTreeMapWidget({
         ) === index,
     );
 
-    const totalWorth = allAssets.reduce((p, c) => p + c.worth, 0);
+    const totalWorth = allAssets.reduce((p, c) => p + (c.worth ?? 0), 0);
 
     let otherAssets: Array<(typeof allAssets)[number]> = [];
 
@@ -48,7 +48,7 @@ export function WhaleAssetsTreeMapWidget({
     }> = [];
 
     for (const asset of allAssets) {
-      const percentage = (asset.worth / totalWorth) * 100;
+      const percentage = ((asset.worth ?? 0) / totalWorth) * 100;
       if (percentage < 0.01) {
         otherAssets = [...otherAssets, asset];
       } else {
@@ -68,8 +68,8 @@ export function WhaleAssetsTreeMapWidget({
                 seperateByComma: true,
               },
             )}`,
-            name: asset.market_data.id as string,
-            value: Math.log2(asset.worth + 1),
+            name: asset.market_data.id,
+            value: Math.log2((asset.worth ?? 0) + 1),
             tooltip: `${asset.symbol?.name ?? ''}: $${formatNumber(
               asset.worth ?? 0,
               {
@@ -91,7 +91,7 @@ export function WhaleAssetsTreeMapWidget({
           name: 'others...',
           color: 'gray',
           label: `${t('whale_assets.others')}\n$${formatNumber(
-            otherAssets.reduce((p, c) => p + c.worth, 0),
+            otherAssets.reduce((p, c) => p + (c.worth ?? 0), 0),
             {
               compactInteger: true,
               decimalLength: 1,
@@ -99,7 +99,7 @@ export function WhaleAssetsTreeMapWidget({
               seperateByComma: true,
             },
           )}`,
-          value: Math.log2(otherAssets.reduce((p, c) => p + c.worth, 1)),
+          value: Math.log2(otherAssets.reduce((p, c) => p + (c.worth ?? 0), 1)),
           tooltip: otherAssets
             .map(
               asset =>

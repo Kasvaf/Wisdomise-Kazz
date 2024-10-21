@@ -73,21 +73,14 @@ export function Whale14DaysStats({
     >
       <StatRow label={t('14d_stats.avg_trade_duration')}>
         <ReadableDuration
-          value={
-            typeof whale.data?.last_14_days_total_trade_duration_seconds ===
-              'number' &&
-            typeof whale.data?.last_14_days_number_of_trades === 'number'
-              ? (whale.data?.last_14_days_total_trade_duration_seconds * 1000) /
-                (whale.data?.last_14_days_number_of_trades || 1)
-              : null
-          }
+          value={whale.data?.recent_average_trade_duration_seconds}
         />
       </StatRow>
       <StatRow label={t('14d_stats.avg_trade_day')}>
         <ReadableNumber
           value={
-            typeof whale.data?.last_14_days_number_of_trades === 'number'
-              ? whale.data?.last_14_days_number_of_trades / 14
+            typeof whale.data?.recent_number_of_trades === 'number'
+              ? whale.data?.recent_number_of_trades / 14
               : null
           }
           popup="never"
@@ -95,18 +88,18 @@ export function Whale14DaysStats({
       </StatRow>
       <StatRow label={t('14d_stats.largest_loss')}>
         <ReadableNumber
-          value={whale.data?.last_14_days_largest_loss}
+          value={whale.data?.recent_largest_loss}
           className="text-v1-content-negative"
         />
       </StatRow>
       <StatRow label={t('14d_stats.largest_gain')}>
         <ReadableNumber
-          value={whale.data?.last_14_days_largest_win}
+          value={whale.data?.recent_largest_win}
           className="text-v1-content-positive"
         />
       </StatRow>
       <StatRow label={t('14d_stats.transfer_volume')}>
-        <ReadableNumber value={whale.data?.last_14_days_transfer_volume} />
+        <ReadableNumber value={whale.data?.total_recent_transfer_volume} />
       </StatRow>
     </OverviewWidget>
   );

@@ -31,7 +31,7 @@ export function WhaleHistoricalPnlWidget({
       )
       .filter(r => r.related_at_date)
       .map(r => ({
-        y: r.last_30_days_trading_pnl ?? 0,
+        y: r.recent_trading_pnl ?? 0,
         x: r.related_at_date,
       }));
     return {

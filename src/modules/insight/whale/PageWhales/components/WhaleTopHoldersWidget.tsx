@@ -99,15 +99,12 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: [
-          t('top_whales.trading_volume.title'),
-          t('top_whales.trading_volume.info'),
-        ],
+        title: t('top_whales.transfer_volume'),
         align: 'right',
         render: (_, row) => (
           <ReadableNumber
             label="$"
-            value={row.last_30_days_transfer_volume}
+            value={row.recent_transfer_volume}
             popup="never"
           />
         ),
@@ -123,11 +120,11 @@ export function WhaleTopHoldersWidget({
           t('top_whales.trading_pnl.info'),
         ],
         align: 'right',
-        dataIndex: 'last_30_days_trading_pnl',
+        dataIndex: 'recent_trading_pnl',
         sorter: true,
         render: (_, row) => (
           <DirectionalNumber
-            value={row.last_30_days_trading_pnl}
+            value={row.recent_trading_pnl}
             label="$"
             showSign
           />
@@ -136,11 +133,11 @@ export function WhaleTopHoldersWidget({
       {
         title: [t('top_whales.returns.title'), t('top_whales.returns.info')],
         align: 'right',
-        dataIndex: 'last_30_days_trading_pnl_percentage',
+        dataIndex: 'recent_trading_pnl_percentage',
         sorter: true,
         render: (_, row) => (
           <DirectionalNumber
-            value={row.last_30_days_trading_pnl_percentage}
+            value={row.recent_trading_pnl_percentage}
             label="%"
             showSign
           />
@@ -151,9 +148,9 @@ export function WhaleTopHoldersWidget({
         align: 'right',
         render: (_, row) => (
           <div>
-            <ReadableNumber value={row.last_30_days_trading_wins ?? 0} />
+            <ReadableNumber value={row.recent_trading_wins ?? 0} />
             <span>/</span>
-            <ReadableNumber value={row.last_30_days_trading_losses ?? 0} />
+            <ReadableNumber value={row.recent_trading_losses ?? 0} />
           </div>
         ),
       },
@@ -163,12 +160,12 @@ export function WhaleTopHoldersWidget({
         render: (_, row) => (
           <div>
             <ReadableNumber
-              value={row.last_30_days_total_buys}
+              value={row.recent_total_buys}
               className="text-v1-content-positive"
             />
             <span className="text-v1-content-secondary">/</span>
             <ReadableNumber
-              value={row.last_30_days_total_sells}
+              value={row.recent_total_sells}
               className="text-v1-content-negative"
             />
           </div>
@@ -193,11 +190,7 @@ export function WhaleTopHoldersWidget({
         align: 'right',
         render: (_, row) => (
           <ReadableNumber
-            value={
-              typeof row?.last_14_days_number_of_trades === 'number'
-                ? row?.last_14_days_number_of_trades / 14
-                : null
-            }
+            value={row?.recent_average_trades_per_day}
             popup="never"
           />
         ),

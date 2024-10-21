@@ -10,26 +10,28 @@ export interface WhaleShort {
   network_name: string;
   network_icon_url?: string | null;
   balance_usdt?: number | null;
-  last_30_days_transfer_volume?: number | null;
-  last_30_days_trading_pnl?: number | null;
-  last_30_days_trading_pnl_percentage?: number | null;
-  last_30_days_trading_wins?: number | null;
-  last_30_days_trading_losses?: number | null;
-  last_30_days_total_buys?: number | null;
-  last_30_days_total_sells?: number | null;
-  last_30_days_in_flow?: number | null;
-  last_30_days_out_flow?: number | null;
-  last_14_days_number_of_trades?: number | null;
-  last_14_days_total_trade_duration_seconds?: number | null;
+  recent_transfer_volume?: number | null;
+  recent_trading_pnl?: number | null;
+  recent_trading_pnl_percentage?: number | null;
+  recent_trading_wins?: number | null;
+  recent_trading_losses?: number | null;
+  recent_total_buys?: number | null;
+  recent_total_sells?: number | null;
+  recent_in_flow?: number | null;
+  recent_out_flow?: number | null;
+  recent_average_trades_per_day?: number | null;
+  recent_average_trade_duration_seconds?: number | null;
   total_trading_assets?: number | null;
   total_holding_assets?: number | null;
   top_assets: Array<{
     symbol: Coin;
     amount?: number | null;
     worth?: number | null;
-    label?: string | null;
-    last_30_days_trading_pnl?: number | null;
-    last_30_days_trading_pnl_percentage?: number | null;
+    label:
+      | SingleWhale['holding_assets'][number]['label']
+      | SingleWhale['trading_assets'][number]['label'];
+    recent_trading_pnl?: number | null;
+    recent_trading_pnl_percentage?: number | null;
   }>;
 }
 
@@ -72,30 +74,25 @@ export const useWhales = (filters?: {
       return data;
     },
   });
-
 export interface WhaleCoin {
   rank: number;
-  symbol_abbreviation: string;
-  symbol_name: string;
-  symbol_slug?: string | null;
   symbol: Coin;
-  total_buy_number?: null | number;
-  total_buy_volume?: null | number;
-  total_holding_volume?: null | number;
-  total_last_30_days_trading_pnl?: null | number;
-  total_sell_number?: null | number;
-  total_sell_volume?: null | number;
-  total_transfer_volume?: null | number;
+  total_buy_volume?: number | null;
+  total_buy_number?: number | null;
+  total_sell_volume?: number | null;
+  total_sell_number?: number | null;
+  total_transfer_volume?: number | null;
+  total_holding_volume?: number | null;
+  total_recent_trading_pnl?: number | null;
   market_data: {
-    circulating_supply?: null | number;
-    current_price?: null | number;
-    market_cap?: null | number;
-    price_change_24h?: null | number;
-    price_change_percentage_24h?: null | number;
-    total_supply?: null | number;
+    current_price?: number | null;
+    price_change_24h?: number | null;
+    price_change_percentage_24h?: number | null;
+    market_cap?: number | null;
+    total_supply?: number | null;
+    circulating_supply?: number | null;
   };
 }
-
 export type WhaleCoinsFilter = 'all' | 'buy' | 'sell' | 'total_volume' | 'hold';
 
 export const useWhalesCoins = (filters?: {
@@ -137,57 +134,77 @@ export const useWhalesCoins = (filters?: {
 export interface SingleWhale {
   holder_address: string;
   network_name: string;
-  network_icon_url: string;
-  last_30_days_trading_realized_pnl_percentage: number;
-  last_30_days_trading_pnl: number;
-  last_30_days_trading_realized_pnl: number;
-  total_last_30_days_transfers: number;
-  last_30_days_balance_change: number;
-  last_30_days_balance_change_percentage: number;
-  last_30_days_transfer_volume: number;
-  last_30_days_trading_wins: number;
-  last_30_days_trading_losses: number;
-  last_14_days_total_trade_duration_seconds: number;
-  last_14_days_number_of_trades: number;
-  last_14_days_largest_win: number;
-  last_14_days_largest_loss: number;
-  last_14_days_transfer_volume: number;
+  network_icon_url?: string | null;
   last_30_balance_updates: Array<{
     related_at_date: string;
-    balance_usdt: number;
+    balance_usdt?: number | null;
   }>;
   last_30_days_in_out_flow: Array<{
     related_at_date: string;
-    today_in_flow: number;
-    today_out_flow: number;
+    today_in_flow?: number | null;
+    today_out_flow?: number | null;
   }>;
   last_30_days_pnls: Array<{
     related_at_date: string;
-    last_30_days_trading_pnl: number;
+    recent_trading_pnl?: number | null;
   }>;
-
+  recent_trading_pnl_percentage?: number | null;
+  recent_trading_realized_pnl_percentage?: number | null;
+  recent_trading_pnl?: number | null;
+  recent_trading_realized_pnl?: number | null;
+  total_recent_transfers?: number | null;
+  total_recent_transfer_volume?: number | null;
+  last_30_days_balance_change?: number | null;
+  last_30_days_balance_change_percentage?: number | null;
+  recent_trading_volume?: number | null;
+  recent_trading_wins?: number | null;
+  recent_trading_losses?: number | null;
+  recent_average_trades_per_day?: number | null;
+  recent_average_trade_duration_seconds?: number | null;
+  recent_number_of_trades?: number | null;
+  recent_largest_win?: number | null;
+  recent_largest_loss?: number | null;
   trading_assets: Array<{
     label: 'trading';
-    amount: number;
-    symbol_name: string;
-    symbol_abbreviation: string;
-    last_30_days_trading_pnl: number;
-    last_30_days_price_change: null;
-    total_last_30_days_transfers: number;
-    last_30_days_trading_realized_pnl: number;
-    last_30_days_trading_pnl_percentage: number;
-    total_last_30_days_volume_transferred: number;
-    last_30_days_avg_trade_duration_seconds: number;
-    last_30_days_trading_realized_pnl_percentage: number;
-    symbol_slug: null | string;
+    amount?: number | null;
+    total_recent_buys?: number | null;
+    recent_trading_pnl?: number | null;
+    total_recent_sells?: number | null;
+    total_recent_transfers?: number | null;
+    total_recent_buy_volume?: number | null;
+    total_recent_sell_volume?: number | null;
+    last_30_days_price_change?: number | null;
+    recent_trading_realized_pnl?: number | null;
+    recent_trading_pnl_percentage?: number | null;
+    total_recent_volume_transferred?: number | null;
+    recent_avg_trade_duration_seconds?: number | null;
+    recent_trading_realized_pnl_percentage?: number | null;
     market_data: {
-      id?: string;
-      current_price?: number;
-      price_change_percentage_24h?: number;
-      market_cap?: number;
-      total_volume?: number;
+      id: string;
+      ath?: number | null;
+      atl?: number | null;
+      roi?: number | null;
+      low_24h?: number | null;
+      ath_date?: string | null;
+      atl_date?: string | null;
+      high_24h?: number | null;
+      market_cap?: number | null;
+      max_supply?: number | null;
+      last_updated?: string | null;
+      total_supply?: number | null;
+      total_volume?: number | null;
+      current_price?: number | null;
+      market_cap_rank?: number | null;
+      price_change_24h?: number | null;
+      circulating_supply?: number | null;
+      ath_change_percentage?: number | null;
+      atl_change_percentage?: number | null;
+      market_cap_change_24h?: number | null;
+      fully_diluted_valuation?: number | null;
+      price_change_percentage_24h?: number | null;
+      market_cap_change_percentage_24h?: number | null;
     };
-    worth: number;
+    worth?: number | null;
     symbol: Coin;
   }>;
   holding_assets: Array<{
@@ -197,26 +214,46 @@ export interface SingleWhale {
       | 'loading'
       | 'new_investment'
       | 'exit_portfolio';
-    amount: number;
-    symbol_name: string;
-    symbol_abbreviation: string;
-    last_30_days_trading_pnl: number;
-    last_30_days_price_change: null;
-    total_last_30_days_transfers: number;
-    last_30_days_trading_realized_pnl: number;
-    last_30_days_trading_pnl_percentage: number;
-    total_last_30_days_volume_transferred: number;
-    last_30_days_avg_trade_duration_seconds: number;
-    last_30_days_trading_realized_pnl_percentage: number;
-    symbol_slug: null | string;
+    amount?: number | null;
+    total_recent_buys?: number | null;
+    recent_trading_pnl?: number | null;
+    total_recent_sells?: number | null;
+    total_recent_transfers?: number | null;
+    total_recent_buy_volume?: number | null;
+    total_recent_sell_volume?: number | null;
+    last_30_days_price_change?: number | null;
+    recent_trading_realized_pnl?: number | null;
+    recent_trading_pnl_percentage?: number | null;
+    total_recent_volume_transferred?: number | null;
+    recent_avg_trade_duration_seconds?: number | null;
+    recent_trading_realized_pnl_percentage?: number | null;
+    symbol_slug: string;
     market_data: {
-      id?: string;
-      current_price?: number;
-      price_change_percentage_24h?: number;
-      market_cap?: number;
-      total_volume?: number;
+      id: string;
+      ath?: number | null;
+      atl?: number | null;
+      roi?: number | null;
+      low_24h?: number | null;
+      ath_date?: string | null;
+      atl_date?: string | null;
+      high_24h?: number | null;
+      market_cap?: number | null;
+      max_supply?: number | null;
+      last_updated?: string | null;
+      total_supply?: number | null;
+      total_volume?: number | null;
+      current_price?: number | null;
+      market_cap_rank?: number | null;
+      price_change_24h?: number | null;
+      circulating_supply?: number | null;
+      ath_change_percentage?: number | null;
+      atl_change_percentage?: number | null;
+      market_cap_change_24h?: number | null;
+      fully_diluted_valuation?: number | null;
+      price_change_percentage_24h?: number | null;
+      market_cap_change_percentage_24h?: number | null;
     };
-    worth: number;
+    worth?: number | null;
     symbol: Coin;
   }>;
 }

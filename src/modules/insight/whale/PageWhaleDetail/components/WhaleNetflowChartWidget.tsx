@@ -30,12 +30,12 @@ export function WhaleNetflowChartWidget({
     );
     const maxInFlow = Math.max(
       ...(whale?.data?.last_30_days_in_out_flow ?? []).map(
-        r => r.today_in_flow,
+        r => r.today_in_flow ?? 0,
       ),
     );
     const maxOutFlow = Math.max(
       ...(whale?.data?.last_30_days_in_out_flow ?? []).map(
-        r => r.today_out_flow,
+        r => r.today_out_flow ?? 0,
       ),
     );
     return {
@@ -191,7 +191,9 @@ export function WhaleNetflowChartWidget({
                 <div
                   className="absolute bottom-0 min-h-1 w-full shrink-0 rounded-t bg-v1-content-positive"
                   style={{
-                    height: `${(r.today_in_flow / config.maxInFlow) * 100}%`,
+                    height: `${
+                      ((r.today_in_flow ?? 0) / config.maxInFlow) * 100
+                    }%`,
                   }}
                 />
               </div>
@@ -199,7 +201,9 @@ export function WhaleNetflowChartWidget({
                 <div
                   className="absolute top-0 min-h-1 w-full shrink-0 rounded-b bg-v1-content-negative"
                   style={{
-                    height: `${(r.today_out_flow / config.maxOutFlow) * 100}%`,
+                    height: `${
+                      ((r.today_out_flow ?? 0) / config.maxOutFlow) * 100
+                    }%`,
                   }}
                 />
               </div>

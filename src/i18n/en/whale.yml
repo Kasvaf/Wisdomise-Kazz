@@ -130,9 +130,7 @@ top_whales:
     info: >-
       The total profit and loss of the wallet in the last 30 days (realized +
       unrealized PnL).
-  trading_volume:
-    title: Trading Volume
-    info: The total value of tokens swapped in the last 30 days, expressed in USDT.
+  transfer_volume: Transfer Volume
   wins_losses: Wins/Losses
 whale_assets:
   title: User Assets

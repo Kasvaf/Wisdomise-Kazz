@@ -64,9 +64,9 @@ export function WhaleOverviewWidget({
   });
 
   const winPercent =
-    (whale.data?.last_30_days_trading_wins ?? 0) /
-    ((whale.data?.last_30_days_trading_wins ?? 0) +
-      (whale.data?.last_30_days_trading_losses ?? 0));
+    (whale.data?.recent_trading_wins ?? 0) /
+    ((whale.data?.recent_trading_wins ?? 0) +
+      (whale.data?.recent_trading_losses ?? 0));
 
   return (
     <OverviewWidget
@@ -111,14 +111,14 @@ export function WhaleOverviewWidget({
       <div className="h-px bg-v1-content-disabled" />
       <StatRow label={t('whale_overview.trading_pnl')}>
         <DirectionalNumber
-          value={whale.data?.last_30_days_trading_pnl}
+          value={whale.data?.recent_trading_pnl}
           label="$"
           showIcon={false}
         />
       </StatRow>
       <StatRow label={t('whale_overview.trading_volume')}>
         <ReadableNumber
-          value={whale.data?.last_30_days_transfer_volume}
+          value={whale.data?.total_recent_transfer_volume}
           label="$"
         />
       </StatRow>
@@ -128,7 +128,7 @@ export function WhaleOverviewWidget({
       >
         <div className="w-full basis-full space-y-2">
           <div className="relative h-1 w-full overflow-hidden rounded bg-v1-content-secondary">
-            {(whale.data?.last_30_days_trading_losses ?? 0) > 0 && (
+            {(whale.data?.recent_trading_losses ?? 0) > 0 && (
               <div className="absolute left-0 top-0 h-full w-full bg-v1-content-negative" />
             )}
             <div
@@ -140,11 +140,10 @@ export function WhaleOverviewWidget({
           </div>
           <div className="flex w-full grow items-center justify-between gap-2">
             <span>
-              {whale.data?.last_30_days_trading_wins ?? 0}{' '}
-              {t('whale_overview.wins')}
+              {whale.data?.recent_trading_wins ?? 0} {t('whale_overview.wins')}
             </span>
             <span>
-              {whale.data?.last_30_days_trading_losses ?? 0}{' '}
+              {whale.data?.recent_trading_losses ?? 0}{' '}
               {t('whale_overview.losses')}
             </span>
           </div>

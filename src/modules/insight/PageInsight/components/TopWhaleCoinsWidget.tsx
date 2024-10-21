@@ -29,7 +29,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
     >
       {coins.data?.results.map(row => (
         <div
-          key={row.symbol_name}
+          key={row.symbol.name + (row.symbol.slug ?? '')}
           className="flex shrink-0 flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
         >
           <div className="flex items-center justify-between gap-1 overflow-hidden">
@@ -60,7 +60,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
               <ReadableNumber
                 className="text-sm"
                 value={row.total_transfer_volume}
-                label={row.symbol_abbreviation}
+                label={row.symbol.abbreviation}
               />
             </div>
           </div>

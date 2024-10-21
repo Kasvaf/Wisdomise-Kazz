@@ -33,7 +33,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       {
         title: t('sections.top-whales.table.pnl_percent'),
         render: (_, row) => (
-          <PriceChange value={row.last_30_days_trading_pnl_percentage} />
+          <PriceChange value={row.recent_trading_pnl_percentage} />
         ),
       },
       {
@@ -45,7 +45,11 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       {
         title: t('sections.top-whales.table.trades'),
         render: (_, row) => (
-          <ReadableNumber value={row.last_14_days_number_of_trades} />
+          <ReadableNumber
+            value={
+              row.recent_trading_wins ?? 0 ?? row.recent_trading_losses ?? 0
+            }
+          />
         ),
       },
     ],
