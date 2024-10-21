@@ -34,7 +34,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
         return null;
       });
       Sentry.setUser({
-        telegram_id: webApp?.initDataUnsafe.user?.id,
+        id: String(webApp?.initDataUnsafe.user?.id),
         username: webApp?.initDataUnsafe.user?.username,
       });
     }
