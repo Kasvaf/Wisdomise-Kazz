@@ -83,6 +83,7 @@ export type TicketType = 'silver_ticket';
 
 interface CheckEligibilityResponse {
   ticket_number: number;
+  status: 'claimed' | 'winner' | 'looser';
   reward: number;
 }
 

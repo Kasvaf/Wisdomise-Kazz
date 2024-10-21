@@ -84,7 +84,7 @@ export default function ClaimRewardPage() {
       <div className="mt-6">
         {tonConnect.connected && (
           <p className="mb-6 text-xs text-white/40">
-            Your WSDM balance:{' '}
+            Your WSDM balance in your wallet:{' '}
             <span className="text-white">
               {addComma(Number(accountJettonBalance?.balance ?? 0) / 10 ** 6)}{' '}
               WSDM
@@ -278,9 +278,18 @@ export default function ClaimRewardPage() {
         <Button
           variant="brand"
           className="absolute bottom-10 end-4 start-4"
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            setOpen(false);
+            if (eligibility?.[0].status === 'winner') {
+              notification.success({
+                message: `You claimed ${
+                  eligibility?.[0].reward ?? 0
+                } WSDM. You can withdraw it now`,
+              });
+            }
+          }}
         >
-          Done
+          {eligibility?.[0].status === 'winner' ? 'Claim' : 'Done'}
         </Button>
       </DrawerModal>
     </div>
