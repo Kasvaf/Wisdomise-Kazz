@@ -221,3 +221,31 @@ export const useUploaderMutation = (target: ImageUploaderTarget) => {
     },
   });
 };
+
+interface MiniAppLoginResponse {
+  token: string;
+}
+
+export function useMiniAppLoginQuery(query?: string) {
+  return useQuery(
+    ['miniAppLogin', query],
+    async () => {
+      const { data } = await axios.get<MiniAppLoginResponse>(
+        `${TEMPLE_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
+        {
+          transformRequest: [
+            (data, headers) => {
+              delete headers.Authorization;
+              return data;
+            },
+          ],
+        },
+      );
+      return data;
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+      enabled: !!query,
+    },
+  );
+}
