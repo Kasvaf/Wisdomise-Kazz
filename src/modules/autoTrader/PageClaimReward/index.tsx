@@ -236,7 +236,7 @@ export default function ClaimRewardPage() {
               ? 'One of your Silver Tickets is a winner! You can now claim your rewards from the pool.'
               : 'It looks like your Silver Tickets didn’t win this round. Don’t worry, there’s always another chance! Keep going and good luck next time!'}
           </p>
-          {userTickets?.[selectedTicket ?? 'silver_ticket'].map(
+          {userTickets?.[selectedTicket ?? 'silver_ticket']?.map(
             (ticket, index) => (
               <div
                 key={ticket}
