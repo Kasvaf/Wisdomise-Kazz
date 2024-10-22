@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
 import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import useIsMobile from 'utils/useIsMobile';
+import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
 import AuthGuard from '../auth/AuthGuard';
 import Header from './Header';
@@ -52,7 +53,9 @@ const Container = () => {
             >
               <div style={{ height }} />
               <React.Suspense fallback={<PageWrapper loading />}>
-                <Outlet />
+                <AuthorizedContent>
+                  <Outlet />
+                </AuthorizedContent>
               </React.Suspense>
             </div>
             <AthenaFloat />

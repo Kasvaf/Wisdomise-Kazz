@@ -2,6 +2,7 @@ banner:
   athena-bot: 雅典娜電報機器人
   stay-connected: 保持連接
 email-address: 電子郵件地址
+error-not-authorized: 要查看此页面，您需要登录
 footer: © 2024 Wisdomise。保留所有權利。
 login:
   error-code: 代码无效

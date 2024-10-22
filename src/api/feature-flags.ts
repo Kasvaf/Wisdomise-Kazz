@@ -47,7 +47,7 @@ export function useHasFlag() {
     }
 
     if (flag[0] === '?') {
-      flag = unparam(loc.pathname, params) + flag;
+      flag = unparam(loc.pathname, params) + (flag.length > 1 ? flag : '');
     }
 
     if (flag[0] === '/') {

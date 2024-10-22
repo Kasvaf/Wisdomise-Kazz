@@ -157,6 +157,7 @@ export function NotifacationForm<
               className="mt-6 w-full grow"
               loading={loading}
               disabled={loading || !alertFormAsMarketData.formState.isValid}
+              data-id="submit_price-alert"
             >
               {t('common.set-alert')}
               <Icon name={bxBell} className="ms-2" />
@@ -197,6 +198,7 @@ export function NotifacationForm<
               className="mt-6 w-full grow"
               loading={loading}
               disabled={loading || !alertFormAsCoinRadarNotif.formState.isValid}
+              data-id="submit_coin-radar-alert"
             >
               {t('common.save-alert')}
               <Icon name={bxBell} className="ms-2" />

@@ -15,7 +15,8 @@ import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Link from 'shared/Link';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
-import { ReactComponent as LoginBg } from './Login.svg';
+// import { ReactComponent as LoginBg } from './Login.svg';
+import LoginBg from './login-bg.png';
 
 const ModalLogin: React.FC<{
   onResolve?: (success: boolean) => void;
@@ -102,7 +103,7 @@ const ModalLogin: React.FC<{
   );
 
   const emailContent = (
-    <div className="mr-6 flex grow flex-col">
+    <div className="mr-6 flex grow flex-col p-4">
       <h1 className="mb-5 text-xl font-medium">{t('login.step-1.title')}</h1>
       <p className="mb-9 text-xs text-white/70">{t('login.step-1.subtitle')}</p>
 
@@ -156,7 +157,7 @@ const ModalLogin: React.FC<{
   );
 
   const codeContent = (
-    <div className="mr-6 flex grow flex-col">
+    <div className="mr-6 flex grow flex-col p-4">
       <h1 className="mb-5 text-xl font-medium">{t('login.step-2.title')}</h1>
       <p className="mb-9 text-xs text-white/70">
         {t('login.step-2.subtitle', { email })}
@@ -235,7 +236,10 @@ const ModalLogin: React.FC<{
       ) : (
         codeContent
       )}
-      <LoginBg className="-my-5 -mr-7 w-[440px] shrink-0 mobile:hidden" />
+      <img
+        src={LoginBg}
+        className="-my-5 -mr-6 h-[524px] w-[440px] shrink-0 bg-black/30 mobile:hidden"
+      />
     </div>
   );
 };

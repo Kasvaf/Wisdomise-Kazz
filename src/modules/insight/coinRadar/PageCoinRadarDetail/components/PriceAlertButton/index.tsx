@@ -48,6 +48,7 @@ export function PriceAlertButton({
         variant={initialAlert.key ? 'alternative' : 'primary'}
         className={clsx('h-10 w-auto !py-1 mobile:!px-4', className)}
         contentClassName="flex gap-0"
+        data-id="set-alert"
       >
         <Icon size={20} name={bxBell} className="mr-1" />
         {initialAlert.key

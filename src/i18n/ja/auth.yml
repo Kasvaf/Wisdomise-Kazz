@@ -2,6 +2,7 @@ banner:
   athena-bot: アテナのTelegramボット
   stay-connected: 通信を継続
 email-address: メールアドレス
+error-not-authorized: このページを表示するには、サインインする必要があります
 footer: © 2024 Wisdomise. All rights reserved.
 login:
   error-code: 無効なコード

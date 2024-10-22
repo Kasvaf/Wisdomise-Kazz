@@ -36,6 +36,10 @@
   background: linear-gradient(239deg, #362253 0%, #340f6b 131.46%);
 }
 
+.ant-modal-mask {
+  @apply backdrop-blur-sm;
+}
+
 .ant-modal-body {
   @apply bg-transparent p-0;
   background-color: transparent !important;
@@ -43,7 +47,7 @@
 }
 
 .ant-modal-content {
-  @apply !bg-page;
+  @apply overflow-hidden !bg-page;
   border-radius: 10px !important;
   .anticon-close {
     color: white;
@@ -323,6 +327,10 @@
 /* hide google captcha */
 .grecaptcha-badge {
   display: none !important;
+}
+
+div#CybotCookiebotDialog {
+  z-index: 9998 !important;
 }
 
 #CookiebotWidget {

@@ -105,6 +105,7 @@ export function Coin({
           to={{
             pathname: `/coin/${coin.slug}`,
           }}
+          data-id="coin_list-item"
         >
           {content}
         </Link>

@@ -103,6 +103,7 @@ hot-coins-section:
     call-time: 提及次數
     call-time-info: 我们的 AI 检测到关键机会并发出此资产信号的确切时刻。使用它来跟踪您何时收到考虑此代币的提醒。
     chg-24: 變化(24小時)
+    circulating_supply: 流通供应量
     insights: 見解
     market-cap: 市值
     name: 名稱
