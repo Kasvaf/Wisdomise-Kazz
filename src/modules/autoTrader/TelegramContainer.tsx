@@ -4,8 +4,8 @@ import { TelegramProvider } from 'modules/autoTrader/TelegramProvider';
 import TelegramAuthGuard from 'modules/autoTrader/TelegramAuthGuard';
 import WalletGuard from 'modules/autoTrader/WalletGuard';
 
-const AUTO_TRADER_WEB_APP = import.meta.env
-  .VITE_ATHENA_BOT_BASE_URL as `${string}://${string}`;
+const AUTOTRADER_MINIAPP = import.meta.env
+  .VITE_AUTOTRADER_MINIAPP_BASE_URL as `${string}://${string}`;
 
 export default function TelegramContainer() {
   return (
@@ -16,7 +16,7 @@ export default function TelegramContainer() {
             manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
             uiPreferences={{ theme: THEME.DARK }}
             actionsConfiguration={{
-              twaReturnUrl: AUTO_TRADER_WEB_APP,
+              twaReturnUrl: AUTOTRADER_MINIAPP,
             }}
           >
             <WalletGuard>

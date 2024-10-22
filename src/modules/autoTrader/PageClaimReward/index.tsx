@@ -59,7 +59,7 @@ export default function ClaimRewardPage() {
       });
     } else {
       notification.error({
-        message: 'Please connect your wallet address',
+        message: 'Please connect your wallet',
       });
     }
   };
