@@ -280,7 +280,7 @@ export default function ClaimRewardPage() {
           className="absolute bottom-10 end-4 start-4"
           onClick={() => {
             setOpen(false);
-            if (eligibility?.[0].status === 'winner') {
+            if (eligibility?.[0]?.status === 'winner') {
               notification.success({
                 message: `You claimed ${
                   eligibility?.[0].reward ?? 0
@@ -289,7 +289,7 @@ export default function ClaimRewardPage() {
             }
           }}
         >
-          {eligibility?.[0].status === 'winner' ? 'Claim' : 'Done'}
+          {eligibility?.[0]?.status === 'winner' ? 'Claim' : 'Done'}
         </Button>
       </DrawerModal>
     </div>
