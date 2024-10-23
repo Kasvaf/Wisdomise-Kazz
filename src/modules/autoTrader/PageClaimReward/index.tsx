@@ -19,6 +19,7 @@ import logo from 'assets/logo-horizontal-beta.svg';
 import Button from 'shared/Button';
 import { addComma } from 'utils/numbers';
 import { DrawerModal } from 'shared/DrawerModal';
+import { isProduction } from 'utils/version';
 import ton from './images/ton.png';
 import wsdm from './images/wsdm.png';
 import plat from './images/plat.png';
@@ -133,7 +134,11 @@ export default function ClaimRewardPage() {
               className="ms-auto w-36"
               onClick={() => handleWithdraw()}
               loading={withdrawIsLoading}
-              disabled={(data?.wsdm_balance ?? 0) === 0 || withdrawIsLoading}
+              disabled={
+                isProduction ||
+                (data?.wsdm_balance ?? 0) === 0 ||
+                withdrawIsLoading
+              }
             >
               Withdraw
             </Button>
@@ -163,7 +168,7 @@ export default function ClaimRewardPage() {
             className="ms-auto w-36"
             loading={isLoading}
             onClick={() => check('silver_ticket')}
-            disabled={isLoading}
+            disabled={isProduction || isLoading}
           >
             Check Eligibility
           </Button>
