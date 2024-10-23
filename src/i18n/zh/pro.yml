@@ -1,0 +1,16 @@
+features:
+  alerts: 定制警报和通知
+  auto-trader: Wisdomise 自动交易
+  coin-overview: 综合硬币概述
+  dashboard: 个性化仪表板
+renew-modal:
+  description: 你的 <b>{{days}}天试用</b> Wisdomise Pro 已结束。<br></br> 使用 Wisdomise Pro
+    继续释放您的加密潜力！以下是 Pro 版本中的一些功能：
+  renew: 续订您的专业版
+  skip: 暂时跳过
+  title: 继续你的加密之旅<br></br>与我们一起！
+trial-modal:
+  button: 开始你的旅程
+  description: 祝贺你 <b>{{days}}天试用</b> Wisdomise Pro！<br></br>以下是专业版中的一些功能：
+  footer: 您现在可以使用旨在增强您的交易体验的强大工具。<br></br探索更多功能并提升您的加密游戏。
+  title: 欢迎来到 Wisdomise Pro！

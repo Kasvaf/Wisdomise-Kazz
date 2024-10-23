@@ -6,6 +6,7 @@ import useIsMobile from 'utils/useIsMobile';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
 import AuthGuard from '../auth/AuthGuard';
+import TrialGuard from '../auth/TrialGuard';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import BottomNavBar from './BottomNavBar';
@@ -53,9 +54,11 @@ const Container = () => {
             >
               <div style={{ height }} />
               <React.Suspense fallback={<PageWrapper loading />}>
-                <AuthorizedContent>
-                  <Outlet />
-                </AuthorizedContent>
+                <TrialGuard>
+                  <AuthorizedContent>
+                    <Outlet />
+                  </AuthorizedContent>
+                </TrialGuard>
               </React.Suspense>
             </div>
             <AthenaFloat />

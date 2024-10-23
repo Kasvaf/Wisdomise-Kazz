@@ -4,7 +4,10 @@ import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import { MAIN_LANDING } from 'config/constants';
 import Icon from 'shared/Icon';
 import Logo from 'assets/logo-horizontal.svg';
+import { useSubscription } from 'api';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import MenuItemsContent from './MenuItemsContent';
+import { ReactComponent as ProIcon } from './pro.svg';
 
 const SideMenu: React.FC<{
   className?: string;
@@ -12,6 +15,8 @@ const SideMenu: React.FC<{
   onCollapseClick?: () => void;
 }> = ({ className, collapsed, onCollapseClick }) => {
   const { i18n } = useTranslation();
+  const subscription = useSubscription();
+  const isLoggedIn = useIsLoggedIn();
 
   return (
     <div
@@ -30,9 +35,13 @@ const SideMenu: React.FC<{
           <div className="mb-4 mt-8 flex items-center justify-between border-b border-white/5 pb-4">
             <a
               href={MAIN_LANDING(i18n.language)}
-              className="flex w-full cursor-pointer flex-row items-center justify-start"
+              className="flex w-full cursor-pointer flex-row items-center justify-start gap-2"
             >
               <img className="h-12" src={Logo} alt="logo" />
+              {!subscription.isFreePlan &&
+                isLoggedIn /* TODO: Trial: Check This */ && (
+                  <ProIcon className="mt-px" />
+                )}
             </a>
             <button
               className="rounded-xl bg-white/[.02] p-2 text-white hover:bg-white/10 active:bg-black/5"

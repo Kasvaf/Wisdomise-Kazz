@@ -6,7 +6,7 @@ import { useAccountQuery } from './account';
 // hasFlag('?xyz') -> [current-pathname]?xyz
 // hasFlag('/xyz/abc') -> '/xyz/abc' is used as is
 
-function unparam(
+export function unparam(
   path: string,
   params: Readonly<Partial<Record<string, string>>>,
 ) {
