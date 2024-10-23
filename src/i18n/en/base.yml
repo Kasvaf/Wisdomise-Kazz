@@ -97,6 +97,10 @@ menu:
     title: Users
   whales:
     title: Smart Whales
+    subtitle: >-
+      Track Top Whales, Hottest Tokens They Hold and Trade, and Market Moves
+      Influenced by Crypto Whales
+    full-title: Whale Analysis
 new: New
 onboarding:
   back: Back

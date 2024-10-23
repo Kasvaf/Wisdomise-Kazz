@@ -79,7 +79,7 @@ export function WhaleOverviewWidget({
         <div className="flex justify-between gap-2">
           <ReadableNumber
             value={whale.data?.last_30_balance_updates[0].balance_usdt}
-            label="usdt"
+            label="$"
             className="block text-4xl"
           />
           <button disabled={whale.isLoading} onClick={() => whale.refetch()}>

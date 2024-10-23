@@ -1,7 +1,36 @@
+14d_stats:
+  avg_trade_day: 1日あたりの平均取引数
+  avg_trade_duration: 平均取引期間
+  largest_gain: 最大の利益
+  largest_loss: 最大の損失
+  largest_losses: 最大の損失
+  title: 14日間の統計の概要
+  transfer_volume: 転送量
+asset_badges:
+  exit_portfolio: 出口ポートフォリオ
+  exit_portfolio_info: このクジラは資産の約95％を売却し、投資からの撤退を示唆した。
+  holding: ホールディング
+  holding_info: このクジラは資産量に大きな変化がなく、安定しています。
+  loading: 読み込み中
+  loading_info: このクジラは資産量を5%以上増やし、地位を築いています。
+  new_investment: 新規投資
+  new_investment_info: このクジラは、売却を最小限に抑えながら新たな投資を行い、ポジションを拡大しました。
+  trading: トレーディング
+  unloading: 荷降ろし
+  unloading_info: このクジラは保有株を5%以上減らしていますが、完全に撤退しているわけではありません。
 filters:
+  all: 全て
   all-chains: すべてのチェーン
+  all-networks: すべてのネットワーク
+  best_to_copy: コピーするのがベスト
+  buy: 買う
+  hold: ホールド
+  holders: ホルダー
   search-whale: 検索クジラ
+  sell: 売る
+  total_volume: 取引量
   wallet: ウォレットアドレスで検索
+  wealthy_wallets: 裕福な財布
 onboarding:
   sec-1:
     content: 当社のスマートウォレット機能は、過去の利益に基づいて、各コインの最高のパフォーマンスを誇る大口投資家やトレーダーを特定します。当社はさまざまなコインやチェーンにわたる彼らの動きを追跡しているので、最高の取引機会についての洞察を得ることができます。
@@ -61,3 +90,90 @@ sections:
     unrealized-pnl: 未実現損益
     unrealized-pnl-info: <b>未実現損益</b><p>未実現 PNL (損益)
       は、現在保有しているがまだ売却されていない資産の潜在的な利益または損失を表します。これは、これらの資産の現在の市場価値と購入価格の差を反映しています。この指標は、現在の市場価格に基づいて保有資産のパフォーマンスを評価するのに役立ちます。</p>
+top_coins:
+  buy_volume:
+    info: 過去 7 日間にスマート ウォレットと合計ウォレットから購入された合計量。
+    title: 購入量
+  buys:
+    info: 過去 7 日間に購入されたスマート ウォレットの総数とウォレットの合計数。
+    title: 購入
+  info:
+    info: 現在の価格、完全希薄化後時価総額、および循環供給量。
+    title: 情報
+  name: 信号発信者名
+  sell_volume:
+    info: 過去 7 日間にスマート ウォレットと合計ウォレットから販売された合計量。
+    title: 売り量
+  sells:
+    info: 過去 7 日間に販売されたスマート ウォレットの総数とウォレットの合計数。
+    title: 販売
+  title: クジラが選ぶトップトークン
+top_whales:
+  14_days: 14日間
+  address: 住所
+  balance:
+    info: 引用資産の現在のウォレット残高。
+    title: 残高
+  buy_sell: 購入/販売
+  description: このウォレットは、過去30日間の取引の損益に基づいて、当社のウォレットの上位10％にランクされています。
+  network: ネットワーク
+  returns:
+    info: "過去 30 日間のウォレットの合計収益。クォート資産 (例: ETH) の P&L を期間中に保有されたトークンの最大価値 (ETH 単位)
+      で割って計算されます。"
+    title: 返品
+  title: トップクジラ
+  tokens: トップトークン
+  trades_per_day: 1日あたりの平均取引数
+  trading_holding: 取引/保有
+  trading_pnl:
+    info: 過去 30 日間のウォレットの合計損益 (実現損益 + 未実現損益)。
+    title: 取引損益
+  trading_volume:
+    info: 過去 30 日間にスワップされたトークンの合計価値 (USDT で表されます)。
+    title: 取引量
+  transfer_volume: 転送量
+  wins:
+    info: 勝利の合計数と交換された固有トークンの数。
+    title: 勝利
+  wins_losses: 勝ち負け
+whale_assets:
+  others: その他
+  title: ユーザー資産
+whale_balance_chart:
+  balance: 残高
+  current_balance: 現在の残高
+  title: ウォレット残高チャート
+whale_historical_pnl:
+  last_30_trading_pnl: 過去 30 日間の取引損益
+  title: 過去の損益チャート
+whale_holds:
+  badge: バッジ
+  chg_30d: チェンジ(30D)
+  market_cap: 時価総額
+  name: 信号発信者名
+  price: 価格
+  title: 保留
+  total_volume: 総量
+  worth: 価値
+whale_netflow_histogram:
+  inflow: 流れの中で
+  outflow: アウトフロー
+  title: ネットフローヒストグラム
+whale_overview:
+  holding_tokens: トークンの保有
+  losses: 損失
+  trading_pnl: 取引損益（未実現）
+  trading_tokens: トークン取引
+  trading_volume: 取引量
+  trading_win_rate: 取引勝率
+  wins: 勝利
+whale_trades:
+  avg_duration: 平均所要時間
+  name: 信号発信者名
+  number_of_trades: 取引回数
+  number_of_transactions: 取引件数
+  price: 価格
+  returns: 返品
+  title: 取引
+  trading_pnl: 取引損益
+  volume_of_trades: 取引量

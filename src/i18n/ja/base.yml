@@ -141,6 +141,7 @@ menu:
   users:
     title: ユーザー
   whales:
+    full-title: クジラの分析
     subtitle: トップの暗号通貨クジラ、その取引、損益、取引量などを調べる
     title: スマートクジラ
 mobile-menu:
