@@ -332,7 +332,8 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'pro-gradient': 'linear-gradient(254deg, #E09501 -59.2%, #FFDA6C 138.76%)'
+        'pro-gradient':
+          'linear-gradient(254deg, #E09501 -59.2%, #FFDA6C 138.76%)',
       },
       flex: {
         shrink: 'inherit',
