@@ -33,7 +33,8 @@ export function WhaleHoldsWidget({
     () => [
       {
         title: t('whale_holds.name'),
-        render: (_, row) => <Coin coin={row.symbol} />,
+        fixed: 'left',
+        render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
       },
       {
         title: (

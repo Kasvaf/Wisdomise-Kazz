@@ -30,7 +30,8 @@ export function WhaleTradesWidget({
     () => [
       {
         title: t('whale_trades.name'),
-        render: (_, row) => <Coin coin={row.symbol} />,
+        fixed: 'left',
+        render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
       },
       {
         title: t('whale_trades.number_of_transactions'),

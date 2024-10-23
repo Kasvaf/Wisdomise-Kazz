@@ -76,7 +76,7 @@ export function WhaleAssetBadge({
     >
       <span
         className={clsx(
-          'h-5 rounded-full px-2 py-px text-xxs',
+          'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
           detail.info && 'cursor-help',
           detail.className,
           className,
