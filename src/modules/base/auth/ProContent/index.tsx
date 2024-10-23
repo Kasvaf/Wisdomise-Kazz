@@ -7,7 +7,7 @@ import { useIsLoggedIn } from '../jwt-store';
 import { TrialStartedModal } from './TrialStartedModal';
 import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
 
-export default function TrialGuard({ children }: PropsWithChildren) {
+export default function ProContent({ children }: PropsWithChildren) {
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
   const [isDismissed, setIsDismissed] = useState(false);
