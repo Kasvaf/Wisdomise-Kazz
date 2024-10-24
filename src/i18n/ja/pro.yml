@@ -4,8 +4,7 @@ features:
   coin-overview: 包括的なコインの概要
   dashboard: パーソナライズされたダッシュボード
 renew-modal:
-  description: "あなたの <b>{{days}}日間トライアル</b> Wisdomise Pro は終了しました。<br></br>
-    Wisdomise Pro で暗号通貨の可能性をさらに広げましょう! Pro バージョンで利用できる機能の一部は次のとおりです:"
+  description: "Wisdomise Pro で暗号通貨の可能性をさらに広げましょう! Pro バージョンで利用できる機能の一部は次のとおりです:"
   renew: プロの更新
   skip: 今はスキップ
   title: 暗号通貨の旅を続けよう<br></br>私たちと一緒に！

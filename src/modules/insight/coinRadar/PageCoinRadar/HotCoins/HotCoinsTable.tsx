@@ -12,6 +12,7 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { SignalSentiment } from 'shared/SignalSentiment';
 import { InformativePrice } from 'shared/InformativePrice';
 import Icon from 'shared/Icon';
+import { ProGuard } from 'modules/base/auth/pro/ProGuard';
 
 export const HotCoinsTable: FC<{
   loading?: boolean;
@@ -115,12 +116,14 @@ export const HotCoinsTable: FC<{
   );
 
   return (
-    <Table
-      className="whitespace-nowrap mobile:min-w-max"
-      columns={columns}
-      dataSource={dataSource}
-      rowKey={row => row.symbol_name}
-      loading={loading}
-    />
+    <ProGuard mode="table" level={3}>
+      <Table
+        className="whitespace-nowrap"
+        columns={columns}
+        dataSource={dataSource}
+        rowKey={row => row.symbol_name}
+        loading={loading}
+      />
+    </ProGuard>
   );
 };

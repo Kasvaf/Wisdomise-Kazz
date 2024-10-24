@@ -41,7 +41,7 @@ export function SubscriptionRequiredModal({
               }}
             />
           </p>
-          <ProFeatures className="mb-20" />
+          <ProFeatures className="mb-12" />
           <div className="flex flex-nowrap gap-4 mobile:flex-wrap">
             <button
               className={clsx(

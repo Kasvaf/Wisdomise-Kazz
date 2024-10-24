@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
 import Button from 'shared/Button';
 import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
+import { ProGuard } from 'modules/base/auth/pro/ProGuard';
 import { ReactComponent as NotificationIcon } from './notification.svg';
 
 export default function InsightAlertButton({
@@ -22,21 +22,23 @@ export default function InsightAlertButton({
 
   return (
     <>
-      <Button
-        onClick={async () => {
-          track('Click On', {
-            place: 'social_radar_notification',
-          });
-          void alertActions.openSaveModal();
-        }}
-        variant="primary"
-        className={clsx('h-10 w-auto !bg-white !py-1 mobile:w-full', className)}
-        contentClassName={'flex gap-1 !text-black'}
-        data-id="set-alert"
-      >
-        <NotificationIcon className="shrink-0" />
-        {t('set-notification.open-modal-btn.not-set')}
-      </Button>
+      <ProGuard mode="badge" className={className}>
+        <Button
+          onClick={async () => {
+            track('Click On', {
+              place: 'social_radar_notification',
+            });
+            void alertActions.openSaveModal();
+          }}
+          variant="primary"
+          className="h-10 w-full !bg-white !py-1 mobile:w-full"
+          contentClassName={'flex gap-1 !text-black'}
+          data-id="set-alert"
+        >
+          <NotificationIcon className="shrink-0" />
+          {t('set-notification.open-modal-btn.not-set')}
+        </Button>
+      </ProGuard>
       {alertActions.content}
     </>
   );

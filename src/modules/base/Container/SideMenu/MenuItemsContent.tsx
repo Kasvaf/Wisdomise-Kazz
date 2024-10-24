@@ -11,12 +11,9 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
-import { useIsPro } from 'modules/base/auth/is-pro';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 import { ReactComponent as HelpIcon } from './help-icon.svg';
-// eslint-disable-next-line import/max-dependencies
-import { ReactComponent as ProIcon } from './pro.svg';
 
 const MenuItemsGroup: React.FC<{
   item: RootMenuItem;
@@ -26,7 +23,6 @@ const MenuItemsGroup: React.FC<{
 }> = ({ item, isActive, collapsed, onClick }) => {
   const children = item.children?.filter(item => !item.hide);
   const hasFlag = useHasFlag();
-  const isPro = useIsPro();
 
   return (
     <div className="mb-2 text-white mobile:border-b mobile:border-white/5">
@@ -79,12 +75,8 @@ const MenuItemsGroup: React.FC<{
                     )}
                   >
                     {subItem.text}
-                    {isPro(subItem.link) ? (
-                      <ProIcon />
-                    ) : (
-                      subItem.badge && (
-                        <BetaVersion minimal variant={subItem.badge} />
-                      )
+                    {subItem.badge && (
+                      <BetaVersion minimal variant={subItem.badge} />
                     )}
                   </div>
                 </NavLink>

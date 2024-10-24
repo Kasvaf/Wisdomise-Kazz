@@ -21,8 +21,12 @@ export function ProFeatures({ className }: { className?: string }) {
 
   return (
     <ul className={clsx('space-y-4', className)}>
-      <FeatureLi text={t('features.dashboard')} icon={DashboardIcon} />
-      <FeatureLi text={t('features.auto-trader')} icon={AutoTraderIcon} />
+      {false && (
+        <FeatureLi text={t('features.dashboard')} icon={DashboardIcon} />
+      )}
+      {false && (
+        <FeatureLi text={t('features.auto-trader')} icon={AutoTraderIcon} />
+      )}
       <FeatureLi text={t('features.alerts')} icon={NotificationIcon} />
       <FeatureLi text={t('features.coin-overview')} icon={DashboardIcon} />
     </ul>

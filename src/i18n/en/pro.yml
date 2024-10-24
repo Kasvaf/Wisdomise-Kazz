@@ -6,9 +6,8 @@ features:
 renew-modal:
   title: Continue Your Crypto Journey<br></br>with Us!
   description: >-
-    Your <b>{{days}}-day Trial</b> of Wisdomise Pro has ended.<br></br> Continue
-    unlocking your crypto potential with Wisdomise Pro! Here are Some features
-    available in the Pro version:
+    Continue unlocking your crypto potential with Wisdomise Pro! Here are Some
+    features available in the Pro version:
   renew: Renew Your Pro
   skip: Skip For Now
 trial-modal:

@@ -6,6 +6,7 @@ import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import Button from 'shared/Button';
+import { ProGuard } from 'modules/base/auth/pro/ProGuard';
 import { NotifIsSetIcon, NotificationIcon } from './assets';
 
 export default function SetNotification({ className }: { className?: string }) {
@@ -28,7 +29,7 @@ export default function SetNotification({ className }: { className?: string }) {
   if (!hasFlag('/insight/alerts?coinradar')) return null;
 
   return (
-    <>
+    <ProGuard mode="badge" className={className}>
       <Button
         onClick={async () => {
           track('Click On', {
@@ -42,7 +43,6 @@ export default function SetNotification({ className }: { className?: string }) {
           'h-10 w-auto !py-1 mobile:w-full',
           isSubscribed || isLoading ? '!bg-white/10' : '!bg-white',
           isLoading && 'animate-pulse',
-          className,
         )}
         contentClassName={clsx(
           'flex gap-1',
@@ -61,6 +61,6 @@ export default function SetNotification({ className }: { className?: string }) {
           : t('set-notification.open-modal-btn.not-set')}
       </Button>
       {alertActions.content}
-    </>
+    </ProGuard>
   );
 }

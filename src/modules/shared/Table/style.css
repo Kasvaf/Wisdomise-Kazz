@@ -1,5 +1,5 @@
 .ant-table-wrapper {
-  @apply w-full min-w-full max-w-full overflow-auto;
+  @apply w-full min-w-full max-w-full;
 
   /* base */
   .ant-table {

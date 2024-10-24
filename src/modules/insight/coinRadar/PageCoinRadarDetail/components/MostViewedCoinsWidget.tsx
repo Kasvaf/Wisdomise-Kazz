@@ -6,6 +6,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import Table from 'shared/Table';
 import { InformativePrice } from 'shared/InformativePrice';
+import { ProGuard } from 'modules/base/auth/pro/ProGuard';
 
 export function MostViewedCoinsWidget(_: { slug?: string }) {
   const { t } = useTranslation('coin-radar');
@@ -37,13 +38,15 @@ export function MostViewedCoinsWidget(_: { slug?: string }) {
       loading={coins.isLoading}
       empty={coins.data?.length === 0}
     >
-      <Table
-        columns={columns}
-        dataSource={coins.data?.slice(0, 5) ?? []}
-        rowKey={row => JSON.stringify(row.symbol)}
-        loading={coins.isLoading}
-        pagination={false}
-      />
+      <ProGuard mode="table" level={2}>
+        <Table
+          columns={columns}
+          dataSource={coins.data?.slice(0, 5) ?? []}
+          rowKey={row => JSON.stringify(row.symbol)}
+          loading={coins.isLoading}
+          pagination={false}
+        />
+      </ProGuard>
     </OverviewWidget>
   );
 }

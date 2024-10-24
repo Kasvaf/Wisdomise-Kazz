@@ -11,7 +11,7 @@ export default function Table<RecordType extends object>({
   blur,
   ...props
 }: TableProps<RecordType> & {
-  blur?: (row: RecordType) => boolean;
+  blur?: (row: RecordType, index: number) => boolean;
 }) {
   return (
     <AntTable<RecordType>
@@ -53,9 +53,9 @@ export default function Table<RecordType extends object>({
               ...pagination,
             }
       }
-      onRow={row => {
+      onRow={(row, index) => {
         return {
-          className: blur?.(row)
+          className: blur?.(row, index ?? 0)
             ? '[&_td_*]:blur-sm [&_td_*]:!opacity-100 select-none pointer-events-none'
             : '',
         };
