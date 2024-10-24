@@ -1,42 +1,61 @@
-import axios from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
+import { useEffect } from 'react';
 import queryClient from 'config/reactQuery';
+import { useAccountQuery } from './account';
 
+// TODO use api instead of localStorage!
 export function useUserStorage(key: string, defaultValue?: string) {
+  const { data: account } = useAccountQuery();
+
+  const saveKey = account?.email ? `${account.email}:${key}` : null;
+
+  useEffect(() => {
+    if (!saveKey) return;
+    void queryClient.invalidateQueries({
+      queryKey: ['user-storage', saveKey],
+    });
+  }, [saveKey]);
+
   const save = useMutation({
     mutationFn: async (newValue: string) => {
-      await axios.post(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        {
-          value: newValue,
-        },
-      );
+      if (!saveKey) throw new Error('user is not fetched yet!');
+      localStorage.setItem(saveKey, newValue);
+      // await axios.post(
+      //   `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+      //   {
+      //     value: newValue,
+      //   },
+      // );
       await queryClient.invalidateQueries({
-        queryKey: ['user-storage', key],
+        queryKey: ['user-storage', saveKey],
       });
       return newValue;
     },
   });
 
   const value = useQuery({
-    queryKey: ['user-storage', key],
+    queryKey: ['user-storage', saveKey],
+    enabled: !!saveKey,
     queryFn: async () => {
-      const { data } = await axios.get<{ value: string }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-      );
-      return data.value ?? null;
+      if (!saveKey) throw new Error('user is not fetched yet!');
+      return localStorage.getItem(saveKey) ?? defaultValue;
+      // const { data } = await axios.get<{ value: string }>(
+      //   `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+      // );
+      // return data.value ?? null;
     },
     placeholderData: defaultValue,
   });
 
   const remove = useMutation({
     mutationFn: async () => {
-      await axios.delete(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-      );
+      if (!saveKey) throw new Error('user is not fetched yet!');
+      localStorage.removeItem(saveKey);
+      // await axios.delete(
+      //   `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+      // );
       await queryClient.invalidateQueries({
-        queryKey: ['user-storage', key],
+        queryKey: ['user-storage', saveKey],
       });
       return null;
     },

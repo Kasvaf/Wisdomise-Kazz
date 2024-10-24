@@ -1,8 +1,8 @@
 import { useState, type PropsWithChildren } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { useIsPro } from 'modules/base/auth/is-pro';
+import { useUserStorage } from 'api/userStorage';
 import { useIsLoggedIn } from '../jwt-store';
 import { TrialStartedModal } from './TrialStartedModal';
 import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
@@ -12,10 +12,7 @@ export default function ProContent({ children }: PropsWithChildren) {
   const isLoggedIn = useIsLoggedIn();
   const [isDismissed, setIsDismissed] = useState(false);
 
-  const [trialModalConfirmed, setTrialModalConfirmed] = useLocalStorage(
-    'trial-popup',
-    'false',
-  ); /* TODO: Trial: Use Account Storage */
+  const userStorage = useUserStorage('trial-popup', 'false');
 
   const isPro = useIsPro();
 
@@ -28,12 +25,12 @@ export default function ProContent({ children }: PropsWithChildren) {
       <TrialStartedModal
         open={
           subscription.levelType === 'trial' &&
-          trialModalConfirmed !== 'true' &&
+          userStorage.value !== 'true' &&
           isLoggedIn &&
           !isDismissed
         }
         onClose={() => setIsDismissed(true)}
-        onConfirm={() => setTrialModalConfirmed('true')}
+        onConfirm={() => userStorage.save('true')}
       />
       <SubscriptionRequiredModal
         open={subscription.levelType === 'free' && isPro(loc.pathname)}
