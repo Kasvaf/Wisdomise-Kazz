@@ -227,6 +227,7 @@ export default function PricingCard({
               (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
                 '!cursor-default !text-white',
             )}
+            data-id={`buy-now_${plan.periodicity.toLowerCase()}_${plan.name.toLowerCase()}`}
           >
             <div className="flex items-center justify-center gap-2">
               {plan.is_active

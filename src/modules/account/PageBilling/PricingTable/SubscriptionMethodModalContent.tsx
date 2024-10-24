@@ -75,7 +75,11 @@ export default function SubscriptionMethodModal({
 
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
         {hasFlag('/account/billing?payment_method=fiat') && (
-          <Button className="col-span-1" onClick={onFiatClick}>
+          <Button
+            className="col-span-1"
+            onClick={onFiatClick}
+            data-id="fiat-payment"
+          >
             <div className="flex items-center gap-2">
               <SIcon />
               {t('subscription-modal.btn-fiat')}
@@ -84,7 +88,11 @@ export default function SubscriptionMethodModal({
         )}
 
         {hasFlag('/account/billing?payment_method=crypto') && (
-          <Button className="col-span-1" onClick={onCryptoClick}>
+          <Button
+            className="col-span-1"
+            onClick={onCryptoClick}
+            data-id="crypto-payment"
+          >
             <div className="flex items-center gap-2">
               <CryptoPaymentIcon />
               {t('subscription-modal.btn-crypto')}
@@ -93,7 +101,11 @@ export default function SubscriptionMethodModal({
         )}
 
         {hasFlag('/account/billing?payment_method=wsdm') && (
-          <Button className="relative col-span-1" onClick={onWSDMClick}>
+          <Button
+            className="relative col-span-1"
+            onClick={onWSDMClick}
+            data-id="wsdm-payment"
+          >
             <div className="flex items-center gap-2">
               <Token />
               {t('subscription-modal.btn-wsdm')}
@@ -110,6 +122,7 @@ export default function SubscriptionMethodModal({
               onClick={onLockClick}
               className="col-span-1"
               disabled={!WSDM_IS_ACTIVE}
+              data-id="lock-wsdm"
             >
               <div className="flex items-center gap-2">
                 <Token />
