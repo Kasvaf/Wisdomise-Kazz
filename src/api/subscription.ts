@@ -1,19 +1,18 @@
 import { useAccountQuery } from './account';
+import { type SubscriptionPlan } from './types/subscription';
 
 export function useSubscription() {
   const { data: account, isLoading, refetch } = useAccountQuery();
   const subs = account?.subscription_item;
-  const plan = subs?.subscription_plan;
+  const plan = subs?.subscription_plan as SubscriptionPlan;
   const status = subs?.status;
   const isActive = status === 'active';
   const planName = plan?.name || 'none';
 
   const levelType: 'free' | 'trial' | 'pro' = (() => {
-    if (!plan?.is_active || (plan.level ?? 0) === 0) return 'free';
-
-    if ((plan.level ?? 0) > 1) return 'pro';
-
-    return 'trial';
+    if (plan.level === 0) return 'free';
+    if (status === 'trialing') return 'trial';
+    return 'pro';
   })();
 
   return {
