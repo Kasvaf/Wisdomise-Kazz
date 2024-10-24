@@ -24,13 +24,17 @@ export default function ProContent({ children }: PropsWithChildren) {
       {children}
       <TrialStartedModal
         open={
+          !userStorage.isLoading &&
           subscription.levelType === 'trial' &&
           userStorage.value !== 'true' &&
           isLoggedIn &&
           !isDismissed
         }
         onClose={() => setIsDismissed(true)}
-        onConfirm={() => userStorage.save('true')}
+        onConfirm={() => {
+          setIsDismissed(true);
+          void userStorage.save('true');
+        }}
       />
       <SubscriptionRequiredModal
         open={subscription.levelType === 'free' && isPro(loc.pathname)}
