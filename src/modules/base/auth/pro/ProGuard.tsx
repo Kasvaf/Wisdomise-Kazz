@@ -2,9 +2,9 @@ import { clsx } from 'clsx';
 import { useEffect, useRef, useState, type PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
-import './style.css';
-import { SubscriptionRequiredModal } from '../SubscriptionRequiredModal';
-import { ReactComponent as ProIcon } from './pro.svg';
+import { useModalLogin } from '../ModalLogin';
+import { useIsLoggedIn } from '../jwt-store';
+import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
 
 export function ProGuard({
   children,
@@ -19,6 +19,8 @@ export function ProGuard({
   level?: number;
 }>) {
   const parentEl = useRef<HTMLDivElement>(null);
+  const isLoggedIn = useIsLoggedIn();
+  const [ModalLogin, showModalLogin] = useModalLogin();
   const navigate = useNavigate();
   const [blockList, setBlockList] = useState<HTMLElement[]>([]);
   const subscription = useSubscription();
@@ -76,26 +78,34 @@ export function ProGuard({
         {blockList.length > 0 && shouldBlock && (
           <div
             className={clsx(
-              'absolute left-0 flex w-full cursor-pointer flex-col gap-2 text-base font-medium',
+              'absolute left-0 z-10 flex w-full cursor-pointer flex-col gap-2 text-base font-medium',
+              'group transition-all',
               mode === 'badge'
-                ? 'items-end justify-start'
-                : 'items-center justify-center',
+                ? 'items-end justify-start backdrop-grayscale'
+                : 'items-center justify-center backdrop-blur-sm',
             )}
             style={{
               ...buttonPosition,
             }}
-            onClick={e => {
-              setSubscriptionModal(true);
+            onClick={async e => {
               e.preventDefault();
               e.stopPropagation();
+              if (isLoggedIn) {
+                setSubscriptionModal(true);
+              } else {
+                void showModalLogin();
+              }
             }}
           >
-            <ProIcon
+            <b
               className={clsx(
-                mode === 'badge' ? '-m-2 h-auto' : 'h-6 w-auto',
-                'shadow-lg',
+                mode === 'badge' ? '-m-4 h-auto' : 'h-auto w-auto',
+                'rounded-lg bg-pro-gradient px-3 py-1 text-xs font-medium text-black shadow-xl',
+                'group-hover:brightness-110',
               )}
-            />
+            >
+              {isLoggedIn ? 'Unlock with Pro' : 'Login Required'}
+            </b>
           </div>
         )}
       </div>
@@ -104,10 +114,7 @@ export function ProGuard({
         onClose={() => setSubscriptionModal(false)}
         onConfirm={() => navigate('/account/billing')}
       />
+      {ModalLogin}
     </>
   );
 }
-
-// {/* {shouldBlock && (
-
-// )} */}
