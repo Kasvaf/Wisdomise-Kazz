@@ -2,6 +2,7 @@ import { Modal } from 'antd';
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
 import useIsMobile from 'utils/useIsMobile';
+import { useSubscription } from 'api';
 import { ProFeatures } from '../ProFeatures';
 import Bg from './bg.png';
 import { ReactComponent as SparkleIcon } from './sparkle.svg';
@@ -17,6 +18,7 @@ export function TrialStartedModal({
 }) {
   const { t } = useTranslation('pro');
   const isMobile = useIsMobile();
+  const subscription = useSubscription();
 
   return (
     <Modal
@@ -38,7 +40,7 @@ export function TrialStartedModal({
               ns="pro"
               i18nKey="trial-modal.description"
               values={{
-                days: '14',
+                days: subscription.remaining.toString(),
               }}
             />
           </p>
