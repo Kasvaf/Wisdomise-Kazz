@@ -11,7 +11,7 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
-import { useIsPro } from 'modules/base/auth/pro-features';
+import { useIsPro } from 'modules/base/auth/is-pro';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 import { ReactComponent as HelpIcon } from './help-icon.svg';

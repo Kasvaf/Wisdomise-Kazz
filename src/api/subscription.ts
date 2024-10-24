@@ -8,6 +8,14 @@ export function useSubscription() {
   const isActive = status === 'active';
   const planName = plan?.name || 'none';
 
+  const levelType: 'free' | 'trial' | 'pro' = (() => {
+    if (!plan?.is_active || (plan.level ?? 0) === 0) return 'free';
+
+    if ((plan.level ?? 0) > 1) return 'pro';
+
+    return 'trial';
+  })();
+
   return {
     plan,
     refetch,
@@ -17,6 +25,7 @@ export function useSubscription() {
     isFreePlan: !plan?.level,
     isTrialPlan: plan?.name === 'Trial',
     level: isActive ? plan?.level ?? 0 : 0,
+    levelType,
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
     remaining: Math.max(
       Math.round(

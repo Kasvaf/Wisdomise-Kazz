@@ -38,10 +38,9 @@ const SideMenu: React.FC<{
               className="flex w-full cursor-pointer flex-row items-center justify-start gap-2"
             >
               <img className="h-12" src={Logo} alt="logo" />
-              {!subscription.isFreePlan &&
-                isLoggedIn /* TODO: Trial: Check This */ && (
-                  <ProIcon className="mt-px" />
-                )}
+              {subscription.levelType !== 'free' && isLoggedIn && (
+                <ProIcon className="mt-px" />
+              )}
             </a>
             <button
               className="rounded-xl bg-white/[.02] p-2 text-white hover:bg-white/10 active:bg-black/5"

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { unparam } from '../../../api/feature-flags';
 
 const proPaths = new Set([
+  '/insight/alerts',
   '/insight/whales',
   '/insight/whales/[network]/[address]',
 ]);

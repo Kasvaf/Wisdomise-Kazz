@@ -2,7 +2,7 @@ import { useState, type PropsWithChildren } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
-import { useIsPro } from 'modules/base/auth/pro-features';
+import { useIsPro } from 'modules/base/auth/is-pro';
 import { useIsLoggedIn } from '../jwt-store';
 import { TrialStartedModal } from './TrialStartedModal';
 import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
@@ -27,7 +27,7 @@ export default function ProContent({ children }: PropsWithChildren) {
       {children}
       <TrialStartedModal
         open={
-          subscription.isTrialPlan /* TODO: Trial: Check This */ &&
+          subscription.levelType === 'trial' &&
           trialModalConfirmed !== 'true' &&
           isLoggedIn &&
           !isDismissed
@@ -36,10 +36,7 @@ export default function ProContent({ children }: PropsWithChildren) {
         onConfirm={() => setTrialModalConfirmed('true')}
       />
       <SubscriptionRequiredModal
-        open={
-          subscription.isFreePlan &&
-          isPro(loc.pathname) /* TODO: Trial: Check This */
-        }
+        open={subscription.levelType === 'free' && isPro(loc.pathname)}
         onClose={() => navigate(-1)}
         onConfirm={() => navigate('/account/billing')}
       />
