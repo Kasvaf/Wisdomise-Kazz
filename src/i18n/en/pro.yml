@@ -3,6 +3,7 @@ features:
   auto-trader: Wisdomise Auto Trader
   coin-overview: Comprehensive Coin Overview
   dashboard: Personalized Dashboard
+login-required: Login Required
 renew-modal:
   title: Continue Your Crypto Journey<br></br>with Us!
   description: >-
@@ -19,3 +20,4 @@ trial-modal:
   footer: >-
     You now have access to powerful tools designed to enhance your trading
     experience.<br></brExplore More features and elevate your crypto game.
+unlock-with-pro: Unlock with Pro

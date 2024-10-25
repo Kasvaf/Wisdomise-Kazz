@@ -3,7 +3,7 @@ import { useCoinSignals } from 'api';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 
 export function TopCoinsWidget(_: { slug?: string }) {
   const { t } = useTranslation('coin-radar');
@@ -16,7 +16,7 @@ export function TopCoinsWidget(_: { slug?: string }) {
       loading={signals.isLoading}
       empty={signals.data?.length === 0}
     >
-      <ProGuard mode="children" level={2}>
+      <ProLocker mode="children" level={2}>
         {signals.data?.slice(0, 5).map(row => (
           <div
             key={row.symbol_name}
@@ -34,7 +34,7 @@ export function TopCoinsWidget(_: { slug?: string }) {
             </div>
           </div>
         ))}
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

@@ -16,7 +16,7 @@ import {
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import {
   useConfirmationTabs,
   type ConfirmationType,
@@ -167,7 +167,7 @@ export function ConfirmationWidget<I extends Indicator>({
       loading={confirmations.isLoading}
       empty={confirmations.data?.results.length === 0}
     >
-      <ProGuard
+      <ProLocker
         className="flex flex-col items-start gap-3"
         mode="children"
         level={2}
@@ -181,7 +181,7 @@ export function ConfirmationWidget<I extends Indicator>({
             type={type}
           />
         ))}
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

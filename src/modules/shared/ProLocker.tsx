@@ -1,12 +1,10 @@
 import { clsx } from 'clsx';
 import { useEffect, useRef, useState, type PropsWithChildren } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSubscription } from 'api';
-import { useModalLogin } from '../ModalLogin';
-import { useIsLoggedIn } from '../jwt-store';
-import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
+import { useTranslation } from 'react-i18next';
+import { usePro } from 'modules/base/auth/ProContent/ProProvider';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
-export function ProGuard({
+export function ProLocker({
   children,
   className,
   mode,
@@ -18,25 +16,36 @@ export function ProGuard({
   enabled?: boolean;
   level?: number;
 }>) {
+  const { t } = useTranslation('pro');
+  const [isLoading, setIsLoading] = useState(true);
+  const pro = usePro();
+  const [buttonPosition, setButtonPosition] = useState<{
+    top: string;
+    height: string;
+  }>({
+    top: '0px',
+    height: '100%',
+  });
   const parentEl = useRef<HTMLDivElement>(null);
   const isLoggedIn = useIsLoggedIn();
-  const [ModalLogin, showModalLogin] = useModalLogin();
-  const navigate = useNavigate();
   const [blockList, setBlockList] = useState<HTMLElement[]>([]);
-  const subscription = useSubscription();
-  const [subscriptionModal, setSubscriptionModal] = useState(false);
-  const shouldBlock = subscription.levelType === 'free' && enabled !== false;
+  const shouldBlock = !pro.hasAccess && enabled !== false;
 
   useEffect(() => {
     if (!parentEl.current) return;
+    setIsLoading(true);
     const els =
       mode === 'table'
-        ? [...parentEl.current.querySelectorAll('tbody > tr')]
+        ? [
+            ...parentEl.current.querySelectorAll(
+              'tbody > tr:not([aria-hidden])',
+            ),
+          ]
         : parentEl.current.children;
     setBlockList(() => {
       const ret = [];
       for (const el of els) {
-        if (ret.length <= (level ?? 1)) ret.push(el as HTMLElement);
+        if (ret.length < (level ?? 1)) ret.push(el as HTMLElement);
       }
       return ret;
     });
@@ -52,13 +61,6 @@ export function ProGuard({
     }
   }, [blockList, mode, shouldBlock]);
 
-  const [buttonPosition, setButtonPosition] = useState<{
-    top: string;
-    height: string;
-  }>({
-    top: '0px',
-    height: '100%',
-  });
   useEffect(() => {
     const top = Math.min(...blockList.map(r => r.offsetTop));
     const bottom = Math.max(
@@ -68,34 +70,33 @@ export function ProGuard({
       top: `${top}px`,
       height: `${bottom - top}px`,
     });
+    setIsLoading(false);
   }, [blockList]);
 
   return (
     <>
-      <div ref={parentEl} className={clsx('relative', className)}>
+      <div
+        ref={parentEl}
+        className={clsx(
+          'relative',
+          isLoading && 'animate-pulse blur-sm',
+          className,
+        )}
+      >
         {children}
-
         {blockList.length > 0 && shouldBlock && (
           <div
             className={clsx(
               'absolute left-0 z-10 flex w-full cursor-pointer flex-col gap-2 text-base font-medium',
               'group transition-all',
               mode === 'badge'
-                ? 'items-end justify-start backdrop-grayscale'
+                ? 'items-end justify-start'
                 : 'items-center justify-center backdrop-blur-sm',
             )}
             style={{
               ...buttonPosition,
             }}
-            onClick={async e => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (isLoggedIn) {
-                setSubscriptionModal(true);
-              } else {
-                void showModalLogin();
-              }
-            }}
+            onClick={pro.handleClick}
           >
             <b
               className={clsx(
@@ -104,17 +105,11 @@ export function ProGuard({
                 'group-hover:brightness-110',
               )}
             >
-              {isLoggedIn ? 'Unlock with Pro' : 'Login Required'}
+              {isLoggedIn ? t('unlock-with-pro') : t('login-required')}
             </b>
           </div>
         )}
       </div>
-      <SubscriptionRequiredModal
-        open={subscriptionModal}
-        onClose={() => setSubscriptionModal(false)}
-        onConfirm={() => navigate('/account/billing')}
-      />
-      {ModalLogin}
     </>
   );
 }

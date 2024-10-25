@@ -7,7 +7,7 @@ import { Wallet } from 'shared/Wallet';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function TopWhaleListWidget({ className }: { className?: string }) {
@@ -68,7 +68,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       loading={whales.isLoading}
       empty={whales.data?.results.length === 0}
     >
-      <ProGuard mode="table" level={2}>
+      <ProLocker mode="table" level={2}>
         <Table
           loading={whales.isLoading}
           columns={columns}
@@ -76,7 +76,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
           rowKey="holder_address"
           pagination={false}
         />
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

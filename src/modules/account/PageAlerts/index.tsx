@@ -7,7 +7,7 @@ import { PageTitle } from 'shared/PageTitle';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import TextBox from 'shared/TextBox';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import { useAlertActions } from './components/useAlertActions';
 import { SlugAlertGroupWidget } from './components/SlugAlertGroupWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
@@ -60,7 +60,7 @@ export default function AlertsPage() {
         />
         <AlertStateSelect value={alertState} onChange={setAlertState} />
         <div className="grow" />
-        <ProGuard mode="badge">
+        <ProLocker mode="badge">
           <Button
             onClick={() => alertActions.openSaveModal()}
             variant="primary"
@@ -71,7 +71,7 @@ export default function AlertsPage() {
             <Icon name={bxBell} className="mr-2" size={24} />
             {t('common.set-alert')}
           </Button>
-        </ProGuard>
+        </ProLocker>
       </div>
 
       <div className="space-y-4">

@@ -8,7 +8,7 @@ import { type WhaleCoinsFilter, useWhalesCoins, type WhaleCoin } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import { CoinInfo } from './CoinInfo';
 import { NetworkSelect } from './NetworkSelect';
 
@@ -178,7 +178,7 @@ export function WhaleTopCoinsWidget({
         </>
       }
     >
-      <ProGuard level={3} mode="table">
+      <ProLocker level={2} mode="table">
         <Table
           columns={columns}
           dataSource={coins.data?.results ?? []}
@@ -210,7 +210,7 @@ export function WhaleTopCoinsWidget({
             }
           }}
         />
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

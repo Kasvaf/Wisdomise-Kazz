@@ -10,7 +10,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import { WhaleAssetBadge } from './WhaleAssetBadge';
 
 export function WhaleHoldsWidget({
@@ -132,14 +132,14 @@ export function WhaleHoldsWidget({
       loading={whale.isLoading}
       empty={whale.data?.holding_assets?.length === 0}
     >
-      <ProGuard level={3} mode="table">
+      <ProLocker level={3} mode="table">
         <Table
           columns={columns}
           dataSource={whale.data?.holding_assets ?? []}
           rowKey={row => JSON.stringify(row.symbol)}
           loading={whale.isLoading}
         />
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

@@ -6,7 +6,7 @@ import { Coin } from 'shared/Coin';
 import Table from 'shared/Table';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 
 export function WhalePopularCoinsWidget(_: { slug: string }) {
   const { t } = useTranslation('coin-radar');
@@ -42,7 +42,7 @@ export function WhalePopularCoinsWidget(_: { slug: string }) {
       loading={coins.isLoading}
       empty={coins.data?.results.length === 0}
     >
-      <ProGuard mode="table" level={2}>
+      <ProLocker mode="table" level={2}>
         <Table
           columns={columns}
           dataSource={coins.data?.results}
@@ -50,7 +50,7 @@ export function WhalePopularCoinsWidget(_: { slug: string }) {
           loading={coins.isLoading}
           pagination={false}
         />
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

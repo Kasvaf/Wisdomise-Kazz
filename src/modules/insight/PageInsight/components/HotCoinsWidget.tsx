@@ -13,7 +13,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
 import { RealtimeBadge } from 'modules/insight/coinRadar/PageCoinRadar/assets';
 import Icon from 'shared/Icon';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -92,7 +92,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       loading={signals.isLoading}
       empty={signals.data?.length === 0}
     >
-      <ProGuard mode="table" level={3}>
+      <ProLocker mode="table" level={3}>
         <Table
           loading={signals.isLoading}
           columns={columns}
@@ -100,7 +100,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           rowKey="symbol_name"
           pagination={false}
         />
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

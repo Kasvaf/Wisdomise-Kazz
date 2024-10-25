@@ -11,7 +11,7 @@ import { Network } from 'shared/Network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coins } from 'shared/Coins';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import { NetworkSelect } from './NetworkSelect';
 
 const useWhaleTopHoldersFilters = () => {
@@ -235,7 +235,7 @@ export function WhaleTopHoldersWidget({
         </>
       }
     >
-      <ProGuard level={3} mode="table">
+      <ProLocker level={2} mode="table">
         <Table
           columns={columns}
           dataSource={whales.data?.results ?? []}
@@ -267,7 +267,7 @@ export function WhaleTopHoldersWidget({
             }
           }}
         />
-      </ProGuard>
+      </ProLocker>
     </OverviewWidget>
   );
 }

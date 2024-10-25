@@ -3,7 +3,7 @@ import Button from 'shared/Button';
 import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 import { ReactComponent as NotificationIcon } from './notification.svg';
 
 export default function InsightAlertButton({
@@ -22,7 +22,7 @@ export default function InsightAlertButton({
 
   return (
     <>
-      <ProGuard mode="badge" className={className}>
+      <ProLocker mode="badge" className={className}>
         <Button
           onClick={async () => {
             track('Click On', {
@@ -38,7 +38,7 @@ export default function InsightAlertButton({
           <NotificationIcon className="shrink-0" />
           {t('set-notification.open-modal-btn.not-set')}
         </Button>
-      </ProGuard>
+      </ProLocker>
       {alertActions.content}
     </>
   );

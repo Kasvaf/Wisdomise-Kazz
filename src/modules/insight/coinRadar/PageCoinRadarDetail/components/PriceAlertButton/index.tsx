@@ -7,7 +7,7 @@ import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertA
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
-import { ProGuard } from 'modules/base/auth/pro/ProGuard';
+import { ProLocker } from 'shared/ProLocker';
 
 export function PriceAlertButton({
   className,
@@ -43,7 +43,7 @@ export function PriceAlertButton({
 
   return (
     <>
-      <ProGuard mode="badge" className={className}>
+      <ProLocker mode="badge" className={className}>
         <Button
           onClick={() => alertActions.openSaveModal()}
           variant={initialAlert.key ? 'alternative' : 'primary'}
@@ -56,7 +56,7 @@ export function PriceAlertButton({
             ? t('set-price-notification.open-existing-modal-btn')
             : t('set-price-notification.open-modal-btn')}
         </Button>
-      </ProGuard>
+      </ProLocker>
       {alertActions.content}
     </>
   );
