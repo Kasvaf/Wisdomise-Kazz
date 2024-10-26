@@ -11,6 +11,7 @@ import { useSubscription } from 'api';
 import { useModalLogin } from '../ModalLogin';
 import { useIsLoggedIn } from '../jwt-store';
 import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
+import { TrialStartedModal } from './TrialStartedModal';
 
 interface ProContext {
   handleClick: DOMAttributes<HTMLElement>['onClick'];
@@ -58,10 +59,14 @@ export function ProProvider({
   return (
     <proContext.Provider value={value}>
       {children}
+      <TrialStartedModal />
       <SubscriptionRequiredModal
         open={subscriptionModal}
         onClose={() => setSubscriptionModal(false)}
-        onConfirm={() => navigate('/account/billing')}
+        onConfirm={() => {
+          setSubscriptionModal(false);
+          navigate('/account/billing');
+        }}
       />
       {ModalLogin}
     </proContext.Provider>
