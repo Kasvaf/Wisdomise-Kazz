@@ -22,14 +22,10 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data) {
+    if (data && !show) {
       setJwtToken(data.token);
-      void mutateAsync({}).then(data => {
-        if (data.joined_waitlist_at) {
-          navigate('/claim-reward');
-        } else {
-          navigate('/join-waitlist');
-        }
+      void mutateAsync({}).then(() => {
+        navigate('/onboarding');
         setShow(true);
         return null;
       });
@@ -38,7 +34,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
         username: webApp?.initDataUnsafe.user?.username,
       });
     }
-  }, [data, mutateAsync, navigate, webApp?.initDataUnsafe.user]);
+  }, [data, mutateAsync, webApp?.initDataUnsafe.user, navigate, show]);
 
   return show && data ? (
     <div>{children}</div>

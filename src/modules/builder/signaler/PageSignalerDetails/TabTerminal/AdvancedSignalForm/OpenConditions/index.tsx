@@ -4,7 +4,6 @@ import { Select } from 'antd';
 import { useState } from 'react';
 import { bxChevronDown, bxPlus, bxTrash } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import { type SignalerData } from 'api/builder';
 import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import { DrawerModal } from 'shared/DrawerModal';
@@ -22,9 +21,8 @@ const useConditionDefinitions = () => {
 
 const OpenConditions: React.FC<{
   data: SignalFormState;
-  signaler: SignalerData;
   assetName: string;
-}> = ({ signaler, assetName, data }) => {
+}> = ({ assetName, data }) => {
   const { t } = useTranslation('builder');
   const conditionDefs = useConditionDefinitions();
   const {
@@ -128,7 +126,6 @@ const OpenConditions: React.FC<{
                   <div className="mt-2 rounded-lg bg-[#303137] p-3">
                     <ConditionForm
                       data={data}
-                      signaler={signaler}
                       assetName={assetName}
                       value={cond}
                       onChange={c =>

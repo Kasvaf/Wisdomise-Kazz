@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useHasFlag } from 'api';
+import { isMiniApp } from 'utils/version';
 import useMenuItems, { type RootMenuItem } from './useMenuItems';
 import { ReactComponent as IconMenu } from './useMenuItems/icons/menu.svg';
 
@@ -9,7 +10,7 @@ export default function BottomNavbar() {
   const hasFlag = useHasFlag();
 
   const items = MenuItems.filter(
-    i => !i.mobileHide && !i.hide && hasFlag(i.link),
+    i => !i.mobileHide && !i.hide && (isMiniApp || hasFlag(i.link)),
   );
 
   const renderItem = (item: RootMenuItem) => (
@@ -22,6 +23,7 @@ export default function BottomNavbar() {
       )}
     >
       {item.icon}
+      <div className="mt-1 text-sm font-normal">{item.text}</div>
     </NavLink>
   );
 
@@ -29,11 +31,12 @@ export default function BottomNavbar() {
     <div className="fixed bottom-0 z-50 hidden h-16 w-full items-center bg-[#1E1F24] text-white mobile:flex">
       <div className="flex w-full items-center justify-between">
         {items.map(renderItem)}
-        {renderItem({
-          icon: <IconMenu />,
-          text: 'Menu',
-          link: '/menu',
-        })}
+        {!isMiniApp &&
+          renderItem({
+            icon: <IconMenu />,
+            text: 'Menu',
+            link: '/menu',
+          })}
       </div>
     </div>
   );

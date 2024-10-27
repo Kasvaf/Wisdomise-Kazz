@@ -1,7 +1,6 @@
 import { v4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
-import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
 import { roundDown } from 'utils/numbers';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -10,9 +9,8 @@ import { type SignalFormState } from './useSignalFormStates';
 
 const PartSafetyOpen: React.FC<{
   data: SignalFormState;
-  signaler: SignalerData;
   assetName: string;
-}> = ({ signaler, assetName, data }) => {
+}> = ({ data }) => {
   const { t } = useTranslation('builder');
   const {
     price: [price],
@@ -22,10 +20,12 @@ const PartSafetyOpen: React.FC<{
     safetyOpens: [items, setItems],
   } = data;
 
-  const { data: assetPrice } = useSignalerAssetPrice({
-    strategyKey: signaler.key,
-    assetName,
-  });
+  // const { data: assetPrice } = useSignalerAssetPrice({
+  //   strategyKey: signaler.key,
+  //   assetName,
+  // });
+  // TODO get asset price
+  const assetPrice = 0;
 
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 

@@ -1,14 +1,25 @@
 import * as React from 'react';
-import { type RouteObject } from 'react-router-dom';
+import { Navigate, type RouteObject } from 'react-router-dom';
 import TelegramContainer from 'modules/autoTrader/TelegramContainer';
+import { TelegramLayout } from 'modules/autoTrader/TelegramLayout';
 
-const PageWaitlist = React.lazy(
-  () => import('modules/autoTrader/PageWaitlist'),
+const PageOnboarding = React.lazy(
+  () => import('../../autoTrader/PageOnboarding'),
 );
 
 const PageClaimReward = React.lazy(
   () => import('modules/autoTrader/PageClaimReward'),
 );
+
+const PageHotCoins = React.lazy(
+  () => import('modules/autoTrader/PageHotCoins'),
+);
+
+const PageCoinDetail = React.lazy(
+  () => import('modules/autoTrader/PageHotCoins/PageCoinDetail'),
+);
+
+const PageTrade = React.lazy(() => import('modules/autoTrader/PageTrade'));
 
 const useMiniAppRoutes = () => {
   return [
@@ -16,14 +27,41 @@ const useMiniAppRoutes = () => {
       element: <TelegramContainer />,
       path: '',
       children: [
+        { path: '', element: <Navigate to="hot-coins" /> },
         {
-          path: 'join-waitlist',
-          element: <PageWaitlist />,
+          path: 'onboarding',
+          element: <PageOnboarding />,
         },
         {
-          path: 'claim-reward',
-          element: <PageClaimReward />,
+          path: '',
+          element: <TelegramLayout />,
+          children: [
+            {
+              path: 'claim-reward',
+              element: <PageClaimReward />,
+            },
+            {
+              path: 'hot-coins',
+              children: [
+                { path: '', element: <PageHotCoins /> },
+                { path: ':slug', element: <PageCoinDetail /> },
+              ],
+            },
+            {
+              path: 'market',
+              children: [
+                {
+                  path: ':slug',
+                  children: [
+                    { path: '', element: <PageTrade /> },
+                    { path: 'positions/:slug', element: <PageTrade /> },
+                  ],
+                },
+              ],
+            },
+          ],
         },
+        { path: '*', element: <Navigate to="/hot-coins" /> },
       ],
     },
   ] satisfies RouteObject[];

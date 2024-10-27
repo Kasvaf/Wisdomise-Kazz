@@ -7,15 +7,16 @@ import { Coin } from 'shared/Coin';
 import type { Coin as CoinType } from 'api/types/shared';
 import Spin from 'shared/Spin';
 
-export const CoinSelect: FC<SelectProps<string>> = ({
+export const CoinSelect: FC<SelectProps<string> & { networkName?: string }> = ({
   value,
   className,
   disabled,
+  networkName,
   ...props
 }) => {
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
-  const coinList = useCoinList({ q });
+  const coinList = useCoinList({ q, networkName });
 
   const coin = useCoinOverview({ slug: value ?? 'tether' });
 

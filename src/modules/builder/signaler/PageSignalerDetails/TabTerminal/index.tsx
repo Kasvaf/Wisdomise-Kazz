@@ -117,7 +117,6 @@ const TabTerminal = () => {
 
         {!!assetName && !!signaler && !isLoading && (
           <AdvancedSignalForm
-            signaler={signaler}
             assetName={assetName}
             activePosition={activePosition}
             className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"

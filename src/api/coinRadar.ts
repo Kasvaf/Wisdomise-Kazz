@@ -424,15 +424,22 @@ export const useTrendingCoins = () =>
         .then(resp => resp.data),
   });
 
-export const useCoinList = ({ q }: { q?: string }) =>
+export const useCoinList = ({
+  q,
+  networkName,
+}: {
+  q?: string;
+  networkName?: string;
+}) =>
   useQuery({
-    queryKey: ['coin-list', q],
+    queryKey: ['coin-list', q, networkName],
     staleTime: Number.POSITIVE_INFINITY,
     queryFn: () =>
       axios
         .get<Coin[]>('delphi/symbol/search/', {
           params: {
-            q,
+            q: q || undefined,
+            network_name: networkName,
           },
         })
         .then(resp => resp.data),

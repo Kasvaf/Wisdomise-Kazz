@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { type FullPosition, type SignalerData } from 'api/builder';
+import { useTonConnectUI } from '@tonconnect/ui-react';
+import { type FullPosition } from 'api/builder';
 import Button from 'shared/Button';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
@@ -10,7 +11,6 @@ import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
 
 interface Props {
-  signaler: SignalerData;
   assetName: string;
   activePosition?: FullPosition;
   formState: SignalFormState;
@@ -18,13 +18,13 @@ interface Props {
 }
 
 const AdvancedSignalForm: React.FC<Props> = ({
-  signaler,
   assetName,
   activePosition,
   formState,
   className,
 }) => {
   const { t } = useTranslation('builder');
+  const [tonConnectUI] = useTonConnectUI();
   const {
     isUpdate: [isUpdate],
   } = formState;
@@ -44,42 +44,39 @@ const AdvancedSignalForm: React.FC<Props> = ({
     ModalConfirm,
   } = useActionHandlers({
     data: formState,
-    signaler,
     assetName,
     activePosition,
   });
+
+  // const { mutateAsync, isLoading } = useWaitlistMutation();
+  // const joinWaitList = async () => {
+  //   await mutateAsync();
+  //   notification.success({
+  //     message: (
+  //       <p>
+  //         <strong className="font-bold">Success!</strong> You’ve joined the
+  //         waitlist. We’ll notify you when Autotrader is ready.
+  //       </p>
+  //     ),
+  //     description: '',
+  //   });
+  // };
 
   // ======================================================================
 
   return (
     <div className={clsx('flex flex-col gap-3 px-3 mobile:px-0', className)}>
-      <div className="flex flex-col gap-5 rounded-lg bg-[#303137] p-3">
-        <PartOpen data={formState} signaler={signaler} assetName={assetName} />
-        <PartSafetyOpen
-          data={formState}
-          signaler={signaler}
-          assetName={assetName}
-        />
-        <div className="border-b border-white/10" />
-        <PartTpSl
-          type="TP"
-          data={formState}
-          signaler={signaler}
-          assetName={assetName}
-        />
-        <div className="border-b border-white/10" />
-        <PartTpSl
-          type="SL"
-          data={formState}
-          signaler={signaler}
-          assetName={assetName}
-        />
+      <div className="flex flex-col gap-5">
+        <PartOpen data={formState} assetName={assetName} />
+        <PartSafetyOpen data={formState} assetName={assetName} />
+        <PartTpSl type="TP" data={formState} assetName={assetName} />
+        <PartTpSl type="SL" data={formState} assetName={assetName} />
       </div>
 
       {isUpdate ? (
         <>
           <Button
-            variant="primary-purple"
+            variant="brand"
             onClick={updateHandler}
             loading={isSubmitting}
             disabled={!isEnabled}
@@ -95,14 +92,18 @@ const AdvancedSignalForm: React.FC<Props> = ({
             {t('signal-form.btn-close')}
           </Button>
         </>
-      ) : (
+      ) : tonConnectUI.connected ? (
         <Button
-          variant="primary-purple"
+          variant="brand"
           onClick={fireHandler}
           loading={isSubmitting}
           disabled={!isEnabled}
         >
           {t('signal-form.btn-fire-signal')}
+        </Button>
+      ) : (
+        <Button variant="brand" onClick={() => tonConnectUI.openModal()}>
+          Connect Wallet
         </Button>
       )}
 

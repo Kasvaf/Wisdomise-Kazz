@@ -1,32 +1,27 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHasFlag } from 'api';
-import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
 import { roundDown, roundSensible } from 'utils/numbers';
 import InfoButton from 'shared/InfoButton';
-import AmountInputBox from 'shared/AmountInputBox';
-import OrderTypeToggle from '../OrderTypeToggle';
-import MarketToggle from '../MarketToggle';
+import TextBox from 'shared/TextBox';
+import { ButtonSelect } from 'shared/ButtonSelect';
 import DurationInput from '../DurationInput';
-import OpenConditions from './OpenConditions';
 import PriceVolumeInput from './PriceVolumeInput';
 import { type SignalFormState } from './useSignalFormStates';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
-  signaler: SignalerData;
   assetName: string;
-}> = ({ signaler, assetName, data }) => {
+}> = ({ data }) => {
   const { t } = useTranslation('builder');
-  const hasFlag = useHasFlag();
 
   const {
     isUpdate: [isUpdate],
     market: [market, setMarket],
     orderType: [orderType, setOrderType],
+    amount: [amount, setAmount],
     price: [price, setPrice],
     priceUpdated: [priceUpdated, setPriceUpdated],
-    leverage: [leverage, setLeverage],
+    leverage: [_leverage, _setLeverage],
     volume: [volume, setVolume],
     exp: [exp, setExp],
     orderExp: [orderExp, setOrderExp],
@@ -36,10 +31,12 @@ const PartOpen: React.FC<{
     safetyOpens: [, setSafetyOpens],
   } = data;
 
-  const { data: assetPrice } = useSignalerAssetPrice({
-    strategyKey: signaler.key,
-    assetName,
-  });
+  // const { data: assetPrice } = useSignalerAssetPrice({
+  //   strategyKey: signaler.key,
+  //   assetName,
+  // });
+  // TODO get asset price
+  const assetPrice = 0;
 
   useEffect(() => {
     if (!priceUpdated && assetPrice && !isUpdate) {
@@ -48,7 +45,7 @@ const PartOpen: React.FC<{
   }, [assetPrice, isUpdate, priceUpdated, setPrice]);
 
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
-  const onMarketChangeHandler = (x: 'long' | 'short') => {
+  const _onMarketChangeHandler = (x: 'long' | 'short') => {
     if (x === market) return;
     const oldTakeProfits = takeProfits;
     setTakeProfits(stopLosses);
@@ -66,50 +63,32 @@ const PartOpen: React.FC<{
 
   return (
     <div>
-      {signaler?.market_name === 'FUTURES' && (
-        <div className="mb-5 flex gap-2 border-b border-white/10 pb-5">
-          <MarketToggle
-            className="grow"
-            value={market}
-            onChange={onMarketChangeHandler}
-            disabled={isUpdate}
-          />
+      <ButtonSelect
+        className="mb-3 w-full"
+        value={orderType}
+        options={[
+          {
+            label: t('common:order-type.limit'),
+            value: 'limit',
+            disabled: isUpdate,
+          },
+          {
+            label: t('common:order-type.market'),
+            value: 'market',
+            disabled: isUpdate,
+          },
+        ]}
+        onChange={setOrderType}
+      />
 
-          {hasFlag('/builder?leverage') && (
-            <div className="flex items-center gap-2">
-              <div className="text-xs">{t('signal-form.leverage.title')}:</div>
-              <AmountInputBox
-                className="w-14"
-                inputClassName="text-center !pl-0 !pr-2"
-                value={leverage}
-                min={1}
-                max={10}
-                onChange={setLeverage}
-                disabled={isUpdate}
-                suffix="X"
-              />
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="mb-2 flex items-center justify-between">
-        <div className="flex items-center">
-          <div>{t('signal-form.open')}: </div>
-          <OrderTypeToggle
-            value={orderType}
-            onChange={setOrderType}
-            disabled={isUpdate}
-          />
-        </div>
-        {orderType === 'market' && (
-          <OpenConditions
-            assetName={assetName}
-            data={data}
-            signaler={signaler}
-          />
-        )}
-      </div>
+      <TextBox
+        label="Amount"
+        type="number"
+        value={amount}
+        onChange={value => setAmount(value)}
+        suffix="USDT"
+        className="mb-3"
+      />
 
       <PriceVolumeInput
         price={

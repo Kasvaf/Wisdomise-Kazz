@@ -1,59 +1,25 @@
-import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import { notification } from 'antd';
 import logo from 'assets/logo-horizontal-beta.svg';
 import Button from 'shared/Button';
-import { useWaitlistMutation } from 'api/gamification';
 import { Background } from 'modules/autoTrader/TelegramAuthGuard';
 import tickets from '../tickets.png';
-import check from '../check.svg';
+import autoTrader from '../loading.png';
 import sparkler from './sparkler.png';
 import target from './target.png';
 import lightBulb from './lightBulb.png';
 
-export default function PageWaitlist() {
-  const [tonConnect] = useTonConnectUI();
-  const address = useTonAddress(true);
+export default function PageOnboarding() {
   const [step, setStep] = useState(0);
-  const { mutateAsync, isLoading } = useWaitlistMutation();
   const navigate = useNavigate();
-
-  const joinWaitList = async () => {
-    await mutateAsync();
-    notification.success({
-      message: (
-        <p>
-          <strong className="font-bold">Success!</strong> You’ve joined the
-          waitlist. We’ll notify you when Autotrader is ready.
-        </p>
-      ),
-      description: '',
-    });
-    navigate('/claim-reward');
-  };
-
-  useEffect(() => {
-    if (address) {
-      setStep(2);
-    }
-  }, [address]);
-
-  useEffect(() => {
-    tonConnect.onModalStateChange(state => {
-      if (state.status === 'opened') {
-        setStep(1);
-      }
-    });
-  }, [tonConnect]);
 
   return (
     <div className="relative overflow-hidden">
       <Background />
       <div className="relative flex h-screen flex-col items-center p-6 pb-10 text-center">
         <div className="flex w-full gap-3">
-          {Array.from({ length: 3 }).map((_, index) => (
+          {Array.from({ length: 2 }).map((_, index) => (
             <div
               key={index}
               className={clsx(
@@ -64,19 +30,21 @@ export default function PageWaitlist() {
           ))}
         </div>
         <img src={logo} className="mt-8 h-8" alt="logo" />
-        <img src={tickets} className="me-4 mt-8 w-[16rem]" alt="tickets" />
 
-        {(step === 0 || step === 1) && (
+        {step === 0 && (
           <>
+            <img
+              src={autoTrader}
+              className="me-4 mt-8 w-[16rem]"
+              alt="tickets"
+            />
             <h1 className="mt-6 font-semibold">
-              Join the Autotrader Waitlist <br /> & Claim Your First
+              Join the Autotrader Waitlist <br />
             </h1>
             <p className="my-4 text-sm">
-              Connect your wallet to{' '}
-              <strong className="font-semibold">claim rewards</strong> and
-              access Wisdomise Autotrader’s{' '}
-              <strong className="font-semibold">automated trading</strong>{' '}
-              features.
+              Welcome to Wisdomise Autotrader, where you can automate your
+              trades with AI-driven insights, set precise limit orders, and stay
+              ahead with real-time market updates
             </p>
             <div className="flex flex-wrap justify-center gap-1 text-sm">
               <div
@@ -111,34 +79,31 @@ export default function PageWaitlist() {
               </div>
             </div>
             <Button
+              variant="alternative"
               onClick={() => {
-                void tonConnect.openModal();
                 setStep(1);
               }}
               className="mt-auto w-full"
             >
-              Connect Wallet
+              Tell Me More!
             </Button>
           </>
         )}
 
-        {step === 2 && (
+        {step === 1 && (
           <>
-            <img src={check} className="mt-4 h-12 w-12 text-lg" />
-            <h1 className="mt-2 font-semibold">
-              Wallet Connected Successfully!
-            </h1>
+            <img src={tickets} className="me-4 mt-8 w-[16rem]" alt="tickets" />
+            <h1 className="mt-2 font-semibold">Claim Your Reward</h1>
             <p className="my-4 text-sm">
-              Your wallet is connected! You can now claim your rewards. Join our
-              waitlist to access Wisdomise Autotrader and start automated
-              trading when it launches.
+              Connect your wallet to claim your Silver Pool rewards! Just link
+              your wallet, and any eligible rewards based on your activity will
+              be transferred to you
             </p>
             <Button
-              loading={isLoading}
-              onClick={joinWaitList}
+              onClick={() => navigate('/hot-coins')}
               className="mt-auto w-full"
             >
-              Join Waitlist
+              Lets Get Started!
             </Button>
           </>
         )}
