@@ -1,6 +1,5 @@
 import {
   createContext,
-  type DOMAttributes,
   useContext,
   useMemo,
   useState,
@@ -12,14 +11,13 @@ import { useModalLogin } from '../ModalLogin';
 import { useIsLoggedIn } from '../jwt-store';
 import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
 import { TrialStartedModal } from './TrialStartedModal';
-
 interface ProContext {
-  handleClick: DOMAttributes<HTMLElement>['onClick'];
+  ensureIsPro: () => Promise<boolean>;
   hasAccess: boolean;
 }
 
 const proContext = createContext<ProContext>({
-  handleClick: () => {
+  ensureIsPro: () => {
     throw new Error('Pro Context not initialized yet');
   },
   hasAccess: false,
@@ -40,18 +38,18 @@ export function ProProvider({
 
   const value = useMemo<ProContext>(() => {
     return {
-      handleClick: async e => {
-        if (isLoggedIn && subscription.levelType !== 'free') return;
-        if (e) {
-          e?.preventDefault();
-          e?.stopPropagation();
-        }
-        if (isLoggedIn) {
-          setSubscriptionModal(true);
-        } else {
-          void showModalLogin();
-        }
-      },
+      ensureIsPro: () =>
+        new Promise(resolve => {
+          if (!isLoggedIn) {
+            return showModalLogin();
+          }
+          if (subscription.levelType === 'free') {
+            setSubscriptionModal(true);
+            // never resolve
+          } else {
+            resolve(true);
+          }
+        }),
       hasAccess: isLoggedIn && subscription.levelType !== 'free',
     };
   }, [isLoggedIn, showModalLogin, subscription.levelType]);

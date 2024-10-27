@@ -12,7 +12,7 @@ export function ProLocker({
   level,
 }: PropsWithChildren<{
   className?: string;
-  mode: 'table' | 'children' | 'badge';
+  mode: 'table' | 'children';
   enabled?: boolean;
   level?: number;
 }>) {
@@ -30,7 +30,6 @@ export function ProLocker({
   });
   const parentEl = useRef<HTMLDivElement>(null);
   const isLoggedIn = useIsLoggedIn();
-  const shouldBlock = !pro.hasAccess && enabled !== false;
 
   useEffect(() => {
     if (!parentEl.current) return;
@@ -67,23 +66,21 @@ export function ProLocker({
         )}
       >
         {children}
-        {buttonPosition.active && shouldBlock && (
+        {buttonPosition.active && !pro.hasAccess && enabled !== false && (
           <div
             className={clsx(
-              'absolute left-0 z-10 flex w-full cursor-pointer flex-col gap-2 text-base font-medium',
+              'absolute left-0 z-[2] flex w-full cursor-pointer flex-col gap-2 text-base font-medium',
               'group transition-all',
-              mode === 'badge'
-                ? 'items-end justify-start'
-                : 'items-center justify-center backdrop-blur-sm',
+              'items-center justify-center backdrop-blur-sm',
             )}
             style={{
               ...buttonPosition,
             }}
-            onClick={pro.handleClick}
+            onClick={pro.ensureIsPro}
           >
             <b
               className={clsx(
-                mode === 'badge' ? '-m-4 h-auto' : 'h-auto w-auto',
+                'h-auto w-auto',
                 'rounded-lg bg-pro-gradient px-3 py-1 text-xs font-medium text-black shadow-xl',
                 'group-hover:brightness-110',
               )}

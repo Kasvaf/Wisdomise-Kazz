@@ -6,7 +6,7 @@ import {
   useSaveAlert,
 } from 'api/alert';
 import { track } from 'config/segment';
-import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { usePro } from 'modules/base/auth/ProContent/ProProvider';
 import { AlertSaveModal } from '../AlertSaveModal';
 import {
   useAlertDeleteConfirm,
@@ -31,8 +31,7 @@ export const useAlertActions = <D extends AlertDataSource>(
       });
     }
   };
-
-  const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
+  const pro = usePro();
   return useMemo(
     () => ({
       content: (
@@ -54,20 +53,19 @@ export const useAlertActions = <D extends AlertDataSource>(
                 .then(() => showSaveToast())
             }
           />
-          {ModalLogin}
           {deleteConfirmModal}
           {saveToast}
         </>
       ),
       openSaveModal: async () =>
-        (await ensureAuthenticated()) && setIsModalOpen(true),
+        (await pro.ensureIsPro()) && setIsModalOpen(true),
       save: async () => {
         if (!initialAlert) {
           throw new Error(
             'You must set initial alert in order to save without modal!',
           );
         }
-        if (!(await ensureAuthenticated())) return false;
+        if (!(await pro.ensureIsPro())) return false;
         return await saveAlertMutation
           .mutateAsync(initialAlert)
           .then(() => setIsModalOpen(false))
@@ -83,12 +81,11 @@ export const useAlertActions = <D extends AlertDataSource>(
       isSaving: saveAlertMutation.isLoading,
     }),
     [
-      ModalLogin,
       deleteAlertMutation,
       deleteConfirmModal,
-      ensureAuthenticated,
       initialAlert,
       isModalOpen,
+      pro,
       saveAlertMutation,
       saveToast,
       showDeleteConfirm,

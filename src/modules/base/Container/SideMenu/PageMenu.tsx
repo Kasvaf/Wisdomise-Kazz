@@ -18,6 +18,7 @@ const PageMenu = () => {
       <div className="mb-4 overflow-hidden rounded-xl bg-black/30">
         <WalletDropdownContent />
       </div>
+      salam
       <MenuItemsContent collapsed={false} />
     </div>
   );

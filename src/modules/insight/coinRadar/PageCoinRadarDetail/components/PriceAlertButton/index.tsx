@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
 import { type Alert, useAlerts } from 'api/alert';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
-import { ProLocker } from 'shared/ProLocker';
 
 export function PriceAlertButton({
   className,
@@ -43,20 +43,18 @@ export function PriceAlertButton({
 
   return (
     <>
-      <ProLocker mode="badge" className={className}>
-        <Button
-          onClick={() => alertActions.openSaveModal()}
-          variant={initialAlert.key ? 'alternative' : 'primary'}
-          className="h-10 w-full !py-1 mobile:!px-4"
-          contentClassName="flex gap-0"
-          data-id="set-alert"
-        >
-          <Icon size={20} name={bxBell} className="mr-1" />
-          {initialAlert.key
-            ? t('set-price-notification.open-existing-modal-btn')
-            : t('set-price-notification.open-modal-btn')}
-        </Button>
-      </ProLocker>
+      <Button
+        onClick={() => alertActions.openSaveModal()}
+        variant={initialAlert.key ? 'alternative' : 'primary'}
+        className={clsx('h-10 w-full !py-1 mobile:!px-4', className)}
+        contentClassName="flex gap-0"
+        data-id="set-alert"
+      >
+        <Icon size={20} name={bxBell} className="mr-1" />
+        {initialAlert.key
+          ? t('set-price-notification.open-existing-modal-btn')
+          : t('set-price-notification.open-modal-btn')}
+      </Button>
       {alertActions.content}
     </>
   );

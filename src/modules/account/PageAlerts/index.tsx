@@ -7,7 +7,6 @@ import { PageTitle } from 'shared/PageTitle';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import TextBox from 'shared/TextBox';
-import { ProLocker } from 'shared/ProLocker';
 import { useAlertActions } from './components/useAlertActions';
 import { SlugAlertGroupWidget } from './components/SlugAlertGroupWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
@@ -60,18 +59,16 @@ export default function AlertsPage() {
         />
         <AlertStateSelect value={alertState} onChange={setAlertState} />
         <div className="grow" />
-        <ProLocker mode="badge">
-          <Button
-            onClick={() => alertActions.openSaveModal()}
-            variant="primary"
-            size="manual"
-            className="h-12 px-7"
-            data-id="set-alert"
-          >
-            <Icon name={bxBell} className="mr-2" size={24} />
-            {t('common.set-alert')}
-          </Button>
-        </ProLocker>
+        <Button
+          onClick={() => alertActions.openSaveModal()}
+          variant="primary"
+          size="manual"
+          className="h-12 px-7"
+          data-id="set-alert"
+        >
+          <Icon name={bxBell} className="mr-2" size={24} />
+          {t('common.set-alert')}
+        </Button>
       </div>
 
       <div className="space-y-4">
