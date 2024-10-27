@@ -7,22 +7,14 @@ import SuccessfulPaymentMessage from './SuccessfulPaymentMessage';
 export default function PageBilling() {
   const plans = usePlansQuery();
   const invoices = useInvoicesQuery();
-  const { plan, isActive, isLoading } = useSubscription();
-
-  const lastInvoice = invoices.data?.results.at(0);
-  const hasOpenCryptoPayment =
-    lastInvoice?.payment_method === 'CRYPTO' && lastInvoice.status === 'open';
+  const { isLoading, levelType } = useSubscription();
 
   return (
     <PageWrapper
       className="h-full"
       loading={isLoading || invoices.isLoading || plans.isLoading}
     >
-      {(isActive && plan?.name !== 'Trial') || hasOpenCryptoPayment ? (
-        <SubscriptionDetail />
-      ) : (
-        <PricingTable />
-      )}
+      {levelType === 'pro' ? <SubscriptionDetail /> : <PricingTable />}
       <SuccessfulPaymentMessage />
     </PageWrapper>
   );
