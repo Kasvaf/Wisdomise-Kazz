@@ -20,7 +20,7 @@ export function useSubscription() {
     refetch,
     isActive,
     isLoading,
-    title: planName === 'Trial' ? 'Free' : planName,
+    title: planName,
     isFreePlan: !plan?.level,
     isTrialPlan: plan?.name === 'Trial',
     level: isActive ? plan?.level ?? 0 : 0,
