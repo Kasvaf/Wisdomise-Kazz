@@ -1,10 +1,11 @@
-expires-soon: Only <b>{{days}} Days</b> Left in Your Trial!
+expires-soon: Only <b>{{days}}d</b> Left in Your Trial!
 features:
   alerts: Customized Alerts & Notifications
   auto-trader: Wisdomise Auto Trader
   coin-overview: Comprehensive Coin Overview
   dashboard: Personalized Dashboard
 login-required: Login Required
+pro: Pro
 renew-modal:
   title: Continue Your Crypto Journey<br></br>with Us!
   description: >-
@@ -12,10 +13,11 @@ renew-modal:
     features available in the Pro version:
   renew: Renew Your Pro
   skip: Skip For Now
+trial: Trial
 trial-modal:
   title: Welcome to Wisdomise Pro!
   description: >-
-    Congratulations on your <b>{{days}}-day Trial</b> of Wisdomise
+    Congratulations on your <b>{{days}}d Trial</b> of Wisdomise
     Pro!<br></br>Here are Some features available in the Pro version:
   button: Start Your Journey
   footer: >-

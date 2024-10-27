@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { Link, NavLink } from 'react-router-dom';
 import { Trans } from 'react-i18next';
 import { useHasFlag, useSubscription } from 'api';
+import { useIsLoggedIn } from '../auth/jwt-store';
 import useMenuItems, { type RootMenuItem } from './useMenuItems';
 import { ReactComponent as IconMenu } from './useMenuItems/icons/menu.svg';
 import LogoBlack from './logo-black.png';
@@ -10,6 +11,7 @@ export default function BottomNavbar() {
   const { items: MenuItems } = useMenuItems();
   const subscription = useSubscription();
   const hasFlag = useHasFlag();
+  const isLoggedIn = useIsLoggedIn();
 
   const items = MenuItems.filter(
     i => !i.mobileHide && !i.hide && hasFlag(i.link),
@@ -30,7 +32,7 @@ export default function BottomNavbar() {
 
   return (
     <div className="fixed bottom-0 z-50 hidden h-auto w-full mobile:block">
-      {subscription.levelType !== 'pro' && (
+      {subscription.levelType !== 'pro' && isLoggedIn && (
         <div className="flex h-10 items-center gap-2 bg-pro-gradient px-4 text-xs">
           <img src={LogoBlack} className="-ms-2 mt-[15px] w-7 shrink-0" />
           <div className="grow">

@@ -5,11 +5,13 @@ features:
   coin-overview: 包括的なコインの概要
   dashboard: パーソナライズされたダッシュボード
 login-required: ログインが必要です
+pro: プロ
 renew-modal:
   description: "Wisdomise Pro で暗号通貨の可能性をさらに広げましょう! Pro バージョンで利用できる機能の一部は次のとおりです:"
   renew: プロの更新
   skip: 今はスキップ
   title: 暗号通貨の旅を続けよう<br></br>私たちと一緒に！
+trial: トライアル
 trial-modal:
   button: 旅を始めましょう
   description: おめでとうございます <b>{{days}}日間トライアル</b> Wisdomise Proの！<br></br>Pro
