@@ -30,7 +30,7 @@ export default function BottomNavbar() {
 
   return (
     <div className="fixed bottom-0 z-50 hidden h-auto w-full mobile:block">
-      {subscription.levelType === 'trial' && (
+      {subscription.levelType !== 'pro' && (
         <div className="flex h-10 items-center gap-2 bg-pro-gradient px-4 text-xs">
           <img src={LogoBlack} className="-ms-2 mt-[15px] w-7 shrink-0" />
           <div className="grow">
