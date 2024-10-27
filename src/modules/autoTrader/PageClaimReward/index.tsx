@@ -148,8 +148,6 @@ export default function ClaimRewardPage() {
 
       <h1 className="mb-3 mt-8 font-semibold">WSDM Pools</h1>
       <p>
-        Silver ticket pool reward size is{' '}
-        <span className="font-semibold text-v1-content-brand">$100K</span>.
         Check if you’ve won shares of the pool. Stay tuned for gold & platinum
         reward pools coming soon!
       </p>

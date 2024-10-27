@@ -17,7 +17,8 @@
     }
 
     .ant-table-column-sorters {
-      @apply !flex-row-reverse justify-normal gap-1;
+      @apply !flex-row-reverse gap-1;
+      justify-content: start;
 
       .ant-table-column-title {
         @apply grow-0;
