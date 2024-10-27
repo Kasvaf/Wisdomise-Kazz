@@ -22,56 +22,39 @@ export function ProLocker({
   const [buttonPosition, setButtonPosition] = useState<{
     top: string;
     height: string;
+    active: boolean;
   }>({
     top: '0px',
     height: '100%',
+    active: false,
   });
   const parentEl = useRef<HTMLDivElement>(null);
   const isLoggedIn = useIsLoggedIn();
-  const [blockList, setBlockList] = useState<HTMLElement[]>([]);
   const shouldBlock = !pro.hasAccess && enabled !== false;
 
   useEffect(() => {
     if (!parentEl.current) return;
     setIsLoading(true);
-    const els =
+    const blockList = (
       mode === 'table'
         ? [
             ...parentEl.current.querySelectorAll(
-              'tbody > tr:not([aria-hidden])',
+              'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
             ),
           ]
-        : parentEl.current.children;
-    setBlockList(() => {
-      const ret = [];
-      for (const el of els) {
-        if (ret.length < (level ?? 1)) ret.push(el as HTMLElement);
-      }
-      return ret;
-    });
-  }, [mode, level]);
-
-  useEffect(() => {
-    for (const el of blockList) {
-      delete el.dataset.pro;
-    }
-    if (!shouldBlock) return;
-    for (const el of blockList) {
-      el.dataset.pro = mode;
-    }
-  }, [blockList, mode, shouldBlock]);
-
-  useEffect(() => {
-    const top = Math.min(...blockList.map(r => r.offsetTop));
+        : [...parentEl.current.querySelectorAll('& > *:not([aria-hidden])')]
+    ).slice(0, level ?? 1) as HTMLElement[];
+    const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
     const bottom = Math.max(
-      ...blockList.map(r => r.offsetHeight + r.offsetTop),
+      ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
     );
     setButtonPosition({
       top: `${top}px`,
       height: `${bottom - top}px`,
+      active: blockList.length > 0,
     });
     setIsLoading(false);
-  }, [blockList]);
+  }, [mode, level]);
 
   return (
     <>
@@ -84,7 +67,7 @@ export function ProLocker({
         )}
       >
         {children}
-        {blockList.length > 0 && shouldBlock && (
+        {buttonPosition.active && shouldBlock && (
           <div
             className={clsx(
               'absolute left-0 z-10 flex w-full cursor-pointer flex-col gap-2 text-base font-medium',
