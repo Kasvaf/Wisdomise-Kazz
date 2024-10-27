@@ -1,3 +1,4 @@
+expires-soon: Only <b>{{days}} Days</b> Left in Your Trial!
 features:
   alerts: Customized Alerts & Notifications
   auto-trader: Wisdomise Auto Trader
@@ -21,3 +22,4 @@ trial-modal:
     You now have access to powerful tools designed to enhance your trading
     experience.<br></brExplore More features and elevate your crypto game.
 unlock-with-pro: Unlock with Pro
+upgrade-now: Upgrade now

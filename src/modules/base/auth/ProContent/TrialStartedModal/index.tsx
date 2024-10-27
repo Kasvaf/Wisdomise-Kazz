@@ -2,7 +2,6 @@ import { Modal } from 'antd';
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import useIsMobile from 'utils/useIsMobile';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { ProFeatures } from '../ProFeatures';
@@ -12,7 +11,6 @@ import { ReactComponent as SparkleIcon } from './sparkle.svg';
 
 export function TrialStartedModal() {
   const { t } = useTranslation('pro');
-  const isMobile = useIsMobile();
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
   const [isDismissed, setIsDismissed] = useState(false);
@@ -32,8 +30,7 @@ export function TrialStartedModal() {
       centered
       className="[&_.ant-modal-content]:!p-0"
       width={880}
-      closable={!isMobile}
-      onCancel={() => setIsDismissed(true)}
+      closable={false}
     >
       <div className="flex w-full items-stretch mobile:flex-col-reverse">
         <div className="flex grow flex-col bg-v1-surface-l1 p-9 mobile:p-4">

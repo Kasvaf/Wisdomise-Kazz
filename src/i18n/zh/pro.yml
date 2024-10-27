@@ -1,3 +1,4 @@
+expires-soon: 仅有的 <b>{{days}} 天</b> 留在你的审判中！
 features:
   alerts: 定制警报和通知
   auto-trader: Wisdomise 自动交易
@@ -15,3 +16,4 @@ trial-modal:
   footer: 您现在可以使用旨在增强您的交易体验的强大工具。<br></br探索更多功能并提升您的加密游戏。
   title: 欢迎来到 Wisdomise Pro！
 unlock-with-pro: 使用专业版解锁
+upgrade-now: 立即升级
