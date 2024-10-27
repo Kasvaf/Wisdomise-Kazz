@@ -196,7 +196,6 @@ signal-form:
     btn-new-condition: New Condition
     condition-ind: Condition {{ind}}
   confirm-close: Are you sure you want to close this position?
-  confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
   error-100: This {{type}} won't trigger, another {{type}} fills all volume first.
   error-dup: You have already defined a {{type}} with the exact same price.
@@ -211,12 +210,8 @@ signal-form:
     title: Expiration Time
     info-text: Specifies how long a signal remains valid for entry.
     info-title: Expiration Time
-  leverage:
-    title: Leverage
   notif-success-close: Position closed successfully.
-  notif-success-fire: Signal fired successfully.
   notif-success-update: Position updated successfully.
-  open: Open
   order-expiration-time:
     title: Order Expiration
     info-text: >-
