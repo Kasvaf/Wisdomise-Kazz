@@ -100,12 +100,15 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: t('top_whales.transfer_volume'),
+        title: [
+          t('top_whales.trading_volume.title'),
+          t('top_whales.trading_volume.info'),
+        ],
         align: 'right',
         render: (_, row) => (
           <ReadableNumber
             label="$"
-            value={row.recent_transfer_volume}
+            value={row.recent_trading_volume}
             popup="never"
           />
         ),
