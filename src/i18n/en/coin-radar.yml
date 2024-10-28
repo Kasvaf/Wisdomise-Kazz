@@ -159,3 +159,6 @@ set-price-notification:
 tops-section:
   gainers: Top Gainers
   losers: Top Losers
+hot-coins-banner:
+  title: Social Radar
+  subtitle: Real-Time AI-Driven Insights from Socials
