@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { roundDown, roundSensible } from 'utils/numbers';
 import InfoButton from 'shared/InfoButton';
 import TextBox from 'shared/TextBox';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import { useCoinOverview } from 'api';
 import DurationInput from '../DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import { type SignalFormState } from './useSignalFormStates';
@@ -13,6 +15,8 @@ const PartOpen: React.FC<{
   assetName: string;
 }> = ({ data }) => {
   const { t } = useTranslation('builder');
+  const { slug } = useParams<{ slug: string }>();
+  if (!slug) throw new Error('unexpected');
 
   const {
     isUpdate: [isUpdate],
@@ -31,12 +35,8 @@ const PartOpen: React.FC<{
     safetyOpens: [, setSafetyOpens],
   } = data;
 
-  // const { data: assetPrice } = useSignalerAssetPrice({
-  //   strategyKey: signaler.key,
-  //   assetName,
-  // });
-  // TODO get asset price
-  const assetPrice = 0;
+  const { data: lastPrice } = useCoinOverview({ slug });
+  const assetPrice = lastPrice?.data?.current_price;
 
   useEffect(() => {
     if (!priceUpdated && assetPrice && !isUpdate) {

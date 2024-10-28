@@ -33,11 +33,7 @@ export default function PageOnboarding() {
 
         {step === 0 && (
           <>
-            <img
-              src={autoTrader}
-              className="me-4 mt-8 w-[16rem]"
-              alt="tickets"
-            />
+            <img src={autoTrader} className="me-4 w-[16rem]" alt="tickets" />
             <h1 className="mt-6 font-semibold">
               Join the Autotrader Waitlist <br />
             </h1>
@@ -97,7 +93,7 @@ export default function PageOnboarding() {
             <p className="my-4 text-sm">
               Connect your wallet to claim your Silver Pool rewards! Just link
               your wallet, and any eligible rewards based on your activity will
-              be transferred to you
+              be transferred to you.
             </p>
             <Button
               onClick={() => navigate('/hot-coins')}

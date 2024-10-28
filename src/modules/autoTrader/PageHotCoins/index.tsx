@@ -16,15 +16,18 @@ export default function PageHotCoins() {
     undefined,
   );
 
-  const coins = useWhalesCoins({
-    page,
-    pageSize,
-    filter: undefined,
-    sortBy,
-    isAscending,
-    networkName: 'ton',
-    days: 7,
-  });
+  const coins = useWhalesCoins(
+    {
+      page,
+      pageSize,
+      filter: undefined,
+      sortBy,
+      isAscending,
+      networkName: 'ton',
+      days: 7,
+    },
+    true,
+  );
 
   const columns = useMemo<Array<ColumnType<WhaleCoin>>>(
     () => [
@@ -57,7 +60,7 @@ export default function PageHotCoins() {
 
   return (
     <div>
-      <h1 className="py-3">TON hot Coins</h1>
+      <h1 className="py-3">TON Hot Coins</h1>
       <Table
         columns={columns}
         dataSource={coins.data?.results ?? []}

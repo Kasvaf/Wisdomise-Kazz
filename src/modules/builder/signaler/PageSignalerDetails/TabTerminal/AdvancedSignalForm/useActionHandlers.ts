@@ -7,12 +7,13 @@ import {
   useTonConnectUI,
 } from '@tonconnect/ui-react';
 import { Address, beginCell } from '@ton/core';
+import { useParams } from 'react-router-dom';
 import { type FullPosition, type SignalerData } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
 import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
+import { useCoinOverview } from 'api';
 import {
-  useLastCandleQuery,
   useTraderFirePositionMutation,
   useTraderUpdatePositionMutation,
 } from '../../../../../../trader';
@@ -30,6 +31,8 @@ const USDT_CONTRACT_ADDRESS = import.meta.env.USDT_CONTRACT_ADDRESS;
 const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   const { t } = useTranslation('builder');
   const [tonConnectUI] = useTonConnectUI();
+  const { slug } = useParams<{ slug: string }>();
+  if (!slug) throw new Error('unexpected');
 
   const {
     price: [price],
@@ -45,9 +48,9 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     reset,
   } = data;
 
-  const { data: lastCandle } = useLastCandleQuery();
+  const { data: lastPrice } = useCoinOverview({ slug });
   const address = useTonAddress();
-  const assetPrice = lastCandle?.candle.close ?? 1;
+  const assetPrice = lastPrice?.data?.current_price;
 
   const { mutateAsync, isLoading: isSubmitting } =
     useTraderFirePositionMutation();

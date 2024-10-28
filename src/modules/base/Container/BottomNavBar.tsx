@@ -23,12 +23,12 @@ export default function BottomNavbar() {
       )}
     >
       {item.icon}
-      <div className="mt-1 text-sm font-normal">{item.text}</div>
+      <div className="mt-1 text-xs font-normal">{item.text}</div>
     </NavLink>
   );
 
   return (
-    <div className="fixed bottom-0 z-50 hidden h-16 w-full items-center bg-[#1E1F24] text-white mobile:flex">
+    <div className="fixed bottom-0 z-50 hidden h-20 w-full items-center bg-[#1E1F24] text-white mobile:flex">
       <div className="flex w-full items-center justify-between">
         {items.map(renderItem)}
         {!isMiniApp &&

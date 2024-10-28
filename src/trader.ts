@@ -26,45 +26,6 @@ export interface Position {
   size: '0.0'; // percentage
 }
 
-export interface LastCandleResponse {
-  symbol: {
-    id: number;
-    name: string;
-    exchange: 'StonFi';
-    market: 'SPOT';
-    active: true;
-    created_at: '2024-08-19T08:33:56.751373Z';
-    updated_at: '2024-10-23T10:05:13.633585Z';
-    deleted_at: null;
-    pool_address: 'EQD8TJ8xEWB1SpnRE4d89YO3jl0W0EiBnNS4IBaHaUmdfizE';
-  };
-  candle: {
-    symbol_id: 9125;
-    related_at: '2024-10-25T13:56:00Z';
-    resolution: '1m';
-    open: number;
-    high: number;
-    low: number;
-    close: number;
-    volume: number;
-  };
-}
-
-export function useLastCandleQuery() {
-  return useQuery(
-    ['lastCandle'],
-    async () => {
-      const { data } = await axios.get<LastCandleResponse>(
-        'https://delphinus.wisdomise.com/candles/USD%E2%82%AETON/StonFi/SPOT/last',
-      );
-      return data;
-    },
-    {
-      staleTime: 60 * 1000,
-    },
-  );
-}
-
 export function useTraderPositionQuery(positionKey: string) {
   return useQuery(
     ['traderPosition', positionKey],

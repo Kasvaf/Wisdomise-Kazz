@@ -12,11 +12,6 @@ export default function PageCoinDetail() {
   const navigate = useNavigate();
 
   const coinOverview = useCoinOverview({ slug });
-  // const { data } = useTraderPositionsQuery(
-  //   coinOverview.data?.symbol
-  //     ? `${coinOverview.data.symbol.abbreviation}USDT`
-  //     : 'null',
-  // );
 
   return (
     <div>
@@ -39,6 +34,8 @@ export default function PageCoinDetail() {
         <div>
           {coinOverview.data?.symbol.abbreviation && (
             <AdvancedRealTimeChart
+              hide_top_toolbar={true}
+              hide_side_toolbar={true}
               key={coinOverview.data.symbol.abbreviation}
               symbol={coinOverview.data.symbol.abbreviation + 'USDT'}
               theme="dark"
