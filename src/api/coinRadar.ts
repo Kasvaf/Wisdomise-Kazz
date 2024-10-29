@@ -403,12 +403,7 @@ export const useCoinOverview = ({
             slug,
             price_history_days: priceHistoryDays ?? 1,
           },
-          transformRequest: [
-            (data, headers) => {
-              delete headers.Authorization;
-              return data;
-            },
-          ],
+          meta: { auth: false },
         })
         .then(resp => resp.data),
   });
@@ -447,12 +442,7 @@ export const useCoinList = ({
             q: q || undefined,
             network_name: networkName,
           },
-          transformRequest: [
-            (data, headers) => {
-              delete headers.Authorization;
-              return data;
-            },
-          ],
+          meta: { auth: false },
         })
         .then(resp => resp.data),
   });

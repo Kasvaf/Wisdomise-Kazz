@@ -148,12 +148,7 @@ export const useAccountJettonBalance = () => {
       const { data } = await axios.get<AccountJettonBalance>(
         `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${WSDM_CONTRACT_ADDRESS}`,
         {
-          transformRequest: [
-            (data, headers) => {
-              delete headers.Authorization;
-              return data;
-            },
-          ],
+          meta: { auth: false },
         },
       );
       return data;

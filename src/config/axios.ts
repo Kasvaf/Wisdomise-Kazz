@@ -13,9 +13,11 @@ export default function configAxios() {
    * Add Authorization Token
    */
   axios.interceptors.request.use(config => {
-    const jwtToken = getJwtToken();
-    if (jwtToken) {
-      config.headers.set('Authorization', 'Bearer ' + jwtToken);
+    if (config.meta?.auth !== false) {
+      const jwtToken = getJwtToken();
+      if (jwtToken) {
+        config.headers.set('Authorization', 'Bearer ' + jwtToken);
+      }
     }
 
     return config;
@@ -26,7 +28,10 @@ export default function configAxios() {
    * Redirect to login on 403
    */
   axios.interceptors.response.use(null, async (error: AxiosError) => {
-    if (isAuthError(error.response?.status)) {
+    if (
+      isAuthError(error.response?.status) &&
+      error.config?.meta?.auth !== false
+    ) {
       console.log('🔴', error.config?.url);
 
       if (error.config?.url?.includes('account/auth/')) {

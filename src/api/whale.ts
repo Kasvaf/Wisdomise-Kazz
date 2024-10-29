@@ -125,12 +125,7 @@ export const useWhalesCoins = (filters?: {
                 : undefined,
             filter: filters?.filter ?? 'all',
           },
-          transformRequest: [
-            (data, headers) => {
-              delete headers.Authorization;
-              return data;
-            },
-          ],
+          meta: { auth: false },
         },
       );
       return data;
