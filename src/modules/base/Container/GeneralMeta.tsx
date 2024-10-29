@@ -10,13 +10,14 @@ interface Handle {
 export function GeneralMeta() {
   const { pathname } = useLocation();
   const matches = useMatches();
-  const items = matches
+  const items = (matches ?? [])
     .filter(x => (x.handle as Handle | undefined)?.crumb)
     .map(item => {
       const { crumb } = item.handle as Handle;
       return typeof crumb === 'function' ? crumb(item.params) : crumb;
     });
-  const currentPageTitle = items.at(-1);
+  // eslint-disable-next-line unicorn/prefer-at
+  const currentPageTitle = items[items.length - 1];
   /* eslint-disable i18next/no-literal-string */
   return (
     <Helmet>
