@@ -6,10 +6,11 @@ import { ReactComponent as ErrorUndraw } from './undraw.svg';
 
 export default function PageError(props: unknown) {
   const { t } = useTranslation('base');
-  const [showDetails, setShowDetails] = useState(false);
+  const [devCount, setDevCount] = useState(1);
+  const isDev = devCount >= 7;
 
   const handleClick = () => {
-    if (showDetails) {
+    if (isDev) {
       // eslint-disable-next-line no-console
       console.log(props);
       if (
@@ -29,17 +30,16 @@ export default function PageError(props: unknown) {
     <div className="flex h-screen w-screen flex-col items-center justify-center text-white">
       <ErrorUndraw className="mb-10 h-auto w-full max-w-sm px-6" />
       <div className="text-center">{t('error-page.title')}</div>
-      <div className="mb-6 mt-2 text-center text-sm text-white/70">
+      <div
+        className="mb-6 mt-2 text-center text-sm text-white/70"
+        onClick={() => setDevCount(p => p + 1)}
+      >
         {t('error-page.subtitle')}
       </div>
 
-      <button
-        className="flex items-center gap-2"
-        onClick={handleClick}
-        onContextMenu={() => setShowDetails(p => !p)}
-      >
-        <Icon name={showDetails ? bxsFaceMask : bxRefresh} />
-        {showDetails ? t('error-page.throw') : t('error-page.btn-reload')}
+      <button className="flex items-center gap-2" onClick={handleClick}>
+        <Icon name={isDev ? bxsFaceMask : bxRefresh} />
+        {isDev ? t('error-page.throw') : t('error-page.btn-reload')}
       </button>
     </div>
   );
