@@ -13,7 +13,7 @@ const Boundary = () => {
 
   return (
     <React.Suspense fallback={<PageWrapper loading />}>
-      <ErrorBoundary fallback={<PageError />}>
+      <ErrorBoundary FallbackComponent={PageError}>
         <Outlet />
       </ErrorBoundary>
     </React.Suspense>

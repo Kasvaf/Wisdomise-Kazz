@@ -9,6 +9,7 @@ error-page:
   title: Something went wrong and we don't know how :(
   subtitle: But we'll try our best so that it won't happen again
   btn-reload: Reload
+  throw: Throw
 insight-declaimer:
   title: Disclaimer
   content: >-
