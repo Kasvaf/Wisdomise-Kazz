@@ -1,18 +1,17 @@
 import { bxRefresh, bxsFaceMask } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { clsx } from 'clsx';
 import Icon from 'shared/Icon';
 import { ReactComponent as ErrorUndraw } from './undraw.svg';
 
 export default function PageError(props: unknown) {
   const { t } = useTranslation('base');
-  const [devCount, setDevCount] = useState(1);
+  const [devCount, setDevCount] = useState(0);
   const isDev = devCount >= 7;
 
   const handleClick = () => {
     if (isDev) {
-      // eslint-disable-next-line no-console
-      console.log(props);
       if (
         typeof props === 'object' &&
         props &&
@@ -27,17 +26,25 @@ export default function PageError(props: unknown) {
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center text-white">
-      <ErrorUndraw className="mb-10 h-auto w-full max-w-sm px-6" />
-      <div className="text-center">{t('error-page.title')}</div>
-      <div
-        className="mb-6 mt-2 text-center text-sm text-white/70"
+    <div className="flex h-screen w-screen select-none flex-col items-center justify-center gap-4 text-v1-content-primary">
+      <ErrorUndraw
+        className="mb-10 h-auto w-full max-w-sm px-6"
+        style={{
+          filter: `grayscale(${(devCount / 7) * 100}%)`,
+        }}
         onClick={() => setDevCount(p => p + 1)}
-      >
+      />
+      <div className="text-center">{t('error-page.title')}</div>
+      <div className="text-center text-sm text-v1-content-secondary">
         {t('error-page.subtitle')}
       </div>
-
-      <button className="flex items-center gap-2" onClick={handleClick}>
+      <button
+        className={clsx(
+          'flex items-center gap-2',
+          isDev && 'text-v1-content-negative',
+        )}
+        onClick={handleClick}
+      >
         <Icon name={isDev ? bxsFaceMask : bxRefresh} />
         {isDev ? t('error-page.throw') : t('error-page.btn-reload')}
       </button>
