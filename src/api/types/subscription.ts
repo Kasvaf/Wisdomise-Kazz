@@ -14,7 +14,8 @@ export interface SubscriptionItem {
     | 'canceled'
     | 'incomplete'
     | 'incomplete_expired'
-    | 'paused';
+    | 'paused'
+    | 'trialing';
   start_at: string; // UTC date/time
   end_at: string; // UTC date/time
   pending_invoice?: Invoice | null; // show pay-now button

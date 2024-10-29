@@ -8,8 +8,11 @@ import './style.css';
 export default function Table<RecordType extends object>({
   pagination,
   columns,
+  blur,
   ...props
-}: TableProps<RecordType>) {
+}: TableProps<RecordType> & {
+  blur?: (row: RecordType, index: number) => boolean;
+}) {
   return (
     <AntTable<RecordType>
       bordered={false}
@@ -50,6 +53,13 @@ export default function Table<RecordType extends object>({
               ...pagination,
             }
       }
+      onRow={(row, index) => {
+        return {
+          className: blur?.(row, index ?? 0)
+            ? '[&_td_*]:blur-sm [&_td_*]:!opacity-100 select-none pointer-events-none'
+            : '',
+        };
+      }}
       scroll={{ x: true }}
       expandable={{
         ...props.expandable,

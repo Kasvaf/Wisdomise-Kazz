@@ -30,7 +30,7 @@ export default function InsightAlertButton({
           void alertActions.openSaveModal();
         }}
         variant="primary"
-        className={clsx('h-10 w-auto !bg-white !py-1 mobile:w-full', className)}
+        className={clsx('h-10 w-full !bg-white !py-1 mobile:w-full', className)}
         contentClassName={'flex gap-1 !text-black'}
         data-id="set-alert"
       >

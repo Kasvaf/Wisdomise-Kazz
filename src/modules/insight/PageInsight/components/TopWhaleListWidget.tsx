@@ -7,6 +7,7 @@ import { Wallet } from 'shared/Wallet';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { ProLocker } from 'shared/ProLocker';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function TopWhaleListWidget({ className }: { className?: string }) {
@@ -67,13 +68,15 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       loading={whales.isLoading}
       empty={whales.data?.results.length === 0}
     >
-      <Table
-        loading={whales.isLoading}
-        columns={columns}
-        dataSource={whales.data?.results ?? []}
-        rowKey="holder_address"
-        pagination={false}
-      />
+      <ProLocker mode="table" level={2}>
+        <Table
+          loading={whales.isLoading}
+          columns={columns}
+          dataSource={whales.data?.results ?? []}
+          rowKey="holder_address"
+          pagination={false}
+        />
+      </ProLocker>
     </OverviewWidget>
   );
 }

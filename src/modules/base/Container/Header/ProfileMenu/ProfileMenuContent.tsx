@@ -115,8 +115,12 @@ const ProfileMenuContent = () => {
           <div className="text-white/80">{t('menu.billing.title')}</div>
           <WithChevron>
             <div className="text-right">
-              <div className="text-[#34A3DA]">{subscription.title}</div>
-              {!subscription.isFreePlan && (
+              <div className="text-[#34A3DA]">
+                {subscription.levelType === 'pro'
+                  ? t('pro:pro')
+                  : t('pro:trial')}
+              </div>
+              {
                 <div>
                   <span
                     className={clsx(
@@ -129,7 +133,7 @@ const ProfileMenuContent = () => {
                     {t('menu.billing.remains')}
                   </span>
                 </div>
-              )}
+              }
             </div>
           </WithChevron>
         </NavLink>

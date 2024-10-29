@@ -1,7 +1,7 @@
-import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxBell } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
 import { type Alert, useAlerts } from 'api/alert';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
@@ -46,7 +46,7 @@ export function PriceAlertButton({
       <Button
         onClick={() => alertActions.openSaveModal()}
         variant={initialAlert.key ? 'alternative' : 'primary'}
-        className={clsx('h-10 w-auto !py-1 mobile:!px-4', className)}
+        className={clsx('h-10 w-full !py-1 mobile:!px-4', className)}
         contentClassName="flex gap-0"
         data-id="set-alert"
       >

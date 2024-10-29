@@ -293,7 +293,7 @@ export function RsiHeatmapChart({
         </div>
         <div
           className={clsx(
-            'absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-x-auto overflow-y-hidden px-6',
+            '!absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-x-auto overflow-y-hidden px-6',
           )}
         >
           {sortedData.map(row => (

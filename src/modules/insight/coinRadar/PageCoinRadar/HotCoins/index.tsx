@@ -27,7 +27,7 @@ export const HotCoins: FC<{ className?: string }> = ({ className }) => {
   const filteredSignals = useMemo(() => {
     const lowercaseQuery = searchQuery.toLowerCase();
     return (signals.data ?? [])
-      .filter(row => row.symbol_name.toLowerCase().includes(lowercaseQuery))
+      .filter(row => row.symbol_name?.toLowerCase().includes(lowercaseQuery))
       .filter(row => {
         return (
           priceChangeType === 'all' ||

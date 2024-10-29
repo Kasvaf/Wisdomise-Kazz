@@ -8,6 +8,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDuration } from 'shared/ReadableDuration';
 import Table from 'shared/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { ProLocker } from 'shared/ProLocker';
 
 export function WhaleTradesWidget({
   className,
@@ -94,12 +95,14 @@ export function WhaleTradesWidget({
       loading={whale.isLoading}
       empty={whale.data?.trading_assets?.length === 0}
     >
-      <Table
-        columns={columns}
-        dataSource={whale.data?.trading_assets ?? []}
-        rowKey={row => JSON.stringify(row.symbol)}
-        loading={whale.isLoading}
-      />
+      <ProLocker level={3} mode="table">
+        <Table
+          columns={columns}
+          dataSource={whale.data?.trading_assets ?? []}
+          rowKey={row => JSON.stringify(row.symbol)}
+          loading={whale.isLoading}
+        />
+      </ProLocker>
     </OverviewWidget>
   );
 }

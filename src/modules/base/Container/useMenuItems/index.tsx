@@ -125,6 +125,7 @@ const useMenuItems = () => {
           text: t('menu.account.title'),
           link: '/account',
           onClick: trackClick('account_menu'),
+          mobileHide: true,
           children: [
             {
               text: t('menu.overview.title'),

@@ -1,6 +1,7 @@
 import freeSrc from '../images/free.png';
 import insightSrc from '../images/insight.png';
 import investmentSrc from '../images/investment.png';
+import proSrc from '../images/pro.webp';
 interface Props {
   name: string;
 }
@@ -14,6 +15,8 @@ export default function PlanLogo({ name }: Props) {
     src = insightSrc;
   } else if (name.toLowerCase().includes('investment')) {
     src = investmentSrc;
+  } else if (name.toLowerCase().includes('pro')) {
+    src = proSrc;
   }
 
   return <img className="size-12 mobile:size-10" src={src} />;

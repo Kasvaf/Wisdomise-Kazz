@@ -11,6 +11,7 @@ import { Network } from 'shared/Network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coins } from 'shared/Coins';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { ProLocker } from 'shared/ProLocker';
 import { NetworkSelect } from './NetworkSelect';
 
 const useWhaleTopHoldersFilters = () => {
@@ -99,12 +100,15 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: t('top_whales.transfer_volume'),
+        title: [
+          t('top_whales.trading_volume.title'),
+          t('top_whales.trading_volume.info'),
+        ],
         align: 'right',
         render: (_, row) => (
           <ReadableNumber
             label="$"
-            value={row.recent_transfer_volume}
+            value={row.recent_trading_volume}
             popup="never"
           />
         ),
@@ -234,37 +238,39 @@ export function WhaleTopHoldersWidget({
         </>
       }
     >
-      <Table
-        columns={columns}
-        dataSource={whales.data?.results ?? []}
-        rowKey="holder_address"
-        loading={whales.isRefetching && !whales.isFetched}
-        pagination={{
-          total: whales.data?.count ?? 1,
-          current: page,
-          showSizeChanger: true,
-          pageSize,
-          pageSizeOptions: [5, 10, 20],
-        }}
-        onChange={(pagination, _, sorter) => {
-          setPage(pagination.current ?? 1);
-          setPageSize(pagination.pageSize ?? 5);
-          if (!Array.isArray(sorter)) {
-            setSortBy(
-              typeof sorter.field === 'string' && sorter.order
-                ? sorter.field
-                : undefined,
-            );
-            setIsAscending(
-              sorter.order === 'ascend'
-                ? true
-                : sorter.order === 'descend'
-                ? false
-                : undefined,
-            );
-          }
-        }}
-      />
+      <ProLocker level={2} mode="table">
+        <Table
+          columns={columns}
+          dataSource={whales.data?.results ?? []}
+          rowKey="holder_address"
+          loading={whales.isRefetching && !whales.isFetched}
+          pagination={{
+            total: whales.data?.count ?? 1,
+            current: page,
+            showSizeChanger: true,
+            pageSize,
+            pageSizeOptions: [5, 10, 20],
+          }}
+          onChange={(pagination, _, sorter) => {
+            setPage(pagination.current ?? 1);
+            setPageSize(pagination.pageSize ?? 5);
+            if (!Array.isArray(sorter)) {
+              setSortBy(
+                typeof sorter.field === 'string' && sorter.order
+                  ? sorter.field
+                  : undefined,
+              );
+              setIsAscending(
+                sorter.order === 'ascend'
+                  ? true
+                  : sorter.order === 'descend'
+                  ? false
+                  : undefined,
+              );
+            }
+          }}
+        />
+      </ProLocker>
     </OverviewWidget>
   );
 }

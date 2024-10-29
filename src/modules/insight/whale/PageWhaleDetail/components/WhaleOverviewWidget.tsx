@@ -117,10 +117,7 @@ export function WhaleOverviewWidget({
         />
       </StatRow>
       <StatRow label={t('whale_overview.trading_volume')}>
-        <ReadableNumber
-          value={whale.data?.total_recent_transfer_volume}
-          label="$"
-        />
+        <ReadableNumber value={whale.data?.recent_trading_volume} label="$" />
       </StatRow>
       <StatRow
         label={t('whale_overview.trading_win_rate')}

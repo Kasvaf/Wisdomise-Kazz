@@ -5,6 +5,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { Coin } from 'shared/Coin';
 import { TopTable, type TopTableColumn } from 'shared/TopTable';
+import { ProLocker } from 'shared/ProLocker';
 import { WindowHoursSelect } from '../HotCoins/WindowHoursSelect';
 
 export const TopSignals: FC<{
@@ -65,12 +66,14 @@ export const TopSignals: FC<{
         </h2>
         <WindowHoursSelect value={windowHours} onChange={setWindowHours} />
       </div>
-      <TopTable
-        dataSource={filteredSignals}
-        columns={columns}
-        rowKey={row => row.symbol_name}
-        loading={signals.isFetching && signals.isPreviousData}
-      />
+      <ProLocker mode="table" level={2}>
+        <TopTable
+          dataSource={filteredSignals}
+          columns={columns}
+          rowKey={row => row.symbol_name}
+          loading={signals.isFetching && signals.isPreviousData}
+        />
+      </ProLocker>
     </div>
   );
 };

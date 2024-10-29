@@ -11,6 +11,7 @@ export interface WhaleShort {
   network_icon_url?: string | null;
   balance_usdt?: number | null;
   recent_transfer_volume?: number | null;
+  recent_trading_volume?: number | null;
   recent_trading_pnl?: number | null;
   recent_trading_pnl_percentage?: number | null;
   recent_trading_wins?: number | null;

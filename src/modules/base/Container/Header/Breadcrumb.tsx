@@ -14,8 +14,10 @@ import { MAIN_LANDING } from 'config/constants';
 import Logo from 'assets/logo-horizontal-beta.svg';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
-import { useHasFlag } from 'api';
+import { useHasFlag, useSubscription } from 'api';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useMenuItems from '../useMenuItems';
+import { ReactComponent as ProIcon } from './pro.svg';
 
 interface Handle {
   crumb?: string | React.ReactNode | ((params: Params<string>) => string);
@@ -83,6 +85,7 @@ const Breadcrumb: React.FC<{
   className?: string;
 }> = ({ className, showSiblings, onShowSiblings }) => {
   const { pathname } = useLocation();
+  const isLoggedIn = useIsLoggedIn();
   const matches = useMatches();
   const items = matches
     .filter(x => (x.handle as Handle | undefined)?.crumb)
@@ -93,6 +96,7 @@ const Breadcrumb: React.FC<{
         title: typeof crumb === 'function' ? crumb(item.params) : crumb,
       };
     });
+  const subscription = useSubscription();
 
   const { i18n } = useTranslation();
   const { parent, child } = useRouteParent() ?? {};
@@ -110,8 +114,14 @@ const Breadcrumb: React.FC<{
     }
 
     return (
-      <a href={MAIN_LANDING(i18n.language)}>
+      <a
+        href={MAIN_LANDING(i18n.language)}
+        className="flex shrink-0 items-center gap-1"
+      >
         <img src={Logo} />
+        {subscription.levelType !== 'free' && isLoggedIn && (
+          <ProIcon className="shrink-0" />
+        )}
       </a>
     );
   }

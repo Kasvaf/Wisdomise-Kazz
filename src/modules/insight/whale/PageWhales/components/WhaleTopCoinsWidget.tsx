@@ -8,6 +8,7 @@ import { type WhaleCoinsFilter, useWhalesCoins, type WhaleCoin } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { ProLocker } from 'shared/ProLocker';
 import { CoinInfo } from './CoinInfo';
 import { NetworkSelect } from './NetworkSelect';
 
@@ -177,37 +178,39 @@ export function WhaleTopCoinsWidget({
         </>
       }
     >
-      <Table
-        columns={columns}
-        dataSource={coins.data?.results ?? []}
-        rowKey={r => JSON.stringify(r.symbol)}
-        loading={coins.isRefetching && !coins.isFetched}
-        pagination={{
-          total: coins.data?.count ?? 1,
-          current: page,
-          showSizeChanger: true,
-          pageSize,
-          pageSizeOptions: [5, 10, 20],
-        }}
-        onChange={(pagination, _, sorter) => {
-          setPage(pagination.current ?? 1);
-          setPageSize(pagination.pageSize ?? 5);
-          if (!Array.isArray(sorter)) {
-            setSortBy(
-              typeof sorter.field === 'string' && sorter.order
-                ? sorter.field
-                : undefined,
-            );
-            setIsAscending(
-              sorter.order === 'ascend'
-                ? true
-                : sorter.order === 'descend'
-                ? false
-                : undefined,
-            );
-          }
-        }}
-      />
+      <ProLocker level={2} mode="table">
+        <Table
+          columns={columns}
+          dataSource={coins.data?.results ?? []}
+          rowKey={r => JSON.stringify(r.symbol)}
+          loading={coins.isRefetching && !coins.isFetched}
+          pagination={{
+            total: coins.data?.count ?? 1,
+            current: page,
+            showSizeChanger: true,
+            pageSize,
+            pageSizeOptions: [5, 10, 20],
+          }}
+          onChange={(pagination, _, sorter) => {
+            setPage(pagination.current ?? 1);
+            setPageSize(pagination.pageSize ?? 5);
+            if (!Array.isArray(sorter)) {
+              setSortBy(
+                typeof sorter.field === 'string' && sorter.order
+                  ? sorter.field
+                  : undefined,
+              );
+              setIsAscending(
+                sorter.order === 'ascend'
+                  ? true
+                  : sorter.order === 'descend'
+                  ? false
+                  : undefined,
+              );
+            }
+          }}
+        />
+      </ProLocker>
     </OverviewWidget>
   );
 }

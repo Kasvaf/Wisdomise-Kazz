@@ -33,7 +33,9 @@ function Root() {
     });
   });
   return (
-    <Sentry.ErrorBoundary fallback={<PageError />}>
+    <Sentry.ErrorBoundary
+      fallback={x => <PageError errorObject={x} level="root" />}
+    >
       <QueryClientProvider client={queryClient}>
         <ConfigProvider
           theme={{

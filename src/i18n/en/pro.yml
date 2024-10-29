@@ -1,0 +1,27 @@
+expires-soon: Only <b>{{days}}d</b> Left in Your Trial!
+features:
+  alerts: Customized Alerts & Notifications
+  auto-trader: Wisdomise Auto Trader
+  coin-overview: Comprehensive Coin Overview
+  dashboard: Personalized Dashboard
+login-required: Login Required
+pro: Pro
+renew-modal:
+  title: Continue Your Crypto Journey<br></br>with Us!
+  description: >-
+    Continue unlocking your crypto potential with Wisdomise Pro! Here are Some
+    features available in the Pro version:
+  renew: Renew Your Pro
+  skip: Skip For Now
+trial: Trial
+trial-modal:
+  title: Welcome to Wisdomise Pro!
+  description: >-
+    Congratulations on your <b>{{days}}d Trial</b> of Wisdomise
+    Pro!<br></br>Here are Some features available in the Pro version:
+  button: Start Your Journey
+  footer: >-
+    You now have access to powerful tools designed to enhance your trading
+    experience.<br></brExplore More features and elevate your crypto game.
+unlock-with-pro: Unlock with Pro
+upgrade-now: Upgrade now

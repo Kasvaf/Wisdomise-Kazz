@@ -8,8 +8,12 @@ const subdomainPrefix = isProduction ? '' : 'stage-';
 
 export const SUPPORT_EMAIL = 'support@wisdomise.com';
 
-const makeOrigin = (name: string) =>
-  `https://${subdomainPrefix}${name}.${DOMAIN}`;
+const makeOrigin = (name: string) => {
+  if (import.meta.env.VITE_STAGE_API_PROXY === 'true') {
+    return `${window.location.origin}/${name}-proxy`;
+  }
+  return `https://${subdomainPrefix}${name}.${DOMAIN}`;
+};
 
 export const CHATAPP_ORIGIN = makeOrigin('chatapp');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
