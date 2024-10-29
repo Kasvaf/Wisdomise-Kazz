@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useEffect, useRef, useState, type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useInterval } from 'usehooks-ts';
 import { usePro } from 'modules/base/auth/ProContent/ProProvider';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
@@ -30,30 +31,39 @@ export function ProLocker({
   });
   const parentEl = useRef<HTMLDivElement>(null);
   const isLoggedIn = useIsLoggedIn();
+  const [tick, setTick] = useState(0);
+
+  useInterval(() => setTick(p => p + 1), 1000);
 
   useEffect(() => {
-    if (!parentEl.current) return;
-    setIsLoading(true);
-    const blockList = (
-      mode === 'table'
-        ? [
-            ...parentEl.current.querySelectorAll(
-              'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
-            ),
-          ]
-        : [...parentEl.current.querySelectorAll('& > *:not([aria-hidden])')]
-    ).slice(0, level ?? 1) as HTMLElement[];
-    const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
-    const bottom = Math.max(
-      ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
-    );
-    setButtonPosition({
-      top: `${top}px`,
-      height: `${bottom - top}px`,
-      active: blockList.length > 0,
-    });
-    setIsLoading(false);
-  }, [mode, level]);
+    if (!parentEl.current || tick < 0) return;
+    try {
+      setIsLoading(true);
+      const blockList = (
+        mode === 'table'
+          ? [
+              ...parentEl.current.querySelectorAll(
+                'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
+              ),
+            ]
+          : [
+              ...parentEl.current.querySelectorAll('*:not([aria-hidden])'),
+            ].filter(r => r.parentElement === parentEl.current)
+      ).slice(0, level ?? 1) as HTMLElement[];
+      const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
+      const bottom = Math.max(
+        ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
+      );
+      setButtonPosition({
+        top: `${top}px`,
+        height: `${bottom - top}px`,
+        active: blockList.length > 0,
+      });
+    } catch {
+    } finally {
+      setIsLoading(false);
+    }
+  }, [mode, level, tick]);
 
   return (
     <>
