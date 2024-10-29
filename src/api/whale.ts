@@ -95,26 +95,21 @@ export interface WhaleCoin {
 }
 export type WhaleCoinsFilter = 'all' | 'buy' | 'sell' | 'total_volume' | 'hold';
 
-export const useWhalesCoins = (
-  filters?: {
-    page: number;
-    pageSize: number;
-    sortBy?: string;
-    isAscending?: boolean;
-    networkName?: string;
-    filter?: WhaleCoinsFilter;
-    days?: number;
-  },
-  prod?: boolean,
-) =>
+export const useWhalesCoins = (filters?: {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  isAscending?: boolean;
+  networkName?: string;
+  filter?: WhaleCoinsFilter;
+  days?: number;
+}) =>
   useQuery({
     queryKey: ['whales-coins', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
       const { data } = await axios.get<PageResponse<WhaleCoin>>(
-        `${
-          prod ? 'https://temple.wisdomise.com' : TEMPLE_ORIGIN
-        }/api/v1/delphi/holders/top-coins/`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
         {
           params: {
             page_size: filters?.pageSize ?? 10,

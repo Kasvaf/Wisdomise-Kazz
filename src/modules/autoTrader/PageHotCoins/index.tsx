@@ -16,18 +16,15 @@ export default function PageHotCoins() {
     undefined,
   );
 
-  const coins = useWhalesCoins(
-    {
-      page,
-      pageSize,
-      filter: undefined,
-      sortBy,
-      isAscending,
-      networkName: 'ton',
-      days: 7,
-    },
-    true,
-  );
+  const coins = useWhalesCoins({
+    page,
+    pageSize,
+    filter: undefined,
+    sortBy,
+    isAscending,
+    networkName: 'ton',
+    days: 7,
+  });
 
   const columns = useMemo<Array<ColumnType<WhaleCoin>>>(
     () => [
