@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Table from 'shared/Table';
 import { useWhalesCoins, type WhaleCoin } from 'api';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Button from 'shared/Button';
+import PageWrapper from 'modules/base/PageWrapper';
 
 export default function PageHotCoins() {
   const [page, setPage] = useState(1);
@@ -15,6 +16,7 @@ export default function PageHotCoins() {
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
   );
+  const navigate = useNavigate();
 
   const coins = useWhalesCoins({
     page,
@@ -56,7 +58,7 @@ export default function PageHotCoins() {
   );
 
   return (
-    <div>
+    <PageWrapper loading={coins.isLoading}>
       <h1 className="py-3">TON Hot Coins</h1>
       <Table
         columns={columns}
@@ -66,7 +68,7 @@ export default function PageHotCoins() {
         pagination={{
           total: coins.data?.count ?? 1,
           current: page,
-          showSizeChanger: true,
+          showSizeChanger: false,
           pageSize,
           pageSizeOptions: [5, 10, 20],
         }}
@@ -89,9 +91,14 @@ export default function PageHotCoins() {
           }
         }}
       />
-      <Button variant="brand" className="w-full">
-        Select a Coin to Start
+
+      <Button
+        variant="brand"
+        className="fixed bottom-28 end-4 start-4 z-50"
+        onClick={() => navigate('/market/the-open-network')}
+      >
+        Start Auto Trading
       </Button>
-    </div>
+    </PageWrapper>
   );
 }

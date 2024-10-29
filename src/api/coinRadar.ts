@@ -442,7 +442,6 @@ export const useCoinList = ({
             q: q || undefined,
             network_name: networkName,
           },
-          meta: { auth: false },
         })
         .then(resp => resp.data),
   });

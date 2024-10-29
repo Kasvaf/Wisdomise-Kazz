@@ -36,11 +36,10 @@ export default function PageCoinDetail() {
             <AdvancedRealTimeChart
               hide_top_toolbar={true}
               hide_side_toolbar={true}
-              key={coinOverview.data.symbol.abbreviation}
-              symbol={coinOverview.data.symbol.abbreviation + 'USDT'}
+              symbol={`${String(coinOverview?.data.symbol.abbreviation)}USDT`}
               theme="dark"
               width="100%"
-              height={400}
+              height={360}
             />
           )}
           <Button
