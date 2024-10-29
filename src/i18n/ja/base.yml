@@ -23,7 +23,7 @@ menu:
     title: アカウント
   ai-indicators:
     subtitle: このページでは、指標に基づいて購入または販売する暗号通貨を見つける方法について説明します。
-    title: AIインジケーター
+    title: テクニカルレーダー
   alerts:
     full-title: 通知とアラート
     subtitle: "リアルタイムアラートで先手を打つ: お気に入りの暗号通貨に通知を設定して、市場の動きを見逃さないようにしましょう!"
@@ -75,7 +75,7 @@ menu:
   home:
     title: 家
   hot-coins:
-    title: ホットコイン
+    title: ソーシャルレーダー
   insight:
     full-title: AIを活用したマーケットアルファ
     subtitle: 暗号通貨のソーシャル インサイト、クジラのインサイト、市場指標に、シンプルでわかりやすい情報としてアクセスします。
@@ -143,7 +143,7 @@ menu:
   whales:
     full-title: クジラの分析
     subtitle: トップの暗号通貨クジラ、その取引、損益、取引量などを調べる
-    title: スマートクジラ
+    title: クジラレーダー
 mobile-menu:
   close: 閉じる
   open: メニュー

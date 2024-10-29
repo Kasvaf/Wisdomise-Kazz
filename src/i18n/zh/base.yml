@@ -22,7 +22,7 @@ menu:
     title: 帳戶
   ai-indicators:
     subtitle: 資產
-    title: 人工智慧指標
+    title: 技术雷达
   alerts:
     full-title: 通知和警报
     subtitle: 通过实时警报保持领先：设置您最喜欢的加密货币的通知，永远不会错过市场动向！
@@ -74,7 +74,7 @@ menu:
   home:
     title: 主頁
   hot-coins:
-    title: 热门硬币
+    title: 社交雷达
   insight:
     full-title: 利用人工智能实现市场 Alpha
     subtitle: 獲取戰略性加密投資的實時見解
@@ -142,7 +142,7 @@ menu:
   whales:
     full-title: 鲸鱼分析
     subtitle: 探索頂級加密巨鯨，他們的交易、損益、交易量以及更多
-    title: 巨鯨分析
+    title: 鲸鱼雷达
 mobile-menu:
   close: 關閉
   open: 菜單

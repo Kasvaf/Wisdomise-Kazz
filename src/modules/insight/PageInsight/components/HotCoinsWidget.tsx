@@ -32,7 +32,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         render: (_, row) => <Coin coin={row.symbol} />,
       },
       {
-        colSpan: hasFlag('/insight/coin-radar?side-suggestion') ? 1 : 0,
+        colSpan: hasFlag('/coin-radar/social-radar?side-suggestion') ? 1 : 0,
         title: t('hot-coins-section.table.sentiment'),
         render: (_, row) => <SignalSentiment signal={row} />,
       },
@@ -77,7 +77,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
     [t, hasFlag],
   );
 
-  if (!hasFlag('/insight/coin-radar')) return null;
+  if (!hasFlag('/coin-radar/social-radar')) return null;
 
   return (
     <OverviewWidget
@@ -87,7 +87,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           <RealtimeBadge className="animate-pulse" />
         </>
       }
-      headerActions={<SeeMoreLink to="/insight/coin-radar" />}
+      headerActions={<SeeMoreLink to="/coin-radar/social-radar" />}
       className={clsx('min-h-[548px]', className)}
       loading={signals.isLoading}
       empty={signals.data?.length === 0}

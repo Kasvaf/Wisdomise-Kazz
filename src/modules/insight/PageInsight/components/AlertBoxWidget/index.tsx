@@ -8,7 +8,7 @@ import InsightAlertButton from './AlertButton';
 export function AlertBoxWidget({ className }: { className?: string }) {
   const { t } = useTranslation('notifications');
   const hasFlag = useHasFlag();
-  if (!hasFlag('/insight/coin-radar')) return null;
+  if (!hasFlag('/coin-radar/social-radar')) return null;
   return (
     <OverviewWidget
       className={clsx(
