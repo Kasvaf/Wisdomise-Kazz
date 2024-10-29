@@ -6,6 +6,7 @@ const OneTapLogin = () => {
   const { mutateAsync } = useGoogleLoginMutation();
   useGoogleOneTapLogin({
     use_fedcm_for_prompt: true,
+    cancel_on_tap_outside: false,
     onSuccess: ({ credential }) => {
       if (credential) {
         return mutateAsync({
