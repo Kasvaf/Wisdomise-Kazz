@@ -2,10 +2,17 @@ import { bxRefresh, bxsFaceMask } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { clsx } from 'clsx';
+import type * as Sentry from '@sentry/react';
 import Icon from 'shared/Icon';
 import { ReactComponent as ErrorUndraw } from './undraw.svg';
 
-export default function PageError(props: unknown) {
+export default function PageError({
+  errorObject,
+  level,
+}: {
+  errorObject?: Parameters<Sentry.FallbackRender>[0];
+  level?: 'root' | 'router';
+}) {
   const { t } = useTranslation('base');
   const [devCount, setDevCount] = useState(0);
   const isDev = devCount >= 7;
@@ -13,12 +20,13 @@ export default function PageError(props: unknown) {
   const handleClick = () => {
     if (isDev) {
       if (
-        typeof props === 'object' &&
-        props &&
-        'error' in props &&
-        props?.error instanceof Error
+        typeof errorObject === 'object' &&
+        errorObject &&
+        'error' in errorObject &&
+        errorObject?.error instanceof Error
       ) {
-        throw props.error;
+        console.log('ERROR', level, errorObject);
+        throw errorObject.error;
       }
     } else {
       window.location.reload();
