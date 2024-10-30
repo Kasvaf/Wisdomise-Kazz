@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import TelegramContainer from 'modules/autoTrader/TelegramContainer';
 import { TelegramLayout } from 'modules/autoTrader/TelegramLayout';
+import GameAuthGuard from 'modules/autoTrader/GameAuthGuard';
 
 const PageOnboarding = React.lazy(
   () => import('../../autoTrader/PageOnboarding'),
@@ -27,7 +28,7 @@ const useMiniAppRoutes = () => {
       element: <TelegramContainer />,
       path: '',
       children: [
-        { path: '', element: <Navigate to="hot-coins" /> },
+        { path: '', element: <Navigate to="onboarding" /> },
         {
           path: 'onboarding',
           element: <PageOnboarding />,
@@ -38,7 +39,11 @@ const useMiniAppRoutes = () => {
           children: [
             {
               path: 'claim-reward',
-              element: <PageClaimReward />,
+              element: (
+                <GameAuthGuard>
+                  <PageClaimReward />
+                </GameAuthGuard>
+              ),
             },
             {
               path: 'hot-coins',
