@@ -9,11 +9,12 @@ import { useCoinOverview } from 'api';
 import DurationInput from '../DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import { type SignalFormState } from './useSignalFormStates';
+import AIPresets from './AIPressets';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
   assetName: string;
-}> = ({ data }) => {
+}> = ({ data, assetName }) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -89,6 +90,10 @@ const PartOpen: React.FC<{
         suffix="USDT"
         className="mb-3"
       />
+
+      <AIPresets data={data} assetName={assetName} />
+
+      <div className="my-4 border-b border-white/5" />
 
       <PriceVolumeInput
         price={
