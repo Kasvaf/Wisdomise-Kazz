@@ -228,7 +228,7 @@ interface MiniAppLoginResponse {
 
 export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
   return useQuery(
-    ['gameLogin', query],
+    ['gameLogin', query, quickLogin],
     async () => {
       const { data } = await axios.get<MiniAppLoginResponse>(
         `${TEMPLE_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
