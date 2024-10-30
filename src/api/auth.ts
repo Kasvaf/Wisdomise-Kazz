@@ -97,6 +97,7 @@ export function useMiniAppLoginQuery(query?: string) {
         }`,
         {
           meta: { auth: false },
+          withCredentials: true,
         },
       );
 
