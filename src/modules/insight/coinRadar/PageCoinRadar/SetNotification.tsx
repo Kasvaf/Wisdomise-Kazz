@@ -6,6 +6,7 @@ import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import Button from 'shared/Button';
+import { gtmClass } from 'utils/gtmClass';
 import { NotifIsSetIcon, NotificationIcon } from './assets';
 
 export default function SetNotification({ className }: { className?: string }) {
@@ -36,13 +37,13 @@ export default function SetNotification({ className }: { className?: string }) {
           });
           void alertActions.save();
         }}
-        data-id="set-alert"
         variant="primary"
         className={clsx(
           'h-10 w-auto !py-1 mobile:w-full',
           isSubscribed || isLoading ? '!bg-white/10' : '!bg-white',
           isLoading && 'animate-pulse',
           className,
+          gtmClass('set-alert'),
         )}
         contentClassName={clsx(
           'flex gap-1',

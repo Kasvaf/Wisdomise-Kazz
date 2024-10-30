@@ -12,6 +12,7 @@ import {
 } from 'api/alert';
 import { Toggle } from 'shared/Toggle';
 import Icon from 'shared/Icon';
+import { gtmClass } from 'utils/gtmClass';
 import { IntervalSelect } from '../IntervalSelect';
 import { AlertChannelsSelect } from '../AlertChannelsSelect';
 import { FormControlWithLabel } from '../FormControlWithLabel';
@@ -154,10 +155,12 @@ export function NotifacationForm<
           <div>
             <Button
               variant="primary"
-              className="mt-6 w-full grow"
+              className={clsx(
+                'mt-6 w-full grow',
+                gtmClass('submit price-alert'),
+              )}
               loading={loading}
               disabled={loading || !alertFormAsMarketData.formState.isValid}
-              data-id="submit_price-alert"
             >
               {t('common.set-alert')}
               <Icon name={bxBell} className="ms-2" />
@@ -195,10 +198,12 @@ export function NotifacationForm<
           <div>
             <Button
               variant="primary"
-              className="mt-6 w-full grow"
+              className={clsx(
+                'mt-6 w-full grow',
+                gtmClass('submit coin-radar-alert'),
+              )}
               loading={loading}
               disabled={loading || !alertFormAsCoinRadarNotif.formState.isValid}
-              data-id="submit_coin-radar-alert"
             >
               {t('common.save-alert')}
               <Icon name={bxBell} className="ms-2" />

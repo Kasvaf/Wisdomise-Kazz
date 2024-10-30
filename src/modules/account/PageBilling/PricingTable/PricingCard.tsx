@@ -9,6 +9,7 @@ import Icon from 'shared/Icon';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { useLockingRequirementQuery } from 'api/defi';
 import Button from 'shared/Button';
+import { gtmClass } from 'utils/gtmClass';
 import { ReactComponent as Check } from '../images/check.svg';
 import starts from '../images/stars.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
@@ -226,8 +227,8 @@ export default function PricingCard({
               'w-full !text-base',
               (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
                 '!cursor-default !text-white',
+              gtmClass(`buy-now ${plan.periodicity} ${plan.name}`),
             )}
-            data-id={`buy-now_${plan.periodicity.toLowerCase()}_${plan.name.toLowerCase()}`}
           >
             <div className="flex items-center justify-center gap-2">
               {plan.is_active
