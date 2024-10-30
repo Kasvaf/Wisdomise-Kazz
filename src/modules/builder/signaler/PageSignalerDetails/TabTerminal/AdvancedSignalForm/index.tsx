@@ -1,8 +1,11 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useTonConnectUI } from '@tonconnect/ui-react';
+import { notification } from 'antd';
 import { type FullPosition } from 'api/builder';
 import Button from 'shared/Button';
+import { useHasFlag } from 'api';
+import { useWaitlistMutation } from 'api/gamification';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
@@ -24,6 +27,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
   className,
 }) => {
   const { t } = useTranslation('builder');
+  const hasFlag = useHasFlag();
   const [tonConnectUI] = useTonConnectUI();
   const {
     isUpdate: [isUpdate],
@@ -48,19 +52,19 @@ const AdvancedSignalForm: React.FC<Props> = ({
     activePosition,
   });
 
-  // const { mutateAsync, isLoading } = useWaitlistMutation();
-  // const joinWaitList = async () => {
-  //   await mutateAsync();
-  //   notification.success({
-  //     message: (
-  //       <p>
-  //         <strong className="font-bold">Success!</strong> You’ve joined the
-  //         waitlist. We’ll notify you when Autotrader is ready.
-  //       </p>
-  //     ),
-  //     description: '',
-  //   });
-  // };
+  const { mutateAsync, isLoading } = useWaitlistMutation();
+  const joinWaitList = async () => {
+    await mutateAsync();
+    notification.success({
+      message: (
+        <p>
+          <strong className="font-bold">Success!</strong> You’ve joined the
+          waitlist. We’ll notify you when Autotrader is ready.
+        </p>
+      ),
+      description: '',
+    });
+  };
 
   // ======================================================================
 
@@ -92,19 +96,32 @@ const AdvancedSignalForm: React.FC<Props> = ({
             {t('signal-form.btn-close')}
           </Button>
         </>
-      ) : tonConnectUI.connected ? (
-        <Button
-          variant="brand"
-          onClick={fireHandler}
-          loading={isSubmitting}
-          disabled={!isEnabled}
-        >
-          {t('signal-form.btn-fire-signal')}
-        </Button>
+      ) : hasFlag('/open-position') ? (
+        tonConnectUI.connected ? (
+          <Button
+            variant="brand"
+            onClick={fireHandler}
+            loading={isSubmitting}
+            disabled={!isEnabled}
+          >
+            {t('signal-form.btn-fire-signal')}
+          </Button>
+        ) : (
+          <Button variant="brand" onClick={() => tonConnectUI.openModal()}>
+            Connect Wallet
+          </Button>
+        )
       ) : (
-        <Button variant="brand" onClick={() => tonConnectUI.openModal()}>
-          Connect Wallet
-        </Button>
+        <div>
+          <Button
+            variant="brand"
+            loading={isLoading}
+            className="w-full"
+            onClick={() => joinWaitList()}
+          >
+            Join Waitlist
+          </Button>
+        </div>
       )}
 
       {ModalConfirm}

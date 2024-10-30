@@ -226,7 +226,7 @@ interface MiniAppLoginResponse {
   token: string;
 }
 
-export function useGameLoginQuery(query?: string) {
+export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
   return useQuery(
     ['gameLogin', query],
     async () => {
@@ -237,13 +237,15 @@ export function useGameLoginQuery(query?: string) {
         },
       );
 
-      setJwtToken(data.token);
+      if (!quickLogin) {
+        setJwtToken(data.token);
+      }
       return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
       refetchOnMount: true,
-      enabled: !!query,
+      enabled: !!query && !quickLogin,
     },
   );
 }
