@@ -10,6 +10,7 @@ import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods
 import { useLockingRequirementQuery } from 'api/defi';
 import Button from 'shared/Button';
 import { gtmClass } from 'utils/gtmClass';
+import { isProduction } from 'utils/version';
 import { ReactComponent as Check } from '../images/check.svg';
 import starts from '../images/stars.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
@@ -176,7 +177,7 @@ export default function PricingCard({
           )}
         </div>
 
-        {plan.price !== 0 && (
+        {!isProduction && plan.price !== 0 && (
           <div className="mt-6 flex items-center justify-center rounded-lg bg-[#05010966] py-4 text-xs text-white/70">
             <Trans ns="billing" i18nKey="pricing-card.pay-by-wsdm">
               Pay In
