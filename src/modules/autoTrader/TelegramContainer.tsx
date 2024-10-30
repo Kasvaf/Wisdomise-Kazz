@@ -4,7 +4,6 @@ import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Outlet } from 'react-router-dom';
 import { TelegramProvider } from 'modules/autoTrader/TelegramProvider';
 import TelegramAuthGuard from 'modules/autoTrader/TelegramAuthGuard';
-import WalletGuard from 'modules/autoTrader/WalletGuard';
 
 // required for using @ton/core
 window.Buffer = Buffer;
@@ -24,9 +23,7 @@ export default function TelegramContainer() {
               twaReturnUrl: AUTOTRADER_MINIAPP,
             }}
           >
-            <WalletGuard>
-              <Outlet />
-            </WalletGuard>
+            <Outlet />
           </TonConnectUIProvider>
         </TelegramAuthGuard>
       </TelegramProvider>
