@@ -11,8 +11,7 @@ import bg from './bg.png';
 
 export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   const { webApp } = useTelegram();
-  const query =
-    'query_id=AAFRJrwCAAAAAFEmvALEYfE3&user=%7B%22id%22%3A45885009%2C%22first_name%22%3A%22Majid%22%2C%22last_name%22%3A%22Pouramini%22%2C%22username%22%3A%22MJD77%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1720890712&hash=c49cf126ac04720798595c89775f5ce632c5724029427fbb2d90cc9a3c45e86d';
+  const query = import.meta.env.VITE_CUSTOM_QUERY;
 
   const { data: isLoggedIn } = useMiniAppLoginQuery(
     isLocal ? query : webApp?.initData,
