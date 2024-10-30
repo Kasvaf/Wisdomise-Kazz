@@ -1,3 +1,4 @@
+import { isMiniApp } from 'utils/version';
 import { useAccountQuery } from './account';
 
 export function useSubscription() {
@@ -9,6 +10,7 @@ export function useSubscription() {
   const planName = plan?.name || 'none';
 
   const levelType: 'free' | 'trial' | 'pro' = (() => {
+    if (isMiniApp) return 'pro';
     if (plan?.level === 0) return 'free';
     if (status === 'trialing') return 'trial';
     return 'pro';
