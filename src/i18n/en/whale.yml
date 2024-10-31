@@ -87,6 +87,7 @@ top_coins:
   title: Top Tokens Chosen by Whales
   buy_volume:
     title: Buy Volume
+    avg: Avg per buy
     info: >-
       The total volume bought from smart wallets and total wallet in the last
       7D.
@@ -100,6 +101,7 @@ top_coins:
     info: The current price, fully diluted Market Cap, and Circulating Supply.
   sell_volume:
     title: Sell Volume
+    avg: Avg per sell
     info: The total volume sold from smart wallets and total wallet in the last 7D.
   sells:
     title: Sells
