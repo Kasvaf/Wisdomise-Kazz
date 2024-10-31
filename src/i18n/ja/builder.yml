@@ -69,6 +69,10 @@ fp:
     positions: ポジション
     product-builder: 製品ビルダー
     usage: 使用法
+info:
+  safety-open: エントリー価格を平均化するために、より低い価格で追加の購入注文を追加します。
+  stop-loss: 販売する最低価格を設定し、潜在的な損失を自動的に制限します。
+  take-profit: 目標価格を設定し、自動的に売却して利益を確保します。
 multi-coin-selector:
   add-coin: コインを追加
 notif-saved-successfully: 変更が正常に保存されました。
@@ -159,7 +163,8 @@ signal-form:
   notif-success-close: ポジションは正常にクローズされました。
   notif-success-fire: 信号は正常に発射されました。
   notif-success-update: 位置が正常に更新されました。
-  open: オープン
+  open:
+    title: オープン
   order-expiration-time:
     info-text: 指値注文の実行に時間制限を設定します。この時間までに注文が約定しない場合は、自動的にキャンセルされます。
     info-title: 注文有効期限

@@ -6,6 +6,7 @@ import { roundDown } from 'utils/numbers';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { useCoinOverview } from 'api';
+import InfoButton from 'shared/InfoButton';
 import PriceVolumeInput from './PriceVolumeInput';
 import { type SignalFormState } from './useSignalFormStates';
 
@@ -51,7 +52,10 @@ const PartSafetyOpen: React.FC<{
   return (
     <div>
       <div className="mb-2 flex justify-between">
-        <h1>{t('signal-form.safety-open.title')}</h1>
+        <h1 className="flex items-center gap-1">
+          {t('signal-form.safety-open.title')}{' '}
+          <InfoButton text={t('info.safety-open')} />
+        </h1>
         {!Number.isNaN(effectivePrice) && !Number.isNaN(remainingVolume) && (
           <Button
             variant="alternative"

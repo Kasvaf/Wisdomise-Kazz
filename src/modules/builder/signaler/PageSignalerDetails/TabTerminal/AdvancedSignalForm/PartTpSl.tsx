@@ -5,6 +5,7 @@ import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { roundDown } from 'utils/numbers';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import InfoButton from 'shared/InfoButton';
 import { sortTpSlItems, type SignalFormState } from './useSignalFormStates';
 import PriceVolumeInput from './PriceVolumeInput';
 
@@ -61,10 +62,13 @@ const PartTpSl: React.FC<{
   return (
     <div>
       <div className="mb-2 flex justify-between">
-        <h1>
+        <h1 className="flex items-center gap-1">
           {type === 'TP'
             ? t('signal-form.take-profit')
             : t('signal-form.stop-loss')}
+          <InfoButton
+            text={type === 'TP' ? t('info.take-profit') : t('info.stop-loss')}
+          />
         </h1>
 
         {!Number.isNaN(effectivePrice) && (

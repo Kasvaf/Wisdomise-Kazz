@@ -69,6 +69,10 @@ fp:
     positions: 位置
     product-builder: 產品構建器
     usage: 用量
+info:
+  safety-open: 以较低的价格添加额外的买单，以平均降低您的入场价格。
+  stop-loss: 设定最低销售价格并自动限制潜在损失。
+  take-profit: 设定目标价格自动销售并确保利润。
 multi-coin-selector:
   add-coin: 添加幣種
 notif-saved-successfully: 更改已成功保存。
@@ -162,7 +166,8 @@ signal-form:
   notif-success-close: 倉位成功關閉。
   notif-success-fire: 信號成功發送。
   notif-success-update: 倉位成功更新。
-  open: 开仓
+  open:
+    title: 开仓
   order-expiration-time:
     info-text: 為限價單的執行設置時間限制。如果訂單在此時間內未完成，則自動取消。
     info-title: 訂單到期時間
