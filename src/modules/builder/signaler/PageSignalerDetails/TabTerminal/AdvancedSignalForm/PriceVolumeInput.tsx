@@ -79,14 +79,9 @@ const PriceVolumeInput: React.FC<{
   const disPrc = !!appliedAt || disabledPrice;
 
   return (
-    <div>
+    <div className={clsx('w-full', className)}>
       {label && <label className="mb-2 ml-2 block">{label}</label>}
-      <div
-        className={clsx(
-          'flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2',
-          className,
-        )}
-      >
+      <div className="flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2">
         <InternalInput
           value={disVol ? roundSensible(volume) : volume}
           onChange={onVolumeChange}
