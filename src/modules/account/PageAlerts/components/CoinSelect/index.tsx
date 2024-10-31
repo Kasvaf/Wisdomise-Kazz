@@ -7,15 +7,15 @@ import { Coin } from 'shared/Coin';
 import type { Coin as CoinType } from 'api/types/shared';
 import Spin from 'shared/Spin';
 
-export const CoinSelect: FC<SelectProps<string>> = ({
-  value,
-  className,
-  disabled,
-  ...props
-}) => {
+export const CoinSelect: FC<
+  SelectProps<string> & {
+    networkName?: string;
+    filterTokens?: (item: string) => boolean;
+  }
+> = ({ value, className, disabled, networkName, filterTokens, ...props }) => {
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
-  const coinList = useCoinList({ q });
+  const coinList = useCoinList({ q, networkName });
 
   const coin = useCoinOverview({ slug: value ?? 'tether' });
 
@@ -51,12 +51,14 @@ export const CoinSelect: FC<SelectProps<string>> = ({
         ) : undefined
       }
       options={
-        coins.map(coin => ({
-          label: (
-            <Coin coin={coin} nonLink mini className="!p-0 align-middle" />
-          ),
-          value: coin.slug,
-        })) ?? []
+        coins
+          .filter(x => (filterTokens ? filterTokens(x.slug ?? '') : true))
+          .map(coin => ({
+            label: (
+              <Coin coin={coin} nonLink mini className="!p-0 align-middle" />
+            ),
+            value: coin.slug,
+          })) ?? []
       }
       {...props}
     />

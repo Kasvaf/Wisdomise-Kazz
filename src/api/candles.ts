@@ -68,3 +68,8 @@ export const useRecentCandlesQuery = (
     endDateTime: useMemo(() => new Date().toISOString(), []),
     market,
   });
+
+export interface LastPrice {
+  price: number;
+  volume: number;
+}

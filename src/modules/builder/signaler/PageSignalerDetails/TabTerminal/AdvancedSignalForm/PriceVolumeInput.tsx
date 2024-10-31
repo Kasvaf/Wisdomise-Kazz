@@ -15,8 +15,15 @@ const InternalInput: React.FC<{
   const [ref, setRef] = useState<HTMLInputElement | null>(null);
   const resize = () => {
     if (ref) {
+      ref.style.setProperty('overflow-x', 'scroll', 'important');
       ref.style.width = '1px';
-      ref.style.width = `${ref.scrollWidth}px`;
+      ref.style.width = `${Math.max(
+        ref.scrollWidth,
+        127 +
+          10 * value.replaceAll('1', '').length +
+          5 * value.replaceAll(/[^1]/g, '').length,
+      )}px`;
+      ref.style.removeProperty('overflow-x');
     }
   };
   useEffect(resize, [ref, value]);

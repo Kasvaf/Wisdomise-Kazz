@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { delJwtToken, setJwtToken } from 'modules/base/auth/jwt-store';
 
@@ -85,6 +85,30 @@ export function useGoogleLoginMutation() {
       return false;
     }
   });
+}
+
+export function useMiniAppLoginQuery(query?: string) {
+  return useQuery(
+    ['miniAppLogin', query],
+    async () => {
+      const { data } = await axios.get<SuccessResponse>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/mini-app-login/?${
+          query || ''
+        }`,
+        {
+          meta: { auth: false },
+          withCredentials: true,
+        },
+      );
+
+      await refreshAccessToken();
+      return data.message === 'ok';
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+      enabled: !!query,
+    },
+  );
 }
 
 export function useLogoutMutation() {
