@@ -28,6 +28,7 @@ export default function PageCoinDetail() {
           className="w-full"
           filterTokens={x => x !== 'tether'}
           value={slug}
+          showPrice
           onChange={selectedSlug => navigate(`/hot-coins/${selectedSlug}`)}
         />
       </div>

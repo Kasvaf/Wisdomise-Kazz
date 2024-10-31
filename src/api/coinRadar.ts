@@ -406,6 +406,7 @@ export const useCoinOverview = ({
           meta: { auth: false },
         })
         .then(resp => resp.data),
+    refetchInterval: 10 * 1000,
   });
 
 export interface TrendingCoin {
