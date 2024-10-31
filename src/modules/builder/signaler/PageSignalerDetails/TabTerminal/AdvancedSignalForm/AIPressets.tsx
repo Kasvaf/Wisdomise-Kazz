@@ -8,6 +8,8 @@ import {
 } from 'api/ai-presets';
 import { type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
+import { ReactComponent as StarIcon } from './StarIcon.svg';
+import GradientBG from './GradientBG.svg';
 
 const orderToOrder = (x: OrderPresetItem) => ({
   amountRatio: String(x.amount * 100),
@@ -60,10 +62,16 @@ const AIPresets: React.FC<{
   };
 
   return (
-    <div className="rounded-xl bg-v1-surface-l2 p-3">
-      <div className="mb-4 flex items-center gap-2">
-        <LogoIcon className="h-6 w-6" />
-        <div className="text-xs font-normal">Wisdomise AI Preset</div>
+    <div
+      className="overflow-hidden rounded-xl bg-v1-surface-l2 bg-cover p-3"
+      style={{ backgroundImage: `url(${GradientBG})` }}
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <LogoIcon className="h-6 w-6" />
+          <div className="text-xs font-normal">Wisdomise AI Preset</div>
+        </div>
+        <StarIcon />
       </div>
 
       <div className="flex items-center justify-between">
