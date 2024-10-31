@@ -96,6 +96,7 @@ const PartOpen: React.FC<{
       <div className="my-4 border-b border-white/5" />
 
       <PriceVolumeInput
+        label="Open"
         price={
           orderType === 'market' && !isUpdate
             ? assetPrice === undefined
