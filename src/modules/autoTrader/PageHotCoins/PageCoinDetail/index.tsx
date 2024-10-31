@@ -26,6 +26,7 @@ export default function PageCoinDetail() {
         <CoinSelect
           networkName="ton"
           className="w-full"
+          filterTokens={x => x !== 'tether'}
           value={slug}
           onChange={selectedSlug => navigate(`/hot-coins/${selectedSlug}`)}
         />
