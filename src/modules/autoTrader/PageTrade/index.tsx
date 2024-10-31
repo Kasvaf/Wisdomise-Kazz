@@ -30,6 +30,7 @@ export default function PageTrade() {
           networkName="ton"
           className="w-full"
           filterTokens={x => x !== 'tether'}
+          showPrice
           value={slug}
           onChange={selectedSlug => navigate(`/market/${selectedSlug}`)}
         />
