@@ -28,7 +28,7 @@ const useMiniAppRoutes = () => {
       element: <TelegramContainer />,
       path: '',
       children: [
-        { path: '', element: <Navigate to="onboarding" /> },
+        { path: '', element: <Navigate to="hot-coins" /> },
         {
           path: 'onboarding',
           element: <PageOnboarding />,

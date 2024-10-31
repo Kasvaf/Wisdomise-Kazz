@@ -1,5 +1,6 @@
-import { type PropsWithChildren, useEffect } from 'react';
+import { type PropsWithChildren, useEffect, useState } from 'react';
 import * as Sentry from '@sentry/react';
+import { useNavigate } from 'react-router-dom';
 import { useTelegram } from 'modules/autoTrader/TelegramProvider';
 import { isLocal } from 'utils/version';
 import loading from 'modules/autoTrader/loading.png';
@@ -15,15 +16,21 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   const { data: isLoggedIn } = useMiniAppLoginQuery(
     isLocal ? query : webApp?.initData,
   );
+  const navigate = useNavigate();
+  const [navigated, setNavigated] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !navigated) {
+      if (!localStorage.getItem('done_onboarding')) {
+        navigate('/onboarding');
+        setNavigated(true);
+      }
       Sentry.setUser({
         id: String(webApp?.initDataUnsafe.user?.id),
         username: webApp?.initDataUnsafe.user?.username,
       });
     }
-  }, [isLoggedIn, webApp?.initDataUnsafe.user]);
+  }, [isLoggedIn, webApp?.initDataUnsafe.user, navigated, navigate]);
 
   return isLoggedIn ? (
     <div>{children}</div>
