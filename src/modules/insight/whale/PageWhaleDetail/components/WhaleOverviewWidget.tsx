@@ -123,7 +123,10 @@ export function WhaleOverviewWidget({
           />
         </StatRow>
       )}
-      <StatRow label={t('whale_overview.trading_volume')}>
+      <StatRow
+        label={t('whale_overview.trading_volume')}
+        info={t('top_whales.trading_volume.info')}
+      >
         <ReadableNumber value={whale.data?.recent_trading_volume} label="$" />
       </StatRow>
       {hasFlag('/coin-radar/whale-radar?win_lose') && (
@@ -157,10 +160,16 @@ export function WhaleOverviewWidget({
           </div>
         </StatRow>
       )}
-      <StatRow label={t('whale_overview.trading_tokens')}>
+      <StatRow
+        label={t('whale_overview.trading_tokens.title')}
+        info={t('whale_overview.trading_tokens.info')}
+      >
         {whale.data?.trading_assets.length}
       </StatRow>
-      <StatRow label={t('whale_overview.holding_tokens')}>
+      <StatRow
+        label={t('whale_overview.holding_tokens.title')}
+        info={t('whale_overview.holding_tokens.info')}
+      >
         {whale.data?.holding_assets.length}
       </StatRow>
     </OverviewWidget>
