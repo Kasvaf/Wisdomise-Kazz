@@ -6,6 +6,7 @@ import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { useCoinOverview } from 'api';
+import Spinner from 'shared/Spinner';
 
 export default function PageTrade() {
   const formState = useSignalFormStates();
@@ -13,6 +14,7 @@ export default function PageTrade() {
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
   const coinOverview = useCoinOverview({ slug });
+  const abbr = coinOverview?.data?.symbol.abbreviation;
 
   return (
     <div>
@@ -32,12 +34,21 @@ export default function PageTrade() {
           onChange={selectedSlug => navigate(`/market/${selectedSlug}`)}
         />
       </div>
-      <AdvancedSignalForm
-        assetName={`${coinOverview?.data?.symbol.abbreviation ?? ''}USDT`}
-        activePosition={undefined}
-        className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
-        formState={formState}
-      />
+
+      {coinOverview.isLoading && (
+        <div className="my-8 flex justify-center">
+          <Spinner />
+        </div>
+      )}
+
+      {abbr && (
+        <AdvancedSignalForm
+          assetName={`${abbr ?? ''}USDT`}
+          activePosition={undefined}
+          className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
+          formState={formState}
+        />
+      )}
     </div>
   );
 }
