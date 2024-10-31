@@ -8,11 +8,8 @@ import './style.css';
 export default function Table<RecordType extends object>({
   pagination,
   columns,
-  blur,
   ...props
-}: TableProps<RecordType> & {
-  blur?: (row: RecordType, index: number) => boolean;
-}) {
+}: TableProps<RecordType>) {
   return (
     <AntTable<RecordType>
       bordered={false}
@@ -22,24 +19,24 @@ export default function Table<RecordType extends object>({
         ?.filter(col => col.colSpan !== 0)
         .map(col => ({
           ...col,
-          title: Array.isArray(col.title) ? (
+          title: (
             <span className="inline-flex items-center gap-1">
-              <span>{col.title[0]}</span>
-              <Tooltip
-                color="#151619"
-                overlayInnerStyle={{
-                  padding: '0.75rem',
-                  fontSize: '0.8rem',
-                  fontFamily: 'monospace',
-                }}
-                title={col.title[1]}
-                overlayClassName="pointer-events-none"
-              >
-                <Icon name={bxInfoCircle} size={16} strokeWidth={0.5} />
-              </Tooltip>
+              {Array.isArray(col.title) ? col.title[0] : col.title}
+              {Array.isArray(col.title) && col.title[1] && (
+                <Tooltip
+                  color="#151619"
+                  overlayInnerStyle={{
+                    padding: '0.75rem',
+                    fontSize: '0.8rem',
+                    fontFamily: 'monospace',
+                  }}
+                  title={col.title[1]}
+                  overlayClassName="pointer-events-none"
+                >
+                  <Icon name={bxInfoCircle} size={16} strokeWidth={0.5} />
+                </Tooltip>
+              )}
             </span>
-          ) : (
-            col.title
           ),
         }))}
       pagination={
@@ -53,13 +50,6 @@ export default function Table<RecordType extends object>({
               ...pagination,
             }
       }
-      onRow={(row, index) => {
-        return {
-          className: blur?.(row, index ?? 0)
-            ? '[&_td_*]:blur-sm [&_td_*]:!opacity-100 select-none pointer-events-none'
-            : '',
-        };
-      }}
       scroll={{ x: true }}
       expandable={{
         ...props.expandable,
