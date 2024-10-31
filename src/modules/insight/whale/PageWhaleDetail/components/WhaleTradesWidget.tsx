@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
-import { type SingleWhale, useWhaleDetails } from 'api';
+import { type SingleWhale, useHasFlag, useWhaleDetails } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -9,6 +9,7 @@ import { ReadableDuration } from 'shared/ReadableDuration';
 import Table from 'shared/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ProLocker } from 'shared/ProLocker';
+import BetaVersion from 'shared/BetaVersion';
 
 export function WhaleTradesWidget({
   className,
@@ -20,6 +21,7 @@ export function WhaleTradesWidget({
   networkName: string;
 }) {
   const { t } = useTranslation('whale');
+  const hasFlag = useHasFlag();
   const whale = useWhaleDetails({
     holderAddress,
     networkName,
@@ -41,7 +43,13 @@ export function WhaleTradesWidget({
         ),
       },
       {
-        title: t('whale_trades.trading_pnl'),
+        title: (
+          <span className="flex items-center gap-1">
+            {t('whale_trades.trading_pnl')}
+            <BetaVersion variant="beta" minimal />
+          </span>
+        ),
+        colSpan: hasFlag('/coin-radar/whale-radar?trading_pnl') ? 1 : 0,
         render: (_, row) => (
           <DirectionalNumber
             value={row.recent_trading_pnl}
@@ -52,7 +60,13 @@ export function WhaleTradesWidget({
         ),
       },
       {
-        title: t('whale_trades.returns'),
+        title: (
+          <span className="flex items-center gap-1">
+            {t('whale_trades.returns')}
+            <BetaVersion variant="beta" minimal />
+          </span>
+        ),
+        colSpan: hasFlag('/coin-radar/whale-radar?trading_pnl') ? 1 : 0,
         render: (_, row) => (
           <DirectionalNumber
             value={row.recent_trading_pnl_percentage}
@@ -85,7 +99,7 @@ export function WhaleTradesWidget({
         ),
       },
     ],
-    [t],
+    [t, hasFlag],
   );
 
   return (

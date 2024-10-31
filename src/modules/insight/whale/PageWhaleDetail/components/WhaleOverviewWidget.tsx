@@ -3,22 +3,25 @@ import { type ReactNode } from 'react';
 import { Tooltip } from 'antd';
 import { bxInfoCircle, bxRefresh } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import { useWhaleDetails } from 'api';
+import { useHasFlag, useWhaleDetails } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import BetaVersion from 'shared/BetaVersion';
 
 function StatRow({
   className,
   label,
   info,
   children,
+  beta,
 }: {
   className?: string;
   label?: ReactNode;
   info?: ReactNode;
   children?: ReactNode;
+  beta?: boolean;
 }) {
   return (
     <div className={clsx('flex items-center justify-between gap-4', className)}>
@@ -28,7 +31,8 @@ function StatRow({
             'inline-flex items-center gap-1 text-xs font-normal text-v1-content-secondary'
           }
         >
-          {label}{' '}
+          {label}
+          {beta && <BetaVersion variant="beta" minimal />}
           {info && (
             <Tooltip title={info}>
               <Icon name={bxInfoCircle} size={18} />
@@ -58,6 +62,7 @@ export function WhaleOverviewWidget({
   networkName: string;
 }) {
   const { t } = useTranslation('whale');
+  const hasFlag = useHasFlag();
   const whale = useWhaleDetails({
     holderAddress,
     networkName,
@@ -109,43 +114,49 @@ export function WhaleOverviewWidget({
         </div>
       </div>
       <div className="h-px bg-v1-content-disabled" />
-      <StatRow label={t('whale_overview.trading_pnl')}>
-        <DirectionalNumber
-          value={whale.data?.recent_trading_pnl}
-          label="$"
-          showIcon={false}
-        />
-      </StatRow>
+      {hasFlag('/coin-radar/whale-radar?trading_pnl') && (
+        <StatRow label={t('whale_overview.trading_pnl')} beta>
+          <DirectionalNumber
+            value={whale.data?.recent_trading_pnl}
+            label="$"
+            showIcon={false}
+          />
+        </StatRow>
+      )}
       <StatRow label={t('whale_overview.trading_volume')}>
         <ReadableNumber value={whale.data?.recent_trading_volume} label="$" />
       </StatRow>
-      <StatRow
-        label={t('whale_overview.trading_win_rate')}
-        className="w-full flex-wrap"
-      >
-        <div className="w-full basis-full space-y-2">
-          <div className="relative h-1 w-full overflow-hidden rounded bg-v1-content-secondary">
-            {(whale.data?.recent_trading_losses ?? 0) > 0 && (
-              <div className="absolute left-0 top-0 h-full w-full bg-v1-content-negative" />
-            )}
-            <div
-              className="absolute left-0 top-0 h-full bg-v1-content-positive"
-              style={{
-                width: `${winPercent * 100}%`,
-              }}
-            />
+      {hasFlag('/coin-radar/whale-radar?win_lose') && (
+        <StatRow
+          label={t('whale_overview.trading_win_rate')}
+          className="w-full flex-wrap"
+          beta
+        >
+          <div className="w-full basis-full space-y-2">
+            <div className="relative h-1 w-full overflow-hidden rounded bg-v1-content-secondary">
+              {(whale.data?.recent_trading_losses ?? 0) > 0 && (
+                <div className="absolute left-0 top-0 h-full w-full bg-v1-content-negative" />
+              )}
+              <div
+                className="absolute left-0 top-0 h-full bg-v1-content-positive"
+                style={{
+                  width: `${winPercent * 100}%`,
+                }}
+              />
+            </div>
+            <div className="flex w-full grow items-center justify-between gap-2">
+              <span>
+                {whale.data?.recent_trading_wins ?? 0}{' '}
+                {t('whale_overview.wins')}
+              </span>
+              <span>
+                {whale.data?.recent_trading_losses ?? 0}{' '}
+                {t('whale_overview.losses')}
+              </span>
+            </div>
           </div>
-          <div className="flex w-full grow items-center justify-between gap-2">
-            <span>
-              {whale.data?.recent_trading_wins ?? 0} {t('whale_overview.wins')}
-            </span>
-            <span>
-              {whale.data?.recent_trading_losses ?? 0}{' '}
-              {t('whale_overview.losses')}
-            </span>
-          </div>
-        </div>
-      </StatRow>
+        </StatRow>
+      )}
       <StatRow label={t('whale_overview.trading_tokens')}>
         {whale.data?.trading_assets.length}
       </StatRow>

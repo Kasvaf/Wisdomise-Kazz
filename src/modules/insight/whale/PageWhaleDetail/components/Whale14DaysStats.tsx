@@ -71,6 +71,7 @@ export function Whale14DaysStats({
       empty={!whale.data?.holder_address}
       contentClassName="space-y-6"
       title={t('14d_stats.title')}
+      badge="beta"
     >
       <StatRow label={t('14d_stats.avg_trade_duration')}>
         <ReadableDuration

@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
+import BetaVersion from 'shared/BetaVersion';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
 export function OverviewWidget({
@@ -11,6 +12,7 @@ export function OverviewWidget({
   title,
   subtitle,
   info,
+  badge,
   headerActions,
   footer,
   children,
@@ -25,6 +27,7 @@ export function OverviewWidget({
   title?: ReactNode;
   subtitle?: ReactNode;
   info?: ReactNode;
+  badge?: 'beta' | 'new';
   headerActions?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
@@ -41,6 +44,7 @@ export function OverviewWidget({
       <Icon name={bxInfoCircle} size={18} className="cursor-help" />
     </Tooltip>
   );
+  const badgeIcon = badge && <BetaVersion variant={badge} minimal />;
   return (
     <article
       className={clsx(
@@ -62,6 +66,7 @@ export function OverviewWidget({
             {(title || info) && (
               <h2 className="flex items-center gap-2 text-base font-medium">
                 {title}
+                {badgeIcon}
                 {infoIcon}
               </h2>
             )}

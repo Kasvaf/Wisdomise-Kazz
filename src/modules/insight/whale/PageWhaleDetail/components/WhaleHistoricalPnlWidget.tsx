@@ -111,6 +111,7 @@ export function WhaleHistoricalPnlWidget({
       loading={whale.isLoading}
       empty={!whale.data?.holder_address}
       title={t('whale_historical_pnl.title')}
+      badge="beta"
     >
       <Line {...config} />
     </OverviewWidget>
