@@ -12,7 +12,6 @@ export default function PageTrade() {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
-
   const coinOverview = useCoinOverview({ slug });
 
   return (
@@ -28,6 +27,7 @@ export default function PageTrade() {
         <CoinSelect
           networkName="ton"
           className="w-full"
+          filterTokens={x => x !== 'tether'}
           value={slug}
           onChange={selectedSlug => navigate(`/market/${selectedSlug}`)}
         />
