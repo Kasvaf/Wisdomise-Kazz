@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Link, useNavigate } from 'react-router-dom';
+import { Image } from 'antd';
 import Table from 'shared/Table';
 import { useWhalesCoins, type WhaleCoin } from 'api';
 import { Coin } from 'shared/Coin';
@@ -8,10 +9,11 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Button from 'shared/Button';
 import PageWrapper from 'modules/base/PageWrapper';
+import ton from './ton.svg';
 
 export default function PageHotCoins() {
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(500);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
@@ -59,19 +61,17 @@ export default function PageHotCoins() {
 
   return (
     <PageWrapper loading={coins.isLoading}>
-      <h1 className="py-3">TON Hot Coins</h1>
+      <h1 className="ms-5 flex items-center gap-2 py-3">
+        <Image src={ton} alt="ton" />
+        TON Hot Coins
+      </h1>
       <Table
+        className="mb-12"
         columns={columns}
         dataSource={coins.data?.results ?? []}
         rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
-        pagination={{
-          total: coins.data?.count ?? 1,
-          current: page,
-          showSizeChanger: false,
-          pageSize,
-          pageSizeOptions: [5, 10, 20],
-        }}
+        pagination={false}
         onChange={(pagination, _, sorter) => {
           setPage(pagination.current ?? 1);
           setPageSize(pagination.pageSize ?? 5);
@@ -94,7 +94,7 @@ export default function PageHotCoins() {
 
       <Button
         variant="brand"
-        className="fixed bottom-28 end-4 start-4 z-50"
+        className="fixed bottom-20 end-4 start-4 z-50"
         onClick={() => navigate('/market/the-open-network')}
       >
         Start Auto Trading

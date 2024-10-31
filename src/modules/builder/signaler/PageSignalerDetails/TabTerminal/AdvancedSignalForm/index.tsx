@@ -5,7 +5,7 @@ import { notification } from 'antd';
 import { type FullPosition } from 'api/builder';
 import Button from 'shared/Button';
 import { useHasFlag } from 'api';
-import { useWaitlistMutation } from 'api/gamification';
+import { useUserStorage } from 'api/userStorage';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
@@ -52,17 +52,20 @@ const AdvancedSignalForm: React.FC<Props> = ({
     activePosition,
   });
 
-  const { mutateAsync, isLoading } = useWaitlistMutation();
+  const userStorage = useUserStorage('auto-trader-waitlist', 'false');
+
   const joinWaitList = async () => {
-    await mutateAsync();
-    notification.success({
-      message: (
-        <p>
-          <strong className="font-bold">Success!</strong> You’ve joined the
-          waitlist. We’ll notify you when Autotrader is ready.
-        </p>
-      ),
-      description: '',
+    void userStorage.save('true').then(() => {
+      notification.success({
+        message: (
+          <p>
+            <strong className="font-bold">You’ve joined the waitlist!</strong>{' '}
+            We’ll notify you when it’s your turn to activate.
+          </p>
+        ),
+        description: '',
+      });
+      return null;
     });
   };
 
@@ -115,11 +118,14 @@ const AdvancedSignalForm: React.FC<Props> = ({
         <div>
           <Button
             variant="brand"
-            loading={isLoading}
+            loading={userStorage.isLoading}
+            disabled={userStorage.value === 'true'}
             className="w-full"
             onClick={() => joinWaitList()}
           >
-            Join Waitlist
+            {userStorage.value === 'true'
+              ? 'Already Joined Waitlist'
+              : 'Join Waitlist'}
           </Button>
         </div>
       )}
