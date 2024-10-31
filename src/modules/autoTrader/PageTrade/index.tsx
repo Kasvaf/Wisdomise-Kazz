@@ -5,12 +5,15 @@ import useSignalFormStates from 'modules/builder/signaler/PageSignalerDetails/Ta
 import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import { useCoinOverview } from 'api';
 
 export default function PageTrade() {
   const formState = useSignalFormStates();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
+
+  const coinOverview = useCoinOverview({ slug });
 
   return (
     <div>
@@ -30,7 +33,7 @@ export default function PageTrade() {
         />
       </div>
       <AdvancedSignalForm
-        assetName={slug}
+        assetName={`${coinOverview?.data?.symbol.abbreviation ?? ''}USDT`}
         activePosition={undefined}
         className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
         formState={formState}
