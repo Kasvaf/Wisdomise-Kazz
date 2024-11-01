@@ -14,7 +14,8 @@ import AIPresets from './AIPressets';
 const PartOpen: React.FC<{
   data: SignalFormState;
   assetName: string;
-}> = ({ data, assetName }) => {
+  assetSlug: string;
+}> = ({ data, assetName, assetSlug }) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -91,7 +92,7 @@ const PartOpen: React.FC<{
         className="mb-3"
       />
 
-      <AIPresets data={data} assetName={assetName} />
+      <AIPresets data={data} assetName={assetName} assetSlug={assetSlug} />
 
       <div className="my-4 border-b border-white/5" />
 

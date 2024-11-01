@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { roundDown } from 'utils/numbers';
+import { useCoinOverview } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import InfoButton from 'shared/InfoButton';
@@ -13,7 +14,8 @@ const PartTpSl: React.FC<{
   type: 'TP' | 'SL';
   data: SignalFormState;
   assetName: string;
-}> = ({ type, data }) => {
+  assetSlug: string;
+}> = ({ type, data, assetSlug }) => {
   const { t } = useTranslation('builder');
   const {
     price: [price],
@@ -21,14 +23,8 @@ const PartTpSl: React.FC<{
     orderType: [orderType],
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
   } = data;
-
-  // const { data: assetPrice } = useSignalerAssetPrice({
-  //   strategyKey: signaler.key,
-  //   assetName,
-  // });
-  // TODO get asset price
-  const assetPrice = 0;
-
+  const { data: assetOverview } = useCoinOverview({ slug: assetSlug });
+  const assetPrice = assetOverview?.data?.current_price;
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
   const sortItems = () =>
