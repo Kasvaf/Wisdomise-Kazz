@@ -21,7 +21,7 @@ export function TrialStartedModal() {
     <Modal
       open={
         !userStorage.isLoading &&
-        subscription.levelType === 'trial' &&
+        subscription.type === 'trial' &&
         userStorage.value !== 'true' &&
         isLoggedIn &&
         !isDismissed

@@ -9,7 +9,7 @@ export function useSubscription() {
   const isActive = status === 'active';
   const planName = plan?.name || 'none';
 
-  const levelType: 'free' | 'trial' | 'pro' = (() => {
+  const type: 'free' | 'trial' | 'pro' = (() => {
     if (isMiniApp) return 'pro';
     if (plan?.level === 0) return 'free';
     if (status === 'trialing') return 'trial';
@@ -25,10 +25,10 @@ export function useSubscription() {
     isFreePlan: !plan?.level,
     isTrialPlan: plan?.name === 'Trial',
     level: isActive ? plan?.level ?? 0 : 0,
-    levelType,
+    type,
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
     remaining:
-      levelType === 'free'
+      type === 'free'
         ? 0
         : Math.max(
             Math.round(

@@ -116,9 +116,7 @@ const ProfileMenuContent = () => {
           <WithChevron>
             <div className="text-right">
               <div className="text-[#34A3DA]">
-                {subscription.levelType === 'pro'
-                  ? t('pro:pro')
-                  : t('pro:trial')}
+                {subscription.type === 'pro' ? t('pro:pro') : t('pro:trial')}
               </div>
               {
                 <div>
