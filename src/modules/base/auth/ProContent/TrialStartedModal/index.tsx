@@ -4,6 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
+import { ReadableDuration } from 'shared/ReadableDuration';
 import { ProFeatures } from '../ProFeatures';
 import { useIsLoggedIn } from '../../jwt-store';
 import Bg from './bg.png';
@@ -21,7 +22,7 @@ export function TrialStartedModal() {
     <Modal
       open={
         !userStorage.isLoading &&
-        subscription.levelType === 'trial' &&
+        subscription.type === 'trial' &&
         userStorage.value !== 'true' &&
         isLoggedIn &&
         !isDismissed
@@ -41,8 +42,8 @@ export function TrialStartedModal() {
             <Trans
               ns="pro"
               i18nKey="trial-modal.description"
-              values={{
-                days: subscription.remaining.toString(),
+              components={{
+                Duration: <ReadableDuration value={subscription.remaining} />,
               }}
             />
           </p>
