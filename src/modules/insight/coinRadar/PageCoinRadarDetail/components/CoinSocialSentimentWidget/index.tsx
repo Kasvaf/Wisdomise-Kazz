@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useCoinSignals, useHasFlag } from 'api';
-import { SignalSentiment } from 'shared/SignalSentiment';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { SignalSentiment } from '../../../PageCoinRadar/components/SignalSentiment';
 import { SentimentGuage } from './SentimentGuage';
 import { ReactComponent as Logo } from './logo.svg';
 

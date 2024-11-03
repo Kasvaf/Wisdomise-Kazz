@@ -1,11 +1,11 @@
-import {
-  useMutation,
-  useQuery,
-  type UseQueryOptions,
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
-import { type Coin } from './types/shared';
+import {
+  type MarketData,
+  type Coin,
+  type NetworkSecurity,
+} from './types/shared';
 
 interface MarketInfoFromSignals {
   long_count: number;
@@ -54,61 +54,46 @@ export interface CoinSignalAnalysis {
   total_signals: number;
   trigger_price: number;
   current_price: number;
-  min_price: number;
-  max_price: number;
   max_profit_percentage: number;
   max_loss_percentage: number;
   real_pnl_percentage: number;
+  max_price: number;
+  min_price: number;
 }
 export interface CoinSignal {
   rank: number;
-  symbol_name: string;
-  symbol_slug?: string | null;
   symbol: Coin;
+  symbol_market_data: MarketData;
+  symbol_security?: null | {
+    data: NetworkSecurity[];
+  };
+  holders_data?: null | {
+    total_buy_volume?: null | number;
+    total_buy_number?: null | number;
+    total_sell_volume?: null | number;
+    total_sell_number?: null | number;
+    total_transfer_volume?: null | number;
+    total_balance?: null | number;
+    total_holding_volume?: null | number;
+    total_recent_trading_pnl?: null | number;
+  };
   long_count: number;
   short_count: number;
   messages_count: number;
   gauge_tag: 'LONG' | 'SHORT' | 'Not Sure' | 'Neutral';
   gauge_measure: -1 | 0 | 1;
-  price_change?: number;
-  price_change_percentage?: number;
-  current_price?: number;
-  market_cap?: number;
-  total_volume?: number;
-  circulating_supply?: number;
-  last_signal_related_at?: string;
-  first_signal_related_at?: string;
-  image?: string;
-  telegram?: {
-    long_count: number;
-    short_count: number;
-    messages_count: number;
-    gauge_tag: string;
-    gauge_measure: number;
-  };
-  reddit?: {
-    long_count: number;
-    short_count: number;
-    messages_count: number;
-    gauge_tag: string;
-    gauge_measure: number;
-  };
+  last_signal_related_at: string;
+  first_signal_related_at: string;
   signals_analysis: CoinSignalAnalysis;
 }
 
-export const useCoinSignals = (
-  options?: Partial<UseQueryOptions<CoinSignal[]>> & {
-    meta?: {
-      windowHours: number;
-    };
-  },
-) =>
+export const useCoinSignals = (filters?: { windowHours: number }) =>
   useQuery({
-    queryKey: ['coins-social-signal', options?.meta],
+    queryKey: ['coins-social-signal', JSON.stringify(filters)],
     queryFn: async () => {
       const { data } = await axios.get<CoinSignal[]>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/?window_hours=${
-          options?.meta?.windowHours ?? 24
+          filters?.windowHours ?? 24
         }`,
       );
       return data;
@@ -445,4 +430,23 @@ export const useCoinList = ({
           },
         })
         .then(resp => resp.data),
+  });
+
+export const useCategories = (query?: string) =>
+  useQuery({
+    queryKey: ['categories', query],
+    queryFn: () =>
+      axios
+        .get<
+          Array<{
+            icon_url: string;
+            id: number;
+            name: string;
+          }>
+        >('/delphi/symbol-category/search/', {
+          params: {
+            q: query,
+          },
+        })
+        .then(({ data }) => data),
   });

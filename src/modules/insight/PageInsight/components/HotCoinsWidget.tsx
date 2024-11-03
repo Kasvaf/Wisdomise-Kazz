@@ -7,13 +7,13 @@ import { type CoinSignal, useCoinSignals, useHasFlag } from 'api';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { ReadableDate } from 'shared/ReadableDate';
-import { SignalSentiment } from 'shared/SignalSentiment';
 import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
-import { RealtimeBadge } from 'modules/insight/coinRadar/PageCoinRadar/assets';
+// import { RealtimeBadge } from 'modules/insight/coinRadar/PageCoinRadar/assets';
 import Icon from 'shared/Icon';
 import { ProLocker } from 'shared/ProLocker';
+import { SignalSentiment } from '../../coinRadar/PageCoinRadar/components/SignalSentiment';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -68,8 +68,8 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         title: t('hot-coins-section.table.realtime-price'),
         render: (_, row) => (
           <InformativePrice
-            price={row.current_price}
-            priceChange={row.price_change_percentage}
+            price={row.symbol_market_data.current_price}
+            priceChange={row.symbol_market_data.price_change_percentage_24h}
           />
         ),
       },
@@ -84,7 +84,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       title={
         <>
           {t('coin-radar:hot-coins-section.title')}
-          <RealtimeBadge className="animate-pulse" />
+          {/* <RealtimeBadge className="animate-pulse" /> NAITODO */}
         </>
       }
       headerActions={<SeeMoreLink to="/insight/coin-radar" />}

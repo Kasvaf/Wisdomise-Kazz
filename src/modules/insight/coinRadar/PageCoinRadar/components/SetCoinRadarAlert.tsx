@@ -7,9 +7,12 @@ import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnc
 import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import Button from 'shared/Button';
 import { gtmClass } from 'utils/gtmClass';
-import { NotifIsSetIcon, NotificationIcon } from './assets';
 
-export default function SetNotification({ className }: { className?: string }) {
+export default function SetCoinRadarAlert({
+  className,
+}: {
+  className?: string;
+}) {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
   const { data, isLoading } = useAlerts('custom:coin_radar_notification');
@@ -26,7 +29,7 @@ export default function SetNotification({ className }: { className?: string }) {
     searchParam: 'open-alert',
   });
 
-  if (!hasFlag('/insight/alerts?coinradar')) return null;
+  if (!hasFlag('/coin-radar/alerts?coinradar')) return null;
 
   return (
     <>
@@ -37,13 +40,14 @@ export default function SetNotification({ className }: { className?: string }) {
           });
           void alertActions.save();
         }}
+        data-id="set-alert"
         variant="primary"
         className={clsx(
           'h-10 w-auto !py-1 mobile:w-full',
           isSubscribed || isLoading ? '!bg-white/10' : '!bg-white',
           isLoading && 'animate-pulse',
-          className,
           gtmClass('set-alert'),
+          className,
         )}
         contentClassName={clsx(
           'flex gap-1',
@@ -52,11 +56,6 @@ export default function SetNotification({ className }: { className?: string }) {
         )}
         loading={alertActions.isSaving}
       >
-        {isSubscribed || isLoading ? (
-          <NotifIsSetIcon className="shrink-0" />
-        ) : (
-          <NotificationIcon className="shrink-0" />
-        )}
         {isSubscribed || isLoading
           ? t('set-notification.open-modal-btn.set')
           : t('set-notification.open-modal-btn.not-set')}
