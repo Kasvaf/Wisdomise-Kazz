@@ -30,13 +30,7 @@ export function useSubscription() {
     remaining:
       type === 'free'
         ? 0
-        : Math.max(
-            Math.round(
-              (+new Date(subs?.end_at ?? 0) - Date.now()) /
-                (1000 * 60 * 60 * 24),
-            ),
-            0,
-          ),
+        : Math.max(Math.round(+new Date(subs?.end_at ?? 0) - Date.now()), 0),
     weeklyCustomNotificationCount: Number(
       plan?.metadata.weekly_custom_notifications_count ?? 0,
     ),

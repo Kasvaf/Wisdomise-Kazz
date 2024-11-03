@@ -11,9 +11,11 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
+import { ReadableDuration } from 'shared/ReadableDuration';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import LogoBlack from '../logo-black.png';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
+// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as HelpIcon } from './help-icon.svg';
 
 const MenuItemsGroup: React.FC<{
@@ -159,8 +161,14 @@ const MenuItemsContent: React.FC<{
               <Trans
                 ns="pro"
                 i18nKey="expires-soon"
-                values={{
-                  days: subscription.remaining,
+                components={{
+                  Duration: (
+                    <ReadableDuration
+                      value={subscription.remaining}
+                      className="font-bold"
+                      zeroText={t('pro:zero-hour')}
+                    />
+                  ),
                 }}
               />
             </div>

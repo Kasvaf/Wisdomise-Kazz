@@ -10,10 +10,12 @@ import Icon from 'shared/Icon';
 import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { MAIN_LANDING } from 'config/constants';
+import { ReadableDuration } from 'shared/ReadableDuration';
 import LanguageSelector from '../LanguageSelector';
 import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
 import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
+// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as SignOutIcon } from './signout.svg';
 
 const WithChevron: React.FC<PropsWithChildren> = ({ children }) => (
@@ -125,7 +127,10 @@ const ProfileMenuContent = () => {
                       subscription.remaining ? 'text-white' : 'text-error',
                     )}
                   >
-                    {String(subscription.remaining) + 'd'}
+                    <ReadableDuration
+                      value={subscription.remaining}
+                      zeroText={t('pro:zero-hour')}
+                    />
                   </span>
                   <span className="ml-1 text-white/40">
                     {t('menu.billing.remains')}
