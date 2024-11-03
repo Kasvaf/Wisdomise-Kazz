@@ -77,25 +77,17 @@ coin-details:
     whale_popular:
       title: Popular With Whales
 copied-to-clipboard: ''
+hot-coins-banner:
+  title: Social Radar
+  subtitle: Real-Time AI-Driven Insights from Socials
 hot-coins-section:
   title: Hot Coins
-  filters:
-    24h: 24h
-    30d: 30D
-    7d: 7D
-    all-coins: All Coins
-    gainers: Gainers
-    losers: Losers
-    search: Search Coin...
   table:
     name: Name
-    24h-voume: 24h Vol
     call-time: Call Time
     call-time-info: >-
       The exact moment our AI detected a key opportunity and sent a signal for
       this asset. Use it to track when you were alerted to consider this token.
-    circulating_supply: Circulating Supply
-    market-cap: Market Cap
     pnl: Call PnL
     pnl-info: >-
       Shows the profit or loss (PNL) since our signal was triggered. It helps
@@ -103,11 +95,6 @@ hot-coins-section:
     rank: Rank
     realtime-price: Price
     sentiment: Sentiment
-market-info:
-  description: Real-Time AI-Driven Insights from Socials and Markets
-  social-channel-count: >-
-    <0>Wisdomise Coin Radar Scanned <2>{{channelsCount}}</2> Social Accounts in
-    the Past 24 Hours.</0>
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Scanner
@@ -128,27 +115,6 @@ onboarding:
       Customize alerts and create personalized screeners on the hottest coins,
       so you're always one step ahead. Stay informed in real-time and make sure
       you never miss a breakout opportunity again!
-recommend-account:
-  button: Recommend Account
-  modal:
-    title: Recommend an Account
-    description:
-      label: Description <2>(optional)</2>
-      placeholder: Additional details about the channel
-      rules:
-        minLength: Must be greater than 3 character
-    cancel: Cancel
-    channel-address:
-      label: Telegram Channel ID, Subreddit or Account
-      placeholder: '@ID or sharable link'
-      rules:
-        minLength: Must be greater than 3 character
-        required: Channel address is required
-    recommend: Recommend
-    sub-title: >-
-      Share a Telegram channel ID, Subreddit or Account and details to enhance
-      Coin Radar with valuable market insights. Your suggestions will be
-      reviewed by our AI system for inclusion based on signal value.
 set-notification:
   open-modal-btn:
     not-set: Set Alert
@@ -156,9 +122,3 @@ set-notification:
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
-tops-section:
-  gainers: Top Gainers
-  losers: Top Losers
-hot-coins-banner:
-  title: Social Radar
-  subtitle: Real-Time AI-Driven Insights from Socials

@@ -19,15 +19,17 @@ export function TopCoinsWidget(_: { slug?: string }) {
       <ProLocker mode="children" level={2}>
         {signals.data?.slice(0, 5).map(row => (
           <div
-            key={row.symbol_name}
+            key={row.symbol.name}
             className="flex flex-col gap-2 overflow-auto rounded-lg bg-v1-surface-l3 p-4"
           >
             <div className="flex items-center justify-between gap-2">
               <Coin coin={row.symbol} />
               <div className="flex items-end">
                 <InformativePrice
-                  price={row.current_price}
-                  priceChange={row.price_change_percentage}
+                  price={row.symbol_market_data.current_price}
+                  priceChange={
+                    row.symbol_market_data.price_change_percentage_24h
+                  }
                   className="items-end text-sm"
                 />
               </div>
