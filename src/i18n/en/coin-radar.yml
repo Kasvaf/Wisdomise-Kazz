@@ -1,4 +1,3 @@
-'2': ''
 available-exchanges:
   search: Search Exchange...
   table:
@@ -199,15 +198,47 @@ social-radar:
   table:
     name: Name
     title: Wisdomise Hot Coins
+    description: >-
+      Wisdomise Social Radar scanned <b>{{posts}} posts</b> in the last 24 hours
+      for accurate, data-driven insights.
     labels:
       title: Labels
     price_info:
       title: Info
+      info: >-
+        <b>Price</b><br />Current market value of the coin or token. <br /> <br
+        /> <b>24h Change</b><br />The asset's percentage change in price over
+        the last 24 hours. <br /> <br /> <b>Low 24h</b><br />Lowest price in the
+        last 24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the
+        last 24 hours.
     rank: Wise Rank
     search: Search Coin...
     sentiment:
       title: Wisdomise Sentiment
+      info: |-
+        <b>Wisdomise Sentiment</b> <br /> <br /> <b>
+          Wisdomise AI analyzes social sentiment for each asset (coin or
+          token) from Reddit, Telegram, Trading View, X (formerly Twitter),
+          and YouTube. The sentiment can be Positive, Neutral, or Negative,
+          showing how the community feels.
+        </b> <br /> <br /> <b>P&L % Change</b> <br /> <p>
+          Tracks the Profit & Loss from when the asset was first hunted as
+          “Hot” until its first major price movement.
+        </p> <br /> <br /> <p>
+          This information helps you make informed decisions by seeing not
+          just the community’s view but also how market movements align with
+          those opinions.
+        </p>
     sort: Sort
     whale_buy_sell:
       title: Whale Buy/Sell
       empty: Untracked
+      info: >-
+        <b>Whale Buy/Sell</b> <br /> <br /> <b>Tracks data from Smart Wallets
+        (Whales) using Wisdomise AI:</b> <br /> <br /> <b>Buying Activity:</b>
+        Displays the number of wallets that bought the asset in the last hour
+        and the total amount purchased. <br /><br /> <b>Selling Activity:</b>
+        Shows the number of wallets that sold the asset in the last hour and the
+        total amount sold. <br /><br /> For assets that are not attractive to
+        whales and have no significant transactions, the badge Untracked is
+        displayed.

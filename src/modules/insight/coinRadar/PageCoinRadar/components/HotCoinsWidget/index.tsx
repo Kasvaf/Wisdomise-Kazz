@@ -1,9 +1,7 @@
-/* eslint-disable i18next/no-literal-string */
 /* eslint-disable import/max-dependencies */
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
-import { bxSearch } from 'boxicons-quasar';
 import { Trans, useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table from 'shared/Table';
@@ -16,8 +14,6 @@ import {
 } from 'api';
 import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/components/SignalSentiment';
 import { ProLocker } from 'shared/ProLocker';
-import TextBox from 'shared/TextBox';
-import Icon from 'shared/Icon';
 import { formatNumber } from 'utils/numbers';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinCategoriesLabel } from '../CoinCategoriesLabel';
@@ -26,6 +22,7 @@ import { CategoriesSelect } from '../CategoriesSelect';
 import { type SortMode, SortModes } from '../SortModes';
 import SetCoinRadarAlert from '../SetCoinRadarAlert';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
+import { CoinSearchInput } from '../CoinSearchInput';
 import { ReactComponent as Logo } from './logo.svg';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -113,11 +110,12 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             <Logo className="inline-block size-4 grayscale" />
             {t('social-radar.table.sentiment.title')}
           </span>,
-          <Trans
-            key="2"
-            ns="coin-radar"
-            i18nKey="social-radar.table.sentiment.info"
-          />,
+          <Fragment key="2">
+            <Trans
+              ns="coin-radar"
+              i18nKey="social-radar.table.sentiment.info"
+            />
+          </Fragment>,
         ],
         width: 310,
         render: (_, row: CoinSignal) => <SignalSentiment signal={row} />,
@@ -126,11 +124,12 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       {
         title: [
           t('social-radar.table.price_info.title'),
-          <Trans
-            key="2"
-            ns="coin-radar"
-            i18nKey="social-radar.table.price_info.info"
-          />,
+          <Fragment key="2">
+            <Trans
+              ns="coin-radar"
+              i18nKey="social-radar.table.price_info.info"
+            />
+          </Fragment>,
         ],
         width: 310,
         render: (_, row) => (
@@ -141,11 +140,12 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         colSpan: hasFlag('/coin-radar/social-radar?whale') ? 1 : 0,
         title: [
           t('social-radar.table.whale_buy_sell.title'),
-          <Trans
-            key="2"
-            ns="coin-radar"
-            i18nKey="social-radar.table.whale_buy_sell.info"
-          />,
+          <Fragment key="2">
+            <Trans
+              ns="coin-radar"
+              i18nKey="social-radar.table.whale_buy_sell.info"
+            />
+          </Fragment>,
         ],
         width: 150,
         render: (_, row) => (
@@ -181,13 +181,17 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         </>
       }
       subtitle={
-        <div className="capitalize [&_b]:font-normal [&_b]:text-v1-content-primary">
+        <div
+          className={clsx(
+            'capitalize [&_b]:font-normal [&_b]:text-v1-content-primary',
+            marketInfo.isLoading && '[&_b]:animate-pulse',
+          )}
+        >
           <Trans
-            key="2"
             ns="coin-radar"
-            i18nKey="social-radar.table.subtitle"
+            i18nKey="coin-radar:social-radar.table.description"
             values={{
-              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 0, {
+              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
                 compactInteger: true,
                 decimalLength: 0,
                 seperateByComma: true,
@@ -203,13 +207,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       headerActions={
         <>
           <div className="flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
-            <TextBox
+            <CoinSearchInput
               value={query}
               onChange={setQuery}
-              placeholder={t('social-radar.table.search')}
               className="shrink-0 basis-80 mobile:order-2 mobile:basis-full"
-              inputClassName="text-sm"
-              suffix={<Icon name={bxSearch} />}
             />
             <CategoriesSelect
               value={category}
