@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { isProduction } from 'utils/version';
+import { isDebugMode } from 'utils/version';
 import { useAccountQuery } from './account';
 
 // hasFlag('?xyz') -> [current-pathname]?xyz
@@ -52,7 +52,7 @@ export function useHasFlag() {
 
     if (flag[0] === '/') {
       const result = Boolean(flagsObj[flag]);
-      if (!result && !isProduction) {
+      if (!result && isDebugMode) {
         console.log('🚩', flag);
       }
       return result;
