@@ -35,7 +35,7 @@ export default function PageHotCoins() {
       {
         fixed: 'left',
         render: (_, row) => (
-          <Link to={`/market/${row?.symbol.slug ?? ''}`}>
+          <Link to={row?.symbol.slug ?? ''}>
             <Coin coin={row.symbol} imageClassName="size-6" nonLink={true} />
           </Link>
         ),

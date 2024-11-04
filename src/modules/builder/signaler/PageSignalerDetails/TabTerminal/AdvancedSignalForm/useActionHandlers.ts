@@ -6,17 +6,18 @@ import {
   useTonAddress,
   useTonConnectUI,
 } from '@tonconnect/ui-react';
-import { Address, beginCell } from '@ton/core';
-import { useParams } from 'react-router-dom';
+import { Address, beginCell, toNano } from '@ton/core';
+import { useNavigate, useParams } from 'react-router-dom';
+import { TonClient } from '@ton/ton';
 import { type FullPosition, type SignalerData } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
-import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
 import { useCoinOverview } from 'api';
 import {
   useTraderFirePositionMutation,
   useTraderUpdatePositionMutation,
-} from '../../../../../../trader';
+} from 'api/trader';
+import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
 import { type SignalFormState } from './useSignalFormStates';
 
 interface Props {
@@ -26,20 +27,18 @@ interface Props {
   activePosition?: FullPosition;
 }
 
-const USDT_CONTRACT_ADDRESS = import.meta.env.USDT_CONTRACT_ADDRESS;
-
 const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   const { t } = useTranslation('builder');
   const [tonConnectUI] = useTonConnectUI();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
+  const navigate = useNavigate();
 
   const {
     price: [price],
     leverage: [leverage],
     amount: [amount],
     orderType: [orderType],
-    market: [_market],
     exp: [exp],
     orderExp: [orderExp],
     getTakeProfits,
@@ -65,6 +64,36 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     noTitle: t('common:actions.no'),
   });
 
+  const getJettonWalletAddress = async () => {
+    if (!address) return;
+
+    const jettonMasterAddress = Address.parse(
+      'kQAJ8uWd7EBqsmpSWaRdf_I-8R8-XHwh3gsNKhy-UrdrPX6i', // hamster testnet
+    );
+    const ownerAddress = Address.parse(address);
+    const client = new TonClient({
+      endpoint: 'https://toncenter.com/api/v2/jsonRPC',
+    });
+
+    try {
+      const { stack } = await client.callGetMethod(
+        jettonMasterAddress,
+        'get_wallet_address',
+        [
+          {
+            type: 'slice',
+            cell: beginCell().storeAddress(ownerAddress).endCell(),
+          },
+        ],
+      );
+
+      const jettonWalletAddress = stack.readAddress();
+      return jettonWalletAddress.toString();
+    } catch (error) {
+      console.error('Error fetching jetton wallet address:', error);
+    }
+  };
+
   const fireHandler = async () => {
     if ((orderType === 'limit' && !price) || !assetPrice || !address) return;
 
@@ -76,7 +105,6 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
           leverage: { value: Number(leverage) || 1 },
           position: {
             type: 'long',
-            // type: signaler?.market_name === 'SPOT' ? 'long' : market, // long
             order_expires_at: parseDur(orderExp),
             suggested_action_expires_at: parseDur(exp),
           },
@@ -88,104 +116,53 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
         quote: 'USDT',
         quote_amount: amount,
       });
-      transferTonHandler(res.deposit_address);
+      await transferAssetsHandler(res.deposit_address, res.gas_fee);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
   };
 
-  // function generatePayload(sendTo: string): string {
-  //   const op = 0x5f_cc_3d_14; // transfer
-  //   const quiryId = 0;
-  //   const messageBody = beginCell()
-  //     .storeUint(op, 32)
-  //     .storeUint(quiryId, 64)
-  //     .storeAddress(Address.parse(sendTo))
-  //     .storeUint(0, 2)
-  //     .storeInt(0, 1)
-  //     .storeCoins(0)
-  //     .endCell();
-  //
-  //   return Base64.encode(messageBody.toBoc());
-  // }
-
-  const createTransferPayload = (recipientAddress: string, amount: bigint) => {
-    const op = 0x5f_cc_3d_14; // transfer
-    const messageBody = beginCell()
-      .storeUint(op, 32)
-      .storeAddress(Address.parse(recipientAddress))
-      .storeCoins(amount)
-      .endCell()
-      .toBoc()
-      .toString('base64');
-
-    return messageBody;
-  };
-
-  const transferUSDTHandler = (recipientAddress: string) => {
+  const transferAssetsHandler = async (
+    recipientAddress: string,
+    gasFee: string,
+  ) => {
+    const jettonWalletAddress = await getJettonWalletAddress();
     const transaction: SendTransactionRequest = {
       validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
       network: CHAIN.TESTNET,
       messages: [
         {
-          address: USDT_CONTRACT_ADDRESS,
-          amount: '10000000', // This is the fee for interacting with the contract in nanotons
-          payload: createTransferPayload(recipientAddress, BigInt(+amount)),
+          address: recipientAddress,
+          amount: toNano(gasFee).toString(),
+          payload: beginCell()
+            .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
+            .storeStringTail('Gas fee') // write our text comment
+            .endCell()
+            .toBoc()
+            .toString('base64'),
+        },
+        {
+          address: jettonWalletAddress ?? '',
+          amount: toNano('0.05').toString(),
+          payload: beginCell()
+            .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
+            .storeUint(0, 64) // query_id:uint64
+            .storeCoins(toNano(amount)) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
+            .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
+            .storeAddress(Address.parse(jettonWalletAddress ?? '')) // response_destination:MsgAddress
+            .storeUint(0, 1) // custom_payload:(Maybe ^Cell)
+            .storeCoins(toNano('0.05')) // forward_ton_amount:(VarUInteger 16) - if >0, will send notification message
+            .storeUint(0, 1) // forward_payload:(Either Cell ^Cell)
+            .endCell()
+            .toBoc()
+            .toString('base64'),
         },
       ],
     };
 
-    void tonConnectUI.sendTransaction(transaction).then(data => {
-      console.log(data);
-      return null;
-    });
-  };
-
-  const transferTonHandler = (recipientAddress: string) => {
-    const transaction: SendTransactionRequest = {
-      validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
-      network: CHAIN.TESTNET,
-      messages: [
-        // {
-        //   // The receiver's address.
-        //   address: 'EQCKWpx7cNMpvmcN5ObM5lLUZHZRFKqYA4xmw9jOry0ZsF9M',
-        //   // Amount to send in nanoTON. For example, 0.005 TON is 5000000 nanoTON.
-        //   amount: '5000000',
-        //   // (optional) State initialization in boc base64 format.
-        //   stateInit:
-        //     'te6cckEBBAEAOgACATQCAQAAART/APSkE/S88sgLAwBI0wHQ0wMBcbCRW+D6QDBwgBDIywVYzxYh+gLLagHPFsmAQPsAlxCarA==',
-        //   // (optional) Payload in boc base64 format.
-        //   payload: 'te6ccsEBAQEADAAMABQAAAAASGVsbG8hCaTc/g==',
-        // },
-        // {
-        //   // The receiver's address.
-        //   address: 'EQCKWpx7cNMpvmcN5ObM5lLUZHZRFKqYA4xmw9jOry0ZsF9M',
-        //   // Amount to send in nanoTON. For example, 0.005 TON is 5000000 nanoTON.
-        //   amount: '5000000',
-        //   // (optional) State initialization in boc base64 format.
-        //   stateInit:
-        //     'te6cckEBBAEAOgACATQCAQAAART/APSkE/S88sgLAwBI0wHQ0wMBcbCRW+D6QDBwgBDIywVYzxYh+gLLagHPFsmAQPsAlxCarA==',
-        //   // (optional) Payload in boc base64 format.
-        //   payload: 'te6ccsEBAQEADAAMABQAAAAASGVsbG8hCaTc/g==',
-        // },
-        {
-          address: 'EQAXFnF_CGPIXD5B56C-XPEyTAJiN4C1hI0-JjG5Suc6wzDA', // usdt
-          amount: '5000000', // This is the fee for interacting with the contract in nanotons
-          payload: createTransferPayload(recipientAddress, BigInt(+amount)),
-        },
-        {
-          address: 'UQBKBwKt9IYW86bXbVETxk_Fl5GTVyFH0fF36L6sEUExeUXW',
-          amount: '5000000', // This is the fee for interacting with the contract in nanotons
-          payload: createTransferPayload(recipientAddress, BigInt(+amount)),
-        },
-      ],
-    };
-
-    void tonConnectUI.sendTransaction(transaction).then(data => {
-      console.log(data);
-      transferUSDTHandler(recipientAddress);
-      return null;
-    });
+    void tonConnectUI
+      .sendTransaction(transaction)
+      .then(() => navigate(`/hot-coins/${slug}`));
   };
 
   const updateHandler = async () => {

@@ -13,3 +13,4 @@ export * from './candles';
 export * from './signaler';
 export * from './coinRadar';
 export * from './whale';
+export * from './trader';
