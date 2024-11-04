@@ -104,7 +104,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         width: 200,
       },
       {
-        colSpan: hasFlag('/insight/coin-radar?side-suggestion') ? 1 : 0,
+        colSpan: hasFlag('/coin-radar/social-radar?side-suggestion') ? 1 : 0,
         title: [
           <span
             key="1"
@@ -138,6 +138,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         ),
       },
       {
+        colSpan: hasFlag('/coin-radar/social-radar?whale') ? 1 : 0,
         title: [
           t('social-radar.table.whale_buy_sell.title'),
           <Trans
@@ -146,7 +147,6 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             i18nKey="social-radar.table.whale_buy_sell.info"
           />,
         ],
-        // NAITODO feature/flag
         width: 150,
         render: (_, row) => (
           <CoinWhalesDetails holdersData={row.holders_data} />
