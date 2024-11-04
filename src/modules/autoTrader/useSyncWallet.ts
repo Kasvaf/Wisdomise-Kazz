@@ -9,8 +9,6 @@ export function useSyncWallet() {
   useEffect(() => {
     if (address) {
       void mutateAsync({ wallet_address: address });
-    } else {
-      void mutateAsync({});
     }
   }, [address, mutateAsync]);
 }

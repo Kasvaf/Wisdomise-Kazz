@@ -126,6 +126,7 @@ export const useWhalesCoins = (filters?: {
                 : undefined,
             filter: filters?.filter ?? 'all',
           },
+          meta: { auth: false },
         },
       );
       return data;

@@ -2,20 +2,33 @@ import { Select, type SelectProps } from 'antd';
 import { useMemo, useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
+import { bxChevronDown } from 'boxicons-quasar';
 import { useCoinList, useCoinOverview } from 'api';
 import { Coin } from 'shared/Coin';
 import type { Coin as CoinType } from 'api/types/shared';
 import Spin from 'shared/Spin';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import Icon from 'shared/Icon';
 
-export const CoinSelect: FC<SelectProps<string>> = ({
+export const CoinSelect: FC<
+  SelectProps<string> & {
+    networkName?: string;
+    filterTokens?: (item: string) => boolean;
+    showPrice?: boolean;
+  }
+> = ({
   value,
   className,
   disabled,
+  networkName,
+  filterTokens,
+  showPrice,
   ...props
 }) => {
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
-  const coinList = useCoinList({ q });
+  const coinList = useCoinList({ q, networkName });
 
   const coin = useCoinOverview({ slug: value ?? 'tether' });
 
@@ -50,13 +63,36 @@ export const CoinSelect: FC<SelectProps<string>> = ({
           </div>
         ) : undefined
       }
+      suffixIcon={
+        showPrice ? (
+          <div className="flex items-center gap-2">
+            {coin.data?.data?.current_price &&
+              coin.data?.data?.price_change_percentage_24h && (
+                <div className="flex flex-col items-end gap-1">
+                  <ReadableNumber
+                    className="text-[0.75rem] text-white"
+                    value={coin.data?.data?.current_price}
+                  />
+                  <DirectionalNumber
+                    value={coin.data?.data?.price_change_percentage_24h}
+                    showSign
+                    className="text-[0.625rem]"
+                    label="%"
+                  />
+                </div>
+              )}
+
+            <Icon name={bxChevronDown} />
+          </div>
+        ) : undefined
+      }
       options={
-        coins.map(coin => ({
-          label: (
-            <Coin coin={coin} nonLink mini className="!p-0 align-middle" />
-          ),
-          value: coin.slug,
-        })) ?? []
+        coins
+          .filter(x => (filterTokens ? filterTokens(x.slug ?? '') : true))
+          .map(c => ({
+            label: <Coin coin={c} nonLink mini className="!p-0 align-middle" />,
+            value: c.slug,
+          })) ?? []
       }
       {...props}
     />

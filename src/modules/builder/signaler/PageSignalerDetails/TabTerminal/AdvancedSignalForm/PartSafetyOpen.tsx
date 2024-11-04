@@ -1,19 +1,24 @@
 import { v4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
-import { useSignalerAssetPrice, type SignalerData } from 'api/builder';
+import { useParams } from 'react-router-dom';
 import { roundDown } from 'utils/numbers';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import { useCoinOverview } from 'api';
+import InfoButton from 'shared/InfoButton';
 import PriceVolumeInput from './PriceVolumeInput';
 import { type SignalFormState } from './useSignalFormStates';
 
 const PartSafetyOpen: React.FC<{
   data: SignalFormState;
-  signaler: SignalerData;
   assetName: string;
-}> = ({ signaler, assetName, data }) => {
+  assetSlug: string;
+}> = ({ data }) => {
   const { t } = useTranslation('builder');
+  const { slug } = useParams<{ slug: string }>();
+  if (!slug) throw new Error('unexpected');
+
   const {
     price: [price],
     volume: [volume],
@@ -22,10 +27,8 @@ const PartSafetyOpen: React.FC<{
     safetyOpens: [items, setItems],
   } = data;
 
-  const { data: assetPrice } = useSignalerAssetPrice({
-    strategyKey: signaler.key,
-    assetName,
-  });
+  const { data: lastPrice } = useCoinOverview({ slug });
+  const assetPrice = lastPrice?.data?.current_price;
 
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
@@ -50,7 +53,10 @@ const PartSafetyOpen: React.FC<{
   return (
     <div>
       <div className="mb-2 flex justify-between">
-        <h1>{t('signal-form.safety-open.title')}</h1>
+        <h1 className="flex items-center gap-1">
+          {t('signal-form.safety-open.title')}{' '}
+          <InfoButton text={t('info.safety-open')} />
+        </h1>
         {!Number.isNaN(effectivePrice) && !Number.isNaN(remainingVolume) && (
           <Button
             variant="alternative"

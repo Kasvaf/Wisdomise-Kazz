@@ -1,46 +1,38 @@
 import { type PropsWithChildren, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
+import { useNavigate } from 'react-router-dom';
 import { useTelegram } from 'modules/autoTrader/TelegramProvider';
 import { isLocal } from 'utils/version';
-import { useMiniAppLoginQuery } from 'api';
 import loading from 'modules/autoTrader/loading.png';
 import logo from 'assets/logo-horizontal.svg';
-import { setJwtToken } from 'modules/base/auth/jwt-store';
-import { useSyncDataMutation } from 'api/gamification';
+import { useMiniAppLoginQuery } from 'api/auth';
 import spin from './spin.svg';
 import bg from './bg.png';
 
 export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   const { webApp } = useTelegram();
-  const query =
-    'query_id=AAFRJrwCAAAAAFEmvALEYfE3&user=%7B%22id%22%3A45885009%2C%22first_name%22%3A%22Majid%22%2C%22last_name%22%3A%22Pouramini%22%2C%22username%22%3A%22MJD77%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1720890712&hash=c49cf126ac04720798595c89775f5ce632c5724029427fbb2d90cc9a3c45e86d';
+  const query = import.meta.env.VITE_CUSTOM_QUERY;
 
-  const { data } = useMiniAppLoginQuery(isLocal ? query : webApp?.initData);
-  const { mutateAsync } = useSyncDataMutation();
-  const [show, setShow] = useState(false);
+  const { data: isLoggedIn } = useMiniAppLoginQuery(
+    isLocal ? query : webApp?.initData,
+  );
   const navigate = useNavigate();
+  const [navigated, setNavigated] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      setJwtToken(data.token);
-      void mutateAsync({}).then(data => {
-        if (data.joined_waitlist_at) {
-          navigate('/claim-reward');
-        } else {
-          navigate('/join-waitlist');
-        }
-        setShow(true);
-        return null;
-      });
+    if (isLoggedIn && !navigated) {
+      if (!localStorage.getItem('done_onboarding')) {
+        navigate('/onboarding');
+        setNavigated(true);
+      }
       Sentry.setUser({
         id: String(webApp?.initDataUnsafe.user?.id),
         username: webApp?.initDataUnsafe.user?.username,
       });
     }
-  }, [data, mutateAsync, navigate, webApp?.initDataUnsafe.user]);
+  }, [isLoggedIn, webApp?.initDataUnsafe.user, navigated, navigate]);
 
-  return show && data ? (
+  return isLoggedIn ? (
     <div>{children}</div>
   ) : (
     <div className="relative overflow-hidden">

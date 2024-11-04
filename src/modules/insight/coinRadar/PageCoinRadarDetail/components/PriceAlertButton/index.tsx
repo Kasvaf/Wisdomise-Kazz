@@ -8,6 +8,7 @@ import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertA
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import { gtmClass } from 'utils/gtmClass';
 
 export function PriceAlertButton({
   className,
@@ -46,9 +47,12 @@ export function PriceAlertButton({
       <Button
         onClick={() => alertActions.openSaveModal()}
         variant={initialAlert.key ? 'alternative' : 'primary'}
-        className={clsx('h-10 w-full !py-1 mobile:!px-4', className)}
+        className={clsx(
+          'h-10 w-full !py-1 mobile:!px-4',
+          className,
+          gtmClass('set-alert'),
+        )}
         contentClassName="flex gap-0"
-        data-id="set-alert"
       >
         <Icon size={20} name={bxBell} className="mr-1" />
         {initialAlert.key

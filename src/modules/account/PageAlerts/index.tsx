@@ -1,12 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { bxBell, bxSearch } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { type AlertState, useAlerts } from 'api/alert';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import TextBox from 'shared/TextBox';
+import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from './components/useAlertActions';
 import { SlugAlertGroupWidget } from './components/SlugAlertGroupWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
@@ -63,8 +65,7 @@ export default function AlertsPage() {
           onClick={() => alertActions.openSaveModal()}
           variant="primary"
           size="manual"
-          className="h-12 px-7"
-          data-id="set-alert"
+          className={clsx('h-12 px-7', gtmClass('set-alert'))}
         >
           <Icon name={bxBell} className="mr-2" size={24} />
           {t('common.set-alert')}

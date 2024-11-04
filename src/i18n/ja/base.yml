@@ -3,6 +3,7 @@ beta-version: ベータ版
 error-page:
   btn-reload: 再読み込み
   subtitle: 同じエラーが発生しないよう改善いたします。
+  throw: 投げる
   title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
 insight-declaimer:
   content: Wisdomise

@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  TonConnectButton,
-  useTonAddress,
-  useTonConnectUI,
-} from '@tonconnect/ui-react';
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { clsx } from 'clsx';
 import { notification } from 'antd';
 import {
@@ -15,7 +11,6 @@ import {
   useUserTicketsQuery,
   useWithdrawMutation,
 } from 'api/gamification';
-import logo from 'assets/logo-horizontal-beta.svg';
 import Button from 'shared/Button';
 import { addComma } from 'utils/numbers';
 import { DrawerModal } from 'shared/DrawerModal';
@@ -77,11 +72,11 @@ export default function ClaimRewardPage() {
   };
 
   return (
-    <div className="mb-28 p-6 pt-4">
-      <div className="flex items-center justify-between">
-        <img className="h-8" src={logo} alt="logo" />
-        <TonConnectButton />
-      </div>
+    <div>
+      {/* <div className="flex items-center justify-between"> */}
+      {/*   /!* <img className="h-8" src={logo} alt="logo" /> *!/ */}
+      {/*   <TonConnectButton /> */}
+      {/* </div> */}
       <div className="mt-6">
         {tonConnect.connected && (
           <p className="mb-6 text-xs text-white/40">

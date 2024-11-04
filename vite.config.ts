@@ -44,6 +44,7 @@ export default defineConfig(config => ({
       { find: 'modules', replacement: '/src/modules' },
       { find: 'shared', replacement: '/src/modules/shared' },
       { find: 'assets', replacement: '/src/assets' },
+      { find: 'buffer', replacement: 'buffer' },
     ],
   },
   esbuild: {
@@ -51,5 +52,22 @@ export default defineConfig(config => ({
   },
   build: {
     sourcemap: config.mode !== 'production',
+  },
+  server: {
+    proxy: Object.fromEntries(
+      ['temple', 'account-panel', 'chatapp'].map(name => [
+        `/${name}-proxy`,
+        {
+          target: `https://stage-${name}.wisdomise.com`,
+          changeOrigin: true,
+          secure: false,
+          rewrite: p => p.replace(`/${name}-proxy`, ''),
+        },
+      ]),
+    ),
+    cors: false,
+  },
+  define: {
+    'process.env': {},
   },
 }));

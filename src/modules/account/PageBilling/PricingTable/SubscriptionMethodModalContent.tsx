@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { notification } from 'antd';
+import { clsx } from 'clsx';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { useHasFlag } from 'api';
+import { gtmClass } from 'utils/gtmClass';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
@@ -76,9 +78,8 @@ export default function SubscriptionMethodModal({
       <div className="grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
         {hasFlag('/account/billing?payment_method=fiat') && (
           <Button
-            className="col-span-1"
+            className={clsx('col-span-1', gtmClass('fiat-payment'))}
             onClick={onFiatClick}
-            data-id="fiat-payment"
           >
             <div className="flex items-center gap-2">
               <SIcon />
@@ -89,9 +90,8 @@ export default function SubscriptionMethodModal({
 
         {hasFlag('/account/billing?payment_method=crypto') && (
           <Button
-            className="col-span-1"
+            className={clsx('col-span-1', gtmClass('crypto-payment'))}
             onClick={onCryptoClick}
-            data-id="crypto-payment"
           >
             <div className="flex items-center gap-2">
               <CryptoPaymentIcon />
@@ -102,15 +102,14 @@ export default function SubscriptionMethodModal({
 
         {hasFlag('/account/billing?payment_method=wsdm') && (
           <Button
-            className="relative col-span-1"
+            className={clsx('relative col-span-1', gtmClass('wsdm-payment'))}
             onClick={onWSDMClick}
-            data-id="wsdm-payment"
           >
             <div className="flex items-center gap-2">
               <Token />
               {t('subscription-modal.btn-wsdm')}
               <div className="absolute -end-2 -top-3 rounded-lg bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-2 py-1 text-sm text-white">
-                50% Off
+                {'50% Off'}
               </div>
             </div>
           </Button>
@@ -120,9 +119,8 @@ export default function SubscriptionMethodModal({
           hasFlag('/account/billing?payment_method=lock') && (
             <Button
               onClick={onLockClick}
-              className="col-span-1"
+              className={clsx('col-span-1', gtmClass('lock-wsdm'))}
               disabled={!WSDM_IS_ACTIVE}
-              data-id="lock-wsdm"
             >
               <div className="flex items-center gap-2">
                 <Token />

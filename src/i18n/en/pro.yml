@@ -1,4 +1,4 @@
-expires-soon: Only <b>{{days}}d</b> Left in Your Trial!
+expires-soon: Only <Duration></Duration> Left in Your Trial!
 features:
   alerts: Customized Alerts & Notifications
   auto-trader: Wisdomise Auto Trader
@@ -17,7 +17,7 @@ trial: Trial
 trial-modal:
   title: Welcome to Wisdomise Pro!
   description: >-
-    Congratulations on your <b>{{days}}d Trial</b> of Wisdomise
+    Congratulations on your <b><Duration></Duration> Trial</b> of Wisdomise
     Pro!<br></br>Here are Some features available in the Pro version:
   button: Start Your Journey
   footer: >-
@@ -25,3 +25,4 @@ trial-modal:
     experience.<br></brExplore More features and elevate your crypto game.
 unlock-with-pro: Unlock with Pro
 upgrade-now: Upgrade now
+zero-hour: 0 hour

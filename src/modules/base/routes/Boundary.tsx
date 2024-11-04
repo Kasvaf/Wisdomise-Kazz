@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { ErrorBoundary } from 'react-error-boundary';
+import * as Sentry from '@sentry/react';
 import { analytics } from 'config/segment';
 import PageWrapper from '../PageWrapper';
 import PageError from '../PageError';
@@ -12,11 +12,13 @@ const Boundary = () => {
   }, [location]);
 
   return (
-    <React.Suspense fallback={<PageWrapper loading />}>
-      <ErrorBoundary fallback={<PageError />}>
+    <Sentry.ErrorBoundary
+      fallback={x => <PageError errorObject={x} level="router" />}
+    >
+      <React.Suspense fallback={<PageWrapper loading />}>
         <Outlet />
-      </ErrorBoundary>
-    </React.Suspense>
+      </React.Suspense>
+    </Sentry.ErrorBoundary>
   );
 };
 

@@ -3,6 +3,7 @@ beta-version: Beta版本
 error-page:
   btn-reload: 重新加載
   subtitle: 但我們會盡力確保它不會再次發生
+  throw: 扔
   title: 出了點問題，我們不知道是怎麼回事 :(
 insight-declaimer:
   content: Wisdomise的見解和信號不是財務建議。使用它們需自擔風險和自行決定。需要時請進行自己的研究或諮詢財務顧問。

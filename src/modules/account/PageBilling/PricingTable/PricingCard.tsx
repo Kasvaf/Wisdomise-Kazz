@@ -9,6 +9,8 @@ import Icon from 'shared/Icon';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { useLockingRequirementQuery } from 'api/defi';
 import Button from 'shared/Button';
+import { gtmClass } from 'utils/gtmClass';
+import { isProduction } from 'utils/version';
 import { ReactComponent as Check } from '../images/check.svg';
 import starts from '../images/stars.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
@@ -34,7 +36,7 @@ export default function PricingCard({
   const account = useAccountQuery();
   const { t } = useTranslation('billing');
   const subsMutation = useSubscriptionMutation();
-  const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
+  const { isActive, plan: userPlan, type } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent);
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
@@ -57,7 +59,7 @@ export default function PricingCard({
       plan.periodicity === 'MONTHLY');
 
   const onClick = async () => {
-    if (isActive && !isTrialPlan) {
+    if (type === 'pro') {
       await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
       notification.success({
         duration: 5000,
@@ -175,7 +177,7 @@ export default function PricingCard({
           )}
         </div>
 
-        {plan.price !== 0 && (
+        {!isProduction && plan.price !== 0 && (
           <div className="mt-6 flex items-center justify-center rounded-lg bg-[#05010966] py-4 text-xs text-white/70">
             <Trans ns="billing" i18nKey="pricing-card.pay-by-wsdm">
               Pay In
@@ -226,8 +228,8 @@ export default function PricingCard({
               'w-full !text-base',
               (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
                 '!cursor-default !text-white',
+              gtmClass(`buy-now ${plan.periodicity} ${plan.name}`),
             )}
-            data-id={`buy-now_${plan.periodicity.toLowerCase()}_${plan.name.toLowerCase()}`}
           >
             <div className="flex items-center justify-center gap-2">
               {plan.is_active

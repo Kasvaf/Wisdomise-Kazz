@@ -37,7 +37,7 @@ const SideMenu: React.FC<{
               className="flex w-full cursor-pointer flex-row items-center justify-start gap-2"
             >
               <img className="h-12" src={Logo} alt="logo" />
-              {subscription.levelType !== 'free' && isLoggedIn && (
+              {subscription.type !== 'free' && isLoggedIn && (
                 <ProIcon className="mt-px" />
               )}
             </a>
