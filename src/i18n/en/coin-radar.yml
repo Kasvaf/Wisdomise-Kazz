@@ -66,7 +66,6 @@ coin_security:
       title: No cooldown period function
     transfer_pausable:
       title: Contains no code for suspending trading
-  go_plus: Go Plus
   risk_one: '{{count}} Risk'
   risk_other: '{{count}} Risks'
   risk_zero: No Risks
@@ -200,7 +199,6 @@ social-radar:
   table:
     name: Name
     title: Wisdomise Hot Coins
-    subtitle: Wisdomise Social Radar scanned <b>{{posts}} Posts</b> in the last 24 hours for accurate, data-driven insights.
     labels:
       title: Labels
     price_info:

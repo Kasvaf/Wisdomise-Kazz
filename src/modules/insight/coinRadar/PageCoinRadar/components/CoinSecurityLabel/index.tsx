@@ -1,114 +1,13 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
-import { bxChevronDown } from 'boxicons-quasar';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type Coin, type NetworkSecurity } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
-import Icon from 'shared/Icon';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import GoPlus from './goplus.png';
 import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Risk } from './risk.svg';
 import { ReactComponent as Warning } from './warning.svg';
-import { useSecurityRows } from './useSecurityRows';
-
-/* NAITODO improve badge */
-
-function SecurityRow({
-  field,
-  value,
-}: {
-  field: keyof NetworkSecurity['detail'];
-  value: NetworkSecurity;
-}) {
-  const rows = useSecurityRows(value.detail);
-  const [open, setOpen] = useState(false);
-  if (
-    !rows[field] ||
-    typeof value.detail[field] !== 'string' ||
-    value.detail[field] === ''
-  )
-    return null;
-  return (
-    <div className="flex flex-col gap-2" onClick={() => setOpen(p => !p)}>
-      <div className="flex flex-row items-center gap-1">
-        {rows[field].badge === 'risk' ? (
-          <Risk className="size-4 shrink-0" />
-        ) : rows[field].badge === 'warning' ? (
-          <Warning className="size-4 shrink-0" />
-        ) : (
-          <Trusted className="size-4 shrink-0" />
-        )}
-        <p className="grow text-xs capitalize">{rows[field].label} </p>
-        {rows[field].info && (
-          <Icon
-            className={clsx(
-              'shrink-0 text-v1-content-secondary',
-              open && 'rotate-180',
-            )}
-            name={bxChevronDown}
-            size={16}
-          />
-        )}
-      </div>
-      {rows[field].info && (
-        <p
-          className={clsx(
-            'text-xxs leading-snug text-v1-content-secondary',
-            !open && 'hidden',
-          )}
-        >
-          {rows[field].info}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function TaxesRow({ value }: { value: NetworkSecurity }) {
-  const rows = useSecurityRows(value.detail);
-  return (
-    <div className="flex flex-col gap-2 py-2 text-xs">
-      <div className="flex flex-row items-center gap-1">
-        <div className="flex basis-1/2 items-center gap-1">
-          {rows.buy_tax?.label}:
-          <ReadableNumber
-            value={value.detail.buy_tax ? +value.detail.buy_tax * 100 : null}
-            popup="never"
-            className={clsx(
-              rows.buy_tax?.badge === 'risk'
-                ? 'text-v1-content-negative'
-                : rows.buy_tax?.badge === 'warning'
-                ? 'text-v1-content-notice'
-                : 'text-v1-content-positive',
-            )}
-            label="%"
-          />
-        </div>
-        <div className="flex basis-1/2 items-center gap-1">
-          {rows.sell_tax?.label}:
-          <ReadableNumber
-            value={value.detail.sell_tax ? +value.detail.sell_tax * 100 : null}
-            popup="never"
-            className={clsx(
-              rows.sell_tax?.badge === 'risk'
-                ? 'text-v1-content-negative'
-                : rows.sell_tax?.badge === 'warning'
-                ? 'text-v1-content-notice'
-                : 'text-v1-content-positive',
-            )}
-            label="%"
-          />
-        </div>
-      </div>
-      {rows.buy_tax?.info && (
-        <p className="text-xxs leading-snug text-v1-content-secondary">
-          {rows.buy_tax?.info}
-        </p>
-      )}
-    </div>
-  );
-}
+import { SecurityRow } from './SecurityRow';
+import { TaxesRow } from './TaxesRow';
 
 export function CoinSecurityLabel({
   value,
@@ -118,28 +17,37 @@ export function CoinSecurityLabel({
   coin: Coin;
 }) {
   const { t } = useTranslation('coin-radar');
-  const firstNetwork = !value || value.length === 0 ? null : value[0];
+  const defaultNetwork = useMemo(() => {
+    if (!value || value.length === 0) return null;
+    let max = {
+      score: 0,
+      index: 0,
+    };
+    for (const [index, row] of value.entries()) {
+      const score = (row.label.risk ?? 0) * 2 + (row.label.warning ?? 0);
+      if (score > max.score) {
+        max = {
+          score,
+          index,
+        };
+      }
+    }
+    return value[max.index];
+  }, [value]);
 
   const [selectedNetworkName, setSelectedNetworkName] = useState(
-    firstNetwork ? firstNetwork.network_name : '',
+    defaultNetwork?.network_name,
   );
+
+  const label = {
+    trusted: (value ?? []).every(r => r.label.trusted),
+    warning: (value ?? []).reduce((p, r) => p + (r.label.warning ?? 0), 0),
+    risk: (value ?? []).reduce((p, r) => p + (r.label.risk ?? 0), 0),
+  };
 
   const activeNetwork = value?.find(
     r => r.network_name === selectedNetworkName,
   );
-
-  const badgeType =
-    !value || value.length > 1
-      ? 'go+'
-      : firstNetwork?.label.trusted
-      ? 'trusted'
-      : (firstNetwork?.label.risk ?? 0) > 0 &&
-        (firstNetwork?.label.warning ?? 0) === 0
-      ? 'risk'
-      : (firstNetwork?.label.warning ?? 0) > 0 &&
-        (firstNetwork?.label.risk ?? 0) === 0
-      ? 'warn'
-      : 'go+';
 
   if (!value || value.length === 0) return null;
 
@@ -147,7 +55,7 @@ export function CoinSecurityLabel({
     <ClickableTooltip
       title={
         <div className="w-[300px] space-y-4 mobile:w-full">
-          {activeNetwork && value.length > 1 && (
+          {selectedNetworkName && value.length > 1 && (
             <select
               value={selectedNetworkName}
               onChange={e => setSelectedNetworkName(e.target.value)}
@@ -234,39 +142,33 @@ export function CoinSecurityLabel({
       }
       className={clsx(
         'whitespace-nowrap rounded-full px-3 py-1 text-center text-xxs',
-        badgeType === 'go+' &&
-          'bg-v1-content-primary/10 text-v1-content-primary',
-        badgeType === 'trusted' &&
-          'bg-v1-content-positive/10 text-v1-content-positive',
-        badgeType === 'warn' &&
-          'bg-v1-content-notice/10 text-v1-content-notice',
-        badgeType === 'risk' &&
-          'bg-v1-content-negative/10 text-v1-content-negative',
+        'bg-v1-content-primary/10 text-v1-content-primary',
       )}
     >
-      {badgeType === 'go+' ? (
+      {label.trusted && (
         <>
-          <img src={GoPlus} alt="Go Plus" className="w-4" />{' '}
-          {t('coin_security.go_plus')}
+          <Trusted className="size-4" />
+          <span>{t('coin_security.trusted')}</span>
         </>
-      ) : badgeType === 'trusted' ? (
-        <>
-          <Trusted />
-          {t('coin_security.trusted')}
-        </>
-      ) : badgeType === 'risk' ? (
-        <>
-          <Risk className="size-4" />
-          {t('coin_security.risk', {
-            count: firstNetwork?.label.risk ?? 0,
-          })}
-        </>
-      ) : (
+      )}
+      {(label.warning ?? 0) > 0 && (
         <>
           <Warning className="size-4" />
-          {t('coin_security.warning', {
-            count: firstNetwork?.label.warning ?? 0,
-          })}
+          <span>
+            {t('coin_security.warning', {
+              count: label.warning ?? 0,
+            })}
+          </span>
+        </>
+      )}
+      {(label.risk ?? 0) > 0 && (
+        <>
+          <Risk className="size-4" />
+          <span>
+            {t('coin_security.risk', {
+              count: label.risk ?? 0,
+            })}
+          </span>
         </>
       )}
     </ClickableTooltip>
