@@ -34,7 +34,7 @@ export const HotCoinsTable: FC<{
         title: t('hot-coins-section.table.name'),
         render: (row: CoinSignal) => <Coin coin={row.symbol} />,
       },
-      ...(hasFlag('/insight/coin-radar?side-suggestion')
+      ...(hasFlag('/coin-radar/social-radar?side-suggestion')
         ? [
             {
               title: t('hot-coins-section.table.sentiment'),

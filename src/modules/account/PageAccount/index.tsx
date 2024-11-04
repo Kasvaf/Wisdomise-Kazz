@@ -11,6 +11,7 @@ import {
 import { trackClick } from 'config/segment';
 import { PageCard, type PageCardProps } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
+import { ReadableDuration } from 'shared/ReadableDuration';
 import {
   ProfileIcon,
   UserIcon,
@@ -81,7 +82,10 @@ const PageAccount: FC = () => {
                     subscription.remaining ? 'text-white/60' : 'text-error/60',
                   )}
                 >
-                  {String(subscription.remaining) + 'd'}{' '}
+                  <ReadableDuration
+                    value={subscription.remaining}
+                    zeroText={t('pro:zero-hour')}
+                  />{' '}
                   {t('menu.billing.remains')}
                 </span>
               )}

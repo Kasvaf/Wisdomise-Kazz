@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { setJwtToken, useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type Account } from './types/UserInfoResponse';
 
 export function useAccountQuery() {
@@ -226,26 +226,26 @@ interface MiniAppLoginResponse {
   token: string;
 }
 
-export function useMiniAppLoginQuery(query?: string) {
+export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
   return useQuery(
-    ['miniAppLogin', query],
+    ['gameLogin', query, quickLogin],
     async () => {
       const { data } = await axios.get<MiniAppLoginResponse>(
         `${TEMPLE_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
         {
-          transformRequest: [
-            (data, headers) => {
-              delete headers.Authorization;
-              return data;
-            },
-          ],
+          meta: { auth: false },
         },
       );
+
+      if (!quickLogin) {
+        setJwtToken(data.token);
+      }
       return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      enabled: !!query,
+      refetchOnMount: true,
+      enabled: !!query && !quickLogin,
     },
   );
 }

@@ -44,6 +44,7 @@ export default defineConfig(config => ({
       { find: 'modules', replacement: '/src/modules' },
       { find: 'shared', replacement: '/src/modules/shared' },
       { find: 'assets', replacement: '/src/assets' },
+      { find: 'buffer', replacement: 'buffer' },
     ],
   },
   esbuild: {
@@ -65,5 +66,8 @@ export default defineConfig(config => ({
       ]),
     ),
     cors: false,
+  },
+  define: {
+    'process.env': {},
   },
 }));

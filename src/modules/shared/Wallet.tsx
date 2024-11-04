@@ -78,7 +78,7 @@ export const Wallet: FC<{
             'bg-transparent text-v1-content-primary transition-all hover:bg-v1-background-hover hover:text-inherit',
             className,
           )}
-          to={`/insight/whales/${wallet.network}/${wallet.address}`}
+          to={`/coin-radar/whale-radar/${wallet.network}/${wallet.address}`}
         >
           <img
             src={avatar}

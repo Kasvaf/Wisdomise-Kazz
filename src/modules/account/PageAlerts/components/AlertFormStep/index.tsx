@@ -46,7 +46,7 @@ export const useAlertFormStep = ({
                   accessableWithBack: false,
                   action: () => {
                     onClose?.();
-                    navigate('/insight/alerts');
+                    navigate('/coin-radar/alerts');
                   },
                 },
                 !hadDataSource.current && {

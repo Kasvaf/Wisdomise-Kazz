@@ -10,12 +10,12 @@ export function RsiConfirmationWidget(
   >,
 ) {
   const hasFlag = useHasFlag();
-  if (!hasFlag('/insight/market-pulse')) return null;
+  if (!hasFlag('/coin-radar/technical-radar')) return null;
   return (
     <ConfirmationWidget
       {...props}
       indicator="rsi"
-      headerActions={<SeeMoreLink to="/insight/market-pulse" />}
+      headerActions={<SeeMoreLink to="/coin-radar/technical-radar" />}
     />
   );
 }

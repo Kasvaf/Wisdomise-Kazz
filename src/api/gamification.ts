@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useTonAddress } from '@tonconnect/ui-react';
 import type { PageResponse } from 'api/types/page';
 import { TEMPLE_ORIGIN } from 'config/constants';
+import { useGameLoginQuery } from 'api/account';
+import { isLocal } from 'utils/version';
+import { useTelegram } from 'modules/autoTrader/TelegramProvider';
 
 const WSDM_CONTRACT_ADDRESS = import.meta.env
   .VITE_WSDM_CONTRACT_ADDRESS as string;
@@ -129,12 +132,28 @@ export const useWithdrawMutation = () =>
     return data;
   });
 
-export const useWaitlistMutation = () =>
-  useMutation(async () => {
+export const useWaitlistMutation = () => {
+  const query = import.meta.env.VITE_CUSTOM_QUERY;
+  const telegram = useTelegram();
+
+  const { refetch } = useGameLoginQuery(
+    isLocal ? query : telegram.webApp?.initData,
+    true,
+  );
+  return useMutation(async () => {
+    const { data } = await refetch();
     return await axios.post<unknown>(
       `${TEMPLE_ORIGIN}/api/v1/investment/gamification/user/wait-list`,
+      null,
+      {
+        transformRequest: [
+          (_, headers) =>
+            headers.set('Authorization', `Bearer ${data?.token ?? ''}`),
+        ],
+      },
     );
   });
+};
 
 export interface AccountJettonBalance {
   balance: string;
@@ -148,12 +167,7 @@ export const useAccountJettonBalance = () => {
       const { data } = await axios.get<AccountJettonBalance>(
         `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${WSDM_CONTRACT_ADDRESS}`,
         {
-          transformRequest: [
-            (data, headers) => {
-              delete headers.Authorization;
-              return data;
-            },
-          ],
+          meta: { auth: false },
         },
       );
       return data;

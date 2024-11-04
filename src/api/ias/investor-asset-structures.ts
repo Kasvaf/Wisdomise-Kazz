@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import normalizePair from 'api/normalizePair';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { isMiniApp } from 'utils/version';
 import { type InvestorAssetStructures } from '../types/investorAssetStructure';
 
 export const useInvestorAssetStructuresQuery = () => {
@@ -37,6 +38,8 @@ export const useInvestorAssetStructuresQuery = () => {
         data?.[0] != null && data?.[0]?.financial_product_instances.length > 0
           ? 3000
           : false,
+      // FIXME: remove me when mini app auth handled
+      enabled: !isMiniApp,
     },
   );
 };

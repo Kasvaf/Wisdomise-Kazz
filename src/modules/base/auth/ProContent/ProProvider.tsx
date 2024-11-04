@@ -43,16 +43,16 @@ export function ProProvider({
           if (!isLoggedIn) {
             return showModalLogin();
           }
-          if (subscription.levelType === 'free') {
+          if (subscription.type === 'free') {
             setSubscriptionModal(true);
             // never resolve
           } else {
             resolve(true);
           }
         }),
-      hasAccess: isLoggedIn && subscription.levelType !== 'free',
+      hasAccess: isLoggedIn && subscription.type !== 'free',
     };
-  }, [isLoggedIn, showModalLogin, subscription.levelType]);
+  }, [isLoggedIn, showModalLogin, subscription.type]);
 
   return (
     <proContext.Provider value={value}>

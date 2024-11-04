@@ -76,6 +76,10 @@ fp:
     positions: Positions
     product-builder: Product Builder
     usage: Usage
+info:
+  safety-open: Adds additional buy orders at lower prices to average down your entry price.
+  stop-loss: Sets a minimum price to sell and limit potential losses automatically.
+  take-profit: Sets a target price to automatically sell and secure profits.
 multi-coin-selector:
   add-coin: Add Coin
 notif-saved-successfully: Changes saved successfully.
@@ -185,7 +189,7 @@ rr:
     take-profit-x: Take Profit {{ind}}
 signal-form:
   btn-close: Close
-  btn-fire-signal: Fire Signal
+  btn-fire-signal: Fire Position
   btn-new-stop-loss: New Stop Loss
   btn-new-take-profit: New Take Profit
   btn-update: Update Position
@@ -196,7 +200,6 @@ signal-form:
     btn-new-condition: New Condition
     condition-ind: Condition {{ind}}
   confirm-close: Are you sure you want to close this position?
-  confirm-fire: Are you sure you want to fire this signal?
   confirm-update: Are you sure you want to update this signal?
   error-100: This {{type}} won't trigger, another {{type}} fills all volume first.
   error-dup: You have already defined a {{type}} with the exact same price.
@@ -211,12 +214,10 @@ signal-form:
     title: Expiration Time
     info-text: Specifies how long a signal remains valid for entry.
     info-title: Expiration Time
-  leverage:
-    title: Leverage
   notif-success-close: Position closed successfully.
-  notif-success-fire: Signal fired successfully.
   notif-success-update: Position updated successfully.
-  open: Open
+  open:
+    title: Open
   order-expiration-time:
     title: Order Expiration
     info-text: >-

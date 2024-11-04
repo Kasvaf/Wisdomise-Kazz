@@ -36,7 +36,7 @@ export default function PricingCard({
   const account = useAccountQuery();
   const { t } = useTranslation('billing');
   const subsMutation = useSubscriptionMutation();
-  const { isActive, plan: userPlan, isTrialPlan } = useSubscription();
+  const { isActive, plan: userPlan, type } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent);
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
@@ -59,7 +59,7 @@ export default function PricingCard({
       plan.periodicity === 'MONTHLY');
 
   const onClick = async () => {
-    if (isActive && !isTrialPlan) {
+    if (type === 'pro') {
       await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
       notification.success({
         duration: 5000,

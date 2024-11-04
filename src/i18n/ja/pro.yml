@@ -1,4 +1,4 @@
-expires-soon: のみ <b>{{days}} 日数</b> トライアルに残りました!
+expires-soon: のみ <Duration></Duration> トライアルに残りました!
 features:
   alerts: カスタマイズされたアラートと通知
   auto-trader: ウィズダムズオートトレーダー
@@ -14,9 +14,10 @@ renew-modal:
 trial: トライアル
 trial-modal:
   button: 旅を始めましょう
-  description: おめでとうございます <b>{{days}}日間トライアル</b> Wisdomise Proの！<br></br>Pro
-    バージョンで利用できる機能の一部を以下に示します。
+  description: おめでとうございます <b><Duration></Duration> トライアル</b> Wisdomise
+    Proの！<br></br>Pro バージョンで利用できる機能の一部を以下に示します。
   footer: 取引体験を向上させるために設計された強力なツールにアクセスできるようになりました。<br></brさらに多くの機能を探索して、暗号通貨ゲームのレベルを上げましょう。
   title: Wisdomise Proへようこそ！
 unlock-with-pro: プロでロック解除
 upgrade-now: 今すぐアップグレード
+zero-hour: 0 時間

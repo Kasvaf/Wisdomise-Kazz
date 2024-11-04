@@ -41,10 +41,10 @@ const start = async () => {
   console.log('[3/6] Write dashboard static urls...');
   [
     { url: '/', changefreq: 'weekly' },
-    { url: '/insight/overview', changefreq: 'always' },
-    { url: '/insight/coin-radar', changefreq: 'always' },
-    { url: '/insight/market-pulse', changefreq: 'always' },
-    { url: '/insight/whales', changefreq: 'always' },
+    { url: '/coin-radar/overview', changefreq: 'always' },
+    { url: '/coin-radar/social-radar', changefreq: 'always' },
+    { url: '/coin-radar/technical-radar', changefreq: 'always' },
+    { url: '/coin-radar/whale-radar', changefreq: 'always' },
   ].forEach(item => sms.write(item));
 
   console.log('[4/6] Fetch all supported tokens...');

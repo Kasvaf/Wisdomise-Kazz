@@ -26,7 +26,7 @@ export default function SetNotification({ className }: { className?: string }) {
     searchParam: 'open-alert',
   });
 
-  if (!hasFlag('/insight/alerts?coinradar')) return null;
+  if (!hasFlag('/coin-radar/alerts?coinradar')) return null;
 
   return (
     <>
