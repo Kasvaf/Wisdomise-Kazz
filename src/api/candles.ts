@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { type MarketTypes } from './types/financialProduct';
 
@@ -52,22 +51,6 @@ export const useCandlesQuery = ({
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
-
-export const useRecentCandlesQuery = (
-  asset: string | undefined,
-  market: MarketTypes | undefined,
-) =>
-  useCandlesQuery({
-    asset,
-    resolution: '1h',
-    startDateTime: useMemo(() => {
-      const startDateTime = new Date();
-      startDateTime.setMonth(startDateTime.getMonth() - 3);
-      return startDateTime.toISOString();
-    }, []),
-    endDateTime: useMemo(() => new Date().toISOString(), []),
-    market,
-  });
 
 export interface LastPrice {
   price: number;

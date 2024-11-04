@@ -1,8 +1,6 @@
 above: Above
 actions:
-  back: Back
   cancel: Cancel
-  complete: Complete
   edit: Edit
   explore: Explore
   invite: Invite
@@ -15,43 +13,26 @@ actions:
   share: Share
   'yes': 'Yes'
 almost-there: Almost There...
-aum: AUM
 below: Below
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
-crypto: Crypto
 cryptocurrency: Cryptocurrency
 data-incoming: HODL On! Data Incoming
 data-incoming-description: >-
   Our mission is to provide insights for informed trading by analyzing thousands
   of crypto projects, though some may need more time.
-date: Date
 equal: Equal
 error: Error
 errors:
   field-required: This field may not be blank.
   network-error: Something wrong with your internet connection.
-free-plan: Free Plan
-futures: Futures
-loading-dot-dot-dot: Loading...
-market:
-  long: Long
-  short: Short
 network: Network
 not-available: N/A
-nothing-to-show: Nothing to show
 order-type:
   limit: Limit
   market: Market
-paid-plan: Paid Plan
-quality:
-  high: High
-  low: Low
-  medium: Medium
 recommended-size: Recommended Size
 see-more: See More
-select-crypto: Select Crypto
 show-more: Show more
 soon: Soon
-spot: Spot
 uploading: Uploading

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { type MarketTypes } from 'api/types/financialProduct';
 import { type PairData } from 'api/types/strategy';
 import { type Resolution } from 'api';
@@ -33,29 +33,6 @@ export const useMySignalersQuery = () =>
     },
   );
 
-// ======================================================================
-
-export const useSignalerQuery = (signaler?: string) =>
-  useQuery(
-    ['signaler', signaler],
-    async () => {
-      if (!signaler) throw new Error('unexpected');
-      const { data } = await axios.get<SignalerData>(
-        `factory/strategies/${signaler}`,
-      );
-      data.assets = data.assets
-        .map(normalizePair)
-        .sort((a, b) => a.name.localeCompare(b.name));
-      return data;
-    },
-    {
-      enabled: !!signaler,
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-
-// ======================================================================
-
 export interface SignalerData {
   key: string;
   is_active: boolean;
@@ -68,91 +45,6 @@ export interface SignalerData {
   assets: PairData[];
   resolution: Resolution;
 }
-
-export const useCreateSignalerMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation<
-    SignalerData,
-    unknown,
-    {
-      name: string;
-      market_name: MarketTypes;
-      resolution: Resolution;
-    }
-  >(
-    async body => {
-      const { data } = await axios.post<SignalerData>('/factory/strategies', {
-        is_active: true,
-        ...body,
-      });
-      data.assets = data.assets.map(normalizePair);
-      return data;
-    },
-    {
-      onSuccess: async () => {
-        await Promise.all([
-          queryClient.invalidateQueries({
-            queryKey: ['signalers'],
-          }),
-          queryClient.invalidateQueries({
-            queryKey: ['fp-catalog'],
-          }),
-        ]);
-      },
-    },
-  );
-};
-
-export const useUpdateSignalerMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation<
-    SignalerData,
-    unknown,
-    {
-      key: string;
-      name: string;
-      tags: string[];
-      assets: Array<{ name: string }>;
-      resolution: Resolution;
-    }
-  >(async ({ key, ...params }) => {
-    const { data } = await axios.patch<SignalerData>(
-      `/factory/strategies/${key}`,
-      { is_active: true, ...params },
-    );
-
-    await Promise.all([
-      queryClient.invalidateQueries({
-        queryKey: ['signalers'],
-      }),
-      queryClient.invalidateQueries({
-        queryKey: ['signaler', key],
-      }),
-      queryClient.invalidateQueries({
-        queryKey: ['fp-catalog'],
-      }),
-      queryClient.invalidateQueries({
-        queryKey: ['fp', key],
-      }),
-    ]);
-    return data;
-  });
-};
-
-export const useDeleteSignalerMutation = () => {
-  const queryClient = useQueryClient();
-  return useMutation(async ({ key }: { key: string }) => {
-    await axios.delete(`/factory/strategies/${key}`);
-    await Promise.all([
-      queryClient.invalidateQueries({
-        queryKey: ['signalers'],
-      }),
-      queryClient.invalidateQueries({
-        queryKey: ['fp-catalog'],
-      }),
-    ]);
-  });
-};
 
 // ======================================================================
 

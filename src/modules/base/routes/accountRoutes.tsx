@@ -15,8 +15,6 @@ const PageToken = React.lazy(() => import('modules/account/PageToken'));
 const PageNotification = React.lazy(
   () => import('modules/account/PageNotification'),
 );
-const PageKYC = React.lazy(() => import('modules/account/kyc/PageKYC'));
-const PageSumSub = React.lazy(() => import('modules/account/kyc/PageSumSub'));
 
 const ChangeStripeCardInfoPage = React.lazy(
   () =>
@@ -56,21 +54,6 @@ const useAccountRoutes = () => {
           path: 'notification-center',
           element: <PageNotification />,
           handle: { crumb: t('menu.notification-center.title') },
-        },
-        {
-          path: 'kyc',
-          handle: { crumb: t('menu.kyc.title') },
-          children: [
-            {
-              path: '',
-              element: <PageKYC />,
-            },
-            {
-              path: 'sumsub',
-              element: <PageSumSub />,
-              handle: { crumb: 'Sumsub' },
-            },
-          ],
         },
         {
           path: '',

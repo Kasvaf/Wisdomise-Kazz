@@ -6,46 +6,26 @@ import {
   useExchangeAccountsQuery,
   useReferralStatusQuery,
   useSubscription,
-  useSumsubVerified,
 } from 'api';
 import { trackClick } from 'config/segment';
-import { PageCard, type PageCardProps } from 'shared/PageCard';
+import { PageCard } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
 import { ReadableDuration } from 'shared/ReadableDuration';
 import {
   ProfileIcon,
   UserIcon,
   SubscriptionIcon,
-  KycIcon,
   WsdmTokenIcon,
   ExternalAccountIcon,
   NotificationsIcon,
   ReferralIcon,
 } from './icons';
 
-const useKycStatusBadge = (): Pick<PageCardProps, 'badge' | 'badgeType'> => {
-  const { t } = useTranslation('kyc');
-  const { data: kycStatus } = useSumsubVerified();
-  const statusMap = {
-    UNVERIFIED: t('badges.unverified'),
-    PENDING: t('badges.pending'),
-    VERIFIED: t('badges.verified'),
-    REJECTED: t('badges.rejected'),
-  };
-  return {
-    badge: statusMap[kycStatus || 'PENDING'] as PageCardProps['badge'],
-    badgeType: (kycStatus === 'VERIFIED'
-      ? 'green'
-      : 'orange') as PageCardProps['badgeType'],
-  };
-};
-
 const PageAccount: FC = () => {
   const { t } = useTranslation('base');
   const subscription = useSubscription();
   const { data: exchanges } = useExchangeAccountsQuery();
   const { data: referral } = useReferralStatusQuery();
-  const kycBadge = useKycStatusBadge();
 
   return (
     <PageWrapper>
@@ -91,15 +71,6 @@ const PageAccount: FC = () => {
               )}
             </>
           }
-        />
-        <PageCard
-          to="/account/kyc"
-          title={t('menu.kyc.title')}
-          description={t('menu.kyc.subtitle')}
-          cta={t('actions.complete', { ns: 'common' })}
-          icon={KycIcon}
-          onClick={trackClick('kyc_menu')}
-          {...kycBadge}
         />
         <PageCard
           to="/account/token"

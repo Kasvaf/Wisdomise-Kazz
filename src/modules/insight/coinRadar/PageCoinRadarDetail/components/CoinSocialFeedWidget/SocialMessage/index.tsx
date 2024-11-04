@@ -1,5 +1,4 @@
 import { type FC } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import { type SocialMessage as SocialMessageType } from 'api/coinRadar';
 import useModal from 'shared/useModal';

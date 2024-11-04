@@ -39,7 +39,7 @@ interface FinancialProduct {
   config: Config;
 }
 
-export interface AssetBinding {
+interface AssetBinding {
   asset: PairData;
   equity: number;
   amount: number;
