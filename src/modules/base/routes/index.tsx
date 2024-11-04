@@ -1,8 +1,9 @@
-import { Navigate, type RouteObject } from 'react-router-dom';
+import { type RouteObject } from 'react-router-dom';
 import useMiniAppRoutes from 'modules/base/routes/miniAppRoutes';
 import { isMiniApp } from 'utils/version';
 import Container from '../Container';
 import PageMenu from '../Container/SideMenu/PageMenu';
+import PageRedirect from '../PageRedirect';
 import Boundary from './Boundary';
 import useMarketplaceRoutes from './marketplaceRoutes';
 import useInsightRoutes from './insightRoutes';
@@ -37,7 +38,7 @@ const useRoutes = () => {
             },
           ],
         },
-        { path: '*', element: <Navigate to="/insight/overview" /> },
+        { path: '*', element: <PageRedirect /> },
       ],
     },
   ] satisfies RouteObject[];
