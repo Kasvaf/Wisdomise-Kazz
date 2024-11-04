@@ -4,15 +4,22 @@ import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
 import { bxSearch } from 'boxicons-quasar';
+import { Trans, useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
-import { type CoinSignal, useCoinSignals, useHasFlag } from 'api';
+import {
+  type CoinSignal,
+  useCoinSignals,
+  useHasFlag,
+  useMarketInfoFromSignals,
+} from 'api';
 import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/components/SignalSentiment';
 import { ProLocker } from 'shared/ProLocker';
 import TextBox from 'shared/TextBox';
 import Icon from 'shared/Icon';
-import { CoinInfo } from '../CoinInfo';
+import { formatNumber } from 'utils/numbers';
+import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinCategoriesLabel } from '../CoinCategoriesLabel';
 import { CoinSecurityLabel } from '../CoinSecurityLabel/index';
 import { CategoriesSelect } from '../CategoriesSelect';
@@ -25,7 +32,9 @@ export function HotCoinsWidget({ className }: { className?: string }) {
   const coins = useCoinSignals({
     windowHours: 24,
   });
+  const marketInfo = useMarketInfoFromSignals();
   const hasFlag = useHasFlag();
+  const { t } = useTranslation('coin-radar');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [sort, setSort] = useState<SortMode | undefined>(undefined);
@@ -45,7 +54,9 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       .filter(
         row =>
           !category ||
-          (row.symbol.categories ?? []).map(r => r.name).includes(category),
+          (row.symbol.categories ?? [])
+            .map(r => r.coingecko_id)
+            .includes(category),
       )
       .sort((a, b) => {
         if (!sort || sort === 'rank') {
@@ -83,100 +94,66 @@ export function HotCoinsWidget({ className }: { className?: string }) {
     () => [
       {
         fixed: 'left',
-        title: 'Wise Rank' /* NAITODO add info */,
+        title: t('social-radar.table.rank'),
         render: (_, row) => row.rank,
         width: 100,
       },
       {
-        title: 'Name' /* NAITODO */,
+        title: t('social-radar.table.name'),
         render: (_, row) => <Coin coin={row.symbol} />,
         width: 200,
       },
       {
         colSpan: hasFlag('/insight/coin-radar?side-suggestion') ? 1 : 0,
         title: [
-          // eslint-disable-next-line react/jsx-key
-          <span className="flex items-center gap-1 text-v1-content-primary">
+          <span
+            key="1"
+            className="flex items-center gap-1 text-v1-content-primary"
+          >
             <Logo className="inline-block size-4 grayscale" />
-            {'Wisdomise Sentiment'}
+            {t('social-radar.table.sentiment.title')}
           </span>,
-          // NAITODO
-          // eslint-disable-next-line react/jsx-key
-          <div className="text-xs">
-            <b>Wisdomise Sentiment</b>
-            <br />
-            <br />
-            <b>
-              Wisdomise AI analyzes social sentiment for each asset (coin or
-              token) from Reddit, Telegram, Trading View, X (formerly Twitter),
-              and YouTube. The sentiment can be Positive, Neutral, or Negative,
-              showing how the community feels.
-            </b>
-            <br />
-            <br />
-            <b>P&L % Change</b>
-            <br />
-            <p>
-              Tracks the Profit & Loss from when the asset was first hunted as
-              “Hot” until its first major price movement.
-            </p>
-            <br />
-            <br />
-            <p>
-              This information helps you make informed decisions by seeing not
-              just the community’s view but also how market movements align with
-              those opinions.
-            </p>
-          </div>,
-        ] /* NAITODO add info */,
+          <Trans
+            key="2"
+            ns="coin-radar"
+            i18nKey="social-radar.table.sentiment.info"
+          />,
+        ],
         width: 310,
         render: (_, row: CoinSignal) => <SignalSentiment signal={row} />,
       },
+      /* NAITODO Market Cap */
       {
-        title: 'Info' /* NAITODO add info */,
+        title: [
+          t('social-radar.table.price_info.title'),
+          <Trans
+            key="2"
+            ns="coin-radar"
+            i18nKey="social-radar.table.price_info.info"
+          />,
+        ],
         width: 310,
         render: (_, row) => (
-          <CoinInfo coin={row.symbol} marketData={row.symbol_market_data} />
+          <CoinPriceInfo marketData={row.symbol_market_data} />
         ),
       },
       {
         title: [
-          'Whale Buy/Sell',
-          // NAITODO
-          // eslint-disable-next-line react/jsx-key
-          <div className="text-xs">
-            <b>Whale Buy/Sell</b>
-            <br />
-            <br />
-            <b>Tracks data from Smart Wallets (Whales) using Wisdomise AI:</b>
-            <br />
-            <br />
-            <ul>
-              <li>
-                <b>Buying Activity:</b> Displays the number of wallets that
-                bought the asset in the last hour and the total amount
-                purchased.
-              </li>
-              <br />
-              <li>
-                <b>Selling Activity:</b> Shows the number of wallets that sold
-                the asset in the last hour and the total amount sold.
-              </li>
-            </ul>
-            <br />
-            <p>
-              For assets that are not attractive to whales and have no
-              significant transactions, the badge Untracked is displayed.
-            </p>
-          </div>,
+          t('social-radar.table.whale_buy_sell.title'),
+          <Trans
+            key="2"
+            ns="coin-radar"
+            i18nKey="social-radar.table.whale_buy_sell.info"
+          />,
         ],
+        // NAITODO feature/flag
         width: 150,
         render: (_, row) => (
           <CoinWhalesDetails holdersData={row.holders_data} />
         ),
       },
       {
-        title: 'Labels' /* NAITODO */,
+        title: t('social-radar.table.labels.title'),
         render: (_, row) => (
           <div className="flex min-h-16 flex-wrap items-center gap-1">
             <CoinCategoriesLabel coin={row.symbol} />
@@ -188,7 +165,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         ),
       },
     ],
-    [hasFlag],
+    [hasFlag, t],
   );
 
   return (
@@ -200,15 +177,24 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       title={
         <>
           <Logo />
-          {'Wisdomise Hot Coins' /* NAITODO */}
+          {t('social-radar.table.title')}
         </>
       }
       subtitle={
-        /* NAITODO */
-        <div className="mobile:hidden">
-          {'Wisdomise Social Radar scanned '}
-          <span className="text-v1-content-primary">{'1.49K Posts'}</span>
-          {' in the last 24 hours for accurate, data-driven insights.'}
+        <div className="capitalize [&_b]:font-normal [&_b]:text-v1-content-primary">
+          <Trans
+            key="2"
+            ns="coin-radar"
+            i18nKey="social-radar.table.subtitle"
+            values={{
+              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 0, {
+                compactInteger: true,
+                decimalLength: 0,
+                seperateByComma: true,
+                minifyDecimalRepeats: false,
+              }),
+            }}
+          />
         </div>
       }
       loading={coins.isInitialLoading}
@@ -220,7 +206,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             <TextBox
               value={query}
               onChange={setQuery}
-              placeholder={'Search Coin...' /* NAITODO */}
+              placeholder={t('social-radar.table.search')}
               className="shrink-0 basis-80 mobile:order-2 mobile:basis-full"
               inputClassName="text-sm"
               suffix={<Icon name={bxSearch} />}
@@ -232,7 +218,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             />
             <div className="flex flex-wrap items-center gap-2 mobile:order-4">
               <span className="ps-6 text-xs mobile:w-full mobile:grow mobile:ps-0">
-                {'Sort: ' /* NAITODO */}
+                {t('social-radar.table.sort')}:
               </span>
               <SortModes
                 value={sort}

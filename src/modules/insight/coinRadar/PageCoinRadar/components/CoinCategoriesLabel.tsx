@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { type Coin } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 
 export function CoinCategoriesLabel({ coin }: { coin: Coin }) {
+  const { t } = useTranslation('coin-radar');
   if (!coin.categories || coin.categories.length === 0) return null;
 
   return (
@@ -16,11 +18,9 @@ export function CoinCategoriesLabel({ coin }: { coin: Coin }) {
       disabled={coin.categories.length < 2}
       className="rounded-full bg-v1-content-primary/10 px-3 py-1 text-center text-xxs text-v1-content-primary"
     >
-      {
-        coin.categories.length === 1
-          ? coin.categories[0].name
-          : 'Categoeies' /* NAITODO */
-      }
+      {coin.categories.length === 1
+        ? coin.categories[0].name
+        : t('coin-category.button')}
     </ClickableTooltip>
   );
 }

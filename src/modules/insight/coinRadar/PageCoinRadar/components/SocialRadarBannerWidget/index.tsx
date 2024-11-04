@@ -29,11 +29,11 @@ export function SocialRadarBannerWidget({ className }: { className?: string }) {
       </div>
       <div className="relative bottom-0 space-y-2 mobile:absolute mobile:p-6">
         <h1 className="flex items-center gap-2 text-xl font-medium text-v1-content-primary mobile:flex-col-reverse mobile:justify-center mobile:gap-3 mobile:text-base">
-          {t('hot-coins-banner.title')}
-          <RealtimeIcon className="animate-pulse" />
+          {t('social-radar.banner.title')}
+          <RealtimeIcon />
         </h1>
         <p className="text-base text-v1-content-secondary mobile:text-xs mobile:text-v1-content-primary/70">
-          {t('hot-coins-banner.subtitle')}
+          {t('social-radar.banner.subtitle')}
         </p>
       </div>
     </OverviewWidget>

@@ -129,7 +129,7 @@ export const SignalSentiment: FC<{
         </div>
         <div className="flex items-center gap-1 ps-[22px] text-xs">
           <label className="text-v1-content-secondary">
-            {'Hunted At:' /* NAITODO */}
+            {t('coin-details.tabs.social_sentiment.hunted-at')}:
           </label>
           <ReadableDate
             popup={false}

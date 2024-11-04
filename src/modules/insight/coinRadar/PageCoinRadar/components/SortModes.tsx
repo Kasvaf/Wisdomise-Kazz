@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ButtonSelect } from 'shared/ButtonSelect';
 
 export type SortMode =
@@ -16,27 +17,28 @@ export function SortModes({
   value?: SortMode;
   onChange?: (v?: SortMode) => void;
 }) {
+  const { t } = useTranslation('coin-radar');
   return (
     <ButtonSelect
       options={[
         {
-          label: 'Wise Logic',
+          label: t('social-radar.sorts.rank'),
           value: 'rank',
         },
         {
-          label: 'Newest',
+          label: t('social-radar.sorts.call_time'),
           value: 'call_time',
         },
         {
-          label: '24H Chg',
+          label: t('social-radar.sorts.price_change'),
           value: 'price_change',
         },
         {
-          label: 'PNL',
+          label: t('social-radar.sorts.pnl'),
           value: 'pnl',
         },
         {
-          label: 'Market Cap',
+          label: t('social-radar.sorts.market_cap'),
           value: 'market_cap',
         },
       ]}

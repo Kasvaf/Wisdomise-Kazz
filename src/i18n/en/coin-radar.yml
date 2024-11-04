@@ -1,3 +1,4 @@
+'2': ''
 available-exchanges:
   search: Search Exchange...
   table:
@@ -11,6 +12,72 @@ call-change:
   pnl: Call PnL Percentage
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
+coin_security:
+  contract_security: Contract Security
+  fields:
+    anti_whale_modifiable:
+      title: Anti-whale modifiable function found
+    buy_tax:
+      title: Buy tax
+    can_take_back_ownership:
+      title: No retrievable ownership function found
+    cannot_buy:
+      title: This token can be bought
+    cannot_sell_all:
+      title: Holders can sell all of their tokens
+    external_call:
+      title: No external call risk
+    gas_abuse:
+      title: This token is not a gas abuser
+    hidden_owner:
+      title: No hidden owner address
+    is_anti_whale:
+      title: No anti-whale function
+    is_blacklisted:
+      title: No blacklist function
+    is_honeypot:
+      title: This token does not appear to be a honeypot
+    is_mintable:
+      title: Mint function is transparent or non-existent
+    is_open_source:
+      title: Verified contract source code
+      subtitle: >-
+        This token has an open source contract and details can be retrieved from
+        the contract code.
+    is_proxy:
+      title: No proxy found
+    is_whitelisted:
+      title: No whitelist function
+    owner_change_balance:
+      title: Contract owner cannot modify balance
+    personal_slippage_modifiable:
+      title: Taxes cannot be modified for assigned addresses
+    selfdestruct:
+      title: This token cannot self-destruct
+    sell_tax:
+      title: Sell tax
+    slippage_modifiable:
+      title: Transaction tax cannot be modified
+    tax:
+      subtitle: >-
+        More than 10% is considered a high tax rate, and anything beyond 50% tax
+        rate means it may not be tradable.
+    trading_cooldown:
+      title: No cooldown period function
+    transfer_pausable:
+      title: Contains no code for suspending trading
+  go_plus: Go Plus
+  risk_one: '{{count}} Risk'
+  risk_other: '{{count}} Risks'
+  risk_zero: No Risks
+  security_detection: Security Detection
+  trusted: Trusted
+  warning_one: '{{count}} Warning'
+  warning_other: '{{count}} Warnings'
+  warning_zero: No Warnings
+coin-category:
+  all: All Categories
+  button: Categories
 coin-details:
   tabs:
     chart:
@@ -48,6 +115,7 @@ coin-details:
     social_sentiment:
       title: Social Sentiment By Wisdomise
       footer: Past 24H, Community Data Insights
+      hunted-at: Hunted At
       market_side: Market Side
       negative: Negative
       positive: Positive
@@ -77,9 +145,6 @@ coin-details:
     whale_popular:
       title: Popular With Whales
 copied-to-clipboard: ''
-hot-coins-banner:
-  title: Social Radar
-  subtitle: Real-Time AI-Driven Insights from Socials
 hot-coins-section:
   title: Hot Coins
   table:
@@ -122,3 +187,29 @@ set-notification:
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
+social-radar:
+  banner:
+    title: Social Radar
+    subtitle: Real-Time AI-Driven Insights from Socials
+  sorts:
+    call_time: Newest
+    market_cap: Market Cap
+    pnl: PNL
+    price_change: 24H Chg
+    rank: Wise Logic
+  table:
+    name: Name
+    title: Wisdomise Hot Coins
+    subtitle: Wisdomise Social Radar scanned <b>{{posts}} Posts</b> in the last 24 hours for accurate, data-driven insights.
+    labels:
+      title: Labels
+    price_info:
+      title: Info
+    rank: Wise Rank
+    search: Search Coin...
+    sentiment:
+      title: Wisdomise Sentiment
+    sort: Sort
+    whale_buy_sell:
+      title: Whale Buy/Sell
+      empty: Untracked

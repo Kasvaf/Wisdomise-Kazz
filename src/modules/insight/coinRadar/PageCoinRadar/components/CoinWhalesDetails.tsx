@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { type CoinSignal } from 'api';
@@ -10,6 +11,7 @@ export function CoinWhalesDetails({
   className?: string;
   holdersData: CoinSignal['holders_data'];
 }) {
+  const { t } = useTranslation('coin-radar');
   return (
     <span className={clsx('inline-flex flex-col', className)}>
       {holdersData ? (
@@ -54,7 +56,9 @@ export function CoinWhalesDetails({
           </div>
         </>
       ) : (
-        <span className="text-sm text-v1-content-primary">{'Untracked'}</span>
+        <span className="text-sm text-v1-content-secondary">
+          {t('social-radar.table.whale_buy_sell.empty')}
+        </span>
       )}
     </span>
   );

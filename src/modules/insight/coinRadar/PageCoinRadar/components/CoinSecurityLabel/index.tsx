@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
+import { useTranslation } from 'react-i18next';
 import { type Coin, type NetworkSecurity } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import Icon from 'shared/Icon';
@@ -10,6 +11,8 @@ import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Risk } from './risk.svg';
 import { ReactComponent as Warning } from './warning.svg';
 import { useSecurityRows } from './useSecurityRows';
+
+/* NAITODO improve badge */
 
 function SecurityRow({
   field,
@@ -36,7 +39,7 @@ function SecurityRow({
         ) : (
           <Trusted className="size-4 shrink-0" />
         )}
-        <p className="grow text-xs">{rows[field].label} </p>
+        <p className="grow text-xs capitalize">{rows[field].label} </p>
         {rows[field].info && (
           <Icon
             className={clsx(
@@ -114,6 +117,7 @@ export function CoinSecurityLabel({
   value?: NetworkSecurity[] | null;
   coin: Coin;
 }) {
+  const { t } = useTranslation('coin-radar');
   const firstNetwork = !value || value.length === 0 ? null : value[0];
 
   const [selectedNetworkName, setSelectedNetworkName] = useState(
@@ -162,37 +166,35 @@ export function CoinSecurityLabel({
               {activeNetwork?.network_name}
             </p>
             <div className="max-w-64 overflow-auto whitespace-nowrap text-base text-v1-content-primary">
-              {coin.name} - {'Security Detection'}
+              {coin.name} - {t('coin_security.security_detection')}
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-4">
               {activeNetwork?.label.trusted && (
                 <div className="inline-flex items-center gap-1 text-v1-content-positive">
                   <Trusted className="size-4 shrink-0" />
-                  {'Trusted' /* NAITODO */}
+                  {t('coin_security.trusted')}
                 </div>
               )}
               {(activeNetwork?.label.risk ?? 0) > 0 && (
                 <div className="inline-flex items-center gap-1 text-v1-content-negative">
                   <Risk className="size-4 shrink-0" />
-                  {
-                    (activeNetwork?.label.risk ?? 0).toString() +
-                      ' Risk' /* NAITODO */
-                  }
+                  {t('coin_security.risk', {
+                    count: activeNetwork?.label.risk ?? 0,
+                  })}
                 </div>
               )}
               {(activeNetwork?.label.warning ?? 0) > 0 && (
                 <div className="inline-flex items-center gap-1 text-v1-content-notice">
                   <Warning className="size-4 shrink-0" />
-                  {
-                    (activeNetwork?.label.warning ?? 0).toString() +
-                      ' Warning' /* NAITODO */
-                  }
+                  {t('coin_security.warning', {
+                    count: activeNetwork?.label.warning ?? 0,
+                  })}
                 </div>
               )}
             </div>
           </div>
           <p className="text-base text-v1-content-primary">
-            {'Contract security' /* NAITODO */}
+            {t('coin_security.contract_security')}
           </p>
           {activeNetwork && (
             <>
@@ -230,7 +232,6 @@ export function CoinSecurityLabel({
           )}
         </div>
       }
-      // disabled={coin.categories.length < 2}
       className={clsx(
         'whitespace-nowrap rounded-full px-3 py-1 text-center text-xxs',
         badgeType === 'go+' &&
@@ -246,25 +247,26 @@ export function CoinSecurityLabel({
       {badgeType === 'go+' ? (
         <>
           <img src={GoPlus} alt="Go Plus" className="w-4" />{' '}
-          {'Go Plus' /* NAITODO */}
+          {t('coin_security.go_plus')}
         </>
       ) : badgeType === 'trusted' ? (
         <>
           <Trusted />
-          {'Trusted' /* NAITODO */}
+          {t('coin_security.trusted')}
         </>
       ) : badgeType === 'risk' ? (
         <>
           <Risk className="size-4" />
-          {(firstNetwork?.label.risk ?? 0).toString() + ' Risk' /* NAITODO */}
+          {t('coin_security.risk', {
+            count: firstNetwork?.label.risk ?? 0,
+          })}
         </>
       ) : (
         <>
           <Warning className="size-4" />
-          {
-            (firstNetwork?.label.warning ?? 0).toString() +
-              ' Warning' /* NAITODO */
-          }
+          {t('coin_security.warning', {
+            count: firstNetwork?.label.warning ?? 0,
+          })}
         </>
       )}
     </ClickableTooltip>

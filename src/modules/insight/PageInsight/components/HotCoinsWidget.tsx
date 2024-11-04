@@ -10,7 +10,7 @@ import { ReadableDate } from 'shared/ReadableDate';
 import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
-// import { RealtimeBadge } from 'modules/insight/coinRadar/PageCoinRadar/assets';
+import { ReactComponent as RealtimeIcon } from 'modules/insight/coinRadar/PageCoinRadar/components/SocialRadarBannerWidget/realtime.svg';
 import Icon from 'shared/Icon';
 import { ProLocker } from 'shared/ProLocker';
 import { SignalSentiment } from '../../coinRadar/PageCoinRadar/components/SignalSentiment';
@@ -84,7 +84,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       title={
         <>
           {t('coin-radar:hot-coins-section.title')}
-          {/* <RealtimeBadge className="animate-pulse" /> NAITODO */}
+          <RealtimeIcon />
         </>
       }
       headerActions={<SeeMoreLink to="/insight/coin-radar" />}
