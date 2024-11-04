@@ -19,7 +19,7 @@ export default function InsightSection() {
 
       <section className="mt-8 grid grid-cols-3 gap-4 mobile:grid-cols-1">
         <PageCard
-          to="/insight/signalers"
+          to="/coin-radar/signalers"
           videoId="12CWx7r2WY8"
           title={t('insight.signals.title')}
           icon={SignalMatrixIcon}
@@ -30,7 +30,7 @@ export default function InsightSection() {
         <PageCard
           title={t('insight.coin-radar.title')}
           icon={CoinRadarIcon}
-          to="/insight/coin-radar"
+          to="/coin-radar/social-radar"
           onClick={trackClick('onboarding_coin_radar')}
           info={t('insight.coin-radar.info')}
           description={t('insight.coin-radar.description')}

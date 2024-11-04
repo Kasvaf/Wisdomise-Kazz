@@ -19,13 +19,13 @@ export function unparam(
 }
 
 const defaultFlags = [
-  '/insight',
-  '/insight/overview',
-  '/insight/coin-radar?side-suggestion',
-  '/insight/coin-radar',
-  '/insight/market-pulse',
-  '/insight/alerts?price',
-  '/insight/alerts?coinradar',
+  '/coin-radar',
+  '/coin-radar/overview',
+  '/coin-radar/social-radar?side-suggestion',
+  '/coin-radar/social-radar',
+  '/coin-radar/technical-radar',
+  '/coin-radar/alerts?price',
+  '/coin-radar/alerts?coinradar',
   '/menu',
 ];
 

@@ -28,7 +28,7 @@ menu:
     title: External Account
     subtitle: Integrate exchange accounts
   ai-indicators:
-    title: AI Indicators
+    title: Technical Radar
   alerts:
     title: My Alerts
     subtitle: >-
@@ -64,7 +64,7 @@ menu:
     card-badge: Unique Options
     card-button: Try Financial Products
   hot-coins:
-    title: Hot Coins
+    title: Social Radar
   investment:
     title: Investment
     subtitle: Explore our auto trader financial products
@@ -97,7 +97,7 @@ menu:
   users:
     title: Users
   whales:
-    title: Smart Whales
+    title: Whale Radar
     subtitle: >-
       Track Top Whales, Hottest Tokens They Hold and Trade, and Market Moves
       Influenced by Crypto Whales
