@@ -85,10 +85,11 @@ indicator_list.rsi.table.resolution: 分辨率
 indicator_list.rsi.table.rsi: RSI
 indicator_list.rsi.title: 加密貨幣市場RSI
 indicators: 指標
-onboarding.sec-1.content: 我们的 AI 指标页面将复杂的技术指标分解为简单、可操作的见解。无论您是初学者还是专家，您都能够轻松做出快速而明智的决策。
-onboarding.sec-1.title: 欢迎来到人工智能指标页面：从复杂数据中获取简化的见解
-onboarding.sec-2.content: 相对强弱指数 (RSI) 衡量价格变动的速度和变化，表明代币是否超买或超卖。我们的热图以视觉方式突出显示这些代币，帮助您一目了然地发现潜在的买入或卖出机会。
-onboarding.sec-2.title: 什么是 RSI？<br>了解市场动量
+onboarding.sec-1.content: 我们的技术雷达页面将复杂的技术指标分解为简单、可操作的见解。无论您是初学者还是专家，您都能够轻松做出快速而明智的决策。
+onboarding.sec-1.title: 欢迎来到技术雷达页面：从复杂数据中获取简化的见解
+onboarding.sec-2.content: 相对强弱指数 (RSI)
+  衡量价格变动的速度和变化，表明某种货币是超买还是超卖。我们的热图以视觉方式突出显示这些货币，帮助您一目了然地发现潜在的买入或卖出机会。
+onboarding.sec-2.title: RSI 是什么？<br>了解市场动量
 onboarding.sec-3.content: 寻找 <b>看涨和看跌背离</b> 识别潜在的市场逆转。看涨背离表示上涨势头，而看跌背离则表示下跌趋势。利用这些见解领先于市场。
 onboarding.sec-3.title: 看涨和看跌背离：发现动量转变
 onboarding.sec-4.content: 当代币达到关键 RSI 水平或出现分歧迹象时，自定义通知。获取即时警报，这样您就不会错过关键的交易机会。

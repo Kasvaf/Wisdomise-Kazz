@@ -17,7 +17,7 @@ menu:
     title: External Account
     subtitle: Integrate exchange accounts
   ai-indicators:
-    title: AI Indicators
+    title: Technical Radar
   alerts:
     title: My Alerts
     subtitle: >-
@@ -37,7 +37,7 @@ menu:
       simple easy to understand bites.
     full-title: Market Alpha using AI
   hot-coins:
-    title: Hot Coins
+    title: Social Radar
   overview:
     title: Overview
   profile:
@@ -50,7 +50,7 @@ menu:
     title: WSDM Token
     subtitle: Use tokens for premium access
   whales:
-    title: Smart Whales
+    title: Whale Radar
     subtitle: >-
       Track Top Whales, Hottest Tokens They Hold and Trade, and Market Moves
       Influenced by Crypto Whales

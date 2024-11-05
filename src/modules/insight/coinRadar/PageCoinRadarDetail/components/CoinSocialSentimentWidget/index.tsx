@@ -17,7 +17,7 @@ export function CoinSocialSentimentWidget({
   const signals = useCoinSignals();
   const hasFlag = useHasFlag();
   const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
-  if (!hasFlag('/insight/coin-radar?side-suggestion')) return null;
+  if (!hasFlag('/coin-radar/social-radar?side-suggestion')) return null;
   return (
     <OverviewWidget
       className={clsx('min-h-[400px]', className)}

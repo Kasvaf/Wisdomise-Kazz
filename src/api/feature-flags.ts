@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { isProduction } from 'utils/version';
+import { isDebugMode } from 'utils/version';
 import { useAccountQuery } from './account';
 
 // hasFlag('?xyz') -> [current-pathname]?xyz
@@ -19,13 +19,13 @@ function unparam(
 }
 
 const defaultFlags = [
-  '/insight',
-  '/insight/overview',
-  '/insight/coin-radar?side-suggestion',
-  '/insight/coin-radar',
-  '/insight/market-pulse',
-  '/insight/alerts?price',
-  '/insight/alerts?coinradar',
+  '/coin-radar',
+  '/coin-radar/overview',
+  '/coin-radar/social-radar?side-suggestion',
+  '/coin-radar/social-radar',
+  '/coin-radar/technical-radar',
+  '/coin-radar/alerts?price',
+  '/coin-radar/alerts?coinradar',
   '/menu',
 ];
 
@@ -52,7 +52,7 @@ export function useHasFlag() {
 
     if (flag[0] === '/') {
       const result = Boolean(flagsObj[flag]);
-      if (!result && !isProduction) {
+      if (!result && isDebugMode) {
         console.log('🚩', flag);
       }
       return result;

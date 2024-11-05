@@ -3,7 +3,6 @@ import { Navigate, type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageInsight from 'modules/insight/PageInsight';
 import { shortenAddress } from 'utils/shortenAddress';
-import PageCoinDetailRedirect from 'modules/insight/coinRadar/PageCoinDetailRedirect';
 import Container from '../Container';
 
 const PageCoinRadar = React.lazy(
@@ -11,10 +10,6 @@ const PageCoinRadar = React.lazy(
 );
 const PageCoinRadarDetail = React.lazy(
   () => import('modules/insight/coinRadar/PageCoinRadarDetail'),
-);
-
-const PageSocialRadarRedirect = React.lazy(
-  () => import('modules/insight/coinRadar/PageSocialRadarRedirect'),
 );
 
 const PageMarketPulse = React.lazy(
@@ -34,31 +29,23 @@ const useInsightRoutes = () => {
   return [
     {
       element: <Container />,
-      path: 'insight',
+      path: 'coin-radar',
       handle: { crumb: t('menu.coin-radar.title') },
       children: [
-        { path: '', element: <Navigate to="/insight/overview" replace /> },
+        { path: '', element: <Navigate to="/coin-radar/overview" replace /> },
         { path: 'overview', element: <PageInsight /> },
         {
-          path: 'coin-radar',
+          path: 'social-radar',
           handle: { crumb: t('menu.hot-coins.title') },
           element: <PageCoinRadar />,
         },
         {
-          path: 'coin-radar/:slug',
-          element: <PageCoinDetailRedirect />,
-        },
-        {
-          path: 'social-radar/*',
-          element: <PageSocialRadarRedirect />,
-        },
-        {
-          path: 'market-pulse',
+          path: 'technical-radar',
           element: <PageMarketPulse />,
           handle: { crumb: t('menu.ai-indicators.title') },
         },
         {
-          path: 'whales',
+          path: 'whale-radar',
           handle: { crumb: t('menu.whales.title') },
           children: [
             {
@@ -87,17 +74,6 @@ const useInsightRoutes = () => {
       element: <Container />,
       handle: { crumb: t('menu.coin.title') },
       children: [
-        {
-          path: '',
-          element: (
-            <Navigate
-              replace
-              to={{
-                pathname: '/insight/coin-radar',
-              }}
-            />
-          ),
-        },
         {
           path: ':slug',
           element: <PageCoinRadarDetail />,
