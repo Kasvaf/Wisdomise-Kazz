@@ -50,7 +50,7 @@ export default function PageCoinDetail() {
       )}
       {positionsRes?.positions.map(position => (
         <div
-          className="rounded-3xl bg-v1-surface-l2 p-4 text-xs"
+          className="mb-3 rounded-3xl bg-v1-surface-l2 p-4 text-xs"
           key={position.key}
         >
           <div className="flex items-center gap-3">
@@ -74,15 +74,21 @@ export default function PageCoinDetail() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-v1-content-secondary">Opened At</span>
-              <span>{dayjs(position.entry_time).fromNow()}</span>
+              <span>
+                {position.entry_time
+                  ? dayjs(position.entry_time).fromNow()
+                  : '-'}
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-v1-content-secondary">Closed At</span>
-              <span>{dayjs(position.exit_time).fromNow()}</span>
+              <span>
+                {position.exit_time ? dayjs(position.exit_time).fromNow() : '-'}
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-v1-content-secondary">P / L</span>
-              <span>{position.pnl}</span>
+              <span>{position.pnl ?? '-'}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-v1-content-secondary">Size</span>
@@ -92,19 +98,19 @@ export default function PageCoinDetail() {
               <span className="text-v1-content-secondary">
                 Average Entry Prices
               </span>
-              <span>{position.entry_price}</span>
+              <span>{position.entry_price ?? '-'}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-v1-content-secondary">
                 Average Stop Losses
               </span>
-              <span>{position.stop_loss}</span>
+              <span>{position.stop_loss ?? '-'}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-v1-content-secondary">
                 Avg Take Profits
               </span>
-              <span>{position.take_profit}</span>
+              <span>{position.take_profit ?? '-'}</span>
             </div>
           </div>
         </div>
