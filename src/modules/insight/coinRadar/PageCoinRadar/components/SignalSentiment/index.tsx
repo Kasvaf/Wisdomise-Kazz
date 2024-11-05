@@ -116,7 +116,7 @@ export const SignalSentiment: FC<{
               <TinyArea {...chartConfig} />
             </div>
             <div className="h-px bg-v1-border-tertiary" />
-            {/* <div>
+            <div>
               <div className="block text-xxs text-v1-content-secondary">
                 {t('call-change.trigger-price')}
               </div>
@@ -126,7 +126,7 @@ export const SignalSentiment: FC<{
                 label="usdt"
                 className="text-base"
               />
-            </div> */}
+            </div>
             <div>
               <div className="block text-xxs text-v1-content-secondary">
                 {t('call-change.min-price')}
@@ -149,7 +149,7 @@ export const SignalSentiment: FC<{
                 className="text-base"
               />
             </div>
-            <div>
+            {/* <div>
               <div className="block text-xxs text-v1-content-secondary">
                 {t('call-change.pnl')}
               </div>
@@ -166,7 +166,7 @@ export const SignalSentiment: FC<{
                   )}h)`}</span>
                 }
               />
-            </div>
+            </div> */}
           </div>
         )}
       </>
