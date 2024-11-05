@@ -15,6 +15,7 @@ import { NetworkSelect } from './NetworkSelect';
 
 const useWhaleCoinsFilters = () => {
   const { t } = useTranslation('whale');
+  // NAITODO change labels to be more informative
   return [
     {
       label: t('filters.all'),
