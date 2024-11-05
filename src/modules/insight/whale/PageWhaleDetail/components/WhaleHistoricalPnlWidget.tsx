@@ -68,12 +68,12 @@ export function WhaleHistoricalPnlWidget({
         title: dt => dayjs(dt).format('ddd, MMM D, YYYY'),
         formatter: dt => ({
           name: t('whale_historical_pnl.last_30_trading_pnl'),
-          value: `${formatNumber(dt.y, {
+          value: `$ ${formatNumber(dt.y, {
             compactInteger: true,
             decimalLength: 1,
             minifyDecimalRepeats: true,
             seperateByComma: true,
-          })}%`,
+          })}`,
         }),
         domStyles: {
           'g2-tooltip': {
