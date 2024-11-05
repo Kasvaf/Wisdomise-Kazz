@@ -175,7 +175,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         title: t('social-radar.table.labels.title'),
         render: (_, row) => (
           <div className="flex min-h-16 flex-wrap items-center gap-1">
-            <CoinCategoriesLabel coin={row.symbol} />
+            {TODO_CATEGORY && <CoinCategoriesLabel coin={row.symbol} />}
             <CoinSecurityLabel
               value={row.symbol_security?.data}
               coin={row.symbol}
