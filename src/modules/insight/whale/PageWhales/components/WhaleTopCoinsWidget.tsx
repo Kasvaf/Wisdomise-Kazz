@@ -101,7 +101,7 @@ export function WhaleTopCoinsWidget({
               direction="up"
               label="$"
             />
-            <div className="flex items-center gap-1 text-xs">
+            <div className="flex items-center gap-1 whitespace-nowrap text-xs">
               <span className="text-v1-content-secondary">
                 {t('top_coins.buy_volume.avg')}:
               </span>
@@ -132,7 +132,7 @@ export function WhaleTopCoinsWidget({
               direction="down"
               label="$"
             />
-            <div className="flex items-center gap-1 text-xs">
+            <div className="flex items-center gap-1 whitespace-nowrap text-xs">
               <span className="text-v1-content-secondary">
                 {t('top_coins.sell_volume.avg')}:
               </span>
