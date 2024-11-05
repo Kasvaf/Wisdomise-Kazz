@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { type MarketTypes } from 'api/types/financialProduct';
-import { type PairData } from 'api/types/strategy';
 import { type Resolution } from 'api';
+import { type MarketTypes } from 'api/types/shared';
+import { type PairData } from 'api/types/strategy';
 import normalizePair from 'api/normalizePair';
 
 interface SignalerListItem {

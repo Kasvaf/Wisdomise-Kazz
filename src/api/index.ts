@@ -2,7 +2,6 @@ export * from './account';
 export * from './feature-flags';
 export * from './ias';
 export * from './market';
-export * from './financial-products';
 export * from './subscription';
 export * from './exchange-accounts';
 export * from './billings';

@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useMemo } from 'react';
-import { useMainQuote } from './ias/investor-asset-structures';
-import { type MarketTypes } from './types/financialProduct';
+import { type MarketTypes } from './types/shared';
 import { type RawPosition, type SuggestedAction } from './types/signalResponse';
 import { type PairDataFull, type PairData } from './types/strategy';
 import { type ItemOwner } from './account';
@@ -30,7 +29,6 @@ export const useSignalerPairByNames = () => {
 };
 
 export const useSignalerPair = (market: MarketTypes) => {
-  const mainQuote = useMainQuote() || 'USDT';
   const pairsByName = useSignalerPairByNames();
 
   return (searchName?: string): PairDataFull | undefined => {
@@ -38,7 +36,7 @@ export const useSignalerPair = (market: MarketTypes) => {
     searchName = searchName.toUpperCase();
     const match = searchName.match(/\/?(BUSD|USDT)$/);
     const base = searchName.replace(/\/?(BUSD|USDT)$/, '');
-    const quote = match?.[1] || mainQuote;
+    const quote = match?.[1] || 'USDT';
     const pair = pairsByName[base + quote] || pairsByName[base];
     const name = market === 'FUTURES' ? base + quote : base;
     return pair

@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
-import { type MarketTypes } from 'api/types/financialProduct';
 import { useSignalerPair } from 'api';
+import { type MarketTypes } from 'api/types/shared';
 import CoinsIcons from './CoinsIcons';
 
 interface Props {

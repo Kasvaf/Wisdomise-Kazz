@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { type MarketTypes } from './types/financialProduct';
+import { type MarketTypes } from './types/shared';
 
 export type Resolution = '5m' | '15m' | '30m' | '1h';
 export interface Candle {

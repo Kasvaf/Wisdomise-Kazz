@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { type MarketTypes } from './types/financialProduct';
+import { type MarketTypes } from './types/shared';
 
 export type ExchangeTypes = 'BINANCE' | 'WISDOMISE';
 

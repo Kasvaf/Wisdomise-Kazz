@@ -16,7 +16,6 @@ almost-there: Almost There...
 below: Below
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
-cryptocurrency: Cryptocurrency
 data-incoming: HODL On! Data Incoming
 data-incoming-description: >-
   Our mission is to provide insights for informed trading by analyzing thousands
@@ -26,7 +25,6 @@ error: Error
 errors:
   field-required: This field may not be blank.
   network-error: Something wrong with your internet connection.
-network: Network
 not-available: N/A
 order-type:
   limit: Limit

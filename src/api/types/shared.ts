@@ -8,3 +8,5 @@ export interface Coin {
     coingecko_id: string;
   }>;
 }
+
+export type MarketTypes = 'SPOT' | 'FUTURES';
