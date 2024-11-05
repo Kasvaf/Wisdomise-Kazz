@@ -148,7 +148,7 @@ whale_historical_pnl:
   last_30_trading_pnl: Last 30 Days Trading PnL
 whale_holds:
   name: Name
-  title: Holds
+  title: Holding Tokens
   badge: Badge
   chg_30d: Chg(30D)
   market_cap: Market Cap
@@ -173,7 +173,7 @@ whale_overview:
   wins: Wins
 whale_trades:
   name: Name
-  title: Trades
+  title: Trading Tokens
   avg_duration: Avg Duration
   number_of_transactions: Number of Transactions
   price: Price
