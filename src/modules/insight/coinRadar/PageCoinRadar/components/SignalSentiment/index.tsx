@@ -123,7 +123,7 @@ export const SignalSentiment: FC<{
               <ReadableNumber
                 popup="never"
                 value={signal.signals_analysis.trigger_price}
-                label="usdt"
+                label="$"
                 className="text-base"
               />
             </div>
