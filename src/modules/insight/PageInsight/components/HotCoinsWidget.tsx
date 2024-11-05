@@ -1,76 +1,48 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { Tooltip, type TableColumnType } from 'antd';
+import { type TableColumnType } from 'antd';
 import { clsx } from 'clsx';
-import { bxInfoCircle } from 'boxicons-quasar';
 import { type CoinSignal, useCoinSignals, useHasFlag } from 'api';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
-import { ReadableDate } from 'shared/ReadableDate';
-import { CoinSignalPnl } from 'shared/CoinSignalPnl';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { InformativePrice } from 'shared/InformativePrice';
 import { ReactComponent as RealtimeIcon } from 'modules/insight/coinRadar/PageCoinRadar/components/SocialRadarBannerWidget/realtime.svg';
-import Icon from 'shared/Icon';
 import { ProLocker } from 'shared/ProLocker';
+import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
 import { SignalSentiment } from '../../coinRadar/PageCoinRadar/components/SignalSentiment';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
-  const signals = useCoinSignals();
+  const coins = useCoinSignals();
+
+  const sortedCoins = useMemo(() => {
+    return (coins.data ?? [])
+      .sort((a, b) => {
+        return (
+          new Date(b.signals_analysis.call_time ?? Date.now()).getTime() -
+          new Date(a.signals_analysis.call_time ?? Date.now()).getTime()
+        );
+      })
+      .slice(0, 6);
+  }, [coins]);
 
   const columns = useMemo<Array<TableColumnType<CoinSignal>>>(
     () => [
       {
-        title: t('hot-coins-section.table.rank'),
-        render: (_, row) => row.rank,
-      },
-      {
-        title: t('hot-coins-section.table.name'),
+        title: t('social-radar-overview.table.name'),
         render: (_, row) => <Coin coin={row.symbol} />,
       },
       {
         colSpan: hasFlag('/coin-radar/social-radar?side-suggestion') ? 1 : 0,
-        title: t('hot-coins-section.table.sentiment'),
+        title: t('social-radar-overview.table.sentiment'),
         render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
-        title: (
-          <span className="inline-flex items-center gap-1">
-            {t('hot-coins-section.table.call-time')}
-            <Tooltip title={t('hot-coins-section.table.call-time-info')}>
-              <Icon name={bxInfoCircle} size={16} />
-            </Tooltip>
-          </span>
-        ),
+        title: t('social-radar-overview.table.info'),
         render: (_, row) => (
-          <ReadableDate value={row.first_signal_related_at} />
-        ),
-      },
-      {
-        title: (
-          <span className="inline-flex items-center gap-1">
-            {t('hot-coins-section.table.pnl')}
-            {false && (
-              <Tooltip title={t('hot-coins-section.table.pnl-info')}>
-                <Icon name={bxInfoCircle} size={16} />
-              </Tooltip>
-            )}
-          </span>
-        ),
-        render: (row: CoinSignal) => (
-          <CoinSignalPnl signalAnalysis={row.signals_analysis} />
-        ),
-      },
-      {
-        title: t('hot-coins-section.table.realtime-price'),
-        render: (_, row) => (
-          <InformativePrice
-            price={row.symbol_market_data.current_price}
-            priceChange={row.symbol_market_data.price_change_percentage_24h}
-          />
+          <CoinPriceInfo marketData={row.symbol_market_data} />
         ),
       },
     ],
@@ -83,21 +55,21 @@ export function HotCoinsWidget({ className }: { className?: string }) {
     <OverviewWidget
       title={
         <>
-          {t('coin-radar:hot-coins-section.title')}
+          {t('coin-radar:social-radar-overview.title')}
           <RealtimeIcon />
         </>
       }
       headerActions={<SeeMoreLink to="/coin-radar/social-radar" />}
       className={clsx('min-h-[548px]', className)}
-      loading={signals.isLoading}
-      empty={signals.data?.length === 0}
+      loading={coins.isLoading}
+      empty={sortedCoins.length === 0}
     >
       <ProLocker mode="table" level={3}>
         <Table
-          loading={signals.isLoading}
+          loading={coins.isLoading}
           columns={columns}
-          dataSource={signals.data?.slice(0, 6) ?? []}
-          rowKey="symbol_name"
+          dataSource={sortedCoins}
+          rowKey={r => JSON.stringify(r.symbol)}
           pagination={false}
         />
       </ProLocker>

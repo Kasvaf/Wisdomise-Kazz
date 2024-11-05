@@ -144,20 +144,9 @@ coin-details:
       title: Popular With Whales
 copied-to-clipboard: ''
 hot-coins-section:
-  title: Hot Coins
   table:
-    name: Name
-    call-time: Call Time
-    call-time-info: >-
-      The exact moment our AI detected a key opportunity and sent a signal for
-      this asset. Use it to track when you were alerted to consider this token.
-    pnl: Call PnL
-    pnl-info: >-
-      Shows the profit or loss (PNL) since our signal was triggered. It helps
-      you track the performance of the asset from the moment we alerted you.
-    rank: Rank
-    realtime-price: Price
-    sentiment: Sentiment
+    name: ''
+    realtime-price: ''
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
@@ -242,3 +231,9 @@ social-radar:
         total amount sold. <br /><br /> For assets that are not attractive to
         whales and have no significant transactions, the badge Untracked is
         displayed.
+social-radar-overview:
+  title: Social Radar
+  table:
+    name: Name
+    info: Info
+    sentiment: Sentiment
