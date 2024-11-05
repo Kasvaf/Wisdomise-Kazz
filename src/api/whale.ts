@@ -279,3 +279,19 @@ export const useWhaleDetails = (filters: {
       return data;
     },
   });
+
+export const useWhaleNetworks = () =>
+  useQuery({
+    queryKey: ['networks'],
+    queryFn: () =>
+      axios
+        .get<
+          PageResponse<{
+            icon_url: string;
+            id: number;
+            name: string;
+            slug: string;
+          }>
+        >('/delphi/holders/networks/')
+        .then(({ data }) => data),
+  });
