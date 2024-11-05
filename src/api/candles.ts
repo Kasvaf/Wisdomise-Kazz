@@ -51,8 +51,3 @@ export const useCandlesQuery = ({
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
-
-export interface LastPrice {
-  price: number;
-  volume: number;
-}

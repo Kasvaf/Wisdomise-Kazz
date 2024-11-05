@@ -15,7 +15,6 @@ const makeOrigin = (name: string) => {
   return `https://${subdomainPrefix}${name}.${DOMAIN}`;
 };
 
-export const CHATAPP_ORIGIN = makeOrigin('chatapp');
 export const TEMPLE_ORIGIN = makeOrigin('temple');
 export const MAIN_LANDING = (lng: string) =>
   `https://${isProduction ? '' : 'stage.'}${DOMAIN}/${lng}`;

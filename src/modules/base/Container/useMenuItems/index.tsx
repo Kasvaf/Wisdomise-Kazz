@@ -6,7 +6,7 @@ import { ReactComponent as IconAccount } from './icons/account.svg';
 import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconClaim } from './icons/claim.svg';
 
-export interface MenuItem {
+interface MenuItem {
   text: string;
   link: string;
   hide?: boolean;
@@ -102,11 +102,6 @@ const useMenuItems = () => {
               text: t('menu.account-manager.title'),
               link: '/account/exchange-accounts',
               onClick: trackClick('external_account_menu'),
-            },
-            {
-              text: t('menu.notification-center.title'),
-              link: '/account/notification-center',
-              onClick: trackClick('notifications_menu'),
             },
             {
               text: t('menu.referral.title'),

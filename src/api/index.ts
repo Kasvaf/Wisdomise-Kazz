@@ -6,6 +6,5 @@ export * from './subscription';
 export * from './exchange-accounts';
 export * from './billings';
 export * from './candles';
-export * from './signaler';
 export * from './coinRadar';
 export * from './whale';

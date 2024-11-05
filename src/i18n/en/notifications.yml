@@ -3,32 +3,7 @@ alerts:
     insight:
       title: Stay Ahead
       subtitle: Don’t miss out on the next big opportunity in the crypto world.
-customs:
-  title: Customize Notification
-  custom-question:
-    title: Add New Question
-    description: >-
-      You can use the suggested prompts below or write your own customized
-      prompts.
-    placeholder: Type your question...
-    btn-add: Add
-    limit:
-      title: Question Limit
-      description: >-
-        You can add up to {{weeklyCustomNotificationCount}} questions and if you
-        want to add a new question, you must delete the previous questions
-  disclaimer: >-
-    By turning on this feature, you will receive two default daily updates, and
-    you can set a few customized prompts to be sent to you on a weekly basis.
-  suggested-prompts:
-    title: Suggested weekly prompts
-  your-question:
-    title: Your Question
-    description: You can receive customized prompts via email every Monday.
 signaling:
-  title: Signaling
-  subtitle: Strategies List
-  description: We have listed all the strategies we provide.
   btn-open-telegram:
     hint: Receive notification in socials
     connect: Connect Telegram
@@ -37,16 +12,8 @@ signaling:
   modal-connected:
     title: Connected successfully
     description: Your Telegram account is now synced.
-  notification-activate-chip-message: >-
-    You have subscribed to the selected coin in “{{strategy}}” and will receive
-    notifications every time in telegram there is a new position.
   overlay-telegram:
     title: Your Telegram is not connected
     description: >-
       In order to receive notifications, open Telegram and press on the
       <1>start</1> button.
-  strategy:
-    choose-coin: Choose coin to receive notification
-    sl-tp: SL / TP
-    timeframe: Timeframe
-    type: Type

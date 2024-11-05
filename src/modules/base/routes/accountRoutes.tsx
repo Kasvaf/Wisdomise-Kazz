@@ -12,9 +12,6 @@ const PageExchangeAccount = React.lazy(
 );
 const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
 const PageToken = React.lazy(() => import('modules/account/PageToken'));
-const PageNotification = React.lazy(
-  () => import('modules/account/PageNotification'),
-);
 
 const ChangeStripeCardInfoPage = React.lazy(
   () =>
@@ -49,11 +46,6 @@ const useAccountRoutes = () => {
           path: 'referral',
           element: <PageReferral />,
           handle: { crumb: t('menu.referral.title') },
-        },
-        {
-          path: 'notification-center',
-          element: <PageNotification />,
-          handle: { crumb: t('menu.notification-center.title') },
         },
         {
           path: '',

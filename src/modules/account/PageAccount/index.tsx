@@ -17,7 +17,6 @@ import {
   SubscriptionIcon,
   WsdmTokenIcon,
   ExternalAccountIcon,
-  NotificationsIcon,
   ReferralIcon,
 } from './icons';
 
@@ -90,14 +89,6 @@ const PageAccount: FC = () => {
           badge={`${exchanges?.length || 0} ${t(
             'accounts:page-accounts.accounts-connected',
           )}`}
-        />
-        <PageCard
-          to="/account/notification-center"
-          title={t('menu.notification-center.title')}
-          description={t('menu.notification-center.subtitle')}
-          cta={t('common:actions.more')}
-          icon={NotificationsIcon}
-          onClick={trackClick('notifications_menu')}
         />
         <PageCard
           to="/account/referral"

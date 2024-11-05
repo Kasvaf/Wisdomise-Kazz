@@ -24,15 +24,6 @@ crypto-modal:
   payment-by-crypto: Payment by Crypto
   subtotal: Subtotal
   total-due-today: Total due today
-overlay-subscription:
-  title: You are not subscribed
-  btn-subscribe: Subscribe
-  btn-upgrade: Upgrade
-  customs-description: To add a question, you need to subscribe to one of the Wisdomise plans
-  strategy:
-    description: >-
-      To reveal this strategy, you need to have <2>{{level}}</2> or a higher
-      plan.
 periodicity:
   month:
     title: Monthly

@@ -11,7 +11,7 @@ const badgeColors = {
   orange: clsx('bg-[#C371114D] text-[#EBA24C]'),
 };
 
-export type BadgeColors = keyof typeof badgeColors;
+type BadgeColors = keyof typeof badgeColors;
 
 const Badge: React.FC<{
   label: string | React.ReactElement;

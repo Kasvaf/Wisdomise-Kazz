@@ -20,7 +20,7 @@ export type AlertParams<D extends AlertDataSource> = D extends 'market_data'
     }
   : undefined;
 
-export type AlertCondition<D extends AlertDataSource> = D extends 'market_data'
+type AlertCondition<D extends AlertDataSource> = D extends 'market_data'
   ? {
       field_name: 'last_price';
       threshold: string;
@@ -28,7 +28,7 @@ export type AlertCondition<D extends AlertDataSource> = D extends 'market_data'
     }
   : undefined;
 
-export type AlertConfig<D extends AlertDataSource> = D extends 'market_data'
+type AlertConfig<D extends AlertDataSource> = D extends 'market_data'
   ? {
       dnd_interval: number;
       one_time: boolean;

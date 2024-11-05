@@ -19,7 +19,7 @@ const badgeColors = {
   orange: clsx('border-transparent bg-[#F1AA40]/10 text-[#F1AA40]'),
 };
 
-export interface PageCardProps {
+interface PageCardProps {
   to: string;
   info?: string;
   hint?: string;

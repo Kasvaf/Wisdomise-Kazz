@@ -8,7 +8,7 @@ import {
 } from '@tonconnect/ui-react';
 import { Address, beginCell } from '@ton/core';
 import { useParams } from 'react-router-dom';
-import { type FullPosition, type SignalerData } from 'api/builder';
+import { type FullPosition } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
 import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
@@ -21,7 +21,6 @@ import { type SignalFormState } from './useSignalFormStates';
 
 interface Props {
   data: SignalFormState;
-  signaler?: SignalerData;
   assetName: string;
   activePosition?: FullPosition;
 }
