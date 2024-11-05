@@ -35,7 +35,7 @@ const SignalMatrix: React.FC = () => {
         ?.filter(p => positions?.some(lp => lp.pair_name === p.name))
         .map(pair => ({
           pair,
-          social: radar?.find(x => x.symbol_name === pair.base.name),
+          social: radar?.find(x => x.symbol.name === pair.base.name),
         }))
         .sort(
           (a, b) =>
