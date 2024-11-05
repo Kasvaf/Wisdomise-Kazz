@@ -40,7 +40,7 @@ export function ClickableTooltip({
     className,
   );
   const titleClassName = clsx(
-    'max-h-[300px] overflow-auto text-sm text-v1-content-primary mobile:max-h-[50svh]',
+    'max-h-[340px] overflow-auto text-sm text-v1-content-primary mobile:max-h-[50svh]',
   );
   const titleRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(titleRef, () => {
