@@ -68,7 +68,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     if (!address) return;
 
     const jettonMasterAddress = Address.parse(
-      'kQAJ8uWd7EBqsmpSWaRdf_I-8R8-XHwh3gsNKhy-UrdrPX6i', // hamster testnet
+      'EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs', // USDT
     );
     const ownerAddress = Address.parse(address);
     const client = new TonClient({
@@ -116,6 +116,10 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
         quote: 'USDT',
         quote_amount: amount,
       });
+      // await transferAssetsHandler(
+      //   'kQBZ1f1PcDQl3d5S9hgLaSuXuKNI9fy3ErblFi3J4tROsx7_',
+      //   '0.86',
+      // );
       await transferAssetsHandler(res.deposit_address, res.gas_fee);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -129,7 +133,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     const jettonWalletAddress = await getJettonWalletAddress();
     const transaction: SendTransactionRequest = {
       validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
-      network: CHAIN.TESTNET,
+      network: CHAIN.MAINNET,
       messages: [
         {
           address: recipientAddress,
