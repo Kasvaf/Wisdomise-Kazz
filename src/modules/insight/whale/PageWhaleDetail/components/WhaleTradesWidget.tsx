@@ -95,7 +95,13 @@ export function WhaleTradesWidget({
       {
         title: t('whale_trades.avg_duration'),
         render: (_, row) => (
-          <ReadableDuration value={row.recent_avg_trade_duration_seconds} />
+          <ReadableDuration
+            value={
+              typeof row.recent_avg_trade_duration_seconds === 'number'
+                ? row.recent_avg_trade_duration_seconds * 1000
+                : null
+            }
+          />
         ),
       },
     ],

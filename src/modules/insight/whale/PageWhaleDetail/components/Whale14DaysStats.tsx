@@ -75,7 +75,12 @@ export function Whale14DaysStats({
     >
       <StatRow label={t('14d_stats.avg_trade_duration')}>
         <ReadableDuration
-          value={whale.data?.recent_average_trade_duration_seconds}
+          value={
+            typeof whale.data?.recent_average_trade_duration_seconds ===
+            'number'
+              ? whale.data?.recent_average_trade_duration_seconds * 1000
+              : null
+          }
         />
       </StatRow>
       <StatRow label={t('14d_stats.avg_trade_day')}>
