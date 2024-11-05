@@ -126,7 +126,7 @@ top_whales:
   trades_per_day:
     title: 'Avg # Of Trades/Day'
     info: Average number of trades per day in the last 14 days.
-  trading_holding: Trading/Holding
+  trading_holding: '# Trading/Holding Tokens'
   trading_pnl:
     title: Trading PNL
     info: >-
