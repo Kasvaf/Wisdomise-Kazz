@@ -59,6 +59,10 @@ export interface CoinSignalAnalysis {
   real_pnl_percentage: number;
   max_price: number;
   min_price: number;
+  sparkline: null | {
+    prices: null | number[];
+    related_ats: null | string[];
+  };
 }
 export interface CoinSignal {
   rank: number;

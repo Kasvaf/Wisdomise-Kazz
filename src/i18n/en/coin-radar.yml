@@ -6,9 +6,9 @@ available-exchanges:
     volume_24h: Volume 24h
 call-change:
   fire-time: Signal Fire Time
-  max-price: Max Price
-  min-price: Min Price
-  pnl: Call PnL Percentage
+  max-price: 'Max: Extremum High'
+  min-price: 'Min: Extremum low'
+  pnl: Last Update
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
 coin_security:

@@ -1,6 +1,12 @@
 import { Drawer as AntDrawer, Tooltip as AntTooltip } from 'antd';
 import { clsx } from 'clsx';
-import { type ComponentProps, type ReactNode, useRef, useState } from 'react';
+import {
+  type ComponentProps,
+  type ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useOnClickOutside } from 'usehooks-ts';
 import useIsMobile from 'utils/useIsMobile';
@@ -13,6 +19,8 @@ export function ClickableTooltip({
   tooltipPlacement = 'bottom',
   drawerPlacement = 'bottom',
   disabled,
+  onOpenChange,
+  chevron,
 }: {
   title?: ReactNode;
   children?: ReactNode;
@@ -20,8 +28,11 @@ export function ClickableTooltip({
   tooltipPlacement?: ComponentProps<typeof AntTooltip>['placement'];
   drawerPlacement?: ComponentProps<typeof AntDrawer>['placement'];
   disabled?: boolean;
+  onOpenChange?: (v: boolean) => void;
+  chevron?: boolean;
 }) {
   const isMobile = useIsMobile();
+  const lastIsOpen = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
   const rootClassName = clsx(
     'group relative inline-flex select-none items-center gap-1',
@@ -37,6 +48,12 @@ export function ClickableTooltip({
       setIsOpen(false);
     }
   });
+  useEffect(() => {
+    if (isOpen !== lastIsOpen.current) {
+      onOpenChange?.(isOpen);
+      lastIsOpen.current = isOpen;
+    }
+  }, [isOpen, onOpenChange]);
 
   const root = (
     <span
@@ -44,7 +61,7 @@ export function ClickableTooltip({
       onClick={() => disabled !== true && !isOpen && setIsOpen(true)}
     >
       {children}
-      {disabled !== true && (
+      {disabled !== true && chevron !== false && (
         <Icon
           name={bxChevronDown}
           className={clsx(
