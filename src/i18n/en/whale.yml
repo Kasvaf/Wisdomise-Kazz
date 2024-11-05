@@ -31,11 +31,11 @@ filters:
   all: All
   all-networks: All Networks
   best_to_copy: Best To Copy
-  buy: Buy
-  hold: Hold
+  buy: Most Bought
+  hold: Most Held by Whales
   holders: Holders
-  sell: Sell
-  total_volume: Trading Volume
+  sell: Most Sold
+  total_volume: Highest Trading Volume
   wealthy_wallets: Wealthy Wallets
 onboarding:
   sec-1:
