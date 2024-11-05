@@ -41,13 +41,15 @@ export const NetworkSelect: FC<SelectProps<string>> = ({
       }
       options={networks.data?.map(network => ({
         label: (
-          <span className="pe-3">
-            {network.icon_url && (
+          <span className="flex items-center pe-3">
+            {network.icon_url ? (
               <img
                 src={network.icon_url}
                 alt={network.name}
-                className="me-3 ms-px inline-block size-4 rounded-full bg-white"
+                className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4"
               />
+            ) : (
+              <span className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4" />
             )}
             {network.name}
           </span>
