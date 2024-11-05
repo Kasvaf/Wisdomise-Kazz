@@ -18,7 +18,7 @@ export function CoinMarketCap({
       </span>
       <div className="flex items-center gap-1 text-xs text-v1-content-secondary">
         <CapIcon />
-        <ReadableNumber value={marketData.current_price} label="$" />
+        <ReadableNumber value={marketData.market_cap} label="$" />
       </div>
     </span>
   );
