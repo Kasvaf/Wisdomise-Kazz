@@ -34,6 +34,7 @@ export interface MarketData {
   fully_diluted_valuation?: number | null;
   price_change_percentage_24h?: number | null;
   market_cap_change_percentage_24h?: number | null;
+  market_cap_category?: string | null;
 }
 
 export interface NetworkSecurity {

@@ -23,6 +23,7 @@ import { type SortMode, SortModes } from '../SortModes';
 import SetCoinRadarAlert from '../SetCoinRadarAlert';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
+import { CoinMarketCap } from '../CoinMarketCap/index';
 import { ReactComponent as Logo } from './logo.svg';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -120,7 +121,21 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         width: 310,
         render: (_, row: CoinSignal) => <SignalSentiment signal={row} />,
       },
-      /* NAITODO Market Cap */
+      {
+        title: [
+          t('social-radar.table.market_cap.title'),
+          <Fragment key="2">
+            <Trans
+              ns="coin-radar"
+              i18nKey="social-radar.table.market_cap.info"
+            />
+          </Fragment>,
+        ],
+        width: 140,
+        render: (_, row: CoinSignal) => (
+          <CoinMarketCap marketData={row.symbol_market_data} />
+        ),
+      },
       {
         title: [
           t('social-radar.table.price_info.title'),
@@ -131,7 +146,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             />
           </Fragment>,
         ],
-        width: 310,
+        width: 240,
         render: (_, row) => (
           <CoinPriceInfo marketData={row.symbol_market_data} />
         ),
@@ -147,7 +162,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             />
           </Fragment>,
         ],
-        width: 150,
+        width: 190,
         render: (_, row) => (
           <CoinWhalesDetails holdersData={row.holders_data} />
         ),

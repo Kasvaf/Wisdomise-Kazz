@@ -192,6 +192,13 @@ social-radar:
       for accurate, data-driven insights.
     labels:
       title: Labels
+    market_cap:
+      title: Market Cap
+      info: >-
+        <b>Market Cap</b><br />Displays the total market capitalization of each
+        asset (coin or token), representing the current market value. Assets are
+        also categorized as High, Mid, or Low based on their market cap, giving
+        you quick insight into their size and relative impact in the market.
     price_info:
       title: Info
       info: >-
