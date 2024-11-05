@@ -91,14 +91,21 @@ export interface CoinSignal {
   signals_analysis: CoinSignalAnalysis;
 }
 
-export const useCoinSignals = (filters?: { windowHours: number }) =>
+export const useCoinSignals = (filters?: {
+  windowHours: number;
+  network?: string;
+}) =>
   useQuery({
     queryKey: ['coins-social-signal', JSON.stringify(filters)],
     queryFn: async () => {
       const { data } = await axios.get<CoinSignal[]>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/?window_hours=${
-          filters?.windowHours ?? 24
-        }`,
+        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/`,
+        {
+          params: {
+            window_hours: filters?.windowHours ?? 24,
+            network_slug: filters?.network,
+          },
+        },
       );
       return data;
     },

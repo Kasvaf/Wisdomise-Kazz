@@ -18,25 +18,29 @@ import { formatNumber } from 'utils/numbers';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinCategoriesLabel } from '../CoinCategoriesLabel';
 import { CoinSecurityLabel } from '../CoinSecurityLabel/index';
-import { CategoriesSelect } from '../CategoriesSelect';
 import { type SortMode, SortModes } from '../SortModes';
 import SetCoinRadarAlert from '../SetCoinRadarAlert';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
 import { CoinMarketCap } from '../CoinMarketCap/index';
+import { NetworkSelect } from '../NetworkSelect';
+import { CategoriesSelect } from '../CategoriesSelect';
 import { ReactComponent as Logo } from './logo.svg';
 
+const TODO_CATEGORY = false;
+
 export function HotCoinsWidget({ className }: { className?: string }) {
-  const coins = useCoinSignals({
-    windowHours: 24,
-  });
   const marketInfo = useMarketInfoFromSignals();
   const hasFlag = useHasFlag();
   const { t } = useTranslation('coin-radar');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<string | undefined>(undefined);
+  const [network, setNetwork] = useState<string | undefined>(undefined);
   const [sort, setSort] = useState<SortMode | undefined>(undefined);
-
+  const coins = useCoinSignals({
+    windowHours: 24,
+    network,
+  });
   const filteredCoins = useMemo(() => {
     const lowercaseQuery = query.toLowerCase();
     return (coins.data ?? [])
@@ -227,11 +231,18 @@ export function HotCoinsWidget({ className }: { className?: string }) {
               onChange={setQuery}
               className="shrink-0 basis-80 mobile:order-2 mobile:basis-full"
             />
-            <CategoriesSelect
-              value={category}
-              onChange={setCategory}
+            <NetworkSelect
+              value={network}
+              onChange={setNetwork}
               className="mobile:order-3"
             />
+            {TODO_CATEGORY && (
+              <CategoriesSelect
+                value={category}
+                onChange={setCategory}
+                className="mobile:order-3"
+              />
+            )}
             <div className="flex flex-wrap items-center gap-2 mobile:order-4">
               <span className="ps-6 text-xs mobile:w-full mobile:grow mobile:ps-0">
                 {t('social-radar.table.sort')}:

@@ -190,6 +190,7 @@ social-radar:
     description: >-
       Wisdomise Social Radar scanned <b>{{posts}} posts</b> in the last 24 hours
       for accurate, data-driven insights.
+    all_networks: All Networks
     labels:
       title: Labels
     market_cap:
