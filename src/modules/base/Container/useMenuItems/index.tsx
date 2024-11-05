@@ -63,6 +63,11 @@ const useMenuItems = () => {
           onClick: trackClick('insight_menu'),
           children: [
             {
+              text: t('menu.overview.title'),
+              link: '/coin-radar/overview',
+              onClick: trackClick('insight_menu'),
+            },
+            {
               text: t('menu.hot-coins.title'),
               link: '/coin-radar/social-radar',
               onClick: trackClick('coin_radar_menu'),
