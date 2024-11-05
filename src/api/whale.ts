@@ -282,7 +282,7 @@ export const useWhaleDetails = (filters: {
 
 export const useWhaleNetworks = () =>
   useQuery({
-    queryKey: ['networks'],
+    queryKey: ['whale-networks'],
     queryFn: () =>
       axios
         .get<
