@@ -10,7 +10,7 @@ const RadarBrief: React.FC<{
   const { t } = useTranslation('strategy');
   const hasFlag = useHasFlag();
   const { data: allRadar } = useCoinSignals();
-  const radar = allRadar?.find(x => x.symbol_name === symbolName);
+  const radar = allRadar?.find(x => x.symbol.name === symbolName);
 
   if (!radar || !hasFlag('?social-brief')) return null;
 
