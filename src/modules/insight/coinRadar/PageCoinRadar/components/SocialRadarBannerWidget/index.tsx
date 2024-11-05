@@ -11,10 +11,10 @@ export function SocialRadarBannerWidget({ className }: { className?: string }) {
   return (
     <OverviewWidget
       className={clsx(
-        'h-[165px] bg-gradient-to-r from-v1-surface-l3 to-v1-surface-l2 !p-0 mobile:h-auto',
+        'h-[165px] bg-gradient-to-r from-v1-surface-l3 to-v1-surface-l2 !p-0 mobile:h-[160px]',
         className,
       )}
-      contentClassName="relative !p-6 mobile:!p-0 md:!p-10 !m-0 flex justify-between items-center gap-6 mobile:flex-col"
+      contentClassName="relative !p-6 mobile:!p-0 md:!p-10 !m-0 flex justify-between items-center gap-6 mobile:flex-col overflow-hidden"
     >
       <div className="absolute inset-0 size-full p-4 mobile:relative">
         <img
@@ -25,7 +25,10 @@ export function SocialRadarBannerWidget({ className }: { className?: string }) {
           src={BgDesktop}
           className="absolute bottom-0 right-0 h-full w-auto object-cover opacity-100 mobile:hidden"
         />
-        <img src={BgMobile} className="relative hidden mobile:block" />
+        <img
+          src={BgMobile}
+          className="relative hidden opacity-35 mobile:block"
+        />
       </div>
       <div className="relative bottom-0 space-y-2 mobile:absolute mobile:p-6">
         <h1 className="flex items-center gap-2 text-xl font-medium text-v1-content-primary mobile:flex-col-reverse mobile:justify-center mobile:gap-3 mobile:text-base">
