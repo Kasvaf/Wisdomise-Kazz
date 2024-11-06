@@ -27,8 +27,6 @@ import { NetworkSelect } from '../NetworkSelect';
 import { CategoriesSelect } from '../CategoriesSelect';
 import { ReactComponent as Logo } from './logo.svg';
 
-const TODO_CATEGORY = false;
-
 export function HotCoinsWidget({ className }: { className?: string }) {
   const marketInfo = useMarketInfoFromSignals();
   const hasFlag = useHasFlag();
@@ -56,9 +54,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       .filter(
         row =>
           !category ||
-          (row.symbol.categories ?? [])
-            .map(r => r.coingecko_id)
-            .includes(category),
+          (row.symbol.categories ?? []).map(r => r.slug).includes(category),
       )
       .sort((a, b) => {
         if (!sort || sort === 'rank') {
@@ -175,7 +171,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         title: t('social-radar.table.labels.title'),
         render: (_, row) => (
           <div className="flex min-h-16 flex-wrap items-center gap-1">
-            {TODO_CATEGORY && <CoinCategoriesLabel coin={row.symbol} />}
+            <CoinCategoriesLabel coin={row.symbol} />
             <CoinSecurityLabel
               value={row.symbol_security?.data}
               coin={row.symbol}
@@ -236,15 +232,13 @@ export function HotCoinsWidget({ className }: { className?: string }) {
               onChange={setNetwork}
               className="mobile:order-3"
             />
-            {TODO_CATEGORY && (
-              <CategoriesSelect
-                value={category}
-                onChange={setCategory}
-                className="mobile:order-3"
-              />
-            )}
-            <div className="flex flex-wrap items-center gap-2 mobile:order-4">
-              <span className="ps-6 text-xs mobile:w-full mobile:grow mobile:ps-0">
+            <CategoriesSelect
+              value={category}
+              onChange={setCategory}
+              className="mobile:order-4"
+            />
+            <div className="flex flex-wrap items-center gap-2 mobile:order-5">
+              <span className="text-xs mobile:w-full mobile:grow">
                 {t('social-radar.table.sort')}:
               </span>
               <SortModes
