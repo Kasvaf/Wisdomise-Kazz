@@ -129,7 +129,7 @@ export default function PageCoinDetail() {
       {/*     )} */}
       <Button
         variant="brand"
-        className="mt-5 w-full"
+        className="fixed bottom-20 end-4 start-4 mt-5"
         onClick={() => navigate(`/market/${slug}`)}
       >
         Auto Trade
