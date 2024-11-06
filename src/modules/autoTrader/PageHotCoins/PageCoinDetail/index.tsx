@@ -82,9 +82,10 @@ export default function PageCoinDetail() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {position.status === 'PENDING' && (
-                <CancelButton positionKey={position.key} />
-              )}
+              {position.status !== 'CLOSED' &&
+                position.status !== 'CANCELED' && (
+                  <CancelButton positionKey={position.key} />
+                )}
 
               <Button
                 variant="link"
