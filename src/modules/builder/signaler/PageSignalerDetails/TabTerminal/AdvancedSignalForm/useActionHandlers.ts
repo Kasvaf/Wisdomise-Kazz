@@ -145,7 +145,10 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
       network: isProduction ? CHAIN.MAINNET : CHAIN.TESTNET,
       messages: [
         {
-          address: recipientAddress,
+          address: Address.parse(recipientAddress).toString({
+            bounceable: false,
+            testOnly: !isProduction,
+          }),
           amount: toNano(gasFee).toString(),
           payload: beginCell()
             .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
