@@ -1,180 +1,151 @@
-14d_stats:
-  avg_trade_day: 1日あたりの平均取引数
-  avg_trade_duration: 平均取引期間
-  largest_gain: 最大の利益
-  largest_loss: 最大の損失
-  largest_losses: 最大の損失
-  title: 14日間の統計の概要
-  transfer_volume: 転送量
-asset_badges:
-  exit_portfolio: 出口ポートフォリオ
-  exit_portfolio_info: このクジラは資産の約95％を売却し、投資からの撤退を示唆した。
-  holding: ホールディング
-  holding_info: このクジラは資産量に大きな変化がなく、安定しています。
-  loading: 読み込み中
-  loading_info: このクジラは資産量を5%以上増やし、地位を築いています。
-  new_investment: 新規投資
-  new_investment_info: このクジラは、売却を最小限に抑えながら新たな投資を行い、ポジションを拡大しました。
-  trading: トレーディング
-  unloading: 荷降ろし
-  unloading_info: このクジラは保有株を5%以上減らしていますが、完全に撤退しているわけではありません。
-filters:
-  all: 全て
-  all-chains: すべてのチェーン
-  all-networks: すべてのネットワーク
-  best_to_copy: コピーするのがベスト
-  buy: 買う
-  hold: ホールド
-  holders: ホルダー
-  search-whale: 検索クジラ
-  sell: 売る
-  total_volume: 取引量
-  wallet: ウォレットアドレスで検索
-  wealthy_wallets: 裕福な財布
-onboarding:
-  sec-1:
-    content: 当社のホエール
-      レーダー機能は、過去の利益に基づいて、各コインの最高のパフォーマンスを誇るホエールとトレーダーを特定します。当社はさまざまなコインとチェーンにわたる彼らの動きを追跡しているので、最高の取引機会についての洞察を得ることができます。
-    title: "クジラレーダーへようこそ: トップクジラとトレーダーを追跡"
-  sec-2:
-    content: さまざまなチェーンで最も成功しているクジラの間でどのコインがトレンドになっているかを調べます。当社のプラットフォームでは、クジラがどの資産を蓄積または売却しているかをリアルタイムで更新するため、自信を持ってクジラの動きを追跡できます。
-    title: クジラが取引しているトレンドのコインを見つける
-  sec-3:
-    content: 現在の保有資産、取引履歴、パフォーマンス指標の内訳など、各クジラのウォレットの詳細な分析にアクセスします。これらの洞察を活用して、クジラの戦略と市場の動向をより深く理解します。
-    title: "詳細なウォレット分析: 保有資産の詳細"
-  sec-4:
-    content: クジラの動き、トレンドのコイン、ウォレットの変更に関するアラートを設定して、常に先手を打ってください。まもなく、Auto-Trader
-      を有効化して、トップのクジラの行動に基づいて自動的に取引を実行できるようになります。これで、あなたはただ座ってリラックスできます。
-    title: "アラートと自動トレーダーを設定: 取引を見逃さない"
-sections:
-  top-coins:
-    filters:
-      1d: 24時間
-      30d: 30D
-      7d: 7D
-    subtitle: 取引量と頻度でランク付けされた、クジラによる最も取引されているコインを確認します。
-    table:
-      24h_chg: 24時間の価格変動
-      coin: 発見されたコイン
-      price: 価格
-      rank: ランク
-      total-vol: 総取引量
-      transactions: クジラ取引
-    title: トップクジラコイン
-  top-gainers: クジラ株の上昇率上位銘柄
-  top-losers: クジラのトップ敗者
-  top-whales:
-    filters:
-      1d: 24時間
-      30d: 30D
-      7d: 7D
-    subtitle: ブロックチェーン全体で最も裕福なアドレス（クジラ）を発見
-    table:
-      network: ネットワーク
-      pnl_percent: 損益率
-      rank: ランク
-      total_worth: 総資産
-      trades: 取引
-      wallet-address: ウォレットアドレス
-    title: トップクジラリスト
-  whale-coins:
-    table:
-      amount: 保有数量
-      asset: 資産
-      pnl: PNL
-      price: 価格
-      worth: 総資産
-  whale-info:
-    realized-pnl: 実現損益
-    realized-pnl-info: <b>実現損益</b><p>実現 PNL (損益)
-      は、完了した取引から実際に得られた利益または損失を表します。これは、売却された資産の購入価格と売却価格の差を反映します。この指標は、取引活動による具体的な利益または損失を理解するのに役立ちます。</p>
-    unrealized-pnl: 未実現損益
-    unrealized-pnl-info: <b>未実現損益</b><p>未実現 PNL (損益)
-      は、現在保有しているがまだ売却されていない資産の潜在的な利益または損失を表します。これは、これらの資産の現在の市場価値と購入価格の差を反映しています。この指標は、現在の市場価格に基づいて保有資産のパフォーマンスを評価するのに役立ちます。</p>
-top_coins:
-  buy_volume:
-    info: 過去 7 日間にスマート ウォレットと合計ウォレットから購入された合計量。
-    title: 購入量
-  buys:
-    info: 過去 7 日間に購入されたスマート ウォレットの総数とウォレットの合計数。
-    title: 購入
-  info:
-    info: 現在の価格、完全希薄化後時価総額、および循環供給量。
-    title: 情報
-  name: 信号発信者名
-  sell_volume:
-    info: 過去 7 日間にスマート ウォレットと合計ウォレットから販売された合計量。
-    title: 売り量
-  sells:
-    info: 過去 7 日間に販売されたスマート ウォレットの総数とウォレットの合計数。
-    title: 販売
-  title: クジラが選ぶトップトークン
-top_whales:
-  14_days: 14日間
-  address: 住所
-  balance:
-    info: 引用資産の現在のウォレット残高。
-    title: 残高
-  buy_sell: 購入/販売
-  description: このウォレットは、過去30日間の取引の損益に基づいて、当社のウォレットの上位10％にランクされています。
-  network: ネットワーク
-  returns:
-    info: "過去 30 日間のウォレットの合計収益。クォート資産 (例: ETH) の P&L を期間中に保有されたトークンの最大価値 (ETH 単位)
-      で割って計算されます。"
-    title: 返品
-  title: トップクジラ
-  tokens: トップトークン
-  trades_per_day: 1日あたりの平均取引数
-  trading_holding: 取引/保有
-  trading_pnl:
-    info: 過去 30 日間のウォレットの合計損益 (実現損益 + 未実現損益)。
-    title: 取引損益
-  trading_volume:
-    info: 過去 30 日間にスワップされたトークンの合計価値 (USDT で表されます)。
-    title: 取引量
-  transfer_volume: 転送量
-  wins:
-    info: 勝利の合計数と交換された固有トークンの数。
-    title: 勝利
-  wins_losses: 勝ち負け
-whale_assets:
-  others: その他
-  title: ユーザー資産
-whale_balance_chart:
-  balance: 残高
-  current_balance: 現在の残高
-  title: ウォレット残高チャート
-whale_historical_pnl:
-  last_30_trading_pnl: 過去 30 日間の取引損益
-  title: 過去の損益チャート
-whale_holds:
-  badge: バッジ
-  chg_30d: チェンジ(30D)
-  market_cap: 時価総額
-  name: 信号発信者名
-  price: 価格
-  title: 保留
-  total_volume: 総量
-  worth: 価値
-whale_netflow_histogram:
-  inflow: 流れの中で
-  outflow: アウトフロー
-  title: ネットフローヒストグラム
-whale_overview:
-  holding_tokens: トークンの保有
-  losses: 損失
-  trading_pnl: 取引損益（未実現）
-  trading_tokens: トークン取引
-  trading_volume: 取引量
-  trading_win_rate: 取引勝率
-  wins: 勝利
-whale_trades:
-  avg_duration: 平均所要時間
-  name: 信号発信者名
-  number_of_trades: 取引回数
-  number_of_transactions: 取引件数
-  price: 価格
-  returns: 返品
-  title: 取引
-  trading_pnl: 取引損益
-  volume_of_trades: 取引量
+14d_stats.avg_trade_day: 1日あたりの平均取引数
+14d_stats.avg_trade_duration: 平均取引期間
+14d_stats.largest_gain: 最大の利益
+14d_stats.largest_loss: 最大の損失
+14d_stats.largest_losses: 最大の損失
+14d_stats.title: 14日間の統計の概要
+14d_stats.transfer_volume: 転送量
+asset_badges.exit_portfolio: 出口ポートフォリオ
+asset_badges.exit_portfolio_info: このクジラは資産の約95％を売却し、投資からの撤退を示唆した。
+asset_badges.holding: ホールディング
+asset_badges.holding_info: このクジラは資産量に大きな変化がなく、安定しています。
+asset_badges.loading: 読み込み中
+asset_badges.loading_info: このクジラは資産量を5%以上増やし、地位を築いています。
+asset_badges.new_investment: 新規投資
+asset_badges.new_investment_info: このクジラは、売却を最小限に抑えながら新たな投資を行い、ポジションを拡大しました。
+asset_badges.trading: トレーディング
+asset_badges.unloading: 荷降ろし
+asset_badges.unloading_info: このクジラは保有株を5%以上減らしていますが、完全に撤退しているわけではありません。
+filters.all: 全て
+filters.all-chains: すべてのチェーン
+filters.all-networks: すべてのネットワーク
+filters.best_to_copy: コピーするのがベスト
+filters.buy: 買う
+filters.hold: ホールド
+filters.holders: ホルダー
+filters.search-whale: 検索クジラ
+filters.sell: 売る
+filters.total_volume: 取引量
+filters.wallet: ウォレットアドレスで検索
+filters.wealthy_wallets: 裕福な財布
+onboarding.sec-1.content: 当社のホエール
+  レーダー機能は、過去の利益に基づいて、各コインの最高のパフォーマンスを誇るホエールとトレーダーを特定します。当社はさまざまなコインとチェーンにわたる彼らの動きを追跡しているので、最高の取引機会についての洞察を得ることができます。
+onboarding.sec-1.title: "クジラレーダーへようこそ: トップクジラとトレーダーを追跡"
+onboarding.sec-2.content: さまざまなチェーンで最も成功しているクジラの間でどのコインがトレンドになっているかを調べます。当社のプラットフォームでは、クジラがどの資産を蓄積または売却しているかをリアルタイムで更新するため、自信を持ってクジラの動きを追跡できます。
+onboarding.sec-2.title: クジラが取引しているトレンドのコインを見つける
+onboarding.sec-3.content: 現在の保有資産、取引履歴、パフォーマンス指標の内訳など、各クジラのウォレットの詳細な分析にアクセスします。これらの洞察を活用して、クジラの戦略と市場の動向をより深く理解します。
+onboarding.sec-3.title: "詳細なウォレット分析: 保有資産の詳細"
+onboarding.sec-4.content: クジラの動き、トレンドのコイン、ウォレットの変更に関するアラートを設定して、常に先手を打ってください。まもなく、Auto-Trader
+  を有効化して、トップのクジラの行動に基づいて自動的に取引を実行できるようになります。これで、あなたはただ座ってリラックスできます。
+onboarding.sec-4.title: "アラートと自動トレーダーを設定: 取引を見逃さない"
+sections.top-coins.filters.1d: 24時間
+sections.top-coins.filters.30d: 30D
+sections.top-coins.filters.7d: 7D
+sections.top-coins.subtitle: 取引量と頻度でランク付けされた、クジラによる最も取引されているコインを確認します。
+sections.top-coins.table.24h_chg: 24時間の価格変動
+sections.top-coins.table.coin: 発見されたコイン
+sections.top-coins.table.price: 価格
+sections.top-coins.table.rank: ランク
+sections.top-coins.table.total-vol: 総取引量
+sections.top-coins.table.transactions: クジラ取引
+sections.top-coins.title: トップクジラコイン
+sections.top-gainers: クジラ株の上昇率上位銘柄
+sections.top-losers: クジラのトップ敗者
+sections.top-whales.filters.1d: 24時間
+sections.top-whales.filters.30d: 30D
+sections.top-whales.filters.7d: 7D
+sections.top-whales.subtitle: ブロックチェーン全体で最も裕福なアドレス（クジラ）を発見
+sections.top-whales.table.network: ネットワーク
+sections.top-whales.table.pnl_percent: 損益率
+sections.top-whales.table.rank: ランク
+sections.top-whales.table.total_worth: 総資産
+sections.top-whales.table.trades: 取引
+sections.top-whales.table.wallet-address: ウォレットアドレス
+sections.top-whales.title: トップクジラリスト
+sections.whale-coins.table.amount: 保有数量
+sections.whale-coins.table.asset: 資産
+sections.whale-coins.table.pnl: PNL
+sections.whale-coins.table.price: 価格
+sections.whale-coins.table.worth: 総資産
+sections.whale-info.realized-pnl: 実現損益
+sections.whale-info.realized-pnl-info: <b>実現損益</b><p>実現 PNL (損益)
+  は、完了した取引から実際に得られた利益または損失を表します。これは、売却された資産の購入価格と売却価格の差を反映します。この指標は、取引活動による具体的な利益または損失を理解するのに役立ちます。</p>
+sections.whale-info.unrealized-pnl: 未実現損益
+sections.whale-info.unrealized-pnl-info: <b>未実現損益</b><p>未実現 PNL (損益)
+  は、現在保有しているがまだ売却されていない資産の潜在的な利益または損失を表します。これは、これらの資産の現在の市場価値と購入価格の差を反映しています。この指標は、現在の市場価格に基づいて保有資産のパフォーマンスを評価するのに役立ちます。</p>
+top_coins.buy_volume.avg: 購入あたりの平均
+top_coins.buy_volume.info: 過去 7 日間にスマート ウォレットと合計ウォレットから購入された合計量。
+top_coins.buy_volume.title: 購入量
+top_coins.buys.info: 過去 7 日間に購入されたスマート ウォレットの総数とウォレットの合計数。
+top_coins.buys.title: 購入
+top_coins.info.info: 現在の価格、完全希薄化後時価総額、および循環供給量。
+top_coins.info.title: 情報
+top_coins.name: 信号発信者名
+top_coins.sell_volume.avg: 販売あたりの平均
+top_coins.sell_volume.info: 過去 7 日間にスマート ウォレットと合計ウォレットから販売された合計量。
+top_coins.sell_volume.title: 売り量
+top_coins.sells.info: 過去 7 日間に販売されたスマート ウォレットの総数とウォレットの合計数。
+top_coins.sells.title: 販売
+top_coins.title: クジラが選ぶトップトークン
+top_whales.14_days: 14日間
+top_whales.address: 住所
+top_whales.balance.info: 引用資産の現在のウォレット残高。
+top_whales.balance.title: 残高
+top_whales.buy_sell: 購入/販売
+top_whales.description: このウォレットは、過去30日間の取引の損益に基づいて、当社のウォレットの上位10％にランクされています。
+top_whales.network: ネットワーク
+top_whales.returns.info: "過去 30 日間のウォレットの合計収益。クォート資産 (例: ETH) の P&L
+  を期間中に保有されたトークンの最大価値 (ETH 単位) で割って計算されます。"
+top_whales.returns.title: 返品
+top_whales.title: トップクジラ
+top_whales.tokens: トップトークン
+top_whales.trades_per_day: 1日あたりの平均取引数
+top_whales.trades_per_day.info: 過去 14 日間の 1 日あたりの平均取引数。
+top_whales.trades_per_day.title: 1日あたりの平均取引数
+top_whales.trading_holding: 取引/保有
+top_whales.trading_pnl.info: 過去 30 日間のウォレットの合計損益 (実現損益 + 未実現損益)。
+top_whales.trading_pnl.title: 取引損益
+top_whales.trading_volume.info: 過去 30 日間にスワップされたトークンの合計価値 (USDT で表されます)。
+top_whales.trading_volume.title: 取引量
+top_whales.transfer_volume: 転送量
+top_whales.wins.info: 勝利の合計数と交換された固有トークンの数。
+top_whales.wins.title: 勝利
+top_whales.wins_losses: 勝ち負け
+whale_assets.others: その他
+whale_assets.title: ユーザー資産
+whale_balance_chart.balance: 残高
+whale_balance_chart.current_balance: 現在の残高
+whale_balance_chart.title: ウォレット残高チャート
+whale_historical_pnl.last_30_trading_pnl: 過去 30 日間の取引損益
+whale_historical_pnl.title: 過去の損益チャート
+whale_holds.badge: バッジ
+whale_holds.chg_30d: チェンジ(30D)
+whale_holds.market_cap: 時価総額
+whale_holds.name: 信号発信者名
+whale_holds.price: 価格
+whale_holds.title: 保留
+whale_holds.total_volume: 総量
+whale_holds.worth: 価値
+whale_netflow_histogram.inflow: 流れの中で
+whale_netflow_histogram.outflow: アウトフロー
+whale_netflow_histogram.title: ネットフローヒストグラム
+whale_overview.holding_tokens: トークンの保有
+whale_overview.holding_tokens.info: 長期的な利益のためにクジラのウォレットに保管されるトークン。
+whale_overview.holding_tokens.title: 保留
+whale_overview.losses: 損失
+whale_overview.trading_pnl: 取引損益（未実現）
+whale_overview.trading_tokens: トークン取引
+whale_overview.trading_tokens.info: アクティビティが高く、クジラによって頻繁に売買されるトークン。
+whale_overview.trading_tokens.title: トークン取引
+whale_overview.trading_volume: 取引量
+whale_overview.trading_win_rate: 取引勝率
+whale_overview.wins: 勝利
+whale_trades.avg_duration: 平均所要時間
+whale_trades.name: 信号発信者名
+whale_trades.number_of_trades: 取引回数
+whale_trades.number_of_transactions: 取引件数
+whale_trades.price: 価格
+whale_trades.returns: 返品
+whale_trades.title: 取引
+whale_trades.trading_pnl: 取引損益
+whale_trades.volume_of_trades: 取引量
