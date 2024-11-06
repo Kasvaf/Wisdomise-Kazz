@@ -100,6 +100,18 @@ export const useTraderFirePositionMutation = () => {
   );
 };
 
+export const useTraderCancelPositionMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (positionKey: string) => {
+      return await axios.post<null>(`trader/positions/${positionKey}/cancel`);
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries(['traderPositions']),
+    },
+  );
+};
+
 export interface UpdatePositionRequest {
   position_key: string;
   signal: Signal;

@@ -15,9 +15,11 @@ import useConfirm from 'shared/useConfirm';
 import { useCoinOverview } from 'api';
 import {
   useTraderFirePositionMutation,
+  useTraderCancelPositionMutation,
   useTraderUpdatePositionMutation,
 } from 'api/trader';
 import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
+import { isProduction } from 'utils/version';
 import { type SignalFormState } from './useSignalFormStates';
 
 interface Props {
@@ -26,6 +28,10 @@ interface Props {
   assetName: string;
   activePosition?: FullPosition;
 }
+
+const USDT_CONTRACT_ADDRESS = import.meta.env.VITE_USDT_CONTRACT_ADDRESS;
+const USDT_DECIMAL = import.meta.env.VITE_USDT_DECIMAL;
+const TONCENTER_BASE_URL = import.meta.env.VITE_TONCENTER_BASE_URL as string;
 
 const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   const { t } = useTranslation('builder');
@@ -57,6 +63,8 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   const { mutateAsync: updateOrClose, isLoading: isUpdating } =
     useTraderUpdatePositionMutation();
 
+  const { mutateAsync: cancelAsync } = useTraderCancelPositionMutation();
+
   const [ModalConfirm, confirm] = useConfirm({
     title: t('common:confirmation'),
     icon: null,
@@ -67,12 +75,10 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   const getJettonWalletAddress = async () => {
     if (!address) return;
 
-    const jettonMasterAddress = Address.parse(
-      'EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs', // USDT
-    );
+    const jettonMasterAddress = Address.parse(USDT_CONTRACT_ADDRESS);
     const ownerAddress = Address.parse(address);
     const client = new TonClient({
-      endpoint: 'https://toncenter.com/api/v2/jsonRPC',
+      endpoint: `${TONCENTER_BASE_URL}/api/v2/jsonRPC`,
     });
 
     try {
@@ -116,11 +122,14 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
         quote: 'USDT',
         quote_amount: amount,
       });
-      // await transferAssetsHandler(
-      //   'kQBZ1f1PcDQl3d5S9hgLaSuXuKNI9fy3ErblFi3J4tROsx7_',
-      //   '0.86',
-      // );
-      await transferAssetsHandler(res.deposit_address, res.gas_fee);
+
+      try {
+        await transferAssetsHandler(res.deposit_address, res.gas_fee);
+        navigate(`/hot-coins/${slug}`);
+      } catch {
+        await cancelAsync(res.position_key);
+        notification.error({ message: 'Transaction Canceled' });
+      }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -132,8 +141,8 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   ) => {
     const jettonWalletAddress = await getJettonWalletAddress();
     const transaction: SendTransactionRequest = {
-      validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes
-      network: CHAIN.MAINNET,
+      validUntil: Date.now() + 10 * 60 * 1000,
+      network: isProduction ? CHAIN.MAINNET : CHAIN.TESTNET,
       messages: [
         {
           address: recipientAddress,
@@ -151,11 +160,11 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
           payload: beginCell()
             .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
             .storeUint(0, 64) // query_id:uint64
-            .storeCoins(toNano(amount)) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
+            .storeCoins(+amount * 10 ** USDT_DECIMAL) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
             .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
-            .storeAddress(Address.parse(jettonWalletAddress ?? '')) // response_destination:MsgAddress
+            .storeAddress(Address.parse(address)) // response_destination:MsgAddress
             .storeUint(0, 1) // custom_payload:(Maybe ^Cell)
-            .storeCoins(toNano('0.05')) // forward_ton_amount:(VarUInteger 16) - if >0, will send notification message
+            .storeCoins(1) // forward_ton_amount:(VarUInteger 16) - if >0, will send notification message
             .storeUint(0, 1) // forward_payload:(Either Cell ^Cell)
             .endCell()
             .toBoc()
@@ -164,9 +173,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
       ],
     };
 
-    void tonConnectUI
-      .sendTransaction(transaction)
-      .then(() => navigate(`/hot-coins/${slug}`));
+    await tonConnectUI.sendTransaction(transaction);
   };
 
   const updateHandler = async () => {
