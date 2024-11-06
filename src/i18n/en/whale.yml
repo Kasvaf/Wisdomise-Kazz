@@ -31,11 +31,11 @@ filters:
   all: All
   all-networks: All Networks
   best_to_copy: Best To Copy
-  buy: Buy
-  hold: Hold
+  buy: Most Bought
+  hold: Most Held by Whales
   holders: Holders
-  sell: Sell
-  total_volume: Trading Volume
+  sell: Most Sold
+  total_volume: Highest Trading Volume
   wealthy_wallets: Wealthy Wallets
 onboarding:
   sec-1:
@@ -87,6 +87,7 @@ top_coins:
   title: Top Tokens Chosen by Whales
   buy_volume:
     title: Buy Volume
+    avg: Avg per buy
     info: >-
       The total volume bought from smart wallets and total wallet in the last
       7D.
@@ -100,6 +101,7 @@ top_coins:
     info: The current price, fully diluted Market Cap, and Circulating Supply.
   sell_volume:
     title: Sell Volume
+    avg: Avg per sell
     info: The total volume sold from smart wallets and total wallet in the last 7D.
   sells:
     title: Sells
@@ -117,22 +119,22 @@ top_whales:
   returns:
     title: Returns
     info: >-
-      The total returns of the wallet in the last 30 days, calculated as the P&L
-      in the quote asset (e.g., ETH) divided by the maximum value of tokens held
-      (in ETH) during the period.
+      The total returns of the wallet recently, calculated as the P&L in the
+      quote asset (e.g., ETH) divided by the maximum value of tokens held (in
+      ETH) during the period.
   tokens: Top Tokens
   trades_per_day:
     title: 'Avg # Of Trades/Day'
     info: Average number of trades per day in the last 14 days.
-  trading_holding: Trading/Holding
+  trading_holding: '# Trading/Holding Tokens'
   trading_pnl:
     title: Trading PNL
     info: >-
-      The total profit and loss of the wallet in the last 30 days (realized +
-      unrealized PnL).
+      The total profit and loss of the wallet recently (realized + unrealized
+      PnL).
   trading_volume:
     title: Trading Volume
-    info: The total value of tokens swapped in the last 30 days, expressed in USDT.
+    info: The total value of tokens swapped recently, expressed in USDT.
   wins_losses: Wins/Losses
 whale_assets:
   title: User Assets
@@ -146,7 +148,7 @@ whale_historical_pnl:
   last_30_trading_pnl: Last 30 Days Trading PnL
 whale_holds:
   name: Name
-  title: Holds
+  title: Holding Tokens
   badge: Badge
   chg_30d: Chg(30D)
   market_cap: Market Cap
@@ -158,16 +160,20 @@ whale_netflow_histogram:
   inflow: In Flow
   outflow: Out Flow
 whale_overview:
-  holding_tokens: Holding Tokens
+  holding_tokens:
+    title: Holding Tokens
+    info: Tokens held in the whale's wallet for long-term gains.
   losses: Losses
   trading_pnl: Trading PNL (Unrealized)
-  trading_tokens: Trading Tokens
+  trading_tokens:
+    title: Trading Tokens
+    info: Tokens with high activity, frequently bought and sold by the whale.
   trading_volume: Trading Volume
   trading_win_rate: Trading Win Rate
   wins: Wins
 whale_trades:
   name: Name
-  title: Trades
+  title: Trading Tokens
   avg_duration: Avg Duration
   number_of_transactions: Number of Transactions
   price: Price

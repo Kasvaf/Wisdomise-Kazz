@@ -9,6 +9,7 @@ import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ProLocker } from 'shared/ProLocker';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinInfo } from './CoinInfo';
 import { NetworkSelect } from './NetworkSelect';
 
@@ -92,11 +93,28 @@ export function WhaleTopCoinsWidget({
         ],
         align: 'right',
         render: (_, row) => (
-          <DirectionalNumber
-            value={row.total_buy_volume}
-            showSign
-            direction="up"
-          />
+          <div className="flex flex-col items-end">
+            <DirectionalNumber
+              value={row.total_buy_volume}
+              showSign={false}
+              direction="up"
+              label="$"
+            />
+            <div className="flex items-center gap-1 whitespace-nowrap text-xs">
+              <span className="text-v1-content-secondary">
+                {t('top_coins.buy_volume.avg')}:
+              </span>
+              <ReadableNumber
+                value={
+                  typeof row.total_buy_volume !== 'number' ||
+                  row.total_buy_volume === 0
+                    ? 0
+                    : (row.total_buy_volume ?? 0) / (row.total_buy_number ?? 0)
+                }
+                label="$"
+              />
+            </div>
+          </div>
         ),
       },
       {
@@ -106,15 +124,29 @@ export function WhaleTopCoinsWidget({
         ],
         align: 'right',
         render: (_, row) => (
-          <DirectionalNumber
-            value={
-              typeof row.total_sell_volume === 'number'
-                ? -1 * row.total_sell_volume
-                : null
-            }
-            direction="down"
-            showSign
-          />
+          <div className="flex flex-col items-end">
+            <DirectionalNumber
+              value={row.total_sell_volume}
+              showSign={false}
+              direction="down"
+              label="$"
+            />
+            <div className="flex items-center gap-1 whitespace-nowrap text-xs">
+              <span className="text-v1-content-secondary">
+                {t('top_coins.sell_volume.avg')}:
+              </span>
+              <ReadableNumber
+                value={
+                  typeof row.total_sell_volume !== 'number' ||
+                  row.total_sell_volume === 0
+                    ? 0
+                    : (row.total_sell_volume ?? 0) /
+                      (row.total_sell_number ?? 0)
+                }
+                label="$"
+              />
+            </div>
+          </div>
         ),
       },
       {
