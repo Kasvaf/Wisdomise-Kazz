@@ -4,7 +4,7 @@ import { isMiniApp } from 'utils/version';
 import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
 import { ReactComponent as IconHome } from './icons/home.svg';
-import { ReactComponent as IconClaim } from './icons/claim.svg';
+import { ReactComponent as IconProfile } from './icons/profile.svg';
 
 interface MenuItem {
   text: string;
@@ -30,8 +30,8 @@ const useMenuItems = () => {
           link: '/hot-coins',
         },
         {
-          icon: <IconClaim />,
-          text: 'Claim Reward',
+          icon: <IconProfile />,
+          text: 'Profile',
           link: '/claim-reward',
         },
       ]

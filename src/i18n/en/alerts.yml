@@ -10,7 +10,7 @@ common:
   save-alert: Save Alert
   search: Search...
   set-alert: Set Alert
-  subscription-banner-link: Subscribe to our Insight Plan for access.
+  subscription-banner-link: Subscribe to our Pro Plan for access.
   subscription-banner-title: Get real-time coin alerts, Customize notifications.
   success-message: Alert saved successfully!
 forms:

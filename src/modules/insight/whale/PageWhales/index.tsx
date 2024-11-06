@@ -15,8 +15,8 @@ export default function PageWhales() {
           description={t('menu.whales.subtitle')}
           className="col-span-2"
         />
-        <WhaleTopHoldersWidget className="col-span-2" />
         <WhaleTopCoinsWidget className="col-span-2" />
+        <WhaleTopHoldersWidget className="col-span-2" />
       </div>
       <WhalesOnboarding />
     </PageWrapper>

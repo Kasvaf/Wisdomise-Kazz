@@ -12,6 +12,7 @@ export function ButtonSelect<T>({
     value: T;
     label: ReactNode;
     disabled?: boolean;
+    hidden?: boolean;
   }>;
   value?: T;
   onChange?: (newValue: T) => void;
@@ -24,24 +25,26 @@ export function ButtonSelect<T>({
         className,
       )}
     >
-      {options.map((option, index) => (
-        <button
-          onClick={() => onChange?.(option.value)}
-          key={`${option.value?.toString() || ''}-${index}`}
-          role="radio"
-          aria-checked={value === option.value}
-          disabled={option.disabled}
-          className={clsx(
-            'h-full rounded-lg px-3 text-sm text-white/60',
-            'grow transition-colors duration-150',
-            'enabled:hover:bg-white/5',
-            'aria-checked:text-white enabled:aria-checked:bg-white/10',
-            'disabled:opacity-40',
-          )}
-        >
-          {option.label}
-        </button>
-      ))}
+      {options
+        .filter(x => !x.hidden)
+        .map((option, index) => (
+          <button
+            onClick={() => onChange?.(option.value)}
+            key={`${option.value?.toString() || ''}-${index}`}
+            role="radio"
+            aria-checked={value === option.value}
+            disabled={option.disabled}
+            className={clsx(
+              'h-full rounded-lg px-3 text-sm text-white/60',
+              'grow transition-colors duration-150',
+              'enabled:hover:bg-white/5',
+              'aria-checked:text-white enabled:aria-checked:bg-white/10',
+              'disabled:opacity-40',
+            )}
+          >
+            {option.label}
+          </button>
+        ))}
     </div>
   );
 }

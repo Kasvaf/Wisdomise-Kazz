@@ -38,90 +38,15 @@ export function WhaleNetflowChartWidget({
         r => r.today_out_flow ?? 0,
       ),
     );
+    const maxFlow = Math.max(maxInFlow, maxOutFlow);
+
     return {
       maxOutFlow,
       maxInFlow,
+      maxFlow,
       data,
     };
   }, [whale]);
-
-  // const config = useMemo<BidirectionalBarConfig>(() => {
-  //   return {
-  //     data: [...(whale?.data?.last_30_days_in_out_flow ?? [])].sort(
-  //       (a, b) =>
-  //         new Date(a.related_at_date).getTime() -
-  //         new Date(b.related_at_date).getTime(),
-  //     ),
-  //     xField: 'related_at_date',
-  //     yField: ['today_in_flow', 'today_out_flow'],
-  //     // style: {
-  //     //   fill: d => {
-  //     //     if (d.groupKey === 'today_in_flow') return '#00FFA3';
-  //     //     return '#F14056';
-  //     //   },
-  //     // },
-  //     barStyle: d => {
-  //       return {
-  //         fill:
-  //           d?.['series-field-key'] === 'today_out_flow'
-  //             ? '#F14056'
-  //             : '#00FFA3',
-  //         lineCap: 'butt',
-  //         lineJoin: 'round',
-  //         lineDash: [1, 1],
-  //       };
-  //     },
-  //     // label: false,
-  //     // areaStyle: {
-  //     //   fill: 'l(270) 0:#202227 1:#00DA98',
-  //     // },
-  //     layout: 'vertical',
-  //     xAxis: {
-  //       grid: null,
-  //       label: null,
-  //       // base: 10_000,
-  //       // mask: 'salam',
-  //       // nice: false,
-  //       // title: {
-  //       //   // offset: -100,
-  //       //   // spacing: 0,
-  //       //   // style: {
-  //       //   //   height: 0,
-  //       //   // },
-  //       //   // position: 'bottom',
-  //       //   text: '',
-  //       // },
-  //       // line: {
-  //       //   style: {
-  //       //     strokeOpacity: 0,
-  //       //   },
-  //       // },
-  //     },
-  //     yAxis: {
-  //       today_in_flow: {
-  //         grid: null,
-  //         nice: true,
-  //       },
-  //       today_out_flow: {
-  //         grid: null,
-  //         nice: true,
-  //         // type: 'cat',
-  //       },
-
-  //       // line: {
-  //       //   style: {
-  //       //     strokeOpacity: 0,
-  //       //   },
-  //       // },
-  //       // form
-  //     },
-  //     smooth: true,
-  //     autoFit: true,
-  //     loading: whale.isLoading,
-  //     legend: false,
-  //     // height: 170,
-  //   };
-  // }, [whale]);
 
   return (
     <OverviewWidget
@@ -130,25 +55,11 @@ export function WhaleNetflowChartWidget({
       empty={!whale.data?.holder_address}
       title={t('whale_netflow_histogram.title')}
     >
-      <div className="group relative flex h-full items-center justify-between gap-2">
+      <div className="group relative flex h-full w-fit min-w-full items-center justify-between gap-2">
         <div className="relative flex h-full w-auto flex-col justify-between text-xxs text-v1-content-secondary">
-          {config.maxInFlow || config.maxOutFlow ? (
-            <ReadableNumber
-              label="$"
-              value={config.maxInFlow || config.maxOutFlow}
-            />
-          ) : (
-            <span />
-          )}
+          <ReadableNumber label="$" value={config.maxFlow || 1000} />
           <ReadableNumber label="$" value={0} />
-          {config.maxOutFlow || config.maxInFlow ? (
-            <ReadableNumber
-              label="$"
-              value={config.maxOutFlow || config.maxInFlow}
-            />
-          ) : (
-            <span />
-          )}
+          <ReadableNumber label="$" value={config.maxFlow || 1000} />
         </div>
         {config.data.map(r => (
           <Tooltip
@@ -192,7 +103,7 @@ export function WhaleNetflowChartWidget({
                   className="absolute bottom-0 min-h-1 w-full shrink-0 rounded-t bg-v1-content-positive"
                   style={{
                     height: `${
-                      ((r.today_in_flow ?? 0) / config.maxInFlow) * 100
+                      ((r.today_in_flow ?? 0) / config.maxFlow) * 100
                     }%`,
                   }}
                 />
@@ -202,7 +113,7 @@ export function WhaleNetflowChartWidget({
                   className="absolute top-0 min-h-1 w-full shrink-0 rounded-b bg-v1-content-negative"
                   style={{
                     height: `${
-                      ((r.today_out_flow ?? 0) / config.maxOutFlow) * 100
+                      ((r.today_out_flow ?? 0) / config.maxFlow) * 100
                     }%`,
                   }}
                 />

@@ -11,6 +11,7 @@ export const useNetworks = () =>
             icon_url: string;
             id: number;
             name: string;
+            slug: string;
           }>
         >('/delphi/market/networks/')
         .then(({ data }) => data),

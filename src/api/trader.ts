@@ -7,23 +7,23 @@ export interface PositionsResponse {
 }
 
 export interface Position {
-  key: '12345...'; // key
-  status: 'DRAFT'; // DRAFT, PENDING, OPENING, OPEN, CLOSED, CANCELED
-  deposit_status: 'PENDING'; // PENDING, PAID, EXPIRED
-  withdraw_status: ''; // "", "SENT", "PAID"
-  pair: 'NOTUSDT';
-  side: 'long'; // long or short
-  signal: Signal; // same as the old terminal
-  manager: unknown; // same as the old terminal
-  trading_fee: '0.0'; // or null
-  entry_price: '0.0'; // or null (avg)
-  entry_time: '2024-10-07T04:35:13+00:00'; // or null
-  exit_price: '0.0'; // or null (avg)
-  exit_time: '2024-10-07T04:35:13+00:00'; // or null
-  pnl: '0.0'; // or null: percentage
-  stop_loss: '0.0'; // or null (avg)
-  take_profit: '0.0'; // or null (avg)
-  size: '0.0'; // percentage
+  key: string;
+  status: 'DRAFT' | 'PENDING' | 'OPENING' | 'OPEN' | 'CLOSED' | 'CANCELED';
+  deposit_status: 'PENDING' | 'PAID' | 'EXPIRED';
+  withdraw_status?: 'SENT' | 'PAID';
+  pair: string;
+  side: 'long' | 'short';
+  signal: Signal;
+  manager: unknown;
+  trading_fee?: string;
+  entry_price?: string;
+  entry_time?: string;
+  exit_price?: string;
+  exit_time?: string;
+  pnl?: string;
+  stop_loss?: string;
+  take_profit?: string;
+  size?: string;
 }
 
 export function useTraderPositionQuery(positionKey: string) {
@@ -42,12 +42,12 @@ export function useTraderPositionQuery(positionKey: string) {
   );
 }
 
-export function useTraderPositionsQuery(pair: string) {
+export function useTraderPositionsQuery(pair?: string) {
   return useQuery(
     ['traderPositions', pair],
     async () => {
       const { data } = await axios.get<PositionsResponse>(
-        `trader/positions?pair=${pair}`,
+        `trader/positions?pair=${pair ?? ''}`,
       );
       return data;
     },
@@ -84,8 +84,10 @@ export const useCreateTraderInstanceMutation = () => {
 
 export const useTraderFirePositionMutation = () => {
   const queryClient = useQueryClient();
+  const { mutateAsync } = useCreateTraderInstanceMutation();
   return useMutation(
     async (body: CreatePositionRequest) => {
+      await mutateAsync();
       const { data } = await axios.post<CreatePositionResponse>(
         'trader/positions',
         body,

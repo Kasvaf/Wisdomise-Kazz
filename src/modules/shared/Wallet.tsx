@@ -1,11 +1,10 @@
 import useNotification from 'antd/es/notification/useNotification';
-import { bxShareAlt } from 'boxicons-quasar';
+import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCopyToClipboard } from 'usehooks-ts';
 import { Link } from 'react-router-dom';
-import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { shortenAddress } from 'utils/shortenAddress';
 
@@ -31,20 +30,6 @@ export const Wallet: FC<{
       return null;
     });
   };
-  const share = () => {
-    if (
-      'share' in navigator &&
-      'canShare' in navigator &&
-      navigator.canShare({
-        text: wallet.address,
-      })
-    ) {
-      return navigator.share({
-        text: wallet.address,
-      });
-    }
-    return copy();
-  };
 
   const avatar = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${(
     wallet.network + wallet.address
@@ -61,15 +46,9 @@ export const Wallet: FC<{
             className="size-10 rounded-full"
           />
           <h1 className="text-lg font-bold"> {shortAddress} </h1>
-          <Button
-            contentClassName="!text-xs"
-            onClick={() => share()}
-            variant="alternative"
-            size="small"
-          >
-            <Icon name={bxShareAlt} size={16} className="mr-2" />{' '}
-            {t('actions.share')}
-          </Button>
+          <button onClick={() => copy()}>
+            <Icon name={bxCopy} size={16} />
+          </button>
         </div>
       ) : (
         <Link
