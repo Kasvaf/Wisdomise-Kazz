@@ -76,6 +76,10 @@ fp:
     positions: Positions
     product-builder: Product Builder
     usage: Usage
+info:
+  safety-open: Adds additional buy orders at lower prices to average down your entry price.
+  stop-loss: Sets a minimum price to sell and limit potential losses automatically.
+  take-profit: Sets a target price to automatically sell and secure profits.
 multi-coin-selector:
   add-coin: Add Coin
 notif-saved-successfully: Changes saved successfully.
@@ -212,6 +216,8 @@ signal-form:
     info-title: Expiration Time
   notif-success-close: Position closed successfully.
   notif-success-update: Position updated successfully.
+  open:
+    title: Open
   order-expiration-time:
     title: Order Expiration
     info-text: >-

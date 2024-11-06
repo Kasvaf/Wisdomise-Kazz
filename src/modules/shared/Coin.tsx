@@ -2,6 +2,7 @@ import { Tooltip } from 'antd';
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { type Coin as CoinType } from 'api/types/shared';
+import { gtmClass } from 'utils/gtmClass';
 
 export function Coin({
   className,
@@ -101,11 +102,10 @@ export function Coin({
         <span className={rootClassName}>{content}</span>
       ) : (
         <Link
-          className={rootClassName}
+          className={clsx(rootClassName, gtmClass('coin_list-item'))}
           to={{
             pathname: `/coin/${coin.slug}`,
           }}
-          data-id="coin_list-item"
         >
           {content}
         </Link>

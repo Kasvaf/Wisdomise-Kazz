@@ -22,6 +22,7 @@ const orderToOrder = (x: OrderPresetItem) => ({
 const AIPresets: React.FC<{
   data: SignalFormState;
   assetName: string;
+  assetSlug: string;
 }> = ({ data, assetName }) => {
   const [activePreset, setActivePreset] = useState(3);
   const { data: presets, isLoading } = useAIPresets(assetName);
@@ -30,6 +31,7 @@ const AIPresets: React.FC<{
     orderType: [orderType, setOrderType],
     volume: [volume, setVolume],
     price: [price, setPrice],
+    priceUpdated: [, setPriceUpdated],
     safetyOpens: [safetyOpens, setSafetyOpens],
     takeProfits: [takeProfits, setTakeProfits],
     stopLosses: [stopLosses, setStopLosses],
@@ -55,6 +57,7 @@ const AIPresets: React.FC<{
     setOrderType('limit');
     setVolume(String(p.open_orders[0].amount * 100));
     setPrice(String(p.open_orders[0].price));
+    setPriceUpdated(true);
     setSafetyOpens(p.open_orders.slice(1).map(orderToOrder));
     setTakeProfits(p.take_profits.map(orderToOrder));
     setStopLosses(p.stop_losses.map(orderToOrder));

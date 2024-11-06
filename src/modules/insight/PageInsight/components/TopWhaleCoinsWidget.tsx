@@ -16,14 +16,14 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
     days: 1,
   });
 
-  if (!hasFlag('/insight/whales')) return null;
+  if (!hasFlag('/coin-radar/whale-radar')) return null;
 
   return (
     <OverviewWidget
       className={className}
       title={t('whale:sections.top-coins.title')}
       info={t('whale:sections.top-coins.subtitle')}
-      headerActions={<SeeMoreLink to="/insight/whales" />}
+      headerActions={<SeeMoreLink to="/coin-radar/whale-radar" />}
       contentClassName="flex flex-col gap-4"
       loading={coins.isLoading}
       empty={coins.data?.results.length === 0}

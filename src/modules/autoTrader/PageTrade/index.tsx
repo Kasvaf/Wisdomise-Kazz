@@ -45,6 +45,7 @@ export default function PageTrade() {
       {abbr && (
         <AdvancedSignalForm
           assetName={`${abbr ?? ''}USDT`}
+          assetSlug={slug}
           activePosition={undefined}
           className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
           formState={formState}

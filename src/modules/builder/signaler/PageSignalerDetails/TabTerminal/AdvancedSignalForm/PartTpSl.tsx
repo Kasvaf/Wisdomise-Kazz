@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { roundDown } from 'utils/numbers';
+import { useCoinOverview } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import InfoButton from 'shared/InfoButton';
 import { sortTpSlItems, type SignalFormState } from './useSignalFormStates';
 import PriceVolumeInput from './PriceVolumeInput';
 
@@ -12,7 +14,8 @@ const PartTpSl: React.FC<{
   type: 'TP' | 'SL';
   data: SignalFormState;
   assetName: string;
-}> = ({ type, data }) => {
+  assetSlug: string;
+}> = ({ type, data, assetSlug }) => {
   const { t } = useTranslation('builder');
   const {
     price: [price],
@@ -20,14 +23,8 @@ const PartTpSl: React.FC<{
     orderType: [orderType],
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
   } = data;
-
-  // const { data: assetPrice } = useSignalerAssetPrice({
-  //   strategyKey: signaler.key,
-  //   assetName,
-  // });
-  // TODO get asset price
-  const assetPrice = 0;
-
+  const { data: assetOverview } = useCoinOverview({ slug: assetSlug });
+  const assetPrice = assetOverview?.data?.current_price;
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
   const sortItems = () =>
@@ -61,10 +58,13 @@ const PartTpSl: React.FC<{
   return (
     <div>
       <div className="mb-2 flex justify-between">
-        <h1>
+        <h1 className="flex items-center gap-1">
           {type === 'TP'
             ? t('signal-form.take-profit')
             : t('signal-form.stop-loss')}
+          <InfoButton
+            text={type === 'TP' ? t('info.take-profit') : t('info.stop-loss')}
+          />
         </h1>
 
         {!Number.isNaN(effectivePrice) && (

@@ -6,11 +6,76 @@ available-exchanges:
     volume_24h: Volume 24h
 call-change:
   fire-time: Signal Fire Time
-  max-price: Max Price
-  min-price: Min Price
-  pnl: Call PnL Percentage
+  max-price: 'Max: Extremum High'
+  min-price: 'Min: Extremum low'
+  pnl: Last Update
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
+coin_security:
+  contract_security: Contract Security
+  fields:
+    anti_whale_modifiable:
+      title: Anti-whale modifiable function found
+    buy_tax:
+      title: Buy tax
+    can_take_back_ownership:
+      title: No retrievable ownership function found
+    cannot_buy:
+      title: This token can be bought
+    cannot_sell_all:
+      title: Holders can sell all of their tokens
+    external_call:
+      title: No external call risk
+    gas_abuse:
+      title: This token is not a gas abuser
+    hidden_owner:
+      title: No hidden owner address
+    is_anti_whale:
+      title: No anti-whale function
+    is_blacklisted:
+      title: No blacklist function
+    is_honeypot:
+      title: This token does not appear to be a honeypot
+    is_mintable:
+      title: Mint function is transparent or non-existent
+    is_open_source:
+      title: Verified contract source code
+      subtitle: >-
+        This token has an open source contract and details can be retrieved from
+        the contract code.
+    is_proxy:
+      title: No proxy found
+    is_whitelisted:
+      title: No whitelist function
+    owner_change_balance:
+      title: Contract owner cannot modify balance
+    personal_slippage_modifiable:
+      title: Taxes cannot be modified for assigned addresses
+    selfdestruct:
+      title: This token cannot self-destruct
+    sell_tax:
+      title: Sell tax
+    slippage_modifiable:
+      title: Transaction tax cannot be modified
+    tax:
+      subtitle: >-
+        More than 10% is considered a high tax rate, and anything beyond 50% tax
+        rate means it may not be tradable.
+    trading_cooldown:
+      title: No cooldown period function
+    transfer_pausable:
+      title: Contains no code for suspending trading
+  risk_one: '{{count}} Risk'
+  risk_other: '{{count}} Risks'
+  risk_zero: No Risks
+  security_detection: Security Detection
+  trusted: Trusted
+  warning_one: '{{count}} Warning'
+  warning_other: '{{count}} Warnings'
+  warning_zero: No Warnings
+coin-category:
+  all: All Categories
+  button: Categories
 coin-details:
   tabs:
     chart:
@@ -48,6 +113,7 @@ coin-details:
     social_sentiment:
       title: Social Sentiment By Wisdomise
       footer: Past 24H, Community Data Insights
+      hunted-at: Hunted At
       market_side: Market Side
       negative: Negative
       positive: Positive
@@ -78,45 +144,18 @@ coin-details:
       title: Popular With Whales
 copied-to-clipboard: ''
 hot-coins-section:
-  title: Hot Coins
-  filters:
-    24h: 24h
-    30d: 30D
-    7d: 7D
-    all-coins: All Coins
-    gainers: Gainers
-    losers: Losers
-    search: Search Coin...
   table:
-    name: Name
-    24h-voume: 24h Vol
-    call-time: Call Time
-    call-time-info: >-
-      The exact moment our AI detected a key opportunity and sent a signal for
-      this asset. Use it to track when you were alerted to consider this token.
-    circulating_supply: Circulating Supply
-    market-cap: Market Cap
-    pnl: Call PnL
-    pnl-info: >-
-      Shows the profit or loss (PNL) since our signal was triggered. It helps
-      you track the performance of the asset from the moment we alerted you.
-    rank: Rank
-    realtime-price: Price
-    sentiment: Sentiment
-market-info:
-  description: Real-Time AI-Driven Insights from Socials and Markets
-  social-channel-count: >-
-    <0>Wisdomise Coin Radar Scanned <2>{{channelsCount}}</2> Social Accounts in
-    the Past 24 Hours.</0>
+    name: ''
+    realtime-price: ''
 onboarding:
   sec-1:
-    title: Discover Hidden Gems with Social Scanner
+    title: Discover Hidden Gems with Social Radar
     content: >-
       Watch this quick video to see how our AI-driven platform brings you the
       latest insights, trends, and opportunities in the world of
       cryptocurrency—saving you time and maximizing your research efficiency.
   sec-2:
-    title: 'Hot Coins: Your Shortcut to the Next Big Breakout'
+    title: 'Social Radar: Your Shortcut to the Next Big Breakout'
     content: >-
       We scan the entire market, from social media buzz to whale movements and
       on-chain data, pinpointing the best upcoming coins with high potential.
@@ -128,27 +167,6 @@ onboarding:
       Customize alerts and create personalized screeners on the hottest coins,
       so you're always one step ahead. Stay informed in real-time and make sure
       you never miss a breakout opportunity again!
-recommend-account:
-  button: Recommend Account
-  modal:
-    title: Recommend an Account
-    description:
-      label: Description <2>(optional)</2>
-      placeholder: Additional details about the channel
-      rules:
-        minLength: Must be greater than 3 character
-    cancel: Cancel
-    channel-address:
-      label: Telegram Channel ID, Subreddit or Account
-      placeholder: '@ID or sharable link'
-      rules:
-        minLength: Must be greater than 3 character
-        required: Channel address is required
-    recommend: Recommend
-    sub-title: >-
-      Share a Telegram channel ID, Subreddit or Account and details to enhance
-      Coin Radar with valuable market insights. Your suggestions will be
-      reviewed by our AI system for inclusion based on signal value.
 set-notification:
   open-modal-btn:
     not-set: Set Alert
@@ -156,6 +174,74 @@ set-notification:
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
-tops-section:
-  gainers: Top Gainers
-  losers: Top Losers
+social-radar:
+  banner:
+    title: Social Radar
+    subtitle: Real-Time AI-Driven Insights from Socials
+  sorts:
+    call_time: Newest
+    market_cap: Market Cap
+    pnl: PNL
+    price_change: 24H Chg
+    rank: Wise Logic
+  table:
+    name: Name
+    title: Wisdomise Hot Coins
+    description: >-
+      Wisdomise Social Radar scanned <b>{{posts}} posts</b> in the last 24 hours
+      for accurate, data-driven insights.
+    all_networks: All Networks
+    labels:
+      title: Labels
+    market_cap:
+      title: Market Cap
+      info: >-
+        <b>Market Cap</b><br />Displays the total market capitalization of each
+        asset (coin or token), representing the current market value. Assets are
+        also categorized as High, Mid, or Low based on their market cap, giving
+        you quick insight into their size and relative impact in the market.
+    price_info:
+      title: Info
+      info: >-
+        <b>Price</b><br />Current market value of the coin or token. <br /> <br
+        /> <b>24h Change</b><br />The asset's percentage change in price over
+        the last 24 hours. <br /> <br /> <b>Low 24h</b><br />Lowest price in the
+        last 24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the
+        last 24 hours.
+    rank: Wise Rank
+    search: Search Coin...
+    sentiment:
+      title: Wisdomise Sentiment
+      info: |-
+        <b>Wisdomise Sentiment</b> <br /> <br /> <b>
+          Wisdomise AI analyzes social sentiment for each asset (coin or
+          token) from Reddit, Telegram, Trading View, X (formerly Twitter),
+          and YouTube. The sentiment can be Positive, Neutral, or Negative,
+          showing how the community feels.
+        </b> <br /> <br /> <b>P&L % Change</b> <br /> <p>
+          Tracks the Profit & Loss from when the asset was first hunted as
+          “Hot” until its first major price movement.
+        </p> <br /> <br /> <p>
+          This information helps you make informed decisions by seeing not
+          just the community’s view but also how market movements align with
+          those opinions.
+        </p>
+    sort: Sort
+    whale_buy_sell:
+      title: Whale Buy/Sell
+      empty: Untracked
+      info: >-
+        <b>Whale Buy/Sell</b> <br /> <br /> <b>Tracks data from Smart Wallets
+        (Whales) using Wisdomise AI:</b> <br /> <br /> <b>Buying Activity:</b>
+        Displays the number of wallets that bought the asset in the last hour
+        and the total amount purchased. <br /><br /> <b>Selling Activity:</b>
+        Shows the number of wallets that sold the asset in the last hour and the
+        total amount sold. <br /><br /> For assets that are not attractive to
+        whales and have no significant transactions, the badge Untracked is
+        displayed.
+social-radar-overview:
+  title: Social Radar
+  table:
+    name: Name
+    info: Info
+    sentiment: Sentiment

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useCoinSignals, useHasFlag } from 'api';
-import { SignalSentiment } from 'shared/SignalSentiment';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { SignalSentiment } from '../../../PageCoinRadar/components/SignalSentiment';
 import { SentimentGuage } from './SentimentGuage';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -17,7 +17,7 @@ export function CoinSocialSentimentWidget({
   const signals = useCoinSignals();
   const hasFlag = useHasFlag();
   const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
-  if (!hasFlag('/insight/coin-radar?side-suggestion')) return null;
+  if (!hasFlag('/coin-radar/social-radar?side-suggestion')) return null;
   return (
     <OverviewWidget
       className={clsx('min-h-[400px]', className)}

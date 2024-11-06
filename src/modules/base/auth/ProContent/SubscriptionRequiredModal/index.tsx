@@ -46,16 +46,6 @@ export function SubscriptionRequiredModal({
             <button
               className={clsx(
                 'flex h-12 w-full items-center justify-center gap-2 rounded-xl',
-                'border border-v1-content-primary bg-v1-surface-l4 text-v1-content-primary',
-                'transition-all hover:bg-v1-surface-l5 active:bg-v1-surface-l3',
-              )}
-              onClick={onClose}
-            >
-              {t('renew-modal.skip')}
-            </button>
-            <button
-              className={clsx(
-                'flex h-12 w-full items-center justify-center gap-2 rounded-xl',
                 'bg-pro-gradient text-black',
                 'transition-all hover:brightness-110 active:brightness-95',
               )}

@@ -77,11 +77,11 @@ indicator_list:
       title: Cheap & Bullish
 onboarding:
   sec-1:
-    title: 'Welcome to the AI Indicator Page: Simplified Insights from Complex Data'
+    title: 'Welcome to the Technical Radar Page: Simplified Insights from Complex Data'
     content: >-
-      Our AI Indicator page takes complex technical indicators and breaks them
-      down into simple, actionable insights. Whether you're a beginner or an
-      expert, you'll be able to make quick and informed decisions with ease.
+      Our Technical Radar page takes complex technical indicators and breaks
+      them down into simple, actionable insights. Whether you're a beginner or
+      an expert, you'll be able to make quick and informed decisions with ease.
   sec-2:
     title: What is RSI?<br>Understand Market Momentum
     content: >-

@@ -12,11 +12,14 @@ call-change:
   changes: 更改
   current-price: 现在价格
   fire-time: 信号发射时间
-  max-price: 最高价格
-  min-price: 最低价格
-  pnl: 看涨盈亏百分比
+  max-price: 最大值：极高值
+  min-price: 最小值：极低值
+  pnl: 最后更新
   trigger-price: 信号发出时的价格
   under-calculation: 正在计算
+coin-category:
+  all: 所有类别
+  button: 类别
 coin-details:
   tabs:
     chart:
@@ -49,6 +52,7 @@ coin-details:
       title: 价格表现
     social_sentiment:
       footer: 过去 24 小时，社区数据洞察
+      hunted-at: 猎杀地点
       market_side: 市場方向
       negative: 消極負面
       positive: 積極正向
@@ -87,6 +91,62 @@ coin-info:
   market_cap: 市值
   price: 價格
   volume_24h: 24小時交易量
+coin_security:
+  contract_security: 合约安全
+  fields:
+    anti_whale_modifiable:
+      title: 发现反鲸鱼可修改功能
+    buy_tax:
+      title: 购买税
+    can_take_back_ownership:
+      title: 未找到可检索所有权函数
+    cannot_buy:
+      title: 此代币可以购买
+    cannot_sell_all:
+      title: 持有者可以出售所有代币
+    external_call:
+      title: 无外部调用风险
+    gas_abuse:
+      title: 此代币不滥用 Gas
+    hidden_owner:
+      title: 没有隐藏所有者地址
+    is_anti_whale:
+      title: 没有反鲸鱼功能
+    is_blacklisted:
+      title: 无黑名单功能
+    is_honeypot:
+      title: 这个令牌看起来不像是一个蜜罐
+    is_mintable:
+      title: Mint 功能透明或不存在
+    is_open_source:
+      subtitle: 此代币具有开源合约，可从合约代码中检索详细信息。
+      title: 验证合约源代码
+    is_proxy:
+      title: 未找到代理
+    is_whitelisted:
+      title: 无白名单功能
+    owner_change_balance:
+      title: 合约所有者不能修改余额
+    personal_slippage_modifiable:
+      title: 无法修改指定地址的税费
+    selfdestruct:
+      title: 此令牌无法自毁
+    sell_tax:
+      title: 销售税
+    slippage_modifiable:
+      title: 交易税无法修改
+    tax:
+      subtitle: 超过 10% 的税率被视为高税率，超过 50% 的税率则意味着可能无法交易。
+    trading_cooldown:
+      title: 无冷却时间功能
+    transfer_pausable:
+      title: 不包含暂停交易的代码
+  risk_other: "{{count}} 风险"
+  risk_zero: 无风险
+  security_detection: 安全检测
+  trusted: 值得信赖
+  warning_other: "{{count}} 警告"
+  warning_zero: 无警告
 hot-coins-section:
   filters:
     24h: 24小時
@@ -124,10 +184,10 @@ market-info:
 onboarding:
   sec-1:
     content: 观看此简短视频，了解我们的人工智能驱动平台如何为您带来加密货币领域的最新见解、趋势和机遇，从而节省您的时间并最大限度地提高您的研究效率。
-    title: 使用社交扫描仪发现隐藏的宝石
+    title: 使用社交雷达发现隐藏的宝石
   sec-2:
     content: 我们扫描整个市场，从社交媒体热议到鲸鱼动向和链上数据，精准找出具有高潜力的最佳新币。节省数小时的研究时间，增加您在市场中发现隐藏宝石的机会。
-    title: 热门代币：通往下一个大突破的捷径
+    title: 社交雷达：通往下一个重大突破的捷径
   sec-3:
     content: 自定义警报并创建最热门代币的个性化筛选器，让您始终领先一步。实时了解最新动态，确保您不会再错过突破机会！
     title: 不要错过任何机会：设置警报和筛选器
@@ -169,8 +229,60 @@ set-notification:
     not-set: 設置警報
     set: 警報已設置
 set-price-notification:
-  open-existing-modal-btn: 價格警報已設置
-  open-modal-btn: 設置價格警報
+  open-existing-modal-btn: 已设置警报
+  open-modal-btn: 设置警报
+social-radar-overview:
+  table:
+    info: 信息
+    name: 名稱
+    sentiment: 市場情緒
+  title: 社交雷达
+social-radar:
+  banner:
+    subtitle: 来自社交媒体的实时人工智能驱动洞察
+    title: 社交雷达
+  sorts:
+    call_time: 最新
+    market_cap: 市值
+    pnl: 盈虧
+    price_change: 24小时更改
+    rank: 明智的逻辑
+  table:
+    all_networks: 所有网络
+    description: Wisdomise 社交雷达扫描 <b>{{posts}} 帖子</b> 在过去 24 小时内获得准确的、数据驱动的见解。
+    labels:
+      title: 标签
+    market_cap:
+      info: <b>市值</b><br
+        />显示每种资产（硬币或代币）的总市值，代表当前市场价值。资产还根据其市值分为高、中、低，让您快速了解其规模和在市场中的相对影响力。
+      title: 市值
+    name: 名稱
+    price_info:
+      info: <b>价格</b><br />硬币或代币的当前市场价值。 <br /> <br /> <b>24小时变化</b><br />过去 24
+        小时内资产价格的百分比变化。 <br /> <br /> <b>低 24 小时</b><br />过去 24 小时内的最低价格。 <br />
+        <br /> <b>最高 24 小时</b><br />过去 24 小时内的最高价格。
+      title: 信息
+    rank: 明智排名
+    search: 搜索幣種...
+    sentiment:
+      info: >-
+        <b>智慧化情怀</b> <br /> <br /> <b>
+          Wisdomise AI 分析 Reddit、Telegram、Trading View、X（以前称为 Twitter）和 YouTube 上每种资产（硬币或代币）的社会情绪。情绪可以是正面的、中性的或负面的，显示社区的感受。
+        </b> <br /> <br /> <b>损益百分比变化</b> <br /> <p>
+          追踪资产从首次被视为“热门”到其首次出现重大价格波动期间的损益。
+        </p> <br /> <br /> <p>
+          这些信息不仅能帮助您了解社区的观点，还能让您了解市场走势与这些观点的契合程度，从而帮助您做出明智的决策。
+        </p>
+      title: 智慧化情怀
+    sort: 种类
+    title: Wisdomise 热门货币
+    whale_buy_sell:
+      empty: 未追踪
+      info: <b>鲸鱼买入/卖出</b> <br /> <br /> <b>使用 Wisdomise AI 跟踪智能钱包（鲸鱼）的数据：</b> <br />
+        <br /> <b>购买活动：</b> 显示过去一小时内购买该资产的钱包数量以及购买的总金额。 <br /><br />
+        <b>销售活动：</b> 显示过去一小时内出售该资产的钱包数量以及出售的总金额。 <br /><br />
+        对于对鲸鱼没有吸引力且没有重大交易的资产，会显示“未跟踪”标记。
+      title: 鲸鱼买入/卖出
 socials:
   all:
     subtitle: 分析 {{symbol}} 在所有社交媒體中的信號

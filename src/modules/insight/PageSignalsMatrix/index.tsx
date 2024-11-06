@@ -57,12 +57,12 @@ const PageSignalsMatrix: React.FC = () => {
         </PanelWrapper>
       ),
     },
-    ...(hasFlag('/insight/marketplace')
+    ...(hasFlag('/coin-radar/marketplace')
       ? [
           {
             key: 'marketplace',
             label: t('matrix.marketplace'),
-            children: <Navigate to="/insight/marketplace" />,
+            children: <Navigate to="/coin-radar/marketplace" />,
           },
         ]
       : []),

@@ -45,7 +45,7 @@ const ModalFpWaitList: React.FC<{ onResolve?: () => void }> = ({
         >
           {t('wait-list.btn-join')}
         </Button>
-        <Button className="grow" variant="purple" to="/insight">
+        <Button className="grow" variant="purple" to="/coin-radar">
           {t('wait-list.btn-explore')}
         </Button>
       </div>

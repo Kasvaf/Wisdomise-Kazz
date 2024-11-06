@@ -35,7 +35,7 @@ export const useDataSources = () => {
         step: t('forms.price.step'),
         icon: PriceIcon,
         value: 'market_data',
-        disabled: !hasFlag('/insight/alerts?price'),
+        disabled: !hasFlag('/coin-radar/alerts?price'),
       },
       {
         title: t('forms.coin-radar.title'),
@@ -44,7 +44,7 @@ export const useDataSources = () => {
         stepSubtitle: t('forms.coin-radar.step-subtitle'),
         icon: CoinRadarIcon,
         value: 'custom:coin_radar_notification',
-        disabled: !hasFlag('/insight/alerts?coinradar'),
+        disabled: !hasFlag('/coin-radar/alerts?coinradar'),
       },
       {
         title: t('forms.whale.title'),

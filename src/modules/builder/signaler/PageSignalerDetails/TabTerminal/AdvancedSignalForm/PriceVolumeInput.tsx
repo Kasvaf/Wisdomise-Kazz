@@ -50,6 +50,7 @@ const InternalInput: React.FC<{
 };
 
 const PriceVolumeInput: React.FC<{
+  label?: string;
   price: string;
   volume: string;
   onPriceChange?: (p: string) => void;
@@ -61,6 +62,7 @@ const PriceVolumeInput: React.FC<{
   disabledVolume?: boolean;
   className?: string;
 }> = ({
+  label,
   price,
   volume,
   onPriceChange,
@@ -77,50 +79,50 @@ const PriceVolumeInput: React.FC<{
   const disPrc = !!appliedAt || disabledPrice;
 
   return (
-    <div
-      className={clsx(
-        'flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2',
-        className,
-      )}
-    >
-      <InternalInput
-        value={disVol ? roundSensible(volume) : volume}
-        onChange={onVolumeChange}
-        onBlur={() => {
-          onVolumeChange?.(+volume < 0 ? '0' : +volume > 100 ? '100' : volume);
-          onVolumeBlur?.();
-        }}
-        readonly={disVol}
-        className="pl-2"
-      />
-      <span
-        className={clsx(
-          'pointer-events-none ml-[2px] select-none',
-          disPrc && 'text-white/50',
-        )}
-      >
-        %
-      </span>
-      <span className="pointer-events-none ml-2 select-none text-white/50">
-        at
-      </span>
-      <InternalInput
-        value={disPrc ? roundSensible(price) : price}
-        onChange={onPriceChange}
-        onBlur={onPriceBlur}
-        readonly={disPrc}
-        className="pl-2"
-      />
-      <span className="pointer-events-none ml-1 select-none text-xs text-white/50">
-        {mainQuote}
-      </span>
-
-      <div className="grow" />
-      {appliedAt && (
-        <span className="ml-1 min-w-20 select-none text-white/50">
-          {dayjs(appliedAt).format('D MMM HH:mm')}
+    <div className={clsx('w-full', className)}>
+      {label && <label className="mb-2 ml-2 block">{label}</label>}
+      <div className="flex h-10 items-center overflow-x-hidden rounded-lg bg-black/30 pr-2">
+        <InternalInput
+          value={disVol ? roundSensible(volume) : volume}
+          onChange={onVolumeChange}
+          onBlur={() => {
+            onVolumeChange?.(
+              +volume < 0 ? '0' : +volume > 100 ? '100' : volume,
+            );
+            onVolumeBlur?.();
+          }}
+          readonly={disVol}
+          className="pl-2"
+        />
+        <span
+          className={clsx(
+            'pointer-events-none ml-[2px] select-none',
+            disPrc && 'text-white/50',
+          )}
+        >
+          %
         </span>
-      )}
+        <span className="pointer-events-none ml-2 select-none text-white/50">
+          at
+        </span>
+        <InternalInput
+          value={disPrc ? roundSensible(price) : price}
+          onChange={onPriceChange}
+          onBlur={onPriceBlur}
+          readonly={disPrc}
+          className="pl-2"
+        />
+        <span className="pointer-events-none ml-1 select-none text-xs text-white/50">
+          {mainQuote}
+        </span>
+
+        <div className="grow" />
+        {appliedAt && (
+          <span className="ml-1 min-w-20 select-none text-white/50">
+            {dayjs(appliedAt).format('D MMM HH:mm')}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

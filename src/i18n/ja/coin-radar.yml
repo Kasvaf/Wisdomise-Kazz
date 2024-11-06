@@ -12,11 +12,14 @@ call-change:
   changes: 変更点
   current-price: 今の価格
   fire-time: 信号発射時刻
-  max-price: 最高価格
-  min-price: 最低価格
-  pnl: コール PnL パーセンテージ
+  max-price: "最大: 極限高"
+  min-price: "最小: 極端に低い"
+  pnl: 最終更新
   trigger-price: シグナル発動時の価格
   under-calculation: 計算中
+coin-category:
+  all: すべてのカテゴリー
+  button: カテゴリー
 coin-details:
   tabs:
     chart:
@@ -49,6 +52,7 @@ coin-details:
       title: 価格パフォーマンス
     social_sentiment:
       footer: 過去 24 時間、コミュニティ データの洞察
+      hunted-at: 狩られた場所
       market_side: マーケットサイド
       negative: ネガティブ
       positive: ポジティブ
@@ -87,6 +91,62 @@ coin-info:
   market_cap: 時価総額
   price: 価格
   volume_24h: 24時間あたりのボリューム
+coin_security:
+  contract_security: 契約セキュリティ
+  fields:
+    anti_whale_modifiable:
+      title: 反クジラ修正機能発見
+    buy_tax:
+      title: 購入税
+    can_take_back_ownership:
+      title: 取得可能な所有権関数が見つかりません
+    cannot_buy:
+      title: このトークンは購入できる
+    cannot_sell_all:
+      title: 保有者はトークンをすべて売却できる
+    external_call:
+      title: 外部通話リスクなし
+    gas_abuse:
+      title: このトークンはガスを乱用するものではありません
+    hidden_owner:
+      title: 所有者の住所は隠されていない
+    is_anti_whale:
+      title: 対クジラ機能なし
+    is_blacklisted:
+      title: ブラックリスト機能なし
+    is_honeypot:
+      title: このトークンはハニーポットではないようです
+    is_mintable:
+      title: ミント機能は透明または存在しない
+    is_open_source:
+      subtitle: このトークンにはオープンソースの契約があり、詳細は契約コードから取得できます。
+      title: 検証済みの契約ソースコード
+    is_proxy:
+      title: プロキシが見つかりません
+    is_whitelisted:
+      title: ホワイトリスト機能なし
+    owner_change_balance:
+      title: 契約所有者は残高を変更できません
+    personal_slippage_modifiable:
+      title: 割り当てられた住所の税金は変更できません
+    selfdestruct:
+      title: このトークンは自己破壊できません
+    sell_tax:
+      title: 販売税
+    slippage_modifiable:
+      title: 取引税は変更できません
+    tax:
+      subtitle: 10% を超えると高税率とみなされ、50% を超えると取引できなくなる可能性があります。
+    trading_cooldown:
+      title: クールダウン期間機能なし
+    transfer_pausable:
+      title: 取引を停止するためのコードが含まれていない
+  risk_other: "{{count}} リスク"
+  risk_zero: リスクなし
+  security_detection: セキュリティ検出
+  trusted: 信頼できる
+  warning_other: "{{count}} 警告"
+  warning_zero: 警告なし
 hot-coins-section:
   filters:
     24h: 24時間
@@ -126,11 +186,11 @@ onboarding:
   sec-1:
     content: この短いビデオを見て、当社の AI
       駆動型プラットフォームが暗号通貨の世界における最新の洞察、トレンド、機会をどのように提供し、時間を節約して調査の効率を最大化するかを確認してください。
-    title: ソーシャルスキャナーで隠れた名品を発見
+    title: ソーシャルレーダーで隠れた名所を発見
   sec-2:
     content: 当社は、ソーシャル メディアの話題からクジラの動き、オンチェーン
       データまで、市場全体をスキャンし、高い可能性を秘めた今後の最高のコインを特定します。調査に費やす時間を節約し、市場に隠れた宝石を見つける可能性を高めます。
-    title: "ホットコイン: 次の大ブレイクアウトへの近道"
+    title: "ソーシャルレーダー: 次の大ブレイクへの近道"
   sec-3:
     content: アラートをカスタマイズし、最もホットなコインに関するパーソナライズされたスクリーナーを作成することで、常に一歩先を行くことができます。リアルタイムで情報を入手し、ブレイクアウトのチャンスを逃さないようにしましょう。
     title: "チャンスを逃さない: アラートとスクリーナーを設定する"
@@ -173,8 +233,62 @@ set-notification:
     not-set: 通知を設定する
     set: 通知が設定されました
 set-price-notification:
-  open-existing-modal-btn: 価格アラートが設定されました
-  open-modal-btn: 価格アラートを設定する
+  open-existing-modal-btn: アラートが設定されました
+  open-modal-btn: アラートを設定する
+social-radar-overview:
+  table:
+    info: 情報
+    name: 信号発信者名
+    sentiment: 感情
+  title: ソーシャルレーダー
+social-radar:
+  banner:
+    subtitle: ソーシャルからのリアルタイムAI駆動型インサイト
+    title: ソーシャルレーダー
+  sorts:
+    call_time: 最新
+    market_cap: 時価総額
+    pnl: PNL
+    price_change: 24時間変更
+    rank: 賢明な論理
+  table:
+    all_networks: すべてのネットワーク
+    description: Wisdomiseソーシャルレーダーをスキャンしました <b>{{posts}} 投稿</b> 過去 24
+      時間以内に、正確なデータに基づく洞察が得られます。
+    labels:
+      title: ラベル
+    market_cap:
+      info: <b>時価総額</b><br />各資産 (コインまたはトークン)
+        の合計時価総額を表示し、現在の市場価値を表します。資産は時価総額に基づいて高、中、低に分類されるため、資産の規模と市場における相対的な影響をすぐに把握できます。
+      title: 時価総額
+    name: 信号発信者名
+    price_info:
+      info: <b>価格</b><br />コインまたはトークンの現在の市場価値。 <br /> <br /> <b>24時間の変更</b><br />過去 24
+        時間の資産価格の変化率。 <br /> <br /> <b>24時間最低</b><br />過去24時間の最低価格。 <br /> <br />
+        <b>24時間最高</b><br />過去 24 時間の最高価格。
+      title: 情報
+    rank: ワイズランク
+    search: コインを検索...
+    sentiment:
+      info: >-
+        <b>感情を賢くする</b> <br /> <br /> <b>
+          Wisdomise AI は、Reddit、Telegram、Trading View、X (旧 Twitter)、YouTube から各資産 (コインまたはトークン) の社会的感情を分析します。感情はポジティブ、ニュートラル、ネガティブのいずれかになり、コミュニティの感情を示します。
+        </b> <br /> <br /> <b>損益率の変化</b> <br /> <p>
+          資産が最初に「ホット」として狙われたときから最初の大きな価格変動までの損益を追跡します。
+        </p> <br /> <br /> <p>
+          この情報は、コミュニティの見解だけでなく、市場の動きがそれらの意見とどのように一致しているかを確認することで、情報に基づいた意思決定を行うのに役立ちます。
+        </p>
+      title: 感情を賢くする
+    sort: 選別
+    title: ウィズダムズホットコイン
+    whale_buy_sell:
+      empty: 未追跡
+      info: <b>クジラの売買</b> <br /> <br /> <b>Wisdomise AI を使用してスマートウォレット (クジラ)
+        からのデータを追跡します。</b> <br /> <br /> <b>購入活動:</b> 過去 1
+        時間に資産を購入したウォレットの数と購入合計金額を表示します。 <br /><br /> <b>販売活動:</b> 過去 1
+        時間に資産を売却したウォレットの数と売却された合計金額を表示します。 <br /><br />
+        クジラにとって魅力的ではなく、重要な取引がない資産の場合、「未追跡」バッジが表示されます。
+      title: クジラの売買
 socials:
   all:
     subtitle: 信号を分析する {{symbol}} すべてのソーシャルフィード

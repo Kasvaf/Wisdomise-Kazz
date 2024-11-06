@@ -56,38 +56,37 @@ const useMenuItems = () => {
             },
           ],
         },
-
         {
           icon: <IconInsight />,
           text: t('menu.coin-radar.title'),
-          link: '/insight',
+          link: '/coin-radar',
           onClick: trackClick('insight_menu'),
           children: [
             {
               text: t('menu.overview.title'),
-              link: '/insight/overview',
+              link: '/coin-radar/overview',
               onClick: trackClick('insight_menu'),
             },
             {
               text: t('menu.hot-coins.title'),
-              link: '/insight/coin-radar',
+              link: '/coin-radar/social-radar',
               onClick: trackClick('coin_radar_menu'),
             },
             {
               text: t('menu.ai-indicators.title'),
-              link: '/insight/market-pulse',
+              link: '/coin-radar/technical-radar',
               onClick: trackClick('market_pulse_menu'),
               badge: 'new',
             },
             {
               text: t('menu.whales.title'),
-              link: '/insight/whales',
+              link: '/coin-radar/whale-radar',
               onClick: trackClick('whales_menu'),
               badge: 'beta',
             },
             {
               text: t('menu.alerts.title'),
-              link: '/insight/alerts',
+              link: '/coin-radar/alerts',
               onClick: trackClick('alerts_menu'),
             },
           ],

@@ -57,14 +57,14 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
     [t],
   );
 
-  if (!hasFlag('/insight/whales')) return null;
+  if (!hasFlag('/coin-radar/whale-radar')) return null;
 
   return (
     <OverviewWidget
       className={className}
       title={t('whale:sections.top-whales.title')}
       info={t('whale:sections.top-whales.subtitle')}
-      headerActions={<SeeMoreLink to="/insight/whales" />}
+      headerActions={<SeeMoreLink to="/coin-radar/whale-radar" />}
       loading={whales.isLoading}
       empty={whales.data?.results.length === 0}
     >

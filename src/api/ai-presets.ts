@@ -24,10 +24,9 @@ export const useAIPresets = (pair: string) =>
   useQuery<AIPresets>(
     ['ai-presets', pair],
     async () => {
-      const { data } = await axios.get<AIPresets>(
-        'https://stage-temple.wisdomise.com/api/v1/trader/preset',
-        { params: { pair } },
-      );
+      const { data } = await axios.get<AIPresets>('/trader/preset', {
+        params: { pair },
+      });
       return data;
     },
     {
