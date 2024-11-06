@@ -27,12 +27,8 @@ export default function Table<RecordType extends object>({
               <span>{col.title[0]}</span>
               <Tooltip
                 color="#151619"
-                overlayInnerStyle={{
-                  padding: '0.75rem',
-                  fontSize: '0.8rem',
-                  fontFamily: 'monospace',
-                }}
                 title={col.title[1]}
+                rootClassName="!max-w-[350px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-xxs [&_.ant-tooltip-inner]:!leading-normal [&_.ant-tooltip-inner]:!font-normal"
                 overlayClassName="pointer-events-none"
               >
                 <Icon name={bxInfoCircle} size={16} strokeWidth={0.5} />
