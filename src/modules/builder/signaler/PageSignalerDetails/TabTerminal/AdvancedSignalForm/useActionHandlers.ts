@@ -15,6 +15,7 @@ import useConfirm from 'shared/useConfirm';
 import { useCoinOverview } from 'api';
 import {
   useTraderFirePositionMutation,
+  useTraderCancelPositionMutation,
   useTraderUpdatePositionMutation,
 } from 'api/trader';
 import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
@@ -61,6 +62,8 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
 
   const { mutateAsync: updateOrClose, isLoading: isUpdating } =
     useTraderUpdatePositionMutation();
+
+  const { mutateAsync: cancelAsync } = useTraderCancelPositionMutation();
 
   const [ModalConfirm, confirm] = useConfirm({
     title: t('common:confirmation'),
@@ -119,7 +122,14 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
         quote: 'USDT',
         quote_amount: amount,
       });
-      await transferAssetsHandler(res.deposit_address, res.gas_fee);
+
+      try {
+        await transferAssetsHandler(res.deposit_address, res.gas_fee);
+        navigate(`/hot-coins/${slug}`);
+      } catch {
+        await cancelAsync(res.position_key);
+        notification.error({ message: 'Transaction Canceled' });
+      }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
@@ -163,9 +173,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
       ],
     };
 
-    void tonConnectUI
-      .sendTransaction(transaction)
-      .then(() => navigate(`/hot-coins/${slug}`));
+    await tonConnectUI.sendTransaction(transaction);
   };
 
   const updateHandler = async () => {
