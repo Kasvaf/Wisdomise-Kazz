@@ -23,7 +23,7 @@ const CancelButton: React.FC<{ positionKey: string }> = ({ positionKey }) => {
       className="ms-auto !p-0 !text-xs text-v1-content-link"
     >
       {isCanceling ? <Spin /> : <Icon name={bxX} size={16} />}
-      Cancel
+      Close
     </Button>
   );
 };
