@@ -1,32 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { bxEditAlt, bxLeftArrowAlt, bxX } from 'boxicons-quasar';
+import { bxEditAlt, bxLeftArrowAlt } from 'boxicons-quasar';
 import dayjs from 'dayjs';
 import Button from 'shared/Button';
 import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import Icon from 'shared/Icon';
-import {
-  useCoinOverview,
-  useTraderPositionsQuery,
-  useTraderCancelPositionMutation,
-} from 'api';
-import Spin from 'shared/Spin';
+import { useCoinOverview, useTraderPositionsQuery } from 'api';
 import empty from './empty.svg';
-
-const CancelButton: React.FC<{ positionKey: string }> = ({ positionKey }) => {
-  const { mutate: cancelPosition, isLoading: isCanceling } =
-    useTraderCancelPositionMutation();
-
-  return (
-    <Button
-      variant="link"
-      onClick={() => cancelPosition(positionKey)}
-      className="ms-auto !p-0 !text-xs text-v1-content-link"
-    >
-      {isCanceling ? <Spin /> : <Icon name={bxX} size={16} />}
-      Cancel
-    </Button>
-  );
-};
+import CloseButton from './CloseButton';
+import CancelButton from './CancelButton';
 
 export default function PageCoinDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -82,10 +63,8 @@ export default function PageCoinDetail() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {position.status === 'DRAFT' &&
-                position.deposit_status === 'PENDING' && (
-                  <CancelButton positionKey={position.key} />
-                )}
+              <CancelButton position={position} />
+              <CloseButton position={position} />
 
               <Button
                 variant="link"
