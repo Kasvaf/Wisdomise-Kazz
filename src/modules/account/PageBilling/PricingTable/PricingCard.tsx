@@ -113,10 +113,10 @@ export default function PricingCard({
             disabled={isActionButtonDisabled}
             className={clsx(
               'w-full cursor-pointer rounded-xl text-sm font-semibold',
+              'flex h-12 items-center justify-center',
               'disabled:cursor-default disabled:bg-v1-content-primary disabled:text-v1-content-primary-inverse',
               'enabled:cursor-pointer enabled:bg-pro-gradient enabled:text-v1-content-primary-inverse',
               'transition-all enabled:hover:brightness-110 enabled:active:brightness-95',
-              'flex h-12 items-center justify-center',
               gtmClass(`buy-now ${plan.periodicity} ${plan.name}`),
             )}
           >

@@ -12,7 +12,7 @@ export function PlanPrice({
 }) {
   const { t } = useTranslation('billing');
   return (
-    <div className={clsx('flex items-end gap-px text-2xl', className)}>
+    <div className={clsx('flex gap-px text-2xl', className)}>
       <span className="text-white/50">$</span>
       <span className="font-semibold">{price}</span>
       <span>/</span>
