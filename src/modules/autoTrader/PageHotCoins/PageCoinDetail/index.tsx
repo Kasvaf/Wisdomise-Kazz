@@ -23,7 +23,7 @@ const CancelButton: React.FC<{ positionKey: string }> = ({ positionKey }) => {
       className="ms-auto !p-0 !text-xs text-v1-content-link"
     >
       {isCanceling ? <Spin /> : <Icon name={bxX} size={16} />}
-      Close
+      Cancel
     </Button>
   );
 };
@@ -82,8 +82,8 @@ export default function PageCoinDetail() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {position.status !== 'CLOSED' &&
-                position.status !== 'CANCELED' && (
+              {position.status === 'DRAFT' &&
+                position.deposit_status === 'PENDING' && (
                   <CancelButton positionKey={position.key} />
                 )}
 
