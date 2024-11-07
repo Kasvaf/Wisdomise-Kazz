@@ -9,7 +9,6 @@ import { useHasFlag } from 'api';
 import { gtmClass } from 'utils/gtmClass';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
-import { ReactComponent as SubscriptionMethodLogos } from '../images/subs-methods-logos.svg';
 import { ReactComponent as SIcon } from '../images/s-icon.svg';
 import { ReactComponent as Token } from '../images/token.svg';
 import TokenPaymentModalContent from '../paymentMethods/Token';
@@ -73,9 +72,8 @@ export default function SubscriptionMethodModal({
       <p className="mt-6 text-sm font-medium text-white/60">
         {t('subscription-modal.subtitle')}
       </p>
-      <SubscriptionMethodLogos className="mb-12 mt-8" />
 
-      <div className="grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
+      <div className="mt-8 grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">
         {hasFlag('/account/billing?payment_method=fiat') && (
           <Button
             className={clsx('col-span-1', gtmClass('fiat-payment'))}

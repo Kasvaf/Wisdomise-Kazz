@@ -1,23 +1,17 @@
 import freeSrc from '../images/free.png';
-import insightSrc from '../images/insight.png';
-import investmentSrc from '../images/investment.png';
-import proSrc from '../images/pro.webp';
-interface Props {
+import proSrc from '../images/pro.png';
+
+export default function PlanLogo({
+  name,
+  className,
+}: {
   name: string;
-}
-
-export default function PlanLogo({ name }: Props) {
-  let src = '';
-
-  if (name.toLowerCase().includes('free')) {
-    src = freeSrc;
-  } else if (name.toLowerCase().includes('insight')) {
-    src = insightSrc;
-  } else if (name.toLowerCase().includes('investment')) {
-    src = investmentSrc;
-  } else if (name.toLowerCase().includes('pro')) {
-    src = proSrc;
-  }
-
-  return <img className="size-12 mobile:size-10" src={src} />;
+  className?: string;
+}) {
+  return (
+    <img
+      className={className}
+      src={name.toLowerCase().includes('free') ? freeSrc : proSrc}
+    />
+  );
 }
