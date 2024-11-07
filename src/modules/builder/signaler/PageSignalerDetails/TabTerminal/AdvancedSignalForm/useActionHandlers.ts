@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useTonAddress } from '@tonconnect/ui-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { type FullPosition, type SignalerData } from 'api/builder';
+import { type SignalerData } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
 import { useCoinOverview } from 'api';
@@ -10,6 +10,7 @@ import {
   useTraderFirePositionMutation,
   useTraderCancelPositionMutation,
   useTraderUpdatePositionMutation,
+  type Position,
 } from 'api/trader';
 import { useTransferAssetsMutation } from 'api/ton';
 import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
@@ -19,7 +20,7 @@ interface Props {
   data: SignalFormState;
   signaler?: SignalerData;
   assetName: string;
-  activePosition?: FullPosition;
+  activePosition?: Position;
 }
 
 const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
@@ -111,7 +112,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
 
     try {
       await updateOrClose({
-        position_key: 'activePosition.key',
+        position_key: activePosition.key,
         signal: {
           ...activePosition.signal,
           action: 'update',
@@ -140,17 +141,14 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
 
     try {
       await updateOrClose({
-        position_key: 'activePosition.key',
+        position_key: activePosition.key,
         signal: {
           ...activePosition.signal,
           action: 'close',
           position: activePosition.signal.position,
           stop_loss: { items: [] },
           take_profit: { items: [] },
-          open_orders: getOpenOrders(
-            assetPrice,
-            activePosition.manager?.open_orders,
-          ),
+          open_orders: { items: [] },
         },
       });
       reset();

@@ -5,16 +5,21 @@ import useSignalFormStates from 'modules/builder/signaler/PageSignalerDetails/Ta
 import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
-import { useCoinOverview } from 'api';
+import { useCoinOverview, useTraderPositionQuery } from 'api';
 import Spinner from 'shared/Spinner';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 
 export default function PageTrade() {
-  const formState = useSignalFormStates();
+  const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
-  const navigate = useNavigate();
+
+  const [positionKey] = useSearchParamAsState('pos');
+  const position = useTraderPositionQuery(positionKey);
   const coinOverview = useCoinOverview({ slug });
   const abbr = coinOverview?.data?.symbol.abbreviation;
+
+  const formState = useSignalFormStates();
 
   return (
     <div>
@@ -36,20 +41,21 @@ export default function PageTrade() {
         />
       </div>
 
-      {coinOverview.isLoading && (
+      {coinOverview.isLoading || (positionKey && position.isLoading) ? (
         <div className="my-8 flex justify-center">
           <Spinner />
         </div>
-      )}
-
-      {abbr && (
-        <AdvancedSignalForm
-          assetName={`${abbr ?? ''}USDT`}
-          assetSlug={slug}
-          activePosition={undefined}
-          className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
-          formState={formState}
-        />
+      ) : (
+        abbr &&
+        (!positionKey || !!position.data) && (
+          <AdvancedSignalForm
+            assetName={`${abbr ?? ''}USDT`}
+            assetSlug={slug}
+            activePosition={position.data}
+            className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
+            formState={formState}
+          />
+        )
       )}
     </div>
   );

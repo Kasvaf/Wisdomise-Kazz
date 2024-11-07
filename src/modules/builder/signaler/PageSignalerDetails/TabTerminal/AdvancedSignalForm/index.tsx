@@ -2,9 +2,8 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import { notification } from 'antd';
-import { type FullPosition } from 'api/builder';
 import Button from 'shared/Button';
-import { useHasFlag } from 'api';
+import { type Position, useHasFlag } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
@@ -16,7 +15,7 @@ import PartTpSl from './PartTpSl';
 interface Props {
   assetName: string;
   assetSlug: string;
-  activePosition?: FullPosition;
+  activePosition?: Position;
   formState: SignalFormState;
   className?: string;
 }

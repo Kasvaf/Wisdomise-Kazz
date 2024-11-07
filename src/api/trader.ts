@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { type Signal } from 'api/builder';
+import {
+  type OpenOrderResponse,
+  type SignalItem,
+  type Signal,
+} from 'api/builder';
 
 export interface PositionsResponse {
   positions: Position[];
@@ -14,7 +18,11 @@ export interface Position {
   pair: string;
   side: 'long' | 'short';
   signal: Signal;
-  manager: unknown;
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+    open_orders?: OpenOrderResponse[];
+  };
   trading_fee?: string;
   entry_price?: string;
   entry_time?: string;
@@ -26,10 +34,12 @@ export interface Position {
   size?: string;
 }
 
-export function useTraderPositionQuery(positionKey: string) {
+export function useTraderPositionQuery(positionKey?: string) {
   return useQuery(
     ['traderPosition', positionKey],
     async () => {
+      if (!positionKey) return;
+
       const { data } = await axios.get<Position>(
         `trader/positions/${positionKey}`,
       );
