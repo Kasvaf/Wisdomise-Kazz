@@ -1,14 +1,7 @@
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
-import {
-  CHAIN,
-  type SendTransactionRequest,
-  useTonAddress,
-  useTonConnectUI,
-} from '@tonconnect/ui-react';
-import { Address, beginCell, toNano } from '@ton/core';
+import { useTonAddress } from '@tonconnect/ui-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TonClient } from '@ton/ton';
 import { type FullPosition, type SignalerData } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
@@ -18,8 +11,8 @@ import {
   useTraderCancelPositionMutation,
   useTraderUpdatePositionMutation,
 } from 'api/trader';
+import { useTransferAssetsMutation } from 'api/ton';
 import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
-import { isProduction } from 'utils/version';
 import { type SignalFormState } from './useSignalFormStates';
 
 interface Props {
@@ -29,13 +22,8 @@ interface Props {
   activePosition?: FullPosition;
 }
 
-const USDT_CONTRACT_ADDRESS = import.meta.env.VITE_USDT_CONTRACT_ADDRESS;
-const USDT_DECIMAL = import.meta.env.VITE_USDT_DECIMAL;
-const TONCENTER_BASE_URL = import.meta.env.VITE_TONCENTER_BASE_URL as string;
-
 const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   const { t } = useTranslation('builder');
-  const [tonConnectUI] = useTonConnectUI();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
@@ -72,34 +60,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     noTitle: t('common:actions.no'),
   });
 
-  const getJettonWalletAddress = async () => {
-    if (!address) return;
-
-    const jettonMasterAddress = Address.parse(USDT_CONTRACT_ADDRESS);
-    const ownerAddress = Address.parse(address);
-    const client = new TonClient({
-      endpoint: `${TONCENTER_BASE_URL}/api/v2/jsonRPC`,
-    });
-
-    try {
-      const { stack } = await client.callGetMethod(
-        jettonMasterAddress,
-        'get_wallet_address',
-        [
-          {
-            type: 'slice',
-            cell: beginCell().storeAddress(ownerAddress).endCell(),
-          },
-        ],
-      );
-
-      const jettonWalletAddress = stack.readAddress();
-      return jettonWalletAddress.toString();
-    } catch (error) {
-      console.error('Error fetching jetton wallet address:', error);
-    }
-  };
-
+  const transferAssetsHandler = useTransferAssetsMutation();
   const fireHandler = async () => {
     if ((orderType === 'limit' && !price) || !assetPrice || !address) return;
 
@@ -124,7 +85,11 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
       });
 
       try {
-        await transferAssetsHandler(res.deposit_address, res.gas_fee);
+        await transferAssetsHandler({
+          recipientAddress: res.deposit_address,
+          gasFee: res.gas_fee,
+          amount,
+        });
         navigate(`/hot-coins/${slug}`);
       } catch {
         await cancelAsync(res.position_key);
@@ -133,50 +98,6 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
-  };
-
-  const transferAssetsHandler = async (
-    recipientAddress: string,
-    gasFee: string,
-  ) => {
-    const jettonWalletAddress = await getJettonWalletAddress();
-    const transaction: SendTransactionRequest = {
-      validUntil: Date.now() + 10 * 60 * 1000,
-      network: isProduction ? CHAIN.MAINNET : CHAIN.TESTNET,
-      messages: [
-        {
-          address: Address.parse(recipientAddress).toString({
-            bounceable: false,
-            testOnly: !isProduction,
-          }),
-          amount: toNano(gasFee).toString(),
-          payload: beginCell()
-            .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
-            .storeStringTail('Gas fee') // write our text comment
-            .endCell()
-            .toBoc()
-            .toString('base64'),
-        },
-        {
-          address: jettonWalletAddress ?? '',
-          amount: toNano('0.05').toString(),
-          payload: beginCell()
-            .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
-            .storeUint(0, 64) // query_id:uint64
-            .storeCoins(+amount * 10 ** USDT_DECIMAL) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
-            .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
-            .storeAddress(Address.parse(address)) // response_destination:MsgAddress
-            .storeUint(0, 1) // custom_payload:(Maybe ^Cell)
-            .storeCoins(1) // forward_ton_amount:(VarUInteger 16) - if >0, will send notification message
-            .storeUint(0, 1) // forward_payload:(Either Cell ^Cell)
-            .endCell()
-            .toBoc()
-            .toString('base64'),
-        },
-      ],
-    };
-
-    await tonConnectUI.sendTransaction(transaction);
   };
 
   const updateHandler = async () => {
