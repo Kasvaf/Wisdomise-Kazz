@@ -7,9 +7,10 @@ import useModal from 'shared/useModal';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { useLockingRequirementQuery } from 'api/defi';
 import { gtmClass } from 'utils/gtmClass';
-import { ReactComponent as Check } from '../images/check.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
-import PlanLogo from './PlanLogo';
+import { PlanHeader } from './PlanHeader';
+import { PlanPrice } from './PlanPrice';
+import { PlanFeatures } from './PlanFeatures';
 
 interface Props {
   isRenew?: boolean;
@@ -91,32 +92,10 @@ export default function PricingCard({
         )}
       >
         {/* Title */}
-        <section className="flex min-h-28 flex-row items-center gap-3">
-          <PlanLogo
-            name={plan.name}
-            className="col-span-1 row-span-2 size-14 shrink-0"
-          />
-          <div className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold text-white">{plan.name}</h2>
-            <p className="text-xs leading-normal text-white/70">
-              {plan.description}
-            </p>
-          </div>
-        </section>
+        <PlanHeader className="min-h-28" {...plan} />
 
         {/* Price Info */}
-        <div className="flex items-end gap-px text-2xl">
-          <span className="text-white/50">$</span>
-          <span className="font-semibold">{plan.price}</span>
-          <span>/</span>
-          <div className="text-white/70">
-            {plan.price === 0
-              ? t('pricing-card.forever')
-              : plan.periodicity === 'MONTHLY'
-              ? t('pricing-card.monthly')
-              : t('pricing-card.annually')}
-          </div>
-        </div>
+        <PlanPrice {...plan} />
 
         {/* Button */}
         <div
@@ -160,23 +139,7 @@ export default function PricingCard({
         </div>
 
         {/* Features */}
-        <div className="flex items-center justify-center gap-2">
-          <div className="h-px grow bg-v1-border-disabled" />
-          <span className="size-1 shrink-0 rounded-full bg-v1-content-primary" />
-          <div className="shrink-0 text-xs text-white/50">
-            {t('pricing-card.features')}
-          </div>
-          <span className="size-1 shrink-0 rounded-full bg-v1-content-primary" />
-          <div className="h-px grow bg-v1-border-disabled" />
-        </div>
-        <ul className="grow space-y-4 text-xs">
-          {plan.features.map(feature => (
-            <li key={feature} className="flex items-center gap-2 font-normal">
-              <Check className="size-5 shrink-0" />
-              {feature}
-            </li>
-          ))}
-        </ul>
+        <PlanFeatures {...plan} className="grow" />
 
         {plan.price !== 0 && (
           <div className="mt-6 flex justify-center rounded-lg bg-white/5 py-3 text-xxs text-white/70">

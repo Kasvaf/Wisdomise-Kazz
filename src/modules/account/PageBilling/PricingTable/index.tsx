@@ -3,12 +3,10 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
-import { ReactComponent as CancelIcon } from '../images/cancel.svg';
-import { ReactComponent as TrustIcon } from '../images/trust.svg';
-import { ReactComponent as SecureIcon } from '../images/secure.svg';
 import { SubscriptionMethods } from './SubscriptionMethods';
 import { PeriodToggle } from './PeriodToggle';
 import PricingCard from './PricingCard';
+import { SubscriptionFeatures } from './SubscriptionFeatures';
 
 interface PricingTableProps {
   isRenew?: boolean;
@@ -40,26 +38,15 @@ export default function PricingTable({
           <p className="mt-2 text-base font-normal text-v1-content-secondary">
             {t('plans.subtitle')}
           </p>
-          <ul className="mt-6 flex flex-wrap items-center justify-center gap-6 text-base font-normal mobile:gap-2">
-            <li>
-              <CancelIcon className="mr-2 inline-block" />
-              {t('plans.features.cancel')}
-            </li>
-            <li>
-              <TrustIcon className="mr-2 inline-block" />
-              {t('plans.features.trust')}
-            </li>
-            <li>
-              <SecureIcon className="mr-2 inline-block" />
-              {t('plans.features.secure')}
-            </li>
-          </ul>
+          <SubscriptionFeatures className="mt-6" />
         </div>
         <div className="mb-8 flex items-center justify-center">
           {!isTokenUtility && (
-            <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 p-4 backdrop-blur-sm mobile:w-full">
-              <PeriodToggle value={currentPeriod} onChange={setCurrentPeriod} />
-            </div>
+            <PeriodToggle
+              value={currentPeriod}
+              onChange={setCurrentPeriod}
+              className="mobile:w-full"
+            />
           )}
         </div>
         <div className="-mx-6 mb-14 flex grow justify-center gap-6 overflow-auto px-6 mobile:justify-start">
