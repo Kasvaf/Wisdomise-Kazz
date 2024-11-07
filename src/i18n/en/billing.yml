@@ -24,6 +24,10 @@ crypto-modal:
   payment-by-crypto: Payment by Crypto
   subtotal: Subtotal
   total-due-today: Total due today
+features:
+  cancel: Cancel Anytime
+  secure: Secure & Private
+  trust: Trusted by 40,000+ Users
 overlay-subscription:
   title: You are not subscribed
   btn-subscribe: Subscribe
@@ -44,28 +48,27 @@ periodicity:
   year:
     title: Annually
     per: per<br>year
+plans:
+  title: Pricing Plan
+  subtitle: >-
+    Try Wisdomise Pro risk-free for 7 Days and see why traders trust us. Cancel
+    anytime!
+  subscription-methods: Subscription Methods
 pricing-card:
   annually: Yearly
   btn-action:
-    upgrade-to: Upgrade To {{plan}}
     activate-now: Activate Now
-    buy-now: Buy Now
     choose: Choose
     current-plan: Current Plan
     next-plan: Next Plan
+    upgrade-to: Upgrade To {{plan}}
+  features: Features
   forever: Unlimited
-  free-subtitle: feel free to explore wisdomise
   monthly: Monthly
   notification-call-support: Call Support
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
-  pay-by-locking: Access For Free by locking <b>{{token}} WSDM</b> Tokens
-  pay-by-locking-in-yearly-only: 'Pay By Locking <b>WSDM</b> Token: Just In Annually'
-  pay-by-wsdm: Pay In<1>WSDM</1>With <4>50% Off</4>
-  recommended: Wisdomise Recommend
-  this-includes: 'This includes:'
-  features: Features
 stripe:
   change-card-info:
     title: Change Card Info
@@ -148,11 +151,3 @@ token-modal:
     Tokens are fully withdrawable without incurring any fees.
   you-can: you can now access {{name}} Features.
   your-balance: Your WSDM Token Balance
-plans:
-  title: Pricing Plan
-  subtitle: Try Wisdomise Pro risk-free for 7 Days and see why traders trust us. Cancel anytime!
-  subscription-methods: Subscription Methods
-features:
-  cancel: Cancel Anytime
-  trust: Trusted by 40,000+ Users
-  secure: Secure & Private

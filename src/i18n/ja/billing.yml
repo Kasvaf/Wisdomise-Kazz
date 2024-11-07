@@ -8,6 +8,7 @@ change-pay-method:
   sub-title: "次のプランのお支払い方法を選択してください:"
   title: 支払い方法の変更
   token: Wisdomise Token (WSDM)
+  wsdm: $WSDM支払い
 change-payment:
   change-payment-method: 支払い方法を変更
   order-summary: 注文概要
@@ -28,6 +29,10 @@ crypto-modal:
   subtotal: 小計
   title: Wisdomise AG
   total-due-today: 本日のご請求金額
+features:
+  cancel: いつでもキャンセル可能
+  secure: 安全でプライベート
+  trust: 40,000人以上のユーザーから信頼されています
 overlay-subscription:
   btn-subscribe: サブスクリプション契約
   btn-upgrade: アップグレード
@@ -36,6 +41,7 @@ overlay-subscription:
   signals-description: シグナルを確認する場合は、<1>サブスクリプション</1> へのまたは、現在のプランを<3>アップグレード</3>する必要があります。
   strategy:
     description: この戦略を明らかにするには、以下が必要です <2>{{level}}</2> またはそれ以上のプラン。
+    title: プレミアムシグナルのロックを解除
   title: 現在のサブスクリプション契約はありません。
 periodicity:
   month:
@@ -44,6 +50,10 @@ periodicity:
   year:
     per: 年間利用<br>
     title: 年間利用
+plans:
+  subscription-methods: 購読方法
+  subtitle: Wisdomise Pro を 7 日間リスクなしで試して、トレーダーが私たちを信頼する理由を確認してください。いつでもキャンセルできます。
+  title: 料金プラン
 pricing-card:
   annually: 年間
   btn-action:
@@ -55,6 +65,8 @@ pricing-card:
     free: 無料
     next-plan: 次のプラン
     upgrade: アップグレード
+    upgrade-to: アップグレード {{plan}}
+  features: 特徴
   forever: 永遠に
   free-subtitle: お気軽にwisdomiseを探索してください
   hold: ホールド
@@ -68,6 +80,7 @@ pricing-card:
   pay-by-locking-in-yearly-only: "ロックによる支払い<1>WSDM</1>トークン: 毎年の最新情報"
   pay-by-stacking: 積み重ねて支払う<1>{{token}}<1>WSDM</1></1>トークン
   pay-by-stacking-in-yearly-only: "積み重ねて支払う<1>WSDM</1>トークン: 毎年の最新情報"
+  pay-by-wsdm: 入金<1>WSDM</1>と <4>50%オフ</4>
   recommended: ウィズダムズ推奨
   this-includes: "次を含みます:"
   token: Token
@@ -126,6 +139,8 @@ subscription-details:
 subscription-modal:
   btn-crypto: 仮想通貨での支払い
   btn-fiat: 法定通貨での支払い
+  btn-lock: WSDM をロックする
+  btn-wsdm: WSDM支払い
   subtitle: ご希望のお支払い方法をお選びください。
   title: サブスクリプション方法
 success-modal:
