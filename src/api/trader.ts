@@ -37,6 +37,7 @@ export function useTraderPositionQuery(positionKey: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: x => (x?.status === 'CLOSED' ? false : 30_000),
       enabled: !!positionKey,
     },
   );
@@ -53,6 +54,7 @@ export function useTraderPositionsQuery(pair?: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: 30_000,
       enabled: !!pair,
     },
   );
@@ -93,6 +95,18 @@ export const useTraderFirePositionMutation = () => {
         body,
       );
       return data;
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries(['traderPositions']),
+    },
+  );
+};
+
+export const useTraderCancelPositionMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (positionKey: string) => {
+      return await axios.post<null>(`trader/positions/${positionKey}/cancel`);
     },
     {
       onSuccess: () => queryClient.invalidateQueries(['traderPositions']),
