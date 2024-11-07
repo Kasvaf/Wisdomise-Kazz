@@ -83,7 +83,7 @@ export default function PricingCard({
   };
 
   return (
-    <div className="group flex min-w-[330px] max-w-[380px] shrink grow basis-0 flex-col">
+    <div className="group flex min-w-[330px] max-w-[380px] shrink grow basis-0 flex-col mobile:w-full mobile:max-w-full">
       <div
         className={clsx(
           'relative flex grow flex-col gap-6 p-6',

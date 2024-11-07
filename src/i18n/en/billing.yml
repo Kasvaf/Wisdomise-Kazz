@@ -149,10 +149,10 @@ token-modal:
   you-can: you can now access {{name}} Features.
   your-balance: Your WSDM Token Balance
 plans:
-  subscription-methods: Subscription Method
   title: Pricing Plan
   subtitle: Try Wisdomise Pro risk-free for 7 Days and see why traders trust us. Cancel anytime!
-  features:
-    cancel: Cancel Anytime
-    trust: Trusted by 40,000+ Users
-    secure: Secure & Private
+  subscription-methods: Subscription Methods
+features:
+  cancel: Cancel Anytime
+  trust: Trusted by 40,000+ Users
+  secure: Secure & Private

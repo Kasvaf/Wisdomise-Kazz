@@ -15,15 +15,15 @@ export function SubscriptionFeatures({ className }: { className?: string }) {
     >
       <li>
         <CancelIcon className="mr-2 inline-block" />
-        {t('plans.features.cancel')}
+        {t('features.cancel')}
       </li>
       <li>
         <TrustIcon className="mr-2 inline-block" />
-        {t('plans.features.trust')}
+        {t('features.trust')}
       </li>
       <li>
         <SecureIcon className="mr-2 inline-block" />
-        {t('plans.features.secure')}
+        {t('features.secure')}
       </li>
     </ul>
   );

@@ -49,7 +49,7 @@ export default function PricingTable({
             />
           )}
         </div>
-        <div className="-mx-6 mb-14 flex grow justify-center gap-6 overflow-auto px-6 mobile:justify-start">
+        <div className="-mx-6 mb-14 flex grow justify-center gap-6 overflow-auto px-6 mobile:flex-col mobile:justify-start">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
             .map(plan => (
