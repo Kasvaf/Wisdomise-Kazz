@@ -155,6 +155,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
+      navigate(`/hot-coins/${slug}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

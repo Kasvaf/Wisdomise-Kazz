@@ -1,7 +1,11 @@
 import { notification } from 'antd';
 import { bxX } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import { type Position, useTraderUpdatePositionMutation } from 'api';
+import {
+  type Position,
+  isPositionUpdatable,
+  useTraderUpdatePositionMutation,
+} from 'api';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
 import Button from 'shared/Button';
@@ -49,11 +53,7 @@ const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
     }
   };
 
-  if (
-    position.status === 'CLOSED' ||
-    position.status === 'CANCELED' ||
-    (position.status === 'DRAFT' && position.deposit_status === 'PENDING')
-  ) {
+  if (!isPositionUpdatable(position)) {
     return null;
   }
 

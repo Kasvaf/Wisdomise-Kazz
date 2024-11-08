@@ -34,6 +34,14 @@ export interface Position {
   size?: string;
 }
 
+export function isPositionUpdatable(position: Position) {
+  return (
+    position.status !== 'CLOSED' &&
+    position.status !== 'CANCELED' &&
+    (position.status !== 'DRAFT' || position.deposit_status !== 'PENDING')
+  );
+}
+
 export function useTraderPositionQuery(positionKey?: string) {
   return useQuery(
     ['traderPosition', positionKey],

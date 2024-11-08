@@ -1,7 +1,11 @@
 import dayjs from 'dayjs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bxEditAlt, bxLeftArrowAlt } from 'boxicons-quasar';
-import { useCoinOverview, useTraderPositionsQuery } from 'api';
+import {
+  isPositionUpdatable,
+  useCoinOverview,
+  useTraderPositionsQuery,
+} from 'api';
 import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -62,19 +66,16 @@ export default function PageCoinDetail() {
               <CancelButton position={position} />
               <CloseButton position={position} />
 
-              {position.status !== 'CLOSED' &&
-                position.status !== 'CANCELED' &&
-                (position.status !== 'DRAFT' ||
-                  position.deposit_status !== 'PENDING') && (
-                  <Button
-                    variant="link"
-                    className="ms-auto !p-0 !text-xs text-v1-content-link"
-                    to={`/market/${slug}?pos=${position.key}`}
-                  >
-                    <Icon name={bxEditAlt} size={16} />
-                    Edit
-                  </Button>
-                )}
+              {isPositionUpdatable(position) && (
+                <Button
+                  variant="link"
+                  className="ms-auto !p-0 !text-xs text-v1-content-link"
+                  to={`/market/${slug}?pos=${position.key}`}
+                >
+                  <Icon name={bxEditAlt} size={16} />
+                  Edit
+                </Button>
+              )}
             </div>
           </div>
           <hr className="my-4 border-white/10" />
