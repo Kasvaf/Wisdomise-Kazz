@@ -14,7 +14,6 @@ import Spinner from 'shared/Spinner';
 import Icon from 'shared/Icon';
 import AssetSelector from '../../../AssetSelector';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
-import AdvancedSignalForm from './AdvancedSignalForm';
 import ActivePositionDetails from './ActivePositionDetails';
 import TerminalChart from './TerminalChart';
 import CoinInfo from './CoinInfo';
@@ -114,16 +113,6 @@ const TabTerminal = () => {
             )
           )}
         </div>
-
-        {!!assetName && !!signaler && !isLoading && (
-          <AdvancedSignalForm
-            assetSlug={''}
-            assetName={assetName}
-            activePosition={activePosition}
-            className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
-            formState={formState}
-          />
-        )}
       </div>
     </div>
   );

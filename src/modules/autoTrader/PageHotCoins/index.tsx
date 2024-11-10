@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Image } from 'antd';
 import Table from 'shared/Table';
 import { useWhalesCoins, type WhaleCoin } from 'api';
@@ -18,7 +18,6 @@ export default function PageHotCoins() {
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
   );
-  const navigate = useNavigate();
 
   const coins = useWhalesCoins({
     page,
@@ -95,7 +94,7 @@ export default function PageHotCoins() {
       <Button
         variant="brand"
         className="fixed bottom-20 end-4 start-4 z-50"
-        onClick={() => navigate('/market/the-open-network')}
+        to="/market/the-open-network"
       >
         Start Auto Trading
       </Button>

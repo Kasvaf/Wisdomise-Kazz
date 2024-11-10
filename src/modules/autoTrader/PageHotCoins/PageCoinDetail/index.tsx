@@ -1,32 +1,17 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { bxEditAlt, bxLeftArrowAlt, bxX } from 'boxicons-quasar';
 import dayjs from 'dayjs';
-import Button from 'shared/Button';
-import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
-import Icon from 'shared/Icon';
+import { useNavigate, useParams } from 'react-router-dom';
+import { bxEditAlt, bxLeftArrowAlt } from 'boxicons-quasar';
 import {
+  isPositionUpdatable,
   useCoinOverview,
   useTraderPositionsQuery,
-  useTraderCancelPositionMutation,
 } from 'api';
-import Spin from 'shared/Spin';
+import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 import empty from './empty.svg';
-
-const CancelButton: React.FC<{ positionKey: string }> = ({ positionKey }) => {
-  const { mutate: cancelPosition, isLoading: isCanceling } =
-    useTraderCancelPositionMutation();
-
-  return (
-    <Button
-      variant="link"
-      onClick={() => cancelPosition(positionKey)}
-      className="ms-auto !p-0 !text-xs text-v1-content-link"
-    >
-      {isCanceling ? <Spin /> : <Icon name={bxX} size={16} />}
-      Close
-    </Button>
-  );
-};
+import CloseButton from './CloseButton';
+import CancelButton from './CancelButton';
 
 export default function PageCoinDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -43,11 +28,7 @@ export default function PageCoinDetail() {
   return (
     <div>
       <div className="mb-3 flex gap-2">
-        <Button
-          variant="alternative"
-          onClick={() => navigate('/hot-coins')}
-          className="!px-3 !py-0"
-        >
+        <Button variant="alternative" to="/hot-coins" className="!px-3 !py-0">
           <Icon name={bxLeftArrowAlt} />
         </Button>
         <CoinSelect
@@ -82,18 +63,19 @@ export default function PageCoinDetail() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              {position.status !== 'CLOSED' &&
-                position.status !== 'CANCELED' && (
-                  <CancelButton positionKey={position.key} />
-                )}
+              <CancelButton position={position} />
+              <CloseButton position={position} />
 
-              <Button
-                variant="link"
-                className="ms-auto !p-0 !text-xs text-v1-content-link"
-              >
-                <Icon name={bxEditAlt} size={16} />
-                Edit
-              </Button>
+              {isPositionUpdatable(position) && (
+                <Button
+                  variant="link"
+                  className="ms-auto !p-0 !text-xs text-v1-content-link"
+                  to={`/market/${slug}?pos=${position.key}`}
+                >
+                  <Icon name={bxEditAlt} size={16} />
+                  Edit
+                </Button>
+              )}
             </div>
           </div>
           <hr className="my-4 border-white/10" />
@@ -164,7 +146,7 @@ export default function PageCoinDetail() {
       <Button
         variant="brand"
         className="fixed bottom-20 end-4 start-4 mt-5"
-        onClick={() => navigate(`/market/${slug}`)}
+        to={`/market/${slug}`}
       >
         Auto Trade
       </Button>

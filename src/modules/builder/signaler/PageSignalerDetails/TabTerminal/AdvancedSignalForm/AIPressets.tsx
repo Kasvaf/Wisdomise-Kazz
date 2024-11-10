@@ -28,9 +28,9 @@ const AIPresets: React.FC<{
   const { data: presets, isLoading } = useAIPresets(assetName);
 
   const {
+    isUpdate: [isUpdate],
     orderType: [orderType, setOrderType],
     volume: [volume, setVolume],
-    price: [price, setPrice],
     priceUpdated: [, setPriceUpdated],
     safetyOpens: [safetyOpens, setSafetyOpens],
     takeProfits: [takeProfits, setTakeProfits],
@@ -40,13 +40,13 @@ const AIPresets: React.FC<{
   useEffect(() => {
     setActivePreset(activePreset < 0 ? -activePreset - 1 : 3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderType, volume, safetyOpens, takeProfits, stopLosses, price]);
+  }, [orderType, volume, safetyOpens, takeProfits, stopLosses]);
 
   if (isLoading || !presets) {
     return <></>;
   }
 
-  const presetKeys = Object.keys(presets) as PresetKeys[];
+  const presetKeys = ['low', 'medium', 'high'] as PresetKeys[];
   const selectVariant = (ind: number) => {
     if (ind > 2 || ind < 0) {
       setActivePreset(3);
@@ -54,15 +54,16 @@ const AIPresets: React.FC<{
     }
 
     const p = presets[presetKeys[ind]];
-    setOrderType('limit');
+    setOrderType('market');
     setVolume(String(p.open_orders[0].amount * 100));
-    setPrice(String(p.open_orders[0].price));
-    setPriceUpdated(true);
+    setPriceUpdated(false);
     setSafetyOpens(p.open_orders.slice(1).map(orderToOrder));
     setTakeProfits(p.take_profits.map(orderToOrder));
     setStopLosses(p.stop_losses.map(orderToOrder));
     setActivePreset(-ind - 1);
   };
+
+  if (isUpdate) return null;
 
   return (
     <div
