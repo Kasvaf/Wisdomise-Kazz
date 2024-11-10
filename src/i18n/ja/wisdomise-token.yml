@@ -10,24 +10,17 @@ airdrop:
     seconds: 秒
   description: エアドロップ トークンは、キャンペーンに参加した資格のある参加者に配布されます。詳細は当社のソーシャル メディアでご覧いただけます。
   eligibility:
-    already-claimed: すでにトークンを請求しています。
     claim: 今すぐ請求
-    close: 閉じる
     eligible: おめでとうございます！あなたは <1>適格</1> このフェーズで$WSDMエアドロップを受け取るには！
     not-eligible: おっと！あなたは <1>資格なし</1> このフェーズで $WSDM エアドロップを受け取ってください! 次のフェーズでチャンスを試してみてください!
     share: コミュニティと共有
-    stay-tuned: こちらをお楽しみに！
   now: 今
-  soon: すぐ
   title: エアドロップ
 balance:
-  add-token: WSDMの追加
   buy: WSDMを購入する
   description: 保有しているWSDMトークンをサブスクリプションにご利用いただけます。
   subtitle: 残高
   title: WSDMトークン
-  token-name: tWSDM
-  your-balance: tWSDMトークン保有量
 connect-wallet:
   billing:
     description: サブスクリプション期間中Wisdomiseトークンを保有する事で、サブスクリプションを購読できます。トークンの消費は発生しません。
@@ -38,7 +31,6 @@ connect-wallet:
   prev-wallet: 以前に使用したウォレットアドレス
   sign: 今すぐサイン
   verify-nonce: nonce に署名して所有権を確認してください
-  wallet-address: ウォレットアドレス
   wisdomise-token:
     description: ユーティリティのステータスと WSDM 残高を表示するには、ウォレットを接続します。
     title: ウォレットに接続
@@ -58,7 +50,6 @@ title: <0>ウィズダムトークン</0><1>WSDM</1>
 utility:
   activate: アクティベート
   activate-sub: サブスクリプションを起動させる
-  activated: 有効化済み
   already-active: すでに有効なサブスクリプションがあります。
   amount: 金額
   current-sub: 現在のサブスクリプションプラン
@@ -69,7 +60,6 @@ utility:
   lock-tooltip: すでにアクティブなサブスクリプションをお持ちの場合は、トークンを使用してアクセスするには、サブスクリプションが終了するまで待つ必要があります。
   lock-wsdm: WSDM をロックする
   locked: ロック中
-  not-activated: アクティブ化されていません
   pending-unlock: ロック解除待ち
   pending-withdrawal: 撤回待ち
   ready: 準備ができて

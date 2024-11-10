@@ -1,7 +1,3 @@
-banner:
-  btn-subscription-plans: サブスクリプションプラン
-  checkout-message: サブスクリプションのプラン一覧はこちら
-  ends-in: サブスクリプション期間終了まで <1>{{remaining}}</1> 日！
 change-pay-method:
   crypto: 仮想通貨
   fiat: 法定通貨
@@ -9,11 +5,6 @@ change-pay-method:
   title: 支払い方法の変更
   token: Wisdomise Token (WSDM)
   wsdm: $WSDM支払い
-change-payment:
-  change-payment-method: 支払い方法を変更
-  order-summary: 注文概要
-  title: 支払い方法の変更
-  total: 合計
 crypto-modal:
   btn-confirm: 確認
   btn-done: 完了
@@ -29,20 +20,6 @@ crypto-modal:
   subtotal: 小計
   title: Wisdomise AG
   total-due-today: 本日のご請求金額
-features:
-  cancel: いつでもキャンセル可能
-  secure: 安全でプライベート
-  trust: 40,000人以上のユーザーから信頼されています
-overlay-subscription:
-  btn-subscribe: サブスクリプション契約
-  btn-upgrade: アップグレード
-  customs-description: 質問をする場合、Wisdomiseのプランのいずれかの契約が必要です。
-  signaling-description: 通知機能の利用はサブスクリプション契約が必要です。
-  signals-description: シグナルを確認する場合は、<1>サブスクリプション</1> へのまたは、現在のプランを<3>アップグレード</3>する必要があります。
-  strategy:
-    description: この戦略を明らかにするには、以下が必要です <2>{{level}}</2> またはそれ以上のプラン。
-    title: プレミアムシグナルのロックを解除
-  title: 現在のサブスクリプション契約はありません。
 periodicity:
   month:
     per: 月額<br>
@@ -50,40 +27,24 @@ periodicity:
   year:
     per: 年間利用<br>
     title: 年間利用
-plans:
-  subscription-methods: 購読方法
-  subtitle: Wisdomise Pro を 7 日間リスクなしで試して、トレーダーが私たちを信頼する理由を確認してください。いつでもキャンセルできます。
-  title: 料金プラン
 pricing-card:
   annually: 年間
   btn-action:
     activate-now: 今すぐ有効化
-    available-soon: 近日公開
     buy-now: 今すぐ購入する
     choose: 選ぶ
     current-plan: 現在ご契約中のプラン
-    free: 無料
     next-plan: 次のプラン
-    upgrade: アップグレード
-    upgrade-to: アップグレード {{plan}}
-  features: 特徴
   forever: 永遠に
   free-subtitle: お気軽にwisdomiseを探索してください
-  hold: ホールド
-  just-yearly: 年間利用のみ
   monthly: 月額
   notification-call-support: サポートに電話する
   notification-upgrade-success: サブスクリプションのアップデートが完了しました。アクティベーションまで数分かかる場合がございます。しばらく経ってからこのページを更新してください。
-  page-subtitle: このセクションからパッケージの種類を選択できます
-  page-title: プランと料金
   pay-by-locking: ロックして無料でアクセス <b>{{token}} WSDM</b> トークン
   pay-by-locking-in-yearly-only: "ロックによる支払い <b>WSDM</b> トークン: 毎年の最新情報"
-  pay-by-stacking: 積み重ねて支払う<1>{{token}}<1>WSDM</1></1>トークン
-  pay-by-stacking-in-yearly-only: "積み重ねて支払う<1>WSDM</1>トークン: 毎年の最新情報"
   pay-by-wsdm: 入金<1>WSDM</1>と <4>50%オフ</4>
   recommended: ウィズダムズ推奨
   this-includes: "次を含みます:"
-  token: Token
 stripe:
   change-card-info:
     order-summary: 注文概要
@@ -96,12 +57,7 @@ subscription-details:
     method: 支払い方法
     status: ステータス
   overview:
-    automatically-renew: 自動で更新されます。
-    billing-actions: 請求アクション
-    billing-email: ご請求メールは<1>{{email}}</1>にお送りします。
     btn-change-plan: プラン変更
-    card: 下4桁<1>****{{last4}}</1>のカードに請求します。
-    charging: <1>${{ amount }}</1>をご登録カードに請求いたします。
     current-plan:
       expire: プランは
       pay-method: お支払い方法は、
@@ -110,13 +66,9 @@ subscription-details:
       renew: プランの有効期限は
       title: 現在ご契約中のプラン
       your-subs: あなたのサブスクリプションプランは、<1></1>
-    in-order-to-renew: 更新するにはトランザクションを再度お送りください。
     is-on-the-way:
       description: サブスクリプション契約のお支払いを仮想通貨で受け付けました。確認に24-48時間かかります。アカウントのアクティベーションが完了出来次第メールにてご連絡いたします。
       title: 定期購読はもうすぐ届きます
-    next-plan-canceled: <0></0><1>次のサブスクリプション更新はありません。<1>次の契約を更新する</1></1>
-    next-plan-info: <0>あなたの次のプランは <2>{{nextPlanName}} {{period}}</2> と <6>
-      {{payMethod}}</6> 支払方法。<9>次のプランをキャンセルする</9></0>
     next-plan:
       automatically-renew: 自動で更新されます。
       cancel-btn: 次のプランをキャンセルする
@@ -128,13 +80,6 @@ subscription-details:
       pay-method: お支払い方法は、
       title: 次のプラン
       your-subs: あなたのサブスクリプションプランは、<1></1>
-    pay-method: "<0>次のお支払い方法: <2>{{payMethod}}。</2><3>支払い方法を変更する</3></0>"
-    pending-invoice: <0><0>保留中の請求書が 1 件あります。</0><1>今払う</1></0>
-    periodEnd: プランは<3>{{date}}</3>日で{{action}}されます。
-    plan-details: プラン詳細
-  payment-methods:
-    auto-renew-notice: 次のお支払いはご登録カードに請求いたします。
-    title: 支払い方法
   title: サブスクリプション詳細
 subscription-modal:
   btn-crypto: 仮想通貨での支払い
@@ -145,14 +90,11 @@ subscription-modal:
   title: サブスクリプション方法
 success-modal:
   btn-details: サブスクリプション詳細
-  btn-goto-athena: Athenaを確認
-  redirecting-msg: <1>({{timeout}})</1>秒でリダイレクトされます。
   subtitle: 次のステップに進められます
   title: サブスクリプションのご契約ありがとうございます
 tabs:
   invoices: 請求状況
   overview: 概要
-  payment-methods: 支払い方法
 token-modal:
   activate-subscription: サブスクリプションを起動させる
   already-locked: すでにロックされた残高
@@ -164,7 +106,6 @@ token-modal:
   disclaimer: WSDM トークン ロックアップに参加することにより、お客様は以下の条件に同意するものとします。
   done: 完了
   for-1-year: 1年間
-  purchase-token: Wisdomiseトークンの購入
   refresh: 更新
   subscribe-to: "次のプランに契約する:"
   subtotal: 小計

@@ -1,8 +1,6 @@
 above: 以上
 actions:
-  back: 返回
   cancel: 取消
-  complete: 完成
   edit: 編輯
   explore: 探索
   invite: 邀請
@@ -11,49 +9,25 @@ actions:
   no: 否
   ok: 好的
   remove: 移除
-  reset: 重置
   save: 保存
-  share: 分享
   yes: 是
 almost-there: 快到了...
-aum: 管理資產規模
 below: 以下
 confirmation: 確認
 copied-to-clipboard: 已複製到剪貼板
-crypto: 加密貨幣
-cryptocurrency: 加密貨幣
 data-incoming: HODL 开始！数据即将到来
 data-incoming-description: 我们的使命是通过分析数千个加密项目来提供明智交易的见解，尽管有些项目可能需要更多时间。
-date: 日期
 equal: 等於
 error: 錯誤
 errors:
   field-required: 此字段不得為空。
   network-error: 您的網絡連接出現問題。
-free-plan: 免費計劃
-futures: 期貨
-loading: 加載中...
-loading-dot-dot-dot: 加載中...
-market:
-  long: 多頭
-  short: 空頭
-network: 網絡
 not-available: 不適用
-not-set: 未設置
-nothing-to-show: 沒有要顯示的內容
 order-type:
   limit: 限制
   market: 市場
-paid-plan: 付費計劃
-quality:
-  high: 高
-  low: 低
-  medium: 中等
 recommended-size: 建議大小
 see-more: 查看更多
-select-crypto: 選擇加密貨幣
 show-more: 顯示更多
 soon: 即將推出
-spot: 現貨
-upload-failed: 上傳失敗！
 uploading: 上傳中

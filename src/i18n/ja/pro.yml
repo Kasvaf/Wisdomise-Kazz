@@ -9,7 +9,6 @@ pro: プロ
 renew-modal:
   description: "Wisdomise Pro で暗号通貨の可能性をさらに広げましょう! Pro バージョンで利用できる機能の一部は次のとおりです:"
   renew: プロの更新
-  skip: 今はスキップ
   title: 暗号通貨の旅を続けよう<br></br>私たちと一緒に！
 trial: トライアル
 trial-modal:

@@ -9,7 +9,6 @@ pro: 专业版
 renew-modal:
   description: 使用 Wisdomise Pro 继续释放您的加密潜力！以下是 Pro 版本中的一些功能：
   renew: 续订您的专业版
-  skip: 暂时跳过
   title: 继续你的加密之旅<br></br>与我们一起！
 trial: 审判
 trial-modal:

@@ -1,9 +1,0 @@
-page-title: Signaler Marketplace
-signaler: Signaler
-table:
-  name: Name
-  action: Action
-  coin: Coin
-  detail: Detail
-  max_drawdown: Max Drawdown <1>Monthly</1>
-  pl: P/L <1>Monthly</1>

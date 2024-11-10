@@ -11,14 +11,8 @@ page-profile:
     filters:
       month: 月額
       month3: 3ヶ月
-      week: 毎週
     max_drawdown: 最大ドローダウン
     pl: P/L
     positions: ポジション数
   signalers: 信号機
-  signalers-table:
-    max_drawdown: 最大ドローダウン <1>月次</1>
-    name: 信号発信者名
-    pair: ペア
-    pl: 損益 <1>月次</1>
   top-financial-products: トップ金融商品

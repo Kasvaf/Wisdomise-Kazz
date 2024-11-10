@@ -2,15 +2,9 @@ available-exchanges:
   search: 搜索交流...
   table:
     exchange: 交易所
-    pair: Pair
     price: 價格
-    rank: "#"
     volume_24h: 24小時交易量
-    volume_percentage: 交易量%
-  title: 可用交易所
 call-change:
-  changes: 更改
-  current-price: 现在价格
   fire-time: 信号发射时间
   max-price: 最大值：极高值
   min-price: 最小值：极低值
@@ -40,7 +34,6 @@ coin-details:
       title: 可用交易所
     most_viewed_coins:
       table:
-        chg_24: 更改(24)
         name: 名稱
         price: 價格
       title: 最受关注的硬币
@@ -58,10 +51,6 @@ coin-details:
       positive: 積極正向
       title: 智慧社会情绪
     socials:
-      empty:
-        description: 我们的使命是提供全面的见解，以便明智地进行交易。我们收集了数千个加密货币项目的情报，尽管有些代币需要更多时间进行全面分析
-        reload: 重新加載
-        title: HODL 开始！数据即将到来
       label: 社会的
       load_more: 加载更多
       subtitle: 通过实时扫描社交媒体，在加密领域保持领先地位。
@@ -86,11 +75,6 @@ coin-details:
       title: 热门硬币和代币
     whale_popular:
       title: 深受鲸鱼喜爱
-coin-info:
-  24h_chg: 24小時變化
-  market_cap: 市值
-  price: 價格
-  volume_24h: 24小時交易量
 coin_security:
   contract_security: 合约安全
   fields:
@@ -147,40 +131,6 @@ coin_security:
   trusted: 值得信赖
   warning_other: "{{count}} 警告"
   warning_zero: 无警告
-hot-coins-section:
-  filters:
-    24h: 24小時
-    30d: 30天
-    7d: 7天
-    all-coins: 所有幣種
-    gainers: 上漲組
-    losers: 下跌組
-    search: 搜索幣種...
-  table:
-    24h-voume: 24小時交易量
-    actions: 操作
-    call-change: 呼叫变更
-    call-time: 提及次數
-    call-time-info: 我们的 AI 检测到关键机会并发出此资产信号的确切时刻。使用它来跟踪您何时收到考虑此代币的提醒。
-    chg-24: 變化(24小時)
-    circulating_supply: 流通供应量
-    insights: 見解
-    market-cap: 市值
-    name: 名稱
-    negative: 消極負面
-    pnl: 看涨盈亏
-    pnl-info: 显示自触发信号以来的盈利或亏损 (PNL)。它可以帮助您从我们向您发出警报的那一刻起跟踪资产的表现。
-    positive: 積極正向
-    rank: 秩
-    realtime-price: 价格
-    sentiment: 市場情緒
-    tvl: 鎖定總價值 (TVL)
-  title: 熱門幣種
-hot-coins:
-  side-suggest: 方向建議
-market-info:
-  description: 來自社交和市場的實時AI驅動見解
-  social-channel-count: <0>Wisdomise幣雷達在過去24小時內掃描了<2>{{channelsCount}}</2>個社交賬號。</0>
 onboarding:
   sec-1:
     content: 观看此简短视频，了解我们的人工智能驱动平台如何为您带来加密货币领域的最新见解、趋势和机遇，从而节省您的时间并最大限度地提高您的研究效率。
@@ -191,40 +141,7 @@ onboarding:
   sec-3:
     content: 自定义警报并创建最热门代币的个性化筛选器，让您始终领先一步。实时了解最新动态，确保您不会再错过突破机会！
     title: 不要错过任何机会：设置警报和筛选器
-recommend-account:
-  button: 推薦帳號
-  modal:
-    cancel: 取消
-    channel-address:
-      label: Telegram 頻道 ID，Subreddit 或帳號
-      placeholder: "@ID 或可分享連結"
-      rules:
-        minLength: 必須超過3個字符
-        required: 頻道地址為必填項
-    description:
-      label: 描述 <2>(可選)</2>
-      placeholder: 有關該頻道的其他詳情
-      rules:
-        minLength: 必須超過3個字符
-    recommend: 推薦
-    sub-title: 分享一個Telegram頻道ID，Subreddit或賬號及其詳細信息，藉此通過有價值的市場見解來增強幣雷達。您的建議將由我們的AI系統根據信號價值進行審核和納入。
-    title: 推薦賬號
 set-notification:
-  modal:
-    alert-channel-section: 警報頻道
-    browser-alert-input: 瀏覽器通知
-    daily: 每日
-    description: 不要錯過加密貨幣世界中的下一個重大機會。我們的通知系統讓您第一時間知道熱門幣種和最新發現。
-    discord-alert-input: Discord 訊息
-    email-alert-input: 電子郵件
-    interval-section: 間隔
-    push-alert-input: 推送通知
-    save-button: 保存警報設置
-    slack-alert-input: Slack 訊息
-    sms-alert-input: 短信
-    soon: 即將推出...
-    telegram-alert-input: Telegram 訊息
-    title: 設置新潛在幣種檢測警報
   open-modal-btn:
     not-set: 設置警報
     set: 警報已設置
@@ -283,24 +200,3 @@ social-radar:
         <b>销售活动：</b> 显示过去一小时内出售该资产的钱包数量以及出售的总金额。 <br /><br />
         对于对鲸鱼没有吸引力且没有重大交易的资产，会显示“未跟踪”标记。
       title: 鲸鱼买入/卖出
-socials:
-  all:
-    subtitle: 分析 {{symbol}} 在所有社交媒體中的信號
-    title: 所有社交媒體饋送
-  reddit:
-    followers: 成員
-    subtitle: 分析 {{symbol}} 在 Reddit 社區中的信號
-    title: Reddit
-  telegram:
-    followers: 訂閱者
-    subtitle: 分析 {{symbol}} 在 Telegram 頻道中的信號
-    title: Telegram
-  trading-view:
-    subtitle: 分析 {{symbol}} 在技術分析構思中的信號
-    title: 技術分析構思
-  twitter:
-    subtitle: 分析 {{symbol}} 在 Twitter, X 社區中的信號
-    title: X, Twitter
-tops-section:
-  gainers: 最大漲幅
-  losers: 最大跌幅
