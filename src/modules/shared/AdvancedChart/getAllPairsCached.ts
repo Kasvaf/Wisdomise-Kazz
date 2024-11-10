@@ -1,10 +1,16 @@
 import axios from 'axios';
-import { type PairDataFull } from 'api/types/strategy';
 
-let cachedPairs: PairDataFull[];
+interface PairData {
+  name: string;
+  display_name: string;
+  base: { name: string };
+  quote: { name: string };
+}
+
+let cachedPairs: PairData[];
 const getAllPairsCached = async () => {
   if (!cachedPairs) {
-    const { data } = await axios.get<PairDataFull[]>('catalog/pairs');
+    const { data } = await axios.get<PairData[]>('catalog/pairs');
     cachedPairs = data;
   }
 

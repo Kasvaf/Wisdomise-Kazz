@@ -55,30 +55,4 @@ const CoinsIcons: React.FC<Props> = ({
   );
 };
 
-const coinsColors = {
-  ADA: '#3468D1',
-  BNB: '#F0B90B',
-  BTC: '#F7931A',
-  DOGE: '#BA9F33',
-  ETH: '#687DE3',
-  LTC: '#345D9D',
-  TRX: '#FF0013',
-  XRP: '#23292F',
-  USDT: '#1BA27A',
-  BUSD: '#F0B90B',
-  MATIC: '#6c2ed8',
-  SOL: '#9945FF',
-  UNI: '#FF007A',
-} as const;
-
-const stableRandom: Record<string, string> = {};
-export function getCoinColor(coin: string) {
-  const exists = (coinsColors as any)[coin] || stableRandom[coin];
-  if (exists) return exists;
-
-  stableRandom[coin] =
-    '#' + Math.floor(Math.random() * 16_777_215).toString(16);
-  return stableRandom[coin];
-}
-
 export default CoinsIcons;

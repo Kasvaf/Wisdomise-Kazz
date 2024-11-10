@@ -12,7 +12,6 @@ import useIsMobile from 'utils/useIsMobile';
 import { MAIN_LANDING } from 'config/constants';
 import { ReadableDuration } from 'shared/ReadableDuration';
 import LanguageSelector from '../LanguageSelector';
-import WalletDropdownContent from '../WalletDropdown/WalletDropdownContent';
 import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
 import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
 // eslint-disable-next-line import/max-dependencies
@@ -92,12 +91,6 @@ const ProfileMenuContent = () => {
         <AccountIconEmpty className="h-6 w-6 shrink-0" />
         {account?.email}
       </div>
-
-      {isMobile && (
-        <div className="mt-4 overflow-hidden rounded-xl bg-black/30">
-          <WalletDropdownContent />
-        </div>
-      )}
 
       <div className="mt-4 overflow-hidden rounded-xl bg-black/30">
         {isMobile && (

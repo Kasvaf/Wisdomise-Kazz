@@ -7,7 +7,6 @@ import useIsMobile from 'utils/useIsMobile';
 import BranchSelector from './BranchSelector';
 import BtnLiveSupport from './BtnLiveSupport';
 import LanguageSelector from './LanguageSelector';
-import WalletDropdown from './WalletDropdown';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
 import OnBoardingMessageButton from './OnBoardingMessageButton';
@@ -58,7 +57,6 @@ const Header: React.FC<
             {RouterBaseName && <BranchSelector />}
             <OnBoardingMessageButton />
             <LanguageSelector />
-            <WalletDropdown />
             <ProfileMenu />
           </>
         )}

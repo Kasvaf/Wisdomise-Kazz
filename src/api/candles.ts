@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { type MarketTypes } from './types/financialProduct';
+import { type MarketTypes } from './types/shared';
 
 export type Resolution = '5m' | '15m' | '30m' | '1h';
 export interface Candle {
@@ -52,24 +51,3 @@ export const useCandlesQuery = ({
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
-
-export const useRecentCandlesQuery = (
-  asset: string | undefined,
-  market: MarketTypes | undefined,
-) =>
-  useCandlesQuery({
-    asset,
-    resolution: '1h',
-    startDateTime: useMemo(() => {
-      const startDateTime = new Date();
-      startDateTime.setMonth(startDateTime.getMonth() - 3);
-      return startDateTime.toISOString();
-    }, []),
-    endDateTime: useMemo(() => new Date().toISOString(), []),
-    market,
-  });
-
-export interface LastPrice {
-  price: number;
-  volume: number;
-}

@@ -1,8 +1,3 @@
-badges:
-  pending: ''
-  rejected: ''
-  unverified: ''
-  verified: ''
 beta: Beta
 beta-version: Beta Version
 error-page:
@@ -10,12 +5,6 @@ error-page:
   subtitle: But we'll try our best so that it won't happen again
   btn-reload: Reload
   throw: Throw
-insight-declaimer:
-  title: Disclaimer
-  content: >-
-    Insights and signals from Wisdomise are not financial advice. Use them at
-    your own risk and discretion. Conduct your own research or consult a
-    financial adviser if needed.
 language: Language
 links:
   about-us: About Us
@@ -35,15 +24,10 @@ menu:
       Stay Ahead with Real-Time Alerts: Set Notifications on Your Favorite
       Cryptos and Never Miss a Market Move!
     full-title: Notification & Alerts
-  athena:
-    title: Crypto Chatbot
   billing:
     title: Subscription
     subtitle: Subscription preferences
     remains: remains
-  builder:
-    title: Trade Master
-    subtitle: Create your own signaler and financial products
   coin:
     title: Coin
   coin-radar:
@@ -52,50 +36,19 @@ menu:
       Access crypto social insights, whale insights and market indicators as
       simple easy to understand bites.
     full-title: Market Alpha using AI
-  coin-view:
-    title: Coin List
-  dashboard:
-    title: My Dashboard
-  financial-products:
-    title: Financial Products
-  fp-builder:
-    title: My Products
-    subtitle: Explore flexible AI-Driven Investment Options tailored to your needs.
-    card-badge: Unique Options
-    card-button: Try Financial Products
   hot-coins:
     title: Social Radar
-  investment:
-    title: Investment
-    subtitle: Explore our auto trader financial products
-  kyc:
-    title: KYC
-    subtitle: Verify identity to access features
-  notification-center:
-    title: Notifications
-    subtitle: Notification & Active Alert Setting
   overview:
     title: Overview
-  portfolio:
-    title: Portfolio
   profile:
     title: Profile
     subtitle: Edit login credentials
   referral:
     title: Referral
     subtitle: Invite and earn rewards
-  signal-builder:
-    title: My Signalers
-    subtitle: Create Signals for Supported Cryptocurrencies
-    card-button: Start Building Now
-  signalers:
-    title: AI Signals
-    subtitle: Discover the Leading Cryptocurrencies With Active Signals and Positions
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access
-  users:
-    title: Users
   whales:
     title: Whale Radar
     subtitle: >-

@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { trackClick } from 'config/segment';
 import { isMiniApp } from 'utils/version';
-import { ReactComponent as IconDashboard } from './icons/dashboard.svg';
-import { ReactComponent as IconMarketplace } from './icons/marketplace.svg';
 import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
 import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
 
-export interface MenuItem {
+interface MenuItem {
   text: string;
   link: string;
   hide?: boolean;
@@ -38,24 +36,6 @@ const useMenuItems = () => {
         },
       ]
     : [
-        {
-          icon: <IconDashboard />,
-          text: t('menu.dashboard.title'),
-          link: '/dashboard',
-          onClick: trackClick('dashboard_menu'),
-          children: [
-            {
-              text: t('menu.overview.title'),
-              link: '/dashboard/overview',
-              onClick: trackClick('dashboard_menu'),
-            },
-            {
-              text: t('menu.portfolio.title'),
-              link: '/dashboard/portfolio',
-              onClick: trackClick('portfolio_menu'),
-            },
-          ],
-        },
         {
           icon: <IconInsight />,
           text: t('menu.coin-radar.title'),
@@ -92,34 +72,6 @@ const useMenuItems = () => {
           ],
         },
         {
-          icon: <IconMarketplace />,
-          text: t('menu.investment.title'),
-          link: '/marketplace',
-          onClick: trackClick('marketplace_menu'),
-          children: [
-            {
-              text: t('menu.overview.title'),
-              link: '/marketplace/overview',
-              onClick: trackClick('marketplace_menu'),
-            },
-            {
-              text: t('menu.signalers.title'),
-              link: '/marketplace/signalers',
-              onClick: trackClick('signalers_menu'),
-            },
-            {
-              text: t('menu.financial-products.title'),
-              link: '/marketplace/products-catalog',
-              onClick: trackClick('financial_products_menu'),
-            },
-            {
-              text: t('menu.builder.title'),
-              link: '/marketplace/builder',
-              onClick: trackClick('builder_menu'),
-            },
-          ],
-        },
-        {
           icon: <IconAccount />,
           text: t('menu.account.title'),
           link: '/account',
@@ -142,11 +94,6 @@ const useMenuItems = () => {
               onClick: trackClick('subscription_menu'),
             },
             {
-              text: t('menu.kyc.title'),
-              link: '/account/kyc',
-              onClick: trackClick('kyc_menu'),
-            },
-            {
               text: t('menu.token.title'),
               link: '/account/token',
               onClick: trackClick('wsdm_token_menu'),
@@ -155,11 +102,6 @@ const useMenuItems = () => {
               text: t('menu.account-manager.title'),
               link: '/account/exchange-accounts',
               onClick: trackClick('external_account_menu'),
-            },
-            {
-              text: t('menu.notification-center.title'),
-              link: '/account/notification-center',
-              onClick: trackClick('notifications_menu'),
             },
             {
               text: t('menu.referral.title'),

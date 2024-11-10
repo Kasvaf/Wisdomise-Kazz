@@ -250,5 +250,3 @@ export const useModalLogin = () => {
   });
   return [Modal, async () => !!(await showModal({}))] as const;
 };
-
-export default ModalLogin;

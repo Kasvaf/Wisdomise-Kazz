@@ -20,32 +20,6 @@ export function useAccountQuery() {
     },
   );
 }
-interface UserProfileUpdate {
-  nickname: string | null;
-  country: string | null;
-  referrer_code: string;
-  terms_and_conditions_accepted?: boolean;
-  privacy_policy_accepted?: boolean;
-}
-
-export const useUserInfoMutation = () => {
-  const queryClient = useQueryClient();
-  return async (body: Partial<UserProfileUpdate>) => {
-    const { data } = await axios.patch<UserProfileUpdate>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
-      body,
-    );
-    await queryClient.invalidateQueries(['account']);
-    return data;
-  };
-};
-
-export const useResendVerificationEmailMutation = () => async () => {
-  const { status } = await axios.post(
-    `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/verification_email/`,
-  );
-  return status >= 200 && status < 400;
-};
 
 interface ReferralStatus {
   referral_code: string;
@@ -99,38 +73,6 @@ export function useStripeSetupIntentQuery() {
   );
 }
 
-export const useDailyMagicStatusMutation = () => {
-  const client = useQueryClient();
-  return useMutation<unknown, unknown, boolean>(
-    async enable => {
-      await axios.patch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`, {
-        daily_magic_enabled: enable,
-      });
-    },
-    { onSuccess: () => client.invalidateQueries(['account']) },
-  );
-};
-
-export function useCountriesQuery() {
-  return useQuery(
-    ['countries'],
-    async () => {
-      const { data } = await axios.get<{ countries: Array<[string, string]> }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/countries`,
-      );
-      return data.countries.map(([value, label]) => ({ value, label }));
-    },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
-}
-
-export interface ItemOwner {
-  key: string;
-  cprofile: CommunityProfile;
-}
-
 export interface CommunityProfile {
   overview: string | null;
   profile_image: string | null;
@@ -146,23 +88,6 @@ export interface CommunityProfile {
   verified: boolean;
   active_since: string;
 }
-
-export type TraderProfile = CommunityProfile & {
-  performance: Record<
-    'month' | 'month3',
-    {
-      positions: number;
-      pnl: number;
-      max_drawdown: number;
-    }
-  >;
-  active_pairs: Array<{
-    base: { name: string };
-    display_name: string;
-    name: string;
-    quote: { name: string };
-  }>;
-};
 
 export function useCommunityProfileQuery() {
   return useQuery(['community-profile'], async () => {
@@ -190,15 +115,6 @@ export function useCommunityProfileMutation() {
         ]),
     },
   );
-}
-
-export function useTraderProfileQuery(userId: string) {
-  return useQuery([`trader-profile-${userId}`], async () => {
-    const { data } = await axios.get<TraderProfile>(
-      `${TEMPLE_ORIGIN}/api/v1/catalog/traders/${userId}`,
-    );
-    return data;
-  });
 }
 
 export type ImageUploaderTarget = 'profile_image' | 'profile_cover';
