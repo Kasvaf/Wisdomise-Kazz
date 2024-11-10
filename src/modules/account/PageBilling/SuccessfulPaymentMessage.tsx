@@ -7,7 +7,7 @@ import { useSubscription } from 'api';
 import { ReactComponent as CongratsBG } from './images/congrats.svg';
 import { ReactComponent as CongratsLogo } from './images/congrats-logo.svg';
 
-export const SUCCESSFUL_CHECKOUT_KEY = 'successful_checkout';
+const SUCCESSFUL_CHECKOUT_KEY = 'successful_checkout';
 
 export default function SuccessfulPaymentMessage() {
   const navigate = useNavigate();

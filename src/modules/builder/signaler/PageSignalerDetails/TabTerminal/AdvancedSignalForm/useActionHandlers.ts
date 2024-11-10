@@ -2,7 +2,6 @@ import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useTonAddress } from '@tonconnect/ui-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { type SignalerData } from 'api/builder';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
 import { useCoinOverview } from 'api';
@@ -18,7 +17,6 @@ import { type SignalFormState } from './useSignalFormStates';
 
 interface Props {
   data: SignalFormState;
-  signaler?: SignalerData;
   assetName: string;
   activePosition?: Position;
 }

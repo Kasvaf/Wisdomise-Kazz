@@ -6,46 +6,25 @@ import {
   useExchangeAccountsQuery,
   useReferralStatusQuery,
   useSubscription,
-  useSumsubVerified,
 } from 'api';
 import { trackClick } from 'config/segment';
-import { PageCard, type PageCardProps } from 'shared/PageCard';
+import { PageCard } from 'shared/PageCard';
 import { PageTitle } from 'shared/PageTitle';
 import { ReadableDuration } from 'shared/ReadableDuration';
 import {
   ProfileIcon,
   UserIcon,
   SubscriptionIcon,
-  KycIcon,
   WsdmTokenIcon,
   ExternalAccountIcon,
-  NotificationsIcon,
   ReferralIcon,
 } from './icons';
-
-const useKycStatusBadge = (): Pick<PageCardProps, 'badge' | 'badgeType'> => {
-  const { t } = useTranslation('kyc');
-  const { data: kycStatus } = useSumsubVerified();
-  const statusMap = {
-    UNVERIFIED: t('badges.unverified'),
-    PENDING: t('badges.pending'),
-    VERIFIED: t('badges.verified'),
-    REJECTED: t('badges.rejected'),
-  };
-  return {
-    badge: statusMap[kycStatus || 'PENDING'] as PageCardProps['badge'],
-    badgeType: (kycStatus === 'VERIFIED'
-      ? 'green'
-      : 'orange') as PageCardProps['badgeType'],
-  };
-};
 
 const PageAccount: FC = () => {
   const { t } = useTranslation('base');
   const subscription = useSubscription();
   const { data: exchanges } = useExchangeAccountsQuery();
   const { data: referral } = useReferralStatusQuery();
-  const kycBadge = useKycStatusBadge();
 
   return (
     <PageWrapper>
@@ -93,15 +72,6 @@ const PageAccount: FC = () => {
           }
         />
         <PageCard
-          to="/account/kyc"
-          title={t('menu.kyc.title')}
-          description={t('menu.kyc.subtitle')}
-          cta={t('actions.complete', { ns: 'common' })}
-          icon={KycIcon}
-          onClick={trackClick('kyc_menu')}
-          {...kycBadge}
-        />
-        <PageCard
           to="/account/token"
           title={t('menu.token.title')}
           description={t('menu.token.subtitle')}
@@ -119,14 +89,6 @@ const PageAccount: FC = () => {
           badge={`${exchanges?.length || 0} ${t(
             'accounts:page-accounts.accounts-connected',
           )}`}
-        />
-        <PageCard
-          to="/account/notification-center"
-          title={t('menu.notification-center.title')}
-          description={t('menu.notification-center.subtitle')}
-          cta={t('common:actions.more')}
-          icon={NotificationsIcon}
-          onClick={trackClick('notifications_menu')}
         />
         <PageCard
           to="/account/referral"

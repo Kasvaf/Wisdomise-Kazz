@@ -1,12 +1,3 @@
-export type NetworksResponse = PagedResponse<Network>;
-
-interface PagedResponse<T> {
-  count: number;
-  next: any;
-  previous: any;
-  results: T[];
-}
-
 export interface Network {
   key: string;
   name: string;

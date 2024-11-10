@@ -5,20 +5,11 @@ import Container from '../Container';
 import PageMenu from '../Container/SideMenu/PageMenu';
 import PageRedirect from '../PageRedirect';
 import Boundary from './Boundary';
-import useMarketplaceRoutes from './marketplaceRoutes';
 import useInsightRoutes from './insightRoutes';
 import useAccountRoutes from './accountRoutes';
-import useUsersRoutes from './usersRoutes';
-import useDashboardRoutes from './dashboardRoutes';
 
 const useRoutes = () => {
-  const webRoutes = [
-    ...useDashboardRoutes(),
-    ...useMarketplaceRoutes(),
-    ...useInsightRoutes(),
-    ...useAccountRoutes(),
-    ...useUsersRoutes(),
-  ];
+  const webRoutes = [...useInsightRoutes(), ...useAccountRoutes()];
   const miniAppRoutes = useMiniAppRoutes();
 
   const activeRoutes = isMiniApp ? miniAppRoutes : webRoutes;

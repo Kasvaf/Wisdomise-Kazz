@@ -1,199 +1,19 @@
-actual-pos-table:
-  actual: Actual
-  asset: Asset
-  entry-point: Entry Point
-  exit-point: Exit Point
-  p-l: P/L
-  signal: Signal
-  size: Size
-  type: Type
-api:
-  documentation:
-    title: Documentation
-    description: >-
-      API documentation is a set of readable instructions for using and
-      integrating with an API
-  secret-key:
-    title: Secret Key
-    description: >-
-      Use this write key to send data to this strategy from our partners,
-      plugins, libraries or REST API.
-  signaler-api:
-    title: Signaler API
-    description: Copy the Signaler snippet and paste it in the <head> of your website.
-  signaler-id:
-    title: Signaler ID
-    description: >-
-      For webhooks and S3 integrations, you can differentiate strategy by the
-      strategy id.
-asset-manager:
-  asset-management: Asset Management
-  banner: You haven't created any <1>Signlers</1> to use in your product yet.
-  btn-new-asset: New Asset
-  err-bad-total: Total of assets shares must be less than or equal to 100.
-  expected-drawdown: Expected Drawdown
-  financial-product-description: Financial Product Description
-  financial-product-name: Financial Product Name
-config:
-  assets:
-    title: Assets
-    description: Please add the coins you plan to provide signals for.
-    description0: Once saved, additional tabs and functionalities will become accessible.
-  market: Market
-  resolution: Resolution
-  signaler-name: Signaler Name
-delete-fp:
-  title: Delete My Product
-  btn-yes: Yes, I'm sure
-  confirm-message: Are you sure to delete this financial product?
-delete-signaler:
-  title: Delete Signaler
-  btn-yes: Yes, I'm sure
-  confirm-message: Are you sure to delete this signaler?
-  notice: >-
-    Remember not to have any open positions before deleting a Signaler. In the
-    case of having open positions, it wouldn't stop automatically.
 duration:
   day: Day
   hour: Hour
   minute: Minute
   month: Month
   second: Second
-fp:
-  card:
-    expected-apy: Expected APY
-  create-new:
-    name: Financial Product Name
-    title: Create New Financial Product
-    description: Financial Product Description
-    btn-create-financial-product: Create Financial Product
-    expected-apy: Expected APY
-    expected-drawdown: Expected Drawdown
-    market: Market
-    risk-level: Risk Level
-  tabs:
-    performance: Performance
-    positions: Positions
-    product-builder: Product Builder
-    usage: Usage
 info:
   safety-open: Adds additional buy orders at lower prices to average down your entry price.
   stop-loss: Sets a minimum price to sell and limit potential losses automatically.
   take-profit: Sets a target price to automatically sell and secure profits.
-multi-coin-selector:
-  add-coin: Add Coin
-notif-saved-successfully: Changes saved successfully.
-onboarding:
-  builder:
-    page1:
-      title: 'Builder: Your Command Center for Trading'
-      description: >-
-        Welcome to the Builder Dashboard, the nerve center of your trading
-        journey with us. The Builder is ingeniously designed to give you
-        seamless control over your trading strategies and financial products,
-        all with the ease of a few clicks.
-    page2:
-      title: Managing Your Signalers
-      description: >-
-        Under "My Signalers", you'll find the tools to create and dispatch
-        signals for an array of supported cryptocurrencies. Whether you're
-        analyzing trends or setting up automated alerts, this is where your
-        strategies take form and come to life.
-    page3:
-      title: Creating Financial Products
-      description: >-
-        Moving to "My Products", you can create Financial Products that offer
-        unique opportunities to investors. This section allows you to define the
-        structure and potential yields of your financial products, making them
-        attractive for subscription.
-  fp:
-    page1:
-      title: 'My Financial Products: Cultivating Your Investment Offerings'
-      description: >-
-        Embark on the creation and customization of your unique financial
-        products in the "My Products" section. Here, you are presented with a
-        comprehensive view of all the Financial Products (FPs) you've created.
-        Whether your goal is to offer subscription-based opportunities or to
-        allocate your assets, this is where your strategies take form.
-    page2:
-      title: Creating Financial Products
-      description: >-
-        Simply click on the "Create New Financial Product" button. This action
-        leads you to a guided process where you can:
-      item1: Assign a unique name and description to your product.
-      item2: Define the risk parameters and expected returns.
-    page3:
-      title: Financial Product Configuration
-      description: >-
-        Remember, the decisions you make here aren’t set in stone. You can
-        revisit and adjust description, risk parameters, expected returns and
-        assets.
-      item1:
-        title: '1. Asset Management:'
-        item1: Click on the New Asset button to add a new line for asset allocation.
-        item2: In the newly created line, select a Signaler from your list.
-        item3: Choose the Cryptocurrency Pair associated with the selected Signaler.
-        item4: >-
-          Specify the Percentage Allocation for this Signaler-Pair combination,
-          which should be a portion of the total 100% allocation.
-        notice: >-
-          Please note that you can only select each coin once in each financial
-          product
-      item2:
-        title: >-
-          2. Saving Your Setup: After tuning your Financial Product with the
-          right name, description, assets, hit "Save" to lock in your
-          configurations.
-  signaler:
-    page1:
-      title: 'My Signalers: Tracking Your Strategy Signals'
-      description: >-
-        Discover your trading signalers at a glance in the "My Signalers"
-        section of your Builder Dashboard. It's where the pulse of your trading
-        strategies is constantly monitored and refined.
-    page2:
-      title: Creating Signalers
-      description: >-
-        The journey begins with "Create New Signaler", choose a name for your
-        Signaler and your desired market type: FUTURES or SPOT.
-    page3:
-      title: Configuration For Your Signaler
-      item1: >-
-        Assets: In this area click on the + button to browse and add
-        cryptocurrencies from the supported list to your Signaler. Each asset
-        can be easily removed with a click on the 'X'.
-      item2: >-
-        Saving Your Setup: After tuning your Signaler with the right name,
-        market, resolution, and assets, hit "Save" to lock in your
-        configurations.
-      item3: >-
-        For deleting your Signaler you can easily click on "Delete Signaler"
-        button from Configuration tab. Remember not to have any open positions
-        before deleting Signaler. In the case of having open positions it
-        wouldn't stop automatically.
-performance:
-  title: Your Chart data updates by changing date range
-  asset-under-management: Asset Under Management
-  p-l-chart:
-    title: P/L Chart
-    description: Your Chart data updates by changing date range
-publish-notice:
-  description: To publish your {{type}}, contact support via support button or email us at
-  note: 'Note:'
-rr:
-  avg:
-    title: Average Reward to Risk
-    subtitle: Table updates automatically based on your inputs.
-    average-entry-points: Average Entry Points
-    avg-stop-losses: Avg Stop Losses
-    take-profit-x: Take Profit {{ind}}
 signal-form:
   btn-close: Close
   btn-fire-signal: Fire Position
   btn-new-stop-loss: New Stop Loss
   btn-new-take-profit: New Take Profit
   btn-update: Update Position
-  chart-title: Chart
   conditional-open:
     title: Conditional Open
     description: You can set one or multiple conditions to open a position.
@@ -224,34 +44,8 @@ signal-form:
       Sets a time limit for the execution of a limit order. If the order isn't
       filled by this time, it's automatically canceled.
     info-title: Order Expiration Time
-  position-details:
-    title: Position Details
-    status: Status
-  position-side: Position Side
   safety-open:
     title: Safety Open
     btn-new: + New Safety Open
   stop-loss: Stop Loss
   take-profit: Take Profit
-signaler:
-  card:
-    active-positions: Active positions
-    last-week: Last week
-    open-signaler: Open Signaler
-    positions: Positions
-  create-new:
-    title: Create New Signaler
-    description: Pick a name to help you identify this signaler.
-    btn-create-signaler: Create Signaler
-    signaler-name: Signaler Name
-  tabs:
-    api: API
-    configuration: Configuration
-    performance: Performance
-    positions: Positions
-    terminal: Terminal
-subscriber-selector:
-  label: Subscriber
-  choose-account: Choose Account
-usage:
-  trading-volume: Trading Volume
