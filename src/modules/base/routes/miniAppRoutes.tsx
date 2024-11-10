@@ -5,7 +5,7 @@ import { TelegramLayout } from 'modules/autoTrader/TelegramLayout';
 import GameAuthGuard from 'modules/autoTrader/GameAuthGuard';
 
 const PageOnboarding = React.lazy(
-  () => import('../../autoTrader/PageOnboarding'),
+  () => import('modules/autoTrader/PageOnboarding'),
 );
 
 const PageClaimReward = React.lazy(
@@ -17,7 +17,7 @@ const PageHotCoins = React.lazy(
 );
 
 const PageCoinDetail = React.lazy(
-  () => import('modules/autoTrader/PageHotCoins/PageCoinDetail'),
+  () => import('modules/autoTrader/PageCoinDetail'),
 );
 
 const PageTrade = React.lazy(() => import('modules/autoTrader/PageTrade'));
