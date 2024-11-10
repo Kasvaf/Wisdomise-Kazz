@@ -24,7 +24,7 @@ export default function PageCoinDetail() {
       <div className="mb-3 flex gap-2">
         <Button
           variant="alternative"
-          to="/hot-coins"
+          to="/trader-hot-coins"
           className="flex items-center justify-center !px-3 !py-0"
         >
           <Icon name={bxLeftArrowAlt} />
@@ -36,7 +36,9 @@ export default function PageCoinDetail() {
           filterTokens={x => x !== 'tether'}
           value={slug}
           showPrice
-          onChange={selectedSlug => navigate(`/hot-coins/${selectedSlug}`)}
+          onChange={selectedSlug =>
+            navigate(`/trader-hot-coins/${selectedSlug}`)
+          }
         />
       </div>
 

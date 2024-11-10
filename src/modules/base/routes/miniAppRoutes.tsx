@@ -16,6 +16,10 @@ const PageHotCoins = React.lazy(
   () => import('modules/autoTrader/PageHotCoins'),
 );
 
+const PagePositions = React.lazy(
+  () => import('modules/autoTrader/PagePositions'),
+);
+
 const PageCoinDetail = React.lazy(
   () => import('modules/autoTrader/PageCoinDetail'),
 );
@@ -38,7 +42,7 @@ const useMiniAppRoutes = () => {
           element: <TelegramLayout />,
           children: [
             {
-              path: 'claim-reward',
+              path: 'trader-claim-reward',
               element: (
                 <GameAuthGuard>
                   <PageClaimReward />
@@ -46,7 +50,11 @@ const useMiniAppRoutes = () => {
               ),
             },
             {
-              path: 'hot-coins',
+              path: 'trader-positions',
+              element: <PagePositions />,
+            },
+            {
+              path: 'trader-hot-coins',
               children: [
                 { path: '', element: <PageHotCoins /> },
                 { path: ':slug', element: <PageCoinDetail /> },
@@ -66,7 +74,7 @@ const useMiniAppRoutes = () => {
             },
           ],
         },
-        { path: '*', element: <Navigate to="/hot-coins" /> },
+        { path: '*', element: <Navigate to="/trader-hot-coins" /> },
       ],
     },
   ] satisfies RouteObject[];

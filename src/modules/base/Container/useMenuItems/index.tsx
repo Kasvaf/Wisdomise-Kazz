@@ -5,6 +5,7 @@ import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
 import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
+import { ReactComponent as IconPositions } from './icons/positions.svg';
 
 interface MenuItem {
   text: string;
@@ -25,14 +26,19 @@ const useMenuItems = () => {
   const items: RootMenuItem[] = isMiniApp
     ? [
         {
+          icon: <IconPositions />,
+          text: 'Positions',
+          link: '/trader-positions',
+        },
+        {
           icon: <IconHome />,
           text: 'Auto Trader',
-          link: '/hot-coins',
+          link: '/trader-hot-coins',
         },
         {
           icon: <IconProfile />,
           text: 'Profile',
-          link: '/claim-reward',
+          link: '/trader-claim-reward',
         },
       ]
     : [

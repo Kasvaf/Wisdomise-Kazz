@@ -17,7 +17,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   const isLoggedIn = useIsLoggedIn();
 
   const items = MenuItems.filter(
-    i => !i.mobileHide && !i.hide && (isMiniApp || hasFlag(i.link)),
+    i => !i.mobileHide && !i.hide && hasFlag(i.link),
   );
 
   const renderItem = (item: RootMenuItem) => (

@@ -26,7 +26,7 @@ export default function PageTrade() {
 
   useEffect(() => {
     if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(`/hot-coins/${slug}`);
+      navigate(`/trader-hot-coins/${slug}`);
     }
   }, [navigate, position.data, slug]);
 
@@ -37,7 +37,7 @@ export default function PageTrade() {
       <div className="mb-3 flex gap-2">
         <Button
           variant="alternative"
-          onClick={() => navigate('/hot-coins')}
+          to="/trader-hot-coins"
           className="!px-3 !py-0"
         >
           <Icon name={bxLeftArrowAlt} />

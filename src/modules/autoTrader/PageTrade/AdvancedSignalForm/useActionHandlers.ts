@@ -89,7 +89,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
           gasFee: res.gas_fee,
           amount,
         });
-        navigate(`/hot-coins/${slug}`);
+        navigate(`/trader-hot-coins/${slug}`);
       } catch {
         await cancelAsync(res.position_key);
         notification.error({ message: 'Transaction Canceled' });
@@ -153,7 +153,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
-      navigate(`/hot-coins/${slug}`);
+      navigate(`/trader-hot-coins/${slug}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

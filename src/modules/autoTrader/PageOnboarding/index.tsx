@@ -97,7 +97,7 @@ export default function PageOnboarding() {
             </p>
             <Button
               onClick={() => {
-                navigate('/hot-coins');
+                navigate('/trader-hot-coins');
                 localStorage.setItem('done_onboarding', 'true');
               }}
               className="mt-auto w-full"
