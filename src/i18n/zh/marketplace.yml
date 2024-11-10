@@ -1,9 +1,0 @@
-page-title: 信號市場
-signaler: 信號器
-table:
-  action: 行動
-  coin: 幣種
-  detail: 詳細資料
-  max_drawdown: 最大回撤<1>每月</1>
-  name: 名稱
-  pl: 損益<1>每月</1>
