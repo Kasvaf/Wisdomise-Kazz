@@ -9,7 +9,7 @@ interface SignalPosition {
 }
 
 // ----------------------------------------------------------------------------
-interface SignalItem {
+export interface SignalItem {
   key: string;
   amount_ratio: number;
   price_exact?: number;
