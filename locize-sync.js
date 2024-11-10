@@ -35,7 +35,7 @@ async function run() {
   const baseLangPath = localesPath + baseLang;
   const pp = fs
     .readdirSync(baseLangPath)
-    .filter(fn => /^[\w-]+\.yml$/.test(fn))
+    .filter(fn => /^[\w-]+\.yml$/.test(fn) && !/_old\.yml$/.test(fn))
     .map(ns => {
       const namespace = ns.replace(/.yml$/, '');
       return getRemoteLocales(baseLang, namespace).then(async remote => {
