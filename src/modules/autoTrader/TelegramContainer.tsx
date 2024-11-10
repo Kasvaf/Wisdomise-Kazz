@@ -13,7 +13,7 @@ const AUTOTRADER_MINIAPP = import.meta.env
 
 export default function TelegramContainer() {
   return (
-    <div className="mx-auto min-h-screen max-w-md text-white">
+    <div className="min-h-screen text-white">
       <TelegramProvider>
         <TelegramAuthGuard>
           <TonConnectUIProvider

@@ -63,7 +63,7 @@ export default function PageTrade() {
             assetName={`${abbr ?? ''}USDT`}
             assetSlug={slug}
             activePosition={position.data}
-            className="max-w-[33.33333%] basis-1/3 mobile:max-w-full"
+            className="max-w-full basis-1/3"
             formState={formState}
           />
         )

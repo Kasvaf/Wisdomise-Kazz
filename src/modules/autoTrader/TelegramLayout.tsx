@@ -1,4 +1,3 @@
-import { clsx } from 'clsx';
 import React, { useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import { TonConnectButton } from '@tonconnect/ui-react';
@@ -21,15 +20,13 @@ export function TelegramLayout() {
         <div
           ref={mainRef}
           id="scrolling-element"
-          className={clsx(
-            'mt-16 h-[calc(100vh-5rem)] overflow-auto p-6 !pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto mobile:p-4',
-          )}
+          className="my-16 ml-0 h-auto overflow-auto p-4 !pb-24"
         >
           <React.Suspense fallback={<PageWrapper loading />}>
             <Outlet />
           </React.Suspense>
         </div>
-        <BottomNavBar />
+        <BottomNavBar className="!block" />
         <ScrollToTop />
       </OnboardingMessageProvider>
     </main>
