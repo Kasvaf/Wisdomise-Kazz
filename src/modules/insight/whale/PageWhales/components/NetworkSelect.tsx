@@ -3,7 +3,7 @@ import { type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { bxGlobe } from 'boxicons-quasar';
-import { useNetworks } from 'api';
+import { useWhaleNetworks } from 'api';
 import Icon from 'shared/Icon';
 
 export const NetworkSelect: FC<SelectProps<string>> = ({
@@ -13,7 +13,7 @@ export const NetworkSelect: FC<SelectProps<string>> = ({
   loading,
   ...props
 }) => {
-  const networks = useNetworks();
+  const networks = useWhaleNetworks();
   const { t } = useTranslation('whale');
 
   return (
@@ -39,15 +39,17 @@ export const NetworkSelect: FC<SelectProps<string>> = ({
           {t('filters.all-networks')}
         </span>
       }
-      options={networks.data?.map(network => ({
+      options={(networks.data?.results ?? [])?.map(network => ({
         label: (
           <span className="pe-3">
-            {network.icon_url && (
+            {network.icon_url ? (
               <img
                 src={network.icon_url}
                 alt={network.name}
-                className="me-3 ms-px inline-block size-4 rounded-full bg-white"
+                className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4"
               />
+            ) : (
+              <span className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4" />
             )}
             {network.name}
           </span>

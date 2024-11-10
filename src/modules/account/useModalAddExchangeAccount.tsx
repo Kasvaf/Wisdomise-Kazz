@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { notification } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
 import { type ExchangeTypes, useCreateExchangeAccount } from 'api';
-import { type MarketTypes } from 'api/types/financialProduct';
+import { type MarketTypes } from 'api/types/shared';
 import { unwrapErrorMessage } from 'utils/error';
 import useModal from 'shared/useModal';
 import TextBox from 'shared/TextBox';

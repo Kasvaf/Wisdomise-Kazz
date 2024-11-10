@@ -1,156 +1,25 @@
-actual-pos-table:
-  actual: 實際
-  asset: 資產
-  entry-point: 進場點
-  exit-point: 出場點
-  p-l: 損益
-  signal: 信號
-  size: 大小
-  type: 類型
-all-assets: 所有資產
-api:
-  documentation:
-    description: API 文檔是一組可讀的集成式 API 使用說明
-    title: 文檔
-  secret-key:
-    description: 使用此寫入鍵從我們的合作夥伴、插件、庫或 REST API 向此策略發送數據。
-    title: 密鑰
-  signaler-api:
-    description: 複製信號發送器代碼片段並將其粘貼到您的網站 <head> 中
-    title: 信號發送器(Signaler) API
-  signaler-id:
-    description: 對於 webhooks 和 S3 集成，您可以通過策略 ID 區分策略。
-    title: 信號發送器(Signaler) ID
-asset-manager:
-  asset-management: 資產管理
-  banner: 您尚未創建任何<1>信號發送器</1>來在您的產品中使用。
-  btn-new-asset: 新資產
-  err-bad-total: 資產份額總數必須小於或等於 100。
-  expected-drawdown: 預期回撤
-  financial-product-description: 金融產品描述
-  financial-product-name: 金融產品名稱
-config:
-  assets:
-    description: 請添加您計劃提供信號的代幣。
-    description0: 保存後，將可以訪問其他選項和功能。
-    title: 資產
-  market: 市場
-  resolution: 解決方案
-  signaler-name: 信號發送器名稱
-delete-fp:
-  btn-yes: 是的，我確定
-  confirm-message: 您確定要刪除此金融產品嗎？
-  title: 刪除我的產品
-delete-signaler:
-  btn-yes: 是的，我確定
-  confirm-message: 您確定要刪除此信號發送器嗎？
-  notice: 請記住，在刪除信號發送器之前不要有任何未平倉頭寸。如果有未平倉頭寸，它將不會自動停止。
-  title: 刪除信號發送器
 duration:
   day: 天
   hour: 小時
   minute: 分鐘
   month: 月
   second: 秒
-fp:
-  card:
-    expected-apy: 預期年收益率 (APY)
-  create-new:
-    btn-create-financial-product: 創建金融產品
-    description: 金融產品描述
-    expected-apy: 預期年收益率 (APY)
-    expected-drawdown: 預期回撤
-    market: 市場
-    name: 金融產品名稱
-    risk-level: 風險等級
-    title: 創建新金融產品
-  tabs:
-    performance: 表現
-    positions: 位置
-    product-builder: 產品構建器
-    usage: 用量
 info:
   safety-open: 以较低的价格添加额外的买单，以平均降低您的入场价格。
   stop-loss: 设定最低销售价格并自动限制潜在损失。
   take-profit: 设定目标价格自动销售并确保利润。
-multi-coin-selector:
-  add-coin: 添加幣種
-notif-saved-successfully: 更改已成功保存。
-onboarding:
-  builder:
-    page1:
-      description: 歡迎來到構建器儀表板，這是您與我們一起進行交易旅程的核心。構建器巧妙地設計為您提供無縫控制您的交易策略和金融產品，只需點幾下即可輕鬆完成。
-      title: 構建器：您的交易指揮中心
-    page2:
-      description: 在“我的信號發送器”下，您將找到創建和發送支持的加密貨幣信號的工具。無論您是在分析趨勢還是設置自動警報，這裡都是您的策略形成和實現的地方。
-      title: 管理您的信號發送器
-    page3:
-      description: 移動到“我的產品”，您可以創建為投資者提供獨特機會的金融產品。此部分允許您定義您的金融產品的結構和潛在收益，使其具有吸引力的訂閱。
-      title: 創建金融產品
-  fp:
-    page1:
-      description: 在“我的產品”部分開始創建和定制您的獨特金融產品。在這裡，您將全面了解您創建的所有金融產品（FPs）。無論您的目標是提供基於訂閱的機會還是分配您的資產，這都是您的策略形成的地方。
-      title: 我的金融產品：培育您的投資產品
-    page2:
-      description: 只需點擊“創建新金融產品”按鈕。此操作將引導您進入一個指導過程，您可以：
-      item1: 為您的產品分配唯一的名稱和描述。
-      item2: 定義風險參數和預期回報。
-      title: 創建金融產品
-    page3:
-      description: 請記住，您在這裡做出的決定不是一成不變的。您可以重新審視並調整描述、風險參數、預期回報和資產。
-      item1:
-        item1: 點擊“新資產”按鈕為資產配置添加新行。
-        item2: 在新創建的行中，從您的列表中選擇一個信號發送器。
-        item3: 選擇與所選信號發送器相關的加密貨幣對。
-        item4: 為此信號發送器-加密貨幣對組合指定百分比分配，這應該是總計100%分配的一部分。
-        notice: 請注意，每個金融產品中每個代幣只能選擇一次。
-        title: 1. 資產管理：
-      item2:
-        title: 2. 保存您的設置：在使用正確的名稱、描述、資產調整您的金融產品後，點擊“保存”以鎖定您的配置。
-      title: 金融產品配置
-  signaler:
-    page1:
-      description: 在您的構建器儀表板的“我的信號發送器”部分一目了然地發現您的交易信號發送器。這裡是您的交易策略脈搏不斷被監控和改進的地方。
-      title: 我的信號發送器：跟蹤您的策略信號
-    page2:
-      description: 旅程從“創建新信號發送器”開始，為您的信號發送器選擇名稱和所需的市場類型：期貨或現貨。
-      title: 創建信號發送器
-    page3:
-      item1: 資產：在此區域點擊+按鈕瀏覽並從支持列表中添加加密貨幣到您的信號發送器。每個資產都可以輕鬆通過點擊“X”移除。
-      item2: 保存您的設置：在使用正確的名稱、市場、分辨率和資產調整您的信號發送器後，點擊“保存”以鎖定您的配置。
-      item3: 若要刪除您的信號發送器，您可以輕鬆點擊“配置”選項卡中的“刪除信號發送器”按鈕。請記住，在刪除信號發送器之前不要有任何未平倉頭寸。如果有未平倉頭寸，它將不會自動停止。
-      title: 為您的信號發送器配置
-performance:
-  asset-under-management: 管理下的資產
-  p-l-chart:
-    description: 通過更改日期範圍來更新您的圖表數據
-    title: 損益圖表
-  title: 通過更改日期範圍來更新您的圖表數據
-publish-notice:
-  description: 若要發布您的{{type}}，請通過幫助按鈕聯繫客服或通過電子郵件與我們聯繫
-  note: 注意：
-rr:
-  avg:
-    average-entry-points: 平均入場點
-    avg-stop-losses: 平均止損
-    subtitle: 表格根據您的輸入自動更新。
-    take-profit-x: 止盈{{ind}}
-    title: 平均回報與風險比
 signal-form:
   btn-close: 關閉
   btn-fire-signal: 發送信號
   btn-new-stop-loss: 新止損
   btn-new-take-profit: 新止盈
   btn-update: 更新倉位
-  chart-title: 圖表
   conditional-open:
     btn-new-condition: 新条件
     condition-ind: 健康）状况 {{ind}}
     description: 您可以设定一个或多个开仓条件。
     title: 有条件开放
-  conditions-use-market-price: 條件使用市場價格
   confirm-close: 您確定要關閉此倉位嗎？
-  confirm-fire: 您確定要發送此信號嗎？
   confirm-update: 您確定要更新此信號嗎？
   error-100: 此{{type}}不會觸發，另一個{{type}}先填滿所有交易量。
   error-dup: 您已經定義了一個具有相同價格的{{type}}。
@@ -161,10 +30,7 @@ signal-form:
     info-text: 指定信號在進場時保持的有效時間。
     info-title: 到期時間
     title: 到期時間
-  leverage:
-    title: 杠杆
   notif-success-close: 倉位成功關閉。
-  notif-success-fire: 信號成功發送。
   notif-success-update: 倉位成功更新。
   open:
     title: 开仓
@@ -172,37 +38,8 @@ signal-form:
     info-text: 為限價單的執行設置時間限制。如果訂單在此時間內未完成，則自動取消。
     info-title: 訂單到期時間
     title: 訂單到期
-  position-details:
-    not-opened-yet: 尚未開啟
-    status: 狀態
-    title: 倉位詳情
-  position-side: 倉位方向
-  price: 訂單價格
   safety-open:
     btn-new: + 全新安全开启
     title: 安全开启
   stop-loss: 止損
   take-profit: 止盈
-  volume: 交易量
-signaler:
-  card:
-    active-positions: 活躍倉位
-    last-week: 上週
-    open-signaler: 開放信號發送器
-    positions: 倉位
-  create-new:
-    btn-create-signaler: 創建信號發送器
-    description: 選擇一個名稱來幫助您識別此信號發送器。
-    signaler-name: 信號發送器名稱
-    title: 創建新信號發送器
-  tabs:
-    api: API
-    configuration: 配置
-    performance: 表現
-    positions: 倉位
-    terminal: 終端
-subscriber-selector:
-  choose-account: 選擇帳戶
-  label: 訂閱者
-usage:
-  trading-volume: 交易量

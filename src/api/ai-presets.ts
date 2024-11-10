@@ -6,13 +6,13 @@ export interface OrderPresetItem {
   price: number;
 }
 
-export interface OrderPreset {
+interface OrderPreset {
   open_orders: OrderPresetItem[];
   stop_losses: OrderPresetItem[];
   take_profits: OrderPresetItem[];
 }
 
-export interface AIPresets {
+interface AIPresets {
   high: OrderPreset;
   medium: OrderPreset;
   low: OrderPreset;

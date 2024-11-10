@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { type Candle, type Resolution } from 'api';
-import { type MarketTypes } from 'api/types/financialProduct';
+import { type MarketTypes } from 'api/types/shared';
 
 const caches: Record<string, Candle[]> = {};
 

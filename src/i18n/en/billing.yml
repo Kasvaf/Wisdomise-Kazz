@@ -24,46 +24,40 @@ crypto-modal:
   payment-by-crypto: Payment by Crypto
   subtotal: Subtotal
   total-due-today: Total due today
-overlay-subscription:
-  title: You are not subscribed
-  btn-subscribe: Subscribe
-  btn-upgrade: Upgrade
-  customs-description: To add a question, you need to subscribe to one of the Wisdomise plans
-  signals-description: >-
-    To reveal all signals, you need to <1>Subscribe</1> or <3>Upgrade</3> your
-    current plan.
-  strategy:
-    title: Unlock Premium Signals
-    description: >-
-      To reveal this strategy, you need to have <2>{{level}}</2> or a higher
-      plan.
+features:
+  cancel: Cancel Anytime
+  secure: Secure & Private
+  trust: Trusted by 40,000+ Users
 periodicity:
   month:
     title: Monthly
     per: per<br>month
   year:
-    title: Yearly
+    title: Annually
     per: per<br>year
+plans:
+  title: Pricing Plan
+  subtitle: >-
+    Try Wisdomise Pro risk-free for 7 Days and see why traders trust us. Cancel
+    anytime!
+  subscription-methods: Subscription Methods
 pricing-card:
   annually: Yearly
   btn-action:
     activate-now: Activate Now
-    buy-now: Buy Now
     choose: Choose
     current-plan: Current Plan
     next-plan: Next Plan
-  forever: Forever
-  free-subtitle: feel free to explore wisdomise
+    upgrade-to: Upgrade To {{plan}}
+  features: Features
+  forever: Unlimited
   monthly: Monthly
   notification-call-support: Call Support
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
-  pay-by-locking: Pay By Locking<1>{{token}}<1>WSDM</1></1>Token
-  pay-by-locking-in-yearly-only: 'Pay By Locking<1>WSDM</1>Token: Just In Annually'
-  pay-by-wsdm: Pay In<1>WSDM</1>With <4>50% Off</4>
-  recommended: Wisdomise Recommend
-  this-includes: 'This includes:'
+  pay-by-locking: Access For Free by locking <b>{{token}} WSDM</b> Tokens
+  pay-by-locking-in-yearly-only: 'Pay By Locking <b>WSDM</b> Token: Just In Annually'
 stripe:
   change-card-info:
     title: Change Card Info

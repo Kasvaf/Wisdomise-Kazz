@@ -1,3 +1,5 @@
+export type MarketTypes = 'SPOT' | 'FUTURES';
+
 export interface Coin {
   abbreviation: string;
   name: string;

@@ -1,9 +1,4 @@
-banner:
-  athena-bot: 雅典娜電報機器人
-  stay-connected: 保持連接
-email-address: 電子郵件地址
 error-not-authorized: 要查看此页面，您需要登录
-footer: © 2024 Wisdomise。保留所有權利。
 login:
   error-code: 代码无效
   error-email: 电子邮件无效
@@ -29,40 +24,3 @@ page-referral:
   title: 推薦計劃
   wisdomise-revenue: 來自您推薦的Wisdomise收入
   your-profit: 您的利潤
-secodary:
-  email-verified: 您的電子郵件已驗證！
-secondary:
-  btn-submit:
-    label: 提交
-    loading: 提交中...
-  contract:
-    btn-check: 我已閱讀並接受{{title}}。
-    label: 您承認<1>{{title}}</1>。
-    required-error: 您應該接受{{title}}以繼續。
-  country:
-    label: 國家
-    not-empty: 國家不能為空
-    placeholder: 您的居住國家
-  email-verified: 您的電子郵件已驗證！
-  invitation:
-    label: 邀請碼<1>（可選）</1>
-    not-found: 找不到推薦人
-    placeholder: 邀請碼
-  nickname:
-    label: 暱稱
-    length-limit: 確保此字段不超過32個字符。
-    not-empty: 暱稱不能為空
-    placeholder: 您的暱稱
-  welcome: 歡迎來到<b>Wisdomise</b>
-verify-email:
-  btn-check:
-    label: 查看
-    loading: 檢查中...
-  btn-resend:
-    label: 重發驗證電子郵件
-    loading: 重發驗證電子郵件...
-  error: 無法驗證您的電子郵件地址
-  error-title: 錯誤
-  link-sent: 已向您的電子郵件<1>{{email}}</1><br>發送了一個鏈接若要驗證您的帳戶，請點擊鏈接。
-  notification-email-sent: 驗證電子郵件已成功發送。
-  title: 驗證<b>您的電子郵件</b>

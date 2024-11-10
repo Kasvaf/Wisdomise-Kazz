@@ -1,9 +1,4 @@
-banner:
-  athena-bot: アテナのTelegramボット
-  stay-connected: 通信を継続
-email-address: メールアドレス
 error-not-authorized: このページを表示するには、サインインする必要があります
-footer: © 2024 Wisdomise. All rights reserved.
 login:
   error-code: 無効なコード
   error-email: 電子メールが無効です
@@ -29,40 +24,3 @@ page-referral:
   title: 紹介プログラム
   wisdomise-revenue: リファーラルによる収益
   your-profit: あなたの利益
-secodary:
-  email-verified: メールアドレスが確認されました！
-secondary:
-  btn-submit:
-    label: 提出する
-    loading: 送信中...
-  contract:
-    btn-check: "{{title}}を読み、承諾します。"
-    label: <1>{{title}}</1>を承諾します。
-    required-error: 続けるには {{title}} を承諾してください。
-  country:
-    label: 国名
-    not-empty: 国の欄を空欄にすることはできません
-    placeholder: お住まいの国
-  email-verified: メールアドレスが確認されました！
-  invitation:
-    label: 招待コード <1>(オプション)</1>
-    not-found: 紹介者が見つかりません
-    placeholder: 招待コード
-  nickname:
-    label: ニックネーム
-    length-limit: この欄が 32 文字以下であることを確認してください。
-    not-empty: ニックネームを記入する必要があります。
-    placeholder: あなたのニックネーム
-  welcome: <br><b>Wisdomise</b> へようこそ
-verify-email:
-  btn-check:
-    label: 確認
-    loading: 確認中...
-  btn-resend:
-    label: 確認メールを再送
-    loading: 確認メールを再送信しています...
-  error: あなたのメールアドレスを確認できませんでした
-  error-title: エラー
-  link-sent: リンクがメール <1>{{email}}</1><br> に送信されました。リンクからアカウントを承認してください。
-  notification-email-sent: 確認メールが正常に送信されました。
-  title: <b>メールアドレス</b> を確認

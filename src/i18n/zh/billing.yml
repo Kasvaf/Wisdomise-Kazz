@@ -1,18 +1,10 @@
-banner:
-  btn-subscription-plans: 訂閱計劃
-  checkout-message: 從這裡查看我們的訂閱計劃
-  ends-in: 您的試用訂閱還剩 <1>{{remaining}}</1> 天！
 change-pay-method:
   crypto: 加密貨幣
   fiat: 法幣
   sub-title: 選擇下一個計劃的付款方式：
   title: 更改付款方式
   token: Wisdomise 代幣（WSDM）
-change-payment:
-  change-payment-method: 更改付款方式
-  order-summary: 訂單總結
-  title: 更改付款方式
-  total: 總計
+  wsdm: $WSDM 付款
 crypto-modal:
   btn-confirm: 確認
   btn-done: 完成
@@ -28,16 +20,6 @@ crypto-modal:
   subtotal: 小計
   title: Wisdomise AG
   total-due-today: 今天結算總額
-overlay-subscription:
-  btn-subscribe: 訂閱
-  btn-upgrade: 升級
-  customs-description: 要添加問題，您需要訂閱其中一個 Wisdomise 計劃
-  signaling-description: 您需要購買我們的訂閱計劃之一才能啟用通知功能。
-  signals-description: 要查看所有信號，您需要<1>訂閱</1>或<3>升級</3>您的當前計劃。
-  strategy:
-    description: 要查看此策略，您需要擁有<2>{{level}}</2>或更高級別的計劃。
-    title: 解鎖高級信號
-  title: 您尚未訂閱
 periodicity:
   month:
     per: 每<br>月
@@ -49,29 +31,20 @@ pricing-card:
   annually: 每年
   btn-action:
     activate-now: 現在激活
-    available-soon: 即將推出
     buy-now: 現在購買
     choose: 選擇
     current-plan: 當前計劃
-    free: 免費
     next-plan: 下一個計劃
-    upgrade: 升級
   forever: 永久
   free-subtitle: 隨意探索 Wisdomise
-  hold: 持有
-  just-yearly: 只在年度
   monthly: 每月
   notification-call-support: 請求幫助
   notification-upgrade-success: 您的訂閱已成功更新。可能需要幾分鐘才能激活。請在幾分鐘後重新加載此頁面。
-  page-subtitle: 您可以從此部分選擇您的套餐類型
-  page-title: 計費套餐
-  pay-by-locking: 通過鎖定<1>{{token}}<1>WSDM</1></1> 代幣支付
-  pay-by-locking-in-yearly-only: 通過鎖定<1>WSDM</1>代幣支付：僅在年度方案
-  pay-by-stacking: 通過質押<1>{{token}}<1>WSDM</1></1> 代幣支付
-  pay-by-stacking-in-yearly-only: 通過質押<1>WSDM</1>代幣支付：僅在年度方案
+  pay-by-locking: 锁定即可免费访问 <b>{{token}} WSDM</b> 代币
+  pay-by-locking-in-yearly-only: 锁定付款 <b>WSDM</b> 代币：每年刚刚到
+  pay-by-wsdm: 付款<1>WSDM</1>和 <4>50% 折扣</4>
   recommended: Wisdomise 推薦
   this-includes: 這包括：
-  token: 代幣
 stripe:
   change-card-info:
     order-summary: 訂單摘要
@@ -84,12 +57,7 @@ subscription-details:
     method: 付款方式
     status: 狀態
   overview:
-    automatically-renew: 到時候會自動續訂。
-    billing-actions: 付款中
-    billing-email: 付款電子郵件發送至<1>{{email}}</1>。
     btn-change-plan: 更改計劃
-    card: 未來的收費將使用卡片<1>****{{last4}}</1>。
-    charging: 正在向您的信用卡收取<1>${{amount}}</1>。
     current-plan:
       expire: 您的計劃將續訂
       pay-method: 您的付款方式是
@@ -98,13 +66,9 @@ subscription-details:
       renew: 您的計劃將於以下時間到期
       title: 當前計劃
       your-subs: 您的訂閱計劃是<1></1>
-    in-order-to-renew: 若要續訂，您將需要在<0>{{date}}</0>再次發送交易。
     is-on-the-way:
       description: 您通過加密貨幣支付了訂閱費用，驗證您的交易需要24-48小時。我們會在激活您的訂閱時發送電子郵件通知您
       title: 您的訂閱正在進行中
-    next-plan-canceled: <0></0><1>您的下個計劃已被取消。<1>續訂下個計劃</1></1>
-    next-plan-info: <0>您的下個計劃是<2>{{nextPlanName}}
-      {{period}}</2>，使用<6>{{payMethod}}</6>付款方式。<9>取消下個計劃</9></0>
     next-plan:
       automatically-renew: 到時候會自動續訂。
       cancel-btn: 取消下個計劃
@@ -116,29 +80,21 @@ subscription-details:
       pay-method: 您的付款方式是
       title: 下一個計劃
       your-subs: 您的訂閱計劃是<1></1>
-    pay-method: <0>下一個付款方式：<2>{{payMethod}}。</2><3>更改付款方式</3></0>
-    pending-invoice: <0><0>您有1張待處理發票。</0><1>立即支付</1></0>
-    periodEnd: 您的計劃將在<3>{{date}}</3> {{action}}。
-    plan-details: 計劃詳情
-  payment-methods:
-    auto-renew-notice: 下次付款將自動從此卡中收取。
-    title: 付款方式
   title: 訂閱詳情
 subscription-modal:
   btn-crypto: 加密貨幣付款
   btn-fiat: 法幣支付
+  btn-lock: 鎖定WSDM
+  btn-wsdm: WSDM 付款
   subtitle: 請選擇適合您偏好的付款方式。
   title: 訂閱方式
 success-modal:
   btn-details: 訂閱詳情
-  btn-goto-athena: 前往雅典娜
-  redirecting-msg: 將在<1>({{timeout}})</1>秒後重定向。
   subtitle: 您可以繼續您的旅程
   title: 感謝您的訂閱
 tabs:
   invoices: 發票
   overview: 概覽
-  payment-methods: 付款方式
 token-modal:
   activate-subscription: 激活訂閱
   already-locked: 已鎖定餘額
@@ -150,7 +106,6 @@ token-modal:
   disclaimer: 參與 WSDM 代幣鎖定，即表示您同意以下條款。
   done: 完成
   for-1-year: 為期 1 年
-  purchase-token: 購買 Wisdomise 代幣
   refresh: 刷新
   subscribe-to: 訂閱
   subtotal: 小計

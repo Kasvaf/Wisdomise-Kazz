@@ -1,5 +1,6 @@
 vite.config.ts
-sync-locize.js
+locize-sync.js
+locize-cleanup.js
 generate-sitemap.js
 i18next-parser.config.js
 /src/modules/base/tailwind.css

@@ -1,20 +1,16 @@
 import { clsx } from 'clsx';
 import { notification } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
-import { bxCheckCircle } from 'boxicons-quasar';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'shared/useModal';
-import Icon from 'shared/Icon';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { useLockingRequirementQuery } from 'api/defi';
-import Button from 'shared/Button';
 import { gtmClass } from 'utils/gtmClass';
-import { isProduction } from 'utils/version';
-import { ReactComponent as Check } from '../images/check.svg';
-import starts from '../images/stars.svg';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
-import PlanLogo from './PlanLogo';
+import { PlanHeader } from './PlanHeader';
+import { PlanPrice } from './PlanPrice';
+import { PlanFeatures } from './PlanFeatures';
 
 interface Props {
   isRenew?: boolean;
@@ -86,132 +82,24 @@ export default function PricingCard({
     }
   };
 
-  const currentPlanRender = (
-    <>
-      <Icon name={bxCheckCircle} size={20} />
-      {t('pricing-card.btn-action.current-plan')}
-    </>
-  );
-
   return (
-    <div className="group flex min-w-[330px] max-w-[350px] shrink grow basis-0 flex-col">
-      <p
-        className={clsx(
-          'flex justify-center gap-1 bg-gradient-to-r from-[#FF00C7] to-[#00A3FF] to-100% bg-clip-text text-transparent',
-          'mb-1 text-base font-medium',
-          (plan.level !== 2 || plan.periodicity !== 'YEARLY') && 'invisible',
-        )}
-      >
-        <img src={starts} />
-        {t('pricing-card.recommended')}
-      </p>
+    <div className="group flex min-w-[330px] max-w-[380px] shrink grow basis-0 flex-col mobile:w-full mobile:max-w-full">
       <div
         className={clsx(
-          'relative flex grow flex-col p-6',
-          'rounded-2xl border border-[#9747FF] bg-[linear-gradient(168deg,#9747FF1A_0%,#9747FF0A_108%)]',
+          'relative flex grow flex-col gap-6 p-6',
+          'rounded-2xl border border-white/10 bg-[#28323E33]',
           className,
         )}
       >
-        <section>
-          <div className="mb-2 flex items-center gap-3">
-            <PlanLogo name={plan.name} />
-            <h2 className="text-gradient-to-black70 text-2xl font-semibold mobile:text-xl">
-              {plan.name}
-            </h2>
-          </div>
-          <p className="min-h-[60px] text-xs text-white/70">
-            {plan.description}
-          </p>
-        </section>
+        {/* Title */}
+        <PlanHeader className="min-h-28" {...plan} />
 
-        <div className="flex items-end gap-1">
-          <p className="text-3xl font-semibold mobile:text-2xl">
-            <span className="-mr-1 text-sm">$</span> {plan.price}
-          </p>
-          <div className="text-white/70">
-            {plan.price === 0
-              ? t('pricing-card.forever')
-              : plan.periodicity === 'MONTHLY'
-              ? t('pricing-card.monthly')
-              : t('pricing-card.annually')}
-          </div>
-        </div>
+        {/* Price Info */}
+        <PlanPrice {...plan} />
 
-        <div className="mt-6 flex justify-center rounded-lg bg-[#05010966] py-4 text-xs text-white/70">
-          {plan.price === 0 ? (
-            <p className="capitalize">{t('pricing-card.free-subtitle')}</p>
-          ) : (
-            <>
-              {plan.periodicity === 'YEARLY' ? (
-                <p className="text-xs text-white/70">
-                  <Trans ns="billing" i18nKey="pricing-card.pay-by-locking">
-                    Pay By Locking
-                    <span className="mx-1 text-base font-semibold text-white">
-                      {{
-                        token:
-                          lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
-                          0,
-                      }}
-                      <span className="ml-1 bg-gradient-to-r from-[#FF00C7] to-[#00A3FF] to-100% bg-clip-text text-transparent">
-                        WSDM
-                      </span>
-                    </span>
-                    Token
-                  </Trans>
-                </p>
-              ) : (
-                <p>
-                  <Trans
-                    ns="billing"
-                    i18nKey="pricing-card.pay-by-locking-in-yearly-only"
-                  >
-                    Pay By Locking
-                    <span className="mx-1 bg-gradient-to-r from-[#FF00C7] to-[#00A3FF] to-100% bg-clip-text text-base font-semibold text-transparent">
-                      WSDM
-                    </span>
-                    Token: Just In Annually
-                  </Trans>
-                </p>
-              )}
-            </>
-          )}
-        </div>
-
-        {!isProduction && plan.price !== 0 && (
-          <div className="mt-6 flex items-center justify-center rounded-lg bg-[#05010966] py-4 text-xs text-white/70">
-            <Trans ns="billing" i18nKey="pricing-card.pay-by-wsdm">
-              Pay In
-              <span className="mx-1 bg-gradient-to-r from-[#FF00C7] to-[#00A3FF] to-100% bg-clip-text text-base font-semibold text-transparent">
-                WSDM
-              </span>
-              With{' '}
-              <span className="mx-1 text-base font-semibold text-[#00A3FF]">
-                50% Off
-              </span>
-            </Trans>
-          </div>
-        )}
-
-        <div className="mb-3 mt-6 text-xs mobile:mt-3 mobile:text-xxs">
-          <div className="py-2 text-white/70">
-            {t('pricing-card.this-includes')}
-          </div>
-          <ul>
-            {plan.features.map(feature => (
-              <li
-                key={feature}
-                className="mb-3 flex items-start gap-3 font-medium"
-              >
-                <Check className="h-4 w-4 shrink-0" />
-                {feature}
-              </li>
-            ))}
-          </ul>
-        </div>
-
+        {/* Button */}
         <div
           className={clsx(
-            'flex grow items-end',
             // user has higher level plan
             plan.level === 0 && (userPlan?.level || 0) > 0 && 'invisible',
             userPlan?.level === 0 &&
@@ -220,34 +108,68 @@ export default function PricingCard({
               'invisible',
           )}
         >
-          <Button
+          <button
             onClick={onClick}
             disabled={isActionButtonDisabled}
-            variant="primary-purple"
             className={clsx(
-              'w-full !text-base',
-              (hasUserThisPlan || hasUserThisPlanAsNextPlan) &&
-                '!cursor-default !text-white',
+              'w-full cursor-pointer rounded-xl text-sm font-semibold',
+              'flex h-12 items-center justify-center',
+              'disabled:cursor-default disabled:bg-v1-content-primary disabled:text-v1-content-primary-inverse',
+              'enabled:cursor-pointer enabled:bg-pro-gradient enabled:text-v1-content-primary-inverse',
+              'transition-all enabled:hover:brightness-110 enabled:active:brightness-95',
               gtmClass(`buy-now ${plan.periodicity} ${plan.name}`),
             )}
           >
-            <div className="flex items-center justify-center gap-2">
-              {plan.is_active
-                ? hasUserThisPlan || hasUserThisPlanAsNextPlan
-                  ? hasUserThisPlan
-                    ? currentPlanRender
-                    : t('pricing-card.btn-action.next-plan')
-                  : isUpdate
-                  ? t('pricing-card.btn-action.choose')
-                  : isRenew
-                  ? t('pricing-card.btn-action.choose')
-                  : isTokenUtility
-                  ? t('pricing-card.btn-action.activate-now')
-                  : t('pricing-card.btn-action.buy-now')
-                : currentPlanRender}
-            </div>
-          </Button>
+            {plan.is_active
+              ? hasUserThisPlan || hasUserThisPlanAsNextPlan
+                ? hasUserThisPlan
+                  ? t('pricing-card.btn-action.current-plan')
+                  : t('pricing-card.btn-action.next-plan')
+                : isUpdate
+                ? t('pricing-card.btn-action.choose')
+                : isRenew
+                ? t('pricing-card.btn-action.choose')
+                : isTokenUtility
+                ? t('pricing-card.btn-action.activate-now')
+                : t('pricing-card.btn-action.upgrade-to', {
+                    plan: plan.name,
+                  })
+              : t('pricing-card.btn-action.current-plan')}
+          </button>
         </div>
+
+        {/* Features */}
+        <PlanFeatures {...plan} className="grow" />
+
+        {plan.price !== 0 && (
+          <div className="mt-6 flex justify-center rounded-lg bg-white/5 py-3 text-xxs text-white/70">
+            <p
+              className={clsx(
+                'text-xxs text-white/70',
+                '[&_b]:bg-wsdm-gradient',
+                '[&_b]:rounded [&_b]:px-2 [&_b]:py-px [&_b]:font-semibold [&_b]:text-white',
+              )}
+            >
+              {plan.periodicity === 'YEARLY' ? (
+                <Trans
+                  ns="billing"
+                  i18nKey="pricing-card.pay-by-locking"
+                  values={{
+                    token:
+                      lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
+                      '0',
+                  }}
+                />
+              ) : (
+                <Trans
+                  ns="billing"
+                  i18nKey="pricing-card.pay-by-locking-in-yearly-only"
+                />
+              )}
+            </p>
+          </div>
+        )}
+
         {model}
         {tokenPaymentModal}
       </div>

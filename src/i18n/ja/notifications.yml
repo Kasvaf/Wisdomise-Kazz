@@ -1,91 +1,17 @@
 alerts:
-  form:
-    alert-channel: アラートチャンネル
-    cooldown: クールダウン
-    cooldown-info: このアラートが再度発生するまでの経過時間を指定します。
-    delete-confirm:
-      no: どうでも
-      subtitle: このアラートを削除しようとしています。
-      title: 本気ですか？
-      yes: はい、削除
-    disable-after-trigger: このアラートは一度トリガーされたら無効にします。
-    next: 次
-    notif-tab: アラート設定
-    price-tab: 価格設定の詳細
-    set-alert: 通知を設定する
-    subscription-banner-link: アクセスするには、Insight プランにご登録ください。
-    subscription-banner-title: リアルタイムのコインアラートを取得し、通知をカスタマイズします。
-    success-message: アラートが正常に保存されました。
-    title: コインが指定した価格目標に達したときに通知を受け取ります。
-  invervals:
-    after: 後 {{seconds}} 秒
-    daily: 毎日
-    every: 毎 {{seconds}} 秒
-    hour: 時間
-    hourly: 時間単位
-    min: min
-    monthly: 月額
-    weekly: 毎週
-  messangers:
-    browser: ブラウザ通知
-    discord: 不和メッセージ
-    email: Eメール
-    push: プッシュ通知
-    slack: Slackメッセージ
-    sms: SMS
-    telegram: テレグラムメッセージ
   pages:
     insight:
       subtitle: 暗号通貨の世界における次の大きなチャンスを逃さないでください。
       title: 先を行く
-  sentences:
-    price-alert: すぐにアラートを送信 <Badge><Base>不明なコイン</Base></Badge> <Br/> 行く
-      <Badge><Operator>不明なオペレーター</Operator></Badge> の価格
-      <Badge><Threshold>不明な閾値</Threshold></Badge> <Br />
-      <Badge><Quote>不明な引用</Quote></Badge> の上
-      <Badge><Exchange>不明な取引所</Exchange></Badge>
-  title: アクティブアラート
-customs:
-  custom-question:
-    btn-add: 追加
-    description: 以下の推奨プロンプトを使用するか、独自にカスタマイズしたプロンプトを作成することもできます。
-    limit:
-      description: 最大 {{weeklyCustomNotificationCount}}
-        まで質問の追加が可能です。これ以上の質問を追加したい場合は、過去の質問を削除してください。
-      title: 質問上限数
-    placeholder: 質問してください...
-    title: 新しい質問の追加
-  disclaimer: この機能をオンにすることで、デフォルトの1日2回の通知を受け取ることができ、毎週1回カスタマイズしたプロンプトの通知を受け取ることが可能です。
-  suggested-prompts:
-    title: 推奨の週次プロンプト
-  title: 通知をカスタマイズ
-  your-question:
-    description: カスタマイズしたプロンプトは毎週月曜日に通知されます。
-    title: 設定中の質問
-page:
-  description: 受け取る通知のカスタム設定が可能です。
 signaling:
   btn-open-telegram:
     connect: Telegram に接続
     hint: ソーシャルで通知を受け取る
     is-connected: 電報が接続されました。
-    label: テレグラムを開く
     open: Telegram を開く
-  description: 次のシグナルからご希望のものをご選択ください。
   modal-connected:
     description: Telegramaアカウントが同期されました。
     title: 同期完了
-  modify-notification: 通知の変更
-  notification-activate-chip-message: 指定のトークンで“{{strategy}}”戦略に登録しました。新しいポジションができた際にはTelegramにて通知を送ります。
   overlay-telegram:
     description: 通知を受信するには、Telegram を開き、 <1>始める</1> ボタン。
     title: Telegramの同期がされていません。
-  strategy:
-    choose-coin: 通知の対象とするトークンを選んでください。
-    sl-tp: SL / TP
-    timeframe: 時間枠
-    type: タイプ
-  subtitle: 戦略一覧
-  telegram-notification: 電報通知
-  title: シグナリング
-  turn-on-notification: 通知をオンにする

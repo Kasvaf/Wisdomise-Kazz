@@ -5,148 +5,50 @@ error-page:
   subtitle: 但我們會盡力確保它不會再次發生
   throw: 扔
   title: 出了點問題，我們不知道是怎麼回事 :(
-insight-declaimer:
-  content: Wisdomise的見解和信號不是財務建議。使用它們需自擔風險和自行決定。需要時請進行自己的研究或諮詢財務顧問。
-  title: 免責聲明
 language: 語言
 links:
   about-us: 關於我們
   blog: 博客
-  solutions: 解決方案
 menu:
   account-manager:
-    mobile: 帳戶
     subtitle: 集成交易所帳戶
     title: 外部帳戶
   account:
     subtitle: 管理您的帳戶設置和偏好
     title: 帳戶
   ai-indicators:
-    subtitle: 資產
     title: 技术雷达
   alerts:
     full-title: 通知和警报
     subtitle: 通过实时警报保持领先：设置您最喜欢的加密货币的通知，永远不会错过市场动向！
     title: 我的警报
-  asset-overview:
-    mobile: 資產
-    subtitle: 監控和管理您的財務產品
-    title: 資產概覽
-  athena:
-    features: +10 功能
-    subtitle: 智能聊天機器人，引導您通過加密貨幣的世界
-    title: 加密聊天機器人
   billing:
-    mobile: 計費
     remains: 剩餘
     subtitle: 訂閱偏好
     title: 訂閱
-  builder:
-    subtitle: 管理您的帳戶設置和偏好
-    title: 建造者
-  category:
-    account: 帳戶
-    market-predication: 市場預測
-    passive-income: 被動收入
-    strategy-builder: 策略建造者
   coin-radar:
     full-title: 使用人工智能的市场阿尔法
     subtitle: 使用AI驅動的見解揭示市場趨勢
     title: Coin Rader
-  coin-view:
-    subtitle: 從所有信號發送器獲取信號和位置歷史
-    title: 幣種列表
   coin:
     title: 幣種
-  crypto-screener:
-    subtitle: 根據關鍵指標查找加密貨幣進行買賣
-    title: 加密篩選器
-  dashboard:
-    title: 我的仪表板
-  financial-products:
-    active-product: 活躍產品
-    subtitle: 探索不同的投資套餐機會
-    title: 金融產品
-  fp-builder:
-    card-badge: 獨特選擇
-    card-button: 試用金融產品
-    subtitle: 探索靈活又適合您需求的AI驅動投資選項
-    title: 我的產品
-  home:
-    title: 主頁
   hot-coins:
     title: 社交雷达
-  insight:
-    full-title: 利用人工智能实现市场 Alpha
-    subtitle: 獲取戰略性加密投資的實時見解
-    title: 見解
-  investment:
-    subtitle: 探索我們的自動交易金融產品
-    title: 投資
-  kyc:
-    mobile: 實名認證(KYC)
-    subtitle: 驗證身份以訪問功能
-    title: 實名認證(KYC)
-  market-pulse:
-    subtitle: 根據關鍵指標查找加密貨幣進行買賣
-    title: 市場脈動(Market Pulse)
-  marketplace:
-    subtitle: 使用由專家提供的加密貨幣信號，輕鬆掌握交易。
-    title: 市場
-  notification-center:
-    mobile: 通知
-    subtitle: 通知與活躍警報設置
-    title: 通知
   overview:
     title: 概述
-  portfolio:
-    title: 文件夹
-  products-catalog:
-    mobile: 產品
-    title: 產品目錄
-  profile-dashboard: 個人資料儀表板
   profile:
-    mobile: 個人資料
     subtitle: 編輯登錄憑證
     title: 個人資料
   referral:
-    mobile: 推薦
     subtitle: 邀請並賺取獎勵
     title: 推薦
-  signal-builder:
-    card-button: 現在開始構建
-    subtitle: 為已支援的加密貨幣創建信號
-    title: 我的信號發送器
-  signal-matrix:
-    card-badge: +100 每月信号
-    mobile: 信號
-    subtitle: 獲取AI驅動的加密貨幣領先交易信號
-    title: 信号矩阵
-  signaler-view:
-    subtitle: 獲取所有信號發送器的信號和位置歷史
-    title: 信號發送器一覽
-  signalers:
-    subtitle: 发现具有活跃信号和头寸的领先加密货币
-    title: 人工智能信号
-  social-radar:
-    subtitle: 用AI驅動的觀點來揭示市場趨勢
-    title: Coin Radar
-  strategies:
-    mobile: 策略
-    title: 策略
   token:
-    mobile: WSDM
     subtitle: 使用代幣獲取高級訪問權限
     title: WSDM 代幣
-  users:
-    title: 用戶
   whales:
     full-title: 鲸鱼分析
     subtitle: 探索頂級加密巨鯨，他們的交易、損益、交易量以及更多
     title: 鲸鱼雷达
-mobile-menu:
-  close: 關閉
-  open: 菜單
 new: 新的
 onboarding:
   back: 返回
@@ -156,6 +58,5 @@ support:
   hint: 與我們聊天
   title: 問題？
 user:
-  logout: 登出
   sign-out: 登出
 wisdomise-is-loading: Wisdomise 加載中...

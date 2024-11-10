@@ -9,14 +9,8 @@ page-profile:
     filters:
       month: 每月
       month3: 3個月
-      week: 每週
     max_drawdown: 最大回撤
     pl: 損益
     positions: 持倉數量
   signalers: 信號器
-  signalers-table:
-    max_drawdown: 最大回撤 <1>每月</1>
-    name: 信號器名稱
-    pair: 交易對
-    pl: 損益 <1>每月</1>
   top-financial-products: 頂級金融產品

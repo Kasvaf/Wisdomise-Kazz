@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { type FullPosition } from 'api/builder';
+import { type Position } from 'api';
 import { type SignalFormState } from './useSignalFormStates';
 
 interface Mergeable {
@@ -32,10 +32,11 @@ const useSyncFormState = ({
 }: {
   formState: SignalFormState;
   assetName: string;
-  activePosition?: FullPosition;
+  activePosition?: Position;
 }) => {
   const {
     isUpdate: [, setIsUpdate],
+    amount: [, setAmount],
     price: [, setPrice],
     leverage: [, setLeverage],
     market: [, setMarket],
@@ -74,17 +75,17 @@ const useSyncFormState = ({
     setIsUpdate(!!activePosition);
 
     if (activePosition) {
-      setMarket(activePosition.position_side.toLowerCase() as 'long' | 'short');
-      setLeverage(String(Number(activePosition?.leverage) || 1));
+      setMarket(activePosition.side.toLowerCase() as 'long' | 'short');
+      // setAmount(String(activePosition.amount)); // TODO
     }
 
     const firstOrder = activePosition?.manager?.open_orders?.[0];
     if (
       activePosition &&
       firstOrder &&
-      (firstOrder.applied || activePosition.pair_name !== pair)
+      (firstOrder.applied || activePosition.pair !== pair)
     ) {
-      setPair(activePosition.pair_name);
+      setPair(activePosition.pair);
 
       const price = firstOrder.price ?? activePosition.entry_price;
       setPrice(price ? String(price) : '');
@@ -145,6 +146,7 @@ const useSyncFormState = ({
   }, [
     activePosition,
     pair,
+    setAmount,
     setPrice,
     setLeverage,
     setMarket,

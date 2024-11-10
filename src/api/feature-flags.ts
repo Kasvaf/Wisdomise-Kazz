@@ -6,7 +6,7 @@ import { useAccountQuery } from './account';
 // hasFlag('?xyz') -> [current-pathname]?xyz
 // hasFlag('/xyz/abc') -> '/xyz/abc' is used as is
 
-export function unparam(
+function unparam(
   path: string,
   params: Readonly<Partial<Record<string, string>>>,
 ) {
@@ -42,10 +42,6 @@ export function useHasFlag() {
   );
 
   return (flag: string) => {
-    if (flagsObj['//all']) {
-      return true;
-    }
-
     if (flag[0] === '?') {
       flag = unparam(loc.pathname, params) + (flag.length > 1 ? flag : '');
     }
@@ -53,45 +49,16 @@ export function useHasFlag() {
     if (flag[0] === '/') {
       const result = Boolean(flagsObj[flag]);
       if (!result && isDebugMode) {
-        console.log('🚩', flag);
+        if (flagsObj['//all']) {
+          console.log('🚩', flag, '(enabled by //all)');
+        } else {
+          console.log('🚩', flag);
+        }
       }
-      return result;
+
+      return result || flagsObj['//all'];
     }
 
     throw new Error('Such flag name is not in our conventions!');
   };
 }
-
-/*
-All flags and Available ones for normal-user:
-  [ ] /home
-  [*] /investment
-  [*] /investment/assets
-  [*] /investment/products-catalog
-  [*] /insight
-  [*] /insight/signals
-  [*] /insight/coins
-  [*] /insight/athena
-  [ ] /insight/coin-radar
-  [ ] /builder
-  [ ] /builder/signalers
-  [ ] /builder/signalers/[id]?tab=config
-  [ ] /builder/signalers/[id]?tab=term
-  [ ] /builder/signalers/[id]?tab=pos
-  [ ] /builder/signalers/[id]?tab=perf
-  [ ] /builder/signalers/[id]?tab=api
-  [ ] /builder/fp
-  [ ] /builder/fp/[id]?tab=build
-  [ ] /builder/fp/[id]?tab=perf
-  [ ] /builder/fp/[id]?tab=pos
-  [ ] /builder/fp/[id]?tab=usage
-  [*] /account
-  [*] /account/profile
-  [*] /account/billing
-  [*] /account/kyc
-  [*] /account/token
-  [*] /account/exchange-accounts
-  [*] /account/notification-center
-  [*] /account/referral
-
-  */

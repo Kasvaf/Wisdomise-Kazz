@@ -1,11 +1,17 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { bxLeftArrowAlt } from 'boxicons-quasar';
 import dayjs from 'dayjs';
-import Button from 'shared/Button';
+import { useNavigate, useParams } from 'react-router-dom';
+import { bxEditAlt, bxLeftArrowAlt } from 'boxicons-quasar';
+import {
+  isPositionUpdatable,
+  useCoinOverview,
+  useTraderPositionsQuery,
+} from 'api';
 import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
+import Button from 'shared/Button';
 import Icon from 'shared/Icon';
-import { useCoinOverview, useTraderPositionsQuery } from 'api';
 import empty from './empty.svg';
+import CloseButton from './CloseButton';
+import CancelButton from './CancelButton';
 
 export default function PageCoinDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -22,11 +28,7 @@ export default function PageCoinDetail() {
   return (
     <div>
       <div className="mb-3 flex gap-2">
-        <Button
-          variant="alternative"
-          onClick={() => navigate('/hot-coins')}
-          className="!px-3 !py-0"
-        >
+        <Button variant="alternative" to="/hot-coins" className="!px-3 !py-0">
           <Icon name={bxLeftArrowAlt} />
         </Button>
         <CoinSelect
@@ -53,14 +55,28 @@ export default function PageCoinDetail() {
           className="mb-3 rounded-3xl bg-v1-surface-l2 p-4 text-xs"
           key={position.key}
         >
-          <div className="flex items-center gap-3">
-            <span>{position.pair}</span>
-            <div className="rounded-full bg-v1-surface-l3 px-2 py-1 text-v1-content-secondary">
-              Market
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span>{position.pair}</span>
+              <div className="rounded-full bg-v1-surface-l3 px-2 py-1 text-v1-content-secondary">
+                Market
+              </div>
             </div>
-            <Link to="/" className="ms-auto text-v1-content-link">
-              Edit
-            </Link>
+            <div className="flex items-center gap-3">
+              <CancelButton position={position} />
+              <CloseButton position={position} />
+
+              {isPositionUpdatable(position) && (
+                <Button
+                  variant="link"
+                  className="ms-auto !p-0 !text-xs text-v1-content-link"
+                  to={`/market/${slug}?pos=${position.key}`}
+                >
+                  <Icon name={bxEditAlt} size={16} />
+                  Edit
+                </Button>
+              )}
+            </div>
           </div>
           <hr className="my-4 border-white/10" />
           <div className="flex flex-col gap-4">
@@ -129,8 +145,8 @@ export default function PageCoinDetail() {
       {/*     )} */}
       <Button
         variant="brand"
-        className="mt-5 w-full"
-        onClick={() => navigate(`/market/${slug}`)}
+        className="fixed bottom-20 end-4 start-4 mt-5"
+        to={`/market/${slug}`}
       >
         Auto Trade
       </Button>

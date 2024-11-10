@@ -5,11 +5,6 @@ import PageInsight from 'modules/insight/PageInsight';
 import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
 
-const PageMarketplace = React.lazy(
-  () => import('modules/insight/PageMarketplace'),
-);
-
-const PageAthena = React.lazy(() => import('modules/athena/PageAthena'));
 const PageCoinRadar = React.lazy(
   () => import('modules/insight/coinRadar/PageCoinRadar'),
 );
@@ -39,16 +34,6 @@ const useInsightRoutes = () => {
       children: [
         { path: '', element: <Navigate to="/coin-radar/overview" replace /> },
         { path: 'overview', element: <PageInsight /> },
-        {
-          path: 'marketplace',
-          element: <PageMarketplace />,
-          handle: { crumb: t('menu.investment.title') },
-        },
-        {
-          path: 'athena',
-          element: <PageAthena />,
-          handle: { crumb: t('menu.athena.title') },
-        },
         {
           path: 'social-radar',
           handle: { crumb: t('menu.hot-coins.title') },

@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import { type Signal } from 'api/builder';
+import {
+  type OpenOrderResponse,
+  type SignalItem,
+  type Signal,
+} from 'api/builder';
 
 export interface PositionsResponse {
   positions: Position[];
@@ -14,7 +18,11 @@ export interface Position {
   pair: string;
   side: 'long' | 'short';
   signal: Signal;
-  manager: unknown;
+  manager?: {
+    stop_loss?: SignalItem[];
+    take_profit?: SignalItem[];
+    open_orders?: OpenOrderResponse[];
+  };
   trading_fee?: string;
   entry_price?: string;
   entry_time?: string;
@@ -26,10 +34,20 @@ export interface Position {
   size?: string;
 }
 
-export function useTraderPositionQuery(positionKey: string) {
+export function isPositionUpdatable(position: Position) {
+  return (
+    position.status !== 'CLOSED' &&
+    position.status !== 'CANCELED' &&
+    (position.status !== 'DRAFT' || position.deposit_status !== 'PENDING')
+  );
+}
+
+export function useTraderPositionQuery(positionKey?: string) {
   return useQuery(
     ['traderPosition', positionKey],
     async () => {
+      if (!positionKey) return;
+
       const { data } = await axios.get<Position>(
         `trader/positions/${positionKey}`,
       );
@@ -37,6 +55,7 @@ export function useTraderPositionQuery(positionKey: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: x => (x?.status === 'CLOSED' ? false : 30_000),
       enabled: !!positionKey,
     },
   );
@@ -53,6 +72,7 @@ export function useTraderPositionsQuery(pair?: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: 30_000,
       enabled: !!pair,
     },
   );
@@ -93,6 +113,18 @@ export const useTraderFirePositionMutation = () => {
         body,
       );
       return data;
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries(['traderPositions']),
+    },
+  );
+};
+
+export const useTraderCancelPositionMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (positionKey: string) => {
+      return await axios.post<null>(`trader/positions/${positionKey}/cancel`);
     },
     {
       onSuccess: () => queryClient.invalidateQueries(['traderPositions']),

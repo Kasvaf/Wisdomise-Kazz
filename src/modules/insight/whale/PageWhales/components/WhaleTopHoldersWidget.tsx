@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table from 'shared/Table';
-import { useWhales, type WhaleShort, type WhalesFilter } from 'api';
+import { useHasFlag, useWhales, type WhaleShort, type WhalesFilter } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Wallet } from 'shared/Wallet';
 import { Network } from 'shared/Network';
@@ -16,6 +16,7 @@ import { NetworkSelect } from './NetworkSelect';
 
 const useWhaleTopHoldersFilters = () => {
   const { t } = useTranslation('whale');
+  const hasFlag = useHasFlag();
   return [
     {
       label: t('filters.all'),
@@ -24,6 +25,7 @@ const useWhaleTopHoldersFilters = () => {
     {
       label: t('filters.best_to_copy'),
       value: 'best_to_copy',
+      hidden: !hasFlag('?best_to_copy'),
     },
     {
       label: t('filters.holders'),
@@ -36,6 +38,7 @@ const useWhaleTopHoldersFilters = () => {
   ] satisfies Array<{
     label: string;
     value: WhalesFilter;
+    hidden?: boolean;
   }>;
 };
 export function WhaleTopHoldersWidget({
@@ -46,6 +49,7 @@ export function WhaleTopHoldersWidget({
   headerActions?: ReactNode;
 }) {
   const { t } = useTranslation('whale');
+  const hasFlag = useHasFlag();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
@@ -123,6 +127,7 @@ export function WhaleTopHoldersWidget({
           t('top_whales.trading_pnl.title'),
           t('top_whales.trading_pnl.info'),
         ],
+        colSpan: hasFlag('?trading_pnl') ? 1 : 0,
         align: 'right',
         dataIndex: 'recent_trading_pnl',
         sorter: true,
@@ -138,6 +143,7 @@ export function WhaleTopHoldersWidget({
         title: [t('top_whales.returns.title'), t('top_whales.returns.info')],
         align: 'right',
         dataIndex: 'recent_trading_pnl_percentage',
+        colSpan: hasFlag('?trading_pnl') ? 1 : 0,
         sorter: true,
         render: (_, row) => (
           <DirectionalNumber
@@ -150,6 +156,7 @@ export function WhaleTopHoldersWidget({
       {
         title: t('top_whales.wins_losses'),
         align: 'right',
+        colSpan: hasFlag('?win_lose') ? 1 : 0,
         render: (_, row) => (
           <div>
             <ReadableNumber value={row.recent_trading_wins ?? 0} />
@@ -200,7 +207,7 @@ export function WhaleTopHoldersWidget({
         ),
       },
     ],
-    [t],
+    [hasFlag, t],
   );
 
   return (

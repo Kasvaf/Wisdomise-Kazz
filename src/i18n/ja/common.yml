@@ -1,8 +1,6 @@
 above: その上
 actions:
-  back: 戻る
   cancel: キャンセル
-  complete: 完了
   edit: 編集
   explore: 詳細を確認
   invite: 招待する
@@ -11,49 +9,25 @@ actions:
   no: いいえ
   ok: わかりました
   remove: 取り除く
-  reset: リセット
   save: 保存
-  share: 割合
   yes: はい
 almost-there: もうすぐです...
-aum: AUM
 below: 下に
 confirmation: 確認
 copied-to-clipboard: クリップボードにコピー
-crypto: 仮想通貨
-cryptocurrency: 仮想通貨
 data-incoming: HODLオン！データ到着
 data-incoming-description: 私たちの使命は、何千もの暗号プロジェクトを分析して、情報に基づいた取引のための洞察を提供することですが、一部のプロジェクトにはより多くの時間が必要になる場合があります。
-date: 日付
 equal: 等しい
 error: エラー
 errors:
   field-required: このフィールドは空白にできません。
   network-error: インターネット接続に問題があります。
-free-plan: 無料プラン
-futures: 先物
-loading: 読み込み中…
-loading-dot-dot-dot: 読み込み中...
-market:
-  long: 長さ
-  short: 短い
-network: ネットワーク
 not-available: 該当なし
-not-set: 設定されていません
-nothing-to-show: 表示するものがありません
 order-type:
   limit: 限界
   market: 市場（マーケット）
-paid-plan: 有料プラン
-quality:
-  high: 高い
-  low: 低い
-  medium: 中くらい
 recommended-size: 推奨サイズ
 see-more: もっと見る
-select-crypto: 暗号を選択
 show-more: もっと見せる
 soon: すぐ
-spot: スポット
-upload-failed: アップロードに失敗しました!
 uploading: アップロード中
