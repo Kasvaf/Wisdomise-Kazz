@@ -62,12 +62,6 @@ list:
   description: 利用AI驅動的加密貨幣交易機器人自動購買和賣出加密貨幣，根據高級算法和模式最大化您的利潤。
   of-total-balance: 總餘額的
   title: 您的活躍金融產品
-notification-activated:
-  btn-dashboard: 前往儀表板
-  btn-kyc: 前往KYC
-  kyc-notice: 但是請注意，只要您尚未驗證您的帳戶，我們最多只會使用您的1000美元錢包進行交易。
-  message: 感謝您的信任。您現在可以存入任何金額到您的帳戶，並激活任何AI驅動的策略。
-  title: 恭喜
 notification-deactivated:
   message: 策略停用成功！
 onboarding:
@@ -84,15 +78,12 @@ onboarding:
     content: <0><0><0>資產概覽訪問：</0>激活後，您可以在資產概覽部分監控您的金融產品表現。</0><1><0>盈虧更新：</0>通過實時盈虧更新隨時掌握資訊。</1><2><0>持倉歷史：</0>查看交易歷史，以了解您的產品在市場中的動態。透過全面的洞察，密切關注您的投資，並做出明智的決策。</2></0>
     title: 成功追蹤您的財務
 product-catalog:
-  btn-details: 詳情
   btn-explore: 探索
-  description: 您在任何可用策略中的投資都是流動的，這意味著您的資產不會被鎖定，隨時可以釋放。對於不同策略所展示的預期回報率、最大回撤和交易次數僅作為參考，絕不構成對這些指標的保證或確認。最終，在金融市場中投資總是伴隨著自身的風險和波動性，而我們最先進的AI模型只能在一定程度上緩解這些風險。享受使用我們的專有AI積累財富的過程！
   empty-message: 您尚未創建任何產品，或者它們尚未啟動。
   stake:
     description: 探索領先的DeFi協議，展示質押池、總鎖倉價值（TVL）和最大年收益率（APY）。選擇一個協議以獲取詳細說明和見解。
     title: DeFi 質押選項
   state-running: 運行中
-  title: AI 驅動策略
   trade:
     description: 靈活投資—您的資產保持流動，可以隨時提取。回報、回撤和交易次數僅為估計，並非保證。儘管我們的先進AI能減少風險，但市場風險依然存在。利用我們的AI技術來增長您的財富。
     title: AI 驅動策略
@@ -101,9 +92,6 @@ product-detail:
     AG當前認為合理的估計、假設和推測。這些前瞻性陳述本質上涉及未來事件的風險和不確定性。因此，包括加密貨幣表現在內的實際事件可能與預測結果有重大差異。您還應該注意，過去的事件和結果不能保證未來的事件或結果。Wisdomise
     (Switzerland) AG或任何其他人都不保證本網站中描述的發展將會發生。因此，使用者不應僅根據本網站上表達的前瞻性陳述來做出與Wisdomise
     (Switzerland) AG提供的服務有關的投資決策。
-  expected-apy: 預期年收益率（APY）
-  expected-max-drawdown: 預期最大回撤
-  expected-yield-apy: 預期收益（年收益率APY）
   investment: 投資
   max: 最大
   max-apy: 最大年收益率（APY）
@@ -135,7 +123,6 @@ subscription:
     description: 要使用此產品，您需要<1>升級</1>您的訂閱到<4>{{minPlan}}</4>。
     subtitle: 您當前的訂閱不包括您想要啟動的產品。
     title: 升級訂閱
-user-product: 我的產品
 wait-list:
   btn-explore: 探索見解
   btn-join: 加入等候名單

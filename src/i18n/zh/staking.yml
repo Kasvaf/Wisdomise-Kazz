@@ -1,11 +1,8 @@
 ask:
-  active-limit: 問題次數已達上限。升級您的計劃以繼續
   athena: 雅典娜
   athena-subtitle: 您的金融助理AI
   input-placeholder: 提問
-  remain-questions: 享受您剩餘的{{leftQuestions}}個問題
   suggested-prompts: 建議提示
-  trial-limit: 試用問題次數已達上限，訂閱以繼續
 info:
   chart:
     apy-history: 歷史年收益率（APY）

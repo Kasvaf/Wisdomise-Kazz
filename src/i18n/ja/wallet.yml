@@ -8,24 +8,18 @@ confirm-withdrawal:
   title: 引き出しを確認
 equity-description_other: 合計資産のうち<5>{{blocked}}</5> {{mainQuote}} 分の資産を<1>{{count}}</1>個のプロダクトで運用しています。
 modal-deposit:
-  banner: 承認済みのウォレットから入金する必要があります。未承認のウォレットから入金するとアカウントに<1>制限</1>がかかりますのでご留意ください。
   deposit-address: 預け入れ専用のアドレスに<1>{{coin}}</1> のみ送金ください。
   disclaimer: "{{coin}} 以外のコイン/トークンを送金した場合、資産を失う場合がありますのでご留意ください。"
   title: 入金
-  verify-wallet: ウォレット認証
 modal-success:
   description: 完了後、メールが届きます。
   title: 出金リクエストが送信されました。
 modal-withdraw:
-  banner:
-    btn-verify-wallet: ウォレット認証
-    description: 出金する際は、承認されたウォレットを選択する必要があります。
   btn-withdraw: 出金する
   error-max-amount: 利用可能は金額以上の出金はできません。
   error-min-amount: "{{wallet}} ネットワークへの{{minAmount}} {{symbol}}以下の出金はできません。"
   min-withdrawal: 最小出金額
   title: 出金
-no-verified-wallet: 承認されたウォレットがありません。
 security-verification:
   btn-resend: 再送する
   btn-submit: 提出

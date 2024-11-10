@@ -1,8 +1,3 @@
-intro:
-  btn-check-products: プロダクトを確認
-  btn-deposit: 入金
-  description: Wisdomiseは、リスク許容度に合わせたAI駆動型の資産運用戦略を提供します。戦略を確認して、資産運用を行いましょう。
-  title: AIが資産運用を行います！
 portfolio:
   bindings-count_other: トークン
   description: AI駆動型の取引戦略は、仮想通貨ウォレットで自動的に実行されます。3億回以上の様々なテストをした、包括的で洗練されたAIで構築されています。

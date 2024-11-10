@@ -10,24 +10,17 @@ airdrop:
     seconds: 秒
   description: Airdrop代幣分發給參與我們活動的合資格參與者。更多信息請參閱我們的社交媒體。
   eligibility:
-    already-claimed: 您已領取您的代幣。
     claim: 現在領取
-    close: 關閉
     eligible: 恭喜！您在此階段<1>有資格</1>接收$WSDM空投！
     not-eligible: 哎呀！您在此階段<1>無資格</1>接收$WSDM空投！請在下一階段再試一次！
     share: 與社區分享
-    stay-tuned: 敬請期待！
   now: 現在
-  soon: 即將推出
   title: 空投
 balance:
-  add-token: 添加tWSDM
   buy: 購買WSDM
   description: 使用代幣獲得高級訪問
   subtitle: 餘額
   title: WSDM 代幣
-  token-name: tWSDM
-  your-balance: 您的tWSDM代幣餘額
 connect-wallet:
   billing:
     description: 您的Wisdomise代幣不會被扣除，您只需在訂閱期間將代幣保留在您的錢包中即可獲得訪問權限。
@@ -38,7 +31,6 @@ connect-wallet:
   prev-wallet: 之前使用的錢包地址
   sign: 現在簽名
   verify-nonce: 請通過簽署隨機數來驗證所有權
-  wallet-address: 錢包地址
   wisdomise-token:
     description: 連接錢包以查看使用狀態和您的WSDM餘額。
     title: 連接錢包
@@ -58,7 +50,6 @@ title: KYC
 utility:
   activate: 啟用
   activate-sub: 啟用訂閱
-  activated: 已啟用
   already-active: 您已經有一個有效的訂閱。
   amount: 金額
   current-sub: 您當前的訂閱計劃
@@ -69,7 +60,6 @@ utility:
   lock-tooltip: 您已經有一個有效的訂閱，您需要等到其結束才能使用您的代幣獲得訪問權限。
   lock-wsdm: 鎖定WSDM
   locked: 已鎖定
-  not-activated: 未啟用
   pending-unlock: 待解鎖
   pending-withdrawal: 待提款
   ready: 準備就緒

@@ -1,14 +1,4 @@
 answer: 答案
-athena-bot: 雅典娜機器人！
-bot-alert:
-  freemium-stage: 您目前處於<1>免費使用階段</1>，可以隨時提問有關加密貨幣的任何問題，我將為您提供答案並提供相關的小工具，以便您獲得更好的體驗。<4>目前涵蓋的幣種包括
-    ETH、BTC、LTC、XRP、ADA、BNB、TRX</4>。
-  loving-athena: 您可以免費提問最多 <1>{{athenaQuestionsCount}}
-    次</1>，因此請明智地使用！如需更多提問，您可以訂閱我們的套餐。您可以在聊天框中輸入問題，或使用答案結尾處附加的相關問題。
-  message-limit: 您已達到當前雅典娜聊天機器人計劃允許的最大消息數量。若要繼續不間斷地使用聊天機器人，請升級到更高級的訂閱層級。
-  pro-version: 您已達到免費問題的最大數量。訂閱以解鎖更多問題、炫酷小工具及雅典娜的創新功能。
-  subscribe-congratulations: 您已訂閱我們的其中一個方案。享受使用雅典娜並提出關於加密貨幣世界和白皮書、AI策劃的價格預測、市場分析等問題！
-box-ask-athena: 問雅典娜任何關於加密貨幣的問題
 enjoy-remain-question_one: 享受剩下的{{leftQuestions}}個問題
 enjoy-remain-question_other: 享受剩下的{{leftQuestions}}個問題
 generate: 生成

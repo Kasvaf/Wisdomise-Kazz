@@ -70,7 +70,7 @@ async function run() {
               body: JSON.stringify(Object.fromEntries(batch)),
             },
           );
-          console.log('Post ' + batch.length + ' changes on ' + namespace);
+          console.log(`Post ${batch.length} changes on ${namespace} (${lng})`);
         }
       }
     });

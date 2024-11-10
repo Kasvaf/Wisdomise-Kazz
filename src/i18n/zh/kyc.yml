@@ -1,48 +1,12 @@
 badges:
   pending: 待處理
-  pending-meeting: 待處理會議
   rejected: 已拒絕
-  unknown: 加載中
   unverified: 未驗證
   verified: 已驗證
-completed: 已完成
 identification:
   btn-start-sumsub: 讓我們從Sumsub開始
   description: 證明您的身份以幫助我們保護您的帳戶。
   title: 身份識別
-modal-kyc:
-  footer: 完成您的<1>身份識別</1>、<4>驗證</4>，並<7>至少驗證一個錢包地址</7>，以訪問所有功能並在我們的平台上享受無縫體驗。
-  title: KYC狀態
-title: KYC
-verification:
-  btn-calendly: 在Calendly中安排會議
-  btn-meeting: 安排會議
-  description: 為了驗證您的帳戶，請在Calendly上安排會議，我們將與您聯繫以協助您完成驗證過程。
-  identify-first-notice: 首先完成身份識別
-  title: 驗證
-wallet:
-  add:
-    banner: 請注意，我們目前僅支持<1>USDT</1>作為加密貨幣。
-    btn-send-email: 發送電子郵件
-    help:
-      screenshot-title: 示例：USDT錢包地址
-      step-0: 要向我們發送您的USDT錢包地址和網絡，您需要在您的Trust錢包中遵循以下步驟：
-      step-1-networks: 在您首選的網絡上選擇USDT幣種
-      step-2-receive: 選擇接收按鈕。
-      step-3-screenshot: 拍攝顯示您的USDT存款錢包地址和網絡的頁面的截圖。
-      step-4-email: 將截圖附加到電子郵件並發送到我們的支持郵件：support@wisdomise.io
-  btn-add:
-    verify-more: 驗證更多錢包
-    verify-wallet: 驗證錢包
-  column:
-    coin: 幣種
-    name: 錢包名稱
-    wallet-address: 錢包地址
-  description: 驗證您的錢包以激活並解鎖我們的所有產品和功能。
-  empty-message: 您沒有經過驗證的錢包地址。
-  list-title: 錢包狀態
-  title: 錢包驗證
-  unnamed: (未命名)
 wisdomise-only:
   subtitle: KYC專門針對通過Wisdomise錢包帳戶激活金融產品的用戶。
   title: 如果您使用的是Binance錢包API，則無需KYC。

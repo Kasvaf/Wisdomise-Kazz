@@ -1,148 +1,144 @@
-14d_stats.avg_trade_day: 每日平均交易次数
-14d_stats.avg_trade_duration: 平均交易持续时间
-14d_stats.largest_gain: 最大收益
-14d_stats.largest_loss: 最大亏损
-14d_stats.largest_losses: 最大损失
-14d_stats.title: 14 天统计数据概览
-14d_stats.transfer_volume: 传输量
-asset_badges.exit_portfolio: 退出投资组合
-asset_badges.exit_portfolio_info: 该巨额投资者已出售近 95% 的资产，退出投资。
-asset_badges.holding: 保持
-asset_badges.holding_info: 这头鲸鱼保持稳定，其资产量没有发生显著变化。
-asset_badges.loading: 加載中
-asset_badges.loading_info: 这头鲸鱼正在将其资产量增加 5% 以上，以巩固其地位。
-asset_badges.new_investment: 新投资
-asset_badges.new_investment_info: 这头鲸鱼以最少的出售进行了一项新的投资，扩大了他们的持仓。
-asset_badges.trading: 贸易
-asset_badges.unloading: 卸载
-asset_badges.unloading_info: 这名鲸鱼正在减少其持股量 5% 以上，但并未完全退出。
-filters.all: 全部
-filters.all-chains: 所有鏈
-filters.all-networks: 所有网络
-filters.best_to_copy: 最佳复制品
-filters.buy: 購買
-filters.hold: 持有
-filters.holders: 持有人
-filters.search-whale: 搜尋巨鯨
-filters.sell: 卖
-filters.total_volume: 交易量
-filters.wallet: 通過錢包地址搜尋
-filters.wealthy_wallets: 富裕的钱包
-onboarding.sec-1.content: 我们的“鲸鱼雷达”功能可根据历史利润识别出每种代币表现最佳的鲸鱼和交易者。我们会跟踪他们在各种代币和链上的动向，以便您洞悉最佳交易机会。
-onboarding.sec-1.title: 欢迎来到鲸鱼雷达：追踪顶级鲸鱼和交易者
-onboarding.sec-2.content: 了解不同链上最成功的鲸鱼中哪些代币最受欢迎。我们的平台实时更新他们正在积累或出售的资产，因此您可以放心地跟踪他们的动向。
-onboarding.sec-2.title: 找到鲸鱼正在交易的热门代币
-onboarding.sec-3.content: 深入了解每位鲸鱼的钱包，包括其当前持仓、交易历史和绩效指标的明细。利用这些见解可以更好地了解他们的策略和市场动态。
-onboarding.sec-3.title: 详细钱包分析：深入了解持股情况
-onboarding.sec-4.content: 通过设置鲸鱼动向、流行币和钱包变化警报来保持领先。很快，您将能够激活自动交易功能，根据顶级鲸鱼的行动自动执行交易，让您高枕无忧。
-onboarding.sec-4.title: 设置警报和自动交易：绝不会错过任何交易
-sections.top-coins.filters.1d: 24小時
-sections.top-coins.filters.30d: 30天
-sections.top-coins.filters.7d: 7天
-sections.top-coins.subtitle: 查看由巨鯨交易量和頻率排序的最受交易幣種。
-sections.top-coins.table.24h_chg: 24小時價格變動
-sections.top-coins.table.coin: 發現幣種
-sections.top-coins.table.price: 價格
-sections.top-coins.table.rank: 排名
-sections.top-coins.table.total-vol: 總交易量
-sections.top-coins.table.transactions: 巨鯨交易
-sections.top-coins.title: 最佳巨鯨幣
-sections.top-gainers: 巨鯨中漲幅最大的
-sections.top-losers: 巨鯨中跌幅最大的
-sections.top-whales.filters.1d: 24小時
-sections.top-whales.filters.30d: 30天
-sections.top-whales.filters.7d: 7天
-sections.top-whales.subtitle: 探索區塊鏈中最富有的地址（巨鯨）
-sections.top-whales.table.network: 網路
-sections.top-whales.table.pnl_percent: 盈虧百分比
-sections.top-whales.table.rank: 排名
-sections.top-whales.table.total_worth: 總價值
-sections.top-whales.table.trades: 交易
-sections.top-whales.table.wallet-address: 錢包地址
-sections.top-whales.title: 巨鯨排行榜
-sections.whale-coins.table.amount: 持有數量
-sections.whale-coins.table.asset: 資產
-sections.whale-coins.table.pnl: 盈虧
-sections.whale-coins.table.price: 價格
-sections.whale-coins.table.worth: 總價值
-sections.whale-info.realized-pnl: 實現盈虧
-sections.whale-info.realized-pnl-info: 已實現盈虧（Profit and
-  Loss）代表完成交易後的實際利潤或損失。它反映了已售資產的購買價格與出售價格之間的差異。此指標幫助您理解交易活動中的實際收益或損失。
-sections.whale-info.unrealized-pnl: 未實現盈虧
-sections.whale-info.unrealized-pnl-info: 未實現盈虧（Profit and
-  Loss）代表當前持有但尚未出售的資產的潛在利潤或損失。它反映了這些資產的當前市場價值與購買價格之間的差異。此指標幫助您根據當前市場價格評估持有資產的表現。
-top_coins.buy_volume.avg: 每次购买的平均价格
-top_coins.buy_volume.info: 过去 7 天内从智能钱包和总钱包购买的总数量。
-top_coins.buy_volume.title: 购买量
-top_coins.buys.info: 过去 7 天内智能钱包的总数和购买的钱包总数。
-top_coins.buys.title: 购买
-top_coins.info.info: 当前价格、完全稀释的市值和流通供应量。
-top_coins.info.title: 信息
-top_coins.name: 名稱
-top_coins.sell_volume.avg: 平均每次销售
-top_coins.sell_volume.info: 过去 7 天内智能钱包和总钱包的售出总量。
-top_coins.sell_volume.title: 卖出量
-top_coins.sells.info: 过去 7 天内智能钱包的总数和售出的钱包总数。
-top_coins.sells.title: 售卖
-top_coins.title: 鲸鱼选择的顶级代币
-top_whales.14_days: 14天
-top_whales.address: 地址
-top_whales.balance.info: 报价资产的当前钱包余额。
-top_whales.balance.title: 餘額
-top_whales.buy_sell: 买/卖
-top_whales.description: 根据过去 30 天交易的盈利情况，此钱包在我们的钱包中排名前 10%
-top_whales.network: 網絡
-top_whales.returns.info: 钱包在过去 30 天内的总回报，计算方法为报价资产（例如 ETH）的损益除以期间持有的代币的最大价值（以 ETH 为单位）。
-top_whales.returns.title: 返回
-top_whales.title: 顶级鲸鱼
-top_whales.tokens: 顶级代币
-top_whales.trades_per_day: 每日平均交易次数
-top_whales.trades_per_day.info: 过去 14 天内每天的平均交易次数。
-top_whales.trades_per_day.title: 每日平均交易次数
-top_whales.trading_holding: 交易/持有
-top_whales.trading_pnl.info: 钱包近30天的总盈亏（已实现+未实现PnL）。
-top_whales.trading_pnl.title: 交易盈亏
-top_whales.trading_volume.info: 过去 30 天内兑换的代币总价值，以 USDT 表示。
-top_whales.trading_volume.title: 交易量
-top_whales.transfer_volume: 传输量
-top_whales.wins.info: 总获胜次数与交换的独特代币数量。
-top_whales.wins.title: 胜利
-top_whales.wins_losses: 胜/负
-whale_assets.others: 其他的
-whale_assets.title: 用户资产
-whale_balance_chart.balance: 餘額
-whale_balance_chart.current_balance: 当前余额
-whale_balance_chart.title: 钱包余额表
-whale_historical_pnl.last_30_trading_pnl: 过去 30 天交易盈亏
-whale_historical_pnl.title: 历史盈亏图表
-whale_holds.badge: 徽章
-whale_holds.chg_30d: 更改(30D)
-whale_holds.market_cap: 市值
-whale_holds.name: 名稱
-whale_holds.price: 價格
-whale_holds.title: 保留
-whale_holds.total_volume: 总交易量
-whale_holds.worth: 值得
-whale_netflow_histogram.inflow: 流动中
-whale_netflow_histogram.outflow: 流出量
-whale_netflow_histogram.title: 网络流直方图
-whale_overview.holding_tokens: 持有代币
-whale_overview.holding_tokens.info: 鲸鱼钱包中持有的代币可带来长期收益。
-whale_overview.holding_tokens.title: 保留
-whale_overview.losses: 损失
-whale_overview.trading_pnl: 交易盈亏（未实现）
-whale_overview.trading_tokens: 交易代币
-whale_overview.trading_tokens.info: 活跃度较高的代币，被巨鲸频繁买卖。
-whale_overview.trading_tokens.title: 交易代币
-whale_overview.trading_volume: 交易量
-whale_overview.trading_win_rate: 交易胜率
-whale_overview.wins: 胜利
-whale_trades.avg_duration: 平均持续时间
-whale_trades.name: 名稱
-whale_trades.number_of_trades: 交易次数
-whale_trades.number_of_transactions: 交易次数
-whale_trades.price: 價格
-whale_trades.returns: 返回
-whale_trades.title: 交易
-whale_trades.trading_pnl: 交易盈亏
-whale_trades.volume_of_trades: 交易量
+14d_stats:
+  avg_trade_day: 每日平均交易次数
+  avg_trade_duration: 平均交易持续时间
+  largest_gain: 最大收益
+  largest_loss: 最大亏损
+  title: 14 天统计数据概览
+  transfer_volume: 传输量
+asset_badges:
+  exit_portfolio: 退出投资组合
+  exit_portfolio_info: 该巨额投资者已出售近 95% 的资产，退出投资。
+  holding: 保持
+  holding_info: 这头鲸鱼保持稳定，其资产量没有发生显著变化。
+  loading: 加載中
+  loading_info: 这头鲸鱼正在将其资产量增加 5% 以上，以巩固其地位。
+  new_investment: 新投资
+  new_investment_info: 这头鲸鱼以最少的出售进行了一项新的投资，扩大了他们的持仓。
+  trading: 贸易
+  unloading: 卸载
+  unloading_info: 这名鲸鱼正在减少其持股量 5% 以上，但并未完全退出。
+filters:
+  all: 全部
+  all-networks: 所有网络
+  best_to_copy: 最佳复制品
+  buy: 購買
+  hold: 持有
+  holders: 持有人
+  sell: 卖
+  total_volume: 交易量
+  wealthy_wallets: 富裕的钱包
+onboarding:
+  sec-1:
+    content: 我们的“鲸鱼雷达”功能可根据历史利润识别出每种代币表现最佳的鲸鱼和交易者。我们会跟踪他们在各种代币和链上的动向，以便您洞悉最佳交易机会。
+    title: 欢迎来到鲸鱼雷达：追踪顶级鲸鱼和交易者
+  sec-2:
+    content: 了解不同链上最成功的鲸鱼中哪些代币最受欢迎。我们的平台实时更新他们正在积累或出售的资产，因此您可以放心地跟踪他们的动向。
+    title: 找到鲸鱼正在交易的热门代币
+  sec-3:
+    content: 深入了解每位鲸鱼的钱包，包括其当前持仓、交易历史和绩效指标的明细。利用这些见解可以更好地了解他们的策略和市场动态。
+    title: 详细钱包分析：深入了解持股情况
+  sec-4:
+    content: 通过设置鲸鱼动向、流行币和钱包变化警报来保持领先。很快，您将能够激活自动交易功能，根据顶级鲸鱼的行动自动执行交易，让您高枕无忧。
+    title: 设置警报和自动交易：绝不会错过任何交易
+sections:
+  top-coins:
+    subtitle: 查看由巨鯨交易量和頻率排序的最受交易幣種。
+    table:
+      total-vol: 總交易量
+      transactions: 巨鯨交易
+    title: 最佳巨鯨幣
+  top-whales:
+    subtitle: 探索區塊鏈中最富有的地址（巨鯨）
+    table:
+      pnl_percent: 盈虧百分比
+      total_worth: 總價值
+      trades: 交易
+      wallet-address: 錢包地址
+    title: 巨鯨排行榜
+top_coins:
+  buy_volume:
+    avg: 每次购买的平均价格
+    info: 过去 7 天内从智能钱包和总钱包购买的总数量。
+    title: 购买量
+  buys:
+    info: 过去 7 天内智能钱包的总数和购买的钱包总数。
+    title: 购买
+  info:
+    info: 当前价格、完全稀释的市值和流通供应量。
+    title: 信息
+  name: 名稱
+  sell_volume:
+    avg: 平均每次销售
+    info: 过去 7 天内智能钱包和总钱包的售出总量。
+    title: 卖出量
+  sells:
+    info: 过去 7 天内智能钱包的总数和售出的钱包总数。
+    title: 售卖
+  title: 鲸鱼选择的顶级代币
+top_whales:
+  address: 地址
+  balance:
+    info: 报价资产的当前钱包余额。
+    title: 餘額
+  buy_sell: 买/卖
+  network: 網絡
+  returns:
+    info: 钱包在过去 30 天内的总回报，计算方法为报价资产（例如 ETH）的损益除以期间持有的代币的最大价值（以 ETH 为单位）。
+    title: 返回
+  title: 顶级鲸鱼
+  tokens: 顶级代币
+  trades_per_day:
+    info: 过去 14 天内每天的平均交易次数。
+    title: 每日平均交易次数
+  trading_holding: 交易/持有
+  trading_pnl:
+    info: 钱包近30天的总盈亏（已实现+未实现PnL）。
+    title: 交易盈亏
+  trading_volume:
+    info: 过去 30 天内兑换的代币总价值，以 USDT 表示。
+    title: 交易量
+  wins_losses: 胜/负
+whale_assets:
+  others: 其他的
+  title: 用户资产
+whale_balance_chart:
+  balance: 餘額
+  current_balance: 当前余额
+  title: 钱包余额表
+whale_historical_pnl:
+  last_30_trading_pnl: 过去 30 天交易盈亏
+  title: 历史盈亏图表
+whale_holds:
+  badge: 徽章
+  chg_30d: 更改(30D)
+  market_cap: 市值
+  name: 名稱
+  price: 價格
+  title: 保留
+  total_volume: 总交易量
+  worth: 值得
+whale_netflow_histogram:
+  inflow: 流动中
+  outflow: 流出量
+  title: 网络流直方图
+whale_overview:
+  holding_tokens:
+    info: 鲸鱼钱包中持有的代币可带来长期收益。
+    title: 保留
+  losses: 损失
+  trading_pnl: 交易盈亏（未实现）
+  trading_tokens:
+    info: 活跃度较高的代币，被巨鲸频繁买卖。
+    title: 交易代币
+  trading_volume: 交易量
+  trading_win_rate: 交易胜率
+  wins: 胜利
+whale_trades:
+  avg_duration: 平均持续时间
+  name: 名稱
+  number_of_transactions: 交易次数
+  price: 價格
+  returns: 返回
+  title: 交易
+  trading_pnl: 交易盈亏
+  volume_of_trades: 交易量

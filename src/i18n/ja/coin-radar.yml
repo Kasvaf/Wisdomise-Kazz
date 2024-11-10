@@ -2,15 +2,9 @@ available-exchanges:
   search: Exchangeを検索...
   table:
     exchange: 取引所
-    pair: ペア
     price: 価格
-    rank: "#"
     volume_24h: 24時間あたりのボリューム
-    volume_percentage: 音量 ％
-  title: 利用可能な取引所
 call-change:
-  changes: 変更点
-  current-price: 今の価格
   fire-time: 信号発射時刻
   max-price: "最大: 極限高"
   min-price: "最小: 極端に低い"
@@ -40,7 +34,6 @@ coin-details:
       title: 利用可能な交換
     most_viewed_coins:
       table:
-        chg_24: チェンジ(24)
         name: 信号発信者名
         price: 価格
       title: 最も閲覧されたコイン
@@ -58,10 +51,6 @@ coin-details:
       positive: ポジティブ
       title: 社会感情 ウィズダムズ
     socials:
-      empty:
-        description: 私たちの使命は、情報に基づいた取引のための包括的な洞察を提供することです。私たちは何千もの暗号プロジェクトに関する情報を収集していますが、一部のコインは完全な分析にさらに時間がかかります。
-        reload: 再読み込み
-        title: HODLオン！データ到着
       label: 社交
       load_more: さらに読み込む
       subtitle: ソーシャル メディアをリアルタイムでスキャンして、暗号通貨の最新情報を把握しましょう。
@@ -86,11 +75,6 @@ coin-details:
       title: トレンドのコインとトークン
     whale_popular:
       title: クジラに人気
-coin-info:
-  24h_chg: 24時間変更
-  market_cap: 時価総額
-  price: 価格
-  volume_24h: 24時間あたりのボリューム
 coin_security:
   contract_security: 契約セキュリティ
   fields:
@@ -147,41 +131,6 @@ coin_security:
   trusted: 信頼できる
   warning_other: "{{count}} 警告"
   warning_zero: 警告なし
-hot-coins-section:
-  filters:
-    24h: 24時間
-    30d: 30D
-    7d: 7D
-    all-coins: すべてのコイン
-    gainers: 利益獲得者
-    losers: 敗者
-    search: コインを検索...
-  table:
-    24h-voume: 24時間ボリューム
-    actions: 行動
-    call-change: 通話変更
-    call-time: 呼び出し時間
-    call-time-info: 当社の AI
-      が重要な機会を検出し、この資産に関するシグナルを送信した正確な瞬間。これを使用して、このトークンを検討するように警告されたタイミングを追跡します。
-    chg-24: 変化(24時間)
-    circulating_supply: 循環供給
-    insights: 洞察
-    market-cap: 時価総額
-    name: 名前
-    negative: ネガティブ
-    pnl: 損益計算書
-    pnl-info: シグナルがトリガーされてからの損益 (PNL) を表示します。アラートが通知された瞬間から資産のパフォーマンスを追跡するのに役立ちます。
-    positive: ポジティブ
-    rank: ランク
-    realtime-price: 価格
-    sentiment: 感情
-    tvl: TVL
-  title: ホットコイン
-hot-coins:
-  side-suggest: サイドの提案
-market-info:
-  description: 電報チャネルからのリアルタイムの洞察
-  social-channel-count: <0>Wisdomise コインレーダースキャン <2>{{channelsCount}}</2> 過去 24 時間のソーシャル アカウント。</0>
 onboarding:
   sec-1:
     content: この短いビデオを見て、当社の AI
@@ -194,41 +143,7 @@ onboarding:
   sec-3:
     content: アラートをカスタマイズし、最もホットなコインに関するパーソナライズされたスクリーナーを作成することで、常に一歩先を行くことができます。リアルタイムで情報を入手し、ブレイクアウトのチャンスを逃さないようにしましょう。
     title: "チャンスを逃さない: アラートとスクリーナーを設定する"
-recommend-account:
-  button: アカウントを推奨
-  modal:
-    cancel: キャンセル
-    channel-address:
-      label: Telegram チャンネル ID、サブレディット、またはアカウント
-      placeholder: "@IDまたは共有可能なリンク"
-      rules:
-        minLength: 3文字以上である必要があります
-        required: チャンネルアドレスは必須です
-    description:
-      label: 説明 <2>（オプション）</2>
-      placeholder: チャンネルに関する追加情報
-      rules:
-        minLength: 3文字以上である必要があります
-    recommend: 推薦する
-    sub-title: Telegram チャンネル ID、Subreddit、またはアカウントと詳細を共有して、Coin Radar
-      を貴重な市場洞察で強化してください。あなたの提案は、シグナル値に基づいて AI システムによってレビューされ、採用されます。
-    title: アカウントを推薦する
 set-notification:
-  modal:
-    alert-channel-section: アラートチャンネル
-    browser-alert-input: ブラウザ通知
-    daily: 毎日
-    description: 暗号通貨の世界で次に起こる大きなチャンスを逃さないでください。当社の通知システムにより、注目のコインや新たな発見について誰よりも早く知ることができます。
-    discord-alert-input: 不和メッセージ
-    email-alert-input: Eメール
-    interval-section: 間隔
-    push-alert-input: プッシュ通知
-    save-button: アラート設定を保存
-    slack-alert-input: Slackメッセージ
-    sms-alert-input: SMS
-    soon: すぐ...
-    telegram-alert-input: テレグラムメッセージ
-    title: ソーシャルレーダー通知
   open-modal-btn:
     not-set: 通知を設定する
     set: 通知が設定されました
@@ -289,24 +204,3 @@ social-radar:
         時間に資産を売却したウォレットの数と売却された合計金額を表示します。 <br /><br />
         クジラにとって魅力的ではなく、重要な取引がない資産の場合、「未追跡」バッジが表示されます。
       title: クジラの売買
-socials:
-  all:
-    subtitle: 信号を分析する {{symbol}} すべてのソーシャルフィード
-    title: すべてのソーシャルフィード
-  reddit:
-    followers: メンバー
-    subtitle: 信号を分析する {{symbol}} Redditコミュニティ
-    title: Reddit
-  telegram:
-    followers: 購読者
-    subtitle: 信号を分析する {{symbol}} テレグラムチャンネルで
-    title: Telegram
-  trading-view:
-    subtitle: 信号を分析する {{symbol}} テクニカル分析のアイデア
-    title: テクニカル分析のアイデア
-  twitter:
-    subtitle: 信号を分析する {{symbol}} Twitter、Xコミュニティ
-    title: X、ツイッター
-tops-section:
-  gainers: 上位の上昇銘柄
-  losers: トップ敗者

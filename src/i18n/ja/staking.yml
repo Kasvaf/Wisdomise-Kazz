@@ -1,11 +1,8 @@
 ask:
-  active-limit: 質問の上限に達しました。続行するにはプランをアップグレードしてください
   athena: アテナ
   athena-subtitle: ファイナンシャル・アシスタント AI
   input-placeholder: 質問してください
-  remain-questions: 残りを楽しんでください {{leftQuestions}} 質問
   suggested-prompts: 推奨されるプロンプト
-  trial-limit: デモ版の質問制限に達しました。続行するにはサブスクリプションを購読してください
 info:
   chart:
     apy-history: APYの履歴

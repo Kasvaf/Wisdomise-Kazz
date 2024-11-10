@@ -9,24 +9,18 @@ confirm-withdrawal:
 equity-description_one: 您有 <1>{{count}}</1> 個運行中的產品<br>，鎖定了 <5>{{blocked}}</5> {{mainQuote}} 的資產。
 equity-description_other: 您有 <1>{{count}}</1> 個正在運行的產品<br>阻止了 <5>{{blocked}}</5> 的 {{mainQuote}} 資本。
 modal-deposit:
-  banner: 您必須從已驗證的錢包進行存款。使用未經驗證的錢包將導致您的帳戶受到<1>限制</1>。
   deposit-address: 僅將<1>{{coin}}</1>發送至此存款地址。
   disclaimer: 向此地址發送{{coin}}以外的幣或代幣可能會導致您的存款丟失。
   title: 存款
-  verify-wallet: 驗證錢包
 modal-success:
   description: 請注意，完成後您將收到電子郵件。
   title: 提款請求已提交
 modal-withdraw:
-  banner:
-    btn-verify-wallet: 驗證錢包
-    description: 要進行提款，您必須選擇一個已驗證的錢包地址。
   btn-withdraw: 提款
   error-max-amount: 您不能提取超過您可用金額的資金。
   error-min-amount: 在{{wallet}}網路中，您不能提取少於{{minAmount}} {{symbol}}的金額。
   min-withdrawal: 最小提款
   title: 提款
-no-verified-wallet: 您沒有已驗證的錢包。
 security-verification:
   btn-resend: 重新發送
   btn-submit: 提交
