@@ -28,19 +28,6 @@ features:
   cancel: Cancel Anytime
   secure: Secure & Private
   trust: Trusted by 40,000+ Users
-overlay-subscription:
-  title: You are not subscribed
-  btn-subscribe: Subscribe
-  btn-upgrade: Upgrade
-  customs-description: To add a question, you need to subscribe to one of the Wisdomise plans
-  signals-description: >-
-    To reveal all signals, you need to <1>Subscribe</1> or <3>Upgrade</3> your
-    current plan.
-  strategy:
-    title: Unlock Premium Signals
-    description: >-
-      To reveal this strategy, you need to have <2>{{level}}</2> or a higher
-      plan.
 periodicity:
   month:
     title: Monthly
