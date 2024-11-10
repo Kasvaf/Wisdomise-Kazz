@@ -1,8 +1,6 @@
 import { bxLeftArrowAlt } from 'boxicons-quasar';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import AdvancedSignalForm from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/AdvancedSignalForm';
-import useSignalFormStates from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/AdvancedSignalForm/useSignalFormStates';
 import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -13,6 +11,8 @@ import {
 } from 'api';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
+import AdvancedSignalForm from './AdvancedSignalForm';
 
 export default function PageTrade() {
   const navigate = useNavigate();

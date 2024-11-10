@@ -14,7 +14,7 @@ const USDT_CONTRACT_ADDRESS = String(
   import.meta.env.VITE_USDT_CONTRACT_ADDRESS,
 );
 
-export const useJettonWalletAddress = () => {
+const useJettonWalletAddress = () => {
   const address = useTonAddress();
 
   return useQuery(

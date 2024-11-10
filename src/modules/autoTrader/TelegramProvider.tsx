@@ -7,7 +7,7 @@ import {
 } from 'react';
 import configTelegramMiniApp from 'config/telegramMiniApp';
 
-export const TelegramContext = createContext<Telegram | undefined>(undefined);
+const TelegramContext = createContext<Telegram | undefined>(undefined);
 
 export const useTelegram = () => {
   const telegram = useContext(TelegramContext);

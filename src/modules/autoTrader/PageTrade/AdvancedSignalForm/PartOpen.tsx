@@ -6,7 +6,7 @@ import { roundSensible } from 'utils/numbers';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import InfoButton from 'shared/InfoButton';
 import TextBox from 'shared/TextBox';
-import DurationInput from '../DurationInput';
+import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
 import { type SignalFormState } from './useSignalFormStates';

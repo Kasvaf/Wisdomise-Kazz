@@ -12,8 +12,8 @@ import {
   type Position,
 } from 'api/trader';
 import { useTransferAssetsMutation } from 'api/ton';
-import { parseDur } from 'modules/builder/signaler/PageSignalerDetails/TabTerminal/DurationInput';
 import { type SignalFormState } from './useSignalFormStates';
+import { parseDur } from './DurationInput';
 
 interface Props {
   data: SignalFormState;
