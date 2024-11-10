@@ -76,8 +76,8 @@ pricing-card:
   notification-upgrade-success: 您的訂閱已成功更新。可能需要幾分鐘才能激活。請在幾分鐘後重新加載此頁面。
   page-subtitle: 您可以從此部分選擇您的套餐類型
   page-title: 計費套餐
-  pay-by-locking: 通過鎖定<1>{{token}}<1>WSDM</1></1> 代幣支付
-  pay-by-locking-in-yearly-only: 通過鎖定<1>WSDM</1>代幣支付：僅在年度方案
+  pay-by-locking: 锁定即可免费访问 <b>{{token}} WSDM</b> 代币
+  pay-by-locking-in-yearly-only: 锁定付款 <b>WSDM</b> 代币：每年刚刚到
   pay-by-stacking: 通過質押<1>{{token}}<1>WSDM</1></1> 代幣支付
   pay-by-stacking-in-yearly-only: 通過質押<1>WSDM</1>代幣支付：僅在年度方案
   pay-by-wsdm: 付款<1>WSDM</1>和 <4>50% 折扣</4>

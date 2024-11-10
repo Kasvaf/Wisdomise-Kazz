@@ -150,19 +150,22 @@ export default function PricingCard({
                 '[&_b]:rounded [&_b]:px-2 [&_b]:py-px [&_b]:font-semibold [&_b]:text-white',
               )}
             >
-              <Trans
-                ns="billing"
-                i18nKey={
-                  plan.periodicity === 'YEARLY'
-                    ? 'pricing-card.pay-by-locking'
-                    : 'pricing-card.pay-by-locking-in-yearly-only'
-                }
-                values={{
-                  token:
-                    lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
-                    '0',
-                }}
-              />
+              {plan.periodicity === 'YEARLY' ? (
+                <Trans
+                  ns="billing"
+                  i18nKey="pricing-card.pay-by-locking"
+                  values={{
+                    token:
+                      lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
+                      '0',
+                  }}
+                />
+              ) : (
+                <Trans
+                  ns="billing"
+                  i18nKey="pricing-card.pay-by-locking-in-yearly-only"
+                />
+              )}
             </p>
           </div>
         )}

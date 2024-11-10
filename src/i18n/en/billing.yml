@@ -69,6 +69,8 @@ pricing-card:
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to
     activate. Please reload this page after some minutes.
+  pay-by-locking: Access For Free by locking <b>{{token}} WSDM</b> Tokens
+  pay-by-locking-in-yearly-only: 'Pay By Locking <b>WSDM</b> Token: Just In Annually'
 stripe:
   change-card-info:
     title: Change Card Info
