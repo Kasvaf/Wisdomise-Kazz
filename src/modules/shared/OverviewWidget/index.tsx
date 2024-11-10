@@ -57,7 +57,7 @@ export function OverviewWidget({
       {(title || info || headerActions) && (
         <header
           className={clsx(
-            'flex shrink-0 items-center justify-between gap-6 overflow-auto overflow-y-hidden whitespace-nowrap text-v1-content-primary',
+            'flex shrink-0 items-center justify-between gap-6 overflow-hidden text-v1-content-primary',
             '-mx-5 px-5 2xl:-mx-6 2xl:px-6',
             headerClassName,
           )}
