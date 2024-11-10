@@ -31,13 +31,10 @@ export function CoinSocialSentimentWidget({
         </p>
       </div>
       {coinSignal && <SentimentGuage measure={coinSignal.gauge_measure} />}
-      <p className="-mt-16 text-center text-xl font-normal">
-        {coinSignal && <SignalSentiment signal={coinSignal} />}
+      <p className="-mt-12 text-center text-xl font-normal">
+        {coinSignal && <SignalSentiment signal={coinSignal} centerMode />}
       </p>
       <div className="mt-4 text-center font-normal leading-8">
-        <p className="text-xs">
-          {t('coin-details.tabs.social_sentiment.market_side')}
-        </p>
         <p className="text-xxs text-v1-content-secondary">
           {t('coin-details.tabs.social_sentiment.footer')}
         </p>

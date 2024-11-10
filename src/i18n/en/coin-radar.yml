@@ -114,9 +114,10 @@ coin-details:
       title: Social Sentiment By Wisdomise
       footer: Past 24H, Community Data Insights
       hunted-at: Hunted At
-      market_side: Market Side
+      long: Long Oppty.
       negative: Negative
       positive: Positive
+      short: Short Oppty.
     socials:
       title: Social Feed
       subtitle: Stay ahead in crypto with real-time scans of social media.
