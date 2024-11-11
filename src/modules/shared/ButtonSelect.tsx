@@ -3,11 +3,13 @@ import { type ReactNode } from 'react';
 
 export function ButtonSelect<T>({
   className,
+  itemsClassName,
   options,
   value,
   onChange,
 }: {
   className?: string;
+  itemsClassName?: string;
   options: Array<{
     value: T;
     label: ReactNode;
@@ -40,6 +42,7 @@ export function ButtonSelect<T>({
               'enabled:hover:bg-white/5',
               'aria-checked:text-white enabled:aria-checked:bg-white/10',
               'disabled:opacity-40',
+              itemsClassName,
             )}
           >
             {option.label}

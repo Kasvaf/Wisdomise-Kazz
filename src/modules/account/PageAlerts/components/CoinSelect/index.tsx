@@ -4,11 +4,11 @@ import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useCoinList, useCoinOverview } from 'api';
-import { Coin } from 'shared/Coin';
 import type { Coin as CoinType } from 'api/types/shared';
-import Spin from 'shared/Spin';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import { Coin } from 'shared/Coin';
+import Spin from 'shared/Spin';
 import Icon from 'shared/Icon';
 
 export const CoinSelect: FC<
@@ -16,6 +16,7 @@ export const CoinSelect: FC<
     networkName?: string;
     filterTokens?: (item: string) => boolean;
     showPrice?: boolean;
+    emptyOption?: string;
   }
 > = ({
   value,
@@ -24,6 +25,7 @@ export const CoinSelect: FC<
   networkName,
   filterTokens,
   showPrice,
+  emptyOption,
   ...props
 }) => {
   const [query, setQuery] = useState('');
@@ -86,14 +88,22 @@ export const CoinSelect: FC<
           </div>
         ) : undefined
       }
-      options={
-        coins
+      options={[
+        ...(emptyOption
+          ? [
+              {
+                label: emptyOption,
+                value: '',
+              },
+            ]
+          : []),
+        ...coins
           .filter(x => (filterTokens ? filterTokens(x.slug ?? '') : true))
           .map(c => ({
             label: <Coin coin={c} nonLink mini className="!p-0 align-middle" />,
             value: c.slug,
-          })) ?? []
-      }
+          })),
+      ]}
       {...props}
     />
   );

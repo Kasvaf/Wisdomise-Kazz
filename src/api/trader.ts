@@ -73,7 +73,6 @@ export function useTraderPositionsQuery(pair?: string) {
     {
       staleTime: Number.POSITIVE_INFINITY,
       refetchInterval: 30_000,
-      enabled: !!pair,
     },
   );
 }
