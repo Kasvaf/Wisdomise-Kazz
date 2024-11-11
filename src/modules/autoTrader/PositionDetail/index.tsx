@@ -13,6 +13,8 @@ const PositionDetail: React.FC<{
   position: Position;
   className?: string;
 }> = ({ pairSlug, position, className }) => {
+  const initialDeposit = initialQuoteDeposit(position);
+
   return (
     <div
       className={clsx('rounded-3xl bg-v1-surface-l2 p-4 text-xs', className)}
@@ -78,12 +80,14 @@ const PositionDetail: React.FC<{
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Initial Deposit</span>
-          <span>
-            {initialQuoteDeposit(position)} {position.quote}
-          </span>
-        </div>
+        {initialDeposit !== undefined && (
+          <div className="flex items-center justify-between">
+            <span className="text-v1-content-secondary">Initial Deposit</span>
+            <span>
+              {initialDeposit} {position.quote}
+            </span>
+          </div>
+        )}
 
         {position.current_assets
           .filter(x => !x.is_gas_fee)
