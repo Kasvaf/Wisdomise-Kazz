@@ -9,8 +9,8 @@ import { useQuery } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 
 const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
-const USDT_DECIMAL = Number(import.meta.env.VITE_USDT_DECIMAL);
-const USDT_CONTRACT_ADDRESS = String(
+export const USDT_DECIMAL = Number(import.meta.env.VITE_USDT_DECIMAL);
+export const USDT_CONTRACT_ADDRESS = String(
   import.meta.env.VITE_USDT_CONTRACT_ADDRESS,
 );
 
