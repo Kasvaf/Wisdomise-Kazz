@@ -46,9 +46,11 @@ coin-details:
     social_sentiment:
       footer: 過去 24 時間、コミュニティ データの洞察
       hunted-at: 狩られた場所
+      long: ロングチャンス。
       market_side: マーケットサイド
       negative: ネガティブ
       positive: ポジティブ
+      short: ショートチャンス。
       title: 社会感情 ウィズダムズ
     socials:
       label: 社交

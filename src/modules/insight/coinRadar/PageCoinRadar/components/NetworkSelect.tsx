@@ -24,7 +24,6 @@ export const NetworkSelect: FC<SelectProps<string>> = ({
         className,
       )}
       value={value}
-      showArrow={false}
       disabled={disabled}
       loading={loading || networks.isLoading}
       allowClear
@@ -41,15 +40,15 @@ export const NetworkSelect: FC<SelectProps<string>> = ({
       }
       options={networks.data?.map(network => ({
         label: (
-          <span className="flex items-center pe-3">
+          <span className="pe-3">
             {network.icon_url ? (
               <img
                 src={network.icon_url}
                 alt={network.name}
-                className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4"
+                className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4 align-middle"
               />
             ) : (
-              <span className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4" />
+              <span className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4 align-middle" />
             )}
             {network.name}
           </span>

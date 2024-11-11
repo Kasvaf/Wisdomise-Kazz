@@ -11,7 +11,7 @@ export function CoinCategoriesLabel({ coin }: { coin: Coin }) {
       title={
         <ul className="space-y-6">
           {(coin.categories ?? []).map(cat => (
-            <li key={cat.coingecko_id}>{cat.name}</li>
+            <li key={cat.slug}>{cat.name}</li>
           ))}
         </ul>
       }

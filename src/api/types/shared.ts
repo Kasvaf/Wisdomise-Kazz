@@ -7,7 +7,7 @@ export interface Coin {
   logo_url?: string | null;
   categories?: null | Array<{
     name: string;
-    coingecko_id: string;
+    slug: string;
   }>;
 }
 

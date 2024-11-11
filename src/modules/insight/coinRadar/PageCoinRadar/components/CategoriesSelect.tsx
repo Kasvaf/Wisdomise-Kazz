@@ -5,7 +5,6 @@ import { useDebounce } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
 import { useCategories } from 'api';
 
-/* NAITODO ask why no signal has this cats? */
 export const CategoriesSelect: FC<SelectProps<string>> = ({
   value,
   className,
@@ -45,7 +44,7 @@ export const CategoriesSelect: FC<SelectProps<string>> = ({
       placeholder={<span>{t('coin-category.all')}</span>}
       options={categories.data?.map(cat => ({
         label: <span className="pe-3">{cat.name}</span>,
-        value: cat.coingecko_id,
+        value: cat.slug,
       }))}
       {...props}
     />

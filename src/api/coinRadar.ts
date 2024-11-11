@@ -450,8 +450,8 @@ export const useCategories = (query?: string) =>
       axios
         .get<
           Array<{
-            coingecko_id: number;
             name: string;
+            slug: string;
           }>
         >('/delphi/symbol-category/search/', {
           params: {

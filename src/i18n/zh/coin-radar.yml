@@ -46,9 +46,11 @@ coin-details:
     social_sentiment:
       footer: 过去 24 小时，社区数据洞察
       hunted-at: 猎杀地点
+      long: 长期机会。
       market_side: 市場方向
       negative: 消極負面
       positive: 積極正向
+      short: 短暂的机会。
       title: 智慧社会情绪
     socials:
       label: 社会的

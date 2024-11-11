@@ -16,18 +16,49 @@ import { ReactComponent as Logo } from './logo.svg';
 export const SignalSentiment: FC<{
   signal: CoinSignal;
   className?: string;
-}> = ({ signal, className }) => {
+  centerMode?: boolean;
+}> = ({ signal, className, centerMode }) => {
   const { t } = useTranslation('coin-radar');
   const [tick, setTick] = useState(1); // used as dependency to update content
 
   const chartConfig = useMemo<TinyAreaConfig>(() => {
-    const data = signal.signals_analysis.sparkline?.prices ?? [];
-    const max = Math.max(...data);
-    const maxIndex = data.indexOf(max);
+    let data = (signal.signals_analysis.sparkline?.prices ?? [])
+      .map((price, index) => {
+        if (!signal.signals_analysis.sparkline?.related_ats?.[index]) {
+          return null;
+        }
+        const isCallTime = dayjs(
+          signal.signals_analysis.sparkline?.related_ats?.[index],
+        ).isSame(signal.signals_analysis.call_time);
+
+        return {
+          price,
+          relatedAt: signal.signals_analysis.sparkline?.related_ats?.[index],
+          type: isCallTime
+            ? 'start'
+            : price === signal.signals_analysis.max_price
+            ? 'max'
+            : price === signal.signals_analysis.min_price
+            ? 'min'
+            : null,
+        };
+      })
+      .filter(x => x !== null);
+    data = data.slice(
+      data.findIndex(
+        x =>
+          Math.abs(
+            dayjs(x.relatedAt).diff(
+              signal.signals_analysis.call_time,
+              'minutes',
+            ),
+          ) <= 120,
+      ),
+    );
     return {
       height: 90,
       autoFit: true,
-      data,
+      data: data.map(r => r.price),
       smooth: true,
       areaStyle: {
         fill: 'l(270) 0:#282A32 1:#00ffa27d',
@@ -39,7 +70,9 @@ export const SignalSentiment: FC<{
       point: {
         size: 4,
         style: item => {
-          if (item.x === maxIndex.toString()) {
+          if (!item?.x || !data[+item.x]) return {};
+          const itemObj = data[+item.x];
+          if (itemObj.type === 'start') {
             return {
               lineWidth: 2,
               fillOpacity: 1,
@@ -58,8 +91,14 @@ export const SignalSentiment: FC<{
       annotations: [
         {
           type: 'line',
-          start: ['0%', '0%'],
-          end: ['100%', '0%'],
+          start: [
+            'min',
+            data.find(x => x.type === 'start')?.price?.toString() || 'max',
+          ],
+          end: [
+            'max',
+            data.find(x => x.type === 'start')?.price?.toString() || 'max',
+          ],
           style: {
             stroke: 'white',
             strokeOpacity: 0.4,
@@ -80,7 +119,7 @@ export const SignalSentiment: FC<{
         },
         customContent: dt => {
           if (dt && data[+dt]) {
-            return `$ ${formatNumber(data[+dt], {
+            return `$ ${formatNumber(data[+dt].price, {
               compactInteger: true,
               decimalLength: 4,
               minifyDecimalRepeats: true,
@@ -188,7 +227,8 @@ export const SignalSentiment: FC<{
       >
         <div
           className={clsx(
-            'flex items-center gap-1 text-sm',
+            'flex items-center gap-1 text-sm capitalize',
+            centerMode && 'justify-center',
             signal.gauge_tag === 'LONG'
               ? 'text-v1-content-positive'
               : signal.gauge_tag === 'SHORT'
@@ -196,23 +236,38 @@ export const SignalSentiment: FC<{
               : 'text-v1-content-primary',
           )}
         >
-          <Icon
-            size={18}
-            name={
-              signal.gauge_tag === 'LONG'
-                ? bxHappy
-                : signal.gauge_tag === 'SHORT'
-                ? bxSad
-                : bxMeh
-            }
-          />
+          {!centerMode && (
+            <Icon
+              size={18}
+              name={
+                signal.gauge_tag === 'LONG'
+                  ? bxHappy
+                  : signal.gauge_tag === 'SHORT'
+                  ? bxSad
+                  : bxMeh
+              }
+            />
+          )}
           {signal.gauge_tag === 'LONG'
             ? t('coin-details.tabs.social_sentiment.positive')
             : signal.gauge_tag === 'SHORT'
             ? t('coin-details.tabs.social_sentiment.negative')
             : signal.gauge_tag}
+          <span className="text-xxs font-normal text-v1-content-primary">
+            {signal.gauge_tag === 'LONG'
+              ? `(${t('coin-details.tabs.social_sentiment.long')})`
+              : signal.gauge_tag === 'SHORT'
+              ? `(${t('coin-details.tabs.social_sentiment.short')})`
+              : null}
+          </span>
         </div>
-        <div className="flex items-center gap-1 ps-[22px] text-xs">
+        <div
+          className={clsx(
+            'flex items-center gap-1 text-xs',
+            !centerMode && 'ps-[22px]',
+            centerMode && 'justify-center',
+          )}
+        >
           <label className="text-v1-content-secondary">
             {t('coin-details.tabs.social_sentiment.hunted-at')}:
           </label>
