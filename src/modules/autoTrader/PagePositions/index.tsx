@@ -60,8 +60,8 @@ const PagePositions = () => {
       ) : (
         <div className="my-8 flex w-full justify-center rounded-xl bg-v1-surface-l1 p-4">
           {filter === 'active'
-            ? 'You have no active positions for this pair.'
-            : 'You have no closed positions for this pair.'}
+            ? 'No active positions found.'
+            : 'No closed positions found.'}
         </div>
       )}
     </div>
