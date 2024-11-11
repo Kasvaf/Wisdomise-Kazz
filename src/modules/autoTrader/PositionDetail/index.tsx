@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { bxEditAlt } from 'boxicons-quasar';
-import { isPositionUpdatable, type Position } from 'api';
+import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import Badge from 'shared/Badge';
@@ -77,13 +77,28 @@ const PositionDetail: React.FC<{
             {position.exit_time ? dayjs(position.exit_time).fromNow() : '-'}
           </span>
         </div>
+
+        <div className="flex items-center justify-between">
+          <span className="text-v1-content-secondary">Initial Deposit</span>
+          <span>
+            {initialQuoteDeposit(position)} {position.quote}
+          </span>
+        </div>
+
+        {position.current_assets
+          .filter(x => !x.is_gas_fee)
+          .map(a => (
+            <div key={a.asset} className="flex items-center justify-between">
+              <span className="text-v1-content-secondary">
+                Current {a.asset}
+              </span>
+              <span>{a.amount}</span>
+            </div>
+          ))}
+
         <div className="flex items-center justify-between">
           <span className="text-v1-content-secondary">P / L</span>
           <span>{position.pnl ?? '-'}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Size</span>
-          <span>{position.size}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-v1-content-secondary">

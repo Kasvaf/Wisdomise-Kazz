@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { type Position } from 'api';
+import { initialQuoteDeposit, type Position } from 'api';
 import { type SignalFormState } from './useSignalFormStates';
 
 interface Mergeable {
@@ -76,7 +76,9 @@ const useSyncFormState = ({
 
     if (activePosition) {
       setMarket(activePosition.side.toLowerCase() as 'long' | 'short');
-      // setAmount(String(activePosition.amount)); // TODO
+
+      const amount = initialQuoteDeposit(activePosition);
+      if (amount !== undefined) setAmount(String(amount));
     }
 
     const firstOrder = activePosition?.manager?.open_orders?.[0];

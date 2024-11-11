@@ -38,7 +38,7 @@ export default function PageTrade() {
         <Button
           variant="alternative"
           to="/trader-hot-coins"
-          className="!px-3 !py-0"
+          className="flex items-center justify-center !px-3 !py-0"
         >
           <Icon name={bxLeftArrowAlt} />
         </Button>

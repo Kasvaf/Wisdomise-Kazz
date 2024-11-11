@@ -32,6 +32,16 @@ export interface Position {
   stop_loss?: string;
   take_profit?: string;
   size?: string;
+  quote: string;
+  base: string;
+  current_assets: PositionAsset[];
+  deposit_assets: PositionAsset[];
+}
+
+interface PositionAsset {
+  amount: string;
+  asset: string;
+  is_gas_fee?: boolean;
 }
 
 export function isPositionUpdatable(position: Position) {
@@ -40,6 +50,13 @@ export function isPositionUpdatable(position: Position) {
     position.status !== 'CANCELED' &&
     (position.status !== 'DRAFT' || position.deposit_status !== 'PENDING')
   );
+}
+
+export function initialQuoteDeposit(p: Position) {
+  const result = p.deposit_assets.find(
+    x => x.asset === p.quote && !x.is_gas_fee,
+  )?.amount;
+  return result === undefined ? undefined : Number(result);
 }
 
 export function useTraderPositionQuery(positionKey?: string) {

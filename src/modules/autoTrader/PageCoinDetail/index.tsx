@@ -53,14 +53,18 @@ export default function PageCoinDetail() {
         </div>
       )}
 
-      {positionsRes?.positions.map(position => (
-        <PositionDetail
-          key={position.key}
-          pairSlug={slug}
-          position={position}
-          className="mb-3"
-        />
-      ))}
+      {positionsRes?.positions
+        ?.filter(x =>
+          ['DRAFT', 'PENDING', 'OPENING', 'OPEN'].includes(x.status),
+        )
+        .map(position => (
+          <PositionDetail
+            key={position.key}
+            pairSlug={slug}
+            position={position}
+            className="mb-3"
+          />
+        ))}
 
       <Button
         variant="brand"
