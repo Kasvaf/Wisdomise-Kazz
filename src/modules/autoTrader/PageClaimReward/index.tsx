@@ -23,6 +23,8 @@ import silver from './images/silver.png';
 import star from './images/star.svg';
 
 export const TON_PER_REFERRAL = 0.01;
+const WSDM_CONTRACT_ADDRESS = import.meta.env
+  .VITE_WSDM_CONTRACT_ADDRESS as string;
 
 export default function ClaimRewardPage() {
   const address = useTonAddress();
@@ -39,7 +41,9 @@ export default function ClaimRewardPage() {
   const [tonConnect] = useTonConnectUI();
   const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
     useWithdrawMutation();
-  const { data: accountJettonBalance } = useAccountJettonBalance();
+  const { data: accountJettonBalance } = useAccountJettonBalance(
+    WSDM_CONTRACT_ADDRESS,
+  );
 
   useEffect(() => {
     sync({});

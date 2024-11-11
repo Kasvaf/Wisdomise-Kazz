@@ -6,6 +6,8 @@ import { roundSensible } from 'utils/numbers';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import InfoButton from 'shared/InfoButton';
 import TextBox from 'shared/TextBox';
+import { useAccountJettonBalance } from 'api/gamification';
+import { USDT_CONTRACT_ADDRESS, USDT_DECIMAL } from 'api/ton';
 import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
@@ -32,6 +34,7 @@ const PartOpen: React.FC<{
   } = data;
 
   const { data: lastPrice } = useCoinOverview({ slug });
+  const { data: balance } = useAccountJettonBalance(USDT_CONTRACT_ADDRESS);
   const assetPrice = lastPrice?.data?.current_price;
 
   useEffect(() => {
@@ -63,7 +66,14 @@ const PartOpen: React.FC<{
       )}
 
       <TextBox
-        label="Amount"
+        label={
+          <div className="flex items-center justify-between">
+            <span>Amount</span>
+            <span className="text-sm text-white/40">
+              Balance: {+(balance?.balance ?? 0) / 10 ** USDT_DECIMAL} USDT
+            </span>
+          </div>
+        }
         type="number"
         value={amount}
         onChange={value => setAmount(value)}

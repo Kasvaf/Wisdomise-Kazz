@@ -7,8 +7,6 @@ import { useGameLoginQuery } from 'api/account';
 import { isLocal } from 'utils/version';
 import { useTelegram } from 'modules/autoTrader/TelegramProvider';
 
-const WSDM_CONTRACT_ADDRESS = import.meta.env
-  .VITE_WSDM_CONTRACT_ADDRESS as string;
 const TON_API_BASE_URL = import.meta.env.VITE_TON_API_BASE_URL as string;
 
 export interface Friend {
@@ -159,13 +157,13 @@ export interface AccountJettonBalance {
   balance: string;
 }
 
-export const useAccountJettonBalance = () => {
+export const useAccountJettonBalance = (jettonContractAddress: string) => {
   const address = useTonAddress();
   return useQuery(
     ['accountJettonBalance', address],
     async () => {
       const { data } = await axios.get<AccountJettonBalance>(
-        `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${WSDM_CONTRACT_ADDRESS}`,
+        `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${jettonContractAddress}`,
         {
           meta: { auth: false },
         },
