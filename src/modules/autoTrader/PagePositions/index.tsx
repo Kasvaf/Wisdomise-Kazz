@@ -1,9 +1,7 @@
-import { useTraderPositionsQuery } from 'api';
-import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import Spinner from 'shared/Spinner';
+import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
 import { ButtonSelect } from 'shared/ButtonSelect';
-import PositionDetail from '../PositionDetail';
+import PositionsList from '../PositionsList';
 
 const PagePositions = () => {
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
@@ -11,15 +9,6 @@ const PagePositions = () => {
     'active',
   );
   const [slug, setSlug] = useSearchParamAsState('slug');
-
-  const { data: positions, isLoading } = useTraderPositionsQuery(slug);
-  const positionsRes =
-    positions?.positions.filter(x =>
-      (filter === 'active'
-        ? ['DRAFT', 'PENDING', 'OPENING', 'OPEN']
-        : ['CLOSED', 'CANCELED']
-      ).includes(x.status),
-    ) ?? [];
 
   return (
     <div>
@@ -44,26 +33,7 @@ const PagePositions = () => {
         emptyOption="All Coins & Tokens"
       />
 
-      {isLoading ? (
-        <div className="my-8 flex justify-center">
-          <Spinner />
-        </div>
-      ) : positionsRes.length > 0 ? (
-        positionsRes.map(position => (
-          <PositionDetail
-            key={position.key}
-            pairSlug={'slug'}
-            position={position}
-            className="mb-3"
-          />
-        ))
-      ) : (
-        <div className="my-8 flex w-full justify-center rounded-xl bg-v1-surface-l1 p-4">
-          {filter === 'active'
-            ? 'No active positions found.'
-            : 'No closed positions found.'}
-        </div>
-      )}
+      <PositionsList slug={slug} isOpen={filter === 'active'} />
     </div>
   );
 };

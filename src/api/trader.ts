@@ -5,6 +5,7 @@ import {
   type SignalItem,
   type Signal,
 } from 'api/builder';
+import { useCoinOverview } from './coinRadar';
 
 export interface PositionsResponse {
   positions: Position[];
@@ -78,13 +79,27 @@ export function useTraderPositionQuery(positionKey?: string) {
   );
 }
 
-export function useTraderPositionsQuery(pair?: string) {
+export function useTraderPositionsQuery({
+  slug,
+  isOpen,
+}: {
+  slug?: string;
+  isOpen?: boolean;
+}) {
+  const coinOverview = useCoinOverview({ slug });
+  const pair = coinOverview?.data?.symbol.abbreviation
+    ? `${coinOverview?.data?.symbol.abbreviation}USDT`
+    : undefined;
+
   return useQuery(
-    ['traderPositions', pair],
+    ['traderPositions', pair, isOpen],
     async () => {
-      const { data } = await axios.get<PositionsResponse>(
-        `trader/positions?pair=${pair ?? ''}`,
-      );
+      const { data } = await axios.get<PositionsResponse>('trader/positions', {
+        params: {
+          pair,
+          is_open: isOpen,
+        },
+      });
       return data;
     },
     {
