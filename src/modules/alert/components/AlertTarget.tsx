@@ -74,6 +74,7 @@ export function AlertTarget({
         />
       )}
       {alertForm.value === 'report' && <>{t('types.report.sentence')}</>}
+      {alertForm.value === 'screener' && <>{t('types.screener.sentence')}</>}
     </div>
   );
 }

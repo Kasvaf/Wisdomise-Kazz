@@ -8,6 +8,7 @@ import { AlertType } from 'modules/alert/components/AlertType';
 import { AlertTarget } from 'modules/alert/components/AlertTarget';
 import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
 import { AlertActions } from 'modules/alert/components/AlertActions';
+import { AlertStateChanger } from '../components/AlertStateChanger';
 
 export function NotificationsAlertsWidget({
   stateQuery,
@@ -34,18 +35,28 @@ export function NotificationsAlertsWidget({
         render: (_, row) => <AlertDeliveryMethods value={row} />,
       },
       {
-        title: t('tables.interval'),
-        render: () => t('common.notifications.invervals.daily'),
+        title: t('tables.frequency'),
+        render: () => t('common.notifications.unlimited-times'),
       },
       {
         title: t('tables.actions'),
         render: (_, row) => <AlertActions value={row} />,
       },
+      {
+        title: t('tables.status'),
+        render: (_, row) => <AlertStateChanger value={row} />,
+      },
     ],
     [t],
   );
 
-  if (stateQuery === 'DISABLED' || alerts.length === 0) return null;
+  const alertsMatchedStateQuery = alerts.filter(row =>
+    stateQuery
+      ? row.state === stateQuery ||
+        (row.state === 'SNOOZE' && stateQuery === 'ACTIVE')
+      : true,
+  );
+  if (alertsMatchedStateQuery.length === 0) return null;
 
   return (
     <OverviewWidget>
@@ -54,7 +65,7 @@ export function NotificationsAlertsWidget({
       </div>
       <Table
         columns={columns}
-        dataSource={alerts}
+        dataSource={alertsMatchedStateQuery}
         rowKey={row => row.key ?? ''}
         pagination={false}
         rowClassName="[&_td]:!py-6"

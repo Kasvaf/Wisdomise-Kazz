@@ -2,6 +2,8 @@ common:
   active: Active
   alerts-list: Alerts List
   all: All
+  all-categories: All Categories
+  all-networks: All Chains
   current-price: Current Price
   delete-confirm:
     title: Are you sure?
@@ -79,10 +81,26 @@ types:
       subtitle: >-
         Stay ahead with instant notifications on trending coins and new market
         opportunities.
-      crumb: Coin Radar Alert
+      crumb: Social Radar Report
+    types:
+      social_radar:
+        title: Social Radar Report
   screener:
     title: Screener
     subtitle: Get alerts when a coin enters the top 5—stay informed and ready to act!
+    sentence: Get notified as soon as a coin enters the top 5 of our Social Radar list.
+    step-1:
+      title: Set Screener
+      subtitle: >-
+        Set automated alerts with our radars (Social, Technical, Whale) to get
+        notified when a coin breaks into the top 5—keeping you informed and
+        ready to act on market trends.
+    types:
+      social_radar:
+        title: Social Radar Screener
+        subtitle: >-
+          Get notified as soon as a coin enters the top 5 of our Social Radar
+          list.
   signaler:
     title: Signaler Alert
     subtitle: Receive expert insights and alerts for smarter trading!

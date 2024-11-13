@@ -118,9 +118,10 @@ export const useSaveAlert = (alertId?: string) => {
       if (!payload.data_source)
         throw new Error('Alert data_source is not valid');
       if (payload.data_source === 'manual:social_radar_daily_report') {
-        return toggleSocialRadarDailyReportAlert(
-          payload.messengers?.includes('EMAIL') ?? false,
-        );
+        const unsub =
+          !payload.messengers?.includes('EMAIL') ||
+          payload.state === 'DISABLED';
+        return toggleSocialRadarDailyReportAlert(!unsub);
       }
       const alertKey = payload.key ?? alertId;
       return saveAlertingAlert({

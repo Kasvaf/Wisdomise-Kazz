@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSubscription } from 'api';
 import { AlertBreadcrumb, type AlertCrumb } from './AlertBreadcrumb';
 import { AlertNavbarButton } from './AlertNavbarButton';
 import { type AlertForm } from './types';
@@ -21,6 +22,7 @@ export function AlertEdit({
   lock?: boolean;
 }) {
   const { t } = useTranslation('alerts');
+  const subscription = useSubscription();
 
   const [value, setValue] = useEditingAlert();
 
@@ -126,7 +128,7 @@ export function AlertEdit({
         </div>
       )}
 
-      {activeStepObject && (
+      {activeStepObject && subscription.type !== 'pro' && (
         <div className="mt-6 w-full">
           <div className="h-px bg-v1-border-tertiary" />
           <AlertSubscriptionBanner className="mx-auto mt-10 w-full max-w-[420px]" />
