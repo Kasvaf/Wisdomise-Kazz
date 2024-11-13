@@ -72,12 +72,12 @@ const PartOpen: React.FC<{
             <span>Amount</span>
             <div
               className="flex items-center gap-1"
-              onClick={() => setAmount(String(balance))}
+              onClick={() => !isUpdate && setAmount(String(balance))}
             >
               <span className="text-sm text-white/40">
                 Balance: {balance} USDT
               </span>
-              <Icon name={bxPlusCircle} size={16} />
+              {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
             </div>
           </div>
         }
