@@ -56,6 +56,7 @@ const PositionDetail: React.FC<{
                   PENDING: 'blue',
                   OPENING: 'green',
                   OPEN: 'green',
+                  CLOSING: 'grey',
                   CLOSED: 'grey',
                   CANCELED: 'red',
                 } as const

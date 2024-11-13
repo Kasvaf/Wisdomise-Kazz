@@ -13,7 +13,14 @@ export interface PositionsResponse {
 
 export interface Position {
   key: string;
-  status: 'DRAFT' | 'PENDING' | 'OPENING' | 'OPEN' | 'CLOSED' | 'CANCELED';
+  status:
+    | 'DRAFT'
+    | 'PENDING'
+    | 'OPENING'
+    | 'OPEN'
+    | 'CLOSING'
+    | 'CLOSED'
+    | 'CANCELED';
   deposit_status: 'PENDING' | 'PAID' | 'EXPIRED';
   withdraw_status?: 'SENT' | 'PAID';
   pair: string;
@@ -47,6 +54,7 @@ interface PositionAsset {
 
 export function isPositionUpdatable(position: Position) {
   return (
+    position.status !== 'CLOSING' &&
     position.status !== 'CLOSED' &&
     position.status !== 'CANCELED' &&
     (position.status !== 'DRAFT' || position.deposit_status !== 'PENDING')
