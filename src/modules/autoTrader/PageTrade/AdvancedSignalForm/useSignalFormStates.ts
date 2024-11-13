@@ -117,17 +117,17 @@ const useSignalFormStates = () => {
     getStopLosses: () => toApiContract(stopLosses),
     getOpenOrders: (
       marketPrice: number,
-      openOrders: OpenOrderResponse[] = [],
+      remoteOpenOrders: OpenOrderResponse[] = [],
     ) => ({
       items: [
-        openOrders?.[0]?.applied
+        remoteOpenOrders?.[0]?.applied
           ? {
-              key: openOrders[0].key,
-              condition: openOrders[0].condition,
+              key: remoteOpenOrders[0].key,
+              condition: remoteOpenOrders[0].condition,
               amount: +volume / 100,
               price:
                 orderType === 'limit'
-                  ? { value: Number(openOrders[0].price) }
+                  ? { value: Number(remoteOpenOrders[0].price) }
                   : undefined,
               order_type: orderType,
             }
@@ -145,7 +145,7 @@ const useSignalFormStates = () => {
               order_type: orderType,
             },
         ...(+volume < 100
-          ? getSafetyOpens(safetyOpens, openOrders, marketPrice)
+          ? getSafetyOpens(safetyOpens, remoteOpenOrders, marketPrice)
           : []),
       ] satisfies OpenOrderInput[],
     }),

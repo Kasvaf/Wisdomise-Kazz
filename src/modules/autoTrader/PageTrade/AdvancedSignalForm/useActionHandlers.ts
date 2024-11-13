@@ -77,7 +77,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
           },
           take_profit: getTakeProfits(),
           stop_loss: getStopLosses(),
-          open_orders: getOpenOrders(0),
+          open_orders: getOpenOrders(assetPrice),
         },
         withdraw_address: address,
         quote: 'USDT',
