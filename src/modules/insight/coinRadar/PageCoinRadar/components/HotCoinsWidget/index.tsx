@@ -19,12 +19,12 @@ import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinCategoriesLabel } from '../CoinCategoriesLabel';
 import { CoinSecurityLabel } from '../CoinSecurityLabel/index';
 import { type SortMode, SortModes } from '../SortModes';
-import SetCoinRadarAlert from '../SetCoinRadarAlert';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
 import { CoinMarketCap } from '../CoinMarketCap/index';
 import { NetworkSelect } from '../NetworkSelect';
 import { CategoriesSelect } from '../CategoriesSelect';
+import CoinRadarAlerButton from '../CoinRadarAlertButton';
 import { ReactComponent as Logo } from './logo.svg';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -249,7 +249,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             </div>
 
             <div className="grow mobile:hidden" />
-            <SetCoinRadarAlert className="mobile:order-1" />
+            <CoinRadarAlerButton className="mobile:order-1" />
           </div>
         </>
       }

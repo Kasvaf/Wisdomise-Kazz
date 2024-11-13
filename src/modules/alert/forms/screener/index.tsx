@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { type AlertForm } from 'modules/alert/library/types';
 import { useHasFlag } from 'api';
 import { useDeleteAlert, useSaveAlert } from 'api/alert';
+import Badge from 'shared/Badge';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
-import { ReactComponent as NewBadge } from './new.svg';
 import { StepOne } from './StepOne';
 
 export const useScreenerAlert = (): AlertForm => {
@@ -15,7 +15,7 @@ export const useScreenerAlert = (): AlertForm => {
     title: (
       <span className="inline-flex items-center gap-1">
         {t('types.screener.title')}
-        <NewBadge />
+        <Badge color="wsdm" label={t('common:new')} />
       </span>
     ),
     subtitle: t('types.screener.subtitle'),
@@ -29,7 +29,7 @@ export const useScreenerAlert = (): AlertForm => {
         title: (
           <span className="inline-flex items-center gap-1">
             {t('types.screener.step-1.title')}
-            <NewBadge />
+            <Badge color="wsdm" label={t('common:new')} />
           </span>
         ),
         crumb: t('types.screener.step-1.title'),

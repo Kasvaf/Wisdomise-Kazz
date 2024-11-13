@@ -12,7 +12,7 @@ export default function InsightAlertButton({
 }: {
   className?: string;
 }) {
-  const { t } = useTranslation('coin-radar');
+  const { t } = useTranslation('alerts');
   const alertActions = useAlertActions({});
 
   useOnSearchParamDetectedOnce({
@@ -39,7 +39,7 @@ export default function InsightAlertButton({
         contentClassName={'flex gap-1 !text-black'}
       >
         <NotificationIcon className="shrink-0" />
-        {t('set-notification.open-modal-btn.not-set')}
+        {t('common.set-alert')}
       </Button>
       {alertActions.content}
     </>

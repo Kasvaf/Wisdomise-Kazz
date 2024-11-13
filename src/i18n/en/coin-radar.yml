@@ -168,10 +168,25 @@ onboarding:
       Customize alerts and create personalized screeners on the hottest coins,
       so you're always one step ahead. Stay informed in real-time and make sure
       you never miss a breakout opportunity again!
-set-notification:
-  open-modal-btn:
-    not-set: Set Alert
-    set: Alert Is Set
+screener:
+  activated:
+    title: Social Radar Screener Activated!
+    subtitle: Explore and customize additional features now!
+    got-it: Got it
+    preview:
+      title: Screener Preview
+      category:
+        label: Category
+        value: All Categories
+      chain:
+        label: Chain
+        value: All Chains
+      type:
+        label: Type
+        value: Social Radar Screener
+    summary: We’ve set up your screener at <b>{{email}}</b>
+  edit: Edit Screener
+  set: Set Screener
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert

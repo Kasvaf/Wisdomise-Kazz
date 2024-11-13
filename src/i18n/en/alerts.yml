@@ -50,7 +50,6 @@ tables:
   creation-date: Creation Date
   delivery-methods: Delivery Methods
   frequency: Frequency
-  interval: Interval
   notifications: Notifications
   status: Status
   target: Notification Targets

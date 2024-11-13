@@ -46,7 +46,7 @@ export const useAlertActions = (
       ),
       openSaveModal: async () =>
         (await pro.ensureIsPro()) && setIsModalOpen(true),
-      save: async () => {
+      save: async (showToast?: boolean) => {
         if (!initialAlert) throw new Error('No initial alert found!');
         if (!initialAlertForm) throw new Error('No compatible type found!');
         if (!(await pro.ensureIsPro())) return false;
@@ -55,7 +55,7 @@ export const useAlertActions = (
         setIsSaving(true);
         return await saveFn(initialAlert)
           .then(() => setIsModalOpen(false))
-          .then(() => showSaveToast())
+          .then(() => showToast !== false && showSaveToast())
           .finally(() => setIsSaving(false));
       },
       delete: async () => {

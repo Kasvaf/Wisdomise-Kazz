@@ -13,7 +13,12 @@ import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
-export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
+export function StepOne({
+  onSubmit,
+  loading,
+  className,
+  lock,
+}: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
   const [value, setValue] = useEditingAlert();
 
@@ -73,6 +78,7 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
         <FormControlWithLabel type="normal">
           <ScreenerTypesSelect
             className="w-full"
+            disabled={lock}
             value={value.data_source}
             onChange={x => setValue(p => ({ ...p, data_source: x as never }))}
           />
