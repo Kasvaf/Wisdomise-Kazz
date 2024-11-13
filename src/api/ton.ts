@@ -4,15 +4,43 @@ import {
   useTonConnectUI,
   type SendTransactionRequest,
 } from '@tonconnect/ui-react';
+import axios from 'axios';
 import { Address, beginCell, toNano, TonClient } from '@ton/ton';
 import { useQuery } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 
+const TON_API_BASE_URL = String(import.meta.env.VITE_TON_API_BASE_URL);
 const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
 export const USDT_DECIMAL = Number(import.meta.env.VITE_USDT_DECIMAL);
 export const USDT_CONTRACT_ADDRESS = String(
   import.meta.env.VITE_USDT_CONTRACT_ADDRESS,
 );
+export const WSDM_CONTRACT_ADDRESS = String(
+  import.meta.env.VITE_WSDM_CONTRACT_ADDRESS,
+);
+
+const CONTRACT_ADDRESSES = {
+  wsdm: WSDM_CONTRACT_ADDRESS,
+  usdt: USDT_CONTRACT_ADDRESS,
+} as const;
+
+export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
+  const address = useTonAddress();
+  return useQuery(
+    ['accountJettonBalance', address],
+    async () => {
+      const { data } = await axios.get<{ balance: string }>(
+        `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${CONTRACT_ADDRESSES[contract]}`,
+        {
+          meta: { auth: false },
+        },
+      );
+
+      return +(data?.balance ?? 0) / 10 ** USDT_DECIMAL;
+    },
+    { enabled: !!address },
+  );
+};
 
 const useJettonWalletAddress = () => {
   const address = useTonAddress();

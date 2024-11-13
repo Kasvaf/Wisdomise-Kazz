@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { bxPlusCircle } from 'boxicons-quasar';
 import { useCoinOverview } from 'api';
+import { useAccountJettonBalance } from 'api/ton';
 import { roundSensible } from 'utils/numbers';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import InfoButton from 'shared/InfoButton';
-import TextBox from 'shared/TextBox';
-import { useAccountJettonBalance } from 'api/gamification';
-import { USDT_CONTRACT_ADDRESS, USDT_DECIMAL } from 'api/ton';
+import Icon from 'shared/Icon';
+import AmountInputBox from 'shared/AmountInputBox';
 import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
@@ -34,7 +35,7 @@ const PartOpen: React.FC<{
   } = data;
 
   const { data: lastPrice } = useCoinOverview({ slug });
-  const { data: balance } = useAccountJettonBalance(USDT_CONTRACT_ADDRESS);
+  const { data: balance } = useAccountJettonBalance('usdt');
   const assetPrice = lastPrice?.data?.current_price;
 
   useEffect(() => {
@@ -65,18 +66,24 @@ const PartOpen: React.FC<{
         />
       )}
 
-      <TextBox
+      <AmountInputBox
         label={
           <div className="flex items-center justify-between">
             <span>Amount</span>
-            <span className="text-sm text-white/40">
-              Balance: {+(balance?.balance ?? 0) / 10 ** USDT_DECIMAL} USDT
-            </span>
+            <div
+              className="flex items-center gap-1"
+              onClick={() => setAmount(String(balance))}
+            >
+              <span className="text-sm text-white/40">
+                Balance: {balance} USDT
+              </span>
+              <Icon name={bxPlusCircle} size={16} />
+            </div>
           </div>
         }
-        type="number"
+        max={balance}
         value={amount}
-        onChange={value => setAmount(value)}
+        onChange={setAmount}
         suffix="USDT"
         className="mb-3"
         disabled={isUpdate}

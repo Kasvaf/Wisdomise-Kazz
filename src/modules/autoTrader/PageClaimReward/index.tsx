@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { clsx } from 'clsx';
 import { notification } from 'antd';
+import { useAccountJettonBalance } from 'api/ton';
 import {
   type TicketType,
-  useAccountJettonBalance,
   useCheckEligibilityMutation,
   useFriends,
   useSyncDataMutation,
@@ -23,8 +23,6 @@ import silver from './images/silver.png';
 import star from './images/star.svg';
 
 export const TON_PER_REFERRAL = 0.01;
-const WSDM_CONTRACT_ADDRESS = import.meta.env
-  .VITE_WSDM_CONTRACT_ADDRESS as string;
 
 export default function ClaimRewardPage() {
   const address = useTonAddress();
@@ -41,9 +39,7 @@ export default function ClaimRewardPage() {
   const [tonConnect] = useTonConnectUI();
   const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
     useWithdrawMutation();
-  const { data: accountJettonBalance } = useAccountJettonBalance(
-    WSDM_CONTRACT_ADDRESS,
-  );
+  const { data: wsdmBalance } = useAccountJettonBalance('wsdm');
 
   useEffect(() => {
     sync({});
@@ -85,10 +81,7 @@ export default function ClaimRewardPage() {
         {tonConnect.connected && (
           <p className="mb-6 text-xs text-white/40">
             Your WSDM balance in your wallet:{' '}
-            <span className="text-white">
-              {addComma(Number(accountJettonBalance?.balance ?? 0) / 10 ** 6)}{' '}
-              WSDM
-            </span>
+            <span className="text-white">{addComma(wsdmBalance)} WSDM</span>
           </p>
         )}
         <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">

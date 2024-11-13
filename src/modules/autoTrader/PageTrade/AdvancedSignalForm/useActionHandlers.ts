@@ -160,7 +160,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   };
 
   return {
-    isEnabled: !!assetPrice,
+    isEnabled: !!assetPrice && Number(amount) > 0,
     isSubmitting: isSubmitting || isUpdating,
     fireHandler,
     updateHandler,
