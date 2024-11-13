@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { bxBell, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
-import { type AlertState, useAlerts, useIsSubscribedToReport } from 'api/alert';
+import { type AlertState, useAlerts } from 'api/alert';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import Button from 'shared/Button';
@@ -12,31 +12,27 @@ import TextBox from 'shared/TextBox';
 import { useAlertActions } from './hooks/useAlertActions';
 import { AlertEmptyWidget } from './components/AlertEmptyWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
-import { SlugAlertGroupWidget } from './components/SlugAlertGroupWidget';
-import { ReportAlertWidget } from './components/ReportAlertWidget';
+import { CoinAlertsWidget } from './widgets/CoinAlertsWidget';
+import { NotificationsAlertsWidget } from './widgets/NotificationsAlertsWidget';
 
 export default function AlertsPage() {
   const { t } = useTranslation('alerts');
-  const marketDataAlerts = useAlerts({
-    data_source: 'market_data',
-  });
-  const reportAlert = useIsSubscribedToReport();
+  const alerts = useAlerts();
   const alertActions = useAlertActions({});
-
-  const isEmpty = useMemo(() => {
-    return !reportAlert.data && marketDataAlerts.data?.length === 0;
-  }, [reportAlert, marketDataAlerts]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [alertState, setAlertState] = useState<AlertState | undefined>(
     undefined,
   );
 
-  const groupedPriceAlerts = useMemo(() => {
-    const hasBaseRows = (marketDataAlerts.data ?? []).filter(
-      row => row.params.findIndex(x => x.field_name === 'base') >= 0,
-    );
-    const baseSlugs = hasBaseRows
+  const coinAlerts = useMemo(() => {
+    const priceAlerts =
+      alerts.data?.filter(
+        row =>
+          row.data_source === 'market_data' &&
+          row.params.some(x => x.field_name === 'base'),
+      ) ?? [];
+    const baseSlugs = priceAlerts
       .map(
         row => row.params.find(x => x.field_name === 'base')?.value as string,
       )
@@ -44,17 +40,27 @@ export default function AlertsPage() {
     return Object.fromEntries(
       baseSlugs.map(slug => [
         slug,
-        hasBaseRows.filter(
+        priceAlerts.filter(
           row => row.params.find(x => x.field_name === 'base')?.value === slug,
         ),
       ]),
     );
-  }, [marketDataAlerts]);
+  }, [alerts.data]);
+
+  const notificationAlerts = useMemo(
+    () =>
+      alerts.data?.filter(
+        row =>
+          row.data_source === 'social_radar' ||
+          row.data_source === 'manual:social_radar_daily_report',
+      ) ?? [],
+    [alerts.data],
+  );
 
   return (
     <PageWrapper
       className="leading-none mobile:leading-normal"
-      loading={marketDataAlerts.isLoading || reportAlert.isLoading}
+      loading={alerts.isLoading}
     >
       <PageTitle
         title={t('base:menu.alerts.full-title')}
@@ -83,17 +89,21 @@ export default function AlertsPage() {
       </div>
 
       <div className="space-y-4">
-        {reportAlert.data && <ReportAlertWidget stateQuery={alertState} />}
-        {Object.entries(groupedPriceAlerts).map(([slug, alerts]) => (
-          <SlugAlertGroupWidget
-            slug={slug}
+        <NotificationsAlertsWidget
+          alerts={notificationAlerts}
+          stateQuery={alertState}
+        />
+        {Object.entries(coinAlerts).map(([slug, alerts]) => (
+          <CoinAlertsWidget
             alerts={alerts}
             key={slug}
             searchQuery={searchQuery}
             stateQuery={alertState}
           />
         ))}
-        {isEmpty && <AlertEmptyWidget className="h-[600px]" />}
+        {alerts.data?.length === 0 && (
+          <AlertEmptyWidget className="h-[600px]" />
+        )}
       </div>
       {alertActions.content}
     </PageWrapper>

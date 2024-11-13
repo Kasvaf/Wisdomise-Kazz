@@ -8,25 +8,25 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { ReadableDate } from 'shared/ReadableDate';
-import { AlertType } from './AlertType';
-import { AlertDeliveryMethods } from './AlertDeliveryMethods';
-import { AlertFrequency } from './AlertFrequency';
-import { AlertStateChanger } from './AlertStateChanger';
-import { AlertActions } from './AlertActions';
-import { AlertTarget } from './AlertTarget';
+import { AlertType } from 'modules/alert/components/AlertType';
+import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
+import { AlertFrequency } from 'modules/alert/components/AlertFrequency';
+import { AlertStateChanger } from 'modules/alert/components/AlertStateChanger';
+import { AlertActions } from 'modules/alert/components/AlertActions';
+import { AlertTarget } from 'modules/alert/components/AlertTarget';
 
-export function SlugAlertGroupWidget({
+export function CoinAlertsWidget({
   alerts,
-  slug,
   searchQuery,
   stateQuery,
 }: {
   alerts: Alert[];
-  slug: string;
   searchQuery?: string;
   stateQuery?: AlertState;
 }) {
   const { t } = useTranslation('alerts');
+  const slug = alerts[0].params.find(x => x.field_name === 'base')?.value;
+  if (!slug) throw new Error('coin alerts not works');
   const coin = useCoinOverview({ slug });
 
   const columns = useMemo<Array<ColumnType<Alert>>>(

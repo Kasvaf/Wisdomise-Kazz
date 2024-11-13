@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useHasFlag } from 'api';
-import { useIsSubscribedToReport, useToggleSubscripeToReport } from 'api/alert';
+import { useDeleteAlert, useAlerts, useSaveAlert } from 'api/alert';
 import { type AlertForm } from 'modules/alert/library/types';
 import { track } from 'config/segment';
 import { ReactComponent as ReportIcon } from './report.svg';
@@ -8,8 +8,11 @@ import { StepOne } from './StepOne';
 
 export const useReportAlert = (): AlertForm => {
   const { t } = useTranslation('alerts');
-  const isSubbedToReport = useIsSubscribedToReport();
-  const toggleSubscribe = useToggleSubscripeToReport();
+  const isSubbedToReport = useAlerts({
+    data_source: 'manual:social_radar_daily_report',
+  });
+  const saveAlertMutation = useSaveAlert();
+  const deleteAlertMutation = useDeleteAlert();
   const hasFlag = useHasFlag();
   return {
     title: t('types.report.title'),
@@ -28,33 +31,29 @@ export const useReportAlert = (): AlertForm => {
     ],
     defaultValue: () =>
       Promise.resolve({
-        data_source: undefined,
-        messengers: isSubbedToReport.data ? ['EMAIL'] : [],
+        data_source: 'manual:social_radar_daily_report',
+        messengers: isSubbedToReport.data?.length ? ['EMAIL'] : [],
         conditions: [],
         config: {},
         params: [],
         state: 'ACTIVE',
       }),
     save: p =>
-      toggleSubscribe
-        .mutateAsync(p?.messengers?.includes('EMAIL') ?? false)
-        .then(() => {
-          track('Click On', {
-            place: 'social_radar_notification_changed',
-            status: p?.messengers?.includes('EMAIL') ? 'on' : 'off',
-          });
-          return true;
-        }),
-    delete: () =>
-      toggleSubscribe.mutateAsync(false).then(() => {
+      saveAlertMutation.mutateAsync(p).then(() => {
+        track('Click On', {
+          place: 'social_radar_notification_changed',
+          status: p?.messengers?.includes('EMAIL') ? 'on' : 'off',
+        });
+        return p;
+      }),
+    delete: p =>
+      deleteAlertMutation.mutateAsync(p).then(() => {
         track('Click On', {
           place: 'social_radar_notification_changed',
           status: 'off',
         });
-        return true;
+        return p;
       }),
-    isCompatible: p =>
-      !p.data_source &&
-      (p.messengers?.length === 0 || p?.messengers?.[0] === 'EMAIL'),
+    isCompatible: p => p.data_source === 'manual:social_radar_daily_report',
   };
 };

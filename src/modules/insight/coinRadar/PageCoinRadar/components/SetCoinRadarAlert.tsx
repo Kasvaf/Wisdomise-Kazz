@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
-import { useIsSubscribedToReport } from 'api/alert';
 import { track } from 'config/segment';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import Button from 'shared/Button';
 import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
+import { useAlerts } from 'api/alert';
 
 export default function SetCoinRadarAlert({
   className,
@@ -15,10 +15,14 @@ export default function SetCoinRadarAlert({
 }) {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
-  const { data: isSubscribed, isLoading } = useIsSubscribedToReport();
+  const { data, isLoading } = useAlerts({
+    data_source: 'manual:social_radar_daily_report',
+  });
+
+  const isSubscribed = data?.length === 1;
 
   const alertActions = useAlertActions({
-    data_source: undefined,
+    data_source: 'manual:social_radar_daily_report',
     messengers: isSubscribed ? [] : ['EMAIL'],
   });
 

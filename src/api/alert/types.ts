@@ -61,4 +61,13 @@ export interface SocialRadarAlert extends BaseAlert {
   }>;
 }
 
-export type Alert = BaseAlert | MarketDataAlert | SocialRadarAlert;
+export interface SocialRadarDailyReportAlert extends BaseAlert {
+  data_source: 'manual:social_radar_daily_report';
+  params: [];
+  conditions: [];
+}
+
+export type Alert =
+  | SocialRadarDailyReportAlert
+  | MarketDataAlert
+  | SocialRadarAlert;

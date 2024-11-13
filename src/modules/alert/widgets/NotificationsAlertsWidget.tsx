@@ -4,20 +4,18 @@ import { useTranslation } from 'react-i18next';
 import { type Alert, type AlertState } from 'api/alert';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table from 'shared/Table';
-import { AlertType } from './AlertType';
-import { AlertTarget } from './AlertTarget';
-import { AlertDeliveryMethods } from './AlertDeliveryMethods';
-import { AlertActions } from './AlertActions';
+import { AlertType } from 'modules/alert/components/AlertType';
+import { AlertTarget } from 'modules/alert/components/AlertTarget';
+import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
+import { AlertActions } from 'modules/alert/components/AlertActions';
 
-const fakeAlert: Alert = {
-  conditions: [],
-  messengers: ['EMAIL'],
-  params: [],
-  state: 'ACTIVE',
-  config: {},
-};
-
-export function ReportAlertWidget({ stateQuery }: { stateQuery?: AlertState }) {
+export function NotificationsAlertsWidget({
+  stateQuery,
+  alerts,
+}: {
+  stateQuery?: AlertState;
+  alerts: Alert[];
+}) {
   const { t } = useTranslation('alerts');
 
   const columns = useMemo<Array<ColumnType<Alert>>>(
@@ -47,7 +45,7 @@ export function ReportAlertWidget({ stateQuery }: { stateQuery?: AlertState }) {
     [t],
   );
 
-  if (stateQuery === 'DISABLED') return null;
+  if (stateQuery === 'DISABLED' || alerts.length === 0) return null;
 
   return (
     <OverviewWidget>
@@ -56,7 +54,7 @@ export function ReportAlertWidget({ stateQuery }: { stateQuery?: AlertState }) {
       </div>
       <Table
         columns={columns}
-        dataSource={[fakeAlert]}
+        dataSource={alerts}
         rowKey={row => row.key ?? ''}
         pagination={false}
         rowClassName="[&_td]:!py-6"
