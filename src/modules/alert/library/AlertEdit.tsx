@@ -1,0 +1,137 @@
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AlertBreadcrumb, type AlertCrumb } from './AlertBreadcrumb';
+import { AlertNavbarButton } from './AlertNavbarButton';
+import { type AlertForm } from './types';
+import { useEditingAlert } from './AlertProvider';
+import { AlertFormSelect } from './AlertFormSelect';
+import { AlertSteps } from './AlertSteps';
+import { AlertStepInfo } from './AlertStepInfo';
+import { AlertSubscriptionBanner } from './AlertSubscriptionBanner';
+
+export function AlertEdit({
+  onClose,
+  onFinish,
+  forms,
+  lock,
+}: {
+  onClose: () => void;
+  onFinish: () => void;
+  forms: AlertForm[];
+  lock?: boolean;
+}) {
+  const { t } = useTranslation('alerts');
+
+  const [value, setValue] = useEditingAlert();
+
+  const matchedForm = useMemo(() => {
+    return forms.find(x => x.isCompatible?.(value as never) ?? false);
+  }, [value, forms]);
+
+  const [step, setStep] = useState<number>(0);
+
+  const [loading, setLoading] = useState(false);
+
+  const activeStepObject = matchedForm?.steps?.[step];
+
+  const ActiveStepComponent = activeStepObject?.component;
+
+  const crumbs: AlertCrumb[] = [
+    {
+      label: t('common.alerts-list'),
+      action: lock
+        ? undefined
+        : () => {
+            setStep(0);
+            setValue({});
+          },
+    },
+    ...((matchedForm?.steps ?? [])
+      .map((theStep, i) => ({
+        label: theStep.crumb ?? theStep.title,
+        action: () => {
+          setStep(i);
+        },
+      }))
+      .slice(0, step + 1) ?? []),
+  ];
+
+  return (
+    <div className="flex flex-col items-stretch gap-4">
+      <div className="flex w-full items-center gap-2 px-2 py-4">
+        {crumbs.filter(r => r.action).length > 1 && (
+          <AlertNavbarButton
+            type="back"
+            onClick={() => crumbs.at(-2)?.action?.()}
+          />
+        )}
+        <AlertBreadcrumb crumbs={crumbs} className="grow" />
+        <AlertNavbarButton type="close" onClick={onClose} />
+      </div>
+
+      {matchedForm && (
+        <div className="mt-4 flex w-full justify-center">
+          <AlertSteps
+            steps={(matchedForm?.steps ?? []).map((theStep, index) => ({
+              icon: theStep.icon,
+              value: index,
+              label: theStep.title,
+            }))}
+            value={step}
+          />
+        </div>
+      )}
+
+      {activeStepObject?.subtitle && (
+        <div className="mt-4 flex w-full justify-center">
+          <AlertStepInfo
+            content={activeStepObject.subtitle}
+            className="max-w-xs"
+          />
+        </div>
+      )}
+
+      {!matchedForm && (
+        <div className="flex w-full justify-center">
+          <AlertFormSelect
+            forms={forms}
+            className="w-full max-w-[348px]"
+            onSubmit={() => setStep(0)}
+          />
+        </div>
+      )}
+      {matchedForm && ActiveStepComponent && (
+        <div className="mt-16 flex w-full justify-center">
+          <ActiveStepComponent
+            loading={loading}
+            className="w-full max-w-[420px]"
+            lock={lock}
+            onSubmit={() => {
+              if (step < (matchedForm.steps ?? []).length - 1) {
+                setStep(step + 1);
+              } else {
+                setLoading(true);
+                matchedForm
+                  .save?.(value)
+                  .then(x => {
+                    onFinish();
+                    return x;
+                  })
+                  .finally(() => {
+                    setLoading(false);
+                  });
+              }
+            }}
+          />
+        </div>
+      )}
+
+      {activeStepObject && (
+        <div className="mt-6 w-full">
+          <div className="h-px bg-v1-border-tertiary" />
+          <AlertSubscriptionBanner className="mx-auto mt-10 w-full max-w-[420px]" />
+        </div>
+      )}
+    </div>
+  );
+}

@@ -1,141 +1,107 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { type PageResponse } from '../types/page';
-import {
-  type Alert,
-  type AlertDataSource,
-  type AlertParams,
-  type RawAlert,
-} from './types';
-import { transformAlertToPayload, transformRawAlert } from './lib';
+import { type BaseAlert, type Alert } from './types';
 
 export * from './types';
 
-export const useAlerts = <D extends AlertDataSource>(
-  dataSource: D,
-  filters?: Partial<AlertParams<D>>,
-) => {
-  const isLoggedIn = useIsLoggedIn();
-  const filterKeys = filters
-    ? (Object.keys(filters) as Array<keyof typeof filters>)
-    : [];
-  if (filterKeys.length > 1)
-    throw new Error('useAlerts method only support one filter!');
-  return useQuery(
-    ['alerts', dataSource, filters, isLoggedIn],
-    (): Promise<Array<Alert<D>>> => {
-      if (!isLoggedIn) return Promise.resolve([]);
+const normalizeDataSource = <D extends string>(
+  value?: D | { name: D },
+): D | undefined => (typeof value === 'string' ? value : value?.name);
 
-      if (dataSource === 'custom:coin_radar_notification') {
-        const fetchIsSubbed = () =>
-          axios
-            .get<{
-              is_subscribed: boolean;
-            }>(
-              `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
-            )
-            .then(resp => resp.data.is_subscribed);
-        return fetchIsSubbed().then(isSubbed => {
-          let resp: Array<Alert<'custom:coin_radar_notification'>> = [];
-          if (isSubbed) {
-            resp = [
-              {
-                key: 'custom:coin_radar_notification:anything_that_shows_alert_existed_before',
-                dataSource: 'custom:coin_radar_notification',
-                messengers: ['EMAIL'],
-                state: 'ACTIVE',
-                condition: undefined,
-                config: undefined,
-                params: undefined,
-              },
-            ];
-          }
-          return resp as Array<Alert<D>>;
-        });
-      } else {
-        const recursiveGetPageData = (
-          page = 1,
-          initialList: Array<Alert<D>>,
-        ): Promise<Array<Alert<D>>> =>
-          axios
-            .get<PageResponse<RawAlert<D>>>('alerting/alerts', {
-              params: {
-                data_source: dataSource,
-                page,
-                page_size: 90,
-                ...(filters && {
-                  param_field: filterKeys[0],
-                  param_value: filters[filterKeys[0]],
-                }),
-              },
-            })
-            .then(resp => {
-              const updatedList = [
-                ...initialList,
-                ...resp.data.results.map(rawAlert =>
-                  transformRawAlert(rawAlert),
-                ),
-              ];
-              if (resp.data.next !== null) {
-                return recursiveGetPageData(page + 1, updatedList);
-              }
-              return updatedList;
-            });
-        return recursiveGetPageData(1, []);
-      }
+export const useIsSubscribedToReport = () => {
+  const isLoggedIn = useIsLoggedIn();
+  return useQuery(['alerts', 'social-radar-daily-report'], () => {
+    if (!isLoggedIn) return Promise.resolve(false);
+    return axios
+      .get<{ is_subscribed: boolean }>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
+      )
+      .then(resp => resp.data.is_subscribed);
+  });
+};
+
+export const useToggleSubscripeToReport = () => {
+  const client = useQueryClient();
+  return useMutation(
+    (sub: boolean) => {
+      return axios.post(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/${
+          sub ? 'subscribe' : 'unsubscribe'
+        }`,
+      );
+    },
+    {
+      onSuccess: () => client.invalidateQueries(['alerts']),
     },
   );
 };
 
-// export const useSingleAlert = <D extends AlertDataSource>(alertId: string) =>
-//   useQuery(['alerts', alertId], () =>
-//     axios
-//       .get<RawAlert<D>>(`alerting/alerts/${alertId}`)
-//       .then(resp => transformRawAlert(resp.data)),
-//   );
+export const useAlerts = (
+  filters?: Partial<Pick<Alert, 'data_source' | 'params'>>,
+) => {
+  const isLoggedIn = useIsLoggedIn();
 
-export const useSaveAlert = <D extends AlertDataSource>(alertId?: string) => {
+  return useQuery(
+    ['alerts', JSON.stringify(filters), isLoggedIn],
+    (): Promise<Alert[]> => {
+      if (!isLoggedIn) return Promise.resolve([]);
+      return axios
+        .get<PageResponse<Alert>>('alerting/alerts', {
+          params: {
+            data_source: filters?.data_source
+              ? normalizeDataSource(filters.data_source)
+              : undefined,
+            page: 1,
+            page_size: 90,
+            ...((filters?.params?.length ?? 0) >= 1 && {
+              param_field: filters?.params?.[0].field_name,
+              param_value: filters?.params?.[0].value,
+            }),
+          },
+        })
+        .then(
+          resp =>
+            resp.data.results.map(x => ({
+              ...x,
+              data_source: normalizeDataSource(x.data_source),
+            })) as Alert[],
+        );
+    },
+  );
+};
+
+export const useSaveAlert = (alertId?: string) => {
   const client = useQueryClient();
   return useMutation(
-    (payload: Partial<Alert<D>>) => {
+    (payload: Partial<Alert>) => {
       const alertKey = payload.key ?? alertId;
-      if (payload.dataSource === 'market_data') {
-        const url = `alerting/alerts${alertKey ? `/${alertKey}` : ''}`;
-        const method: keyof typeof axios = alertKey ? 'patch' : 'post';
-        return axios[method](url, transformAlertToPayload(payload));
-      } else if (payload.dataSource === 'custom:coin_radar_notification') {
-        const requestToUnsub =
-          payload.state === 'DISABLED' ||
-          !payload.messengers?.includes('EMAIL');
-        // if (requestToUnsub && !alertKey) return Promise.resolve(null);
-        return axios.post(
-          `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/${
-            requestToUnsub ? 'unsubscribe' : 'subscribe'
-          }`,
-        );
-      }
-      throw new Error('unexpected alert to save');
+      const url = `alerting/alerts${alertKey ? `/${alertKey}` : ''}`;
+      const method: keyof typeof axios = alertKey ? 'patch' : 'post';
+      return axios[method](url, {
+        data_source: payload?.data_source
+          ? normalizeDataSource(payload.data_source)
+          : undefined,
+        conditions: payload.conditions,
+        config: payload.config,
+        messengers: payload.messengers,
+        params: payload.params,
+        state: payload.state === 'DISABLED' ? 'DISABLED' : 'ACTIVE',
+      });
     },
     { onSuccess: () => client.invalidateQueries(['alerts']) },
   );
 };
 
-export const useDeleteAlert = <D extends AlertDataSource>(
-  value: Partial<Alert<D>>,
-) => {
+export const useDeleteAlert = (alertId?: string) => {
   const client = useQueryClient();
   return useMutation(
-    () => {
-      if (value.dataSource === 'custom:coin_radar_notification') {
-        return axios.post(
-          `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/unsubscribe`,
-        );
-      } else if (value.key) {
-        return axios.delete(`alerting/alerts/${value.key}`);
-      }
-      throw new Error('unexpected alert to delete');
+    (payload: Partial<BaseAlert>) => {
+      const alertKey = payload.key ?? alertId;
+      if (!alertKey) throw new Error('Cannot delete alert without key!');
+      return axios.delete(`alerting/alerts/${alertKey}`);
     },
     {
       onSuccess: () => client.invalidateQueries(['alerts']),

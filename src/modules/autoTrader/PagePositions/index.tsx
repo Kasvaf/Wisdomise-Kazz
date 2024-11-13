@@ -1,5 +1,5 @@
 import { useTraderPositionsQuery } from 'api';
-import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
+import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import { ButtonSelect } from 'shared/ButtonSelect';
