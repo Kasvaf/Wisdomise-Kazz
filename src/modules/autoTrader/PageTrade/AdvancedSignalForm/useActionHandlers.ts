@@ -34,6 +34,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     orderType: [orderType],
     exp: [exp],
     orderExp: [orderExp],
+    remainingVolume,
     getTakeProfits,
     getStopLosses,
     getOpenOrders,
@@ -160,7 +161,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   };
 
   return {
-    isEnabled: !!assetPrice && Number(amount) > 0,
+    isEnabled: !!assetPrice && Number(amount) > 0 && remainingVolume === 0,
     isSubmitting: isSubmitting || isUpdating,
     fireHandler,
     updateHandler,

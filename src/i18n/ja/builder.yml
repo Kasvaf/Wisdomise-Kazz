@@ -25,7 +25,7 @@ signal-form:
   error-dup: すでに定義されています {{type}} まったく同じ価格で。
   error-max: これ {{type}} 注文価格より低く、発動直後にトリガーされます {{market}} 信号。
   error-min: これ {{type}} 注文価格よりも大きく、発動直後にトリガーされます {{market}} 信号。
-  error-total-open: オープンボリュームの合計は100%を超えることはできません
+  error-total-open: オープンボリュームの合計は100%になる必要があります
   expiration-time:
     info-text: 信号がエントリに対して有効な期間を指定します。
     info-title: 有効期限

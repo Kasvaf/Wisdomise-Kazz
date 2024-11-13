@@ -21,23 +21,16 @@ const PartSafetyOpen: React.FC<{
 
   const {
     price: [price],
-    volume: [volume],
     orderType: [orderType],
     market: [market],
     safetyOpens: [items, setItems],
+    remainingVolume,
   } = data;
 
   const { data: lastPrice } = useCoinOverview({ slug });
   const assetPrice = lastPrice?.data?.current_price;
 
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
-
-  const remainingVolume =
-    100 -
-    +volume -
-    items
-      .filter(x => !x.removed)
-      .reduce((a, b) => a + Number(b.amountRatio), 0);
 
   const nextLine = () => {
     const dir = market === 'long' ? -0.005 : 0.005;
@@ -141,7 +134,7 @@ const PartSafetyOpen: React.FC<{
             </div>
           ))}
 
-        {remainingVolume < 0 && (
+        {!!remainingVolume && (
           <div className="text-center text-xs text-error">
             {t('signal-form.error-total-open')}
           </div>

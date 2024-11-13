@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   type OpenOrderInput,
   type OpenOrderCondition,
@@ -86,6 +86,16 @@ const useSignalFormStates = () => {
   const [stopLosses, setStopLosses] = useState<TpSlData[]>([]);
   const [safetyOpens, setSafetyOpens] = useState<TpSlData[]>([]);
 
+  const remainingVolume = useMemo(
+    () =>
+      100 -
+      +volume -
+      safetyOpens
+        .filter(x => !x.removed)
+        .reduce((a, b) => a + Number(b.amountRatio), 0),
+    [safetyOpens, volume],
+  );
+
   const result = {
     isUpdate,
     market,
@@ -101,6 +111,7 @@ const useSignalFormStates = () => {
     takeProfits: [takeProfits, setTakeProfits],
     stopLosses: [stopLosses, setStopLosses],
     safetyOpens: [safetyOpens, setSafetyOpens],
+    remainingVolume,
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
