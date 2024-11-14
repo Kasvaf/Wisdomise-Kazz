@@ -34,6 +34,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     orderType: [orderType],
     exp: [exp],
     orderExp: [orderExp],
+    remainingVolume,
     getTakeProfits,
     getStopLosses,
     getOpenOrders,
@@ -76,7 +77,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
           },
           take_profit: getTakeProfits(),
           stop_loss: getStopLosses(),
-          open_orders: getOpenOrders(0),
+          open_orders: getOpenOrders(assetPrice),
         },
         withdraw_address: address,
         quote: 'USDT',
@@ -160,7 +161,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   };
 
   return {
-    isEnabled: !!assetPrice,
+    isEnabled: !!assetPrice && Number(amount) > 0 && remainingVolume === 0,
     isSubmitting: isSubmitting || isUpdating,
     fireHandler,
     updateHandler,

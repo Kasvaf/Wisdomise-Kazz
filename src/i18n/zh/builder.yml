@@ -25,7 +25,7 @@ signal-form:
   error-dup: 您已經定義了一個具有相同價格的{{type}}。
   error-max: 此{{type}}低於訂單價格，並將在發出{{market}}信號後立即觸發。
   error-min: 此{{type}}高於訂單價格，並將在發出{{market}}信號後立即觸發。
-  error-total-open: 开仓量总和不能超过100%
+  error-total-open: 未平仓量的总和应为 100%
   expiration-time:
     info-text: 指定信號在進場時保持的有效時間。
     info-title: 到期時間

@@ -387,7 +387,7 @@ export const useCoinOverview = ({
   slug,
   priceHistoryDays,
 }: {
-  slug: string;
+  slug?: string;
   priceHistoryDays?: number;
 }) =>
   useQuery({
@@ -403,6 +403,7 @@ export const useCoinOverview = ({
         })
         .then(resp => resp.data),
     refetchInterval: 10 * 1000,
+    enabled: !!slug,
   });
 
 export interface TrendingCoin {

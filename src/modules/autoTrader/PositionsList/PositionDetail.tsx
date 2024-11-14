@@ -9,7 +9,7 @@ import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 
 const PositionDetail: React.FC<{
-  pairSlug: string;
+  pairSlug?: string;
   position: Position;
   className?: string;
 }> = ({ pairSlug, position, className }) => {
@@ -31,7 +31,7 @@ const PositionDetail: React.FC<{
           <CancelButton position={position} />
           <CloseButton position={position} />
 
-          {isPositionUpdatable(position) && (
+          {!!pairSlug && isPositionUpdatable(position) && (
             <Button
               variant="link"
               className="ms-auto !p-0 !text-xs text-v1-content-link"
@@ -56,6 +56,7 @@ const PositionDetail: React.FC<{
                   PENDING: 'blue',
                   OPENING: 'green',
                   OPEN: 'green',
+                  CLOSING: 'grey',
                   CLOSED: 'grey',
                   CANCELED: 'red',
                 } as const

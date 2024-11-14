@@ -5,6 +5,7 @@ import {
   type SignalItem,
   type Signal,
 } from 'api/builder';
+import { useCoinOverview } from './coinRadar';
 
 export interface PositionsResponse {
   positions: Position[];
@@ -12,7 +13,14 @@ export interface PositionsResponse {
 
 export interface Position {
   key: string;
-  status: 'DRAFT' | 'PENDING' | 'OPENING' | 'OPEN' | 'CLOSED' | 'CANCELED';
+  status:
+    | 'DRAFT'
+    | 'PENDING'
+    | 'OPENING'
+    | 'OPEN'
+    | 'CLOSING'
+    | 'CLOSED'
+    | 'CANCELED';
   deposit_status: 'PENDING' | 'PAID' | 'EXPIRED';
   withdraw_status?: 'SENT' | 'PAID';
   pair: string;
@@ -46,6 +54,7 @@ interface PositionAsset {
 
 export function isPositionUpdatable(position: Position) {
   return (
+    position.status !== 'CLOSING' &&
     position.status !== 'CLOSED' &&
     position.status !== 'CANCELED' &&
     (position.status !== 'DRAFT' || position.deposit_status !== 'PENDING')
@@ -78,13 +87,27 @@ export function useTraderPositionQuery(positionKey?: string) {
   );
 }
 
-export function useTraderPositionsQuery(pair?: string) {
+export function useTraderPositionsQuery({
+  slug,
+  isOpen,
+}: {
+  slug?: string;
+  isOpen?: boolean;
+}) {
+  const coinOverview = useCoinOverview({ slug });
+  const pair = coinOverview?.data?.symbol.abbreviation
+    ? `${coinOverview?.data?.symbol.abbreviation}USDT`
+    : undefined;
+
   return useQuery(
-    ['traderPositions', pair],
+    ['traderPositions', pair, isOpen],
     async () => {
-      const { data } = await axios.get<PositionsResponse>(
-        `trader/positions?pair=${pair ?? ''}`,
-      );
+      const { data } = await axios.get<PositionsResponse>('trader/positions', {
+        params: {
+          pair,
+          is_open: isOpen,
+        },
+      });
       return data;
     },
     {

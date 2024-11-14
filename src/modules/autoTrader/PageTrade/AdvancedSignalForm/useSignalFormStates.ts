@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   type OpenOrderInput,
   type OpenOrderCondition,
@@ -86,6 +86,16 @@ const useSignalFormStates = () => {
   const [stopLosses, setStopLosses] = useState<TpSlData[]>([]);
   const [safetyOpens, setSafetyOpens] = useState<TpSlData[]>([]);
 
+  const remainingVolume = useMemo(
+    () =>
+      100 -
+      +volume -
+      safetyOpens
+        .filter(x => !x.removed)
+        .reduce((a, b) => a + Number(b.amountRatio), 0),
+    [safetyOpens, volume],
+  );
+
   const result = {
     isUpdate,
     market,
@@ -101,22 +111,23 @@ const useSignalFormStates = () => {
     takeProfits: [takeProfits, setTakeProfits],
     stopLosses: [stopLosses, setStopLosses],
     safetyOpens: [safetyOpens, setSafetyOpens],
+    remainingVolume,
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
     getOpenOrders: (
       marketPrice: number,
-      openOrders: OpenOrderResponse[] = [],
+      remoteOpenOrders: OpenOrderResponse[] = [],
     ) => ({
       items: [
-        openOrders?.[0]?.applied
+        remoteOpenOrders?.[0]?.applied
           ? {
-              key: openOrders[0].key,
-              condition: openOrders[0].condition,
+              key: remoteOpenOrders[0].key,
+              condition: remoteOpenOrders[0].condition,
               amount: +volume / 100,
               price:
                 orderType === 'limit'
-                  ? { value: Number(openOrders[0].price) }
+                  ? { value: Number(remoteOpenOrders[0].price) }
                   : undefined,
               order_type: orderType,
             }
@@ -134,7 +145,7 @@ const useSignalFormStates = () => {
               order_type: orderType,
             },
         ...(+volume < 100
-          ? getSafetyOpens(safetyOpens, openOrders, marketPrice)
+          ? getSafetyOpens(safetyOpens, remoteOpenOrders, marketPrice)
           : []),
       ] satisfies OpenOrderInput[],
     }),

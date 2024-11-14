@@ -28,10 +28,16 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
+    "bounceable",
     "clsx",
+    "jettons",
+    "tanstack",
+    "TONCENTER",
+    "tonconnect",
     "undraws",
     "unparam",
-    "Wisdomise"
+    "Wisdomise",
+    "wsdm"
   ],
   "[svg]": {
     "editor.defaultFormatter": "jock.svg"
