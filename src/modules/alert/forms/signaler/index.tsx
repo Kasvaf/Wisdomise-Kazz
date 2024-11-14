@@ -9,6 +9,6 @@ export const useSignalerAlert = (): AlertForm => {
     subtitle: t('types.signaler.subtitle'),
     icon: SignalerIcon,
     value: 'signaler',
-    disabled: true,
+    disabled: () => true,
   };
 };

@@ -8,7 +8,7 @@ import { StepOne } from './StepOne';
 
 export const useReportAlert = (): AlertForm => {
   const { t } = useTranslation('alerts');
-  const isSubbedToReport = useAlerts({
+  const relatedAlerts = useAlerts({
     data_source: 'manual:social_radar_daily_report',
   });
   const saveAlertMutation = useSaveAlert();
@@ -19,7 +19,7 @@ export const useReportAlert = (): AlertForm => {
     subtitle: t('types.report.subtitle'),
     icon: ReportIcon,
     value: 'report',
-    disabled: !hasFlag('/coin-radar/alerts?coinradar'),
+    disabled: () => !hasFlag('/coin-radar/alerts?coinradar'),
     steps: [
       {
         component: StepOne,
@@ -30,14 +30,17 @@ export const useReportAlert = (): AlertForm => {
       },
     ],
     defaultValue: () =>
-      Promise.resolve({
-        data_source: 'manual:social_radar_daily_report',
-        messengers: isSubbedToReport.data?.length ? ['EMAIL'] : [],
-        conditions: [],
-        config: {},
-        params: [],
-        state: 'ACTIVE',
-      }),
+      relatedAlerts
+        .refetch()
+        .then(x => x.data?.length === 1)
+        .then(isSubbed => ({
+          data_source: 'manual:social_radar_daily_report',
+          messengers: isSubbed ? ['EMAIL'] : [],
+          conditions: [],
+          config: {},
+          params: [],
+          state: 'ACTIVE',
+        })),
     save: p =>
       saveAlertMutation.mutateAsync(p).then(() => {
         track('Click On', {

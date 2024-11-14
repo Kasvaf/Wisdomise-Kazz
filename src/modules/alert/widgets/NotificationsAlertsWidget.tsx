@@ -66,7 +66,7 @@ export function NotificationsAlertsWidget({
       <Table
         columns={columns}
         dataSource={alertsMatchedStateQuery}
-        rowKey={row => row.key ?? ''}
+        rowKey={row => row.key ?? row.data_source}
         pagination={false}
         rowClassName="[&_td]:!py-6"
       />

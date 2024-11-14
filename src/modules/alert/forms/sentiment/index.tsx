@@ -9,6 +9,6 @@ export const useSentimentAlert = (): AlertForm => {
     subtitle: t('types.social_sentiment.subtitle'),
     icon: SentimentIcon,
     value: 'sentiment',
-    disabled: true,
+    disabled: () => true,
   };
 };

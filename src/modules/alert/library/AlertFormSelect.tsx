@@ -30,13 +30,13 @@ export function AlertFormSelect({
     >
       <h2 className="mb-4 text-base">{t('common.select-alert-type')}</h2>
       {forms
-        .sort((a, b) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0))
         .filter(x => !x.hidden)
+        .sort((a, b) => (a.disabled?.() ? 1 : 0) - (b.disabled?.() ? 1 : 0))
         .map(({ icon: TypeIcon, ...x }, i) => (
           <button
             key={`${x.value}-${i}`}
             className="flex w-full items-center justify-start gap-3 rounded-xl bg-v1-surface-l4 p-4 transition-colors hover:enabled:bg-v1-surface-l5 disabled:bg-v1-surface-l2"
-            disabled={x.disabled || loading}
+            disabled={x.disabled?.() || loading}
             onClick={() => {
               setLoading(true);
               void (x?.defaultValue?.() ?? Promise.resolve({}))
@@ -58,7 +58,7 @@ export function AlertFormSelect({
               </div>
             </div>
             <span className="shrink-0">
-              {x.disabled ? (
+              {x.disabled?.() ? (
                 <span className="h-4 rounded-full bg-v1-background-brand/10 px-2 text-xxs text-v1-content-brand">
                   {t('common:soon')}
                 </span>

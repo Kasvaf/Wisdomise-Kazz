@@ -21,7 +21,7 @@ export const useScreenerAlert = (): AlertForm => {
     subtitle: t('types.screener.subtitle'),
     icon: ScreenerIcon,
     value: 'screener',
-    disabled: !hasFlag('/coin-radar/alerts?screener'),
+    disabled: () => !hasFlag('/coin-radar/alerts?screener'),
     steps: [
       {
         component: StepOne,

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { type Alert } from 'api/alert';
 import { type AlertForm } from '../library/types';
 import { useIndicatorAlert } from './indicator';
@@ -16,15 +17,20 @@ export const useAlertForms = (): AlertForm[] => {
   const indicatorAlert = useIndicatorAlert();
   const sentimentAlert = useSentimentAlert();
   const signalerAlert = useSignalerAlert();
-  return [
-    priceAlert,
-    screenerAlert,
-    reportAlert,
-    whaleAlert,
-    indicatorAlert,
-    sentimentAlert,
-    signalerAlert,
-  ];
+
+  return useMemo(
+    () => [
+      screenerAlert,
+      whaleAlert,
+      priceAlert,
+      reportAlert,
+      indicatorAlert,
+      sentimentAlert,
+      signalerAlert,
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 };
 
 export const useAlertForm = (input?: AlertForm['value'] | Partial<Alert>) => {

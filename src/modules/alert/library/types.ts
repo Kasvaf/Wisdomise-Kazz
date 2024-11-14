@@ -21,9 +21,9 @@ export interface AlertForm {
   title: ReactNode;
   subtitle: ReactNode;
   icon: ComponentType<{ className?: string }>;
-  disabled?: boolean;
-  hidden?: boolean;
   steps?: AlertStep[];
+  disabled?: () => boolean;
+  hidden?: () => boolean;
   isCompatible?: (payload: Partial<Alert>) => boolean;
   defaultValue?: () => Promise<Partial<Alert>>;
   save?: (payload: Partial<Alert>) => Promise<unknown>;

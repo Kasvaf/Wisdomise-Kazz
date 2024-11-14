@@ -9,6 +9,6 @@ export const useIndicatorAlert = (): AlertForm => {
     subtitle: t('types.indicator.subtitle'),
     icon: IndicatorIcon,
     value: 'indicator',
-    disabled: true,
+    disabled: () => true,
   };
 };

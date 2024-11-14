@@ -9,6 +9,6 @@ export const useWhaleAlert = (): AlertForm => {
     subtitle: t('types.whale.subtitle'),
     icon: WhaleIcon,
     value: 'whale',
-    disabled: true,
+    disabled: () => true,
   };
 };

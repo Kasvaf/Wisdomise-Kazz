@@ -14,27 +14,39 @@ const normalizeDataSource = <D extends string>(
 const getAlertingAlerts = (
   filters?: Partial<Pick<Alert, 'data_source' | 'params'>>,
 ) => {
-  return axios
-    .get<PageResponse<Alert>>('alerting/alerts', {
-      params: {
-        data_source: filters?.data_source
-          ? normalizeDataSource(filters.data_source)
-          : undefined,
-        page: 1,
-        page_size: 90,
-        ...((filters?.params?.length ?? 0) >= 1 && {
-          param_field: filters?.params?.[0].field_name,
-          param_value: filters?.params?.[0].value,
-        }),
-      },
-    })
-    .then(
-      resp =>
-        resp.data.results.map(x => ({
-          ...x,
-          data_source: normalizeDataSource(x.data_source),
-        })) as Alert[],
-    );
+  const fetchRecursive = (
+    page: number,
+    initialData: Alert[],
+  ): Promise<Alert[]> => {
+    let returnValue = [...initialData];
+    return axios
+      .get<PageResponse<Alert>>('alerting/alerts', {
+        params: {
+          data_source: filters?.data_source
+            ? normalizeDataSource(filters.data_source)
+            : undefined,
+          page,
+          ...((filters?.params?.length ?? 0) >= 1 && {
+            param_field: filters?.params?.[0].field_name,
+            param_value: filters?.params?.[0].value,
+          }),
+        },
+      })
+      .then(resp => {
+        returnValue = [
+          ...returnValue,
+          ...(resp.data.results.map(x => ({
+            ...x,
+            data_source: normalizeDataSource(x.data_source),
+          })) as Alert[]),
+        ];
+        if (resp.data.next) {
+          return fetchRecursive(page + 1, returnValue);
+        }
+        return returnValue;
+      });
+  };
+  return fetchRecursive(1, []);
 };
 
 const saveAlertingAlert = (payload: Partial<Alert>) => {

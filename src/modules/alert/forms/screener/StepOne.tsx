@@ -112,6 +112,7 @@ export function StepOne({
               gtmClass('submit coin-radar-alert'),
             )}
             loading={loading}
+            disabled={(value.messengers ?? []).length === 0}
           >
             {t('common.save-alert')}
             <Icon name={bxBell} className="ms-2" />
