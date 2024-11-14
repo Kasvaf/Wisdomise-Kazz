@@ -12,8 +12,8 @@ import TextBox from 'shared/TextBox';
 import { useAlertActions } from './hooks/useAlertActions';
 import { AlertEmptyWidget } from './components/AlertEmptyWidget';
 import { AlertStateSelect } from './components/AlertStateSelect';
-import { CoinAlertsWidget } from './widgets/CoinAlertsWidget';
 import { NotificationsAlertsWidget } from './widgets/NotificationsAlertsWidget';
+import { CoinAlertsWidget } from './widgets/CoinAlertsWidget';
 
 export default function AlertsPage() {
   const { t } = useTranslation('alerts');
@@ -37,15 +37,17 @@ export default function AlertsPage() {
         row => row.params.find(x => x.field_name === 'base')?.value as string,
       )
       .filter((row, i, self) => self.indexOf(row) === i);
-    return Object.fromEntries(
-      baseSlugs.map(slug => [
-        slug,
-        priceAlerts.filter(
-          row => row.params.find(x => x.field_name === 'base')?.value === slug,
-        ),
-      ]),
+    return baseSlugs.map(
+      slug =>
+        [
+          slug,
+          priceAlerts.filter(
+            row =>
+              row.params.find(x => x.field_name === 'base')?.value === slug,
+          ),
+        ] as const,
     );
-  }, [alerts.data]);
+  }, [alerts]);
 
   const notificationAlerts = useMemo(
     () =>
@@ -54,7 +56,7 @@ export default function AlertsPage() {
           row.data_source === 'social_radar' ||
           row.data_source === 'manual:social_radar_daily_report',
       ) ?? [],
-    [alerts.data],
+    [alerts],
   );
 
   return (
@@ -93,7 +95,7 @@ export default function AlertsPage() {
           alerts={notificationAlerts}
           stateQuery={alertState}
         />
-        {Object.entries(coinAlerts).map(([slug, alerts]) => (
+        {coinAlerts.map(([slug, alerts]) => (
           <CoinAlertsWidget
             alerts={alerts}
             key={slug}
