@@ -95,15 +95,19 @@ export const useTransferAssetsMutation = () => {
     amount: number | string;
     gasFee: string;
   }) => {
+    const noneBounceableAddress = Address.parse(recipientAddress).toString({
+      bounceable: false,
+      testOnly: !isProduction,
+    });
+    console.log('depositAddress', recipientAddress);
+    console.log('noneBounceableAddress', noneBounceableAddress);
+
     const transaction: SendTransactionRequest = {
       validUntil: Date.now() + 10 * 60 * 1000,
       network: isProduction ? CHAIN.MAINNET : CHAIN.TESTNET,
       messages: [
         {
-          address: Address.parse(recipientAddress).toString({
-            bounceable: false,
-            testOnly: !isProduction,
-          }),
+          address: noneBounceableAddress,
           amount: toNano(gasFee).toString(),
           payload: beginCell()
             .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
@@ -130,6 +134,7 @@ export const useTransferAssetsMutation = () => {
         },
       ],
     };
+    console.log(transaction);
 
     await tonConnectUI.sendTransaction(transaction);
   };
