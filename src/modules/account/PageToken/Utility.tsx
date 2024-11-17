@@ -63,9 +63,11 @@ export default function Utility() {
             {t('utility.activate-sub')}
           </strong>
           <p className="mb-4 text-white/40">{t('utility.lock-description')}</p>
-          <Button variant="primary-purple" onClick={openBillings}>
-            {t('utility.lock-wsdm')}
-          </Button>
+          {hasFlag('/account/billing?payment_method=lock') && (
+            <Button variant="primary-purple" onClick={openBillings}>
+              {t('utility.lock-wsdm')}
+            </Button>
+          )}
         </div>
       ) : (
         <div className="mt-2 flex grow justify-between gap-9 max-md:flex-wrap md:me-32">
