@@ -4,7 +4,6 @@ import { clsx } from 'clsx';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
-import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { useHasFlag } from 'api';
 import { gtmClass } from 'utils/gtmClass';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
@@ -118,7 +117,6 @@ export default function SubscriptionMethodModal({
             <Button
               onClick={onLockClick}
               className={clsx('col-span-1', gtmClass('lock-wsdm'))}
-              disabled={!WSDM_IS_ACTIVE}
             >
               <div className="flex items-center gap-2">
                 <Token />

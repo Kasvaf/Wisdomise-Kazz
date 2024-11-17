@@ -16,7 +16,10 @@ export function WsdmOnboarding() {
               This video is your one-stop guide for migrating your WSDM tokens
               on the Wisdomise platform.
             </Trans>
-            <YouTube opts={{ height: '260' }} videoId="jdMFq0vU7-U" />
+            <YouTube
+              opts={{ height: '260', width: '100%' }}
+              videoId="jdMFq0vU7-U"
+            />
           </>
         ),
       },
@@ -28,7 +31,10 @@ export function WsdmOnboarding() {
               This video is your one-stop guide for migrating your WSDM tokens
               on the Wisdomise platform.
             </Trans>
-            <YouTube opts={{ height: '260' }} videoId="s-Z27Phzqu8" />
+            <YouTube
+              opts={{ height: '260', width: '100%' }}
+              videoId="s-Z27Phzqu8"
+            />
           </>
         ),
       },
