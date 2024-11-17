@@ -47,7 +47,7 @@ export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
       searchValue={query}
       onSearch={setQuery}
       filterOption={false}
-      allowClear
+      allowClear={false}
       mode="multiple"
       loading={categories.isLoading}
       popupMatchSelectWidth={false}

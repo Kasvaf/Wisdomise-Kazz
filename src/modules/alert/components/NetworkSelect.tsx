@@ -29,7 +29,7 @@ export const NetworkSelect: FC<SelectProps<string[]>> = ({
       showArrow={!disabled}
       disabled={disabled}
       filterOption={true}
-      allowClear
+      allowClear={false}
       mode="multiple"
       loading={networks.isLoading}
       notFoundContent={

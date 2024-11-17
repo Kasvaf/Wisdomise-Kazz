@@ -23,6 +23,7 @@ export const ScreenerTypesSelect: FC<SelectProps<Alert['data_source']>> = ({
       value={value}
       showArrow={!disabled}
       disabled={disabled}
+      allowClear={false}
       options={[
         {
           label: (
