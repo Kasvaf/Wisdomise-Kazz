@@ -8,7 +8,7 @@ import { type UtilityStatus } from 'modules/account/PageToken/Utility';
 import { useSubscription } from 'api';
 
 export function useUtility() {
-  const { isFreePlan } = useSubscription();
+  const subscription = useSubscription();
   const { data: lockedBalance, refetch: refetchLockedInfo } =
     useReadLockedBalance();
   const { data: unlockedInfo, refetch: refetchUnlockedInfo } =
@@ -25,17 +25,17 @@ export function useUtility() {
         }
       } else {
         if (lockedBalance === 0n) {
-          if (isFreePlan) {
-            setUtilityStatus('pending_lock');
-          } else {
+          if (subscription?.type === 'pro') {
             setUtilityStatus('already_active');
+          } else {
+            setUtilityStatus('pending_lock');
           }
         } else {
           setUtilityStatus('locked');
         }
       }
     }
-  }, [isFreePlan, lockedBalance, unlockedInfo]);
+  }, [subscription, lockedBalance, unlockedInfo]);
 
   return {
     refetchUnlockedInfo,
