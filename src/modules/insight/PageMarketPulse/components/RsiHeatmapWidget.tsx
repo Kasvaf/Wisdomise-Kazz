@@ -6,6 +6,7 @@ import {
   useIndicatorHeatmap,
 } from 'api/market-pulse';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import { ProLocker } from 'shared/ProLocker';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
 
 export function RsiHeatmapWidget({ className }: { className?: string }) {
@@ -21,7 +22,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       className={className}
       title={t('indicator_list.rsi.heatmap.title')}
       headerClassName="flex-wrap"
-      contentClassName="min-h-[450px]"
+      contentClassName="min-h-[450px] !p-0"
       headerActions={
         <ButtonSelect
           className="mobile:w-full"
@@ -54,11 +55,13 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       loading={heatmap.isLoading}
       empty={heatmap.data?.results?.length === 0}
     >
-      <RsiHeatmapChart
-        className="h-full"
-        data={heatmap.data?.results ?? []}
-        resolution={resolution}
-      />
+      <ProLocker mode="children" level={1} className="px-5 2xl:px-6">
+        <RsiHeatmapChart
+          className="h-full py-2"
+          data={heatmap.data?.results ?? []}
+          resolution={resolution}
+        />
+      </ProLocker>
     </OverviewWidget>
   );
 }
