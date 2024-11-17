@@ -1,8 +1,5 @@
 import { isProduction } from 'utils/version';
 
-export const WSDM_IS_ACTIVE =
-  !isProduction || Date.now() > Date.UTC(2024, 4, 14, 11, 15);
-
 export const MERKLE_DISTRIBUTOR_CONTRACT_ADDRESS = isProduction
   ? '0x18150ca738a23c7d29d529e7e1623fb7e921abf8'
   : '0xAc4b19F508bdDfFb9fa4015515EA2Eb804632dE6';
