@@ -114,10 +114,11 @@ coin-details:
       title: Social Sentiment By Wisdomise
       footer: Past 24H, Community Data Insights
       hunted-at: Hunted At
-      long: Long Oppty.
+      long: Potential Growth Opportunity
       negative: Negative
+      not_sure: Not Sure
       positive: Positive
-      short: Short Oppty.
+      short: Risk Of Decline
     socials:
       title: Social Feed
       subtitle: Stay ahead in crypto with real-time scans of social media.
@@ -189,8 +190,8 @@ social-radar:
     name: Name
     title: Wisdomise Hot Coins
     description: >-
-      Wisdomise Social Radar scanned <b>{{posts}} posts</b> in the last 24 hours
-      for accurate, data-driven insights.
+      Wisdomise Social Radar <b>scanned {{posts}} posts from alpha groups</b> in
+      the last 24 hours for accurate, data-driven insights.
     all_networks: All Networks
     labels:
       title: Labels

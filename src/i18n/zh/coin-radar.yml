@@ -46,11 +46,12 @@ coin-details:
     social_sentiment:
       footer: 过去 24 小时，社区数据洞察
       hunted-at: 猎杀地点
-      long: 长期机会。
+      long: 潜在的增长机会
       market_side: 市場方向
       negative: 消極負面
+      not_sure: 没有把握
       positive: 積極正向
-      short: 短暂的机会。
+      short: 衰退风险
       title: 智慧社会情绪
     socials:
       label: 社会的
@@ -168,7 +169,7 @@ social-radar:
     rank: 明智的逻辑
   table:
     all_networks: 所有网络
-    description: Wisdomise 社交雷达扫描 <b>{{posts}} 帖子</b> 在过去 24 小时内获得准确的、数据驱动的见解。
+    description: Wisdomise 社交雷达 <b>扫描 {{posts}} 来自 alpha 群组的帖子</b> 在过去 24 小时内获得准确的、数据驱动的见解。
     labels:
       title: 标签
     market_cap:
