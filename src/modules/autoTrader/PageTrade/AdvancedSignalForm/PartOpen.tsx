@@ -35,7 +35,7 @@ const PartOpen: React.FC<{
   } = data;
 
   const { data: lastPrice } = useCoinOverview({ slug });
-  const { data: balance } = useAccountJettonBalance('usdt');
+  const { data: usdtBalance } = useAccountJettonBalance('usdt');
   const assetPrice = lastPrice?.data?.current_price;
 
   useEffect(() => {
@@ -70,23 +70,25 @@ const PartOpen: React.FC<{
         label={
           <div className="flex items-center justify-between">
             <span>Amount</span>
-            <div
-              className="flex items-center gap-1"
-              onClick={() => !isUpdate && setAmount(String(balance))}
-            >
-              <span className="text-sm text-white/40">
-                Balance: {balance} USDT
-              </span>
-              {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
-            </div>
+            {usdtBalance !== undefined && (
+              <div
+                className="flex items-center gap-1"
+                onClick={() => !isUpdate && setAmount(String(usdtBalance))}
+              >
+                <span className="text-sm text-white/40">
+                  Balance: {usdtBalance} USDT
+                </span>
+                {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
+              </div>
+            )}
           </div>
         }
-        max={balance}
+        max={usdtBalance}
         value={amount}
         onChange={setAmount}
         suffix="USDT"
         className="mb-3"
-        disabled={isUpdate}
+        disabled={isUpdate || usdtBalance === undefined}
       />
 
       <AIPresets data={data} assetName={assetName} assetSlug={assetSlug} />

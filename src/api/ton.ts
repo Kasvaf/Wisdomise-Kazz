@@ -36,6 +36,7 @@ export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
         },
       );
 
+      if (data?.balance === undefined) return;
       return +(data?.balance ?? 0) / 10 ** USDT_DECIMAL;
     },
     { enabled: !!address },
