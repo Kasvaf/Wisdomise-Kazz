@@ -15,7 +15,9 @@ import { ReactComponent as FrequencyIcon } from './frequency.svg';
 
 export function StepTwo({ onSubmit, loading, className }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
-  const [value, setValue] = useEditingAlert();
+  const {
+    value: [value, setValue],
+  } = useEditingAlert();
 
   return (
     <form

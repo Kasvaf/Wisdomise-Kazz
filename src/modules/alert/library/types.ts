@@ -29,3 +29,13 @@ export interface AlertForm {
   save?: (payload: Partial<Alert>) => Promise<unknown>;
   delete?: (payload: Partial<Alert>) => Promise<unknown>;
 }
+
+export interface AlertFormGroup {
+  value: string;
+  title: ReactNode;
+  subtitle: ReactNode;
+  icon: ComponentType<{ className?: string }>;
+  disabled?: () => boolean;
+  hidden?: () => boolean;
+  children: AlertForm[];
+}

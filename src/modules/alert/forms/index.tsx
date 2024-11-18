@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useRef } from 'react';
 import { type Alert } from 'api/alert';
-import { type AlertForm } from '../library/types';
+import { type AlertFormGroup, type AlertForm } from '../library/types';
 import { useIndicatorAlert } from './indicator';
 import { usePriceAlert } from './price';
 import { useReportAlert } from './report';
@@ -9,7 +9,7 @@ import { useSentimentAlert } from './sentiment';
 import { useSignalerAlert } from './signaler';
 import { useWhaleAlert } from './whale';
 
-export const useAlertForms = (): AlertForm[] => {
+export const useAlertForms = (): Array<AlertForm | AlertFormGroup> => {
   const priceAlert = usePriceAlert();
   const screenerAlert = useScreenerAlert();
   const reportAlert = useReportAlert();
@@ -18,24 +18,26 @@ export const useAlertForms = (): AlertForm[] => {
   const sentimentAlert = useSentimentAlert();
   const signalerAlert = useSignalerAlert();
 
-  return useMemo(
-    () => [
-      screenerAlert,
-      whaleAlert,
-      priceAlert,
-      reportAlert,
-      indicatorAlert,
-      sentimentAlert,
-      signalerAlert,
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  const grouped = useRef([
+    screenerAlert,
+    whaleAlert,
+    priceAlert,
+    reportAlert,
+    indicatorAlert,
+    sentimentAlert,
+    signalerAlert,
+  ]);
+
+  return grouped.current;
 };
 
 export const useAlertForm = (input?: AlertForm['value'] | Partial<Alert>) => {
   const alertForms = useAlertForms();
   if (!input) return;
-  if (typeof input === 'string') return alertForms.find(x => x.value === input);
-  return alertForms.find(x => x.isCompatible?.(input));
+  const flatedForms = alertForms.flatMap(x =>
+    'children' in x ? x.children : x,
+  );
+  if (typeof input === 'string')
+    return flatedForms.find(x => x.value === input);
+  return flatedForms.find(x => x.isCompatible?.(input));
 };

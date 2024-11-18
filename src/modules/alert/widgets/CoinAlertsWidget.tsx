@@ -25,11 +25,15 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
     () => [
       {
         title: t('tables.creation-date'),
-        render: (_, row) => <ReadableDate value={row.created_at} />,
+        render: (_, row) => (
+          <ReadableDate value={row.created_at} className="whitespace-nowrap" />
+        ),
       },
       {
         title: t('tables.type'),
-        render: (_, row) => <AlertType value={row} />,
+        render: (_, row) => (
+          <AlertType value={row} className="whitespace-nowrap" />
+        ),
       },
       {
         title: t('tables.target'),
@@ -42,7 +46,9 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
       },
       {
         title: t('tables.frequency'),
-        render: (_, row) => <AlertFrequency value={row} />,
+        render: (_, row) => (
+          <AlertFrequency value={row} className="whitespace-nowrap" />
+        ),
       },
       {
         title: t('tables.actions'),

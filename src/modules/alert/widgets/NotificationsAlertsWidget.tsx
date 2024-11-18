@@ -10,6 +10,7 @@ import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMeth
 import { AlertActions } from 'modules/alert/components/AlertActions';
 import { ReadableDate } from 'shared/ReadableDate';
 import { AlertStateChanger } from '../components/AlertStateChanger';
+import { AlertFrequency } from '../components/AlertFrequency';
 
 export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
@@ -19,12 +20,18 @@ export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
       {
         title: t('tables.creation-date'),
         render: (_, row) => (
-          <ReadableDate value={row.created_at} emptyText="---" />
+          <ReadableDate
+            value={row.created_at}
+            emptyText="---"
+            className="whitespace-nowrap"
+          />
         ),
       },
       {
         title: t('tables.type'),
-        render: (_, row) => <AlertType value={row} />,
+        render: (_, row) => (
+          <AlertType value={row} className="whitespace-nowrap" />
+        ),
       },
       {
         title: t('tables.description'),
@@ -37,7 +44,9 @@ export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
       },
       {
         title: t('tables.frequency'),
-        render: () => t('common.notifications.unlimited-times'),
+        render: (_, row) => (
+          <AlertFrequency value={row} className="whitespace-nowrap" />
+        ),
       },
       {
         title: t('tables.actions'),

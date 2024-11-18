@@ -19,7 +19,7 @@ export function AlertTarget({
   return (
     <div
       className={clsx(
-        '[&_.ant-select-selector]:!bg-transparent [&_.ant-select-selector]:!p-0',
+        'min-w-64 [&_.ant-select-selector]:!bg-transparent [&_.ant-select-selector]:!p-0',
         '[&_svg]:!size-4',
         className,
       )}
@@ -74,12 +74,10 @@ export function AlertTarget({
         />
       )}
       {alertForm.value === 'report' && t('types.report.sentence')}
-      {alertForm.value === 'screener' &&
-        value.data_source === 'social_radar' &&
-        t('types.screener.types.social_radar.sentence')}
-      {alertForm.value === 'screener' &&
-        value.data_source === 'technical_radar' &&
-        t('types.screener.types.technical_radar.sentence')}
+      {alertForm.value === 'social_radar' &&
+        t('types.social_radar_screener.subtitle')}
+      {alertForm.value === 'technical_radar' &&
+        t('types.technical_radar_screener.subtitle')}
     </div>
   );
 }

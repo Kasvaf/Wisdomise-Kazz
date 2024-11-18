@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
 import { AlertBreadcrumb, type AlertCrumb } from './AlertBreadcrumb';
 import { AlertNavbarButton } from './AlertNavbarButton';
-import { type AlertForm } from './types';
 import { useEditingAlert } from './AlertProvider';
 import { AlertFormSelect } from './AlertFormSelect';
 import { AlertSteps } from './AlertSteps';
@@ -13,21 +12,24 @@ import { AlertSubscriptionBanner } from './AlertSubscriptionBanner';
 export function AlertEdit({
   onClose,
   onFinish,
-  forms,
   lock,
 }: {
   onClose: () => void;
   onFinish: () => void;
-  forms: AlertForm[];
   lock?: boolean;
 }) {
   const { t } = useTranslation('alerts');
   const subscription = useSubscription();
 
-  const [value, setValue] = useEditingAlert();
+  const {
+    value: [value, setValue],
+    forms,
+  } = useEditingAlert();
 
   const matchedForm = useMemo(() => {
-    return forms.find(x => x.isCompatible?.(value as never) ?? false);
+    return forms
+      .flatMap(x => ('children' in x ? x.children : x))
+      .find(x => x.isCompatible?.(value as never) ?? false);
   }, [value, forms]);
 
   const [step, setStep] = useState<number>(0);
@@ -96,7 +98,6 @@ export function AlertEdit({
       {!matchedForm && (
         <div className="flex w-full justify-center">
           <AlertFormSelect
-            forms={forms}
             className="w-full max-w-[348px]"
             onSubmit={() => setStep(0)}
           />

@@ -225,7 +225,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             <CoinSearchInput
               value={query}
               onChange={setQuery}
-              className="shrink-0 basis-80 mobile:order-2 mobile:basis-full"
+              className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
             />
             <NetworkSelect
               value={network}

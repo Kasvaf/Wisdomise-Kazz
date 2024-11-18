@@ -15,7 +15,9 @@ import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
 export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
-  const [value, setValue] = useEditingAlert();
+  const {
+    value: [value, setValue],
+  } = useEditingAlert();
   const form = useMemo(
     () => ({
       base: value.params?.find(x => x.field_name === 'base')?.value as string,

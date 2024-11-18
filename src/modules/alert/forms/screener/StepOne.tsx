@@ -7,20 +7,16 @@ import Icon from 'shared/Icon';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import { gtmClass } from 'utils/gtmClass';
-import { ScreenerTypesSelect } from 'modules/alert/components/ScreenerTypesSelect';
 import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSelect';
 import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
-export function StepOne({
-  onSubmit,
-  loading,
-  className,
-  lock,
-}: AlertFormStepProps) {
+export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
-  const [value, setValue] = useEditingAlert();
+  const {
+    value: [value, setValue],
+  } = useEditingAlert();
 
   const form = useMemo(
     () => ({
@@ -75,14 +71,6 @@ export function StepOne({
       }}
     >
       <>
-        <FormControlWithLabel type="normal">
-          <ScreenerTypesSelect
-            className="w-full"
-            disabled={lock}
-            value={value.data_source}
-            onChange={x => setValue(p => ({ ...p, data_source: x as never }))}
-          />
-        </FormControlWithLabel>
         <FormControlWithLabel type="normal" className="w-full">
           <CoinCategoriesSelect
             className="w-full"

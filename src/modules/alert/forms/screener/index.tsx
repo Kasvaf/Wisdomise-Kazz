@@ -1,15 +1,21 @@
 import { useTranslation } from 'react-i18next';
-import { type AlertForm } from 'modules/alert/library/types';
+import { type AlertFormGroup } from 'modules/alert/library/types';
 import { useHasFlag } from 'api';
-import { useDeleteAlert, useSaveAlert } from 'api/alert';
+import { useAlerts, useDeleteAlert, useSaveAlert } from 'api/alert';
 import Badge from 'shared/Badge';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { StepOne } from './StepOne';
 
-export const useScreenerAlert = (): AlertForm => {
+export const useScreenerAlert = (): AlertFormGroup => {
   const { t } = useTranslation('alerts');
   const saveAlertMutation = useSaveAlert();
   const deleteAlertMutation = useDeleteAlert();
+  const technicalRadarAlerts = useAlerts({
+    data_source: 'technical_radar',
+  });
+  const socialRadarAlerts = useAlerts({
+    data_source: 'social_radar',
+  });
   const hasFlag = useHasFlag();
   return {
     title: (
@@ -20,35 +26,71 @@ export const useScreenerAlert = (): AlertForm => {
     ),
     subtitle: t('types.screener.subtitle'),
     icon: ScreenerIcon,
-    value: 'screener',
     disabled: () => !hasFlag('/coin-radar/alerts?screener'),
-    steps: [
+    value: 'screener',
+    children: [
       {
-        component: StepOne,
+        title: t('types.social_radar_screener.title'),
+        subtitle: t('types.social_radar_screener.subtitle'),
         icon: ScreenerIcon,
-        title: (
-          <span className="inline-flex items-center gap-1">
-            {t('types.screener.step-1.title')}
-            <Badge color="wsdm" label={t('common:new')} />
-          </span>
-        ),
-        crumb: t('types.screener.step-1.title'),
-        subtitle: t('types.screener.step-1.subtitle'),
+        value: 'social_radar',
+        steps: [
+          {
+            component: StepOne,
+            icon: ScreenerIcon,
+            title: t('types.social_radar_screener.step-1.title'),
+            crumb: t('types.social_radar_screener.step-1.title'),
+            subtitle: t('types.social_radar_screener.step-1.subtitle'),
+          },
+        ],
+        defaultValue: () =>
+          socialRadarAlerts.refetch().then(x =>
+            x.data?.length
+              ? x.data[0]
+              : {
+                  data_source: 'social_radar',
+                  messengers: ['EMAIL'],
+                  conditions: [],
+                  params: [],
+                },
+          ),
+        isCompatible: p => {
+          return p.data_source === 'social_radar';
+        },
+        save: p => saveAlertMutation.mutateAsync(p),
+        delete: p => deleteAlertMutation.mutateAsync(p),
+      },
+      {
+        title: t('types.technical_radar_screener.title'),
+        subtitle: t('types.technical_radar_screener.subtitle'),
+        icon: ScreenerIcon,
+        value: 'technical_radar',
+        steps: [
+          {
+            component: StepOne,
+            icon: ScreenerIcon,
+            title: t('types.technical_radar_screener.step-1.title'),
+            crumb: t('types.technical_radar_screener.step-1.title'),
+            subtitle: t('types.technical_radar_screener.step-1.subtitle'),
+          },
+        ],
+        defaultValue: () =>
+          technicalRadarAlerts.refetch().then(x =>
+            x.data?.length
+              ? x.data[0]
+              : {
+                  data_source: 'technical_radar',
+                  messengers: ['EMAIL'],
+                  conditions: [],
+                  params: [],
+                },
+          ),
+        isCompatible: p => {
+          return p.data_source === 'technical_radar';
+        },
+        save: p => saveAlertMutation.mutateAsync(p),
+        delete: p => deleteAlertMutation.mutateAsync(p),
       },
     ],
-    defaultValue: () =>
-      Promise.resolve({
-        data_source: 'social_radar',
-        messengers: ['EMAIL'],
-        conditions: [],
-        params: [],
-      }),
-    isCompatible: p => {
-      return (
-        p.data_source === 'social_radar' || p.data_source === 'technical_radar'
-      );
-    },
-    save: p => saveAlertMutation.mutateAsync(p),
-    delete: p => deleteAlertMutation.mutateAsync(p),
   };
 };

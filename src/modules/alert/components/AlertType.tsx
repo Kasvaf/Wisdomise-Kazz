@@ -15,13 +15,7 @@ export function AlertType({
   if (!alertForm) return null;
   const { icon: DtIcon, ...rest } = alertForm;
   const title =
-    rest.value === 'screener'
-      ? value.data_source === 'social_radar'
-        ? t('types.screener.types.social_radar.title')
-        : value.data_source === 'technical_radar'
-        ? t('types.screener.types.technical_radar.title')
-        : rest.title
-      : rest.value === 'report'
+    rest.value === 'report'
       ? t('types.report.types.social_radar.title')
       : rest.title;
 

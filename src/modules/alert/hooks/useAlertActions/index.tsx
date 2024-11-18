@@ -28,9 +28,8 @@ export const useAlertActions = (
       content: (
         <>
           <AlertModal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <AlertProvider initialValue={initialAlert}>
+            <AlertProvider initialValue={initialAlert} forms={forms}>
               <AlertEdit
-                forms={forms}
                 onClose={() => setIsModalOpen(false)}
                 lock={lock}
                 onFinish={() => {

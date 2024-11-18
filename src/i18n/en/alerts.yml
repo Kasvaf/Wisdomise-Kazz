@@ -87,35 +87,28 @@ types:
   screener:
     title: Screener
     subtitle: Get alerts when a coin enters the top 5—stay informed and ready to act!
-    step-1:
-      title: Set Screener
-      subtitle: >-
-        Set automated alerts with our radars (Social, Technical, Whale) to get
-        notified when a coin breaks into the top 5—keeping you informed and
-        ready to act on market trends.
-    types:
-      social_radar:
-        title: Social Radar Screener
-        subtitle: >-
-          Get notified as soon as a coin enters the top 5 of our Social Radar
-          list.
-        sentence: >-
-          Get notified as soon as a coin enters the top 5 of our Social Radar
-          list.
-      technical_radar:
-        title: Technical Radar Screener
-        subtitle: >-
-          Get notified as soon as a coin enters the top 5 of our Technical Radar
-          list.
-        sentence: >-
-          Get notified as soon as a coin enters the top 5 of our Technical Radar
-          list.
   signaler:
     title: Signaler Alert
     subtitle: Receive expert insights and alerts for smarter trading!
+  social_radar_screener:
+    title: Social Radar Screener
+    subtitle: Get notified as soon as a coin enters the top 5 of our Social Radar list.
+    step-1:
+      title: Set Social Radar Screener
+      subtitle: |-
+        Get notified as soon as a coin enters the top 5 of our Social Radar
+          list.
   social_sentiment:
     title: Social Sentiment Alert
     subtitle: Gauge market mood—stay ahead with sentiment updates!
+  technical_radar_screener:
+    title: Technical Radar Screener
+    subtitle: Get notified as soon as a coin enters the top 5 of our Social Radar list.
+    step-1:
+      title: Set Technical Radar Screener
+      subtitle: |-
+        Get notified as soon as a coin enters the top 5 of our Technical Radar
+          list.
   whale:
     title: Whale Alert
     subtitle: >-

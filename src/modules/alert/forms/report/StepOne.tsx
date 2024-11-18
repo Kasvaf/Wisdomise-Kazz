@@ -13,7 +13,9 @@ import { ReactComponent as CooldownIcon } from './cooldown.svg';
 
 export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
-  const [value, setValue] = useEditingAlert();
+  const {
+    value: [value, setValue],
+  } = useEditingAlert();
 
   return (
     <form
