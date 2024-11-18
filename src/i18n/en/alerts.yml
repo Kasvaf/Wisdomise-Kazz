@@ -55,9 +55,6 @@ tables:
   target: Notification Targets
   type: Alert Type
 types:
-  indicator:
-    title: Indicators Alert
-    subtitle: Get notified when key indicators signal important trends!
   price:
     title: Price Alert
     subtitle: Stay on top of market changes with instant notifications
@@ -87,9 +84,6 @@ types:
   screener:
     title: Screener
     subtitle: Get alerts when a coin enters the top 5—stay informed and ready to act!
-  signaler:
-    title: Signaler Alert
-    subtitle: Receive expert insights and alerts for smarter trading!
   social_radar_screener:
     title: Social Radar Screener
     subtitle: Get notified as soon as a coin enters the top 5 of our Social Radar list.
@@ -98,9 +92,6 @@ types:
       subtitle: |-
         Get notified as soon as a coin enters the top 5 of our Social Radar
           list.
-  social_sentiment:
-    title: Social Sentiment Alert
-    subtitle: Gauge market mood—stay ahead with sentiment updates!
   technical_radar_screener:
     title: Technical Radar Screener
     subtitle: Get notified as soon as a coin enters the top 5 of our Social Radar list.

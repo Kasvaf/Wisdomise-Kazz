@@ -1,12 +1,9 @@
 import { useRef } from 'react';
 import { type Alert } from 'api/alert';
 import { type AlertFormGroup, type AlertForm } from '../library/types';
-import { useIndicatorAlert } from './indicator';
 import { usePriceAlert } from './price';
 import { useReportAlert } from './report';
 import { useScreenerAlert } from './screener';
-import { useSentimentAlert } from './sentiment';
-import { useSignalerAlert } from './signaler';
 import { useWhaleAlert } from './whale';
 
 export const useAlertForms = (): Array<AlertForm | AlertFormGroup> => {
@@ -14,19 +11,8 @@ export const useAlertForms = (): Array<AlertForm | AlertFormGroup> => {
   const screenerAlert = useScreenerAlert();
   const reportAlert = useReportAlert();
   const whaleAlert = useWhaleAlert();
-  const indicatorAlert = useIndicatorAlert();
-  const sentimentAlert = useSentimentAlert();
-  const signalerAlert = useSignalerAlert();
 
-  const grouped = useRef([
-    screenerAlert,
-    whaleAlert,
-    priceAlert,
-    reportAlert,
-    indicatorAlert,
-    sentimentAlert,
-    signalerAlert,
-  ]);
+  const grouped = useRef([screenerAlert, whaleAlert, priceAlert, reportAlert]);
 
   return grouped.current;
 };
