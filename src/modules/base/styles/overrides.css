@@ -73,6 +73,10 @@
 
 .ant-modal {
   color: white;
+
+  .ant-modal-header {
+    @apply bg-transparent text-center;
+  }
 }
 
 .ant-modal-wrap.fullscreen {
@@ -123,6 +127,13 @@
   }
   .ant-drawer-content {
     @apply bg-page;
+  }
+}
+
+.modal-drawer .ant-drawer-content {
+  border-radius: 24px 24px 0 0;
+  .ant-drawer-title {
+    @apply text-center text-lg;
   }
 }
 

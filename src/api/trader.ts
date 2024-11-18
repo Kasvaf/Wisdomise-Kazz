@@ -124,6 +124,18 @@ export interface CreatePositionRequest {
   quote_amount: string;
 }
 
+export const usePreparePositionMutation = () => {
+  const { mutateAsync } = useCreateTraderInstanceMutation();
+  return useMutation(async (body: CreatePositionRequest) => {
+    await mutateAsync();
+    const { data } = await axios.post<{ gas_fee: string; warning?: string }>(
+      'trader/positions/prepare',
+      body,
+    );
+    return data;
+  });
+};
+
 export interface CreatePositionResponse {
   warning?: string;
   gas_fee: string;
