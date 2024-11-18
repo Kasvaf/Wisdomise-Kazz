@@ -1,26 +1,27 @@
 import { type ColumnType } from 'antd/es/table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Alert, type AlertState } from 'api/alert';
+import { type Alert } from 'api/alert';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table from 'shared/Table';
 import { AlertType } from 'modules/alert/components/AlertType';
 import { AlertTarget } from 'modules/alert/components/AlertTarget';
 import { AlertDeliveryMethods } from 'modules/alert/components/AlertDeliveryMethods';
 import { AlertActions } from 'modules/alert/components/AlertActions';
+import { ReadableDate } from 'shared/ReadableDate';
 import { AlertStateChanger } from '../components/AlertStateChanger';
 
-export function NotificationsAlertsWidget({
-  stateQuery,
-  alerts,
-}: {
-  stateQuery?: AlertState;
-  alerts: Alert[];
-}) {
+export function NotificationsAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
 
   const columns = useMemo<Array<ColumnType<Alert>>>(
     () => [
+      {
+        title: t('tables.creation-date'),
+        render: (_, row) => (
+          <ReadableDate value={row.created_at} emptyText="---" />
+        ),
+      },
       {
         title: t('tables.type'),
         render: (_, row) => <AlertType value={row} />,
@@ -50,13 +51,7 @@ export function NotificationsAlertsWidget({
     [t],
   );
 
-  const alertsMatchedStateQuery = alerts.filter(row =>
-    stateQuery
-      ? row.state === stateQuery ||
-        (row.state === 'SNOOZE' && stateQuery === 'ACTIVE')
-      : true,
-  );
-  if (alertsMatchedStateQuery.length === 0) return null;
+  if (alerts.length === 0) return null;
 
   return (
     <OverviewWidget>
@@ -65,7 +60,7 @@ export function NotificationsAlertsWidget({
       </div>
       <Table
         columns={columns}
-        dataSource={alertsMatchedStateQuery}
+        dataSource={alerts}
         rowKey={row => row.key ?? row.data_source}
         pagination={false}
         rowClassName="[&_td]:!py-6"

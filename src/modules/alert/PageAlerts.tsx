@@ -25,9 +25,21 @@ export default function AlertsPage() {
     undefined,
   );
 
+  const filteredAlerts = useMemo(() => {
+    const q = searchQuery?.toLowerCase() ?? '';
+    return (alerts.data ?? [])
+      .filter(x => !q || JSON.stringify(x).toLowerCase().includes(q))
+      .filter(row =>
+        alertState
+          ? row.state === alertState ||
+            (row.state === 'SNOOZE' && alertState === 'ACTIVE')
+          : true,
+      );
+  }, [searchQuery, alerts.data, alertState]);
+
   const coinAlerts = useMemo(() => {
     const priceAlerts =
-      alerts.data?.filter(
+      filteredAlerts.filter(
         row =>
           row.data_source === 'market_data' &&
           row.params.some(x => x.field_name === 'base'),
@@ -47,16 +59,17 @@ export default function AlertsPage() {
           ),
         ] as const,
     );
-  }, [alerts]);
+  }, [filteredAlerts]);
 
   const notificationAlerts = useMemo(
     () =>
-      alerts.data?.filter(
+      filteredAlerts.filter(
         row =>
           row.data_source === 'social_radar' ||
+          row.data_source === 'technical_radar' ||
           row.data_source === 'manual:social_radar_daily_report',
       ) ?? [],
-    [alerts],
+    [filteredAlerts],
   );
 
   return (
@@ -91,19 +104,11 @@ export default function AlertsPage() {
       </div>
 
       <div className="space-y-4">
-        <NotificationsAlertsWidget
-          alerts={notificationAlerts}
-          stateQuery={alertState}
-        />
-        {coinAlerts.map(([slug, alerts]) => (
-          <CoinAlertsWidget
-            alerts={alerts}
-            key={slug}
-            searchQuery={searchQuery}
-            stateQuery={alertState}
-          />
+        <NotificationsAlertsWidget alerts={notificationAlerts} />
+        {coinAlerts.map(([slug, slugAlerts]) => (
+          <CoinAlertsWidget alerts={slugAlerts} key={slug} />
         ))}
-        {alerts.data?.length === 0 && (
+        {(alerts.data ?? []).length === 0 && (
           <AlertEmptyWidget className="h-[600px]" />
         )}
       </div>

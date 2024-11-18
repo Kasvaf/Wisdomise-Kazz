@@ -87,7 +87,6 @@ types:
   screener:
     title: Screener
     subtitle: Get alerts when a coin enters the top 5—stay informed and ready to act!
-    sentence: Get notified as soon as a coin enters the top 5 of our Social Radar list.
     step-1:
       title: Set Screener
       subtitle: >-
@@ -99,6 +98,17 @@ types:
         title: Social Radar Screener
         subtitle: >-
           Get notified as soon as a coin enters the top 5 of our Social Radar
+          list.
+        sentence: >-
+          Get notified as soon as a coin enters the top 5 of our Social Radar
+          list.
+      technical_radar:
+        title: Technical Radar Screener
+        subtitle: >-
+          Get notified as soon as a coin enters the top 5 of our Technical Radar
+          list.
+        sentence: >-
+          Get notified as soon as a coin enters the top 5 of our Technical Radar
           list.
   signaler:
     title: Signaler Alert

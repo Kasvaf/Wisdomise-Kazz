@@ -61,6 +61,16 @@ export interface SocialRadarAlert extends BaseAlert {
   }>;
 }
 
+export interface TechnicalRadarAlert extends BaseAlert {
+  data_source: 'technical_radar';
+  params: [];
+  conditions: Array<{
+    field_name: 'networks_slug' | 'symbol.categories';
+    threshold: string;
+    operator: 'CONTAINS_OBJECT_EACH' | 'CONTAINS_EACH';
+  }>;
+}
+
 export interface SocialRadarDailyReportAlert extends BaseAlert {
   data_source: 'manual:social_radar_daily_report';
   params: [];
@@ -70,4 +80,5 @@ export interface SocialRadarDailyReportAlert extends BaseAlert {
 export type Alert =
   | SocialRadarDailyReportAlert
   | MarketDataAlert
-  | SocialRadarAlert;
+  | SocialRadarAlert
+  | TechnicalRadarAlert;

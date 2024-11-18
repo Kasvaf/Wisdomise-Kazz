@@ -44,7 +44,9 @@ export const useScreenerAlert = (): AlertForm => {
         params: [],
       }),
     isCompatible: p => {
-      return p.data_source === 'social_radar';
+      return (
+        p.data_source === 'social_radar' || p.data_source === 'technical_radar'
+      );
     },
     save: p => saveAlertMutation.mutateAsync(p),
     delete: p => deleteAlertMutation.mutateAsync(p),

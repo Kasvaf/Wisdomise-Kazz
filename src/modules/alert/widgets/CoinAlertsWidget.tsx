@@ -2,7 +2,7 @@ import { type ColumnType } from 'antd/es/table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCoinOverview } from 'api';
-import { type AlertState, type Alert } from 'api/alert';
+import { type Alert } from 'api/alert';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
@@ -15,15 +15,7 @@ import { AlertStateChanger } from 'modules/alert/components/AlertStateChanger';
 import { AlertActions } from 'modules/alert/components/AlertActions';
 import { AlertTarget } from 'modules/alert/components/AlertTarget';
 
-export function CoinAlertsWidget({
-  alerts,
-  searchQuery,
-  stateQuery,
-}: {
-  alerts: Alert[];
-  searchQuery?: string;
-  stateQuery?: AlertState;
-}) {
+export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
   const slug = alerts[0].params.find(x => x.field_name === 'base')?.value;
   if (!slug) throw new Error('coin alerts not works');
@@ -64,22 +56,7 @@ export function CoinAlertsWidget({
     [t],
   );
 
-  const alertsMatchedStateQuery = alerts.filter(row =>
-    stateQuery
-      ? row.state === stateQuery ||
-        (row.state === 'SNOOZE' && stateQuery === 'ACTIVE')
-      : true,
-  );
-
-  const isCoinMatchedSearchQuery = searchQuery
-    ? coin.data &&
-      JSON.stringify(coin.data.symbol)
-        .toLowerCase()
-        .includes(searchQuery?.toLowerCase())
-    : true;
-
-  if (alertsMatchedStateQuery.length === 0 || !isCoinMatchedSearchQuery)
-    return null;
+  if (alerts.length === 0) return null;
 
   return (
     <OverviewWidget>
@@ -109,12 +86,7 @@ export function CoinAlertsWidget({
       </div>
       <Table
         columns={columns}
-        dataSource={alerts.filter(row =>
-          stateQuery
-            ? row.state === stateQuery ||
-              (row.state === 'SNOOZE' && stateQuery === 'ACTIVE')
-            : true,
-        )}
+        dataSource={alerts}
         rowKey={row => row.key ?? row.data_source}
         pagination={false}
         rowClassName="[&_td]:!py-6"

@@ -4,13 +4,29 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { type Alert } from 'api/alert';
 
+const useScreenerTypes = () => {
+  const { t } = useTranslation('alerts');
+  return [
+    {
+      title: t('types.screener.types.social_radar.title'),
+      subtitle: t('types.screener.types.social_radar.subtitle'),
+      value: 'social_radar',
+    },
+    {
+      title: t('types.screener.types.technical_radar.title'),
+      subtitle: t('types.screener.types.technical_radar.subtitle'),
+      value: 'technical_radar',
+    },
+  ];
+};
+
 export const ScreenerTypesSelect: FC<SelectProps<Alert['data_source']>> = ({
   value,
   className,
   disabled,
   ...props
 }) => {
-  const { t } = useTranslation('alerts');
+  const screenerTypes = useScreenerTypes();
 
   return (
     <Select
@@ -24,21 +40,17 @@ export const ScreenerTypesSelect: FC<SelectProps<Alert['data_source']>> = ({
       showArrow={!disabled}
       disabled={disabled}
       allowClear={false}
-      options={[
-        {
-          label: (
-            <>
-              <span className="pe-3">
-                {t('types.screener.types.social_radar.title')}
-              </span>
-              <p className="mt-2 !whitespace-normal text-xs font-light text-v1-content-secondary">
-                {t('types.screener.types.social_radar.subtitle')}
-              </p>
-            </>
-          ),
-          value: 'social_radar',
-        },
-      ]}
+      options={screenerTypes.map(screenerType => ({
+        label: (
+          <>
+            <span className="pe-3">{screenerType.title}</span>
+            <p className="mt-2 !whitespace-normal text-xs font-light text-v1-content-secondary">
+              {screenerType.subtitle}
+            </p>
+          </>
+        ),
+        value: screenerType.value,
+      }))}
       {...props}
     />
   );
