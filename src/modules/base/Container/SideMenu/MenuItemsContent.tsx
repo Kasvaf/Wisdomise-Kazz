@@ -153,7 +153,7 @@ const MenuItemsContent: React.FC<{
 
       {ModalLogin}
       <div className="grow" />
-      {subscription.type !== 'pro' && isLoggedIn && (
+      {!collapsed && subscription.type !== 'pro' && isLoggedIn && (
         <div className="mobile:hidden">
           <div className="flex flex-col items-center gap-3 rounded-md bg-pro-gradient p-4 text-xs">
             <img src={LogoBlack} className="-mb-3 -ms-2 w-8 shrink-0" />

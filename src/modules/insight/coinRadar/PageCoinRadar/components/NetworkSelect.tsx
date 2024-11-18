@@ -28,6 +28,7 @@ export const NetworkSelect: FC<SelectProps<string>> = ({
       loading={loading || networks.isLoading}
       allowClear
       showSearch
+      showArrow={false}
       placeholder={
         <span>
           <Icon
