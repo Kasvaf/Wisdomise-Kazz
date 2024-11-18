@@ -24,6 +24,11 @@ const CONTRACT_ADDRESSES = {
   usdt: USDT_CONTRACT_ADDRESS,
 } as const;
 
+const CONTRACT_DECIMAL = {
+  wsdm: 6,
+  usdt: USDT_DECIMAL,
+} as const;
+
 export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
   const address = useTonAddress();
   return useQuery(
@@ -37,7 +42,7 @@ export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
       );
 
       if (data?.balance === undefined) return;
-      return +(data?.balance ?? 0) / 10 ** USDT_DECIMAL;
+      return +(data?.balance ?? 0) / 10 ** CONTRACT_DECIMAL[contract];
     },
     { enabled: !!address },
   );
