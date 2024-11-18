@@ -32,6 +32,28 @@ const PriceVol: React.FC<{
   );
 };
 
+const PriceVols: React.FC<{
+  items: Array<{
+    key: string;
+    amountRatio: string;
+    priceExact?: string;
+  }>;
+}> = ({ items }) => {
+  return (
+    <>
+      {items.length === 0
+        ? 'None'
+        : items.map(x => (
+            <PriceVol
+              key={x.key}
+              amountRatio={x.amountRatio}
+              priceExact={x.priceExact}
+            />
+          ))}
+    </>
+  );
+};
+
 const ModalApproval: React.FC<{
   formState: SignalFormState;
   createData: CreatePositionRequest;
@@ -61,42 +83,32 @@ const ModalApproval: React.FC<{
         </InfoLine>
 
         <InfoLine label="Gas Fee (Reserved)" className="text-sm">
-          {isLoading ? <Spin /> : data?.gas_fee}
+          {isLoading ? (
+            <Spin />
+          ) : data?.gas_fee ? (
+            String(data.gas_fee) + ' TON'
+          ) : (
+            ''
+          )}
         </InfoLine>
+
         <div className="my-2 border border-white/5" />
+
         <InfoLine label="Open" className="text-sm">
           <PriceVol amountRatio={volume} />
         </InfoLine>
         <InfoLine label="Safety Open" className="text-sm">
-          {safetyOpens.map(x => (
-            <PriceVol
-              key={x.key}
-              amountRatio={x.amountRatio}
-              priceExact={x.priceExact}
-            />
-          ))}
+          <PriceVols items={safetyOpens} />
         </InfoLine>
-
         <InfoLine label="Take Profit" className="text-sm">
-          {takeProfits.map(x => (
-            <PriceVol
-              key={x.key}
-              amountRatio={x.amountRatio}
-              priceExact={x.priceExact}
-            />
-          ))}
+          <PriceVols items={takeProfits} />
+        </InfoLine>
+        <InfoLine label="Stop Loss" className="text-sm">
+          <PriceVols items={stopLosses} />
         </InfoLine>
 
-        <InfoLine label="Stop Loss" className="text-sm">
-          {stopLosses.map(x => (
-            <PriceVol
-              key={x.key}
-              amountRatio={x.amountRatio}
-              priceExact={x.priceExact}
-            />
-          ))}
-        </InfoLine>
         <div className="my-2 border border-white/5" />
+
         <InfoLine label="Fee" className="text-sm">
           0.5% of transactions + network gas fee
         </InfoLine>
