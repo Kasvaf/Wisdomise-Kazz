@@ -46,11 +46,12 @@ coin-details:
     social_sentiment:
       footer: 過去 24 時間、コミュニティ データの洞察
       hunted-at: 狩られた場所
-      long: ロングチャンス。
+      long: 潜在的な成長機会
       market_side: マーケットサイド
       negative: ネガティブ
+      not_sure: わからない
       positive: ポジティブ
-      short: ショートチャンス。
+      short: 衰退のリスク
       title: 社会感情 ウィズダムズ
     socials:
       label: 社交
@@ -170,7 +171,7 @@ social-radar:
     rank: 賢明な論理
   table:
     all_networks: すべてのネットワーク
-    description: Wisdomiseソーシャルレーダーをスキャンしました <b>{{posts}} 投稿</b> 過去 24
+    description: ウィズダムズソーシャルレーダー <b>スキャンした {{posts}} アルファグループからの投稿</b> 過去 24
       時間以内に、正確なデータに基づく洞察が得られます。
     labels:
       title: ラベル

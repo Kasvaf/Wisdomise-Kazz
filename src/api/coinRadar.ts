@@ -84,7 +84,7 @@ export interface CoinSignal {
   long_count: number;
   short_count: number;
   messages_count: number;
-  gauge_tag: 'LONG' | 'SHORT' | 'Not Sure' | 'Neutral';
+  gauge_tag: 'LONG' | 'SHORT' | 'NOT SURE';
   gauge_measure: -1 | 0 | 1;
   last_signal_related_at: string;
   first_signal_related_at: string;

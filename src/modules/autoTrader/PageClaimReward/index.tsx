@@ -78,7 +78,7 @@ export default function ClaimRewardPage() {
       {/*   <TonConnectButton /> */}
       {/* </div> */}
       <div className="mt-6">
-        {tonConnect.connected && (
+        {tonConnect.connected && wsdmBalance !== undefined && (
           <p className="mb-6 text-xs text-white/40">
             Your WSDM balance in your wallet:{' '}
             <span className="text-white">{addComma(wsdmBalance)} WSDM</span>
