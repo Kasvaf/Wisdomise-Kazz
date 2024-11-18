@@ -2,6 +2,7 @@ import { type SVGProps, useMemo, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { PageTitle } from 'shared/PageTitle';
+import MarketPulseAlertButton from '../MarketPulseAlertButton';
 import { ReactComponent as RsiIcon } from './rsi.svg';
 import { ReactComponent as MacdIcon } from './macd.svg';
 
@@ -15,7 +16,7 @@ export const IndicatorSelect: FC<{
   const {
     title,
     description,
-    icon: Icon,
+    // icon: Icon,
   } = useMemo<{
     title?: string;
     description?: string;
@@ -66,9 +67,10 @@ export const IndicatorSelect: FC<{
         value={value}
         onChange={newKey => onChange?.(newKey as MarketPulseIndicators)}
       />
-      <div className="flex max-w-full flex-nowrap items-start justify-between gap-8 mobile:items-center mobile:gap-2">
-        <PageTitle title={title} description={description} />
-        {Icon && <Icon className="shrink-0 basis-auto mobile:basis-1/3" />}
+      <div className="flex max-w-full items-center justify-between gap-8 mobile:flex-col mobile:items-center">
+        <PageTitle title={title} description={description} className="grow" />
+        <MarketPulseAlertButton className="mobile:w-full" />
+        {/* {Icon && <Icon className="shrink-0 basis-auto mobile:basis-1/3" />} */}
       </div>
     </>
   );

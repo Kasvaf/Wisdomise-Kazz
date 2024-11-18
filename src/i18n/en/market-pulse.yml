@@ -102,3 +102,21 @@ onboarding:
       Customize notifications for when coins hit critical RSI levels or show
       signs of divergence. Get instant alerts, so you never miss out on key
       trading opportunities.
+screener:
+  activated:
+    title: Technical Radar Screener Activated!
+    subtitle: Explore and customize additional features now!
+    got-it: Got it
+    preview:
+      title: Screener Preview
+      category:
+        label: Category
+        value: All Categories
+      chain:
+        label: Chain
+        value: All Chains
+      type:
+        label: Type
+        value: Technical Radar Screener
+  edit: Edit Screener
+  set: Set Screener

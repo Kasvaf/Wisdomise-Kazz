@@ -11,22 +11,22 @@ import { ReactComponent as GearIcon } from './gear.svg';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { FirstSetModal } from './FirstSetModal';
 
-export default function CoinRadarAlerButton({
+export default function MarketPulseAlertButton({
   className,
 }: {
   className?: string;
 }) {
-  const { t } = useTranslation('coin-radar');
+  const { t } = useTranslation('market-pulse');
   const hasFlag = useHasFlag();
   const alerts = useAlerts({
-    data_source: 'social_radar',
+    data_source: 'technical_radar',
   });
   const [firstToast, setFirstToast] = useState(false);
   const posibleRelatedAlert = alerts.data?.[0];
 
   const alertActions = useAlertActions(
     posibleRelatedAlert ?? {
-      data_source: 'social_radar',
+      data_source: 'technical_radar',
       messengers: ['EMAIL'],
       conditions: [
         {
@@ -52,7 +52,7 @@ export default function CoinRadarAlerButton({
       <button
         onClick={async () => {
           track('Click On', {
-            place: 'social_radar_notification',
+            place: 'technical_radar_notification',
           });
           if (posibleRelatedAlert) {
             void alertActions.openSaveModal();
