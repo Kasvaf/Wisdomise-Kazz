@@ -90,6 +90,9 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
             className="w-full"
             onChange={x => setValue(p => ({ ...p, messengers: x as never }))}
             value={value.messengers ?? []}
+            channels={
+              value.data_source === 'social_radar' ? ['EMAIL'] : undefined
+            }
           />
         </FormControlWithLabel>
         <div>
