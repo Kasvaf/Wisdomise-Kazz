@@ -50,8 +50,21 @@ export const useScreenerAlert = (): AlertFormGroup => {
               : {
                   data_source: 'social_radar',
                   messengers: ['EMAIL'],
-                  conditions: [],
+                  conditions: [
+                    {
+                      field_name: 'networks_slug',
+                      operator: 'CONTAINS_EACH',
+                      threshold: '[]',
+                    },
+                    {
+                      field_name: 'symbol.categories',
+                      operator: 'CONTAINS_OBJECT_EACH',
+                      threshold: '[]',
+                    },
+                  ],
                   params: [],
+                  config: {},
+                  state: 'ACTIVE',
                 },
           ),
         isCompatible: p => {
@@ -82,8 +95,21 @@ export const useScreenerAlert = (): AlertFormGroup => {
               : {
                   data_source: 'technical_radar',
                   messengers: ['EMAIL'],
-                  conditions: [],
+                  conditions: [
+                    {
+                      field_name: 'networks_slug',
+                      operator: 'CONTAINS_EACH',
+                      threshold: '[]',
+                    },
+                    {
+                      field_name: 'symbol.categories',
+                      operator: 'CONTAINS_OBJECT_EACH',
+                      threshold: '[]',
+                    },
+                  ],
                   params: [],
+                  config: {},
+                  state: 'ACTIVE',
                 },
           ),
         isCompatible: p => {

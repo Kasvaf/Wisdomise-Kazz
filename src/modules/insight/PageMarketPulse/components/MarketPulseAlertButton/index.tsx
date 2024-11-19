@@ -41,6 +41,8 @@ export default function MarketPulseAlertButton({
         },
       ],
       params: [],
+      config: {},
+      state: 'ACTIVE',
     },
     true,
   );

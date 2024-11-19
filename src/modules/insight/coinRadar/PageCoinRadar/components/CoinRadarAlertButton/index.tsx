@@ -41,6 +41,8 @@ export default function CoinRadarAlerButton({
         },
       ],
       params: [],
+      config: {},
+      state: 'ACTIVE',
     },
     true,
   );
