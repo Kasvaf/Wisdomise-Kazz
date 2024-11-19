@@ -144,6 +144,25 @@ onboarding:
   sec-3:
     content: 自定义警报并创建最热门代币的个性化筛选器，让您始终领先一步。实时了解最新动态，确保您不会再错过突破机会！
     title: 不要错过任何机会：设置警报和筛选器
+screener:
+  activated:
+    got-it: 明白了
+    preview:
+      category:
+        label: 类别
+        value: 所有类别
+      chain:
+        label: 链
+        value: 所有链
+      title: 试映预览
+      type:
+        label: 类型
+        value: 社交雷达筛查器
+    subtitle: 立即探索和定制附加功能！
+    summary: 我们已将您的筛查设置为 <b>{{email}}</b>
+    title: 社交雷达筛选器已激活！
+  edit: 編輯 ...
+  set: 设置筛选器
 set-notification:
   open-modal-btn:
     not-set: 設置警報
