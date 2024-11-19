@@ -26,7 +26,6 @@ export const useScreenerAlert = (): AlertFormGroup => {
     ),
     subtitle: t('types.screener.subtitle'),
     icon: ScreenerIcon,
-    disabled: () => !hasFlag('/coin-radar/alerts?screener'),
     value: 'screener',
     children: [
       {
@@ -34,6 +33,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         subtitle: t('types.social_radar_screener.subtitle'),
         icon: ScreenerIcon,
         value: 'social_radar',
+        disabled: () => !hasFlag('/coin-radar/alerts?social_radar_screener'),
         steps: [
           {
             component: StepOne,
@@ -65,6 +65,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
         subtitle: t('types.technical_radar_screener.subtitle'),
         icon: ScreenerIcon,
         value: 'technical_radar',
+        disabled: () => !hasFlag('/coin-radar/alerts?technical_radar_screener'),
         steps: [
           {
             component: StepOne,

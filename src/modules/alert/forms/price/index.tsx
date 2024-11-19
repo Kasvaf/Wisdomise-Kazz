@@ -17,7 +17,7 @@ export const usePriceAlert = (): AlertForm => {
     subtitle: t('types.price.subtitle'),
     icon: PriceIcon,
     value: 'price',
-    disabled: () => !hasFlag('/coin-radar/alerts?price'),
+    disabled: () => !hasFlag('/coin-radar/alerts?price_alert'),
     steps: [
       {
         crumb: t('types.price.step-1.crumb'),

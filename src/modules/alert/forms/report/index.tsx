@@ -19,7 +19,7 @@ export const useReportAlert = (): AlertForm => {
     subtitle: t('types.report.subtitle'),
     icon: ReportIcon,
     value: 'report',
-    disabled: () => !hasFlag('/coin-radar/alerts?coinradar'),
+    disabled: () => !hasFlag('/coin-radar/alerts?social_radar_report'),
     steps: [
       {
         component: StepOne,

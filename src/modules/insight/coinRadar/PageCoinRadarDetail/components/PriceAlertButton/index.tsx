@@ -68,8 +68,6 @@ export function PriceAlertButton({
     searchParam: 'open-alert',
   });
 
-  if (!hasFlag('/coin-radar/alerts?price')) return null;
-
   return (
     <>
       <Button
@@ -81,6 +79,10 @@ export function PriceAlertButton({
           gtmClass('set-alert'),
         )}
         contentClassName="flex gap-0"
+        disabled={
+          !hasFlag('/coin-radar/alerts') ||
+          !hasFlag('/coin-radar/alerts?price_alert')
+        }
       >
         <Icon size={20} name={bxBell} className="mr-1" />
         {initialAlert.key

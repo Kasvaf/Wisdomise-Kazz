@@ -45,7 +45,11 @@ export default function CoinRadarAlerButton({
     true,
   );
 
-  if (!hasFlag('/coin-radar/alerts?screener')) return null;
+  if (
+    !hasFlag('/coin-radar/alerts?social_radar_screener') ||
+    !hasFlag('/coin-radar/alerts')
+  )
+    return null;
 
   return (
     <>
