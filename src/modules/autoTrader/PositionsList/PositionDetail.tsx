@@ -112,6 +112,16 @@ const PositionDetail: React.FC<{
           <span>Current Value</span>
           <span>{position.current_total_equity} USDT</span>
         </div>
+
+        {pairSlug && (
+          <Button
+            variant="alternative"
+            className="block"
+            to={`/trader-hot-coins/${pairSlug}/transactions?key=${position.key}`}
+          >
+            History
+          </Button>
+        )}
       </div>
     </div>
   );
