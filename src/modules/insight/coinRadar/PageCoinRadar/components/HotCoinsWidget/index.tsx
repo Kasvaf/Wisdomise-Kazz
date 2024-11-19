@@ -218,9 +218,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       }
       loading={coins.isInitialLoading}
       empty={(coins.data ?? [])?.length === 0}
-      headerClassName="flex-wrap !justify-start"
+      headerClassName="flex-wrap !justify-between"
       headerActions={
         <>
+          <CoinRadarAlerButton className="mobile:w-full" />
           <div className="flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
             <CoinSearchInput
               value={query}
@@ -249,7 +250,6 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             </div>
 
             <div className="grow mobile:hidden" />
-            <CoinRadarAlerButton className="mobile:order-1" />
           </div>
         </>
       }
