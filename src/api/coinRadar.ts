@@ -89,6 +89,7 @@ export interface CoinSignal {
   last_signal_related_at: string;
   first_signal_related_at: string;
   signals_analysis: CoinSignalAnalysis;
+  symbol_labels?: null | string[];
 }
 
 export const useCoinSignals = (filters?: {
@@ -381,6 +382,7 @@ export interface CoinOverview {
   };
   exchanges: CoinExchange[];
   networks: CoinNetwork[];
+  symbol_labels?: null | string[];
 }
 
 export const useCoinOverview = ({

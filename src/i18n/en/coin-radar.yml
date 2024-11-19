@@ -11,6 +11,34 @@ call-change:
   pnl: Last Update
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
+coin_labels:
+  hype:
+    info: >-
+      The "Hype" label identifies symbols that are currently experiencing a
+      surge in social media activity. These symbols have been mentioned by a
+      significant number of unique accounts across multiple social media
+      channels within a short time frame. This label indicates a potential trend
+      or buzz around the symbol, suggesting increased public interest or
+      speculation.
+    suffix: 🔥
+  monthly_social_beloved:
+    info: >-
+      The "Monthly Social Beloved" label is assigned to symbols that have
+      maintained a strong presence in social media discussions over the past
+      month. These symbols have been mentioned by numerous unique accounts,
+      reflecting long-term interest and engagement. This label is useful for
+      identifying symbols with enduring appeal and potential for stable
+      performance or long-term investment opportunities.
+    suffix: 🌐
+  weekly_social_beloved:
+    info: >-
+      The "Weekly Social Beloved" label highlights symbols that have
+      consistently captured the attention of social media users over the past
+      week. These symbols have been frequently mentioned by a diverse set of
+      accounts, indicating sustained interest and engagement. This label is
+      ideal for identifying symbols that are gaining popularity and may have
+      potential for growth or volatility.
+    suffix: 🌐
 coin_security:
   contract_security: Contract Security
   fields:
@@ -75,7 +103,8 @@ coin_security:
   warning_zero: No Warnings
 coin-category:
   all: All Categories
-  button: Categories
+  more_one: +{{count}} More Category
+  more_other: +{{count}} More Categories
 coin-details:
   tabs:
     chart:
@@ -144,6 +173,9 @@ coin-details:
       title: Trending Coins and Tokens
     whale_popular:
       title: Popular With Whales
+common:
+  labels: Labels
+  price: Price
 copied-to-clipboard: ''
 hot-coins-section:
   table:
