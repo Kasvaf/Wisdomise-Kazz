@@ -135,7 +135,6 @@ export default function useModalApproval() {
   const [Modal, showModal] = useModal(ModalApproval, {
     mobileDrawer: true,
     title: 'Fire Position Approval',
-    height: 560,
   });
   return [
     Modal,

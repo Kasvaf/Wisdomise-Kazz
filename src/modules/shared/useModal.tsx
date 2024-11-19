@@ -31,7 +31,7 @@ function useModal<T>(ModalContent: React.FC<T>, config?: ModalConfigs) {
             open={open}
             footer={null}
             width={config.width ?? 500}
-            height={config.height}
+            height={config.height ?? 'auto'}
             onClose={closeHandler}
             rootClassName="modal-drawer"
             {...config}
