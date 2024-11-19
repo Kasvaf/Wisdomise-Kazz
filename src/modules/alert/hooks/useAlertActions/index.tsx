@@ -39,8 +39,10 @@ export const useAlertActions = (
               />
             </AlertProvider>
           </AlertModal>
-          {deleteConfirmModal}
-          {saveToast}
+          <div className="hidden">
+            {deleteConfirmModal}
+            {saveToast}
+          </div>
         </>
       ),
       openSaveModal: async () =>
