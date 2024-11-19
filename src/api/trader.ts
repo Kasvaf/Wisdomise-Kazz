@@ -11,16 +11,18 @@ export interface PositionsResponse {
   positions: Position[];
 }
 
+export type PositionStatus =
+  | 'DRAFT'
+  | 'PENDING'
+  | 'OPENING'
+  | 'OPEN'
+  | 'CLOSING'
+  | 'CLOSED'
+  | 'CANCELED';
+
 export interface Position {
   key: string;
-  status:
-    | 'DRAFT'
-    | 'PENDING'
-    | 'OPENING'
-    | 'OPEN'
-    | 'CLOSING'
-    | 'CLOSED'
-    | 'CANCELED';
+  status: PositionStatus;
   deposit_status: 'PENDING' | 'PAID' | 'EXPIRED';
   withdraw_status?: 'SENT' | 'PAID';
   pair: string;
@@ -37,6 +39,7 @@ export interface Position {
   exit_price?: string;
   exit_time?: string;
   pnl?: string;
+  current_total_equity: string;
   stop_loss?: string;
   take_profit?: string;
   size?: string;

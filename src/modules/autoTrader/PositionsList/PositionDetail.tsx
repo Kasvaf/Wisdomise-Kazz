@@ -7,6 +7,7 @@ import Icon from 'shared/Icon';
 import Badge from 'shared/Badge';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
+import StatusWidget from './StatusWidget';
 
 const PositionDetail: React.FC<{
   pairSlug?: string;
@@ -45,6 +46,7 @@ const PositionDetail: React.FC<{
       </div>
       <hr className="my-4 border-white/10" />
       <div className="flex flex-col gap-4">
+        <StatusWidget position={position} />
         <div className="flex items-center justify-between">
           <span className="text-v1-content-secondary">Status</span>
           <Badge
@@ -105,19 +107,10 @@ const PositionDetail: React.FC<{
           <span className="text-v1-content-secondary">P / L</span>
           <span>{position.pnl ?? '-'}</span>
         </div>
+
         <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">
-            Average Entry Prices
-          </span>
-          <span>{position.entry_price ?? '-'}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Average Stop Losses</span>
-          <span>{position.stop_loss ?? '-'}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Avg Take Profits</span>
-          <span>{position.take_profit ?? '-'}</span>
+          <span>Current Value</span>
+          <span>{position.current_total_equity} USDT</span>
         </div>
       </div>
     </div>
