@@ -14,16 +14,18 @@ export default function PageTransactions() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="mb-3 flex gap-2">
+      <div className="mb-3 flex items-center gap-2">
         <Button
           variant="alternative"
           to="/trader-hot-coins"
-          className="flex items-center justify-center !px-3 !py-0"
+          className="flex h-11 w-11 items-center justify-center !px-3 !py-0"
         >
           <Icon name={bxLeftArrowAlt} />
         </Button>
 
-        <div>Transaction History</div>
+        <div className="grow pr-4 text-center text-base font-medium">
+          Transaction History
+        </div>
       </div>
     </div>
   );
