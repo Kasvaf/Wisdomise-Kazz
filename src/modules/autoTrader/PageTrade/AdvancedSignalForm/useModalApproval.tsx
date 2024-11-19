@@ -110,7 +110,7 @@ const ModalApproval: React.FC<{
         <div className="my-2 border border-white/5" />
 
         <InfoLine label="Fee" className="text-sm">
-          0.5% of transactions + network gas fee
+          0.2% of transactions + network gas fee
         </InfoLine>
       </div>
 
