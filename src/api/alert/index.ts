@@ -150,9 +150,7 @@ export const useDeleteAlert = (alertId?: string) => {
   return useMutation(
     (payload: Partial<BaseAlert>) => {
       if (payload.data_source === 'manual:social_radar_daily_report') {
-        return toggleSocialRadarDailyReportAlert(
-          payload.messengers?.includes('EMAIL') ?? false,
-        );
+        return toggleSocialRadarDailyReportAlert(false);
       }
       const alertKey = payload.key ?? alertId;
       return deleteAlertingAlert({
