@@ -81,7 +81,7 @@ export function useTraderPositionQuery(positionKey?: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: x => (x?.status === 'CLOSED' ? false : 30_000),
+      refetchInterval: 30_000,
       enabled: !!positionKey,
     },
   );
