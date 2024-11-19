@@ -37,13 +37,17 @@ const PriceVols: React.FC<{
     key: string;
     amountRatio: string;
     priceExact?: string;
+    removed: boolean;
+    applied: boolean;
+    appliedAt?: Date;
   }>;
 }> = ({ items }) => {
+  const itemsFiltered = items.filter(x => !x.removed);
   return (
     <>
-      {items.length === 0
+      {itemsFiltered.length === 0
         ? 'None'
-        : items.map(x => (
+        : itemsFiltered.map(x => (
             <PriceVol
               key={x.key}
               amountRatio={x.amountRatio}
