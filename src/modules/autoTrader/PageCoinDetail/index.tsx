@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { bxLeftArrowAlt } from 'boxicons-quasar';
-import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
+import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import PositionsList from '../PositionsList';

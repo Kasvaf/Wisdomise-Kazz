@@ -1,5 +1,5 @@
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { CoinSelect } from 'modules/account/PageAlerts/components/CoinSelect';
+import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import PositionsList from '../PositionsList';
 

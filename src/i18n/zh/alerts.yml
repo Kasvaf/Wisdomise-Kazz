@@ -2,16 +2,47 @@ common:
   active: 积极的
   alerts-list: 警报列表
   all: 全部
+  all-categories: 所有类别
+  all-networks: 所有链
   current-price: 当前价格
+  delete-confirm:
+    no: 沒關係
+    subtitle: 您即將刪除此警報。
+    title: 您確定嗎？
+    yes: 是的，刪除
   disabled: 已禁用
   empty-description: 点击“设置警报”按钮并设置您的第一个加密警报冒险！
   empty-title: 您的通知列表感觉很孤独！
+  notifications:
+    cooldown: 冷卻時間
+    cooldown-info: 指定此警報在再次觸發前必須經過的時間。
+    disable-after-trigger: 此警報觸發一次後禁用。
+    interval: 間隔
+    invervals:
+      after: 在 {{seconds}} 秒後
+      daily: 每日
+      every: 每 {{seconds}} 秒
+      hour: 小時
+      hourly: 每小時
+      monthly: 每月
+      weekly: 每週
+    messangers:
+      browser: 瀏覽器通知
+      discord: Discord 訊息
+      email: 電子郵件
+      push: 推送通知
+      slack: Slack 訊息
+      sms: 短信
+      telegram: Telegram 訊息
+    one-time: 一度
+    unlimited-times: 不限次数
   price-info: 的价格 <Coin>未知硬币</Coin> 目前 <Price>未知</Price>
   save-alert: 保存警报
   search: 搜索...
+  select-alert-type: 选择您要设置的警报
   set-alert: 設置警報
-  subscription-banner-link: 訂閱我們的Insight計劃以獲取訪問權限。
-  subscription-banner-title: 獲取實時幣種警報，自定義通知。
+  subscription-banner-link: 订阅我们的 Pro Plan 以获取访问权限。
+  subscription-banner-title: 获取实时硬币警报，自定义通知。
   success-message: 警報保存成功！
 forms:
   coin-radar:
@@ -86,3 +117,43 @@ tables:
   status: 狀態
   target: 通知目标
   type: 警报类型
+types:
+  price:
+    sentence: 尽快发送警报 <Badge><Base>未知硬币</Base></Badge> <Br/> 戈斯
+      <Badge><Operator>未知操作员</Operator></Badge> 的价格 <Br />
+      <Badge><Threshold>未知阈值</Threshold></Badge>
+      <Badge><Quote>未知引文</Quote></Badge>
+    step-1:
+      crumb: 設定價格詳情
+    step-2:
+      crumb: 警報偏好
+    subtitle: 通过即时通知掌握市场变化
+    title: 价格警报
+  report:
+    sentence: 设置加密警报，绝不错过任何举动！
+    step-1:
+      crumb: 社会雷达报告
+      subtitle: 通过即时通知了解流行货币和新的市场机会，保持领先地位。
+    subtitle: 每 24 小时每日更新社交雷达的最新动态，直接发送到您的收件箱。
+    title: 报告
+    types:
+      social_radar:
+        title: 社会雷达报告
+  screener:
+    subtitle: 当某种货币进入前 5 名时收到提醒——随时了解信息并准备采取行动！
+    title: 筛选者
+  social_radar_screener:
+    step-1:
+      subtitle: 一旦某个代币进入我们的社交雷达列表的前 5 名，您就会收到通知。
+      title: 设置社交雷达筛选器
+    subtitle: 一旦某种货币进入我们的社交雷达列表前 5 名，您就会收到通知。
+    title: 社交雷达筛查器
+  technical_radar_screener:
+    step-1:
+      subtitle: 一旦某个代币进入我们的技术雷达列表的前 5 名，您就会收到通知。
+      title: 设置技术雷达筛查
+    subtitle: 一旦某种货币进入我们的社交雷达列表前 5 名，您就会收到通知。
+    title: 技术雷达检查员
+  whale:
+    subtitle: 当主要参与者做出重大加密货币举动时接收即时通知
+    title: 鲸鱼警报

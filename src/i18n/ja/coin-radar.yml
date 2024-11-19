@@ -146,6 +146,25 @@ onboarding:
   sec-3:
     content: アラートをカスタマイズし、最もホットなコインに関するパーソナライズされたスクリーナーを作成することで、常に一歩先を行くことができます。リアルタイムで情報を入手し、ブレイクアウトのチャンスを逃さないようにしましょう。
     title: "チャンスを逃さない: アラートとスクリーナーを設定する"
+screener:
+  activated:
+    got-it: わかった
+    preview:
+      category:
+        label: カテゴリ
+        value: すべてのカテゴリー
+      chain:
+        label: 鎖
+        value: すべてのチェーン
+      title: スクリーナープレビュー
+      type:
+        label: タイプ
+        value: ソーシャルレーダースクリーナー
+    subtitle: 今すぐ追加機能を調べてカスタマイズしましょう!
+    summary: スクリーナーをセットアップしました <b>{{email}}</b>
+    title: ソーシャルレーダースクリーナーが有効化されました!
+  edit: スクリーナーを編集
+  set: スクリーナーを設定する
 set-notification:
   open-modal-btn:
     not-set: 通知を設定する

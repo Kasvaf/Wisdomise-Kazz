@@ -22,6 +22,7 @@ error: エラー
 errors:
   field-required: このフィールドは空白にできません。
   network-error: インターネット接続に問題があります。
+new: 新しい
 not-available: 該当なし
 order-type:
   limit: 限界

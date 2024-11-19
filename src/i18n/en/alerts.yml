@@ -2,37 +2,17 @@ common:
   active: Active
   alerts-list: Alerts List
   all: All
+  all-categories: All Categories
+  all-networks: All Chains
   current-price: Current Price
-  disabled: Disabled
-  empty-description: Hit the "Set Alert" button and set up your first crypto alert adventure!
-  empty-title: Your notifications list is feeling lonely!
-  price-info: The price of <Coin>Unknown Coin</Coin> is currently <Price>Unknown</Price>
-  save-alert: Save Alert
-  search: Search...
-  set-alert: Set Alert
-  subscription-banner-link: Subscribe to our Pro Plan for access.
-  subscription-banner-title: Get real-time coin alerts, Customize notifications.
-  success-message: Alert saved successfully!
-forms:
-  coin-radar:
-    title: Coin Radar Alert
-    subtitle: Track your favorite coins with real-time alerts!
-    sentence: Set Crypto Alerts and Never Miss a Move!
-    step: Coin Radar Alert
-    step-subtitle: >-
-      Stay ahead with instant notifications on trending coins and new market
-      opportunities.
-  data-source:
-    title: Choose Alert You Want To Set
   delete-confirm:
     title: Are you sure?
     subtitle: You’re about to delete this alert.
     'no': Nevermind
     'yes': Yes, Delete
-  indicators:
-    title: Indicators Alert
-    subtitle: Get notified when key indicators signal important trends!
-    step: Soon
+  disabled: Disabled
+  empty-description: Hit the "Set Alert" button and set up your first crypto alert adventure!
+  empty-title: Your notifications list is feeling lonely!
   notifications:
     cooldown: Cooldown
     cooldown-info: Specify an amount of time that pass before this alert can fire again.
@@ -55,8 +35,26 @@ forms:
       sms: Sms
       telegram: Telegram Message
     one-time: One Time
-    step: Alert Preferences
     unlimited-times: Unlimited Times
+  price-info: The price of <Coin>Unknown Coin</Coin> is currently <Price>Unknown</Price>
+  save-alert: Save Alert
+  search: Search...
+  select-alert-type: Choose Alert You Want To Set
+  set-alert: Set Alert
+  subscription-banner-link: Subscribe to our Pro Plan for access.
+  subscription-banner-title: Get real-time coin alerts, Customize notifications.
+  success-message: Alert saved successfully!
+tables:
+  description: Description
+  actions: Actions
+  creation-date: Creation Date
+  delivery-methods: Delivery Methods
+  frequency: Frequency
+  notifications: Notifications
+  status: Status
+  target: Notification Targets
+  type: Alert Type
+types:
   price:
     title: Price Alert
     subtitle: Stay on top of market changes with instant notifications
@@ -65,29 +63,45 @@ forms:
       Goes <Badge><Operator>Unknown Operator</Operator></Badge> the price of <Br
       /> <Badge><Threshold>Unknown Threshold</Threshold></Badge>
       <Badge><Quote>Unknown Quote</Quote></Badge>
-    step: Set Price Details
-  signaler:
-    title: Signaler Alert
-    subtitle: Receive expert insights and alerts for smarter trading!
-    step: Soon
-  social-sentiment:
-    title: Social Sentiment Alert
-    subtitle: Gauge market mood—stay ahead with sentiment updates!
-    step: Soon
+    step-1:
+      crumb: Set Price Details
+    step-2:
+      crumb: Alert Preferences
+  report:
+    title: Report
+    subtitle: >-
+      Daily updates on the latest in Social Radar, straight to your inbox Every
+      24 Hours.
+    sentence: Set Crypto Alerts and Never Miss a Move!
+    step-1:
+      subtitle: >-
+        Stay ahead with instant notifications on trending coins and new market
+        opportunities.
+      crumb: Social Radar Report
+    types:
+      social_radar:
+        title: Social Radar Report
+  screener:
+    title: Screener
+    subtitle: Get alerts when a coin enters the top 5—stay informed and ready to act!
+  social_radar_screener:
+    title: Social Radar Screener
+    subtitle: Get notified as soon as a coin enters the top 5 of our Social Radar list.
+    step-1:
+      title: Set Social Radar Screener
+      subtitle: |-
+        Get notified as soon as a coin enters the top 5 of our Social Radar
+          list.
+  technical_radar_screener:
+    title: Technical Radar Screener
+    subtitle: Get notified as soon as a coin enters the top 5 of our Social Radar list.
+    step-1:
+      title: Set Technical Radar Screener
+      subtitle: |-
+        Get notified as soon as a coin enters the top 5 of our Technical Radar
+          list.
   whale:
     title: Whale Alert
     subtitle: >-
       Receive instant notifications when major players make significant crypto
       moves
-    step: Set Whale Alert
-tables:
-  description: Description
-  actions: Actions
-  creation-date: Creation Date
-  delivery-methods: Delivery Methods
-  frequency: Frequency
-  interval: Interval
-  notifications: Notifications
-  status: Status
-  target: Notification Targets
-  type: Alert Type

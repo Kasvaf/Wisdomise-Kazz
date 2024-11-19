@@ -4,11 +4,11 @@ import { bxBell } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
 import { type Alert, useAlerts } from 'api/alert';
-import { useAlertActions } from 'modules/account/PageAlerts/components/useAlertActions';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
+import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 
 export function PriceAlertButton({
   className,
@@ -20,27 +20,53 @@ export function PriceAlertButton({
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
 
-  const possibleRelatedAlerts = useAlerts('market_data', {
-    base: slug,
-  });
-  const initialAlert = useMemo(() => {
-    return (possibleRelatedAlerts.data?.at(-1) || {
-      dataSource: 'market_data',
-      params: {
-        base: slug,
+  const possibleRelatedAlerts = useAlerts({
+    data_source: 'market_data',
+    params: [
+      {
+        field_name: 'base',
+        value: slug,
       },
-    }) as Partial<Alert<'market_data'>>;
+    ],
+  });
+
+  const initialAlert = useMemo<Partial<Alert>>(() => {
+    return (
+      possibleRelatedAlerts.data?.[0] || {
+        data_source: 'market_data',
+        params: [
+          {
+            field_name: 'base',
+            value: slug,
+          },
+          {
+            field_name: 'quote',
+            value: 'tether',
+          },
+        ],
+        conditions: [
+          {
+            field_name: 'last_price',
+            operator: 'GREATER',
+            threshold: '0',
+          },
+        ],
+        messengers: ['EMAIL'],
+        config: {
+          dnd_interval: 3600,
+          one_time: false,
+        },
+      }
+    );
   }, [possibleRelatedAlerts.data, slug]);
 
-  const alertActions = useAlertActions(initialAlert);
+  const alertActions = useAlertActions(initialAlert, true);
 
   useOnSearchParamDetectedOnce({
     callback: () => alertActions.openSaveModal(),
     active: possibleRelatedAlerts.isFetched,
     searchParam: 'open-alert',
   });
-
-  if (!hasFlag('/coin-radar/alerts?price')) return null;
 
   return (
     <>
@@ -53,6 +79,10 @@ export function PriceAlertButton({
           gtmClass('set-alert'),
         )}
         contentClassName="flex gap-0"
+        disabled={
+          !hasFlag('/coin-radar/alerts') ||
+          !hasFlag('/coin-radar/alerts?price_alert')
+        }
       >
         <Icon size={20} name={bxBell} className="mr-1" />
         {initialAlert.key

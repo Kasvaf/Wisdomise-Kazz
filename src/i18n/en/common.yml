@@ -24,6 +24,7 @@ error: Error
 errors:
   field-required: This field may not be blank.
   network-error: Something wrong with your internet connection.
+new: New
 not-available: N/A
 order-type:
   limit: Limit
