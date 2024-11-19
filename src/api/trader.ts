@@ -81,7 +81,7 @@ export function useTraderPositionQuery(positionKey?: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: x => (x?.status === 'CLOSED' ? false : 30_000),
+      refetchInterval: 30_000,
       enabled: !!positionKey,
     },
   );
@@ -123,6 +123,18 @@ export interface CreatePositionRequest {
   quote: string;
   quote_amount: string;
 }
+
+export const usePreparePositionMutation = () => {
+  const { mutateAsync } = useCreateTraderInstanceMutation();
+  return useMutation(async (body: CreatePositionRequest) => {
+    await mutateAsync();
+    const { data } = await axios.post<{ gas_fee: string; warning?: string }>(
+      'trader/positions/prepare',
+      body,
+    );
+    return data;
+  });
+};
 
 export interface CreatePositionResponse {
   warning?: string;

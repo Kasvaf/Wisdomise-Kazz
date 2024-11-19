@@ -13,6 +13,7 @@ import {
 } from 'api/trader';
 import { useTransferAssetsMutation } from 'api/ton';
 import { type SignalFormState } from './useSignalFormStates';
+import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';
 
 interface Props {
@@ -60,29 +61,34 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     noTitle: t('common:actions.no'),
   });
 
+  const [ModalApproval, showModalApproval] = useModalApproval();
   const transferAssetsHandler = useTransferAssetsMutation();
   const fireHandler = async () => {
     if ((orderType === 'limit' && !price) || !assetPrice || !address) return;
 
-    try {
-      const res = await mutateAsync({
-        signal: {
-          action: 'open',
-          pair: assetName,
-          leverage: { value: Number(leverage) || 1 },
-          position: {
-            type: 'long',
-            order_expires_at: parseDur(orderExp),
-            suggested_action_expires_at: parseDur(exp),
-          },
-          take_profit: getTakeProfits(),
-          stop_loss: getStopLosses(),
-          open_orders: getOpenOrders(assetPrice),
+    const createData = {
+      signal: {
+        action: 'open',
+        pair: assetName,
+        leverage: { value: Number(leverage) || 1 },
+        position: {
+          type: 'long',
+          order_expires_at: parseDur(orderExp),
+          suggested_action_expires_at: parseDur(exp),
         },
-        withdraw_address: address,
-        quote: 'USDT',
-        quote_amount: amount,
-      });
+        take_profit: getTakeProfits(),
+        stop_loss: getStopLosses(),
+        open_orders: getOpenOrders(assetPrice),
+      },
+      withdraw_address: address,
+      quote: 'USDT',
+      quote_amount: amount,
+    } as const;
+
+    if (!(await showModalApproval(data, createData))) return;
+
+    try {
+      const res = await mutateAsync(createData);
 
       try {
         await transferAssetsHandler({
@@ -167,6 +173,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
     updateHandler,
     closeHandler,
     ModalConfirm,
+    ModalApproval,
   };
 };
 
