@@ -203,8 +203,8 @@ export const useTraderUpdatePositionMutation = () => {
   );
 };
 
-type TransactionStatus = 'processing' | 'failed' | 'completed';
-interface TransactionOrder {
+export type TransactionStatus = 'processing' | 'failed' | 'completed';
+export interface TransactionOrder {
   type: 'stop_loss' | 'take_profit' | 'safety_open';
   data: {
     index: number;
@@ -222,8 +222,8 @@ interface TransactionOrder {
   };
 }
 
-interface TransactionOpenClose {
-  type: 'open' | 'open'; // (close swap, triggered by close signal)
+export interface TransactionOpenClose {
+  type: 'open' | 'close'; // (close swap, triggered by close signal)
   data: {
     from_asset: string;
     from_amount: string;
@@ -243,7 +243,7 @@ interface Asset {
   asset: string;
   amount: string;
 }
-interface TransactionDeposit {
+export interface TransactionDeposit {
   type: 'deposit';
   data: {
     assets: Asset[]; // is empty in "pending" status
@@ -253,7 +253,7 @@ interface TransactionDeposit {
   };
 }
 
-interface TransactionWithdraw {
+export interface TransactionWithdraw {
   type: 'withdraw';
   data: {
     assets: Asset[];
@@ -265,14 +265,14 @@ interface TransactionWithdraw {
   };
 }
 
-interface TransactionClose {
+export interface TransactionClose {
   type: 'close_event'; // "Closed" card, or cancel_event for "Canceled" card
   data: {
     time: string;
   };
 }
 
-type Transaction =
+export type Transaction =
   | TransactionOrder
   | TransactionOpenClose
   | TransactionDeposit
