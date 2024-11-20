@@ -51,13 +51,10 @@ const GREY_WITHDRAWN = make('grey', 'Withdrawn');
 
 function getItemsByStatus({
   status,
+  deposit_status: ds,
   withdraw_status: ws,
 }: Position): ReactNode {
-  if (status === 'DRAFT') {
-    return [GREY_DEPOSITED, GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
-  }
-
-  if (status === 'PENDING') {
+  if (ds === 'PENDING') {
     return [
       make('yellow', 'Waiting for Deposit'),
       GREY_OPENED,
@@ -66,11 +63,11 @@ function getItemsByStatus({
     ];
   }
 
-  if (status === 'CANCELED') {
+  if (status === 'CANCELED' || ds === 'EXPIRED' || ds === 'CANCELED') {
     return [make('red', 'Canceled'), GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
   }
 
-  if (status === 'OPENING') {
+  if (status === 'OPENING' || (ds === 'PAID' && status === 'PENDING')) {
     return [
       GREEN_DEPOSITED,
       make('yellow', 'Opening'),
@@ -103,7 +100,7 @@ function getItemsByStatus({
     ];
   }
 
-  return <></>;
+  return [GREY_DEPOSITED, GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
 }
 
 const StatusWidget: React.FC<{ position: Position }> = ({ position }) => {

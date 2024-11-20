@@ -23,7 +23,7 @@ export type PositionStatus =
 export interface Position {
   key: string;
   status: PositionStatus;
-  deposit_status: 'PENDING' | 'PAID' | 'EXPIRED';
+  deposit_status: 'PENDING' | 'PAID' | 'EXPIRED' | 'CANCELED';
   withdraw_status?: 'SENT' | 'PAID';
   pair: string;
   side: 'long' | 'short';
@@ -290,7 +290,7 @@ export function useTraderPositionTransactionsQuery({
       const { data } = await axios.get<{ transactions: Transaction[] }>(
         `trader/positions/${positionKey}/transactions`,
       );
-      return data;
+      return data.transactions;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,

@@ -4,7 +4,6 @@ import { bxEditAlt, bxHistory } from 'boxicons-quasar';
 import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
-import Badge from 'shared/Badge';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
@@ -47,29 +46,6 @@ const PositionDetail: React.FC<{
       <hr className="my-4 border-white/10" />
       <div className="flex flex-col gap-4">
         <StatusWidget position={position} />
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Status</span>
-          <Badge
-            label={position.status}
-            color={
-              (
-                {
-                  DRAFT: 'green',
-                  PENDING: 'blue',
-                  OPENING: 'green',
-                  OPEN: 'green',
-                  CLOSING: 'grey',
-                  CLOSED: 'grey',
-                  CANCELED: 'red',
-                } as const
-              )[position.status]
-            }
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Deposit Status</span>
-          <span>{position.deposit_status}</span>
-        </div>
         <div className="flex items-center justify-between">
           <span className="text-v1-content-secondary">Opened At</span>
           <span>
