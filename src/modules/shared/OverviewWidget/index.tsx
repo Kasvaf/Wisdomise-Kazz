@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import BetaVersion from 'shared/BetaVersion';
 import { ReactComponent as EmptyIcon } from './empty.svg';
+import { ReactComponent as ProIcon } from './pro.svg';
 
 export function OverviewWidget({
   id,
@@ -27,7 +28,7 @@ export function OverviewWidget({
   title?: ReactNode;
   subtitle?: ReactNode;
   info?: ReactNode;
-  badge?: 'beta' | 'new';
+  badge?: 'beta' | 'new' | 'pro';
   headerActions?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
@@ -44,7 +45,12 @@ export function OverviewWidget({
       <Icon name={bxInfoCircle} size={18} className="cursor-help" />
     </Tooltip>
   );
-  const badgeIcon = badge && <BetaVersion variant={badge} minimal />;
+  const badgeIcon =
+    badge === 'pro' ? (
+      <ProIcon />
+    ) : (
+      badge && <BetaVersion variant={badge} minimal />
+    );
   return (
     <article
       className={clsx(
