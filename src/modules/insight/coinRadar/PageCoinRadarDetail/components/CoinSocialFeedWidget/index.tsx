@@ -19,6 +19,7 @@ import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { ProLocker } from 'shared/ProLocker';
 import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as RedditIcon } from './images/reddit.svg';
 import { ReactComponent as TwitterIcon } from './images/twitter.svg';
@@ -157,44 +158,51 @@ export function CoinSocialFeedWidget({
   }, [activeTab?.value, pageSize]);
 
   return (
-    <OverviewWidget
-      id={id}
-      title={title ?? t('coin-details.tabs.socials.title')}
-      subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
-      loading={messages.isLoading}
-      className="min-h-[480px]"
-      empty={(activeTab?.messages?.length ?? 0) === 0}
-      headerClassName="flex-wrap"
-      headerActions={
-        <div className="w-full grow overflow-auto">
-          {tabs.length > 1 && (
-            <ButtonSelect
-              options={tabs}
-              value={activeSocial}
-              onChange={setActiveSocial}
-            />
-          )}
-        </div>
-      }
+    <ProLocker
+      level={1}
+      mode="children"
+      className="overflow-hidden rounded-2xl"
     >
-      <div className="mt-4 flex flex-col gap-4">
-        {activeTab?.messages?.slice(0, limit)?.map((message, idx, self) => (
-          <Fragment key={message.id}>
-            <SocialMessage message={message} className="mb-6" />
-            {idx !== self.length - 1 && (
-              <div className="h-px bg-v1-border-tertiary" />
+      <OverviewWidget
+        id={id}
+        title={title ?? t('coin-details.tabs.socials.title')}
+        subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
+        loading={messages.isLoading}
+        className="min-h-[480px]"
+        empty={(activeTab?.messages?.length ?? 0) === 0}
+        headerClassName="flex-wrap"
+        badge="pro"
+        headerActions={
+          <div className="w-full grow overflow-auto">
+            {tabs.length > 1 && (
+              <ButtonSelect
+                options={tabs}
+                value={activeSocial}
+                onChange={setActiveSocial}
+              />
             )}
-          </Fragment>
-        ))}
-      </div>
-      {limit < (activeTab?.messages?.length ?? 0) && (
-        <div className="mt-4 flex items-center justify-center">
-          <Button variant="link" onClick={() => setLimit(p => p + pageSize)}>
-            {t('coin-details.tabs.socials.load_more')}
-            <Icon name={bxRefresh} className="ms-1" />
-          </Button>
+          </div>
+        }
+      >
+        <div className="mt-4 flex flex-col gap-4">
+          {activeTab?.messages?.slice(0, limit)?.map((message, idx, self) => (
+            <Fragment key={message.id}>
+              <SocialMessage message={message} className="mb-6" />
+              {idx !== self.length - 1 && (
+                <div className="h-px bg-v1-border-tertiary" />
+              )}
+            </Fragment>
+          ))}
         </div>
-      )}
-    </OverviewWidget>
+        {limit < (activeTab?.messages?.length ?? 0) && (
+          <div className="mt-4 flex items-center justify-center">
+            <Button variant="link" onClick={() => setLimit(p => p + pageSize)}>
+              {t('coin-details.tabs.socials.load_more')}
+              <Icon name={bxRefresh} className="ms-1" />
+            </Button>
+          </div>
+        )}
+      </OverviewWidget>
+    </ProLocker>
   );
 }
