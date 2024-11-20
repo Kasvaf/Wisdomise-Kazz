@@ -70,6 +70,7 @@ export default function PageHotCoins() {
         dataSource={coins.data?.results ?? []}
         rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
+        showHeader={false}
         pagination={false}
         onChange={(pagination, _, sorter) => {
           setPage(pagination.current ?? 1);
