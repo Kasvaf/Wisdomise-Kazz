@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { bxEditAlt } from 'boxicons-quasar';
+import { bxEditAlt, bxHistory } from 'boxicons-quasar';
 import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -115,11 +115,14 @@ const PositionDetail: React.FC<{
 
         {pairSlug && (
           <Button
-            variant="alternative"
-            className="block"
+            variant="link"
+            className="!p-0 !text-xs text-v1-content-link"
+            contentClassName="!text-v1-content-link"
             to={`/trader-hot-coins/${pairSlug}/transactions?key=${position.key}`}
+            size="small"
           >
-            History
+            <Icon name={bxHistory} size={16} className="mr-1" />
+            Transactions History
           </Button>
         )}
       </div>

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { bxLeftArrowAlt } from 'boxicons-quasar';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -9,6 +9,7 @@ export default function PageTransactions() {
   const { slug } = useParams<{ slug: string }>();
   const [positionKey] = useSearchParamAsState('key');
   if (!slug) throw new Error('unexpected');
+  const navigate = useNavigate();
 
   useTraderPositionTransactionsQuery({ positionKey });
 
@@ -17,14 +18,14 @@ export default function PageTransactions() {
       <div className="mb-3 flex items-center gap-2">
         <Button
           variant="alternative"
-          to="/trader-hot-coins"
+          onClick={() => navigate(-1)}
           className="flex h-11 w-11 items-center justify-center !px-3 !py-0"
         >
           <Icon name={bxLeftArrowAlt} />
         </Button>
 
         <div className="grow pr-4 text-center text-base font-medium">
-          Transaction History
+          Transactions History
         </div>
       </div>
     </div>
