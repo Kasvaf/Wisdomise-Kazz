@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type ReactNode } from 'react';
+import React from 'react';
 import { type Position } from 'api';
 
 type Color = 'green' | 'red' | 'yellow' | 'grey';
@@ -37,9 +37,10 @@ const StatusItem: React.FC<{
   );
 };
 
-const make = (color: Color, label: string) => (
-  <StatusItem label={label} color={color} />
-);
+const make = (color: Color, label: string) => ({
+  component: <StatusItem label={label} color={color} />,
+  key: color + label,
+});
 
 const GREY_DEPOSITED = make('grey', 'Deposited');
 const GREEN_DEPOSITED = make('green', 'Deposited');
@@ -53,7 +54,7 @@ function getItemsByStatus({
   status,
   deposit_status: ds,
   withdraw_status: ws,
-}: Position): ReactNode {
+}: Position) {
   if (ds === 'PENDING') {
     return [
       make('yellow', 'Waiting for Deposit'),
@@ -105,7 +106,13 @@ function getItemsByStatus({
 
 const StatusWidget: React.FC<{ position: Position }> = ({ position }) => {
   const items = getItemsByStatus(position);
-  return <div className="flex items-end gap-1">{items}</div>;
+  return (
+    <div className="flex items-end gap-1">
+      {items?.map(x => (
+        <React.Fragment key={x.key}>{x.component}</React.Fragment>
+      ))}
+    </div>
+  );
 };
 
 export default StatusWidget;
