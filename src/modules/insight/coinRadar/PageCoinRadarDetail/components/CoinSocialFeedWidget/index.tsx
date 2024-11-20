@@ -1,13 +1,5 @@
 import { clsx } from 'clsx';
-import {
-  type FC,
-  Fragment,
-  type ReactNode,
-  type SVGProps,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { Fragment, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxRefresh } from 'boxicons-quasar';
 import {
@@ -20,20 +12,17 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ProLocker } from 'shared/ProLocker';
-import { ReactComponent as TelegramIcon } from './images/telegram.svg';
-import { ReactComponent as RedditIcon } from './images/reddit.svg';
-import { ReactComponent as TwitterIcon } from './images/twitter.svg';
-import { ReactComponent as TradingViewIcon } from './images/trading_view.svg';
-import { SocialMessage } from './SocialMessage';
+import { SocialMessageSummary } from './SocialMessage';
+import { SocialLogo } from './SocialLogo';
 
 function SocialTabTitle({
   isActive,
   label,
-  icon: Icon,
+  type,
 }: {
   isActive?: boolean;
   label: string;
-  icon?: FC<SVGProps<SVGSVGElement>>;
+  type?: SocialMessageType['social_type'];
 }) {
   return (
     <h2
@@ -42,7 +31,7 @@ function SocialTabTitle({
         isActive ? 'text-white' : 'opacity-60 grayscale',
       )}
     >
-      {Icon && <Icon className="size-4" />}
+      {type && <SocialLogo type={type} className="size-4" />}
       {label}
     </h2>
   );
@@ -92,7 +81,7 @@ export function CoinSocialFeedWidget({
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.telegram.title')}
             isActive={activeSocial === 'telegram'}
-            icon={TelegramIcon}
+            type="telegram"
           />
         ),
         value: 'telegram',
@@ -103,7 +92,7 @@ export function CoinSocialFeedWidget({
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.reddit.title')}
             isActive={activeSocial === 'reddit'}
-            icon={RedditIcon}
+            type="reddit"
           />
         ),
         value: 'reddit',
@@ -114,7 +103,7 @@ export function CoinSocialFeedWidget({
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.twitter.title')}
             isActive={activeSocial === 'twitter'}
-            icon={TwitterIcon}
+            type="twitter"
           />
         ),
         value: 'twitter',
@@ -125,7 +114,7 @@ export function CoinSocialFeedWidget({
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.trading_view.title')}
             isActive={activeSocial === 'trading_view'}
-            icon={TradingViewIcon}
+            type="trading_view"
           />
         ),
         value: 'trading_view',
@@ -184,10 +173,10 @@ export function CoinSocialFeedWidget({
           </div>
         }
       >
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="mt-4 flex flex-col gap-6">
           {activeTab?.messages?.slice(0, limit)?.map((message, idx, self) => (
             <Fragment key={message.id}>
-              <SocialMessage message={message} className="mb-6" />
+              <SocialMessageSummary message={message} />
               {idx !== self.length - 1 && (
                 <div className="h-px bg-v1-border-tertiary" />
               )}

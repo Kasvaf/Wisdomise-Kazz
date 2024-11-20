@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import Tabs from 'shared/Tabs';
 import { useScrollPointTabs } from './hooks/useScrollPointTabs';
-import { ReactComponent as TradingViewIcon } from './components/CoinSocialFeedWidget/images/trading_view.svg';
 import { CoinPriceWidget } from './components/CoinPriceWidget';
 import { CoinStatsWidget } from './components/CoinStatsWidget';
 import { CoinSocialSentimentWidget } from './components/CoinSocialSentimentWidget';
@@ -15,6 +14,7 @@ import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchange
 import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
 import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
 import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
+import { SocialLogo } from './components/CoinSocialFeedWidget/SocialLogo';
 
 const TODO_SHOW_CHART = false;
 
@@ -45,7 +45,7 @@ export default function PageCoinRadarDetail() {
         key: 'coinoverview_trading_view',
         label: (
           <div className="inline-flex items-center gap-1">
-            <TradingViewIcon className="size-4" />
+            <SocialLogo type="trading_view" className="size-4" />
             {t('coin-details.tabs.trading_view.label')}
           </div>
         ),

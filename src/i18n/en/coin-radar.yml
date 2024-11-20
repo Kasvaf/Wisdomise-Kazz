@@ -158,10 +158,8 @@ coin-details:
           title: All Socials Feed
         reddit:
           title: Reddit
-          followers: Members
         telegram:
           title: Telegram
-          followers: Subscribers
         trading_view:
           title: Technical Ideas
         twitter:
@@ -223,6 +221,11 @@ screener:
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
+social-messages:
+  members: '{{size}} Members'
+  post_details: Post Details
+  read_more: Read More
+  subscribers: '{{size}} Subscribers'
 social-radar:
   banner:
     title: Social Radar

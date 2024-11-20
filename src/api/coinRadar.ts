@@ -209,6 +209,7 @@ export interface TradingViewIdeasMessage {
   total_comments: number;
   preview_text: string;
   symbol: number;
+  side: 'Short' | 'Long';
   timeline_contents: Array<{
     content: string;
     created_at: string;
