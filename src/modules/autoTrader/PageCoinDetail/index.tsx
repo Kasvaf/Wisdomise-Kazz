@@ -4,9 +4,10 @@ import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { useCoinOverview } from 'api';
-import { CoinPriceWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinPriceWidget';
+import { CoinSocialSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinSocialSentimentWidget';
 import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
 import PositionsList from '../PositionsList';
+import MiniCoinPriceWidget from './MiniCoinPriceWidget';
 
 export default function PageCoinDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -38,10 +39,11 @@ export default function PageCoinDetail() {
         />
       </div>
 
-      <CoinPriceWidget slug={slug} />
+      <MiniCoinPriceWidget slug={slug} />
       <PositionsList slug={slug} isOpen />
 
       <CoinStatsWidget slug={slug} />
+      <CoinSocialSentimentWidget slug={slug} />
 
       <Button
         variant="brand"
