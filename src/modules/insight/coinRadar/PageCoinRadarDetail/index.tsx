@@ -14,6 +14,7 @@ import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchange
 import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
 import { TechnicalIdeasWidget } from './components/TechnicalIdeasWidget';
 import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
+import { HotCoinsWidget } from './components/HotCoinsWidget';
 
 export default function PageCoinRadarDetail() {
   const { t } = useTranslation('coin-radar');
@@ -33,6 +34,10 @@ export default function PageCoinRadarDetail() {
       {
         key: 'coinoverview_exchanges',
         label: t('coin-details.tabs.markets.label'),
+      },
+      {
+        key: 'coinoverview_hotcoins',
+        label: t('coin-details.tabs.hot_coins.label'),
       },
     ],
     160,
@@ -69,6 +74,7 @@ export default function PageCoinRadarDetail() {
             slug={slug}
             id="coinoverview_exchanges"
           />
+          <HotCoinsWidget slug={slug} id="coinoverview_hotcoins" />
         </div>
       </div>
     </PageWrapper>

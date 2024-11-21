@@ -66,7 +66,11 @@ export function CoinAvailableExchangesWidget({
       title={t('coin-details.tabs.markets.title')}
       subtitle={t('coin-details.tabs.markets.subtitle')}
       loading={coinOverview.isLoading}
-      empty={data.length === 0}
+      refreshing={coinOverview.isRefetching}
+      empty={{
+        enabled: data.length === 0,
+        refreshButton: true,
+      }}
       headerActions={
         <TextBox
           value={query}

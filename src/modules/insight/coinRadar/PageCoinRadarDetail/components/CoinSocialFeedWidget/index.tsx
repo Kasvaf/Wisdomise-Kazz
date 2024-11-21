@@ -143,11 +143,12 @@ export function CoinSocialFeedWidget({
         id={id}
         title={title ?? t('coin-details.tabs.socials.title')}
         subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
-        loading={messages.isLoading || messages.isRefetching}
+        loading={messages.isLoading}
         empty={{
           enabled: (activeTab?.messages?.length ?? 0) === 0,
           refreshButton: true,
         }}
+        refreshing={messages.isRefetching}
         onRefresh={messages.refetch}
         headerClassName="flex-wrap"
         badge="pro"

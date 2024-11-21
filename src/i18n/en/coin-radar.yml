@@ -121,6 +121,17 @@ coin-details:
         Indicator of liquidity. The higher the ratio, the more liquid the
         cryptocurrency is, which should make it easier for it to be bought/sold
         on an exchange close to its value.
+    hot_coins:
+      title: Hot Coins
+      label: Hot Coins
+      filters:
+        hype: Trending Coins
+        popular_with_whales: Popular With Whales
+        social_beloved: Social Beloved
+      table:
+        name: Name
+        24h_chg: 24 Chg
+        price: Price
     markets:
       title: Available Exchange
       subtitle: >-
@@ -159,8 +170,6 @@ coin-details:
           title: Reddit
         telegram:
           title: Telegram
-        trading_view:
-          title: Technical Ideas
         twitter:
           title: X, Twitter
     trading_view:

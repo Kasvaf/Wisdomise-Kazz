@@ -29,9 +29,7 @@ export function TechnicalIdeasWidget({
       title={t('coin-details.tabs.trading_view.title')}
       contentClassName="min-h-[130px] mobile:min-h-[250px] space-y-4"
       id={id}
-      loading={
-        messages.isLoading || coinOverview.isLoading || messages.isRefetching
-      }
+      loading={messages.isLoading || coinOverview.isLoading}
       empty={{
         enabled:
           tradingViewMessages.length === 0 &&
@@ -40,6 +38,7 @@ export function TechnicalIdeasWidget({
         title: t('coin-details.tabs.trading_view.empty.title'),
         subtitle: t('coin-details.tabs.trading_view.empty.subtitle'),
       }}
+      refreshing={messages.isRefetching || coinOverview.isRefetching}
       onRefresh={() => {
         void messages.refetch();
         void coinOverview.refetch();

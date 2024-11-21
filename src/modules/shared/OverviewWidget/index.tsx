@@ -13,7 +13,7 @@ interface EmptyConfig {
   enabled?: boolean;
   title?: ReactNode;
   subtitle?: ReactNode;
-  refreshButton?: ReactNode;
+  refreshButton?: boolean;
 }
 
 export function OverviewWidget({
@@ -31,6 +31,7 @@ export function OverviewWidget({
   footerClassName,
   loading,
   onRefresh,
+  refreshing,
   empty,
 }: {
   id?: string;
@@ -47,6 +48,7 @@ export function OverviewWidget({
   footerClassName?: string;
   loading?: boolean;
   onRefresh?: () => void;
+  refreshing?: boolean;
   empty?: boolean | EmptyConfig;
 }) {
   const { t } = useTranslation('common');
@@ -163,7 +165,8 @@ export function OverviewWidget({
                   'transition-all hover:brightness-110 active:brightness-90',
                 )}
               >
-                <RefreshIcon /> {t('actions.refresh')}
+                <RefreshIcon className={clsx(refreshing && 'animate-spin')} />{' '}
+                {t('actions.refresh')}
               </button>
             )}
           </div>
