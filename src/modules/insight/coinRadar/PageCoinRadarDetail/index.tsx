@@ -12,11 +12,8 @@ import { WhalePopularCoinsWidget } from './components/WhalePopularCoinsWidget';
 import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
 import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
-import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
+import { TechnicalIdeasWidget } from './components/TechnicalIdeasWidget';
 import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
-import { SocialLogo } from './components/CoinSocialFeedWidget/SocialLogo';
-
-const TODO_SHOW_CHART = false;
 
 export default function PageCoinRadarDetail() {
   const { t } = useTranslation('coin-radar');
@@ -25,14 +22,10 @@ export default function PageCoinRadarDetail() {
 
   const scrollPointTabs = useScrollPointTabs(
     [
-      ...(TODO_SHOW_CHART
-        ? [
-            {
-              key: 'coinoverview_chart',
-              label: t('coin-details.tabs.chart.label'),
-            },
-          ]
-        : []),
+      {
+        key: 'coinoverview_trading_view',
+        label: t('coin-details.tabs.trading_view.label'),
+      },
       {
         key: 'coinoverview_socials',
         label: t('coin-details.tabs.socials.label'),
@@ -40,15 +33,6 @@ export default function PageCoinRadarDetail() {
       {
         key: 'coinoverview_exchanges',
         label: t('coin-details.tabs.markets.label'),
-      },
-      {
-        key: 'coinoverview_trading_view',
-        label: (
-          <div className="inline-flex items-center gap-1">
-            <SocialLogo type="trading_view" className="size-4" />
-            {t('coin-details.tabs.trading_view.label')}
-          </div>
-        ),
       },
     ],
     160,
@@ -74,9 +58,7 @@ export default function PageCoinRadarDetail() {
             {...scrollPointTabs}
           />
 
-          {TODO_SHOW_CHART && (
-            <CoinCandleChartWidget slug={slug} id="coinoverview_chart" />
-          )}
+          <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
           <CoinSocialFeedWidget
             id="coinoverview_socials"
             slug={slug}
@@ -86,14 +68,6 @@ export default function PageCoinRadarDetail() {
           <CoinAvailableExchangesWidget
             slug={slug}
             id="coinoverview_exchanges"
-          />
-          <CoinSocialFeedWidget
-            id="coinoverview_trading_view"
-            slug={slug}
-            socials={['trading_view']}
-            pageSize={1}
-            title={t('coin-details.tabs.trading_view.title')}
-            subtitle=""
           />
         </div>
       </div>

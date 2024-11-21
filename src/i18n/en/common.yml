@@ -8,6 +8,7 @@ actions:
   next: Next
   'no': 'No'
   ok: Ok
+  refresh: Refresh
   remove: Remove
   save: Save
   'yes': 'Yes'

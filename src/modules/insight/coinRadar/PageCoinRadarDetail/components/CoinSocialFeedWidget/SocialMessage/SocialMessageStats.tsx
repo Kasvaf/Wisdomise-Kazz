@@ -67,12 +67,23 @@ export function SocialMessageStats({
   return (
     <div
       className={clsx(
-        'flex flex-wrap items-center justify-start gap-2',
+        'flex w-full items-center justify-start gap-2 overflow-auto mobile:gap-1',
         className,
       )}
     >
       {logoType && (
         <SocialLogo type={logoType} className="size-6 rounded-full" />
+      )}
+      {typeof boosts === 'number' && (
+        <span
+          className={clsx(
+            badgeSharedClassName,
+            'bg-white/5 text-v1-content-primary',
+          )}
+        >
+          <BoostIcon />
+          <ReadableNumber value={boosts} />
+        </span>
       )}
       {typeof likes === 'number' && (
         <span
@@ -105,17 +116,6 @@ export function SocialMessageStats({
         >
           <ShareIcon />
           <ReadableNumber value={shares} />
-        </span>
-      )}
-      {typeof boosts === 'number' && (
-        <span
-          className={clsx(
-            badgeSharedClassName,
-            'bg-white/5 text-v1-content-primary',
-          )}
-        >
-          <BoostIcon />
-          <ReadableNumber value={boosts} />
         </span>
       )}
       {releasedDate && (

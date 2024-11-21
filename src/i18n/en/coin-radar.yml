@@ -107,9 +107,6 @@ coin-category:
   more_other: +{{count}} More Categories
 coin-details:
   tabs:
-    chart:
-      title: Chart
-      label: Chart
     coin_stats:
       circulating_supply: Circulating Supply
       contract_address: Contract Address
@@ -167,6 +164,12 @@ coin-details:
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
+      empty:
+        title: No New Ideas Right Now
+        subtitle: >-
+          We're continuously exploring new strategies. Fresh technical insights
+          will be available soon!
+      load_more: Load More
     trending_coins:
       title: Trending Coins and Tokens
     whale_popular:
