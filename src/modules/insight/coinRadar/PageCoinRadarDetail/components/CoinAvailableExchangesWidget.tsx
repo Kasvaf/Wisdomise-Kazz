@@ -70,19 +70,20 @@ export function CoinAvailableExchangesWidget({
       empty={{
         enabled: data.length === 0,
         refreshButton: true,
+        title: t('coin-details.tabs.markets.empty.title'),
+        subtitle: t('coin-details.tabs.markets.empty.subtitle'),
       }}
-      headerActions={
+    >
+      <div>
         <TextBox
           value={query}
           onChange={setQuery}
-          className="text-sm mobile:w-full"
+          className="mb-4 w-72 text-sm mobile:w-full"
           suffix={<Icon name={bxSearch} />}
           placeholder={t('available-exchanges.search')}
           disabled={(coinOverview.data?.exchanges ?? []).length === 0}
         />
-      }
-      headerClassName="flex-wrap"
-    >
+      </div>
       <Table
         loading={coinOverview.isLoading}
         columns={columns}

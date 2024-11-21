@@ -152,20 +152,17 @@ export function CoinSocialFeedWidget({
         }}
         refreshing={messages.isRefetching}
         onRefresh={messages.refetch}
-        headerClassName="flex-wrap"
         badge="pro"
-        headerActions={
-          <div className="w-full grow overflow-auto">
-            {tabs.length > 1 && (
-              <ButtonSelect
-                options={tabs}
-                value={activeSocial}
-                onChange={setActiveSocial}
-              />
-            )}
-          </div>
-        }
       >
+        <div className="w-full grow overflow-auto">
+          {tabs.length > 1 && (
+            <ButtonSelect
+              options={tabs}
+              value={activeSocial}
+              onChange={setActiveSocial}
+            />
+          )}
+        </div>
         <div className="mt-4 flex flex-col gap-6">
           {activeTab?.messages?.slice(0, limit)?.map((message, idx, self) => (
             <Fragment key={message.id}>

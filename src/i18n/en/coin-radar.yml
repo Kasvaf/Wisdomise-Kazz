@@ -138,6 +138,11 @@ coin-details:
         Explore Your Options, Discover the Available Exchanges for Seamless
         Trading!
       label: Markets
+      empty:
+        title: No Updates from Exchanges
+        subtitle: >-
+          No new exchange data at the moment. We’re keeping an eye out for any
+          changes. Check back later!
     most_viewed_coins:
       title: Most Viewed Coins
       table:
