@@ -107,6 +107,10 @@ coin-category:
   more_other: +{{count}} More Categories
 coin-details:
   tabs:
+    coin_introduction:
+      title: What is {{name}}?
+      empty:
+        title: No information available.
     coin_stats:
       circulating_supply: Circulating Supply
       contract_address: Contract Address

@@ -73,6 +73,7 @@ export function CoinAvailableExchangesWidget({
         title: t('coin-details.tabs.markets.empty.title'),
         subtitle: t('coin-details.tabs.markets.empty.subtitle'),
       }}
+      onRefresh={coinOverview.refetch}
     >
       <div>
         <TextBox

@@ -1,8 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import Tabs from 'shared/Tabs';
-import { useScrollPointTabs } from './hooks/useScrollPointTabs';
 import { CoinPriceWidget } from './components/CoinPriceWidget';
 import { CoinStatsWidget } from './components/CoinStatsWidget';
 import { CoinSocialSentimentWidget } from './components/CoinSocialSentimentWidget';
@@ -15,33 +12,13 @@ import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
 import { TechnicalIdeasWidget } from './components/TechnicalIdeasWidget';
 import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
 import { HotCoinsWidget } from './components/HotCoinsWidget';
+import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
+import { CoinRadarTabs } from './components/CoinRadarTabs';
 
 export default function PageCoinRadarDetail() {
-  const { t } = useTranslation('coin-radar');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
 
-  const scrollPointTabs = useScrollPointTabs(
-    [
-      {
-        key: 'coinoverview_trading_view',
-        label: t('coin-details.tabs.trading_view.label'),
-      },
-      {
-        key: 'coinoverview_socials',
-        label: t('coin-details.tabs.socials.label'),
-      },
-      {
-        key: 'coinoverview_exchanges',
-        label: t('coin-details.tabs.markets.label'),
-      },
-      {
-        key: 'coinoverview_hotcoins',
-        label: t('coin-details.tabs.hot_coins.label'),
-      },
-    ],
-    160,
-  );
   return (
     <PageWrapper>
       <PageCoinRadarDetailMeta slug={slug} />
@@ -58,10 +35,7 @@ export default function PageCoinRadarDetail() {
           </div>
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
-          <Tabs
-            className="sticky top-0 z-50 bg-page mobile:hidden"
-            {...scrollPointTabs}
-          />
+          <CoinRadarTabs className="sticky top-0 z-50 bg-page mobile:hidden" />
 
           <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
           <CoinSocialFeedWidget
@@ -75,6 +49,7 @@ export default function PageCoinRadarDetail() {
             id="coinoverview_exchanges"
           />
           <HotCoinsWidget slug={slug} id="coinoverview_hotcoins" />
+          <CoinIntroductionWidget slug={slug} />
         </div>
       </div>
     </PageWrapper>
