@@ -116,15 +116,14 @@ export function OverviewWidget({
       <div
         className={clsx(
           'relative h-auto grow overflow-auto',
-          '-mx-5 px-5 2xl:-mx-6 2xl:px-6',
-          !contentClassName?.includes('min-h-') && 'min-h-20',
+          '-mx-5 min-h-20 px-5 2xl:-mx-6 2xl:px-6',
           contentClassName,
         )}
       >
         {loading ? (
           <p
             className={clsx(
-              'absolute inset-0 flex size-full animate-pulse items-center justify-center text-base text-v1-content-primary',
+              'absolute inset-0 flex size-full animate-pulse items-center justify-center overflow-hidden text-base text-v1-content-primary',
               'p-6',
             )}
           >
@@ -133,7 +132,7 @@ export function OverviewWidget({
         ) : emptyConfig.enabled ? (
           <div
             className={clsx(
-              'absolute inset-0 flex size-full p-6',
+              'absolute inset-0 flex size-full overflow-hidden p-6',
               'flex-row items-center justify-center gap-4 mobile:flex-col mobile:justify-center',
             )}
           >
