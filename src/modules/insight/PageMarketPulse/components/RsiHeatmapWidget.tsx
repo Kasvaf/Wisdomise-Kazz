@@ -22,7 +22,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       className={className}
       title={t('indicator_list.rsi.heatmap.title')}
       headerClassName="flex-wrap"
-      contentClassName="min-h-[450px] !p-0"
+      contentClassName="!min-h-[450px] !p-0"
       headerActions={
         <ButtonSelect
           className="mobile:w-full"
