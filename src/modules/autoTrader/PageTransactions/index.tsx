@@ -15,7 +15,7 @@ export default function PageTransactions() {
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
 
-  const { data, isLoading } = useTraderPositionTransactionsQuery({
+  const { data, isError, isLoading } = useTraderPositionTransactionsQuery({
     positionKey,
   });
 
@@ -38,6 +38,10 @@ export default function PageTransactions() {
       {isLoading ? (
         <div className="mt-8 flex justify-center">
           <Spinner />
+        </div>
+      ) : isError ? (
+        <div className="rounded-md border border-v1-border-negative p-2">
+          {"There's a problem with our servers. Please check again later."}
         </div>
       ) : (
         <div className="flex flex-col items-stretch gap-2">
