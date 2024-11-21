@@ -124,7 +124,13 @@ coin-details:
     hot_coins:
       title: Hot Coins
       label: Hot Coins
+      empty:
+        title: No Hot Coins Right Now
+        subtitle: >-
+          The market’s quiet, but we’re monitoring closely. New hot coins will
+          appear here soon!
       filters:
+        all: All
         hype: Trending Coins
         popular_with_whales: Popular With Whales
         social_beloved: Social Beloved

@@ -17,17 +17,19 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
     windowHours: 24,
   });
   const [filter, setFilter] = useState<
-    'hype' | 'popular_with_whales' | 'social_beloved'
-  >('hype');
+    undefined | 'hype' | 'popular_with_whales' | 'social_beloved'
+  >(undefined);
 
   const columns = useMemo<Array<ColumnType<CoinSignal>>>(
     () => [
       {
         title: t('coin-details.tabs.hot_coins.table.name'),
+        width: 300,
         render: (_, row) => <Coin coin={row.symbol} />,
       },
       {
         title: t('coin-details.tabs.hot_coins.table.price'),
+        width: 300,
         render: (_, row) => (
           <ReadableNumber value={row.symbol_market_data.current_price} />
         ),
@@ -71,15 +73,23 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
       title={t('coin-details.tabs.hot_coins.title')}
       loading={signals.isInitialLoading}
       empty={{
-        enabled: filteredCoins?.length === 0,
+        enabled: signals.data?.length === 0,
         refreshButton: true,
+        title: t('coin-details.tabs.hot_coins.empty.title'),
+        subtitle: t('coin-details.tabs.hot_coins.empty.subtitle'),
       }}
       onRefresh={signals.refetch}
       refreshing={signals.isRefetching}
       id={id}
-      headerActions={
+    >
+      <div className="mb-2">
         <ButtonSelect
+          className="mobile:w-full"
           options={[
+            {
+              label: t('coin-details.tabs.hot_coins.filters.all'),
+              value: undefined,
+            },
             {
               label: t('coin-details.tabs.hot_coins.filters.hype'),
               value: 'hype',
@@ -99,8 +109,7 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
           value={filter}
           onChange={setFilter}
         />
-      }
-    >
+      </div>
       <ProLocker mode="table" level={3}>
         <Table
           columns={columns}
@@ -108,6 +117,9 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isRefetching && !coins.isFetched}
           tableLayout="fixed"
+          pagination={{
+            pageSize: 5,
+          }}
         />
       </ProLocker>
     </OverviewWidget>
