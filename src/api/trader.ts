@@ -84,7 +84,7 @@ export function useTraderPositionQuery(positionKey?: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: 30_000,
+      refetchInterval: 10_000,
       enabled: !!positionKey,
     },
   );
@@ -114,8 +114,8 @@ export function useTraderPositionsQuery({
       return data;
     },
     {
-      staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: 30_000,
+      staleTime: 10,
+      refetchInterval: 20_000,
     },
   );
 }
@@ -293,7 +293,7 @@ export function useTraderPositionTransactionsQuery({
       return data.transactions;
     },
     {
-      staleTime: Number.POSITIVE_INFINITY,
+      staleTime: 10_000,
       refetchInterval: 30_000,
     },
   );
