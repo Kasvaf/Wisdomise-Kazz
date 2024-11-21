@@ -40,10 +40,10 @@ export default function PageCoinDetail() {
       </div>
 
       <MiniCoinPriceWidget slug={slug} />
-      <PositionsList slug={slug} isOpen />
+      <PositionsList slug={slug} isOpen noEmptyState />
 
       <CoinStatsWidget slug={slug} />
-      <CoinSocialSentimentWidget slug={slug} />
+      <CoinSocialSentimentWidget slug={slug} noEmptyState />
 
       <Button
         variant="brand"
