@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { bxEditAlt, bxHistory } from 'boxicons-quasar';
 import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import CancelButton from './CancelButton';
@@ -23,9 +24,6 @@ const PositionDetail: React.FC<{
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span>{position.pair}</span>
-          <div className="rounded-full bg-v1-surface-l3 px-2 py-1 text-v1-content-secondary">
-            Market
-          </div>
         </div>
         <div className="flex items-center gap-3">
           <CancelButton position={position} />
@@ -46,20 +44,31 @@ const PositionDetail: React.FC<{
       <hr className="my-4 border-white/10" />
       <div className="flex flex-col gap-4">
         <StatusWidget position={position} />
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Opened At</span>
-          <span>
-            {position.entry_time ? dayjs(position.entry_time).fromNow() : '-'}
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">Closed At</span>
-          <span>
-            {position.exit_time ? dayjs(position.exit_time).fromNow() : '-'}
-          </span>
-        </div>
 
-        {initialDeposit !== undefined && (
+        {position.status === 'CANCELED' && (
+          <>
+            <div className="flex items-center justify-between">
+              <span className="text-v1-content-secondary">Deposit Status</span>
+              <span>{position.deposit_status}</span>
+            </div>
+          </>
+        )}
+
+        {position.entry_time != null && (
+          <div className="flex items-center justify-between">
+            <span className="text-v1-content-secondary">Opened At</span>
+            <span>{dayjs(position.entry_time).fromNow()}</span>
+          </div>
+        )}
+
+        {position.exit_time != null && (
+          <div className="flex items-center justify-between">
+            <span className="text-v1-content-secondary">Closed At</span>
+            <span>{dayjs(position.exit_time).fromNow()}</span>
+          </div>
+        )}
+
+        {initialDeposit != null && (
           <div className="flex items-center justify-between">
             <span className="text-v1-content-secondary">Initial Deposit</span>
             <span>
@@ -75,21 +84,35 @@ const PositionDetail: React.FC<{
               <span className="text-v1-content-secondary">
                 Current {a.asset}
               </span>
-              <span>{a.amount}</span>
+              <span>
+                <ReadableNumber value={Number(a.amount)} />
+              </span>
             </div>
           ))}
 
-        <div className="flex items-center justify-between">
-          <span className="text-v1-content-secondary">P / L</span>
-          <span>{position.pnl ?? '-'}</span>
-        </div>
+        {position.pnl != null && (
+          <div className="flex items-center justify-between">
+            <span className="text-v1-content-secondary">P / L</span>
+            <span>
+              <ReadableNumber value={Number(position.pnl)} label="%" />
+            </span>
+          </div>
+        )}
 
-        <div className="flex items-center justify-between">
-          <span>Current Value</span>
-          <span>{position.current_total_equity} USDT</span>
-        </div>
+        {position.current_total_equity != null &&
+          position.status !== 'CANCELED' && (
+            <div className="flex items-center justify-between">
+              <span>Current Value</span>
+              <span>
+                <ReadableNumber
+                  value={Number(position.current_total_equity)}
+                  label="USDT"
+                />
+              </span>
+            </div>
+          )}
 
-        {pairSlug && (
+        {pairSlug && position.status !== 'CANCELED' && (
           <Button
             variant="link"
             className="!p-0 !text-xs text-v1-content-link"
