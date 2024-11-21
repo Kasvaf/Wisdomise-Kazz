@@ -162,6 +162,11 @@ coin-details:
       title: Social Feed
       subtitle: Stay ahead in crypto with real-time scans of social media.
       label: Social
+      empty:
+        title: The Market’s Quiet
+        subtitle: >-
+          No updates right now, but we’re always scanning the crypto world. More
+          news is coming soon!
       load_more: Load More
       types:
         all:

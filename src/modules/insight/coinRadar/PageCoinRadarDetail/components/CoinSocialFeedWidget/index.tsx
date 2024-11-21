@@ -147,6 +147,8 @@ export function CoinSocialFeedWidget({
         empty={{
           enabled: (activeTab?.messages?.length ?? 0) === 0,
           refreshButton: true,
+          title: t('coin-details.tabs.socials.empty.title'),
+          subtitle: t('coin-details.tabs.socials.empty.subtitle'),
         }}
         refreshing={messages.isRefetching}
         onRefresh={messages.refetch}
