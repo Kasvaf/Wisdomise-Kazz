@@ -18,7 +18,7 @@ export function TechnicalIdeasWidget({
   const coinOverview = useCoinOverview({ slug });
   const messages = useSocialMessages(slug);
 
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(3);
 
   const tradingViewMessages = useMemo(() => {
     return (messages.data ?? []).filter(x => x.social_type === 'trading_view');
@@ -27,7 +27,7 @@ export function TechnicalIdeasWidget({
   return (
     <OverviewWidget
       title={t('coin-details.tabs.trading_view.title')}
-      contentClassName="min-h-[130px] mobile:min-h-[250px] space-y-4"
+      contentClassName="space-y-4"
       id={id}
       loading={messages.isLoading || coinOverview.isLoading}
       empty={{
@@ -83,7 +83,7 @@ export function TechnicalIdeasWidget({
         </div>
       )}
       {tradingViewMessages.length > 0 && (
-        <div className="space-y-4 rounded-xl bg-v1-surface-l3 p-6 mobile:bg-transparent mobile:p-0">
+        <div className="space-y-4 overflow-x-auto rounded-xl bg-v1-surface-l3 p-6 mobile:bg-transparent mobile:p-0">
           {tradingViewMessages.slice(0, limit).map((msg, idx, self) => (
             <Fragment key={msg.id}>
               <SocialMessageSummary

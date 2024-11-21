@@ -37,7 +37,7 @@ export function SocialMessageSummary({
             message.social_type === 'trading_view' ? 'h-32 w-52' : 'h-36 w-40',
           )}
         />
-        <div className="flex grow flex-col justify-between gap-4">
+        <div className="flex grow flex-col items-stretch justify-between gap-4 mobile:w-full">
           <SocialMessageContent
             message={message}
             mode={message.social_type === 'trading_view' ? 'title' : 'summary'}

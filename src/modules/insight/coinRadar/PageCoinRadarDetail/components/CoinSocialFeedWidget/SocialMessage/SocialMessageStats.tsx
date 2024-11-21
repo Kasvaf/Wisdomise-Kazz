@@ -67,7 +67,7 @@ export function SocialMessageStats({
   return (
     <div
       className={clsx(
-        'flex w-full items-center justify-start gap-2 overflow-auto mobile:gap-1',
+        'flex items-center justify-start gap-2 mobile:gap-1 mobile:overflow-auto',
         className,
       )}
     >
@@ -122,7 +122,7 @@ export function SocialMessageStats({
         <span
           className={clsx(
             badgeSharedClassName,
-            mode === 'expandable' && '!px-6 mobile:!px-4',
+            mode === 'expandable' && 'grow !px-6 mobile:!px-4',
             'bg-white/5 text-v1-content-primary',
           )}
         >
@@ -145,7 +145,7 @@ export function SocialMessageStats({
         <button
           className={clsx(
             badgeSharedClassName,
-            'bg-v1-content-brand/20 !px-6 text-v1-content-brand mobile:!px-4',
+            'grow bg-v1-content-brand/25 !px-6 text-v1-content-brand mobile:!px-4',
             'transition-all hover:brightness-110 active:brightness-90',
           )}
           onClick={onReadMore}
