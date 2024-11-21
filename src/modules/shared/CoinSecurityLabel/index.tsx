@@ -12,9 +12,11 @@ import { TaxesRow } from './TaxesRow';
 export function CoinSecurityLabel({
   value,
   coin,
+  chevron,
 }: {
   value?: NetworkSecurity[] | null;
   coin: Coin;
+  chevron?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const defaultNetwork = useMemo(() => {
@@ -149,7 +151,7 @@ export function CoinSecurityLabel({
           ? 'bg-v1-content-negative/10'
           : 'bg-v1-content-notice/10',
       )}
-      chevron={false}
+      chevron={chevron}
     >
       {label.trusted && (
         <>

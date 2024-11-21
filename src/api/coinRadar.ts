@@ -376,6 +376,7 @@ export interface CoinOverview {
     fully_diluted_valuation: number;
     price_change_percentage_24h: number;
     market_cap_change_percentage_24h: number;
+    volume_change_percentage_24h: number;
     price_history: Array<{
       related_at_date: string;
       mean_price: number;
@@ -385,6 +386,9 @@ export interface CoinOverview {
   networks: CoinNetwork[];
   symbol_labels?: null | string[];
   trading_view_chart_id?: null | string;
+  security_data?: null | Array<{
+    symbol_security: NetworkSecurity;
+  }>;
 }
 
 export const useCoinOverview = ({

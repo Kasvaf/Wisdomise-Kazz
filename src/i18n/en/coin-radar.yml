@@ -110,8 +110,10 @@ coin-details:
     coin_stats:
       circulating_supply: Circulating Supply
       contract_address: Contract Address
+      fdv: FDV
       fully_diluted_valuation: Fully Diluted Market Cap
       market_cap: Market Cap
+      security_scan: Security Scan By Go+
       total_supply: Total Supply
       volume: Volume
       volume_market_cap: Volume/Market Cap
@@ -177,7 +179,8 @@ coin-details:
 common:
   labels: Labels
   price: Price
-copied-to-clipboard: ''
+contract-address:
+  multiple: Multiple Address
 hot-coins-section:
   table:
     name: ''
