@@ -14,7 +14,6 @@ interface EmptyConfig {
   title?: ReactNode;
   subtitle?: ReactNode;
   refreshButton?: ReactNode;
-  size?: 'small' | 'normal';
 }
 
 export function OverviewWidget({
@@ -86,6 +85,7 @@ export function OverviewWidget({
       )}
       id={id}
     >
+      {/* Header */}
       {(title || info || headerActions) && (
         <header
           className={clsx(
@@ -111,58 +111,47 @@ export function OverviewWidget({
           {headerActions}
         </header>
       )}
+
+      {/* Content */}
       <div
         className={clsx(
           'relative h-auto grow overflow-auto',
           '-mx-5 px-5 2xl:-mx-6 2xl:px-6',
-          (loading || empty) && 'py-4',
+          !contentClassName?.includes('min-h-') && 'min-h-20',
           contentClassName,
         )}
       >
         {loading ? (
-          <p className="flex h-full animate-pulse items-center justify-center text-base text-v1-content-primary">
+          <p
+            className={clsx(
+              'absolute inset-0 flex size-full animate-pulse items-center justify-center text-base text-v1-content-primary',
+              'p-6',
+            )}
+          >
             {t('almost-there')}
           </p>
         ) : emptyConfig.enabled ? (
           <div
             className={clsx(
-              'flex w-full gap-4',
-              emptyConfig?.size === 'small'
-                ? 'flex-row items-center justify-start mobile:flex-col mobile:justify-center'
-                : 'flex-col items-center justify-center text-center',
+              'absolute inset-0 flex size-full p-6',
+              'flex-row items-center justify-center gap-4 mobile:flex-col mobile:justify-center',
             )}
           >
-            <EmptyIcon
-              className={clsx(
-                'mt-3 shrink-0',
-                emptyConfig.size === 'small' ? 'w-20' : 'w-48',
-              )}
-            />
+            <EmptyIcon className="mt-3 w-20 shrink-0 mobile:mt-0" />
             <div
               className={clsx(
-                'flex grow flex-col justify-center gap-1 mobile:text-center',
-                emptyConfig.size === 'small'
-                  ? 'items-start mobile:items-center'
-                  : 'items-center',
+                'flex flex-col justify-center gap-1 mobile:text-center',
+                'items-start mobile:items-center',
+                emptyConfig.refreshButton && 'grow',
               )}
             >
               {emptyConfig.title && (
-                <p
-                  className={clsx(
-                    'text-v1-content-primary',
-                    emptyConfig.size === 'small' ? 'text-base' : 'text-xl',
-                  )}
-                >
+                <p className="text-base text-v1-content-primary">
                   {emptyConfig.title}
                 </p>
               )}
               {emptyConfig.subtitle && (
-                <p
-                  className={clsx(
-                    'max-w-lg font-light text-v1-content-secondary',
-                    emptyConfig.size === 'small' ? 'text-xs' : 'text-sm',
-                  )}
-                >
+                <p className="max-w-lg text-xs font-light text-v1-content-secondary">
                   {emptyConfig.subtitle}
                 </p>
               )}
@@ -183,6 +172,8 @@ export function OverviewWidget({
           <>{children}</>
         )}
       </div>
+
+      {/* Footer */}
       {footer && (
         <footer
           className={clsx(

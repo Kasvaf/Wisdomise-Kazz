@@ -36,7 +36,6 @@ export function TechnicalIdeasWidget({
         enabled:
           tradingViewMessages.length === 0 &&
           !coinOverview.data?.trading_view_chart_id,
-        size: 'small',
         refreshButton: true,
         title: t('coin-details.tabs.trading_view.empty.title'),
         subtitle: t('coin-details.tabs.trading_view.empty.subtitle'),
@@ -67,7 +66,7 @@ export function TechnicalIdeasWidget({
       }
     >
       {coinOverview.data?.trading_view_chart_id && (
-        <div className="-mt-4 h-[500px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[300px]">
+        <div className="h-[500px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[300px]">
           <AdvancedRealTimeChart
             allow_symbol_change={false}
             symbol={coinOverview.data?.trading_view_chart_id}
