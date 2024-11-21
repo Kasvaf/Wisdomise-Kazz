@@ -109,19 +109,6 @@ export function CoinSocialFeedWidget({
         value: 'twitter',
         messages: messages.data?.filter(row => row.social_type === 'twitter'),
       },
-      {
-        label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.trading_view.title')}
-            isActive={activeSocial === 'trading_view'}
-            type="trading_view"
-          />
-        ),
-        value: 'trading_view',
-        messages: messages.data?.filter(
-          row => row.social_type === 'trading_view',
-        ),
-      },
     ];
     return list.filter(x => {
       if (x.value === null) {
@@ -156,9 +143,12 @@ export function CoinSocialFeedWidget({
         id={id}
         title={title ?? t('coin-details.tabs.socials.title')}
         subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
-        loading={messages.isLoading}
-        className="min-h-[480px]"
-        empty={(activeTab?.messages?.length ?? 0) === 0}
+        loading={messages.isLoading || messages.isRefetching}
+        empty={{
+          enabled: (activeTab?.messages?.length ?? 0) === 0,
+          refreshButton: true,
+        }}
+        onRefresh={messages.refetch}
         headerClassName="flex-wrap"
         badge="pro"
         headerActions={
