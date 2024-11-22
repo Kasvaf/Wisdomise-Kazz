@@ -111,6 +111,17 @@ coin-details:
       title: What is {{name}}?
       empty:
         title: No information available.
+    coin_links:
+      bitbucket: Bitbucket
+      facebook: Facebook
+      github: Github
+      homepage: Home Page
+      official_links: Official Links
+      reddit: Reddit
+      social: Social
+      telegram: Telegram
+      twitter: X (Twitter)
+      whitepaper: Whitepaper
     coin_stats:
       circulating_supply: Circulating Supply
       contract_address: Contract Address

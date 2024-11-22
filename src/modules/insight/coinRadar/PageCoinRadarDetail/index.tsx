@@ -12,8 +12,10 @@ import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
 import { TechnicalIdeasWidget } from './components/TechnicalIdeasWidget';
 import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
 import { HotCoinsWidget } from './components/HotCoinsWidget';
+
 import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
 import { CoinRadarTabs } from './components/CoinRadarTabs';
+import { CoinLinksWidget } from './components/CoinLinksWidget';
 
 export default function PageCoinRadarDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -27,6 +29,7 @@ export default function PageCoinRadarDetail() {
           <div className="sticky top-0 flex flex-col gap-6 mobile:relative">
             <CoinPriceWidget slug={slug} />
             <CoinStatsWidget slug={slug} />
+            <CoinLinksWidget slug={slug} />
             <CoinSocialSentimentWidget slug={slug} />
             <CoinPricePerformanceWidget slug={slug} />
             <TopCoinsWidget slug={slug} />
