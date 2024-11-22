@@ -16,9 +16,15 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
   const coins = useCoinSignals({
     windowHours: 24,
   });
-  const [filter, setFilter] = useState<
-    undefined | 'hype' | 'popular_with_whales' | 'social_beloved'
-  >(undefined);
+
+  const filters = useMemo(() => {
+    const list = coins.data ?? [];
+    return [...new Set(list.flatMap(x => x.symbol_labels ?? []))].sort(
+      (a, b) => a.length - b.length,
+    );
+  }, [coins]);
+
+  const [filter, setFilter] = useState<undefined | string>(undefined);
 
   const columns = useMemo<Array<ColumnType<CoinSignal>>>(
     () => [
@@ -49,23 +55,13 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
     [t],
   );
 
-  const filteredCoins = useMemo(() => {
-    return (coins.data ?? [])
-      .filter(row => {
-        const labels = row.symbol_labels ?? [];
-        if (filter === 'social_beloved') {
-          return (
-            labels.includes('weekly_social_beloved') ||
-            labels.includes('monthly_social_beloved')
-          );
-        }
-        if (filter === 'hype') {
-          return labels.includes('hype');
-        }
-        return true;
-      })
-      .slice(2);
-  }, [coins.data, filter]);
+  const filteredCoins = useMemo(
+    () =>
+      (coins.data ?? []).filter(row =>
+        filter ? (row.symbol_labels ?? []).includes(filter) : true,
+      ),
+    [filter, coins],
+  );
 
   return (
     <OverviewWidget
@@ -90,21 +86,12 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
               label: t('coin-details.tabs.hot_coins.filters.all'),
               value: undefined,
             },
-            {
-              label: t('coin-details.tabs.hot_coins.filters.hype'),
-              value: 'hype',
-            },
-            {
-              label: t(
-                'coin-details.tabs.hot_coins.filters.popular_with_whales',
+            ...filters.map(label => ({
+              label: (
+                <span className="capitalize">{label.split('_').join(' ')}</span>
               ),
-              value: 'popular_with_whales',
-              hidden: true,
-            },
-            {
-              label: t('coin-details.tabs.hot_coins.filters.social_beloved'),
-              value: 'social_beloved',
-            },
+              value: label,
+            })),
           ]}
           value={filter}
           onChange={setFilter}

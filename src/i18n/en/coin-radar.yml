@@ -146,9 +146,6 @@ coin-details:
           appear here soon!
       filters:
         all: All
-        hype: Trending Coins
-        popular_with_whales: Popular With Whales
-        social_beloved: Social Beloved
       table:
         name: Name
         24h_chg: 24 Chg
@@ -164,11 +161,6 @@ coin-details:
         subtitle: >-
           No new exchange data at the moment. We’re keeping an eye out for any
           changes. Check back later!
-    most_viewed_coins:
-      title: Most Viewed Coins
-      table:
-        name: Name
-        price: Price
     price_performance:
       title: Price Performance
       ath: All-Time High
@@ -212,19 +204,11 @@ coin-details:
           We're continuously exploring new strategies. Fresh technical insights
           will be available soon!
       load_more: Load More
-    trending_coins:
-      title: Trending Coins and Tokens
-    whale_popular:
-      title: Popular With Whales
 common:
   labels: Labels
   price: Price
 contract-address:
   multiple: Multiple Address
-hot-coins-section:
-  table:
-    name: ''
-    realtime-price: ''
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
