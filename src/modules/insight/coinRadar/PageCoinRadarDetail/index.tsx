@@ -4,15 +4,11 @@ import { CoinPriceWidget } from './components/CoinPriceWidget';
 import { CoinStatsWidget } from './components/CoinStatsWidget';
 import { CoinSocialSentimentWidget } from './components/CoinSocialSentimentWidget';
 import { CoinPricePerformanceWidget } from './components/CoinPricePerformanceWidget';
-import { TopCoinsWidget } from './components/TopCoinsWidget';
-import { WhalePopularCoinsWidget } from './components/WhalePopularCoinsWidget';
 import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
-import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
 import { TechnicalIdeasWidget } from './components/TechnicalIdeasWidget';
 import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
 import { HotCoinsWidget } from './components/HotCoinsWidget';
-
 import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
 import { CoinRadarTabs } from './components/CoinRadarTabs';
 import { CoinLinksWidget } from './components/CoinLinksWidget';
@@ -32,9 +28,6 @@ export default function PageCoinRadarDetail() {
             <CoinLinksWidget slug={slug} />
             <CoinSocialSentimentWidget slug={slug} />
             <CoinPricePerformanceWidget slug={slug} />
-            <TopCoinsWidget slug={slug} />
-            <MostViewedCoinsWidget slug={slug} />
-            <WhalePopularCoinsWidget slug={slug} />
           </div>
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
