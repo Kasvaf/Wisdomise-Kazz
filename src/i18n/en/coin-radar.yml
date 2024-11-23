@@ -168,10 +168,9 @@ coin-details:
       high: High
       low: Low
     social_sentiment:
-      title: Social Sentiment By Wisdomise
-      footer: Past 24H, Community Data Insights
       hunted-at: Hunted At
       long: Potential Growth Opportunity
+      market_side: Market Side
       negative: Negative
       not_sure: Not Sure
       positive: Positive

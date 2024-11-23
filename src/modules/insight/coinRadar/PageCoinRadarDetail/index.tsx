@@ -26,11 +26,13 @@ export default function PageCoinRadarDetail() {
             <CoinPriceWidget slug={slug} />
             <CoinStatsWidget slug={slug} />
             <CoinLinksWidget slug={slug} />
-            <CoinSocialSentimentWidget slug={slug} />
             <CoinPricePerformanceWidget slug={slug} />
           </div>
         </div>
         <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
+          <div className="flex items-center justify-stretch gap-6">
+            <CoinSocialSentimentWidget slug={slug} className="grow" />
+          </div>
           <CoinRadarTabs className="sticky top-0 z-50 bg-page mobile:hidden" />
 
           <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
