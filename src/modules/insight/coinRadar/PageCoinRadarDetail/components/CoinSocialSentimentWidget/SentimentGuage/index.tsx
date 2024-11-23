@@ -18,10 +18,10 @@ export function SentimentGuage({
   }, [measure]);
   return (
     <div className={clsx('relative overflow-visible', className)}>
-      <BaseIcon className="mt-[5%] size-full scale-150" />
+      <BaseIcon className="mt-[5%] size-full scale-[1.4]" />
       <ArrowIcon
         style={{ rotate: `${rotate ?? 0}deg` }}
-        className="absolute top-0 mt-[5%] size-full origin-center scale-150 transition-all delay-75 duration-500"
+        className="absolute top-0 mt-[5%] size-full origin-center scale-[1.4] transition-all delay-75 duration-500"
       />
     </div>
   );
