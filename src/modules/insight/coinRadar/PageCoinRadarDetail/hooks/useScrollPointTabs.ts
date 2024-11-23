@@ -6,7 +6,7 @@ export const useScrollPointTabs = (
     key: string;
     label: ReactNode;
   }>,
-  threshold?: number,
+  threshold: number,
 ): Partial<TabsProps> => {
   const [activeKey, setActiveKey] = useState(items[0].key);
   const ignoreScroll = useRef(false);
@@ -18,24 +18,39 @@ export const useScrollPointTabs = (
     const scrollHandler = () => {
       if (ignoreScroll.current) return;
       clearTimeout(timeout);
+      let activeEl: {
+        score: number;
+        el: HTMLElement;
+      } | null = null;
       timeout = setTimeout(() => {
-        let viewportedEl: { top: number; el: HTMLElement } | null = null;
+        const { top: scrollElTop, height: scrollElHeight } =
+          scrollingElement.getBoundingClientRect();
+
         for (const item of items) {
           const el = document.querySelector<HTMLElement>(`#${item.key}`);
           if (!el) continue;
-          const { top } = el.getBoundingClientRect();
-          if (
-            !viewportedEl ||
-            (top <= (threshold ?? 0) &&
-              Math.abs(top) <= Math.abs(viewportedEl.top))
-          )
-            viewportedEl = {
-              top,
+          const { top: elTop, height: elHeight } = el.getBoundingClientRect();
+          let score = 0;
+          score +=
+            elTop < scrollElHeight + scrollElTop && elTop > scrollElTop * -1
+              ? 1
+              : 0;
+          score +=
+            elTop - (elHeight - scrollElTop) < 0 &&
+            Math.abs(elTop - (elHeight - scrollElTop)) <
+              scrollElTop + scrollElHeight
+              ? 1
+              : 0;
+
+          if (!activeEl || score > activeEl.score) {
+            activeEl = {
+              score,
               el,
             };
+          }
         }
-        if (viewportedEl) {
-          setActiveKey(viewportedEl.el.id);
+        if (activeEl) {
+          setActiveKey(activeEl.el.id);
         }
       }, 10);
     };
