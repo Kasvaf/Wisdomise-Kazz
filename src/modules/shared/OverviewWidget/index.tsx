@@ -16,6 +16,9 @@ interface EmptyConfig {
   refreshButton?: boolean;
 }
 
+const paddingClassName = clsx('p-5 2xl:p-6');
+const gapClassName = clsx('gap-5 2xl:gap-6');
+
 export function OverviewWidget({
   id,
   title,
@@ -81,8 +84,9 @@ export function OverviewWidget({
   return (
     <article
       className={clsx(
-        'flex flex-col gap-6 overflow-hidden rounded-2xl bg-v1-surface-l2',
-        'p-5 2xl:p-6',
+        'flex flex-col overflow-hidden rounded-2xl bg-v1-surface-l2',
+        gapClassName,
+        paddingClassName,
         className,
       )}
       id={id}
@@ -117,8 +121,7 @@ export function OverviewWidget({
       {/* Content */}
       <div
         className={clsx(
-          'relative h-auto grow overflow-auto',
-          '-mx-5 min-h-20 px-5 2xl:-mx-6 2xl:px-6',
+          'relative h-auto min-h-20 grow overflow-auto',
           contentClassName,
         )}
       >
@@ -126,7 +129,7 @@ export function OverviewWidget({
           <p
             className={clsx(
               'absolute inset-0 flex size-full animate-pulse items-center justify-center overflow-hidden text-base text-v1-content-primary',
-              'p-6',
+              paddingClassName,
             )}
           >
             {t('almost-there')}
@@ -134,8 +137,9 @@ export function OverviewWidget({
         ) : emptyConfig.enabled ? (
           <div
             className={clsx(
-              'absolute inset-0 flex size-full overflow-hidden p-6',
+              'absolute inset-0 flex size-full overflow-hidden',
               'flex-row items-center justify-center gap-4 mobile:flex-col mobile:justify-center',
+              paddingClassName,
             )}
           >
             <EmptyIcon className="mt-3 w-20 shrink-0 mobile:mt-0" />
@@ -152,7 +156,7 @@ export function OverviewWidget({
                 </p>
               )}
               {emptyConfig.subtitle && (
-                <p className="max-w-lg text-xs font-light text-v1-content-secondary">
+                <p className="max-w-md text-xs font-light text-v1-content-secondary">
                   {emptyConfig.subtitle}
                 </p>
               )}
@@ -177,13 +181,7 @@ export function OverviewWidget({
 
       {/* Footer */}
       {footer && (
-        <footer
-          className={clsx(
-            'shrink-0 overflow-auto',
-            '-mx-5 px-5 2xl:-mx-6 2xl:px-6',
-            footerClassName,
-          )}
-        >
+        <footer className={clsx('shrink-0 overflow-auto', footerClassName)}>
           {footer}
         </footer>
       )}

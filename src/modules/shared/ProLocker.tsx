@@ -82,7 +82,7 @@ export function ProLocker({
           <div
             className={clsx(
               'group absolute left-0 z-[2] w-full cursor-pointer flex-col gap-2 text-base font-medium',
-              'flex items-center justify-center backdrop-blur-sm',
+              'flex items-center justify-center overflow-hidden rounded-2xl backdrop-blur-sm',
             )}
             style={{
               ...buttonPosition,

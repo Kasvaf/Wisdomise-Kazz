@@ -5,16 +5,15 @@ import { ReactComponent as EmptyIcon } from './empty.svg';
 export function AlertEmptyWidget({ className }: { className?: string }) {
   const { t } = useTranslation('alerts');
   return (
-    <OverviewWidget
-      className={className}
-      contentClassName="flex flex-col gap-4 items-center justify-center py-22 h-full"
-    >
-      <EmptyIcon className="shrink-0" />
-      <div className="text-xl font-medium text-v1-content-primary">
-        {t('common.empty-title')}
-      </div>
-      <div className="text-sm font-medium text-v1-content-secondary">
-        {t('common.empty-description')}
+    <OverviewWidget className={className}>
+      <div className="flex h-full flex-col items-center justify-center gap-4">
+        <EmptyIcon className="shrink-0" />
+        <div className="text-xl font-medium text-v1-content-primary">
+          {t('common.empty-title')}
+        </div>
+        <div className="text-sm font-medium text-v1-content-secondary">
+          {t('common.empty-description')}
+        </div>
       </div>
     </OverviewWidget>
   );
