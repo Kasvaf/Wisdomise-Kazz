@@ -295,3 +295,21 @@ export const useWhaleNetworks = () =>
         >('/delphi/holders/networks/')
         .then(({ data }) => data),
   });
+
+export interface WhaleSentiment {
+  hold_percent?: number | null;
+  buy_percent?: number | null;
+  sell_percent?: number | null;
+}
+export const useWhaleSentiment = ({ slug }: { slug: string }) =>
+  useQuery({
+    queryKey: ['whale-sentiment', slug],
+    queryFn: () =>
+      axios
+        .get<WhaleSentiment>('/delphi/holders/sentiment/', {
+          params: {
+            slug,
+          },
+        })
+        .then(({ data }) => data),
+  });

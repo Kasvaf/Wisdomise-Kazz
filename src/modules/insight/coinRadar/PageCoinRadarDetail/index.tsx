@@ -14,6 +14,7 @@ import { HotCoinsWidget } from './components/HotCoinsWidget';
 import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
 import { CoinRadarTabs } from './components/CoinRadarTabs';
 import { CoinLinksWidget } from './components/CoinLinksWidget';
+import { WhaleSentimentWidget } from './components/WhaleSentimentWidget';
 
 export default function PageCoinRadarDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -53,6 +54,7 @@ export default function PageCoinRadarDetail() {
           <div className="h-5" />
           <CoinPriceWidget slug={slug} className="!bg-transparent !p-1" />
           <CoinSocialSentimentWidget slug={slug} />
+          <WhaleSentimentWidget slug={slug} />
           <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
           <CoinStatsWidget slug={slug} />
           <CoinLinksWidget slug={slug} />
@@ -79,7 +81,8 @@ export default function PageCoinRadarDetail() {
 
           <div className="flex basis-2/3 flex-col gap-6">
             <div className="flex items-center justify-stretch gap-6">
-              <CoinSocialSentimentWidget slug={slug} className="grow" />
+              <WhaleSentimentWidget slug={slug} className="basis-full" />
+              <CoinSocialSentimentWidget slug={slug} className="basis-full" />
             </div>
             <CoinRadarTabs value={tabs} className="sticky top-0 z-50 bg-page" />
             <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />

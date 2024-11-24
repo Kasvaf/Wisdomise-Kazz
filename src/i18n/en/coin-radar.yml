@@ -166,6 +166,7 @@ coin-details:
       high: High
       low: Low
     social_sentiment:
+      title: Community Sentiment
       hunted-at: Hunted At
       long: Potential Growth Opportunity
       market_side: Market Side
@@ -201,6 +202,11 @@ coin-details:
           We're continuously exploring new strategies. Fresh technical insights
           will be available soon!
       load_more: Load More
+    whale_sentiment:
+      title: Whale Sentiment
+      buy: Buy
+      hold: Hold
+      sell: Sell
 common:
   labels: Labels
   price: Price
