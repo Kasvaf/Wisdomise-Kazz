@@ -6,9 +6,10 @@ import { useCoinOverview } from 'api';
 import { useAccountJettonBalance } from 'api/ton';
 import { roundSensible } from 'utils/numbers';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import AmountInputBox from 'shared/AmountInputBox';
 import InfoButton from 'shared/InfoButton';
 import Icon from 'shared/Icon';
-import AmountInputBox from 'shared/AmountInputBox';
+import Spin from 'shared/Spin';
 import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
@@ -35,7 +36,8 @@ const PartOpen: React.FC<{
   } = data;
 
   const { data: lastPrice } = useCoinOverview({ slug });
-  const { data: usdtBalance } = useAccountJettonBalance('usdt');
+  const { data: usdtBalance, isLoading: balanceLoading } =
+    useAccountJettonBalance('usdt');
   const assetPrice = lastPrice?.data?.current_price;
 
   useEffect(() => {
@@ -70,16 +72,31 @@ const PartOpen: React.FC<{
         label={
           <div className="flex items-center justify-between">
             <span>Amount</span>
-            {usdtBalance !== undefined && (
-              <div
-                className="flex items-center gap-1"
-                onClick={() => !isUpdate && setAmount(String(usdtBalance))}
-              >
-                <span className="text-sm text-white/40">
-                  Balance: {usdtBalance} USDT
-                </span>
-                {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
+            {balanceLoading ? (
+              <div className="flex items-center text-sm text-v1-content-secondary">
+                <Spin />
+                Reading Balance
               </div>
+            ) : (
+              usdtBalance !== undefined && (
+                <div
+                  className="flex items-center gap-1"
+                  onClick={() => !isUpdate && setAmount(String(usdtBalance))}
+                >
+                  {usdtBalance ? (
+                    <>
+                      <span className="text-sm text-white/40">
+                        Balance: {String(usdtBalance)} USDT
+                      </span>
+                      {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
+                    </>
+                  ) : (
+                    <span className="text-sm text-v1-content-negative">
+                      No Balance
+                    </span>
+                  )}
+                </div>
+              )
             )}
           </div>
         }
@@ -88,7 +105,7 @@ const PartOpen: React.FC<{
         onChange={setAmount}
         suffix="USDT"
         className="mb-3"
-        disabled={isUpdate || usdtBalance === undefined}
+        disabled={isUpdate || balanceLoading || !usdtBalance}
       />
 
       <AIPresets data={data} assetName={assetName} assetSlug={assetSlug} />

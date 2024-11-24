@@ -41,8 +41,10 @@ export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
         },
       );
 
-      if (data?.balance === undefined) return;
-      return +(data?.balance ?? 0) / 10 ** CONTRACT_DECIMAL[contract];
+      const balance = Number(data?.balance);
+      return Number.isNaN(balance)
+        ? undefined
+        : balance / 10 ** CONTRACT_DECIMAL[contract];
     },
     { enabled: !!address },
   );
