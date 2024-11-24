@@ -45,7 +45,7 @@ export function SocialMessageUser({
       }
       case 'telegram': {
         ret = {
-          url: message.content.webpage_url,
+          url: message.content.webpage_url ?? undefined,
           name: message.content.channel_name,
           subtitle: t('social-messages.subscribers', {
             size: formatNumber(message.content.participants_count ?? 0, {
