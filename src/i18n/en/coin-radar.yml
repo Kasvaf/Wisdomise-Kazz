@@ -103,8 +103,6 @@ coin_security:
   warning_zero: No Warnings
 coin-category:
   all: All Categories
-  more_one: +{{count}} More Category
-  more_other: +{{count}} More Categories
 coin-details:
   tabs:
     coin_introduction:

@@ -174,7 +174,6 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             className="min-h-16 min-w-72"
             categories={row.symbol.categories}
             labels={row.symbol_labels}
-            maxCategories={1}
             suffix={
               <CoinSecurityLabel
                 value={row.symbol_security?.data}

@@ -77,7 +77,6 @@ function CoinLabel({
 export function CoinLabels({
   className,
   categories,
-  maxCategories = 3,
   labels,
   prefix,
   suffix,
@@ -89,31 +88,16 @@ export function CoinLabels({
   prefix?: ReactNode;
   suffix?: ReactNode;
 }) {
-  const { t } = useTranslation('coin-radar');
-  const lastCategoryIndex =
-    maxCategories + ((categories?.length ?? 0) <= maxCategories + 1 ? 1 : 0);
   return (
     <div className={clsx('flex flex-wrap items-center gap-1', className)}>
       {prefix}
       {categories && (
         <>
-          {categories.slice(0, lastCategoryIndex).map(cat => (
-            <span
-              key={cat.slug}
-              className={clsx(
-                sharedLabelClassName,
-                'bg-v1-content-primary/10 text-v1-content-primary',
-              )}
-              onClick={() => console.log(categories)}
-            >
-              {cat.name}
-            </span>
-          ))}
-          {categories.length > lastCategoryIndex ? (
+          {(categories.length ?? 0) > 1 ? (
             <ClickableTooltip
               title={
                 <ul className="space-y-6">
-                  {(categories ?? []).slice(lastCategoryIndex).map(cat => (
+                  {(categories ?? []).map(cat => (
                     <li key={cat.slug}>{cat.name}</li>
                   ))}
                 </ul>
@@ -123,13 +107,21 @@ export function CoinLabels({
                 'bg-v1-content-primary/10 text-v1-content-primary',
               )}
             >
-              {t('coin-category.more', {
-                count: categories.length - lastCategoryIndex,
-              })}
+              {categories[0].name}
+              <span className="rounded-lg bg-v1-content-primary/20 px-[5px] text-[9px]">
+                {`+${categories.length - 1}`}
+              </span>
             </ClickableTooltip>
-          ) : (
-            <></>
-          )}
+          ) : (categories.length ?? 0) === 1 ? (
+            <span
+              className={clsx(
+                sharedLabelClassName,
+                'bg-v1-content-primary/10 text-v1-content-primary',
+              )}
+            >
+              {categories[0].name}
+            </span>
+          ) : null}
         </>
       )}
       {(labels ?? []).map(label => (
