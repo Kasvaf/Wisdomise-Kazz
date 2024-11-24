@@ -12,7 +12,7 @@ import { ReactComponent as ShortIcon } from './short.svg';
 import { ReactComponent as LongIcon } from './long.svg';
 
 const badgeSharedClassName = clsx(
-  'flex h-6 shrink-0 items-center justify-center gap-1 rounded-full bg-white/5 px-3 text-xs font-light capitalize [&_svg]:size-[13px]',
+  'flex h-6 shrink-0 items-center justify-center gap-1 rounded-full bg-white/5 px-3 text-xs font-light capitalize mobile:px-2 [&_svg]:size-[13px]',
 );
 
 export function SocialMessageStats({

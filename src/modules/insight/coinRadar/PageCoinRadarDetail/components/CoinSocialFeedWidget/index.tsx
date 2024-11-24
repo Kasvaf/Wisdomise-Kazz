@@ -39,17 +39,9 @@ function SocialTabTitle({
 export function CoinSocialFeedWidget({
   id,
   slug,
-  socials,
-  pageSize,
-  title,
-  subtitle,
 }: {
   id?: string;
   slug: string;
-  socials: Array<SocialMessageType['social_type']>;
-  pageSize: number;
-  title?: string;
-  subtitle?: string;
 }) {
   const messages = useSocialMessages(slug);
   const { t } = useTranslation('coin-radar');
@@ -57,7 +49,7 @@ export function CoinSocialFeedWidget({
 
   const [activeSocial, setActiveSocial] = useState<
     null | SocialMessageType['social_type']
-  >(socials.length > 1 ? null : socials[0]);
+  >(null);
 
   const tabs = useMemo(() => {
     const list: Array<{
@@ -111,26 +103,24 @@ export function CoinSocialFeedWidget({
     ];
     return list.filter(x => {
       if (x.value === null) {
-        return socials.length > 1;
+        return true;
       }
       return (
-        hasFlag(`/coin/[slug]?tab=${x.value}`) &&
-        socials.includes(x.value) &&
-        (x.messages ?? []).length > 0
+        hasFlag(`/coin/[slug]?tab=${x.value}`) && (x.messages ?? []).length > 0
       );
     });
-  }, [t, activeSocial, messages.data, hasFlag, socials]);
+  }, [t, activeSocial, messages.data, hasFlag]);
 
   const activeTab = useMemo(
     () => tabs.find(tab => tab.value === activeSocial),
     [activeSocial, tabs],
   );
 
-  const [limit, setLimit] = useState(pageSize);
+  const [limit, setLimit] = useState(2);
 
   useEffect(() => {
-    setLimit(pageSize);
-  }, [activeTab?.value, pageSize]);
+    setLimit(2);
+  }, [activeTab?.value]);
 
   return (
     <ProLocker
@@ -140,8 +130,8 @@ export function CoinSocialFeedWidget({
     >
       <OverviewWidget
         id={id}
-        title={title ?? t('coin-details.tabs.socials.title')}
-        subtitle={subtitle ?? t('coin-details.tabs.socials.subtitle')}
+        title={t('coin-details.tabs.socials.title')}
+        subtitle={t('coin-details.tabs.socials.subtitle')}
         loading={messages.isLoading}
         empty={{
           enabled: (activeTab?.messages?.length ?? 0) === 0,

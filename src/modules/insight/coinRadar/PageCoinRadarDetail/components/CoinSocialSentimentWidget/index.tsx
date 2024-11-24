@@ -19,7 +19,11 @@ export function CoinSocialSentimentWidget({
   )
     return null;
   return (
-    <OverviewWidget className={className} loading={signals.isLoading}>
+    <OverviewWidget
+      className={className}
+      loading={signals.isLoading}
+      contentClassName="overflow-hidden"
+    >
       <div className="flex items-center justify-between gap-6">
         <div className="flex h-full flex-col justify-between gap-2">
           {coinSignal && (
@@ -29,7 +33,7 @@ export function CoinSocialSentimentWidget({
         {coinSignal && (
           <SentimentGuage
             measure={coinSignal.gauge_measure}
-            className="h-[90px]"
+            className="h-[80px]"
           />
         )}
       </div>

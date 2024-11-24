@@ -1,5 +1,25 @@
 import { type TabsProps } from 'antd';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
+import useIsMobile from 'utils/useIsMobile';
+
+const getScrollingElement = (isMobile: boolean) => {
+  if (!isMobile) {
+    const scrollingElement = document.querySelector('#scrolling-element');
+    if (scrollingElement === null)
+      throw new Error('#scrolling-element not found!');
+    const { height, top } = scrollingElement.getBoundingClientRect();
+    return {
+      height,
+      top,
+      eventTarget: scrollingElement,
+    };
+  }
+  return {
+    height: window.innerHeight,
+    top: 0,
+    eventTarget: window,
+  };
+};
 
 export const useScrollPointTabs = (
   items: Array<{
@@ -10,11 +30,17 @@ export const useScrollPointTabs = (
 ): Partial<TabsProps> => {
   const [activeKey, setActiveKey] = useState(items[0].key);
   const ignoreScroll = useRef(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    const scrollingElement = document.querySelector('#scrolling-element');
+    const {
+      eventTarget: scrollingElement,
+      top: scrollElTop,
+      height: scrollElHeight,
+    } = getScrollingElement(isMobile);
     let timeout: ReturnType<typeof setTimeout>;
     if (!scrollingElement) return;
+
     const scrollHandler = () => {
       if (ignoreScroll.current) return;
       clearTimeout(timeout);
@@ -23,9 +49,6 @@ export const useScrollPointTabs = (
         el: HTMLElement;
       } | null = null;
       timeout = setTimeout(() => {
-        const { top: scrollElTop, height: scrollElHeight } =
-          scrollingElement.getBoundingClientRect();
-
         for (const item of items) {
           const el = document.querySelector<HTMLElement>(`#${item.key}`);
           if (!el) continue;
@@ -41,7 +64,6 @@ export const useScrollPointTabs = (
               scrollElTop + scrollElHeight
               ? 1
               : 0;
-
           if (!activeEl || score > activeEl.score) {
             activeEl = {
               score,
@@ -58,13 +80,12 @@ export const useScrollPointTabs = (
     return () => {
       scrollingElement.removeEventListener('scroll', scrollHandler);
     };
-  }, [items, threshold]);
+  }, [items, threshold, isMobile]);
 
   const handleClick = (newActiveKey: string) => {
     if (!newActiveKey) return;
-    const scrollingElement = document.querySelector('#scrolling-element');
     const el = document.querySelector(`#${newActiveKey}`);
-    if (!scrollingElement || !el) return;
+    if (!el) return;
     ignoreScroll.current = true;
     try {
       setTimeout(() => {
@@ -72,12 +93,8 @@ export const useScrollPointTabs = (
       }, 1500);
     } catch {}
     setActiveKey(newActiveKey);
-    scrollingElement.scrollTo({
-      top:
-        scrollingElement.scrollTop +
-        20 +
-        el.getBoundingClientRect().y -
-        (threshold ?? 0),
+    el.scrollIntoView({
+      block: 'end',
       behavior: 'smooth',
     });
   };
