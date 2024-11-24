@@ -88,19 +88,12 @@ export function SocialMessageUser({
           className,
         )}
       >
-        {user.avatar ? (
+        {user.avatar && (
           <img
             src={user.avatar}
             alt={user.name || 'User Avatar'}
             className={clsx(
               'size-6 rounded-full bg-v1-surface-l5 object-contain',
-              type === 'title' ? 'size-6' : 'size-8',
-            )}
-          />
-        ) : (
-          <div
-            className={clsx(
-              'rounded-full bg-v1-surface-l5',
               type === 'title' ? 'size-6' : 'size-8',
             )}
           />
