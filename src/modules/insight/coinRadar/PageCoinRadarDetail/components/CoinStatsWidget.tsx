@@ -87,6 +87,7 @@ export function CoinStatsWidget({
           suffix=" (24h)"
           showIcon
           showSign
+          label="%"
         />
         <ReadableNumber
           value={coinOverview.data?.data?.total_volume}
@@ -99,6 +100,7 @@ export function CoinStatsWidget({
           suffix=" (24h)"
           showIcon
           showSign
+          label="%"
         />
         <ReadableNumber value={coinOverview.data?.data?.market_cap} label="$" />
       </StatRow>
