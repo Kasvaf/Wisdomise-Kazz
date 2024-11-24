@@ -1,9 +1,10 @@
-import { useCoinOverview } from 'api';
+import { useCoinOverview, useHasFlag } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
 
 export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
+  const hasFlag = useHasFlag();
   const { data } = useCoinOverview({ slug });
   if (data?.data?.current_price == null) {
     return null;
@@ -25,9 +26,11 @@ export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
           />
         </div>
       </div>
-      <div>
-        <PriceAlertButton slug={slug} />
-      </div>
+      {hasFlag('?set-alert') && (
+        <div>
+          <PriceAlertButton slug={slug} />
+        </div>
+      )}
     </div>
   );
 }
