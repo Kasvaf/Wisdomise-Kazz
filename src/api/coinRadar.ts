@@ -130,10 +130,10 @@ export interface TelegramMessage {
   message_id: number;
   message_text: string;
   channel_weight: number;
-  participants_count: number;
-  views: null;
-  forwards: null;
-  webpage_url: null;
+  participants_count?: number | null;
+  views?: number | null;
+  forwards?: number | null;
+  webpage_url?: string | null;
   photo_url?: string;
   channel_language: string;
 }
@@ -273,7 +273,7 @@ export const useSocialMessages = (slug: string) =>
               content: twitterMessage,
             }) satisfies SocialMessage,
         ),
-      ].sort((a, b) => b.timestamp - a.timestamp);
+      ];
       return response;
     },
   });

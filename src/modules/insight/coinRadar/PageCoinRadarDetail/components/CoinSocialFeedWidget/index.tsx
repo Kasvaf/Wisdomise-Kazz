@@ -52,21 +52,11 @@ export function CoinSocialFeedWidget({
   >(null);
 
   const tabs = useMemo(() => {
-    const list: Array<{
+    let list: Array<{
       label: ReactNode;
       value: SocialMessageType['social_type'] | null;
-      messages?: SocialMessageType[];
+      messages: SocialMessageType[];
     }> = [
-      {
-        label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.all.title')}
-            isActive={activeSocial === null}
-          />
-        ),
-        value: null,
-        messages: messages.data,
-      },
       {
         label: (
           <SocialTabTitle
@@ -76,7 +66,11 @@ export function CoinSocialFeedWidget({
           />
         ),
         value: 'telegram',
-        messages: messages.data?.filter(row => row.social_type === 'telegram'),
+        messages: hasFlag('/coin/[slug]?tab=telegram')
+          ? messages.data
+              ?.filter(row => row.social_type === 'telegram')
+              .sort((a, b) => b.timestamp - a.timestamp) ?? []
+          : [],
       },
       {
         label: (
@@ -87,7 +81,11 @@ export function CoinSocialFeedWidget({
           />
         ),
         value: 'reddit',
-        messages: messages.data?.filter(row => row.social_type === 'reddit'),
+        messages: hasFlag('/coin/[slug]?tab=reddit')
+          ? messages.data
+              ?.filter(row => row.social_type === 'reddit')
+              .sort((a, b) => b.timestamp - a.timestamp) ?? []
+          : [],
       },
       {
         label: (
@@ -98,17 +96,29 @@ export function CoinSocialFeedWidget({
           />
         ),
         value: 'twitter',
-        messages: messages.data?.filter(row => row.social_type === 'twitter'),
+        messages: hasFlag('/coin/[slug]?tab=twitter')
+          ? messages.data
+              ?.filter(row => row.social_type === 'twitter')
+              .sort((a, b) => b.timestamp - a.timestamp) ?? []
+          : [],
       },
     ];
-    return list.filter(x => {
-      if (x.value === null) {
-        return true;
-      }
-      return (
-        hasFlag(`/coin/[slug]?tab=${x.value}`) && (x.messages ?? []).length > 0
-      );
-    });
+    list = [
+      {
+        label: (
+          <SocialTabTitle
+            label={t('coin-details.tabs.socials.types.all.title')}
+            isActive={activeSocial === null}
+          />
+        ),
+        value: null,
+        messages: list
+          .flatMap(x => x.messages)
+          .sort((a, b) => b.timestamp - a.timestamp),
+      },
+      ...list,
+    ];
+    return list.filter(x => x.messages.length > 0);
   }, [t, activeSocial, messages.data, hasFlag]);
 
   const activeTab = useMemo(

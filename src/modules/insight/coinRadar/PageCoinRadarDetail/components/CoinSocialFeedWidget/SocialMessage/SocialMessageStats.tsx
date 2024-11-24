@@ -55,6 +55,8 @@ export function SocialMessageStats({
   const shares =
     message.social_type === 'twitter'
       ? message.content.retweet_count
+      : message.social_type === 'telegram'
+      ? message.content.forwards
       : undefined;
 
   const side =

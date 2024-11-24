@@ -21,7 +21,9 @@ export function TechnicalIdeasWidget({
   const [limit, setLimit] = useState(3);
 
   const tradingViewMessages = useMemo(() => {
-    return (messages.data ?? []).filter(x => x.social_type === 'trading_view');
+    return (messages.data ?? [])
+      .filter(x => x.social_type === 'trading_view')
+      .sort((a, b) => b.timestamp - a.timestamp);
   }, [messages]);
 
   return (

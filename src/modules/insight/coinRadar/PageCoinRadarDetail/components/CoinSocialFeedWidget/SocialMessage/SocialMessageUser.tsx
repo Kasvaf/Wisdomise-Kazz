@@ -26,11 +26,11 @@ export function SocialMessageUser({
     switch (message.social_type) {
       case 'reddit': {
         ret = {
-          url: message.content.author
-            ? `https://reddit.com/u/${message.content.author}`
+          url: message.content.subreddit
+            ? `https://reddit.com/r/${message.content.subreddit}`
             : undefined,
-          name: message.content.author
-            ? `u/${message.content.author}`
+          name: message.content.subreddit
+            ? `r/${message.content.subreddit}`
             : undefined,
           subtitle: t('social-messages.members', {
             size: formatNumber(message.content.num_subscribers ?? 0, {
@@ -45,6 +45,7 @@ export function SocialMessageUser({
       }
       case 'telegram': {
         ret = {
+          url: message.content.webpage_url,
           name: message.content.channel_name,
           subtitle: t('social-messages.subscribers', {
             size: formatNumber(message.content.participants_count ?? 0, {
