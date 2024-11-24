@@ -121,7 +121,7 @@ export const SignalSentiment: FC<{
           if (dt && data[+dt]) {
             return `$ ${formatNumber(data[+dt].price, {
               compactInteger: true,
-              decimalLength: 4,
+              decimalLength: 3,
               minifyDecimalRepeats: true,
               seperateByComma: true,
             })}`;
