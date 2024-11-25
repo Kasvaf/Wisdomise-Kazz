@@ -3,7 +3,6 @@ import { trackClick } from 'config/segment';
 import { isMiniApp } from 'utils/version';
 import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
-import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
 import { ReactComponent as IconPositions } from './icons/positions.svg';
 
@@ -26,14 +25,14 @@ const useMenuItems = () => {
   const items: RootMenuItem[] = isMiniApp
     ? [
         {
+          icon: <IconInsight />,
+          text: 'Radar',
+          link: '/trader-hot-coins',
+        },
+        {
           icon: <IconPositions />,
           text: 'Positions',
           link: '/trader-positions',
-        },
-        {
-          icon: <IconHome />,
-          text: 'Auto Trader',
-          link: '/trader-hot-coins',
         },
         {
           icon: <IconProfile />,

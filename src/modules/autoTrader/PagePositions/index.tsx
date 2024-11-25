@@ -1,6 +1,7 @@
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import Button from 'shared/Button';
 import PositionsList from '../PositionsList';
 
 const PagePositions = () => {
@@ -34,6 +35,16 @@ const PagePositions = () => {
       />
 
       <PositionsList slug={slug} isOpen={filter === 'active'} />
+
+      {filter === 'active' && (
+        <Button
+          variant="brand"
+          className="fixed bottom-20 end-4 start-4 z-50"
+          to={`/market/${slug || 'the-open-network'}`}
+        >
+          Start Auto Trading
+        </Button>
+      )}
     </div>
   );
 };
