@@ -44,11 +44,9 @@ export function WhaleSentimentWidget({
   const sentiment = useWhaleSentiment({ slug });
   const fields = useWhaleSentimentFields();
   const hasFlag = useHasFlag();
-  if (
-    !hasFlag('/coin-radar/social-radar?whale') ||
-    (!sentiment.isLoading && !sentiment.data)
-  )
-    return null;
+  const isAllZero =
+    !sentiment.data || Object.values(sentiment.data).every(x => (x ?? 0) === 0);
+  if (!hasFlag('/coin-radar/social-radar?whale')) return null;
   return (
     <OverviewWidget
       className={clsx('!p-4', className)}
@@ -63,8 +61,16 @@ export function WhaleSentimentWidget({
           {fields.map(field => (
             <div
               key={field.key}
-              className={clsx('min-w-2', field.bgClassName)}
-              style={{ flexBasis: `${sentiment.data?.[field.key] ?? 0}%` }}
+              className={clsx(
+                'min-w-2 grow',
+                isAllZero && 'opacity-50 contrast-50 grayscale',
+                field.bgClassName,
+              )}
+              style={{
+                flexBasis: isAllZero
+                  ? '33%'
+                  : `${sentiment.data?.[field.key] ?? 0}%`,
+              }}
             />
           ))}
         </div>
