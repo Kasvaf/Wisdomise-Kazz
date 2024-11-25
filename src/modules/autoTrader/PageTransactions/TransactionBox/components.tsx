@@ -87,7 +87,13 @@ export const TonViewer: React.FC<{ link?: string | null }> = ({ link }) => {
   if (!link) return null;
   return (
     <div className="mt-6 flex justify-center">
-      <Button variant="secondary" size="small" className="!text-xs" to={link}>
+      <Button
+        variant="secondary"
+        size="small"
+        className="!text-xs"
+        to={link}
+        target="_blank"
+      >
         <Icon name={bxGlobe} className="mr-2" size={16} />
         View on Tonviewer
       </Button>
