@@ -21,6 +21,7 @@ const useWhaleTopHoldersFilters = () => {
     {
       label: t('filters.all'),
       value: 'all',
+      hidden: !hasFlag('?all_whales'),
     },
     {
       label: t('filters.best_to_copy'),
@@ -56,9 +57,11 @@ export function WhaleTopHoldersWidget({
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
   );
-  const [filter, setFilter] = useState<WhalesFilter>('all');
-  const [networkName, setNetworkName] = useState<string | undefined>(undefined);
   const filters = useWhaleTopHoldersFilters();
+  const [filter, setFilter] = useState<WhalesFilter>(
+    filters.find(x => !x.hidden)?.value ?? 'all',
+  );
+  const [networkName, setNetworkName] = useState<string | undefined>(undefined);
   const whales = useWhales({
     page,
     pageSize,
