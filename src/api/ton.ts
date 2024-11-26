@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Address, beginCell, toNano, TonClient } from '@ton/ton';
 import { useQuery } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
+import { useUserStorage } from 'api/userStorage';
 
 const TON_API_BASE_URL = String(import.meta.env.VITE_TON_API_BASE_URL);
 const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
@@ -93,6 +94,7 @@ export const useTransferAssetsMutation = () => {
   const address = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
   const { data: jettonWalletAddress } = useJettonWalletAddress();
+  const { save } = useUserStorage('last-parsed-deposit-address');
 
   return async ({
     recipientAddress,
@@ -107,8 +109,8 @@ export const useTransferAssetsMutation = () => {
       bounceable: false,
       testOnly: !isProduction,
     });
-    console.log('depositAddress', recipientAddress);
-    console.log('noneBounceableAddress', noneBounceableAddress);
+
+    void save(noneBounceableAddress);
 
     const transaction: SendTransactionRequest = {
       validUntil: Date.now() + 10 * 60 * 1000,
