@@ -75,3 +75,21 @@ onboarding:
   sec-4:
     content: 当代币达到关键 RSI 水平或出现分歧迹象时，自定义通知。获取即时警报，这样您就不会错过关键的交易机会。
     title: 保持知情：设置关键指标警报
+screener:
+  activated:
+    got-it: 明白了
+    preview:
+      category:
+        label: 类别
+        value: 所有类别
+      chain:
+        label: 链
+        value: 所有链
+      title: 试映预览
+      type:
+        label: 类型
+        value: 技术雷达检查员
+    subtitle: 立即探索和定制附加功能！
+    title: 技术雷达安检器已启动！
+  edit: 編輯 ...
+  set: 设置筛选器

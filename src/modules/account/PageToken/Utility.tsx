@@ -5,10 +5,9 @@ import Button from 'shared/Button';
 import Card from 'shared/Card';
 import useModal from 'shared/useModal';
 import PricingTable from 'modules/account/PageBilling/PricingTable';
-import { useSubscription } from 'api';
+import { useHasFlag, useSubscription } from 'api';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
-import { WSDM_IS_ACTIVE } from 'modules/account/PageToken/constants';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
@@ -23,6 +22,7 @@ export type UtilityStatus =
 
 export default function Utility() {
   const { t } = useTranslation('wisdomise-token');
+  const hasFlag = useHasFlag();
   const [pricingTableModal, openPricingTable] = useModal(PricingTable, {
     width: 1200,
   });
@@ -35,7 +35,6 @@ export default function Utility() {
   const { withdraw, isLoading } = useWithdraw();
 
   const openBillings = () => {
-    if (!WSDM_IS_ACTIVE) return;
     void openPricingTable({ isTokenUtility: true });
   };
 
@@ -64,13 +63,11 @@ export default function Utility() {
             {t('utility.activate-sub')}
           </strong>
           <p className="mb-4 text-white/40">{t('utility.lock-description')}</p>
-          <Button
-            variant="primary-purple"
-            onClick={openBillings}
-            disabled={!WSDM_IS_ACTIVE}
-          >
-            {t('utility.lock-wsdm')}
-          </Button>
+          {hasFlag('/account/billing?payment_method=lock') && (
+            <Button variant="primary-purple" onClick={openBillings}>
+              {t('utility.lock-wsdm')}
+            </Button>
+          )}
         </div>
       ) : (
         <div className="mt-2 flex grow justify-between gap-9 max-md:flex-wrap md:me-32">
@@ -120,11 +117,12 @@ export default function Utility() {
               </div>
               {utilityStatus === 'locked' && (
                 <div className="flex gap-4">
-                  {isFreePlan && (
-                    <Button variant="alternative" onClick={openBillings}>
-                      {t('utility.activate')}
-                    </Button>
-                  )}
+                  {isFreePlan &&
+                    hasFlag('/account/billing?payment_method=lock') && (
+                      <Button variant="alternative" onClick={openBillings}>
+                        {t('utility.activate')}
+                      </Button>
+                    )}
                   <Button variant="secondary" onClick={openUnlockModal}>
                     {t('utility.unlock')}
                   </Button>
@@ -141,11 +139,12 @@ export default function Utility() {
                   >
                     {t('utility.withdraw')}
                   </Button>
-                  {isFreePlan && (
-                    <Button variant="alternative" onClick={openBillings}>
-                      {t('utility.lock-tokens')}
-                    </Button>
-                  )}
+                  {isFreePlan &&
+                    hasFlag('/account/billing?payment_method=lock') && (
+                      <Button variant="alternative" onClick={openBillings}>
+                        {t('utility.lock-tokens')}
+                      </Button>
+                    )}
                 </div>
               )}
             </div>

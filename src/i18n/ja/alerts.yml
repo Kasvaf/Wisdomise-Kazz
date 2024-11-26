@@ -2,15 +2,46 @@ common:
   active: アクティブ
   alerts-list: アラートリスト
   all: 全て
+  all-categories: すべてのカテゴリー
+  all-networks: すべてのチェーン
   current-price: 現在の価格
+  delete-confirm:
+    no: どうでも
+    subtitle: このアラートを削除しようとしています。
+    title: 本気ですか？
+    yes: はい、削除
   disabled: 無効
   empty-description: 「アラートを設定」ボタンを押して、最初の暗号通貨アラートアドベンチャーを設定しましょう!
   empty-title: 通知リストが寂しく感じます!
+  notifications:
+    cooldown: クールダウン
+    cooldown-info: このアラートが再度発生するまでの経過時間を指定します。
+    disable-after-trigger: このアラートは一度トリガーされたら無効にします。
+    interval: 間隔
+    invervals:
+      after: 後 {{seconds}} 秒
+      daily: 毎日
+      every: 毎 {{seconds}} 秒
+      hour: 時間
+      hourly: 時間単位
+      monthly: 月額
+      weekly: 毎週
+    messangers:
+      browser: ブラウザ通知
+      discord: 不和メッセージ
+      email: Eメール
+      push: プッシュ通知
+      slack: Slackメッセージ
+      sms: SMS
+      telegram: テレグラムメッセージ
+    one-time: 一度
+    unlimited-times: 回数無制限
   price-info: の価格は <Coin>不明なコイン</Coin> 現在 <Price>未知</Price>
   save-alert: アラートを保存
   search: 検索...
+  select-alert-type: 設定したいアラートを選択してください
   set-alert: 通知を設定する
-  subscription-banner-link: アクセスするには、Insight プランにご登録ください。
+  subscription-banner-link: アクセスするには、Pro プランにご登録ください。
   subscription-banner-title: リアルタイムのコインアラートを取得し、通知をカスタマイズします。
   success-message: アラートが正常に保存されました。
 forms:
@@ -86,3 +117,43 @@ tables:
   status: ステータス
   target: 通知対象
   type: アラートの種類
+types:
+  price:
+    sentence: すぐにアラートを送信 <Badge><Base>不明なコイン</Base></Badge> <Br/> 行く
+      <Badge><Operator>不明なオペレーター</Operator></Badge> の価格 <Br />
+      <Badge><Threshold>不明な閾値</Threshold></Badge>
+      <Badge><Quote>不明な引用</Quote></Badge>
+    step-1:
+      crumb: 価格設定の詳細
+    step-2:
+      crumb: アラート設定
+    subtitle: 即時通知で市場の変化を把握
+    title: 価格アラート
+  report:
+    sentence: 暗号通貨アラートを設定して、動きを見逃さないようにしましょう!
+    step-1:
+      crumb: ソーシャルレーダーレポート
+      subtitle: トレンドのコインや新しい市場機会に関する即時通知を利用して、常に先を行きましょう。
+    subtitle: Social Radar の最新情報が毎日 24 時間ごとにあなたの受信箱に直接届きます。
+    title: 報告
+    types:
+      social_radar:
+        title: ソーシャルレーダーレポート
+  screener:
+    subtitle: コインがトップ 5 に入ったときにアラートを受信します。情報を入手して行動する準備をしてください。
+    title: スクリーナー
+  social_radar_screener:
+    step-1:
+      subtitle: コインがソーシャルレーダーリストのトップ 5 に入るとすぐに通知を受け取ります。
+      title: ソーシャルレーダースクリーナーを設定する
+    subtitle: コインがソーシャルレーダーリストのトップ 5 に入るとすぐに通知を受け取ります。
+    title: ソーシャルレーダースクリーナー
+  technical_radar_screener:
+    step-1:
+      subtitle: コインがテクニカルレーダーリストのトップ 5 に入るとすぐに通知を受け取ります。
+      title: テクニカルレーダースクリーナーを設定する
+    subtitle: コインがソーシャルレーダーリストのトップ 5 に入るとすぐに通知を受け取ります。
+    title: テクニカルレーダースクリーナー
+  whale:
+    subtitle: 主要プレーヤーが暗号通貨で重要な動きをしたときに即座に通知を受け取る
+    title: クジラ警報

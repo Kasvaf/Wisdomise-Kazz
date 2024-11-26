@@ -7,7 +7,6 @@ import { useWhalesCoins, type WhaleCoin } from 'api';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import Button from 'shared/Button';
 import PageWrapper from 'modules/base/PageWrapper';
 import ton from './ton.svg';
 
@@ -70,6 +69,7 @@ export default function PageHotCoins() {
         dataSource={coins.data?.results ?? []}
         rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
+        showHeader={false}
         pagination={false}
         onChange={(pagination, _, sorter) => {
           setPage(pagination.current ?? 1);
@@ -90,14 +90,6 @@ export default function PageHotCoins() {
           }
         }}
       />
-
-      <Button
-        variant="brand"
-        className="fixed bottom-20 end-4 start-4 z-50"
-        to="/market/the-open-network"
-      >
-        Start Auto Trading
-      </Button>
     </PageWrapper>
   );
 }

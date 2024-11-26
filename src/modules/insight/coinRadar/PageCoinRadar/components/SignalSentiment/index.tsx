@@ -252,6 +252,8 @@ export const SignalSentiment: FC<{
             ? t('coin-details.tabs.social_sentiment.positive')
             : signal.gauge_tag === 'SHORT'
             ? t('coin-details.tabs.social_sentiment.negative')
+            : signal.gauge_tag === 'NOT SURE'
+            ? t('coin-details.tabs.social_sentiment.not_sure')
             : signal.gauge_tag}
           <span className="text-xxs font-normal text-v1-content-primary">
             {signal.gauge_tag === 'LONG'

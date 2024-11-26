@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Address, beginCell, toNano, TonClient } from '@ton/ton';
 import { useQuery } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
+import { useUserStorage } from 'api/userStorage';
 
 const TON_API_BASE_URL = String(import.meta.env.VITE_TON_API_BASE_URL);
 const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
@@ -24,6 +25,11 @@ const CONTRACT_ADDRESSES = {
   usdt: USDT_CONTRACT_ADDRESS,
 } as const;
 
+const CONTRACT_DECIMAL = {
+  wsdm: 6,
+  usdt: USDT_DECIMAL,
+} as const;
+
 export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
   const address = useTonAddress();
   return useQuery(
@@ -36,7 +42,10 @@ export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
         },
       );
 
-      return +(data?.balance ?? 0) / 10 ** USDT_DECIMAL;
+      const balance = Number(data?.balance);
+      return Number.isNaN(balance)
+        ? undefined
+        : balance / 10 ** CONTRACT_DECIMAL[contract];
     },
     { enabled: !!address },
   );
@@ -85,6 +94,7 @@ export const useTransferAssetsMutation = () => {
   const address = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
   const { data: jettonWalletAddress } = useJettonWalletAddress();
+  const { save } = useUserStorage('last-parsed-deposit-address');
 
   return async ({
     recipientAddress,
@@ -95,15 +105,19 @@ export const useTransferAssetsMutation = () => {
     amount: number | string;
     gasFee: string;
   }) => {
+    const noneBounceableAddress = Address.parse(recipientAddress).toString({
+      bounceable: false,
+      testOnly: !isProduction,
+    });
+
+    void save(noneBounceableAddress);
+
     const transaction: SendTransactionRequest = {
       validUntil: Date.now() + 10 * 60 * 1000,
       network: isProduction ? CHAIN.MAINNET : CHAIN.TESTNET,
       messages: [
         {
-          address: Address.parse(recipientAddress).toString({
-            bounceable: false,
-            testOnly: !isProduction,
-          }),
+          address: noneBounceableAddress,
           amount: toNano(gasFee).toString(),
           payload: beginCell()
             .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
@@ -130,6 +144,7 @@ export const useTransferAssetsMutation = () => {
         },
       ],
     };
+    console.log(transaction);
 
     await tonConnectUI.sendTransaction(transaction);
   };

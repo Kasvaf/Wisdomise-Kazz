@@ -78,3 +78,21 @@ onboarding:
     content: コインが重要な RSI
       レベルに達したときや乖離の兆候が見られたときの通知をカスタマイズします。即時アラートを受け取ることで、重要な取引機会を逃すことはありません。
     title: "最新情報を入手: 重要な指標のアラートを設定する"
+screener:
+  activated:
+    got-it: わかった
+    preview:
+      category:
+        label: カテゴリ
+        value: すべてのカテゴリー
+      chain:
+        label: 鎖
+        value: すべてのチェーン
+      title: スクリーナープレビュー
+      type:
+        label: タイプ
+        value: テクニカルレーダースクリーナー
+    subtitle: 今すぐ追加機能を調べてカスタマイズしましょう!
+    title: テクニカルレーダースクリーナーが起動しました!
+  edit: スクリーナーを編集
+  set: スクリーナーを設定する

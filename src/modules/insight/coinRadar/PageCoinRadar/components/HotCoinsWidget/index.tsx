@@ -20,12 +20,12 @@ import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinCategoriesLabel } from '../CoinCategoriesLabel';
 import { CoinSecurityLabel } from '../CoinSecurityLabel/index';
 import { type SortMode, SortModes } from '../SortModes';
-import SetCoinRadarAlert from '../SetCoinRadarAlert';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
 import { CoinMarketCap } from '../CoinMarketCap/index';
 import { NetworkSelect } from '../NetworkSelect';
 import { CategoriesSelect } from '../CategoriesSelect';
+import CoinRadarAlerButton from '../CoinRadarAlertButton';
 import { ReactComponent as Logo } from './logo.svg';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
@@ -227,14 +227,15 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       }
       loading={coins.isInitialLoading}
       empty={(coins.data ?? [])?.length === 0}
-      headerClassName="flex-wrap !justify-start"
+      headerClassName="flex-wrap !justify-between"
       headerActions={
         <>
+          <CoinRadarAlerButton className="mobile:w-full" />
           <div className="flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
             <CoinSearchInput
               value={query}
               onChange={setQuery}
-              className="shrink-0 basis-80 mobile:order-2 mobile:basis-full"
+              className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
             />
             <NetworkSelect
               value={network}
@@ -258,9 +259,6 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             </div>
 
             <div className="grow mobile:hidden" />
-            {!isEmbeddedView && (
-              <SetCoinRadarAlert className="mobile:order-1" />
-            )}
           </div>
         </>
       }

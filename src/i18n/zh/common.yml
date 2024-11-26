@@ -22,6 +22,7 @@ error: 錯誤
 errors:
   field-required: 此字段不得為空。
   network-error: 您的網絡連接出現問題。
+new: 新的
 not-available: 不適用
 order-type:
   limit: 限制

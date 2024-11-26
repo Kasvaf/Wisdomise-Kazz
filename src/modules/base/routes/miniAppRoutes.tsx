@@ -20,6 +20,10 @@ const PagePositions = React.lazy(
   () => import('modules/autoTrader/PagePositions'),
 );
 
+const PageTransactions = React.lazy(
+  () => import('modules/autoTrader/PageTransactions'),
+);
+
 const PageCoinDetail = React.lazy(
   () => import('modules/autoTrader/PageCoinDetail'),
 );
@@ -58,6 +62,7 @@ const useMiniAppRoutes = () => {
               children: [
                 { path: '', element: <PageHotCoins /> },
                 { path: ':slug', element: <PageCoinDetail /> },
+                { path: ':slug/transactions', element: <PageTransactions /> },
               ],
             },
             {

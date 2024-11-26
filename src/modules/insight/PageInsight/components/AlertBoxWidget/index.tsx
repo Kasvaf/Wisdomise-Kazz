@@ -1,14 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { useHasFlag } from 'api';
 import bg from './bg.png';
 import InsightAlertButton from './AlertButton';
 
 export function AlertBoxWidget({ className }: { className?: string }) {
   const { t } = useTranslation('notifications');
-  const hasFlag = useHasFlag();
-  if (!hasFlag('/coin-radar/social-radar')) return null;
   return (
     <OverviewWidget
       className={clsx(

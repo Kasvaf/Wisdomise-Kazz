@@ -9,6 +9,7 @@ const badgeColors = {
   grey: clsx('bg-white/5 text-white/40'),
   purple: clsx('bg-[#B634DA4D] text-[#C968E4]'),
   orange: clsx('bg-[#C371114D] text-[#EBA24C]'),
+  wsdm: 'bg-wsdm-gradient text-white',
 };
 
 type BadgeColors = keyof typeof badgeColors;
@@ -21,7 +22,7 @@ const Badge: React.FC<{
   return (
     <p
       className={clsx(
-        'flex items-center justify-center rounded-full px-2 py-1 text-xxs leading-none',
+        'flex h-4 items-center justify-center rounded-full px-2 text-xxs leading-none',
         badgeColors[color],
         className,
       )}

@@ -1,8 +1,13 @@
-export type AlertDataSource = 'market_data' | 'custom:coin_radar_notification';
-
 export type AlertState = 'ACTIVE' | 'DISABLED' | 'SNOOZE';
 
-export type AlertMessanger =
+export type AlertConditionOperator =
+  | 'LESS'
+  | 'GREATER'
+  | 'EQUAL'
+  | 'CONTAINS_OBJECT_EACH'
+  | 'CONTAINS_EACH';
+
+export type AlertMessenger =
   | 'EMAIL'
   | 'TELEGRAM'
   | 'SLACK'
@@ -11,55 +16,69 @@ export type AlertMessanger =
   | 'PUSH'
   | 'BROWSER';
 
-export type AlertParams<D extends AlertDataSource> = D extends 'market_data'
-  ? {
-      base?: string;
-      quote?: string;
-      market_type?: 'SPOT' | 'FUTURES';
-      market_name?: string;
-    }
-  : undefined;
-
-type AlertCondition<D extends AlertDataSource> = D extends 'market_data'
-  ? {
-      field_name: 'last_price';
-      threshold: string;
-      operator: 'LESS' | 'GREATER' | 'EQUAL';
-    }
-  : undefined;
-
-type AlertConfig<D extends AlertDataSource> = D extends 'market_data'
-  ? {
-      dnd_interval: number;
-      one_time: boolean;
-    }
-  : undefined;
-
-export interface RawAlert<D extends AlertDataSource> {
-  key: string;
-  data_source: {
-    name: AlertDataSource;
-  };
-  state: AlertState;
-  params: Array<{
-    field_name: keyof AlertParams<D>;
-    value: string | boolean | number;
-  }>;
-  conditions: Array<AlertCondition<D>>;
-  messengers: AlertMessanger[];
-  config: AlertConfig<D>;
+export interface BaseAlert {
+  data_source?: string;
+  key?: string;
+  state: 'ACTIVE' | 'DISABLED' | 'SNOOZE';
   created_at?: string;
   updated_at?: string;
+  messengers: AlertMessenger[];
+  params: Array<{
+    field_name: string;
+    value: string | boolean | number;
+  }>;
+  conditions: Array<{
+    field_name: string;
+    threshold: string;
+    operator: string;
+  }>;
+  config?: {
+    dnd_interval?: number;
+    one_time?: boolean;
+  };
 }
 
-export interface Alert<D extends AlertDataSource> {
-  key?: string;
-  dataSource: AlertDataSource;
-  params: AlertParams<D>;
-  condition: AlertCondition<D>;
-  messengers: AlertMessanger[];
-  config: AlertConfig<D>;
-  state: AlertState;
-  createdAt?: string;
-  updatedAt?: string;
+export interface MarketDataAlert extends BaseAlert {
+  data_source: 'market_data';
+  params: Array<{
+    field_name: 'base' | 'quote';
+    value: string;
+  }>;
+  conditions: Array<{
+    field_name: 'last_price';
+    threshold: string;
+    operator: 'LESS' | 'GREATER' | 'EQUAL';
+  }>;
 }
+
+export interface SocialRadarAlert extends BaseAlert {
+  data_source: 'social_radar';
+  params: [];
+  conditions: Array<{
+    field_name: 'networks_slug' | 'symbol.categories';
+    threshold: string;
+    operator: 'CONTAINS_OBJECT_EACH' | 'CONTAINS_EACH';
+  }>;
+}
+
+export interface TechnicalRadarAlert extends BaseAlert {
+  data_source: 'technical_radar';
+  params: [];
+  conditions: Array<{
+    field_name: 'networks_slug' | 'symbol.categories';
+    threshold: string;
+    operator: 'CONTAINS_OBJECT_EACH' | 'CONTAINS_EACH';
+  }>;
+}
+
+export interface SocialRadarDailyReportAlert extends BaseAlert {
+  data_source: 'manual:social_radar_daily_report';
+  params: [];
+  conditions: [];
+}
+
+export type Alert =
+  | SocialRadarDailyReportAlert
+  | MarketDataAlert
+  | SocialRadarAlert
+  | TechnicalRadarAlert;

@@ -47,6 +47,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
     updateHandler,
     closeHandler,
     ModalConfirm,
+    ModalApproval,
   } = useActionHandlers({
     data: formState,
     assetName,
@@ -150,6 +151,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
       )}
 
       {ModalConfirm}
+      {ModalApproval}
     </div>
   );
 };

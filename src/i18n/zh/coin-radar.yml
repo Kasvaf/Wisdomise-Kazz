@@ -46,11 +46,12 @@ coin-details:
     social_sentiment:
       footer: 过去 24 小时，社区数据洞察
       hunted-at: 猎杀地点
-      long: 长期机会。
+      long: 潜在的增长机会
       market_side: 市場方向
       negative: 消極負面
+      not_sure: 没有把握
       positive: 積極正向
-      short: 短暂的机会。
+      short: 衰退风险
       title: 智慧社会情绪
     socials:
       label: 社会的
@@ -143,6 +144,25 @@ onboarding:
   sec-3:
     content: 自定义警报并创建最热门代币的个性化筛选器，让您始终领先一步。实时了解最新动态，确保您不会再错过突破机会！
     title: 不要错过任何机会：设置警报和筛选器
+screener:
+  activated:
+    got-it: 明白了
+    preview:
+      category:
+        label: 类别
+        value: 所有类别
+      chain:
+        label: 链
+        value: 所有链
+      title: 试映预览
+      type:
+        label: 类型
+        value: 社交雷达筛查器
+    subtitle: 立即探索和定制附加功能！
+    summary: 我们已将您的筛查设置为 <b>{{email}}</b>
+    title: 社交雷达筛选器已激活！
+  edit: 編輯 ...
+  set: 设置筛选器
 set-notification:
   open-modal-btn:
     not-set: 設置警報
@@ -168,7 +188,7 @@ social-radar:
     rank: 明智的逻辑
   table:
     all_networks: 所有网络
-    description: Wisdomise 社交雷达扫描 <b>{{posts}} 帖子</b> 在过去 24 小时内获得准确的、数据驱动的见解。
+    description: Wisdomise 社交雷达 <b>扫描 {{posts}} 来自 alpha 群组的帖子</b> 在过去 24 小时内获得准确的、数据驱动的见解。
     labels:
       title: 标签
     market_cap:

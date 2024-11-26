@@ -26,7 +26,7 @@ export const CategoriesSelect: FC<SelectProps<string>> = ({
       value={value}
       showSearch
       autoClearSearchValue
-      showArrow={!disabled}
+      showArrow={false}
       disabled={disabled}
       searchValue={query}
       onSearch={setQuery}

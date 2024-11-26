@@ -35,6 +35,8 @@ export function ProLocker({
 
   useInterval(() => setTick(p => p + 1), 1000);
 
+  useEffect(() => setTick(p => p + 1), [children]);
+
   useEffect(() => {
     if (!parentEl.current || tick < 0) return;
     try {
@@ -79,9 +81,8 @@ export function ProLocker({
         {buttonPosition.active && !pro.hasAccess && enabled !== false && (
           <div
             className={clsx(
-              'absolute left-0 z-[2] flex w-full cursor-pointer flex-col gap-2 text-base font-medium',
-              'group transition-all',
-              'items-center justify-center backdrop-blur-sm',
+              'group absolute left-0 z-[2] w-full cursor-pointer flex-col gap-2 text-base font-medium',
+              'flex items-center justify-center backdrop-blur-sm',
             )}
             style={{
               ...buttonPosition,
@@ -92,7 +93,7 @@ export function ProLocker({
               className={clsx(
                 'h-auto w-auto',
                 'rounded-lg bg-pro-gradient px-3 py-1 text-xs font-medium text-black shadow-xl',
-                'group-hover:brightness-110',
+                'transition-all group-hover:brightness-110',
               )}
             >
               {isLoggedIn ? t('unlock-with-pro') : t('login-required')}
