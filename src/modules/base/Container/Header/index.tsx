@@ -10,6 +10,7 @@ import LanguageSelector from './LanguageSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
 import OnBoardingMessageButton from './OnBoardingMessageButton';
+import BlackFridayBanner from './BlackFridayBanner';
 
 const Header: React.FC<
   PropsWithChildren<{
@@ -28,6 +29,9 @@ const Header: React.FC<
         className,
       )}
     >
+      {!isMobile && (
+        <BlackFridayBanner className="ml-[--side-menu-width] mobile:ml-0" />
+      )}
       <div
         className={clsx(
           'flex h-20 items-center p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
@@ -62,6 +66,9 @@ const Header: React.FC<
         )}
       </div>
       {children}
+      {isMobile && (
+        <BlackFridayBanner className="ml-[--side-menu-width] mobile:ml-0" />
+      )}
     </div>
   );
 };
