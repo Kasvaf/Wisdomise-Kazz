@@ -1,41 +1,35 @@
 import { clsx } from 'clsx';
-import { bxRightArrowAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
-import Icon from 'shared/Icon';
-import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as BlackFriday } from './BlackFriday.svg';
 import { ReactComponent as BgAbstract } from './BgAbstract.svg';
+import imgStars from './stars.png';
 
 const BlackFridayBanner: React.FC<{ className?: string }> = ({ className }) => {
-  const isMobile = useIsMobile();
-
   return (
     <NavLink
       to="/account/billing"
       className={clsx(
-        'flex h-9 items-center justify-center bg-black text-white hover:bg-v1-background-accent/50 mobile:px-1',
+        'relative flex h-9 items-center justify-center overflow-hidden text-white mobile:px-1',
+        'hover:saturate-150',
         className,
       )}
+      style={{
+        background:
+          'linear-gradient(90deg, #1A1F37 0%, #5C15B9 50%, #1A1F37 100%)',
+      }}
     >
-      {!isMobile && (
-        <>
-          <BgAbstract />
-          <div className="grow" />
-        </>
-      )}
+      <BgAbstract className="absolute left-0 shrink" />
+      <div className="grow" />
 
-      <BlackFriday />
-      <span className="ml-1 mobile:text-sm">
-        Get Your Pro Plan With 60% Discount!
+      <img src={imgStars} className="absolute shrink-0 mix-blend-lighten" />
+
+      <span className="z-10 ml-1 mr-2 whitespace-nowrap text-sm uppercase">
+        Become An <strong>ai trader</strong>
       </span>
+      <BlackFriday className="z-10 shrink-0" />
 
-      {!isMobile && (
-        <>
-          <Icon name={bxRightArrowAlt} />
-          <div className="grow" />
-          <BgAbstract />
-        </>
-      )}
+      <div className="grow" />
+      <BgAbstract className="absolute right-0 shrink -scale-x-100" />
     </NavLink>
   );
 };
