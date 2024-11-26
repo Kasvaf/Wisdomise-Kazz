@@ -107,8 +107,6 @@ coin-details:
   tabs:
     coin_introduction:
       title: What is {{name}}?
-      empty:
-        title: No information available.
     coin_links:
       bitbucket: Bitbucket
       facebook: Facebook
@@ -202,6 +200,26 @@ coin-details:
           We're continuously exploring new strategies. Fresh technical insights
           will be available soon!
       load_more: Load More
+    whale_list:
+      title: Smart Whales
+      label: Smart Whales
+      empty:
+        title: No Whale Activity Detected
+        subtitle: >-
+          It's calm in the deep right now, but we’re always tracking the big
+          players. Stay tuned for whale moves!
+      holders: Holds
+      table:
+        address: Address
+        avg_duration: Avg Duration
+        badge: Badge
+        returns: Returns
+        trades: '#Trades'
+        trading_pnl: Trading PNL
+        volume: Volume
+        volume_of_trades: Volume Of Trades
+        worth: Worth
+      traders: Trades
     whale_sentiment:
       title: Whale Sentiment
       buy: Buy

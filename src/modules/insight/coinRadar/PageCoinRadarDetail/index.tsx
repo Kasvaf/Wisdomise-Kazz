@@ -15,6 +15,8 @@ import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
 import { CoinRadarTabs } from './components/CoinRadarTabs';
 import { CoinLinksWidget } from './components/CoinLinksWidget';
 import { WhaleSentimentWidget } from './components/WhaleSentimentWidget';
+// eslint-disable-next-line import/max-dependencies
+import { CoinWhaleListWidget } from './components/CoinWhaleListWidget';
 
 export default function PageCoinRadarDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -30,6 +32,10 @@ export default function PageCoinRadarDetail() {
     {
       key: 'coinoverview_socials',
       label: t('coin-details.tabs.socials.label'),
+    },
+    {
+      key: 'coinoverview_whales',
+      label: t('coin-details.tabs.whale_list.label'),
     },
     {
       key: 'coinoverview_exchanges',
@@ -60,7 +66,7 @@ export default function PageCoinRadarDetail() {
           <CoinLinksWidget slug={slug} />
           <CoinPricePerformanceWidget slug={slug} />
           <CoinSocialFeedWidget id="coinoverview_socials" slug={slug} />
-          {/* Whales */}
+          <CoinWhaleListWidget id="coinoverview_whales" slug={slug} />
           <CoinAvailableExchangesWidget
             slug={slug}
             id="coinoverview_exchanges"
@@ -87,6 +93,7 @@ export default function PageCoinRadarDetail() {
             <CoinRadarTabs value={tabs} className="sticky top-0 z-50 bg-page" />
             <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
             <CoinSocialFeedWidget id="coinoverview_socials" slug={slug} />
+            <CoinWhaleListWidget id="coinoverview_whales" slug={slug} />
             <CoinAvailableExchangesWidget
               slug={slug}
               id="coinoverview_exchanges"

@@ -42,13 +42,13 @@ export const useScrollPointTabs = (
     if (!scrollingElement) return;
 
     const scrollHandler = () => {
-      if (ignoreScroll.current) return;
       clearTimeout(timeout);
       let activeEl: {
         score: number;
         el: HTMLElement;
       } | null = null;
       timeout = setTimeout(() => {
+        if (ignoreScroll.current) return;
         for (const item of items) {
           const el = document.querySelector<HTMLElement>(`#${item.key}`);
           if (!el) continue;
@@ -74,7 +74,7 @@ export const useScrollPointTabs = (
         if (activeEl) {
           setActiveKey(activeEl.el.id);
         }
-      }, 10);
+      }, 100);
     };
     scrollingElement.addEventListener('scroll', scrollHandler);
     return () => {
@@ -94,8 +94,8 @@ export const useScrollPointTabs = (
     } catch {}
     setActiveKey(newActiveKey);
     el.scrollIntoView({
-      block: 'end',
-      behavior: 'smooth',
+      block: 'center',
+      behavior: 'instant',
     });
   };
 
