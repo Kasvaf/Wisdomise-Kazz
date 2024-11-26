@@ -12,6 +12,12 @@ export function CoinIntroductionWidget({
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinOverview({ slug });
 
+  if (
+    !coinOverview.data?.community_data?.description &&
+    !coinOverview.isLoading
+  )
+    return null;
+
   return (
     <OverviewWidget
       title={t('coin-details.tabs.coin_introduction.title', {
@@ -20,14 +26,6 @@ export function CoinIntroductionWidget({
         })`,
       })}
       loading={coinOverview.isInitialLoading}
-      empty={{
-        enabled: !coinOverview.data?.community_data?.description,
-        refreshButton: true,
-        title: t('coin-details.tabs.coin_introduction.empty.title'),
-        subtitle: '',
-      }}
-      onRefresh={coinOverview.refetch}
-      refreshing={coinOverview.isRefetching}
       id={id}
       contentClassName="max-h-80"
     >
