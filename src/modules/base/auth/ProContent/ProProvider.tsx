@@ -7,10 +7,13 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
+import { APP_PANEL } from 'config/constants';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { useModalLogin } from '../ModalLogin';
 import { useIsLoggedIn } from '../jwt-store';
 import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
 import { TrialStartedModal } from './TrialStartedModal';
+
 interface ProContext {
   ensureIsPro: () => Promise<boolean>;
   hasAccess: boolean;
@@ -35,24 +38,30 @@ export function ProProvider({
   const navigate = useNavigate();
   const subscription = useSubscription();
   const [subscriptionModal, setSubscriptionModal] = useState(false);
+  const { isEmbeddedView } = useEmbedView();
 
   const value = useMemo<ProContext>(() => {
     return {
-      ensureIsPro: () =>
-        new Promise(resolve => {
-          if (!isLoggedIn) {
-            return showModalLogin();
-          }
-          if (subscription.type === 'free') {
-            setSubscriptionModal(true);
-            // never resolve
+      ensureIsPro: () => {
+        return new Promise(resolve => {
+          if (isEmbeddedView && top) {
+            top.window.location.href = APP_PANEL;
           } else {
-            resolve(true);
+            if (!isLoggedIn) {
+              return showModalLogin();
+            }
+            if (subscription.type === 'free') {
+              setSubscriptionModal(true);
+              // never resolve
+            } else {
+              resolve(true);
+            }
           }
-        }),
+        });
+      },
       hasAccess: isLoggedIn && subscription.type !== 'free',
     };
-  }, [isLoggedIn, showModalLogin, subscription.type]);
+  }, [isEmbeddedView, isLoggedIn, showModalLogin, subscription.type]);
 
   return (
     <proContext.Provider value={value}>

@@ -100,7 +100,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       },
       {
         title: t('social-radar.table.name'),
-        render: (_, row) => <Coin coin={row.symbol} />,
+        render: (_, row) => <Coin coin={row.symbol} nonLink={isEmbeddedView} />,
         width: 200,
       },
       {
@@ -182,7 +182,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         ),
       },
     ],
-    [hasFlag, t],
+    [hasFlag, isEmbeddedView, t],
   );
 
   return (
@@ -230,7 +230,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       headerClassName="flex-wrap !justify-between"
       headerActions={
         <>
-          <CoinRadarAlerButton className="mobile:w-full" />
+          {!isEmbeddedView && <CoinRadarAlerButton className="mobile:w-full" />}
           <div className="flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
             <CoinSearchInput
               value={query}

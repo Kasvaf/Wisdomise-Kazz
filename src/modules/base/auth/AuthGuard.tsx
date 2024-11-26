@@ -44,7 +44,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     <Splash />
   ) : (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      {!isLoggedIn && <OneTapLogin />}
+      {!isLoggedIn && !isEmbeddedView && <OneTapLogin />}
       {children}
     </GoogleOAuthProvider>
   );

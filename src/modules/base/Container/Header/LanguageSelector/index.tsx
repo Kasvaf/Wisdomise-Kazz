@@ -1,8 +1,14 @@
 import { clsx } from 'clsx';
 import { Dropdown } from 'antd';
-import { type PropsWithChildren, useState } from 'react';
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxChevronDown } from 'boxicons-quasar';
+import { useCookies } from 'react-cookie';
 import DropdownContainer from 'shared/DropdownContainer';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
@@ -18,16 +24,25 @@ const langs = [
 const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
   const { i18n } = useTranslation();
   const isMobile = useIsMobile();
+  const [cookies, setCookie] = useCookies(['i18next']);
 
   const [loading, setLoading] = useState(false);
-  const changeLang = async (value: string) => {
-    try {
-      setLoading(true);
-      await i18n.changeLanguage(value);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const changeLang = useCallback(
+    async (value: string) => {
+      try {
+        setLoading(true);
+        await i18n.changeLanguage(value);
+        setCookie('i18next', value, { path: '/' });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [i18n, setCookie],
+  );
+
+  useEffect(() => {
+    void changeLang(cookies.i18next);
+  }, [changeLang, cookies.i18next]);
 
   const [open, setOpen] = useState(false);
   const dropDownFn = () => (
