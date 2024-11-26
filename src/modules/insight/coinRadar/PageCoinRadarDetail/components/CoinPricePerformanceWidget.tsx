@@ -41,29 +41,35 @@ export function CoinPricePerformanceWidget({
   className?: string;
   slug: string;
 }) {
+  const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinOverview({ slug });
   const [timeFrame, setTimeFrame] = useState<
     '1_d' | '7_d' | '14_d' | '21_d' | '30_d'
   >('1_d');
 
-  const [low, high] = [
-    coinOverview.data?.data?.[`min_price_${timeFrame}`],
-    coinOverview.data?.data?.[`max_price_${timeFrame}`],
-  ];
-
-  const { t } = useTranslation('coin-radar');
-
-  const priceGaugePercentage = useMemo(() => {
+  const timeframePrices = useMemo(() => {
+    const low = coinOverview.data?.data?.[`min_price_${timeFrame}`];
+    const high = coinOverview.data?.data?.[`max_price_${timeFrame}`];
+    const current = coinOverview.data?.data?.current_price;
     if (
       typeof low !== 'number' ||
       typeof high !== 'number' ||
-      typeof coinOverview.data?.data?.current_price !== 'number'
+      typeof current !== 'number'
     )
       return null;
-    const passed = high - low;
-    const total = high - low;
+    return {
+      min: Math.min(low, current),
+      max: Math.max(high, current),
+      current,
+    };
+  }, [coinOverview, timeFrame]);
+
+  const priceGaugePercentage = useMemo(() => {
+    if (!timeframePrices) return null;
+    const total = timeframePrices.max - timeframePrices.min;
+    const passed = total - (timeframePrices.max - timeframePrices.current);
     return (passed / total) * 100;
-  }, [low, high, coinOverview]);
+  }, [timeframePrices]);
 
   return (
     <OverviewWidget
@@ -107,19 +113,19 @@ export function CoinPricePerformanceWidget({
             <p className="mb-1 text-v1-content-secondary">
               {t('coin-details.tabs.price_performance.low')}
             </p>
-            <ReadableNumber value={low} label="$" />
+            <ReadableNumber value={timeframePrices?.min} label="$" />
           </div>
           <div>
             <p className="mb-1 text-v1-content-secondary">
               {t('coin-details.tabs.price_performance.high')}
             </p>
-            <ReadableNumber value={high} label="$" />
+            <ReadableNumber value={timeframePrices?.max} label="$" />
           </div>
         </div>
         {typeof priceGaugePercentage === 'number' && (
           <div className="relative mt-4 h-1 w-full max-w-full grow overflow-hidden rounded bg-v1-background-disabled">
             <div
-              className="absolute left-0 top-0 h-full rounded bg-v1-content-tertiary-inverse"
+              className="absolute left-0 top-0 h-full min-w-1 rounded bg-v1-content-tertiary-inverse"
               style={{
                 width: `${priceGaugePercentage}%`,
               }}
