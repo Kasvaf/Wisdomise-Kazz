@@ -26,9 +26,7 @@ export function SocialMessageUser({
     switch (message.social_type) {
       case 'reddit': {
         ret = {
-          url: message.content.subreddit
-            ? `https://reddit.com/r/${message.content.subreddit}`
-            : undefined,
+          url: message.content.url ?? undefined,
           name: message.content.subreddit
             ? `r/${message.content.subreddit}`
             : undefined,
@@ -119,14 +117,14 @@ export function SocialMessageUser({
           href={user.url}
           target="_blank"
           className={clsx(
-            'inline-flex items-center gap-1 rounded-full !bg-white/10 px-2 py-1 text-xs !text-v1-content-primary',
+            'rounded-full !bg-white/10 px-2 py-1 text-xs !text-v1-content-primary',
             'transition-all hover:underline active:brightness-90',
-            'max-w-full overflow-hidden text-ellipsis',
+            'w-full max-w-52 truncate',
             className,
           )}
           rel="noreferrer"
         >
-          <ExternalLinkIcon />
+          <ExternalLinkIcon className="me-1 inline-block shrink-0" />
           {user.url.replace('https://', '')}
         </a>
       )}
