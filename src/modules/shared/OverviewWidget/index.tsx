@@ -137,26 +137,24 @@ export function OverviewWidget({
         ) : emptyConfig.enabled ? (
           <div
             className={clsx(
-              'absolute inset-0 flex size-full overflow-hidden',
-              'flex-row items-center justify-center gap-4 mobile:flex-col mobile:justify-center',
-              paddingClassName,
+              'absolute inset-0 flex size-full max-h-full overflow-hidden',
+              'flex-row items-center justify-center gap-4',
             )}
           >
-            <EmptyIcon className="mt-3 w-20 shrink-0 mobile:mt-0" />
+            <EmptyIcon className="mt-3 h-auto w-20 shrink-0 mobile:-mb-3 mobile:mt-0 mobile:w-14" />
             <div
               className={clsx(
-                'flex flex-col justify-center gap-1 mobile:text-center',
-                'items-start mobile:items-center',
+                'flex flex-col items-start justify-center gap-1',
                 emptyConfig.refreshButton && 'grow',
               )}
             >
               {emptyConfig.title && (
-                <p className="text-base text-v1-content-primary">
+                <p className="text-base text-v1-content-primary mobile:text-sm">
                   {emptyConfig.title}
                 </p>
               )}
               {emptyConfig.subtitle && (
-                <p className="max-w-md text-xs font-light text-v1-content-secondary">
+                <p className="max-w-lg text-xs font-light text-v1-content-secondary mobile:text-xxs">
                   {emptyConfig.subtitle}
                 </p>
               )}
