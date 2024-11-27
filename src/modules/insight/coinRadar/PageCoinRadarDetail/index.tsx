@@ -75,8 +75,8 @@ export default function PageCoinRadarDetail() {
           <CoinIntroductionWidget slug={slug} />
         </div>
       ) : (
-        <div className="relative flex flex-row gap-6">
-          <div className="basis-1/3">
+        <div className="relative grid grid-cols-3 gap-6">
+          <div>
             <div className="sticky top-0 flex flex-col gap-6">
               <CoinPriceWidget slug={slug} />
               <CoinStatsWidget slug={slug} />
@@ -85,7 +85,7 @@ export default function PageCoinRadarDetail() {
             </div>
           </div>
 
-          <div className="flex basis-2/3 flex-col gap-6">
+          <div className="col-span-2 flex flex-col gap-6">
             <div className="flex items-center justify-stretch gap-6">
               <WhaleSentimentWidget slug={slug} className="basis-full" />
               <CoinSocialSentimentWidget slug={slug} className="basis-full" />
