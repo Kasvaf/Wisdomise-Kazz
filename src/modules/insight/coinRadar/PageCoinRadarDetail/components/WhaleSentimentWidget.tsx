@@ -51,7 +51,10 @@ export function WhaleSentimentWidget({
     <OverviewWidget
       className={clsx('!p-4', className)}
       loading={sentiment.isLoading}
-      contentClassName="overflow-hidden flex h-20 flex-col justify-between gap-3"
+      contentClassName={clsx(
+        'flex h-20 flex-col justify-between gap-3 overflow-hidden',
+        isAllZero && 'contrast-75 grayscale',
+      )}
     >
       <p className="text-xxs text-v1-content-primary">
         {t('coin-details.tabs.whale_sentiment.title')}
@@ -63,7 +66,7 @@ export function WhaleSentimentWidget({
               key={field.key}
               className={clsx(
                 'min-w-2 grow',
-                isAllZero && 'opacity-50 contrast-50 grayscale',
+                isAllZero && 'opacity-50',
                 field.bgClassName,
               )}
               style={{
@@ -80,13 +83,13 @@ export function WhaleSentimentWidget({
               key={field.key}
               className={clsx(
                 'flex shrink basis-full items-center justify-center gap-1 rounded-md bg-v1-surface-l3 px-2 py-1 text-xs',
-                field.textClassName,
+                !isAllZero && field.textClassName,
               )}
             >
               {field.label}
               <ReadableNumber
                 label="%"
-                value={sentiment.data?.[field.key] ?? 0}
+                value={isAllZero ? null : sentiment.data?.[field.key] ?? 0}
                 popup="never"
                 format={{
                   decimalLength: 1,
