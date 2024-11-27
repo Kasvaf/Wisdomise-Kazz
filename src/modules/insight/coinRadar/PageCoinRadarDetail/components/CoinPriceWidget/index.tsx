@@ -9,6 +9,7 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useClipboardCopy } from 'shared/useClipboardCopy';
 import Icon from 'shared/Icon';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { PriceAlertButton } from '../PriceAlertButton';
 import { CoinSelect } from './CoinSelect';
 
@@ -36,12 +37,14 @@ export function CoinPriceWidget({
           className="w-full text-base"
           onChange={newSlug => navigate(`/coin/${newSlug}`)}
         />
-        <button
-          onClick={() => copyLink(location.href)}
-          className="flex size-12 items-center justify-center rounded-lg bg-black/20 transition-all hover:brightness-110 active:brightness-90"
-        >
-          <Icon size={21} name={bxCopy} />
-        </button>
+        <HoverTooltip title={t('common:copy-page-url')}>
+          <button
+            onClick={() => copyLink(location.href)}
+            className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-black/20 transition-all hover:brightness-110 active:brightness-90"
+          >
+            <Icon size={21} name={bxCopy} />
+          </button>
+        </HoverTooltip>
         {copyLinkContent}
       </div>
       <div className="mt-6 space-y-2">
