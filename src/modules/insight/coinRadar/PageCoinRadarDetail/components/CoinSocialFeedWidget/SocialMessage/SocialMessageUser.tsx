@@ -124,7 +124,7 @@ export function SocialMessageUser({
           rel="noreferrer"
         >
           <ExternalLinkIcon className="me-1 inline-block shrink-0" />
-          {user.url.replace('https://', '')}
+          {user.url.replace('https://', '').replace('www.', '')}
         </a>
       )}
     </>

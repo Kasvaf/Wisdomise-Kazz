@@ -181,7 +181,6 @@ coin-details:
         subtitle: >-
           No updates right now, but we’re always scanning the crypto world. More
           news is coming soon!
-      load_more: Load More
       types:
         all:
           title: All Socials Feed

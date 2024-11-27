@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Markdown from 'react-markdown';
 import { type SocialMessage } from 'api';
-import { Markdown } from 'shared/Markdown';
 
 export function SocialMessageContent({
   message,
@@ -80,10 +80,9 @@ export function SocialMessageContent({
 
       {/* Summary */}
       {preview && mode !== 'title' && (
-        <Markdown
-          className="!text-sm !font-light !text-v1-content-secondary [&_b]:text-v1-content-info"
-          value={preview}
-        />
+        <Markdown className="!text-sm !font-light !text-v1-content-secondary [&_b]:text-v1-content-info">
+          {preview}
+        </Markdown>
       )}
       {mode === 'summary' && hasOverflow && (
         <div

@@ -1,14 +1,12 @@
 import { clsx } from 'clsx';
 import { Fragment, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxChevronDown } from 'boxicons-quasar';
 import {
   type SocialMessage as SocialMessageType,
   useHasFlag,
   useSocialMessages,
 } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
-import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ProLocker } from 'shared/ProLocker';
 import { SocialMessageSummary } from './SocialMessage';
@@ -152,6 +150,7 @@ export function CoinSocialFeedWidget({
         refreshing={messages.isRefetching}
         onRefresh={messages.refetch}
         badge="pro"
+        contentClassName="max-h-[550px] mobile:max-h-[400px] overflow-auto"
       >
         <div className="w-full grow overflow-auto">
           {tabs.length > 1 && (
@@ -163,7 +162,7 @@ export function CoinSocialFeedWidget({
           )}
         </div>
         <div className="mt-4 flex flex-col gap-6">
-          {activeTab?.messages?.slice(0, limit)?.map((message, idx, self) => (
+          {activeTab?.messages?.map((message, idx, self) => (
             <Fragment key={message.id}>
               <SocialMessageSummary message={message} />
               {(idx < self.length - 1 ||
@@ -173,19 +172,6 @@ export function CoinSocialFeedWidget({
             </Fragment>
           ))}
         </div>
-        {limit < (activeTab?.messages?.length ?? 0) && (
-          <button
-            className="mt-4 flex w-full items-center justify-center gap-2 text-sm"
-            onClick={() => setLimit(p => p + 2)}
-          >
-            {t('coin-details.tabs.socials.load_more')}
-            <Icon
-              name={bxChevronDown}
-              className="text-v1-content-link"
-              size={16}
-            />
-          </button>
-        )}
       </OverviewWidget>
     </ProLocker>
   );
