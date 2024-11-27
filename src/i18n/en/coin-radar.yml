@@ -134,7 +134,6 @@ coin-details:
         on an exchange close to its value.
     hot_coins:
       title: Hot Coins
-      label: Hot Coins
       empty:
         title: No Hot Coins Right Now
         subtitle: >-

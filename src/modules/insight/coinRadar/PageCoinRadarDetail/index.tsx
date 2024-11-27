@@ -41,10 +41,6 @@ export default function PageCoinRadarDetail() {
       key: 'coinoverview_exchanges',
       label: t('coin-details.tabs.markets.label'),
     },
-    {
-      key: 'coinoverview_hotcoins',
-      label: t('coin-details.tabs.hot_coins.label'),
-    },
   ];
 
   return (
@@ -71,7 +67,7 @@ export default function PageCoinRadarDetail() {
             slug={slug}
             id="coinoverview_exchanges"
           />
-          <HotCoinsWidget slug={slug} id="coinoverview_hotcoins" />
+          <HotCoinsWidget slug={slug} />
           <CoinIntroductionWidget slug={slug} />
         </div>
       ) : (
@@ -98,7 +94,7 @@ export default function PageCoinRadarDetail() {
               slug={slug}
               id="coinoverview_exchanges"
             />
-            <HotCoinsWidget slug={slug} id="coinoverview_hotcoins" />
+            <HotCoinsWidget slug={slug} />
             <CoinIntroductionWidget slug={slug} />
           </div>
         </div>
