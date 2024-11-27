@@ -33,47 +33,28 @@ export const useScrollPointTabs = (
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const {
-      eventTarget: scrollingElement,
-      top: scrollElTop,
-      height: scrollElHeight,
-    } = getScrollingElement(isMobile);
+    const { eventTarget: scrollingElement } = getScrollingElement(isMobile);
     let timeout: ReturnType<typeof setTimeout>;
     if (!scrollingElement) return;
 
     const scrollHandler = () => {
       clearTimeout(timeout);
-      let activeEl: {
-        score: number;
-        el: HTMLElement;
-      } | null = null;
       timeout = setTimeout(() => {
         if (ignoreScroll.current) return;
+        let closestItem = { key: '', distance: Number.POSITIVE_INFINITY };
         for (const item of items) {
           const el = document.querySelector<HTMLElement>(`#${item.key}`);
           if (!el) continue;
           const { top: elTop, height: elHeight } = el.getBoundingClientRect();
-          let score = 0;
-          score +=
-            elTop < scrollElHeight + scrollElTop && elTop > scrollElTop * -1
-              ? 1
-              : 0;
-          score +=
-            elTop - (elHeight - scrollElTop) < 0 &&
-            Math.abs(elTop - (elHeight - scrollElTop)) <
-              scrollElTop + scrollElHeight
-              ? 1
-              : 0;
-          if (!activeEl || score > activeEl.score) {
-            activeEl = {
-              score,
-              el,
-            };
+          const elCenter = elTop + elHeight / 2;
+          const viewportCenter = window.innerHeight / 2 + threshold / 2;
+          const distanceToCenter = Math.abs(elCenter - viewportCenter);
+          if (distanceToCenter < closestItem.distance) {
+            closestItem = { key: item.key, distance: distanceToCenter };
           }
         }
-        if (activeEl) {
-          setActiveKey(activeEl.el.id);
-        }
+
+        setActiveKey(closestItem.key || items[0].key);
       }, 100);
     };
     scrollingElement.addEventListener('scroll', scrollHandler);
@@ -95,7 +76,7 @@ export const useScrollPointTabs = (
     setActiveKey(newActiveKey);
     el.scrollIntoView({
       block: 'center',
-      behavior: 'instant',
+      behavior: 'smooth',
     });
   };
 
