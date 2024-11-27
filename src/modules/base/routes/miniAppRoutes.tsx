@@ -30,6 +30,8 @@ const PageCoinDetail = React.lazy(
 
 const PageTrade = React.lazy(() => import('modules/autoTrader/PageTrade'));
 
+const PageAlerts = React.lazy(() => import('modules/alert/PageAlerts'));
+
 const useMiniAppRoutes = () => {
   return [
     {
@@ -45,6 +47,10 @@ const useMiniAppRoutes = () => {
           path: '',
           element: <TelegramLayout />,
           children: [
+            {
+              path: 'trader-alerts',
+              element: <PageAlerts />,
+            },
             {
               path: 'trader-claim-reward',
               element: (

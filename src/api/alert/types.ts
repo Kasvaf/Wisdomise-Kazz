@@ -10,6 +10,7 @@ export type AlertConditionOperator =
 export type AlertMessenger =
   | 'EMAIL'
   | 'TELEGRAM'
+  | 'TELEGRAM_MINI_APP'
   | 'SLACK'
   | 'SMS'
   | 'DISCORD'

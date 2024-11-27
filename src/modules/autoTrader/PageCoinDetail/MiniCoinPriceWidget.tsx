@@ -26,7 +26,8 @@ export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
           />
         </div>
       </div>
-      {hasFlag('?set-alert') && (
+
+      {hasFlag('/trader-alerts') && (
         <div>
           <PriceAlertButton slug={slug} />
         </div>

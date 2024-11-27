@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
+import { isMiniApp } from 'utils/version';
 import { type PageResponse } from '../types/page';
 import { type BaseAlert, type Alert } from './types';
 
@@ -138,6 +139,7 @@ export const useSaveAlert = (alertId?: string) => {
       const alertKey = payload.key ?? alertId;
       return saveAlertingAlert({
         ...payload,
+        ...(isMiniApp ? { messengers: ['TELEGRAM_MINI_APP'] } : {}),
         key: alertKey,
       });
     },

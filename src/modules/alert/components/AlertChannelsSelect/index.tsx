@@ -5,6 +5,7 @@ import { useAccountQuery } from 'api';
 import { Toggle } from 'shared/Toggle';
 import { type AlertMessenger } from 'api/alert';
 import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
+import { isMiniApp } from 'utils/version';
 import { ReactComponent as BellIcon } from './bell.svg';
 import { ReactComponent as DiscordIcon } from './discord.svg';
 import { ReactComponent as EmailIcon } from './email.svg';
@@ -22,6 +23,7 @@ export const AlertChannelIcon: FC<
     SLACK: SlackIcon,
     SMS: SmsIcon,
     TELEGRAM: TelegramIcon,
+    TELEGRAM_MINI_APP: TelegramIcon,
     DISCORD: DiscordIcon,
     PUSH: BellIcon,
     BROWSER: BellIcon,
@@ -41,6 +43,7 @@ export const AlertChannelTitle: FC<
     SLACK: t('common.notifications.messangers.slack'),
     SMS: t('common.notifications.messangers.sms'),
     TELEGRAM: t('common.notifications.messangers.telegram'),
+    TELEGRAM_MINI_APP: t('common.notifications.messangers.telegram'),
     DISCORD: t('common.notifications.messangers.discord'),
     PUSH: t('common.notifications.messangers.push'),
     BROWSER: t('common.notifications.messangers.browser'),
@@ -117,6 +120,7 @@ export const AlertChannelsSelect: FC<{
   const account = useAccountQuery();
   const { t } = useTranslation('alerts');
   const [telegramModal, ensureTelegramConnected] = useEnsureTelegramConnected();
+  if (isMiniApp) return null;
 
   const toggleValue = (messanger: string, addToList: boolean) =>
     onChange([
