@@ -41,7 +41,9 @@ const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   useEffect(() => {
-    void changeLang(cookies.i18next);
+    if (cookies.i18next) {
+      void changeLang(cookies.i18next);
+    }
   }, [changeLang, cookies.i18next]);
 
   const [open, setOpen] = useState(false);
