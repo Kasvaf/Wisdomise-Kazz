@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as BlackFriday } from './BlackFriday.svg';
 import { ReactComponent as BgAbstract } from './BgAbstract.svg';
 import imgStars from './stars.png';
 
@@ -11,6 +10,7 @@ const BlackFridayBanner: React.FC<{ className?: string }> = ({ className }) => {
       className={clsx(
         'relative flex h-9 items-center justify-center overflow-hidden text-white mobile:px-1',
         'hover:saturate-150',
+        'text-sm mobile:text-sm',
         className,
       )}
       style={{
@@ -23,10 +23,22 @@ const BlackFridayBanner: React.FC<{ className?: string }> = ({ className }) => {
 
       <img src={imgStars} className="absolute shrink-0 mix-blend-lighten" />
 
-      <span className="z-10 ml-1 mr-2 whitespace-nowrap text-sm uppercase">
+      <span className="z-10 ml-1 mr-2 whitespace-nowrap uppercase mobile:hidden">
         Become An <strong>ai trader</strong>
       </span>
-      <BlackFriday className="z-10 shrink-0" />
+      <div
+        className="z-10 shrink-0 whitespace-nowrap rounded-full px-3"
+        style={{
+          background:
+            'linear-gradient(87deg, #FF00C7 -90.22%, #00A3FF 145.57%)',
+        }}
+      >
+        <span>Promo Code: </span>
+        <strong className="font-extrabold">BLKFRIDAY24</strong>
+      </div>
+      <div className="z-10 ml-1 mr-2 whitespace-nowrap uppercase">
+        get 60% off
+      </div>
 
       <div className="grow" />
       <BgAbstract className="absolute right-0 shrink -scale-x-100" />
