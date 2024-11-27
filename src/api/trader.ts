@@ -6,6 +6,46 @@ import {
   type Signal,
 } from 'api/builder';
 import { useCoinOverview } from './coinRadar';
+import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
+import { type PageResponse } from './types/page';
+
+export const useTraderCoins = (filters?: {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  isAscending?: boolean;
+  networkName?: string;
+  filter?: WhaleCoinsFilter;
+  days?: number;
+}) =>
+  useQuery({
+    queryKey: ['trader-coins', JSON.stringify(filters)],
+    keepPreviousData: true,
+    queryFn: async () => {
+      const { data } = await axios.get<PageResponse<WhaleCoin>>(
+        '/delphi/intelligence/trader-top-coins/',
+        {
+          params: {
+            page_size: filters?.pageSize ?? 10,
+            page: filters?.page ?? 1,
+            days: filters?.days ?? 1,
+            network_name: filters?.networkName,
+            exchange_name: 'STONFI',
+            sorted_by: filters?.sortBy,
+            ascending:
+              typeof filters?.isAscending === 'boolean'
+                ? filters?.isAscending
+                  ? 'True'
+                  : 'False'
+                : undefined,
+            filter: filters?.filter ?? 'all',
+          },
+          meta: { auth: true },
+        },
+      );
+      return data;
+    },
+  });
 
 export interface PositionsResponse {
   positions: Position[];

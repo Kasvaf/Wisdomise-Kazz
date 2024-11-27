@@ -3,7 +3,7 @@ import { type ColumnType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
 import { Image } from 'antd';
 import Table from 'shared/Table';
-import { useWhalesCoins, type WhaleCoin } from 'api';
+import { useTraderCoins, type WhaleCoin } from 'api';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -18,7 +18,7 @@ export default function PageHotCoins() {
     undefined,
   );
 
-  const coins = useWhalesCoins({
+  const coins = useTraderCoins({
     page,
     pageSize,
     filter: undefined,
