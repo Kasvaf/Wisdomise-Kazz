@@ -37,6 +37,7 @@ export function ClickableTooltip({
   const rootClassName = clsx(
     'group relative inline-flex select-none items-center gap-1',
     disabled !== true && 'cursor-help',
+    isOpen && 'pointer-events-none',
     className,
   );
   const titleClassName = clsx(
@@ -58,7 +59,11 @@ export function ClickableTooltip({
   const root = (
     <span
       className={rootClassName}
-      onClick={() => disabled !== true && !isOpen && setIsOpen(true)}
+      onClick={() => {
+        if (disabled !== true) {
+          setIsOpen(p => !p);
+        }
+      }}
     >
       {children}
       {disabled !== true && chevron !== false && (
