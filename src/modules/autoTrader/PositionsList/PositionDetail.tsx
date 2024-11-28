@@ -2,9 +2,10 @@ import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { bxEditAlt, bxHistory } from 'boxicons-quasar';
 import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import PriceChange from 'shared/PriceChange';
+import InfoButton from 'shared/InfoButton';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
@@ -84,30 +85,59 @@ const PositionDetail: React.FC<{
               <span className="text-v1-content-secondary">
                 Current {a.asset}
               </span>
+              <span>{Number(a.amount)}</span>
+            </div>
+          ))}
+
+        {position.current_assets
+          .filter(x => x.is_gas_fee)
+          .map(a => (
+            <div key={a.asset} className="flex items-center justify-between">
+              <span className="flex items-center gap-1 text-v1-content-secondary">
+                Gas Reserve
+                <InfoButton
+                  size={16}
+                  title="Gas Reserve"
+                  text="Gas amount is temporarily held and any unused gas will be refunded when the position is closed."
+                />
+              </span>
               <span>
-                <ReadableNumber value={Number(a.amount)} />
+                {Number(a.amount)} {a.asset}
               </span>
             </div>
           ))}
 
         {position.pnl != null && (
           <div className="flex items-center justify-between">
-            <span className="text-v1-content-secondary">P / L</span>
+            <span className="flex items-center gap-1 text-v1-content-secondary">
+              P / L
+              <InfoButton
+                size={16}
+                title="Profit and Loss"
+                text="P/L represents the ratio of your profits to losses, excluding any gas fees incurred."
+              />
+            </span>
             <span>
-              <ReadableNumber value={Number(position.pnl)} label="%" />
+              <PriceChange value={Number(position.pnl)} suffix="%" />
             </span>
           </div>
         )}
 
-        {position.current_total_equity != null &&
-          position.status !== 'CANCELED' && (
+        {Number(position.current_total_equity) > 0 && (
+          <div className="flex items-center justify-between">
+            <span>Current Value</span>
+            <span>{Number(position.current_total_equity)} USDT</span>
+          </div>
+        )}
+
+        {initialDeposit != null &&
+          position.pnl != null &&
+          Number(initialDeposit) > 0 &&
+          position.status === 'CLOSED' && (
             <div className="flex items-center justify-between">
-              <span>Current Value</span>
+              <span>Final Value</span>
               <span>
-                <ReadableNumber
-                  value={Number(position.current_total_equity)}
-                  label="USDT"
-                />
+                {initialDeposit * (1 + Number(position.pnl) / 100)} USDT
               </span>
             </div>
           )}
