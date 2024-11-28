@@ -3,15 +3,15 @@ export const roundDown = (number: number, decimals = 2) => {
   return Math.floor(number * tens) / tens;
 };
 
-export const roundSensible = (value: number | string) => {
-  if (Number.isNaN(+value)) {
+export const roundSensible = (value: number | string | null | undefined) => {
+  const val = Number(value);
+  if (Number.isNaN(val)) {
     return String(value);
   }
 
-  const val = +value;
-  return Math.abs(val)
-    .toFixed(val > -1 && val < 1 ? 6 : 3)
-    .replace(/(\.0*\d{3})\d*/, '$1')
+  return val
+    .toFixed(val > -1 && val < 1 ? 18 : 5)
+    .replace(/(\.0*\d{5})\d*/, '$1')
     .replaceAll(/\.?0+$/g, '');
 };
 

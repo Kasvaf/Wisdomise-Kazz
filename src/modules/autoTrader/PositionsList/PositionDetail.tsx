@@ -6,6 +6,7 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import PriceChange from 'shared/PriceChange';
 import InfoButton from 'shared/InfoButton';
+import { roundSensible } from 'utils/numbers';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
@@ -85,7 +86,7 @@ const PositionDetail: React.FC<{
               <span className="text-v1-content-secondary">
                 Current {a.asset}
               </span>
-              <span>{Number(a.amount)}</span>
+              <span>{roundSensible(a.amount)}</span>
             </div>
           ))}
 
@@ -102,7 +103,7 @@ const PositionDetail: React.FC<{
                 />
               </span>
               <span>
-                {Number(a.amount)} {a.asset}
+                {roundSensible(a.amount)} {a.asset}
               </span>
             </div>
           ))}
@@ -126,7 +127,7 @@ const PositionDetail: React.FC<{
         {Number(position.current_total_equity) > 0 && (
           <div className="flex items-center justify-between">
             <span>Current Value</span>
-            <span>{Number(position.current_total_equity)} USDT</span>
+            <span>{roundSensible(position.current_total_equity)} USDT</span>
           </div>
         )}
 
