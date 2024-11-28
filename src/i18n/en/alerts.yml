@@ -27,13 +27,12 @@ common:
       monthly: Monthly
       weekly: Weekly
     messangers:
-      browser: Browser Notification
-      discord: Discord Message
       email: Email
-      push: Push Notification
-      slack: Slack Message
-      sms: Sms
       telegram: Telegram Message
+      web_push: Push Notification
+      web_push_blocked: >-
+        To allow push notifications, please navigate to your browser's site
+        settings and manualy enable notifications.
     one-time: One Time
     unlimited-times: Unlimited Times
   price-info: The price of <Coin>Unknown Coin</Coin> is currently <Price>Unknown</Price>

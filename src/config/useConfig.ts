@@ -9,6 +9,7 @@ import { configSegment } from './segment';
 import configSentry from './sentry';
 import configAnalytics from './analytics';
 import queryClient from './reactQuery';
+import oneSignal from './oneSignal';
 
 configAxios();
 configSentry();
@@ -16,6 +17,8 @@ configSegment();
 configAnalytics();
 configI18n();
 configDayjs();
+
+void oneSignal.init();
 
 let lang = 'en';
 axios.interceptors.request.use(config => {

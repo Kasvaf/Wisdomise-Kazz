@@ -11,11 +11,7 @@ export type AlertMessenger =
   | 'EMAIL'
   | 'TELEGRAM'
   | 'TELEGRAM_MINI_APP'
-  | 'SLACK'
-  | 'SMS'
-  | 'DISCORD'
-  | 'PUSH'
-  | 'BROWSER';
+  | 'WEB_PUSH';
 
 export interface BaseAlert {
   data_source?: string;

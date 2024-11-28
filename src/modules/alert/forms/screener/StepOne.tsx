@@ -10,6 +10,8 @@ import { gtmClass } from 'utils/gtmClass';
 import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSelect';
 import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
+import { isDebugMode } from 'utils/version';
+import { type AlertMessenger } from 'api/alert';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
 export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
@@ -90,7 +92,11 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
             className="w-full"
             onChange={x => setValue(p => ({ ...p, messengers: x as never }))}
             value={value.messengers ?? []}
-            channels={['EMAIL', 'TELEGRAM']}
+            channels={[
+              'EMAIL',
+              'TELEGRAM',
+              ...(isDebugMode ? (['WEB_PUSH'] as AlertMessenger[]) : []),
+            ]}
           />
         </FormControlWithLabel>
         <div>

@@ -8,6 +8,7 @@ import { analytics } from 'config/segment';
 import { useHubSpot } from 'config/hubSpot';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
+import oneSignal from 'config/oneSignal';
 import OneTapLogin from './OneTapLogin';
 import { useIsLoggedIn } from './jwt-store';
 
@@ -30,6 +31,14 @@ export default function AuthGuard({ children }: PropsWithChildren) {
       Sentry.setUser({ email, wallet_address: account.wallet_address });
     }
   }, [account?.email, account?.wallet_address, isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn && account?.email && account.info) {
+      void oneSignal.login(account?.email);
+    } else {
+      void oneSignal.logout();
+    }
+  }, [isLoggedIn, account?.email, account?.info]);
 
   useEffect(() => {
     if (isLoading) return;

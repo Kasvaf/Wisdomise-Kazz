@@ -6,11 +6,9 @@ import { Toggle } from 'shared/Toggle';
 import { type AlertMessenger } from 'api/alert';
 import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
 import { isMiniApp } from 'utils/version';
+import oneSignal from 'config/oneSignal';
 import { ReactComponent as BellIcon } from './bell.svg';
-import { ReactComponent as DiscordIcon } from './discord.svg';
 import { ReactComponent as EmailIcon } from './email.svg';
-import { ReactComponent as SlackIcon } from './slack.svg';
-import { ReactComponent as SmsIcon } from './sms.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
 
 export const AlertChannelIcon: FC<
@@ -20,13 +18,9 @@ export const AlertChannelIcon: FC<
 > = ({ name, ...props }) => {
   const components: Record<AlertMessenger, FC<SVGProps<SVGSVGElement>>> = {
     EMAIL: EmailIcon,
-    SLACK: SlackIcon,
-    SMS: SmsIcon,
     TELEGRAM: TelegramIcon,
     TELEGRAM_MINI_APP: TelegramIcon,
-    DISCORD: DiscordIcon,
-    PUSH: BellIcon,
-    BROWSER: BellIcon,
+    WEB_PUSH: BellIcon,
   };
   const Component = components[name];
   return <Component {...props} />;
@@ -40,13 +34,9 @@ export const AlertChannelTitle: FC<
   const { t } = useTranslation('alerts');
   const titles: Record<AlertMessenger, string> = {
     EMAIL: t('common.notifications.messangers.email'),
-    SLACK: t('common.notifications.messangers.slack'),
-    SMS: t('common.notifications.messangers.sms'),
     TELEGRAM: t('common.notifications.messangers.telegram'),
     TELEGRAM_MINI_APP: t('common.notifications.messangers.telegram'),
-    DISCORD: t('common.notifications.messangers.discord'),
-    PUSH: t('common.notifications.messangers.push'),
-    BROWSER: t('common.notifications.messangers.browser'),
+    WEB_PUSH: t('common.notifications.messangers.web_push'),
   };
   const title = titles[name];
   return <>{title}</>;
@@ -171,35 +161,27 @@ export const AlertChannelsSelect: FC<{
           {telegramModal}
         </AlertChannelRow>
       )}
-      {renderingChannels.includes('BROWSER') && (
+      {renderingChannels.includes('WEB_PUSH') && oneSignal.getUser() && (
         <AlertChannelRow
           icon={BellIcon}
-          label={t('common.notifications.messangers.browser')}
-        />
-      )}
-      {renderingChannels.includes('PUSH') && (
-        <AlertChannelRow
-          icon={BellIcon}
-          label={t('common.notifications.messangers.push')}
-        />
-      )}
-      {renderingChannels.includes('DISCORD') && (
-        <AlertChannelRow
-          icon={DiscordIcon}
-          label={t('common.notifications.messangers.discord')}
-        />
-      )}
-      {renderingChannels.includes('SLACK') && (
-        <AlertChannelRow
-          icon={SlackIcon}
-          label={t('common.notifications.messangers.slack')}
-        />
-      )}
-      {renderingChannels.includes('SMS') && (
-        <AlertChannelRow
-          icon={SmsIcon}
-          label={t('common.notifications.messangers.sms')}
-        />
+          label={t('common.notifications.messangers.web_push')}
+        >
+          <Toggle
+            checked={(value || []).includes('WEB_PUSH')}
+            onChange={async e => {
+              if (e) {
+                const gotPermission = await oneSignal.requestPermission();
+                if (!gotPermission) {
+                  alert(t('common.notifications.messangers.web_push_blocked'));
+                }
+                return toggleValue('WEB_PUSH', gotPermission);
+              }
+              return toggleValue('WEB_PUSH', false);
+            }}
+            loading={loading}
+            disabled={disabled}
+          />
+        </AlertChannelRow>
       )}
     </div>
   );
