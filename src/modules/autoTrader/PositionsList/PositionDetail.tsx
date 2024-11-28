@@ -97,8 +97,8 @@ const PositionDetail: React.FC<{
                 Gas Reserve
                 <InfoButton
                   size={16}
-                  title="Gas Reserve"
-                  text="Gas amount is temporarily held and any unused gas will be refunded when the position is closed."
+                  title="Remaining Gas Fee"
+                  text="This gas amount is temporarily held and any unused gas will be refunded when the position is closed."
                 />
               </span>
               <span>

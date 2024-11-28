@@ -4,6 +4,7 @@ import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import Spin from 'shared/Spin';
+import InfoButton from 'shared/InfoButton';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<
@@ -86,7 +87,19 @@ const ModalApproval: React.FC<{
           <div className="font-medium">{amount} USDT</div>
         </InfoLine>
 
-        <InfoLine label="Gas Fee (Reserved)" className="text-sm">
+        <InfoLine
+          label={
+            <div className="flex items-center gap-1">
+              <span>Gas Fee (Reserved)</span>
+              <InfoButton
+                size={16}
+                title="Gas Fee (Reserved)"
+                text="This gas amount will be temporarily held and any unused gas will be refunded once the position is closed."
+              />
+            </div>
+          }
+          className="text-sm"
+        >
           {isLoading ? (
             <Spin />
           ) : data?.gas_fee ? (
