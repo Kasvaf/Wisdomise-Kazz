@@ -26,7 +26,10 @@ const TransactionAnyOrderBox: React.FC<{
           safety_open: 'Safety Open',
           open: 'Open',
           close: 'Close',
-        }[t.type] + ('index' in t.data ? ' #' + String(t.data.index) : '')
+        }[t.type] +
+        ('index' in t.data && Number(t.data.index)
+          ? ' #' + String(t.data.index)
+          : '')
       }
       info={<StatusLabel t={t} />}
       contentClassName="flex flex-col items-stretch gap-3"
