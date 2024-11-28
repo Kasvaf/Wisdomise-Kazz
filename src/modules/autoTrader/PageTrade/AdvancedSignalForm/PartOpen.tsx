@@ -78,7 +78,7 @@ const PartOpen: React.FC<{
                 Reading Balance
               </div>
             ) : (
-              usdtBalance !== undefined && (
+              usdtBalance != null && (
                 <div
                   className="flex items-center gap-1"
                   onClick={() => !isUpdate && setAmount(String(usdtBalance))}
@@ -100,7 +100,7 @@ const PartOpen: React.FC<{
             )}
           </div>
         }
-        max={usdtBalance}
+        max={usdtBalance || 0}
         value={amount}
         onChange={setAmount}
         suffix="USDT"

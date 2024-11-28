@@ -32,23 +32,21 @@ const CONTRACT_DECIMAL = {
 
 export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
   const address = useTonAddress();
-  return useQuery(
-    ['accountJettonBalance', address],
-    async () => {
-      const { data } = await axios.get<{ balance: string }>(
-        `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${CONTRACT_ADDRESSES[contract]}`,
-        {
-          meta: { auth: false },
-        },
-      );
+  return useQuery(['accountJettonBalance', address || ''], async () => {
+    if (!address) return null;
 
-      const balance = Number(data?.balance);
-      return Number.isNaN(balance)
-        ? undefined
-        : balance / 10 ** CONTRACT_DECIMAL[contract];
-    },
-    { enabled: !!address },
-  );
+    const { data } = await axios.get<{ balance: string }>(
+      `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${CONTRACT_ADDRESSES[contract]}`,
+      {
+        meta: { auth: false },
+      },
+    );
+
+    const balance = Number(data?.balance);
+    return Number.isNaN(balance)
+      ? null
+      : balance / 10 ** CONTRACT_DECIMAL[contract];
+  });
 };
 
 const useJettonWalletAddress = () => {
