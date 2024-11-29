@@ -17,7 +17,7 @@ export default function configI18n() {
       resources,
       fallbackLng: 'en',
       detection: {
-        order: ['querystring', 'localStorage', 'sessionStorage'],
+        order: ['querystring', 'cookie', 'localStorage', 'sessionStorage'],
         convertDetectedLanguage: lng => (validLang.test(lng) ? lng : 'en'),
       },
       saveMissing: !isProduction,
