@@ -45,7 +45,7 @@ export function ProProvider({
       ensureIsPro: () => {
         return new Promise(resolve => {
           if (isEmbeddedView && top) {
-            top.window.location.href = APP_PANEL;
+            top.window.location.href = `${APP_PANEL}/account/billing`;
           } else {
             if (!isLoggedIn) {
               return showModalLogin();
