@@ -12,6 +12,7 @@ import { useCookies } from 'react-cookie';
 import DropdownContainer from 'shared/DropdownContainer';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
+import { isLocal } from 'utils/version';
 import DropButton from '../DropButton';
 import { ReactComponent as LangIcon } from './lang-icon.svg';
 
@@ -32,7 +33,10 @@ const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
       try {
         setLoading(true);
         await i18n.changeLanguage(value);
-        setCookie('i18next', value, { path: '/' });
+        setCookie('i18next', value, {
+          path: '/',
+          domain: isLocal ? 'localhost' : 'wisdomise.com',
+        });
       } finally {
         setLoading(false);
       }
