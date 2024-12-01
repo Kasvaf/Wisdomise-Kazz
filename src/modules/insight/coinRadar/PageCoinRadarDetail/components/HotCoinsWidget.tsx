@@ -97,7 +97,7 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
           onChange={setFilter}
         />
       </div>
-      <ProLocker mode="table" level={3}>
+      <ProLocker mode="table" size={3} level={1}>
         <Table
           columns={columns}
           dataSource={filteredCoins}

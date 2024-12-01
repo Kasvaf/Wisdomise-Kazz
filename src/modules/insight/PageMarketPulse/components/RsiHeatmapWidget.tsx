@@ -55,7 +55,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       loading={heatmap.isLoading}
       empty={heatmap.data?.results?.length === 0}
     >
-      <ProLocker mode="children" size={1}>
+      <ProLocker mode="children" size={1} level={1}>
         <RsiHeatmapChart
           className="h-full py-2"
           data={heatmap.data?.results ?? []}

@@ -175,19 +175,6 @@ export function CoinWhaleListWidget({
     return returnValue;
   }, [t, type]);
 
-  // const [typeCounts, setTypeCounts] = useState<
-  //   Record<WhaleType, number | null>
-  // >({
-  //   holders: null,
-  //   traders: null,
-  // });
-
-  // useEffect(() => {
-  //   setTypeCounts(p => ({
-  //     ...p,
-  //     [type]: whales.data?.count ?? null,
-  //   }));
-  // }, [type, whales.data?.count]);
   useEffect(() => {
     if (whales.data?.count === 0) {
       setType((traders.data?.count ?? 0) > 0 ? 'traders' : 'holders');
@@ -230,7 +217,7 @@ export function CoinWhaleListWidget({
           onChange={setType}
         />
       </div>
-      <ProLocker level={2} mode="table">
+      <ProLocker level={2} size={2} mode="table">
         <Table
           dataSource={whales.data?.results ?? []}
           columns={columns}

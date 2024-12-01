@@ -171,6 +171,7 @@ export function ConfirmationWidget<I extends Indicator>({
         className="flex flex-col items-start gap-3"
         mode="children"
         size={2}
+        level={1}
       >
         {confirmations.data?.results.map(row => (
           <ConfirmationRow
