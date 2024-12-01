@@ -16,6 +16,7 @@ import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/compone
 import { ProLocker } from 'shared/ProLocker';
 import { formatNumber } from 'utils/numbers';
 import { CoinLabels } from 'shared/CoinLabels';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinSecurityLabel } from '../../../../../shared/CoinSecurityLabel/index';
 import { type SortMode, SortModes } from '../SortModes';
@@ -29,6 +30,7 @@ import { ReactComponent as Logo } from './logo.svg';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
   const marketInfo = useMarketInfoFromSignals();
+  const { isEmbeddedView } = useEmbedView();
   const hasFlag = useHasFlag();
   const { t } = useTranslation('coin-radar');
   const [query, setQuery] = useState('');
@@ -98,7 +100,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       },
       {
         title: t('social-radar.table.name'),
-        render: (_, row) => <Coin coin={row.symbol} />,
+        render: (_, row) => <Coin coin={row.symbol} nonLink={isEmbeddedView} />,
         width: 200,
       },
       {
@@ -184,7 +186,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         ),
       },
     ],
-    [hasFlag, t],
+    [hasFlag, isEmbeddedView, t],
   );
 
   return (
@@ -194,38 +196,45 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         className,
       )}
       title={
-        <>
-          <Logo />
-          {t('social-radar.table.title')}
-        </>
+        isEmbeddedView ? undefined : (
+          <>
+            <Logo />
+            {t('social-radar.table.title')}
+          </>
+        )
       }
       subtitle={
-        <div
-          className={clsx(
-            'capitalize [&_b]:font-normal [&_b]:text-v1-content-primary',
-            marketInfo.isLoading && '[&_b]:animate-pulse',
-          )}
-        >
-          <Trans
-            ns="coin-radar"
-            i18nKey="coin-radar:social-radar.table.description"
-            values={{
-              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
-                compactInteger: true,
-                decimalLength: 0,
-                seperateByComma: true,
-                minifyDecimalRepeats: false,
-              }),
-            }}
-          />
-        </div>
+        isEmbeddedView ? undefined : (
+          <div
+            className={clsx(
+              'capitalize [&_b]:font-normal [&_b]:text-v1-content-primary',
+              marketInfo.isLoading && '[&_b]:animate-pulse',
+            )}
+          >
+            <Trans
+              ns="coin-radar"
+              i18nKey="coin-radar:social-radar.table.description"
+              values={{
+                posts: formatNumber(
+                  marketInfo.data?.analyzed_messages ?? 4000,
+                  {
+                    compactInteger: true,
+                    decimalLength: 0,
+                    seperateByComma: true,
+                    minifyDecimalRepeats: false,
+                  },
+                ),
+              }}
+            />
+          </div>
+        )
       }
       loading={coins.isInitialLoading}
       empty={(coins.data ?? [])?.length === 0}
       headerClassName="flex-wrap !justify-between"
       headerActions={
         <>
-          <CoinRadarAlerButton className="mobile:w-full" />
+          {!isEmbeddedView && <CoinRadarAlerButton className="mobile:w-full" />}
           <div className="flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
             <CoinSearchInput
               value={query}

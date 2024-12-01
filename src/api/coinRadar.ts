@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
+import { isMiniApp } from 'utils/version';
 import {
   type MarketData,
   type Coin,
@@ -497,7 +498,8 @@ export const useCoinList = ({
         .get<Coin[]>('delphi/symbol/search/', {
           params: {
             q: q || undefined,
-            network_name: networkName,
+            network_name: networkName ?? (isMiniApp ? 'ton' : undefined),
+            exchange_name: isMiniApp ? 'STONFI' : undefined,
           },
         })
         .then(resp => resp.data),

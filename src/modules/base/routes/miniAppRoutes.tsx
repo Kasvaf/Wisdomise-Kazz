@@ -20,11 +20,17 @@ const PagePositions = React.lazy(
   () => import('modules/autoTrader/PagePositions'),
 );
 
+const PageTransactions = React.lazy(
+  () => import('modules/autoTrader/PageTransactions'),
+);
+
 const PageCoinDetail = React.lazy(
   () => import('modules/autoTrader/PageCoinDetail'),
 );
 
 const PageTrade = React.lazy(() => import('modules/autoTrader/PageTrade'));
+
+const PageAlerts = React.lazy(() => import('modules/alert/PageAlerts'));
 
 const useMiniAppRoutes = () => {
   return [
@@ -42,6 +48,10 @@ const useMiniAppRoutes = () => {
           element: <TelegramLayout />,
           children: [
             {
+              path: 'trader-alerts',
+              element: <PageAlerts />,
+            },
+            {
               path: 'trader-claim-reward',
               element: (
                 <GameAuthGuard>
@@ -58,6 +68,7 @@ const useMiniAppRoutes = () => {
               children: [
                 { path: '', element: <PageHotCoins /> },
                 { path: ':slug', element: <PageCoinDetail /> },
+                { path: ':slug/transactions', element: <PageTransactions /> },
               ],
             },
             {

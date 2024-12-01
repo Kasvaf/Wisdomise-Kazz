@@ -1,25 +1,21 @@
-import { useAccount } from 'wagmi';
 import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Button from 'shared/Button';
 import Card from 'shared/Card';
-import useModal from 'shared/useModal';
-import EligibleCheckModalContent from 'modules/account/PageToken/Airdrop/EligibleCheckModalContent';
-import { useCheckAirdropEligibilityQuery } from 'api/airdrop';
 import { ReactComponent as InfoIcon } from '../icons/info.svg';
 
 export default function Airdrop() {
   const { t } = useTranslation('wisdomise-token');
-  const [Modal, showModal] = useModal(EligibleCheckModalContent, {
-    destroyOnClose: true,
-  });
-  const { address } = useAccount();
-  const { refetch, isFetching } = useCheckAirdropEligibilityQuery(address);
-
-  const checkEligibility = async () => {
-    const { data } = await refetch();
-    void showModal({ eligibility: data });
-  };
+  // const [Modal, showModal] = useModal(EligibleCheckModalContent, {
+  //   destroyOnClose: true,
+  // });
+  // const { address } = useAccount();
+  // const { refetch, isFetching } = useCheckAirdropEligibilityQuery(address);
+  //
+  // const checkEligibility = async () => {
+  //   const { data } = await refetch();
+  //   void showModal({ eligibility: data });
+  // };
 
   return (
     <>
@@ -77,17 +73,10 @@ export default function Airdrop() {
         </div>
 
         {/* <Countdown /> */}
-        <Button
-          className="hidden max-md:w-full"
-          variant="primary-purple"
-          onClick={checkEligibility}
-          loading={isFetching}
-          disabled={isFetching}
-        >
+        <Button className="hidden max-md:w-full" variant="primary-purple">
           {t('airdrop.check')}
         </Button>
       </Card>
-      {Modal}
     </>
   );
 }

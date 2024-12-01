@@ -1,25 +1,24 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { bxLeftArrowAlt } from 'boxicons-quasar';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import Button from 'shared/Button';
-import Icon from 'shared/Icon';
+import { useCoinOverview } from 'api';
+import { CoinSocialSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinSocialSentimentWidget';
+import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
 import PositionsList from '../PositionsList';
+import BtnBack from '../BtnBack';
+import MiniCoinPriceWidget from './MiniCoinPriceWidget';
 
 export default function PageCoinDetail() {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
 
+  useCoinOverview({ slug });
+
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <div className="mb-3 flex gap-2">
-        <Button
-          variant="alternative"
-          to="/trader-hot-coins"
-          className="flex items-center justify-center !px-3 !py-0"
-        >
-          <Icon name={bxLeftArrowAlt} />
-        </Button>
+        <BtnBack />
 
         <CoinSelect
           networkName="ton"
@@ -33,7 +32,11 @@ export default function PageCoinDetail() {
         />
       </div>
 
-      <PositionsList slug={slug} isOpen />
+      <MiniCoinPriceWidget slug={slug} />
+      <PositionsList slug={slug} isOpen noEmptyState />
+
+      <CoinStatsWidget slug={slug} />
+      <CoinSocialSentimentWidget slug={slug} noEmptyState />
 
       <Button
         variant="brand"

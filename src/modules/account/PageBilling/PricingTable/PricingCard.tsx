@@ -141,7 +141,7 @@ export default function PricingCard({
         {/* Features */}
         <PlanFeatures {...plan} className="grow" />
 
-        {plan.price !== 0 && (
+        {plan.token_hold_support ? (
           <div className="mt-6 flex justify-center rounded-lg bg-white/5 py-3 text-xxs text-white/70">
             <p
               className={clsx(
@@ -150,23 +150,23 @@ export default function PricingCard({
                 '[&_b]:rounded [&_b]:px-2 [&_b]:py-px [&_b]:font-semibold [&_b]:text-white',
               )}
             >
-              {plan.periodicity === 'YEARLY' ? (
-                <Trans
-                  ns="billing"
-                  i18nKey="pricing-card.pay-by-locking"
-                  values={{
-                    token:
-                      lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
-                      '0',
-                  }}
-                />
-              ) : (
-                <Trans
-                  ns="billing"
-                  i18nKey="pricing-card.pay-by-locking-in-yearly-only"
-                />
-              )}
+              <Trans
+                ns="billing"
+                i18nKey="pricing-card.pay-by-locking"
+                values={{
+                  token:
+                    lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
+                    '0',
+                }}
+              />
             </p>
+          </div>
+        ) : (
+          <div className="hidden">
+            <Trans
+              ns="billing"
+              i18nKey="pricing-card.pay-by-locking-in-yearly-only"
+            />
           </div>
         )}
 

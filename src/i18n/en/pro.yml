@@ -9,7 +9,7 @@ pro: Pro
 renew-modal:
   title: Continue Your Crypto Journey<br></br>with Us!
   description: >-
-    Continue unlocking your crypto potential with Wisdomise Pro! Here are Some
+    Continue unlocking your crypto potential with Wisdomise Pro! Here are some
     features available in the Pro version:
   renew: Renew Your Pro
 trial: Trial
@@ -17,7 +17,7 @@ trial-modal:
   title: Welcome to Wisdomise Pro!
   description: >-
     Congratulations on your <b><Duration></Duration> Trial</b> of Wisdomise
-    Pro!<br></br>Here are Some features available in the Pro version:
+    Pro!<br></br>Here are some features available in the Pro version:
   button: Start Your Journey
   footer: >-
     You now have access to powerful tools designed to enhance your trading

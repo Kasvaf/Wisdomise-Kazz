@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Navigate, type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import PageInsight from 'modules/insight/PageInsight';
 import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
 
+const PageInsight = React.lazy(() => import('modules/insight/PageInsight'));
 const PageCoinRadar = React.lazy(
   () => import('modules/insight/coinRadar/PageCoinRadar'),
 );

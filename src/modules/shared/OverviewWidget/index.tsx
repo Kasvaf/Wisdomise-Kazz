@@ -99,20 +99,22 @@ export function OverviewWidget({
             headerClassName,
           )}
         >
-          <div>
-            {(title || info) && (
-              <h2 className="flex items-center gap-2 text-base font-medium">
-                {title}
-                {badgeIcon}
-                {infoIcon}
-              </h2>
-            )}
-            {subtitle && (
-              <p className="mt-2 text-xs font-normal text-v1-content-secondary">
-                {subtitle}
-              </p>
-            )}
-          </div>
+          {(title || info || subtitle) && (
+            <div>
+              {(title || info) && (
+                <h2 className="flex items-center gap-2 text-base font-medium">
+                  {title}
+                  {badgeIcon}
+                  {infoIcon}
+                </h2>
+              )}
+              {subtitle && (
+                <p className="mt-2 text-xs font-normal text-v1-content-secondary">
+                  {subtitle}
+                </p>
+              )}
+            </div>
+          )}
           {headerActions}
         </header>
       )}

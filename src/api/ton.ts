@@ -6,8 +6,9 @@ import {
 } from '@tonconnect/ui-react';
 import axios from 'axios';
 import { Address, beginCell, toNano, TonClient } from '@ton/ton';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
+import { useUserStorage } from 'api/userStorage';
 
 const TON_API_BASE_URL = String(import.meta.env.VITE_TON_API_BASE_URL);
 const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
@@ -32,8 +33,10 @@ const CONTRACT_DECIMAL = {
 export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
   const address = useTonAddress();
   return useQuery(
-    ['accountJettonBalance', address],
+    ['accountJettonBalance', contract, address || ''],
     async () => {
+      if (!address) return null;
+
       const { data } = await axios.get<{ balance: string }>(
         `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${CONTRACT_ADDRESSES[contract]}`,
         {
@@ -41,10 +44,15 @@ export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
         },
       );
 
-      if (data?.balance === undefined) return;
-      return +(data?.balance ?? 0) / 10 ** CONTRACT_DECIMAL[contract];
+      const balance = Number(data?.balance);
+      return Number.isNaN(balance)
+        ? null
+        : balance / 10 ** CONTRACT_DECIMAL[contract];
     },
-    { enabled: !!address },
+    {
+      refetchInterval: 10_000,
+      staleTime: 500,
+    },
   );
 };
 
@@ -91,6 +99,8 @@ export const useTransferAssetsMutation = () => {
   const address = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
   const { data: jettonWalletAddress } = useJettonWalletAddress();
+  const { save } = useUserStorage('last-parsed-deposit-address');
+  const queryClient = useQueryClient();
 
   return async ({
     recipientAddress,
@@ -105,8 +115,8 @@ export const useTransferAssetsMutation = () => {
       bounceable: false,
       testOnly: !isProduction,
     });
-    console.log('depositAddress', recipientAddress);
-    console.log('noneBounceableAddress', noneBounceableAddress);
+
+    void save(noneBounceableAddress);
 
     const transaction: SendTransactionRequest = {
       validUntil: Date.now() + 10 * 60 * 1000,
@@ -143,5 +153,10 @@ export const useTransferAssetsMutation = () => {
     console.log(transaction);
 
     await tonConnectUI.sendTransaction(transaction);
+    await queryClient.invalidateQueries([
+      'accountJettonBalance',
+      'usdt',
+      address || '',
+    ]);
   };
 };

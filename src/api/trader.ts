@@ -6,22 +6,64 @@ import {
   type Signal,
 } from 'api/builder';
 import { useCoinOverview } from './coinRadar';
+import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
+import { type PageResponse } from './types/page';
+
+export const useTraderCoins = (filters?: {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  isAscending?: boolean;
+  networkName?: string;
+  filter?: WhaleCoinsFilter;
+  days?: number;
+}) =>
+  useQuery({
+    queryKey: ['trader-coins', JSON.stringify(filters)],
+    keepPreviousData: true,
+    queryFn: async () => {
+      const { data } = await axios.get<PageResponse<WhaleCoin>>(
+        '/delphi/intelligence/trader-top-coins/',
+        {
+          params: {
+            page_size: filters?.pageSize ?? 10,
+            page: filters?.page ?? 1,
+            days: filters?.days ?? 1,
+            network_name: filters?.networkName,
+            exchange_name: 'STONFI',
+            sorted_by: filters?.sortBy,
+            ascending:
+              typeof filters?.isAscending === 'boolean'
+                ? filters?.isAscending
+                  ? 'True'
+                  : 'False'
+                : undefined,
+            filter: filters?.filter ?? 'all',
+          },
+          meta: { auth: true },
+        },
+      );
+      return data;
+    },
+  });
 
 export interface PositionsResponse {
   positions: Position[];
 }
 
+export type PositionStatus =
+  | 'DRAFT'
+  | 'PENDING'
+  | 'OPENING'
+  | 'OPEN'
+  | 'CLOSING'
+  | 'CLOSED'
+  | 'CANCELED';
+
 export interface Position {
   key: string;
-  status:
-    | 'DRAFT'
-    | 'PENDING'
-    | 'OPENING'
-    | 'OPEN'
-    | 'CLOSING'
-    | 'CLOSED'
-    | 'CANCELED';
-  deposit_status: 'PENDING' | 'PAID' | 'EXPIRED';
+  status: PositionStatus;
+  deposit_status: 'PENDING' | 'PAID' | 'EXPIRED' | 'CANCELED';
   withdraw_status?: 'SENT' | 'PAID';
   pair: string;
   side: 'long' | 'short';
@@ -37,6 +79,7 @@ export interface Position {
   exit_price?: string;
   exit_time?: string;
   pnl?: string;
+  current_total_equity: string;
   stop_loss?: string;
   take_profit?: string;
   size?: string;
@@ -81,7 +124,7 @@ export function useTraderPositionQuery(positionKey?: string) {
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: 30_000,
+      refetchInterval: 10_000,
       enabled: !!positionKey,
     },
   );
@@ -111,8 +154,8 @@ export function useTraderPositionsQuery({
       return data;
     },
     {
-      staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: 30_000,
+      staleTime: 10,
+      refetchInterval: 20_000,
     },
   );
 }
@@ -199,3 +242,99 @@ export const useTraderUpdatePositionMutation = () => {
     },
   );
 };
+
+export type TransactionStatus = 'processing' | 'failed' | 'completed';
+export interface TransactionOrder {
+  type: 'stop_loss' | 'take_profit' | 'safety_open';
+  data: {
+    index: number;
+    from_asset: string;
+    from_amount: string;
+    to_asset: string;
+    to_amount?: string | null;
+    gas_fee_asset: string;
+    gas_fee_amount?: string | null;
+    trading_fee_asset: string;
+    trading_fee_amount?: string | null;
+    time: string;
+    status: TransactionStatus;
+    link?: string | null;
+  };
+}
+
+export interface TransactionOpenClose {
+  type: 'open' | 'close'; // (close swap, triggered by close signal)
+  data: {
+    from_asset: string;
+    from_amount: string;
+    to_asset: string;
+    to_amount?: string | null; // nullable
+    gas_fee_asset: string;
+    gas_fee_amount?: string | null; // nullable
+    trading_fee_asset: string;
+    trading_fee_amount: string | null; // nullable
+    time: string;
+    status: TransactionStatus;
+    link?: string | null;
+  };
+}
+
+interface Asset {
+  asset: string;
+  amount: string;
+}
+export interface TransactionDeposit {
+  type: 'deposit';
+  data: {
+    assets: Asset[]; // is empty in "pending" status
+    time: string;
+    status: TransactionStatus; // (it can be seen on tonviewer but not confirmed), failed, completed
+    link?: string | null;
+  };
+}
+
+export interface TransactionWithdraw {
+  type: 'withdraw';
+  data: {
+    assets: Asset[];
+    gas_fee_asset: string;
+    gas_fee_amount?: string | null; // nullable
+    time: string;
+    status: TransactionStatus; // pending, processing (it can be seen on tonviewer but not confirmed), failed, completed
+    link?: string | null;
+  };
+}
+
+export interface TransactionClose {
+  type: 'close_event'; // "Closed" card, or cancel_event for "Canceled" card
+  data: {
+    time: string;
+  };
+}
+
+export type Transaction =
+  | TransactionOrder
+  | TransactionOpenClose
+  | TransactionDeposit
+  | TransactionWithdraw
+  | TransactionClose;
+
+export function useTraderPositionTransactionsQuery({
+  positionKey,
+}: {
+  positionKey: string;
+}) {
+  return useQuery(
+    ['position-transactions', positionKey],
+    async () => {
+      const { data } = await axios.get<{ transactions: Transaction[] }>(
+        `trader/positions/${positionKey}/transactions`,
+      );
+      return data.transactions;
+    },
+    {
+      staleTime: 10_000,
+      refetchInterval: 30_000,
+    },
+  );
+}

@@ -3,10 +3,11 @@ import { useTraderPositionsQuery } from 'api';
 import NoPosition from './NoPosition';
 import PositionDetail from './PositionDetail';
 
-const PositionsList: React.FC<{ slug?: string; isOpen: boolean }> = ({
-  slug,
-  isOpen,
-}) => {
+const PositionsList: React.FC<{
+  slug?: string;
+  isOpen: boolean;
+  noEmptyState?: boolean;
+}> = ({ slug, isOpen, noEmptyState }) => {
   const { data: positions, isLoading } = useTraderPositionsQuery({
     slug,
     isOpen,
@@ -28,7 +29,7 @@ const PositionsList: React.FC<{ slug?: string; isOpen: boolean }> = ({
       ))}
     </div>
   ) : (
-    <NoPosition active={isOpen} />
+    <>{!noEmptyState && <NoPosition active={isOpen} />}</>
   );
 };
 

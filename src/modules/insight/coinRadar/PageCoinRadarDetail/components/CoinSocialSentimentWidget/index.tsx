@@ -7,9 +7,11 @@ import { SentimentGuage } from './SentimentGuage';
 
 export function CoinSocialSentimentWidget({
   className,
+  noEmptyState,
   slug,
 }: {
   className?: string;
+  noEmptyState?: boolean;
   slug: string;
 }) {
   const { t } = useTranslation('coin-radar');
@@ -17,6 +19,8 @@ export function CoinSocialSentimentWidget({
   const hasFlag = useHasFlag();
   const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
   if (!hasFlag('/coin-radar/social-radar?side-suggestion')) return null;
+  if (noEmptyState && !coinSignal) return null;
+
   return (
     <OverviewWidget
       className={clsx('!p-4', className)}

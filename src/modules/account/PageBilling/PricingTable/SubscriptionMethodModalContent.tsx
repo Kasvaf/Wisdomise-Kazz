@@ -112,7 +112,7 @@ export default function SubscriptionMethodModal({
           </Button>
         )}
 
-        {plan.periodicity === 'YEARLY' &&
+        {plan.token_hold_support &&
           hasFlag('/account/billing?payment_method=lock') && (
             <Button
               onClick={onLockClick}
