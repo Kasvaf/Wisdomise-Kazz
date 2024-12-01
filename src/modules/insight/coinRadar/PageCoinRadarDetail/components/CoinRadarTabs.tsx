@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react';
+import { clsx } from 'clsx';
 import Tabs from 'shared/Tabs';
 import { useScrollPointTabs } from '../hooks/useScrollPointTabs';
 
@@ -11,5 +12,7 @@ export function CoinRadarTabs({
 }) {
   const scrollPointTabs = useScrollPointTabs(value, 350);
 
-  return <Tabs className={className} {...scrollPointTabs} />;
+  return (
+    <Tabs className={clsx('mobile:pe-10', className)} {...scrollPointTabs} />
+  );
 }
