@@ -2,7 +2,6 @@ import {
   createContext,
   useContext,
   useMemo,
-  useState,
   type PropsWithChildren,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +10,6 @@ import { APP_PANEL } from 'config/constants';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { useModalLogin } from '../ModalLogin';
 import { useIsLoggedIn } from '../jwt-store';
-import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
 import { TrialStartedModal } from './TrialStartedModal';
 
 interface ProContext {
@@ -35,7 +33,6 @@ export function ProProvider({
   const [ModalLogin, showModalLogin] = useModalLogin();
   const navigate = useNavigate();
   const subscription = useSubscription();
-  const [subscriptionModal, setSubscriptionModal] = useState(false);
   const { isEmbeddedView } = useEmbedView();
 
   const value = useMemo<ProContext>(() => {
@@ -50,8 +47,7 @@ export function ProProvider({
               return showModalLogin();
             }
             if (subscription.level < level) {
-              setSubscriptionModal(true);
-              // never resolve
+              navigate('/account/billing');
             } else {
               resolve(true);
             }
@@ -59,20 +55,18 @@ export function ProProvider({
         });
       },
     };
-  }, [isEmbeddedView, isLoggedIn, showModalLogin, subscription.level]);
+  }, [
+    isEmbeddedView,
+    isLoggedIn,
+    navigate,
+    showModalLogin,
+    subscription.level,
+  ]);
 
   return (
     <proContext.Provider value={value}>
       {children}
       <TrialStartedModal />
-      <SubscriptionRequiredModal
-        open={subscriptionModal}
-        onClose={() => setSubscriptionModal(false)}
-        onConfirm={() => {
-          setSubscriptionModal(false);
-          navigate('/account/billing');
-        }}
-      />
       {ModalLogin}
     </proContext.Provider>
   );
