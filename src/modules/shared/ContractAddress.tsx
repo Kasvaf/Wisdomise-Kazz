@@ -4,7 +4,7 @@ import { bxCopy } from 'boxicons-quasar';
 import { type CoinNetwork } from 'api';
 import { shortenAddress } from 'utils/shortenAddress';
 import { ClickableTooltip } from './ClickableTooltip';
-import { useClipboardCopy } from './useClipboardCopy';
+import { useShare } from './useShare';
 import Icon from './Icon';
 
 export function ContractAddress({
@@ -19,7 +19,7 @@ export function ContractAddress({
     if (!value) return [];
     return Array.isArray(value) ? value : [value];
   }, [value]);
-  const [copy, content] = useClipboardCopy();
+  const [copy, content] = useShare('copy');
 
   if (valueAsArray.length === 0) return null;
 

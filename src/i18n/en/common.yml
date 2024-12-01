@@ -16,7 +16,6 @@ almost-there: Almost There...
 below: Below
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
-copy-page-url: Copy the current page url to clipboard
 data-incoming: HODL On! Data Incoming
 data-incoming-description: >-
   Our mission is to provide insights for informed trading by analyzing thousands
@@ -33,6 +32,7 @@ order-type:
   market: Market
 recommended-size: Recommended Size
 see-more: See More
+share-page-url: Share this page
 show-more: Show more
 soon: Soon
 uploading: Uploading

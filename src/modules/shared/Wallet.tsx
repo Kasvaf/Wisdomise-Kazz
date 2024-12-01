@@ -1,12 +1,10 @@
-import useNotification from 'antd/es/notification/useNotification';
 import { bxCopy } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useCopyToClipboard } from 'usehooks-ts';
 import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { shortenAddress } from 'utils/shortenAddress';
+import { useShare } from './useShare';
 
 export const Wallet: FC<{
   wallet: {
@@ -16,20 +14,8 @@ export const Wallet: FC<{
   mode?: 'link' | 'title';
   className?: string;
 }> = ({ className, wallet, mode }) => {
-  const { t } = useTranslation('common');
-  const [, copyToClipboard] = useCopyToClipboard();
-  const [notification, notificationContent] = useNotification();
+  const [copy, notificationContent] = useShare('copy');
   const shortAddress = shortenAddress(wallet.address);
-
-  const copy = () => {
-    void copyToClipboard(wallet.address).then(() => {
-      notification.success({
-        message: t('copied-to-clipboard'),
-        className: '[&_.ant-notification-notice-description]:hidden',
-      });
-      return null;
-    });
-  };
 
   const avatar = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${(
     wallet.network + wallet.address
@@ -46,7 +32,7 @@ export const Wallet: FC<{
             className="size-10 rounded-full"
           />
           <h1 className="text-lg font-bold"> {shortAddress} </h1>
-          <button onClick={() => copy()}>
+          <button onClick={() => copy(wallet.address)}>
             <Icon name={bxCopy} size={16} />
           </button>
         </div>

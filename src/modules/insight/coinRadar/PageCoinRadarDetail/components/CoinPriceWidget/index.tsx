@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { bxCopy } from 'boxicons-quasar';
+import { bxShareAlt } from 'boxicons-quasar';
 import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinLabels } from 'shared/CoinLabels';
-import { useClipboardCopy } from 'shared/useClipboardCopy';
+import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { PriceAlertButton } from '../PriceAlertButton';
@@ -23,7 +23,7 @@ export function CoinPriceWidget({
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinOverview({ slug });
   const navigate = useNavigate();
-  const [copyLink, copyLinkContent] = useClipboardCopy();
+  const [share, shareNotif] = useShare('share');
 
   return (
     <OverviewWidget
@@ -37,15 +37,15 @@ export function CoinPriceWidget({
           className="w-full text-base"
           onChange={newSlug => navigate(`/coin/${newSlug}`)}
         />
-        <HoverTooltip title={t('common:copy-page-url')}>
+        <HoverTooltip title={t('common:share-page-url')}>
           <button
-            onClick={() => copyLink(location.href)}
+            onClick={() => share(location.href)}
             className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-black/20 transition-all hover:brightness-110 active:brightness-90"
           >
-            <Icon size={21} name={bxCopy} />
+            <Icon size={21} name={bxShareAlt} />
           </button>
         </HoverTooltip>
-        {copyLinkContent}
+        {shareNotif}
       </div>
       <div className="mt-6 space-y-2">
         <p className="text-xs text-v1-content-primary">{t('common.price')}</p>
