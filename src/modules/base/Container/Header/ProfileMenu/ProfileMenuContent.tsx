@@ -111,27 +111,25 @@ const ProfileMenuContent = () => {
           <WithChevron>
             <div className="text-right">
               <div className="capitalize text-[#34A3DA]">
-                {subscription.status === 'trialing'
+                {subscription.status === 'trialing' || subscription.level === 0
                   ? t('pro:trial')
                   : subscription.levelName}
               </div>
-              {subscription.level !== 0 && (
-                <div>
-                  <span
-                    className={clsx(
-                      subscription.remaining ? 'text-white' : 'text-error',
-                    )}
-                  >
-                    <ReadableDuration
-                      value={subscription.remaining}
-                      zeroText={t('pro:zero-hour')}
-                    />
-                  </span>
-                  <span className="ml-1 text-white/40">
-                    {t('menu.billing.remains')}
-                  </span>
-                </div>
-              )}
+              <div>
+                <span
+                  className={clsx(
+                    subscription.remaining ? 'text-white' : 'text-error',
+                  )}
+                >
+                  <ReadableDuration
+                    value={subscription.remaining}
+                    zeroText={t('pro:zero-hour')}
+                  />
+                </span>
+                <span className="ml-1 text-white/40">
+                  {t('menu.billing.remains')}
+                </span>
+              </div>
             </div>
           </WithChevron>
         </NavLink>
