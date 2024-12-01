@@ -13,9 +13,11 @@ export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
   ...props
 }) => {
   const { t } = useTranslation('alerts');
-  const [query, setQuery] = useState('');
-  const q = useDebounce(query, 400);
-  const categories = useCategories(q);
+  const [q, setQ] = useState('');
+  const query = useDebounce(q, 400);
+  const categories = useCategories({
+    query,
+  });
 
   const categoryOptions = useMemo(() => {
     return [
@@ -44,8 +46,8 @@ export const CoinCategoriesSelect: FC<SelectProps<string[]>> = ({
       maxTagCount={1}
       showArrow={!disabled}
       disabled={disabled}
-      searchValue={query}
-      onSearch={setQuery}
+      searchValue={q}
+      onSearch={setQ}
       filterOption={false}
       allowClear={false}
       mode="multiple"

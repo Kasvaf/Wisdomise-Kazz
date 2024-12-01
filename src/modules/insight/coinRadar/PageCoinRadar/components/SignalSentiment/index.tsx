@@ -16,8 +16,8 @@ import { ReactComponent as Logo } from './logo.svg';
 export const SignalSentiment: FC<{
   signal: CoinSignal;
   className?: string;
-  centerMode?: boolean;
-}> = ({ signal, className, centerMode }) => {
+  minimal?: boolean;
+}> = ({ signal, className, minimal }) => {
   const { t } = useTranslation('coin-radar');
   const [tick, setTick] = useState(1); // used as dependency to update content
 
@@ -121,7 +121,7 @@ export const SignalSentiment: FC<{
           if (dt && data[+dt]) {
             return `$ ${formatNumber(data[+dt].price, {
               compactInteger: true,
-              decimalLength: 4,
+              decimalLength: 3,
               minifyDecimalRepeats: true,
               seperateByComma: true,
             })}`;
@@ -228,7 +228,7 @@ export const SignalSentiment: FC<{
         <div
           className={clsx(
             'flex items-center gap-1 text-sm capitalize',
-            centerMode && 'justify-center',
+            minimal && 'flex-col !items-start',
             signal.gauge_tag === 'LONG'
               ? 'text-v1-content-positive'
               : signal.gauge_tag === 'SHORT'
@@ -236,7 +236,7 @@ export const SignalSentiment: FC<{
               : 'text-v1-content-primary',
           )}
         >
-          {!centerMode && (
+          <div className="flex items-center gap-1">
             <Icon
               size={18}
               name={
@@ -247,14 +247,19 @@ export const SignalSentiment: FC<{
                   : bxMeh
               }
             />
-          )}
-          {signal.gauge_tag === 'LONG'
-            ? t('coin-details.tabs.social_sentiment.positive')
-            : signal.gauge_tag === 'SHORT'
-            ? t('coin-details.tabs.social_sentiment.negative')
-            : signal.gauge_tag === 'NOT SURE'
-            ? t('coin-details.tabs.social_sentiment.not_sure')
-            : signal.gauge_tag}
+            {signal.gauge_tag === 'LONG'
+              ? t('coin-details.tabs.social_sentiment.positive')
+              : signal.gauge_tag === 'SHORT'
+              ? t('coin-details.tabs.social_sentiment.negative')
+              : signal.gauge_tag === 'NOT SURE'
+              ? t('coin-details.tabs.social_sentiment.not_sure')
+              : signal.gauge_tag}
+            {minimal && (
+              <span className="text-v1-content-primary">
+                {t('coin-details.tabs.social_sentiment.market_side')}
+              </span>
+            )}
+          </div>
           <span className="text-xxs font-normal text-v1-content-primary">
             {signal.gauge_tag === 'LONG'
               ? `(${t('coin-details.tabs.social_sentiment.long')})`
@@ -263,30 +268,26 @@ export const SignalSentiment: FC<{
               : null}
           </span>
         </div>
-        <div
-          className={clsx(
-            'flex items-center gap-1 text-xs',
-            !centerMode && 'ps-[22px]',
-            centerMode && 'justify-center',
-          )}
-        >
-          <label className="text-v1-content-secondary">
-            {t('coin-details.tabs.social_sentiment.hunted-at')}:
-          </label>
-          <ReadableDate
-            popup={false}
-            value={signal.signals_analysis.call_time}
-          />
-          <DirectionalNumber
-            popup="never"
-            value={signal.signals_analysis.real_pnl_percentage}
-            label="%"
-            prefix="("
-            suffix=")"
-            showIcon={false}
-            showSign
-          />
-        </div>
+        {!minimal && (
+          <div className="flex items-center gap-1 ps-[22px] text-xs">
+            <label className="text-v1-content-secondary">
+              {t('coin-details.tabs.social_sentiment.hunted-at')}:
+            </label>
+            <ReadableDate
+              popup={false}
+              value={signal.signals_analysis.call_time}
+            />
+            <DirectionalNumber
+              popup="never"
+              value={signal.signals_analysis.real_pnl_percentage}
+              label="%"
+              prefix="("
+              suffix=")"
+              showIcon={false}
+              showSign
+            />
+          </div>
+        )}
       </span>
     </ClickableTooltip>
   );

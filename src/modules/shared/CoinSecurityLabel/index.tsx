@@ -12,9 +12,11 @@ import { TaxesRow } from './TaxesRow';
 export function CoinSecurityLabel({
   value,
   coin,
+  chevron,
 }: {
   value?: NetworkSecurity[] | null;
   coin: Coin;
+  chevron?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const defaultNetwork = useMemo(() => {
@@ -142,19 +144,27 @@ export function CoinSecurityLabel({
       }
       className={clsx(
         'whitespace-nowrap rounded-full px-3 py-1 text-center text-xxs',
-        'bg-v1-content-primary/10 text-v1-content-primary',
+        // 'bg-v1-content-primary/10 ',
+        label.trusted
+          ? 'bg-v1-content-positive/10'
+          : (label.risk ?? 0) > 0
+          ? 'bg-v1-content-negative/10'
+          : 'bg-v1-content-notice/10',
       )}
+      chevron={chevron}
     >
       {label.trusted && (
         <>
           <Trusted className="size-4" />
-          <span>{t('coin_security.trusted')}</span>
+          <span className="text-v1-content-primary">
+            {t('coin_security.trusted')}
+          </span>
         </>
       )}
       {(label.warning ?? 0) > 0 && (
         <>
           <Warning className="size-4" />
-          <span>
+          <span className="text-v1-content-notice">
             {t('coin_security.warning', {
               count: label.warning ?? 0,
             })}
@@ -164,7 +174,7 @@ export function CoinSecurityLabel({
       {(label.risk ?? 0) > 0 && (
         <>
           <Risk className="size-4" />
-          <span>
+          <span className="text-v1-content-negative">
             {t('coin_security.risk', {
               count: label.risk ?? 0,
             })}

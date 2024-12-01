@@ -37,6 +37,7 @@ export function ClickableTooltip({
   const rootClassName = clsx(
     'group relative inline-flex select-none items-center gap-1',
     disabled !== true && 'cursor-help',
+    isOpen && 'pointer-events-none',
     className,
   );
   const titleClassName = clsx(
@@ -58,7 +59,11 @@ export function ClickableTooltip({
   const root = (
     <span
       className={rootClassName}
-      onClick={() => disabled !== true && !isOpen && setIsOpen(true)}
+      onClick={() => {
+        if (disabled !== true) {
+          setIsOpen(p => !p);
+        }
+      }}
     >
       {children}
       {disabled !== true && chevron !== false && (
@@ -102,7 +107,7 @@ export function ClickableTooltip({
             </div>
           }
           placement={tooltipPlacement}
-          rootClassName="!max-w-max [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-inherit"
+          rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-inherit"
           open={isOpen}
           destroyTooltipOnHide
         >

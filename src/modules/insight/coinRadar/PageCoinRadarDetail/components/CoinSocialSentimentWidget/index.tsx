@@ -4,7 +4,6 @@ import { useCoinSignals, useHasFlag } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { SignalSentiment } from '../../../PageCoinRadar/components/SignalSentiment';
 import { SentimentGuage } from './SentimentGuage';
-import { ReactComponent as Logo } from './logo.svg';
 
 export function CoinSocialSentimentWidget({
   className,
@@ -24,24 +23,30 @@ export function CoinSocialSentimentWidget({
 
   return (
     <OverviewWidget
-      className={clsx('min-h-[400px]', className)}
+      className={clsx('!p-4', className)}
       loading={signals.isLoading}
-      empty={!coinSignal}
+      contentClassName={clsx(
+        'flex flex-row items-center justify-between gap-3 overflow-hidden',
+        !coinSignal && signals.data && 'contrast-75 grayscale',
+      )}
     >
-      <div className="text-center">
-        <Logo className="mx-auto size-4" />
-        <p className="mt-3 text-xs">
+      <div className="flex h-20 flex-col justify-between gap-1">
+        <p className="text-xxs text-v1-content-primary">
           {t('coin-details.tabs.social_sentiment.title')}
         </p>
+        {coinSignal ? (
+          <SignalSentiment className="text-sm" signal={coinSignal} minimal />
+        ) : (
+          <p className="max-w-52 text-sm">
+            {t('coin-details.tabs.social_sentiment.empty')}
+          </p>
+        )}
       </div>
-      {coinSignal && <SentimentGuage measure={coinSignal.gauge_measure} />}
-      <p className="-mt-12 text-center text-xl font-normal">
-        {coinSignal && <SignalSentiment signal={coinSignal} centerMode />}
-      </p>
-      <div className="mt-4 text-center font-normal leading-8">
-        <p className="text-xxs text-v1-content-secondary">
-          {t('coin-details.tabs.social_sentiment.footer')}
-        </p>
+      <div className="h-20 overflow-hidden">
+        <SentimentGuage
+          measure={coinSignal?.gauge_measure ?? 0}
+          className="mt-[5px] h-[80px]"
+        />
       </div>
     </OverviewWidget>
   );

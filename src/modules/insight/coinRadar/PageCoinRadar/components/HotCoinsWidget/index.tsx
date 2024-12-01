@@ -15,10 +15,10 @@ import {
 import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/components/SignalSentiment';
 import { ProLocker } from 'shared/ProLocker';
 import { formatNumber } from 'utils/numbers';
+import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { CoinPriceInfo } from '../CoinPriceInfo';
-import { CoinCategoriesLabel } from '../CoinCategoriesLabel';
-import { CoinSecurityLabel } from '../CoinSecurityLabel/index';
+import { CoinSecurityLabel } from '../../../../../shared/CoinSecurityLabel/index';
 import { type SortMode, SortModes } from '../SortModes';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
@@ -172,13 +172,17 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       {
         title: t('social-radar.table.labels.title'),
         render: (_, row) => (
-          <div className="flex min-h-16 flex-wrap items-center gap-1">
-            <CoinCategoriesLabel coin={row.symbol} />
-            <CoinSecurityLabel
-              value={row.symbol_security?.data}
-              coin={row.symbol}
-            />
-          </div>
+          <CoinLabels
+            className="min-h-16 min-w-72"
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            suffix={
+              <CoinSecurityLabel
+                value={row.symbol_security?.data}
+                coin={row.symbol}
+              />
+            }
+          />
         ),
       },
     ],

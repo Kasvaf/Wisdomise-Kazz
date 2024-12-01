@@ -8,6 +8,7 @@ actions:
   next: Next
   'no': 'No'
   ok: Ok
+  refresh: Refresh
   remove: Remove
   save: Save
   'yes': 'Yes'
@@ -31,6 +32,7 @@ order-type:
   market: Market
 recommended-size: Recommended Size
 see-more: See More
+share-page-url: Share this page
 show-more: Show more
 soon: Soon
 uploading: Uploading

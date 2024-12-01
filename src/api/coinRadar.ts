@@ -90,6 +90,7 @@ export interface CoinSignal {
   last_signal_related_at: string;
   first_signal_related_at: string;
   signals_analysis: CoinSignalAnalysis;
+  symbol_labels?: null | string[];
 }
 
 export const useCoinSignals = (filters?: {
@@ -130,10 +131,10 @@ export interface TelegramMessage {
   message_id: number;
   message_text: string;
   channel_weight: number;
-  participants_count: number;
-  views: null;
-  forwards: null;
-  webpage_url: null;
+  participants_count?: number | null;
+  views?: number | null;
+  forwards?: number | null;
+  webpage_url?: string | null;
   photo_url?: string;
   channel_language: string;
 }
@@ -209,6 +210,7 @@ export interface TradingViewIdeasMessage {
   total_comments: number;
   preview_text: string;
   symbol: number;
+  side: 'Short' | 'Long';
   timeline_contents: Array<{
     content: string;
     created_at: string;
@@ -272,7 +274,7 @@ export const useSocialMessages = (slug: string) =>
               content: twitterMessage,
             }) satisfies SocialMessage,
         ),
-      ].sort((a, b) => b.timestamp - a.timestamp);
+      ];
       return response;
     },
   });
@@ -375,6 +377,7 @@ export interface CoinOverview {
     fully_diluted_valuation: number;
     price_change_percentage_24h: number;
     market_cap_change_percentage_24h: number;
+    volume_change_percentage_24h: number;
     price_history: Array<{
       related_at_date: string;
       mean_price: number;
@@ -382,6 +385,62 @@ export interface CoinOverview {
   };
   exchanges: CoinExchange[];
   networks: CoinNetwork[];
+  symbol_labels?: null | string[];
+  trading_view_chart_id?: null | string;
+  security_data?: null | Array<{
+    symbol_security: NetworkSecurity;
+  }>;
+  community_data?: {
+    preview_listing?: boolean | null;
+    public_notice?: string | null;
+    additional_notices?: null | string[];
+    description?: string | null;
+    links?: {
+      chat_url?: string[] | null;
+      homepage?: string[] | null;
+      repos_url: {
+        github?: string[] | null;
+        bitbucket?: string[] | null;
+      };
+      whitepaper?: string | null;
+      subreddit_url?: string | null;
+      blockchain_site?: string[] | null;
+      announcement_url?: string | null;
+      facebook_username?: string | null;
+      official_forum_url?: string[] | null;
+      twitter_screen_name?: string | null;
+      telegram_channel_identifier?: string | null;
+      bitcointalk_thread_identifier?: string | null;
+    };
+    country_origin?: string | null;
+    sentiment_votes_up_percentage?: number | null;
+    sentiment_votes_down_percentage?: number | null;
+    watchlist_portfolio_users?: number | null;
+    community_data?: {
+      facebook_likes?: number | null;
+      twitter_followers?: number | null;
+      reddit_subscribers?: number | null;
+      reddit_average_posts_48h?: number | null;
+      reddit_accounts_active_48h?: number | null;
+      reddit_average_comments_48h?: number | null;
+      telegram_channel_user_count?: number | null;
+    };
+    developer_data?: {
+      forks?: number | null;
+      stars?: number | null;
+      subscribers?: number | null;
+      total_issues?: number | null;
+      closed_issues?: number | null;
+      commit_count_4_weeks?: number | null;
+      pull_requests_merged?: number | null;
+      pull_request_contributors?: number | null;
+      code_additions_deletions_4_weeks: {
+        additions?: number | null;
+        deletions?: number | null;
+      };
+      last_4_weeks_commit_activity_series: [];
+    };
+  };
 }
 
 export const useCoinOverview = ({
@@ -446,9 +505,12 @@ export const useCoinList = ({
         .then(resp => resp.data),
   });
 
-export const useCategories = (query?: string) =>
+export const useCategories = (config: {
+  query?: string;
+  filter?: 'social-radar-24-hours';
+}) =>
   useQuery({
-    queryKey: ['categories', query],
+    queryKey: ['categories', JSON.stringify(config)],
     queryFn: () =>
       axios
         .get<
@@ -458,7 +520,8 @@ export const useCategories = (query?: string) =>
           }>
         >('/delphi/symbol-category/search/', {
           params: {
-            q: query,
+            q: config.query,
+            filter: config.filter,
           },
         })
         .then(({ data }) => data),

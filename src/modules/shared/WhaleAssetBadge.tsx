@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { Tooltip } from 'antd';
 import { clsx } from 'clsx';
 import { type SingleWhale } from 'api';
+import { ClickableTooltip } from './ClickableTooltip';
 
 type Badge =
   | SingleWhale['holding_assets'][number]['label']
@@ -69,21 +69,24 @@ export function WhaleAssetBadge({
   const detail = useBadgeDetail(value);
 
   return (
-    <Tooltip
-      color="#151619"
-      title={detail.info}
-      open={detail.info ? undefined : false}
+    <ClickableTooltip
+      chevron={false}
+      title={
+        <>
+          <h2 className="mb-1 text-base text-v1-content-primary">
+            {detail.title}
+          </h2>
+          <p className="text-v1-content-secondary">{detail.info}</p>
+        </>
+      }
+      disabled={!detail.info}
+      className={clsx(
+        'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
+        detail.className,
+        className,
+      )}
     >
-      <span
-        className={clsx(
-          'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
-          detail.info && 'cursor-help',
-          detail.className,
-          className,
-        )}
-      >
-        {detail.title}
-      </span>
-    </Tooltip>
+      {detail.title}
+    </ClickableTooltip>
   );
 }

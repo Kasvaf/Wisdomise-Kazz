@@ -1,55 +1,15 @@
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxCopy, bxInfoCircle } from 'boxicons-quasar';
+import { bxInfoCircle } from 'boxicons-quasar';
 import { Tooltip } from 'antd';
-import { useCopyToClipboard } from 'usehooks-ts';
-import useNotification from 'antd/es/notification/useNotification';
 import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import PriceChange from 'shared/PriceChange';
 import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { shortenAddress } from 'utils/shortenAddress';
-
-function ContractAddress({
-  className,
-  value,
-}: {
-  children?: ReactNode;
-  className?: string;
-  value: string;
-}) {
-  const { t } = useTranslation('common');
-  const [, copy] = useCopyToClipboard();
-  const [notification, notificationContent] = useNotification();
-  return (
-    <Tooltip title={value}>
-      <span
-        className={clsx(
-          'inline-flex items-center gap-2 font-mono text-v1-content-link',
-          className,
-        )}
-      >
-        <Icon
-          name={bxCopy}
-          size={16}
-          className="cursor-pointer text-white/70 hover:text-white/90"
-          onClick={() =>
-            copy(value).then(() =>
-              notification.success({
-                message: t('copied-to-clipboard'),
-                className: '[&_.ant-notification-notice-description]:hidden',
-              }),
-            )
-          }
-        />
-        {shortenAddress(value)}
-      </span>
-      {notificationContent}
-    </Tooltip>
-  );
-}
+import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
+import { ContractAddress } from 'shared/ContractAddress';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
 
 function StatRow({
   className,
@@ -122,15 +82,25 @@ export function CoinStatsWidget({
       loading={coinOverview.isLoading}
     >
       <StatRow label={t('coin-details.tabs.coin_stats.volume')}>
+        <DirectionalNumber
+          value={coinOverview.data?.data?.volume_change_percentage_24h}
+          suffix=" (24h)"
+          showIcon
+          showSign
+          label="%"
+        />
         <ReadableNumber
           value={coinOverview.data?.data?.total_volume}
           label="$"
         />
       </StatRow>
       <StatRow label={t('coin-details.tabs.coin_stats.market_cap')}>
-        <PriceChange
+        <DirectionalNumber
           value={coinOverview.data?.data?.market_cap_change_percentage_24h}
           suffix=" (24h)"
+          showIcon
+          showSign
+          label="%"
         />
         <ReadableNumber value={coinOverview.data?.data?.market_cap} label="$" />
       </StatRow>
@@ -139,6 +109,12 @@ export function CoinStatsWidget({
         info={t('coin-details.tabs.coin_stats.volume_market_cap_info')}
       >
         <ReadableNumber value={marketCapPercentage} label="%" />
+      </StatRow>
+      <StatRow label={t('coin-details.tabs.coin_stats.fdv')}>
+        <ReadableNumber
+          value={coinOverview.data?.data?.fully_diluted_valuation}
+          label="$"
+        />
       </StatRow>
       <div className="space-y-2">
         <StatRow label={t('coin-details.tabs.coin_stats.circulating_supply')}>
@@ -163,6 +139,9 @@ export function CoinStatsWidget({
             label="%"
             className="shrink-0"
             popup="never"
+            format={{
+              decimalLength: 1,
+            }}
           />
         </StatRow>
       </div>
@@ -180,16 +159,18 @@ export function CoinStatsWidget({
           label={coinOverview.data?.symbol.abbreviation}
         />
       </StatRow>
-      {coinOverview.data?.networks.map(network => (
-        <StatRow
-          key={network.network.id}
-          label={`${t('coin-details.tabs.coin_stats.contract_address')} (${
-            network.network.name
-          })`}
-        >
-          <ContractAddress value={network.contract_address} />
+      <StatRow label={t('coin-details.tabs.coin_stats.contract_address')}>
+        <ContractAddress value={coinOverview.data?.networks} />
+      </StatRow>
+      {coinOverview.data?.security_data && (
+        <StatRow label={t('coin-details.tabs.coin_stats.security_scan')}>
+          <CoinSecurityLabel
+            coin={coinOverview.data.symbol}
+            value={coinOverview.data.security_data.map(x => x.symbol_security)}
+            chevron
+          />
         </StatRow>
-      ))}
+      )}
     </OverviewWidget>
   );
 }

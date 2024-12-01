@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { clsx } from 'clsx';
 import { ReactComponent as BaseIcon } from './base.svg';
 import { ReactComponent as ArrowIcon } from './arrow.svg';
-import LinesIcon from './lines.png';
 
 export function SentimentGuage({
   measure,
+  className,
 }: {
   measure?: number | null /* -1 to 1 */;
+  className?: string;
 }) {
   const [rotate, setRotate] = useState(-90);
   useEffect(() => {
@@ -15,16 +17,11 @@ export function SentimentGuage({
     );
   }, [measure]);
   return (
-    <div className="relative overflow-hidden">
-      <BaseIcon className="size-full" />
-      <img
-        src={LinesIcon}
-        className="absolute top-[29%] h-[19%] w-full scale-x-[0.41]"
-        alt="gauge lines"
-      />
+    <div className={clsx('relative overflow-visible', className)}>
+      <BaseIcon className="mt-[5%] size-full scale-[1.4]" />
       <ArrowIcon
         style={{ rotate: `${rotate ?? 0}deg` }}
-        className="absolute top-0 size-full origin-center transition-all delay-75 duration-500"
+        className="absolute top-0 mt-[5%] size-full origin-center scale-[1.4] transition-all delay-75 duration-500"
       />
     </div>
   );

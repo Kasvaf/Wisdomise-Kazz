@@ -58,6 +58,7 @@
     "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.51.4",
     "react-i18next": "^13.3.1",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.9.0",
     "react-ts-tradingview-widgets": "^1.2.3",
     "react-verification-input": "^4.1.2",

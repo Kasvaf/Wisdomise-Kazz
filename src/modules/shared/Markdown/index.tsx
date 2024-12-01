@@ -10,6 +10,7 @@ import {
   type MDXEditorMethods,
   headingsPlugin,
   BlockTypeSelect,
+  imagePlugin,
 } from '@mdxeditor/editor';
 import './style.css';
 
@@ -30,7 +31,7 @@ export const Markdown = forwardRef<
     forwardedRef,
   ) => {
     const plugins = useMemo<RealmPlugin[]>(() => {
-      let response = [listsPlugin(), headingsPlugin()];
+      let response = [listsPlugin(), headingsPlugin(), imagePlugin()];
       if (typeof onChange === 'function') {
         response = [
           ...response,

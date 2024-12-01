@@ -1,102 +1,104 @@
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
-import Tabs from 'shared/Tabs';
-import { useScrollPointTabs } from './hooks/useScrollPointTabs';
-import { ReactComponent as TradingViewIcon } from './components/CoinSocialFeedWidget/images/trading_view.svg';
+import useIsMobile from 'utils/useIsMobile';
 import { CoinPriceWidget } from './components/CoinPriceWidget';
 import { CoinStatsWidget } from './components/CoinStatsWidget';
 import { CoinSocialSentimentWidget } from './components/CoinSocialSentimentWidget';
 import { CoinPricePerformanceWidget } from './components/CoinPricePerformanceWidget';
-import { TopCoinsWidget } from './components/TopCoinsWidget';
-import { WhalePopularCoinsWidget } from './components/WhalePopularCoinsWidget';
 import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
-import { MostViewedCoinsWidget } from './components/MostViewedCoinsWidget';
-import { CoinCandleChartWidget } from './components/CoinCandleChartWidget';
+import { TechnicalIdeasWidget } from './components/TechnicalIdeasWidget';
 import { PageCoinRadarDetailMeta } from './components/PageCoinRadarDetailMeta';
-
-const TODO_SHOW_CHART = false;
+import { HotCoinsWidget } from './components/HotCoinsWidget';
+import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
+import { CoinRadarTabs } from './components/CoinRadarTabs';
+import { CoinLinksWidget } from './components/CoinLinksWidget';
+import { WhaleSentimentWidget } from './components/WhaleSentimentWidget';
+// eslint-disable-next-line import/max-dependencies
+import { CoinWhaleListWidget } from './components/CoinWhaleListWidget';
 
 export default function PageCoinRadarDetail() {
-  const { t } = useTranslation('coin-radar');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
+  const isMobile = useIsMobile();
+  const { t } = useTranslation('coin-radar');
 
-  const scrollPointTabs = useScrollPointTabs(
-    [
-      ...(TODO_SHOW_CHART
-        ? [
-            {
-              key: 'coinoverview_chart',
-              label: t('coin-details.tabs.chart.label'),
-            },
-          ]
-        : []),
-      {
-        key: 'coinoverview_socials',
-        label: t('coin-details.tabs.socials.label'),
-      },
-      {
-        key: 'coinoverview_exchanges',
-        label: t('coin-details.tabs.markets.label'),
-      },
-      {
-        key: 'coinoverview_trading_view',
-        label: (
-          <div className="inline-flex items-center gap-1">
-            <TradingViewIcon className="size-4" />
-            {t('coin-details.tabs.trading_view.label')}
-          </div>
-        ),
-      },
-    ],
-    160,
-  );
+  const tabs = [
+    {
+      key: 'coinoverview_trading_view',
+      label: t('coin-details.tabs.trading_view.label'),
+    },
+    {
+      key: 'coinoverview_socials',
+      label: t('coin-details.tabs.socials.label'),
+    },
+    {
+      key: 'coinoverview_whales',
+      label: t('coin-details.tabs.whale_list.label'),
+    },
+    {
+      key: 'coinoverview_exchanges',
+      label: t('coin-details.tabs.markets.label'),
+    },
+  ];
+
   return (
     <PageWrapper>
       <PageCoinRadarDetailMeta slug={slug} />
-      <div className="relative grid grid-cols-3 gap-6">
-        <div className="col-span-1 mobile:col-span-full">
-          <div className="sticky top-0 flex flex-col gap-6 mobile:relative">
-            <CoinPriceWidget slug={slug} />
-            <CoinStatsWidget slug={slug} />
-            <CoinSocialSentimentWidget slug={slug} />
-            <CoinPricePerformanceWidget slug={slug} />
-            <TopCoinsWidget slug={slug} />
-            <MostViewedCoinsWidget slug={slug} />
-            <WhalePopularCoinsWidget slug={slug} />
-          </div>
-        </div>
-        <div className="col-span-2 flex flex-col gap-6 mobile:col-span-full">
-          <Tabs
-            className="sticky top-0 z-50 bg-page mobile:hidden"
-            {...scrollPointTabs}
-          />
 
-          {TODO_SHOW_CHART && (
-            <CoinCandleChartWidget slug={slug} id="coinoverview_chart" />
-          )}
-          <CoinSocialFeedWidget
-            id="coinoverview_socials"
-            slug={slug}
-            socials={['reddit', 'telegram', 'twitter']}
-            pageSize={2}
+      {isMobile ? (
+        <div className="relative flex flex-col gap-6">
+          <CoinRadarTabs
+            value={tabs}
+            className="fixed top-20 z-50 w-full bg-page"
           />
+          <div className="h-5" />
+          <CoinPriceWidget slug={slug} className="!bg-transparent !p-1" />
+          <CoinSocialSentimentWidget slug={slug} />
+          <WhaleSentimentWidget slug={slug} />
+          <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
+          <CoinStatsWidget slug={slug} />
+          <CoinLinksWidget slug={slug} />
+          <CoinPricePerformanceWidget slug={slug} />
+          <CoinSocialFeedWidget id="coinoverview_socials" slug={slug} />
+          <CoinWhaleListWidget id="coinoverview_whales" slug={slug} />
           <CoinAvailableExchangesWidget
             slug={slug}
             id="coinoverview_exchanges"
           />
-          <CoinSocialFeedWidget
-            id="coinoverview_trading_view"
-            slug={slug}
-            socials={['trading_view']}
-            pageSize={1}
-            title={t('coin-details.tabs.trading_view.title')}
-            subtitle=""
-          />
+          <HotCoinsWidget slug={slug} />
+          <CoinIntroductionWidget slug={slug} />
         </div>
-      </div>
+      ) : (
+        <div className="relative grid grid-cols-3 gap-6">
+          <div>
+            <div className="sticky top-0 flex flex-col gap-6">
+              <CoinPriceWidget slug={slug} />
+              <CoinStatsWidget slug={slug} />
+              <CoinLinksWidget slug={slug} />
+              <CoinPricePerformanceWidget slug={slug} />
+            </div>
+          </div>
+
+          <div className="col-span-2 flex flex-col gap-6">
+            <div className="flex items-center justify-stretch gap-6">
+              <WhaleSentimentWidget slug={slug} className="basis-full" />
+              <CoinSocialSentimentWidget slug={slug} className="basis-full" />
+            </div>
+            <CoinRadarTabs value={tabs} className="sticky top-0 z-50 bg-page" />
+            <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
+            <CoinSocialFeedWidget id="coinoverview_socials" slug={slug} />
+            <CoinWhaleListWidget id="coinoverview_whales" slug={slug} />
+            <CoinAvailableExchangesWidget
+              slug={slug}
+              id="coinoverview_exchanges"
+            />
+            <HotCoinsWidget slug={slug} />
+            <CoinIntroductionWidget slug={slug} />
+          </div>
+        </div>
+      )}
     </PageWrapper>
   );
 }
