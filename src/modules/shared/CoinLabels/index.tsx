@@ -19,9 +19,9 @@ function CoinLabel({
 
   const renderData = useMemo(() => {
     const knownSuffixes = {
-      hype: t('coin_labels.hype.suffix'),
-      weekly_social_beloved: t('coin_labels.weekly_social_beloved.suffix'),
-      monthly_social_beloved: t('coin_labels.monthly_social_beloved.suffix'),
+      hype: '🔥',
+      weekly_social_beloved: '🌐',
+      monthly_social_beloved: '🌐',
     };
     const knownInfos = {
       hype: t('coin_labels.hype.info'),

@@ -20,7 +20,6 @@ coin_labels:
       channels within a short time frame. This label indicates a potential trend
       or buzz around the symbol, suggesting increased public interest or
       speculation.
-    suffix: 🔥
   monthly_social_beloved:
     info: >-
       The "Monthly Social Beloved" label is assigned to symbols that have
@@ -29,7 +28,6 @@ coin_labels:
       reflecting long-term interest and engagement. This label is useful for
       identifying symbols with enduring appeal and potential for stable
       performance or long-term investment opportunities.
-    suffix: 🌐
   weekly_social_beloved:
     info: >-
       The "Weekly Social Beloved" label highlights symbols that have
@@ -38,7 +36,6 @@ coin_labels:
       accounts, indicating sustained interest and engagement. This label is
       ideal for identifying symbols that are gaining popularity and may have
       potential for growth or volatility.
-    suffix: 🌐
 coin_security:
   contract_security: Contract Security
   fields:

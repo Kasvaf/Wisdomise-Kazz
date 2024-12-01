@@ -6,6 +6,16 @@ features:
   dashboard: パーソナライズされたダッシュボード
 login-required: ログインが必要です
 pro: プロ
+pro-locker:
+  login:
+    button: ログイン
+    message: ログインして独占的な暗号通貨の洞察にアクセス
+  pro:
+    button: プロにアップグレード
+    message: Pro にアップグレードして、暗号通貨ゲームを向上させるための独占的な洞察を入手しましょう。
+  proplus:
+    button: Pro+にアップグレード
+    message: Pro+ にアップグレードして、暗号通貨ゲームを向上させるための独占的な洞察を入手しましょう。
 renew-modal:
   description: "Wisdomise Pro で暗号通貨の可能性をさらに広げましょう! Pro バージョンで利用できる機能の一部は次のとおりです:"
   renew: プロの更新

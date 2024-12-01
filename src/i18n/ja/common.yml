@@ -8,6 +8,7 @@ actions:
   next: 次
   no: いいえ
   ok: わかりました
+  refresh: 更新
   remove: 取り除く
   save: 保存
   yes: はい
@@ -29,6 +30,7 @@ order-type:
   market: 市場（マーケット）
 recommended-size: 推奨サイズ
 see-more: もっと見る
+share-page-url: このページを共有する
 show-more: もっと見せる
 soon: すぐ
 uploading: アップロード中
