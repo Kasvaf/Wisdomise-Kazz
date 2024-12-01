@@ -16,6 +16,7 @@ export const CategoriesSelect: FC<SelectProps<string>> = ({
   const query = useDebounce(q, 400);
   const categories = useCategories({
     query,
+    filter: 'social-radar-24-hours',
   });
 
   return (
