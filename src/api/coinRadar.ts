@@ -503,9 +503,12 @@ export const useCoinList = ({
         .then(resp => resp.data),
   });
 
-export const useCategories = (query?: string) =>
+export const useCategories = (config: {
+  query?: string;
+  filter?: 'social-radar-24-hours';
+}) =>
   useQuery({
-    queryKey: ['categories', query],
+    queryKey: ['categories', JSON.stringify(config)],
     queryFn: () =>
       axios
         .get<
@@ -515,7 +518,8 @@ export const useCategories = (query?: string) =>
           }>
         >('/delphi/symbol-category/search/', {
           params: {
-            q: query,
+            q: config.query,
+            filter: config.filter,
           },
         })
         .then(({ data }) => data),

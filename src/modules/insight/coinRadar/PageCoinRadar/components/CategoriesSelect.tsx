@@ -12,9 +12,11 @@ export const CategoriesSelect: FC<SelectProps<string>> = ({
   ...props
 }) => {
   const { t } = useTranslation('coin-radar');
-  const [query, setQuery] = useState('');
-  const q = useDebounce(query, 400);
-  const categories = useCategories(q);
+  const [q, setQ] = useState('');
+  const query = useDebounce(q, 400);
+  const categories = useCategories({
+    query,
+  });
 
   return (
     <Select
@@ -28,8 +30,8 @@ export const CategoriesSelect: FC<SelectProps<string>> = ({
       autoClearSearchValue
       showArrow={false}
       disabled={disabled}
-      searchValue={query}
-      onSearch={setQuery}
+      searchValue={q}
+      onSearch={setQ}
       filterOption={false}
       allowClear
       loading={categories.isLoading}

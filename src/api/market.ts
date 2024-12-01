@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const useNetworks = () =>
+export const useNetworks = (config?: { filter?: 'social-radar-24-hours' }) =>
   useQuery({
-    queryKey: ['networks'],
+    queryKey: ['networks', JSON.stringify(config)],
     queryFn: () =>
       axios
         .get<
@@ -13,6 +13,10 @@ export const useNetworks = () =>
             name: string;
             slug: string;
           }>
-        >('/delphi/market/networks/')
+        >('/delphi/market/networks/', {
+          params: {
+            filter: config?.filter,
+          },
+        })
         .then(({ data }) => data),
   });
