@@ -4,29 +4,35 @@ import { useTranslation } from 'react-i18next';
 import { useInterval } from 'usehooks-ts';
 import { usePro } from 'modules/base/auth/ProContent/ProProvider';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useSubscription } from 'api';
+import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Sparkle } from './sparkle.svg';
 
 export function ProLocker({
   children,
   className,
   mode,
   enabled,
-  level,
+  size = 1,
+  level = 1,
 }: PropsWithChildren<{
   className?: string;
   mode: 'table' | 'children';
   enabled?: boolean;
+  size?: number;
   level?: number;
 }>) {
   const { t } = useTranslation('pro');
   const [isLoading, setIsLoading] = useState(true);
   const pro = usePro();
+  const subscription = useSubscription();
   const [buttonPosition, setButtonPosition] = useState<{
     top: string;
     height: string;
     active: boolean;
   }>({
     top: '0px',
-    height: '100%',
+    height: '150px',
     active: false,
   });
   const parentEl = useRef<HTMLDivElement>(null);
@@ -49,9 +55,11 @@ export function ProLocker({
               ),
             ]
           : [
-              ...parentEl.current.querySelectorAll('*:not([aria-hidden])'),
+              ...parentEl.current.querySelectorAll(
+                '*:not([aria-hidden]):not([data-pro-locker])',
+              ),
             ].filter(r => r.parentElement === parentEl.current)
-      ).slice(0, level ?? 1) as HTMLElement[];
+      ).slice(0, size) as HTMLElement[];
       const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
       const bottom = Math.max(
         ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
@@ -65,7 +73,7 @@ export function ProLocker({
     } finally {
       setIsLoading(false);
     }
-  }, [mode, level, tick]);
+  }, [mode, size, tick]);
 
   return (
     <>
@@ -78,28 +86,47 @@ export function ProLocker({
         )}
       >
         {children}
-        {buttonPosition.active && !pro.hasAccess && enabled !== false && (
-          <div
-            className={clsx(
-              'group absolute left-0 z-[2] w-full cursor-pointer flex-col gap-2 text-base font-medium',
-              'flex items-center justify-center backdrop-blur-sm',
-            )}
-            style={{
-              ...buttonPosition,
-            }}
-            onClick={pro.ensureIsPro}
-          >
-            <b
+        {buttonPosition.active &&
+          subscription.level < level &&
+          enabled !== false && (
+            <div
               className={clsx(
-                'h-auto w-auto',
-                'rounded-lg bg-pro-gradient px-3 py-1 text-xs font-medium text-black shadow-xl',
-                'transition-all group-hover:brightness-110',
+                'absolute left-0 z-[2] min-h-[132px] w-full gap-2 rounded-xl px-4 py-1',
+                'flex flex-col items-center justify-center backdrop-blur',
+                'overflow-hidden bg-[rgba(29,38,47,0.2)]',
               )}
+              style={{
+                ...buttonPosition,
+              }}
+              data-pro-locker
             >
-              {isLoggedIn ? t('unlock-with-pro') : t('login-required')}
-            </b>
-          </div>
-        )}
+              <div className="relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1">
+                <Logo />
+              </div>
+              <p className="text-center text-xs capitalize text-v1-content-primary">
+                {isLoggedIn
+                  ? level === 2
+                    ? t('pro-locker.proplus.message')
+                    : t('pro-locker.pro.message')
+                  : t('pro-locker.login.message')}
+              </p>
+              <button
+                onClick={() => pro.ensureHasLevel(level)}
+                className={clsx(
+                  'inline-flex h-9 w-auto shrink-0 items-center gap-1',
+                  'rounded-lg bg-pro-gradient px-4 text-xs font-medium text-black',
+                  'transition-all hover:brightness-110',
+                )}
+              >
+                <Sparkle />
+                {isLoggedIn
+                  ? level === 2
+                    ? t('pro-locker.proplus.button')
+                    : t('pro-locker.pro.button')
+                  : t('pro-locker.login.button')}
+              </button>
+            </div>
+          )}
       </div>
     </>
   );

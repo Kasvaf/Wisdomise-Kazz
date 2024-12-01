@@ -42,7 +42,7 @@ export function WhalePopularCoinsWidget(_: { slug: string }) {
       loading={coins.isLoading}
       empty={coins.data?.results.length === 0}
     >
-      <ProLocker mode="table" level={2}>
+      <ProLocker mode="table" size={2}>
         <Table
           columns={columns}
           dataSource={coins.data?.results}

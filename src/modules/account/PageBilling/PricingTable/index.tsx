@@ -22,10 +22,10 @@ export default function PricingTable({
   onResolve,
 }: PricingTableProps) {
   const { t } = useTranslation('billing');
-  const { plan, isFreePlan } = useSubscription();
+  const { plan, level } = useSubscription();
   const { data } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>(
-    isRenew || isFreePlan || !plan ? 'YEARLY' : plan.periodicity,
+    isRenew || level === 0 || !plan ? 'YEARLY' : plan.periodicity,
   );
 
   return (

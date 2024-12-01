@@ -16,7 +16,7 @@ export function TopCoinsWidget(_: { slug?: string }) {
       loading={signals.isLoading}
       empty={signals.data?.length === 0}
     >
-      <ProLocker mode="children" level={2}>
+      <ProLocker mode="children" size={2}>
         {signals.data?.slice(0, 5).map(row => (
           <div
             key={row.symbol.name}

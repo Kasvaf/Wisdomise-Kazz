@@ -263,7 +263,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         </>
       }
     >
-      <ProLocker mode="table" level={3}>
+      <ProLocker mode="table" size={3}>
         <Table
           columns={columns}
           dataSource={filteredCoins}

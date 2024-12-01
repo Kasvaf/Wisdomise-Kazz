@@ -15,15 +15,13 @@ import { SubscriptionRequiredModal } from './SubscriptionRequiredModal';
 import { TrialStartedModal } from './TrialStartedModal';
 
 interface ProContext {
-  ensureIsPro: () => Promise<boolean>;
-  hasAccess: boolean;
+  ensureHasLevel: (level: number) => Promise<boolean>;
 }
 
 const proContext = createContext<ProContext>({
-  ensureIsPro: () => {
+  ensureHasLevel: () => {
     throw new Error('Pro Context not initialized yet');
   },
-  hasAccess: false,
 });
 
 export const usePro = () => useContext(proContext);
@@ -42,15 +40,16 @@ export function ProProvider({
 
   const value = useMemo<ProContext>(() => {
     return {
-      ensureIsPro: () => {
+      ensureHasLevel: (level: number) => {
         return new Promise(resolve => {
           if (isEmbeddedView && top) {
             top.window.location.href = `${APP_PANEL}/account/billing`;
+            // never resolve
           } else {
             if (!isLoggedIn) {
               return showModalLogin();
             }
-            if (subscription.type === 'free') {
+            if (subscription.level < level) {
               setSubscriptionModal(true);
               // never resolve
             } else {
@@ -59,9 +58,8 @@ export function ProProvider({
           }
         });
       },
-      hasAccess: isLoggedIn && subscription.type !== 'free',
     };
-  }, [isEmbeddedView, isLoggedIn, showModalLogin, subscription.type]);
+  }, [isEmbeddedView, isLoggedIn, showModalLogin, subscription.level]);
 
   return (
     <proContext.Provider value={value}>

@@ -110,8 +110,9 @@ const ProfileMenuContent = () => {
           <div className="text-white/80">{t('menu.billing.title')}</div>
           <WithChevron>
             <div className="text-right">
-              <div className="text-[#34A3DA]">
-                {subscription.type === 'pro' ? t('pro:pro') : t('pro:trial')}
+              <div className="capitalize text-[#34A3DA]">
+                {subscription.levelName}{' '}
+                {subscription.status === 'trialing' && `(${t('pro:trial')})`}
               </div>
               {
                 <div>

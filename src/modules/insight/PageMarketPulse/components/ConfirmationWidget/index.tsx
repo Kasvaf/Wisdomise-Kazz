@@ -170,7 +170,7 @@ export function ConfirmationWidget<I extends Indicator>({
       <ProLocker
         className="flex flex-col items-start gap-3"
         mode="children"
-        level={2}
+        size={2}
       >
         {confirmations.data?.results.map(row => (
           <ConfirmationRow

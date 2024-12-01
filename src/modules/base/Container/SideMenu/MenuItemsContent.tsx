@@ -1,21 +1,19 @@
 import { clsx } from 'clsx';
 import { type MouseEventHandler, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { bxChevronDown, bxChevronUp, bxLogIn } from 'boxicons-quasar';
-import { useHasFlag, useSubscription } from 'api';
+import { useHasFlag } from 'api';
 import { useLogoutMutation } from 'api/auth';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
-import { ReadableDuration } from 'shared/ReadableDuration';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
-import LogoBlack from '../logo-black.png';
+import { TrialEndBanner } from '../TrialEndBanner';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
-// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as HelpIcon } from './help-icon.svg';
 
 const MenuItemsGroup: React.FC<{
@@ -98,7 +96,6 @@ const MenuItemsContent: React.FC<{
   const { t } = useTranslation();
   const isLoggedIn = useIsLoggedIn();
   const { items: MenuItems } = useMenuItems();
-  const subscription = useSubscription();
 
   const { pathname } = useLocation();
   const [activeMenu, setActiveMenu] = useState(pathname);
@@ -153,37 +150,7 @@ const MenuItemsContent: React.FC<{
 
       {ModalLogin}
       <div className="grow" />
-      {!collapsed && subscription.type !== 'pro' && isLoggedIn && (
-        <div className="mobile:hidden">
-          <div className="flex flex-col items-center gap-3 rounded-md bg-pro-gradient p-4 text-xs">
-            <img src={LogoBlack} className="-mb-3 -ms-2 w-8 shrink-0" />
-            <div className="w-2/3 text-center">
-              <Trans
-                ns="pro"
-                i18nKey="expires-soon"
-                components={{
-                  Duration: (
-                    <ReadableDuration
-                      value={subscription.remaining}
-                      className="font-bold"
-                      zeroText={t('pro:zero-hour')}
-                    />
-                  ),
-                }}
-              />
-            </div>
-            <Link
-              to="/account/billing"
-              className={clsx(
-                'flex h-8 w-full shrink-0 items-center justify-center rounded',
-                'bg-v1-background-primary px-3 text-v1-content-primary transition-all hover:brightness-125 active:brightness-90',
-              )}
-            >
-              <Trans ns="pro" i18nKey="upgrade-now" />
-            </Link>
-          </div>
-        </div>
-      )}
+      {!collapsed && <TrialEndBanner />}
       <div className="mt-12 text-white">
         {extraItems.map(item => (
           <NavLink

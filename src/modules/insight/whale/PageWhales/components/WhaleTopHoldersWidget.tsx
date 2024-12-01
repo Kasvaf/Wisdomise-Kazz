@@ -248,7 +248,7 @@ export function WhaleTopHoldersWidget({
         </>
       }
     >
-      <ProLocker level={2} mode="table">
+      <ProLocker size={2} level={2} mode="table">
         <Table
           columns={columns}
           dataSource={whales.data?.results ?? []}

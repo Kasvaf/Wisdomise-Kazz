@@ -31,7 +31,7 @@ export default function Utility() {
   const [unlockModal, openUnlockModal] = useModal(UnlockModalContent, {
     width: 600,
   });
-  const { title, plan, isFreePlan } = useSubscription();
+  const { title, plan, level } = useSubscription();
   const { withdraw, isLoading } = useWithdraw();
 
   const openBillings = () => {
@@ -117,7 +117,7 @@ export default function Utility() {
               </div>
               {utilityStatus === 'locked' && (
                 <div className="flex gap-4">
-                  {isFreePlan &&
+                  {level === 0 &&
                     hasFlag('/account/billing?payment_method=lock') && (
                       <Button variant="alternative" onClick={openBillings}>
                         {t('utility.activate')}
@@ -139,7 +139,7 @@ export default function Utility() {
                   >
                     {t('utility.withdraw')}
                   </Button>
-                  {isFreePlan &&
+                  {level === 0 &&
                     hasFlag('/account/billing?payment_method=lock') && (
                       <Button variant="alternative" onClick={openBillings}>
                         {t('utility.lock-tokens')}
@@ -155,7 +155,7 @@ export default function Utility() {
             <h3 className="mb-3 md:mb-9 md:w-40">{t('utility.current-sub')}</h3>
             <div className="text-nowrap text-4xl">
               {title}
-              {!isFreePlan && (
+              {level > 0 && (
                 <span className="ms-3 text-base text-white/60">
                   / {plan?.periodicity.toLowerCase()}
                 </span>

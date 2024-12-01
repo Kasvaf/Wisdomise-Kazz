@@ -32,7 +32,7 @@ export default function PricingCard({
   const account = useAccountQuery();
   const { t } = useTranslation('billing');
   const subsMutation = useSubscriptionMutation();
-  const { isActive, plan: userPlan, type } = useSubscription();
+  const { plan: userPlan, level, status } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent);
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
@@ -40,9 +40,10 @@ export default function PricingCard({
   );
   const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
 
-  const hasUserThisPlan = isActive && !isRenew && plan.key === userPlan?.key;
+  const hasUserThisPlan =
+    status === 'active' && !isRenew && plan.key === userPlan?.key;
   const hasUserThisPlanAsNextPlan =
-    isActive &&
+    status === 'active' &&
     plan.key ===
       account.data?.subscription_item?.next_subs_item?.subscription_plan.key;
 
@@ -55,14 +56,7 @@ export default function PricingCard({
       plan.periodicity === 'MONTHLY');
 
   const onClick = async () => {
-    if (type === 'pro') {
-      await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
-      notification.success({
-        duration: 5000,
-        message: t('pricing-card.notification-upgrade-success'),
-      });
-      onPlanUpdate();
-    } else {
+    if (level === 0) {
       if (isTokenUtility) {
         void openTokenPaymentModal({ plan });
       } else {
@@ -79,6 +73,13 @@ export default function PricingCard({
           plan,
         });
       }
+    } else {
+      await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
+      notification.success({
+        duration: 5000,
+        message: t('pricing-card.notification-upgrade-success'),
+      });
+      onPlanUpdate();
     }
   };
 

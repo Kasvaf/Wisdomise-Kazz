@@ -46,11 +46,11 @@ export const useAlertActions = (
         </>
       ),
       openSaveModal: async () =>
-        (await pro.ensureIsPro()) && setIsModalOpen(true),
+        (await pro.ensureHasLevel(1)) && setIsModalOpen(true),
       save: async (showToast?: boolean) => {
         if (!initialAlert) throw new Error('No initial alert found!');
         if (!initialAlertForm) throw new Error('No compatible type found!');
-        if (!(await pro.ensureIsPro())) return false;
+        if (!(await pro.ensureHasLevel(1))) return false;
         const saveFn = initialAlertForm.save;
         if (!saveFn) throw new Error(`${initialAlertForm.value} has'nt save!`);
         setIsSaving(true);
@@ -62,7 +62,7 @@ export const useAlertActions = (
       delete: async () => {
         if (!initialAlert) throw new Error('No initial alert found!');
         if (!initialAlertForm) throw new Error('No compatible type found!');
-        if (!(await pro.ensureIsPro())) return false;
+        if (!(await pro.ensureHasLevel(1))) return false;
         const delFn = initialAlertForm.delete;
         if (!delFn) throw new Error(`${initialAlertForm.value} has'nt delete!`);
         setIsDeleting(true);
