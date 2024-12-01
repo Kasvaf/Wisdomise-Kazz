@@ -111,10 +111,11 @@ const ProfileMenuContent = () => {
           <WithChevron>
             <div className="text-right">
               <div className="capitalize text-[#34A3DA]">
-                {subscription.levelName}{' '}
-                {subscription.status === 'trialing' && `(${t('pro:trial')})`}
+                {subscription.status === 'trialing'
+                  ? t('pro:trial')
+                  : subscription.levelName}
               </div>
-              {
+              {subscription.level !== 0 && (
                 <div>
                   <span
                     className={clsx(
@@ -130,7 +131,7 @@ const ProfileMenuContent = () => {
                     {t('menu.billing.remains')}
                   </span>
                 </div>
-              }
+              )}
             </div>
           </WithChevron>
         </NavLink>
