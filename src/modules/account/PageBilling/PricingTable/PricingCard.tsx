@@ -56,7 +56,7 @@ export default function PricingCard({
       plan.periodicity === 'MONTHLY');
 
   const onClick = async () => {
-    if (level === 0) {
+    if (level === 0 || status === 'trialing') {
       if (isTokenUtility) {
         void openTokenPaymentModal({ plan });
       } else {
