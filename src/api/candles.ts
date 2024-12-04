@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { type MarketTypes } from './types/shared';
 
-export type Resolution = '5m' | '15m' | '30m' | '1h';
+export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h';
 export interface Candle {
   related_at: string;
   open: number;
@@ -51,3 +51,65 @@ export const useCandlesQuery = ({
       staleTime: Number.POSITIVE_INFINITY,
     },
   );
+
+interface LastCandleResponse {
+  symbol: {
+    id: number;
+    name: string;
+    exchange: string;
+    market: string;
+    active: boolean;
+    created_at: string;
+    updated_at: string;
+    deleted_at: null;
+    pool_address: null;
+    base: string;
+    quote: string;
+  };
+  candle: Candle;
+}
+
+interface LastCandleParams {
+  slug?: string; // slug
+  quote?: string;
+  exchange?: 'BINANCE' | 'STONFI';
+  market?: MarketTypes;
+}
+
+export const useLastCandleQuery = ({
+  exchange,
+  slug: base,
+  quote = 'tether',
+  market = 'SPOT',
+}: LastCandleParams) =>
+  useQuery(
+    ['last-candle', base, quote, exchange, market],
+    async () => {
+      const { data } = await axios.get<LastCandleResponse>(
+        '/delphinus/last_candle/',
+        {
+          params: {
+            base,
+            quote,
+            exchange,
+            market,
+            t: String(Date.now()),
+          },
+        },
+      );
+      return data;
+    },
+    {
+      enabled: Boolean(base && quote && exchange && market),
+      staleTime: 1000,
+      refetchInterval: 10_000,
+    },
+  );
+
+export const useLastPriceQuery = (params: LastCandleParams) => {
+  const { data, ...rest } = useLastCandleQuery(params);
+  return {
+    ...rest,
+    data: data?.candle.close,
+  };
+};

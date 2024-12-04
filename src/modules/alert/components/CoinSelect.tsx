@@ -3,7 +3,7 @@ import { useMemo, useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
-import { useCoinList, useCoinOverview } from 'api';
+import { useCoinList, useCoinOverview, useLastPriceQuery } from 'api';
 import type { Coin as CoinType } from 'api/types/shared';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -15,7 +15,7 @@ export const CoinSelect: FC<
   SelectProps<string> & {
     networkName?: string;
     filterTokens?: (item: string) => boolean;
-    showPrice?: boolean;
+    priceExchange?: 'BINANCE' | 'STONFI';
     emptyOption?: string;
   }
 > = ({
@@ -24,7 +24,7 @@ export const CoinSelect: FC<
   disabled,
   networkName,
   filterTokens,
-  showPrice,
+  priceExchange,
   emptyOption,
   ...props
 }) => {
@@ -33,6 +33,10 @@ export const CoinSelect: FC<
   const coinList = useCoinList({ q, networkName });
 
   const coin = useCoinOverview({ slug: value ?? 'tether' });
+  const { data: lastPrice } = useLastPriceQuery({
+    slug: value == null ? undefined : value,
+    exchange: priceExchange,
+  });
 
   const coins = useMemo<CoinType[]>(() => {
     const selectedCoin = value ? coin.data?.symbol : undefined;
@@ -66,23 +70,22 @@ export const CoinSelect: FC<
         ) : undefined
       }
       suffixIcon={
-        showPrice ? (
+        priceExchange ? (
           <div className="flex items-center gap-2">
-            {coin.data?.data?.current_price &&
-              coin.data?.data?.price_change_percentage_24h && (
-                <div className="flex flex-col items-end gap-1">
-                  <ReadableNumber
-                    className="text-[0.75rem] text-white"
-                    value={coin.data?.data?.current_price}
-                  />
-                  <DirectionalNumber
-                    value={coin.data?.data?.price_change_percentage_24h}
-                    showSign
-                    className="text-[0.625rem]"
-                    label="%"
-                  />
-                </div>
-              )}
+            {lastPrice && coin.data?.data?.price_change_percentage_24h && (
+              <div className="flex flex-col items-end gap-1">
+                <ReadableNumber
+                  className="text-[0.75rem] text-white"
+                  value={lastPrice}
+                />
+                <DirectionalNumber
+                  value={coin.data?.data?.price_change_percentage_24h}
+                  showSign
+                  className="text-[0.625rem]"
+                  label="%"
+                />
+              </div>
+            )}
 
             <Icon name={bxChevronDown} />
           </div>

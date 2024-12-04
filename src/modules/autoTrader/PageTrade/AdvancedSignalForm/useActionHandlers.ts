@@ -4,7 +4,7 @@ import { useTonAddress } from '@tonconnect/ui-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
-import { useCoinOverview } from 'api';
+import { useLastPriceQuery } from 'api';
 import {
   useTraderFirePositionMutation,
   useTraderCancelPositionMutation,
@@ -42,9 +42,8 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
     reset,
   } = data;
 
-  const { data: lastPrice } = useCoinOverview({ slug });
+  const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
   const address = useTonAddress();
-  const assetPrice = lastPrice?.data?.current_price;
 
   const { mutateAsync, isLoading: isSubmitting } =
     useTraderFirePositionMutation();

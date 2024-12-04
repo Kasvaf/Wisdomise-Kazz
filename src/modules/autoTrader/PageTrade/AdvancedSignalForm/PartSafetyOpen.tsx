@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { roundDown } from 'utils/numbers';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
-import { useCoinOverview } from 'api';
+import { useLastPriceQuery } from 'api';
 import InfoButton from 'shared/InfoButton';
 import PriceVolumeInput from './PriceVolumeInput';
 import { type SignalFormState } from './useSignalFormStates';
@@ -26,9 +26,7 @@ const PartSafetyOpen: React.FC<{
     remainingVolume,
   } = data;
 
-  const { data: lastPrice } = useCoinOverview({ slug });
-  const assetPrice = lastPrice?.data?.current_price;
-
+  const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
   const nextLine = () => {

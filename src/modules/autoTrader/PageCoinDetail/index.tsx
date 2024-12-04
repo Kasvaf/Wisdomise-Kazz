@@ -25,7 +25,7 @@ export default function PageCoinDetail() {
           className="w-full"
           filterTokens={x => x !== 'tether'}
           value={slug}
-          showPrice
+          priceExchange="STONFI"
           onChange={selectedSlug =>
             navigate(`/trader-hot-coins/${selectedSlug}`)
           }

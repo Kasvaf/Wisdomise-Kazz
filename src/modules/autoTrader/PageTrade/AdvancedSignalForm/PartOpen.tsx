@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { bxPlusCircle } from 'boxicons-quasar';
-import { useCoinOverview } from 'api';
+import { useLastPriceQuery } from 'api';
 import { useAccountJettonBalance } from 'api/ton';
 import { roundSensible } from 'utils/numbers';
 import { ButtonSelect } from 'shared/ButtonSelect';
@@ -34,10 +34,9 @@ const PartOpen: React.FC<{
     orderExp: [orderExp, setOrderExp],
   } = data;
 
-  const { data: lastPrice } = useCoinOverview({ slug });
+  const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
   const { data: usdtBalance, isLoading: balanceLoading } =
     useAccountJettonBalance('usdt');
-  const assetPrice = lastPrice?.data?.current_price;
 
   useEffect(() => {
     if (!priceUpdated && assetPrice && !isUpdate) {
