@@ -32,6 +32,7 @@ periodicity:
   month:
     title: Monthly
     per: per<br>month
+  'off': '{{off}}% Off'
   year:
     title: Annually
     per: per<br>year

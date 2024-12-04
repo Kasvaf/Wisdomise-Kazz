@@ -7,7 +7,7 @@ import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 export function WhaleHoldsWidget({
@@ -116,14 +116,14 @@ export function WhaleHoldsWidget({
       loading={whale.isLoading}
       empty={whale.data?.holding_assets?.length === 0}
     >
-      <ProLocker size={3} level={2} mode="table">
+      <AccessSheild size={3} level={2} mode="table">
         <Table
           columns={columns}
           dataSource={whale.data?.holding_assets ?? []}
           rowKey={row => JSON.stringify(row.symbol)}
           loading={whale.isLoading}
         />
-      </ProLocker>
+      </AccessSheild>
     </OverviewWidget>
   );
 }

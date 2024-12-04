@@ -8,7 +8,7 @@ import {
 } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import { SocialMessageSummary } from './SocialMessage';
 import { SocialLogo } from './SocialLogo';
 
@@ -131,8 +131,8 @@ export function CoinSocialFeedWidget({
   }, [activeTab?.value]);
 
   return (
-    <ProLocker
-      level={1}
+    <AccessSheild
+      level={0}
       size={1}
       mode="children"
       className="overflow-hidden rounded-2xl"
@@ -150,7 +150,6 @@ export function CoinSocialFeedWidget({
         }}
         refreshing={messages.isRefetching}
         onRefresh={messages.refetch}
-        badge="pro"
         contentClassName="max-h-[550px] mobile:max-h-[400px] overflow-auto"
       >
         <div className="w-full grow overflow-auto">
@@ -174,6 +173,6 @@ export function CoinSocialFeedWidget({
           ))}
         </div>
       </OverviewWidget>
-    </ProLocker>
+    </AccessSheild>
   );
 }

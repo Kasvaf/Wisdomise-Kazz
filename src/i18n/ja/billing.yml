@@ -20,13 +20,31 @@ crypto-modal:
   subtotal: 小計
   title: Wisdomise AG
   total-due-today: 本日のご請求金額
+features:
+  cancel: いつでもキャンセル可能
+  secure: 安全でプライベート
+  trust: 40,000人以上のユーザーから信頼されています
+overlay-subscription:
+  btn-subscribe: 購読する
+  btn-upgrade: アップグレード
+  customs-description: 質問を追加するには、Wisdomiseプランのいずれかに加入する必要があります
+  signals-description: すべての信号を明らかにするには、 <1>購読する</1> または <3>アップグレード</3> 現在のプラン。
+  strategy:
+    description: この戦略を明らかにするには、 <2>{{level}}</2> またはそれ以上のプラン。
+    title: プレミアムシグナルのロックを解除
+  title: 登録されていません
 periodicity:
   month:
     per: 月額<br>
     title: 月額
+  off: "{{off}}％ オフ"
   year:
     per: 年間利用<br>
     title: 年間利用
+plans:
+  subscription-methods: 購読方法
+  subtitle: Wisdomise Pro を 7 日間リスクなしで試して、トレーダーが当社を信頼する理由を確認してください。いつでもキャンセルできます。
+  title: 料金プラン
 pricing-card:
   annually: 年間
   btn-action:
@@ -35,6 +53,8 @@ pricing-card:
     choose: 選ぶ
     current-plan: 現在ご契約中のプラン
     next-plan: 次のプラン
+    upgrade-to: アップグレード {{plan}}
+  features: 特徴
   forever: 永遠に
   free-subtitle: お気軽にwisdomiseを探索してください
   monthly: 月額

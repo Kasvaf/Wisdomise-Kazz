@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { type CoinSignal, useCoinSignals } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -97,7 +97,7 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
           onChange={setFilter}
         />
       </div>
-      <ProLocker mode="table" size={3} level={1}>
+      <AccessSheild mode="table" size={3} level={1}>
         <Table
           columns={columns}
           dataSource={filteredCoins}
@@ -108,7 +108,7 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
             pageSize: 5,
           }}
         />
-      </ProLocker>
+      </AccessSheild>
     </OverviewWidget>
   );
 }

@@ -7,7 +7,7 @@ import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReactComponent as RealtimeIcon } from 'modules/insight/coinRadar/PageCoinRadar/components/SocialRadarBannerWidget/realtime.svg';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
 import { SignalSentiment } from '../../coinRadar/PageCoinRadar/components/SignalSentiment';
 import { SeeMoreLink } from './SeeMoreLink';
@@ -30,6 +30,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
 
   const columns = useMemo<Array<TableColumnType<CoinSignal>>>(
     () => [
+      {
+        title: '#',
+        render: (_, __, i) => i + 1,
+      },
       {
         title: t('social-radar-overview.table.name'),
         render: (_, row) => <Coin coin={row.symbol} />,
@@ -64,7 +68,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       loading={coins.isLoading}
       empty={sortedCoins.length === 0}
     >
-      <ProLocker mode="table" size={3} level={1}>
+      <AccessSheild mode="table" size={3} level={1}>
         <Table
           loading={coins.isLoading}
           columns={columns}
@@ -72,7 +76,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           rowKey={r => JSON.stringify(r.symbol)}
           pagination={false}
         />
-      </ProLocker>
+      </AccessSheild>
     </OverviewWidget>
   );
 }

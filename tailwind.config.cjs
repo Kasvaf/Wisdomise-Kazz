@@ -335,7 +335,7 @@ module.exports = {
         'pro-gradient':
           'linear-gradient(254deg, #E09501 -59.2%, #FFDA6C 138.76%)',
         'wsdm-gradient':
-          'linear-gradient(88deg, #00A3FF -82.15%, #FF00C7 172.78%)',
+          'linear-gradient(88deg, #FF00C7 -82.15%, #00A3FF 172.78%)',
       },
       flex: {
         shrink: 'inherit',
