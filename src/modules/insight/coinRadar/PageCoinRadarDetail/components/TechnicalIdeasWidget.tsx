@@ -77,6 +77,7 @@ export function TechnicalIdeasWidget({
                 display: 'none',
               },
             }}
+            interval="60"
             hide_side_toolbar
             hotlist={false}
             theme="dark"
