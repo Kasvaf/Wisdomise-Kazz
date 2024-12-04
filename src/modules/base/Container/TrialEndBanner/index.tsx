@@ -9,7 +9,7 @@ import { useIsLoggedIn } from '../../auth/jwt-store';
 import LogoBlack from './logo-black.png';
 import Bg from './bg.png';
 
-export const TrialEndBanner: FC = () => {
+export const TrialEndBanner: FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation('pro');
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
@@ -20,7 +20,13 @@ export const TrialEndBanner: FC = () => {
     (subscription.level === 0 || subscription.status === 'trialing');
   if (!show) return null;
   return (
-    <div className="relative flex flex-col items-center gap-3 overflow-hidden rounded-md bg-pro-gradient p-3 text-xs mobile:h-10 mobile:flex-row mobile:rounded-none">
+    <div
+      className={clsx(
+        'flex flex-col items-center gap-3 mobile:flex-row ',
+        'relative overflow-hidden rounded-md bg-pro-gradient p-3 text-xs mobile:h-10 mobile:rounded-none',
+        className,
+      )}
+    >
       <div className="absolute top-8 size-24 bg-white blur-2xl mobile:-right-10 mobile:top-0 mobile:size-36 mobile:rounded-none" />
       <img
         src={Bg}
