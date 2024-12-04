@@ -334,7 +334,7 @@ module.exports = {
       backgroundImage: {
         'pro-gradient':
           'linear-gradient(254deg, #E09501 -59.2%, #FFDA6C 138.76%)',
-        "wsdm-gradient":
+        'wsdm-gradient':
           'linear-gradient(88deg, #FF00C7 -82.15%, #00A3FF 172.78%)',
       },
       flex: {
