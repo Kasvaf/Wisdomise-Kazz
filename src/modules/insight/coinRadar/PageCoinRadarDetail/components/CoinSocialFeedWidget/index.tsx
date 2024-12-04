@@ -132,7 +132,7 @@ export function CoinSocialFeedWidget({
 
   return (
     <ProLocker
-      level={1}
+      level={0}
       size={1}
       mode="children"
       className="overflow-hidden rounded-2xl"
@@ -150,7 +150,6 @@ export function CoinSocialFeedWidget({
         }}
         refreshing={messages.isRefetching}
         onRefresh={messages.refetch}
-        badge="pro"
         contentClassName="max-h-[550px] mobile:max-h-[400px] overflow-auto"
       >
         <div className="w-full grow overflow-auto">
