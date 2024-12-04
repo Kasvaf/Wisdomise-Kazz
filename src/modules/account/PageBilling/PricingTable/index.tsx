@@ -46,6 +46,7 @@ export default function PricingTable({
               value={currentPeriod}
               onChange={setCurrentPeriod}
               className="mobile:w-full"
+              plans={data?.results}
             />
           )}
         </div>
