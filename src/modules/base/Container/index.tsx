@@ -7,6 +7,7 @@ import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
 import AuthGuard from '../auth/AuthGuard';
 import { ProProvider } from '../auth/ProContent/ProProvider';
+import { useIsLoggedIn } from '../auth/jwt-store';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import BottomNavBar from './BottomNavBar';
@@ -17,7 +18,8 @@ import { GeneralMeta } from './GeneralMeta';
 const Container = () => {
   const isMobile = useIsMobile();
   const mainRef = useRef<HTMLDivElement>(null);
-  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
+  const isLoggedIn = useIsLoggedIn();
+  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(!isLoggedIn);
   const { PageSiblings, height, showSiblings, setShowSiblings } =
     usePageSiblings();
 
