@@ -7,6 +7,8 @@ import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
+import { isDebugMode } from 'utils/version';
+import { type AlertMessenger } from 'api/alert';
 import { IntervalSelect } from '../../components/IntervalSelect';
 import { AlertChannelsSelect } from '../../components/AlertChannelsSelect';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
@@ -33,6 +35,11 @@ export function StepTwo({ onSubmit, loading, className }: AlertFormStepProps) {
             setValue(p => ({ ...p, messengers: newMessengers as never }))
           }
           value={value.messengers ?? []}
+          channels={[
+            'EMAIL',
+            'TELEGRAM',
+            ...(isDebugMode ? (['WEB_PUSH'] as AlertMessenger[]) : []),
+          ]}
         />
       </FormControlWithLabel>
 
