@@ -4,12 +4,13 @@ import { type FC, type SVGProps, type PropsWithChildren } from 'react';
 import { useAccountQuery } from 'api';
 import { Toggle } from 'shared/Toggle';
 import { type AlertMessenger } from 'api/alert';
-import useEnsureTelegramConnected from 'modules/account/PageNotification/SignalingTab/useEnsureTelegramConnected';
 import { isMiniApp } from 'utils/version';
 import oneSignal from 'config/oneSignal';
 import { ReactComponent as BellIcon } from './bell.svg';
 import { ReactComponent as EmailIcon } from './email.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
+import { useTelegramConnect } from './useTelegramConnect';
+import { useWebPushPermission } from './useWebPushPermission';
 
 export const AlertChannelIcon: FC<
   SVGProps<SVGSVGElement> & {
@@ -65,8 +66,20 @@ const AlertChannelRow: FC<
     icon: FC<SVGProps<SVGSVGElement>>;
     label: string;
     subtitle?: string;
+    connectLabel?: string;
+    isConnected?: boolean;
+    connectAction?: () => void;
   }>
-> = ({ className, icon: Icon, label, subtitle, children }) => {
+> = ({
+  className,
+  icon: Icon,
+  label,
+  subtitle,
+  children,
+  isConnected = true,
+  connectLabel,
+  connectAction,
+}) => {
   const { t } = useTranslation('common');
   return (
     <div className={clsx('flex items-center justify-between', className)}>
@@ -81,19 +94,32 @@ const AlertChannelRow: FC<
           {label}
         </label>
         {subtitle && (
-          <div className="text-xs font-light text-v1-content-secondary">
+          <div className="mt-px text-xs font-light text-v1-content-secondary">
             {subtitle}
           </div>
         )}
       </div>
       <div className="flex items-center justify-center gap-4">
-        <span>
-          {children || (
-            <span className="inline-flex h-6 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-4 text-xxs text-white/70">
-              {t('common:soon')}
-            </span>
-          )}
-        </span>
+        {isConnected ? (
+          <span>
+            {children || (
+              <span className="inline-flex h-6 cursor-not-allowed items-center justify-center rounded-full bg-white/10 px-4 text-xxs text-white/70">
+                {t('common:soon')}
+              </span>
+            )}
+          </span>
+        ) : (
+          <button
+            className="h-8 rounded-lg bg-v1-background-inverse px-4 text-xs text-v1-content-primary-inverse transition-all hover:brightness-90 active:brightness-110"
+            type="button"
+            onClick={e => {
+              e.preventDefault();
+              connectAction?.();
+            }}
+          >
+            {connectLabel}
+          </button>
+        )}
       </div>
     </div>
   );
@@ -109,7 +135,9 @@ export const AlertChannelsSelect: FC<{
 }> = ({ value, onChange, loading, disabled, className, channels }) => {
   const account = useAccountQuery();
   const { t } = useTranslation('alerts');
-  const [telegramModal, ensureTelegramConnected] = useEnsureTelegramConnected();
+  const [isTelegramConnected, connectTelegram] = useTelegramConnect();
+  const [hasWebPushPermission, requestWebPushPermission] =
+    useWebPushPermission();
   if (isMiniApp) return null;
 
   const toggleValue = (messanger: string, addToList: boolean) =>
@@ -145,39 +173,29 @@ export const AlertChannelsSelect: FC<{
         <AlertChannelRow
           icon={TelegramIcon}
           label={t('common.notifications.messangers.telegram')}
+          isConnected={isTelegramConnected}
+          connectLabel={t('common.notifications.messangers.connect')}
+          connectAction={connectTelegram}
         >
           <Toggle
             checked={(value || []).includes('TELEGRAM')}
-            onChange={async e => {
-              if (e) {
-                const isConnected = await ensureTelegramConnected();
-                return toggleValue('TELEGRAM', isConnected);
-              }
-              toggleValue('TELEGRAM', e);
-            }}
+            onChange={e => toggleValue('TELEGRAM', e)}
             loading={loading}
             disabled={disabled}
           />
-          {telegramModal}
         </AlertChannelRow>
       )}
       {renderingChannels.includes('WEB_PUSH') && oneSignal.getUser() && (
         <AlertChannelRow
           icon={BellIcon}
           label={t('common.notifications.messangers.web_push')}
+          isConnected={hasWebPushPermission}
+          connectLabel={t('common.notifications.messangers.request_permission')}
+          connectAction={requestWebPushPermission}
         >
           <Toggle
             checked={(value || []).includes('WEB_PUSH')}
-            onChange={async e => {
-              if (e) {
-                const gotPermission = await oneSignal.requestPermission();
-                if (!gotPermission) {
-                  alert(t('common.notifications.messangers.web_push_blocked'));
-                }
-                return toggleValue('WEB_PUSH', gotPermission);
-              }
-              return toggleValue('WEB_PUSH', false);
-            }}
+            onChange={e => toggleValue('WEB_PUSH', e)}
             loading={loading}
             disabled={disabled}
           />

@@ -5,7 +5,7 @@ import bg from './bg.png';
 import InsightAlertButton from './AlertButton';
 
 export function AlertBoxWidget({ className }: { className?: string }) {
-  const { t } = useTranslation('notifications');
+  const { t } = useTranslation('insight');
   return (
     <OverviewWidget
       className={clsx(
@@ -24,10 +24,10 @@ export function AlertBoxWidget({ className }: { className?: string }) {
       <div className="flex w-full shrink-0 flex-col justify-between gap-2 mobile:w-1/2">
         <div className="space-y-2">
           <h3 className="text-base text-v1-content-primary">
-            {t('alerts.pages.insight.title')}
+            {t('alert.title')}
           </h3>
           <p className="text-xs text-v1-content-primary">
-            {t('alerts.pages.insight.subtitle')}
+            {t('alert.subtitle')}
           </p>
         </div>
         <InsightAlertButton className="mt-4" />
