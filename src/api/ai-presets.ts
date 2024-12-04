@@ -20,17 +20,17 @@ interface AIPresets {
 
 export type PresetKeys = keyof AIPresets;
 
-export const useAIPresets = (pair: string) =>
+export const useAIPresets = (pairSlug: string) =>
   useQuery<AIPresets>(
-    ['ai-presets', pair],
+    ['ai-presets', pairSlug],
     async () => {
       const { data } = await axios.get<AIPresets>('/trader/preset', {
-        params: { pair },
+        params: { pair_slug: pairSlug },
       });
       return data;
     },
     {
-      enabled: !!pair,
+      enabled: !!pairSlug,
       staleTime: Number.POSITIVE_INFINITY,
       refetchInterval: 30 * 1000,
       refetchIntervalInBackground: true,

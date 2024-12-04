@@ -7,15 +7,20 @@ import Icon from 'shared/Icon';
 import PriceChange from 'shared/PriceChange';
 import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
+import { useSymbolInfo } from 'api/symbol';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
 
+const AssetName: React.FC<{ assetSlug: string }> = ({ assetSlug }) => {
+  const { data } = useSymbolInfo(assetSlug);
+  return <>{data}</>;
+};
+
 const PositionDetail: React.FC<{
-  pairSlug?: string;
   position: Position;
   className?: string;
-}> = ({ pairSlug, position, className }) => {
+}> = ({ position, className }) => {
   const initialDeposit = initialQuoteDeposit(position);
 
   return (
@@ -25,17 +30,17 @@ const PositionDetail: React.FC<{
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span>{position.pair}</span>
+          <span>{position.pair_name}</span>
         </div>
         <div className="flex items-center gap-3">
           <CancelButton position={position} />
           <CloseButton position={position} />
 
-          {!!pairSlug && isPositionUpdatable(position) && (
+          {isPositionUpdatable(position) && (
             <Button
               variant="link"
               className="ms-auto !p-0 !text-xs text-v1-content-link"
-              to={`/market/${pairSlug}?pos=${position.key}`}
+              to={`/market/${position.base_slug}?pos=${position.key}`}
             >
               <Icon name={bxEditAlt} size={16} />
               Edit
@@ -74,7 +79,7 @@ const PositionDetail: React.FC<{
           <div className="flex items-center justify-between">
             <span className="text-v1-content-secondary">Initial Deposit</span>
             <span>
-              {initialDeposit} {position.quote}
+              {initialDeposit} {position.quote_name}
             </span>
           </div>
         )}
@@ -82,9 +87,12 @@ const PositionDetail: React.FC<{
         {position.current_assets
           .filter(x => !x.is_gas_fee)
           .map(a => (
-            <div key={a.asset} className="flex items-center justify-between">
+            <div
+              key={a.asset_slug}
+              className="flex items-center justify-between"
+            >
               <span className="text-v1-content-secondary">
-                Current {a.asset}
+                Current <AssetName assetSlug={a.asset_slug} />
               </span>
               <span>{roundSensible(a.amount)}</span>
             </div>
@@ -93,7 +101,10 @@ const PositionDetail: React.FC<{
         {position.current_assets
           .filter(x => x.is_gas_fee)
           .map(a => (
-            <div key={a.asset} className="flex items-center justify-between">
+            <div
+              key={a.asset_slug}
+              className="flex items-center justify-between"
+            >
               <span className="flex items-center gap-1 text-v1-content-secondary">
                 Gas Reserve
                 <InfoButton
@@ -103,7 +114,7 @@ const PositionDetail: React.FC<{
                 />
               </span>
               <span>
-                {roundSensible(a.amount)} {a.asset}
+                {roundSensible(a.amount)} <AssetName assetSlug={a.asset_slug} />
               </span>
             </div>
           ))}
@@ -143,12 +154,12 @@ const PositionDetail: React.FC<{
             </div>
           )}
 
-        {pairSlug && position.status !== 'CANCELED' && (
+        {position.status !== 'CANCELED' && (
           <Button
             variant="link"
             className="!p-0 !text-xs text-v1-content-link"
             contentClassName="!text-v1-content-link"
-            to={`/trader-hot-coins/${pairSlug}/transactions?key=${position.key}`}
+            to={`/trader-hot-coins/${position.base_slug}/transactions?key=${position.key}`}
             size="small"
           >
             <Icon name={bxHistory} size={16} className="mr-1" />

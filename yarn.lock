@@ -7729,6 +7729,13 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
+dldr@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/dldr/-/dldr-0.0.10.tgz#c54b04c0e7a597376339ea747219a5316d1a8749"
+  integrity sha512-HbyeDhlKVsCqzUJHbUNT9A9k8DoyOj43TVrMUfjdVgfzL5taUdtbKoTzYBJOjTvsPphEQRTiv+zodqBhEx6DTg==
+  dependencies:
+    object-identity "^0.1.2"
+
 dlv@^1.1.3:
   version "1.1.3"
   resolved "https://registry.npmjs.org/dlv/-/dlv-1.1.3.tgz"
@@ -11282,6 +11289,11 @@ object-hash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/object-hash/-/object-hash-3.0.0.tgz"
   integrity sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==
+
+object-identity@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/object-identity/-/object-identity-0.1.2.tgz#88c7dc060534f4da50787a2aac6819a2a96651e5"
+  integrity sha512-Px5puVllX5L2aBjbcfXpiG5xXeq6OE8RckryTeP2Zq+0PgYrCGJXmC6LblWgknKSJs11Je2W4U2NOWFj3t/QXQ==
 
 object-inspect@^1.12.3, object-inspect@^1.9.0, object-inspect@~1.12.3:
   version "1.12.3"

@@ -21,11 +21,7 @@ const PositionsList: React.FC<{
   ) : positionsRes.length > 0 ? (
     <div className="flex flex-col gap-3">
       {positionsRes.map(position => (
-        <PositionDetail
-          key={position.key}
-          pairSlug={slug}
-          position={position}
-        />
+        <PositionDetail key={position.key} position={position} />
       ))}
     </div>
   ) : (

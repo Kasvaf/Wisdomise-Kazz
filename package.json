@@ -44,6 +44,7 @@
     "buffer": "^6.0.3",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.9",
+    "dldr": "^0.0.10",
     "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",
     "overlayscrollbars": "^2.5.0",
