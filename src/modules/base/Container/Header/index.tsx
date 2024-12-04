@@ -4,6 +4,7 @@ import { type PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
 import { RouterBaseName } from 'config/constants';
 import useIsMobile from 'utils/useIsMobile';
+import { isDebugMode } from 'utils/version';
 import BranchSelector from './BranchSelector';
 import BtnLiveSupport from './BtnLiveSupport';
 import LanguageSelector from './LanguageSelector';
@@ -25,6 +26,7 @@ const Header: React.FC<
     <div
       className={clsx(
         'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-page',
+        isDebugMode && 'border-t border-t-v1-background-negative',
         className,
       )}
     >

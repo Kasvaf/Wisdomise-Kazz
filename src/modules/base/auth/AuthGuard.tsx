@@ -1,5 +1,5 @@
 import { useEffect, type PropsWithChildren } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useAccountQuery } from 'api';
@@ -22,6 +22,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   const navigate = useNavigate();
   const { data: account, isLoading } = useAccountQuery();
   const isLoggedIn = useIsLoggedIn();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const email = account?.email;
@@ -34,6 +35,18 @@ export default function AuthGuard({ children }: PropsWithChildren) {
       Sentry.setUser({ email, wallet_address: account.wallet_address });
     }
   }, [account?.email, account?.wallet_address, isLoggedIn]);
+
+  useEffect(() => {
+    if (searchParams.has('debug')) {
+      localStorage.setItem(
+        'debug',
+        searchParams.get('debug') === 'false' ? 'false' : 'true',
+      );
+      searchParams.delete('debug');
+      setSearchParams(searchParams);
+      window.location.reload();
+    }
+  }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     if (isLoggedIn && account?.email && account.info) {
