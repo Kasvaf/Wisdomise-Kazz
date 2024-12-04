@@ -31,6 +31,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
   const columns = useMemo<Array<TableColumnType<CoinSignal>>>(
     () => [
       {
+        title: '#',
+        render: (_, __, i) => i + 1,
+      },
+      {
         title: t('social-radar-overview.table.name'),
         render: (_, row) => <Coin coin={row.symbol} />,
       },

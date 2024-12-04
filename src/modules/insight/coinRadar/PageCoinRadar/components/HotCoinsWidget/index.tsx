@@ -96,7 +96,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         fixed: 'left',
         title: t('social-radar.table.rank'),
         render: (_, row) => row.rank,
-        width: 100,
+        width: 50,
       },
       {
         title: t('social-radar.table.name'),

@@ -1,6 +1,8 @@
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
+import { formatNumber } from 'utils/numbers';
+import { useMarketInfoFromSignals } from 'api';
 import { RsiConfirmationWidget } from './components/RsiConfirmationWidget';
 import { HotCoinsWidget } from './components/HotCoinsWidget';
 import { AlertBoxWidget } from './components/AlertBoxWidget';
@@ -11,13 +13,27 @@ import { InsightOnboarding } from './components/InsightOnboarding';
 
 const PageInsight = () => {
   const { t } = useTranslation();
+  const marketInfo = useMarketInfoFromSignals();
 
   return (
     <PageWrapper>
       <PageInsightMeta />
       <PageTitle
         title={t('base:menu.coin-radar.full-title')}
-        description={t('base:menu.coin-radar.subtitle')}
+        description={
+          <Trans
+            ns="coin-radar"
+            i18nKey="coin-radar:social-radar.table.description"
+            values={{
+              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
+                compactInteger: true,
+                decimalLength: 0,
+                seperateByComma: true,
+                minifyDecimalRepeats: false,
+              }),
+            }}
+          />
+        }
         className="mb-10"
       />
 

@@ -307,7 +307,7 @@ social-radar:
         the last 24 hours. <br /> <br /> <b>Low 24h</b><br />Lowest price in the
         last 24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the
         last 24 hours.
-    rank: Wise Rank
+    rank: Rank
     search: Search Coin...
     sentiment:
       title: Wisdomise Sentiment
@@ -339,7 +339,7 @@ social-radar:
         whales and have no significant transactions, the badge Untracked is
         displayed.
 social-radar-overview:
-  title: Social Radar
+  title: Social Radar Hottest Coins
   table:
     name: Name
     info: Info
