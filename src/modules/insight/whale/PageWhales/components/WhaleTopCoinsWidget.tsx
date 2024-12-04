@@ -210,7 +210,7 @@ export function WhaleTopCoinsWidget({
         </>
       }
     >
-      <ProLocker level={2} mode="table">
+      <ProLocker size={2} level={2} mode="table">
         <Table
           columns={columns}
           dataSource={coins.data?.results ?? []}

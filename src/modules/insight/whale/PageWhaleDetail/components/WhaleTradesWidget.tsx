@@ -115,7 +115,7 @@ export function WhaleTradesWidget({
       loading={whale.isLoading}
       empty={whale.data?.trading_assets?.length === 0}
     >
-      <ProLocker level={3} mode="table">
+      <ProLocker size={3} level={2} mode="table">
         <Table
           columns={columns}
           dataSource={whale.data?.trading_assets ?? []}

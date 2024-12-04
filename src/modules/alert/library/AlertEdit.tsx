@@ -129,7 +129,7 @@ export function AlertEdit({
         </div>
       )}
 
-      {activeStepObject && subscription.type !== 'pro' && (
+      {activeStepObject && subscription.level === 0 && (
         <div className="mt-6 w-full">
           <div className="h-px bg-v1-border-tertiary" />
           <AlertSubscriptionBanner className="mx-auto mt-10 w-full max-w-[420px]" />

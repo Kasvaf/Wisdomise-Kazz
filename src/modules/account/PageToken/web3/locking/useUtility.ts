@@ -25,7 +25,7 @@ export function useUtility() {
         }
       } else {
         if (lockedBalance === 0n) {
-          if (subscription?.type === 'pro') {
+          if (subscription?.level > 0) {
             setUtilityStatus('already_active');
           } else {
             setUtilityStatus('pending_lock');

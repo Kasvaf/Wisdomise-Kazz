@@ -133,6 +133,7 @@ export function CoinSocialFeedWidget({
   return (
     <ProLocker
       level={1}
+      size={1}
       mode="children"
       className="overflow-hidden rounded-2xl"
     >

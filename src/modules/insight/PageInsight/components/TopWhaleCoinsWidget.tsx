@@ -28,7 +28,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
       loading={coins.isLoading}
       empty={coins.data?.results.length === 0}
     >
-      <ProLocker mode="children" level={2}>
+      <ProLocker mode="children" size={2} level={2}>
         {coins.data?.results.map(row => (
           <div
             key={row.symbol.name + (row.symbol.slug ?? '')}

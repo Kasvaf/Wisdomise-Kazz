@@ -68,7 +68,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       loading={coins.isLoading}
       empty={sortedCoins.length === 0}
     >
-      <ProLocker mode="table" level={3}>
+      <ProLocker mode="table" size={3} level={1}>
         <Table
           loading={coins.isLoading}
           columns={columns}
