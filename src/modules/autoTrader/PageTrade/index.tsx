@@ -20,7 +20,6 @@ export default function PageTrade() {
   const [positionKey] = useSearchParamAsState('pos');
   const position = useTraderPositionQuery(positionKey);
   const coinOverview = useCoinOverview({ slug });
-  const abbr = coinOverview?.data?.symbol.abbreviation;
 
   useEffect(() => {
     if (position.data && !isPositionUpdatable(position.data)) {
@@ -38,7 +37,7 @@ export default function PageTrade() {
           networkName="ton"
           className="w-full"
           filterTokens={x => x !== 'tether'}
-          showPrice
+          priceExchange="STONFI"
           value={slug}
           onChange={selectedSlug => navigate(`/market/${selectedSlug}`)}
         />
@@ -49,10 +48,8 @@ export default function PageTrade() {
           <Spinner />
         </div>
       ) : (
-        abbr &&
         (!positionKey || !!position.data) && (
           <AdvancedSignalForm
-            assetName={`${abbr ?? ''}USDT`}
             assetSlug={slug}
             activePosition={position.data}
             className="max-w-full basis-1/3"

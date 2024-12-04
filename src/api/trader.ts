@@ -65,7 +65,8 @@ export interface Position {
   status: PositionStatus;
   deposit_status: 'PENDING' | 'PAID' | 'EXPIRED' | 'CANCELED';
   withdraw_status?: 'SENT' | 'PAID';
-  pair: string;
+  pair_name: string;
+  pair_slug: string;
   side: 'long' | 'short';
   signal: Signal;
   manager?: {
@@ -83,15 +84,17 @@ export interface Position {
   stop_loss?: string;
   take_profit?: string;
   size?: string;
-  quote: string;
-  base: string;
+  quote_name: string;
+  quote_slug: string;
+  base_name: string;
+  base_slug: string;
   current_assets: PositionAsset[];
   deposit_assets: PositionAsset[];
 }
 
 interface PositionAsset {
   amount: string;
-  asset: string;
+  asset_slug: string;
   is_gas_fee?: boolean;
 }
 
@@ -106,7 +109,7 @@ export function isPositionUpdatable(position: Position) {
 
 export function initialQuoteDeposit(p: Position) {
   const result = p.deposit_assets.find(
-    x => x.asset === p.quote && !x.is_gas_fee,
+    x => x.asset_slug === p.quote_slug && !x.is_gas_fee,
   )?.amount;
   return result === undefined ? undefined : Number(result);
 }
@@ -163,7 +166,7 @@ export function useTraderPositionsQuery({
 export interface CreatePositionRequest {
   signal: Signal;
   withdraw_address: string;
-  quote: string;
+  quote_slug: string;
   quote_amount: string;
 }
 
@@ -191,7 +194,7 @@ export const useCreateTraderInstanceMutation = () => {
     return await axios.post<null>('trader', {
       exchange: 'STONFI',
       market: 'SPOT',
-      network: 'TON',
+      network_slug: 'the-open-network',
     });
   });
 };
@@ -248,9 +251,11 @@ export interface TransactionOrder {
   type: 'stop_loss' | 'take_profit' | 'safety_open';
   data: {
     index: number;
-    from_asset: string;
+    from_asset_name: string;
+    from_asset_slug: string;
     from_amount: string;
-    to_asset: string;
+    to_asset_name: string;
+    to_asset_slug: string;
     to_amount?: string | null;
     gas_fee_asset: string;
     gas_fee_amount?: string | null;
@@ -265,9 +270,11 @@ export interface TransactionOrder {
 export interface TransactionOpenClose {
   type: 'open' | 'close'; // (close swap, triggered by close signal)
   data: {
-    from_asset: string;
+    from_asset_name: string;
+    from_asset_slug: string;
     from_amount: string;
-    to_asset: string;
+    to_asset_name: string;
+    to_asset_slug: string;
     to_amount?: string | null; // nullable
     gas_fee_asset: string;
     gas_fee_amount?: string | null; // nullable
@@ -280,7 +287,8 @@ export interface TransactionOpenClose {
 }
 
 interface Asset {
-  asset: string;
+  asset_name: string;
+  asset_slug: string;
   amount: string;
 }
 export interface TransactionDeposit {

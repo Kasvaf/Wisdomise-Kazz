@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
 import { roundDown } from 'utils/numbers';
-import { useCoinOverview } from 'api';
+import { useLastPriceQuery } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import InfoButton from 'shared/InfoButton';
@@ -13,7 +13,6 @@ import PriceVolumeInput from './PriceVolumeInput';
 const PartTpSl: React.FC<{
   type: 'TP' | 'SL';
   data: SignalFormState;
-  assetName: string;
   assetSlug: string;
 }> = ({ type, data, assetSlug }) => {
   const { t } = useTranslation('builder');
@@ -23,8 +22,10 @@ const PartTpSl: React.FC<{
     orderType: [orderType],
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
   } = data;
-  const { data: assetOverview } = useCoinOverview({ slug: assetSlug });
-  const assetPrice = assetOverview?.data?.current_price;
+  const { data: assetPrice } = useLastPriceQuery({
+    slug: assetSlug,
+    exchange: 'STONFI',
+  });
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
   const sortItems = () =>

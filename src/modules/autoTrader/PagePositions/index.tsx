@@ -29,7 +29,7 @@ const PagePositions = () => {
         className="my-4 w-full"
         filterTokens={x => x !== 'tether'}
         value={slug}
-        showPrice
+        priceExchange="STONFI"
         onChange={setSlug}
         emptyOption="All Coins & Tokens"
       />

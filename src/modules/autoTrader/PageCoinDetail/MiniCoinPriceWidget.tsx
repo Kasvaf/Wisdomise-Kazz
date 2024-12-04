@@ -1,4 +1,4 @@
-import { useCoinOverview, useHasFlag } from 'api';
+import { useCoinOverview, useHasFlag, useLastPriceQuery } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
@@ -6,7 +6,8 @@ import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/
 export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
   const hasFlag = useHasFlag();
   const { data } = useCoinOverview({ slug });
-  if (data?.data?.current_price == null) {
+  const { data: lastPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
+  if (lastPrice == null) {
     return null;
   }
 
@@ -16,7 +17,7 @@ export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
         <div className="text-xs text-v1-content-secondary">Market Price</div>
         <div className="flex items-baseline justify-between gap-2">
           <ReadableNumber
-            value={data?.data?.current_price}
+            value={lastPrice}
             label="usdt"
             className="shrink-0 text-xl"
           />

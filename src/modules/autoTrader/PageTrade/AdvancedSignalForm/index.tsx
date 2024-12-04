@@ -13,7 +13,6 @@ import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
 
 interface Props {
-  assetName: string;
   assetSlug: string;
   activePosition?: Position;
   formState: SignalFormState;
@@ -21,7 +20,6 @@ interface Props {
 }
 
 const AdvancedSignalForm: React.FC<Props> = ({
-  assetName,
   assetSlug,
   activePosition,
   formState,
@@ -36,7 +34,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
 
   useSyncFormState({
     formState,
-    assetName,
+    assetSlug,
     activePosition,
   });
 
@@ -50,7 +48,6 @@ const AdvancedSignalForm: React.FC<Props> = ({
     ModalApproval,
   } = useActionHandlers({
     data: formState,
-    assetName,
     activePosition,
   });
 
@@ -76,28 +73,10 @@ const AdvancedSignalForm: React.FC<Props> = ({
   return (
     <div className={clsx('flex flex-col gap-3', className)}>
       <div className="flex flex-col gap-5">
-        <PartOpen
-          data={formState}
-          assetName={assetName}
-          assetSlug={assetSlug}
-        />
-        <PartSafetyOpen
-          data={formState}
-          assetName={assetName}
-          assetSlug={assetSlug}
-        />
-        <PartTpSl
-          type="TP"
-          data={formState}
-          assetName={assetName}
-          assetSlug={assetSlug}
-        />
-        <PartTpSl
-          type="SL"
-          data={formState}
-          assetName={assetName}
-          assetSlug={assetSlug}
-        />
+        <PartOpen data={formState} assetSlug={assetSlug} />
+        <PartSafetyOpen data={formState} assetSlug={assetSlug} />
+        <PartTpSl type="TP" data={formState} assetSlug={assetSlug} />
+        <PartTpSl type="SL" data={formState} assetSlug={assetSlug} />
       </div>
 
       {isUpdate ? (
