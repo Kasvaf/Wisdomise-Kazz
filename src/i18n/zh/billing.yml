@@ -20,13 +20,31 @@ crypto-modal:
   subtotal: 小計
   title: Wisdomise AG
   total-due-today: 今天結算總額
+features:
+  cancel: 随时取消
+  secure: 安全且私密
+  trust: 受到 40,000+ 位用户的信赖
+overlay-subscription:
+  btn-subscribe: 订阅
+  btn-upgrade: 升级
+  customs-description: 要添加问题，您需要订阅 Wisdomise 计划之一
+  signals-description: 要显示所有信号，您需要 <1>订阅</1> 或者 <3>升级</3> 您当前的计划。
+  strategy:
+    description: 要揭示这一策略，你需要 <2>{{level}}</2> 或更高级别的计划。
+    title: 解锁高级信号
+  title: 您尚未订阅
 periodicity:
   month:
     per: 每<br>月
     title: 每月
+  off: "{{off}}％ 离开"
   year:
     per: 每<br>年
     title: 每年
+plans:
+  subscription-methods: 订阅方式
+  subtitle: 免费试用 Wisdomise Pro 7 天，了解交易者为何信任我们。随时取消！
+  title: 定价计划
 pricing-card:
   annually: 每年
   btn-action:
@@ -35,6 +53,8 @@ pricing-card:
     choose: 選擇
     current-plan: 當前計劃
     next-plan: 下一個計劃
+    upgrade-to: 升级至 {{plan}}
+  features: 特征
   forever: 永久
   free-subtitle: 隨意探索 Wisdomise
   monthly: 每月
