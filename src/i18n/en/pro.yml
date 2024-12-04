@@ -14,12 +14,6 @@ pro-locker:
   proplus:
     button: Upgrade to Pro+
     message: Upgrade to Pro+ for exclusive insights to elevate your crypto game!
-renew-modal:
-  title: Continue Your Crypto Journey<br></br>with Us!
-  description: >-
-    Continue unlocking your crypto potential with Wisdomise Pro! Here are some
-    features available in the Pro version:
-  renew: Renew Your Pro
 trial: Trial
 trial-modal:
   title: Welcome to Wisdomise Pro!
