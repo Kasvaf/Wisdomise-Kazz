@@ -28,12 +28,16 @@ common:
       weekly: 每週
     messangers:
       browser: 瀏覽器通知
+      connect: 连接
       discord: Discord 訊息
       email: 電子郵件
       push: 推送通知
+      request_permission: 请求许可
       slack: Slack 訊息
       sms: 短信
       telegram: Telegram 訊息
+      web_push: 推送通知
+      web_push_blocked: 要允许推送通知，请导航至浏览器的站点设置并手动启用通知。
     one-time: 一度
     unlimited-times: 不限次数
   price-info: 的价格 <Coin>未知硬币</Coin> 目前 <Price>未知</Price>

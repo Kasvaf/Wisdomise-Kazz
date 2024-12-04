@@ -28,12 +28,16 @@ common:
       weekly: 毎週
     messangers:
       browser: ブラウザ通知
+      connect: 接続する
       discord: 不和メッセージ
       email: Eメール
       push: プッシュ通知
+      request_permission: 許可をリクエスト
       slack: Slackメッセージ
       sms: SMS
       telegram: テレグラムメッセージ
+      web_push: プッシュ通知
+      web_push_blocked: プッシュ通知を許可するには、ブラウザのサイト設定に移動し、手動で通知を有効にしてください。
     one-time: 一度
     unlimited-times: 回数無制限
   price-info: の価格は <Coin>不明なコイン</Coin> 現在 <Price>未知</Price>
