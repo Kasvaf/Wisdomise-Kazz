@@ -36,7 +36,7 @@ const TransactionAnyOrderBox: React.FC<{
     >
       <div className="flex items-center justify-between">
         <div className="shrink-0">
-          {roundSensible(t.data.from_amount)} {t.data.from_asset}
+          {roundSensible(t.data.from_amount)} {t.data.from_asset_name}
         </div>
         <div className="mx-4 flex grow items-center">
           <div className="w-full border-b border-dashed border-v1-content-secondary" />
@@ -47,7 +47,7 @@ const TransactionAnyOrderBox: React.FC<{
           />
         </div>
         <div className="shrink-0">
-          {roundSensible(t.data.to_amount)} {t.data.to_asset}
+          {roundSensible(t.data.to_amount)} {t.data.to_asset_name}
         </div>
       </div>
 
@@ -69,8 +69,8 @@ const TransactionDepositWithdrawBox: React.FC<{
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             {t.data.assets.map(a => (
-              <div key={a.asset} className="shrink-0">
-                {roundSensible(a.amount)} {a.asset}
+              <div key={a.asset_slug} className="shrink-0">
+                {roundSensible(a.amount)} {a.asset_name}
               </div>
             ))}
           </div>

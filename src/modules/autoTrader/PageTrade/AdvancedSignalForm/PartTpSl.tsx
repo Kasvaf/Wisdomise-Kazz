@@ -13,7 +13,6 @@ import PriceVolumeInput from './PriceVolumeInput';
 const PartTpSl: React.FC<{
   type: 'TP' | 'SL';
   data: SignalFormState;
-  assetName: string;
   assetSlug: string;
 }> = ({ type, data, assetSlug }) => {
   const { t } = useTranslation('builder');

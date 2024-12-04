@@ -17,9 +17,8 @@ import { type SignalFormState } from './useSignalFormStates';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
-  assetName: string;
   assetSlug: string;
-}> = ({ data, assetName, assetSlug }) => {
+}> = ({ data, assetSlug }) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -108,7 +107,7 @@ const PartOpen: React.FC<{
         disabled={isUpdate || balanceLoading || !usdtBalance}
       />
 
-      <AIPresets data={data} assetName={assetName} assetSlug={assetSlug} />
+      <AIPresets data={data} assetSlug={assetSlug} />
 
       <div className="my-4 border-b border-white/5" />
 

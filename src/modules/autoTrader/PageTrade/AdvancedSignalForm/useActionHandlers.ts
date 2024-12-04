@@ -10,6 +10,7 @@ import {
   useTraderCancelPositionMutation,
   useTraderUpdatePositionMutation,
   type Position,
+  type CreatePositionRequest,
 } from 'api/trader';
 import { useTransferAssetsMutation } from 'api/ton';
 import { type SignalFormState } from './useSignalFormStates';
@@ -18,11 +19,10 @@ import { parseDur } from './DurationInput';
 
 interface Props {
   data: SignalFormState;
-  assetName: string;
   activePosition?: Position;
 }
 
-const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
+const useActionHandlers = ({ data, activePosition }: Props) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -66,10 +66,10 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
   const fireHandler = async () => {
     if ((orderType === 'limit' && !price) || !assetPrice || !address) return;
 
-    const createData = {
+    const createData: CreatePositionRequest = {
       signal: {
         action: 'open',
-        pair: assetName,
+        pair_slug: slug + '/tether',
         leverage: { value: Number(leverage) || 1 },
         position: {
           type: 'long',
@@ -81,7 +81,7 @@ const useActionHandlers = ({ data, assetName, activePosition }: Props) => {
         open_orders: getOpenOrders(assetPrice),
       },
       withdraw_address: address,
-      quote: 'USDT',
+      quote_slug: 'tether',
       quote_amount: amount,
     } as const;
 
