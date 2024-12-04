@@ -4,7 +4,7 @@ import { type ColumnType } from 'antd/es/table';
 import { type CoinWhale, useCoinWhales } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import Table from 'shared/Table';
 import { Wallet } from 'shared/Wallet';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -217,7 +217,7 @@ export function CoinWhaleListWidget({
           onChange={setType}
         />
       </div>
-      <ProLocker level={2} size={2} mode="table">
+      <AccessSheild level={2} size={2} mode="table">
         <Table
           dataSource={whales.data?.results ?? []}
           columns={columns}
@@ -249,7 +249,7 @@ export function CoinWhaleListWidget({
             }
           }}
         />
-      </ProLocker>
+      </AccessSheild>
     </OverviewWidget>
   );
 }

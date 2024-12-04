@@ -13,7 +13,7 @@ import {
   useMarketInfoFromSignals,
 } from 'api';
 import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/components/SignalSentiment';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import { formatNumber } from 'utils/numbers';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
@@ -267,7 +267,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         </>
       }
     >
-      <ProLocker mode="table" size={3} level={1}>
+      <AccessSheild mode="table" size={3} level={1}>
         <Table
           columns={columns}
           dataSource={filteredCoins}
@@ -275,7 +275,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           loading={coins.isRefetching && !coins.isFetched}
           tableLayout="fixed"
         />
-      </ProLocker>
+      </AccessSheild>
     </OverviewWidget>
   );
 }

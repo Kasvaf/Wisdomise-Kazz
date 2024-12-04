@@ -4,7 +4,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function TopWhaleCoinsWidget({ className }: { className?: string }) {
@@ -28,7 +28,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
       loading={coins.isLoading}
       empty={coins.data?.results.length === 0}
     >
-      <ProLocker mode="children" size={2} level={2}>
+      <AccessSheild mode="children" size={2} level={2}>
         {coins.data?.results.map(row => (
           <div
             key={row.symbol.name + (row.symbol.slug ?? '')}
@@ -68,7 +68,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
             </div>
           </div>
         ))}
-      </ProLocker>
+      </AccessSheild>
     </OverviewWidget>
   );
 }

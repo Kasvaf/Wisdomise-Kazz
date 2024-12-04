@@ -16,7 +16,7 @@ import {
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import {
   useConfirmationTabs,
   type ConfirmationType,
@@ -167,7 +167,7 @@ export function ConfirmationWidget<I extends Indicator>({
       loading={confirmations.isLoading}
       empty={confirmations.data?.results.length === 0}
     >
-      <ProLocker
+      <AccessSheild
         className="flex flex-col items-start gap-3"
         mode="children"
         size={2}
@@ -182,7 +182,7 @@ export function ConfirmationWidget<I extends Indicator>({
             type={type}
           />
         ))}
-      </ProLocker>
+      </AccessSheild>
     </OverviewWidget>
   );
 }

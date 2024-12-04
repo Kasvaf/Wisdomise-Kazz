@@ -8,7 +8,7 @@ import {
 } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { ProLocker } from 'shared/ProLocker';
+import { AccessSheild } from 'shared/AccessSheild';
 import { SocialMessageSummary } from './SocialMessage';
 import { SocialLogo } from './SocialLogo';
 
@@ -131,7 +131,7 @@ export function CoinSocialFeedWidget({
   }, [activeTab?.value]);
 
   return (
-    <ProLocker
+    <AccessSheild
       level={0}
       size={1}
       mode="children"
@@ -173,6 +173,6 @@ export function CoinSocialFeedWidget({
           ))}
         </div>
       </OverviewWidget>
-    </ProLocker>
+    </AccessSheild>
   );
 }

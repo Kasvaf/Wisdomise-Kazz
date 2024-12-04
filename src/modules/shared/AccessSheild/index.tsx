@@ -8,7 +8,7 @@ import { useSubscription } from 'api';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
-export function ProLocker({
+export function AccessSheild({
   children,
   className,
   mode,
