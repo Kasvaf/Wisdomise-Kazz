@@ -5,6 +5,7 @@ import { type MarketTypes } from 'api/types/shared';
 const caches: Record<string, Candle[]> = {};
 
 const durs: Record<Resolution, number> = {
+  '1m': 1000 * 60,
   '5m': 1000 * 60 * 5,
   '15m': 1000 * 60 * 15,
   '30m': 1000 * 60 * 30,
