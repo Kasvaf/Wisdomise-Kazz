@@ -32,7 +32,7 @@ export default function PricingCard({
   const account = useAccountQuery();
   const { t } = useTranslation('billing');
   const subsMutation = useSubscriptionMutation();
-  const { isActive, plan: userPlan, type } = useSubscription();
+  const { plan: userPlan, level, status } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent);
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
@@ -40,9 +40,10 @@ export default function PricingCard({
   );
   const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
 
-  const hasUserThisPlan = isActive && !isRenew && plan.key === userPlan?.key;
+  const hasUserThisPlan =
+    status === 'active' && !isRenew && plan.key === userPlan?.key;
   const hasUserThisPlanAsNextPlan =
-    isActive &&
+    status === 'active' &&
     plan.key ===
       account.data?.subscription_item?.next_subs_item?.subscription_plan.key;
 
@@ -55,14 +56,7 @@ export default function PricingCard({
       plan.periodicity === 'MONTHLY');
 
   const onClick = async () => {
-    if (type === 'pro') {
-      await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
-      notification.success({
-        duration: 5000,
-        message: t('pricing-card.notification-upgrade-success'),
-      });
-      onPlanUpdate();
-    } else {
+    if (level === 0 || status === 'trialing') {
       if (isTokenUtility) {
         void openTokenPaymentModal({ plan });
       } else {
@@ -79,6 +73,13 @@ export default function PricingCard({
           plan,
         });
       }
+    } else {
+      await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
+      notification.success({
+        duration: 5000,
+        message: t('pricing-card.notification-upgrade-success'),
+      });
+      onPlanUpdate();
     }
   };
 
@@ -141,7 +142,7 @@ export default function PricingCard({
         {/* Features */}
         <PlanFeatures {...plan} className="grow" />
 
-        {plan.price !== 0 && (
+        {plan.token_hold_support ? (
           <div className="mt-6 flex justify-center rounded-lg bg-white/5 py-3 text-xxs text-white/70">
             <p
               className={clsx(
@@ -150,23 +151,23 @@ export default function PricingCard({
                 '[&_b]:rounded [&_b]:px-2 [&_b]:py-px [&_b]:font-semibold [&_b]:text-white',
               )}
             >
-              {plan.periodicity === 'YEARLY' ? (
-                <Trans
-                  ns="billing"
-                  i18nKey="pricing-card.pay-by-locking"
-                  values={{
-                    token:
-                      lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
-                      '0',
-                  }}
-                />
-              ) : (
-                <Trans
-                  ns="billing"
-                  i18nKey="pricing-card.pay-by-locking-in-yearly-only"
-                />
-              )}
+              <Trans
+                ns="billing"
+                i18nKey="pricing-card.pay-by-locking"
+                values={{
+                  token:
+                    lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
+                    '0',
+                }}
+              />
             </p>
+          </div>
+        ) : (
+          <div className="hidden">
+            <Trans
+              ns="billing"
+              i18nKey="pricing-card.pay-by-locking-in-yearly-only"
+            />
           </div>
         )}
 

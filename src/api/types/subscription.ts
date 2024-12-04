@@ -37,6 +37,7 @@ export interface SubscriptionPlan {
   metadata: SubscriptionPlanMetadata;
   wsdm_token_hold: number;
   level: number;
+  token_hold_support?: boolean;
 }
 
 interface SubscriptionPlanMetadata {

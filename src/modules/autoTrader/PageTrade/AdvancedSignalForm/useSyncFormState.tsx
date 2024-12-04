@@ -27,11 +27,11 @@ function mergeItems<T extends Mergeable>({
 
 const useSyncFormState = ({
   formState,
-  assetName,
+  assetSlug,
   activePosition,
 }: {
   formState: SignalFormState;
-  assetName: string;
+  assetSlug: string;
   activePosition?: Position;
 }) => {
   const {
@@ -59,7 +59,7 @@ const useSyncFormState = ({
     setVolume('100');
     setConditions([]);
   }, [
-    assetName,
+    assetSlug,
     setConditions,
     setOrderType,
     setPriceUpdated,
@@ -69,7 +69,7 @@ const useSyncFormState = ({
     setVolume,
   ]);
 
-  const [pair, setPair] = useState<string>();
+  const [pairSlug, setPair] = useState<string>();
   // merge remote changes of active-position to local form state
   useEffect(() => {
     setIsUpdate(!!activePosition);
@@ -85,9 +85,9 @@ const useSyncFormState = ({
     if (
       activePosition &&
       firstOrder &&
-      (firstOrder.applied || activePosition.pair !== pair)
+      (firstOrder.applied || activePosition.pair_slug !== pairSlug)
     ) {
-      setPair(activePosition.pair);
+      setPair(activePosition.pair_slug);
 
       const price = firstOrder.price ?? activePosition.entry_price;
       setPrice(price ? String(price) : '');
@@ -147,7 +147,7 @@ const useSyncFormState = ({
     );
   }, [
     activePosition,
-    pair,
+    pairSlug,
     setAmount,
     setPrice,
     setLeverage,

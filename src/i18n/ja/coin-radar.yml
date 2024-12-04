@@ -19,16 +19,45 @@ coin-details:
     chart:
       label: 知恵チャート
       title: 知恵チャート
+    coin_introduction:
+      title: 何ですか {{name}}?
+    coin_links:
+      bitbucket: ビットバケット
+      facebook: フェイスブック
+      github: ギットハブ
+      homepage: ホームページ
+      official_links: 公式リンク
+      reddit: Reddit
+      social: 社交
+      telegram: Telegram
+      twitter: X（ツイッター）
+      whitepaper: 白書
     coin_stats:
       circulating_supply: 循環供給
       contract_address: 契約住所
+      fdv: FDV
       fully_diluted_valuation: 完全希薄化後時価総額
       market_cap: 時価総額
+      security_scan: Go+によるセキュリティスキャン
       total_supply: 総供給量
       volume: 音量
       volume_market_cap: 取引量/時価総額
       volume_market_cap_info: 流動性の指標。比率が高いほど暗号通貨の流動性が高くなり、取引所でその価値に近い価格で売買しやすくなります。
+    hot_coins:
+      empty:
+        subtitle: 市場は静かですが、私たちは注意深く監視しています。すぐに新しいホットコインがここに登場します！
+        title: 現在、ホットコインはありません
+      filters:
+        all: 全て
+      table:
+        24h_chg: 24 変化
+        name: 信号発信者名
+        price: 価格
+      title: ホットコイン
     markets:
+      empty:
+        subtitle: 現時点では新しい取引所データはありません。変更があれば注視しています。後ほど再度ご確認ください。
+        title: 取引所からの更新はありません
       label: 市場
       subtitle: オプションを探索し、シームレスな取引のために利用可能な取引所を見つけましょう。
       title: 利用可能な交換
@@ -44,6 +73,7 @@ coin-details:
       low: 低い
       title: 価格パフォーマンス
     social_sentiment:
+      empty: このコインに関するコミュニティアクティビティは検出されませんでした。
       footer: 過去 24 時間、コミュニティ データの洞察
       hunted-at: 狩られた場所
       long: 潜在的な成長機会
@@ -54,6 +84,9 @@ coin-details:
       short: 衰退のリスク
       title: 社会感情 ウィズダムズ
     socials:
+      empty:
+        subtitle: 現時点では更新情報はありませんが、私たちは常に暗号通貨の世界を調査しています。近日中にさらにニュースをお届けします。
+        title: 市場は静か
       label: 社交
       load_more: さらに読み込む
       subtitle: ソーシャル メディアをリアルタイムでスキャンして、暗号通貨の最新情報を把握しましょう。
@@ -72,12 +105,52 @@ coin-details:
         twitter:
           title: X、ツイッター
     trading_view:
+      empty:
+        subtitle: 私たちは常に新しい戦略を模索しています。最新の技術的洞察がまもなく利用可能になります。
+        title: 今のところ新しいアイデアはない
       label: 技術的なアイデア
+      load_more: さらに読み込む
       title: 技術的なアイデア
     trending_coins:
       title: トレンドのコインとトークン
+    whale_list:
+      empty:
+        subtitle: 深海は現在穏やかですが、私たちは常に大物を追跡しています。クジラの動きに注目してください!
+        title: クジラの活動は検出されず
+      holders: 保留
+      label: 賢いクジラ
+      table:
+        address: 住所
+        avg_duration: 平均所要時間
+        badge: バッジ
+        returns: 返品
+        trades: "#取引"
+        trading_pnl: 取引損益
+        volume: 音量
+        volume_of_trades: 取引量
+        worth: 価値
+      title: 賢いクジラ
+      traders: 取引
     whale_popular:
       title: クジラに人気
+    whale_sentiment:
+      buy: 買う
+      hold: 所有
+      sell: 売る
+      title: クジラの感情
+coin_labels:
+  hype:
+    info: 「Hype」ラベルは、現在ソーシャル メディアのアクティビティが急増しているシンボルを示します。これらのシンボルは、短期間に複数のソーシャル
+      メディア
+      チャネルで多数の固有のアカウントによって言及されています。このラベルは、シンボルに関する潜在的なトレンドや話題を示し、一般の関心や憶測が高まっていることを示唆しています。
+  monthly_social_beloved:
+    info: 「Monthly Social Beloved」ラベルは、過去 1 か月間にソーシャル
+      メディアの議論で強い存在感を維持したシンボルに割り当てられます。これらのシンボルは多数の固有のアカウントによって言及されており、長期的な関心と関与を反映しています。このラベルは、永続的な魅力があり、安定したパフォーマンスや長期的な投資機会の可能性を秘めたシンボルを識別するのに役立ちます。
+    suffix: 🌐
+  weekly_social_beloved:
+    info: 「Weekly Social Beloved」ラベルは、過去 1 週間にわたってソーシャル メディア
+      ユーザーの注目を集め続けたシンボルを強調表示します。これらのシンボルはさまざまなアカウントで頻繁に言及されており、継続的な関心とエンゲージメントを示しています。このラベルは、人気が高まっており、成長や変動の可能性があるシンボルを識別するのに最適です。
+    suffix: 🌐
 coin_security:
   contract_security: 契約セキュリティ
   fields:
@@ -134,6 +207,11 @@ coin_security:
   trusted: 信頼できる
   warning_other: "{{count}} 警告"
   warning_zero: 警告なし
+common:
+  labels: ラベル
+  price: 価格
+contract-address:
+  multiple: 複数のアドレス
 onboarding:
   sec-1:
     content: この短いビデオを見て、当社の AI
@@ -172,6 +250,11 @@ set-notification:
 set-price-notification:
   open-existing-modal-btn: アラートが設定されました
   open-modal-btn: アラートを設定する
+social-messages:
+  members: "{{size}} メンバー"
+  post_details: 投稿の詳細
+  read_more: 続きを読む
+  subscribers: "{{size}} 購読者"
 social-radar-overview:
   table:
     info: 情報

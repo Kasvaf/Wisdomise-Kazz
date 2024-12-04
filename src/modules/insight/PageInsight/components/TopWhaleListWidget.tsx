@@ -68,7 +68,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       loading={whales.isLoading}
       empty={whales.data?.results.length === 0}
     >
-      <ProLocker mode="table" level={2}>
+      <ProLocker mode="table" level={2} size={2}>
         <Table
           loading={whales.isLoading}
           columns={columns}

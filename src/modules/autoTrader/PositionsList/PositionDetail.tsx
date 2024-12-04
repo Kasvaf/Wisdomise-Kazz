@@ -2,18 +2,25 @@ import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { bxEditAlt, bxHistory } from 'boxicons-quasar';
 import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import PriceChange from 'shared/PriceChange';
+import InfoButton from 'shared/InfoButton';
+import { roundSensible } from 'utils/numbers';
+import { useSymbolInfo } from 'api/symbol';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
 
+const AssetName: React.FC<{ assetSlug: string }> = ({ assetSlug }) => {
+  const { data } = useSymbolInfo(assetSlug);
+  return <>{data}</>;
+};
+
 const PositionDetail: React.FC<{
-  pairSlug?: string;
   position: Position;
   className?: string;
-}> = ({ pairSlug, position, className }) => {
+}> = ({ position, className }) => {
   const initialDeposit = initialQuoteDeposit(position);
 
   return (
@@ -23,17 +30,17 @@ const PositionDetail: React.FC<{
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span>{position.pair}</span>
+          <span>{position.pair_name}</span>
         </div>
         <div className="flex items-center gap-3">
           <CancelButton position={position} />
           <CloseButton position={position} />
 
-          {!!pairSlug && isPositionUpdatable(position) && (
+          {isPositionUpdatable(position) && (
             <Button
               variant="link"
               className="ms-auto !p-0 !text-xs text-v1-content-link"
-              to={`/market/${pairSlug}?pos=${position.key}`}
+              to={`/market/${position.base_slug}?pos=${position.key}`}
             >
               <Icon name={bxEditAlt} size={16} />
               Edit
@@ -72,7 +79,7 @@ const PositionDetail: React.FC<{
           <div className="flex items-center justify-between">
             <span className="text-v1-content-secondary">Initial Deposit</span>
             <span>
-              {initialDeposit} {position.quote}
+              {initialDeposit} {position.quote_name}
             </span>
           </div>
         )}
@@ -80,44 +87,79 @@ const PositionDetail: React.FC<{
         {position.current_assets
           .filter(x => !x.is_gas_fee)
           .map(a => (
-            <div key={a.asset} className="flex items-center justify-between">
+            <div
+              key={a.asset_slug}
+              className="flex items-center justify-between"
+            >
               <span className="text-v1-content-secondary">
-                Current {a.asset}
+                Current <AssetName assetSlug={a.asset_slug} />
+              </span>
+              <span>{roundSensible(a.amount)}</span>
+            </div>
+          ))}
+
+        {position.current_assets
+          .filter(x => x.is_gas_fee)
+          .map(a => (
+            <div
+              key={a.asset_slug}
+              className="flex items-center justify-between"
+            >
+              <span className="flex items-center gap-1 text-v1-content-secondary">
+                Gas Reserve
+                <InfoButton
+                  size={16}
+                  title="Remaining Gas Fee"
+                  text="This gas amount is temporarily held and any unused gas will be refunded when the position is closed."
+                />
               </span>
               <span>
-                <ReadableNumber value={Number(a.amount)} />
+                {roundSensible(a.amount)} <AssetName assetSlug={a.asset_slug} />
               </span>
             </div>
           ))}
 
         {position.pnl != null && (
           <div className="flex items-center justify-between">
-            <span className="text-v1-content-secondary">P / L</span>
+            <span className="flex items-center gap-1 text-v1-content-secondary">
+              P / L
+              <InfoButton
+                size={16}
+                title="Profit and Loss"
+                text="P/L represents the ratio of your profits to losses, excluding any gas fees incurred."
+              />
+            </span>
             <span>
-              <ReadableNumber value={Number(position.pnl)} label="%" />
+              <PriceChange value={Number(position.pnl)} suffix="%" />
             </span>
           </div>
         )}
 
-        {position.current_total_equity != null &&
-          position.status !== 'CANCELED' && (
+        {Number(position.current_total_equity) > 0 && (
+          <div className="flex items-center justify-between">
+            <span>Current Value</span>
+            <span>{roundSensible(position.current_total_equity)} USDT</span>
+          </div>
+        )}
+
+        {initialDeposit != null &&
+          position.pnl != null &&
+          Number(initialDeposit) > 0 &&
+          position.status === 'CLOSED' && (
             <div className="flex items-center justify-between">
-              <span>Current Value</span>
+              <span>Final Value</span>
               <span>
-                <ReadableNumber
-                  value={Number(position.current_total_equity)}
-                  label="USDT"
-                />
+                {initialDeposit * (1 + Number(position.pnl) / 100)} USDT
               </span>
             </div>
           )}
 
-        {pairSlug && position.status !== 'CANCELED' && (
+        {position.status !== 'CANCELED' && (
           <Button
             variant="link"
             className="!p-0 !text-xs text-v1-content-link"
             contentClassName="!text-v1-content-link"
-            to={`/trader-hot-coins/${pairSlug}/transactions?key=${position.key}`}
+            to={`/trader-hot-coins/${position.base_slug}/transactions?key=${position.key}`}
             size="small"
           >
             <Icon name={bxHistory} size={16} className="mr-1" />

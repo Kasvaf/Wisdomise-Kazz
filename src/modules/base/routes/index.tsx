@@ -1,6 +1,7 @@
 import { type RouteObject } from 'react-router-dom';
 import useMiniAppRoutes from 'modules/base/routes/miniAppRoutes';
 import { isMiniApp } from 'utils/version';
+import useEmbeddedRoutes from 'modules/base/routes/embeddedRoutes';
 import Container from '../Container';
 import PageMenu from '../Container/SideMenu/PageMenu';
 import PageRedirect from '../PageRedirect';
@@ -9,7 +10,11 @@ import useInsightRoutes from './insightRoutes';
 import useAccountRoutes from './accountRoutes';
 
 const useRoutes = () => {
-  const webRoutes = [...useInsightRoutes(), ...useAccountRoutes()];
+  const webRoutes = [
+    ...useInsightRoutes(),
+    ...useAccountRoutes(),
+    ...useEmbeddedRoutes(),
+  ];
   const miniAppRoutes = useMiniAppRoutes();
 
   const activeRoutes = isMiniApp ? miniAppRoutes : webRoutes;

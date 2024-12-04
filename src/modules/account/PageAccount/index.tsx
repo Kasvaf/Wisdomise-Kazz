@@ -54,7 +54,7 @@ const PageAccount: FC = () => {
           badge={
             <>
               <span>{subscription.title}</span>
-              {!subscription.isFreePlan && (
+              {subscription.level !== 0 && (
                 <span
                   className={clsx(
                     'border-l border-l-white/60 pl-2',

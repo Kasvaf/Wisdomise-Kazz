@@ -13,7 +13,9 @@ export const NetworkSelect: FC<SelectProps<string>> = ({
   loading,
   ...props
 }) => {
-  const networks = useNetworks();
+  const networks = useNetworks({
+    filter: 'social-radar-24-hours',
+  });
   const { t } = useTranslation('coin-radar');
 
   return (

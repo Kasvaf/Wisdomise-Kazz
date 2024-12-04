@@ -18,16 +18,27 @@ const langs = [
 const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
   const { i18n } = useTranslation();
   const isMobile = useIsMobile();
+  // const [cookies, setCookie] = useCookies(['i18next']);
 
   const [loading, setLoading] = useState(false);
   const changeLang = async (value: string) => {
     try {
       setLoading(true);
       await i18n.changeLanguage(value);
+      // setCookie('i18next', value, {
+      //   path: '/',
+      //   domain: isLocal ? 'localhost' : 'wisdomise.com',
+      // });
     } finally {
       setLoading(false);
     }
   };
+
+  // useEffect(() => {
+  //   if (cookies.i18next) {
+  //     void changeLang(cookies.i18next);
+  //   }
+  // }, [changeLang, cookies.i18next]);
 
   const [open, setOpen] = useState(false);
   const dropDownFn = () => (

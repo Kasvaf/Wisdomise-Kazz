@@ -21,11 +21,10 @@ const orderToOrder = (x: OrderPresetItem) => ({
 
 const AIPresets: React.FC<{
   data: SignalFormState;
-  assetName: string;
   assetSlug: string;
-}> = ({ data, assetName }) => {
+}> = ({ data, assetSlug }) => {
   const [activePreset, setActivePreset] = useState(3);
-  const { data: presets, isLoading } = useAIPresets(assetName);
+  const { data: presets, isLoading } = useAIPresets(assetSlug + '/tether');
 
   const {
     isUpdate: [isUpdate],

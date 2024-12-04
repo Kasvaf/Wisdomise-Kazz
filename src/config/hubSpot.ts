@@ -1,19 +1,21 @@
 import { useEffect } from 'react';
 import { useAccountQuery } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
 
 export const useHubSpot = () => {
   const { data: account } = useAccountQuery();
   const isLoggedIn = useIsLoggedIn();
+  const { isEmbeddedView } = useEmbedView();
 
   useEffect(() => {
-    if (account?.email && isLoggedIn) {
+    if (account?.email && isLoggedIn && !isEmbeddedView) {
       configHubSpot({
         email: account.email,
         token: account.hub_spot_token,
       });
     }
-  }, [account?.email, account?.hub_spot_token, isLoggedIn]);
+  }, [account?.email, account?.hub_spot_token, isEmbeddedView, isLoggedIn]);
 };
 
 let loaded = false;

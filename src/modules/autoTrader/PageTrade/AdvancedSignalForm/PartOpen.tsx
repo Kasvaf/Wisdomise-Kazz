@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { bxPlusCircle } from 'boxicons-quasar';
-import { useCoinOverview } from 'api';
+import { useLastPriceQuery } from 'api';
 import { useAccountJettonBalance } from 'api/ton';
 import { roundSensible } from 'utils/numbers';
 import { ButtonSelect } from 'shared/ButtonSelect';
@@ -17,9 +17,8 @@ import { type SignalFormState } from './useSignalFormStates';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
-  assetName: string;
   assetSlug: string;
-}> = ({ data, assetName, assetSlug }) => {
+}> = ({ data, assetSlug }) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -35,10 +34,9 @@ const PartOpen: React.FC<{
     orderExp: [orderExp, setOrderExp],
   } = data;
 
-  const { data: lastPrice } = useCoinOverview({ slug });
+  const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
   const { data: usdtBalance, isLoading: balanceLoading } =
     useAccountJettonBalance('usdt');
-  const assetPrice = lastPrice?.data?.current_price;
 
   useEffect(() => {
     if (!priceUpdated && assetPrice && !isUpdate) {
@@ -78,7 +76,7 @@ const PartOpen: React.FC<{
                 Reading Balance
               </div>
             ) : (
-              usdtBalance !== undefined && (
+              usdtBalance != null && (
                 <div
                   className="flex items-center gap-1"
                   onClick={() => !isUpdate && setAmount(String(usdtBalance))}
@@ -100,7 +98,7 @@ const PartOpen: React.FC<{
             )}
           </div>
         }
-        max={usdtBalance}
+        max={usdtBalance || 0}
         value={amount}
         onChange={setAmount}
         suffix="USDT"
@@ -108,7 +106,7 @@ const PartOpen: React.FC<{
         disabled={isUpdate || balanceLoading || !usdtBalance}
       />
 
-      <AIPresets data={data} assetName={assetName} assetSlug={assetSlug} />
+      <AIPresets data={data} assetSlug={assetSlug} />
 
       <div className="my-4 border-b border-white/5" />
 

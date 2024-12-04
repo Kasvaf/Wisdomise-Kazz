@@ -8,6 +8,7 @@ actions:
   next: 下一步
   no: 否
   ok: 好的
+  refresh: 刷新
   remove: 移除
   save: 保存
   yes: 是
@@ -29,6 +30,7 @@ order-type:
   market: 市場
 recommended-size: 建議大小
 see-more: 查看更多
+share-page-url: 分享此页面
 show-more: 顯示更多
 soon: 即將推出
 uploading: 上傳中

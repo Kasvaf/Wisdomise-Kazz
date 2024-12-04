@@ -53,7 +53,7 @@ export interface OpenOrderResponse {
 
 export interface Signal {
   action: 'open' | 'close' | 'update';
-  pair: string; // "BTC/USDT",
+  pair_slug: string; // "BTC/USDT",
   leverage?: {
     value: number;
   };

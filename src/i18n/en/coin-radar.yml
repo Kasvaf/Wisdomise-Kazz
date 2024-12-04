@@ -11,6 +11,31 @@ call-change:
   pnl: Last Update
   trigger-price: Price When Signal Fired
   under-calculation: Under Calculation
+coin_labels:
+  hype:
+    info: >-
+      The "Hype" label identifies symbols that are currently experiencing a
+      surge in social media activity. These symbols have been mentioned by a
+      significant number of unique accounts across multiple social media
+      channels within a short time frame. This label indicates a potential trend
+      or buzz around the symbol, suggesting increased public interest or
+      speculation.
+  monthly_social_beloved:
+    info: >-
+      The "Monthly Social Beloved" label is assigned to symbols that have
+      maintained a strong presence in social media discussions over the past
+      month. These symbols have been mentioned by numerous unique accounts,
+      reflecting long-term interest and engagement. This label is useful for
+      identifying symbols with enduring appeal and potential for stable
+      performance or long-term investment opportunities.
+  weekly_social_beloved:
+    info: >-
+      The "Weekly Social Beloved" label highlights symbols that have
+      consistently captured the attention of social media users over the past
+      week. These symbols have been frequently mentioned by a diverse set of
+      accounts, indicating sustained interest and engagement. This label is
+      ideal for identifying symbols that are gaining popularity and may have
+      potential for growth or volatility.
 coin_security:
   contract_security: Contract Security
   fields:
@@ -75,17 +100,28 @@ coin_security:
   warning_zero: No Warnings
 coin-category:
   all: All Categories
-  button: Categories
 coin-details:
   tabs:
-    chart:
-      title: Chart
-      label: Chart
+    coin_introduction:
+      title: What is {{name}}?
+    coin_links:
+      bitbucket: Bitbucket
+      facebook: Facebook
+      github: Github
+      homepage: Home Page
+      official_links: Official Links
+      reddit: Reddit
+      social: Social
+      telegram: Telegram
+      twitter: X (Twitter)
+      whitepaper: Whitepaper
     coin_stats:
       circulating_supply: Circulating Supply
       contract_address: Contract Address
+      fdv: FDV
       fully_diluted_valuation: Fully Diluted Market Cap
       market_cap: Market Cap
+      security_scan: Security Scan By Go+
       total_supply: Total Supply
       volume: Volume
       volume_market_cap: Volume/Market Cap
@@ -93,17 +129,30 @@ coin-details:
         Indicator of liquidity. The higher the ratio, the more liquid the
         cryptocurrency is, which should make it easier for it to be bought/sold
         on an exchange close to its value.
+    hot_coins:
+      title: Hot Coins
+      empty:
+        title: No Hot Coins Right Now
+        subtitle: >-
+          The market’s quiet, but we’re monitoring closely. New hot coins will
+          appear here soon!
+      filters:
+        all: All
+      table:
+        name: Name
+        24h_chg: 24 Chg
+        price: Price
     markets:
       title: Available Exchange
       subtitle: >-
         Explore Your Options, Discover the Available Exchanges for Seamless
         Trading!
       label: Markets
-    most_viewed_coins:
-      title: Most Viewed Coins
-      table:
-        name: Name
-        price: Price
+      empty:
+        title: No Updates from Exchanges
+        subtitle: >-
+          No new exchange data at the moment. We’re keeping an eye out for any
+          changes. Check back later!
     price_performance:
       title: Price Performance
       ath: All-Time High
@@ -111,10 +160,11 @@ coin-details:
       high: High
       low: Low
     social_sentiment:
-      title: Social Sentiment By Wisdomise
-      footer: Past 24H, Community Data Insights
+      title: Community Sentiment
+      empty: No community activity detected for this coin.
       hunted-at: Hunted At
       long: Potential Growth Opportunity
+      market_side: Market Side
       negative: Negative
       not_sure: Not Sure
       positive: Positive
@@ -123,32 +173,59 @@ coin-details:
       title: Social Feed
       subtitle: Stay ahead in crypto with real-time scans of social media.
       label: Social
-      load_more: Load More
+      empty:
+        title: The Market’s Quiet
+        subtitle: >-
+          No updates right now, but we’re always scanning the crypto world. More
+          news is coming soon!
       types:
         all:
           title: All Socials Feed
         reddit:
           title: Reddit
-          followers: Members
         telegram:
           title: Telegram
-          followers: Subscribers
-        trading_view:
-          title: Technical Ideas
         twitter:
           title: X, Twitter
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
-    trending_coins:
-      title: Trending Coins and Tokens
-    whale_popular:
-      title: Popular With Whales
-copied-to-clipboard: ''
-hot-coins-section:
-  table:
-    name: ''
-    realtime-price: ''
+      empty:
+        title: No New Ideas Right Now
+        subtitle: >-
+          We're continuously exploring new strategies. Fresh technical insights
+          will be available soon!
+      load_more: Load More
+    whale_list:
+      title: Smart Whales
+      label: Smart Whales
+      empty:
+        title: No Whale Activity Detected
+        subtitle: >-
+          It's calm in the deep right now, but we’re always tracking the big
+          players. Stay tuned for whale moves!
+      holders: Holds
+      table:
+        address: Address
+        avg_duration: Avg Duration
+        badge: Badge
+        returns: Returns
+        trades: '#Trades'
+        trading_pnl: Trading PNL
+        volume: Volume
+        volume_of_trades: Volume Of Trades
+        worth: Worth
+      traders: Trades
+    whale_sentiment:
+      title: Whale Sentiment
+      buy: Buy
+      hold: Hold
+      sell: Sell
+common:
+  labels: Labels
+  price: Price
+contract-address:
+  multiple: Multiple Address
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
@@ -191,6 +268,11 @@ screener:
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
+social-messages:
+  members: '{{size}} Members'
+  post_details: Post Details
+  read_more: Read More
+  subscribers: '{{size}} Subscribers'
 social-radar:
   banner:
     title: Social Radar

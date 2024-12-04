@@ -6,7 +6,7 @@ import {
 } from '@tonconnect/ui-react';
 import axios from 'axios';
 import { Address, beginCell, toNano, TonClient } from '@ton/ton';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 
@@ -33,8 +33,10 @@ const CONTRACT_DECIMAL = {
 export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
   const address = useTonAddress();
   return useQuery(
-    ['accountJettonBalance', address],
+    ['accountJettonBalance', contract, address || ''],
     async () => {
+      if (!address) return null;
+
       const { data } = await axios.get<{ balance: string }>(
         `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${CONTRACT_ADDRESSES[contract]}`,
         {
@@ -44,10 +46,13 @@ export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
 
       const balance = Number(data?.balance);
       return Number.isNaN(balance)
-        ? undefined
+        ? null
         : balance / 10 ** CONTRACT_DECIMAL[contract];
     },
-    { enabled: !!address },
+    {
+      refetchInterval: 10_000,
+      staleTime: 500,
+    },
   );
 };
 
@@ -95,6 +100,7 @@ export const useTransferAssetsMutation = () => {
   const [tonConnectUI] = useTonConnectUI();
   const { data: jettonWalletAddress } = useJettonWalletAddress();
   const { save } = useUserStorage('last-parsed-deposit-address');
+  const queryClient = useQueryClient();
 
   return async ({
     recipientAddress,
@@ -147,5 +153,10 @@ export const useTransferAssetsMutation = () => {
     console.log(transaction);
 
     await tonConnectUI.sendTransaction(transaction);
+    await queryClient.invalidateQueries([
+      'accountJettonBalance',
+      'usdt',
+      address || '',
+    ]);
   };
 };

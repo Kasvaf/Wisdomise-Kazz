@@ -65,6 +65,7 @@
     "**/i18n/ja/**": true,
     "**/i18n/zh/**": true,
     "dist/**": true,
-    "patches/**": true
+    "patches/**": true,
+    "public/**": true
   },
 }

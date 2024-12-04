@@ -9,7 +9,7 @@ import {
   type Transaction,
 } from 'api';
 import Icon from 'shared/Icon';
-import { ReadableNumber } from 'shared/ReadableNumber';
+import { roundSensible } from 'utils/numbers';
 import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 import { ReactComponent as DepositIcon } from './deposit.svg';
 import { Box, GasFee, StatusLabel, TonViewer } from './components';
@@ -26,17 +26,18 @@ const TransactionAnyOrderBox: React.FC<{
           safety_open: 'Safety Open',
           open: 'Open',
           close: 'Close',
-        }[t.type] + ('index' in t.data ? ' #' + String(t.data.index) : '')
+        }[t.type] +
+        ('index' in t.data && Number(t.data.index)
+          ? ' #' + String(t.data.index)
+          : '')
       }
       info={<StatusLabel t={t} />}
       contentClassName="flex flex-col items-stretch gap-3"
     >
       <div className="flex items-center justify-between">
-        <ReadableNumber
-          value={Number(t.data.from_amount)}
-          label={t.data.from_asset}
-          className="shrink-0"
-        />
+        <div className="shrink-0">
+          {roundSensible(t.data.from_amount)} {t.data.from_asset_name}
+        </div>
         <div className="mx-4 flex grow items-center">
           <div className="w-full border-b border-dashed border-v1-content-secondary" />
           <Icon
@@ -45,11 +46,9 @@ const TransactionAnyOrderBox: React.FC<{
             className="text-v1-content-secondary"
           />
         </div>
-        <ReadableNumber
-          value={Number(t.data.to_amount)}
-          label={t.data.to_asset}
-          className="shrink-0"
-        />
+        <div className="shrink-0">
+          {roundSensible(t.data.to_amount)} {t.data.to_asset_name}
+        </div>
       </div>
 
       <GasFee t={t} />
@@ -70,12 +69,8 @@ const TransactionDepositWithdrawBox: React.FC<{
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             {t.data.assets.map(a => (
-              <div key={a.asset}>
-                <ReadableNumber
-                  value={Number(a.amount)}
-                  label={a.asset}
-                  className="shrink-0"
-                />
+              <div key={a.asset_slug} className="shrink-0">
+                {roundSensible(a.amount)} {a.asset_name}
               </div>
             ))}
           </div>

@@ -3,14 +3,16 @@ import { type ColumnType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
 import { Image } from 'antd';
 import Table from 'shared/Table';
-import { useTraderCoins, type WhaleCoin } from 'api';
+import { useHasFlag, useTraderCoins, type WhaleCoin } from 'api';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PageWrapper from 'modules/base/PageWrapper';
+import AlertButton from './AlertButton';
 import ton from './ton.svg';
 
 export default function PageHotCoins() {
+  const hasFlag = useHasFlag();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(500);
   const [sortBy, setSortBy] = useState<string | undefined>(undefined);
@@ -59,10 +61,13 @@ export default function PageHotCoins() {
 
   return (
     <PageWrapper loading={coins.isLoading}>
-      <h1 className="ms-5 flex items-center gap-2 py-3">
-        <Image src={ton} alt="ton" />
-        TON Hot Coins
-      </h1>
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="flex items-center gap-2 py-3">
+          <Image src={ton} alt="ton" />
+          TON Hot Coins
+        </h1>
+        {hasFlag('/trader-alerts') && <AlertButton />}
+      </div>
       <Table
         className="mb-12"
         columns={columns}

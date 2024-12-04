@@ -15,7 +15,7 @@ export function AlertModal({
       open={open}
       onClose={onClose}
       destroyOnClose
-      className="max-w-lg mobile:!h-[85svh] mobile:max-w-full"
+      className="max-w-lg mobile:!max-h-[85svh] mobile:max-w-full"
       closable={false}
     >
       {children}

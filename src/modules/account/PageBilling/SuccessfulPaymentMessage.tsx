@@ -11,7 +11,7 @@ const SUCCESSFUL_CHECKOUT_KEY = 'successful_checkout';
 
 export default function SuccessfulPaymentMessage() {
   const navigate = useNavigate();
-  const { isActive } = useSubscription();
+  const { status } = useSubscription();
   const [searchParams] = useSearchParams();
   const [successShown, setSuccessShow] = useState(false);
   const [modal, showModal] = useModal(ModalContent, {
@@ -22,13 +22,13 @@ export default function SuccessfulPaymentMessage() {
   useEffect(() => {
     if (
       searchParams.has(SUCCESSFUL_CHECKOUT_KEY) &&
-      isActive &&
+      status === 'active' &&
       !successShown
     ) {
       setSuccessShow(true);
       void showModal({}).then(() => navigate('/account/billing'));
     }
-  }, [isActive, navigate, searchParams, showModal, successShown]);
+  }, [status, navigate, searchParams, showModal, successShown]);
 
   return modal;
 }

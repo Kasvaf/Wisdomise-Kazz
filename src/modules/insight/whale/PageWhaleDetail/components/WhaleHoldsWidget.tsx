@@ -1,17 +1,14 @@
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
-import { bxInfoCircle } from 'boxicons-quasar';
-import { Tooltip } from 'antd';
 import { type SingleWhale, useWhaleDetails } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
-import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ProLocker } from 'shared/ProLocker';
-import { WhaleAssetBadge } from './WhaleAssetBadge';
+import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 export function WhaleHoldsWidget({
   className,
@@ -38,44 +35,31 @@ export function WhaleHoldsWidget({
         render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
       },
       {
-        title: (
-          <span className="inline-flex items-center gap-1">
-            {t('whale_holds.badge')}
-            <Tooltip
-              color="#151619"
-              title={
-                <div className="p-1 text-xxs">
-                  <b className="block pb-1">{t('asset_badges.holding')}</b>
-                  <p className="pb-3 text-v1-content-secondary">
-                    {t('asset_badges.holding_info')}
-                  </p>
-                  <b className="block pb-1">{t('asset_badges.unloading')}</b>
-                  <p className="pb-3 text-v1-content-secondary">
-                    {t('asset_badges.unloading_info')}
-                  </p>
-                  <b className="block pb-1">{t('asset_badges.loading')}</b>
-                  <p className="pb-3 text-v1-content-secondary">
-                    {t('asset_badges.loading_info')}
-                  </p>
-                  <b className="block pb-1">
-                    {t('asset_badges.new_investment')}
-                  </b>
-                  <p className="pb-3 text-v1-content-secondary">
-                    {t('asset_badges.new_investment_info')}
-                  </p>
-                  <b className="block pb-1">
-                    {t('asset_badges.exit_portfolio')}
-                  </b>
-                  <p className="text-v1-content-secondary">
-                    {t('asset_badges.exit_portfolio_info')}
-                  </p>
-                </div>
-              }
-            >
-              <Icon name={bxInfoCircle} size={16} />
-            </Tooltip>
-          </span>
-        ),
+        title: [
+          t('whale_holds.badge'),
+          <div className="p-1 text-xxs" key="tooltip">
+            <b className="block pb-1">{t('asset_badges.holding')}</b>
+            <p className="pb-3 text-v1-content-secondary">
+              {t('asset_badges.holding_info')}
+            </p>
+            <b className="block pb-1">{t('asset_badges.unloading')}</b>
+            <p className="pb-3 text-v1-content-secondary">
+              {t('asset_badges.unloading_info')}
+            </p>
+            <b className="block pb-1">{t('asset_badges.loading')}</b>
+            <p className="pb-3 text-v1-content-secondary">
+              {t('asset_badges.loading_info')}
+            </p>
+            <b className="block pb-1">{t('asset_badges.new_investment')}</b>
+            <p className="pb-3 text-v1-content-secondary">
+              {t('asset_badges.new_investment_info')}
+            </p>
+            <b className="block pb-1">{t('asset_badges.exit_portfolio')}</b>
+            <p className="text-v1-content-secondary">
+              {t('asset_badges.exit_portfolio_info')}
+            </p>
+          </div>,
+        ],
         render: (_, row) => <WhaleAssetBadge value={row.label} />,
       },
       {
@@ -132,7 +116,7 @@ export function WhaleHoldsWidget({
       loading={whale.isLoading}
       empty={whale.data?.holding_assets?.length === 0}
     >
-      <ProLocker level={3} mode="table">
+      <ProLocker size={3} level={2} mode="table">
         <Table
           columns={columns}
           dataSource={whale.data?.holding_assets ?? []}

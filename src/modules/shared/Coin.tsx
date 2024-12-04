@@ -11,6 +11,7 @@ export function Coin({
   nonLink,
   mini,
   truncate = true,
+  popup,
 }: {
   coin: CoinType;
   className?: string;
@@ -18,6 +19,7 @@ export function Coin({
   nonLink?: boolean;
   mini?: boolean;
   truncate?: boolean;
+  popup?: boolean;
 }) {
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2 pe-2',
@@ -97,6 +99,7 @@ export function Coin({
         </div>
       }
       overlayClassName="pointer-events-none"
+      open={popup === false ? false : undefined}
     >
       {nonLink || !coin.slug ? (
         <span className={rootClassName}>{content}</span>

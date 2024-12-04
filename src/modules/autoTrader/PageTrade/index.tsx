@@ -1,9 +1,6 @@
-import { bxLeftArrowAlt } from 'boxicons-quasar';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import Button from 'shared/Button';
-import Icon from 'shared/Icon';
 import {
   isPositionUpdatable,
   useCoinOverview,
@@ -11,6 +8,7 @@ import {
 } from 'api';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import BtnBack from '../BtnBack';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
 
@@ -22,7 +20,6 @@ export default function PageTrade() {
   const [positionKey] = useSearchParamAsState('pos');
   const position = useTraderPositionQuery(positionKey);
   const coinOverview = useCoinOverview({ slug });
-  const abbr = coinOverview?.data?.symbol.abbreviation;
 
   useEffect(() => {
     if (position.data && !isPositionUpdatable(position.data)) {
@@ -35,18 +32,12 @@ export default function PageTrade() {
   return (
     <div>
       <div className="mb-3 flex gap-2">
-        <Button
-          variant="alternative"
-          to="/trader-hot-coins"
-          className="flex items-center justify-center !px-3 !py-0"
-        >
-          <Icon name={bxLeftArrowAlt} />
-        </Button>
+        <BtnBack />
         <CoinSelect
           networkName="ton"
           className="w-full"
           filterTokens={x => x !== 'tether'}
-          showPrice
+          priceExchange="STONFI"
           value={slug}
           onChange={selectedSlug => navigate(`/market/${selectedSlug}`)}
         />
@@ -57,10 +48,8 @@ export default function PageTrade() {
           <Spinner />
         </div>
       ) : (
-        abbr &&
         (!positionKey || !!position.data) && (
           <AdvancedSignalForm
-            assetName={`${abbr ?? ''}USDT`}
             assetSlug={slug}
             activePosition={position.data}
             className="max-w-full basis-1/3"

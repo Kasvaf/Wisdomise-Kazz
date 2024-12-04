@@ -1,55 +1,72 @@
 import { type TabsProps } from 'antd';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
+import useIsMobile from 'utils/useIsMobile';
+
+const getScrollingElement = (isMobile: boolean) => {
+  if (!isMobile) {
+    const scrollingElement = document.querySelector('#scrolling-element');
+    if (scrollingElement === null)
+      throw new Error('#scrolling-element not found!');
+    const { height, top } = scrollingElement.getBoundingClientRect();
+    return {
+      height,
+      top,
+      eventTarget: scrollingElement,
+    };
+  }
+  return {
+    height: window.innerHeight,
+    top: 0,
+    eventTarget: window,
+  };
+};
 
 export const useScrollPointTabs = (
   items: Array<{
     key: string;
     label: ReactNode;
   }>,
-  threshold?: number,
+  threshold: number,
 ): Partial<TabsProps> => {
   const [activeKey, setActiveKey] = useState(items[0].key);
   const ignoreScroll = useRef(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    const scrollingElement = document.querySelector('#scrolling-element');
+    const { eventTarget: scrollingElement } = getScrollingElement(isMobile);
     let timeout: ReturnType<typeof setTimeout>;
     if (!scrollingElement) return;
+
     const scrollHandler = () => {
-      if (ignoreScroll.current) return;
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        let viewportedEl: { top: number; el: HTMLElement } | null = null;
+        if (ignoreScroll.current) return;
+        let closestItem = { key: '', distance: Number.POSITIVE_INFINITY };
         for (const item of items) {
           const el = document.querySelector<HTMLElement>(`#${item.key}`);
           if (!el) continue;
-          const { top } = el.getBoundingClientRect();
-          if (
-            !viewportedEl ||
-            (top <= (threshold ?? 0) &&
-              Math.abs(top) <= Math.abs(viewportedEl.top))
-          )
-            viewportedEl = {
-              top,
-              el,
-            };
+          const { top: elTop, height: elHeight } = el.getBoundingClientRect();
+          const elCenter = elTop + elHeight / 2;
+          const viewportCenter = window.innerHeight / 2 + threshold / 2;
+          const distanceToCenter = Math.abs(elCenter - viewportCenter);
+          if (distanceToCenter < closestItem.distance) {
+            closestItem = { key: item.key, distance: distanceToCenter };
+          }
         }
-        if (viewportedEl) {
-          setActiveKey(viewportedEl.el.id);
-        }
-      }, 10);
+
+        setActiveKey(closestItem.key || items[0].key);
+      }, 100);
     };
     scrollingElement.addEventListener('scroll', scrollHandler);
     return () => {
       scrollingElement.removeEventListener('scroll', scrollHandler);
     };
-  }, [items, threshold]);
+  }, [items, threshold, isMobile]);
 
   const handleClick = (newActiveKey: string) => {
     if (!newActiveKey) return;
-    const scrollingElement = document.querySelector('#scrolling-element');
     const el = document.querySelector(`#${newActiveKey}`);
-    if (!scrollingElement || !el) return;
+    if (!el) return;
     ignoreScroll.current = true;
     try {
       setTimeout(() => {
@@ -57,12 +74,8 @@ export const useScrollPointTabs = (
       }, 1500);
     } catch {}
     setActiveKey(newActiveKey);
-    scrollingElement.scrollTo({
-      top:
-        scrollingElement.scrollTop +
-        20 +
-        el.getBoundingClientRect().y -
-        (threshold ?? 0),
+    el.scrollIntoView({
+      block: 'center',
       behavior: 'smooth',
     });
   };

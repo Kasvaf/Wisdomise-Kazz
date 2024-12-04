@@ -295,3 +295,82 @@ export const useWhaleNetworks = () =>
         >('/delphi/holders/networks/')
         .then(({ data }) => data),
   });
+
+export interface WhaleSentiment {
+  hold_percent?: number | null;
+  buy_percent?: number | null;
+  sell_percent?: number | null;
+}
+export const useWhaleSentiment = ({ slug }: { slug: string }) =>
+  useQuery({
+    queryKey: ['whale-sentiment', slug],
+    queryFn: () =>
+      axios
+        .get<WhaleSentiment>('/delphi/holders/sentiment/', {
+          params: {
+            slug,
+          },
+        })
+        .then(({ data }) => data),
+  });
+
+export interface CoinWhale {
+  holder_address: string;
+  network_name: string;
+  network_icon_url?: string | null;
+  asset: {
+    label:
+      | SingleWhale['holding_assets'][number]['label']
+      | SingleWhale['trading_assets'][number]['label'];
+    amount?: number | null;
+    total_recent_buys?: number | null;
+    recent_trading_pnl?: number | null;
+    total_recent_sells?: number | null;
+    total_recent_transfers?: number | null;
+    total_recent_buy_amount?: number | null;
+    total_recent_buy_volume?: number | null;
+    total_recent_sell_amount?: number | null;
+    total_recent_sell_volume?: number | null;
+    last_30_days_price_change?: number | null;
+    recent_trading_realized_pnl?: number | null;
+    recent_trading_pnl_percentage?: number | null;
+    total_recent_volume_transferred?: number | null;
+    recent_avg_trade_duration_seconds?: number | null;
+    recent_trading_realized_pnl_percentage?: number | null;
+  };
+}
+
+export const useCoinWhales = (filters: {
+  slug: string;
+  type: 'holders' | 'traders';
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  isAscending?: boolean;
+}) =>
+  useQuery({
+    queryKey: ['whale-coin-traders', JSON.stringify(filters)],
+    keepPreviousData: true,
+    queryFn: () =>
+      axios
+        .get<PageResponse<CoinWhale>>(
+          `/delphi/holders/${
+            filters.type === 'holders' ? 'holding' : 'trading'
+          }-coin/`,
+          {
+            params: {
+              slug: filters.slug,
+              page_size: filters.pageSize,
+              page: filters.page,
+              sorted_by: filters?.sortBy,
+              ascending:
+                typeof filters?.isAscending === 'boolean'
+                  ? filters?.isAscending
+                    ? 'True'
+                    : 'False'
+                  : undefined,
+            },
+          },
+        )
+        .then(({ data }) => data),
+  });
