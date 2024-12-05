@@ -20,12 +20,14 @@ export const TrialEndBanner: FC<{ className?: string }> = ({ className }) => {
     (subscription.level === 0 || subscription.status === 'trialing');
   if (!show) return null;
   return (
-    <div
+    <Link
       className={clsx(
         'flex flex-col items-center gap-3 mobile:flex-row ',
         'relative overflow-hidden rounded-md bg-pro-gradient p-3 text-xs mobile:h-10 mobile:rounded-none',
+        'transition-all hover:brightness-105 active:brightness-90',
         className,
       )}
+      to="/account/billing"
     >
       <div className="absolute top-8 size-24 bg-white blur-2xl mobile:-right-10 mobile:top-0 mobile:size-36 mobile:rounded-none" />
       <img
@@ -51,15 +53,14 @@ export const TrialEndBanner: FC<{ className?: string }> = ({ className }) => {
           }}
         />
       </div>
-      <Link
-        to="/account/billing"
+      <div
         className={clsx(
           'relative flex h-8 w-full shrink-0 items-center justify-center rounded-md px-2 mobile:h-6 mobile:w-auto mobile:rounded',
-          'bg-v1-background-primary text-v1-content-primary transition-all hover:brightness-125 active:brightness-90',
+          'bg-v1-background-primary text-v1-content-primary ',
         )}
       >
         {t('upgrade-now')}
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
