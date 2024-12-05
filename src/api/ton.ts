@@ -150,7 +150,6 @@ export const useTransferAssetsMutation = () => {
         },
       ],
     };
-    console.log(transaction);
 
     await tonConnectUI.sendTransaction(transaction);
     await queryClient.invalidateQueries([

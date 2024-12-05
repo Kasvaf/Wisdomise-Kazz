@@ -8,6 +8,8 @@ import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PageWrapper from 'modules/base/PageWrapper';
+import TournamentCard from 'modules/autoTrader/PageTournaments/TournamentCard';
+import { useTournaments } from 'api/tournament';
 import AlertButton from './AlertButton';
 import ton from './ton.svg';
 
@@ -19,6 +21,7 @@ export default function PageHotCoins() {
   const [isAscending, setIsAscending] = useState<boolean | undefined>(
     undefined,
   );
+  const { data: tournaments } = useTournaments();
 
   const coins = useTraderCoins({
     page,
@@ -61,6 +64,26 @@ export default function PageHotCoins() {
 
   return (
     <PageWrapper loading={coins.isLoading}>
+      {hasFlag('/trader-tournaments') && (
+        <>
+          <h1 className="mb-4">Tournaments</h1>
+          <div className="-mx-4 mb-3 flex gap-4 overflow-auto px-4">
+            {(tournaments || [])?.map(t => (
+              <Link
+                className="block"
+                to={`/trader-tournaments/${t.key}`}
+                key={t.key}
+              >
+                <TournamentCard
+                  className="h-full min-w-[80vw]"
+                  key={t.key}
+                  tournament={t}
+                />
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="flex items-center gap-2 py-3">
           <Image src={ton} alt="ton" />

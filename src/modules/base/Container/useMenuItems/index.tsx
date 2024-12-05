@@ -5,6 +5,7 @@ import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
 import { ReactComponent as IconPositions } from './icons/positions.svg';
+import { ReactComponent as IconTournament } from './icons/tournament.svg';
 
 interface MenuItem {
   text: string;
@@ -33,6 +34,11 @@ const useMenuItems = () => {
           icon: <IconPositions />,
           text: 'Positions',
           link: '/trader-positions',
+        },
+        {
+          icon: <IconTournament />,
+          text: 'Tour',
+          link: '/trader-tournaments',
         },
         {
           icon: <IconProfile />,
