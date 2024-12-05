@@ -12,6 +12,7 @@ export function Coin({
   mini,
   truncate = true,
   popup,
+  noText,
 }: {
   coin: CoinType;
   className?: string;
@@ -20,6 +21,7 @@ export function Coin({
   mini?: boolean;
   truncate?: boolean;
   popup?: boolean;
+  noText?: boolean;
 }) {
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2 pe-2',
@@ -53,34 +55,36 @@ export function Coin({
           }}
         />
       </div>
-      <div
-        className={clsx(
-          'shrink grow leading-snug',
-          truncate && 'max-w-[110px]',
-        )}
-      >
+      {!noText && (
         <div
           className={clsx(
-            truncate && 'overflow-hidden text-ellipsis',
-            'whitespace-nowrap',
+            'shrink grow leading-snug',
+            truncate && 'max-w-[110px]',
           )}
         >
-          {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+          <div
+            className={clsx(
+              truncate && 'overflow-hidden text-ellipsis',
+              'whitespace-nowrap',
+            )}
+          >
+            {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+          </div>
+          {!mini && coin.abbreviation && (
+            <>
+              {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+              <div
+                className={clsx(
+                  truncate && 'overflow-hidden text-ellipsis',
+                  'whitespace-nowrap text-[80%] opacity-70',
+                )}
+              >
+                {coin.abbreviation ?? ''}
+              </div>
+            </>
+          )}
         </div>
-        {!mini && coin.abbreviation && (
-          <>
-            {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
-            <div
-              className={clsx(
-                truncate && 'overflow-hidden text-ellipsis',
-                'whitespace-nowrap text-[80%] opacity-70',
-              )}
-            >
-              {coin.abbreviation ?? ''}
-            </div>
-          </>
-        )}
-      </div>
+      )}
     </>
   );
   return (
