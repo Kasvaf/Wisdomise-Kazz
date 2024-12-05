@@ -5,7 +5,7 @@ import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvid
 import PageWrapper from 'modules/base/PageWrapper';
 import BottomNavBar from 'modules/base/Container/BottomNavBar';
 import ScrollToTop from 'modules/base/Container/ScrollToTop';
-import Logo from 'assets/logo-horizontal-beta.svg';
+import Logo from 'assets/logo.png';
 
 export function TelegramLayout() {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -14,7 +14,7 @@ export function TelegramLayout() {
     <main className="relative bg-page">
       <OnboardingMessageProvider>
         <div className="fixed end-0 start-0 top-0 z-10 flex items-center justify-between bg-page p-4">
-          <img src={Logo} alt="logo" />
+          <img src={Logo} className="h-8" alt="logo" />
           <TonConnectButton />
         </div>
         <div
