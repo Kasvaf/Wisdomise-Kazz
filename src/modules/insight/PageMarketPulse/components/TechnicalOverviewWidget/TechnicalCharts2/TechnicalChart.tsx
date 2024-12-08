@@ -7,6 +7,8 @@ export const TechnicalChart: FC<{
   data: TechnicalRadarCoin[];
 }> = ({ data, type }) => {
   const config = useMemo<ScatterConfig>(() => {
+    const xValues = new Set<number>();
+    const yValues = new Set<number>();
     const parsedData = data
       .filter(x => {
         const isScoreMatched =
@@ -21,72 +23,96 @@ export const TechnicalChart: FC<{
           typeof x.macd_score === 'number'
         );
       })
+      .sort((a, b) => Math.abs(b.score ?? 0) - Math.abs(a.score ?? 0))
+      .slice(0, 10)
       .map(raw => {
+        let x = raw.macd_score ?? 0;
+        let y = raw.rsi_score ?? 0;
+        while (xValues.has(x)) {
+          x += 1;
+        }
+        while (yValues.has(y)) {
+          y += 1;
+        }
+        xValues.add(x);
+        yValues.add(y);
         return {
           raw,
-          x: raw.macd_score ?? 0,
-          y: raw.rsi_score ?? 0,
-          size: raw.data?.price_change_percentage_24h ?? 0,
+          x,
+          y,
+          size: Math.abs(raw.data?.price_change_percentage_24h ?? 0),
+          image: raw.symbol.logo_url,
           label: raw.symbol.abbreviation,
-          color:
+          borderColor:
             (raw.data?.price_change_percentage_24h ?? 0) > 0
-              ? 'r(0.4, 0.3, 0.7) 0:rgba(255,255,255,1) 1:#00FFA3'
-              : 'r(0.4, 0.4, 0.7) 0:rgba(255,255,255,1) 1:#EA3E55',
+              ? '#00FFA3'
+              : '#EA3E55',
         };
       });
+    const minDistance = -1;
+    for (let i = 0; i < parsedData.length; i++) {
+      for (let j = i + 1; j < parsedData.length; j++) {
+        const pointA = parsedData[i];
+        const pointB = parsedData[j];
+
+        const dx = pointB.x - pointA.x;
+        const dy = pointB.y - pointA.y;
+        const distance = Math.hypot(dx, dy);
+        const minAllowedDistance =
+          pointA.size / 2 + pointB.size / 2 + minDistance;
+
+        if (distance < minAllowedDistance) {
+          // Adjust position
+          const overlap = minAllowedDistance - distance;
+          const angle = Math.atan2(dy, dx);
+          pointB.x += overlap * Math.cos(angle);
+          pointB.y += overlap * Math.sin(angle);
+        }
+      }
+    }
+
     return {
       appendPadding: 30,
       data: parsedData,
       xField: 'x',
       yField: 'y',
-      colorField: 'color',
-      color: x => {
-        return x.color;
+      colorField: 'borderColor',
+      pointStyle: x => {
+        return {
+          fill: '#36374a',
+          fillOpacity: 1,
+          stroke: x.borderColor,
+        };
       },
       sizeField: 'size',
-      size: [5, 26],
+      size: [10, 30],
       shape: 'circle',
-      yAxis: {
-        nice: true,
-        line: {
-          style: {
-            stroke: '#eee',
-          },
-        },
-      },
-      xAxis: {
-        grid: {
-          line: {
-            style: {
-              stroke: '#eee',
-            },
-          },
-        },
-        line: {
-          style: {
-            stroke: '#eee',
-          },
-        },
-      },
+      yAxis: false,
+      xAxis: false,
       brush: {
         enabled: true,
-        mask: {
-          style: {
-            fill: 'rgba(255,0,0,0.15)',
-          },
-        },
       },
+      // tooltip: true,
+      legend: false,
+
       label: {
         formatter: x => {
           return x.label;
         },
-        // // type: 'inner',
-        // position: 'middle',
-        // layout: 'limitInShape',
+        offsetY: 13,
         style: {
           fill: 'white',
+          fontWeight: 'bold',
+          textAlign: 'center',
         },
       },
+      style: {
+        background:
+          type === 'cheap_bullish'
+            ? 'linear-gradient(225deg, #00FFA3, transparent)'
+            : 'linear-gradient(225deg, #EA3E55, transparent)',
+      },
+      renderer: 'canvas',
     };
   }, [data, type]);
 
