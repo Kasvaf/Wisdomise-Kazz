@@ -5,7 +5,6 @@ import {
   type SignalItem,
   type Signal,
 } from 'api/builder';
-import { useCoinOverview } from './coinRadar';
 import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
 import { type PageResponse } from './types/page';
 
@@ -140,17 +139,12 @@ export function useTraderPositionsQuery({
   slug?: string;
   isOpen?: boolean;
 }) {
-  const coinOverview = useCoinOverview({ slug });
-  const pair = coinOverview?.data?.symbol.abbreviation
-    ? `${coinOverview?.data?.symbol.abbreviation}USDT`
-    : undefined;
-
   return useQuery(
-    ['traderPositions', pair, isOpen],
+    ['traderPositions', slug, isOpen],
     async () => {
       const { data } = await axios.get<PositionsResponse>('trader/positions', {
         params: {
-          pair,
+          pair_slug: slug ? slug + '/tether' : undefined,
           is_open: isOpen,
         },
       });
