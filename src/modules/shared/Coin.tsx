@@ -4,6 +4,40 @@ import { Link } from 'react-router-dom';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 
+export function CoinLogo({
+  coin,
+  className,
+}: {
+  coin: CoinType;
+  className?: string;
+}) {
+  return (
+    <div
+      className={clsx(
+        'relative overflow-hidden rounded-full bg-v1-surface-l6',
+        className,
+      )}
+    >
+      <div
+        className="absolute inset-0 size-full scale-150 bg-cover bg-center bg-no-repeat blur-md invert"
+        style={{
+          ...(typeof coin.logo_url === 'string' && {
+            backgroundImage: `url("${coin.logo_url}")`,
+          }),
+        }}
+      />
+      <div
+        className="absolute inset-0 size-full bg-cover bg-center bg-no-repeat"
+        style={{
+          ...(typeof coin.logo_url === 'string' && {
+            backgroundImage: `url("${coin.logo_url}")`,
+          }),
+        }}
+      />
+    </div>
+  );
+}
+
 export function Coin({
   className,
   coin,
@@ -30,29 +64,13 @@ export function Coin({
   );
   const content = (
     <>
-      <div
+      <CoinLogo
+        coin={coin}
         className={clsx(
-          'relative shrink-0 overflow-hidden rounded-full bg-v1-surface-l6',
+          'shrink-0',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
-      >
-        <div
-          className="absolute inset-0 size-full scale-150 bg-cover bg-center bg-no-repeat blur-md invert"
-          style={{
-            ...(typeof coin.logo_url === 'string' && {
-              backgroundImage: `url("${coin.logo_url}")`,
-            }),
-          }}
-        />
-        <div
-          className="absolute inset-0 size-full bg-cover bg-center bg-no-repeat"
-          style={{
-            ...(typeof coin.logo_url === 'string' && {
-              backgroundImage: `url("${coin.logo_url}")`,
-            }),
-          }}
-        />
-      </div>
+      />
       <div
         className={clsx(
           'shrink grow leading-snug',

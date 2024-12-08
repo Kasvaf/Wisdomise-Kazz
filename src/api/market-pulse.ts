@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { type PageResponse } from './types/page';
-import { type Coin } from './types/shared';
+import { type NetworkSecurity, type Coin } from './types/shared';
 
 export interface RsiOvernessRow {
   candle_pair_name: string;
@@ -188,3 +188,106 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
       )
       .then(resp => resp.data),
   );
+
+export interface TechnicalRadarCoin {
+  rank: number;
+  symbol: Coin;
+  data?: {
+    id?: string | null;
+    ath?: number | null;
+    atl?: number | null;
+    roi?: {
+      times?: number | null;
+      currency?: string | null;
+      percentage?: number | null;
+    } | null;
+    image?: string | null;
+    low_24h?: number | null;
+    ath_date?: string | null;
+    atl_date?: string | null;
+    high_24h?: number | null;
+    market_cap?: number | null;
+    max_supply?: number | null;
+    last_updated?: string | null;
+    total_supply?: number | null;
+    total_volume?: number | null;
+    current_price?: number | null;
+    market_cap_rank?: number | null;
+    price_change_24h?: number | null;
+    circulating_supply?: number | null;
+    ath_change_percentage?: number | null;
+    atl_change_percentage?: number | null;
+    market_cap_change_24h?: number | null;
+    fully_diluted_valuation?: number | null;
+    price_change_percentage_24h?: number | null;
+    market_cap_change_percentage_24h?: number | null;
+  };
+  networks_slug?: string[] | null;
+  score?: number | null;
+  rsi_values?: null | Record<
+    string,
+    {
+      value: number;
+      related_at: string;
+    }
+  >;
+  macd_values?: null | Record<
+    string,
+    {
+      value: number;
+      related_at: string;
+    }
+  >;
+  rsi_divergence_types?: null | Record<
+    string,
+    {
+      type: -1 | 1 | null;
+      related_at: string;
+    }
+  >;
+  macd_divergence_types?: null | Record<
+    string,
+    {
+      type: -1 | 1 | null;
+      related_at: string;
+    }
+  >;
+  rsi_oversold_resolutions?: null | string[];
+  rsi_overbought_resolutions?: null | string[];
+  macd_cross_up_resolutions?: null | string[];
+  macd_cross_down_resolutions?: null | string[];
+  rsi_bearish_divergence_resolutions?: null | string[];
+  rsi_bullish_divergence_resolutions?: null | string[];
+  macd_bearish_divergence_resolutions?: null | string[];
+  macd_bullish_divergence_resolutions?: null | string[];
+  rsi_score?: null | number;
+  macd_score?: null | number;
+  technical_sentiment: string;
+  symbol_security?: null | {
+    data?: null | NetworkSecurity[];
+  };
+  symbol_labels?: null | string[];
+}
+
+export const useTechnicalRadarTopCoins = () =>
+  useQuery(['indicators/technical-radar/top-coins'], () => {
+    const getRecursive = async (
+      page: number,
+      prevList: TechnicalRadarCoin[],
+    ) => {
+      const newResp = await axios.get<PageResponse<TechnicalRadarCoin>>(
+        'delphi/technical-radar/top-coins/',
+        {
+          params: {
+            page,
+          },
+        },
+      );
+      const lastValue = [...prevList, ...newResp.data.results];
+      if (newResp.data.next) {
+        return await getRecursive(page + 1, lastValue);
+      }
+      return lastValue;
+    };
+    return getRecursive(1, []);
+  });
