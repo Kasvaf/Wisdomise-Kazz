@@ -85,7 +85,7 @@ function getItemsByStatus({
     return [
       GREEN_DEPOSITED,
       GREEN_OPENED,
-      make('yellow', 'closing'),
+      make('yellow', 'Closing'),
       GREY_WITHDRAWN,
     ];
   }
