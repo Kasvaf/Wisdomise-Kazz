@@ -55,6 +55,10 @@ function getItemsByStatus({
   deposit_status: ds,
   withdraw_status: ws,
 }: Position) {
+  if (status === 'CANCELED' || ds === 'EXPIRED' || ds === 'CANCELED') {
+    return [make('red', 'Canceled'), GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
+  }
+
   if (ds === 'PENDING') {
     return [
       make('yellow', 'Waiting for Deposit'),
@@ -62,10 +66,6 @@ function getItemsByStatus({
       GREY_CLOSED,
       GREY_WITHDRAWN,
     ];
-  }
-
-  if (status === 'CANCELED' || ds === 'EXPIRED' || ds === 'CANCELED') {
-    return [make('red', 'Canceled'), GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
   }
 
   if (status === 'OPENING' || (ds === 'PAID' && status === 'PENDING')) {
