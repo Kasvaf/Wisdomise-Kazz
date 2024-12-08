@@ -96,7 +96,7 @@ export default function ConnectWalletGuard({
           <p>{t('connect-wallet.not-sync')}</p>
           <p>
             {t('connect-wallet.prev-wallet')}:{' '}
-            {shortenAddress(account?.wallet_address ?? '')}
+            {shortenAddress(account?.wallet_address)}
           </p>
         </Card>
       )}

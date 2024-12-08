@@ -1,4 +1,5 @@
-export const shortenAddress = (address: string) => {
-  const len = address.length;
-  return `${address.substring(0, 6)}...${address.substring(len - 4)}`;
+export const shortenAddress = (address = '') => {
+  const addr = address || '';
+  const len = addr.length;
+  return `${addr.substring(0, 6)}...${addr.substring(len - 4)}`;
 };
