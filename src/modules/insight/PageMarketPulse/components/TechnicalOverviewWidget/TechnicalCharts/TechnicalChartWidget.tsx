@@ -98,7 +98,8 @@ export const TechnicalChartWidget: FC<{
       tooltip: {
         ...antChartTooltipConfig,
         customContent: (_, data) => {
-          const item: TechnicalRadarCoin | undefined = data[0]?.data?.raw;
+          const point = data[0]?.data as (typeof parsedData)[0];
+          const item: TechnicalRadarCoin | undefined = point?.raw;
           if (!item) return;
           return (
             <div>
@@ -111,20 +112,20 @@ export const TechnicalChartWidget: FC<{
                 />
               </div>
               {isDebugMode && (
-                <>
-                  <p className="flex justify-between gap-2">
-                    <strong>{'Score:'}</strong>
-                    <ReadableNumber popup="never" value={item.score} />
-                  </p>
-                  <p className="flex justify-between gap-2">
-                    <strong>{'RSI Score:'}</strong>
-                    <ReadableNumber popup="never" value={item.rsi_score} />
-                  </p>
-                  <p className="flex justify-between gap-2">
-                    <strong>{'MACD Score:'}</strong>
-                    <ReadableNumber popup="never" value={item.macd_score} />
-                  </p>
-                </>
+                <code className="whitespace-pre font-mono text-xxs font-light text-v1-background-notice">
+                  {JSON.stringify(
+                    {
+                      score: item.score,
+                      rsi_score: item.rsi_score,
+                      macd_score: item.macd_score,
+                      x: point.x,
+                      y: point.y,
+                      size: point.size,
+                    },
+                    null,
+                    1,
+                  )}
+                </code>
               )}
               <p className="flex justify-between gap-2">
                 <strong>~Price:</strong>
