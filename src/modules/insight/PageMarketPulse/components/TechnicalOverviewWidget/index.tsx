@@ -4,7 +4,6 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { useTechnicalRadarTopCoins } from 'api/market-pulse';
 import { TechnicalCharts } from './TechnicalCharts';
-import { TechnicalCharts2 } from './TechnicalCharts2';
 
 export function TechnicalOverviewWidget({ className }: { className?: string }) {
   const [tab, setTab] = useState<'chart' | 'table'>('chart');
@@ -37,7 +36,6 @@ export function TechnicalOverviewWidget({ className }: { className?: string }) {
       </div>
 
       {tab === 'chart' && <TechnicalCharts />}
-      {tab === 'table' && <TechnicalCharts2 />}
     </OverviewWidget>
   );
 }

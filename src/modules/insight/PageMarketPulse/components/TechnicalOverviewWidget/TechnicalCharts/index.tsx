@@ -6,25 +6,6 @@ import { TechnicalChart } from './TechnicalChart';
 export const TechnicalCharts: FC = () => {
   const technicalTopCoins = useTechnicalRadarTopCoins();
 
-  const cheapAndBullish = (
-    technicalTopCoins.data?.filter(
-      x =>
-        (x.score ?? 0) > 0 &&
-        typeof x.data?.price_change_percentage_24h === 'number',
-    ) ?? []
-  )
-    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-    .slice(0, 10);
-  const expensiveAndBearish = (
-    technicalTopCoins.data?.filter(
-      x =>
-        (x.score ?? 0) < 0 &&
-        typeof x.data?.price_change_percentage_24h === 'number',
-    ) ?? []
-  )
-    .sort((a, b) => Math.abs(b.score ?? 0) - Math.abs(a.score ?? 0))
-    .slice(0, 10);
-
   if (technicalTopCoins.data?.length === 0) return null;
 
   return (
@@ -44,7 +25,10 @@ export const TechnicalCharts: FC = () => {
           </p>
         </div>
         <div>
-          <TechnicalChart data={cheapAndBullish} type="cheap_bullish" />
+          <TechnicalChart
+            data={technicalTopCoins.data ?? []}
+            type="cheap_bullish"
+          />
         </div>
       </div>
       <div className="space-y-6 rounded-xl bg-v1-surface-l3 p-6">
@@ -57,7 +41,10 @@ export const TechnicalCharts: FC = () => {
           </p>
         </div>
         <div>
-          <TechnicalChart data={expensiveAndBearish} type="expensive_bearish" />
+          <TechnicalChart
+            data={technicalTopCoins.data ?? []}
+            type="expensive_bearish"
+          />
         </div>
       </div>
     </AccessSheild>

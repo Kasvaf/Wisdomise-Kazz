@@ -1,8 +1,8 @@
-import { Tooltip } from 'antd';
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
+import { HoverTooltip } from './HoverTooltip';
 
 export function CoinLogo({
   coin,
@@ -101,23 +101,16 @@ export function Coin({
       </div>
     </>
   );
+
   return (
-    <Tooltip
-      color="#151619"
-      overlayInnerStyle={{
-        padding: '0.75rem',
-        fontSize: '0.8rem',
-        fontFamily: 'monospace',
-        width: 'auto',
-      }}
+    <HoverTooltip
       title={
         <div className="text-sm">
           <div>{coin.name}</div>
           <div className="text-[80%] opacity-70">{coin.abbreviation}</div>
         </div>
       }
-      overlayClassName="pointer-events-none"
-      open={popup === false ? false : undefined}
+      disabled={popup === false}
     >
       {nonLink || !coin.slug ? (
         <span className={rootClassName}>{content}</span>
@@ -131,6 +124,6 @@ export function Coin({
           {content}
         </Link>
       )}
-    </Tooltip>
+    </HoverTooltip>
   );
 }

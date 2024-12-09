@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
-import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { type FormatNumberOptions, formatNumber } from 'utils/numbers';
+import { HoverTooltip } from './HoverTooltip';
 
 function NumberWithLabel({
   label,
@@ -98,14 +98,7 @@ export function ReadableNumber({
     popup === 'never' || (popup === 'auto' && displayValue === tooltipValue);
 
   return (
-    <Tooltip
-      color="#151619"
-      overlayInnerStyle={{
-        padding: '0.75rem',
-        fontSize: '0.9rem',
-        fontFamily: 'monospace',
-        width: 'max-content',
-      }}
+    <HoverTooltip
       title={
         <NumberWithLabel
           label={label}
@@ -113,8 +106,7 @@ export function ReadableNumber({
           emptyText={emptyText}
         />
       }
-      overlayClassName="pointer-events-none"
-      open={noPopup ? false : undefined}
+      disabled={noPopup}
     >
       <NumberWithLabel
         label={label}
@@ -122,6 +114,6 @@ export function ReadableNumber({
         emptyText={emptyText}
         className={clsx(displayValue && !noPopup && 'cursor-help', className)}
       />
-    </Tooltip>
+    </HoverTooltip>
   );
 }
