@@ -22,10 +22,9 @@ export const useNormalizeTechnicalChartBubbles = (
           typeof x.macd_score === 'number'
         );
       })
-      .sort((a, b) => Math.abs(b.rsi_score ?? 0) - Math.abs(a.rsi_score ?? 0))
-      .sort((a, b) => Math.abs(b.macd_score ?? 0) - Math.abs(a.macd_score ?? 0))
       .sort((a, b) => Math.abs(b.score ?? 0) - Math.abs(a.score ?? 0))
       .slice(0, 10)
+      .sort((a, b) => Math.abs(a.rsi_score ?? 0) - Math.abs(b.rsi_score ?? 0)) // NAITODO
       .map(raw => {
         let x = Math.abs(raw.macd_score ?? 0);
         let y = Math.abs(raw.rsi_score ?? 0);
