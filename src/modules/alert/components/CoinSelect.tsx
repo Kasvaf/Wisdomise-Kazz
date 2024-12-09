@@ -1,5 +1,5 @@
 import { Select, type SelectProps } from 'antd';
-import { useMemo, useState, type FC } from 'react';
+import { useEffect, useMemo, useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
@@ -49,6 +49,37 @@ export const CoinSelect: FC<
     ];
   }, [value, coin.data, coinList.data, query]);
 
+  const allOptions = useMemo(
+    () => [
+      ...(emptyOption
+        ? [
+            {
+              label: emptyOption,
+              value: '',
+            },
+          ]
+        : []),
+      ...coins
+        .filter(x => (filterTokens ? filterTokens(x.slug ?? '') : true))
+        .map(c => ({
+          label: <Coin coin={c} nonLink mini className="!p-0 align-middle" />,
+          value: c.slug,
+        })),
+    ],
+    [coins, emptyOption, filterTokens],
+  );
+
+  useEffect(() => {
+    const firstOption = allOptions?.[0]?.value;
+    if (
+      firstOption &&
+      !coinList.isLoading &&
+      !allOptions.some(x => x.value === value)
+    ) {
+      props.onChange?.(firstOption, []);
+    }
+  }, [allOptions, coinList.isLoading, props, value]);
+
   return (
     <Select
       className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
@@ -91,22 +122,7 @@ export const CoinSelect: FC<
           </div>
         ) : undefined
       }
-      options={[
-        ...(emptyOption
-          ? [
-              {
-                label: emptyOption,
-                value: '',
-              },
-            ]
-          : []),
-        ...coins
-          .filter(x => (filterTokens ? filterTokens(x.slug ?? '') : true))
-          .map(c => ({
-            label: <Coin coin={c} nonLink mini className="!p-0 align-middle" />,
-            value: c.slug,
-          })),
-      ]}
+      options={allOptions}
       {...props}
     />
   );
