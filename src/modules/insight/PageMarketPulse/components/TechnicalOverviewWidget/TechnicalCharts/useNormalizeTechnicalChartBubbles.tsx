@@ -6,8 +6,6 @@ export const useNormalizeTechnicalChartBubbles = (
   type: 'cheap_bullish' | 'expensive_bearish',
 ) =>
   useMemo(() => {
-    const usedXs = new Set<number>();
-    const usedYs = new Set<number>();
     const parsedData = data
       .filter(x => {
         const isScoreMatched =
@@ -25,17 +23,9 @@ export const useNormalizeTechnicalChartBubbles = (
       .sort((a, b) => Math.abs(b.score ?? 0) - Math.abs(a.score ?? 0))
       .slice(0, 10)
       .map(raw => {
-        let x = Math.abs(raw.macd_score ?? 0);
-        let y = Math.abs(raw.rsi_score ?? 0);
+        const x = Math.abs(raw.macd_score ?? 0);
+        const y = Math.abs(raw.rsi_score ?? 0);
         const size = Math.abs(raw.data?.price_change_percentage_24h ?? 0);
-        while (usedXs.has(Math.round(x))) {
-          x += size;
-        }
-        while (usedYs.has(Math.round(y))) {
-          y += size;
-        }
-        usedXs.add(Math.round(x));
-        usedYs.add(Math.round(y));
 
         const color =
           (raw.data?.price_change_percentage_24h ?? 0) > 0
