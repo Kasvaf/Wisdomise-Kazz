@@ -28,14 +28,14 @@ export const useNormalizeTechnicalChartBubbles = (
         let x = Math.abs(raw.macd_score ?? 0);
         let y = Math.abs(raw.rsi_score ?? 0);
         const size = Math.abs(raw.data?.price_change_percentage_24h ?? 0);
-        while (usedXs.has(x)) {
+        while (usedXs.has(Math.round(x))) {
           x += size;
         }
-        while (usedYs.has(y)) {
+        while (usedYs.has(Math.round(y))) {
           y += size;
         }
-        usedXs.add(x);
-        usedYs.add(y);
+        usedXs.add(Math.round(x));
+        usedYs.add(Math.round(y));
 
         const color =
           (raw.data?.price_change_percentage_24h ?? 0) > 0
