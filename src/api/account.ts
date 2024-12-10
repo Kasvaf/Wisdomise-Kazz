@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ACCOUNT_PANEL_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
+import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
 import { setJwtToken, useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { type Account } from './types/UserInfoResponse';
 
@@ -147,7 +147,7 @@ export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
     ['gameLogin', query, quickLogin],
     async () => {
       const { data } = await axios.get<MiniAppLoginResponse>(
-        `${TEMPLE_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
+        `${INVESTMENT_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
         {
           meta: { auth: false },
         },
