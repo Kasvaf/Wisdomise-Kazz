@@ -3,6 +3,7 @@ import { Scatter, type ScatterConfig } from '@ant-design/plots';
 import { clsx } from 'clsx';
 import html2canvas from 'html2canvas';
 import { bxDownload } from 'boxicons-quasar';
+import { useNavigate } from 'react-router-dom';
 import { type TechnicalRadarCoin } from 'api/market-pulse';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -21,6 +22,7 @@ export const TechnicalChartWidget: FC<{
   const isMobile = useIsMobile();
   const [share] = useShare('share');
   const el = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(data, type);
 
   const config = useMemo<ScatterConfig>(() => {
@@ -194,9 +196,15 @@ export const TechnicalChartWidget: FC<{
           offsetX: -16, // Adjust position to the left of y-axis
         },
       ],
+      onEvent: (_, e) => {
+        if (e.type !== 'click') return;
+        const item: undefined | TechnicalRadarCoin = e?.data?.data?.raw;
+        if (!item) return;
+        navigate(`/coin/${item.symbol.slug ?? ''}`);
+      },
       autoFit: true,
     };
-  }, [parsedData, type]);
+  }, [parsedData, navigate, type]);
 
   const shareImage = useCallback(
     async (e: MouseEvent<HTMLButtonElement>) => {

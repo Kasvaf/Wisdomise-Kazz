@@ -6,8 +6,6 @@ export const useNormalizeTechnicalChartBubbles = (
   type: 'cheap_bullish' | 'expensive_bearish',
 ) =>
   useMemo(() => {
-    const usedXs = new Set<string>();
-    const usedYs = new Set<string>();
     const parsedData = data
       .filter(x => {
         const isScoreMatched =
@@ -26,19 +24,9 @@ export const useNormalizeTechnicalChartBubbles = (
       .slice(0, 10)
       .sort((a, b) => Math.abs(a.rsi_score ?? 0) - Math.abs(b.rsi_score ?? 0)) // NAITODO
       .map(raw => {
-        let x = Math.abs(raw.macd_score ?? 0);
-        let y = Math.abs(raw.rsi_score ?? 0);
+        const x = Math.abs(raw.macd_score ?? 0);
+        const y = Math.abs(raw.rsi_score ?? 0);
         const size = Math.abs(raw.data?.price_change_percentage_24h ?? 0);
-
-        while (usedXs.has(x.toFixed(1))) {
-          x += 0.25;
-        }
-        while (usedYs.has(y.toFixed(1))) {
-          y += 0.25;
-        }
-        usedXs.add(x.toFixed(1));
-        usedYs.add(y.toFixed(1));
-
         const color =
           (raw.data?.price_change_percentage_24h ?? 0) > 0
             ? '#00FFA3'
@@ -54,6 +42,26 @@ export const useNormalizeTechnicalChartBubbles = (
           label,
           color,
         };
-      });
+      })
+      .sort((a, b) => Math.abs(b.x) - Math.abs(a.x))
+      .sort((a, b) => Math.abs(b.y) - Math.abs(a.y));
+
+    for (let i = 0; i < parsedData.length; i++) {
+      const pointA = parsedData[i];
+      for (let j = i + 1; j < parsedData.length; j++) {
+        const pointB = parsedData[j];
+        if (
+          Math.abs(pointA.x - pointB.x) < 0.5 &&
+          Math.abs(pointA.y - pointB.y) < 1
+        ) {
+          pointB.x += 0.6;
+        } else if (
+          Math.abs(pointA.y - pointB.y) < 0.5 &&
+          Math.abs(pointA.x - pointB.x) < 1
+        ) {
+          pointB.y += 0.6;
+        }
+      }
+    }
     return parsedData;
   }, [data, type]);
