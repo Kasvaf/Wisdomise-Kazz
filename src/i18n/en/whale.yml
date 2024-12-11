@@ -7,7 +7,9 @@
   transfer_volume: Transfer Volume
 asset_badges:
   dust: Dust
-  dust_info: Dust Dust Dust ~TODO
+  dust_info: >-
+    This whale is holding coins with negligible value, unlikely to impact their
+    overall portfolio.
   exit_portfolio: Exit Portfolio
   exit_portfolio_info: >-
     This whale has sold nearly 95% of their assets, signaling an exit from the
@@ -27,8 +29,9 @@ asset_badges:
   trading: Trading
   unloading: Unloading
   unloading_info: >-
-    This whale is reducing their holdings by more than 5%, but not exiting
-    completely.
+    This coin has no real value for the whale, just penny holdings that are
+    unlikely
+      to have any significant impact on their portfolio.
 filters:
   all: All
   all-networks: All Networks
