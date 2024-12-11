@@ -164,33 +164,31 @@ export function ConfirmationWidget<I extends Indicator>({
               : '[&_b]:text-v1-content-negative',
           )}
         >
-          <Trans
-            ns="market-pulse"
-            i18nKey={
-              type === 'bullish'
-                ? indicator === 'rsi'
-                  ? 'keywords.rsi_bullish.title'
-                  : 'keywords.macd_bullish.title'
-                : indicator === 'rsi'
-                ? 'keywords.rsi_bearish.title'
-                : 'keywords.macd_bearish.title'
-            }
-          />
+          {type === 'bullish' ? (
+            indicator === 'rsi' ? (
+              <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />
+            ) : (
+              <Trans ns="market-pulse" i18nKey="keywords.macd_bullish.title" />
+            )
+          ) : indicator === 'rsi' ? (
+            <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.title" />
+          ) : (
+            <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
+          )}
         </div>
       }
       info={
-        <Trans
-          ns="market-pulse"
-          i18nKey={
-            type === 'bullish'
-              ? indicator === 'rsi'
-                ? 'keywords.rsi_bullish.info'
-                : 'keywords.macd_bullish.info'
-              : indicator === 'rsi'
-              ? 'keywords.rsi_bearish.info'
-              : 'keywords.macd_bearish.info'
-          }
-        />
+        type === 'bullish' ? (
+          indicator === 'rsi' ? (
+            <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.info" />
+          ) : (
+            <Trans ns="market-pulse" i18nKey="keywords.macd_bullish.info" />
+          )
+        ) : indicator === 'rsi' ? (
+          <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.info" />
+        ) : (
+          <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.info" />
+        )
       }
       headerClassName="flex-wrap !justify-start"
       headerActions={

@@ -22,10 +22,18 @@ common:
   table_view: Table View
 keywords:
   macd_bearish:
+    title: MACD <b>Bearish Confirmation</b>
+    info: >-
+      Spot Potential Selling Points When the MACD Shows Weakening Momentum and
+      Signals a Possible Downtrend.
     label_equiv: Bearish
     label_exact: MACD Bullish Divergence
     label_small: Bearish Div
   macd_bullish:
+    title: MACD <b>Bullish Confirmation</b>
+    info: >-
+      Identify Potential Buying Opportunities When the MACD Indicates Momentum
+      Shift and a Bullish Trend Is Forming.
     label_equiv: Bullish
     label_exact: MACD Bearish Divergence
     label_small: Bullish Div
@@ -38,11 +46,19 @@ keywords:
     label_exact: MACD Cross Signal Line
     label_small: MACD Cross
   rsi_bearish:
+    title: RSI <b>Bearish Confirmation</b>
+    info: >-
+      Spot Potential Selling Points When Coins Are Overvalued and Indicate a
+      Slowdown in Momentum.
     label_equiv: Bearish
     label_exact: RSI Bullish Divergence
     label_semi: Bullish Divergence
     label_small: Bearish Div
   rsi_bullish:
+    title: RSI <b>Bullish Confirmation</b>
+    info: >-
+      Spot Potential Selling Points When Coins Are Overvalued and Indicate a
+      Slowdown in Momentum.
     label_equiv: Bullish
     label_exact: RSI Bearish Divergence
     label_semi: Bearish Divergence
