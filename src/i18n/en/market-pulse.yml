@@ -4,7 +4,7 @@ common:
   chart_view: Chart View
   div: Div
   long_term: Long-Term
-  macd_wise_scoring: RSI Wise Scoring
+  macd_wise_scoring: MACD Wise Scoring
   market_cap: Market Cap
   no_divergence: No Divergence
   overview: Overview
@@ -27,7 +27,7 @@ keywords:
       Spot Potential Selling Points When the MACD Shows Weakening Momentum and
       Signals a Possible Downtrend.
     label_equiv: Bearish
-    label_exact: MACD Bullish Divergence
+    label_exact: MACD Bearish Divergence
     label_small: Bearish Div
   macd_bullish:
     title: MACD <b>Bullish Confirmation</b>
@@ -35,7 +35,7 @@ keywords:
       Identify Potential Buying Opportunities When the MACD Indicates Momentum
       Shift and a Bullish Trend Is Forming.
     label_equiv: Bullish
-    label_exact: MACD Bearish Divergence
+    label_exact: MACD Bullish Divergence
     label_small: Bullish Div
   macd_cross_down:
     label_equiv: Down-Trend
@@ -51,8 +51,8 @@ keywords:
       Spot Potential Selling Points When Coins Are Overvalued and Indicate a
       Slowdown in Momentum.
     label_equiv: Bearish
-    label_exact: RSI Bullish Divergence
-    label_semi: Bullish Divergence
+    label_exact: RSI Bearish Divergence
+    label_semi: Bearish Divergence
     label_small: Bearish Div
   rsi_bullish:
     title: RSI <b>Bullish Confirmation</b>
@@ -60,8 +60,8 @@ keywords:
       Spot Potential Selling Points When Coins Are Overvalued and Indicate a
       Slowdown in Momentum.
     label_equiv: Bullish
-    label_exact: RSI Bearish Divergence
-    label_semi: Bearish Divergence
+    label_exact: RSI Bullish Divergence
+    label_semi: Bullish Divergence
     label_small: Bullish Div
   rsi_overbought:
     label_equiv: Expensive
