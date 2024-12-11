@@ -212,7 +212,9 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
             page: filters?.page ?? 1,
             ...Object.fromEntries(
               filters.combination.map(comb => [
-                comb.endsWith('divergence')
+                comb.endsWith('_divergence') ||
+                comb.endsWith('_oversold') ||
+                comb.endsWith('_overbought')
                   ? comb.replace(`${filters.indicator}_`, '')
                   : comb,
                 'True',
