@@ -6,62 +6,76 @@ export const useNormalizeTechnicalChartBubbles = (
   type: 'cheap_bullish' | 'expensive_bearish',
 ) =>
   useMemo(() => {
-    const parsedData = data
-      .filter(x => {
-        const isScoreMatched =
-          type === 'cheap_bullish' ? (x.score ?? 0) > 0 : (x.score ?? 0) < 0;
-        if (type === 'cheap_bullish') {
-          return (x.score ?? 0) > 0;
-        }
-        return (
-          isScoreMatched &&
-          typeof x.data?.price_change_percentage_24h === 'number' &&
-          typeof x.rsi_score === 'number' &&
-          typeof x.macd_score === 'number'
-        );
-      })
-      .sort((a, b) => Math.abs(b.score ?? 0) - Math.abs(a.score ?? 0))
-      .slice(0, 10)
-      .sort((a, b) => Math.abs(a.rsi_score ?? 0) - Math.abs(b.rsi_score ?? 0)) // NAITODO
-      .map(raw => {
-        const x = Math.abs(raw.macd_score ?? 0);
-        const y = Math.abs(raw.rsi_score ?? 0);
-        const size = Math.abs(raw.data?.price_change_percentage_24h ?? 0);
-        const color =
-          (raw.data?.price_change_percentage_24h ?? 0) > 0
-            ? '#00FFA3'
-            : '#EA3E55';
-        const image = raw.symbol.logo_url;
-        const label = raw.symbol.abbreviation;
-        return {
+    let bubbles: Array<{
+      raw: TechnicalRadarCoin;
+      x: number;
+      y: number;
+      size: number;
+      label: string;
+      color: string;
+    }> = [];
+    const filteredData = data
+      .filter(x =>
+        type === 'cheap_bullish'
+          ? (x.score ?? 0) > 0
+          : (x.score ?? 0) < 0 &&
+            typeof x.rsi_score === 'number' &&
+            typeof x.macd_score === 'number',
+      )
+      .sort((a, b) =>
+        type === 'cheap_bullish'
+          ? (b.score ?? 0) - (a.score ?? 0)
+          : (a.score ?? 0) - (b.score ?? 0),
+      );
+    for (const raw of filteredData) {
+      const x = (raw.macd_score ?? 0) * (type === 'expensive_bearish' ? -1 : 1);
+      const y = (raw.rsi_score ?? 0) * (type === 'expensive_bearish' ? -1 : 1);
+      const size = Math.abs(raw.data?.price_change_percentage_24h ?? 0);
+      const color =
+        (raw.data?.price_change_percentage_24h ?? 0) > 0
+          ? '#00FFA3'
+          : '#EA3E55';
+      const label = raw.symbol.abbreviation;
+
+      bubbles = [
+        ...bubbles,
+        {
           raw,
-          x,
-          y,
-          size,
-          image,
           label,
           color,
-        };
-      })
-      .sort((a, b) => Math.abs(b.x) - Math.abs(a.x))
-      .sort((a, b) => Math.abs(b.y) - Math.abs(a.y));
+          size,
+          x,
+          y,
+        },
+      ];
 
-    for (let i = 0; i < parsedData.length; i++) {
-      const pointA = parsedData[i];
-      for (let j = i + 1; j < parsedData.length; j++) {
-        const pointB = parsedData[j];
+      if (bubbles.length >= 10) break;
+    }
+
+    // const minX = Math.min(...bubbles.map(({ x }) => x));
+    // const minY = Math.min(...bubbles.map(({ y }) => y));
+    // for (const bubble of bubbles) {
+    //   bubble.x += Math.abs(minX);
+    //   bubble.y += Math.abs(minY);
+    //   if (type === 'expensive_bearish') {
+    //     bubble.y =
+    //   }
+    // }
+
+    for (const bubbleA of bubbles) {
+      for (const bubbleB of bubbles) {
         if (
-          Math.abs(pointA.x - pointB.x) < 0.5 &&
-          Math.abs(pointA.y - pointB.y) < 1
+          Math.abs(bubbleA.x - bubbleB.x) < 0.5 &&
+          Math.abs(bubbleA.y - bubbleB.y) < 1
         ) {
-          pointB.x += 0.9;
+          bubbleB.x += 0.5;
         } else if (
-          Math.abs(pointA.y - pointB.y) < 0.5 &&
-          Math.abs(pointA.x - pointB.x) < 1
+          Math.abs(bubbleA.y - bubbleB.y) < 0.5 &&
+          Math.abs(bubbleA.x - bubbleB.x) < 1
         ) {
-          pointB.y += 0.5;
+          bubbleB.y += 0.5;
         }
       }
     }
-    return parsedData;
+    return bubbles;
   }, [data, type]);

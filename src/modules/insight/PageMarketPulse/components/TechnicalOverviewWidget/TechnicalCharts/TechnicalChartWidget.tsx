@@ -66,8 +66,6 @@ export const TechnicalChartWidget: FC<{
         nice: true,
         label: null,
         line: null,
-        min: Math.min(...parsedData.map(row => row.y)) - 0.5,
-        max: Math.max(...parsedData.map(row => row.y)) + 0.5,
         grid: {
           line: {
             style: {
@@ -91,8 +89,6 @@ export const TechnicalChartWidget: FC<{
         nice: true,
         label: null,
         line: null,
-        min: Math.min(...parsedData.map(row => row.x)) - 0.5,
-        max: Math.max(...parsedData.map(row => row.x)) + 0.5,
         grid: {
           line: {
             style: {
