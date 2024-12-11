@@ -124,4 +124,9 @@ table:
   labels: Labels
   market_cap: MarketCap
   rank: Rank
+  sort: Sort
+  sorts:
+    market_cap: Market Cap
+    price_change: 24H Change
+    rank: Wise Rank
   technical_sentiment: Technical Sentiment

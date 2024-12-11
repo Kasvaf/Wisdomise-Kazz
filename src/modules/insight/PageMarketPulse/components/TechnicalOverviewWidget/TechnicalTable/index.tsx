@@ -1,4 +1,4 @@
-import { useMemo, type FC } from 'react';
+import { useMemo, useState, type FC } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,12 +12,56 @@ import { CoinMarketCap } from 'modules/insight/coinRadar/PageCoinRadar/component
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
-import { ReactComponent as Logo } from './logo.svg';
+import { CoinSearchInput } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinSearchInput';
+import { NetworkSelect } from 'modules/insight/coinRadar/PageCoinRadar/components/NetworkSelect';
+import { CategoriesSelect } from 'modules/insight/coinRadar/PageCoinRadar/components/CategoriesSelect';
+import { ButtonSelect } from 'shared/ButtonSelect';
 import { TechnicalSentiment } from './TechnicalSentiment';
+// eslint-disable-next-line import/max-dependencies
+import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalTable: FC = () => {
   const { t } = useTranslation('market-pulse');
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState<string | undefined>(undefined);
+  const [network, setNetwork] = useState<string | undefined>(undefined);
+  const [sort, setSort] = useState<string>('rank');
   const coins = useTechnicalRadarTopCoins();
+  const filteredCoins = useMemo(() => {
+    const lowercaseQuery = query.toLowerCase();
+    return (coins.data ?? [])
+      .filter(
+        row =>
+          !lowercaseQuery ||
+          `${row.symbol.name ?? ''}${row.symbol.abbreviation ?? ''}${
+            row.symbol.slug ?? ''
+          }`
+            ?.toLowerCase()
+            .includes(lowercaseQuery),
+      )
+      .filter(row => !network || (row.networks_slug ?? []).includes(network))
+      .filter(
+        row =>
+          !category ||
+          (row.symbol.categories ?? []).map(r => r.slug).includes(category),
+      )
+      .sort((a, b) => {
+        if (!sort || sort === 'rank') {
+          return a.rank - b.rank;
+        }
+        if (sort === 'price_change') {
+          return (
+            (b.data?.price_change_percentage_24h ?? 0) -
+            (a.data?.price_change_percentage_24h ?? 0)
+          );
+        }
+        if (sort === 'market_cap') {
+          return (b.data?.market_cap ?? 0) - (a.data?.market_cap ?? 0);
+        }
+        return a.rank - b.rank;
+      });
+  }, [query, coins.data, network, category, sort]);
+
   const columns = useMemo<Array<ColumnType<TechnicalRadarCoin>>>(
     () => [
       {
@@ -79,9 +123,51 @@ export const TechnicalTable: FC = () => {
   );
   return (
     <AccessSheild mode="table" size={3} level={1}>
+      <div className="mb-6 flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
+        <CoinSearchInput
+          value={query}
+          onChange={setQuery}
+          className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
+        />
+        <NetworkSelect
+          value={network}
+          onChange={setNetwork}
+          className="mobile:order-3"
+        />
+        <CategoriesSelect
+          value={category}
+          onChange={setCategory}
+          className="mobile:order-4"
+        />
+        <div className="flex flex-wrap items-center gap-2 mobile:order-5">
+          <span className="text-xs mobile:w-full mobile:grow">
+            {t('table.sort')}:
+          </span>
+          <ButtonSelect
+            options={[
+              {
+                label: t('table.sorts.rank'),
+                value: 'rank',
+              },
+              {
+                label: t('table.sorts.price_change'),
+                value: 'price_change',
+              },
+              {
+                label: t('table.sorts.market_cap'),
+                value: 'market_cap',
+              },
+            ]}
+            value={sort}
+            onChange={setSort}
+          />
+        </div>
+
+        <div className="grow mobile:hidden" />
+      </div>
       <Table
         columns={columns}
-        dataSource={coins.data}
+        dataSource={filteredCoins}
         rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
         tableLayout="fixed"
