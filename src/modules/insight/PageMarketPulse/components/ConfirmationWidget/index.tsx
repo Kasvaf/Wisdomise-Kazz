@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import {
   type ComponentProps,
   type ReactNode,
@@ -129,24 +129,11 @@ export function ConfirmationWidget<I extends Indicator>({
   type: ConfirmationType;
   headerActions?: ReactNode;
 }) {
-  const { t } = useTranslation('market-pulse');
   const tabs = useConfirmationTabs(indicator, type);
   const [autoSelect, setAutoSelect] = useState(true);
   const [selectedTabKey, setSelectedTabKey] = useState<string>(tabs[0].key);
   const selectedTab = tabs.find(row => row.key === selectedTabKey);
   if (!selectedTab) throw new Error('unexpected error');
-  const title =
-    type === 'bullish'
-      ? t('common.bullish_momentum_confirmation')
-      : t('common.bearish_momentum_confirmation');
-  const info =
-    type === 'bullish'
-      ? indicator === 'rsi'
-        ? t('indicator_list.rsi.bullish_info')
-        : t('indicator_list.macd.bullish_info')
-      : indicator === 'rsi'
-      ? t('indicator_list.rsi.bearish_info')
-      : t('indicator_list.macd.bearish_info');
   const confirmations = useIndicatorConfirmations({
     indicator,
     combination: selectedTab.combination,
@@ -169,20 +156,42 @@ export function ConfirmationWidget<I extends Indicator>({
     <OverviewWidget
       className={clsx('h-[750px]', className)}
       title={
-        <>
-          <span className="me-[1chr]">{indicator.toUpperCase()}</span>
-          <span
-            className={clsx(
+        <div
+          className={clsx(
+            '[&_b]:font-medium',
+            type === 'bullish'
+              ? '[&_b]:text-v1-content-positive'
+              : '[&_b]:text-v1-content-negative',
+          )}
+        >
+          <Trans
+            ns="market-pulse"
+            i18nKey={
               type === 'bullish'
-                ? 'text-v1-content-positive'
-                : 'text-v1-content-negative',
-            )}
-          >
-            {title}
-          </span>
-        </>
+                ? indicator === 'rsi'
+                  ? 'keywords.rsi_bullish.title'
+                  : 'keywords.macd_bullish.title'
+                : indicator === 'rsi'
+                ? 'keywords.rsi_bearish.title'
+                : 'keywords.macd_bearish.title'
+            }
+          />
+        </div>
       }
-      info={info}
+      info={
+        <Trans
+          ns="market-pulse"
+          i18nKey={
+            type === 'bullish'
+              ? indicator === 'rsi'
+                ? 'keywords.rsi_bullish.info'
+                : 'keywords.macd_bullish.info'
+              : indicator === 'rsi'
+              ? 'keywords.rsi_bearish.info'
+              : 'keywords.macd_bearish.info'
+          }
+        />
+      }
       headerClassName="flex-wrap !justify-start"
       headerActions={
         <>

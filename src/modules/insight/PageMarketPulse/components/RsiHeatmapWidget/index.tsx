@@ -20,7 +20,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
   return (
     <OverviewWidget
       className={className}
-      title={t('indicator_list.rsi.heatmap.title')}
+      title={t('common.rsi_heatmap')}
       headerClassName="flex-wrap"
       contentClassName="!min-h-[450px]"
       loading={heatmap.isLoading}

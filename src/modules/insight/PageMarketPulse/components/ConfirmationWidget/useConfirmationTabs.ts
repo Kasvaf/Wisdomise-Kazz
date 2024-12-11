@@ -26,34 +26,38 @@ export const useConfirmationTabs = <I extends Indicator>(
         type === 'bullish'
           ? [
               {
-                title: t('indicator_list.rsi.oversold_bullish.title'),
+                title: `${t('keywords.rsi_oversold.label_equiv')} & ${t(
+                  'keywords.rsi_bullish.label_equiv',
+                )}`,
                 combination: ['rsi_oversold', 'rsi_bullish_divergence'],
                 key: 'rsi_oversold_bullish',
               },
               {
-                title: t('indicator_list.rsi.oversold.title'),
+                title: t('keywords.rsi_oversold.label_equiv'),
                 combination: ['rsi_oversold'],
                 key: 'rsi_oversold',
               },
               {
-                title: t('common.bullish.title'),
+                title: t('keywords.rsi_bullish.label_equiv'),
                 combination: ['rsi_bullish_divergence'],
                 key: 'rsi_bullish',
               },
             ]
           : [
               {
-                title: t('indicator_list.rsi.overbought_bearish.title'),
+                title: `${t('keywords.rsi_overbought.label_equiv')} & ${t(
+                  'keywords.rsi_bearish.label_equiv',
+                )}`,
                 combination: ['overbought', 'bearish_divergence'],
                 key: 'overbought_bearish',
               },
               {
-                title: t('indicator_list.rsi.overbought.title'),
+                title: t('keywords.rsi_overbought.label_equiv'),
                 combination: ['overbought'],
                 key: 'overbought',
               },
               {
-                title: t('common.bearish.title'),
+                title: t('keywords.rsi_bearish.label_equiv'),
                 combination: ['bearish_divergence'],
                 key: 'bearish',
               },
@@ -64,34 +68,38 @@ export const useConfirmationTabs = <I extends Indicator>(
         type === 'bullish'
           ? [
               {
-                title: t('indicator_list.macd.crossup.title'),
+                title: t('keywords.macd_cross_up.label_equiv'),
                 combination: ['macd_cross_up'],
                 key: 'macd_crossup',
               },
               {
-                title: t('common.bullish.title'),
+                title: t('keywords.macd_bullish.label_equiv'),
                 combination: ['macd_bullish_divergence'],
                 key: 'macd_bullish',
               },
               {
-                title: t('indicator_list.macd.crossup_bullish.title'),
+                title: `${t('keywords.macd_cross_up.label_equiv')} & ${t(
+                  'keywords.macd_bullish.label_equiv',
+                )}`,
                 combination: ['macd_cross_up', 'macd_bullish_divergence'],
                 key: 'macd_crossup_bullish',
               },
             ]
           : [
               {
-                title: t('indicator_list.macd.crossdown.title'),
+                title: t('keywords.macd_cross_down.label_equiv'),
                 combination: ['macd_cross_down'],
                 key: 'macd_crossdown',
               },
               {
-                title: t('common.bearish.title'),
+                title: t('keywords.macd_bearish.label_equiv'),
                 combination: ['macd_bearish_divergence'],
                 key: 'macd_bearish',
               },
               {
-                title: t('indicator_list.macd.crossdown_bearish.title'),
+                title: `${t('keywords.macd_cross_down.label_equiv')} & ${t(
+                  'keywords.macd_bearish.label_equiv',
+                )}`,
                 combination: ['macd_cross_down', 'macd_bearish_divergence'],
                 key: 'macd_crossdown_bearish',
               },

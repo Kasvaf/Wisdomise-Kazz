@@ -4,6 +4,7 @@ import { clsx } from 'clsx';
 import html2canvas from 'html2canvas';
 import { bxDownload } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { type TechnicalRadarCoin } from 'api/market-pulse';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -19,6 +20,7 @@ export const TechnicalChartWidget: FC<{
   type: 'cheap_bullish' | 'expensive_bearish';
   data: TechnicalRadarCoin[];
 }> = ({ data, type }) => {
+  const { t } = useTranslation('market-pulse');
   const chartRef = useRef();
   const isMobile = useIsMobile();
   const [share] = useShare('share');
@@ -77,7 +79,7 @@ export const TechnicalChartWidget: FC<{
         },
         tickCount: 25,
         title: {
-          text: '~RSI Wise Scoring',
+          text: t('common.rsi_wise_scoring'),
           position: 'center',
           style: {
             fill: '#fff',
@@ -102,7 +104,7 @@ export const TechnicalChartWidget: FC<{
         },
         tickCount: 25,
         title: {
-          text: '~MACD Wise Scoring',
+          text: t('common.macd_wise_scoring'),
           position: 'center',
           style: {
             fill: '#fff',
@@ -147,7 +149,7 @@ export const TechnicalChartWidget: FC<{
                 </code>
               )}
               <p className="flex justify-between gap-2">
-                <strong>~Price:</strong>
+                <b>{t('common.price')}:</b>
                 <ReadableNumber
                   popup="never"
                   value={item.data?.current_price}
@@ -155,7 +157,7 @@ export const TechnicalChartWidget: FC<{
                 />
               </p>
               <p className="flex justify-between gap-2">
-                <strong>~Price Change(24H):</strong>
+                <b>{t('common.price_change_24h')}:</b>
                 <DirectionalNumber
                   popup="never"
                   value={item.data?.price_change_percentage_24h}
@@ -195,7 +197,10 @@ export const TechnicalChartWidget: FC<{
         {
           type: 'text',
           position: ['max', 'min'], // Position at max x and y=0
-          content: type === 'cheap_bullish' ? '~Bullish ➡️' : '~Bearish ➡️',
+          content:
+            type === 'cheap_bullish'
+              ? `${t('keywords.macd_bullish.label_equiv')} ➡️`
+              : `${t('keywords.macd_bearish.label_equiv')} ➡️`,
           style: {
             fill: 'white',
             fontSize: 12,
@@ -207,7 +212,10 @@ export const TechnicalChartWidget: FC<{
         {
           type: 'text',
           position: ['min', 'max'],
-          content: type === 'cheap_bullish' ? '~Cheap ➡️' : '~Expensive ➡️', // NAITODO
+          content:
+            type === 'cheap_bullish'
+              ? `${t('keywords.rsi_oversold.label_equiv')} ➡️`
+              : `${t('keywords.rsi_overbought.label_equiv')} ➡️`,
           style: {
             fill: 'white',
             fontSize: 12,
@@ -225,7 +233,7 @@ export const TechnicalChartWidget: FC<{
       },
       autoFit: true,
     };
-  }, [parsedData, navigate, type]);
+  }, [parsedData, navigate, type, t]);
 
   const shareImage = useCallback(
     async (e: MouseEvent<HTMLButtonElement>) => {
@@ -235,12 +243,12 @@ export const TechnicalChartWidget: FC<{
         backgroundColor: '#1D1E23', // v1-surface-l3
         ignoreElements: x => !!x.hasAttribute('data-' + 'nocapture'),
       });
-      const fileName = `~${type}.png`;
+      const fileName = `${type}-${Date.now()}.png`;
 
       if (isMobile) {
         canvas.toBlob(blob => {
           if (!blob) throw new Error('Error creating blob from html element!');
-          const file = new File([blob], `~${type}.png`, { type: 'image/png' });
+          const file = new File([blob], fileName, { type: 'image/png' });
           void share(file);
           (e.target as HTMLButtonElement).disabled = false;
         }, 'image/png');
@@ -259,22 +267,29 @@ export const TechnicalChartWidget: FC<{
     <div className="space-y-6 rounded-xl bg-v1-surface-l3 p-6" ref={el}>
       <div className="flex items-start justify-between gap-px">
         <div className="space-y-1">
-          <h2
+          <div
             className={clsx(
               'text-base font-medium text-v1-content-primary',
               type === 'cheap_bullish'
                 ? '[&_b]:text-v1-content-positive'
                 : '[&_b]:text-v1-content-negative',
             )}
-            dangerouslySetInnerHTML={{
-              __html:
+          >
+            <b>
+              {`${
                 type === 'cheap_bullish'
-                  ? '~<b>Cheap & Bullish</b> Chart(RSI+MACD)'
-                  : '~<b>Expensive & Bearish</b> Chart(RSI+MACD)',
-            }}
-          />
-          <p className="text-xs capitalize text-v1-content-primary">
-            {'~the size of each bubble reflects the 24-hour change.'}
+                  ? t('keywords.rsi_oversold.label_equiv')
+                  : t('keywords.rsi_overbought.label_equiv')
+              } & ${
+                type === 'cheap_bullish'
+                  ? t('keywords.rsi_bullish.label_equiv')
+                  : t('keywords.rsi_bearish.label_equiv')
+              }`}
+            </b>{' '}
+            {t('common.rsi_macd_chart.title')}
+          </div>
+          <p className="text-xs text-v1-content-primary">
+            {t('common.rsi_macd_chart.subtitle')}
           </p>
         </div>
         <button
@@ -287,7 +302,7 @@ export const TechnicalChartWidget: FC<{
           )}
         >
           <Icon name={bxDownload} size={16} />
-          {'~Share'}
+          {t('common.share')}
         </button>
       </div>
       <div>

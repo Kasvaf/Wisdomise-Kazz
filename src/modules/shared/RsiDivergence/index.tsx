@@ -36,8 +36,8 @@ export const RsiDivergence: FC<{
         ? null
         : hasValue
         ? value > 0
-          ? t('indicator_list.rsi.bullish')
-          : t('indicator_list.rsi.bearish')
+          ? t('keywords.rsi_bullish.label_equiv')
+          : t('keywords.rsi_bearish.label_equiv')
         : t('common:not-available')}
     </span>
   );

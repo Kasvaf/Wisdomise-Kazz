@@ -1,0 +1,14 @@
+common:
+  rsi_macd_chart:
+    title: ''
+    subtitle: ''
+  share: ''
+keywords:
+  rsi_bearish:
+    label_equiv: ''
+  rsi_bullish:
+    label_equiv: ''
+  rsi_overbought:
+    label_equiv: ''
+  rsi_oversold:
+    label_equiv: ''

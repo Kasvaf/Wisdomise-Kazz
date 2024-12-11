@@ -70,15 +70,15 @@ function GuideBar() {
     >
       <div>
         <div className="size-4 rounded bg-v1-content-positive" />
-        {t('indicator_list.rsi.heatmap.oversold_area')}
+        {t('keywords.rsi_oversold.label_range')}
       </div>
       <div>
         <div className="size-4 rounded bg-v1-content-negative" />
-        {t('indicator_list.rsi.heatmap.overbought_area')}
+        {t('keywords.rsi_overbought.label_range')}
       </div>
       <div>
         <div className="h-4 w-0 border-r-2 border-dashed border-r-v1-content-primary" />
-        {t('indicator_list.rsi.heatmap.price_change')}
+        {t('common.price_change')}
       </div>
       <div>
         <div
@@ -88,7 +88,7 @@ function GuideBar() {
             height: `${POINT_SIZE}px`,
           }}
         />
-        {t('indicator_list.rsi.heatmap.no_divergence')}
+        {t('common.no_divergence')}
       </div>
       <div>
         <div
@@ -98,7 +98,7 @@ function GuideBar() {
             height: `${POINT_SIZE}px`,
           }}
         />
-        {t('indicator_list.rsi.heatmap.bullish_divergence')}
+        {t('keywords.rsi_bullish.label_semi')}
       </div>
       <div>
         <div
@@ -108,7 +108,7 @@ function GuideBar() {
             height: `${POINT_SIZE}px`,
           }}
         />
-        {t('indicator_list.rsi.heatmap.bearish_divergence')}
+        {t('keywords.rsi_bearish.label_semi')}
       </div>
     </div>
   );
@@ -173,20 +173,20 @@ function CoinPoint({
             />
           </div>
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.24h_change')}
+            {t('common.24h_change')}
             <PriceChange value={value.data?.price_change_percentage_24h} />
           </div>
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.market_cap')}
+            {t('common.market_cap')}
             <ReadableNumber value={value.data?.market_cap} label="$" />
           </div>
           <div className="h-px bg-v1-content-primary opacity-10" />
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.rsi')} ({resolution.toUpperCase()})
+            {t('common.rsi')} ({resolution.toUpperCase()})
             <RsiNumber value={value.rsi_value} />
           </div>
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.div')} ({resolution.toUpperCase()})
+            {t('common.div')} ({resolution.toUpperCase()})
             <RsiDivergence value={value.divergence_type} />
           </div>
         </div>

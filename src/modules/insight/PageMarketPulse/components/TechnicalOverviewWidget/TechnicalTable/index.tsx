@@ -1,5 +1,6 @@
 import { useMemo, type FC } from 'react';
 import { type ColumnType } from 'antd/es/table';
+import { useTranslation } from 'react-i18next';
 import {
   type TechnicalRadarCoin,
   useTechnicalRadarTopCoins,
@@ -15,17 +16,18 @@ import { ReactComponent as Logo } from './logo.svg';
 import { TechnicalSentiment } from './TechnicalSentiment';
 
 export const TechnicalTable: FC = () => {
+  const { t } = useTranslation('market-pulse');
   const coins = useTechnicalRadarTopCoins();
   const columns = useMemo<Array<ColumnType<TechnicalRadarCoin>>>(
     () => [
       {
         fixed: 'left',
-        title: '~Wise Rank',
+        title: t('table.rank'),
         render: (_, row) => row.rank,
         width: 50,
       },
       {
-        title: '~Name',
+        title: t('table.name'),
         render: (_, row) => <Coin coin={row.symbol} />,
         width: 200,
       },
@@ -36,28 +38,28 @@ export const TechnicalTable: FC = () => {
             className="flex items-center gap-1 text-v1-content-primary"
           >
             <Logo className="inline-block size-4 grayscale" />
-            {'~Technical Sentiment'}
+            {t('table.technical_sentiment')}
           </span>,
         ],
         width: 310,
         render: (_, row) => <TechnicalSentiment value={row} />,
       },
       {
-        title: '~MarketCap',
+        title: t('table.market_cap'),
         width: 140,
         render: (_, row) => (
           <>{row.data && <CoinMarketCap marketData={row.data} />}</>
         ),
       },
       {
-        title: '~Info',
+        title: t('table.info'),
         width: 240,
         render: (_, row) => (
           <>{row.data && <CoinPriceInfo marketData={row.data} />}</>
         ),
       },
       {
-        title: '~Labels',
+        title: t('table.labels'),
         className: 'min-h-16 min-w-72',
         render: (_, row) => (
           <CoinLabels
@@ -73,7 +75,7 @@ export const TechnicalTable: FC = () => {
         ),
       },
     ],
-    [],
+    [t],
   );
   return (
     <AccessSheild mode="table" size={3} level={1}>

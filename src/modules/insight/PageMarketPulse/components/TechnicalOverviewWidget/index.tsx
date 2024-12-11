@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
 
 import { ButtonSelect } from 'shared/ButtonSelect';
@@ -7,13 +8,14 @@ import { TechnicalCharts } from './TechnicalCharts';
 import { TechnicalTable } from './TechnicalTable';
 
 export function TechnicalOverviewWidget({ className }: { className?: string }) {
+  const { t } = useTranslation('market-pulse');
   const [tab, setTab] = useState<'chart' | 'table'>('chart');
   const technicalTopCoins = useTechnicalRadarTopCoins();
 
   return (
     <OverviewWidget
       className={className}
-      title={'~Overview'}
+      title={t('common.overview')}
       contentClassName="!min-h-[450px]"
       loading={technicalTopCoins.isLoading}
       empty={technicalTopCoins.data?.length === 0}
@@ -25,11 +27,11 @@ export function TechnicalOverviewWidget({ className }: { className?: string }) {
           onChange={setTab}
           options={[
             {
-              label: '~Chart View',
+              label: t('common.chart_view'),
               value: 'chart',
             },
             {
-              label: '~Table View',
+              label: t('common.table_view'),
               value: 'table',
             },
           ]}

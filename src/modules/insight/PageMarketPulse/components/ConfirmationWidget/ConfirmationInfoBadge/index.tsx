@@ -90,8 +90,8 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     if (type === 'rsi_oversold') {
       return {
         icon: OversoldIcon,
-        title: t('indicator_list.rsi.oversold.badge'),
-        fullTitle: t('indicator_list.rsi.oversold.full_badge'),
+        title: t('keywords.rsi_oversold.label_small'),
+        fullTitle: t('keywords.rsi_oversold.label_exact'),
         textColor: 'text-v1-content-brand',
         resolutions: valueAsRsi.rsi_oversold_resolutions ?? [],
       };
@@ -99,8 +99,8 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     if (type === 'rsi_overbought') {
       return {
         icon: OverboughtIcon,
-        title: t('indicator_list.rsi.overbought.badge'),
-        fullTitle: t('indicator_list.rsi.overbought.full_badge'),
+        title: t('keywords.rsi_overbought.label_small'),
+        fullTitle: t('keywords.rsi_overbought.label_exact'),
         textColor: 'text-v1-content-notice',
         resolutions: valueAsRsi.rsi_overbought_resolutions ?? [],
       };
@@ -108,8 +108,8 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     if (type === 'macd_cross_up') {
       return {
         icon: CrossupIcon,
-        title: t('indicator_list.macd.crossup.badge'),
-        fullTitle: t('indicator_list.macd.crossup.full_badge'),
+        title: t('keywords.macd_cross_up.label_small'),
+        fullTitle: t('keywords.macd_cross_up.label_exact'),
         textColor: 'text-v1-content-brand',
         resolutions: valueAsMacd.macd_cross_up_resolutions ?? [],
       };
@@ -117,8 +117,8 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     if (type === 'macd_cross_down') {
       return {
         icon: CrossdownIcon,
-        title: t('indicator_list.macd.crossdown.badge'),
-        fullTitle: t('indicator_list.macd.crossdown.full_badge'),
+        title: t('keywords.macd_cross_down.label_small'),
+        fullTitle: t('keywords.macd_cross_down.label_exact'),
         textColor: 'text-v1-content-notice',
         resolutions: valueAsMacd.macd_cross_down_resolutions ?? [],
       };
@@ -129,8 +129,14 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     ) {
       return {
         icon: BearishIcon,
-        title: t('common.bearish.badge'),
-        fullTitle: t('common.bearish.full_badge'),
+        title:
+          type === 'rsi_bearish_divergence'
+            ? t('keywords.rsi_bearish.label_small')
+            : t('keywords.macd_bearish.label_small'),
+        fullTitle:
+          type === 'rsi_bearish_divergence'
+            ? t('keywords.rsi_bearish.label_exact')
+            : t('keywords.macd_bearish.label_exact'),
         textColor: 'text-v1-content-negative',
         resolutions:
           valueAsRsi.rsi_bearish_divergence_resolutions ??
@@ -144,8 +150,14 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     ) {
       return {
         icon: BullishIcon,
-        title: t('common.bullish.badge'),
-        fullTitle: t('common.bullish.full_badge'),
+        title:
+          type === 'rsi_bullish_divergence'
+            ? t('keywords.rsi_bullish.label_small')
+            : t('keywords.macd_bullish.label_small'),
+        fullTitle:
+          type === 'rsi_bullish_divergence'
+            ? t('keywords.rsi_bullish.label_exact')
+            : t('keywords.macd_bullish.label_exact'),
         textColor: 'text-v1-content-positive',
         resolutions:
           valueAsRsi.rsi_bullish_divergence_resolutions ??
@@ -165,7 +177,7 @@ export function ConfirmationInfoBadge<I extends Indicator>({
         </div>
       }
     >
-      <div className="inline-flex cursor-default flex-col items-center justify-center gap-px">
+      <div className="inline-flex cursor-default flex-col items-start justify-center gap-px">
         <div className="inline-flex items-center gap-[2px]">
           <DataIcon
             className={clsx(
@@ -191,7 +203,7 @@ export function ConfirmationInfoBadge<I extends Indicator>({
           </span>
         </div>
         {!mini && (
-          <p className="text-center text-xxs text-v1-content-secondary">
+          <p className="whitespace-nowrap text-start text-xxs text-v1-content-secondary">
             {data.title}
           </p>
         )}
