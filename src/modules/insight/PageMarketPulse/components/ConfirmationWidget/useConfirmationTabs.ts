@@ -7,8 +7,8 @@ import {
 
 export type ConfirmationType = 'bullish' | 'bearish';
 
-export interface ConfirmationSubTab<I extends Indicator> {
-  combination: Array<IndicatorConfirmationCombination<I>>;
+export interface ConfirmationSubTab {
+  combination: IndicatorConfirmationCombination[];
   key: string;
   title: string;
 }
@@ -16,29 +16,29 @@ export interface ConfirmationSubTab<I extends Indicator> {
 export const useConfirmationTabs = <I extends Indicator>(
   indicator: I,
   type: ConfirmationType,
-): Array<ConfirmationSubTab<I>> => {
+): ConfirmationSubTab[] => {
   const { t } = useTranslation('market-pulse');
 
   return useMemo(() => {
-    let returnValue: Array<ConfirmationSubTab<I>> = [];
+    let returnValue: ConfirmationSubTab[] = [];
     if (indicator === 'rsi') {
       returnValue = (
         type === 'bullish'
           ? [
               {
                 title: t('indicator_list.rsi.oversold_bullish.title'),
-                combination: ['oversold', 'bullish_divergence'],
-                key: 'oversold_bullish',
+                combination: ['rsi_oversold', 'rsi_bullish_divergence'],
+                key: 'rsi_oversold_bullish',
               },
               {
                 title: t('indicator_list.rsi.oversold.title'),
-                combination: ['oversold'],
-                key: 'oversold',
+                combination: ['rsi_oversold'],
+                key: 'rsi_oversold',
               },
               {
                 title: t('common.bullish.title'),
-                combination: ['bullish_divergence'],
-                key: 'bullish',
+                combination: ['rsi_bullish_divergence'],
+                key: 'rsi_bullish',
               },
             ]
           : [
@@ -58,7 +58,7 @@ export const useConfirmationTabs = <I extends Indicator>(
                 key: 'bearish',
               },
             ]
-      ) as Array<ConfirmationSubTab<I>>;
+      ) as ConfirmationSubTab[];
     } else if (indicator === 'macd') {
       returnValue = (
         type === 'bullish'
@@ -66,37 +66,37 @@ export const useConfirmationTabs = <I extends Indicator>(
               {
                 title: t('indicator_list.macd.crossup.title'),
                 combination: ['macd_cross_up'],
-                key: 'crossup',
+                key: 'macd_crossup',
               },
               {
                 title: t('common.bullish.title'),
-                combination: ['bullish_divergence'],
-                key: 'bullish',
+                combination: ['macd_bullish_divergence'],
+                key: 'macd_bullish',
               },
               {
                 title: t('indicator_list.macd.crossup_bullish.title'),
-                combination: ['macd_cross_up', 'bullish_divergence'],
-                key: 'crossup_bullish',
+                combination: ['macd_cross_up', 'macd_bullish_divergence'],
+                key: 'macd_crossup_bullish',
               },
             ]
           : [
               {
                 title: t('indicator_list.macd.crossdown.title'),
                 combination: ['macd_cross_down'],
-                key: 'crossdown',
+                key: 'macd_crossdown',
               },
               {
                 title: t('common.bearish.title'),
-                combination: ['bearish_divergence'],
-                key: 'bearish',
+                combination: ['macd_bearish_divergence'],
+                key: 'macd_bearish',
               },
               {
                 title: t('indicator_list.macd.crossdown_bearish.title'),
-                combination: ['macd_cross_down', 'bearish_divergence'],
-                key: 'crossdown_bearish',
+                combination: ['macd_cross_down', 'macd_bearish_divergence'],
+                key: 'macd_crossdown_bearish',
               },
             ]
-      ) as Array<ConfirmationSubTab<I>>;
+      ) as ConfirmationSubTab[];
     }
     return returnValue;
   }, [indicator, type, t]);

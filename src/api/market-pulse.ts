@@ -70,11 +70,11 @@ export const useRsiDivergence = () =>
 /// ////
 
 interface CoinMarketPulseMarketData {
-  id: string;
-  current_price: number;
-  market_cap: number;
-  price_change_24h: number;
-  price_change_percentage_24h: number;
+  id?: string | null;
+  current_price?: number | null;
+  market_cap?: number | null;
+  price_change_24h?: number | null;
+  price_change_percentage_24h?: number | null;
 }
 
 export type Indicator = 'rsi' | 'macd';
@@ -112,28 +112,24 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
       .then(resp => resp.data),
   );
 
-export type IndicatorConfirmationCombination<I extends Indicator> =
-  I extends 'rsi'
-    ? 'bullish_divergence' | 'bearish_divergence' | 'oversold' | 'overbought'
-    :
-        | 'bullish_divergence'
-        | 'bearish_divergence'
-        | 'macd_cross_up'
-        | 'macd_cross_down';
+export type IndicatorConfirmationCombination =
+  | 'rsi_bullish_divergence'
+  | 'rsi_bearish_divergence'
+  | 'rsi_oversold'
+  | 'rsi_overbought'
+  | 'macd_bullish_divergence'
+  | 'macd_bearish_divergence'
+  | 'macd_cross_up'
+  | 'macd_cross_down';
 
 interface IndicatorConfirmationCore {
   symbol: Coin;
   data?: null | CoinMarketPulseMarketData;
-  divergence_types?: null | Record<
-    string,
-    {
-      type: -1 | 1 | null;
-      related_at: string;
-    }
-  >;
-  bearish_divergence_resolutions?: null | string[];
-  bullish_divergence_resolutions?: null | string[];
   analysis?: null | string;
+  symbol_labels?: null | string[];
+  symbol_security?: null | {
+    data?: null | NetworkSecurity[];
+  };
 }
 
 interface RsiConfirmation extends IndicatorConfirmationCore {
@@ -144,8 +140,17 @@ interface RsiConfirmation extends IndicatorConfirmationCore {
       related_at: string;
     }
   >;
-  oversold_resolutions?: null | string[];
-  overbought_resolutions?: null | string[];
+  rsi_oversold_resolutions?: null | string[];
+  rsi_overbought_resolutions?: null | string[];
+  rsi_divergence_types?: null | Record<
+    string,
+    {
+      type: -1 | 1 | null;
+      related_at: string;
+    }
+  >;
+  rsi_bearish_divergence_resolutions?: null | string[];
+  rsi_bullish_divergence_resolutions?: null | string[];
 }
 
 interface MacdConfirmation extends IndicatorConfirmationCore {
@@ -158,6 +163,15 @@ interface MacdConfirmation extends IndicatorConfirmationCore {
   >;
   macd_cross_up_resolutions?: null | string[];
   macd_cross_down_resolutions?: null | string[];
+  macd_divergence_types?: null | Record<
+    string,
+    {
+      type: -1 | 1 | null;
+      related_at: string;
+    }
+  >;
+  macd_bearish_divergence_resolutions?: null | string[];
+  macd_bullish_divergence_resolutions?: null | string[];
 }
 
 export type IndicatorConfirmation<I extends Indicator> = I extends 'rsi'
@@ -166,9 +180,25 @@ export type IndicatorConfirmation<I extends Indicator> = I extends 'rsi'
   ? MacdConfirmation
   : IndicatorConfirmationCore;
 
+export type IndicatorDivergenceTypes = Record<
+  string,
+  {
+    type: -1 | 1 | null;
+    related_at: string;
+  }
+>;
+
+export type IndicatorValues = Record<
+  string,
+  {
+    value: number;
+    related_at: string;
+  }
+>;
+
 export const useIndicatorConfirmations = <I extends Indicator>(filters: {
   indicator: I;
-  combination: Array<IndicatorConfirmationCombination<I>>;
+  combination: IndicatorConfirmationCombination[];
   page?: number;
   pageSize?: number;
 }) =>
@@ -181,93 +211,64 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
             page_size: filters?.pageSize ?? 10,
             page: filters?.page ?? 1,
             ...Object.fromEntries(
-              filters.combination.map(comb => [comb, 'True']),
+              filters.combination.map(comb => [
+                comb.endsWith('divergence')
+                  ? comb.replace(`${filters.indicator}_`, '')
+                  : comb,
+                'True',
+              ]),
             ),
           },
         },
       )
-      .then(resp => resp.data),
+      .then(({ data }) => {
+        const results = data.results.map(row => {
+          // prefix indicaor values and resolutions to match type
+          for (const key of [
+            'bearish_divergence_resolutions',
+            'bullish_divergence_resolutions',
+            'macd_divergence_types',
+            'oversold_resolutions',
+            'overbought_resolutions',
+            'cross_up_resolutions',
+            'cross_down_resolutions',
+            'values',
+          ]) {
+            if (key in row) {
+              const oldKey = key as keyof typeof row;
+              const newKey = `${filters.indicator}_${key}` as keyof typeof row;
+
+              row[newKey] = (row[oldKey] ?? row[newKey]) as never;
+            }
+          }
+          return row;
+        });
+        return {
+          ...data,
+          results,
+        };
+      }),
   );
 
-export interface TechnicalRadarCoin {
-  rank: number;
-  symbol: Coin;
-  data?: {
-    id?: string | null;
-    ath?: number | null;
-    atl?: number | null;
-    roi?: {
-      times?: number | null;
-      currency?: string | null;
-      percentage?: number | null;
-    } | null;
-    image?: string | null;
-    low_24h?: number | null;
-    ath_date?: string | null;
-    atl_date?: string | null;
-    high_24h?: number | null;
-    market_cap?: number | null;
-    max_supply?: number | null;
-    last_updated?: string | null;
-    total_supply?: number | null;
-    total_volume?: number | null;
-    current_price?: number | null;
-    market_cap_rank?: number | null;
-    price_change_24h?: number | null;
-    circulating_supply?: number | null;
-    ath_change_percentage?: number | null;
-    atl_change_percentage?: number | null;
-    market_cap_change_24h?: number | null;
-    fully_diluted_valuation?: number | null;
-    price_change_percentage_24h?: number | null;
-    market_cap_change_percentage_24h?: number | null;
+export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
+  IndicatorConfirmation<'rsi'> & {
+    rank: number;
+    symbol: Coin;
+    data?:
+      | null
+      | (CoinMarketPulseMarketData & {
+          market_cap_category?: string | null;
+        });
+    networks_slug?: string[] | null;
+    score?: number | null;
+    rsi_score?: null | number;
+    macd_score?: null | number;
+    technical_sentiment: string;
+    symbol_security?: null | {
+      data?: null | NetworkSecurity[];
+    };
+    symbol_labels?: null | string[];
   };
-  networks_slug?: string[] | null;
-  score?: number | null;
-  rsi_values?: null | Record<
-    string,
-    {
-      value: number;
-      related_at: string;
-    }
-  >;
-  macd_values?: null | Record<
-    string,
-    {
-      value: number;
-      related_at: string;
-    }
-  >;
-  rsi_divergence_types?: null | Record<
-    string,
-    {
-      type: -1 | 1 | null;
-      related_at: string;
-    }
-  >;
-  macd_divergence_types?: null | Record<
-    string,
-    {
-      type: -1 | 1 | null;
-      related_at: string;
-    }
-  >;
-  rsi_oversold_resolutions?: null | string[];
-  rsi_overbought_resolutions?: null | string[];
-  macd_cross_up_resolutions?: null | string[];
-  macd_cross_down_resolutions?: null | string[];
-  rsi_bearish_divergence_resolutions?: null | string[];
-  rsi_bullish_divergence_resolutions?: null | string[];
-  macd_bearish_divergence_resolutions?: null | string[];
-  macd_bullish_divergence_resolutions?: null | string[];
-  rsi_score?: null | number;
-  macd_score?: null | number;
-  technical_sentiment: string;
-  symbol_security?: null | {
-    data?: null | NetworkSecurity[];
-  };
-  symbol_labels?: null | string[];
-}
 
 export const useTechnicalRadarTopCoins = () =>
   useQuery(['indicators/technical-radar/top-coins'], () => {

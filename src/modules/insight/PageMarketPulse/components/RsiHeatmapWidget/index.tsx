@@ -23,35 +23,6 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       title={t('indicator_list.rsi.heatmap.title')}
       headerClassName="flex-wrap"
       contentClassName="!min-h-[450px]"
-      headerActions={
-        <ButtonSelect
-          className="mobile:w-full"
-          value={resolution}
-          onChange={setResolution}
-          options={[
-            {
-              label: '15m',
-              value: '15m',
-            },
-            {
-              label: '30m',
-              value: '30m',
-            },
-            {
-              label: '1h',
-              value: '1h',
-            },
-            {
-              label: '4h',
-              value: '4h',
-            },
-            {
-              label: '1d',
-              value: '1d',
-            },
-          ]}
-        />
-      }
       loading={heatmap.isLoading}
       empty={heatmap.data?.results?.length === 0}
     >
@@ -60,6 +31,35 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
           className="h-full py-2"
           data={heatmap.data?.results ?? []}
           resolution={resolution}
+          headerActions={
+            <ButtonSelect
+              className="mobile:w-full"
+              value={resolution}
+              onChange={setResolution}
+              options={[
+                {
+                  label: '15m',
+                  value: '15m',
+                },
+                {
+                  label: '30m',
+                  value: '30m',
+                },
+                {
+                  label: '1h',
+                  value: '1h',
+                },
+                {
+                  label: '4h',
+                  value: '4h',
+                },
+                {
+                  label: '1d',
+                  value: '1d',
+                },
+              ]}
+            />
+          }
         />
       </AccessSheild>
     </OverviewWidget>

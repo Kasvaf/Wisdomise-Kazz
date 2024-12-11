@@ -6,8 +6,6 @@ import { TechnicalChartWidget } from './TechnicalChartWidget';
 export const TechnicalCharts: FC = () => {
   const technicalTopCoins = useTechnicalRadarTopCoins();
 
-  if (technicalTopCoins.data?.length === 0) return null;
-
   return (
     <AccessSheild
       mode="children"

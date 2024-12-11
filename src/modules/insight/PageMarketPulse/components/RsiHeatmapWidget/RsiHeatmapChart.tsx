@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { useMemo, useState, type ReactNode } from 'react';
-import { Tooltip } from 'antd';
 import { useTimeout } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,6 +11,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { RsiNumber } from 'shared/RsiNumber';
 import { RsiDivergence } from 'shared/RsiDivergence';
+import { HoverTooltip } from 'shared/HoverTooltip';
 
 const AREA_SIZE_PERCENT = 42;
 const POINT_SIZE = 14;
@@ -64,7 +64,7 @@ function GuideBar() {
   return (
     <div
       className={clsx(
-        'flex shrink-0 flex-wrap items-center justify-center gap-x-6 gap-y-2 overflow-auto text-xs font-medium',
+        'flex shrink-0 flex-wrap justify-center gap-x-6 gap-y-2 overflow-auto text-xs font-medium',
         '[&>*]:inline-flex [&>*]:shrink-0 [&>*]:items-center [&>*]:gap-2',
       )}
     >
@@ -160,8 +160,8 @@ function CoinPoint({
   }, [value]);
 
   return (
-    <Tooltip
-      className="bg-v1-surface-l4"
+    <HoverTooltip
+      placement="top"
       title={
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between gap-6">
@@ -256,7 +256,7 @@ function CoinPoint({
           }}
         />
       </div>
-    </Tooltip>
+    </HoverTooltip>
   );
 }
 
@@ -264,10 +264,12 @@ export function RsiHeatmapChart({
   className,
   data,
   resolution,
+  headerActions,
 }: {
   className?: string;
   data: Array<IndicatorHeatmap<'rsi'>>;
   resolution: IndicatorHeatmapResolution;
+  headerActions?: ReactNode;
 }) {
   const sortedData = useMemo(
     () =>
@@ -279,7 +281,15 @@ export function RsiHeatmapChart({
   );
   return (
     <div className={clsx('flex flex-col gap-3', className)}>
-      <GuideBar />
+      <div
+        className={clsx(
+          'flex flex-row flex-wrap gap-3',
+          headerActions ? 'justify-between' : 'justify-center',
+        )}
+      >
+        <GuideBar />
+        {headerActions}
+      </div>
       <div className="relative min-h-96 shrink-0 grow overflow-hidden rounded-xl">
         <div
           className="absolute size-full"

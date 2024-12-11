@@ -52,9 +52,12 @@ export function Coin({
   imageClassName?: string;
   nonLink?: boolean;
   mini?: boolean;
-  truncate?: boolean;
+  truncate?: boolean | number;
   popup?: boolean;
 }) {
+  const shouldTruncate =
+    truncate === true || (typeof truncate === 'number' && truncate > 0);
+  const truncateSize = typeof truncate === 'number' ? truncate : 110;
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2 pe-2',
     !mini && 'p-1',
@@ -72,14 +75,14 @@ export function Coin({
         )}
       />
       <div
-        className={clsx(
-          'shrink grow leading-snug',
-          truncate && 'max-w-[110px]',
-        )}
+        className={clsx('shrink grow leading-snug')}
+        style={{
+          maxWidth: shouldTruncate ? `${truncateSize}px` : 'auto',
+        }}
       >
         <div
           className={clsx(
-            truncate && 'overflow-hidden text-ellipsis',
+            shouldTruncate && 'overflow-hidden text-ellipsis',
             'whitespace-nowrap',
           )}
         >
@@ -90,8 +93,8 @@ export function Coin({
             {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
             <div
               className={clsx(
-                truncate && 'overflow-hidden text-ellipsis',
-                'whitespace-nowrap text-[80%] opacity-70',
+                shouldTruncate && 'overflow-hidden text-ellipsis',
+                'whitespace-nowrap text-[90%] opacity-70',
               )}
             >
               {coin.abbreviation ?? ''}

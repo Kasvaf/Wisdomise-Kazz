@@ -1,14 +1,12 @@
 import { type FC, type SVGProps, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { bxInfoCircle } from 'boxicons-quasar';
-import { Tooltip } from 'antd';
 import {
   type Indicator,
   type IndicatorConfirmationCombination,
   type IndicatorConfirmation,
 } from 'api/market-pulse';
-import Icon from 'shared/Icon';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as OversoldIcon } from './oversold.svg';
 import { ReactComponent as OverboughtIcon } from './overbought.svg';
 import { ReactComponent as BearishIcon } from './bearish.svg';
@@ -30,7 +28,7 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
         {value?.map(row => (
           <div
             key={row}
-            className="inline-flex items-center justify-center rounded bg-v1-surface-l4 px-2 py-px text-xxs font-medium"
+            className="inline-flex items-center justify-center rounded bg-v1-surface-l1 px-2 py-px text-xxs font-medium"
           >
             {row.toUpperCase()}
           </div>
@@ -43,9 +41,11 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
 export function ConfirmationInfoBadge<I extends Indicator>({
   type,
   value,
+  mini,
 }: {
-  type: IndicatorConfirmationCombination<I>;
+  type: IndicatorConfirmationCombination;
   value: IndicatorConfirmation<I>;
+  mini?: boolean;
 }) {
   const { t } = useTranslation('market-pulse');
 
@@ -58,7 +58,12 @@ export function ConfirmationInfoBadge<I extends Indicator>({
         ...Object.keys(
           (value as IndicatorConfirmation<'macd'>)?.macd_values ?? {},
         ),
-        ...Object.keys(value.divergence_types ?? {}),
+        ...Object.keys(
+          (value as IndicatorConfirmation<'rsi'>).rsi_divergence_types ?? {},
+        ),
+        ...Object.keys(
+          (value as IndicatorConfirmation<'macd'>).macd_divergence_types ?? {},
+        ),
       ]
         .filter((key, i, self) => self.indexOf(key) === i)
         .map(row => {
@@ -80,29 +85,27 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     resolutions: string[];
     textColor: string;
   }>(() => {
-    const typeAsRsi = type as IndicatorConfirmationCombination<'rsi'>;
-    const typeAsMacd = type as IndicatorConfirmationCombination<'macd'>;
     const valueAsRsi = value as IndicatorConfirmation<'rsi'>;
     const valueAsMacd = value as IndicatorConfirmation<'macd'>;
-    if (typeAsRsi === 'oversold') {
+    if (type === 'rsi_oversold') {
       return {
         icon: OversoldIcon,
         title: t('indicator_list.rsi.oversold.badge'),
         fullTitle: t('indicator_list.rsi.oversold.full_badge'),
         textColor: 'text-v1-content-brand',
-        resolutions: valueAsRsi.oversold_resolutions ?? [],
+        resolutions: valueAsRsi.rsi_oversold_resolutions ?? [],
       };
     }
-    if (typeAsRsi === 'overbought') {
+    if (type === 'rsi_overbought') {
       return {
         icon: OverboughtIcon,
         title: t('indicator_list.rsi.overbought.badge'),
         fullTitle: t('indicator_list.rsi.overbought.full_badge'),
         textColor: 'text-v1-content-notice',
-        resolutions: valueAsRsi.overbought_resolutions ?? [],
+        resolutions: valueAsRsi.rsi_overbought_resolutions ?? [],
       };
     }
-    if (typeAsMacd === 'macd_cross_up') {
+    if (type === 'macd_cross_up') {
       return {
         icon: CrossupIcon,
         title: t('indicator_list.macd.crossup.badge'),
@@ -111,7 +114,7 @@ export function ConfirmationInfoBadge<I extends Indicator>({
         resolutions: valueAsMacd.macd_cross_up_resolutions ?? [],
       };
     }
-    if (typeAsMacd === 'macd_cross_down') {
+    if (type === 'macd_cross_down') {
       return {
         icon: CrossdownIcon,
         title: t('indicator_list.macd.crossdown.badge'),
@@ -120,73 +123,79 @@ export function ConfirmationInfoBadge<I extends Indicator>({
         resolutions: valueAsMacd.macd_cross_down_resolutions ?? [],
       };
     }
-    if (type === 'bearish_divergence') {
+    if (
+      type === 'rsi_bearish_divergence' ||
+      type === 'macd_bearish_divergence'
+    ) {
       return {
         icon: BearishIcon,
         title: t('common.bearish.badge'),
         fullTitle: t('common.bearish.full_badge'),
         textColor: 'text-v1-content-negative',
-        resolutions: value.bearish_divergence_resolutions ?? [],
+        resolutions:
+          valueAsRsi.rsi_bearish_divergence_resolutions ??
+          valueAsMacd.macd_bearish_divergence_resolutions ??
+          [],
       };
     }
-    if (type === 'bullish_divergence') {
+    if (
+      type === 'rsi_bullish_divergence' ||
+      type === 'macd_bullish_divergence'
+    ) {
       return {
         icon: BullishIcon,
         title: t('common.bullish.badge'),
         fullTitle: t('common.bullish.full_badge'),
         textColor: 'text-v1-content-positive',
-        resolutions: value.bullish_divergence_resolutions ?? [],
+        resolutions:
+          valueAsRsi.rsi_bullish_divergence_resolutions ??
+          valueAsMacd.macd_bullish_divergence_resolutions ??
+          [],
       };
     }
     throw new Error('unexpected error');
   }, [type, t, value]);
 
   return (
-    <div className="inline-flex flex-col items-center justify-center gap-px">
-      <div className="inline-flex items-center gap-[0.3rem]">
-        <DataIcon
-          className={clsx(
-            data.resolutions.length === 0 && 'opacity-80 contrast-0 grayscale',
-            'h-auto w-5 2xl:w-6',
-          )}
-        />
-        <span className="inline-flex items-center gap-px">
-          <span
+    <HoverTooltip
+      title={
+        <div>
+          <p className="text-xxs text-v1-content-primary">{data.fullTitle}</p>
+          <ConfirmationResolutionRow value={data.resolutions} />
+        </div>
+      }
+    >
+      <div className="inline-flex cursor-default flex-col items-center justify-center gap-px">
+        <div className="inline-flex items-center gap-[2px]">
+          <DataIcon
             className={clsx(
-              'text-xs font-medium',
-              data.resolutions.length === 0 && 'opacity-80 grayscale',
-              data.textColor,
+              data.resolutions.length === 0 &&
+                'opacity-80 contrast-0 grayscale',
+              'w-5',
             )}
-          >
-            {data.resolutions.length}
-          </span>
-          <span className="text-xxs text-v1-content-primary">/</span>
-          <span className="text-xxs text-v1-content-primary">
-            {timeframes.length}
-          </span>
-        </span>
-        <Tooltip
-          color="#1e1f24"
-          title={
-            <div>
-              <p className="mb-2 text-xxs text-v1-content-primary">
-                {data.fullTitle}
-              </p>
-              <ConfirmationResolutionRow value={data.resolutions} />
-            </div>
-          }
-        >
-          <Icon
-            name={bxInfoCircle}
-            size={16}
-            strokeWidth={1}
-            className="cursor-help"
           />
-        </Tooltip>
+          <span className="inline-flex items-center gap-px">
+            <span
+              className={clsx(
+                'text-xs font-medium',
+                data.resolutions.length === 0 && 'opacity-80 grayscale',
+                data.textColor,
+              )}
+            >
+              {data.resolutions.length}
+            </span>
+            <span className="text-xxs text-v1-content-primary">/</span>
+            <span className="text-xxs text-v1-content-primary">
+              {timeframes.length}
+            </span>
+          </span>
+        </div>
+        {!mini && (
+          <p className="text-center text-xxs text-v1-content-secondary">
+            {data.title}
+          </p>
+        )}
       </div>
-      <p className="text-center text-xxs text-v1-content-secondary">
-        {data.title}
-      </p>
-    </div>
+    </HoverTooltip>
   );
 }

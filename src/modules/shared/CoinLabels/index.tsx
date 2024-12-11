@@ -89,7 +89,12 @@ export function CoinLabels({
   suffix?: ReactNode;
 }) {
   return (
-    <div className={clsx('flex flex-wrap items-center gap-1', className)}>
+    <div
+      className={clsx(
+        'flex flex-wrap items-start justify-start gap-[2px]',
+        className,
+      )}
+    >
       {prefix}
       {categories && (
         <>
@@ -105,10 +110,12 @@ export function CoinLabels({
               className={clsx(
                 sharedLabelClassName,
                 'bg-v1-content-primary/10 text-v1-content-primary',
+                'overflow-hidden !p-0',
               )}
+              chevron={false}
             >
-              {categories[0].name}
-              <span className="rounded-lg bg-v1-content-primary/20 px-[5px] text-[9px]">
+              <span className="px-3 py-1">{categories[0].name}</span>
+              <span className="-ms-2 flex items-center justify-center self-stretch bg-v1-content-primary/10 pe-2 ps-1">
                 {`+${categories.length - 1}`}
               </span>
             </ClickableTooltip>

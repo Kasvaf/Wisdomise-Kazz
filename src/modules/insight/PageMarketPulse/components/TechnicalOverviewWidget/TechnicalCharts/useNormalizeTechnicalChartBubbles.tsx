@@ -54,12 +54,12 @@ export const useNormalizeTechnicalChartBubbles = (
           Math.abs(pointA.x - pointB.x) < 0.5 &&
           Math.abs(pointA.y - pointB.y) < 1
         ) {
-          pointB.x += 0.6;
+          pointB.x += 0.9;
         } else if (
           Math.abs(pointA.y - pointB.y) < 0.5 &&
           Math.abs(pointA.x - pointB.x) < 1
         ) {
-          pointB.y += 0.6;
+          pointB.y += 0.5;
         }
       }
     }

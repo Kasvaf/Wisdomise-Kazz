@@ -167,7 +167,6 @@ export function CoinStatsWidget({
           <CoinSecurityLabel
             coin={coinOverview.data.symbol}
             value={coinOverview.data.security_data.map(x => x.symbol_security)}
-            chevron
           />
         </StatRow>
       )}

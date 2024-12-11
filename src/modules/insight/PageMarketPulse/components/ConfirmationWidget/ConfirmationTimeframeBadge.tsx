@@ -35,55 +35,18 @@ export function ConfirmationTimeframeBadge<I extends Indicator>({
   combination,
   value,
 }: {
-  combination: Array<IndicatorConfirmationCombination<I>>;
+  combination: IndicatorConfirmationCombination[];
   value: IndicatorConfirmation<I>;
 }) {
   const { t } = useTranslation('market-pulse');
 
   const timeBadge = useMemo(() => {
-    const valueAsRsi = value as IndicatorConfirmation<'rsi'>;
-    const valueAsMacd = value as IndicatorConfirmation<'macd'>;
     let resolutionsList: string[][] = [];
     for (const comb of combination) {
-      const combAsRsi = comb as IndicatorConfirmationCombination<'rsi'>;
-      const combAsMacd = comb as IndicatorConfirmationCombination<'macd'>;
-      if (combAsRsi === 'oversold') {
-        resolutionsList = [
-          ...resolutionsList,
-          valueAsRsi.oversold_resolutions ?? [],
-        ];
-      }
-      if (combAsRsi === 'overbought') {
-        resolutionsList = [
-          ...resolutionsList,
-          valueAsRsi.overbought_resolutions ?? [],
-        ];
-      }
-      if (combAsMacd === 'macd_cross_up') {
-        resolutionsList = [
-          ...resolutionsList,
-          valueAsMacd.macd_cross_up_resolutions ?? [],
-        ];
-      }
-      if (combAsMacd === 'macd_cross_down') {
-        resolutionsList = [
-          ...resolutionsList,
-          valueAsMacd.macd_cross_down_resolutions ?? [],
-        ];
-      }
-      //
-      if (combAsRsi === 'bearish_divergence') {
-        resolutionsList = [
-          ...resolutionsList,
-          valueAsRsi.bearish_divergence_resolutions ?? [],
-        ];
-      }
-      if (combAsRsi === 'bullish_divergence') {
-        resolutionsList = [
-          ...resolutionsList,
-          valueAsRsi.bullish_divergence_resolutions ?? [],
-        ];
-      }
+      resolutionsList = [
+        ...resolutionsList,
+        (value[`${comb}_resolutions` as keyof typeof value] as string[]) ?? [],
+      ];
     }
     return calculateTimeBadge(resolutionsList);
   }, [value, combination]);
@@ -95,7 +58,7 @@ export function ConfirmationTimeframeBadge<I extends Indicator>({
         timeBadge === 'long'
           ? 'bg-v1-background-positive/20 text-v1-background-positive'
           : 'bg-v1-background-accent/20 text-v1-background-accent',
-        'rounded-xl p-1 px-2 text-xxs',
+        'rounded-xl p-1 px-3 text-xxs',
       )}
     >
       {timeBadge === 'long' ? t('common.long_term') : t('common.short_term')}

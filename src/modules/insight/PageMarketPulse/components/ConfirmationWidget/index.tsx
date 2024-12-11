@@ -17,6 +17,8 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { AccessSheild } from 'shared/AccessSheild';
+import { CoinLabels } from 'shared/CoinLabels';
+import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import {
   useConfirmationTabs,
   type ConfirmationType,
@@ -34,7 +36,7 @@ function ConfirmationRow<I extends Indicator>({
 }: {
   indicator: I;
   value: IndicatorConfirmation<I>;
-  combination: Array<IndicatorConfirmationCombination<I>>;
+  combination: IndicatorConfirmationCombination[];
   type: ConfirmationType;
   className?: string;
 }) {
@@ -45,21 +47,27 @@ function ConfirmationRow<I extends Indicator>({
         ? [
             {
               value,
-              type: indicator === 'rsi' ? 'oversold' : 'macd_cross_up',
+              type: indicator === 'rsi' ? 'rsi_oversold' : 'macd_cross_up',
             },
             {
               value,
-              type: 'bullish_divergence',
+              type:
+                indicator === 'rsi'
+                  ? 'rsi_bullish_divergence'
+                  : 'macd_bullish_divergence',
             },
           ]
         : [
             {
               value,
-              type: indicator === 'rsi' ? 'overbought' : 'macd_cross_down',
+              type: indicator === 'rsi' ? 'rsi_overbought' : 'macd_cross_down',
             },
             {
               value,
-              type: 'bearish_divergence',
+              type:
+                indicator === 'rsi'
+                  ? 'rsi_bearish_divergence'
+                  : 'macd_bearish_divergence',
             },
           ];
     return returnValue;
@@ -71,14 +79,32 @@ function ConfirmationRow<I extends Indicator>({
         className,
       )}
     >
-      <div className="flex flex-wrap items-start justify-between gap-4 2xl:flex-nowrap">
-        <Coin
-          coin={value.symbol}
-          className="text-xs"
-          imageClassName="2xl:size-10 size-6"
+      <div className="flex flex-nowrap items-center justify-start gap-4 mobile:flex-wrap">
+        <div className="w-32">
+          <Coin
+            coin={value.symbol}
+            className="text-xs"
+            imageClassName="size-6"
+            truncate={90}
+          />
+        </div>
+        <CoinLabels
+          categories={value.symbol.categories}
+          labels={value.symbol_labels}
+          suffix={
+            <>
+              <CoinSecurityLabel
+                value={value.symbol_security?.data}
+                coin={value.symbol}
+              />
+              <ConfirmationTimeframeBadge
+                combination={combination}
+                value={value}
+              />
+            </>
+          }
         />
-        <div className="flex grow items-center justify-end gap-3 2xl:gap-10">
-          <ConfirmationTimeframeBadge combination={combination} value={value} />
+        <div className="flex grow items-center justify-end gap-2 2xl:gap-3">
           {infoBadges.map((badgeProps, i) => (
             <ConfirmationInfoBadge
               key={`${indicator as string}-${type}-${i}`}
@@ -142,7 +168,20 @@ export function ConfirmationWidget<I extends Indicator>({
   return (
     <OverviewWidget
       className={clsx('h-[750px]', className)}
-      title={title}
+      title={
+        <>
+          <span className="me-[1chr]">{indicator.toUpperCase()}</span>
+          <span
+            className={clsx(
+              type === 'bullish'
+                ? 'text-v1-content-positive'
+                : 'text-v1-content-negative',
+            )}
+          >
+            {title}
+          </span>
+        </>
+      }
       info={info}
       headerClassName="flex-wrap !justify-start"
       headerActions={

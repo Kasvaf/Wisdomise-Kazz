@@ -18,9 +18,9 @@ export const PageTitle: FC<{
       </h1>
     )}
     {description && (
-      <p className="text-sm font-normal capitalize text-v1-content-secondary">
+      <div className="text-sm font-normal capitalize text-v1-content-secondary">
         {description}
-      </p>
+      </div>
     )}
   </div>
 );

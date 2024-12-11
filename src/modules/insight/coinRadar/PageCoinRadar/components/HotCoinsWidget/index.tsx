@@ -121,7 +121,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row: CoinSignal) => <SignalSentiment signal={row} />,
+        render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
         title: [
@@ -134,7 +134,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 140,
-        render: (_, row: CoinSignal) => (
+        render: (_, row) => (
           <CoinMarketCap marketData={row.symbol_market_data} />
         ),
       },
@@ -171,9 +171,9 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       },
       {
         title: t('social-radar.table.labels.title'),
+        className: 'min-h-16 min-w-72',
         render: (_, row) => (
           <CoinLabels
-            className="min-h-16 min-w-72"
             categories={row.symbol.categories}
             labels={row.symbol_labels}
             suffix={

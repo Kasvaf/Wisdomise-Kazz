@@ -19,6 +19,7 @@ export const TechnicalChartWidget: FC<{
   type: 'cheap_bullish' | 'expensive_bearish';
   data: TechnicalRadarCoin[];
 }> = ({ data, type }) => {
+  const chartRef = useRef();
   const isMobile = useIsMobile();
   const [share] = useShare('share');
   const el = useRef<HTMLDivElement>(null);
@@ -34,16 +35,27 @@ export const TechnicalChartWidget: FC<{
       xField: 'x',
       yField: 'y',
       colorField: 'color',
-      animation: false,
+      animation: true,
       pointStyle: x => {
         return {
-          fill: 'rgba(0, 0, 0, 0.2)',
-          fillOpacity: 1,
-          stroke: x.color,
+          fill: 'black',
+          fillOpacity: 0.2,
+          stroke: x?.color,
           lineWidth: 2,
-          shadowColor: x.color,
+          shadowColor: x?.color,
           shadowBlur: 15,
         };
+      },
+      interactions: [{ type: 'element-highlight' }],
+      state: {
+        active: {
+          style: {
+            stroke: 'white',
+            strokeOpacity: 0.8,
+            fillOpacity: 0.3,
+            zIndex: 2,
+          },
+        },
       },
       sizeField: 'size',
       size: [19, 40],
@@ -52,6 +64,8 @@ export const TechnicalChartWidget: FC<{
         nice: true,
         label: null,
         line: null,
+        min: Math.min(...parsedData.map(row => row.y)) - 0.5,
+        max: Math.max(...parsedData.map(row => row.y)) + 0.5,
         grid: {
           line: {
             style: {
@@ -75,6 +89,8 @@ export const TechnicalChartWidget: FC<{
         nice: true,
         label: null,
         line: null,
+        min: Math.min(...parsedData.map(row => row.x)) - 0.5,
+        max: Math.max(...parsedData.map(row => row.x)) + 0.5,
         grid: {
           line: {
             style: {
@@ -99,6 +115,7 @@ export const TechnicalChartWidget: FC<{
       },
       tooltip: {
         ...antChartTooltipConfig,
+        offset: 24,
         customContent: (_, data) => {
           const point = data[0]?.data as (typeof parsedData)[0];
           const item: TechnicalRadarCoin | undefined = point?.raw;
@@ -152,14 +169,18 @@ export const TechnicalChartWidget: FC<{
         },
       },
       legend: false,
+      chartRef,
       label: {
-        formatter: x => {
-          return x.label;
-        },
+        formatter: x => x?.label,
+        autoRotate: true,
         offsetY: 13,
         style: {
           fill: 'white',
           fontWeight: 'bold',
+          zIndex: 0,
+        },
+        layout: {
+          type: 'limitInShape',
         },
       },
       style: {
@@ -212,7 +233,7 @@ export const TechnicalChartWidget: FC<{
       (e.target as HTMLButtonElement).disabled = true;
       const canvas = await html2canvas(el.current, {
         backgroundColor: '#1D1E23', // v1-surface-l3
-        ignoreElements: x => !!x.ariaHidden,
+        ignoreElements: x => !!x.hasAttribute('data-' + 'nocapture'),
       });
       const fileName = `~${type}.png`;
 
@@ -258,7 +279,7 @@ export const TechnicalChartWidget: FC<{
         </div>
         <button
           onClick={shareImage}
-          aria-hidden
+          data-nocapture
           className={clsx(
             'inline-flex h-7 items-center gap-1 rounded-full px-3 text-xs',
             'bg-v1-surface-l4 transition-all hover:brightness-110 active:brightness-90',
