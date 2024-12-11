@@ -6,6 +6,8 @@
   largest_loss: Largest Loss
   transfer_volume: Transfer Volume
 asset_badges:
+  dust: Dust
+  dust_info: Dust Dust Dust ~TODO
   exit_portfolio: Exit Portfolio
   exit_portfolio_info: >-
     This whale has sold nearly 95% of their assets, signaling an exit from the
