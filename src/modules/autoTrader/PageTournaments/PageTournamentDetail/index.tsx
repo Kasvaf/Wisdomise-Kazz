@@ -12,7 +12,7 @@ import { addComma } from 'utils/numbers';
 import empty from 'modules/autoTrader/PositionsList/empty.svg';
 import { ReactComponent as IconUser } from './user.svg';
 
-const PARTICIPANTS_COUNT = 10;
+const PARTICIPANTS_COUNT = 50;
 
 export default function PageTournamentDetail() {
   const { id } = useParams<{ id: string }>();
@@ -54,7 +54,9 @@ export default function PageTournamentDetail() {
 
   return (
     <PageWrapper loading={isLoading}>
-      {tournament && <TournamentCard tournament={tournament} />}
+      {tournament && (
+        <TournamentCard tournament={tournament} hasDetail={true} />
+      )}
       <div className="mt-3 rounded-xl bg-v1-surface-l1 p-4 text-sm">
         <h1 className="mb-3">Leaderboard</h1>
         {tournament?.status === 'upcoming' ? (

@@ -14,6 +14,10 @@ const PageClaimReward = React.lazy(
   () => import('modules/autoTrader/PageClaimReward'),
 );
 
+const TournamentsLayout = React.lazy(
+  () => import('modules/autoTrader/PageTournaments/TournamentsLayout'),
+);
+
 const PageTournaments = React.lazy(
   () => import('modules/autoTrader/PageTournaments'),
 );
@@ -75,6 +79,7 @@ const useMiniAppRoutes = () => {
             },
             {
               path: 'trader-tournaments',
+              element: <TournamentsLayout />,
               children: [
                 { path: '', element: <PageTournaments /> },
                 { path: ':id', element: <PageTournamentDetail /> },
