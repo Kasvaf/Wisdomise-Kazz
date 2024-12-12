@@ -21,7 +21,7 @@ export const TechnicalSentiment: FC<{
       </span>
       <div className="flex items-center gap-2">
         <ConfirmationInfoBadge
-          type={isBullish ? 'rsi_overbought' : 'rsi_oversold'}
+          type={isBullish ? 'rsi_oversold' : 'rsi_overbought'}
           value={value}
           mini
         />
@@ -31,7 +31,7 @@ export const TechnicalSentiment: FC<{
           mini
         />
         <ConfirmationInfoBadge
-          type={isBullish ? 'macd_cross_down' : 'macd_cross_up'}
+          type={isBullish ? 'macd_cross_up' : 'macd_cross_down'}
           value={value}
           mini
         />
