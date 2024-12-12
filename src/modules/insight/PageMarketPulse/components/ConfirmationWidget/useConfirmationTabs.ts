@@ -68,6 +68,13 @@ export const useConfirmationTabs = <I extends Indicator>(
         type === 'bullish'
           ? [
               {
+                title: `${t('keywords.macd_cross_up.label_equiv')} & ${t(
+                  'keywords.macd_bullish.label_equiv',
+                )}`,
+                combination: ['macd_cross_up', 'macd_bullish_divergence'],
+                key: 'macd_crossup_bullish',
+              },
+              {
                 title: t('keywords.macd_cross_up.label_equiv'),
                 combination: ['macd_cross_up'],
                 key: 'macd_crossup',
@@ -77,15 +84,15 @@ export const useConfirmationTabs = <I extends Indicator>(
                 combination: ['macd_bullish_divergence'],
                 key: 'macd_bullish',
               },
-              {
-                title: `${t('keywords.macd_cross_up.label_equiv')} & ${t(
-                  'keywords.macd_bullish.label_equiv',
-                )}`,
-                combination: ['macd_cross_up', 'macd_bullish_divergence'],
-                key: 'macd_crossup_bullish',
-              },
             ]
           : [
+              {
+                title: `${t('keywords.macd_cross_down.label_equiv')} & ${t(
+                  'keywords.macd_bearish.label_equiv',
+                )}`,
+                combination: ['macd_cross_down', 'macd_bearish_divergence'],
+                key: 'macd_crossdown_bearish',
+              },
               {
                 title: t('keywords.macd_cross_down.label_equiv'),
                 combination: ['macd_cross_down'],
@@ -95,13 +102,6 @@ export const useConfirmationTabs = <I extends Indicator>(
                 title: t('keywords.macd_bearish.label_equiv'),
                 combination: ['macd_bearish_divergence'],
                 key: 'macd_bearish',
-              },
-              {
-                title: `${t('keywords.macd_cross_down.label_equiv')} & ${t(
-                  'keywords.macd_bearish.label_equiv',
-                )}`,
-                combination: ['macd_cross_down', 'macd_bearish_divergence'],
-                key: 'macd_crossdown_bearish',
               },
             ]
       ) as ConfirmationSubTab[];
