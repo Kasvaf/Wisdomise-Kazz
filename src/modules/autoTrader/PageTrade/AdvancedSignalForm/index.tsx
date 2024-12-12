@@ -98,7 +98,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
             {t('signal-form.btn-close')}
           </Button>
         </>
-      ) : hasFlag('/open-position') ? (
+      ) : hasFlag('/trader-positions') ? (
         tonConnectUI.connected ? (
           <Button
             variant="brand"

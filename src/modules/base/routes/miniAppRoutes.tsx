@@ -4,6 +4,8 @@ import TelegramContainer from 'modules/autoTrader/TelegramContainer';
 import { TelegramLayout } from 'modules/autoTrader/TelegramLayout';
 import GameAuthGuard from 'modules/autoTrader/GameAuthGuard';
 
+const PageHome = React.lazy(() => import('modules/autoTrader/PageHome'));
+
 const PageOnboarding = React.lazy(
   () => import('modules/autoTrader/PageOnboarding'),
 );
@@ -46,7 +48,7 @@ const useMiniAppRoutes = () => {
       element: <TelegramContainer />,
       path: '',
       children: [
-        { path: '', element: <Navigate to="hot-coins" /> },
+        { path: '', element: <Navigate to="trader-home" /> },
         {
           path: 'onboarding',
           element: <PageOnboarding />,
@@ -55,6 +57,10 @@ const useMiniAppRoutes = () => {
           path: '',
           element: <TelegramLayout />,
           children: [
+            {
+              path: 'trader-home',
+              element: <PageHome />,
+            },
             {
               path: 'trader-alerts',
               element: <PageAlerts />,
