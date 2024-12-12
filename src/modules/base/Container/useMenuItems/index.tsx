@@ -4,7 +4,6 @@ import { isMiniApp } from 'utils/version';
 import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
-import { ReactComponent as IconProfile } from './icons/profile.svg';
 import { ReactComponent as IconPositions } from './icons/positions.svg';
 import { ReactComponent as IconTournament } from './icons/tournament.svg';
 
@@ -45,11 +44,6 @@ const useMenuItems = () => {
           icon: <IconTournament />,
           text: 'Tour',
           link: '/trader-tournaments',
-        },
-        {
-          icon: <IconProfile />,
-          text: 'Profile',
-          link: '/trader-claim-reward',
         },
       ]
     : [
