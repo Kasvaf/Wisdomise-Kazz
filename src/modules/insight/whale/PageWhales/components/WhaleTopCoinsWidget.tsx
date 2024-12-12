@@ -1,9 +1,9 @@
-import { type ReactNode, useMemo, useState } from 'react';
+import { type ReactNode, useEffect, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import Table from 'shared/Table';
+import Table, { useTableState } from 'shared/Table';
 import { type WhaleCoinsFilter, useWhalesCoins, type WhaleCoin } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
@@ -49,24 +49,28 @@ export function WhaleTopCoinsWidget({
   headerActions?: ReactNode;
 }) {
   const { t } = useTranslation('whale');
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
-  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
-  const [isAscending, setIsAscending] = useState<boolean | undefined>(
-    undefined,
-  );
-  const [filter, setFilter] = useState<WhaleCoinsFilter>('all');
-  const [networkName, setNetworkName] = useState<string | undefined>(undefined);
   const filters = useWhaleCoinsFilters();
+  const [tableProps, tableState, setTableState] = useTableState('tokens', {
+    page: 1,
+    pageSize: 5,
+    sortOrder: 'ascending',
+    filter: 'all' as WhaleCoinsFilter,
+    network: '',
+  });
   const coins = useWhalesCoins({
-    page,
-    pageSize,
-    filter,
-    sortBy,
-    isAscending,
-    networkName,
+    page: tableState.page,
+    pageSize: tableState.pageSize,
+    filter: tableState.filter,
+    sortBy: tableState.sortBy,
+    isAscending: tableState.sortOrder === 'ascending',
+    networkName: tableState.network || undefined,
     days: 7,
   });
+  useEffect(() => {
+    setTableState({
+      total: coins.data?.count ?? 0,
+    });
+  }, [setTableState, coins.data?.count]);
 
   const columns = useMemo<Array<ColumnType<WhaleCoin>>>(
     () => [
@@ -192,18 +196,22 @@ export function WhaleTopCoinsWidget({
           )}
           <div className="flex w-full grow flex-wrap justify-between gap-4">
             <ButtonSelect
-              value={filter}
+              value={tableState.filter}
               options={filters}
-              onChange={newFilter => {
-                setFilter(newFilter);
-                setPage(1);
+              onChange={filter => {
+                setTableState({
+                  filter,
+                  page: 1,
+                });
               }}
             />
             <NetworkSelect
-              value={networkName}
-              onChange={newNetworkName => {
-                setNetworkName(newNetworkName);
-                setPage(1);
+              value={tableState.network || undefined}
+              onChange={network => {
+                setTableState({
+                  network,
+                  page: 1,
+                });
               }}
             />
           </div>
@@ -216,31 +224,7 @@ export function WhaleTopCoinsWidget({
           dataSource={coins.data?.results ?? []}
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isRefetching && !coins.isFetched}
-          pagination={{
-            total: coins.data?.count ?? 1,
-            current: page,
-            showSizeChanger: true,
-            pageSize,
-            pageSizeOptions: [5, 10, 20],
-          }}
-          onChange={(pagination, _, sorter) => {
-            setPage(pagination.current ?? 1);
-            setPageSize(pagination.pageSize ?? 5);
-            if (!Array.isArray(sorter)) {
-              setSortBy(
-                typeof sorter.field === 'string' && sorter.order
-                  ? sorter.field
-                  : undefined,
-              );
-              setIsAscending(
-                sorter.order === 'ascend'
-                  ? true
-                  : sorter.order === 'descend'
-                  ? false
-                  : undefined,
-              );
-            }
-          }}
+          {...tableProps}
         />
       </AccessSheild>
     </OverviewWidget>

@@ -1,10 +1,10 @@
 /* eslint-disable import/max-dependencies */
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import Table from 'shared/Table';
+import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import {
   type CoinSignal,
@@ -33,16 +33,23 @@ export function HotCoinsWidget({ className }: { className?: string }) {
   const { isEmbeddedView } = useEmbedView();
   const hasFlag = useHasFlag();
   const { t } = useTranslation('coin-radar');
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState<string | undefined>(undefined);
-  const [network, setNetwork] = useState<string | undefined>(undefined);
-  const [sort, setSort] = useState<SortMode | undefined>(undefined);
+  const [tableProps, tableState, setTableState] = useTableState('', {
+    page: 1,
+    pageSize: 10,
+    sortBy: 'rank' as SortMode,
+    sortOrder: 'ascending',
+    query: '',
+    category: '',
+    network: '',
+  });
+
   const coins = useCoinSignals({
     windowHours: 24,
-    network,
+    network: tableState.network || undefined,
   });
   const filteredCoins = useMemo(() => {
-    const lowercaseQuery = query.toLowerCase();
+    // const lowercaseQuery = tableState.query.toLowerCase();
+    const lowercaseQuery = tableState.query.toLowerCase();
     return (coins.data ?? [])
       .filter(
         row =>
@@ -55,32 +62,34 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       )
       .filter(
         row =>
-          !category ||
-          (row.symbol.categories ?? []).map(r => r.slug).includes(category),
+          !tableState.category ||
+          (row.symbol.categories ?? [])
+            .map(r => r.slug)
+            .includes(tableState.category),
       )
       .sort((a, b) => {
-        if (!sort || sort === 'rank') {
+        if (!tableState.sortBy || tableState.sortBy === 'rank') {
           return a.rank - b.rank;
         }
-        if (sort === 'call_time') {
+        if (tableState.sortBy === 'call_time') {
           return (
             new Date(b.signals_analysis.call_time ?? Date.now()).getTime() -
             new Date(a.signals_analysis.call_time ?? Date.now()).getTime()
           );
         }
-        if (sort === 'price_change') {
+        if (tableState.sortBy === 'price_change') {
           return (
             (b.symbol_market_data.price_change_percentage_24h ?? 0) -
             (a.symbol_market_data.price_change_percentage_24h ?? 0)
           );
         }
-        if (sort === 'pnl') {
+        if (tableState.sortBy === 'pnl') {
           return (
             (b.signals_analysis.real_pnl_percentage ?? 0) -
             (a.signals_analysis.real_pnl_percentage ?? 0)
           );
         }
-        if (sort === 'market_cap') {
+        if (tableState.sortBy === 'market_cap') {
           return (
             (b.symbol_market_data.market_cap ?? 0) -
             (a.symbol_market_data.market_cap ?? 0)
@@ -88,7 +97,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         }
         return a.rank - b.rank;
       });
-  }, [query, category, sort, coins.data]);
+  }, [coins.data, tableState]);
 
   const columns = useMemo<Array<ColumnType<CoinSignal>>>(
     () => [
@@ -237,18 +246,18 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           {!isEmbeddedView && <CoinRadarAlerButton className="mobile:w-full" />}
           <div className="flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
             <CoinSearchInput
-              value={query}
-              onChange={setQuery}
+              value={tableState.query}
+              onChange={query => setTableState({ query })}
               className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
             />
             <NetworkSelect
-              value={network}
-              onChange={setNetwork}
+              value={tableState.network || undefined}
+              onChange={network => setTableState({ network })}
               className="mobile:order-3"
             />
             <CategoriesSelect
-              value={category}
-              onChange={setCategory}
+              value={tableState.category || undefined}
+              onChange={category => setTableState({ category })}
               className="mobile:order-4"
             />
             <div className="flex flex-wrap items-center gap-2 mobile:order-5">
@@ -256,8 +265,8 @@ export function HotCoinsWidget({ className }: { className?: string }) {
                 {t('social-radar.table.sort')}:
               </span>
               <SortModes
-                value={sort}
-                onChange={setSort}
+                value={tableState.sortBy}
+                onChange={sortBy => setTableState({ sortBy })}
                 className="mobile:w-full"
               />
             </div>
@@ -274,6 +283,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isRefetching && !coins.isFetched}
           tableLayout="fixed"
+          {...tableProps}
         />
       </AccessSheild>
     </OverviewWidget>
