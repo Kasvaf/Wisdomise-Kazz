@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { trackClick } from 'config/segment';
 import { isMiniApp } from 'utils/version';
+import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
 import { ReactComponent as IconProfile } from './icons/profile.svg';
@@ -25,6 +26,11 @@ const useMenuItems = () => {
   const { t } = useTranslation('base');
   const items: RootMenuItem[] = isMiniApp
     ? [
+        {
+          icon: <IconHome />,
+          text: 'Home',
+          link: '/trader-home',
+        },
         {
           icon: <IconInsight />,
           text: 'Radar',
