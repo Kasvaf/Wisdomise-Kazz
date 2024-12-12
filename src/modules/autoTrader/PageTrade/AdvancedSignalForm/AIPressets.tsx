@@ -6,18 +6,32 @@ import {
   type PresetKeys,
   useAIPresets,
 } from 'api/ai-presets';
-import { type SignalFormState } from './useSignalFormStates';
+import { roundSensible } from 'utils/numbers';
+import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
 import GradientBG from './GradientBG.svg';
 
 const orderToOrder = (x: OrderPresetItem) => ({
-  amountRatio: String(x.amount * 100),
+  amountRatio: roundSensible(x.amount * 100),
   priceExact: String(x.price),
   applied: false,
   removed: false,
   key: v4(),
 });
+
+const fromApi = (items?: OrderPresetItem[]) => {
+  const result: TpSlData[] = [];
+  if (!items?.length) return result;
+
+  let prevSum = 0;
+  for (const x of items) {
+    const amount = x.amount * (1 - prevSum);
+    prevSum += amount;
+    result.push(orderToOrder({ amount, price: x.price }));
+  }
+  return result;
+};
 
 const AIPresets: React.FC<{
   data: SignalFormState;
@@ -57,8 +71,8 @@ const AIPresets: React.FC<{
     setVolume(String(p.open_orders[0].amount * 100));
     setPriceUpdated(false);
     setSafetyOpens(p.open_orders.slice(1).map(orderToOrder));
-    setTakeProfits(p.take_profits.map(orderToOrder));
-    setStopLosses(p.stop_losses.map(orderToOrder));
+    setTakeProfits(fromApi(p.take_profits));
+    setStopLosses(fromApi(p.stop_losses));
     setActivePreset(-ind - 1);
   };
 

@@ -1,10 +1,32 @@
 import { useEffect, useState } from 'react';
 import { initialQuoteDeposit, type Position } from 'api';
-import { type SignalFormState } from './useSignalFormStates';
+import { type SignalItem } from 'api/builder';
+import { roundSensible } from 'utils/numbers';
+import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 
 interface Mergeable {
   key: string;
   applied: boolean;
+}
+
+function fromApiContract(items?: SignalItem[]) {
+  const result: TpSlData[] = [];
+  if (!items?.length) return result;
+
+  let prevSum = 0;
+  for (const x of items) {
+    const amount = x.amount_ratio * (1 - prevSum);
+    prevSum += amount;
+    result.push({
+      key: x.key,
+      amountRatio: roundSensible(100 * amount),
+      priceExact: String(x.price_exact ?? 0),
+      applied: x.applied ?? false,
+      appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
+      removed: false,
+    });
+  }
+  return result;
 }
 
 function mergeItems<T extends Mergeable>({
@@ -119,30 +141,14 @@ const useSyncFormState = ({
     setTakeProfits(takeProfits =>
       mergeItems({
         local: takeProfits,
-        remote:
-          activePosition?.manager?.take_profit?.map(x => ({
-            key: x.key,
-            amountRatio: String(x.amount_ratio * 100),
-            priceExact: String(x.price_exact ?? 0),
-            applied: x.applied ?? false,
-            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
-            removed: false,
-          })) ?? [],
+        remote: fromApiContract(activePosition?.manager?.take_profit),
       }),
     );
 
     setStopLosses(stopLosses =>
       mergeItems({
         local: stopLosses,
-        remote:
-          activePosition?.manager?.stop_loss?.map(x => ({
-            key: x.key,
-            amountRatio: String(x.amount_ratio * 100),
-            priceExact: String(x.price_exact ?? 0),
-            applied: x.applied ?? false,
-            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
-            removed: false,
-          })) ?? [],
+        remote: fromApiContract(activePosition?.manager?.stop_loss),
       }),
     );
   }, [

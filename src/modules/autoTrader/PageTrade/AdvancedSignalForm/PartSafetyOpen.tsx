@@ -63,6 +63,7 @@ const PartSafetyOpen: React.FC<{
                 },
               ])
             }
+            disabled={remainingVolume <= 0}
           >
             {t('signal-form.safety-open.btn-new')}
           </Button>

@@ -4,6 +4,7 @@ import {
   type OpenOrderInput,
   type OpenOrderCondition,
   type OpenOrderResponse,
+  type SignalItem,
 } from 'api/builder';
 
 export interface TpSlData {
@@ -16,15 +17,24 @@ export interface TpSlData {
 }
 
 function toApiContract(items: TpSlData[]) {
-  return {
-    items: items
-      .filter(x => !x.removed)
-      .map(x => ({
-        key: x.applied ? x.key : v4(),
-        amount_ratio: +x.amountRatio / 100,
-        price_exact: +x.priceExact,
-      })),
-  };
+  const result: SignalItem[] = [];
+  if (!items?.length) return { items: result };
+
+  let prevSum = 0;
+  for (const x of items) {
+    if (x.removed) continue;
+    result.push({
+      key: x.applied ? x.key : v4(),
+      amount_ratio: +x.amountRatio / (100 - prevSum),
+      price_exact: +x.priceExact,
+    });
+    prevSum += Number(x.amountRatio);
+  }
+  const lastItem = result.at(-1);
+  if (lastItem && lastItem.amount_ratio > 0.99) {
+    lastItem.amount_ratio = 1;
+  }
+  return { items: result };
 }
 
 export function sortTpSlItems({
