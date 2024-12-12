@@ -11,7 +11,7 @@ const UserAsset: React.FC<{ pair: UserAssetPair }> = ({ pair }) => {
   return (
     <div className="flex items-center justify-between">
       {baseInfo ? (
-        <div className="flex items-start">
+        <div className="flex items-center">
           {baseInfo?.logo_url ? (
             <img
               className="mr-1.5 size-[24px] rounded-full"
