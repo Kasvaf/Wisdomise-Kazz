@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
-import { roundDown } from 'utils/numbers';
+import { roundSensible } from 'utils/numbers';
 import { useLastPriceQuery } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -21,6 +21,7 @@ const PartTpSl: React.FC<{
     market: [market],
     orderType: [orderType],
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
+    isOrderLimitReached,
   } = data;
   const { data: assetPrice } = useLastPriceQuery({
     slug: assetSlug,
@@ -45,7 +46,7 @@ const PartTpSl: React.FC<{
         : 0.01;
 
     for (let i = 1; i <= items.length + 1; ++i) {
-      const price = String(roundDown(effectivePrice * (1 + dir * i), 2));
+      const price = roundSensible(effectivePrice * (1 + dir * i));
       if (!items.some(x => !x.removed && x.priceExact === price)) {
         return price;
       }
@@ -84,7 +85,7 @@ const PartTpSl: React.FC<{
                 },
               ])
             }
-            disabled={volSum >= 100}
+            disabled={isOrderLimitReached}
           >
             {'+ '}
             {type === 'TP'

@@ -65,10 +65,12 @@ const useSyncFormState = ({
     volume: [, setVolume],
     orderType: [, setOrderType],
     conditions: [, setConditions],
-    priceUpdated: [, setPriceUpdated],
+
+    maxOrders: [, setMaxOrders],
     takeProfits: [, setTakeProfits],
     stopLosses: [, setStopLosses],
     safetyOpens: [, setSafetyOpens],
+    priceUpdated: [, setPriceUpdated],
   } = formState;
 
   // reset all when asset is changed
@@ -80,9 +82,11 @@ const useSyncFormState = ({
     setOrderType('market');
     setVolume('100');
     setConditions([]);
+    setMaxOrders(100);
   }, [
     assetSlug,
     setConditions,
+    setMaxOrders,
     setOrderType,
     setPriceUpdated,
     setSafetyOpens,
@@ -101,6 +105,13 @@ const useSyncFormState = ({
 
       const amount = initialQuoteDeposit(activePosition);
       if (amount !== undefined) setAmount(String(amount));
+
+      // cannot increase orders
+      setMaxOrders(
+        (activePosition?.manager?.open_orders?.length ?? 0) +
+          (activePosition?.manager?.take_profit?.length ?? 0) +
+          (activePosition?.manager?.stop_loss?.length ?? 0),
+      );
     }
 
     const firstOrder = activePosition?.manager?.open_orders?.[0];
@@ -165,6 +176,7 @@ const useSyncFormState = ({
     setOrderType,
     setConditions,
     setVolume,
+    setMaxOrders,
   ]);
 };
 
