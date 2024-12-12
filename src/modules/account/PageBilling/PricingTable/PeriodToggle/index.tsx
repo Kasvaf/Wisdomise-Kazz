@@ -35,7 +35,7 @@ export function PeriodToggle({
         return 0;
       }),
     );
-    return Math.round(percent);
+    return Math.floor(percent);
   }, [plans]);
   return (
     <div
