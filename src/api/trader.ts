@@ -5,9 +5,45 @@ import {
   type SignalItem,
   type Signal,
 } from 'api/builder';
-import { useCoinOverview } from './coinRadar';
 import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
 import { type PageResponse } from './types/page';
+
+export interface UserAssetPair {
+  pair_slug: string;
+  usd_equity: number;
+  amount: number;
+  position_keys: string[];
+}
+
+export const useUserAssets = () => {
+  return useQuery(
+    ['user-assets'],
+    async () => {
+      const { data } = await axios.get<{
+        pairs: Array<{
+          pair_slug: string;
+          amount: string;
+          usd_equity: string;
+          position_keys: string[];
+        }>;
+      }>('/trader/overview');
+
+      return data.pairs.map(
+        x =>
+          ({
+            pair_slug: x.pair_slug,
+            usd_equity: Number(x.usd_equity),
+            amount: Number(x.amount),
+            position_keys: x.position_keys,
+          }) satisfies UserAssetPair,
+      );
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: 30_000,
+    },
+  );
+};
 
 export const useTraderCoins = (filters?: {
   page: number;
@@ -140,17 +176,12 @@ export function useTraderPositionsQuery({
   slug?: string;
   isOpen?: boolean;
 }) {
-  const coinOverview = useCoinOverview({ slug });
-  const pair = coinOverview?.data?.symbol.abbreviation
-    ? `${coinOverview?.data?.symbol.abbreviation}USDT`
-    : undefined;
-
   return useQuery(
-    ['traderPositions', pair, isOpen],
+    ['traderPositions', slug, isOpen],
     async () => {
       const { data } = await axios.get<PositionsResponse>('trader/positions', {
         params: {
-          pair,
+          pair_slug: slug ? slug + '/tether' : undefined,
           is_open: isOpen,
         },
       });

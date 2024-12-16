@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+  <g clip-path="url(#clip0_1671_12076)">
+    <path d="M3.50098 10.5C3.50098 11.7892 6.11198 12.8333 9.33431 12.8333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.33314 17.5003C6.11198 17.5003 3.50098 16.4562 3.50098 15.167" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M15.165 5.83301H15.1662V9.33301" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12.835 18.667C12.835 19.9562 15.446 21.0003 18.6683 21.0003C21.8906 21.0003 24.5016 19.9562 24.5016 18.667" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12.835 14C12.835 15.2892 15.446 16.3333 18.6683 16.3333C21.8906 16.3333 24.5016 15.2892 24.5016 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18.6669 11.667C15.4469 11.667 12.8336 12.7112 12.8359 14.0003" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12.835 14V23.3333C12.835 24.6225 15.446 25.6667 18.6683 25.6667" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18.667 11.667C21.887 11.667 24.5003 12.7112 24.498 14.0003" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M24.5003 14V23.3333C24.5003 24.6225 21.8893 25.6667 18.667 25.6667" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.33333 22.1663C6.11217 22.1663 3.5 21.1222 3.5 19.833" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9.33333 8.16667C12.555 8.16667 15.1667 7.122 15.1667 5.83333C15.1667 4.54467 12.555 3.5 9.33333 3.5C6.11167 3.5 3.5 4.54467 3.5 5.83333C3.5 7.122 6.11167 8.16667 9.33333 8.16667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3.5 5.83301V19.833" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_1671_12076">
+      <rect width="28" height="28" fill="currentColor"/>
+    </clipPath>
+  </defs>
+</svg>

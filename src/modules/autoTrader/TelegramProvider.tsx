@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { isLocal } from 'utils/version';
 import configTelegramMiniApp from 'config/telegramMiniApp';
 
 const TelegramContext = createContext<Telegram | undefined>(undefined);
@@ -12,6 +13,23 @@ const TelegramContext = createContext<Telegram | undefined>(undefined);
 export const useTelegram = () => {
   const telegram = useContext(TelegramContext);
   return { webApp: telegram?.WebApp, platform: telegram?.WebApp.platform };
+};
+
+export const useTelegramProfile = () => {
+  const { webApp } = useTelegram();
+  const initData = isLocal
+    ? import.meta.env.VITE_CUSTOM_QUERY
+    : webApp?.initData;
+  const profile = new URLSearchParams(initData).get('user');
+  return profile
+    ? (JSON.parse(profile) as {
+        first_name: string;
+        last_name: string;
+        username: string;
+        language_code: string;
+        photo_url: string;
+      })
+    : undefined;
 };
 
 export function TelegramProvider({ children }: PropsWithChildren) {

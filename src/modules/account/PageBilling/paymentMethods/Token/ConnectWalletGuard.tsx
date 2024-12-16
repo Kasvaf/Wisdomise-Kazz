@@ -94,10 +94,25 @@ export default function ConnectWalletGuard({
       {showError && (
         <Card>
           <p>{t('connect-wallet.not-sync')}</p>
-          <p>
-            {t('connect-wallet.prev-wallet')}:{' '}
-            {shortenAddress(account?.wallet_address ?? '')}
+          <p className="mt-3">
+            <span className="text-v1-content-secondary">
+              {t('connect-wallet.prev-wallet')}:{' '}
+            </span>
+            {shortenAddress(account?.wallet_address)}
           </p>
+          <p>
+            <span className="text-v1-content-secondary">
+              {t('connect-wallet.current-wallet')}:{' '}
+            </span>
+            {shortenAddress(address)}
+          </p>
+          <Button
+            className="mt-3"
+            variant="alternative"
+            onClick={() => disconnect()}
+          >
+            {t('connect-wallet.disconnect')}
+          </Button>
         </Card>
       )}
       {showConnectWallet && (

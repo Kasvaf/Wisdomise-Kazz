@@ -14,7 +14,7 @@ import StatusWidget from './StatusWidget';
 
 const AssetName: React.FC<{ assetSlug: string }> = ({ assetSlug }) => {
   const { data } = useSymbolInfo(assetSlug);
-  return <>{data}</>;
+  return <>{data?.abbreviation}</>;
 };
 
 const PositionDetail: React.FC<{

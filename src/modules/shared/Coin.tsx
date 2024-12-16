@@ -46,6 +46,7 @@ export function Coin({
   mini,
   truncate = true,
   popup,
+  noText,
 }: {
   coin: CoinType;
   className?: string;
@@ -54,9 +55,11 @@ export function Coin({
   mini?: boolean;
   truncate?: boolean | number;
   popup?: boolean;
+  noText?: boolean;
 }) {
   const shouldTruncate =
     truncate === true || (typeof truncate === 'number' && truncate > 0);
+  const renderText = noText !== true;
   const truncateSize = typeof truncate === 'number' ? truncate : 110;
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2 pe-2',
@@ -74,34 +77,56 @@ export function Coin({
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
       />
-      <div
-        className={clsx('shrink grow leading-snug')}
-        style={{
-          maxWidth: shouldTruncate ? `${truncateSize}px` : 'auto',
-        }}
-      >
+      {renderText && (
         <div
-          className={clsx(
-            shouldTruncate && 'overflow-hidden text-ellipsis',
-            'whitespace-nowrap',
-          )}
+          className={clsx('shrink grow leading-snug')}
+          style={{
+            maxWidth: shouldTruncate ? `${truncateSize}px` : 'auto',
+          }}
         >
-          {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
-        </div>
-        {!mini && coin.abbreviation && (
-          <>
-            {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+          <div
+            className={clsx(
+              shouldTruncate && 'overflow-hidden text-ellipsis',
+              'whitespace-nowrap',
+            )}
+          >
             <div
               className={clsx(
-                shouldTruncate && 'overflow-hidden text-ellipsis',
-                'whitespace-nowrap text-[90%] opacity-70',
+                truncate && 'overflow-hidden text-ellipsis',
+                'whitespace-nowrap',
               )}
             >
-              {coin.abbreviation ?? ''}
+              {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
             </div>
-          </>
-        )}
-      </div>
+            {!mini && coin.abbreviation && (
+              <>
+                {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+                <div
+                  className={clsx(
+                    truncate && 'overflow-hidden text-ellipsis',
+                    'whitespace-nowrap text-[80%] opacity-70',
+                  )}
+                >
+                  {coin.abbreviation ?? ''}
+                </div>
+              </>
+            )}
+          </div>
+          {!mini && coin.abbreviation && (
+            <>
+              {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+              <div
+                className={clsx(
+                  shouldTruncate && 'overflow-hidden text-ellipsis',
+                  'whitespace-nowrap text-[90%] opacity-70',
+                )}
+              >
+                {coin.abbreviation ?? ''}
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 

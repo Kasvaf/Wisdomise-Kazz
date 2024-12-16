@@ -1,6 +1,10 @@
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useTonAddress } from '@tonconnect/ui-react';
+import {
+  TonConnectError,
+  UserRejectsError,
+  useTonAddress,
+} from '@tonconnect/ui-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
@@ -36,6 +40,8 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
     exp: [exp],
     orderExp: [orderExp],
     remainingVolume,
+    remainingTpVolume,
+    remainingSlVolume,
     getTakeProfits,
     getStopLosses,
     getOpenOrders,
@@ -96,9 +102,16 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           amount,
         });
         navigate(`/trader-hot-coins/${slug}`);
-      } catch {
+      } catch (error) {
+        if (error instanceof TonConnectError) {
+          if (error instanceof UserRejectsError) {
+            notification.error({ message: 'Transaction Canceled' });
+          } else {
+            notification.error({ message: error.message });
+          }
+        }
+
         await cancelAsync(res.position_key);
-        notification.error({ message: 'Transaction Canceled' });
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -166,7 +179,12 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   };
 
   return {
-    isEnabled: !!assetPrice && Number(amount) > 0 && remainingVolume === 0,
+    isEnabled:
+      !!assetPrice &&
+      Number(amount) > 0 &&
+      remainingVolume === 0 &&
+      remainingTpVolume >= 0 &&
+      remainingSlVolume >= 0,
     isSubmitting: isSubmitting || isUpdating,
     fireHandler,
     updateHandler,

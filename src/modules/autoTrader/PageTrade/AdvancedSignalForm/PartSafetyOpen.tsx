@@ -23,6 +23,7 @@ const PartSafetyOpen: React.FC<{
     orderType: [orderType],
     market: [market],
     safetyOpens: [items, setItems],
+    isOrderLimitReached,
     remainingVolume,
   } = data;
 
@@ -63,6 +64,7 @@ const PartSafetyOpen: React.FC<{
                 },
               ])
             }
+            disabled={isOrderLimitReached}
           >
             {t('signal-form.safety-open.btn-new')}
           </Button>

@@ -57,7 +57,7 @@ const useInsightRoutes = () => {
               element: <PageWhaleDetail />,
               handle: {
                 crumb: (p: Params<string>) =>
-                  `${p.network ?? ''}-${shortenAddress(p.address || '')}`,
+                  `${p.network ?? ''}-${shortenAddress(p.address)}`,
               },
             },
           ],

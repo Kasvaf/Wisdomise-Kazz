@@ -16,6 +16,7 @@ const makeOrigin = (name: string) => {
 };
 
 export const TEMPLE_ORIGIN = makeOrigin('temple');
+export const INVESTMENT_ORIGIN = makeOrigin('wsdm-app');
 export const MAIN_LANDING = (lng: string) =>
   `https://${isProduction ? '' : 'stage.'}${DOMAIN}/${lng}`;
 export const APP_PANEL = makeOrigin('app');
