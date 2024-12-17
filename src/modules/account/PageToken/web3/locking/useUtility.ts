@@ -25,10 +25,13 @@ export function useUtility() {
         }
       } else {
         if (lockedBalance === 0n) {
-          if (subscription?.level > 0) {
-            setUtilityStatus('already_active');
-          } else {
+          if (
+            subscription.levelName === 'free' ||
+            subscription.status === 'trialing'
+          ) {
             setUtilityStatus('pending_lock');
+          } else {
+            setUtilityStatus('already_active');
           }
         } else {
           setUtilityStatus('locked');
