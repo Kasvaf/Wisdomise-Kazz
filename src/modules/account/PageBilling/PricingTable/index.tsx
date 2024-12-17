@@ -53,6 +53,9 @@ export default function PricingTable({
         <div className="-mx-6 mb-14 flex grow justify-center gap-6 overflow-auto px-6 mobile:flex-col mobile:justify-start">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
+            .filter(
+              x => !isTokenUtility || (isTokenUtility && x.token_hold_support),
+            )
             .map(plan => (
               <PricingCard
                 plan={plan}
