@@ -7,8 +7,9 @@ export const gtag = (
 ) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
   /* @ts-ignore */
-  return window?.gtag?.({
+  return window?.dataLayer?.push?.({
     [type]: event,
+    method: 'Google',
     ...parameters,
   });
 };
