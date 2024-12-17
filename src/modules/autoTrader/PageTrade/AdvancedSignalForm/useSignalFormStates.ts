@@ -4,6 +4,7 @@ import {
   type OpenOrderInput,
   type OpenOrderCondition,
   type OpenOrderResponse,
+  type SignalItem,
 } from 'api/builder';
 
 export interface TpSlData {
@@ -16,15 +17,24 @@ export interface TpSlData {
 }
 
 function toApiContract(items: TpSlData[]) {
-  return {
-    items: items
-      .filter(x => !x.removed)
-      .map(x => ({
-        key: x.applied ? x.key : v4(),
-        amount_ratio: +x.amountRatio / 100,
-        price_exact: +x.priceExact,
-      })),
-  };
+  const result: SignalItem[] = [];
+  if (!items?.length) return { items: result };
+
+  let prevSum = 0;
+  for (const x of items) {
+    if (x.removed) continue;
+    result.push({
+      key: x.applied ? x.key : v4(),
+      amount_ratio: +x.amountRatio / (100 - prevSum),
+      price_exact: +x.priceExact,
+    });
+    prevSum += Number(x.amountRatio);
+  }
+  const lastItem = result.at(-1);
+  if (lastItem && lastItem.amount_ratio > 0.99) {
+    lastItem.amount_ratio = 1;
+  }
+  return { items: result };
 }
 
 export function sortTpSlItems({
@@ -82,6 +92,7 @@ const useSignalFormStates = () => {
   const [conditions, setConditions] = useState<OpenOrderCondition[]>([]);
   const exp = useState('1h');
   const orderExp = useState('1h');
+  const maxOrders = useState(100);
   const [takeProfits, setTakeProfits] = useState<TpSlData[]>([]);
   const [stopLosses, setStopLosses] = useState<TpSlData[]>([]);
   const [safetyOpens, setSafetyOpens] = useState<TpSlData[]>([]);
@@ -95,8 +106,31 @@ const useSignalFormStates = () => {
         .reduce((a, b) => a + Number(b.amountRatio), 0),
     [safetyOpens, volume],
   );
+  const remainingTpVolume = useMemo(
+    () =>
+      100 -
+      takeProfits
+        .filter(x => !x.removed)
+        .reduce((a, b) => a + Number(b.amountRatio), 0),
+    [takeProfits],
+  );
+  const remainingSlVolume = useMemo(
+    () =>
+      100 -
+      takeProfits
+        .filter(x => !x.removed)
+        .reduce((a, b) => a + Number(b.amountRatio), 0),
+    [takeProfits],
+  );
+
+  const ordersUsed =
+    safetyOpens.filter(x => !x.removed).length +
+    takeProfits.filter(x => !x.removed).length +
+    stopLosses.filter(x => !x.removed).length +
+    1;
 
   const result = {
+    isOrderLimitReached: ordersUsed >= maxOrders[0],
     isUpdate,
     market,
     orderType: [orderType, setOrderType],
@@ -108,10 +142,13 @@ const useSignalFormStates = () => {
     conditions: [conditions, setConditions],
     exp,
     orderExp,
+    maxOrders,
     takeProfits: [takeProfits, setTakeProfits],
     stopLosses: [stopLosses, setStopLosses],
     safetyOpens: [safetyOpens, setSafetyOpens],
     remainingVolume,
+    remainingTpVolume,
+    remainingSlVolume,
 
     getTakeProfits: () => toApiContract(takeProfits),
     getStopLosses: () => toApiContract(stopLosses),
@@ -155,6 +192,7 @@ const useSignalFormStates = () => {
       setOrderType('market');
       setAmount('0');
       setPrice('');
+      maxOrders[1](100);
       priceUpdated[1](false);
       setLeverage('1');
       setVolume('100');

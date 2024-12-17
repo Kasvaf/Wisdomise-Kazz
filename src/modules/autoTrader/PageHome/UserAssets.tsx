@@ -45,9 +45,8 @@ const UserAsset: React.FC<{ pair: UserAssetPair }> = ({ pair }) => {
 
 const UserAssets: React.FC<{ className?: string }> = ({ className }) => {
   const { data: assets, isLoading } = useUserAssets();
-  if (isLoading) return null;
-
   const totalAssets = assets?.reduce((a, b) => a + b.usd_equity, 0);
+  if (isLoading || !assets?.length) return null;
 
   return (
     <div className={className}>

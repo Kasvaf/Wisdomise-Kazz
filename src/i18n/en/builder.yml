@@ -21,7 +21,7 @@ signal-form:
     condition-ind: Condition {{ind}}
   confirm-close: Are you sure you want to close this position?
   confirm-update: Are you sure you want to update this signal?
-  error-100: This {{type}} won't trigger, another {{type}} fills all volume first.
+  error-bg-100: Total volume of {{type}} items should not exceed 100.
   error-dup: You have already defined a {{type}} with the exact same price.
   error-max: >-
     This {{type}} is less than order price and will trigger immediately after

@@ -1,10 +1,32 @@
 import { useEffect, useState } from 'react';
 import { initialQuoteDeposit, type Position } from 'api';
-import { type SignalFormState } from './useSignalFormStates';
+import { type SignalItem } from 'api/builder';
+import { roundSensible } from 'utils/numbers';
+import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 
 interface Mergeable {
   key: string;
   applied: boolean;
+}
+
+function fromApiContract(items?: SignalItem[]) {
+  const result: TpSlData[] = [];
+  if (!items?.length) return result;
+
+  let prevSum = 0;
+  for (const x of items) {
+    const amount = x.amount_ratio * (1 - prevSum);
+    prevSum += amount;
+    result.push({
+      key: x.key,
+      amountRatio: roundSensible(100 * amount),
+      priceExact: String(x.price_exact ?? 0),
+      applied: x.applied ?? false,
+      appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
+      removed: false,
+    });
+  }
+  return result;
 }
 
 function mergeItems<T extends Mergeable>({
@@ -43,10 +65,12 @@ const useSyncFormState = ({
     volume: [, setVolume],
     orderType: [, setOrderType],
     conditions: [, setConditions],
-    priceUpdated: [, setPriceUpdated],
+
+    maxOrders: [, setMaxOrders],
     takeProfits: [, setTakeProfits],
     stopLosses: [, setStopLosses],
     safetyOpens: [, setSafetyOpens],
+    priceUpdated: [, setPriceUpdated],
   } = formState;
 
   // reset all when asset is changed
@@ -58,9 +82,11 @@ const useSyncFormState = ({
     setOrderType('market');
     setVolume('100');
     setConditions([]);
+    setMaxOrders(100);
   }, [
     assetSlug,
     setConditions,
+    setMaxOrders,
     setOrderType,
     setPriceUpdated,
     setSafetyOpens,
@@ -79,6 +105,13 @@ const useSyncFormState = ({
 
       const amount = initialQuoteDeposit(activePosition);
       if (amount !== undefined) setAmount(String(amount));
+
+      // cannot increase orders
+      setMaxOrders(
+        (activePosition?.manager?.open_orders?.length ?? 0) +
+          (activePosition?.manager?.take_profit?.length ?? 0) +
+          (activePosition?.manager?.stop_loss?.length ?? 0),
+      );
     }
 
     const firstOrder = activePosition?.manager?.open_orders?.[0];
@@ -119,30 +152,14 @@ const useSyncFormState = ({
     setTakeProfits(takeProfits =>
       mergeItems({
         local: takeProfits,
-        remote:
-          activePosition?.manager?.take_profit?.map(x => ({
-            key: x.key,
-            amountRatio: String(x.amount_ratio * 100),
-            priceExact: String(x.price_exact ?? 0),
-            applied: x.applied ?? false,
-            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
-            removed: false,
-          })) ?? [],
+        remote: fromApiContract(activePosition?.manager?.take_profit),
       }),
     );
 
     setStopLosses(stopLosses =>
       mergeItems({
         local: stopLosses,
-        remote:
-          activePosition?.manager?.stop_loss?.map(x => ({
-            key: x.key,
-            amountRatio: String(x.amount_ratio * 100),
-            priceExact: String(x.price_exact ?? 0),
-            applied: x.applied ?? false,
-            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
-            removed: false,
-          })) ?? [],
+        remote: fromApiContract(activePosition?.manager?.stop_loss),
       }),
     );
   }, [
@@ -159,6 +176,7 @@ const useSyncFormState = ({
     setOrderType,
     setConditions,
     setVolume,
+    setMaxOrders,
   ]);
 };
 

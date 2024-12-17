@@ -118,7 +118,7 @@ const PriceVolumeInput: React.FC<{
 
         <div className="grow" />
         {appliedAt && (
-          <span className="ml-1 min-w-20 select-none text-white/50">
+          <span className="ml-1 min-w-16 select-none text-xxs text-white/50">
             {dayjs(appliedAt).format('D MMM HH:mm')}
           </span>
         )}

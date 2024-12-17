@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
-import { roundDown } from 'utils/numbers';
+import { roundSensible } from 'utils/numbers';
 import { useLastPriceQuery } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -21,6 +21,7 @@ const PartTpSl: React.FC<{
     market: [market],
     orderType: [orderType],
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
+    isOrderLimitReached,
   } = data;
   const { data: assetPrice } = useLastPriceQuery({
     slug: assetSlug,
@@ -32,9 +33,6 @@ const PartTpSl: React.FC<{
     setItems(items => sortTpSlItems({ items, type, market }));
 
   useEffect(sortItems, [setItems, type, market]);
-  const first100Index = items.findIndex(
-    x => !x.removed && +x.amountRatio >= 100,
-  );
 
   const dir = (type === 'TP' ? 1 : -1) * (market === 'long' ? 1 : -1);
   const nextLine = () => {
@@ -48,13 +46,16 @@ const PartTpSl: React.FC<{
         : 0.01;
 
     for (let i = 1; i <= items.length + 1; ++i) {
-      const price = String(roundDown(effectivePrice * (1 + dir * i), 2));
+      const price = roundSensible(effectivePrice * (1 + dir * i));
       if (!items.some(x => !x.removed && x.priceExact === price)) {
         return price;
       }
     }
     return String(effectivePrice);
   };
+
+  const visibleItems = items.filter(x => !x.removed);
+  const volSum = visibleItems.reduce((a, b) => a + +b.amountRatio, 0);
 
   return (
     <div>
@@ -77,13 +78,14 @@ const PartTpSl: React.FC<{
                 ...items,
                 {
                   key: v4(),
-                  amountRatio: '100',
+                  amountRatio: String(100 - volSum),
                   priceExact: nextLine(),
                   applied: false,
                   removed: false,
                 },
               ])
             }
+            disabled={isOrderLimitReached}
           >
             {'+ '}
             {type === 'TP'
@@ -93,102 +95,100 @@ const PartTpSl: React.FC<{
         )}
       </div>
       <div className="flex flex-col gap-2">
-        {items
-          .filter(x => !x.removed)
-          .map((item, ind) => (
-            <div key={item.key}>
-              <div className="flex items-center">
-                <div className="mr-1">{ind + 1}.</div>
-                <PriceVolumeInput
-                  price={String(item.priceExact)}
-                  onPriceChange={val =>
-                    setItems(
-                      items.map(x =>
-                        x.key === item.key ? { ...x, priceExact: val } : x,
-                      ),
-                    )
-                  }
-                  onPriceBlur={sortItems}
-                  volume={String(item.amountRatio)}
-                  onVolumeChange={val =>
-                    setItems(
-                      items.map(x =>
-                        x.key === item.key ? { ...x, amountRatio: val } : x,
-                      ),
-                    )
-                  }
-                  className="grow"
-                  appliedAt={item.appliedAt}
-                />
+        {visibleItems.map((item, ind) => (
+          <div key={item.key}>
+            <div className="flex items-center">
+              <div className="mr-1">{ind + 1}.</div>
+              <PriceVolumeInput
+                price={String(item.priceExact)}
+                onPriceChange={val =>
+                  setItems(
+                    items.map(x =>
+                      x.key === item.key ? { ...x, priceExact: val } : x,
+                    ),
+                  )
+                }
+                onPriceBlur={sortItems}
+                volume={String(item.amountRatio)}
+                onVolumeChange={val =>
+                  setItems(
+                    items.map(x =>
+                      x.key === item.key ? { ...x, amountRatio: val } : x,
+                    ),
+                  )
+                }
+                className="grow"
+                appliedAt={item.appliedAt}
+              />
 
-                {item.applied ? (
-                  <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-xs text-black">
-                    <Icon name={bxsCheckCircle} />
-                    Hitted
-                  </div>
-                ) : (
-                  <div className="ml-2 flex">
-                    <Button
-                      variant="link"
-                      className="!p-2"
-                      onClick={() =>
-                        setItems(
-                          items.map(x =>
-                            x.key === item.key ? { ...x, removed: true } : x,
-                          ),
-                        )
-                      }
-                    >
-                      <Icon name={bxTrash} />
-                    </Button>
-                  </div>
-                )}
-              </div>
-
-              {!item.applied && (
-                <>
-                  {dir === 1 && +item.priceExact <= effectivePrice && (
-                    <div className="px-2 pb-2 text-error">
-                      {t('signal-form.error-max', {
-                        type,
-                        market:
-                          market === 'long'
-                            ? t('common:market.long')
-                            : t('common:market.short'),
-                      })}
-                    </div>
-                  )}
-
-                  {dir === -1 && +item.priceExact >= effectivePrice && (
-                    <div className="px-2 pb-2 text-error">
-                      {t('signal-form.error-min', {
-                        type,
-                        market:
-                          market === 'long'
-                            ? t('common:market.long')
-                            : t('common:market.short'),
-                      })}
-                    </div>
-                  )}
-                </>
-              )}
-
-              {items.some(
-                (x, ind0) =>
-                  !x.removed && ind0 < ind && x.priceExact === item.priceExact,
-              ) && (
-                <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-dup', { type })}
+              {item.applied ? (
+                <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-xs text-black">
+                  <Icon name={bxsCheckCircle} />
+                  Hitted
                 </div>
-              )}
-
-              {first100Index >= 0 && first100Index < ind && (
-                <div className="px-2 pb-2 text-error">
-                  {t('signal-form.error-100', { type })}
+              ) : (
+                <div className="ml-2 flex">
+                  <Button
+                    variant="link"
+                    className="!p-2"
+                    onClick={() =>
+                      setItems(
+                        items.map(x =>
+                          x.key === item.key ? { ...x, removed: true } : x,
+                        ),
+                      )
+                    }
+                  >
+                    <Icon name={bxTrash} />
+                  </Button>
                 </div>
               )}
             </div>
-          ))}
+
+            {!item.applied && (
+              <>
+                {dir === 1 && +item.priceExact <= effectivePrice && (
+                  <div className="px-2 pb-2 text-error">
+                    {t('signal-form.error-max', {
+                      type,
+                      market:
+                        market === 'long'
+                          ? t('common:market.long')
+                          : t('common:market.short'),
+                    })}
+                  </div>
+                )}
+
+                {dir === -1 && +item.priceExact >= effectivePrice && (
+                  <div className="px-2 pb-2 text-error">
+                    {t('signal-form.error-min', {
+                      type,
+                      market:
+                        market === 'long'
+                          ? t('common:market.long')
+                          : t('common:market.short'),
+                    })}
+                  </div>
+                )}
+              </>
+            )}
+
+            {items.some(
+              (x, ind0) =>
+                !x.removed && ind0 < ind && x.priceExact === item.priceExact,
+            ) && (
+              <div className="px-2 pb-2 text-error">
+                {t('signal-form.error-dup', { type })}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {volSum > 100.1 && (
+          <div className="px-2 pb-2 text-error">
+            {t('signal-form.error-bg-100', { type })}
+          </div>
+        )}
       </div>
     </div>
   );
