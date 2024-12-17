@@ -22,20 +22,13 @@ coin_labels:
       speculation.
   monthly_social_beloved:
     info: >-
-      The "Monthly Social Beloved" label is assigned to symbols that have
-      maintained a strong presence in social media discussions over the past
-      month. These symbols have been mentioned by numerous unique accounts,
-      reflecting long-term interest and engagement. This label is useful for
-      identifying symbols with enduring appeal and potential for stable
-      performance or long-term investment opportunities.
+      "Monthly Social Beloved" marks symbols with strong social media presence
+      and mentions by many unique accounts over the past month.
   weekly_social_beloved:
     info: >-
-      The "Weekly Social Beloved" label highlights symbols that have
-      consistently captured the attention of social media users over the past
-      week. These symbols have been frequently mentioned by a diverse set of
-      accounts, indicating sustained interest and engagement. This label is
-      ideal for identifying symbols that are gaining popularity and may have
-      potential for growth or volatility.
+      The "Weekly Social Beloved" label marks symbols that were popular on
+      social media over the past week. These symbols are frequently mentioned,
+      showing high interest and potential for growth or volatility.
 coin_security:
   contract_security: Contract Security
   fields:
