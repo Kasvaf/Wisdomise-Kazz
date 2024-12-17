@@ -19,6 +19,7 @@ import { Coin } from 'shared/Coin';
 import { AccessSheild } from 'shared/AccessSheild';
 import { CoinLabels } from 'shared/CoinLabels';
 import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import {
   useConfirmationTabs,
   type ConfirmationType,
@@ -131,7 +132,10 @@ export function ConfirmationWidget<I extends Indicator>({
 }) {
   const tabs = useConfirmationTabs(indicator, type);
   const [autoSelect, setAutoSelect] = useState(true);
-  const [selectedTabKey, setSelectedTabKey] = useState<string>(tabs[0].key);
+  const [selectedTabKey, setSelectedTabKey] = useSearchParamAsState<string>(
+    `${indicator}-${type}`,
+    tabs[0].key,
+  );
   const selectedTab = tabs.find(row => row.key === selectedTabKey);
   if (!selectedTab) throw new Error('unexpected error');
   const confirmations = useIndicatorConfirmations({

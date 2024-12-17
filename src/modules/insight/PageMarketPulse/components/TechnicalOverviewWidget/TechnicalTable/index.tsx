@@ -1,4 +1,4 @@
-import { useMemo, useState, type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
 import {
@@ -6,7 +6,7 @@ import {
   useTechnicalRadarTopCoins,
 } from 'api/market-pulse';
 import { AccessSheild } from 'shared/AccessSheild';
-import Table from 'shared/Table';
+import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinMarketCap';
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
@@ -22,13 +22,20 @@ import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalTable: FC = () => {
   const { t } = useTranslation('market-pulse');
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState<string | undefined>(undefined);
-  const [network, setNetwork] = useState<string | undefined>(undefined);
-  const [sort, setSort] = useState<string>('rank');
   const coins = useTechnicalRadarTopCoins();
+  const [tableProps, tableState, setTableState] = useTableState(
+    'overviewTable',
+    {
+      page: 1,
+      pageSize: 10,
+      sortBy: 'rank',
+      query: '',
+      network: '',
+      category: '',
+    },
+  );
   const filteredCoins = useMemo(() => {
-    const lowercaseQuery = query.toLowerCase();
+    const lowercaseQuery = tableState.query.toLowerCase();
     return (coins.data ?? [])
       .filter(
         row =>
@@ -39,28 +46,31 @@ export const TechnicalTable: FC = () => {
             ?.toLowerCase()
             .includes(lowercaseQuery),
       )
-      .filter(row => !network || (row.networks_slug ?? []).includes(network))
       .filter(
         row =>
-          !category ||
-          (row.symbol.categories ?? []).map(r => r.slug).includes(category),
+          !tableState.network ||
+          (row.networks_slug ?? []).includes(tableState.network),
+      )
+      .filter(
+        row =>
+          !tableState.category ||
+          (row.symbol.categories ?? [])
+            .map(r => r.slug)
+            .includes(tableState.category),
       )
       .sort((a, b) => {
-        if (!sort || sort === 'rank') {
-          return a.rank - b.rank;
-        }
-        if (sort === 'price_change') {
+        if (tableState.sortBy === 'price_change') {
           return (
             (b.data?.price_change_percentage_24h ?? 0) -
             (a.data?.price_change_percentage_24h ?? 0)
           );
         }
-        if (sort === 'market_cap') {
+        if (tableState.sortBy === 'market_cap') {
           return (b.data?.market_cap ?? 0) - (a.data?.market_cap ?? 0);
         }
         return a.rank - b.rank;
       });
-  }, [query, coins.data, network, category, sort]);
+  }, [tableState, coins.data]);
 
   const columns = useMemo<Array<ColumnType<TechnicalRadarCoin>>>(
     () => [
@@ -129,18 +139,18 @@ export const TechnicalTable: FC = () => {
     <AccessSheild mode="table" size={3} level={1}>
       <div className="mb-6 flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
         <CoinSearchInput
-          value={query}
-          onChange={setQuery}
+          value={tableState.query}
+          onChange={query => setTableState({ query })}
           className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
         />
         <NetworkSelect
-          value={network}
-          onChange={setNetwork}
+          value={tableState.network || undefined}
+          onChange={network => setTableState({ network })}
           className="mobile:order-3"
         />
         <CategoriesSelect
-          value={category}
-          onChange={setCategory}
+          value={tableState.category || undefined}
+          onChange={category => setTableState({ category })}
           className="mobile:order-4"
         />
         <div className="flex flex-wrap items-center gap-2 mobile:order-5">
@@ -162,8 +172,8 @@ export const TechnicalTable: FC = () => {
                 value: 'market_cap',
               },
             ]}
-            value={sort}
-            onChange={setSort}
+            value={tableState.sortBy}
+            onChange={sortBy => setTableState({ sortBy })}
           />
         </div>
 
@@ -175,6 +185,7 @@ export const TechnicalTable: FC = () => {
         rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
         tableLayout="fixed"
+        {...tableProps}
       />
     </AccessSheild>
   );

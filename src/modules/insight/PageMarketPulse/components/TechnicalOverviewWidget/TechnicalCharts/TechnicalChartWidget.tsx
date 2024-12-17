@@ -1,10 +1,18 @@
-import { useMemo, useRef, type FC, useCallback, type MouseEvent } from 'react';
+import {
+  useMemo,
+  useRef,
+  type FC,
+  useCallback,
+  type MouseEvent,
+  useState,
+} from 'react';
 import { Scatter, type ScatterConfig } from '@ant-design/plots';
 import { clsx } from 'clsx';
 import html2canvas from 'html2canvas';
 import { bxDownload } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useTimeout } from 'usehooks-ts';
 import { type TechnicalRadarCoin } from 'api/market-pulse';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -14,6 +22,7 @@ import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import useIsMobile from 'utils/useIsMobile';
 import { isDebugMode } from 'utils/version';
+// eslint-disable-next-line import/max-dependencies
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 
 export const TechnicalChartWidget: FC<{
@@ -27,6 +36,7 @@ export const TechnicalChartWidget: FC<{
   const el = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(data, type);
+  const [animation, setAnimation] = useState(true);
 
   const config = useMemo<ScatterConfig>(() => {
     return {
@@ -37,7 +47,7 @@ export const TechnicalChartWidget: FC<{
       xField: 'x',
       yField: 'y',
       colorField: 'color',
-      animation: true,
+      animation,
       pointStyle: x => {
         return {
           fill: 'black',
@@ -229,7 +239,9 @@ export const TechnicalChartWidget: FC<{
       },
       autoFit: true,
     };
-  }, [parsedData, navigate, type, t]);
+  }, [parsedData, animation, t, type, navigate]);
+
+  useTimeout(() => setAnimation(false), 1000);
 
   const shareImage = useCallback(
     async (e: MouseEvent<HTMLButtonElement>) => {

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import {
@@ -7,12 +6,13 @@ import {
 } from 'api/market-pulse';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { AccessSheild } from 'shared/AccessSheild';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
 
 export function RsiHeatmapWidget({ className }: { className?: string }) {
   const { t } = useTranslation('market-pulse');
   const [resolution, setResolution] =
-    useState<IndicatorHeatmapResolution>('1h');
+    useSearchParamAsState<IndicatorHeatmapResolution>('rsi-heatmapRes', '1h');
   const heatmap = useIndicatorHeatmap({
     indicator: 'rsi',
     resolution,

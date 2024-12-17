@@ -1,15 +1,18 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
 
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { useTechnicalRadarTopCoins } from 'api/market-pulse';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { TechnicalCharts } from './TechnicalCharts';
 import { TechnicalTable } from './TechnicalTable';
 
 export function TechnicalOverviewWidget({ className }: { className?: string }) {
   const { t } = useTranslation('market-pulse');
-  const [tab, setTab] = useState<'chart' | 'table'>('chart');
+  const [tab, setTab] = useSearchParamAsState<'chart' | 'table'>(
+    'overviewTab',
+    'chart',
+  );
   const technicalTopCoins = useTechnicalRadarTopCoins();
 
   return (
