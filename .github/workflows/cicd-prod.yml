@@ -1,6 +1,7 @@
 name: Deploy to S3
 on:
-  push: [main]
+  push:
+    branches: [main]
 
 jobs:
   Lint-Build-Prod:
