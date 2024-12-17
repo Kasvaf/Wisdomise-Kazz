@@ -1,3 +1,4 @@
+'2': ''
 common:
   24h_change: 24H Change
   active_timeframe: Active Timeframe
@@ -120,13 +121,24 @@ screener:
   set: Set Screener
 table:
   name: Name
-  info: Info
   labels: Labels
-  market_cap: MarketCap
+  market_cap:
+    title: Market Cap
+    info: >-
+      <b>Market Cap</b><br />Displays the total market capitalization of each
+      asset (coin or token), representing the current market value. Assets are
+      also categorized as High, Mid, or Low based on their market cap, giving
+      you quick insight into their size and relative impact in the market.
+  price_info:
+    title: Info
   rank: Rank
   sort: Sort
   sorts:
     market_cap: Market Cap
     price_change: 24H Change
     rank: Wise Rank
-  technical_sentiment: Technical Sentiment
+  technical_sentiment:
+    title: Technical Sentiment
+    info: >-
+      Wisdomise AI Analyzes Technical Sentiment for Each Asset (Coin or Token)
+      by Analyzing Their MACD/RSI stats.

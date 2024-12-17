@@ -1,6 +1,6 @@
 import { useMemo, useState, type FC } from 'react';
 import { type ColumnType } from 'antd/es/table';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   type TechnicalRadarCoin,
   useTechnicalRadarTopCoins,
@@ -82,21 +82,25 @@ export const TechnicalTable: FC = () => {
             className="flex items-center gap-1 text-v1-content-primary"
           >
             <Logo className="inline-block size-4 grayscale" />
-            {t('table.technical_sentiment')}
+            {t('table.technical_sentiment.title')}
           </span>,
+          t('table.technical_sentiment.info'),
         ],
         width: 310,
         render: (_, row) => <TechnicalSentiment value={row} />,
       },
       {
-        title: t('table.market_cap'),
+        title: [t('table.market_cap.title'), t('table.market_cap.info')],
         width: 140,
         render: (_, row) => (
           <>{row.data && <CoinMarketCap marketData={row.data} />}</>
         ),
       },
       {
-        title: t('table.info'),
+        title: [
+          t('table.price_info.title'),
+          <Trans key="2" i18nKey="table.price_info.info" ns="market-pulse" />,
+        ],
         width: 240,
         render: (_, row) => (
           <>{row.data && <CoinPriceInfo marketData={row.data} />}</>
