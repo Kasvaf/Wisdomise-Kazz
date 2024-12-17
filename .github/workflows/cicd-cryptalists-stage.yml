@@ -1,10 +1,8 @@
-name: Deploy to S3 (Staging)
+name: Deploy to Cryptalyst S3 (Staging)
 on:
+  workflow_dispatch:
   push:
-    branches-ignore:
-      - cryptalyst-main
-      - cryptalyst-stage
-      - main
+    branches: [cryptalyst-stage]
 
 jobs:
   Lint-Build-Stage:
@@ -59,6 +57,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp --recursive dist/ s3://stage-app.wisdomise.com/${{ github.ref_name }}/
-          git branch -r --format='%(refname:short)' | sed -e "s#^origin##" > branches.txt
-          aws s3 cp branches.txt s3://stage-app.wisdomise.com/branches.txt
+          aws s3 cp --recursive dist/ s3://stage-mirage.wisdomise.com/
