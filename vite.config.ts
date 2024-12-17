@@ -48,7 +48,7 @@ export default defineConfig(config => ({
     ],
   },
   esbuild: {
-    drop: config.mode === 'production' ? ['console', 'debugger'] : [],
+    drop: config.mode === 'production' ? ['debugger'] : [],
   },
   build: {
     sourcemap: config.mode !== 'production',

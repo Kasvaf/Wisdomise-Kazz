@@ -6,6 +6,8 @@
   title: 14 天统计数据概览
   transfer_volume: 传输量
 asset_badges:
+  dust: 灰尘
+  dust_info: 巨额投资者的投资组合中持有的这种货币数量极少，不足以产生任何实际作用。
   exit_portfolio: 退出投资组合
   exit_portfolio_info: 该巨额投资者已出售近 95% 的资产，退出投资。
   holding: 保持

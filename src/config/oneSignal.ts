@@ -37,9 +37,7 @@ const login = async (email: string) => {
   if (oneSignalUser === email) {
     return true;
   }
-  if (typeof oneSignalUser === 'string') {
-    await OneSignal.logout();
-  }
+  OneSignal.User.addAlias('external_id', email); // to fix android issue!
   await OneSignal.login(email);
   oneSignalUser = email;
   if (isDebugMode) console.log(`One Signal: Login Complete (${email})`);
@@ -51,6 +49,7 @@ const logout = async () => {
   if (oneSignalUser === null) {
     return true;
   }
+  OneSignal.User.removeAlias('external_id');
   await OneSignal.logout();
   oneSignalUser = null;
   if (isDebugMode) console.log('One Signal: Logout');

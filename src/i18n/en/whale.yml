@@ -6,27 +6,31 @@
   largest_loss: Largest Loss
   transfer_volume: Transfer Volume
 asset_badges:
+  dust: Dust
+  dust_info: >-
+    This coin is held in the whale’s portfolio in tiny amounts, too small to
+    have any real effect.
   exit_portfolio: Exit Portfolio
   exit_portfolio_info: >-
-    This whale has sold nearly 95% of their assets, signaling an exit from the
-    investment.
+    This coin has been almost completely sold off by the whale, indicating an
+    exit from the investment.
   holding: Holding
   holding_info: >-
-    This whale is holding steady, with no significant changes in their asset
-    volume.
+    This coin is stable in the whale’s portfolio, with no major changes in its
+    holdings.
   loading: Loading
   loading_info: >-
-    This whale is increasing their asset volume by more than 5%, building up
-    their position.
+    This coin is being accumulated by the whale, with its holdings increasing by
+    more than 5%.
   new_investment: New Investment
   new_investment_info: >-
-    This whale has made a new investment with minimal selling, expanding their
-    position.
+    This coin is a recent addition to the whale’s portfolio, with minimal
+    selling so far.
   trading: Trading
   unloading: Unloading
   unloading_info: >-
-    This whale is reducing their holdings by more than 5%, but not exiting
-    completely.
+    This coin has little value to the whale, held in very small amounts that
+    don’t impact their portfolio.
 filters:
   all: All
   all-networks: All Networks

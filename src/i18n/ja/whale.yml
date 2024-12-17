@@ -6,6 +6,8 @@
   title: 14日間の統計の概要
   transfer_volume: 転送量
 asset_badges:
+  dust: ほこり
+  dust_info: このコインはクジラのポートフォリオにごく少量保有されており、実際の影響を与えるには少なすぎる。
   exit_portfolio: 出口ポートフォリオ
   exit_portfolio_info: このクジラは資産の約95％を売却し、投資からの撤退を示唆した。
   holding: ホールディング
