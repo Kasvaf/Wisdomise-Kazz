@@ -1,9 +1,9 @@
-import { type ReactNode, useMemo, useState } from 'react';
+import { type ReactNode, useEffect, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import Table from 'shared/Table';
+import Table, { useTableState } from 'shared/Table';
 import { useHasFlag, useWhales, type WhaleShort, type WhalesFilter } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Wallet } from 'shared/Wallet';
@@ -51,25 +51,30 @@ export function WhaleTopHoldersWidget({
 }) {
   const { t } = useTranslation('whale');
   const hasFlag = useHasFlag();
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
-  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
-  const [isAscending, setIsAscending] = useState<boolean | undefined>(
-    undefined,
-  );
   const filters = useWhaleTopHoldersFilters();
-  const [filter, setFilter] = useState<WhalesFilter>(
-    filters.find(x => !x.hidden)?.value ?? 'all',
-  );
-  const [networkName, setNetworkName] = useState<string | undefined>(undefined);
-  const whales = useWhales({
-    page,
-    pageSize,
-    filter,
-    sortBy,
-    isAscending,
-    networkName,
+
+  const [tableProps, tableState, setTableState] = useTableState('whales', {
+    page: 1,
+    pageSize: 5,
+    sortOrder: 'ascending',
+    filter: filters.find(x => !x.hidden)?.value ?? 'all',
+    network: '',
   });
+
+  const whales = useWhales({
+    page: tableState.page,
+    pageSize: tableState.pageSize,
+    filter: tableState.filter,
+    sortBy: tableState.sortBy,
+    isAscending: tableState.sortOrder === 'ascending',
+    networkName: tableState.network,
+  });
+
+  useEffect(() => {
+    setTableState({
+      total: whales.data?.count ?? 0,
+    });
+  }, [setTableState, whales.data?.count]);
 
   const columns = useMemo<Array<ColumnType<WhaleShort>>>(
     () => [
@@ -230,18 +235,22 @@ export function WhaleTopHoldersWidget({
           )}
           <div className="flex w-full grow flex-wrap justify-between gap-4">
             <ButtonSelect
-              value={filter}
+              value={tableState.filter}
               options={filters}
-              onChange={newFilter => {
-                setFilter(newFilter);
-                setPage(1);
+              onChange={filter => {
+                setTableState({
+                  filter,
+                  page: 1,
+                });
               }}
             />
             <NetworkSelect
-              value={networkName}
-              onChange={newNetworkName => {
-                setNetworkName(newNetworkName);
-                setPage(1);
+              value={tableState.network || undefined}
+              onChange={network => {
+                setTableState({
+                  network,
+                  page: 1,
+                });
               }}
             />
           </div>
@@ -254,31 +263,7 @@ export function WhaleTopHoldersWidget({
           dataSource={whales.data?.results ?? []}
           rowKey="holder_address"
           loading={whales.isRefetching && !whales.isFetched}
-          pagination={{
-            total: whales.data?.count ?? 1,
-            current: page,
-            showSizeChanger: true,
-            pageSize,
-            pageSizeOptions: [5, 10, 20],
-          }}
-          onChange={(pagination, _, sorter) => {
-            setPage(pagination.current ?? 1);
-            setPageSize(pagination.pageSize ?? 5);
-            if (!Array.isArray(sorter)) {
-              setSortBy(
-                typeof sorter.field === 'string' && sorter.order
-                  ? sorter.field
-                  : undefined,
-              );
-              setIsAscending(
-                sorter.order === 'ascend'
-                  ? true
-                  : sorter.order === 'descend'
-                  ? false
-                  : undefined,
-              );
-            }
-          }}
+          {...tableProps}
         />
       </AccessSheild>
     </OverviewWidget>
