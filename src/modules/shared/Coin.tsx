@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
-import { HoverTooltip } from './HoverTooltip';
 
 export function CoinLogo({
   coin,
@@ -59,6 +58,8 @@ export function Coin({
 }) {
   const shouldTruncate =
     truncate === true || (typeof truncate === 'number' && truncate > 0);
+  const tooltip =
+    popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug;
   const renderText = noText !== true;
   const truncateSize = typeof truncate === 'number' ? truncate : 110;
   const rootClassName = clsx(
@@ -112,46 +113,28 @@ export function Coin({
               </>
             )}
           </div>
-          {!mini && coin.abbreviation && (
-            <>
-              {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
-              <div
-                className={clsx(
-                  shouldTruncate && 'overflow-hidden text-ellipsis',
-                  'whitespace-nowrap text-[90%] opacity-70',
-                )}
-              >
-                {coin.abbreviation ?? ''}
-              </div>
-            </>
-          )}
         </div>
       )}
     </>
   );
 
   return (
-    <HoverTooltip
-      title={
-        <div className="text-sm">
-          <div>{coin.name}</div>
-          <div className="text-[80%] opacity-70">{coin.abbreviation}</div>
-        </div>
-      }
-      disabled={popup === false}
-    >
+    <>
       {nonLink || !coin.slug ? (
-        <span className={rootClassName}>{content}</span>
+        <span className={rootClassName} title={tooltip}>
+          {content}
+        </span>
       ) : (
         <Link
           className={clsx(rootClassName, gtmClass('coin_list-item'))}
           to={{
             pathname: `/coin/${coin.slug}`,
           }}
+          title={tooltip}
         >
           {content}
         </Link>
       )}
-    </HoverTooltip>
+    </>
   );
 }
