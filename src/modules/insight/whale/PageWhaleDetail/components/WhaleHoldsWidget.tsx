@@ -55,8 +55,12 @@ export function WhaleHoldsWidget({
               {t('asset_badges.new_investment_info')}
             </p>
             <b className="block pb-1">{t('asset_badges.exit_portfolio')}</b>
-            <p className="text-v1-content-secondary">
+            <p className="pb-3 text-v1-content-secondary">
               {t('asset_badges.exit_portfolio_info')}
+            </p>
+            <b className="block pb-1">{t('asset_badges.dust')}</b>
+            <p className="text-v1-content-secondary">
+              {t('asset_badges.dust_info')}
             </p>
           </div>,
         ],
