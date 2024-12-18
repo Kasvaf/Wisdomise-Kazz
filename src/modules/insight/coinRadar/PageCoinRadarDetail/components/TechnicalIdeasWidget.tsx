@@ -20,6 +20,10 @@ export function TechnicalIdeasWidget({
 
   const [limit, setLimit] = useState(3);
 
+  const hasChart =
+    coinOverview.data?.charts_id?.trading_view_chart_id ||
+    coinOverview.data?.charts_id?.gecko_terminal_chart_id;
+
   const tradingViewMessages = useMemo(() => {
     return (messages.data ?? [])
       .filter(x => x.social_type === 'trading_view')
@@ -33,9 +37,7 @@ export function TechnicalIdeasWidget({
       id={id}
       loading={messages.isLoading || coinOverview.isLoading}
       empty={{
-        enabled:
-          tradingViewMessages.length === 0 &&
-          !coinOverview.data?.trading_view_chart_id,
+        enabled: tradingViewMessages.length === 0 && !hasChart,
         refreshButton: true,
         title: t('coin-details.tabs.trading_view.empty.title'),
         subtitle: t('coin-details.tabs.trading_view.empty.subtitle'),
@@ -47,11 +49,17 @@ export function TechnicalIdeasWidget({
       }}
       headerActions={
         <>
-          {coinOverview.data?.trading_view_chart_id && (
+          {hasChart && (
             <a
-              href={`https://www.tradingview.com/chart/?symbol=${encodeURIComponent(
-                coinOverview.data?.trading_view_chart_id,
-              )}`}
+              href={
+                coinOverview.data?.charts_id?.trading_view_chart_id
+                  ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(
+                      coinOverview.data.charts_id.trading_view_chart_id,
+                    )}`
+                  : coinOverview.data?.charts_id?.gecko_terminal_chart_id
+                  ? `https://www.geckoterminal.com/${coinOverview.data.charts_id.gecko_terminal_chart_id}`
+                  : ''
+              }
               target="_blank"
               className="inline-flex items-center justify-center hover:brightness-110 active:brightness-90 mobile:p-1"
               rel="noreferrer"
@@ -66,23 +74,36 @@ export function TechnicalIdeasWidget({
         </>
       }
     >
-      {coinOverview.data?.trading_view_chart_id && (
+      {hasChart && (
         <div className="h-[500px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[300px]">
-          <AdvancedRealTimeChart
-            allow_symbol_change={false}
-            symbol={coinOverview.data?.trading_view_chart_id}
-            style="1"
-            copyrightStyles={{
-              parent: {
-                display: 'none',
-              },
-            }}
-            interval="60"
-            hide_side_toolbar
-            hotlist={false}
-            theme="dark"
-            autosize
-          />
+          {coinOverview.data?.charts_id?.trading_view_chart_id ? (
+            <AdvancedRealTimeChart
+              allow_symbol_change={false}
+              symbol={coinOverview.data.charts_id.trading_view_chart_id}
+              style="1"
+              copyrightStyles={{
+                parent: {
+                  display: 'none',
+                },
+              }}
+              interval="60"
+              hide_side_toolbar
+              hotlist={false}
+              theme="dark"
+              autosize
+            />
+          ) : coinOverview.data?.charts_id?.gecko_terminal_chart_id ? (
+            <iframe
+              height="100%"
+              width="100%"
+              id="geckoterminal-embed"
+              title="GeckoTerminal Embed"
+              src={`https://www.geckoterminal.com/${coinOverview.data.charts_id.gecko_terminal_chart_id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0`}
+              frameBorder="0"
+              allow="clipboard-write"
+              allowFullScreen
+            />
+          ) : null}
         </div>
       )}
       {tradingViewMessages.length > 0 && (

@@ -386,7 +386,10 @@ export interface CoinOverview {
   exchanges: CoinExchange[];
   networks: CoinNetwork[];
   symbol_labels?: null | string[];
-  trading_view_chart_id?: null | string;
+  charts_id?: null | {
+    trading_view_chart_id?: null | string;
+    gecko_terminal_chart_id?: null | string;
+  };
   security_data?: null | Array<{
     symbol_security: NetworkSecurity;
   }>;
