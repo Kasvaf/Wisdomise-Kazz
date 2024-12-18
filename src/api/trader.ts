@@ -181,7 +181,7 @@ export function useTraderPositionsQuery({
     async () => {
       const { data } = await axios.get<PositionsResponse>('trader/positions', {
         params: {
-          pair_slug: slug ? slug + '/tether' : undefined,
+          base_slug: slug || undefined,
           is_open: isOpen,
         },
       });

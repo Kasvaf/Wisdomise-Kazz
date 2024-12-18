@@ -35,10 +35,11 @@ const fromApi = (items?: OrderPresetItem[]) => {
 
 const AIPresets: React.FC<{
   data: SignalFormState;
-  assetSlug: string;
-}> = ({ data, assetSlug }) => {
+  baseSlug: string;
+  quoteSlug: string;
+}> = ({ data, baseSlug, quoteSlug }) => {
   const [activePreset, setActivePreset] = useState(3);
-  const { data: presets, isLoading } = useAIPresets(assetSlug + '/tether');
+  const { data: presets, isLoading } = useAIPresets(baseSlug + '/' + quoteSlug);
 
   const {
     isUpdate: [isUpdate],

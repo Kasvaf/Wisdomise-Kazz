@@ -13,14 +13,14 @@ import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
 
 interface Props {
-  assetSlug: string;
+  baseSlug: string;
   activePosition?: Position;
   formState: SignalFormState;
   className?: string;
 }
 
 const AdvancedSignalForm: React.FC<Props> = ({
-  assetSlug,
+  baseSlug,
   activePosition,
   formState,
   className,
@@ -34,7 +34,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
 
   useSyncFormState({
     formState,
-    assetSlug,
+    baseSlug,
     activePosition,
   });
 
@@ -73,10 +73,10 @@ const AdvancedSignalForm: React.FC<Props> = ({
   return (
     <div className={clsx('flex flex-col gap-3', className)}>
       <div className="flex flex-col gap-5">
-        <PartOpen data={formState} assetSlug={assetSlug} />
-        <PartSafetyOpen data={formState} assetSlug={assetSlug} />
-        <PartTpSl type="TP" data={formState} assetSlug={assetSlug} />
-        <PartTpSl type="SL" data={formState} assetSlug={assetSlug} />
+        <PartOpen data={formState} baseSlug={baseSlug} />
+        <PartSafetyOpen data={formState} baseSlug={baseSlug} />
+        <PartTpSl type="TP" data={formState} baseSlug={baseSlug} />
+        <PartTpSl type="SL" data={formState} baseSlug={baseSlug} />
       </div>
 
       {isUpdate ? (

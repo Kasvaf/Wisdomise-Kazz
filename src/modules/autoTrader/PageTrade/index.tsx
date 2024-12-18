@@ -50,7 +50,7 @@ export default function PageTrade() {
       ) : (
         (!positionKey || !!position.data) && (
           <AdvancedSignalForm
-            assetSlug={slug}
+            baseSlug={slug}
             activePosition={position.data}
             className="max-w-full basis-1/3"
             formState={formState}

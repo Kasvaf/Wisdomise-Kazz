@@ -13,8 +13,8 @@ import PriceVolumeInput from './PriceVolumeInput';
 const PartTpSl: React.FC<{
   type: 'TP' | 'SL';
   data: SignalFormState;
-  assetSlug: string;
-}> = ({ type, data, assetSlug }) => {
+  baseSlug: string;
+}> = ({ type, data, baseSlug }) => {
   const { t } = useTranslation('builder');
   const {
     price: [price],
@@ -24,7 +24,7 @@ const PartTpSl: React.FC<{
     isOrderLimitReached,
   } = data;
   const { data: assetPrice } = useLastPriceQuery({
-    slug: assetSlug,
+    slug: baseSlug,
     exchange: 'STONFI',
   });
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);

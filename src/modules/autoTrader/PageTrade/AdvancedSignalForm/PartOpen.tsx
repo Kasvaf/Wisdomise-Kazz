@@ -14,11 +14,12 @@ import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
 import { type SignalFormState } from './useSignalFormStates';
+import QuoteSelector from './QuoteSelector';
 
 const PartOpen: React.FC<{
   data: SignalFormState;
-  assetSlug: string;
-}> = ({ data, assetSlug }) => {
+  baseSlug: string;
+}> = ({ data, baseSlug }) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -27,6 +28,7 @@ const PartOpen: React.FC<{
     isUpdate: [isUpdate],
     orderType: [orderType, setOrderType],
     amount: [amount, setAmount],
+    quote: [quote, setQuote],
     price: [price, setPrice],
     priceUpdated: [priceUpdated, setPriceUpdated],
     volume: [volume, setVolume],
@@ -35,8 +37,8 @@ const PartOpen: React.FC<{
   } = data;
 
   const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
-  const { data: usdtBalance, isLoading: balanceLoading } =
-    useAccountJettonBalance('usdt');
+  const { data: quoteBalance, isLoading: balanceLoading } =
+    useAccountJettonBalance(quote);
 
   useEffect(() => {
     if (!priceUpdated && assetPrice && !isUpdate) {
@@ -76,15 +78,15 @@ const PartOpen: React.FC<{
                 Reading Balance
               </div>
             ) : (
-              usdtBalance != null && (
+              quoteBalance != null && (
                 <div
                   className="flex items-center gap-1"
-                  onClick={() => !isUpdate && setAmount(String(usdtBalance))}
+                  onClick={() => !isUpdate && setAmount(String(quoteBalance))}
                 >
-                  {usdtBalance ? (
+                  {quoteBalance ? (
                     <>
                       <span className="text-sm text-white/40">
-                        Balance: {String(usdtBalance)} USDT
+                        Balance: {String(quoteBalance)} USDT
                       </span>
                       {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
                     </>
@@ -98,15 +100,22 @@ const PartOpen: React.FC<{
             )}
           </div>
         }
-        max={usdtBalance || 0}
+        max={quoteBalance || 0}
         value={amount}
         onChange={setAmount}
-        suffix="USDT"
+        noSuffixPad
+        suffix={
+          <QuoteSelector
+            value={quote}
+            onChange={setQuote}
+            disabled={isUpdate || balanceLoading || !quoteBalance}
+          />
+        }
         className="mb-3"
-        disabled={isUpdate || balanceLoading || !usdtBalance}
+        disabled={isUpdate || balanceLoading || !quoteBalance}
       />
 
-      <AIPresets data={data} assetSlug={assetSlug} />
+      <AIPresets data={data} baseSlug={baseSlug} quoteSlug={quote} />
 
       <div className="my-4 border-b border-white/5" />
 

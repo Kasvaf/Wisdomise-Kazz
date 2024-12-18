@@ -41,7 +41,7 @@ export default function ClaimRewardPage() {
   const [tonConnect] = useTonConnectUI();
   const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
     useWithdrawMutation();
-  const { data: wsdmBalance } = useAccountJettonBalance('wsdm');
+  const { data: wsdmBalance } = useAccountJettonBalance('WSDM');
 
   useEffect(() => {
     sync({});
