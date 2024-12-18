@@ -27,6 +27,7 @@ errors:
   network-error: Something wrong with your internet connection.
 new: New
 not-available: N/A
+or: Or
 order-type:
   limit: Limit
   market: Market
