@@ -242,7 +242,7 @@ const ModalLogin: React.FC<{
           disabled={nonce.length < 6}
           className="mt-4"
         >
-          {t('base:user.sign-in')}
+          {t('login.step-2.btn-submit-otp')}
         </Button>
         <div className="mx-1 mt-3 flex justify-between gap-2 text-xs">
           {remTime > 0 ? (

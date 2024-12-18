@@ -9,16 +9,17 @@ login:
     trusted: 受到 50,000+ 位用户的信赖
   notice: 继续，即表示您同意我们的 <1>隐私政策</1> 和 <3>服务条款</3>。
   step-1:
-    button-submit-email: 使用电子邮件登录
+    button-submit-email: 立即开始
     field-email: 電子郵件
     field-email-placeholder: 您的電子郵件地址
     subtitle: 登录或注册探索 Wisdomise Pro 并享受强大的交易工具！
     subtitle2: 免费登录查看市场上最好的机会和最热门的硬币
     title: 登录/注册
-    title2: 免费登录
+    title2: 查看市场上最热门的投资代币
   step-2:
     btn-change-email: 更改电子邮件地址
     btn-resend: 重新发送代码
+    btn-submit-otp: 完成
     field-nonce: 6 位魔法代码
     subtitle: 输入我们发送至的 6 位 Magic 代码 {{email}} 继续。
     title: 输入魔法码
