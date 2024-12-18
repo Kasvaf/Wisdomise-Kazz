@@ -33,10 +33,14 @@ const setExternalId = async (email?: string) => {
   await init();
   if (email) {
     await OneSignal.login(email);
-    // OneSignal.User.addAlias('external_id', email);
+    OneSignal.User.addAlias('external_id', email);
+    if (getPushStatus() === 'ok') {
+      await requestPush(); // noting will prompt or anything, just for pinging onesignal
+    }
     if (isDebugMode) console.log(`One Signal: Login (${email})`);
   } else {
-    // OneSignal.User.removeAlias('external_id');
+    OneSignal.User.removeAlias('external_id');
+    // await OneSignal.User.PushSubscription.optOut();
     await OneSignal.logout();
     if (isDebugMode) console.log('One Signal: Logout');
   }
@@ -58,16 +62,9 @@ const getPushStatus = () => {
 };
 
 const requestPush = async () => {
-  const currentStatus = getPushStatus();
-  if (currentStatus === 'not-supported') {
-    alert('Your browser does not support push notifications.');
-    return currentStatus;
-  }
-  if (currentStatus === 'ok') {
-    return currentStatus;
-  }
-  await OneSignal.Notifications.requestPermission();
+  await OneSignal.setConsentGiven(true);
   await OneSignal.User.PushSubscription.optIn();
+  await OneSignal.Notifications.requestPermission();
   return getPushStatus();
 };
 
