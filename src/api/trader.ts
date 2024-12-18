@@ -9,7 +9,7 @@ import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
 import { type PageResponse } from './types/page';
 
 export interface UserAssetPair {
-  pair_slug: string;
+  slug: string;
   usd_equity: number;
   amount: number;
   position_keys: string[];
@@ -21,6 +21,7 @@ export const useUserAssets = () => {
     async () => {
       const { data } = await axios.get<{
         pairs: Array<{
+          slug?: string;
           pair_slug: string;
           amount: string;
           usd_equity: string;
@@ -31,7 +32,7 @@ export const useUserAssets = () => {
       return data.pairs.map(
         x =>
           ({
-            pair_slug: x.pair_slug,
+            slug: x.slug ?? x.pair_slug.split('/')?.[0],
             usd_equity: Number(x.usd_equity),
             amount: Number(x.amount),
             position_keys: x.position_keys,
