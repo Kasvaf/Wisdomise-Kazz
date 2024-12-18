@@ -106,6 +106,7 @@ const PartOpen: React.FC<{
         noSuffixPad
         suffix={
           <QuoteSelector
+            baseSlug={slug}
             value={quote}
             onChange={setQuote}
             disabled={isUpdate || balanceLoading || !quoteBalance}

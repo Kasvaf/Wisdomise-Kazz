@@ -45,6 +45,34 @@ export const useUserAssets = () => {
   );
 };
 
+export const useSupportedPairs = (baseSlug: string) => {
+  return useQuery(
+    [],
+    async () => {
+      const { data } = await axios.get<{
+        pairs: [
+          {
+            base_slug: string;
+            base_name: string;
+            quote_slug: string;
+            quote_name: string;
+          },
+        ];
+      }>('pairs?base_slug=' + baseSlug);
+      return data.pairs;
+    },
+    {},
+  );
+};
+
+export const useIsPairSupported = (baseSlug: string) => {
+  console.log(baseSlug);
+  // const {data: pairs} = useSupportedPairs(baseSlug)
+  return (quoteSlug: string) => {
+    return quoteSlug === 'tether' || quoteSlug === 'the-open-network';
+  };
+};
+
 export const useTraderCoins = (filters?: {
   page: number;
   pageSize: number;

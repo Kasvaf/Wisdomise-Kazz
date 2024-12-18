@@ -2,14 +2,18 @@ import { clsx } from 'clsx';
 import { Select } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
+import { useIsPairSupported } from 'api';
 const { Option } = Select;
 
 type Quotes = 'tether' | 'the-open-network';
 const QuoteSelector: React.FC<{
+  baseSlug: string;
   value: Quotes;
   onChange?: (newValue: Quotes) => any;
   disabled?: boolean;
-}> = ({ value, onChange, disabled }) => {
+}> = ({ baseSlug, value, onChange, disabled }) => {
+  const isSupported = useIsPairSupported(baseSlug);
+
   return (
     <Select
       value={value}
@@ -18,8 +22,10 @@ const QuoteSelector: React.FC<{
       suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
       disabled={disabled}
     >
-      <Option value="tether">USDT</Option>
-      <Option value="the-open-network">TON</Option>
+      {isSupported('tether') && <Option value="tether">USDT</Option>}
+      {isSupported('the-open-network') && (
+        <Option value="the-open-network">TON</Option>
+      )}
     </Select>
   );
 };
