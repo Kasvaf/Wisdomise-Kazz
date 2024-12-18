@@ -2,6 +2,11 @@ error-not-authorized: In order to view this page, you need to Sign In
 login:
   error-code: Invalid code
   error-email: Email is invalid
+  features:
+    ai_driven: AI-Driven Insights
+    analyzed: 30K Social Posts Analyzed
+    secure: Secure and Private
+    trusted: Trusted by 50,000+ Users
   notice: >-
     By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
     Service</3>.
@@ -10,12 +15,19 @@ login:
     subtitle: >-
       Sign In or Sign Up to explore Wisdomise Pro and enjoy powerful trading
       tools!
+    button-submit-email: Get Started
     field-email: Email
+    field-email-placeholder: Your Email Address
+    subtitle2: >-
+      Login for Free to Check The Best Opportunities and Hottest Coins on The
+      Market
+    title2: Check out the hottest coins to invest on the market
   step-2:
     title: Enter Magic Code
     subtitle: Enter the 6-digit Magic code we sent to {{email}} to continue.
     btn-change-email: Change Email Address
     btn-resend: Resend Code
+    btn-submit-otp: Done
     field-nonce: 6-Digit Magic Code
 page-referral:
   title: Referral Program

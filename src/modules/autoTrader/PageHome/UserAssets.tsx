@@ -5,8 +5,7 @@ import { useSymbolInfo } from 'api/symbol';
 import Spin from 'shared/Spin';
 
 const UserAsset: React.FC<{ pair: UserAssetPair }> = ({ pair }) => {
-  const [base, _] = pair.pair_slug.split('/');
-  const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(base);
+  const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(pair.slug);
 
   return (
     <div className="flex items-center justify-between">
@@ -56,7 +55,7 @@ const UserAssets: React.FC<{ className?: string }> = ({ className }) => {
 
       <div className="rounded-xl bg-v1-surface-l2 p-4">
         {assets?.map((pair, ind) => (
-          <React.Fragment key={pair.pair_slug}>
+          <React.Fragment key={pair.slug}>
             <UserAsset pair={pair} />
 
             {ind !== assets.length - 1 && (

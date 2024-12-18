@@ -5,7 +5,6 @@ import { useAccountQuery } from 'api';
 import { Toggle } from 'shared/Toggle';
 import { type AlertMessenger } from 'api/alert';
 import { isMiniApp } from 'utils/version';
-import oneSignal from 'config/oneSignal';
 import { ReactComponent as BellIcon } from './bell.svg';
 import { ReactComponent as EmailIcon } from './email.svg';
 import { ReactComponent as TelegramIcon } from './telegram.svg';
@@ -136,8 +135,7 @@ export const AlertChannelsSelect: FC<{
   const account = useAccountQuery();
   const { t } = useTranslation('alerts');
   const [isTelegramConnected, connectTelegram] = useTelegramConnect();
-  const [hasWebPushPermission, requestWebPushPermission] =
-    useWebPushPermission();
+  const [webPushPermission, requestWebPushPermission] = useWebPushPermission();
   if (isMiniApp) return null;
 
   const toggleValue = (messanger: string, addToList: boolean) =>
@@ -185,11 +183,11 @@ export const AlertChannelsSelect: FC<{
           />
         </AlertChannelRow>
       )}
-      {renderingChannels.includes('WEB_PUSH') && oneSignal.getUser() && (
+      {renderingChannels.includes('WEB_PUSH') && (
         <AlertChannelRow
           icon={BellIcon}
           label={t('common.notifications.messangers.web_push')}
-          isConnected={hasWebPushPermission}
+          isConnected={webPushPermission === 'ok'}
           connectLabel={t('common.notifications.messangers.request_permission')}
           connectAction={requestWebPushPermission}
         >

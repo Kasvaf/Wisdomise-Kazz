@@ -2,14 +2,24 @@ error-not-authorized: このページを表示するには、サインインす�
 login:
   error-code: 無効なコード
   error-email: 電子メールが無効です
+  features:
+    ai_driven: AIによる洞察
+    analyzed: 3万件のソーシャル投稿を分析
+    secure: 安全でプライベート
+    trusted: 50,000人以上のユーザーから信頼されています
   notice: 続行すると、次のことに同意したことになります <1>プライバシーポリシー</1> そして <3>利用規約</3>。
   step-1:
+    button-submit-email: 始める
     field-email: Eメール
+    field-email-placeholder: あなたのメールアドレス
     subtitle: サインインまたはサインアップして Wisdomise Pro を探索し、強力な取引ツールをお楽しみください。
+    subtitle2: 無料でログインして、市場で最高のチャンスと最もホットなコインをチェックしましょう
     title: ログイン/登録
+    title2: 市場で投資する最もホットなコインをチェックしてください
   step-2:
     btn-change-email: メールアドレス変更
     btn-resend: コードを再送信
+    btn-submit-otp: 完了
     field-nonce: 6桁のマジックコード
     subtitle: に送信した 6 桁の Magic コードを入力してください {{email}} 続けます。
     title: マジックコードを入力してください
