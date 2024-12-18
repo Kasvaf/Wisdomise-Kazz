@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
+import { Divider } from 'antd';
 import {
   useEmailLoginMutation,
   useGoogleLoginMutation,
@@ -15,12 +16,17 @@ import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Link from 'shared/Link';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
-// import { ReactComponent as LoginBg } from './Login.svg';
 import LoginBg from './login-bg.png';
+import { ReactComponent as TrustIcon } from './trust.svg';
+import { ReactComponent as SecureIcon } from './secure.svg';
+import { ReactComponent as AnalyzeIcon } from './analyze.svg';
+// eslint-disable-next-line import/max-dependencies
+import { ReactComponent as AiIcon } from './ai.svg';
 
 const ModalLogin: React.FC<{
   onResolve?: (success: boolean) => void;
-}> = ({ onResolve }) => {
+  theme?: 'google' | 'default';
+}> = ({ onResolve, theme = 'default' }) => {
   const { t } = useTranslation('auth');
   const [step, setStep] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
@@ -102,12 +108,55 @@ const ModalLogin: React.FC<{
     </p>
   );
 
-  const emailContent = (
-    <div className="mr-6 flex grow flex-col p-4">
-      <h1 className="mb-5 text-xl font-medium">{t('login.step-1.title')}</h1>
-      <p className="mb-9 text-xs text-white/70">{t('login.step-1.subtitle')}</p>
+  const features: Array<{ icon: typeof TrustIcon; text: string }> = [
+    {
+      icon: TrustIcon,
+      text: t('login.features.trusted'),
+    },
+    {
+      icon: AnalyzeIcon,
+      text: t('login.features.analyzed'),
+    },
+    {
+      icon: AiIcon,
+      text: t('login.features.ai_driven'),
+    },
+    {
+      icon: SecureIcon,
+      text: t('login.features.secure'),
+    },
+  ];
 
-      <div>
+  const emailContent = (
+    <div className="flex grow flex-col p-8 mobile:p-4">
+      <h1 className="mb-4 text-xl font-medium">
+        {theme === 'default'
+          ? t('login.step-1.title')
+          : t('login.step-1.title2')}
+      </h1>
+      <p className="mb-6 text-xs text-white/70">
+        {theme === 'default'
+          ? t('login.step-1.subtitle')
+          : t('login.step-1.subtitle2')}
+      </p>
+
+      {theme !== 'default' && (
+        <div className="mb-12 grid grid-cols-2 gap-4">
+          {features.map(({ icon: FeatIcon, text }) => (
+            <div
+              key={text}
+              className="flex items-center gap-2 text-xs font-medium"
+            >
+              <div className="flex size-8 items-center justify-center rounded-full bg-wsdm-gradient">
+                <FeatIcon />
+              </div>
+              {text}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="flex flex-col items-stretch gap-4">
         <TextBox
           label={t('login.step-1.field-email')}
           value={email}
@@ -127,43 +176,47 @@ const ModalLogin: React.FC<{
               void submitEmail();
             }
           }}
+          placeholder={t('login.step-1.field-email-placeholder')}
           type="email"
           error={fieldError}
         />
+        <Button
+          variant="primary-purple"
+          onClick={submitEmail}
+          loading={emailLoginLoading}
+          disabled={!isValidEmail}
+        >
+          {t('login.step-1.button-submit-email')}
+        </Button>
       </div>
 
-      <div className="my-8 border-b border-v1-inverse-overlay-10" />
+      <Divider className="!my-6">{t('common:or')}</Divider>
 
       <div className="flex justify-center">
         <GoogleLogin
           onSuccess={googleHandler}
-          theme="filled_blue"
           use_fedcm_for_prompt
+          text="continue_with"
+          size="large"
+          theme="filled_blue"
+          logo_alignment="center"
         />
       </div>
 
-      <div className="grow" />
+      <div className="min-h-10 grow" />
 
       {notice}
-      <Button
-        variant="primary-purple"
-        onClick={submitEmail}
-        loading={emailLoginLoading}
-        disabled={!isValidEmail}
-      >
-        {t('common:actions.next')}
-      </Button>
     </div>
   );
 
   const codeContent = (
-    <div className="mr-6 flex grow flex-col p-4">
+    <div className="flex grow flex-col p-8">
       <h1 className="mb-5 text-xl font-medium">{t('login.step-2.title')}</h1>
       <p className="mb-9 text-xs text-white/70">
         {t('login.step-2.subtitle', { email })}
       </p>
 
-      <div>
+      <div className="flex flex-col items-stretch">
         <div className="mb-3 text-xs">{t('login.step-2.field-nonce')}</div>
         <VerificationInput
           autoFocus
@@ -182,7 +235,16 @@ const ModalLogin: React.FC<{
           onChange={setNonce}
         />
         {fieldError && <div className="ml-1 mt-3 text-error">{fieldError}</div>}
-        <div className="mx-1 mt-3 flex justify-between text-xs">
+        <Button
+          variant="primary-purple"
+          onClick={submitCode}
+          loading={verifyEmailLoading}
+          disabled={nonce.length < 6}
+          className="mt-4"
+        >
+          {t('base:user.sign-in')}
+        </Button>
+        <div className="mx-1 mt-3 flex justify-between gap-2 text-xs">
           {remTime > 0 ? (
             <div>
               {remMinutes.toString().padStart(2, '0')}:
@@ -204,31 +266,23 @@ const ModalLogin: React.FC<{
         </div>
       </div>
 
-      <div className="grow" />
-
       <div
-        className="mb-7 cursor-pointer text-v1-content-link hover:text-v1-content-link-hover"
+        className="my-7 cursor-pointer text-v1-content-link hover:text-v1-content-link-hover"
         onClick={() => setStep('email')}
       >
         {t('login.step-2.btn-change-email')}
       </div>
 
+      <div className="min-h-10 grow" />
+
       {notice}
-      <Button
-        variant="primary-purple"
-        onClick={submitCode}
-        loading={verifyEmailLoading}
-        disabled={nonce.length < 6}
-      >
-        {t('base:user.sign-in')}
-      </Button>
     </div>
   );
 
   return (
-    <div className="flex w-full">
+    <div className="flex min-h-[524px] w-full bg-v1-surface-l1">
       {emailLoginLoading || verifyEmailLoading ? (
-        <div className="mr-6 flex grow flex-col items-center justify-center">
+        <div className="my-8 flex grow flex-col items-center justify-center">
           <Spinner />
         </div>
       ) : step === 'email' ? (
@@ -236,17 +290,29 @@ const ModalLogin: React.FC<{
       ) : (
         codeContent
       )}
-      <img
-        src={LoginBg}
-        className="-my-5 -mr-6 h-[524px] w-[440px] shrink-0 bg-black/30 mobile:hidden"
-      />
+      {theme === 'default' && (
+        <img
+          src={LoginBg}
+          className="h-[524px] w-[440px] shrink-0 bg-black/30 object-contain mobile:hidden"
+        />
+      )}
     </div>
   );
 };
 
-export const useModalLogin = () => {
+export const useModalLogin = (cancelable = true) => {
   const [Modal, showModal] = useModal(ModalLogin, {
-    width: 880,
+    width: cancelable ? 880 : 499,
+    closable: cancelable,
+    maskClosable: cancelable,
+    keyboard: false,
+    className: '[&_.ant-modal-content]:!p-0',
   });
-  return [Modal, async () => !!(await showModal({}))] as const;
+  return [
+    Modal,
+    async () =>
+      !!(await showModal({
+        theme: cancelable ? 'default' : 'google',
+      })),
+  ] as const;
 };
