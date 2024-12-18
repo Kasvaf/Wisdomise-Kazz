@@ -1,16 +1,15 @@
 import OneSignal from 'react-onesignal';
 import { isDebugMode, isLocal, isProduction } from 'utils/version';
 
-let initPromise: null | Promise<boolean> = null;
-let oneSignalUser: null | string = null;
+let initPromise: null | Promise<void> = null;
 
-const init = () => {
+const init = async () => {
+  const appId = isLocal
+    ? 'c25e5c04-1116-4441-8f7e-3f668df1b586'
+    : isProduction
+    ? 'b36841de-ac38-4574-837e-c24c7955765a'
+    : '6c1b64e8-1efd-44f2-ae5a-36dbacc3e71d';
   if (initPromise === null) {
-    const appId = isLocal
-      ? 'c25e5c04-1116-4441-8f7e-3f668df1b586'
-      : isProduction
-      ? 'b36841de-ac38-4574-837e-c24c7955765a'
-      : '6c1b64e8-1efd-44f2-ae5a-36dbacc3e71d';
     initPromise = OneSignal.init({
       appId,
       notifyButton: {
@@ -19,55 +18,59 @@ const init = () => {
       welcomeNotification: {
         disable: true,
       },
+      allowLocalhostAsSecureOrigin: isLocal,
       autoResubscribe: true,
       autoRegister: false,
-      allowLocalhostAsSecureOrigin: isLocal,
-    }).then(() => {
-      if (isDebugMode) console.log(`One Signal: Initiated (${appId})!`);
-      return true;
     });
-  }
-  return initPromise;
-};
-
-const getUser = () => oneSignalUser;
-
-const login = async (email: string) => {
-  await init();
-  if (oneSignalUser === email) {
+    await initPromise;
+    if (isDebugMode) console.log(`One Signal: Initiated (${appId})!`);
     return true;
   }
-  OneSignal.User.addAlias('external_id', email); // to fix android issue!
-  await OneSignal.login(email);
-  oneSignalUser = email;
-  if (isDebugMode) console.log(`One Signal: Login Complete (${email})`);
-  return true;
+  return await initPromise;
 };
 
-const logout = async () => {
+const setExternalId = async (email?: string) => {
   await init();
-  if (oneSignalUser === null) {
-    return true;
+  if (email) {
+    await OneSignal.login(email);
+    OneSignal.User.addAlias('external_id', email);
+    if (getPushStatus() === 'ok') {
+      await requestPush(); // noting will prompt or anything, just for pinging onesignal
+    }
+    if (isDebugMode) console.log(`One Signal: Login (${email})`);
+  } else {
+    OneSignal.User.removeAlias('external_id');
+    // await OneSignal.User.PushSubscription.optOut();
+    await OneSignal.logout();
+    if (isDebugMode) console.log('One Signal: Logout');
   }
-  OneSignal.User.removeAlias('external_id');
-  await OneSignal.logout();
-  oneSignalUser = null;
-  if (isDebugMode) console.log('One Signal: Logout');
-  return true;
 };
 
-const hasPermission = () =>
-  OneSignal.Notifications.isPushSupported() &&
-  OneSignal.Notifications.permission;
+const getPushStatus = () => {
+  let returnValue:
+    | 'ok'
+    | 'not-supported'
+    | 'no-permission-granted'
+    | 'not-opted-in' = 'ok';
+  if (!OneSignal.Notifications.isPushSupported()) returnValue = 'not-supported';
+  else if (!OneSignal.Notifications.permission)
+    returnValue = 'no-permission-granted';
+  else if (!OneSignal.User.PushSubscription.optedIn)
+    returnValue = 'not-opted-in';
+  if (isDebugMode) console.log(`One Signal: Push Status is "${returnValue}"`);
+  return returnValue;
+};
 
-const requestPermission = () =>
-  OneSignal.Notifications.requestPermission().then(hasPermission);
+const requestPush = async () => {
+  await OneSignal.setConsentGiven(true);
+  await OneSignal.User.PushSubscription.optIn();
+  await OneSignal.Notifications.requestPermission();
+  return getPushStatus();
+};
 
 export default {
   init,
-  login,
-  logout,
-  getUser,
-  hasPermission,
-  requestPermission,
+  setExternalId,
+  requestPush,
+  getPushStatus,
 };
