@@ -18,11 +18,6 @@ const init = async () => {
       welcomeNotification: {
         disable: true,
       },
-      serviceWorkerPath: '/sw.js',
-      serviceWorkerUpdaterPath: '/sw.js',
-      serviceWorkerParam: {
-        scope: '/',
-      },
       allowLocalhostAsSecureOrigin: isLocal,
       autoResubscribe: true,
       autoRegister: false,
