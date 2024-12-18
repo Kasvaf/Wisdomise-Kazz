@@ -61,10 +61,10 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   }, [searchParams, setImediateLogin, setSearchParams]);
 
   useEffect(() => {
-    if (isLoggedIn && account?.email && account.info) {
-      void oneSignal.login(account?.email);
-    } else {
-      void oneSignal.logout();
+    if (!isLoggedIn) {
+      void oneSignal.setExternalId(undefined);
+    } else if (account?.email && account.info) {
+      void oneSignal.setExternalId(account.email);
     }
   }, [isLoggedIn, account?.email, account?.info]);
 
