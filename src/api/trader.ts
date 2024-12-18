@@ -20,19 +20,18 @@ export const useUserAssets = () => {
     ['user-assets'],
     async () => {
       const { data } = await axios.get<{
-        pairs: Array<{
-          slug?: string;
-          pair_slug: string;
+        symbols: Array<{
+          slug: string;
           amount: string;
           usd_equity: string;
           position_keys: string[];
         }>;
       }>('/trader/overview');
 
-      return data.pairs.map(
+      return data.symbols.map(
         x =>
           ({
-            slug: x.slug ?? x.pair_slug.split('/')?.[0],
+            slug: x.slug,
             usd_equity: Number(x.usd_equity),
             amount: Number(x.amount),
             position_keys: x.position_keys,
