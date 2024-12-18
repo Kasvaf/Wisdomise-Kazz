@@ -25,6 +25,7 @@ errors:
   network-error: インターネット接続に問題があります。
 new: 新しい
 not-available: 該当なし
+or: または
 order-type:
   limit: 限界
   market: 市場（マーケット）

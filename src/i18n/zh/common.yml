@@ -25,6 +25,7 @@ errors:
   network-error: 您的網絡連接出現問題。
 new: 新的
 not-available: 不適用
+or: 或者
 order-type:
   limit: 限制
   market: 市場
