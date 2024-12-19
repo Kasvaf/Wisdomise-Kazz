@@ -11,6 +11,7 @@ import { useShare } from 'shared/useShare';
 import useIsMobile from 'utils/useIsMobile';
 // eslint-disable-next-line import/max-dependencies
 import { ECharts } from 'shared/ECharts';
+import { AccessSheild } from 'shared/AccessSheild';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 
 export const TechnicalChartWidget: FC<{
@@ -260,7 +261,10 @@ export const TechnicalChartWidget: FC<{
   );
 
   return (
-    <div className="space-y-6 rounded-xl bg-v1-surface-l3 p-6" ref={el}>
+    <div
+      className="space-y-6 rounded-xl bg-v1-surface-l3 p-6 mobile:p-4"
+      ref={el}
+    >
       <div className="flex items-start justify-between gap-px">
         <div className="space-y-1">
           <div
@@ -302,7 +306,7 @@ export const TechnicalChartWidget: FC<{
         </button>
       </div>
       <div>
-        <div className="relative">
+        <AccessSheild mode="children" size={1} level={2} className="relative">
           <ECharts
             initOptions={{
               height: '500px',
@@ -323,7 +327,7 @@ export const TechnicalChartWidget: FC<{
             options={options}
             className="overflow-hidden rounded-xl"
           />
-        </div>
+        </AccessSheild>
       </div>
     </div>
   );
