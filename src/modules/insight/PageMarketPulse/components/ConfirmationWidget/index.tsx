@@ -20,6 +20,7 @@ import { AccessSheild } from 'shared/AccessSheild';
 import { CoinLabels } from 'shared/CoinLabels';
 import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { IndicatorIcon } from '../IndicatorIcon';
 import {
   useConfirmationTabs,
   type ConfirmationType,
@@ -169,6 +170,7 @@ export function ConfirmationWidget<I extends Indicator>({
               : '[&_b]:text-v1-content-negative',
           )}
         >
+          <IndicatorIcon value={indicator} className="mr-2 align-middle" />
           {type === 'bullish' ? (
             indicator === 'rsi' ? (
               <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />

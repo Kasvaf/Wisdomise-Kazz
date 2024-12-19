@@ -7,6 +7,7 @@ import {
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { AccessSheild } from 'shared/AccessSheild';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { IndicatorIcon } from '../IndicatorIcon';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
 
 export function RsiHeatmapWidget({ className }: { className?: string }) {
@@ -20,7 +21,12 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
   return (
     <OverviewWidget
       className={className}
-      title={t('common.rsi_heatmap')}
+      title={
+        <>
+          <IndicatorIcon value={'rsi'} className="mr-px align-middle" />
+          {t('common.rsi_heatmap')}
+        </>
+      }
       headerClassName="flex-wrap"
       contentClassName="!min-h-[450px]"
       loading={heatmap.isLoading}
