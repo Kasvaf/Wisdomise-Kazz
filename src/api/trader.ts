@@ -7,6 +7,7 @@ import {
 } from 'api/builder';
 import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
 import { type PageResponse } from './types/page';
+import { type Coin } from './types/shared';
 
 export interface UserAssetPair {
   slug: string;
@@ -47,29 +48,32 @@ export const useUserAssets = () => {
 
 export const useSupportedPairs = (baseSlug: string) => {
   return useQuery(
-    [],
+    ['supported-pairs', baseSlug],
     async () => {
       const { data } = await axios.get<{
-        pairs: [
-          {
-            base_slug: string;
-            base_name: string;
-            quote_slug: string;
-            quote_name: string;
-          },
-        ];
-      }>('pairs?base_slug=' + baseSlug);
-      return data.pairs;
+        results: Array<{
+          id: string;
+          name: string; // pair name
+          base: Coin;
+          quote: Coin;
+        }>;
+      }>('/delphi/market/pairs/', {
+        params: {
+          base_slug: baseSlug,
+          network_name: 'ton',
+          exchange_name: 'STONFI',
+        },
+      });
+      return data.results;
     },
     {},
   );
 };
 
 export const useIsPairSupported = (baseSlug: string) => {
-  console.log(baseSlug);
-  // const {data: pairs} = useSupportedPairs(baseSlug)
+  const { data: pairs } = useSupportedPairs(baseSlug);
   return (quoteSlug: string) => {
-    return quoteSlug === 'tether' || quoteSlug === 'the-open-network';
+    return pairs?.some(x => x.quote.slug === quoteSlug);
   };
 };
 
