@@ -38,7 +38,7 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
   );
 }
 
-export function ConfirmationInfoBadge<I extends Indicator>({
+export function ConfirmationBadge<I extends Indicator>({
   type,
   value,
   mini,
@@ -172,7 +172,9 @@ export function ConfirmationInfoBadge<I extends Indicator>({
     <HoverTooltip
       title={
         <div>
-          <p className="text-xxs text-v1-content-primary">{data.fullTitle}</p>
+          <p className="mb-1 text-xs text-v1-content-primary">
+            {data.fullTitle}
+          </p>
           <ConfirmationResolutionRow value={data.resolutions} />
         </div>
       }

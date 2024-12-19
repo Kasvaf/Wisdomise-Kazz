@@ -288,18 +288,17 @@ social-radar:
     market_cap:
       title: Market Cap
       info: >-
-        <b>Market Cap</b><br />Displays the total market capitalization of each
-        asset (coin or token), representing the current market value. Assets are
-        also categorized as High, Mid, or Low based on their market cap, giving
-        you quick insight into their size and relative impact in the market.
+        Displays the total market capitalization of each asset (coin or token),
+        representing the current market value. Assets are also categorized as
+        High, Mid, or Low based on their market cap, giving you quick insight
+        into their size and relative impact in the market.
     price_info:
       title: Info
       info: >-
-        <b>Price</b><br />Current market value of the coin or token. <br /> <br
-        /> <b>24h Change</b><br />The asset's percentage change in price over
-        the last 24 hours. <br /> <br /> <b>Low 24h</b><br />Lowest price in the
-        last 24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the
-        last 24 hours.
+        <b>Price</b><p>Current market value of the coin or token.</p><br/><b>24h
+        Change</b><p>The asset's percentage change in price over the last 24
+        hours.</p><br/><b>Low 24h</b><p>Lowest price in the last 24
+        hours.</p><br/><b>High 24h</b><p>Highest price in the last 24 hours.</p>
     rank: Rank
     search: Search Coin...
     sentiment:

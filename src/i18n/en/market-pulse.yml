@@ -1,4 +1,3 @@
-'2': ''
 common:
   24h_change: 24H Change
   active_timeframe: Active Timeframe
@@ -38,12 +37,14 @@ keywords:
     label_exact: MACD Bullish Divergence
     label_small: Bullish Div
   macd_cross_down:
+    info: MACD Crossing Below The Signal Line Indicates Bearish Momentum
     label_equiv: Down-Trend
-    label_exact: MACD Cross Signal Line
+    label_exact: MACD Bearish Cross Signal Line
     label_small: MACD Cross
   macd_cross_up:
+    info: MACD Crossing Above The Signal Line Indicates Bullish Momentum
     label_equiv: Up-Trend
-    label_exact: MACD Cross Signal Line
+    label_exact: MACD Bullish Cross Signal Line
     label_small: MACD Cross
   rsi_bearish:
     title: RSI <b>Bearish Confirmation</b>
@@ -63,12 +64,20 @@ keywords:
     label_exact: RSI Bullish Divergence
     label_semi: Bullish Divergence
     label_small: Bullish Div
+  rsi_macd_bearish:
+    info: Price Rises While RSI/MACD Falls, Hinting at a Possible Downward Reversal
+    label_exact: RSI/MACD Bearish Divergence
+  rsi_macd_bullish:
+    info: Price Falls While RSI/MACD Rises, Signaling a Potential Upward Reversal
+    label_exact: RSI/MACD Bullish Divergence
   rsi_overbought:
+    info: Above 70 Indicates The Asset May be Overvalued and Ready for a Pullback
     label_equiv: Expensive
     label_exact: RSI Overbought
     label_range: Overbought Area
     label_small: Overbought
   rsi_oversold:
+    info: Below 30 Suggests The Asset May be Undervalued and Due for a Rebound
     label_equiv: Cheap
     label_exact: RSI Oversold
     label_range: Oversold Area
@@ -124,12 +133,18 @@ table:
   market_cap:
     title: Market Cap
     info: >-
-      <b>Market Cap</b><br />Displays the total market capitalization of each
-      asset (coin or token), representing the current market value. Assets are
-      also categorized as High, Mid, or Low based on their market cap, giving
-      you quick insight into their size and relative impact in the market.
+      Displays the total market capitalization of each asset (coin or token),
+      representing the current market value. Assets are also categorized as
+      High, Mid, or Low based on their market cap, giving you quick insight into
+      their size and relative impact in the market.
   price_info:
     title: Info
+    info: >-
+      <b>Price</b><br />Current market value of the coin or token. <br /> <br />
+      <b>24h Change</b><br />The asset's percentage change in price over the
+      last 24 hours. <br /> <br /> <b>Low 24h</b><br />Lowest price in the last
+      24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the last 24
+      hours.
   rank: Rank
   sort: Sort
   sorts:
@@ -138,6 +153,3 @@ table:
     rank: Wise Rank
   technical_sentiment:
     title: Technical Sentiment
-    info: >-
-      Wisdomise AI Analyzes Technical Sentiment for Each Asset (Coin or Token)
-      by Analyzing Their MACD/RSI stats.

@@ -49,8 +49,8 @@ export const TechnicalChartWidget: FC<{
       xAxis: [
         {
           type: 'value',
-          min: parsedData.minX - 1,
-          max: parsedData.maxX + 1,
+          min: parsedData.minX - 2,
+          max: parsedData.maxX + 2,
           name: t('common.macd_wise_scoring'),
           nameLocation: 'middle',
           nameGap: 15,
@@ -110,8 +110,8 @@ export const TechnicalChartWidget: FC<{
       yAxis: [
         {
           type: 'value',
-          min: parsedData.minY - 1,
-          max: parsedData.maxY + 1,
+          min: parsedData.minY - 2,
+          max: parsedData.maxY + 2,
           name: t('common.rsi_wise_scoring'),
           nameLocation: 'middle',
           nameGap: 15,
@@ -175,11 +175,11 @@ export const TechnicalChartWidget: FC<{
           data: parsedData.data.map(bubble => ({
             value: [bubble.x, bubble.y, bubble.size],
             itemStyle: {
-              color: 'rgba(0, 0, 0, 0.06)',
+              color: bubble.color,
               borderWidth: 4,
-              borderColor: bubble.color,
+              borderColor: bubble.borderColor,
               shadowColor: 'black',
-              shadowBlur: 5,
+              shadowBlur: 1,
             },
             name: bubble.label,
           })),

@@ -135,12 +135,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       {
         title: [
           t('social-radar.table.market_cap.title'),
-          <Fragment key="2">
-            <Trans
-              ns="coin-radar"
-              i18nKey="social-radar.table.market_cap.info"
-            />
-          </Fragment>,
+          t('social-radar.table.market_cap.info'),
         ],
         width: 140,
         render: (_, row) => (
@@ -150,12 +145,15 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       {
         title: [
           t('social-radar.table.price_info.title'),
-          <Fragment key="2">
+          <div
+            key="2"
+            className="[&_b]:font-medium [&_p]:text-xs [&_p]:text-v1-content-secondary"
+          >
             <Trans
               ns="coin-radar"
               i18nKey="social-radar.table.price_info.info"
             />
-          </Fragment>,
+          </div>,
         ],
         width: 240,
         render: (_, row) => (

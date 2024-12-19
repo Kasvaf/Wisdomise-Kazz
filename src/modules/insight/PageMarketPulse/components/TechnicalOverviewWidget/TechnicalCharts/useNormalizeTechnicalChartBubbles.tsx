@@ -13,6 +13,7 @@ export const useNormalizeTechnicalChartBubbles = (
       size: number;
       label: string;
       color: string;
+      borderColor: string;
     }> = [];
     const filteredData = data
       .filter(x =>
@@ -35,10 +36,14 @@ export const useNormalizeTechnicalChartBubbles = (
       const size = Math.abs((raw.data?.price_change_percentage_24h ?? 0) * 5);
       if (size < minSize) minSize = size;
       if (size > maxSize) maxSize = size;
-      const color =
+      const borderColor =
         (raw.data?.price_change_percentage_24h ?? 0) > 0
           ? '#00FFA3'
           : '#EA3E55';
+      const color =
+        (raw.data?.price_change_percentage_24h ?? 0) > 0
+          ? '#00FFA333'
+          : '#EA3E5533';
       const label = raw.symbol.abbreviation;
 
       bubbles = [
@@ -46,6 +51,7 @@ export const useNormalizeTechnicalChartBubbles = (
         {
           raw,
           label,
+          borderColor,
           color,
           size,
           x,
@@ -55,7 +61,7 @@ export const useNormalizeTechnicalChartBubbles = (
 
       if (bubbles.length >= 10) break;
     }
-    const sizeOffset = 25 - minSize;
+    const sizeOffset = 32 - minSize;
 
     for (const bubbleA of bubbles) {
       bubbleA.size = Math.min(bubbleA.size + sizeOffset, 100);

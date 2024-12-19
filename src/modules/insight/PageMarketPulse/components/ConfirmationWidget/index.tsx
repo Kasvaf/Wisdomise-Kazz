@@ -25,7 +25,7 @@ import {
   type ConfirmationType,
 } from './useConfirmationTabs';
 import { ConfirmationAnalysis } from './ConfirmationAnalysis';
-import { ConfirmationInfoBadge } from './ConfirmationInfoBadge';
+import { ConfirmationBadge } from './ConfirmationBadge';
 import { ConfirmationTimeframeBadge } from './ConfirmationTimeframeBadge';
 
 function ConfirmationRow<I extends Indicator>({
@@ -42,7 +42,7 @@ function ConfirmationRow<I extends Indicator>({
   className?: string;
 }) {
   const infoBadges = useMemo(() => {
-    let returnValue: Array<ComponentProps<typeof ConfirmationInfoBadge>> = [];
+    let returnValue: Array<ComponentProps<typeof ConfirmationBadge>> = [];
     returnValue =
       type === 'bullish'
         ? [
@@ -108,7 +108,7 @@ function ConfirmationRow<I extends Indicator>({
         />
         <div className="flex grow items-center justify-end gap-2 2xl:gap-3">
           {infoBadges.map((badgeProps, i) => (
-            <ConfirmationInfoBadge
+            <ConfirmationBadge
               key={`${indicator as string}-${type}-${i}`}
               {...badgeProps}
             />

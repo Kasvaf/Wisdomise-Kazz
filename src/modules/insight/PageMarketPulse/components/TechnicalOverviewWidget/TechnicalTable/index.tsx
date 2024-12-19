@@ -16,6 +16,7 @@ import { CoinSearchInput } from 'modules/insight/coinRadar/PageCoinRadar/compone
 import { NetworkSelect } from 'modules/insight/coinRadar/PageCoinRadar/components/NetworkSelect';
 import { CategoriesSelect } from 'modules/insight/coinRadar/PageCoinRadar/components/CategoriesSelect';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalSentiment } from './TechnicalSentiment';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Logo } from './logo.svg';
@@ -94,7 +95,7 @@ export const TechnicalTable: FC = () => {
             <Logo className="inline-block size-4 grayscale" />
             {t('table.technical_sentiment.title')}
           </span>,
-          t('table.technical_sentiment.info'),
+          <ConfirmationBadgesInfo key="2" />,
         ],
         width: 310,
         render: (_, row) => <TechnicalSentiment value={row} />,
@@ -109,7 +110,12 @@ export const TechnicalTable: FC = () => {
       {
         title: [
           t('table.price_info.title'),
-          <Trans key="2" i18nKey="table.price_info.info" ns="market-pulse" />,
+          <div
+            key="2"
+            className="[&_b]:font-medium [&_p]:text-xs [&_p]:text-v1-content-secondary"
+          >
+            <Trans i18nKey="table.price_info.info" ns="market-pulse" />
+          </div>,
         ],
         width: 240,
         render: (_, row) => (
