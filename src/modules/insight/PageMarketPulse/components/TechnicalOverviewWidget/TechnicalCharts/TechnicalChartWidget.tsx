@@ -1,7 +1,7 @@
 import { useMemo, useRef, type FC, useCallback, type MouseEvent } from 'react';
 import { clsx } from 'clsx';
 import html2canvas from 'html2canvas';
-import { bxDownload } from 'boxicons-quasar';
+import { bxShareAlt } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
@@ -306,7 +306,7 @@ export const TechnicalChartWidget: FC<{
             (!isLoggedIn || subscription.level < 2) && 'hidden',
           )}
         >
-          <Icon name={bxDownload} size={16} />
+          <Icon name={bxShareAlt} size={16} />
           {t('common.share')}
         </button>
       </div>
