@@ -1,28 +1,16 @@
-import {
-  useMemo,
-  useRef,
-  type FC,
-  useCallback,
-  type MouseEvent,
-  useState,
-} from 'react';
-import { Scatter, type ScatterConfig } from '@ant-design/plots';
+import { useMemo, useRef, type FC, useCallback, type MouseEvent } from 'react';
 import { clsx } from 'clsx';
 import html2canvas from 'html2canvas';
 import { bxDownload } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useTimeout } from 'usehooks-ts';
+import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
 import { type TechnicalRadarCoin } from 'api/market-pulse';
-import { Coin } from 'shared/Coin';
-import { ReadableNumber } from 'shared/ReadableNumber';
-import { antChartTooltipConfig } from 'shared/HoverTooltip';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
 import Icon from 'shared/Icon';
 import { useShare } from 'shared/useShare';
 import useIsMobile from 'utils/useIsMobile';
-import { isDebugMode } from 'utils/version';
 // eslint-disable-next-line import/max-dependencies
+import { ECharts } from 'shared/ECharts';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 
 export const TechnicalChartWidget: FC<{
@@ -30,218 +18,218 @@ export const TechnicalChartWidget: FC<{
   data: TechnicalRadarCoin[];
 }> = ({ data, type }) => {
   const { t } = useTranslation('market-pulse');
-  const chartRef = useRef();
   const isMobile = useIsMobile();
   const [share] = useShare('share');
   const el = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(data, type);
-  const [animation, setAnimation] = useState(true);
 
-  const config = useMemo<ScatterConfig>(() => {
+  const options = useMemo<EChartsOption>(() => {
     return {
-      padding: [32, 32, 42, 42],
-      appendPadding: 0,
-      data: parsedData,
-      height: 500,
-      xField: 'x',
-      yField: 'y',
-      colorField: 'color',
-      animation,
-      pointStyle: x => {
-        return {
-          fill: 'black',
-          fillOpacity: 0.2,
-          stroke: x?.color,
-          lineWidth: 2,
-          shadowColor: x?.color,
-          shadowBlur: 15,
-        };
-      },
-      interactions: [{ type: 'element-highlight' }],
-      state: {
-        active: {
-          style: {
-            stroke: 'white',
-            strokeOpacity: 0.8,
-            fillOpacity: 0.3,
-            zIndex: 2,
-          },
-        },
-      },
-      sizeField: 'size',
-      size: [19, 40],
-      shape: 'circle',
-      yAxis: {
-        nice: true,
-        label: null,
-        line: null,
-        grid: {
-          line: {
-            style: {
-              stroke: 'rgba(255, 255, 255, 0.12)',
-              lineWidth: 1,
-              lineDash: [2, 2],
-            },
-          },
-        },
-        tickCount: 25,
-        title: {
-          text: t('common.rsi_wise_scoring'),
-          position: 'center',
-          style: {
-            fill: '#fff',
-          },
-          offset: 20,
-        },
-      },
-      xAxis: {
-        nice: true,
-        label: null,
-        line: null,
-        grid: {
-          line: {
-            style: {
-              stroke: 'rgba(255, 255, 255, 0.12)',
-              lineWidth: 1,
-              lineDash: [2, 2],
-            },
-          },
-        },
-        tickCount: 25,
-        title: {
-          text: t('common.macd_wise_scoring'),
-          position: 'center',
-          style: {
-            fill: '#fff',
-          },
-          offset: 20,
-        },
-      },
-      brush: {
-        enabled: true,
-      },
       tooltip: {
-        ...antChartTooltipConfig,
-        offset: 24,
-        customContent: (_, data) => {
-          const point = data[0]?.data as (typeof parsedData)[0];
-          const item: TechnicalRadarCoin | undefined = point?.raw;
-          if (!item) return;
-          return (
-            <div>
-              <div>
-                <Coin
-                  coin={item.symbol}
-                  popup={false}
-                  nonLink
-                  truncate={false}
-                />
-              </div>
-              {isDebugMode && (
-                <code className="whitespace-pre font-mono text-xxs font-light text-v1-background-notice">
-                  {JSON.stringify(
-                    {
-                      score: item.score,
-                      rsi_score: item.rsi_score,
-                      macd_score: item.macd_score,
-                      x: point.x,
-                      y: point.y,
-                      size: point.size,
-                    },
-                    null,
-                    1,
-                  )}
-                </code>
-              )}
-              <p className="flex justify-between gap-2">
-                <b>{t('common.price')}:</b>
-                <ReadableNumber
-                  popup="never"
-                  value={item.data?.current_price}
-                  label="$"
-                />
-              </p>
-              <p className="flex justify-between gap-2">
-                <b>{t('common.price_change_24h')}:</b>
-                <DirectionalNumber
-                  popup="never"
-                  value={item.data?.price_change_percentage_24h}
-                  label="%"
-                  showIcon={false}
-                  showSign
-                />
-              </p>
-            </div>
-          );
+        trigger: 'item',
+        valueFormatter(_, dataIndex) {
+          const raw = parsedData.data?.[dataIndex]?.raw;
+          if (!raw) return '';
+          return raw.symbol.name;
         },
       },
-      legend: false,
-      chartRef,
-      label: {
-        formatter: x => x?.label,
-        autoRotate: true,
-        offsetY: 13,
-        style: {
-          fill: 'white',
-          fontWeight: 'bold',
-          zIndex: 0,
-        },
-        layout: {
-          type: 'limitInShape',
-        },
+      grid: {
+        left: 45,
+        bottom: 45,
+        top: 20,
+        right: 20,
+        containLabel: true,
       },
-      style: {
-        background:
-          type === 'cheap_bullish'
-            ? 'linear-gradient(225deg, #0A5740, transparent)'
-            : 'linear-gradient(225deg, #5D1A22, transparent)',
-      },
-      renderer: 'canvas',
-      className: 'rounded-xl overflow-hidden',
-      annotations: [
+      xAxis: [
         {
-          type: 'text',
-          position: ['max', 'min'], // Position at max x and y=0
-          content:
-            type === 'cheap_bullish'
-              ? `${t('keywords.macd_bullish.label_equiv')} ➡️`
-              : `${t('keywords.macd_bearish.label_equiv')} ➡️`,
-          style: {
-            fill: 'white',
-            fontSize: 12,
-            textAlign: 'end',
+          type: 'value',
+          min: parsedData.minX - 1,
+          max: parsedData.maxX + 1,
+          name: t('common.macd_wise_scoring'),
+          nameLocation: 'middle',
+          nameGap: 15,
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 15,
+            fontWeight: 'bold',
           },
-          rotate: 0,
-          offsetY: 20, // Adjust position above x-axis
+          axisLabel: {
+            show: false,
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: type === 'cheap_bullish' ? '#00ffa3' : '#f14056',
+              width: 6,
+            },
+            onZero: false,
+            symbol: ['none', 'arrow'],
+            symbolSize: [15, 15],
+            symbolOffset: [0, 5],
+          },
+          axisTick: {
+            show: false,
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: 'rgba(255, 255, 255, 0.09)',
+              type: 'dashed',
+            },
+          },
         },
         {
-          type: 'text',
-          position: ['min', 'max'],
-          content:
+          type: 'value',
+          position: 'bottom',
+          name:
             type === 'cheap_bullish'
-              ? `${t('keywords.rsi_oversold.label_equiv')} ➡️`
-              : `${t('keywords.rsi_overbought.label_equiv')} ➡️`,
-          style: {
-            fill: 'white',
-            fontSize: 12,
-            textAlign: 'end',
+              ? t('keywords.macd_bullish.label_equiv')
+              : t('keywords.macd_bearish.label_equiv'),
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 14,
+            backgroundColor: '#333F4D',
+            borderRadius: 8,
+            padding: 7,
           },
-          rotate: -Math.PI / 2,
-          offsetX: -16, // Adjust position to the left of y-axis
+          zlevel: 1,
+          nameGap: -75,
+          nameLocation: 'end',
+          axisLine: {
+            show: false,
+            onZero: false,
+          },
         },
       ],
-      onEvent: (_, e) => {
-        if (e.type !== 'click') return;
-        const item: undefined | TechnicalRadarCoin = e?.data?.data?.raw;
-        if (!item) return;
-        navigate(`/coin/${item.symbol.slug ?? ''}`);
+      yAxis: [
+        {
+          type: 'value',
+          min: parsedData.minY - 1,
+          max: parsedData.maxY + 1,
+          name: t('common.rsi_wise_scoring'),
+          nameLocation: 'middle',
+          nameGap: 15,
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 15,
+            fontWeight: 'bold',
+          },
+          axisLabel: {
+            show: false,
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: type === 'cheap_bullish' ? '#00ffa3' : '#f14056',
+              width: 6,
+            },
+            onZero: false,
+            symbol: ['none', 'arrow'],
+            symbolSize: [15, 15],
+            symbolOffset: [0, 5],
+          },
+          axisTick: {
+            show: false,
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: 'rgba(255, 255, 255, 0.09)',
+              width: 1,
+              type: 'dashed',
+            },
+          },
+        },
+        {
+          type: 'value',
+          position: 'left',
+          name:
+            type === 'cheap_bullish'
+              ? t('keywords.rsi_oversold.label_equiv')
+              : t('keywords.rsi_overbought.label_equiv'),
+          nameTextStyle: {
+            color: 'white',
+            fontSize: 14,
+            backgroundColor: '#333F4D',
+            borderRadius: 8,
+            padding: 7,
+          },
+          zlevel: 1,
+          nameGap: -45,
+          nameLocation: 'end',
+          axisLine: {
+            show: false,
+            onZero: false,
+          },
+        },
+      ],
+      series: [
+        {
+          type: 'scatter',
+          data: parsedData.data.map(bubble => ({
+            value: [bubble.x, bubble.y, bubble.size],
+            itemStyle: {
+              color: 'rgba(0, 0, 0, 0.06)',
+              borderWidth: 4,
+              borderColor: bubble.color,
+              shadowColor: 'black',
+              shadowBlur: 5,
+            },
+            name: bubble.label,
+          })),
+          symbolSize: data => data[2],
+          large: true,
+          label: {
+            show: true,
+            position: 'inside',
+            color: 'white',
+            fontSize: 14,
+            fontWeight: 'bold',
+            opacity: 1,
+            formatter: x => x.name,
+          },
+        } satisfies ScatterSeriesOption,
+      ],
+      dataZoom: [
+        {
+          type: 'inside',
+          xAxisIndex: 0,
+          filterMode: 'filter',
+        },
+        {
+          type: 'inside',
+          yAxisIndex: 0,
+          filterMode: 'filter',
+        },
+      ],
+      backgroundColor: {
+        type: 'linear',
+        x: 0,
+        y: 1,
+        x2: 1,
+        y2: 0,
+        colorStops: [
+          {
+            color: 'transparent',
+            offset: 0,
+          },
+          {
+            color: type === 'cheap_bullish' ? '#0A5740' : '#5D1A22',
+            offset: 1,
+          },
+        ],
       },
-      autoFit: true,
+      touchAction: 'none', // Ensure touch events are handled by the chart
+      toolbox: {
+        show: true,
+        padding: 10,
+        feature: {
+          dataZoom: {},
+        },
+      },
     };
-  }, [parsedData, animation, t, type, navigate]);
-
-  useTimeout(() => setAnimation(false), 1000);
+  }, [parsedData, t, type]);
 
   const shareImage = useCallback(
     async (e: MouseEvent<HTMLButtonElement>) => {
@@ -315,7 +303,26 @@ export const TechnicalChartWidget: FC<{
       </div>
       <div>
         <div className="relative">
-          <Scatter {...config} />
+          <ECharts
+            initOptions={{
+              height: '500px',
+              width: 'auto',
+              renderer: 'canvas',
+            }}
+            onClick={e => {
+              if (
+                e.componentSubType === 'scatter' &&
+                typeof e.dataIndex === 'number' &&
+                parsedData.data[e.dataIndex]
+              ) {
+                navigate(
+                  `/coin/${parsedData.data[e.dataIndex].raw.symbol.slug ?? ''}`,
+                );
+              }
+            }}
+            options={options}
+            className="overflow-hidden rounded-xl"
+          />
         </div>
       </div>
     </div>

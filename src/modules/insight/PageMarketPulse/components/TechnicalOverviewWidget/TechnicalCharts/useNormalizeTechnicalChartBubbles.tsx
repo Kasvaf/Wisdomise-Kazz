@@ -27,10 +27,14 @@ export const useNormalizeTechnicalChartBubbles = (
           ? (b.score ?? 0) - (a.score ?? 0)
           : (a.score ?? 0) - (b.score ?? 0),
       );
+    let minSize = 0;
+    let maxSize = 0;
     for (const raw of filteredData) {
       const x = (raw.macd_score ?? 0) * (type === 'expensive_bearish' ? -1 : 1);
       const y = (raw.rsi_score ?? 0) * (type === 'expensive_bearish' ? -1 : 1);
-      const size = Math.abs(raw.data?.price_change_percentage_24h ?? 0);
+      const size = Math.abs((raw.data?.price_change_percentage_24h ?? 0) * 5);
+      if (size < minSize) minSize = size;
+      if (size > maxSize) maxSize = size;
       const color =
         (raw.data?.price_change_percentage_24h ?? 0) > 0
           ? '#00FFA3'
@@ -51,18 +55,10 @@ export const useNormalizeTechnicalChartBubbles = (
 
       if (bubbles.length >= 10) break;
     }
-
-    // const minX = Math.min(...bubbles.map(({ x }) => x));
-    // const minY = Math.min(...bubbles.map(({ y }) => y));
-    // for (const bubble of bubbles) {
-    //   bubble.x += Math.abs(minX);
-    //   bubble.y += Math.abs(minY);
-    //   if (type === 'expensive_bearish') {
-    //     bubble.y =
-    //   }
-    // }
+    const sizeOffset = 25 - minSize;
 
     for (const bubbleA of bubbles) {
+      bubbleA.size = Math.min(bubbleA.size + sizeOffset, 100);
       for (const bubbleB of bubbles) {
         if (
           Math.abs(bubbleA.x - bubbleB.x) < 0.5 &&
@@ -77,5 +73,13 @@ export const useNormalizeTechnicalChartBubbles = (
         }
       }
     }
-    return bubbles;
+    return {
+      data: bubbles,
+      minY: Math.min(...bubbles.map(({ y }) => y)),
+      maxY: Math.max(...bubbles.map(({ y }) => y)),
+      minX: Math.min(...bubbles.map(({ x }) => x)),
+      maxX: Math.max(...bubbles.map(({ x }) => x)),
+      minSize: Math.min(...bubbles.map(({ size }) => size)),
+      maxSize: Math.max(...bubbles.map(({ size }) => size)),
+    };
   }, [data, type]);
