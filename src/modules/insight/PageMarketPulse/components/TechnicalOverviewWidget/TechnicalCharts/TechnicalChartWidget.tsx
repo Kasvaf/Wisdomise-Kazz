@@ -12,6 +12,8 @@ import useIsMobile from 'utils/useIsMobile';
 // eslint-disable-next-line import/max-dependencies
 import { ECharts } from 'shared/ECharts';
 import { AccessSheild } from 'shared/AccessSheild';
+import { useSubscription } from 'api';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 
 export const TechnicalChartWidget: FC<{
@@ -24,6 +26,8 @@ export const TechnicalChartWidget: FC<{
   const el = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(data, type);
+  const subscription = useSubscription();
+  const isLoggedIn = useIsLoggedIn();
 
   const options = useMemo<EChartsOption>(() => {
     return {
@@ -299,6 +303,7 @@ export const TechnicalChartWidget: FC<{
             'inline-flex h-7 items-center gap-1 rounded-full px-3 text-xs',
             'bg-v1-surface-l4 transition-all hover:brightness-110 active:brightness-90',
             'disabled:animate-pulse disabled:brightness-75',
+            (!isLoggedIn || subscription.level < 2) && 'hidden',
           )}
         >
           <Icon name={bxDownload} size={16} />
