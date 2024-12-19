@@ -40,10 +40,10 @@ export const TechnicalChartWidget: FC<{
         },
       },
       grid: {
-        left: 45,
-        bottom: 45,
-        top: 20,
-        right: 20,
+        left: 42,
+        bottom: 42,
+        top: 16,
+        right: 16,
         containLabel: true,
       },
       xAxis: [
@@ -310,30 +310,28 @@ export const TechnicalChartWidget: FC<{
           {t('common.share')}
         </button>
       </div>
-      <div>
-        <AccessSheild mode="children" size={1} level={2} className="relative">
-          <ECharts
-            initOptions={{
-              height: '500px',
-              width: 'auto',
-              renderer: 'canvas',
-            }}
-            onClick={e => {
-              if (
-                e.componentSubType === 'scatter' &&
-                typeof e.dataIndex === 'number' &&
-                parsedData.data[e.dataIndex]
-              ) {
-                navigate(
-                  `/coin/${parsedData.data[e.dataIndex].raw.symbol.slug ?? ''}`,
-                );
-              }
-            }}
-            options={options}
-            className="overflow-hidden rounded-xl"
-          />
-        </AccessSheild>
-      </div>
+      <AccessSheild mode="children" size={1} level={2} className="relative">
+        <ECharts
+          initOptions={{
+            height: '500px',
+            width: 'auto',
+            renderer: 'canvas',
+          }}
+          onClick={e => {
+            if (
+              e.componentSubType === 'scatter' &&
+              typeof e.dataIndex === 'number' &&
+              parsedData.data[e.dataIndex]
+            ) {
+              navigate(
+                `/coin/${parsedData.data[e.dataIndex].raw.symbol.slug ?? ''}`,
+              );
+            }
+          }}
+          options={options}
+          className="overflow-hidden rounded-xl"
+        />
+      </AccessSheild>
     </div>
   );
 };
