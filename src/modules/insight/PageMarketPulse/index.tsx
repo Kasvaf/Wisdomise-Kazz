@@ -11,7 +11,7 @@ export default function PageMarketPulse() {
   const { t } = useTranslation('base');
   return (
     <PageWrapper>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
         <div className="col-span-full flex flex-wrap items-center justify-between gap-6 pt-2">
           <PageTitle
             title={t('menu.ai-indicators.title')}
