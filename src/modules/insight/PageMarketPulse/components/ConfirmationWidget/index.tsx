@@ -92,6 +92,7 @@ function ConfirmationRow<I extends Indicator>({
         <CoinLabels
           categories={value.symbol.categories}
           labels={value.symbol_labels}
+          networks={value.networks}
           suffix={
             <>
               <CoinSecurityLabel

@@ -185,6 +185,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           <CoinLabels
             categories={row.symbol.categories}
             labels={row.symbol_labels}
+            networks={row.networks}
             suffix={
               <CoinSecurityLabel
                 value={row.symbol_security?.data}

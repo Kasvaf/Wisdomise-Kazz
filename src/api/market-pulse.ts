@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { type PageResponse } from './types/page';
-import { type NetworkSecurity, type Coin } from './types/shared';
+import {
+  type NetworkSecurity,
+  type Coin,
+  type CoinNetwork,
+} from './types/shared';
 
 export interface RsiOvernessRow {
   candle_pair_name: string;
@@ -130,6 +134,7 @@ interface IndicatorConfirmationCore {
   symbol_security?: null | {
     data?: null | NetworkSecurity[];
   };
+  networks?: null | CoinNetwork[];
 }
 
 interface RsiConfirmation extends IndicatorConfirmationCore {
@@ -261,7 +266,8 @@ export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
       | (CoinMarketPulseMarketData & {
           market_cap_category?: string | null;
         });
-    networks_slug?: string[] | null;
+    networks_slug?: null | string[];
+    networks?: null | CoinNetwork[];
     score?: number | null;
     rsi_score?: null | number;
     macd_score?: null | number;

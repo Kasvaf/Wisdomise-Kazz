@@ -110,7 +110,6 @@ coin-details:
       whitepaper: Whitepaper
     coin_stats:
       circulating_supply: Circulating Supply
-      contract_address: Contract Address
       fdv: FDV
       fully_diluted_valuation: Fully Diluted Market Cap
       market_cap: Market Cap
@@ -215,10 +214,11 @@ coin-details:
       hold: Hold
       sell: Sell
 common:
+  categories: Categories
   labels: Labels
+  native_coin: Native Coin
+  networks: Networks
   price: Price
-contract-address:
-  multiple: Multiple Address
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar

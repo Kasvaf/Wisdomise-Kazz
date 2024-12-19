@@ -9,7 +9,6 @@ common:
   market_cap: Market Cap
   no_divergence: No Divergence
   overview: Overview
-  price: Price
   price_change: Price Change
   price_change_24h: Price Change (24H)
   rsi: RSI

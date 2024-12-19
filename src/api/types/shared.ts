@@ -83,3 +83,14 @@ export interface NetworkSecurity {
     transfer_pausable?: string | null;
   };
 }
+
+export interface CoinNetwork {
+  network: {
+    id: number;
+    name: string;
+    abbreviation: string;
+    icon_url: string;
+  };
+  contract_address: string;
+  symbol_network_type: 'COIN' | 'TOKEN';
+}
