@@ -1,29 +1,30 @@
-import { useMemo, useRef, type FC, useCallback, type MouseEvent } from 'react';
+import { useMemo, useRef, type FC } from 'react';
 import { clsx } from 'clsx';
-import html2canvas from 'html2canvas';
-import { bxShareAlt } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
+import { bxShareAlt } from 'boxicons-quasar';
 import { type TechnicalRadarCoin } from 'api/market-pulse';
-import Icon from 'shared/Icon';
-import { useShare } from 'shared/useShare';
-import useIsMobile from 'utils/useIsMobile';
 // eslint-disable-next-line import/max-dependencies
 import { ECharts } from 'shared/ECharts';
 import { AccessSheild } from 'shared/AccessSheild';
 import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import Icon from 'shared/Icon';
+import { useScreenshot } from 'shared/useScreenshot';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
+import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalChartWidget: FC<{
   type: 'cheap_bullish' | 'expensive_bearish';
   data: TechnicalRadarCoin[];
 }> = ({ data, type }) => {
   const { t } = useTranslation('market-pulse');
-  const isMobile = useIsMobile();
-  const [share] = useShare('share');
   const el = useRef<HTMLDivElement>(null);
+  const screenshot = useScreenshot(el, {
+    backgroundColor: '#1D1E23', // v1-surface-l3
+    fileName: `${type}-${Date.now()}`,
+  });
   const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(data, type);
   const subscription = useSubscription();
@@ -236,49 +237,28 @@ export const TechnicalChartWidget: FC<{
     };
   }, [parsedData, t, type]);
 
-  const shareImage = useCallback(
-    async (e: MouseEvent<HTMLButtonElement>) => {
-      if (!el.current) throw new Error('Element is not ready yet!');
-      (e.target as HTMLButtonElement).disabled = true;
-      const canvas = await html2canvas(el.current, {
-        backgroundColor: '#1D1E23', // v1-surface-l3
-        ignoreElements: x => !!x.hasAttribute('data-' + 'nocapture'),
-      });
-      const fileName = `${type}-${Date.now()}.png`;
-
-      if (isMobile) {
-        canvas.toBlob(blob => {
-          if (!blob) throw new Error('Error creating blob from html element!');
-          const file = new File([blob], fileName, { type: 'image/png' });
-          void share(file);
-          (e.target as HTMLButtonElement).disabled = false;
-        }, 'image/png');
-      } else {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = fileName;
-        link.click();
-        (e.target as HTMLButtonElement).disabled = false;
-      }
-    },
-    [isMobile, share, type],
-  );
-
   return (
     <div
-      className="space-y-6 rounded-xl bg-v1-surface-l3 p-6 mobile:p-4"
+      className={clsx(
+        'space-y-6 rounded-xl bg-v1-surface-l3 p-6 mobile:p-4',
+        '[&.capturing_[data-capture]]:block [&.capturing_[data-nocapture]]:hidden',
+      )}
       ref={el}
     >
       <div className="flex items-start justify-between gap-px">
         <div className="space-y-1">
           <div
             className={clsx(
-              'text-base font-medium text-v1-content-primary',
+              'text-base font-medium text-v1-content-primary [&_b]:font-medium',
               type === 'cheap_bullish'
                 ? '[&_b]:text-v1-content-positive'
                 : '[&_b]:text-v1-content-negative',
             )}
           >
+            {type === 'cheap_bullish'
+              ? t('common.rsi_macd_chart.opportunities')
+              : t('common.rsi_macd_chart.cautions')}
+            {': '}
             <b>
               {`${
                 type === 'cheap_bullish'
@@ -290,27 +270,28 @@ export const TechnicalChartWidget: FC<{
                   : t('keywords.rsi_bearish.label_equiv')
               }`}
             </b>{' '}
-            {t('common.rsi_macd_chart.title')}
+            {t('common.rsi_macd_chart.rsi_and_macd')}
           </div>
           <p className="text-xs text-v1-content-primary">
             {t('common.rsi_macd_chart.subtitle')}
           </p>
         </div>
+        <Logo className="hidden h-8 w-auto shrink-0 self-center" data-capture />
         <button
-          onClick={shareImage}
+          onClick={screenshot}
           data-nocapture
           className={clsx(
             'inline-flex h-7 items-center gap-1 rounded-full px-3 text-xs',
             'bg-v1-surface-l4 transition-all hover:brightness-110 active:brightness-90',
             'disabled:animate-pulse disabled:brightness-75',
-            (!isLoggedIn || subscription.level < 2) && 'hidden',
+            (!isLoggedIn || subscription.level < 1) && 'hidden',
           )}
         >
           <Icon name={bxShareAlt} size={16} />
           {t('common.share')}
         </button>
       </div>
-      <AccessSheild mode="children" size={1} level={2} className="relative">
+      <AccessSheild mode="children" size={1} level={1} className="relative">
         <ECharts
           initOptions={{
             height: '500px',
