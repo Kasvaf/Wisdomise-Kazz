@@ -1,4 +1,5 @@
 common:
+  24h_change: 24時間変更
   active_timeframe: アクティブ期間
   bearish:
     badge: 弱気配当
@@ -10,8 +11,26 @@ common:
     full_badge: 強気のダイバージェンス
     title: 強気
   bullish_momentum_confirmation: 強気の確認
+  chart_view: チャートビュー
+  div: 部門
   long_term: 長期
+  macd_wise_scoring: MACDワイズスコアリング
+  market_cap: 時価総額
+  no_divergence: 相違なし
+  overview: 概要
+  price_change: 価格変更
+  price_change_24h: 価格変更（24時間）
+  rsi: RSI
+  rsi_heatmap: RSI ヒートマップ
+  rsi_macd_chart:
+    cautions: 注意事項
+    opportunities: 機会
+    rsi_and_macd: (RSI+MACD)
+    subtitle: 各バブルのサイズは 24 時間の価格変動を反映します。
+  rsi_wise_scoring: RSIワイズスコアリング
+  share: 共有
   short_term: 短期
+  table_view: テーブルビュー
 indicator_list:
   advanced:
     label: 高度な
@@ -61,6 +80,61 @@ indicator_list:
     oversold_bullish:
       title: 安くて強気
     subtitle: カスタマイズされた RSI 分析情報を取得して取引戦略を改良し、高度なフィルターを活用して意思決定と明確さを向上させます。
+keywords:
+  macd_bearish:
+    info: MACD が勢いの弱まりを示し、下降トレンドの可能性を示唆しているときに、潜在的な売りポイントを見つけます。
+    label_equiv: 弱気
+    label_exact: MACD 弱気ダイバージェンス
+    label_small: 弱気配当
+    title: MACD <b>弱気相場の確認</b>
+  macd_bullish:
+    info: MACD が勢いの変化を示し、強気トレンドが形成されているときに、潜在的な購入機会を特定します。
+    label_equiv: 強気
+    label_exact: MACD 強気ダイバージェンス
+    label_small: 強気な配当
+    title: MACD <b>強気の確認</b>
+  macd_cross_down:
+    info: MACDがシグナルラインを下回ると弱気の勢いを示す
+    label_equiv: 下降トレンド
+    label_exact: MACD 弱気クロスシグナルライン
+    label_small: MACDクロス
+  macd_cross_up:
+    info: MACDがシグナルラインを上回ったことは強気の勢いを示している
+    label_equiv: 上昇トレンド
+    label_exact: MACD 強気クロスシグナルライン
+    label_small: MACDクロス
+  rsi_bearish:
+    info: コインが過大評価され、勢いが鈍化していることを示す潜在的な売りポイントを見つけます。
+    label_equiv: 弱気
+    label_exact: RSI 弱気ダイバージェンス
+    label_semi: 弱気のダイバージェンス
+    label_small: 弱気配当
+    title: RSSI <b>弱気相場の確認</b>
+  rsi_bullish:
+    info: コインが過小評価され、勢いが増す兆候が見られる場合、潜在的な購入機会を特定します。
+    label_equiv: 強気
+    label_exact: RSI 強気ダイバージェンス
+    label_semi: 強気のダイバージェンス
+    label_small: 強気な配当
+    title: RSSI <b>強気の確認</b>
+  rsi_macd_bearish:
+    info: RSI/MACDが下落する一方で価格が上昇し、下向き反転の可能性を示唆
+    label_exact: RSI/MACD 弱気ダイバージェンス
+  rsi_macd_bullish:
+    info: RSI/MACDが上昇する一方で価格は下落し、上昇反転の可能性を示唆している
+    label_exact: RSI/MACD 強気ダイバージェンス
+  rsi_overbought:
+    info: 70を超えると、資産が過大評価され、引き戻しの準備ができている可能性があることを示します。
+    label_equiv: 高い
+    label_exact: RSI 買われすぎ
+    label_range: 買われすぎエリア
+    label_small: 買われすぎ
+  rsi_oversold:
+    info: 30を下回ると、資産が過小評価されており、回復の時期が来ている可能性がある。
+    label_equiv: 安い
+    label_exact: RSI 売られすぎ
+    label_range: 売られ過ぎエリア
+    label_small: 売られ過ぎ
 onboarding:
   sec-1:
     content: 当社のテクニカル レーダー
@@ -96,3 +170,23 @@ screener:
     title: テクニカルレーダースクリーナーが起動しました!
   edit: スクリーナーを編集
   set: スクリーナーを設定する
+table:
+  labels: ラベル
+  market_cap:
+    info: <b>時価総額</b><br />各資産 (コインまたはトークン)
+      の合計時価総額を表示し、現在の市場価値を表します。資産は時価総額に基づいて高、中、低に分類されるため、資産の規模と市場における相対的な影響をすぐに把握できます。
+    title: 時価総額
+  name: 信号発信者名
+  price_info:
+    info: <b>価格</b><br />コインまたはトークンの現在の市場価値。 <br /> <br /> <b>24時間の変更</b><br />過去 24
+      時間の資産価格の変化率。 <br /> <br /> <b>24時間最低</b><br />過去24時間の最低価格。 <br /> <br />
+      <b>24時間最高</b><br />過去 24 時間の最高価格。
+    title: 情報
+  rank: ワイズランク
+  sort: 選別
+  sorts:
+    market_cap: 時価総額
+    price_change: 24時間変更
+    rank: ワイズランク
+  technical_sentiment:
+    title: テクニカルセンチメント

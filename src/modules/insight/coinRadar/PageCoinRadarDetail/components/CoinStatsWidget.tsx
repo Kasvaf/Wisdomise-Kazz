@@ -8,7 +8,6 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
-import { ContractAddress } from 'shared/ContractAddress';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 
 function StatRow({
@@ -159,15 +158,11 @@ export function CoinStatsWidget({
           label={coinOverview.data?.symbol.abbreviation}
         />
       </StatRow>
-      <StatRow label={t('coin-details.tabs.coin_stats.contract_address')}>
-        <ContractAddress value={coinOverview.data?.networks} />
-      </StatRow>
       {coinOverview.data?.security_data && (
         <StatRow label={t('coin-details.tabs.coin_stats.security_scan')}>
           <CoinSecurityLabel
             coin={coinOverview.data.symbol}
             value={coinOverview.data.security_data.map(x => x.symbol_security)}
-            chevron
           />
         </StatRow>
       )}

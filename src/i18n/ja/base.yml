@@ -17,6 +17,8 @@ menu:
     subtitle: アカウントの設定と管理
     title: アカウント
   ai-indicators:
+    subtitle: テクニカルレーダーで市場をナビゲート - 暗号通貨のトップランキング、トレンド、実用的な情報を提供するハブ
+      <b>RSI/MACDの洞察</b> よりスマートな取引決定のために
     title: テクニカルレーダー
   alerts:
     full-title: 通知とアラート

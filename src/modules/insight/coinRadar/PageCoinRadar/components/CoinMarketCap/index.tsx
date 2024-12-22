@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { type MarketData } from 'api/types/shared';
 import { ReactComponent as CapIcon } from './cap.svg';
 
 export function CoinMarketCap({
@@ -9,7 +8,10 @@ export function CoinMarketCap({
 }: {
   className?: string;
   linesClassName?: string;
-  marketData: MarketData;
+  marketData: {
+    market_cap_category?: string | null;
+    market_cap?: number | null;
+  };
 }) {
   return (
     <span className={clsx('inline-flex flex-col gap-px', className)}>

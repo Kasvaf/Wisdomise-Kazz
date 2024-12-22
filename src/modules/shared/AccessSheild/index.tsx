@@ -91,16 +91,22 @@ export function AccessSheild({
           enabled !== false && (
             <div
               className={clsx(
-                'absolute left-0 z-[2] min-h-[132px] w-full gap-2 rounded-xl px-4 py-1',
-                'flex flex-col items-center justify-center backdrop-blur',
-                'overflow-hidden bg-[rgba(29,38,47,0.2)]',
+                'absolute left-0 z-[2] w-full gap-2 rounded-xl px-4 py-1',
+                'flex flex-col items-center justify-center overflow-y-auto backdrop-blur',
+                'bg-[rgba(29,38,47,0.2)]',
               )}
               style={{
                 ...buttonPosition,
               }}
               data-pro-locker
             >
-              <div className="relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1">
+              <div
+                className={clsx(
+                  'relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1',
+                  (Number.parseInt(buttonPosition.height, 10) || 0) < 100 &&
+                    'hidden',
+                )}
+              >
                 <Logo />
               </div>
               <p className="text-center text-xs capitalize text-v1-content-primary">

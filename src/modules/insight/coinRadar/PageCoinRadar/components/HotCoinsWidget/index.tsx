@@ -130,32 +130,30 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row: CoinSignal) => <SignalSentiment signal={row} />,
+        render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
         title: [
           t('social-radar.table.market_cap.title'),
-          <Fragment key="2">
-            <Trans
-              ns="coin-radar"
-              i18nKey="social-radar.table.market_cap.info"
-            />
-          </Fragment>,
+          t('social-radar.table.market_cap.info'),
         ],
         width: 140,
-        render: (_, row: CoinSignal) => (
+        render: (_, row) => (
           <CoinMarketCap marketData={row.symbol_market_data} />
         ),
       },
       {
         title: [
           t('social-radar.table.price_info.title'),
-          <Fragment key="2">
+          <div
+            key="2"
+            className="[&_b]:font-medium [&_p]:text-xs [&_p]:text-v1-content-secondary"
+          >
             <Trans
               ns="coin-radar"
               i18nKey="social-radar.table.price_info.info"
             />
-          </Fragment>,
+          </div>,
         ],
         width: 240,
         render: (_, row) => (
@@ -180,11 +178,12 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       },
       {
         title: t('social-radar.table.labels.title'),
+        className: 'min-h-16 min-w-72',
         render: (_, row) => (
           <CoinLabels
-            className="min-h-16 min-w-72"
             categories={row.symbol.categories}
             labels={row.symbol_labels}
+            networks={row.networks}
             suffix={
               <CoinSecurityLabel
                 value={row.symbol_security?.data}

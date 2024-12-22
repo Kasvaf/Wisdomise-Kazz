@@ -1,10 +1,10 @@
-import { Tooltip } from 'antd';
 import { bxInfoCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import BetaVersion from 'shared/BetaVersion';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 import { ReactComponent as ProIcon } from './pro.svg';
 import { ReactComponent as RefreshIcon } from './refresh.svg';
@@ -56,9 +56,9 @@ export function OverviewWidget({
 }) {
   const { t } = useTranslation('common');
   const infoIcon = info && (
-    <Tooltip title={info}>
+    <HoverTooltip title={info}>
       <Icon name={bxInfoCircle} size={18} className="cursor-help" />
-    </Tooltip>
+    </HoverTooltip>
   );
   const badgeIcon =
     badge === 'pro' ? (
@@ -102,16 +102,16 @@ export function OverviewWidget({
           {(title || info || subtitle) && (
             <div>
               {(title || info) && (
-                <h2 className="flex items-center gap-2 text-base font-medium">
+                <div className="flex items-center gap-2 text-base font-medium">
                   {title}
                   {badgeIcon}
                   {infoIcon}
-                </h2>
+                </div>
               )}
               {subtitle && (
-                <p className="mt-2 text-xs font-normal text-v1-content-secondary">
+                <div className="mt-2 text-xs font-normal text-v1-content-secondary">
                   {subtitle}
-                </p>
+                </div>
               )}
             </div>
           )}

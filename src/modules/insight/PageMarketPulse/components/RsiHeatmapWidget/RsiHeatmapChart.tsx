@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { useMemo, useState, type ReactNode } from 'react';
-import { Tooltip } from 'antd';
 import { useTimeout } from 'usehooks-ts';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,6 +11,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { RsiNumber } from 'shared/RsiNumber';
 import { RsiDivergence } from 'shared/RsiDivergence';
+import { HoverTooltip } from 'shared/HoverTooltip';
 
 const AREA_SIZE_PERCENT = 42;
 const POINT_SIZE = 14;
@@ -64,21 +64,21 @@ function GuideBar() {
   return (
     <div
       className={clsx(
-        'flex shrink-0 flex-wrap items-center justify-center gap-x-6 gap-y-2 overflow-auto text-xs font-medium',
+        'flex shrink-0 flex-wrap justify-center gap-x-6 gap-y-2 overflow-auto text-xs font-medium',
         '[&>*]:inline-flex [&>*]:shrink-0 [&>*]:items-center [&>*]:gap-2',
       )}
     >
       <div>
         <div className="size-4 rounded bg-v1-content-positive" />
-        {t('indicator_list.rsi.heatmap.oversold_area')}
+        {t('keywords.rsi_oversold.label_range')}
       </div>
       <div>
         <div className="size-4 rounded bg-v1-content-negative" />
-        {t('indicator_list.rsi.heatmap.overbought_area')}
+        {t('keywords.rsi_overbought.label_range')}
       </div>
       <div>
         <div className="h-4 w-0 border-r-2 border-dashed border-r-v1-content-primary" />
-        {t('indicator_list.rsi.heatmap.price_change')}
+        {t('common.price_change')}
       </div>
       <div>
         <div
@@ -88,7 +88,7 @@ function GuideBar() {
             height: `${POINT_SIZE}px`,
           }}
         />
-        {t('indicator_list.rsi.heatmap.no_divergence')}
+        {t('common.no_divergence')}
       </div>
       <div>
         <div
@@ -98,7 +98,7 @@ function GuideBar() {
             height: `${POINT_SIZE}px`,
           }}
         />
-        {t('indicator_list.rsi.heatmap.bullish_divergence')}
+        {t('keywords.rsi_bullish.label_semi')}
       </div>
       <div>
         <div
@@ -108,7 +108,7 @@ function GuideBar() {
             height: `${POINT_SIZE}px`,
           }}
         />
-        {t('indicator_list.rsi.heatmap.bearish_divergence')}
+        {t('keywords.rsi_bearish.label_semi')}
       </div>
     </div>
   );
@@ -160,8 +160,8 @@ function CoinPoint({
   }, [value]);
 
   return (
-    <Tooltip
-      className="bg-v1-surface-l4"
+    <HoverTooltip
+      placement="top"
       title={
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between gap-6">
@@ -173,20 +173,20 @@ function CoinPoint({
             />
           </div>
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.24h_change')}
+            {t('common.24h_change')}
             <PriceChange value={value.data?.price_change_percentage_24h} />
           </div>
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.market_cap')}
+            {t('common.market_cap')}
             <ReadableNumber value={value.data?.market_cap} label="$" />
           </div>
           <div className="h-px bg-v1-content-primary opacity-10" />
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.rsi')} ({resolution.toUpperCase()})
+            {t('common.rsi')} ({resolution.toUpperCase()})
             <RsiNumber value={value.rsi_value} />
           </div>
           <div className="flex items-center justify-between gap-6">
-            {t('indicator_list.rsi.heatmap.div')} ({resolution.toUpperCase()})
+            {t('common.div')} ({resolution.toUpperCase()})
             <RsiDivergence value={value.divergence_type} />
           </div>
         </div>
@@ -256,7 +256,7 @@ function CoinPoint({
           }}
         />
       </div>
-    </Tooltip>
+    </HoverTooltip>
   );
 }
 
@@ -264,10 +264,12 @@ export function RsiHeatmapChart({
   className,
   data,
   resolution,
+  headerActions,
 }: {
   className?: string;
   data: Array<IndicatorHeatmap<'rsi'>>;
   resolution: IndicatorHeatmapResolution;
+  headerActions?: ReactNode;
 }) {
   const sortedData = useMemo(
     () =>
@@ -279,7 +281,15 @@ export function RsiHeatmapChart({
   );
   return (
     <div className={clsx('flex flex-col gap-3', className)}>
-      <GuideBar />
+      <div
+        className={clsx(
+          'flex flex-row flex-wrap gap-3',
+          headerActions ? 'justify-between' : 'justify-center',
+        )}
+      >
+        <GuideBar />
+        {headerActions}
+      </div>
       <div className="relative min-h-96 shrink-0 grow overflow-hidden rounded-xl">
         <div
           className="absolute size-full"

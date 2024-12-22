@@ -1,8 +1,41 @@
-import { Tooltip } from 'antd';
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
+
+export function CoinLogo({
+  coin,
+  className,
+}: {
+  coin: CoinType;
+  className?: string;
+}) {
+  return (
+    <div
+      className={clsx(
+        'relative overflow-hidden rounded-full bg-v1-surface-l6',
+        className,
+      )}
+    >
+      <div
+        className="absolute inset-0 size-full scale-150 bg-cover bg-center bg-no-repeat blur-md invert"
+        style={{
+          ...(typeof coin.logo_url === 'string' && {
+            backgroundImage: `url("${coin.logo_url}")`,
+          }),
+        }}
+      />
+      <div
+        className="absolute inset-0 size-full bg-cover bg-center bg-no-repeat"
+        style={{
+          ...(typeof coin.logo_url === 'string' && {
+            backgroundImage: `url("${coin.logo_url}")`,
+          }),
+        }}
+      />
+    </div>
+  );
+}
 
 export function Coin({
   className,
@@ -19,10 +52,16 @@ export function Coin({
   imageClassName?: string;
   nonLink?: boolean;
   mini?: boolean;
-  truncate?: boolean;
+  truncate?: boolean | number;
   popup?: boolean;
   noText?: boolean;
 }) {
+  const shouldTruncate =
+    truncate === true || (typeof truncate === 'number' && truncate > 0);
+  const tooltip =
+    popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug;
+  const renderText = noText !== true;
+  const truncateSize = typeof truncate === 'number' ? truncate : 110;
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2 pe-2',
     !mini && 'p-1',
@@ -32,91 +71,70 @@ export function Coin({
   );
   const content = (
     <>
-      <div
+      <CoinLogo
+        coin={coin}
         className={clsx(
-          'relative shrink-0 overflow-hidden rounded-full bg-v1-surface-l6',
+          'shrink-0',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
-      >
+      />
+      {renderText && (
         <div
-          className="absolute inset-0 size-full scale-150 bg-cover bg-center bg-no-repeat blur-md invert"
+          className={clsx('shrink grow leading-snug')}
           style={{
-            ...(typeof coin.logo_url === 'string' && {
-              backgroundImage: `url("${coin.logo_url}")`,
-            }),
+            maxWidth: shouldTruncate ? `${truncateSize}px` : 'auto',
           }}
-        />
-        <div
-          className="absolute inset-0 size-full bg-cover bg-center bg-no-repeat"
-          style={{
-            ...(typeof coin.logo_url === 'string' && {
-              backgroundImage: `url("${coin.logo_url}")`,
-            }),
-          }}
-        />
-      </div>
-      {!noText && (
-        <div
-          className={clsx(
-            'shrink grow leading-snug',
-            truncate && 'max-w-[110px]',
-          )}
         >
           <div
             className={clsx(
-              truncate && 'overflow-hidden text-ellipsis',
+              shouldTruncate && 'overflow-hidden text-ellipsis',
               'whitespace-nowrap',
             )}
           >
-            {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+            <div
+              className={clsx(
+                truncate && 'overflow-hidden text-ellipsis',
+                'whitespace-nowrap',
+              )}
+            >
+              {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+            </div>
+            {!mini && coin.abbreviation && (
+              <>
+                {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
+                <div
+                  className={clsx(
+                    truncate && 'overflow-hidden text-ellipsis',
+                    'whitespace-nowrap text-[80%] opacity-70',
+                  )}
+                >
+                  {coin.abbreviation ?? ''}
+                </div>
+              </>
+            )}
           </div>
-          {!mini && coin.abbreviation && (
-            <>
-              {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
-              <div
-                className={clsx(
-                  truncate && 'overflow-hidden text-ellipsis',
-                  'whitespace-nowrap text-[80%] opacity-70',
-                )}
-              >
-                {coin.abbreviation ?? ''}
-              </div>
-            </>
-          )}
         </div>
       )}
     </>
   );
+
   return (
-    <Tooltip
-      color="#151619"
-      overlayInnerStyle={{
-        padding: '0.75rem',
-        fontSize: '0.8rem',
-        fontFamily: 'monospace',
-        width: 'auto',
-      }}
-      title={
-        <div className="text-sm">
-          <div>{coin.name}</div>
-          <div className="text-[80%] opacity-70">{coin.abbreviation}</div>
-        </div>
-      }
-      overlayClassName="pointer-events-none"
-      open={popup === false ? false : undefined}
-    >
+    <>
       {nonLink || !coin.slug ? (
-        <span className={rootClassName}>{content}</span>
+        <span className={rootClassName} title={tooltip}>
+          {content}
+        </span>
       ) : (
         <Link
           className={clsx(rootClassName, gtmClass('coin_list-item'))}
           to={{
             pathname: `/coin/${coin.slug}`,
           }}
+          title={tooltip}
         >
           {content}
         </Link>
       )}
-    </Tooltip>
+    </>
   );
 }

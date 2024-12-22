@@ -69,6 +69,7 @@ export function CoinPriceWidget({
         <p className="text-xs text-v1-content-primary">{t('common.labels')}</p>
         <CoinLabels
           categories={coinOverview.data?.symbol.categories}
+          networks={coinOverview.data?.networks}
           labels={coinOverview.data?.symbol_labels}
         />
       </div>

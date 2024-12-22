@@ -8,14 +8,10 @@ export function ConfirmationAnalysis<I extends Indicator>({
 }) {
   if (!value.analysis) return null;
   return (
-    <div
-      className="flex items-center justify-start gap-2 rounded-lg p-3 text-xxs"
-      style={{
-        backgroundImage:
-          'linear-gradient(87deg, #00A3FF -46.14%, #FF00C7 201.39%)',
-      }}
-    >
-      <Icon className="size-4 shrink-0" />
+    <div className="flex items-center justify-start gap-2 rounded-lg bg-v1-surface-l4 p-3 text-xs">
+      <div className="flex size-6 shrink-0 items-center justify-center rounded bg-wsdm-gradient">
+        <Icon />
+      </div>
       <p>{value.analysis}</p>
     </div>
   );

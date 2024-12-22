@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { type FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { Tooltip } from 'antd';
 import { useInterval } from 'usehooks-ts';
+import { HoverTooltip } from './HoverTooltip';
 
 export const ReadableDate: FC<{
   value?: Date | string | number | null;
@@ -42,16 +42,9 @@ export const ReadableDate: FC<{
   }, refreshTime);
 
   return (
-    <Tooltip
-      color="#151619"
-      overlayInnerStyle={{
-        padding: '0.75rem',
-        fontSize: '0.8rem',
-        fontFamily: 'monospace',
-      }}
+    <HoverTooltip
       title={content?.tooltip}
-      overlayClassName="pointer-events-none"
-      open={popup && content?.tooltip ? undefined : false}
+      disabled={!popup || !content?.tooltip}
     >
       <time
         className={clsx(
@@ -61,6 +54,6 @@ export const ReadableDate: FC<{
       >
         {content?.label ?? emptyText ?? t('not-available')}
       </time>
-    </Tooltip>
+    </HoverTooltip>
   );
 };

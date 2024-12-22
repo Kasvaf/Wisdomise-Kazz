@@ -22,20 +22,13 @@ coin_labels:
       speculation.
   monthly_social_beloved:
     info: >-
-      The "Monthly Social Beloved" label is assigned to symbols that have
-      maintained a strong presence in social media discussions over the past
-      month. These symbols have been mentioned by numerous unique accounts,
-      reflecting long-term interest and engagement. This label is useful for
-      identifying symbols with enduring appeal and potential for stable
-      performance or long-term investment opportunities.
+      "Monthly Social Beloved" marks symbols with strong social media presence
+      and mentions by many unique accounts over the past month.
   weekly_social_beloved:
     info: >-
-      The "Weekly Social Beloved" label highlights symbols that have
-      consistently captured the attention of social media users over the past
-      week. These symbols have been frequently mentioned by a diverse set of
-      accounts, indicating sustained interest and engagement. This label is
-      ideal for identifying symbols that are gaining popularity and may have
-      potential for growth or volatility.
+      The "Weekly Social Beloved" label marks symbols that were popular on
+      social media over the past week. These symbols are frequently mentioned,
+      showing high interest and potential for growth or volatility.
 coin_security:
   contract_security: Contract Security
   fields:
@@ -117,7 +110,6 @@ coin-details:
       whitepaper: Whitepaper
     coin_stats:
       circulating_supply: Circulating Supply
-      contract_address: Contract Address
       fdv: FDV
       fully_diluted_valuation: Fully Diluted Market Cap
       market_cap: Market Cap
@@ -222,10 +214,11 @@ coin-details:
       hold: Hold
       sell: Sell
 common:
+  categories: Categories
   labels: Labels
+  native_coin: Native Coin
+  networks: Networks
   price: Price
-contract-address:
-  multiple: Multiple Address
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
@@ -295,18 +288,17 @@ social-radar:
     market_cap:
       title: Market Cap
       info: >-
-        <b>Market Cap</b><br />Displays the total market capitalization of each
-        asset (coin or token), representing the current market value. Assets are
-        also categorized as High, Mid, or Low based on their market cap, giving
-        you quick insight into their size and relative impact in the market.
+        Displays the total market capitalization of each asset (coin or token),
+        representing the current market value. Assets are also categorized as
+        High, Mid, or Low based on their market cap, giving you quick insight
+        into their size and relative impact in the market.
     price_info:
       title: Info
       info: >-
-        <b>Price</b><br />Current market value of the coin or token. <br /> <br
-        /> <b>24h Change</b><br />The asset's percentage change in price over
-        the last 24 hours. <br /> <br /> <b>Low 24h</b><br />Lowest price in the
-        last 24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the
-        last 24 hours.
+        <b>Price</b><p>Current market value of the coin or token.</p><br/><b>24h
+        Change</b><p>The asset's percentage change in price over the last 24
+        hours.</p><br/><b>Low 24h</b><p>Lowest price in the last 24
+        hours.</p><br/><b>High 24h</b><p>Highest price in the last 24 hours.</p>
     rank: Rank
     search: Search Coin...
     sentiment:

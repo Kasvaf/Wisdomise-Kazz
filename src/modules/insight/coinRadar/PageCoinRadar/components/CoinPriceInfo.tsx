@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { type MarketData } from 'api/types/shared';
 
 export function CoinPriceInfo({
   className,
@@ -10,7 +9,12 @@ export function CoinPriceInfo({
 }: {
   className?: string;
   linesClassName?: string;
-  marketData: MarketData;
+  marketData: {
+    current_price?: number | null;
+    price_change_percentage_24h?: number | null;
+    low_24h?: number | null;
+    high_24h?: number | null;
+  };
 }) {
   return (
     <span className={clsx('inline-flex flex-col', className)}>

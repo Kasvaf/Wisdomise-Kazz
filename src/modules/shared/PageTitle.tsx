@@ -11,16 +11,16 @@ export const PageTitle: FC<{
 }> = ({ className, title, description, icon: Icon, badge }) => (
   <div className={clsx('flex flex-col gap-2', className)}>
     {(title || Icon) && (
-      <h1 className="flex flex-row items-center gap-2 text-lg font-medium capitalize text-v1-content-primary">
+      <h1 className="flex flex-row items-center gap-2 text-lg font-medium text-v1-content-primary">
         {Icon && <Icon className="h-5 w-5" />}
         {title}
         {badge && <BetaVersion variant={badge} />}
       </h1>
     )}
     {description && (
-      <p className="text-sm font-normal capitalize text-v1-content-secondary">
+      <div className="text-sm font-normal text-v1-content-secondary">
         {description}
-      </p>
+      </div>
     )}
   </div>
 );

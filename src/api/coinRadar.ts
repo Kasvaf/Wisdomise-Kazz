@@ -6,6 +6,7 @@ import {
   type MarketData,
   type Coin,
   type NetworkSecurity,
+  type CoinNetwork,
 } from './types/shared';
 
 interface MarketInfoFromSignals {
@@ -91,6 +92,7 @@ export interface CoinSignal {
   first_signal_related_at: string;
   signals_analysis: CoinSignalAnalysis;
   symbol_labels?: null | string[];
+  networks?: null | CoinNetwork[];
 }
 
 export const useCoinSignals = (filters?: {
@@ -329,16 +331,6 @@ export const useRecommendChannelMutation = () =>
     },
   });
 
-export interface CoinNetwork {
-  network: {
-    id: number;
-    name: string;
-    abbreviation: string;
-    icon_url: string;
-  };
-  contract_address: string;
-  symbol_network_type: string;
-}
 export interface CoinOverview {
   symbol: Coin;
   related_at: string | null;
@@ -384,7 +376,7 @@ export interface CoinOverview {
     }>;
   };
   exchanges: CoinExchange[];
-  networks: CoinNetwork[];
+  networks?: null | CoinNetwork[];
   symbol_labels?: null | string[];
   charts_id?: null | {
     trading_view_chart_id?: null | string;

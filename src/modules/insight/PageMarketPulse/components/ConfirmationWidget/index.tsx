@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import {
   type ComponentProps,
   type ReactNode,
@@ -17,12 +17,16 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { AccessSheild } from 'shared/AccessSheild';
+import { CoinLabels } from 'shared/CoinLabels';
+import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { IndicatorIcon } from '../IndicatorIcon';
 import {
   useConfirmationTabs,
   type ConfirmationType,
 } from './useConfirmationTabs';
 import { ConfirmationAnalysis } from './ConfirmationAnalysis';
-import { ConfirmationInfoBadge } from './ConfirmationInfoBadge';
+import { ConfirmationBadge } from './ConfirmationBadge';
 import { ConfirmationTimeframeBadge } from './ConfirmationTimeframeBadge';
 
 function ConfirmationRow<I extends Indicator>({
@@ -34,32 +38,38 @@ function ConfirmationRow<I extends Indicator>({
 }: {
   indicator: I;
   value: IndicatorConfirmation<I>;
-  combination: Array<IndicatorConfirmationCombination<I>>;
+  combination: IndicatorConfirmationCombination[];
   type: ConfirmationType;
   className?: string;
 }) {
   const infoBadges = useMemo(() => {
-    let returnValue: Array<ComponentProps<typeof ConfirmationInfoBadge>> = [];
+    let returnValue: Array<ComponentProps<typeof ConfirmationBadge>> = [];
     returnValue =
       type === 'bullish'
         ? [
             {
               value,
-              type: indicator === 'rsi' ? 'oversold' : 'macd_cross_up',
+              type: indicator === 'rsi' ? 'rsi_oversold' : 'macd_cross_up',
             },
             {
               value,
-              type: 'bullish_divergence',
+              type:
+                indicator === 'rsi'
+                  ? 'rsi_bullish_divergence'
+                  : 'macd_bullish_divergence',
             },
           ]
         : [
             {
               value,
-              type: indicator === 'rsi' ? 'overbought' : 'macd_cross_down',
+              type: indicator === 'rsi' ? 'rsi_overbought' : 'macd_cross_down',
             },
             {
               value,
-              type: 'bearish_divergence',
+              type:
+                indicator === 'rsi'
+                  ? 'rsi_bearish_divergence'
+                  : 'macd_bearish_divergence',
             },
           ];
     return returnValue;
@@ -71,16 +81,35 @@ function ConfirmationRow<I extends Indicator>({
         className,
       )}
     >
-      <div className="flex flex-wrap items-start justify-between gap-4 2xl:flex-nowrap">
-        <Coin
-          coin={value.symbol}
-          className="text-xs"
-          imageClassName="2xl:size-10 size-6"
+      <div className="flex flex-nowrap items-center justify-start gap-4 mobile:flex-wrap">
+        <div className="w-32">
+          <Coin
+            coin={value.symbol}
+            className="text-xs"
+            imageClassName="size-6"
+            truncate={90}
+          />
+        </div>
+        <CoinLabels
+          categories={value.symbol.categories}
+          labels={value.symbol_labels}
+          networks={value.networks}
+          suffix={
+            <>
+              <CoinSecurityLabel
+                value={value.symbol_security?.data}
+                coin={value.symbol}
+              />
+              <ConfirmationTimeframeBadge
+                combination={combination}
+                value={value}
+              />
+            </>
+          }
         />
-        <div className="flex grow items-center justify-end gap-3 2xl:gap-10">
-          <ConfirmationTimeframeBadge combination={combination} value={value} />
+        <div className="flex grow items-center justify-end gap-2 2xl:gap-3">
           {infoBadges.map((badgeProps, i) => (
-            <ConfirmationInfoBadge
+            <ConfirmationBadge
               key={`${indicator as string}-${type}-${i}`}
               {...badgeProps}
             />
@@ -103,24 +132,14 @@ export function ConfirmationWidget<I extends Indicator>({
   type: ConfirmationType;
   headerActions?: ReactNode;
 }) {
-  const { t } = useTranslation('market-pulse');
   const tabs = useConfirmationTabs(indicator, type);
   const [autoSelect, setAutoSelect] = useState(true);
-  const [selectedTabKey, setSelectedTabKey] = useState<string>(tabs[0].key);
+  const [selectedTabKey, setSelectedTabKey] = useSearchParamAsState<string>(
+    `${indicator}-${type}`,
+    tabs[0].key,
+  );
   const selectedTab = tabs.find(row => row.key === selectedTabKey);
   if (!selectedTab) throw new Error('unexpected error');
-  const title =
-    type === 'bullish'
-      ? t('common.bullish_momentum_confirmation')
-      : t('common.bearish_momentum_confirmation');
-  const info =
-    type === 'bullish'
-      ? indicator === 'rsi'
-        ? t('indicator_list.rsi.bullish_info')
-        : t('indicator_list.macd.bullish_info')
-      : indicator === 'rsi'
-      ? t('indicator_list.rsi.bearish_info')
-      : t('indicator_list.macd.bearish_info');
   const confirmations = useIndicatorConfirmations({
     indicator,
     combination: selectedTab.combination,
@@ -142,8 +161,42 @@ export function ConfirmationWidget<I extends Indicator>({
   return (
     <OverviewWidget
       className={clsx('h-[750px]', className)}
-      title={title}
-      info={info}
+      title={
+        <div
+          className={clsx(
+            '[&_b]:font-medium',
+            type === 'bullish'
+              ? '[&_b]:text-v1-content-positive'
+              : '[&_b]:text-v1-content-negative',
+          )}
+        >
+          <IndicatorIcon value={indicator} className="mr-2 align-middle" />
+          {type === 'bullish' ? (
+            indicator === 'rsi' ? (
+              <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />
+            ) : (
+              <Trans ns="market-pulse" i18nKey="keywords.macd_bullish.title" />
+            )
+          ) : indicator === 'rsi' ? (
+            <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.title" />
+          ) : (
+            <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
+          )}
+        </div>
+      }
+      info={
+        type === 'bullish' ? (
+          indicator === 'rsi' ? (
+            <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.info" />
+          ) : (
+            <Trans ns="market-pulse" i18nKey="keywords.macd_bullish.info" />
+          )
+        ) : indicator === 'rsi' ? (
+          <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.info" />
+        ) : (
+          <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.info" />
+        )
+      }
       headerClassName="flex-wrap !justify-start"
       headerActions={
         <>

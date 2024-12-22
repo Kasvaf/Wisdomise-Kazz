@@ -7,35 +7,57 @@ export const useShare = (method?: 'copy' | 'share') => {
   const [notification, notificationContent] = useNotification();
 
   const action = useCallback(
-    async (text: string) => {
-      if (
-        'share' in navigator &&
-        'canShare' in navigator &&
-        method === 'share'
-      ) {
-        const canShare = navigator.canShare({
-          text,
-        });
-        if (canShare) {
-          await navigator.share({
-            text,
+    async (data: string | File) => {
+      if (typeof data === 'string') {
+        if (
+          'share' in navigator &&
+          'canShare' in navigator &&
+          method === 'share'
+        ) {
+          const canShare = navigator.canShare({
+            text: data,
           });
-          return true;
+          if (canShare) {
+            await navigator.share({
+              text: data,
+            });
+            return true;
+          }
+        }
+
+        if (
+          method === 'copy' &&
+          'clipboard' in navigator &&
+          'writeText' in navigator.clipboard
+        ) {
+          try {
+            await navigator.clipboard.writeText(data);
+            notification.success({
+              message: t('copied-to-clipboard'),
+              className: '[&_.ant-notification-notice-description]:hidden',
+            });
+            return true;
+          } catch {}
+          prompt('', data);
+        }
+      } else {
+        if (
+          'share' in navigator &&
+          'canShare' in navigator &&
+          method === 'share'
+        ) {
+          const canShare = navigator.canShare({
+            files: [data],
+          });
+          if (canShare) {
+            await navigator.share({
+              files: [data],
+            });
+            return true;
+          }
         }
       }
 
-      if ('clipboard' in navigator && 'writeText' in navigator.clipboard) {
-        try {
-          await navigator.clipboard.writeText(text);
-          notification.success({
-            message: t('copied-to-clipboard'),
-            className: '[&_.ant-notification-notice-description]:hidden',
-          });
-          return true;
-        } catch {}
-      }
-
-      prompt('', text);
       return true;
     },
     [method, notification, t],
