@@ -9,7 +9,6 @@ import { ReactComponent as CrossDown } from './crossdown.svg';
 
 export const ConfirmationBadgesInfo: FC = () => {
   const { t } = useTranslation('market-pulse');
-  // ('~NAITODO');
   const infos: Array<{
     icon: typeof OversoldIcon;
     title: string;
