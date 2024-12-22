@@ -13,8 +13,10 @@ common:
   rsi: RSI
   rsi_heatmap: RSI HeatMap
   rsi_macd_chart:
-    title: Chart (RSI+MACD)
-    subtitle: The Size of Each Bubble Reflects The 24-Hour Change.
+    subtitle: The Size of Each Bubble Reflects The 24-Hours Price Change.
+    cautions: Cautions
+    opportunities: Opportunities
+    rsi_and_macd: (RSI+MACD)
   rsi_wise_scoring: RSI Wise Scoring
   share: Share
   short_term: Short-Term
@@ -49,8 +51,8 @@ keywords:
   rsi_bearish:
     title: RSI <b>Bearish Confirmation</b>
     info: >-
-      Spot Potential Selling Points When Coins Are Overvalued and Indicate a
-      Slowdown in Momentum.
+      Identify Potential Buying Opportunities When Coins Are Under-valued and
+      Exhibit Signs of Increasing Momentum.
     label_equiv: Bearish
     label_exact: RSI Bearish Divergence
     label_semi: Bearish Divergence
