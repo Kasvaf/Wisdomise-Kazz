@@ -1,4 +1,5 @@
 common:
+  24h_change: 24小时变化
   active_timeframe: 活动时间范围
   bearish:
     badge: 看跌股息
@@ -10,8 +11,26 @@ common:
     full_badge: 看涨背离
     title: 看涨
   bullish_momentum_confirmation: 看涨确认
+  chart_view: 图表视图
+  div: 股利
   long_term: 长期
+  macd_wise_scoring: MACD 明智评分
+  market_cap: 市值
+  no_divergence: 无分歧
+  overview: 概述
+  price_change: 价格变动
+  price_change_24h: 价格变动（24小时）
+  rsi: RSI
+  rsi_heatmap: RSI 热图
+  rsi_macd_chart:
+    cautions: 注意事项
+    opportunities: 机会
+    rsi_and_macd: (RSI+MACD)
+    subtitle: 每个气泡的大小反映24小时的价格变化。
+  rsi_wise_scoring: RSI 明智评分
+  share: 分享
   short_term: 短期
+  table_view: 表格视图
 indicator_list:
   advanced:
     label: 先进的
@@ -61,6 +80,61 @@ indicator_list:
     oversold_bullish:
       title: 便宜且看涨
     subtitle: 获取定制的 RSI 洞察来完善您的交易策略，利用高级过滤器来改善决策并提高清晰度。
+keywords:
+  macd_bearish:
+    info: 当 MACD 显示动能减弱并发出可能出现下行趋势的信号时，发现潜在的卖点。
+    label_equiv: 看跌
+    label_exact: MACD 看跌背离
+    label_small: 看跌股息
+    title: MACD <b>看跌确认</b>
+  macd_bullish:
+    info: 当 MACD 指示动量转变且看涨趋势正在形成时，识别潜在的买入机会。
+    label_equiv: 看涨
+    label_exact: MACD 看涨背离
+    label_small: 看涨股息
+    title: MACD <b>看涨确认</b>
+  macd_cross_down:
+    info: MACD 交叉至信号线下方表明看跌势头
+    label_equiv: 下降趋势
+    label_exact: MACD 看跌交叉信号线
+    label_small: MACD交叉
+  macd_cross_up:
+    info: MACD 交叉信号线表明看涨势头
+    label_equiv: 上升趋势
+    label_exact: MACD 看涨交叉信号线
+    label_small: MACD交叉
+  rsi_bearish:
+    info: 当硬币被高估并表明势头放缓时，发现潜在的卖点。
+    label_equiv: 看跌
+    label_exact: RSI 看跌背离
+    label_semi: 看跌背离
+    label_small: 看跌股息
+    title: 相对强弱指数 (RSI) <b>看跌确认</b>
+  rsi_bullish:
+    info: 当硬币被低估并表现出增长势头的迹象时，识别潜在的购买机会。
+    label_equiv: 看涨
+    label_exact: RSI 看涨背离
+    label_semi: 看涨背离
+    label_small: 看涨股息
+    title: 相对强弱指数 (RSI) <b>看涨确认</b>
+  rsi_macd_bearish:
+    info: 价格上涨而 RSI/MACD 下跌，暗示可能出现下行反转
+    label_exact: RSI/MACD 看跌背离
+  rsi_macd_bullish:
+    info: 价格下跌而 RSI/MACD 上涨，预示可能出现上行反转
+    label_exact: RSI/MACD 看涨背离
+  rsi_overbought:
+    info: 高于 70 表明资产可能被高估并准备回调
+    label_equiv: 昂贵的
+    label_exact: RSI 超买
+    label_range: 超买区域
+    label_small: 超买
+  rsi_oversold:
+    info: 低于 30 表明资产可能被低估并即将反弹
+    label_equiv: 便宜的
+    label_exact: RSI 超卖
+    label_range: 超卖区域
+    label_small: 超卖
 onboarding:
   sec-1:
     content: 我们的技术雷达页面将复杂的技术指标分解为简单、可操作的见解。无论您是初学者还是专家，您都能够轻松做出快速而明智的决策。
@@ -93,3 +167,23 @@ screener:
     title: 技术雷达安检器已启动！
   edit: 編輯 ...
   set: 设置筛选器
+table:
+  labels: 标签
+  market_cap:
+    info: <b>市值</b><br
+      />显示每种资产（硬币或代币）的总市值，代表当前市场价值。资产还根据其市值分为高、中、低，让您快速了解其规模和在市场中的相对影响力。
+    title: 市值
+  name: 名稱
+  price_info:
+    info: <b>价格</b><br />硬币或代币的当前市场价值。 <br /> <br /> <b>24小时变化</b><br />资产价格在过去 24
+      小时内的百分比变化。 <br /> <br /> <b>低 24 小时</b><br />过去 24 小时内的最低价格。 <br /> <br />
+      <b>最高 24 小时</b><br />过去 24 小时内的最高价格。
+    title: 信息
+  rank: 明智排名
+  sort: 种类
+  sorts:
+    market_cap: 市值
+    price_change: 24小时变化
+    rank: 明智排名
+  technical_sentiment:
+    title: 技术情绪
