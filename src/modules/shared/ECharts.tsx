@@ -19,36 +19,61 @@ export const ECharts: FC<{
 }> = ({ className, initOptions, theme, options: userOptions, onClick }) => {
   const element = useRef<HTMLDivElement>(null);
   const chart = useRef<EChartsType | undefined>(undefined);
+
+  // initialize
   useEffect(() => {
-    if (!element.current || chart.current) return;
-    chart.current = init(element.current, theme ?? 'dark', initOptions);
-    const options: EChartsOption = {
-      tooltip: {
-        backgroundColor: '#282a32',
-        textStyle: {
-          color: '#ffffff',
+    if (!element.current) return;
+
+    if (!chart.current) {
+      chart.current = init(element.current, theme ?? 'dark', initOptions);
+      chart.current.setOption(
+        {
+          tooltip: {
+            backgroundColor: '#282a32',
+            textStyle: {
+              color: '#ffffff',
+            },
+          },
         },
-      },
+        true,
+      );
+    }
+    return () => {
+      chart.current?.clear();
     };
-    chart.current.setOption(options, true);
-    chart.current.setOption(userOptions, false);
+  }, [theme, initOptions, userOptions]);
+
+  // sync options
+  useEffect(() => {
+    if (!chart.current) return;
     if (onClick) chart.current.on('click', onClick);
+    chart.current.setOption(userOptions, false);
+    return () => {
+      if (!chart.current) return;
+      if (onClick) chart.current.off('click', onClick);
+    };
+  }, [userOptions, onClick]);
+
+  // runtime effects
+  useEffect(() => {
+    if (!chart.current) return;
     let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
     const handleResize = () => {
       if (resizeTimeout !== null) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(
-        () =>
-          chart.current?.resize({
-            silent: true,
-          }),
-        100,
-      );
+      resizeTimeout = setTimeout(() => {
+        chart.current?.resize({
+          silent: true,
+          animation: {
+            delay: 0,
+          },
+        });
+      }, 0);
     };
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [theme, initOptions, onClick, userOptions]);
+  });
 
   return <div ref={element} className={className}></div>;
 };
