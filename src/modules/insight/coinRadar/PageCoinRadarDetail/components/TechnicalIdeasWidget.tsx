@@ -81,16 +81,11 @@ export function TechnicalIdeasWidget({
               allow_symbol_change={false}
               symbol={coinOverview.data.charts_id.trading_view_chart_id}
               style="1"
-              copyrightStyles={{
-                parent: {
-                  display: 'none',
-                },
-              }}
               interval="60"
               hide_side_toolbar
               hotlist={false}
               theme="dark"
-              autosize
+              height={490}
             />
           ) : coinOverview.data?.charts_id?.gecko_terminal_chart_id ? (
             <iframe
