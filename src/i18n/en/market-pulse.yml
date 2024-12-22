@@ -51,8 +51,8 @@ keywords:
   rsi_bearish:
     title: RSI <b>Bearish Confirmation</b>
     info: >-
-      Identify Potential Buying Opportunities When Coins Are Under-valued and
-      Exhibit Signs of Increasing Momentum.
+      Spot Potential Selling Points When Coins Are Overvalued and Indicate a
+      Slowdown in Momentum.
     label_equiv: Bearish
     label_exact: RSI Bearish Divergence
     label_semi: Bearish Divergence
@@ -60,8 +60,8 @@ keywords:
   rsi_bullish:
     title: RSI <b>Bullish Confirmation</b>
     info: >-
-      Spot Potential Selling Points When Coins Are Overvalued and Indicate a
-      Slowdown in Momentum.
+      Identify Potential Buying Opportunities When Coins Are Under-valued and
+      Exhibit Signs of Increasing Momentum.
     label_equiv: Bullish
     label_exact: RSI Bullish Divergence
     label_semi: Bullish Divergence
