@@ -2,9 +2,9 @@
 import { Buffer } from 'buffer';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Outlet } from 'react-router-dom';
-import { TelegramProvider } from 'modules/autoTrader/TelegramProvider';
-import TelegramAuthGuard from 'modules/autoTrader/TelegramAuthGuard';
 import { ProProvider } from 'modules/base/auth/ProContent/ProProvider';
+import { TelegramProvider } from './TelegramProvider';
+import TelegramAuthGuard from './TelegramAuthGuard';
 
 // required for using @ton/core
 window.Buffer = Buffer;

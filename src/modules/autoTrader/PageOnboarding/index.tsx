@@ -3,11 +3,11 @@ import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import logo from 'assets/logo-horizontal-beta.svg';
 import Button from 'shared/Button';
-import { Background } from 'modules/autoTrader/TelegramAuthGuard';
-import tickets from '../tickets.png';
-import autoTrader from '../loading.png';
-import sparkler from './sparkler.png';
+import { Background } from 'modules/autoTrader/layout/TelegramAuthGuard';
+import autoTrader from '../layout/loading.png';
 import target from './target.png';
+import tickets from './tickets.png';
+import sparkler from './sparkler.png';
 import lightBulb from './lightBulb.png';
 
 export default function PageOnboarding() {

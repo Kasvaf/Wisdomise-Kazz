@@ -8,7 +8,7 @@ import {
 } from 'api';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import BtnBack from '../BtnBack';
+import BtnBack from '../layout/BtnBack';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
 

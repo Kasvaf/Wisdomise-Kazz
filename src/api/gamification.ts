@@ -4,7 +4,7 @@ import type { PageResponse } from 'api/types/page';
 import { INVESTMENT_ORIGIN } from 'config/constants';
 import { useGameLoginQuery } from 'api/account';
 import { isLocal } from 'utils/version';
-import { useTelegram } from 'modules/autoTrader/TelegramProvider';
+import { useTelegram } from 'modules/autoTrader/layout/TelegramProvider';
 
 export interface Friend {
   telegram_id: number;
