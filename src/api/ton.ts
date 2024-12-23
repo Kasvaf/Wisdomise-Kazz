@@ -112,10 +112,12 @@ export const useTransferAssetsMutation = () => {
     recipientAddress,
     amount,
     gasFee,
+    quote,
   }: {
     recipientAddress: string;
     amount: number | string;
     gasFee: string;
+    quote: 'tether' | 'the-open-network';
   }) => {
     const noneBounceableAddress = Address.parse(recipientAddress).toString({
       bounceable: false,
@@ -138,22 +140,33 @@ export const useTransferAssetsMutation = () => {
             .toBoc()
             .toString('base64'),
         },
-        {
-          address: jettonWalletAddress ?? '',
-          amount: toNano('0.05').toString(),
-          payload: beginCell()
-            .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
-            .storeUint(0, 64) // query_id:uint64
-            .storeCoins(+amount * 10 ** USDT_DECIMAL) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
-            .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
-            .storeAddress(Address.parse(address)) // response_destination:MsgAddress
-            .storeUint(0, 1) // custom_payload:(Maybe ^Cell)
-            .storeCoins(1) // forward_ton_amount:(VarUInteger 16) - if >0, will send notification message
-            .storeUint(0, 1) // forward_payload:(Either Cell ^Cell)
-            .endCell()
-            .toBoc()
-            .toString('base64'),
-        },
+        quote === 'the-open-network'
+          ? {
+              address: noneBounceableAddress,
+              amount: toNano(amount).toString(),
+              payload: beginCell()
+                .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
+                .storeStringTail('Gas fee') // write our text comment
+                .endCell()
+                .toBoc()
+                .toString('base64'),
+            }
+          : {
+              address: jettonWalletAddress ?? '',
+              amount: toNano('0.05').toString(),
+              payload: beginCell()
+                .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
+                .storeUint(0, 64) // query_id:uint64
+                .storeCoins(+amount * 10 ** USDT_DECIMAL) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
+                .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
+                .storeAddress(Address.parse(address)) // response_destination:MsgAddress
+                .storeUint(0, 1) // custom_payload:(Maybe ^Cell)
+                .storeCoins(1) // forward_ton_amount:(VarUInteger 16) - if >0, will send notification message
+                .storeUint(0, 1) // forward_payload:(Either Cell ^Cell)
+                .endCell()
+                .toBoc()
+                .toString('base64'),
+            },
       ],
     };
 

@@ -101,6 +101,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
           amount,
+          quote,
         });
         navigate(`/trader-hot-coins/${slug}`);
       } catch (error) {

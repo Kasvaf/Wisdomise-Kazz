@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -10,6 +11,7 @@ import AmountInputBox from 'shared/AmountInputBox';
 import InfoButton from 'shared/InfoButton';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
+import { useSymbolInfo } from 'api/symbol';
 import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
@@ -35,6 +37,8 @@ const PartOpen: React.FC<{
     exp: [exp, setExp],
     orderExp: [orderExp, setOrderExp],
   } = data;
+
+  const { data: quoteInfo } = useSymbolInfo(quote);
 
   const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
   const { data: quoteBalance, isLoading: balanceLoading } =
@@ -86,7 +90,8 @@ const PartOpen: React.FC<{
                   {quoteBalance ? (
                     <>
                       <span className="text-sm text-white/40">
-                        Balance: {String(quoteBalance)} USDT
+                        Balance: {String(quoteBalance)}{' '}
+                        {quoteInfo?.abbreviation}
                       </span>
                       {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
                     </>
