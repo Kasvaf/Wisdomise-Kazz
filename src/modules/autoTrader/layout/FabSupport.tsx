@@ -31,9 +31,10 @@ const FabSupport = () => {
       )}
 
       <a
-        href="#"
+        href="https://t.me/WisdomiseSupport"
         target="_blank"
         className="flex size-12 items-center justify-center rounded-full bg-v1-background-selected p-2"
+        rel="noreferrer"
       >
         <SupportIcon />
       </a>
