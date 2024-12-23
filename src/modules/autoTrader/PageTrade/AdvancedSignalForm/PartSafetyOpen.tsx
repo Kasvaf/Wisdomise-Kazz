@@ -12,7 +12,7 @@ import { type SignalFormState } from './useSignalFormStates';
 
 const PartSafetyOpen: React.FC<{
   data: SignalFormState;
-  assetSlug: string;
+  baseSlug: string;
 }> = ({ data }) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();

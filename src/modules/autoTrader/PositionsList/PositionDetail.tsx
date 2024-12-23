@@ -12,8 +12,8 @@ import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
 
-const AssetName: React.FC<{ assetSlug: string }> = ({ assetSlug }) => {
-  const { data } = useSymbolInfo(assetSlug);
+const AssetName: React.FC<{ slug: string }> = ({ slug }) => {
+  const { data } = useSymbolInfo(slug);
   return <>{data?.abbreviation}</>;
 };
 
@@ -92,7 +92,7 @@ const PositionDetail: React.FC<{
               className="flex items-center justify-between"
             >
               <span className="text-v1-content-secondary">
-                Current <AssetName assetSlug={a.asset_slug} />
+                Current <AssetName slug={a.asset_slug} />
               </span>
               <span>{roundSensible(a.amount)}</span>
             </div>
@@ -114,7 +114,7 @@ const PositionDetail: React.FC<{
                 />
               </span>
               <span>
-                {roundSensible(a.amount)} <AssetName assetSlug={a.asset_slug} />
+                {roundSensible(a.amount)} <AssetName slug={a.asset_slug} />
               </span>
             </div>
           ))}

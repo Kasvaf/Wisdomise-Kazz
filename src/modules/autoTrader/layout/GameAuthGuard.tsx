@@ -1,10 +1,10 @@
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useTelegram } from 'modules/autoTrader/TelegramProvider';
 import { isLocal } from 'utils/version';
 import { useGameLoginQuery } from 'api';
-import WalletGuard from 'modules/autoTrader/WalletGuard';
 import PageWrapper from 'modules/base/PageWrapper';
+import WalletGuard from './WalletGuard';
+import { useTelegram } from './TelegramProvider';
 
 export default function GameAuthGuard({ children }: PropsWithChildren) {
   const { webApp } = useTelegram();

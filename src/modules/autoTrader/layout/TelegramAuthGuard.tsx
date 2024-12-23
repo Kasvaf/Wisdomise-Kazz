@@ -1,11 +1,11 @@
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import { useNavigate } from 'react-router-dom';
-import { useTelegram } from 'modules/autoTrader/TelegramProvider';
 import { isLocal } from 'utils/version';
-import loading from 'modules/autoTrader/loading.png';
-import logo from 'assets/logo-horizontal.svg';
 import { useMiniAppLoginQuery } from 'api/auth';
+import logo from 'assets/logo-horizontal.svg';
+import { useTelegram } from './TelegramProvider';
+import loading from './loading.png';
 import spin from './spin.svg';
 import bg from './bg.png';
 

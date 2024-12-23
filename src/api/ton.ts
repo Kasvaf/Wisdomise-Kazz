@@ -21,24 +21,30 @@ export const WSDM_CONTRACT_ADDRESS = String(
 );
 
 const CONTRACT_ADDRESSES = {
-  wsdm: WSDM_CONTRACT_ADDRESS,
-  usdt: USDT_CONTRACT_ADDRESS,
+  WSDM: WSDM_CONTRACT_ADDRESS,
+  tether: USDT_CONTRACT_ADDRESS,
 } as const;
 
 const CONTRACT_DECIMAL = {
-  wsdm: 6,
-  usdt: USDT_DECIMAL,
+  'the-open-network': 9,
+  'WSDM': 6,
+  'tether': USDT_DECIMAL,
 } as const;
 
-export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
+export const useAccountJettonBalance = (
+  contract: 'WSDM' | 'tether' | 'the-open-network',
+) => {
   const address = useTonAddress();
   return useQuery(
     ['accountJettonBalance', contract, address || ''],
     async () => {
       if (!address) return null;
 
+      const baseAddress = `${TON_API_BASE_URL}/v2/accounts/${address}`;
       const { data } = await axios.get<{ balance: string }>(
-        `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${CONTRACT_ADDRESSES[contract]}`,
+        contract === 'the-open-network'
+          ? baseAddress
+          : `${baseAddress}/jettons/${CONTRACT_ADDRESSES[contract]}`,
         {
           meta: { auth: false },
         },

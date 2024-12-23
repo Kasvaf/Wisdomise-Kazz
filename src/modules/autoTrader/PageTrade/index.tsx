@@ -8,7 +8,7 @@ import {
 } from 'api';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import BtnBack from '../BtnBack';
+import BtnBack from '../layout/BtnBack';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
 
@@ -50,7 +50,7 @@ export default function PageTrade() {
       ) : (
         (!positionKey || !!position.data) && (
           <AdvancedSignalForm
-            assetSlug={slug}
+            baseSlug={slug}
             activePosition={position.data}
             className="max-w-full basis-1/3"
             formState={formState}

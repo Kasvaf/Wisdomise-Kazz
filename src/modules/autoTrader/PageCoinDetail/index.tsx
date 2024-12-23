@@ -5,7 +5,7 @@ import { useCoinOverview } from 'api';
 import { CoinSocialSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinSocialSentimentWidget';
 import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
 import PositionsList from '../PositionsList';
-import BtnBack from '../BtnBack';
+import BtnBack from '../layout/BtnBack';
 import MiniCoinPriceWidget from './MiniCoinPriceWidget';
 
 export default function PageCoinDetail() {

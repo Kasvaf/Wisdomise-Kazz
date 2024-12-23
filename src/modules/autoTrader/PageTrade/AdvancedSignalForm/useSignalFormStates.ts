@@ -6,6 +6,7 @@ import {
   type OpenOrderResponse,
   type SignalItem,
 } from 'api/builder';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 
 export interface TpSlData {
   key: string;
@@ -84,6 +85,9 @@ const useSignalFormStates = () => {
   const isUpdate = useState(false);
   const market = useState<'long' | 'short'>('long');
   const [orderType, setOrderType] = useState<'limit' | 'market'>('market');
+  const [quote, setQuote] = useSearchParamAsState<
+    'tether' | 'the-open-network'
+  >('quote', 'tether');
   const [amount, setAmount] = useState('0');
   const [price, setPrice] = useState('');
   const priceUpdated = useState(false);
@@ -135,6 +139,7 @@ const useSignalFormStates = () => {
     market,
     orderType: [orderType, setOrderType],
     price: [price, setPrice],
+    quote: [quote, setQuote],
     amount: [amount, setAmount],
     priceUpdated,
     leverage: [leverage, setLeverage],
