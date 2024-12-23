@@ -54,7 +54,7 @@ export default function TournamentCard({
 
   for (const prize of tournament.prizes) {
     for (const item of prize.items) {
-      const amount = +item.amount;
+      const amount = +item.amount * (prize.end_rank - prize.start_rank + 1);
       if (prizeMap[item.symbol_slug]) {
         prizeMap[item.symbol_slug] += amount;
       } else {
