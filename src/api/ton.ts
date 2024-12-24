@@ -165,10 +165,6 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
     };
 
     await tonConnectUI.sendTransaction(transaction);
-    await queryClient.invalidateQueries([
-      'accountJettonBalance',
-      'usdt',
-      address || '',
-    ]);
+    await queryClient.invalidateQueries(['accountJettonBalance']);
   };
 };
