@@ -7,6 +7,7 @@ import {
   type SignalItem,
 } from 'api/builder';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { type AutoTraderSupportedQuotes } from 'api/ton';
 
 export interface TpSlData {
   key: string;
@@ -85,9 +86,10 @@ const useSignalFormStates = () => {
   const isUpdate = useState(false);
   const market = useState<'long' | 'short'>('long');
   const [orderType, setOrderType] = useState<'limit' | 'market'>('market');
-  const [quote, setQuote] = useSearchParamAsState<
-    'tether' | 'the-open-network'
-  >('quote', 'tether');
+  const [quote, setQuote] = useSearchParamAsState<AutoTraderSupportedQuotes>(
+    'quote',
+    'tether',
+  );
   const [amount, setAmount] = useState('0');
   const [price, setPrice] = useState('');
   const priceUpdated = useState(false);

@@ -68,7 +68,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   });
 
   const [ModalApproval, showModalApproval] = useModalApproval();
-  const transferAssetsHandler = useTransferAssetsMutation();
+  const transferAssetsHandler = useTransferAssetsMutation(quote);
   const fireHandler = async () => {
     if ((orderType === 'limit' && !price) || !assetPrice || !address) return;
 
@@ -101,7 +101,6 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
           amount,
-          quote,
         });
         navigate(`/trader-hot-coins/${slug}`);
       } catch (error) {

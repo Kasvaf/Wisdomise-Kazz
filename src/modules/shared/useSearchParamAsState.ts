@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 const unwrap = <T extends string>(defaultVal?: T | (() => T)) => {
@@ -11,20 +12,23 @@ export default function useSearchParamAsState<T extends string>(
   const [searchParams, setSearchParams] = useSearchParams();
   return [
     String(searchParams.get(paramName) ?? unwrap(defaultVal) ?? '') as T,
-    (newVal: T) => {
-      setSearchParams(
-        currentSearchParams => {
-          const { [paramName]: _, ...rest } = Object.fromEntries(
-            currentSearchParams.entries(),
-          );
-          return newVal === unwrap(defaultVal)
-            ? rest
-            : { ...rest, [paramName]: newVal };
-        },
-        {
-          replace: true,
-        },
-      );
-    },
+    useCallback(
+      (newVal: T) => {
+        setSearchParams(
+          currentSearchParams => {
+            const { [paramName]: _, ...rest } = Object.fromEntries(
+              currentSearchParams.entries(),
+            );
+            return newVal === unwrap(defaultVal)
+              ? rest
+              : { ...rest, [paramName]: newVal };
+          },
+          {
+            replace: true,
+          },
+        );
+      },
+      [defaultVal, paramName, setSearchParams],
+    ),
   ] as const;
 }

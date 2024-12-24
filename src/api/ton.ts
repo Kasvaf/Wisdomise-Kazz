@@ -31,8 +31,10 @@ const CONTRACT_DECIMAL = {
   'tether': USDT_DECIMAL,
 } as const;
 
+export type AutoTraderSupportedQuotes = 'tether' | 'the-open-network';
+
 export const useAccountJettonBalance = (
-  contract: 'WSDM' | 'tether' | 'the-open-network',
+  contract: 'WSDM' | AutoTraderSupportedQuotes,
 ) => {
   const address = useTonAddress();
   return useQuery(
@@ -62,15 +64,15 @@ export const useAccountJettonBalance = (
   );
 };
 
-const useJettonWalletAddress = () => {
+const useJettonWalletAddress = (quote: AutoTraderSupportedQuotes) => {
   const address = useTonAddress();
 
   return useQuery(
-    ['jetton-wallet-address', address],
+    ['jetton-wallet-address', address, quote],
     async () => {
-      if (!address) return;
+      if (!address || quote === 'the-open-network') return;
 
-      const jettonMasterAddress = Address.parse(USDT_CONTRACT_ADDRESS);
+      const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
       const ownerAddress = Address.parse(address);
       const client = new TonClient({
         endpoint: `${TONCENTER_BASE_URL}/api/v2/jsonRPC`,
@@ -101,10 +103,10 @@ const useJettonWalletAddress = () => {
   );
 };
 
-export const useTransferAssetsMutation = () => {
+export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
   const address = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
-  const { data: jettonWalletAddress } = useJettonWalletAddress();
+  const { data: jettonWalletAddress } = useJettonWalletAddress(quote);
   const { save } = useUserStorage('last-parsed-deposit-address');
   const queryClient = useQueryClient();
 
@@ -112,12 +114,10 @@ export const useTransferAssetsMutation = () => {
     recipientAddress,
     amount,
     gasFee,
-    quote,
   }: {
     recipientAddress: string;
     amount: number | string;
     gasFee: string;
-    quote: 'tether' | 'the-open-network';
   }) => {
     const noneBounceableAddress = Address.parse(recipientAddress).toString({
       bounceable: false,
@@ -144,12 +144,6 @@ export const useTransferAssetsMutation = () => {
           ? {
               address: noneBounceableAddress,
               amount: toNano(amount).toString(),
-              payload: beginCell()
-                .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
-                .storeStringTail('Gas fee') // write our text comment
-                .endCell()
-                .toBoc()
-                .toString('base64'),
             }
           : {
               address: jettonWalletAddress ?? '',
@@ -157,7 +151,7 @@ export const useTransferAssetsMutation = () => {
               payload: beginCell()
                 .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
                 .storeUint(0, 64) // query_id:uint64
-                .storeCoins(+amount * 10 ** USDT_DECIMAL) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
+                .storeCoins(+amount * 10 ** CONTRACT_DECIMAL[quote]) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
                 .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
                 .storeAddress(Address.parse(address)) // response_destination:MsgAddress
                 .storeUint(0, 1) // custom_payload:(Maybe ^Cell)
@@ -171,10 +165,6 @@ export const useTransferAssetsMutation = () => {
     };
 
     await tonConnectUI.sendTransaction(transaction);
-    await queryClient.invalidateQueries([
-      'accountJettonBalance',
-      'usdt',
-      address || '',
-    ]);
+    await queryClient.invalidateQueries(['accountJettonBalance']);
   };
 };

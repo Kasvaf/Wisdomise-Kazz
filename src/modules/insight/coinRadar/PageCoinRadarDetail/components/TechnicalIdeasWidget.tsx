@@ -5,6 +5,7 @@ import { bxChevronDown, bxLinkExternal } from 'boxicons-quasar';
 import { useCoinOverview, useSocialMessages } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
+import useIsMobile from 'utils/useIsMobile';
 import { SocialMessageSummary } from './CoinSocialFeedWidget/SocialMessage';
 
 export function TechnicalIdeasWidget({
@@ -17,7 +18,7 @@ export function TechnicalIdeasWidget({
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinOverview({ slug });
   const messages = useSocialMessages(slug);
-
+  const isMobile = useIsMobile();
   const [limit, setLimit] = useState(3);
 
   const hasChart =
@@ -75,7 +76,7 @@ export function TechnicalIdeasWidget({
       }
     >
       {hasChart && (
-        <div className="h-[500px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[300px]">
+        <div className="h-[500px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[350px]">
           {coinOverview.data?.charts_id?.trading_view_chart_id ? (
             <AdvancedRealTimeChart
               allow_symbol_change={false}
@@ -85,7 +86,8 @@ export function TechnicalIdeasWidget({
               hide_side_toolbar
               hotlist={false}
               theme="dark"
-              height={490}
+              height={isMobile ? 340 : 490}
+              width="100%"
             />
           ) : coinOverview.data?.charts_id?.gecko_terminal_chart_id ? (
             <iframe

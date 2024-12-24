@@ -3,13 +3,13 @@ import { Select } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import { useIsPairSupported } from 'api';
+import { type AutoTraderSupportedQuotes } from 'api/ton';
 const { Option } = Select;
 
-type Quotes = 'tether' | 'the-open-network';
 const QuoteSelector: React.FC<{
   baseSlug: string;
-  value: Quotes;
-  onChange?: (newValue: Quotes) => any;
+  value: AutoTraderSupportedQuotes;
+  onChange?: (newValue: AutoTraderSupportedQuotes) => any;
   disabled?: boolean;
 }> = ({ baseSlug, value, onChange, disabled }) => {
   const isSupported = useIsPairSupported(baseSlug);

@@ -40,7 +40,7 @@ const PositionDetail: React.FC<{
             <Button
               variant="link"
               className="ms-auto !p-0 !text-xs text-v1-content-link"
-              to={`/market/${position.base_slug}?pos=${position.key}`}
+              to={`/market/${position.base_slug}?pos=${position.key}&quote=${position.quote_slug}`}
             >
               <Icon name={bxEditAlt} size={16} />
               Edit
