@@ -6,6 +6,7 @@ import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import Spin from 'shared/Spin';
 import InfoButton from 'shared/InfoButton';
 import { useSymbolInfo } from 'api/symbol';
+import { useAccountJettonBalance } from 'api/ton';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<
@@ -74,10 +75,15 @@ const ModalApproval: React.FC<{
     stopLosses: [stopLosses],
   } = formState;
 
+  const { data: tonBalance } = useAccountJettonBalance('the-open-network');
   const { mutate, data, isLoading } = usePreparePositionMutation();
   useEffect(() => mutate(createData), [createData, mutate]);
 
   const { data: quoteInfo } = useSymbolInfo(quote);
+  const tonAmount =
+    Number(data?.gas_fee) + (quoteInfo?.abbreviation === 'TON' ? +amount : 0);
+  const remainingGas = Number(tonBalance) - tonAmount;
+  const hasEnoughGas = remainingGas > 0.1;
 
   return (
     <div className="flex h-full flex-col text-white">
@@ -135,6 +141,13 @@ const ModalApproval: React.FC<{
         <InfoLine label="Fee" className="text-sm">
           0.2% of transactions + network gas fee
         </InfoLine>
+
+        {!hasEnoughGas && !Number.isNaN(remainingGas) && (
+          <div className="rounded-lg bg-v1-background-negative p-2 text-sm">
+            Your TON balance might be insufficient to cover gas fees. Please
+            ensure you have enough TON to proceed.
+          </div>
+        )}
       </div>
 
       <div className="mt-6 flex items-center gap-2">
@@ -145,7 +158,7 @@ const ModalApproval: React.FC<{
           onClick={() => onResolve?.(true)}
           variant="brand"
           className="grow"
-          disabled={isLoading}
+          disabled={isLoading || !hasEnoughGas}
         >
           Fire Position
         </Button>

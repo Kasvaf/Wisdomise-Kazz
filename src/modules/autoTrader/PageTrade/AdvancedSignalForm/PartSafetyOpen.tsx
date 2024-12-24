@@ -19,6 +19,7 @@ const PartSafetyOpen: React.FC<{
   if (!slug) throw new Error('unexpected');
 
   const {
+    quote: [quote],
     price: [price],
     orderType: [orderType],
     market: [market],
@@ -27,7 +28,12 @@ const PartSafetyOpen: React.FC<{
     remainingVolume,
   } = data;
 
-  const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
+  const { data: assetPrice } = useLastPriceQuery({
+    slug,
+    exchange: 'STONFI',
+    quote,
+    convertToUsd: true,
+  });
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 
   const nextLine = () => {

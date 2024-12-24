@@ -16,8 +16,8 @@ import { addComma } from 'utils/numbers';
 import { DrawerModal } from 'shared/DrawerModal';
 import { isProduction } from 'utils/version';
 import { useHasFlag } from 'api';
-import ton from './images/ton.png';
-import wsdm from './images/wsdm.png';
+import ton from './images/ton.svg';
+import usdt from './images/usdt.svg';
 import plat from './images/plat.png';
 import gold from './images/gold.png';
 import silver from './images/silver.png';
@@ -41,7 +41,7 @@ export default function ClaimRewardPage() {
   const [tonConnect] = useTonConnectUI();
   const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
     useWithdrawMutation();
-  const { data: wsdmBalance } = useAccountJettonBalance('WSDM');
+  const { data: usdtBalance } = useAccountJettonBalance('tether');
 
   useEffect(() => {
     sync({});
@@ -75,20 +75,16 @@ export default function ClaimRewardPage() {
 
   return (
     <div>
-      {/* <div className="flex items-center justify-between"> */}
-      {/*   /!* <img className="h-8" src={logo} alt="logo" /> *!/ */}
-      {/*   <TonConnectButton /> */}
-      {/* </div> */}
       <div className="mt-6">
-        {tonConnect.connected && wsdmBalance != null && (
+        {tonConnect.connected && usdtBalance != null && (
           <p className="mb-6 text-xs text-white/40">
-            Your WSDM balance in your wallet:{' '}
-            <span className="text-white">{addComma(wsdmBalance)} WSDM</span>
+            Your USDT balance in your wallet:{' '}
+            <span className="text-white">{addComma(usdtBalance)} USDT</span>
           </p>
         )}
         <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
-          <div className="flex gap-3">
-            <img src={ton} alt="ton" className="h-10 w-10 scale-x-[-1]" />
+          <div className="flex items-center gap-3">
+            <img src={ton} alt="ton" className="ms-2 h-8 w-8" />
             <div>
               <p className="text-xs">TON Tokens Earned</p>
               <p className="mt-2 text-xs text-white/40">
@@ -111,13 +107,15 @@ export default function ClaimRewardPage() {
         </div>
 
         <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
-          <div className="flex gap-3">
-            <img src={wsdm} alt="ton" className="h-10 w-10" />
+          <div className="flex items-center gap-3">
+            <img src={usdt} alt="ton" className="ms-2 h-8 w-8" />
             <div>
-              <p className="text-xs">WSDM Tokens Earned</p>
+              <p className="text-xs">USDT Tokens Earned</p>
               <p className="mt-2 text-xs text-white/40">
                 <strong className="font-bold text-white">
-                  {data?.wsdm_balance ?? 0}
+                  {data?.user_attributes?.find(
+                    att => att.attribute === 'usdt_balance',
+                  )?.value ?? 0}
                 </strong>{' '}
                 until now
               </p>

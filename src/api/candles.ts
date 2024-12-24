@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 import { type MarketTypes } from './types/shared';
+import { useSupportedPairs } from './trader';
 
 export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h';
 export interface Candle {
@@ -74,6 +75,7 @@ interface LastCandleParams {
   quote?: string;
   exchange?: 'BINANCE' | 'STONFI';
   market?: MarketTypes;
+  convertToUsd?: boolean;
 }
 
 export const useLastCandleQuery = ({
@@ -81,28 +83,35 @@ export const useLastCandleQuery = ({
   slug: base,
   quote = 'dollar',
   market = 'SPOT',
-}: LastCandleParams) =>
-  useQuery(
+  convertToUsd,
+}: LastCandleParams) => {
+  const { data: supportedPairs } = useSupportedPairs(base);
+  const theQuote = supportedPairs?.find(x => x.quote.slug === quote)
+    ? quote
+    : supportedPairs?.[0]?.quote?.slug;
+
+  return useQuery(
     ['last-candle', base, quote, exchange, market],
     async () => {
       const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
         query: {
           base,
-          quote: quote === 'dollar' ? 'tether' : quote,
+          quote: theQuote,
           exchange,
           market,
-          convert_to_usd: quote === 'dollar',
+          convert_to_usd: (convertToUsd ?? quote === 'dollar') || undefined,
           t: String(Date.now()),
         },
       });
       return data;
     },
     {
-      enabled: Boolean(base && quote && exchange && market),
+      enabled: Boolean(base && quote && exchange && market && theQuote),
       staleTime: 1000,
       refetchInterval: 10_000,
     },
   );
+};
 
 export const useLastPriceQuery = (params: LastCandleParams) => {
   const { data, ...rest } = useLastCandleQuery(params);

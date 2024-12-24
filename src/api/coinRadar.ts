@@ -492,6 +492,7 @@ export const useCoinList = ({
           q: q || undefined,
           network_name: networkName ?? (isMiniApp ? 'ton' : undefined),
           exchange_name: isMiniApp ? 'STONFI' : undefined,
+          page_size: 200,
         },
       }),
   });

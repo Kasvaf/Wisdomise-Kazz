@@ -65,6 +65,10 @@ export interface SyncDataResponse {
     plat_ticket: number;
     silver_ticket: number;
   };
+  user_attributes: Array<
+    | { attribute: 'gameboy_skin'; value: string }
+    | { attribute: 'usdt_balance'; value: number }
+  >;
 }
 
 export const useSyncDataMutation = () => {

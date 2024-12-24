@@ -39,7 +39,12 @@ export default function PageTrade() {
           filterTokens={x => x !== 'tether'}
           priceExchange="STONFI"
           value={slug}
-          onChange={selectedSlug => navigate(`/market/${selectedSlug}`)}
+          onChange={selectedSlug =>
+            navigate({
+              pathname: `/market/${selectedSlug}`,
+              search: 'quote=' + formState.quote[0],
+            })
+          }
         />
       </div>
 

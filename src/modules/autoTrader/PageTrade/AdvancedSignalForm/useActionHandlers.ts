@@ -49,7 +49,12 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
     reset,
   } = data;
 
-  const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
+  const { data: assetPrice } = useLastPriceQuery({
+    slug,
+    exchange: 'STONFI',
+    quote,
+    convertToUsd: true,
+  });
   const address = useTonAddress();
 
   const { mutateAsync, isLoading: isSubmitting } =

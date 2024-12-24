@@ -46,10 +46,11 @@ export const useUserAssets = () => {
   );
 };
 
-export const useSupportedPairs = (baseSlug: string) => {
+export const useSupportedPairs = (baseSlug?: string) => {
   return useQuery(
     ['supported-pairs', baseSlug],
     async () => {
+      if (!baseSlug) return [];
       const data = await ofetch<{
         results: Array<{
           id: string;
@@ -66,15 +67,10 @@ export const useSupportedPairs = (baseSlug: string) => {
       });
       return data.results;
     },
-    {},
+    {
+      staleTime: Number.MAX_VALUE,
+    },
   );
-};
-
-export const useIsPairSupported = (baseSlug: string) => {
-  const { data: pairs } = useSupportedPairs(baseSlug);
-  return (quoteSlug: string) => {
-    return pairs?.some(x => x.quote.slug === quoteSlug);
-  };
 };
 
 export const useTraderCoins = (filters?: {
