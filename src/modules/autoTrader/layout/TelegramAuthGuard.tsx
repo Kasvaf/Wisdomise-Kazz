@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { isLocal } from 'utils/version';
 import { useMiniAppLoginQuery } from 'api/auth';
 import logo from 'assets/logo-horizontal.svg';
+import { useDebugMode } from 'shared/useDebugMode';
 import { useTelegram } from './TelegramProvider';
 import loading from './loading.png';
 import spin from './spin.svg';
 import bg from './bg.png';
 
 export default function TelegramAuthGuard({ children }: PropsWithChildren) {
+  useDebugMode();
   const { webApp } = useTelegram();
   const query = import.meta.env.VITE_CUSTOM_QUERY;
 
