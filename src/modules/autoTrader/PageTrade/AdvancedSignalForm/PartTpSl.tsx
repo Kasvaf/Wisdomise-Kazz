@@ -17,6 +17,7 @@ const PartTpSl: React.FC<{
 }> = ({ type, data, baseSlug }) => {
   const { t } = useTranslation('builder');
   const {
+    quote: [quote],
     price: [price],
     market: [market],
     orderType: [orderType],
@@ -26,6 +27,8 @@ const PartTpSl: React.FC<{
   const { data: assetPrice } = useLastPriceQuery({
     slug: baseSlug,
     exchange: 'STONFI',
+    quote,
+    convertToUsd: true,
   });
   const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
 

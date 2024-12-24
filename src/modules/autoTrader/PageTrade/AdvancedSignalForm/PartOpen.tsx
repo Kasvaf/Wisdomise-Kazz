@@ -41,7 +41,12 @@ const PartOpen: React.FC<{
   const { data: quoteInfo } = useSymbolInfo(quote);
   const isNativeQuote = quote === 'the-open-network';
 
-  const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
+  const { data: assetPrice } = useLastPriceQuery({
+    slug,
+    exchange: 'STONFI',
+    quote,
+    convertToUsd: true,
+  });
   const { data: quoteBalance, isLoading: balanceLoading } =
     useAccountJettonBalance(quote);
 

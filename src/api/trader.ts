@@ -46,10 +46,11 @@ export const useUserAssets = () => {
   );
 };
 
-export const useSupportedPairs = (baseSlug: string) => {
+export const useSupportedPairs = (baseSlug?: string) => {
   return useQuery(
     ['supported-pairs', baseSlug],
     async () => {
+      if (!baseSlug) return [];
       const { data } = await axios.get<{
         results: Array<{
           id: string;
@@ -66,7 +67,9 @@ export const useSupportedPairs = (baseSlug: string) => {
       });
       return data.results;
     },
-    {},
+    {
+      staleTime: Number.MAX_VALUE,
+    },
   );
 };
 
