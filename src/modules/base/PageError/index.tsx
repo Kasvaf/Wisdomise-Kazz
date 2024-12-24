@@ -23,7 +23,7 @@ export default function PageError({
         'error' in errorObject &&
         errorObject?.error instanceof Error
       ) {
-        console.error('ERROR', level, errorObject);
+        console.log('ERROR', level, errorObject);
         throw errorObject.error;
       }
     } else {
