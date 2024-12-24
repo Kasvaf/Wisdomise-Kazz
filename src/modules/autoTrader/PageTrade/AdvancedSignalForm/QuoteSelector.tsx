@@ -19,7 +19,9 @@ const QuoteSelector: React.FC<{
   const isValueSupported = data?.some(x => x.quote.slug === value);
   useEffect(() => {
     if (firstSupported && !isValueSupported) {
-      onChange?.(firstSupported as any);
+      setTimeout(() => {
+        onChange?.(firstSupported as any);
+      }, 5);
     }
   }, [firstSupported, isValueSupported, onChange]);
 
