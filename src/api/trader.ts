@@ -70,13 +70,6 @@ export const useSupportedPairs = (baseSlug: string) => {
   );
 };
 
-export const useIsPairSupported = (baseSlug: string) => {
-  const { data: pairs } = useSupportedPairs(baseSlug);
-  return (quoteSlug: string) => {
-    return pairs?.some(x => x.quote.slug === quoteSlug);
-  };
-};
-
 export const useTraderCoins = (filters?: {
   page: number;
   pageSize: number;

@@ -1,8 +1,9 @@
 import { clsx } from 'clsx';
 import { Select } from 'antd';
 import { bxChevronDown } from 'boxicons-quasar';
+import { useEffect } from 'react';
 import Icon from 'shared/Icon';
-import { useIsPairSupported } from 'api';
+import { useSupportedPairs } from 'api';
 import { type AutoTraderSupportedQuotes } from 'api/ton';
 const { Option } = Select;
 
@@ -12,7 +13,15 @@ const QuoteSelector: React.FC<{
   onChange?: (newValue: AutoTraderSupportedQuotes) => any;
   disabled?: boolean;
 }> = ({ baseSlug, value, onChange, disabled }) => {
-  const isSupported = useIsPairSupported(baseSlug);
+  const { data } = useSupportedPairs(baseSlug);
+
+  const firstSupported = data?.[0]?.quote?.slug;
+  const isValueSupported = data?.some(x => x.quote.slug === value);
+  useEffect(() => {
+    if (firstSupported && !isValueSupported) {
+      onChange?.(firstSupported as any);
+    }
+  }, [firstSupported, isValueSupported, onChange]);
 
   return (
     <Select
@@ -22,10 +31,11 @@ const QuoteSelector: React.FC<{
       suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
       disabled={disabled}
     >
-      {isSupported('tether') && <Option value="tether">USDT</Option>}
-      {isSupported('the-open-network') && (
-        <Option value="the-open-network">TON</Option>
-      )}
+      {data?.map(({ quote }) => (
+        <Option key={quote.slug} value={quote.slug}>
+          {quote.abbreviation}
+        </Option>
+      ))}
     </Select>
   );
 };
