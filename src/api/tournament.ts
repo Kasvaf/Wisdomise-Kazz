@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { ofetch } from 'config/ofetch';
 
 export type TournamentStatus = 'live' | 'upcoming' | 'finished';
 
@@ -38,7 +38,7 @@ export function useTournaments(status?: TournamentStatus) {
     if (status) {
       params.set('status', status);
     }
-    const { data } = await axios.get<Tournament[]>(
+    const data = await ofetch<Tournament[]>(
       `trader/tournaments?${params.toString()}`,
     );
     return data;
@@ -47,14 +47,14 @@ export function useTournaments(status?: TournamentStatus) {
 
 export function useTournament(key: string) {
   return useQuery(['tournaments', key], async () => {
-    const { data } = await axios.get<Tournament>(`trader/tournaments/${key}`);
+    const data = await ofetch<Tournament>(`trader/tournaments/${key}`);
     return data;
   });
 }
 
 export function useTournamentLeaderboard(key: string) {
   return useQuery(['tournamentsLeaderboard', key], async () => {
-    const { data } = await axios.get<TournamentParticipant[]>(
+    const data = await ofetch<TournamentParticipant[]>(
       `trader/tournaments/${key}/leaderboard`,
     );
     return data;
@@ -63,7 +63,7 @@ export function useTournamentLeaderboard(key: string) {
 
 export function useTournamentMe(key: string) {
   return useQuery(['tournamentsMe', key], async () => {
-    const { data } = await axios.get<TournamentParticipant>(
+    const data = await ofetch<TournamentParticipant>(
       `trader/tournaments/${key}/me`,
     );
     return data;

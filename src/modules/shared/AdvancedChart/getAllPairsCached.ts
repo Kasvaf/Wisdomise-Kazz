@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { ofetch } from 'config/ofetch';
 
 interface PairData {
   name: string;
@@ -10,7 +10,7 @@ interface PairData {
 let cachedPairs: PairData[];
 const getAllPairsCached = async () => {
   if (!cachedPairs) {
-    const { data } = await axios.get<PairData[]>('catalog/pairs');
+    const data = await ofetch<PairData[]>('catalog/pairs');
     cachedPairs = data;
   }
 

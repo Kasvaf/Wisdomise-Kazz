@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { useAccountQuery } from 'api/account';
+import { ofetch } from 'config/ofetch';
 
 interface NonceResponse {
   nonce: string;
@@ -19,7 +19,7 @@ export function useGenerateNonceQuery() {
   return useQuery(
     ['getNonce'],
     async () => {
-      const { data } = await axios.get<NonceResponse>(
+      const data = await ofetch<NonceResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/generate-nonce`,
       );
       return data;
@@ -40,9 +40,12 @@ export const useNonceVerificationMutation = () => {
   const client = useQueryClient();
   return useMutation<unknown, unknown, NonceVerificationBody>(
     async body => {
-      await axios.post(
+      await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/verify`,
-        body,
+        {
+          body,
+          method: 'post',
+        },
       );
     },
     { onSuccess: () => client.invalidateQueries(['account']) },
@@ -58,7 +61,7 @@ export function useLockingRequirementQuery(
     ['getLockingRequirement', amountInUSD, address],
     async () => {
       if (!address || data?.wallet_address === address) {
-        const { data } = await axios.get<LockingRequirementResponse>(
+        const data = await ofetch<LockingRequirementResponse>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/locking-requirement?amount_in_usd=${amountInUSD}${
             address ? `&wallet_address=${address}` : ''
           }`,

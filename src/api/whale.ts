@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
+import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
 
@@ -54,10 +54,10 @@ export const useWhales = (filters?: {
     queryKey: ['whales', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
-      const { data } = await axios.get<PageResponse<WhaleShort>>(
+      const data = await ofetch<PageResponse<WhaleShort>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/tops/`,
         {
-          params: {
+          query: {
             page_size: filters?.pageSize ?? 10,
             page: filters?.page ?? 1,
             sorted_by: filters?.sortBy,
@@ -109,10 +109,10 @@ export const useWhalesCoins = (filters?: {
     queryKey: ['whales-coins', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
-      const { data } = await axios.get<PageResponse<WhaleCoin>>(
+      const data = await ofetch<PageResponse<WhaleCoin>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
         {
-          params: {
+          query: {
             page_size: filters?.pageSize ?? 10,
             page: filters?.page ?? 1,
             days: filters?.days ?? 1,
@@ -268,10 +268,10 @@ export const useWhaleDetails = (filters: {
   useQuery({
     queryKey: ['whale-details', JSON.stringify(filters)],
     queryFn: async () => {
-      const { data } = await axios.get<SingleWhale>(
+      const data = await ofetch<SingleWhale>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/holder-details/`,
         {
-          params: {
+          query: {
             holder_address: filters.holderAddress,
             network_name: filters.networkName,
           },
@@ -285,16 +285,14 @@ export const useWhaleNetworks = () =>
   useQuery({
     queryKey: ['whale-networks'],
     queryFn: () =>
-      axios
-        .get<
-          PageResponse<{
-            icon_url: string;
-            id: number;
-            name: string;
-            slug: string;
-          }>
-        >('/delphi/holders/networks/')
-        .then(({ data }) => data),
+      ofetch<
+        PageResponse<{
+          icon_url: string;
+          id: number;
+          name: string;
+          slug: string;
+        }>
+      >('/delphi/holders/networks/'),
   });
 
 export interface WhaleSentiment {
@@ -306,13 +304,11 @@ export const useWhaleSentiment = ({ slug }: { slug: string }) =>
   useQuery({
     queryKey: ['whale-sentiment', slug],
     queryFn: () =>
-      axios
-        .get<WhaleSentiment>('/delphi/holders/sentiment/', {
-          params: {
-            slug,
-          },
-        })
-        .then(({ data }) => data),
+      ofetch<WhaleSentiment>('/delphi/holders/sentiment/', {
+        query: {
+          slug,
+        },
+      }),
   });
 
 export interface CoinWhale {
@@ -353,25 +349,23 @@ export const useCoinWhales = (filters: {
     queryKey: ['whale-coin-traders', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: () =>
-      axios
-        .get<PageResponse<CoinWhale>>(
-          `/delphi/holders/${
-            filters.type === 'holders' ? 'holding' : 'trading'
-          }-coin/`,
-          {
-            params: {
-              slug: filters.slug,
-              page_size: filters.pageSize,
-              page: filters.page,
-              sorted_by: filters?.sortBy,
-              ascending:
-                typeof filters?.isAscending === 'boolean'
-                  ? filters?.isAscending
-                    ? 'True'
-                    : 'False'
-                  : undefined,
-            },
+      ofetch<PageResponse<CoinWhale>>(
+        `/delphi/holders/${
+          filters.type === 'holders' ? 'holding' : 'trading'
+        }-coin/`,
+        {
+          query: {
+            slug: filters.slug,
+            page_size: filters.pageSize,
+            page: filters.page,
+            sorted_by: filters?.sortBy,
+            ascending:
+              typeof filters?.isAscending === 'boolean'
+                ? filters?.isAscending
+                  ? 'True'
+                  : 'False'
+                : undefined,
           },
-        )
-        .then(({ data }) => data),
+        },
+      ),
   });

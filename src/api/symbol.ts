@@ -1,11 +1,11 @@
-import axios from 'axios';
 import { load } from 'dldr';
 import { useQuery } from '@tanstack/react-query';
+import { ofetch } from 'config/ofetch';
 import { type Coin } from './types/shared';
 
 const getCoins = async (slugs: unknown[]) => {
-  const { data } = await axios.get<Coin[]>('delphi/symbol/search/', {
-    params: { slugs: slugs.join(',') },
+  const data = await ofetch<Coin[]>('delphi/symbol/search/', {
+    query: { slugs: slugs.join(',') },
   });
   const coinMap: Record<string, Coin> = Object.fromEntries(
     data.map(x => [x.slug, x]),

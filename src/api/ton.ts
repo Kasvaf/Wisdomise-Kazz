@@ -4,11 +4,11 @@ import {
   useTonConnectUI,
   type SendTransactionRequest,
 } from '@tonconnect/ui-react';
-import axios from 'axios';
 import { Address, beginCell, toNano, TonClient } from '@ton/ton';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
+import { ofetch } from 'config/ofetch';
 
 const TON_API_BASE_URL = String(import.meta.env.VITE_TON_API_BASE_URL);
 const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
@@ -37,7 +37,7 @@ export const useAccountJettonBalance = (contract: 'wsdm' | 'usdt') => {
     async () => {
       if (!address) return null;
 
-      const { data } = await axios.get<{ balance: string }>(
+      const data = await ofetch<{ balance: string }>(
         `${TON_API_BASE_URL}/v2/accounts/${address}/jettons/${CONTRACT_ADDRESSES[contract]}`,
         {
           meta: { auth: false },

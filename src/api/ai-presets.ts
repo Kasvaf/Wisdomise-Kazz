@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { ofetch } from 'config/ofetch';
 
 export interface OrderPresetItem {
   amount: number;
@@ -24,8 +24,8 @@ export const useAIPresets = (pairSlug: string) =>
   useQuery<AIPresets>(
     ['ai-presets', pairSlug],
     async () => {
-      const { data } = await axios.get<AIPresets>('/trader/preset', {
-        params: { pair_slug: pairSlug },
+      const data = await ofetch<AIPresets>('/trader/preset', {
+        query: { pair_slug: pairSlug },
       });
       return data;
     },

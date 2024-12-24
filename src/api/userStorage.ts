@@ -1,9 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import axios from 'axios';
 import queryClient from 'config/reactQuery';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { ofetch } from 'config/ofetch';
 
 export function useUserStorage(key: string, defaultValue?: string) {
   const isLoggedIn = useIsLoggedIn();
@@ -23,10 +23,13 @@ export function useUserStorage(key: string, defaultValue?: string) {
       if (storage === 'local') {
         localStorage.setItem(localStorageKey, newValue);
       } else {
-        await axios.post(
+        await ofetch(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
           {
-            value: newValue,
+            body: {
+              value: newValue,
+            },
+            method: 'post',
           },
         );
       }
@@ -43,7 +46,7 @@ export function useUserStorage(key: string, defaultValue?: string) {
       if (storage === 'local') {
         return localStorage.getItem(localStorageKey) ?? defaultValue ?? null;
       }
-      const { data } = await axios.get<{ value: string }>(
+      const data = await ofetch<{ value: string }>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
       );
       return data.value ?? defaultValue ?? null;
@@ -58,8 +61,11 @@ export function useUserStorage(key: string, defaultValue?: string) {
         localStorage.removeItem(localStorageKey);
         return null;
       } else {
-        await axios.delete(
+        await ofetch(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+          {
+            method: 'delete',
+          },
         );
       }
       await queryClient.invalidateQueries({

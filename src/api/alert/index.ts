@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { isMiniApp } from 'utils/version';
+import { ofetch } from 'config/ofetch';
 import { type PageResponse } from '../types/page';
 import { type BaseAlert, type Alert } from './types';
 
@@ -20,32 +20,30 @@ const getAlertingAlerts = (
     initialData: Alert[],
   ): Promise<Alert[]> => {
     let returnValue = [...initialData];
-    return axios
-      .get<PageResponse<Alert>>('alerting/alerts', {
-        params: {
-          data_source: filters?.data_source
-            ? normalizeDataSource(filters.data_source)
-            : undefined,
-          page,
-          ...((filters?.params?.length ?? 0) >= 1 && {
-            param_field: filters?.params?.[0].field_name,
-            param_value: filters?.params?.[0].value,
-          }),
-        },
-      })
-      .then(resp => {
-        returnValue = [
-          ...returnValue,
-          ...(resp.data.results.map(x => ({
-            ...x,
-            data_source: normalizeDataSource(x.data_source),
-          })) as Alert[]),
-        ];
-        if (resp.data.next) {
-          return fetchRecursive(page + 1, returnValue);
-        }
-        return returnValue;
-      });
+    return ofetch<PageResponse<Alert>>('alerting/alerts', {
+      query: {
+        data_source: filters?.data_source
+          ? normalizeDataSource(filters.data_source)
+          : undefined,
+        page,
+        ...((filters?.params?.length ?? 0) >= 1 && {
+          param_field: filters?.params?.[0].field_name,
+          param_value: filters?.params?.[0].value,
+        }),
+      },
+    }).then(data => {
+      returnValue = [
+        ...returnValue,
+        ...(data.results.map(x => ({
+          ...x,
+          data_source: normalizeDataSource(x.data_source),
+        })) as Alert[]),
+      ];
+      if (data.next) {
+        return fetchRecursive(page + 1, returnValue);
+      }
+      return returnValue;
+    });
   };
   return fetchRecursive(1, []);
 };
@@ -53,37 +51,43 @@ const getAlertingAlerts = (
 const saveAlertingAlert = (payload: Partial<Alert>) => {
   const alertKey = payload.key;
   const url = `alerting/alerts${alertKey ? `/${alertKey}` : ''}`;
-  const method: keyof typeof axios = alertKey ? 'patch' : 'post';
-  return axios[method](url, {
-    data_source: payload?.data_source
-      ? normalizeDataSource(payload.data_source)
-      : undefined,
-    conditions: payload.conditions,
-    config: payload.config,
-    messengers: payload.messengers,
-    params: payload.params,
-    state: payload.state === 'DISABLED' ? 'DISABLED' : 'ACTIVE',
+  const method = alertKey ? 'patch' : 'post';
+  return ofetch(url, {
+    body: {
+      data_source: payload?.data_source
+        ? normalizeDataSource(payload.data_source)
+        : undefined,
+      conditions: payload.conditions,
+      config: payload.config,
+      messengers: payload.messengers,
+      params: payload.params,
+      state: payload.state === 'DISABLED' ? 'DISABLED' : 'ACTIVE',
+    },
+    method,
   });
 };
 
 const deleteAlertingAlert = (payload: Partial<BaseAlert>) => {
   const alertKey = payload.key;
   if (!alertKey) throw new Error('Cannot delete alert without key!');
-  return axios.delete(`alerting/alerts/${alertKey}`);
+  return ofetch(`alerting/alerts/${alertKey}`, {
+    method: 'delete',
+  });
 };
 
 const getSocialRadarDailyReportAlert = () =>
-  axios
-    .get<{ is_subscribed: boolean }>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
-    )
-    .then(resp => resp.data.is_subscribed);
+  ofetch<{ is_subscribed: boolean }>(
+    `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
+  ).then(data => data.is_subscribed);
 
 const toggleSocialRadarDailyReportAlert = (sub: boolean) => {
-  return axios.post(
+  return ofetch(
     `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/${
       sub ? 'subscribe' : 'unsubscribe'
     }`,
+    {
+      method: 'post',
+    },
   );
 };
 

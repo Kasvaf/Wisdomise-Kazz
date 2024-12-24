@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import { ofetch } from 'config/ofetch';
 import { type MarketTypes } from './types/shared';
 
 export type ExchangeTypes = 'BINANCE' | 'WISDOMISE';
@@ -15,9 +15,7 @@ export interface ExchangeAccount {
 
 export const useExchangeAccountsQuery = () =>
   useQuery(['exchng-acc'], async () => {
-    const { data } = await axios.get<ExchangeAccount[]>(
-      '/ias/external-accounts',
-    );
+    const data = await ofetch<ExchangeAccount[]>('/ias/external-accounts');
     return data;
   });
 
@@ -31,10 +29,10 @@ interface ExchangeAccountCreate {
 export const useCreateExchangeAccount = () => {
   const queryClient = useQueryClient();
   return async (acc: ExchangeAccountCreate) => {
-    const { data } = await axios.post<ExchangeAccount>(
-      '/ias/external-accounts',
-      acc,
-    );
+    const data = await ofetch<ExchangeAccount>('/ias/external-accounts', {
+      body: acc,
+      method: 'pos',
+    });
     await queryClient.invalidateQueries(['exchng-acc']);
     return data;
   };
@@ -43,7 +41,9 @@ export const useCreateExchangeAccount = () => {
 export const useDeleteExchangeAccount = () => {
   const queryClient = useQueryClient();
   return useMutation(async ({ key }: { key: string }) => {
-    await axios.delete<ExchangeAccount>('/ias/external-accounts/' + key);
+    await ofetch<ExchangeAccount>('/ias/external-accounts/' + key, {
+      method: 'delete',
+    });
     await queryClient.invalidateQueries(['exchng-acc']);
   });
 };

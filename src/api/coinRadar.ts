@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { isMiniApp } from 'utils/version';
+import { ofetch } from 'config/ofetch';
 import {
   type MarketData,
   type Coin,
@@ -41,7 +41,7 @@ export const useMarketInfoFromSignals = () =>
   useQuery({
     queryKey: ['market-social-signal'],
     queryFn: async () => {
-      const { data } = await axios.get<MarketInfoFromSignals>(
+      const data = await ofetch<MarketInfoFromSignals>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/market-social-signal/?window_hours=24`,
       );
       return data;
@@ -102,10 +102,10 @@ export const useCoinSignals = (filters?: {
   useQuery({
     queryKey: ['coins-social-signal', JSON.stringify(filters)],
     queryFn: async () => {
-      const { data } = await axios.get<CoinSignal[]>(
+      const data = await ofetch<CoinSignal[]>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/`,
         {
-          params: {
+          query: {
             window_hours: filters?.windowHours ?? 24,
             network_slug: filters?.network,
           },
@@ -229,7 +229,7 @@ export const useSocialMessages = (slug: string) =>
   useQuery({
     queryKey: ['coins-social-message', slug],
     queryFn: async () => {
-      const { data } = await axios.get<{
+      const data = await ofetch<{
         reddit: null | RedditMessage[];
         telegram: null | TelegramMessage[];
         trading_view_ideas: null | TradingViewIdeasMessage[];
@@ -303,7 +303,7 @@ export const useCoinAvailableExchanges = (symbol: string) =>
   useQuery({
     queryKey: ['coin-available-exchanges', symbol],
     queryFn: async () => {
-      const { data } = await axios.get<CoinExchange[]>(
+      const data = await ofetch<CoinExchange[]>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/symbol-exchanges/?symbol_abbreviation=${symbol}`,
       );
       return (data || []).sort((a, b) =>
@@ -324,9 +324,12 @@ interface RecommendChannelVariables {
 export const useRecommendChannelMutation = () =>
   useMutation<unknown, unknown, RecommendChannelVariables>({
     mutationFn: async variables => {
-      await axios.post(
+      await ofetch(
         `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/suggest-channel/`,
-        variables,
+        {
+          body: variables,
+          method: 'post',
+        },
       );
     },
   });
@@ -448,15 +451,13 @@ export const useCoinOverview = ({
   useQuery({
     queryKey: ['coin-overview', slug, priceHistoryDays ?? 1],
     queryFn: () =>
-      axios
-        .get<CoinOverview>('delphi/market/token-review/', {
-          params: {
-            slug,
-            price_history_days: priceHistoryDays ?? 1,
-          },
-          meta: { auth: false },
-        })
-        .then(resp => resp.data),
+      ofetch<CoinOverview>('delphi/market/token-review/', {
+        query: {
+          slug,
+          price_history_days: priceHistoryDays ?? 1,
+        },
+        meta: { auth: false },
+      }),
     refetchInterval: 10 * 1000,
     enabled: !!slug,
   });
@@ -472,10 +473,7 @@ export interface TrendingCoin {
 export const useTrendingCoins = () =>
   useQuery({
     queryKey: ['trending-coins'],
-    queryFn: () =>
-      axios
-        .get<TrendingCoin[]>('delphi/symbols/trending/')
-        .then(resp => resp.data),
+    queryFn: () => ofetch<TrendingCoin[]>('delphi/symbols/trending/'),
   });
 
 export const useCoinList = ({
@@ -489,15 +487,13 @@ export const useCoinList = ({
     queryKey: ['coin-list', q, networkName],
     staleTime: Number.POSITIVE_INFINITY,
     queryFn: () =>
-      axios
-        .get<Coin[]>('delphi/symbol/search/', {
-          params: {
-            q: q || undefined,
-            network_name: networkName ?? (isMiniApp ? 'ton' : undefined),
-            exchange_name: isMiniApp ? 'STONFI' : undefined,
-          },
-        })
-        .then(resp => resp.data),
+      ofetch<Coin[]>('delphi/symbol/search/', {
+        query: {
+          q: q || undefined,
+          network_name: networkName ?? (isMiniApp ? 'ton' : undefined),
+          exchange_name: isMiniApp ? 'STONFI' : undefined,
+        },
+      }),
   });
 
 export const useCategories = (config: {
@@ -507,17 +503,15 @@ export const useCategories = (config: {
   useQuery({
     queryKey: ['categories', JSON.stringify(config)],
     queryFn: () =>
-      axios
-        .get<
-          Array<{
-            name: string;
-            slug: string;
-          }>
-        >('/delphi/symbol-category/search/', {
-          params: {
-            q: config.query,
-            filter: config.filter,
-          },
-        })
-        .then(({ data }) => data),
+      ofetch<
+        Array<{
+          name: string;
+          slug: string;
+        }>
+      >('/delphi/symbol-category/search/', {
+        query: {
+          q: config.query,
+          filter: config.filter,
+        },
+      }),
   });

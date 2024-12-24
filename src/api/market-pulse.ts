@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
 import {
   type NetworkSecurity,
@@ -63,12 +63,12 @@ export interface RsiDivergenceResponse {
 }
 export const useRsiOverness = () =>
   useQuery(['rsi/overness'], () =>
-    axios.get<RsiOvernessResponse>('delphi/rsi/overness'),
+    ofetch<RsiOvernessResponse>('delphi/rsi/overness'),
   );
 
 export const useRsiDivergence = () =>
   useQuery(['rsi/divergence'], () =>
-    axios.get<RsiDivergenceResponse>('delphi/rsi/divergence'),
+    ofetch<RsiDivergenceResponse>('delphi/rsi/divergence'),
   );
 
 /// ////
@@ -102,18 +102,16 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
   pageSize?: number;
 }) =>
   useQuery(['indicator/heatmap', JSON.stringify(filters)], () =>
-    axios
-      .get<PageResponse<IndicatorHeatmap<I>>>(
-        `delphi/${filters.indicator}/heatmap/`,
-        {
-          params: {
-            page_size: filters?.pageSize ?? 10,
-            page: filters?.page ?? 1,
-            resolution: filters.resolution,
-          },
+    ofetch<PageResponse<IndicatorHeatmap<I>>>(
+      `delphi/${filters.indicator}/heatmap/`,
+      {
+        query: {
+          page_size: filters?.pageSize ?? 10,
+          page: filters?.page ?? 1,
+          resolution: filters.resolution,
         },
-      )
-      .then(resp => resp.data),
+      },
+    ),
   );
 
 export type IndicatorConfirmationCombination =
@@ -208,53 +206,51 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
   pageSize?: number;
 }) =>
   useQuery(['indicator/momentum-confirmation', JSON.stringify(filters)], () =>
-    axios
-      .get<PageResponse<IndicatorConfirmation<I>>>(
-        `delphi/${filters.indicator}/momentum-confirmation/`,
-        {
-          params: {
-            page_size: filters?.pageSize ?? 10,
-            page: filters?.page ?? 1,
-            ...Object.fromEntries(
-              filters.combination.map(comb => [
-                comb.endsWith('_divergence') ||
-                comb.endsWith('_oversold') ||
-                comb.endsWith('_overbought')
-                  ? comb.replace(`${filters.indicator}_`, '')
-                  : comb,
-                'True',
-              ]),
-            ),
-          },
+    ofetch<PageResponse<IndicatorConfirmation<I>>>(
+      `delphi/${filters.indicator}/momentum-confirmation/`,
+      {
+        query: {
+          page_size: filters?.pageSize ?? 10,
+          page: filters?.page ?? 1,
+          ...Object.fromEntries(
+            filters.combination.map(comb => [
+              comb.endsWith('_divergence') ||
+              comb.endsWith('_oversold') ||
+              comb.endsWith('_overbought')
+                ? comb.replace(`${filters.indicator}_`, '')
+                : comb,
+              'True',
+            ]),
+          ),
         },
-      )
-      .then(({ data }) => {
-        const results = data.results.map(row => {
-          // prefix indicaor values and resolutions to match type
-          for (const key of [
-            'bearish_divergence_resolutions',
-            'bullish_divergence_resolutions',
-            'macd_divergence_types',
-            'oversold_resolutions',
-            'overbought_resolutions',
-            'cross_up_resolutions',
-            'cross_down_resolutions',
-            'values',
-          ]) {
-            if (key in row) {
-              const oldKey = key as keyof typeof row;
-              const newKey = `${filters.indicator}_${key}` as keyof typeof row;
+      },
+    ).then(data => {
+      const results = data.results.map(row => {
+        // prefix indicaor values and resolutions to match type
+        for (const key of [
+          'bearish_divergence_resolutions',
+          'bullish_divergence_resolutions',
+          'macd_divergence_types',
+          'oversold_resolutions',
+          'overbought_resolutions',
+          'cross_up_resolutions',
+          'cross_down_resolutions',
+          'values',
+        ]) {
+          if (key in row) {
+            const oldKey = key as keyof typeof row;
+            const newKey = `${filters.indicator}_${key}` as keyof typeof row;
 
-              row[newKey] = (row[oldKey] ?? row[newKey]) as never;
-            }
+            row[newKey] = (row[oldKey] ?? row[newKey]) as never;
           }
-          return row;
-        });
-        return {
-          ...data,
-          results,
-        };
-      }),
+        }
+        return row;
+      });
+      return {
+        ...data,
+        results,
+      };
+    }),
   );
 
 export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
@@ -284,16 +280,16 @@ export const useTechnicalRadarTopCoins = () =>
       page: number,
       prevList: TechnicalRadarCoin[],
     ) => {
-      const newResp = await axios.get<PageResponse<TechnicalRadarCoin>>(
+      const newResp = await ofetch<PageResponse<TechnicalRadarCoin>>(
         'delphi/technical-radar/top-coins/',
         {
-          params: {
+          query: {
             page,
           },
         },
       );
-      const lastValue = [...prevList, ...newResp.data.results];
-      if (newResp.data.next) {
+      const lastValue = [...prevList, ...newResp.results];
+      if (newResp.next) {
         return await getRecursive(page + 1, lastValue);
       }
       return lastValue;

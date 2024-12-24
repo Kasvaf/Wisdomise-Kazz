@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
 import { setJwtToken, useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { ofetch } from 'config/ofetch';
 import { type Account } from './types/UserInfoResponse';
 
 export function useAccountQuery() {
@@ -10,7 +10,7 @@ export function useAccountQuery() {
     ['account', isLoggedIn],
     async () => {
       // if (!isLoggedIn) return null;
-      const { data } = await axios.get<Account>(
+      const data = await ofetch<Account>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
       );
       return data;
@@ -40,7 +40,7 @@ export function useReferralStatusQuery(intervalDays?: number) {
     ['getReferralStatus', intervalDays],
     async ({ queryKey }) => {
       const [, intervalDays] = queryKey;
-      const { data } = await axios.get<ReferralStatus>(
+      const data = await ofetch<ReferralStatus>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status${
           intervalDays ? '?interval_days=' + String(intervalDays) : ''
         }`,
@@ -62,7 +62,7 @@ export function useStripeSetupIntentQuery() {
   return useQuery(
     ['getStripeSetupIntent'],
     async () => {
-      const { data } = await axios.get<SetupIntentResponse>(
+      const data = await ofetch<SetupIntentResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/setup-intent`,
       );
       return data;
@@ -91,7 +91,7 @@ export interface CommunityProfile {
 
 export function useCommunityProfileQuery() {
   return useQuery(['community-profile'], async () => {
-    const { data } = await axios.get<CommunityProfile>(
+    const data = await ofetch<CommunityProfile>(
       `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile`,
     );
     return data;
@@ -102,9 +102,9 @@ export function useCommunityProfileMutation() {
   const client = useQueryClient();
   return useMutation<unknown, unknown, Partial<CommunityProfile>>(
     async newProfile => {
-      await axios.patch(
+      await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile`,
-        newProfile,
+        { body: newProfile, method: 'patch' },
       );
     },
     {
@@ -124,16 +124,16 @@ export const useUploaderMutation = (target: ImageUploaderTarget) => {
     mutationFn: async file => {
       const formData = new FormData();
       formData.append('image', file);
-      const resp = await axios.put<{
+      const resp = await ofetch<{
         image_url: string;
       }>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile/${target}`,
-        formData,
         {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          body: formData,
+          method: 'put',
         },
       );
-      return resp.data.image_url;
+      return resp.image_url;
     },
   });
 };
@@ -146,7 +146,7 @@ export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
   return useQuery(
     ['gameLogin', query, quickLogin],
     async () => {
-      const { data } = await axios.get<MiniAppLoginResponse>(
+      const data = await ofetch<MiniAppLoginResponse>(
         `${INVESTMENT_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
         {
           meta: { auth: false },

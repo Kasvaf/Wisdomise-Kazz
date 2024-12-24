@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { Select } from 'antd';
 import { useQuery } from '@tanstack/react-query';
 import { bxChevronDown } from 'boxicons-quasar';
 import { RouterBaseName } from 'config/constants';
 import Icon from 'shared/Icon';
+import { ofetch } from 'config/ofetch';
 
 const gotoBranch = (value: string) => {
   window.location.href = value + window.location.hash;
@@ -11,10 +11,8 @@ const gotoBranch = (value: string) => {
 
 const BranchSelector = () => {
   const branches = useQuery(['branched'], async () => {
-    const res = await axios.get<string>(
-      window.location.origin + '/branches.txt',
-    );
-    return res.data
+    const data = await ofetch<string>(window.location.origin + '/branches.txt');
+    return data
       .split(/\s+/)
       .filter(Boolean)
       .map(value => ({ value, label: value.substring(1) }));

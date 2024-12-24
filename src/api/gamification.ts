@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import type { PageResponse } from 'api/types/page';
 import { INVESTMENT_ORIGIN } from 'config/constants';
 import { useGameLoginQuery } from 'api/account';
 import { isLocal } from 'utils/version';
 import { useTelegram } from 'modules/autoTrader/TelegramProvider';
+import { ofetch } from 'config/ofetch';
 
 export interface Friend {
   telegram_id: number;
@@ -17,7 +17,7 @@ export const useFriends = () =>
   useQuery(
     ['friends'],
     async () => {
-      const { data } = await axios.get<PageResponse<Friend>>(
+      const data = await ofetch<PageResponse<Friend>>(
         `${INVESTMENT_ORIGIN}/api/v1/gamification/user/friend`,
       );
       return data;
@@ -69,9 +69,9 @@ export interface SyncDataResponse {
 
 export const useSyncDataMutation = () => {
   return useMutation(async (body: SyncDataRequest) => {
-    const { data } = await axios.post<SyncDataResponse>(
+    const data = await ofetch<SyncDataResponse>(
       `${INVESTMENT_ORIGIN}/api/v1/gamification/user/sync-data`,
-      body,
+      { body, method: 'post' },
     );
     return data;
   });
@@ -91,9 +91,9 @@ interface CheckEligibilityRequest {
 
 export const useCheckEligibilityMutation = () =>
   useMutation(async (body: CheckEligibilityRequest) => {
-    const { data } = await axios.post<CheckEligibilityResponse[]>(
+    const data = await ofetch<CheckEligibilityResponse[]>(
       `${INVESTMENT_ORIGIN}/api/v1/gamification/user/check-eligibility`,
-      body,
+      { body, method: 'post' },
     );
     return data;
   });
@@ -104,7 +104,7 @@ export const useUserTicketsQuery = () =>
   useQuery(
     ['userTickets'],
     async () => {
-      const { data } = await axios.get<UserTickets>(
+      const data = await ofetch<UserTickets>(
         `${INVESTMENT_ORIGIN}/api/v1/gamification/user/tickets`,
       );
       return data;
@@ -120,9 +120,9 @@ interface WithdrawRequest {
 
 export const useWithdrawMutation = () =>
   useMutation(async (body: WithdrawRequest) => {
-    const { data } = await axios.post(
+    const data = await ofetch(
       `${INVESTMENT_ORIGIN}/api/v1/gamification/user/withdraw`,
-      body,
+      { body, method: 'post' },
     );
     return data;
   });
@@ -137,14 +137,14 @@ export const useWaitlistMutation = () => {
   );
   return useMutation(async () => {
     const { data } = await refetch();
-    return await axios.post<unknown>(
+    return await ofetch<unknown>(
       `${INVESTMENT_ORIGIN}/api/v1/gamification/user/wait-list`,
-      null,
       {
-        transformRequest: [
-          (_, headers) =>
-            headers.set('Authorization', `Bearer ${data?.token ?? ''}`),
-        ],
+        body: null,
+        onRequest: ({ options }) => {
+          options.headers.set('Authorization', `Bearer ${data?.token ?? ''}`);
+        },
+        method: 'post',
       },
     );
   });
