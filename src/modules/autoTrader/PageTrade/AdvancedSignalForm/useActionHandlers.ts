@@ -36,6 +36,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
     price: [price],
     leverage: [leverage],
     amount: [amount],
+    quote: [quote],
     orderType: [orderType],
     exp: [exp],
     orderExp: [orderExp],
@@ -74,7 +75,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
     const createData: CreatePositionRequest = {
       signal: {
         action: 'open',
-        pair_slug: slug + '/tether',
+        pair_slug: slug + '/' + quote,
         leverage: { value: Number(leverage) || 1 },
         position: {
           type: 'long',
@@ -86,7 +87,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
         open_orders: getOpenOrders(assetPrice),
       },
       withdraw_address: address,
-      quote_slug: 'tether',
+      quote_slug: quote,
       quote_amount: amount,
     } as const;
 
@@ -100,6 +101,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
           amount,
+          quote,
         });
         navigate(`/trader-hot-coins/${slug}`);
       } catch (error) {

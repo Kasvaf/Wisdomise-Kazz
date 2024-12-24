@@ -5,6 +5,7 @@ import Button from 'shared/Button';
 import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import Spin from 'shared/Spin';
 import InfoButton from 'shared/InfoButton';
+import { useSymbolInfo } from 'api/symbol';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<
@@ -67,6 +68,7 @@ const ModalApproval: React.FC<{
   const {
     amount: [amount],
     volume: [volume],
+    quote: [quote],
     safetyOpens: [safetyOpens],
     takeProfits: [takeProfits],
     stopLosses: [stopLosses],
@@ -74,6 +76,8 @@ const ModalApproval: React.FC<{
 
   const { mutate, data, isLoading } = usePreparePositionMutation();
   useEffect(() => mutate(createData), [createData, mutate]);
+
+  const { data: quoteInfo } = useSymbolInfo(quote);
 
   return (
     <div className="flex h-full flex-col text-white">
@@ -84,7 +88,9 @@ const ModalApproval: React.FC<{
           </div>
         )}
         <InfoLine label="Initial Deposit">
-          <div className="font-medium">{amount} USDT</div>
+          <div className="font-medium">
+            {amount} {quoteInfo?.abbreviation}
+          </div>
         </InfoLine>
 
         <InfoLine

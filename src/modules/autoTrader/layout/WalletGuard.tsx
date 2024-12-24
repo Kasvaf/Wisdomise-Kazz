@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react';
-import { useSyncWallet } from 'modules/autoTrader/useSyncWallet';
+import { useSyncWallet } from './useSyncWallet';
 
 export default function WalletGuard({ children }: PropsWithChildren) {
   useSyncWallet();

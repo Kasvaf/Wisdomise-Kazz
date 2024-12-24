@@ -7,6 +7,7 @@ import {
 import { ofetch } from 'config/ofetch';
 import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
 import { type PageResponse } from './types/page';
+import { type Coin } from './types/shared';
 
 export interface UserAssetPair {
   slug: string;
@@ -43,6 +44,37 @@ export const useUserAssets = () => {
       refetchInterval: 30_000,
     },
   );
+};
+
+export const useSupportedPairs = (baseSlug: string) => {
+  return useQuery(
+    ['supported-pairs', baseSlug],
+    async () => {
+      const data = await ofetch<{
+        results: Array<{
+          id: string;
+          name: string; // pair name
+          base: Coin;
+          quote: Coin;
+        }>;
+      }>('/delphi/market/pairs/', {
+        query: {
+          base_slug: baseSlug,
+          network_name: 'ton',
+          exchange_name: 'STONFI',
+        },
+      });
+      return data.results;
+    },
+    {},
+  );
+};
+
+export const useIsPairSupported = (baseSlug: string) => {
+  const { data: pairs } = useSupportedPairs(baseSlug);
+  return (quoteSlug: string) => {
+    return pairs?.some(x => x.quote.slug === quoteSlug);
+  };
 };
 
 export const useTraderCoins = (filters?: {
@@ -179,7 +211,7 @@ export function useTraderPositionsQuery({
     async () => {
       const data = await ofetch<PositionsResponse>('trader/positions', {
         query: {
-          pair_slug: slug ? slug + '/tether' : undefined,
+          base_slug: slug || undefined,
           is_open: isOpen,
         },
       });

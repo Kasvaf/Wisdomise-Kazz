@@ -7,6 +7,7 @@ import BottomNavBar from 'modules/base/Container/BottomNavBar';
 import ScrollToTop from 'modules/base/Container/ScrollToTop';
 import Logo from 'assets/logo.png';
 import { useTelegramProfile } from './TelegramProvider';
+import FabSupport from './FabSupport';
 
 const ProfileInfo = () => {
   const profile = useTelegramProfile();
@@ -40,7 +41,7 @@ const ProfileInfo = () => {
   );
 };
 
-export function TelegramLayout() {
+export default function TelegramLayout() {
   const mainRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -50,6 +51,7 @@ export function TelegramLayout() {
           <ProfileInfo />
           <TonConnectButton />
         </div>
+        <FabSupport />
         <div
           ref={mainRef}
           id="scrolling-element"

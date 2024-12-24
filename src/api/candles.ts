@@ -79,7 +79,7 @@ interface LastCandleParams {
 export const useLastCandleQuery = ({
   exchange,
   slug: base,
-  quote = 'tether',
+  quote = 'dollar',
   market = 'SPOT',
 }: LastCandleParams) =>
   useQuery(
@@ -88,9 +88,10 @@ export const useLastCandleQuery = ({
       const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
         query: {
           base,
-          quote,
+          quote: quote === 'dollar' ? 'tether' : quote,
           exchange,
           market,
+          convert_to_usd: quote === 'dollar',
           t: String(Date.now()),
         },
       });

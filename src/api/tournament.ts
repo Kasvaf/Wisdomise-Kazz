@@ -9,6 +9,7 @@ export interface Tournament {
   icon: string;
   name: string;
   description: string;
+  tooltip_content: string;
   start_time: string;
   end_time: string;
   prizes: TournamentPrize[];

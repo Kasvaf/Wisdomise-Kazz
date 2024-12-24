@@ -10,6 +10,7 @@ interface Props {
   inputClassName?: string;
   error?: string | boolean;
   suffix?: string | React.ReactNode;
+  noSuffixPad?: boolean;
   min?: number;
   max?: number;
   onChange?: (item: string) => void;

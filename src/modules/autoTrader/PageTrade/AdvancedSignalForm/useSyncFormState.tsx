@@ -49,17 +49,18 @@ function mergeItems<T extends Mergeable>({
 
 const useSyncFormState = ({
   formState,
-  assetSlug,
+  baseSlug,
   activePosition,
 }: {
   formState: SignalFormState;
-  assetSlug: string;
+  baseSlug: string;
   activePosition?: Position;
 }) => {
   const {
     isUpdate: [, setIsUpdate],
     amount: [, setAmount],
     price: [, setPrice],
+    quote: [quote],
     leverage: [, setLeverage],
     market: [, setMarket],
     volume: [, setVolume],
@@ -84,7 +85,8 @@ const useSyncFormState = ({
     setConditions([]);
     setMaxOrders(100);
   }, [
-    assetSlug,
+    quote,
+    baseSlug,
     setConditions,
     setMaxOrders,
     setOrderType,

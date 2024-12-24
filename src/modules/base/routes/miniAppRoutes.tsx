@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
-import TelegramContainer from 'modules/autoTrader/TelegramContainer';
-import { TelegramLayout } from 'modules/autoTrader/TelegramLayout';
-import GameAuthGuard from 'modules/autoTrader/GameAuthGuard';
+import TelegramContainer from 'modules/autoTrader/layout/TelegramContainer';
+import TelegramLayout from 'modules/autoTrader/layout/TelegramLayout';
+import GameAuthGuard from 'modules/autoTrader/layout/GameAuthGuard';
 
 const PageHome = React.lazy(() => import('modules/autoTrader/PageHome'));
 
@@ -12,6 +12,10 @@ const PageOnboarding = React.lazy(
 
 const PageClaimReward = React.lazy(
   () => import('modules/autoTrader/PageClaimReward'),
+);
+
+const TournamentsLayout = React.lazy(
+  () => import('modules/autoTrader/PageTournaments/TournamentsLayout'),
 );
 
 const PageTournaments = React.lazy(
@@ -75,6 +79,7 @@ const useMiniAppRoutes = () => {
             },
             {
               path: 'trader-tournaments',
+              element: <TournamentsLayout />,
               children: [
                 { path: '', element: <PageTournaments /> },
                 { path: ':id', element: <PageTournamentDetail /> },
