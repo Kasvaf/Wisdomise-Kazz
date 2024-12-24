@@ -26,17 +26,6 @@ export const ECharts: FC<{
 
     if (!chart.current) {
       chart.current = init(element.current, theme ?? 'dark', initOptions);
-      chart.current.setOption(
-        {
-          tooltip: {
-            backgroundColor: '#282a32',
-            textStyle: {
-              color: '#ffffff',
-            },
-          },
-        },
-        true,
-      );
     }
     return () => {
       chart.current?.clear();
@@ -47,7 +36,7 @@ export const ECharts: FC<{
   useEffect(() => {
     if (!chart.current) return;
     if (onClick) chart.current.on('click', onClick);
-    chart.current.setOption(userOptions, false);
+    chart.current.setOption(userOptions);
     return () => {
       if (!chart.current) return;
       if (onClick) chart.current.off('click', onClick);

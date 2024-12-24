@@ -12,6 +12,7 @@ import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import Icon from 'shared/Icon';
 import { useScreenshot } from 'shared/useScreenshot';
+import { formatNumber } from 'utils/numbers';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -34,6 +35,32 @@ export const TechnicalChartWidget: FC<{
     return {
       tooltip: {
         trigger: 'item',
+        backgroundColor: '#282a32',
+        textStyle: {
+          color: '#ffffff',
+        },
+        formatter: (s, x) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
+          /* @ts-ignore */
+          const name = s?.data?.name as string | undefined;
+          const bubble = name
+            ? parsedData.data.find(x => x.label === name)
+            : null;
+          return `<div style="background: #282a32; color: #FFF;">
+            <div><b>${bubble?.raw.symbol.name ?? name ?? x}</b></div>
+            <div>Price Change: <b style="color: ${
+              bubble?.borderColor ?? ''
+            };">${formatNumber(
+              bubble?.raw.data?.price_change_percentage_24h ?? 0,
+              {
+                compactInteger: true,
+                decimalLength: 2,
+                minifyDecimalRepeats: true,
+                seperateByComma: true,
+              },
+            )}%</b></div>
+          </div>`;
+        },
         valueFormatter(_, dataIndex) {
           const raw = parsedData.data?.[dataIndex]?.raw;
           if (!raw) return '';
