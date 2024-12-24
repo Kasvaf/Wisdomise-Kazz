@@ -11,6 +11,7 @@ import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
 import oneSignal from 'config/oneSignal';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { useDebugMode } from 'shared/useDebugMode';
 import OneTapLogin from './OneTapLogin';
 import { useIsLoggedIn } from './jwt-store';
 import { useModalLogin } from './ModalLogin';
@@ -27,10 +28,11 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   const [forceLoginContent, forceLogin] = useModalLogin(false);
 
   useHubSpot();
+  useDebugMode();
   const navigate = useNavigate();
   const { data: account, isLoading } = useAccountQuery();
   const isLoggedIn = useIsLoggedIn();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const email = account?.email;
@@ -45,20 +47,11 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   }, [account?.email, account?.wallet_address, isLoggedIn]);
 
   useEffect(() => {
-    if (searchParams.has('debug')) {
-      localStorage.setItem(
-        'debug',
-        searchParams.get('debug') === 'false' ? 'false' : 'true',
-      );
-      searchParams.delete('debug');
-      setSearchParams(searchParams);
-      window.location.reload();
-    }
     /* immidiateLogin */
     if (searchParams.has('iml')) {
       setImediateLogin(true);
     }
-  }, [searchParams, setImediateLogin, setSearchParams]);
+  }, [searchParams, setImediateLogin]);
 
   useEffect(() => {
     if (!isLoggedIn) {
