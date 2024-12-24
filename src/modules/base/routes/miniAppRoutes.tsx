@@ -6,10 +6,6 @@ import GameAuthGuard from 'modules/autoTrader/layout/GameAuthGuard';
 
 const PageHome = React.lazy(() => import('modules/autoTrader/PageHome'));
 
-const PageOnboarding = React.lazy(
-  () => import('modules/autoTrader/PageOnboarding'),
-);
-
 const PageClaimReward = React.lazy(
   () => import('modules/autoTrader/PageClaimReward'),
 );
@@ -53,10 +49,6 @@ const useMiniAppRoutes = () => {
       path: '',
       children: [
         { path: '', element: <Navigate to="trader-home" /> },
-        {
-          path: 'onboarding',
-          element: <PageOnboarding />,
-        },
         {
           path: '',
           element: <TelegramLayout />,
