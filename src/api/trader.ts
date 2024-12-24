@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import {
   type OpenOrderResponse,
   type SignalItem,
   type Signal,
 } from 'api/builder';
+import { ofetch } from 'config/ofetch';
 import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
@@ -20,7 +20,7 @@ export const useUserAssets = () => {
   return useQuery(
     ['user-assets'],
     async () => {
-      const { data } = await axios.get<{
+      const data = await ofetch<{
         symbols: Array<{
           slug: string;
           amount: string;
@@ -51,7 +51,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
     ['supported-pairs', baseSlug],
     async () => {
       if (!baseSlug) return [];
-      const { data } = await axios.get<{
+      const data = await ofetch<{
         results: Array<{
           id: string;
           name: string; // pair name
@@ -59,7 +59,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
           quote: Coin;
         }>;
       }>('/delphi/market/pairs/', {
-        params: {
+        query: {
           base_slug: baseSlug,
           network_name: 'ton',
           exchange_name: 'STONFI',
@@ -86,10 +86,10 @@ export const useTraderCoins = (filters?: {
     queryKey: ['trader-coins', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
-      const { data } = await axios.get<PageResponse<WhaleCoin>>(
+      const data = await ofetch<PageResponse<WhaleCoin>>(
         '/delphi/intelligence/trader-top-coins/',
         {
-          params: {
+          query: {
             page_size: filters?.pageSize ?? 10,
             page: filters?.page ?? 1,
             days: filters?.days ?? 1,
@@ -184,9 +184,7 @@ export function useTraderPositionQuery(positionKey?: string) {
     async () => {
       if (!positionKey) return;
 
-      const { data } = await axios.get<Position>(
-        `trader/positions/${positionKey}`,
-      );
+      const data = await ofetch<Position>(`trader/positions/${positionKey}`);
       return data;
     },
     {
@@ -207,8 +205,8 @@ export function useTraderPositionsQuery({
   return useQuery(
     ['traderPositions', slug, isOpen],
     async () => {
-      const { data } = await axios.get<PositionsResponse>('trader/positions', {
-        params: {
+      const data = await ofetch<PositionsResponse>('trader/positions', {
+        query: {
           base_slug: slug || undefined,
           is_open: isOpen,
         },
@@ -233,9 +231,9 @@ export const usePreparePositionMutation = () => {
   const { mutateAsync } = useCreateTraderInstanceMutation();
   return useMutation(async (body: CreatePositionRequest) => {
     await mutateAsync();
-    const { data } = await axios.post<{ gas_fee: string; warning?: string }>(
+    const data = await ofetch<{ gas_fee: string; warning?: string }>(
       'trader/positions/prepare',
-      body,
+      { body, method: 'post' },
     );
     return data;
   });
@@ -250,10 +248,13 @@ export interface CreatePositionResponse {
 
 export const useCreateTraderInstanceMutation = () => {
   return useMutation(async () => {
-    return await axios.post<null>('trader', {
-      exchange: 'STONFI',
-      market: 'SPOT',
-      network_slug: 'the-open-network',
+    return await ofetch<null>('trader', {
+      body: {
+        exchange: 'STONFI',
+        market: 'SPOT',
+        network_slug: 'the-open-network',
+      },
+      method: 'post',
     });
   });
 };
@@ -264,10 +265,10 @@ export const useTraderFirePositionMutation = () => {
   return useMutation(
     async (body: CreatePositionRequest) => {
       await mutateAsync();
-      const { data } = await axios.post<CreatePositionResponse>(
-        'trader/positions',
+      const data = await ofetch<CreatePositionResponse>('trader/positions', {
         body,
-      );
+        method: 'post',
+      });
       return data;
     },
     {
@@ -280,7 +281,9 @@ export const useTraderCancelPositionMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(
     async (positionKey: string) => {
-      return await axios.post<null>(`trader/positions/${positionKey}/cancel`);
+      return await ofetch<null>(`trader/positions/${positionKey}/cancel`, {
+        method: 'post',
+      });
     },
     {
       onSuccess: () => queryClient.invalidateQueries(['traderPositions']),
@@ -297,7 +300,10 @@ export const useTraderUpdatePositionMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(
     async (body: UpdatePositionRequest) => {
-      return await axios.post<null>('trader/positions/signal', body);
+      return await ofetch<null>('trader/positions/signal', {
+        body,
+        method: 'post',
+      });
     },
     {
       onSuccess: () => queryClient.invalidateQueries(['traderPositions']),
@@ -394,7 +400,7 @@ export function useTraderPositionTransactionsQuery({
   return useQuery(
     ['position-transactions', positionKey],
     async () => {
-      const { data } = await axios.get<{ transactions: Transaction[] }>(
+      const data = await ofetch<{ transactions: Transaction[] }>(
         `trader/positions/${positionKey}/transactions`,
       );
       return data.transactions;

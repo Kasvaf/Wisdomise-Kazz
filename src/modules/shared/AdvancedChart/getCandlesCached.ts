@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { type Candle, type Resolution } from 'api';
 import { type MarketTypes } from 'api/types/shared';
+import { ofetch } from 'config/ofetch';
 
 const caches: Record<string, Candle[]> = {};
 
@@ -39,8 +39,8 @@ const getCandlesCached = async ({
 
   if (caches[cacheKey]) return caches[cacheKey];
 
-  const { data } = await axios.get<Candle[]>('/delphi/candles', {
-    params: {
+  const data = await ofetch<Candle[]>('/delphi/candles', {
+    query: {
       asset,
       resolution,
       start_datetime: startDate,

@@ -1,0 +1,48 @@
+import { ofetch as originalOfetch } from 'ofetch';
+import { isDebugMode } from 'utils/version';
+import { TEMPLE_ORIGIN } from './constants';
+
+let config: {
+  getLang?: () => string | null;
+  getJwtToken?: () => string | null;
+  delJwtToken?: () => void;
+  refreshAccessToken?: () => Promise<void>;
+} = {};
+
+export const ofetch = originalOfetch.create({
+  baseURL: `${TEMPLE_ORIGIN}/api/v1/`,
+  onRequest: ({ options }) => {
+    if (options.meta?.auth !== false) {
+      const jwtToken = config?.getJwtToken?.();
+      if (jwtToken) {
+        options.headers.set('Authorization', `Bearer ${jwtToken}`);
+      }
+    }
+    if (options.meta?.lang !== false) {
+      const lang = config.getLang?.() || 'en';
+      options.headers.set('Accept-Language', lang);
+    }
+  },
+  onResponseError: async ({ request, response, options }) => {
+    if ([401, 403].includes(response.status) && options.meta?.auth !== false) {
+      if (isDebugMode) {
+        console.log('🔴', request.toString());
+      }
+      if (request.toString().includes('account/auth/')) {
+        config?.delJwtToken?.();
+      } else {
+        if (config?.getJwtToken?.() && config?.refreshAccessToken) {
+          try {
+            await config.refreshAccessToken();
+          } catch {}
+        }
+      }
+    }
+  },
+  retry: 2,
+  retryStatusCodes: [401, 403, 408, 409, 425, 429, 500, 502, 503, 504],
+});
+
+export const configOfetch = (newConfig: typeof config) => {
+  config = newConfig;
+};

@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import {
   type Invoice,
   type PaymentMethodsResponse,
 } from 'modules/account/models';
 import queryClient from 'config/reactQuery';
+import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
 import {
   type PaymentMethod,
@@ -23,7 +23,7 @@ export const usePlansQuery = (periodicity?: PlanPeriod) =>
       if (periodicity) {
         params.set('periodicity', periodicity);
       }
-      const { data } = await axios.get<PageResponse<SubscriptionPlan>>(
+      const data = await ofetch<PageResponse<SubscriptionPlan>>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/plans?${params.toString()}`,
       );
       return data;
@@ -35,7 +35,7 @@ export const useInvoicesQuery = () =>
   useQuery(
     ['invoices'],
     async () => {
-      const { data } = await axios.get<PageResponse<Invoice>>(
+      const data = await ofetch<PageResponse<Invoice>>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`,
       );
       return data;
@@ -53,9 +53,9 @@ export const useSubscriptionMutation = () =>
   useMutation<unknown, unknown, UpdateSubscriptionRequest>({
     mutationKey: ['patchSubscription'],
     mutationFn: async body => {
-      const { data } = await axios.patch(
+      const data = await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/subscription-plan`,
-        body,
+        { body, method: 'patch' },
       );
       return data;
     },
@@ -69,9 +69,9 @@ export const useSubscriptionMutation = () =>
 export const useChangePaymentMethodMutation = () => {
   return useMutation({
     mutationFn: async (variables: { payment_method: PaymentMethod }) => {
-      await axios.patch(
+      await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/payment-method`,
-        variables,
+        { body: variables, method: 'patch' },
       );
     },
     onSuccess: () => queryClient.invalidateQueries(['account']),
@@ -95,9 +95,12 @@ interface SubmitCryptoPaymentVariables {
 export const useSubmitCryptoPayment = () =>
   useMutation<unknown, unknown, SubmitCryptoPaymentVariables>({
     mutationFn: async variables => {
-      await axios.post(`${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`, {
-        ...variables,
-        payment_method: 'CRYPTO',
+      await ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`, {
+        body: {
+          ...variables,
+          payment_method: 'CRYPTO',
+        },
+        method: 'post',
       });
     },
   });
@@ -113,9 +116,12 @@ interface SubmitTokenPaymentVariables {
 export const useSubmitTokenPayment = () =>
   useMutation<unknown, unknown, SubmitTokenPaymentVariables>({
     mutationFn: async variables => {
-      await axios.post(`${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`, {
-        ...variables,
-        payment_method: 'TOKEN',
+      await ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`, {
+        body: {
+          ...variables,
+          payment_method: 'TOKEN',
+        },
+        method: 'post',
       });
     },
   });
@@ -123,8 +129,11 @@ export const useSubmitTokenPayment = () =>
 export const useInstantCancelMutation = () =>
   useMutation({
     mutationFn: async () => {
-      await axios.patch(
+      await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/subscription-item/cancel`,
+        {
+          method: 'patch',
+        },
       );
       await queryClient.invalidateQueries(['account']);
     },
@@ -139,7 +148,7 @@ export const useStripePaymentMethodsQuery = () => {
   return useQuery(
     ['getPaymentMethods'],
     async () => {
-      const { data } = await axios.get<PaymentMethodsResponse>(
+      const data = await ofetch<PaymentMethodsResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/payment-methods`,
       );
       return data;

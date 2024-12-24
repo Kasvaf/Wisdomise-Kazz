@@ -1,5 +1,5 @@
 import useNotification from 'antd/es/notification/useNotification';
-import { isAxiosError } from 'axios';
+import { FetchError } from 'ofetch';
 import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,38 +16,32 @@ export const useErrorNotification = () => {
           message: <>{t('error')}</>,
           description: null,
         };
-        if (isAxiosError(error)) {
-          const { response, code } = error;
-          if (code === 'ERR_NETWORK') {
+        if (error instanceof FetchError) {
+          const { statusText, data } = error;
+          if (statusText === 'ERR_NETWORK') {
             returnValue = {
               ...returnValue,
               description: <>{t('errors.network-error')}</>,
             };
-          } else if (response?.data.message) {
+          } else if (data.message) {
             returnValue = {
               ...returnValue,
-              description: <>{response?.data.message}</>,
+              description: <>{data.message}</>,
             };
-          } else if (
-            typeof response?.data === 'object' &&
-            response.data !== null
-          ) {
+          } else if (typeof data === 'object' && data !== null) {
             returnValue = {
               ...returnValue,
               description: (
                 <>
-                  {Object.entries(response.data).map(
-                    ([field, fieldError], index) => (
-                      <div key={`${field}-${index}`}>
-                        {`${field}: ${
-                          Array.isArray(fieldError)
-                            ? fieldError.join(', ')
-                            : fieldError?.toString() ||
-                              t('errors.field-required')
-                        }`}
-                      </div>
-                    ),
-                  )}
+                  {Object.entries(data).map(([field, fieldError], index) => (
+                    <div key={`${field}-${index}`}>
+                      {`${field}: ${
+                        Array.isArray(fieldError)
+                          ? fieldError.join(', ')
+                          : fieldError?.toString() || t('errors.field-required')
+                      }`}
+                    </div>
+                  ))}
                 </>
               ),
             };

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { TEMPLE_ORIGIN } from 'config/constants';
+import { ofetch } from 'config/ofetch';
 
 export interface AirdropEligibilityStatus {
   exists: boolean;
@@ -18,7 +18,7 @@ export function useAirdropQuery(address: `0x${string}`) {
   return useQuery(
     ['airdrop'],
     async () => {
-      const { data } = await axios.get<Airdrop>(
+      const data = await ofetch<Airdrop>(
         `${TEMPLE_ORIGIN}/api/v1/investment/airdrop/${address}`,
       );
       return data;
@@ -37,7 +37,7 @@ export function useCheckAirdropEligibilityQuery(address?: `0x${string}`) {
     async () => {
       if (!address) return;
 
-      const { data } = await axios.get<AirdropEligibilityStatus>(
+      const data = await ofetch<AirdropEligibilityStatus>(
         `${TEMPLE_ORIGIN}/api/v1/investment/airdrop/${address}/check_eligibility`,
       );
       return data;

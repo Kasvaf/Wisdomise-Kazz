@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { ofetch } from 'config/ofetch';
 import { type MarketTypes } from './types/shared';
 import { useSupportedPairs } from './trader';
 
@@ -30,8 +30,8 @@ export const useCandlesQuery = ({
   useQuery(
     ['candles', asset, resolution, startDateTime, endDateTime, market],
     async () => {
-      const { data } = await axios.get<Candle[]>('/delphi/candles', {
-        params: {
+      const data = await ofetch<Candle[]>('/delphi/candles', {
+        query: {
           asset,
           resolution,
           start_datetime: startDateTime,
@@ -93,19 +93,16 @@ export const useLastCandleQuery = ({
   return useQuery(
     ['last-candle', base, quote, exchange, market],
     async () => {
-      const { data } = await axios.get<LastCandleResponse>(
-        '/delphinus/last_candle/',
-        {
-          params: {
-            base,
-            quote: theQuote,
-            exchange,
-            market,
-            convert_to_usd: (convertToUsd ?? quote === 'dollar') || undefined,
-            t: String(Date.now()),
-          },
+      const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
+        query: {
+          base,
+          quote: theQuote,
+          exchange,
+          market,
+          convert_to_usd: (convertToUsd ?? quote === 'dollar') || undefined,
+          t: String(Date.now()),
         },
-      );
+      });
       return data;
     },
     {
