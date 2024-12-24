@@ -130,16 +130,6 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
       validUntil: Date.now() + 10 * 60 * 1000,
       network: isProduction ? CHAIN.MAINNET : CHAIN.TESTNET,
       messages: [
-        {
-          address: noneBounceableAddress,
-          amount: toNano(gasFee).toString(),
-          payload: beginCell()
-            .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
-            .storeStringTail('Gas fee') // write our text comment
-            .endCell()
-            .toBoc()
-            .toString('base64'),
-        },
         quote === 'the-open-network'
           ? {
               address: noneBounceableAddress,
@@ -161,6 +151,16 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
                 .toBoc()
                 .toString('base64'),
             },
+        {
+          address: noneBounceableAddress,
+          amount: toNano(gasFee).toString(),
+          payload: beginCell()
+            .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
+            .storeStringTail('Gas fee') // write our text comment
+            .endCell()
+            .toBoc()
+            .toString('base64'),
+        },
       ],
     };
 
