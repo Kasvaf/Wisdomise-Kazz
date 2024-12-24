@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { useMainQuote } from 'api';
 import { roundSensible } from 'utils/numbers';
 import { toAmount } from 'shared/AmountInputBox';
 
@@ -20,8 +19,8 @@ const InternalInput: React.FC<{
       ref.style.width = `${Math.max(
         ref.scrollWidth,
         127 +
-          10 * value.replaceAll('1', '').length +
-          5 * value.replaceAll(/[^1]/g, '').length,
+          9 * value.replaceAll(/[.1]/g, '').length +
+          5 * value.replaceAll(/[^.1]/g, '').length,
       )}px`;
       ref.style.removeProperty('overflow-x');
     }
@@ -74,7 +73,6 @@ const PriceVolumeInput: React.FC<{
   disabledVolume,
   className,
 }) => {
-  const mainQuote = useMainQuote();
   const disVol = !!appliedAt || disabledVolume;
   const disPrc = !!appliedAt || disabledPrice;
 
@@ -112,8 +110,8 @@ const PriceVolumeInput: React.FC<{
           readonly={disPrc}
           className="pl-2"
         />
-        <span className="pointer-events-none ml-1 select-none text-xs text-white/50">
-          {mainQuote}
+        <span className="pointer-events-none ml-1 select-none text-white/50">
+          $
         </span>
 
         <div className="grow" />
