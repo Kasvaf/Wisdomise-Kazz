@@ -75,10 +75,6 @@ export default function ClaimRewardPage() {
 
   return (
     <div>
-      {/* <div className="flex items-center justify-between"> */}
-      {/*   /!* <img className="h-8" src={logo} alt="logo" /> *!/ */}
-      {/*   <TonConnectButton /> */}
-      {/* </div> */}
       <div className="mt-6">
         {tonConnect.connected && usdtBalance != null && (
           <p className="mb-6 text-xs text-white/40">
