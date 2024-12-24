@@ -60,7 +60,7 @@ const useSyncFormState = ({
     isUpdate: [, setIsUpdate],
     amount: [, setAmount],
     price: [, setPrice],
-    quote: [quote],
+    quote: [quote, setQuote],
     leverage: [, setLeverage],
     market: [, setMarket],
     volume: [, setVolume],
@@ -104,6 +104,7 @@ const useSyncFormState = ({
 
     if (activePosition) {
       setMarket(activePosition.side.toLowerCase() as 'long' | 'short');
+      setQuote(activePosition.quote_slug as any);
 
       const amount = initialQuoteDeposit(activePosition);
       if (amount !== undefined) setAmount(String(amount));
@@ -168,6 +169,7 @@ const useSyncFormState = ({
     activePosition,
     pairSlug,
     setAmount,
+    setQuote,
     setPrice,
     setLeverage,
     setMarket,

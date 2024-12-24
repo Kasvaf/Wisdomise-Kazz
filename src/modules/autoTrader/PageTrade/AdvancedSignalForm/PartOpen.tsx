@@ -39,6 +39,7 @@ const PartOpen: React.FC<{
   } = data;
 
   const { data: quoteInfo } = useSymbolInfo(quote);
+  const isNativeQuote = quote === 'the-open-network';
 
   const { data: assetPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
   const { data: quoteBalance, isLoading: balanceLoading } =
@@ -85,7 +86,11 @@ const PartOpen: React.FC<{
               quoteBalance != null && (
                 <div
                   className="flex items-center gap-1"
-                  onClick={() => !isUpdate && setAmount(String(quoteBalance))}
+                  onClick={() =>
+                    !isUpdate &&
+                    !isNativeQuote &&
+                    setAmount(String(quoteBalance))
+                  }
                 >
                   {quoteBalance ? (
                     <>
@@ -93,7 +98,9 @@ const PartOpen: React.FC<{
                         Balance: {String(quoteBalance)}{' '}
                         {quoteInfo?.abbreviation}
                       </span>
-                      {!isUpdate && <Icon name={bxPlusCircle} size={16} />}
+                      {!isUpdate && !isNativeQuote && (
+                        <Icon name={bxPlusCircle} size={16} />
+                      )}
                     </>
                   ) : (
                     <span className="text-sm text-v1-content-negative">
