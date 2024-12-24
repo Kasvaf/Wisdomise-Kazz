@@ -70,7 +70,7 @@ const HotCoinsTable = () => {
       </div>
 
       {coins.isLoading ? (
-        <div className="flex justify-between">
+        <div className="flex justify-center">
           <Spinner />
         </div>
       ) : (
