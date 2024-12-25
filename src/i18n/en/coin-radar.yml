@@ -127,7 +127,7 @@ coin-details:
         cryptocurrency is, which should make it easier for it to be bought/sold
         on an exchange close to its value.
     hot_coins:
-      title: Hot Coins
+      title: Social Radar Hottest Coins
       empty:
         title: No Hot Coins Right Now
         subtitle: >-
@@ -282,7 +282,7 @@ social-radar:
     rank: Wise Logic
   table:
     name: Name
-    title: Wisdomise Hot Coins
+    title: Social Radar Hottest Coins
     description: >-
       Wisdomise Social Radar <b>scanned {{posts}} posts from alpha groups</b> in
       the last 24 hours for accurate, data-driven insights.
