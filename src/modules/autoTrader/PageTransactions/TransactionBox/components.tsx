@@ -8,10 +8,11 @@ import {
   type TransactionOpenClose,
   type TransactionStatus,
 } from 'api';
-import { ReadableNumber } from 'shared/ReadableNumber';
 import Button from 'shared/Button';
 import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
+import { useSymbolInfo } from 'api/symbol';
+import { roundSensible } from 'utils/numbers';
 
 export const Box: React.FC<
   PropsWithChildren<{
@@ -65,7 +66,11 @@ export const GasFee: React.FC<{
   className?: string;
 }> = ({
   t: {
-    data: { gas_fee_amount: amount, gas_fee_asset: asset },
+    data: {
+      gas_fee_amount: amount,
+      gas_fee_asset_slug: assetSlug,
+      gas_fee_asset_name: assetName,
+    },
   },
   className,
 }) => {
@@ -74,11 +79,10 @@ export const GasFee: React.FC<{
   return (
     <div className={clsx('flex items-center justify-between', className)}>
       <div>Fee</div>
-      <ReadableNumber
-        value={Number(amount)}
-        label={asset}
-        className="shrink-0"
-      />
+      <div className="flex shrink-0 items-center">
+        {roundSensible(amount)} {assetName}
+        <AssetIcon slug={assetSlug} className="ml-1" />
+      </div>
     </div>
   );
 };
@@ -99,4 +103,13 @@ export const TonViewer: React.FC<{ link?: string | null }> = ({ link }) => {
       </Button>
     </div>
   );
+};
+
+export const AssetIcon: React.FC<{ slug: string; className?: string }> = ({
+  slug,
+  className,
+}) => {
+  const { data } = useSymbolInfo(slug);
+  if (!data?.logo_url) return null;
+  return <img src={data?.logo_url} className={clsx('size-4', className)} />;
 };

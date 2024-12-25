@@ -338,7 +338,8 @@ export interface TransactionOrder {
     to_asset_name: string;
     to_asset_slug: string;
     to_amount?: string | null;
-    gas_fee_asset: string;
+    gas_fee_asset_name: string;
+    gas_fee_asset_slug: string;
     gas_fee_amount?: string | null;
     trading_fee_asset: string;
     trading_fee_amount?: string | null;
@@ -357,7 +358,8 @@ export interface TransactionOpenClose {
     to_asset_name: string;
     to_asset_slug: string;
     to_amount?: string | null; // nullable
-    gas_fee_asset: string;
+    gas_fee_asset_name: string;
+    gas_fee_asset_slug: string;
     gas_fee_amount?: string | null; // nullable
     trading_fee_asset: string;
     trading_fee_amount: string | null; // nullable
@@ -386,7 +388,8 @@ export interface TransactionWithdraw {
   type: 'withdraw';
   data: {
     assets: Asset[];
-    gas_fee_asset: string;
+    gas_fee_asset_name: string;
+    gas_fee_asset_slug: string;
     gas_fee_amount?: string | null; // nullable
     time: string;
     status: TransactionStatus; // pending, processing (it can be seen on tonviewer but not confirmed), failed, completed

@@ -12,7 +12,7 @@ import Icon from 'shared/Icon';
 import { roundSensible } from 'utils/numbers';
 import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 import { ReactComponent as DepositIcon } from './deposit.svg';
-import { Box, GasFee, StatusLabel, TonViewer } from './components';
+import { AssetIcon, Box, GasFee, StatusLabel, TonViewer } from './components';
 
 const TransactionAnyOrderBox: React.FC<{
   t: TransactionOpenClose | TransactionOrder;
@@ -35,8 +35,9 @@ const TransactionAnyOrderBox: React.FC<{
       contentClassName="flex flex-col items-stretch gap-3"
     >
       <div className="flex items-center justify-between">
-        <div className="shrink-0">
+        <div className="flex shrink-0 items-center">
           {roundSensible(t.data.from_amount)} {t.data.from_asset_name}
+          <AssetIcon slug={t.data.from_asset_slug} className="ml-1" />
         </div>
         <div className="mx-4 flex grow items-center">
           <div className="w-full border-b border-dashed border-v1-content-secondary" />
@@ -46,8 +47,9 @@ const TransactionAnyOrderBox: React.FC<{
             className="text-v1-content-secondary"
           />
         </div>
-        <div className="shrink-0">
+        <div className="flex shrink-0 items-center">
           {roundSensible(t.data.to_amount)} {t.data.to_asset_name}
+          <AssetIcon slug={t.data.to_asset_slug} className="ml-1" />
         </div>
       </div>
 
@@ -69,8 +71,9 @@ const TransactionDepositWithdrawBox: React.FC<{
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             {t.data.assets.map(a => (
-              <div key={a.asset_slug} className="shrink-0">
+              <div key={a.asset_slug} className="flex shrink-0 items-center">
                 {roundSensible(a.amount)} {a.asset_name}
+                <AssetIcon slug={a.asset_slug} className="ml-1" />
               </div>
             ))}
           </div>

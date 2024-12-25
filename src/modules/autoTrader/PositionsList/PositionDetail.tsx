@@ -17,6 +17,15 @@ const AssetName: React.FC<{ slug: string }> = ({ slug }) => {
   return <>{data?.abbreviation}</>;
 };
 
+const AssetIcon: React.FC<{ slug: string; className?: string }> = ({
+  slug,
+  className,
+}) => {
+  const { data } = useSymbolInfo(slug);
+  if (!data?.logo_url) return null;
+  return <img src={data?.logo_url} className={clsx('size-4', className)} />;
+};
+
 const PositionDetail: React.FC<{
   position: Position;
   className?: string;
@@ -79,8 +88,9 @@ const PositionDetail: React.FC<{
         {initialDeposit != null && (
           <div className="flex items-center justify-between">
             <span className="text-v1-content-secondary">Initial Deposit</span>
-            <span>
+            <span className="flex items-center">
               {initialDeposit} {position.quote_name}
+              <AssetIcon slug={position.quote_slug} className="ml-1" />
             </span>
           </div>
         )}
@@ -93,8 +103,9 @@ const PositionDetail: React.FC<{
                 key={a.asset_slug}
                 className="flex items-center justify-between"
               >
-                <span className="text-v1-content-secondary">
+                <span className="flex items-center text-v1-content-secondary">
                   Current <AssetName slug={a.asset_slug} />
+                  <AssetIcon slug={a.asset_slug} className="ml-1" />
                 </span>
                 <span>{roundSensible(a.amount)}</span>
               </div>
@@ -116,8 +127,9 @@ const PositionDetail: React.FC<{
                     text="This gas amount is temporarily held and any unused gas will be refunded when the position is closed."
                   />
                 </span>
-                <span>
+                <span className="flex items-center">
                   {roundSensible(a.amount)} <AssetName slug={a.asset_slug} />
+                  <AssetIcon slug={a.asset_slug} className="ml-1" />
                 </span>
               </div>
             ))}
@@ -148,8 +160,9 @@ const PositionDetail: React.FC<{
         {position.status === 'CLOSED' && !!position.final_quote_amount && (
           <div className="flex items-center justify-between">
             <span>Withdrawn Amount</span>
-            <span>
+            <span className="flex items-center">
               {roundSensible(position.final_quote_amount)} {position.quote_name}
+              <AssetIcon slug={position.quote_slug} className="ml-1" />
             </span>
           </div>
         )}
