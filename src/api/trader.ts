@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { FetchError } from 'ofetch';
 import {
   type OpenOrderResponse,
   type SignalItem,
@@ -300,10 +301,23 @@ export const useTraderUpdatePositionMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(
     async (body: UpdatePositionRequest) => {
-      return await ofetch<null>('trader/positions/signal', {
-        body,
-        method: 'post',
-      });
+      try {
+        return await ofetch<null>('trader/positions/signal', {
+          body,
+          method: 'post',
+        });
+      } catch (error) {
+        if (error instanceof FetchError && error.status === 409) {
+          await queryClient.invalidateQueries([
+            'traderPosition',
+            body.position_key,
+          ]);
+          throw new Error(
+            'Position state is changed, please review and fire again!',
+          );
+        }
+        throw error;
+      }
     },
     {
       onSuccess: () => queryClient.invalidateQueries(['traderPositions']),
