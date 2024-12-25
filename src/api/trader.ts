@@ -145,7 +145,8 @@ export interface Position {
   exit_price?: string;
   exit_time?: string;
   pnl?: string;
-  current_total_equity: string;
+  current_total_quote_equity: string;
+  current_total_usd_equity: string;
   stop_loss?: string;
   take_profit?: string;
   size?: string;
@@ -155,6 +156,7 @@ export interface Position {
   base_slug: string;
   current_assets: PositionAsset[];
   deposit_assets: PositionAsset[];
+  final_quote_amount?: string;
 }
 
 interface PositionAsset {

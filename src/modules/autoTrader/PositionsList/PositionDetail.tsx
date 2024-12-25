@@ -22,6 +22,7 @@ const PositionDetail: React.FC<{
   className?: string;
 }> = ({ position, className }) => {
   const initialDeposit = initialQuoteDeposit(position);
+  const isOpen = ['OPENING', 'OPEN', 'CLOSING'].includes(position.status);
 
   return (
     <div
@@ -84,40 +85,42 @@ const PositionDetail: React.FC<{
           </div>
         )}
 
-        {position.current_assets
-          .filter(x => !x.is_gas_fee)
-          .map(a => (
-            <div
-              key={a.asset_slug}
-              className="flex items-center justify-between"
-            >
-              <span className="text-v1-content-secondary">
-                Current <AssetName slug={a.asset_slug} />
-              </span>
-              <span>{roundSensible(a.amount)}</span>
-            </div>
-          ))}
+        {isOpen &&
+          position.current_assets
+            .filter(x => !x.is_gas_fee)
+            .map(a => (
+              <div
+                key={a.asset_slug}
+                className="flex items-center justify-between"
+              >
+                <span className="text-v1-content-secondary">
+                  Current <AssetName slug={a.asset_slug} />
+                </span>
+                <span>{roundSensible(a.amount)}</span>
+              </div>
+            ))}
 
-        {position.current_assets
-          .filter(x => x.is_gas_fee)
-          .map(a => (
-            <div
-              key={a.asset_slug}
-              className="flex items-center justify-between"
-            >
-              <span className="flex items-center gap-1 text-v1-content-secondary">
-                Gas Reserve
-                <InfoButton
-                  size={16}
-                  title="Remaining Gas Fee"
-                  text="This gas amount is temporarily held and any unused gas will be refunded when the position is closed."
-                />
-              </span>
-              <span>
-                {roundSensible(a.amount)} <AssetName slug={a.asset_slug} />
-              </span>
-            </div>
-          ))}
+        {isOpen &&
+          position.current_assets
+            .filter(x => x.is_gas_fee)
+            .map(a => (
+              <div
+                key={a.asset_slug}
+                className="flex items-center justify-between"
+              >
+                <span className="flex items-center gap-1 text-v1-content-secondary">
+                  Gas Reserve
+                  <InfoButton
+                    size={16}
+                    title="Remaining Gas Fee"
+                    text="This gas amount is temporarily held and any unused gas will be refunded when the position is closed."
+                  />
+                </span>
+                <span>
+                  {roundSensible(a.amount)} <AssetName slug={a.asset_slug} />
+                </span>
+              </div>
+            ))}
 
         {position.pnl != null && (
           <div className="flex items-center justify-between">
@@ -135,24 +138,21 @@ const PositionDetail: React.FC<{
           </div>
         )}
 
-        {Number(position.current_total_equity) > 0 && (
+        {isOpen && Number(position.current_total_usd_equity) > 0 && (
           <div className="flex items-center justify-between">
             <span>Current Value</span>
-            <span>{roundSensible(position.current_total_equity)} USDT</span>
+            <span>{roundSensible(position.current_total_usd_equity)}$</span>
           </div>
         )}
 
-        {initialDeposit != null &&
-          position.pnl != null &&
-          Number(initialDeposit) > 0 &&
-          position.status === 'CLOSED' && (
-            <div className="flex items-center justify-between">
-              <span>Final Value</span>
-              <span>
-                {initialDeposit * (1 + Number(position.pnl) / 100)} USDT
-              </span>
-            </div>
-          )}
+        {position.status === 'CLOSED' && !!position.final_quote_amount && (
+          <div className="flex items-center justify-between">
+            <span>Withdrawn Amount</span>
+            <span>
+              {roundSensible(position.final_quote_amount)} {position.quote_name}
+            </span>
+          </div>
+        )}
 
         {position.status !== 'CANCELED' && (
           <Button
