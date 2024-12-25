@@ -36,7 +36,7 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
       ) : (
         <div />
       )}
-      <div>
+      <div className="text-end">
         <div className="text-xs font-medium">{roundSensible(asset.amount)}</div>
         <div className="text-xxs font-normal text-v1-content-secondary">
           ${roundSensible(asset.usd_equity)}
