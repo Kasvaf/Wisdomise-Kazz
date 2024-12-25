@@ -1,6 +1,7 @@
 import { bxsDownArrow } from 'boxicons-quasar';
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import { useLocation } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { ReactComponent as SupportIcon } from './support.svg';
 
@@ -16,6 +17,9 @@ const FabSupport = () => {
     window.addEventListener('scroll', handler);
     return () => window.removeEventListener('scroll', handler);
   }, [setClosedCount]);
+
+  const { pathname } = useLocation();
+  if (pathname.startsWith('/trader-tournaments/')) return null;
 
   return (
     <div className="fixed bottom-20 right-6 z-20 flex flex-col items-end">
