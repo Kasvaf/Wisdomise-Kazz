@@ -1,5 +1,11 @@
 export function unwrapErrorMessage(e: any) {
-  return e.response?.data?.message || e.message || '';
+  return (
+    e.response?.data?.message ||
+    e.response?._data?.message ||
+    e.response?.statusMessage ||
+    e.message ||
+    ''
+  );
 }
 
 export function extractWagmiErrorMessage(message: string) {
