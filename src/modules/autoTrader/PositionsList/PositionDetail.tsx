@@ -130,7 +130,7 @@ const PositionDetail: React.FC<{
               />
             </span>
             <span>
-              <PriceChange value={Number(position.pnl)} suffix="%" />
+              <PriceChange value={Number(position.pnl)} />
             </span>
           </div>
         )}
