@@ -5,7 +5,12 @@ available-exchanges:
     price: Price
     volume_24h: Volume 24h
 call-change:
+  biggest-dump: Biggest Dump
+  biggest-pump: Biggest Pump
+  current-price: Current Price
   fire-time: Signal Fire Time
+  hunted-at-here: Hunted At Here
+  last-pnl-update: Last PnL Update
   max-price: 'Max: Extremum High'
   min-price: 'Min: Extremum low'
   pnl: Last Update
@@ -156,7 +161,6 @@ coin-details:
       empty: No community activity detected for this coin.
       hunted-at: Hunted At
       long: Potential Growth Opportunity
-      market_side: Market Side
       negative: Negative
       not_sure: Not Sure
       positive: Positive

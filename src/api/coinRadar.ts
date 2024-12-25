@@ -50,6 +50,7 @@ export const useMarketInfoFromSignals = () =>
 
 export interface CoinSignalAnalysis {
   call_time: string;
+  updated_at: string;
   signal_length: string;
   current_pnl_percentage: number;
   average_signal: number;
@@ -61,9 +62,9 @@ export interface CoinSignalAnalysis {
   real_pnl_percentage: number;
   max_price: number;
   min_price: number;
-  sparkline: null | {
-    prices: null | number[];
-    related_ats: null | string[];
+  sparkline?: null | {
+    prices?: null | number[];
+    related_ats?: null | string[];
   };
 }
 export interface CoinSignal {
