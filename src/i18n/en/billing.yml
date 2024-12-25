@@ -43,7 +43,6 @@ plans:
     anytime!
   subscription-methods: Subscription Methods
 pricing-card:
-  annually: Yearly
   btn-action:
     activate-now: Activate Now
     choose: Choose

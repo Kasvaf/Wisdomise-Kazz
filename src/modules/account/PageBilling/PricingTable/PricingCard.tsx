@@ -93,10 +93,14 @@ export default function PricingCard({
         )}
       >
         {/* Title */}
-        <PlanHeader className="min-h-28" {...plan} />
+        <PlanHeader
+          className="min-h-28"
+          name={plan.name}
+          description={plan.description}
+        />
 
         {/* Price Info */}
-        <PlanPrice {...plan} />
+        <PlanPrice price={plan.price} periodicity={plan.periodicity} />
 
         {/* Button */}
         <div
@@ -140,7 +144,7 @@ export default function PricingCard({
         </div>
 
         {/* Features */}
-        <PlanFeatures {...plan} className="grow" />
+        <PlanFeatures features={plan.features} className="grow" />
 
         {plan.token_hold_support ? (
           <div className="mt-6 flex justify-center rounded-lg bg-white/5 py-3 text-xxs text-white/70">
