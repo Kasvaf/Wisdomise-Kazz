@@ -40,7 +40,7 @@ export const ofetch = originalOfetch.create({
     }
   },
   retry: 2,
-  retryStatusCodes: [401, 403, 408, 409, 425, 429, 500, 502, 503, 504],
+  retryStatusCodes: [401, 403],
 });
 
 export const configOfetch = (newConfig: typeof config) => {
