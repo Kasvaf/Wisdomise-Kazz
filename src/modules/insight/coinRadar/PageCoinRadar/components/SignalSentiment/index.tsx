@@ -122,7 +122,7 @@ export const SignalSentiment: FC<{
             relatedAt,
             dateType,
             priceType: 'normal',
-            y: Math.floor(price * 1_000_000),
+            y: price * 1_000_000,
           },
         ];
       }
@@ -253,7 +253,6 @@ export const SignalSentiment: FC<{
       backgroundColor: 'transparent',
     };
   }, [signal.signals_analysis, t]);
-  // updated_at
 
   const tooltip = useMemo(() => {
     if (!signal.signals_analysis || !tick) return null;
