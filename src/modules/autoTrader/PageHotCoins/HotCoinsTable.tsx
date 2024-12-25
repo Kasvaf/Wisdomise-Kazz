@@ -1,9 +1,6 @@
-import { useMemo, useState } from 'react';
-import { type ColumnType } from 'antd/es/table';
 import { Link } from 'react-router-dom';
 import { Image } from 'antd';
-import Table from 'shared/Table';
-import { useHasFlag, useTraderCoins, type WhaleCoin } from 'api';
+import { useHasFlag, useTraderCoins } from 'api';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -13,51 +10,14 @@ import ton from './ton.svg';
 
 const HotCoinsTable = () => {
   const hasFlag = useHasFlag();
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(500);
-  const [sortBy, setSortBy] = useState<string | undefined>(undefined);
-  const [isAscending, setIsAscending] = useState<boolean | undefined>(
-    undefined,
-  );
 
-  const coins = useTraderCoins({
-    page,
-    pageSize,
+  const { isLoading, data } = useTraderCoins({
+    page: 1,
+    pageSize: 500,
     filter: undefined,
-    sortBy,
-    isAscending,
     networkName: 'ton',
     days: 7,
   });
-
-  const columns = useMemo<Array<ColumnType<WhaleCoin>>>(
-    () => [
-      {
-        fixed: 'left',
-        render: (_, row) => (
-          <Link to={`/trader-hot-coins/${row?.symbol.slug ?? ''}`}>
-            <Coin coin={row.symbol} imageClassName="size-6" nonLink={true} />
-          </Link>
-        ),
-      },
-      {
-        align: 'right',
-        render: (_, row) => (
-          <div className="flex flex-col items-end">
-            <ReadableNumber value={row.market_data.current_price} label="$" />
-            <DirectionalNumber
-              value={row.market_data.price_change_percentage_24h}
-              showSign
-              className="text-[0.89em]"
-              showIcon={false}
-              label="%"
-            />
-          </div>
-        ),
-      },
-    ],
-    [],
-  );
 
   return (
     <div>
@@ -69,38 +29,36 @@ const HotCoinsTable = () => {
         {hasFlag('/trader-alerts') && <AlertButton />}
       </div>
 
-      {coins.isLoading ? (
+      {isLoading ? (
         <div className="flex justify-center">
           <Spinner />
         </div>
       ) : (
-        <Table
-          className="mb-12"
-          columns={columns}
-          dataSource={coins.data?.results ?? []}
-          rowKey={r => JSON.stringify(r.symbol)}
-          loading={coins.isRefetching && !coins.isFetched}
-          showHeader={false}
-          pagination={false}
-          onChange={(pagination, _, sorter) => {
-            setPage(pagination.current ?? 1);
-            setPageSize(pagination.pageSize ?? 5);
-            if (!Array.isArray(sorter)) {
-              setSortBy(
-                typeof sorter.field === 'string' && sorter.order
-                  ? sorter.field
-                  : undefined,
-              );
-              setIsAscending(
-                sorter.order === 'ascend'
-                  ? true
-                  : sorter.order === 'descend'
-                  ? false
-                  : undefined,
-              );
-            }
-          }}
-        />
+        <div className="flex flex-col gap-2">
+          {data?.results.map(coin => (
+            <Link
+              to={`/trader-hot-coins/${coin?.symbol.slug ?? ''}`}
+              key={coin.symbol.slug}
+              className="flex justify-between rounded-lg bg-v1-surface-l2 p-2"
+            >
+              <Coin coin={coin.symbol} imageClassName="size-6" nonLink={true} />
+
+              <div className="flex flex-col items-end">
+                <ReadableNumber
+                  value={coin.market_data.current_price}
+                  label="$"
+                />
+                <DirectionalNumber
+                  value={coin.market_data.price_change_percentage_24h}
+                  showSign
+                  className="text-[0.89em]"
+                  showIcon={false}
+                  label="%"
+                />
+              </div>
+            </Link>
+          ))}
+        </div>
       )}
     </div>
   );
