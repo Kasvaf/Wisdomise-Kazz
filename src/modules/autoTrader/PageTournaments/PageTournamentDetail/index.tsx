@@ -10,6 +10,7 @@ import TournamentCard from 'modules/autoTrader/PageTournaments/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
 import { addComma } from 'utils/numbers';
 import empty from 'modules/autoTrader/PositionsList/empty.svg';
+import { useTelegramProfile } from 'modules/autoTrader/layout/TelegramProvider';
 import { ReactComponent as IconUser } from './user.svg';
 
 const PARTICIPANTS_COUNT = 50;
@@ -21,6 +22,7 @@ export default function PageTournamentDetail() {
   const { data: tournament, isLoading } = useTournament(id);
   const { data: me } = useTournamentMe(id);
   const { data: participants } = useTournamentLeaderboard(id);
+  const profile = useTelegramProfile();
 
   const sortedParticipants = useMemo(() => {
     let sorted: TournamentParticipant[] = [];
@@ -84,7 +86,11 @@ export default function PageTournamentDetail() {
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
                   <IconUser />
                 </div>
-                <div className="ms-3">{p.name ?? p.investor_key}</div>
+                <div className="ms-3">
+                  {p.investor_key === me?.investor_key
+                    ? profile?.first_name
+                    : p.name ?? p.investor_key}
+                </div>
                 <div className="ms-auto">${addComma(+p.trading_volume)}</div>
               </div>
             ))}
@@ -107,7 +113,9 @@ export default function PageTournamentDetail() {
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
                     <IconUser />
                   </div>
-                  <div className="ms-3">{me.name ?? me.investor_key}</div>
+                  <div className="ms-3">
+                    {profile?.first_name ?? me.investor_key}
+                  </div>
                   <div className="ms-auto">
                     ${addComma(+(me.trading_volume ?? ''))}
                   </div>
