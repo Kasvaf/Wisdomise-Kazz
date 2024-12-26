@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { type Alert } from 'api/alert';
-import { usePro } from 'modules/base/auth/ProContent/ProProvider';
 import { AlertModal } from 'modules/alert/library/AlertModal';
 import { AlertProvider } from 'modules/alert/library/AlertProvider';
 import { AlertEdit } from 'modules/alert/library/AlertEdit';
 import { useAlertForm, useAlertForms } from 'modules/alert/forms';
+import { useSubscription } from 'api';
 import {
   useAlertDeleteConfirm,
   useAlertSaveToast,
@@ -21,7 +21,7 @@ export const useAlertActions = (
   const [deleteConfirmModal, showDeleteConfirm] = useAlertDeleteConfirm();
   const [saveToast, showSaveToast] = useAlertSaveToast();
   const forms = useAlertForms();
-  const pro = usePro();
+  const { ensureGroup, loginModal } = useSubscription();
 
   return useMemo(
     () => ({
@@ -42,15 +42,16 @@ export const useAlertActions = (
           <div className="hidden">
             {deleteConfirmModal}
             {saveToast}
+            {loginModal}
           </div>
         </>
       ),
       openSaveModal: async () =>
-        (await pro.ensureHasLevel(1)) && setIsModalOpen(true),
+        (await ensureGroup(['pro', 'pro+', 'trial'])) && setIsModalOpen(true),
       save: async (showToast?: boolean) => {
         if (!initialAlert) throw new Error('No initial alert found!');
         if (!initialAlertForm) throw new Error('No compatible type found!');
-        if (!(await pro.ensureHasLevel(1))) return false;
+        if (!(await ensureGroup(['pro', 'pro+', 'trial']))) return false;
         const saveFn = initialAlertForm.save;
         if (!saveFn) throw new Error(`${initialAlertForm.value} has'nt save!`);
         setIsSaving(true);
@@ -62,7 +63,7 @@ export const useAlertActions = (
       delete: async () => {
         if (!initialAlert) throw new Error('No initial alert found!');
         if (!initialAlertForm) throw new Error('No compatible type found!');
-        if (!(await pro.ensureHasLevel(1))) return false;
+        if (!(await ensureGroup(['pro', 'pro+', 'trial']))) return false;
         const delFn = initialAlertForm.delete;
         if (!delFn) throw new Error(`${initialAlertForm.value} has'nt delete!`);
         setIsDeleting(true);
@@ -83,10 +84,11 @@ export const useAlertActions = (
       lock,
       deleteConfirmModal,
       saveToast,
+      loginModal,
       isDeleting,
       isSaving,
       showSaveToast,
-      pro,
+      ensureGroup,
       initialAlertForm,
       showDeleteConfirm,
     ],

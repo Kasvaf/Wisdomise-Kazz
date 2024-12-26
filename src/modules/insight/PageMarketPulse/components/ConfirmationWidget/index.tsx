@@ -16,7 +16,7 @@ import {
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
@@ -220,11 +220,16 @@ export function ConfirmationWidget<I extends Indicator>({
       loading={confirmations.isLoading}
       empty={confirmations.data?.results.length === 0}
     >
-      <AccessSheild
-        className="flex flex-col items-start gap-3"
+      <AccessShield
         mode="children"
-        size={2}
-        level={1}
+        sizes={{
+          'guest': true,
+          'trial': 2,
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+        className="space-y-4"
       >
         {confirmations.data?.results.map(row => (
           <ConfirmationRow
@@ -235,7 +240,7 @@ export function ConfirmationWidget<I extends Indicator>({
             type={type}
           />
         ))}
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

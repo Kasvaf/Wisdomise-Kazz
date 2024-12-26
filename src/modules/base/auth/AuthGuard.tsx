@@ -15,6 +15,8 @@ import { useDebugMode } from 'shared/useDebugMode';
 import OneTapLogin from './OneTapLogin';
 import { useIsLoggedIn } from './jwt-store';
 import { useModalLogin } from './ModalLogin';
+// eslint-disable-next-line import/max-dependencies
+import { TrialStartedModal } from './TrialStartedModal';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
@@ -81,6 +83,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
         <>{immediateLogin ? forceLoginContent : <OneTapLogin />}</>
       )}
       {children}
+      <TrialStartedModal />
     </GoogleOAuthProvider>
   );
 }

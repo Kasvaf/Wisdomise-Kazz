@@ -5,26 +5,22 @@ import { useState } from 'react';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { ReadableDuration } from 'shared/ReadableDuration';
-import { ProFeatures } from '../ProFeatures';
-import { useIsLoggedIn } from '../../jwt-store';
+import { ProFeatures } from './ProFeatures';
 import Bg from './bg.png';
 import { ReactComponent as SparkleIcon } from './sparkle.svg';
 
 export function TrialStartedModal() {
   const { t } = useTranslation('pro');
-  const subscription = useSubscription();
-  const isLoggedIn = useIsLoggedIn();
+  const { group, remaining } = useSubscription();
   const [isDismissed, setIsDismissed] = useState(false);
-
   const userStorage = useUserStorage('trial-popup', 'false');
 
   return (
     <Modal
       open={
+        group === 'trial' &&
         !userStorage.isLoading &&
-        subscription.status === 'trialing' &&
         userStorage.value !== 'true' &&
-        isLoggedIn &&
         !isDismissed
       }
       footer={false}
@@ -43,7 +39,7 @@ export function TrialStartedModal() {
               ns="pro"
               i18nKey="trial-modal.description"
               components={{
-                Duration: <ReadableDuration value={subscription.remaining} />,
+                Duration: <ReadableDuration value={remaining} />,
               }}
             />
           </p>

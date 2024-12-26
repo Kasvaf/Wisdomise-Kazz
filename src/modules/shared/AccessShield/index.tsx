@@ -1,0 +1,173 @@
+import { clsx } from 'clsx';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PropsWithChildren,
+} from 'react';
+import { useTranslation } from 'react-i18next';
+import { type UserGroup, useSubscription } from 'api';
+import { isDebugMode } from 'utils/version';
+import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Sparkle } from './sparkle.svg';
+
+const calcSize = (size: number | boolean) =>
+  size === true ? 999 : size === false ? 0 : size < 1 ? 0 : size;
+
+const useShield = (mode: 'table' | 'children', size: number | boolean) => {
+  const root = useRef<HTMLDivElement>(null);
+  const shield = useRef<HTMLDivElement>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const updateStyle = useCallback(() => {
+    if (timeout.current !== null) clearTimeout(timeout.current);
+    if (!root.current) return;
+    timeout.current = setTimeout(() => {
+      try {
+        if (!root.current || !shield.current) return;
+        const blockList = (
+          mode === 'table'
+            ? [
+                ...root.current.querySelectorAll(
+                  'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
+                ),
+              ]
+            : [
+                ...root.current.querySelectorAll(
+                  '*:not([aria-hidden]):not([data-pro-locker])',
+                ),
+              ].filter(r => r.parentElement === root.current)
+        ).slice(0, calcSize(size)) as HTMLElement[];
+        const isActive = blockList.length > 0;
+        if (!isActive) {
+          shield.current.style.display = 'none';
+          root.current.style.overflow = '';
+        }
+
+        const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
+        const bottom = Math.max(
+          ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
+        );
+        const minHeight = 220;
+        root.current.setAttribute('size', size.toString());
+        root.current.style.overflow = size === true ? 'hidden' : '';
+        root.current.style.maxHeight = size === true ? '100%' : '';
+        root.current.style.position = 'relative';
+        shield.current.style.maxHeight = `${Math.max(
+          minHeight,
+          root.current.offsetHeight,
+        )}px`;
+        shield.current.style.minHeight = `${minHeight}px`;
+        shield.current.style.top = `${top}px`;
+        shield.current.style.left = '0px';
+        shield.current.style.width = '100%';
+        shield.current.style.height = `${bottom - top}px`;
+        shield.current.style.overflow = 'hidden';
+        shield.current.style.position = 'absolute';
+        shield.current.style.margin = '0';
+        shield.current.style.display = '';
+        shield.current.style.willChange = 'height';
+      } catch {
+      } finally {
+        setIsReady(true);
+      }
+    }, 50);
+  }, [mode, size]);
+
+  useEffect(() => updateStyle());
+
+  return { root, shield, isReady };
+};
+
+export function AccessShield({
+  children,
+  className,
+  mode,
+  sizes,
+}: PropsWithChildren<{
+  className?: string;
+  mode: 'table' | 'children';
+  sizes: Record<UserGroup, number | boolean>;
+}>) {
+  const { t } = useTranslation('pro');
+  const { ensureGroup, group, loginModal } = useSubscription();
+
+  const size = sizes[group];
+
+  const nextGroup = useMemo<UserGroup | undefined>(() => {
+    const sizeNumber = calcSize(size);
+    if (sizeNumber === 0) return;
+    const groupOrders: UserGroup[] = ['guest', 'trial', 'free', 'pro', 'pro+'];
+    const groupIndex = groupOrders.indexOf(group);
+    if (groupIndex + 1 >= groupOrders.length - 1) return;
+    const nextGroups = groupOrders.slice(groupIndex + 1);
+    return nextGroups.find(x =>
+      group === 'guest'
+        ? calcSize(sizes[x]) < calcSize(sizes[group])
+        : calcSize(sizes[x]) === 0,
+    );
+  }, [group, sizes, size]);
+
+  const { root, shield, isReady } = useShield(mode, size);
+
+  return (
+    <>
+      <div ref={root} className={clsx(!isReady && 'blur', className)}>
+        {children}
+        {calcSize(size) > 0 && (
+          <div
+            className={clsx(
+              'z-[2] w-full gap-2 rounded-xl p-2',
+              'flex flex-col items-center justify-center backdrop-blur',
+              'bg-[rgba(29,38,47,0.2)]',
+              !isReady && 'hidden',
+            )}
+            ref={shield}
+          >
+            {isDebugMode ? (
+              <p className="whitespace-pre font-mono text-xs text-v1-background-notice">
+                {JSON.stringify([group, sizes], null, 2)}
+              </p>
+            ) : (
+              <>
+                <div className="relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1">
+                  <Logo />
+                </div>
+                <p className="text-center text-xs capitalize text-v1-content-primary">
+                  {nextGroup === 'free' || nextGroup === 'trial'
+                    ? t('pro-locker.login.message')
+                    : nextGroup === 'pro'
+                    ? t('pro-locker.pro.message')
+                    : nextGroup === 'pro+'
+                    ? t('pro-locker.proplus.message')
+                    : t('pro-locker.unknown.message')}
+                </p>
+              </>
+            )}
+            {nextGroup && (
+              <button
+                onClick={() => ensureGroup(nextGroup)}
+                className={clsx(
+                  'inline-flex h-9 w-auto shrink-0 items-center gap-1',
+                  'rounded-lg bg-pro-gradient px-4 text-xs font-medium text-black',
+                  'transition-all hover:brightness-110',
+                )}
+              >
+                <Sparkle />
+                {nextGroup === 'free' || nextGroup === 'trial'
+                  ? t('pro-locker.login.button')
+                  : nextGroup === 'pro'
+                  ? t('pro-locker.pro.button')
+                  : t('pro-locker.proplus.button')}
+              </button>
+            )}
+            {loginModal}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}

@@ -2,7 +2,6 @@
 import { Buffer } from 'buffer';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Outlet } from 'react-router-dom';
-import { ProProvider } from 'modules/base/auth/ProContent/ProProvider';
 import { TelegramProvider } from './TelegramProvider';
 import TelegramAuthGuard from './TelegramAuthGuard';
 
@@ -24,9 +23,7 @@ export default function TelegramContainer() {
               twaReturnUrl: AUTOTRADER_MINIAPP,
             }}
           >
-            <ProProvider>
-              <Outlet />
-            </ProProvider>
+            <Outlet />
           </TonConnectUIProvider>
         </TelegramAuthGuard>
       </TelegramProvider>

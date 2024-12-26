@@ -7,7 +7,7 @@ import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReactComponent as RealtimeIcon } from 'modules/insight/coinRadar/PageCoinRadar/realtime.svg';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
 import { SignalSentiment } from '../../coinRadar/PageCoinRadar/components/SignalSentiment';
 import { SeeMoreLink } from './SeeMoreLink';
@@ -68,7 +68,16 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       loading={coins.isLoading}
       empty={sortedCoins.length === 0}
     >
-      <AccessSheild mode="table" size={3} level={1}>
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': 3,
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+      >
         <Table
           loading={coins.isLoading}
           columns={columns}
@@ -76,7 +85,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           rowKey={r => JSON.stringify(r.symbol)}
           pagination={false}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

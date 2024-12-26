@@ -4,7 +4,7 @@ import { type ColumnType } from 'antd/es/table';
 import { type CoinWhale, useCoinWhales } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import Table from 'shared/Table';
 import { Wallet } from 'shared/Wallet';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -217,7 +217,16 @@ export function CoinWhaleListWidget({
           onChange={setType}
         />
       </div>
-      <AccessSheild level={2} size={2} mode="table">
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': true,
+          'free': true,
+          'pro': true,
+          'pro+': false,
+        }}
+      >
         <Table
           dataSource={whales.data?.results ?? []}
           columns={columns}
@@ -249,7 +258,7 @@ export function CoinWhaleListWidget({
             }
           }}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }
