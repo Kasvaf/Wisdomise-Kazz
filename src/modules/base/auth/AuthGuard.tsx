@@ -46,7 +46,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     if (!isLoggedIn) {
       void showLoginModal();
     }
-  }, 4000);
+  }, 50);
 
   useEffect(() => {
     if (!isLoggedIn) {
