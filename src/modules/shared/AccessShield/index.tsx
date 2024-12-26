@@ -103,15 +103,12 @@ export function AccessShield({
   const nextGroup = useMemo<UserGroup | undefined>(() => {
     const sizeNumber = calcSize(size);
     if (sizeNumber === 0) return;
-    const groupOrders: UserGroup[] = ['guest', 'trial', 'free', 'pro', 'pro+'];
-    const groupIndex = groupOrders.indexOf(group);
-    if (groupIndex + 1 >= groupOrders.length) return;
-    const nextGroups = groupOrders.slice(groupIndex);
-    return nextGroups.find(x =>
-      group === 'guest'
-        ? calcSize(sizes[x]) < calcSize(sizes[group])
-        : calcSize(sizes[x]) === 0,
-    );
+    const groups: UserGroup[] = ['guest', 'trial', 'free', 'pro', 'pro+'];
+    const allowdGroup = groups.find(x => calcSize(sizes[x]) === 0);
+    if (group === 'guest' && allowdGroup) {
+      return 'trial';
+    }
+    return allowdGroup;
   }, [group, sizes, size]);
 
   const { root, shield, height, isReady } = useShield(mode, size);
