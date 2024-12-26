@@ -132,6 +132,21 @@ export function AccessShield({
               className={clsx('size-12 shrink', height < 130 && 'hidden')}
             />
 
+            <p
+              className={clsx(
+                'shrink text-center text-xs capitalize text-v1-content-primary',
+                height < 100 && 'hidden',
+              )}
+            >
+              {nextGroup === 'free' || nextGroup === 'trial'
+                ? t('pro-locker.login.message')
+                : nextGroup === 'pro'
+                ? t('pro-locker.pro.message')
+                : nextGroup === 'pro+'
+                ? t('pro-locker.proplus.message')
+                : t('pro-locker.unknown.message')}
+            </p>
+
             <HoverTooltip
               title={
                 <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
@@ -140,24 +155,8 @@ export function AccessShield({
               }
               disabled={!isDebugMode}
             >
-              <p
-                className={clsx(
-                  'shrink text-center text-xs capitalize text-v1-content-primary',
-                  height < 100 && 'hidden',
-                )}
-              >
-                {nextGroup === 'free' || nextGroup === 'trial'
-                  ? t('pro-locker.login.message')
-                  : nextGroup === 'pro'
-                  ? t('pro-locker.pro.message')
-                  : nextGroup === 'pro+'
-                  ? t('pro-locker.proplus.message')
-                  : t('pro-locker.unknown.message')}
-              </p>
-            </HoverTooltip>
-            {nextGroup && (
               <button
-                onClick={() => ensureGroup(nextGroup)}
+                onClick={() => ensureGroup(nextGroup ?? 'pro+')}
                 className={clsx(
                   'inline-flex w-auto shrink-0 items-center gap-1',
                   'h-9 rounded-lg px-4 text-xs',
@@ -169,9 +168,11 @@ export function AccessShield({
                   ? t('pro-locker.login.button')
                   : nextGroup === 'pro'
                   ? t('pro-locker.pro.button')
-                  : t('pro-locker.proplus.button')}
+                  : nextGroup === 'pro+'
+                  ? t('pro-locker.proplus.button')
+                  : '????'}
               </button>
-            )}
+            </HoverTooltip>
             {loginModal}
           </div>
         )}
