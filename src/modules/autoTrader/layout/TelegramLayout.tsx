@@ -69,7 +69,7 @@ export default function TelegramLayout() {
   return (
     <main className="relative bg-page">
       <OnboardingMessageProvider>
-        <div className="fixed end-0 start-0 top-0 z-10 flex items-center justify-between bg-page p-4">
+        <div className="fixed end-0 start-0 top-0 z-10 flex w-screen items-center justify-between bg-page p-4">
           <ProfileInfo />
           <TonConnectButton />
         </div>
