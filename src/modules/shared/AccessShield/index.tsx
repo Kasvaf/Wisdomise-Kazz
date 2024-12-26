@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { type UserGroup, useSubscription } from 'api';
 import { isDebugMode } from 'utils/version';
+import { HoverTooltip } from 'shared/HoverTooltip';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
@@ -102,8 +103,8 @@ export function AccessShield({
     if (sizeNumber === 0) return;
     const groupOrders: UserGroup[] = ['guest', 'trial', 'free', 'pro', 'pro+'];
     const groupIndex = groupOrders.indexOf(group);
-    if (groupIndex + 1 >= groupOrders.length - 1) return;
-    const nextGroups = groupOrders.slice(groupIndex + 1);
+    if (groupIndex + 1 >= groupOrders.length) return;
+    const nextGroups = groupOrders.slice(groupIndex);
     return nextGroups.find(x =>
       group === 'guest'
         ? calcSize(sizes[x]) < calcSize(sizes[group])
@@ -127,26 +128,27 @@ export function AccessShield({
             )}
             ref={shield}
           >
-            {isDebugMode ? (
-              <p className="whitespace-pre font-mono text-xs text-v1-background-notice">
-                {JSON.stringify([group, sizes], null, 2)}
-              </p>
-            ) : (
-              <>
-                <div className="relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1">
-                  <Logo />
-                </div>
-                <p className="text-center text-xs capitalize text-v1-content-primary">
-                  {nextGroup === 'free' || nextGroup === 'trial'
-                    ? t('pro-locker.login.message')
-                    : nextGroup === 'pro'
-                    ? t('pro-locker.pro.message')
-                    : nextGroup === 'pro+'
-                    ? t('pro-locker.proplus.message')
-                    : t('pro-locker.unknown.message')}
-                </p>
-              </>
-            )}
+            <div className="relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1">
+              <HoverTooltip
+                title={
+                  <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
+                    {JSON.stringify([{ group, nextGroup }, sizes], null, 2)}
+                  </p>
+                }
+                disabled={!isDebugMode}
+              >
+                <Logo />
+              </HoverTooltip>
+            </div>
+            <p className="text-center text-xs capitalize text-v1-content-primary">
+              {nextGroup === 'free' || nextGroup === 'trial'
+                ? t('pro-locker.login.message')
+                : nextGroup === 'pro'
+                ? t('pro-locker.pro.message')
+                : nextGroup === 'pro+'
+                ? t('pro-locker.proplus.message')
+                : t('pro-locker.unknown.message')}
+            </p>
             {nextGroup && (
               <button
                 onClick={() => ensureGroup(nextGroup)}
