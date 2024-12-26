@@ -142,7 +142,7 @@ export function CoinLabels({
               </h4>
               {(networks ?? []).map(network => (
                 <div
-                  key={network.network.id}
+                  key={network.network.slug}
                   className="flex items-center justify-start gap-2"
                 >
                   <img

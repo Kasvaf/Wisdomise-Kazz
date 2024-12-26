@@ -5,7 +5,12 @@ available-exchanges:
     price: Price
     volume_24h: Volume 24h
 call-change:
+  biggest-dump: Biggest Dump
+  biggest-pump: Biggest Pump
+  current-price: Current Price
   fire-time: Signal Fire Time
+  hunted-at-here: Hunted At Here
+  last-pnl-update: Last PnL Update
   max-price: 'Max: Extremum High'
   min-price: 'Min: Extremum low'
   pnl: Last Update
@@ -122,7 +127,7 @@ coin-details:
         cryptocurrency is, which should make it easier for it to be bought/sold
         on an exchange close to its value.
     hot_coins:
-      title: Hot Coins
+      title: Social Radar Hottest Coins
       empty:
         title: No Hot Coins Right Now
         subtitle: >-
@@ -156,7 +161,6 @@ coin-details:
       empty: No community activity detected for this coin.
       hunted-at: Hunted At
       long: Potential Growth Opportunity
-      market_side: Market Side
       negative: Negative
       not_sure: Not Sure
       positive: Positive
@@ -278,7 +282,7 @@ social-radar:
     rank: Wise Logic
   table:
     name: Name
-    title: Wisdomise Hot Coins
+    title: Social Radar Hottest Coins
     description: >-
       Wisdomise Social Radar <b>scanned {{posts}} posts from alpha groups</b> in
       the last 24 hours for accurate, data-driven insights.
