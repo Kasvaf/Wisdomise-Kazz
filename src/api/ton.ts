@@ -58,7 +58,7 @@ export const useAccountJettonBalance = (
         : balance / 10 ** CONTRACT_DECIMAL[contract];
     },
     {
-      refetchInterval: 10_000,
+      refetchInterval: 5000,
       staleTime: 500,
     },
   );
