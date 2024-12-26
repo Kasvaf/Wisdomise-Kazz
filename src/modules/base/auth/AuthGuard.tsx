@@ -43,7 +43,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   }, [account?.email, account?.wallet_address, isLoggedIn]);
 
   useTimeout(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !isEmbeddedView) {
       void showLoginModal();
     }
   }, 50);
