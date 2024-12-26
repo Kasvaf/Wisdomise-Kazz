@@ -5,7 +5,12 @@ available-exchanges:
     price: 価格
     volume_24h: 24時間あたりのボリューム
 call-change:
+  biggest-dump: 最大のダンプ
+  biggest-pump: 最大のポンプ
+  current-price: 現在の価格
   fire-time: 信号発射時刻
+  hunted-at-here: ここで狩られる
+  last-pnl-update: 最終損益更新
   max-price: "最大: 極限高"
   min-price: "最小: 極端に低い"
   pnl: 最終更新
@@ -263,7 +268,7 @@ social-radar-overview:
     info: 情報
     name: 信号発信者名
     sentiment: 感情
-  title: ソーシャルレーダー
+  title: ソーシャルレーダーの注目コイン
 social-radar:
   banner:
     subtitle: ソーシャルからのリアルタイムAI駆動型インサイト

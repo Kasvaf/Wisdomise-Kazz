@@ -5,7 +5,12 @@ available-exchanges:
     price: 價格
     volume_24h: 24小時交易量
 call-change:
+  biggest-dump: 最大的垃圾场
+  biggest-pump: 最大涨幅
+  current-price: 当前价格
   fire-time: 信号发射时间
+  hunted-at-here: 在此狩猎
+  last-pnl-update: 上次盈亏更新
   max-price: 最大值：极高值
   min-price: 最小值：极低值
   pnl: 最后更新
@@ -257,7 +262,7 @@ social-radar-overview:
     info: 信息
     name: 名稱
     sentiment: 市場情緒
-  title: 社交雷达
+  title: 社交雷达 最热门硬币
 social-radar:
   banner:
     subtitle: 来自社交媒体的实时人工智能驱动洞察
