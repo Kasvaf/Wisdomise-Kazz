@@ -86,9 +86,8 @@ export interface NetworkSecurity {
 
 export interface CoinNetwork {
   network: {
-    id: number;
+    slug: string;
     name: string;
-    abbreviation: string;
     icon_url: string;
   };
   contract_address: string;
