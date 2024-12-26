@@ -63,6 +63,14 @@ const AIPresets: React.FC<{
   const presetKeys = ['low', 'medium', 'high'] as PresetKeys[];
   const selectVariant = (ind: number) => {
     if (ind > 2 || ind < 0) {
+      if (activePreset === 3) {
+        setOrderType('market');
+        setVolume('100');
+        setPriceUpdated(false);
+        setSafetyOpens([]);
+        setTakeProfits([]);
+        setStopLosses([]);
+      }
       setActivePreset(3);
       return;
     }
