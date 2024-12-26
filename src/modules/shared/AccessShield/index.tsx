@@ -21,6 +21,7 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
   const root = useRef<HTMLDivElement>(null);
   const shield = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
+  const [height, setHeight] = useState(150);
 
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const updateStyle = useCallback(() => {
@@ -52,7 +53,7 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
         const bottom = Math.max(
           ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
         );
-        const minHeight = 220;
+        const minHeight = 40;
         root.current.setAttribute('size', size.toString());
         root.current.style.overflow = size === true ? 'hidden' : '';
         root.current.style.maxHeight = size === true ? '100%' : '';
@@ -61,7 +62,7 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
           minHeight,
           root.current.offsetHeight,
         )}px`;
-        shield.current.style.minHeight = `${minHeight}px`;
+        // shield.current.style.minHeight = `${minHeight}px`;
         shield.current.style.top = `${top}px`;
         shield.current.style.left = '0px';
         shield.current.style.width = '100%';
@@ -71,6 +72,7 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
         shield.current.style.margin = '0';
         shield.current.style.display = '';
         shield.current.style.willChange = 'height';
+        setHeight(bottom - top);
       } catch {
       } finally {
         setIsReady(true);
@@ -80,7 +82,7 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
 
   useEffect(() => updateStyle());
 
-  return { root, shield, isReady };
+  return { root, shield, isReady, height };
 };
 
 export function AccessShield({
@@ -112,7 +114,7 @@ export function AccessShield({
     );
   }, [group, sizes, size]);
 
-  const { root, shield, isReady } = useShield(mode, size);
+  const { root, shield, height, isReady } = useShield(mode, size);
 
   return (
     <>
@@ -121,41 +123,48 @@ export function AccessShield({
         {calcSize(size) > 0 && (
           <div
             className={clsx(
-              'z-[2] w-full gap-2 rounded-xl p-2',
+              'z-[2] w-full rounded-xl',
+              height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
               'flex flex-col items-center justify-center backdrop-blur',
               'bg-[rgba(29,38,47,0.2)]',
               !isReady && 'hidden',
             )}
             ref={shield}
           >
-            <div className="relative inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-v1-surface-l1">
-              <HoverTooltip
-                title={
-                  <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
-                    {JSON.stringify([{ group, nextGroup }, sizes], null, 2)}
-                  </p>
-                }
-                disabled={!isDebugMode}
+            <Logo
+              className={clsx('size-12 shrink', height < 130 && 'hidden')}
+            />
+
+            <HoverTooltip
+              title={
+                <p className="whitespace-pre font-mono text-sm text-v1-background-notice">
+                  {JSON.stringify([{ group, nextGroup }, sizes], null, 2)}
+                </p>
+              }
+              disabled={!isDebugMode}
+            >
+              <p
+                className={clsx(
+                  'shrink text-center text-xs capitalize text-v1-content-primary',
+                  height < 100 && 'hidden',
+                )}
               >
-                <Logo />
-              </HoverTooltip>
-            </div>
-            <p className="text-center text-xs capitalize text-v1-content-primary">
-              {nextGroup === 'free' || nextGroup === 'trial'
-                ? t('pro-locker.login.message')
-                : nextGroup === 'pro'
-                ? t('pro-locker.pro.message')
-                : nextGroup === 'pro+'
-                ? t('pro-locker.proplus.message')
-                : t('pro-locker.unknown.message')}
-            </p>
+                {nextGroup === 'free' || nextGroup === 'trial'
+                  ? t('pro-locker.login.message')
+                  : nextGroup === 'pro'
+                  ? t('pro-locker.pro.message')
+                  : nextGroup === 'pro+'
+                  ? t('pro-locker.proplus.message')
+                  : t('pro-locker.unknown.message')}
+              </p>
+            </HoverTooltip>
             {nextGroup && (
               <button
                 onClick={() => ensureGroup(nextGroup)}
                 className={clsx(
-                  'inline-flex h-9 w-auto shrink-0 items-center gap-1',
-                  'rounded-lg bg-pro-gradient px-4 text-xs font-medium text-black',
-                  'transition-all hover:brightness-110',
+                  'inline-flex w-auto shrink-0 items-center gap-1',
+                  'h-9 rounded-lg px-4 text-xs',
+                  'bg-pro-gradient font-medium text-black transition-all hover:brightness-110',
                 )}
               >
                 <Sparkle />
