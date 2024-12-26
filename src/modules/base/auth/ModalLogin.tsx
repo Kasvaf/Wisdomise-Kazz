@@ -4,6 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
 import { Divider } from 'antd';
+import { bxX } from 'boxicons-quasar';
 import {
   useEmailLoginMutation,
   useGoogleLoginMutation,
@@ -16,6 +17,7 @@ import TextBox from 'shared/TextBox';
 import Button from 'shared/Button';
 import Link from 'shared/Link';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
+import Icon from 'shared/Icon';
 import LoginBg from './login-bg.png';
 import { ReactComponent as TrustIcon } from './trust.svg';
 import { ReactComponent as SecureIcon } from './secure.svg';
@@ -25,7 +27,7 @@ import { ReactComponent as AiIcon } from './ai.svg';
 
 const ModalLogin: React.FC<{
   onResolve?: (success: boolean) => void;
-  theme?: 'google' | 'default';
+  theme?: 'mini' | 'default';
 }> = ({ onResolve, theme = 'default' }) => {
   const { t } = useTranslation('auth');
   const [step, setStep] = useState<'email' | 'code'>('email');
@@ -129,7 +131,7 @@ const ModalLogin: React.FC<{
 
   const emailContent = (
     <div className="flex grow flex-col p-8 mobile:p-4">
-      <h1 className="mb-4 text-xl font-medium">
+      <h1 className="mb-4 pr-12 text-xl font-medium">
         {theme === 'default'
           ? t('login.step-1.title')
           : t('login.step-1.title2')}
@@ -211,7 +213,9 @@ const ModalLogin: React.FC<{
 
   const codeContent = (
     <div className="flex grow flex-col p-8">
-      <h1 className="mb-5 text-xl font-medium">{t('login.step-2.title')}</h1>
+      <h1 className="mb-5 pr-12 text-xl font-medium">
+        {t('login.step-2.title')}
+      </h1>
       <p className="mb-9 text-xs text-white/70">
         {t('login.step-2.subtitle', { email })}
       </p>
@@ -300,19 +304,20 @@ const ModalLogin: React.FC<{
   );
 };
 
-export const useModalLogin = (cancelable = true) => {
+export const useModalLogin = (requestedByUser = true) => {
   const [Modal, showModal] = useModal(ModalLogin, {
-    width: cancelable ? 880 : 499,
-    closable: cancelable,
-    maskClosable: cancelable,
-    keyboard: false,
+    width: requestedByUser ? 880 : 499,
+    closable: true,
+    closeIcon: requestedByUser ? undefined : <Icon name={bxX} size={14} />,
+    maskClosable: requestedByUser,
+    keyboard: requestedByUser,
     className: '[&_.ant-modal-content]:!p-0',
   });
   return [
     Modal,
     async () =>
       !!(await showModal({
-        theme: cancelable ? 'default' : 'google',
+        theme: requestedByUser ? 'default' : 'mini',
       })),
   ] as const;
 };
