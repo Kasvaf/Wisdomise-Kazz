@@ -138,7 +138,7 @@ export function AccessShield({
                 height < 100 && 'hidden',
               )}
             >
-              {nextGroup === 'free' || nextGroup === 'trial'
+              {group === 'guest'
                 ? t('pro-locker.login.message')
                 : nextGroup === 'pro'
                 ? t('pro-locker.pro.message')
@@ -164,13 +164,13 @@ export function AccessShield({
                 )}
               >
                 <Sparkle />
-                {nextGroup === 'free' || nextGroup === 'trial'
+                {group === 'guest'
                   ? t('pro-locker.login.button')
                   : nextGroup === 'pro'
                   ? t('pro-locker.pro.button')
                   : nextGroup === 'pro+'
                   ? t('pro-locker.proplus.button')
-                  : '????'}
+                  : t('pro-locker.unknown.button')}
               </button>
             </HoverTooltip>
             {loginModal}
