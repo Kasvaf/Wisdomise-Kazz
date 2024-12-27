@@ -42,10 +42,17 @@ export default function ClaimRewardPage() {
   const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
     useWithdrawMutation();
   const { data: usdtBalance } = useAccountJettonBalance('tether');
+  const usdtReward =
+    data?.user_attributes?.find(att => att.attribute === 'usdt_balance')
+      ?.value ?? 0;
 
   useEffect(() => {
     sync({});
   }, [sync]);
+
+  const isWinnerTicket = (ticket: number) => {
+    return eligibility?.map(el => el.ticket_number).includes(ticket);
+  };
 
   const check = (ticketType: TicketType) => {
     if (address) {
@@ -63,7 +70,7 @@ export default function ClaimRewardPage() {
   };
 
   const handleWithdraw = () => {
-    void withdraw({ token: 'wsdm' }).then(() => {
+    void withdraw({ token: 'usdt' }).then(() => {
       notification.success({
         message:
           'Withdrawal registered! You will get your tokens in a few days',
@@ -112,11 +119,7 @@ export default function ClaimRewardPage() {
             <div>
               <p className="text-xs">USDT Tokens Earned</p>
               <p className="mt-2 text-xs text-white/40">
-                <strong className="font-bold text-white">
-                  {data?.user_attributes?.find(
-                    att => att.attribute === 'usdt_balance',
-                  )?.value ?? 0}
-                </strong>{' '}
+                <strong className="font-bold text-white">{usdtReward}</strong>{' '}
                 until now
               </p>
             </div>
@@ -126,11 +129,7 @@ export default function ClaimRewardPage() {
               className="ms-auto w-36"
               onClick={() => handleWithdraw()}
               loading={withdrawIsLoading}
-              disabled={
-                isProduction ||
-                (data?.wsdm_balance ?? 0) === 0 ||
-                withdrawIsLoading
-              }
+              disabled={isProduction || usdtReward === 0 || withdrawIsLoading}
             >
               Withdraw
             </Button>
@@ -138,7 +137,7 @@ export default function ClaimRewardPage() {
         </div>
       </div>
 
-      <h1 className="mb-3 mt-8 font-semibold">WSDM Pools</h1>
+      <h1 className="mb-3 mt-8 font-semibold">Reward Pools</h1>
       <p>
         Check if you’ve won shares of the pool. Stay tuned for gold & platinum
         reward pools coming soon!
@@ -158,7 +157,7 @@ export default function ClaimRewardPage() {
             className="ms-auto w-36"
             loading={isLoading}
             onClick={() => check('silver_ticket')}
-            disabled={isProduction || isLoading}
+            disabled={isLoading}
           >
             Check Eligibility
           </Button>
@@ -230,7 +229,7 @@ export default function ClaimRewardPage() {
                   Congratulations!
                 </span>
                 <br />
-                You’ve Got a Winning Ticket!
+                You Won!
               </>
             ) : (
               'No Luck This Time'
@@ -238,8 +237,8 @@ export default function ClaimRewardPage() {
           </h1>
           <p className="pb-6 pt-3">
             {eligibility?.[0]
-              ? 'One of your Silver Tickets is a winner! You can now claim your rewards from the pool.'
-              : 'It looks like your Silver Tickets didn’t win this round. Don’t worry, there’s always another chance! Keep going and good luck next time!'}
+              ? 'You can now claim your rewards from the pool.'
+              : 'It looks like your Silver Tickets didn’t win.'}
           </p>
           {userTickets?.[selectedTicket ?? 'silver_ticket']?.map(
             (ticket, index) => (
@@ -247,14 +246,12 @@ export default function ClaimRewardPage() {
                 key={ticket}
                 className={clsx(
                   'mb-2 flex w-full items-center gap-3 rounded-xl border border-transparent bg-v1-surface-l2 p-2 text-xs',
-                  eligibility?.[0]?.ticket_number === ticket &&
-                    '!border-v1-border-positive',
+                  isWinnerTicket(ticket) && '!border-v1-border-positive',
                 )}
                 style={{
-                  background:
-                    eligibility?.[0]?.ticket_number === ticket
-                      ? 'linear-gradient(270deg, #1D262F 43.27%, rgba(0, 134, 85, 0.00) 208.48%)'
-                      : '',
+                  background: isWinnerTicket(ticket)
+                    ? 'linear-gradient(270deg, #1D262F 43.27%, rgba(0, 134, 85, 0.00) 208.48%)'
+                    : '',
                 }}
               >
                 <img
@@ -270,7 +267,7 @@ export default function ClaimRewardPage() {
                 <div className="rounded bg-v1-surface-l3 px-2 py-px">
                   ID: {ticket}
                 </div>
-                {eligibility?.[0]?.ticket_number === ticket && (
+                {isWinnerTicket(ticket) && (
                   <div className="me-2 ms-auto flex gap-2 text-v1-content-positive">
                     <img src={star} />
                     <span>Winner</span>
@@ -287,9 +284,7 @@ export default function ClaimRewardPage() {
             setOpen(false);
             if (eligibility?.[0]?.status === 'winner') {
               notification.success({
-                message: `You claimed ${
-                  eligibility?.[0].reward ?? 0
-                } WSDM. You can withdraw it now`,
+                message: 'You claimed your reward',
               });
             }
           }}

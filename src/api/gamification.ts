@@ -1,10 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
 import { INVESTMENT_ORIGIN } from 'config/constants';
-import { useGameLoginQuery } from 'api/account';
-import { isLocal } from 'utils/version';
 import { ofetch } from 'config/ofetch';
-import { useTelegram } from 'modules/autoTrader/layout/TelegramProvider';
 
 export interface Friend {
   telegram_id: number;
@@ -119,7 +116,7 @@ export const useUserTicketsQuery = () =>
   );
 
 interface WithdrawRequest {
-  token: 'wsdm' | 'ton';
+  token: 'ton' | 'usdt';
 }
 
 export const useWithdrawMutation = () =>
@@ -130,26 +127,3 @@ export const useWithdrawMutation = () =>
     );
     return data;
   });
-
-export const useWaitlistMutation = () => {
-  const query = import.meta.env.VITE_CUSTOM_QUERY;
-  const telegram = useTelegram();
-
-  const { refetch } = useGameLoginQuery(
-    isLocal ? query : telegram.webApp?.initData,
-    true,
-  );
-  return useMutation(async () => {
-    const { data } = await refetch();
-    return await ofetch<unknown>(
-      `${INVESTMENT_ORIGIN}/api/v1/gamification/user/wait-list`,
-      {
-        body: null,
-        onRequest: ({ options }) => {
-          options.headers.set('Authorization', `Bearer ${data?.token ?? ''}`);
-        },
-        method: 'post',
-      },
-    );
-  });
-};
