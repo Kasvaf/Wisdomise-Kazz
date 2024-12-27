@@ -15,7 +15,7 @@ import './animation.css';
 const ProfileInfo = () => {
   const profile = useTelegramProfile();
 
-  if (!profile?.username) {
+  if (!profile?.first_name) {
     return <img src={Logo} className="h-8" alt="logo" />;
   }
 
