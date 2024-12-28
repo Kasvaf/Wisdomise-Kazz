@@ -4,11 +4,12 @@ import {
   useTonConnectUI,
   type SendTransactionRequest,
 } from '@tonconnect/ui-react';
-import { Address, beginCell, toNano, TonClient } from '@ton/ton';
+import { Address, beginCell, TonClient } from '@ton/ton';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 import { ofetch } from 'config/ofetch';
+import { toMoneyBigInt } from 'utils/numbers';
 
 const TON_API_BASE_URL = String(import.meta.env.VITE_TON_API_BASE_URL);
 const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
@@ -116,7 +117,7 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
     gasFee,
   }: {
     recipientAddress: string;
-    amount: number | string;
+    amount: string;
     gasFee: string;
   }) => {
     const noneBounceableAddress = Address.parse(recipientAddress).toString({
@@ -133,15 +134,15 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
         quote === 'the-open-network'
           ? {
               address: noneBounceableAddress,
-              amount: toNano(amount).toString(),
+              amount: toMoneyBigInt(amount, 9).toString(),
             }
           : {
               address: jettonWalletAddress ?? '',
-              amount: toNano('0.05').toString(),
+              amount: toMoneyBigInt('0.05', 9).toString(),
               payload: beginCell()
                 .storeUint(0xf_8a_7e_a5, 32) // jetton transfer op code
                 .storeUint(0, 64) // query_id:uint64
-                .storeCoins(+amount * 10 ** CONTRACT_DECIMAL[quote]) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default). Function toNano use decimals = 9 (remember it)
+                .storeCoins(toMoneyBigInt(amount, CONTRACT_DECIMAL[quote])) // amount:(VarUInteger 16) -  Jetton amount for transfer (decimals = 6 - USDT, 9 - default).
                 .storeAddress(Address.parse(recipientAddress)) // destination:MsgAddress
                 .storeAddress(Address.parse(address)) // response_destination:MsgAddress
                 .storeUint(0, 1) // custom_payload:(Maybe ^Cell)
@@ -153,7 +154,7 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
             },
         {
           address: noneBounceableAddress,
-          amount: toNano(gasFee).toString(),
+          amount: toMoneyBigInt(gasFee, 9).toString(),
           payload: beginCell()
             .storeUint(0, 32) // write 32 zero bits to indicate that a text comment will follow
             .storeStringTail('Gas fee') // write our text comment
