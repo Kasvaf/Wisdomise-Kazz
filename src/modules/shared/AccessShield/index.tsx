@@ -144,7 +144,7 @@ export function AccessShield({
                 ? t('pro-locker.pro.message')
                 : nextGroup === 'pro+'
                 ? t('pro-locker.proplus.message')
-                : t('pro-locker.unknown.message')}
+                : t('pro-locker.pro.message')}
             </p>
 
             <HoverTooltip
@@ -170,7 +170,7 @@ export function AccessShield({
                   ? t('pro-locker.pro.button')
                   : nextGroup === 'pro+'
                   ? t('pro-locker.proplus.button')
-                  : t('pro-locker.unknown.button')}
+                  : t('pro-locker.pro.button')}
               </button>
             </HoverTooltip>
             {loginModal}
