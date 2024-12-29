@@ -8,11 +8,12 @@ import { Address, beginCell, TonClient } from '@ton/ton';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
-import { ofetch } from 'config/ofetch';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 
-const TON_API_BASE_URL = String(import.meta.env.VITE_TON_API_BASE_URL);
-const TONCENTER_BASE_URL = String(import.meta.env.VITE_TONCENTER_BASE_URL);
+const tonClient = new TonClient({
+  endpoint: `${String(import.meta.env.VITE_TONCENTER_BASE_URL)}/api/v2/jsonRPC`,
+});
+
 export const USDT_DECIMAL = Number(import.meta.env.VITE_USDT_DECIMAL);
 export const USDT_CONTRACT_ADDRESS = String(
   import.meta.env.VITE_USDT_CONTRACT_ADDRESS,
@@ -38,33 +39,38 @@ export const useAccountJettonBalance = (
   contract: 'WSDM' | AutoTraderSupportedQuotes,
 ) => {
   const address = useTonAddress();
+  const { data: jettonAddress } = useJettonWalletAddress(contract);
+  const addr = contract === 'the-open-network' ? address : jettonAddress;
+
   return useQuery(
-    ['accountJettonBalance', contract, address || ''],
+    ['accountJettonBalance', contract, addr],
     async () => {
-      if (!address) return null;
+      if (!addr) return null;
+      const parsedAddress = Address.parse(addr);
 
-      const baseAddress = `${TON_API_BASE_URL}/v2/accounts/${address}`;
-      const data = await ofetch<{ balance: string }>(
-        contract === 'the-open-network'
-          ? baseAddress
-          : `${baseAddress}/jettons/${CONTRACT_ADDRESSES[contract]}`,
-        {
-          meta: { auth: false },
-        },
-      );
+      let balance: bigint | undefined;
+      if (contract === 'the-open-network') {
+        balance = await tonClient.getBalance(parsedAddress);
+      } else {
+        const { stack } = await tonClient.runMethod(
+          parsedAddress,
+          'get_wallet_data',
+        );
+        balance = stack.readBigNumber();
+      }
 
-      return data?.balance
-        ? Number(fromBigMoney(data?.balance, CONTRACT_DECIMAL[contract]))
+      return balance
+        ? Number(fromBigMoney(balance, CONTRACT_DECIMAL[contract]))
         : null;
     },
     {
-      refetchInterval: 5000,
+      refetchInterval: 10_000,
       staleTime: 500,
     },
   );
 };
 
-const useJettonWalletAddress = (quote: AutoTraderSupportedQuotes) => {
+const useJettonWalletAddress = (quote: 'WSDM' | AutoTraderSupportedQuotes) => {
   const address = useTonAddress();
 
   return useQuery(
@@ -74,12 +80,9 @@ const useJettonWalletAddress = (quote: AutoTraderSupportedQuotes) => {
 
       const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
       const ownerAddress = Address.parse(address);
-      const client = new TonClient({
-        endpoint: `${TONCENTER_BASE_URL}/api/v2/jsonRPC`,
-      });
 
       try {
-        const { stack } = await client.callGetMethod(
+        const { stack } = await tonClient.runMethod(
           jettonMasterAddress,
           'get_wallet_address',
           [

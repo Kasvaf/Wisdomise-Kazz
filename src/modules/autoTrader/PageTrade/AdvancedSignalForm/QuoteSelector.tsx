@@ -31,7 +31,7 @@ const QuoteSelector: React.FC<{
       onChange={onChange}
       className={clsx('bg-transparent', disabled && 'opacity-30')}
       suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
-      disabled={disabled}
+      disabled={disabled || !data?.length || data.length <= 1}
     >
       {data?.map(({ quote }) => (
         <Option key={quote.slug} value={quote.slug}>

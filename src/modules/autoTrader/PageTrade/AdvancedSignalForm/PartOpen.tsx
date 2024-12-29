@@ -126,7 +126,7 @@ const PartOpen: React.FC<{
             baseSlug={slug}
             value={quote}
             onChange={setQuote}
-            disabled={isUpdate || balanceLoading || !quoteBalance}
+            disabled={isUpdate}
           />
         }
         className="mb-3"
