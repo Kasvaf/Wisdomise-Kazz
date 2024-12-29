@@ -3,11 +3,10 @@ import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
 import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import useIsMobile from 'utils/useIsMobile';
+import { useSubscription } from 'api';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
 import AuthGuard from '../auth/AuthGuard';
-import { ProProvider } from '../auth/ProContent/ProProvider';
-import { useIsLoggedIn } from '../auth/jwt-store';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import BottomNavBar from './BottomNavBar';
@@ -18,8 +17,8 @@ import { GeneralMeta } from './GeneralMeta';
 const Container = () => {
   const isMobile = useIsMobile();
   const mainRef = useRef<HTMLDivElement>(null);
-  const isLoggedIn = useIsLoggedIn();
-  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(!isLoggedIn);
+  const { group } = useSubscription();
+  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(group === 'guest');
   const { PageSiblings, height, showSiblings, setShowSiblings } =
     usePageSiblings();
 
@@ -51,9 +50,7 @@ const Container = () => {
             <div style={{ height }} />
             <React.Suspense fallback={<PageWrapper loading />}>
               <AuthorizedContent>
-                <ProProvider>
-                  <Outlet />
-                </ProProvider>
+                <Outlet />
               </AuthorizedContent>
             </React.Suspense>
           </div>

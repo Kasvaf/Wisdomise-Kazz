@@ -11,7 +11,7 @@ import { Network } from 'shared/Network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coins } from 'shared/Coins';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { NetworkSelect } from './NetworkSelect';
 
 const useWhaleTopHoldersFilters = () => {
@@ -257,7 +257,16 @@ export function WhaleTopHoldersWidget({
         </>
       }
     >
-      <AccessSheild size={2} level={2} mode="table">
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': true,
+          'free': true,
+          'pro': true,
+          'pro+': false,
+        }}
+      >
         <Table
           columns={columns}
           dataSource={whales.data?.results ?? []}
@@ -265,7 +274,7 @@ export function WhaleTopHoldersWidget({
           loading={whales.isRefetching && !whales.isFetched}
           {...tableProps}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

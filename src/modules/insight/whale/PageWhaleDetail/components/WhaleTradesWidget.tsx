@@ -8,7 +8,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { ReadableDuration } from 'shared/ReadableDuration';
 import Table from 'shared/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import BetaVersion from 'shared/BetaVersion';
 
 export function WhaleTradesWidget({
@@ -115,14 +115,23 @@ export function WhaleTradesWidget({
       loading={whale.isLoading}
       empty={whale.data?.trading_assets?.length === 0}
     >
-      <AccessSheild size={3} level={2} mode="table">
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': true,
+          'free': true,
+          'pro': true,
+          'pro+': false,
+        }}
+      >
         <Table
           columns={columns}
           dataSource={whale.data?.trading_assets ?? []}
           rowKey={row => JSON.stringify(row.symbol)}
           loading={whale.isLoading}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

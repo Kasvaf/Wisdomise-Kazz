@@ -7,7 +7,7 @@ import { bxShareAlt } from 'boxicons-quasar';
 import { type TechnicalRadarCoin } from 'api/market-pulse';
 // eslint-disable-next-line import/max-dependencies
 import { ECharts } from 'shared/ECharts';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import Icon from 'shared/Icon';
@@ -318,7 +318,17 @@ export const TechnicalChartWidget: FC<{
           {t('common.share')}
         </button>
       </div>
-      <AccessSheild mode="children" size={1} level={1} className="relative">
+      <AccessShield
+        mode="children"
+        className="relative"
+        sizes={{
+          'guest': true,
+          'trial': type !== 'expensive_bearish',
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+      >
         <ECharts
           initOptions={{
             height: '500px',
@@ -339,7 +349,7 @@ export const TechnicalChartWidget: FC<{
           options={options}
           className="overflow-hidden rounded-xl"
         />
-      </AccessSheild>
+      </AccessShield>
     </div>
   );
 };

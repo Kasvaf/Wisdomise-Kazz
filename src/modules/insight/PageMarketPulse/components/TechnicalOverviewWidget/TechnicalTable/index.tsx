@@ -5,7 +5,7 @@ import {
   type TechnicalRadarCoin,
   useTechnicalRadarTopCoins,
 } from 'api/market-pulse';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinMarketCap';
@@ -142,8 +142,9 @@ export const TechnicalTable: FC = () => {
     ],
     [t],
   );
+
   return (
-    <AccessSheild mode="table" size={3} level={1}>
+    <div>
       <div className="mb-6 flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
         <CoinSearchInput
           value={tableState.query}
@@ -186,14 +187,26 @@ export const TechnicalTable: FC = () => {
 
         <div className="grow mobile:hidden" />
       </div>
-      <Table
-        columns={columns}
-        dataSource={filteredCoins}
-        rowKey={r => JSON.stringify(r.symbol)}
-        loading={coins.isRefetching && !coins.isFetched}
-        tableLayout="fixed"
-        {...tableProps}
-      />
-    </AccessSheild>
+
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': 3,
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+      >
+        <Table
+          columns={columns}
+          dataSource={filteredCoins}
+          rowKey={r => JSON.stringify(r.symbol)}
+          loading={coins.isRefetching && !coins.isFetched}
+          tableLayout="fixed"
+          {...tableProps}
+        />
+      </AccessShield>
+    </div>
   );
 };

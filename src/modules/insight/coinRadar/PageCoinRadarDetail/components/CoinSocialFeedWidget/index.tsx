@@ -8,7 +8,7 @@ import {
 } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { SocialMessageSummary } from './SocialMessage';
 import { SocialLogo } from './SocialLogo';
 
@@ -131,11 +131,16 @@ export function CoinSocialFeedWidget({
   }, [activeTab?.value]);
 
   return (
-    <AccessSheild
-      level={0}
-      size={1}
+    <AccessShield
       mode="children"
       className="overflow-hidden rounded-2xl"
+      sizes={{
+        'guest': true,
+        'trial': true,
+        'free': true,
+        'pro': false,
+        'pro+': false,
+      }}
     >
       <OverviewWidget
         id={id}
@@ -173,6 +178,6 @@ export function CoinSocialFeedWidget({
           ))}
         </div>
       </OverviewWidget>
-    </AccessSheild>
+    </AccessShield>
   );
 }

@@ -1,11 +1,23 @@
+import { useNavigate } from 'react-router-dom';
 import { isMiniApp } from 'utils/version';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { APP_PANEL } from 'config/constants';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useAccountQuery } from './account';
+
+export type UserGroup = 'guest' | 'trial' | 'free' | 'pro' | 'pro+';
 
 export function useSubscription() {
   const { data: account, isLoading, refetch } = useAccountQuery();
   const subs = account?.subscription_item;
   const plan = subs?.subscription_plan;
-  const planName = plan?.name || 'none';
+  const title = plan?.name || 'none';
+  const { isEmbeddedView } = useEmbedView();
+  const isLoggedIn = useIsLoggedIn();
+
+  const navigate = useNavigate();
+  const [loginModal, showModalLogin] = useModalLogin();
 
   const level = isMiniApp ? 1 : plan?.level ?? 0;
 
@@ -13,11 +25,46 @@ export function useSubscription() {
 
   const status = subs?.status ?? 'active';
 
+  const group: UserGroup = isLoggedIn
+    ? status === 'trialing'
+      ? 'trial'
+      : level === 0
+      ? 'free'
+      : level === 1
+      ? 'pro'
+      : 'pro+'
+    : 'guest';
+
+  const ensureGroup = async (neededGroup: UserGroup | UserGroup[]) =>
+    await new Promise<boolean>((resolve, reject) => {
+      if (isEmbeddedView) {
+        if (top) {
+          top.window.location.href = `${APP_PANEL}/account/billing`;
+          // never resolve
+        } else {
+          reject(new Error('Cannot access to "top" object!'));
+        }
+      } else {
+        const neededGroups = Array.isArray(neededGroup)
+          ? neededGroup
+          : [neededGroup];
+
+        if (neededGroups.includes(group)) {
+          resolve(true);
+        } else if (group === 'guest') {
+          return showModalLogin();
+        } else {
+          navigate('/account/billing');
+          // never resolve
+        }
+      }
+    });
+
   return {
     plan,
     refetch,
     isLoading,
-    title: planName,
+    title,
     level,
     levelName,
     status,
@@ -29,5 +76,8 @@ export function useSubscription() {
     weeklyCustomNotificationCount: Number(
       plan?.metadata.weekly_custom_notifications_count ?? 0,
     ),
+    group,
+    ensureGroup,
+    loginModal,
   };
 }

@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { type CoinSignal, useCoinSignals } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -97,7 +97,16 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
           onChange={setFilter}
         />
       </div>
-      <AccessSheild mode="table" size={3} level={1}>
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': 3,
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+      >
         <Table
           columns={columns}
           dataSource={filteredCoins}
@@ -108,7 +117,7 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
             pageSize: 5,
           }}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

@@ -13,7 +13,7 @@ import {
   useMarketInfoFromSignals,
 } from 'api';
 import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/components/SignalSentiment';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { formatNumber } from 'utils/numbers';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
@@ -275,7 +275,16 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         </>
       }
     >
-      <AccessSheild mode="table" size={3} level={1}>
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': 3,
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+      >
         <Table
           columns={columns}
           dataSource={filteredCoins}
@@ -284,7 +293,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           tableLayout="fixed"
           {...tableProps}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

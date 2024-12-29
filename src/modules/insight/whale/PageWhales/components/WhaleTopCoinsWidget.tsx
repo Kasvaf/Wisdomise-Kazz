@@ -8,7 +8,7 @@ import { type WhaleCoinsFilter, useWhalesCoins, type WhaleCoin } from 'api';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinInfo } from './CoinInfo';
 import { NetworkSelect } from './NetworkSelect';
@@ -218,7 +218,16 @@ export function WhaleTopCoinsWidget({
         </>
       }
     >
-      <AccessSheild size={2} level={2} mode="table">
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': true,
+          'free': true,
+          'pro': true,
+          'pro+': false,
+        }}
+      >
         <Table
           columns={columns}
           dataSource={coins.data?.results ?? []}
@@ -226,7 +235,7 @@ export function WhaleTopCoinsWidget({
           loading={coins.isRefetching && !coins.isFetched}
           {...tableProps}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

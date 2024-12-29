@@ -5,7 +5,7 @@ import {
   useIndicatorHeatmap,
 } from 'api/market-pulse';
 import { ButtonSelect } from 'shared/ButtonSelect';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
@@ -32,7 +32,16 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       loading={heatmap.isLoading}
       empty={heatmap.data?.results?.length === 0}
     >
-      <AccessSheild mode="children" size={1} level={1}>
+      <AccessShield
+        mode="children"
+        sizes={{
+          'guest': true,
+          'trial': false,
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+      >
         <RsiHeatmapChart
           className="h-full py-2"
           data={heatmap.data?.results ?? []}
@@ -67,7 +76,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
             />
           }
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

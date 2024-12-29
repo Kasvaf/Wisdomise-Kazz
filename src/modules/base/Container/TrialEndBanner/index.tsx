@@ -11,13 +11,11 @@ import Bg from './bg.png';
 
 export const TrialEndBanner: FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation('pro');
-  const subscription = useSubscription();
+  const { remaining, group } = useSubscription();
   const isLoggedIn = useIsLoggedIn();
 
   const show =
-    !isMiniApp &&
-    isLoggedIn &&
-    (subscription.level === 0 || subscription.status === 'trialing');
+    !isMiniApp && isLoggedIn && (group === 'free' || group === 'trial');
   if (!show) return null;
   return (
     <Link
@@ -45,7 +43,7 @@ export const TrialEndBanner: FC<{ className?: string }> = ({ className }) => {
           components={{
             Duration: (
               <ReadableDuration
-                value={subscription.remaining}
+                value={remaining}
                 className="font-bold"
                 zeroText={t('zero-hour')}
               />

@@ -7,7 +7,7 @@ import { Wallet } from 'shared/Wallet';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function TopWhaleListWidget({ className }: { className?: string }) {
@@ -68,7 +68,16 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       loading={whales.isLoading}
       empty={whales.data?.results.length === 0}
     >
-      <AccessSheild mode="table" level={2} size={2}>
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': true,
+          'free': true,
+          'pro': true,
+          'pro+': false,
+        }}
+      >
         <Table
           loading={whales.isLoading}
           columns={columns}
@@ -76,7 +85,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
           rowKey="holder_address"
           pagination={false}
         />
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

@@ -4,7 +4,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
-import { AccessSheild } from 'shared/AccessSheild';
+import { AccessShield } from 'shared/AccessShield';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function TopWhaleCoinsWidget({ className }: { className?: string }) {
@@ -24,11 +24,20 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
       title={t('whale:sections.top-coins.title')}
       info={t('whale:sections.top-coins.subtitle')}
       headerActions={<SeeMoreLink to="/coin-radar/whale-radar" />}
-      contentClassName="flex flex-col gap-4"
       loading={coins.isLoading}
       empty={coins.data?.results.length === 0}
     >
-      <AccessSheild mode="children" size={2} level={2}>
+      <AccessShield
+        mode="children"
+        sizes={{
+          'guest': true,
+          'trial': true,
+          'free': true,
+          'pro': true,
+          'pro+': false,
+        }}
+        className="space-y-4"
+      >
         {coins.data?.results.map(row => (
           <div
             key={row.symbol.name + (row.symbol.slug ?? '')}
@@ -68,7 +77,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
             </div>
           </div>
         ))}
-      </AccessSheild>
+      </AccessShield>
     </OverviewWidget>
   );
 }

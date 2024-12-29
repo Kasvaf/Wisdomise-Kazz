@@ -59,15 +59,15 @@ const useMenuItems = () => {
               onClick: trackClick('insight_menu'),
             },
             {
-              text: t('menu.hot-coins.title'),
-              link: '/coin-radar/social-radar',
-              onClick: trackClick('coin_radar_menu'),
-            },
-            {
               text: t('menu.ai-indicators.title'),
               link: '/coin-radar/technical-radar',
               onClick: trackClick('market_pulse_menu'),
               badge: 'new',
+            },
+            {
+              text: t('menu.hot-coins.title'),
+              link: '/coin-radar/social-radar',
+              onClick: trackClick('coin_radar_menu'),
             },
             {
               text: t('menu.whales.title'),

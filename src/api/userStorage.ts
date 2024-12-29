@@ -1,84 +1,88 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
-import queryClient from 'config/reactQuery';
+import { useEffect, useState } from 'react';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
 
+const getItem = (key: string, storage: 'api' | 'local', signal: AbortSignal) =>
+  storage === 'api'
+    ? ofetch<{ value: string }>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+        {
+          signal,
+        },
+      ).then(resp => (typeof resp.value === 'string' ? resp.value : null))
+    : Promise.resolve(localStorage.getItem(`storage:${key}`));
+
+const setItem = (key: string, value: string, storage: 'api' | 'local') =>
+  storage === 'api'
+    ? ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`, {
+        body: {
+          value,
+        },
+        method: 'post',
+      })
+    : Promise.resolve(localStorage.setItem(`storage:${key}`, value));
+
+const removeItem = (key: string, storage: 'api' | 'local') =>
+  storage === 'api'
+    ? ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`, {
+        method: 'delete',
+      })
+    : Promise.resolve(localStorage.removeItem(`storage:${key}`));
+
 export function useUserStorage(key: string, defaultValue?: string) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [value, setValue] = useState(defaultValue || null);
   const isLoggedIn = useIsLoggedIn();
 
   const storage = isLoggedIn ? 'api' : 'local';
-  const localStorageKey = `storage:${key}`;
 
   useEffect(() => {
-    if (!storage) return;
-    void queryClient.invalidateQueries({
-      queryKey: ['user-storage', key],
-    });
-  }, [storage, key]);
+    const controller = new AbortController();
+    setIsLoading(true);
+    setIsError(false);
+    setValue(defaultValue ?? null);
+    void getItem(key, storage, controller.signal)
+      .then(newValue => {
+        setValue(newValue);
+        setIsError(false);
+        return newValue;
+      })
+      .catch(error => {
+        if (error instanceof Error && error.name !== 'AbortError') {
+          setIsError(true);
+        }
+      })
+      .finally(() => setIsLoading(false));
+    return () => {
+      controller.abort();
+    };
+  }, [storage, key, defaultValue]);
 
-  const save = useMutation({
-    mutationFn: async (newValue: string) => {
-      if (storage === 'local') {
-        localStorage.setItem(localStorageKey, newValue);
-      } else {
-        await ofetch(
-          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-          {
-            body: {
-              value: newValue,
-            },
-            method: 'post',
-          },
-        );
-      }
-      await queryClient.invalidateQueries({
-        queryKey: ['user-storage', key],
-      });
-      return newValue;
-    },
-  });
+  const save = async (newValue: string) => {
+    setValue(newValue);
+    setIsLoading(true);
+    try {
+      await setItem(key, newValue, storage);
+    } catch {}
+    setIsLoading(false);
+  };
 
-  const value = useQuery({
-    queryKey: ['user-storage', key],
-    queryFn: async () => {
-      if (storage === 'local') {
-        return localStorage.getItem(localStorageKey) ?? defaultValue ?? null;
-      }
-      const data = await ofetch<{ value: string }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-      );
-      return data.value ?? defaultValue ?? null;
-    },
-    staleTime: Number.POSITIVE_INFINITY,
-    placeholderData: defaultValue,
-  });
-
-  const remove = useMutation({
-    mutationFn: async () => {
-      if (storage === 'local') {
-        localStorage.removeItem(localStorageKey);
-        return null;
-      } else {
-        await ofetch(
-          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-          {
-            method: 'delete',
-          },
-        );
-      }
-      await queryClient.invalidateQueries({
-        queryKey: ['user-storage', key],
-      });
-      return null;
-    },
-  });
+  const remove = async () => {
+    setValue(null);
+    setIsLoading(true);
+    try {
+      await removeItem(key, storage);
+    } catch {}
+    setIsLoading(false);
+  };
 
   return {
-    isLoading: value.isFetching,
-    value: value.data,
-    save: save.mutateAsync,
-    remove: remove.mutateAsync,
+    isLoading,
+    isError,
+    value,
+    save,
+    remove,
   };
 }
