@@ -9,6 +9,7 @@ import {
   useWriteLockWithPermit,
 } from 'modules/account/PageToken/web3/locking/contract';
 import { extractWagmiErrorMessage } from 'utils/error';
+import { toBigMoney } from 'utils/money';
 import {
   LOCKING_CONTRACT_ADDRESS,
   WSDM_CONTRACT_ADDRESS,
@@ -32,15 +33,15 @@ export function useLocking() {
 
   const startLocking = async (amount: number, _countdown: number) => {
     // const deadline = Math.floor(Date.now() / 1000) + countdown;
-    // sign(amount * 10 ** 6, deadline)
+    // sign(toBigMoney(amount, 6), deadline)
     //   .then(signature => {
-    //     startLockingWithPermit(signature, BigInt(amount * 10 ** 6), deadline);
+    //     startLockingWithPermit(signature, toBigMoney(amount, 6), deadline);
     //     return null;
     //   })
     //   .catch(error => {
     //     // probably wallet doesn't support eth_signTypedData_v4
     //     if (!isUserRejectionError(error.message)) {
-    startLockingWithApprove(BigInt(amount * 10 ** 6));
+    startLockingWithApprove(toBigMoney(amount, 6));
     //   }
     // });
   };
