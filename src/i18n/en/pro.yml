@@ -14,9 +14,6 @@ pro-locker:
   proplus:
     button: Upgrade to Pro+
     message: Upgrade to Pro+ for exclusive insights to elevate your crypto game!
-  unknown:
-    button: Call Support
-    message: You don't have the necessary access to view this section!
 trial: Trial
 trial-modal:
   title: Welcome to Wisdomise Pro!
