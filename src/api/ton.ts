@@ -52,16 +52,20 @@ export const useAccountJettonBalance = (
       if (contract === 'the-open-network') {
         balance = await tonClient.getBalance(parsedAddress);
       } else {
-        const { stack } = await tonClient.runMethod(
-          parsedAddress,
-          'get_wallet_data',
-        );
+        const { stack, exit_code: errorCode } =
+          await tonClient.runMethodWithError(parsedAddress, 'get_wallet_data');
+
+        if (errorCode === -13) return 0;
+        else if (errorCode) {
+          throw new Error('Cannot read user balance ' + errorCode.toString());
+        }
+
         balance = stack.readBigNumber();
       }
 
-      return balance
-        ? Number(fromBigMoney(balance, CONTRACT_DECIMAL[contract]))
-        : null;
+      return balance == null
+        ? null
+        : Number(fromBigMoney(balance, CONTRACT_DECIMAL[contract]));
     },
     {
       refetchInterval: 10_000,
