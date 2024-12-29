@@ -142,17 +142,9 @@ export const TechnicalTable: FC = () => {
     ],
     [t],
   );
+
   return (
-    <AccessShield
-      mode="table"
-      sizes={{
-        'guest': true,
-        'trial': 3,
-        'free': true,
-        'pro': false,
-        'pro+': false,
-      }}
-    >
+    <div>
       <div className="mb-6 flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
         <CoinSearchInput
           value={tableState.query}
@@ -195,14 +187,26 @@ export const TechnicalTable: FC = () => {
 
         <div className="grow mobile:hidden" />
       </div>
-      <Table
-        columns={columns}
-        dataSource={filteredCoins}
-        rowKey={r => JSON.stringify(r.symbol)}
-        loading={coins.isRefetching && !coins.isFetched}
-        tableLayout="fixed"
-        {...tableProps}
-      />
-    </AccessShield>
+
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'trial': 3,
+          'free': true,
+          'pro': false,
+          'pro+': false,
+        }}
+      >
+        <Table
+          columns={columns}
+          dataSource={filteredCoins}
+          rowKey={r => JSON.stringify(r.symbol)}
+          loading={coins.isRefetching && !coins.isFetched}
+          tableLayout="fixed"
+          {...tableProps}
+        />
+      </AccessShield>
+    </div>
   );
 };
