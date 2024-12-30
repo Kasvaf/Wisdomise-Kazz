@@ -39,10 +39,10 @@ export function useTournaments(status?: TournamentStatus) {
     if (status) {
       params.set('status', status);
     }
-    const data = await ofetch<Tournament[]>(
+    const data = await ofetch<{ results: Tournament[] } | Tournament[]>(
       `trader/tournaments?${params.toString()}`,
     );
-    return data;
+    return 'results' in data ? data.results : data;
   });
 }
 
