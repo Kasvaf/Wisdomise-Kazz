@@ -114,6 +114,7 @@ export const useTraderCoins = (filters?: {
 
 export interface PositionsResponse {
   positions: Position[];
+  count?: number;
 }
 
 export type PositionStatus =
@@ -202,17 +203,23 @@ export function useTraderPositionQuery(positionKey?: string) {
 export function useTraderPositionsQuery({
   slug,
   isOpen,
+  pageSize,
+  page,
 }: {
   slug?: string;
   isOpen?: boolean;
+  pageSize?: number;
+  page?: number;
 }) {
   return useQuery(
-    ['traderPositions', slug, isOpen],
+    ['traderPositions', slug, isOpen, pageSize, page],
     async () => {
       const data = await ofetch<PositionsResponse>('trader/positions', {
         query: {
           base_slug: slug || undefined,
           is_open: isOpen,
+          page_size: pageSize,
+          page,
         },
       });
       return data;
