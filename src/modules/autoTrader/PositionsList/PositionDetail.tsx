@@ -39,7 +39,8 @@ const PositionDetail: React.FC<{
       key={position.key}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
+          <span className="text-white/30">#{position.id}</span>
           <span>{position.pair_name}</span>
         </div>
         <div className="flex items-center gap-3">

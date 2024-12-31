@@ -126,6 +126,7 @@ export type PositionStatus =
   | 'CANCELED';
 
 export interface Position {
+  id: number;
   key: string;
   status: PositionStatus;
   deposit_status: 'PENDING' | 'PAID' | 'EXPIRED' | 'CANCELED';
