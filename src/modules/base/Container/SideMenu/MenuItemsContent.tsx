@@ -11,9 +11,11 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
+import { DebugPin } from 'shared/DebugPin';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { TrialEndBanner } from '../TrialEndBanner';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
+// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as HelpIcon } from './help-icon.svg';
 
 const MenuItemsGroup: React.FC<{
@@ -27,6 +29,7 @@ const MenuItemsGroup: React.FC<{
 
   return (
     <div className="mb-2 text-white mobile:border-b mobile:border-white/5">
+      <DebugPin value={item.link} />
       <NavLink
         to={item.link}
         target={item.link.startsWith('https://') ? '_blank' : undefined}
@@ -66,6 +69,7 @@ const MenuItemsGroup: React.FC<{
                   className={clsx('group flex h-[40px] items-stretch')}
                   onClick={subItem.onClick}
                 >
+                  <DebugPin value={subItem.link} />
                   <div className="flex items-center">
                     <div className="h-1 w-1 rounded-full bg-white group-hover:bg-info group-[.active]:bg-info" />
                   </div>

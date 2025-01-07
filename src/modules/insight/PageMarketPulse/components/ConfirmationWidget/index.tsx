@@ -126,11 +126,13 @@ export function ConfirmationWidget<I extends Indicator>({
   indicator,
   type,
   headerActions,
+  overlay,
 }: {
   className?: string;
   indicator: I;
   type: ConfirmationType;
   headerActions?: ReactNode;
+  overlay?: ReactNode;
 }) {
   const tabs = useConfirmationTabs(indicator, type);
   const [autoSelect, setAutoSelect] = useState(true);
@@ -219,6 +221,7 @@ export function ConfirmationWidget<I extends Indicator>({
       }
       loading={confirmations.isLoading}
       empty={confirmations.data?.results.length === 0}
+      overlay={overlay}
     >
       <AccessShield
         mode="children"

@@ -8,6 +8,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { ReadableDuration } from 'shared/ReadableDuration';
+import { DebugPin } from 'shared/DebugPin';
 
 function StatRow({
   className,
@@ -96,12 +97,14 @@ export function Whale14DaysStats({
       {hasFlag('/coin-radar/whale-radar?win_lose') && (
         <>
           <StatRow label={t('14d_stats.largest_loss')}>
+            <DebugPin value="/coin-radar/whale-radar?win_lose" />
             <ReadableNumber
               value={whale.data?.recent_largest_loss}
               className="text-v1-content-negative"
             />
           </StatRow>
           <StatRow label={t('14d_stats.largest_gain')}>
+            <DebugPin value="/coin-radar/whale-radar?win_lose" />
             <ReadableNumber
               value={whale.data?.recent_largest_win}
               className="text-v1-content-positive"

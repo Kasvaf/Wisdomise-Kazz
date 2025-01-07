@@ -5,6 +5,7 @@ import { notification } from 'antd';
 import Button from 'shared/Button';
 import { type Position, useHasFlag } from 'api';
 import { useUserStorage } from 'api/userStorage';
+import { DebugPin } from 'shared/DebugPin';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
@@ -106,6 +107,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
             loading={isSubmitting}
             disabled={!isEnabled}
           >
+            <DebugPin value="/trader-positions" />
             {t('signal-form.btn-fire-signal')}
           </Button>
         ) : (

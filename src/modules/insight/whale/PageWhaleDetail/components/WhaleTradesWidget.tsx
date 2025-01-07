@@ -10,6 +10,7 @@ import Table from 'shared/Table';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
 import BetaVersion from 'shared/BetaVersion';
+import { DebugPin } from 'shared/DebugPin';
 
 export function WhaleTradesWidget({
   className,
@@ -45,6 +46,7 @@ export function WhaleTradesWidget({
       {
         title: (
           <span className="flex items-center gap-1">
+            <DebugPin value="/coin-radar/whale-radar?trading_pnl" />
             {t('whale_trades.trading_pnl')}
             <BetaVersion variant="beta" minimal />
           </span>
@@ -62,6 +64,7 @@ export function WhaleTradesWidget({
       {
         title: (
           <span className="flex items-center gap-1">
+            <DebugPin value="/coin-radar/whale-radar?trading_pnl" />
             {t('whale_trades.returns')}
             <BetaVersion variant="beta" minimal />
           </span>

@@ -16,6 +16,7 @@ import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
 import { useHasFlag, useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { DebugPin } from 'shared/DebugPin';
 import useMenuItems from '../useMenuItems';
 import { ReactComponent as ProIcon } from './pro.svg';
 
@@ -70,6 +71,7 @@ export const usePageSiblings = () => {
               className={clsx('py-3', x === child && 'text-info')}
               onClick={() => setShowSiblings(false)}
             >
+              <DebugPin value={x.link} />
               {x.text}
             </NavLink>
           ))}

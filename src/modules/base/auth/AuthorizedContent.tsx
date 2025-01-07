@@ -10,7 +10,7 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const hasFlag = useHasFlag();
-  const isAuthorized = hasFlag('?');
+  const isAuthorized = hasFlag('?'); // NAITODO
   const isLoggedIn = useIsLoggedIn();
   const { isFetching } = useAccountQuery();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();

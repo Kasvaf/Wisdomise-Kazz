@@ -3,6 +3,7 @@ import { useHasFlag } from 'api';
 import { useDeleteAlert, useAlerts, useSaveAlert } from 'api/alert';
 import { type AlertForm } from 'modules/alert/library/types';
 import { track } from 'config/segment';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as ReportIcon } from './report.svg';
 import { StepOne } from './StepOne';
 
@@ -15,7 +16,12 @@ export const useReportAlert = (): AlertForm => {
   const deleteAlertMutation = useDeleteAlert();
   const hasFlag = useHasFlag();
   return {
-    title: t('types.report.title'),
+    title: (
+      <>
+        <DebugPin value="/coin-radar/alerts?social_radar_report" />
+        {t('types.report.title')}
+      </>
+    ),
     subtitle: t('types.report.subtitle'),
     icon: ReportIcon,
     value: 'report',

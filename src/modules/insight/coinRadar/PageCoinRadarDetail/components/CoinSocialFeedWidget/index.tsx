@@ -9,6 +9,7 @@ import {
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { AccessShield } from 'shared/AccessShield';
+import { DebugPin } from 'shared/DebugPin';
 import { SocialMessageSummary } from './SocialMessage';
 import { SocialLogo } from './SocialLogo';
 
@@ -57,11 +58,14 @@ export function CoinSocialFeedWidget({
     }> = [
       {
         label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.telegram.title')}
-            isActive={activeSocial === 'telegram'}
-            type="telegram"
-          />
+          <>
+            <DebugPin value="/coin/[slug]?tab=telegram" />
+            <SocialTabTitle
+              label={t('coin-details.tabs.socials.types.telegram.title')}
+              isActive={activeSocial === 'telegram'}
+              type="telegram"
+            />
+          </>
         ),
         value: 'telegram',
         messages: hasFlag('/coin/[slug]?tab=telegram')
@@ -72,11 +76,14 @@ export function CoinSocialFeedWidget({
       },
       {
         label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.reddit.title')}
-            isActive={activeSocial === 'reddit'}
-            type="reddit"
-          />
+          <>
+            <DebugPin value="/coin/[slug]?tab=reddit" />
+            <SocialTabTitle
+              label={t('coin-details.tabs.socials.types.reddit.title')}
+              isActive={activeSocial === 'reddit'}
+              type="reddit"
+            />
+          </>
         ),
         value: 'reddit',
         messages: hasFlag('/coin/[slug]?tab=reddit')
@@ -87,11 +94,14 @@ export function CoinSocialFeedWidget({
       },
       {
         label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.twitter.title')}
-            isActive={activeSocial === 'twitter'}
-            type="twitter"
-          />
+          <>
+            <DebugPin value="/coin/[slug]?tab=twitter" />
+            <SocialTabTitle
+              label={t('coin-details.tabs.socials.types.twitter.title')}
+              isActive={activeSocial === 'twitter'}
+              type="twitter"
+            />
+          </>
         ),
         value: 'twitter',
         messages: hasFlag('/coin/[slug]?tab=twitter')

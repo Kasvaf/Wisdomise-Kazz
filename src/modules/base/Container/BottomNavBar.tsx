@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useHasFlag } from 'api';
 import { isMiniApp } from 'utils/version';
+import { DebugPin } from 'shared/DebugPin';
 import useMenuItems, { type RootMenuItem } from './useMenuItems';
 import { ReactComponent as IconMenu } from './useMenuItems/icons/menu.svg';
 import { TrialEndBanner } from './TrialEndBanner';
@@ -23,6 +24,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
         'opacity-60 [&.active]:font-bold [&.active]:text-[#00A3FF] [&.active]:opacity-100',
       )}
     >
+      <DebugPin value={item.link} />
       {item.icon}
       <div className="mt-1 text-xs font-normal">{item.text}</div>
     </NavLink>

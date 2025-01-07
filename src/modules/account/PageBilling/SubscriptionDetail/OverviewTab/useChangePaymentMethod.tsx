@@ -8,6 +8,7 @@ import {
 import { type PaymentMethod } from 'api/types/subscription';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as SIcon } from '../../images/s-icon.svg';
 import { ReactComponent as CryptoPaymentIcon } from '../../images/crypto-pay-icon.svg';
 import { ReactComponent as TokenIcon } from '../../images/token.svg';
@@ -51,6 +52,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('FIAT')}
             >
+              <DebugPin value="/account/billing?payment_method=fiat" />
               <div className="flex items-center gap-2">
                 <SIcon />
                 {t('change-pay-method.fiat')}
@@ -67,6 +69,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('CRYPTO')}
             >
+              <DebugPin value="/account/billing?payment_method=crypto" />
               <div className="flex items-center gap-2">
                 <CryptoPaymentIcon />
                 {t('change-pay-method.crypto')}
@@ -83,6 +86,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('TOKEN')}
             >
+              <DebugPin value="/account/billing?payment_method=lock" />
               <div className="flex items-center gap-2">
                 <TokenIcon />
                 {t('change-pay-method.token')}
@@ -99,6 +103,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('WSDM')}
             >
+              <DebugPin value="/account/billing?payment_method=wsdm" />
               <div className="flex items-center gap-2">
                 <TokenIcon />
                 {t('change-pay-method.wsdm')}

@@ -9,6 +9,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import BetaVersion from 'shared/BetaVersion';
+import { DebugPin } from 'shared/DebugPin';
 
 function StatRow({
   className,
@@ -116,6 +117,7 @@ export function WhaleOverviewWidget({
       <div className="h-px bg-v1-content-disabled" />
       {hasFlag('/coin-radar/whale-radar?trading_pnl') && (
         <StatRow label={t('whale_overview.trading_pnl')} beta>
+          <DebugPin value="/coin-radar/whale-radar?trading_pnl" />
           <DirectionalNumber
             value={whale.data?.recent_trading_pnl}
             label="$"
@@ -135,6 +137,7 @@ export function WhaleOverviewWidget({
           className="w-full flex-wrap"
           beta
         >
+          <DebugPin value="/coin-radar/whale-radar?win_lose" />
           <div className="w-full basis-full space-y-2">
             <div className="relative h-1 w-full overflow-hidden rounded bg-v1-content-secondary">
               {(whale.data?.recent_trading_losses ?? 0) > 0 && (

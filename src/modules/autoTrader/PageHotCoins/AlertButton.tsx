@@ -6,6 +6,7 @@ import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnc
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import { useHasFlag } from 'api';
 import Icon from 'shared/Icon';
+import { DebugPin } from 'shared/DebugPin';
 
 export default function AlertButton({ className }: { className?: string }) {
   const { t } = useTranslation('alerts');
@@ -27,6 +28,7 @@ export default function AlertButton({ className }: { className?: string }) {
         onClick={alertActions.openSaveModal}
         disabled={!hasFlag('/coin-radar/alerts')}
       >
+        <DebugPin value="/coin-radar/alerts" />
         <Icon size={20} name={bxBell} className="mr-1" />
         {t('common.set-alert')}
       </Button>

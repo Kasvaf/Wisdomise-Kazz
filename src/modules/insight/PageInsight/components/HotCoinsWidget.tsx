@@ -9,6 +9,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReactComponent as RealtimeIcon } from 'modules/insight/coinRadar/PageCoinRadar/realtime.svg';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
+import { DebugPin } from 'shared/DebugPin';
 import { SignalSentiment } from '../../coinRadar/PageCoinRadar/components/SignalSentiment';
 import { SeeMoreLink } from './SeeMoreLink';
 
@@ -40,7 +41,12 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       },
       {
         colSpan: hasFlag('/coin-radar/social-radar?side-suggestion') ? 1 : 0,
-        title: t('social-radar-overview.table.sentiment'),
+        title: (
+          <>
+            <DebugPin value="/coin-radar/social-radar?side-suggestion" />
+            {t('social-radar-overview.table.sentiment')}
+          </>
+        ),
         render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
@@ -67,6 +73,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       className={clsx('min-h-[548px]', className)}
       loading={coins.isLoading}
       empty={sortedCoins.length === 0}
+      overlay={<DebugPin value="/coin-radar/social-radar" />}
     >
       <AccessShield
         mode="table"
