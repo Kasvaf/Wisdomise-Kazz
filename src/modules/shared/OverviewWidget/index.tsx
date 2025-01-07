@@ -28,6 +28,7 @@ export function OverviewWidget({
   headerActions,
   footer,
   children,
+  overlay,
   className,
   contentClassName,
   headerClassName,
@@ -45,6 +46,7 @@ export function OverviewWidget({
   headerActions?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
+  overlay?: ReactNode;
   className?: string;
   contentClassName?: string;
   headerClassName?: string;
@@ -84,7 +86,7 @@ export function OverviewWidget({
   return (
     <article
       className={clsx(
-        'flex flex-col overflow-hidden rounded-2xl bg-v1-surface-l2',
+        'relative flex flex-col overflow-hidden rounded-2xl bg-v1-surface-l2',
         gapClassName,
         paddingClassName,
         className,
@@ -183,6 +185,13 @@ export function OverviewWidget({
         <footer className={clsx('shrink-0 overflow-auto', footerClassName)}>
           {footer}
         </footer>
+      )}
+
+      {/* Overlay */}
+      {overlay && (
+        <div className={clsx('pointer-events-none absolute inset-0 size-full')}>
+          {overlay}
+        </div>
       )}
     </article>
   );
