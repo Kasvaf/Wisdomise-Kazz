@@ -86,7 +86,8 @@ export function PriceAlertButton({
         }
       >
         <DebugPin
-          value={['/coin-radar/alerts', '/coin-radar/alerts?price_alert']}
+          title={['/coin-radar/alerts', '/coin-radar/alerts?price_alert']}
+          color="orange"
         />
         <Icon size={20} name={bxBell} className="mr-1" />
         {initialAlert.key

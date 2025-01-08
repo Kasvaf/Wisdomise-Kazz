@@ -30,7 +30,12 @@ export function CoinSocialSentimentWidget({
         'flex flex-row items-center justify-between gap-3 overflow-hidden',
         !coinSignal && signals.data && 'contrast-75 grayscale',
       )}
-      overlay={<DebugPin value="/coin-radar/social-radar?side-suggestion" />}
+      overlay={
+        <DebugPin
+          title="/coin-radar/social-radar?side-suggestion"
+          color="orange"
+        />
+      }
     >
       <div className="flex h-20 flex-col justify-between gap-1">
         <p className="text-xxs text-v1-content-primary">

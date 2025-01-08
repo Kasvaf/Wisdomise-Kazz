@@ -46,7 +46,10 @@ export function WhaleTradesWidget({
       {
         title: (
           <span className="flex items-center gap-1">
-            <DebugPin value="/coin-radar/whale-radar?trading_pnl" />
+            <DebugPin
+              title="/coin-radar/whale-radar?trading_pnl"
+              color="orange"
+            />
             {t('whale_trades.trading_pnl')}
             <BetaVersion variant="beta" minimal />
           </span>
@@ -64,7 +67,10 @@ export function WhaleTradesWidget({
       {
         title: (
           <span className="flex items-center gap-1">
-            <DebugPin value="/coin-radar/whale-radar?trading_pnl" />
+            <DebugPin
+              title="/coin-radar/whale-radar?trading_pnl"
+              color="orange"
+            />
             {t('whale_trades.returns')}
             <BetaVersion variant="beta" minimal />
           </span>

@@ -4,22 +4,24 @@ import { isDebugMode } from 'utils/version';
 import pin from './pin.png';
 
 export const DebugPin: FC<{
-  value?: string | string[];
-  type?: 'featureFlag';
+  color: 'orange' | 'red';
+  title?: string | string[];
   className?: string;
-}> = ({ value, type = 'featureFlag', className }) => {
+}> = ({ title: titleProp, color, className }) => {
   if (!isDebugMode) return null;
-  const tooltip = `${type.toUpperCase()}: ${
-    value ? (Array.isArray(value) ? value : [value]).join(', ') : ''
+  const title = `${
+    titleProp
+      ? (Array.isArray(titleProp) ? titleProp : [titleProp]).join(', ')
+      : ''
   }`;
   return (
     <div
       className={clsx(
         'pointer-events-auto absolute z-10 m-1 inline-block cursor-default',
-        type === 'featureFlag' && 'hue-rotate-15',
+        color === 'orange' && 'hue-rotate-15',
         className,
       )}
-      title={tooltip}
+      title={title}
     >
       <img src={pin} className="size-[20px]" />
     </div>

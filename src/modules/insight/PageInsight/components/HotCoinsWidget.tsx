@@ -43,7 +43,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         colSpan: hasFlag('/coin-radar/social-radar?side-suggestion') ? 1 : 0,
         title: (
           <>
-            <DebugPin value="/coin-radar/social-radar?side-suggestion" />
+            <DebugPin
+              title="/coin-radar/social-radar?side-suggestion"
+              color="orange"
+            />
             {t('social-radar-overview.table.sentiment')}
           </>
         ),
@@ -73,7 +76,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       className={clsx('min-h-[548px]', className)}
       loading={coins.isLoading}
       empty={sortedCoins.length === 0}
-      overlay={<DebugPin value="/coin-radar/social-radar" />}
+      overlay={<DebugPin title="/coin-radar/social-radar" color="orange" />}
     >
       <AccessShield
         mode="table"

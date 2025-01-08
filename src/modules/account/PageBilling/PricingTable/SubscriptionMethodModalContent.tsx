@@ -79,7 +79,10 @@ export default function SubscriptionMethodModal({
             className={clsx('col-span-1', gtmClass('fiat-payment'))}
             onClick={onFiatClick}
           >
-            <DebugPin value="/account/billing?payment_method=fiat" />
+            <DebugPin
+              title="/account/billing?payment_method=fiat"
+              color="orange"
+            />
             <div className="flex items-center gap-2">
               <SIcon />
               {t('subscription-modal.btn-fiat')}
@@ -92,7 +95,10 @@ export default function SubscriptionMethodModal({
             className={clsx('col-span-1', gtmClass('crypto-payment'))}
             onClick={onCryptoClick}
           >
-            <DebugPin value="/account/billing?payment_method=crypto" />
+            <DebugPin
+              title="/account/billing?payment_method=crypto"
+              color="orange"
+            />
             <div className="flex items-center gap-2">
               <CryptoPaymentIcon />
               {t('subscription-modal.btn-crypto')}
@@ -105,7 +111,10 @@ export default function SubscriptionMethodModal({
             className={clsx('relative col-span-1', gtmClass('wsdm-payment'))}
             onClick={onWSDMClick}
           >
-            <DebugPin value="/account/billing?payment_method=wsdm" />
+            <DebugPin
+              title="/account/billing?payment_method=wsdm"
+              color="orange"
+            />
             <div className="flex items-center gap-2">
               <Token />
               {t('subscription-modal.btn-wsdm')}
@@ -122,7 +131,10 @@ export default function SubscriptionMethodModal({
               onClick={onLockClick}
               className={clsx('col-span-1', gtmClass('lock-wsdm'))}
             >
-              <DebugPin value="/account/billing?payment_method=lock" />
+              <DebugPin
+                title="/account/billing?payment_method=lock"
+                color="orange"
+              />
               <div className="flex items-center gap-2">
                 <Token />
                 {t('subscription-modal.btn-lock')}

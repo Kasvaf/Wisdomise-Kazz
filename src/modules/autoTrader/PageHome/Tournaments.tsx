@@ -12,7 +12,7 @@ const Tournaments = () => {
   return (
     <>
       <h1 className="mb-4">
-        <DebugPin value="/trader-tournaments" />
+        <DebugPin title="/trader-tournaments" color="orange" />
         Tournaments
       </h1>
       <div className="-mx-4 mb-3 flex gap-4 overflow-auto px-4">

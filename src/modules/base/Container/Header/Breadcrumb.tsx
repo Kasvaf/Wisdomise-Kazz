@@ -71,7 +71,7 @@ export const usePageSiblings = () => {
               className={clsx('py-3', x === child && 'text-info')}
               onClick={() => setShowSiblings(false)}
             >
-              <DebugPin value={x.link} />
+              <DebugPin title={x.link} color="orange" />
               {x.text}
             </NavLink>
           ))}

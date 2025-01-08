@@ -28,7 +28,7 @@ export default function AlertButton({ className }: { className?: string }) {
         onClick={alertActions.openSaveModal}
         disabled={!hasFlag('/coin-radar/alerts')}
       >
-        <DebugPin value="/coin-radar/alerts" />
+        <DebugPin title="/coin-radar/alerts" color="orange" />
         <Icon size={20} name={bxBell} className="mr-1" />
         {t('common.set-alert')}
       </Button>

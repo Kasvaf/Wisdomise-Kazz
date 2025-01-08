@@ -212,7 +212,7 @@ export default function ClaimRewardPage() {
           className="mt-8 block"
           variant="alternative"
         >
-          <DebugPin value="/trader-alerts" />
+          <DebugPin title="/trader-alerts" color="orange" />
           Manage Alerts
         </Button>
       )}

@@ -32,7 +32,10 @@ export const useScreenerAlert = (): AlertFormGroup => {
       {
         title: (
           <>
-            <DebugPin value="/coin-radar/alerts?social_radar_screener" />
+            <DebugPin
+              title="/coin-radar/alerts?social_radar_screener"
+              color="orange"
+            />
             {t('types.social_radar_screener.title')}
           </>
         ),
@@ -82,7 +85,10 @@ export const useScreenerAlert = (): AlertFormGroup => {
       {
         title: (
           <>
-            <DebugPin value="/coin-radar/alerts?technical_radar_screener" />
+            <DebugPin
+              title="/coin-radar/alerts?technical_radar_screener"
+              color="orange"
+            />
             {t('types.technical_radar_screener.title')}
           </>
         ),

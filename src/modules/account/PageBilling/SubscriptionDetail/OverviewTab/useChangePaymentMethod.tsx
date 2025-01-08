@@ -52,7 +52,10 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('FIAT')}
             >
-              <DebugPin value="/account/billing?payment_method=fiat" />
+              <DebugPin
+                title="/account/billing?payment_method=fiat"
+                color="orange"
+              />
               <div className="flex items-center gap-2">
                 <SIcon />
                 {t('change-pay-method.fiat')}
@@ -69,7 +72,10 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('CRYPTO')}
             >
-              <DebugPin value="/account/billing?payment_method=crypto" />
+              <DebugPin
+                title="/account/billing?payment_method=crypto"
+                color="orange"
+              />
               <div className="flex items-center gap-2">
                 <CryptoPaymentIcon />
                 {t('change-pay-method.crypto')}
@@ -86,7 +92,10 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('TOKEN')}
             >
-              <DebugPin value="/account/billing?payment_method=lock" />
+              <DebugPin
+                title="/account/billing?payment_method=lock"
+                color="orange"
+              />
               <div className="flex items-center gap-2">
                 <TokenIcon />
                 {t('change-pay-method.token')}
@@ -103,7 +112,10 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
               }
               onClick={() => handleChangePayment('WSDM')}
             >
-              <DebugPin value="/account/billing?payment_method=wsdm" />
+              <DebugPin
+                title="/account/billing?payment_method=wsdm"
+                color="orange"
+              />
               <div className="flex items-center gap-2">
                 <TokenIcon />
                 {t('change-pay-method.wsdm')}

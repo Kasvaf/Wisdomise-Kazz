@@ -16,7 +16,7 @@ export const usePriceAlert = (): AlertForm => {
   return {
     title: (
       <>
-        <DebugPin value="/coin-radar/alerts?price_alert" />
+        <DebugPin title="/coin-radar/alerts?price_alert" color="orange" />
         {t('types.price.title')}
       </>
     ),

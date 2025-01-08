@@ -17,7 +17,7 @@ export function RsiConfirmationWidget(
       {...props}
       indicator="rsi"
       headerActions={<SeeMoreLink to="/coin-radar/technical-radar" />}
-      overlay={<DebugPin value="/coin-radar/technical-radar" />}
+      overlay={<DebugPin title="/coin-radar/technical-radar" color="orange" />}
     />
   );
 }

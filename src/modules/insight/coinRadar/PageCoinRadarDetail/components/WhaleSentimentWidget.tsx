@@ -56,7 +56,9 @@ export function WhaleSentimentWidget({
         'flex h-20 flex-col justify-between gap-3 overflow-hidden',
         isAllZero && 'contrast-75 grayscale',
       )}
-      overlay={<DebugPin value="/coin-radar/social-radar?whale" />}
+      overlay={
+        <DebugPin title="/coin-radar/social-radar?whale" color="orange" />
+      }
     >
       <p className="text-xxs text-v1-content-primary">
         {t('coin-details.tabs.whale_sentiment.title')}

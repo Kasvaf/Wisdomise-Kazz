@@ -68,7 +68,7 @@ export function TopWhaleListWidget({ className }: { className?: string }) {
       headerActions={<SeeMoreLink to="/coin-radar/whale-radar" />}
       loading={whales.isLoading}
       empty={whales.data?.results.length === 0}
-      overlay={<DebugPin value="/coin-radar/whale-radar" />}
+      overlay={<DebugPin title="/coin-radar/whale-radar" color="orange" />}
     >
       <AccessShield
         mode="table"

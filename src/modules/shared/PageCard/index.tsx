@@ -64,7 +64,7 @@ export const PageCard: FC<PageCardProps> = props => {
       )}
       onClick={onClick}
     >
-      <DebugPin value={to} />
+      <DebugPin title={to} color="orange" />
       <div className="relative h-auto overflow-auto">
         {Icon && (
           <Icon className="absolute right-6 top-1/2 h-auto w-[112px] -translate-y-1/2 mobile:w-[88px]" />

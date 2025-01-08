@@ -97,14 +97,14 @@ export function Whale14DaysStats({
       {hasFlag('/coin-radar/whale-radar?win_lose') && (
         <>
           <StatRow label={t('14d_stats.largest_loss')}>
-            <DebugPin value="/coin-radar/whale-radar?win_lose" />
+            <DebugPin title="/coin-radar/whale-radar?win_lose" color="orange" />
             <ReadableNumber
               value={whale.data?.recent_largest_loss}
               className="text-v1-content-negative"
             />
           </StatRow>
           <StatRow label={t('14d_stats.largest_gain')}>
-            <DebugPin value="/coin-radar/whale-radar?win_lose" />
+            <DebugPin title="/coin-radar/whale-radar?win_lose" color="orange" />
             <ReadableNumber
               value={whale.data?.recent_largest_win}
               className="text-v1-content-positive"

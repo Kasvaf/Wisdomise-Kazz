@@ -22,7 +22,7 @@ const useWhaleTopHoldersFilters = () => {
     {
       label: (
         <>
-          <DebugPin value="?all_whales" />
+          <DebugPin title="?all_whales" color="orange" />
           {t('filters.all')}
         </>
       ),
@@ -32,7 +32,7 @@ const useWhaleTopHoldersFilters = () => {
     {
       label: (
         <>
-          <DebugPin value="?best_to_copy" />
+          <DebugPin title="?best_to_copy" color="orange" />
           {t('filters.best_to_copy')}
         </>
       ),
@@ -144,7 +144,7 @@ export function WhaleTopHoldersWidget({
       {
         title: [
           <>
-            <DebugPin value="?trading_pnl" />
+            <DebugPin title="?trading_pnl" color="orange" />
             {t('top_whales.trading_pnl.title')}
           </>,
           t('top_whales.trading_pnl.info'),
@@ -164,7 +164,7 @@ export function WhaleTopHoldersWidget({
       {
         title: [
           <>
-            <DebugPin value="?trading_pnl" />
+            <DebugPin title="?trading_pnl" color="orange" />
             {t('top_whales.returns.title')}
           </>,
           t('top_whales.returns.info'),
@@ -184,7 +184,7 @@ export function WhaleTopHoldersWidget({
       {
         title: (
           <>
-            <DebugPin value="?win_lose" />
+            <DebugPin title="?win_lose" color="orange" />
             {t('top_whales.wins_losses')}
           </>
         ),

@@ -29,7 +29,7 @@ const MenuItemsGroup: React.FC<{
 
   return (
     <div className="mb-2 text-white mobile:border-b mobile:border-white/5">
-      <DebugPin value={item.link} />
+      <DebugPin title={item.link} color="orange" />
       <NavLink
         to={item.link}
         target={item.link.startsWith('https://') ? '_blank' : undefined}
@@ -69,7 +69,7 @@ const MenuItemsGroup: React.FC<{
                   className={clsx('group flex h-[40px] items-stretch')}
                   onClick={subItem.onClick}
                 >
-                  <DebugPin value={subItem.link} />
+                  <DebugPin title={subItem.link} color="orange" />
                   <div className="flex items-center">
                     <div className="h-1 w-1 rounded-full bg-white group-hover:bg-info group-[.active]:bg-info" />
                   </div>

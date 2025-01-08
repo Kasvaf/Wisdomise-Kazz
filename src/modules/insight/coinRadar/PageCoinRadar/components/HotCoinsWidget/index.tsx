@@ -120,7 +120,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             key="1"
             className="flex items-center gap-1 text-v1-content-primary"
           >
-            <DebugPin value="/coin-radar/social-radar?side-suggestion" />
+            <DebugPin
+              title="/coin-radar/social-radar?side-suggestion"
+              color="orange"
+            />
             <Logo className="inline-block size-4 grayscale" />
             {t('social-radar.table.sentiment.title')}
           </span>,
@@ -166,7 +169,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         colSpan: hasFlag('/coin-radar/social-radar?whale') ? 1 : 0,
         title: [
           <>
-            <DebugPin value="/coin-radar/social-radar?whale" />
+            <DebugPin title="/coin-radar/social-radar?whale" color="orange" />
             {t('social-radar.table.whale_buy_sell.title')}
           </>,
           <Fragment key="2">

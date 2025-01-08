@@ -80,10 +80,11 @@ export default function CoinRadarAlerButton({
         disabled={alertActions.isSaving}
       >
         <DebugPin
-          value={[
+          title={[
             '/coin-radar/alerts?social_radar_screener',
             '/coin-radar/alerts',
           ]}
+          color="orange"
         />
         {!posibleRelatedAlert && (
           <Badge

@@ -18,7 +18,10 @@ export const useReportAlert = (): AlertForm => {
   return {
     title: (
       <>
-        <DebugPin value="/coin-radar/alerts?social_radar_report" />
+        <DebugPin
+          title="/coin-radar/alerts?social_radar_report"
+          color="orange"
+        />
         {t('types.report.title')}
       </>
     ),

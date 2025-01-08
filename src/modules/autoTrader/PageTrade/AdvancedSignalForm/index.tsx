@@ -107,7 +107,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
             loading={isSubmitting}
             disabled={!isEnabled}
           >
-            <DebugPin value="/trader-positions" />
+            <DebugPin title="/trader-positions" color="orange" />
             {t('signal-form.btn-fire-signal')}
           </Button>
         ) : (

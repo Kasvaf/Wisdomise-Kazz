@@ -24,7 +24,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
         'opacity-60 [&.active]:font-bold [&.active]:text-[#00A3FF] [&.active]:opacity-100',
       )}
     >
-      <DebugPin value={item.link} />
+      <DebugPin title={item.link} color="orange" />
       {item.icon}
       <div className="mt-1 text-xs font-normal">{item.text}</div>
     </NavLink>

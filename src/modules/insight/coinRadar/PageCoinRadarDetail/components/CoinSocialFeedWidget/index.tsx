@@ -59,7 +59,7 @@ export function CoinSocialFeedWidget({
       {
         label: (
           <>
-            <DebugPin value="/coin/[slug]?tab=telegram" />
+            <DebugPin title="/coin/[slug]?tab=telegram" color="orange" />
             <SocialTabTitle
               label={t('coin-details.tabs.socials.types.telegram.title')}
               isActive={activeSocial === 'telegram'}
@@ -77,7 +77,7 @@ export function CoinSocialFeedWidget({
       {
         label: (
           <>
-            <DebugPin value="/coin/[slug]?tab=reddit" />
+            <DebugPin title="/coin/[slug]?tab=reddit" color="orange" />
             <SocialTabTitle
               label={t('coin-details.tabs.socials.types.reddit.title')}
               isActive={activeSocial === 'reddit'}
@@ -95,7 +95,7 @@ export function CoinSocialFeedWidget({
       {
         label: (
           <>
-            <DebugPin value="/coin/[slug]?tab=twitter" />
+            <DebugPin title="/coin/[slug]?tab=twitter" color="orange" />
             <SocialTabTitle
               label={t('coin-details.tabs.socials.types.twitter.title')}
               isActive={activeSocial === 'twitter'}

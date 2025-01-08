@@ -80,10 +80,11 @@ export default function MarketPulseAlertButton({
         disabled={alertActions.isSaving}
       >
         <DebugPin
-          value={[
+          title={[
             '/coin-radar/alerts?technical_radar_screener',
             '/coin-radar/alerts',
           ]}
+          color="orange"
         />
         {!posibleRelatedAlert && (
           <Badge

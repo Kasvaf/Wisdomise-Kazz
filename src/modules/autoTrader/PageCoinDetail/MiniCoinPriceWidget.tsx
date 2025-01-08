@@ -31,7 +31,7 @@ export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
 
       {hasFlag('/trader-alerts') && (
         <div>
-          <DebugPin value="/trader-alerts" />
+          <DebugPin title="/trader-alerts" color="orange" />
           <PriceAlertButton slug={slug} />
         </div>
       )}
