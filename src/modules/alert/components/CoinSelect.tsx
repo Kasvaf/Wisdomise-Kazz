@@ -17,6 +17,7 @@ export const CoinSelect: FC<
     filterTokens?: (item: string) => boolean;
     priceExchange?: 'BINANCE' | 'STONFI';
     emptyOption?: string;
+    selectFirst?: boolean;
   }
 > = ({
   value,
@@ -26,6 +27,7 @@ export const CoinSelect: FC<
   filterTokens,
   priceExchange,
   emptyOption,
+  selectFirst,
   ...props
 }) => {
   const [query, setQuery] = useState('');
@@ -70,6 +72,7 @@ export const CoinSelect: FC<
   );
 
   useEffect(() => {
+    if (!selectFirst) return;
     const firstOption = allOptions?.[0]?.value;
     if (
       firstOption &&
@@ -78,7 +81,7 @@ export const CoinSelect: FC<
     ) {
       props.onChange?.(firstOption, []);
     }
-  }, [allOptions, coinList.isLoading, props, value]);
+  }, [allOptions, coinList.isLoading, props, selectFirst, value]);
 
   return (
     <Select

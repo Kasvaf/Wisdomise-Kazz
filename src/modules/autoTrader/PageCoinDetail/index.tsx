@@ -29,6 +29,7 @@ export default function PageCoinDetail() {
           onChange={selectedSlug =>
             navigate(`/trader-hot-coins/${selectedSlug}`)
           }
+          selectFirst
         />
       </div>
 
