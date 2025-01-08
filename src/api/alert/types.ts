@@ -52,7 +52,7 @@ export interface SocialRadarAlert extends BaseAlert {
   data_source: 'social_radar';
   params: [];
   conditions: Array<{
-    field_name: 'networks_slug' | 'symbol.categories';
+    field_name: 'networks' | 'symbol.categories';
     threshold: string;
     operator: 'CONTAINS_OBJECT_EACH' | 'CONTAINS_EACH';
   }>;
@@ -62,7 +62,7 @@ export interface TechnicalRadarAlert extends BaseAlert {
   data_source: 'technical_radar';
   params: [];
   conditions: Array<{
-    field_name: 'networks_slug' | 'symbol.categories';
+    field_name: 'networks' | 'symbol.categories';
     threshold: string;
     operator: 'CONTAINS_OBJECT_EACH' | 'CONTAINS_EACH';
   }>;

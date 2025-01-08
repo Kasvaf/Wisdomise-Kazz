@@ -27,8 +27,8 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
         (value.conditions?.find(x => x.field_name === 'symbol.categories')
           ?.threshold as string) ?? '[]',
       ),
-      'networks_slug': JSON.parse(
-        (value.conditions?.find(x => x.field_name === 'networks_slug')
+      'networks': JSON.parse(
+        (value.conditions?.find(x => x.field_name === 'networks')
           ?.threshold as string) ?? '[]',
       ),
     }),
@@ -36,7 +36,7 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
   );
   const setForm = useCallback(
     (key: keyof typeof form, newValue: never) => {
-      if (key === 'networks_slug' || key === 'symbol.categories') {
+      if (key === 'networks' || key === 'symbol.categories') {
         return setValue(p => ({
           ...(p as { data_source: 'social_radar' }),
           conditions: [
@@ -45,10 +45,7 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
             ) as never),
             {
               field_name: key,
-              operator:
-                key === 'networks_slug'
-                  ? 'CONTAINS_EACH'
-                  : 'CONTAINS_OBJECT_EACH',
+              operator: 'CONTAINS_OBJECT_EACH',
               threshold: JSON.stringify(newValue),
             },
           ],
@@ -83,8 +80,8 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
         <FormControlWithLabel type="normal" className="w-full">
           <NetworkSelect
             className="w-full"
-            value={form.networks_slug}
-            onChange={x => setForm('networks_slug', x as never)}
+            value={form.networks}
+            onChange={x => setForm('networks', x as never)}
           />
         </FormControlWithLabel>
         <FormControlWithLabel type="normal" className="w-full">
