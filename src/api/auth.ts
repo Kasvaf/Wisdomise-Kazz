@@ -15,7 +15,7 @@ interface CreationStatusResponse {
 }
 
 const useSignupAdditionalTasks = () => {
-  const userStorage = useUserStorage('signup_url');
+  const userStorage = useUserStorage('signup-url');
   return () => {
     gtag('event', 'sign_up');
     return userStorage.save(location.pathname + location.search);

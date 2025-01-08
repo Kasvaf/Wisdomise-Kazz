@@ -13,7 +13,7 @@ export function TrialStartedModal() {
   const { t } = useTranslation('pro');
   const { group, remaining } = useSubscription();
   const [isDismissed, setIsDismissed] = useState(false);
-  const userStorage = useUserStorage('trial_popup', 'false');
+  const userStorage = useUserStorage('trial-popup', 'false');
 
   return (
     <Modal
