@@ -4,6 +4,7 @@ import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { delJwtToken, setJwtToken } from 'modules/base/auth/jwt-store';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
+import { useUserStorage } from './userStorage';
 
 interface SuccessResponse {
   message: 'ok';
@@ -13,9 +14,13 @@ interface CreationStatusResponse {
   created: boolean;
 }
 
-function sendAnalyticsSignUpEvent() {
-  gtag('event', 'sign_up');
-}
+const useSignupAdditionalTasks = () => {
+  const userStorage = useUserStorage('signup_url');
+  return () => {
+    gtag('event', 'sign_up');
+    return userStorage.save(location.pathname + location.search);
+  };
+};
 
 async function _refreshAccessToken() {
   const data = await ofetch<{ access_token: string }>(
@@ -51,6 +56,7 @@ export function useEmailLoginMutation() {
 
 export function useVerifyEmailMutation() {
   const client = useQueryClient();
+  const runSignupAddtionalTasks = useSignupAdditionalTasks();
   return useMutation<
     boolean,
     unknown,
@@ -68,7 +74,9 @@ export function useVerifyEmailMutation() {
 
       await refreshAccessToken();
       await client.invalidateQueries();
-      if (data.created) sendAnalyticsSignUpEvent();
+      if (data.created) {
+        await runSignupAddtionalTasks();
+      }
       return data.message === 'ok';
     } catch (error) {
       if (!(error instanceof FetchError) || error.response?.status !== 400)
@@ -80,6 +88,7 @@ export function useVerifyEmailMutation() {
 
 export function useGoogleLoginMutation() {
   const client = useQueryClient();
+  const runSignupAddtionalTasks = useSignupAdditionalTasks();
   return useMutation<
     boolean,
     unknown,
@@ -97,7 +106,9 @@ export function useGoogleLoginMutation() {
 
       await refreshAccessToken();
       await client.invalidateQueries();
-      if (data.created) sendAnalyticsSignUpEvent();
+      if (data.created) {
+        await runSignupAddtionalTasks();
+      }
       return data.message === 'ok';
     } catch (error) {
       if (!(error instanceof FetchError) || error.response?.status !== 400)
