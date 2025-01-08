@@ -56,7 +56,7 @@ export function useEmailLoginMutation() {
 
 export function useVerifyEmailMutation() {
   const client = useQueryClient();
-  const runSignupAddtionalTasks = useSignupAdditionalTasks();
+  const runSignupAdditionalTasks = useSignupAdditionalTasks();
   return useMutation<
     boolean,
     unknown,
@@ -75,7 +75,7 @@ export function useVerifyEmailMutation() {
       await refreshAccessToken();
       await client.invalidateQueries();
       if (data.created) {
-        await runSignupAddtionalTasks();
+        await runSignupAdditionalTasks();
       }
       return data.message === 'ok';
     } catch (error) {
@@ -88,7 +88,7 @@ export function useVerifyEmailMutation() {
 
 export function useGoogleLoginMutation() {
   const client = useQueryClient();
-  const runSignupAddtionalTasks = useSignupAdditionalTasks();
+  const runSignupAdditionalTasks = useSignupAdditionalTasks();
   return useMutation<
     boolean,
     unknown,
@@ -107,7 +107,7 @@ export function useGoogleLoginMutation() {
       await refreshAccessToken();
       await client.invalidateQueries();
       if (data.created) {
-        await runSignupAddtionalTasks();
+        await runSignupAdditionalTasks();
       }
       return data.message === 'ok';
     } catch (error) {
