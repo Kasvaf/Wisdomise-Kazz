@@ -70,7 +70,7 @@ export default function TelegramLayout() {
 
   useEffect(() => {
     if (address) {
-      gtag('event', 'connect_wallet');
+      gtag('event', 'wallet_connect');
     }
   }, [address]);
 
