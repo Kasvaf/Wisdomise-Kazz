@@ -10,7 +10,6 @@ import first from 'modules/autoTrader/PageTournaments/images/1st.svg';
 import second from 'modules/autoTrader/PageTournaments/images/2nd.svg';
 import third from 'modules/autoTrader/PageTournaments/images/3rd.svg';
 import snow from 'modules/autoTrader/PageTournaments/images/snow.svg';
-import stonfi from 'modules/autoTrader/PageTournaments/images/stonfi.png';
 import live from 'modules/autoTrader/PageTournaments/images/live.svg';
 import { type Tournament, type TournamentStatus } from 'api/tournament';
 import { Coin } from 'shared/Coin';
@@ -83,18 +82,18 @@ export default function TournamentCard({
       <img src={snow} alt="" className="absolute bottom-0 end-0" />
       <div className="relative">
         <div className="flex items-center gap-2">
-          <img src={stonfi} alt="stonfi" className="h-8 w-8" />
+          <img src={tournament.icon} alt="stonfi" className="h-8 w-8" />
           <div>
             <h2 className="text-sm">{tournament.name}</h2>
             <h1 className="text-xs text-v1-content-secondary">
-              Volume Tournament
+              Volume Tournament Contest
             </h1>
           </div>
           <div className="ms-auto">
             <TournamentStatusBadge statusValue={tournament.status} />
           </div>
         </div>
-        <div className="my-3">
+        <div className="my-3 whitespace-pre-line">
           {tournament.description}
           {hasDetail && (
             <Tooltip title={tournament.tooltip_content}>
