@@ -2,6 +2,7 @@
 import { Buffer } from 'buffer';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Outlet } from 'react-router-dom';
+import GtagContainer from 'modules/base/GtagContainer';
 import { TelegramProvider } from './TelegramProvider';
 import TelegramAuthGuard from './TelegramAuthGuard';
 
@@ -15,17 +16,19 @@ export default function TelegramContainer() {
   return (
     <div className="min-h-screen text-white">
       <TelegramProvider>
-        <TelegramAuthGuard>
-          <TonConnectUIProvider
-            manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
-            uiPreferences={{ theme: THEME.DARK }}
-            actionsConfiguration={{
-              twaReturnUrl: AUTOTRADER_MINIAPP,
-            }}
-          >
-            <Outlet />
-          </TonConnectUIProvider>
-        </TelegramAuthGuard>
+        <GtagContainer>
+          <TelegramAuthGuard>
+            <TonConnectUIProvider
+              manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
+              uiPreferences={{ theme: THEME.DARK }}
+              actionsConfiguration={{
+                twaReturnUrl: AUTOTRADER_MINIAPP,
+              }}
+            >
+              <Outlet />
+            </TonConnectUIProvider>
+          </TelegramAuthGuard>
+        </GtagContainer>
       </TelegramProvider>
     </div>
   );

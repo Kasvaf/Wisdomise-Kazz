@@ -7,7 +7,6 @@ import configDayjs from './dayjs';
 import configI18n from './i18n';
 import { configSegment } from './segment';
 import configSentry from './sentry';
-import configAnalytics from './analytics';
 import queryClient from './reactQuery';
 import oneSignal from './oneSignal';
 import { configOfetch } from './ofetch';
@@ -16,7 +15,6 @@ let lang = 'en';
 
 configSentry();
 configSegment();
-configAnalytics();
 configI18n();
 configDayjs();
 configOfetch({
