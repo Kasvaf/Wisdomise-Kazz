@@ -52,10 +52,12 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   useEffect(() => {
     void (async function () {
       if (spType === 'login') {
+        // open mini-app, by web-user
         if ((await doWebLogin({})) === 'exists' && (await confirm())) {
           await doWebLogin({ confirm: true });
         }
       } else {
+        // login to web by telegram (asks for connection)
         await doTgLogin({});
         if (spType === 'connect') {
           await doConnect({});
