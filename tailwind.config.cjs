@@ -346,12 +346,52 @@ module.exports = {
       fontSize: {
         xxs: '0.625rem',
       },
+      spacing: {
+        '2xs': '24px',
+        'xs': '32px',
+        'sm': '36px',
+        'md': '40px',
+        'lg': '44px',
+        'xl': '48px',
+        '2xl': '56px',
+      },
     },
     fontFamily: {
       poppins: ['"Poppins"', ...defaultTheme.fontFamily.sans],
     },
   },
-  plugins: [animationDelay, twElements, typography, 'tailwindcss/nesting'],
+  plugins: [
+    function ({ addUtilities, theme }) {
+      const colors = theme('colors').v1;
+      const surfaces = Object.keys(colors).filter(key =>
+        key.startsWith('surface-l'),
+      );
+
+      addUtilities(
+        {
+          ...surfaces.reduce((acc, key, index) => {
+            acc[`.bg-v1-${key}`] = {
+              '--tw-surface-bg': colors[key],
+              '--tw-surface-l-next': colors[surfaces[index + 1] || key],
+              '--tw-surface-l-prev': colors[surfaces[index - 1] || key],
+            };
+            return acc;
+          }, {}),
+          '.bg-v1-surface-l-next': {
+            backgroundColor: 'var(--tw-surface-l-next)',
+          },
+          '.bg-v1-surface-l-prev': {
+            backgroundColor: 'var(--tw-surface-l-prev)',
+          },
+        },
+        ['responsive', 'hover'],
+      );
+    },
+    animationDelay,
+    twElements,
+    typography,
+    'tailwindcss/nesting',
+  ],
   experimental: {
     applyComplexClasses: true,
   },
