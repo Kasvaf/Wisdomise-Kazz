@@ -152,10 +152,6 @@ export function useMiniAppConnectMutation() {
       `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-connect/?${
         query || ''
       }`,
-      {
-        meta: { auth: false },
-        credentials: 'include',
-      },
     );
 
     return data.message === 'ok';
