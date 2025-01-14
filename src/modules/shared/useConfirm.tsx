@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import { type ReactElement } from 'react';
+import { useCallback, type ReactElement } from 'react';
 import { bxInfoCircle } from 'boxicons-quasar';
 import useModal from './useModal';
 import Button from './Button';
@@ -75,7 +75,13 @@ function useConfirm(
   p: Omit<Props, 'onResolve'>,
 ): [JSX.Element, (po?: Partial<Props>) => Promise<boolean>] {
   const [Component, update] = useModal(ConfirmModal);
-  return [Component, async po => Boolean(await update({ ...p, ...po }))];
+  return [
+    Component,
+    useCallback(
+      async po => Boolean(await update({ ...p, ...po })),
+      [p, update],
+    ),
+  ];
 }
 
 export default useConfirm;
