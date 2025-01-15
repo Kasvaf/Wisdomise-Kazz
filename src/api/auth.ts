@@ -1,9 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { delJwtToken, setJwtToken } from 'modules/base/auth/jwt-store';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
+import { useTelegram } from 'modules/autoTrader/layout/TelegramProvider';
+import { isLocal } from 'utils/version';
 import { useUserStorage } from './userStorage';
 
 interface SuccessResponse {
@@ -118,26 +120,72 @@ export function useGoogleLoginMutation() {
   });
 }
 
-export function useMiniAppLoginQuery(query?: string) {
-  return useQuery(
-    ['miniAppLogin', query],
-    async () => {
-      const data = await ofetch<SuccessResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/mini-app-login/?${
-          query || ''
-        }`,
-        {
-          meta: { auth: false },
-          credentials: 'include',
-        },
-      );
+export function useMiniAppTgLoginMutation() {
+  const { webApp } = useTelegram();
+  const q = import.meta.env.VITE_CUSTOM_QUERY as string;
+  const query = isLocal ? q : webApp?.initData;
 
-      await refreshAccessToken();
-      return data.message === 'ok';
-    },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: !!query,
+  return useMutation<boolean, unknown, unknown>(async () => {
+    const data = await ofetch<SuccessResponse>(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/mini-app-login/?${
+        query || ''
+      }`,
+      {
+        meta: { auth: false },
+        credentials: 'include',
+      },
+    );
+
+    await refreshAccessToken();
+
+    return data.message === 'ok';
+  });
+}
+
+export function useMiniAppConnectMutation() {
+  const { webApp } = useTelegram();
+  const q = import.meta.env.VITE_CUSTOM_QUERY as string;
+  const query = isLocal ? q : webApp?.initData;
+
+  return useMutation<boolean, unknown, unknown>(async () => {
+    const data = await ofetch<SuccessResponse>(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-connect/?${
+        query || ''
+      }`,
+    );
+
+    return data.message === 'ok';
+  });
+}
+
+export function useMiniAppWebLoginMutation() {
+  const { webApp } = useTelegram();
+  const q = import.meta.env.VITE_CUSTOM_QUERY as string;
+  const query = isLocal ? q : webApp?.initData;
+
+  return useMutation<boolean | 'exists', unknown, { confirm?: boolean }>(
+    async ({ confirm }) => {
+      if (!query) return false;
+      try {
+        const data = await ofetch<SuccessResponse>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/web-login/?${
+            query + (confirm ? '&override=True' : '')
+          }`,
+          {
+            method: 'POST',
+            meta: { auth: false },
+            credentials: 'include',
+          },
+        );
+
+        await refreshAccessToken();
+        return data.message === 'ok';
+      } catch (error) {
+        if (error instanceof FetchError && error.statusCode === 409) {
+          return 'exists';
+        }
+        throw error;
+      }
     },
   );
 }

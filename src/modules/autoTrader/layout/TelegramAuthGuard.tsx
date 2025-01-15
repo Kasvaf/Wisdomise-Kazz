@@ -1,10 +1,16 @@
-import { type PropsWithChildren, useEffect } from 'react';
+import { type PropsWithChildren, useEffect, useMemo } from 'react';
 import * as Sentry from '@sentry/react';
 import { useNavigate } from 'react-router-dom';
-import { isLocal } from 'utils/version';
-import { useMiniAppLoginQuery } from 'api/auth';
+import { useTranslation } from 'react-i18next';
+import {
+  useMiniAppConnectMutation,
+  useMiniAppTgLoginMutation,
+  useMiniAppWebLoginMutation,
+} from 'api/auth';
 import logo from 'assets/logo-horizontal.svg';
 import { useDebugMode } from 'shared/useDebugMode';
+import useConfirm from 'shared/useConfirm';
+import useStartParams from '../useStartParams';
 import { useTelegram } from './TelegramProvider';
 import loading from './loading.png';
 import spin from './spin.svg';
@@ -13,11 +19,56 @@ import bg from './bg.png';
 export default function TelegramAuthGuard({ children }: PropsWithChildren) {
   useDebugMode();
   const { webApp } = useTelegram();
-  const query = import.meta.env.VITE_CUSTOM_QUERY;
 
-  const { data: isLoggedIn } = useMiniAppLoginQuery(
-    isLocal ? query : webApp?.initData,
+  const { mutateAsync: doConnect } = useMiniAppConnectMutation();
+  const { data: tgLogin, mutateAsync: doTgLogin } = useMiniAppTgLoginMutation();
+  const { data: webLogin, mutateAsync: doWebLogin } =
+    useMiniAppWebLoginMutation();
+  const isLoggedIn = tgLogin === true || webLogin === true;
+
+  const { t } = useTranslation();
+  const [ModalConfirm, confirm] = useConfirm(
+    useMemo(
+      () => ({
+        title: 'You already have an account on the mini-app.',
+        yesTitle: t('common:actions.yes'),
+        noTitle: t('common:actions.no'),
+        message: (
+          <>
+            <p>
+              If you continue, your mini-app account will be{' '}
+              <strong>permanently deleted</strong> and replaced with your web
+              account. All data from your mobile account will be lost forever.{' '}
+            </p>
+            <p>Do you want to proceed?</p>
+          </>
+        ),
+      }),
+      [t],
+    ),
   );
+
+  const [spType] = useStartParams();
+  useEffect(() => {
+    if (!webApp) return;
+
+    void (async function () {
+      if (spType === 'login') {
+        // open mini-app, by web-user
+        if ((await doWebLogin({})) === 'exists' && (await confirm())) {
+          await doWebLogin({ confirm: true });
+        }
+      } else {
+        // login to web by telegram (asks for connection)
+        await doTgLogin({});
+        if (spType === 'connect') {
+          await doConnect({});
+          webApp.close();
+        }
+      }
+    })();
+  }, [spType, confirm, doTgLogin, doWebLogin, doConnect, webApp]);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (isLoggedIn) {
@@ -49,6 +100,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
           <div className="mt-4">Loading...</div>
         </div>
       </div>
+      {ModalConfirm}
     </div>
   );
 }
