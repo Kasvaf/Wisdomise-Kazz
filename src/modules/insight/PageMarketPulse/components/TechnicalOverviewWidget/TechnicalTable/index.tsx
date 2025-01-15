@@ -12,11 +12,11 @@ import { CoinMarketCap } from 'modules/insight/coinRadar/PageCoinRadar/component
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
-import { CoinSearchInput } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinSearchInput';
-import { NetworkSelect } from 'modules/insight/coinRadar/PageCoinRadar/components/NetworkSelect';
-import { CategoriesSelect } from 'modules/insight/coinRadar/PageCoinRadar/components/CategoriesSelect';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
+import { CoinSearchInput } from './CoinSearchInput';
+import { NetworkSelect } from './NetworkSelect';
+import { CategoriesSelect } from './CategoriesSelect';
 import { TechnicalSentiment } from './TechnicalSentiment';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Logo } from './logo.svg';

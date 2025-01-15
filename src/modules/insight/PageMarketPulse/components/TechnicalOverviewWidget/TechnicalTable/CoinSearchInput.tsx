@@ -1,7 +1,7 @@
 import { bxSearch } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
-import { Input } from 'shared/v1-components/Input';
+import TextBox from 'shared/TextBox';
 
 export function CoinSearchInput({
   value,
@@ -14,13 +14,13 @@ export function CoinSearchInput({
 }) {
   const { t } = useTranslation('coin-radar');
   return (
-    <Input
-      type="string"
+    <TextBox
       value={value ?? ''}
       onChange={onChange}
       placeholder={t('common.search_coin')}
       className={className}
-      prefixIcon={<Icon name={bxSearch} />}
+      inputClassName="text-sm"
+      suffix={<Icon name={bxSearch} />}
     />
   );
 }

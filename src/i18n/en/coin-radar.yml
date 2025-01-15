@@ -231,6 +231,7 @@ common:
   reset_filters: Reset Filters
   security_label: Security Label
   trend_label: Trend Label
+  search_coin: Search Coin...
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
