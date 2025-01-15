@@ -88,7 +88,7 @@ export function AdvanceFilteringButtons({
             />
           </div>
           <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block basis-1/3 mobile:basis-full">
+            <p className="block shrink-0 basis-1/3 mobile:basis-full">
               {t('common.category')}
             </p>
             <CategorySelect
@@ -100,7 +100,7 @@ export function AdvanceFilteringButtons({
             />
           </div>
           <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block basis-1/3 mobile:basis-full">
+            <p className="block shrink-0 basis-1/3 mobile:basis-full">
               {t('common.network')}
             </p>
             <NetworkSelect
