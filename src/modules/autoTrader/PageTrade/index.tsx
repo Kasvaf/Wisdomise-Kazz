@@ -45,6 +45,7 @@ export default function PageTrade() {
               search: 'quote=' + formState.quote[0],
             })
           }
+          selectFirst
         />
       </div>
 

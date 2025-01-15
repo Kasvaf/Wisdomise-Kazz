@@ -9,6 +9,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 import { fromBigMoney, toBigMoney } from 'utils/money';
+import { gtag } from 'config/gtag';
 
 const tonClient = new TonClient({
   endpoint: `${String(import.meta.env.VITE_TONCENTER_BASE_URL)}/api/v2/jsonRPC`,
@@ -173,5 +174,6 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
 
     await tonConnectUI.sendTransaction(transaction);
     await queryClient.invalidateQueries(['accountJettonBalance']);
+    gtag('event', 'trade');
   };
 };

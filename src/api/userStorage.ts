@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { getJwtToken, useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
 
-const getItem = (key: string, storage: 'api' | 'local', signal: AbortSignal) =>
-  storage === 'api'
+const getIsLoggedIn = () => getJwtToken();
+
+const getItem = (key: string, signal: AbortSignal) =>
+  getIsLoggedIn()
     ? ofetch<{ value: string }>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         {
@@ -13,8 +15,8 @@ const getItem = (key: string, storage: 'api' | 'local', signal: AbortSignal) =>
       ).then(resp => (typeof resp.value === 'string' ? resp.value : null))
     : Promise.resolve(localStorage.getItem(`storage:${key}`));
 
-const setItem = (key: string, value: string, storage: 'api' | 'local') =>
-  storage === 'api'
+const setItem = (key: string, value: string) =>
+  getIsLoggedIn()
     ? ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`, {
         body: {
           value,
@@ -23,8 +25,8 @@ const setItem = (key: string, value: string, storage: 'api' | 'local') =>
       })
     : Promise.resolve(localStorage.setItem(`storage:${key}`, value));
 
-const removeItem = (key: string, storage: 'api' | 'local') =>
-  storage === 'api'
+const removeItem = (key: string) =>
+  getIsLoggedIn()
     ? ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`, {
         method: 'delete',
       })
@@ -36,14 +38,12 @@ export function useUserStorage(key: string, defaultValue?: string) {
   const [value, setValue] = useState(defaultValue || null);
   const isLoggedIn = useIsLoggedIn();
 
-  const storage = isLoggedIn ? 'api' : 'local';
-
   useEffect(() => {
     const controller = new AbortController();
     setIsLoading(true);
     setIsError(false);
     setValue(defaultValue ?? null);
-    void getItem(key, storage, controller.signal)
+    void getItem(key, controller.signal)
       .then(newValue => {
         setValue(newValue);
         setIsError(false);
@@ -58,13 +58,13 @@ export function useUserStorage(key: string, defaultValue?: string) {
     return () => {
       controller.abort();
     };
-  }, [storage, key, defaultValue]);
+  }, [isLoggedIn, key, defaultValue]);
 
   const save = async (newValue: string) => {
     setValue(newValue);
     setIsLoading(true);
     try {
-      await setItem(key, newValue, storage);
+      await setItem(key, newValue);
     } catch {}
     setIsLoading(false);
   };
@@ -73,7 +73,7 @@ export function useUserStorage(key: string, defaultValue?: string) {
     setValue(null);
     setIsLoading(true);
     try {
-      await removeItem(key, storage);
+      await removeItem(key);
     } catch {}
     setIsLoading(false);
   };

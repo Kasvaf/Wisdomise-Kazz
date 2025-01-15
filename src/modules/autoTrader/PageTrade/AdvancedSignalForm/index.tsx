@@ -6,12 +6,14 @@ import Button from 'shared/Button';
 import { type Position, useHasFlag } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { DebugPin } from 'shared/DebugPin';
+import { useAccountJettonBalance } from 'api/ton';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
 import PartSafetyOpen from './PartSafetyOpen';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
+import { ReactComponent as WarnIcon } from './WarnIcon.svg';
 
 interface Props {
   baseSlug: string;
@@ -31,7 +33,11 @@ const AdvancedSignalForm: React.FC<Props> = ({
   const [tonConnectUI] = useTonConnectUI();
   const {
     isUpdate: [isUpdate],
+    quote: [quote],
   } = formState;
+
+  const { data: quoteBalance, isLoading: balanceLoading } =
+    useAccountJettonBalance(quote);
 
   useSyncFormState({
     formState,
@@ -108,7 +114,14 @@ const AdvancedSignalForm: React.FC<Props> = ({
             disabled={!isEnabled}
           >
             <DebugPin title="/trader-positions" color="orange" />
-            {t('signal-form.btn-fire-signal')}
+            {!balanceLoading && quoteBalance != null && !quoteBalance ? (
+              <>
+                <WarnIcon className="mr-2" />
+                <span className="text-white/70">Insufficient Balance</span>
+              </>
+            ) : (
+              t('signal-form.btn-fire-signal')
+            )}
           </Button>
         ) : (
           <Button variant="brand" onClick={() => tonConnectUI.openModal()}>

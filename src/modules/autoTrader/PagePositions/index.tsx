@@ -32,6 +32,7 @@ const PagePositions = () => {
         priceExchange="STONFI"
         onChange={setSlug}
         emptyOption="All Coins & Tokens"
+        selectFirst
       />
 
       <PositionsList slug={slug} isOpen={filter === 'active'} />

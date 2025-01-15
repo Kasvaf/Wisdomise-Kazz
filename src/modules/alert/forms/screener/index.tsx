@@ -61,8 +61,8 @@ export const useScreenerAlert = (): AlertFormGroup => {
                   messengers: ['EMAIL'],
                   conditions: [
                     {
-                      field_name: 'networks_slug',
-                      operator: 'CONTAINS_EACH',
+                      field_name: 'networks',
+                      operator: 'CONTAINS_OBJECT_EACH',
                       threshold: '[]',
                     },
                     {
@@ -114,8 +114,8 @@ export const useScreenerAlert = (): AlertFormGroup => {
                   messengers: ['EMAIL'],
                   conditions: [
                     {
-                      field_name: 'networks_slug',
-                      operator: 'CONTAINS_EACH',
+                      field_name: 'networks',
+                      operator: 'CONTAINS_OBJECT_EACH',
                       threshold: '[]',
                     },
                     {

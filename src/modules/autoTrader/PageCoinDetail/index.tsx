@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import Button from 'shared/Button';
-import { useCoinOverview } from 'api';
 import { CoinSocialSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinSocialSentimentWidget';
 import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
+import CoinChart from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinChart';
+import { useHasFlag } from 'api';
 import PositionsList from '../PositionsList';
 import BtnBack from '../layout/BtnBack';
 import MiniCoinPriceWidget from './MiniCoinPriceWidget';
@@ -12,8 +13,8 @@ export default function PageCoinDetail() {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
-
-  useCoinOverview({ slug });
+  const hasFlag = useHasFlag();
+  // /trader-hot-coins/[slug]?chart
 
   return (
     <div className="flex flex-col gap-4">
@@ -29,6 +30,7 @@ export default function PageCoinDetail() {
           onChange={selectedSlug =>
             navigate(`/trader-hot-coins/${selectedSlug}`)
           }
+          selectFirst
         />
       </div>
 
@@ -37,6 +39,12 @@ export default function PageCoinDetail() {
 
       <CoinStatsWidget slug={slug} />
       <CoinSocialSentimentWidget slug={slug} noEmptyState />
+
+      {hasFlag('?chart') && (
+        <div className="-mx-1">
+          <CoinChart slug={slug} height={500} />
+        </div>
+      )}
 
       <Button
         variant="brand"
