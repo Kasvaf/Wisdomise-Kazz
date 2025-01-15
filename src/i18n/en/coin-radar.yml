@@ -229,9 +229,9 @@ common:
   networks: Networks
   price: Price
   reset_filters: Reset Filters
+  search_coin: Search Coin...
   security_label: Security Label
   trend_label: Trend Label
-  search_coin: Search Coin...
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
@@ -309,7 +309,6 @@ social-radar:
         hours.</p><br/><b>Low 24h</b><p>Lowest price in the last 24
         hours.</p><br/><b>High 24h</b><p>Highest price in the last 24 hours.</p>
     rank: Rank
-    search: Search Coin...
     sentiment:
       title: Wisdomise Sentiment
       info: |-
