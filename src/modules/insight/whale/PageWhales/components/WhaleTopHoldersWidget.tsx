@@ -12,6 +12,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coins } from 'shared/Coins';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
+import { DebugPin } from 'shared/DebugPin';
 import { NetworkSelect } from './NetworkSelect';
 
 const useWhaleTopHoldersFilters = () => {
@@ -19,12 +20,22 @@ const useWhaleTopHoldersFilters = () => {
   const hasFlag = useHasFlag();
   return [
     {
-      label: t('filters.all'),
+      label: (
+        <>
+          <DebugPin title="?all_whales" color="orange" />
+          {t('filters.all')}
+        </>
+      ),
       value: 'all',
       hidden: !hasFlag('?all_whales'),
     },
     {
-      label: t('filters.best_to_copy'),
+      label: (
+        <>
+          <DebugPin title="?best_to_copy" color="orange" />
+          {t('filters.best_to_copy')}
+        </>
+      ),
       value: 'best_to_copy',
       hidden: !hasFlag('?best_to_copy'),
     },
@@ -37,7 +48,7 @@ const useWhaleTopHoldersFilters = () => {
       value: 'wealthy_wallets',
     },
   ] satisfies Array<{
-    label: string;
+    label: ReactNode;
     value: WhalesFilter;
     hidden?: boolean;
   }>;
@@ -132,7 +143,10 @@ export function WhaleTopHoldersWidget({
       },
       {
         title: [
-          t('top_whales.trading_pnl.title'),
+          <>
+            <DebugPin title="?trading_pnl" color="orange" />
+            {t('top_whales.trading_pnl.title')}
+          </>,
           t('top_whales.trading_pnl.info'),
         ],
         colSpan: hasFlag('?trading_pnl') ? 1 : 0,
@@ -148,7 +162,13 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: [t('top_whales.returns.title'), t('top_whales.returns.info')],
+        title: [
+          <>
+            <DebugPin title="?trading_pnl" color="orange" />
+            {t('top_whales.returns.title')}
+          </>,
+          t('top_whales.returns.info'),
+        ],
         align: 'right',
         dataIndex: 'recent_trading_pnl_percentage',
         colSpan: hasFlag('?trading_pnl') ? 1 : 0,
@@ -162,7 +182,12 @@ export function WhaleTopHoldersWidget({
         ),
       },
       {
-        title: t('top_whales.wins_losses'),
+        title: (
+          <>
+            <DebugPin title="?win_lose" color="orange" />
+            {t('top_whales.wins_losses')}
+          </>
+        ),
         align: 'right',
         colSpan: hasFlag('?win_lose') ? 1 : 0,
         render: (_, row) => (

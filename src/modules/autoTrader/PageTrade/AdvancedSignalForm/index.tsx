@@ -5,6 +5,7 @@ import { notification } from 'antd';
 import Button from 'shared/Button';
 import { type Position, useHasFlag } from 'api';
 import { useUserStorage } from 'api/userStorage';
+import { DebugPin } from 'shared/DebugPin';
 import { useAccountJettonBalance } from 'api/ton';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
@@ -112,6 +113,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
             loading={isSubmitting}
             disabled={!isEnabled}
           >
+            <DebugPin title="/trader-positions" color="orange" />
             {!balanceLoading && quoteBalance != null && !quoteBalance ? (
               <>
                 <WarnIcon className="mr-2" />

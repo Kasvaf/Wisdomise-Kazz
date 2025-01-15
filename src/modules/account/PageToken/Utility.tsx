@@ -8,6 +8,7 @@ import PricingTable from 'modules/account/PageBilling/PricingTable';
 import { useHasFlag, useSubscription } from 'api';
 import UnlockModalContent from 'modules/account/PageToken/UnlockModalContent';
 import { useWithdraw } from 'modules/account/PageToken/web3/locking/useWithdraw';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as SubscriptionIcon } from './icons/subscription.svg';
 import { ReactComponent as BadgeIcon } from './icons/badge.svg';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
@@ -65,6 +66,10 @@ export default function Utility() {
           <p className="mb-4 text-white/40">{t('utility.lock-description')}</p>
           {hasFlag('/account/billing?payment_method=lock') && (
             <Button variant="primary-purple" onClick={openBillings}>
+              <DebugPin
+                title="/account/billing?payment_method=lock"
+                color="orange"
+              />
               {t('utility.lock-wsdm')}
             </Button>
           )}
@@ -120,6 +125,10 @@ export default function Utility() {
                   {level === 0 &&
                     hasFlag('/account/billing?payment_method=lock') && (
                       <Button variant="alternative" onClick={openBillings}>
+                        <DebugPin
+                          title="/account/billing?payment_method=lock"
+                          color="orange"
+                        />
                         {t('utility.activate')}
                       </Button>
                     )}
@@ -142,6 +151,10 @@ export default function Utility() {
                   {level === 0 &&
                     hasFlag('/account/billing?payment_method=lock') && (
                       <Button variant="alternative" onClick={openBillings}>
+                        <DebugPin
+                          title="/account/billing?payment_method=lock"
+                          color="orange"
+                        />
                         {t('utility.lock-tokens')}
                       </Button>
                     )}

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useCoinSignals, useHasFlag } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { DebugPin } from 'shared/DebugPin';
 import { SignalSentiment } from '../../../PageCoinRadar/components/SignalSentiment';
 import { SentimentGuage } from './SentimentGuage';
 
@@ -29,6 +30,12 @@ export function CoinSocialSentimentWidget({
         'flex flex-row items-center justify-between gap-3 overflow-hidden',
         !coinSignal && signals.data && 'contrast-75 grayscale',
       )}
+      overlay={
+        <DebugPin
+          title="/coin-radar/social-radar?side-suggestion"
+          color="orange"
+        />
+      }
     >
       <div className="flex h-20 flex-col justify-between gap-1">
         <p className="text-xxs text-v1-content-primary">

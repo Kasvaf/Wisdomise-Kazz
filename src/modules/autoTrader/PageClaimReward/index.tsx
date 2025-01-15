@@ -16,11 +16,13 @@ import { addComma } from 'utils/numbers';
 import { DrawerModal } from 'shared/DrawerModal';
 import { isProduction } from 'utils/version';
 import { useHasFlag } from 'api';
+import { DebugPin } from 'shared/DebugPin';
 import ton from './images/ton.svg';
 import usdt from './images/usdt.svg';
 import plat from './images/plat.png';
 import gold from './images/gold.png';
 import silver from './images/silver.png';
+// eslint-disable-next-line import/max-dependencies
 import star from './images/star.svg';
 
 export const TON_PER_REFERRAL = 0.01;
@@ -210,6 +212,7 @@ export default function ClaimRewardPage() {
           className="mt-8 block"
           variant="alternative"
         >
+          <DebugPin title="/trader-alerts" color="orange" />
           Manage Alerts
         </Button>
       )}
