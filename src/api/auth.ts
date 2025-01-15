@@ -152,6 +152,9 @@ export function useMiniAppConnectMutation() {
       `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-connect/?${
         query || ''
       }`,
+      {
+        meta: { auth: false },
+      },
     );
 
     return data.message === 'ok';
@@ -168,13 +171,12 @@ export function useMiniAppWebLoginMutation() {
       if (!query) return false;
       try {
         const data = await ofetch<SuccessResponse>(
-          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/web-login/?${
-            query + (confirm ? '&override=True' : '')
-          }`,
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/web-login/?${query}`,
           {
             method: 'POST',
             meta: { auth: false },
             credentials: 'include',
+            body: { override: confirm || false },
           },
         );
 

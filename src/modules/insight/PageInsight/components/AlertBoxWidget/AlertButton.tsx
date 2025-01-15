@@ -8,6 +8,7 @@ import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import { track } from 'config/segment';
 import { useHasFlag } from 'api';
 import Icon from 'shared/Icon';
+import { DebugPin } from 'shared/DebugPin';
 
 export default function InsightAlertButton({
   className,
@@ -42,6 +43,7 @@ export default function InsightAlertButton({
         }}
         disabled={!hasFlag('/coin-radar/alerts')}
       >
+        <DebugPin title="/coin-radar/alerts" color="orange" />
         <Icon size={20} name={bxBell} className="mr-1" />
         {t('common.set-alert')}
       </Button>

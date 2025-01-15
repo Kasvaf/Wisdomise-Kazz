@@ -9,6 +9,7 @@ import {
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { AccessShield } from 'shared/AccessShield';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { DebugPin } from 'shared/DebugPin';
 import { SocialMessageSummary } from './SocialMessage';
 import { SocialLogo } from './SocialLogo';
 
@@ -78,33 +79,42 @@ export function CoinSocialFeedWidget({
     }> = [
       {
         label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.telegram.title')}
-            type="telegram"
-            count={messagesMap.telegram.length}
-          />
+          <>
+            <DebugPin title="/coin/[slug]?tab=telegram" color="orange" />
+            <SocialTabTitle
+              label={t('coin-details.tabs.socials.types.telegram.title')}
+              type="telegram"
+              count={messagesMap.telegram.length}
+            />
+          </>
         ),
         value: 'telegram',
         messages: messagesMap.telegram,
       },
       {
         label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.reddit.title')}
-            type="reddit"
-            count={messagesMap.reddit.length}
-          />
+          <>
+            <DebugPin title="/coin/[slug]?tab=reddit" color="orange" />
+            <SocialTabTitle
+              label={t('coin-details.tabs.socials.types.reddit.title')}
+              type="reddit"
+              count={messagesMap.reddit.length}
+            />
+          </>
         ),
         value: 'reddit',
         messages: messagesMap.reddit,
       },
       {
         label: (
-          <SocialTabTitle
-            label={t('coin-details.tabs.socials.types.twitter.title')}
-            type="twitter"
-            count={messagesMap.twitter.length}
-          />
+          <>
+            <DebugPin title="/coin/[slug]?tab=twitter" color="orange" />
+            <SocialTabTitle
+              label={t('coin-details.tabs.socials.types.twitter.title')}
+              type="twitter"
+              count={messagesMap.twitter.length}
+            />
+          </>
         ),
         value: 'twitter',
         messages: hasFlag('/coin/[slug]?tab=twitter')

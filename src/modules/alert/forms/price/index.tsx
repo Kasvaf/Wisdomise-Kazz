@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useHasFlag } from 'api';
 import { useDeleteAlert, useSaveAlert } from 'api/alert';
 import { type AlertForm } from 'modules/alert/library/types';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as PriceIcon } from './price.svg';
 import { ReactComponent as NotificationIcon } from './notification.svg';
 import { StepOne } from './StepOne';
@@ -13,7 +14,12 @@ export const usePriceAlert = (): AlertForm => {
   const deleteAlertMutation = useDeleteAlert();
   const hasFlag = useHasFlag();
   return {
-    title: t('types.price.title'),
+    title: (
+      <>
+        <DebugPin title="/coin-radar/alerts?price_alert" color="orange" />
+        {t('types.price.title')}
+      </>
+    ),
     subtitle: t('types.price.subtitle'),
     icon: PriceIcon,
     value: 'price',

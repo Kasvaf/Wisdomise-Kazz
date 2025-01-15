@@ -6,6 +6,7 @@ import Button from 'shared/Button';
 import useModal from 'shared/useModal';
 import { useHasFlag } from 'api';
 import { gtmClass } from 'utils/gtmClass';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as CryptoPaymentIcon } from '../images/crypto-pay-icon.svg';
 import { ReactComponent as SubscriptionMethodIcon } from '../images/subscription-method-icon.svg';
 import { ReactComponent as SIcon } from '../images/s-icon.svg';
@@ -78,6 +79,10 @@ export default function SubscriptionMethodModal({
             className={clsx('col-span-1', gtmClass('fiat-payment'))}
             onClick={onFiatClick}
           >
+            <DebugPin
+              title="/account/billing?payment_method=fiat"
+              color="orange"
+            />
             <div className="flex items-center gap-2">
               <SIcon />
               {t('subscription-modal.btn-fiat')}
@@ -90,6 +95,10 @@ export default function SubscriptionMethodModal({
             className={clsx('col-span-1', gtmClass('crypto-payment'))}
             onClick={onCryptoClick}
           >
+            <DebugPin
+              title="/account/billing?payment_method=crypto"
+              color="orange"
+            />
             <div className="flex items-center gap-2">
               <CryptoPaymentIcon />
               {t('subscription-modal.btn-crypto')}
@@ -102,6 +111,10 @@ export default function SubscriptionMethodModal({
             className={clsx('relative col-span-1', gtmClass('wsdm-payment'))}
             onClick={onWSDMClick}
           >
+            <DebugPin
+              title="/account/billing?payment_method=wsdm"
+              color="orange"
+            />
             <div className="flex items-center gap-2">
               <Token />
               {t('subscription-modal.btn-wsdm')}
@@ -118,6 +131,10 @@ export default function SubscriptionMethodModal({
               onClick={onLockClick}
               className={clsx('col-span-1', gtmClass('lock-wsdm'))}
             >
+              <DebugPin
+                title="/account/billing?payment_method=lock"
+                color="orange"
+              />
               <div className="flex items-center gap-2">
                 <Token />
                 {t('subscription-modal.btn-lock')}

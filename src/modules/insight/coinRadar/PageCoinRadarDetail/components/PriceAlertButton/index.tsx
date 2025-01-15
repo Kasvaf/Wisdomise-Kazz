@@ -9,6 +9,7 @@ import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import { Button } from 'shared/v1-components/Button';
+import { DebugPin } from 'shared/DebugPin';
 
 export function PriceAlertButton({
   className,
@@ -80,6 +81,10 @@ export function PriceAlertButton({
           !hasFlag('/coin-radar/alerts?price_alert')
         }
       >
+        <DebugPin
+          title={['/coin-radar/alerts', '/coin-radar/alerts?price_alert']}
+          color="orange"
+        />
         <Icon size={20} name={bxBell} className="mr-1" />
         {initialAlert.key
           ? t('set-price-notification.open-existing-modal-btn')

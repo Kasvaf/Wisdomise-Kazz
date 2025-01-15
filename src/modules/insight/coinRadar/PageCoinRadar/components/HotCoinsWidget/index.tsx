@@ -17,6 +17,7 @@ import { AccessShield } from 'shared/AccessShield';
 import { formatNumber } from 'utils/numbers';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { DebugPin } from 'shared/DebugPin';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinSecurityLabel } from '../../../../../shared/CoinSecurityLabel/index';
 import { SortModes } from '../SortModes';
@@ -83,6 +84,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             key="1"
             className="flex items-center gap-1 text-v1-content-primary"
           >
+            <DebugPin
+              title="/coin-radar/social-radar?side-suggestion"
+              color="orange"
+            />
             <Logo className="inline-block size-4 grayscale" />
             {t('social-radar.table.sentiment.title')}
           </span>,
@@ -127,7 +132,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       {
         colSpan: hasFlag('/coin-radar/social-radar?whale') ? 1 : 0,
         title: [
-          t('social-radar.table.whale_buy_sell.title'),
+          <>
+            <DebugPin title="/coin-radar/social-radar?whale" color="orange" />
+            {t('social-radar.table.whale_buy_sell.title')}
+          </>,
           <Fragment key="2">
             <Trans
               ns="coin-radar"
