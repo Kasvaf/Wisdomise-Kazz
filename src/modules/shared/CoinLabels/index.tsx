@@ -7,52 +7,88 @@ import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
+import { type CoinLabels as CoinLabelsType } from 'api';
+import { ReactComponent as Trusted } from './trusted.svg';
+import { ReactComponent as Risk } from './risk.svg';
+import { ReactComponent as Warning } from './warning.svg';
 
 const sharedLabelClassName = clsx(
   'rounded-full px-3 py-1 text-center text-xxs',
 );
 
-function CoinLabel({
+export function CoinLabel({
   className,
   value,
+  type = 'trend_labels',
+  popup = true,
 }: {
   className?: string;
   value: string;
+  type?: keyof CoinLabelsType;
+  popup?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
 
   const renderData = useMemo(() => {
-    const knownSuffixes = {
-      hype: '🔥',
-      weekly_social_beloved: '🌐',
-      monthly_social_beloved: '🌐',
-    };
-    const knownInfos = {
-      hype: t('coin_labels.hype.info'),
-      weekly_social_beloved: t('coin_labels.weekly_social_beloved.info'),
-      monthly_social_beloved: t('coin_labels.monthly_social_beloved.info'),
-    };
-    const knowColors = {
-      hype: clsx('bg-v1-content-positive/10 text-v1-content-positive'),
-      weekly_social_beloved: clsx(
-        'bg-v1-content-brand/10 text-v1-content-brand',
-      ),
-      monthly_social_beloved: clsx(
-        'bg-v1-content-brand/10 text-v1-content-brand',
-      ),
-    };
-    const defaultColor = clsx(
-      'bg-v1-content-tertiary/10 text-v1-content-tertiary',
-    );
+    const knownLabels: Array<{
+      name: string;
+      type: keyof CoinLabelsType;
+      icon: ReactNode;
+      info?: string;
+      color: string;
+    }> = [
+      {
+        name: 'hype',
+        type: 'trend_labels',
+        icon: <>🔥</>,
+        info: t('coin_labels.hype.info'),
+        color: clsx('bg-v1-content-positive/10 text-v1-content-positive'),
+      },
+      {
+        name: 'weekly_social_beloved',
+        type: 'trend_labels',
+        icon: <>🌐</>,
+        info: t('coin_labels.weekly_social_beloved.info'),
+        color: clsx('bg-v1-content-brand/10 text-v1-content-brand'),
+      },
+      {
+        name: 'monthly_social_beloved',
+        type: 'trend_labels',
+        icon: <>🌐</>,
+        info: t('coin_labels.monthly_social_beloved.info'),
+        color: clsx('bg-v1-content-brand/10 text-v1-content-brand'),
+      },
+      {
+        name: 'trusted',
+        type: 'security_labels',
+        icon: <Trusted />,
+        color: clsx('bg-v1-content-positive/10 text-v1-content-positive'),
+      },
+      {
+        name: 'warning',
+        type: 'security_labels',
+        icon: <Warning />,
+        color: clsx('bg-v1-content-notice/10 text-v1-content-notice'),
+      },
+      {
+        name: 'risk',
+        type: 'security_labels',
+        icon: <Risk />,
+        color: clsx('bg-v1-content-negative/10 text-v1-content-negative'),
+      },
+    ];
+
+    const label = knownLabels.find(x => x.type === type && x.name === value);
 
     return {
-      emoji: value in knownSuffixes ? knownSuffixes[value as never] : '🏷️',
+      icon: label?.icon ?? <>{'🏷️'}</>,
       text: value.split('_').join(' '),
-      info: value in knownInfos ? knownInfos[value as never] : undefined,
+      info: label?.info,
       className:
-        value in knowColors ? knowColors[value as never] : defaultColor,
+        label?.color ??
+        clsx('bg-v1-content-tertiary/10 text-v1-content-tertiary'),
     };
-  }, [value, t]);
+  }, [t, value, type]);
 
   return (
     <ClickableTooltip
@@ -65,15 +101,15 @@ function CoinLabel({
         </div>
       }
       chevron={false}
-      disabled={!renderData.info}
+      disabled={!renderData.info || !popup}
       className={clsx(
         sharedLabelClassName,
         renderData.className,
-        'whitespace-nowrap capitalize',
+        'whitespace-nowrap capitalize [&_svg]:size-4',
         className,
       )}
     >
-      {renderData.emoji} {renderData.text}
+      {renderData.icon} {renderData.text}
     </ClickableTooltip>
   );
 }
@@ -193,7 +229,7 @@ export function CoinLabels({
         </ClickableTooltip>
       )}
       {(labels ?? []).map(label => (
-        <CoinLabel key={label} value={label} />
+        <CoinLabel key={label} type="trend_labels" value={label} />
       ))}
       {suffix}
       {content}
