@@ -125,13 +125,7 @@ export const useCoinSignals = (
           const query = filters?.query?.trim().toLowerCase();
           if (
             query &&
-            ![
-              row.symbol.name,
-              row.symbol.abbreviation,
-              row.symbol.slug,
-              ...(row.symbol.categories ?? []).map(x => x.name),
-              ...(row.networks ?? []).map(x => x.network.name),
-            ]
+            ![row.symbol.name, row.symbol.abbreviation, row.symbol.slug]
               .filter(x => !!x)
               .join('-')
               .toLowerCase()
