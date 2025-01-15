@@ -18,8 +18,10 @@ interface TablePagination {
 const toParam = (prefix: string, param: string) =>
   [prefix, param].filter(x => !!x).join('-');
 
+const TABLE_STATE_ARRAY_SPLITTER = '&&';
+
 export const useTableState = <
-  T extends Record<string, string | number | boolean>,
+  T extends Record<string, string | number | boolean | string[]>,
 >(
   queryPrefix: string,
   initialState: TablePagination & T,
@@ -46,6 +48,10 @@ export const useTableState = <
         searchParamValue.trim() !== ''
       )
         returnValue[paramKeyRaw] = Number(searchParamValue);
+      else if (Array.isArray(initialParamValue))
+        returnValue[paramKeyRaw] = searchParamValue.split(
+          TABLE_STATE_ARRAY_SPLITTER,
+        );
       else returnValue[paramKeyRaw] = searchParamValue;
     }
     return returnValue as typeof initialState;
@@ -79,13 +85,25 @@ export const useTableState = <
             if (paramKeyRaw === 'total') continue;
             const paramKey = toParam(queryPrefix, paramKeyRaw);
             const { [paramKey]: prevValue, ...rest } = newSearchParams;
+            const isSame =
+              Array.isArray(paramValue) &&
+              Array.isArray(initialStateRef.current[paramKeyRaw])
+                ? JSON.stringify([...paramValue].sort()) ===
+                  JSON.stringify(
+                    [...initialStateRef.current[paramKeyRaw]].sort(),
+                  )
+                : initialStateRef.current[paramKeyRaw] === paramValue;
+            const isEmpty =
+              paramValue === undefined ||
+              (Array.isArray(paramValue) && paramValue.length === 0);
             newSearchParams =
-              paramValue === initialStateRef.current[paramKeyRaw] ||
-              paramValue === undefined
+              isSame || isEmpty
                 ? rest
                 : {
                     ...rest,
-                    [paramKey]: paramValue.toString(),
+                    [paramKey]: Array.isArray(paramValue)
+                      ? paramValue.join(TABLE_STATE_ARRAY_SPLITTER)
+                      : paramValue.toString(),
                   };
             const newValue = newSearchParams[paramKey];
             if (prevValue !== newValue) isModified = true;
@@ -102,9 +120,14 @@ export const useTableState = <
   }, [localState, queryPrefix, setSearchParams]);
 
   const state = localState;
-  const setState = useCallback((newValue: Partial<typeof initialState>) => {
-    setLocalState(p => ({ ...p, ...newValue }));
-  }, []);
+  const setState = useCallback(
+    (newValue: Partial<typeof initialState> | undefined) => {
+      setLocalState(p =>
+        newValue === undefined ? initialState : { ...p, ...newValue },
+      );
+    },
+    [initialState],
+  );
 
   return useMemo(
     () =>
