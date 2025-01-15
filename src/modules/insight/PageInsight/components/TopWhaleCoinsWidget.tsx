@@ -5,6 +5,7 @@ import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { InformativePrice } from 'shared/InformativePrice';
 import { AccessShield } from 'shared/AccessShield';
+import { DebugPin } from 'shared/DebugPin';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function TopWhaleCoinsWidget({ className }: { className?: string }) {
@@ -26,6 +27,7 @@ export function TopWhaleCoinsWidget({ className }: { className?: string }) {
       headerActions={<SeeMoreLink to="/coin-radar/whale-radar" />}
       loading={coins.isLoading}
       empty={coins.data?.results.length === 0}
+      overlay={<DebugPin title="/coin-radar/whale-radar" color="orange" />}
     >
       <AccessShield
         mode="children"

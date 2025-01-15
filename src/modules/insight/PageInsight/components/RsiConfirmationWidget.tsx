@@ -1,6 +1,7 @@
 import { type ComponentProps } from 'react';
 import { useHasFlag } from 'api';
 import { ConfirmationWidget } from 'modules/insight/PageMarketPulse/components/ConfirmationWidget';
+import { DebugPin } from 'shared/DebugPin';
 import { SeeMoreLink } from './SeeMoreLink';
 
 export function RsiConfirmationWidget(
@@ -16,6 +17,7 @@ export function RsiConfirmationWidget(
       {...props}
       indicator="rsi"
       headerActions={<SeeMoreLink to="/coin-radar/technical-radar" />}
+      overlay={<DebugPin title="/coin-radar/technical-radar" color="orange" />}
     />
   );
 }

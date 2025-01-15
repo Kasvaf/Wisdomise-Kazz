@@ -3,6 +3,7 @@ import { type AlertFormGroup } from 'modules/alert/library/types';
 import { useHasFlag } from 'api';
 import { useAlerts, useDeleteAlert, useSaveAlert } from 'api/alert';
 import Badge from 'shared/Badge';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { StepOne } from './StepOne';
 
@@ -29,7 +30,15 @@ export const useScreenerAlert = (): AlertFormGroup => {
     value: 'screener',
     children: [
       {
-        title: t('types.social_radar_screener.title'),
+        title: (
+          <>
+            <DebugPin
+              title="/coin-radar/alerts?social_radar_screener"
+              color="orange"
+            />
+            {t('types.social_radar_screener.title')}
+          </>
+        ),
         subtitle: t('types.social_radar_screener.subtitle'),
         icon: ScreenerIcon,
         value: 'social_radar',
@@ -74,7 +83,15 @@ export const useScreenerAlert = (): AlertFormGroup => {
         delete: p => deleteAlertMutation.mutateAsync(p),
       },
       {
-        title: t('types.technical_radar_screener.title'),
+        title: (
+          <>
+            <DebugPin
+              title="/coin-radar/alerts?technical_radar_screener"
+              color="orange"
+            />
+            {t('types.technical_radar_screener.title')}
+          </>
+        ),
         subtitle: t('types.technical_radar_screener.subtitle'),
         icon: ScreenerIcon,
         value: 'technical_radar',

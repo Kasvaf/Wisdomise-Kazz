@@ -7,6 +7,7 @@ import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import { useAlerts } from 'api/alert';
 import Badge from 'shared/Badge';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as GearIcon } from './gear.svg';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { FirstSetModal } from './FirstSetModal';
@@ -78,6 +79,13 @@ export default function CoinRadarAlerButton({
         )}
         disabled={alertActions.isSaving}
       >
+        <DebugPin
+          title={[
+            '/coin-radar/alerts?social_radar_screener',
+            '/coin-radar/alerts',
+          ]}
+          color="orange"
+        />
         {!posibleRelatedAlert && (
           <Badge
             className="absolute right-0 top-0 -m-2"
