@@ -6,7 +6,7 @@ import { type CoinSignal, useCoinSignals, useHasFlag } from 'api';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { ReactComponent as RealtimeIcon } from 'modules/insight/coinRadar/PageCoinRadar/realtime.svg';
+import { ReactComponent as RealtimeIcon } from 'modules/insight/coinRadar/PageCoinRadar/components/HotCoinsWidget/realtime.svg';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
 import { SignalSentiment } from '../../coinRadar/PageCoinRadar/components/SignalSentiment';

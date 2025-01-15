@@ -96,8 +96,6 @@ coin_security:
   warning_one: '{{count}} Warning'
   warning_other: '{{count}} Warnings'
   warning_zero: No Warnings
-coin-category:
-  all: All Categories
 coin-details:
   tabs:
     coin_introduction:
@@ -218,11 +216,21 @@ coin-details:
       hold: Hold
       sell: Sell
 common:
+  all_categories: All Categories
+  all_labels: All Labels
+  all_networks: All Networks
+  apply_filters: Apply Filters
   categories: Categories
+  category: Category
+  filters: Filters
   labels: Labels
   native_coin: Native Coin
+  network: Network
   networks: Networks
   price: Price
+  reset_filters: Reset Filters
+  security_label: Security Label
+  trend_label: Trend Label
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
@@ -271,9 +279,6 @@ social-messages:
   read_more: Read More
   subscribers: '{{size}} Subscribers'
 social-radar:
-  banner:
-    title: Social Radar
-    subtitle: Real-Time AI-Driven Insights from Socials
   sorts:
     call_time: Newest
     market_cap: Market Cap
@@ -282,11 +287,10 @@ social-radar:
     rank: Wise Logic
   table:
     name: Name
-    title: Social Radar Hottest Coins
+    title: Social Radar
     description: >-
       Wisdomise Social Radar <b>scanned {{posts}} posts from alpha groups</b> in
       the last 24 hours for accurate, data-driven insights.
-    all_networks: All Networks
     labels:
       title: Labels
     market_cap:
@@ -321,7 +325,6 @@ social-radar:
           just the community’s view but also how market movements align with
           those opinions.
         </p>
-    sort: Sort
     whale_buy_sell:
       title: Whale Buy/Sell
       empty: Untracked

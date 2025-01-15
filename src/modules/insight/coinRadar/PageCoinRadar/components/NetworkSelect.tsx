@@ -1,64 +1,56 @@
-import { Select, type SelectProps } from 'antd';
-import { type FC } from 'react';
-import { clsx } from 'clsx';
+import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxGlobe } from 'boxicons-quasar';
 import { useNetworks } from 'api';
-import Icon from 'shared/Icon';
+import { Select } from 'shared/v1-components/Select';
 
-export const NetworkSelect: FC<SelectProps<string>> = ({
-  value,
-  className,
-  disabled,
-  loading,
-  ...props
-}) => {
+export const NetworkSelect: FC<{
+  value?: string[];
+  onChange?: (newValue?: string[]) => void;
+  className?: string;
+}> = ({ value, className, onChange }) => {
   const networks = useNetworks({
     filter: 'social-radar-24-hours',
   });
+  const [query, setQuery] = useState('');
   const { t } = useTranslation('coin-radar');
 
   return (
     <Select
-      className={clsx(
-        '[&_.ant-select-selector]:!min-w-44 [&_.ant-select-selector]:!pl-4 [&_.ant-select-selector]:!text-sm',
-        '[&_.ant-select-selection-placeholder]:!text-white/60',
-        className,
-      )}
+      className={className}
+      block
       value={value}
-      disabled={disabled}
-      loading={loading || networks.isLoading}
+      onChange={onChange}
+      loading={networks.isLoading}
       allowClear
       showSearch
-      showArrow={false}
-      placeholder={
-        <span>
-          <Icon
-            name={bxGlobe}
-            size={20}
-            className="me-2 inline-block align-middle"
-          />
-          {t('social-radar.table.all_networks')}
-        </span>
-      }
-      options={networks.data?.map(network => ({
-        label: (
-          <span className="pe-3">
+      searchValue={query}
+      onSearch={setQuery}
+      multiple
+      render={val => {
+        if (!val) return t('common.all_networks');
+        const network = networks.data?.find(x => x.slug === val);
+        if (!network) return val;
+        return (
+          <span>
             {network.icon_url ? (
               <img
                 src={network.icon_url}
                 alt={network.name}
-                className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4 align-middle"
+                className="me-1 inline-block size-4 rounded-full bg-white align-middle"
               />
             ) : (
-              <span className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4 align-middle" />
+              <span className="me-1 inline-block size-4 rounded-full bg-white align-middle" />
             )}
             {network.name}
           </span>
-        ),
-        value: network.slug,
-      }))}
-      {...props}
+        );
+      }}
+      options={
+        networks.data
+          ?.filter(x => x.name.toLowerCase().includes(query.toLowerCase()))
+          .map(x => x.slug)
+          .filter(x => !!x) ?? []
+      }
     />
   );
 };

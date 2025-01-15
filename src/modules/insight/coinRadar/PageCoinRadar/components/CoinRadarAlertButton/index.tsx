@@ -7,6 +7,7 @@ import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import { useAlerts } from 'api/alert';
 import Badge from 'shared/Badge';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as GearIcon } from './gear.svg';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { FirstSetModal } from './FirstSetModal';
@@ -55,7 +56,7 @@ export default function CoinRadarAlerButton({
 
   return (
     <>
-      <button
+      <Button
         onClick={async () => {
           track('Click On', {
             place: 'social_radar_notification',
@@ -66,16 +67,9 @@ export default function CoinRadarAlerButton({
             void alertActions.save(false).then(() => setFirstToast(true));
           }
         }}
-        className={clsx(
-          'relative inline-flex h-12 items-center justify-center gap-2 rounded-xl border px-6 text-xs text-v1-content-primary',
-          'transition-all enabled:hover:brightness-110 enabled:active:brightness-90',
-          posibleRelatedAlert
-            ? 'border-v1-content-primary'
-            : 'border-v1-border-brand bg-v1-content-brand',
-          alerts.isLoading && 'animate-pulse',
-          gtmClass('set-alert'),
-          className,
-        )}
+        variant={posibleRelatedAlert ? 'white' : 'primary'}
+        loading={alerts.isLoading}
+        className={clsx('shrink-0', gtmClass('set-alert'), className)}
         disabled={alertActions.isSaving}
       >
         {!posibleRelatedAlert && (
@@ -85,15 +79,9 @@ export default function CoinRadarAlerButton({
             label={t('common:new')}
           />
         )}
-        {alerts.isLoading || alertActions.isSaving ? (
-          <GearIcon className="animate-spin" />
-        ) : posibleRelatedAlert ? (
-          <GearIcon />
-        ) : (
-          <ScreenerIcon />
-        )}
+        {posibleRelatedAlert ? <GearIcon /> : <ScreenerIcon />}
         {posibleRelatedAlert ? t('screener.edit') : t('screener.set')}
-      </button>
+      </Button>
       <FirstSetModal
         open={firstToast}
         onClose={() => setFirstToast(false)}

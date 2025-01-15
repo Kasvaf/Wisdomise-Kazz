@@ -1,7 +1,7 @@
 import { bxSearch } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
-import TextBox from 'shared/TextBox';
+import { Input } from 'shared/v1-components/Input';
 
 export function CoinSearchInput({
   value,
@@ -14,13 +14,13 @@ export function CoinSearchInput({
 }) {
   const { t } = useTranslation('coin-radar');
   return (
-    <TextBox
+    <Input
+      type="string"
       value={value ?? ''}
       onChange={onChange}
       placeholder={t('social-radar.table.search')}
       className={className}
-      inputClassName="text-sm"
-      suffix={<Icon name={bxSearch} />}
+      prefixIcon={<Icon name={bxSearch} />}
     />
   );
 }
