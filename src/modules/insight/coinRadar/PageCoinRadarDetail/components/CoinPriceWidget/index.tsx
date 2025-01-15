@@ -10,6 +10,7 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { Button } from 'shared/v1-components/Button';
 import { PriceAlertButton } from '../PriceAlertButton';
 import { CoinSelect } from './CoinSelect';
 
@@ -38,12 +39,13 @@ export function CoinPriceWidget({
           onChange={newSlug => navigate(`/coin/${newSlug}`)}
         />
         <HoverTooltip title={t('common:share-page-url')}>
-          <button
+          <Button
             onClick={() => share(location.href)}
+            variant="ghost"
             className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-black/20 transition-all hover:brightness-110 active:brightness-90"
           >
             <Icon size={21} name={bxShareAlt} />
-          </button>
+          </Button>
         </HoverTooltip>
         {shareNotif}
       </div>

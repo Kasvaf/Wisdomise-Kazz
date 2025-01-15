@@ -6,8 +6,8 @@ import { type CoinExchange, useCoinOverview } from 'api';
 import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import TextBox from 'shared/TextBox';
 import Icon from 'shared/Icon';
+import { Input } from 'shared/v1-components/Input';
 
 export function CoinAvailableExchangesWidget({
   slug,
@@ -68,7 +68,7 @@ export function CoinAvailableExchangesWidget({
       loading={coinOverview.isLoading}
       refreshing={coinOverview.isRefetching}
       empty={{
-        enabled: data.length === 0,
+        enabled: coinOverview.data?.exchanges.length === 0,
         refreshButton: true,
         title: t('coin-details.tabs.markets.empty.title'),
         subtitle: t('coin-details.tabs.markets.empty.subtitle'),
@@ -76,13 +76,13 @@ export function CoinAvailableExchangesWidget({
       onRefresh={coinOverview.refetch}
     >
       <div>
-        <TextBox
+        <Input
+          type="string"
           value={query}
           onChange={setQuery}
           className="mb-4 w-72 text-sm mobile:w-full"
-          suffix={<Icon name={bxSearch} />}
+          prefixIcon={<Icon name={bxSearch} />}
           placeholder={t('available-exchanges.search')}
-          disabled={(coinOverview.data?.exchanges ?? []).length === 0}
         />
       </div>
       <Table

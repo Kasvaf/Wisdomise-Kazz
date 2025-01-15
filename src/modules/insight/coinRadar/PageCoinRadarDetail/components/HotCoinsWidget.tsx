@@ -8,7 +8,7 @@ import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { ButtonSelect } from 'shared/ButtonSelect';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
   const { t } = useTranslation('coin-radar');
@@ -80,7 +80,7 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
     >
       <div className="mb-2">
         <ButtonSelect
-          className="mobile:w-full"
+          className="inline-block mobile:w-full"
           options={[
             {
               label: t('coin-details.tabs.hot_coins.filters.all'),

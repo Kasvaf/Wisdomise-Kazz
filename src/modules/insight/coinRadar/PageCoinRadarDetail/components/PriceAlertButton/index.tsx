@@ -5,10 +5,10 @@ import { clsx } from 'clsx';
 import { useHasFlag } from 'api';
 import { type Alert, useAlerts } from 'api/alert';
 import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
-import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
+import { Button } from 'shared/v1-components/Button';
 
 export function PriceAlertButton({
   className,
@@ -72,13 +72,9 @@ export function PriceAlertButton({
     <>
       <Button
         onClick={() => alertActions.openSaveModal()}
-        variant={initialAlert.key ? 'alternative' : 'primary'}
-        className={clsx(
-          'h-10 w-full !py-1 mobile:!px-4',
-          className,
-          gtmClass('set-alert'),
-        )}
-        contentClassName="flex gap-0"
+        variant={initialAlert.key ? 'outline' : 'primary'}
+        block
+        className={clsx(className, gtmClass('set-alert'))}
         disabled={
           !hasFlag('/coin-radar/alerts') ||
           !hasFlag('/coin-radar/alerts?price_alert')

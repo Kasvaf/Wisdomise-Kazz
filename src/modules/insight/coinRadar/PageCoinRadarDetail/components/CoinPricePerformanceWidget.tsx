@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Select } from 'antd';
 import { useCoinOverview } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { Select } from 'shared/v1-components/Select';
 
 function StatRow({
   className,
@@ -33,6 +33,9 @@ function StatRow({
     </div>
   );
 }
+
+const TIME_FRAME_LABELS = ['24h', '7d', '14d', '21d', '30d'];
+const TIME_FRAME_VALUES = ['1_d', '7_d', '14_d', '21_d', '30_d'];
 
 export function CoinPricePerformanceWidget({
   className,
@@ -81,31 +84,16 @@ export function CoinPricePerformanceWidget({
         <div className="flex items-center justify-between text-v1-content-primary">
           <span>{t('coin-details.tabs.price_performance.title')}</span>
           <Select
-            size="small"
+            size="xs"
+            allowClear={false}
             value={timeFrame}
-            onChange={setTimeFrame}
-            options={[
-              {
-                label: '24h',
-                value: '1_d',
-              },
-              {
-                label: '7d',
-                value: '7_d',
-              },
-              {
-                label: '14d',
-                value: '14_d',
-              },
-              {
-                label: '21d',
-                value: '21_d',
-              },
-              {
-                label: '30d',
-                value: '30_d',
-              },
-            ]}
+            onChange={setTimeFrame as never}
+            options={TIME_FRAME_VALUES}
+            render={x => {
+              const index = TIME_FRAME_VALUES.indexOf(x as never);
+              if (index === -1) return '';
+              return TIME_FRAME_LABELS[index];
+            }}
           />
         </div>
         <div className="mt-4 flex items-center justify-between gap-4 text-xs">

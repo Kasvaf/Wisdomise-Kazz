@@ -6,31 +6,31 @@ import {
   useHasFlag,
   useSocialMessages,
 } from 'api';
-import { ButtonSelect } from 'shared/ButtonSelect';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { AccessShield } from 'shared/AccessShield';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { SocialMessageSummary } from './SocialMessage';
 import { SocialLogo } from './SocialLogo';
 
 function SocialTabTitle({
-  isActive,
+  count,
   label,
   type,
 }: {
-  isActive?: boolean;
+  count?: number;
   label: string;
   type?: SocialMessageType['social_type'];
 }) {
   return (
-    <h2
-      className={clsx(
-        'flex items-center gap-2 px-3',
-        isActive ? 'text-white' : 'opacity-60 grayscale',
-      )}
+    <div
+      className={clsx('flex items-center gap-2 px-3 text-v1-content-primary')}
     >
       {type && <SocialLogo type={type} className="size-4" />}
       {label}
-    </h2>
+      {typeof count === 'number' && (
+        <span className="text-v1-content-secondary">({count})</span>
+      )}
+    </div>
   );
 }
 
@@ -50,6 +50,27 @@ export function CoinSocialFeedWidget({
   >(null);
 
   const tabs = useMemo(() => {
+    const messagesMap: Record<
+      SocialMessageType['social_type'],
+      SocialMessageType[]
+    > = {
+      telegram: hasFlag('/coin/[slug]?tab=telegram')
+        ? messages.data
+            ?.filter(row => row.social_type === 'telegram')
+            .sort((a, b) => b.timestamp - a.timestamp) ?? []
+        : [],
+      reddit: hasFlag('/coin/[slug]?tab=reddit')
+        ? messages.data
+            ?.filter(row => row.social_type === 'reddit')
+            .sort((a, b) => b.timestamp - a.timestamp) ?? []
+        : [],
+      twitter: hasFlag('/coin/[slug]?tab=twitter')
+        ? messages.data
+            ?.filter(row => row.social_type === 'twitter')
+            .sort((a, b) => b.timestamp - a.timestamp) ?? []
+        : [],
+      trading_view: [],
+    };
     let list: Array<{
       label: ReactNode;
       value: SocialMessageType['social_type'] | null;
@@ -59,38 +80,30 @@ export function CoinSocialFeedWidget({
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.telegram.title')}
-            isActive={activeSocial === 'telegram'}
             type="telegram"
+            count={messagesMap.telegram.length}
           />
         ),
         value: 'telegram',
-        messages: hasFlag('/coin/[slug]?tab=telegram')
-          ? messages.data
-              ?.filter(row => row.social_type === 'telegram')
-              .sort((a, b) => b.timestamp - a.timestamp) ?? []
-          : [],
+        messages: messagesMap.telegram,
       },
       {
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.reddit.title')}
-            isActive={activeSocial === 'reddit'}
             type="reddit"
+            count={messagesMap.reddit.length}
           />
         ),
         value: 'reddit',
-        messages: hasFlag('/coin/[slug]?tab=reddit')
-          ? messages.data
-              ?.filter(row => row.social_type === 'reddit')
-              .sort((a, b) => b.timestamp - a.timestamp) ?? []
-          : [],
+        messages: messagesMap.reddit,
       },
       {
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.twitter.title')}
-            isActive={activeSocial === 'twitter'}
             type="twitter"
+            count={messagesMap.twitter.length}
           />
         ),
         value: 'twitter',
@@ -106,7 +119,7 @@ export function CoinSocialFeedWidget({
         label: (
           <SocialTabTitle
             label={t('coin-details.tabs.socials.types.all.title')}
-            isActive={activeSocial === null}
+            count={Object.values(messagesMap).reduce((p, c) => p + c.length, 0)}
           />
         ),
         value: null,
@@ -117,7 +130,7 @@ export function CoinSocialFeedWidget({
       ...list,
     ];
     return list.filter(x => x.messages.length > 0);
-  }, [t, activeSocial, messages.data, hasFlag]);
+  }, [t, messages.data, hasFlag]);
 
   const activeTab = useMemo(
     () => tabs.find(tab => tab.value === activeSocial),
