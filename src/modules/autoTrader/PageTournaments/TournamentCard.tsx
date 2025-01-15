@@ -86,7 +86,7 @@ export default function TournamentCard({
           <div>
             <h2 className="text-sm">{tournament.name}</h2>
             <h1 className="text-xs text-v1-content-secondary">
-              Volume Tournament Contest
+              Trading Volume Contest
             </h1>
           </div>
           <div className="ms-auto">
