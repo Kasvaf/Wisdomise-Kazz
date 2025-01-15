@@ -96,26 +96,149 @@ export interface CoinSignal {
   networks?: null | CoinNetwork[];
 }
 
-export const useCoinSignals = (filters?: {
-  windowHours: number;
-  network?: string;
-}) =>
+export const useCoinSignals = (
+  filters?: {
+    windowHours: number;
+    sortBy?: string;
+    sortOrder?: 'ascending' | 'descending';
+    query?: string;
+    categories?: string[];
+    networks?: string[];
+  } & Partial<CoinLabels>,
+) =>
   useQuery({
-    queryKey: ['coins-social-signal', JSON.stringify(filters)],
+    queryKey: ['coins-social-signal', filters?.windowHours],
     queryFn: async () => {
       const data = await ofetch<CoinSignal[]>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/`,
         {
           query: {
             window_hours: filters?.windowHours ?? 24,
-            network_slug: filters?.network,
           },
         },
       );
-      return data;
+      return data ?? [];
+    },
+    select: data => {
+      return data
+        .filter(row => {
+          const query = filters?.query?.trim().toLowerCase();
+          if (
+            query &&
+            ![
+              row.symbol.name,
+              row.symbol.abbreviation,
+              row.symbol.slug,
+              ...(row.symbol.categories ?? []).map(x => x.name),
+              ...(row.networks ?? []).map(x => x.network.name),
+            ]
+              .filter(x => !!x)
+              .join('-')
+              .toLowerCase()
+              .includes(query)
+          )
+            return false;
+
+          const categories = filters?.categories ?? [];
+          if (
+            categories.length > 0 &&
+            !row.symbol.categories
+              ?.map(x => x.slug)
+              .some(x => categories.includes(x))
+          )
+            return false;
+
+          const networks = filters?.networks ?? [];
+          if (
+            networks.length > 0 &&
+            !row.networks
+              ?.map(x => x.network.slug)
+              .some(x => networks.includes(x))
+          )
+            return false;
+
+          const trendLabels = filters?.trend_labels ?? [];
+          if (
+            trendLabels.length > 0 &&
+            !row.symbol_labels?.some(x => trendLabels.includes(x))
+          )
+            return false;
+
+          const securityLabels = filters?.security_labels ?? [];
+          const rowSecurityLabels = [
+            ...(row.symbol_security?.data?.every(x => !!x.label.trusted)
+              ? ['trusted']
+              : []),
+            ...(row.symbol_security?.data?.some(x => (x.label.warning ?? 0) > 0)
+              ? ['warning']
+              : []),
+            ...(row.symbol_security?.data?.some(x => (x.label.risk ?? 0) > 0)
+              ? ['risk']
+              : []),
+          ];
+
+          if (
+            securityLabels.length > 0 &&
+            !rowSecurityLabels.some(x => securityLabels.includes(x))
+          )
+            return false;
+
+          return true;
+        })
+        .sort((a, b) => {
+          const sortBy = filters?.sortBy;
+          const sortOrder = filters?.sortOrder === 'descending' ? -1 : 1;
+          if (sortBy === 'call_time') {
+            return (
+              (new Date(b.signals_analysis.call_time ?? Date.now()).getTime() -
+                new Date(
+                  a.signals_analysis.call_time ?? Date.now(),
+                ).getTime()) *
+              sortOrder
+            );
+          }
+          if (sortBy === 'price_change') {
+            return (
+              ((b.symbol_market_data.price_change_percentage_24h ?? 0) -
+                (a.symbol_market_data.price_change_percentage_24h ?? 0)) *
+              sortOrder
+            );
+          }
+          if (sortBy === 'pnl') {
+            return (
+              ((b.signals_analysis.real_pnl_percentage ?? 0) -
+                (a.signals_analysis.real_pnl_percentage ?? 0)) *
+              sortOrder
+            );
+          }
+          if (sortBy === 'market_cap') {
+            return (
+              ((b.symbol_market_data.market_cap ?? 0) -
+                (a.symbol_market_data.market_cap ?? 0)) *
+              sortOrder
+            );
+          }
+          return (a.rank - b.rank) * sortOrder;
+        });
     },
     refetchInterval: 30_000,
     keepPreviousData: true,
+  });
+
+export interface CoinLabels {
+  security_labels: string[];
+  trend_labels: string[];
+}
+
+export const useCoinLabels = () =>
+  useQuery({
+    queryKey: ['coin-labels'],
+    queryFn: async () => {
+      const data = await ofetch<CoinLabels>(
+        `${TEMPLE_ORIGIN}/api/v1/delphi/intelligence/symbol-labels/`,
+      );
+      return data ?? [];
+    },
   });
 
 interface SocialMessageTemplate<S, O> {
