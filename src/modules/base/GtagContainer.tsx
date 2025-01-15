@@ -3,14 +3,13 @@ import { useTelegram } from 'modules/autoTrader/layout/TelegramProvider';
 import useStartParams from 'modules/autoTrader/useStartParams';
 import { isMiniApp } from 'utils/version';
 
-const gaId = import.meta.env.VITE_GA;
 const GtagContainer: React.FC<PropsWithChildren> = ({ children }) => {
   const [initialized, setInitialized] = useState(false);
   const { webApp } = useTelegram();
   const startParams = useStartParams();
 
   useEffect(() => {
-    if (!gaId || initialized) return; // not enabled, or already initialized
+    if (initialized) return; // already initialized
     if (isMiniApp && !webApp) return; // wait for telegram provider
     setInitialized(true);
 
