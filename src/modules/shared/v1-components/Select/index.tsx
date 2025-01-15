@@ -96,7 +96,7 @@ function Option({
         size === 'sm' && 'h-sm px-3 text-xs',
         size === 'md' && 'h-md px-3 text-xs',
         size === 'xl' && 'h-xl px-4 text-sm',
-        'group flex shrink-0 flex-nowrap items-center justify-between gap-2 rounded-lg',
+        'group flex shrink-0 flex-nowrap items-center justify-between gap-2',
         'hover:bg-white/5',
         !checkbox && selected && '!bg-white/10',
       )}
@@ -245,13 +245,15 @@ export function Select<V, M extends boolean = false>({
       title={
         <div className="w-full overflow-hidden" ref={titleRef}>
           {showSearch && (
-            <input
-              placeholder="Search Here"
-              className="mb-4 block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l3 p-3 text-xs outline-none focus:border-v1-border-brand"
-              value={searchValue ?? ''}
-              onChange={e => onSearch?.(e.target.value)}
-              ref={searchRef}
-            />
+            <div className="p-4">
+              <input
+                placeholder="Search Here"
+                className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l3 p-3 text-xs outline-none focus:border-v1-border-brand"
+                value={searchValue ?? ''}
+                onChange={e => onSearch?.(e.target.value)}
+                ref={searchRef}
+              />
+            </div>
           )}
           <div className="relative flex max-h-40 flex-col gap-px overflow-auto">
             {loading ? (
@@ -322,7 +324,7 @@ export function Select<V, M extends boolean = false>({
           </div>
         </div>
       }
-      rootClassName="w-auto [&_.ant-tooltip-inner]:w-72 [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-inherit"
+      rootClassName="w-auto [&_.ant-tooltip-inner]:w-72 [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:overflow-hidden [&_.ant-tooltip-inner]:!p-0 [&_.ant-tooltip-inner]:!text-inherit"
       open={isOpen}
       destroyTooltipOnHide
     >
