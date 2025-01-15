@@ -56,7 +56,9 @@ export function CoinLabel({
         type: 'trend_labels',
         icon: <>🌐</>,
         info: t('coin_labels.monthly_social_beloved.info'),
-        color: clsx('bg-v1-content-brand/10 text-v1-content-brand'),
+        color: clsx(
+          'bg-v1-background-secondary-hover/10 text-v1-background-secondary-hover',
+        ),
       },
       {
         name: 'trusted',
