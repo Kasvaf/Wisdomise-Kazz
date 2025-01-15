@@ -6,9 +6,10 @@ import {
   type ReactNode,
   useCallback,
   useEffect,
+  Fragment,
 } from 'react';
 import { Tooltip as AntTooltip } from 'antd';
-import { bxChevronDown } from 'boxicons-quasar';
+import { bxChevronDown, bxLoader } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import { ReactComponent as CheckIcon } from './check.svg';
 import { ReactComponent as UnCheckIcon } from './uncheck.svg';
@@ -25,9 +26,9 @@ interface SelectProps<V, M extends boolean = false> {
 
   multiple?: M;
 
-  options: V[];
+  options?: V[];
 
-  render?: (item: V | undefined) => ReactNode;
+  render?: (item: V | undefined, target: 'option' | 'value') => ReactNode;
 
   allowClear?: boolean;
 
@@ -52,6 +53,25 @@ function Checkbox({
     <Component
       className={clsx(size === 'xl' ? 'size-5' : 'size-4', className)}
     />
+  );
+}
+
+function RenderedValue<V>({
+  value,
+  render,
+  target,
+}: Pick<SelectProps<V, false>, 'render'> & {
+  value?: V;
+  target: 'option' | 'value';
+}) {
+  const renderFn = useMemo(
+    () =>
+      render ??
+      ((v => <>{v}</>) as NonNullable<SelectProps<V, false>['render']>),
+    [render],
+  );
+  return (
+    <Fragment key={JSON.stringify(value)}>{renderFn(value, target)}</Fragment>
   );
 }
 
@@ -85,7 +105,9 @@ function Option({
       tabIndex={-1}
     >
       {children}
-      {checkbox && <Checkbox size={size} value={selected} />}
+      {checkbox && (
+        <Checkbox size={size} value={selected} className="shrink-0" />
+      )}
     </div>
   );
 }
@@ -106,31 +128,29 @@ function InnerContent<V, M extends boolean = false>({
       (multiple && Array.isArray(value) && value.length === 0),
     [value, multiple],
   );
-  const renderFn = useMemo(
-    () =>
-      render ??
-      ((v: V | undefined) => <>{v === undefined ? placeholder : v}</>),
-    [placeholder, render],
-  );
+
   return (
     <>
       {isEmpty ? (
         allowClear ? (
-          renderFn(undefined)
+          <RenderedValue value={undefined} render={render} target="value" />
         ) : (
           <span className="text-v1-content-secondary">{placeholder}</span>
         )
       ) : multiple ? (
-        <div className="flex items-center gap-1">
-          {(value as V[]).slice(0, 2).map(v => (
-            <span className="rounded bg-white/5 p-px" key={JSON.stringify(v)}>
-              {renderFn(v)}
+        <div className="flex items-center gap-3 overflow-hidden">
+          {(value as V[]).slice(0, 1).map(v => (
+            <span
+              className="shrink-0 rounded-full bg-white/5 p-px px-2"
+              key={JSON.stringify(v)}
+            >
+              <RenderedValue value={v} render={render} target="value" />
             </span>
           ))}
-          {(value as V[]).length - 2 > 0 && `+${(value as V[]).length - 2}`}
+          {(value as V[]).length - 1 > 0 && `+${(value as V[]).length - 1}`}
         </div>
       ) : (
-        renderFn(value as never)
+        <RenderedValue value={value as never} render={render} target="value" />
       )}
     </>
   );
@@ -223,7 +243,7 @@ export function Select<V, M extends boolean = false>({
     <AntTooltip
       placement="bottomLeft"
       title={
-        <div className="w-full min-w-48" ref={titleRef}>
+        <div className="w-full overflow-hidden" ref={titleRef}>
           {showSearch && (
             <input
               placeholder="Search Here"
@@ -233,54 +253,76 @@ export function Select<V, M extends boolean = false>({
               ref={searchRef}
             />
           )}
-          <div
-            className={clsx(
-              'flex max-h-40 flex-col gap-px overflow-auto',
-              loading && 'animate-pulse',
-            )}
-          >
-            {allowClear && (
-              <Option
-                key="undefined"
-                size={size}
-                selected={valueAsArray.length === 0}
-                onClick={() => handleOptionClick(undefined)}
-                checkbox={multiple}
+          <div className="relative flex max-h-40 flex-col gap-px overflow-auto">
+            {loading ? (
+              <div
+                className="flex min-h-12 items-center justify-center"
+                key="loading"
               >
-                {renderFn(undefined)}
-              </Option>
-            )}
-            {!searchValue &&
-              valueAsArray
-                .filter(opt => !options.includes(opt))
-                .map(opt => (
+                <Icon
+                  name={bxLoader}
+                  className="inline-block size-4 animate-spin"
+                  size={16}
+                />
+              </div>
+            ) : (
+              <>
+                {allowClear && (
                   <Option
-                    key={JSON.stringify(opt)}
+                    key="undefined"
                     size={size}
-                    selected={valueAsArray.includes(opt)}
-                    onClick={() => handleOptionClick(opt)}
+                    selected={valueAsArray.length === 0}
+                    onClick={() => handleOptionClick(undefined)}
                     checkbox={multiple}
                   >
-                    {renderFn(opt)}
+                    <RenderedValue
+                      value={undefined}
+                      render={render}
+                      target="option"
+                    />
                   </Option>
-                ))}
-            {options
-              .sort(opt => (valueAsArray.includes(opt) ? -1 : 1))
-              .map(opt => (
-                <Option
-                  key={JSON.stringify(opt)}
-                  size={size}
-                  onClick={() => handleOptionClick(opt)}
-                  selected={valueAsArray.includes(opt)}
-                  checkbox={multiple}
-                >
-                  {renderFn(opt)}
-                </Option>
-              ))}
+                )}
+                {!searchValue &&
+                  valueAsArray
+                    .filter(opt => !(options ?? []).includes(opt))
+                    .map(opt => (
+                      <Option
+                        key={JSON.stringify(opt)}
+                        size={size}
+                        selected={valueAsArray.includes(opt)}
+                        onClick={() => handleOptionClick(opt)}
+                        checkbox={multiple}
+                      >
+                        <RenderedValue
+                          value={opt}
+                          render={render}
+                          target="option"
+                        />
+                      </Option>
+                    ))}
+                {(options ?? [])
+                  // .sort(opt => (valueAsArray.includes(opt) ? -1 : 1))
+                  .map(opt => (
+                    <Option
+                      key={JSON.stringify(opt)}
+                      size={size}
+                      onClick={() => handleOptionClick(opt)}
+                      selected={valueAsArray.includes(opt)}
+                      checkbox={multiple}
+                    >
+                      <RenderedValue
+                        value={opt}
+                        render={render}
+                        target="option"
+                      />
+                    </Option>
+                  ))}
+              </>
+            )}
           </div>
         </div>
       }
-      rootClassName="w-auto [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-inherit"
+      rootClassName="w-auto [&_.ant-tooltip-inner]:w-72 [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-inherit"
       open={isOpen}
       destroyTooltipOnHide
     >
@@ -291,8 +333,6 @@ export function Select<V, M extends boolean = false>({
           size === 'sm' && 'h-sm rounded-lg px-3 text-xs',
           size === 'md' && 'h-md rounded-lg px-3 text-xs',
           size === 'xl' && 'h-xl rounded-xl px-4 text-sm',
-          /* Loading */
-          loading && 'animate-pulse',
           /* Style */
           'bg-v1-surface-l-next',
           /* Disabled */
@@ -310,7 +350,7 @@ export function Select<V, M extends boolean = false>({
         onFocus={() => setIsOpen(() => true)}
       >
         {prefixIcon}
-        <div className="grow">
+        <div className="grow whitespace-nowrap">
           <InnerContent
             allowClear={allowClear}
             multiple={multiple}
