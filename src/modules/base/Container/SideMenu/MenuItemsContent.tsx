@@ -3,8 +3,8 @@ import { type MouseEventHandler, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
-import { bxChevronDown, bxChevronUp, bxLogIn } from 'boxicons-quasar';
-import { useHasFlag } from 'api';
+import { bxChevronDown, bxChevronUp, bxLogIn, bxMobile } from 'boxicons-quasar';
+import { useAccountQuery, useHasFlag } from 'api';
 import { useLogoutMutation } from 'api/auth';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -102,8 +102,20 @@ const MenuItemsContent: React.FC<{
 
   const [ModalLogin, showModalLogin] = useModalLogin();
   const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
+  const account = useAccountQuery();
 
   const extraItems = [
+    ...(account.data?.telegram_code && hasFlag('/mini-login')
+      ? [
+          {
+            icon: <Icon name={bxMobile} />,
+            label: 'AutoTrader MiniApp',
+            to:
+              'https://t.me/TonGamificationBot/autotrader?startapp=login_' +
+              account.data?.telegram_code,
+          },
+        ]
+      : []),
     {
       icon: <HelpIcon />,
       label: 'Help & Guide',
