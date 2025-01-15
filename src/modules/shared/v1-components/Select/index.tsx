@@ -7,6 +7,7 @@ import {
   useCallback,
   useEffect,
   Fragment,
+  memo,
 } from 'react';
 import { Tooltip as AntTooltip } from 'antd';
 import { bxChevronDown, bxLoader } from 'boxicons-quasar';
@@ -56,11 +57,11 @@ function Checkbox({
   );
 }
 
-function RenderedValue<V>({
+function InternalRenderedValue<V>({
   value,
   render,
   target,
-}: Pick<SelectProps<V, false>, 'render'> & {
+}: Pick<SelectProps<never, false>, 'render'> & {
   value?: V;
   target: 'option' | 'value';
 }) {
@@ -71,9 +72,16 @@ function RenderedValue<V>({
     [render],
   );
   return (
-    <Fragment key={JSON.stringify(value)}>{renderFn(value, target)}</Fragment>
+    <Fragment key={JSON.stringify(value)}>
+      {renderFn(value as never, target)}
+    </Fragment>
   );
 }
+
+const RenderedValue = memo(
+  InternalRenderedValue,
+  (p, n) => p.target === n.target && p.value === n.value,
+);
 
 function Option({
   children,
