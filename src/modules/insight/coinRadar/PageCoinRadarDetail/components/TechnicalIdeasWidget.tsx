@@ -6,7 +6,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import { SocialMessageSummary } from './CoinSocialFeedWidget/SocialMessage';
-import CoinChart from './CoinChart';
+import CoinChart, { type CoinChartConfig } from './CoinChart';
 
 export function TechnicalIdeasWidget({
   slug,
@@ -21,9 +21,17 @@ export function TechnicalIdeasWidget({
   const isMobile = useIsMobile();
   const [limit, setLimit] = useState(3);
 
-  const hasChart =
-    coinOverview.data?.charts_id?.trading_view_chart_id ||
-    coinOverview.data?.charts_id?.gecko_terminal_chart_id;
+  const chart: CoinChartConfig | null =
+    !coinOverview.data?.charts_id?.gecko_terminal_chart_id &&
+    !coinOverview.data?.charts_id?.trading_view_chart_id
+      ? null
+      : {
+          type: coinOverview.data?.charts_id?.gecko_terminal_chart_id
+            ? 'gecko_terminal'
+            : 'trading_view',
+          id: (coinOverview.data?.charts_id?.gecko_terminal_chart_id ||
+            coinOverview.data?.charts_id?.trading_view_chart_id) as string,
+        };
 
   const tradingViewMessages = useMemo(() => {
     return (messages.data ?? [])
@@ -38,7 +46,7 @@ export function TechnicalIdeasWidget({
       id={id}
       loading={messages.isLoading || coinOverview.isLoading}
       empty={{
-        enabled: tradingViewMessages.length === 0 && !hasChart,
+        enabled: tradingViewMessages.length === 0 && !chart,
         refreshButton: true,
         title: t('coin-details.tabs.trading_view.empty.title'),
         subtitle: t('coin-details.tabs.trading_view.empty.subtitle'),
@@ -50,16 +58,14 @@ export function TechnicalIdeasWidget({
       }}
       headerActions={
         <>
-          {hasChart && (
+          {chart && (
             <a
               href={
-                coinOverview.data?.charts_id?.trading_view_chart_id
+                chart.type === 'trading_view'
                   ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(
-                      coinOverview.data.charts_id.trading_view_chart_id,
+                      chart.id,
                     )}`
-                  : coinOverview.data?.charts_id?.gecko_terminal_chart_id
-                  ? `https://www.geckoterminal.com/${coinOverview.data.charts_id.gecko_terminal_chart_id}`
-                  : ''
+                  : `https://www.geckoterminal.com/${chart.id}`
               }
               target="_blank"
               className="inline-flex items-center justify-center hover:brightness-110 active:brightness-90 mobile:p-1"
@@ -75,9 +81,9 @@ export function TechnicalIdeasWidget({
         </>
       }
     >
-      {hasChart && (
-        <div className="h-[500px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[350px]">
-          <CoinChart slug={slug} height={isMobile ? 340 : 490} />
+      {chart && (
+        <div className="h-[580px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[400px]">
+          <CoinChart value={chart} height={isMobile ? 400 : 580} />
         </div>
       )}
 
