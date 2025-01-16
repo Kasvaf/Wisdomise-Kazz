@@ -43,9 +43,7 @@ const PageTrade = React.lazy(() => import('modules/autoTrader/PageTrade'));
 const PageAlerts = React.lazy(() => import('modules/alert/PageAlerts'));
 
 const useMiniAppRoutes = () => {
-  const qs = location.search.includes('utm_campaign')
-    ? '?' + location.search
-    : '';
+  const qs = location.search.includes('utm_campaign') ? location.search : '';
 
   return [
     {
