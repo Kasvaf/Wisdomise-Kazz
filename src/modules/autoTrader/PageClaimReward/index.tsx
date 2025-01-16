@@ -289,7 +289,14 @@ export default function ClaimRewardPage() {
             setOpen(false);
             if (eligibility?.[0]?.status === 'winner') {
               notification.success({
-                message: 'You claimed your reward',
+                message: 'You claimed your reward.',
+              });
+            } else if (
+              eligibility?.[0]?.status === 'claimed' &&
+              usdtReward >= 10
+            ) {
+              notification.success({
+                message: 'You can withdraw your reward.',
               });
             }
           }}
