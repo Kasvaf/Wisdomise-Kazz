@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Markdown from 'react-markdown';
 import { type SocialMessage } from 'api';
+import { Button } from 'shared/v1-components/Button';
 
 export function SocialMessageContent({
   message,
@@ -87,18 +88,18 @@ export function SocialMessageContent({
       {mode === 'summary' && hasOverflow && (
         <div
           className={clsx(
-            'absolute bottom-0 left-0 h-14 w-full bg-gradient-to-t from-v1-surface-l2 to-transparent',
+            'absolute bottom-0 left-0 h-14 w-full bg-gradient-to-t from-v1-surface-l3 to-transparent',
           )}
         >
-          <button
-            className={clsx(
-              'absolute bottom-0 w-full p-1 text-start text-xs',
-              'text-v1-content-link transition-all hover:brightness-110 active:brightness-90',
-            )}
+          <Button
+            block
+            variant="link"
+            size="2xs"
+            className={clsx('!absolute bottom-0 w-full')}
             onClick={onReadMore}
           >
             {t('social-messages.read_more')}
-          </button>
+          </Button>
         </div>
       )}
     </div>

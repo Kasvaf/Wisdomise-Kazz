@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { Fragment, type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   type SocialMessage as SocialMessageType,
@@ -147,12 +147,6 @@ export function CoinSocialFeedWidget({
     [activeSocial, tabs],
   );
 
-  const [limit, setLimit] = useState(2);
-
-  useEffect(() => {
-    setLimit(2);
-  }, [activeTab?.value]);
-
   return (
     <AccessShield
       mode="children"
@@ -176,28 +170,25 @@ export function CoinSocialFeedWidget({
           title: t('coin-details.tabs.socials.empty.title'),
           subtitle: t('coin-details.tabs.socials.empty.subtitle'),
         }}
+        headerClassName="!flex-wrap"
+        headerActions={
+          <div className="w-full grow overflow-auto">
+            {tabs.length > 1 && (
+              <ButtonSelect
+                options={tabs}
+                value={activeSocial}
+                onChange={setActiveSocial}
+              />
+            )}
+          </div>
+        }
         refreshing={messages.isRefetching}
         onRefresh={messages.refetch}
         contentClassName="max-h-[550px] mobile:max-h-[400px] overflow-auto"
       >
-        <div className="w-full grow overflow-auto">
-          {tabs.length > 1 && (
-            <ButtonSelect
-              options={tabs}
-              value={activeSocial}
-              onChange={setActiveSocial}
-            />
-          )}
-        </div>
-        <div className="mt-4 flex flex-col gap-6">
-          {activeTab?.messages?.map((message, idx, self) => (
-            <Fragment key={message.id}>
-              <SocialMessageSummary message={message} />
-              {(idx < self.length - 1 ||
-                limit < (activeTab?.messages?.length ?? 0)) && (
-                <div className="h-px bg-v1-border-tertiary" />
-              )}
-            </Fragment>
+        <div className="mt-4 columns-2 gap-x-3 mobile:columns-1 [&>*]:mb-3">
+          {activeTab?.messages.map(message => (
+            <SocialMessageSummary key={message.id} message={message} />
           ))}
         </div>
       </OverviewWidget>

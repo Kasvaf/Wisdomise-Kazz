@@ -189,7 +189,6 @@ coin-details:
         subtitle: >-
           We're continuously exploring new strategies. Fresh technical insights
           will be available soon!
-      load_more: Load More
     whale_list:
       title: Smart Whales
       label: Smart Whales
@@ -224,6 +223,7 @@ common:
   category: Category
   filters: Filters
   labels: Labels
+  load_more: Load More
   native_coin: Native Coin
   network: Network
   networks: Networks

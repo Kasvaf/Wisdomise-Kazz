@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type SocialMessage } from 'api';
 import useIsMobile from 'utils/useIsMobile';
+import { SocialLogo } from '../SocialLogo';
 import { SocialMessageImage } from './SocialMessageImage';
 import { SocialMessageContent } from './SocialMessageContent';
 import { SocialMessageUser } from './SocialMessageUser';
@@ -21,53 +22,83 @@ export function SocialMessageSummary({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <div
-        className={clsx(
-          'flex w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l2 mobile:items-start',
-          message.social_type === 'trading_view'
-            ? 'flex-row mobile:flex-col'
-            : 'flex-row-reverse mobile:flex-col',
-          className,
-        )}
-      >
-        <SocialMessageImage
-          message={message}
+      {message.social_type === 'trading_view' ? (
+        <div
           className={clsx(
-            'shrink-0 mobile:h-40 mobile:w-full',
-            message.social_type === 'trading_view' ? 'h-32 w-52' : 'h-36 w-40',
+            'flex w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l2 mobile:items-start',
+            'flex-row mobile:flex-col',
+            className,
           )}
-        />
-        <div className="flex grow flex-col items-stretch justify-between gap-4 mobile:w-full">
-          <SocialMessageContent
+        >
+          <SocialMessageImage
             message={message}
-            mode={message.social_type === 'trading_view' ? 'title' : 'summary'}
-            onReadMore={() => setOpen(true)}
-            className="shrink-0"
+            className="h-32 w-52 shrink-0 rounded-lg mobile:h-40 mobile:w-full"
           />
-
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <SocialMessageUser
+          <div className="flex grow flex-col items-stretch justify-between gap-4 mobile:w-full">
+            <SocialMessageContent
               message={message}
-              type="title"
+              mode="title"
+              onReadMore={() => setOpen(true)}
               className="shrink-0"
             />
-            <SocialMessageUser
+
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <SocialMessageUser
+                message={message}
+                type="title"
+                className="shrink-0"
+              />
+            </div>
+
+            <SocialMessageStats
+              className="shrink-0 gap-2 text-xs"
               message={message}
-              type="link"
+              mode="expandable"
+              onReadMore={() => setOpen(true)}
+            />
+          </div>
+        </div>
+      ) : (
+        <div
+          className={clsx(
+            'flex w-full max-w-full flex-col items-center justify-between mobile:items-start',
+            'overflow-hidden rounded-lg bg-v1-surface-l3',
+            className,
+          )}
+        >
+          <div className="flex h-11 w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l4 p-3">
+            <div className="flex grow items-center gap-2 overflow-hidden">
+              <SocialLogo
+                className="size-6 shrink-0"
+                type={message.social_type}
+              />
+              <SocialMessageUser
+                message={message}
+                type="title"
+                className="shrink-0 whitespace-nowrap"
+              />
+            </div>
+
+            <SocialMessageStats
+              className="shrink-0 gap-3 text-[11px]"
+              message={message}
+              mode="normal"
+            />
+          </div>
+          <SocialMessageImage
+            message={message}
+            className="h-auto w-full shrink-0"
+          />
+          <div className="w-full p-3">
+            <SocialMessageContent
+              message={message}
+              mode="summary"
+              onReadMore={() => setOpen(true)}
               className="shrink-0"
             />
           </div>
-
-          <SocialMessageStats
-            className="shrink-0"
-            message={message}
-            mode={
-              message.social_type === 'trading_view' ? 'expandable' : 'normal'
-            }
-            onReadMore={() => setOpen(true)}
-          />
         </div>
-      </div>
+      )}
       {isMobile ? (
         <Drawer
           placement="bottom"
@@ -116,25 +147,34 @@ export function SocialMessageDetails({
         className,
       )}
     >
-      <SocialMessageUser
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="flex grow items-center gap-2">
+          {message.social_type !== 'trading_view' && (
+            <SocialLogo
+              className="size-8 shrink-0"
+              type={message.social_type}
+            />
+          )}
+          <SocialMessageUser
+            message={message}
+            type="large-title"
+            className="shrink-0"
+          />
+        </div>
+        <SocialMessageStats
+          message={message}
+          mode="normal"
+          className="shrink-0 gap-3 text-xs"
+        />
+      </div>
+      <SocialMessageImage
         message={message}
-        type="large-title"
-        className="shrink-0"
+        className="h-auto w-full shrink-0 object-contain"
       />
       <SocialMessageContent
         message={message}
         mode="full"
-        className="shrink-0"
-      />
-      <SocialMessageUser message={message} type="link" className="shrink-0" />
-      <SocialMessageImage
-        message={message}
-        className="h-64 w-full shrink-0 object-contain"
-      />
-      <SocialMessageStats
-        message={message}
-        mode="normal"
-        className="shrink-0"
+        className="w-full shrink-0"
       />
     </div>
   );

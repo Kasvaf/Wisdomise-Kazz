@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from 'shared/Icon';
 import BetaVersion from 'shared/BetaVersion';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 import { ReactComponent as ProIcon } from './pro.svg';
 import { ReactComponent as RefreshIcon } from './refresh.svg';
@@ -163,16 +164,10 @@ export function OverviewWidget({
               )}
             </div>
             {emptyConfig.refreshButton && (
-              <button
-                onClick={onRefresh}
-                className={clsx(
-                  'flex items-center gap-2 text-sm font-bold text-v1-content-primary',
-                  'transition-all hover:brightness-110 active:brightness-90',
-                )}
-              >
+              <Button size="md" onClick={onRefresh} variant="ghost">
                 <RefreshIcon className={clsx(refreshing && 'animate-spin')} />{' '}
                 {t('actions.refresh')}
-              </button>
+              </Button>
             )}
           </div>
         ) : (

@@ -5,6 +5,7 @@ import { useCoinOverview, useSocialMessages } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 import { SocialMessageSummary } from './CoinSocialFeedWidget/SocialMessage';
 import CoinChart, { type CoinChartConfig } from './CoinChart';
 
@@ -102,17 +103,20 @@ export function TechnicalIdeasWidget({
             </Fragment>
           ))}
           {limit < tradingViewMessages.length && (
-            <button
-              className="mt-4 flex w-full items-center justify-center gap-2 text-sm"
+            <Button
+              className="mx-auto mt-4"
+              size="md"
+              block
+              variant="ghost"
               onClick={() => setLimit(p => p + 2)}
             >
-              {t('coin-details.tabs.trading_view.load_more')}
+              {t('common.load_more')}
               <Icon
                 name={bxChevronDown}
                 className="text-v1-content-link"
                 size={16}
               />
-            </button>
+            </Button>
           )}
         </div>
       )}

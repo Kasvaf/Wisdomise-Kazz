@@ -40,10 +40,5 @@ export function SocialMessageImage({
 
   if (!thumbnail) return null;
 
-  return (
-    <img
-      src={thumbnail}
-      className={clsx('rounded-lg bg-white/5 object-contain', className)}
-    />
-  );
+  return <img src={thumbnail} className={clsx('object-contain', className)} />;
 }
