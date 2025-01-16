@@ -121,7 +121,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
               aria-checked={value === option.value}
               disabled={option.disabled}
               className={clsx(
-                'h-full shrink-0 overflow-hidden rounded-lg px-3 text-sm',
+                'relative h-full shrink-0 overflow-hidden rounded-lg px-3 text-sm',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow transition-colors duration-150',
                 'enabled:hover:bg-white/5 enabled:active:bg-white/10',
