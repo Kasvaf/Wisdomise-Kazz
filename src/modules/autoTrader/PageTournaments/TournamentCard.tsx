@@ -15,9 +15,8 @@ import { type Tournament, type TournamentStatus } from 'api/tournament';
 import { Coin } from 'shared/Coin';
 import { useSymbolInfo } from 'api/symbol';
 import { DrawerModal } from 'shared/DrawerModal';
-import Icon from 'shared/Icon';
 // eslint-disable-next-line import/max-dependencies
-import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 
 export default function TournamentCard({
   className,
@@ -95,7 +94,7 @@ export default function TournamentCard({
         </div>
         <div className="my-3 whitespace-pre-line">
           {tournament.description}
-          {hasDetail && (
+          {hasDetail && tournament.tooltip_content && (
             <Tooltip title={tournament.tooltip_content}>
               <Icon
                 name={bxInfoCircle}
@@ -167,8 +166,6 @@ export default function TournamentCard({
       <DrawerModal
         open={open}
         onClose={() => setOpen(false)}
-        destroyOnClose
-        className="max-w-lg mobile:!h-[30rem] mobile:max-w-full"
         maskClosable={true}
       >
         <div className="flex flex-col items-center text-center">
@@ -210,15 +207,6 @@ export default function TournamentCard({
               </div>
             </div>
           ))}
-          <Button
-            variant="alternative"
-            className="absolute bottom-6 end-6 start-6"
-            onClick={() => {
-              setOpen(false);
-            }}
-          >
-            Close
-          </Button>
         </div>
       </DrawerModal>
     </div>

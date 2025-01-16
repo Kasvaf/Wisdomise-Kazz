@@ -86,7 +86,7 @@ export default function PageTournamentDetail() {
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
                   <IconUser />
                 </div>
-                <div className="ms-3">
+                <div className="mx-3 truncate">
                   {p.investor_key === me?.investor_key
                     ? profile?.first_name
                     : p.name ?? p.investor_key}
@@ -113,7 +113,7 @@ export default function PageTournamentDetail() {
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
                     <IconUser />
                   </div>
-                  <div className="ms-3">
+                  <div className="mx-3 truncate">
                     {profile?.first_name ?? me.investor_key}
                   </div>
                   <div className="ms-auto">
