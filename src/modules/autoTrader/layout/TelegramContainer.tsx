@@ -3,14 +3,12 @@ import { Buffer } from 'buffer';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Outlet } from 'react-router-dom';
 import GtagContainer from 'modules/base/GtagContainer';
+import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { TelegramProvider } from './TelegramProvider';
 import TelegramAuthGuard from './TelegramAuthGuard';
 
 // required for using @ton/core
 window.Buffer = Buffer;
-
-const AUTOTRADER_MINIAPP = import.meta.env
-  .VITE_AUTOTRADER_MINIAPP_BASE_URL as `${string}://${string}`;
 
 export default function TelegramContainer() {
   return (
@@ -22,7 +20,7 @@ export default function TelegramContainer() {
               manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
               uiPreferences={{ theme: THEME.DARK }}
               actionsConfiguration={{
-                twaReturnUrl: AUTOTRADER_MINIAPP,
+                twaReturnUrl: AUTO_TRADER_MINI_APP_BASE,
               }}
             >
               <Outlet />
