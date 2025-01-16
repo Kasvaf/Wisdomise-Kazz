@@ -237,7 +237,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
                   }),
                 })
               }
-              className="max-w-[490px] mobile:w-full mobile:max-w-full"
+              className="!max-w-[490px] mobile:w-full mobile:max-w-full"
             />
             <SortModes
               sortBy={tableState.sortBy}
