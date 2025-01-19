@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { TEMPLE_ORIGIN } from 'config/constants';
+import { FetchError } from 'ofetch';
 import { isMiniApp } from 'utils/version';
 import { ofetch } from 'config/ofetch';
 import {
@@ -42,7 +42,7 @@ export const useMarketInfoFromSignals = () =>
     queryKey: ['market-social-signal'],
     queryFn: async () => {
       const data = await ofetch<MarketInfoFromSignals>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/market-social-signal/?window_hours=24`,
+        'delphi/social-radar/market-social-signal/?window_hours=24',
       );
       return data;
     },
@@ -67,9 +67,20 @@ export interface CoinSignalAnalysis {
     related_ats?: null | string[];
   };
 }
-export interface CoinSignal {
-  rank: number;
+
+export interface SocialRadarSentiment {
+  last_signal_related_at: string;
+  first_signal_related_at: string;
+  gauge_tag: 'LONG' | 'SHORT' | 'NOT SURE';
+  gauge_measure: -1 | 0 | 1;
+  long_count: number;
+  short_count: number;
+  messages_count: number;
   symbol: Coin;
+  signals_analysis?: CoinSignalAnalysis;
+}
+export interface CoinSignal extends SocialRadarSentiment {
+  rank: number;
   symbol_market_data: MarketData;
   symbol_security?: null | {
     data: NetworkSecurity[];
@@ -84,13 +95,6 @@ export interface CoinSignal {
     total_holding_volume?: null | number;
     total_recent_trading_pnl?: null | number;
   };
-  long_count: number;
-  short_count: number;
-  messages_count: number;
-  gauge_tag: 'LONG' | 'SHORT' | 'NOT SURE';
-  gauge_measure: -1 | 0 | 1;
-  last_signal_related_at: string;
-  first_signal_related_at: string;
   signals_analysis: CoinSignalAnalysis;
   symbol_labels?: null | string[];
   networks?: null | CoinNetwork[];
@@ -110,7 +114,7 @@ export const useCoinSignals = (
     queryKey: ['coins-social-signal', filters?.windowHours],
     queryFn: async () => {
       const data = await ofetch<CoinSignal[]>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/`,
+        'delphi/social-radar/coins-social-signal/',
         {
           query: {
             window_hours: filters?.windowHours ?? 24,
@@ -219,6 +223,29 @@ export const useCoinSignals = (
     keepPreviousData: true,
   });
 
+export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>
+  useQuery({
+    queryKey: ['social-radar-sentiment', slug],
+    queryFn: async () => {
+      try {
+        const data = await ofetch<SocialRadarSentiment>(
+          'delphi/social-radar/widget/',
+          {
+            query: {
+              slug,
+            },
+          },
+        );
+        return data;
+      } catch (error) {
+        if (error instanceof FetchError && error.status === 500) {
+          return null;
+        }
+        throw error;
+      }
+    },
+  });
+
 export interface CoinLabels {
   security_labels: string[];
   trend_labels: string[];
@@ -229,7 +256,7 @@ export const useCoinLabels = () =>
     queryKey: ['coin-labels'],
     queryFn: async () => {
       const data = await ofetch<CoinLabels>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/intelligence/symbol-labels/`,
+        'delphi/intelligence/symbol-labels/',
       );
       return data ?? [];
     },
@@ -353,7 +380,7 @@ export const useSocialMessages = (slug: string) =>
         trading_view_ideas: null | TradingViewIdeasMessage[];
         twitter: null | TwitterMessage[];
       }>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&slug=${slug}`,
+        `delphi/social-radar/coin-social-messages/?window_hours=24&slug=${slug}`,
       );
       const response: SocialMessage[] = [
         ...(data.reddit || []).map(
@@ -422,7 +449,7 @@ export const useCoinAvailableExchanges = (symbol: string) =>
     queryKey: ['coin-available-exchanges', symbol],
     queryFn: async () => {
       const data = await ofetch<CoinExchange[]>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/symbol-exchanges/?symbol_abbreviation=${symbol}`,
+        `delphi/symbol-exchanges/?symbol_abbreviation=${symbol}`,
       );
       return (data || []).sort((a, b) =>
         a.coin_ranking_rank < b.coin_ranking_rank
@@ -442,13 +469,10 @@ interface RecommendChannelVariables {
 export const useRecommendChannelMutation = () =>
   useMutation<unknown, unknown, RecommendChannelVariables>({
     mutationFn: async variables => {
-      await ofetch(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/suggest-channel/`,
-        {
-          body: variables,
-          method: 'post',
-        },
-      );
+      await ofetch('delphi/social-radar/suggest-channel/', {
+        body: variables,
+        method: 'post',
+      });
     },
   });
 

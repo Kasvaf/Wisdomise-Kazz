@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import { ReactComponent as BaseIcon } from './base.svg';
-import { ReactComponent as ArrowIcon } from './arrow.svg';
+import { ReactComponent as Gauge } from './gauge.svg';
 
 export function SentimentGuage({
   measure,
@@ -18,10 +17,13 @@ export function SentimentGuage({
   }, [measure]);
   return (
     <div className={clsx('relative overflow-visible', className)}>
-      <BaseIcon className="mt-[5%] size-full scale-[1.4]" />
-      <ArrowIcon
-        style={{ rotate: `${rotate ?? 0}deg` }}
-        className="absolute top-0 mt-[5%] size-full origin-center scale-[1.4] transition-all delay-75 duration-500"
+      <Gauge
+        className="size-full scale-[1.1]"
+        style={
+          {
+            '--rotate': `${rotate}deg`,
+          } as unknown as never
+        }
       />
     </div>
   );

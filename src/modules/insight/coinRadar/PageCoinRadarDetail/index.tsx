@@ -1,10 +1,10 @@
+/* eslint-disable import/max-dependencies */
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinPriceWidget } from './components/CoinPriceWidget';
 import { CoinStatsWidget } from './components/CoinStatsWidget';
-import { CoinSocialSentimentWidget } from './components/CoinSocialSentimentWidget';
 import { CoinPricePerformanceWidget } from './components/CoinPricePerformanceWidget';
 import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
@@ -14,9 +14,10 @@ import { HotCoinsWidget } from './components/HotCoinsWidget';
 import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
 import { CoinRadarTabs } from './components/CoinRadarTabs';
 import { CoinLinksWidget } from './components/CoinLinksWidget';
-import { WhaleSentimentWidget } from './components/WhaleSentimentWidget';
-// eslint-disable-next-line import/max-dependencies
 import { CoinWhaleListWidget } from './components/CoinWhaleListWidget';
+import { WhaleRadarSentimentWidget } from './components/WhaleRadarSentimentWidget';
+import { SocialRadarSentimentWidget } from './components/SocialRadarSentimentWidget';
+import { TechnicalRadarSentimentWidget } from './components/TechnicalRadarSentimentWidget';
 
 export default function PageCoinRadarDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -55,8 +56,9 @@ export default function PageCoinRadarDetail() {
           />
           <div className="h-5" />
           <CoinPriceWidget slug={slug} className="!bg-transparent !p-1" />
-          <CoinSocialSentimentWidget slug={slug} />
-          <WhaleSentimentWidget slug={slug} />
+          <SocialRadarSentimentWidget slug={slug} />
+          <WhaleRadarSentimentWidget slug={slug} />
+          <TechnicalRadarSentimentWidget slug={slug} />
           <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
           <CoinStatsWidget slug={slug} />
           <CoinLinksWidget slug={slug} />
@@ -83,8 +85,12 @@ export default function PageCoinRadarDetail() {
 
           <div className="col-span-2 flex flex-col gap-6">
             <div className="flex items-center justify-stretch gap-6">
-              <WhaleSentimentWidget slug={slug} className="basis-full" />
-              <CoinSocialSentimentWidget slug={slug} className="basis-full" />
+              <TechnicalRadarSentimentWidget
+                slug={slug}
+                className="basis-full"
+              />
+              <WhaleRadarSentimentWidget slug={slug} className="basis-full" />
+              <SocialRadarSentimentWidget slug={slug} className="basis-full" />
             </div>
             <CoinRadarTabs value={tabs} className="sticky top-0 z-50 bg-page" />
             <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />

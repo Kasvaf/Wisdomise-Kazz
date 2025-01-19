@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useCoinSignals, useHasFlag } from 'api';
+import { useHasFlag, useSocialRadarSentiment } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { DebugPin } from 'shared/DebugPin';
 import { SignalSentiment } from '../../../PageCoinRadar/components/SignalSentiment';
 import { SentimentGuage } from './SentimentGuage';
 
-export function CoinSocialSentimentWidget({
+export function SocialRadarSentimentWidget({
   className,
   noEmptyState,
   slug,
@@ -16,19 +16,19 @@ export function CoinSocialSentimentWidget({
   slug: string;
 }) {
   const { t } = useTranslation('coin-radar');
-  const signals = useCoinSignals();
+  const sentiment = useSocialRadarSentiment({ slug });
+  const isEmpty = !sentiment.isLoading && !sentiment.data;
   const hasFlag = useHasFlag();
-  const coinSignal = signals.data?.find(signal => signal.symbol.slug === slug);
   if (!hasFlag('/coin-radar/social-radar?side-suggestion')) return null;
-  if (noEmptyState && !coinSignal) return null;
+  if (noEmptyState && isEmpty) return null;
 
   return (
     <OverviewWidget
       className={clsx('!p-4', className)}
-      loading={signals.isLoading}
+      loading={sentiment.isLoading}
       contentClassName={clsx(
         'flex flex-row items-center justify-between gap-3 overflow-hidden',
-        !coinSignal && signals.data && 'contrast-75 grayscale',
+        isEmpty && 'contrast-75 grayscale',
       )}
       overlay={
         <DebugPin
@@ -37,22 +37,26 @@ export function CoinSocialSentimentWidget({
         />
       }
     >
-      <div className="flex h-20 flex-col justify-between gap-1">
+      <div className="flex h-20 flex-col justify-between gap-1 overflow-hidden">
         <p className="text-xxs text-v1-content-primary">
           {t('coin-details.tabs.social_sentiment.title')}
         </p>
-        {coinSignal ? (
-          <SignalSentiment className="text-sm" signal={coinSignal} minimal />
+        {sentiment.data ? (
+          <SignalSentiment
+            className="text-sm"
+            signal={sentiment.data}
+            minimal
+          />
         ) : (
           <p className="max-w-52 text-sm">
             {t('coin-details.tabs.social_sentiment.empty')}
           </p>
         )}
       </div>
-      <div className="h-20 overflow-hidden">
+      <div className="h-20 w-[33%] shrink-0 overflow-hidden">
         <SentimentGuage
-          measure={coinSignal?.gauge_measure ?? 0}
-          className="mt-[5px] h-[80px]"
+          measure={sentiment.data?.gauge_measure ?? 0}
+          className="h-full"
         />
       </div>
     </OverviewWidget>
