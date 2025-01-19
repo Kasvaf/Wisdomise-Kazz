@@ -110,7 +110,6 @@ function Option({
       )}
       onClick={onClick}
       aria-selected={selected}
-      tabIndex={-1}
     >
       {children}
       {checkbox && (
@@ -251,7 +250,7 @@ export function Select<V, M extends boolean = false>({
     <AntTooltip
       placement="bottomLeft"
       title={
-        <div className="w-full overflow-hidden" ref={titleRef}>
+        <div className="w-full overflow-hidden" ref={titleRef} tabIndex={-1}>
           {showSearch && (
             <div className="p-4">
               <input
@@ -348,7 +347,7 @@ export function Select<V, M extends boolean = false>({
           /* Disabled */
           'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
           /* Shared */
-          'select-none border border-transparent font-normal transition-all focus:border-v1-border-focus [&_svg]:size-5',
+          'select-none border border-transparent font-normal outline-none transition-all focus:border-v1-border-focus [&_svg]:size-5',
           block ? 'flex' : 'inline-flex',
           'items-center justify-between gap-1',
           className,
@@ -356,8 +355,7 @@ export function Select<V, M extends boolean = false>({
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         ref={contentRef}
-        // onClick={() => setIsOpen(p => !p)}
-        onFocus={() => setIsOpen(() => true)}
+        onClick={() => setIsOpen(p => !p)}
       >
         {prefixIcon}
         <div className="grow whitespace-nowrap">
