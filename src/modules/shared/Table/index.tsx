@@ -123,10 +123,12 @@ export const useTableState = <
   const setState = useCallback(
     (newValue: Partial<typeof initialState> | undefined) => {
       setLocalState(p =>
-        newValue === undefined ? initialState : { ...p, ...newValue },
+        newValue === undefined
+          ? initialStateRef.current
+          : { ...p, ...newValue },
       );
     },
-    [initialState],
+    [],
   );
 
   return useMemo(
