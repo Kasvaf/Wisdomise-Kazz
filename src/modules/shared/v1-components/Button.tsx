@@ -68,6 +68,7 @@ export const Button: FC<{
         /* Disabled */
         'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
         /* Shared */
+        'outline-none enabled:focus-visible:border-v1-border-focus',
         'relative select-none border font-normal transition-all [&_svg]:size-5',
         block ? 'flex' : 'inline-flex',
         'items-center justify-center gap-1',

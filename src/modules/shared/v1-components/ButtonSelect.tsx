@@ -123,11 +123,12 @@ export function ButtonSelect<T, AC extends boolean = false>({
               className={clsx(
                 'relative h-full shrink-0 overflow-hidden rounded-lg px-3 text-sm',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
-                'grow transition-colors duration-150',
-                'enabled:hover:bg-white/5 enabled:active:bg-white/10',
+                'grow outline-none transition-colors duration-150',
+                'border border-transparent enabled:hover:bg-white/5 enabled:active:bg-white/10',
                 variant === 'primary'
                   ? 'enabled:aria-checked:bg-v1-background-brand'
                   : 'enabled:aria-checked:bg-white/10',
+                'focus-visible:border-v1-border-focus',
                 'aria-checked:text-v1-content-primary',
                 'disabled:opacity-40',
                 buttonClassName,
