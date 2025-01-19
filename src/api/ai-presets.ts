@@ -7,27 +7,22 @@ export interface OrderPresetItem {
 }
 
 interface OrderPreset {
-  open_orders: OrderPresetItem[];
-  stop_losses: OrderPresetItem[];
-  take_profits: OrderPresetItem[];
+  label: string;
+  preset: {
+    open_orders: OrderPresetItem[];
+    stop_losses: OrderPresetItem[];
+    take_profits: OrderPresetItem[];
+  };
 }
-
-interface AIPresets {
-  high: OrderPreset;
-  medium: OrderPreset;
-  low: OrderPreset;
-}
-
-export type PresetKeys = keyof AIPresets;
 
 export const useAIPresets = (pairSlug: string) =>
-  useQuery<AIPresets>(
+  useQuery<OrderPreset[] | null>(
     ['ai-presets', pairSlug],
     async () => {
-      const data = await ofetch<AIPresets>('/trader/preset', {
+      const data = await ofetch<OrderPreset[]>('/trader/preset', {
         query: { pair_slug: pairSlug },
       });
-      return data;
+      return Array.isArray(data) ? data : null;
     },
     {
       enabled: !!pairSlug,
