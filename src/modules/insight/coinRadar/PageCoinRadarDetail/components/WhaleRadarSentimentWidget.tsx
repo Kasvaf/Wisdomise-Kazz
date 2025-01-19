@@ -1,13 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useHasFlag, useWhaleSentiment, type WhaleSentiment } from 'api';
+import {
+  useHasFlag,
+  useWhaleRadarSentiment,
+  type WhaleRadarSentiment,
+} from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { DebugPin } from 'shared/DebugPin';
 
 const useWhaleSentimentFields = (): Array<{
   label: string;
-  key: keyof WhaleSentiment;
+  key: keyof WhaleRadarSentiment;
   bgClassName: string;
   textClassName: string;
 }> => {
@@ -34,7 +38,7 @@ const useWhaleSentimentFields = (): Array<{
   ];
 };
 
-export function WhaleSentimentWidget({
+export function WhaleRadarSentimentWidget({
   className,
   slug,
 }: {
@@ -42,7 +46,7 @@ export function WhaleSentimentWidget({
   slug: string;
 }) {
   const { t } = useTranslation('coin-radar');
-  const sentiment = useWhaleSentiment({ slug });
+  const sentiment = useWhaleRadarSentiment({ slug });
   const fields = useWhaleSentimentFields();
   const hasFlag = useHasFlag();
   const isAllZero =

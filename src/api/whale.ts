@@ -295,16 +295,16 @@ export const useWhaleNetworks = () =>
       >('/delphi/holders/networks/'),
   });
 
-export interface WhaleSentiment {
+export interface WhaleRadarSentiment {
   hold_percent?: number | null;
   buy_percent?: number | null;
   sell_percent?: number | null;
 }
-export const useWhaleSentiment = ({ slug }: { slug: string }) =>
+export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
   useQuery({
     queryKey: ['whale-sentiment', slug],
     queryFn: () =>
-      ofetch<WhaleSentiment>('/delphi/holders/sentiment/', {
+      ofetch<WhaleRadarSentiment>('/delphi/holders/sentiment/', {
         query: {
           slug,
         },
