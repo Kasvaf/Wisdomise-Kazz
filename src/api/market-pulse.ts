@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
 import {
@@ -295,4 +296,37 @@ export const useTechnicalRadarTopCoins = () =>
       return lastValue;
     };
     return getRecursive(1, []);
+  });
+
+export interface TechnicalRadarSentiment {
+  macd_cross_normalized_score?: number | null;
+  macd_divergence_normalized_score?: number | null;
+  macd_score?: number | null;
+  normalized_score?: number | null;
+  rsi_divergence_normalized_score?: number | null;
+  rsi_overness_normalized_score?: number | null;
+  rsi_score?: number | null;
+  technical_sentiment?: string | null;
+}
+export const useTechnicalRadarSentiment = ({ slug }: { slug: string }) =>
+  useQuery({
+    queryKey: ['technical-radar-sentiment', slug],
+    queryFn: async () => {
+      try {
+        const data = await ofetch<TechnicalRadarSentiment>(
+          'delphi/technical-radar/widget/',
+          {
+            query: {
+              slug,
+            },
+          },
+        );
+        return data;
+      } catch (error) {
+        if (error instanceof FetchError && error.status === 500) {
+          return null;
+        }
+        throw error;
+      }
+    },
   });
