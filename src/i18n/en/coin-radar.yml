@@ -181,6 +181,13 @@ coin-details:
           title: Telegram
         twitter:
           title: X, Twitter
+    technical_sentiment:
+      title: Technical Radar Sentiment
+      empty: Unknown
+      macd_cross: MACD Cross
+      macd_div: MACD Div
+      rsi_div: RSI Div
+      rsi_overness: RSI OB/OS
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
