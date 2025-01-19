@@ -69,7 +69,7 @@ export function SocialMessageContent({
     <div
       className={clsx(
         'relative flex w-full max-w-full flex-col gap-2',
-        mode === 'summary' && 'max-h-[90px] overflow-hidden',
+        mode === 'summary' && 'max-h-[140px] overflow-hidden',
         className,
       )}
       ref={previewRef}
