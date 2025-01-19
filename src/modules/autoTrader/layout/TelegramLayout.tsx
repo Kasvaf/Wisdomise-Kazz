@@ -42,13 +42,13 @@ const ProfileInfo = () => {
         </div>
         <img
           src={blurBg}
-          className="absolute -bottom-10 -right-10 h-20 min-w-20"
+          className="pointer-events-none absolute -bottom-10 -right-10 h-20 min-w-20"
           alt=""
         />
         <img
           src={box}
           alt="box"
-          className="absolute -bottom-5 -right-5"
+          className="pointer-events-none absolute -bottom-5 -right-5"
           style={{ animation: '2s shake infinite' }}
         />
       </div>
