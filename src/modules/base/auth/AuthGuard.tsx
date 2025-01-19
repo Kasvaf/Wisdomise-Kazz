@@ -5,7 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useTimeout } from 'usehooks-ts';
 import { useAccountQuery } from 'api';
 import Splash from 'modules/base/Splash';
-import { analytics } from 'config/segment';
+import { analytics, configSegment } from 'config/segment';
 import { useHubSpot } from 'config/hubSpot';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
@@ -34,6 +34,8 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     const email = account?.email;
     if (isLoggedIn && email) {
       customerIo.identify(email);
+
+      configSegment();
       void analytics.identify(email, {
         userId: email,
         email,

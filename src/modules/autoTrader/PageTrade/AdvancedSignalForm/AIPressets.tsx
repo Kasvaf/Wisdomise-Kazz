@@ -1,12 +1,11 @@
 import { v4 } from 'uuid';
 import { useEffect, useState } from 'react';
-import Button from 'shared/Button';
-import {
-  type OrderPresetItem,
-  type PresetKeys,
-  useAIPresets,
-} from 'api/ai-presets';
+import { bxChevronDown } from 'boxicons-quasar';
 import { roundSensible } from 'utils/numbers';
+import { type OrderPresetItem, useAIPresets } from 'api/ai-presets';
+import { DrawerModal } from 'shared/DrawerModal';
+import Button from 'shared/Button';
+import Icon from 'shared/Icon';
 import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
@@ -38,6 +37,7 @@ const AIPresets: React.FC<{
   baseSlug: string;
   quoteSlug: string;
 }> = ({ data, baseSlug, quoteSlug }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [activePreset, setActivePreset] = useState(3);
   const { data: presets, isLoading } = useAIPresets(baseSlug + '/' + quoteSlug);
 
@@ -60,22 +60,25 @@ const AIPresets: React.FC<{
     return <></>;
   }
 
-  const presetKeys = ['low', 'medium', 'high'] as PresetKeys[];
+  const reset = () => {
+    setIsOpen(false);
+    setActivePreset(3);
+    setOrderType('market');
+    setVolume('100');
+    setPriceUpdated(false);
+    setSafetyOpens([]);
+    setTakeProfits([]);
+    setStopLosses([]);
+  };
+
   const selectVariant = (ind: number) => {
-    if (ind > 2 || ind < 0) {
-      if (activePreset === 3) {
-        setOrderType('market');
-        setVolume('100');
-        setPriceUpdated(false);
-        setSafetyOpens([]);
-        setTakeProfits([]);
-        setStopLosses([]);
-      }
+    setIsOpen(false);
+    if (ind >= presets.length || ind < 0) {
       setActivePreset(3);
       return;
     }
 
-    const p = presets[presetKeys[ind]];
+    const p = presets[ind].preset;
     setOrderType('market');
     setVolume(String(p.open_orders[0].amount * 100));
     setPriceUpdated(false);
@@ -92,26 +95,62 @@ const AIPresets: React.FC<{
       className="overflow-hidden rounded-xl bg-v1-surface-l2 bg-cover p-3"
       style={{ backgroundImage: `url(${GradientBG})` }}
     >
-      <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <LogoIcon className="h-6 w-6" />
           <div className="text-xs font-normal">Wisdomise AI Preset</div>
         </div>
+
+        <Button
+          className="!h-6 !px-4 !py-0 text-xxs"
+          onClick={() => setIsOpen(true)}
+        >
+          {presets[activePreset]?.label ?? 'Manual'}
+          <Icon name={bxChevronDown} size={16} />
+        </Button>
+
         <StarIcon />
       </div>
 
-      <div className="flex items-center justify-between">
-        {['low', 'medium', 'high', 'manual'].map((key, ind) => (
+      <DrawerModal
+        title={
+          <div className="flex items-center gap-4">
+            <Button
+              size="small"
+              variant="alternative"
+              onClick={reset}
+              className="!py-2"
+            >
+              Reset
+            </Button>
+            Wisdomise AI Preset
+          </div>
+        }
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        <div className="mb-10 flex flex-col items-stretch gap-4">
+          {presets.map((p, ind) => (
+            <Button
+              key={p.label}
+              variant={activePreset === ind ? 'primary' : 'secondary'}
+              className="h-12 !p-3"
+              contentClassName="!text-base"
+              onClick={() => selectVariant(ind)}
+            >
+              {p.label}
+            </Button>
+          ))}
           <Button
-            key={key}
-            variant={activePreset === ind ? 'primary' : 'secondary'}
-            className="!p-3 !text-xs"
-            onClick={() => selectVariant(ind)}
+            variant={activePreset === presets.length ? 'primary' : 'secondary'}
+            className="h-12 !p-3"
+            contentClassName="!text-base"
+            onClick={() => selectVariant(presets.length)}
           >
-            {key[0].toUpperCase() + key.substring(1) + (ind < 3 ? ' Risk' : '')}
+            Manual
           </Button>
-        ))}
-      </div>
+        </div>
+      </DrawerModal>
     </div>
   );
 };

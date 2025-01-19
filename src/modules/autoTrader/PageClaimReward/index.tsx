@@ -14,7 +14,6 @@ import {
 import Button from 'shared/Button';
 import { addComma } from 'utils/numbers';
 import { DrawerModal } from 'shared/DrawerModal';
-import { isProduction } from 'utils/version';
 import { useHasFlag } from 'api';
 import { DebugPin } from 'shared/DebugPin';
 import ton from './images/ton.svg';
@@ -75,7 +74,7 @@ export default function ClaimRewardPage() {
     void withdraw({ token: 'usdt' }).then(() => {
       notification.success({
         message:
-          'Withdrawal registered! You will get your tokens in a few days',
+          'Withdrawal registered! You will get your tokens within 72 hours.',
       });
       sync({});
       return null;
@@ -124,14 +123,17 @@ export default function ClaimRewardPage() {
                 <strong className="font-bold text-white">{usdtReward}</strong>{' '}
                 until now
               </p>
+              <div className="mt-3 text-xxs text-white/40">
+                Should be at least 10 USDT to withdraw
+              </div>
             </div>
             <Button
               variant="brand"
               size="small"
-              className="ms-auto w-36"
+              className="ms-auto min-w-36"
               onClick={() => handleWithdraw()}
               loading={withdrawIsLoading}
-              disabled={isProduction || usdtReward === 0 || withdrawIsLoading}
+              disabled={usdtReward < 10 || withdrawIsLoading}
             >
               Withdraw
             </Button>
@@ -287,7 +289,14 @@ export default function ClaimRewardPage() {
             setOpen(false);
             if (eligibility?.[0]?.status === 'winner') {
               notification.success({
-                message: 'You claimed your reward',
+                message: 'You claimed your reward.',
+              });
+            } else if (
+              eligibility?.[0]?.status === 'claimed' &&
+              usdtReward >= 10
+            ) {
+              notification.success({
+                message: 'You can withdraw your reward.',
               });
             }
           }}

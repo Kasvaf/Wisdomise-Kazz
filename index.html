@@ -12,28 +12,13 @@
       content="Wisdomise is an AI-powered auto trading and portfolio management solution"
     />
     <meta name="theme-color" content="#131822" />
-    <link rel="manifest" href="/manifest.json"/>
-
     <meta name="google-site-verification" content="r6P0e7DswJUxF9KqjPex_sIR7r1bZM4VD1YoAYuk7D4" />
 
-    <script>window.utmEnabled = location.search.indexOf('utm_campaign') >= 0</script>
-    <% if(env === 'production') { %>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-PTR43GF');
-    </script>
-    <% } %>
-
+    <link rel="manifest" href="/manifest.json"/>
     <title>Dashboard | Wisdomise</title>
   </head>
 
   <body>
-    <% if(env === 'production') { %>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PTR43GF" height="0" width="0" style="display:none;visibility:hidden" title="googletagmanager"></iframe></noscript>
-    <% } %>
-
     <div id="root"></div>
   </body>
 </html>

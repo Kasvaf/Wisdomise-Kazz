@@ -5,9 +5,11 @@ import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
 import { Divider } from 'antd';
 import { bxX } from 'boxicons-quasar';
+import { v4 } from 'uuid';
 import {
   useEmailLoginMutation,
   useGoogleLoginMutation,
+  useMiniAppTgLoginFromWebMutation,
   useVerifyEmailMutation,
 } from 'api/auth';
 import useNow from 'utils/useNow';
@@ -18,12 +20,14 @@ import Button from 'shared/Button';
 import Link from 'shared/Link';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import Icon from 'shared/Icon';
+import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import LoginBg from './login-bg.png';
 import { ReactComponent as TrustIcon } from './trust.svg';
 import { ReactComponent as SecureIcon } from './secure.svg';
 import { ReactComponent as AnalyzeIcon } from './analyze.svg';
-// eslint-disable-next-line import/max-dependencies
 import { ReactComponent as AiIcon } from './ai.svg';
+// eslint-disable-next-line import/max-dependencies
+import TelegramLogin from './TelegramLogin';
 
 const ModalLogin: React.FC<{
   onResolve?: (success: boolean) => void;
@@ -89,6 +93,32 @@ const ModalLogin: React.FC<{
     ) {
       onResolve?.(true);
     }
+  };
+
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [uuid] = useState(v4());
+  const { mutateAsync: tgLoginFromWeb } = useMiniAppTgLoginFromWebMutation();
+  const tgHandler = async () => {
+    window.open(
+      AUTO_TRADER_MINI_APP_BASE + '?startapp=connect_' + uuid,
+      '_blank',
+    );
+
+    setIsConnecting(true);
+    for (let i = 0; i < 10; ++i) {
+      try {
+        await tgLoginFromWeb({
+          uuid,
+          referrer: localStorage.getItem(REFERRER_CODE_KEY) ?? undefined,
+        });
+        setIsConnecting(false);
+        onResolve?.(true);
+        return;
+      } catch {
+        await new Promise(resolve => setTimeout(resolve, 3000));
+      }
+    }
+    setIsConnecting(false);
   };
 
   const notice = (
@@ -194,7 +224,7 @@ const ModalLogin: React.FC<{
 
       <Divider className="!my-6">{t('common:or')}</Divider>
 
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center justify-center gap-4">
         <GoogleLogin
           onSuccess={googleHandler}
           use_fedcm_for_prompt
@@ -203,6 +233,8 @@ const ModalLogin: React.FC<{
           theme="filled_blue"
           logo_alignment="center"
         />
+
+        <TelegramLogin onClick={tgHandler} />
       </div>
 
       <div className="min-h-10 grow" />
@@ -285,7 +317,7 @@ const ModalLogin: React.FC<{
 
   return (
     <div className="flex min-h-[524px] w-full bg-v1-surface-l1">
-      {emailLoginLoading || verifyEmailLoading ? (
+      {emailLoginLoading || verifyEmailLoading || isConnecting ? (
         <div className="my-8 flex grow flex-col items-center justify-center">
           <Spinner />
         </div>

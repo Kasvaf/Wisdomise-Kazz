@@ -12,6 +12,7 @@ import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
 import { DebugPin } from 'shared/DebugPin';
+import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { TrialEndBanner } from '../TrialEndBanner';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
@@ -115,7 +116,8 @@ const MenuItemsContent: React.FC<{
             icon: <Icon name={bxMobile} />,
             label: 'AutoTrader MiniApp',
             to:
-              'https://t.me/TonGamificationBot/autotrader?startapp=login_' +
+              AUTO_TRADER_MINI_APP_BASE +
+              '?startapp=login_' +
               account.data?.telegram_code,
           },
         ]

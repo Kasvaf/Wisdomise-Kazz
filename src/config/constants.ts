@@ -26,3 +26,6 @@ export const RouterBaseName = (import.meta.env.VITE_BRANCH as string) || '';
 
 export const STRIPE_CLIENT_PUBLIC_KEY = import.meta.env
   .VITE_STRIPE_CLIENT_PUBLIC_KEY as string;
+
+export const AUTO_TRADER_MINI_APP_BASE = import.meta.env
+  .VITE_AUTOTRADER_MINIAPP_BASE_URL as `${string}://${string}`;

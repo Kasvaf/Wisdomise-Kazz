@@ -5,7 +5,6 @@ import { delJwtToken, getJwtToken } from 'modules/base/auth/jwt-store';
 import { refreshAccessToken } from 'api/auth';
 import configDayjs from './dayjs';
 import configI18n from './i18n';
-import { configSegment } from './segment';
 import configSentry from './sentry';
 import queryClient from './reactQuery';
 import oneSignal from './oneSignal';
@@ -14,7 +13,6 @@ import { configOfetch } from './ofetch';
 let lang = 'en';
 
 configSentry();
-configSegment();
 configI18n();
 configDayjs();
 configOfetch({

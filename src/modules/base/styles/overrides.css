@@ -128,6 +128,10 @@
   .ant-drawer-content {
     @apply bg-page;
   }
+
+  &.ant-drawer-bottom .ant-drawer-content {
+    @apply rounded-t-3xl;
+  }
 }
 
 .modal-drawer .ant-drawer-content {
