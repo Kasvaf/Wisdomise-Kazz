@@ -52,7 +52,7 @@
   /* odd rows */
   .ant-table-row:nth-child(even) .ant-table-cell,
   .ant-table-row:nth-child(even):hover .ant-table-cell {
-    @apply border-b-0 !bg-transparent;
+    @apply border-b-0 bg-v1-surface-l2;
   }
 
   /* all rows */
