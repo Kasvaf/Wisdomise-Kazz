@@ -359,7 +359,7 @@ module.exports = {
         {
           ...surfaces.reduce((acc, key, index) => {
             acc[`.bg-v1-${key}`] = {
-              '--tw-surface-bg': colors[key],
+              '--tw-surface-l-current': colors[key],
               '--tw-surface-l-next': colors[surfaces[index + 1] || key],
               '--tw-surface-l-prev': colors[surfaces[index - 1] || key],
             };
@@ -367,6 +367,9 @@ module.exports = {
           }, {}),
           '.bg-v1-surface-l-next': {
             backgroundColor: 'var(--tw-surface-l-next)',
+          },
+          '.bg-v1-surface-l-current': {
+            backgroundColor: 'var(--tw-surface-l-current)',
           },
           '.bg-v1-surface-l-prev': {
             backgroundColor: 'var(--tw-surface-l-prev)',
