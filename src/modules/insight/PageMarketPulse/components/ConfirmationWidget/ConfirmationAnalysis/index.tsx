@@ -1,10 +1,10 @@
-import { type Indicator, type IndicatorConfirmation } from 'api/market-pulse';
+import { type IndicatorConfirmationCore } from 'api/market-pulse';
 import { ReactComponent as Icon } from './shine-star.svg';
 
-export function ConfirmationAnalysis<I extends Indicator>({
+export function ConfirmationAnalysis({
   value,
 }: {
-  value: IndicatorConfirmation<I>;
+  value: IndicatorConfirmationCore;
 }) {
   if (!value.analysis) return null;
   return (

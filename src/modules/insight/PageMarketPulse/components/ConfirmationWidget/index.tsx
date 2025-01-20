@@ -12,6 +12,7 @@ import {
   useIndicatorConfirmations,
   type IndicatorConfirmation,
   type IndicatorConfirmationCombination,
+  type IndicatorConfirmationCore,
 } from 'api/market-pulse';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ButtonSelect } from 'shared/ButtonSelect';
@@ -37,7 +38,7 @@ function ConfirmationRow<I extends Indicator>({
   type,
 }: {
   indicator: I;
-  value: IndicatorConfirmation<I>;
+  value: IndicatorConfirmation<I> & IndicatorConfirmationCore;
   combination: IndicatorConfirmationCombination[];
   type: ConfirmationType;
   className?: string;

@@ -125,7 +125,7 @@ export type IndicatorConfirmationCombination =
   | 'macd_cross_up'
   | 'macd_cross_down';
 
-interface IndicatorConfirmationCore {
+export interface IndicatorConfirmationCore {
   symbol: Coin;
   data?: null | CoinMarketPulseMarketData;
   analysis?: null | string;
@@ -136,7 +136,7 @@ interface IndicatorConfirmationCore {
   networks?: null | CoinNetwork[];
 }
 
-interface RsiConfirmation extends IndicatorConfirmationCore {
+export interface RsiConfirmation {
   rsi_values?: null | Record<
     string,
     {
@@ -157,7 +157,7 @@ interface RsiConfirmation extends IndicatorConfirmationCore {
   rsi_bullish_divergence_resolutions?: null | string[];
 }
 
-interface MacdConfirmation extends IndicatorConfirmationCore {
+export interface MacdConfirmation {
   macd_values?: null | Record<
     string,
     {
@@ -207,7 +207,7 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
   pageSize?: number;
 }) =>
   useQuery(['indicator/momentum-confirmation', JSON.stringify(filters)], () =>
-    ofetch<PageResponse<IndicatorConfirmation<I>>>(
+    ofetch<PageResponse<IndicatorConfirmation<I> & IndicatorConfirmationCore>>(
       `delphi/${filters.indicator}/momentum-confirmation/`,
       {
         query: {
