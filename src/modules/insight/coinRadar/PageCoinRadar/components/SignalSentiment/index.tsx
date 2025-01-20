@@ -210,13 +210,15 @@ export const SignalSentiment: FC<{
             label: {
               show: false,
             },
-            data: [
-              {
-                yAxis: parsedData.find(x => x.dateType === 'call_time')?.y,
-                xAxis: parsedData.find(x => x.dateType === 'call_time')
-                  ?.relatedAt,
-              },
-            ],
+            data: parsedData.some(x => x.dateType === 'call_time')
+              ? [
+                  {
+                    yAxis: parsedData.find(x => x.dateType === 'call_time')?.y,
+                    xAxis: parsedData.find(x => x.dateType === 'call_time')
+                      ?.relatedAt,
+                  },
+                ]
+              : [],
           },
         },
       ],
