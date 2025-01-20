@@ -8,3 +8,4 @@ export * from './candles';
 export * from './coinRadar';
 export * from './whale';
 export * from './trader';
+export * from './insight';

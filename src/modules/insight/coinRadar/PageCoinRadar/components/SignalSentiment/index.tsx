@@ -276,14 +276,16 @@ export const SignalSentiment: FC<{
                 />
               </div>
             </div>
-            <div className="mb-2">
-              <Coin
-                coin={signal.symbol}
-                imageClassName="size-10"
-                nonLink
-                truncate={350}
-              />
-            </div>
+            {signal.symbol && (
+              <div className="mb-2">
+                <Coin
+                  coin={signal.symbol}
+                  imageClassName="size-10"
+                  nonLink
+                  truncate={350}
+                />
+              </div>
+            )}
             <div className="mb-4">
               <ECharts
                 initOptions={{

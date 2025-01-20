@@ -76,12 +76,13 @@ export interface SocialRadarSentiment {
   long_count: number;
   short_count: number;
   messages_count: number;
-  symbol: Coin;
+  symbol?: Coin;
   signals_analysis?: CoinSignalAnalysis;
 }
 export interface CoinSignal extends SocialRadarSentiment {
   rank: number;
   symbol_market_data: MarketData;
+  symbol: Coin;
   symbol_security?: null | {
     data: NetworkSecurity[];
   };

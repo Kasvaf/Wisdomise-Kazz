@@ -344,9 +344,3 @@ social-radar:
         total amount sold. <br /><br /> For assets that are not attractive to
         whales and have no significant transactions, the badge Untracked is
         displayed.
-social-radar-overview:
-  title: Social Radar Hottest Coins
-  table:
-    name: Name
-    info: Info
-    sentiment: Sentiment
