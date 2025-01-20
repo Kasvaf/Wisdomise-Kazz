@@ -57,6 +57,7 @@ const useMenuItems = () => {
               text: t('menu.overview.title'),
               link: '/coin-radar/overview',
               onClick: trackClick('insight_menu'),
+              badge: 'beta',
             },
             {
               text: t('menu.ai-indicators.title'),
@@ -73,7 +74,7 @@ const useMenuItems = () => {
               text: t('menu.whales.title'),
               link: '/coin-radar/whale-radar',
               onClick: trackClick('whales_menu'),
-              badge: 'beta',
+              badge: 'new',
             },
             {
               text: t('menu.alerts.title'),
