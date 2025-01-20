@@ -90,7 +90,7 @@ export function WhaleRadarSentimentWidget({
             <div
               key={field.key}
               className={clsx(
-                'flex shrink basis-full items-center justify-center gap-1 rounded-md bg-v1-surface-l3 px-2 py-1 text-xs',
+                'flex shrink basis-full items-center justify-center gap-1 rounded-md bg-v1-surface-l3 px-2 py-1 text-xxs',
                 !isAllZero && field.textClassName,
               )}
             >

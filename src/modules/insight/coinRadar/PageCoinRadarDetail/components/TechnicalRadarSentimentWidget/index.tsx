@@ -54,7 +54,7 @@ export function TechnicalRadarSentimentWidget({
           {t('coin-details.tabs.technical_sentiment.title')}
         </p>
         <div>
-          <div className="grid w-full grid-cols-[auto,1fr] items-center gap-x-2 text-[9px] text-white/50">
+          <div className="grid w-full grid-cols-[auto,1fr] items-center gap-x-1 text-[9px] text-white/50">
             <span className="max-w-max">
               {t('coin-details.tabs.technical_sentiment.rsi_overness')}
             </span>
@@ -85,7 +85,7 @@ export function TechnicalRadarSentimentWidget({
           </div>
         </div>
       </div>
-      <div className="relative flex h-20 w-[33%] shrink-0 flex-col justify-between overflow-hidden">
+      <div className="relative flex h-20 w-[30%] shrink-0 flex-col justify-between overflow-hidden">
         <SentimentGuage
           measure={sentiment.data?.normalized_score ?? 0}
           className="h-16"

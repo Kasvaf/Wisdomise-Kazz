@@ -182,7 +182,7 @@ coin-details:
         twitter:
           title: X, Twitter
     technical_sentiment:
-      title: Technical Radar Sentiment
+      title: Technical Sentiment
       empty: Unknown
       macd_cross: MACD Cross
       macd_div: MACD Div
