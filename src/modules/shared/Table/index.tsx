@@ -141,6 +141,20 @@ export const useTableState = <
             pageSize: state.pageSize ?? 10,
           },
           onChange: (pagination, _, sorter) => {
+            const sortBy =
+              Array.isArray(sorter) || typeof sorter.order !== 'string'
+                ? initialStateRef.current.sortBy
+                : typeof sorter?.field === 'string'
+                ? sorter.field
+                : typeof sorter?.column?.key === 'string'
+                ? sorter.column.key
+                : initialStateRef.current.sortBy;
+            const sortOrder =
+              Array.isArray(sorter) || typeof sorter.order !== 'string'
+                ? initialStateRef.current.sortOrder
+                : sorter.order === 'ascend'
+                ? 'ascending'
+                : 'descending';
             setState({
               ...state,
               ...(pagination.current && {
@@ -149,21 +163,8 @@ export const useTableState = <
               ...(pagination.pageSize && {
                 pageSize: pagination.pageSize,
               }),
-
-              ...(sorter &&
-                !Array.isArray(sorter) &&
-                typeof sorter.field === 'string' && {
-                  sortBy:
-                    typeof sorter.field === 'string' && sorter.order
-                      ? sorter.field
-                      : undefined,
-                }),
-              ...(sorter &&
-                !Array.isArray(sorter) &&
-                typeof sorter.order === 'string' && {
-                  sortOrder:
-                    sorter.order === 'ascend' ? 'ascending' : 'descending',
-                }),
+              sortBy,
+              sortOrder,
             });
           },
         } satisfies Partial<TableProps<any>>,
