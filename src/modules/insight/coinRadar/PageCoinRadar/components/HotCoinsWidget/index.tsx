@@ -19,7 +19,6 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { DebugPin } from 'shared/DebugPin';
 import { CoinPriceInfo } from '../CoinPriceInfo';
-import { CoinSecurityLabel } from '../../../../../shared/CoinSecurityLabel/index';
 import { SortModes } from '../SortModes';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
@@ -156,12 +155,8 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             categories={row.symbol.categories}
             labels={row.symbol_labels}
             networks={row.networks}
-            suffix={
-              <CoinSecurityLabel
-                value={row.symbol_security?.data}
-                coin={row.symbol}
-              />
-            }
+            security={row.symbol_security?.data}
+            coin={row.symbol}
           />
         ),
       },

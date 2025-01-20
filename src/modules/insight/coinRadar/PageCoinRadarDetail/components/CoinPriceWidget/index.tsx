@@ -67,14 +67,19 @@ export function CoinPriceWidget({
           />
         </div>
       </div>
-      <div className="mt-6 space-y-2">
-        <p className="text-xs text-v1-content-primary">{t('common.labels')}</p>
-        <CoinLabels
-          categories={coinOverview.data?.symbol.categories}
-          networks={coinOverview.data?.networks}
-          labels={coinOverview.data?.symbol_labels}
-        />
-      </div>
+      {coinOverview.data?.symbol && (
+        <div className="mt-6 space-y-2">
+          <p className="text-xs text-v1-content-primary">
+            {t('common.labels')}
+          </p>
+          <CoinLabels
+            categories={coinOverview.data?.symbol.categories}
+            networks={coinOverview.data?.networks}
+            labels={coinOverview.data?.symbol_labels}
+            coin={coinOverview.data?.symbol}
+          />
+        </div>
+      )}
       <div className="mt-8">
         <PriceAlertButton slug={slug} className="w-full" />
       </div>

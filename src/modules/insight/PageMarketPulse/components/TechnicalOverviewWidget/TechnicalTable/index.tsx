@@ -11,7 +11,6 @@ import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinMarketCap';
 import { CoinPriceInfo } from 'modules/insight/coinRadar/PageCoinRadar/components/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
-import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { CoinSearchInput } from './CoinSearchInput';
@@ -130,12 +129,8 @@ export const TechnicalTable: FC = () => {
             categories={row.symbol.categories}
             labels={row.symbol_labels}
             networks={row.networks}
-            suffix={
-              <CoinSecurityLabel
-                value={row.symbol_security?.data}
-                coin={row.symbol}
-              />
-            }
+            security={row.symbol_security?.data}
+            coin={row.symbol}
           />
         ),
       },

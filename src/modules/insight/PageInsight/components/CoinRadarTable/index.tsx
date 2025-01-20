@@ -10,7 +10,6 @@ import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { DebugPin } from 'shared/DebugPin';
 
-import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import { TechnicalSentiment } from 'modules/insight/PageMarketPulse/components/TechnicalOverviewWidget/TechnicalTable/TechnicalSentiment';
 import { ConfirmationBadgesInfo } from 'modules/insight/PageMarketPulse/components/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { EmptySentiment } from '../EmptySentiment';
@@ -122,12 +121,8 @@ export function CoinRadarTable({ className }: { className?: string }) {
             categories={row.symbol.categories}
             labels={row.symbol_labels}
             networks={row.networks}
-            suffix={
-              <CoinSecurityLabel
-                value={row.symbol_security?.data}
-                coin={row.symbol}
-              />
-            }
+            security={row.symbol_security?.data}
+            coin={row.symbol}
           />
         ),
       },

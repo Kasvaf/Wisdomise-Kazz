@@ -228,12 +228,13 @@ common:
   apply_filters: Apply Filters
   categories: Categories
   category: Category
+  chain: Chain
+  chains: Chains
   filters: Filters
   labels: Labels
   load_more: Load More
   native_coin: Native Coin
   network: Network
-  networks: Networks
   price: Price
   reset_filters: Reset Filters
   search_coin: Search Coin...

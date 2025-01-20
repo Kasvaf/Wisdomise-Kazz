@@ -2,12 +2,17 @@ import { clsx } from 'clsx';
 import { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxCopy } from 'boxicons-quasar';
-import { type CoinNetwork, type Coin } from 'api/types/shared';
+import {
+  type CoinNetwork,
+  type Coin,
+  type NetworkSecurity,
+} from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
 import { type CoinLabels as CoinLabelsType } from 'api';
+import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Risk } from './risk.svg';
 import { ReactComponent as Warning } from './warning.svg';
@@ -118,16 +123,19 @@ export function CoinLabel({
 
 export function CoinLabels({
   className,
+  coin,
   categories,
   networks,
+  security,
   labels,
   prefix,
   suffix,
 }: {
   className?: string;
+  coin: Coin;
   categories?: Coin['categories'] | null;
   networks?: CoinNetwork[] | null;
-  maxCategories?: number;
+  security?: NetworkSecurity[] | null;
   labels?: string[] | null;
   prefix?: ReactNode;
   suffix?: ReactNode;
@@ -142,6 +150,10 @@ export function CoinLabels({
       )}
     >
       {prefix}
+      {(labels ?? []).map(label => (
+        <CoinLabel key={label} type="trend_labels" value={label} />
+      ))}
+      {security && <CoinSecurityLabel value={security} coin={coin} />}
       {categories && categories.length > 0 && (
         <ClickableTooltip
           title={
@@ -163,10 +175,10 @@ export function CoinLabels({
           )}
           chevron={false}
         >
-          <span className="px-3 py-1">{categories[0].name}</span>
-          {categories.length > 1 && (
-            <span className="-ms-2 flex items-center justify-center self-stretch bg-v1-content-primary/10 pe-2 ps-1">
-              {`+${categories.length - 1}`}
+          <span className="px-3 py-1">{t('common.category')}</span>
+          {categories.length > 0 && (
+            <span className="-ms-2 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1">
+              {`+${categories.length}`}
             </span>
           )}
         </ClickableTooltip>
@@ -176,7 +188,7 @@ export function CoinLabels({
           title={
             <div className="min-w-48 space-y-2">
               <h4 className="sticky top-0 border-b border-b-v1-content-primary/10 bg-v1-surface-l4 pb-2 text-base font-medium">
-                {t('common.networks')}:
+                {t('common.chains')}:
               </h4>
               {(networks ?? []).map(network => (
                 <div
@@ -217,22 +229,19 @@ export function CoinLabels({
           }
           className={clsx(
             sharedLabelClassName,
-            'bg-v1-background-brand/15 text-v1-content-primary',
+            'bg-v1-content-notice-bold/10 text-v1-content-notice',
             'overflow-hidden !p-0',
           )}
           chevron={false}
         >
-          <span className="px-3 py-1">{networks[0].network.name}</span>
-          {networks.length > 1 && (
-            <span className="-ms-2 flex items-center justify-center self-stretch bg-v1-content-primary/10 pe-2 ps-1">
-              {`+${networks.length - 1}`}
+          <span className="px-3 py-1">{`🔗 ${t('common.chain')}`}</span>
+          {networks.length > 0 && (
+            <span className="-ms-2 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1 text-v1-content-primary">
+              {`+${networks.length}`}
             </span>
           )}
         </ClickableTooltip>
       )}
-      {(labels ?? []).map(label => (
-        <CoinLabel key={label} type="trend_labels" value={label} />
-      ))}
       {suffix}
       {content}
     </div>

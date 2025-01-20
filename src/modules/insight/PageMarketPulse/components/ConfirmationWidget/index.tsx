@@ -19,7 +19,6 @@ import { ButtonSelect } from 'shared/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
-import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { IndicatorIcon } from '../IndicatorIcon';
 import {
@@ -95,17 +94,13 @@ function ConfirmationRow<I extends Indicator>({
           categories={value.symbol.categories}
           labels={value.symbol_labels}
           networks={value.networks}
+          security={value.symbol_security?.data}
+          coin={value.symbol}
           suffix={
-            <>
-              <CoinSecurityLabel
-                value={value.symbol_security?.data}
-                coin={value.symbol}
-              />
-              <ConfirmationTimeframeBadge
-                combination={combination}
-                value={value}
-              />
-            </>
+            <ConfirmationTimeframeBadge
+              combination={combination}
+              value={value}
+            />
           }
         />
         <div className="flex grow items-center justify-end gap-2 2xl:gap-3">
