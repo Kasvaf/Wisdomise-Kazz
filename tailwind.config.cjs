@@ -271,17 +271,6 @@ const primitiveColors = {
   'shades-white-90': '#ffffffe5',
 };
 
-// Primitive (Legacy)
-const primitiveLegacyColors = {
-  'neutral-650': '#50527c',
-  'neutral-700': '#47496b',
-  'neutral-750': '#3f405a',
-  'neutral-800': '#36374a',
-  'neutral-850': '#2c2d3a',
-  'neutral-900': '#22232b',
-  'neutral-950': '#17181c',
-};
-
 module.exports = {
   content: [
     './src/**/*.{html,js,ts,jsx,tsx}',
@@ -324,7 +313,6 @@ module.exports = {
         'gradientToTransparent': 'rgba(226,108,255,0.15)',
         'TODO_USE_SEMANTIC': {
           ...primitiveColors,
-          ...primitiveLegacyColors,
         },
         'v1': {
           ...semanticColors,
