@@ -18,7 +18,9 @@ const Label: FC<{
         name={bxsUpArrow}
         className={clsx(
           sortOrder !== 'ascending' && 'rotate-180',
-          'text-v1-background-positive',
+          sortOrder === 'ascending'
+            ? 'text-v1-background-positive'
+            : 'text-v1-background-negative',
         )}
         size={10}
       />
