@@ -43,8 +43,8 @@ export function ButtonSelect<T, AC extends boolean = false>({
       buttonsRef.current?.scrollTo({
         left:
           buttonsRef.current.scrollLeft +
-          buttonsRef.current.offsetWidth * (direction === 'left' ? -1 : 1) -
-          20,
+          (buttonsRef.current.offsetWidth / 1.4) *
+            (direction === 'left' ? -1 : 1),
         behavior: 'smooth',
       });
     },
