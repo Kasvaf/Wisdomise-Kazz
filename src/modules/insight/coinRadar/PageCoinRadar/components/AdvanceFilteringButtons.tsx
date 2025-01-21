@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'shared/v1-components/Button';
@@ -31,9 +31,23 @@ export function AdvanceFilteringButtons({
 }) {
   const { t } = useTranslation('coin-radar');
   const [open, setOpen] = useState(false);
+  const externalState = useMemo(
+    () => ({
+      categories,
+      networks,
+      securityLabels,
+      trendLabels,
+    }),
+    [trendLabels, securityLabels, categories, networks],
+  );
+  const [localState, setLocalState] = useState(externalState);
+
+  useEffect(() => {
+    setLocalState(externalState);
+  }, [externalState]);
 
   return (
-    <div className={clsx('flex items-center gap-4', className)}>
+    <div className={clsx('flex items-center gap-4 mobile:flex-col', className)}>
       <Button
         variant="ghost"
         size="md"
@@ -51,7 +65,7 @@ export function AdvanceFilteringButtons({
         onClick={() => {
           onReset?.();
         }}
-        className="shrink-0 mobile:hidden"
+        className="shrink-0 mobile:w-full"
       >
         {t('common.reset_filters')}
       </Button>
@@ -71,8 +85,10 @@ export function AdvanceFilteringButtons({
             </p>
             <CoinLabelSelect
               className="grow"
-              value={trendLabels}
-              onChange={newLabels => onChange?.({ trendLabels: newLabels })}
+              value={localState.trendLabels}
+              onChange={newLabels =>
+                setLocalState(p => ({ ...p, trendLabels: newLabels ?? [] }))
+              }
               type="trend_labels"
             />
           </div>
@@ -82,8 +98,10 @@ export function AdvanceFilteringButtons({
             </p>
             <CoinLabelSelect
               className="grow"
-              value={securityLabels}
-              onChange={newLabels => onChange?.({ securityLabels: newLabels })}
+              value={localState.securityLabels}
+              onChange={newLabels =>
+                setLocalState(p => ({ ...p, securityLabels: newLabels ?? [] }))
+              }
               type="security_labels"
             />
           </div>
@@ -93,9 +111,9 @@ export function AdvanceFilteringButtons({
             </p>
             <CategorySelect
               className="grow"
-              value={categories}
+              value={localState.categories}
               onChange={newCategories =>
-                onChange?.({ categories: newCategories })
+                setLocalState(p => ({ ...p, categories: newCategories ?? [] }))
               }
             />
           </div>
@@ -105,8 +123,10 @@ export function AdvanceFilteringButtons({
             </p>
             <NetworkSelect
               className="grow"
-              value={networks}
-              onChange={newNetworks => onChange?.({ networks: newNetworks })}
+              value={localState.networks}
+              onChange={newNetworks =>
+                setLocalState(p => ({ ...p, networks: newNetworks ?? [] }))
+              }
             />
           </div>
         </div>
@@ -116,18 +136,22 @@ export function AdvanceFilteringButtons({
             size="lg"
             block
             onClick={() => {
-              onReset?.();
               setOpen(false);
             }}
             className="shrink-0 grow"
           >
-            {t('common.reset_filters')}
+            {t('common:actions.cancel')}
           </Button>
           <Button
             variant="primary"
             size="lg"
             block
             onClick={() => {
+              if (
+                JSON.stringify(localState) !== JSON.stringify(externalState)
+              ) {
+                onChange?.(localState);
+              }
               setOpen(false);
             }}
             className="shrink-0 grow"

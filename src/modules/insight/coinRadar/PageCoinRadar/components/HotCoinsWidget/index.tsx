@@ -243,19 +243,24 @@ export function HotCoinsWidget({ className }: { className?: string }) {
               className="mobile:w-full"
             />
             <AdvanceFilteringButtons
-              onReset={() =>
-                setTableState({
-                  categories: [],
-                  networks: [],
-                  securityLabels: [],
-                  trendLabels: [],
-                })
-              }
+              onReset={() => setTableState(undefined)}
               onChange={newState => setTableState({ ...newState, tag: '' })}
-              categories={tableState.categories}
+              categories={
+                tableState.categories.length > 0
+                  ? tableState.categories
+                  : selectedTag?.categories?.length
+                  ? selectedTag.categories
+                  : []
+              }
+              networks={
+                tableState.networks.length > 0
+                  ? tableState.networks
+                  : selectedTag?.networks?.length
+                  ? selectedTag.networks
+                  : []
+              }
               trendLabels={tableState.trendLabels}
               securityLabels={tableState.securityLabels}
-              networks={tableState.networks}
               className="shrink-0 grow justify-between"
             />
           </div>
