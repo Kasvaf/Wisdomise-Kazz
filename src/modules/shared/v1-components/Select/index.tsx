@@ -104,8 +104,8 @@ function Option({
         /* Size: height, padding, font-size, border-radius */
         size === 'xs' && 'h-xs px-3 text-xs',
         size === 'sm' && 'h-sm px-3 text-xs',
-        size === 'md' && 'h-md px-3 text-xs',
-        size === 'xl' && 'h-xl px-4 text-sm',
+        size === 'md' && 'h-md px-4 text-xs',
+        size === 'xl' && 'h-xl px-5 text-sm',
         'group flex shrink-0 flex-nowrap items-center justify-between gap-2',
         'hover:bg-white/5',
         !checkbox && selected && '!bg-white/10',
@@ -256,7 +256,7 @@ export function Select<V, M extends boolean = false>({
           <div className="p-4">
             <input
               placeholder="Search Here"
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l3 p-3 text-xs outline-none focus:border-v1-border-brand"
+              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l3 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
               value={searchValue ?? ''}
               onChange={e => onSearch?.(e.target.value)}
               ref={searchRef}
