@@ -351,6 +351,8 @@ export interface TransactionOrder {
     gas_fee_amount?: string | null;
     trading_fee_asset: string;
     trading_fee_amount?: string | null;
+    price_quote: string;
+    price_usd: string;
     time: string;
     status: TransactionStatus;
     link?: string | null;
@@ -371,6 +373,8 @@ export interface TransactionOpenClose {
     gas_fee_amount?: string | null; // nullable
     trading_fee_asset: string;
     trading_fee_amount: string | null; // nullable
+    price_quote: string;
+    price_usd: string;
     time: string;
     status: TransactionStatus;
     link?: string | null;

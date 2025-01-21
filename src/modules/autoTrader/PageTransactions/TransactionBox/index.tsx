@@ -14,18 +14,36 @@ import { ReactComponent as WithdrawIcon } from './withdraw.svg';
 import { ReactComponent as DepositIcon } from './deposit.svg';
 import { AssetIcon, Box, GasFee, StatusLabel, TonViewer } from './components';
 
+const AssetPrice: React.FC<{
+  assetName: string;
+  assetSlug: string;
+  amount: number | string | null | undefined;
+}> = ({ assetName, assetSlug, amount }) => {
+  return (
+    <div className="flex shrink-0 items-center">
+      {roundSensible(amount)} {assetName}
+      <AssetIcon slug={assetSlug} className="ml-1" />
+    </div>
+  );
+};
+
 const TransactionAnyOrderBox: React.FC<{
   t: TransactionOpenClose | TransactionOrder;
 }> = ({ t }) => {
+  const price = t.data.price_usd;
+  const isQuoteFirst = t.type === 'open' || t.type === 'safety_open';
+  const totalPrice =
+    +price * Number(isQuoteFirst ? t.data.to_amount : t.data.from_amount);
+
   return (
     <Box
       title={
         {
-          stop_loss: 'Stop Loss',
-          take_profit: 'Take Profit',
-          safety_open: 'Safety Open',
-          open: 'Open',
-          close: 'Close',
+          stop_loss: 'Stop Loss', // token -> quote
+          take_profit: 'Take Profit', // token -> quote
+          safety_open: 'Safety Open', // quote -> token
+          open: 'Open', // quote -> token
+          close: 'Close', // token -> quote
         }[t.type] +
         ('index' in t.data && Number(t.data.index)
           ? ' #' + String(t.data.index)
@@ -35,22 +53,32 @@ const TransactionAnyOrderBox: React.FC<{
       contentClassName="flex flex-col items-stretch gap-3"
     >
       <div className="flex items-center justify-between">
-        <div className="flex shrink-0 items-center">
-          {roundSensible(t.data.from_amount)} {t.data.from_asset_name}
-          <AssetIcon slug={t.data.from_asset_slug} className="ml-1" />
-        </div>
+        <AssetPrice
+          assetName={t.data.from_asset_name}
+          assetSlug={t.data.from_asset_slug}
+          amount={t.data.from_amount}
+        />
         <div className="mx-4 flex grow items-center">
-          <div className="w-full border-b border-dashed border-v1-content-secondary" />
+          <div className="flex w-full justify-center border-b border-dashed border-v1-content-secondary">
+            {!!+price && Number.isFinite(totalPrice) && (
+              <div className="h-0 -translate-y-[7px] overflow-visible text-xs">
+                <div className="bg-v1-surface-l2 px-1 text-white/70">
+                  {roundSensible(totalPrice)} $
+                </div>
+              </div>
+            )}
+          </div>
           <Icon
             name={bxsRightArrow}
             size={8}
             className="text-v1-content-secondary"
           />
         </div>
-        <div className="flex shrink-0 items-center">
-          {roundSensible(t.data.to_amount)} {t.data.to_asset_name}
-          <AssetIcon slug={t.data.to_asset_slug} className="ml-1" />
-        </div>
+        <AssetPrice
+          assetName={t.data.to_asset_name}
+          assetSlug={t.data.to_asset_slug}
+          amount={t.data.to_amount}
+        />
       </div>
 
       <GasFee t={t} />
@@ -71,10 +99,12 @@ const TransactionDepositWithdrawBox: React.FC<{
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
             {t.data.assets.map(a => (
-              <div key={a.asset_slug} className="flex shrink-0 items-center">
-                {roundSensible(a.amount)} {a.asset_name}
-                <AssetIcon slug={a.asset_slug} className="ml-1" />
-              </div>
+              <AssetPrice
+                key={a.asset_slug}
+                assetName={a.asset_name}
+                assetSlug={a.asset_slug}
+                amount={a.amount}
+              />
             ))}
           </div>
           {t.type === 'withdraw' ? <WithdrawIcon /> : <DepositIcon />}

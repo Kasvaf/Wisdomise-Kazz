@@ -40,7 +40,7 @@ export default function PageCoinDetail() {
       <CoinStatsWidget slug={slug} />
       <SocialRadarSentimentWidget slug={slug} noEmptyState />
 
-      {hasFlag('?chart') && (
+      {hasFlag('/trader-coin-chart') && (
         <div className="-mx-1">
           <CoinChart slug={slug} height={500} />
         </div>

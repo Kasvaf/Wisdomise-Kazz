@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
 import { Image } from 'antd';
+import { useState } from 'react';
 import { useHasFlag, useTraderCoins } from 'api';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Spinner from 'shared/Spinner';
+import CoinPreDetailModal from '../PageCoinDetail/CoinPreDetailModal';
 import AlertButton from './AlertButton';
 import ton from './ton.svg';
 
@@ -18,6 +19,8 @@ const HotCoinsTable = () => {
     networkName: 'ton',
     days: 7,
   });
+
+  const [detailSlug, setDetailSlug] = useState('');
 
   return (
     <div>
@@ -36,8 +39,8 @@ const HotCoinsTable = () => {
       ) : (
         <div className="flex flex-col gap-2">
           {data?.results.map(coin => (
-            <Link
-              to={`/trader-hot-coins/${coin?.symbol.slug ?? ''}`}
+            <div
+              onClick={() => setDetailSlug(coin.symbol.slug ?? '')}
               key={coin.symbol.slug}
               className="flex justify-between rounded-lg bg-v1-surface-l2 p-2"
             >
@@ -56,10 +59,12 @@ const HotCoinsTable = () => {
                   label="%"
                 />
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
+
+      <CoinPreDetailModal slug={detailSlug} onClose={() => setDetailSlug('')} />
     </div>
   );
 };
