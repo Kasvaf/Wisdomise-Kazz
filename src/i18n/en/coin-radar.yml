@@ -155,7 +155,7 @@ coin-details:
       high: High
       low: Low
     social_sentiment:
-      title: Social Sentiment
+      title: Social Sentiment™
       empty: No community activity detected for this coin.
       hunted-at: Hunted At
       long: Potential Growth Opportunity
@@ -182,7 +182,7 @@ coin-details:
         twitter:
           title: X, Twitter
     technical_sentiment:
-      title: Technical Sentiment
+      title: Technical Sentiment™
       empty: Unknown
       macd_cross: MACD Cross
       macd_div: MACD Div
@@ -217,7 +217,7 @@ coin-details:
         worth: Worth
       traders: Trades
     whale_sentiment:
-      title: Whale Sentiment
+      title: Whale Sentiment™
       buy: Buy
       hold: Hold
       sell: Sell
@@ -293,7 +293,7 @@ social-radar:
     market_cap: Market Cap
     pnl: PNL
     price_change: 24H Chg
-    rank: Wise Logic
+    rank: Wise Rank™
   table:
     name: Name
     title: Social Radar
@@ -316,16 +316,16 @@ social-radar:
         Change</b><p>The asset's percentage change in price over the last 24
         hours.</p><br/><b>Low 24h</b><p>Lowest price in the last 24
         hours.</p><br/><b>High 24h</b><p>Highest price in the last 24 hours.</p>
-    rank: Rank
+    rank: Rank™
     sentiment:
-      title: Wisdomise Sentiment
+      title: Social Sentiment™
       info: |-
-        <b>Wisdomise Sentiment</b> <br /> <br /> <b>
+        <b>Social Sentiment™</b> <br /> <br /> <p>
           Wisdomise AI analyzes social sentiment for each asset (coin or
           token) from Reddit, Telegram, Trading View, X (formerly Twitter),
           and YouTube. The sentiment can be Positive, Neutral, or Negative,
           showing how the community feels.
-        </b> <br /> <br /> <b>P&L % Change</b> <br /> <p>
+        </p> <br /> <br /> <b>P&L % Change</b> <br /> <p>
           Tracks the Profit & Loss from when the asset was first hunted as
           “Hot” until its first major price movement.
         </p> <br /> <br /> <p>

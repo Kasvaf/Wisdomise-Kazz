@@ -25,6 +25,6 @@ onboarding:
 table:
   name: Name
   labels: Labels
-  rank: Rank
-  social_radar_sentiment: Social Radar Sentiment
-  technical_radar_sentiment: Technical Radar Sentiment
+  rank: Rank™
+  social_radar_sentiment: Social Sentiment™
+  technical_radar_sentiment: Technical Sentiment™
