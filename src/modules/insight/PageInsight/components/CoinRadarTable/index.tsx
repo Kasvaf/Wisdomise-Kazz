@@ -2,7 +2,7 @@
 import { Fragment, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
-import Table, { useTableState } from 'shared/Table';
+import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
 import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/components/SignalSentiment';
@@ -20,38 +20,6 @@ export function CoinRadarTable({ className }: { className?: string }) {
   const coins = useCoinRadarCoins();
   const hasFlag = useHasFlag();
   const { t } = useTranslation('insight');
-  const [tableProps, tableState] = useTableState('', {
-    page: 1,
-    pageSize: 10,
-    sortBy: 'rank',
-    sortOrder: 'ascending',
-  });
-
-  const data = useMemo(() => {
-    if (!coins.data) return [];
-    return coins.data.sort((a, b) => {
-      if (tableState.sortBy === 'rank') {
-        return (
-          (a.rank - b.rank) * (tableState.sortOrder === 'ascending' ? 1 : -1)
-        );
-      }
-      if (tableState.sortBy === 'social_radar_sentiment') {
-        return (
-          ((a.social_radar_insight?.gauge_measure ?? 0) -
-            (b.social_radar_insight?.gauge_measure ?? 0)) *
-          (tableState.sortOrder === 'ascending' ? -1 : 1)
-        );
-      }
-      if (tableState.sortBy === 'technical_radar_sentiment') {
-        return (
-          ((a.technical_radar_insight?.wise_score ?? 0) -
-            (b.technical_radar_insight?.wise_score ?? 0)) *
-          (tableState.sortOrder === 'ascending' ? -1 : 1)
-        );
-      }
-      return 0;
-    });
-  }, [tableState, coins]);
 
   const columns = useMemo<Array<ColumnType<CoinRadarCoin>>>(
     () => [
@@ -69,7 +37,6 @@ export function CoinRadarTable({ className }: { className?: string }) {
       },
       {
         colSpan: hasFlag('/coin-radar/social-radar?side-suggestion') ? 1 : 0,
-        sorter: true,
         key: 'social_radar_sentiment',
         title: [
           <span key="1" className="flex items-center gap-1">
@@ -90,13 +57,12 @@ export function CoinRadarTable({ className }: { className?: string }) {
         width: 310,
         render: (_, row) =>
           row.social_radar_insight ? (
-            <SignalSentiment signal={row.social_radar_insight} />
+            <SignalSentiment signal={row.social_radar_insight} hidePnl />
           ) : (
             <EmptySentiment value="social_radar" />
           ),
       },
       {
-        sorter: true,
         key: 'technical_radar_sentiment',
         title: [
           <span key="1" className="flex items-center gap-1">
@@ -143,11 +109,14 @@ export function CoinRadarTable({ className }: { className?: string }) {
     >
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={coins.data?.slice(0, 20) ?? []}
         rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
+        pagination={{
+          pageSize: 99,
+          hideOnSinglePage: true,
+        }}
         tableLayout="fixed"
-        {...tableProps}
         className={className}
       />
     </AccessShield>

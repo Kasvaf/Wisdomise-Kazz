@@ -1,4 +1,4 @@
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import { useCoinRadarCoins } from 'api';
@@ -16,20 +16,17 @@ const PageInsight = () => {
     <PageWrapper loading={coins.isLoading}>
       <PageInsightMeta />
       <div className="flex flex-col gap-6">
-        <div className="flex items-center justify-between gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-6 mobile:flex-col">
           <PageTitle
             className="max-w-4xl mobile:max-w-full"
             title={
               <>
-                <Logo />
+                <Logo className="size-7" />
                 {t('base:menu.coin-radar.full-title')}
               </>
             }
-            description={
-              <Trans ns="coin-radar" i18nKey="base:menu.coin-radar.subtitle" />
-            }
           />
-          <InsightAlertButton />
+          <InsightAlertButton className="mobile:w-full" />
         </div>
         <CoinRadarTable />
       </div>

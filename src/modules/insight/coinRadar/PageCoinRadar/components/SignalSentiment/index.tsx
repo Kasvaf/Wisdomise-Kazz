@@ -74,12 +74,13 @@ export const SignalSentiment: FC<{
   signal: SocialRadarSentiment;
   className?: string;
   minimal?: boolean;
-}> = ({ signal, className, minimal }) => {
+  hidePnl?: boolean;
+}> = ({ signal, className, minimal, hidePnl }) => {
   const { t } = useTranslation('coin-radar');
   const [tick, setTick] = useState(1); // used as dependency to update content
 
   const chartConfig = useMemo<EChartsOption | null>(() => {
-    if (!signal.signals_analysis || minimal) return null;
+    if (!signal.signals_analysis || minimal || hidePnl) return null;
     let parsedData: Array<{
       price: number;
       relatedAt: string;
@@ -255,7 +256,7 @@ export const SignalSentiment: FC<{
       },
       backgroundColor: 'transparent',
     };
-  }, [minimal, signal.signals_analysis, t]);
+  }, [minimal, signal.signals_analysis, t, hidePnl]);
 
   const tooltip = useMemo(() => {
     if (!signal.signals_analysis || !tick || !chartConfig) return null;
@@ -397,15 +398,17 @@ export const SignalSentiment: FC<{
               popup={false}
               value={signal.signals_analysis.call_time}
             />
-            <DirectionalNumber
-              popup="never"
-              value={signal.signals_analysis.real_pnl_percentage}
-              label="%"
-              prefix="("
-              suffix=")"
-              showIcon={false}
-              showSign
-            />
+            {!hidePnl && (
+              <DirectionalNumber
+                popup="never"
+                value={signal.signals_analysis.real_pnl_percentage}
+                label="%"
+                prefix="("
+                suffix=")"
+                showIcon={false}
+                showSign
+              />
+            )}
           </div>
         )}
       </span>

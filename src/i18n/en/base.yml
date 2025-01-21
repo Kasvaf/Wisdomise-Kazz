@@ -36,11 +36,7 @@ menu:
     title: Coin
   coin-radar:
     title: Coin Radar
-    subtitle: >-
-      Adjust the impact of Social insights and Technical analysis on your list.
-      Fine-tune your preferences and discover coins with the highest growth
-      potential.
-    full-title: Customize Your Insights to Find the Best Investment Opportunities
+    full-title: Top Coin Opportunities
   hot-coins:
     title: Social Radar
   overview:
