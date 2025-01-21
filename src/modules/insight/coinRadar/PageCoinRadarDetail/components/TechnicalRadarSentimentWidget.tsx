@@ -49,50 +49,46 @@ export function TechnicalRadarSentimentWidget({
         />
       }
     >
-      <div className="flex h-20 grow flex-col justify-between gap-1">
-        <p className="text-xxs text-v1-content-primary">
+      <div className="flex h-20 grow items-end">
+        <p className="absolute top-0 w-full text-xxs text-v1-content-primary">
           {t('coin-details.tabs.technical_sentiment.title')}
         </p>
-        <div>
-          <div className="grid w-full grid-cols-[auto,1fr] items-center gap-x-1 text-[9px] text-white/50">
-            <span className="max-w-max">
-              {t('coin-details.tabs.technical_sentiment.rsi_overness')}
-            </span>
-            <Progress
-              value={sentiment.data?.rsi_overness_normalized_score ?? 0}
-            />
+        <div className="grid w-full grid-cols-[auto,1fr] items-center gap-x-1 text-[9px] text-white/50">
+          <span className="max-w-max">
+            {t('coin-details.tabs.technical_sentiment.rsi_overness')}
+          </span>
+          <Progress
+            value={sentiment.data?.rsi_overness_normalized_score ?? 0}
+          />
 
-            <span className="max-w-max">
-              {t('coin-details.tabs.technical_sentiment.macd_cross')}
-            </span>
-            <Progress
-              value={sentiment.data?.macd_cross_normalized_score ?? 0}
-            />
+          <span className="max-w-max">
+            {t('coin-details.tabs.technical_sentiment.macd_cross')}
+          </span>
+          <Progress value={sentiment.data?.macd_cross_normalized_score ?? 0} />
 
-            <span className="max-w-max">
-              {t('coin-details.tabs.technical_sentiment.rsi_div')}
-            </span>
-            <Progress
-              value={sentiment.data?.rsi_divergence_normalized_score ?? 0}
-            />
+          <span className="max-w-max">
+            {t('coin-details.tabs.technical_sentiment.rsi_div')}
+          </span>
+          <Progress
+            value={sentiment.data?.rsi_divergence_normalized_score ?? 0}
+          />
 
-            <span className="max-w-max">
-              {t('coin-details.tabs.technical_sentiment.macd_div')}
-            </span>
-            <Progress
-              value={sentiment.data?.macd_divergence_normalized_score ?? 0}
-            />
-          </div>
+          <span className="max-w-max">
+            {t('coin-details.tabs.technical_sentiment.macd_div')}
+          </span>
+          <Progress
+            value={sentiment.data?.macd_divergence_normalized_score ?? 0}
+          />
         </div>
       </div>
-      <div className="relative flex h-20 w-[30%] shrink-0 flex-col justify-between overflow-hidden">
+      <div className="relative flex h-20 w-[35%] shrink-0 flex-col justify-between overflow-hidden">
         <SentimentGuage
           measure={sentiment.data?.normalized_score ?? 0}
           className="h-16"
         />
         <b
           className={clsx(
-            'absolute bottom-0 w-full text-center text-xxs font-bold',
+            'absolute bottom-0 w-full whitespace-nowrap text-center text-xxs font-bold',
             (sentiment.data?.normalized_score ?? 0) > 0 &&
               'text-v1-content-positive',
             (sentiment.data?.normalized_score ?? 0) < 0 &&

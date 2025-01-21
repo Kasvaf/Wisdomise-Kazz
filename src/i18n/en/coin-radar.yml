@@ -155,7 +155,7 @@ coin-details:
       high: High
       low: Low
     social_sentiment:
-      title: Community Sentiment
+      title: Social Sentiment
       empty: No community activity detected for this coin.
       hunted-at: Hunted At
       long: Potential Growth Opportunity

@@ -79,7 +79,7 @@ export const SignalSentiment: FC<{
   const [tick, setTick] = useState(1); // used as dependency to update content
 
   const chartConfig = useMemo<EChartsOption | null>(() => {
-    if (!signal.signals_analysis) return null;
+    if (!signal.signals_analysis || minimal) return null;
     let parsedData: Array<{
       price: number;
       relatedAt: string;
@@ -255,10 +255,10 @@ export const SignalSentiment: FC<{
       },
       backgroundColor: 'transparent',
     };
-  }, [signal.signals_analysis, t]);
+  }, [minimal, signal.signals_analysis, t]);
 
   const tooltip = useMemo(() => {
-    if (!signal.signals_analysis || !tick) return null;
+    if (!signal.signals_analysis || !tick || !chartConfig) return null;
     const date = dayjs(signal.signals_analysis.call_time);
     return (
       <>

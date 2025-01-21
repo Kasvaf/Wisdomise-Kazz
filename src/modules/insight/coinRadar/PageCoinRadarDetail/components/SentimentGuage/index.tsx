@@ -12,7 +12,7 @@ export function SentimentGuage({
   const [rotate, setRotate] = useState(-90);
   useEffect(() => {
     setRotate(
-      typeof measure === 'number' ? Math.max(Math.min(measure, 1), -1) * 90 : 0,
+      typeof measure === 'number' ? Math.max(Math.min(measure, 1), -1) * 82 : 0,
     );
   }, [measure]);
   return (

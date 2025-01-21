@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { useHasFlag, useSocialRadarSentiment } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { DebugPin } from 'shared/DebugPin';
-import { SignalSentiment } from '../../../PageCoinRadar/components/SignalSentiment';
+import { SignalSentiment } from '../../PageCoinRadar/components/SignalSentiment';
 import { SentimentGuage } from './SentimentGuage';
 
 export function SocialRadarSentimentWidget({
@@ -28,7 +28,7 @@ export function SocialRadarSentimentWidget({
       loading={sentiment.isLoading}
       contentClassName={clsx(
         'flex flex-row items-center justify-between gap-3 overflow-hidden',
-        isEmpty && 'contrast-75 grayscale',
+        isEmpty && 'grayscale',
       )}
       overlay={
         <DebugPin
@@ -48,12 +48,12 @@ export function SocialRadarSentimentWidget({
             minimal
           />
         ) : (
-          <p className="max-w-52 text-sm">
+          <p className="max-w-52 text-xs">
             {t('coin-details.tabs.social_sentiment.empty')}
           </p>
         )}
       </div>
-      <div className="h-20 w-[33%] shrink-0 overflow-hidden">
+      <div className="h-20 w-[35%] shrink-0 overflow-hidden">
         <SentimentGuage
           measure={sentiment.data?.gauge_measure ?? 0}
           className="h-full"
