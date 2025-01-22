@@ -80,17 +80,6 @@ export function SortModes({
         {
           label: (
             <Label
-              label={t('social-radar.sorts.pnl')}
-              value="pnl"
-              sortBy={sortBy}
-              sortOrder={sortOrder}
-            />
-          ),
-          value: 'pnl',
-        },
-        {
-          label: (
-            <Label
               label={t('social-radar.sorts.market_cap')}
               value="market_cap"
               sortBy={sortBy}

@@ -290,7 +290,6 @@ social-radar:
   sorts:
     call_time: Newest
     market_cap: Market Cap
-    pnl: PNL
     price_change: 24H Chg
     rank: Wise Rank™
   table:
