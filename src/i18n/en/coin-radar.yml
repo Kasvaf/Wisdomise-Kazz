@@ -297,8 +297,8 @@ social-radar:
     name: Name
     title: Social Radar
     description: >-
-      Wisdomise Social Radar <b>scanned {{posts}} posts from alpha groups</b> in
-      the last 24 hours for accurate, data-driven insights.
+      Wisdomise Social Radar <b>Scanned {{posts}} Posts from Alpha Groups</b> in
+      The Last 24 Hours for Accurate, Data-Driven Insights.
     labels:
       title: Labels
     market_cap:
