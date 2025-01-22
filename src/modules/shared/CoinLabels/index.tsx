@@ -37,6 +37,7 @@ export function CoinLabel({
   const renderData = useMemo(() => {
     const knownLabels: Array<{
       name: string;
+      text: string;
       type: keyof CoinLabelsType;
       icon: ReactNode;
       info?: string;
@@ -44,6 +45,7 @@ export function CoinLabel({
     }> = [
       {
         name: 'hype',
+        text: 'Hype',
         type: 'trend_labels',
         icon: <>🔥</>,
         info: t('coin_labels.hype.info'),
@@ -51,6 +53,7 @@ export function CoinLabel({
       },
       {
         name: 'weekly_social_beloved',
+        text: 'Social Weekly Trend',
         type: 'trend_labels',
         icon: <>🌐</>,
         info: t('coin_labels.weekly_social_beloved.info'),
@@ -58,6 +61,7 @@ export function CoinLabel({
       },
       {
         name: 'monthly_social_beloved',
+        text: 'Social Monthly Trend',
         type: 'trend_labels',
         icon: <>🌐</>,
         info: t('coin_labels.monthly_social_beloved.info'),
@@ -67,18 +71,21 @@ export function CoinLabel({
       },
       {
         name: 'trusted',
+        text: 'Trusted',
         type: 'security_labels',
         icon: <Trusted />,
         color: clsx('bg-v1-content-positive/10 text-v1-content-positive'),
       },
       {
         name: 'warning',
+        text: 'Warning',
         type: 'security_labels',
         icon: <Warning />,
         color: clsx('bg-v1-content-notice/10 text-v1-content-notice'),
       },
       {
         name: 'risk',
+        text: 'Risk',
         type: 'security_labels',
         icon: <Risk />,
         color: clsx('bg-v1-content-negative/10 text-v1-content-negative'),
@@ -89,7 +96,7 @@ export function CoinLabel({
 
     return {
       icon: label?.icon ?? <>{'🏷️'}</>,
-      text: value.split('_').join(' '),
+      text: label?.text ?? value.split('_').join(' '),
       info: label?.info,
       className:
         label?.color ??

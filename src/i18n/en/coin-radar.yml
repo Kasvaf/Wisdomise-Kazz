@@ -19,21 +19,20 @@ call-change:
 coin_labels:
   hype:
     info: >-
-      The "Hype" label identifies symbols that are currently experiencing a
-      surge in social media activity. These symbols have been mentioned by a
-      significant number of unique accounts across multiple social media
-      channels within a short time frame. This label indicates a potential trend
-      or buzz around the symbol, suggesting increased public interest or
-      speculation.
+      This label identifies symbols that are currently experiencing a surge in
+      social media activity. These symbols have been mentioned by a significant
+      number of unique accounts across multiple social media channels within a
+      short time frame. This label indicates a potential trend or buzz around
+      the symbol, suggesting increased public interest or speculation.
   monthly_social_beloved:
     info: >-
-      "Monthly Social Beloved" marks symbols with strong social media presence
-      and mentions by many unique accounts over the past month.
+      This label marks symbols with strong social media presence and mentions by
+      many unique accounts over the past month.
   weekly_social_beloved:
     info: >-
-      The "Weekly Social Beloved" label marks symbols that were popular on
-      social media over the past week. These symbols are frequently mentioned,
-      showing high interest and potential for growth or volatility.
+      This label marks symbols that were popular on social media over the past
+      week. These symbols are frequently mentioned, showing high interest and
+      potential for growth or volatility.
 coin_security:
   contract_security: Contract Security
   fields:
