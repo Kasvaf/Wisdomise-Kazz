@@ -1,6 +1,10 @@
 alert:
   subtitle: 不要错过加密世界的下一个重大机遇。
   title: 保持领先
+empty_sentiment:
+  social_radar: 该硬币没有社交雷达数据！
+  technical_radar: 此硬币没有技术雷达数据！
+  whale_radar: 该硬币没有鲸鱼雷达数据！
 onboarding:
   sec-1:
     content: 我们的 Coin Radar 提供三种强大的见解，为您提供完整的市场概览。发现社交媒体上流行的热门货币、来自智能鲸鱼和钱包的热门货币以及
@@ -12,3 +16,9 @@ onboarding:
   sec-3:
     content: 很快，您将能够根据这些见解激活自动交易，并让我们的系统代表您进行交易。设置一次，让平台执行您的策略，这样您就可以放心，我们会处理交易。
     title: 即将推出：使用 Auto-Trader 轻松放松
+table:
+  labels: 标签
+  name: 名稱
+  rank: 明智排名
+  social_radar_sentiment: 智慧社会情绪
+  technical_radar_sentiment: 技术情绪

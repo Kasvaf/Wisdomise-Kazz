@@ -1,6 +1,10 @@
 alert:
   subtitle: 暗号通貨の世界における次の大きなチャンスを逃さないでください。
   title: 先を行く
+empty_sentiment:
+  social_radar: このコインにはソーシャルレーダーデータがありません。
+  technical_radar: このコインにはテクニカルレーダーデータがありません。
+  whale_radar: このコインにはホエールレーダーデータがありません。
 onboarding:
   sec-1:
     content: 当社のコインレーダーは、3 種類の強力な洞察を提供し、市場の全体像を把握できるようにします。ソーシャル メディアでトレンドになっているホット
@@ -15,3 +19,9 @@ onboarding:
     content: まもなく、これらの洞察に基づいて Auto-Trader
       を有効にして、お客様に代わって当社のシステムに取引を任せることができるようになります。一度設定すれば、プラットフォームがお客様の戦略を実行するので、当社が取引を処理する間、お客様はリラックスできます。
     title: "近日公開: Auto-Trader でリラックス"
+table:
+  labels: ラベル
+  name: 信号発信者名
+  rank: ワイズランク
+  social_radar_sentiment: 社会感情 ウィズダムズ
+  technical_radar_sentiment: テクニカルセンチメント

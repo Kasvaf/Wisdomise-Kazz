@@ -109,6 +109,13 @@ coin-details:
           title: 技術的なアイデア
         twitter:
           title: X、ツイッター
+    technical_sentiment:
+      empty: 未知
+      macd_cross: MACDクロス
+      macd_div: MACD 分割
+      rsi_div: RSI部門
+      rsi_overness: RSI OB/OS
+      title: テクニカルセンチメント
     trading_view:
       empty:
         subtitle: 私たちは常に新しい戦略を模索しています。最新の技術的洞察がまもなく利用可能になります。
@@ -213,11 +220,25 @@ coin_security:
   warning_other: "{{count}} 警告"
   warning_zero: 警告なし
 common:
+  all_categories: すべてのカテゴリー
+  all_labels: すべてのラベル
+  all_networks: すべてのネットワーク
+  apply_filters: フィルターを適用する
   categories: カテゴリー
+  category: カテゴリ
+  chain: 鎖
+  chains: チェーン
+  filters: フィルター
   labels: ラベル
+  load_more: さらに読み込む
   native_coin: ネイティブコイン
+  network: ネットワーク
   networks: ネットワーク
   price: 価格
+  reset_filters: フィルターをリセット
+  search_coin: コインを検索...
+  security_label: セキュリティラベル
+  trend_label: トレンドラベル
 contract-address:
   multiple: 複数のアドレス
 onboarding:

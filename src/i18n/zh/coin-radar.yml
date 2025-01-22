@@ -109,6 +109,13 @@ coin-details:
           title: 技术理念
         twitter:
           title: X, Twitter
+    technical_sentiment:
+      empty: 未知
+      macd_cross: MACD交叉
+      macd_div: MACD 股息
+      rsi_div: RSI 股息
+      rsi_overness: RSI OB/OS
+      title: 技术情绪
     trading_view:
       empty:
         subtitle: 我们正在不断探索新策略。新鲜的技术见解即将面世！
@@ -209,11 +216,25 @@ coin_security:
   warning_other: "{{count}} 警告"
   warning_zero: 无警告
 common:
+  all_categories: 所有类别
+  all_labels: 所有标签
+  all_networks: 所有网络
+  apply_filters: 应用过滤器
   categories: 类别
+  category: 类别
+  chain: 链
+  chains: 链条
+  filters: 筛选器
   labels: 标签
+  load_more: 加载更多
   native_coin: 原生币
+  network: 網絡
   networks: 网络
   price: 價格
+  reset_filters: 重置筛选条件
+  search_coin: 搜索幣種...
+  security_label: 安全标签
+  trend_label: 潮流标签
 contract-address:
   multiple: 多个地址
 onboarding:
