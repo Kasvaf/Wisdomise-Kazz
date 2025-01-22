@@ -109,7 +109,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
     >
       <Table
         columns={columns}
-        dataSource={coins.data?.slice(0, 20) ?? []}
+        dataSource={coins.data?.slice(0, 10) ?? []}
         rowKey={r => JSON.stringify(r.symbol)}
         loading={coins.isRefetching && !coins.isFetched}
         pagination={{
