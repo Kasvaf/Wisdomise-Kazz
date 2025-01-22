@@ -1,55 +1,34 @@
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
-import { formatNumber } from 'utils/numbers';
-import { useMarketInfoFromSignals } from 'api';
-import { RsiConfirmationWidget } from './components/RsiConfirmationWidget';
-import { HotCoinsWidget } from './components/HotCoinsWidget';
-import { AlertBoxWidget } from './components/AlertBoxWidget';
-import { TopWhaleCoinsWidget } from './components/TopWhaleCoinsWidget';
-import { TopWhaleListWidget } from './components/TopWhaleListWidget';
+import { useCoinRadarCoins } from 'api';
 import { PageInsightMeta } from './components/PageInsightMeta';
 import { InsightOnboarding } from './components/InsightOnboarding';
+import { InsightAlertButton } from './components/InsightAlertButton';
+import { ReactComponent as Logo } from './components/logo.svg';
+import { CoinRadarTable } from './components/CoinRadarTable';
 
 const PageInsight = () => {
   const { t } = useTranslation();
-  const marketInfo = useMarketInfoFromSignals();
+  const coins = useCoinRadarCoins();
 
   return (
-    <PageWrapper>
+    <PageWrapper loading={coins.isLoading}>
       <PageInsightMeta />
-      <PageTitle
-        title={t('base:menu.coin-radar.full-title')}
-        description={
-          <Trans
-            ns="coin-radar"
-            i18nKey="coin-radar:social-radar.table.description"
-            values={{
-              posts: formatNumber(marketInfo.data?.analyzed_messages ?? 4000, {
-                compactInteger: true,
-                decimalLength: 0,
-                seperateByComma: true,
-                minifyDecimalRepeats: false,
-              }),
-            }}
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-wrap items-center justify-between gap-6 mobile:flex-col">
+          <PageTitle
+            className="max-w-4xl mobile:max-w-full"
+            title={
+              <>
+                <Logo className="size-7 shrink-0" />
+                {t('base:menu.coin-radar.full-title')}
+              </>
+            }
           />
-        }
-        className="mb-10"
-      />
-
-      <div className="grid grid-cols-6 gap-6">
-        <HotCoinsWidget className="col-span-4 mobile:col-span-full" />
-        <AlertBoxWidget className="col-span-2 mobile:order-first mobile:col-span-full" />
-        <TopWhaleCoinsWidget className="col-span-2 h-[530px]  mobile:col-span-full" />
-        <TopWhaleListWidget className="col-span-4 h-[530px] mobile:col-span-full" />
-        <RsiConfirmationWidget
-          className="col-span-3 mobile:col-span-full"
-          type="bullish"
-        />
-        <RsiConfirmationWidget
-          className="col-span-3 mobile:col-span-full"
-          type="bearish"
-        />
+          <InsightAlertButton className="mobile:w-full" />
+        </div>
+        <CoinRadarTable />
       </div>
       <InsightOnboarding />
     </PageWrapper>

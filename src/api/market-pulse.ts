@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
 import {
@@ -124,7 +125,7 @@ export type IndicatorConfirmationCombination =
   | 'macd_cross_up'
   | 'macd_cross_down';
 
-interface IndicatorConfirmationCore {
+export interface IndicatorConfirmationCore {
   symbol: Coin;
   data?: null | CoinMarketPulseMarketData;
   analysis?: null | string;
@@ -135,7 +136,7 @@ interface IndicatorConfirmationCore {
   networks?: null | CoinNetwork[];
 }
 
-interface RsiConfirmation extends IndicatorConfirmationCore {
+export interface RsiConfirmation {
   rsi_values?: null | Record<
     string,
     {
@@ -156,7 +157,7 @@ interface RsiConfirmation extends IndicatorConfirmationCore {
   rsi_bullish_divergence_resolutions?: null | string[];
 }
 
-interface MacdConfirmation extends IndicatorConfirmationCore {
+export interface MacdConfirmation {
   macd_values?: null | Record<
     string,
     {
@@ -206,7 +207,7 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
   pageSize?: number;
 }) =>
   useQuery(['indicator/momentum-confirmation', JSON.stringify(filters)], () =>
-    ofetch<PageResponse<IndicatorConfirmation<I>>>(
+    ofetch<PageResponse<IndicatorConfirmation<I> & IndicatorConfirmationCore>>(
       `delphi/${filters.indicator}/momentum-confirmation/`,
       {
         query: {
@@ -295,4 +296,37 @@ export const useTechnicalRadarTopCoins = () =>
       return lastValue;
     };
     return getRecursive(1, []);
+  });
+
+export interface TechnicalRadarSentiment {
+  macd_cross_normalized_score?: number | null;
+  macd_divergence_normalized_score?: number | null;
+  macd_score?: number | null;
+  normalized_score?: number | null;
+  rsi_divergence_normalized_score?: number | null;
+  rsi_overness_normalized_score?: number | null;
+  rsi_score?: number | null;
+  technical_sentiment?: string | null;
+}
+export const useTechnicalRadarSentiment = ({ slug }: { slug: string }) =>
+  useQuery({
+    queryKey: ['technical-radar-sentiment', slug],
+    queryFn: async () => {
+      try {
+        const data = await ofetch<TechnicalRadarSentiment>(
+          'delphi/technical-radar/widget/',
+          {
+            query: {
+              slug,
+            },
+          },
+        );
+        return data;
+      } catch (error) {
+        if (error instanceof FetchError && error.status === 500) {
+          return null;
+        }
+        throw error;
+      }
+    },
   });

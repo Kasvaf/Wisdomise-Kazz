@@ -21,7 +21,7 @@ export default function OnboardingMessageNotification() {
     <div
       className={clsx(
         'flex flex-col gap-5',
-        'bottom-0 right-0 z-[5] rounded-xl bg-v1-surface-l4 p-6 text-v1-content-primary',
+        'bottom-0 right-0 z-[5] rounded-xl bg-TODO_USE_SEMANTIC-neutral-750 p-6 text-v1-content-primary',
         'mobile:fixed mobile:mx-4 mobile:mb-20 mobile:w-[calc(100%-2rem)]',
         'absolute mx-6 mb-24 w-[480px]',
         '2xl:mx-10 2xl:mb-24 2xl:w-[533px]',

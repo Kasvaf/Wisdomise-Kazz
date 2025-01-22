@@ -19,21 +19,20 @@ call-change:
 coin_labels:
   hype:
     info: >-
-      The "Hype" label identifies symbols that are currently experiencing a
-      surge in social media activity. These symbols have been mentioned by a
-      significant number of unique accounts across multiple social media
-      channels within a short time frame. This label indicates a potential trend
-      or buzz around the symbol, suggesting increased public interest or
-      speculation.
+      This label identifies symbols that are currently experiencing a surge in
+      social media activity. These symbols have been mentioned by a significant
+      number of unique accounts across multiple social media channels within a
+      short time frame. This label indicates a potential trend or buzz around
+      the symbol, suggesting increased public interest or speculation.
   monthly_social_beloved:
     info: >-
-      "Monthly Social Beloved" marks symbols with strong social media presence
-      and mentions by many unique accounts over the past month.
+      This label marks symbols with strong social media presence and mentions by
+      many unique accounts over the past month.
   weekly_social_beloved:
     info: >-
-      The "Weekly Social Beloved" label marks symbols that were popular on
-      social media over the past week. These symbols are frequently mentioned,
-      showing high interest and potential for growth or volatility.
+      This label marks symbols that were popular on social media over the past
+      week. These symbols are frequently mentioned, showing high interest and
+      potential for growth or volatility.
 coin_security:
   contract_security: Contract Security
   fields:
@@ -96,8 +95,6 @@ coin_security:
   warning_one: '{{count}} Warning'
   warning_other: '{{count}} Warnings'
   warning_zero: No Warnings
-coin-category:
-  all: All Categories
 coin-details:
   tabs:
     coin_introduction:
@@ -157,7 +154,7 @@ coin-details:
       high: High
       low: Low
     social_sentiment:
-      title: Community Sentiment
+      title: Social Sentiment™
       empty: No community activity detected for this coin.
       hunted-at: Hunted At
       long: Potential Growth Opportunity
@@ -183,6 +180,13 @@ coin-details:
           title: Telegram
         twitter:
           title: X, Twitter
+    technical_sentiment:
+      title: Technical Sentiment™
+      empty: Unknown
+      macd_cross: MACD Cross
+      macd_div: MACD Div
+      rsi_div: RSI Div
+      rsi_overness: RSI OB/OS
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
@@ -191,7 +195,6 @@ coin-details:
         subtitle: >-
           We're continuously exploring new strategies. Fresh technical insights
           will be available soon!
-      load_more: Load More
     whale_list:
       title: Smart Whales
       label: Smart Whales
@@ -213,16 +216,29 @@ coin-details:
         worth: Worth
       traders: Trades
     whale_sentiment:
-      title: Whale Sentiment
+      title: Whale Sentiment™
       buy: Buy
       hold: Hold
       sell: Sell
 common:
+  all_categories: All Categories
+  all_labels: All Labels
+  all_networks: All Networks
+  apply_filters: Apply Filters
   categories: Categories
+  category: Category
+  chain: Chain
+  chains: Chains
+  filters: Filters
   labels: Labels
+  load_more: Load More
   native_coin: Native Coin
-  networks: Networks
+  network: Network
   price: Price
+  reset_filters: Reset Filters
+  search_coin: Search Coin...
+  security_label: Security Label
+  trend_label: Trend Label
 onboarding:
   sec-1:
     title: Discover Hidden Gems with Social Radar
@@ -271,22 +287,17 @@ social-messages:
   read_more: Read More
   subscribers: '{{size}} Subscribers'
 social-radar:
-  banner:
-    title: Social Radar
-    subtitle: Real-Time AI-Driven Insights from Socials
   sorts:
     call_time: Newest
     market_cap: Market Cap
-    pnl: PNL
     price_change: 24H Chg
-    rank: Wise Logic
+    rank: Wise Rank™
   table:
     name: Name
-    title: Social Radar Hottest Coins
+    title: Social Radar
     description: >-
-      Wisdomise Social Radar <b>scanned {{posts}} posts from alpha groups</b> in
-      the last 24 hours for accurate, data-driven insights.
-    all_networks: All Networks
+      Wisdomise Social Radar <b>Scanned {{posts}} Posts from Alpha Groups</b> in
+      The Last 24 Hours for Accurate, Data-Driven Insights.
     labels:
       title: Labels
     market_cap:
@@ -303,17 +314,16 @@ social-radar:
         Change</b><p>The asset's percentage change in price over the last 24
         hours.</p><br/><b>Low 24h</b><p>Lowest price in the last 24
         hours.</p><br/><b>High 24h</b><p>Highest price in the last 24 hours.</p>
-    rank: Rank
-    search: Search Coin...
+    rank: Rank™
     sentiment:
-      title: Wisdomise Sentiment
+      title: Social Sentiment™
       info: |-
-        <b>Wisdomise Sentiment</b> <br /> <br /> <b>
+        <b>Social Sentiment™</b> <br /> <br /> <p>
           Wisdomise AI analyzes social sentiment for each asset (coin or
           token) from Reddit, Telegram, Trading View, X (formerly Twitter),
           and YouTube. The sentiment can be Positive, Neutral, or Negative,
           showing how the community feels.
-        </b> <br /> <br /> <b>P&L % Change</b> <br /> <p>
+        </p> <br /> <br /> <b>P&L % Change</b> <br /> <p>
           Tracks the Profit & Loss from when the asset was first hunted as
           “Hot” until its first major price movement.
         </p> <br /> <br /> <p>
@@ -321,7 +331,6 @@ social-radar:
           just the community’s view but also how market movements align with
           those opinions.
         </p>
-    sort: Sort
     whale_buy_sell:
       title: Whale Buy/Sell
       empty: Untracked
@@ -334,9 +343,3 @@ social-radar:
         total amount sold. <br /><br /> For assets that are not attractive to
         whales and have no significant transactions, the badge Untracked is
         displayed.
-social-radar-overview:
-  title: Social Radar Hottest Coins
-  table:
-    name: Name
-    info: Info
-    sentiment: Sentiment

@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
 import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import useIsMobile from 'utils/useIsMobile';
-import { useSubscription } from 'api';
 import GtagContainer from 'modules/base/GtagContainer';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
@@ -18,8 +17,7 @@ import { GeneralMeta } from './GeneralMeta';
 const Container = () => {
   const isMobile = useIsMobile();
   const mainRef = useRef<HTMLDivElement>(null);
-  const { group } = useSubscription();
-  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(group === 'guest');
+  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
   const { PageSiblings, height, showSiblings, setShowSiblings } =
     usePageSiblings();
 

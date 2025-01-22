@@ -1,7 +1,6 @@
 export * from './account';
 export * from './feature-flags';
 export * from './ias';
-export * from './market';
 export * from './subscription';
 export * from './exchange-accounts';
 export * from './billings';
@@ -9,3 +8,4 @@ export * from './candles';
 export * from './coinRadar';
 export * from './whale';
 export * from './trader';
+export * from './insight';

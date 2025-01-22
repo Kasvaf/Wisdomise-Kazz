@@ -18,8 +18,10 @@ interface TablePagination {
 const toParam = (prefix: string, param: string) =>
   [prefix, param].filter(x => !!x).join('-');
 
+const TABLE_STATE_ARRAY_SPLITTER = '&&';
+
 export const useTableState = <
-  T extends Record<string, string | number | boolean>,
+  T extends Record<string, string | number | boolean | string[]>,
 >(
   queryPrefix: string,
   initialState: TablePagination & T,
@@ -46,6 +48,10 @@ export const useTableState = <
         searchParamValue.trim() !== ''
       )
         returnValue[paramKeyRaw] = Number(searchParamValue);
+      else if (Array.isArray(initialParamValue))
+        returnValue[paramKeyRaw] = searchParamValue.split(
+          TABLE_STATE_ARRAY_SPLITTER,
+        );
       else returnValue[paramKeyRaw] = searchParamValue;
     }
     return returnValue as typeof initialState;
@@ -79,13 +85,25 @@ export const useTableState = <
             if (paramKeyRaw === 'total') continue;
             const paramKey = toParam(queryPrefix, paramKeyRaw);
             const { [paramKey]: prevValue, ...rest } = newSearchParams;
+            const isSame =
+              Array.isArray(paramValue) &&
+              Array.isArray(initialStateRef.current[paramKeyRaw])
+                ? JSON.stringify([...paramValue].sort()) ===
+                  JSON.stringify(
+                    [...initialStateRef.current[paramKeyRaw]].sort(),
+                  )
+                : initialStateRef.current[paramKeyRaw] === paramValue;
+            const isEmpty =
+              paramValue === undefined ||
+              (Array.isArray(paramValue) && paramValue.length === 0);
             newSearchParams =
-              paramValue === initialStateRef.current[paramKeyRaw] ||
-              paramValue === undefined
+              isSame || isEmpty
                 ? rest
                 : {
                     ...rest,
-                    [paramKey]: paramValue.toString(),
+                    [paramKey]: Array.isArray(paramValue)
+                      ? paramValue.join(TABLE_STATE_ARRAY_SPLITTER)
+                      : paramValue.toString(),
                   };
             const newValue = newSearchParams[paramKey];
             if (prevValue !== newValue) isModified = true;
@@ -102,9 +120,16 @@ export const useTableState = <
   }, [localState, queryPrefix, setSearchParams]);
 
   const state = localState;
-  const setState = useCallback((newValue: Partial<typeof initialState>) => {
-    setLocalState(p => ({ ...p, ...newValue }));
-  }, []);
+  const setState = useCallback(
+    (newValue: Partial<typeof initialState> | undefined) => {
+      setLocalState(p =>
+        newValue === undefined
+          ? initialStateRef.current
+          : { ...p, ...newValue },
+      );
+    },
+    [],
+  );
 
   return useMemo(
     () =>
@@ -116,6 +141,20 @@ export const useTableState = <
             pageSize: state.pageSize ?? 10,
           },
           onChange: (pagination, _, sorter) => {
+            const sortBy =
+              Array.isArray(sorter) || typeof sorter.order !== 'string'
+                ? initialStateRef.current.sortBy
+                : typeof sorter?.field === 'string'
+                ? sorter.field
+                : typeof sorter?.column?.key === 'string'
+                ? sorter.column.key
+                : initialStateRef.current.sortBy;
+            const sortOrder =
+              Array.isArray(sorter) || typeof sorter.order !== 'string'
+                ? initialStateRef.current.sortOrder
+                : sorter.order === 'ascend'
+                ? 'ascending'
+                : 'descending';
             setState({
               ...state,
               ...(pagination.current && {
@@ -124,21 +163,8 @@ export const useTableState = <
               ...(pagination.pageSize && {
                 pageSize: pagination.pageSize,
               }),
-
-              ...(sorter &&
-                !Array.isArray(sorter) &&
-                typeof sorter.field === 'string' && {
-                  sortBy:
-                    typeof sorter.field === 'string' && sorter.order
-                      ? sorter.field
-                      : undefined,
-                }),
-              ...(sorter &&
-                !Array.isArray(sorter) &&
-                typeof sorter.order === 'string' && {
-                  sortOrder:
-                    sorter.order === 'ascend' ? 'ascending' : 'descending',
-                }),
+              sortBy,
+              sortOrder,
             });
           },
         } satisfies Partial<TableProps<any>>,

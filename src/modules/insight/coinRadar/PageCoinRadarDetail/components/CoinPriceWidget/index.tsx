@@ -10,6 +10,7 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { Button } from 'shared/v1-components/Button';
 import { PriceAlertButton } from '../PriceAlertButton';
 import { CoinSelect } from './CoinSelect';
 
@@ -38,12 +39,13 @@ export function CoinPriceWidget({
           onChange={newSlug => navigate(`/coin/${newSlug}`)}
         />
         <HoverTooltip title={t('common:share-page-url')}>
-          <button
+          <Button
             onClick={() => share(location.href)}
+            variant="ghost"
             className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-black/20 transition-all hover:brightness-110 active:brightness-90"
           >
             <Icon size={21} name={bxShareAlt} />
-          </button>
+          </Button>
         </HoverTooltip>
         {shareNotif}
       </div>
@@ -65,14 +67,19 @@ export function CoinPriceWidget({
           />
         </div>
       </div>
-      <div className="mt-6 space-y-2">
-        <p className="text-xs text-v1-content-primary">{t('common.labels')}</p>
-        <CoinLabels
-          categories={coinOverview.data?.symbol.categories}
-          networks={coinOverview.data?.networks}
-          labels={coinOverview.data?.symbol_labels}
-        />
-      </div>
+      {coinOverview.data?.symbol && (
+        <div className="mt-6 space-y-2">
+          <p className="text-xs text-v1-content-primary">
+            {t('common.labels')}
+          </p>
+          <CoinLabels
+            categories={coinOverview.data?.symbol.categories}
+            networks={coinOverview.data?.networks}
+            labels={coinOverview.data?.symbol_labels}
+            coin={coinOverview.data?.symbol}
+          />
+        </div>
+      )}
       <div className="mt-8">
         <PriceAlertButton slug={slug} className="w-full" />
       </div>

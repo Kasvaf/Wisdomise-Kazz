@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type SocialMessage } from 'api';
 import { formatNumber } from 'utils/numbers';
-import { ReactComponent as ExternalLinkIcon } from './external_link.svg';
 
 export function SocialMessageUser({
   message,
@@ -12,7 +11,7 @@ export function SocialMessageUser({
 }: {
   message: SocialMessage;
   className?: string;
-  type: 'title' | 'large-title' | 'link';
+  type: 'title' | 'large-title';
 }) {
   const { t } = useTranslation('coin-radar');
 
@@ -43,6 +42,7 @@ export function SocialMessageUser({
       }
       case 'telegram': {
         ret = {
+          url: message.content.webpage_url ?? undefined,
           name: message.content.channel_name,
           subtitle: t('social-messages.subscribers', {
             size: formatNumber(message.content.participants_count ?? 0, {
@@ -78,55 +78,45 @@ export function SocialMessageUser({
     return ret;
   }, [message, t]);
 
-  if (type !== 'link') {
-    return (
-      <div
-        className={clsx(
-          'flex max-w-full items-center gap-2 overflow-hidden',
-          className,
-        )}
-      >
-        {user.avatar && (
-          <img
-            src={user.avatar}
-            alt={user.name || 'User Avatar'}
-            className={clsx(
-              'size-6 rounded-full bg-v1-surface-l5 object-contain',
-              type === 'title' ? 'size-6' : 'size-8',
-            )}
-          />
-        )}
-        <div>
-          {user.name && (
-            <p className="text-xs text-v1-content-primary">{user.name}</p>
-          )}
-          {user.subtitle && (
-            <p className="mt-px text-xs font-light text-v1-content-secondary">
-              {user.subtitle}
-            </p>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const LinkComp = user.url ? 'a' : 'div';
+
   return (
-    <>
-      {user.url && (
-        <a
-          href={user.url}
-          target="_blank"
-          className={clsx(
-            'rounded-full !bg-white/10 px-2 py-1 text-xs !text-v1-content-primary',
-            'transition-all hover:underline active:brightness-90',
-            'w-full max-w-52 truncate',
-            className,
-          )}
-          rel="noreferrer"
-        >
-          <ExternalLinkIcon className="me-1 inline-block shrink-0" />
-          {user.url.replace('https://', '').replace('www.', '')}
-        </a>
+    <LinkComp
+      className={clsx(
+        'flex max-w-full items-center gap-2 overflow-hidden',
+        className,
       )}
-    </>
+      href={user.url}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {user.avatar && (
+        <img
+          src={user.avatar}
+          alt={user.name || 'User Avatar'}
+          className={clsx(
+            'size-6 shrink-0 rounded-full bg-v1-surface-l5 object-contain',
+            type === 'title' ? 'size-6' : 'size-8',
+          )}
+        />
+      )}
+      <div>
+        {user.name && (
+          <div className="flex items-center gap-2 text-xs text-v1-content-primary">
+            {user.name}
+            {message.social_type === 'telegram' && !user.url && (
+              <span className="rounded-xl bg-white/10 px-1 text-[9px]">
+                {'VIP Channel'}
+              </span>
+            )}
+          </div>
+        )}
+        {user.subtitle && (
+          <p className="text-xxs font-light text-v1-content-secondary">
+            {user.subtitle}
+          </p>
+        )}
+      </div>
+    </LinkComp>
   );
 }

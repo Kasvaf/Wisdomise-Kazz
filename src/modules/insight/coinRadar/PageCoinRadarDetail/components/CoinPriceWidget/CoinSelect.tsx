@@ -1,11 +1,9 @@
-import { Select } from 'antd';
 import { useMemo, useState } from 'react';
-import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
-import { useTranslation } from 'react-i18next';
 import { useCoinList, useCoinOverview } from 'api';
 import type { Coin as CoinType } from 'api/types/shared';
 import { Coin } from 'shared/Coin';
+import { Select } from 'shared/v1-components/Select';
 
 export function CoinSelect({
   value,
@@ -16,7 +14,6 @@ export function CoinSelect({
   onChange: (newValue: string) => void;
   className?: string;
 }) {
-  const { t } = useTranslation('common');
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
   const coinList = useCoinList({ q });
@@ -38,36 +35,20 @@ export function CoinSelect({
 
   return (
     <Select
-      className={clsx('[&_.ant-select-selector]:!bg-black/20', className)}
+      className={className}
       value={value}
+      allowClear={false}
+      onChange={onChange as never}
       showSearch
-      autoClearSearchValue
-      showArrow
       searchValue={query}
       onSearch={setQuery}
-      filterOption={false}
       loading={coinList.isLoading}
-      popupMatchSelectWidth={false}
-      notFoundContent={
-        coinList.isLoading ? (
-          <div className="min-h-10 animate-pulse p-4 text-center">
-            {t('almost-there')}
-          </div>
-        ) : undefined
-      }
-      options={coins.map(c => ({
-        label: (
-          <Coin
-            coin={c}
-            nonLink
-            className="!p-0 align-middle !text-sm"
-            imageClassName="size-6"
-            popup={false}
-          />
-        ),
-        value: c.slug,
-      }))}
-      onChange={onChange}
+      options={coins.map(x => x.slug)}
+      render={val => {
+        const currentCoin = coins.find(x => x.slug === val);
+        if (!currentCoin) return '';
+        return <Coin coin={currentCoin} nonLink imageClassName="size-8" />;
+      }}
     />
   );
 }

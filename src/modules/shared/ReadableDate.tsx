@@ -41,14 +41,14 @@ export const ReadableDate: FC<{
     setTick(p => p + 1);
   }, refreshTime);
 
+  const disabled = !popup || !content?.tooltip;
+
   return (
-    <HoverTooltip
-      title={content?.tooltip}
-      disabled={!popup || !content?.tooltip}
-    >
+    <HoverTooltip title={content?.tooltip} disabled={disabled}>
       <time
         className={clsx(
-          content?.label ? 'cursor-help' : 'font-light opacity-70',
+          content?.label && !disabled && 'cursor-help',
+          !content?.label && 'font-light opacity-70',
           className,
         )}
       >

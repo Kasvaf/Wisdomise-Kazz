@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 import { bxHappy, bxMeh, bxSad } from 'boxicons-quasar';
 import dayjs from 'dayjs';
 import { type EChartsOption } from 'echarts';
-import { type CoinSignal } from 'api';
+import { type SocialRadarSentiment } from 'api';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ECharts } from 'shared/ECharts';
 import { Coin } from 'shared/Coin';
@@ -17,7 +17,7 @@ import { ReadableNumber } from '../../../../../shared/ReadableNumber';
 import { ReactComponent as Logo } from './logo.svg';
 
 const SignalSentimentTitle: FC<{
-  signal: CoinSignal;
+  signal: SocialRadarSentiment;
   className?: string;
 }> = ({ signal, className }) => {
   const { t } = useTranslation('coin-radar');
@@ -55,7 +55,7 @@ const SignalSentimentTitle: FC<{
 };
 
 const SignalSentimentDetails: FC<{
-  signal: CoinSignal;
+  signal: SocialRadarSentiment;
   className?: string;
 }> = ({ signal, className }) => {
   const { t } = useTranslation('coin-radar');
@@ -71,14 +71,16 @@ const SignalSentimentDetails: FC<{
 };
 
 export const SignalSentiment: FC<{
-  signal: CoinSignal;
+  signal: SocialRadarSentiment;
   className?: string;
   minimal?: boolean;
-}> = ({ signal, className, minimal }) => {
+  hidePnl?: boolean;
+}> = ({ signal, className, minimal, hidePnl }) => {
   const { t } = useTranslation('coin-radar');
   const [tick, setTick] = useState(1); // used as dependency to update content
 
-  const chartConfig = useMemo<EChartsOption>(() => {
+  const chartConfig = useMemo<EChartsOption | null>(() => {
+    if (!signal.signals_analysis) return null;
     let parsedData: Array<{
       price: number;
       relatedAt: string;
@@ -209,13 +211,15 @@ export const SignalSentiment: FC<{
             label: {
               show: false,
             },
-            data: [
-              {
-                yAxis: parsedData.find(x => x.dateType === 'call_time')?.y,
-                xAxis: parsedData.find(x => x.dateType === 'call_time')
-                  ?.relatedAt,
-              },
-            ],
+            data: parsedData.some(x => x.dateType === 'call_time')
+              ? [
+                  {
+                    yAxis: parsedData.find(x => x.dateType === 'call_time')?.y,
+                    xAxis: parsedData.find(x => x.dateType === 'call_time')
+                      ?.relatedAt,
+                  },
+                ]
+              : [],
           },
         },
       ],
@@ -255,11 +259,11 @@ export const SignalSentiment: FC<{
   }, [signal.signals_analysis, t]);
 
   const tooltip = useMemo(() => {
-    if (!signal.signals_analysis || !tick) return null;
+    if (!signal.signals_analysis || !tick || !chartConfig) return null;
     const date = dayjs(signal.signals_analysis.call_time);
     return (
       <>
-        {signal.signals_analysis && date && (
+        {signal.signals_analysis && chartConfig && date && (
           <div className="flex min-w-[360px] flex-col">
             <div className="mb-4 hidden items-center gap-2 text-base mobile:flex">
               <Logo />
@@ -275,14 +279,16 @@ export const SignalSentiment: FC<{
                 />
               </div>
             </div>
-            <div className="mb-2">
-              <Coin
-                coin={signal.symbol}
-                imageClassName="size-10"
-                nonLink
-                truncate={350}
-              />
-            </div>
+            {signal.symbol && (
+              <div className="mb-2">
+                <Coin
+                  coin={signal.symbol}
+                  imageClassName="size-10"
+                  nonLink
+                  truncate={350}
+                />
+              </div>
+            )}
             <div className="mb-4">
               <ECharts
                 initOptions={{
@@ -299,35 +305,37 @@ export const SignalSentiment: FC<{
                 </div>
                 <ReadableNumber
                   popup="never"
-                  value={signal.symbol_market_data.current_price}
+                  value={signal.signals_analysis.current_price}
                   label="$"
                   className="text-sm"
                 />
               </div>
-              <div className="flex items-center justify-between gap-1 text-xs">
-                <div className="text-v1-content-secondary">
-                  {t('call-change.last-pnl-update')}
+              {!hidePnl && (
+                <div className="flex items-center justify-between gap-1 text-xs">
+                  <div className="text-v1-content-secondary">
+                    {t('call-change.last-pnl-update')}
+                  </div>
+                  <DirectionalNumber
+                    popup="never"
+                    value={signal.signals_analysis.real_pnl_percentage}
+                    label="%"
+                    showIcon={false}
+                    suffix={
+                      <div className="ps-1">
+                        (
+                        <ReadableDuration
+                          value={dayjs(signal.signals_analysis.updated_at).diff(
+                            Date.now(),
+                          )}
+                        />
+                        )
+                      </div>
+                    }
+                    showSign
+                    className="text-sm"
+                  />
                 </div>
-                <DirectionalNumber
-                  popup="never"
-                  value={signal.signals_analysis.real_pnl_percentage}
-                  label="%"
-                  showIcon={false}
-                  suffix={
-                    <div className="ps-1">
-                      (
-                      <ReadableDuration
-                        value={dayjs(signal.signals_analysis.updated_at).diff(
-                          Date.now(),
-                        )}
-                      />
-                      )
-                    </div>
-                  }
-                  showSign
-                  className="text-sm"
-                />
-              </div>
+              )}
               <div className="flex items-center justify-between gap-1 text-xs">
                 <div className="text-v1-content-secondary">
                   {t('call-change.biggest-pump')}
@@ -361,7 +369,8 @@ export const SignalSentiment: FC<{
         )}
       </>
     );
-  }, [signal, tick, t, chartConfig]);
+  }, [signal, tick, chartConfig, t, hidePnl]);
+
   return (
     <ClickableTooltip
       title={tooltip}
@@ -382,7 +391,7 @@ export const SignalSentiment: FC<{
             className="text-xxs font-normal"
           />
         </div>
-        {!minimal && (
+        {!minimal && signal.signals_analysis && (
           <div className="flex items-center gap-1 ps-[22px] text-xs">
             <label className="text-v1-content-secondary">
               {t('coin-details.tabs.social_sentiment.hunted-at')}:
@@ -391,15 +400,17 @@ export const SignalSentiment: FC<{
               popup={false}
               value={signal.signals_analysis.call_time}
             />
-            <DirectionalNumber
-              popup="never"
-              value={signal.signals_analysis.real_pnl_percentage}
-              label="%"
-              prefix="("
-              suffix=")"
-              showIcon={false}
-              showSign
-            />
+            {!hidePnl && (
+              <DirectionalNumber
+                popup="never"
+                value={signal.signals_analysis.real_pnl_percentage}
+                label="%"
+                prefix="("
+                suffix=")"
+                showIcon={false}
+                showSign
+              />
+            )}
           </div>
         )}
       </span>

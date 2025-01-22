@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import Button from 'shared/Button';
-import { CoinSocialSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinSocialSentimentWidget';
 import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
 import CoinChart from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinChart';
 import { useHasFlag } from 'api';
+import { SocialRadarSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/SocialRadarSentimentWidget';
 import PositionsList from '../PositionsList';
 import BtnBack from '../layout/BtnBack';
 import MiniCoinPriceWidget from './MiniCoinPriceWidget';
@@ -38,7 +38,7 @@ export default function PageCoinDetail() {
       <PositionsList slug={slug} isOpen noEmptyState />
 
       <CoinStatsWidget slug={slug} />
-      <CoinSocialSentimentWidget slug={slug} noEmptyState />
+      <SocialRadarSentimentWidget slug={slug} noEmptyState />
 
       {hasFlag('/trader-coin-chart') && (
         <div className="-mx-1">

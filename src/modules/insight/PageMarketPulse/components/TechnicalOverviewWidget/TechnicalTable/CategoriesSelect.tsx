@@ -16,7 +16,7 @@ export const CategoriesSelect: FC<SelectProps<string>> = ({
   const query = useDebounce(q, 400);
   const categories = useCategories({
     query,
-    filter: 'social-radar-24-hours',
+    filter: 'technical-radar',
   });
 
   return (
@@ -44,7 +44,7 @@ export const CategoriesSelect: FC<SelectProps<string>> = ({
           </div>
         ) : undefined
       }
-      placeholder={<span>{t('coin-category.all')}</span>}
+      placeholder={<span>{t('common.all_categories')}</span>}
       options={categories.data?.map(cat => ({
         label: <span className="pe-3">{cat.name}</span>,
         value: cat.slug,

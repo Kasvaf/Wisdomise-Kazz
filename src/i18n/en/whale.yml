@@ -69,23 +69,6 @@ onboarding:
       wallet changes. Soon, you'll be able to activate Auto-Trader to
       automatically execute trades based on the top whales actions—letting you
       sit back and relax.
-sections:
-  top-coins:
-    title: Top Whale Coins
-    subtitle: >-
-      See the most traded coins by whales, ranked by transaction volume and
-      frequency.
-    table:
-      total-vol: Total Volume Transacted
-      transactions: Whale Transactions
-  top-whales:
-    title: Top Whales List
-    subtitle: Discover the wealthiest addresses (whales) across blockchains
-    table:
-      pnl_percent: PNL Percentage
-      total_worth: Total Worth
-      trades: Trades
-      wallet-address: Wallet Address
 top_coins:
   name: Name
   title: Top Tokens Chosen by Whales

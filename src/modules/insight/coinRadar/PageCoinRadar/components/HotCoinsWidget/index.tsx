@@ -19,15 +19,16 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { DebugPin } from 'shared/DebugPin';
 import { CoinPriceInfo } from '../CoinPriceInfo';
-import { CoinSecurityLabel } from '../../../../../shared/CoinSecurityLabel/index';
-import { type SortMode, SortModes } from '../SortModes';
+import { SortModes } from '../SortModes';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
 import { CoinMarketCap } from '../CoinMarketCap/index';
-import { NetworkSelect } from '../NetworkSelect';
-import { CategoriesSelect } from '../CategoriesSelect';
 import CoinRadarAlerButton from '../CoinRadarAlertButton';
+import { data as tags, Tags } from '../Tags';
+import { AdvanceFilteringButtons } from '../AdvanceFilteringButtons';
 import { ReactComponent as Logo } from './logo.svg';
+import SocialRadarIcon from './social-radar.png';
+import { ReactComponent as Realtime } from './realtime.svg';
 
 export function HotCoinsWidget({ className }: { className?: string }) {
   const marketInfo = useMarketInfoFromSignals();
@@ -37,68 +38,30 @@ export function HotCoinsWidget({ className }: { className?: string }) {
   const [tableProps, tableState, setTableState] = useTableState('', {
     page: 1,
     pageSize: 10,
-    sortBy: 'rank' as SortMode,
+    sortBy: 'rank',
     sortOrder: 'ascending',
     query: '',
-    category: '',
-    network: '',
+    categories: [] as string[],
+    networks: [] as string[],
+    trendLabels: [] as string[],
+    securityLabels: [] as string[],
+    tag: '',
   });
+
+  const selectedTag = tags.find(x => x.slug === tableState.tag);
 
   const coins = useCoinSignals({
     windowHours: 24,
-    network: tableState.network || undefined,
+    networks: selectedTag ? selectedTag.networks ?? [] : tableState.networks,
+    categories: selectedTag
+      ? selectedTag.categories ?? []
+      : tableState.categories,
+    security_labels: tableState.securityLabels ?? [],
+    trend_labels: tableState.trendLabels ?? [],
+    query: tableState.query,
+    sortBy: tableState.sortBy,
+    sortOrder: tableState.sortOrder,
   });
-  const filteredCoins = useMemo(() => {
-    // const lowercaseQuery = tableState.query.toLowerCase();
-    const lowercaseQuery = tableState.query.toLowerCase();
-    return (coins.data ?? [])
-      .filter(
-        row =>
-          !lowercaseQuery ||
-          `${row.symbol.name ?? ''}${row.symbol.abbreviation ?? ''}${
-            row.symbol.slug ?? ''
-          }`
-            ?.toLowerCase()
-            .includes(lowercaseQuery),
-      )
-      .filter(
-        row =>
-          !tableState.category ||
-          (row.symbol.categories ?? [])
-            .map(r => r.slug)
-            .includes(tableState.category),
-      )
-      .sort((a, b) => {
-        if (!tableState.sortBy || tableState.sortBy === 'rank') {
-          return a.rank - b.rank;
-        }
-        if (tableState.sortBy === 'call_time') {
-          return (
-            new Date(b.signals_analysis.call_time ?? Date.now()).getTime() -
-            new Date(a.signals_analysis.call_time ?? Date.now()).getTime()
-          );
-        }
-        if (tableState.sortBy === 'price_change') {
-          return (
-            (b.symbol_market_data.price_change_percentage_24h ?? 0) -
-            (a.symbol_market_data.price_change_percentage_24h ?? 0)
-          );
-        }
-        if (tableState.sortBy === 'pnl') {
-          return (
-            (b.signals_analysis.real_pnl_percentage ?? 0) -
-            (a.signals_analysis.real_pnl_percentage ?? 0)
-          );
-        }
-        if (tableState.sortBy === 'market_cap') {
-          return (
-            (b.symbol_market_data.market_cap ?? 0) -
-            (a.symbol_market_data.market_cap ?? 0)
-          );
-        }
-        return a.rank - b.rank;
-      });
-  }, [coins.data, tableState]);
 
   const columns = useMemo<Array<ColumnType<CoinSignal>>>(
     () => [
@@ -135,7 +98,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row) => <SignalSentiment signal={row} />,
+        render: (_, row) => <SignalSentiment signal={row} hidePnl />,
       },
       {
         title: [
@@ -192,12 +155,8 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             categories={row.symbol.categories}
             labels={row.symbol_labels}
             networks={row.networks}
-            suffix={
-              <CoinSecurityLabel
-                value={row.symbol_security?.data}
-                coin={row.symbol}
-              />
-            }
+            security={row.symbol_security?.data}
+            coin={row.symbol}
           />
         ),
       },
@@ -214,8 +173,9 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       title={
         isEmbeddedView ? undefined : (
           <>
-            <Logo />
+            <img src={SocialRadarIcon} className="size-[26px]" />
             {t('social-radar.table.title')}
+            <Realtime />
           </>
         )
       }
@@ -223,7 +183,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         isEmbeddedView ? undefined : (
           <div
             className={clsx(
-              'capitalize [&_b]:font-normal [&_b]:text-v1-content-primary',
+              'w-[450px] mobile:hidden [&_b]:font-normal [&_b]:text-v1-content-primary',
               marketInfo.isLoading && '[&_b]:animate-pulse',
             )}
           >
@@ -247,38 +207,65 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       }
       loading={coins.isInitialLoading}
       empty={(coins.data ?? [])?.length === 0}
-      headerClassName="flex-wrap !justify-between"
+      headerClassName="flex flex-wrap"
       headerActions={
         <>
-          {!isEmbeddedView && <CoinRadarAlerButton className="mobile:w-full" />}
-          <div className="flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
+          <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
             <CoinSearchInput
               value={tableState.query}
               onChange={query => setTableState({ query })}
-              className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
+              className="w-64 mobile:max-w-max mobile:grow"
             />
-            <NetworkSelect
-              value={tableState.network || undefined}
-              onChange={network => setTableState({ network })}
-              className="mobile:order-3"
+            {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
+          </div>
+          <div className="col-span-3 flex w-full grow basis-full flex-nowrap gap-4 mobile:flex-wrap">
+            <Tags
+              value={
+                tableState.categories.length > 0 ||
+                tableState.networks.length > 0
+                  ? 'custom'
+                  : tableState.tag ?? ''
+              }
+              onChange={tag =>
+                setTableState({
+                  tag: tag ?? '',
+                  ...(tag && {
+                    categories: [],
+                    networks: [],
+                  }),
+                })
+              }
+              className="!max-w-[490px] mobile:w-full mobile:max-w-full"
             />
-            <CategoriesSelect
-              value={tableState.category || undefined}
-              onChange={category => setTableState({ category })}
-              className="mobile:order-4"
+            <SortModes
+              sortBy={tableState.sortBy}
+              sortOrder={tableState.sortOrder}
+              onChange={(sortBy, sortOrder) =>
+                setTableState({ sortBy, sortOrder: sortOrder as never })
+              }
+              className="mobile:w-full"
             />
-            <div className="flex flex-wrap items-center gap-2 mobile:order-5">
-              <span className="text-xs mobile:w-full mobile:grow">
-                {t('social-radar.table.sort')}:
-              </span>
-              <SortModes
-                value={tableState.sortBy}
-                onChange={sortBy => setTableState({ sortBy })}
-                className="mobile:w-full"
-              />
-            </div>
-
-            <div className="grow mobile:hidden" />
+            <AdvanceFilteringButtons
+              onReset={() => setTableState(undefined)}
+              onChange={newState => setTableState({ ...newState, tag: '' })}
+              categories={
+                tableState.categories.length > 0
+                  ? tableState.categories
+                  : selectedTag?.categories?.length
+                  ? selectedTag.categories
+                  : []
+              }
+              networks={
+                tableState.networks.length > 0
+                  ? tableState.networks
+                  : selectedTag?.networks?.length
+                  ? selectedTag.networks
+                  : []
+              }
+              trendLabels={tableState.trendLabels}
+              securityLabels={tableState.securityLabels}
+              className="shrink-0 grow justify-between"
+            />
           </div>
         </>
       }
@@ -295,7 +282,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       >
         <Table
           columns={columns}
-          dataSource={filteredCoins}
+          dataSource={coins.data}
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isRefetching && !coins.isFetched}
           tableLayout="fixed"

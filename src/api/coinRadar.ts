@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { TEMPLE_ORIGIN } from 'config/constants';
+import { FetchError } from 'ofetch';
 import { isMiniApp } from 'utils/version';
 import { ofetch } from 'config/ofetch';
 import {
@@ -42,7 +42,7 @@ export const useMarketInfoFromSignals = () =>
     queryKey: ['market-social-signal'],
     queryFn: async () => {
       const data = await ofetch<MarketInfoFromSignals>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/market-social-signal/?window_hours=24`,
+        'delphi/social-radar/market-social-signal/?window_hours=24',
       );
       return data;
     },
@@ -67,10 +67,22 @@ export interface CoinSignalAnalysis {
     related_ats?: null | string[];
   };
 }
-export interface CoinSignal {
+
+export interface SocialRadarSentiment {
+  last_signal_related_at: string;
+  first_signal_related_at: string;
+  gauge_tag: 'LONG' | 'SHORT' | 'NOT SURE';
+  gauge_measure: -1 | 0 | 1;
+  long_count: number;
+  short_count: number;
+  messages_count: number;
+  symbol?: Coin;
+  signals_analysis?: CoinSignalAnalysis;
+}
+export interface CoinSignal extends SocialRadarSentiment {
   rank: number;
-  symbol: Coin;
   symbol_market_data: MarketData;
+  symbol: Coin;
   symbol_security?: null | {
     data: NetworkSecurity[];
   };
@@ -84,38 +96,171 @@ export interface CoinSignal {
     total_holding_volume?: null | number;
     total_recent_trading_pnl?: null | number;
   };
-  long_count: number;
-  short_count: number;
-  messages_count: number;
-  gauge_tag: 'LONG' | 'SHORT' | 'NOT SURE';
-  gauge_measure: -1 | 0 | 1;
-  last_signal_related_at: string;
-  first_signal_related_at: string;
   signals_analysis: CoinSignalAnalysis;
   symbol_labels?: null | string[];
   networks?: null | CoinNetwork[];
 }
 
-export const useCoinSignals = (filters?: {
-  windowHours: number;
-  network?: string;
-}) =>
+export const useCoinSignals = (
+  filters?: {
+    windowHours: number;
+    sortBy?: string;
+    sortOrder?: 'ascending' | 'descending';
+    query?: string;
+    categories?: string[];
+    networks?: string[];
+  } & Partial<CoinLabels>,
+) =>
   useQuery({
-    queryKey: ['coins-social-signal', JSON.stringify(filters)],
+    queryKey: ['coins-social-signal', filters?.windowHours],
     queryFn: async () => {
       const data = await ofetch<CoinSignal[]>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coins-social-signal/`,
+        'delphi/social-radar/coins-social-signal/',
         {
           query: {
             window_hours: filters?.windowHours ?? 24,
-            network_slug: filters?.network,
           },
         },
       );
-      return data;
+      return data ?? [];
+    },
+    select: data => {
+      return data
+        .filter(row => {
+          const query = filters?.query?.trim().toLowerCase();
+          if (
+            query &&
+            ![row.symbol.name, row.symbol.abbreviation, row.symbol.slug]
+              .filter(x => !!x)
+              .join('-')
+              .toLowerCase()
+              .includes(query)
+          )
+            return false;
+
+          const categories = filters?.categories ?? [];
+          if (
+            categories.length > 0 &&
+            !row.symbol.categories
+              ?.map(x => x.slug)
+              .some(x => categories.includes(x))
+          )
+            return false;
+
+          const networks = filters?.networks ?? [];
+          if (
+            networks.length > 0 &&
+            !row.networks
+              ?.map(x => x.network.slug)
+              .some(x => networks.includes(x))
+          )
+            return false;
+
+          const trendLabels = filters?.trend_labels ?? [];
+          if (
+            trendLabels.length > 0 &&
+            !row.symbol_labels?.some(x => trendLabels.includes(x))
+          )
+            return false;
+
+          const securityLabels = filters?.security_labels ?? [];
+          const rowSecurityLabels = [
+            ...(row.symbol_security?.data?.every(x => !!x.label.trusted)
+              ? ['trusted']
+              : []),
+            ...(row.symbol_security?.data?.some(x => (x.label.warning ?? 0) > 0)
+              ? ['warning']
+              : []),
+            ...(row.symbol_security?.data?.some(x => (x.label.risk ?? 0) > 0)
+              ? ['risk']
+              : []),
+          ];
+
+          if (
+            securityLabels.length > 0 &&
+            !rowSecurityLabels.some(x => securityLabels.includes(x))
+          )
+            return false;
+
+          return true;
+        })
+        .sort((a, b) => {
+          const sortBy = filters?.sortBy;
+          const sortOrder = filters?.sortOrder === 'descending' ? -1 : 1;
+          if (sortBy === 'call_time') {
+            return (
+              (new Date(b.signals_analysis.call_time ?? Date.now()).getTime() -
+                new Date(
+                  a.signals_analysis.call_time ?? Date.now(),
+                ).getTime()) *
+              sortOrder
+            );
+          }
+          if (sortBy === 'price_change') {
+            return (
+              ((b.symbol_market_data.price_change_percentage_24h ?? 0) -
+                (a.symbol_market_data.price_change_percentage_24h ?? 0)) *
+              sortOrder
+            );
+          }
+          if (sortBy === 'pnl') {
+            return (
+              ((b.signals_analysis.real_pnl_percentage ?? 0) -
+                (a.signals_analysis.real_pnl_percentage ?? 0)) *
+              sortOrder
+            );
+          }
+          if (sortBy === 'market_cap') {
+            return (
+              ((b.symbol_market_data.market_cap ?? 0) -
+                (a.symbol_market_data.market_cap ?? 0)) *
+              sortOrder
+            );
+          }
+          return (a.rank - b.rank) * sortOrder;
+        });
     },
     refetchInterval: 30_000,
     keepPreviousData: true,
+  });
+
+export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>
+  useQuery({
+    queryKey: ['social-radar-sentiment', slug],
+    queryFn: async () => {
+      try {
+        const data = await ofetch<SocialRadarSentiment>(
+          'delphi/social-radar/widget/',
+          {
+            query: {
+              slug,
+            },
+          },
+        );
+        return data;
+      } catch (error) {
+        if (error instanceof FetchError && error.status === 500) {
+          return null;
+        }
+        throw error;
+      }
+    },
+  });
+
+export interface CoinLabels {
+  security_labels: string[];
+  trend_labels: string[];
+}
+
+export const useCoinLabels = () =>
+  useQuery({
+    queryKey: ['coin-labels'],
+    queryFn: async () => {
+      const data = await ofetch<CoinLabels>(
+        'delphi/intelligence/symbol-labels/',
+      );
+      return data ?? [];
+    },
   });
 
 interface SocialMessageTemplate<S, O> {
@@ -236,7 +381,7 @@ export const useSocialMessages = (slug: string) =>
         trading_view_ideas: null | TradingViewIdeasMessage[];
         twitter: null | TwitterMessage[];
       }>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/coin-social-messages/?window_hours=24&slug=${slug}`,
+        `delphi/social-radar/coin-social-messages/?window_hours=24&slug=${slug}`,
       );
       const response: SocialMessage[] = [
         ...(data.reddit || []).map(
@@ -305,7 +450,7 @@ export const useCoinAvailableExchanges = (symbol: string) =>
     queryKey: ['coin-available-exchanges', symbol],
     queryFn: async () => {
       const data = await ofetch<CoinExchange[]>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/symbol-exchanges/?symbol_abbreviation=${symbol}`,
+        `delphi/symbol-exchanges/?symbol_abbreviation=${symbol}`,
       );
       return (data || []).sort((a, b) =>
         a.coin_ranking_rank < b.coin_ranking_rank
@@ -325,13 +470,10 @@ interface RecommendChannelVariables {
 export const useRecommendChannelMutation = () =>
   useMutation<unknown, unknown, RecommendChannelVariables>({
     mutationFn: async variables => {
-      await ofetch(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/social-radar/suggest-channel/`,
-        {
-          body: variables,
-          method: 'post',
-        },
-      );
+      await ofetch('delphi/social-radar/suggest-channel/', {
+        body: variables,
+        method: 'post',
+      });
     },
   });
 
@@ -500,7 +642,7 @@ export const useCoinList = ({
 
 export const useCategories = (config: {
   query?: string;
-  filter?: 'social-radar-24-hours';
+  filter?: 'social-radar-24-hours' | 'technical-radar';
 }) =>
   useQuery({
     queryKey: ['categories', JSON.stringify(config)],
@@ -514,6 +656,26 @@ export const useCategories = (config: {
         query: {
           q: config.query,
           filter: config.filter,
+        },
+      }),
+  });
+
+export const useNetworks = (config?: {
+  filter?: 'social-radar-24-hours' | 'technical-radar';
+}) =>
+  useQuery({
+    queryKey: ['networks', JSON.stringify(config)],
+    queryFn: () =>
+      ofetch<
+        Array<{
+          icon_url: string;
+          id: number;
+          name: string;
+          slug: string;
+        }>
+      >('/delphi/market/networks/', {
+        query: {
+          filter: config?.filter,
         },
       }),
   });

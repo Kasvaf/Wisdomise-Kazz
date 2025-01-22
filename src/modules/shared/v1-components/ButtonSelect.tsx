@@ -9,17 +9,21 @@ import {
 } from 'react';
 import Icon from 'shared/Icon';
 
-export function ButtonSelect<T>({
+export function ButtonSelect<T, AC extends boolean = false>({
   size = 'xl',
+  variant = 'default',
   className,
-  itemsClassName,
+  buttonClassName,
   options,
+  allowClear,
   value,
   onChange,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
+  variant?: 'default' | 'primary';
   className?: string;
-  itemsClassName?: string;
+  buttonClassName?: string;
+  allowClear?: AC;
   options: Array<{
     value: T;
     label: ReactNode;
@@ -27,7 +31,7 @@ export function ButtonSelect<T>({
     hidden?: boolean;
   }>;
   value?: T;
-  onChange?: (newValue: T) => void;
+  onChange?: (newValue: AC extends true ? T | undefined : T) => void;
 }) {
   const buttonsRef = useRef<HTMLDivElement>(null);
   const [hasOverflow, setHasOverflow] = useState<[boolean, boolean]>([
@@ -39,8 +43,8 @@ export function ButtonSelect<T>({
       buttonsRef.current?.scrollTo({
         left:
           buttonsRef.current.scrollLeft +
-          buttonsRef.current.offsetWidth * (direction === 'left' ? -1 : 1) -
-          20,
+          (buttonsRef.current.offsetWidth / 1.4) *
+            (direction === 'left' ? -1 : 1),
         behavior: 'smooth',
       });
     },
@@ -64,6 +68,32 @@ export function ButtonSelect<T>({
       el.removeEventListener('scroll', resizeHandler);
     };
   }, []);
+
+  useEffect(() => {
+    const el = buttonsRef.current;
+    if (!el) return;
+    const selectedEl = el.querySelector<HTMLButtonElement>(
+      '[aria-checked="true"]',
+    );
+    if (!selectedEl) return;
+    el.scrollTo({
+      left: selectedEl.offsetLeft - el.offsetWidth / 2,
+      behavior: 'smooth',
+    });
+  }, [value]);
+
+  const handleClick = useCallback(
+    (newValue: T) => () => {
+      onChange?.(
+        allowClear
+          ? value === newValue
+            ? (undefined as never)
+            : newValue
+          : newValue,
+      );
+    },
+    [onChange, allowClear, value],
+  );
   return (
     <div
       className={clsx(
@@ -78,25 +108,30 @@ export function ButtonSelect<T>({
       )}
     >
       <div
-        className="h-full w-full space-x-1 overflow-auto whitespace-nowrap p-1 text-v1-content-primary"
+        className="flex h-full w-full flex-nowrap items-center gap-1 overflow-hidden whitespace-nowrap p-1 text-v1-content-primary mobile:overflow-auto"
         ref={buttonsRef}
       >
         {options
           .filter(x => !x.hidden)
           .map((option, index) => (
             <button
-              onClick={() => onChange?.(option.value)}
+              onClick={handleClick(option.value)}
               key={`${option.value?.toString() || ''}-${index}`}
               role="radio"
               aria-checked={value === option.value}
               disabled={option.disabled}
               className={clsx(
-                'h-full rounded-lg px-3 text-sm text-white/60',
-                'grow transition-colors duration-150',
-                'enabled:hover:bg-white/5 enabled:aria-checked:bg-white/5',
+                'relative h-full shrink-0 overflow-hidden rounded-lg px-3 text-sm',
+                'inline-flex flex-nowrap items-center justify-center gap-1',
+                'grow outline-none transition-colors duration-150',
+                'border border-transparent enabled:hover:bg-white/5 enabled:active:bg-white/10',
+                variant === 'primary'
+                  ? 'enabled:aria-checked:bg-v1-background-brand'
+                  : 'enabled:aria-checked:bg-white/10',
+                'focus-visible:border-v1-border-focus',
                 'aria-checked:text-v1-content-primary',
                 'disabled:opacity-40',
-                itemsClassName,
+                buttonClassName,
               )}
             >
               {option.label}
@@ -106,8 +141,9 @@ export function ButtonSelect<T>({
       {hasOverflow.map((x, i) => (
         <div
           className={clsx(
-            'absolute top-0 flex h-full w-6 items-center justify-center backdrop-blur-lg',
-            i === 0 ? 'left-0 rounded-l-xl' : 'right-0 rounded-r-xl',
+            'group absolute top-0 flex h-full w-5 cursor-pointer items-center justify-center',
+            'bg-v1-surface-l-next',
+            i === 0 ? 'left-0' : 'right-0',
             !x && 'hidden',
           )}
           onClick={scroll(i === 0 ? 'left' : 'right')}
@@ -115,7 +151,8 @@ export function ButtonSelect<T>({
         >
           <Icon
             name={i === 0 ? bxChevronLeft : bxChevronRight}
-            className="text-white/70"
+            className="text-v1-content-primary opacity-60 group-hover:opacity-100"
+            size={20}
           />
         </div>
       ))}

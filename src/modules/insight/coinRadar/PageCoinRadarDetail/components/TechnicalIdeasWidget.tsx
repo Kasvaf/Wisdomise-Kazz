@@ -5,6 +5,7 @@ import { useCoinOverview, useSocialMessages } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 import { SocialMessageSummary } from './CoinSocialFeedWidget/SocialMessage';
 import CoinChart from './CoinChart';
 
@@ -21,9 +22,13 @@ export function TechnicalIdeasWidget({
   const isMobile = useIsMobile();
   const [limit, setLimit] = useState(3);
 
-  const hasChart =
-    coinOverview.data?.charts_id?.trading_view_chart_id ||
-    coinOverview.data?.charts_id?.gecko_terminal_chart_id;
+  const chartUrl = coinOverview.data?.charts_id?.gecko_terminal_chart_id
+    ? `https://www.geckoterminal.com/${coinOverview.data.charts_id.gecko_terminal_chart_id}`
+    : coinOverview.data?.charts_id?.trading_view_chart_id
+    ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(
+        coinOverview.data?.charts_id.trading_view_chart_id,
+      )}`
+    : null;
 
   const tradingViewMessages = useMemo(() => {
     return (messages.data ?? [])
@@ -38,7 +43,7 @@ export function TechnicalIdeasWidget({
       id={id}
       loading={messages.isLoading || coinOverview.isLoading}
       empty={{
-        enabled: tradingViewMessages.length === 0 && !hasChart,
+        enabled: tradingViewMessages.length === 0 && !chartUrl,
         refreshButton: true,
         title: t('coin-details.tabs.trading_view.empty.title'),
         subtitle: t('coin-details.tabs.trading_view.empty.subtitle'),
@@ -50,17 +55,9 @@ export function TechnicalIdeasWidget({
       }}
       headerActions={
         <>
-          {hasChart && (
+          {chartUrl && (
             <a
-              href={
-                coinOverview.data?.charts_id?.gecko_terminal_chart_id
-                  ? `https://www.geckoterminal.com/${coinOverview.data.charts_id.gecko_terminal_chart_id}`
-                  : coinOverview.data?.charts_id?.trading_view_chart_id
-                  ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(
-                      coinOverview.data.charts_id.trading_view_chart_id,
-                    )}`
-                  : ''
-              }
+              href={chartUrl}
               target="_blank"
               className="inline-flex items-center justify-center hover:brightness-110 active:brightness-90 mobile:p-1"
               rel="noreferrer"
@@ -75,9 +72,9 @@ export function TechnicalIdeasWidget({
         </>
       }
     >
-      {hasChart && (
-        <div className="h-[500px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[350px]">
-          <CoinChart slug={slug} height={isMobile ? 340 : 490} />
+      {chartUrl && (
+        <div className="h-[580px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[400px]">
+          <CoinChart slug={slug} height={isMobile ? 400 : 580} />
         </div>
       )}
 
@@ -96,17 +93,20 @@ export function TechnicalIdeasWidget({
             </Fragment>
           ))}
           {limit < tradingViewMessages.length && (
-            <button
-              className="mt-4 flex w-full items-center justify-center gap-2 text-sm"
+            <Button
+              className="mx-auto mt-4"
+              size="md"
+              block
+              variant="ghost"
               onClick={() => setLimit(p => p + 2)}
             >
-              {t('coin-details.tabs.trading_view.load_more')}
+              {t('common.load_more')}
               <Icon
                 name={bxChevronDown}
                 className="text-v1-content-link"
                 size={16}
               />
-            </button>
+            </Button>
           )}
         </div>
       )}

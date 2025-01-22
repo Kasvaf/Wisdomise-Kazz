@@ -1,0 +1,64 @@
+import { Select, type SelectProps } from 'antd';
+import { type FC } from 'react';
+import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { bxGlobe } from 'boxicons-quasar';
+import { useNetworks } from 'api';
+import Icon from 'shared/Icon';
+
+export const NetworkSelect: FC<SelectProps<string>> = ({
+  value,
+  className,
+  disabled,
+  loading,
+  ...props
+}) => {
+  const networks = useNetworks({
+    filter: 'technical-radar',
+  });
+  const { t } = useTranslation('coin-radar');
+
+  return (
+    <Select
+      className={clsx(
+        '[&_.ant-select-selector]:!min-w-44 [&_.ant-select-selector]:!pl-4 [&_.ant-select-selector]:!text-sm',
+        '[&_.ant-select-selection-placeholder]:!text-white/60',
+        className,
+      )}
+      value={value}
+      disabled={disabled}
+      loading={loading || networks.isLoading}
+      allowClear
+      showSearch
+      showArrow={false}
+      placeholder={
+        <span>
+          <Icon
+            name={bxGlobe}
+            size={20}
+            className="me-2 inline-block align-middle"
+          />
+          {t('common.all_networks')}
+        </span>
+      }
+      options={networks.data?.map(network => ({
+        label: (
+          <span className="pe-3">
+            {network.icon_url ? (
+              <img
+                src={network.icon_url}
+                alt={network.name}
+                className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4 align-middle"
+              />
+            ) : (
+              <span className="me-3 ms-px inline-block size-4 rounded-full bg-v1-surface-l4 align-middle" />
+            )}
+            {network.name}
+          </span>
+        ),
+        value: network.slug,
+      }))}
+      {...props}
+    />
+  );
+};
