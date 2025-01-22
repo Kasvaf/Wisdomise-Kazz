@@ -33,16 +33,6 @@ export const data: Array<{
     ],
   },
   {
-    label: '🔥 SOL',
-    slug: 'sol',
-    networks: ['solana'],
-  },
-  {
-    label: '🔥 DOT',
-    slug: 'dot',
-    categories: ['dot-ecosystem', 'layer-0-l0'],
-  },
-  {
     label: '🔥 AI',
     slug: 'ai',
     categories: [
@@ -55,6 +45,16 @@ export const data: Array<{
       'defai',
       'ai-meme-coins',
     ],
+  },
+  {
+    label: '🔥 SOL',
+    slug: 'sol',
+    networks: ['solana'],
+  },
+  {
+    label: '🔥 BASE',
+    slug: 'base',
+    networks: ['base'],
   },
   {
     label: '🔥 DeFi',
@@ -72,6 +72,18 @@ export const data: Array<{
       'decentralized-perpetuals', // 'Decentralized Perpetuals',
       // '!!! DeFi Launchpads',
       'decentralized-derivatives', // ! 'Decentralized Derivatives',
+    ],
+  },
+  {
+    label: '🔥 RWA',
+    slug: 'rwa',
+    categories: [
+      'real-world-assets-rwa',
+      'tokenized-real-estate',
+      'tokenized-commodities',
+      'tokenized-t-bills',
+      'tokenized-treasury-bonds-t-bonds',
+      'rwa-protocol',
     ],
   },
   {
@@ -100,18 +112,6 @@ export const data: Array<{
     label: '🔥 DePIN',
     slug: 'depin',
     categories: ['depin'],
-  },
-  {
-    label: '🔥 RWA',
-    slug: 'rwa',
-    categories: [
-      'real-world-assets-rwa',
-      'tokenized-real-estate',
-      'tokenized-commodities',
-      'tokenized-t-bills',
-      'tokenized-treasury-bonds-t-bonds',
-      'rwa-protocol',
-    ],
   },
   {
     label: '🔥 Binance HODLer Airdrops',
@@ -158,6 +158,11 @@ export const data: Array<{
       'zilliqa-ecosystem',
       'cardano-ecosystem',
     ],
+  },
+  {
+    label: '🔥 DOT',
+    slug: 'dot',
+    categories: ['dot-ecosystem', 'layer-0-l0'],
   },
   // {
   //   label: 'Bridges',
