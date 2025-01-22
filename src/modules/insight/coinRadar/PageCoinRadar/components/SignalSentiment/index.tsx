@@ -80,7 +80,7 @@ export const SignalSentiment: FC<{
   const [tick, setTick] = useState(1); // used as dependency to update content
 
   const chartConfig = useMemo<EChartsOption | null>(() => {
-    if (!signal.signals_analysis || minimal || hidePnl) return null;
+    if (!signal.signals_analysis || minimal) return null;
     let parsedData: Array<{
       price: number;
       relatedAt: string;
@@ -256,7 +256,7 @@ export const SignalSentiment: FC<{
       },
       backgroundColor: 'transparent',
     };
-  }, [minimal, signal.signals_analysis, t, hidePnl]);
+  }, [minimal, signal.signals_analysis, t]);
 
   const tooltip = useMemo(() => {
     if (!signal.signals_analysis || !tick || !chartConfig) return null;
@@ -310,30 +310,32 @@ export const SignalSentiment: FC<{
                   className="text-sm"
                 />
               </div>
-              <div className="flex items-center justify-between gap-1 text-xs">
-                <div className="text-v1-content-secondary">
-                  {t('call-change.last-pnl-update')}
+              {!hidePnl && (
+                <div className="flex items-center justify-between gap-1 text-xs">
+                  <div className="text-v1-content-secondary">
+                    {t('call-change.last-pnl-update')}
+                  </div>
+                  <DirectionalNumber
+                    popup="never"
+                    value={signal.signals_analysis.real_pnl_percentage}
+                    label="%"
+                    showIcon={false}
+                    suffix={
+                      <div className="ps-1">
+                        (
+                        <ReadableDuration
+                          value={dayjs(signal.signals_analysis.updated_at).diff(
+                            Date.now(),
+                          )}
+                        />
+                        )
+                      </div>
+                    }
+                    showSign
+                    className="text-sm"
+                  />
                 </div>
-                <DirectionalNumber
-                  popup="never"
-                  value={signal.signals_analysis.real_pnl_percentage}
-                  label="%"
-                  showIcon={false}
-                  suffix={
-                    <div className="ps-1">
-                      (
-                      <ReadableDuration
-                        value={dayjs(signal.signals_analysis.updated_at).diff(
-                          Date.now(),
-                        )}
-                      />
-                      )
-                    </div>
-                  }
-                  showSign
-                  className="text-sm"
-                />
-              </div>
+              )}
               <div className="flex items-center justify-between gap-1 text-xs">
                 <div className="text-v1-content-secondary">
                   {t('call-change.biggest-pump')}
@@ -367,7 +369,7 @@ export const SignalSentiment: FC<{
         )}
       </>
     );
-  }, [signal, tick, t, chartConfig]);
+  }, [signal, tick, chartConfig, t, hidePnl]);
 
   return (
     <ClickableTooltip
