@@ -80,7 +80,7 @@ export const SignalSentiment: FC<{
   const [tick, setTick] = useState(1); // used as dependency to update content
 
   const chartConfig = useMemo<EChartsOption | null>(() => {
-    if (!signal.signals_analysis || minimal) return null;
+    if (!signal.signals_analysis) return null;
     let parsedData: Array<{
       price: number;
       relatedAt: string;
@@ -256,7 +256,7 @@ export const SignalSentiment: FC<{
       },
       backgroundColor: 'transparent',
     };
-  }, [minimal, signal.signals_analysis, t]);
+  }, [signal.signals_analysis, t]);
 
   const tooltip = useMemo(() => {
     if (!signal.signals_analysis || !tick || !chartConfig) return null;

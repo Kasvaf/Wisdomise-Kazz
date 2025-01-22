@@ -46,6 +46,7 @@ export function SocialRadarSentimentWidget({
             className="text-sm"
             signal={sentiment.data}
             minimal
+            hidePnl
           />
         ) : (
           <p className="max-w-52 text-xs">
