@@ -21,7 +21,7 @@ const PageInsight = () => {
             className="max-w-4xl mobile:max-w-full"
             title={
               <>
-                <Logo className="size-7" />
+                <Logo className="size-7 shrink-0" />
                 {t('base:menu.coin-radar.full-title')}
               </>
             }
