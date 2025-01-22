@@ -47,11 +47,11 @@ export function AdvanceFilteringButtons({
   }, [externalState]);
 
   return (
-    <div className={clsx('flex items-center gap-4 mobile:flex-col', className)}>
+    <div className={clsx('flex items-center gap-4', className)}>
       <Button
         variant="ghost"
         size="md"
-        className="shrink-0 px-6 mobile:w-full"
+        className="shrink-0 px-6 mobile:grow"
         onClick={() => setOpen(true)}
       >
         {t('common.filters')}
@@ -65,7 +65,7 @@ export function AdvanceFilteringButtons({
         onClick={() => {
           onReset?.();
         }}
-        className="shrink-0 mobile:w-full"
+        className="shrink-0"
       >
         {t('common.reset_filters')}
       </Button>

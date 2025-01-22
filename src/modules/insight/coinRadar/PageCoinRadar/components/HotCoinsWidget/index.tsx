@@ -210,19 +210,22 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       headerClassName="flex flex-wrap"
       headerActions={
         <>
-          <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:flex-col-reverse">
+          <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
             <CoinSearchInput
               value={tableState.query}
               onChange={query => setTableState({ query })}
-              className="w-64 shrink-0 mobile:w-full"
+              className="w-64 mobile:max-w-max mobile:grow"
             />
-            {!isEmbeddedView && (
-              <CoinRadarAlerButton className="mobile:w-full" />
-            )}
+            {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
           </div>
           <div className="col-span-3 flex w-full grow basis-full flex-nowrap gap-4 mobile:flex-wrap">
             <Tags
-              value={tableState.tag}
+              value={
+                tableState.categories.length > 0 ||
+                tableState.networks.length > 0
+                  ? 'custom'
+                  : tableState.tag ?? ''
+              }
               onChange={tag =>
                 setTableState({
                   tag: tag ?? '',
