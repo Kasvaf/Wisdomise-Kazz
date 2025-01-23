@@ -1,19 +1,19 @@
 import { type ComponentProps, useMemo, useState } from 'react';
+import { clsx } from 'clsx';
 import { useUserStorage } from 'api/userStorage';
 import { OnboardingView } from './components/OnboardingView';
 import { ApprochStep } from './components/steps/ApprochStep';
 import { ExperienceStep } from './components/steps/ExperienceStep';
 import { FeaturesStep } from './components/steps/FeaturesStep';
 import { ReadyStep } from './components/steps/ReadyStep';
-import { useShowOnboardingIfNeeded } from './hooks/useShowOnboardingIfNeeded';
+import { useOnboarding } from './hooks/useOnboarding';
 
 export default function PageOnboarding() {
-  const done = useShowOnboardingIfNeeded();
-  const [step, setStep] = useState('approch');
+  const { done, isLoading } = useOnboarding();
+  const [step, setStep] = useState('experience');
   const { value: experience, save: setExperience } =
     useUserStorage('experience');
   const { value: approch, save: setApproch } = useUserStorage('approch');
-
   const steps = useMemo<ComponentProps<typeof OnboardingView>['steps']>(
     () => [
       {
@@ -68,5 +68,12 @@ export default function PageOnboarding() {
     [approch, done, experience, setApproch, setExperience],
   );
 
-  return <OnboardingView onClose={done} steps={steps} step={step} />;
+  return (
+    <OnboardingView
+      onClose={done}
+      steps={steps}
+      step={step}
+      className={clsx(isLoading && 'pointer-events-none animate-pulse')}
+    />
+  );
 }

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { ReadableDuration } from 'shared/ReadableDuration';
+import { useOnboarding } from 'modules/insight/PageOnboarding/hooks/useOnboarding';
 import { ProFeatures } from './ProFeatures';
 import Bg from './bg.png';
 import { ReactComponent as SparkleIcon } from './sparkle.svg';
@@ -14,6 +15,7 @@ export function TrialStartedModal() {
   const { group, remaining } = useSubscription();
   const [isDismissed, setIsDismissed] = useState(false);
   const userStorage = useUserStorage('trial-popup', 'false');
+  const { navigateIfNeeded, isLoading } = useOnboarding();
 
   return (
     <Modal
@@ -21,7 +23,8 @@ export function TrialStartedModal() {
         group === 'trial' &&
         !userStorage.isLoading &&
         userStorage.value !== 'true' &&
-        !isDismissed
+        !isDismissed &&
+        !isLoading
       }
       footer={false}
       centered
@@ -56,6 +59,7 @@ export function TrialStartedModal() {
             onClick={() => {
               setIsDismissed(true);
               void userStorage.save('true');
+              navigateIfNeeded();
             }}
           >
             <SparkleIcon />

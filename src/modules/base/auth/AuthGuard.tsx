@@ -12,7 +12,6 @@ import customerIo from 'config/customerIo';
 import oneSignal from 'config/oneSignal';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { useDebugMode } from 'shared/useDebugMode';
-import { useShowOnboardingIfNeeded } from 'modules/insight/PageOnboarding/hooks/useShowOnboardingIfNeeded';
 import { useIsLoggedIn } from './jwt-store';
 import { useModalLogin } from './ModalLogin';
 // eslint-disable-next-line import/max-dependencies
@@ -30,8 +29,6 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   const navigate = useNavigate();
   const { data: account, isLoading } = useAccountQuery();
   const isLoggedIn = useIsLoggedIn();
-
-  useShowOnboardingIfNeeded();
 
   useEffect(() => {
     const email = account?.email;
