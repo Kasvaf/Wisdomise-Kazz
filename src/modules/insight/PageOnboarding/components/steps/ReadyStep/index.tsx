@@ -9,15 +9,15 @@ const useApprochVideos = () => {
   return [
     {
       value: 'social-radar',
-      video: 'dQw4w9WgXcQ' /* NAITODO */,
+      video: 'xF-AJ7ExA1Y',
     },
     {
       value: 'whale-radar',
-      video: 'dQw4w9WgXcQ' /* NAITODO */,
+      video: 'G3D3390QRpQ',
     },
     {
       value: 'technical-radar',
-      video: 'dQw4w9WgXcQ' /* NAITODO */,
+      video: 'FGxNEYECZgs',
     },
   ];
 };
@@ -62,13 +62,15 @@ export function ReadyStep({
             },
           ]}
         />
-        <div className="h-[300px] w-full rounded-lg bg-v1-surface-l2 md:h-[512px] xl:h-[566px]">
-          <YouTube videoId={video} className="h-full w-full" />
-        </div>
+        <YouTube
+          videoId={video}
+          className="mx-auto h-[300px] w-full max-w-4xl overflow-hidden rounded-lg bg-v1-surface-l2 md:h-[512px] xl:h-[566px]"
+          iframeClassName="size-full"
+        />
       </StepContent>
       <NavigateButtons
-        nextText="~Discover a Token Now"
-        prevText="~Previous"
+        nextText="Discover a Token Now"
+        prevText="Previous"
         onNext={onNext}
         onPrev={onPrev}
       />
