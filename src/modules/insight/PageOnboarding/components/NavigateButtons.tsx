@@ -38,7 +38,7 @@ export function NavigateButtons({
         onClick={onPrev}
         block
         className={clsx(
-          'w-56 mobile:w-full',
+          'w-64 mobile:w-full',
           !showPrev && 'opacity-0 mobile:hidden',
         )}
       >
@@ -52,7 +52,7 @@ export function NavigateButtons({
         onClick={onNext}
         block
         className={clsx(
-          'w-56 mobile:w-full',
+          'w-64 mobile:w-full',
           !showNext && 'opacity-0 mobile:hidden',
         )}
       >

@@ -50,7 +50,7 @@ export function OnboardingView<V extends string>({
 
         <div
           className={clsx(
-            'relative flex w-full shrink-0 flex-nowrap items-start justify-between gap-2 p-4 xl:pt-8',
+            'relative flex w-full shrink-0 flex-nowrap items-start justify-between gap-1 p-4 xl:pt-6',
             className,
           )}
         >
