@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
-import { INVESTMENT_ORIGIN } from 'config/constants';
+import { INVESTMENT_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 
 export interface Friend {
@@ -127,3 +127,43 @@ export const useWithdrawMutation = () =>
     );
     return data;
   });
+
+interface GamificationProfile {
+  profile: {
+    userId: string;
+    customAttributes: {
+      sevenDaysTradingStreakMissionActiveTask: string;
+      sevenDaysTradingStreakMissionCurrentTask: string;
+    };
+  };
+  rewards: Array<{
+    fieldName: string;
+    statistical?: { count: number; sum: number };
+  }>;
+}
+
+export const useGamificationProfile = () =>
+  useQuery(['gamificationProfile'], async () => {
+    return await ofetch<GamificationProfile>(
+      `${TEMPLE_ORIGIN}/api/v1/gamification/user/withdraw`,
+      { method: 'get' },
+    );
+  });
+
+export const useGamification = () => {
+  const { data } = useGamificationProfile();
+  const activeDay = +(
+    data?.profile.customAttributes.sevenDaysTradingStreakMissionActiveTask ?? 0
+  );
+  const currentDay = +(
+    data?.profile.customAttributes.sevenDaysTradingStreakMissionCurrentTask ??
+    -1
+  );
+
+  return {
+    activeDay,
+    currentDay,
+    enableClaim: activeDay === 6 && currentDay === 6,
+    completedToday: activeDay !== -1 && currentDay === activeDay,
+  };
+};
