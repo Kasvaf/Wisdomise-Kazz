@@ -1,13 +1,19 @@
 import * as React from 'react';
-import { Navigate, type Params, type RouteObject } from 'react-router-dom';
+import { type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
 
 const PageInsight = React.lazy(() => import('modules/insight/PageInsight'));
+
+const PageOnboarding = React.lazy(
+  () => import('modules/insight/PageOnboarding'),
+);
+
 const PageCoinRadar = React.lazy(
   () => import('modules/insight/coinRadar/PageCoinRadar'),
 );
+
 const PageCoinRadarDetail = React.lazy(
   () => import('modules/insight/coinRadar/PageCoinRadarDetail'),
 );
@@ -28,11 +34,14 @@ const useInsightRoutes = () => {
   const { t } = useTranslation('base');
   return [
     {
+      path: 'coin-radar/onboarding',
+      element: <PageOnboarding />,
+    } /* TODO: check why this is not working if it i move this to children of 'coin-radar'? */,
+    {
       element: <Container />,
       path: 'coin-radar',
       handle: { crumb: t('menu.coin-radar.title') },
       children: [
-        { path: '', element: <Navigate to="/coin-radar/overview" replace /> },
         { path: 'overview', element: <PageInsight /> },
         {
           path: 'social-radar',
