@@ -14,9 +14,11 @@ import { DebugPin } from 'shared/DebugPin';
 export function PriceAlertButton({
   className,
   slug,
+  variant = 'primary',
 }: {
   className?: string;
   slug: string;
+  variant?: 'primary' | 'white';
 }) {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
@@ -73,7 +75,7 @@ export function PriceAlertButton({
     <>
       <Button
         onClick={() => alertActions.openSaveModal()}
-        variant={initialAlert.key ? 'outline' : 'primary'}
+        variant={initialAlert.key ? 'outline' : variant}
         block
         className={clsx(className, gtmClass('set-alert'))}
         disabled={

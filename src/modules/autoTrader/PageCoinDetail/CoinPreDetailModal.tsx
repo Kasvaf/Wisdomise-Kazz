@@ -50,10 +50,18 @@ const CoinPreDetailModal: React.FC<{
 
       <div className="flex flex-col items-stretch gap-4">
         <div className="flex gap-3">
-          <Button variant="secondary" to={`/trader-hot-coins/${slug}`}>
+          <Button
+            variant="secondary"
+            to={`/trader-hot-coins/${slug}`}
+            className="w-1/2 grow"
+          >
             Overview
           </Button>
-          <PriceAlertButton slug={slug} className="!h-auto" />
+          <PriceAlertButton
+            slug={slug}
+            className="!h-auto w-1/2 grow"
+            variant="white"
+          />
         </div>
         <Button variant="brand" to={`/market/${slug}`}>
           Auto Trade
