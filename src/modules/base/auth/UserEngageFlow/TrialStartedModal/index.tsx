@@ -1,31 +1,23 @@
 import { Modal } from 'antd';
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { type FC } from 'react';
 import { useSubscription } from 'api';
-import { useUserStorage } from 'api/userStorage';
 import { ReadableDuration } from 'shared/ReadableDuration';
-import { useOnboarding } from 'modules/insight/PageOnboarding/hooks/useOnboarding';
 import { ProFeatures } from './ProFeatures';
 import Bg from './bg.png';
 import { ReactComponent as SparkleIcon } from './sparkle.svg';
 
-export function TrialStartedModal() {
+export const TrialStartedModal: FC<{
+  onClose: () => void;
+  open: boolean;
+}> = ({ onClose, open }) => {
   const { t } = useTranslation('pro');
-  const { group, remaining } = useSubscription();
-  const [isDismissed, setIsDismissed] = useState(false);
-  const userStorage = useUserStorage('trial-popup', 'false');
-  const { navigateIfNeeded, isLoading } = useOnboarding();
+  const { remaining } = useSubscription();
 
   return (
     <Modal
-      open={
-        group === 'trial' &&
-        !userStorage.isLoading &&
-        userStorage.value !== 'true' &&
-        !isDismissed &&
-        !isLoading
-      }
+      open={open}
       footer={false}
       centered
       className="[&_.ant-modal-content]:!p-0"
@@ -56,11 +48,7 @@ export function TrialStartedModal() {
               'bg-pro-gradient text-black',
               'transition-all hover:brightness-110 active:brightness-95',
             )}
-            onClick={() => {
-              setIsDismissed(true);
-              void userStorage.save('true');
-              navigateIfNeeded();
-            }}
+            onClick={onClose}
           >
             <SparkleIcon />
             {t('trial-modal.button')}
@@ -75,4 +63,4 @@ export function TrialStartedModal() {
       </div>
     </Modal>
   );
-}
+};

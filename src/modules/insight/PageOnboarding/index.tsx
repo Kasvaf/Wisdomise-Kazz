@@ -1,16 +1,18 @@
-import { type ComponentProps, useMemo, useState } from 'react';
-import { clsx } from 'clsx';
+import { type ComponentProps, useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserStorage } from 'api/userStorage';
 import { OnboardingView } from './components/OnboardingView';
 import { ApprochStep } from './components/steps/ApprochStep';
 import { ExperienceStep } from './components/steps/ExperienceStep';
 import { FeaturesStep } from './components/steps/FeaturesStep';
 import { ReadyStep } from './components/steps/ReadyStep';
-import { useOnboarding } from './hooks/useOnboarding';
 
 export default function PageOnboarding() {
-  const { done, isLoading } = useOnboarding();
   const [step, setStep] = useState('experience');
+  const navigate = useNavigate();
+  const done = useCallback(() => {
+    navigate('/coin-radar/overview');
+  }, [navigate]);
   const { value: experience, save: setExperience } =
     useUserStorage('experience');
   const { value: approch, save: setApproch } = useUserStorage('approch');
@@ -68,12 +70,5 @@ export default function PageOnboarding() {
     [approch, done, experience, setApproch, setExperience],
   );
 
-  return (
-    <OnboardingView
-      onClose={done}
-      steps={steps}
-      step={step}
-      className={clsx(isLoading && 'pointer-events-none animate-pulse')}
-    />
-  );
+  return <OnboardingView onClose={done} steps={steps} step={step} />;
 }

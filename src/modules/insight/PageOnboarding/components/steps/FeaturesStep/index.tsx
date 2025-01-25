@@ -107,15 +107,10 @@ export function FeaturesStep({
   const features = useFeatures();
   const [value, setValue] = useSessionStorage('onboarding-feature-page', 0);
 
-  const activeFeature = useMemo(
-    () => features.find((_, i) => i === value) ?? features[0],
-    [features, value],
-  );
-
   return (
     <>
-      <StepContent className="flex flex-col items-center justify-start xl:justify-center">
-        <div className="mb-6 flex flex-wrap items-center justify-center gap-4 gap-y-2 text-sm md:text-base xl:gap-10">
+      <StepContent className="flex flex-col items-center justify-start md:justify-center">
+        <div className="mb-6 mt-2 flex flex-wrap items-center justify-center gap-4 gap-y-2 text-sm md:text-base xl:gap-10">
           <div className="order-last h-2 shrink-0 basis-full xl:hidden" />
           <Button
             className="order-last !size-6 !rounded-full !p-0 xl:order-none"
@@ -151,16 +146,28 @@ export function FeaturesStep({
             <Icon name={bxChevronRight} />
           </Button>
         </div>
-        <div className="mb-1 text-center text-xl font-medium text-v1-content-primary xl:text-3xl">
-          {activeFeature.title}
+        <div className="relative size-full overflow-hidden">
+          {features.map((x, i) => (
+            <div
+              key={x.label}
+              className={clsx(
+                'absolute h-auto w-full transition-all',
+                i !== value && 'opacity-0 blur-sm',
+              )}
+            >
+              <div className="mx-auto mb-1 text-center text-xl font-medium text-v1-content-primary xl:text-3xl">
+                {x.title}
+              </div>
+              <p className="mx-auto mb-6 max-w-3xl text-center text-xs font-normal text-white/70 xl:text-sm">
+                {x.description}
+              </p>
+              <img
+                src={x.screenshot}
+                className="mx-auto w-full object-cover md:w-[612px] 2xl:w-[792px]"
+              />
+            </div>
+          ))}
         </div>
-        <p className="mb-6 max-w-3xl text-center text-xs font-normal text-white/70 xl:text-sm">
-          {activeFeature.description}
-        </p>
-        <img
-          src={activeFeature.screenshot}
-          className="w-full object-cover md:w-[612px] 2xl:w-[854px]"
-        />
       </StepContent>
       <NavigateButtons
         nextText="Next"

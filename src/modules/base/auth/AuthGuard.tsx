@@ -2,7 +2,6 @@ import { useEffect, type PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { useTimeout } from 'usehooks-ts';
 import { useAccountQuery } from 'api';
 import Splash from 'modules/base/Splash';
 import { analytics, configSegment } from 'config/segment';
@@ -13,16 +12,12 @@ import oneSignal from 'config/oneSignal';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { useDebugMode } from 'shared/useDebugMode';
 import { useIsLoggedIn } from './jwt-store';
-import { useModalLogin } from './ModalLogin';
-// eslint-disable-next-line import/max-dependencies
-import { TrialStartedModal } from './TrialStartedModal';
+import { UserEngageFlow } from './UserEngageFlow';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
 export default function AuthGuard({ children }: PropsWithChildren) {
   const { isEmbeddedView } = useEmbedView();
-
-  const [loginModal, showLoginModal] = useModalLogin(false);
 
   useHubSpot();
   useDebugMode();
@@ -44,12 +39,6 @@ export default function AuthGuard({ children }: PropsWithChildren) {
     }
   }, [account?.email, account?.wallet_address, isLoggedIn]);
 
-  useTimeout(() => {
-    if (!isLoggedIn && !isEmbeddedView) {
-      void showLoginModal();
-    }
-  }, 50);
-
   useEffect(() => {
     if (!isLoggedIn) {
       void oneSignal.setExternalId(undefined);
@@ -69,8 +58,7 @@ export default function AuthGuard({ children }: PropsWithChildren) {
   ) : (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       {children}
-      <TrialStartedModal />
-      {loginModal}
+      <UserEngageFlow />
     </GoogleOAuthProvider>
   );
 }
