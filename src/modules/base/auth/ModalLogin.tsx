@@ -106,15 +106,15 @@ const ModalLogin: React.FC<{
 
     setIsConnecting(true);
     for (let i = 0; i < 10; ++i) {
-      try {
+      if (
         await tgLoginFromWeb({
           uuid,
           referrer: localStorage.getItem(REFERRER_CODE_KEY) ?? undefined,
-        });
+        })
+      ) {
         setIsConnecting(false);
         onResolve?.(true);
-        return;
-      } catch {
+      } else {
         await new Promise(resolve => setTimeout(resolve, 3000));
       }
     }
