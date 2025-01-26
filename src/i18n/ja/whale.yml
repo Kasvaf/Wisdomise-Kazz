@@ -16,6 +16,8 @@ asset_badges:
   loading_info: このクジラは資産量を5%以上増やし、地位を築いています。
   new_investment: 新規投資
   new_investment_info: このクジラは、売却を最小限に抑えながら新たな投資を行い、ポジションを拡大しました。
+  stable: 安定した
+  stable_info: ステーブルコインは、固定された外部の従来の資産クラスに対して価値が安定したデジタル資産です。
   trading: トレーディング
   unloading: 荷降ろし
   unloading_info: このクジラは保有株を5%以上減らしていますが、完全に撤退しているわけではありません。
