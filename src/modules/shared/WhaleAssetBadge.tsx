@@ -15,6 +15,13 @@ const useBadgeDetail = (
   className: string;
 } => {
   const { t } = useTranslation('whale');
+  if (badge === 'stable') {
+    return {
+      title: t('asset_badges.stable'),
+      info: t('asset_badges.stable_info'),
+      className: 'bg-v1-background-inverse/10 text-v1-content-primary',
+    };
+  }
   if (badge === 'holding')
     return {
       title: t('asset_badges.holding'),

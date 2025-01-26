@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
 import { Divider } from 'antd';
-import { bxX } from 'boxicons-quasar';
+import { bxArrowBack, bxX } from 'boxicons-quasar';
 import { v4 } from 'uuid';
 import {
   useEmailLoginMutation,
@@ -106,15 +106,15 @@ const ModalLogin: React.FC<{
 
     setIsConnecting(true);
     for (let i = 0; i < 10; ++i) {
-      try {
+      if (
         await tgLoginFromWeb({
           uuid,
           referrer: localStorage.getItem(REFERRER_CODE_KEY) ?? undefined,
-        });
+        })
+      ) {
         setIsConnecting(false);
         onResolve?.(true);
-        return;
-      } catch {
+      } else {
         await new Promise(resolve => setTimeout(resolve, 3000));
       }
     }
@@ -122,7 +122,7 @@ const ModalLogin: React.FC<{
   };
 
   const notice = (
-    <p className="my-5 text-xs text-white/70">
+    <p className="mt-5 text-xs text-white/70">
       <Trans ns="auth" i18nKey="login.notice">
         By continuing, you agree to our
         <Link target="_blank" href="https://help.wisdomise.com/privacy-policy">
@@ -237,7 +237,7 @@ const ModalLogin: React.FC<{
         <TelegramLogin onClick={tgHandler} />
       </div>
 
-      <div className="min-h-10 grow" />
+      <div className="grow" />
 
       {notice}
     </div>
@@ -319,7 +319,23 @@ const ModalLogin: React.FC<{
     <div className="flex min-h-[524px] w-full bg-v1-surface-l1">
       {emailLoginLoading || verifyEmailLoading || isConnecting ? (
         <div className="my-8 flex grow flex-col items-center justify-center">
+          <div className="grow" />
           <Spinner />
+          <div className="grow" />
+
+          {isConnecting && (
+            <div className="flex justify-center">
+              <Button
+                variant="alternative"
+                size="small"
+                className="!pr-6"
+                onClick={() => setIsConnecting(false)}
+              >
+                <Icon name={bxArrowBack} size={16} className="mr-2" />
+                {t('common:actions.cancel')}
+              </Button>
+            </div>
+          )}
         </div>
       ) : step === 'email' ? (
         emailContent

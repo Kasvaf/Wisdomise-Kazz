@@ -14,7 +14,12 @@ import { isDebugMode } from 'utils/version';
 import { type AlertMessenger } from 'api/alert';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
-export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
+export function StepOne({
+  onSubmit,
+  loading,
+  className,
+  onDelete,
+}: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
   const {
     value: [value, setValue],
@@ -104,7 +109,13 @@ export function StepOne({ onSubmit, loading, className }: AlertFormStepProps) {
               gtmClass('submit coin-radar-alert'),
             )}
             loading={loading}
-            disabled={(value.messengers ?? []).length === 0}
+            disabled={value.key ? false : (value.messengers ?? []).length === 0}
+            onClick={e => {
+              if (value.key && (value.messengers?.length ?? 0) < 1) {
+                e.preventDefault();
+                onDelete?.();
+              } // else submit the form
+            }}
           >
             {t('common.save-alert')}
             <Icon name={bxBell} className="ms-2" />

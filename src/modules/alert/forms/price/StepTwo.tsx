@@ -15,7 +15,12 @@ import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 import { ReactComponent as CooldownIcon } from './cooldown.svg';
 import { ReactComponent as FrequencyIcon } from './frequency.svg';
 
-export function StepTwo({ onSubmit, loading, className }: AlertFormStepProps) {
+export function StepTwo({
+  onSubmit,
+  loading,
+  className,
+  onDelete,
+}: AlertFormStepProps) {
   const { t } = useTranslation('alerts');
   const {
     value: [value, setValue],
@@ -97,8 +102,14 @@ export function StepTwo({ onSubmit, loading, className }: AlertFormStepProps) {
         <Button
           variant="primary"
           className={clsx('mt-6 w-full grow', gtmClass('submit price-alert'))}
-          disabled={(value.messengers?.length ?? 0) < 1}
+          disabled={value.key ? false : (value.messengers?.length ?? 0) < 1}
           loading={loading}
+          onClick={e => {
+            if (value.key && (value.messengers?.length ?? 0) < 1) {
+              e.preventDefault();
+              onDelete?.();
+            } // else submit the form
+          }}
         >
           {t('common.set-alert')}
           <Icon name={bxBell} className="ms-2" />
