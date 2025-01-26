@@ -16,6 +16,8 @@ asset_badges:
   loading_info: 这头鲸鱼正在将其资产量增加 5% 以上，以巩固其地位。
   new_investment: 新投资
   new_investment_info: 这头鲸鱼以最少的出售进行了一项新的投资，扩大了他们的持仓。
+  stable: 稳定的
+  stable_info: 稳定币是一种与挂钩的外部传统资产类别保持稳定价值的数字资产。
   trading: 贸易
   unloading: 卸载
   unloading_info: 这名鲸鱼正在减少其持股量 5% 以上，但并未完全退出。
