@@ -70,5 +70,12 @@ export default function PageOnboarding() {
     [approch, done, experience, setApproch, setExperience],
   );
 
-  return <OnboardingView onClose={done} steps={steps} step={step} />;
+  return (
+    <OnboardingView
+      onClose={done}
+      steps={steps}
+      step={step}
+      onChange={setStep}
+    />
+  );
 }

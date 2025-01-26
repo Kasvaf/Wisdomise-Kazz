@@ -7,11 +7,13 @@ import { Button } from 'shared/v1-components/Button';
 export function OnboardingView<V extends string>({
   className,
   onClose,
+  onChange,
   steps: rawSteps,
   step,
 }: {
   className?: string;
   onClose?: () => void;
+  onChange?: (newStep: V) => void;
   steps: Array<{
     key: V;
     label: ReactNode;
@@ -58,8 +60,11 @@ export function OnboardingView<V extends string>({
             <div
               key={x.key}
               className={clsx(
-                'flex shrink basis-full cursor-default flex-col items-start gap-3 transition-all',
+                'group flex shrink basis-full cursor-default flex-col items-start gap-3 transition-all',
+                x.isPassed ? 'cursor-pointer' : 'cursor-default',
               )}
+              onClick={() => (x.isPassed ? onChange?.(x.key) : null)}
+              tabIndex={-1}
             >
               <div
                 className={clsx(
@@ -69,15 +74,28 @@ export function OnboardingView<V extends string>({
               />
               <div
                 className={clsx(
+                  'flex items-center gap-2',
                   'w-4/5 rounded-full text-sm font-medium mobile:text-xs',
                   x.isPassed || x.isActive ? 'text-white' : 'text-white/50',
                 )}
               >
-                {x.isPassed ? (
-                  <Icon name={bxsCheckCircle} size={20} />
-                ) : (
-                  x.label
-                )}
+                <Icon
+                  name={bxsCheckCircle}
+                  size={20}
+                  className={clsx(
+                    'transition-all',
+                    !x.isPassed && '-translate-x-3 opacity-0',
+                  )}
+                />
+                <span
+                  className={clsx(
+                    'transition-all',
+                    (!x.isPassed || x.isActive) && '-translate-x-6',
+                    x.isPassed && 'opacity-0 group-hover:opacity-100',
+                  )}
+                >
+                  {x.label}
+                </span>
               </div>
             </div>
           ))}
