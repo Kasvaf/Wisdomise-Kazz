@@ -117,8 +117,9 @@ const MenuItemsContent: React.FC<{
             label: 'AutoTrader MiniApp',
             to:
               AUTO_TRADER_MINI_APP_BASE +
-              '?startapp=login_' +
-              account.data?.telegram_code,
+              (isLoggedIn
+                ? '?startapp=login_' + account.data?.telegram_code
+                : ''),
           },
         ]
       : []),
