@@ -109,6 +109,18 @@ export function AlertEdit({
             loading={loading}
             className="w-full max-w-[420px]"
             lock={lock}
+            onDelete={() => {
+              setLoading(true);
+              matchedForm
+                .delete?.(value)
+                .then(x => {
+                  onFinish();
+                  return x;
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
+            }}
             onSubmit={() => {
               if (step < (matchedForm.steps ?? []).length - 1) {
                 setStep(step + 1);
