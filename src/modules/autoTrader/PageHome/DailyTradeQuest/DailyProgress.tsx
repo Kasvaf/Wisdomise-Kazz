@@ -1,30 +1,66 @@
 import { Progress } from 'antd';
 import { clsx } from 'clsx';
 import { useGamification } from 'api/gamification';
+import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
 import { ReactComponent as CheckIcon } from './check.svg';
+import light from './light.png';
 
-export default function DailyProgress() {
-  const { activeDay, currentDay, completedToday } = useGamification();
+export default function DailyProgress({
+  className,
+  dense,
+}: {
+  className?: string;
+  dense?: boolean;
+}) {
+  const {
+    activeDay,
+    currentDay,
+    completedToday,
+    completedAll,
+    nextDayStartTimestamp,
+    nextDayEndTimestamp,
+  } = useGamification();
 
   return (
-    <div className="relative flex items-center justify-center gap-2">
-      <Progress
-        size={80}
-        type="circle"
-        steps={7}
-        percent={(currentDay * 100) / 7}
-        trailColor="rgba(0, 0, 0, 0.06)"
-        showInfo={false}
-      />
-      <div
-        className={clsx(
-          'absolute flex flex-col items-center gap-2',
-          completedToday && 'text-v1-content-positive',
+    <div className={clsx(className)}>
+      <div className="relative flex flex-col items-center justify-center gap-2">
+        <Progress
+          className="[&>.ant-progress-inner]:bg-transparent"
+          size={dense ? 60 : 80}
+          type="circle"
+          steps={7}
+          percent={((currentDay + 1) * 100) / 7}
+          showInfo={false}
+        />
+        {completedAll && (
+          <img
+            src={light}
+            className="absolute h-full w-full rounded-full p-2 opacity-10"
+            alt=""
+          />
         )}
-      >
-        {completedToday && <CheckIcon />}
-        Day {activeDay + 1}
+        <div
+          className={clsx(
+            'absolute flex flex-col items-center gap-2',
+            completedToday && 'text-v1-content-positive',
+          )}
+        >
+          {completedToday && <CheckIcon />}
+          {!completedAll && `Day ${activeDay + 1}`}
+        </div>
       </div>
+      {currentDay > -1 && !completedAll && (
+        <div className={clsx('flex flex-col text-center', !dense && 'mt-2')}>
+          <div className="text-xs text-v1-content-secondary">
+            {completedToday ? 'Next Reward:' : 'Streak End:'}
+          </div>
+          <Countdown
+            deadline={
+              completedToday ? nextDayStartTimestamp : nextDayEndTimestamp
+            }
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -134,6 +134,7 @@ interface GamificationProfile {
     customAttributes: {
       sevenDaysTradingStreakMissionActiveTask: string;
       sevenDaysTradingStreakMissionCurrentTask: string;
+      sevenDaysTradingStreakMissionLastTaskCompletedAt: string;
     };
   };
   rewards: Array<{
@@ -143,15 +144,20 @@ interface GamificationProfile {
 }
 
 export const useGamificationProfile = () =>
-  useQuery(['gamificationProfile'], async () => {
-    return await ofetch<GamificationProfile>(
-      `${TEMPLE_ORIGIN}/api/v1/gamification/user/withdraw`,
-      { method: 'get' },
-    );
-  });
+  useQuery(
+    ['gamificationProfile'],
+    async () => {
+      return await ofetch<GamificationProfile>(
+        `${TEMPLE_ORIGIN}/api/v1/gamification/profile`,
+        { method: 'get' },
+      );
+    },
+    { refetchInterval: 10 * 1000 },
+  );
 
 export const useGamification = () => {
   const { data } = useGamificationProfile();
+
   const activeDay = +(
     data?.profile.customAttributes.sevenDaysTradingStreakMissionActiveTask ?? 0
   );
@@ -159,11 +165,19 @@ export const useGamification = () => {
     data?.profile.customAttributes.sevenDaysTradingStreakMissionCurrentTask ??
     -1
   );
+  const nextDayStartTimestamp =
+    +(
+      data?.profile.customAttributes
+        .sevenDaysTradingStreakMissionLastTaskCompletedAt ?? 0
+    ) +
+    5 * 60 * 1000;
 
   return {
     activeDay,
     currentDay,
-    enableClaim: activeDay === 6 && currentDay === 6,
-    completedToday: activeDay !== -1 && currentDay === activeDay,
+    completedAll: activeDay === 6 && currentDay === 6,
+    completedToday: currentDay === activeDay,
+    nextDayStartTimestamp,
+    nextDayEndTimestamp: nextDayStartTimestamp + 5 * 60 * 1000,
   };
 };

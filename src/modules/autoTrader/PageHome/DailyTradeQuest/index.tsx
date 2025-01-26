@@ -11,13 +11,13 @@ import { ReactComponent as Stars } from './stars.svg';
 
 export default function DailyTradeQuest() {
   const [open, setOpen] = useState(false);
-  const { activeDay, currentDay, enableClaim } = useGamification();
+  const { activeDay, currentDay, completedAll } = useGamification();
 
   const dayStatus = (index: number) => {
     if (index < activeDay) {
       if (currentDay >= index) return 'finished';
     } else if (index === activeDay) {
-      return currentDay <= index ? 'active' : 'finished';
+      return currentDay < index ? 'active' : 'finished';
     } else {
       return 'upcoming';
     }
@@ -38,7 +38,7 @@ export default function DailyTradeQuest() {
             className="mt-3 !px-4"
             onClick={() => setOpen(true)}
           >
-            {enableClaim ? 'Claim Your Reward' : 'Start Today`s Trade'}
+            {completedAll ? 'Claim Your Reward' : 'Start Today`s Trade'}
           </Button>
         </div>
         <DailyProgress />
@@ -73,7 +73,7 @@ export default function DailyTradeQuest() {
           <div className="mt-4 w-full rounded-2xl bg-v1-surface-l4 p-4">
             <h2>My Status:</h2>
             <p className="mb-6 mt-2 text-v1-content-secondary">
-              Complete today&apos;s tradeto keep your streak!
+              Complete today&apos;s trade to keep your streak!
             </p>
             <div className="flex gap-3">
               <div className="basis-1/2">
@@ -88,7 +88,10 @@ export default function DailyTradeQuest() {
                 ))}
               </div>
               <div className="basis-1/2">
-                <DailyProgress />
+                <DailyProgress
+                  className="flex items-center justify-center gap-2 text-xs"
+                  dense={true}
+                />
                 <hr className="my-3 border-v1-border-disabled" />
                 <div className="relative mb-4 flex flex-col items-center overflow-hidden rounded-2xl bg-v1-surface-l2 p-3">
                   <h2>Special Reward</h2>
@@ -99,7 +102,7 @@ export default function DailyTradeQuest() {
                     size="small"
                     variant="brand"
                     className="w-full"
-                    disabled={!enableClaim}
+                    disabled={!completedAll}
                   >
                     Claim
                   </Button>
