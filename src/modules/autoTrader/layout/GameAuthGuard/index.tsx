@@ -3,8 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { isLocal } from 'utils/version';
 import { useGameLoginQuery } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
+import { useTelegram } from '../TelegramProvider';
 import WalletGuard from './WalletGuard';
-import { useTelegram } from './TelegramProvider';
 
 export default function GameAuthGuard({ children }: PropsWithChildren) {
   const { webApp } = useTelegram();
