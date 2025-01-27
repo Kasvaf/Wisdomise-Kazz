@@ -6,11 +6,11 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { NavigateButtons } from '../../NavigateButtons';
 import { StepContent } from '../../StepContent';
-import socialRadar from './social-radar.png';
-import whaleRadar from './whale-radar.png';
-import technicalRadar from './technical-radar.png';
-import screener from './screener.png';
-import coinRadarOverview from './coin-radar-overview.png';
+import socialRadar from './social-radar.webp';
+import whaleRadar from './whale-radar.webp';
+import technicalRadar from './technical-radar.webp';
+import screener from './screener.webp';
+import coinRadarOverview from './coin-radar-overview.webp';
 
 const useFeatures = () => {
   return useMemo<
@@ -109,9 +109,9 @@ export function FeaturesStep({
 
   return (
     <>
-      <StepContent className="flex flex-col items-center justify-start md:justify-center">
-        <div className="mb-6 mt-2 flex flex-wrap items-center justify-center gap-4 gap-y-2 text-sm md:text-base xl:gap-10">
-          <div className="order-last h-2 shrink-0 basis-full xl:hidden" />
+      <StepContent className="flex flex-col items-center justify-center">
+        <div className="mb-6 flex flex-wrap items-center justify-center gap-4 gap-y-2 text-sm md:text-base xl:gap-10">
+          <div className="order-last h-0 shrink-0 basis-full xl:hidden" />
           <Button
             className="order-last !size-6 !rounded-full !p-0 xl:order-none"
             variant="white"
@@ -146,13 +146,13 @@ export function FeaturesStep({
             <Icon name={bxChevronRight} />
           </Button>
         </div>
-        <div className="relative size-full overflow-hidden">
+        <div className="relative flex flex-row overflow-hidden">
           {features.map((x, i) => (
             <div
               key={x.label}
               className={clsx(
-                'absolute h-auto w-full transition-all',
-                i !== value && 'opacity-0 blur-sm',
+                'h-auto w-full shrink-0 grow overflow-hidden',
+                i !== value && 'absolute size-0 opacity-0',
               )}
             >
               <div className="mx-auto mb-1 text-center text-xl font-medium text-v1-content-primary xl:text-3xl">

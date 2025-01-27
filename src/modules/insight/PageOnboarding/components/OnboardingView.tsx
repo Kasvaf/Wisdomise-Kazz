@@ -1,4 +1,4 @@
-import { bxsCheckCircle, bxX } from 'boxicons-quasar';
+import { bxLeftArrowAlt, bxsCheckCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { Fragment, useMemo, type ReactNode } from 'react';
 import Icon from 'shared/Icon';
@@ -6,7 +6,7 @@ import { Button } from 'shared/v1-components/Button';
 
 export function OnboardingView<V extends string>({
   className,
-  onClose,
+  // onClose,
   onChange,
   steps: rawSteps,
   step,
@@ -39,14 +39,20 @@ export function OnboardingView<V extends string>({
     >
       <div className="absolute -top-1/3 left-1/2 !size-[520px] -translate-x-1/2 bg-white/25 blur-[200px] mobile:!size-[430px]" />
       <div className="relative mx-auto flex w-full max-w-7xl grow flex-col">
-        <div className="flex shrink-0 items-center justify-end px-4 pt-4">
+        <div className="hidden shrink-0 items-center justify-start px-4 pt-4 mobile:flex">
           <Button
-            variant="ghost"
-            onClick={onClose}
-            className="w-md shrink-0"
             size="md"
+            variant="ghost"
+            onClick={() =>
+              onChange?.(steps[steps.findIndex(x => x.key === step) - 1].key)
+            }
+            block
+            className={clsx(
+              'w-md shrink-0',
+              step === steps[0].key && 'opacity-0',
+            )}
           >
-            <Icon name={bxX} />
+            <Icon name={bxLeftArrowAlt} />
           </Button>
         </div>
 
@@ -75,7 +81,7 @@ export function OnboardingView<V extends string>({
               <div
                 className={clsx(
                   'flex items-center gap-2',
-                  'w-4/5 rounded-full text-sm font-medium mobile:text-xs',
+                  'w-full rounded-full text-sm font-medium mobile:text-xs',
                   x.isPassed || x.isActive ? 'text-white' : 'text-white/50',
                 )}
               >

@@ -72,7 +72,7 @@ export function ApprochStep({
           {approches.map(x => (
             <div
               key={x.value}
-              className="relative flex w-full max-w-full shrink-0 grow cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 transition-all hover:brightness-125 xl:max-w-[350px]"
+              className="relative flex w-full max-w-full shrink-0 grow cursor-pointer flex-col items-center justify-between gap-4 overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 transition-all hover:brightness-125 mobile:flex-row mobile:gap-3 mobile:p-5 xl:max-w-[350px]"
               tabIndex={-1}
               onClick={() =>
                 setValue(p =>
@@ -87,19 +87,22 @@ export function ApprochStep({
                 className="absolute left-0 top-0 size-full object-cover opacity-20"
               />
               <div className="absolute -top-3 left-1/2 size-20 -translate-x-1/2 rounded-full bg-wsdm-gradient opacity-55 blur-3xl" />
-              <div className="w-full p-4 pb-0">
+              <div className="shrink-0 self-start mobile:self-auto">
                 {value?.includes(x.value) ? (
                   <Check className="size-6" />
                 ) : (
                   <UnCheck className="size-6" />
                 )}
               </div>
-              <div className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-v1-background-secondary/30">
-                <img src={x.logo} className="size-8 object-contain" />
+              <div className="mx-auto inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-v1-background-secondary/30 mobile:size-12">
+                <img
+                  src={x.logo}
+                  className="size-8 object-contain mobile:size-6"
+                />
               </div>
-              <div className="p-6 text-center">
-                <p className="mb-3 text-sm font-medium">{x.title}</p>
-                <p className="text-xs font-normal leading-normal text-white/70">
+              <div className="relative flex h-full min-h-24 flex-col items-center justify-center gap-3 p-4 text-center mobile:items-start mobile:gap-1 mobile:p-0 mobile:text-start">
+                <p className="text-sm font-medium">{x.title}</p>
+                <p className="overflow-visible text-xs font-normal leading-normal text-white/70">
                   {x.description}
                 </p>
               </div>

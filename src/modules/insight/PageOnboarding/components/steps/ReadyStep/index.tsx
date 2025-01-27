@@ -28,7 +28,7 @@ export function ReadyStep({
   onPrev,
 }: {
   value: string[];
-  onNext?: () => void;
+  onNext?: (url: string) => void;
   onPrev?: () => void;
 }) {
   const [tab, setTab] = useState(value[0] ?? 'social-radar');
@@ -36,7 +36,10 @@ export function ReadyStep({
   const { video } = videos.find(x => x.value === tab) ?? videos[0];
   return (
     <>
-      <StepContent>
+      <StepContent className="flex flex-col items-center justify-center">
+        <h2 className="mb-5 text-xl mobile:text-lg">
+          {'How Do You Want to Get Started?'}
+        </h2>
         <ButtonSelect
           value={tab}
           onChange={setTab}
@@ -64,14 +67,22 @@ export function ReadyStep({
         />
         <YouTube
           videoId={video}
-          className="mx-auto h-[300px] w-full max-w-4xl overflow-hidden rounded-lg bg-v1-surface-l2 md:h-[512px] xl:h-[566px]"
+          className="mx-auto h-[300px] w-full max-w-4xl overflow-hidden rounded-lg bg-v1-surface-l2 md:h-[500px] 2xl:h-[536px]"
           iframeClassName="size-full"
         />
       </StepContent>
       <NavigateButtons
-        nextText="Discover a Token Now"
+        nextText="Get Started"
         prevText="Previous"
-        onNext={onNext}
+        onNext={() =>
+          onNext?.(
+            tab === 'social-radar'
+              ? '/coin-radar/social-radar'
+              : tab === 'technical-radar'
+              ? '/coin-radar/technical-radar'
+              : '/coin-radar/whale-radar',
+          )
+        }
         onPrev={onPrev}
       />
     </>

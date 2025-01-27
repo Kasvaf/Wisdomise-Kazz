@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { clsx } from 'clsx';
+import useIsMobile from 'utils/useIsMobile';
 import { NavigateButtons } from '../../NavigateButtons';
 import { StepContent } from '../../StepContent';
 import amateurBg from './amateur.png';
@@ -6,6 +8,7 @@ import technicalBg from './technical.png';
 import degenBg from './degen.png';
 import { ReactComponent as Check } from './check.svg';
 import { ReactComponent as UnCheck } from './uncheck.svg';
+import background from './background.png';
 
 const useTypes = () => {
   return useMemo<
@@ -50,6 +53,7 @@ export function ExperienceStep({
   value?: string;
   onNext?: (newValue: string) => void;
 }) {
+  const isMobile = useIsMobile();
   const types = useTypes();
   const [value, setValue] = useState(initialValue);
 
@@ -70,17 +74,24 @@ export function ExperienceStep({
           {types.map(x => (
             <div
               key={x.value}
-              className="relative flex w-full max-w-full shrink-0 grow cursor-pointer flex-col justify-between rounded-2xl bg-v1-surface-l2 transition-all hover:brightness-125 xl:max-w-[350px]"
+              className="relative flex w-full max-w-full shrink-0 grow cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 transition-all hover:brightness-125 mobile:py-4 xl:max-w-[350px]"
               tabIndex={-1}
               onClick={() => setValue(x.value)}
             >
               <img
-                src={x.background}
-                className="mx-auto h-80 w-72 max-w-full object-contain"
+                src={background}
+                className="absolute left-0 top-0 size-full object-cover opacity-15"
               />
-              <div className="absolute top-64 h-16 w-full bg-gradient-to-t from-v1-surface-l2 to-transparent" />
+              <img
+                src={x.background}
+                className={clsx(
+                  'mx-auto w-72 max-w-full overflow-hidden object-contain transition-all',
+                  x.value === value || !isMobile ? 'h-80' : 'h-0',
+                )}
+              />
+              <div className="absolute -bottom-5 -right-5 hidden size-1/2 rounded-full bg-wsdm-gradient opacity-40 blur-[100px] mobile:block" />
               <div className="p-6">
-                <div className="mb-2 flex items-center gap-2 text-sm font-medium">
+                <div className="relative mb-2 flex items-center gap-2 text-sm font-medium">
                   {x.value === value ? (
                     <Check className="size-6 shrink-0" />
                   ) : (
@@ -88,7 +99,7 @@ export function ExperienceStep({
                   )}
                   {x.title}
                 </div>
-                <p className="text-xs font-normal leading-normal text-white/70">
+                <p className="relative text-xs font-normal leading-normal text-white/70">
                   {x.description}
                 </p>
               </div>
@@ -98,7 +109,6 @@ export function ExperienceStep({
       </StepContent>
       <NavigateButtons
         nextText="Next"
-        prevText="Previous"
         showPrev={false}
         allowNext={!!value}
         onNext={() => onNext?.(value ?? types[0].value)}

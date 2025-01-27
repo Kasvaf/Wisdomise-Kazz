@@ -27,7 +27,7 @@ export function NavigateButtons({
   return (
     <div
       className={clsx(
-        'flex w-full flex-nowrap items-center justify-between gap-4 p-4 mobile:flex-col-reverse',
+        'flex w-full flex-nowrap items-center justify-between gap-4 p-4',
         className,
       )}
     >
@@ -38,7 +38,7 @@ export function NavigateButtons({
         onClick={onPrev}
         block
         className={clsx(
-          'w-64 mobile:w-full',
+          'w-64 mobile:hidden',
           !showPrev && 'opacity-0 mobile:hidden',
         )}
       >

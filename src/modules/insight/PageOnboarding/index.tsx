@@ -10,9 +10,12 @@ import { ReadyStep } from './components/steps/ReadyStep';
 export default function PageOnboarding() {
   const [step, setStep] = useState('experience');
   const navigate = useNavigate();
-  const done = useCallback(() => {
-    navigate('/coin-radar/overview');
-  }, [navigate]);
+  const done = useCallback(
+    (url?: string) => {
+      navigate(url ?? '/coin-radar/overview');
+    },
+    [navigate],
+  );
   const { value: experience, save: setExperience } =
     useUserStorage('experience');
   const { value: approch, save: setApproch } = useUserStorage('approch');
@@ -62,7 +65,7 @@ export default function PageOnboarding() {
           <ReadyStep
             value={approch ? JSON.parse(approch) : []}
             onPrev={() => setStep('features')}
-            onNext={() => done()}
+            onNext={done}
           />
         ),
       },
