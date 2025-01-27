@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTimeout } from 'usehooks-ts';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
@@ -10,19 +10,15 @@ import { SemiForceLoginModal } from './SemiForceLoginModal';
 
 const useSemiForceLoginModal = () => {
   const isLoggedIn = useIsLoggedIn();
-  const [isReady, setIsReady] = useState(false);
-  useTimeout(() => {
-    setIsReady(true);
-  }, 3000);
-
-  return !isLoggedIn && isReady;
+  return !isLoggedIn;
 };
 
 const useTrialStartedModal = () => {
   const { group } = useSubscription();
   const [isDismissed, setIsDismissed] = useState(false);
-  const [isReady, setIsReady] = useState(false);
   const userStorage = useUserStorage('trial-popup');
+  const [isReady, setIsReady] = useState(false);
+
   useTimeout(() => {
     setIsReady(true);
   }, 1000);
@@ -45,30 +41,19 @@ const useTrialStartedModal = () => {
 
 const ONBOARDING_URL = '/coin-radar/onboarding';
 const useOnboarding = () => {
-  const [onboardingDone, setOnboardingDone] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { group } = useSubscription();
-  const { value, isLoading } = useUserStorage('onboarding-data');
+  const { value, save, isLoading } = useUserStorage(
+    'onboarding-navigate',
+    'false',
+  );
 
   useEffect(() => {
-    if (!group) return;
-    setOnboardingDone(false);
-  }, [group, setOnboardingDone]);
-
-  useEffect(() => {
-    if (searchParams.get('onboarding') === 'done') {
-      setOnboardingDone(true);
-      searchParams.delete('onboarding');
-      setSearchParams(searchParams);
-    }
-  }, [searchParams, setOnboardingDone, setSearchParams]);
-
-  useEffect(() => {
-    if (!isLoading && !value && !onboardingDone && group !== 'guest') {
+    if (!isLoading && value !== 'true' && group !== 'guest') {
+      void save('true');
       navigate(ONBOARDING_URL);
     }
-  }, [group, isLoading, navigate, onboardingDone, value]);
+  }, [group, isLoading, navigate, save, value]);
 };
 
 export function UserEngageFlow() {
