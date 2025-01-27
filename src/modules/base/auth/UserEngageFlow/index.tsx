@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTimeout } from 'usehooks-ts';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
@@ -43,21 +43,39 @@ const useTrialStartedModal = () => {
   ] as const;
 };
 
-const useNavigateToOnboarding = () => {
-  const { pathname } = useLocation();
+const ONBOARDING_URL = '/coin-radar/onboarding';
+const useOnboarding = () => {
+  const [onboardingDone, setOnboardingDone] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  return () =>
-    pathname === '/coin-radar/onboarding'
-      ? null
-      : navigate('/coin-radar/onboarding');
+  const { group } = useSubscription();
+  const { value, isLoading } = useUserStorage('onboarding-data');
+
+  useEffect(() => {
+    if (!group) return;
+    setOnboardingDone(false);
+  }, [group, setOnboardingDone]);
+
+  useEffect(() => {
+    if (searchParams.get('onboarding') === 'done') {
+      setOnboardingDone(true);
+      searchParams.delete('onboarding');
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, setOnboardingDone, setSearchParams]);
+
+  useEffect(() => {
+    if (!isLoading && !value && !onboardingDone && group !== 'guest') {
+      navigate(ONBOARDING_URL);
+    }
+  }, [group, isLoading, navigate, onboardingDone, value]);
 };
 
 export function UserEngageFlow() {
   const { isEmbeddedView } = useEmbedView();
-
   const loginModal = useSemiForceLoginModal();
   const [trialStartedModal, dismissTrialStartedModal] = useTrialStartedModal();
-  const navigateToOnboarding = useNavigateToOnboarding();
+  useOnboarding();
 
   return isEmbeddedView ? null : (
     <>
@@ -66,7 +84,6 @@ export function UserEngageFlow() {
         open={trialStartedModal}
         onClose={() => {
           dismissTrialStartedModal();
-          navigateToOnboarding();
         }}
       />
     </>

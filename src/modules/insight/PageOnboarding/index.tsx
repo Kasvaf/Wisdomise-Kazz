@@ -10,15 +10,24 @@ import { ReadyStep } from './components/steps/ReadyStep';
 export default function PageOnboarding() {
   const [step, setStep] = useState('experience');
   const navigate = useNavigate();
+
+  const { save } = useUserStorage('onboarding-data');
+  const [data, setData] = useState<{
+    experience: undefined | string;
+    approch: string[];
+  }>({
+    experience: undefined,
+    approch: [],
+  });
+
   const done = useCallback(
     (url?: string) => {
-      navigate(url ?? '/coin-radar/overview');
+      void save(JSON.stringify(data));
+      navigate(`${url ?? '/coin-radar/overview'}?onboarding=done`);
     },
-    [navigate],
+    [data, navigate, save],
   );
-  const { value: experience, save: setExperience } =
-    useUserStorage('experience');
-  const { value: approch, save: setApproch } = useUserStorage('approch');
+
   const steps = useMemo<ComponentProps<typeof OnboardingView>['steps']>(
     () => [
       {
@@ -27,10 +36,13 @@ export default function PageOnboarding() {
         element: (
           <ExperienceStep
             onNext={newValue => {
-              void setExperience(newValue);
+              setData(p => ({
+                ...p,
+                experience: newValue,
+              }));
               setStep('approch');
             }}
-            value={experience ?? undefined}
+            value={data.experience}
           />
         ),
       },
@@ -39,10 +51,13 @@ export default function PageOnboarding() {
         label: 'Trading Approach',
         element: (
           <ApprochStep
-            value={approch ? JSON.parse(approch) : []}
+            value={data.approch}
             onPrev={() => setStep('experience')}
             onNext={newValue => {
-              void setApproch(JSON.stringify(newValue));
+              setData(p => ({
+                ...p,
+                approch: newValue,
+              }));
               setStep('features');
             }}
           />
@@ -63,14 +78,14 @@ export default function PageOnboarding() {
         label: 'Start Your Journey',
         element: (
           <ReadyStep
-            value={approch ? JSON.parse(approch) : []}
+            value={data.approch}
             onPrev={() => setStep('features')}
             onNext={done}
           />
         ),
       },
     ],
-    [approch, done, experience, setApproch, setExperience],
+    [data.approch, data.experience, done],
   );
 
   return (
