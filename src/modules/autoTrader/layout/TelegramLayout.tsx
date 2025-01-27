@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { TonConnectButton, useTonAddress } from '@tonconnect/ui-react';
 import { useLocalStorage } from 'usehooks-ts';
-import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import PageWrapper from 'modules/base/PageWrapper';
 import BottomNavBar from 'modules/base/Container/BottomNavBar';
 import ScrollToTop from 'modules/base/Container/ScrollToTop';
@@ -82,24 +81,22 @@ export default function TelegramLayout() {
 
   return (
     <main className="relative bg-page">
-      <OnboardingMessageProvider>
-        <div className="fixed end-0 start-0 top-0 z-10 flex w-screen items-center justify-between bg-page p-4">
-          <ProfileInfo />
-          <TonConnectButton />
-        </div>
-        <FabSupport />
-        <div
-          ref={mainRef}
-          id="scrolling-element"
-          className="my-16 ml-0 h-auto overflow-auto p-4 !pb-24"
-        >
-          <React.Suspense fallback={<PageWrapper loading />}>
-            <Outlet />
-          </React.Suspense>
-        </div>
-        <BottomNavBar className="!block" />
-        <ScrollToTop />
-      </OnboardingMessageProvider>
+      <div className="fixed end-0 start-0 top-0 z-10 flex w-screen items-center justify-between bg-page p-4">
+        <ProfileInfo />
+        <TonConnectButton />
+      </div>
+      <FabSupport />
+      <div
+        ref={mainRef}
+        id="scrolling-element"
+        className="my-16 ml-0 h-auto overflow-auto p-4 !pb-24"
+      >
+        <React.Suspense fallback={<PageWrapper loading />}>
+          <Outlet />
+        </React.Suspense>
+      </div>
+      <BottomNavBar className="!block" />
+      <ScrollToTop />
     </main>
   );
 }
