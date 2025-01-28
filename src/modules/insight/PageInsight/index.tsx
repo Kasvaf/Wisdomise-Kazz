@@ -3,7 +3,6 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import { useCoinRadarCoins } from 'api';
 import { PageInsightMeta } from './components/PageInsightMeta';
-import { InsightOnboarding } from './components/InsightOnboarding';
 import { InsightAlertButton } from './components/InsightAlertButton';
 import { ReactComponent as Logo } from './components/logo.svg';
 import { CoinRadarTable } from './components/CoinRadarTable';
@@ -30,7 +29,6 @@ const PageInsight = () => {
         </div>
         <CoinRadarTable />
       </div>
-      <InsightOnboarding />
     </PageWrapper>
   );
 };

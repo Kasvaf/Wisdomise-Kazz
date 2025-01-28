@@ -91,7 +91,9 @@ export default function PageTournamentDetail() {
                     ? profile?.first_name
                     : p.name ?? p.investor_key}
                 </div>
-                <div className="ms-auto">${addComma(+p.trading_volume)}</div>
+                <div className="ms-auto">
+                  ${addComma(Math.round(+p.trading_volume))}
+                </div>
               </div>
             ))}
             {me && (
@@ -117,7 +119,7 @@ export default function PageTournamentDetail() {
                     {profile?.first_name ?? me.investor_key}
                   </div>
                   <div className="ms-auto">
-                    ${addComma(+(me.trading_volume ?? ''))}
+                    ${addComma(Math.round(+(me.trading_volume ?? '0')))}
                   </div>
                 </div>
               </div>

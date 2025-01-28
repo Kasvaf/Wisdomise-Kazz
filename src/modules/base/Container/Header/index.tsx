@@ -10,7 +10,6 @@ import BtnLiveSupport from './BtnLiveSupport';
 import LanguageSelector from './LanguageSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
-import OnBoardingMessageButton from './OnBoardingMessageButton';
 
 const Header: React.FC<
   PropsWithChildren<{
@@ -42,7 +41,6 @@ const Header: React.FC<
               onShowSiblings={onShowSiblings}
             />
             <div className="grow" />
-            <OnBoardingMessageButton />
             <LanguageSelector />
             {RouterBaseName ? (
               <BranchSelector />
@@ -57,7 +55,6 @@ const Header: React.FC<
             <Breadcrumb className="pl-6" />
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
-            <OnBoardingMessageButton />
             <LanguageSelector />
             <ProfileMenu />
           </>
