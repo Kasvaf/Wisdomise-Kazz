@@ -2,6 +2,7 @@ import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSocialRadarSources } from 'api';
 import { Select } from 'shared/v1-components/Select';
+import { SocialLogo } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinSocialFeedWidget/SocialLogo';
 
 export const SocialRadarSourceSelect: FC<{
   value?: string[];
@@ -27,7 +28,22 @@ export const SocialRadarSourceSelect: FC<{
       render={val => {
         if (!val) return t('common.all_sources');
         const source = sources.data?.find(x => x.value === val);
-        return source?.name ?? val;
+        if (!source) return val;
+        return (
+          <span>
+            <SocialLogo
+              className="me-2 inline-block size-4 rounded-full align-middle"
+              type={
+                source.value.includes('telegram')
+                  ? 'telegram'
+                  : source.value.includes('reddit')
+                  ? 'reddit'
+                  : 'twitter'
+              }
+            />
+            {source.name}
+          </span>
+        );
       }}
       options={
         sources.data
