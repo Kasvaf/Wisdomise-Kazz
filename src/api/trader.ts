@@ -58,6 +58,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
           name: string; // pair name
           base: Coin;
           quote: Coin;
+          network_slugs: string[];
         }>;
       }>('/delphi/market/pairs/', {
         query: {

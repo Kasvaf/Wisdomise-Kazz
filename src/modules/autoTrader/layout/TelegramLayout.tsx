@@ -1,14 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { TonConnectButton, useTonAddress } from '@tonconnect/ui-react';
-import { useLocalStorage } from 'usehooks-ts';
 import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import PageWrapper from 'modules/base/PageWrapper';
 import BottomNavBar from 'modules/base/Container/BottomNavBar';
 import ScrollToTop from 'modules/base/Container/ScrollToTop';
 import Logo from 'assets/logo.png';
-import { gtag } from 'config/gtag';
 import { useTelegramProfile } from './TelegramProvider';
+import BtnWalletConnect from './BtnWalletConnect';
 import FabSupport from './FabSupport';
 import box from './box.png';
 import blurBg from './blur.png';
@@ -67,25 +65,13 @@ const ProfileInfo = () => {
 
 export default function TelegramLayout() {
   const mainRef = useRef<HTMLDivElement>(null);
-  const address = useTonAddress();
-  const [walletConnectedFirstTime, setWalletConnected] = useLocalStorage(
-    'wallet-connected-first-time',
-    false,
-  );
-
-  useEffect(() => {
-    if (address && !walletConnectedFirstTime) {
-      gtag('event', 'wallet_connect');
-      setWalletConnected(true);
-    }
-  }, [address, setWalletConnected, walletConnectedFirstTime]);
 
   return (
     <main className="relative bg-page">
       <OnboardingMessageProvider>
         <div className="fixed end-0 start-0 top-0 z-10 flex w-screen items-center justify-between bg-page p-4">
           <ProfileInfo />
-          <TonConnectButton />
+          <BtnWalletConnect />
         </div>
         <FabSupport />
         <div

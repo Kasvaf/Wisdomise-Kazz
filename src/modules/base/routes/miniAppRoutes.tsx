@@ -92,16 +92,9 @@ const useMiniAppRoutes = () => {
               ],
             },
             {
-              path: 'market',
-              children: [
-                {
-                  path: ':slug',
-                  children: [
-                    { path: '', element: <PageTrade /> },
-                    { path: 'positions/:slug', element: <PageTrade /> },
-                  ],
-                },
-              ],
+              path: 'market/:slug',
+              element: <PageTrade />,
+              handle: { wallet: true },
             },
           ],
         },
