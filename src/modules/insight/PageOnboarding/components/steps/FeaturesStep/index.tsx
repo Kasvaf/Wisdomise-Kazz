@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useEffect, useMemo, useRef } from 'react';
 import { useSessionStorage } from 'usehooks-ts';
 import { clsx } from 'clsx';
 import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
@@ -6,11 +6,11 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { NavigateButtons } from '../../NavigateButtons';
 import { StepContent } from '../../StepContent';
-import socialRadar from './social-radar.webp';
-import whaleRadar from './whale-radar.webp';
-import technicalRadar from './technical-radar.webp';
-import screener from './screener.webp';
-import coinRadarOverview from './coin-radar-overview.webp';
+import socialRadar from './social-radar.mp4';
+import whaleRadar from './whale-radar.mp4';
+import technicalRadar from './technical-radar.mp4';
+import screener from './screener.mp4';
+import coinRadarOverview from './coin-radar-overview.mp4';
 
 const useFeatures = () => {
   return useMemo<
@@ -18,7 +18,7 @@ const useFeatures = () => {
       label: string;
       title: ReactNode;
       description: ReactNode;
-      screenshot: string;
+      video: string;
     }>
   >(
     () => [
@@ -34,7 +34,7 @@ const useFeatures = () => {
         ),
         description:
           'Analyze trending coins based on 100,000 social media accounts and posts, extracted using AI. Understand market sentiment and capitalize on viral opportunities.',
-        screenshot: socialRadar,
+        video: socialRadar,
       },
       {
         label: '02 Whale Radar',
@@ -48,7 +48,7 @@ const useFeatures = () => {
         ),
         description:
           'Constantly monitor different wallets using AI to extract the best coins and identify high-value investment opportunities. Stay one step ahead by following smart money strategies.',
-        screenshot: whaleRadar,
+        video: whaleRadar,
       },
       {
         label: '03 Technical Radar',
@@ -62,7 +62,7 @@ const useFeatures = () => {
         ),
         description:
           'Use advanced indicators and AI, including RSI and MACD, to discover the best coins for short-term trading. Leverage momentum and trend analysis to maximize gains.',
-        screenshot: technicalRadar,
+        video: technicalRadar,
       },
       {
         label: '04 Screener',
@@ -76,7 +76,7 @@ const useFeatures = () => {
         ),
         description:
           'Set custom alerts on any of the radars to get notified whenever a potential opportunity arises. Stay informed and act at the right moment to maximize your profits.',
-        screenshot: screener,
+        video: screener,
       },
       {
         label: '05 Coin Overview',
@@ -90,7 +90,7 @@ const useFeatures = () => {
         ),
         description:
           'Get a curated list of coins with cross-radar confirmations. Scan through multiple indicators to identify coins with the strongest potential based on combined data insights.',
-        screenshot: coinRadarOverview,
+        video: coinRadarOverview,
       },
     ],
     [],
@@ -106,6 +106,13 @@ export function FeaturesStep({
 }) {
   const features = useFeatures();
   const [value, setValue] = useSessionStorage('onboarding-feature-page', 0);
+  const root = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    void root.current
+      ?.querySelector<HTMLVideoElement>(`[data-index="${value}"] video`)
+      ?.play?.();
+  }, [value]);
 
   return (
     <>
@@ -146,7 +153,7 @@ export function FeaturesStep({
             <Icon name={bxChevronRight} />
           </Button>
         </div>
-        <div className="relative flex flex-row overflow-hidden">
+        <div className="relative flex flex-row overflow-hidden" ref={root}>
           {features.map((x, i) => (
             <div
               key={x.label}
@@ -154,6 +161,7 @@ export function FeaturesStep({
                 'h-auto w-full shrink-0 grow overflow-hidden',
                 i !== value && 'absolute size-0 opacity-0',
               )}
+              data-index={i}
             >
               <div className="mx-auto mb-1 text-center text-xl font-medium text-v1-content-primary xl:text-3xl">
                 {x.title}
@@ -161,10 +169,19 @@ export function FeaturesStep({
               <p className="mx-auto mb-6 max-w-3xl text-center text-xs font-normal text-white/70 xl:text-sm">
                 {x.description}
               </p>
-              <img
-                src={x.screenshot}
+              <video
+                width="900"
+                height="640"
+                muted={true}
+                loop={true}
+                playsInline={true}
+                preload="auto"
+                autoPlay={false}
+                controls={false}
                 className="mx-auto w-full object-cover md:w-[612px] 2xl:w-[792px]"
-              />
+              >
+                <source src={x.video} type="video/mp4" />
+              </video>
             </div>
           ))}
         </div>
