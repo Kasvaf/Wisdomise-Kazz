@@ -12,6 +12,7 @@ import BottomNavBar from './BottomNavBar';
 import ScrollToTop from './ScrollToTop';
 import { usePageSiblings } from './Header/Breadcrumb';
 import { GeneralMeta } from './GeneralMeta';
+import { UserEngageFlow } from './UserEngageFlow';
 
 const Container = () => {
   const isMobile = useIsMobile();
@@ -55,6 +56,7 @@ const Container = () => {
           <BottomNavBar />
           <ScrollToTop />
         </main>
+        <UserEngageFlow />
       </AuthGuard>
     </TrackersContainer>
   );

@@ -2,17 +2,16 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
-import { useEmbedView } from 'modules/embedded/useEmbedView';
-import { useIsLoggedIn } from '../jwt-store';
+import { useIsLoggedIn } from '../../auth/jwt-store';
 import { SemiForceLoginModal } from './SemiForceLoginModal';
 
 const useSemiForceLoginModal = () => {
   const isLoggedIn = useIsLoggedIn();
-  return !isLoggedIn;
+  return <SemiForceLoginModal open={!isLoggedIn} />;
 };
 
 const ONBOARDING_URL = '/coin-radar/onboarding';
-const useOnboarding = () => {
+const useNavigateToOnboarding = () => {
   const navigate = useNavigate();
   const { group } = useSubscription();
   const { value, save, isLoading } = useUserStorage(
@@ -28,14 +27,9 @@ const useOnboarding = () => {
   }, [group, isLoading, navigate, save, value]);
 };
 
-export function UserEngageFlow() {
-  const { isEmbeddedView } = useEmbedView();
+export const UserEngageFlow = () => {
   const loginModal = useSemiForceLoginModal();
-  useOnboarding();
+  useNavigateToOnboarding();
 
-  return isEmbeddedView ? null : (
-    <>
-      <SemiForceLoginModal open={loginModal} />
-    </>
-  );
-}
+  return <>{loginModal}</>;
+};

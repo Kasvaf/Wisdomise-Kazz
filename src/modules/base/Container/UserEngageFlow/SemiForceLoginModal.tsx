@@ -1,5 +1,5 @@
 import { type FC, useEffect, useRef } from 'react';
-import { useModalLogin } from '../ModalLogin';
+import { useModalLogin } from '../../auth/ModalLogin';
 
 export const SemiForceLoginModal: FC<{
   open: boolean;
