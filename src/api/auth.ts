@@ -145,17 +145,21 @@ export function useMiniAppTgLoginMutation() {
 export function useMiniAppTgLoginFromWebMutation() {
   return useMutation<boolean, unknown, { uuid: string; referrer?: string }>(
     async ({ uuid, referrer }) => {
-      const data = await ofetch<SuccessResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-login/`,
-        {
-          meta: { auth: false },
-          credentials: 'include',
-          body: { uuid, referrer_code: referrer },
-          method: 'POST',
-        },
-      );
-      await refreshAccessToken();
-      return data.message === 'ok';
+      try {
+        const data = await ofetch<SuccessResponse>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-login/`,
+          {
+            meta: { auth: false },
+            credentials: 'include',
+            body: { uuid, referrer_code: referrer },
+            method: 'POST',
+          },
+        );
+        await refreshAccessToken();
+        return data.message === 'ok';
+      } catch {
+        return false;
+      }
     },
   );
 }
@@ -173,6 +177,7 @@ export function useMiniAppConnectMutation() {
       {
         method: 'POST',
         meta: { auth: false },
+        body: {},
       },
     );
 

@@ -1,7 +1,6 @@
 import { Trans, useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
-import { MarketPulseOnboarding } from './components/MarketPulseOnboarding';
 import { TechnicalOverviewWidget } from './components/TechnicalOverviewWidget';
 import MarketPulseAlertButton from './components/MarketPulseAlertButton';
 import { ConfirmationWidget } from './components/ConfirmationWidget';
@@ -31,8 +30,6 @@ export default function PageMarketPulse() {
         <ConfirmationWidget indicator="rsi" type="bearish" />
         <ConfirmationWidget indicator="macd" type="bearish" />
       </div>
-
-      <MarketPulseOnboarding />
     </PageWrapper>
   );
 }

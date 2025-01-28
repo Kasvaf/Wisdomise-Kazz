@@ -1,9 +1,4 @@
 expires-soon: Only <Duration></Duration> Left in Your Trial!
-features:
-  alerts: Customized Alerts & Notifications
-  auto-trader: Wisdomise Auto Trader
-  coin-overview: Comprehensive Coin Overview
-  dashboard: Personalized Dashboard
 pro-locker:
   login:
     button: Login
@@ -15,14 +10,5 @@ pro-locker:
     button: Upgrade to Pro+
     message: Upgrade to Pro+ for exclusive insights to elevate your crypto game!
 trial: Trial
-trial-modal:
-  title: Welcome to Wisdomise Pro!
-  description: >-
-    Congratulations on your <b><Duration></Duration> Trial</b> of Wisdomise
-    Pro!<br></br>Here are some features available in the Pro version:
-  button: Start Your Journey
-  footer: >-
-    You now have access to powerful tools designed to enhance your trading
-    experience.<br></brExplore More features and elevate your crypto game.
 upgrade-now: Upgrade now
 zero-hour: 0 hour

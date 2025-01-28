@@ -26,6 +26,10 @@ asset_badges:
   new_investment_info: >-
     This coin is a recent addition to the whale’s portfolio, with minimal
     selling so far.
+  stable: Stable
+  stable_info: >-
+    A stablecoin is a digital asset that remains stable in value against a
+    pegged external traditional asset class.
   trading: Trading
   unloading: Unloading
   unloading_info: >-
@@ -41,34 +45,6 @@ filters:
   sell: Most Sold
   total_volume: Highest Trading Volume
   wealthy_wallets: Wealthy Wallets
-onboarding:
-  sec-1:
-    title: 'Welcome to Whale Radar: Track Top Whales & Traders'
-    content: >-
-      Our Whale Radar feature identifies top-performing whales and traders for
-      each coin, based on their historical profits. We track their movements
-      across various coins and chains, so you can gain insight into the best
-      trading opportunities.
-  sec-2:
-    title: Find Trending Coins That Whales Are Trading
-    content: >-
-      Discover which coins are trending among the most successful whales on
-      different chains. Our platform provides real-time updates on which assets
-      they're accumulating or selling, so you can follow their moves with
-      confidence.
-  sec-3:
-    title: 'Detailed Wallet Analysis: Dive Into Holdings'
-    content: >-
-      Access in-depth analysis of each whale's wallet, including a breakdown of
-      their current holdings, trade history, and performance metrics. Use these
-      insights to better understand their strategies and the market dynamics.
-  sec-4:
-    title: 'Set Alerts & Auto-Trader: Never Miss a Trade'
-    content: >-
-      Stay ahead by setting alerts for whale movements, trending coins, and
-      wallet changes. Soon, you'll be able to activate Auto-Trader to
-      automatically execute trades based on the top whales actions—letting you
-      sit back and relax.
 top_coins:
   name: Name
   title: Top Tokens Chosen by Whales

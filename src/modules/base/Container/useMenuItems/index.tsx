@@ -63,7 +63,6 @@ const useMenuItems = () => {
               text: t('menu.ai-indicators.title'),
               link: '/coin-radar/technical-radar',
               onClick: trackClick('market_pulse_menu'),
-              badge: 'new',
             },
             {
               text: t('menu.hot-coins.title'),
@@ -74,7 +73,6 @@ const useMenuItems = () => {
               text: t('menu.whales.title'),
               link: '/coin-radar/whale-radar',
               onClick: trackClick('whales_menu'),
-              badge: 'new',
             },
             {
               text: t('menu.alerts.title'),

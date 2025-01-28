@@ -342,7 +342,11 @@ export const SignalSentiment: FC<{
                 </div>
                 <DirectionalNumber
                   popup="never"
-                  value={signal.signals_analysis.max_profit_percentage}
+                  value={
+                    signal.gauge_tag === 'LONG'
+                      ? signal.signals_analysis.max_profit_percentage
+                      : signal.signals_analysis.max_loss_percentage
+                  }
                   label="%"
                   showIcon={false}
                   showSign
@@ -356,7 +360,12 @@ export const SignalSentiment: FC<{
                 <DirectionalNumber
                   popup="never"
                   value={
-                    -1 * (signal.signals_analysis.max_loss_percentage ?? 0)
+                    -1 *
+                    Math.abs(
+                      signal.gauge_tag === 'LONG'
+                        ? signal.signals_analysis.max_loss_percentage
+                        : signal.signals_analysis.max_profit_percentage,
+                    )
                   }
                   label="%"
                   showIcon={false}
