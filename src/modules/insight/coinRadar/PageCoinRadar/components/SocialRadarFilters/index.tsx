@@ -74,7 +74,7 @@ export function SocialRadarFilters({
         className,
       )}
     >
-      <div className="flex w-auto flex-nowrap gap-4 overflow-auto">
+      <div className="flex w-auto flex-nowrap gap-4 overflow-auto mobile:gap-2">
         <Button
           variant={isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
           size="md"
@@ -83,22 +83,24 @@ export function SocialRadarFilters({
         >
           <Icon name={bxSliderAlt} size={16} />
         </Button>
-        <Button
-          variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
-          size="md"
-          className="shrink-0"
-          onClick={() => onChange?.(undefined)}
-        >
-          <Icon name={bxGridAlt} size={16} />
-          {t('common.all')}
-        </Button>
         <ButtonSelect
-          options={presetFilters.map(x => ({
-            label: x.label,
-            value: x.slug,
-          }))}
+          options={[
+            {
+              label: (
+                <>
+                  <Icon name={bxGridAlt} size={16} />
+                  {t('common.all')}
+                </>
+              ),
+              value: undefined,
+            },
+            ...presetFilters.map(x => ({
+              label: x.label,
+              value: x.slug,
+            })),
+          ]}
           allowClear
-          value={selectedPreset}
+          value={isFiltersApplied && !selectedPreset ? null : selectedPreset}
           onChange={newPresetFilter =>
             onChange?.({
               categories: [],
@@ -112,7 +114,7 @@ export function SocialRadarFilters({
           }
           size="md"
           variant="primary"
-          className="grow"
+          className="min-w-64 grow"
         />
       </div>
       <SortModes
@@ -121,7 +123,7 @@ export function SocialRadarFilters({
         onChange={(sortBy, sortOrder) =>
           onChange?.({ sortBy, sortOrder: sortOrder as never })
         }
-        className="w-auto shrink-0 mobile:w-full"
+        className="w-auto min-w-min mobile:w-full"
       />
       <Modal
         open={open}
