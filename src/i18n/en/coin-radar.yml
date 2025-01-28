@@ -221,23 +221,27 @@ coin-details:
       hold: Hold
       sell: Sell
 common:
+  all: All
   all_categories: All Categories
+  all_exchanges: All Exchanges
   all_labels: All Labels
   all_networks: All Networks
+  all_sources: All Sources
   apply_filters: Apply Filters
   categories: Categories
   category: Category
   chain: Chain
   chains: Chains
+  exchange: Exchange
   filters: Filters
   labels: Labels
   load_more: Load More
   native_coin: Native Coin
   network: Network
   price: Price
-  reset_filters: Reset Filters
   search_coin: Search Coin...
   security_label: Security Label
+  source: Source
   trend_label: Trend Label
 onboarding:
   sec-1:

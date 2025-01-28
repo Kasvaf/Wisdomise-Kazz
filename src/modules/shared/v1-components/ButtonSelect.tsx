@@ -43,7 +43,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
       buttonsRef.current?.scrollTo({
         left:
           buttonsRef.current.scrollLeft +
-          (buttonsRef.current.offsetWidth / 1.4) *
+          (buttonsRef.current.offsetWidth / 3) *
             (direction === 'left' ? -1 : 1),
         behavior: 'smooth',
       });
@@ -75,9 +75,8 @@ export function ButtonSelect<T, AC extends boolean = false>({
     const selectedEl = el.querySelector<HTMLButtonElement>(
       '[aria-checked="true"]',
     );
-    if (!selectedEl) return;
     el.scrollTo({
-      left: selectedEl.offsetLeft - el.offsetWidth / 2,
+      left: selectedEl ? selectedEl.offsetLeft - el.offsetWidth / 2 : 0,
       behavior: 'smooth',
     });
   }, [value]);
