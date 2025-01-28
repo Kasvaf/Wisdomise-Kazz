@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { clsx } from 'clsx';
+import { bxChevronDownCircle, bxChevronUpCircle } from 'boxicons-quasar';
 import useIsMobile from 'utils/useIsMobile';
+import Icon from 'shared/Icon';
 import { NavigateButtons } from '../../NavigateButtons';
 import { StepContent } from '../../StepContent';
 import amateurBg from './amateur.png';
@@ -56,9 +58,11 @@ export function ExperienceStep({
   const isMobile = useIsMobile();
   const types = useTypes();
   const [value, setValue] = useState(initialValue);
+  const [expandedType, setExpandedType] = useState(initialValue);
 
   useEffect(() => {
     setValue(initialValue);
+    setExpandedType(initialValue);
   }, [initialValue]);
 
   return (
@@ -74,9 +78,12 @@ export function ExperienceStep({
           {types.map(x => (
             <div
               key={x.value}
-              className="relative flex w-full max-w-full shrink-0 grow cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 transition-all hover:brightness-125 mobile:py-4 xl:max-w-[350px]"
+              className="relative flex w-full max-w-full shrink-0 grow cursor-pointer flex-col justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 transition-all hover:brightness-125 mobile:flex-col-reverse mobile:py-4 xl:max-w-[350px]"
               tabIndex={-1}
-              onClick={() => setValue(x.value)}
+              onClick={() => {
+                setValue(x.value);
+                setExpandedType(p => (p === x.value ? undefined : x.value));
+              }}
             >
               <img
                 src={background}
@@ -86,7 +93,9 @@ export function ExperienceStep({
                 src={x.background}
                 className={clsx(
                   'mx-auto w-72 max-w-full overflow-hidden object-contain transition-all',
-                  x.value === value || !isMobile ? 'h-80' : 'h-0',
+                  (expandedType && expandedType === x.value) || !isMobile
+                    ? 'h-80'
+                    : 'h-0',
                 )}
               />
               <div className="absolute -bottom-5 -right-5 hidden size-1/2 rounded-full bg-wsdm-gradient opacity-40 blur-[100px] mobile:block" />
@@ -103,6 +112,20 @@ export function ExperienceStep({
                   {x.description}
                 </p>
               </div>
+              <Icon
+                name={
+                  expandedType && expandedType === x.value
+                    ? bxChevronUpCircle
+                    : bxChevronDownCircle
+                }
+                size={19}
+                className={clsx(
+                  'absolute bottom-4 right-4 hidden mobile:block',
+                  expandedType && expandedType === x.value
+                    ? 'opacity-70'
+                    : 'opacity-35',
+                )}
+              />
             </div>
           ))}
         </div>
