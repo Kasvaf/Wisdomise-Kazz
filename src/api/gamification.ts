@@ -132,6 +132,8 @@ interface GamificationProfile {
   profile: {
     userId: string;
     customAttributes: {
+      boxRewardAmount: string;
+      boxRewardType: string;
       sevenDaysTradingStreakMissionActiveTask: string;
       sevenDaysTradingStreakMissionCurrentTask: string;
       sevenDaysTradingStreakMissionLastTaskCompletedAt: string;
@@ -155,6 +157,20 @@ export const useGamificationProfile = () =>
     { refetchInterval: 10 * 1000 },
   );
 
+export interface GamificationActionBody {
+  event_name: 'claim';
+  attributes?: Record<string, string>;
+}
+
+export const useGamificationAction = () =>
+  useMutation(async (body: GamificationActionBody) => {
+    const data = await ofetch(`${TEMPLE_ORIGIN}/api/v1/gamification/action`, {
+      body,
+      method: 'post',
+    });
+    return data;
+  });
+
 export const useGamification = () => {
   const { data } = useGamificationProfile();
 
@@ -176,6 +192,7 @@ export const useGamification = () => {
     activeDay,
     currentDay,
     completedAll: activeDay === 6 && currentDay === 6,
+    rewardClaimed: +(data?.profile.customAttributes.boxRewardAmount ?? 0) === 0,
     completedToday: currentDay === activeDay,
     nextDayStartTimestamp,
     nextDayEndTimestamp: nextDayStartTimestamp + 5 * 60 * 1000,

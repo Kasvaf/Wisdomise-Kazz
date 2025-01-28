@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { clsx } from 'clsx';
 import Button from 'shared/Button';
 import DailyProgress from 'modules/autoTrader/PageHome/DailyTradeQuest/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
-import { useGamification } from 'api/gamification';
+import { useGamification, useGamificationAction } from 'api/gamification';
 import { StatusBadge } from 'modules/autoTrader/PageTournaments/TournamentCard';
+import RewardModal from '../RewardModal';
 import target from './target.png';
 import box from './box.png';
 import { ReactComponent as Bg } from './bg.svg';
@@ -11,7 +13,10 @@ import { ReactComponent as Stars } from './stars.svg';
 
 export default function DailyTradeQuest() {
   const [open, setOpen] = useState(false);
-  const { activeDay, currentDay, completedAll } = useGamification();
+  const [openReward, setOpenReward] = useState(false);
+  const { activeDay, currentDay, completedAll, rewardClaimed } =
+    useGamification();
+  const { mutateAsync } = useGamificationAction();
 
   const dayStatus = (index: number) => {
     if (index < activeDay) {
@@ -21,6 +26,14 @@ export default function DailyTradeQuest() {
     } else {
       return 'upcoming';
     }
+  };
+
+  const claim = () => {
+    void mutateAsync({ event_name: 'claim' }).then(() => {
+      setOpen(false);
+      setOpenReward(true);
+      return null;
+    });
   };
 
   return (
@@ -35,7 +48,10 @@ export default function DailyTradeQuest() {
           </p>
           <Button
             variant="brand"
-            className="mt-3 !px-4"
+            className={clsx(
+              'mt-3 !px-4',
+              completedAll && rewardClaimed && 'hidden',
+            )}
             onClick={() => setOpen(true)}
           >
             {completedAll ? 'Claim Your Reward' : 'Start Today`s Trade'}
@@ -97,12 +113,13 @@ export default function DailyTradeQuest() {
                   <h2>Special Reward</h2>
                   <Bg className="absolute top-0 h-full" />
                   <Stars className="absolute" />
-                  <img src={box} className="my-4 h-16 w-16" />
+                  <img src={box} className="my-4 h-16 w-16" alt="box" />
                   <Button
                     size="small"
                     variant="brand"
-                    className="w-full"
+                    className="relative w-full"
                     disabled={!completedAll}
+                    onClick={claim}
                   >
                     Claim
                   </Button>
@@ -122,6 +139,7 @@ export default function DailyTradeQuest() {
           <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l0/80 to-75%"></div>
         </div>
       </DrawerModal>
+      <RewardModal open={openReward} onClose={() => setOpenReward(false)} />
     </>
   );
 }
