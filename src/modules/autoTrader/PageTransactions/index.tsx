@@ -14,6 +14,7 @@ export default function PageTransactions() {
 
   const { data, isError, isLoading } = useTraderPositionTransactionsQuery({
     positionKey,
+    // network:, // TODO: HOW?!
   });
 
   return (

@@ -7,13 +7,14 @@ import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import { useLastPriceQuery } from 'api';
 import InfoButton from 'shared/InfoButton';
+import useRelevantExchange from 'shared/useRelevantExchange';
 import PriceVolumeInput from './PriceVolumeInput';
 import { type SignalFormState } from './useSignalFormStates';
 
 const PartSafetyOpen: React.FC<{
   data: SignalFormState;
   baseSlug: string;
-}> = ({ data }) => {
+}> = ({ data, baseSlug }) => {
   const { t } = useTranslation('builder');
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -30,7 +31,7 @@ const PartSafetyOpen: React.FC<{
 
   const { data: assetPrice } = useLastPriceQuery({
     slug,
-    exchange: 'STONFI',
+    exchange: useRelevantExchange(baseSlug, quote),
     quote,
     convertToUsd: true,
   });

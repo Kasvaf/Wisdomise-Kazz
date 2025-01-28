@@ -6,7 +6,7 @@ import BottomNavBar from 'modules/base/Container/BottomNavBar';
 import ScrollToTop from 'modules/base/Container/ScrollToTop';
 import Logo from 'assets/logo.png';
 import { useTelegramProfile } from './TelegramProvider';
-import BtnWalletConnect from './BtnWalletConnect';
+import BtnWalletConnect from './wallet/BtnWalletConnect';
 import FabSupport from './FabSupport';
 import box from './box.png';
 import blurBg from './blur.png';

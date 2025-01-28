@@ -1,12 +1,7 @@
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import { Buffer } from 'buffer';
-import { useEffect, useMemo, type PropsWithChildren } from 'react';
-import {
-  THEME,
-  TonConnectUIProvider,
-  useTonAddress,
-} from '@tonconnect/ui-react';
-import { useLocalStorage } from 'usehooks-ts';
+import { useMemo, type PropsWithChildren } from 'react';
+import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 
 import {
   ConnectionProvider,
@@ -16,30 +11,12 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
-import { gtag } from 'config/gtag';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { isProduction } from 'utils/version';
+import WalletEvents from './WalletEvents';
 
 // required for using @ton/core
 window.Buffer = Buffer;
-
-const WalletEvents: React.FC<PropsWithChildren> = ({ children }) => {
-  // TODO: send both solana and ton wallet connect events to segment
-  const address = useTonAddress();
-  const [walletConnectedFirstTime, setWalletConnected] = useLocalStorage(
-    'wallet-connected-first-time',
-    false,
-  );
-
-  useEffect(() => {
-    if (address && !walletConnectedFirstTime) {
-      gtag('event', 'wallet_connect');
-      setWalletConnected(true);
-    }
-  }, [address, setWalletConnected, walletConnectedFirstTime]);
-
-  return <>{children}</>;
-};
 
 const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const network = isProduction

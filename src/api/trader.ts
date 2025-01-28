@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
+import { useMemo } from 'react';
 import {
   type OpenOrderResponse,
   type SignalItem,
@@ -9,6 +10,19 @@ import { ofetch } from 'config/ofetch';
 import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
+
+export const NETWORK_MAIN_EXCHANGE = {
+  ton: 'STONFI',
+  solana: 'RAYDIUM',
+} as const;
+
+export const NETWORK_OF_EXCHANGE = {
+  STONFI: 'ton',
+  RAYDIUM: 'solana',
+  BINANCE: undefined,
+} as const;
+
+type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;
 
 export interface UserAssetPair {
   slug: string;
@@ -63,8 +77,6 @@ export const useSupportedPairs = (baseSlug?: string) => {
       }>('/delphi/market/pairs/', {
         query: {
           base_slug: baseSlug,
-          network_name: 'ton',
-          exchange_name: 'STONFI',
         },
       });
       return data.results;
@@ -75,12 +87,29 @@ export const useSupportedPairs = (baseSlug?: string) => {
   );
 };
 
+export const useSupportedNetworks = (base?: string, quote?: string) => {
+  const { data: supportedPairs } = useSupportedPairs(base);
+  return useMemo(
+    () =>
+      supportedPairs
+        ?.find(x => !quote || x.quote.slug === quote)
+        ?.network_slugs.map(
+          x =>
+            (x === 'the-open-network'
+              ? 'ton'
+              : x
+            ).toLowerCase() as SupportedNetworks,
+        ),
+    [quote, supportedPairs],
+  );
+};
+
 export const useTraderCoins = (filters?: {
   page: number;
   pageSize: number;
   sortBy?: string;
   isAscending?: boolean;
-  networkName?: string;
+  networkName?: SupportedNetworks;
   filter?: WhaleCoinsFilter;
   days?: number;
 }) =>
@@ -96,7 +125,9 @@ export const useTraderCoins = (filters?: {
             page: filters?.page ?? 1,
             days: filters?.days ?? 1,
             network_name: filters?.networkName,
-            exchange_name: 'STONFI',
+            exchange_name: filters?.networkName
+              ? NETWORK_MAIN_EXCHANGE[filters.networkName]
+              : undefined,
             sorted_by: filters?.sortBy,
             ascending:
               typeof filters?.isAscending === 'boolean'
@@ -184,19 +215,27 @@ export function initialQuoteDeposit(p: Position) {
   return result === undefined ? undefined : Number(result);
 }
 
-export function useTraderPositionQuery(positionKey?: string) {
+export function useTraderPositionQuery({
+  positionKey,
+  network,
+}: {
+  positionKey?: string;
+  network?: SupportedNetworks;
+}) {
   return useQuery(
     ['traderPosition', positionKey],
     async () => {
       if (!positionKey) return;
 
-      const data = await ofetch<Position>(`trader/positions/${positionKey}`);
+      const data = await ofetch<Position>(`trader/positions/${positionKey}`, {
+        query: { network_slug: network },
+      });
       return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
       refetchInterval: 10_000,
-      enabled: !!positionKey,
+      enabled: !!positionKey && !!network,
     },
   );
 }
@@ -206,11 +245,13 @@ export function useTraderPositionsQuery({
   isOpen,
   pageSize,
   page,
+  network,
 }: {
   slug?: string;
   isOpen?: boolean;
   pageSize?: number;
   page?: number;
+  network?: SupportedNetworks;
 }) {
   return useQuery(
     ['traderPositions', slug, isOpen, pageSize, page],
@@ -221,6 +262,7 @@ export function useTraderPositionsQuery({
           is_open: isOpen,
           page_size: pageSize,
           page,
+          network_slug: network,
         },
       });
       return data;
@@ -237,15 +279,16 @@ export interface CreatePositionRequest {
   withdraw_address: string;
   quote_slug: string;
   quote_amount: string;
+  network: SupportedNetworks;
 }
 
 export const usePreparePositionMutation = () => {
   const { mutateAsync } = useCreateTraderInstanceMutation();
-  return useMutation(async (body: CreatePositionRequest) => {
-    await mutateAsync();
+  return useMutation(async ({ network, ...body }: CreatePositionRequest) => {
+    await mutateAsync({ network });
     const data = await ofetch<{ gas_fee: string; warning?: string }>(
       'trader/positions/prepare',
-      { body, method: 'post' },
+      { body, method: 'post', query: { network_slug: network } },
     );
     return data;
   });
@@ -259,12 +302,12 @@ export interface CreatePositionResponse {
 }
 
 export const useCreateTraderInstanceMutation = () => {
-  return useMutation(async () => {
+  return useMutation(async ({ network }: { network: SupportedNetworks }) => {
     return await ofetch<null>('trader', {
       body: {
-        exchange: 'STONFI',
+        network_slug: network,
+        exchange: NETWORK_MAIN_EXCHANGE[network],
         market: 'SPOT',
-        network_slug: 'the-open-network',
       },
       method: 'post',
     });
@@ -275,11 +318,12 @@ export const useTraderFirePositionMutation = () => {
   const queryClient = useQueryClient();
   const { mutateAsync } = useCreateTraderInstanceMutation();
   return useMutation(
-    async (body: CreatePositionRequest) => {
-      await mutateAsync();
+    async ({ network, ...body }: CreatePositionRequest) => {
+      await mutateAsync({ network });
       const data = await ofetch<CreatePositionResponse>('trader/positions', {
-        body,
         method: 'post',
+        body,
+        query: { network_slug: network },
       });
       return data;
     },
@@ -292,9 +336,16 @@ export const useTraderFirePositionMutation = () => {
 export const useTraderCancelPositionMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    async (positionKey: string) => {
+    async ({
+      positionKey,
+      network,
+    }: {
+      positionKey: string;
+      network: SupportedNetworks;
+    }) => {
       return await ofetch<null>(`trader/positions/${positionKey}/cancel`, {
         method: 'post',
+        query: { network_slug: network },
       });
     },
     {
@@ -306,16 +357,18 @@ export const useTraderCancelPositionMutation = () => {
 export interface UpdatePositionRequest {
   position_key: string;
   signal: Signal;
+  network: SupportedNetworks;
 }
 
 export const useTraderUpdatePositionMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    async (body: UpdatePositionRequest) => {
+    async ({ network, ...body }: UpdatePositionRequest) => {
       try {
         return await ofetch<null>('trader/positions/signal', {
-          body,
           method: 'post',
+          body,
+          query: { network_slug: network },
         });
       } catch (error) {
         if (error instanceof FetchError && error.status === 409) {
@@ -426,14 +479,19 @@ export type Transaction =
 
 export function useTraderPositionTransactionsQuery({
   positionKey,
+  network,
 }: {
   positionKey: string;
+  network?: SupportedNetworks;
 }) {
   return useQuery(
     ['position-transactions', positionKey],
     async () => {
       const data = await ofetch<{ transactions: Transaction[] }>(
         `trader/positions/${positionKey}/transactions`,
+        {
+          query: { network_slug: network },
+        },
       );
       return data.transactions;
     },

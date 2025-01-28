@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import {
   type Position,
   isPositionUpdatable,
+  useSupportedNetworks,
   useTraderUpdatePositionMutation,
 } from 'api';
 import { unwrapErrorMessage } from 'utils/error';
@@ -14,6 +15,10 @@ import Spin from 'shared/Spin';
 
 const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
   const { t } = useTranslation('builder');
+  const networks = useSupportedNetworks(
+    position.base_slug,
+    position.quote_slug,
+  ); // TODO: should be read from position itself
 
   const { mutateAsync: updateOrClose, isLoading: isClosing } =
     useTraderUpdatePositionMutation();
@@ -26,6 +31,7 @@ const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
   });
 
   const closeHandler = async () => {
+    if (!networks?.[0]) return;
     if (
       !(await confirm({
         message: t('signal-form.confirm-close'),
@@ -35,6 +41,7 @@ const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
 
     try {
       await updateOrClose({
+        network: networks[0],
         position_key: position.key,
         signal: {
           ...position.signal,
@@ -53,7 +60,7 @@ const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
     }
   };
 
-  if (!isPositionUpdatable(position)) {
+  if (!isPositionUpdatable(position) || !networks?.[0]) {
     return null;
   }
 

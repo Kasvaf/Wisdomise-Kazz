@@ -12,6 +12,7 @@ import InfoButton from 'shared/InfoButton';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
 import { useSymbolInfo } from 'api/symbol';
+import useRelevantExchange from 'shared/useRelevantExchange';
 import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
@@ -43,7 +44,7 @@ const PartOpen: React.FC<{
 
   const { data: assetPrice } = useLastPriceQuery({
     slug,
-    exchange: 'STONFI',
+    exchange: useRelevantExchange(slug, quote),
     quote,
     convertToUsd: true,
   });

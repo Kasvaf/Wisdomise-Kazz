@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
-import { type MarketTypes } from './types/shared';
+import { type PricesExchange, type MarketTypes } from './types/shared';
 import { useSupportedPairs } from './trader';
 
 export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h';
@@ -73,7 +73,7 @@ interface LastCandleResponse {
 interface LastCandleParams {
   slug?: string; // slug
   quote?: string;
-  exchange?: 'BINANCE' | 'STONFI';
+  exchange?: PricesExchange;
   market?: MarketTypes;
   convertToUsd?: boolean;
 }

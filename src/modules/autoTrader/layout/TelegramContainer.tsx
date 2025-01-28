@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import TrackersContainer from 'modules/base/TrackersContainer';
 import { TelegramProvider } from './TelegramProvider';
 import TelegramAuthGuard from './TelegramAuthGuard';
-import WalletProvider from './WalletProvider';
+import WalletProvider from './wallet/WalletProvider';
 
 export default function TelegramContainer() {
   return (

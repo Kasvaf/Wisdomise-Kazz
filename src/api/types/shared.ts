@@ -1,4 +1,5 @@
 export type MarketTypes = 'SPOT' | 'FUTURES';
+export type PricesExchange = 'BINANCE' | 'STONFI' | 'RAYDIUM';
 
 export interface Coin {
   abbreviation: string;

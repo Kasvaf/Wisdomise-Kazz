@@ -4,7 +4,8 @@ import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useCoinList, useCoinOverview, useLastPriceQuery } from 'api';
-import type { Coin as CoinType } from 'api/types/shared';
+import type { Coin as CoinType, PricesExchange } from 'api/types/shared';
+import useRelevantExchange from 'shared/useRelevantExchange';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
@@ -13,9 +14,8 @@ import Icon from 'shared/Icon';
 
 export const CoinSelect: FC<
   SelectProps<string> & {
-    networkName?: string;
     filterTokens?: (item: string) => boolean;
-    priceExchange?: 'BINANCE' | 'STONFI';
+    priceExchange?: PricesExchange | 'auto';
     emptyOption?: string;
     selectFirst?: boolean;
   }
@@ -23,7 +23,6 @@ export const CoinSelect: FC<
   value,
   className,
   disabled,
-  networkName,
   filterTokens,
   priceExchange,
   emptyOption,
@@ -32,12 +31,13 @@ export const CoinSelect: FC<
 }) => {
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
-  const coinList = useCoinList({ q, networkName });
+  const bestExchange = useRelevantExchange();
+  const coinList = useCoinList({ q });
 
   const coin = useCoinOverview({ slug: value ?? 'tether' });
   const { data: lastPrice } = useLastPriceQuery({
     slug: value == null ? undefined : value,
-    exchange: priceExchange,
+    exchange: priceExchange === 'auto' ? bestExchange : priceExchange,
   });
 
   const coins = useMemo<CoinType[]>(() => {
@@ -79,7 +79,8 @@ export const CoinSelect: FC<
       !coinList.isLoading &&
       !allOptions.some(x => x.value === value)
     ) {
-      props.onChange?.(firstOption, []);
+      // TODO: once list is OK, uncomment this line
+      // props.onChange?.(firstOption, []);
     }
   }, [allOptions, coinList.isLoading, props, selectFirst, value]);
 

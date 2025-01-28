@@ -36,6 +36,42 @@ const CONTRACT_DECIMAL = {
 
 export type AutoTraderSupportedQuotes = 'tether' | 'the-open-network';
 
+const useJettonWalletAddress = (quote: 'WSDM' | AutoTraderSupportedQuotes) => {
+  const address = useTonAddress();
+
+  return useQuery(
+    ['jetton-wallet-address', address, quote],
+    async () => {
+      if (!address || quote === 'the-open-network') return;
+
+      const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
+      const ownerAddress = Address.parse(address);
+
+      try {
+        const { stack } = await tonClient.runMethod(
+          jettonMasterAddress,
+          'get_wallet_address',
+          [
+            {
+              type: 'slice',
+              cell: beginCell().storeAddress(ownerAddress).endCell(),
+            },
+          ],
+        );
+
+        const jettonWalletAddress = stack.readAddress();
+        return jettonWalletAddress.toString();
+      } catch (error) {
+        console.error('Error fetching jetton wallet address:', error);
+      }
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+      enabled: !!address,
+    },
+  );
+};
+
 export const useAccountJettonBalance = (
   contract: 'WSDM' | AutoTraderSupportedQuotes,
 ) => {
@@ -71,42 +107,6 @@ export const useAccountJettonBalance = (
     {
       refetchInterval: 10_000,
       staleTime: 500,
-    },
-  );
-};
-
-const useJettonWalletAddress = (quote: 'WSDM' | AutoTraderSupportedQuotes) => {
-  const address = useTonAddress();
-
-  return useQuery(
-    ['jetton-wallet-address', address, quote],
-    async () => {
-      if (!address || quote === 'the-open-network') return;
-
-      const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
-      const ownerAddress = Address.parse(address);
-
-      try {
-        const { stack } = await tonClient.runMethod(
-          jettonMasterAddress,
-          'get_wallet_address',
-          [
-            {
-              type: 'slice',
-              cell: beginCell().storeAddress(ownerAddress).endCell(),
-            },
-          ],
-        );
-
-        const jettonWalletAddress = stack.readAddress();
-        return jettonWalletAddress.toString();
-      } catch (error) {
-        console.error('Error fetching jetton wallet address:', error);
-      }
-    },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: !!address,
     },
   );
 };

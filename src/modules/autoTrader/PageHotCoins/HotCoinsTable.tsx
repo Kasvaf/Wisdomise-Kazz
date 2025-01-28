@@ -16,7 +16,6 @@ const HotCoinsTable = () => {
     page: 1,
     pageSize: 500,
     filter: undefined,
-    networkName: 'ton',
     days: 7,
   });
 
@@ -27,7 +26,7 @@ const HotCoinsTable = () => {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="flex items-center gap-2 py-3">
           <Image src={ton} alt="ton" />
-          TON Hot Coins
+          AutoTrader Hot Coins
         </h1>
         {hasFlag('/trader-alerts') && <AlertButton />}
       </div>

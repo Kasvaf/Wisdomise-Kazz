@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { useHasFlag } from 'api';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import Button from 'shared/Button';
+import { SocialRadarSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/SocialRadarSentimentWidget';
 import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
 import CoinChart from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinChart';
-import { useHasFlag } from 'api';
-import { SocialRadarSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/SocialRadarSentimentWidget';
-import PositionsList from '../PositionsList';
+import Button from 'shared/Button';
 import BtnBack from '../layout/BtnBack';
+import PositionsList from '../PositionsList';
 import MiniCoinPriceWidget from './MiniCoinPriceWidget';
 
 export default function PageCoinDetail() {
@@ -22,11 +22,10 @@ export default function PageCoinDetail() {
         <BtnBack />
 
         <CoinSelect
-          networkName="ton"
           className="w-full"
           filterTokens={x => x !== 'tether'}
           value={slug}
-          priceExchange="STONFI"
+          priceExchange="auto"
           onChange={selectedSlug =>
             navigate(`/trader-hot-coins/${selectedSlug}`)
           }

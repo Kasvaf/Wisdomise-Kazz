@@ -7,6 +7,7 @@ import { useLastPriceQuery } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import InfoButton from 'shared/InfoButton';
+import useRelevantExchange from 'shared/useRelevantExchange';
 import { sortTpSlItems, type SignalFormState } from './useSignalFormStates';
 import PriceVolumeInput from './PriceVolumeInput';
 
@@ -26,7 +27,7 @@ const PartTpSl: React.FC<{
   } = data;
   const { data: assetPrice } = useLastPriceQuery({
     slug: baseSlug,
-    exchange: 'STONFI',
+    exchange: useRelevantExchange(baseSlug, quote),
     quote,
     convertToUsd: true,
   });

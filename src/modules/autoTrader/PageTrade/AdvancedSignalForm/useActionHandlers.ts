@@ -17,6 +17,8 @@ import {
   type CreatePositionRequest,
 } from 'api/trader';
 import { useTransferAssetsMutation } from 'api/ton';
+import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
+import useRelevantExchange from 'shared/useRelevantExchange';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';
@@ -31,6 +33,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
+  const network = useActiveNetwork();
 
   const {
     price: [price],
@@ -51,7 +54,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
 
   const { data: assetPrice } = useLastPriceQuery({
     slug,
-    exchange: 'STONFI',
+    exchange: useRelevantExchange(slug, quote),
     quote,
     convertToUsd: true,
   });
@@ -75,9 +78,16 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   const [ModalApproval, showModalApproval] = useModalApproval();
   const transferAssetsHandler = useTransferAssetsMutation(quote);
   const fireHandler = async () => {
-    if ((orderType === 'limit' && !price) || !assetPrice || !address) return;
+    if (
+      (orderType === 'limit' && !price) ||
+      !assetPrice ||
+      !address ||
+      !network
+    )
+      return;
 
     const createData: CreatePositionRequest = {
+      network,
       signal: {
         action: 'open',
         pair_slug: slug + '/' + quote,
@@ -117,7 +127,10 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           }
         }
 
-        await cancelAsync(res.position_key);
+        await cancelAsync({
+          network,
+          positionKey: res.position_key,
+        });
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -125,7 +138,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   };
 
   const updateHandler = async () => {
-    if (!activePosition?.signal || !assetPrice) return;
+    if (!activePosition?.signal || !assetPrice || !network) return;
     if (
       !(await confirm({
         message: t('signal-form.confirm-update'),
@@ -135,6 +148,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
 
     try {
       await updateOrClose({
+        network,
         position_key: activePosition.key,
         signal: {
           ...activePosition.signal,
@@ -154,7 +168,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   };
 
   const closeHandler = async () => {
-    if (!activePosition?.signal || !assetPrice) return;
+    if (!activePosition?.signal || !assetPrice || !network) return;
     if (
       !(await confirm({
         message: t('signal-form.confirm-close'),
@@ -164,6 +178,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
 
     try {
       await updateOrClose({
+        network,
         position_key: activePosition.key,
         signal: {
           ...activePosition.signal,
@@ -186,6 +201,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
 
   return {
     isEnabled:
+      !!network &&
       !!assetPrice &&
       Number(amount) > 0 &&
       remainingVolume === 0 &&
