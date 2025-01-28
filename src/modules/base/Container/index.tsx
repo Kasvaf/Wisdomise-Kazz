@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
-import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import useIsMobile from 'utils/useIsMobile';
 import TrackersContainer from 'modules/base/TrackersContainer';
 import AuthorizedContent from '../auth/AuthorizedContent';
@@ -13,6 +12,7 @@ import BottomNavBar from './BottomNavBar';
 import ScrollToTop from './ScrollToTop';
 import { usePageSiblings } from './Header/Breadcrumb';
 import { GeneralMeta } from './GeneralMeta';
+import { UserEngageFlow } from './UserEngageFlow';
 
 const Container = () => {
   const isMobile = useIsMobile();
@@ -31,36 +31,32 @@ const Container = () => {
             ['--side-menu-width' as any]: `${sideMenuCollapsed ? 74 : 260}px`,
           }}
         >
-          <OnboardingMessageProvider>
-            <SideMenu
-              collapsed={sideMenuCollapsed}
-              onCollapseClick={() => setSideMenuCollapsed(c => !c)}
-              className="mobile:hidden"
-            />
-            <Header
-              showSiblings={showSiblings}
-              onShowSiblings={setShowSiblings}
-            >
-              {isMobile && PageSiblings}
-            </Header>
-            <div
-              ref={mainRef}
-              id="scrolling-element"
-              className={clsx(
-                'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto mobile:p-4',
-              )}
-            >
-              <div style={{ height }} />
-              <React.Suspense fallback={<PageWrapper loading />}>
-                <AuthorizedContent>
-                  <Outlet />
-                </AuthorizedContent>
-              </React.Suspense>
-            </div>
-            <BottomNavBar />
-            <ScrollToTop />
-          </OnboardingMessageProvider>
+          <SideMenu
+            collapsed={sideMenuCollapsed}
+            onCollapseClick={() => setSideMenuCollapsed(c => !c)}
+            className="mobile:hidden"
+          />
+          <Header showSiblings={showSiblings} onShowSiblings={setShowSiblings}>
+            {isMobile && PageSiblings}
+          </Header>
+          <div
+            ref={mainRef}
+            id="scrolling-element"
+            className={clsx(
+              'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto mobile:p-4',
+            )}
+          >
+            <div style={{ height }} />
+            <React.Suspense fallback={<PageWrapper loading />}>
+              <AuthorizedContent>
+                <Outlet />
+              </AuthorizedContent>
+            </React.Suspense>
+          </div>
+          <BottomNavBar />
+          <ScrollToTop />
         </main>
+        <UserEngageFlow />
       </AuthGuard>
     </TrackersContainer>
   );
