@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
+import { useNavigate } from 'react-router-dom';
 import Button from 'shared/Button';
 import DailyProgress from 'modules/autoTrader/PageHome/DailyTradeQuest/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
@@ -10,6 +11,8 @@ import target from './target.png';
 import box from './box.png';
 import { ReactComponent as Bg } from './bg.svg';
 import { ReactComponent as Stars } from './stars.svg';
+import { ReactComponent as Arrow } from './arrow.svg';
+import { ReactComponent as Lock } from './lock.svg';
 
 export default function DailyTradeQuest() {
   const [open, setOpen] = useState(false);
@@ -17,6 +20,7 @@ export default function DailyTradeQuest() {
   const { activeDay, currentDay, completedAll, rewardClaimed } =
     useGamification();
   const { mutateAsync } = useGamificationAction();
+  const navigate = useNavigate();
 
   const dayStatus = (index: number) => {
     if (index < activeDay) {
@@ -40,7 +44,7 @@ export default function DailyTradeQuest() {
     <>
       <div className="relative mb-4 flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 px-4 py-3">
         <img src={target} alt="" className="absolute end-10 h-full w-auto" />
-        <Bg className="absolute top-0" />
+        <Bg className="absolute top-0 h-full" />
         <div className="relative">
           <p className="text-sm">Daily Trade Quest</p>
           <p className="mt-3 text-xs text-v1-content-secondary">
@@ -54,7 +58,8 @@ export default function DailyTradeQuest() {
             )}
             onClick={() => setOpen(true)}
           >
-            {completedAll ? 'Claim Your Reward' : 'Start Today`s Trade'}
+            {completedAll ? 'Claim Your Reward' : "Start Today's Trade"}
+            <Arrow className="ml-2" />
           </Button>
         </div>
         <DailyProgress />
@@ -121,7 +126,7 @@ export default function DailyTradeQuest() {
                     disabled={!completedAll}
                     onClick={claim}
                   >
-                    Claim
+                    {completedAll ? 'Claim' : <Lock />}
                   </Button>
                 </div>
               </div>
@@ -132,9 +137,11 @@ export default function DailyTradeQuest() {
             className="absolute bottom-6 end-4 start-4 z-10"
             onClick={() => {
               setOpen(false);
+              navigate('/trader-hot-coins');
             }}
           >
             Trade Now
+            <Arrow className="ml-2" />
           </Button>
           <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l0/80 to-75%"></div>
         </div>
