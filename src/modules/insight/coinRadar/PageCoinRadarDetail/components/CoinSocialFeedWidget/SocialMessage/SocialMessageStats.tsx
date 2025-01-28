@@ -80,7 +80,9 @@ export function SocialMessageStats({
     message.social_type === 'trading_view'
       ? message.content.side === 'Short'
         ? 'SHORT'
-        : 'LONG'
+        : message.content.side === 'Long'
+        ? 'LONG'
+        : undefined
       : undefined;
 
   return (
