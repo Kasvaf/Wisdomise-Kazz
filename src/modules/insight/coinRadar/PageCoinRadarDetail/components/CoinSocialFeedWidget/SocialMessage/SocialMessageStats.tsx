@@ -201,8 +201,8 @@ export function SocialMessageStats({
           className={clsx(
             'flex size-6 shrink-0 items-center justify-center rounded-full',
             side === 'SHORT'
-              ? 'bg-v1-content-positive/10'
-              : 'bg-v1-content-negative/10',
+              ? 'bg-v1-content-negative/10'
+              : 'bg-v1-content-positive/10',
           )}
         >
           {side === 'SHORT' ? <ShortIcon /> : <LongIcon />}
