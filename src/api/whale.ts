@@ -216,7 +216,8 @@ export interface SingleWhale {
       | 'loading'
       | 'new_investment'
       | 'exit_portfolio'
-      | 'dust';
+      | 'dust'
+      | 'stable';
     amount?: number | null;
     total_recent_buys?: number | null;
     recent_trading_pnl?: number | null;

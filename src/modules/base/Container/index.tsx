@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { clsx } from 'clsx';
 import OnboardingMessageProvider from 'shared/Onboarding/OnboardingMessageProvider';
 import useIsMobile from 'utils/useIsMobile';
-import GtagContainer from 'modules/base/GtagContainer';
+import TrackersContainer from 'modules/base/TrackersContainer';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
 import AuthGuard from '../auth/AuthGuard';
@@ -22,7 +22,7 @@ const Container = () => {
     usePageSiblings();
 
   return (
-    <GtagContainer>
+    <TrackersContainer>
       <AuthGuard>
         <GeneralMeta />
         <main
@@ -62,7 +62,7 @@ const Container = () => {
           </OnboardingMessageProvider>
         </main>
       </AuthGuard>
-    </GtagContainer>
+    </TrackersContainer>
   );
 };
 

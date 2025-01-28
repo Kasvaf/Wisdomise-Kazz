@@ -38,6 +38,10 @@ export function WhaleHoldsWidget({
         title: [
           t('whale_holds.badge'),
           <div className="p-1 text-xxs" key="tooltip">
+            <b className="block pb-1">{t('asset_badges.stable')}</b>
+            <p className="pb-3 text-v1-content-secondary">
+              {t('asset_badges.stable_info')}
+            </p>
             <b className="block pb-1">{t('asset_badges.holding')}</b>
             <p className="pb-3 text-v1-content-secondary">
               {t('asset_badges.holding_info')}
