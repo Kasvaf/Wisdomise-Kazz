@@ -43,7 +43,7 @@ const PartOpen: React.FC<{
   const { data: quoteInfo } = useSymbolInfo(quote);
   const net = useActiveNetwork();
   const isNativeQuote =
-    (net === 'ton' && quote === 'the-open-network') ||
+    (net === 'the-open-network' && quote === 'the-open-network') ||
     (net === 'solana' && quote === 'wrapped-solana');
 
   const { data: assetPrice } = useLastPriceQuery({

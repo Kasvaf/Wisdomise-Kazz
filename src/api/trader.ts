@@ -12,14 +12,8 @@ import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
 
 export const NETWORK_MAIN_EXCHANGE = {
-  ton: 'STONFI',
-  solana: 'RAYDIUM',
-} as const;
-
-export const NETWORK_OF_EXCHANGE = {
-  STONFI: 'ton',
-  RAYDIUM: 'solana',
-  BINANCE: undefined,
+  'the-open-network': 'STONFI',
+  'solana': 'RAYDIUM',
 } as const;
 
 type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;
@@ -93,13 +87,7 @@ export const useSupportedNetworks = (base?: string, quote?: string) => {
     () =>
       supportedPairs
         ?.find(x => !quote || x.quote.slug === quote)
-        ?.network_slugs.map(
-          x =>
-            (x === 'the-open-network'
-              ? 'ton'
-              : x
-            ).toLowerCase() as SupportedNetworks,
-        ),
+        ?.network_slugs.map(x => x.toLowerCase() as SupportedNetworks),
     [quote, supportedPairs],
   );
 };

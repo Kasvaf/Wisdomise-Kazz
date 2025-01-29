@@ -22,7 +22,7 @@ const BtnSolanaWalletConnect = () => {
 
 const BtnWalletConnect: React.FC = () => {
   const net = useActiveNetwork();
-  return net === 'ton' ? (
+  return net === 'the-open-network' ? (
     <TonConnectButton />
   ) : net === 'solana' ? (
     <BtnSolanaWalletConnect />

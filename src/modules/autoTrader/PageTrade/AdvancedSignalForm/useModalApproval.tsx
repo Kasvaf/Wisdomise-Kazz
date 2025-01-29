@@ -77,7 +77,7 @@ const ModalApproval: React.FC<{
   } = formState;
 
   const net = useActiveNetwork();
-  const gasAbbr = net === 'ton' ? 'TON' : 'SOL';
+  const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
   const { data: nativeBalance } = useAccountNativeBalance();
   const { mutate, data, isLoading } = usePreparePositionMutation();
   useEffect(() => mutate(createData), [createData, mutate]);

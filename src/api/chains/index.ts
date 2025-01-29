@@ -20,19 +20,19 @@ export const useActiveWallet = () => {
 
   return {
     address:
-      net === 'ton'
+      net === 'the-open-network'
         ? tonAddress
         : net === 'solana'
         ? solanaWallet.publicKey?.toString()
         : undefined,
     connected:
-      net === 'ton'
+      net === 'the-open-network'
         ? tonConnectUI.connected
         : net === 'solana'
         ? solanaWallet.connected
         : false,
     connect: () => {
-      if (net === 'ton') return tonConnectUI.openModal();
+      if (net === 'the-open-network') return tonConnectUI.openModal();
       if (net === 'solana') return solanaWallet.connect();
       return Promise.resolve();
     },
@@ -59,14 +59,14 @@ export const useAccountBalance = (quote: AutoTraderSupportedQuotes) => {
   const tonResult = useAccountJettonBalance(ensureTonQuote(quote));
 
   if (net === 'solana') return solResult;
-  if (net === 'ton') return tonResult;
+  if (net === 'the-open-network') return tonResult;
   return { data: null, isLoading: false };
 };
 
 export const useAccountNativeBalance = () => {
   const net = useActiveNetwork();
   return useAccountBalance(
-    net === 'ton' ? 'the-open-network' : 'wrapped-solana',
+    net === 'the-open-network' ? 'the-open-network' : 'wrapped-solana',
   );
 };
 
@@ -78,7 +78,7 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
   );
 
   if (net === 'solana') return transferSolanaAssets;
-  if (net === 'ton') return transferTonAssets;
+  if (net === 'the-open-network') return transferTonAssets;
   return () => {
     throw new Error('Invalid network');
   };
