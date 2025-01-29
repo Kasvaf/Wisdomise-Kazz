@@ -8,6 +8,8 @@ import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods
 import { useLockingRequirementQuery } from 'api/defi';
 import { gtmClass } from 'utils/gtmClass';
 import { Button } from 'shared/v1-components/Button';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { APP_PANEL } from 'config/constants';
 import cardBg from '../images/card-bg.png';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 import { PlanHeader } from './PlanHeader';
@@ -40,6 +42,7 @@ export default function PricingCard({
     { fullscreen: true, destroyOnClose: true },
   );
   const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
+  const isEmbeddedView = useEmbedView();
 
   const hasUserThisPlan =
     status === 'active' && !isRenew && plan.key === userPlan?.key;
@@ -57,6 +60,10 @@ export default function PricingCard({
       plan.periodicity === 'MONTHLY');
 
   const onClick = async () => {
+    if (isEmbeddedView && top) {
+      top.window.location.href = `${APP_PANEL}/account/billing`;
+      return;
+    }
     if (level === 0 || status === 'trialing') {
       if (isTokenUtility) {
         void openTokenPaymentModal({ plan });

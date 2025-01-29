@@ -36,7 +36,12 @@ export default function PricingTable({
 
   return (
     <>
-      <div className={clsx('flex flex-col', (isRenew || isUpdate) && 'mt-7')}>
+      <div
+        className={clsx(
+          'flex max-w-full flex-col p-2 text-v1-content-primary',
+          (isRenew || isUpdate) && 'mt-7',
+        )}
+      >
         <div className="mb-10 text-center">
           <div>
             <div className="mb-10 inline-flex shrink-0 items-center justify-center rounded-full bg-wsdm-gradient p-px">
@@ -63,7 +68,7 @@ export default function PricingTable({
             />
           )}
         </div>
-        <div className="-mx-6 mb-14 flex grow justify-center gap-6 overflow-auto px-6 mobile:flex-col mobile:justify-start">
+        <div className="mb-14 flex grow justify-center gap-6 overflow-auto mobile:flex-col mobile:justify-start">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
             .filter(x => !isTokenUtility || x.token_hold_support)
@@ -79,7 +84,7 @@ export default function PricingTable({
               />
             ))}
         </div>
-        <div className="mb-12 mobile:-mx-6">
+        <div className="mb-12">
           <h2 className="mb-4 text-center text-white opacity-50">
             {t('plans.subscription-methods')}
           </h2>
