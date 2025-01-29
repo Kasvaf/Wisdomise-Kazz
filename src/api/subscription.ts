@@ -72,9 +72,6 @@ export function useSubscription() {
       level === 0
         ? 0
         : Math.max(Math.round(+new Date(subs?.end_at ?? 0) - Date.now()), 0),
-    weeklyCustomNotificationCount: Number(
-      plan?.metadata.weekly_custom_notifications_count ?? 0,
-    ),
     group,
     ensureGroup,
     loginModal,
