@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
+import { ReactComponent as FlashIcon } from '../images/flash.svg';
 import { SubscriptionMethods } from './SubscriptionMethods';
 import { PeriodToggle } from './PeriodToggle';
 import PricingCard from './PricingCard';
@@ -22,25 +23,35 @@ export default function PricingTable({
   onResolve,
 }: PricingTableProps) {
   const { t } = useTranslation('billing');
-  const { plan, level } = useSubscription();
+  const { plan } = useSubscription();
   const { data } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>(
-    isRenew || level === 0 || !plan || isTokenUtility
+    isRenew || isTokenUtility
       ? 'YEARLY'
-      : plan.periodicity,
+      : plan
+      ? plan.periodicity
+      : data?.results.find(x => x.metadata?.most_popular)?.periodicity ??
+        'YEARLY',
   );
 
   return (
     <>
       <div className={clsx('flex flex-col', (isRenew || isUpdate) && 'mt-7')}>
         <div className="mb-10 text-center">
-          <h1 className="text-xl font-medium text-v1-content-primary">
+          <div>
+            <div className="mb-10 inline-flex shrink-0 items-center justify-center rounded-full bg-wsdm-gradient p-px">
+              <div className="inline-flex size-full items-center justify-center rounded-full bg-v1-surface-l3/80  px-3 py-1 text-xs">
+                <FlashIcon className="w-4" /> {t('plans.badge')}
+              </div>
+            </div>
+          </div>
+          <h1 className="text-6xl font-medium text-v1-content-primary mobile:text-3xl">
             {t('plans.title')}
           </h1>
-          <p className="mt-2 text-base font-normal text-v1-content-secondary">
+          <p className="mx-auto mt-4 max-w-[550px] text-base font-light text-v1-content-primary/70 mobile:mt-2 mobile:text-sm">
             {t('plans.subtitle')}
           </p>
-          <SubscriptionFeatures className="mt-6" />
+          <SubscriptionFeatures className="mt-8 mobile:mt-4" />
         </div>
         <div className="mb-8 flex items-center justify-center">
           {!isTokenUtility && (
