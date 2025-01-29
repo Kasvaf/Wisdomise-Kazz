@@ -105,6 +105,7 @@ module.exports = {
     '@typescript-eslint/naming-convention': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-base-to-string': 'off',
+    '@typescript-eslint/return-await': 'error',
 
     // import
     'import/default': 'off',

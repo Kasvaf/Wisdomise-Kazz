@@ -6,7 +6,7 @@ import Button from 'shared/Button';
 import { type Position, useHasFlag } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { DebugPin } from 'shared/DebugPin';
-import { useAccountJettonBalance } from 'api/ton';
+import { useAccountBalance } from 'api/chains';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
@@ -37,7 +37,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
   } = formState;
 
   const { data: quoteBalance, isLoading: balanceLoading } =
-    useAccountJettonBalance(quote);
+    useAccountBalance(quote);
 
   useSyncFormState({
     formState,

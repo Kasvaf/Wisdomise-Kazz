@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { clsx } from 'clsx';
 import { notification } from 'antd';
-import { useAccountJettonBalance } from 'api/ton';
+import { useAccountJettonBalance } from 'api/chains/ton';
 import {
   type TicketType,
   useCheckEligibilityMutation,

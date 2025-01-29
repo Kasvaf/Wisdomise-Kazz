@@ -34,15 +34,17 @@ const CONTRACT_DECIMAL = {
   'tether': USDT_DECIMAL,
 } as const;
 
-export type AutoTraderSupportedQuotes = 'tether' | 'the-open-network';
+export type AutoTraderTonSupportedQuotes = 'tether' | 'the-open-network';
 
-const useJettonWalletAddress = (quote: 'WSDM' | AutoTraderSupportedQuotes) => {
+const useJettonWalletAddress = (
+  quote?: 'WSDM' | AutoTraderTonSupportedQuotes,
+) => {
   const address = useTonAddress();
 
   return useQuery(
     ['jetton-wallet-address', address, quote],
     async () => {
-      if (!address || quote === 'the-open-network') return;
+      if (!address || !quote || quote === 'the-open-network') return;
 
       const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
       const ownerAddress = Address.parse(address);
@@ -73,7 +75,7 @@ const useJettonWalletAddress = (quote: 'WSDM' | AutoTraderSupportedQuotes) => {
 };
 
 export const useAccountJettonBalance = (
-  contract: 'WSDM' | AutoTraderSupportedQuotes,
+  contract?: 'WSDM' | AutoTraderTonSupportedQuotes,
 ) => {
   const address = useTonAddress();
   const { data: jettonAddress } = useJettonWalletAddress(contract);
@@ -82,7 +84,7 @@ export const useAccountJettonBalance = (
   return useQuery(
     ['accountJettonBalance', contract, addr],
     async () => {
-      if (!addr) return null;
+      if (!addr || !contract) return null;
       const parsedAddress = Address.parse(addr);
 
       let balance: bigint | undefined;
@@ -111,7 +113,9 @@ export const useAccountJettonBalance = (
   );
 };
 
-export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
+export const useTonTransferAssetsMutation = (
+  quote?: AutoTraderTonSupportedQuotes,
+) => {
   const address = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
   const { data: jettonWalletAddress } = useJettonWalletAddress(quote);
@@ -127,6 +131,8 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
     amount: string;
     gasFee: string;
   }) => {
+    if (!quote) return;
+
     const noneBounceableAddress = Address.parse(recipientAddress).toString({
       bounceable: false,
       testOnly: !isProduction,

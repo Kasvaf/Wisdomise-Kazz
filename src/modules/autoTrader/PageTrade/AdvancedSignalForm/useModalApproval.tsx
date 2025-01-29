@@ -1,12 +1,13 @@
 import { clsx } from 'clsx';
 import { useEffect, type ReactNode } from 'react';
+import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
+import { useAccountNativeBalance } from 'api/chains';
+import { useSymbolInfo } from 'api/symbol';
+import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
-import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import Spin from 'shared/Spin';
-import InfoButton from 'shared/InfoButton';
-import { useSymbolInfo } from 'api/symbol';
-import { useAccountJettonBalance } from 'api/ton';
+import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<
@@ -75,14 +76,16 @@ const ModalApproval: React.FC<{
     stopLosses: [stopLosses],
   } = formState;
 
-  const { data: tonBalance } = useAccountJettonBalance('the-open-network');
+  const net = useActiveNetwork();
+  const gasAbbr = net === 'ton' ? 'TON' : 'SOL';
+  const { data: nativeBalance } = useAccountNativeBalance();
   const { mutate, data, isLoading } = usePreparePositionMutation();
   useEffect(() => mutate(createData), [createData, mutate]);
 
   const { data: quoteInfo } = useSymbolInfo(quote);
-  const tonAmount =
-    Number(data?.gas_fee) + (quoteInfo?.abbreviation === 'TON' ? +amount : 0);
-  const remainingGas = Number(tonBalance) - tonAmount;
+  const nativeAmount =
+    Number(data?.gas_fee) + (quoteInfo?.abbreviation === gasAbbr ? +amount : 0);
+  const remainingGas = Number(nativeBalance) - nativeAmount;
   const hasEnoughGas = remainingGas > 0.1;
 
   return (
@@ -115,7 +118,7 @@ const ModalApproval: React.FC<{
           {isLoading ? (
             <Spin />
           ) : data?.gas_fee ? (
-            String(data.gas_fee) + ' TON'
+            String(data.gas_fee) + ' ' + gasAbbr
           ) : (
             ''
           )}
@@ -144,8 +147,8 @@ const ModalApproval: React.FC<{
 
         {!hasEnoughGas && !Number.isNaN(remainingGas) && (
           <div className="rounded-lg bg-v1-background-negative p-2 text-sm">
-            Your TON balance might be insufficient to cover gas fees. Please
-            ensure you have enough TON to proceed.
+            Your {gasAbbr} balance might be insufficient to cover gas fees.
+            Please ensure you have enough {gasAbbr} to proceed.
           </div>
         )}
       </div>

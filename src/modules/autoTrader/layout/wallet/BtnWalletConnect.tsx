@@ -21,10 +21,10 @@ const BtnSolanaWalletConnect = () => {
 };
 
 const BtnWalletConnect: React.FC = () => {
-  const networks = useActiveNetwork();
-  return networks === 'ton' ? (
+  const net = useActiveNetwork();
+  return net === 'ton' ? (
     <TonConnectButton />
-  ) : networks === 'solana' ? (
+  ) : net === 'solana' ? (
     <BtnSolanaWalletConnect />
   ) : (
     <div />

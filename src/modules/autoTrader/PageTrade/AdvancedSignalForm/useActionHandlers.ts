@@ -16,7 +16,7 @@ import {
   type Position,
   type CreatePositionRequest,
 } from 'api/trader';
-import { useTransferAssetsMutation } from 'api/ton';
+import { useTransferAssetsMutation } from 'api/chains';
 import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
 import useRelevantExchange from 'shared/useRelevantExchange';
 import { type SignalFormState } from './useSignalFormStates';

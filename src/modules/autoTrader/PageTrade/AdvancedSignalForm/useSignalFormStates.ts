@@ -7,7 +7,7 @@ import {
   type SignalItem,
 } from 'api/builder';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { type AutoTraderSupportedQuotes } from 'api/ton';
+import { type AutoTraderSupportedQuotes } from 'api/chains';
 
 export interface TpSlData {
   key: string;
