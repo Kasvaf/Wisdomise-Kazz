@@ -1,5 +1,5 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { PublicKey } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { useQuery } from '@tanstack/react-query';
 
@@ -27,7 +27,7 @@ export const useSolanaAccountBalance = (
 
       try {
         if (quote === 'wrapped-solana') {
-          return await connection.getBalance(publicKey);
+          return (await connection.getBalance(publicKey)) / LAMPORTS_PER_SOL;
         } else {
           // Get the associated token address
           const tokenAddress = await getAssociatedTokenAddress(

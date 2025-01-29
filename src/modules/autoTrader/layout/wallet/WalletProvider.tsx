@@ -9,20 +9,17 @@ import {
 } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl } from '@solana/web3.js';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
-import { isProduction } from 'utils/version';
 import WalletEvents from './WalletEvents';
 
 // required for using @ton/core
 window.Buffer = Buffer;
 
+const rpcEndpoint = 'https://solana-rpc.publicnode.com';
+
 const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const network = isProduction
-    ? WalletAdapterNetwork.Mainnet
-    : WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const network = WalletAdapterNetwork.Mainnet;
   const wallets = useMemo(
     () => [
       new WalletConnectWalletAdapter({
@@ -44,7 +41,7 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
+    <ConnectionProvider endpoint={rpcEndpoint}>
       <SolWalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </SolWalletProvider>
