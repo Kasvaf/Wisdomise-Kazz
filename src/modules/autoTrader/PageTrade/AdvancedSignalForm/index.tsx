@@ -1,12 +1,11 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { useTonConnectUI } from '@tonconnect/ui-react';
 import { notification } from 'antd';
 import Button from 'shared/Button';
 import { type Position, useHasFlag } from 'api';
 import { useUserStorage } from 'api/userStorage';
 import { DebugPin } from 'shared/DebugPin';
-import { useAccountBalance } from 'api/chains';
+import { useAccountBalance, useActiveWallet } from 'api/chains';
 import { type SignalFormState } from './useSignalFormStates';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
@@ -30,7 +29,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation('builder');
   const hasFlag = useHasFlag();
-  const [tonConnectUI] = useTonConnectUI();
+  const wallet = useActiveWallet();
   const {
     isUpdate: [isUpdate],
     quote: [quote],
@@ -106,7 +105,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
           </Button>
         </>
       ) : hasFlag('/trader-positions') ? (
-        tonConnectUI.connected ? (
+        wallet.connected ? (
           <Button
             variant="brand"
             onClick={fireHandler}
@@ -124,7 +123,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
             )}
           </Button>
         ) : (
-          <Button variant="brand" onClick={() => tonConnectUI.openModal()}>
+          <Button variant="brand" onClick={() => wallet.connect()}>
             Connect Wallet
           </Button>
         )

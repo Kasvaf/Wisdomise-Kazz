@@ -1,10 +1,6 @@
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
-import {
-  TonConnectError,
-  UserRejectsError,
-  useTonAddress,
-} from '@tonconnect/ui-react';
+import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
@@ -16,7 +12,7 @@ import {
   type Position,
   type CreatePositionRequest,
 } from 'api/trader';
-import { useTransferAssetsMutation } from 'api/chains';
+import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
 import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
 import useRelevantExchange from 'shared/useRelevantExchange';
 import { type SignalFormState } from './useSignalFormStates';
@@ -58,7 +54,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
     quote,
     convertToUsd: true,
   });
-  const address = useTonAddress();
+  const { address } = useActiveWallet();
 
   const { mutateAsync, isLoading: isSubmitting } =
     useTraderFirePositionMutation();

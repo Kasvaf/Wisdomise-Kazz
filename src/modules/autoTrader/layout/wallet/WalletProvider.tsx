@@ -16,6 +16,7 @@ import WalletEvents from './WalletEvents';
 // required for using @ton/core
 window.Buffer = Buffer;
 
+// https://www.comparenodes.com/library/public-endpoints/solana/
 const rpcEndpoint = 'https://solana-rpc.publicnode.com';
 
 const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {

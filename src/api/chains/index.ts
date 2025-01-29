@@ -1,3 +1,5 @@
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
 import {
   type AutoTraderSolanaSupportedQuotes,
@@ -9,6 +11,33 @@ import {
   useAccountJettonBalance,
   useTonTransferAssetsMutation,
 } from './ton';
+
+export const useActiveWallet = () => {
+  const net = useActiveNetwork();
+  const tonAddress = useTonAddress();
+  const [tonConnectUI] = useTonConnectUI();
+  const solanaWallet = useWallet();
+
+  return {
+    address:
+      net === 'ton'
+        ? tonAddress
+        : net === 'solana'
+        ? solanaWallet.publicKey?.toString()
+        : undefined,
+    connected:
+      net === 'ton'
+        ? tonConnectUI.connected
+        : net === 'solana'
+        ? solanaWallet.connected
+        : false,
+    connect: () => {
+      if (net === 'ton') return tonConnectUI.openModal();
+      if (net === 'solana') return solanaWallet.connect();
+      return Promise.resolve();
+    },
+  };
+};
 
 export type AutoTraderSupportedQuotes =
   | AutoTraderTonSupportedQuotes
