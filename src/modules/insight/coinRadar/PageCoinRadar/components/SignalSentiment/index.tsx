@@ -44,11 +44,11 @@ const SignalSentimentTitle: FC<{
         }
       />
       {signal.gauge_tag === 'LONG'
-        ? t('coin-details.tabs.social_sentiment.positive')
+        ? t('call-change.positive')
         : signal.gauge_tag === 'SHORT'
-        ? t('coin-details.tabs.social_sentiment.negative')
+        ? t('call-change.negative')
         : signal.gauge_tag === 'NOT SURE'
-        ? t('coin-details.tabs.social_sentiment.not_sure')
+        ? t('call-change.not_sure')
         : signal.gauge_tag}
     </div>
   );
@@ -62,9 +62,9 @@ const SignalSentimentDetails: FC<{
   return (
     <div className={clsx('flex items-center gap-1', className)}>
       {signal.gauge_tag === 'LONG'
-        ? t('coin-details.tabs.social_sentiment.long')
+        ? t('call-change.long')
         : signal.gauge_tag === 'SHORT'
-        ? t('coin-details.tabs.social_sentiment.short')
+        ? t('call-change.short')
         : null}
     </div>
   );
@@ -84,16 +84,17 @@ export const SignalSentiment: FC<{
     let parsedData: Array<{
       price: number;
       relatedAt: string;
-      dateType: 'call_time' | 'after_call_time' | 'before_call_time';
+      dateType: 'first_mention' | 'last_mention' | 'irrelevant' | 'normal';
       priceType: 'normal' | 'biggest_pump' | 'biggest_dump';
       y: number;
     }> = [];
-    let beforeCallTimePointLeft = 4;
     let biggestDumpPrice = Number.POSITIVE_INFINITY;
     let biggestPumpPrice = Number.NEGATIVE_INFINITY;
+    let firstMentionPicked = false;
+    let lastMentionPicked = false;
     for (
       let i = 0;
-      i <= (signal.signals_analysis.sparkline?.prices ?? []).length;
+      i < (signal.signals_analysis.sparkline?.prices ?? []).length;
       i++
     ) {
       const price = (signal.signals_analysis.sparkline?.prices ?? [])[i];
@@ -102,47 +103,73 @@ export const SignalSentiment: FC<{
       if (typeof price !== 'number' || typeof relatedAtRaw !== 'string')
         continue;
       const relatedAt = dayjs(relatedAtRaw).toISOString();
-      const dateType = dayjs(relatedAt).isSame(
-        signal.signals_analysis.call_time,
-      )
-        ? 'call_time'
-        : dayjs(relatedAt).isAfter(signal.signals_analysis.call_time)
-        ? 'after_call_time'
-        : 'before_call_time';
-      if (dateType === 'before_call_time') {
-        beforeCallTimePointLeft -= 1;
+      const hasOneMsg = dayjs(signal.last_signal_related_at).isSame(
+        signal.first_signal_related_at,
+      );
+      let dateType: (typeof parsedData)[number]['dateType'] = dayjs(
+        relatedAt,
+      ).isBefore(signal.first_signal_related_at)
+        ? 'irrelevant'
+        : 'normal';
+
+      if (dateType === 'normal' && !firstMentionPicked) {
+        firstMentionPicked = true;
+        dateType = hasOneMsg ? 'last_mention' : 'first_mention';
+        if (hasOneMsg) {
+          lastMentionPicked = true;
+        }
       }
-      if (dateType === 'after_call_time') {
+      if (
+        firstMentionPicked &&
+        !lastMentionPicked &&
+        dateType === 'normal' &&
+        dayjs(relatedAt).isAfter(signal.last_signal_related_at)
+      ) {
+        lastMentionPicked = true;
+        dateType = 'last_mention';
+      }
+
+      if (
+        i === (signal.signals_analysis.sparkline?.prices ?? []).length - 1 &&
+        (!firstMentionPicked || !lastMentionPicked)
+      ) {
+        dateType = 'last_mention';
+      }
+
+      if (
+        dateType === 'normal' ||
+        dateType === 'first_mention' ||
+        dateType === 'last_mention'
+      ) {
         biggestPumpPrice = price > biggestPumpPrice ? price : biggestPumpPrice;
         biggestDumpPrice = price < biggestDumpPrice ? price : biggestDumpPrice;
       }
-      if (dateType !== 'before_call_time' || beforeCallTimePointLeft > 0) {
-        parsedData = [
-          ...parsedData,
-          {
-            price,
-            relatedAt,
-            dateType,
-            priceType: 'normal',
-            y: price * 1_000_000,
-          },
-        ];
-      }
+      parsedData = [
+        ...parsedData,
+        {
+          price,
+          relatedAt,
+          dateType,
+          priceType: 'normal',
+          y: price * 1_000_000,
+        },
+      ];
     }
-    const callTimePrice = parsedData.find(x => x.dateType === 'call_time')
+
+    const callTimePrice = parsedData.find(x => x.dateType !== 'irrelevant')
       ?.price;
     const biggestDumpIndex = parsedData.findIndex(
       x =>
         typeof callTimePrice === 'number' &&
         x.price < callTimePrice &&
-        x.dateType === 'after_call_time' &&
+        x.dateType !== 'irrelevant' &&
         x.price === biggestDumpPrice,
     );
     const biggestPumpIndex = parsedData.findIndex(
       x =>
         typeof callTimePrice === 'number' &&
         x.price > callTimePrice &&
-        x.dateType === 'after_call_time' &&
+        x.dateType !== 'irrelevant' &&
         x.price === biggestPumpPrice,
     );
     if (biggestDumpIndex > -1) {
@@ -189,12 +216,12 @@ export const SignalSentiment: FC<{
             color: ({ dataIndex }) => {
               const x = parsedData[dataIndex];
               if (
-                x.dateType === 'call_time' ||
-                x.priceType === 'biggest_dump' ||
-                x.priceType === 'biggest_pump'
-              ) {
+                x.dateType === 'first_mention' ||
+                x.dateType === 'last_mention'
+              )
                 return '#fff';
-              }
+              if (x.priceType === 'biggest_dump') return '#ea3f55';
+              if (x.priceType === 'biggest_pump') return '#00ffa3';
               return 'transparent';
             },
             borderWidth: 4,
@@ -211,11 +238,12 @@ export const SignalSentiment: FC<{
             label: {
               show: false,
             },
-            data: parsedData.some(x => x.dateType === 'call_time')
+            data: parsedData.some(x => x.dateType === 'first_mention')
               ? [
                   {
-                    yAxis: parsedData.find(x => x.dateType === 'call_time')?.y,
-                    xAxis: parsedData.find(x => x.dateType === 'call_time')
+                    yAxis: parsedData.find(x => x.dateType === 'first_mention')
+                      ?.y,
+                    xAxis: parsedData.find(x => x.dateType === 'first_mention')
                       ?.relatedAt,
                   },
                 ]
@@ -245,7 +273,10 @@ export const SignalSentiment: FC<{
             seperateByComma: true,
           })}`;
           return [
-            x.dateType === 'call_time' ? t('call-change.hunted-at-here') : '',
+            x.dateType === 'first_mention'
+              ? t('call-change.first-mention')
+              : '',
+            x.dateType === 'last_mention' ? t('call-change.last-mention') : '',
             x.priceType === 'biggest_dump' ? t('call-change.biggest-dump') : '',
             x.priceType === 'biggest_pump' ? t('call-change.biggest-pump') : '',
             price,
@@ -256,7 +287,12 @@ export const SignalSentiment: FC<{
       },
       backgroundColor: 'transparent',
     };
-  }, [signal.signals_analysis, t]);
+  }, [
+    signal.first_signal_related_at,
+    signal.last_signal_related_at,
+    signal.signals_analysis,
+    t,
+  ]);
 
   const tooltip = useMemo(() => {
     if (!signal.signals_analysis || !tick || !chartConfig) return null;
@@ -275,7 +311,7 @@ export const SignalSentiment: FC<{
                 <SignalSentimentDetails signal={signal} /> |
                 <ReadableDate
                   popup={false}
-                  value={signal.signals_analysis.call_time}
+                  value={signal.last_signal_related_at}
                 />
               </div>
             </div>
@@ -373,6 +409,16 @@ export const SignalSentiment: FC<{
                   className="text-sm"
                 />
               </div>
+              <div className="flex items-center justify-between gap-1 text-xs">
+                <div className="text-v1-content-secondary">
+                  {t('call-change.analyzed-messages')}
+                </div>
+                <ReadableNumber
+                  popup="never"
+                  value={signal.messages_count}
+                  className="text-sm"
+                />
+              </div>
             </div>
           </div>
         )}
@@ -403,12 +449,9 @@ export const SignalSentiment: FC<{
         {!minimal && signal.signals_analysis && (
           <div className="flex items-center gap-1 ps-[22px] text-xs">
             <label className="text-v1-content-secondary">
-              {t('coin-details.tabs.social_sentiment.hunted-at')}:
+              {t('call-change.last-mention')}:
             </label>
-            <ReadableDate
-              popup={false}
-              value={signal.signals_analysis.call_time}
-            />
+            <ReadableDate popup={false} value={signal.last_signal_related_at} />
             {!hidePnl && (
               <DirectionalNumber
                 popup="never"

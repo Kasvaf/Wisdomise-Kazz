@@ -5,17 +5,18 @@ available-exchanges:
     price: Price
     volume_24h: Volume 24h
 call-change:
+  analyzed-messages: Analyzed Messages
   biggest-dump: Biggest Dump
   biggest-pump: Biggest Pump
   current-price: Current Price
-  fire-time: Signal Fire Time
-  hunted-at-here: Hunted At Here
+  first-mention: First Mention
+  last-mention: Last Mention
   last-pnl-update: Last PnL Update
-  max-price: 'Max: Extremum High'
-  min-price: 'Min: Extremum low'
-  pnl: Last Update
-  trigger-price: Price When Signal Fired
-  under-calculation: Under Calculation
+  long: Potential Growth Opportunity
+  negative: Negative
+  not_sure: Not Sure
+  positive: Positive
+  short: Risk Of Decline
 coin_labels:
   hype:
     info: >-
@@ -156,12 +157,6 @@ coin-details:
     social_sentiment:
       title: Social Sentiment™
       empty: No community activity detected for this coin.
-      hunted-at: Hunted At
-      long: Potential Growth Opportunity
-      negative: Negative
-      not_sure: Not Sure
-      positive: Positive
-      short: Risk Of Decline
     socials:
       title: Social Feed
       subtitle: Stay ahead in crypto with real-time scans of social media.

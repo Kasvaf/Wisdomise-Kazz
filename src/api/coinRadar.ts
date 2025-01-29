@@ -205,12 +205,10 @@ export const useCoinSignals = (filters?: {
         .sort((a, b) => {
           const sortBy = filters?.sortBy;
           const sortOrder = filters?.sortOrder === 'descending' ? -1 : 1;
-          if (sortBy === 'call_time') {
+          if (sortBy === 'newest') {
             return (
-              (new Date(b.signals_analysis.call_time ?? Date.now()).getTime() -
-                new Date(
-                  a.signals_analysis.call_time ?? Date.now(),
-                ).getTime()) *
+              (new Date(b.last_signal_related_at ?? Date.now()).getTime() -
+                new Date(a.last_signal_related_at ?? Date.now()).getTime()) *
               sortOrder
             );
           }
