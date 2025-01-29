@@ -79,8 +79,7 @@ export const CoinSelect: FC<
       !coinList.isLoading &&
       !allOptions.some(x => x.value === value)
     ) {
-      // TODO: once list is OK, uncomment this line
-      // props.onChange?.(firstOption, []);
+      props.onChange?.(firstOption, []);
     }
   }, [allOptions, coinList.isLoading, props, selectFirst, value]);
 

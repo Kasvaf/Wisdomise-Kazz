@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
+import { isMiniApp } from 'utils/version';
 import {
   type MarketData,
   type Coin,
@@ -632,9 +633,7 @@ export const useCoinList = ({
       ofetch<Coin[]>('delphi/symbol/search/', {
         query: {
           q: q || undefined,
-          // TODO: with mini-app, return only tradeable coins
-          // network_name: networkName ?? (isMiniApp ? 'solana' : undefined),
-          // exchange_name: isMiniApp ? 'Raydium' : undefined,
+          is_trading: isMiniApp ? true : undefined,
           page_size: 200,
         },
       }),
