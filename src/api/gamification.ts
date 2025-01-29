@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type { PageResponse } from 'api/types/page';
-import { INVESTMENT_ORIGIN } from 'config/constants';
+import { INVESTMENT_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 
 export interface Friend {
@@ -127,3 +127,74 @@ export const useWithdrawMutation = () =>
     );
     return data;
   });
+
+interface GamificationProfile {
+  profile: {
+    userId: string;
+    customAttributes: {
+      boxRewardAmount: string;
+      boxRewardType: string;
+      sevenDaysTradingStreakMissionActiveTask: string;
+      sevenDaysTradingStreakMissionCurrentTask: string;
+      sevenDaysTradingStreakMissionLastTaskCompletedAt: string;
+    };
+  };
+  rewards: Array<{
+    fieldName: string;
+    statistical?: { count: number; sum: number };
+  }>;
+}
+
+export const useGamificationProfile = () =>
+  useQuery(
+    ['gamificationProfile'],
+    async () => {
+      return await ofetch<GamificationProfile>(
+        `${TEMPLE_ORIGIN}/api/v1/gamification/profile`,
+        { method: 'get' },
+      );
+    },
+    { refetchInterval: 10 * 1000 },
+  );
+
+export interface GamificationActionBody {
+  event_name: 'claim';
+  attributes?: Record<string, string>;
+}
+
+export const useGamificationAction = () =>
+  useMutation(async (body: GamificationActionBody) => {
+    const data = await ofetch(`${TEMPLE_ORIGIN}/api/v1/gamification/action`, {
+      body,
+      method: 'post',
+    });
+    return data;
+  });
+
+export const useGamification = () => {
+  const { data } = useGamificationProfile();
+
+  const activeDay = +(
+    data?.profile.customAttributes.sevenDaysTradingStreakMissionActiveTask ?? 0
+  );
+  const currentDay = +(
+    data?.profile.customAttributes.sevenDaysTradingStreakMissionCurrentTask ??
+    -1
+  );
+  const nextDayStartTimestamp =
+    +(
+      data?.profile.customAttributes
+        .sevenDaysTradingStreakMissionLastTaskCompletedAt ?? 0
+    ) +
+    5 * 60 * 1000;
+
+  return {
+    activeDay,
+    currentDay,
+    completedAll: activeDay === 6 && currentDay === 6,
+    rewardClaimed: +(data?.profile.customAttributes.boxRewardAmount ?? 0) === 0,
+    completedToday: currentDay === activeDay,
+    nextDayStartTimestamp,
+    nextDayEndTimestamp: nextDayStartTimestamp + 5 * 60 * 1000,
+  };
+};

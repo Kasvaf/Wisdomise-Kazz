@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function Countdown() {
+export default function Countdown({ deadline }: { deadline: number }) {
   const { t } = useTranslation('wisdomise-token');
   const countdownRef = useRef<HTMLDivElement>(null);
-  const daysFirstLetterRef = useRef<HTMLSpanElement>(null);
-  const daysSecondLetterRef = useRef<HTMLSpanElement>(null);
+  // const daysFirstLetterRef = useRef<HTMLSpanElement>(null);
+  // const daysSecondLetterRef = useRef<HTMLSpanElement>(null);
   const hoursFirstLetterRef = useRef<HTMLSpanElement>(null);
   const hoursSecondLetterRef = useRef<HTMLSpanElement>(null);
   const minutesFirstLetterRef = useRef<HTMLSpanElement>(null);
@@ -14,10 +14,10 @@ export default function Countdown() {
   const secondsSecondLetterRef = useRef<HTMLSpanElement>(null);
 
   const UNITS = [
-    {
-      name: t('airdrop.countdown.days'),
-      lettersRefs: [daysFirstLetterRef, daysSecondLetterRef],
-    },
+    // {
+    //   name: t('airdrop.countdown.days'),
+    //   lettersRefs: [daysFirstLetterRef, daysSecondLetterRef],
+    // },
     {
       name: t('airdrop.countdown.hours'),
       lettersRefs: [hoursFirstLetterRef, hoursSecondLetterRef],
@@ -36,11 +36,10 @@ export default function Countdown() {
     let intervalId: NodeJS.Timeout | undefined;
 
     const initializeCountdown = () => {
-      const deadline = new Date('2024-06-14T08:00:00').getTime();
       intervalId = setInterval(() => {
         if (
-          !daysFirstLetterRef.current ||
-          !daysSecondLetterRef.current ||
+          // !daysFirstLetterRef.current ||
+          // !daysSecondLetterRef.current ||
           !hoursFirstLetterRef.current ||
           !hoursSecondLetterRef.current ||
           !minutesFirstLetterRef.current ||
@@ -57,11 +56,11 @@ export default function Countdown() {
         const now = Date.now();
         const distance = Math.max(deadline - now, 0);
 
-        const daysLetters = [
-          ...String(Math.floor(distance / day)).padStart(2, '0'),
-        ];
-        daysFirstLetterRef.current.textContent = daysLetters[0];
-        daysSecondLetterRef.current.textContent = daysLetters[1];
+        // const daysLetters = [
+        //   ...String(Math.floor(distance / day)).padStart(2, '0'),
+        // ];
+        // daysFirstLetterRef.current.textContent = daysLetters[0];
+        // daysSecondLetterRef.current.textContent = daysLetters[1];
 
         const hoursLetters = [
           ...String(Math.floor((distance % day) / hour)).padStart(2, '0'),
@@ -91,48 +90,35 @@ export default function Countdown() {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [deadline]);
 
   return (
     <div className="max-md:w-full">
-      <p className="mb-3">{t('airdrop.countdown.remaining-time')}</p>
       <div className="text-center text-white" ref={countdownRef}>
-        <ul className="grid grid-cols-4 gap-6">
-          {UNITS.map(time => {
+        <ul className="flex gap-1">
+          {UNITS.map((time, index) => {
             return (
-              <li
-                key={time.name}
-                className="col-span-2 flex flex-col items-center lg:col-span-1"
-              >
-                <h2 className="flex gap-1 text-4xl font-semibold">
-                  {time.lettersRefs.map((letter, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="relative w-12 rounded bg-white/10 py-3 text-center"
-                      >
-                        <TimerSplitter />
-                        <span ref={letter}></span>
-                      </div>
-                    );
-                  })}
-                </h2>
-                <p className="mt-6">{time.name}</p>
-              </li>
+              <>
+                {index > 0 && ':'}
+                <li key={time.name} className="flex flex-col items-center">
+                  <h2 className="flex font-semibold">
+                    {time.lettersRefs.map((letter, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="relative w-3 rounded text-center"
+                        >
+                          <span ref={letter}></span>
+                        </div>
+                      );
+                    })}
+                  </h2>
+                </li>
+              </>
             );
           })}
         </ul>
       </div>
-    </div>
-  );
-}
-
-export function TimerSplitter() {
-  return (
-    <div className="absolute top-1/2 flex w-full -translate-y-1/2 items-center">
-      <div className="h-2 w-1 bg-white/40"></div>
-      <div className="h-px grow bg-black/80"></div>
-      <div className="h-2 w-1 bg-white/40"></div>
     </div>
   );
 }

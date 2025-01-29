@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
-import { WhalesOnboarding } from './components/WhalesOnboarding';
 import { WhaleTopHoldersWidget } from './components/WhaleTopHoldersWidget';
 import { WhaleTopCoinsWidget } from './components/WhaleTopCoinsWidget';
 
@@ -18,7 +17,6 @@ export default function PageWhales() {
         <WhaleTopCoinsWidget className="col-span-2" />
         <WhaleTopHoldersWidget className="col-span-2" />
       </div>
-      <WhalesOnboarding />
     </PageWrapper>
   );
 }
