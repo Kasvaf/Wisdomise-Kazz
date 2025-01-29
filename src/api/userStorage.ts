@@ -49,12 +49,12 @@ export function useUserStorage(key: string, defaultValue?: string) {
         setIsError(false);
         return newValue;
       })
-      .catch(error => {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          setIsError(true);
-        }
+      .catch(() => {
+        setIsError(true);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
     return () => {
       controller.abort();
     };
@@ -79,6 +79,7 @@ export function useUserStorage(key: string, defaultValue?: string) {
   };
 
   return {
+    isFetched: !isError && !isLoading,
     isLoading,
     isError,
     value,
