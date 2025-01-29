@@ -128,10 +128,11 @@ export function WhaleHoldsWidget({
         mode="table"
         sizes={{
           'guest': true,
-          'trial': true,
           'free': true,
+          'trial': true,
           'pro': true,
-          'pro+': false,
+          'pro+': 3,
+          'pro_max': false,
         }}
       >
         <Table

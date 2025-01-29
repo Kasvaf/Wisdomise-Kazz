@@ -103,7 +103,14 @@ export function AccessShield({
   const nextGroup = useMemo<UserGroup | undefined>(() => {
     const sizeNumber = calcSize(size);
     if (sizeNumber === 0) return;
-    const groups: UserGroup[] = ['guest', 'trial', 'free', 'pro', 'pro+'];
+    const groups: UserGroup[] = [
+      'guest',
+      'trial',
+      'free',
+      'pro',
+      'pro+',
+      'pro_max',
+    ];
     const allowdGroup = groups.find(x => calcSize(sizes[x]) === 0);
     if (group === 'guest' && allowdGroup) {
       return 'trial';
@@ -144,6 +151,8 @@ export function AccessShield({
                 ? t('pro-locker.pro.message')
                 : nextGroup === 'pro+'
                 ? t('pro-locker.proplus.message')
+                : nextGroup === 'pro_max'
+                ? t('pro-locker.promax.message')
                 : t('pro-locker.pro.message')}
             </p>
 
@@ -156,7 +165,7 @@ export function AccessShield({
               disabled={!isDebugMode}
             >
               <button
-                onClick={() => ensureGroup(nextGroup ?? 'pro+')}
+                onClick={() => ensureGroup(nextGroup ?? 'pro_max')}
                 className={clsx(
                   'inline-flex w-auto shrink-0 items-center gap-1',
                   'h-9 rounded-lg px-4 text-xs',
@@ -170,6 +179,8 @@ export function AccessShield({
                   ? t('pro-locker.pro.button')
                   : nextGroup === 'pro+'
                   ? t('pro-locker.proplus.button')
+                  : nextGroup === 'pro_max'
+                  ? t('pro-locker.promax.button')
                   : t('pro-locker.pro.button')}
               </button>
             </HoverTooltip>

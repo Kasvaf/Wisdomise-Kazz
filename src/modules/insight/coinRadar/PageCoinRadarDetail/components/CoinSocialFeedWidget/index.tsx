@@ -153,10 +153,11 @@ export function CoinSocialFeedWidget({
       className="overflow-hidden rounded-2xl"
       sizes={{
         'guest': true,
-        'trial': true,
         'free': true,
+        'trial': true,
         'pro': false,
         'pro+': false,
+        'pro_max': false,
       }}
     >
       <OverviewWidget
