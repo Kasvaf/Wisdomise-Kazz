@@ -524,10 +524,13 @@ export interface CoinOverview {
   exchanges: CoinExchange[];
   networks?: null | CoinNetwork[];
   symbol_labels?: null | string[];
-  charts_id?: null | {
-    trading_view_chart_id?: null | string;
-    gecko_terminal_chart_id?: null | string;
-  };
+  charts?: null | Array<{
+    type: 'trading_view' | 'gecko_terminal';
+    id: string;
+    priority: number;
+    url: string;
+    embedUrl: string;
+  }>;
   security_data?: null | Array<{
     symbol_security: NetworkSecurity;
   }>;
@@ -600,7 +603,24 @@ export const useCoinOverview = ({
           price_history_days: priceHistoryDays ?? 1,
         },
         meta: { auth: false },
-      }),
+      }).then(resp => ({
+        ...resp,
+        charts: (resp.charts ?? [])?.map(chart => ({
+          ...chart,
+          url:
+            chart.type === 'trading_view'
+              ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(
+                  chart.id,
+                )}`
+              : chart.type === 'gecko_terminal'
+              ? `https://www.geckoterminal.com/${chart.id}`
+              : '',
+          embedUrl:
+            chart.type === 'gecko_terminal'
+              ? `https://www.geckoterminal.com/${chart.id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0`
+              : '',
+        })),
+      })),
     refetchInterval: 10 * 1000,
     enabled: !!slug,
   });
