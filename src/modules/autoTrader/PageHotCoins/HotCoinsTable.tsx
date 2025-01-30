@@ -5,9 +5,9 @@ import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Spinner from 'shared/Spinner';
+import ton from 'modules/shared/Icons/ton-outline.svg';
 import CoinPreDetailModal from '../PageCoinDetail/CoinPreDetailModal';
 import AlertButton from './AlertButton';
-import ton from './ton.svg';
 
 const HotCoinsTable = () => {
   const hasFlag = useHasFlag();
