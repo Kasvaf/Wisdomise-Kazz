@@ -53,9 +53,6 @@ export default function PricingTable({
           <h1 className="text-6xl font-medium text-v1-content-primary mobile:text-3xl">
             {t('plans.title')}
           </h1>
-          <p className="mx-auto mt-4 max-w-[550px] text-base font-light text-v1-content-primary/70 mobile:mt-2 mobile:text-sm">
-            {t('plans.subtitle')}
-          </p>
           <SubscriptionFeatures className="mt-8 mobile:mt-4" />
         </div>
         <div className="mb-8 flex items-center justify-center">
