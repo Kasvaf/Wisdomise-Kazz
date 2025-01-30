@@ -42,7 +42,7 @@ export default function PricingCard({
     { fullscreen: true, destroyOnClose: true },
   );
   const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
-  const isEmbeddedView = useEmbedView();
+  const { isEmbeddedView } = useEmbedView();
 
   const hasUserThisPlan =
     status === 'active' && !isRenew && plan.key === userPlan?.key;
