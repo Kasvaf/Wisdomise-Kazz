@@ -63,8 +63,12 @@ export const useSolanaAccountBalance = (
             Number(balance.value.amount) / Math.pow(10, balance.value.decimals)
           );
         }
-      } catch {
-        return null;
+      } catch (error) {
+        if ((error as any)?.code === -32_602) {
+          // Invalid param: could not find account -> no transactions yet
+          return 0;
+        }
+        throw new Error((error as any)?.message || 'Cannot read user balance');
       }
     },
     {
@@ -92,8 +96,6 @@ export const useSolanaTransferAssetsMutation = (
   }) => {
     if (!publicKey || !quote) throw new Error('Wallet not connected');
     const tokenMint = new PublicKey(CONTRACT_ADDRESSES[quote]);
-    console.log(recipientAddress, amount, gasFee);
-
     const transaction = new Transaction();
 
     if (quote === 'wrapped-solana') {
