@@ -122,7 +122,7 @@ const Breadcrumb: React.FC<{
       >
         <img src={Logo} />
         {subscription.level !== 0 && isLoggedIn && (
-          <ProIcon className="shrink-0" />
+          <ProIcon className="hidden shrink-0" />
         )}
       </a>
     );
