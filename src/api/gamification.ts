@@ -195,6 +195,6 @@ export const useGamification = () => {
     rewardClaimed: +(data?.profile.customAttributes.boxRewardAmount ?? 0) === 0,
     completedToday: currentDay === activeDay,
     nextDayStartTimestamp,
-    nextDayEndTimestamp: nextDayStartTimestamp + 5 * 60 * 1000,
+    nextDayEndTimestamp: nextDayStartTimestamp + 15 * 60 * 1000,
   };
 };
