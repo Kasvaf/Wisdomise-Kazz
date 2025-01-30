@@ -1,7 +1,16 @@
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
+import { type SupportedNetworks } from 'api';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
+import { ReactComponent as TonIcon } from './ton.svg';
+import { ReactComponent as SolanaIcon } from './solana.svg';
+
+const SZ = 14;
+const NETWORK_ICON = {
+  'the-open-network': <TonIcon width={SZ} height={SZ} className="ml-1" />,
+  'solana': <SolanaIcon width={SZ} height={SZ} className="ml-1" />,
+} as const;
 
 export function CoinLogo({
   coin,
@@ -38,8 +47,9 @@ export function CoinLogo({
 }
 
 export function Coin({
-  className,
   coin,
+  networks,
+  className,
   imageClassName,
   nonLink,
   mini,
@@ -48,6 +58,7 @@ export function Coin({
   noText,
 }: {
   coin: CoinType;
+  networks?: SupportedNetworks[];
   className?: string;
   imageClassName?: string;
   nonLink?: boolean;
@@ -91,13 +102,20 @@ export function Coin({
               'whitespace-nowrap',
             )}
           >
-            <div
-              className={clsx(
-                truncate && 'overflow-hidden text-ellipsis',
-                'whitespace-nowrap',
+            <div className="flex items-center">
+              <div
+                className={clsx(
+                  truncate && 'overflow-hidden text-ellipsis',
+                  'whitespace-nowrap',
+                )}
+              >
+                {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+              </div>
+              {networks && (
+                <div className="flex items-center">
+                  {networks.map(n => NETWORK_ICON[n])}
+                </div>
               )}
-            >
-              {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
             </div>
             {!mini && coin.abbreviation && (
               <>

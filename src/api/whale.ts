@@ -78,6 +78,7 @@ export const useWhales = (filters?: {
 export interface WhaleCoin {
   rank: number;
   symbol: Coin;
+  network_slugs: string[];
   total_buy_volume?: number | null;
   total_buy_number?: number | null;
   total_sell_volume?: number | null;

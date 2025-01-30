@@ -16,7 +16,7 @@ export const NETWORK_MAIN_EXCHANGE = {
   'solana': 'RAYDIUM',
 } as const;
 
-type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;
+export type SupportedNetworks = keyof typeof NETWORK_MAIN_EXCHANGE;
 
 export interface UserAssetPair {
   slug: string;
@@ -105,29 +105,28 @@ export const useTraderCoins = (filters?: {
     queryKey: ['trader-coins', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
-      const data = await ofetch<PageResponse<WhaleCoin>>(
-        '/delphi/intelligence/trader-top-coins/',
-        {
-          query: {
-            page_size: filters?.pageSize ?? 10,
-            page: filters?.page ?? 1,
-            days: filters?.days ?? 1,
-            network_name: filters?.networkName,
-            exchange_name: filters?.networkName
-              ? NETWORK_MAIN_EXCHANGE[filters.networkName]
+      const data = await ofetch<
+        PageResponse<WhaleCoin & { network_slugs: SupportedNetworks[] }>
+      >('/delphi/intelligence/trader-top-coins/', {
+        query: {
+          page_size: filters?.pageSize ?? 10,
+          page: filters?.page ?? 1,
+          days: filters?.days ?? 1,
+          network_name: filters?.networkName,
+          exchange_name: filters?.networkName
+            ? NETWORK_MAIN_EXCHANGE[filters.networkName]
+            : undefined,
+          sorted_by: filters?.sortBy,
+          ascending:
+            typeof filters?.isAscending === 'boolean'
+              ? filters?.isAscending
+                ? 'True'
+                : 'False'
               : undefined,
-            sorted_by: filters?.sortBy,
-            ascending:
-              typeof filters?.isAscending === 'boolean'
-                ? filters?.isAscending
-                  ? 'True'
-                  : 'False'
-                : undefined,
-            filter: filters?.filter ?? 'all',
-          },
-          meta: { auth: true },
+          filter: filters?.filter ?? 'all',
         },
-      );
+        meta: { auth: true },
+      });
       return data;
     },
   });
