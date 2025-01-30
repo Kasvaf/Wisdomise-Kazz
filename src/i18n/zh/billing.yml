@@ -42,6 +42,7 @@ periodicity:
     per: 每<br>年
     title: 每年
 plans:
+  badge: 定价计划
   subscription-methods: 订阅方式
   subtitle: 免费试用 Wisdomise Pro 7 天，了解交易者为何信任我们。随时取消！
   title: 定价计划
@@ -57,7 +58,9 @@ pricing-card:
   features: 特征
   forever: 永久
   free-subtitle: 隨意探索 Wisdomise
+  key_benefits: 主要优点
   monthly: 每月
+  most_popular: 最受欢迎
   notification-call-support: 請求幫助
   notification-upgrade-success: 您的訂閱已成功更新。可能需要幾分鐘才能激活。請在幾分鐘後重新加載此頁面。
   pay-by-locking: 锁定即可免费访问 <b>{{token}} WSDM</b> 代币
