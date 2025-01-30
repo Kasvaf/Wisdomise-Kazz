@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
 import {
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
   type PropsWithChildren,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useInterval } from 'usehooks-ts';
 import { type UserGroup, useSubscription } from 'api';
 import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
@@ -80,7 +80,7 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
     }, 50);
   }, [mode, size]);
 
-  useEffect(() => updateStyle());
+  useInterval(() => updateStyle(), 500);
 
   return { root, shield, isReady, height };
 };
