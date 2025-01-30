@@ -13,6 +13,9 @@ const CoinPreDetailModal: React.FC<{
   const hasFlag = useHasFlag();
   const { data: coinOverview } = useCoinOverview({ slug });
   const { data: symbol } = useSymbolInfo(slug);
+  const tradingViewChartId = coinOverview?.charts.find(
+    x => x.type === 'trading_view',
+  )?.id;
   if (!slug) return null;
 
   return (
@@ -23,30 +26,29 @@ const CoinPreDetailModal: React.FC<{
       open={!!slug}
       onClose={onClose}
     >
-      {hasFlag('/trader-coin-chart') &&
-        coinOverview?.charts_id?.trading_view_chart_id && (
-          <div className="-mx-1 -mt-4 mb-3">
-            <AdvancedRealTimeChart
-              allow_symbol_change={false}
-              symbol={coinOverview.charts_id.trading_view_chart_id}
-              style="1"
-              interval="60"
-              hide_side_toolbar
-              hotlist={false}
-              theme="dark"
-              height={350}
-              width="100%"
-              disabled_features={[
-                'timeframes_toolbar',
-                'chart_zoom',
-                'chart_scroll',
-              ]}
-              hide_top_toolbar
-              hide_legend
-              copyrightStyles={{ parent: { display: 'none' } }}
-            />
-          </div>
-        )}
+      {hasFlag('/trader-coin-chart') && tradingViewChartId && (
+        <div className="-mx-1 -mt-4 mb-3">
+          <AdvancedRealTimeChart
+            allow_symbol_change={false}
+            symbol={tradingViewChartId}
+            style="1"
+            interval="60"
+            hide_side_toolbar
+            hotlist={false}
+            theme="dark"
+            height={350}
+            width="100%"
+            disabled_features={[
+              'timeframes_toolbar',
+              'chart_zoom',
+              'chart_scroll',
+            ]}
+            hide_top_toolbar
+            hide_legend
+            copyrightStyles={{ parent: { display: 'none' } }}
+          />
+        </div>
+      )}
 
       <div className="flex flex-col items-stretch gap-4">
         <div className="flex gap-3">

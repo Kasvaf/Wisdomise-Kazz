@@ -6,27 +6,24 @@ const CoinChart: React.FC<{ slug: string; height?: number }> = ({
   height,
 }) => {
   const coinOverview = useCoinOverview({ slug });
-  if (
-    !coinOverview.data?.charts_id?.gecko_terminal_chart_id &&
-    !coinOverview.data?.charts_id?.trading_view_chart_id
-  )
-    return null;
+  const chart = coinOverview.data?.charts?.[0];
+  if (!chart) return null;
 
-  return coinOverview.data?.charts_id?.gecko_terminal_chart_id ? (
+  return chart.type === 'gecko_terminal' ? (
     <iframe
       height={height}
       width="100%"
       id="geckoterminal-embed"
       title="GeckoTerminal Embed"
-      src={`https://www.geckoterminal.com/${coinOverview.data?.charts_id?.gecko_terminal_chart_id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0`}
+      src={chart.embedUrl}
       frameBorder="0"
       allow="clipboard-write"
       allowFullScreen
     />
-  ) : coinOverview.data?.charts_id?.trading_view_chart_id ? (
+  ) : chart.type === 'trading_view' ? (
     <AdvancedRealTimeChart
       allow_symbol_change={false}
-      symbol={coinOverview.data?.charts_id?.trading_view_chart_id}
+      symbol={chart.id}
       style="1"
       interval="240"
       hotlist={false}
