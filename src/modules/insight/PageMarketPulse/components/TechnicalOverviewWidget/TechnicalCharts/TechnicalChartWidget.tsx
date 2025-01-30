@@ -323,10 +323,11 @@ export const TechnicalChartWidget: FC<{
         className="relative"
         sizes={{
           'guest': true,
-          'trial': type !== 'expensive_bearish',
           'free': true,
-          'pro': false,
+          'trial': type !== 'expensive_bearish',
+          'pro': type !== 'expensive_bearish',
           'pro+': false,
+          'pro_max': false,
         }}
       >
         <ECharts

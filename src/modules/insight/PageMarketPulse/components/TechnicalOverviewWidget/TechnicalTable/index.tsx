@@ -187,10 +187,11 @@ export const TechnicalTable: FC = () => {
         mode="table"
         sizes={{
           'guest': true,
-          'trial': 3,
           'free': true,
-          'pro': false,
+          'trial': 3,
+          'pro': 3,
           'pro+': false,
+          'pro_max': false,
         }}
       >
         <Table

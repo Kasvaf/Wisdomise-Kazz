@@ -101,10 +101,11 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
         mode="table"
         sizes={{
           'guest': true,
-          'trial': 3,
           'free': true,
+          'trial': 3,
           'pro': false,
           'pro+': false,
+          'pro_max': false,
         }}
       >
         <Table

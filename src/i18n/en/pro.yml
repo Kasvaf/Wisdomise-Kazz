@@ -6,9 +6,11 @@ pro-locker:
   pro:
     button: Upgrade to Pro
     message: Upgrade to Pro for exclusive insights to elevate your crypto game!
+  promax:
+    button: Upgrade to Pro Max
+    message: Upgrade to Pro Max for exclusive insights to elevate your crypto game!
   proplus:
     button: Upgrade to Pro+
     message: Upgrade to Pro+ for exclusive insights to elevate your crypto game!
-trial: Trial
 upgrade-now: Upgrade now
 zero-hour: 0 hour

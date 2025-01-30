@@ -6,7 +6,7 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useAccountQuery } from './account';
 
-export type UserGroup = 'guest' | 'trial' | 'free' | 'pro' | 'pro+';
+export type UserGroup = 'guest' | 'trial' | 'free' | 'pro' | 'pro+' | 'pro_max';
 
 export function useSubscription() {
   const { data: account, isLoading, refetch } = useAccountQuery();
@@ -21,8 +21,6 @@ export function useSubscription() {
 
   const level = isMiniApp ? 1 : plan?.level ?? 0;
 
-  const levelName = level === 1 ? 'pro' : level === 2 ? 'pro+' : 'free';
-
   const status = subs?.status ?? 'active';
 
   const group: UserGroup = isLoggedIn
@@ -32,7 +30,9 @@ export function useSubscription() {
       ? 'free'
       : level === 1
       ? 'pro'
-      : 'pro+'
+      : level === 2
+      ? 'pro+'
+      : 'pro_max'
     : 'guest';
 
   const ensureGroup = async (neededGroup: UserGroup | UserGroup[]) =>
@@ -66,16 +66,12 @@ export function useSubscription() {
     isLoading,
     title,
     level,
-    levelName,
     status,
     currentPeriodEnd: subs?.end_at && new Date(subs.end_at),
     remaining:
       level === 0
         ? 0
         : Math.max(Math.round(+new Date(subs?.end_at ?? 0) - Date.now()), 0),
-    weeklyCustomNotificationCount: Number(
-      plan?.metadata.weekly_custom_notifications_count ?? 0,
-    ),
     group,
     ensureGroup,
     loginModal,

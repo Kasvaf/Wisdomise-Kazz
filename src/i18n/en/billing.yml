@@ -37,10 +37,8 @@ periodicity:
     title: Annually
     per: per<br>year
 plans:
-  title: Pricing Plan
-  subtitle: >-
-    Try Wisdomise Pro risk-free for 7 Days and see why traders trust us. Cancel
-    anytime!
+  title: Unlock the Full Potential
+  badge: Pricing Plan
   subscription-methods: Subscription Methods
 pricing-card:
   btn-action:
@@ -51,7 +49,9 @@ pricing-card:
     upgrade-to: Upgrade To {{plan}}
   features: Features
   forever: Unlimited
+  key_benefits: Key Benefits
   monthly: Monthly
+  most_popular: Most Popular
   notification-call-support: Call Support
   notification-upgrade-success: >-
     Your subscription updated successfully. It might take a few minutes to

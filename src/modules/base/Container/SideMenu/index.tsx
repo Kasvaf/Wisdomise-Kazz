@@ -38,7 +38,7 @@ const SideMenu: React.FC<{
             >
               <img className="h-12" src={Logo} alt="logo" />
               {!collapsed && subscription.level !== 0 && isLoggedIn && (
-                <ProIcon className="mt-px" />
+                <ProIcon className="mt-px hidden" />
               )}
             </a>
             <button

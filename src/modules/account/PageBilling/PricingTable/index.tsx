@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePlansQuery, useSubscription } from 'api';
 import { type PlanPeriod } from 'api/types/subscription';
+import { ReactComponent as FlashIcon } from '../images/flash.svg';
 import { SubscriptionMethods } from './SubscriptionMethods';
 import { PeriodToggle } from './PeriodToggle';
 import PricingCard from './PricingCard';
@@ -22,25 +23,37 @@ export default function PricingTable({
   onResolve,
 }: PricingTableProps) {
   const { t } = useTranslation('billing');
-  const { plan, level } = useSubscription();
+  const { plan } = useSubscription();
   const { data } = usePlansQuery();
   const [currentPeriod, setCurrentPeriod] = useState<PlanPeriod>(
-    isRenew || level === 0 || !plan || isTokenUtility
+    isRenew || isTokenUtility
       ? 'YEARLY'
-      : plan.periodicity,
+      : plan
+      ? plan.periodicity
+      : data?.results.find(x => x.metadata?.most_popular)?.periodicity ??
+        'YEARLY',
   );
 
   return (
     <>
-      <div className={clsx('flex flex-col', (isRenew || isUpdate) && 'mt-7')}>
+      <div
+        className={clsx(
+          'flex max-w-full flex-col p-2 text-v1-content-primary',
+          (isRenew || isUpdate) && 'mt-7',
+        )}
+      >
         <div className="mb-10 text-center">
-          <h1 className="text-xl font-medium text-v1-content-primary">
+          <div>
+            <div className="mb-10 inline-flex shrink-0 items-center justify-center rounded-full bg-wsdm-gradient p-px">
+              <div className="inline-flex size-full items-center justify-center rounded-full bg-v1-surface-l3/80  px-3 py-1 text-xs">
+                <FlashIcon className="w-4" /> {t('plans.badge')}
+              </div>
+            </div>
+          </div>
+          <h1 className="text-6xl font-medium text-v1-content-primary mobile:text-3xl">
             {t('plans.title')}
           </h1>
-          <p className="mt-2 text-base font-normal text-v1-content-secondary">
-            {t('plans.subtitle')}
-          </p>
-          <SubscriptionFeatures className="mt-6" />
+          <SubscriptionFeatures className="mt-8 mobile:mt-4" />
         </div>
         <div className="mb-8 flex items-center justify-center">
           {!isTokenUtility && (
@@ -52,7 +65,7 @@ export default function PricingTable({
             />
           )}
         </div>
-        <div className="-mx-6 mb-14 flex grow justify-center gap-6 overflow-auto px-6 mobile:flex-col mobile:justify-start">
+        <div className="mb-14 flex grow justify-center gap-6 overflow-auto mobile:flex-col mobile:justify-start">
           {data?.results
             .filter(x => x.periodicity === currentPeriod)
             .filter(x => !isTokenUtility || x.token_hold_support)
@@ -68,7 +81,7 @@ export default function PricingTable({
               />
             ))}
         </div>
-        <div className="mb-12 mobile:-mx-6">
+        <div className="mb-12">
           <h2 className="mb-4 text-center text-white opacity-50">
             {t('plans.subscription-methods')}
           </h2>
