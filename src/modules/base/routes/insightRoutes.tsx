@@ -3,6 +3,7 @@ import { type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
+import PageRedirect from '../PageRedirect';
 
 const PageInsight = React.lazy(() => import('modules/insight/PageInsight'));
 
@@ -35,13 +36,15 @@ const useInsightRoutes = () => {
   return [
     {
       path: 'coin-radar/onboarding',
+      handle: { crumb: t('menu.ai-indicators.title') },
       element: <PageOnboarding />,
-    } /* TODO: check why this is not working if it i move this to children of 'coin-radar'? */,
+    },
     {
       element: <Container />,
       path: 'coin-radar',
       handle: { crumb: t('menu.coin-radar.title') },
       children: [
+        { path: '', element: <PageRedirect /> },
         { path: 'overview', element: <PageInsight /> },
         {
           path: 'social-radar',
