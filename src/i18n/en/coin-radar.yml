@@ -11,7 +11,6 @@ call-change:
   current-price: Current Price
   first-mention: First Mention
   last-mention: Last Mention
-  last-pnl-update: Last PnL Update
   long: Potential Growth Opportunity
   negative: Negative
   not_sure: Not Sure

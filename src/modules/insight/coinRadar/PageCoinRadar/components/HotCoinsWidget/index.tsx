@@ -87,7 +87,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row) => <SignalSentiment signal={row} hidePnl />,
+        render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
         title: [

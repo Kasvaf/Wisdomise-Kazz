@@ -3,18 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { bxHappy, bxMeh, bxSad } from 'boxicons-quasar';
 import dayjs from 'dayjs';
-import { type EChartsOption } from 'echarts';
 import { type SocialRadarSentiment } from 'api';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ECharts } from 'shared/ECharts';
 import { Coin } from 'shared/Coin';
-import { formatNumber } from 'utils/numbers';
-import { ReadableDuration } from 'shared/ReadableDuration';
 import Icon from '../../../../../shared/Icon';
 import { ReadableDate } from '../../../../../shared/ReadableDate';
 import { DirectionalNumber } from '../../../../../shared/DirectionalNumber';
 import { ReadableNumber } from '../../../../../shared/ReadableNumber';
 import { ReactComponent as Logo } from './logo.svg';
+import { useChartConfig } from './useChartConfig';
 
 const SignalSentimentTitle: FC<{
   signal: SocialRadarSentiment;
@@ -74,225 +72,11 @@ export const SignalSentiment: FC<{
   signal: SocialRadarSentiment;
   className?: string;
   minimal?: boolean;
-  hidePnl?: boolean;
-}> = ({ signal, className, minimal, hidePnl }) => {
+}> = ({ signal, className, minimal }) => {
   const { t } = useTranslation('coin-radar');
   const [tick, setTick] = useState(1); // used as dependency to update content
 
-  const chartConfig = useMemo<EChartsOption | null>(() => {
-    if (!signal.signals_analysis) return null;
-    let parsedData: Array<{
-      price: number;
-      relatedAt: string;
-      dateType: 'first_mention' | 'last_mention' | 'irrelevant' | 'normal';
-      priceType: 'normal' | 'biggest_pump' | 'biggest_dump';
-      y: number;
-    }> = [];
-    let biggestDumpPrice = Number.POSITIVE_INFINITY;
-    let biggestPumpPrice = Number.NEGATIVE_INFINITY;
-    let firstMentionPicked = false;
-    let lastMentionPicked = false;
-    for (
-      let i = 0;
-      i < (signal.signals_analysis.sparkline?.prices ?? []).length;
-      i++
-    ) {
-      const price = (signal.signals_analysis.sparkline?.prices ?? [])[i];
-      const relatedAtRaw = (signal.signals_analysis.sparkline?.related_ats ??
-        [])[i];
-      if (typeof price !== 'number' || typeof relatedAtRaw !== 'string')
-        continue;
-      const relatedAt = dayjs(relatedAtRaw).toISOString();
-      const hasOneMsg = dayjs(signal.last_signal_related_at).isSame(
-        signal.first_signal_related_at,
-      );
-      let dateType: (typeof parsedData)[number]['dateType'] = dayjs(
-        relatedAt,
-      ).isBefore(signal.first_signal_related_at)
-        ? 'irrelevant'
-        : 'normal';
-
-      if (dateType === 'normal' && !firstMentionPicked) {
-        firstMentionPicked = true;
-        dateType = hasOneMsg ? 'last_mention' : 'first_mention';
-        if (hasOneMsg) {
-          lastMentionPicked = true;
-        }
-      }
-      if (
-        firstMentionPicked &&
-        !lastMentionPicked &&
-        dateType === 'normal' &&
-        dayjs(relatedAt).isAfter(signal.last_signal_related_at)
-      ) {
-        lastMentionPicked = true;
-        dateType = 'last_mention';
-      }
-
-      if (
-        i === (signal.signals_analysis.sparkline?.prices ?? []).length - 1 &&
-        (!firstMentionPicked || !lastMentionPicked)
-      ) {
-        dateType = 'last_mention';
-      }
-
-      if (
-        dateType === 'normal' ||
-        dateType === 'first_mention' ||
-        dateType === 'last_mention'
-      ) {
-        biggestPumpPrice = price > biggestPumpPrice ? price : biggestPumpPrice;
-        biggestDumpPrice = price < biggestDumpPrice ? price : biggestDumpPrice;
-      }
-      parsedData = [
-        ...parsedData,
-        {
-          price,
-          relatedAt,
-          dateType,
-          priceType: 'normal',
-          y: price * 1_000_000,
-        },
-      ];
-    }
-
-    const callTimePrice = parsedData.find(x => x.dateType !== 'irrelevant')
-      ?.price;
-    const biggestDumpIndex = parsedData.findIndex(
-      x =>
-        typeof callTimePrice === 'number' &&
-        x.price < callTimePrice &&
-        x.dateType !== 'irrelevant' &&
-        x.price === biggestDumpPrice,
-    );
-    const biggestPumpIndex = parsedData.findIndex(
-      x =>
-        typeof callTimePrice === 'number' &&
-        x.price > callTimePrice &&
-        x.dateType !== 'irrelevant' &&
-        x.price === biggestPumpPrice,
-    );
-    if (biggestDumpIndex > -1) {
-      parsedData[biggestDumpIndex].priceType = 'biggest_dump';
-    }
-    if (biggestPumpIndex > -1) {
-      parsedData[biggestPumpIndex].priceType = 'biggest_pump';
-    }
-
-    return {
-      grid: {
-        top: 5,
-        bottom: 5,
-        left: 5,
-        right: 5,
-        containLabel: false,
-      },
-      xAxis: {
-        type: 'category',
-        data: parsedData.map(x => x.relatedAt),
-        boundaryGap: false,
-        show: false,
-      },
-      yAxis: {
-        type: 'value',
-        min: () => 'dataMin',
-        max: () => 'dataMax',
-        show: true,
-      },
-      series: [
-        {
-          type: 'line',
-          data: parsedData.map(x => x.y),
-          smooth: true,
-          lineStyle: {
-            color: '#00FFA3',
-            width: 2,
-          },
-          symbolSize: 10,
-          label: {
-            show: false,
-          },
-          itemStyle: {
-            color: ({ dataIndex }) => {
-              const x = parsedData[dataIndex];
-              if (
-                x.dateType === 'first_mention' ||
-                x.dateType === 'last_mention'
-              )
-                return '#fff';
-              if (x.priceType === 'biggest_dump') return '#ea3f55';
-              if (x.priceType === 'biggest_pump') return '#00ffa3';
-              return 'transparent';
-            },
-            borderWidth: 4,
-          },
-          markLine: {
-            symbol: 'none',
-            silent: true,
-            lineStyle: {
-              color: '#fff',
-              width: 0.9,
-              type: 'dashed',
-              opacity: 0.6,
-            },
-            label: {
-              show: false,
-            },
-            data: parsedData.some(x => x.dateType === 'first_mention')
-              ? [
-                  {
-                    yAxis: parsedData.find(x => x.dateType === 'first_mention')
-                      ?.y,
-                    xAxis: parsedData.find(x => x.dateType === 'first_mention')
-                      ?.relatedAt,
-                  },
-                ]
-              : [],
-          },
-        },
-      ],
-      tooltip: {
-        trigger: 'axis',
-        backgroundColor: '#151619',
-        textStyle: {
-          color: '#fff',
-          fontSize: 12,
-        },
-        padding: 4,
-        borderColor: 'transparent',
-        formatter: p => {
-          // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error, @typescript-eslint/ban-ts-comment
-          /* @ts-ignore */
-          const dataIndex = p?.[0]?.dataIndex;
-          if (typeof dataIndex !== 'number') return '';
-          const x = parsedData[dataIndex];
-          const price = `$ ${formatNumber(x.price, {
-            compactInteger: true,
-            decimalLength: 3,
-            minifyDecimalRepeats: true,
-            seperateByComma: true,
-          })}`;
-          return [
-            x.dateType === 'first_mention'
-              ? t('call-change.first-mention')
-              : '',
-            x.dateType === 'last_mention' ? t('call-change.last-mention') : '',
-            x.priceType === 'biggest_dump' ? t('call-change.biggest-dump') : '',
-            x.priceType === 'biggest_pump' ? t('call-change.biggest-pump') : '',
-            price,
-          ]
-            .filter(r => !!r)
-            .join('<br>');
-        },
-      },
-      backgroundColor: 'transparent',
-    };
-  }, [
-    signal.first_signal_related_at,
-    signal.last_signal_related_at,
-    signal.signals_analysis,
-    t,
-  ]);
+  const chartConfig = useChartConfig(signal, tick);
 
   const tooltip = useMemo(() => {
     if (!signal.signals_analysis || !tick || !chartConfig) return null;
@@ -300,7 +84,7 @@ export const SignalSentiment: FC<{
     return (
       <>
         {signal.signals_analysis && chartConfig && date && (
-          <div className="flex min-w-[360px] flex-col">
+          <div className="flex min-w-[360px] flex-col overflow-hidden mobile:min-w-full">
             <div className="mb-4 hidden items-center gap-2 text-base mobile:flex">
               <Logo />
               {t('social-radar.table.sentiment.title')}
@@ -346,32 +130,6 @@ export const SignalSentiment: FC<{
                   className="text-sm"
                 />
               </div>
-              {!hidePnl && (
-                <div className="flex items-center justify-between gap-1 text-xs">
-                  <div className="text-v1-content-secondary">
-                    {t('call-change.last-pnl-update')}
-                  </div>
-                  <DirectionalNumber
-                    popup="never"
-                    value={signal.signals_analysis.real_pnl_percentage}
-                    label="%"
-                    showIcon={false}
-                    suffix={
-                      <div className="ps-1">
-                        (
-                        <ReadableDuration
-                          value={dayjs(signal.signals_analysis.updated_at).diff(
-                            Date.now(),
-                          )}
-                        />
-                        )
-                      </div>
-                    }
-                    showSign
-                    className="text-sm"
-                  />
-                </div>
-              )}
               <div className="flex items-center justify-between gap-1 text-xs">
                 <div className="text-v1-content-secondary">
                   {t('call-change.biggest-pump')}
@@ -424,7 +182,7 @@ export const SignalSentiment: FC<{
         )}
       </>
     );
-  }, [signal, tick, chartConfig, t, hidePnl]);
+  }, [signal, tick, chartConfig, t]);
 
   return (
     <ClickableTooltip
@@ -452,17 +210,6 @@ export const SignalSentiment: FC<{
               {t('call-change.last-mention')}:
             </label>
             <ReadableDate popup={false} value={signal.last_signal_related_at} />
-            {!hidePnl && (
-              <DirectionalNumber
-                popup="never"
-                value={signal.signals_analysis.real_pnl_percentage}
-                label="%"
-                prefix="("
-                suffix=")"
-                showIcon={false}
-                showSign
-              />
-            )}
           </div>
         )}
       </span>
