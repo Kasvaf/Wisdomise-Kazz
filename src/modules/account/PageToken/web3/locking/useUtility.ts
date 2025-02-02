@@ -26,8 +26,9 @@ export function useUtility() {
       } else {
         if (lockedBalance === 0n) {
           if (
-            subscription.levelName === 'free' ||
-            subscription.status === 'trialing'
+            subscription.group === 'free' ||
+            subscription.group === 'guest' ||
+            subscription.group === 'trial'
           ) {
             setUtilityStatus('pending_lock');
           } else {

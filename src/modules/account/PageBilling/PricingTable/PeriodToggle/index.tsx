@@ -40,7 +40,7 @@ export function PeriodToggle({
   return (
     <div
       className={clsx(
-        'flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 p-4 backdrop-blur-sm',
+        'flex items-center justify-center gap-3 rounded-full border border-v1-border-tertiary bg-v1-surface-l3 p-4 backdrop-blur-sm',
         className,
       )}
     >
