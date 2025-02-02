@@ -203,7 +203,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             <CoinSearchInput
               value={tableState.query}
               onChange={query => setTableState({ query })}
-              className="w-64 mobile:max-w-max mobile:grow"
+              className="w-64 mobile:grow"
             />
             {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
           </div>

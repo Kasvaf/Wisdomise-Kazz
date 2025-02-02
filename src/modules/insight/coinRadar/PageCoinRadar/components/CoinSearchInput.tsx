@@ -21,6 +21,7 @@ export function CoinSearchInput({
       placeholder={t('common.search_coin')}
       className={className}
       prefixIcon={<Icon name={bxSearch} />}
+      size="md"
     />
   );
 }

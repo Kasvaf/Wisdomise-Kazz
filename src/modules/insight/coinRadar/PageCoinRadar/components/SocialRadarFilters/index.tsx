@@ -121,7 +121,7 @@ export function SocialRadarFilters({
           }
           size="md"
           variant="primary"
-          className="grow"
+          className="max-w-lg grow"
         />
       </div>
       <SortModes
@@ -130,7 +130,7 @@ export function SocialRadarFilters({
         onChange={(sortBy, sortOrder) =>
           onChange?.({ sortBy, sortOrder: sortOrder as never })
         }
-        className="w-auto min-w-min mobile:w-full"
+        className="w-auto mobile:w-full"
       />
       <Modal
         open={open}
