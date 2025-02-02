@@ -74,7 +74,7 @@ export function SocialRadarFilters({
         className,
       )}
     >
-      <div className="flex w-auto flex-nowrap gap-4 overflow-auto mobile:gap-2">
+      <div className="flex w-auto flex-nowrap gap-2 overflow-auto mobile:gap-1">
         <Button
           variant={isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
           size="md"
@@ -121,7 +121,7 @@ export function SocialRadarFilters({
           }
           size="md"
           variant="primary"
-          className="min-w-64 grow"
+          className="grow"
         />
       </div>
       <SortModes
