@@ -125,14 +125,14 @@ export function ButtonSelect<T, AC extends boolean = false>({
               aria-checked={value === option.value}
               disabled={option.disabled}
               className={clsx(
-                'relative h-full shrink-0 overflow-hidden rounded-lg text-sm',
+                'relative h-full shrink-0 overflow-hidden rounded-lg text-sm bg-v1-surface-l-next',
                 size === 'xl' ? ' px-3' : 'px-2',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'border border-transparent enabled:hover:bg-white/5 enabled:active:bg-white/10',
+                'border border-transparent enabled:hover:bg-v1-background-inverse/5 enabled:active:bg-v1-surface-l-next',
                 variant === 'primary'
                   ? 'enabled:aria-checked:bg-v1-background-brand'
-                  : 'enabled:aria-checked:bg-white/10',
+                  : 'enabled:aria-checked:bg-v1-background-inverse/15',
                 'focus-visible:border-v1-border-focus',
                 'aria-checked:text-v1-content-primary',
                 'disabled:opacity-40',
