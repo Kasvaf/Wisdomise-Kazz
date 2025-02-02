@@ -39,7 +39,7 @@ export const useSolanaAccountBalance = (
   const { publicKey } = useWallet();
 
   return useQuery(
-    ['sol-balance'],
+    ['sol-balance', quote, publicKey?.toString()],
     async () => {
       if (!publicKey || !quote) return null;
 
