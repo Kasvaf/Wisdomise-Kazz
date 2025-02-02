@@ -65,6 +65,7 @@ const useMiniAppRoutes = () => {
             },
             {
               path: 'trader-claim-reward',
+              handle: { wallet: 'the-open-network' },
               element: (
                 <GameAuthGuard>
                   <PageClaimReward />
@@ -94,7 +95,12 @@ const useMiniAppRoutes = () => {
             {
               path: 'market/:slug',
               element: <PageTrade />,
-              handle: { wallet: true },
+              handle: {
+                wallet: (params: any, query: any) => [
+                  params.slug,
+                  query.quote || 'tether',
+                ],
+              },
             },
           ],
         },

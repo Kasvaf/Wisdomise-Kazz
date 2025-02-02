@@ -1,6 +1,6 @@
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
+import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
 import {
   type AutoTraderSolanaSupportedQuotes,
   useSolanaAccountBalance,

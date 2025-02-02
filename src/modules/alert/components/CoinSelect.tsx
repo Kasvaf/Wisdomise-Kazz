@@ -5,7 +5,6 @@ import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
 import { useCoinList, useCoinOverview, useLastPriceQuery } from 'api';
 import type { Coin as CoinType, PricesExchange } from 'api/types/shared';
-import useRelevantExchange from 'shared/useRelevantExchange';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
@@ -31,13 +30,12 @@ export const CoinSelect: FC<
 }) => {
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
-  const bestExchange = useRelevantExchange();
   const coinList = useCoinList({ q });
 
   const coin = useCoinOverview({ slug: value ?? 'tether' });
   const { data: lastPrice } = useLastPriceQuery({
     slug: value == null ? undefined : value,
-    exchange: priceExchange === 'auto' ? bestExchange : priceExchange,
+    exchange: priceExchange === 'auto' ? undefined : priceExchange,
   });
 
   const coins = useMemo<CoinType[]>(() => {

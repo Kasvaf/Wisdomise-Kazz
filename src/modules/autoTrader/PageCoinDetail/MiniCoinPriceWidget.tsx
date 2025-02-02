@@ -3,15 +3,11 @@ import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { DebugPin } from 'shared/DebugPin';
-import useRelevantExchange from 'shared/useRelevantExchange';
 
 export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
   const hasFlag = useHasFlag();
   const { data } = useCoinOverview({ slug });
-  const { data: lastPrice } = useLastPriceQuery({
-    slug,
-    exchange: useRelevantExchange(slug),
-  });
+  const { data: lastPrice } = useLastPriceQuery({ slug });
   if (lastPrice == null) {
     return null;
   }

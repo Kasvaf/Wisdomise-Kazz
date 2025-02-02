@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
+import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
 import { type PricesExchange, type MarketTypes } from './types/shared';
-import { useSupportedPairs } from './trader';
+import { NETWORK_MAIN_EXCHANGE, useSupportedPairs } from './trader';
 
 export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h';
 export interface Candle {
@@ -78,35 +79,60 @@ interface LastCandleParams {
   convertToUsd?: boolean;
 }
 
+const NETWORK_TO_EXCHANGE = NETWORK_MAIN_EXCHANGE as Record<string, string>;
 export const useLastCandleQuery = ({
   exchange,
   slug: base,
-  quote = 'dollar',
+  quote,
   market = 'SPOT',
-  convertToUsd,
+  convertToUsd = !quote,
 }: LastCandleParams) => {
   const { data: supportedPairs } = useSupportedPairs(base);
-  const theQuote = supportedPairs?.find(x => x.quote.slug === quote)
-    ? quote
-    : supportedPairs?.[0]?.quote?.slug;
+
+  // list of all quote+networks for this base-slug
+  const netPairs = supportedPairs?.flatMap(sp =>
+    sp.network_slugs.map(net => ({
+      quote: sp.quote.slug,
+      net,
+    })),
+  );
+
+  // first pair that matches both quote and active-network
+  const net = useActiveNetwork();
+  const bestPair =
+    netPairs?.find(
+      x =>
+        (!quote || x.quote === quote) &&
+        (exchange ? true : !net || (x.net === net && NETWORK_TO_EXCHANGE[net])),
+    ) ||
+    // first pair that matches a quote, with a well-known exchange (net is not active)
+    netPairs?.find(
+      x =>
+        (!quote || x.quote === quote) &&
+        (exchange ? true : x.net in NETWORK_TO_EXCHANGE),
+    ) ||
+    netPairs?.[0];
+
+  const theQuote = bestPair?.quote;
+  const bestExchange = exchange || NETWORK_TO_EXCHANGE[bestPair?.net ?? ''];
 
   return useQuery(
-    ['last-candle', base, quote, exchange, market],
+    ['last-candle', base, theQuote, bestExchange, market, convertToUsd],
     async () => {
       const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
         query: {
           base,
           quote: theQuote,
-          exchange,
+          exchange: bestExchange,
           market,
-          convert_to_usd: (convertToUsd ?? quote === 'dollar') || undefined,
+          convert_to_usd: convertToUsd,
           t: String(Date.now()),
         },
       });
       return data;
     },
     {
-      enabled: Boolean(base && quote && exchange && market && theQuote),
+      enabled: Boolean(base && theQuote && bestExchange && market),
       staleTime: 1000,
       refetchInterval: 10_000,
     },

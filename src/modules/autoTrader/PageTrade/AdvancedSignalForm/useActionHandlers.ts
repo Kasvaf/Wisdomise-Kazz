@@ -13,8 +13,7 @@ import {
   type CreatePositionRequest,
 } from 'api/trader';
 import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
-import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
-import useRelevantExchange from 'shared/useRelevantExchange';
+import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';
@@ -50,7 +49,6 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
 
   const { data: assetPrice } = useLastPriceQuery({
     slug,
-    exchange: useRelevantExchange(slug, quote),
     quote,
     convertToUsd: true,
   });

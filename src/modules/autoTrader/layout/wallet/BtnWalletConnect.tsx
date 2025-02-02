@@ -1,7 +1,7 @@
 import { TonConnectButton } from '@tonconnect/ui-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
-import useActiveNetwork from 'modules/autoTrader/useActiveNetwork';
+import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 const BtnSolanaWalletConnect = () => {
