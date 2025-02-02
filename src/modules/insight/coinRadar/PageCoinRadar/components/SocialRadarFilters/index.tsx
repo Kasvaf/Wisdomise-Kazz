@@ -83,22 +83,29 @@ export function SocialRadarFilters({
         >
           <Icon name={bxSliderAlt} size={16} />
         </Button>
+        <Button
+          variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
+          size="md"
+          className="shrink-0"
+          onClick={() =>
+            onChange?.({
+              categories: [],
+              exchanges: [],
+              networks: [],
+              securityLabels: [],
+              sources: [],
+              trendLabels: [],
+            })
+          }
+        >
+          <Icon name={bxGridAlt} size={16} />
+          {t('common.all')}
+        </Button>
         <ButtonSelect
-          options={[
-            {
-              label: (
-                <>
-                  <Icon name={bxGridAlt} size={16} />
-                  {t('common.all')}
-                </>
-              ),
-              value: undefined,
-            },
-            ...presetFilters.map(x => ({
-              label: x.label,
-              value: x.slug,
-            })),
-          ]}
+          options={presetFilters.map(x => ({
+            label: x.label,
+            value: x.slug,
+          }))}
           allowClear
           value={isFiltersApplied && !selectedPreset ? null : selectedPreset}
           onChange={newPresetFilter =>
