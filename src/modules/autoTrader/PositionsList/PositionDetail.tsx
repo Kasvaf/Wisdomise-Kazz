@@ -4,6 +4,7 @@ import { bxEditAlt, bxHistory } from 'boxicons-quasar';
 import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import NetworkIcon from 'shared/NetworkIcon';
 import PriceChange from 'shared/PriceChange';
 import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
@@ -42,6 +43,16 @@ const PositionDetail: React.FC<{
         <div className="flex items-center gap-1">
           <span className="text-white/30">#{position.id}</span>
           <span>{position.pair_name}</span>
+          {position.network_slug && ( // TODO check won't be necessary once backend is DONE
+            <>
+              <span className="text-white/30">on</span>
+              <NetworkIcon
+                network="solana"
+                withTitle
+                className="text-white/50"
+              />
+            </>
+          )}
         </div>
         <div className="flex items-center gap-3">
           <CancelButton position={position} />

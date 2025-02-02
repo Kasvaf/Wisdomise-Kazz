@@ -105,28 +105,29 @@ export const useTraderCoins = (filters?: {
     queryKey: ['trader-coins', JSON.stringify(filters)],
     keepPreviousData: true,
     queryFn: async () => {
-      const data = await ofetch<
-        PageResponse<WhaleCoin & { network_slugs: SupportedNetworks[] }>
-      >('/delphi/intelligence/trader-top-coins/', {
-        query: {
-          page_size: filters?.pageSize ?? 10,
-          page: filters?.page ?? 1,
-          days: filters?.days ?? 1,
-          network_name: filters?.networkName,
-          exchange_name: filters?.networkName
-            ? NETWORK_MAIN_EXCHANGE[filters.networkName]
-            : undefined,
-          sorted_by: filters?.sortBy,
-          ascending:
-            typeof filters?.isAscending === 'boolean'
-              ? filters?.isAscending
-                ? 'True'
-                : 'False'
+      const data = await ofetch<PageResponse<WhaleCoin>>(
+        '/delphi/intelligence/trader-top-coins/',
+        {
+          query: {
+            page_size: filters?.pageSize ?? 10,
+            page: filters?.page ?? 1,
+            days: filters?.days ?? 1,
+            network_name: filters?.networkName,
+            exchange_name: filters?.networkName
+              ? NETWORK_MAIN_EXCHANGE[filters.networkName]
               : undefined,
-          filter: filters?.filter ?? 'all',
+            sorted_by: filters?.sortBy,
+            ascending:
+              typeof filters?.isAscending === 'boolean'
+                ? filters?.isAscending
+                  ? 'True'
+                  : 'False'
+                : undefined,
+            filter: filters?.filter ?? 'all',
+          },
+          meta: { auth: true },
         },
-        meta: { auth: true },
-      });
+      );
       return data;
     },
   });
@@ -151,6 +152,7 @@ export interface Position {
   status: PositionStatus;
   deposit_status: 'PENDING' | 'PAID' | 'EXPIRED' | 'CANCELED';
   withdraw_status?: 'SENT' | 'PAID';
+  network_slug: string;
   pair_name: string;
   pair_slug: string;
   side: 'long' | 'short';

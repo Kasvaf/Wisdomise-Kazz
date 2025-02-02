@@ -1,24 +1,9 @@
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
-import { type SupportedNetworks } from 'api';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import { useSymbolInfo } from 'api/symbol';
-import { ReactComponent as TonIcon } from './ton.svg';
-import { ReactComponent as SolanaIcon } from './solana.svg';
-import { ReactComponent as BaseIcon } from './base.svg';
-import { ReactComponent as EthereumIcon } from './eth.svg';
-import { ReactComponent as ArbitrumIcon } from './arb.svg';
-import { ReactComponent as PolygonIcon } from './polygon.svg';
-
-const NETWORK_ICON = {
-  'solana': SolanaIcon,
-  'base': BaseIcon,
-  'the-open-network': TonIcon,
-  'ethereum': EthereumIcon,
-  'arbitrum': ArbitrumIcon,
-  'polygon': PolygonIcon,
-} as const;
+import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
   coin,
@@ -66,7 +51,7 @@ export function Coin({
   noText,
 }: {
   coin: CoinType;
-  networks?: SupportedNetworks[];
+  networks?: string[];
   className?: string;
   imageClassName?: string;
   nonLink?: boolean;
@@ -123,19 +108,9 @@ export function Coin({
               </div>
               {networks && (
                 <div className="flex items-center">
-                  {networks.map(n => {
-                    const NetIcon = NETWORK_ICON[n];
-                    return (
-                      NetIcon && (
-                        <NetIcon
-                          key={n}
-                          width={14}
-                          height={14}
-                          className="ml-1"
-                        />
-                      )
-                    );
-                  })}
+                  {networks.map(n => (
+                    <NetworkIcon key={n} network={n} className="ml-1" />
+                  ))}
                 </div>
               )}
             </div>
