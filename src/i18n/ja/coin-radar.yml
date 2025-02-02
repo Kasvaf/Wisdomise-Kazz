@@ -5,15 +5,23 @@ available-exchanges:
     price: 価格
     volume_24h: 24時間あたりのボリューム
 call-change:
+  analyzed-messages: 分析されたメッセージ
   biggest-dump: 最大のダンプ
   biggest-pump: 最大のポンプ
   current-price: 現在の価格
   fire-time: 信号発射時刻
+  first-mention: 最初の言及
   hunted-at-here: ここで狩られる
+  last-mention: 最後の言及
   last-pnl-update: 最終損益更新
+  long: 潜在的な成長機会
   max-price: "最大: 極限高"
   min-price: "最小: 極端に低い"
+  negative: ネガティブ
+  not_sure: わからない
   pnl: 最終更新
+  positive: ポジティブ
+  short: 衰退のリスク
   trigger-price: シグナル発動時の価格
   under-calculation: 計算中
 coin-category:
@@ -220,14 +228,18 @@ coin_security:
   warning_other: "{{count}} 警告"
   warning_zero: 警告なし
 common:
+  all: 全て
   all_categories: すべてのカテゴリー
+  all_exchanges: すべての取引所
   all_labels: すべてのラベル
   all_networks: すべてのネットワーク
+  all_sources: すべてのソース
   apply_filters: フィルターを適用する
   categories: カテゴリー
   category: カテゴリ
   chain: 鎖
   chains: チェーン
+  exchange: 取引所
   filters: フィルター
   labels: ラベル
   load_more: さらに読み込む
@@ -238,6 +250,7 @@ common:
   reset_filters: フィルターをリセット
   search_coin: コインを検索...
   security_label: セキュリティラベル
+  source: ソース
   trend_label: トレンドラベル
 contract-address:
   multiple: 複数のアドレス
