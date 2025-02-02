@@ -29,6 +29,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
     label: ReactNode;
     disabled?: boolean;
     hidden?: boolean;
+    onClickCapture?: () => void;
   }>;
   value?: T;
   onChange?: (newValue: AC extends true ? T | undefined : T) => void;
@@ -43,7 +44,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
       buttonsRef.current?.scrollTo({
         left:
           buttonsRef.current.scrollLeft +
-          (buttonsRef.current.offsetWidth / 1.4) *
+          (buttonsRef.current.offsetWidth / 3) *
             (direction === 'left' ? -1 : 1),
         behavior: 'smooth',
       });
@@ -75,22 +76,25 @@ export function ButtonSelect<T, AC extends boolean = false>({
     const selectedEl = el.querySelector<HTMLButtonElement>(
       '[aria-checked="true"]',
     );
-    if (!selectedEl) return;
     el.scrollTo({
-      left: selectedEl.offsetLeft - el.offsetWidth / 2,
+      left: selectedEl ? selectedEl.offsetLeft - el.offsetWidth / 2 : 0,
       behavior: 'smooth',
     });
   }, [value]);
 
   const handleClick = useCallback(
-    (newValue: T) => () => {
-      onChange?.(
-        allowClear
-          ? value === newValue
-            ? (undefined as never)
-            : newValue
-          : newValue,
-      );
+    (option: (typeof options)[number]) => () => {
+      if (typeof option.onClickCapture === 'function') {
+        option.onClickCapture();
+      } else {
+        onChange?.(
+          allowClear
+            ? value === option.value
+              ? (undefined as never)
+              : option.value
+            : option.value,
+        );
+      }
     },
     [onChange, allowClear, value],
   );
@@ -115,19 +119,20 @@ export function ButtonSelect<T, AC extends boolean = false>({
           .filter(x => !x.hidden)
           .map((option, index) => (
             <button
-              onClick={handleClick(option.value)}
+              onClick={handleClick(option)}
               key={`${option.value?.toString() || ''}-${index}`}
               role="radio"
               aria-checked={value === option.value}
               disabled={option.disabled}
               className={clsx(
-                'relative h-full shrink-0 overflow-hidden rounded-lg px-3 text-sm',
+                'relative h-full shrink-0 overflow-hidden rounded-lg text-sm bg-v1-surface-l-next',
+                size === 'xl' ? ' px-3' : 'px-2',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'border border-transparent enabled:hover:bg-white/5 enabled:active:bg-white/10',
+                'border border-transparent enabled:hover:bg-v1-background-inverse/5 enabled:active:bg-v1-surface-l-next',
                 variant === 'primary'
                   ? 'enabled:aria-checked:bg-v1-background-brand'
-                  : 'enabled:aria-checked:bg-white/10',
+                  : 'enabled:aria-checked:bg-v1-background-inverse/15',
                 'focus-visible:border-v1-border-focus',
                 'aria-checked:text-v1-content-primary',
                 'disabled:opacity-40',

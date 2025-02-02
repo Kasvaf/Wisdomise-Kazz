@@ -36,10 +36,10 @@ export const NetworkSelect: FC<{
               <img
                 src={network.icon_url}
                 alt={network.name}
-                className="me-1 inline-block size-4 rounded-full bg-white align-middle"
+                className="me-2 inline-block size-4 rounded-full bg-white align-middle"
               />
             ) : (
-              <span className="me-1 inline-block size-4 rounded-full bg-white align-middle" />
+              <span className="me-2 inline-block size-4 rounded-full bg-white align-middle" />
             )}
             {network.name}
           </span>

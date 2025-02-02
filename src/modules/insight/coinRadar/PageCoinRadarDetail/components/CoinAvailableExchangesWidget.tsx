@@ -91,6 +91,9 @@ export function CoinAvailableExchangesWidget({
         dataSource={data}
         rowKey={row => row.exchange.id}
         tableLayout="fixed"
+        pagination={{
+          pageSize: 5,
+        }}
       />
     </OverviewWidget>
   );

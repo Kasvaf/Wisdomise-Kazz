@@ -57,7 +57,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
         width: 310,
         render: (_, row) =>
           row.social_radar_insight ? (
-            <SignalSentiment signal={row.social_radar_insight} hidePnl />
+            <SignalSentiment signal={row.social_radar_insight} />
           ) : (
             <EmptySentiment value="social_radar" />
           ),

@@ -99,18 +99,22 @@ export interface CoinSignal extends SocialRadarSentiment {
   signals_analysis: CoinSignalAnalysis;
   symbol_labels?: null | string[];
   networks?: null | CoinNetwork[];
+  exchanges_name?: null | string[];
+  sources?: null | string[];
 }
 
-export const useCoinSignals = (
-  filters?: {
-    windowHours: number;
-    sortBy?: string;
-    sortOrder?: 'ascending' | 'descending';
-    query?: string;
-    categories?: string[];
-    networks?: string[];
-  } & Partial<CoinLabels>,
-) =>
+export const useCoinSignals = (filters?: {
+  windowHours: number;
+  sortBy?: string;
+  sortOrder?: 'ascending' | 'descending';
+  query?: string;
+  categories?: string[];
+  networks?: string[];
+  exchanges?: string[];
+  sources?: string[];
+  securityLabels?: string[];
+  trendLabels?: string[];
+}) =>
   useQuery({
     queryKey: ['coins-social-signal', filters?.windowHours],
     queryFn: async () => {
@@ -156,14 +160,14 @@ export const useCoinSignals = (
           )
             return false;
 
-          const trendLabels = filters?.trend_labels ?? [];
+          const trendLabels = filters?.trendLabels ?? [];
           if (
             trendLabels.length > 0 &&
             !row.symbol_labels?.some(x => trendLabels.includes(x))
           )
             return false;
 
-          const securityLabels = filters?.security_labels ?? [];
+          const securityLabels = filters?.securityLabels ?? [];
           const rowSecurityLabels = [
             ...(row.symbol_security?.data?.every(x => !!x.label.trusted)
               ? ['trusted']
@@ -182,17 +186,29 @@ export const useCoinSignals = (
           )
             return false;
 
+          const exchanges = filters?.exchanges ?? [];
+          if (
+            exchanges.length > 0 &&
+            !row.exchanges_name?.some(x => exchanges.includes(x))
+          )
+            return false;
+
+          const sources = filters?.sources ?? [];
+          if (
+            sources.length > 0 &&
+            !row.sources?.some(x => sources.includes(x))
+          )
+            return false;
+
           return true;
         })
         .sort((a, b) => {
           const sortBy = filters?.sortBy;
           const sortOrder = filters?.sortOrder === 'descending' ? -1 : 1;
-          if (sortBy === 'call_time') {
+          if (sortBy === 'newest') {
             return (
-              (new Date(b.signals_analysis.call_time ?? Date.now()).getTime() -
-                new Date(
-                  a.signals_analysis.call_time ?? Date.now(),
-                ).getTime()) *
+              (new Date(b.last_signal_related_at ?? Date.now()).getTime() -
+                new Date(a.last_signal_related_at ?? Date.now()).getTime()) *
               sortOrder
             );
           }
@@ -698,4 +714,36 @@ export const useNetworks = (config?: {
           filter: config?.filter,
         },
       }),
+  });
+
+export const useExchanges = (config?: {
+  filter?: 'social-radar-24-hours' | 'technical-radar';
+}) =>
+  useQuery({
+    queryKey: ['exchanges', JSON.stringify(config)],
+    queryFn: () =>
+      ofetch<
+        Array<{
+          icon_url: string;
+          name: string;
+        }>
+      >('/delphi/market/exchanges/', {
+        query: {
+          filter: config?.filter,
+        },
+      }),
+  });
+
+export const useSocialRadarSources = () =>
+  useQuery({
+    queryKey: ['social-radar-sources'],
+    queryFn: () =>
+      ofetch<{
+        signal_sources?: null | Array<{
+          name: string;
+          value: string;
+        }>;
+      }>('/delphi/social-radar/signal-sources/').then(
+        resp => resp.signal_sources ?? [],
+      ),
   });

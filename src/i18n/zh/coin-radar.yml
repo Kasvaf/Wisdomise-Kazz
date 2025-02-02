@@ -5,15 +5,23 @@ available-exchanges:
     price: 價格
     volume_24h: 24小時交易量
 call-change:
+  analyzed-messages: 分析消息
   biggest-dump: 最大的垃圾场
   biggest-pump: 最大涨幅
   current-price: 当前价格
   fire-time: 信号发射时间
+  first-mention: 首次提及
   hunted-at-here: 在此狩猎
+  last-mention: 最后提及
   last-pnl-update: 上次盈亏更新
+  long: 潜在的增长机会
   max-price: 最大值：极高值
   min-price: 最小值：极低值
+  negative: 消極負面
+  not_sure: 没有把握
   pnl: 最后更新
+  positive: 積極正向
+  short: 衰退风险
   trigger-price: 信号发出时的价格
   under-calculation: 正在计算
 coin-category:
@@ -216,14 +224,18 @@ coin_security:
   warning_other: "{{count}} 警告"
   warning_zero: 无警告
 common:
+  all: 全部
   all_categories: 所有类别
+  all_exchanges: 所有交易所
   all_labels: 所有标签
   all_networks: 所有网络
+  all_sources: 所有来源
   apply_filters: 应用过滤器
   categories: 类别
   category: 类别
   chain: 链
   chains: 链条
+  exchange: 交易所
   filters: 筛选器
   labels: 标签
   load_more: 加载更多
@@ -234,6 +246,7 @@ common:
   reset_filters: 重置筛选条件
   search_coin: 搜索幣種...
   security_label: 安全标签
+  source: 来源
   trend_label: 潮流标签
 contract-address:
   multiple: 多个地址

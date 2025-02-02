@@ -115,7 +115,11 @@ function Option({
     >
       {children}
       {checkbox && (
-        <Checkbox size={size} value={selected} className="shrink-0" />
+        <Checkbox
+          size={size}
+          value={selected}
+          className="shrink-0 overflow-visible"
+        />
       )}
     </div>
   );
