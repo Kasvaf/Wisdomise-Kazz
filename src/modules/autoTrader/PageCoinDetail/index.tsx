@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useHasFlag } from 'api';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import { SocialRadarSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/SocialRadarSentimentWidget';
-import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
 import CoinChart from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinChart';
+import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
+import { SocialRadarSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/SocialRadarSentimentWidget';
 import Button from 'shared/Button';
 import BtnBack from '../layout/BtnBack';
 import PositionsList from '../PositionsList';
+import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import MiniCoinPriceWidget from './MiniCoinPriceWidget';
 
 export default function PageCoinDetail() {
@@ -15,6 +16,8 @@ export default function PageCoinDetail() {
   const navigate = useNavigate();
   const hasFlag = useHasFlag();
   // /trader-hot-coins/[slug]?chart
+
+  useEnsureIsSupportedPair({ slug, nextPage: '/trader-hot-coins' });
 
   return (
     <div className="flex flex-col gap-4">
@@ -29,7 +32,7 @@ export default function PageCoinDetail() {
           onChange={selectedSlug =>
             navigate(`/trader-hot-coins/${selectedSlug}`)
           }
-          selectFirst
+          mini={false}
         />
       </div>
 

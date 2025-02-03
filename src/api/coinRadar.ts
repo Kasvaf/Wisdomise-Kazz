@@ -658,9 +658,11 @@ export const useTrendingCoins = () =>
 export const useCoinList = ({
   q,
   networkName,
+  pageSize = 200,
 }: {
   q?: string;
   networkName?: string;
+  pageSize?: number;
 }) =>
   useQuery({
     queryKey: ['coin-list', q, networkName],
@@ -670,7 +672,7 @@ export const useCoinList = ({
         query: {
           q: q || undefined,
           is_trading: isMiniApp ? true : undefined,
-          page_size: 200,
+          page_size: pageSize,
         },
       }),
   });
