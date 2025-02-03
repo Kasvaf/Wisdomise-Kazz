@@ -27,7 +27,7 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
         network,
         options: {
           relayUrl: 'wss://relay.walletconnect.com',
-          projectId: 'e899c82be21d4acca2c8aec45e893598',
+          projectId: '5e4e2382e0dc5e93ebe35ff869d05c4d',
           metadata: {
             name: 'Wisdomise AutoTrader',
             description:
