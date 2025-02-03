@@ -72,8 +72,8 @@ export const useSolanaAccountBalance = (
       }
     },
     {
-      enabled: Boolean(quote && connection && publicKey),
       refetchInterval: 10_000,
+      staleTime: 500,
     },
   );
 };
