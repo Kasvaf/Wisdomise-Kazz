@@ -658,9 +658,11 @@ export const useTrendingCoins = () =>
 export const useCoinList = ({
   q,
   networkName,
+  pageSize = 200,
 }: {
   q?: string;
   networkName?: string;
+  pageSize?: number;
 }) =>
   useQuery({
     queryKey: ['coin-list', q, networkName],
@@ -669,9 +671,8 @@ export const useCoinList = ({
       ofetch<Coin[]>('delphi/symbol/search/', {
         query: {
           q: q || undefined,
-          network_name: networkName ?? (isMiniApp ? 'ton' : undefined),
-          exchange_name: isMiniApp ? 'STONFI' : undefined,
-          page_size: 200,
+          is_trading: isMiniApp ? true : undefined,
+          page_size: pageSize,
         },
       }),
   });
