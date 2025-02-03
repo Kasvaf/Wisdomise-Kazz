@@ -46,6 +46,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
       }),
       [t],
     ),
+    { closable: false },
   );
 
   const [spType] = useStartParams();
@@ -55,8 +56,12 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
     void (async function () {
       if (spType === 'login') {
         // open mini-app, by web-user
-        if ((await doWebLogin({})) === 'exists' && (await confirm())) {
-          await doWebLogin({ confirm: true });
+        if ((await doWebLogin({})) === 'exists') {
+          if (await confirm()) {
+            await doWebLogin({ confirm: true });
+          } else {
+            webApp.close();
+          }
         }
       } else {
         // login to web by telegram (asks for connection)

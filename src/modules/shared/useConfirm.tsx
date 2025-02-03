@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { useCallback, type ReactElement } from 'react';
 import { bxInfoCircle } from 'boxicons-quasar';
+import { type ModalProps } from 'antd';
 import useModal from './useModal';
 import Button from './Button';
 import Icon from './Icon';
@@ -73,8 +74,9 @@ const ConfirmModal: React.FC<Props> = ({
 
 function useConfirm(
   p: Omit<Props, 'onResolve'>,
+  config?: ModalProps,
 ): [JSX.Element, (po?: Partial<Props>) => Promise<boolean>] {
-  const [Component, update] = useModal(ConfirmModal);
+  const [Component, update] = useModal(ConfirmModal, config);
   return [
     Component,
     useCallback(
