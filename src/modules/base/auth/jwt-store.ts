@@ -15,7 +15,7 @@ const callHandlers = () => {
   }, 0);
 };
 
-const useJwtToken = () => {
+export const useJwtToken = () => {
   const [jwt, setJwt] = useState(localStorage.getItem(JWT_TOKEN_KEY));
   useEffect(() => {
     const handler = () => setJwt(localStorage.getItem(JWT_TOKEN_KEY));
