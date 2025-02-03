@@ -9,6 +9,11 @@ import {
 } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
+import { TrustWalletAdapter } from '@solana/wallet-adapter-trust';
+import { CoinbaseWalletAdapter } from '@solana/wallet-adapter-coinbase';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
+import { BitgetWalletAdapter } from '@solana/wallet-adapter-bitkeep';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import WalletEvents from './WalletEvents';
@@ -23,6 +28,11 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const network = WalletAdapterNetwork.Mainnet;
   const wallets = useMemo(
     () => [
+      new SolflareWalletAdapter({ network }),
+      new PhantomWalletAdapter({ network }),
+      new TrustWalletAdapter({ network }),
+      new CoinbaseWalletAdapter({ network }),
+      new BitgetWalletAdapter({ network }),
       new WalletConnectWalletAdapter({
         network,
         options: {
