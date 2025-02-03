@@ -1,27 +1,33 @@
 import { TonConnectButton } from '@tonconnect/ui-react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
+import Button from 'shared/Button';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 const BtnSolanaWalletConnect = () => {
+  const { setVisible } = useWalletModal();
   const solanaWallet = useWallet();
   const addr = solanaWallet.publicKey?.toString() || '';
+
   return (
-    <WalletMultiButton
-      style={{
-        borderRadius: 20,
-        height: 40,
-        fontSize: 14,
-        ...(solanaWallet.connected
-          ? { background: '#121214', paddingLeft: 16 }
-          : { background: '#00a3ff' }),
-      }}
+    <Button
+      variant={solanaWallet.connected ? 'alternative' : 'brand'}
+      className="h-10 rounded-[20px] !px-5 !py-0"
+      onClick={() => setVisible(true)}
     >
-      {solanaWallet.connected
-        ? addr.substring(0, 4) + '...' + addr.substr(-4)
-        : 'Connect Wallet'}
-    </WalletMultiButton>
+      {solanaWallet.connected ? (
+        <>
+          <img
+            src={solanaWallet.wallet?.adapter.icon}
+            className="mr-2 size-6"
+          />
+          {addr.substring(0, 4) + '...' + addr.substr(-4)}
+        </>
+      ) : (
+        'Connect Wallet'
+      )}
+    </Button>
   );
 };
 
