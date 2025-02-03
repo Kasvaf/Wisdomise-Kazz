@@ -32,7 +32,7 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
             name: 'Wisdomise AutoTrader',
             description:
               'Track whales, spot moonshots, and auto-trade like a true degen — all in a few clicks. 🚀👀',
-            url: 'https://wisdomise.com',
+            url: 'https://app.wisdomise.com',
             icons: ['http://wisdomise.com/icon.svg'],
           },
         },
