@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
@@ -69,6 +70,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
     noTitle: t('common:actions.no'),
   });
 
+  const [isFiring, setIsFiring] = useState(false);
   const [ModalApproval, showModalApproval] = useModalApproval();
   const transferAssetsHandler = useTransferAssetsMutation(quote);
   const fireHandler = async () => {
@@ -106,6 +108,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
       const res = await mutateAsync(createData);
 
       try {
+        setIsFiring(true);
         await transferAssetsHandler({
           recipientAddress: res.deposit_address,
           gasFee: res.gas_fee,
@@ -125,6 +128,8 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           network,
           positionKey: res.position_key,
         });
+      } finally {
+        setIsFiring(false);
       }
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
@@ -201,7 +206,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
       remainingVolume === 0 &&
       remainingTpVolume >= 0 &&
       remainingSlVolume >= 0,
-    isSubmitting: isSubmitting || isUpdating,
+    isSubmitting: isSubmitting || isUpdating || isFiring,
     fireHandler,
     updateHandler,
     closeHandler,

@@ -175,14 +175,15 @@ export const useSolanaTransferAssetsMutation = (
       transaction.feePayer = publicKey;
 
       // Sign and send transaction
-      const signature = await sendTransaction(transaction, connection);
+      // const signature =
+      await sendTransaction(transaction, connection);
 
       // Wait for confirmation
-      await connection.confirmTransaction({
-        signature,
-        blockhash: latestBlockhash.blockhash,
-        lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
-      });
+      // await connection.confirmTransaction({
+      //   signature,
+      //   blockhash: latestBlockhash.blockhash,
+      //   lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      // });
 
       await queryClient.invalidateQueries(['sol-balance']);
     } catch (error) {
