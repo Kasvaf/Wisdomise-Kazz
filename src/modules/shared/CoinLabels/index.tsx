@@ -100,7 +100,7 @@ export function CoinLabel({
       info: label?.info,
       className:
         label?.color ??
-        clsx('bg-v1-content-tertiary/10 text-v1-content-tertiary'),
+        clsx('bg-v1-background-secondary-hover/10 text-v1-content-primary/80'),
     };
   }, [t, value, type]);
 

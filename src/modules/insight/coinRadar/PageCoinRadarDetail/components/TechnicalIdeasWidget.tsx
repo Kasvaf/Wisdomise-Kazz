@@ -22,13 +22,7 @@ export function TechnicalIdeasWidget({
   const isMobile = useIsMobile();
   const [limit, setLimit] = useState(3);
 
-  const chartUrl = coinOverview.data?.charts_id?.gecko_terminal_chart_id
-    ? `https://www.geckoterminal.com/${coinOverview.data.charts_id.gecko_terminal_chart_id}`
-    : coinOverview.data?.charts_id?.trading_view_chart_id
-    ? `https://www.tradingview.com/chart/?symbol=${encodeURIComponent(
-        coinOverview.data?.charts_id.trading_view_chart_id,
-      )}`
-    : null;
+  const chartUrl = coinOverview.data?.charts?.[0].url ?? null;
 
   const tradingViewMessages = useMemo(() => {
     return (messages.data ?? [])

@@ -111,9 +111,7 @@ const ProfileMenuContent = () => {
           <WithChevron>
             <div className="text-right">
               <div className="capitalize text-[#34A3DA]">
-                {subscription.status === 'trialing' || subscription.level === 0
-                  ? t('pro:trial')
-                  : subscription.levelName}
+                {subscription.group.replace('_', ' ')}
               </div>
               <div>
                 <span

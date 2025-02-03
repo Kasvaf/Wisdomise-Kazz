@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { getJwtToken, useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { getJwtToken } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
+import { useAccountQuery } from './account';
 
 const getIsLoggedIn = () => getJwtToken();
 
@@ -32,55 +33,64 @@ const removeItem = (key: string) =>
       })
     : Promise.resolve(localStorage.removeItem(`storage:${key}`));
 
-export function useUserStorage(key: string, defaultValue?: string) {
+export function useUserStorage(key: string) {
+  const { data: account } = useAccountQuery();
+  const userEmail = account?.info?.email ?? '';
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [value, setValue] = useState(defaultValue || null);
-  const isLoggedIn = useIsLoggedIn();
+  const [value, setValue] = useState<null | string>(null);
+  const [owner, setOwner] = useState<null | string>(null);
+
+  useEffect(() => {
+    setOwner(null);
+  }, [userEmail]);
 
   useEffect(() => {
     const controller = new AbortController();
-    setIsLoading(true);
-    setIsError(false);
-    setValue(defaultValue ?? null);
-    void getItem(key, controller.signal)
-      .then(newValue => {
-        setValue(newValue);
-        setIsError(false);
-        return newValue;
-      })
-      .catch(error => {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          setIsError(true);
-        }
-      })
-      .finally(() => setIsLoading(false));
+    if (userEmail) {
+      setIsLoading(true);
+      setValue(null);
+      void getItem(key, controller.signal)
+        .then(newValue => {
+          setValue(newValue);
+          setOwner(userEmail);
+          return newValue;
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
+      setValue(null);
+      setOwner(null);
+    }
     return () => {
-      controller.abort();
+      try {
+        controller.abort();
+      } catch {}
     };
-  }, [isLoggedIn, key, defaultValue]);
+  }, [userEmail, key]);
 
   const save = async (newValue: string) => {
-    setValue(newValue);
     setIsLoading(true);
     try {
       await setItem(key, newValue);
+      setValue(newValue);
     } catch {}
     setIsLoading(false);
   };
 
   const remove = async () => {
-    setValue(null);
     setIsLoading(true);
     try {
       await removeItem(key);
+      setValue(null);
     } catch {}
     setIsLoading(false);
   };
 
   return {
+    isTrusted: owner === userEmail && !isLoading,
     isLoading,
-    isError,
     value,
     save,
     remove,

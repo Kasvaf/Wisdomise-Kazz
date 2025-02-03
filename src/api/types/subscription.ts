@@ -34,19 +34,12 @@ export interface SubscriptionPlan {
   stripe_payment_link?: string;
   wsdm_payment_link?: string;
   crypto_payment_link?: string;
-  metadata: SubscriptionPlanMetadata;
+  metadata?: null | SubscriptionPlanMetadata;
   wsdm_token_hold: number;
   level: number;
   token_hold_support?: boolean;
 }
 
 interface SubscriptionPlanMetadata {
-  activate_fp: boolean;
-  strategy_create: boolean;
-  view_signal_matrix: boolean;
-  strategy_use_cockpit: boolean;
-  strategy_run_backtest: boolean;
-  athena_questions_count: number;
-  enable_signal_notifications: boolean;
-  weekly_custom_notifications_count: number;
+  most_popular?: boolean;
 }

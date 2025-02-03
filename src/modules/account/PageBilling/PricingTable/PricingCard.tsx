@@ -7,9 +7,12 @@ import useModal from 'shared/useModal';
 import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods/Token';
 import { useLockingRequirementQuery } from 'api/defi';
 import { gtmClass } from 'utils/gtmClass';
+import { Button } from 'shared/v1-components/Button';
+import { useEmbedView } from 'modules/embedded/useEmbedView';
+import { APP_PANEL } from 'config/constants';
+import cardBg from '../images/card-bg.png';
 import SubscriptionMethodModalContent from './SubscriptionMethodModalContent';
 import { PlanHeader } from './PlanHeader';
-import { PlanPrice } from './PlanPrice';
 import { PlanFeatures } from './PlanFeatures';
 
 interface Props {
@@ -39,6 +42,7 @@ export default function PricingCard({
     { fullscreen: true, destroyOnClose: true },
   );
   const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
+  const { isEmbeddedView } = useEmbedView();
 
   const hasUserThisPlan =
     status === 'active' && !isRenew && plan.key === userPlan?.key;
@@ -56,6 +60,10 @@ export default function PricingCard({
       plan.periodicity === 'MONTHLY');
 
   const onClick = async () => {
+    if (isEmbeddedView && top) {
+      top.window.location.href = `${APP_PANEL}/account/billing`;
+      return;
+    }
     if (level === 0 || status === 'trialing') {
       if (isTokenUtility) {
         void openTokenPaymentModal({ plan });
@@ -87,93 +95,102 @@ export default function PricingCard({
     <div className="group flex min-w-[330px] max-w-[380px] shrink grow basis-0 flex-col mobile:w-full mobile:max-w-full">
       <div
         className={clsx(
-          'relative flex grow flex-col gap-6 p-6',
-          'rounded-2xl border border-white/10 bg-[#28323E33]',
+          'relative grow p-px',
+          'overflow-hidden rounded-2xl',
+          plan.metadata?.most_popular === true
+            ? 'bg-wsdm-gradient'
+            : 'bg-v1-border-tertiary',
           className,
         )}
       >
-        {/* Title */}
-        <PlanHeader
-          className="min-h-28"
-          name={plan.name}
-          description={plan.description}
-        />
-
-        {/* Price Info */}
-        <PlanPrice price={plan.price} periodicity={plan.periodicity} />
-
-        {/* Button */}
-        <div
-          className={clsx(
-            // user has higher level plan
-            plan.level === 0 && (userPlan?.level || 0) > 0 && 'invisible',
-            userPlan?.level === 0 &&
-              plan.periodicity === 'MONTHLY' &&
-              plan.level === 0 &&
-              'invisible',
+        <div className="relative flex h-full flex-col gap-6 rounded-2xl bg-v1-surface-l3 p-6">
+          {plan.metadata?.most_popular === true && (
+            <>
+              <img
+                src={cardBg}
+                className="absolute h-auto w-full object-cover opacity-60"
+              />
+              <div className="absolute -top-32 left-1/2 h-1/2 w-64 -translate-x-1/2 bg-wsdm-gradient opacity-50 blur-3xl" />
+            </>
           )}
-        >
-          <button
-            onClick={onClick}
-            disabled={isActionButtonDisabled}
+          {/* Title */}
+          <PlanHeader
+            className="relative h-auto min-h-28 shrink-0"
+            plan={plan}
+          />
+
+          {/* Button */}
+          <div
             className={clsx(
-              'w-full cursor-pointer rounded-xl text-sm font-semibold',
-              'flex h-12 items-center justify-center',
-              'disabled:cursor-default disabled:bg-v1-content-primary disabled:text-v1-content-primary-inverse',
-              'enabled:cursor-pointer enabled:bg-pro-gradient enabled:text-v1-content-primary-inverse',
-              'transition-all enabled:hover:brightness-110 enabled:active:brightness-95',
-              gtmClass(`buy-now ${plan.periodicity} ${plan.name}`),
+              'relative',
+              // user has higher level plan
+              plan.level === 0 && (userPlan?.level || 0) > 0 && 'invisible',
+              userPlan?.level === 0 &&
+                plan.periodicity === 'MONTHLY' &&
+                plan.level === 0 &&
+                'invisible',
             )}
           >
-            {plan.is_active
-              ? hasUserThisPlan || hasUserThisPlanAsNextPlan
-                ? hasUserThisPlan
-                  ? t('pricing-card.btn-action.current-plan')
-                  : t('pricing-card.btn-action.next-plan')
-                : isUpdate
-                ? t('pricing-card.btn-action.choose')
-                : isRenew
-                ? t('pricing-card.btn-action.choose')
-                : isTokenUtility
-                ? t('pricing-card.btn-action.activate-now')
-                : t('pricing-card.btn-action.upgrade-to', {
-                    plan: plan.name,
-                  })
-              : t('pricing-card.btn-action.current-plan')}
-          </button>
-        </div>
-
-        {/* Features */}
-        <PlanFeatures features={plan.features} className="grow" />
-
-        {plan.token_hold_support ? (
-          <div className="mt-6 flex justify-center rounded-lg bg-white/5 py-3 text-xxs text-white/70">
-            <p
+            <Button
+              onClick={onClick}
+              disabled={isActionButtonDisabled}
+              variant="pro"
+              block
               className={clsx(
-                'text-xxs text-white/70',
-                '[&_b]:bg-wsdm-gradient',
-                '[&_b]:rounded [&_b]:px-2 [&_b]:py-px [&_b]:font-semibold [&_b]:text-white',
+                'w-full font-semibold',
+                gtmClass(`buy-now ${plan.periodicity} ${plan.name}`),
               )}
             >
+              {plan.is_active
+                ? hasUserThisPlan || hasUserThisPlanAsNextPlan
+                  ? hasUserThisPlan
+                    ? t('pricing-card.btn-action.current-plan')
+                    : t('pricing-card.btn-action.next-plan')
+                  : isUpdate
+                  ? t('pricing-card.btn-action.choose')
+                  : isRenew
+                  ? t('pricing-card.btn-action.choose')
+                  : isTokenUtility
+                  ? t('pricing-card.btn-action.activate-now')
+                  : t('pricing-card.btn-action.upgrade-to', {
+                      plan: plan.name,
+                    })
+                : t('pricing-card.btn-action.current-plan')}
+            </Button>
+          </div>
+
+          {/* Features */}
+          <PlanFeatures features={plan.features} className="relative grow" />
+
+          {plan.token_hold_support ? (
+            <div className="relative mt-6 flex justify-center rounded-lg bg-white/5 py-3 text-xxs text-white/70">
+              <p
+                className={clsx(
+                  'text-xxs text-white/70',
+                  '[&_b]:bg-wsdm-gradient',
+                  '[&_b]:rounded [&_b]:px-2 [&_b]:py-px [&_b]:font-semibold [&_b]:text-white',
+                )}
+              >
+                <Trans
+                  ns="billing"
+                  i18nKey="pricing-card.pay-by-locking"
+                  values={{
+                    token:
+                      lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
+                      '0',
+                  }}
+                />
+              </p>
+            </div>
+          ) : (
+            <div className="hidden">
               <Trans
                 ns="billing"
-                i18nKey="pricing-card.pay-by-locking"
-                values={{
-                  token:
-                    lockingRequirement?.requirement_locking_amount?.toLocaleString() ??
-                    '0',
-                }}
+                i18nKey="pricing-card.pay-by-locking-in-yearly-only"
               />
-            </p>
-          </div>
-        ) : (
-          <div className="hidden">
-            <Trans
-              ns="billing"
-              i18nKey="pricing-card.pay-by-locking-in-yearly-only"
-            />
-          </div>
-        )}
+            </div>
+          )}
+        </div>
 
         {model}
         {tokenPaymentModal}

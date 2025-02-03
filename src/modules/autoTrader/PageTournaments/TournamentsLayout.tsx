@@ -6,14 +6,11 @@ import onboardingBg from './images/onboarding-bg.png';
 import { ReactComponent as IconStar } from './images/star.svg';
 
 export default function TournamentsLayout() {
-  const { value, save, isLoading } = useUserStorage(
-    'tournament-onboarding',
-    'false',
-  );
+  const { value, save, isLoading } = useUserStorage('tournament-onboarding');
 
   return (
     <PageWrapper loading={isLoading}>
-      {value === 'false' ? (
+      {value === null ? (
         <div className="">
           <img
             src={onboardingBg}

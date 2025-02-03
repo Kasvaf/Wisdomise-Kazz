@@ -57,7 +57,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
     activePosition,
   });
 
-  const userStorage = useUserStorage('auto-trader-waitlist', 'false');
+  const userStorage = useUserStorage('auto-trader-waitlist');
 
   const joinWaitList = async () => {
     void userStorage.save('true').then(() => {

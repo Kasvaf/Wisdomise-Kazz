@@ -19,13 +19,12 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { DebugPin } from 'shared/DebugPin';
 import { CoinPriceInfo } from '../CoinPriceInfo';
-import { SortModes } from '../SortModes';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinSearchInput } from '../CoinSearchInput';
 import { CoinMarketCap } from '../CoinMarketCap/index';
 import CoinRadarAlerButton from '../CoinRadarAlertButton';
-import { data as tags, Tags } from '../Tags';
-import { AdvanceFilteringButtons } from '../AdvanceFilteringButtons';
+import { type SocialRadarTableParams } from '../types';
+import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
 import SocialRadarIcon from './social-radar.png';
 import { ReactComponent as Realtime } from './realtime.svg';
@@ -35,33 +34,23 @@ export function HotCoinsWidget({ className }: { className?: string }) {
   const { isEmbeddedView } = useEmbedView();
   const hasFlag = useHasFlag();
   const { t } = useTranslation('coin-radar');
-  const [tableProps, tableState, setTableState] = useTableState('', {
-    page: 1,
-    pageSize: 10,
-    sortBy: 'rank',
-    sortOrder: 'ascending',
-    query: '',
-    categories: [] as string[],
-    networks: [] as string[],
-    trendLabels: [] as string[],
-    securityLabels: [] as string[],
-    tag: '',
-  });
+  const [tableProps, tableState, setTableState] =
+    useTableState<SocialRadarTableParams>('', {
+      page: 1,
+      pageSize: 10,
+      sortBy: 'rank',
+      sortOrder: 'ascending',
+      query: '',
+      categories: [] as string[],
+      networks: [] as string[],
+      trendLabels: [] as string[],
+      securityLabels: [] as string[],
+      exchanges: [] as string[],
+      sources: [] as string[],
+      windowHours: 24,
+    });
 
-  const selectedTag = tags.find(x => x.slug === tableState.tag);
-
-  const coins = useCoinSignals({
-    windowHours: 24,
-    networks: selectedTag ? selectedTag.networks ?? [] : tableState.networks,
-    categories: selectedTag
-      ? selectedTag.categories ?? []
-      : tableState.categories,
-    security_labels: tableState.securityLabels ?? [],
-    trend_labels: tableState.trendLabels ?? [],
-    query: tableState.query,
-    sortBy: tableState.sortBy,
-    sortOrder: tableState.sortOrder,
-  });
+  const coins = useCoinSignals(tableState);
 
   const columns = useMemo<Array<ColumnType<CoinSignal>>>(
     () => [
@@ -98,7 +87,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row) => <SignalSentiment signal={row} hidePnl />,
+        render: (_, row) => <SignalSentiment signal={row} />,
       },
       {
         title: [
@@ -214,59 +203,15 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             <CoinSearchInput
               value={tableState.query}
               onChange={query => setTableState({ query })}
-              className="w-64 mobile:max-w-max mobile:grow"
+              className="w-64 mobile:grow"
             />
             {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
           </div>
-          <div className="col-span-3 flex w-full grow basis-full flex-nowrap gap-4 mobile:flex-wrap">
-            <Tags
-              value={
-                tableState.categories.length > 0 ||
-                tableState.networks.length > 0
-                  ? 'custom'
-                  : tableState.tag ?? ''
-              }
-              onChange={tag =>
-                setTableState({
-                  tag: tag ?? '',
-                  ...(tag && {
-                    categories: [],
-                    networks: [],
-                  }),
-                })
-              }
-              className="!max-w-[490px] mobile:w-full mobile:max-w-full"
-            />
-            <SortModes
-              sortBy={tableState.sortBy}
-              sortOrder={tableState.sortOrder}
-              onChange={(sortBy, sortOrder) =>
-                setTableState({ sortBy, sortOrder: sortOrder as never })
-              }
-              className="mobile:w-full"
-            />
-            <AdvanceFilteringButtons
-              onReset={() => setTableState(undefined)}
-              onChange={newState => setTableState({ ...newState, tag: '' })}
-              categories={
-                tableState.categories.length > 0
-                  ? tableState.categories
-                  : selectedTag?.categories?.length
-                  ? selectedTag.categories
-                  : []
-              }
-              networks={
-                tableState.networks.length > 0
-                  ? tableState.networks
-                  : selectedTag?.networks?.length
-                  ? selectedTag.networks
-                  : []
-              }
-              trendLabels={tableState.trendLabels}
-              securityLabels={tableState.securityLabels}
-              className="shrink-0 grow justify-between"
-            />
-          </div>
+          <SocialRadarFilters
+            value={tableState}
+            onChange={newState => setTableState(newState)}
+            className="w-full"
+          />
         </>
       }
     >
@@ -274,10 +219,11 @@ export function HotCoinsWidget({ className }: { className?: string }) {
         mode="table"
         sizes={{
           'guest': true,
-          'trial': 3,
           'free': true,
+          'trial': 3,
           'pro': false,
           'pro+': false,
+          'pro_max': false,
         }}
       >
         <Table

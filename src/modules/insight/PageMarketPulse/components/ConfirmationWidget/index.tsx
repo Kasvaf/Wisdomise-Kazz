@@ -223,10 +223,11 @@ export function ConfirmationWidget<I extends Indicator>({
         mode="children"
         sizes={{
           'guest': true,
-          'trial': 2,
           'free': true,
-          'pro': false,
+          'trial': 2,
+          'pro': 2,
           'pro+': false,
+          'pro_max': false,
         }}
         className="space-y-4"
       >

@@ -1,24 +1,65 @@
-import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { bxsBadgeCheck } from 'boxicons-quasar';
+import { type SubscriptionPlan } from 'api/types/subscription';
+import Icon from 'shared/Icon';
 import freeSrc from './free.png';
 import proSrc from './pro.png';
 
 export function PlanHeader({
   className,
-  name,
-  description,
+  plan,
 }: {
-  className?: string; // min-h-28
-  name: string;
-  description: string;
+  className?: string;
+  plan: SubscriptionPlan;
 }) {
-  const logo = name.toLowerCase().includes('free') ? freeSrc : proSrc;
+  const { t } = useTranslation('billing');
+  const logo = plan.name.toLowerCase().includes('free') ? freeSrc : proSrc;
 
   return (
-    <div className={clsx('flex items-center gap-3', className)}>
-      <img className="col-span-1 row-span-2 size-14 shrink-0" src={logo} />
-      <div className="flex flex-col gap-1">
-        <h2 className="text-xl font-semibold capitalize text-white">{name}</h2>
-        <p className="text-xs leading-normal text-white/70">{description}</p>
+    <div className={className}>
+      <div className="mb-4 flex items-center gap-4">
+        <img className="col-span-1 row-span-2 size-14 shrink-0" src={logo} />
+        <h2 className="text-xl font-semibold capitalize text-white">
+          {plan.name}
+        </h2>
+      </div>
+      <div className="mb-4 flex gap-px text-2xl">
+        <span className="text-white/50">$</span>
+        <span className="font-semibold">
+          {(plan.periodicity === 'MONTHLY'
+            ? plan.price
+            : plan.price / 12
+          ).toFixed(2)}
+        </span>
+        <span>/</span>
+        <div className="grow text-white/70">
+          {plan.price === 0
+            ? t('pricing-card.forever')
+            : t('pricing-card.monthly')}
+        </div>
+        {plan.metadata?.most_popular === true && (
+          <div className="flex shrink-0 items-center justify-center rounded-full bg-wsdm-gradient px-3 py-2 text-xs">
+            {t('pricing-card.most_popular')}
+          </div>
+        )}
+      </div>
+
+      <div className="rounded-lg bg-white/5 p-4">
+        <h3 className="mb-2 text-xs text-v1-content-primary">
+          {t('pricing-card.key_benefits')}:
+        </h3>
+        <div className="space-y-4 text-xs leading-normal text-v1-content-primary">
+          {plan.description
+            .trim()
+            .split('\n')
+            .filter(x => !!x)
+            .map((feat, i) => (
+              <div key={`${feat}${i}`} className="flex items-center gap-2">
+                <Icon name={bxsBadgeCheck} size={24} className="shrink-0" />
+                <p>{feat}</p>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

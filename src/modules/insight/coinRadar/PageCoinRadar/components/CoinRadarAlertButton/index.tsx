@@ -72,6 +72,7 @@ export default function CoinRadarAlerButton({
         loading={alerts.isLoading}
         className={clsx('shrink-0', gtmClass('set-alert'), className)}
         disabled={alertActions.isSaving}
+        size="md"
       >
         <DebugPin
           title={[

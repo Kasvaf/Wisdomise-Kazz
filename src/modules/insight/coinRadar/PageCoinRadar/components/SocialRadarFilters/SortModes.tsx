@@ -59,12 +59,12 @@ export function SortModes({
           label: (
             <Label
               label={t('social-radar.sorts.call_time')}
-              value="call_time"
+              value="newest"
               sortBy={sortBy}
               sortOrder={sortOrder}
             />
           ),
-          value: 'call_time',
+          value: 'newest',
         },
         {
           label: (
