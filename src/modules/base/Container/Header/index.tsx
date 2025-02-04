@@ -39,14 +39,9 @@ const Header: React.FC<
               onShowSiblings={onShowSiblings}
             />
             <div className="grow" />
+            {RouterBaseName && pathname !== '/menu' && <BranchSelector />}
             <LanguageSelector />
-            {RouterBaseName ? (
-              <BranchSelector />
-            ) : pathname === '/menu' ? (
-              <BtnLiveSupport />
-            ) : (
-              <ProfileMenu />
-            )}
+            {pathname === '/menu' ? <BtnLiveSupport /> : <ProfileMenu />}
           </>
         ) : (
           <>

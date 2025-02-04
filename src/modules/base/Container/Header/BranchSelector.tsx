@@ -33,7 +33,7 @@ const BranchSelector = () => {
       render={(opt, target) => {
         return (
           <div className={clsx(target === 'value' && 'mobile:hidden')}>
-            {opt ?? 'main'}
+            {(opt ?? '/main').slice(1)}
           </div>
         );
       }}
