@@ -46,7 +46,7 @@ export default function TelegramAuthGuard({ children }: PropsWithChildren) {
       }),
       [t],
     ),
-    { closable: false },
+    { closable: false, maskClosable: false },
   );
 
   const [spType] = useStartParams();
