@@ -18,9 +18,9 @@ import { formatNumber } from 'utils/numbers';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { DebugPin } from 'shared/DebugPin';
+import { CoinSearchInput } from 'shared/CoinSearchInput';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
-import { CoinSearchInput } from '../CoinSearchInput';
 import { CoinMarketCap } from '../CoinMarketCap/index';
 import CoinRadarAlerButton from '../CoinRadarAlertButton';
 import { type SocialRadarTableParams } from '../types';
@@ -204,6 +204,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
               value={tableState.query}
               onChange={query => setTableState({ query })}
               className="w-64 mobile:grow"
+              size="md"
             />
             {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
           </div>

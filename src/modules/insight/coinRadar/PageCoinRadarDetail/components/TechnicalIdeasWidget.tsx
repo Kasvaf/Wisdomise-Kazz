@@ -67,19 +67,16 @@ export function TechnicalIdeasWidget({
       }
     >
       {chartUrl && (
-        <div className="h-[580px] overflow-hidden rounded-xl bg-v1-surface-l3 p-2 mobile:h-[400px]">
+        <div className="h-[596px] overflow-hidden rounded-xl p-2 bg-v1-surface-l-next mobile:h-[408px]">
           <CoinChart slug={slug} height={isMobile ? 400 : 580} />
         </div>
       )}
 
       {tradingViewMessages.length > 0 && (
-        <div className="space-y-4 overflow-x-auto rounded-xl bg-v1-surface-l3 p-6 mobile:bg-transparent mobile:p-0">
+        <div className="space-y-4 overflow-x-auto rounded-xl bg-transparent p-6 mobile:p-0">
           {tradingViewMessages.slice(0, limit).map((msg, idx, self) => (
             <Fragment key={msg.id}>
-              <SocialMessageSummary
-                message={msg}
-                className="bg-v1-surface-l3 mobile:bg-v1-surface-l2"
-              />
+              <SocialMessageSummary message={msg} className="!bg-transparent" />
               {(idx < self.length - 1 ||
                 limit < tradingViewMessages.length) && (
                 <div className="h-px bg-v1-border-tertiary" />

@@ -25,7 +25,7 @@ export function SocialMessageSummary({
       {message.social_type === 'trading_view' ? (
         <div
           className={clsx(
-            'flex w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l2 mobile:items-start',
+            'flex w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l-next mobile:items-start',
             'flex-row mobile:flex-col',
             className,
           )}
@@ -62,11 +62,11 @@ export function SocialMessageSummary({
         <div
           className={clsx(
             'flex w-full max-w-full flex-col items-center justify-between mobile:items-start',
-            'overflow-hidden rounded-lg bg-v1-surface-l3',
+            'overflow-hidden rounded-lg bg-v1-surface-l2',
             className,
           )}
         >
-          <div className="flex h-11 w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l4 p-3">
+          <div className="flex h-11 w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l3 p-3">
             <div className="flex grow items-center gap-2 overflow-hidden">
               <SocialLogo
                 className="size-6 shrink-0"
