@@ -316,7 +316,7 @@ module.exports = {
         },
         'v1': {
           ...semanticColors,
-          ...semanticLegacyColors,
+          // ...semanticLegacyColors,
         },
       },
       backgroundImage: {
