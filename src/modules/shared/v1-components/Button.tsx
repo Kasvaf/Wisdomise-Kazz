@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { type ReactNode, type FC, type MouseEventHandler } from 'react';
+import { type Surface, useSurface } from 'utils/useSurface';
 
 export const Button: FC<{
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -19,6 +20,7 @@ export const Button: FC<{
   children?: ReactNode;
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  surface?: Surface;
 }> = ({
   size = 'xl',
   variant = 'primary',
@@ -28,9 +30,15 @@ export const Button: FC<{
   loading,
   block,
   onClick,
+  surface = 2,
 }) => {
+  const colors = useSurface(surface);
   return (
     <button
+      style={{
+        ['--ghost-color' as never]: colors.next,
+        ['--ghost-hover-color' as never]: colors.later,
+      }}
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
         size === '2xs' && 'h-2xs rounded px-3 text-xs',
@@ -46,13 +54,9 @@ export const Button: FC<{
         variant === 'secondary' &&
           'border-v1-background-secondary bg-v1-background-secondary text-v1-content-primary enabled:hover:bg-v1-background-secondary-hover enabled:active:bg-v1-background-secondary-pressed',
         variant === 'outline' &&
-          'border-white/5 bg-transparent text-v1-content-primary enabled:hover:border-white/50 enabled:active:border-white/100',
-        ...(variant === 'ghost'
-          ? [
-              'border-transparent text-v1-content-primary enabled:hover:bg-white/5 enabled:active:bg-white/10',
-              'bg-v1-surface-l-next',
-            ]
-          : []),
+          'border-white/5 bg-[--ghost-color] text-v1-content-primary enabled:hover:border-white/50 enabled:active:border-white/100',
+        variant === 'ghost' &&
+          'border-transparent bg-[--ghost-color] text-v1-content-primary enabled:hover:bg-[--ghost-hover-color] enabled:active:bg-[--ghost-color]',
         variant === 'pro' &&
           'border-transparent bg-pro-gradient text-v1-content-primary-inverse enabled:hover:brightness-[1.15] enabled:active:brightness-125',
         variant === 'wsdm' &&
@@ -69,7 +73,7 @@ export const Button: FC<{
         'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
         /* Shared */
         'outline-none enabled:focus-visible:border-v1-border-focus',
-        'relative select-none border font-normal transition-all [&_svg]:size-5',
+        'relative select-none border font-normal transition-all [&_svg]:size-5 [&_svg]:shrink-0',
         block ? 'flex' : 'inline-flex',
         'items-center justify-center gap-1',
         className,

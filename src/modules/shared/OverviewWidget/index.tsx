@@ -6,6 +6,7 @@ import Icon from 'shared/Icon';
 import BetaVersion from 'shared/BetaVersion';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
+import { type Surface, useSurface } from 'utils/useSurface';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 import { ReactComponent as ProIcon } from './pro.svg';
 import { ReactComponent as RefreshIcon } from './refresh.svg';
@@ -17,7 +18,7 @@ interface EmptyConfig {
   refreshButton?: boolean;
 }
 
-const paddingClassName = clsx('p-5 2xl:p-6');
+const paddingClassName = clsx('p-5 mobile:p-3 2xl:p-6');
 const gapClassName = clsx('gap-5 2xl:gap-6');
 
 export function OverviewWidget({
@@ -38,6 +39,7 @@ export function OverviewWidget({
   onRefresh,
   refreshing,
   empty,
+  surface = 1,
 }: {
   id?: string;
   title?: ReactNode;
@@ -56,7 +58,9 @@ export function OverviewWidget({
   onRefresh?: () => void;
   refreshing?: boolean;
   empty?: boolean | EmptyConfig;
+  surface?: Surface;
 }) {
+  const colors = useSurface(surface);
   const { t } = useTranslation('common');
   const infoIcon = info && (
     <HoverTooltip title={info}>
@@ -86,8 +90,11 @@ export function OverviewWidget({
   );
   return (
     <article
+      style={{
+        ['--widget-color' as never]: colors.next,
+      }}
       className={clsx(
-        'relative flex flex-col overflow-hidden rounded-2xl bg-v1-surface-l2',
+        'relative flex flex-col overflow-hidden rounded-2xl bg-[--widget-color]',
         gapClassName,
         paddingClassName,
         className,
@@ -164,7 +171,12 @@ export function OverviewWidget({
               )}
             </div>
             {emptyConfig.refreshButton && (
-              <Button size="md" onClick={onRefresh} variant="ghost">
+              <Button
+                size="md"
+                onClick={onRefresh}
+                variant="ghost"
+                surface={surface}
+              >
                 <RefreshIcon className={clsx(refreshing && 'animate-spin')} />{' '}
                 {t('actions.refresh')}
               </Button>

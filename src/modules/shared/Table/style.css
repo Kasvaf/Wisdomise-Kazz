@@ -3,7 +3,7 @@
 
   /* base */
   .ant-table {
-    @apply bg-transparent;
+    @apply overflow-hidden rounded-lg bg-[--table-current-color];
   }
 
   /* header */
@@ -12,7 +12,7 @@
       @apply whitespace-nowrap text-[0.9em] font-normal text-v1-content-secondary;
 
       &.ant-table-column-has-sorters:hover {
-        @apply !bg-v1-surface-l2;
+        @apply !bg-[--table-zebra-color];
       }
     }
 
@@ -46,18 +46,18 @@
   .ant-table-thead .ant-table-cell,
   .ant-table-tbody .ant-table-row:nth-child(odd) .ant-table-cell,
   .ant-table-tbody .ant-table-row:nth-child(odd):hover .ant-table-cell {
-    @apply border-b-0 bg-v1-surface-l3;
+    @apply border-b-0 bg-[--table-zebra-color];
   }
 
   /* odd rows */
   .ant-table-row:nth-child(even) .ant-table-cell,
   .ant-table-row:nth-child(even):hover .ant-table-cell {
-    @apply border-b-0 bg-v1-surface-l2;
+    @apply border-b-0 bg-[--table-current-color];
   }
 
   /* all rows */
   .ant-table-tbody .ant-table-row .ant-table-cell {
-    @apply h-16 py-3 align-middle;
+    @apply h-16 py-3 align-middle mobile:h-3 mobile:py-2;
 
     > * {
       @apply align-middle;
@@ -67,7 +67,7 @@
   /* all td, ths */
   .ant-table-thead .ant-table-cell,
   .ant-table-tbody .ant-table-row .ant-table-cell {
-    @apply px-4 mobile:px-3;
+    @apply px-4 py-4 mobile:px-2 mobile:py-3;
   }
 
   /* radius */
@@ -111,7 +111,7 @@
       @apply flex grow justify-end;
 
       .ant-select {
-        @apply rounded-lg bg-v1-surface-l4;
+        @apply rounded-lg bg-[--table-zebra-color];
 
         .ant-select-selector {
           @apply !bg-transparent !px-4 !py-1;
@@ -124,7 +124,7 @@
     }
 
     .ant-pagination-item-active {
-      @apply border-none bg-v1-surface-l4 font-normal;
+      @apply border-none bg-[--table-zebra-color] font-normal;
       a {
         @apply text-v1-content-primary;
       }

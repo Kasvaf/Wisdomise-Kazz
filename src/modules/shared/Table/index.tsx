@@ -4,9 +4,11 @@ import { bxInfoCircle } from 'boxicons-quasar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Icon from 'shared/Icon';
+import { type Surface, useSurface } from 'utils/useSurface';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import expandSrc from './expand.svg';
 import './style.css';
+
 interface TablePagination {
   page: number;
   total?: number;
@@ -177,13 +179,21 @@ export const useTableState = <
 export default function Table<RecordType extends object>({
   pagination,
   columns,
+  surface = 2,
   ...props
-}: TableProps<RecordType>) {
+}: TableProps<RecordType> & {
+  surface?: Surface;
+}) {
+  const colors = useSurface(surface);
   return (
     <AntTable<RecordType>
       bordered={false}
       showSorterTooltip={false}
       {...props}
+      style={{
+        ['--table-zebra-color' as never]: colors.next,
+        ['--table-current-color' as never]: colors.current,
+      }}
       columns={columns
         ?.filter(col => col.colSpan !== 0)
         .map(col => ({
