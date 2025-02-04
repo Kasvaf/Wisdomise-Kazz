@@ -11,7 +11,7 @@ import second from 'modules/autoTrader/PageTournaments/images/2nd.svg';
 import third from 'modules/autoTrader/PageTournaments/images/3rd.svg';
 import snow from 'modules/autoTrader/PageTournaments/images/snow.svg';
 import live from 'modules/autoTrader/PageTournaments/images/live.svg';
-import { type Tournament, type TournamentStatus } from 'api/tournament';
+import { type Tournament, type GamificationStatus } from 'api/tournament';
 import { Coin } from 'shared/Coin';
 import { useSymbolInfo } from 'api/symbol';
 import { DrawerModal } from 'shared/DrawerModal';
@@ -89,7 +89,7 @@ export default function TournamentCard({
             </h1>
           </div>
           <div className="ms-auto">
-            <TournamentStatusBadge statusValue={tournament.status} />
+            <StatusBadge statusValue={tournament.status} />
           </div>
         </div>
         <div className="my-3 whitespace-pre-line">
@@ -222,7 +222,7 @@ export function uuidToNumber(uuid: string) {
 }
 
 const TOURNAMENT_STATUS: Array<{
-  value: TournamentStatus;
+  value: GamificationStatus;
   name: string;
   className: string;
 }> = [
@@ -241,12 +241,17 @@ const TOURNAMENT_STATUS: Array<{
     name: 'Finished',
     className: 'bg-v1-background-notice/10 text-v1-content-notice',
   },
+  {
+    value: 'active',
+    name: 'Active',
+    className: 'bg-v1-background-positive/10 text-v1-content-positive',
+  },
 ];
 
-function TournamentStatusBadge({
+export function StatusBadge({
   statusValue,
 }: {
-  statusValue: TournamentStatus;
+  statusValue: GamificationStatus;
 }) {
   const status = TOURNAMENT_STATUS.find(s => s.value === statusValue);
 
