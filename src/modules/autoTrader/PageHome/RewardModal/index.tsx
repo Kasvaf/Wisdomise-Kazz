@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'shared/Button';
 import { DrawerModal } from 'shared/DrawerModal';
 import { useGamificationProfile } from 'api/gamification';
@@ -14,9 +14,13 @@ export default function RewardModal({
   onClose: () => void;
 }) {
   const { data } = useGamificationProfile();
-  const [lastRewardAmount] = useState(
-    data?.profile.customAttributes.boxRewardAmount,
-  );
+  const [lastRewardAmount, setLastRewardAmount] = useState<string>();
+
+  useEffect(() => {
+    if (data?.profile.customAttributes.boxRewardAmount) {
+      setLastRewardAmount(data.profile.customAttributes.boxRewardAmount);
+    }
+  }, [data]);
 
   return (
     <DrawerModal

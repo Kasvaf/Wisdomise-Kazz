@@ -17,8 +17,13 @@ import { ReactComponent as Lock } from './lock.svg';
 export default function DailyTradeQuest() {
   const [open, setOpen] = useState(false);
   const [openReward, setOpenReward] = useState(false);
-  const { activeDay, currentDay, completedAll, rewardClaimed } =
-    useGamification();
+  const {
+    activeDay,
+    currentDay,
+    completedAll,
+    rewardClaimed,
+    setRewardClaimed,
+  } = useGamification();
   const { mutateAsync } = useGamificationAction();
   const navigate = useNavigate();
 
@@ -36,6 +41,7 @@ export default function DailyTradeQuest() {
     void mutateAsync({ event_name: 'claim' }).then(() => {
       setOpen(false);
       setOpenReward(true);
+      setRewardClaimed(true);
       return null;
     });
   };
