@@ -117,6 +117,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
           pageSize: 99,
           hideOnSinglePage: true,
         }}
+        surface={2}
         tableLayout="fixed"
         className={className}
       />
