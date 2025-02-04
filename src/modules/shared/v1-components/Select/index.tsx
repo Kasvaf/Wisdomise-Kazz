@@ -415,6 +415,7 @@ export function Select<V, M extends boolean = false>({
           'select-none border border-transparent font-normal outline-none transition-all focus:border-v1-border-focus [&_svg]:size-5',
           block ? 'flex' : 'inline-flex',
           'items-center justify-between gap-1 overflow-hidden',
+          !disabled && 'cursor-pointer',
           className,
         )}
         style={{
