@@ -1,12 +1,6 @@
-import { clsx } from 'clsx';
-import { Dropdown } from 'antd';
-import { type PropsWithChildren, useState } from 'react';
+import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxChevronDown } from 'boxicons-quasar';
-import DropdownContainer from 'shared/DropdownContainer';
-import useIsMobile from 'utils/useIsMobile';
-import Icon from 'shared/Icon';
-import DropButton from '../DropButton';
+import { Select } from 'shared/v1-components/Select';
 import { ReactComponent as LangIcon } from './lang-icon.svg';
 
 const langs = [
@@ -15,9 +9,8 @@ const langs = [
   { value: 'zh', label: '中国人' },
 ];
 
-const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
+const LanguageSelector: FC = () => {
   const { i18n } = useTranslation();
-  const isMobile = useIsMobile();
   // const [cookies, setCookie] = useCookies(['i18next']);
 
   const [loading, setLoading] = useState(false);
@@ -34,60 +27,31 @@ const LanguageSelector: React.FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (cookies.i18next) {
-  //     void changeLang(cookies.i18next);
-  //   }
-  // }, [changeLang, cookies.i18next]);
-
-  const [open, setOpen] = useState(false);
-  const dropDownFn = () => (
-    <DropdownContainer className="w-[146px] gap-1 !p-1" setOpen={setOpen}>
-      {langs.map(lng => (
-        <div
-          key={lng.value}
-          className={clsx(
-            'flex cursor-pointer justify-between rounded-lg p-3 hover:bg-white/[.02]',
-            lng.value === i18n.language && '!bg-black/30',
-          )}
-          onClick={() => changeLang(lng.value)}
-        >
-          <div>{lng.value.toUpperCase()}</div>
-          <div>{lng.label}</div>
-        </div>
-      ))}
-    </DropdownContainer>
-  );
-
   return (
-    <Dropdown
-      open={open}
-      trigger={['click']}
-      onOpenChange={setOpen}
-      placement="bottomRight"
-      dropdownRender={dropDownFn}
-    >
-      {children || (
-        <DropButton
-          className={clsx('mr-3', open && 'active')}
-          loading={loading}
-        >
-          <div className="flex items-center">
-            {!isMobile && (
-              <LangIcon className="mr-3 w-9 border-r border-r-white/10 pr-3 text-white" />
-            )}
-            <div>{i18n.language.toUpperCase()}</div>
-            {isMobile && (
-              <Icon
-                name={bxChevronDown}
-                size={20}
-                className="ml-1 text-white/30"
-              />
+    <Select
+      className="text-white"
+      options={langs.map(x => x.value)}
+      value={i18n.language}
+      loading={loading}
+      onChange={x => changeLang(x ?? langs[0].value)}
+      prefixIcon={<LangIcon />}
+      chevron={false}
+      surface={1}
+      render={(val, target) => {
+        const lng = langs.find(x => x.value === val) ?? langs[0];
+        return (
+          <div>
+            <div className="text-base">{lng.value.toUpperCase()}</div>
+            {target === 'option' && (
+              <div className="-mt-1 text-xxs text-v1-content-primary/80">
+                {lng.label}
+              </div>
             )}
           </div>
-        </DropButton>
-      )}
-    </Dropdown>
+        );
+      }}
+      allowClear={false}
+    />
   );
 };
 

@@ -2,9 +2,8 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
-import { RouterBaseName } from 'config/constants';
 import useIsMobile from 'utils/useIsMobile';
-import { isDebugMode } from 'utils/version';
+import { RouterBaseName } from 'config/constants';
 import BranchSelector from './BranchSelector';
 import BtnLiveSupport from './BtnLiveSupport';
 import LanguageSelector from './LanguageSelector';
@@ -24,14 +23,13 @@ const Header: React.FC<
   return (
     <div
       className={clsx(
-        'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-page',
-        isDebugMode && 'border-t border-t-v1-background-negative',
+        'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-v1-surface-l1',
         className,
       )}
     >
       <div
         className={clsx(
-          'flex h-20 items-center p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
+          'flex h-20 items-center gap-3 p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
         )}
       >
         {isMobile ? (

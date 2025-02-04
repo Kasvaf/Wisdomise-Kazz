@@ -1,32 +1,42 @@
-import { Select } from 'antd';
 import { useQuery } from '@tanstack/react-query';
-import { bxChevronDown } from 'boxicons-quasar';
+import { bxGitBranch } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { RouterBaseName } from 'config/constants';
-import Icon from 'shared/Icon';
 import { ofetch } from 'config/ofetch';
+import Icon from 'shared/Icon';
+import { Select } from 'shared/v1-components/Select';
 
-const gotoBranch = (value: string) => {
+const gotoBranch = (value = 'main') => {
   window.location.href = value + window.location.hash;
 };
 
 const BranchSelector = () => {
   const branches = useQuery(['branched'], async () => {
     const data = await ofetch<string>(window.location.origin + '/branches.txt');
-    return data
-      .split(/\s+/)
-      .filter(Boolean)
-      .map(value => ({ value, label: value.substring(1) }));
+    return data.split(/\s+/).filter(Boolean);
   });
 
   return (
     <Select
-      style={{ width: 100 }}
-      defaultValue={RouterBaseName}
+      className="text-v1-content-primary mobile:w-xl"
+      chevron={false}
+      size="xl"
+      tooltipPlacement="bottomRight"
+      value={RouterBaseName}
       loading={branches.isLoading}
       onChange={gotoBranch}
+      allowClear={false}
+      block
+      surface={1}
       options={branches.data}
-      className="mr-2 text-white"
-      suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
+      prefixIcon={<Icon name={bxGitBranch} />}
+      render={(opt, target) => {
+        return (
+          <div className={clsx(target === 'value' && 'mobile:hidden')}>
+            {opt ?? 'main'}
+          </div>
+        );
+      }}
     />
   );
 };

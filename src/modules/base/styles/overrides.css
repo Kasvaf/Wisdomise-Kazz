@@ -28,7 +28,7 @@
 */
 
 .ant-modal-mask {
-  @apply backdrop-blur-sm;
+  @apply !bg-v1-surface-l6/20 backdrop-blur-sm;
 }
 
 .ant-modal-body {
@@ -38,7 +38,7 @@
 }
 
 .ant-modal-content {
-  @apply overflow-hidden !bg-page;
+  @apply overflow-hidden !bg-v1-surface-l2;
   border-radius: 10px !important;
   .anticon-close {
     color: white;

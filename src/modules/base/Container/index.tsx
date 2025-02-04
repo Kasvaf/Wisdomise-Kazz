@@ -26,7 +26,7 @@ const Container = () => {
       <AuthGuard>
         <GeneralMeta />
         <main
-          className="relative mx-auto max-w-[2304px] bg-page"
+          className="relative mx-auto max-w-[2304px] bg-v1-surface-l1"
           style={{
             ['--side-menu-width' as any]: `${sideMenuCollapsed ? 74 : 260}px`,
           }}
@@ -43,7 +43,7 @@ const Container = () => {
             ref={mainRef}
             id="scrolling-element"
             className={clsx(
-              'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto mobile:p-4',
+              'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto mobile:p-3',
             )}
           >
             <div style={{ height }} />
