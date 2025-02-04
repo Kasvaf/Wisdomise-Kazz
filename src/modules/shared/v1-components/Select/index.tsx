@@ -485,12 +485,7 @@ export function Select<V, M extends boolean = false>({
       >
         {popupContent}
         <div className="p-4">
-          <Button
-            variant="ghost"
-            block
-            className="w-full"
-            surface={(surface + 2) as Surface}
-          >
+          <Button variant="ghost" block className="w-full" surface={4}>
             {'Close'}
           </Button>
         </div>
