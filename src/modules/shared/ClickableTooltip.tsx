@@ -41,7 +41,7 @@ export function ClickableTooltip({
     className,
   );
   const titleClassName = clsx(
-    'max-h-[340px] overflow-auto text-sm text-v1-content-primary mobile:max-h-[50svh]',
+    'max-h-[50svh] overflow-auto text-sm text-v1-content-primary',
   );
   const titleRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(titleRef, () => {
@@ -89,7 +89,7 @@ export function ClickableTooltip({
             placement={drawerPlacement}
             open={isOpen}
             onClose={() => setIsOpen(false)}
-            className="rounded-t-2xl !bg-v1-surface-l4 !p-6 [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-header]:hidden"
+            className="rounded-t-2xl !bg-v1-surface-l4 !p-6 mobile:!p-4 [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-header]:hidden"
             closeIcon={null}
             destroyOnClose
             height="auto"
