@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
+import { useRef } from 'react';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { delJwtToken, setJwtToken } from 'modules/base/auth/jwt-store';
 import { gtag } from 'config/gtag';
@@ -18,9 +19,10 @@ interface CreationStatusResponse {
 
 const useSignupAdditionalTasks = () => {
   const userStorage = useUserStorage('signup-url');
+  const signupUrl = useRef(location.pathname + location.search);
   return () => {
     gtag('event', 'sign_up');
-    return userStorage.save(location.pathname + location.search);
+    return userStorage.save(signupUrl.current);
   };
 };
 
