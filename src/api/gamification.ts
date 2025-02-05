@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { PageResponse } from 'api/types/page';
 import { INVESTMENT_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
+import { isProduction } from 'utils/version';
 
 export interface Friend {
   telegram_id: number;
@@ -155,7 +156,7 @@ export const useGamificationProfile = () =>
         { method: 'get' },
       );
     },
-    { refetchInterval: 10 * 1000 },
+    { refetchInterval: 30 * 1000 },
   );
 
 export interface GamificationActionBody {
@@ -172,6 +173,9 @@ export const useGamificationAction = () =>
     return data;
   });
 
+const AFTER_TRADE_PERIOD = (isProduction ? 24 * 60 : 1) * 60 * 1000;
+const STREAK_END_PERIOD = (isProduction ? 24 * 60 : 15) * 60 * 1000;
+
 export const useGamification = () => {
   const { data } = useGamificationProfile();
   const [rewardClaimed, setRewardClaimed] = useState(false);
@@ -187,8 +191,7 @@ export const useGamification = () => {
     +(
       data?.profile.customAttributes
         .sevenDaysTradingStreakMissionLastTaskCompletedAt ?? 0
-    ) +
-    5 * 60 * 1000;
+    ) + AFTER_TRADE_PERIOD;
 
   useEffect(() => {
     setRewardClaimed(
@@ -204,6 +207,6 @@ export const useGamification = () => {
     setRewardClaimed,
     completedToday: currentDay === activeDay,
     nextDayStartTimestamp,
-    nextDayEndTimestamp: nextDayStartTimestamp + 15 * 60 * 1000,
+    nextDayEndTimestamp: nextDayStartTimestamp + STREAK_END_PERIOD,
   };
 };
