@@ -67,7 +67,7 @@
   /* all td, ths */
   .ant-table-thead .ant-table-cell,
   .ant-table-tbody .ant-table-row .ant-table-cell {
-    @apply px-4 py-4 mobile:px-2 mobile:py-3;
+    @apply px-4 py-3 mobile:px-1 mobile:py-2;
   }
 
   /* radius */

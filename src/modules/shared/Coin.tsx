@@ -64,7 +64,7 @@ export function Coin({
     popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug;
   const renderText = noText !== true;
   const truncateSize =
-    typeof truncate === 'number' ? truncate : isMobile ? 80 : 110;
+    typeof truncate === 'number' ? truncate : isMobile ? 70 : 110;
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2 pe-2',
     !mini && 'p-1',
