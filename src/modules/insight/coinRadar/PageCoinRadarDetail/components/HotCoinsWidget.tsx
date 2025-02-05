@@ -12,7 +12,6 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
   const { t } = useTranslation('coin-radar');
-  const signals = useCoinSignals();
   const coins = useCoinSignals({
     windowHours: 24,
   });
@@ -67,15 +66,15 @@ export function HotCoinsWidget({ id }: { slug?: string; id?: string }) {
     <OverviewWidget
       contentClassName="flex flex-col gap-4"
       title={t('coin-details.tabs.hot_coins.title')}
-      loading={signals.isInitialLoading}
+      loading={coins.isInitialLoading}
       empty={{
-        enabled: signals.data?.length === 0,
+        enabled: coins.data?.length === 0,
         refreshButton: true,
         title: t('coin-details.tabs.hot_coins.empty.title'),
         subtitle: t('coin-details.tabs.hot_coins.empty.subtitle'),
       }}
-      onRefresh={signals.refetch}
-      refreshing={signals.isRefetching}
+      onRefresh={coins.refetch}
+      refreshing={coins.isRefetching}
       id={id}
     >
       <div className="mb-2">

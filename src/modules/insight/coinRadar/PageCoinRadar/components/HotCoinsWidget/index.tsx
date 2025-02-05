@@ -12,18 +12,17 @@ import {
   useHasFlag,
   useMarketInfoFromSignals,
 } from 'api';
-import { SignalSentiment } from 'modules/insight/coinRadar/PageCoinRadar/components/SignalSentiment';
 import { AccessShield } from 'shared/AccessShield';
 import { formatNumber } from 'utils/numbers';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { DebugPin } from 'shared/DebugPin';
 import { CoinSearchInput } from 'shared/CoinSearchInput';
+import { SignalSentiment } from '../SignalSentiment';
 import { CoinPriceInfo } from '../CoinPriceInfo';
 import { CoinWhalesDetails } from '../CoinWhalesDetails';
 import { CoinMarketCap } from '../CoinMarketCap/index';
 import CoinRadarAlerButton from '../CoinRadarAlertButton';
-import { type SocialRadarTableParams } from '../types';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
 import SocialRadarIcon from './social-radar.png';
@@ -34,21 +33,22 @@ export function HotCoinsWidget({ className }: { className?: string }) {
   const { isEmbeddedView } = useEmbedView();
   const hasFlag = useHasFlag();
   const { t } = useTranslation('coin-radar');
-  const [tableProps, tableState, setTableState] =
-    useTableState<SocialRadarTableParams>('', {
-      page: 1,
-      pageSize: 10,
-      sortBy: 'rank',
-      sortOrder: 'ascending',
-      query: '',
-      categories: [] as string[],
-      networks: [] as string[],
-      trendLabels: [] as string[],
-      securityLabels: [] as string[],
-      exchanges: [] as string[],
-      sources: [] as string[],
-      windowHours: 24,
-    });
+  const [tableProps, tableState, setTableState] = useTableState<
+    Required<Parameters<typeof useCoinSignals>[0]>
+  >('', {
+    page: 1,
+    pageSize: 10,
+    sortBy: 'rank',
+    sortOrder: 'ascending',
+    query: '',
+    categories: [] as string[],
+    networks: [] as string[],
+    trendLabels: [] as string[],
+    securityLabels: [] as string[],
+    exchanges: [] as string[],
+    sources: [] as string[],
+    windowHours: 24,
+  });
 
   const coins = useCoinSignals(tableState);
 

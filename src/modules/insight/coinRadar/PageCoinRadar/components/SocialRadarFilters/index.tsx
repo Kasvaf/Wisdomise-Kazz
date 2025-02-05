@@ -10,7 +10,7 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { ExchangeSelect } from 'shared/ExchangeSelect';
-import { type SocialRadarTableParams } from '../types';
+import { type useCoinSignals } from 'api';
 import { presetFilters } from './presetFilters';
 import { SortModes } from './SortModes';
 import { SocialRadarSourceSelect } from './SocialRadarSourceSelect';
@@ -25,8 +25,8 @@ export function SocialRadarFilters({
 }: {
   className?: string;
   onReset?: () => void;
-  value: SocialRadarTableParams;
-  onChange?: (v?: Partial<SocialRadarTableParams>) => void;
+  value: Required<Parameters<typeof useCoinSignals>[0]>;
+  onChange?: (v?: Partial<Parameters<typeof useCoinSignals>[0]>) => void;
 }) {
   const { t } = useTranslation('coin-radar');
   const [open, setOpen] = useState(false);
