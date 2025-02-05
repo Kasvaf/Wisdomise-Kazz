@@ -71,7 +71,7 @@ export function ClickableTooltip({
           name={bxChevronDown}
           className={clsx(
             'text-inherit opacity-70 transition-all group-hover:opacity-100',
-            isOpen && '!opacity-100',
+            isOpen && 'rotate-180 !opacity-100',
           )}
           size={16}
         />

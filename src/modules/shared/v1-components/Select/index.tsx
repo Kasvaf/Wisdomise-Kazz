@@ -446,7 +446,7 @@ export function Select<V, M extends boolean = false>({
             name={bxChevronDown}
             className={clsx(
               'justify-self-end text-inherit opacity-70 transition-all group-hover:opacity-100',
-              isOpen && '!opacity-100',
+              isOpen && 'rotate-180 !opacity-100',
             )}
             size={16}
           />
