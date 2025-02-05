@@ -9,6 +9,7 @@ import {
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import BtnBack from '../layout/BtnBack';
+import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
 
@@ -16,6 +17,8 @@ export default function PageTrade() {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
+
+  useEnsureIsSupportedPair({ slug, nextPage: '/trader-hot-coins' });
 
   const [positionKey] = useSearchParamAsState('pos');
   const position = useTraderPositionQuery(positionKey);
@@ -45,7 +48,7 @@ export default function PageTrade() {
               search: 'quote=' + formState.quote[0],
             })
           }
-          selectFirst
+          mini={false}
         />
       </div>
 

@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 
-export type TournamentStatus = 'live' | 'upcoming' | 'finished';
+export type GamificationStatus = 'live' | 'upcoming' | 'finished' | 'active';
 
 export interface Tournament {
   key: string;
-  status: TournamentStatus;
+  status: GamificationStatus;
   icon: string;
   name: string;
   description: string;
@@ -33,7 +33,7 @@ export interface TournamentParticipant {
   rank: number;
 }
 
-export function useTournaments(status?: TournamentStatus) {
+export function useTournaments(status?: GamificationStatus) {
   return useQuery(['tournaments', status], async () => {
     const params = new URLSearchParams();
     if (status) {

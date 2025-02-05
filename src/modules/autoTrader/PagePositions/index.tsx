@@ -3,6 +3,7 @@ import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
 import PositionsList from '../PositionsList';
+import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 
 const PagePositions = () => {
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
@@ -10,6 +11,8 @@ const PagePositions = () => {
     'active',
   );
   const [slug, setSlug] = useSearchParamAsState('slug');
+
+  useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
 
   return (
     <div>
@@ -32,7 +35,7 @@ const PagePositions = () => {
         priceExchange="STONFI"
         onChange={setSlug}
         emptyOption="All Coins & Tokens"
-        selectFirst
+        mini={false}
       />
 
       <PositionsList slug={slug} isOpen={filter === 'active'} />

@@ -1,5 +1,5 @@
 import { Select, type SelectProps } from 'antd';
-import { useEffect, useMemo, useState, type FC } from 'react';
+import { useMemo, useState, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useDebounce } from 'usehooks-ts';
 import { bxChevronDown } from 'boxicons-quasar';
@@ -17,7 +17,7 @@ export const CoinSelect: FC<
     filterTokens?: (item: string) => boolean;
     priceExchange?: 'BINANCE' | 'STONFI';
     emptyOption?: string;
-    selectFirst?: boolean;
+    mini?: boolean;
   }
 > = ({
   value,
@@ -27,7 +27,7 @@ export const CoinSelect: FC<
   filterTokens,
   priceExchange,
   emptyOption,
-  selectFirst,
+  mini = true,
   ...props
 }) => {
   const [query, setQuery] = useState('');
@@ -64,24 +64,14 @@ export const CoinSelect: FC<
       ...coins
         .filter(x => (filterTokens ? filterTokens(x.slug ?? '') : true))
         .map(c => ({
-          label: <Coin coin={c} nonLink mini className="!p-0 align-middle" />,
+          label: (
+            <Coin coin={c} nonLink mini={mini} className="!p-0 align-middle" />
+          ),
           value: c.slug,
         })),
     ],
-    [coins, emptyOption, filterTokens],
+    [coins, emptyOption, filterTokens, mini],
   );
-
-  useEffect(() => {
-    if (!selectFirst) return;
-    const firstOption = allOptions?.[0]?.value;
-    if (
-      firstOption &&
-      !coinList.isLoading &&
-      !allOptions.some(x => x.value === value)
-    ) {
-      props.onChange?.(firstOption, []);
-    }
-  }, [allOptions, coinList.isLoading, props, selectFirst, value]);
 
   return (
     <Select
