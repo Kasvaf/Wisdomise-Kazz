@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import type { PageResponse } from 'api/types/page';
 import { INVESTMENT_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
@@ -173,6 +174,7 @@ export const useGamificationAction = () =>
 
 export const useGamification = () => {
   const { data } = useGamificationProfile();
+  const [rewardClaimed, setRewardClaimed] = useState(false);
 
   const activeDay = +(
     data?.profile.customAttributes.sevenDaysTradingStreakMissionActiveTask ?? 0
@@ -188,11 +190,18 @@ export const useGamification = () => {
     ) +
     5 * 60 * 1000;
 
+  useEffect(() => {
+    setRewardClaimed(
+      +(data?.profile.customAttributes.boxRewardAmount ?? 0) === 0,
+    );
+  }, [data]);
+
   return {
     activeDay,
     currentDay,
     completedAll: activeDay === 6 && currentDay === 6,
-    rewardClaimed: +(data?.profile.customAttributes.boxRewardAmount ?? 0) === 0,
+    rewardClaimed,
+    setRewardClaimed,
     completedToday: currentDay === activeDay,
     nextDayStartTimestamp,
     nextDayEndTimestamp: nextDayStartTimestamp + 15 * 60 * 1000,

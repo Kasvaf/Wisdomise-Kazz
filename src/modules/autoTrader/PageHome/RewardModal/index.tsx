@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'shared/Button';
 import { DrawerModal } from 'shared/DrawerModal';
 import { useGamificationProfile } from 'api/gamification';
@@ -14,9 +14,13 @@ export default function RewardModal({
   onClose: () => void;
 }) {
   const { data } = useGamificationProfile();
-  const [lastRewardAmount] = useState(
-    data?.profile.customAttributes.boxRewardAmount,
-  );
+  const [lastRewardAmount, setLastRewardAmount] = useState<string>();
+
+  useEffect(() => {
+    if (data?.profile.customAttributes.boxRewardAmount) {
+      setLastRewardAmount(data.profile.customAttributes.boxRewardAmount);
+    }
+  }, [data]);
 
   return (
     <DrawerModal
@@ -38,9 +42,7 @@ export default function RewardModal({
             You Have Won!
           </h1>
           <img src={usdt} alt="usdt" className="my-5 h-28 w-auto" />
-          <div className="text-4xl font-bold">
-            {lastRewardAmount} {data?.profile.customAttributes.boxRewardType}
-          </div>
+          <div className="text-4xl font-bold">{lastRewardAmount} USDT</div>
           <p className="mt-auto text-v1-content-secondary">
             To withdraw your token, please go to your profile page and follow
             the withdrawal instructions from there.
