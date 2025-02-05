@@ -316,7 +316,7 @@ module.exports = {
         },
         'v1': {
           ...semanticColors,
-          // ...semanticLegacyColors,
+          ...(!!process.env.VITE_IS_MINIAPP ? semanticLegacyColors : {}),
         },
       },
       backgroundImage: {
