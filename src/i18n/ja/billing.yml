@@ -5,6 +5,9 @@ change-pay-method:
   title: 支払い方法の変更
   token: Wisdomise Token (WSDM)
   wsdm: $WSDM支払い
+common:
+  remains: 残されたもの
+  subscription: サブスクリプション設定
 crypto-modal:
   btn-confirm: 確認
   btn-done: 完了

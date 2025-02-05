@@ -11,8 +11,8 @@ import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
-import { PriceAlertButton } from '../PriceAlertButton';
-import { CoinSelect } from './CoinSelect';
+import { CoinSelect } from 'shared/CoinSelect';
+import { PriceAlertButton } from './PriceAlertButton';
 
 export function CoinPriceWidget({
   className,
@@ -35,14 +35,18 @@ export function CoinPriceWidget({
       <div className="flex flex-nowrap items-center gap-2">
         <CoinSelect
           value={slug}
-          className="w-full text-base"
-          onChange={newSlug => navigate(`/coin/${newSlug}`)}
+          block
+          className="w-full"
+          size="xl"
+          allowClear={false}
+          onChange={newSlug => navigate(`/coin/${newSlug ?? 'bitcoin'}`)}
         />
         <HoverTooltip title={t('common:share-page-url')}>
           <Button
             onClick={() => share(location.href)}
             variant="ghost"
-            className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-black/20 transition-all hover:brightness-110 active:brightness-90"
+            size="xl"
+            className="w-xl shrink-0"
           >
             <Icon size={21} name={bxShareAlt} />
           </Button>

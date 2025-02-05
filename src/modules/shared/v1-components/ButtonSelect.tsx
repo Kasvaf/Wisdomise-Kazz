@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import Icon from 'shared/Icon';
+import { type Surface, useSurface } from 'utils/useSurface';
 
 export function ButtonSelect<T, AC extends boolean = false>({
   size = 'xl',
@@ -18,6 +19,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
   allowClear,
   value,
   onChange,
+  surface = 2,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
   variant?: 'default' | 'primary';
@@ -33,8 +35,10 @@ export function ButtonSelect<T, AC extends boolean = false>({
   }>;
   value?: T;
   onChange?: (newValue: AC extends true ? T | undefined : T) => void;
+  surface?: Surface;
 }) {
   const buttonsRef = useRef<HTMLDivElement>(null);
+  const colors = useSurface(surface);
   const [hasOverflow, setHasOverflow] = useState<[boolean, boolean]>([
     false,
     false,
@@ -101,7 +105,6 @@ export function ButtonSelect<T, AC extends boolean = false>({
   return (
     <div
       className={clsx(
-        'bg-v1-surface-l-next',
         'relative max-w-full overflow-hidden',
         /* Size: height, padding, font-size, border-radius */
         size === 'xs' && 'h-xs rounded-md text-xs',
@@ -110,6 +113,11 @@ export function ButtonSelect<T, AC extends boolean = false>({
         size === 'xl' && 'h-xl rounded-xl text-sm',
         className,
       )}
+      style={{
+        backgroundColor: colors.next,
+        ['--current-color' as never]: colors.next,
+        ['--active-color' as never]: colors.later,
+      }}
     >
       <div
         className="flex h-full w-full flex-nowrap items-center gap-1 overflow-hidden whitespace-nowrap p-1 text-v1-content-primary mobile:overflow-auto"
@@ -125,11 +133,11 @@ export function ButtonSelect<T, AC extends boolean = false>({
               aria-checked={value === option.value}
               disabled={option.disabled}
               className={clsx(
-                'relative h-full shrink-0 overflow-hidden rounded-lg text-sm bg-v1-surface-l-next',
+                'relative h-full shrink-0 overflow-hidden rounded-lg text-sm',
                 size === 'xl' ? ' px-3' : 'px-2',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'border border-transparent enabled:hover:bg-v1-background-inverse/5 enabled:active:bg-v1-surface-l-next',
+                'border border-transparent enabled:hover:bg-v1-background-inverse/5 enabled:active:bg-[--active-color]',
                 variant === 'primary'
                   ? 'enabled:aria-checked:bg-v1-background-brand'
                   : 'enabled:aria-checked:bg-v1-background-inverse/15',
@@ -147,7 +155,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
         <div
           className={clsx(
             'group absolute top-0 flex h-full w-5 cursor-pointer items-center justify-center',
-            'bg-v1-surface-l-next',
+            '!bg-[--current-color]',
             i === 0 ? 'left-0' : 'right-0',
             !x && 'hidden',
           )}

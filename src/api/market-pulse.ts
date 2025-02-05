@@ -7,6 +7,7 @@ import {
   type Coin,
   type CoinNetwork,
 } from './types/shared';
+import { resolvePageResponseToArray } from './utils';
 
 export interface RsiOvernessRow {
   candle_pair_name: string;
@@ -276,27 +277,11 @@ export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
   };
 
 export const useTechnicalRadarTopCoins = () =>
-  useQuery(['indicators/technical-radar/top-coins'], () => {
-    const getRecursive = async (
-      page: number,
-      prevList: TechnicalRadarCoin[],
-    ) => {
-      const newResp = await ofetch<PageResponse<TechnicalRadarCoin>>(
-        'delphi/technical-radar/top-coins/',
-        {
-          query: {
-            page,
-          },
-        },
-      );
-      const lastValue = [...prevList, ...newResp.results];
-      if (newResp.next) {
-        return await getRecursive(page + 1, lastValue);
-      }
-      return lastValue;
-    };
-    return getRecursive(1, []);
-  });
+  useQuery(['indicators/technical-radar/top-coins'], () =>
+    resolvePageResponseToArray<TechnicalRadarCoin>(
+      'delphi/technical-radar/top-coins/',
+    ),
+  );
 
 export interface TechnicalRadarSentiment {
   macd_cross_normalized_score?: number | null;

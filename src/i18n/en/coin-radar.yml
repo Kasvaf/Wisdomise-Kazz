@@ -10,12 +10,12 @@ call-change:
   biggest-pump: Biggest Pump
   current-price: Current Price
   first-mention: First Mention
-  last-mention: Last Mention
-  long: Potential Growth Opportunity
+  last-mention: Last Seen
+  long: Strong Outlook
   negative: Negative
   not_sure: Not Sure
   positive: Positive
-  short: Risk Of Decline
+  short: Weak Outlook
 coin_labels:
   hype:
     info: >-

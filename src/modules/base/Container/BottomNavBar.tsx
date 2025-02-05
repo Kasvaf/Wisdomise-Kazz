@@ -38,7 +38,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
       )}
     >
       <TrialEndBanner />
-      <div className="flex h-16 w-full items-center justify-between bg-[#1E1F24] text-white">
+      <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
         {items.map(renderItem)}
         {!isMiniApp &&
           renderItem({

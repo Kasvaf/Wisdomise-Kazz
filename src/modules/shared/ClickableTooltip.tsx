@@ -41,7 +41,7 @@ export function ClickableTooltip({
     className,
   );
   const titleClassName = clsx(
-    'max-h-[340px] overflow-auto text-sm text-v1-content-primary mobile:max-h-[50svh]',
+    'max-h-[40svh] overflow-auto text-sm text-v1-content-primary mobile:max-h-[60svh]',
   );
   const titleRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(titleRef, () => {
@@ -71,7 +71,7 @@ export function ClickableTooltip({
           name={bxChevronDown}
           className={clsx(
             'text-inherit opacity-70 transition-all group-hover:opacity-100',
-            isOpen && '!opacity-100',
+            isOpen && 'rotate-180 !opacity-100',
           )}
           size={16}
         />
@@ -89,7 +89,7 @@ export function ClickableTooltip({
             placement={drawerPlacement}
             open={isOpen}
             onClose={() => setIsOpen(false)}
-            className="rounded-t-2xl !bg-v1-surface-l4 !p-6 [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-header]:hidden"
+            className="rounded-t-2xl !bg-v1-surface-l4 !p-6 mobile:!p-4 [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-header]:hidden"
             closeIcon={null}
             destroyOnClose
             height="auto"

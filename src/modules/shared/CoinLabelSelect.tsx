@@ -1,28 +1,31 @@
-import { type FC } from 'react';
+import { type ComponentProps } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { type CoinLabels, useCoinLabels } from 'api';
 import { Select } from 'shared/v1-components/Select';
 import { CoinLabel } from 'shared/CoinLabels';
 
-export const CoinLabelSelect: FC<{
-  value?: string[];
-  onChange?: (newValue?: string[]) => void;
-  className?: string;
+export function CoinLabelSelect<M extends boolean>({
+  type,
+  ...props
+}: Omit<
+  ComponentProps<typeof Select<string, M>>,
+  | 'render'
+  | 'onSearch'
+  | 'options'
+  | 'loading'
+  | 'showSearch'
+  | 'searchValue'
+  | 'onSearch'
+> & {
   type: keyof CoinLabels;
-}> = ({ value, className, onChange, type }) => {
+}) {
   const { t } = useTranslation('coin-radar');
-  const labels = useCoinLabels();
+  const options = useCoinLabels();
 
   return (
     <Select
-      className={className}
-      block
-      value={value}
-      loading={labels.isLoading}
-      allowClear
-      multiple
-      onChange={onChange}
+      loading={options.isLoading}
       render={(val, target) => {
         if (!val) return t('common.all_labels');
         return (
@@ -34,7 +37,8 @@ export const CoinLabelSelect: FC<{
           />
         );
       }}
-      options={labels.data?.[type]?.filter(x => !!x) ?? []}
+      options={options.data?.[type]?.filter(x => !!x) ?? []}
+      {...props}
     />
   );
-};
+}

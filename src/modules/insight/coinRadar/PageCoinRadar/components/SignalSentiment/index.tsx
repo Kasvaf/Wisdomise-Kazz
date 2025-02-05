@@ -32,7 +32,7 @@ const SignalSentimentTitle: FC<{
       )}
     >
       <Icon
-        size={18}
+        size={16}
         name={
           signal.gauge_tag === 'LONG'
             ? bxHappy
@@ -191,7 +191,7 @@ export const SignalSentiment: FC<{
       onOpenChange={v => setTick(p => (v ? p + 1 : p))}
       chevron={false}
     >
-      <span className={clsx('space-y-1 whitespace-nowrap', className)}>
+      <span className={clsx('space-y-[2px] whitespace-nowrap', className)}>
         <div
           className={clsx(
             'flex items-center gap-1 text-sm capitalize',
@@ -205,7 +205,7 @@ export const SignalSentiment: FC<{
           />
         </div>
         {!minimal && signal.signals_analysis && (
-          <div className="flex items-center gap-1 ps-[22px] text-xs">
+          <div className="flex items-center gap-1 ps-[17px] text-xs">
             <label className="text-v1-content-secondary">
               {t('call-change.last-mention')}:
             </label>

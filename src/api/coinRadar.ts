@@ -103,7 +103,7 @@ export interface CoinSignal extends SocialRadarSentiment {
   sources?: null | string[];
 }
 
-export const useCoinSignals = (filters?: {
+export const useCoinSignals = (filters: {
   windowHours: number;
   sortBy?: string;
   sortOrder?: 'ascending' | 'descending';
@@ -116,13 +116,13 @@ export const useCoinSignals = (filters?: {
   trendLabels?: string[];
 }) =>
   useQuery({
-    queryKey: ['coins-social-signal', filters?.windowHours],
+    queryKey: ['coins-social-signal', filters.windowHours],
     queryFn: async () => {
       const data = await ofetch<CoinSignal[]>(
         'delphi/social-radar/coins-social-signal/',
         {
           query: {
-            window_hours: filters?.windowHours ?? 24,
+            window_hours: filters.windowHours,
           },
         },
       );
@@ -698,23 +698,31 @@ export const useCategories = (config: {
   });
 
 export const useNetworks = (config?: {
-  filter?: 'social-radar-24-hours' | 'technical-radar';
+  filter?: 'social-radar-24-hours' | 'technical-radar' | 'whale-radar';
 }) =>
   useQuery({
     queryKey: ['networks', JSON.stringify(config)],
-    queryFn: () =>
-      ofetch<
+    queryFn: () => {
+      const url =
+        config?.filter === 'whale-radar'
+          ? '/delphi/holders/networks/'
+          : '/delphi/market/networks/';
+      const needToAttachFilter = config?.filter !== 'whale-radar';
+      return ofetch<
         Array<{
           icon_url: string;
           id: number;
           name: string;
           slug: string;
         }>
-      >('/delphi/market/networks/', {
+      >(url, {
         query: {
-          filter: config?.filter,
+          ...(needToAttachFilter && {
+            filter: config?.filter,
+          }),
         },
-      }),
+      });
+    },
   });
 
 export const useExchanges = (config?: {

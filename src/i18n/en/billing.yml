@@ -5,6 +5,9 @@ change-pay-method:
   sub-title: 'Choose a payment method for your next plan:'
   token: Lock $WSDM
   wsdm: $WSDM Payment
+common:
+  remains: Remains
+  subscription: Subscription
 crypto-modal:
   title: Wisdomise AG
   subtitle: Subscribe to {{plan}}
