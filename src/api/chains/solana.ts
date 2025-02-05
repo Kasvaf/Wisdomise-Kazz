@@ -1,10 +1,5 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import {
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  SystemProgram,
-  Transaction,
-} from '@solana/web3.js';
+import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
@@ -13,7 +8,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { toBigMoney } from 'utils/money';
+import { fromBigMoney, toBigMoney } from 'utils/money';
 
 const CONTRACT_ADDRESSES = {
   'wrapped-solana': 'So11111111111111111111111111111111111111112',
@@ -45,7 +40,7 @@ export const useSolanaAccountBalance = (
 
       try {
         if (quote === 'wrapped-solana') {
-          return (await connection.getBalance(publicKey)) / LAMPORTS_PER_SOL;
+          return fromBigMoney(await connection.getBalance(publicKey), 9);
         } else {
           // Get the associated token address
           const tokenAddress = await getAssociatedTokenAddress(
@@ -59,9 +54,7 @@ export const useSolanaAccountBalance = (
           const balance = await connection.getTokenAccountBalance(tokenAddress);
 
           // Return the balance as a number
-          return (
-            Number(balance.value.amount) / Math.pow(10, balance.value.decimals)
-          );
+          return fromBigMoney(balance.value.amount, balance.value.decimals);
         }
       } catch (error) {
         if ((error as any)?.code === -32_602) {
