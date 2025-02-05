@@ -14,16 +14,13 @@ const ONBOARDING_URL = '/coin-radar/onboarding';
 const useNavigateToOnboarding = () => {
   const navigate = useNavigate();
   const { group } = useSubscription();
-  const { value, save, isLoading, isTrusted } = useUserStorage(
-    'onboarding-navigate',
-  );
+  const { value } = useUserStorage('onboarding-data');
 
   useEffect(() => {
-    if (isTrusted && value !== 'true' && group !== 'guest') {
-      void save('true');
+    if (value === null && group !== 'guest') {
       navigate(ONBOARDING_URL);
     }
-  }, [group, isLoading, isTrusted, navigate, save, value]);
+  }, [group, navigate, value]);
 };
 
 export const UserEngageFlow = () => {

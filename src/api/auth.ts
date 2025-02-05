@@ -18,11 +18,11 @@ interface CreationStatusResponse {
 }
 
 const useSignupAdditionalTasks = () => {
-  const userStorage = useUserStorage('signup-url');
+  const { save } = useUserStorage('signup-url');
   const signupUrl = useRef(location.pathname + location.search);
   return () => {
     gtag('event', 'sign_up');
-    return userStorage.save(signupUrl.current);
+    return save(signupUrl.current);
   };
 };
 
