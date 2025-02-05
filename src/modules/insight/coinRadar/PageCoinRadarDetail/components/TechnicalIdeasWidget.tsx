@@ -73,10 +73,10 @@ export function TechnicalIdeasWidget({
       )}
 
       {tradingViewMessages.length > 0 && (
-        <div className="space-y-4 overflow-x-auto rounded-xl bg-transparent p-6 mobile:p-0">
+        <div className="space-y-4 overflow-x-auto rounded-xl bg-transparent p-3 mobile:p-0">
           {tradingViewMessages.slice(0, limit).map((msg, idx, self) => (
             <Fragment key={msg.id}>
-              <SocialMessageSummary message={msg} className="!bg-transparent" />
+              <SocialMessageSummary message={msg} />
               {(idx < self.length - 1 ||
                 limit < tradingViewMessages.length) && (
                 <div className="h-px bg-v1-border-tertiary" />

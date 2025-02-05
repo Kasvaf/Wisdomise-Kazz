@@ -24,6 +24,16 @@
 }
 
 /*
+* ************** Drawer *****************
+*/
+.ant-drawer-mask {
+  @apply !bg-v1-surface-l2/20 backdrop-blur-sm;
+}
+.ant-drawer-wrapper-body {
+  @apply !bg-v1-surface-l4;
+}
+
+/*
 * ************** Modal ******************
 */
 
@@ -32,9 +42,7 @@
 }
 
 .ant-modal-body {
-  @apply bg-transparent p-0;
-  background-color: transparent !important;
-  padding: 0 !important;
+  @apply !bg-transparent !p-0;
 }
 
 .ant-modal-content {

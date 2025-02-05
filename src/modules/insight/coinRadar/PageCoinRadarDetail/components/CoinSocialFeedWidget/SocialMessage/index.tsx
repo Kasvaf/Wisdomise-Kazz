@@ -25,7 +25,7 @@ export function SocialMessageSummary({
       {message.social_type === 'trading_view' ? (
         <div
           className={clsx(
-            'flex w-full max-w-full items-center justify-between gap-4 bg-v1-surface-l-next mobile:items-start',
+            'flex w-full max-w-full items-center justify-between gap-4 mobile:items-start',
             'flex-row mobile:flex-col',
             className,
           )}
@@ -108,7 +108,6 @@ export function SocialMessageSummary({
           height="auto"
           className="rounded-t-2xl"
           title={t('social-messages.post_details')}
-          closable={false}
           style={{
             maxHeight: '90vh',
           }}
