@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const JWT_TOKEN_KEY = 'TOKEN';
 
@@ -15,7 +15,7 @@ const callHandlers = () => {
   }, 0);
 };
 
-export const useJwtToken = () => {
+const useJwtToken = () => {
   const [jwt, setJwt] = useState(localStorage.getItem(JWT_TOKEN_KEY));
   useEffect(() => {
     const handler = () => setJwt(localStorage.getItem(JWT_TOKEN_KEY));
@@ -27,6 +27,15 @@ export const useJwtToken = () => {
     };
   }, []);
   return jwt;
+};
+
+export const useJwtEmail = () => {
+  const jwt = useJwtToken();
+  return useMemo(
+    () =>
+      JSON.parse(atob((jwt || '').split('.')?.[1] ?? '') || '{}')?.email || '',
+    [jwt],
+  );
 };
 
 export const useIsLoggedIn = () => {

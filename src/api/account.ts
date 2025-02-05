@@ -1,15 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
-import { setJwtToken, useJwtToken } from 'modules/base/auth/jwt-store';
+import { setJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
 import { type Account } from './types/UserInfoResponse';
 
 export function useAccountQuery() {
-  const jwt = useJwtToken();
+  const email = useJwtEmail();
   return useQuery<Account | null>(
-    ['account', jwt],
+    ['account', email],
     async () => {
-      // if (!isLoggedIn) return null;
       const data = await ofetch<Account>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
       );
