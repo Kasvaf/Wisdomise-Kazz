@@ -125,7 +125,7 @@
     @apply p-4;
   }
   .ant-drawer-content {
-    @apply bg-page;
+    @apply bg-v1-background-primary;
   }
 
   &.ant-drawer-bottom .ant-drawer-content {

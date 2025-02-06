@@ -54,7 +54,7 @@ export default function TokenPaymentModalContent({
 
   return (
     <div className="grid h-screen grid-cols-12 overflow-auto text-white">
-      <div className="col-span-12 flex h-full flex-col items-center justify-center bg-page lg:col-span-6">
+      <div className="col-span-12 flex h-full flex-col items-center justify-center bg-v1-background-primary lg:col-span-6">
         <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
           <p className="text-xl text-white mobile:hidden">
             {t('token-modal.title')}

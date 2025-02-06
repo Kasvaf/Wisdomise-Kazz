@@ -66,8 +66,8 @@ export default function TelegramLayout() {
   const mainRef = useRef<HTMLDivElement>(null);
 
   return (
-    <main className="relative bg-page">
-      <div className="fixed end-0 start-0 top-0 z-10 flex w-screen items-center justify-between bg-page p-4">
+    <main className="relative bg-v1-background-primary">
+      <div className="fixed end-0 start-0 top-0 z-10 flex w-screen items-center justify-between bg-v1-background-primary p-4">
         <ProfileInfo />
         <BtnWalletConnect />
       </div>

@@ -33,7 +33,7 @@ export function OnboardingView<V extends string>({
   return (
     <div
       className={clsx(
-        'fixed left-0 top-0 flex h-dvh w-dvw bg-v1-surface-l1 text-v1-content-primary',
+        'fixed left-0 top-0 flex h-dvh w-dvw bg-v1-background-primary text-v1-content-primary',
         className,
       )}
     >
