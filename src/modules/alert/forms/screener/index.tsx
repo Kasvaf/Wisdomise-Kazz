@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { type AlertFormGroup } from 'modules/alert/library/types';
-import { useHasFlag } from 'api';
-import { useAlerts, useDeleteAlert, useSaveAlert } from 'api/alert';
+import { useAlerts, useDeleteAlert, useSaveAlert, useHasFlag } from 'api';
 import Badge from 'shared/Badge';
 import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as ScreenerIcon } from './screener.svg';

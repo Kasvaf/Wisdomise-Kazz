@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useHasFlag } from 'api';
-import { useDeleteAlert, useAlerts, useSaveAlert } from 'api/alert';
+import { useDeleteAlert, useAlerts, useSaveAlert, useHasFlag } from 'api';
 import { type AlertForm } from 'modules/alert/library/types';
 import { track } from 'config/segment';
 import { DebugPin } from 'shared/DebugPin';

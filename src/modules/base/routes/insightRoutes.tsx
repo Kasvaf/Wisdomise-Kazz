@@ -5,28 +5,28 @@ import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
 import PageRedirect from '../PageRedirect';
 
-const PageInsight = React.lazy(() => import('modules/insight/PageInsight'));
+const PageCoinRadar = React.lazy(() => import('modules/insight/PageCoinRadar'));
 
 const PageOnboarding = React.lazy(
   () => import('modules/insight/PageOnboarding'),
 );
 
-const PageCoinRadar = React.lazy(
-  () => import('modules/insight/coinRadar/PageCoinRadar'),
+const PageSocialRadar = React.lazy(
+  () => import('modules/insight/PageSocialRadar'),
 );
 
-const PageCoinRadarDetail = React.lazy(
-  () => import('modules/insight/coinRadar/PageCoinRadarDetail'),
+const PageCoinDetails = React.lazy(
+  () => import('modules/insight/PageCoinDetails'),
 );
 
-const PageMarketPulse = React.lazy(
-  () => import('modules/insight/PageMarketPulse'),
+const PageTechnicalRadar = React.lazy(
+  () => import('modules/insight/PageTechnicalRadar'),
 );
 
-const PageWhales = React.lazy(() => import('modules/insight/whale/PageWhales'));
+const PageWhales = React.lazy(() => import('modules/insight/PageWhales'));
 
-const PageWhaleDetail = React.lazy(
-  () => import('modules/insight/whale/PageWhaleDetail'),
+const PageWhaleDetails = React.lazy(
+  () => import('modules/insight/PageWhaleDetails'),
 );
 
 const PageAlerts = React.lazy(() => import('modules/alert/PageAlerts'));
@@ -48,16 +48,16 @@ const useInsightRoutes = () => {
         {
           path: 'overview',
           handle: { crumb: t('menu.overview.title') },
-          element: <PageInsight />,
+          element: <PageCoinRadar />,
         },
         {
           path: 'social-radar',
           handle: { crumb: t('menu.hot-coins.title') },
-          element: <PageCoinRadar />,
+          element: <PageSocialRadar />,
         },
         {
           path: 'technical-radar',
-          element: <PageMarketPulse />,
+          element: <PageTechnicalRadar />,
           handle: { crumb: t('menu.ai-indicators.title') },
         },
         {
@@ -70,7 +70,7 @@ const useInsightRoutes = () => {
             },
             {
               path: ':network/:address',
-              element: <PageWhaleDetail />,
+              element: <PageWhaleDetails />,
               handle: {
                 crumb: (p: Params<string>) =>
                   `${p.network ?? ''}-${shortenAddress(p.address)}`,
@@ -92,7 +92,7 @@ const useInsightRoutes = () => {
       children: [
         {
           path: ':slug',
-          element: <PageCoinRadarDetail />,
+          element: <PageCoinDetails />,
           handle: { crumb: (p: Params<string>) => p.slug },
         },
       ],

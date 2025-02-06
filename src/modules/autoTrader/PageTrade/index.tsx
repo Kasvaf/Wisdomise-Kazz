@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import {
   isPositionUpdatable,
-  useCoinOverview,
+  useCoinDetails,
   useTraderPositionQuery,
 } from 'api';
 import Spinner from 'shared/Spinner';
@@ -26,7 +26,7 @@ export default function PageTrade() {
     positionKey,
     network: useActiveNetwork(),
   });
-  const coinOverview = useCoinOverview({ slug });
+  const coinOverview = useCoinDetails({ slug });
 
   useEffect(() => {
     if (position.data && !isPositionUpdatable(position.data)) {
