@@ -5,6 +5,7 @@ import {
   type ReactNode,
   useRef,
 } from 'react';
+import { type Surface, useSurface } from 'utils/useSurface';
 
 export function Input<T extends 'number' | 'string'>({
   size = 'xl',
@@ -18,6 +19,7 @@ export function Input<T extends 'number' | 'string'>({
   className,
   prefixIcon,
   suffixIcon,
+  surface = 2,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
 
@@ -35,13 +37,15 @@ export function Input<T extends 'number' | 'string'>({
   prefixIcon?: ReactNode;
   suffixIcon?: ReactNode;
   className?: string;
+  surface?: Surface;
 }) {
+  const colors = useSurface(surface);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     e => {
       if (type === 'number') {
-        onChange?.((e.target.valueAsNumber ?? undefined) as never);
+        onChange?.((+e.target.value || undefined) as never);
       } else {
         onChange?.((e.target.value ?? '') as never);
       }
@@ -61,12 +65,14 @@ export function Input<T extends 'number' | 'string'>({
         /* Disabled */
         'aria-disabled::cursor-not-allowed aria-disabled:border-transparent aria-disabled:bg-white/5 aria-disabled:bg-none aria-disabled:text-white/50 aria-disabled:grayscale',
         /* Shared */
-        'bg-v1-surface-l-next',
         'border border-transparent font-normal transition-all focus-within:border-v1-border-focus [&_svg]:size-5',
         block ? 'flex' : 'inline-flex',
         'items-center justify-between gap-1',
         className,
       )}
+      style={{
+        backgroundColor: colors.next,
+      }}
       aria-disabled={disabled}
       onClick={() => inputRef.current?.focus()}
     >
@@ -78,6 +84,7 @@ export function Input<T extends 'number' | 'string'>({
         disabled={disabled}
         placeholder={placeholder}
         ref={inputRef}
+        type={type === 'number' ? 'number' : 'text'}
       />
       {suffixIcon}
     </div>

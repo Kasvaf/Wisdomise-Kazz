@@ -8,11 +8,13 @@ import {
   useEffect,
   Fragment,
   memo,
+  type ComponentProps,
 } from 'react';
 import { Tooltip as AntTooltip, Drawer as AntDrawer } from 'antd';
 import { bxChevronDown, bxLoader } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
+import { type Surface, useSurface } from 'utils/useSurface';
 import { Button } from '../Button';
 import { ReactComponent as CheckIcon } from './check.svg';
 import { ReactComponent as UnCheckIcon } from './uncheck.svg';
@@ -29,9 +31,13 @@ interface SelectProps<V, M extends boolean = false> {
 
   multiple?: M;
 
+  chevron?: boolean;
+
   options?: V[];
 
   render?: (item: V | undefined, target: 'option' | 'value') => ReactNode;
+
+  tooltipPlacement?: ComponentProps<typeof AntTooltip>['placement'];
 
   allowClear?: boolean;
 
@@ -42,6 +48,8 @@ interface SelectProps<V, M extends boolean = false> {
   prefixIcon?: ReactNode;
   suffixIcon?: ReactNode;
   className?: string;
+
+  surface?: Surface;
 }
 
 function Checkbox({
@@ -63,7 +71,7 @@ function InternalRenderedValue<V>({
   value,
   render,
   target,
-}: Pick<SelectProps<never, false>, 'render'> & {
+}: Pick<SelectProps<never, false>, 'render' | 'loading' | 'size'> & {
   value?: V;
   target: 'option' | 'value';
 }) {
@@ -82,7 +90,11 @@ function InternalRenderedValue<V>({
 
 const RenderedValue = memo(
   InternalRenderedValue,
-  (p, n) => p.target === n.target && p.value === n.value,
+  (p, n) =>
+    p.target === n.target &&
+    p.value === n.value &&
+    p.loading === n.loading &&
+    p.size === n.size,
 );
 
 function Option({
@@ -102,18 +114,18 @@ function Option({
     <div
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
-        size === 'xs' && 'h-xs px-3 text-xs',
-        size === 'sm' && 'h-sm px-3 text-xs',
-        size === 'md' && 'h-md px-4 text-xs',
-        size === 'xl' && 'h-xl px-5 text-sm',
-        'group flex shrink-0 flex-nowrap items-center justify-between gap-2',
+        size === 'xs' && 'h-xs px-2 text-xs',
+        size === 'sm' && 'h-sm px-2 text-xs',
+        size === 'md' && 'h-md px-3 text-xs',
+        size === 'xl' && 'h-xl px-3 text-sm',
+        'group flex shrink-0 flex-nowrap items-center justify-between gap-4 mobile:px-5',
         'hover:bg-white/5',
         !checkbox && selected && '!bg-white/10',
       )}
       onClick={onClick}
       aria-selected={selected}
     >
-      {children}
+      <div className="max-w-80 overflow-hidden">{children}</div>
       {checkbox && (
         <Checkbox
           size={size}
@@ -131,9 +143,17 @@ function InnerContent<V, M extends boolean = false>({
   allowClear,
   placeholder,
   render,
+  loading,
+  size,
 }: Pick<
   SelectProps<V, M>,
-  'value' | 'multiple' | 'allowClear' | 'placeholder' | 'render'
+  | 'value'
+  | 'multiple'
+  | 'allowClear'
+  | 'placeholder'
+  | 'render'
+  | 'loading'
+  | 'size'
 >) {
   const isEmpty = useMemo(
     () =>
@@ -146,7 +166,13 @@ function InnerContent<V, M extends boolean = false>({
     <>
       {isEmpty ? (
         allowClear ? (
-          <RenderedValue value={undefined} render={render} target="value" />
+          <RenderedValue
+            value={undefined}
+            render={render}
+            target="value"
+            loading={loading}
+            size={size}
+          />
         ) : (
           <span className="text-v1-content-secondary">{placeholder}</span>
         )
@@ -157,13 +183,25 @@ function InnerContent<V, M extends boolean = false>({
               className="shrink-0 rounded-full bg-white/5 p-px px-2"
               key={JSON.stringify(v)}
             >
-              <RenderedValue value={v} render={render} target="value" />
+              <RenderedValue
+                value={v}
+                render={render}
+                target="value"
+                loading={loading}
+                size={size}
+              />
             </span>
           ))}
           {(value as V[]).length - 1 > 0 && `+${(value as V[]).length - 1}`}
         </div>
       ) : (
-        <RenderedValue value={value as never} render={render} target="value" />
+        <RenderedValue
+          value={value as never}
+          render={render}
+          target="value"
+          loading={loading}
+          size={size}
+        />
       )}
     </>
   );
@@ -186,9 +224,14 @@ export function Select<V, M extends boolean = false>({
   className,
   prefixIcon,
   suffixIcon,
+  chevron = true,
+  tooltipPlacement = 'bottomLeft',
+  disabled,
+  surface = 2,
 }: SelectProps<V, M>) {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+  const colors = useSurface(surface);
 
   const titleRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -260,7 +303,7 @@ export function Select<V, M extends boolean = false>({
           <div className="p-4">
             <input
               placeholder="Search Here"
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l3 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
+              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
               value={searchValue ?? ''}
               onChange={e => onSearch?.(e.target.value)}
               ref={searchRef}
@@ -293,6 +336,8 @@ export function Select<V, M extends boolean = false>({
                     value={undefined}
                     render={render}
                     target="option"
+                    loading={loading}
+                    size={size}
                   />
                 </Option>
               )}
@@ -311,6 +356,8 @@ export function Select<V, M extends boolean = false>({
                         value={opt}
                         render={render}
                         target="option"
+                        loading={loading}
+                        size={size}
                       />
                     </Option>
                   ))}
@@ -328,6 +375,8 @@ export function Select<V, M extends boolean = false>({
                       value={opt}
                       render={render}
                       target="option"
+                      loading={loading}
+                      size={size}
                     />
                   </Option>
                 ))}
@@ -360,54 +409,66 @@ export function Select<V, M extends boolean = false>({
           size === 'sm' && 'h-sm rounded-lg px-3 text-xs',
           size === 'md' && 'h-md rounded-lg px-3 text-xs',
           size === 'xl' && 'h-xl rounded-xl px-4 text-sm',
-          /* Style */
-          'bg-v1-surface-l-next',
           /* Disabled */
           'disabled:cursor-not-allowed disabled:border-transparent disabled:bg-white/5 disabled:bg-none disabled:text-white/50 disabled:grayscale',
           /* Shared */
           'select-none border border-transparent font-normal outline-none transition-all focus:border-v1-border-focus [&_svg]:size-5',
           block ? 'flex' : 'inline-flex',
-          'items-center justify-between gap-1',
+          'items-center justify-between gap-1 overflow-hidden',
+          !disabled && 'cursor-pointer',
           className,
         )}
+        style={{
+          backgroundColor: colors.next,
+        }}
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-        tabIndex={0}
+        {...(!disabled && {
+          tabIndex: 0,
+        })}
         ref={contentRef}
-        onClick={() => setIsOpen(p => !p)}
+        onClick={() => (disabled ? null : setIsOpen(p => !p))}
       >
         {prefixIcon}
-        <div className="grow whitespace-nowrap">
+        <div className="shrink grow truncate">
           <InnerContent
             allowClear={allowClear}
             multiple={multiple}
             render={renderFn}
             placeholder={placeholder}
             value={value}
+            loading={loading}
+            size={size}
           />
         </div>
         {suffixIcon}
-        <Icon
-          name={bxChevronDown}
-          className={clsx(
-            'justify-self-end text-inherit opacity-70 transition-all group-hover:opacity-100',
-            isOpen && '!opacity-100',
-          )}
-          size={16}
-        />
+        {chevron && !disabled && (
+          <Icon
+            name={bxChevronDown}
+            className={clsx(
+              'justify-self-end text-inherit opacity-70 transition-all group-hover:opacity-100',
+              isOpen && 'rotate-180 !opacity-100',
+            )}
+            size={16}
+          />
+        )}
       </div>
     ),
     [
-      allowClear,
+      size,
       block,
       className,
-      isOpen,
-      multiple,
-      placeholder,
+      colors.next,
+      disabled,
       prefixIcon,
+      allowClear,
+      multiple,
       renderFn,
-      size,
-      suffixIcon,
+      placeholder,
       value,
+      loading,
+      suffixIcon,
+      chevron,
+      isOpen,
     ],
   );
 
@@ -425,7 +486,7 @@ export function Select<V, M extends boolean = false>({
       >
         {popupContent}
         <div className="p-4">
-          <Button variant="outline" block className="w-full">
+          <Button variant="ghost" block className="w-full" surface={4}>
             {'Close'}
           </Button>
         </div>
@@ -433,9 +494,16 @@ export function Select<V, M extends boolean = false>({
     </>
   ) : (
     <AntTooltip
-      placement="bottomLeft"
+      placement={tooltipPlacement}
       title={popupContent}
-      rootClassName="w-auto [&_.ant-tooltip-inner]:text-v1-content-primary [&_.ant-tooltip-inner]:w-72 [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:overflow-hidden [&_.ant-tooltip-inner]:!p-0 [&_.ant-tooltip-inner]:!text-inherit"
+      rootClassName={clsx(
+        'w-auto text-v1-content-primary',
+        '[&_.ant-tooltip-arrow]:hidden',
+        '[&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-inner]:!text-inherit',
+        '[&_.ant-tooltip-inner]:overflow-hidden [&_.ant-tooltip-inner]:!p-0',
+        '[&_.ant-tooltip-inner]:w-max [&_.ant-tooltip-inner]:min-w-56 [&_.ant-tooltip-inner]:max-w-96',
+        '[&_.ant-tooltip-content]:w-full [&_.ant-tooltip-content]:overflow-visible',
+      )}
       open={isOpen}
       destroyTooltipOnHide
     >

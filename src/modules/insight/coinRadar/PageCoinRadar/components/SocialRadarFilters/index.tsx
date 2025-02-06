@@ -3,14 +3,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { Modal } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { bxGridAlt, bxSliderAlt } from 'boxicons-quasar';
+import { CategorySelect } from 'shared/CategorySelect';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { type SocialRadarTableParams } from '../types';
-import { CoinLabelSelect } from './CoinLabelSelect';
-import { CategorySelect } from './CategorySelect';
-import { NetworkSelect } from './NetworkSelect';
-import { ExchangeSelect } from './ExchangeSelect';
+import { CoinLabelSelect } from 'shared/CoinLabelSelect';
+import { NetworkSelect } from 'shared/NetworkSelect';
+import { ExchangeSelect } from 'shared/ExchangeSelect';
+import { type useCoinSignals } from 'api';
 import { presetFilters } from './presetFilters';
 import { SortModes } from './SortModes';
 import { SocialRadarSourceSelect } from './SocialRadarSourceSelect';
@@ -25,8 +25,8 @@ export function SocialRadarFilters({
 }: {
   className?: string;
   onReset?: () => void;
-  value: SocialRadarTableParams;
-  onChange?: (v?: Partial<SocialRadarTableParams>) => void;
+  value: Required<Parameters<typeof useCoinSignals>[0]>;
+  onChange?: (v?: Partial<Parameters<typeof useCoinSignals>[0]>) => void;
 }) {
   const { t } = useTranslation('coin-radar');
   const [open, setOpen] = useState(false);
@@ -136,7 +136,7 @@ export function SocialRadarFilters({
         open={open}
         onCancel={() => setOpen(false)}
         centered
-        className="max-w-[500px] mobile:max-w-[360px] [&_.ant-modal-content]:!bg-v1-surface-l1"
+        className="max-w-[500px] mobile:max-w-[360px]"
         destroyOnClose
         footer={false}
       >
@@ -149,6 +149,8 @@ export function SocialRadarFilters({
             <CoinLabelSelect
               className="grow"
               value={localState.trendLabels}
+              multiple
+              allowClear
               onChange={trendLabels =>
                 setLocalState(p => ({ ...p, trendLabels: trendLabels ?? [] }))
               }
@@ -162,6 +164,8 @@ export function SocialRadarFilters({
             <CoinLabelSelect
               className="grow"
               value={localState.securityLabels}
+              multiple
+              allowClear
               onChange={securityLabels =>
                 setLocalState(p => ({
                   ...p,
@@ -178,6 +182,9 @@ export function SocialRadarFilters({
             <CategorySelect
               className="grow"
               value={localState.categories}
+              multiple
+              filter="social-radar-24-hours"
+              allowClear
               onChange={categories =>
                 setLocalState(p => ({ ...p, categories: categories ?? [] }))
               }
@@ -190,6 +197,9 @@ export function SocialRadarFilters({
             <NetworkSelect
               className="grow"
               value={localState.networks}
+              multiple
+              filter="social-radar-24-hours"
+              allowClear
               onChange={networks =>
                 setLocalState(p => ({ ...p, networks: networks ?? [] }))
               }
@@ -202,6 +212,9 @@ export function SocialRadarFilters({
             <ExchangeSelect
               className="grow"
               value={localState.exchanges}
+              multiple
+              filter="social-radar-24-hours"
+              allowClear
               onChange={exchanges =>
                 setLocalState(p => ({ ...p, exchanges: exchanges ?? [] }))
               }
@@ -222,7 +235,7 @@ export function SocialRadarFilters({
         </div>
         <div className="mt-20 flex items-center gap-2">
           <Button
-            variant="outline"
+            variant="ghost"
             size="lg"
             block
             onClick={() => {

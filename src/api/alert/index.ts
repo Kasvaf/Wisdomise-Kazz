@@ -3,7 +3,7 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { isMiniApp } from 'utils/version';
 import { ofetch } from 'config/ofetch';
-import { type PageResponse } from '../types/page';
+import { resolvePageResponseToArray } from 'api/utils';
 import { type BaseAlert, type Alert } from './types';
 
 export * from './types';
@@ -14,39 +14,24 @@ const normalizeDataSource = <D extends string>(
 
 const getAlertingAlerts = (
   filters?: Partial<Pick<Alert, 'data_source' | 'params'>>,
-) => {
-  const fetchRecursive = (
-    page: number,
-    initialData: Alert[],
-  ): Promise<Alert[]> => {
-    let returnValue = [...initialData];
-    return ofetch<PageResponse<Alert>>('alerting/alerts', {
-      query: {
-        data_source: filters?.data_source
-          ? normalizeDataSource(filters.data_source)
-          : undefined,
-        page,
-        ...((filters?.params?.length ?? 0) >= 1 && {
-          param_field: filters?.params?.[0].field_name,
-          param_value: filters?.params?.[0].value,
-        }),
-      },
-    }).then(data => {
-      returnValue = [
-        ...returnValue,
-        ...(data.results.map(x => ({
-          ...x,
-          data_source: normalizeDataSource(x.data_source),
-        })) as Alert[]),
-      ];
-      if (data.next) {
-        return fetchRecursive(page + 1, returnValue);
-      }
-      return returnValue;
-    });
-  };
-  return fetchRecursive(1, []);
-};
+) =>
+  resolvePageResponseToArray<Alert>('alerting/alerts', {
+    query: {
+      data_source: filters?.data_source
+        ? normalizeDataSource(filters.data_source)
+        : undefined,
+      ...((filters?.params?.length ?? 0) >= 1 && {
+        param_field: filters?.params?.[0].field_name,
+        param_value: filters?.params?.[0].value,
+      }),
+    },
+  }).then(
+    results =>
+      results.map(item => ({
+        ...item,
+        data_source: normalizeDataSource(item.data_source),
+      })) as Alert[],
+  );
 
 const saveAlertingAlert = (payload: Partial<Alert>) => {
   const alertKey = payload.key;

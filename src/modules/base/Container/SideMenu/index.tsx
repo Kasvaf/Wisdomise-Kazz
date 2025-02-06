@@ -27,7 +27,7 @@ const SideMenu: React.FC<{
     >
       <div
         className={clsx(
-          'flex h-full w-full flex-col justify-between overflow-auto bg-[#1E1F24] p-4 pt-2',
+          'flex h-full w-full flex-col justify-between overflow-auto bg-v1-surface-l2 p-4 pt-2',
         )}
       >
         <div className="flex min-h-full flex-col">

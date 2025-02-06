@@ -45,7 +45,11 @@ const useInsightRoutes = () => {
       handle: { crumb: t('menu.coin-radar.title') },
       children: [
         { path: '', element: <PageRedirect /> },
-        { path: 'overview', element: <PageInsight /> },
+        {
+          path: 'overview',
+          handle: { crumb: t('menu.overview.title') },
+          element: <PageInsight />,
+        },
         {
           path: 'social-radar',
           handle: { crumb: t('menu.hot-coins.title') },

@@ -1,8 +1,9 @@
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
+import { useSymbolInfo } from 'api/symbol';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
-import { useSymbolInfo } from 'api/symbol';
+import useIsMobile from 'utils/useIsMobile';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
@@ -15,7 +16,7 @@ export function CoinLogo({
   return (
     <div
       className={clsx(
-        'relative overflow-hidden rounded-full bg-v1-surface-l6',
+        'relative inline-block overflow-hidden rounded-full bg-v1-surface-l6',
         className,
       )}
     >
@@ -60,17 +61,19 @@ export function Coin({
   popup?: boolean;
   noText?: boolean;
 }) {
+  const isMobile = useIsMobile();
   const shouldTruncate =
     truncate === true || (typeof truncate === 'number' && truncate > 0);
   const tooltip =
     popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug;
   const renderText = noText !== true;
-  const truncateSize = typeof truncate === 'number' ? truncate : 110;
+  const truncateSize =
+    typeof truncate === 'number' ? truncate : isMobile ? 70 : 110;
   const rootClassName = clsx(
     'inline-flex w-auto shrink items-center gap-2 pe-2',
     !mini && 'p-1',
     !nonLink &&
-      'group rounded-md transition-all hover:bg-v1-background-hover hover:text-inherit',
+      'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
 

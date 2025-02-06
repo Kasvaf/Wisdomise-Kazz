@@ -1,11 +1,15 @@
-import Button from 'shared/Button';
 import { openHubSpot } from 'config/hubSpot';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as SupportIcon } from './support-icon.svg';
 
 const BtnLiveSupport = () => {
   return (
-    <Button variant="primary" className="!p-3 text-xs" onClick={openHubSpot}>
-      <SupportIcon className="mr-1" />
+    <Button
+      variant="white"
+      onClick={openHubSpot}
+      className="whitespace-nowrap !px-2"
+    >
+      <SupportIcon />
       Live Support
     </Button>
   );

@@ -1,9 +1,9 @@
-import { type SocialRadarTableParams } from '../types';
+import { type useCoinSignals } from 'api';
 
 export const presetFilters: Array<{
   label: string;
   slug: string;
-  filters: Partial<SocialRadarTableParams>;
+  filters: Partial<Parameters<typeof useCoinSignals>[0]>;
 }> = [
   {
     label: '🔥 Memes',
