@@ -40,7 +40,9 @@ export const useSolanaAccountBalance = (
 
       try {
         if (quote === 'wrapped-solana') {
-          return fromBigMoney(await connection.getBalance(publicKey), 9);
+          return Number(
+            fromBigMoney(await connection.getBalance(publicKey), 9),
+          );
         } else {
           // Get the associated token address
           const tokenAddress = await getAssociatedTokenAddress(
@@ -54,7 +56,9 @@ export const useSolanaAccountBalance = (
           const balance = await connection.getTokenAccountBalance(tokenAddress);
 
           // Return the balance as a number
-          return fromBigMoney(balance.value.amount, balance.value.decimals);
+          return Number(
+            fromBigMoney(balance.value.amount, balance.value.decimals),
+          );
         }
       } catch (error) {
         if ((error as any)?.code === -32_602) {
