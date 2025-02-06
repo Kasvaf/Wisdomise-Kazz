@@ -57,7 +57,7 @@ function AlertFormButton({
     <button
       className={clsx(
         'flex w-full items-center justify-start gap-3 overflow-hidden',
-        'bg-v1-surface-l4 p-4 transition-colors hover:enabled:bg-v1-surface-l5 disabled:bg-v1-surface-l2',
+        'bg-v1-surface-l5 p-4 transition-colors hover:enabled:bg-v1-surface-l6 disabled:bg-v1-surface-l3',
         !minimal && 'rounded-xl',
       )}
       disabled={value.disabled?.() || loading}
@@ -84,8 +84,8 @@ function AlertFormGroupButton({
       <button
         className={clsx(
           'flex w-full items-center justify-start gap-3 p-4',
-          'bg-v1-surface-l4 transition-colors hover:enabled:bg-v1-surface-l5 disabled:bg-v1-surface-l2',
-          expanded && '!bg-v1-surface-l5',
+          'bg-v1-surface-l5 transition-colors hover:enabled:bg-v1-surface-l6 disabled:bg-v1-surface-l3',
+          expanded && '!bg-v1-surface-l6',
         )}
         disabled={value.disabled?.()}
         onClick={() => setExpanded(p => !p)}
