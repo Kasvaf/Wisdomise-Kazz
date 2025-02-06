@@ -31,7 +31,7 @@ export default function RightSection({ plan, onResolve, invoiceKey }: Props) {
   };
 
   return (
-    <div className="flex h-full shrink grow basis-0 items-center justify-center bg-white/5 mobile:bg-page">
+    <div className="flex h-full shrink grow basis-0 items-center justify-center bg-white/5 mobile:bg-v1-background-primary">
       <div
         className={clsx(
           'flex w-3/4 flex-col items-center gap-10 rounded-3xl bg-white/5 px-8 py-12 ',

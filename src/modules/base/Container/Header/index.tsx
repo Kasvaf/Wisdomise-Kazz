@@ -23,7 +23,7 @@ const Header: React.FC<
   return (
     <div
       className={clsx(
-        'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-v1-surface-l1',
+        'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-v1-background-primary',
         className,
       )}
     >

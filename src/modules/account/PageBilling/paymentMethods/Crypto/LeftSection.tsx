@@ -12,7 +12,7 @@ export default function LeftSection({ plan }: Props) {
   const { t } = useTranslation('billing');
 
   return (
-    <div className="flex h-full shrink grow basis-0 flex-col items-center justify-center bg-page">
+    <div className="flex h-full shrink grow basis-0 flex-col items-center justify-center bg-v1-background-primary">
       <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
         <div className="flex items-center gap-3 mobile:hidden">
           <p className="text-xl text-white">{t('crypto-modal.title')}</p>

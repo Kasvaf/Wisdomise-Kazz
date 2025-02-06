@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import Button from 'shared/Button';
-import DailyProgress from 'modules/autoTrader/PageHome/DailyTradeQuest/DailyProgress';
+import DailyProgress from 'modules/autoTrader/PageQuests/DailyTradeQuest/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
 import { useGamification, useGamificationAction } from 'api/gamification';
-import { StatusBadge } from 'modules/autoTrader/PageTournaments/TournamentCard';
-import RewardModal from '../RewardModal';
+import { StatusBadge } from 'modules/autoTrader/PageQuests/TournamentCard';
+import RewardModal from './RewardModal';
 import target from './target.png';
 import box from './box.png';
 import { ReactComponent as Bg } from './bg.svg';
@@ -78,7 +78,7 @@ export default function DailyTradeQuest() {
       >
         <div className="mb-20 flex flex-col items-center">
           <h1 className="-mt-5 text-center font-bold">Daily Trade Quest</h1>
-          <ul className="mt-6 ps-4 [&>li]:list-disc [&>p]:mb-3 [&>p]:text-v1-content-secondary">
+          <ul className="mt-6 ps-4 [&>li]:mb-2 [&>li]:list-disc [&>li]:text-sm [&>p]:mb-3 [&>p]:text-xs [&>p]:text-v1-content-secondary">
             <li>Complete Today&apos;s Trade</li>
             <p>Trade Any Cryptocurrency to Progress Your Streak.</p>
             <li>Earn Progress</li>
@@ -97,7 +97,7 @@ export default function DailyTradeQuest() {
               Tokens (WSDM, USDT), and More.
             </p>
           </ul>
-          <div className="mt-4 w-full rounded-2xl bg-v1-surface-l4 p-4">
+          <div className="mt-4 w-full rounded-2xl bg-v1-surface-l5 p-4">
             <h2>My Status:</h2>
             <p className="mb-6 mt-2 text-v1-content-secondary">
               Complete today&apos;s trade to keep your streak!
@@ -107,7 +107,7 @@ export default function DailyTradeQuest() {
                 {Array.from({ length: 7 }, (_, i) => i).map(index => (
                   <div
                     key={index}
-                    className="mb-2 flex items-center justify-between rounded-lg bg-v1-surface-l5 p-2 text-xs"
+                    className="mb-2 flex items-center justify-between rounded-lg bg-v1-surface-l6 p-2 text-xs"
                   >
                     <span>Day {index + 1}</span>
                     <StatusBadge statusValue={dayStatus(index) || 'active'} />
@@ -149,7 +149,7 @@ export default function DailyTradeQuest() {
             Trade Now
             <Arrow className="ml-2" />
           </Button>
-          <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l0/80 to-75%"></div>
+          <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l4/80 to-75%"></div>
         </div>
       </DrawerModal>
       <RewardModal open={openReward} onClose={() => setOpenReward(false)} />

@@ -1,11 +1,11 @@
-import { Outlet } from 'react-router-dom';
+import { type PropsWithChildren } from 'react';
 import { useUserStorage } from 'api/userStorage';
 import PageWrapper from 'modules/base/PageWrapper';
 import Button from 'shared/Button';
 import onboardingBg from './images/onboarding-bg.png';
 import { ReactComponent as IconStar } from './images/star.svg';
 
-export default function TournamentsLayout() {
+export default function TournamentsOnboarding({ children }: PropsWithChildren) {
   const { value, save, isLoading } = useUserStorage('tournament-onboarding');
 
   return (
@@ -22,8 +22,8 @@ export default function TournamentsLayout() {
               The Tournament Begins!
             </h1>
             <p className="mb-10">
-              Compete for stellar rewards and claim your share of the $10,000
-              prize pool. Join now!
+              Compete for stellar rewards and claim your share of the prize
+              pool. Join now!
             </p>
             <Button
               variant="primary"
@@ -36,7 +36,7 @@ export default function TournamentsLayout() {
           </div>
         </div>
       ) : (
-        <Outlet />
+        children
       )}
     </PageWrapper>
   );
