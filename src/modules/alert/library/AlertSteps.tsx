@@ -53,8 +53,8 @@ export function AlertSteps({
             className={clsx(
               'relative flex size-12 shrink-0 flex-col items-center justify-center overflow-visible',
               passedSteps.has((self[index] as Step).value)
-                ? ' border-v1-border-brand bg-v1-surface-l3'
-                : 'border-transparent bg-v1-surface-l3 opacity-80',
+                ? ' border-v1-border-brand'
+                : 'border-transparent opacity-80',
             )}
           >
             <div
