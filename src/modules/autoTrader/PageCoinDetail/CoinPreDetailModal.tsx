@@ -54,7 +54,7 @@ const CoinPreDetailModal: React.FC<{
         <div className="flex gap-3">
           <Button
             variant="secondary"
-            to={`/trader-hot-coins/${slug}`}
+            to={`/coin/${slug}`}
             className="w-1/2 grow"
           >
             Overview

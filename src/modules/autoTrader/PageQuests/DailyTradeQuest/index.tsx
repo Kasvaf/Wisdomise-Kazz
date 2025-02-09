@@ -143,7 +143,7 @@ export default function DailyTradeQuest() {
             className="absolute bottom-6 end-4 start-4 z-10"
             onClick={() => {
               setOpen(false);
-              navigate('/trader-hot-coins');
+              navigate('/');
             }}
           >
             Trade Now

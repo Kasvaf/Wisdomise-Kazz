@@ -184,7 +184,7 @@ const PositionDetail: React.FC<{
             variant="link"
             className="!p-0 !text-xs text-v1-content-link"
             contentClassName="!text-v1-content-link"
-            to={`/trader-hot-coins/${position.base_slug}/transactions?key=${position.key}`}
+            to={`/auto-trader/${position.base_slug}/transactions?key=${position.key}`}
             size="small"
           >
             <Icon name={bxHistory} size={16} className="mr-1" />

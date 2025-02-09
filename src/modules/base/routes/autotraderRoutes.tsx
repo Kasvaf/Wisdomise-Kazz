@@ -25,10 +25,6 @@ const PageTransactions = React.lazy(
   () => import('modules/autoTrader/PageTransactions'),
 );
 
-const PageCoinDetail = React.lazy(
-  () => import('modules/autoTrader/PageCoinDetail'),
-);
-
 const PageTrade = React.lazy(() => import('modules/autoTrader/PageTrade'));
 
 const useAutoTraderRoutes = () => {
@@ -65,23 +61,25 @@ const useAutoTraderRoutes = () => {
         },
         {
           path: 'trader-hot-coins',
+          element: <PageHotCoins />,
+        },
+        {
+          path: 'auto-trader',
           children: [
-            { path: '', element: <PageHotCoins /> },
-            { path: ':slug', element: <PageCoinDetail /> },
+            {
+              path: ':slug',
+              element: <PageTrade />,
+              handle: {
+                wallet: (params: any, query: any) => [
+                  params.slug,
+                  query.quote || 'tether',
+                ],
+              },
+            },
             { path: ':slug/transactions', element: <PageTransactions /> },
           ],
         },
-        {
-          path: 'auto-trader/:slug',
-          element: <PageTrade />,
-          handle: {
-            wallet: (params: any, query: any) => [
-              params.slug,
-              query.quote || 'tether',
-            ],
-          },
-        },
-        { path: '*', element: <Navigate to="/trader-hot-coins" /> },
+        { path: '*', element: <Navigate to="/coin-radar/overview" /> },
       ],
     },
   ] satisfies RouteObject[];

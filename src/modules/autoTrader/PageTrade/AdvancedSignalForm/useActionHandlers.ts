@@ -114,7 +114,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           gasFee: res.gas_fee,
           amount,
         });
-        navigate(`/trader-hot-coins/${slug}`);
+        navigate(`/trader-positions?slug=${slug}`);
       } catch (error) {
         if (error instanceof TonConnectError) {
           if (error instanceof UserRejectsError) {
@@ -192,7 +192,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
-      navigate(`/trader-hot-coins/${slug}`);
+      navigate(`/trader-positions?slug=${slug}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }

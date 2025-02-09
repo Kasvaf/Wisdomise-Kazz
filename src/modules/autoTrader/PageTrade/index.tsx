@@ -19,7 +19,7 @@ export default function PageTrade() {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
 
-  useEnsureIsSupportedPair({ slug, nextPage: '/trader-hot-coins' });
+  useEnsureIsSupportedPair({ slug, nextPage: '/' });
 
   const [positionKey] = useSearchParamAsState('pos');
   const position = useTraderPositionQuery({
@@ -30,7 +30,7 @@ export default function PageTrade() {
 
   useEffect(() => {
     if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(`/trader-hot-coins/${slug}`);
+      navigate(`/trader-positions?slug=${slug}`);
     }
   }, [navigate, position.data, slug]);
 
