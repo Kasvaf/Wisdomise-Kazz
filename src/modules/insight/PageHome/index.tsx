@@ -1,7 +1,7 @@
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
-import HotCoinsTable from '../../autoTrader/PageHotCoins/HotCoinsTable';
 import PageInsight from '../PageInsight';
+import HotCoinsTable from './HotCoinsTable';
 import UserAssets from './UserAssets';
 
 const PageHome = () => {
