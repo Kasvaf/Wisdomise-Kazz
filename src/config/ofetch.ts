@@ -4,7 +4,7 @@ import { TEMPLE_ORIGIN } from './constants';
 
 let config: {
   getLang?: () => string | null;
-  getJwtToken?: () => string | null;
+  getJwtToken?: (gameAuth?: boolean) => string | null;
   delJwtToken?: () => void;
   refreshAccessToken?: () => Promise<void>;
 } = {};
@@ -13,7 +13,7 @@ export const ofetch = originalOfetch.create({
   baseURL: `${TEMPLE_ORIGIN}/api/v1/`,
   onRequest: ({ options }) => {
     if (options.meta?.auth !== false) {
-      const jwtToken = config?.getJwtToken?.();
+      const jwtToken = config?.getJwtToken?.(options.meta?.gameAuth);
       if (jwtToken) {
         options.headers.set('Authorization', `Bearer ${jwtToken}`);
       }

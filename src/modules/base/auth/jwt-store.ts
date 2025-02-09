@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 
 const JWT_TOKEN_KEY = 'TOKEN';
+const GAME_JWT_TOKEN_KEY = 'GAME_TOKEN';
 
-export const getJwtToken = () => {
-  return localStorage.getItem(JWT_TOKEN_KEY);
+export const getJwtToken = (gameAuth?: boolean) => {
+  return localStorage.getItem(gameAuth ? GAME_JWT_TOKEN_KEY : JWT_TOKEN_KEY);
 };
 
 const handlers: Array<() => void> = [];
@@ -44,6 +45,11 @@ export const useIsLoggedIn = () => {
 
 export const setJwtToken = (token: string) => {
   localStorage.setItem(JWT_TOKEN_KEY, token);
+  callHandlers();
+};
+
+export const setGameJwtToken = (token: string) => {
+  localStorage.setItem(GAME_JWT_TOKEN_KEY, token);
   callHandlers();
 };
 
