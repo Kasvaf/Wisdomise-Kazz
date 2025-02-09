@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
-import { useOnClickOutside } from 'usehooks-ts';
+import { useOnClickOutside, useEventListener } from 'usehooks-ts';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from './Icon';
 
@@ -49,6 +49,13 @@ export function ClickableTooltip({
       setIsOpen(false);
     }
   });
+  useEventListener('click', e => {
+    const el = e.target as HTMLElement;
+    if (el.closest('a')) {
+      setIsOpen(false);
+    }
+  });
+
   useEffect(() => {
     if (isOpen !== lastIsOpen.current) {
       onOpenChange?.(isOpen);
