@@ -24,6 +24,29 @@ const InfoLine: React.FC<
   );
 };
 
+const MessageBox: React.FC<
+  React.PropsWithChildren<{
+    variant: 'error' | 'warning';
+    title?: string | ReactNode;
+    className?: string;
+  }>
+> = ({ variant, title, children, className }) => {
+  return (
+    <div
+      className={clsx(
+        'rounded-lg border p-2 text-sm',
+        variant === 'error'
+          ? 'border-v1-border-negative bg-v1-background-negative/5'
+          : 'border-v1-border-notice bg-v1-background-notice/5',
+        className,
+      )}
+    >
+      {title && <div className="text-base font-medium">{title}</div>}
+      <div className="mt-1 text-sm">{children}</div>
+    </div>
+  );
+};
+
 const PriceVol: React.FC<{
   amountRatio: string;
   priceExact?: string;
@@ -87,6 +110,7 @@ const ModalApproval: React.FC<{
     Number(data?.gas_fee) + (quoteInfo?.abbreviation === gasAbbr ? +amount : 0);
   const remainingGas = Number(nativeBalance) - nativeAmount;
   const hasEnoughGas = remainingGas > 0.1;
+  const impact = Number(data?.price_impact);
 
   return (
     <div className="flex h-full flex-col text-white">
@@ -146,11 +170,25 @@ const ModalApproval: React.FC<{
         </InfoLine>
 
         {!hasEnoughGas && !Number.isNaN(remainingGas) && (
-          <div className="rounded-lg bg-v1-background-negative p-2 text-sm">
+          <MessageBox variant="error">
             Your {gasAbbr} balance might be insufficient to cover gas fees.
             Please ensure you have enough {gasAbbr} to proceed.
-          </div>
+          </MessageBox>
         )}
+
+        {impact >= 0.05 ? (
+          <MessageBox variant="error" title="🚨 High Slippage Detected!">
+            The price impact for this trade exceeds 5%, which could lead to
+            significant losses. Trading has been disabled to protect your funds.
+            Please adjust your trade size or try again later.
+          </MessageBox>
+        ) : impact >= 0.02 ? (
+          <MessageBox variant="warning" title="⚠️ Warning: High Slippage!">
+            Your trade has a appriximately {impact & 100}% price impact, which
+            may result in a less favorable execution price. Proceed with caution
+            or consider adjusting your trade size.
+          </MessageBox>
+        ) : null}
       </div>
 
       <div className="mt-6 flex items-center gap-2">
@@ -161,7 +199,7 @@ const ModalApproval: React.FC<{
           onClick={() => onResolve?.(true)}
           variant="brand"
           className="grow"
-          disabled={isLoading || !hasEnoughGas}
+          disabled={isLoading || !hasEnoughGas || impact > 0.05}
         >
           Fire Position
         </Button>
