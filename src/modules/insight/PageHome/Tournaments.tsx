@@ -8,10 +8,10 @@ const Tournaments = () => {
   return (
     <>
       <h1 className="mb-4">Tournaments</h1>
-      <div className="-mx-3 mb-3 flex gap-4 overflow-auto px-4">
+      <div className="-mx-3 mb-3 flex snap-x snap-mandatory gap-4 overflow-auto px-4">
         {(tournaments || [])?.map(t => (
           <Link
-            className="block"
+            className="block snap-center"
             to={`/trader-quests/tournaments/${t.key}`}
             key={t.key}
           >
