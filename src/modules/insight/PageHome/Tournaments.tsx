@@ -8,7 +8,7 @@ const Tournaments = () => {
   return (
     <>
       <h1 className="mb-4">Tournaments</h1>
-      <div className="-mx-4 mb-3 flex gap-4 overflow-auto px-4">
+      <div className="-mx-3 mb-3 flex gap-4 overflow-auto px-4">
         {(tournaments || [])?.map(t => (
           <Link
             className="block"
