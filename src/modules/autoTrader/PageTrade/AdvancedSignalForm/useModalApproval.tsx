@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useEffect, type ReactNode } from 'react';
+import { roundSensible } from 'utils/numbers';
 import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
 import { useSymbolInfo } from 'api/symbol';
@@ -184,9 +185,9 @@ const ModalApproval: React.FC<{
           </MessageBox>
         ) : impact >= 0.02 ? (
           <MessageBox variant="warning" title="⚠️ Warning: High Slippage!">
-            Your trade has a appriximately {impact & 100}% price impact, which
-            may result in a less favorable execution price. Proceed with caution
-            or consider adjusting your trade size.
+            Your trade has a appriximately {roundSensible(impact * 100)}% price
+            impact, which may result in a less favorable execution price.
+            Proceed with caution or consider adjusting your trade size.
           </MessageBox>
         ) : null}
       </div>
