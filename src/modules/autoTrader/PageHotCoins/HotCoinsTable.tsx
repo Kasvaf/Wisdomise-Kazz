@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
-import { useHasFlag, useTraderCoins } from 'api';
+import { useTraderCoins } from 'api';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
@@ -9,7 +9,6 @@ import CoinPreDetailModal from '../PageCoinDetail/CoinPreDetailModal';
 import AlertButton from './AlertButton';
 
 const HotCoinsTable = () => {
-  const hasFlag = useHasFlag();
   const { width } = useWindowSize();
 
   const { isLoading, data } = useTraderCoins({
@@ -25,7 +24,7 @@ const HotCoinsTable = () => {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="flex items-center gap-2 py-3">AutoTrader Hot Coins</h1>
-        {hasFlag('/trader-alerts') && <AlertButton />}
+        <AlertButton />
       </div>
 
       {isLoading ? (

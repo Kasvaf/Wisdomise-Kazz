@@ -1,69 +1,76 @@
-import { type FC, type ReactNode } from 'react';
 import { clsx } from 'clsx';
-import { NavLink } from 'react-router-dom';
+import { type PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { bxLinkExternal } from 'boxicons-quasar';
-import { ClickableTooltip } from 'shared/ClickableTooltip';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAccountQuery, useSubscription, useReferralStatusQuery } from 'api';
 import { useLogoutMutation } from 'api/auth';
-import { openHubSpot } from 'config/hubSpot';
-import Icon from 'shared/Icon';
-import { MAIN_LANDING } from 'config/constants';
-import { ReadableDuration } from 'shared/ReadableDuration';
+import { RouterBaseName } from 'config/constants';
+import useIsMobile from 'utils/useIsMobile';
+import { isMiniApp } from 'utils/version';
 import { Button } from 'shared/v1-components/Button';
+import { ReadableDuration } from 'shared/ReadableDuration';
+import LanguageSelector from '../LanguageSelector';
+import BranchSelector from '../BranchSelector';
 import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
-import { ReactComponent as QuestionRectIcon } from './question-rect.svg';
 import { ReactComponent as SignOutIcon } from './signout.svg';
+import ExternalLinks from './ExternalLinks';
+import Support from './Support';
 
-const ExternalLinks = () => {
-  const { t, i18n } = useTranslation('base');
-  const items = [
-    { label: t('links.blog'), link: 'https://wisdomise.medium.com/' },
-    {
-      label: t('links.about-us'),
-      link: MAIN_LANDING(i18n.language) + '/about-us/',
-    },
-  ];
-
+const InternalItem: React.FC<
+  PropsWithChildren<{ label: string; to: string }>
+> = ({ label, to, children }) => {
   return (
-    <>
-      {items.map(item => (
-        <NavLink
-          key={item.link}
-          className="flex w-full items-center gap-2 px-4 font-normal text-v1-content-primary hover:text-v1-content-notice"
-          target="_blank"
-          to={item.link}
-        >
-          {item.label}
-          <Icon size={12} name={bxLinkExternal} />
-        </NavLink>
-      ))}
-    </>
+    <NavLink
+      to={to}
+      className="flex h-14 items-center justify-between p-3 transition-all hover:bg-v1-background-brand/5"
+    >
+      <div className="text-v1-content-primary">{label}</div>
+      {children}
+    </NavLink>
   );
 };
 
 const ProfileMenuContent = () => {
   const { t } = useTranslation('base');
+  const isMobile = useIsMobile();
   const subscription = useSubscription();
   const { data: account } = useAccountQuery();
   const { data: referral } = useReferralStatusQuery();
   const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
+  const { pathname } = useLocation();
 
   return (
     <div className="min-w-80 space-y-4 text-v1-content-primary">
-      <div className="flex items-center justify-center gap-2 text-ellipsis p-3 text-center text-base">
-        <AccountIconEmpty className="size-6 shrink-0" />
-        {account?.email}
+      <div className="flex max-w-full grow-0 justify-between overflow-hidden">
+        <div className="flex w-3/4 items-center gap-2 overflow-hidden p-3 text-center text-base mobile:pl-1">
+          <AccountIconEmpty className="size-6 shrink-0" />
+          <div className="grow text-ellipsis text-left">{account?.email}</div>
+        </div>
+
+        {isMobile && (
+          <div className="flex shrink-0 gap-2">
+            {RouterBaseName && pathname !== '/menu' && <BranchSelector />}
+            <LanguageSelector />
+          </div>
+        )}
       </div>
 
       <div className="divide-y divide-white/5 overflow-hidden rounded-xl bg-white/5">
-        <NavLink
+        {isMobile && (
+          <>
+            {isMiniApp ? (
+              <InternalItem to="/trader-claim-reward" label="Claim Rewards" />
+            ) : (
+              <InternalItem to="/account/overview" label="My Account" />
+            )}
+            <InternalItem to="/coin-radar/alerts" label="Manage Alerts" />
+          </>
+        )}
+
+        <InternalItem
           to="/account/billing"
-          className="flex h-14 items-center justify-between p-3 transition-all hover:bg-v1-background-brand/5"
+          label={t('billing:common.subscription')}
         >
-          <div className="text-v1-content-primary">
-            {t('billing:common.subscription')}
-          </div>
           <div className="text-end">
             <div className="capitalize text-v1-content-brand">
               {subscription.group.replace('_', ' ')}
@@ -86,14 +93,8 @@ const ProfileMenuContent = () => {
               </span>
             </div>
           </div>
-        </NavLink>
-        <NavLink
-          to="/account/referral"
-          className="flex h-14 items-center justify-between p-3 transition-all hover:bg-v1-background-brand/5"
-        >
-          <div className="text-v1-content-primary">
-            {t('menu.referral.title')}
-          </div>
+        </InternalItem>
+        <InternalItem to="/account/referral" label={t('menu.referral.title')}>
           <div className="text-end">
             {referral != null && (
               <div className="flex flex-wrap items-center gap-x-2">
@@ -106,7 +107,7 @@ const ProfileMenuContent = () => {
               </div>
             )}
           </div>
-        </NavLink>
+        </InternalItem>
       </div>
       <Button
         block
@@ -122,33 +123,11 @@ const ProfileMenuContent = () => {
         {t('user.sign-out')}
       </Button>
 
-      <button
-        className="flex w-full items-center justify-center"
-        onClick={openHubSpot}
-      >
-        <QuestionRectIcon />
-        <span className="ml-3 mr-2">{t('support.title')}</span>
-        <span className="text-xs font-normal text-white/40">
-          {t('support.hint')}
-        </span>
-      </button>
-
+      <Support />
       <div className="border-b border-b-white/5" />
       <ExternalLinks />
     </div>
   );
 };
 
-export const ProfileMenuTooltip: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  return (
-    <ClickableTooltip
-      chevron={false}
-      title={<ProfileMenuContent />}
-      tooltipPlacement="bottomLeft"
-    >
-      {children}
-    </ClickableTooltip>
-  );
-};
+export default ProfileMenuContent;

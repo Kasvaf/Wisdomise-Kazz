@@ -5,7 +5,7 @@ import CoinChart from 'modules/insight/coinRadar/PageCoinRadarDetail/components/
 import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
 import { SocialRadarSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/SocialRadarSentimentWidget';
 import Button from 'shared/Button';
-import BtnBack from '../layout/BtnBack';
+import BtnBack from '../../base/BtnBack';
 import PositionsList from '../PositionsList';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import MiniCoinPriceWidget from './MiniCoinPriceWidget';
@@ -51,7 +51,7 @@ export default function PageCoinDetail() {
       <Button
         variant="brand"
         className="fixed bottom-20 end-4 start-4 mt-5"
-        to={`/market/${slug}`}
+        to={`/auto-trader/${slug}`}
       >
         Auto Trade
       </Button>

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useTraderPositionTransactionsQuery } from 'api';
 import Spinner from 'shared/Spinner';
-import BtnBack from '../layout/BtnBack';
+import BtnBack from '../../base/BtnBack';
 import TransactionBox from './TransactionBox';
 import { ReactComponent as ArrowUp } from './ArrowUp.svg';
 

@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { delJwtToken, setJwtToken } from 'modules/base/auth/jwt-store';
+import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
-import { useTelegram } from 'modules/autoTrader/layout/TelegramProvider';
 import { isLocal } from 'utils/version';
 import { useUserStorage } from './userStorage';
 

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { isLocal } from 'utils/version';
-import { useTelegram } from './layout/TelegramProvider';
+import { useTelegram } from '../base/mini-app/TelegramProvider';
 
 const useStartParams = () => {
   const { webApp } = useTelegram();

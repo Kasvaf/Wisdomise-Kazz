@@ -3,9 +3,11 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
-import { isDebugMode } from 'utils/version';
+import { isDebugMode, isMiniApp } from 'utils/version';
+import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ReactComponent as UserIcon } from './user.svg';
-import { ProfileMenuTooltip } from './ProfileMenuDesktop';
+import ProfileMenuContent from './ProfileMenuContent';
+import BtnTelegramProfile from './BtnTelegramProfile';
 
 const DebugBadge = () =>
   isDebugMode ? (
@@ -17,12 +19,20 @@ const ProfileMenu = () => {
   const [ModalLogin, showModalLogin] = useModalLogin();
 
   return isLoggedIn ? (
-    <ProfileMenuTooltip>
-      <Button variant="ghost" size="xl" className="w-xl" surface={1}>
-        <UserIcon className="shrink-0" />
-        <DebugBadge />
-      </Button>
-    </ProfileMenuTooltip>
+    <ClickableTooltip
+      chevron={false}
+      title={<ProfileMenuContent />}
+      tooltipPlacement="bottomLeft"
+    >
+      {isMiniApp ? (
+        <BtnTelegramProfile />
+      ) : (
+        <Button variant="ghost" size="xl" className="w-xl" surface={1}>
+          <UserIcon className="shrink-0" />
+          <DebugBadge />
+        </Button>
+      )}
+    </ClickableTooltip>
   ) : (
     <>
       <Button

@@ -65,7 +65,7 @@ const CoinPreDetailModal: React.FC<{
             variant="white"
           />
         </div>
-        <Button variant="brand" to={`/market/${slug}`}>
+        <Button variant="brand" to={`/auto-trader/${slug}`}>
           Auto Trade
         </Button>
       </div>

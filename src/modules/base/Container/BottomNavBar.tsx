@@ -1,19 +1,15 @@
 import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useHasFlag } from 'api';
-import { isMiniApp } from 'utils/version';
 import { DebugPin } from 'shared/DebugPin';
 import useMenuItems, { type RootMenuItem } from './useMenuItems';
-import { ReactComponent as IconMenu } from './useMenuItems/icons/menu.svg';
 import { TrialEndBanner } from './TrialEndBanner';
 
 const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   const { items: MenuItems } = useMenuItems();
   const hasFlag = useHasFlag();
 
-  const items = MenuItems.filter(
-    i => !i.mobileHide && !i.hide && hasFlag(i.link),
-  );
+  const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
   const renderItem = (item: RootMenuItem) => (
     <NavLink
@@ -40,12 +36,6 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
       <TrialEndBanner />
       <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
         {items.map(renderItem)}
-        {!isMiniApp &&
-          renderItem({
-            icon: <IconMenu />,
-            text: 'Menu',
-            link: '/menu',
-          })}
       </div>
     </div>
   );

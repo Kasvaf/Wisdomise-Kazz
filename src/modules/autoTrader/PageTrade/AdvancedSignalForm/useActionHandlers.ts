@@ -14,7 +14,7 @@ import {
   type CreatePositionRequest,
 } from 'api/trader';
 import { useActiveWallet, useTransferAssetsMutation } from 'api/chains';
-import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
+import useActiveNetwork from 'modules/base/useActiveNetwork';
 import { type SignalFormState } from './useSignalFormStates';
 import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';

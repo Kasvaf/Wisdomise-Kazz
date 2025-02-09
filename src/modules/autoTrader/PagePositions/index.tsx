@@ -43,7 +43,7 @@ const PagePositions = () => {
         <Button
           variant="brand"
           className="fixed bottom-20 end-4 start-4 z-50"
-          to={`/market/${slug || 'the-open-network'}`}
+          to={`/auto-trader/${slug || 'the-open-network'}`}
         >
           Start Auto Trading
         </Button>

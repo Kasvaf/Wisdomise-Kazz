@@ -8,8 +8,8 @@ import {
 } from 'api';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import BtnBack from '../layout/BtnBack';
-import useActiveNetwork from '../layout/useActiveNetwork';
+import BtnBack from '../../base/BtnBack';
+import useActiveNetwork from '../../base/useActiveNetwork';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
@@ -47,7 +47,7 @@ export default function PageTrade() {
           value={slug}
           onChange={selectedSlug =>
             navigate({
-              pathname: `/market/${selectedSlug}`,
+              pathname: `/auto-trader/${selectedSlug}`,
               search: 'quote=' + formState.quote[0],
             })
           }

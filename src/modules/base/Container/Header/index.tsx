@@ -4,6 +4,8 @@ import { type PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import { RouterBaseName } from 'config/constants';
+import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
+import { isMiniApp } from 'utils/version';
 import BranchSelector from './BranchSelector';
 import BtnLiveSupport from './BtnLiveSupport';
 import LanguageSelector from './LanguageSelector';
@@ -34,14 +36,15 @@ const Header: React.FC<
       >
         {isMobile ? (
           <>
-            <Breadcrumb
-              showSiblings={showSiblings}
-              onShowSiblings={onShowSiblings}
-            />
+            <ProfileMenu />
+            {!isMiniApp && (
+              <Breadcrumb
+                showSiblings={showSiblings}
+                onShowSiblings={onShowSiblings}
+              />
+            )}
             <div className="grow" />
-            {RouterBaseName && pathname !== '/menu' && <BranchSelector />}
-            <LanguageSelector />
-            {pathname === '/menu' ? <BtnLiveSupport /> : <ProfileMenu />}
+            {pathname === '/menu' ? <BtnLiveSupport /> : <BtnWalletConnect />}
           </>
         ) : (
           <>
@@ -49,6 +52,7 @@ const Header: React.FC<
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
             <LanguageSelector />
+            <BtnWalletConnect />
             <ProfileMenu />
           </>
         )}
