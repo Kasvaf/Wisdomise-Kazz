@@ -7,13 +7,19 @@ import Icon from 'shared/Icon';
 import { Select } from 'shared/v1-components/Select';
 
 const gotoBranch = (value = 'main') => {
-  window.location.href = value + window.location.hash;
+  window.location.href = `/${value}${window.location.hash}`;
 };
 
 const BranchSelector = () => {
+  const value = RouterBaseName.startsWith('/')
+    ? RouterBaseName.slice(1)
+    : RouterBaseName;
   const branches = useQuery(['branched'], async () => {
     const data = await ofetch<string>(window.location.origin + '/branches.txt');
-    return data.split(/\s+/).filter(Boolean);
+    return data
+      .split(/\s+/)
+      .filter(Boolean)
+      .map(x => (x.startsWith('/') ? x.slice(1) : x));
   });
 
   return (
@@ -22,7 +28,7 @@ const BranchSelector = () => {
       chevron={false}
       size="xl"
       tooltipPlacement="bottomRight"
-      value={RouterBaseName}
+      value={value}
       loading={branches.isLoading}
       onChange={gotoBranch}
       allowClear={false}
@@ -33,7 +39,7 @@ const BranchSelector = () => {
       render={(opt, target) => {
         return (
           <div className={clsx(target === 'value' && 'mobile:hidden')}>
-            {(opt ?? '/main').slice(1)}
+            {opt ?? 'main'}
           </div>
         );
       }}
