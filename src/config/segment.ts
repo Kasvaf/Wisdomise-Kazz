@@ -1,4 +1,4 @@
-import { AnalyticsBrowser } from '@segment/analytics-next';
+import { AnalyticsBrowser, type UserTraits } from '@segment/analytics-next';
 import { isLocal, isProduction } from 'utils/version';
 
 export const analytics = new AnalyticsBrowser();
@@ -12,6 +12,15 @@ export function configSegment() {
     });
   }
 }
+
+export const appendTraits = async (traits: UserTraits) => {
+  const user = await analytics.user();
+  const lastTraits = user.traits();
+  return await analytics.identify(user.id(), {
+    ...lastTraits,
+    ...traits,
+  });
+};
 
 export const trackClick =
   (place: string, rest: Record<string, any> = {}) =>

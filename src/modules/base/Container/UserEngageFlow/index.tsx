@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
+import { appendTraits } from 'config/segment';
 import { useIsLoggedIn } from '../../auth/jwt-store';
 import { SemiForceLoginModal } from './SemiForceLoginModal';
 
@@ -12,18 +13,24 @@ const useSemiForceLoginModal = () => {
 
 const ONBOARDING_URL = '/coin-radar/onboarding';
 const useNavigateToOnboarding = () => {
+  const navigated = useRef(false);
   const navigate = useNavigate();
   const { group } = useSubscription();
-  const { value, save, isLoading, isTrusted } = useUserStorage(
-    'onboarding-navigate',
-  );
+  const { value } = useUserStorage('onboarding-data');
 
   useEffect(() => {
-    if (isTrusted && value !== 'true' && group !== 'guest') {
-      void save('true');
-      navigate(ONBOARDING_URL);
+    if (value === undefined) return;
+    if (value === null) {
+      if (!navigated.current) {
+        navigate(ONBOARDING_URL);
+        navigated.current = true;
+      }
+    } else {
+      try {
+        void appendTraits({ onboardingData: JSON.parse(value) });
+      } catch {}
     }
-  }, [group, isLoading, isTrusted, navigate, save, value]);
+  }, [group, navigate, value]);
 };
 
 export const UserEngageFlow = () => {

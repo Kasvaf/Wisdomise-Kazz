@@ -1,98 +1,100 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
-import { getJwtToken } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useAccountQuery } from './account';
 
-const getIsLoggedIn = () => getJwtToken();
-
-const getItem = (key: string, signal: AbortSignal) =>
-  getIsLoggedIn()
-    ? ofetch<{ value: string }>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
-        {
-          signal,
-        },
-      ).then(resp => (typeof resp.value === 'string' ? resp.value : null))
-    : Promise.resolve(localStorage.getItem(`storage:${key}`));
-
-const setItem = (key: string, value: string) =>
-  getIsLoggedIn()
-    ? ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`, {
-        body: {
-          value,
-        },
-        method: 'post',
-      })
-    : Promise.resolve(localStorage.setItem(`storage:${key}`, value));
-
-const removeItem = (key: string) =>
-  getIsLoggedIn()
-    ? ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`, {
-        method: 'delete',
-      })
-    : Promise.resolve(localStorage.removeItem(`storage:${key}`));
-
 export function useUserStorage(key: string) {
+  const queryClient = useQueryClient();
   const { data: account } = useAccountQuery();
-  const userEmail = account?.info?.email ?? '';
-  const [isLoading, setIsLoading] = useState(true);
-  const [value, setValue] = useState<null | string>(null);
+  const userEmail = account?.info?.email;
   const [owner, setOwner] = useState<null | string>(null);
+  const isLoggedIn = useIsLoggedIn();
+
+  const value = useQuery({
+    queryKey: ['user-storage', userEmail, key],
+    queryFn: async () => {
+      if (!userEmail || !isLoggedIn) {
+        return;
+      }
+      const resp = await ofetch<{ value: string }>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+      );
+      setOwner(userEmail);
+      return typeof resp.value === 'string' ? resp.value : null;
+    },
+    onError: () => setOwner(null),
+    initialData: undefined,
+  });
+
+  const save = useMutation({
+    mutationFn: async (newValue: string) => {
+      if (!isLoggedIn || !userEmail) {
+        return null;
+      }
+      try {
+        const resp = await ofetch<{ message?: 'ok' }>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+          {
+            body: {
+              value: newValue,
+            },
+            method: 'post',
+          },
+        );
+        return resp.message === 'ok' ? newValue : value.data;
+      } catch {
+        return value.data;
+      }
+    },
+    onSuccess: newValue =>
+      queryClient.setQueryData(['user-storage', userEmail, key], newValue),
+  });
+
+  const remove = useMutation({
+    mutationFn: async () => {
+      if (!userEmail || !isLoggedIn) {
+        return null;
+      }
+      try {
+        const resp = await ofetch<{ message?: 'ok' }>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+          {
+            method: 'delete',
+          },
+        );
+        return resp.message === 'ok';
+      } catch {
+        return false;
+      }
+    },
+    onSuccess: newValue => {
+      if (newValue) {
+        queryClient.setQueryData(['user-storage', userEmail, key], null);
+      }
+    },
+  });
 
   useEffect(() => {
     setOwner(null);
-  }, [userEmail]);
+  }, [isLoggedIn]);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    if (userEmail) {
-      setIsLoading(true);
-      setValue(null);
-      void getItem(key, controller.signal)
-        .then(newValue => {
-          setValue(newValue);
-          setOwner(userEmail);
-          return newValue;
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      setIsLoading(false);
-      setValue(null);
-      setOwner(null);
-    }
-    return () => {
-      try {
-        controller.abort();
-      } catch {}
-    };
-  }, [userEmail, key]);
-
-  const save = async (newValue: string) => {
-    setIsLoading(true);
-    try {
-      await setItem(key, newValue);
-      setValue(newValue);
-    } catch {}
-    setIsLoading(false);
-  };
-
-  const remove = async () => {
-    setIsLoading(true);
-    try {
-      await removeItem(key);
-      setValue(null);
-    } catch {}
-    setIsLoading(false);
-  };
+  const isTrusted =
+    !value.isLoading &&
+    !save.isLoading &&
+    !remove.isLoading &&
+    !value.isError &&
+    value.isFetched &&
+    !!userEmail &&
+    userEmail === owner &&
+    value.data !== undefined &&
+    isLoggedIn;
 
   return {
-    isTrusted: owner === userEmail && !isLoading,
-    isLoading,
-    value,
-    save,
-    remove,
+    isLoading: value.isLoading || save.isLoading || remove.isLoading,
+    value: isTrusted ? value.data ?? null : undefined,
+    save: save.mutateAsync,
+    remove: remove.mutateAsync,
   };
 }
