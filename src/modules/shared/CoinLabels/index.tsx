@@ -153,7 +153,7 @@ export function CoinLabels({
     <div
       className={clsx(
         'flex flex-wrap items-start justify-start gap-[2px]',
-        'max-h-14 w-auto overflow-y-auto',
+        // 'max-h-14 w-auto overflow-y-auto',
         className,
       )}
     >
