@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSubscription } from 'api';
 import { useUserStorage } from 'api/userStorage';
@@ -13,7 +13,6 @@ const useSemiForceLoginModal = () => {
 
 const ONBOARDING_URL = '/coin-radar/onboarding';
 const useNavigateToOnboarding = () => {
-  const navigated = useRef(false);
   const navigate = useNavigate();
   const { group } = useSubscription();
   const { value } = useUserStorage('onboarding-data');
@@ -21,10 +20,7 @@ const useNavigateToOnboarding = () => {
   useEffect(() => {
     if (value === undefined) return;
     if (value === null) {
-      if (!navigated.current) {
-        navigate(ONBOARDING_URL);
-        navigated.current = true;
-      }
+      navigate(ONBOARDING_URL);
     } else {
       try {
         void appendTraits({ onboardingData: JSON.parse(value) });

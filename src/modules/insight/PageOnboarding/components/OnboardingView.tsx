@@ -6,13 +6,12 @@ import { Button } from 'shared/v1-components/Button';
 
 export function OnboardingView<V extends string>({
   className,
-  // onClose,
   onChange,
   steps: rawSteps,
   step,
+  loading,
 }: {
   className?: string;
-  onClose?: () => void;
   onChange?: (newStep: V) => void;
   steps: Array<{
     key: V;
@@ -20,6 +19,7 @@ export function OnboardingView<V extends string>({
     element: ReactNode;
   }>;
   step: V;
+  loading?: boolean;
 }) {
   const steps = useMemo(() => {
     const activeStepIndex = rawSteps.findIndex(x => x.key === step);
@@ -34,6 +34,7 @@ export function OnboardingView<V extends string>({
     <div
       className={clsx(
         'fixed left-0 top-0 flex h-dvh w-dvw bg-v1-background-primary text-v1-content-primary',
+        loading && 'pointer-events-none animate-pulse blur-sm transition-all',
         className,
       )}
     >
