@@ -106,6 +106,7 @@ export const CoinWhalesWidget: FC<{
           <Coin coin={coin} truncate={299} imageClassName="size-6" mini />
         </>
       }
+      subtitle={t('whales_on_coin.description')}
       empty={{
         enabled: isEmpty,
         refreshButton: false,

@@ -134,6 +134,7 @@ whale_trades:
   trading_pnl: Trading PNL
   volume_of_trades: Volume Of Trades
 whales_on_coin:
+  description: This data represents overall wallet activity, not just for this coin.
   active_empty: No Active Wallets at This Time
   active_title: Smart Wallets Active on
   address: Address
