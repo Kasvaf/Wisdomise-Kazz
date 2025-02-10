@@ -36,37 +36,41 @@ export function WhaleHoldsWidget({
         title: [
           t('whale_holds.badge'),
           <div className="p-1 text-xxs" key="tooltip">
-            <b className="block pb-1">{t('asset_badges.stable')}</b>
+            <b className="block pb-1">{t('whale:asset_badges.stable')}</b>
             <p className="pb-3 text-v1-content-secondary">
-              {t('asset_badges.stable_info')}
+              {t('whale:asset_badges.stable_info')}
             </p>
-            <b className="block pb-1">{t('asset_badges.holding')}</b>
+            <b className="block pb-1">{t('whale:asset_badges.holding')}</b>
             <p className="pb-3 text-v1-content-secondary">
-              {t('asset_badges.holding_info')}
+              {t('whale:asset_badges.holding_info')}
             </p>
-            <b className="block pb-1">{t('asset_badges.unloading')}</b>
+            <b className="block pb-1">{t('whale:asset_badges.unloading')}</b>
             <p className="pb-3 text-v1-content-secondary">
-              {t('asset_badges.unloading_info')}
+              {t('whale:asset_badges.unloading_info')}
             </p>
-            <b className="block pb-1">{t('asset_badges.loading')}</b>
+            <b className="block pb-1">{t('whale:asset_badges.loading')}</b>
             <p className="pb-3 text-v1-content-secondary">
-              {t('asset_badges.loading_info')}
+              {t('whale:asset_badges.loading_info')}
             </p>
-            <b className="block pb-1">{t('asset_badges.new_investment')}</b>
+            <b className="block pb-1">
+              {t('whale:asset_badges.new_investment')}
+            </b>
             <p className="pb-3 text-v1-content-secondary">
-              {t('asset_badges.new_investment_info')}
+              {t('whale:asset_badges.new_investment_info')}
             </p>
-            <b className="block pb-1">{t('asset_badges.exit_portfolio')}</b>
+            <b className="block pb-1">
+              {t('whale:asset_badges.exit_portfolio')}
+            </b>
             <p className="pb-3 text-v1-content-secondary">
-              {t('asset_badges.exit_portfolio_info')}
+              {t('whale:asset_badges.exit_portfolio_info')}
             </p>
-            <b className="block pb-1">{t('asset_badges.trading')}</b>
+            <b className="block pb-1">{t('whale:asset_badges.trading')}</b>
             <p className="pb-3 text-v1-content-secondary">
-              {t('asset_badges.trading_info')}
+              {t('whale:asset_badges.trading_info')}
             </p>
-            <b className="block pb-1">{t('asset_badges.dust')}</b>
+            <b className="block pb-1">{t('whale:asset_badges.dust')}</b>
             <p className="text-v1-content-secondary">
-              {t('asset_badges.dust_info')}
+              {t('whale:asset_badges.dust_info')}
             </p>
           </div>,
         ],

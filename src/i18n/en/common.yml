@@ -13,23 +13,6 @@ actions:
   save: Save
   'yes': 'Yes'
 almost-there: Almost There...
-asset_badges:
-  dust: ''
-  dust_info: ''
-  exit_portfolio: ''
-  exit_portfolio_info: ''
-  holding: ''
-  holding_info: ''
-  loading: ''
-  loading_info: ''
-  new_investment: ''
-  new_investment_info: ''
-  stable: ''
-  stable_info: ''
-  trading: ''
-  trading_info: ''
-  unloading: ''
-  unloading_info: ''
 below: Below
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
