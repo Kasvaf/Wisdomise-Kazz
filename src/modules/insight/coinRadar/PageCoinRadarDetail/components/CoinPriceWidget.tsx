@@ -12,6 +12,7 @@ import Icon from 'shared/Icon';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
 import { CoinSelect } from 'shared/CoinSelect';
+import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { PriceAlertButton } from './PriceAlertButton';
 
 export function CoinPriceWidget({
@@ -84,8 +85,9 @@ export function CoinPriceWidget({
           />
         </div>
       )}
-      <div className="mt-8">
-        <PriceAlertButton slug={slug} className="w-full" />
+      <div className="mt-8 flex w-full gap-2">
+        <PriceAlertButton className="shrink-0 grow" slug={slug} />
+        <BtnAutoTrade className="shrink-0 grow" slug={slug} />
       </div>
     </OverviewWidget>
   );
