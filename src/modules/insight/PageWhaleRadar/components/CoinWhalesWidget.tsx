@@ -35,7 +35,12 @@ export const CoinWhalesWidget: FC<{
       },
       {
         title: t('whales_on_coin.badge'),
-        render: (_, row) => <WhaleAssetBadge value={row.asset.label} />,
+        render: (_, row) => (
+          <WhaleAssetBadge
+            value={row.asset.label}
+            date={row.asset.last_label_action_datetime}
+          />
+        ),
       },
       {
         title: t('whales_on_coin.network'),

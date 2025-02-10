@@ -386,6 +386,7 @@ export interface CoinWhale {
     amount?: null | number;
     worth?: null | number;
     label?: null | WhaleAssetLabel;
+    last_label_action_datetime?: string | null;
     total_recent_transfers?: null | number;
     total_recent_buys?: null | number;
     total_recent_buy_volume?: null | number;

@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { type WhaleAssetLabel } from 'api';
 import { ClickableTooltip } from './ClickableTooltip';
 
@@ -58,6 +60,7 @@ const useBadgeDetail = (
   if (badge === 'trading') {
     return {
       title: t('asset_badges.trading'),
+      info: t('asset_badges.trading_info'),
       className: 'bg-v1-content-primary/20 text-v1-content-primary',
     };
   }
@@ -67,16 +70,24 @@ const useBadgeDetail = (
   };
 };
 
-// NAITODO add date
 export function WhaleAssetBadge({
   className,
   value,
+  date,
 }: {
   className?: string;
   value?: WhaleAssetLabel | null;
+  date?: string | null;
 }) {
+  const { t } = useTranslation('common');
   const detail = useBadgeDetail(value);
-
+  const dateTxt = useMemo(() => {
+    if (!date) return '';
+    const dt = dayjs(date);
+    const daysDiff = Math.abs(dt.diff(Date.now(), 'days'));
+    const text = dt.fromNow(false);
+    return `(${daysDiff < 2 ? t('recently') : text})`;
+  }, [date, t]);
   return (
     <ClickableTooltip
       chevron={false}
@@ -96,6 +107,7 @@ export function WhaleAssetBadge({
       )}
     >
       {detail.title}
+      {dateTxt && <span className="capitalize opacity-80">{dateTxt}</span>}
     </ClickableTooltip>
   );
 }
