@@ -3,6 +3,7 @@ import 'ofetch';
 
 interface OfetchRequestMeta {
   auth?: boolean;
+  gameAuth?: boolean;
   lang?: boolean;
 }
 
