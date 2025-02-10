@@ -6,28 +6,28 @@ export const presetFilters: Array<{
   filters: Partial<Parameters<typeof useWhaleRadarCoins>[0]>;
 }> = [
   {
-    label: 'Profitable Coins',
+    label: '🔥 Profitable Coins',
     slug: 'profitable',
     filters: {
       profitableOnly: true,
     },
   },
   {
-    label: 'SOL',
+    label: '🔥 SOL',
     slug: 'sol',
     filters: {
       networks: ['solana'],
     },
   },
   {
-    label: 'BASE',
+    label: '🔥 BASE',
     slug: 'base',
     filters: {
       networks: ['base'],
     },
   },
   {
-    label: 'Memes',
+    label: '🔥 Memes',
     slug: 'meme',
     filters: {
       categories: [
@@ -57,7 +57,7 @@ export const presetFilters: Array<{
     },
   },
   {
-    label: 'AI',
+    label: '🔥 AI',
     slug: 'ai',
     filters: {
       categories: [
@@ -73,7 +73,7 @@ export const presetFilters: Array<{
     },
   },
   {
-    label: 'RWA',
+    label: '🔥 RWA',
     slug: 'rwa',
     filters: {
       categories: [
@@ -87,7 +87,7 @@ export const presetFilters: Array<{
     },
   },
   {
-    label: 'Gaming',
+    label: '🔥 Gaming',
     slug: 'gaming',
     filters: {
       categories: [
