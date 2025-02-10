@@ -57,7 +57,7 @@ export const CoinWhalesWidget: FC<{
       {
         title: t('whales_on_coin.balance'),
         render: (_, row) => (
-          <ReadableNumber value={row.asset.worth} label="$" />
+          <ReadableNumber value={row.asset.worth} label="$" popup="never" />
         ),
       },
       {
@@ -69,6 +69,7 @@ export const CoinWhalesWidget: FC<{
               (row.asset.total_recent_buy_amount ?? 0)
             }
             label="$"
+            popup="never"
           />
         ),
       },
@@ -80,6 +81,7 @@ export const CoinWhalesWidget: FC<{
             direction="auto"
             showSign
             label="$"
+            popup="never"
           />
         ),
       },
@@ -91,6 +93,7 @@ export const CoinWhalesWidget: FC<{
             direction="auto"
             showSign
             label="%"
+            popup="never"
           />
         ),
       },
