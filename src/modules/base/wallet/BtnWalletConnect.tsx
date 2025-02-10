@@ -4,7 +4,9 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import useActiveNetwork from 'modules/base/useActiveNetwork';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
-const BtnSolanaWalletConnect = () => {
+const BtnSolanaWalletConnect: React.FC<{ className?: string }> = ({
+  className,
+}) => {
   const solanaWallet = useWallet();
   const addr = solanaWallet.publicKey?.toString() || '';
   return (
@@ -17,6 +19,7 @@ const BtnSolanaWalletConnect = () => {
           ? { background: '#121214', paddingLeft: 16 }
           : { background: '#00a3ff' }),
       }}
+      className={className}
     >
       {solanaWallet.connected
         ? addr.substring(0, 4) + '...' + addr.substr(-4)
@@ -25,13 +28,13 @@ const BtnSolanaWalletConnect = () => {
   );
 };
 
-const BtnWalletConnect: React.FC = () => {
+const BtnWalletConnect: React.FC<{ className?: string }> = ({ className }) => {
   const net = useActiveNetwork();
 
   return net === 'the-open-network' ? (
-    <TonConnectButton />
+    <TonConnectButton className={className} />
   ) : net === 'solana' ? (
-    <BtnSolanaWalletConnect />
+    <BtnSolanaWalletConnect className={className} />
   ) : null;
 };
 

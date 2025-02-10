@@ -1,17 +1,25 @@
+import { clsx } from 'clsx';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import Logo from 'assets/logo.png';
 import blurBg from './blur.png';
 import box from './box.png';
 
-const BtnTelegramProfile = () => {
+const BtnTelegramProfile: React.FC<{ className?: string }> = ({
+  className,
+}) => {
   const profile = useTelegramProfile();
 
   if (!profile?.first_name) {
-    return <img src={Logo} className="h-8" alt="logo" />;
+    return <img src={Logo} className={clsx('h-8', className)} alt="logo" />;
   }
 
   return (
-    <div className="flex max-w-[180px] items-center rounded-lg pr-2 hover:bg-black/20">
+    <div
+      className={clsx(
+        'flex w-full max-w-[180px] items-center rounded-lg pr-2 hover:bg-black/20',
+        className,
+      )}
+    >
       <div className="relative shrink-0 rounded-lg bg-wsdm-gradient p-px">
         <div className="relative">
           {profile?.photo_url ? (
@@ -39,7 +47,7 @@ const BtnTelegramProfile = () => {
         />
       </div>
 
-      <div className="ml-2 w-[-webkit-fill-available]">
+      <div className="ml-2 w-[calc(100%-44px)]">
         <div className="w-full overflow-hidden text-ellipsis text-nowrap text-sm">
           {profile?.first_name} {profile?.last_name}
         </div>

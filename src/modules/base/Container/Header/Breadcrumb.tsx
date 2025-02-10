@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
 import { useEffect, useMemo, useState } from 'react';
 import { MAIN_LANDING } from 'config/constants';
-import Logo from 'assets/logo-horizontal-beta.svg';
+import Logo from 'assets/WisdomiseLogo.svg';
 import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
 import { useHasFlag, useSubscription } from 'api';
@@ -82,10 +82,11 @@ export const usePageSiblings = () => {
 };
 
 const Breadcrumb: React.FC<{
+  showLogo?: boolean;
   showSiblings?: boolean;
   onShowSiblings?: React.Dispatch<React.SetStateAction<boolean>>;
   className?: string;
-}> = ({ className, showSiblings, onShowSiblings }) => {
+}> = ({ showLogo, className, showSiblings, onShowSiblings }) => {
   const { pathname } = useLocation();
   const isLoggedIn = useIsLoggedIn();
   const matches = useMatches();
@@ -103,7 +104,7 @@ const Breadcrumb: React.FC<{
   const { i18n } = useTranslation();
   const { parent, child } = useRouteParent() ?? {};
   if (useIsMobile()) {
-    if (parent && child) {
+    if (parent && child && !showLogo) {
       return (
         <div
           className={clsx('ml-2 flex items-center text-white', className)}
@@ -118,7 +119,7 @@ const Breadcrumb: React.FC<{
     return (
       <a
         href={MAIN_LANDING(i18n.language)}
-        className="flex shrink-0 items-center gap-1"
+        className={clsx('flex shrink-0 items-center gap-1', className)}
       >
         <img src={Logo} />
         {subscription.level !== 0 && isLoggedIn && (

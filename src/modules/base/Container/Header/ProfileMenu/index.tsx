@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { bxLogIn } from 'boxicons-quasar';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
@@ -14,7 +15,7 @@ const DebugBadge = () =>
     <div className="absolute -right-1 -top-1 size-2 rounded-full bg-v1-background-negative" />
   ) : null;
 
-const ProfileMenu = () => {
+const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
   const isLoggedIn = useIsLoggedIn();
   const [ModalLogin, showModalLogin] = useModalLogin();
 
@@ -23,6 +24,7 @@ const ProfileMenu = () => {
       chevron={false}
       title={<ProfileMenuContent />}
       tooltipPlacement="bottomLeft"
+      className={className}
     >
       {isMiniApp ? (
         <BtnTelegramProfile />
@@ -38,7 +40,7 @@ const ProfileMenu = () => {
       <Button
         variant="ghost"
         size="xl"
-        className="w-xl"
+        className={clsx('w-xl', className)}
         onClick={showModalLogin}
         surface={1}
       >
