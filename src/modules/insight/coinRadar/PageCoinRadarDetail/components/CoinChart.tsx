@@ -1,10 +1,12 @@
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import { useCoinOverview } from 'api';
+import useIsMobile from 'utils/useIsMobile';
 
 const CoinChart: React.FC<{ slug: string; height?: number }> = ({
   slug,
   height,
 }) => {
+  const isMobile = useIsMobile();
   const coinOverview = useCoinOverview({ slug });
   const chart = coinOverview.data?.charts?.[0];
   if (!chart) return null;
@@ -30,10 +32,15 @@ const CoinChart: React.FC<{ slug: string; height?: number }> = ({
       theme="dark"
       height={height}
       width="100%"
-      enabled_features={[
-        'side_toolbar_in_fullscreen_mode',
-        'header_fullscreen_button',
-      ]}
+      enabled_features={
+        isMobile
+          ? []
+          : ['side_toolbar_in_fullscreen_mode', 'header_fullscreen_button']
+      }
+      disabled_features={isMobile ? ['timeframes_toolbar'] : []}
+      hide_side_toolbar={isMobile}
+      hide_top_toolbar={isMobile}
+      hide_legend={isMobile}
     />
   ) : null;
 };

@@ -1,10 +1,10 @@
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import { useCoinOverview, useHasFlag } from 'api';
-import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
-import Button from 'shared/Button';
-import { DrawerModal } from 'shared/DrawerModal';
 import { useSymbolInfo } from 'api/symbol';
+import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
+import { DrawerModal } from 'shared/DrawerModal';
 import { Coin } from 'shared/Coin';
+import Button from 'shared/Button';
 
 const CoinPreDetailModal: React.FC<{
   slug: string;
@@ -33,7 +33,6 @@ const CoinPreDetailModal: React.FC<{
             symbol={tradingViewChartId}
             style="1"
             interval="60"
-            hide_side_toolbar
             hotlist={false}
             theme="dark"
             height={350}
@@ -43,6 +42,7 @@ const CoinPreDetailModal: React.FC<{
               'chart_zoom',
               'chart_scroll',
             ]}
+            hide_side_toolbar
             hide_top_toolbar
             hide_legend
             copyrightStyles={{ parent: { display: 'none' } }}

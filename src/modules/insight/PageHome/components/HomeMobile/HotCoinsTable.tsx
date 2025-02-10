@@ -5,8 +5,8 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Spinner from 'shared/Spinner';
-import CoinPreDetailModal from '../../autoTrader/PageCoinDetail/CoinPreDetailModal';
 import AlertButton from './AlertButton';
+import CoinPreDetailModal from './CoinPreDetailModal';
 
 const HotCoinsTable = () => {
   const { width } = useWindowSize();

@@ -1,12 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { clsx } from 'clsx';
 import { bxBell } from 'boxicons-quasar';
-import Button from 'shared/Button';
-import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
-import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
+import { useTranslation } from 'react-i18next';
 import { useHasFlag } from 'api';
-import Icon from 'shared/Icon';
+import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
+import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnce';
+import { Button } from 'shared/v1-components/Button';
 import { DebugPin } from 'shared/DebugPin';
+import Icon from 'shared/Icon';
 
 export default function AlertButton({ className }: { className?: string }) {
   const { t } = useTranslation('alerts');
@@ -22,9 +21,10 @@ export default function AlertButton({ className }: { className?: string }) {
   return (
     <>
       <Button
-        variant="primary"
-        className={clsx('h-10 !py-1 mobile:!px-4', className)}
-        contentClassName="flex gap-0"
+        variant="white"
+        className={className}
+        block
+        size="md"
         onClick={alertActions.openSaveModal}
         disabled={!hasFlag('/coin-radar/alerts')}
       >

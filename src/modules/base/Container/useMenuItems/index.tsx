@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { trackClick } from 'config/segment';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as IconPositions } from './icons/positions.svg';
@@ -23,11 +24,13 @@ const useMenuItems = () => {
   const { t } = useTranslation('base');
   const isMobile = useIsMobile();
 
+  const { pathname } = useLocation();
+
   const items: RootMenuItem[] = [
     {
       icon: <IconInsight />,
       text: isMobile ? 'Home' : t('menu.coin-radar.title'),
-      link: '/coin-radar',
+      link: '/coin-radar/overview',
       onClick: trackClick('insight_menu'),
       children: [
         {
@@ -37,14 +40,14 @@ const useMenuItems = () => {
           badge: 'beta',
         },
         {
-          text: t('menu.ai-indicators.title'),
-          link: '/coin-radar/technical-radar',
-          onClick: trackClick('market_pulse_menu'),
-        },
-        {
           text: t('menu.hot-coins.title'),
           link: '/coin-radar/social-radar',
           onClick: trackClick('coin_radar_menu'),
+        },
+        {
+          text: t('menu.ai-indicators.title'),
+          link: '/coin-radar/technical-radar',
+          onClick: trackClick('market_pulse_menu'),
         },
         {
           text: t('menu.whales.title'),
@@ -61,7 +64,11 @@ const useMenuItems = () => {
     {
       icon: <IconInsight />,
       text: 'Radars',
-      link: '/trader-hot-coins',
+      link:
+        pathname.startsWith('/coin-radar/') &&
+        !pathname.startsWith('/coin-radar/overview')
+          ? pathname
+          : '/coin-radar/social-radar',
       hide: !isMobile,
     },
     {
