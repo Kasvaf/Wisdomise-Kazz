@@ -67,33 +67,35 @@ const ProfileMenuContent = () => {
           </>
         )}
 
-        <InternalItem
-          to="/account/billing"
-          label={t('billing:common.subscription')}
-        >
-          <div className="text-end">
-            <div className="capitalize text-v1-content-brand">
-              {subscription.group.replace('_', ' ')}
+        {!isMiniApp && (
+          <InternalItem
+            to="/account/billing"
+            label={t('billing:common.subscription')}
+          >
+            <div className="text-end">
+              <div className="capitalize text-v1-content-brand">
+                {subscription.group.replace('_', ' ')}
+              </div>
+              <div className="text-xs capitalize">
+                <span
+                  className={clsx(
+                    subscription.remaining
+                      ? 'text-v1-content-primary'
+                      : 'text-v1-content-negative',
+                  )}
+                >
+                  <ReadableDuration
+                    value={subscription.remaining}
+                    zeroText={t('pro:zero-hour')}
+                  />
+                </span>
+                <span className="ms-1 font-light capitalize text-v1-content-secondary">
+                  {t('billing:common.remains')}
+                </span>
+              </div>
             </div>
-            <div className="text-xs capitalize">
-              <span
-                className={clsx(
-                  subscription.remaining
-                    ? 'text-v1-content-primary'
-                    : 'text-v1-content-negative',
-                )}
-              >
-                <ReadableDuration
-                  value={subscription.remaining}
-                  zeroText={t('pro:zero-hour')}
-                />
-              </span>
-              <span className="ms-1 font-light capitalize text-v1-content-secondary">
-                {t('billing:common.remains')}
-              </span>
-            </div>
-          </div>
-        </InternalItem>
+          </InternalItem>
+        )}
         <InternalItem to="/account/referral" label={t('menu.referral.title')}>
           <div className="text-end">
             {referral != null && (
@@ -109,19 +111,22 @@ const ProfileMenuContent = () => {
           </div>
         </InternalItem>
       </div>
-      <Button
-        block
-        className="w-full"
-        variant="negative"
-        loading={loggingOut}
-        onClick={e => {
-          e.preventDefault();
-          void mutateAsync({});
-        }}
-      >
-        <SignOutIcon />
-        {t('user.sign-out')}
-      </Button>
+
+      {!isMiniApp && (
+        <Button
+          block
+          className="w-full"
+          variant="negative"
+          loading={loggingOut}
+          onClick={e => {
+            e.preventDefault();
+            void mutateAsync({});
+          }}
+        >
+          <SignOutIcon />
+          {t('user.sign-out')}
+        </Button>
+      )}
 
       <Support />
       <div className="border-b border-b-white/5" />
