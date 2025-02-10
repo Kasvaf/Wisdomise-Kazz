@@ -1,13 +1,13 @@
 import { useCoinOverview, useHasFlag, useLastPriceQuery } from 'api';
+import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
-import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
 import { DebugPin } from 'shared/DebugPin';
 
 export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
   const hasFlag = useHasFlag();
   const { data } = useCoinOverview({ slug });
-  const { data: lastPrice } = useLastPriceQuery({ slug, exchange: 'STONFI' });
+  const { data: lastPrice } = useLastPriceQuery({ slug });
   if (lastPrice == null) {
     return null;
   }

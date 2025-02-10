@@ -10,7 +10,7 @@ export function resolvePageResponseToArray<T>(
     const newResp = await ofetch<PageResponse<T>>(request, {
       ...options,
       query: {
-        ...options,
+        ...options?.query,
         page,
       },
     });

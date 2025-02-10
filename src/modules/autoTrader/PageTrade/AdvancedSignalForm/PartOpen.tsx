@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { bxPlusCircle } from 'boxicons-quasar';
 import { useLastPriceQuery } from 'api';
-import { useAccountJettonBalance } from 'api/ton';
+import { useAccountBalance } from 'api/chains';
 import { roundSensible } from 'utils/numbers';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import AmountInputBox from 'shared/AmountInputBox';
@@ -12,6 +12,7 @@ import InfoButton from 'shared/InfoButton';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
 import { useSymbolInfo } from 'api/symbol';
+import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
 import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';
@@ -39,16 +40,18 @@ const PartOpen: React.FC<{
   } = data;
 
   const { data: quoteInfo } = useSymbolInfo(quote);
-  const isNativeQuote = quote === 'the-open-network';
+  const net = useActiveNetwork();
+  const isNativeQuote =
+    (net === 'the-open-network' && quote === 'the-open-network') ||
+    (net === 'solana' && quote === 'wrapped-solana');
 
   const { data: assetPrice } = useLastPriceQuery({
     slug,
-    exchange: 'STONFI',
     quote,
     convertToUsd: true,
   });
   const { data: quoteBalance, isLoading: balanceLoading } =
-    useAccountJettonBalance(quote);
+    useAccountBalance(quote);
 
   useEffect(() => {
     if (!priceUpdated && assetPrice && !isUpdate) {

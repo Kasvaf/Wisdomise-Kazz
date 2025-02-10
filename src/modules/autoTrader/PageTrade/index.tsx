@@ -9,6 +9,7 @@ import {
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import BtnBack from '../layout/BtnBack';
+import useActiveNetwork from '../layout/useActiveNetwork';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
@@ -21,7 +22,10 @@ export default function PageTrade() {
   useEnsureIsSupportedPair({ slug, nextPage: '/trader-hot-coins' });
 
   const [positionKey] = useSearchParamAsState('pos');
-  const position = useTraderPositionQuery(positionKey);
+  const position = useTraderPositionQuery({
+    positionKey,
+    network: useActiveNetwork(),
+  });
   const coinOverview = useCoinOverview({ slug });
 
   useEffect(() => {
@@ -37,10 +41,9 @@ export default function PageTrade() {
       <div className="mb-3 flex gap-2">
         <BtnBack />
         <CoinSelect
-          networkName="ton"
           className="w-full"
           filterTokens={x => x !== 'tether'}
-          priceExchange="STONFI"
+          priceExchange="auto"
           value={slug}
           onChange={selectedSlug =>
             navigate({

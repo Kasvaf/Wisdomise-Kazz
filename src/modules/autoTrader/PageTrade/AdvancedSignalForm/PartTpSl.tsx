@@ -26,7 +26,6 @@ const PartTpSl: React.FC<{
   } = data;
   const { data: assetPrice } = useLastPriceQuery({
     slug: baseSlug,
-    exchange: 'STONFI',
     quote,
     convertToUsd: true,
   });

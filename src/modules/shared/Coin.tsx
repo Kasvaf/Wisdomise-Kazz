@@ -1,8 +1,10 @@
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
+import { useSymbolInfo } from 'api/symbol';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
+import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
   coin,
@@ -39,8 +41,9 @@ export function CoinLogo({
 }
 
 export function Coin({
-  className,
   coin,
+  networks,
+  className,
   imageClassName,
   nonLink,
   mini,
@@ -49,6 +52,7 @@ export function Coin({
   noText,
 }: {
   coin: CoinType;
+  networks?: string[];
   className?: string;
   imageClassName?: string;
   nonLink?: boolean;
@@ -72,6 +76,8 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
+
+  useSymbolInfo('the-open-network');
   const content = (
     <>
       <CoinLogo
@@ -94,13 +100,22 @@ export function Coin({
               'whitespace-nowrap',
             )}
           >
-            <div
-              className={clsx(
-                truncate && 'overflow-hidden text-ellipsis',
-                'whitespace-nowrap',
+            <div className="flex items-center">
+              <div
+                className={clsx(
+                  truncate && 'overflow-hidden text-ellipsis',
+                  'whitespace-nowrap',
+                )}
+              >
+                {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+              </div>
+              {networks && (
+                <div className="flex items-center">
+                  {networks.map(n => (
+                    <NetworkIcon key={n} network={n} className="ml-1" />
+                  ))}
+                </div>
               )}
-            >
-              {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
             </div>
             {!mini && coin.abbreviation && (
               <>

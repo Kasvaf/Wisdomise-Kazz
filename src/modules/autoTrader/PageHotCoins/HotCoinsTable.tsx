@@ -1,22 +1,21 @@
-import { Image } from 'antd';
 import { useState } from 'react';
+import { useWindowSize } from 'usehooks-ts';
 import { useHasFlag, useTraderCoins } from 'api';
-import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Coin } from 'shared/Coin';
 import Spinner from 'shared/Spinner';
 import CoinPreDetailModal from '../PageCoinDetail/CoinPreDetailModal';
 import AlertButton from './AlertButton';
-import ton from './ton.svg';
 
 const HotCoinsTable = () => {
   const hasFlag = useHasFlag();
+  const { width } = useWindowSize();
 
   const { isLoading, data } = useTraderCoins({
     page: 1,
     pageSize: 500,
     filter: undefined,
-    networkName: 'ton',
     days: 7,
   });
 
@@ -25,10 +24,7 @@ const HotCoinsTable = () => {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="flex items-center gap-2 py-3">
-          <Image src={ton} alt="ton" />
-          TON Hot Coins
-        </h1>
+        <h1 className="flex items-center gap-2 py-3">AutoTrader Hot Coins</h1>
         {hasFlag('/trader-alerts') && <AlertButton />}
       </div>
 
@@ -44,7 +40,13 @@ const HotCoinsTable = () => {
               key={coin.symbol.slug}
               className="flex justify-between rounded-lg bg-v1-surface-l2 p-2"
             >
-              <Coin coin={coin.symbol} imageClassName="size-6" nonLink={true} />
+              <Coin
+                coin={coin.symbol}
+                imageClassName="size-6"
+                networks={coin.network_slugs}
+                truncate={width - 200}
+                nonLink={true}
+              />
 
               <div className="flex flex-col items-end">
                 <ReadableNumber

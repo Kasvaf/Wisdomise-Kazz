@@ -13,9 +13,9 @@ const getCoins = async (slugs: unknown[]) => {
   return slugs.map(x => coinMap[String(x)]);
 };
 
-export const useSymbolInfo = (slug: string) => {
+export const useSymbolInfo = (slug?: string) => {
   return useQuery(
     ['symbol-info', slug],
-    async () => (await load(getCoins, slug)) || null,
+    async () => (slug && (await load(getCoins, slug))) || null,
   );
 };

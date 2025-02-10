@@ -18,6 +18,7 @@ export const useFriends = () =>
     async () => {
       const data = await ofetch<PageResponse<Friend>>(
         `${INVESTMENT_ORIGIN}/api/v1/gamification/user/friend`,
+        { meta: { gameAuth: true } },
       );
       return data;
     },
@@ -74,7 +75,7 @@ export const useSyncDataMutation = () => {
   return useMutation(async (body: SyncDataRequest) => {
     const data = await ofetch<SyncDataResponse>(
       `${INVESTMENT_ORIGIN}/api/v1/gamification/user/sync-data`,
-      { body, method: 'post' },
+      { body, method: 'post', meta: { gameAuth: true } },
     );
     return data;
   });
@@ -96,7 +97,7 @@ export const useCheckEligibilityMutation = () =>
   useMutation(async (body: CheckEligibilityRequest) => {
     const data = await ofetch<CheckEligibilityResponse[]>(
       `${INVESTMENT_ORIGIN}/api/v1/gamification/user/check-eligibility`,
-      { body, method: 'post' },
+      { body, method: 'post', meta: { gameAuth: true } },
     );
     return data;
   });
@@ -109,6 +110,7 @@ export const useUserTicketsQuery = () =>
     async () => {
       const data = await ofetch<UserTickets>(
         `${INVESTMENT_ORIGIN}/api/v1/gamification/user/tickets`,
+        { meta: { gameAuth: true } },
       );
       return data;
     },
@@ -125,7 +127,7 @@ export const useWithdrawMutation = () =>
   useMutation(async (body: WithdrawRequest) => {
     const data = await ofetch(
       `${INVESTMENT_ORIGIN}/api/v1/gamification/user/withdraw`,
-      { body, method: 'post' },
+      { body, method: 'post', meta: { gameAuth: true } },
     );
     return data;
   });

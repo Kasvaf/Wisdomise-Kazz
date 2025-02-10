@@ -10,16 +10,10 @@ const PageClaimReward = React.lazy(
   () => import('modules/autoTrader/PageClaimReward'),
 );
 
-const TournamentsLayout = React.lazy(
-  () => import('modules/autoTrader/PageTournaments/TournamentsLayout'),
-);
-
-const PageTournaments = React.lazy(
-  () => import('modules/autoTrader/PageTournaments'),
-);
+const PageQuests = React.lazy(() => import('modules/autoTrader/PageQuests'));
 
 const PageTournamentDetail = React.lazy(
-  () => import('modules/autoTrader/PageTournaments/PageTournamentDetail'),
+  () => import('modules/autoTrader/PageQuests/PageTournamentDetail'),
 );
 
 const PageHotCoins = React.lazy(
@@ -65,6 +59,7 @@ const useMiniAppRoutes = () => {
             },
             {
               path: 'trader-claim-reward',
+              handle: { wallet: 'the-open-network' },
               element: (
                 <GameAuthGuard>
                   <PageClaimReward />
@@ -72,11 +67,15 @@ const useMiniAppRoutes = () => {
               ),
             },
             {
-              path: 'trader-tournaments',
-              element: <TournamentsLayout />,
+              path: 'trader-quests',
               children: [
-                { path: '', element: <PageTournaments /> },
-                { path: ':id', element: <PageTournamentDetail /> },
+                { path: '', element: <PageQuests /> },
+                {
+                  path: 'tournaments',
+                  children: [
+                    { path: ':id', element: <PageTournamentDetail /> },
+                  ],
+                },
               ],
             },
             {
@@ -92,16 +91,14 @@ const useMiniAppRoutes = () => {
               ],
             },
             {
-              path: 'market',
-              children: [
-                {
-                  path: ':slug',
-                  children: [
-                    { path: '', element: <PageTrade /> },
-                    { path: 'positions/:slug', element: <PageTrade /> },
-                  ],
-                },
-              ],
+              path: 'market/:slug',
+              element: <PageTrade />,
+              handle: {
+                wallet: (params: any, query: any) => [
+                  params.slug,
+                  query.quote || 'tether',
+                ],
+              },
             },
           ],
         },

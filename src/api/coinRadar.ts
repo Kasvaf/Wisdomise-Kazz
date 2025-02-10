@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
-import { isMiniApp } from 'utils/version';
 import { ofetch } from 'config/ofetch';
+import { isMiniApp } from 'utils/version';
 import {
   type MarketData,
   type Coin,

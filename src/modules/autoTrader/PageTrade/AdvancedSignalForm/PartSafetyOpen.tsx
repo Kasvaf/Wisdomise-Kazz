@@ -1,7 +1,6 @@
 import { v4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { bxsCheckCircle, bxTrash } from 'boxicons-quasar';
-import { useParams } from 'react-router-dom';
 import { roundDown } from 'utils/numbers';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -13,10 +12,8 @@ import { type SignalFormState } from './useSignalFormStates';
 const PartSafetyOpen: React.FC<{
   data: SignalFormState;
   baseSlug: string;
-}> = ({ data }) => {
+}> = ({ data, baseSlug }) => {
   const { t } = useTranslation('builder');
-  const { slug } = useParams<{ slug: string }>();
-  if (!slug) throw new Error('unexpected');
 
   const {
     quote: [quote],
@@ -29,8 +26,7 @@ const PartSafetyOpen: React.FC<{
   } = data;
 
   const { data: assetPrice } = useLastPriceQuery({
-    slug,
-    exchange: 'STONFI',
+    slug: baseSlug,
     quote,
     convertToUsd: true,
   });

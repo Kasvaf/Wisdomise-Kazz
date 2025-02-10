@@ -1,12 +1,14 @@
 import { clsx } from 'clsx';
 import { useEffect, type ReactNode } from 'react';
+import { roundSensible } from 'utils/numbers';
+import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
+import { useAccountNativeBalance } from 'api/chains';
+import { useSymbolInfo } from 'api/symbol';
+import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
-import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import Spin from 'shared/Spin';
-import InfoButton from 'shared/InfoButton';
-import { useSymbolInfo } from 'api/symbol';
-import { useAccountJettonBalance } from 'api/ton';
+import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<
@@ -19,6 +21,29 @@ const InfoLine: React.FC<
     <div className={clsx('flex justify-between', className)}>
       <div className="font-normal text-v1-content-secondary">{label}</div>
       <div className="flex flex-col gap-1">{children}</div>
+    </div>
+  );
+};
+
+const MessageBox: React.FC<
+  React.PropsWithChildren<{
+    variant: 'error' | 'warning';
+    title?: string | ReactNode;
+    className?: string;
+  }>
+> = ({ variant, title, children, className }) => {
+  return (
+    <div
+      className={clsx(
+        'rounded-lg border p-2 text-sm',
+        variant === 'error'
+          ? 'border-v1-border-negative bg-v1-background-negative/5'
+          : 'border-v1-border-notice bg-v1-background-notice/5',
+        className,
+      )}
+    >
+      {title && <div className="text-base font-medium">{title}</div>}
+      <div className="mt-1 text-sm">{children}</div>
     </div>
   );
 };
@@ -75,15 +100,18 @@ const ModalApproval: React.FC<{
     stopLosses: [stopLosses],
   } = formState;
 
-  const { data: tonBalance } = useAccountJettonBalance('the-open-network');
+  const net = useActiveNetwork();
+  const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
+  const { data: nativeBalance } = useAccountNativeBalance();
   const { mutate, data, isLoading } = usePreparePositionMutation();
   useEffect(() => mutate(createData), [createData, mutate]);
 
   const { data: quoteInfo } = useSymbolInfo(quote);
-  const tonAmount =
-    Number(data?.gas_fee) + (quoteInfo?.abbreviation === 'TON' ? +amount : 0);
-  const remainingGas = Number(tonBalance) - tonAmount;
+  const nativeAmount =
+    Number(data?.gas_fee) + (quoteInfo?.abbreviation === gasAbbr ? +amount : 0);
+  const remainingGas = Number(nativeBalance) - nativeAmount;
   const hasEnoughGas = remainingGas > 0.1;
+  const impact = Number(data?.price_impact);
 
   return (
     <div className="flex h-full flex-col text-white">
@@ -115,7 +143,7 @@ const ModalApproval: React.FC<{
           {isLoading ? (
             <Spin />
           ) : data?.gas_fee ? (
-            String(data.gas_fee) + ' TON'
+            String(data.gas_fee) + ' ' + gasAbbr
           ) : (
             ''
           )}
@@ -143,11 +171,25 @@ const ModalApproval: React.FC<{
         </InfoLine>
 
         {!hasEnoughGas && !Number.isNaN(remainingGas) && (
-          <div className="rounded-lg bg-v1-background-negative p-2 text-sm">
-            Your TON balance might be insufficient to cover gas fees. Please
-            ensure you have enough TON to proceed.
-          </div>
+          <MessageBox variant="error">
+            Your {gasAbbr} balance might be insufficient to cover gas fees.
+            Please ensure you have enough {gasAbbr} to proceed.
+          </MessageBox>
         )}
+
+        {impact >= 0.05 ? (
+          <MessageBox variant="error" title="🚨 High Slippage Detected!">
+            The price impact for this trade exceeds 5%, which could lead to
+            significant losses. Trading has been disabled to protect your funds.
+            Please adjust your trade size or try again later.
+          </MessageBox>
+        ) : impact >= 0.02 ? (
+          <MessageBox variant="warning" title="⚠️ Warning: High Slippage!">
+            Your trade has a appriximately {roundSensible(impact * 100)}% price
+            impact, which may result in a less favorable execution price.
+            Proceed with caution or consider adjusting your trade size.
+          </MessageBox>
+        ) : null}
       </div>
 
       <div className="mt-6 flex items-center gap-2">
@@ -158,7 +200,7 @@ const ModalApproval: React.FC<{
           onClick={() => onResolve?.(true)}
           variant="brand"
           className="grow"
-          disabled={isLoading || !hasEnoughGas}
+          disabled={isLoading || !hasEnoughGas || impact > 0.05}
         >
           Fire Position
         </Button>

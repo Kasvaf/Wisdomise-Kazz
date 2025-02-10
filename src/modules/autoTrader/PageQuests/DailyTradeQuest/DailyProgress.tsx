@@ -52,7 +52,7 @@ export default function DailyProgress({
       {currentDay > -1 && !completedAll && (
         <div className={clsx('flex flex-col text-center', !dense && 'mt-2')}>
           <div className="text-xs text-v1-content-secondary">
-            {completedToday ? 'Next Reward:' : 'Streak End:'}
+            {completedToday ? 'Next Streak:' : 'Streak Ends:'}
           </div>
           <Countdown
             deadline={

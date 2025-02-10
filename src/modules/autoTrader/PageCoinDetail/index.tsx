@@ -25,11 +25,10 @@ export default function PageCoinDetail() {
         <BtnBack />
 
         <CoinSelect
-          networkName="ton"
           className="w-full"
           filterTokens={x => x !== 'tether'}
           value={slug}
-          priceExchange="STONFI"
+          priceExchange="auto"
           onChange={selectedSlug =>
             navigate(`/trader-hot-coins/${selectedSlug}`)
           }

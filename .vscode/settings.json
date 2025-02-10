@@ -28,9 +28,12 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
+    "blockhash",
     "bounceable",
     "clsx",
     "jettons",
+    "lamports",
+    "Solana",
     "tanstack",
     "TONCENTER",
     "tonconnect",

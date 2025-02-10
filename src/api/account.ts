@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
-import { setJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
+import { setGameJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
 import { type Account } from './types/UserInfoResponse';
 
@@ -153,12 +153,13 @@ export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
       );
 
       if (!quickLogin) {
-        setJwtToken(data.token);
+        setGameJwtToken(data.token);
       }
       return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
+      refetchInterval: 60 * 60 * 1000,
       refetchOnMount: true,
       enabled: !!query && !quickLogin,
     },

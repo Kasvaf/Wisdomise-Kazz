@@ -4,7 +4,7 @@ import { bxChevronDown } from 'boxicons-quasar';
 import { useEffect } from 'react';
 import Icon from 'shared/Icon';
 import { useSupportedPairs } from 'api';
-import { type AutoTraderSupportedQuotes } from 'api/ton';
+import { type AutoTraderSupportedQuotes } from 'api/chains';
 const { Option } = Select;
 
 const QuoteSelector: React.FC<{
