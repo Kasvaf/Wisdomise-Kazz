@@ -5,7 +5,7 @@ import { shortenAddress } from 'utils/shortenAddress';
 import Container from '../Container';
 import PageRedirect from '../PageRedirect';
 
-const PageCoinRadar = React.lazy(() => import('modules/insight/PageCoinRadar'));
+const PageHome = React.lazy(() => import('modules/insight/PageHome'));
 
 const PageOnboarding = React.lazy(
   () => import('modules/insight/PageOnboarding'),
@@ -50,7 +50,7 @@ const useInsightRoutes = () => {
         {
           path: 'overview',
           handle: { crumb: t('menu.overview.title') },
-          element: <PageCoinRadar />,
+          element: <PageHome />,
         },
         {
           path: 'social-radar',

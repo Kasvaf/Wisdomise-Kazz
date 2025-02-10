@@ -11,9 +11,12 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { DebugPin } from 'shared/DebugPin';
 import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalOverviewWidget/TechnicalTable/TechnicalSentiment';
 import { ConfirmationBadgesInfo } from 'modules/insight/PageTechnicalRadar/components/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
+import { OverviewWidget } from 'shared/OverviewWidget';
 import { EmptySentiment } from '../EmptySentiment';
+import { InsightAlertButton } from '../InsightAlertButton';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
+import { ReactComponent as Logo } from './logo.svg';
 
 export function CoinRadarTable({ className }: { className?: string }) {
   const coins = useCoinRadarCoins();
@@ -96,30 +99,43 @@ export function CoinRadarTable({ className }: { className?: string }) {
   );
 
   return (
-    <AccessShield
-      mode="table"
-      sizes={{
-        'guest': true,
-        'free': true,
-        'trial': 3,
-        'pro': 3,
-        'pro+': false,
-        'pro_max': false,
-      }}
+    <OverviewWidget
+      title={
+        <>
+          <Logo className="size-7 shrink-0" />
+          {t('base:menu.coin-radar.full-title')}
+        </>
+      }
+      headerActions={<InsightAlertButton className="mobile:w-full" />}
+      loading={coins.isLoading}
+      empty={!coins.data?.length}
+      className="min-h-[500px]"
     >
-      <Table
-        columns={columns}
-        dataSource={coins.data?.slice(0, 10) ?? []}
-        rowKey={r => JSON.stringify(r.symbol)}
-        loading={coins.isRefetching && !coins.isFetched}
-        pagination={{
-          pageSize: 99,
-          hideOnSinglePage: true,
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'free': true,
+          'trial': 3,
+          'pro': 3,
+          'pro+': false,
+          'pro_max': false,
         }}
-        surface={2}
-        tableLayout="fixed"
-        className={className}
-      />
-    </AccessShield>
+      >
+        <Table
+          columns={columns}
+          dataSource={coins.data?.slice(0, 10) ?? []}
+          rowKey={r => JSON.stringify(r.symbol)}
+          loading={coins.isRefetching && !coins.isFetched}
+          pagination={{
+            pageSize: 99,
+            hideOnSinglePage: true,
+          }}
+          surface={2}
+          tableLayout="fixed"
+          className={className}
+        />
+      </AccessShield>
+    </OverviewWidget>
   );
 }
