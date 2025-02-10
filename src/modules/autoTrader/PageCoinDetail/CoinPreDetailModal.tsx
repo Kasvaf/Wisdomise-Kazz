@@ -1,6 +1,6 @@
 import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
-import { useCoinOverview, useHasFlag } from 'api';
-import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
+import { useCoinDetails, useHasFlag } from 'api';
+import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
 import Button from 'shared/Button';
 import { DrawerModal } from 'shared/DrawerModal';
 import { useSymbolInfo } from 'api/symbol';
@@ -11,7 +11,7 @@ const CoinPreDetailModal: React.FC<{
   onClose: () => unknown;
 }> = ({ slug, onClose }) => {
   const hasFlag = useHasFlag();
-  const { data: coinOverview } = useCoinOverview({ slug });
+  const { data: coinOverview } = useCoinDetails({ slug });
   const { data: symbol } = useSymbolInfo(slug);
   const tradingViewChartId = coinOverview?.charts.find(
     x => x.type === 'trading_view',

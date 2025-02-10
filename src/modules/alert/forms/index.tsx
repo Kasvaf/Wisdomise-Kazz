@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { type Alert } from 'api/alert';
+import { type Alert } from 'api';
 import { isMiniApp } from 'utils/version';
 import { type AlertFormGroup, type AlertForm } from '../library/types';
 import { usePriceAlert } from './price';

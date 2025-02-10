@@ -1,8 +1,8 @@
 import { type ColumnType } from 'antd/es/table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCoinOverview } from 'api';
-import { type Alert } from 'api/alert';
+import { useCoinDetails } from 'api';
+import { type Alert } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Table from 'shared/Table';
@@ -19,7 +19,7 @@ export function CoinAlertsWidget({ alerts }: { alerts: Alert[] }) {
   const { t } = useTranslation('alerts');
   const slug = alerts[0].params.find(x => x.field_name === 'base')?.value;
   if (!slug) throw new Error('coin alerts not works');
-  const coin = useCoinOverview({ slug });
+  const coin = useCoinDetails({ slug });
 
   const columns = useMemo<Array<ColumnType<Alert>>>(
     () => [

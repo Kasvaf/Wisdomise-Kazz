@@ -1,0 +1,441 @@
+import { useQuery } from '@tanstack/react-query';
+import { TEMPLE_ORIGIN } from 'config/constants';
+import { ofetch } from 'config/ofetch';
+import { resolvePageResponseToArray } from 'api/utils';
+import { type PageResponse } from '../types/page';
+import {
+  type NetworkSecurity,
+  type Coin,
+  type MiniMarketData,
+  type MarketData,
+  type CoinNetwork,
+} from '../types/shared';
+import { createSorter, matcher } from './utils';
+
+export interface WhaleShort {
+  rank: number;
+  holder_address: string;
+  network_name: string;
+  network_icon_url: string;
+  balance_usdt?: null | number;
+  recent_transfer_volume?: null | number;
+  recent_trading_volume?: null | number;
+  recent_trading_pnl?: null | number;
+  recent_trading_pnl_percentage?: null | number;
+  total_profit_last_ndays?: null | number;
+  total_profit_last_ndays_percent?: null | number;
+  recent_trading_wins?: null | number;
+  recent_trading_losses?: null | number;
+  recent_total_buys?: null | number;
+  recent_total_sells?: null | number;
+  recent_in_flow?: null | number;
+  recent_out_flow?: null | number;
+  recent_average_trades_per_day?: null | number;
+  recent_average_trade_duration_seconds?: null | number;
+  realized_profit_last_ndays?: null | number;
+  realized_profit_last_ndays_percent?: null | number;
+  unrealized_profit_last_ndays?: null | number;
+  unrealized_profit_last_ndays_percent?: null | number;
+  total_trading_assets?: null | number;
+  total_holding_assets?: null | number;
+  top_assets: Array<{
+    symbol: Coin;
+    amount?: null | number;
+    worth?: null | number;
+    label?: null | string;
+    recent_trading_pnl?: null | number;
+    recent_trading_pnl_percentage?: null | number;
+    total_profit_last_ndays?: null | number;
+    total_profit_last_ndays_percent?: null | number;
+  }>;
+}
+
+export type WhalesFilter =
+  | 'all'
+  | 'best_to_copy'
+  | 'holders'
+  | 'wealthy_wallets';
+
+export const useWhaleRadarWhales = (config: {
+  networkNames?: string[];
+  query?: string;
+}) =>
+  useQuery({
+    queryKey: ['whale-radar-whales'],
+    keepPreviousData: true,
+    queryFn: async () => {
+      const data = await resolvePageResponseToArray<WhaleShort>(
+        'delphi/holders/tops/',
+        {
+          query: {
+            page_size: 99,
+          },
+        },
+      );
+      return data;
+    },
+    select: data =>
+      data.filter(row => {
+        if (
+          !matcher(config?.networkNames).array([row.network_name]) ||
+          !matcher(config?.query).string(row.holder_address)
+        )
+          return false;
+        return true;
+      }),
+  });
+
+export interface WhaleCoin {
+  rank: number;
+  symbol: Coin;
+  network_slugs: string[];
+  total_buy_volume?: number | null;
+  total_buy_number?: number | null;
+  total_sell_volume?: number | null;
+  total_sell_number?: number | null;
+  total_transfer_volume?: number | null;
+  total_holding_volume?: number | null;
+  total_recent_trading_pnl?: number | null;
+  market_data: {
+    current_price?: number | null;
+    price_change_24h?: number | null;
+    price_change_percentage_24h?: number | null;
+    market_cap?: number | null;
+    total_supply?: number | null;
+    circulating_supply?: number | null;
+  };
+}
+export type WhaleCoinsFilter = 'all' | 'buy' | 'sell' | 'total_volume' | 'hold';
+
+export const useWhalesCoins = (filters?: {
+  page: number;
+  pageSize: number;
+  sortBy?: string;
+  isAscending?: boolean;
+  networkName?: string;
+  filter?: WhaleCoinsFilter;
+  days?: number;
+}) =>
+  useQuery({
+    queryKey: ['whales-coins', JSON.stringify(filters)],
+    keepPreviousData: true,
+    queryFn: async () => {
+      const data = await ofetch<PageResponse<WhaleCoin>>(
+        `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
+        {
+          query: {
+            page_size: filters?.pageSize ?? 10,
+            page: filters?.page ?? 1,
+            days: filters?.days ?? 1,
+            network_name: filters?.networkName,
+            sorted_by: filters?.sortBy,
+            ascending:
+              typeof filters?.isAscending === 'boolean'
+                ? filters?.isAscending
+                  ? 'True'
+                  : 'False'
+                : undefined,
+            filter: filters?.filter ?? 'all',
+          },
+          meta: { auth: false },
+        },
+      );
+      return data;
+    },
+  });
+
+export interface SingleWhale {
+  holder_address: string;
+  network_name: string;
+  network_icon_url?: null | string;
+  last_30_balance_updates?: null | Array<{
+    related_at_date: string;
+    balance_usdt: number;
+  }>;
+  last_30_days_in_out_flow?: null | Array<{
+    related_at_date: string;
+    today_in_flow: number;
+    today_out_flow: number;
+  }>;
+  last_30_days_pnls?: null | Array<{
+    related_at_date: string;
+    total_profit_last_ndays?: number;
+    recent_trading_pnl?: number;
+  }>;
+  recent_trading_pnl_percentage?: null | number;
+  recent_trading_realized_pnl_percentage?: null | number;
+  recent_trading_pnl?: null | number;
+  recent_trading_realized_pnl?: null | number;
+  total_recent_transfers?: null | number;
+  total_recent_transfer_volume?: null | number;
+  last_30_days_balance_change?: null | number;
+  last_30_days_balance_change_percentage?: null | number;
+  recent_trading_volume?: null | number;
+  recent_trading_wins?: null | number;
+  recent_trading_losses?: null | number;
+  recent_average_trades_per_day?: null | number;
+  recent_average_trade_duration_seconds?: null | number;
+  recent_number_of_trades?: null | number;
+  recent_largest_win?: null | number;
+  recent_largest_loss?: null | number;
+  total_profit_last_ndays?: null | number;
+  total_profit_last_ndays_percent?: null | number;
+  realized_profit_last_ndays?: null | number;
+  realized_profit_last_ndays_percent?: null | number;
+  unrealized_profit_last_ndays?: null | number;
+  unrealized_profit_last_ndays_percent?: null | number;
+  assets: Array<{
+    amount?: null | number;
+    label?: null | WhaleAssetLabel;
+    total_recent_buys?: null | number;
+    total_recent_sells?: null | number;
+    total_recent_buy_volume?: null | number;
+    total_recent_sell_volume?: null | number;
+    total_recent_buy_amount?: null | number;
+    total_recent_sell_amount?: null | number;
+    total_recent_transfers?: null | number;
+    total_recent_volume_transferred?: null | number;
+    recent_avg_trade_duration_seconds?: null | number;
+    recent_trading_pnl?: null | number;
+    recent_trading_pnl_percentage?: null | number;
+    total_profit_last_ndays?: null | number;
+    total_profit_latst_ndays_percent?: null | number;
+    realized_profit_last_ndays?: null | number;
+    realized_profit_latst_ndays_percent?: null | number;
+    unrealized_profit_last_ndays?: null | number;
+    unrealized_profit_latst_ndays_percent?: null | number;
+    market_data: MarketData;
+    last_30_days_price_change?: null | number;
+    worth?: null | number;
+    symbol: Coin;
+  }>;
+  scanner_link?: null | {
+    name: string;
+    url: string;
+  };
+}
+
+export const useWhaleDetails = (filters: {
+  holderAddress: string;
+  networkName: string;
+}) =>
+  useQuery({
+    queryKey: ['whale-details', JSON.stringify(filters)],
+    queryFn: async () => {
+      const data = await ofetch<SingleWhale>(
+        `${TEMPLE_ORIGIN}/api/v1/delphi/holders/holder-details/`,
+        {
+          query: {
+            holder_address: filters.holderAddress,
+            network_name: filters.networkName,
+          },
+        },
+      );
+      return data;
+    },
+  });
+
+export const useWhaleNetworks = () =>
+  useQuery({
+    queryKey: ['whale-networks'],
+    queryFn: () =>
+      ofetch<
+        PageResponse<{
+          icon_url: string;
+          id: number;
+          name: string;
+          slug: string;
+        }>
+      >('/delphi/holders/networks/'),
+  });
+
+export interface WhaleRadarSentiment {
+  hold_percent?: number | null;
+  buy_percent?: number | null;
+  sell_percent?: number | null;
+}
+export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
+  useQuery({
+    queryKey: ['whale-sentiment', slug],
+    queryFn: () =>
+      ofetch<WhaleRadarSentiment>('/delphi/holders/sentiment/', {
+        query: {
+          slug,
+        },
+      }),
+  });
+
+// new
+
+export interface WhaleRadarCoin {
+  rank: number;
+  symbol: Coin;
+  total_buy_volume: number;
+  total_buy_number: number;
+  total_sell_volume: number;
+  total_sell_number: number;
+  total_transfer_volume: number;
+  total_holding_volume: number;
+  total_recent_trading_pnl: number;
+  wallet_count: number;
+  label_percents: Array<[string, number]>;
+  profitable: boolean;
+  top_5_holders_info: Array<{
+    address: string;
+    network_name: string;
+  }>;
+  networks: CoinNetwork[];
+  data: MiniMarketData;
+  symbol_security?: null | {
+    data: NetworkSecurity[];
+  };
+  symbol_labels: string[];
+}
+
+export const useWhaleRadarCoins = (config: {
+  days: number;
+  sortBy?: string;
+  sortOrder?: 'ascending' | 'descending';
+  query?: string;
+  categories?: string[];
+  networks?: string[];
+  securityLabels?: string[];
+  trendLabels?: string[];
+  profitableOnly?: boolean;
+  excludeNativeCoins?: boolean;
+}) =>
+  useQuery({
+    queryKey: ['whale-radar-coins', config.days],
+    keepPreviousData: true,
+    queryFn: () =>
+      resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
+        query: {
+          days: config.days,
+          page_size: 99,
+        },
+        meta: { auth: false },
+      }),
+    select: data =>
+      data
+        .filter(row => {
+          if (
+            !matcher(config.query).coin(row.symbol) ||
+            !matcher(config.categories).array(
+              row.symbol.categories?.map(x => x.slug),
+            ) ||
+            !matcher(config.networks).array(
+              row.networks.map(x => x.network.slug),
+            ) ||
+            !matcher(config.trendLabels).array(row.symbol_labels) ||
+            !matcher(config.securityLabels).security(
+              row.symbol_security?.data,
+            ) ||
+            (config.profitableOnly && !row.profitable) ||
+            (config.excludeNativeCoins &&
+              row.networks.some(x => x.symbol_network_type === 'COIN'))
+          )
+            return false;
+          return true;
+        })
+        .sort((a, b) => {
+          const sorter = createSorter(config.sortOrder);
+          if (config.sortBy === 'price_change')
+            return sorter(
+              b.data.price_change_percentage_24h,
+              a.data.price_change_percentage_24h,
+            );
+
+          if (config.sortBy === 'market_cap')
+            return sorter(b.data.market_cap, a.data.market_cap);
+
+          if (config.sortBy === 'buy')
+            return sorter(b.total_buy_volume, a.total_buy_volume);
+          if (config.sortBy === 'sell')
+            return sorter(b.total_sell_volume, a.total_sell_volume);
+          if (config.sortBy === 'transfer')
+            return sorter(b.total_transfer_volume, a.total_transfer_volume);
+          if (config.sortBy === 'wallet_count')
+            return sorter(b.wallet_count, a.wallet_count);
+          return sorter(a.rank, b.rank);
+        }),
+  });
+
+export type WhaleAssetLabel =
+  | 'holding'
+  | 'unloading'
+  | 'loading'
+  | 'new_investment'
+  | 'exit_portfolio'
+  | 'dust'
+  | 'stable'
+  | 'trading';
+
+export interface CoinWhale {
+  holder_address: string;
+  network_name: string;
+  network_icon_url: string;
+  asset: {
+    id?: null | number;
+    key?: null | string;
+    is_active?: null | boolean;
+    created_at?: null | string;
+    updated_at?: null | string;
+    holder_id?: null | number;
+    coin_id?: null | string;
+    related_at_date?: null | string;
+    amount?: null | number;
+    worth?: null | number;
+    label?: null | WhaleAssetLabel;
+    last_label_action_datetime?: string | null;
+    total_recent_transfers?: null | number;
+    total_recent_buys?: null | number;
+    total_recent_buy_volume?: null | number;
+    total_recent_buy_amount?: null | number;
+    total_recent_sells?: null | number;
+    total_recent_sell_volume?: null | number;
+    total_recent_sell_amount?: null | number;
+    total_profit_last_ndays?: null | number;
+    total_profit_last_ndays_percent?: null | number;
+    realized_profit_last_ndays?: null | number;
+    realized_profit_last_ndays_percent?: null | number;
+    unrealized_profit_last_ndays?: null | number;
+    unrealized_profit_last_ndays_percent?: null | number;
+    number_of_wins_last_ndays?: null | number;
+    number_of_losses_last_ndays?: null | number;
+    largest_win_last_ndays?: null | number;
+    largest_loss_last_ndays?: null | number;
+    avg_cost_last_ndays?: null | number;
+    avg_sold_last_ndays?: null | number;
+    remaining_percent?: null | number;
+    updated_worth?: null | number;
+    pnl?: null | number;
+    pnl_percent?: null | number;
+    recent_trading_pnl?: null | number;
+    recent_trading_pnl_percentage?: null | number;
+    total_recent_volume_transferred?: null | number;
+  };
+}
+
+export const useCoinWhales = (config: {
+  slug: string;
+  type?: 'active' | 'holding';
+}) =>
+  useQuery({
+    queryKey: ['coin-whales', config.slug],
+    keepPreviousData: true,
+    queryFn: () =>
+      resolvePageResponseToArray<CoinWhale>('/delphi/holders/with-coin/', {
+        query: {
+          slug: config.slug,
+          page_size: 99,
+        },
+      }),
+    select: data =>
+      data.filter(x => {
+        if (config.type === 'active' && x.asset.label === 'holding')
+          return false;
+        if (config.type === 'holding' && x.asset.label !== 'holding')
+          return false;
+        return true;
+      }),
+  });

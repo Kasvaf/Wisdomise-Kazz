@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { type SingleWhale } from 'api';
+import dayjs from 'dayjs';
+import { useMemo } from 'react';
+import { type WhaleAssetLabel } from 'api';
 import { ClickableTooltip } from './ClickableTooltip';
 
-type Badge =
-  | SingleWhale['holding_assets'][number]['label']
-  | SingleWhale['trading_assets'][number]['label'];
-
 const useBadgeDetail = (
-  badge: Badge,
+  badge?: WhaleAssetLabel | null,
 ): {
   title: string;
   info?: string;
@@ -17,52 +15,53 @@ const useBadgeDetail = (
   const { t } = useTranslation('whale');
   if (badge === 'stable') {
     return {
-      title: t('asset_badges.stable'),
-      info: t('asset_badges.stable_info'),
+      title: t('whale:asset_badges.stable'),
+      info: t('whale:asset_badges.stable_info'),
       className: 'bg-v1-background-inverse/10 text-v1-content-primary',
     };
   }
   if (badge === 'holding')
     return {
-      title: t('asset_badges.holding'),
-      info: t('asset_badges.holding_info'),
+      title: t('whale:asset_badges.holding'),
+      info: t('whale:asset_badges.holding_info'),
       className: 'bg-v1-content-brand/10 text-v1-content-brand',
     };
   if (badge === 'unloading')
     return {
-      title: t('asset_badges.unloading'),
-      info: t('asset_badges.unloading_info'),
+      title: t('whale:asset_badges.unloading'),
+      info: t('whale:asset_badges.unloading_info'),
       className: 'bg-v1-background-secondary/10 text-v1-background-secondary',
     };
   if (badge === 'loading')
     return {
-      title: t('asset_badges.loading'),
-      info: t('asset_badges.loading_info'),
+      title: t('whale:asset_badges.loading'),
+      info: t('whale:asset_badges.loading_info'),
       className: 'bg-v1-content-positive/10 text-v1-content-positive',
     };
   if (badge === 'new_investment')
     return {
-      title: t('asset_badges.new_investment'),
-      info: t('asset_badges.new_investment_info'),
+      title: t('whale:asset_badges.new_investment'),
+      info: t('whale:asset_badges.new_investment_info'),
       className: 'bg-v1-background-accent/10 text-v1-background-accent',
     };
   if (badge === 'exit_portfolio')
     return {
-      title: t('asset_badges.exit_portfolio'),
-      info: t('asset_badges.exit_portfolio_info'),
+      title: t('whale:asset_badges.exit_portfolio'),
+      info: t('whale:asset_badges.exit_portfolio_info'),
       className: 'bg-v1-content-negative/10 text-v1-content-negative',
     };
   if (badge === 'dust') {
     return {
-      title: t('asset_badges.dust'),
-      info: t('asset_badges.dust_info'),
+      title: t('whale:asset_badges.dust'),
+      info: t('whale:asset_badges.dust_info'),
       className: 'bg-v1-border-primary/10 text-v1-border-primary',
     };
   }
   if (badge === 'trading') {
     return {
-      title: t('asset_badges.trading'),
-      className: 'bg-v1-content-primary/10 text-v1-content-primary',
+      title: t('whale:asset_badges.trading'),
+      info: t('whale:asset_badges.trading_info'),
+      className: 'bg-v1-content-primary/20 text-v1-content-primary',
     };
   }
   return {
@@ -74,14 +73,21 @@ const useBadgeDetail = (
 export function WhaleAssetBadge({
   className,
   value,
+  date,
 }: {
   className?: string;
-  value:
-    | SingleWhale['holding_assets'][number]['label']
-    | SingleWhale['trading_assets'][number]['label'];
+  value?: WhaleAssetLabel | null;
+  date?: string | null;
 }) {
+  const { t } = useTranslation('common');
   const detail = useBadgeDetail(value);
-
+  const dateTxt = useMemo(() => {
+    if (!date) return '';
+    const dt = dayjs(date);
+    const daysDiff = Math.abs(dt.diff(Date.now(), 'days'));
+    const text = dt.fromNow(false);
+    return `(${daysDiff < 2 ? t('recently') : text})`;
+  }, [date, t]);
   return (
     <ClickableTooltip
       chevron={false}
@@ -101,6 +107,7 @@ export function WhaleAssetBadge({
       )}
     >
       {detail.title}
+      {dateTxt && <span className="capitalize opacity-80">{dateTxt}</span>}
     </ClickableTooltip>
   );
 }

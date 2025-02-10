@@ -12,7 +12,7 @@ export const NetworkSelect: FC<SelectProps<string[]>> = ({
   ...props
 }) => {
   const { t } = useTranslation('alerts');
-  const networks = useNetworks();
+  const networks = useNetworks({});
 
   return (
     <Select

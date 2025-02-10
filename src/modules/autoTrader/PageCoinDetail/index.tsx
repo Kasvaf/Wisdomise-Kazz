@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useHasFlag } from 'api';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import CoinChart from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinChart';
-import { CoinStatsWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/CoinStatsWidget';
-import { SocialRadarSentimentWidget } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/SocialRadarSentimentWidget';
+import CoinChart from 'modules/insight/PageCoinDetails/components/CoinChart';
+import { CoinStatsWidget } from 'modules/insight/PageCoinDetails/components/CoinStatsWidget';
+import { SocialRadarSentimentWidget } from 'modules/insight/PageCoinDetails/components/SocialRadarSentimentWidget';
 import Button from 'shared/Button';
 import BtnBack from '../layout/BtnBack';
 import PositionsList from '../PositionsList';

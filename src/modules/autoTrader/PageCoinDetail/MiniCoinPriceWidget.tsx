@@ -1,12 +1,12 @@
-import { useCoinOverview, useHasFlag, useLastPriceQuery } from 'api';
-import { PriceAlertButton } from 'modules/insight/coinRadar/PageCoinRadarDetail/components/PriceAlertButton';
+import { useCoinDetails, useHasFlag, useLastPriceQuery } from 'api';
+import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import PriceChange from 'shared/PriceChange';
 import { DebugPin } from 'shared/DebugPin';
 
 export default function MiniCoinPriceWidget({ slug }: { slug: string }) {
   const hasFlag = useHasFlag();
-  const { data } = useCoinOverview({ slug });
+  const { data } = useCoinDetails({ slug });
   const { data: lastPrice } = useLastPriceQuery({ slug });
   if (lastPrice == null) {
     return null;

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { type Alert } from 'api/alert';
+import { type Alert } from 'api';
 import { AlertModal } from 'modules/alert/library/AlertModal';
 import { AlertProvider } from 'modules/alert/library/AlertProvider';
 import { AlertEdit } from 'modules/alert/library/AlertEdit';

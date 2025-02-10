@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { type Alert } from 'api/alert';
+import { type Alert } from 'api';
 import { type AlertForm, type AlertFormGroup } from './types';
 
 export type EditingAlertState = [
