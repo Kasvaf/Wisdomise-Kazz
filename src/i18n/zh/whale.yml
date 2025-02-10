@@ -19,6 +19,7 @@ asset_badges:
   stable: 稳定的
   stable_info: 稳定币是一种与挂钩的外部传统资产类别保持稳定价值的数字资产。
   trading: 贸易
+  trading_info: 这种货币受到鲸鱼的积极交易。
   unloading: 卸载
   unloading_info: 这名鲸鱼正在减少其持股量 5% 以上，但并未完全退出。
 filters:
@@ -70,7 +71,10 @@ top_coins:
   info:
     info: 当前价格、完全稀释的市值和流通供应量。
     title: 信息
+  labels: 标签
+  market_cap: 市值
   name: 名稱
+  rank: "#"
   sell_volume:
     avg: 平均每次销售
     info: 过去 7 天内智能钱包和总钱包的售出总量。
@@ -78,7 +82,16 @@ top_coins:
   sells:
     info: 过去 7 天内智能钱包的总数和售出的钱包总数。
     title: 售卖
+  sorts:
+    buy: 购买量
+    market_cap: 市值
+    price_change: 24小时更改
+    rank: 指数
+    sell: 卖出量
+    transfer: 转让量
+    wallet_count: 钱包号码
   title: 鲸鱼选择的顶级代币
+  wallet_number: 钱包号码
 top_whales:
   address: 地址
   balance:
@@ -89,6 +102,7 @@ top_whales:
   returns:
     info: 钱包在过去 30 天内的总回报，计算方法为报价资产（例如 ETH）的损益除以期间持有的代币的最大价值（以 ETH 为单位）。
     title: 返回
+  search: 搜索鲸鱼地址
   title: 顶级鲸鱼
   tokens: 顶级代币
   trades_per_day:
@@ -146,3 +160,19 @@ whale_trades:
   title: 交易
   trading_pnl: 交易盈亏
   volume_of_trades: 交易量
+whales_on_coin:
+  active_empty: 目前没有活跃的钱包
+  active_title: 智能钱包活跃于
+  address: 地址
+  badge: 徽章
+  balance: 餘額
+  description: 这些数据代表了整体钱包活动，而不仅仅是这一枚硬币的活动。
+  empty_subtitle: 目前没有可显示的钱包。我们正在持续实时更新此信息。
+  holding_empty: 目前没有活跃的钱包
+  holding_title: 智能钱包继续保持
+  network: 網絡
+  returns: 返回
+  total_pnl: 总盈亏
+  trading_vol: 交易量
+  wallet_other: "{{count}} 钱包"
+  wallet_zero: 没有钱包
