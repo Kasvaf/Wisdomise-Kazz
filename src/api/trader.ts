@@ -275,10 +275,15 @@ export const usePreparePositionMutation = () => {
   const { mutateAsync } = useCreateTraderInstanceMutation();
   return useMutation(async ({ network, ...body }: CreatePositionRequest) => {
     await mutateAsync({ network });
-    const data = await ofetch<{ gas_fee: string; warning?: string }>(
-      'trader/positions/prepare',
-      { body, method: 'post', query: { network_slug: network } },
-    );
+    const data = await ofetch<{
+      gas_fee: string;
+      price_impact?: string;
+      warning?: string;
+    }>('trader/positions/prepare', {
+      body,
+      method: 'post',
+      query: { network_slug: network },
+    });
     return data;
   });
 };
