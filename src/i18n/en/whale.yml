@@ -30,6 +30,8 @@ asset_badges:
   stable_info: >-
     A stablecoin is a digital asset that remains stable in value against a
     pegged external traditional asset class.
+  trading: Trading
+  trading_info: This coin is actively traded by the whale.
   unloading: Unloading
   unloading_info: >-
     This coin has little value to the whale, held in very small amounts that
