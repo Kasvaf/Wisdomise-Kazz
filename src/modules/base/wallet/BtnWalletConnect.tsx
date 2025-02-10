@@ -20,7 +20,7 @@ const BtnSolanaWalletConnect = () => {
     >
       {solanaWallet.connected
         ? addr.substring(0, 4) + '...' + addr.substr(-4)
-        : 'Wallet'}
+        : 'Connect Wallet'}
     </WalletMultiButton>
   );
 };
