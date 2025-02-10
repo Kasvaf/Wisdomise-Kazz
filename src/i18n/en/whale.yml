@@ -35,44 +35,33 @@ asset_badges:
   unloading_info: >-
     This coin has little value to the whale, held in very small amounts that
     don’t impact their portfolio.
-filters:
-  all: All
-  all-networks: All Networks
-  best_to_copy: Best To Copy
-  buy: Most Bought
-  hold: Most Held by Whales
-  holders: Holders
-  sell: Most Sold
-  total_volume: Highest Trading Volume
-  wealthy_wallets: Wealthy Wallets
 top_coins:
   name: Name
-  title: Top Tokens Chosen by Whales
+  title: Whale Radar
   buy_volume:
     title: Buy Volume
     avg: Avg per buy
     info: >-
       The total volume bought from smart wallets and total wallet in the last
       7D.
-  buys:
-    title: Buys
-    info: >-
-      The total number of smart wallets and total wallet that bought in the last
-      7D.
-  info:
-    title: Info
-    info: The current price, fully diluted Market Cap, and Circulating Supply.
+  labels: Labels
+  market_cap: Market Cap
+  rank: '#'
   sell_volume:
     title: Sell Volume
     avg: Avg per sell
     info: The total volume sold from smart wallets and total wallet in the last 7D.
-  sells:
-    title: Sells
-    info: >-
-      The total number of smart wallets and total wallet that sold in the last
-      7D.
+  sorts:
+    buy: Buy Vol
+    market_cap: Market Cap
+    price_change: 24H Chg
+    rank: Index
+    sell: Sell Vol
+    transfer: Transfer Vol
+    wallet_count: Wallet Num
+  wallet_number: Wallet Number
 top_whales:
-  title: Top Whales
+  title: Smart Wallets
   address: Address
   balance:
     title: Balance
@@ -85,6 +74,7 @@ top_whales:
       The total returns of the wallet recently, calculated as the P&L in the
       quote asset (e.g., ETH) divided by the maximum value of tokens held (in
       ETH) during the period.
+  search: Search Whale Address
   tokens: Top Tokens
   trades_per_day:
     title: 'Avg # Of Trades/Day'
@@ -129,7 +119,7 @@ whale_overview:
   losses: Losses
   trading_pnl: Trading PNL (Unrealized)
   trading_tokens:
-    title: Trading Tokens
+    title: Active Tokens
     info: Tokens with high activity, frequently bought and sold by the whale.
   trading_volume: Trading Volume
   trading_win_rate: Trading Win Rate
@@ -143,3 +133,21 @@ whale_trades:
   returns: Returns
   trading_pnl: Trading PNL
   volume_of_trades: Volume Of Trades
+whales_on_coin:
+  active_empty: No Active Wallets at This Time
+  active_title: Smart Wallets Active on
+  address: Address
+  badge: Badge
+  balance: Balance
+  empty_subtitle: >-
+    Currently, There Are No Wallets to Show. We Are Continuously Updating This
+    Information in Real-Time.
+  holding_empty: No Active Wallets at This Time
+  holding_title: Smart Wallets Holding on
+  network: Network
+  returns: Returns
+  total_pnl: Total PNL
+  trading_vol: Trading Volume
+  wallet_one: '{{count}} Wallet'
+  wallet_other: '{{count}} Wallets'
+  wallet_zero: No Wallet

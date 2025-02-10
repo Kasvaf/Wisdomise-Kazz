@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useShare } from './useShare';
+import { Button } from './v1-components/Button';
 
 export const Wallet: FC<{
   wallet: {
@@ -27,14 +28,20 @@ export const Wallet: FC<{
         <div className={clsx('flex items-center gap-3', className)}>
           <img
             src={avatar}
-            width={48}
-            height={48}
-            className="size-10 rounded-full"
+            width={28}
+            height={28}
+            className="size-7 rounded-full"
           />
           <h1 className="text-lg font-bold"> {shortAddress} </h1>
-          <button onClick={() => copy(wallet.address)}>
-            <Icon name={bxCopy} size={16} />
-          </button>
+          <Button
+            onClick={() => copy(wallet.address)}
+            size="sm"
+            className="-ms-1 w-sm"
+            variant="ghost"
+            surface={1}
+          >
+            <Icon name={bxCopy} size={24} />
+          </Button>
         </div>
       ) : (
         <Link

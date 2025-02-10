@@ -89,7 +89,7 @@ export function WhaleBalanceChartWidget({
             {t('whale_balance_chart.current_balance')}
           </p>
           <ReadableNumber
-            value={whale.data?.last_30_balance_updates[0].balance_usdt}
+            value={whale.data?.last_30_balance_updates?.[0]?.balance_usdt}
             label="$"
             className="block text-2xl"
           />

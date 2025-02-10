@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 import { isMiniApp } from 'utils/version';
+import { resolvePageResponseToArray } from 'api/utils';
 import {
   type Coin,
   type Category,
@@ -8,7 +9,8 @@ import {
   type Network,
   type CoinLabels,
   type CoinDetails,
-} from './types';
+} from '../types/shared';
+import { matcher } from './utils';
 
 export const useNetworks = (config: {
   filter?: 'social-radar-24-hours' | 'technical-radar' | 'whale-radar';
@@ -22,7 +24,7 @@ export const useNetworks = (config: {
           ? '/delphi/holders/networks/'
           : '/delphi/market/networks/';
       const needToAttachFilter = config?.filter !== 'whale-radar';
-      return ofetch<Network[]>(url, {
+      return resolvePageResponseToArray<Network>(url, {
         query: {
           ...(needToAttachFilter && {
             filter: config?.filter,
@@ -32,8 +34,7 @@ export const useNetworks = (config: {
     },
     select: data =>
       data.filter(row => {
-        const query = config.query?.toLowerCase() ?? '';
-        if (!!query && !`${row.name}-${row.slug}`.toLowerCase().includes(query))
+        if (!matcher(config.query).string(`${row.name}-${row.slug}`))
           return false;
         return true;
       }),
@@ -94,15 +95,28 @@ export const useCoins = (config: { query?: string }) =>
       }),
   });
 
-export const useCoinLabels = () =>
+export const useCoinLabels = (config: { query?: string }) =>
   useQuery({
     queryKey: ['coin-labels'],
     queryFn: async () => {
       const data = await ofetch<CoinLabels>(
         'delphi/intelligence/symbol-labels/',
       );
-      return data ?? [];
+      return (
+        data ?? {
+          security_labels: [],
+          trend_labels: [],
+        }
+      );
     },
+    select: data => ({
+      trend_labels: data.trend_labels.filter(row =>
+        matcher(config.query).string(row),
+      ),
+      security_labels: data.security_labels.filter(row =>
+        matcher(config.query).string(row),
+      ),
+    }),
   });
 
 export const useCoinDetails = ({

@@ -11,16 +11,16 @@ import { formatNumber } from 'utils/numbers';
 import { CoinLabels } from 'shared/CoinLabels';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { DebugPin } from 'shared/DebugPin';
-import { CoinSearchInput } from 'shared/CoinSearchInput';
+import { SearchInput } from 'shared/SearchInput';
 import {
   useHasFlag,
   type SocialRadarCoin,
   useSocialRadarCoins,
   useSocialRadarInfo,
 } from 'api';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { SignalSentiment } from '../SignalSentiment';
-import { CoinPriceInfo } from '../CoinPriceInfo';
-import { CoinMarketCap } from '../CoinMarketCap/index';
+import { CoinPriceInfo } from '../../../../shared/CoinPriceInfo';
 import CoinRadarAlerButton from '../CoinRadarAlertButton';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
@@ -180,9 +180,10 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       headerActions={
         <>
           <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
-            <CoinSearchInput
+            <SearchInput
               value={tableState.query}
               onChange={query => setTableState({ query })}
+              placeholder={t('common.search_coin')}
               className="w-64 mobile:grow"
               size="md"
             />

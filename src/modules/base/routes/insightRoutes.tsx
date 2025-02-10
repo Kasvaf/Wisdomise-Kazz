@@ -23,7 +23,9 @@ const PageTechnicalRadar = React.lazy(
   () => import('modules/insight/PageTechnicalRadar'),
 );
 
-const PageWhales = React.lazy(() => import('modules/insight/PageWhales'));
+const PageWhaleRadar = React.lazy(
+  () => import('modules/insight/PageWhaleRadar'),
+);
 
 const PageWhaleDetails = React.lazy(
   () => import('modules/insight/PageWhaleDetails'),
@@ -66,7 +68,7 @@ const useInsightRoutes = () => {
           children: [
             {
               path: '',
-              element: <PageWhales />,
+              element: <PageWhaleRadar />,
             },
             {
               path: ':network/:address',

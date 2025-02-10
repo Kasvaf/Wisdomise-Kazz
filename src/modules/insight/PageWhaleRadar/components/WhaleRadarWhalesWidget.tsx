@@ -1,11 +1,10 @@
-import { type ReactNode, useEffect, useMemo } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table, { useTableState } from 'shared/Table';
-import { useHasFlag, useWhales, type WhaleShort, type WhalesFilter } from 'api';
-import { ButtonSelect } from 'shared/ButtonSelect';
+import { useHasFlag, useWhaleRadarWhales, type WhaleShort } from 'api';
 import { Wallet } from 'shared/Wallet';
 import { Network } from 'shared/Network';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -13,47 +12,10 @@ import { Coins } from 'shared/Coins';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { AccessShield } from 'shared/AccessShield';
 import { DebugPin } from 'shared/DebugPin';
-import { NetworkSelect } from './NetworkSelect';
+import { NetworkSelect } from 'shared/NetworkSelect';
+import { SearchInput } from 'shared/SearchInput';
 
-const useWhaleTopHoldersFilters = () => {
-  const { t } = useTranslation('whale');
-  const hasFlag = useHasFlag();
-  return [
-    {
-      label: (
-        <>
-          <DebugPin title="?all_whales" color="orange" />
-          {t('filters.all')}
-        </>
-      ),
-      value: 'all',
-      hidden: !hasFlag('?all_whales'),
-    },
-    {
-      label: (
-        <>
-          <DebugPin title="?best_to_copy" color="orange" />
-          {t('filters.best_to_copy')}
-        </>
-      ),
-      value: 'best_to_copy',
-      hidden: !hasFlag('?best_to_copy'),
-    },
-    {
-      label: t('filters.holders'),
-      value: 'holders',
-    },
-    {
-      label: t('filters.wealthy_wallets'),
-      value: 'wealthy_wallets',
-    },
-  ] satisfies Array<{
-    label: ReactNode;
-    value: WhalesFilter;
-    hidden?: boolean;
-  }>;
-};
-export function WhaleTopHoldersWidget({
+export function WhaleRadarWhalesWidget({
   className,
   headerActions,
 }: {
@@ -62,30 +24,17 @@ export function WhaleTopHoldersWidget({
 }) {
   const { t } = useTranslation('whale');
   const hasFlag = useHasFlag();
-  const filters = useWhaleTopHoldersFilters();
 
-  const [tableProps, tableState, setTableState] = useTableState('whales', {
+  const [tableProps, tableState, setTableState] = useTableState<
+    Parameters<typeof useWhaleRadarWhales>[0]
+  >('whales', {
     page: 1,
     pageSize: 5,
-    sortOrder: 'ascending',
-    filter: filters.find(x => !x.hidden)?.value ?? 'all',
-    network: '',
+    networkNames: [],
+    query: '',
   });
 
-  const whales = useWhales({
-    page: tableState.page,
-    pageSize: tableState.pageSize,
-    filter: tableState.filter,
-    sortBy: tableState.sortBy,
-    isAscending: tableState.sortOrder === 'ascending',
-    networkName: tableState.network,
-  });
-
-  useEffect(() => {
-    setTableState({
-      total: whales.data?.count ?? 0,
-    });
-  }, [setTableState, whales.data?.count]);
+  const whales = useWhaleRadarWhales(tableState);
 
   const columns = useMemo<Array<ColumnType<WhaleShort>>>(
     () => [
@@ -245,40 +194,40 @@ export function WhaleTopHoldersWidget({
 
   return (
     <OverviewWidget
-      className={clsx(
-        'min-h-[647px] xl:min-h-[620px] 2xl:min-h-[627px]',
-        className,
-      )}
+      className={clsx('min-h-[427px] mobile:min-h-[647px]', className)}
       title={t('top_whales.title')}
       loading={whales.isInitialLoading}
-      empty={whales.data?.results?.length === 0}
-      headerClassName="flex-wrap !justify-start"
+      empty={whales.data?.length === 0}
+      headerClassName="flex-wrap"
       headerActions={
         <>
-          {headerActions && (
+          {headerActions ? (
             <div className="flex grow justify-end">{headerActions}</div>
+          ) : (
+            <div className="flex justify-between gap-4 mobile:gap-2">
+              <SearchInput
+                value={tableState.query}
+                onChange={query => setTableState({ query })}
+                placeholder={t('top_whales.search')}
+                className="w-64 mobile:grow"
+                size="md"
+              />
+              <NetworkSelect
+                value={tableState.networkNames}
+                valueType="name"
+                filter="whale-radar"
+                multiple
+                allowClear
+                size="md"
+                onChange={networkNames => {
+                  setTableState({
+                    networkNames,
+                    page: 1,
+                  });
+                }}
+              />
+            </div>
           )}
-          <div className="flex w-full grow flex-wrap justify-between gap-4">
-            <ButtonSelect
-              value={tableState.filter}
-              options={filters}
-              onChange={filter => {
-                setTableState({
-                  filter,
-                  page: 1,
-                });
-              }}
-            />
-            <NetworkSelect
-              value={tableState.network || undefined}
-              onChange={network => {
-                setTableState({
-                  network,
-                  page: 1,
-                });
-              }}
-            />
-          </div>
         </>
       }
     >
@@ -295,7 +244,7 @@ export function WhaleTopHoldersWidget({
       >
         <Table
           columns={columns}
-          dataSource={whales.data?.results ?? []}
+          dataSource={whales.data ?? []}
           rowKey="holder_address"
           loading={whales.isRefetching && !whales.isFetched}
           {...tableProps}

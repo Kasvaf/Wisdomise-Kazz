@@ -1,4 +1,3 @@
-// NAITODO
 import { useParams } from 'react-router-dom';
 import PageWrapper from 'modules/base/PageWrapper';
 import { Wallet } from 'shared/Wallet';

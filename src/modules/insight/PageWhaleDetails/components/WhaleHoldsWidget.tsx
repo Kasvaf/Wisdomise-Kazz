@@ -25,9 +25,7 @@ export function WhaleHoldsWidget({
     networkName,
   });
 
-  const columns = useMemo<
-    Array<ColumnType<SingleWhale['holding_assets'][number]>>
-  >(
+  const columns = useMemo<Array<ColumnType<SingleWhale['assets'][number]>>>(
     () => [
       {
         title: t('whale_holds.name'),
@@ -122,7 +120,7 @@ export function WhaleHoldsWidget({
       className={className}
       title={t('whale_holds.title')}
       loading={whale.isLoading}
-      empty={whale.data?.holding_assets?.length === 0}
+      empty={whale.data?.assets.filter(x => x.label !== 'holding').length === 0}
     >
       <AccessShield
         mode="table"
@@ -137,7 +135,9 @@ export function WhaleHoldsWidget({
       >
         <Table
           columns={columns}
-          dataSource={whale.data?.holding_assets ?? []}
+          dataSource={
+            whale.data?.assets.filter(x => x.label === 'holding') ?? []
+          }
           rowKey={row => JSON.stringify(row.symbol)}
           loading={whale.isLoading}
         />

@@ -2,12 +2,13 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { bxSearch } from 'boxicons-quasar';
-import { type CoinExchange, useCoinDetails } from 'api';
+import { useCoinDetails } from 'api';
 import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
+import { type CoinExchange } from 'api/types/shared';
 
 export function CoinAvailableExchangesWidget({
   slug,

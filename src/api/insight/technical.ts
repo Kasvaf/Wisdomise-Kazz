@@ -2,7 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from '../utils';
-import { type NetworkSecurity, type Coin, type CoinNetwork } from './types';
+import {
+  type NetworkSecurity,
+  type Coin,
+  type CoinNetwork,
+} from '../types/shared';
 import { createSorter, matcher } from './utils';
 
 export interface RsiOvernessRow {

@@ -23,10 +23,7 @@ export function WhaleAssetsTreeMapWidget({
   });
 
   const config = useMemo<TreemapConfig>(() => {
-    const allAssets = [
-      ...(whale.data?.holding_assets ?? []),
-      ...(whale.data?.trading_assets ?? []),
-    ].filter(
+    const allAssets = [...(whale.data?.assets ?? [])].filter(
       (row, index, self) =>
         row.market_data.id &&
         (row.worth ?? 0) > 0 &&

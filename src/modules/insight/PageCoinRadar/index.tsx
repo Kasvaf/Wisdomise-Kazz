@@ -7,7 +7,7 @@ import { InsightAlertButton } from './components/InsightAlertButton';
 import { ReactComponent as Logo } from './components/logo.svg';
 import { CoinRadarTable } from './components/CoinRadarTable';
 
-const PageInsight = () => {
+const PageCoinRadar = () => {
   const { t } = useTranslation();
   const coins = useCoinRadarCoins();
 
@@ -33,4 +33,4 @@ const PageInsight = () => {
   );
 };
 
-export default PageInsight;
+export default PageCoinRadar;

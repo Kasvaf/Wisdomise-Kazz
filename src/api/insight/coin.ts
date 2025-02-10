@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
-import { type CoinNetwork, type Coin, type NetworkSecurity } from './types';
+import {
+  type CoinNetwork,
+  type Coin,
+  type NetworkSecurity,
+} from '../types/shared';
 import { type SocialRadarSentiment } from './social';
 import { type MacdConfirmation, type RsiConfirmation } from './technical';
 

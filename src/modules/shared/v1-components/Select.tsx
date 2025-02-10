@@ -15,9 +15,8 @@ import { bxChevronDown, bxLoader } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface, useSurface } from 'utils/useSurface';
-import { Button } from '../Button';
-import { ReactComponent as CheckIcon } from './check.svg';
-import { ReactComponent as UnCheckIcon } from './uncheck.svg';
+import { Button } from './Button';
+import { Checkbox } from './Checkbox';
 
 interface SelectProps<V, M extends boolean = false> {
   size?: 'xs' | 'sm' | 'md' | 'xl';
@@ -50,21 +49,6 @@ interface SelectProps<V, M extends boolean = false> {
   className?: string;
 
   surface?: Surface;
-}
-
-function Checkbox({
-  value,
-  size,
-  className,
-}: Pick<SelectProps<never, never>, 'size' | 'className'> & {
-  value?: boolean;
-}) {
-  const Component = value ? CheckIcon : UnCheckIcon;
-  return (
-    <Component
-      className={clsx(size === 'xl' ? 'size-5' : 'size-4', className)}
-    />
-  );
 }
 
 function InternalRenderedValue<V>({
@@ -128,7 +112,7 @@ function Option({
       <div className="max-w-80 overflow-hidden">{children}</div>
       {checkbox && (
         <Checkbox
-          size={size}
+          size={size === 'xl' ? 'lg' : 'md'}
           value={selected}
           className="shrink-0 overflow-visible"
         />

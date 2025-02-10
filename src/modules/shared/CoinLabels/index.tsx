@@ -6,12 +6,12 @@ import {
   type CoinNetwork,
   type Coin,
   type NetworkSecurity,
+  type CoinLabels as CoinLabelsType,
 } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
-import { type CoinLabels as CoinLabelsType } from 'api';
 import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Risk } from './risk.svg';
@@ -153,6 +153,7 @@ export function CoinLabels({
     <div
       className={clsx(
         'flex flex-wrap items-start justify-start gap-[2px]',
+        'max-h-14 w-auto overflow-y-auto',
         className,
       )}
     >

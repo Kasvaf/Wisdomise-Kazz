@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { type MiniMarketData } from 'api/types/shared';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 
@@ -9,21 +10,22 @@ export function CoinPriceInfo({
 }: {
   className?: string;
   linesClassName?: string;
-  marketData: {
-    current_price?: number | null;
-    price_change_percentage_24h?: number | null;
-    low_24h?: number | null;
-    high_24h?: number | null;
-  };
+  marketData: Pick<
+    MiniMarketData,
+    'current_price' | 'price_change_percentage_24h' | 'low_24h' | 'high_24h'
+  >;
 }) {
   return (
     <span className={clsx('inline-flex flex-col', className)}>
-      <div className={clsx('flex items-center gap-2', linesClassName)}>
-        <ReadableNumber value={marketData.current_price} label="$" />
+      <div className={clsx('flex items-center gap-2 text-xs', linesClassName)}>
+        <ReadableNumber
+          value={marketData.current_price}
+          label="$"
+          className="text-sm"
+        />
         <DirectionalNumber
           value={marketData.price_change_percentage_24h}
           showSign
-          className="text-[0.89em]"
           showIcon={false}
           suffix="(24H)"
           label="%"
@@ -31,7 +33,7 @@ export function CoinPriceInfo({
       </div>
       <div
         className={clsx(
-          'flex items-center gap-2 text-[0.89em] font-light text-v1-content-secondary',
+          'flex items-center gap-2 text-xs font-light text-v1-content-secondary',
           linesClassName,
         )}
       >

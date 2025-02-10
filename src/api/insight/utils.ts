@@ -1,4 +1,4 @@
-import { type NetworkSecurity, type Coin } from './types';
+import { type NetworkSecurity, type Coin } from '../types/shared';
 
 export const matcher = (search: string | string[] | null | undefined) => {
   const searchArray = search ? (Array.isArray(search) ? search : [search]) : [];
@@ -7,6 +7,13 @@ export const matcher = (search: string | string[] | null | undefined) => {
       ? search.join('').toLowerCase()
       : search.trim().toLowerCase()
     : '';
+  const string = (source?: string | null | undefined) => {
+    if (!source && searchString) return false;
+    if (source && searchString && !source.toLowerCase().includes(searchString))
+      return false;
+    return true;
+  };
+
   const coin = (source: Coin | null | undefined) => {
     if (!source && searchString) return false;
     if (
@@ -50,6 +57,7 @@ export const matcher = (search: string | string[] | null | undefined) => {
   };
 
   return {
+    string,
     coin,
     array,
     security,

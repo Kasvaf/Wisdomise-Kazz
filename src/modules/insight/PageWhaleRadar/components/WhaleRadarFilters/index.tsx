@@ -9,24 +9,23 @@ import Icon from 'shared/Icon';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { CoinLabelSelect } from 'shared/CoinLabelSelect';
 import { NetworkSelect } from 'shared/NetworkSelect';
-import { ExchangeSelect } from 'shared/ExchangeSelect';
-import { type useSocialRadarCoins } from 'api';
+import { type useWhaleRadarCoins } from 'api';
+import { Checkbox } from 'shared/v1-components/Checkbox';
 import { presetFilters } from './presetFilters';
 import { SortModes } from './SortModes';
-import { SocialRadarSourceSelect } from './SocialRadarSourceSelect';
 
 const areEqual = (first: string[], second: string[]) =>
   first.length === second.length && first.every(x => second.includes(x));
 
-export function SocialRadarFilters({
+export function WhaleRadarFilters({
   className,
   onChange,
   value,
 }: {
   className?: string;
   onReset?: () => void;
-  value: Parameters<typeof useSocialRadarCoins>[0];
-  onChange?: (v?: Partial<Parameters<typeof useSocialRadarCoins>[0]>) => void;
+  value: Parameters<typeof useWhaleRadarCoins>[0];
+  onChange?: (v?: Partial<Parameters<typeof useWhaleRadarCoins>[0]>) => void;
 }) {
   const { t } = useTranslation('coin-radar');
   const [open, setOpen] = useState(false);
@@ -36,33 +35,36 @@ export function SocialRadarFilters({
       presetFilters.find(x => {
         return (
           areEqual(x.filters.categories ?? [], value.categories ?? []) &&
-          areEqual(x.filters.exchanges ?? [], value.exchanges ?? []) &&
           areEqual(x.filters.networks ?? [], value.networks ?? []) &&
-          areEqual(x.filters.sources ?? [], value.sources ?? []) &&
           areEqual(
             x.filters.securityLabels ?? [],
             value.securityLabels ?? [],
           ) &&
-          areEqual(x.filters.trendLabels ?? [], value.trendLabels ?? [])
+          areEqual(x.filters.trendLabels ?? [], value.trendLabels ?? []) &&
+          (value.profitableOnly ?? false) ===
+            (x.filters.profitableOnly ?? false) &&
+          (value.excludeNativeCoins ?? false) ===
+            (x.filters.excludeNativeCoins ?? false)
         );
       })?.slug ?? undefined
     );
   }, [value]);
+
   const isFiltersApplied = useMemo(
     () =>
       value.categories?.length ||
-      value.exchanges?.length ||
       value.networks?.length ||
-      value.sources?.length ||
       value.securityLabels?.length ||
-      value.trendLabels?.length,
+      value.trendLabels?.length ||
+      value.profitableOnly ||
+      value.excludeNativeCoins,
     [
       value.categories?.length,
-      value.exchanges?.length,
       value.networks?.length,
       value.securityLabels?.length,
-      value.sources?.length,
       value.trendLabels?.length,
+      value.profitableOnly,
+      value.excludeNativeCoins,
     ],
   );
 
@@ -93,11 +95,11 @@ export function SocialRadarFilters({
           onClick={() =>
             onChange?.({
               categories: [],
-              exchanges: [],
               networks: [],
               securityLabels: [],
-              sources: [],
               trendLabels: [],
+              profitableOnly: false,
+              excludeNativeCoins: false,
             })
           }
         >
@@ -114,11 +116,11 @@ export function SocialRadarFilters({
           onChange={newPresetFilter =>
             onChange?.({
               categories: [],
-              exchanges: [],
               networks: [],
               securityLabels: [],
-              sources: [],
               trendLabels: [],
+              profitableOnly: false,
+              excludeNativeCoins: false,
               ...presetFilters.find(x => x.slug === newPresetFilter)?.filters,
             })
           }
@@ -186,7 +188,6 @@ export function SocialRadarFilters({
               className="grow"
               value={localState.categories}
               multiple
-              filter="social-radar-24-hours"
               allowClear
               onChange={categories =>
                 setLocalState(p => ({ ...p, categories: categories ?? [] }))
@@ -201,38 +202,22 @@ export function SocialRadarFilters({
               className="grow"
               value={localState.networks}
               multiple
-              filter="social-radar-24-hours"
+              filter="whale-radar"
               allowClear
               onChange={networks =>
                 setLocalState(p => ({ ...p, networks: networks ?? [] }))
               }
             />
           </div>
-          <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common.exchange')}
-            </p>
-            <ExchangeSelect
-              className="grow"
-              value={localState.exchanges}
-              multiple
-              filter="social-radar-24-hours"
-              allowClear
-              onChange={exchanges =>
-                setLocalState(p => ({ ...p, exchanges: exchanges ?? [] }))
+          <div className="pt-4">
+            <Checkbox
+              size="lg"
+              value={localState.excludeNativeCoins}
+              onChange={excludeNativeCoins =>
+                setLocalState(p => ({ ...p, excludeNativeCoins }))
               }
-            />
-          </div>
-          <div className="flex items-center gap-2 mobile:flex-wrap">
-            <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common.source')}
-            </p>
-            <SocialRadarSourceSelect
-              className="grow"
-              value={localState.sources}
-              onChange={sources =>
-                setLocalState(p => ({ ...p, sources: sources ?? [] }))
-              }
+              block
+              label="Exclude Native Coins"
             />
           </div>
         </div>

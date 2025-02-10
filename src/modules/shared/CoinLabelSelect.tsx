@@ -1,9 +1,10 @@
 import { type ComponentProps } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { type CoinLabels, useCoinLabels } from 'api';
+import { useCoinLabels } from 'api';
 import { Select } from 'shared/v1-components/Select';
 import { CoinLabel } from 'shared/CoinLabels';
+import { type CoinLabels } from 'api/types/shared';
 
 export function CoinLabelSelect<M extends boolean>({
   type,
@@ -21,7 +22,7 @@ export function CoinLabelSelect<M extends boolean>({
   type: keyof CoinLabels;
 }) {
   const { t } = useTranslation('coin-radar');
-  const options = useCoinLabels();
+  const options = useCoinLabels({});
 
   return (
     <Select
@@ -37,7 +38,7 @@ export function CoinLabelSelect<M extends boolean>({
           />
         );
       }}
-      options={options.data?.[type]?.filter(x => !!x) ?? []}
+      options={options.data?.[type] ?? []}
       {...props}
     />
   );

@@ -1,14 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { type SingleWhale } from 'api';
+import { type WhaleAssetLabel } from 'api';
 import { ClickableTooltip } from './ClickableTooltip';
 
-type Badge =
-  | SingleWhale['holding_assets'][number]['label']
-  | SingleWhale['trading_assets'][number]['label'];
-
 const useBadgeDetail = (
-  badge: Badge,
+  badge?: WhaleAssetLabel | null,
 ): {
   title: string;
   info?: string;
@@ -62,7 +58,7 @@ const useBadgeDetail = (
   if (badge === 'trading') {
     return {
       title: t('asset_badges.trading'),
-      className: 'bg-v1-content-primary/10 text-v1-content-primary',
+      className: 'bg-v1-content-primary/20 text-v1-content-primary',
     };
   }
   return {
@@ -71,14 +67,13 @@ const useBadgeDetail = (
   };
 };
 
+// NAITODO add date
 export function WhaleAssetBadge({
   className,
   value,
 }: {
   className?: string;
-  value:
-    | SingleWhale['holding_assets'][number]['label']
-    | SingleWhale['trading_assets'][number]['label'];
+  value?: WhaleAssetLabel | null;
 }) {
   const detail = useBadgeDetail(value);
 

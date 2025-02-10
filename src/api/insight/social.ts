@@ -6,7 +6,7 @@ import {
   type Coin,
   type NetworkSecurity,
   type CoinNetwork,
-} from './types';
+} from '../types/shared';
 import { createSorter, matcher } from './utils';
 
 export interface SocialRadarInfo {
@@ -118,8 +118,8 @@ export const useSocialRadarCoins = (config: {
       );
       return data ?? [];
     },
-    select: data => {
-      return data
+    select: data =>
+      data
         .filter(row => {
           if (
             !matcher(config.query).coin(row.symbol) ||
@@ -153,8 +153,7 @@ export const useSocialRadarCoins = (config: {
               a.symbol_market_data.market_cap,
             );
           return sorter(a.rank, b.rank);
-        });
-    },
+        }),
     refetchInterval: 30_000,
     keepPreviousData: true,
   });

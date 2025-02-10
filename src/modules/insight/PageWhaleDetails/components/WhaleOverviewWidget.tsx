@@ -84,7 +84,7 @@ export function WhaleOverviewWidget({
       <div>
         <div className="flex justify-between gap-2">
           <ReadableNumber
-            value={whale.data?.last_30_balance_updates[0].balance_usdt}
+            value={whale.data?.last_30_balance_updates?.[0].balance_usdt}
             label="$"
             className="block text-4xl"
           />
@@ -170,13 +170,13 @@ export function WhaleOverviewWidget({
         label={t('whale_overview.trading_tokens.title')}
         info={t('whale_overview.trading_tokens.info')}
       >
-        {whale.data?.trading_assets.length}
+        {whale.data?.assets.filter(x => x.label !== 'holding').length}
       </StatRow>
       <StatRow
         label={t('whale_overview.holding_tokens.title')}
         info={t('whale_overview.holding_tokens.info')}
       >
-        {whale.data?.holding_assets.length}
+        {whale.data?.assets.filter(x => x.label === 'holding').length}
       </StatRow>
     </OverviewWidget>
   );

@@ -5,12 +5,12 @@ import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { AccessShield } from 'shared/AccessShield';
 import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
-import { CoinMarketCap } from 'modules/insight/PageSocialRadar/components/CoinMarketCap';
-import { CoinPriceInfo } from 'modules/insight/PageSocialRadar/components/CoinPriceInfo';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { ButtonSelect } from 'shared/ButtonSelect';
+import { SearchInput } from 'shared/SearchInput';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
-import { CoinSearchInput } from './CoinSearchInput';
 import { NetworkSelect } from './NetworkSelect';
 import { CategoriesSelect } from './CategoriesSelect';
 import { TechnicalSentiment } from './TechnicalSentiment';
@@ -100,10 +100,11 @@ export const TechnicalTable: FC = () => {
   return (
     <div>
       <div className="mb-6 flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
-        <CoinSearchInput
+        <SearchInput
           value={tableState.query}
           onChange={query => setTableState({ query })}
           className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
+          placeholder={t('coin-radar:common.search_coin')}
         />
         <NetworkSelect
           value={tableState.network || undefined}
