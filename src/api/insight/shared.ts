@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
-import { isMiniApp } from 'utils/version';
 import { resolvePageResponseToArray } from 'api/utils';
+import { isMiniApp } from 'utils/version';
 import {
   type Coin,
   type Category,
@@ -81,7 +81,10 @@ export const useCategories = (config: {
       }),
   });
 
-export const useCoins = (config: { query?: string }) =>
+export const useCoins = (config: {
+  query?: string;
+  tradableCoinsOnly?: boolean;
+}) =>
   useQuery({
     queryKey: ['coins', config.query],
     staleTime: Number.POSITIVE_INFINITY,
@@ -89,7 +92,9 @@ export const useCoins = (config: { query?: string }) =>
       ofetch<Coin[]>('delphi/symbol/search/', {
         query: {
           q: config.query,
-          is_trading: isMiniApp ? true : undefined,
+          network_name:
+            isMiniApp && config.tradableCoinsOnly ? 'ton' : undefined,
+          is_trading: config.tradableCoinsOnly ? true : undefined,
           page_size: 200,
         },
       }),

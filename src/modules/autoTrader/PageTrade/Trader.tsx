@@ -41,6 +41,7 @@ export default function Trader() {
           filterTokens={x => x !== 'tether'}
           priceExchange="auto"
           value={slug}
+          tradableCoinsOnly
           onChange={selectedSlug =>
             navigate({
               pathname: `/auto-trader/${selectedSlug}`,
