@@ -210,25 +210,21 @@ export function initialQuoteDeposit(p: Position) {
 
 export function useTraderPositionQuery({
   positionKey,
-  network,
 }: {
   positionKey?: string;
-  network?: SupportedNetworks;
 }) {
   return useQuery(
     ['traderPosition', positionKey],
     async () => {
       if (!positionKey) return;
 
-      const data = await ofetch<Position>(`trader/positions/${positionKey}`, {
-        query: { network_slug: network },
-      });
+      const data = await ofetch<Position>(`trader/positions/${positionKey}`);
       return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
       refetchInterval: 10_000,
-      enabled: !!positionKey && !!network,
+      enabled: !!positionKey,
     },
   );
 }

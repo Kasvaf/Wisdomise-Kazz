@@ -1,6 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useTraderPositionTransactionsQuery } from 'api';
+import {
+  useTraderPositionQuery,
+  useTraderPositionTransactionsQuery,
+} from 'api';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -13,7 +16,14 @@ export default function PageTransactions() {
   const [positionKey] = useSearchParamAsState('key');
   if (!slug) throw new Error('unexpected');
 
-  const { data, isError, isLoading } = useTraderPositionTransactionsQuery({
+  const { data: position, isLoading: positionLoading } = useTraderPositionQuery(
+    { positionKey },
+  );
+  const {
+    data,
+    isError,
+    isLoading: transactionsLoading,
+  } = useTraderPositionTransactionsQuery({
     positionKey,
     // network:, // TODO: HOW?!
   });
@@ -28,7 +38,7 @@ export default function PageTransactions() {
           </div>
         </div>
 
-        {isLoading ? (
+        {transactionsLoading || positionLoading ? (
           <div className="mt-8 flex justify-center">
             <Spinner />
           </div>
@@ -37,16 +47,18 @@ export default function PageTransactions() {
             {"There's a problem with our servers. Please check again later."}
           </div>
         ) : (
-          <div className="flex flex-col items-stretch gap-2">
-            {data?.toReversed().map((t, ind) => (
-              <React.Fragment key={t.type + t.data.time}>
-                <TransactionBox t={t} />
-                {ind < data.length - 1 && (
-                  <ArrowUp className="self-center text-[#333F4D]" />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+          position && (
+            <div className="flex flex-col items-stretch gap-2">
+              {data?.toReversed().map((t, ind) => (
+                <React.Fragment key={t.type + t.data.time}>
+                  <TransactionBox t={t} p={position} />
+                  {ind < data.length - 1 && (
+                    <ArrowUp className="self-center text-[#333F4D]" />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          )
         )}
       </div>
     </PageWrapper>

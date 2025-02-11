@@ -7,6 +7,7 @@ import {
   type TransactionWithdraw,
   type TransactionOpenClose,
   type TransactionStatus,
+  type SupportedNetworks,
 } from 'api';
 import Button from 'shared/Button';
 import Badge from 'shared/Badge';
@@ -87,7 +88,15 @@ export const GasFee: React.FC<{
   );
 };
 
-export const TonViewer: React.FC<{ link?: string | null }> = ({ link }) => {
+const SCANNERS: Record<SupportedNetworks, string> = {
+  'the-open-network': 'TonViewer',
+  'solana': 'SolScan',
+};
+
+export const TonViewer: React.FC<{
+  link?: string | null;
+  network: string;
+}> = ({ link, network }) => {
   if (!link) return null;
   return (
     <div className="mt-6 flex justify-center">
@@ -99,7 +108,10 @@ export const TonViewer: React.FC<{ link?: string | null }> = ({ link }) => {
         target="_blank"
       >
         <Icon name={bxGlobe} className="mr-2" size={16} />
-        View on Tonviewer
+        View
+        {network in SCANNERS
+          ? ' on ' + SCANNERS[network as SupportedNetworks]
+          : ''}
       </Button>
     </div>
   );

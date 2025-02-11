@@ -7,6 +7,7 @@ import {
   type TransactionWithdraw,
   type TransactionOpenClose,
   type Transaction,
+  type Position,
 } from 'api';
 import Icon from 'shared/Icon';
 import { roundSensible } from 'utils/numbers';
@@ -29,7 +30,8 @@ const AssetPrice: React.FC<{
 
 const TransactionAnyOrderBox: React.FC<{
   t: TransactionOpenClose | TransactionOrder;
-}> = ({ t }) => {
+  p: Position;
+}> = ({ t, p }) => {
   const price = t.data.price_usd;
   const isQuoteFirst = t.type === 'open' || t.type === 'safety_open';
   const totalPrice =
@@ -82,14 +84,15 @@ const TransactionAnyOrderBox: React.FC<{
       </div>
 
       <GasFee t={t} />
-      <TonViewer link={t.data.link} />
+      <TonViewer link={t.data.link} network={p.network_slug} />
     </Box>
   );
 };
 
 const TransactionDepositWithdrawBox: React.FC<{
   t: TransactionWithdraw | TransactionDeposit;
-}> = ({ t }) => {
+  p: Position;
+}> = ({ t, p }) => {
   return (
     <Box
       title={t.type === 'withdraw' ? 'Withdraw' : 'Deposit'}
@@ -115,32 +118,37 @@ const TransactionDepositWithdrawBox: React.FC<{
         <GasFee t={t} className="mt-3" />
       )}
 
-      {t.data.link && <TonViewer link={t.data.link} />}
+      {t.data.link && <TonViewer link={t.data.link} network={p.network_slug} />}
     </Box>
   );
 };
 
-const TransactionCloseBox: React.FC<{ t: TransactionClose }> = ({ t }) => {
+const TransactionCloseBox: React.FC<{ t: TransactionClose; p: Position }> = ({
+  t,
+}) => {
   return <Box title="Closed" info={dayjs(t.data.time).fromNow()} />;
 };
 
-const TransactionBox: React.FC<{ t: Transaction }> = ({ t }) => {
+const TransactionBox: React.FC<{ t: Transaction; p: Position }> = ({
+  t,
+  p,
+}) => {
   switch (t.type) {
     case 'stop_loss':
     case 'take_profit':
     case 'safety_open':
     case 'open':
     case 'close': {
-      return <TransactionAnyOrderBox t={t} />;
+      return <TransactionAnyOrderBox t={t} p={p} />;
     }
 
     case 'deposit':
     case 'withdraw': {
-      return <TransactionDepositWithdrawBox t={t} />;
+      return <TransactionDepositWithdrawBox t={t} p={p} />;
     }
 
     case 'close_event': {
-      return <TransactionCloseBox t={t} />;
+      return <TransactionCloseBox t={t} p={p} />;
     }
 
     default: {

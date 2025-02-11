@@ -9,7 +9,6 @@ import {
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import BtnBack from '../../base/BtnBack';
-import { useActiveNetwork } from '../../base/active-network';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
@@ -22,10 +21,7 @@ export default function Trader() {
   useEnsureIsSupportedPair({ slug, nextPage: '/' });
 
   const [positionKey] = useSearchParamAsState('pos');
-  const position = useTraderPositionQuery({
-    positionKey,
-    network: useActiveNetwork(),
-  });
+  const position = useTraderPositionQuery({ positionKey });
   const coinOverview = useCoinDetails({ slug });
 
   useEffect(() => {
