@@ -1,12 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useIsLoggedIn, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
-import { useJwtEmail } from 'modules/base/auth/jwt-store';
 
 const undefinedSymbol = Symbol('undefined');
 
 export function useUserStorage(key: string) {
+  const isLoggedIn = useIsLoggedIn();
   const queryClient = useQueryClient();
   const userEmail: string | null = (useJwtEmail() as string) ?? null;
   const [owner, setOwner] = useState<null | string>(null);
@@ -15,6 +16,7 @@ export function useUserStorage(key: string) {
     queryKey: ['user-storage', userEmail, key],
     queryFn: async () => {
       try {
+        if (!isLoggedIn) throw new Error('Not logged in');
         const resp = await ofetch<{ value: string }>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         );
@@ -30,6 +32,7 @@ export function useUserStorage(key: string) {
 
   const save = useMutation({
     mutationFn: async (newValue: string) => {
+      if (!isLoggedIn) throw new Error('Not logged in');
       const resp = await ofetch<{ message?: 'ok' }>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         {
@@ -47,6 +50,7 @@ export function useUserStorage(key: string) {
 
   const remove = useMutation({
     mutationFn: async () => {
+      if (!isLoggedIn) throw new Error('Not logged in');
       await ofetch<{ message?: 'ok' }>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
         {

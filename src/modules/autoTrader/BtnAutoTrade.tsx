@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSupportedPairs } from 'api';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 export const BtnAutoTrade: React.FC<{ slug?: string; className?: string }> = ({
   slug,
@@ -10,7 +11,9 @@ export const BtnAutoTrade: React.FC<{ slug?: string; className?: string }> = ({
   const { data: supportedPairs, isLoading } = useSupportedPairs(slug);
   const isSupported = !!supportedPairs?.length;
   const navigate = useNavigate();
-  if (!useIsMobile()) return null;
+  const isMobile = useIsMobile();
+  const isLoggedIn = useIsLoggedIn();
+  if (!isMobile || !isLoggedIn) return null;
 
   return (
     <Button

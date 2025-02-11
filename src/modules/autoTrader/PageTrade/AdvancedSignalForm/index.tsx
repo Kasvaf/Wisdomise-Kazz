@@ -1,17 +1,18 @@
 import { clsx } from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { notification } from 'antd';
-import Button from 'shared/Button';
+import { useTranslation } from 'react-i18next';
 import { type Position, useHasFlag } from 'api';
-import { useUserStorage } from 'api/userStorage';
-import { DebugPin } from 'shared/DebugPin';
 import { useAccountBalance, useActiveWallet } from 'api/chains';
-import { type SignalFormState } from './useSignalFormStates';
+import { useUserStorage } from 'api/userStorage';
+import { isMiniApp } from 'utils/version';
+import { DebugPin } from 'shared/DebugPin';
+import Button from 'shared/Button';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
 import PartSafetyOpen from './PartSafetyOpen';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
+import { type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as WarnIcon } from './WarnIcon.svg';
 
 interface Props {
@@ -104,7 +105,9 @@ const AdvancedSignalForm: React.FC<Props> = ({
             {t('signal-form.btn-close')}
           </Button>
         </>
-      ) : hasFlag('/trader-positions') ? (
+      ) : hasFlag(
+          isMiniApp ? '/trader-positions' : '/trader-positions?mobile',
+        ) ? (
         wallet.connected ? (
           <Button
             variant="brand"
