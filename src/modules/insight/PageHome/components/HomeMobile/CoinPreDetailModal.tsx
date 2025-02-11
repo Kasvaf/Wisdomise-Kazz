@@ -18,6 +18,8 @@ const CoinPreDetailModal: React.FC<{
   )?.id;
   if (!slug) return null;
 
+  // slug should be used for active network
+
   return (
     <DrawerModal
       title={

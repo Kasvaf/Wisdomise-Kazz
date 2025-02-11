@@ -8,7 +8,7 @@ import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Spin from 'shared/Spin';
-import useActiveNetwork from 'modules/base/useActiveNetwork';
+import { useActiveNetwork } from 'modules/base/active-network';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<
