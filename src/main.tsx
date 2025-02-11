@@ -1,14 +1,16 @@
-import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
+import { useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider, theme } from 'antd';
 import { useEffectOnce } from 'usehooks-ts';
-import { HelmetProvider } from 'react-helmet-async';
+import { useErrorNotification } from 'shared/useErrorNotification';
+import { useJwtEmail } from 'modules/base/auth/jwt-store';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
-import { RouterBaseName } from 'config/constants';
 import queryClient from 'config/reactQuery';
-import { useErrorNotification } from 'shared/useErrorNotification';
+import { RouterBaseName } from 'config/constants';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');
@@ -32,6 +34,12 @@ function Root() {
       },
     });
   });
+
+  const jwtEmail = useJwtEmail();
+  useEffect(() => {
+    void queryClient.invalidateQueries();
+  }, [jwtEmail]);
+
   return (
     <Sentry.ErrorBoundary
       fallback={x => <PageError errorObject={x} level="root" />}
