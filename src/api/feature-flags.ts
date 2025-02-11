@@ -47,7 +47,7 @@ export function useHasFlag() {
     }
 
     if (flag[0] === '/') {
-      const result = Boolean(flagsObj[flag]);
+      const result = flag === '/' || Boolean(flagsObj[flag]);
       if (!result && (isDebugMode || isLocal)) {
         if (flagsObj['//all']) {
           console.log('🚩', flag, '(enabled by //all)');
