@@ -1,9 +1,10 @@
 import { clsx } from 'clsx';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
+import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
-import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import PositionsList from '../PositionsList';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 
@@ -18,7 +19,7 @@ const PagePositions = () => {
   const isTrialBannerVisible = useIsTrialBannerVisible();
 
   return (
-    <div>
+    <PageWrapper>
       <ButtonSelect
         options={[
           { value: 'active', label: 'Active' },
@@ -54,7 +55,7 @@ const PagePositions = () => {
           Start Auto Trading
         </Button>
       )}
-    </div>
+    </PageWrapper>
   );
 };
 
