@@ -12,7 +12,7 @@ import InfoButton from 'shared/InfoButton';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
 import { useSymbolInfo } from 'api/symbol';
-import useActiveNetwork from 'modules/base/useActiveNetwork';
+import { useActiveNetwork } from 'modules/base/active-network';
 import DurationInput from './DurationInput';
 import PriceVolumeInput from './PriceVolumeInput';
 import AIPresets from './AIPressets';

@@ -42,7 +42,7 @@ const ProfileMenuContent = () => {
   return (
     <div className="min-w-80 space-y-4 text-v1-content-primary">
       <div className="flex max-w-full grow-0 justify-between overflow-hidden">
-        <div className="flex w-3/4 items-center gap-2 overflow-hidden p-3 text-center text-base mobile:pl-1">
+        <div className="flex items-center gap-2 overflow-hidden p-3 text-center text-base mobile:w-3/4 mobile:pl-1">
           <AccountIconEmpty className="size-6 shrink-0" />
           <div className="grow text-ellipsis text-left">{account?.email}</div>
         </div>

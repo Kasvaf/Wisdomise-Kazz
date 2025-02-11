@@ -11,6 +11,7 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
+import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
 
 // required for using @ton/core
@@ -60,7 +61,9 @@ const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       <SolanaWalletProvider>
-        <WalletEvents>{children}</WalletEvents>
+        <WalletEvents>
+          <LayoutActiveNetworkProvider>{children}</LayoutActiveNetworkProvider>
+        </WalletEvents>
       </SolanaWalletProvider>
     </TonConnectUIProvider>
   );

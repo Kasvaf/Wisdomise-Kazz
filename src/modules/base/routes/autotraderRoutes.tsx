@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
 import Container from '../Container';
+import { ActiveNetworkProvider } from '../active-network';
 
 const PageClaimReward = React.lazy(
   () => import('modules/autoTrader/PageClaimReward'),
@@ -34,11 +35,12 @@ const useAutoTraderRoutes = () => {
         { path: '', element: <Navigate to={'coin-radar/overview' + qs} /> },
         {
           path: 'trader-claim-reward',
-          handle: { wallet: 'the-open-network' },
           element: (
-            <GameAuthGuard>
-              <PageClaimReward />
-            </GameAuthGuard>
+            <ActiveNetworkProvider network="the-open-network" setOnLayout>
+              <GameAuthGuard>
+                <PageClaimReward />
+              </GameAuthGuard>
+            </ActiveNetworkProvider>
           ),
         },
         {
@@ -61,12 +63,6 @@ const useAutoTraderRoutes = () => {
             {
               path: ':slug',
               element: <PageTrade />,
-              handle: {
-                wallet: (params: any, query: any) => [
-                  params.slug,
-                  query.quote || 'tether',
-                ],
-              },
             },
             { path: ':slug/transactions', element: <PageTransactions /> },
           ],
