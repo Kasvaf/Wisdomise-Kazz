@@ -47,7 +47,7 @@ const PositionDetail: React.FC<{
             <>
               <span className="text-white/30">on</span>
               <NetworkIcon
-                network="solana"
+                network={position.network_slug}
                 withTitle
                 className="text-white/50"
               />
