@@ -13,7 +13,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-  if (!isMobile || !isLoggedIn) return null;
+  if (!isMobile) return null;
 
   return (
     <Button
@@ -21,13 +21,16 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       block
       variant={buttonProps.variant ?? 'outline'}
       loading={isLoading}
-      disabled={!slug || !isSupported}
+      disabled={!slug || !isSupported || !isLoggedIn}
       onClick={() => navigate(`/auto-trader/${slug ?? ''}`)}
     >
       <div>
         <div>Auto Trade</div>
-        {!isSupported && !isLoading && (
-          <div className="text-xxs">Not Supported</div>
+        {isLoggedIn ? (
+          !isSupported &&
+          !isLoading && <div className="text-xxs">Not Supported</div>
+        ) : (
+          <div className="text-xxs">Requires LogIn</div>
         )}
       </div>
     </Button>
