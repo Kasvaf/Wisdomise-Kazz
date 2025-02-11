@@ -38,7 +38,7 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
   ) : (
     <>
       <Button
-        variant="ghost"
+        variant="primary"
         size="xl"
         className={clsx('w-xl', className)}
         onClick={showModalLogin}
