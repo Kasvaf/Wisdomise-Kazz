@@ -35,7 +35,7 @@ const Header: React.FC<
         )}
       >
         {isMobile ? (
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-[calc(100vw-2rem)] items-center justify-between">
             <div className="mr-2 w-1/2">
               <ProfileMenu className="w-full" />
             </div>
