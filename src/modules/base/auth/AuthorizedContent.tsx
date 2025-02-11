@@ -17,7 +17,7 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (isLoggedIn && !isAuthorized && !isFetching) {
-      navigate('/');
+      navigate('/coin-radar/overview');
     }
   }, [isAuthorized, isFetching, isLoggedIn, navigate]);
 

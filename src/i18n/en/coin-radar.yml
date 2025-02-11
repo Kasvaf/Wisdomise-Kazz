@@ -190,25 +190,7 @@ coin-details:
           We're continuously exploring new strategies. Fresh technical insights
           will be available soon!
     whale_list:
-      title: Smart Whales
       label: Smart Whales
-      empty:
-        title: No Whale Activity Detected
-        subtitle: >-
-          It's calm in the deep right now, but we’re always tracking the big
-          players. Stay tuned for whale moves!
-      holders: Holds
-      table:
-        address: Address
-        avg_duration: Avg Duration
-        badge: Badge
-        returns: Returns
-        trades: '#Trades'
-        trading_pnl: Trading PNL
-        volume: Volume
-        volume_of_trades: Volume Of Trades
-        worth: Worth
-      traders: Trades
     whale_sentiment:
       title: Whale Sentiment™
       buy: Buy
@@ -309,15 +291,3 @@ social-radar:
           just the community’s view but also how market movements align with
           those opinions.
         </p>
-    whale_buy_sell:
-      title: Whale Buy/Sell
-      empty: Untracked
-      info: >-
-        <b>Whale Buy/Sell</b> <br /> <br /> <b>Tracks data from Smart Wallets
-        (Whales) using Wisdomise AI:</b> <br /> <br /> <b>Buying Activity:</b>
-        Displays the number of wallets that bought the asset in the last hour
-        and the total amount purchased. <br /><br /> <b>Selling Activity:</b>
-        Shows the number of wallets that sold the asset in the last hour and the
-        total amount sold. <br /><br /> For assets that are not attractive to
-        whales and have no significant transactions, the badge Untracked is
-        displayed.

@@ -14,8 +14,6 @@ import {
 import Button from 'shared/Button';
 import { addComma } from 'utils/numbers';
 import { DrawerModal } from 'shared/DrawerModal';
-import { useHasFlag } from 'api';
-import { DebugPin } from 'shared/DebugPin';
 import ton from 'modules/shared/NetworkIcon/ton.svg';
 import usdt from './images/usdt.svg';
 import plat from './images/plat.png';
@@ -27,7 +25,6 @@ import star from './images/star.svg';
 export const TON_PER_REFERRAL = 0.01;
 
 export default function ClaimRewardPage() {
-  const hasFlag = useHasFlag();
   const address = useTonAddress();
   const { data: friends } = useFriends();
   const { data, mutate: sync } = useSyncDataMutation();
@@ -207,17 +204,6 @@ export default function ClaimRewardPage() {
           </Button>
         </div>
       </div>
-
-      {hasFlag('/trader-alerts') && (
-        <Button
-          to="/trader-alerts"
-          className="mt-8 block"
-          variant="alternative"
-        >
-          <DebugPin title="/trader-alerts" color="orange" />
-          Manage Alerts
-        </Button>
-      )}
 
       <DrawerModal
         open={open}

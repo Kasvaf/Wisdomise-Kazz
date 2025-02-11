@@ -10,7 +10,7 @@ import TournamentCard from 'modules/autoTrader/PageQuests/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
 import { addComma } from 'utils/numbers';
 import empty from 'modules/autoTrader/PositionsList/empty.svg';
-import { useTelegramProfile } from 'modules/autoTrader/layout/TelegramProvider';
+import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import TournamentsOnboarding from 'modules/autoTrader/PageQuests/TournamentsOnboarding';
 import { ReactComponent as IconUser } from './user.svg';
 

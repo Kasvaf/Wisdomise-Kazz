@@ -60,7 +60,7 @@ export const PageCard: FC<PageCardProps> = props => {
       to={to}
       className={clsx(
         'group flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl',
-        'bg-gradient-to-bl from-[#1A1C20] to-[#161718] transition-all duration-150 hover:brightness-110',
+        'bg-v1-surface-l2 transition-all duration-150 hover:brightness-110',
       )}
       onClick={onClick}
     >
@@ -69,7 +69,7 @@ export const PageCard: FC<PageCardProps> = props => {
         {Icon && (
           <Icon className="absolute right-6 top-1/2 h-auto w-[112px] -translate-y-1/2 mobile:w-[88px]" />
         )}
-        <div className="relative flex min-h-40 w-full max-w-[70%] basis-auto flex-col gap-4 bg-gradient-to-r from-[#1A1C20] to-transparent p-6 mobile:max-w-[calc(100%-90px)]">
+        <div className="relative flex min-h-40 w-full max-w-[70%] basis-auto flex-col gap-4 p-6 mobile:max-w-[calc(100%-90px)]">
           <p className="flex items-center gap-2 text-base font-semibold">
             {title}
             {info && (
@@ -107,7 +107,7 @@ export const PageCard: FC<PageCardProps> = props => {
       </div>
       <div
         className={clsx(
-          'rounded-b-2xl border-t border-white/10 bg-gradient-to-r from-[#09090A4D] to-[#2314364D]',
+          'rounded-b-2xl border-t border-white/10 bg-v1-surface-l3',
           'flex h-[72px] max-w-full flex-row items-center gap-4 overflow-x-auto overflow-y-hidden px-6 mobile:h-20 mobile:px-4',
         )}
       >

@@ -1,65 +1,34 @@
-import React, { useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { clsx } from 'clsx';
-import useIsMobile from 'utils/useIsMobile';
+import { isMiniApp } from 'utils/version';
 import TrackersContainer from 'modules/base/TrackersContainer';
-import AuthorizedContent from '../auth/AuthorizedContent';
-import PageWrapper from '../PageWrapper';
 import AuthGuard from '../auth/AuthGuard';
-import Header from './Header';
-import SideMenu from './SideMenu';
-import BottomNavBar from './BottomNavBar';
-import ScrollToTop from './ScrollToTop';
-import { usePageSiblings } from './Header/Breadcrumb';
-import { GeneralMeta } from './GeneralMeta';
+import WalletProvider from '../wallet/WalletProvider';
+import TelegramAuthGuard from '../mini-app/TelegramAuthGuard';
+import { TelegramProvider } from '../mini-app/TelegramProvider';
 import { UserEngageFlow } from './UserEngageFlow';
+import { GeneralMeta } from './GeneralMeta';
+import Layout from './Layout';
+
+const Guard = isMiniApp ? TelegramAuthGuard : AuthGuard;
 
 const Container = () => {
-  const isMobile = useIsMobile();
-  const mainRef = useRef<HTMLDivElement>(null);
-  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
-  const { PageSiblings, height, showSiblings, setShowSiblings } =
-    usePageSiblings();
-
-  return (
-    <TrackersContainer>
-      <AuthGuard>
-        <GeneralMeta />
-        <main
-          className="relative mx-auto max-w-[2304px] bg-v1-surface-l1"
-          style={{
-            ['--side-menu-width' as any]: `${sideMenuCollapsed ? 74 : 260}px`,
-          }}
-        >
-          <SideMenu
-            collapsed={sideMenuCollapsed}
-            onCollapseClick={() => setSideMenuCollapsed(c => !c)}
-            className="mobile:hidden"
-          />
-          <Header showSiblings={showSiblings} onShowSiblings={setShowSiblings}>
-            {isMobile && PageSiblings}
-          </Header>
-          <div
-            ref={mainRef}
-            id="scrolling-element"
-            className={clsx(
-              'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto mobile:p-3',
-            )}
-          >
-            <div style={{ height }} />
-            <React.Suspense fallback={<PageWrapper loading />}>
-              <AuthorizedContent>
-                <Outlet />
-              </AuthorizedContent>
-            </React.Suspense>
-          </div>
-          <BottomNavBar />
-          <ScrollToTop />
-        </main>
-        <UserEngageFlow />
-      </AuthGuard>
-    </TrackersContainer>
+  const result = (
+    <div className="min-h-screen text-white">
+      <TrackersContainer>
+        <Guard>
+          <WalletProvider>
+            <GeneralMeta />
+            <Layout>
+              <Outlet />
+            </Layout>
+            <UserEngageFlow />
+          </WalletProvider>
+        </Guard>
+      </TrackersContainer>
+    </div>
   );
+
+  return isMiniApp ? <TelegramProvider>{result}</TelegramProvider> : result;
 };
 
 export default Container;

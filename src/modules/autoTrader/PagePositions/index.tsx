@@ -1,7 +1,9 @@
+import { clsx } from 'clsx';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
+import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import PositionsList from '../PositionsList';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 
@@ -13,6 +15,7 @@ const PagePositions = () => {
   const [slug, setSlug] = useSearchParamAsState('slug');
 
   useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
+  const isTrialBannerVisible = useIsTrialBannerVisible();
 
   return (
     <div>
@@ -42,8 +45,11 @@ const PagePositions = () => {
       {filter === 'active' && (
         <Button
           variant="brand"
-          className="fixed bottom-20 end-4 start-4 z-50"
-          to={`/market/${slug || 'the-open-network'}`}
+          className={clsx(
+            'fixed end-4 start-4 z-50',
+            isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
+          )}
+          to={`/auto-trader/${slug || 'the-open-network'}`}
         >
           Start Auto Trading
         </Button>

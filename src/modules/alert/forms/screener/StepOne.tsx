@@ -11,7 +11,7 @@ import { CoinCategoriesSelect } from 'modules/alert/components/CoinCategoriesSel
 import { NetworkSelect } from 'modules/alert/components/NetworkSelect';
 import { AlertChannelsSelect } from 'modules/alert/components/AlertChannelsSelect';
 import { isDebugMode } from 'utils/version';
-import { type AlertMessenger } from 'api/alert';
+import { type AlertMessenger } from 'api';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';
 
 export function StepOne({

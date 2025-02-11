@@ -2,7 +2,7 @@ import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { useAccountQuery } from 'api';
-import { useTelegram } from 'modules/autoTrader/layout/TelegramProvider';
+import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import useStartParams from 'modules/autoTrader/useStartParams';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import { analytics, configSegment } from 'config/segment';

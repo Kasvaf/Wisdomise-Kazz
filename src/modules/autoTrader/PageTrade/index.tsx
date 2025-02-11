@@ -3,13 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import {
   isPositionUpdatable,
-  useCoinOverview,
+  useCoinDetails,
   useTraderPositionQuery,
 } from 'api';
 import Spinner from 'shared/Spinner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import BtnBack from '../layout/BtnBack';
-import useActiveNetwork from '../layout/useActiveNetwork';
+import BtnBack from '../../base/BtnBack';
+import useActiveNetwork from '../../base/useActiveNetwork';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import useSignalFormStates from './AdvancedSignalForm/useSignalFormStates';
 import AdvancedSignalForm from './AdvancedSignalForm';
@@ -19,18 +19,18 @@ export default function PageTrade() {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
 
-  useEnsureIsSupportedPair({ slug, nextPage: '/trader-hot-coins' });
+  useEnsureIsSupportedPair({ slug, nextPage: '/' });
 
   const [positionKey] = useSearchParamAsState('pos');
   const position = useTraderPositionQuery({
     positionKey,
     network: useActiveNetwork(),
   });
-  const coinOverview = useCoinOverview({ slug });
+  const coinOverview = useCoinDetails({ slug });
 
   useEffect(() => {
     if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(`/trader-hot-coins/${slug}`);
+      navigate(`/trader-positions?slug=${slug}`);
     }
   }, [navigate, position.data, slug]);
 
@@ -47,7 +47,7 @@ export default function PageTrade() {
           value={slug}
           onChange={selectedSlug =>
             navigate({
-              pathname: `/market/${selectedSlug}`,
+              pathname: `/auto-trader/${selectedSlug}`,
               search: 'quote=' + formState.quote[0],
             })
           }

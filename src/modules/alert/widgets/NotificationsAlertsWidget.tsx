@@ -1,7 +1,7 @@
 import { type ColumnType } from 'antd/es/table';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type Alert } from 'api/alert';
+import { type Alert } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table from 'shared/Table';
 import { AlertType } from 'modules/alert/components/AlertType';

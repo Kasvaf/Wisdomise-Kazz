@@ -4,6 +4,8 @@ import { type PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import { RouterBaseName } from 'config/constants';
+import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
+import { isMiniApp } from 'utils/version';
 import BranchSelector from './BranchSelector';
 import BtnLiveSupport from './BtnLiveSupport';
 import LanguageSelector from './LanguageSelector';
@@ -33,22 +35,41 @@ const Header: React.FC<
         )}
       >
         {isMobile ? (
-          <>
-            <Breadcrumb
-              showSiblings={showSiblings}
-              onShowSiblings={onShowSiblings}
-            />
-            <div className="grow" />
-            {RouterBaseName && pathname !== '/menu' && <BranchSelector />}
-            <LanguageSelector />
-            {pathname === '/menu' ? <BtnLiveSupport /> : <ProfileMenu />}
-          </>
+          <div className="flex w-full items-center justify-between">
+            <div className="mr-2 w-1/2">
+              <ProfileMenu className="w-full" />
+            </div>
+
+            {/* // weird class hides it when there's a button on right */}
+            <div className="shrink-0 has-[+div>*]:hidden">
+              <Breadcrumb
+                showLogo={true}
+                showSiblings={showSiblings}
+                onShowSiblings={onShowSiblings}
+              />
+            </div>
+
+            <div
+              className={clsx(
+                'ml-2 flex w-1/2 justify-end',
+                // in mini-app, we want logo on right (more space needed for left)
+                isMiniApp && '[&:not(:has(*))]:hidden',
+              )}
+            >
+              {pathname.startsWith('/account') ? (
+                <BtnLiveSupport />
+              ) : (
+                <BtnWalletConnect />
+              )}
+            </div>
+          </div>
         ) : (
           <>
             <Breadcrumb className="pl-6" />
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
             <LanguageSelector />
+            <BtnWalletConnect />
             <ProfileMenu />
           </>
         )}

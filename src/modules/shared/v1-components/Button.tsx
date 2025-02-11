@@ -13,7 +13,8 @@ export const Button: FC<{
     | 'wsdm'
     | 'white'
     | 'link'
-    | 'negative';
+    | 'negative'
+    | 'positive';
   disabled?: boolean;
   loading?: boolean;
   block?: boolean;
@@ -67,6 +68,8 @@ export const Button: FC<{
           'border-transparent text-v1-content-link enabled:hover:text-v1-content-link-hover enabled:active:text-v1-content-link-pressed',
         variant === 'negative' &&
           'border-v1-border-negative bg-transparent text-v1-content-negative enabled:hover:bg-v1-background-negative/15 enabled:active:bg-transparent',
+        variant === 'positive' &&
+          'border-v1-border-positive bg-transparent text-v1-content-positive enabled:hover:bg-v1-background-positive/15 enabled:active:bg-transparent',
         /* Loading */
         loading && 'animate-pulse',
         /* Disabled */

@@ -8,7 +8,7 @@ import InfoButton from 'shared/InfoButton';
 import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Spin from 'shared/Spin';
-import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
+import useActiveNetwork from 'modules/base/useActiveNetwork';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<

@@ -35,7 +35,7 @@ const PageAccount: FC = () => {
         description={t('menu.account.subtitle')}
       />
 
-      <div className="grid grid-cols-3 gap-6 mobile:grid-cols-1">
+      <div className="mb-10 grid grid-cols-3 gap-6 mobile:grid-cols-1">
         <PageCard
           to="/account/profile"
           title={t('menu.profile.title')}

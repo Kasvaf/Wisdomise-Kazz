@@ -1,34 +1,46 @@
+import { clsx } from 'clsx';
 import { bxLogIn } from 'boxicons-quasar';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
-import { isDebugMode } from 'utils/version';
+import { isDebugMode, isMiniApp } from 'utils/version';
+import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ReactComponent as UserIcon } from './user.svg';
-import { ProfileMenuTooltip } from './ProfileMenuDesktop';
+import ProfileMenuContent from './ProfileMenuContent';
+import BtnTelegramProfile from './BtnTelegramProfile';
 
 const DebugBadge = () =>
   isDebugMode ? (
     <div className="absolute -right-1 -top-1 size-2 rounded-full bg-v1-background-negative" />
   ) : null;
 
-const ProfileMenu = () => {
+const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
   const isLoggedIn = useIsLoggedIn();
   const [ModalLogin, showModalLogin] = useModalLogin();
 
   return isLoggedIn ? (
-    <ProfileMenuTooltip>
-      <Button variant="ghost" size="xl" className="w-xl" surface={1}>
-        <UserIcon className="shrink-0" />
-        <DebugBadge />
-      </Button>
-    </ProfileMenuTooltip>
+    <ClickableTooltip
+      chevron={false}
+      title={<ProfileMenuContent />}
+      tooltipPlacement="bottomLeft"
+      className={className}
+    >
+      {isMiniApp ? (
+        <BtnTelegramProfile />
+      ) : (
+        <Button variant="ghost" size="xl" className="w-xl" surface={1}>
+          <UserIcon className="shrink-0" />
+          <DebugBadge />
+        </Button>
+      )}
+    </ClickableTooltip>
   ) : (
     <>
       <Button
-        variant="ghost"
+        variant="primary"
         size="xl"
-        className="w-xl"
+        className={clsx('w-xl', className)}
         onClick={showModalLogin}
         surface={1}
       >

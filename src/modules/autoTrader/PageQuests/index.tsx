@@ -1,7 +1,7 @@
-import PageWrapper from 'modules/base/PageWrapper';
-import { useTournaments } from 'api/tournament';
-import Tournaments from 'modules/autoTrader/PageHome/Tournaments';
 import { useHasFlag } from 'api';
+import { useTournaments } from 'api/tournament';
+import PageWrapper from 'modules/base/PageWrapper';
+import Tournaments from 'modules/insight/PageHome/components/HomeMobile/Tournaments';
 import DailyTradeQuest from 'modules/autoTrader/PageQuests/DailyTradeQuest';
 
 export default function PageQuests() {

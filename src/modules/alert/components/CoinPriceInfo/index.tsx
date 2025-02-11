@@ -1,7 +1,7 @@
 import { useEffect, type FC } from 'react';
 import { clsx } from 'clsx';
 import { Trans } from 'react-i18next';
-import { useCoinOverview } from 'api';
+import { useCoinDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import { ReactComponent as PriceIcon } from './price.svg';
@@ -12,7 +12,7 @@ export const CoinPriceInfo: FC<{
   className?: string;
   onCurrentPriceChange?: (currentPrice: number) => void;
 }> = ({ slug, loading, className, onCurrentPriceChange }) => {
-  const coinOverview = useCoinOverview({
+  const coinOverview = useCoinDetails({
     slug,
   });
 

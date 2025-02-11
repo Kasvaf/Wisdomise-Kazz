@@ -7,7 +7,7 @@ import {
   type Signal,
 } from 'api/builder';
 import { ofetch } from 'config/ofetch';
-import { type WhaleCoin, type WhaleCoinsFilter } from './whale';
+import { type WhaleCoin, type WhaleCoinsFilter } from './insight/whale';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
 

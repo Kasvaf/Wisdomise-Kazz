@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
-import useActiveNetwork from 'modules/autoTrader/layout/useActiveNetwork';
+import useActiveNetwork from 'modules/base/useActiveNetwork';
 import { type PricesExchange, type MarketTypes } from './types/shared';
 import { NETWORK_MAIN_EXCHANGE, useSupportedPairs } from './trader';
 

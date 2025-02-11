@@ -1,6 +1,7 @@
 import { useMemo, type ReactNode } from 'react';
 import { clsx } from 'clsx';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { type FormatNumberOptions } from 'utils/numbers';
 import { ReactComponent as UpIcon } from './up.svg';
 import { ReactComponent as DownIcon } from './down.svg';
 
@@ -37,6 +38,7 @@ export function DirectionalNumber({
   popup,
   direction: directionType,
   label,
+  format,
 }: {
   className?: string;
   value?: number | null;
@@ -47,6 +49,7 @@ export function DirectionalNumber({
   prefix?: ReactNode;
   suffix?: ReactNode;
   label?: string;
+  format?: Partial<FormatNumberOptions>;
 }) {
   const direction = useMemo(() => {
     if (!directionType || directionType === 'auto') {
@@ -80,6 +83,7 @@ export function DirectionalNumber({
         popup={popup ?? 'never'}
         label={label}
         className="text-inherit"
+        format={format}
       />
       {suffix}
     </span>

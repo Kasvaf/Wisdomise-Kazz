@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { bxBell, bxSearch } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { useMemo, useState } from 'react';
-import { type AlertState, useAlerts } from 'api/alert';
+import { type AlertState, useAlerts } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import Button from 'shared/Button';
