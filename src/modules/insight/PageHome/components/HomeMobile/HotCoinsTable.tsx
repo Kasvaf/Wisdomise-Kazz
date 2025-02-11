@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 import { useTraderCoins } from 'api';
+import { isMiniApp } from 'utils/version';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Spinner from 'shared/Spinner';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import AlertButton from './AlertButton';
 import CoinPreDetailModal from './CoinPreDetailModal';
 
@@ -17,6 +18,7 @@ const HotCoinsTable = () => {
     page: 1,
     pageSize: 500,
     filter: undefined,
+    networkName: isMiniApp ? 'ton' : undefined,
     days: 7,
   });
 

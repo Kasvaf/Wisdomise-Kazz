@@ -97,7 +97,7 @@ export const useTraderCoins = (filters?: {
   pageSize: number;
   sortBy?: string;
   isAscending?: boolean;
-  networkName?: SupportedNetworks;
+  networkName?: 'solana' | 'ton';
   filter?: WhaleCoinsFilter;
   days?: number;
 }) =>
@@ -114,7 +114,11 @@ export const useTraderCoins = (filters?: {
             days: filters?.days ?? 1,
             network_name: filters?.networkName,
             exchange_name: filters?.networkName
-              ? NETWORK_MAIN_EXCHANGE[filters.networkName]
+              ? NETWORK_MAIN_EXCHANGE[
+                  filters.networkName === 'ton'
+                    ? 'the-open-network'
+                    : filters.networkName
+                ]
               : undefined,
             sorted_by: filters?.sortBy,
             ascending:
