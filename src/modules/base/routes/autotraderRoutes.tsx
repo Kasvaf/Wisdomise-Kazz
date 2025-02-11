@@ -4,8 +4,8 @@ import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
 import Container from '../Container';
 import { ActiveNetworkProvider } from '../active-network';
 
-const PageClaimReward = React.lazy(
-  () => import('modules/autoTrader/PageClaimReward'),
+const PageGameReward = React.lazy(
+  () => import('modules/autoTrader/PageGameRewards'),
 );
 
 const PageQuests = React.lazy(() => import('modules/autoTrader/PageQuests'));
@@ -38,7 +38,7 @@ const useAutoTraderRoutes = () => {
           element: (
             <ActiveNetworkProvider network="the-open-network" setOnLayout>
               <GameAuthGuard>
-                <PageClaimReward />
+                <PageGameReward />
               </GameAuthGuard>
             </ActiveNetworkProvider>
           ),

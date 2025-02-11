@@ -27,25 +27,32 @@ menu:
       Stay Ahead with Real-Time Alerts: Set Notifications on Your Favorite
       Cryptos and Never Miss a Market Move!
     full-title: Notification & Alerts
+    subtitle-2: Set, edit, and stay updated with personalized alerts
   billing:
-    title: Pricing
-    subtitle: Subscription preferences
+    title: Subscription
+    subtitle: Manage your subscription, renew, and view invoices
     remains: remains
   coin:
     title: Coin
   coin-radar:
     title: Coin Radar
     full-title: Top Trending Coins from Socials, Confirmed by Technical Analysis
+  game-rewards:
+    title: Claim Wiseboy Rewards
+    subtitle: Collect your earned rewards in Wiseboy and enjoy the benefits!
   hot-coins:
     title: Social Radar
   overview:
     title: Overview
   profile:
-    title: Profile
-    subtitle: Edit login credentials
+    title: My Profile
+    subtitle: Manage your socials, profile picture, personal info, and bio
   referral:
-    title: Referral
-    subtitle: Invite and earn rewards
+    title: Referral Program
+    subtitle: Invite friends, earn rewards, and claim your bonuses effortlessly
+  rewards:
+    title: Claim Rewards
+    subtitle: Collect your earned rewards and enjoy the benefits!
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access

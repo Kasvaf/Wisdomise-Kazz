@@ -58,11 +58,7 @@ const ProfileMenuContent = () => {
       <div className="divide-y divide-white/5 overflow-hidden rounded-xl bg-white/5">
         {isMobile && (
           <>
-            {isMiniApp ? (
-              <InternalItem to="/trader-claim-reward" label="Claim Rewards" />
-            ) : (
-              <InternalItem to="/account/overview" label="My Account" />
-            )}
+            <InternalItem to="/account/overview" label="My Account" />
             <InternalItem to="/coin-radar/alerts" label="Manage Alerts" />
           </>
         )}

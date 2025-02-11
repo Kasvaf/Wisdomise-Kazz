@@ -1,6 +1,6 @@
 page-accounts:
   accounts-connected: Account(s) Connected
-  users-invited: User(s) Invited
+  users-invited: Users Invited
 page-profile:
   title: My Profile
   buttons:
