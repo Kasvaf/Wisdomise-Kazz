@@ -106,24 +106,25 @@ export default function SubscriptionMethodModal({
           </Button>
         )}
 
-        {hasFlag('/account/billing?payment_method=wsdm') && (
-          <Button
-            className={clsx('relative col-span-1', gtmClass('wsdm-payment'))}
-            onClick={onWSDMClick}
-          >
-            <DebugPin
-              title="/account/billing?payment_method=wsdm"
-              color="orange"
-            />
-            <div className="flex items-center gap-2">
-              <Token />
-              {t('subscription-modal.btn-wsdm')}
-              <div className="absolute -end-2 -top-3 rounded-lg bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-2 py-1 text-sm text-white">
-                {'50% Off'}
+        {hasFlag('/account/billing?payment_method=wsdm') &&
+          plan.periodicity === 'YEARLY' && (
+            <Button
+              className={clsx('relative col-span-1', gtmClass('wsdm-payment'))}
+              onClick={onWSDMClick}
+            >
+              <DebugPin
+                title="/account/billing?payment_method=wsdm"
+                color="orange"
+              />
+              <div className="flex items-center gap-2">
+                <Token />
+                {t('subscription-modal.btn-wsdm')}
+                <div className="absolute -end-2 -top-3 rounded-lg bg-gradient-to-bl from-[#615298] from-15% to-[#42427B] to-75% px-2 py-1 text-sm text-white">
+                  {'50% Off'}
+                </div>
               </div>
-            </div>
-          </Button>
-        )}
+            </Button>
+          )}
 
         {plan.token_hold_support &&
           hasFlag('/account/billing?payment_method=lock') && (
