@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { type ReactNode, type FC, type MouseEventHandler } from 'react';
 import { type Surface, useSurface } from 'utils/useSurface';
 
-export const Button: FC<{
+export interface ButtonProps {
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   variant?:
     | 'primary'
@@ -22,7 +22,9 @@ export const Button: FC<{
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   surface?: Surface;
-}> = ({
+}
+
+export const Button: FC<ButtonProps> = ({
   size = 'xl',
   variant = 'primary',
   children,

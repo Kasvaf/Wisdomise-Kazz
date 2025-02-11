@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useSupportedPairs } from 'api';
-import { Button } from 'shared/v1-components/Button';
-import useIsMobile from 'utils/useIsMobile';
+import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import useIsMobile from 'utils/useIsMobile';
 
-export const BtnAutoTrade: React.FC<{ slug?: string; className?: string }> = ({
+export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   slug,
-  className,
+  ...buttonProps
 }) => {
   const { data: supportedPairs, isLoading } = useSupportedPairs(slug);
   const isSupported = !!supportedPairs?.length;
@@ -17,9 +17,9 @@ export const BtnAutoTrade: React.FC<{ slug?: string; className?: string }> = ({
 
   return (
     <Button
+      {...buttonProps}
       block
-      className={className}
-      variant="outline"
+      variant={buttonProps.variant ?? 'outline'}
       loading={isLoading}
       disabled={!slug || !isSupported}
       onClick={() => navigate(`/auto-trader/${slug ?? ''}`)}

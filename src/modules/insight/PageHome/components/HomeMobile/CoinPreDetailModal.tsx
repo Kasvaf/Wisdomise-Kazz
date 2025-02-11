@@ -2,6 +2,7 @@ import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets';
 import { useHasFlag, useCoinDetails } from 'api';
 import { useSymbolInfo } from 'api/symbol';
 import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
+import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { DrawerModal } from 'shared/DrawerModal';
 import { Coin } from 'shared/Coin';
 import Button from 'shared/Button';
@@ -67,9 +68,7 @@ const CoinPreDetailModal: React.FC<{
             variant="white"
           />
         </div>
-        <Button variant="brand" to={`/auto-trader/${slug}`}>
-          Auto Trade
-        </Button>
+        <BtnAutoTrade slug={slug} variant="primary" />
       </div>
     </DrawerModal>
   );
