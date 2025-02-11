@@ -1,6 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
+import RadarsTabs from '../RadarsTabs';
 import { TechnicalOverviewWidget } from './components/TechnicalOverviewWidget';
 import { TechnicalRadarAlertButton } from './components/TechnicalRadarAlertButton';
 import { ConfirmationWidget } from './components/ConfirmationWidget';
@@ -10,6 +11,7 @@ export default function PageTechnicalRadar() {
   const { t } = useTranslation('base');
   return (
     <PageWrapper>
+      <RadarsTabs />
       <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
         <div className="col-span-full flex flex-wrap items-center justify-between gap-6">
           <PageTitle
