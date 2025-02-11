@@ -8,7 +8,7 @@ import { gtmClass } from 'utils/gtmClass';
 import { useEditingAlert } from 'modules/alert/library/AlertProvider';
 import { type AlertFormStepProps } from 'modules/alert/library/types';
 import { isDebugMode } from 'utils/version';
-import { type AlertMessenger } from 'api/alert';
+import { type AlertMessenger } from 'api';
 import { IntervalSelect } from '../../components/IntervalSelect';
 import { AlertChannelsSelect } from '../../components/AlertChannelsSelect';
 import { FormControlWithLabel } from '../../components/FormControlWithLabel';

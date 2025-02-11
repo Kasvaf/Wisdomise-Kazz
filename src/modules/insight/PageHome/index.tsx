@@ -1,16 +1,16 @@
-import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
-import PageInsight from '../PageInsight';
+import PageWrapper from 'modules/base/PageWrapper';
 import { HomeMobile } from './components/HomeMobile';
+import { HomeDesktop } from './components/HomeDesktop';
+import { PageCoinRadarMeta } from './components/PageCoinRadarMeta';
 
 const PageHome = () => {
   const isMobile = useIsMobile();
-  return isMobile ? (
+  return (
     <PageWrapper>
-      <HomeMobile />
+      <PageCoinRadarMeta />
+      {isMobile ? <HomeMobile /> : <HomeDesktop />}
     </PageWrapper>
-  ) : (
-    <PageInsight />
   );
 };
 

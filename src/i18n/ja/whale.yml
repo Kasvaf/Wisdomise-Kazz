@@ -19,6 +19,7 @@ asset_badges:
   stable: 安定した
   stable_info: ステーブルコインは、固定された外部の従来の資産クラスに対して価値が安定したデジタル資産です。
   trading: トレーディング
+  trading_info: このコインはクジラによって活発に取引されています。
   unloading: 荷降ろし
   unloading_info: このクジラは保有株を5%以上減らしていますが、完全に撤退しているわけではありません。
 filters:
@@ -72,7 +73,10 @@ top_coins:
   info:
     info: 現在の価格、完全希薄化後時価総額、および循環供給量。
     title: 情報
+  labels: ラベル
+  market_cap: 時価総額
   name: 信号発信者名
+  rank: "#"
   sell_volume:
     avg: 販売あたりの平均
     info: 過去 7 日間にスマート ウォレットと合計ウォレットから販売された合計量。
@@ -80,7 +84,16 @@ top_coins:
   sells:
     info: 過去 7 日間に販売されたスマート ウォレットの総数とウォレットの合計数。
     title: 販売
+  sorts:
+    buy: 巻を購入
+    market_cap: 時価総額
+    price_change: 24時間変更
+    rank: 索引
+    sell: 売りボリューム
+    transfer: 転送量
+    wallet_count: ウォレット番号
   title: クジラが選ぶトップトークン
+  wallet_number: ウォレット番号
 top_whales:
   address: 住所
   balance:
@@ -92,6 +105,7 @@ top_whales:
     info: "過去 30 日間のウォレットの合計収益。クォート資産 (例: ETH) の P&L を期間中に保有されたトークンの最大価値 (ETH 単位)
       で割って計算されます。"
     title: 返品
+  search: クジラの住所を検索
   title: トップクジラ
   tokens: トップトークン
   trades_per_day:
@@ -149,3 +163,19 @@ whale_trades:
   title: 取引
   trading_pnl: 取引損益
   volume_of_trades: 取引量
+whales_on_coin:
+  active_empty: 現在アクティブなウォレットはありません
+  active_title: スマートウォレットがアクティブ
+  address: 住所
+  badge: バッジ
+  balance: 残高
+  description: このデータは、このコインだけでなく、ウォレット全体のアクティビティを表します。
+  empty_subtitle: 現在、表示するウォレットはありません。この情報はリアルタイムで継続的に更新されています。
+  holding_empty: 現在アクティブなウォレットはありません
+  holding_title: スマートウォレットは持ちこたえる
+  network: ネットワーク
+  returns: 返品
+  total_pnl: 総損益
+  trading_vol: 取引量
+  wallet_other: "{{count}} ウォレット"
+  wallet_zero: ウォレットなし

@@ -11,7 +11,7 @@ export default function PageOnboarding() {
   const [step, setStep] = useState('experience');
   const navigate = useNavigate();
 
-  const { save } = useUserStorage('onboarding-data');
+  const { save, isLoading } = useUserStorage('onboarding-data');
   const [data, setData] = useState<{
     experience: undefined | string;
     approch: string[];
@@ -21,8 +21,8 @@ export default function PageOnboarding() {
   });
 
   const done = useCallback(
-    (url?: string) => {
-      void save(JSON.stringify(data));
+    async (url?: string) => {
+      await save(JSON.stringify(data));
       navigate(url ?? '/coin-radar/overview');
     },
     [data, navigate, save],
@@ -90,10 +90,10 @@ export default function PageOnboarding() {
 
   return (
     <OnboardingView
-      onClose={done}
       steps={steps}
       step={step}
       onChange={setStep}
+      loading={isLoading}
     />
   );
 }

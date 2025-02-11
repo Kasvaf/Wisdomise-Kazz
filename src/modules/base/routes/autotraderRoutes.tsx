@@ -13,8 +13,6 @@ const PageTournamentDetail = React.lazy(
   () => import('modules/autoTrader/PageQuests/PageTournamentDetail'),
 );
 
-const PageWhales = React.lazy(() => import('modules/insight/whale/PageWhales'));
-
 const PagePositions = React.lazy(
   () => import('modules/autoTrader/PagePositions'),
 );
@@ -56,10 +54,6 @@ const useAutoTraderRoutes = () => {
         {
           path: 'trader-positions',
           element: <PagePositions />,
-        },
-        {
-          path: 'trader-hot-coins',
-          element: <PageWhales />,
         },
         {
           path: 'auto-trader',
