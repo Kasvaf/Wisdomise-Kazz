@@ -9,14 +9,18 @@ import { useIsLoggedIn } from '../../auth/jwt-store';
 import LogoBlack from './logo-black.png';
 import Bg from './bg.png';
 
+export const useIsTrialBannerVisible = () => {
+  const { group } = useSubscription();
+  const isLoggedIn = useIsLoggedIn();
+  return !isMiniApp && isLoggedIn && (group === 'free' || group === 'trial');
+};
+
 export const TrialEndBanner: FC<{ className?: string }> = ({ className }) => {
   const { t } = useTranslation('pro');
-  const { remaining, group } = useSubscription();
-  const isLoggedIn = useIsLoggedIn();
-
-  const show =
-    !isMiniApp && isLoggedIn && (group === 'free' || group === 'trial');
+  const { remaining } = useSubscription();
+  const show = useIsTrialBannerVisible();
   if (!show) return null;
+
   return (
     <Link
       className={clsx(
