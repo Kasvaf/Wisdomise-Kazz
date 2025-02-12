@@ -40,7 +40,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         className={clsx(
           ' overflow-auto',
           'ml-[--side-menu-width] h-[calc(100svh-5rem)] p-6',
-          'mobile:ml-0 mobile:h-[calc(100svh-4rem)] mobile:px-3 mobile:pb-[6.5rem] mobile:pt-0',
+          'mobile:ml-0 mobile:h-[calc(100svh-4rem)] mobile:px-4 mobile:pb-[6.5rem] mobile:pt-0',
         )}
       >
         <div style={{ height }} />
