@@ -22,7 +22,7 @@ export function TechnicalIdeasWidget({
   const isMobile = useIsMobile();
   const [limit, setLimit] = useState(3);
 
-  const chartUrl = coinOverview.data?.charts?.[0].url ?? null;
+  const chartUrl = coinOverview.data?.charts?.[0]?.url ?? null;
 
   const tradingViewMessages = useMemo(() => {
     return (messages.data ?? [])
