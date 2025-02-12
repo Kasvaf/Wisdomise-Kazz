@@ -17,7 +17,10 @@ import { ReactComponent as Sparkle } from './sparkle.svg';
 const calcSize = (size: number | boolean) =>
   size === true ? 999 : size === false ? 0 : size < 1 ? 0 : size;
 
-const useShield = (mode: 'table' | 'children', size: number | boolean) => {
+const useShield = (
+  mode: 'table' | 'mobile_table' | 'children',
+  size: number | boolean,
+) => {
   const root = useRef<HTMLDivElement>(null);
   const shield = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
@@ -37,6 +40,8 @@ const useShield = (mode: 'table' | 'children', size: number | boolean) => {
                   'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
                 ),
               ]
+            : mode === 'mobile_table'
+            ? [...root.current.querySelectorAll('[data-table="tr"]')]
             : [
                 ...root.current.querySelectorAll(
                   '*:not([aria-hidden]):not([data-pro-locker])',
@@ -92,7 +97,7 @@ export function AccessShield({
   sizes,
 }: PropsWithChildren<{
   className?: string;
-  mode: 'table' | 'children';
+  mode: 'table' | 'mobile_table' | 'children';
   sizes: Record<UserGroup, number | boolean>;
 }>) {
   const { t } = useTranslation('pro');
