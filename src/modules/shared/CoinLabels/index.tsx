@@ -12,10 +12,12 @@ import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
-import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Risk } from './risk.svg';
 import { ReactComponent as Warning } from './warning.svg';
+import Social from './social.png';
+import Hype from './hype.png';
+import { CoinSecurityDetails } from './CoinSecurityDetails';
 
 const sharedLabelClassName = clsx(
   'rounded-full px-3 py-1 text-center text-xxs',
@@ -26,11 +28,13 @@ export function CoinLabel({
   value,
   type = 'trend_labels',
   popup = true,
+  mini = false,
 }: {
   className?: string;
   value: string;
   type?: keyof CoinLabelsType;
-  popup?: boolean;
+  popup?: boolean | ReactNode;
+  mini?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
 
@@ -47,7 +51,7 @@ export function CoinLabel({
         name: 'hype',
         text: 'Hype',
         type: 'trend_labels',
-        icon: <>🔥</>,
+        icon: <img src={Hype} />,
         info: t('coin_labels.hype.info'),
         color: clsx('bg-v1-content-positive/10 text-v1-content-positive'),
       },
@@ -55,7 +59,7 @@ export function CoinLabel({
         name: 'weekly_social_beloved',
         text: 'Social Weekly Trend',
         type: 'trend_labels',
-        icon: <>🌐</>,
+        icon: <img src={Social} />,
         info: t('coin_labels.weekly_social_beloved.info'),
         color: clsx('bg-v1-content-brand/10 text-v1-content-brand'),
       },
@@ -63,7 +67,7 @@ export function CoinLabel({
         name: 'monthly_social_beloved',
         text: 'Social Monthly Trend',
         type: 'trend_labels',
-        icon: <>🌐</>,
+        icon: <img src={Social} />,
         info: t('coin_labels.monthly_social_beloved.info'),
         color: clsx(
           'bg-v1-background-secondary-hover/10 text-v1-background-secondary-hover',
@@ -95,6 +99,7 @@ export function CoinLabel({
     const label = knownLabels.find(x => x.type === type && x.name === value);
 
     return {
+      isKnown: !!label?.text,
       icon: label?.icon ?? <>{'🏷️'}</>,
       text: label?.text ?? value.split('_').join(' '),
       info: label?.info,
@@ -104,22 +109,39 @@ export function CoinLabel({
     };
   }, [t, value, type]);
 
-  return (
+  if (!renderData.isKnown) return null;
+
+  return mini ? (
+    <span
+      className={clsx(
+        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:size-4 [&_svg]:shrink-0',
+        className,
+      )}
+    >
+      {renderData.icon}
+    </span>
+  ) : (
     <ClickableTooltip
       title={
-        <div>
-          <p className="mb-2 text-sm capitalize text-v1-content-primary">
-            {renderData.text}
-          </p>
-          <p className="text-xs text-v1-content-secondary">{renderData.info}</p>
-        </div>
+        typeof popup === 'boolean' || popup === undefined ? (
+          <div>
+            <p className="mb-2 text-sm capitalize text-v1-content-primary">
+              {renderData.text}
+            </p>
+            <p className="text-xs text-v1-content-secondary">
+              {renderData.info}
+            </p>
+          </div>
+        ) : (
+          popup
+        )
       }
       chevron={false}
-      disabled={!renderData.info || !popup}
+      disabled={popup === true ? !renderData.info : !popup}
       className={clsx(
         sharedLabelClassName,
         renderData.className,
-        'whitespace-nowrap capitalize [&_svg]:size-4',
+        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:size-4 [&_svg]:shrink-0',
         className,
       )}
     >
@@ -137,6 +159,7 @@ export function CoinLabels({
   labels,
   prefix,
   suffix,
+  mini,
 }: {
   className?: string;
   coin: Coin;
@@ -146,23 +169,42 @@ export function CoinLabels({
   labels?: string[] | null;
   prefix?: ReactNode;
   suffix?: ReactNode;
+  mini?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const [copy, content] = useShare('copy');
+
+  const securityStatus =
+    security?.length && (security ?? []).every(r => r.label.trusted)
+      ? 'trusted'
+      : (security ?? []).reduce((p, r) => p + (r.label.risk ?? 0), 0) > 0
+      ? 'risk'
+      : (security ?? []).reduce((p, r) => p + (r.label.warning ?? 0), 0)
+      ? 'warning'
+      : null;
+
   return (
     <div
       className={clsx(
-        'flex flex-wrap items-start justify-start gap-[2px]',
+        'flex items-start justify-start gap-[2px]',
         // 'max-h-14 w-auto overflow-y-auto',
+        mini ? 'flex-nowrap text-xxs' : 'flex-wrap',
         className,
       )}
     >
       {prefix}
+      {securityStatus && (
+        <CoinLabel
+          type="security_labels"
+          value={securityStatus}
+          mini={mini}
+          popup={<CoinSecurityDetails coin={coin} value={security} />}
+        />
+      )}
       {(labels ?? []).map(label => (
-        <CoinLabel key={label} type="trend_labels" value={label} />
+        <CoinLabel key={label} type="trend_labels" value={label} mini={mini} />
       ))}
-      {security && <CoinSecurityLabel value={security} coin={coin} />}
-      {categories && categories.length > 0 && (
+      {!mini && categories && categories.length > 0 && (
         <ClickableTooltip
           title={
             <div className="min-w-48 space-y-2">
@@ -191,7 +233,7 @@ export function CoinLabels({
           )}
         </ClickableTooltip>
       )}
-      {networks && networks.length > 0 && (
+      {!mini && networks && networks.length > 0 && (
         <ClickableTooltip
           title={
             <div className="min-w-48 space-y-2">

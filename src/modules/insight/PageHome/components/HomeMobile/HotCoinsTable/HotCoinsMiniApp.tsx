@@ -2,18 +2,14 @@ import { useState } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 import { useTraderCoins } from 'api';
 import { isMiniApp } from 'utils/version';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Spinner from 'shared/Spinner';
-import AlertButton from './AlertButton';
-import CoinPreDetailModal from './CoinPreDetailModal';
+import CoinPreDetailModal from '../CoinPreDetailModal';
 
-const HotCoinsTable = () => {
-  const isLoggedIn = useIsLoggedIn();
+export const HotCoinsMiniApp = () => {
   const { width } = useWindowSize();
-
   const { isLoading, data } = useTraderCoins({
     page: 1,
     pageSize: 500,
@@ -28,7 +24,6 @@ const HotCoinsTable = () => {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="flex items-center gap-2 py-3">AutoTrader Hot Coins</h1>
-        {isLoggedIn && <AlertButton />}
       </div>
 
       {isLoading ? (
@@ -73,5 +68,3 @@ const HotCoinsTable = () => {
     </div>
   );
 };
-
-export default HotCoinsTable;

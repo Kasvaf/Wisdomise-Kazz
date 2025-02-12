@@ -78,6 +78,8 @@ export interface SocialRadarSentiment {
   messages_count: number;
   symbol?: Coin;
   signals_analysis?: CoinSignalAnalysis;
+  wise_score?: number;
+  sources?: null | string[];
 }
 export interface SocialRadarCoin extends SocialRadarSentiment {
   rank: number;
@@ -90,7 +92,6 @@ export interface SocialRadarCoin extends SocialRadarSentiment {
   symbol_labels?: null | string[];
   networks?: null | CoinNetwork[];
   exchanges_name?: null | string[];
-  sources?: null | string[];
 }
 
 export const useSocialRadarCoins = (config: {

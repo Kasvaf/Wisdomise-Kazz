@@ -1,9 +1,17 @@
+import { type FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { type EChartsOption } from 'echarts';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import { type SocialRadarSentiment } from 'api';
+import { ReadableNumber } from 'shared/ReadableNumber';
 import { formatNumber } from 'utils/numbers';
+import { ReadableDate } from 'shared/ReadableDate';
+import { ECharts } from 'shared/ECharts';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { Coin } from 'shared/Coin';
+import { ReactComponent as Logo } from './logo.svg';
+import { SocialSentimentTitle } from './SocialSentimentTitle';
 
 interface ChartItem {
   price: number;
@@ -14,10 +22,13 @@ interface ChartItem {
   i: number;
 }
 
-export const useChartConfig = (signal: SocialRadarSentiment, tick: number) => {
+export const useChartConfig = (
+  signal?: SocialRadarSentiment | null,
+  tick?: number,
+) => {
   const { t } = useTranslation('coin-radar');
   const chartConfig = useMemo<EChartsOption | null>(() => {
-    if (!signal.signals_analysis || !tick) return null;
+    if (!signal?.signals_analysis || !tick) return null;
     const prices = signal.signals_analysis.sparkline?.prices ?? [];
     const dates = (signal.signals_analysis.sparkline?.related_ats ?? []).map(
       x => dayjs(x),
@@ -196,4 +207,126 @@ export const useChartConfig = (signal: SocialRadarSentiment, tick: number) => {
   }, [signal, t, tick]);
 
   return chartConfig;
+};
+
+export const SocialSentimentModal: FC<{
+  value?: SocialRadarSentiment | null;
+}> = ({ value }) => {
+  const { t } = useTranslation('coin-radar');
+  const [tick, setTick] = useState(1); // used as dependency to update content
+  const chartConfig = useChartConfig(value, tick);
+
+  useEffect(() => setTick(p => p + 1), [value]);
+
+  return (
+    <>
+      {value?.signals_analysis && chartConfig && (
+        <div className="flex min-w-[360px] flex-col overflow-hidden mobile:min-w-full">
+          <div className="mb-4 hidden items-center gap-2 text-base mobile:flex">
+            <Logo />
+            {t('social-radar.table.sentiment.title')}
+          </div>
+          <div className="mb-4 flex items-center justify-between gap-1">
+            <SocialSentimentTitle value={value} className="text-lg" />
+            <div className="flex items-center gap-1 text-xs">
+              {value.gauge_tag === 'LONG'
+                ? t('call-change.long')
+                : value.gauge_tag === 'SHORT'
+                ? t('call-change.short')
+                : null}
+            </div>
+          </div>
+          {value.symbol && (
+            <div className="mb-2">
+              <Coin
+                coin={value.symbol}
+                imageClassName="size-10"
+                nonLink
+                truncate={350}
+              />
+            </div>
+          )}
+          <div className="mb-4">
+            <ECharts
+              initOptions={{
+                height: 90,
+              }}
+              options={chartConfig}
+            />
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center justify-between gap-1 text-xs">
+              <div className="text-v1-content-secondary">
+                {t('call-change.current-price')}
+              </div>
+              <ReadableNumber
+                popup="never"
+                value={value.signals_analysis.current_price}
+                label="$"
+                className="text-sm"
+              />
+            </div>
+            <div className="flex items-center justify-between gap-1 text-xs">
+              <div className="text-v1-content-secondary">
+                {t('call-change.biggest-pump')}
+              </div>
+              <DirectionalNumber
+                popup="never"
+                value={
+                  value.gauge_tag === 'LONG'
+                    ? value.signals_analysis.max_profit_percentage
+                    : value.signals_analysis.max_loss_percentage
+                }
+                label="%"
+                showIcon={false}
+                showSign
+                className="text-sm"
+              />
+            </div>
+            <div className="flex items-center justify-between gap-1 text-xs">
+              <div className="text-v1-content-secondary">
+                {t('call-change.biggest-dump')}
+              </div>
+              <DirectionalNumber
+                popup="never"
+                value={
+                  -1 *
+                  Math.abs(
+                    value.gauge_tag === 'LONG'
+                      ? value.signals_analysis.max_loss_percentage
+                      : value.signals_analysis.max_profit_percentage,
+                  )
+                }
+                label="%"
+                showIcon={false}
+                showSign
+                className="text-sm"
+              />
+            </div>
+            <div className="flex items-center justify-between gap-1 text-xs">
+              <div className="text-v1-content-secondary">
+                {t('call-change.last-mention')}
+              </div>
+              <ReadableDate
+                popup={false}
+                value={value.last_signal_related_at}
+                className="text-sm capitalize"
+              />
+            </div>
+            <div className="flex items-center justify-between gap-1 text-xs">
+              <div className="text-v1-content-secondary">
+                {t('call-change.analyzed-messages')}
+              </div>
+              <ReadableNumber
+                popup="never"
+                value={value.messages_count}
+                className="text-sm"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };

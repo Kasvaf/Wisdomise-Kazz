@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { useHasFlag, useSocialRadarSentiment } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { DebugPin } from 'shared/DebugPin';
-import { SignalSentiment } from '../../PageSocialRadar/components/SignalSentiment';
+import { SocialSentiment } from '../../PageSocialRadar/components/SocialSentiment';
 import { SentimentGuage } from './SentimentGuage';
 
 export function SocialRadarSentimentWidget({
@@ -42,10 +42,10 @@ export function SocialRadarSentimentWidget({
           {t('coin-details.tabs.social_sentiment.title')}
         </p>
         {sentiment.data ? (
-          <SignalSentiment
+          <SocialSentiment
             className="text-sm"
-            signal={sentiment.data}
-            minimal
+            value={sentiment.data}
+            detailsLevel={3}
           />
         ) : (
           <p className="max-w-52 text-xs">

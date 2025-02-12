@@ -19,7 +19,7 @@ import {
   useSocialRadarInfo,
 } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { SignalSentiment } from '../SignalSentiment';
+import { SocialSentiment } from '../SocialSentiment';
 import { CoinPriceInfo } from '../../../../shared/CoinPriceInfo';
 import CoinRadarAlerButton from '../CoinRadarAlertButton';
 import { SocialRadarFilters } from '../SocialRadarFilters';
@@ -86,7 +86,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row) => <SignalSentiment signal={row} />,
+        render: (_, row) => <SocialSentiment value={row} detailsLevel={3} />,
       },
       {
         title: [

@@ -5,11 +5,11 @@ import { Trans, useTranslation } from 'react-i18next';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
-import { SignalSentiment } from 'modules/insight/PageSocialRadar/components/SignalSentiment';
+import { SocialSentiment } from 'modules/insight/PageSocialRadar/components/SocialSentiment';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { DebugPin } from 'shared/DebugPin';
-import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalOverviewWidget/TechnicalTable/TechnicalSentiment';
+import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalSentiment';
 import { ConfirmationBadgesInfo } from 'modules/insight/PageTechnicalRadar/components/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { EmptySentiment } from '../EmptySentiment';
@@ -19,7 +19,7 @@ import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
 
 export function CoinRadarTable({ className }: { className?: string }) {
-  const coins = useCoinRadarCoins();
+  const coins = useCoinRadarCoins({});
   const hasFlag = useHasFlag();
   const { t } = useTranslation('insight');
 
@@ -59,7 +59,10 @@ export function CoinRadarTable({ className }: { className?: string }) {
         width: 310,
         render: (_, row) =>
           row.social_radar_insight ? (
-            <SignalSentiment signal={row.social_radar_insight} />
+            <SocialSentiment
+              value={row.social_radar_insight}
+              detailsLevel={3}
+            />
           ) : (
             <EmptySentiment value="social_radar" />
           ),

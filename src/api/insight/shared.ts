@@ -23,12 +23,15 @@ export const useNetworks = (config: {
         config?.filter === 'whale-radar'
           ? '/delphi/holders/networks/'
           : '/delphi/market/networks/';
-      const needToAttachFilter = config?.filter !== 'whale-radar';
+      const needToAttachFilter =
+        config?.filter === 'social-radar-24-hours' ||
+        config.filter === 'technical-radar';
       return resolvePageResponseToArray<Network>(url, {
         query: {
           ...(needToAttachFilter && {
             filter: config?.filter,
           }),
+          page_size: 200,
         },
       });
     },

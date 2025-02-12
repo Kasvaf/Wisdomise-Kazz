@@ -11,9 +11,9 @@ import { CoinLabels } from 'shared/CoinLabels';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import { SearchInput } from 'shared/SearchInput';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
+import { TechnicalSentiment } from '../../TechnicalSentiment';
 import { NetworkSelect } from './NetworkSelect';
 import { CategoriesSelect } from './CategoriesSelect';
-import { TechnicalSentiment } from './TechnicalSentiment';
 import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalTable: FC = () => {

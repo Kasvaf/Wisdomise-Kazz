@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { Link } from 'react-router-dom';
+import { type ReactNode } from 'react';
 import { useSymbolInfo } from 'api/symbol';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
@@ -50,6 +51,7 @@ export function Coin({
   truncate = true,
   popup,
   noText,
+  abbrevationSuffix,
 }: {
   coin: CoinType;
   networks?: string[];
@@ -60,6 +62,7 @@ export function Coin({
   truncate?: boolean | number;
   popup?: boolean;
   noText?: boolean;
+  abbrevationSuffix?: ReactNode;
 }) {
   const isMobile = useIsMobile();
   const shouldTruncate =
@@ -122,11 +125,19 @@ export function Coin({
                 {/* eslint-disable-next-line tailwindcss/enforces-shorthand */}
                 <div
                   className={clsx(
+                    'flex items-center whitespace-nowrap text-[80%]',
                     truncate && 'overflow-hidden text-ellipsis',
-                    'whitespace-nowrap text-[80%] opacity-70',
                   )}
                 >
-                  {coin.abbreviation ?? ''}
+                  <span
+                    className={clsx(
+                      'opacity-70',
+                      abbrevationSuffix && 'max-w-[60%] truncate',
+                    )}
+                  >
+                    {coin.abbreviation ?? ''}
+                  </span>
+                  {abbrevationSuffix}
                 </div>
               </>
             )}
