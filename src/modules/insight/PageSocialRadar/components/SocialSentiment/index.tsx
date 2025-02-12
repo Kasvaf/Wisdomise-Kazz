@@ -52,13 +52,14 @@ export const SocialSentiment: FC<{
               <div className="flex items-center gap-1 text-sm capitalize">
                 <SocialSentimentTitle value={value} icon={false} />
               </div>
-              <div className="flex items-center gap-1 text-xxs">
+              <div className="flex items-center gap-1 text-[8px]">
                 <label className="text-v1-content-secondary">
                   {t('call-change.last-mention')}:
                 </label>
                 <ReadableDate
                   popup={false}
                   value={value?.last_signal_related_at}
+                  className="capitalize text-inherit"
                 />
               </div>
             </span>

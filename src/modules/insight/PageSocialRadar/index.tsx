@@ -1,12 +1,15 @@
+import useIsMobile from 'utils/useIsMobile';
 import PageWrapper from 'modules/base/PageWrapper';
-import RadarsTabs from '../RadarsTabs';
-import { HotCoinsWidget } from './components/HotCoinsWidget';
+import { SocialRadarMobile } from './components/SocialRadarMobile';
+import { SocialRadarDesktop } from './components/SocialRadarDesktop';
 
-export default function PageSocialRadar() {
+const PageSocialRadar = () => {
+  const isMobile = useIsMobile();
   return (
     <PageWrapper>
-      <RadarsTabs />
-      <HotCoinsWidget />
+      {isMobile ? <SocialRadarMobile /> : <SocialRadarDesktop />}
     </PageWrapper>
   );
-}
+};
+
+export default PageSocialRadar;

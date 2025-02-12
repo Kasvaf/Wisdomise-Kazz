@@ -19,15 +19,15 @@ import {
   useSocialRadarInfo,
 } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { SocialSentiment } from '../SocialSentiment';
-import { CoinPriceInfo } from '../../../../shared/CoinPriceInfo';
-import CoinRadarAlerButton from '../CoinRadarAlertButton';
 import { SocialRadarFilters } from '../SocialRadarFilters';
+import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
+import CoinRadarAlerButton from './CoinRadarAlertButton';
 import { ReactComponent as Logo } from './logo.svg';
-import SocialRadarIcon from './social-radar.png';
 import { ReactComponent as Realtime } from './realtime.svg';
 
-export function HotCoinsWidget({ className }: { className?: string }) {
+export function SocialRadarDesktop({ className }: { className?: string }) {
   const marketInfo = useSocialRadarInfo();
   const { isEmbeddedView } = useEmbedView();
   const hasFlag = useHasFlag();
@@ -142,7 +142,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
       title={
         isEmbeddedView ? undefined : (
           <>
-            <img src={SocialRadarIcon} className="size-[26px]" />
+            <SocialRadarIcon className="size-[26px]" />
             {t('social-radar.table.title')}
             <Realtime />
           </>
@@ -193,6 +193,7 @@ export function HotCoinsWidget({ className }: { className?: string }) {
             value={tableState}
             onChange={newState => setTableState(newState)}
             className="w-full"
+            surface={3}
           />
         </>
       }

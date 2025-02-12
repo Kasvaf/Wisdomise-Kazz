@@ -52,9 +52,8 @@ export default function PageCoinDetails() {
         <div className="relative flex flex-col gap-6 ">
           <CoinRadarTabs
             value={tabs}
-            className="fixed top-20 z-50 w-full bg-v1-background-primary"
+            className="sticky top-6 z-50 mb-6 w-full bg-v1-background-primary"
           />
-          <div className="h-5" />
           <CoinPriceWidget slug={slug} className="!bg-transparent !p-1" />
           <SocialRadarSentimentWidget slug={slug} />
           <WhaleRadarSentimentWidget slug={slug} />
@@ -94,7 +93,7 @@ export default function PageCoinDetails() {
             </div>
             <CoinRadarTabs
               value={tabs}
-              className="sticky top-0 z-50 bg-v1-background-primary"
+              className="sticky -top-6 z-50 bg-v1-background-primary"
             />
             <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
             <CoinSocialFeedWidget id="coinoverview_socials" slug={slug} />

@@ -11,8 +11,9 @@ import { CoinLabelSelect } from 'shared/CoinLabelSelect';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { ExchangeSelect } from 'shared/ExchangeSelect';
 import { type useSocialRadarCoins } from 'api';
+import { type Surface } from 'utils/useSurface';
+import useIsMobile from 'utils/useIsMobile';
 import { presetFilters } from './presetFilters';
-import { SortModes } from './SortModes';
 import { SocialRadarSourceSelect } from './SocialRadarSourceSelect';
 
 const areEqual = (first: string[], second: string[]) =>
@@ -22,13 +23,16 @@ export function SocialRadarFilters({
   className,
   onChange,
   value,
+  surface,
 }: {
   className?: string;
   onReset?: () => void;
   value: Parameters<typeof useSocialRadarCoins>[0];
   onChange?: (v?: Partial<Parameters<typeof useSocialRadarCoins>[0]>) => void;
+  surface: Surface;
 }) {
   const { t } = useTranslation('coin-radar');
+  const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [localState, setLocalState] = useState(value);
   const selectedPreset = useMemo(() => {
@@ -77,64 +81,118 @@ export function SocialRadarFilters({
         className,
       )}
     >
-      <div className="flex w-auto flex-nowrap gap-2 overflow-auto mobile:gap-1">
-        <Button
-          variant={isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
-          size="md"
-          className="w-md shrink-0"
-          onClick={() => setOpen(true)}
-        >
-          <Icon name={bxSliderAlt} size={16} />
-        </Button>
-        <Button
-          variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
-          size="md"
-          className="shrink-0"
-          onClick={() =>
-            onChange?.({
-              categories: [],
-              exchanges: [],
-              networks: [],
-              securityLabels: [],
-              sources: [],
-              trendLabels: [],
-            })
-          }
-        >
-          <Icon name={bxGridAlt} size={16} />
-          {t('common.all')}
-        </Button>
+      <div className="mobile:w-full">
+        <p className="mb-1 block text-xs">{t('common:filtered-by')}</p>
+        <div className="flex w-auto flex-nowrap gap-2 overflow-auto">
+          <Button
+            variant={isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
+            size={isMobile ? 'sm' : 'md'}
+            className="w-md shrink-0"
+            onClick={() => setOpen(true)}
+            surface={isMobile ? ((surface + 1) as never) : surface}
+          >
+            <Icon name={bxSliderAlt} size={16} />
+          </Button>
+          <Button
+            variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
+            size={isMobile ? 'sm' : 'md'}
+            className="shrink-0"
+            onClick={() =>
+              onChange?.({
+                categories: [],
+                exchanges: [],
+                networks: [],
+                securityLabels: [],
+                sources: [],
+                trendLabels: [],
+              })
+            }
+            surface={isMobile ? ((surface + 1) as never) : surface}
+          >
+            <Icon name={bxGridAlt} size={16} />
+            {t('common.all')}
+          </Button>
+          <ButtonSelect
+            options={presetFilters.map(x => ({
+              label: x.label,
+              value: x.slug,
+            }))}
+            allowClear
+            value={isFiltersApplied && !selectedPreset ? null : selectedPreset}
+            onChange={newPresetFilter =>
+              onChange?.({
+                categories: [],
+                exchanges: [],
+                networks: [],
+                securityLabels: [],
+                sources: [],
+                trendLabels: [],
+                ...presetFilters.find(x => x.slug === newPresetFilter)?.filters,
+              })
+            }
+            size={isMobile ? 'sm' : 'md'}
+            variant="primary"
+            className="max-w-lg grow"
+            surface={surface}
+          />
+        </div>
+      </div>
+      <div className="mobile:w-full">
+        <p className="mb-1 block text-xs">{t('common:sorted-by')}</p>
         <ButtonSelect
-          options={presetFilters.map(x => ({
-            label: x.label,
-            value: x.slug,
-          }))}
-          allowClear
-          value={isFiltersApplied && !selectedPreset ? null : selectedPreset}
-          onChange={newPresetFilter =>
+          size={isMobile ? 'sm' : 'md'}
+          value={JSON.stringify({
+            sortBy: localState.sortBy ?? 'rank',
+            sortOrder: localState.sortOrder ?? 'ascending',
+          })}
+          options={[
+            {
+              label: t('social-radar.sorts.rank'),
+              value: JSON.stringify({
+                sortBy: 'rank',
+                sortOrder: 'ascending',
+              }),
+            },
+            {
+              label: t('social-radar.sorts.newest'),
+              value: JSON.stringify({
+                sortBy: 'call_time',
+                sortOrder: 'descending',
+              }),
+            },
+            {
+              label: t('social-radar.sorts.oldest'),
+              value: JSON.stringify({
+                sortBy: 'call_time',
+                sortOrder: 'ascending',
+              }),
+            },
+            {
+              label: t('social-radar.sorts.price_change'),
+              value: JSON.stringify({
+                sortBy: 'price_change',
+                sortOrder: 'ascending',
+              }),
+            },
+            {
+              label: t('social-radar.sorts.market_cap'),
+              value: JSON.stringify({
+                sortBy: 'market_cap',
+                sortOrder: 'ascending',
+              }),
+            },
+          ]}
+          onChange={newVal => {
+            const newSort = JSON.parse(newVal);
             onChange?.({
-              categories: [],
-              exchanges: [],
-              networks: [],
-              securityLabels: [],
-              sources: [],
-              trendLabels: [],
-              ...presetFilters.find(x => x.slug === newPresetFilter)?.filters,
-            })
-          }
-          size="md"
-          variant="primary"
-          className="max-w-lg grow"
+              sortBy: newSort.sortBy,
+              sortOrder: newSort.sortOrder as never,
+            });
+          }}
+          className="w-auto mobile:w-full"
+          surface={surface}
         />
       </div>
-      <SortModes
-        sortBy={value.sortBy ?? 'rank'}
-        sortOrder={value.sortOrder ?? 'ascending'}
-        onChange={(sortBy, sortOrder) =>
-          onChange?.({ sortBy, sortOrder: sortOrder as never })
-        }
-        className="w-auto mobile:w-full"
-      />
       <Modal
         open={open}
         onCancel={() => setOpen(false)}

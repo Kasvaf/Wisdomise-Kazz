@@ -19,7 +19,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
   allowClear,
   value,
   onChange,
-  surface = 2,
+  surface = 3,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
   variant?: 'default' | 'primary';
@@ -61,7 +61,10 @@ export function ButtonSelect<T, AC extends boolean = false>({
     const resizeHandler = () => {
       setHasOverflow(
         el
-          ? [el.scrollLeft > 0, el.offsetWidth + el.scrollLeft < el.scrollWidth]
+          ? [
+              el.scrollLeft > 10,
+              el.offsetWidth + el.scrollLeft < el.scrollWidth - 10,
+            ]
           : [false, false],
       );
     };
@@ -107,20 +110,20 @@ export function ButtonSelect<T, AC extends boolean = false>({
       className={clsx(
         'relative max-w-full overflow-hidden',
         /* Size: height, padding, font-size, border-radius */
-        size === 'xs' && 'h-xs rounded-md text-xs',
-        size === 'sm' && 'h-sm rounded-lg text-xs',
+        size === 'xs' && 'h-xs rounded-md text-xxs',
+        size === 'sm' && 'h-sm rounded-lg text-xxs',
         size === 'md' && 'h-md rounded-lg text-xs',
         size === 'xl' && 'h-xl rounded-xl text-sm',
         className,
       )}
       style={{
-        backgroundColor: colors.next,
-        ['--current-color' as never]: colors.next,
-        ['--active-color' as never]: colors.later,
+        backgroundColor: colors.current,
+        ['--current-color' as never]: colors.current,
+        ['--active-color' as never]: colors.next,
       }}
     >
       <div
-        className="flex h-full w-full flex-nowrap items-center gap-1 overflow-hidden whitespace-nowrap p-1 text-v1-content-primary mobile:overflow-auto"
+        className="flex h-full w-full flex-nowrap items-center gap-px overflow-hidden whitespace-nowrap text-v1-content-primary mobile:overflow-auto"
         ref={buttonsRef}
       >
         {options
@@ -140,7 +143,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
                 'border border-transparent enabled:hover:bg-v1-background-inverse/5 enabled:active:bg-[--active-color]',
                 variant === 'primary'
                   ? 'enabled:aria-checked:bg-v1-background-brand'
-                  : 'enabled:aria-checked:bg-v1-background-inverse/15',
+                  : 'enabled:aria-checked:bg-[--active-color]',
                 'focus-visible:border-v1-border-focus',
                 'aria-checked:text-v1-content-primary',
                 'disabled:opacity-40',
@@ -154,9 +157,11 @@ export function ButtonSelect<T, AC extends boolean = false>({
       {hasOverflow.map((x, i) => (
         <div
           className={clsx(
-            'group absolute top-0 flex h-full w-5 cursor-pointer items-center justify-center',
-            '!bg-[--current-color]',
-            i === 0 ? 'left-0' : 'right-0',
+            'group absolute top-0 flex h-full w-8 cursor-pointer items-center justify-center',
+            '!bg-gradient-to-r via-[--current-color]',
+            i === 0
+              ? 'left-0 from-[--current-color] to-transparent'
+              : 'right-0 from-transparent to-[--current-color]',
             !x && 'hidden',
           )}
           onClick={scroll(i === 0 ? 'left' : 'right')}

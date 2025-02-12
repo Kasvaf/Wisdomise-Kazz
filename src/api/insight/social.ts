@@ -140,7 +140,7 @@ export const useSocialRadarCoins = (config: {
         })
         .sort((a, b) => {
           const sorter = createSorter(config.sortOrder);
-          if (config.sortBy === 'newest')
+          if (config.sortBy === 'call_time')
             return sorter(a.last_signal_related_at, b.last_signal_related_at);
           if (config.sortBy === 'price_change')
             return sorter(

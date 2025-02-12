@@ -211,7 +211,7 @@ export function Select<V, M extends boolean = false>({
   chevron = true,
   tooltipPlacement = 'bottomLeft',
   disabled,
-  surface = 2,
+  surface = 3,
 }: SelectProps<V, M>) {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
@@ -287,7 +287,7 @@ export function Select<V, M extends boolean = false>({
           <div className="p-4">
             <input
               placeholder="Search Here"
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
+              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l5 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
               value={searchValue ?? ''}
               onChange={e => onSearch?.(e.target.value)}
               ref={searchRef}
@@ -403,7 +403,7 @@ export function Select<V, M extends boolean = false>({
           className,
         )}
         style={{
-          backgroundColor: colors.next,
+          backgroundColor: colors.current,
         }}
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         {...(!disabled && {
@@ -440,9 +440,9 @@ export function Select<V, M extends boolean = false>({
     [
       size,
       block,
-      className,
-      colors.next,
       disabled,
+      className,
+      colors,
       prefixIcon,
       allowClear,
       multiple,
@@ -470,7 +470,7 @@ export function Select<V, M extends boolean = false>({
       >
         {popupContent}
         <div className="p-4">
-          <Button variant="ghost" block className="w-full" surface={4}>
+          <Button variant="ghost" block className="w-full" surface={5}>
             {'Close'}
           </Button>
         </div>

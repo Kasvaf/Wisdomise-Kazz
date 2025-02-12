@@ -27,17 +27,20 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   );
 
   return (
-    <div
-      className={clsx(
-        'fixed bottom-0 z-50 hidden h-auto w-full mobile:block',
-        className,
-      )}
-    >
-      <TrialEndBanner />
-      <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
-        {items.map(renderItem)}
+    <>
+      <div className="relative h-[6.5rem]" />
+      <div
+        className={clsx(
+          'fixed bottom-0 z-50 hidden h-16 w-full mobile:block',
+          className,
+        )}
+      >
+        <TrialEndBanner />
+        <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
+          {items.map(renderItem)}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

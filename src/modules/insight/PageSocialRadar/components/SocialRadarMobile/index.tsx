@@ -1,28 +1,42 @@
+/* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
-import { NetworkSelect } from 'shared/NetworkSelect';
-import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { MobileSearchBar } from 'shared/MobileSearchBar';
+import RadarsTabs from 'modules/insight/RadarsTabs';
+import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
-import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { SocialSentiment } from 'modules/insight/PageSocialRadar/components/SocialSentiment';
-import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalSentiment';
-import { CoinMarketCap } from 'shared/CoinMarketCap';
-import { CoinLabels } from 'shared/CoinLabels';
 import { AccessShield } from 'shared/AccessShield';
-import CoinPreDetailModal from '../CoinPreDetailModal';
+import { CoinLabels } from 'shared/CoinLabels';
+import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import CoinPreDetailModal from 'modules/insight/PageHome/components/HomeMobile/CoinPreDetailModal';
+import { SocialSentiment } from '../SocialSentiment';
+import { SocialRadarFilters } from '../SocialRadarFilters';
 
-export const HotCoinsMobile = () => {
-  const { t } = useTranslation('insight');
-  const [network, setNetwork] = useState<string | undefined>(undefined);
-
-  const coins = useCoinRadarCoins({
-    networks: network ? [network] : [],
+export const SocialRadarMobile = () => {
+  const [, tableState, setTableState] = useTableState<
+    Required<Parameters<typeof useSocialRadarCoins>[0]>
+  >('', {
+    page: 1,
+    pageSize: 10,
+    sortBy: 'rank',
+    sortOrder: 'ascending',
+    query: '',
+    categories: [] as string[],
+    networks: [] as string[],
+    trendLabels: [] as string[],
+    securityLabels: [] as string[],
+    exchanges: [] as string[],
+    sources: [] as string[],
+    windowHours: 24,
   });
 
   const [detailSlug, setDetailSlug] = useState('');
 
-  const columns = useMemo<Array<MobileTableColumn<CoinRadarCoin>>>(
+  const coins = useSocialRadarCoins(tableState);
+
+  const columns = useMemo<Array<MobileTableColumn<SocialRadarCoin>>>(
     () => [
       {
         key: 'rank',
@@ -43,7 +57,7 @@ export const HotCoinsMobile = () => {
             abbrevationSuffix={
               <DirectionalNumber
                 className="ms-1"
-                value={row.market_data?.price_change_percentage_24h}
+                value={row.symbol_market_data?.price_change_percentage_24h}
                 label="%"
                 direction="auto"
                 showIcon
@@ -61,22 +75,7 @@ export const HotCoinsMobile = () => {
         key: 'sentiment',
         className: 'flex items-center justify-center gap-4',
         grow: true,
-        render: row => (
-          <>
-            {row.social_radar_insight && (
-              <SocialSentiment
-                value={row.social_radar_insight}
-                detailsLevel={1}
-              />
-            )}
-            {row.technical_radar_insight && (
-              <TechnicalSentiment
-                value={row.technical_radar_insight}
-                detailsLevel={1}
-              />
-            )}
-          </>
-        ),
+        render: row => <SocialSentiment value={row} detailsLevel={2} />,
       },
       {
         key: 'labels',
@@ -93,7 +92,7 @@ export const HotCoinsMobile = () => {
               mini
             />
             <CoinMarketCap
-              marketData={row.market_data}
+              marketData={row.symbol_market_data}
               singleLine
               className="text-xxs"
             />
@@ -105,43 +104,36 @@ export const HotCoinsMobile = () => {
   );
 
   return (
-    <div>
-      <div className="mb-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-sm">{t('table.mobile_title')}</h1>
-        </div>
-        <NetworkSelect
-          value={network}
-          allowClear
-          multiple={false}
-          onChange={setNetwork}
-          size="sm"
-          valueType="slug"
-          filter="social-radar-24-hours"
-        />
-      </div>
+    <>
+      <MobileSearchBar className="mb-4" />
+      <RadarsTabs className="mb-4" />
+      <SocialRadarFilters
+        value={tableState}
+        onChange={newState => setTableState(newState)}
+        className="mb-4 w-full"
+        surface={1}
+      />
       <AccessShield
         mode="mobile_table"
         sizes={{
           'guest': true,
           'free': true,
           'trial': 3,
-          'pro': 3,
+          'pro': false,
           'pro+': false,
           'pro_max': false,
         }}
       >
         <MobileTable
           columns={columns}
-          dataSource={coins.data?.slice(0, 20) ?? []}
+          dataSource={coins.data ?? []}
+          rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isLoading}
-          rowKey={r => r.rank}
           surface={2}
           onClick={r => r.symbol.slug && setDetailSlug(r.symbol.slug)}
         />
       </AccessShield>
-
       <CoinPreDetailModal slug={detailSlug} onClose={() => setDetailSlug('')} />
-    </div>
+    </>
   );
 };

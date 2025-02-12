@@ -12,6 +12,8 @@ actions:
   remove: Remove
   save: Save
   'yes': 'Yes'
+filtered-by: Filtered by
+sorted-by: Sorted by
 almost-there: Almost There...
 below: Below
 confirmation: Confirmation

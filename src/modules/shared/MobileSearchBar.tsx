@@ -31,11 +31,12 @@ export const MobileSearchBar: FC<{ className?: string }> = ({ className }) => {
             <Icon name={bxSearch} className="text-v1-content-secondary" />
           }
           onChange={newSlug => newSlug && navigate(`/coin/${newSlug}`)}
-          placeholder="Search among 200+ coins…"
+          placeholder="Search Among 20K+ Coins…"
           block
           size="md"
           className="grow"
           value={undefined}
+          surface={2}
         />
         <Button
           size="md"
@@ -43,6 +44,7 @@ export const MobileSearchBar: FC<{ className?: string }> = ({ className }) => {
           variant="ghost"
           onClick={() => openAlert()}
           disabled={!hasFlag('/coin-radar/alerts')}
+          surface={2}
         >
           <DebugPin title="/coin-radar/alerts" color="orange" />
 

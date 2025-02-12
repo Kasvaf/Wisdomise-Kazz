@@ -248,7 +248,8 @@ social-messages:
   subscribers: '{{size}} Subscribers'
 social-radar:
   sorts:
-    call_time: Newest
+    newest: Newest
+    oldest: Oldest
     market_cap: Market Cap
     price_change: 24H Chg
     rank: Wise Rank™
