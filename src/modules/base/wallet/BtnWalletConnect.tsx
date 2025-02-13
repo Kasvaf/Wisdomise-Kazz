@@ -15,6 +15,7 @@ const BtnSolanaWalletConnect: React.FC<{ className?: string }> = ({
         borderRadius: 20,
         height: 40,
         fontSize: 14,
+        lineHeight: 'normal',
         ...(solanaWallet.connected
           ? { background: '#121214', paddingLeft: 16 }
           : { background: '#00a3ff' }),

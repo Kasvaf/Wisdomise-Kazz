@@ -39,6 +39,7 @@ const PagePositions = () => {
         onChange={setSlug}
         emptyOption="All Coins & Tokens"
         mini={false}
+        tradableCoinsOnly
       />
 
       <PositionsList slug={slug} isOpen={filter === 'active'} />
