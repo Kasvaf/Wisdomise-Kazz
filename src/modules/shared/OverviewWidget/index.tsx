@@ -105,7 +105,7 @@ export function OverviewWidget({
       {(title || info || headerActions) && (
         <header
           className={clsx(
-            'flex shrink-0 items-center justify-between gap-6 overflow-visible text-v1-content-primary',
+            'flex shrink-0 items-center justify-between gap-4 overflow-visible text-v1-content-primary',
             headerClassName,
           )}
         >
@@ -125,6 +125,7 @@ export function OverviewWidget({
               )}
             </div>
           )}
+          <div className="shrink grow" />
           {headerActions}
         </header>
       )}

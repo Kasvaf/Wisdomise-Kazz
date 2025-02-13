@@ -105,11 +105,11 @@ export function CoinRadarTable({ className }: { className?: string }) {
     <OverviewWidget
       title={
         <>
-          <Logo className="size-7 shrink-0" />
+          <Logo className="size-6 shrink-0" />
           {t('base:menu.coin-radar.full-title')}
         </>
       }
-      headerActions={<InsightAlertButton className="mobile:w-full" />}
+      headerActions={<InsightAlertButton />}
       loading={coins.isLoading}
       empty={!coins.data?.length}
       className="min-h-[500px]"

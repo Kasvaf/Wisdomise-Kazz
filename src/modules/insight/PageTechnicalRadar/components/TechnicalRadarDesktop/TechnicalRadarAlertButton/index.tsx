@@ -7,6 +7,7 @@ import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import Badge from 'shared/Badge';
 import { DebugPin } from 'shared/DebugPin';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as GearIcon } from './gear.svg';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { FirstSetModal } from './FirstSetModal';
@@ -55,7 +56,7 @@ export function TechnicalRadarAlertButton({
 
   return (
     <>
-      <button
+      <Button
         onClick={async () => {
           track('Click On', {
             place: 'technical_radar_notification',
@@ -66,16 +67,10 @@ export function TechnicalRadarAlertButton({
             void alertActions.save(false).then(() => setFirstToast(true));
           }
         }}
-        className={clsx(
-          'relative inline-flex h-12 items-center justify-center gap-2 rounded-xl border px-6 text-xs text-v1-content-primary',
-          'transition-all enabled:hover:brightness-110 enabled:active:brightness-90',
-          posibleRelatedAlert
-            ? 'border-v1-content-primary'
-            : 'border-v1-border-brand bg-v1-content-brand',
-          alerts.isLoading && 'animate-pulse',
-          gtmClass('set-alert'),
-          className,
-        )}
+        variant={posibleRelatedAlert ? 'white' : 'primary'}
+        className={clsx(gtmClass('set-alert'), className)}
+        loading={alerts.isLoading}
+        size="md"
         disabled={alertActions.isSaving}
       >
         <DebugPin
@@ -100,7 +95,7 @@ export function TechnicalRadarAlertButton({
           <ScreenerIcon />
         )}
         {posibleRelatedAlert ? t('screener.edit') : t('screener.set')}
-      </button>
+      </Button>
       <FirstSetModal
         open={firstToast}
         onClose={() => setFirstToast(false)}

@@ -142,7 +142,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
       title={
         isEmbeddedView ? undefined : (
           <>
-            <SocialRadarIcon className="size-[26px]" />
+            <SocialRadarIcon className="size-6" />
             {t('social-radar.table.title')}
             <Realtime />
           </>
@@ -176,28 +176,24 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
       }
       loading={coins.isInitialLoading}
       empty={(coins.data ?? [])?.length === 0}
-      headerClassName="flex flex-wrap"
       headerActions={
         <>
-          <div className="flex grow items-center justify-end gap-4 mobile:w-full mobile:justify-between">
-            <SearchInput
-              value={tableState.query}
-              onChange={query => setTableState({ query })}
-              placeholder={t('common.search_coin')}
-              className="w-64 mobile:grow"
-              size="md"
-            />
-            {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
-          </div>
-          <SocialRadarFilters
-            value={tableState}
-            onChange={newState => setTableState(newState)}
-            className="w-full"
-            surface={3}
+          <SearchInput
+            value={tableState.query}
+            onChange={query => setTableState({ query })}
+            placeholder={t('common.search_coin')}
+            size="md"
           />
+          {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
         </>
       }
     >
+      <SocialRadarFilters
+        value={tableState}
+        onChange={newState => setTableState(newState)}
+        className="mb-4 w-full"
+        surface={3}
+      />
       <AccessShield
         mode="table"
         sizes={{

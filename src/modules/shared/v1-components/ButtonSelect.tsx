@@ -123,7 +123,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
       }}
     >
       <div
-        className="flex h-full w-full flex-nowrap items-center gap-px overflow-hidden whitespace-nowrap text-v1-content-primary mobile:overflow-auto"
+        className="flex h-full w-full flex-nowrap items-center gap-0 overflow-hidden whitespace-nowrap text-v1-content-primary mobile:overflow-auto"
         ref={buttonsRef}
       >
         {options
@@ -140,12 +140,12 @@ export function ButtonSelect<T, AC extends boolean = false>({
                 size === 'xl' ? ' px-3' : 'px-2',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'border border-transparent enabled:hover:bg-v1-background-inverse/5 enabled:active:bg-[--active-color]',
+                'border border-transparent enabled:hover:text-v1-content-primary/80',
                 variant === 'primary'
                   ? 'enabled:aria-checked:bg-v1-background-brand'
                   : 'enabled:aria-checked:bg-[--active-color]',
                 'focus-visible:border-v1-border-focus',
-                'aria-checked:text-v1-content-primary',
+                'aria-checked:!text-v1-content-primary',
                 'disabled:opacity-40',
                 buttonClassName,
               )}

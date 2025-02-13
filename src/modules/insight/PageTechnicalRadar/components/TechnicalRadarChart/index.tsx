@@ -4,22 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
 import { bxShareAlt } from 'boxicons-quasar';
-import { type TechnicalRadarCoin } from 'api';
-// eslint-disable-next-line import/max-dependencies
+import { useTechnicalRadarCoins, useSubscription } from 'api';
 import { ECharts } from 'shared/ECharts';
 import { AccessShield } from 'shared/AccessShield';
-import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import Icon from 'shared/Icon';
 import { useScreenshot } from 'shared/useScreenshot';
 import { formatNumber } from 'utils/numbers';
+import { Button } from 'shared/v1-components/Button';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
-export const TechnicalChartWidget: FC<{
+export const TechnicalRadarChart: FC<{
   type: 'cheap_bullish' | 'expensive_bearish';
-  data: TechnicalRadarCoin[];
-}> = ({ data, type }) => {
+}> = ({ type }) => {
+  const coins = useTechnicalRadarCoins({});
   const { t } = useTranslation('market-pulse');
   const el = useRef<HTMLDivElement>(null);
   const screenshot = useScreenshot(el, {
@@ -27,7 +26,7 @@ export const TechnicalChartWidget: FC<{
     fileName: `${type}-${Date.now()}`,
   });
   const navigate = useNavigate();
-  const parsedData = useNormalizeTechnicalChartBubbles(data, type);
+  const parsedData = useNormalizeTechnicalChartBubbles(coins.data ?? [], type);
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
 
@@ -267,56 +266,28 @@ export const TechnicalChartWidget: FC<{
   return (
     <div
       className={clsx(
-        'space-y-6 rounded-xl bg-v1-surface-l3 p-6 mobile:p-4',
         '[&.capturing_[data-capture]]:block [&.capturing_[data-nocapture]]:hidden',
       )}
       ref={el}
     >
-      <div className="flex items-start justify-between gap-px">
-        <div className="space-y-1">
-          <div
-            className={clsx(
-              'text-base font-medium text-v1-content-primary [&_b]:font-medium',
-              type === 'cheap_bullish'
-                ? '[&_b]:text-v1-content-positive'
-                : '[&_b]:text-v1-content-negative',
-            )}
+      <div className="relative mb-4 flex items-center justify-between gap-px">
+        <p className="text-xs text-v1-content-primary" data-nocapture>
+          {t('common.rsi_macd_chart.subtitle')}
+        </p>
+        <div data-nocapture>
+          <Button
+            size="xs"
+            onClick={screenshot}
+            variant="ghost"
+            disabled={!isLoggedIn || subscription.level < 1}
           >
-            {type === 'cheap_bullish'
-              ? t('common.rsi_macd_chart.opportunities')
-              : t('common.rsi_macd_chart.cautions')}
-            {': '}
-            <b>
-              {`${
-                type === 'cheap_bullish'
-                  ? t('keywords.rsi_oversold.label_equiv')
-                  : t('keywords.rsi_overbought.label_equiv')
-              } & ${
-                type === 'cheap_bullish'
-                  ? t('keywords.rsi_bullish.label_equiv')
-                  : t('keywords.rsi_bearish.label_equiv')
-              }`}
-            </b>{' '}
-            {t('common.rsi_macd_chart.rsi_and_macd')}
-          </div>
-          <p className="text-xs text-v1-content-primary">
-            {t('common.rsi_macd_chart.subtitle')}
-          </p>
+            <Icon name={bxShareAlt} size={10} />
+            {t('common.share')}
+          </Button>
         </div>
-        <Logo className="hidden h-8 w-auto shrink-0 self-center" data-capture />
-        <button
-          onClick={screenshot}
-          data-nocapture
-          className={clsx(
-            'inline-flex h-7 items-center gap-1 rounded-full px-3 text-xs',
-            'bg-v1-surface-l4 transition-all hover:brightness-110 active:brightness-90',
-            'disabled:animate-pulse disabled:brightness-75',
-            (!isLoggedIn || subscription.level < 1) && 'hidden',
-          )}
-        >
-          <Icon name={bxShareAlt} size={16} />
-          {t('common.share')}
-        </button>
+        <div className="hidden h-[33px] w-full" data-capture>
+          <Logo className="mx-auto mt-2 h-7 w-auto" />
+        </div>
       </div>
       <AccessShield
         mode="children"

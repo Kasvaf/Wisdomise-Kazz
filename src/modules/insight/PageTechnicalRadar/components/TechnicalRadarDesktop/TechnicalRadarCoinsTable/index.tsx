@@ -8,27 +8,24 @@ import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
-import { ButtonSelect } from 'shared/ButtonSelect';
-import { SearchInput } from 'shared/SearchInput';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalSentiment } from '../../TechnicalSentiment';
-import { NetworkSelect } from './NetworkSelect';
-import { CategoriesSelect } from './CategoriesSelect';
+import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
 
-export const TechnicalTable: FC = () => {
+export const TechnicalRadarCoinsTable: FC = () => {
   const { t } = useTranslation('market-pulse');
-  const [tableProps, tableState, setTableState] = useTableState(
-    'overviewTable',
-    {
-      page: 1,
-      pageSize: 10,
-      sortBy: 'rank',
-      query: '',
-      network: '',
-      category: '',
-    },
-  );
+  const [tableProps, tableState, setTableState] = useTableState<
+    Parameters<typeof useTechnicalRadarCoins>[0]
+  >('overviewTable', {
+    page: 1,
+    pageSize: 10,
+    sortBy: 'rank',
+    sortOrder: 'ascending',
+    query: '',
+    networks: [],
+    categories: [],
+  });
   const coins = useTechnicalRadarCoins(tableState);
 
   const columns = useMemo<Array<ColumnType<TechnicalRadarCoin>>>(
@@ -99,49 +96,12 @@ export const TechnicalTable: FC = () => {
 
   return (
     <div>
-      <div className="mb-6 flex w-full grow grid-cols-1 flex-wrap justify-start gap-4 mobile:!grid">
-        <SearchInput
-          value={tableState.query}
-          onChange={query => setTableState({ query })}
-          className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:max-w-full mobile:basis-full"
-          placeholder={t('coin-radar:common.search_coin')}
-        />
-        <NetworkSelect
-          value={tableState.network || undefined}
-          onChange={network => setTableState({ network })}
-          className="mobile:order-3"
-        />
-        <CategoriesSelect
-          value={tableState.category || undefined}
-          onChange={category => setTableState({ category })}
-          className="mobile:order-4"
-        />
-        <div className="flex flex-wrap items-center gap-2 mobile:order-5">
-          <span className="text-xs mobile:w-full mobile:grow">
-            {t('table.sort')}:
-          </span>
-          <ButtonSelect
-            options={[
-              {
-                label: t('table.sorts.rank'),
-                value: 'rank',
-              },
-              {
-                label: t('table.sorts.price_change'),
-                value: 'price_change',
-              },
-              {
-                label: t('table.sorts.market_cap'),
-                value: 'market_cap',
-              },
-            ]}
-            value={tableState.sortBy}
-            onChange={sortBy => setTableState({ sortBy })}
-          />
-        </div>
-
-        <div className="grow mobile:hidden" />
-      </div>
+      <TechnicalRadarFilters
+        value={tableState}
+        onChange={newState => setTableState(newState)}
+        className="mb-4 w-full"
+        surface={3}
+      />
 
       <AccessShield
         mode="table"

@@ -14,7 +14,7 @@ import { SearchInput } from 'shared/SearchInput';
 import { WhaleCoinBuySellInfo } from '../WhaleCoinBuySellInfo';
 import { WhaleSentiment } from '../../WhaleSentiment';
 import { WhaleRadarFilters } from '../../WhaleRadarFilters';
-import WhaleRadarIcon from './whale-radar.png';
+import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Realtime } from './realtime.svg';
 
@@ -108,7 +108,7 @@ export function WhaleRadarCoinsWidget({
       className={clsx('min-h-[610px] shrink-0 mobile:min-h-[670px]', className)}
       title={
         <>
-          <img src={WhaleRadarIcon} className="size-[26px]" />
+          <WhaleRadarIcon className="size-6" />
           {t('top_coins.title')}
           <Realtime />
         </>
