@@ -132,6 +132,7 @@ export function WhaleRadarCoinsWidget({
               value={tableState}
               onChange={newState => setTableState(newState)}
               className="w-full"
+              surface={3}
             />
           </>
         )
