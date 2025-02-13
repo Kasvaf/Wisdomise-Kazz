@@ -40,12 +40,12 @@ export const SocialRadarMobile = () => {
     () => [
       {
         key: 'rank',
-        className: 'min-w-4 text-xs font-medium text-start',
+        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => row.rank,
       },
       {
         key: 'coin',
-        className: 'text-sm min-w-[110px]',
+        className: 'min-w-28 max-w-28 text-sm',
         render: row => (
           <Coin
             coin={row.symbol}
@@ -71,15 +71,13 @@ export const SocialRadarMobile = () => {
       },
       {
         key: 'sentiment',
-        className: 'flex items-center gap-4',
-        grow: true,
         render: row => <SocialSentiment value={row} detailsLevel={2} />,
       },
       {
         key: 'labels',
-        className: 'flex flex-col items-end justify-center gap-2 max-w-[85px]',
+        className: 'max-w-24 min-w-16',
         render: row => (
-          <>
+          <div className="flex flex-col items-end justify-center gap-2">
             <CoinLabels
               categories={row.symbol.categories}
               labels={row.symbol_labels}
@@ -93,7 +91,7 @@ export const SocialRadarMobile = () => {
               singleLine
               className="text-xxs"
             />
-          </>
+          </div>
         ),
       },
     ],

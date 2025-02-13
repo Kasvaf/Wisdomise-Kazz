@@ -9,7 +9,10 @@ export function CoinMarketCap({
   singleLine,
 }: {
   className?: string;
-  marketData?: Pick<MiniMarketData, 'market_cap' | 'market_cap_category'>;
+  marketData?: Pick<
+    MiniMarketData,
+    'market_cap' | 'market_cap_category'
+  > | null;
   singleLine?: boolean;
 }) {
   return (

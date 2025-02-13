@@ -40,14 +40,12 @@ export const WhaleRadarMobile = () => {
     () => [
       {
         key: 'rank',
-        width: '1rem',
-        className: 'text-xs font-medium text-start',
+        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => row.rank,
       },
       {
         key: 'coin',
-        width: '110px',
-        className: 'text-sm',
+        className: 'min-w-28 max-w-28 text-sm',
         render: row => (
           <Coin
             coin={row.symbol}
@@ -73,15 +71,14 @@ export const WhaleRadarMobile = () => {
       },
       {
         key: 'sentiment',
-        grow: true,
         render: row => <WhaleSentiment value={row} detailsLevel={1} />,
       },
       {
         key: 'labels',
-        className: 'flex flex-col items-end justify-center gap-2',
+        className: 'max-w-24 min-w-16',
         width: '85px',
         render: row => (
-          <>
+          <div className="flex flex-col items-end justify-center gap-2">
             <CoinLabels
               categories={row.symbol.categories}
               labels={row.symbol_labels}
@@ -95,7 +92,7 @@ export const WhaleRadarMobile = () => {
               singleLine
               className="text-xxs"
             />
-          </>
+          </div>
         ),
       },
     ],

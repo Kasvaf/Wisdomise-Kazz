@@ -46,7 +46,7 @@ export function TechnicalRadarFilters({
         className,
       )}
     >
-      <div className="min-w-64 max-w-max mobile:w-full">
+      <div className="min-w-64 max-w-full mobile:w-full">
         <p className="mb-1 text-xs">{t('common:filtered-by')}</p>
         <div className="flex items-start gap-2">
           <Button
@@ -67,7 +67,7 @@ export function TechnicalRadarFilters({
           <SearchInput
             value={localState.query}
             onChange={query => onChange?.({ query })}
-            className="max-w-52 shrink-0 basis-80 mobile:order-2 mobile:hidden mobile:max-w-full"
+            className="max-w-52 shrink-0 basis-80 mobile:hidden"
             placeholder={t('coin-radar:common.search_coin')}
             size={isMobile ? 'sm' : 'md'}
             surface={surface}
@@ -79,7 +79,7 @@ export function TechnicalRadarFilters({
             allowClear
             valueType="slug"
             filter="technical-radar"
-            className="mobile:order-3"
+            className="mobile:grow"
             size={isMobile ? 'sm' : 'md'}
             surface={surface}
           />
@@ -89,7 +89,7 @@ export function TechnicalRadarFilters({
             allowClear
             onChange={categories => onChange?.({ categories })}
             filter="technical-radar"
-            className="mobile:order-4"
+            className="mobile:grow"
             size={isMobile ? 'sm' : 'md'}
             surface={surface}
           />
