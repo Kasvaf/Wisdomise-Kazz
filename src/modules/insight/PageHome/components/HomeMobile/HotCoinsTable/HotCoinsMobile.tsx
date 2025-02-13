@@ -113,6 +113,7 @@ export const HotCoinsMobile = () => {
           size="sm"
           valueType="slug"
           filter="social-radar-24-hours"
+          surface={2}
         />
       </div>
       <AccessShield
