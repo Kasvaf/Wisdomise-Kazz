@@ -116,7 +116,6 @@ export function SocialRadarFilters({
               label: x.label,
               value: x.slug,
             }))}
-            allowClear
             value={isFiltersApplied && !selectedPreset ? null : selectedPreset}
             onChange={newPresetFilter =>
               onChange?.({

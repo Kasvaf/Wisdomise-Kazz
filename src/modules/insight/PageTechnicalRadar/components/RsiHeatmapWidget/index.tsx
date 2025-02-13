@@ -47,7 +47,6 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
           headerActions={
             <ButtonSelect
               className="mobile:w-full"
-              allowClear={false}
               value={resolution}
               onChange={setResolution}
               size="sm"

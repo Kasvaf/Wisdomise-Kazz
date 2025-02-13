@@ -118,7 +118,6 @@ export function WhaleRadarFilters({
               label: x.label,
               value: x.slug,
             }))}
-            allowClear
             value={isFiltersApplied && !selectedPreset ? null : selectedPreset}
             onChange={newPresetFilter =>
               onChange?.({

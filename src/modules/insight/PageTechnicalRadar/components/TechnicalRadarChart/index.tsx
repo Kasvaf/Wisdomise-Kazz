@@ -12,14 +12,17 @@ import Icon from 'shared/Icon';
 import { useScreenshot } from 'shared/useScreenshot';
 import { formatNumber } from 'utils/numbers';
 import { Button } from 'shared/v1-components/Button';
+import useIsMobile from 'utils/useIsMobile';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalRadarChart: FC<{
   type: 'cheap_bullish' | 'expensive_bearish';
-}> = ({ type }) => {
+  onClick?: (slug: string) => void;
+}> = ({ type, onClick }) => {
   const coins = useTechnicalRadarCoins({});
   const { t } = useTranslation('market-pulse');
+  const isMobile = useIsMobile();
   const el = useRef<HTMLDivElement>(null);
   const screenshot = useScreenshot(el, {
     backgroundColor: '#1D1E23', // v1-surface-l3
@@ -253,13 +256,6 @@ export const TechnicalRadarChart: FC<{
         ],
       },
       touchAction: 'none', // Ensure touch events are handled by the chart
-      toolbox: {
-        show: true,
-        padding: 10,
-        feature: {
-          dataZoom: {},
-        },
-      },
     };
   }, [parsedData, t, type]);
 
@@ -271,7 +267,7 @@ export const TechnicalRadarChart: FC<{
       ref={el}
     >
       <div className="relative mb-4 flex items-center justify-between gap-px">
-        <p className="text-xs text-v1-content-primary" data-nocapture>
+        <p className="max-w-sm text-xs text-v1-content-primary" data-nocapture>
           {t('common.rsi_macd_chart.subtitle')}
         </p>
         <div data-nocapture>
@@ -280,6 +276,7 @@ export const TechnicalRadarChart: FC<{
             onClick={screenshot}
             variant="ghost"
             disabled={!isLoggedIn || subscription.level < 1}
+            className="!rounded-full"
           >
             <Icon name={bxShareAlt} size={10} />
             {t('common.share')}
@@ -303,7 +300,7 @@ export const TechnicalRadarChart: FC<{
       >
         <ECharts
           initOptions={{
-            height: '500px',
+            height: isMobile ? '400px' : '500px',
             width: 'auto',
             renderer: 'canvas',
           }}
@@ -313,9 +310,15 @@ export const TechnicalRadarChart: FC<{
               typeof e.dataIndex === 'number' &&
               parsedData.data[e.dataIndex]
             ) {
-              navigate(
-                `/coin/${parsedData.data[e.dataIndex].raw.symbol.slug ?? ''}`,
-              );
+              if (typeof onClick === 'function') {
+                setTimeout(() => {
+                  onClick(parsedData.data[e.dataIndex].raw.symbol.slug ?? '');
+                }, 10);
+              } else {
+                navigate(
+                  `/coin/${parsedData.data[e.dataIndex].raw.symbol.slug ?? ''}`,
+                );
+              }
             }
           }}
           options={options}

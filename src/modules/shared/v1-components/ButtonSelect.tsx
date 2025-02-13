@@ -10,13 +10,12 @@ import {
 import Icon from 'shared/Icon';
 import { type Surface, useSurface } from 'utils/useSurface';
 
-export function ButtonSelect<T, AC extends boolean = false>({
+export function ButtonSelect<T>({
   size = 'xl',
   variant = 'default',
   className,
   buttonClassName,
   options,
-  allowClear,
   value,
   onChange,
   surface = 3,
@@ -25,7 +24,6 @@ export function ButtonSelect<T, AC extends boolean = false>({
   variant?: 'default' | 'primary';
   className?: string;
   buttonClassName?: string;
-  allowClear?: AC;
   options: Array<{
     value: T;
     label: ReactNode;
@@ -34,7 +32,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
     onClickCapture?: () => void;
   }>;
   value?: T;
-  onChange?: (newValue: AC extends true ? T | undefined : T) => void;
+  onChange?: (newValue: T) => void;
   surface?: Surface;
 }) {
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -94,16 +92,10 @@ export function ButtonSelect<T, AC extends boolean = false>({
       if (typeof option.onClickCapture === 'function') {
         option.onClickCapture();
       } else {
-        onChange?.(
-          allowClear
-            ? value === option.value
-              ? (undefined as never)
-              : option.value
-            : option.value,
-        );
+        onChange?.(option.value);
       }
     },
-    [onChange, allowClear, value],
+    [onChange],
   );
   return (
     <div

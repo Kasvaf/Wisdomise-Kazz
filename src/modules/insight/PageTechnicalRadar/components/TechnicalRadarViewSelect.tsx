@@ -20,7 +20,6 @@ export const TechnicalRadarViewSelect: FC<
     <ButtonSelect
       {...props}
       value={value}
-      allowClear={false}
       onChange={onChange}
       options={[
         {
