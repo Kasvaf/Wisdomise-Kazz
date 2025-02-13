@@ -25,20 +25,20 @@ export const TechnicalRadarViewSelect: FC<
         {
           label: (
             <>
-              <Icon name={bxNetworkChart} size={16} />
-              {t('common.chart_view')}
-            </>
-          ),
-          value: 'chart' as const,
-        },
-        {
-          label: (
-            <>
               <Icon name={bxListUl} size={16} />
               {t('common.table_view')}
             </>
           ),
           value: 'table' as const,
+        },
+        {
+          label: (
+            <>
+              <Icon name={bxNetworkChart} size={16} />
+              {t('common.chart_view')}
+            </>
+          ),
+          value: 'chart' as const,
         },
       ]}
     />

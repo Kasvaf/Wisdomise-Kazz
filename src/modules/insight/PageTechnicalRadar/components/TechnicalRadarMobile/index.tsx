@@ -14,7 +14,7 @@ import { TechnicalRadarCoinsCharts } from './TechnicalRadarCoinsCharts';
 export const TechnicalRadarMobile = () => {
   const [tab, setTab] = useSearchParamAsState<TechnicalRadarView>(
     'overviewTab',
-    'chart',
+    'table',
   );
 
   const [detailSlug, setDetailSlug] = useState('');
