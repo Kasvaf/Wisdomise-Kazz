@@ -50,7 +50,7 @@ export const WhaleRadarMobile = () => {
           <Coin
             coin={row.symbol}
             imageClassName="size-7"
-            truncate={64}
+            truncate={60}
             nonLink={true}
             abbrevationSuffix={
               <DirectionalNumber
