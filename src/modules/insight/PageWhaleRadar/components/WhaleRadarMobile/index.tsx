@@ -46,13 +46,13 @@ export const WhaleRadarMobile = () => {
       },
       {
         key: 'coin',
-        width: '125px',
+        width: '110px',
         className: 'text-sm',
         render: row => (
           <Coin
             coin={row.symbol}
             imageClassName="size-7"
-            truncate={70}
+            truncate={64}
             nonLink={true}
             abbrevationSuffix={
               <DirectionalNumber

@@ -7,8 +7,6 @@ import { ReactComponent as EmptyIcon } from './empty.svg';
 export interface MobileTableColumn<RecordType extends object> {
   key: string | number;
   hidden?: boolean;
-  width?: string;
-  grow?: boolean;
   render: (row: RecordType) => ReactNode;
   className?: string;
 }
@@ -31,58 +29,69 @@ export function MobileTable<RecordType extends object>({
 }) {
   const colors = useSurface(surface);
   return (
-    <div
+    <table
       style={{
         ['--row-color' as never]: colors.current,
         ['--active-color' as never]: colors.next,
       }}
       className={clsx(
-        'flex flex-col gap-2',
+        'w-full max-w-full border-separate border-spacing-y-2',
         (loading || dataSource.length === 0) &&
           'items-center justify-center px-2 py-10',
         className,
       )}
     >
       {loading ? (
-        <Spinner />
+        <tbody>
+          <tr data-table="placeholder">
+            <td className="flex w-full items-center justify-center p-4">
+              <Spinner />
+            </td>
+          </tr>
+        </tbody>
       ) : dataSource.length === 0 ? (
-        <EmptyIcon className="h-auto w-40" />
+        <tbody>
+          <tr data-table="placeholder" className="w-full text-center">
+            <td>
+              <EmptyIcon className="mx-auto h-auto w-40" />
+              Nothing to Show
+            </td>
+          </tr>
+        </tbody>
       ) : (
-        <>
+        <tbody>
           {dataSource?.map(row => (
-            <div
+            <tr
               key={rowKey(row)}
               className={clsx(
-                'flex max-w-full flex-nowrap items-center justify-between gap-1 overflow-hidden rounded-lg bg-[--row-color] p-2',
+                'w-full rounded-lg',
                 typeof onClick === 'function' &&
-                  'transition-all active:bg-[--active-color]',
+                  'bg-[--row-color] transition-all active:bg-[--active-color]',
               )}
               data-table="tr"
               onClick={() => onClick?.(row)}
               tabIndex={typeof onClick === 'function' ? 0 : -1}
             >
-              {columns.map(col => (
-                <div
-                  key={col.key}
-                  className={clsx(
-                    col.grow && 'grow',
-                    col.hidden && 'hidden',
-                    col.width && 'shrink-0',
-                    'w-auto',
-                    col.className,
-                  )}
-                  style={{
-                    flexBasis: col.width ?? 'auto',
-                  }}
-                  data-table="td"
-                >
-                  {col.render(row)}
-                </div>
-              ))}
-            </div>
+              {columns
+                .filter(x => !x.hidden)
+                .map((col, i, self) => (
+                  <td
+                    key={col.key}
+                    className={clsx(
+                      'overflow-hidden p-1',
+                      i === 0 && 'rounded-l-lg',
+                      i === self.length - 1 && 'rounded-r-lg',
+                    )}
+                  >
+                    <span className={clsx('w-full', col.className)}>
+                      {col.render(row)}
+                    </span>
+                  </td>
+                ))}
+            </tr>
           ))}
-        </>
+        </tbody>
       )}
-    </div>
+    </table>
   );
 }

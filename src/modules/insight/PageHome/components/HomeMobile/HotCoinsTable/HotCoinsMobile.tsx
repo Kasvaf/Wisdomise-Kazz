@@ -26,19 +26,17 @@ export const HotCoinsMobile = () => {
     () => [
       {
         key: 'rank',
-        width: '1rem',
-        className: 'text-xs font-medium text-start',
+        className: 'min-w-4 text-xs font-medium text-start',
         render: row => row.rank,
       },
       {
         key: 'coin',
-        width: '125px',
-        className: 'text-sm',
+        className: 'text-sm min-w-[110px]',
         render: row => (
           <Coin
             coin={row.symbol}
             imageClassName="size-7"
-            truncate={70}
+            truncate={64}
             nonLink={true}
             abbrevationSuffix={
               <DirectionalNumber
@@ -59,8 +57,7 @@ export const HotCoinsMobile = () => {
       },
       {
         key: 'sentiment',
-        className: 'flex items-center justify-center gap-4',
-        grow: true,
+        className: 'flex items-center gap-4',
         render: row => (
           <>
             {row.social_radar_insight && (
@@ -80,8 +77,7 @@ export const HotCoinsMobile = () => {
       },
       {
         key: 'labels',
-        className: 'flex flex-col items-end justify-center gap-2',
-        width: '85px',
+        className: 'flex flex-col items-end justify-center gap-2 max-w-[85px]',
         render: row => (
           <>
             <CoinLabels
