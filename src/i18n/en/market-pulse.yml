@@ -7,7 +7,6 @@ common:
   macd_wise_scoring: MACD Wise Scoring
   market_cap: Market Cap
   no_divergence: No Divergence
-  overview: Overview
   price_change: Price Change
   price_change_24h: Price Change (24H)
   rsi: RSI
@@ -121,7 +120,6 @@ table:
       24 hours. <br /> <br /> <b>High 24h</b><br />Highest price in the last 24
       hours.
   rank: Rank™
-  sort: Sort
   sorts:
     market_cap: Market Cap
     price_change: 24H Change
