@@ -53,7 +53,7 @@ export function MobileTable<RecordType extends object>({
             <div
               key={rowKey(row)}
               className={clsx(
-                'flex flex-nowrap items-center justify-between gap-2 rounded-lg bg-[--row-color] p-2',
+                'flex max-w-full flex-nowrap items-center justify-between gap-1 overflow-hidden rounded-lg bg-[--row-color] p-2',
                 typeof onClick === 'function' &&
                   'transition-all active:bg-[--active-color]',
               )}
@@ -67,6 +67,8 @@ export function MobileTable<RecordType extends object>({
                   className={clsx(
                     col.grow && 'grow',
                     col.hidden && 'hidden',
+                    col.width && 'shrink-0',
+                    'w-auto',
                     col.className,
                   )}
                   style={{

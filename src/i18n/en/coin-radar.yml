@@ -115,7 +115,6 @@ coin-details:
       fdv: FDV
       fully_diluted_valuation: Fully Diluted Market Cap
       market_cap: Market Cap
-      security_scan: Security Scan By Go+
       total_supply: Total Supply
       volume: Volume
       volume_market_cap: Volume/Market Cap
@@ -197,28 +196,20 @@ coin-details:
       hold: Hold
       sell: Sell
 common:
-  all: All
   all_categories: All Categories
   all_exchanges: All Exchanges
   all_labels: All Labels
   all_networks: All Networks
   all_sources: All Sources
-  apply_filters: Apply Filters
   categories: Categories
   category: Category
   chain: Chain
   chains: Chains
-  exchange: Exchange
-  filters: Filters
   labels: Labels
   load_more: Load More
   native_coin: Native Coin
-  network: Network
   price: Price
   search_coin: Search Coin...
-  security_label: Security Label
-  source: Source
-  trend_label: Trend Label
 screener:
   activated:
     title: Social Radar Screener Activated!
@@ -248,9 +239,9 @@ social-messages:
   subscribers: '{{size}} Subscribers'
 social-radar:
   sorts:
+    market_cap: Market Cap
     newest: Newest
     oldest: Oldest
-    market_cap: Market Cap
     price_change: 24H Chg
     rank: Wise Rank™
   table:

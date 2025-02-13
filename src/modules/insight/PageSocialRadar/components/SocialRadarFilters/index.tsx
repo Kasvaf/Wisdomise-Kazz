@@ -77,17 +77,17 @@ export function SocialRadarFilters({
   return (
     <div
       className={clsx(
-        'flex max-w-full flex-nowrap items-center gap-4 overflow-hidden mobile:flex-wrap',
+        'flex w-full gap-4 mobile:block mobile:space-y-4',
         className,
       )}
     >
-      <div className="mobile:w-full">
-        <p className="mb-1 block text-xs">{t('common:filtered-by')}</p>
-        <div className="flex w-auto flex-nowrap gap-2 overflow-auto">
+      <div className="min-w-64 max-w-max mobile:w-full">
+        <p className="mb-1 text-xs">{t('common:filtered-by')}</p>
+        <div className="flex items-start gap-2">
           <Button
             variant={isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
             size={isMobile ? 'sm' : 'md'}
-            className="w-md shrink-0"
+            className={isMobile ? 'w-sm' : 'w-md'}
             onClick={() => setOpen(true)}
             surface={isMobile ? ((surface + 1) as never) : surface}
           >
@@ -96,7 +96,6 @@ export function SocialRadarFilters({
           <Button
             variant={!isFiltersApplied && !selectedPreset ? 'primary' : 'ghost'}
             size={isMobile ? 'sm' : 'md'}
-            className="shrink-0"
             onClick={() =>
               onChange?.({
                 categories: [],
@@ -110,7 +109,7 @@ export function SocialRadarFilters({
             surface={isMobile ? ((surface + 1) as never) : surface}
           >
             <Icon name={bxGridAlt} size={16} />
-            {t('common.all')}
+            {t('common:all')}
           </Button>
           <ButtonSelect
             options={presetFilters.map(x => ({
@@ -132,13 +131,12 @@ export function SocialRadarFilters({
             }
             size={isMobile ? 'sm' : 'md'}
             variant="primary"
-            className="max-w-lg grow"
             surface={surface}
           />
         </div>
       </div>
-      <div className="mobile:w-full">
-        <p className="mb-1 block text-xs">{t('common:sorted-by')}</p>
+      <div className="w-1/3 min-w-48 max-w-max mobile:w-full">
+        <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
         <ButtonSelect
           size={isMobile ? 'sm' : 'md'}
           value={JSON.stringify({
@@ -189,7 +187,6 @@ export function SocialRadarFilters({
               sortOrder: newSort.sortOrder as never,
             });
           }}
-          className="w-auto mobile:w-full"
           surface={surface}
         />
       </div>
@@ -201,11 +198,11 @@ export function SocialRadarFilters({
         destroyOnClose
         footer={false}
       >
-        <p className="text-xl font-semibold">{t('common.filters')}</p>
+        <p className="text-xl font-semibold">{t('common:filters')}</p>
         <div className="mt-8 space-y-4">
           <div className="flex items-center gap-2 mobile:flex-wrap">
             <p className="block basis-1/3 mobile:basis-full">
-              {t('common.trend_label')}
+              {t('common:trend_label')}
             </p>
             <CoinLabelSelect
               className="grow"
@@ -220,7 +217,7 @@ export function SocialRadarFilters({
           </div>
           <div className="flex items-center gap-2 mobile:flex-wrap">
             <p className="block basis-1/3 mobile:basis-full">
-              {t('common.security_label')}
+              {t('common:security_label')}
             </p>
             <CoinLabelSelect
               className="grow"
@@ -238,7 +235,7 @@ export function SocialRadarFilters({
           </div>
           <div className="flex items-center gap-2 mobile:flex-wrap">
             <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common.category')}
+              {t('common:category')}
             </p>
             <CategorySelect
               className="grow"
@@ -253,7 +250,7 @@ export function SocialRadarFilters({
           </div>
           <div className="flex items-center gap-2 mobile:flex-wrap">
             <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common.network')}
+              {t('common:network')}
             </p>
             <NetworkSelect
               className="grow"
@@ -268,7 +265,7 @@ export function SocialRadarFilters({
           </div>
           <div className="flex items-center gap-2 mobile:flex-wrap">
             <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common.exchange')}
+              {t('common:exchange')}
             </p>
             <ExchangeSelect
               className="grow"
@@ -283,7 +280,7 @@ export function SocialRadarFilters({
           </div>
           <div className="flex items-center gap-2 mobile:flex-wrap">
             <p className="block shrink-0 basis-1/3 mobile:basis-full">
-              {t('common.source')}
+              {t('common:source')}
             </p>
             <SocialRadarSourceSelect
               className="grow"
@@ -316,7 +313,7 @@ export function SocialRadarFilters({
             }}
             className="shrink-0 grow"
           >
-            {t('common.apply_filters')}
+            {t('common:apply_filters')}
           </Button>
         </div>
       </Modal>

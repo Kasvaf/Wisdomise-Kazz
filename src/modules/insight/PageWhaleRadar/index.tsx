@@ -1,16 +1,15 @@
 import PageWrapper from 'modules/base/PageWrapper';
-import RadarsTabs from '../RadarsTabs';
-import { WhaleRadarWhalesWidget } from './components/WhaleRadarWhalesWidget';
-import { WhaleRadarCoinsWidget } from './components/WhaleRadarCoinsWidget';
+import useIsMobile from 'utils/useIsMobile';
+import { WhaleRadarDesktop } from './components/WhaleRadarDesktop';
+import { WhaleRadarMobile } from './components/WhaleRadarMobile';
 
-export default function PageWhaleRadar() {
+const PageWhaleRadar = () => {
+  const isMobile = useIsMobile();
   return (
     <PageWrapper>
-      <RadarsTabs />
-      <div className="flex flex-col gap-6">
-        <WhaleRadarCoinsWidget />
-        <WhaleRadarWhalesWidget />
-      </div>
+      {isMobile ? <WhaleRadarMobile /> : <WhaleRadarDesktop />}
     </PageWrapper>
   );
-}
+};
+
+export default PageWhaleRadar;

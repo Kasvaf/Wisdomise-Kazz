@@ -12,8 +12,8 @@ import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
 import { WhaleCoinBuySellInfo } from '../WhaleCoinBuySellInfo';
-import { CoinWhalesInline } from '../CoinWhalesInline';
-import { WhaleRadarFilters } from '../WhaleRadarFilters';
+import { WhaleSentiment } from '../../WhaleSentiment';
+import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 import WhaleRadarIcon from './whale-radar.png';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Realtime } from './realtime.svg';
@@ -57,7 +57,7 @@ export function WhaleRadarCoinsWidget({
       },
       {
         title: t('top_coins.wallet_number'),
-        render: (_, row) => <CoinWhalesInline value={row} />,
+        render: (_, row) => <WhaleSentiment value={row} />,
       },
       {
         title: t('top_coins.market_cap'),

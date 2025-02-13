@@ -157,11 +157,11 @@ export function ButtonSelect<T, AC extends boolean = false>({
       {hasOverflow.map((x, i) => (
         <div
           className={clsx(
-            'group absolute top-0 flex h-full w-8 cursor-pointer items-center justify-center',
-            '!bg-gradient-to-r via-[--current-color]',
+            'group absolute top-0 flex h-full w-10 cursor-pointer items-center',
+            '!bg-gradient-to-r',
             i === 0
-              ? 'left-0 from-[--current-color] to-transparent'
-              : 'right-0 from-transparent to-[--current-color]',
+              ? 'left-0 justify-start from-[--current-color] to-transparent'
+              : 'right-0 justify-end from-transparent to-[--current-color]',
             !x && 'hidden',
           )}
           onClick={scroll(i === 0 ? 'left' : 'right')}
