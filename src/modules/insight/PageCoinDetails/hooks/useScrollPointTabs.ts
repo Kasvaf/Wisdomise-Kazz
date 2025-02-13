@@ -2,22 +2,15 @@ import { type TabsProps } from 'antd';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 
-const getScrollingElement = (isMobile: boolean) => {
-  if (!isMobile) {
-    const scrollingElement = document.querySelector('#scrolling-element');
-    if (scrollingElement === null)
-      throw new Error('#scrolling-element not found!');
-    const { height, top } = scrollingElement.getBoundingClientRect();
-    return {
-      height,
-      top,
-      eventTarget: scrollingElement,
-    };
-  }
+const getScrollingElement = () => {
+  const scrollingElement = document.querySelector('#scrolling-element');
+  if (scrollingElement === null)
+    throw new Error('#scrolling-element not found!');
+  const { height, top } = scrollingElement.getBoundingClientRect();
   return {
-    height: window.innerHeight,
-    top: 0,
-    eventTarget: window,
+    height,
+    top,
+    eventTarget: scrollingElement,
   };
 };
 
@@ -33,7 +26,7 @@ export const useScrollPointTabs = (
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const { eventTarget: scrollingElement } = getScrollingElement(isMobile);
+    const { eventTarget: scrollingElement } = getScrollingElement();
     let timeout: ReturnType<typeof setTimeout>;
     if (!scrollingElement) return;
 

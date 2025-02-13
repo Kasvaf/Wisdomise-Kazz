@@ -52,8 +52,9 @@ export default function PageCoinDetails() {
         <div className="relative flex flex-col gap-6 ">
           <CoinRadarTabs
             value={tabs}
-            className="sticky top-6 z-50 mb-6 w-full bg-v1-background-primary"
+            className="fixed top-16 z-50 w-full bg-v1-background-primary"
           />
+          <div className="mb-20" />
           <CoinPriceWidget slug={slug} className="!bg-transparent !p-1" />
           <SocialRadarSentimentWidget slug={slug} />
           <WhaleRadarSentimentWidget slug={slug} />
