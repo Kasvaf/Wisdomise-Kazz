@@ -81,7 +81,7 @@ const CoinPreDetailModal: React.FC<{
             </div>
           )}
 
-          <div className="h-24 !items-start !justify-start overflow-auto">
+          <div className="mb-4 flex h-24 flex-col items-start justify-end overflow-auto">
             <p className="mb-1 text-xxs">{t('pre_detail_modal.wise_labels')}</p>
             <CoinLabels
               categories={coinOverview.data?.symbol.categories}
