@@ -11,5 +11,9 @@ export default function EmbeddedContainer({
       document.body.style.background = 'transparent';
     } catch {}
   }, []);
-  return <AuthGuard>{children}</AuthGuard>;
+  return (
+    <div className="text-v1-content-primary">
+      <AuthGuard>{children}</AuthGuard>
+    </div>
+  );
 }
