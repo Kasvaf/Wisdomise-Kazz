@@ -61,12 +61,13 @@ const PageAccount: FC = () => {
             onClick={trackClick('subscription_menu')}
             badge={
               <Badge
-                color={subscription.remaining ? 'grey' : 'red'}
+                color={subscription.remaining ? 'white' : 'red'}
                 label={
-                  <span className="flex">
-                    <span className="text-xs">{subscription.title}</span>
+                  <span className="flex items-center gap-1">
+                    <span>{subscription.title}</span>
                     {subscription.level !== 0 && (
                       <>
+                        {'|'}
                         <ReadableDuration
                           value={subscription.remaining}
                           zeroText={t('pro:zero-hour')}
