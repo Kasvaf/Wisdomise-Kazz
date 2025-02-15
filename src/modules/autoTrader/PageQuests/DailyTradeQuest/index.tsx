@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import Button from 'shared/Button';
 import DailyProgress from 'modules/autoTrader/PageQuests/DailyTradeQuest/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
 import { useGamification, useGamificationAction } from 'api/gamification';
 import { StatusBadge } from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
 import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
+import { Button } from 'shared/v1-components/Button';
 import RewardModal from './RewardModal';
 import bg from './bg.png';
 import box from './box.png';
@@ -86,7 +86,7 @@ export default function DailyTradeQuest() {
             </StatusChip>
           ) : (
             <Button
-              variant="alternative"
+              variant="outline"
               className={clsx(
                 'mt-3 !px-4',
                 completedAll && rewardClaimed && 'hidden',
@@ -156,8 +156,8 @@ export default function DailyTradeQuest() {
                   <Stars className="absolute" />
                   <img src={box} className="my-4 h-16 w-16" alt="box" />
                   <Button
-                    size="small"
-                    variant="brand"
+                    size="xs"
+                    variant="primary"
                     className="relative w-full"
                     disabled={!completedAll}
                     onClick={claim}
@@ -169,8 +169,8 @@ export default function DailyTradeQuest() {
             </div>
           </div>
           <Button
-            variant="brand"
-            className="absolute bottom-6 end-4 start-4 z-10"
+            variant="primary"
+            className="!absolute bottom-6 end-4 start-4 z-10"
             onClick={() => {
               setOpen(false);
               navigate('/');
