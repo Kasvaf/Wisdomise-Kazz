@@ -11,7 +11,12 @@ const PageGameReward = React.lazy(
 const PageQuests = React.lazy(() => import('modules/autoTrader/PageQuests'));
 
 const PageTournamentDetail = React.lazy(
-  () => import('modules/autoTrader/PageQuests/PageTournamentDetail'),
+  () =>
+    import('../../autoTrader/PageQuests/PageTournaments/PageTournamentDetail'),
+);
+
+const PageTournaments = React.lazy(
+  () => import('modules/autoTrader/PageQuests/PageTournaments'),
 );
 
 const PagePositions = React.lazy(
@@ -49,7 +54,10 @@ const useAutoTraderRoutes = () => {
             { path: '', element: <PageQuests /> },
             {
               path: 'tournaments',
-              children: [{ path: ':id', element: <PageTournamentDetail /> }],
+              children: [
+                { path: '', element: <PageTournaments /> },
+                { path: ':id', element: <PageTournamentDetail /> },
+              ],
             },
           ],
         },

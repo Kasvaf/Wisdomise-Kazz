@@ -76,6 +76,7 @@ const useAccountRoutes = () => {
         {
           path: 'rewards',
           element: <PageRewards />,
+          handle: { crumb: t('menu.rewards.title') },
         },
       ],
     },

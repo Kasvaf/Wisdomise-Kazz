@@ -6,12 +6,12 @@ import {
   useTournamentLeaderboard,
   useTournamentMe,
 } from 'api/tournament';
-import TournamentCard from 'modules/autoTrader/PageQuests/TournamentCard';
+import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
 import { addComma } from 'utils/numbers';
 import empty from 'modules/autoTrader/PositionsList/empty.svg';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
-import TournamentsOnboarding from 'modules/autoTrader/PageQuests/TournamentsOnboarding';
+import TournamentsOnboarding from 'modules/autoTrader/PageQuests/PageTournaments/TournamentsOnboarding';
 import { ReactComponent as IconUser } from './user.svg';
 
 const PARTICIPANTS_COUNT = 50;

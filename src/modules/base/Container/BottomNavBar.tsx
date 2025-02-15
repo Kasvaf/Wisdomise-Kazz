@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useHasFlag } from 'api';
 import { DebugPin } from 'shared/DebugPin';
 import useMenuItems, { type RootMenuItem } from './useMenuItems';
@@ -8,6 +8,7 @@ import { TrialEndBanner } from './TrialEndBanner';
 const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   const { items: MenuItems } = useMenuItems();
   const hasFlag = useHasFlag();
+  const location = useLocation();
 
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
@@ -26,7 +27,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
     </NavLink>
   );
 
-  return (
+  return location.pathname.startsWith('/account') ? null : (
     <div
       className={clsx(
         'fixed bottom-0 z-50 hidden h-auto w-full mobile:block',

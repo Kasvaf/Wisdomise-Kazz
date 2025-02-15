@@ -19,7 +19,6 @@ import {
   ExternalAccountIcon,
   ReferralIcon,
   RewardIcon,
-  AlertsIcon,
   UserIcon,
 } from './icons';
 
@@ -91,14 +90,6 @@ const PageAccount: FC = () => {
           />
         )}
         <PageCard
-          className="hidden mobile:flex"
-          to="/coin-radar/alerts"
-          title={t('menu.alerts.title')}
-          description={t('menu.alerts.subtitle-2')}
-          icon={AlertsIcon}
-          onClick={trackClick('alerts_menu')}
-        />
-        <PageCard
           to="/account/exchange-accounts"
           title={t('menu.account-manager.title')}
           description={t('menu.account-manager.subtitle')}
@@ -137,13 +128,6 @@ const PageAccount: FC = () => {
             onClick={trackClick('game_rewards_menu')}
           />
         )}
-        {/* <PageCard */}
-        {/*   to="/account/settings" */}
-        {/*   title={t('menu.settings.title')} */}
-        {/*   description={t('menu.settings.subtitle')} */}
-        {/*   icon={SettingsIcon} */}
-        {/*   onClick={trackClick('settings_menu')} */}
-        {/* /> */}
       </div>
     </PageWrapper>
   );
