@@ -17,6 +17,7 @@ export const CoinSelect: FC<
     priceExchange?: PricesExchange | 'auto';
     emptyOption?: string;
     mini?: boolean;
+    tradableCoinsOnly?: boolean;
   }
 > = ({
   value,
@@ -26,11 +27,12 @@ export const CoinSelect: FC<
   priceExchange,
   emptyOption,
   mini = true,
+  tradableCoinsOnly,
   ...props
 }) => {
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
-  const coinList = useCoins({ query: q });
+  const coinList = useCoins({ query: q, tradableCoinsOnly });
 
   const coin = useCoinDetails({ slug: value ?? 'tether' });
   const { data: lastPrice } = useLastPriceQuery({

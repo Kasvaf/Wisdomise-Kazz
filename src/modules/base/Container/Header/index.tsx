@@ -35,7 +35,7 @@ const Header: React.FC<
         )}
       >
         {isMobile ? (
-          <div className="relative flex w-full items-center justify-between">
+          <div className="flex w-[calc(100vw-2rem)] items-center justify-between">
             {pathname.startsWith('/account') ? (
               <>
                 <div className="w-1/2">
