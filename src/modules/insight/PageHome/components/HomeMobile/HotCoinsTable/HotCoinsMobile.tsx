@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
+import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { Coin } from 'shared/Coin';
@@ -10,11 +10,16 @@ import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/component
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinLabels } from 'shared/CoinLabels';
 import { AccessShield } from 'shared/AccessShield';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import CoinPreDetailModal from '../CoinPreDetailModal';
 
 export const HotCoinsMobile = () => {
   const { t } = useTranslation('insight');
-  const [network, setNetwork] = useState<string | undefined>(undefined);
+  const hasFlag = useHasFlag();
+  const [network, setNetwork] = useSearchParamAsState<string>(
+    'network',
+    hasFlag('/trader-positions?mobile') ? 'solana' : '',
+  );
 
   const coins = useCoinRadarCoins({
     networks: network ? [network] : [],
@@ -109,7 +114,7 @@ export const HotCoinsMobile = () => {
           value={network}
           allowClear
           multiple={false}
-          onChange={setNetwork}
+          onChange={newNetwork => setNetwork(newNetwork ?? '')}
           size="sm"
           valueType="slug"
           filter="social-radar-24-hours"
