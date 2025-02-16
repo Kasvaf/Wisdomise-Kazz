@@ -6,6 +6,7 @@ import {
   type RsiConfirmation,
 } from 'api';
 import { MiniBar } from 'shared/MiniBar';
+import { isDebugMode } from 'utils/version';
 import { ConfirmationBadge } from '../ConfirmationWidget/ConfirmationBadge';
 import Bullish from './bullish.png';
 import Bearish from './bearish.png';
@@ -91,7 +92,7 @@ export const TechnicalSentiment: FC<{
             src={isGreen ? Bullish : Bearish}
             className="size-7 shrink-0 object-contain"
           />
-          <MiniBar value={score} />
+          {isDebugMode && <MiniBar value={score} />}
         </>
       )}
     </div>

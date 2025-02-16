@@ -5,6 +5,7 @@ import { type SocialRadarSentiment } from 'api';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { ReadableDate } from 'shared/ReadableDate';
 import { MiniBar } from 'shared/MiniBar';
+import { isDebugMode } from 'utils/version';
 import { SocialSentimentModal } from './SocialSentimentModal';
 import { SocialSentimentTitle } from './SocialSentimentTitle';
 
@@ -46,7 +47,7 @@ export const SocialSentiment: FC<{
             iconSize={28}
             className="shrink-0"
           />
-          <MiniBar value={value?.gauge_measure ?? 0} />
+          {isDebugMode && <MiniBar value={value?.gauge_measure ?? 0} />}
           {detailsLevel === 2 && (
             <span className={clsx('whitespace-nowrap ps-1', className)}>
               <div className="flex items-center gap-1 text-sm capitalize">
