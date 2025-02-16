@@ -8,6 +8,7 @@ import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
 import { isLocal } from 'utils/version';
 import { useUserStorage } from './userStorage';
+import { useDisconnectAll } from './chains';
 
 interface SuccessResponse {
   message: 'ok';
@@ -220,13 +221,15 @@ export function useMiniAppWebLoginMutation() {
 
 export function useLogoutMutation() {
   const client = useQueryClient();
+  const disconnectChains = useDisconnectAll();
+
   return useMutation<boolean, unknown, unknown>(async () => {
     const data = await ofetch<SuccessResponse>(
       `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/logout/`,
       { credentials: 'include', body: {}, method: 'post' },
     );
     delJwtToken();
-    await client.invalidateQueries({});
+    await Promise.all([disconnectChains(), client.invalidateQueries({})]);
     return data.message === 'ok';
   });
 }
