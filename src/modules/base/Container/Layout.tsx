@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import React, { useRef, useState, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
+import { useHubSpot } from 'config/hubSpot';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
 import Header from './Header';
@@ -10,6 +11,7 @@ import BottomNavBar from './BottomNavBar';
 import { usePageSiblings } from './Header/Breadcrumb';
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
+  useHubSpot();
   const isMobile = useIsMobile();
   const mainRef = useRef<HTMLDivElement>(null);
   const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);

@@ -7,14 +7,12 @@ import {
   useMiniAppTgLoginMutation,
   useMiniAppWebLoginMutation,
 } from 'api/auth';
-import { useDebugMode } from 'shared/useDebugMode';
 import useConfirm from 'shared/useConfirm';
 import useStartParams from '../../autoTrader/useStartParams';
 import Splash from '../Splash';
 import { useTelegram } from './TelegramProvider';
 
 export default function TelegramAuthGuard({ children }: PropsWithChildren) {
-  useDebugMode();
   const { webApp } = useTelegram();
 
   const { mutateAsync: doConnect } = useMiniAppConnectMutation();

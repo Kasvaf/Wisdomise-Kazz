@@ -4,8 +4,8 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 
 export const useHubSpot = () => {
-  const { data: account } = useAccountQuery();
   const isLoggedIn = useIsLoggedIn();
+  const { data: account } = useAccountQuery();
   const { isEmbeddedView } = useEmbedView();
 
   useEffect(() => {
