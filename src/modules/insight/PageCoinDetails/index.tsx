@@ -10,7 +10,6 @@ import { CoinSocialFeedWidget } from './components/CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from './components/CoinAvailableExchangesWidget';
 import { TechnicalIdeasWidget } from './components/TechnicalIdeasWidget';
 import { PageCoinDetailsMeta } from './components/PageCoinDetailsMeta';
-import { HotCoinsWidget } from './components/HotCoinsWidget';
 import { CoinIntroductionWidget } from './components/CoinIntroductionWidget';
 import { CoinRadarTabs } from './components/CoinRadarTabs';
 import { CoinLinksWidget } from './components/CoinLinksWidget';
@@ -69,7 +68,6 @@ export default function PageCoinDetails() {
             slug={slug}
             id="coinoverview_exchanges"
           />
-          <HotCoinsWidget slug={slug} />
           <CoinIntroductionWidget slug={slug} />
         </div>
       ) : (
@@ -103,7 +101,6 @@ export default function PageCoinDetails() {
               slug={slug}
               id="coinoverview_exchanges"
             />
-            <HotCoinsWidget slug={slug} />
             <CoinIntroductionWidget slug={slug} />
           </div>
         </div>
