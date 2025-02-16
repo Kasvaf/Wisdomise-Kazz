@@ -16,7 +16,7 @@ export const TechnicalRadarCoinsTable: FC<{
 }> = ({ onClick }) => {
   const [, tableState, setTableState] = useTableState<
     Required<Parameters<typeof useTechnicalRadarCoins>[0]>
-  >('', {
+  >('overviewTable', {
     page: 1,
     pageSize: 10,
     sortBy: 'rank',
