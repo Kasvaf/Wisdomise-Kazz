@@ -25,6 +25,7 @@ const useShield = (
   const shield = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
   const [height, setHeight] = useState(150);
+  const [maxHeight, setMaxHeight] = useState(150);
 
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const updateStyle = useCallback(() => {
@@ -52,6 +53,7 @@ const useShield = (
         if (!isActive) {
           shield.current.style.display = 'none';
           root.current.style.overflow = '';
+          return;
         }
 
         const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
@@ -59,25 +61,26 @@ const useShield = (
           ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
         );
         const minHeight = 40;
+        const [h, mh] = [
+          bottom - top,
+          Math.max(minHeight, root.current.offsetHeight),
+        ];
         root.current.setAttribute('size', size.toString());
         root.current.style.overflow = size === true ? 'hidden' : '';
         root.current.style.maxHeight = size === true ? '100%' : '';
         root.current.style.position = 'relative';
-        shield.current.style.maxHeight = `${Math.max(
-          minHeight,
-          root.current.offsetHeight,
-        )}px`;
-        // shield.current.style.minHeight = `${minHeight}px`;
+        shield.current.style.maxHeight = `${mh}px`;
         shield.current.style.top = `${top}px`;
         shield.current.style.left = '0px';
         shield.current.style.width = '100%';
-        shield.current.style.height = `${bottom - top}px`;
+        shield.current.style.height = `${h}px`;
         shield.current.style.overflow = 'hidden';
         shield.current.style.position = 'absolute';
         shield.current.style.margin = '0';
         shield.current.style.display = '';
         shield.current.style.willChange = 'height';
-        setHeight(bottom - top);
+        setHeight(h);
+        setMaxHeight(mh);
       } catch {
       } finally {
         setIsReady(true);
@@ -87,7 +90,7 @@ const useShield = (
 
   useInterval(() => updateStyle(), 500);
 
-  return { root, shield, isReady, height };
+  return { root, shield, isReady, height, maxHeight };
 };
 
 export function AccessShield({
@@ -123,18 +126,22 @@ export function AccessShield({
     return allowdGroup;
   }, [group, sizes, size]);
 
-  const { root, shield, height, isReady } = useShield(mode, size);
+  const { root, shield, height, maxHeight, isReady } = useShield(mode, size);
 
   return (
     <>
-      <div ref={root} className={clsx(!isReady && 'blur', className)}>
+      <div
+        ref={root}
+        className={clsx(!isReady && 'blur transition-all', className)}
+      >
         {children}
         {calcSize(size) > 0 && (
           <div
             className={clsx(
               'z-[2] w-full rounded-xl',
               height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
-              'flex flex-col items-center justify-center backdrop-blur',
+              maxHeight < 900 ? 'justify-center' : 'justify-start',
+              'flex flex-col items-center backdrop-blur',
               'bg-[rgba(29,38,47,0.2)]',
               !isReady && 'hidden',
             )}
