@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import React, { useRef, useState, type PropsWithChildren } from 'react';
+import React, { useState, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
@@ -11,7 +11,6 @@ import { usePageSiblings } from './Header/Breadcrumb';
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   const isMobile = useIsMobile();
-  const mainRef = useRef<HTMLDivElement>(null);
   const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
   const { PageSiblings, height, showSiblings, setShowSiblings } =
     usePageSiblings();
@@ -35,12 +34,10 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       </Header>
 
       <div
-        ref={mainRef}
-        id="scrolling-element"
         className={clsx(
-          ' overflow-auto',
-          'ml-[--side-menu-width] h-[calc(100svh-5rem)] p-6',
-          'mobile:ml-0 mobile:h-[calc(100svh-4rem)] mobile:px-4 mobile:pb-[6.5rem] mobile:pt-0',
+          'overflow-visible',
+          'ml-[--side-menu-width] p-6',
+          'mobile:ml-0 mobile:px-4 mobile:pb-[0rem] mobile:pt-0',
         )}
       >
         <div style={{ height }} />

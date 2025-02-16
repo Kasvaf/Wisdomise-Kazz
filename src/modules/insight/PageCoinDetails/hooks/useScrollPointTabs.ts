@@ -3,9 +3,9 @@ import { type ReactNode, useEffect, useRef, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 
 const getScrollingElement = () => {
-  const scrollingElement = document.querySelector('#scrolling-element');
+  const scrollingElement = document.scrollingElement ?? document.body;
   if (scrollingElement === null)
-    throw new Error('#scrolling-element not found!');
+    throw new Error('scrolling-element not found!');
   const { height, top } = scrollingElement.getBoundingClientRect();
   return {
     height,

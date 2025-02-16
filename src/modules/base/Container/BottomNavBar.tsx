@@ -28,7 +28,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <>
-      <div className="relative h-[6.5rem]" />
+      <div className="relative hidden h-[8rem] mobile:block" />
       <div
         className={clsx(
           'fixed bottom-0 z-50 hidden h-16 w-full mobile:block',
