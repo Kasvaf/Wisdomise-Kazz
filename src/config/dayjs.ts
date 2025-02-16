@@ -21,19 +21,19 @@ export default function configDayjs() {
   dayjs.extend(weekYear);
   dayjs.updateLocale('en', {
     relativeTime: {
-      future: 'in %s',
+      future: 'In %s',
       past: '%s Ago',
-      s: 'Just Now',
-      m: '1m',
-      mm: '%d‌m',
-      h: '1H',
-      hh: '%d‌H',
-      d: '1D',
-      dd: '%d‌D',
-      M: '!M',
-      MM: '%d‌M',
-      y: '1Y',
-      yy: '%d‌Y',
+      s: '30 Seconds',
+      m: '1 Minute',
+      mm: '%d Minutes',
+      h: '1 Hour',
+      hh: '%d Hours',
+      d: '1 Day',
+      dd: '%d Days',
+      M: '1 Month',
+      MM: '%d Months',
+      y: '1 Year',
+      yy: '%d Years',
     },
   });
 }
