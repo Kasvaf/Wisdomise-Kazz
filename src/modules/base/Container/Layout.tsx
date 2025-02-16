@@ -17,7 +17,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <main
-      className="relative mx-auto max-w-[2304px] bg-v1-surface-l1"
+      className="relative mx-auto h-auto max-w-[2304px] bg-v1-surface-l1"
       style={{
         ['--side-menu-width' as any]: `${sideMenuCollapsed ? 74 : 260}px`,
       }}
@@ -35,9 +35,8 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
 
       <div
         className={clsx(
-          'overflow-visible',
           'ml-[--side-menu-width] p-6',
-          'mobile:ml-0 mobile:px-4 mobile:pb-[0rem] mobile:pt-0',
+          'mobile:ml-0 mobile:px-4 mobile:py-0',
         )}
       >
         <div style={{ height }} />
