@@ -11,6 +11,7 @@ import Table from 'shared/Table';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { Coin } from 'shared/Coin';
 import { type Coin as CoinType } from 'api/types/shared';
+import { AccessShield } from 'shared/AccessShield';
 
 export const CoinWhalesWidget: FC<{
   id?: string;
@@ -126,14 +127,26 @@ export const CoinWhalesWidget: FC<{
       }}
       loading={whales.isLoading}
     >
-      <Table
-        columns={columns}
-        dataSource={whales.data ?? []}
-        rowKey={r => r.holder_address}
-        pagination={{
-          pageSize: 5,
+      <AccessShield
+        mode="table"
+        sizes={{
+          'guest': true,
+          'free': true,
+          'trial': 3,
+          'pro': 3,
+          'pro+': 3,
+          'pro_max': false,
         }}
-      />
+      >
+        <Table
+          columns={columns}
+          dataSource={whales.data ?? []}
+          rowKey={r => r.holder_address}
+          pagination={{
+            pageSize: 5,
+          }}
+        />
+      </AccessShield>
     </OverviewWidget>
   );
 };
