@@ -169,7 +169,7 @@ const MenuItemsContent: React.FC<{
 
       {ModalLogin}
       <div className="grow" />
-      {!collapsed && <TrialEndBanner className="mobile:hidden" />}
+      {!collapsed && <TrialEndBanner className="relative mobile:hidden" />}
       <div className="mt-12 text-white">
         {extraItems.map(item => (
           <NavLink

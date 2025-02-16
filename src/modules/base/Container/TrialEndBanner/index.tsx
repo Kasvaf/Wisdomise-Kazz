@@ -24,8 +24,8 @@ export const TrialEndBanner: FC<{ className?: string }> = ({ className }) => {
   return (
     <Link
       className={clsx(
-        'flex flex-col items-center gap-3 mobile:flex-row ',
-        'relative overflow-hidden rounded-md bg-pro-gradient p-3 text-xs mobile:h-10 mobile:rounded-none',
+        'flex w-full flex-col items-center gap-3 text-v1-content-primary-inverse mobile:flex-row',
+        'overflow-hidden rounded-md bg-pro-gradient p-3 text-xs mobile:h-10 mobile:rounded-none',
         'transition-all hover:brightness-105 active:brightness-90',
         className,
       )}
