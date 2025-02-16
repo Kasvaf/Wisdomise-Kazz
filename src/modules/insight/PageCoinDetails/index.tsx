@@ -73,7 +73,7 @@ export default function PageCoinDetails() {
       ) : (
         <div className="relative grid grid-cols-3 lg:gap-3 2xl:gap-6">
           <div>
-            <div className="sticky top-0 flex flex-col lg:gap-3 2xl:gap-6">
+            <div className="sticky top-20 flex flex-col lg:gap-3 2xl:gap-6">
               <CoinPriceWidget slug={slug} />
               <CoinStatsWidget slug={slug} />
               <CoinLinksWidget slug={slug} />

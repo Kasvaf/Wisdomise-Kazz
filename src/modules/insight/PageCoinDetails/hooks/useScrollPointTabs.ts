@@ -2,18 +2,6 @@ import { type TabsProps } from 'antd';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 
-const getScrollingElement = () => {
-  const scrollingElement = document.scrollingElement ?? document.body;
-  if (scrollingElement === null)
-    throw new Error('scrolling-element not found!');
-  const { height, top } = scrollingElement.getBoundingClientRect();
-  return {
-    height,
-    top,
-    eventTarget: scrollingElement,
-  };
-};
-
 export const useScrollPointTabs = (
   items: Array<{
     key: string;
@@ -26,9 +14,7 @@ export const useScrollPointTabs = (
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const { eventTarget: scrollingElement } = getScrollingElement();
     let timeout: ReturnType<typeof setTimeout>;
-    if (!scrollingElement) return;
 
     const scrollHandler = () => {
       clearTimeout(timeout);
@@ -50,9 +36,9 @@ export const useScrollPointTabs = (
         setActiveKey(closestItem.key || items[0].key);
       }, 100);
     };
-    scrollingElement.addEventListener('scroll', scrollHandler);
+    window.addEventListener('scroll', scrollHandler);
     return () => {
-      scrollingElement.removeEventListener('scroll', scrollHandler);
+      window.removeEventListener('scroll', scrollHandler);
     };
   }, [items, threshold, isMobile]);
 
