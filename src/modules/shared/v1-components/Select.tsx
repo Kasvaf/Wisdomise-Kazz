@@ -223,7 +223,7 @@ export function Select<V, M extends boolean = false>({
 
   useEffect(() => {
     if (!isOpen) onSearch?.('');
-    if (isOpen && searchRef.current) {
+    if (isOpen && searchRef.current && !isMobile) {
       searchRef.current.focus();
     }
     if (isOpen) {
@@ -240,7 +240,7 @@ export function Select<V, M extends boolean = false>({
         window.removeEventListener('focusout', blurHandler);
       };
     }
-  }, [isOpen, onSearch]);
+  }, [isOpen, isMobile, onSearch]);
 
   const valueAsArray = useMemo(
     () => (value === undefined ? [] : multiple ? value : [value]) as V[],
