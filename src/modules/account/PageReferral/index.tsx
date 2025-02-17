@@ -90,7 +90,7 @@ export default function ReferralPage() {
           </p>
         </div>
         <div className="ml-8 h-full border border-v1-border-primary/10"></div>
-        <div className="flex h-full grow flex-col justify-between">
+        <div className="flex h-full max-w-64 grow flex-col justify-between">
           <div className="flex items-center justify-between text-xs">
             <span className="text-v1-content-secondary">
               {t('page-referral.subscription')}
