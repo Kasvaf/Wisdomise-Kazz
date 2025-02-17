@@ -282,7 +282,11 @@ export function Select<V, M extends boolean = false>({
 
   const popupContent = useMemo(
     () => (
-      <div className="w-full overflow-hidden" ref={titleRef} tabIndex={-1}>
+      <div
+        className="flex h-full max-h-[92dvh] w-full flex-col overflow-hidden"
+        ref={titleRef}
+        tabIndex={-1}
+      >
         {showSearch && (
           <div className="p-4">
             <input
@@ -294,7 +298,7 @@ export function Select<V, M extends boolean = false>({
             />
           </div>
         )}
-        <div className="relative flex max-h-48 flex-col gap-px overflow-auto mobile:max-h-96">
+        <div className="relative flex max-h-48 shrink grow flex-col gap-px overflow-auto mobile:max-h-none">
           {loading ? (
             <div
               className="flex min-h-12 items-center justify-center"
@@ -366,6 +370,11 @@ export function Select<V, M extends boolean = false>({
                 ))}
             </>
           )}
+        </div>
+        <div className="hidden p-4 mobile:block">
+          <Button variant="ghost" block className="w-full" surface={5}>
+            {'Close'}
+          </Button>
         </div>
       </div>
     ),
@@ -469,11 +478,6 @@ export function Select<V, M extends boolean = false>({
         height="auto"
       >
         {popupContent}
-        <div className="p-4">
-          <Button variant="ghost" block className="w-full" surface={5}>
-            {'Close'}
-          </Button>
-        </div>
       </AntDrawer>
     </>
   ) : (
