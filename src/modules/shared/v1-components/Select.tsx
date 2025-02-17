@@ -371,17 +371,19 @@ export function Select<V, M extends boolean = false>({
             </>
           )}
         </div>
-        <div className="hidden p-4 mobile:block">
-          <Button
-            variant="ghost"
-            block
-            className="w-full"
-            surface={5}
-            onClick={() => setIsOpen(false)}
-          >
-            {'Close'}
-          </Button>
-        </div>
+        {isMobile && (
+          <div className="p-4">
+            <Button
+              variant="ghost"
+              block
+              className="w-full"
+              surface={5}
+              onClick={() => setIsOpen(false)}
+            >
+              {'Close'}
+            </Button>
+          </div>
+        )}
       </div>
     ),
     [
@@ -396,6 +398,7 @@ export function Select<V, M extends boolean = false>({
       showSearch,
       size,
       valueAsArray,
+      isMobile,
     ],
   );
 
