@@ -23,63 +23,60 @@ const Header: React.FC<
   const { pathname } = useLocation();
 
   return (
-    <>
-      <div className="relative h-20 mobile:h-16" />
+    <div
+      className={clsx(
+        'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-v1-background-primary',
+        'h-20 mobile:h-16',
+        className,
+      )}
+    >
       <div
         className={clsx(
-          'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-v1-background-primary',
-          'h-20 mobile:h-16',
-          className,
+          'flex h-full items-center gap-3 p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
         )}
       >
-        <div
-          className={clsx(
-            'flex h-full items-center gap-3 p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
-          )}
-        >
-          {isMobile ? (
-            <div className="flex w-full items-center justify-between">
-              <div className="mr-2 w-1/2">
-                <ProfileMenu className="w-full" />
-              </div>
-
-              {/* // weird class hides it when there's a button on right */}
-              <div className="shrink-0 has-[+div>*]:hidden">
-                <Breadcrumb
-                  showLogo={true}
-                  showSiblings={showSiblings}
-                  onShowSiblings={onShowSiblings}
-                />
-              </div>
-
-              <div
-                className={clsx(
-                  'ml-2 flex w-1/2 justify-end',
-                  // in mini-app, we want logo on right (more space needed for left)
-                  isMiniApp && '[&:not(:has(*))]:hidden',
-                )}
-              >
-                {pathname.startsWith('/account') ? (
-                  <BtnLiveSupport />
-                ) : (
-                  <BtnWalletConnect />
-                )}
-              </div>
+        {isMobile ? (
+          <div className="flex w-full items-center justify-between">
+            <div className="mr-2 w-1/2">
+              <ProfileMenu className="w-full" />
             </div>
-          ) : (
-            <>
-              <Breadcrumb className="pl-6" />
-              <div className="grow" />
-              {RouterBaseName && <BranchSelector />}
-              <LanguageSelector />
-              <BtnWalletConnect />
-              <ProfileMenu />
-            </>
-          )}
-        </div>
-        {children}
+
+            {/* // weird class hides it when there's a button on right */}
+            <div className="shrink-0 has-[+div>*]:hidden">
+              <Breadcrumb
+                showLogo={true}
+                showSiblings={showSiblings}
+                onShowSiblings={onShowSiblings}
+              />
+            </div>
+
+            <div
+              className={clsx(
+                'ml-2 flex w-1/2 justify-end',
+                // in mini-app, we want logo on right (more space needed for left)
+                isMiniApp && '[&:not(:has(*))]:hidden',
+              )}
+            >
+              {pathname.startsWith('/account') ? (
+                <BtnLiveSupport />
+              ) : (
+                <BtnWalletConnect />
+              )}
+            </div>
+          </div>
+        ) : (
+          <>
+            <Breadcrumb className="pl-6" />
+            <div className="grow" />
+            {RouterBaseName && <BranchSelector />}
+            <LanguageSelector />
+            <BtnWalletConnect />
+            <ProfileMenu />
+          </>
+        )}
       </div>
-    </>
+      {children}
+    </div>
   );
 };
 

@@ -37,6 +37,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         className={clsx(
           'ml-[--side-menu-width] p-6',
           'mobile:ml-0 mobile:px-4 mobile:py-0',
+          'mt-20 mobile:mb-[7rem] mobile:mt-16',
         )}
       >
         <div style={{ height }} />
