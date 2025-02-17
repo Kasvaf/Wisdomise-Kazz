@@ -122,19 +122,6 @@ coin-details:
         Indicator of liquidity. The higher the ratio, the more liquid the
         cryptocurrency is, which should make it easier for it to be bought/sold
         on an exchange close to its value.
-    hot_coins:
-      title: Social Radar Hottest Coins
-      empty:
-        title: No Hot Coins Right Now
-        subtitle: >-
-          The market’s quiet, but we’re monitoring closely. New hot coins will
-          appear here soon!
-      filters:
-        all: All
-      table:
-        name: Name
-        24h_chg: 24 Chg
-        price: Price
     markets:
       title: Available Exchange
       subtitle: >-
@@ -240,9 +227,10 @@ social-messages:
 social-radar:
   sorts:
     market_cap: Market Cap
+    negative_price_changes: Highest Losers
     newest: Newest
     oldest: Oldest
-    price_change: 24H Chg
+    positive_price_changes: Highest Gainers
     rank: Wise Rank™
   table:
     name: Name

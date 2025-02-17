@@ -99,22 +99,47 @@ export function TechnicalRadarFilters({
         <p className="mb-1 text-xs">{t('common:sorted-by')}</p>
         <ButtonSelect
           size={isMobile ? 'sm' : 'md'}
-          value={localState.sortBy}
+          value={JSON.stringify({
+            sortBy: localState.sortBy ?? 'rank',
+            sortOrder: localState.sortOrder ?? 'ascending',
+          })}
           options={[
             {
               label: t('table.sorts.rank'),
-              value: 'rank',
+              value: JSON.stringify({
+                sortBy: 'rank',
+                sortOrder: 'ascending',
+              }),
             },
             {
-              label: t('table.sorts.price_change'),
-              value: 'price_change',
+              label: t('table.sorts.positive_price_changes'),
+              value: JSON.stringify({
+                sortBy: 'price_change',
+                sortOrder: 'descending',
+              }),
+            },
+            {
+              label: t('table.sorts.negative_price_changes'),
+              value: JSON.stringify({
+                sortBy: 'price_change',
+                sortOrder: 'ascending',
+              }),
             },
             {
               label: t('table.sorts.market_cap'),
-              value: 'market_cap',
+              value: JSON.stringify({
+                sortBy: 'market_cap',
+                sortOrder: 'descending',
+              }),
             },
           ]}
-          onChange={sortBy => onChange?.({ sortBy })}
+          onChange={newVal => {
+            const newSort = JSON.parse(newVal);
+            onChange?.({
+              sortBy: newSort.sortBy,
+              sortOrder: newSort.sortOrder as never,
+            });
+          }}
           surface={surface}
         />
       </div>

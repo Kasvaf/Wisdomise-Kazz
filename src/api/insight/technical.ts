@@ -297,12 +297,12 @@ export const useTechnicalRadarCoins = (config: {
           const sorter = createSorter(config.sortOrder);
           if (config.sortBy === 'price_change')
             return sorter(
-              b.data?.price_change_percentage_24h,
               a.data?.price_change_percentage_24h,
+              b.data?.price_change_percentage_24h,
             );
 
           if (config.sortBy === 'market_cap')
-            return sorter(b.data?.market_cap, a.data?.market_cap);
+            return sorter(a.data?.market_cap, b.data?.market_cap);
           return sorter(a.rank, b.rank);
         });
     },

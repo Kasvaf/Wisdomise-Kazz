@@ -160,6 +160,13 @@ export function WhaleRadarFilters({
               }),
             },
             {
+              label: t('top_coins.sorts.most_sold'),
+              value: JSON.stringify({
+                sortBy: 'sell',
+                sortOrder: 'descending',
+              }),
+            },
+            {
               label: t('top_coins.sorts.highest_transfer_vol'),
               value: JSON.stringify({
                 sortBy: 'transfer',
@@ -174,7 +181,14 @@ export function WhaleRadarFilters({
               }),
             },
             {
-              label: t('top_coins.sorts.price_change'),
+              label: t('top_coins.sorts.positive_price_changes'),
+              value: JSON.stringify({
+                sortBy: 'price_change',
+                sortOrder: 'descending',
+              }),
+            },
+            {
+              label: t('top_coins.sorts.negative_price_changes'),
               value: JSON.stringify({
                 sortBy: 'price_change',
                 sortOrder: 'ascending',
@@ -184,7 +198,7 @@ export function WhaleRadarFilters({
               label: t('top_coins.sorts.market_cap'),
               value: JSON.stringify({
                 sortBy: 'market_cap',
-                sortOrder: 'ascending',
+                sortOrder: 'descending',
               }),
             },
           ]}

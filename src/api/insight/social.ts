@@ -144,8 +144,8 @@ export const useSocialRadarCoins = (config: {
             return sorter(a.last_signal_related_at, b.last_signal_related_at);
           if (config.sortBy === 'price_change')
             return sorter(
-              b.symbol_market_data.price_change_percentage_24h,
               a.symbol_market_data.price_change_percentage_24h,
+              b.symbol_market_data.price_change_percentage_24h,
             );
 
           if (config.sortBy === 'market_cap')

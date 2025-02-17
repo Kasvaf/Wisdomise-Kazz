@@ -165,7 +165,14 @@ export function SocialRadarFilters({
               }),
             },
             {
-              label: t('social-radar.sorts.price_change'),
+              label: t('social-radar.sorts.positive_price_changes'),
+              value: JSON.stringify({
+                sortBy: 'price_change',
+                sortOrder: 'descending',
+              }),
+            },
+            {
+              label: t('social-radar.sorts.negative_price_changes'),
               value: JSON.stringify({
                 sortBy: 'price_change',
                 sortOrder: 'ascending',
