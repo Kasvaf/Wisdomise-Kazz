@@ -46,3 +46,8 @@ page-referral:
   subscription: Subscription
   total-referrals: Total Referrals
   trader: Trader
+  bonus:
+    title: Bonus Bag
+    ready: Ready to Claim
+    description: Your Reward Will Be Paid in USDT.
+    claim: Soon...
