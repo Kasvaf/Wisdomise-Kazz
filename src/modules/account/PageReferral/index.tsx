@@ -8,27 +8,25 @@ import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { useShare } from 'shared/useShare';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
-import {
-  useTelegram,
-  useTelegramProfile,
-} from 'modules/base/mini-app/TelegramProvider';
+import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { isMiniApp } from 'utils/version';
+import HowReferralWorks from 'modules/account/PageReferral/HowReferralWorks';
 import trader from './images/trader.png';
 import { ReactComponent as Logo } from './images/logo.svg';
 import { ReactComponent as Users } from './images/users.svg';
+import { ReactComponent as IconUser } from './images/user.svg';
 
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
-  const profile = useTelegramProfile();
 
-  const [copy] = useShare('copy');
+  const [copy, content] = useShare('copy');
   const [share] = useShare('share');
   const myOrigin = window.location.origin;
   const webReferralLink = `${myOrigin}/ref/${referral?.referral_code ?? ''}`;
-  const tgReferralLink = `${AUTO_TRADER_MINI_APP_BASE}?startapp=ref_${
-    profile?.id ?? ''
+  const tgReferralLink = `${AUTO_TRADER_MINI_APP_BASE}?startapp=referrer_${
+    referral?.referral_code ?? ''
   }`;
   const myReferralLink = isMiniApp ? tgReferralLink : webReferralLink;
   const { webApp } = useTelegram();
@@ -49,9 +47,7 @@ export default function ReferralPage() {
       <p className="mb-2 text-sm text-v1-content-secondary">
         {t('page-referral.subtitle')}
       </p>
-      <Button variant="link" className="mb-5 !p-0 !text-v1-content-link">
-        {t('page-referral.how.button')}
-      </Button>
+      <HowReferralWorks />
 
       <div
         className="inset-x-0 bottom-0 mb-5 rounded-xl bg-v1-surface-l2 p-6 mobile:fixed mobile:mb-0 mobile:rounded-none"
@@ -170,13 +166,13 @@ export default function ReferralPage() {
         {referredUsers?.results.map(user => (
           <div
             key={user.created_at}
-            className="flex items-center gap-3 rounded-xl bg-v1-surface-l2 p-3"
+            className="mb-3 flex items-center gap-3 rounded-xl bg-v1-surface-l2 p-3"
           >
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
-              {/* <IconUser /> */}
+              <IconUser />
             </div>
             <div>
-              <h2>{user.name}</h2>
+              <h3 className="text-sm">{user.name}</h3>
               <p className="text-xxs text-v1-content-secondary">
                 {new Date(user.created_at).toLocaleString()}
               </p>
@@ -211,6 +207,7 @@ export default function ReferralPage() {
           </div>
         ))}
       </div>
+      {content}
     </PageWrapper>
   );
 }

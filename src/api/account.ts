@@ -41,9 +41,9 @@ interface ReferralStatus {
 
 interface ReferredUser {
   name: string;
-  created_at: number;
-  is_subscribed: true;
-  is_trader: true;
+  created_at: string;
+  is_subscribed: boolean;
+  is_trader: boolean;
 }
 
 export function useReferralStatusQuery() {
