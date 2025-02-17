@@ -15,7 +15,8 @@ import Icon from 'shared/Icon';
 import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Risk } from './risk.svg';
 import { ReactComponent as Warning } from './warning.svg';
-import Social from './social.png';
+import { ReactComponent as SocialMonthly } from './social_monthly.svg';
+import { ReactComponent as SocialWeekly } from './social_weekly.svg';
 import Hype from './hype.png';
 import { CoinSecurityDetails } from './CoinSecurityDetails';
 
@@ -59,19 +60,19 @@ export function CoinLabel({
         name: 'weekly_social_beloved',
         text: 'Social Weekly Trend',
         type: 'trend_labels',
-        icon: <img src={Social} />,
+        icon: <SocialWeekly />,
         info: t('coin_labels.weekly_social_beloved.info'),
-        color: clsx('bg-v1-content-brand/10 text-v1-content-brand'),
+        color: clsx(
+          'bg-v1-background-secondary-hover/10 text-v1-background-secondary-hover',
+        ),
       },
       {
         name: 'monthly_social_beloved',
         text: 'Social Monthly Trend',
         type: 'trend_labels',
-        icon: <img src={Social} />,
+        icon: <SocialMonthly />,
         info: t('coin_labels.monthly_social_beloved.info'),
-        color: clsx(
-          'bg-v1-background-secondary-hover/10 text-v1-background-secondary-hover',
-        ),
+        color: clsx('bg-v1-content-brand/10 text-v1-content-brand'),
       },
       {
         name: 'trusted',
@@ -141,7 +142,7 @@ export function CoinLabel({
       className={clsx(
         sharedLabelClassName,
         renderData.className,
-        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:size-4 [&_svg]:shrink-0',
+        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:!size-4 [&_svg]:shrink-0',
         className,
       )}
     >
