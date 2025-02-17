@@ -6,6 +6,7 @@ import { ReactComponent as IconPositions } from './icons/positions.svg';
 import { ReactComponent as IconInsight } from './icons/insight.svg';
 import { ReactComponent as IconAccount } from './icons/account.svg';
 import { ReactComponent as IconQuests } from './icons/quests.svg';
+import { ReactComponent as IconHome } from './icons/home.svg';
 
 interface MenuItem {
   text: string;
@@ -28,7 +29,7 @@ const useMenuItems = () => {
 
   const items: RootMenuItem[] = [
     {
-      icon: <IconInsight />,
+      icon: isMobile ? <IconHome /> : <IconInsight />,
       text: isMobile ? 'Home' : t('menu.coin-radar.title'),
       link: '/coin-radar/overview',
       onClick: trackClick('insight_menu'),
