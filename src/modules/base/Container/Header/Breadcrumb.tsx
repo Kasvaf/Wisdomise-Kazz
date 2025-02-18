@@ -85,8 +85,9 @@ const Breadcrumb: React.FC<{
   showLogo?: boolean;
   showSiblings?: boolean;
   onShowSiblings?: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly?: boolean;
   className?: string;
-}> = ({ showLogo, className, showSiblings, onShowSiblings }) => {
+}> = ({ showLogo, className, showSiblings, readonly, onShowSiblings }) => {
   const { pathname } = useLocation();
   const isLoggedIn = useIsLoggedIn();
   const matches = useMatches();
@@ -111,7 +112,9 @@ const Breadcrumb: React.FC<{
           onClick={() => onShowSiblings?.(x => !x)}
         >
           <div>{child.text}</div>
-          <Icon name={showSiblings ? bxChevronUp : bxChevronDown} />
+          {!readonly && (
+            <Icon name={showSiblings ? bxChevronUp : bxChevronDown} />
+          )}
         </div>
       );
     }

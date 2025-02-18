@@ -1,14 +1,23 @@
 import { Link } from 'react-router-dom';
 import { useTournaments } from 'api/tournament';
-import TournamentCard from 'modules/autoTrader/PageQuests/TournamentCard';
+import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
+import BtnBack from 'modules/base/BtnBack';
 
 const Tournaments = () => {
   const { data: tournaments } = useTournaments();
 
   return (
     <>
-      <h1 className="mb-4">Tournaments</h1>
-      <div className="-mx-3 mb-3 flex snap-x snap-mandatory gap-4 overflow-auto px-4">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <div className="w-1/2">
+          <BtnBack />
+        </div>
+        <div className="shrink-0 text-center text-base font-medium">
+          Tournaments
+        </div>
+        <div className="w-1/2"></div>
+      </div>
+      <div>
         {(tournaments || [])?.map(t => (
           <Link
             className="block snap-center"

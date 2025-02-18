@@ -23,6 +23,7 @@ export const useTelegramProfile = () => {
   const profile = new URLSearchParams(initData).get('user');
   return profile
     ? (JSON.parse(profile) as {
+        id: string;
         first_name: string;
         last_name: string;
         username: string;
