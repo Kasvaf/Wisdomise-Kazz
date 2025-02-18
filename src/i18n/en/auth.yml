@@ -34,6 +34,11 @@ page-referral:
   subtitle: >-
     Share Your Referral Code and Earn Exclusive Bonuses When Your Friends Join
     and Trade.
+  bonus:
+    title: Bonus Bag
+    description: Your Reward Will Be Paid in USDT.
+    claim: Soon...
+    ready: Ready to Claim
   earned-subscription: Earned From Subscriptions Until Now
   earned-trader: Earned From Trade Fees Until Now
   friends-list:
@@ -46,8 +51,3 @@ page-referral:
   subscription: Subscription
   total-referrals: Total Referrals
   trader: Trader
-  bonus:
-    title: Bonus Bag
-    ready: Ready to Claim
-    description: Your Reward Will Be Paid in USDT.
-    claim: Soon...

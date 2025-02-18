@@ -1,6 +1,11 @@
 alert:
   subtitle: 暗号通貨の世界における次の大きなチャンスを逃さないでください。
   title: 先を行く
+discover_by:
+  label: レーダーで発見
+  social: 社交
+  technical: テクニカル
+  whale: 鯨
 empty_sentiment:
   social_radar: このコインにはソーシャルレーダーデータがありません。
   technical_radar: このコインにはテクニカルレーダーデータがありません。
@@ -19,8 +24,12 @@ onboarding:
     content: まもなく、これらの洞察に基づいて Auto-Trader
       を有効にして、お客様に代わって当社のシステムに取引を任せることができるようになります。一度設定すれば、プラットフォームがお客様の戦略を実行するので、当社が取引を処理する間、お客様はリラックスできます。
     title: "近日公開: Auto-Trader でリラックス"
+pre_detail_modal:
+  details: 詳細
+  wise_labels: 賢いラベル
 table:
   labels: ラベル
+  mobile_title: 潜在的価値の高い資産
   name: 信号発信者名
   rank: ワイズランク
   social_radar_sentiment: 社会感情 ウィズダムズ

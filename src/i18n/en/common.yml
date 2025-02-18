@@ -33,7 +33,6 @@ exchange: Exchange
 filtered-by: Filtered by
 filters: Filters
 network: Network
-new: New
 not-available: N/A
 number_short: 'No'
 or: Or

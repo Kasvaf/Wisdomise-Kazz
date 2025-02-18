@@ -1,6 +1,8 @@
 above: 以上
 actions:
+  back: 返回
   cancel: 取消
+  complete: 完全的
   edit: 編輯
   explore: 探索
   invite: 邀請
@@ -12,27 +14,62 @@ actions:
   remove: 移除
   save: 保存
   yes: 是
+all: 全部
+all_categories: 所有类别
+all_exchanges: 所有交易所
+all_labels: 所有标签
+all_networks: 所有网络
+all_sources: 所有来源
 almost-there: 快到了...
+apply_filters: 应用过滤器
+aum: 管理资产规模
 below: 以下
+category: 类别
 confirmation: 確認
 copied-to-clipboard: 已複製到剪貼板
+crypto: 加密貨幣
+cryptocurrency: 加密货币
 data-incoming: HODL 开始！数据即将到来
 data-incoming-description: 我们的使命是通过分析数千个加密项目来提供明智交易的见解，尽管有些项目可能需要更多时间。
+date: 日期
 equal: 等於
 error: 錯誤
 errors:
   field-required: 此字段不得為空。
   network-error: 您的網絡連接出現問題。
+exchange: 交易所
+filtered-by: 筛选条件
+filters: 筛选器
+free-plan: 免费计划
+futures: 期货
+loading-dot-dot-dot: 加载中...
+market:
+  long: 长的
+  short: 短的
+network: 網絡
 new: 新的
 not-available: 不適用
+nothing-to-show: 沒有顯示
+number_short: 否
 or: 或者
 order-type:
   limit: 限制
   market: 市場
+paid-plan: 付费计划
+quality:
+  high: 高
+  low: 低
+  medium: 中等的
 recently: 最近
 recommended-size: 建議大小
+security_label: 安全标签
 see-more: 查看更多
+select-crypto: 选择加密
 share-page-url: 分享此页面
 show-more: 顯示更多
 soon: 即將推出
+sorted-by: 排序依据
+source: 来源
+spot: 点
+trend_label: 潮流标签
 uploading: 上傳中
