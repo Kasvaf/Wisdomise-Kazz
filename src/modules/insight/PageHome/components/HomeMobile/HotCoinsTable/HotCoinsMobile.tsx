@@ -111,7 +111,7 @@ export const HotCoinsMobile = () => {
           <h1 className="text-sm">{t('table.mobile_title')}</h1>
         </div>
         <NetworkSelect
-          value={network}
+          value={network || undefined}
           allowClear
           multiple={false}
           onChange={newNetwork => setNetwork(newNetwork ?? '')}
