@@ -280,12 +280,29 @@ export function Select<V, M extends boolean = false>({
     [placeholder, render],
   );
 
-  const popupContent = useMemo(
-    () => (
+  const visibleOptions = useMemo(() => {
+    let result: Array<V | undefined> = [];
+    if (allowClear) {
+      result = [...result, undefined];
+    }
+
+    if (!searchValue) {
+      result = [...result, ...valueAsArray];
+    }
+
+    result = [...result, ...(options ?? [])];
+
+    result = result.filter((opt, i, self) => self.lastIndexOf(opt) === i);
+
+    return result;
+  }, [allowClear, options, searchValue, valueAsArray]);
+
+  const popupContent = useMemo(() => {
+    return (
       <div
         className={clsx(
           'flex h-full w-full flex-col overflow-hidden',
-          showSearch ? 'mobile:h-svh' : 'max-h-[60svh]',
+          showSearch ? 'mobile:h-[96svh]' : 'max-h-[60svh]',
         )}
         ref={titleRef}
         tabIndex={-1}
@@ -326,62 +343,27 @@ export function Select<V, M extends boolean = false>({
             </div>
           ) : (
             <>
-              {allowClear && (
+              {visibleOptions.map(opt => (
                 <Option
-                  key="undefined"
+                  key={JSON.stringify(opt)}
                   size={size}
-                  selected={valueAsArray.length === 0}
-                  onClick={() => handleOptionClick(undefined)}
+                  onClick={() => handleOptionClick(opt)}
+                  selected={
+                    opt === undefined
+                      ? valueAsArray.length === 0
+                      : valueAsArray.includes(opt)
+                  }
                   checkbox={multiple}
                 >
                   <RenderedValue
-                    value={undefined}
+                    value={opt}
                     render={render}
                     target="option"
                     loading={loading}
                     size={size}
                   />
                 </Option>
-              )}
-              {!searchValue &&
-                valueAsArray
-                  .filter(opt => !(options ?? []).includes(opt))
-                  .map(opt => (
-                    <Option
-                      key={JSON.stringify(opt)}
-                      size={size}
-                      selected={valueAsArray.includes(opt)}
-                      onClick={() => handleOptionClick(opt)}
-                      checkbox={multiple}
-                    >
-                      <RenderedValue
-                        value={opt}
-                        render={render}
-                        target="option"
-                        loading={loading}
-                        size={size}
-                      />
-                    </Option>
-                  ))}
-              {(options ?? [])
-                // .sort(opt => (valueAsArray.includes(opt) ? -1 : 1))
-                .map(opt => (
-                  <Option
-                    key={JSON.stringify(opt)}
-                    size={size}
-                    onClick={() => handleOptionClick(opt)}
-                    selected={valueAsArray.includes(opt)}
-                    checkbox={multiple}
-                  >
-                    <RenderedValue
-                      value={opt}
-                      render={render}
-                      target="option"
-                      loading={loading}
-                      size={size}
-                    />
-                  </Option>
-                ))}
+              ))}
             </>
           )}
         </div>
@@ -399,22 +381,20 @@ export function Select<V, M extends boolean = false>({
           </div>
         )}
       </div>
-    ),
-    [
-      allowClear,
-      handleOptionClick,
-      loading,
-      multiple,
-      onSearch,
-      options,
-      render,
-      searchValue,
-      showSearch,
-      size,
-      valueAsArray,
-      isMobile,
-    ],
-  );
+    );
+  }, [
+    showSearch,
+    searchValue,
+    isMobile,
+    loading,
+    visibleOptions,
+    onSearch,
+    size,
+    valueAsArray,
+    multiple,
+    render,
+    handleOptionClick,
+  ]);
 
   const rootContent = useMemo(
     () => (
