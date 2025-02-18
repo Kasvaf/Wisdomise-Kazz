@@ -13,6 +13,15 @@ import {
   useTonTransferAssetsMutation,
 } from './ton';
 
+export const useDisconnectAll = () => {
+  const { disconnect: solDisconnect } = useWallet();
+  const [{ disconnect: tonDisconnect }] = useTonConnectUI();
+  return () =>
+    Promise.all([solDisconnect(), tonDisconnect()]).catch(() => {
+      //
+    });
+};
+
 export const useActiveWallet = () => {
   const net = useActiveNetwork();
   const tonAddress = useTonAddress();

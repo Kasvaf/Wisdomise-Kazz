@@ -1,3 +1,5 @@
+// eslint-disable-next-line unicorn/prefer-node-protocol
+
 import * as Sentry from '@sentry/react';
 import { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -5,6 +7,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider, theme } from 'antd';
 import { useEffectOnce } from 'usehooks-ts';
+// eslint-disable-next-line import/no-unassigned-import
+import 'utils/polyfills';
 import { useErrorNotification } from 'shared/useErrorNotification';
 import { useJwtEmail } from 'modules/base/auth/jwt-store';
 import PageError from 'modules/base/PageError';
