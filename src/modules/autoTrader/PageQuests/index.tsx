@@ -14,7 +14,7 @@ export default function PageQuests() {
     <PageWrapper loading={isLoading}>
       <PageTitle
         className="mb-5"
-        title="Quests"
+        title="Earn & Win"
         description="Complete Quests and Earn Rewards."
       />
       {hasFlag('/trader-quests/daily') && <DailyTradeQuest />}

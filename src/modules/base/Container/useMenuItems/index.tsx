@@ -79,7 +79,7 @@ const useMenuItems = () => {
     },
     {
       icon: <IconQuests />,
-      text: 'Quest',
+      text: 'Earn & Win',
       link: '/trader-quests',
       hide: !isMobile,
     },
