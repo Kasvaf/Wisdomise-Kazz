@@ -1,19 +1,14 @@
 import { useMemo, type PropsWithChildren } from 'react';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
-
-import {
-  ConnectionProvider,
-  WalletProvider as SolWalletProvider,
-} from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { UnifiedWalletProvider } from '@jup-ag/wallet-adapter';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
 
 // https://www.comparenodes.com/library/public-endpoints/solana/
-const rpcEndpoint = 'https://solana-rpc.publicnode.com';
+// const rpcEndpoint = 'https://solana-rpc.publicnode.com';
 
 const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const network = WalletAdapterNetwork.Mainnet;
@@ -38,11 +33,27 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <ConnectionProvider endpoint={rpcEndpoint}>
-      <SolWalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>{children}</WalletModalProvider>
-      </SolWalletProvider>
-    </ConnectionProvider>
+    <UnifiedWalletProvider
+      wallets={wallets}
+      config={{
+        autoConnect: false,
+        theme: 'dark',
+        env: 'mainnet-beta',
+        metadata: {
+          name: 'Wisdomise AutoTrader',
+          description:
+            'Track whales, spot moonshots, and auto-trade like a true degen — all in a few clicks. 🚀👀',
+          url: 'https://app.wisdomise.com',
+          iconUrls: ['http://wisdomise.com/icon.svg'],
+        },
+        // notificationCallback: WalletNotification,
+        // walletlistExplanation: {
+        //   href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
+        // },
+      }}
+    >
+      {children}
+    </UnifiedWalletProvider>
   );
 };
 
