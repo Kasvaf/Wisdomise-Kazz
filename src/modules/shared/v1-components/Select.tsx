@@ -11,7 +11,7 @@ import {
   type ComponentProps,
 } from 'react';
 import { Tooltip as AntTooltip, Drawer as AntDrawer } from 'antd';
-import { bxCheck, bxChevronDown, bxLoader } from 'boxicons-quasar';
+import { bxChevronDown, bxLoader, bxX } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface, useSurface } from 'utils/useSurface';
@@ -307,7 +307,7 @@ export function Select<V, M extends boolean = false>({
                 surface={5}
                 onClick={() => setIsOpen(false)}
               >
-                <Icon name={bxCheck} />
+                <Icon name={bxX} />
               </Button>
             )}
           </div>
@@ -394,7 +394,7 @@ export function Select<V, M extends boolean = false>({
               surface={5}
               onClick={() => setIsOpen(false)}
             >
-              <Icon name={bxCheck} /> {'OK'}
+              <Icon name={bxX} /> {'OK'}
             </Button>
           </div>
         )}
