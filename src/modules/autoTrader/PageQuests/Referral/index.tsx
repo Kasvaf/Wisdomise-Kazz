@@ -33,14 +33,12 @@ const Referral = () => {
             <h3 className="mb-2 text-v1-content-secondary">
               Trade Fees Earned
             </h3>
-            <p>${referralStatus?.referral_trade_revenue}</p>
+            <p>${referralStatus?.referral_trade_revenue.toFixed(2)}</p>
           </div>
           <div className="h-8 border-r border-v1-border-primary/30"></div>
           <div>
-            <h3 className="mb-2 text-v1-content-secondary">
-              Sub Earned Earned
-            </h3>
-            <p>${referralStatus?.referral_trade_revenue}</p>
+            <h3 className="mb-2 text-v1-content-secondary">Sub Earned</h3>
+            <p>${referralStatus?.referral_subscription_revenue.toFixed(2)}</p>
           </div>
         </div>
       </div>
