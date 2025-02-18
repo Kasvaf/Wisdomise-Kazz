@@ -30,13 +30,24 @@ login:
     btn-submit-otp: Done
     field-nonce: 6-Digit Magic Code
 page-referral:
-  title: Referral Program
-  all-time: all time
-  friends-invited: Friends invited
+  title: Invite Your Friends and Earn Rewards!
+  subtitle: >-
+    Share Your Referral Code and Earn Exclusive Bonuses When Your Friends Join
+    and Trade.
+  earned-subscription: Earned From Subscriptions Until Now
+  earned-trader: Earned From Trade Fees Until Now
+  friends-list:
+    title: My Friends List
+  how:
+    button: How it Works?
   invited: Invited
-  referral-code: Referral Code
-  referral-insight: Referral Insight
-  referral-link: Referral Link
-  subscribed-friends: Subscribed Friends
-  wisdomise-revenue: Wisdomise revenue from your referral
-  your-profit: Your profit
+  referral-link: Your Referral Link
+  share: Share
+  subscription: Subscription
+  total-referrals: Total Referrals
+  trader: Trader
+  bonus:
+    title: Bonus Bag
+    ready: Ready to Claim
+    description: Your Reward Will Be Paid in USDT.
+    claim: Soon...

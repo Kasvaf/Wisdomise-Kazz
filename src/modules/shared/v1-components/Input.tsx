@@ -13,6 +13,7 @@ export function Input<T extends 'number' | 'string'>({
   onChange,
   type,
   disabled,
+  readOnly,
   loading,
   block,
   placeholder,
@@ -31,6 +32,7 @@ export function Input<T extends 'number' | 'string'>({
   ) => void;
 
   disabled?: boolean;
+  readOnly?: boolean;
   loading?: boolean;
   block?: boolean;
   placeholder?: string;
@@ -82,6 +84,7 @@ export function Input<T extends 'number' | 'string'>({
         value={value}
         onChange={handleChange}
         disabled={disabled}
+        readOnly={readOnly}
         placeholder={placeholder}
         ref={inputRef}
         type={type === 'number' ? 'number' : 'text'}

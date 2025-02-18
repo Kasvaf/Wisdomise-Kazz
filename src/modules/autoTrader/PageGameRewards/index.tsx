@@ -24,7 +24,7 @@ import star from './images/star.svg';
 
 export const TON_PER_REFERRAL = 0.01;
 
-export default function ClaimRewardPage() {
+export default function PageGameRewards() {
   const address = useTonAddress();
   const { data: friends } = useFriends();
   const { data, mutate: sync } = useSyncDataMutation();
@@ -80,61 +80,59 @@ export default function ClaimRewardPage() {
 
   return (
     <div>
-      <div className="mt-6">
-        {tonConnect.connected && usdtBalance != null && (
-          <p className="mb-6 text-xs text-white/40">
-            Your USDT balance in your wallet:{' '}
-            <span className="text-white">{addComma(usdtBalance)} USDT</span>
-          </p>
-        )}
-        <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
-          <div className="flex items-center gap-3">
-            <img src={ton} alt="ton" className="ms-2 h-8 w-8" />
-            <div>
-              <p className="text-xs">TON Tokens Earned</p>
-              <p className="mt-2 text-xs text-white/40">
-                <strong className="font-bold text-white">
-                  {(data?.ton_balance ?? 0) +
-                    (friends?.count ?? 0) * TON_PER_REFERRAL}
-                </strong>{' '}
-                until now
-              </p>
-            </div>
-            <Button
-              className="ms-auto w-36"
-              size="small"
-              disabled={true}
-              onClick={() => check('silver_ticket')}
-            >
-              Coming Soon...
-            </Button>
+      {tonConnect.connected && usdtBalance != null && (
+        <p className="mb-6 text-xs text-white/40">
+          Your USDT balance in your wallet:{' '}
+          <span className="text-white">{addComma(usdtBalance)} USDT</span>
+        </p>
+      )}
+      <div className="rounded-xl bg-v1-surface-l2 px-2 py-3">
+        <div className="flex items-center gap-3">
+          <img src={ton} alt="ton" className="ms-2 h-8 w-8" />
+          <div>
+            <p className="text-xs">TON Tokens Earned</p>
+            <p className="mt-2 text-xs text-white/40">
+              <strong className="font-bold text-white">
+                {(data?.ton_balance ?? 0) +
+                  (friends?.count ?? 0) * TON_PER_REFERRAL}
+              </strong>{' '}
+              until now
+            </p>
           </div>
+          <Button
+            className="ms-auto w-36"
+            size="small"
+            disabled={true}
+            onClick={() => check('silver_ticket')}
+          >
+            Coming Soon...
+          </Button>
         </div>
+      </div>
 
-        <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
-          <div className="flex items-center gap-3">
-            <img src={usdt} alt="ton" className="ms-2 h-8 w-8" />
-            <div>
-              <p className="text-xs">USDT Tokens Earned</p>
-              <p className="mt-2 text-xs text-white/40">
-                <strong className="font-bold text-white">{usdtReward}</strong>{' '}
-                until now
-              </p>
-              <div className="mt-3 text-xxs text-white/40">
-                Should be at least 10 USDT to withdraw
-              </div>
+      <div className="mt-3 rounded-xl bg-v1-surface-l2 px-2 py-3">
+        <div className="flex items-center gap-3">
+          <img src={usdt} alt="ton" className="ms-2 h-8 w-8" />
+          <div>
+            <p className="text-xs">USDT Tokens Earned</p>
+            <p className="mt-2 text-xs text-white/40">
+              <strong className="font-bold text-white">{usdtReward}</strong>{' '}
+              until now
+            </p>
+            <div className="mt-3 text-xxs text-white/40">
+              Should be at least 10 USDT to withdraw
             </div>
-            <Button
-              variant="brand"
-              size="small"
-              className="ms-auto min-w-36"
-              onClick={() => handleWithdraw()}
-              loading={withdrawIsLoading}
-              disabled={usdtReward < 10 || withdrawIsLoading}
-            >
-              Withdraw
-            </Button>
           </div>
+          <Button
+            variant="brand"
+            size="small"
+            className="ms-auto min-w-36"
+            onClick={() => handleWithdraw()}
+            loading={withdrawIsLoading}
+            disabled={usdtReward < 10 || withdrawIsLoading}
+          >
+            Withdraw
+          </Button>
         </div>
       </div>
 

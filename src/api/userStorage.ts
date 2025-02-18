@@ -6,6 +6,24 @@ import { ofetch } from 'config/ofetch';
 
 const undefinedSymbol = Symbol('undefined');
 
+export function saveUserMultiKeyValue(obj: Record<string, string>) {
+  return Promise.all(
+    Object.entries(obj)
+      .filter(([key, value]) => key && value)
+      .map(async ([key, value]) => {
+        const resp = await ofetch<{ message?: 'ok' }>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/user-storage/${key}`,
+          {
+            method: 'post',
+            body: { value },
+            retry: 3,
+          },
+        );
+        return resp.message === 'ok' ? value : null;
+      }),
+  );
+}
+
 export function useUserStorage(key: string) {
   const queryClient = useQueryClient();
   const userEmail: string | null = (useJwtEmail() as string) ?? null;

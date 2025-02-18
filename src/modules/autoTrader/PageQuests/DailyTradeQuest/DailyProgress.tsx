@@ -7,9 +7,11 @@ import light from './light.png';
 
 export default function DailyProgress({
   className,
+  countdown,
   dense,
 }: {
   className?: string;
+  countdown?: boolean;
   dense?: boolean;
 }) {
   const {
@@ -49,7 +51,7 @@ export default function DailyProgress({
           {!completedAll && `Day ${activeDay + 1}`}
         </div>
       </div>
-      {currentDay > -1 && !completedAll && (
+      {currentDay > -1 && !completedAll && countdown && (
         <div className={clsx('flex flex-col text-center', !dense && 'mt-2')}>
           <div className="text-xs text-v1-content-secondary">
             {completedToday ? 'Next Streak:' : 'Streak Ends:'}

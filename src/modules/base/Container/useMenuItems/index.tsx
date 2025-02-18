@@ -92,7 +92,7 @@ const useMenuItems = () => {
       hide: isMobile,
       children: [
         {
-          text: t('menu.overview.title'),
+          text: isMobile ? t('menu.account.title') : t('menu.overview.title'),
           link: '/account/overview',
           onClick: trackClick('account_menu'),
         },
@@ -120,6 +120,12 @@ const useMenuItems = () => {
           text: t('menu.referral.title'),
           link: '/account/referral',
           onClick: trackClick('referral_menu'),
+        },
+        {
+          text: t('menu.rewards.title'),
+          link: '/account/rewards',
+          onClick: trackClick('rewards_menu'),
+          hide: !isMobile,
         },
       ],
     },

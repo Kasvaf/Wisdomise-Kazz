@@ -4,14 +4,19 @@ import GameAuthGuard from 'modules/base/mini-app/GameAuthGuard';
 import Container from '../Container';
 import { ActiveNetworkProvider } from '../active-network';
 
-const PageClaimReward = React.lazy(
-  () => import('modules/autoTrader/PageClaimReward'),
+const PageGameReward = React.lazy(
+  () => import('modules/autoTrader/PageGameRewards'),
 );
 
 const PageQuests = React.lazy(() => import('modules/autoTrader/PageQuests'));
 
 const PageTournamentDetail = React.lazy(
-  () => import('modules/autoTrader/PageQuests/PageTournamentDetail'),
+  () =>
+    import('../../autoTrader/PageQuests/PageTournaments/PageTournamentDetail'),
+);
+
+const PageTournaments = React.lazy(
+  () => import('modules/autoTrader/PageQuests/PageTournaments'),
 );
 
 const PagePositions = React.lazy(
@@ -38,7 +43,7 @@ const useAutoTraderRoutes = () => {
           element: (
             <ActiveNetworkProvider network="the-open-network" setOnLayout>
               <GameAuthGuard>
-                <PageClaimReward />
+                <PageGameReward />
               </GameAuthGuard>
             </ActiveNetworkProvider>
           ),
@@ -49,7 +54,10 @@ const useAutoTraderRoutes = () => {
             { path: '', element: <PageQuests /> },
             {
               path: 'tournaments',
-              children: [{ path: ':id', element: <PageTournamentDetail /> }],
+              children: [
+                { path: '', element: <PageTournaments /> },
+                { path: ':id', element: <PageTournamentDetail /> },
+              ],
             },
           ],
         },
