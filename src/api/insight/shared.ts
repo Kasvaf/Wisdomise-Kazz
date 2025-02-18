@@ -13,7 +13,11 @@ import {
 import { matcher } from './utils';
 
 export const useNetworks = (config: {
-  filter?: 'social-radar-24-hours' | 'technical-radar' | 'whale-radar';
+  filter?:
+    | 'social-radar-24-hours'
+    | 'technical-radar'
+    | 'whale-radar'
+    | 'coin-radar';
   query?: string;
 }) =>
   useQuery({
@@ -23,9 +27,7 @@ export const useNetworks = (config: {
         config?.filter === 'whale-radar'
           ? '/delphi/holders/networks/'
           : '/delphi/market/networks/';
-      const needToAttachFilter =
-        config?.filter === 'social-radar-24-hours' ||
-        config.filter === 'technical-radar';
+      const needToAttachFilter = url === '/delphi/market/networks/';
       return resolvePageResponseToArray<Network>(url, {
         query: {
           ...(needToAttachFilter && {

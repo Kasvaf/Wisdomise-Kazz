@@ -117,7 +117,7 @@ export const HotCoinsMobile = () => {
           onChange={newNetwork => setNetwork(newNetwork ?? '')}
           size="sm"
           valueType="slug"
-          filter="social-radar-24-hours"
+          filter="coin-radar"
           surface={2}
         />
       </div>
