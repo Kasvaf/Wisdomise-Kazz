@@ -26,6 +26,7 @@ export function InsightAlertButton({ className }: { className?: string }) {
           void alertActions.openSaveModal();
         }}
         disabled={!hasFlag('/coin-radar/alerts')}
+        size="md"
       >
         <DebugPin title="/coin-radar/alerts" color="orange" />
         <Icon size={20} name={bxBell} className="mr-1" />

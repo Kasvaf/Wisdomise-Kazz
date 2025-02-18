@@ -7,7 +7,6 @@ import { useCoinDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { CoinSecurityLabel } from 'shared/CoinSecurityLabel';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 
 function StatRow({
@@ -158,14 +157,6 @@ export function CoinStatsWidget({
           label={coinOverview.data?.symbol.abbreviation}
         />
       </StatRow>
-      {coinOverview.data?.security_data && (
-        <StatRow label={t('coin-details.tabs.coin_stats.security_scan')}>
-          <CoinSecurityLabel
-            coin={coinOverview.data.symbol}
-            value={coinOverview.data.security_data.map(x => x.symbol_security)}
-          />
-        </StatRow>
-      )}
     </OverviewWidget>
   );
 }

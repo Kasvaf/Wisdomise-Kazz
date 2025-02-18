@@ -6,6 +6,7 @@ import { Select } from 'shared/v1-components/Select';
 export function NetworkSelect<M extends boolean>({
   filter,
   valueType = 'slug',
+  size,
   ...props
 }: Omit<
   ComponentProps<typeof Select<string, M>>,
@@ -33,11 +34,19 @@ export function NetworkSelect<M extends boolean>({
       showSearch
       searchValue={query}
       onSearch={setQuery}
+      size={size}
       render={val => {
         if (!val) return t('common.all_networks');
-        const cat = options.data?.find(x => x[valueType] === val);
-        if (!cat) return val;
-        return cat.name;
+        const opt = options.data?.find(x => x[valueType] === val);
+        return (
+          <div className="flex items-center gap-2">
+            <img
+              src={opt?.icon_url ?? ''}
+              className="size-5 rounded-full bg-v1-surface-l3"
+            />
+            {opt?.name ?? val}
+          </div>
+        );
       }}
       options={options.data?.map(x => x[valueType]).filter(x => !!x) ?? []}
       {...props}

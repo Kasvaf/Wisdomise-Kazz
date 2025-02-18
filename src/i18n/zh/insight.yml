@@ -1,6 +1,11 @@
 alert:
   subtitle: 不要错过加密世界的下一个重大机遇。
   title: 保持领先
+discover_by:
+  label: 通过雷达发现
+  social: 社会的
+  technical: 技术的
+  whale: 鲸
 empty_sentiment:
   social_radar: 该硬币没有社交雷达数据！
   technical_radar: 此硬币没有技术雷达数据！
@@ -16,8 +21,12 @@ onboarding:
   sec-3:
     content: 很快，您将能够根据这些见解激活自动交易，并让我们的系统代表您进行交易。设置一次，让平台执行您的策略，这样您就可以放心，我们会处理交易。
     title: 即将推出：使用 Auto-Trader 轻松放松
+pre_detail_modal:
+  details: 细节
+  wise_labels: 明智的标签
 table:
   labels: 标签
+  mobile_title: 高潜力资产
   name: 名稱
   rank: 明智排名
   social_radar_sentiment: 智慧社会情绪

@@ -341,21 +341,21 @@ export const useWhaleRadarCoins = (config: {
           const sorter = createSorter(config.sortOrder);
           if (config.sortBy === 'price_change')
             return sorter(
-              b.data.price_change_percentage_24h,
               a.data.price_change_percentage_24h,
+              b.data.price_change_percentage_24h,
             );
 
           if (config.sortBy === 'market_cap')
-            return sorter(b.data.market_cap, a.data.market_cap);
+            return sorter(a.data.market_cap, b.data.market_cap);
 
           if (config.sortBy === 'buy')
-            return sorter(b.total_buy_volume, a.total_buy_volume);
+            return sorter(a.total_buy_volume, b.total_buy_volume);
           if (config.sortBy === 'sell')
-            return sorter(b.total_sell_volume, a.total_sell_volume);
+            return sorter(a.total_sell_volume, b.total_sell_volume);
           if (config.sortBy === 'transfer')
-            return sorter(b.total_transfer_volume, a.total_transfer_volume);
+            return sorter(a.total_transfer_volume, b.total_transfer_volume);
           if (config.sortBy === 'wallet_count')
-            return sorter(b.wallet_count, a.wallet_count);
+            return sorter(a.wallet_count, b.wallet_count);
           return sorter(a.rank, b.rank);
         }),
   });

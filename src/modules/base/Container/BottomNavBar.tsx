@@ -28,17 +28,19 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   );
 
   return location.pathname.startsWith('/account') ? null : (
-    <div
-      className={clsx(
-        'fixed bottom-0 z-50 hidden h-auto w-full mobile:block',
-        className,
-      )}
-    >
-      <TrialEndBanner />
-      <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
-        {items.map(renderItem)}
+    <>
+      <TrialEndBanner className="fixed bottom-16 z-50 hidden mobile:flex" />
+      <div
+        className={clsx(
+          'fixed bottom-0 z-50 hidden h-16 w-full mobile:block',
+          className,
+        )}
+      >
+        <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
+          {items.map(renderItem)}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

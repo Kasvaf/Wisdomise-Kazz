@@ -26,12 +26,13 @@ const Header: React.FC<
     <div
       className={clsx(
         'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-v1-background-primary',
+        'h-20 mobile:h-16',
         className,
       )}
     >
       <div
         className={clsx(
-          'flex h-20 items-center gap-3 p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
+          'flex h-full items-center gap-3 p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
         )}
       >
         {isMobile ? (

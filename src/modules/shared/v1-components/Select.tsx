@@ -11,7 +11,7 @@ import {
   type ComponentProps,
 } from 'react';
 import { Tooltip as AntTooltip, Drawer as AntDrawer } from 'antd';
-import { bxChevronDown, bxLoader } from 'boxicons-quasar';
+import { bxChevronDown, bxLoader, bxX } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface, useSurface } from 'utils/useSurface';
@@ -211,7 +211,7 @@ export function Select<V, M extends boolean = false>({
   chevron = true,
   tooltipPlacement = 'bottomLeft',
   disabled,
-  surface = 2,
+  surface = 3,
 }: SelectProps<V, M>) {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
@@ -223,7 +223,7 @@ export function Select<V, M extends boolean = false>({
 
   useEffect(() => {
     if (!isOpen) onSearch?.('');
-    if (isOpen && searchRef.current) {
+    if (isOpen && searchRef.current && !isMobile) {
       searchRef.current.focus();
     }
     if (isOpen) {
@@ -240,7 +240,7 @@ export function Select<V, M extends boolean = false>({
         window.removeEventListener('focusout', blurHandler);
       };
     }
-  }, [isOpen, onSearch]);
+  }, [isOpen, isMobile, onSearch]);
 
   const valueAsArray = useMemo(
     () => (value === undefined ? [] : multiple ? value : [value]) as V[],
@@ -282,19 +282,37 @@ export function Select<V, M extends boolean = false>({
 
   const popupContent = useMemo(
     () => (
-      <div className="w-full overflow-hidden" ref={titleRef} tabIndex={-1}>
+      <div
+        className={clsx(
+          'flex h-full w-full flex-col overflow-hidden',
+          showSearch ? 'mobile:h-svh' : 'max-h-[60svh]',
+        )}
+        ref={titleRef}
+        tabIndex={-1}
+      >
         {showSearch && (
-          <div className="p-4">
+          <div className="flex items-center gap-2 p-4">
             <input
               placeholder="Search Here"
-              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l2 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
+              className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l5 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
               value={searchValue ?? ''}
               onChange={e => onSearch?.(e.target.value)}
               ref={searchRef}
             />
+            {isMobile && (
+              <Button
+                variant="ghost"
+                size="md"
+                className="w-md"
+                surface={5}
+                onClick={() => setIsOpen(false)}
+              >
+                <Icon name={bxX} />
+              </Button>
+            )}
           </div>
         )}
-        <div className="relative flex max-h-48 flex-col gap-px overflow-auto mobile:max-h-96">
+        <div className="relative flex max-h-48 shrink grow flex-col gap-px overflow-auto mobile:max-h-none">
           {loading ? (
             <div
               className="flex min-h-12 items-center justify-center"
@@ -367,6 +385,19 @@ export function Select<V, M extends boolean = false>({
             </>
           )}
         </div>
+        {isMobile && !showSearch && (
+          <div className="p-4">
+            <Button
+              variant="ghost"
+              block
+              className="w-full"
+              surface={5}
+              onClick={() => setIsOpen(false)}
+            >
+              <Icon name={bxX} /> {'OK'}
+            </Button>
+          </div>
+        )}
       </div>
     ),
     [
@@ -381,6 +412,7 @@ export function Select<V, M extends boolean = false>({
       showSearch,
       size,
       valueAsArray,
+      isMobile,
     ],
   );
 
@@ -403,7 +435,7 @@ export function Select<V, M extends boolean = false>({
           className,
         )}
         style={{
-          backgroundColor: colors.next,
+          backgroundColor: colors.current,
         }}
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         {...(!disabled && {
@@ -440,9 +472,9 @@ export function Select<V, M extends boolean = false>({
     [
       size,
       block,
-      className,
-      colors.next,
       disabled,
+      className,
+      colors,
       prefixIcon,
       allowClear,
       multiple,
@@ -464,16 +496,11 @@ export function Select<V, M extends boolean = false>({
         placement="bottom"
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="rounded-t-2xl !bg-v1-surface-l4 text-v1-content-primary [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-header]:hidden"
+        className="!rounded-t-2xl !bg-v1-surface-l4 text-v1-content-primary [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-content-wrapper]:h-full [&_.ant-drawer-header]:hidden"
         destroyOnClose
         height="auto"
       >
         {popupContent}
-        <div className="p-4">
-          <Button variant="ghost" block className="w-full" surface={4}>
-            {'Close'}
-          </Button>
-        </div>
       </AntDrawer>
     </>
   ) : (

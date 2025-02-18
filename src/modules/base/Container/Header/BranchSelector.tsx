@@ -33,7 +33,7 @@ const BranchSelector = () => {
       onChange={gotoBranch}
       allowClear={false}
       block
-      surface={1}
+      surface={2}
       options={branches.data}
       prefixIcon={<Icon name={bxGitBranch} />}
       render={(opt, target) => {

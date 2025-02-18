@@ -28,7 +28,24 @@ export const ReadableDate: FC<{
   const content = useMemo(() => {
     if (!date || !tick) return null;
     const label =
-      typeof format === 'string' ? date.format(format) : date.fromNow();
+      typeof format === 'string'
+        ? date.format(format)
+        : date
+            .fromNow()
+            .replace(' Seconds', 's')
+            .replace(' Second', 's')
+            .replace(' Minutes', 'm')
+            .replace(' Minute', 'm')
+            .replace(' Hours', 'h')
+            .replace(' Hour', 'h')
+            .replace(' Days', 'D')
+            .replace(' Day', 'D')
+            .replace(' Weeks', 'W')
+            .replace(' Week', 'W')
+            .replace(' Months', 'M')
+            .replace(' Month', 'M')
+            .replace(' Years', 'Y')
+            .replace(' Year', 'Y');
     const tooltip = date.format('ddd, MMM D, YYYY h:mm:ss A');
     return {
       label,

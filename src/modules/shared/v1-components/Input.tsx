@@ -20,7 +20,7 @@ export function Input<T extends 'number' | 'string'>({
   className,
   prefixIcon,
   suffixIcon,
-  surface = 2,
+  surface = 3,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
 
@@ -73,7 +73,7 @@ export function Input<T extends 'number' | 'string'>({
         className,
       )}
       style={{
-        backgroundColor: colors.next,
+        backgroundColor: colors.current,
       }}
       aria-disabled={disabled}
       onClick={() => inputRef.current?.focus()}

@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select } from 'shared/v1-components/Select';
+import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as LangIcon } from './lang-icon.svg';
 
 const langs = [
@@ -11,6 +12,7 @@ const langs = [
 
 const LanguageSelector: FC = () => {
   const { i18n } = useTranslation();
+  const isMobile = useIsMobile();
   // const [cookies, setCookie] = useCookies(['i18next']);
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +38,7 @@ const LanguageSelector: FC = () => {
       onChange={x => changeLang(x ?? langs[0].value)}
       prefixIcon={<LangIcon />}
       chevron={false}
-      surface={1}
+      surface={isMobile ? 4 : 2}
       render={(val, target) => {
         const lng = langs.find(x => x.value === val) ?? langs[0];
         return (

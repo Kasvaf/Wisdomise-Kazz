@@ -4,6 +4,7 @@ import { type UserAssetPair, useUserAssets } from 'api';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
 import Spin from 'shared/Spin';
+import { ReadableNumber } from 'shared/ReadableNumber';
 
 const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
@@ -48,13 +49,14 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
 
 const UserAssets: React.FC<{ className?: string }> = ({ className }) => {
   const { data: assets, isLoading } = useUserAssets();
+
   const totalAssets = assets?.reduce((a, b) => a + b.usd_equity, 0);
   if (isLoading || !assets?.length) return null;
 
   return (
     <div className={className}>
-      <div className="mb-4 flex justify-center text-3xl font-semibold">
-        $ {roundSensible(totalAssets)}
+      <div className="mb-4 flex justify-center text-2xl font-semibold">
+        <ReadableNumber value={totalAssets} label="$" />
       </div>
 
       <div className="rounded-xl bg-v1-surface-l2 p-4">

@@ -166,7 +166,6 @@ coin_labels:
   monthly_social_beloved:
     info: 「Monthly Social Beloved」は、過去 1 か月間にソーシャル
       メディアで大きな存在感を示し、多くのユニークなアカウントで言及されたシンボルをマークします。
-    suffix: 🌐
   weekly_social_beloved:
     info: 「Weekly Social Beloved」ラベルは、過去 1 週間にソーシャル
       メディアで人気があったシンボルを示します。これらのシンボルは頻繁に言及されており、高い関心と成長または変動の可能性を示しています。
@@ -310,7 +309,11 @@ social-radar:
   sorts:
     call_time: 最新
     market_cap: 時価総額
+    negative_price_changes: 最大の敗者
+    newest: 最新
+    oldest: 最古
     pnl: PNL
+    positive_price_changes: 最も利益が上がった企業
     price_change: 24時間変更
     rank: 賢明な論理
   table:

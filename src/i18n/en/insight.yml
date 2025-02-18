@@ -1,10 +1,19 @@
+discover_by:
+  label: Discover by Radar
+  social: Social
+  technical: Technical
+  whale: Whale
 empty_sentiment:
   social_radar: No Social Radar data for this coin!
   technical_radar: No Technical Radar data for this coin!
   whale_radar: No Whale Radar data for this coin!
+pre_detail_modal:
+  details: Details
+  wise_labels: Wise Labels
 table:
   name: Name
   labels: Labels
+  mobile_title: High-Potential Assets
   rank: Rank™
   social_radar_sentiment: Social Sentiment™
   technical_radar_sentiment: Technical Sentiment™

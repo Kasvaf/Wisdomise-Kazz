@@ -82,6 +82,9 @@ export function CoinPriceWidget({
             networks={coinOverview.data?.networks}
             labels={coinOverview.data?.symbol_labels}
             coin={coinOverview.data?.symbol}
+            security={coinOverview.data.security_data?.map(
+              x => x.symbol_security,
+            )}
           />
         </div>
       )}

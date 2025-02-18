@@ -84,7 +84,12 @@ top_coins:
     title: 售卖
   sorts:
     buy: 购买量
+    highest_transfer_vol: 最高转会量
     market_cap: 市值
+    most_bought: 購買
+    most_sold: 卖
+    negative_price_changes: 最大输家
+    positive_price_changes: 涨幅最高的
     price_change: 24小时更改
     rank: 指数
     sell: 卖出量

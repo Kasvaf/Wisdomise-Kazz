@@ -1,29 +1,29 @@
 available-exchanges:
-  search: 搜索交流...
+  search: 搜尋交易所
   table:
     exchange: 交易所
     price: 價格
     volume_24h: 24小時交易量
 call-change:
   analyzed-messages: 分析消息
-  biggest-dump: 最大的垃圾场
+  biggest-dump: 最大下跌幅度
   biggest-pump: 最大涨幅
-  current-price: 当前价格
-  fire-time: 信号发射时间
+  current-price: 當前價格
+  fire-time: AI信號發布時間
   first-mention: 首次提及
-  hunted-at-here: 在此狩猎
-  last-mention: 最后提及
-  last-pnl-update: 上次盈亏更新
-  long: 潜在的增长机会
-  max-price: 最大值：极高值
-  min-price: 最小值：极低值
-  negative: 消極負面
-  not_sure: 没有把握
-  pnl: 最后更新
-  positive: 積極正向
-  short: 衰退风险
-  trigger-price: 信号发出时的价格
-  under-calculation: 正在计算
+  hunted-at-here: AI訊號狙擊
+  last-mention: AI訊號上次狙擊時間
+  last-pnl-update: 最新損益更新
+  long: 潛在成長機會
+  max-price: 最大值：最高值
+  min-price: 最小值：最低值
+  negative: 消極看跌
+  not_sure: 中立
+  pnl: 最後更新
+  positive: 積極看漲
+  short: 趨勢衰弱
+  trigger-price: AI訊號狙擊時的價格
+  under-calculation: 運算中
 coin-category:
   all: 所有类别
   button: 类别
@@ -160,10 +160,9 @@ coin-details:
       title: 鲸鱼情绪
 coin_labels:
   hype:
-    info: “炒作”标签表示当前社交媒体活动激增的符号。这些符号在短时间内被多个社交媒体渠道上的大量唯一帐户提及。此标签表示围绕该符号的潜在趋势或热议，表明公众兴趣或猜测增加。
+    info: 這個標籤為目前在社交媒體上活躍度激增的幣種。這些幣種在短時間內被多個社交媒體平台上，不同的、大量的獨立帳號提及。此標籤顯示該幣種可能正引發趨勢或熱議，表示公眾的興趣風向或投機性的增加。
   monthly_social_beloved:
     info: “每月社交宠儿”标记了在社交媒体上具有强大影响力并且在过去一个月内被许多独立账户提及的符号。
-    suffix: 🌐
   weekly_social_beloved:
     info: “每周社交热门”标签标记了过去一周社交媒体上流行的符号。这些符号被频繁提及，显示出很高的关注度和增长或波动潜力。
     suffix: 🌐
@@ -304,7 +303,11 @@ social-radar:
   sorts:
     call_time: 最新
     market_cap: 市值
+    negative_price_changes: 最大输家
+    newest: 最新
+    oldest: 最古老的
     pnl: 盈虧
+    positive_price_changes: 涨幅最高的
     price_change: 24小时更改
     rank: 明智的逻辑
   table:

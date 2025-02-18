@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { type IndicatorHeatmapResolution, useIndicatorHeatmap } from 'api';
-import { ButtonSelect } from 'shared/ButtonSelect';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { AccessShield } from 'shared/AccessShield';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { IndicatorIcon } from '../IndicatorIcon';
@@ -49,26 +49,27 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
               className="mobile:w-full"
               value={resolution}
               onChange={setResolution}
+              size="sm"
               options={[
                 {
                   label: '15m',
-                  value: '15m',
+                  value: '15m' as const,
                 },
                 {
                   label: '30m',
-                  value: '30m',
+                  value: '30m' as const,
                 },
                 {
                   label: '1h',
-                  value: '1h',
+                  value: '1h' as const,
                 },
                 {
                   label: '4h',
-                  value: '4h',
+                  value: '4h' as const,
                 },
                 {
                   label: '1d',
-                  value: '1d',
+                  value: '1d' as const,
                 },
               ]}
             />
