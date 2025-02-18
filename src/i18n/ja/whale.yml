@@ -86,7 +86,12 @@ top_coins:
     title: 販売
   sorts:
     buy: 巻を購入
+    highest_transfer_vol: 最高転送量
     market_cap: 時価総額
+    most_bought: 買う
+    most_sold: 売る
+    negative_price_changes: 最大の敗者
+    positive_price_changes: 最も利益が上がった企業
     price_change: 24時間変更
     rank: 索引
     sell: 売りボリューム
