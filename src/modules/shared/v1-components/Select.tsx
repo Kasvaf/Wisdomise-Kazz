@@ -283,7 +283,10 @@ export function Select<V, M extends boolean = false>({
   const popupContent = useMemo(
     () => (
       <div
-        className="flex h-full max-h-[85svh] w-full flex-col overflow-hidden"
+        className={clsx(
+          'flex h-full w-full flex-col overflow-hidden',
+          showSearch ? 'mobile:h-svh' : 'max-h-[60svh]',
+        )}
         ref={titleRef}
         tabIndex={-1}
       >
