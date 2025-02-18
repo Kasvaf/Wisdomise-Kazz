@@ -18,7 +18,6 @@ export const TechnicalSentiment: FC<{
   detailsLevel?: 1 | 2 | 3;
 }> = ({ value, detailsLevel = 3 }) => {
   const score = value.normalized_score ?? 0;
-  const isGreen = score > 0;
   const isBullish = value.technical_sentiment
     ?.toLowerCase()
     .includes('bullish');
@@ -29,6 +28,7 @@ export const TechnicalSentiment: FC<{
   const isExpensive = value.technical_sentiment
     ?.toLowerCase()
     .includes('expensive');
+  const isGreen = isBullish || isCheap;
 
   return (
     <div className="inline-flex items-center gap-1">
