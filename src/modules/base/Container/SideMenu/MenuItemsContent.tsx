@@ -162,7 +162,13 @@ const MenuItemsContent: React.FC<{
             onClick={newActiveMenu =>
               setActiveMenu(p => (p === newActiveMenu ? '' : newActiveMenu))
             }
-            isActive={activeMenu?.startsWith(item.link)}
+            isActive={
+              activeMenu
+                ? (activeMenu?.startsWith(item.link) ||
+                    item.children?.map(x => x.link)?.includes?.(activeMenu)) ??
+                  false
+                : false
+            }
           />
         ))}
       </div>
