@@ -5,7 +5,6 @@ import { useHasFlag, useAlerts } from 'api';
 import { track } from 'config/segment';
 import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
-import Badge from 'shared/Badge';
 import { Button } from 'shared/v1-components/Button';
 import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as GearIcon } from './gear.svg';
@@ -80,13 +79,6 @@ export default function CoinRadarAlerButton({
           ]}
           color="orange"
         />
-        {!posibleRelatedAlert && (
-          <Badge
-            className="absolute right-0 top-0 -m-2"
-            color="wsdm"
-            label={t('common:new')}
-          />
-        )}
         {posibleRelatedAlert ? <GearIcon /> : <ScreenerIcon />}
         {posibleRelatedAlert ? t('screener.edit') : t('screener.set')}
       </Button>
