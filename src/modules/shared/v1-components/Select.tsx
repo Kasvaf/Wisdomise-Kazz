@@ -11,7 +11,7 @@ import {
   type ComponentProps,
 } from 'react';
 import { Tooltip as AntTooltip, Drawer as AntDrawer } from 'antd';
-import { bxChevronDown, bxLoader } from 'boxicons-quasar';
+import { bxCheck, bxChevronDown, bxLoader } from 'boxicons-quasar';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
 import { type Surface, useSurface } from 'utils/useSurface';
@@ -283,12 +283,12 @@ export function Select<V, M extends boolean = false>({
   const popupContent = useMemo(
     () => (
       <div
-        className="flex h-full max-h-[92dvh] w-full flex-col overflow-hidden"
+        className="flex h-full max-h-[85svh] w-full flex-col overflow-hidden"
         ref={titleRef}
         tabIndex={-1}
       >
         {showSearch && (
-          <div className="p-4">
+          <div className="flex items-center gap-2 p-4">
             <input
               placeholder="Search Here"
               className="block h-sm w-full rounded-lg border border-transparent bg-v1-surface-l5 p-3 text-xs outline-none focus:border-v1-border-brand mobile:h-md"
@@ -296,6 +296,17 @@ export function Select<V, M extends boolean = false>({
               onChange={e => onSearch?.(e.target.value)}
               ref={searchRef}
             />
+            {isMobile && (
+              <Button
+                variant="ghost"
+                size="md"
+                className="w-md"
+                surface={5}
+                onClick={() => setIsOpen(false)}
+              >
+                <Icon name={bxCheck} />
+              </Button>
+            )}
           </div>
         )}
         <div className="relative flex max-h-48 shrink grow flex-col gap-px overflow-auto mobile:max-h-none">
@@ -371,7 +382,7 @@ export function Select<V, M extends boolean = false>({
             </>
           )}
         </div>
-        {isMobile && (
+        {isMobile && !showSearch && (
           <div className="p-4">
             <Button
               variant="ghost"
@@ -380,7 +391,7 @@ export function Select<V, M extends boolean = false>({
               surface={5}
               onClick={() => setIsOpen(false)}
             >
-              {'Close'}
+              <Icon name={bxCheck} /> {'OK'}
             </Button>
           </div>
         )}
@@ -482,7 +493,7 @@ export function Select<V, M extends boolean = false>({
         placement="bottom"
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="rounded-t-2xl !bg-v1-surface-l4 text-v1-content-primary [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-header]:hidden"
+        className="!rounded-t-2xl !bg-v1-surface-l4 text-v1-content-primary [&_.ant-drawer-body]:!p-0 [&_.ant-drawer-content-wrapper]:h-full [&_.ant-drawer-header]:hidden"
         destroyOnClose
         height="auto"
       >
