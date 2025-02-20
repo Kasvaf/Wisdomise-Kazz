@@ -46,7 +46,7 @@ export default function ReferralPage() {
   };
 
   return (
-    <PageWrapper loading={isLoading} className="mb-24">
+    <PageWrapper loading={isLoading} className="pb-32">
       <h1 className="mb-2">{t('page-referral.title')}</h1>
       <p className="mb-2 text-sm text-v1-content-secondary">
         {t('page-referral.subtitle')}
@@ -185,7 +185,7 @@ export default function ReferralPage() {
               <IconUser />
             </div>
             <div>
-              <h3 className="text-sm">{user.name}</h3>
+              <h3 className="w-28 truncate text-sm">{user.name}</h3>
               <p className="text-xxs text-v1-content-secondary">
                 {new Date(user.created_at).toLocaleString()}
               </p>

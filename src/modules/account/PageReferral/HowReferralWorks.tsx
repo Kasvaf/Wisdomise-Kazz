@@ -32,12 +32,12 @@ export default function HowReferralWorks() {
             </p>
             <li>Friends Subscribe</li>
             <p>
-              When Your Friends Purchase Any Subscription Plan, You Earn 20% of
-              Their Subscription fee. Available Plans: Pro and Pro+
+              When Your Friends Purchase Any Subscription Plan, You Earn 30% of
+              Their Subscription fee. All plans included.
             </p>
             <li>Friends Trade With Auto Trader (Level 1)</li>
             <p>
-              You Earn 25% of the Trading Fees Paid by Your Directly Referred
+              You Earn 30% of the Trading Fees Paid by Your Directly Referred
               Friends When They Use the Auto Trader.
             </p>
             <li>Friends’ Friends Trade With Auto Trader (Level 2)</li>
@@ -53,14 +53,14 @@ export default function HowReferralWorks() {
               <li>
                 If a Referred Friend Subscribes to Pro Monthly for $10,{' '}
                 <span className="text-v1-content-primary">
-                  You Earn $2 (20%)
+                  You Earn $3 (30%)
                 </span>
                 .
               </li>
               <li>
                 If That Friend Pays $100 in Auto Trader Fees,{' '}
                 <span className="text-v1-content-primary">
-                  You Earn $25 (25%)
+                  You Earn $30 (30%)
                 </span>
                 .
               </li>
