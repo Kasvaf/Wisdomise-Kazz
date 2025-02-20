@@ -12,6 +12,7 @@ import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
+import { isDebugMode } from 'utils/version';
 import { ReactComponent as Trusted } from './trusted.svg';
 import { ReactComponent as Risk } from './risk.svg';
 import { ReactComponent as Warning } from './warning.svg';
@@ -110,7 +111,7 @@ export function CoinLabel({
     };
   }, [t, value, type]);
 
-  if (!renderData.isKnown) return null;
+  if (!renderData.isKnown && !isDebugMode) return null;
 
   return mini ? (
     <span
