@@ -1,5 +1,5 @@
 import { useCoinDetails } from 'api';
-import { CoinWhalesWidget } from 'modules/insight/PageWhaleRadar/components/CoinWhalesWidget';
+import { CoinWhalesWidget } from 'modules/insight/PageWhaleRadar/components/WhaleRadarDesktop/CoinWhalesWidget';
 
 export function CoinWhaleListWidget({
   id,

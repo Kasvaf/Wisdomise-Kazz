@@ -162,14 +162,20 @@ const MenuItemsContent: React.FC<{
             onClick={newActiveMenu =>
               setActiveMenu(p => (p === newActiveMenu ? '' : newActiveMenu))
             }
-            isActive={activeMenu?.startsWith(item.link)}
+            isActive={
+              activeMenu
+                ? (activeMenu?.startsWith(item.link) ||
+                    item.children?.map(x => x.link)?.includes?.(activeMenu)) ??
+                  false
+                : false
+            }
           />
         ))}
       </div>
 
       {ModalLogin}
       <div className="grow" />
-      {!collapsed && <TrialEndBanner className="mobile:hidden" />}
+      {!collapsed && <TrialEndBanner className="relative mobile:hidden" />}
       <div className="mt-12 text-white">
         {extraItems.map(item => (
           <NavLink

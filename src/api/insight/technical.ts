@@ -6,6 +6,7 @@ import {
   type NetworkSecurity,
   type Coin,
   type CoinNetwork,
+  type MiniMarketData,
 } from '../types/shared';
 import { createSorter, matcher } from './utils';
 
@@ -75,14 +76,6 @@ export const useRsiDivergence = () =>
     queryFn: () => ofetch<RsiDivergenceResponse>('delphi/rsi/divergence'),
   });
 
-interface CoinMarketPulseMarketData {
-  id?: string | null;
-  current_price?: number | null;
-  market_cap?: number | null;
-  price_change_24h?: number | null;
-  price_change_percentage_24h?: number | null;
-}
-
 export type Indicator = 'rsi' | 'macd';
 
 export type IndicatorHeatmap<I extends Indicator> = I extends 'rsi'
@@ -91,7 +84,7 @@ export type IndicatorHeatmap<I extends Indicator> = I extends 'rsi'
       rsi_value: number;
       related_at: string;
       divergence_type: -1 | 1 | null;
-      data?: CoinMarketPulseMarketData;
+      data?: null | MiniMarketData;
     }
   : never;
 
@@ -126,7 +119,7 @@ export type IndicatorConfirmationCombination =
 
 export interface IndicatorConfirmationCore {
   symbol: Coin;
-  data?: null | CoinMarketPulseMarketData;
+  data?: null | MiniMarketData;
   analysis?: null | string;
   symbol_labels?: null | string[];
   symbol_security?: null | {
@@ -259,11 +252,7 @@ export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
   IndicatorConfirmation<'rsi'> & {
     rank: number;
     symbol: Coin;
-    data?:
-      | null
-      | (CoinMarketPulseMarketData & {
-          market_cap_category?: string | null;
-        });
+    data?: null | MiniMarketData;
     networks_slug?: null | string[];
     networks?: null | CoinNetwork[];
     score?: number | null;
@@ -308,12 +297,12 @@ export const useTechnicalRadarCoins = (config: {
           const sorter = createSorter(config.sortOrder);
           if (config.sortBy === 'price_change')
             return sorter(
-              b.data?.price_change_percentage_24h,
               a.data?.price_change_percentage_24h,
+              b.data?.price_change_percentage_24h,
             );
 
           if (config.sortBy === 'market_cap')
-            return sorter(b.data?.market_cap, a.data?.market_cap);
+            return sorter(a.data?.market_cap, b.data?.market_cap);
           return sorter(a.rank, b.rank);
         });
     },

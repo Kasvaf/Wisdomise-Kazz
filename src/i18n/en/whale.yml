@@ -53,13 +53,14 @@ top_coins:
     avg: Avg per sell
     info: The total volume sold from smart wallets and total wallet in the last 7D.
   sorts:
-    buy: Buy Vol
+    highest_transfer_vol: Highest Transfer Vol
     market_cap: Market Cap
-    price_change: 24H Chg
+    most_bought: Most Bought
+    most_sold: Most Sold
+    negative_price_changes: Highest Losers
+    positive_price_changes: Highest Gainers
     rank: Index
-    sell: Sell Vol
-    transfer: Transfer Vol
-    wallet_count: Wallet Num
+    wallet_count: Highest Wallet No
   wallet_number: Wallet Number
 top_whales:
   title: Smart Wallets

@@ -13,7 +13,11 @@ import {
 import { matcher } from './utils';
 
 export const useNetworks = (config: {
-  filter?: 'social-radar-24-hours' | 'technical-radar' | 'whale-radar';
+  filter?:
+    | 'social-radar-24-hours'
+    | 'technical-radar'
+    | 'whale-radar'
+    | 'coin-radar';
   query?: string;
 }) =>
   useQuery({
@@ -23,12 +27,13 @@ export const useNetworks = (config: {
         config?.filter === 'whale-radar'
           ? '/delphi/holders/networks/'
           : '/delphi/market/networks/';
-      const needToAttachFilter = config?.filter !== 'whale-radar';
+      const needToAttachFilter = url === '/delphi/market/networks/';
       return resolvePageResponseToArray<Network>(url, {
         query: {
           ...(needToAttachFilter && {
             filter: config?.filter,
           }),
+          page_size: 200,
         },
       });
     },
@@ -86,7 +91,7 @@ export const useCoins = (config: {
   tradableCoinsOnly?: boolean;
 }) =>
   useQuery({
-    queryKey: ['coins', config.query],
+    queryKey: ['coins', config.query, config.tradableCoinsOnly],
     staleTime: Number.POSITIVE_INFINITY,
     queryFn: () =>
       ofetch<Coin[]>('delphi/symbol/search/', {

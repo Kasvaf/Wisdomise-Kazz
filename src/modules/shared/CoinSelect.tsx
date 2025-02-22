@@ -24,7 +24,7 @@ export function CoinSelect({
   const q = useDebounce(query, 400);
   const coinList = useCoins({ query: q });
 
-  const coin = useCoinDetails({ slug: value });
+  const coin = useCoinDetails({ slug: value ?? 'bitcoin' });
 
   const coins = useMemo<CoinType[]>(() => {
     const coinObject = q
@@ -33,10 +33,7 @@ export function CoinSelect({
       ? coin.data?.symbol ?? coinList.data?.find(x => x.slug !== value)
       : undefined;
     const list = coinList.data ?? [];
-    return [
-      ...(coinObject ? [coinObject] : []),
-      ...list.filter(x => x.slug && x.slug !== coinObject?.slug),
-    ];
+    return [...(coinObject ? [coinObject] : []), ...list];
   }, [q, value, coin.data?.symbol, coinList.data]);
 
   return (

@@ -1,10 +1,10 @@
-import { HotCoinsWidget } from 'modules/insight/PageSocialRadar/components/HotCoinsWidget';
+import { SocialRadarDesktop } from 'modules/insight/PageSocialRadar/components/SocialRadarDesktop';
 import EmbeddedContainer from '../layout/EmbeddedContainer';
 
 export default function PageSocialRadar() {
   return (
     <EmbeddedContainer>
-      <HotCoinsWidget />
+      <SocialRadarDesktop />
     </EmbeddedContainer>
   );
 }

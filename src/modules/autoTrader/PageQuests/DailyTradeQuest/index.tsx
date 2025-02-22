@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
-import Button from 'shared/Button';
+import dayjs from 'dayjs';
 import DailyProgress from 'modules/autoTrader/PageQuests/DailyTradeQuest/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
 import { useGamification, useGamificationAction } from 'api/gamification';
-import { StatusBadge } from 'modules/autoTrader/PageQuests/TournamentCard';
+import { StatusBadge } from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
+import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
+import { Button } from 'shared/v1-components/Button';
 import RewardModal from './RewardModal';
-import target from './target.png';
+import bg from './bg.png';
 import box from './box.png';
 import { ReactComponent as Bg } from './bg.svg';
 import { ReactComponent as Stars } from './stars.svg';
@@ -20,8 +22,11 @@ export default function DailyTradeQuest() {
   const {
     activeDay,
     currentDay,
+    completedToday,
     completedAll,
     rewardClaimed,
+    nextDayEndTimestamp,
+    nextDayStartTimestamp,
     setRewardClaimed,
   } = useGamification();
   const { mutateAsync } = useGamificationAction();
@@ -48,27 +53,52 @@ export default function DailyTradeQuest() {
 
   return (
     <>
-      <div className="relative mb-4 flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 px-4 py-3">
-        <img src={target} alt="" className="absolute end-10 h-full w-auto" />
+      <div
+        onClick={() => setOpen(true)}
+        className="relative mb-4 flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4"
+      >
+        <img
+          src={bg}
+          alt=""
+          className="absolute right-0 h-full w-auto mix-blend-multiply"
+        />
         <Bg className="absolute top-0 h-full" />
         <div className="relative">
-          <p className="text-sm">Daily Trade Quest</p>
-          <p className="mt-3 text-xs text-v1-content-secondary">
-            Complete Today&apos;s Trade to Keep Your Streak!
+          <h2 className="text-xl font-semibold">Daily Trade</h2>
+          <p className="mt-3 max-w-40 text-xs text-v1-content-secondary">
+            Complete Trades Daily and Earn Rewards.
           </p>
-          <Button
-            variant="brand"
-            className={clsx(
-              'mt-3 !px-4',
-              completedAll && rewardClaimed && 'hidden',
-            )}
-            onClick={() => setOpen(true)}
-          >
-            {completedAll ? 'Claim Your Reward' : "Start Today's Trade"}
-            <Arrow className="ml-2" />
-          </Button>
+
+          {currentDay > -1 && !completedAll ? (
+            <StatusChip className="mt-3">
+              <div className="flex gap-2 text-xs">
+                <div className="text-xs text-v1-content-secondary">
+                  {completedToday ? 'Next Streak:' : 'Streak Ends:'}
+                </div>
+                <div>
+                  {dayjs(
+                    completedToday
+                      ? nextDayStartTimestamp
+                      : nextDayEndTimestamp,
+                  ).fromNow(true)}
+                </div>
+              </div>
+            </StatusChip>
+          ) : (
+            <Button
+              variant="outline"
+              className={clsx(
+                'mt-3 !px-4',
+                completedAll && rewardClaimed && 'hidden',
+              )}
+              onClick={() => setOpen(true)}
+            >
+              {completedAll ? 'Claim Your Reward' : "Start Today's Trade"}
+              <Arrow className="ml-2" />
+            </Button>
+          )}
         </div>
-        <DailyProgress />
+        <DailyProgress countdown={false} />
       </div>
       <DrawerModal
         open={open}
@@ -126,8 +156,8 @@ export default function DailyTradeQuest() {
                   <Stars className="absolute" />
                   <img src={box} className="my-4 h-16 w-16" alt="box" />
                   <Button
-                    size="small"
-                    variant="brand"
+                    size="xs"
+                    variant="primary"
                     className="relative w-full"
                     disabled={!completedAll}
                     onClick={claim}
@@ -139,8 +169,8 @@ export default function DailyTradeQuest() {
             </div>
           </div>
           <Button
-            variant="brand"
-            className="absolute bottom-6 end-4 start-4 z-10"
+            variant="primary"
+            className="!absolute bottom-6 end-4 start-4 z-10"
             onClick={() => {
               setOpen(false);
               navigate('/');

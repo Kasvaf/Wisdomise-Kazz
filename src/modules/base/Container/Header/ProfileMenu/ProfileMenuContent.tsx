@@ -9,11 +9,13 @@ import useIsMobile from 'utils/useIsMobile';
 import { isMiniApp } from 'utils/version';
 import { Button } from 'shared/v1-components/Button';
 import { ReadableDuration } from 'shared/ReadableDuration';
+import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import LanguageSelector from '../LanguageSelector';
 import BranchSelector from '../BranchSelector';
 import { ReactComponent as AccountIconEmpty } from '../../useMenuItems/icons/account-empty.svg';
 import { ReactComponent as SignOutIcon } from './signout.svg';
 import ExternalLinks from './ExternalLinks';
+// eslint-disable-next-line import/max-dependencies
 import Support from './Support';
 
 const InternalItem: React.FC<
@@ -35,6 +37,7 @@ const ProfileMenuContent = () => {
   const isMobile = useIsMobile();
   const subscription = useSubscription();
   const { data: account } = useAccountQuery();
+  const profile = useTelegramProfile();
   const { data: referral } = useReferralStatusQuery();
   const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
   const { pathname } = useLocation();
@@ -44,7 +47,11 @@ const ProfileMenuContent = () => {
       <div className="flex max-w-full grow-0 justify-between overflow-hidden">
         <div className="flex items-center gap-2 overflow-hidden p-3 text-center text-base mobile:w-3/4 mobile:pl-1">
           <AccountIconEmpty className="size-6 shrink-0" />
-          <div className="grow text-ellipsis text-left">{account?.email}</div>
+          <div className="grow text-ellipsis text-left">
+            {isMiniApp
+              ? `${profile?.first_name ?? ''} ${profile?.last_name ?? ''}`
+              : account?.email}
+          </div>
         </div>
 
         {isMobile && (
@@ -58,11 +65,7 @@ const ProfileMenuContent = () => {
       <div className="divide-y divide-white/5 overflow-hidden rounded-xl bg-white/5">
         {isMobile && (
           <>
-            {isMiniApp ? (
-              <InternalItem to="/trader-claim-reward" label="Claim Rewards" />
-            ) : (
-              <InternalItem to="/account/overview" label="My Account" />
-            )}
+            <InternalItem to="/account/overview" label="My Account" />
             <InternalItem to="/coin-radar/alerts" label="Manage Alerts" />
           </>
         )}

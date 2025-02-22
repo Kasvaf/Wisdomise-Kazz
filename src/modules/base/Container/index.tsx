@@ -16,19 +16,17 @@ const Container = () => {
   useDebugMode();
 
   const result = (
-    <div className="min-h-screen text-white">
-      <TrackersContainer>
-        <Guard>
-          <WalletProvider>
-            <GeneralMeta />
-            <Layout>
-              <Outlet />
-            </Layout>
-            <UserEngageFlow />
-          </WalletProvider>
-        </Guard>
-      </TrackersContainer>
-    </div>
+    <TrackersContainer>
+      <Guard>
+        <WalletProvider>
+          <GeneralMeta />
+          <Layout>
+            <Outlet />
+          </Layout>
+          <UserEngageFlow />
+        </WalletProvider>
+      </Guard>
+    </TrackersContainer>
   );
 
   return isMiniApp ? <TelegramProvider>{result}</TelegramProvider> : result;

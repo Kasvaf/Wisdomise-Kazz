@@ -6,6 +6,7 @@ import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { isDebugMode, isMiniApp } from 'utils/version';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
+import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as UserIcon } from './user.svg';
 import ProfileMenuContent from './ProfileMenuContent';
 import BtnTelegramProfile from './BtnTelegramProfile';
@@ -17,6 +18,7 @@ const DebugBadge = () =>
 
 const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
   const isLoggedIn = useIsLoggedIn();
+  const isMobile = useIsMobile();
   const [ModalLogin, showModalLogin] = useModalLogin();
 
   return isLoggedIn ? (
@@ -29,7 +31,12 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
       {isMiniApp ? (
         <BtnTelegramProfile />
       ) : (
-        <Button variant="ghost" size="xl" className="w-xl" surface={1}>
+        <Button
+          variant="ghost"
+          size={isMobile ? 'md' : 'xl'}
+          className={isMobile ? 'w-md' : 'w-xl'}
+          surface={2}
+        >
           <UserIcon className="shrink-0" />
           <DebugBadge />
         </Button>
@@ -39,10 +46,10 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
     <>
       <Button
         variant="primary"
-        size="xl"
-        className={clsx('w-xl', className)}
+        size={isMobile ? 'md' : 'xl'}
+        className={clsx(isMobile ? 'w-md' : 'w-xl', className)}
         onClick={showModalLogin}
-        surface={1}
+        surface={2}
       >
         <Icon name={bxLogIn} size={24} />
         <DebugBadge />

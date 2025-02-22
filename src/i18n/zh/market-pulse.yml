@@ -183,6 +183,8 @@ table:
   sort: 种类
   sorts:
     market_cap: 市值
+    negative_price_changes: 最大输家
+    positive_price_changes: 涨幅最高的
     price_change: 24小时变化
     rank: 明智排名
   technical_sentiment:

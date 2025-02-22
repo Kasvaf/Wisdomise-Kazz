@@ -8,17 +8,16 @@ import { useOnSearchParamDetectedOnce } from 'shared/useOnSearchParamDetectedOnc
 import Icon from 'shared/Icon';
 import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
-import { Button } from 'shared/v1-components/Button';
+import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { DebugPin } from 'shared/DebugPin';
 
 export function PriceAlertButton({
-  className,
   slug,
-  variant = 'primary',
-}: {
-  className?: string;
+  className,
+  variant,
+  ...props
+}: Omit<ButtonProps, 'onClick' | 'disabled' | 'block' | 'children'> & {
   slug: string;
-  variant?: 'primary' | 'white';
 }) {
   const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
@@ -74,6 +73,7 @@ export function PriceAlertButton({
   return (
     <>
       <Button
+        {...props}
         onClick={() => alertActions.openSaveModal()}
         variant={initialAlert.key ? 'outline' : variant}
         block

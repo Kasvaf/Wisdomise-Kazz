@@ -1,10 +1,6 @@
 above: Above
 actions:
   cancel: Cancel
-  edit: Edit
-  explore: Explore
-  invite: Invite
-  more: More
   next: Next
   'no': 'No'
   ok: Ok
@@ -12,8 +8,16 @@ actions:
   remove: Remove
   save: Save
   'yes': 'Yes'
+all: All
+all_categories: All Categories
+all_exchanges: All Exchanges
+all_labels: All Labels
+all_networks: All Networks
+all_sources: All Sources
 almost-there: Almost There...
+apply_filters: Apply Filters
 below: Below
+category: Category
 confirmation: Confirmation
 copied-to-clipboard: Copied to clipboard
 data-incoming: HODL On! Data Incoming
@@ -25,15 +29,23 @@ error: Error
 errors:
   field-required: This field may not be blank.
   network-error: Something wrong with your internet connection.
-new: New
+exchange: Exchange
+filtered-by: Filtered by
+filters: Filters
+network: Network
 not-available: N/A
+number_short: 'No'
 or: Or
 order-type:
   limit: Limit
   market: Market
 recently: Recently
 recommended-size: Recommended Size
+security_label: Security Label
 share-page-url: Share this page
 show-more: Show more
 soon: Soon
+sorted-by: Sorted by
+source: Source
+trend_label: Trend Label
 uploading: Uploading

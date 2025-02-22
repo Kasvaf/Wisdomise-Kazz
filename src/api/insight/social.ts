@@ -78,6 +78,8 @@ export interface SocialRadarSentiment {
   messages_count: number;
   symbol?: Coin;
   signals_analysis?: CoinSignalAnalysis;
+  wise_score?: number;
+  sources?: null | string[];
 }
 export interface SocialRadarCoin extends SocialRadarSentiment {
   rank: number;
@@ -90,7 +92,6 @@ export interface SocialRadarCoin extends SocialRadarSentiment {
   symbol_labels?: null | string[];
   networks?: null | CoinNetwork[];
   exchanges_name?: null | string[];
-  sources?: null | string[];
 }
 
 export const useSocialRadarCoins = (config: {
@@ -139,12 +140,12 @@ export const useSocialRadarCoins = (config: {
         })
         .sort((a, b) => {
           const sorter = createSorter(config.sortOrder);
-          if (config.sortBy === 'newest')
+          if (config.sortBy === 'call_time')
             return sorter(a.last_signal_related_at, b.last_signal_related_at);
           if (config.sortBy === 'price_change')
             return sorter(
-              b.symbol_market_data.price_change_percentage_24h,
               a.symbol_market_data.price_change_percentage_24h,
+              b.symbol_market_data.price_change_percentage_24h,
             );
 
           if (config.sortBy === 'market_cap')

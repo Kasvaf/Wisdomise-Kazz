@@ -17,29 +17,33 @@ const useApproches = () => {
       logo: string;
     }>
   >(
-    () => [
-      {
-        value: 'social-radar',
-        title: 'Discover Coins From Social Media',
-        description:
-          'Wisdomise Social Radar scans Twitter and premium alpha groups, uncovering top opportunities and saving you $3,000+ in fees.',
-        logo: socialRadar,
-      },
-      {
-        value: 'whale-radar',
-        title: 'Discover Coins From Whales',
-        description:
-          'Track Top Whales, Hottest Tokens They Hold and Trade, and Market Moves Influenced by Crypto Whales',
-        logo: technicalRadar,
-      },
-      {
-        value: 'technical-radar',
-        title: 'Discover Coins Using Indicators',
-        description:
-          'Wisdomise uses indicators and AI to analyze coins, uncovering the best short-term trading opportunities.',
-        logo: whaleRadar,
-      },
-    ],
+    () =>
+      [
+        {
+          value: 'social-radar',
+          title: 'Discover Coins From Social Media',
+          description:
+            'Wisdomise Social Radar scans Twitter and premium alpha groups, uncovering top opportunities and saving you $3,000+ in fees.',
+          logo: socialRadar,
+        },
+        {
+          value: 'whale-radar',
+          title: 'Discover Coins From Whales',
+          description:
+            'Track Top Whales, Hottest Tokens They Hold and Trade, and Market Moves Influenced by Crypto Whales',
+          logo: technicalRadar,
+        },
+        {
+          value: 'technical-radar',
+          title: 'Discover Coins Using Indicators',
+          description:
+            'Wisdomise uses indicators and AI to analyze coins, uncovering the best short-term trading opportunities.',
+          logo: whaleRadar,
+        },
+      ]
+        .map(row => ({ row, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(x => x.row),
     [],
   );
 };

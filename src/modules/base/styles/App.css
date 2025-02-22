@@ -10,7 +10,7 @@
 
 @layer base {
   body {
-    @apply relative bg-v1-background-primary;
+    @apply relative bg-v1-background-primary text-v1-content-primary;
   }
   html,
   body {

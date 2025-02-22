@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
 import { setGameJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
+import { type PageResponse } from 'api/types/page';
 import { type Account } from './types/UserInfoResponse';
 
 export function useAccountQuery() {
@@ -32,23 +33,43 @@ interface ReferralStatus {
   interval_wisdomise_referral_revenue: number;
   referral_revenue: number;
   interval_referral_revenue: number;
+  trader_referred_users_count: number;
+  referral_subscription_revenue: number;
+  referral_trade_revenue: number;
+  ready_to_claim: number;
 }
 
-export function useReferralStatusQuery(intervalDays?: number) {
+interface ReferredUser {
+  name: string;
+  created_at: string;
+  is_subscribed: boolean;
+  is_trader: boolean;
+}
+
+export function useReferralStatusQuery() {
   return useQuery(
-    ['getReferralStatus', intervalDays],
-    async ({ queryKey }) => {
-      const [, intervalDays] = queryKey;
-      const data = await ofetch<ReferralStatus>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status${
-          intervalDays ? '?interval_days=' + String(intervalDays) : ''
-        }`,
+    ['getReferralStatus'],
+    async () => {
+      return await ofetch<ReferralStatus>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
       );
-      return data;
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      retry: false,
+    },
+  );
+}
+
+export function useFriendsQuery() {
+  return useQuery(
+    ['getFriends'],
+    async () => {
+      return await ofetch<PageResponse<ReferredUser>>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referred-users`,
+      );
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
     },
   );
 }

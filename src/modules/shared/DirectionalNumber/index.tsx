@@ -16,8 +16,8 @@ function DirectionIcon({
     <>
       <span
         className={clsx(
-          'inline-flex size-4 items-center justify-center rounded-full bg-v1-surface-l4',
-          'text-xxs text-v1-content-secondary',
+          'inline-flex size-2 items-center justify-center rounded-full',
+          'text-xxs text-v1-content-secondary [&_svg]:mb-px [&_svg]:size-full',
           value === 'neutral' && 'hidden',
           className,
         )}
@@ -72,7 +72,7 @@ export function DirectionalNumber({
       )}
     >
       {showIcon !== false && (
-        <DirectionIcon value={direction} className="mr-1 shrink-0" />
+        <DirectionIcon value={direction} className="me-px shrink-0" />
       )}
       {prefix}
       {showSign && (

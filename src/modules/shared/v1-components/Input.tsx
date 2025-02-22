@@ -13,13 +13,14 @@ export function Input<T extends 'number' | 'string'>({
   onChange,
   type,
   disabled,
+  readOnly,
   loading,
   block,
   placeholder,
   className,
   prefixIcon,
   suffixIcon,
-  surface = 2,
+  surface = 3,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
 
@@ -31,6 +32,7 @@ export function Input<T extends 'number' | 'string'>({
   ) => void;
 
   disabled?: boolean;
+  readOnly?: boolean;
   loading?: boolean;
   block?: boolean;
   placeholder?: string;
@@ -71,7 +73,7 @@ export function Input<T extends 'number' | 'string'>({
         className,
       )}
       style={{
-        backgroundColor: colors.next,
+        backgroundColor: colors.current,
       }}
       aria-disabled={disabled}
       onClick={() => inputRef.current?.focus()}
@@ -82,6 +84,7 @@ export function Input<T extends 'number' | 'string'>({
         value={value}
         onChange={handleChange}
         disabled={disabled}
+        readOnly={readOnly}
         placeholder={placeholder}
         ref={inputRef}
         type={type === 'number' ? 'number' : 'text'}

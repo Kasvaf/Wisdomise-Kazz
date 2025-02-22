@@ -33,14 +33,14 @@ export const Button: FC<ButtonProps> = ({
   loading,
   block,
   onClick,
-  surface = 2,
+  surface = 3,
 }) => {
   const colors = useSurface(surface);
   return (
     <button
       style={{
-        ['--ghost-color' as never]: colors.next,
-        ['--ghost-hover-color' as never]: colors.later,
+        ['--ghost-color' as never]: colors.current,
+        ['--ghost-hover-color' as never]: colors.next,
       }}
       className={clsx(
         /* Size: height, padding, font-size, border-radius */

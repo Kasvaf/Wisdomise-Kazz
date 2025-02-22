@@ -12,7 +12,7 @@ const PageExchangeAccount = React.lazy(
 );
 const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
 const PageToken = React.lazy(() => import('modules/account/PageToken'));
-
+const PageRewards = React.lazy(() => import('modules/account/PageRewards'));
 const ChangeStripeCardInfoPage = React.lazy(
   () =>
     import('modules/account/PageBilling/paymentMethods/Fiat/ChangeCardInfo'),
@@ -72,6 +72,11 @@ const useAccountRoutes = () => {
               handle: { crumb: t('menu.token.title') },
             },
           ],
+        },
+        {
+          path: 'rewards',
+          element: <PageRewards />,
+          handle: { crumb: t('menu.rewards.title') },
         },
       ],
     },

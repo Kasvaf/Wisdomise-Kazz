@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { type AlertFormGroup } from 'modules/alert/library/types';
 import { useAlerts, useDeleteAlert, useSaveAlert, useHasFlag } from 'api';
-import Badge from 'shared/Badge';
 import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { StepOne } from './StepOne';
@@ -18,12 +17,7 @@ export const useScreenerAlert = (): AlertFormGroup => {
   });
   const hasFlag = useHasFlag();
   return {
-    title: (
-      <span className="inline-flex items-center gap-1">
-        {t('types.screener.title')}
-        <Badge color="wsdm" label={t('common:new')} />
-      </span>
-    ),
+    title: t('types.screener.title'),
     subtitle: t('types.screener.subtitle'),
     icon: ScreenerIcon,
     value: 'screener',

@@ -15,7 +15,7 @@ import {
   type IndicatorConfirmationCore,
 } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
-import { ButtonSelect } from 'shared/ButtonSelect';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';

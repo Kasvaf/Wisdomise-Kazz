@@ -10,22 +10,20 @@ import {
 import Icon from 'shared/Icon';
 import { type Surface, useSurface } from 'utils/useSurface';
 
-export function ButtonSelect<T, AC extends boolean = false>({
+export function ButtonSelect<T>({
   size = 'xl',
   variant = 'default',
   className,
   buttonClassName,
   options,
-  allowClear,
   value,
   onChange,
-  surface = 2,
+  surface = 3,
 }: {
   size?: 'xs' | 'sm' | 'md' | 'xl';
   variant?: 'default' | 'primary';
   className?: string;
   buttonClassName?: string;
-  allowClear?: AC;
   options: Array<{
     value: T;
     label: ReactNode;
@@ -34,7 +32,7 @@ export function ButtonSelect<T, AC extends boolean = false>({
     onClickCapture?: () => void;
   }>;
   value?: T;
-  onChange?: (newValue: AC extends true ? T | undefined : T) => void;
+  onChange?: (newValue: T) => void;
   surface?: Surface;
 }) {
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -61,7 +59,10 @@ export function ButtonSelect<T, AC extends boolean = false>({
     const resizeHandler = () => {
       setHasOverflow(
         el
-          ? [el.scrollLeft > 0, el.offsetWidth + el.scrollLeft < el.scrollWidth]
+          ? [
+              el.scrollLeft > 10,
+              el.offsetWidth + el.scrollLeft < el.scrollWidth - 10,
+            ]
           : [false, false],
       );
     };
@@ -91,36 +92,30 @@ export function ButtonSelect<T, AC extends boolean = false>({
       if (typeof option.onClickCapture === 'function') {
         option.onClickCapture();
       } else {
-        onChange?.(
-          allowClear
-            ? value === option.value
-              ? (undefined as never)
-              : option.value
-            : option.value,
-        );
+        onChange?.(option.value);
       }
     },
-    [onChange, allowClear, value],
+    [onChange],
   );
   return (
     <div
       className={clsx(
         'relative max-w-full overflow-hidden',
         /* Size: height, padding, font-size, border-radius */
-        size === 'xs' && 'h-xs rounded-md text-xs',
-        size === 'sm' && 'h-sm rounded-lg text-xs',
+        size === 'xs' && 'h-xs rounded-md text-xxs',
+        size === 'sm' && 'h-sm rounded-lg text-xxs',
         size === 'md' && 'h-md rounded-lg text-xs',
         size === 'xl' && 'h-xl rounded-xl text-sm',
         className,
       )}
       style={{
-        backgroundColor: colors.next,
-        ['--current-color' as never]: colors.next,
-        ['--active-color' as never]: colors.later,
+        backgroundColor: colors.current,
+        ['--current-color' as never]: colors.current,
+        ['--active-color' as never]: colors.next,
       }}
     >
       <div
-        className="flex h-full w-full flex-nowrap items-center gap-1 overflow-hidden whitespace-nowrap p-1 text-v1-content-primary mobile:overflow-auto"
+        className="flex h-full w-full flex-nowrap items-center gap-0 overflow-hidden whitespace-nowrap text-v1-content-primary mobile:overflow-auto"
         ref={buttonsRef}
       >
         {options
@@ -137,12 +132,12 @@ export function ButtonSelect<T, AC extends boolean = false>({
                 size === 'xl' ? ' px-3' : 'px-2',
                 'inline-flex flex-nowrap items-center justify-center gap-1',
                 'grow outline-none transition-colors duration-150',
-                'border border-transparent enabled:hover:bg-v1-background-inverse/5 enabled:active:bg-[--active-color]',
+                'border border-transparent enabled:hover:text-v1-content-primary/80',
                 variant === 'primary'
                   ? 'enabled:aria-checked:bg-v1-background-brand'
-                  : 'enabled:aria-checked:bg-v1-background-inverse/15',
+                  : 'enabled:aria-checked:bg-[--active-color]',
                 'focus-visible:border-v1-border-focus',
-                'aria-checked:text-v1-content-primary',
+                'aria-checked:!text-v1-content-primary',
                 'disabled:opacity-40',
                 buttonClassName,
               )}
@@ -154,9 +149,11 @@ export function ButtonSelect<T, AC extends boolean = false>({
       {hasOverflow.map((x, i) => (
         <div
           className={clsx(
-            'group absolute top-0 flex h-full w-5 cursor-pointer items-center justify-center',
-            '!bg-[--current-color]',
-            i === 0 ? 'left-0' : 'right-0',
+            'group absolute top-0 flex h-full w-10 cursor-pointer items-center',
+            '!bg-gradient-to-r',
+            i === 0
+              ? 'left-0 justify-start from-[--current-color] to-transparent'
+              : 'right-0 justify-end from-transparent to-[--current-color]',
             !x && 'hidden',
           )}
           onClick={scroll(i === 0 ? 'left' : 'right')}

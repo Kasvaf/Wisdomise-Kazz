@@ -32,9 +32,13 @@ export function ExchangeSelect<M extends boolean>({
       onSearch={setQuery}
       render={val => {
         if (!val) return t('common.all_exchanges');
-        const cat = options.data?.find(x => x.name === val);
-        if (!cat) return val;
-        return cat.name;
+        const opt = options.data?.find(x => x.name === val);
+        return (
+          <div className="flex items-center gap-2">
+            <img src={opt?.icon_url ?? ''} className="size-5" />
+            {opt?.name ?? val}
+          </div>
+        );
       }}
       options={
         options.data

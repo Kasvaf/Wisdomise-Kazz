@@ -16,10 +16,11 @@ import {
 export const useDisconnectAll = () => {
   const { disconnect: solDisconnect } = useWallet();
   const [{ disconnect: tonDisconnect }] = useTonConnectUI();
-  return () =>
-    Promise.all([solDisconnect(), tonDisconnect()]).catch(() => {
-      //
-    });
+  return async () => {
+    try {
+      await Promise.all([solDisconnect(), tonDisconnect()]);
+    } catch {}
+  };
 };
 
 export const useActiveWallet = () => {

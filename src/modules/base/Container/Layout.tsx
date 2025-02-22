@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import React, { useRef, useState, type PropsWithChildren } from 'react';
+import React, { useState, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import { useHubSpot } from 'config/hubSpot';
 import AuthorizedContent from '../auth/AuthorizedContent';
@@ -13,14 +13,13 @@ import { usePageSiblings } from './Header/Breadcrumb';
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   useHubSpot();
   const isMobile = useIsMobile();
-  const mainRef = useRef<HTMLDivElement>(null);
   const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
   const { PageSiblings, height, showSiblings, setShowSiblings } =
     usePageSiblings();
 
   return (
     <main
-      className="relative mx-auto max-w-[2304px] bg-v1-surface-l1"
+      className="relative mx-auto h-auto max-w-[2304px] bg-v1-surface-l1"
       style={{
         ['--side-menu-width' as any]: `${sideMenuCollapsed ? 74 : 260}px`,
       }}
@@ -37,10 +36,10 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
       </Header>
 
       <div
-        ref={mainRef}
-        id="scrolling-element"
         className={clsx(
-          'ml-[--side-menu-width] mt-20 h-[calc(100vh-5rem)] overflow-auto p-6 pb-24 pt-0 mobile:mb-16 mobile:ml-0 mobile:h-auto mobile:p-3',
+          'ml-[--side-menu-width] p-6',
+          'mobile:ml-0 mobile:px-4 mobile:py-0',
+          'mt-20 mobile:mb-[7rem] mobile:mt-16',
         )}
       >
         <div style={{ height }} />

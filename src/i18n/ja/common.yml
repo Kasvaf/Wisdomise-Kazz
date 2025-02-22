@@ -1,6 +1,8 @@
 above: その上
 actions:
+  back: 戻る
   cancel: キャンセル
+  complete: 完了
   edit: 編集
   explore: 詳細を確認
   invite: 招待する
@@ -12,27 +14,62 @@ actions:
   remove: 取り除く
   save: 保存
   yes: はい
+all: 全て
+all_categories: すべてのカテゴリー
+all_exchanges: すべての取引所
+all_labels: すべてのラベル
+all_networks: すべてのネットワーク
+all_sources: すべてのソース
 almost-there: もうすぐです...
+apply_filters: フィルターを適用する
+aum: 運用資産
 below: 下に
+category: カテゴリ
 confirmation: 確認
 copied-to-clipboard: クリップボードにコピー
+crypto: 仮想通貨
+cryptocurrency: 暗号通貨
 data-incoming: HODLオン！データ到着
 data-incoming-description: 私たちの使命は、何千もの暗号プロジェクトを分析して、情報に基づいた取引のための洞察を提供することですが、一部のプロジェクトにはより多くの時間が必要になる場合があります。
+date: 日付
 equal: 等しい
 error: エラー
 errors:
   field-required: このフィールドは空白にできません。
   network-error: インターネット接続に問題があります。
+exchange: 取引所
+filtered-by: フィルター
+filters: フィルター
+free-plan: 無料プラン
+futures: 先物
+loading-dot-dot-dot: 読み込み中...
+market:
+  long: 長さ
+  short: 短い
+network: ネットワーク
 new: 新しい
 not-available: 該当なし
+nothing-to-show: 表示するものがありません
+number_short: いいえ
 or: または
 order-type:
   limit: 限界
   market: 市場（マーケット）
+paid-plan: 有料プラン
+quality:
+  high: 高い
+  low: 低い
+  medium: 中くらい
 recently: 最近
 recommended-size: 推奨サイズ
+security_label: セキュリティラベル
 see-more: もっと見る
+select-crypto: 暗号を選択
 share-page-url: このページを共有する
 show-more: もっと見せる
 soon: すぐ
+sorted-by: 並び替え
+source: ソース
+spot: スポット
+trend_label: トレンドラベル
 uploading: アップロード中
