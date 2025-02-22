@@ -91,7 +91,7 @@ export const useCoins = (config: {
   tradableCoinsOnly?: boolean;
 }) =>
   useQuery({
-    queryKey: ['coins', config.query],
+    queryKey: ['coins', config.query, config.tradableCoinsOnly],
     staleTime: Number.POSITIVE_INFINITY,
     queryFn: () =>
       ofetch<Coin[]>('delphi/symbol/search/', {
