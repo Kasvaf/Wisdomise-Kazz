@@ -1,13 +1,13 @@
 import { useMemo, type PropsWithChildren } from 'react';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
-
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
   ConnectionProvider,
-  WalletProvider as SolWalletProvider,
-} from '@solana/wallet-adapter-react';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+  UnifiedWalletProvider,
+} from '@jup-ag/wallet-adapter';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
@@ -33,15 +33,36 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
           },
         },
       }),
+      ...(navigator.userAgent.includes('iPhone')
+        ? [new SolflareWalletAdapter(), new PhantomWalletAdapter()]
+        : []),
     ],
     [network],
   );
 
   return (
     <ConnectionProvider endpoint={rpcEndpoint}>
-      <SolWalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>{children}</WalletModalProvider>
-      </SolWalletProvider>
+      <UnifiedWalletProvider
+        wallets={wallets}
+        config={{
+          autoConnect: false,
+          theme: 'dark',
+          env: 'mainnet-beta',
+          metadata: {
+            name: 'Wisdomise AutoTrader',
+            description:
+              'Track whales, spot moonshots, and auto-trade like a true degen — all in a few clicks. 🚀👀',
+            url: 'https://app.wisdomise.com',
+            iconUrls: ['http://wisdomise.com/icon.svg'],
+          },
+          // notificationCallback: WalletNotification,
+          // walletlistExplanation: {
+          //   href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
+          // },
+        }}
+      >
+        {children}
+      </UnifiedWalletProvider>
     </ConnectionProvider>
   );
 };
