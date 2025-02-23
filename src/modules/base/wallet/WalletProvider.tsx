@@ -1,10 +1,11 @@
 import { useMemo, type PropsWithChildren } from 'react';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
   ConnectionProvider,
-  UnifiedWalletProvider,
-} from '@jup-ag/wallet-adapter';
+  WalletProvider as SolWalletProvider,
+} from '@solana/wallet-adapter-react';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
@@ -42,27 +43,9 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <ConnectionProvider endpoint={rpcEndpoint}>
-      <UnifiedWalletProvider
-        wallets={wallets}
-        config={{
-          autoConnect: false,
-          theme: 'dark',
-          env: 'mainnet-beta',
-          metadata: {
-            name: 'Wisdomise AutoTrader',
-            description:
-              'Track whales, spot moonshots, and auto-trade like a true degen — all in a few clicks. 🚀👀',
-            url: 'https://app.wisdomise.com',
-            iconUrls: ['http://wisdomise.com/icon.svg'],
-          },
-          // notificationCallback: WalletNotification,
-          // walletlistExplanation: {
-          //   href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
-          // },
-        }}
-      >
-        {children}
-      </UnifiedWalletProvider>
+      <SolWalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>{children}</WalletModalProvider>
+      </SolWalletProvider>
     </ConnectionProvider>
   );
 };
