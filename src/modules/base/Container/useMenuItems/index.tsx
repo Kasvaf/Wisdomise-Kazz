@@ -66,10 +66,10 @@ const useMenuItems = () => {
       icon: <IconInsight />,
       text: 'Radars',
       link:
-        pathname.startsWith('/coin-radar/') &&
-        !pathname.startsWith('/coin-radar/overview')
-          ? pathname
-          : '/coin-radar/social-radar',
+        (pathname.startsWith('/coin-radar/') &&
+          !pathname.startsWith('/coin-radar/overview') &&
+          /\/coin-radar\/[\w-]+/.exec(pathname)?.[0]) ||
+        '/coin-radar/social-radar',
       hide: !isMobile,
     },
     {
