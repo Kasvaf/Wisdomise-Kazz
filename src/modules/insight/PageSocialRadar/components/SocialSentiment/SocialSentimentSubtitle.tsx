@@ -3,31 +3,22 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { type SocialRadarSentiment } from 'api';
 
-export const SocialSentimentTitle: FC<{
+export const SocialSentimentSubtitle: FC<{
   value?: SocialRadarSentiment['gauge_tag'];
   className?: string;
 }> = ({ value, className }) => {
   const { t } = useTranslation('coin-radar');
 
   return (
-    <div
-      className={clsx(
-        value === 'LONG'
-          ? 'text-v1-content-positive'
-          : value === 'SHORT'
-          ? 'text-v1-content-negative'
-          : 'text-v1-content-primary',
-        className,
-      )}
-    >
+    <div className={clsx(className)}>
       {value === 'LONG'
-        ? t('call-change.positive')
+        ? t('call-change.long_desciption')
         : value === 'SHORT'
-        ? t('call-change.negative')
+        ? t('call-change.short_desciption')
         : value === 'NOT SURE'
-        ? t('call-change.not_sure')
+        ? t('call-change.not_sure_description')
         : value === 'NEUTRAL'
-        ? t('call-change.neutral')
+        ? t('call-change.neutral_description')
         : '---'}
     </div>
   );

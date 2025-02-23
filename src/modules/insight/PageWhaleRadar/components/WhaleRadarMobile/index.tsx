@@ -10,7 +10,8 @@ import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import CoinPreDetailModal from 'modules/insight/PageHome/components/HomeMobile/CoinPreDetailModal';
+import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
+import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { WhaleSentiment } from '../WhaleSentiment';
 import { WhaleRadarFilters } from '../WhaleRadarFilters';
 
@@ -32,9 +33,10 @@ export const WhaleRadarMobile = () => {
     profitableOnly: false,
   });
 
-  const [detailSlug, setDetailSlug] = useState('');
-
   const coins = useWhaleRadarCoins(tableState);
+
+  const [selectedRow, setSelectedRow] = useState<null | WhaleRadarCoin>(null);
+  const [modal, setModal] = useState(false);
 
   const columns = useMemo<Array<MobileTableColumn<WhaleRadarCoin>>>(
     () => [
@@ -71,7 +73,7 @@ export const WhaleRadarMobile = () => {
       },
       {
         key: 'sentiment',
-        render: row => <WhaleSentiment value={row} detailsLevel={1} />,
+        render: row => <WhaleSentiment value={row} mode="summary" />,
       },
       {
         key: 'labels',
@@ -126,10 +128,28 @@ export const WhaleRadarMobile = () => {
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isLoading}
           surface={2}
-          onClick={r => r.symbol.slug && setDetailSlug(r.symbol.slug)}
+          onClick={r => {
+            setSelectedRow(r);
+            setModal(true);
+          }}
         />
       </AccessShield>
-      <CoinPreDetailModal slug={detailSlug} onClose={() => setDetailSlug('')} />
+      <CoinPreDetailModal
+        slug={selectedRow?.symbol.slug}
+        open={modal}
+        onClose={() => setModal(false)}
+      >
+        {selectedRow && (
+          <CoinPriceChart
+            value={(selectedRow.chart_data ?? []).map(p => ({
+              related_at: p.related_at,
+              value: p.price,
+            }))}
+            whalesActivity={selectedRow.chart_data}
+          />
+        )}
+        {selectedRow && <WhaleSentiment value={selectedRow} mode="expanded" />}
+      </CoinPreDetailModal>
     </>
   );
 };

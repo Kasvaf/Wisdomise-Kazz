@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { DebugPin } from 'shared/DebugPin';
 import { useTechnicalRadarSentiment } from 'api';
-import { SentimentGuage } from './SentimentGuage';
+import { Guage } from '../../../shared/Guage';
 
 function Progress({ value }: { value: number }) {
   return (
@@ -82,7 +82,7 @@ export function TechnicalRadarSentimentWidget({
         </div>
       </div>
       <div className="relative flex h-20 w-[35%] shrink-0 flex-col justify-between overflow-hidden">
-        <SentimentGuage
+        <Guage
           measure={sentiment.data?.normalized_score ?? 0}
           className="h-16"
         />

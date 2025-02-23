@@ -5,19 +5,21 @@ import { useTranslation } from 'react-i18next';
 import { type WhaleRadarCoin } from 'api';
 import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { CoinWhalesWidget } from '../WhaleRadarDesktop/CoinWhalesWidget';
+import { WhaleCoinBuySellInfo } from '../WhaleCoinBuySellInfo';
 import { ReactComponent as WhaleIcon } from './whale.svg';
 
 export const WhaleSentiment: FC<{
   value: WhaleRadarCoin;
-  detailsLevel?: 1 | 2;
-}> = ({ value, detailsLevel = 2 }) => {
+  mode?: 'with_tooltip' | 'expanded' | 'summary';
+}> = ({ value, mode = 'with_tooltip' }) => {
   const { t } = useTranslation('whale');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      {detailsLevel === 2 && (
+      {mode === 'with_tooltip' && (
         <>
           <button
             className="inline-flex items-center gap-1 text-xs"
@@ -50,7 +52,7 @@ export const WhaleSentiment: FC<{
           </Modal>
         </>
       )}
-      {detailsLevel === 1 && (
+      {mode === 'summary' && (
         <div className="inline-flex items-center gap-1">
           <WhaleIcon />
           <div className="w-6">
@@ -76,6 +78,39 @@ export const WhaleSentiment: FC<{
               showSign={false}
               showIcon={false}
             />
+          </div>
+        </div>
+      )}
+      {mode === 'expanded' && (
+        <div className="flex flex-col overflow-hidden rounded-xl p-3 bg-v1-surface-l-next">
+          <p className="mb-2 text-xs">{t('sentiment.title')}</p>
+          <div className="mb-2 flex flex-wrap items-center justify-start gap-px text-sm">
+            {value.label_percents.map(label => (
+              <WhaleAssetBadge
+                key={label[0]}
+                value={label[0]}
+                percentage={label[1]}
+                className="h-4 px-2"
+              />
+            ))}
+          </div>
+          <div className="grid grid-flow-col grid-cols-2 grid-rows-2 items-center gap-x-px gap-y-1 text-xs">
+            <div className="col-span-2 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1 text-v1-content-secondary">
+                {t('top_coins.buy_volume.title')}:
+              </div>
+              <div>
+                <WhaleCoinBuySellInfo value={value} type="buy" singleLine />
+              </div>
+            </div>
+            <div className="col-span-2 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1 text-v1-content-secondary">
+                {t('top_coins.sell_volume.title')}:
+              </div>
+              <div>
+                <WhaleCoinBuySellInfo value={value} type="sell" singleLine />
+              </div>
+            </div>
           </div>
         </div>
       )}

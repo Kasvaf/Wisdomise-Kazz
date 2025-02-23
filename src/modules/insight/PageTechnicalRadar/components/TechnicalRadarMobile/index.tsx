@@ -2,12 +2,15 @@
 import { useState } from 'react';
 import { MobileSearchBar } from 'shared/MobileSearchBar';
 import RadarsTabs from 'modules/insight/RadarsTabs';
-import CoinPreDetailModal from 'modules/insight/PageHome/components/HomeMobile/CoinPreDetailModal';
+import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { type TechnicalRadarCoin } from 'api';
 import {
   type TechnicalRadarView,
   TechnicalRadarViewSelect,
 } from '../TechnicalRadarViewSelect';
+import { TechnicalSentiment } from '../TechnicalSentiment';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 import { TechnicalRadarCoinsCharts } from './TechnicalRadarCoinsCharts';
 
@@ -17,7 +20,10 @@ export const TechnicalRadarMobile = () => {
     'table',
   );
 
-  const [detailSlug, setDetailSlug] = useState('');
+  const [selectedRow, setSelectedRow] = useState<null | TechnicalRadarCoin>(
+    null,
+  );
+  const [modal, setModal] = useState(false);
 
   return (
     <>
@@ -30,9 +36,34 @@ export const TechnicalRadarMobile = () => {
         size="sm"
         surface={1}
       />
-      {tab === 'chart' && <TechnicalRadarCoinsCharts onClick={setDetailSlug} />}
-      {tab === 'table' && <TechnicalRadarCoinsTable onClick={setDetailSlug} />}
-      <CoinPreDetailModal slug={detailSlug} onClose={() => setDetailSlug('')} />
+      {tab === 'chart' && (
+        <TechnicalRadarCoinsCharts
+          onClick={row => {
+            setSelectedRow(row);
+            setModal(true);
+          }}
+        />
+      )}
+      {tab === 'table' && (
+        <TechnicalRadarCoinsTable
+          onClick={row => {
+            setSelectedRow(row);
+            setModal(true);
+          }}
+        />
+      )}
+      <CoinPreDetailModal
+        slug={selectedRow?.symbol.slug}
+        open={modal}
+        onClose={() => setModal(false)}
+      >
+        {selectedRow?.sparkline && (
+          <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />
+        )}
+        {selectedRow && (
+          <TechnicalSentiment value={selectedRow} mode="expanded" />
+        )}
+      </CoinPreDetailModal>
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { ReactComponent as Gauge } from './gauge.svg';
 
-export function SentimentGuage({
+export function Guage({
   measure,
   className,
 }: {

@@ -12,7 +12,7 @@ import { TechnicalSentiment } from '../TechnicalSentiment';
 import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
 
 export const TechnicalRadarCoinsTable: FC<{
-  onClick?: (slug: string) => void;
+  onClick?: (coin: TechnicalRadarCoin) => void;
 }> = ({ onClick }) => {
   const [, tableState, setTableState] = useTableState<
     Required<Parameters<typeof useTechnicalRadarCoins>[0]>
@@ -63,7 +63,7 @@ export const TechnicalRadarCoinsTable: FC<{
       },
       {
         key: 'sentiment',
-        render: row => <TechnicalSentiment value={row} detailsLevel={2} />,
+        render: row => <TechnicalSentiment value={row} mode="summary" />,
       },
       {
         key: 'labels',
@@ -115,7 +115,7 @@ export const TechnicalRadarCoinsTable: FC<{
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isLoading}
           surface={2}
-          onClick={r => r.symbol.slug && onClick?.(r.symbol.slug)}
+          onClick={r => onClick?.(r)}
         />
       </AccessShield>
     </>

@@ -10,7 +10,8 @@ import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import CoinPreDetailModal from 'modules/insight/PageHome/components/HomeMobile/CoinPreDetailModal';
+import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
+import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { SocialSentiment } from '../SocialSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 
@@ -32,7 +33,8 @@ export const SocialRadarMobile = () => {
     windowHours: 24,
   });
 
-  const [detailSlug, setDetailSlug] = useState('');
+  const [selectedRow, setSelectedRow] = useState<null | SocialRadarCoin>(null);
+  const [modal, setModal] = useState(false);
 
   const coins = useSocialRadarCoins(tableState);
 
@@ -71,7 +73,7 @@ export const SocialRadarMobile = () => {
       },
       {
         key: 'sentiment',
-        render: row => <SocialSentiment value={row} detailsLevel={2} />,
+        render: row => <SocialSentiment value={row} mode="summary" />,
       },
       {
         key: 'labels',
@@ -125,10 +127,25 @@ export const SocialRadarMobile = () => {
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isLoading}
           surface={2}
-          onClick={r => r.symbol.slug && setDetailSlug(r.symbol.slug)}
+          onClick={r => {
+            setSelectedRow(r);
+            setModal(true);
+          }}
         />
       </AccessShield>
-      <CoinPreDetailModal slug={detailSlug} onClose={() => setDetailSlug('')} />
+      <CoinPreDetailModal
+        slug={selectedRow?.symbol.slug}
+        open={modal}
+        onClose={() => setModal(false)}
+      >
+        {selectedRow?.signals_analysis?.sparkline && (
+          <CoinPriceChart
+            value={selectedRow?.signals_analysis?.sparkline?.prices ?? []}
+            socialIndexes={selectedRow?.signals_analysis?.sparkline.indexes}
+          />
+        )}
+        {selectedRow && <SocialSentiment value={selectedRow} mode="expanded" />}
+      </CoinPreDetailModal>
     </>
   );
 };

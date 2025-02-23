@@ -11,7 +11,8 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinLabels } from 'shared/CoinLabels';
 import { AccessShield } from 'shared/AccessShield';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import CoinPreDetailModal from '../CoinPreDetailModal';
+import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
+import { CoinPriceChart } from 'shared/CoinPriceChart';
 
 export const HotCoinsMobile = () => {
   const { t } = useTranslation('insight');
@@ -25,7 +26,8 @@ export const HotCoinsMobile = () => {
     networks: network ? [network] : [],
   });
 
-  const [detailSlug, setDetailSlug] = useState('');
+  const [selectedRow, setSelectedRow] = useState<null | CoinRadarCoin>(null);
+  const [modal, setModal] = useState(false);
 
   const columns = useMemo<Array<MobileTableColumn<CoinRadarCoin>>>(
     () => [
@@ -65,15 +67,12 @@ export const HotCoinsMobile = () => {
         render: row => (
           <div className="flex items-center gap-4">
             {row.social_radar_insight && (
-              <SocialSentiment
-                value={row.social_radar_insight}
-                detailsLevel={1}
-              />
+              <SocialSentiment value={row.social_radar_insight} mode="icon" />
             )}
             {row.technical_radar_insight && (
               <TechnicalSentiment
                 value={row.technical_radar_insight}
-                detailsLevel={1}
+                mode="icon"
               />
             )}
           </div>
@@ -138,11 +137,43 @@ export const HotCoinsMobile = () => {
           loading={coins.isLoading}
           rowKey={r => r.rank}
           surface={2}
-          onClick={r => r.symbol.slug && setDetailSlug(r.symbol.slug)}
+          onClick={r => {
+            setSelectedRow(r);
+            setModal(true);
+          }}
         />
       </AccessShield>
 
-      <CoinPreDetailModal slug={detailSlug} onClose={() => setDetailSlug('')} />
+      <CoinPreDetailModal
+        slug={selectedRow?.symbol.slug}
+        open={modal}
+        onClose={() => setModal(false)}
+      >
+        {selectedRow?.social_radar_insight?.signals_analysis?.sparkline && (
+          <CoinPriceChart
+            value={
+              selectedRow?.social_radar_insight?.signals_analysis?.sparkline
+                ?.prices ?? []
+            }
+            socialIndexes={
+              selectedRow?.social_radar_insight?.signals_analysis?.sparkline
+                .indexes
+            }
+          />
+        )}
+        {selectedRow?.social_radar_insight && (
+          <SocialSentiment
+            value={selectedRow.social_radar_insight}
+            mode="expanded"
+          />
+        )}
+        {selectedRow?.technical_radar_insight && (
+          <TechnicalSentiment
+            value={selectedRow?.technical_radar_insight}
+            mode="expanded"
+          />
+        )}
+      </CoinPreDetailModal>
     </div>
   );
 };

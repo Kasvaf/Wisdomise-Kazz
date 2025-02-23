@@ -5,17 +5,19 @@ available-exchanges:
     price: Price
     volume_24h: Volume 24h
 call-change:
+  title: Social Sentiment™
   analyzed-messages: Analyzed Messages
   biggest-dump: Biggest Dump
   biggest-pump: Biggest Pump
-  current-price: Current Price
-  first-mention: First Mention
   last-mention: Last Seen
-  long: Strong Outlook
+  long_desciption: Potential Growth Opportunity
   negative: Negative
+  neutral: Neutral
+  neutral_description: No Clear Trend
   not_sure: Not Sure
+  not_sure_description: No Clear Trend
   positive: Positive
-  short: Weak Outlook
+  short_desciption: Risk Of Decline
 coin_labels:
   hype:
     info: >-

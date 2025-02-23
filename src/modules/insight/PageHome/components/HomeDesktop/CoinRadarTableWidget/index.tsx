@@ -61,7 +61,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
           row.social_radar_insight ? (
             <SocialSentiment
               value={row.social_radar_insight}
-              detailsLevel={3}
+              mode="with_tooltip"
             />
           ) : (
             <EmptySentiment value="social_radar" />
@@ -79,7 +79,10 @@ export function CoinRadarTable({ className }: { className?: string }) {
         width: 310,
         render: (_, row) =>
           row.technical_radar_insight ? (
-            <TechnicalSentiment value={row.technical_radar_insight} />
+            <TechnicalSentiment
+              value={row.technical_radar_insight}
+              mode="with_tooltip"
+            />
           ) : (
             <EmptySentiment value="technical_radar" />
           ),

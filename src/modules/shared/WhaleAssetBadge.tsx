@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { type WhaleAssetLabel } from 'api';
 import { ClickableTooltip } from './ClickableTooltip';
+import { ReadableNumber } from './ReadableNumber';
 
 const useBadgeDetail = (
   badge?: WhaleAssetLabel | null,
@@ -74,10 +75,12 @@ export function WhaleAssetBadge({
   className,
   value,
   date,
+  percentage,
 }: {
   className?: string;
   value?: WhaleAssetLabel | null;
   date?: string | null;
+  percentage?: number | null;
 }) {
   const { t } = useTranslation('common');
   const detail = useBadgeDetail(value);
@@ -88,6 +91,7 @@ export function WhaleAssetBadge({
     const text = dt.fromNow(false);
     return `(${daysDiff < 2 ? t('recently') : text})`;
   }, [date, t]);
+
   return (
     <ClickableTooltip
       chevron={false}
@@ -106,6 +110,16 @@ export function WhaleAssetBadge({
         className,
       )}
     >
+      {percentage && (
+        <ReadableNumber
+          value={percentage}
+          label="%"
+          popup="never"
+          format={{
+            decimalLength: 1,
+          }}
+        />
+      )}
       {detail.title}
       {dateTxt && <span className="capitalize opacity-80">{dateTxt}</span>}
     </ClickableTooltip>

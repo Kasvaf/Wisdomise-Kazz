@@ -13,7 +13,7 @@ import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/Pri
 import { CoinLabels } from 'shared/CoinLabels';
 import Spinner from 'shared/Spinner';
 
-const CoinPreDetailModal: React.FC<{
+const MiniAppPreDetailModal: React.FC<{
   slug?: string;
   onClose: () => unknown;
 }> = ({ slug: slugArg, onClose }) => {
@@ -35,7 +35,7 @@ const CoinPreDetailModal: React.FC<{
   )?.id;
 
   const symbolPlaceholder = {
-    slug,
+    slug: slug ?? '',
     abbreviation: '...',
     name: '...',
   };
@@ -136,4 +136,4 @@ const CoinPreDetailModal: React.FC<{
   );
 };
 
-export default CoinPreDetailModal;
+export default MiniAppPreDetailModal;

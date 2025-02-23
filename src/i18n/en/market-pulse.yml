@@ -17,6 +17,7 @@ common:
     opportunities: Opportunities
     rsi_and_macd: (RSI+MACD)
   rsi_wise_scoring: RSI Wise Scoring
+  sentiment_title: Technical Sentiment™
   share: Share
   short_term: Short-Term
   table_view: Table View
