@@ -44,7 +44,7 @@ export const SocialSentiment: FC<{
           <SocialSentimentTitle
             value={value}
             icon
-            iconSize={28}
+            iconSize={24}
             className="shrink-0"
           />
           {isDebugMode && <MiniBar value={value?.gauge_measure ?? 0} />}
