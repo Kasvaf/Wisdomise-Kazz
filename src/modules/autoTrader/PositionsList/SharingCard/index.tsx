@@ -45,7 +45,8 @@ export default function SharingCard({
   const el = useRef<HTMLDivElement>(null);
   const screenshot = useScreenshot(el, {
     backgroundColor: '#1D1E23', // v1-surface-l3
-    fileName: 'share-me',
+    fileName: position.key,
+    afterCapture: 'download',
   });
   const { shareOnTwitter, shareOnTelegram, shareOnLinkedin } = useSocialShare();
   const [copy, content] = useShare('copy');

@@ -8,10 +8,14 @@ export const useScreenshot = (
   config: {
     backgroundColor?: string;
     fileName?: string;
+    afterCapture?: 'share' | 'download';
   },
 ) => {
   const [share] = useShare('share');
   const isMobile = useIsMobile();
+
+  const afterCapture = config.afterCapture ?? isMobile ? 'share' : 'download';
+
   return () => {
     if (!el.current || el.current.classList.contains('capturing'))
       throw new Error('capture is in progress');
@@ -24,7 +28,7 @@ export const useScreenshot = (
           new Promise(resolve => {
             const fileName = `${config.fileName ?? Date.now()}.png`;
 
-            if (isMobile) {
+            if (afterCapture === 'share') {
               canvas.toBlob(blob => {
                 if (!blob)
                   throw new Error('Error creating blob from html element!');
