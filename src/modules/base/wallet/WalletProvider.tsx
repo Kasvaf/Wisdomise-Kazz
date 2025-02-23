@@ -6,6 +6,8 @@ import {
   UnifiedWalletProvider,
 } from '@jup-ag/wallet-adapter';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
@@ -31,6 +33,9 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
           },
         },
       }),
+      ...(navigator.userAgent.includes('iPhone')
+        ? [new SolflareWalletAdapter(), new PhantomWalletAdapter()]
+        : []),
     ],
     [network],
   );
