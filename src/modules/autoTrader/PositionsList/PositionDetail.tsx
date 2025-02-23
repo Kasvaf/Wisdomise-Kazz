@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { bxEditAlt, bxHistory } from 'boxicons-quasar';
+import { bxEditAlt, bxHistory, bxShareAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
@@ -10,6 +11,7 @@ import PriceChange from 'shared/PriceChange';
 import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
+import SharingCard from 'modules/autoTrader/PositionsList/SharingCard';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
@@ -32,6 +34,8 @@ const PositionDetail: React.FC<{
   position: Position;
   className?: string;
 }> = ({ position, className }) => {
+  const [openShare, setOpenShare] = useState(false);
+
   const initialDeposit = initialQuoteDeposit(position);
   const isOpen = ['OPENING', 'OPEN', 'CLOSING'].includes(position.status);
 
@@ -71,6 +75,16 @@ const PositionDetail: React.FC<{
               Edit
             </Button>
           )}
+          {/* {position.status === 'CLOSED' && ( */}
+          <Button
+            variant="link"
+            className="ms-auto !p-0 !text-xs text-v1-content-link"
+            onClick={() => setOpenShare(true)}
+          >
+            <Icon name={bxShareAlt} size={16} className="mr-1" />
+            Share
+          </Button>
+          {/* )} */}
         </div>
       </div>
       <hr className="my-4 border-white/10" />
@@ -195,6 +209,11 @@ const PositionDetail: React.FC<{
           </Button>
         )}
       </div>
+      <SharingCard
+        open={openShare}
+        setOpen={setOpenShare}
+        position={position}
+      />
     </div>
   );
 };

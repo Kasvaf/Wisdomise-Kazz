@@ -61,6 +61,7 @@
     "overlayscrollbars-react": "^0.5.4",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
+    "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
     "react-animate-height": "^3.2.3",
     "react-cookie": "^7.2.2",
