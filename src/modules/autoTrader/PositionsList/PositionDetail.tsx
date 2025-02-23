@@ -47,7 +47,7 @@ const PositionDetail: React.FC<{
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <span className="text-white/30">#{position.id}</span>
-          <NavLink to={`/coin/${position.pair_slug}`}>
+          <NavLink to={`/coin/${position.base_slug}`}>
             {position.pair_name}
           </NavLink>
           {position.network_slug && ( // TODO check won't be necessary once backend is DONE

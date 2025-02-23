@@ -75,13 +75,13 @@ export const TechnicalSentiment: FC<{
           {(isBullish || isBearish) && (
             <img
               src={isBullish ? Bullish : Bearish}
-              className="size-7 shrink-0 object-contain"
+              className="size-[24px] shrink-0 object-contain"
             />
           )}
           {(isCheap || isExpensive) && (
             <img
               src={isCheap ? Cheap : Expensive}
-              className="size-7 shrink-0 object-contain"
+              className="size-[24px] shrink-0 object-contain"
             />
           )}
         </>
@@ -90,7 +90,7 @@ export const TechnicalSentiment: FC<{
         <>
           <img
             src={isGreen ? Bullish : Bearish}
-            className="size-7 shrink-0 object-contain"
+            className="size-[24px] shrink-0 object-contain"
           />
           {isDebugMode && <MiniBar value={score} />}
         </>
