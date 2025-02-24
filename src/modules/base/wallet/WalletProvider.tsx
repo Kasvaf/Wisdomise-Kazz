@@ -34,7 +34,8 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
           },
         },
       }),
-      ...(navigator.userAgent.includes('iPhone')
+      ...(navigator.userAgent.includes('iPhone') &&
+      !/phantom|solflare|webview|wv/i.test(navigator.userAgent)
         ? [new SolflareWalletAdapter(), new PhantomWalletAdapter()]
         : []),
     ],
