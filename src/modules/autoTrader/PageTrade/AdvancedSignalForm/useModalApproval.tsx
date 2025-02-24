@@ -86,6 +86,11 @@ const PriceVols: React.FC<{
   );
 };
 
+const MIN_GAS = {
+  TON: 0.1,
+  SOL: 0,
+};
+
 const ModalApproval: React.FC<{
   formState: SignalFormState;
   createData: CreatePositionRequest;
@@ -110,7 +115,7 @@ const ModalApproval: React.FC<{
   const nativeAmount =
     Number(data?.gas_fee) + (quoteInfo?.abbreviation === gasAbbr ? +amount : 0);
   const remainingGas = Number(nativeBalance) - nativeAmount;
-  const hasEnoughGas = remainingGas > 0.1;
+  const hasEnoughGas = remainingGas > MIN_GAS[gasAbbr];
   const impact = Number(data?.price_impact);
 
   return (
