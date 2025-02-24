@@ -3,8 +3,8 @@ import { type MouseEventHandler, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
-import { bxChevronDown, bxChevronUp, bxLogIn, bxMobile } from 'boxicons-quasar';
-import { useAccountQuery, useHasFlag } from 'api';
+import { bxChevronDown, bxChevronUp, bxLogIn } from 'boxicons-quasar';
+import { useHasFlag } from 'api';
 import { useLogoutMutation } from 'api/auth';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -12,7 +12,6 @@ import BetaVersion from 'shared/BetaVersion';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
 import { DebugPin } from 'shared/DebugPin';
-import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
 import { TrialEndBanner } from '../TrialEndBanner';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
@@ -35,7 +34,9 @@ const MenuItemsGroup: React.FC<{
         to={item.link}
         target={item.link.startsWith('https://') ? '_blank' : undefined}
         onClick={e => {
-          e.preventDefault();
+          if (children?.length) {
+            e.preventDefault();
+          }
           item.onClick?.();
           onClick(item.link);
         }}
@@ -49,8 +50,11 @@ const MenuItemsGroup: React.FC<{
           <span>{item.icon}</span>
           {!collapsed && <p className="ml-2">{item.text}</p>}
         </div>
-        {!collapsed && <Icon name={isActive ? bxChevronUp : bxChevronDown} />}
+        {!collapsed && !!children?.length && (
+          <Icon name={isActive ? bxChevronUp : bxChevronDown} />
+        )}
       </NavLink>
+
       {children?.length && !collapsed && (
         <AnimateHeight
           height={isActive ? 'auto' : 0}
@@ -59,7 +63,9 @@ const MenuItemsGroup: React.FC<{
         >
           <div className="ml-7">
             {children
-              .filter(x => !x.hide && hasFlag(x.link))
+              .filter(
+                x => !x.hide && (x.link.startsWith('http') || hasFlag(x.link)),
+              )
               .map(subItem => (
                 <NavLink
                   key={subItem.link}
@@ -107,22 +113,8 @@ const MenuItemsContent: React.FC<{
 
   const [ModalLogin, showModalLogin] = useModalLogin();
   const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
-  const account = useAccountQuery();
 
   const extraItems = [
-    ...(account.data?.telegram_code && hasFlag('/mini-login')
-      ? [
-          {
-            icon: <Icon name={bxMobile} />,
-            label: 'AutoTrader MiniApp',
-            to:
-              AUTO_TRADER_MINI_APP_BASE +
-              (isLoggedIn
-                ? '?startapp=login_' + account.data?.telegram_code
-                : ''),
-          },
-        ]
-      : []),
     {
       icon: <HelpIcon />,
       label: 'Help & Guide',

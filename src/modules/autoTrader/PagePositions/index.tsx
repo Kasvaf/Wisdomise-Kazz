@@ -5,8 +5,10 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
+import useIsMobile from 'utils/useIsMobile';
 import PositionsList from '../PositionsList';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
+import PageNoDesktop from '../PageNoDesktop';
 
 const PagePositions = () => {
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
@@ -18,6 +20,9 @@ const PagePositions = () => {
   useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
   const isTrialBannerVisible = useIsTrialBannerVisible();
 
+  if (!useIsMobile()) {
+    return <PageNoDesktop />;
+  }
   return (
     <PageWrapper>
       <ButtonSelect
