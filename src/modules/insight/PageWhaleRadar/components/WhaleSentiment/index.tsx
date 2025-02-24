@@ -8,7 +8,9 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { CoinWhalesWidget } from '../WhaleRadarDesktop/CoinWhalesWidget';
 import { WhaleCoinBuySellInfo } from '../WhaleCoinBuySellInfo';
-import { ReactComponent as WhaleIcon } from './whale.svg';
+import WhaleIcon from './whale.png';
+import BuyIcon from './buy.png';
+import SellIcon from './sell.png';
 
 export const WhaleSentiment: FC<{
   value: WhaleRadarCoin;
@@ -53,31 +55,34 @@ export const WhaleSentiment: FC<{
         </>
       )}
       {mode === 'summary' && (
-        <div className="inline-flex items-center gap-1">
-          <WhaleIcon />
-          <div className="w-6">
-            <p className="text-xxs text-v1-content-secondary">
-              {t('common:number_short')}
-            </p>
+        <div className="inline-flex items-center gap-6">
+          <div className="flex h-[24px] flex-col items-center justify-between text-center">
+            <img src={WhaleIcon} alt="whale" className="w-[16px]" />
             <p className="text-xxs font-medium">{value.wallet_count ?? 0}</p>
           </div>
-          <div className="flex flex-col gap-1 text-xxs">
-            <DirectionalNumber
-              value={value.total_buy_volume}
-              popup="never"
-              direction="up"
-              label="$"
-              showSign={false}
-              showIcon={false}
-            />
-            <DirectionalNumber
-              value={value.total_sell_volume}
-              popup="never"
-              direction="down"
-              label="$"
-              showSign={false}
-              showIcon={false}
-            />
+          <div className="flex flex-col gap-2 text-xxs">
+            <div className="flex items-center gap-px">
+              <img src={BuyIcon} alt="Buys" className="size-[14px]" />
+              <DirectionalNumber
+                value={value.total_buy_volume}
+                popup="never"
+                direction="up"
+                label="$"
+                showSign={false}
+                showIcon={false}
+              />
+            </div>
+            <div className="flex items-center gap-px">
+              <img src={SellIcon} alt="Sells" className="size-[14px]" />
+              <DirectionalNumber
+                value={value.total_sell_volume}
+                popup="never"
+                direction="down"
+                label="$"
+                showSign={false}
+                showIcon={false}
+              />
+            </div>
           </div>
         </div>
       )}
