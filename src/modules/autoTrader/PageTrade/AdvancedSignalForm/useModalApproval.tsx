@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useEffect, type ReactNode } from 'react';
+import { NavLink } from 'react-router-dom';
 import { roundSensible } from 'utils/numbers';
 import { type CreatePositionRequest, usePreparePositionMutation } from 'api';
 import { useAccountNativeBalance } from 'api/chains';
@@ -9,6 +10,8 @@ import useModal from 'shared/useModal';
 import Button from 'shared/Button';
 import Spin from 'shared/Spin';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { ReactComponent as ProIcon } from 'assets/Pro.svg';
+import { isMiniApp } from 'utils/version';
 import { type SignalFormState } from './useSignalFormStates';
 
 const InfoLine: React.FC<
@@ -171,9 +174,28 @@ const ModalApproval: React.FC<{
 
         <div className="my-2 border border-white/5" />
 
-        <InfoLine label="Fee" className="text-sm">
-          0.2% of transactions + network gas fee
-        </InfoLine>
+        {data?.trade_fee && (
+          <>
+            <InfoLine label="Fee" className="text-sm">
+              {Number(data?.trade_fee) * 100}% of transactions + network gas fee
+            </InfoLine>
+
+            {!isLoading && !isMiniApp && Number(data?.trade_fee) && (
+              <NavLink
+                to="/account/billing"
+                className="mt-2 flex items-center gap-2 text-xs"
+              >
+                <ProIcon className="size-6" />
+                <div>
+                  <div>Upgrade to Pro for 0% fees—only pay gas</div>
+                  <div className="text-v1-content-brand">
+                    See Subscription Plans
+                  </div>
+                </div>
+              </NavLink>
+            )}
+          </>
+        )}
 
         {!hasEnoughGas && !Number.isNaN(remainingGas) && (
           <MessageBox variant="error">
@@ -206,6 +228,7 @@ const ModalApproval: React.FC<{
           variant="brand"
           className="grow"
           disabled={isLoading || !hasEnoughGas || impact > 0.05}
+          loading={isLoading}
         >
           Fire Position
         </Button>
