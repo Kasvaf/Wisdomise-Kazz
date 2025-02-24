@@ -61,7 +61,7 @@ export const WhaleSentiment: FC<{
             <p className="text-xxs font-medium">{value.wallet_count ?? 0}</p>
           </div>
           <div className="flex flex-col gap-2 text-xxs">
-            <div className="flex items-center gap-px">
+            <div className="flex items-center gap-1">
               <img src={BuyIcon} alt="Buys" className="size-[14px]" />
               <DirectionalNumber
                 value={value.total_buy_volume}
@@ -72,7 +72,7 @@ export const WhaleSentiment: FC<{
                 showIcon={false}
               />
             </div>
-            <div className="flex items-center gap-px">
+            <div className="flex items-center gap-1">
               <img src={SellIcon} alt="Sells" className="size-[14px]" />
               <DirectionalNumber
                 value={value.total_sell_volume}
@@ -89,7 +89,7 @@ export const WhaleSentiment: FC<{
       {mode === 'expanded' && (
         <div className="flex flex-col overflow-hidden rounded-xl p-3 bg-v1-surface-l-next">
           <p className="mb-2 text-xs">{t('sentiment.title')}</p>
-          <div className="mb-2 flex flex-wrap items-center justify-start gap-px text-sm">
+          <div className="mb-3 flex flex-wrap items-center justify-start gap-px text-sm">
             {value.label_percents.map(label => (
               <WhaleAssetBadge
                 key={label[0]}

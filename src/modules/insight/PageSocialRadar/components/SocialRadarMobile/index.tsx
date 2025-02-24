@@ -47,12 +47,12 @@ export const SocialRadarMobile = () => {
       },
       {
         key: 'coin',
-        className: 'min-w-28 max-w-28 text-sm',
         render: row => (
           <Coin
             coin={row.symbol}
             imageClassName="size-7"
-            truncate={60}
+            className="text-sm"
+            truncate={70}
             nonLink={true}
             abbrevationSuffix={
               <DirectionalNumber

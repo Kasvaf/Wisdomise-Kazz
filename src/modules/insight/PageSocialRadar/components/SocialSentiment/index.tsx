@@ -77,12 +77,13 @@ export const SocialSentiment: FC<{
               value={value?.gauge_tag ?? 'NEUTRAL'}
               className="size-6 shrink-0"
             />
-            <div className="space-y-0">
+            <MiniBar value={value?.gauge_measure ?? 0} />
+            <div className="space-y-1">
               <SocialSentimentTitle
                 value={value?.gauge_tag}
                 className="shrink-0 text-xs"
               />
-              <div className="flex items-center gap-1 text-xxs">
+              <div className="flex items-center gap-1 text-[8px] font-light">
                 <label className="text-v1-content-secondary">
                   {t('call-change.last-mention')}:
                 </label>

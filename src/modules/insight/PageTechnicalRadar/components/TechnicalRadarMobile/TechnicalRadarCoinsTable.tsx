@@ -37,12 +37,12 @@ export const TechnicalRadarCoinsTable: FC<{
       },
       {
         key: 'coin',
-        className: 'min-w-36 max-w-36 text-sm',
         render: row => (
           <Coin
             coin={row.symbol}
             imageClassName="size-7"
-            truncate={95}
+            className="text-sm"
+            truncate={85}
             nonLink={true}
             abbrevationSuffix={
               <DirectionalNumber

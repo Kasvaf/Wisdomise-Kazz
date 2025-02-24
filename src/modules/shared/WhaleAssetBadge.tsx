@@ -66,8 +66,8 @@ const useBadgeDetail = (
     };
   }
   return {
-    title: t('common:not-available'),
-    className: 'text-v1-content-secondary',
+    title: badge ?? t('common:not-available'),
+    className: 'bg-v1-border-primary/10 text-v1-content-secondary',
   };
 };
 

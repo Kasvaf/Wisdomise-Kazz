@@ -38,12 +38,12 @@ export const HotCoinsMobile = () => {
       },
       {
         key: 'coin',
-        className: 'min-w-28 max-w-28 text-sm',
         render: row => (
           <Coin
             coin={row.symbol}
             imageClassName="size-7"
-            truncate={60}
+            className="text-sm"
+            truncate={75}
             nonLink={true}
             abbrevationSuffix={
               <DirectionalNumber
@@ -67,12 +67,15 @@ export const HotCoinsMobile = () => {
         render: row => (
           <div className="flex items-center gap-4">
             {row.social_radar_insight && (
-              <SocialSentiment value={row.social_radar_insight} mode="icon" />
+              <SocialSentiment
+                value={row.social_radar_insight}
+                mode="icon_bar"
+              />
             )}
             {row.technical_radar_insight && (
               <TechnicalSentiment
                 value={row.technical_radar_insight}
-                mode="icon"
+                mode="icon_bar"
               />
             )}
           </div>

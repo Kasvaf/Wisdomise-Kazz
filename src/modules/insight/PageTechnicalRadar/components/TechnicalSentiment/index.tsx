@@ -7,6 +7,7 @@ import {
   type RsiConfirmation,
 } from 'api';
 import { Guage } from 'shared/Guage';
+import { MiniBar } from 'shared/MiniBar';
 import { ConfirmationBadge } from '../ConfirmationWidget/ConfirmationBadge';
 import Bullish from './bullish.png';
 import Bearish from './bearish.png';
@@ -81,6 +82,15 @@ export const TechnicalSentiment: FC<{
           src={isGreen ? Bullish : Bearish}
           className="size-[24px] shrink-0 object-contain"
         />
+      )}
+      {mode === 'icon_bar' && (
+        <div className="inline-flex items-center gap-1">
+          <img
+            src={isGreen ? Bullish : Bearish}
+            className="size-[24px] shrink-0 object-contain"
+          />
+          <MiniBar value={value?.normalized_score ?? 0} />
+        </div>
       )}
       {mode === 'summary' && (
         <div className="flex items-center gap-4">
