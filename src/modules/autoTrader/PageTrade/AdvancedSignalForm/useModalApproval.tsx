@@ -187,7 +187,7 @@ const ModalApproval: React.FC<{
               >
                 <ProIcon className="size-6" />
                 <div>
-                  <div>Upgrade to Pro for 0% fees—only pay gas</div>
+                  <div>Upgrade to pay less fees—only pay gas</div>
                   <div className="text-v1-content-brand">
                     See Subscription Plans
                   </div>
