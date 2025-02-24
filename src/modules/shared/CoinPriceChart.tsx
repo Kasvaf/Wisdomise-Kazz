@@ -14,6 +14,10 @@ interface PriceRow {
 type ExtendedPriceRow = PriceRow & {
   y: number;
   x: number;
+  events: Array<{
+    type: string;
+    value?: number;
+  }>;
 };
 
 export const CoinPriceChart: FC<
@@ -26,11 +30,48 @@ export const CoinPriceChart: FC<
   }
 > = ({ value, socialIndexes, whalesActivity, ...props }) => {
   const chartConfig = useMemo<EChartsOption>(() => {
-    const extendedValue: ExtendedPriceRow[] = (value ?? []).map((row, x) => ({
+    const extendedValue: ExtendedPriceRow[] = (value ?? []).map((row, i) => ({
       ...row,
-      x,
+      x: i,
       y: row.value * 1_000_000,
+      events: [
+        whalesActivity?.[i].buys_number
+          ? {
+              type: 'whale_buys',
+              value: whalesActivity[i].buys_number,
+            }
+          : null,
+        whalesActivity?.[i].sells_number
+          ? {
+              type: 'whale_sells',
+              value: whalesActivity[i].sells_number,
+            }
+          : null,
+        socialIndexes?.first === i
+          ? {
+              type: 'social_first_mention',
+            }
+          : null,
+        socialIndexes?.last === i
+          ? {
+              type: 'social_last_mention',
+            }
+          : null,
+        socialIndexes?.max === i
+          ? {
+              type: 'social_pump',
+            }
+          : null,
+        socialIndexes?.min === i
+          ? {
+              type: 'social_dump',
+            }
+          : null,
+      ].filter(r => r !== null),
     }));
+
+    const ys = extendedValue.map(r => r.y);
+    const [maxY, minY] = [Math.max(...ys), Math.min(...ys)];
 
     return {
       grid: {
@@ -48,9 +89,9 @@ export const CoinPriceChart: FC<
       },
       yAxis: {
         type: 'value',
-        min: () => 'dataMin',
-        max: () => 'dataMax',
-        show: true,
+        min: () => minY - (maxY - minY) * 0.5,
+        max: () => maxY + (maxY - minY) * 0.5,
+        show: false,
       },
       series: [
         {
@@ -61,35 +102,11 @@ export const CoinPriceChart: FC<
             color: '#00FFA3',
             width: 2,
           },
-          symbolSize: 6,
-          showAllSymbol: true,
+          symbol: 'circle',
+          symbolSize: 0,
+          showAllSymbol: false,
           label: {
             show: false,
-          },
-          itemStyle: {
-            color: ({ dataIndex }) => {
-              const row =
-                typeof dataIndex === 'number' && extendedValue[dataIndex]
-                  ? extendedValue[dataIndex]
-                  : null;
-              if (!row) return 'transparent';
-              if (Object.values(socialIndexes ?? {}).includes(dataIndex)) {
-                return '#eee';
-              }
-              const [buys, sells] = [
-                whalesActivity?.[dataIndex].buys_number ?? 0,
-                whalesActivity?.[dataIndex].sells_number ?? 0,
-              ];
-              if (buys || sells) {
-                return '#eee';
-                // return buys > sells
-                //   ? '#00FFA3'
-                //   : sells > buys
-                //   ? '#F14056'
-                //   : '#eee';
-              }
-              return 'transparent';
-            },
           },
           areaStyle: {
             color: {
@@ -103,6 +120,52 @@ export const CoinPriceChart: FC<
                 { offset: 1, color: 'transparent' },
               ],
             },
+          },
+          markPoint: {
+            label: {
+              color: '#fff',
+              fontSize: 8,
+              fontWeight: 'bold',
+              padding: [-3, 0],
+            },
+            symbolSize: 9,
+            data: extendedValue.flatMap((row, i) => {
+              return row.events.map(evt => ({
+                name: evt.type,
+                symbol: evt.type.startsWith('whale_') ? 'triangle' : 'circle',
+                symbolRotate: evt.type === 'whale_sells' ? 180 : 0,
+                coord: [
+                  i,
+                  evt.type === 'whale_buys'
+                    ? row.y - (maxY - minY) * 0.22
+                    : evt.type === 'whale_sells'
+                    ? row.y + (maxY - minY) * 0.22
+                    : row.y,
+                ],
+                value:
+                  evt.type === 'whale_buys'
+                    ? `${evt.value ?? 0}`
+                    : evt.type === 'whale_sells'
+                    ? `${evt.value ?? 0}`
+                    : undefined,
+                itemStyle: {
+                  color:
+                    evt.type === 'whale_buys'
+                      ? '#00FFA3'
+                      : evt.type === 'whale_sells'
+                      ? '#F14056'
+                      : '#EEE',
+                },
+                label: {
+                  position:
+                    evt.type === 'whale_buys'
+                      ? 'bottom'
+                      : evt.type === 'whale_sells'
+                      ? 'top'
+                      : undefined,
+                },
+              }));
+            }),
           },
         },
       ],
@@ -148,10 +211,10 @@ export const CoinPriceChart: FC<
             whalesActivity?.[dataIndex].sells_number ?? 0,
           ];
           if (buys) {
-            lines.push(`🟢 +${buys} Buy`);
+            lines.push(`🟢 ${buys} Buy`);
           }
           if (sells) {
-            lines.push(`🔴 +${sells} Sell`);
+            lines.push(`🔴 ${sells} Sell`);
           }
 
           if (lines.length > 2) {
@@ -173,7 +236,7 @@ export const CoinPriceChart: FC<
     <ECharts
       key={JSON.stringify(value)}
       initOptions={{
-        height: 90,
+        height: 125,
       }}
       {...props}
       options={chartConfig}
