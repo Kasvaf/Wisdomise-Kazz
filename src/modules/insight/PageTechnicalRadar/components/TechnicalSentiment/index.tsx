@@ -15,7 +15,13 @@ import Expensive from './expensive.png';
 
 export const TechnicalSentiment: FC<{
   value: (RsiConfirmation | MacdConfirmation) & TechnicalRadarSentiment;
-  mode?: 'icon' | 'icon_bar' | 'expanded' | 'summary' | 'with_tooltip';
+  mode?:
+    | 'icon'
+    | 'icon_bar'
+    | 'expanded'
+    | 'semi_expanded'
+    | 'summary'
+    | 'with_tooltip';
 }> = ({ value, mode = 'with_tooltip' }) => {
   const { t } = useTranslation('market-pulse');
   const isBullish = value.technical_sentiment
@@ -46,26 +52,26 @@ export const TechnicalSentiment: FC<{
             <ConfirmationBadge
               type={isGreen ? 'rsi_oversold' : 'rsi_overbought'}
               value={value}
-              mini
+              mode="icon"
             />
             <ConfirmationBadge
               type={
                 isGreen ? 'rsi_bullish_divergence' : 'rsi_bearish_divergence'
               }
               value={value}
-              mini
+              mode="icon"
             />
             <ConfirmationBadge
               type={isGreen ? 'macd_cross_up' : 'macd_cross_down'}
               value={value}
-              mini
+              mode="icon"
             />
             <ConfirmationBadge
               type={
                 isGreen ? 'macd_bullish_divergence' : 'macd_bearish_divergence'
               }
               value={value}
-              mini
+              mode="icon"
             />
           </div>
         </div>
@@ -92,7 +98,7 @@ export const TechnicalSentiment: FC<{
           )}
         </div>
       )}
-      {mode === 'expanded' && (
+      {(mode === 'expanded' || mode === 'semi_expanded') && (
         <div className="flex flex-col overflow-hidden rounded-xl p-3 bg-v1-surface-l-next">
           <div className="flex items-center justify-between gap-2">
             <div>
@@ -124,6 +130,36 @@ export const TechnicalSentiment: FC<{
             </div>
             <Guage measure={value.normalized_score ?? 0} className="h-9" />
           </div>
+          {mode === 'expanded' && (
+            <div className="mt-4 flex flex-col items-start gap-px">
+              <ConfirmationBadge
+                type={isGreen ? 'rsi_oversold' : 'rsi_overbought'}
+                value={value}
+                mode="expanded"
+              />
+              <ConfirmationBadge
+                type={
+                  isGreen ? 'rsi_bullish_divergence' : 'rsi_bearish_divergence'
+                }
+                value={value}
+                mode="expanded"
+              />
+              <ConfirmationBadge
+                type={isGreen ? 'macd_cross_up' : 'macd_cross_down'}
+                value={value}
+                mode="expanded"
+              />
+              <ConfirmationBadge
+                type={
+                  isGreen
+                    ? 'macd_bullish_divergence'
+                    : 'macd_bearish_divergence'
+                }
+                value={value}
+                mode="expanded"
+              />
+            </div>
+          )}
         </div>
       )}
     </>

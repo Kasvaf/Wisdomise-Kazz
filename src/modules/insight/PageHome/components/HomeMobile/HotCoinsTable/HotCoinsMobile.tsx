@@ -161,15 +161,15 @@ export const HotCoinsMobile = () => {
             }
           />
         )}
-        {selectedRow?.social_radar_insight && (
-          <SocialSentiment
-            value={selectedRow.social_radar_insight}
-            mode="expanded"
-          />
-        )}
         {selectedRow?.technical_radar_insight && (
           <TechnicalSentiment
             value={selectedRow?.technical_radar_insight}
+            mode="semi_expanded"
+          />
+        )}
+        {selectedRow?.social_radar_insight && (
+          <SocialSentiment
+            value={selectedRow.social_radar_insight}
             mode="expanded"
           />
         )}
