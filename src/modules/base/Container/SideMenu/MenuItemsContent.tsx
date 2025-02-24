@@ -152,8 +152,8 @@ const MenuItemsContent: React.FC<{
         },
   ];
   return (
-    <>
-      <div>
+    <div className="flex max-h-full grow flex-col justify-between gap-4 overflow-hidden">
+      <div className="shrink grow overflow-auto">
         {MenuItems.filter(i => !i.hide && hasFlag(i.link)).map(item => (
           <MenuItemsGroup
             key={item.link}
@@ -174,9 +174,10 @@ const MenuItemsContent: React.FC<{
       </div>
 
       {ModalLogin}
-      <div className="grow" />
-      {!collapsed && <TrialEndBanner className="relative mobile:hidden" />}
-      <div className="mt-12 text-white">
+      {!collapsed && (
+        <TrialEndBanner className="relative shrink-0 mobile:hidden" />
+      )}
+      <div className="text-white">
         {extraItems.map(item => (
           <NavLink
             key={item.to}
@@ -202,7 +203,7 @@ const MenuItemsContent: React.FC<{
           </NavLink>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
