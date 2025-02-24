@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { useAccountQuery, useHasFlag } from 'api';
+import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { trackClick } from 'config/segment';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as IconPositions } from './icons/positions.svg';
@@ -23,7 +25,9 @@ export interface RootMenuItem extends MenuItem {
 
 const useMenuItems = () => {
   const { t } = useTranslation('base');
+  const hasFlag = useHasFlag();
   const isMobile = useIsMobile();
+  const account = useAccountQuery();
 
   const { pathname } = useLocation();
 
@@ -126,6 +130,18 @@ const useMenuItems = () => {
           onClick: trackClick('rewards_menu'),
           hide: !isMobile,
         },
+        ...(account.data?.telegram_code && hasFlag('/mini-login')
+          ? [
+              {
+                text: 'Telegram MiniApp',
+                link:
+                  AUTO_TRADER_MINI_APP_BASE +
+                  '?startapp=login_' +
+                  account.data?.telegram_code,
+                hide: isMobile,
+              },
+            ]
+          : []),
       ],
     },
   ];
