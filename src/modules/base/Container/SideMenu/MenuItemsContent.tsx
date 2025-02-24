@@ -35,7 +35,9 @@ const MenuItemsGroup: React.FC<{
         to={item.link}
         target={item.link.startsWith('https://') ? '_blank' : undefined}
         onClick={e => {
-          e.preventDefault();
+          if (children?.length) {
+            e.preventDefault();
+          }
           item.onClick?.();
           onClick(item.link);
         }}
@@ -49,8 +51,11 @@ const MenuItemsGroup: React.FC<{
           <span>{item.icon}</span>
           {!collapsed && <p className="ml-2">{item.text}</p>}
         </div>
-        {!collapsed && <Icon name={isActive ? bxChevronUp : bxChevronDown} />}
+        {!collapsed && !!children?.length && (
+          <Icon name={isActive ? bxChevronUp : bxChevronDown} />
+        )}
       </NavLink>
+
       {children?.length && !collapsed && (
         <AnimateHeight
           height={isActive ? 'auto' : 0}
@@ -114,7 +119,7 @@ const MenuItemsContent: React.FC<{
       ? [
           {
             icon: <Icon name={bxMobile} />,
-            label: 'AutoTrader MiniApp',
+            label: 'Telegram MiniApp',
             to:
               AUTO_TRADER_MINI_APP_BASE +
               (isLoggedIn

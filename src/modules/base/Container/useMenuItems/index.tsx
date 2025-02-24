@@ -74,9 +74,8 @@ const useMenuItems = () => {
     },
     {
       icon: <IconPositions />,
-      text: 'Trades',
+      text: isMobile ? 'Trades' : 'Auto Trader',
       link: '/trader-positions',
-      hide: !isMobile,
     },
     {
       icon: <IconQuests />,
