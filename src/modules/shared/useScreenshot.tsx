@@ -22,6 +22,7 @@ export const useScreenshot = (
     el.current.classList.add('capturing');
     return html2canvas(el.current, {
       backgroundColor: config.backgroundColor,
+      useCORS: true,
     })
       .then(
         canvas =>

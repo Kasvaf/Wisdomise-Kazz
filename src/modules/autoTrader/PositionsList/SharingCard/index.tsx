@@ -19,6 +19,7 @@ import spaceship from './images/spaceship.png';
 import gradient1 from './images/gradient-1.png';
 import gradient2 from './images/gradient-2.png';
 import logoOutline from './images/logo-outline.png';
+import ready from './images/ready.png';
 import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as XIcon } from './images/twitter.svg';
 // eslint-disable-next-line import/max-dependencies
@@ -89,24 +90,27 @@ export default function SharingCard({
           />
           <div className="relative">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1">
-                <img src={autoTrader} alt="autoTrader" className="h-5" />
-                <h1>Auto Trader</h1>
-              </div>
+              <img src={autoTrader} alt="autoTrader" className="h-6" />
               <img src={logo} alt="logo" className="h-5" />
             </div>
             <hr className="my-4 border-v1-border-primary/10" />
             <div className="flex flex-col items-start">
               {coin && (
                 <Coin
-                  coin={coin.symbol}
-                  imageClassName="size-6"
+                  coin={{
+                    ...coin.symbol,
+                    logo_url: `https://corsproxy.io/?url=${
+                      coin.symbol.logo_url ?? ''
+                    }`, // used cors allow origin * server for screenshot limit
+                  }}
                   nonLink={true}
+                  truncate={false}
                 />
               )}
               <div className="my-6">
                 <PriceChange
                   className="!flex text-3xl"
+                  numberClassName="!overflow-visible" // for screenshot
                   value={Number(position.pnl)}
                 />
                 {showExtra && (
@@ -144,9 +148,8 @@ export default function SharingCard({
             </div>
             <div className="mt-4 flex items-center justify-between gap-8">
               <div>
-                <h2 className="mb-2 inline whitespace-nowrap bg-wsdm-gradient bg-clip-text text-sm font-semibold text-transparent">
-                  Ready To Dive In?
-                </h2>
+                {/* used image because of text gradient limit in screenshot */}
+                <img src={ready} alt="ready" className="mb-2 h-4" />
                 <p className="text-xxs">
                   Scan the QR Code or Use the Link to Join the Wisdomise
                   Adventure!
