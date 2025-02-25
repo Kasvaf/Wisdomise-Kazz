@@ -28,19 +28,23 @@ export default function TournamentCard({
   hasDetail?: boolean;
 }) {
   const [open, setOpen] = useState(false);
-  const rankText = (rank: number) => {
-    switch (rank) {
+
+  const rankOrdinalNumber = (n: number) => {
+    if (n % 100 >= 11 && n % 100 <= 13) {
+      return `${n}th`;
+    }
+    switch (n % 10) {
       case 1: {
-        return '1st';
+        return `${n}st`;
       }
       case 2: {
-        return '2nd';
+        return `${n}nd`;
       }
       case 3: {
-        return '3rd';
+        return `${n}rd`;
       }
       default: {
-        return `${rank}th`;
+        return `${n}th`;
       }
     }
   };
@@ -189,10 +193,10 @@ export default function TournamentCard({
               )}
               <div>
                 {prize.start_rank === prize.end_rank
-                  ? rankText(prize.start_rank)
-                  : `${rankText(prize.start_rank)} - ${rankText(
-                      prize.end_rank,
-                    )}`}{' '}
+                  ? rankOrdinalNumber(prize.start_rank)
+                  : `${rankOrdinalNumber(
+                      prize.start_rank,
+                    )} - ${rankOrdinalNumber(prize.end_rank)}`}{' '}
                 Place
               </div>
               <div className="ms-auto flex items-center gap-2">
