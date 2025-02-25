@@ -2,44 +2,59 @@ import { type FC, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { bxSlider } from 'boxicons-quasar';
-import { useCoinDetails } from 'api';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
 import { CoinLabels } from 'shared/CoinLabels';
-import Spinner from 'shared/Spinner';
 import { DrawerModal } from 'shared/DrawerModal';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import {
+  type CoinNetwork,
+  type Coin as CoinType,
+  type MiniMarketData,
+  type NetworkSecurity,
+} from 'api/types/shared';
 
-const CoinPreDetailsContent: FC<{
-  slug: string;
-  children?: ReactNode;
-}> = ({ slug, children }) => {
-  const coinDetails = useCoinDetails({ slug });
-  const { t } = useTranslation('insight');
-  if (!coinDetails.data || coinDetails.isLoading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <Spinner />
-      </div>
-    );
+interface PreDetailModalBaseProps {
+  coin: CoinType;
+  marketData?: MiniMarketData | null;
+  labels?: string[] | null;
+  networks?: CoinNetwork[] | null;
+  categories?: CoinType['categories'] | null;
+  security?: NetworkSecurity[] | null;
+}
+
+const CoinPreDetailsContent: FC<
+  PreDetailModalBaseProps & {
+    children?: ReactNode;
   }
+> = ({
+  coin,
+  marketData,
+  labels,
+  categories,
+  networks,
+  security,
+  children,
+}) => {
+  const { t } = useTranslation('insight');
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
         <Coin
-          coin={coinDetails.data.symbol}
+          coin={coin}
           imageClassName="size-8"
           nonLink={true}
           truncate={260}
           abbrevationSuffix={
             <DirectionalNumber
               className="ms-1"
-              value={coinDetails.data.data?.price_change_percentage_24h}
+              value={marketData?.price_change_percentage_24h}
               label="%"
               direction="auto"
               showIcon
@@ -53,12 +68,12 @@ const CoinPreDetailsContent: FC<{
         />
         <div className="flex flex-col items-end gap-px">
           <ReadableNumber
-            value={coinDetails.data.data?.current_price}
+            value={marketData?.current_price}
             label="$"
             className="text-sm"
           />
           <CoinMarketCap
-            marketData={coinDetails.data.data}
+            marketData={marketData}
             singleLine
             className="text-xs"
           />
@@ -69,20 +84,17 @@ const CoinPreDetailsContent: FC<{
       <div className="flex flex-col items-start justify-end overflow-auto">
         <p className="mb-2 text-xs">{t('pre_detail_modal.wise_labels')}</p>
         <CoinLabels
-          categories={coinDetails.data.symbol.categories}
-          labels={coinDetails.data.symbol_labels}
-          networks={coinDetails.data.networks}
-          security={coinDetails.data.security_data?.map(x => x.symbol_security)}
-          coin={coinDetails.data.symbol}
+          categories={categories}
+          labels={labels}
+          networks={networks}
+          security={security}
+          coin={coin}
         />
       </div>
 
       <div className="flex flex-col items-stretch gap-4">
         <div className="flex gap-3">
-          <NavLink
-            to={`/coin/${coinDetails.data.symbol.slug}`}
-            className="block basis-1/2"
-          >
+          <NavLink to={`/coin/${coin.slug}`} className="block basis-1/2">
             <Button
               variant="outline"
               surface={2}
@@ -99,21 +111,22 @@ const CoinPreDetailsContent: FC<{
             surface={2}
             size="sm"
             className="basis-1/2"
-            slug={coinDetails.data.symbol.slug}
+            slug={coin.slug}
           />
         </div>
-        <BtnAutoTrade slug={coinDetails.data.symbol.slug} variant="primary" />
+        <BtnAutoTrade slug={coin.slug} variant="primary" />
       </div>
     </div>
   );
 };
 
-export const CoinPreDetailModal: FC<{
-  slug?: string | null;
-  open?: boolean;
-  onClose: () => unknown;
-  children?: ReactNode;
-}> = ({ slug, open, onClose, children }) => {
+export const CoinPreDetailModal: FC<
+  Partial<PreDetailModalBaseProps> & {
+    open?: boolean;
+    onClose: () => unknown;
+    children?: ReactNode;
+  }
+> = ({ open, onClose, children, coin, ...props }) => {
   return (
     <DrawerModal
       open={open}
@@ -121,8 +134,10 @@ export const CoinPreDetailModal: FC<{
       closeIcon={null}
       className="[&_.ant-drawer-header]:hidden"
     >
-      {slug && (
-        <CoinPreDetailsContent slug={slug}>{children}</CoinPreDetailsContent>
+      {coin && (
+        <CoinPreDetailsContent coin={coin} {...props}>
+          {children}
+        </CoinPreDetailsContent>
       )}
     </DrawerModal>
   );

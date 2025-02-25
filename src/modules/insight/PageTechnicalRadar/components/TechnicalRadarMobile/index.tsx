@@ -53,7 +53,12 @@ export const TechnicalRadarMobile = () => {
         />
       )}
       <CoinPreDetailModal
-        slug={selectedRow?.symbol.slug}
+        coin={selectedRow?.symbol}
+        categories={selectedRow?.symbol.categories}
+        labels={selectedRow?.symbol_labels}
+        marketData={selectedRow?.data}
+        networks={selectedRow?.networks}
+        security={selectedRow?.symbol_security?.data}
         open={modal}
         onClose={() => setModal(false)}
       >
