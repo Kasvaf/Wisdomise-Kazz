@@ -42,7 +42,7 @@ const PagePositions = () => {
         value={slug}
         priceExchange="auto"
         onChange={setSlug}
-        emptyOption="All Coins & Tokens"
+        emptyOption="All Tradable Coins & Tokens"
         mini={false}
         tradableCoinsOnly
       />
