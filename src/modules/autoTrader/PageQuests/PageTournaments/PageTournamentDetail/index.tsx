@@ -10,7 +10,7 @@ import {
 import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
 import { addComma } from 'utils/numbers';
-import empty from 'modules/autoTrader/PositionsList/empty.svg';
+import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import TournamentsOnboarding from 'modules/autoTrader/PageQuests/PageTournaments/TournamentsOnboarding';
 import BtnBack from 'modules/base/BtnBack';
