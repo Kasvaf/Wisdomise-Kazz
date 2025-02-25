@@ -19,7 +19,7 @@ const NoPosition: React.FC<{ active: boolean; slug?: string }> = ({
             : 'Get started by creating your first position. Your trades history will appear here!'}
         </p>
       ) : (
-        <div className="mt-4 px-1 text-justify font-light">
+        <div className="mt-4 px-1 text-justify text-sm font-light">
           <p>
             To start trading, select a coin or visit the{' '}
             <NavLink to="/" className="text-v1-content-link">
@@ -28,7 +28,7 @@ const NoPosition: React.FC<{ active: boolean; slug?: string }> = ({
             page to explore hot coins and trade them.
           </p>
 
-          <ul className="mt-2 flex list-disc flex-col gap-2 pl-4">
+          <ul className="mt-2 flex list-disc flex-col gap-2 pl-4 opacity-75">
             <li>
               <strong>
                 Trading is only available on{' '}
