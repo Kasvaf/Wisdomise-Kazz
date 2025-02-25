@@ -8,7 +8,8 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   slug,
   ...buttonProps
 }) => {
-  const { data: supportedPairs, isLoading } = useSupportedPairs(slug);
+  const normSlug = slug === 'solana' ? 'wrapped-solana' : slug;
+  const { data: supportedPairs, isLoading } = useSupportedPairs(normSlug);
   const isSupported = !!supportedPairs?.length;
   const navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -21,8 +22,8 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       block
       variant={buttonProps.variant ?? 'outline'}
       loading={isLoading}
-      disabled={!slug || !isSupported || !isLoggedIn}
-      onClick={() => navigate(`/auto-trader/${slug ?? ''}`)}
+      disabled={!normSlug || !isSupported || !isLoggedIn}
+      onClick={() => navigate(`/auto-trader/${normSlug ?? ''}`)}
     >
       <div>
         <div>Auto Trade</div>
