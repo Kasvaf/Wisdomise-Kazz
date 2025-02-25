@@ -4,6 +4,7 @@ import { notification } from 'antd';
 import { Link } from 'react-router-dom';
 import {
   useAccountQuery,
+  useHasFlag,
   useStripePaymentMethodsQuery,
   useSubscription,
   useSubscriptionMutation,
@@ -24,6 +25,7 @@ export default function NextPlan() {
   const { currentPeriodEnd, plan } = useSubscription();
   const subscriptionMutation = useSubscriptionMutation();
   const stripePaymentMethod = useStripePaymentMethodsQuery();
+  const hasFlag = useHasFlag();
   const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
     width: 1200,
   });
@@ -76,12 +78,17 @@ export default function NextPlan() {
               {paymentMethod && (
                 <InfoBadge value1={paymentMethodText[paymentMethod]} />
               )}
-              <button
-                onClick={openPaymentMethodModal}
-                className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
-              >
-                {t('subscription-details.overview.next-plan.change-pay-method')}
-              </button>
+
+              {hasFlag('/account/billing?change_payment_method') && (
+                <button
+                  onClick={openPaymentMethodModal}
+                  className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
+                >
+                  {t(
+                    'subscription-details.overview.next-plan.change-pay-method',
+                  )}
+                </button>
+              )}
             </div>
 
             <div>
