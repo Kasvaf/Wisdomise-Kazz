@@ -62,6 +62,8 @@ sections:
       trades: 取引
       wallet-address: ウォレットアドレス
     title: トップクジラリスト
+sentiment:
+  title: クジラの感情
 top_coins:
   buy_volume:
     avg: 購入あたりの平均

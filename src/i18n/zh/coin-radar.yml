@@ -15,13 +15,19 @@ call-change:
   last-mention: AI訊號上次狙擊時間
   last-pnl-update: 最新損益更新
   long: 潛在成長機會
+  long_desciption: 潜在的增长机会
   max-price: 最大值：最高值
   min-price: 最小值：最低值
   negative: 消極看跌
+  neutral: 中性的
+  neutral_description: 没有明显趋势
   not_sure: 中立
+  not_sure_description: 没有明显趋势
   pnl: 最後更新
   positive: 積極看漲
   short: 趨勢衰弱
+  short_desciption: 衰退风险
+  title: 智慧社会情绪
   trigger-price: AI訊號狙擊時的價格
   under-calculation: 運算中
 coin-category:

@@ -28,6 +28,7 @@ common:
     rsi_and_macd: (RSI+MACD)
     subtitle: 每个气泡的大小反映24小时的价格变化。
   rsi_wise_scoring: RSI 明智评分
+  sentiment_title: 技术情绪
   share: 分享
   short_term: 短期
   table_view: 表格视图
