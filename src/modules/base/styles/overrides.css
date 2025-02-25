@@ -27,7 +27,7 @@
 * ************** Drawer *****************
 */
 .ant-drawer-mask {
-  @apply !bg-v1-surface-l2/20 backdrop-blur-sm;
+  @apply !bg-black/40 backdrop-blur-sm;
 }
 .ant-drawer-wrapper-body {
   @apply !bg-v1-surface-l4;
@@ -38,7 +38,7 @@
 */
 
 .ant-modal-mask {
-  @apply !bg-v1-surface-l6/20 backdrop-blur-sm;
+  @apply !bg-black/40 backdrop-blur-sm;
 }
 
 .ant-modal-body {
