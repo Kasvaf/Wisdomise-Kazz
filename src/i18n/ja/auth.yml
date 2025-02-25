@@ -3,8 +3,12 @@ login:
   error-code: 無効なコード
   error-email: 電子メールが無効です
   features:
+    access_to_telegram_vip: トップテレグラムアルファ＆VIPグループへのアクセス
     ai_driven: AIによる洞察
     analyzed: 3万件のソーシャル投稿を分析
+    find_twitter_trend: Twitterの暗号通貨トレンドを探す
+    find_twitter_x100: Twitterトラッカーで次のx100を見つける
+    save_on_join_paid_groups: 有料グループに参加して5000ドル以上節約
     secure: 安全でプライベート
     trusted: 50,000人以上のユーザーから信頼されています
   notice: 続行すると、次のことに同意したことになります <1>プライバシーポリシー</1> そして <3>利用規約</3>。
@@ -12,6 +16,8 @@ login:
     button-submit-email: 始める
     field-email: Eメール
     field-email-placeholder: あなたのメールアドレス
+    social_radar_subtitle: 無料で始めて、最高の投資機会を見つけましょう
+    social_radar_title: ソーシャルメディアインサイトを使用して最高のMemeCoinの機会を見つける
     subtitle: サインインまたはサインアップして Wisdomise Pro を探索し、強力な取引ツールをお楽しみください。
     subtitle2: 無料でログインして、市場で最高のチャンスと最もホットなコインをチェックしましょう
     title: ログイン/登録
@@ -25,12 +31,28 @@ login:
     title: マジックコードを入力してください
 page-referral:
   all-time: 歴上→累計
+  bonus:
+    claim: すぐ...
+    description: 報酬は USDT で支払われます。
+    ready: 請求準備完了
+    title: ボーナスバッグ
+  earned-subscription: これまでのサブスクリプションから得た収益
+  earned-trader: これまでの取引手数料から得た収益
   friends-invited: 紹介者数
+  friends-list:
+    title: 友達リスト
+  how:
+    button: どのように機能しますか?
   invited: 紹介
   referral-code: 紹介コード
   referral-insight: リファーラル状況
   referral-link: 紹介リンク
+  share: 共有
   subscribed-friends: 紹介リンクで登録した人
+  subscription: サブスクリプション
+  subtitle: 紹介コードを共有し、友達が参加して取引を行うときに限定ボーナスを獲得しましょう。
   title: 紹介プログラム
+  total-referrals: 総紹介数
+  trader: トレーダー
   wisdomise-revenue: リファーラルによる収益
   your-profit: あなたの利益
