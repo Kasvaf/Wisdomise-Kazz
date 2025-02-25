@@ -2,7 +2,7 @@ import { type ComponentProps, useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserStorage } from 'api/userStorage';
 import { OnboardingView } from './components/OnboardingView';
-import { ApprochStep } from './components/steps/ApprochStep';
+import { ApproachStep } from './components/steps/ApproachStep';
 import { ExperienceStep } from './components/steps/ExperienceStep';
 import { FeaturesStep } from './components/steps/FeaturesStep';
 import { ReadyStep } from './components/steps/ReadyStep';
@@ -14,10 +14,10 @@ export default function PageOnboarding() {
   const { save, isLoading } = useUserStorage('onboarding-data');
   const [data, setData] = useState<{
     experience: undefined | string;
-    approch: string[];
+    approach: string[];
   }>({
     experience: undefined,
-    approch: [],
+    approach: [],
   });
 
   const done = useCallback(
@@ -40,23 +40,23 @@ export default function PageOnboarding() {
                 ...p,
                 experience: newValue,
               }));
-              setStep('approch');
+              setStep('approach');
             }}
             value={data.experience}
           />
         ),
       },
       {
-        key: 'approch',
+        key: 'approach',
         label: 'Trading Approach',
         element: (
-          <ApprochStep
-            value={data.approch}
+          <ApproachStep
+            value={data.approach}
             onPrev={() => setStep('experience')}
             onNext={newValue => {
               setData(p => ({
                 ...p,
-                approch: newValue,
+                approach: newValue,
               }));
               setStep('features');
             }}
@@ -68,7 +68,7 @@ export default function PageOnboarding() {
         label: 'Features',
         element: (
           <FeaturesStep
-            onPrev={() => setStep('approch')}
+            onPrev={() => setStep('approach')}
             onNext={() => setStep('ready')}
           />
         ),
@@ -78,14 +78,14 @@ export default function PageOnboarding() {
         label: 'Start Your Journey',
         element: (
           <ReadyStep
-            value={data.approch}
+            value={data.approach}
             onPrev={() => setStep('features')}
             onNext={done}
           />
         ),
       },
     ],
-    [data.approch, data.experience, done],
+    [data.approach, data.experience, done],
   );
 
   return (

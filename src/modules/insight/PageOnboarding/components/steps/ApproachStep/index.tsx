@@ -8,7 +8,7 @@ import background from './background.png';
 import { ReactComponent as Check } from './check.svg';
 import { ReactComponent as UnCheck } from './uncheck.svg';
 
-const useApproches = () => {
+const useApproaches = () => {
   return useMemo<
     Array<{
       value: string;
@@ -48,7 +48,7 @@ const useApproches = () => {
   );
 };
 
-export function ApprochStep({
+export function ApproachStep({
   value: initialValue,
   onNext,
   onPrev,
@@ -57,7 +57,7 @@ export function ApprochStep({
   onNext?: (newValue: string[]) => void;
   onPrev?: () => void;
 }) {
-  const approches = useApproches();
+  const approaches = useApproaches();
   const [value, setValue] = useState(initialValue);
   useEffect(() => {
     setValue(initialValue);
@@ -73,7 +73,7 @@ export function ApprochStep({
           {'Select all that applies'}
         </p>
         <div className="mt-4 flex w-full flex-col flex-nowrap items-center justify-center gap-4 xl:flex-row">
-          {approches.map(x => (
+          {approaches.map(x => (
             <div
               key={x.value}
               className="relative flex w-full max-w-full shrink-0 grow cursor-pointer flex-col items-center justify-between gap-4 overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 transition-all hover:brightness-125 mobile:flex-row mobile:gap-3 mobile:p-5 xl:max-w-[350px]"
