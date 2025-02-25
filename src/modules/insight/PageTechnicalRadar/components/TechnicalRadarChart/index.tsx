@@ -4,7 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
 import { bxShareAlt } from 'boxicons-quasar';
-import { useTechnicalRadarCoins, useSubscription } from 'api';
+import {
+  useTechnicalRadarCoins,
+  useSubscription,
+  type TechnicalRadarCoin,
+} from 'api';
 import { ECharts } from 'shared/ECharts';
 import { AccessShield } from 'shared/AccessShield';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -18,7 +22,7 @@ import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalRadarChart: FC<{
   type: 'cheap_bullish' | 'expensive_bearish';
-  onClick?: (slug: string) => void;
+  onClick?: (coin: TechnicalRadarCoin) => void;
 }> = ({ type, onClick }) => {
   const coins = useTechnicalRadarCoins({});
   const { t } = useTranslation('market-pulse');
@@ -312,7 +316,9 @@ export const TechnicalRadarChart: FC<{
             ) {
               if (typeof onClick === 'function') {
                 setTimeout(() => {
-                  onClick(parsedData.data[e.dataIndex].raw.symbol.slug ?? '');
+                  if (parsedData.data[e.dataIndex].raw) {
+                    onClick(parsedData.data[e.dataIndex].raw);
+                  }
                 }, 10);
               } else {
                 navigate(

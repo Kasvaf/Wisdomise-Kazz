@@ -17,27 +17,15 @@ export function CoinLogo({
   return (
     <div
       className={clsx(
-        'relative inline-block overflow-hidden rounded-full bg-v1-surface-l6',
+        'relative inline-block overflow-hidden rounded-full bg-white bg-cover bg-center bg-no-repeat',
         className,
       )}
-    >
-      <div
-        className="absolute inset-0 size-full scale-150 bg-cover bg-center bg-no-repeat blur-md invert"
-        style={{
-          ...(typeof coin.logo_url === 'string' && {
-            backgroundImage: `url("${coin.logo_url}")`,
-          }),
-        }}
-      />
-      <div
-        className="absolute inset-0 size-full bg-cover bg-center bg-no-repeat"
-        style={{
-          ...(typeof coin.logo_url === 'string' && {
-            backgroundImage: `url("${coin.logo_url}")`,
-          }),
-        }}
-      />
-    </div>
+      style={{
+        ...(typeof coin.logo_url === 'string' && {
+          backgroundImage: `url("${coin.logo_url}")`,
+        }),
+      }}
+    />
   );
 }
 

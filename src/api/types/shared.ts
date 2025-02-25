@@ -4,7 +4,7 @@ export type PricesExchange = 'BINANCE' | 'STONFI' | 'RAYDIUM';
 export interface Coin {
   abbreviation: string;
   name: string;
-  slug?: string | null;
+  slug: string;
   logo_url?: string | null;
   categories?: null | Array<{
     name: string;

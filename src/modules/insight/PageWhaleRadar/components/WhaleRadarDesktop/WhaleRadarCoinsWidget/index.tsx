@@ -11,7 +11,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
-import { WhaleCoinBuySellInfo } from '../WhaleCoinBuySellInfo';
+import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleSentiment } from '../../WhaleSentiment';
 import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';

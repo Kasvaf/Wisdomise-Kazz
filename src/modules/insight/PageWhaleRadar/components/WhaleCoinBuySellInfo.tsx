@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { clsx } from 'clsx';
 import { type WhaleRadarCoin } from 'api';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -7,14 +8,20 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 export const WhaleCoinBuySellInfo: FC<{
   value: WhaleRadarCoin;
   type: 'buy' | 'sell';
-}> = ({ value, type }) => {
+  singleLine?: boolean;
+}> = ({ value, type, singleLine }) => {
   const { t } = useTranslation('whale');
   const volume =
     (type === 'buy' ? value.total_buy_volume : value.total_sell_volume) ?? 0;
   const number =
     (type === 'buy' ? value.total_buy_number : value.total_sell_number) ?? 0;
   return (
-    <div className="flex flex-col items-start">
+    <div
+      className={clsx(
+        'flex',
+        singleLine ? 'items-center gap-2' : 'flex-col items-start gap-px',
+      )}
+    >
       <div className="flex items-center gap-1">
         <ReadableNumber value={number} className="text-sm" />
         <DirectionalNumber
@@ -25,7 +32,7 @@ export const WhaleCoinBuySellInfo: FC<{
           label="$"
         />
       </div>
-      <div className="mt-px flex items-center gap-1 whitespace-nowrap text-xs">
+      <div className="flex items-center gap-1 whitespace-nowrap text-xs">
         <span className="capitalize text-v1-content-secondary">
           {type === 'buy'
             ? t('top_coins.buy_volume.avg')

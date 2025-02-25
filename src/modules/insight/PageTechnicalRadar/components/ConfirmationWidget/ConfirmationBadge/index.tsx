@@ -15,12 +15,8 @@ import { ReactComponent as CrossupIcon } from './crossup.svg';
 import { ReactComponent as CrossdownIcon } from './crossdown.svg';
 
 function ConfirmationResolutionRow({ value }: { value: string[] }) {
-  const { t } = useTranslation('market-pulse');
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="shrink text-xxs text-v1-content-secondary">
-        {t('common.active_timeframe')}
-      </div>
       <div className="flex flex-wrap items-center justify-start gap-1">
         {(value?.length ?? 0) === 0 && (
           <span className="text-v1-content-secondary">---</span>
@@ -28,7 +24,7 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
         {value?.map(row => (
           <div
             key={row}
-            className="inline-flex items-center justify-center rounded bg-v1-surface-l1 px-2 py-px text-xxs font-medium"
+            className="inline-flex items-center justify-center rounded bg-white/10 px-2 py-px text-xxs font-medium"
           >
             {row.toUpperCase()}
           </div>
@@ -41,11 +37,11 @@ function ConfirmationResolutionRow({ value }: { value: string[] }) {
 export function ConfirmationBadge<I extends Indicator>({
   type,
   value,
-  mini,
+  mode = 'icon',
 }: {
   type: IndicatorConfirmationCombination;
   value: IndicatorConfirmation<I>;
-  mini?: boolean;
+  mode?: 'icon' | 'summary' | 'expanded';
 }) {
   const { t } = useTranslation('market-pulse');
 
@@ -169,26 +165,62 @@ export function ConfirmationBadge<I extends Indicator>({
   }, [type, t, value]);
 
   return (
-    <HoverTooltip
-      title={
-        <div>
-          <p className="mb-1 text-xs text-v1-content-primary">
-            {data.fullTitle}
-          </p>
-          <ConfirmationResolutionRow value={data.resolutions} />
-        </div>
-      }
-    >
-      <div className="inline-flex cursor-default flex-col items-start justify-center gap-px">
-        <div className="inline-flex items-center gap-[2px]">
-          <DataIcon
-            className={clsx(
-              data.resolutions.length === 0 &&
-                'opacity-80 contrast-0 grayscale',
-              'w-5',
+    <>
+      {(mode === 'icon' || mode === 'summary') && (
+        <HoverTooltip
+          title={
+            <div>
+              <p className="mb-1 text-xs text-v1-content-primary">
+                {data.fullTitle}
+              </p>
+              <ConfirmationResolutionRow value={data.resolutions} />
+            </div>
+          }
+        >
+          <div className="inline-flex cursor-default flex-col items-start justify-center gap-px">
+            <div className="inline-flex items-center gap-[2px]">
+              <DataIcon
+                className={clsx(
+                  data.resolutions.length === 0 &&
+                    'opacity-80 contrast-0 grayscale',
+                  'w-5',
+                )}
+              />
+              <span className="inline-flex items-center gap-px">
+                <span
+                  className={clsx(
+                    'text-xs font-medium',
+                    data.resolutions.length === 0 && 'opacity-80 grayscale',
+                    data.textColor,
+                  )}
+                >
+                  {data.resolutions.length}
+                </span>
+                <span className="text-xxs text-v1-content-primary">/</span>
+                <span className="text-xxs text-v1-content-primary">
+                  {timeframes.length}
+                </span>
+              </span>
+            </div>
+            {mode === 'summary' && (
+              <p className="whitespace-nowrap text-start text-xxs text-v1-content-secondary">
+                {data.title}
+              </p>
             )}
-          />
-          <span className="inline-flex items-center gap-px">
+          </div>
+        </HoverTooltip>
+      )}
+      {mode === 'expanded' && (
+        <div className="flex w-full items-center justify-between gap-px text-xs">
+          <p className="basis-1/3 font-medium">{data.title}</p>
+          <span className="inline-flex grow items-center gap-px">
+            <DataIcon
+              className={clsx(
+                data.resolutions.length === 0 &&
+                  'opacity-80 contrast-0 grayscale',
+                'w-5',
+              )}
+            />
             <span
               className={clsx(
                 'text-xs font-medium',
@@ -203,13 +235,9 @@ export function ConfirmationBadge<I extends Indicator>({
               {timeframes.length}
             </span>
           </span>
+          <ConfirmationResolutionRow value={data.resolutions} />
         </div>
-        {!mini && (
-          <p className="whitespace-nowrap text-start text-xxs text-v1-content-secondary">
-            {data.title}
-          </p>
-        )}
-      </div>
-    </HoverTooltip>
+      )}
+    </>
   );
 }

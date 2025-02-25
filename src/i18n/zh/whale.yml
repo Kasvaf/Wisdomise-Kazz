@@ -60,6 +60,8 @@ sections:
       trades: 交易
       wallet-address: 錢包地址
     title: 巨鯨排行榜
+sentiment:
+  title: 鲸鱼情绪
 top_coins:
   buy_volume:
     avg: 每次购买的平均价格

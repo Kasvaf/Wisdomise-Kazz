@@ -7,7 +7,8 @@ import {
   type EChartsOption,
   type ECElementEvent,
 } from 'echarts';
-import { type FC, useEffect, useRef } from 'react';
+import { type FC, useCallback, useEffect, useRef, useState } from 'react';
+import { useEventListener } from 'usehooks-ts';
 
 export const ECharts: FC<{
   className?: string;
@@ -18,6 +19,16 @@ export const ECharts: FC<{
 }> = ({ className, initOptions, options: userOptions, onClick }) => {
   const element = useRef<HTMLDivElement>(null);
   const chart = useRef<EChartsType | undefined>(undefined);
+  const [ready, setReady] = useState(false);
+
+  const resize = useCallback(() => {
+    if (!chart.current) return;
+    chart.current?.resize({
+      animation: {
+        duration: 0,
+      },
+    });
+  }, []);
 
   // initialize
   useEffect(() => {
@@ -26,6 +37,7 @@ export const ECharts: FC<{
     chart.current = init(element.current, 'dark', initOptions);
     chart.current.setOption(
       {
+        animationDuration: 1000,
         tooltip: {
           backgroundColor: '#282a32',
           textStyle: {
@@ -35,40 +47,41 @@ export const ECharts: FC<{
       },
       true,
     );
-  }, [initOptions]);
+    const tm = setTimeout(() => {
+      resize();
+      setReady(true);
+    }, 0);
+    return () => clearTimeout(tm);
+  }, [initOptions, resize]);
 
   // sync options
   useEffect(() => {
     if (!chart.current) return;
     const handleClick = onClick ?? (() => true);
     chart.current.on('click', handleClick);
-    chart.current.setOption(userOptions, false);
+    chart.current.setOption(
+      {
+        backgroundColor: 'transparent',
+        ...(ready
+          ? userOptions
+          : {
+              xAxis: {
+                data: [],
+              },
+              yAxis: {
+                data: [],
+              },
+            }),
+      },
+      false,
+    );
     return () => {
       if (!chart.current) return;
       chart.current.off('click', handleClick);
     };
-  }, [userOptions, onClick]);
+  }, [userOptions, onClick, ready]);
 
-  // dynamic resize
-  useEffect(() => {
-    if (!chart.current) return;
-    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
-    const handleResize = () => {
-      if (resizeTimeout !== null) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        chart.current?.resize({
-          silent: true,
-          animation: {
-            delay: 0,
-          },
-        });
-      }, 0);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
+  useEventListener('resize', resize);
 
   return <div ref={element} className={className} />;
 };

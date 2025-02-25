@@ -15,13 +15,19 @@ call-change:
   last-mention: 最後の言及
   last-pnl-update: 最終損益更新
   long: 潜在的な成長機会
+  long_desciption: 潜在的な成長機会
   max-price: "最大: 極限高"
   min-price: "最小: 極端に低い"
   negative: ネガティブ
+  neutral: 中性
+  neutral_description: 明確な傾向なし
   not_sure: わからない
+  not_sure_description: 明確な傾向なし
   pnl: 最終更新
   positive: ポジティブ
   short: 衰退のリスク
+  short_desciption: 衰退のリスク
+  title: 社会感情 ウィズダムズ
   trigger-price: シグナル発動時の価格
   under-calculation: 計算中
 coin-category:

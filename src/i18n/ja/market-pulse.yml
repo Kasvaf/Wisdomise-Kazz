@@ -28,6 +28,7 @@ common:
     rsi_and_macd: (RSI+MACD)
     subtitle: 各バブルのサイズは 24 時間の価格変動を反映します。
   rsi_wise_scoring: RSIワイズスコアリング
+  sentiment_title: テクニカルセンチメント
   share: 共有
   short_term: 短期
   table_view: テーブルビュー

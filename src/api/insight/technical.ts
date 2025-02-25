@@ -263,6 +263,12 @@ export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
       data?: null | NetworkSecurity[];
     };
     symbol_labels?: null | string[];
+    sparkline?: null | {
+      prices?: null | Array<{
+        related_at: string;
+        value: number;
+      }>;
+    };
   };
 
 export const useTechnicalRadarCoins = (config: {

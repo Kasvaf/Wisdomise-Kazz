@@ -6,7 +6,7 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coin } from 'shared/Coin';
 import Spinner from 'shared/Spinner';
-import CoinPreDetailModal from '../CoinPreDetailModal';
+import MiniAppPreDetailModal from '../MiniAppPreDetailModal';
 
 export const HotCoinsMiniApp = () => {
   const { width } = useWindowSize();
@@ -64,7 +64,10 @@ export const HotCoinsMiniApp = () => {
         </div>
       )}
 
-      <CoinPreDetailModal slug={detailSlug} onClose={() => setDetailSlug('')} />
+      <MiniAppPreDetailModal
+        slug={detailSlug}
+        onClose={() => setDetailSlug('')}
+      />
     </div>
   );
 };

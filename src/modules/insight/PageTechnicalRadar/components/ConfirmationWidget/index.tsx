@@ -108,6 +108,7 @@ function ConfirmationRow<I extends Indicator>({
             <ConfirmationBadge
               key={`${indicator as string}-${type}-${i}`}
               {...badgeProps}
+              mode="summary"
             />
           ))}
         </div>

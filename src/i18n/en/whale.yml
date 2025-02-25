@@ -36,6 +36,8 @@ asset_badges:
   unloading_info: >-
     This coin has little value to the whale, held in very small amounts that
     don’t impact their portfolio.
+sentiment:
+  title: Whale Sentiment™
 top_coins:
   name: Name
   title: Whale Radar

@@ -376,7 +376,7 @@ export function Select<V, M extends boolean = false>({
               surface={5}
               onClick={() => setIsOpen(false)}
             >
-              <Icon name={bxX} /> {'OK'}
+              {'OK'}
             </Button>
           </div>
         )}

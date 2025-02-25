@@ -63,15 +63,23 @@ export interface CoinSignalAnalysis {
   max_price: number;
   min_price: number;
   sparkline?: null | {
-    prices?: null | number[];
-    related_ats?: null | string[];
+    prices?: null | Array<{
+      value: number;
+      related_at: string;
+    }>;
+    indexes?: null | {
+      first?: null | number;
+      last?: null | number;
+      max?: null | number;
+      min?: null | number;
+    };
   };
 }
 
 export interface SocialRadarSentiment {
   last_signal_related_at: string;
   first_signal_related_at: string;
-  gauge_tag: 'LONG' | 'SHORT' | 'NOT SURE';
+  gauge_tag: 'LONG' | 'SHORT' | 'NEUTRAL' | 'NOT SURE';
   gauge_measure: -1 | 0 | 1;
   long_count: number;
   short_count: number;
