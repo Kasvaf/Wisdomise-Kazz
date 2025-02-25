@@ -29,6 +29,10 @@ export const HotCoinsMobile = () => {
   const [selectedRow, setSelectedRow] = useState<null | CoinRadarCoin>(null);
   const [modal, setModal] = useState(false);
 
+  const selectedRowSparklinePrices =
+    selectedRow?.social_radar_insight?.signals_analysis?.sparkline?.prices ??
+    selectedRow?.technical_radar_insight?.sparkline?.prices;
+
   const columns = useMemo<Array<MobileTableColumn<CoinRadarCoin>>>(
     () => [
       {
@@ -157,15 +161,12 @@ export const HotCoinsMobile = () => {
         open={modal}
         onClose={() => setModal(false)}
       >
-        {selectedRow?.social_radar_insight?.signals_analysis?.sparkline && (
+        {selectedRowSparklinePrices && (
           <CoinPriceChart
-            value={
-              selectedRow?.social_radar_insight?.signals_analysis?.sparkline
-                ?.prices ?? []
-            }
+            value={selectedRowSparklinePrices ?? []}
             socialIndexes={
               selectedRow?.social_radar_insight?.signals_analysis?.sparkline
-                .indexes
+                ?.indexes
             }
           />
         )}

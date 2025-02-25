@@ -323,6 +323,12 @@ export interface TechnicalRadarSentiment {
   rsi_overness_normalized_score?: number | null;
   rsi_score?: number | null;
   technical_sentiment?: string | null;
+  sparkline?: null | {
+    prices?: null | Array<{
+      related_at: string;
+      value: number;
+    }>;
+  };
 }
 export const useTechnicalRadarSentiment = ({ slug }: { slug: string }) =>
   useQuery({
