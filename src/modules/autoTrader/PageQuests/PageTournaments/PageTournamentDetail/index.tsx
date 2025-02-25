@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useMemo } from 'react';
+import { clsx } from 'clsx';
 import {
   type TournamentParticipant,
   useTournament,
@@ -13,6 +14,7 @@ import empty from 'modules/autoTrader/PositionsList/empty.svg';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import TournamentsOnboarding from 'modules/autoTrader/PageQuests/PageTournaments/TournamentsOnboarding';
 import BtnBack from 'modules/base/BtnBack';
+import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import { ReactComponent as IconUser } from './user.svg';
 
 const PARTICIPANTS_COUNT = 50;
@@ -25,6 +27,7 @@ export default function PageTournamentDetail() {
   const { data: me } = useTournamentMe(id);
   const { data: participants } = useTournamentLeaderboard(id);
   const profile = useTelegramProfile();
+  const isTrialBannerVisible = useIsTrialBannerVisible();
 
   const sortedParticipants = useMemo(() => {
     let sorted: TournamentParticipant[] = [];
@@ -58,7 +61,7 @@ export default function PageTournamentDetail() {
 
   return (
     <TournamentsOnboarding>
-      <PageWrapper loading={isLoading}>
+      <PageWrapper loading={isLoading} className="pb-10">
         <div className="mb-3 flex items-center justify-between gap-2">
           <div className="w-1/2">
             <BtnBack />
@@ -110,14 +113,17 @@ export default function PageTournamentDetail() {
               ))}
               {me && (
                 <div
-                  className="fixed bottom-12 end-0 start-0 rounded-xl px-12"
+                  className={clsx(
+                    'fixed end-0 start-0 rounded-xl px-12',
+                    isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
+                  )}
                   style={{
                     background:
                       'linear-gradient(0deg, rgba(20, 20, 20, 0.3) 50%, rgba(19, 25, 32, 0.00) 100%)',
                   }}
                 >
                   <div
-                    className="mb-8 flex h-12 items-center justify-between rounded-xl  bg-v1-border-inverse px-3"
+                    className="flex h-12 items-center justify-between rounded-xl  bg-v1-border-inverse px-3"
                     style={{
                       boxShadow:
                         '-90px 61px 30px 0px rgba(19, 25, 32, 0.00), -58px 39px 28px 0px rgba(19, 25, 32, 0.03), -33px 22px 24px 0px rgba(19, 25, 32, 0.09), -14px 10px 17px 0px rgba(19, 25, 32, 0.16), -4px 2px 10px 0px rgba(19, 25, 32, 0.18)',

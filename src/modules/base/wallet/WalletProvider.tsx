@@ -1,6 +1,5 @@
 import { useMemo, type PropsWithChildren } from 'react';
 import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
-
 import {
   ConnectionProvider,
   WalletProvider as SolWalletProvider,
@@ -8,6 +7,8 @@ import {
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
@@ -33,6 +34,10 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
           },
         },
       }),
+      ...(navigator.userAgent.includes('iPhone') &&
+      !/phantom|solflare|webview|wv/i.test(navigator.userAgent)
+        ? [new SolflareWalletAdapter(), new PhantomWalletAdapter()]
+        : []),
     ],
     [network],
   );
