@@ -6,9 +6,9 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
-import PositionsList from '../PositionsList';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import PageNoDesktop from '../PageNoDesktop';
+import PositionsList from './PositionsList';
 
 const PagePositions = () => {
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
@@ -49,14 +49,14 @@ const PagePositions = () => {
 
       <PositionsList slug={slug} isOpen={filter === 'active'} />
 
-      {filter === 'active' && (
+      {filter === 'active' && slug && (
         <Button
           variant="brand"
           className={clsx(
             'fixed end-4 start-4 z-50',
             isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
           )}
-          to={`/auto-trader/${slug || 'the-open-network'}`}
+          to={`/auto-trader/${slug}`}
         >
           Start Auto Trading
         </Button>
