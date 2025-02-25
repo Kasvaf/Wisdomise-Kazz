@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
@@ -24,10 +24,30 @@ import { Button } from 'shared/v1-components/Button';
 // eslint-disable-next-line import/max-dependencies
 import TelegramLogin from './TelegramLogin';
 
+const useLoginDynamicTexts = () => {
+  // const { pathname } = useLocation();
+  const { t } = useTranslation('auth');
+
+  return useMemo(
+    () => ({
+      title: t('login.step-1.social_radar_title'),
+      subtitle: t('login.step-1.social_radar_subtitle'),
+      features: [
+        t('login.features.find_twitter_x100'),
+        t('login.features.find_twitter_trend'),
+        t('login.features.access_to_telegram_vip'),
+        t('login.features.save_on_join_paid_groups'),
+      ],
+    }),
+    [t],
+  );
+};
+
 const LoginModalContent: React.FC<{
   onResolve?: (success: boolean) => void;
 }> = ({ onResolve }) => {
   const { t } = useTranslation('auth');
+  const dynamicTexts = useLoginDynamicTexts();
   const [step, setStep] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
   const [nonce, setNonce] = useState('');
@@ -133,25 +153,17 @@ const LoginModalContent: React.FC<{
       </Trans>
     </p>
   );
-
-  const features: string[] = [
-    t('login.features.trusted'),
-    t('login.features.analyzed'),
-    t('login.features.ai_driven'),
-    t('login.features.secure'),
-  ];
-
   const emailContent = (
-    <div className="flex grow flex-col p-8 mobile:p-4">
-      <h1 className="mb-4 pr-12 text-xl font-medium">
-        {t('login.step-1.title2')}
+    <div className="flex grow flex-col">
+      <h1 className="mb-4 pr-12 text-xl font-medium leading-normal mobile:text-base">
+        {dynamicTexts.title}
       </h1>
-      <p className="mb-6 text-xs text-white/70">
-        {t('login.step-1.subtitle2')}
+      <p className="mb-6 text-xs leading-normal text-v1-content-secondary">
+        {dynamicTexts.subtitle}
       </p>
 
       <div className="mb-12 flex flex-col gap-4">
-        {features.map(text => (
+        {dynamicTexts.features.map(text => (
           <div
             key={text}
             className="flex items-center gap-2 text-xs font-normal"
@@ -221,11 +233,11 @@ const LoginModalContent: React.FC<{
   );
 
   const codeContent = (
-    <div className="flex grow flex-col p-8">
-      <h1 className="mb-5 pr-12 text-xl font-medium">
+    <div className="flex grow flex-col">
+      <h1 className="mb-5 pr-12 text-xl font-medium leading-normal mobile:text-base">
         {t('login.step-2.title')}
       </h1>
-      <p className="mb-9 text-xs text-white/70">
+      <p className="mb-9 text-xs leading-normal text-v1-content-secondary">
         {t('login.step-2.subtitle', { email })}
       </p>
 
@@ -287,7 +299,7 @@ const LoginModalContent: React.FC<{
   );
 
   return (
-    <div className="relative w-full overflow-hidden bg-v1-surface-l2 p-4">
+    <div className="relative w-full overflow-hidden bg-v1-surface-l2 p-8">
       <div className="absolute -top-48 left-1/2 mx-auto size-56 -translate-x-1/2 bg-white/55 blur-[110px]" />
       {emailLoginLoading || verifyEmailLoading || isConnecting ? (
         <div className="my-8 flex grow flex-col items-center justify-center">
@@ -363,6 +375,7 @@ export const useModalLogin = () => {
           maskClosable={false}
           closeIcon={<Icon name={bxX} size={16} />}
           className="[&_.ant-modal-content]:p-0"
+          width={550}
         >
           <LoginModalContent onResolve={handleResolve} />
         </AntModal>
