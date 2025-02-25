@@ -57,7 +57,7 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
   return (
     <div className={className}>
-      {label && <label className="mb-2 ml-2 block">{label}</label>}
+      {label && <label className="mb-2 ml-2 block text-xs">{label}</label>}
 
       <div className="relative">
         <input
@@ -66,9 +66,9 @@ const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
           className={clsx(
             'flex h-12 w-full rounded-xl',
             'items-center justify-between',
-            'border bg-black/40 pl-3 pr-2 outline-none',
+            'border bg-v1-surface-l3 pl-3 pr-2 outline-none',
             error ? 'border-error text-error' : 'border-transparent',
-            disabled ? 'text-white/30' : 'focus:bg-black/60',
+            disabled ? 'text-white/30' : '',
             suffix && 'pr-[56px]',
             inputClassName,
           )}

@@ -1,10 +1,10 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
-import { Divider } from 'antd';
-import { bxArrowBack, bxX } from 'boxicons-quasar';
+import { Drawer as AntDrawer, Modal as AntModal } from 'antd';
+import { bxArrowBack, bxCheck, bxX } from 'boxicons-quasar';
 import { v4 } from 'uuid';
 import {
   useEmailLoginMutation,
@@ -13,26 +13,20 @@ import {
   useVerifyEmailMutation,
 } from 'api/auth';
 import useNow from 'utils/useNow';
-import useModal from 'shared/useModal';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
-import Button from 'shared/Button';
 import Link from 'shared/Link';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import Icon from 'shared/Icon';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
-import LoginBg from './login-bg.png';
-import { ReactComponent as TrustIcon } from './trust.svg';
-import { ReactComponent as SecureIcon } from './secure.svg';
-import { ReactComponent as AnalyzeIcon } from './analyze.svg';
-import { ReactComponent as AiIcon } from './ai.svg';
+import useIsMobile from 'utils/useIsMobile';
+import { Button } from 'shared/v1-components/Button';
 // eslint-disable-next-line import/max-dependencies
 import TelegramLogin from './TelegramLogin';
 
-const ModalLogin: React.FC<{
+const LoginModalContent: React.FC<{
   onResolve?: (success: boolean) => void;
-  theme?: 'mini' | 'default';
-}> = ({ onResolve, theme = 'default' }) => {
+}> = ({ onResolve }) => {
   const { t } = useTranslation('auth');
   const [step, setStep] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
@@ -122,7 +116,7 @@ const ModalLogin: React.FC<{
   };
 
   const notice = (
-    <p className="mt-5 text-xs text-white/70">
+    <p className="mt-5 text-xs text-v1-content-secondary [&_a]:text-v1-content-secondary [&_a]:underline">
       <Trans ns="auth" i18nKey="login.notice">
         By continuing, you agree to our
         <Link target="_blank" href="https://help.wisdomise.com/privacy-policy">
@@ -140,53 +134,35 @@ const ModalLogin: React.FC<{
     </p>
   );
 
-  const features: Array<{ icon: typeof TrustIcon; text: string }> = [
-    {
-      icon: TrustIcon,
-      text: t('login.features.trusted'),
-    },
-    {
-      icon: AnalyzeIcon,
-      text: t('login.features.analyzed'),
-    },
-    {
-      icon: AiIcon,
-      text: t('login.features.ai_driven'),
-    },
-    {
-      icon: SecureIcon,
-      text: t('login.features.secure'),
-    },
+  const features: string[] = [
+    t('login.features.trusted'),
+    t('login.features.analyzed'),
+    t('login.features.ai_driven'),
+    t('login.features.secure'),
   ];
 
   const emailContent = (
     <div className="flex grow flex-col p-8 mobile:p-4">
       <h1 className="mb-4 pr-12 text-xl font-medium">
-        {theme === 'default'
-          ? t('login.step-1.title')
-          : t('login.step-1.title2')}
+        {t('login.step-1.title2')}
       </h1>
       <p className="mb-6 text-xs text-white/70">
-        {theme === 'default'
-          ? t('login.step-1.subtitle')
-          : t('login.step-1.subtitle2')}
+        {t('login.step-1.subtitle2')}
       </p>
 
-      {theme !== 'default' && (
-        <div className="mb-12 grid grid-cols-2 gap-4">
-          {features.map(({ icon: FeatIcon, text }) => (
-            <div
-              key={text}
-              className="flex items-center gap-2 text-xs font-medium"
-            >
-              <div className="flex size-8 items-center justify-center rounded-full bg-wsdm-gradient">
-                <FeatIcon />
-              </div>
-              {text}
+      <div className="mb-12 flex flex-col gap-4">
+        {features.map(text => (
+          <div
+            key={text}
+            className="flex items-center gap-2 text-xs font-normal"
+          >
+            <div className="flex size-5 items-center justify-center rounded-full bg-wsdm-gradient">
+              <Icon name={bxCheck} size={16} />
             </div>
-          ))}
-        </div>
-      )}
+            {text}
+          </div>
+        ))}
+      </div>
 
       <div className="flex flex-col items-stretch gap-4">
         <TextBox
@@ -213,18 +189,21 @@ const ModalLogin: React.FC<{
           error={fieldError}
         />
         <Button
-          variant="primary-purple"
+          variant="primary"
           onClick={submitEmail}
           loading={emailLoginLoading}
-          disabled={!isValidEmail}
         >
           {t('login.step-1.button-submit-email')}
         </Button>
       </div>
 
-      <Divider className="!my-6">{t('common:or')}</Divider>
+      <div className="my-6 flex h-px w-full items-center justify-center overflow-visible bg-v1-border-disabled">
+        <span className="px-2 text-xs text-v1-content-secondary backdrop-blur-lg">
+          {t('common:or')}
+        </span>
+      </div>
 
-      <div className="flex flex-col items-center justify-center gap-4">
+      <div className="mb-6 flex flex-col items-center justify-center gap-4">
         <GoogleLogin
           onSuccess={googleHandler}
           use_fedcm_for_prompt
@@ -236,8 +215,6 @@ const ModalLogin: React.FC<{
 
         <TelegramLogin onClick={tgHandler} />
       </div>
-
-      <div className="grow" />
 
       {notice}
     </div>
@@ -252,7 +229,7 @@ const ModalLogin: React.FC<{
         {t('login.step-2.subtitle', { email })}
       </p>
 
-      <div className="flex flex-col items-stretch">
+      <div className="mb-10 flex flex-col items-stretch">
         <div className="mb-3 text-xs">{t('login.step-2.field-nonce')}</div>
         <VerificationInput
           autoFocus
@@ -260,11 +237,9 @@ const ModalLogin: React.FC<{
           placeholder=" "
           classNames={{
             character: clsx(
-              'rounded-lg border-transparent bg-v1-surface-l2 text-white',
+              'rounded-lg border-transparent bg-v1-surface-l3 text-white',
             ),
-            characterSelected: clsx(
-              'border border-white bg-v1-surface-l3 outline-none',
-            ),
+            characterSelected: clsx('border border-white outline-none'),
             container: clsx('w-full gap-4'),
           }}
           value={nonce}
@@ -272,51 +247,48 @@ const ModalLogin: React.FC<{
         />
         {fieldError && <div className="ml-1 mt-3 text-error">{fieldError}</div>}
         <Button
-          variant="primary-purple"
+          variant="primary"
           onClick={submitCode}
           loading={verifyEmailLoading}
-          disabled={nonce.length < 6}
           className="mt-4"
         >
           {t('login.step-2.btn-submit-otp')}
         </Button>
-        <div className="mx-1 mt-3 flex justify-between gap-2 text-xs">
-          {remTime > 0 ? (
-            <div>
-              {remMinutes.toString().padStart(2, '0')}:
-              {remSeconds.toString().padStart(2, '0')}
-            </div>
-          ) : (
-            <div />
-          )}
-
+        <div className="mx-1 mt-3 flex items-center justify-between gap-2 text-xs">
           <Button
             variant="link"
-            className="!p-0"
+            size="xs"
+            onClick={() => setStep('email')}
+            className="!px-0"
+          >
+            {t('login.step-2.btn-change-email')}
+          </Button>
+          <Button
+            variant="ghost"
+            size="xs"
             disabled={remTime > 0}
             onClick={submitEmail}
             loading={emailLoginLoading}
           >
-            {t('login.step-2.btn-resend')}
+            {remTime > 0 ? (
+              <div className="font-mono">
+                {remMinutes.toString().padStart(2, '0')}:
+                {remSeconds.toString().padStart(2, '0')}
+              </div>
+            ) : (
+              <>{t('login.step-2.btn-resend')}</>
+            )}
           </Button>
         </div>
       </div>
-
-      <div
-        className="my-7 cursor-pointer text-v1-content-link hover:text-v1-content-link-hover"
-        onClick={() => setStep('email')}
-      >
-        {t('login.step-2.btn-change-email')}
-      </div>
-
-      <div className="min-h-10 grow" />
 
       {notice}
     </div>
   );
 
   return (
-    <div className="flex min-h-[524px] w-full bg-v1-surface-l1">
+    <div className="relative w-full overflow-hidden bg-v1-surface-l2 p-4">
+      <div className="absolute -top-48 left-1/2 mx-auto size-56 -translate-x-1/2 bg-white/55 blur-[110px]" />
       {emailLoginLoading || verifyEmailLoading || isConnecting ? (
         <div className="my-8 flex grow flex-col items-center justify-center">
           <div className="grow" />
@@ -326,8 +298,8 @@ const ModalLogin: React.FC<{
           {isConnecting && (
             <div className="flex justify-center">
               <Button
-                variant="alternative"
-                size="small"
+                variant="primary"
+                size="sm"
                 className="!pr-6"
                 onClick={() => setIsConnecting(false)}
               >
@@ -342,30 +314,70 @@ const ModalLogin: React.FC<{
       ) : (
         codeContent
       )}
-      {theme === 'default' && (
-        <img
-          src={LoginBg}
-          className="h-[524px] w-[440px] shrink-0 bg-black/30 object-contain mobile:hidden"
-        />
-      )}
     </div>
   );
 };
 
-export const useModalLogin = (requestedByUser = true) => {
-  const [Modal, showModal] = useModal(ModalLogin, {
-    width: requestedByUser ? 880 : 499,
-    closable: true,
-    closeIcon: requestedByUser ? undefined : <Icon name={bxX} size={14} />,
-    maskClosable: requestedByUser,
-    keyboard: requestedByUser,
-    className: '[&_.ant-modal-content]:!p-0',
-  });
-  return [
-    Modal,
-    async () =>
-      !!(await showModal({
-        theme: requestedByUser ? 'default' : 'mini',
-      })),
-  ] as const;
+export const useModalLogin = () => {
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(false);
+  const resolver = useRef<((result: boolean) => void) | undefined>(undefined);
+
+  const handleClose = () => {
+    resolver.current?.(false);
+    setOpen(false);
+  };
+
+  const handleResolve = () => {
+    resolver.current?.(true);
+    setOpen(false);
+  };
+
+  const content = (
+    <>
+      {isMobile ? (
+        <AntDrawer
+          placement="bottom"
+          open={open}
+          onClose={handleClose}
+          destroyOnClose
+          height="auto"
+          style={{
+            maxHeight: '90vh',
+          }}
+          closable
+          closeIcon={<Icon name={bxX} />}
+          className="rounded-t-2xl [&_.ant-drawer-body]:p-0 [&_.ant-drawer-header]:absolute [&_.ant-drawer-header]:z-10 [&_.ant-drawer-header]:w-full [&_.ant-drawer-header]:p-4"
+          maskClosable={false}
+        >
+          <LoginModalContent onResolve={handleResolve} />
+        </AntDrawer>
+      ) : (
+        <AntModal
+          centered
+          open={open}
+          onCancel={handleClose}
+          destroyOnClose
+          footer={false}
+          closable
+          maskClosable={false}
+          closeIcon={<Icon name={bxX} size={16} />}
+          className="[&_.ant-modal-content]:p-0"
+        >
+          <LoginModalContent onResolve={handleResolve} />
+        </AntModal>
+      )}
+    </>
+  );
+
+  const show = () =>
+    new Promise<boolean>(resolve => {
+      if (!open) {
+        resolver.current = resolve;
+        setOpen(true);
+      }
+      throw new Error('Login modal is already open!');
+    });
+
+  return [content, show] as const;
 };
