@@ -14,7 +14,7 @@ export const useScreenshot = (
   const [share] = useShare('share');
   const isMobile = useIsMobile();
 
-  const afterCapture = config.afterCapture ?? isMobile ? 'share' : 'download';
+  const afterCapture = config.afterCapture ?? (isMobile ? 'share' : 'download');
 
   return () => {
     if (!el.current || el.current.classList.contains('capturing'))

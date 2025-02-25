@@ -172,6 +172,8 @@ export interface Position {
   exit_price?: string;
   exit_time?: string;
   pnl?: string;
+  pnl_quote?: number;
+  pnl_usd?: number;
   current_total_quote_equity: string;
   current_total_usd_equity: string;
   stop_loss?: string;
@@ -189,6 +191,7 @@ export interface Position {
 interface PositionAsset {
   amount: string;
   asset_slug: string;
+  asset_name: string;
   is_gas_fee?: boolean;
 }
 

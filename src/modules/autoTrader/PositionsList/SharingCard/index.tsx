@@ -4,7 +4,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { DrawerModal } from 'shared/DrawerModal';
 import { Toggle } from 'shared/Toggle';
 import { Coin } from 'shared/Coin';
-import { initialQuoteDeposit, type Position, useCoinDetails } from 'api';
+import { type Position, useCoinDetails } from 'api';
 import PriceChange from 'shared/PriceChange';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
@@ -23,6 +23,12 @@ import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as XIcon } from './images/twitter.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as LinkedinIcon } from './images/linkedin.svg';
+
+export function initialQuoteDeposit(p: Position) {
+  return p.deposit_assets.find(
+    x => x.asset_slug === p.quote_slug && !x.is_gas_fee,
+  );
+}
 
 const SHARE_TEXT = 'Join Wisdomise Adventure!';
 
@@ -44,7 +50,7 @@ export default function SharingCard({
   const myReferralLink = useReferral();
   const el = useRef<HTMLDivElement>(null);
   const screenshot = useScreenshot(el, {
-    backgroundColor: '#1D1E23', // v1-surface-l3
+    backgroundColor: 'transparent', // v1-surface-l3
     fileName: position.key,
     afterCapture: 'download',
   });
@@ -58,7 +64,7 @@ export default function SharingCard({
         onClose={() => setOpen(false)}
         maskClosable={true}
         closeIcon={null}
-        rootClassName="[&_.ant-drawer-content]:!bg-transparent"
+        rootClassName="[&_.ant-drawer-content]:!bg-transparent [&_.ant-drawer-header]:!p-0"
         className="[&>.ant-drawer-wrapper-body]:!bg-transparent"
       >
         <div
@@ -100,7 +106,7 @@ export default function SharingCard({
               )}
               <div className="my-6">
                 <PriceChange
-                  className="text-3xl"
+                  className="!flex text-3xl"
                   value={Number(position.pnl)}
                 />
                 {showExtra && (
@@ -111,7 +117,9 @@ export default function SharingCard({
                         : 'text-v1-content-negative'
                     }
                   >
-                    {5} SOL (${1000})
+                    {position.pnl_quote?.toFixed(3)} {position.quote_name}
+                    {position.quote_name !== 'USDT' &&
+                      `(${position.pnl_usd?.toFixed(3) ?? ''})`}
                   </div>
                 )}
               </div>
@@ -119,7 +127,9 @@ export default function SharingCard({
                 {showExtra && (
                   <div className="flex justify-between">
                     <span>Invest</span>
-                    <span>{initialDeposit}</span>
+                    <span>
+                      {initialDeposit?.amount} {initialDeposit?.asset_name}
+                    </span>
                   </div>
                 )}
                 <div className="flex justify-between">
