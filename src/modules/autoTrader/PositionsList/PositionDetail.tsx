@@ -75,16 +75,16 @@ const PositionDetail: React.FC<{
               Edit
             </Button>
           )}
-          {/* {position.status === 'CLOSED' && ( */}
-          <Button
-            variant="link"
-            className="ms-auto !p-0 !text-xs text-v1-content-link"
-            onClick={() => setOpenShare(true)}
-          >
-            <Icon name={bxShareAlt} size={16} className="mr-1" />
-            Share
-          </Button>
-          {/* )} */}
+          {position.status === 'CLOSED' && (
+            <Button
+              variant="link"
+              className="ms-auto !p-0 !text-xs text-v1-content-link"
+              onClick={() => setOpenShare(true)}
+            >
+              <Icon name={bxShareAlt} size={16} className="mr-1" />
+              Share
+            </Button>
+          )}
         </div>
       </div>
       <hr className="my-4 border-white/10" />
