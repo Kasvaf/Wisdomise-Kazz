@@ -36,7 +36,7 @@ export const TechnicalRadarChart: FC<{
   const parsedData = useNormalizeTechnicalChartBubbles(coins.data ?? [], type);
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
-
+  console.log(parsedData.data, type);
   const options = useMemo<EChartsOption>(() => {
     return {
       tooltip: {
@@ -303,11 +303,8 @@ export const TechnicalRadarChart: FC<{
         }}
       >
         <ECharts
-          initOptions={{
-            height: isMobile ? '400px' : '500px',
-            width: 'auto',
-            renderer: 'canvas',
-          }}
+          height={isMobile ? 400 : 500}
+          renderer="canvas"
           onClick={e => {
             if (
               e.componentSubType === 'scatter' &&

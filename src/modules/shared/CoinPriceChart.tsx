@@ -235,9 +235,7 @@ export const CoinPriceChart: FC<
   return (
     <ECharts
       key={JSON.stringify(value)}
-      initOptions={{
-        height: 125,
-      }}
+      height={125}
       {...props}
       options={chartConfig}
     />
