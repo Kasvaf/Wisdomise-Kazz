@@ -12,8 +12,10 @@ import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
 import SharingCard from 'modules/autoTrader/PositionsList/SharingCard';
+import { isMiniApp } from 'utils/version';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
+// eslint-disable-next-line import/max-dependencies
 import StatusWidget from './StatusWidget';
 
 const AssetName: React.FC<{ slug: string }> = ({ slug }) => {
@@ -75,7 +77,7 @@ const PositionDetail: React.FC<{
               Edit
             </Button>
           )}
-          {position.status === 'CLOSED' && (
+          {position.status === 'CLOSED' && !isMiniApp && (
             <Button
               variant="link"
               className="ms-auto !p-0 !text-xs text-v1-content-link"
