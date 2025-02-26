@@ -22,6 +22,7 @@ export const useNetworks = (config: {
 }) =>
   useQuery({
     queryKey: ['networks', config.filter],
+    staleTime: Number.POSITIVE_INFINITY,
     queryFn: () => {
       const url =
         config?.filter === 'whale-radar'
@@ -51,6 +52,7 @@ export const useExchanges = (config: {
 }) =>
   useQuery({
     queryKey: ['exchanges', config.filter],
+    staleTime: Number.POSITIVE_INFINITY,
     queryFn: () =>
       ofetch<Exchange[]>('/delphi/market/exchanges/', {
         query: {
@@ -71,6 +73,7 @@ export const useCategories = (config: {
 }) =>
   useQuery({
     queryKey: ['categories', config.filter],
+    staleTime: Number.POSITIVE_INFINITY,
     queryFn: () =>
       ofetch<Category[]>('/delphi/symbol-category/search/', {
         query: {
@@ -100,7 +103,7 @@ export const useCoins = (config: {
           network_name:
             isMiniApp && config.tradableCoinsOnly ? 'ton' : undefined,
           is_trading: config.tradableCoinsOnly ? true : undefined,
-          page_size: 200,
+          page_size: 50,
         },
       }),
   });
@@ -127,6 +130,7 @@ export const useCoinLabels = (config: { query?: string }) =>
         matcher(config.query).string(row),
       ),
     }),
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
 export const useCoinDetails = ({
@@ -138,8 +142,9 @@ export const useCoinDetails = ({
 }) =>
   useQuery({
     queryKey: ['coin-details', slug, priceHistoryDays ?? 1],
-    queryFn: () =>
-      ofetch<CoinDetails>('delphi/market/token-review/', {
+    queryFn: () => {
+      if (!slug) return null;
+      return ofetch<CoinDetails>('delphi/market/token-review/', {
         query: {
           slug,
           price_history_days: priceHistoryDays ?? 1,
@@ -162,7 +167,7 @@ export const useCoinDetails = ({
               ? `https://www.geckoterminal.com/${chart.id}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0`
               : '',
         })),
-      })),
-    refetchInterval: 10 * 1000,
-    enabled: !!slug,
+      }));
+    },
+    refetchInterval: 5 * 60 * 1000,
   });

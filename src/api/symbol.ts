@@ -14,8 +14,9 @@ const getCoins = async (slugs: unknown[]) => {
 };
 
 export const useSymbolInfo = (slug?: string) => {
-  return useQuery(
-    ['symbol-info', slug],
-    async () => (slug && (await load(getCoins, slug))) || null,
-  );
+  return useQuery({
+    queryKey: ['symbol-info', slug],
+    queryFn: async () => (slug && (await load(getCoins, slug))) || null,
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 };
