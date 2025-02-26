@@ -56,6 +56,14 @@ tables:
   target: Notification Targets
   type: Alert Type
 types:
+  coin_radar_screener:
+    title: Coin Radar Screener
+    subtitle: Get notified as soon as a coin enters the top 5 of our Coin Radar list.
+    step-1:
+      title: Set Coin Radar Screener
+      subtitle: |-
+        Get notified as soon as a coin enters the top 5 of our Coin Radar
+          list.
   price:
     title: Price Alert
     subtitle: Stay on top of market changes with instant notifications

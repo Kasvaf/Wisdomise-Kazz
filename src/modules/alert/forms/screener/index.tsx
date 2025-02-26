@@ -15,6 +15,9 @@ export const useScreenerAlert = (): AlertFormGroup => {
   const socialRadarAlerts = useAlerts({
     data_source: 'social_radar',
   });
+  const coinRadarAlerts = useAlerts({
+    data_source: 'coin_radar',
+  });
   const hasFlag = useHasFlag();
   return {
     title: t('types.screener.title'),
@@ -22,6 +25,59 @@ export const useScreenerAlert = (): AlertFormGroup => {
     icon: ScreenerIcon,
     value: 'screener',
     children: [
+      {
+        title: (
+          <>
+            <DebugPin
+              title="/coin-radar/alerts?coin_radar_screener"
+              color="orange"
+            />
+            {t('types.coin_radar_screener.title')}
+          </>
+        ),
+        subtitle: t('types.coin_radar_screener.subtitle'),
+        icon: ScreenerIcon,
+        value: 'coin_radar',
+        disabled: () => !hasFlag('/coin-radar/alerts?coin_radar_screener'),
+        steps: [
+          {
+            component: StepOne,
+            icon: ScreenerIcon,
+            title: t('types.coin_radar_screener.step-1.title'),
+            crumb: t('types.coin_radar_screener.step-1.title'),
+            subtitle: t('types.coin_radar_screener.step-1.subtitle'),
+          },
+        ],
+        defaultValue: () =>
+          coinRadarAlerts.refetch().then(x =>
+            x.data?.length
+              ? x.data[0]
+              : {
+                  data_source: 'coin_radar',
+                  messengers: ['EMAIL'],
+                  conditions: [
+                    {
+                      field_name: 'networks',
+                      operator: 'CONTAINS_OBJECT_EACH',
+                      threshold: '[]',
+                    },
+                    {
+                      field_name: 'symbol.categories',
+                      operator: 'CONTAINS_OBJECT_EACH',
+                      threshold: '[]',
+                    },
+                  ],
+                  params: [],
+                  config: {},
+                  state: 'ACTIVE',
+                },
+          ),
+        isCompatible: p => {
+          return p.data_source === 'coin_radar';
+        },
+        save: p => saveAlertMutation.mutateAsync(p),
+        delete: p => deleteAlertMutation.mutateAsync(p),
+      },
       {
         title: (
           <>

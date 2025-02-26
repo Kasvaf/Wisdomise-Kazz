@@ -13,7 +13,7 @@ import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/component
 import { ConfirmationBadgesInfo } from 'modules/insight/PageTechnicalRadar/components/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { EmptySentiment } from '../EmptySentiment';
-import { InsightAlertButton } from '../InsightAlertButton';
+import CoinRadarAlerButton from '../CoinRadarAlerButton';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
@@ -112,7 +112,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
           {t('base:menu.coin-radar.full-title')}
         </>
       }
-      headerActions={<InsightAlertButton />}
+      headerActions={<CoinRadarAlerButton />}
       loading={coins.isLoading}
       empty={!coins.data?.length}
       className="min-h-[500px]"
