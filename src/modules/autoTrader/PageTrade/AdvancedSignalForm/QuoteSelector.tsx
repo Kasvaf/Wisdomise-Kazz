@@ -10,10 +10,16 @@ const { Option } = Select;
 const isDollar = (x: string) => x === 'tether' || x === 'usd-coin';
 const BalanceHandler: React.FC<{
   quote: string;
+  networks: string[];
   onBalance: (balance: number) => void;
-}> = ({ quote, onBalance }) => {
+}> = ({ quote, networks, onBalance }) => {
   const { data, isLoading } = useAccountBalance(
     quote as AutoTraderSupportedQuotes,
+    networks.includes('solana')
+      ? 'solana'
+      : networks.includes('the-open-network')
+      ? 'the-open-network'
+      : null,
   );
 
   useEffect(() => {
@@ -52,10 +58,11 @@ const QuoteSelector: React.FC<{
     <>
       {!isManualSelected &&
         seen < Number(data?.length) &&
-        data?.map(({ quote }) => (
+        data?.map(({ quote, network_slugs: networks }) => (
           <BalanceHandler
             key={quote.slug}
             quote={quote.slug}
+            networks={networks}
             onBalance={b => {
               setSeen(x => x + 1);
               if (
