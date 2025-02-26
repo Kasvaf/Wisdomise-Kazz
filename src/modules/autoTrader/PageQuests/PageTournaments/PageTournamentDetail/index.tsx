@@ -11,7 +11,6 @@ import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/Tourna
 import PageWrapper from 'modules/base/PageWrapper';
 import { addComma } from 'utils/numbers';
 import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
-import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import TournamentsOnboarding from 'modules/autoTrader/PageQuests/PageTournaments/TournamentsOnboarding';
 import BtnBack from 'modules/base/BtnBack';
 import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
@@ -26,7 +25,6 @@ export default function PageTournamentDetail() {
   const { data: tournament, isLoading } = useTournament(id);
   const { data: me } = useTournamentMe(id);
   const { data: participants } = useTournamentLeaderboard(id);
-  const profile = useTelegramProfile();
   const isTrialBannerVisible = useIsTrialBannerVisible();
 
   const sortedParticipants = useMemo(() => {
@@ -102,9 +100,7 @@ export default function PageTournamentDetail() {
                     <IconUser />
                   </div>
                   <div className="mx-3 truncate">
-                    {p.investor_key === me?.investor_key
-                      ? profile?.first_name
-                      : p.name ?? p.investor_key}
+                    {p.name ?? p.investor_key}
                   </div>
                   <div className="ms-auto">
                     ${addComma(Math.round(+p.trading_volume))}
