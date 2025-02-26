@@ -134,7 +134,7 @@ export default function PageTournamentDetail() {
                       <IconUser />
                     </div>
                     <div className="mx-3 truncate">
-                      {profile?.first_name ?? me.investor_key}
+                      {me.name ?? me.investor_key}
                     </div>
                     <div className="ms-auto">
                       ${addComma(Math.round(+(me.trading_volume ?? '0')))}
