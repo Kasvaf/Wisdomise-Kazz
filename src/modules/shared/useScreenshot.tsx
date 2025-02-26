@@ -1,5 +1,6 @@
 import html2canvas from 'html2canvas';
 import { type RefObject } from 'react';
+import { postEvent } from '@telegram-apps/sdk';
 import useIsMobile from 'utils/useIsMobile';
 import { isMiniApp } from 'utils/version';
 import { useShare } from './useShare';
@@ -41,7 +42,10 @@ export const useScreenshot = (
             } else {
               const link = canvas.toDataURL('image/png');
               if (isMiniApp) {
-                window.open(link, '_blank');
+                postEvent('web_app_request_file_download', {
+                  url: link,
+                  file_name: fileName,
+                });
               } else {
                 const anchorElement = document.createElement('a');
                 anchorElement.href = canvas.toDataURL('image/png');
