@@ -1,6 +1,7 @@
 import html2canvas from 'html2canvas';
 import { type RefObject } from 'react';
 import useIsMobile from 'utils/useIsMobile';
+import { isMiniApp } from 'utils/version';
 import { useShare } from './useShare';
 
 export const useScreenshot = (
@@ -38,10 +39,15 @@ export const useScreenshot = (
                 resolve(true);
               }, 'image/png');
             } else {
-              const link = document.createElement('a');
-              link.href = canvas.toDataURL('image/png');
-              link.download = fileName;
-              link.click();
+              const link = canvas.toDataURL('image/png');
+              if (isMiniApp) {
+                window.open(link, '_blank');
+              } else {
+                const anchorElement = document.createElement('a');
+                anchorElement.href = canvas.toDataURL('image/png');
+                anchorElement.download = fileName;
+                anchorElement.click();
+              }
               resolve(true);
             }
           }),
