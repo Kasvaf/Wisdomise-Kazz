@@ -127,20 +127,20 @@ export default function SharingCard({
                   </div>
                 )}
               </div>
-              <div className="w-36 text-sm">
+              <div className="min-w-36 text-sm">
                 {showExtra && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-3">
                     <span>Invest</span>
                     <span>
                       {initialDeposit?.amount} {initialDeposit?.asset_name}
                     </span>
                   </div>
                 )}
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-3">
                   <span>Entry Price</span>
                   <span>{position.entry_price}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-3">
                   <span>Entry Price</span>
                   <span>{position.exit_price}</span>
                 </div>
