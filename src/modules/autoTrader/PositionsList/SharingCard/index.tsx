@@ -150,7 +150,7 @@ export default function SharingCard({
               <div>
                 {/* used image because of text gradient limit in screenshot */}
                 <img src={ready} alt="ready" className="mb-2 h-4" />
-                <p className="text-xxs">
+                <p className="w-40 text-xxs">
                   Scan the QR Code or Use the Link to Join the Wisdomise
                   Adventure!
                 </p>
@@ -174,7 +174,7 @@ export default function SharingCard({
 
         <div className="rounded-2xl bg-v1-surface-l1 px-3 py-5">
           <p className="mb-3 text-xs text-v1-content-secondary">
-            Download the Image and Share It on Social Media
+            Download the Image and Share It With Your Referral Link
           </p>
           <div className="flex flex-wrap gap-2">
             <div className="flex gap-2 [&>*]:bg-transparent [&>*]:px-2">
