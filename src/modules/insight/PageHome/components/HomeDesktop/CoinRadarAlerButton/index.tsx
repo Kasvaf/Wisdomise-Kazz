@@ -16,7 +16,7 @@ export default function CoinRadarAlerButton({
 }: {
   className?: string;
 }) {
-  const { t } = useTranslation('coin-radar');
+  const { t } = useTranslation('insight');
   const hasFlag = useHasFlag();
   const alerts = useAlerts({
     data_source: 'coin_radar',

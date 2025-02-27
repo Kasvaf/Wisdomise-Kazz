@@ -15,7 +15,7 @@ export function FirstSetModal({
   onExpand?: () => void;
   onClose?: () => void;
 }) {
-  const { t } = useTranslation('coin-radar');
+  const { t } = useTranslation('insight');
   const me = useAccountQuery();
   return (
     <Modal
