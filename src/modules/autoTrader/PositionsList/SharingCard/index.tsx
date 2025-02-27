@@ -150,19 +150,21 @@ export default function SharingCard({
               <div>
                 {/* used image because of text gradient limit in screenshot */}
                 <img src={ready} alt="ready" className="mb-2 h-4" />
-                <p className="w-40 text-xxs">
+                <p className="max-w-40 text-xxs">
                   Scan the QR Code or Use the Link to Join the Wisdomise
                   Adventure!
                 </p>
                 <img src={line} alt="" className="my-3" />
                 <img src={logo} className="h-5" alt="" />
               </div>
-              <QRCodeSVG
-                width={200}
-                value={myReferralLink}
-                bgColor="transparent"
-                fgColor="white"
-              />
+              <div className="shrink-0">
+                <QRCodeSVG
+                  width={100}
+                  value={myReferralLink}
+                  bgColor="transparent"
+                  fgColor="white"
+                />
+              </div>
             </div>
           </div>
         </div>
