@@ -141,7 +141,7 @@ export default function SharingCard({
                   <span>{position.entry_price}</span>
                 </div>
                 <div className="flex justify-between gap-3">
-                  <span>Entry Price</span>
+                  <span>Exit Price</span>
                   <span>{position.exit_price}</span>
                 </div>
               </div>
