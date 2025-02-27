@@ -5,7 +5,7 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { NavigateButtons } from '../../NavigateButtons';
 import { StepContent } from '../../StepContent';
 
-const useApprochVideos = (value: string[]) => {
+const useApproachVideos = (value: string[]) => {
   return [
     {
       value: 'social-radar',
@@ -35,7 +35,7 @@ export function ReadyStep({
   onPrev?: () => void;
 }) {
   const [tab, setTab] = useState(value[0] ?? 'social-radar');
-  const videos = useApprochVideos(value);
+  const videos = useApproachVideos(value);
   const { video: selectedVideo } =
     videos.find(x => x.value === tab) ?? videos[0];
   return (
@@ -70,13 +70,14 @@ export function ReadyStep({
         nextText="Get Started"
         prevText="Previous"
         onNext={() =>
-          onNext?.(
-            tab === 'social-radar'
-              ? '/coin-radar/social-radar'
-              : tab === 'technical-radar'
-              ? '/coin-radar/technical-radar'
-              : '/coin-radar/whale-radar',
-          )
+          // onNext?.(
+          //   tab === 'social-radar'
+          //     ? '/coin-radar/social-radar'
+          //     : tab === 'technical-radar'
+          //     ? '/coin-radar/technical-radar'
+          //     : '/coin-radar/whale-radar',
+          // )
+          onNext?.('/')
         }
         onPrev={onPrev}
       />

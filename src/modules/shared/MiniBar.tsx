@@ -9,7 +9,7 @@ export const MiniBar: FC<{
   return (
     <div
       className={clsx(
-        'inline-flex h-5 w-[23px] items-end justify-between gap-[4px]',
+        'inline-flex h-[16px] w-[20px] items-end justify-between gap-[4px]',
         className,
       )}
     >
@@ -17,7 +17,7 @@ export const MiniBar: FC<{
         <div
           key={size}
           className={clsx(
-            'w-[5px] shrink-0 rounded-full',
+            'w-[4px] shrink-0 rounded-full',
             size === 1 ? 'h-1/2' : size === 2 ? 'h-3/4' : 'h-full',
             barValue < size
               ? 'bg-white/10'

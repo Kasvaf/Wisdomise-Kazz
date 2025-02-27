@@ -1,8 +1,9 @@
-import { bxLeftArrowAlt, bxsCheckCircle } from 'boxicons-quasar';
 import { clsx } from 'clsx';
+import { bxLeftArrowAlt, bxsCheckCircle, bxX } from 'boxicons-quasar';
 import { Fragment, useMemo, type ReactNode } from 'react';
-import Icon from 'shared/Icon';
+import { useNavigate } from 'react-router-dom';
 import { Button } from 'shared/v1-components/Button';
+import Icon from 'shared/Icon';
 
 export function OnboardingView<V extends string>({
   className,
@@ -21,6 +22,7 @@ export function OnboardingView<V extends string>({
   step: V;
   loading?: boolean;
 }) {
+  const navigate = useNavigate();
   const steps = useMemo(() => {
     const activeStepIndex = rawSteps.findIndex(x => x.key === step);
     return rawSteps.map((x, index) => ({
@@ -40,7 +42,7 @@ export function OnboardingView<V extends string>({
     >
       <div className="absolute -top-1/3 left-1/2 !size-[520px] -translate-x-1/2 bg-white/25 blur-[200px] mobile:!size-[430px]" />
       <div className="relative mx-auto flex w-full max-w-7xl grow flex-col">
-        <div className="hidden shrink-0 items-center justify-start px-4 pt-4 mobile:flex">
+        <div className=" flex shrink-0 items-center justify-between px-4 pt-4">
           <Button
             size="md"
             variant="ghost"
@@ -49,11 +51,21 @@ export function OnboardingView<V extends string>({
             }
             block
             className={clsx(
-              'w-md shrink-0',
+              'invisible w-md shrink-0 mobile:visible',
               step === steps[0].key && 'opacity-0',
             )}
           >
             <Icon name={bxLeftArrowAlt} />
+          </Button>
+
+          <Button
+            size="md"
+            variant="ghost"
+            onClick={() => navigate('/')}
+            block
+            className="w-md shrink-0"
+          >
+            <Icon name={bxX} />
           </Button>
         </div>
 

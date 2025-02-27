@@ -78,10 +78,10 @@ export function MobileTable<RecordType extends object>({
                   <td
                     key={col.key}
                     className={clsx(
-                      'overflow-hidden p-2',
+                      'overflow-hidden px-1 py-2',
                       col.className,
-                      i === 0 && 'rounded-l-lg',
-                      i === self.length - 1 && 'rounded-r-lg',
+                      i === 0 && 'rounded-l-lg ps-2',
+                      i === self.length - 1 && 'rounded-r-lg pe-2',
                     )}
                   >
                     {col.render(row)}

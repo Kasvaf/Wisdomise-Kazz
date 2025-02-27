@@ -2,9 +2,10 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
-  createAssociatedTokenAccountInstruction,
+  createAssociatedTokenAccountIdempotentInstruction,
   createTransferInstruction,
   getAssociatedTokenAddress,
+  getAssociatedTokenAddressSync,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -79,7 +80,7 @@ export const useSolanaTransferAssetsMutation = (
   quote?: AutoTraderSolanaSupportedQuotes,
 ) => {
   const { connection } = useConnection();
-  const { publicKey, sendTransaction } = useWallet();
+  const { publicKey, signTransaction } = useWallet();
   const queryClient = useQueryClient();
 
   return async ({
@@ -91,7 +92,8 @@ export const useSolanaTransferAssetsMutation = (
     amount: string;
     gasFee: string;
   }) => {
-    if (!publicKey || !quote) throw new Error('Wallet not connected');
+    if (!signTransaction || !publicKey || !quote)
+      throw new Error('Wallet not connected');
     const tokenMint = new PublicKey(CONTRACT_ADDRESSES[quote]);
     const transaction = new Transaction();
 
@@ -107,41 +109,35 @@ export const useSolanaTransferAssetsMutation = (
     } else {
       // SPL Token transfer
 
-      const [userATA, recipientATA] = await Promise.all([
-        /* get user's Associated Token Account */
-        getAssociatedTokenAddress(
-          tokenMint,
-          publicKey,
-          false,
-          TOKEN_PROGRAM_ID,
-          ASSOCIATED_TOKEN_PROGRAM_ID,
-        ),
-        /* get recipient's Associated Token Account */
-        getAssociatedTokenAddress(
-          tokenMint,
-          new PublicKey(recipientAddress),
-          false,
-          TOKEN_PROGRAM_ID,
-          ASSOCIATED_TOKEN_PROGRAM_ID,
-        ),
-      ]);
+      // get user's Associated Token Account
+      const userATA = getAssociatedTokenAddressSync(
+        tokenMint,
+        publicKey,
+        false,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+      );
 
-      // Check if recipient's ATA exists
-      const recipientATAInfo = await connection.getAccountInfo(recipientATA);
+      // get recipient's Associated Token Account
+      const recipientATA = getAssociatedTokenAddressSync(
+        tokenMint,
+        new PublicKey(recipientAddress),
+        false,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+      );
 
       // If recipient's ATA doesn't exist, create it
-      if (!recipientATAInfo) {
-        transaction.add(
-          createAssociatedTokenAccountInstruction(
-            publicKey, // payer
-            recipientATA, // ata
-            new PublicKey(recipientAddress), // owner
-            tokenMint, // mint
-            TOKEN_PROGRAM_ID,
-            ASSOCIATED_TOKEN_PROGRAM_ID,
-          ),
-        );
-      }
+      transaction.add(
+        createAssociatedTokenAccountIdempotentInstruction(
+          publicKey, // payer
+          recipientATA, // ata
+          new PublicKey(recipientAddress), // owner
+          tokenMint, // mint
+          TOKEN_PROGRAM_ID,
+          ASSOCIATED_TOKEN_PROGRAM_ID,
+        ),
+      );
 
       // Add token transfer instruction
       transaction.add(
@@ -173,7 +169,8 @@ export const useSolanaTransferAssetsMutation = (
 
       // Sign and send transaction
       // const signature =
-      await sendTransaction(transaction, connection);
+      const signedTransaction = await signTransaction(transaction);
+      await connection.sendRawTransaction(signedTransaction.serialize());
 
       // Wait for confirmation
       // await connection.confirmTransaction({

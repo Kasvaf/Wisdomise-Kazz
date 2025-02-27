@@ -3,25 +3,19 @@ login:
   error-code: Invalid code
   error-email: Email is invalid
   features:
-    ai_driven: AI-Driven Insights
-    analyzed: 30K Social Posts Analyzed
-    secure: Secure and Private
-    trusted: Trusted by 50,000+ Users
+    access_to_telegram_vip: Get Access to Top Telegram Alpha & VIP Groups
+    find_twitter_trend: Find Twitter Crypto Trends
+    find_twitter_x100: Find the Next x100 with Twitter Tracker
+    save_on_join_paid_groups: Save $5000+ on Joining Paid Groups
   notice: >-
     By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
     Service</3>.
   step-1:
-    title: Sign In / Sign Up
-    subtitle: >-
-      Sign In or Sign Up to explore Wisdomise Pro and enjoy powerful trading
-      tools!
     button-submit-email: Get Started
     field-email: Email
     field-email-placeholder: Your Email Address
-    subtitle2: >-
-      Login for Free to Check The Best Opportunities and Hottest Coins on The
-      Market
-    title2: Check out the hottest coins to invest on the market
+    social_radar_subtitle: Get Started for Free to Discover the Best Investment Opportunities
+    social_radar_title: Find Best MemeCoin Opportunities Using Social Media Insights
   step-2:
     title: Enter Magic Code
     subtitle: Enter the 6-digit Magic code we sent to {{email}} to continue.

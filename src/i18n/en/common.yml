@@ -34,7 +34,6 @@ filtered-by: Filtered by
 filters: Filters
 network: Network
 not-available: N/A
-number_short: 'No'
 or: Or
 order-type:
   limit: Limit

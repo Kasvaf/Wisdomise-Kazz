@@ -4,7 +4,7 @@ import { useHasFlag, useSocialRadarSentiment } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { DebugPin } from 'shared/DebugPin';
 import { SocialSentiment } from '../../PageSocialRadar/components/SocialSentiment';
-import { SentimentGuage } from './SentimentGuage';
+import { Guage } from '../../../shared/Guage';
 
 export function SocialRadarSentimentWidget({
   className,
@@ -42,11 +42,7 @@ export function SocialRadarSentimentWidget({
           {t('coin-details.tabs.social_sentiment.title')}
         </p>
         {sentiment.data ? (
-          <SocialSentiment
-            className="text-sm"
-            value={sentiment.data}
-            detailsLevel={3}
-          />
+          <SocialSentiment value={sentiment.data} mode="with_tooltip" />
         ) : (
           <p className="max-w-52 text-xs">
             {t('coin-details.tabs.social_sentiment.empty')}
@@ -54,7 +50,7 @@ export function SocialRadarSentimentWidget({
         )}
       </div>
       <div className="h-20 w-[35%] shrink-0 overflow-hidden">
-        <SentimentGuage
+        <Guage
           measure={sentiment.data?.gauge_measure ?? 0}
           className="h-full"
         />

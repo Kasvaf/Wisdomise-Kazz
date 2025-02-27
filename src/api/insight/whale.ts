@@ -278,7 +278,7 @@ export interface WhaleRadarCoin {
   total_holding_volume: number;
   total_recent_trading_pnl: number;
   wallet_count: number;
-  label_percents: Array<[string, number]>;
+  label_percents: Array<[WhaleAssetLabel, number]>;
   profitable: boolean;
   top_5_holders_info: Array<{
     address: string;
@@ -290,6 +290,12 @@ export interface WhaleRadarCoin {
     data: NetworkSecurity[];
   };
   symbol_labels: string[];
+  chart_data?: null | Array<{
+    buys_number?: null | number;
+    sells_number?: null | number;
+    price: number;
+    related_at: string;
+  }>;
 }
 
 export const useWhaleRadarCoins = (config: {

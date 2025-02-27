@@ -44,7 +44,7 @@ export function CoinSelect({
       searchValue={query}
       onSearch={setQuery}
       loading={coinList.isLoading || coin.isLoading}
-      options={coins.map(x => x.slug).filter(x => !!x) as string[]}
+      options={coins.map(x => x.slug)}
       value={value}
       size={size}
       render={val => {

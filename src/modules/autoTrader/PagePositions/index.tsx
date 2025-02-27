@@ -5,8 +5,10 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
-import PositionsList from '../PositionsList';
+import useIsMobile from 'utils/useIsMobile';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
+import PageNoDesktop from '../PageNoDesktop';
+import PositionsList from './PositionsList';
 
 const PagePositions = () => {
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
@@ -18,6 +20,9 @@ const PagePositions = () => {
   useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
   const isTrialBannerVisible = useIsTrialBannerVisible();
 
+  if (!useIsMobile()) {
+    return <PageNoDesktop />;
+  }
   return (
     <PageWrapper>
       <ButtonSelect
@@ -37,21 +42,21 @@ const PagePositions = () => {
         value={slug}
         priceExchange="auto"
         onChange={setSlug}
-        emptyOption="All Coins & Tokens"
+        emptyOption="All Tradable Coins & Tokens"
         mini={false}
         tradableCoinsOnly
       />
 
       <PositionsList slug={slug} isOpen={filter === 'active'} />
 
-      {filter === 'active' && (
+      {filter === 'active' && slug && (
         <Button
           variant="brand"
           className={clsx(
             'fixed end-4 start-4 z-50',
             isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
           )}
-          to={`/auto-trader/${slug || 'the-open-network'}`}
+          to={`/auto-trader/${slug}`}
         >
           Start Auto Trading
         </Button>

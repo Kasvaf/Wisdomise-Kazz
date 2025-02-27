@@ -42,7 +42,7 @@ const PositionsList: React.FC<{
       </div>
     </div>
   ) : (
-    <>{!noEmptyState && <NoPosition active={isOpen} />}</>
+    <>{!noEmptyState && <NoPosition active={isOpen} slug={slug} />}</>
   );
 };
 

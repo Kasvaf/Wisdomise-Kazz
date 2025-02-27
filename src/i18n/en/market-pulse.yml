@@ -1,6 +1,5 @@
 common:
   24h_change: 24H Change
-  active_timeframe: Active Timeframe
   chart_view: Chart View
   div: Div
   long_term: Long-Term
@@ -17,6 +16,7 @@ common:
     opportunities: Opportunities
     rsi_and_macd: (RSI+MACD)
   rsi_wise_scoring: RSI Wise Scoring
+  sentiment_title: Technical Sentiment™
   share: Share
   short_term: Short-Term
   table_view: Table View
@@ -28,7 +28,7 @@ keywords:
       Signals a Possible Downtrend.
     label_equiv: Bearish
     label_exact: MACD Bearish Divergence
-    label_small: Bearish Div
+    label_small: MACD DIV
   macd_bullish:
     title: MACD <b>Bullish Confirmation</b>
     info: >-
@@ -36,17 +36,17 @@ keywords:
       Shift and a Bullish Trend Is Forming.
     label_equiv: Bullish
     label_exact: MACD Bullish Divergence
-    label_small: Bullish Div
+    label_small: MACD DIV
   macd_cross_down:
     info: MACD Crossing Below The Signal Line Indicates Bearish Momentum
     label_equiv: Down-Trend
     label_exact: MACD Bearish Cross Signal Line
-    label_small: MACD Cross
+    label_small: MACD CROSS
   macd_cross_up:
     info: MACD Crossing Above The Signal Line Indicates Bullish Momentum
     label_equiv: Up-Trend
     label_exact: MACD Bullish Cross Signal Line
-    label_small: MACD Cross
+    label_small: MACD CROSS
   rsi_bearish:
     title: RSI <b>Bearish Confirmation</b>
     info: >-
@@ -55,7 +55,7 @@ keywords:
     label_equiv: Bearish
     label_exact: RSI Bearish Divergence
     label_semi: Bearish Divergence
-    label_small: Bearish Div
+    label_small: RSI DIV
   rsi_bullish:
     title: RSI <b>Bullish Confirmation</b>
     info: >-
@@ -64,7 +64,7 @@ keywords:
     label_equiv: Bullish
     label_exact: RSI Bullish Divergence
     label_semi: Bullish Divergence
-    label_small: Bullish Div
+    label_small: RSI DIV
   rsi_macd_bearish:
     info: Price Rises While RSI/MACD Falls, Hinting at a Possible Downward Reversal
     label_exact: RSI/MACD Bearish Divergence
@@ -76,13 +76,13 @@ keywords:
     label_equiv: Expensive
     label_exact: RSI Overbought
     label_range: Overbought Area
-    label_small: Overbought
+    label_small: RSI OB/OS
   rsi_oversold:
     info: Below 30 Suggests The Asset May be Undervalued and Due for a Rebound
     label_equiv: Cheap
     label_exact: RSI Oversold
     label_range: Oversold Area
-    label_small: Oversold
+    label_small: RSI OB/OS
 screener:
   activated:
     title: Technical Radar Screener Activated!

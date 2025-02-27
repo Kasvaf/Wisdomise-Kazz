@@ -65,11 +65,15 @@ const ensureTonQuote = (
 ): AutoTraderTonSupportedQuotes | undefined =>
   quote === 'wrapped-solana' || quote === 'usd-coin' ? undefined : quote;
 
-export const useAccountBalance = (quote: AutoTraderSupportedQuotes) => {
-  const net = useActiveNetwork();
+export const useAccountBalance = (
+  quote: AutoTraderSupportedQuotes,
+  network?: 'solana' | 'the-open-network' | null,
+) => {
+  const activeNet = useActiveNetwork();
   const solResult = useSolanaAccountBalance(ensureSolQuote(quote));
   const tonResult = useAccountJettonBalance(ensureTonQuote(quote));
 
+  const net = network ?? activeNet;
   if (net === 'solana') return solResult;
   if (net === 'the-open-network') return tonResult;
   return { data: null, isLoading: false };

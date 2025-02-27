@@ -1,0 +1,144 @@
+import { type FC, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { bxSlider } from 'boxicons-quasar';
+import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import { Coin } from 'shared/Coin';
+import { Button } from 'shared/v1-components/Button';
+import Icon from 'shared/Icon';
+import { PriceAlertButton } from 'modules/insight/PageCoinDetails/components/PriceAlertButton';
+import { CoinLabels } from 'shared/CoinLabels';
+import { DrawerModal } from 'shared/DrawerModal';
+import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { CoinMarketCap } from 'shared/CoinMarketCap';
+import { ReadableNumber } from 'shared/ReadableNumber';
+import {
+  type CoinNetwork,
+  type Coin as CoinType,
+  type MiniMarketData,
+  type NetworkSecurity,
+} from 'api/types/shared';
+
+interface PreDetailModalBaseProps {
+  coin: CoinType;
+  marketData?: MiniMarketData | null;
+  labels?: string[] | null;
+  networks?: CoinNetwork[] | null;
+  categories?: CoinType['categories'] | null;
+  security?: NetworkSecurity[] | null;
+}
+
+const CoinPreDetailsContent: FC<
+  PreDetailModalBaseProps & {
+    children?: ReactNode;
+  }
+> = ({
+  coin,
+  marketData,
+  labels,
+  categories,
+  networks,
+  security,
+  children,
+}) => {
+  const { t } = useTranslation('insight');
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-4">
+        <Coin
+          coin={coin}
+          imageClassName="size-8"
+          nonLink={true}
+          truncate={260}
+          abbrevationSuffix={
+            <DirectionalNumber
+              className="ms-1"
+              value={marketData?.price_change_percentage_24h}
+              label="%"
+              direction="auto"
+              showIcon
+              showSign={false}
+              format={{
+                decimalLength: 1,
+                minifyDecimalRepeats: true,
+              }}
+            />
+          }
+        />
+        <div className="flex flex-col items-end gap-px">
+          <ReadableNumber
+            value={marketData?.current_price}
+            label="$"
+            className="text-sm"
+          />
+          <CoinMarketCap
+            marketData={marketData}
+            singleLine
+            className="text-xs"
+          />
+        </div>
+      </div>
+      <>{children}</>
+
+      <div className="flex flex-col items-start justify-end overflow-auto">
+        <p className="mb-2 text-xs">{t('pre_detail_modal.wise_labels')}</p>
+        <CoinLabels
+          categories={categories}
+          labels={labels}
+          networks={networks}
+          security={security}
+          coin={coin}
+        />
+      </div>
+
+      <div className="flex flex-col items-stretch gap-4">
+        <div className="flex gap-3">
+          <NavLink to={`/coin/${coin.slug}`} className="block basis-1/2">
+            <Button
+              variant="outline"
+              surface={2}
+              size="sm"
+              block
+              className="w-full"
+            >
+              <Icon name={bxSlider} />
+              {t('pre_detail_modal.details')}
+            </Button>
+          </NavLink>
+          <PriceAlertButton
+            variant="outline"
+            surface={2}
+            size="sm"
+            className="basis-1/2"
+            slug={coin.slug}
+          />
+        </div>
+        <BtnAutoTrade slug={coin.slug} variant="primary" />
+      </div>
+    </div>
+  );
+};
+
+export const CoinPreDetailModal: FC<
+  Partial<PreDetailModalBaseProps> & {
+    open?: boolean;
+    onClose: () => unknown;
+    children?: ReactNode;
+  }
+> = ({ open, onClose, children, coin, ...props }) => {
+  return (
+    <DrawerModal
+      open={open}
+      onClose={onClose}
+      closeIcon={null}
+      className="[&_.ant-drawer-header]:hidden"
+    >
+      {coin && (
+        <CoinPreDetailsContent coin={coin} {...props}>
+          {children}
+        </CoinPreDetailsContent>
+      )}
+    </DrawerModal>
+  );
+};

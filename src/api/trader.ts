@@ -281,6 +281,8 @@ export const usePreparePositionMutation = () => {
     const data = await ofetch<{
       gas_fee: string;
       price_impact?: string;
+      exchange_fee: string;
+      trade_fee: string;
       warning?: string;
     }>('trader/positions/prepare', {
       body,

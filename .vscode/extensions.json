@@ -6,7 +6,8 @@
     "wayou.vscode-todo-highlight",
     "styled-components.vscode-styled-components",
     "lokalise.i18n-ally",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "streetsidesoftware.code-spell-checker"
   ],
   "unwantedRecommendations": [
     "hookyqr.beautify",

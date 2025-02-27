@@ -3,8 +3,12 @@ login:
   error-code: 代码无效
   error-email: 电子邮件无效
   features:
+    access_to_telegram_vip: 访问顶级 Telegram Alpha 和 VIP 群组
     ai_driven: 人工智能驱动的洞察
     analyzed: 分析了 3 万条社交帖子
+    find_twitter_trend: 查找 Twitter 加密货币趋势
+    find_twitter_x100: 使用 Twitter Tracker 查找下一个 x100
+    save_on_join_paid_groups: 加入付费团体可节省 5000 美元以上
     secure: 安全且私密
     trusted: 受到 50,000+ 位用户的信赖
   notice: 继续，即表示您同意我们的 <1>隐私政策</1> 和 <3>服务条款</3>。
@@ -12,6 +16,8 @@ login:
     button-submit-email: 立即开始
     field-email: 電子郵件
     field-email-placeholder: 您的電子郵件地址
+    social_radar_subtitle: 免费开始探索最佳投资机会
+    social_radar_title: 利用社交媒体洞察寻找最佳 MemeCoin 机会
     subtitle: 登录或注册探索 Wisdomise Pro 并享受强大的交易工具！
     subtitle2: 免费登录查看市场上最好的机会和最热门的硬币
     title: 登录/注册
@@ -25,12 +31,28 @@ login:
     title: 输入魔法码
 page-referral:
   all-time: 所有時間
+  bonus:
+    claim: 很快...
+    description: 您的奖励将以 USDT 支付。
+    ready: 准备领取
+    title: 奖励袋
+  earned-subscription: 迄今为止通过订阅获得的收入
+  earned-trader: 迄今为止的交易费收入
   friends-invited: 邀請的朋友
+  friends-list:
+    title: 我的好友列表
+  how:
+    button: 它是如何工作的？
   invited: 已邀請
   referral-code: 推薦碼
   referral-insight: 推薦見解
   referral-link: 推薦連結
+  share: 分享
   subscribed-friends: 訂閱的朋友
+  subscription: 訂閱
+  subtitle: 分享您的推荐代码并在您的朋友加入和交易时获得独家奖金。
   title: 推薦計劃
+  total-referrals: 总推荐量
+  trader: 商
   wisdomise-revenue: 來自您推薦的Wisdomise收入
   your-profit: 您的利潤

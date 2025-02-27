@@ -86,7 +86,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row) => <SocialSentiment value={row} detailsLevel={3} />,
+        render: (_, row) => <SocialSentiment value={row} mode="with_tooltip" />,
       },
       {
         title: [
