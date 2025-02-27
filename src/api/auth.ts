@@ -230,6 +230,7 @@ export function useLogoutMutation() {
     );
     delJwtToken();
     await Promise.all([disconnectChains(), client.invalidateQueries({})]);
+    location.reload();
     return data.message === 'ok';
   });
 }

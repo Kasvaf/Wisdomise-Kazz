@@ -6,11 +6,11 @@ import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { useShare } from 'shared/useShare';
-import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { isMiniApp } from 'utils/version';
 import HowReferralWorks from 'modules/account/PageReferral/HowReferralWorks';
 import { Button } from 'shared/v1-components/Button';
+import { useReferral } from 'modules/account/PageReferral/useReferral';
 import trader from './images/trader.png';
 import { ReactComponent as Logo } from './images/logo.svg';
 import { ReactComponent as Users } from './images/users.svg';
@@ -24,15 +24,11 @@ export default function ReferralPage() {
   const { t } = useTranslation('auth');
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
+  const myReferralLink = useReferral();
 
   const [copy, content] = useShare('copy');
   const [share] = useShare('share');
-  const myOrigin = window.location.origin;
-  const webReferralLink = `${myOrigin}/ref/${referral?.referral_code ?? ''}`;
-  const tgReferralLink = `${AUTO_TRADER_MINI_APP_BASE}?startapp=referrer_${
-    referral?.referral_code ?? ''
-  }`;
-  const myReferralLink = isMiniApp ? tgReferralLink : webReferralLink;
+
   const { webApp } = useTelegram();
 
   const shareLink = () => {

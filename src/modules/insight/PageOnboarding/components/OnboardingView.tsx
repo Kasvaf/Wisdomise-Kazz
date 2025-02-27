@@ -1,19 +1,20 @@
 import { clsx } from 'clsx';
 import { bxLeftArrowAlt, bxsCheckCircle, bxX } from 'boxicons-quasar';
 import { Fragment, useMemo, type ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 
 export function OnboardingView<V extends string>({
   className,
   onChange,
+  onClose,
   steps: rawSteps,
   step,
   loading,
 }: {
   className?: string;
   onChange?: (newStep: V) => void;
+  onClose?: (url?: string) => unknown;
   steps: Array<{
     key: V;
     label: ReactNode;
@@ -22,7 +23,6 @@ export function OnboardingView<V extends string>({
   step: V;
   loading?: boolean;
 }) {
-  const navigate = useNavigate();
   const steps = useMemo(() => {
     const activeStepIndex = rawSteps.findIndex(x => x.key === step);
     return rawSteps.map((x, index) => ({
@@ -61,7 +61,7 @@ export function OnboardingView<V extends string>({
           <Button
             size="md"
             variant="ghost"
-            onClick={() => navigate('/')}
+            onClick={() => onClose?.('/')}
             block
             className="w-md shrink-0"
           >

@@ -93,6 +93,7 @@ export default function PageOnboarding() {
       steps={steps}
       step={step}
       onChange={setStep}
+      onClose={done}
       loading={isLoading}
     />
   );

@@ -58,7 +58,7 @@ const PagePositions = () => {
           )}
           to={`/auto-trader/${slug}`}
         >
-          Start Auto Trading
+          Start Trading
         </Button>
       )}
     </PageWrapper>

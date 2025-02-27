@@ -19,7 +19,14 @@ export const useDisconnectAll = () => {
   return async () => {
     try {
       await Promise.all([solDisconnect(), tonDisconnect()]);
-    } catch {}
+    } catch {
+    } finally {
+      for (const key of Object.keys(localStorage)) {
+        if (/^(wallet|ton)/.test(key)) {
+          localStorage.removeItem(key);
+        }
+      }
+    }
   };
 };
 
