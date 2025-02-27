@@ -135,7 +135,7 @@ export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
                   'threshold',
                   formatNumber(newPrice, {
                     compactInteger: false,
-                    decimalLength: -1,
+                    decimalLength: 2,
                     minifyDecimalRepeats: false,
                     seperateByComma: false,
                   }) as never,
