@@ -11,7 +11,7 @@ const useSemiForceLoginModal = () => {
   return <SemiForceLoginModal open={!isLoggedIn} />;
 };
 
-const ONBOARDING_URL = '/coin-radar/onboarding';
+// const ONBOARDING_URL = '/coin-radar/onboarding';
 const useNavigateToOnboarding = () => {
   const navigate = useNavigate();
   const { group } = useSubscription();
@@ -20,7 +20,7 @@ const useNavigateToOnboarding = () => {
   useEffect(() => {
     if (value === undefined) return;
     if (value === null) {
-      navigate(ONBOARDING_URL);
+      // navigate(ONBOARDING_URL);
     } else {
       try {
         void appendTraits({ onboardingData: JSON.parse(value) });
