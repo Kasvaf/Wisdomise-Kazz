@@ -1,6 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { bxCopy, bxShareAlt } from 'boxicons-quasar';
-import { useFriendsQuery, useReferralStatusQuery } from 'api';
+import useNotification from 'antd/es/notification/useNotification';
+import {
+  useClaimReferralBonusBag,
+  useFriendsQuery,
+  useReferralStatusQuery,
+} from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
@@ -25,11 +30,14 @@ export default function ReferralPage() {
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
   const myReferralLink = useReferral();
+  const [notification, content2] = useNotification();
 
   const [copy, content] = useShare('copy');
   const [share] = useShare('share');
 
   const { webApp } = useTelegram();
+  const { mutateAsync: claimBonusBag, isLoading: claimIsLoading } =
+    useClaimReferralBonusBag();
 
   const shareLink = () => {
     if (isMiniApp) {
@@ -41,8 +49,17 @@ export default function ReferralPage() {
     }
   };
 
+  const claim = () => {
+    void claimBonusBag().then(() =>
+      notification.success({
+        message:
+          'Bonus bag claimed successfully. You can see it in rewards page',
+      }),
+    );
+  };
+
   return (
-    <PageWrapper loading={isLoading} className="pb-32">
+    <PageWrapper loading={isLoading} className="pb-32 pt-12">
       <h1 className="mb-2">{t('page-referral.title')}</h1>
       <p className="mb-2 text-sm text-v1-content-secondary">
         {t('page-referral.subtitle')}
@@ -50,7 +67,7 @@ export default function ReferralPage() {
       <HowReferralWorks />
 
       <div
-        className="inset-x-0 bottom-0 z-10 mb-5 rounded-xl bg-v1-surface-l2 p-6 mobile:fixed mobile:mb-0 mobile:rounded-none"
+        className="inset-x-0 bottom-0 z-10 mb-5 rounded-xl bg-v1-surface-l2 px-4 py-6 mobile:fixed mobile:mb-0 mobile:rounded-none"
         style={{
           boxShadow:
             '0px -90px 25px 0px rgba(0, 0, 0, 0.00), 0px -57px 23px 0px rgba(0, 0, 0, 0.02), 0px -32px 19px 0px rgba(0, 0, 0, 0.06), 0px -14px 14px 0px rgba(0, 0, 0, 0.11), 0px -4px 8px 0px rgba(0, 0, 0, 0.13)',
@@ -152,10 +169,12 @@ export default function ReferralPage() {
           <hr className="my-3 border-v1-border-primary/30" />
           <p className="text-xs">{t('page-referral.bonus.description')}</p>
           <Button
-            variant="white"
-            className="mt-3 w-full "
+            variant="ghost"
+            className="mt-3 w-full !bg-black disabled:!bg-[unset]"
             size="md"
-            disabled={true}
+            loading={claimIsLoading}
+            disabled={referral?.ready_to_claim === 0 || claimIsLoading}
+            onClick={claim}
           >
             <Gift />
             {t('page-referral.bonus.claim')}
@@ -217,6 +236,7 @@ export default function ReferralPage() {
         ))}
       </div>
       {content}
+      {content2}
     </PageWrapper>
   );
 }

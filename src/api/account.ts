@@ -60,6 +60,15 @@ export function useReferralStatusQuery() {
   );
 }
 
+export function useClaimReferralBonusBag() {
+  return useMutation(async () => {
+    return await ofetch(
+      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
+      { method: 'post' },
+    );
+  });
+}
+
 export function useFriendsQuery() {
   return useQuery(
     ['getFriends'],
