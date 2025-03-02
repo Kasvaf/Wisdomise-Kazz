@@ -4,7 +4,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { DrawerModal } from 'shared/DrawerModal';
 import { Toggle } from 'shared/Toggle';
 import { Coin } from 'shared/Coin';
-import { type Position, useCoinDetails } from 'api';
+import { type Position, useCoinDetails, useLastPriceQuery } from 'api';
 import PriceChange from 'shared/PriceChange';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
@@ -57,6 +57,8 @@ export default function SharingCard({
   });
   const { shareOnTwitter, shareOnTelegram, shareOnLinkedin } = useSocialShare();
   const [copy, content] = useShare('copy');
+
+  const { data: lastPrice } = useLastPriceQuery({ slug: position.base_slug });
 
   return (
     <div>
@@ -142,7 +144,7 @@ export default function SharingCard({
                 </div>
                 <div className="flex justify-between gap-3">
                   <span>Exit Price</span>
-                  <span>{position.exit_price}</span>
+                  <span>{position.exit_price ?? lastPrice?.toFixed(3)}</span>
                 </div>
               </div>
             </div>
