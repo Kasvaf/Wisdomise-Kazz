@@ -83,7 +83,11 @@ const QuoteSelector: React.FC<{
           onChange?.(newValue);
         }}
         className={clsx('bg-transparent', disabled && 'opacity-30')}
-        suffixIcon={<Icon name={bxChevronDown} className="mr-2 text-white" />}
+        suffixIcon={
+          Number(data?.length) > 1 && (
+            <Icon name={bxChevronDown} className="mr-2 text-white" />
+          )
+        }
         disabled={disabled || !data?.length || data.length <= 1}
       >
         {data?.map(({ quote }) => (
