@@ -76,11 +76,13 @@ export function WhaleAssetBadge({
   value,
   date,
   percentage,
+  textOnly,
 }: {
   className?: string;
   value?: WhaleAssetLabel | null;
   date?: string | null;
   percentage?: number | null;
+  textOnly?: boolean;
 }) {
   const { t } = useTranslation('common');
   const detail = useBadgeDetail(value);
@@ -103,10 +105,11 @@ export function WhaleAssetBadge({
           <p className="text-v1-content-secondary">{detail.info}</p>
         </>
       }
-      disabled={!detail.info}
+      disabled={!detail.info || textOnly}
       className={clsx(
-        'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
-        detail.className,
+        'whitespace-nowrap',
+        !textOnly && detail.className,
+        !textOnly && 'h-5 rounded-full px-2 py-px text-xxs',
         className,
       )}
     >
