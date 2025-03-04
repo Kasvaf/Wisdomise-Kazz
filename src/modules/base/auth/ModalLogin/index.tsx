@@ -1,10 +1,11 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
-import { useMemo, useRef, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
-import { Drawer as AntDrawer, Modal as AntModal } from 'antd';
-import { bxArrowBack, bxCheck, bxX } from 'boxicons-quasar';
+import { Modal as AntModal } from 'antd';
+import { bxArrowBack, bxX } from 'boxicons-quasar';
 import { v4 } from 'uuid';
 import {
   useEmailLoginMutation,
@@ -15,39 +16,21 @@ import {
 import useNow from 'utils/useNow';
 import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
-import Link from 'shared/Link';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import Icon from 'shared/Icon';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
 import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
-// eslint-disable-next-line import/max-dependencies
 import TelegramLogin from './TelegramLogin';
-
-const useLoginDynamicTexts = () => {
-  // const { pathname } = useLocation();
-  const { t } = useTranslation('auth');
-
-  return useMemo(
-    () => ({
-      title: t('login.step-1.social_radar_title'),
-      subtitle: t('login.step-1.social_radar_subtitle'),
-      features: [
-        t('login.features.find_twitter_x100'),
-        t('login.features.find_twitter_trend'),
-        t('login.features.access_to_telegram_vip'),
-        t('login.features.save_on_join_paid_groups'),
-      ],
-    }),
-    [t],
-  );
-};
+import { useModalLoginTexts } from './useModalLoginTexts';
+import { ReactComponent as Logo } from './logo.svg';
+import { ModalLoginSlides } from './ModalLoginSlides';
 
 const LoginModalContent: React.FC<{
   onResolve?: (success: boolean) => void;
 }> = ({ onResolve }) => {
   const { t } = useTranslation('auth');
-  const dynamicTexts = useLoginDynamicTexts();
+  const { title, subtitle } = useModalLoginTexts();
   const [step, setStep] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
   const [nonce, setNonce] = useState('');
@@ -135,46 +118,14 @@ const LoginModalContent: React.FC<{
     setIsConnecting(false);
   };
 
-  const notice = (
-    <p className="mt-5 text-xs text-v1-content-secondary [&_a]:text-v1-content-secondary [&_a]:underline">
-      <Trans ns="auth" i18nKey="login.notice">
-        By continuing, you agree to our
-        <Link target="_blank" href="https://help.wisdomise.com/privacy-policy">
-          Privacy Policy
-        </Link>
-        and
-        <Link
-          target="_blank"
-          href="https://help.wisdomise.com/terms-and-conditions"
-        >
-          Terms of Service
-        </Link>
-        .
-      </Trans>
-    </p>
-  );
   const emailContent = (
-    <div className="flex grow flex-col">
-      <h1 className="mb-4 pr-12 text-xl font-medium leading-normal mobile:text-base">
-        {dynamicTexts.title}
+    <>
+      <h1 className="mb-4 pr-12 text-xl font-medium leading-normal mobile:hidden">
+        {title}
       </h1>
-      <p className="mb-6 text-xs leading-normal text-v1-content-secondary">
-        {dynamicTexts.subtitle}
+      <p className="mb-6 text-xs leading-normal text-v1-content-secondary mobile:hidden">
+        {subtitle}
       </p>
-
-      <div className="mb-12 flex flex-col gap-4">
-        {dynamicTexts.features.map(text => (
-          <div
-            key={text}
-            className="flex items-center gap-2 text-xs font-normal"
-          >
-            <div className="flex size-5 items-center justify-center rounded-full bg-wsdm-gradient">
-              <Icon name={bxCheck} size={16} />
-            </div>
-            {text}
-          </div>
-        ))}
-      </div>
 
       <div className="flex flex-col items-stretch gap-4">
         <TextBox
@@ -215,33 +166,35 @@ const LoginModalContent: React.FC<{
         </span>
       </div>
 
-      <div className="mb-6 flex flex-col items-center justify-center gap-4">
-        <GoogleLogin
-          onSuccess={googleHandler}
-          use_fedcm_for_prompt
-          text="continue_with"
-          size="large"
-          theme="filled_blue"
-          logo_alignment="center"
-        />
+      <div className="flex flex-col items-center justify-center gap-4">
+        <div className="h-md w-full max-w-[320px] overflow-hidden rounded-lg bg-white text-center">
+          <GoogleLogin
+            onSuccess={googleHandler}
+            use_fedcm_for_prompt
+            text="continue_with"
+            size="large"
+            theme="outline"
+            type="standard"
+            logo_alignment="center"
+            width={320}
+          />
+        </div>
 
-        <TelegramLogin onClick={tgHandler} />
+        <TelegramLogin className="max-w-[320px]" onClick={tgHandler} />
       </div>
-
-      {notice}
-    </div>
+    </>
   );
 
   const codeContent = (
-    <div className="flex grow flex-col">
-      <h1 className="mb-5 pr-12 text-xl font-medium leading-normal mobile:text-base">
+    <>
+      <h1 className="mb-5 pr-12 text-xl font-medium leading-normal mobile:hidden">
         {t('login.step-2.title')}
       </h1>
-      <p className="mb-9 text-xs leading-normal text-v1-content-secondary">
+      <p className="mb-9 text-xs leading-normal text-v1-content-secondary mobile:mb-4">
         {t('login.step-2.subtitle', { email })}
       </p>
 
-      <div className="mb-10 flex flex-col items-stretch">
+      <div className="flex flex-col items-stretch">
         <div className="mb-3 text-xs">{t('login.step-2.field-nonce')}</div>
         <VerificationInput
           autoFocus
@@ -293,39 +246,44 @@ const LoginModalContent: React.FC<{
           </Button>
         </div>
       </div>
-
-      {notice}
-    </div>
+    </>
   );
 
   return (
-    <div className="relative w-full overflow-hidden bg-v1-surface-l2 p-8">
-      <div className="absolute -top-48 left-1/2 mx-auto size-56 -translate-x-1/2 bg-white/55 blur-[110px]" />
-      {emailLoginLoading || verifyEmailLoading || isConnecting ? (
-        <div className="my-8 flex grow flex-col items-center justify-center">
-          <div className="grow" />
-          <Spinner />
-          <div className="grow" />
+    <div className="relative grid h-[590px] max-h-full w-full grid-cols-2 items-stretch justify-between overflow-hidden mobile:flex mobile:h-full mobile:flex-col-reverse">
+      <div className="absolute left-8 top-8 mobile:hidden">
+        <Logo />
+      </div>
+      <div className="relative flex grow flex-col items-stretch justify-center p-8 mobile:justify-end">
+        {emailLoginLoading || verifyEmailLoading || isConnecting ? (
+          <div className="my-8 flex grow flex-col items-center justify-center">
+            <div className="grow" />
+            <Spinner />
+            <div className="grow" />
 
-          {isConnecting && (
-            <div className="flex justify-center">
-              <Button
-                variant="primary"
-                size="sm"
-                className="!pr-6"
-                onClick={() => setIsConnecting(false)}
-              >
-                <Icon name={bxArrowBack} size={16} className="mr-2" />
-                {t('common:actions.cancel')}
-              </Button>
-            </div>
-          )}
-        </div>
-      ) : step === 'email' ? (
-        emailContent
-      ) : (
-        codeContent
-      )}
+            {isConnecting && (
+              <div className="flex justify-center">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="!pr-6"
+                  onClick={() => setIsConnecting(false)}
+                >
+                  <Icon name={bxArrowBack} size={16} className="mr-2" />
+                  {t('common:actions.cancel')}
+                </Button>
+              </div>
+            )}
+          </div>
+        ) : step === 'email' ? (
+          emailContent
+        ) : (
+          codeContent
+        )}
+      </div>
+      <div className="relative w-full shrink-0 overflow-hidden mobile:basis-[calc(100%-350px)] mobile:rounded-b-3xl">
+        <ModalLoginSlides className="size-full" />
+      </div>
     </div>
   );
 };
@@ -347,39 +305,20 @@ export const useModalLogin = () => {
 
   const content = (
     <>
-      {isMobile ? (
-        <AntDrawer
-          placement="bottom"
-          open={open}
-          onClose={handleClose}
-          destroyOnClose
-          height="auto"
-          style={{
-            maxHeight: '90vh',
-          }}
-          closable
-          closeIcon={<Icon name={bxX} />}
-          className="rounded-t-2xl [&_.ant-drawer-body]:p-0 [&_.ant-drawer-header]:absolute [&_.ant-drawer-header]:z-10 [&_.ant-drawer-header]:w-full [&_.ant-drawer-header]:p-4"
-          maskClosable={false}
-        >
-          <LoginModalContent onResolve={handleResolve} />
-        </AntDrawer>
-      ) : (
-        <AntModal
-          centered
-          open={open}
-          onCancel={handleClose}
-          destroyOnClose
-          footer={false}
-          closable
-          maskClosable={false}
-          closeIcon={<Icon name={bxX} size={16} />}
-          className="[&_.ant-modal-content]:p-0"
-          width={550}
-        >
-          <LoginModalContent onResolve={handleResolve} />
-        </AntModal>
-      )}
+      <AntModal
+        centered
+        open={open}
+        onCancel={handleClose}
+        destroyOnClose
+        footer={false}
+        closable
+        maskClosable={false}
+        closeIcon={isMobile ? <></> : <Icon name={bxX} size={16} />}
+        width={950}
+        className="max-h-full max-w-full mobile:h-full mobile:w-full [&_.ant-modal-body]:size-full [&_.ant-modal-content]:!bg-v1-surface-l1 [&_.ant-modal-content]:p-0 mobile:[&_.ant-modal-content]:h-full mobile:[&_.ant-modal-content]:w-full [&_.ant-modal-content]:mobile:!rounded-none"
+      >
+        <LoginModalContent onResolve={handleResolve} />
+      </AntModal>
     </>
   );
 
