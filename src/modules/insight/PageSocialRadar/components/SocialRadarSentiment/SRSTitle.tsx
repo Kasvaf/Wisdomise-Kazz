@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { type SocialRadarSentiment } from 'api';
 
-export const SocialSentimentTitle: FC<{
+export const SRSTitle: FC<{
   value?: SocialRadarSentiment['gauge_tag'];
   className?: string;
 }> = ({ value, className }) => {
@@ -16,7 +16,9 @@ export const SocialSentimentTitle: FC<{
           ? 'text-v1-content-positive'
           : value === 'SHORT'
           ? 'text-v1-content-negative'
-          : 'text-v1-content-primary',
+          : value === 'NEUTRAL'
+          ? 'text-v1-content-primary'
+          : 'text-v1-content-secondary',
         className,
       )}
     >
@@ -24,11 +26,9 @@ export const SocialSentimentTitle: FC<{
         ? t('call-change.positive')
         : value === 'SHORT'
         ? t('call-change.negative')
-        : value === 'NOT SURE'
-        ? t('call-change.not_sure')
         : value === 'NEUTRAL'
         ? t('call-change.neutral')
-        : '---'}
+        : t('call-change.not_sure')}
     </div>
   );
 };
