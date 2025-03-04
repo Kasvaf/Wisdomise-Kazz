@@ -250,7 +250,7 @@ const LoginModalContent: React.FC<{
   );
 
   return (
-    <div className="relative grid h-[590px] max-h-full w-full grid-cols-2 items-stretch justify-between overflow-hidden mobile:flex mobile:h-full mobile:flex-col-reverse">
+    <div className="relative grid h-[590px] max-h-svh w-full grid-cols-2 items-stretch justify-between overflow-hidden mobile:flex mobile:h-full mobile:flex-col-reverse">
       <div className="absolute left-8 top-8 mobile:hidden">
         <Logo />
       </div>
@@ -281,7 +281,7 @@ const LoginModalContent: React.FC<{
           codeContent
         )}
       </div>
-      <div className="relative w-full shrink-0 overflow-hidden mobile:basis-[calc(100%-350px)] mobile:rounded-b-3xl">
+      <div className="relative w-full shrink-0 !overflow-hidden mobile:basis-[calc(100%-350px)] mobile:rounded-b-3xl">
         <ModalLoginSlides className="size-full" />
       </div>
     </div>

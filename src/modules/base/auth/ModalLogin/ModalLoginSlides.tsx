@@ -66,21 +66,21 @@ export const ModalLoginSlides: FC<{
         <SwiperSlide
           key={img.src}
           className={clsx(
-            'relative h-full w-full overflow-hidden p-8 text-center',
-            '[&.swiper-slide-active_*]:translate-y-0 [&.swiper-slide-active_*]:scale-100 [&.swiper-slide-active_*]:opacity-100 [&.swiper-slide-active_*]:grayscale-0 [&_*]:transition-all [&_*]:duration-[600ms] [&_*]:will-change-transform',
+            'relative h-full w-full overflow-hidden rounded-3xl px-8 text-center',
+            '[&.swiper-slide-active_*]:translate-y-0 [&.swiper-slide-active_*]:scale-100 [&.swiper-slide-active_*]:opacity-100 [&.swiper-slide-active_*]:grayscale-0 [&_*]:transition-all [&_*]:duration-700 [&_*]:will-change-transform',
           )}
         >
-          <h3 className="-translate-y-4 text-2xl font-bold grayscale [&_b]:bg-wsdm-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
-            {img.title}
-          </h3>
-          <p className="mt-4 scale-x-125 text-sm font-medium opacity-0 mobile:mt-1">
-            {img.subtitle}
-          </p>
-          <div className="absolute bottom-[-20%] left-[15%] size-[70%] scale-50 bg-wsdm-gradient blur-[70px]" />
+          <div className="absolute bottom-[-20%] left-[15%] size-[70%] bg-wsdm-gradient opacity-0 blur-[70px]" />
           <img
             src={img.src}
-            className="absolute bottom-0 left-[10%] max-h-[72%] w-[80%] translate-y-9 object-contain mobile:bottom-[-5%] mobile:max-h-full"
+            className="absolute bottom-[-1%] left-[12%] max-h-[80%] w-[76%] translate-y-10 scale-95 object-contain mobile:bottom-[-5%] mobile:left-[7%] mobile:w-[86%]"
           />
+          <h3 className="relative m-0 -translate-y-4 bg-gradient-to-b from-v1-surface-l1 to-transparent pt-12 text-2xl font-bold grayscale mobile:pt-10 [&_b]:bg-wsdm-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
+            {img.title}
+          </h3>
+          <p className="relative m-0 scale-x-125 py-2 text-sm font-medium opacity-0">
+            {img.subtitle}
+          </p>
         </SwiperSlide>
       ))}
     </Swiper>
