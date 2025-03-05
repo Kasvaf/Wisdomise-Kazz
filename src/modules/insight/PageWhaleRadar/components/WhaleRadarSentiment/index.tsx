@@ -135,10 +135,10 @@ export const WhaleRadarSentiment: FC<{
         disabled={isAllNumbersZero}
         className={className}
       >
-        <div className="flex h-28 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
+        <div className="flex h-28 w-full flex-col justify-between gap-1 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
           <div className="flex items-start justify-between gap-2">
             <p className="whitespace-nowrap text-xs">{t('sentiment.title')}</p>
-            <div className="flex items-center justify-between gap-2 text-[9px]">
+            <div className="flex items-center justify-between gap-2 text-xxs">
               {numbers.map(num => (
                 <div key={num.label} className="text-center">
                   <p>{num.label}</p>
