@@ -7,6 +7,13 @@ import { trackClick } from 'config/segment';
 const CustomTourProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <TourProvider
+      onClickClose={x => {
+        x.setIsOpen(false);
+        trackClick('tour_close')();
+      }}
+      onClickMask={() => {
+        //
+      }}
       steps={[]}
       padding={4}
       disableInteraction
