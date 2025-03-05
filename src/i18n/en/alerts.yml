@@ -103,7 +103,9 @@ types:
           list.
   technical_radar_screener:
     title: Technical Radar Screener
-    subtitle: Get notified as soon as a coin enters the top 5 of our Social Radar list.
+    subtitle: >-
+      Get notified as soon as a coin enters the top 5 of our Technical Radar
+      list.
     step-1:
       title: Set Technical Radar Screener
       subtitle: |-
