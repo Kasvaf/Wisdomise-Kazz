@@ -254,19 +254,16 @@ const LoginModalContent: React.FC<{
       <div className="absolute left-8 top-8 mobile:hidden">
         <Logo />
       </div>
-      <div className="relative flex grow flex-col items-stretch justify-center p-8 mobile:justify-end">
+      <div className="relative flex min-h-[275px] grow flex-col items-stretch justify-center p-8 mobile:h-auto mobile:grow-0 mobile:justify-end">
         {emailLoginLoading || verifyEmailLoading || isConnecting ? (
           <div className="my-8 flex grow flex-col items-center justify-center">
-            <div className="grow" />
             <Spinner />
-            <div className="grow" />
-
             {isConnecting && (
               <div className="flex justify-center">
                 <Button
                   variant="primary"
                   size="sm"
-                  className="!pr-6"
+                  className="mt-4 !pr-6"
                   onClick={() => setIsConnecting(false)}
                 >
                   <Icon name={bxArrowBack} size={16} className="mr-2" />
@@ -281,7 +278,7 @@ const LoginModalContent: React.FC<{
           codeContent
         )}
       </div>
-      <div className="relative w-full shrink-0 !overflow-hidden mobile:basis-[calc(100%-330px)] mobile:rounded-b-3xl">
+      <div className="relative w-full shrink-0 grow !overflow-hidden mobile:rounded-b-3xl">
         <ModalLoginSlides className="size-full" />
       </div>
     </div>
