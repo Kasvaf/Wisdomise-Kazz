@@ -278,7 +278,7 @@ const LoginModalContent: React.FC<{
           codeContent
         )}
       </div>
-      <div className="relative w-full shrink-0 grow !overflow-hidden mobile:rounded-b-3xl">
+      <div className="relative w-full shrink grow !overflow-hidden mobile:rounded-b-3xl">
         <ModalLoginSlides className="size-full" />
       </div>
     </div>
