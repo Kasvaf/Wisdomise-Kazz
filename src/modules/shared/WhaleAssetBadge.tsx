@@ -94,25 +94,8 @@ export function WhaleAssetBadge({
     return `(${daysDiff < 2 ? t('recently') : text})`;
   }, [date, t]);
 
-  return (
-    <ClickableTooltip
-      chevron={false}
-      title={
-        <>
-          <h2 className="mb-1 text-base text-v1-content-primary">
-            {detail.title}
-          </h2>
-          <p className="text-v1-content-secondary">{detail.info}</p>
-        </>
-      }
-      disabled={!detail.info || textOnly}
-      className={clsx(
-        'whitespace-nowrap',
-        !textOnly && detail.className,
-        !textOnly && 'h-5 rounded-full px-2 py-px text-xxs',
-        className,
-      )}
-    >
+  const content = (
+    <>
       {percentage && (
         <ReadableNumber
           value={percentage}
@@ -125,6 +108,29 @@ export function WhaleAssetBadge({
       )}
       {detail.title}
       {dateTxt && <span className="capitalize opacity-80">{dateTxt}</span>}
+    </>
+  );
+  if (textOnly) return <span className={className}>{content}</span>;
+
+  return (
+    <ClickableTooltip
+      chevron={false}
+      title={
+        <>
+          <h2 className="mb-1 text-base text-v1-content-primary">
+            {detail.title}
+          </h2>
+          <p className="text-v1-content-secondary">{detail.info}</p>
+        </>
+      }
+      disabled={!detail.info}
+      className={clsx(
+        'h-5 whitespace-nowrap rounded-full px-2 py-px text-xxs',
+        detail.className,
+        className,
+      )}
+    >
+      {content}
     </ClickableTooltip>
   );
 }

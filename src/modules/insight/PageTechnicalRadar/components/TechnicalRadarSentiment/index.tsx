@@ -258,7 +258,7 @@ export const TechnicalRadarSentiment: FC<{
                 <TRSTitle
                   value={value?.technical_sentiment}
                   green={isGreen}
-                  className="text-xs"
+                  className="overflow-hidden text-ellipsis text-xs"
                 />
               </div>
             </div>

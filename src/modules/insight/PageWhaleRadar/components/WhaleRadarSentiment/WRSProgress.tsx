@@ -1,6 +1,6 @@
-import { useMemo, type FC } from 'react';
+import { Fragment, useMemo, type FC } from 'react';
 import { clsx } from 'clsx';
-import { type WhaleRadarSentiment } from 'api';
+import { type WhaleAssetLabel, type WhaleRadarSentiment } from 'api';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 
 function Progress({ value }: { value: number }) {
@@ -12,7 +12,10 @@ function Progress({ value }: { value: number }) {
       )}
     >
       <div
-        className="absolute left-0 top-0 h-full min-w-1 rounded bg-v1-content-primary"
+        className={clsx(
+          'absolute left-0 top-0 h-full min-w-1 rounded',
+          value > 0 ? 'bg-v1-content-primary' : 'bg-v1-content-primary/50',
+        )}
         style={{
           width: `${value}%`,
         }}
@@ -20,6 +23,13 @@ function Progress({ value }: { value: number }) {
     </div>
   );
 }
+
+const FILLER_LABELS: WhaleAssetLabel[] = [
+  'exit_portfolio',
+  'new_investment',
+  'loading',
+  'unloading',
+];
 
 export const WRSProgress: FC<{
   value?: WhaleRadarSentiment['label_percents'] | null;
@@ -30,12 +40,15 @@ export const WRSProgress: FC<{
     while (ret.length > 4) {
       ret = ret.slice(1);
     }
-    if (ret.length === 0) {
+    while (ret.length < 4) {
       ret = [
-        ['unloading', 0],
-        ['loading', 0],
-        ['new_investment', 0],
-        ['exit_portfolio', 0],
+        [
+          FILLER_LABELS.find(
+            x => !ret.some(y => y[0] === x),
+          ) as WhaleAssetLabel,
+          0,
+        ],
+        ...ret,
       ];
     }
     return ret;
@@ -43,20 +56,20 @@ export const WRSProgress: FC<{
   return (
     <div
       className={clsx(
-        'grid grid-cols-2 items-center gap-x-2 gap-y-0 whitespace-nowrap',
+        'grid grid-cols-[1fr_2fr] items-center gap-x-2 gap-y-0',
         !value && 'grayscale',
         className,
       )}
     >
       {list.map(row => (
-        <>
+        <Fragment key={row[0]}>
           <WhaleAssetBadge
             textOnly
             value={row[0]}
-            className="overflow-hidden text-ellipsis text-xxs text-v1-content-secondary"
+            className="shrink truncate text-xxs text-v1-content-secondary"
           />
           <Progress value={row[1]} />
-        </>
+        </Fragment>
       ))}
     </div>
   );
