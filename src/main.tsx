@@ -11,6 +11,7 @@ import { useEffectOnce } from 'usehooks-ts';
 import 'utils/polyfills';
 import { useErrorNotification } from 'shared/useErrorNotification';
 import { useJwtEmail } from 'modules/base/auth/jwt-store';
+import CustomTourProvider from 'modules/base/CustomTourProvider';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
 import queryClient from 'config/reactQuery';
@@ -62,7 +63,9 @@ function Root() {
           }}
         >
           <HelmetProvider context={{}}>
-            <App />
+            <CustomTourProvider>
+              <App />
+            </CustomTourProvider>
           </HelmetProvider>
           {errorNotificationContent}
         </ConfigProvider>

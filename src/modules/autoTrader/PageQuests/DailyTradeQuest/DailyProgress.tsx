@@ -8,27 +8,24 @@ import light from './light.png';
 export default function DailyProgress({
   className,
   countdown,
-  dense,
 }: {
   className?: string;
   countdown?: boolean;
-  dense?: boolean;
 }) {
   const {
     activeDay,
     currentDay,
     completedToday,
     completedAll,
-    nextDayStartTimestamp,
     nextDayEndTimestamp,
   } = useGamification();
 
   return (
-    <div className={clsx(className)}>
+    <div className={clsx(className, 'flex items-center justify-center')}>
       <div className="relative flex flex-col items-center justify-center gap-2">
         <Progress
           className="[&>.ant-progress-inner]:bg-transparent"
-          size={dense ? 60 : 80}
+          size={countdown ? 60 : 80}
           type="circle"
           steps={7}
           percent={((currentDay + 1) * 100) / 7}
@@ -51,16 +48,12 @@ export default function DailyProgress({
           {!completedAll && `Day ${activeDay + 1}`}
         </div>
       </div>
-      {currentDay > -1 && !completedAll && countdown && (
-        <div className={clsx('flex flex-col text-center', !dense && 'mt-2')}>
-          <div className="text-xs text-v1-content-secondary">
-            {completedToday ? 'Next Streak:' : 'Streak Ends:'}
-          </div>
-          <Countdown
-            deadline={
-              completedToday ? nextDayStartTimestamp : nextDayEndTimestamp
-            }
-          />
+      {currentDay > -1 && !completedAll && !completedToday && countdown && (
+        <div
+          className={clsx('flex flex-col text-center', !countdown && 'mt-2')}
+        >
+          <div className="text-xs text-v1-content-secondary">Streak Ends:</div>
+          <Countdown deadline={nextDayEndTimestamp} />
         </div>
       )}
     </div>

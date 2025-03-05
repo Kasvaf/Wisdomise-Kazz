@@ -8,8 +8,8 @@ import { useGamification, useGamificationAction } from 'api/gamification';
 import { StatusBadge } from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
 import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
 import { Button } from 'shared/v1-components/Button';
+import video from 'modules/autoTrader/PageQuests/DailyTradeQuest/video.webm';
 import RewardModal from './RewardModal';
-import bg from './bg.png';
 import box from './box.png';
 import { ReactComponent as Bg } from './bg.svg';
 import { ReactComponent as Stars } from './stars.svg';
@@ -26,7 +26,6 @@ export default function DailyTradeQuest() {
     completedAll,
     rewardClaimed,
     nextDayEndTimestamp,
-    nextDayStartTimestamp,
     setRewardClaimed,
   } = useGamification();
   const { mutateAsync } = useGamificationAction();
@@ -57,11 +56,6 @@ export default function DailyTradeQuest() {
         onClick={() => setOpen(true)}
         className="relative mb-4 flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4"
       >
-        <img
-          src={bg}
-          alt=""
-          className="absolute right-0 h-full w-auto mix-blend-multiply"
-        />
         <Bg className="absolute top-0 h-full" />
         <div className="relative">
           <h2 className="text-xl font-semibold">Daily Trade</h2>
@@ -69,36 +63,40 @@ export default function DailyTradeQuest() {
             Complete Trades Daily and Earn Rewards.
           </p>
 
-          {currentDay > -1 && !completedAll ? (
-            <StatusChip className="mt-3">
-              <div className="flex gap-2 text-xs">
-                <div className="text-xs text-v1-content-secondary">
-                  {completedToday ? 'Next Streak:' : 'Streak Ends:'}
-                </div>
-                <div>
-                  {dayjs(
-                    completedToday
-                      ? nextDayStartTimestamp
-                      : nextDayEndTimestamp,
-                  ).fromNow(true)}
-                </div>
-              </div>
-            </StatusChip>
-          ) : (
-            <Button
-              variant="outline"
+          {!completedToday && (
+            <button
               className={clsx(
-                'mt-3 !px-4',
+                'my-5 flex items-center text-xs',
                 completedAll && rewardClaimed && 'hidden',
               )}
-              onClick={() => setOpen(true)}
             >
               {completedAll ? 'Claim Your Reward' : "Start Today's Trade"}
               <Arrow className="ml-2" />
-            </Button>
+            </button>
+          )}
+          {currentDay > -1 && !completedToday && !completedAll && (
+            <StatusChip className="mt-3">
+              <div className="flex gap-2 text-xs">
+                <div className="text-xs text-v1-content-secondary">
+                  Streak Ends:
+                </div>
+                <div>{dayjs(nextDayEndTimestamp).fromNow(true)}</div>
+              </div>
+            </StatusChip>
           )}
         </div>
-        <DailyProgress countdown={false} />
+        <div className="flex items-center justify-center">
+          <video
+            className="absolute ml-px mt-1 h-52 w-52 object-cover opacity-40 mix-blend-multiply"
+            autoPlay
+            playsInline
+            loop
+            muted
+          >
+            <source src={video} />
+          </video>
+          <DailyProgress countdown={false} />
+        </div>
       </div>
       <DrawerModal
         open={open}
@@ -147,7 +145,7 @@ export default function DailyTradeQuest() {
               <div className="basis-1/2">
                 <DailyProgress
                   className="flex items-center justify-center gap-2 text-xs"
-                  dense={true}
+                  countdown={true}
                 />
                 <hr className="my-3 border-v1-border-disabled" />
                 <div className="relative mb-4 flex flex-col items-center overflow-hidden rounded-2xl bg-v1-surface-l2 p-3">

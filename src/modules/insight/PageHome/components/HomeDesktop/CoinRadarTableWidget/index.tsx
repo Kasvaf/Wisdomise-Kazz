@@ -14,6 +14,7 @@ import { ConfirmationBadgesInfo } from 'modules/insight/PageTechnicalRadar/compo
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { EmptySentiment } from '../EmptySentiment';
 import CoinRadarAlerButton from '../CoinRadarAlerButton';
+import { homeSubscriptionsConfig } from '../../constants';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
@@ -117,17 +118,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
       empty={!coins.data?.length}
       className="min-h-[500px]"
     >
-      <AccessShield
-        mode="table"
-        sizes={{
-          'guest': true,
-          'free': true,
-          'trial': 3,
-          'pro': 3,
-          'pro+': false,
-          'pro_max': false,
-        }}
-      >
+      <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}

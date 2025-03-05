@@ -13,6 +13,8 @@ import { AccessShield } from 'shared/AccessShield';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { homeSubscriptionsConfig } from '../../constants';
+import useHotCoinsTour from './useHotCoinsTour';
 
 export const HotCoinsMobile = () => {
   const { t } = useTranslation('insight');
@@ -24,6 +26,10 @@ export const HotCoinsMobile = () => {
 
   const coins = useCoinRadarCoins({
     networks: network ? [network] : [],
+  });
+
+  useHotCoinsTour({
+    enabled: !coins.isLoading,
   });
 
   const [selectedRow, setSelectedRow] = useState<null | CoinRadarCoin>(null);
@@ -68,6 +74,7 @@ export const HotCoinsMobile = () => {
       },
       {
         key: 'sentiment',
+        className: 'tour-item-sentiment',
         render: row => (
           <div className="flex items-center gap-4">
             {row.social_radar_insight && (
@@ -127,18 +134,9 @@ export const HotCoinsMobile = () => {
           surface={2}
         />
       </div>
-      <AccessShield
-        mode="mobile_table"
-        sizes={{
-          'guest': true,
-          'free': true,
-          'trial': 3,
-          'pro': 3,
-          'pro+': false,
-          'pro_max': false,
-        }}
-      >
+      <AccessShield mode="mobile_table" sizes={homeSubscriptionsConfig}>
         <MobileTable
+          rowClassName="tour-item-row"
           columns={columns}
           dataSource={coins.data?.slice(0, 20) ?? []}
           loading={coins.isLoading}
