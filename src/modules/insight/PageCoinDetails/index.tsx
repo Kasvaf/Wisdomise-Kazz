@@ -65,7 +65,7 @@ export default function PageCoinDetails() {
         </div>
       ) : (
         <div className="relative grid grid-cols-3 lg:gap-3 2xl:gap-6">
-          <div>
+          <div className="col-span-1">
             <div className="sticky top-20 flex flex-col lg:gap-3 2xl:gap-6">
               <CoinPriceWidget slug={slug} />
               <CoinStatsWidget slug={slug} />
@@ -75,10 +75,19 @@ export default function PageCoinDetails() {
           </div>
 
           <div className="col-span-2 flex flex-col lg:gap-3 2xl:gap-6">
-            <div className="flex items-center justify-stretch lg:gap-3 2xl:gap-6">
-              <SocialRadarSentimentWidget slug={slug} className="w-full" />
-              <TechnicalRadarSentimentWidget slug={slug} className="w-full" />
-              <WhaleRadarSentimentWidget slug={slug} className="w-full" />
+            <div className="flex items-center justify-stretch gap-2 overflow-auto 2xl:gap-6">
+              <SocialRadarSentimentWidget
+                slug={slug}
+                className="w-full min-w-[280px] shrink"
+              />
+              <TechnicalRadarSentimentWidget
+                slug={slug}
+                className="w-full min-w-[280px] shrink"
+              />
+              <WhaleRadarSentimentWidget
+                slug={slug}
+                className="w-full min-w-[280px] shrink"
+              />
             </div>
             <CoinRadarTabs options={tabs} className="sticky top-[72px] z-50" />
             <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
