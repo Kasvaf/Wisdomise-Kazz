@@ -75,7 +75,7 @@ export const ModalLoginSlides: FC<{
             src={img.src}
             className="absolute bottom-[-1%] left-[12%] max-h-[80%] w-[76%] translate-y-10 scale-95 object-contain mobile:bottom-[-5%] mobile:left-[7%] mobile:w-[86%]"
           />
-          <h3 className="relative m-0 -translate-y-4 bg-gradient-to-b from-v1-surface-l1 to-transparent pt-12 text-2xl font-bold grayscale mobile:pt-10 [&_b]:bg-wsdm-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
+          <h3 className="relative m-0 -translate-y-4 bg-gradient-to-b from-v1-surface-l1 to-transparent pt-12 text-2xl font-bold grayscale mobile:pt-6 [&_b]:bg-wsdm-gradient [&_b]:bg-clip-text [&_b]:font-bold [&_b]:text-transparent">
             {img.title}
           </h3>
           <p className="relative m-0 scale-x-125 py-2 text-sm font-medium opacity-0">
