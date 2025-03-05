@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type MouseEventHandler, useState } from 'react';
+import { type MouseEventHandler, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AnimateHeight from 'react-animate-height';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -109,6 +109,7 @@ const MenuItemsContent: React.FC<{
   const { items: MenuItems } = useMenuItems();
 
   const { pathname } = useLocation();
+  useEffect(() => setActiveMenu(pathname), [pathname]);
   const [activeMenu, setActiveMenu] = useState(pathname);
 
   const [ModalLogin, showModalLogin] = useModalLogin();
@@ -143,6 +144,7 @@ const MenuItemsContent: React.FC<{
           className: 'text-success',
         },
   ];
+
   return (
     <div className="flex max-h-full grow flex-col justify-between gap-4 overflow-hidden">
       <div className="shrink grow overflow-auto">

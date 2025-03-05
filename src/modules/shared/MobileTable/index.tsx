@@ -14,6 +14,7 @@ export function MobileTable<RecordType extends object>({
   dataSource,
   columns,
   className,
+  rowClassName,
   surface = 2,
   rowKey,
   loading,
@@ -22,6 +23,7 @@ export function MobileTable<RecordType extends object>({
   dataSource: RecordType[];
   loading?: boolean;
   className?: string;
+  rowClassName?: string;
   surface?: Surface;
   columns: Array<MobileTableColumn<RecordType>>;
   rowKey: (row: RecordType) => string | number;
@@ -67,6 +69,7 @@ export function MobileTable<RecordType extends object>({
                 'w-full rounded-lg',
                 typeof onClick === 'function' &&
                   'bg-[--row-color] transition-all active:bg-[--active-color]',
+                rowClassName,
               )}
               data-table="tr"
               onClick={() => onClick?.(row)}
