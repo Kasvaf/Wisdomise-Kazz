@@ -55,7 +55,7 @@ export const ModalLoginSlides: FC<{
       pagination
       modules={[Pagination, Autoplay]}
       autoplay={{
-        delay: 6000,
+        delay: 3000,
         disableOnInteraction: false,
         pauseOnMouseEnter: false,
         stopOnLastSlide: false,
