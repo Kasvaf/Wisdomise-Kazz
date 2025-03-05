@@ -5,7 +5,7 @@ login:
   images:
     discover:
       title: <b>Discover</b> New Coins
-      subtitle: Find Coins with Sentiment Icons in Our Radars
+      subtitle: Spot Opportunities Using Sentiment Indicators in Our Radars.
     trade:
       title: <b>Trade</b> with AI
       subtitle: AI Sets Multiple TP and SLs Automatically Based on Market Conditions
@@ -17,8 +17,8 @@ login:
     button-submit-email: Get Started
     field-email: Email
     field-email-placeholder: Your Email Address
-    social_radar_subtitle: Get Started for Free to Discover the Best Investment Opportunities
-    social_radar_title: Find Best Memecoin Opportunities Using Social Media Insights
+    social_radar_subtitle: Seamless Trading, from Memecoins to High-Cap Tokens—all in One Place.
+    social_radar_title: Discover, Validate, and Trade Crypto with AI.
   step-2:
     title: Enter Magic Code
     subtitle: Enter the 6-digit Magic code we sent to {{email}} to continue.
