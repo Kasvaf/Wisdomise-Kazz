@@ -82,12 +82,6 @@ const useMenuItems = () => {
       link: '/trader-positions',
     },
     {
-      icon: <IconQuests />,
-      text: 'Quest',
-      link: '/trader-quests',
-      hide: !isMobile,
-    },
-    {
       icon: <IconAccount />,
       text: t('menu.account.title'),
       link: '/account',
@@ -141,6 +135,34 @@ const useMenuItems = () => {
               },
             ]
           : []),
+      ],
+    },
+    {
+      icon: <IconQuests />,
+      text: 'Quests',
+      link: '/trader-quests',
+      onClick: trackClick('quests'),
+      children: [
+        {
+          text: t('menu.overview.title'),
+          link: '/trader-quests',
+          onClick: trackClick('insight_menu'),
+        },
+        {
+          text: t('menu.tournaments.title'),
+          link: '/trader-quests/tournaments',
+          onClick: trackClick('insight_menu'),
+        },
+        {
+          text: t('menu.league.title'),
+          link: '/trader-quests/league',
+          onClick: trackClick('insight_menu'),
+        },
+        {
+          text: t('menu.daily-trade.title'),
+          link: '/trader-quests/daily',
+          onClick: trackClick('insight_menu'),
+        },
       ],
     },
   ];

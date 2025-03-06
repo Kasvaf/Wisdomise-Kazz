@@ -57,6 +57,13 @@ menu:
     subtitle: Use tokens for premium access
   whales:
     title: Whale Radar
+  tournaments:
+    title: Tournaments
+  league:
+    title: League
+  daily-trade:
+    title: Daily Trade
+
 new: New
 support:
   title: Question?

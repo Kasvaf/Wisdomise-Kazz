@@ -1,6 +1,6 @@
 import PageWrapper from 'modules/base/PageWrapper';
 import {
-  useGamificationProfile,
+  useGamificationProfileQuery,
   useGamificationRewards,
 } from 'api/gamification';
 import { PageTitle } from 'shared/PageTitle';
@@ -10,7 +10,7 @@ import bg from './images/bg.png';
 import video from './images/video.webm';
 
 export default function PageRewards() {
-  const { isLoading } = useGamificationProfile();
+  const { isLoading } = useGamificationProfileQuery();
   const { subReferral, tradeReferral, daily } = useGamificationRewards();
 
   return (

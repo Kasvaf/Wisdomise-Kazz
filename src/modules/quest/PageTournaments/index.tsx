@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTournaments } from 'api/tournament';
-import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
+import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
 import BtnBack from 'modules/base/BtnBack';
 
 const Tournaments = () => {

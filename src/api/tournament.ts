@@ -12,10 +12,10 @@ export interface Tournament {
   tooltip_content: string;
   start_time: string;
   end_time: string;
-  prizes: TournamentPrize[];
+  prizes: LeaderboardPrize[];
 }
 
-export interface TournamentPrize {
+export interface LeaderboardPrize {
   start_rank: number;
   end_rank: number;
   items: TournamentPrizeItem[];
@@ -26,7 +26,7 @@ export interface TournamentPrizeItem {
   amount: string;
 }
 
-export interface TournamentParticipant {
+export interface LeaderboardParticipant {
   investor_key: string;
   name: string;
   trading_volume: number;
@@ -46,25 +46,25 @@ export function useTournaments(status?: GamificationStatus) {
   });
 }
 
-export function useTournament(key: string) {
+export function useTournamentQuery(key: string) {
   return useQuery(['tournaments', key], async () => {
     const data = await ofetch<Tournament>(`trader/tournaments/${key}`);
     return data;
   });
 }
 
-export function useTournamentLeaderboard(key: string) {
+export function useTournamentLeaderboardQuery(key: string) {
   return useQuery(['tournamentsLeaderboard', key], async () => {
-    const data = await ofetch<TournamentParticipant[]>(
+    const data = await ofetch<LeaderboardParticipant[]>(
       `trader/tournaments/${key}/leaderboard`,
     );
     return data;
   });
 }
 
-export function useTournamentMe(key: string) {
+export function useTournamentProfileQuery(key: string) {
   return useQuery(['tournamentsMe', key], async () => {
-    const data = await ofetch<TournamentParticipant>(
+    const data = await ofetch<LeaderboardParticipant>(
       `trader/tournaments/${key}/me`,
     );
     return data;

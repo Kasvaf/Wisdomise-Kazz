@@ -4,6 +4,10 @@ import type { PageResponse } from 'api/types/page';
 import { INVESTMENT_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { isProduction } from 'utils/version';
+import {
+  type LeaderboardPrize,
+  type LeaderboardParticipant,
+} from 'api/tournament';
 
 export interface Friend {
   telegram_id: number;
@@ -12,7 +16,7 @@ export interface Friend {
   name: string;
 }
 
-export const useFriends = () =>
+export const useGameFriendsQuery = () =>
   useQuery(
     ['friends'],
     async () => {
@@ -149,7 +153,7 @@ interface GamificationProfile {
   }>;
 }
 
-export const useGamificationProfile = () =>
+export const useGamificationProfileQuery = () =>
   useQuery(
     ['gamificationProfile'],
     async () => {
@@ -166,7 +170,7 @@ export interface GamificationActionBody {
   attributes?: Record<string, string>;
 }
 
-export const useGamificationAction = () =>
+export const useGamificationActionMutation = () =>
   useMutation(async (body: GamificationActionBody) => {
     const data = await ofetch(`${TEMPLE_ORIGIN}/api/v1/gamification/action`, {
       body,
@@ -179,7 +183,7 @@ const AFTER_TRADE_PERIOD = (isProduction ? 24 * 60 : 1) * 60 * 1000;
 const STREAK_END_PERIOD = (isProduction ? 24 * 60 : 15) * 60 * 1000;
 
 export const useGamification = () => {
-  const { data } = useGamificationProfile();
+  const { data } = useGamificationProfileQuery();
   const [rewardClaimed, setRewardClaimed] = useState(false);
 
   const activeDay = +(
@@ -214,7 +218,7 @@ export const useGamification = () => {
 };
 
 export const useGamificationRewards = () => {
-  const { data } = useGamificationProfile();
+  const { data } = useGamificationProfileQuery();
 
   const rewardsMap = {
     daily: 'tether_daily',
@@ -233,4 +237,58 @@ export const useGamificationRewards = () => {
     tradeReferral: findMissionReward('tradeReferral'),
     subReferral: findMissionReward('subReferral'),
   };
+};
+
+interface League {
+  start_time: string;
+  end_time: string;
+  details: LeagueDetail[];
+}
+
+interface LeagueDetail {
+  name: 'Summit League';
+  slug: 'summit-league' | 'pioneer-league' | 'horizon-league';
+  level: number;
+  prizes: LeaderboardPrize[];
+}
+
+export const useLeaguesQuery = () => {
+  return useQuery(['leagues'], async () => {
+    return await ofetch<League>(`${TEMPLE_ORIGIN}/api/v1/trader/leagues`, {
+      method: 'get',
+    });
+  });
+};
+
+export const useLeagueProfileQuery = () => {
+  return useQuery(['leagueProfile'], async () => {
+    return await ofetch<LeaderboardParticipant>(
+      `${TEMPLE_ORIGIN}/api/v1/trader/leagues/me`,
+      { method: 'get' },
+    );
+  });
+};
+
+export const useLeagueLeaderboardQuery = (leagueSlug?: string) => {
+  console.log(leagueSlug);
+  return useQuery(
+    ['leagueLeaderboard'],
+    async () => {
+      return await ofetch<LeaderboardParticipant[]>(
+        `${TEMPLE_ORIGIN}/api/v1/trader/leagues/${
+          leagueSlug ?? ''
+        }/leaderboard`,
+        { method: 'get' },
+      );
+    },
+    { enabled: !!leagueSlug },
+  );
+};
+
+export const useLeagueClaimMutation = () => {
+  return useMutation(async () => {
+    return await ofetch(`${TEMPLE_ORIGIN}/api/v1/trader/leagues/claim`, {
+      method: 'post',
+    });
+  });
 };

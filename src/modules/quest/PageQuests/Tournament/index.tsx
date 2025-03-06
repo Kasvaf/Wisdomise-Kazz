@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useTournaments } from 'api/tournament';
-import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
+import { StatusChip } from 'modules/quest/PageQuests/StatusChip';
 import leaderboard from './leaderboard.png';
 import bg from './bg.png';
 import gradient from './gradient.png';

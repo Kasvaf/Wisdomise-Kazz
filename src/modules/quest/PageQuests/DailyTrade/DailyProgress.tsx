@@ -2,8 +2,8 @@ import { Progress } from 'antd';
 import { clsx } from 'clsx';
 import { useGamification } from 'api/gamification';
 import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
-import { ReactComponent as CheckIcon } from './check.svg';
-import light from './light.png';
+import { ReactComponent as CheckIcon } from './images/check.svg';
+import light from './images/light.png';
 
 export default function DailyProgress({
   className,

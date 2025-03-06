@@ -2,8 +2,8 @@ import { type PropsWithChildren } from 'react';
 import { useUserStorage } from 'api/userStorage';
 import PageWrapper from 'modules/base/PageWrapper';
 import Button from 'shared/Button';
-import onboardingBg from '../images/onboarding-bg.png';
-import { ReactComponent as IconStar } from '../images/star.svg';
+import onboardingBg from 'modules/quest/PageTournaments/images/onboarding-bg.png';
+import { ReactComponent as IconStar } from 'modules/quest/PageTournaments/images/star.svg';
 
 export default function TournamentsOnboarding({ children }: PropsWithChildren) {
   const { value, save, isLoading } = useUserStorage('tournament-onboarding');

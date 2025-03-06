@@ -1,9 +1,9 @@
 import { useHasFlag } from 'api';
 import { useTournaments } from 'api/tournament';
 import PageWrapper from 'modules/base/PageWrapper';
-import DailyTradeQuest from 'modules/autoTrader/PageQuests/DailyTradeQuest';
 import { PageTitle } from 'shared/PageTitle';
-import Referral from 'modules/autoTrader/PageQuests/Referral';
+import Referral from 'modules/quest/PageQuests/Referral';
+import DailyTrade from './DailyTrade';
 import Tournaments from './Tournament';
 
 export default function PageQuests() {
@@ -17,7 +17,7 @@ export default function PageQuests() {
         title="Quests"
         description="Complete Quests and Earn Rewards."
       />
-      {hasFlag('/trader-quests/daily') && <DailyTradeQuest />}
+      {hasFlag('/trader-quests/daily') && <DailyTrade />}
       <Referral />
       {hasFlag('/trader-quests/tournaments') && <Tournaments />}
     </PageWrapper>

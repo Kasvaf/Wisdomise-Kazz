@@ -2,25 +2,25 @@ import { useState } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import DailyProgress from 'modules/autoTrader/PageQuests/DailyTradeQuest/DailyProgress';
+import DailyProgress from 'modules/quest/PageQuests/DailyTrade/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
 import {
   useGamification,
-  useGamificationAction,
-  useGamificationProfile,
+  useGamificationActionMutation,
+  useGamificationProfileQuery,
 } from 'api/gamification';
-import { StatusBadge } from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
-import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
+import { StatusBadge } from 'modules/quest/PageTournaments/TournamentCard';
+import { StatusChip } from 'modules/quest/PageQuests/StatusChip';
 import { Button } from 'shared/v1-components/Button';
-import video from 'modules/autoTrader/PageQuests/DailyTradeQuest/video.webm';
+import video from 'modules/quest/PageQuests/DailyTrade/images/video.webm';
 import RewardModal from 'modules/account/PageRewards/RewardModal';
-import box from './box.png';
-import { ReactComponent as Bg } from './bg.svg';
-import { ReactComponent as Stars } from './stars.svg';
-import { ReactComponent as Arrow } from './arrow.svg';
-import { ReactComponent as Lock } from './lock.svg';
+import box from './images/box.png';
+import { ReactComponent as Bg } from './images/bg.svg';
+import { ReactComponent as Stars } from './images/stars.svg';
+import { ReactComponent as Arrow } from './images/arrow.svg';
+import { ReactComponent as Lock } from './images/lock.svg';
 
-export default function DailyTradeQuest() {
+export default function DailyTrade() {
   const [open, setOpen] = useState(false);
   const [openReward, setOpenReward] = useState(false);
   const [rewardAmount, setRewardAmount] = useState(0);
@@ -33,8 +33,8 @@ export default function DailyTradeQuest() {
     nextDayEndTimestamp,
     setRewardClaimed,
   } = useGamification();
-  const { data } = useGamificationProfile();
-  const { mutateAsync } = useGamificationAction();
+  const { data } = useGamificationProfileQuery();
+  const { mutateAsync } = useGamificationActionMutation();
   const navigate = useNavigate();
 
   const dayStatus = (index: number) => {
