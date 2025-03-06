@@ -7,6 +7,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { Modal as AntModal } from 'antd';
 import { bxArrowBack, bxX } from 'boxicons-quasar';
 import { v4 } from 'uuid';
+import { useSearchParams } from 'react-router-dom';
 import {
   useEmailLoginMutation,
   useGoogleLoginMutation,
@@ -19,7 +20,6 @@ import TextBox from 'shared/TextBox';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import Icon from 'shared/Icon';
 import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
-import useIsMobile from 'utils/useIsMobile';
 import { Button } from 'shared/v1-components/Button';
 import TelegramLogin from './TelegramLogin';
 import { useModalLoginTexts } from './useModalLoginTexts';
@@ -286,8 +286,9 @@ const LoginModalContent: React.FC<{
 };
 
 export const useModalLogin = () => {
-  const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const forceLogin = searchParams.has('fl');
   const resolver = useRef<((result: boolean) => void) | undefined>(undefined);
 
   const handleClose = () => {
@@ -309,8 +310,8 @@ export const useModalLogin = () => {
         destroyOnClose
         footer={false}
         closable
-        maskClosable={false}
-        closeIcon={isMobile ? <></> : <Icon name={bxX} size={16} />}
+        maskClosable={!forceLogin}
+        closeIcon={forceLogin ? <></> : <Icon name={bxX} size={16} />}
         width={950}
         className="max-h-full max-w-full mobile:h-full mobile:w-full [&_.ant-modal-body]:size-full [&_.ant-modal-content]:!bg-v1-surface-l1 [&_.ant-modal-content]:p-0 mobile:[&_.ant-modal-content]:h-full mobile:[&_.ant-modal-content]:w-full [&_.ant-modal-content]:mobile:!rounded-none"
       >
