@@ -28,7 +28,7 @@ export default function PageRewards() {
         image={logo}
         amount={subReferral}
       />
-      <p className="my-2 text-xs text-v1-content-secondary">
+      <p className="my-4 text-v1-content-secondary">
         Withdrawal will be available soon...
       </p>
       {/* <RewardItem title="League" image={league} amount={0} /> */}
@@ -54,6 +54,7 @@ function RewardItem({
         loop
         muted
         playsInline
+        controls={false}
       >
         <source src={video} />
       </video>

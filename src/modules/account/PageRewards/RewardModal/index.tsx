@@ -57,7 +57,7 @@ export default function RewardModal({
               <span className="text-4xl font-semibold">{amount}</span>
             </div>
             <hr className="mb-3 mt-6 border border-v1-border-primary/20" />
-            <div>USDT Coin</div>
+            <div>USDT</div>
           </div>
           <p className="mt-6 text-xs text-v1-content-secondary">
             To withdraw your token, please go to rewards page and follow the
