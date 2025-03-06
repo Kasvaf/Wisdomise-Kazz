@@ -61,12 +61,16 @@ export function useReferralStatusQuery() {
 }
 
 export function useClaimReferralBonusBag() {
-  return useMutation(async () => {
-    return await ofetch(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
-      { method: 'post' },
-    );
-  });
+  const client = useQueryClient();
+  return useMutation(
+    async () => {
+      return await ofetch(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-claim`,
+        { method: 'post' },
+      );
+    },
+    { onSuccess: () => client.invalidateQueries(['getReferralStatus']) },
+  );
 }
 
 export function useFriendsQuery() {

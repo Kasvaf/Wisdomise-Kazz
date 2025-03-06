@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { bxCopy, bxShareAlt } from 'boxicons-quasar';
-import useNotification from 'antd/es/notification/useNotification';
+import { useState } from 'react';
 import {
   useClaimReferralBonusBag,
   useFriendsQuery,
@@ -16,6 +16,7 @@ import { isMiniApp } from 'utils/version';
 import HowReferralWorks from 'modules/account/PageReferral/HowReferralWorks';
 import { Button } from 'shared/v1-components/Button';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
+import RewardModal from 'modules/account/PageRewards/RewardModal';
 import trader from './images/trader.png';
 import { ReactComponent as Logo } from './images/logo.svg';
 import { ReactComponent as Users } from './images/users.svg';
@@ -27,10 +28,11 @@ import coin from './images/coin.png';
 
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
+  const [openRewardModal, setOpenRewardModal] = useState(false);
+  const [rewardAmount, setRewardAmount] = useState(0);
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
   const myReferralLink = useReferral();
-  const [notification, content2] = useNotification();
 
   const [copy, content] = useShare('copy');
   const [share] = useShare('share');
@@ -50,12 +52,8 @@ export default function ReferralPage() {
   };
 
   const claim = () => {
-    void claimBonusBag().then(() =>
-      notification.success({
-        message:
-          'Bonus bag claimed successfully. You can see it in rewards page',
-      }),
-    );
+    setRewardAmount(referral?.ready_to_claim ?? 0);
+    void claimBonusBag().then(() => setOpenRewardModal(true));
   };
 
   return (
@@ -236,7 +234,11 @@ export default function ReferralPage() {
         ))}
       </div>
       {content}
-      {content2}
+      <RewardModal
+        open={openRewardModal}
+        amount={rewardAmount}
+        onClose={() => setOpenRewardModal(false)}
+      />
     </PageWrapper>
   );
 }
