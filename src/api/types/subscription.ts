@@ -2,24 +2,25 @@ import { type Invoice } from 'modules/account/models';
 
 export type PlanPeriod = 'MONTHLY' | 'YEARLY';
 export type PaymentMethod = 'TOKEN' | 'CRYPTO' | 'FIAT' | 'MANUAL' | 'WSDM';
+export type SubscribtionStatus =
+  | 'active'
+  | 'past_due'
+  | 'unpaid'
+  | 'canceled'
+  | 'incomplete'
+  | 'incomplete_expired'
+  | 'trialing'
+  | 'paused';
 
 export interface SubscriptionItem {
   subscription_plan: SubscriptionPlan;
   // reason_to_create: 'TRIAL';
   payment_method: PaymentMethod;
-  status:
-    | 'active' // not-trial
-    | 'past_due'
-    | 'unpaid'
-    | 'canceled'
-    | 'incomplete'
-    | 'incomplete_expired'
-    | 'paused'
-    | 'trialing';
+  status: SubscribtionStatus;
   start_at: string; // UTC date/time
   end_at: string; // UTC date/time
   pending_invoice?: Invoice | null; // show pay-now button
-  next_subs_item?: Omit<SubscriptionItem, 'next_subs_item'>;
+  cancel_at_period_end?: boolean;
 }
 
 export interface SubscriptionPlan {

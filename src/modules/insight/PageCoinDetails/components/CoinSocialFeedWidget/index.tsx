@@ -154,7 +154,6 @@ export function CoinSocialFeedWidget({
       sizes={{
         'guest': true,
         'free': true,
-        'trial': true,
         'pro': false,
         'pro+': false,
         'pro_max': false,

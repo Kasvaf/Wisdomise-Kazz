@@ -132,7 +132,6 @@ export const CoinWhalesWidget: FC<{
         sizes={{
           'guest': true,
           'free': true,
-          'trial': 3,
           'pro': 3,
           'pro+': 3,
           'pro_max': false,

@@ -7,17 +7,17 @@ import SuccessfulPaymentMessage from './SuccessfulPaymentMessage';
 export default function PageBilling() {
   const plans = usePlansQuery();
   const invoices = useInvoicesQuery();
-  const { isLoading, level, status } = useSubscription();
+  const subscription = useSubscription();
+
+  const isLoading =
+    plans.isLoading || invoices.isLoading || subscription.isLoading;
 
   return (
-    <PageWrapper
-      className="h-full"
-      loading={isLoading || invoices.isLoading || plans.isLoading}
-    >
-      {level > 0 && status !== 'trialing' ? (
-        <SubscriptionDetail />
-      ) : (
+    <PageWrapper className="h-full" loading={isLoading}>
+      {subscription.level === 0 || subscription.status === 'canceled' ? (
         <PricingTable />
+      ) : (
+        <SubscriptionDetail />
       )}
       <SuccessfulPaymentMessage />
     </PageWrapper>

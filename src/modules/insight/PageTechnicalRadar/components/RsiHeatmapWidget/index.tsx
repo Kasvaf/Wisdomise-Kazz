@@ -34,7 +34,6 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
         sizes={{
           'guest': true,
           'free': true,
-          'trial': false,
           'pro': false,
           'pro+': false,
           'pro_max': false,

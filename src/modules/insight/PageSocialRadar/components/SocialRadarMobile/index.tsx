@@ -115,7 +115,6 @@ export const SocialRadarMobile = () => {
         sizes={{
           'guest': true,
           'free': true,
-          'trial': 3,
           'pro': false,
           'pro+': false,
           'pro_max': false,

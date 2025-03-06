@@ -6,7 +6,7 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useAccountQuery } from './account';
 
-export type UserGroup = 'guest' | 'trial' | 'free' | 'pro' | 'pro+' | 'pro_max';
+export type UserGroup = 'guest' | 'free' | 'pro' | 'pro+' | 'pro_max';
 
 export function useSubscription() {
   const { data: account, isLoading, refetch } = useAccountQuery();
@@ -21,21 +21,19 @@ export function useSubscription() {
 
   const level = isMiniApp ? 3 : plan?.level ?? 0;
 
-  const status = subs?.status ?? 'active';
+  const status = subs?.status ?? 'canceled';
 
-  const group: UserGroup = isLoggedIn
-    ? isMiniApp
-      ? 'pro_max'
-      : status === 'trialing'
-      ? 'trial'
-      : level === 0
-      ? 'free'
-      : level === 1
-      ? 'pro'
-      : level === 2
-      ? 'pro+'
-      : 'pro_max'
-    : 'guest';
+  const group: UserGroup = (() => {
+    if (!isLoggedIn) return 'guest';
+    if (isMiniApp) return 'pro_max';
+    if (status === 'active' || status === 'trialing' || status === 'past_due') {
+      if (level === 1) return 'pro';
+      if (level === 2) return 'pro+';
+      if (level === 3) return 'pro_max';
+    }
+
+    return 'free';
+  })();
 
   const ensureGroup = async (neededGroup: UserGroup | UserGroup[]) =>
     await new Promise<boolean>((resolve, reject) => {

@@ -225,7 +225,6 @@ export function ConfirmationWidget<I extends Indicator>({
         sizes={{
           'guest': true,
           'free': true,
-          'trial': 2,
           'pro': 2,
           'pro+': false,
           'pro_max': false,

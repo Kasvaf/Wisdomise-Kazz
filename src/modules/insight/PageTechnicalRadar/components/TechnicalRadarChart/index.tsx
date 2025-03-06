@@ -296,7 +296,6 @@ export const TechnicalRadarChart: FC<{
         sizes={{
           'guest': true,
           'free': true,
-          'trial': type !== 'expensive_bearish',
           'pro': type !== 'expensive_bearish',
           'pro+': false,
           'pro_max': false,
