@@ -9,11 +9,8 @@ import {
   useSubscription,
   useSubscriptionMutation,
 } from 'api';
-import useModal from 'shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
-import Button from 'shared/Button';
 import { paymentMethodText } from 'modules/account/PageBilling/SubscriptionDetail/OverviewTab/CurrentPlan';
-import PricingTable from '../../PricingTable';
 import useChangePaymentMethodModal from './useChangePaymentMethod';
 import InfoBadge from './InfoBadge';
 
@@ -26,53 +23,30 @@ export default function NextPlan() {
   const subscriptionMutation = useSubscriptionMutation();
   const stripePaymentMethod = useStripePaymentMethodsQuery();
   const hasFlag = useHasFlag();
-  const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
-    width: 1200,
-  });
 
-  const onCancelPlan = async () => {
+  const handleToggleAutoRenew = async (turnOn?: boolean) => {
     try {
-      await subscriptionMutation.mutateAsync({ subscription_plan_key: null });
-      notification.success({ message: 'Next plan canceled successfully' });
+      await subscriptionMutation.mutateAsync({
+        subscription_plan_key: turnOn ? plan?.key ?? null : null,
+      });
+      notification.success({
+        message: `Auto-Renew ${turnOn ? 'enabled' : 'canceled'} successfully`,
+      });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
   };
 
   const subItem = account.data?.subscription_item;
-  const nextSubs = subItem?.next_subs_item;
-  const paymentMethod = subItem?.next_subs_item?.payment_method;
+  const isAutoRenewEnabled = !subItem?.cancel_at_period_end;
+  const paymentMethod = subItem?.payment_method;
   const isFiat = paymentMethod === 'FIAT';
 
   return (
-    <div className="mt-10 border-t border-white/20 pt-10 mobile:mt-5 mobile:pt-5">
+    <>
       <section className="flex flex-col gap-3">
-        <h2 className="mb-1 text-xl font-semibold text-white/20">
-          {t('subscription-details.overview.next-plan.title')}
-        </h2>
-
-        {nextSubs && (
+        {isAutoRenewEnabled && (
           <>
-            <div className="flex flex-wrap items-center">
-              <Trans
-                ns="billing"
-                i18nKey="subscription-details.overview.next-plan.your-subs"
-              >
-                Your subscription plan is
-                <InfoBadge
-                  value1={nextSubs.subscription_plan.name}
-                  value2={nextSubs.subscription_plan.periodicity.toLowerCase()}
-                />
-              </Trans>
-
-              <button
-                onClick={() => openPricingTable({ isUpdate: true })}
-                className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
-              >
-                {t('subscription-details.overview.btn-change-plan')}
-              </button>
-            </div>
-
             <div>
               {t('subscription-details.overview.next-plan.pay-method')}
               {paymentMethod && (
@@ -144,37 +118,37 @@ export default function NextPlan() {
                 </div>
               )}
             </div>
-
-            <Button
-              variant="link"
-              onClick={onCancelPlan}
-              loading={subscriptionMutation.isLoading}
-              className="w-fit !p-0 !text-base !text-[#F14056]/80 underline underline-offset-4"
-            >
-              {t('subscription-details.overview.next-plan.cancel-btn')}
-            </Button>
+            <div>
+              <button
+                onClick={() => handleToggleAutoRenew(false)}
+                className="text-sm text-[#da3434] underline decoration-current underline-offset-4 disabled:animate-pulse disabled:text-white/40"
+                disabled={subscriptionMutation.isLoading}
+              >
+                {t('subscription-details.overview.next-plan.cancel-btn')}
+              </button>
+            </div>
           </>
         )}
 
-        {!nextSubs && (
+        {!isAutoRenewEnabled && (
           <Trans
             ns="billing"
             i18nKey="subscription-details.overview.next-plan.canceled"
           >
             <p>
-              Your next plan has been canceled.
+              Your subscription will not renew automatically.
               <button
-                onClick={() => openPricingTable({ isRenew: true })}
-                className="ml-2 text-sm text-[#34A3DA] underline underline-offset-4"
+                onClick={() => handleToggleAutoRenew(true)}
+                className="ml-2 text-sm text-[#34A3DA] underline underline-offset-4 disabled:animate-pulse disabled:text-white/40"
+                disabled={subscriptionMutation.isLoading}
               >
-                Renew Next Plan
+                Turn On Auto-Renew
               </button>
             </p>
           </Trans>
         )}
       </section>
-      {PricingTableMod}
       {PaymentMethodModal}
-    </div>
+    </>
   );
 }

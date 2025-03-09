@@ -46,10 +46,7 @@ export default function PricingCard({
 
   const hasUserThisPlan =
     status === 'active' && !isRenew && plan.key === userPlan?.key;
-  const hasUserThisPlanAsNextPlan =
-    status === 'active' &&
-    plan.key ===
-      account.data?.subscription_item?.next_subs_item?.subscription_plan.key;
+  const hasUserThisPlanAsNextPlan = false;
 
   const isActionButtonDisabled =
     !plan.is_active ||
