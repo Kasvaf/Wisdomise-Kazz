@@ -41,7 +41,10 @@ export default function PageCoinDetails() {
       value: 'coinoverview_exchanges',
       label: t('coin-details.tabs.markets.label'),
     },
-  ];
+  ].map(r => ({
+    ...r,
+    hidden: !document.querySelector(`#${r.value}`),
+  }));
 
   return (
     <PageWrapper>
