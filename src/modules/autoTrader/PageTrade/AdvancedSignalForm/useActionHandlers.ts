@@ -32,11 +32,9 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   const network = useActiveNetwork();
 
   const {
-    price: [price],
     leverage: [leverage],
     amount: [amount],
     quote: [quote],
-    orderType: [orderType],
     exp: [exp],
     orderExp: [orderExp],
     remainingVolume,
@@ -74,13 +72,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   const [ModalApproval, showModalApproval] = useModalApproval();
   const transferAssetsHandler = useTransferAssetsMutation(quote);
   const fireHandler = async () => {
-    if (
-      (orderType === 'limit' && !price) ||
-      !assetPrice ||
-      !address ||
-      !network
-    )
-      return;
+    if (!assetPrice || !address || !network) return;
 
     const createData: CreatePositionRequest = {
       network,

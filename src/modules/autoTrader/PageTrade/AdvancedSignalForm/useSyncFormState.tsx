@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { useEffect, useState } from 'react';
 import { initialQuoteDeposit, type Position } from 'api';
 import { type SignalItem } from 'api/builder';
@@ -21,7 +22,7 @@ function fromApiContract(items?: SignalItem[]) {
       key: x.key,
       amountRatio: roundSensible(100 * amount),
       priceExact: String(x.price_exact ?? 0),
-      applied: x.applied ?? false,
+      applied: (x.applied ?? false) || x.applied_at != null,
       appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
       removed: false,
     });
@@ -59,42 +60,37 @@ const useSyncFormState = ({
   const {
     isUpdate: [, setIsUpdate],
     amount: [, setAmount],
-    price: [, setPrice],
     quote: [quote, setQuote],
     leverage: [, setLeverage],
-    market: [, setMarket],
-    volume: [, setVolume],
-    orderType: [, setOrderType],
-    conditions: [, setConditions],
 
     maxOrders: [, setMaxOrders],
     takeProfits: [, setTakeProfits],
     stopLosses: [, setStopLosses],
     safetyOpens: [, setSafetyOpens],
-    priceUpdated: [, setPriceUpdated],
   } = formState;
 
   // reset all when asset is changed
   useEffect(() => {
-    setPriceUpdated(false);
     setTakeProfits([]);
     setStopLosses([]);
-    setSafetyOpens([]);
-    setOrderType('market');
-    setVolume('100');
-    setConditions([]);
+    setSafetyOpens([
+      {
+        amountRatio: '100',
+        applied: false,
+        isMarket: true,
+        removed: false,
+        priceExact: '',
+        key: v4(),
+      },
+    ]);
     setMaxOrders(100);
   }, [
     quote,
     baseSlug,
-    setConditions,
     setMaxOrders,
-    setOrderType,
-    setPriceUpdated,
     setSafetyOpens,
     setStopLosses,
     setTakeProfits,
-    setVolume,
   ]);
 
   const [pairSlug, setPair] = useState<string>();
@@ -103,7 +99,6 @@ const useSyncFormState = ({
     setIsUpdate(!!activePosition);
 
     if (activePosition) {
-      setMarket(activePosition.side.toLowerCase() as 'long' | 'short');
       setQuote(activePosition.quote_slug as any);
 
       const amount = initialQuoteDeposit(activePosition);
@@ -126,29 +121,35 @@ const useSyncFormState = ({
       setPair(activePosition.pair_slug);
 
       const price = firstOrder.price ?? activePosition.entry_price;
-      setPrice(price ? String(price) : '');
-
-      setOrderType(firstOrder.order_type);
-      setVolume(String((firstOrder.amount ?? 1) * 100));
-      setConditions(
-        firstOrder.condition.type === 'compare' ? [firstOrder.condition] : [],
+      setSafetyOpens(so =>
+        so?.[0].isMarket
+          ? so.map((x, i) =>
+              i ? x : { ...x, priceExact: price ? String(price) : '' },
+            )
+          : so,
       );
     }
 
+    const dummyOpen = !activePosition?.manager?.open_orders?.[0].amount;
     setSafetyOpens(safetyOpens =>
       mergeItems({
         local: safetyOpens,
         remote:
-          activePosition?.manager?.open_orders?.slice(1)?.map(x => ({
-            key: x.key,
-            amountRatio: String((x.amount ?? 0) * 100),
-            priceExact: String(
-              (x.condition.type === 'true' ? x.price : x.condition.right) ?? 0,
-            ),
-            applied: x.applied ?? false,
-            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
-            removed: false,
-          })) ?? [],
+          activePosition?.manager?.open_orders
+            ?.slice(dummyOpen ? 1 : 0)
+            ?.map((x, i) => ({
+              key: x.key,
+              amountRatio: String((x.amount ?? 0) * 100),
+              priceExact: String(
+                (x.condition.type === 'true' ? x.price : x.condition.right) ??
+                  0,
+              ),
+              applied: x.applied ?? false,
+              appliedAt:
+                x.applied && x.applied_at ? new Date(x.applied_at) : undefined,
+              removed: false,
+              isMarket: !i && !dummyOpen, // only first if no dummy was present
+            })) ?? [],
       }),
     );
 
@@ -170,16 +171,11 @@ const useSyncFormState = ({
     pairSlug,
     setAmount,
     setQuote,
-    setPrice,
     setLeverage,
-    setMarket,
     setIsUpdate,
     setStopLosses,
     setTakeProfits,
     setSafetyOpens,
-    setOrderType,
-    setConditions,
-    setVolume,
     setMaxOrders,
   ]);
 };

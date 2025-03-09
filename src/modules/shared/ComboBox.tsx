@@ -8,7 +8,7 @@ import Icon from './Icon';
 interface Props {
   options: any[];
   selectedItem: any;
-  renderItem: (item: any) => React.ReactElement;
+  renderItem?: (item: any, full?: boolean) => React.ReactElement;
   onSelect?: (item: any) => void;
   disabled?: boolean;
   className?: string;
@@ -71,7 +71,7 @@ const ComboBox: React.FC<Props> = ({
                 optionClassName,
               )}
             >
-              {renderItem(item)}
+              {renderItem?.(item, true) || item}
             </OptionItem>
           ))}
         </div>
@@ -101,7 +101,7 @@ const ComboBox: React.FC<Props> = ({
         )}
       >
         <div style={{ width: 'calc(100% - 40px)' }}>
-          {renderItem(selectedItem)}
+          {renderItem?.(selectedItem, false) || selectedItem}
         </div>
 
         {options.length > 1 && !disabled && (

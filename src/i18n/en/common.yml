@@ -35,9 +35,6 @@ filters: Filters
 network: Network
 not-available: N/A
 or: Or
-order-type:
-  limit: Limit
-  market: Market
 recently: Recently
 recommended-size: Recommended Size
 security_label: Security Label

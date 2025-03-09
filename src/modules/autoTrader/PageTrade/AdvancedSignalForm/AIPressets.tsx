@@ -11,11 +11,12 @@ import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
 import GradientBG from './GradientBG.svg';
 
-const orderToOrder = (x: OrderPresetItem) => ({
+const orderToOrder = (x: OrderPresetItem, ind?: number) => ({
   amountRatio: roundSensible(x.amount * 100),
   priceExact: String(x.price),
   applied: false,
   removed: false,
+  isMarket: ind === 0,
   key: v4(),
 });
 
@@ -43,9 +44,6 @@ const AIPresets: React.FC<{
 
   const {
     isUpdate: [isUpdate],
-    orderType: [orderType, setOrderType],
-    volume: [volume, setVolume],
-    priceUpdated: [, setPriceUpdated],
     safetyOpens: [safetyOpens, setSafetyOpens],
     takeProfits: [takeProfits, setTakeProfits],
     stopLosses: [stopLosses, setStopLosses],
@@ -54,7 +52,7 @@ const AIPresets: React.FC<{
   useEffect(() => {
     setActivePreset(activePreset < 0 ? -activePreset - 1 : 3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderType, volume, safetyOpens, takeProfits, stopLosses]);
+  }, [safetyOpens, takeProfits, stopLosses]);
 
   if (isLoading || !presets) {
     return <></>;
@@ -63,10 +61,16 @@ const AIPresets: React.FC<{
   const reset = () => {
     setIsOpen(false);
     setActivePreset(3);
-    setOrderType('market');
-    setVolume('100');
-    setPriceUpdated(false);
-    setSafetyOpens([]);
+    setSafetyOpens([
+      {
+        amountRatio: '100',
+        applied: false,
+        isMarket: true,
+        removed: false,
+        priceExact: '',
+        key: v4(),
+      },
+    ]);
     setTakeProfits([]);
     setStopLosses([]);
   };
@@ -79,10 +83,7 @@ const AIPresets: React.FC<{
     }
 
     const p = presets[ind].preset;
-    setOrderType('market');
-    setVolume(String(p.open_orders[0].amount * 100));
-    setPriceUpdated(false);
-    setSafetyOpens(p.open_orders.slice(1).map(orderToOrder));
+    setSafetyOpens(p.open_orders.map(orderToOrder));
     setTakeProfits(fromApi(p.take_profits));
     setStopLosses(fromApi(p.stop_losses));
     setActivePreset(-ind - 1);

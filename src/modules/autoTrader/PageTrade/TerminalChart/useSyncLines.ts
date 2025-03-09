@@ -67,9 +67,6 @@ const useSyncLines = ({
 }) => {
   const {
     isUpdate: [isUpdate],
-    orderType: [orderType, setOrderType],
-    price: [price, setPrice],
-    market: [market],
     stopLosses: [stopLosses, setStopLosses],
     takeProfits: [takeProfits, setTakeProfits],
     safetyOpens: [safetyOpens, setSafetyOpens],
@@ -107,25 +104,6 @@ const useSyncLines = ({
             price: marketPrice,
             bgColor: '#333',
             textColor: '#fff',
-          }),
-        );
-      }
-
-      if (orderType === 'limit' || isUpdate) {
-        lines.push(
-          makeLine({
-            chart,
-            title: 'Open',
-            price: +price,
-            bgColor: '#fff',
-            textColor: '#000',
-            editable: true,
-            onChange:
-              !isUpdate &&
-              (newOpen => {
-                setOrderType('limit');
-                setPrice(String(newOpen));
-              }),
           }),
         );
       }
@@ -174,7 +152,6 @@ const useSyncLines = ({
                       ? { ...x, priceExact: String(newPrice) }
                       : x,
                   ),
-                  market,
                   type: 'TP',
                 }),
               ),
@@ -205,7 +182,6 @@ const useSyncLines = ({
                       ? { ...x, priceExact: String(newPrice) }
                       : x,
                   ),
-                  market,
                   type: 'SL',
                 }),
               ),
@@ -225,15 +201,10 @@ const useSyncLines = ({
   }, [
     widget,
     isUpdate,
-    orderType,
     marketPrice,
-    price,
-    market,
     safetyOpens,
     stopLosses,
     takeProfits,
-    setOrderType,
-    setPrice,
     setStopLosses,
     setTakeProfits,
     setSafetyOpens,
