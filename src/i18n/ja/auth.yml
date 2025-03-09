@@ -11,6 +11,17 @@ login:
     save_on_join_paid_groups: 有料グループに参加して5000ドル以上節約
     secure: 安全でプライベート
     trusted: 50,000人以上のユーザーから信頼されています
+  images:
+    discover:
+      subtitle: レーダーの感情指標を使用して機会を見つけます。
+      title: <b>発見する</b> 新しいコイン
+    trade:
+      subtitle: AIが市場状況に応じて複数のTPとSLを自動的に設定
+      title: <b>貿易</b> AIで
+    validate:
+      subtitle: 感情とキーラベルで信号を素早く検証
+      title: <b>検証</b> AIによる通話
+  login-by-telegram: Telegramでログイン
   notice: 続行すると、次のことに同意したことになります <1>プライバシーポリシー</1> そして <3>利用規約</3>。
   step-1:
     button-submit-email: 始める
