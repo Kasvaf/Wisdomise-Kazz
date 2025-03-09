@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
-import { TourProvider } from '@reactour/tour';
 import { type PropsWithChildren } from 'react';
+import { TourProvider } from '@reactour/tour';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { Button } from 'shared/v1-components/Button';
 import { trackClick } from 'config/segment';
 
@@ -14,6 +15,8 @@ const CustomTourProvider: React.FC<PropsWithChildren> = ({ children }) => {
       onClickMask={() => {
         //
       }}
+      afterOpen={x => x && disableBodyScroll(x)}
+      beforeClose={x => x && enableBodyScroll(x)}
       steps={[]}
       padding={4}
       disableInteraction
