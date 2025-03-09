@@ -29,15 +29,19 @@ const CustomTourProvider: React.FC<PropsWithChildren> = ({ children }) => {
       components={{
         Navigation: ({ steps, currentStep, setCurrentStep, setIsOpen }) => (
           <div className="mt-4 flex justify-between">
-            <Button
-              className="block"
-              size="sm"
-              variant="outline"
-              disabled={!currentStep}
-              onClick={() => setCurrentStep(x => x - 1)}
-            >
-              Back
-            </Button>
+            {currentStep ? (
+              <Button
+                className="block"
+                size="sm"
+                variant="outline"
+                disabled={!currentStep}
+                onClick={() => setCurrentStep(x => x - 1)}
+              >
+                Back
+              </Button>
+            ) : (
+              <div className="w-6" />
+            )}
 
             <div className="flex items-center gap-2">
               {steps.map((_, i) => (
