@@ -137,15 +137,18 @@ export const SocialRadarSentiment: FC<{
             </div>
             <MiniBar value={value?.gauge_measure ?? 0} height={28} width={28} />
           </div>
-          <SRSDetails value={value} className="text-xs" />
+          <SRSDetails
+            value={value}
+            className="grid-flow-col grid-cols-2 grid-rows-2 text-xs"
+          />
         </div>
       )}
 
       {mode ===
         'card' /* TODO https://www.figma.com/design/ZCTwjDdVzZzR0PwfEmuZZW/Mobile-Experience?node-id=5700-8686&t=8WraowNEXuoxiT7l-0 */ && (
-        <div className="flex h-28 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex h-full flex-col justify-between gap-1">
+        <div className="flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
+          <div className="flex max-w-full items-center justify-between gap-2">
+            <div className="flex h-full flex-col justify-between gap-1 overflow-hidden">
               <p className="text-xs">{t('call-change.title')}</p>
               <div className="flex items-center justify-start gap-px">
                 <SRSIcon
@@ -161,7 +164,7 @@ export const SocialRadarSentiment: FC<{
             </div>
             <MiniBar value={value?.gauge_measure ?? 0} height={28} width={28} />
           </div>
-          <SRSDetails value={value} className="text-xs" />
+          <SRSDetails value={value} className="grid-cols-1 text-xs" />
         </div>
       )}
     </ClickableTooltip>

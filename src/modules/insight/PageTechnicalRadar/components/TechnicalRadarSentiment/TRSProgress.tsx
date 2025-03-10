@@ -36,7 +36,7 @@ export const TRSProgress: FC<{
   return (
     <div
       className={clsx(
-        'grid grid-cols-4 grid-rows-2 items-center gap-x-2 gap-y-1 whitespace-nowrap',
+        'grid items-center gap-x-3 gap-y-px whitespace-nowrap',
         !value?.technical_sentiment && 'grayscale',
         className,
       )}

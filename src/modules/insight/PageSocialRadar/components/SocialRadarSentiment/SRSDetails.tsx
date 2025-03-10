@@ -35,7 +35,7 @@ export const SRSDetails: FC<{
   return (
     <div
       className={clsx(
-        'grid grid-flow-col grid-cols-2 grid-rows-2 items-center gap-x-2 gap-y-1 whitespace-nowrap',
+        'grid items-center gap-x-2 gap-y-px whitespace-nowrap',
         className,
       )}
     >

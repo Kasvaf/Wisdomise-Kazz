@@ -233,7 +233,7 @@ export const TechnicalRadarSentiment: FC<{
       )}
 
       {mode === 'card' && (
-        <div className="flex h-28 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
+        <div className="flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
           <div className="flex items-center justify-between gap-2">
             <div className="flex h-full flex-col justify-between gap-1">
               <p className="text-xs">{t('common.sentiment_title')}</p>
@@ -268,7 +268,7 @@ export const TechnicalRadarSentiment: FC<{
               width={28}
             />
           </div>
-          <TRSProgress value={value} />
+          <TRSProgress value={value} className="grid-cols-[auto_1fr]" />
         </div>
       )}
     </ClickableTooltip>

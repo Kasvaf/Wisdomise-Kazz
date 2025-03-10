@@ -58,18 +58,18 @@ export default function PageCoinDetails() {
           </div>
 
           <div className="col-span-2 flex flex-col lg:gap-3 2xl:gap-6">
-            <div className="flex items-center justify-stretch gap-2 overflow-auto 2xl:gap-6">
+            <div className="grid max-w-full grid-cols-3 items-center gap-2 2xl:gap-6">
               <SocialRadarSentimentWidget
                 slug={slug}
-                className="w-full min-w-[280px] shrink"
+                className="w-full shrink"
               />
               <TechnicalRadarSentimentWidget
                 slug={slug}
-                className="w-full min-w-[280px] shrink"
+                className="w-full shrink"
               />
               <WhaleRadarSentimentWidget
                 slug={slug}
-                className="w-full min-w-[280px] shrink"
+                className="w-full shrink"
               />
             </div>
             <CoinRadarTabs options={tabs} className="sticky top-[72px] z-50" />
