@@ -114,6 +114,7 @@ export const SocialRadarMobile = () => {
         mode="mobile_table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
           'pro': false,
           'pro+': false,

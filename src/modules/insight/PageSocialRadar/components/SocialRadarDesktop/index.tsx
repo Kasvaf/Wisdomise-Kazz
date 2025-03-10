@@ -198,6 +198,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         mode="table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
           'pro': false,
           'pro+': false,

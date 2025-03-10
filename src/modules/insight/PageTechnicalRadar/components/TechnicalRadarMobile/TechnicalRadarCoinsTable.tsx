@@ -102,6 +102,7 @@ export const TechnicalRadarCoinsTable: FC<{
         mode="mobile_table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
           'pro': false,
           'pro+': false,

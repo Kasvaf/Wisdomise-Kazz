@@ -6,7 +6,13 @@ import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import { useAccountQuery } from './account';
 
-export type UserGroup = 'guest' | 'free' | 'pro' | 'pro+' | 'pro_max';
+export type UserGroup =
+  | 'guest' // user is not logged in
+  | 'initial' // user has no sub
+  | 'free' // user has no sub, but had before (trial ended / sub canceled)
+  | 'pro'
+  | 'pro+'
+  | 'pro_max';
 
 export function useSubscription() {
   const { data: account, isLoading, refetch } = useAccountQuery();
@@ -30,8 +36,8 @@ export function useSubscription() {
       if (level === 1) return 'pro';
       if (level === 2) return 'pro+';
       if (level === 3) return 'pro_max';
+      return 'initial';
     }
-
     return 'free';
   })();
 

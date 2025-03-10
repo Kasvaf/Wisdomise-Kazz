@@ -5,6 +5,7 @@ export const homeSubscriptionsConfig: ComponentProps<
   typeof AccessShield
 >['sizes'] = {
   'guest': true,
+  'initial': true,
   'free': true,
   'pro': 3,
   'pro+': false,
