@@ -1,5 +1,4 @@
 /* eslint-disable import/max-dependencies */
-import { useParams } from 'react-router-dom';
 import { bxPlusCircle } from 'boxicons-quasar';
 import { useSymbolInfo } from 'api/symbol';
 import { useAccountBalance } from 'api/chains';
@@ -15,9 +14,6 @@ const PartIntro: React.FC<{
   data: SignalFormState;
   baseSlug: string;
 }> = ({ data, baseSlug }) => {
-  const { slug } = useParams<{ slug: string }>();
-  if (!slug) throw new Error('unexpected');
-
   const {
     isUpdate: [isUpdate],
     amount: [amount, setAmount],
@@ -80,7 +76,7 @@ const PartIntro: React.FC<{
         noSuffixPad
         suffix={
           <QuoteSelector
-            baseSlug={slug}
+            baseSlug={baseSlug}
             value={quote}
             onChange={setQuote}
             disabled={isUpdate}

@@ -54,6 +54,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
     ModalConfirm,
     ModalApproval,
   } = useActionHandlers({
+    baseSlug,
     data: formState,
     activePosition,
   });

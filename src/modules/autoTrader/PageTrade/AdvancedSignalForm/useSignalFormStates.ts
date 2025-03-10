@@ -5,8 +5,7 @@ import {
   type OpenOrderResponse,
   type SignalItem,
 } from 'api/builder';
-import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { type AutoTraderSupportedQuotes } from 'api/chains';
+import { type TraderInputs } from '../types';
 
 export interface TpSlData {
   key: string;
@@ -94,12 +93,8 @@ function getSafetyOpens(
   return result;
 }
 
-const useSignalFormStates = () => {
+const useSignalFormStates = ({ quote, setQuote }: TraderInputs) => {
   const isUpdate = useState(false);
-  const [quote, setQuote] = useSearchParamAsState<AutoTraderSupportedQuotes>(
-    'quote',
-    'tether',
-  );
   const [amount, setAmount] = useState('0');
   const [leverage, setLeverage] = useState('1');
   const exp = useState('1h');

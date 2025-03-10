@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { notification } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { TonConnectError, UserRejectsError } from '@tonconnect/ui-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { unwrapErrorMessage } from 'utils/error';
 import useConfirm from 'shared/useConfirm';
 import { useLastPriceQuery } from 'api';
@@ -20,14 +20,13 @@ import useModalApproval from './useModalApproval';
 import { parseDur } from './DurationInput';
 
 interface Props {
+  baseSlug: string;
   data: SignalFormState;
   activePosition?: Position;
 }
 
-const useActionHandlers = ({ data, activePosition }: Props) => {
+const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
   const { t } = useTranslation('builder');
-  const { slug } = useParams<{ slug: string }>();
-  if (!slug) throw new Error('unexpected');
   const navigate = useNavigate();
   const network = useActiveNetwork();
 
@@ -47,7 +46,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
   } = data;
 
   const { data: assetPrice } = useLastPriceQuery({
-    slug,
+    slug: baseSlug,
     quote,
     convertToUsd: true,
   });
@@ -78,7 +77,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
       network,
       signal: {
         action: 'open',
-        pair_slug: slug + '/' + quote,
+        pair_slug: baseSlug + '/' + quote,
         leverage: { value: Number(leverage) || 1 },
         position: {
           type: 'long',
@@ -106,7 +105,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
           gasFee: res.gas_fee,
           amount,
         });
-        navigate(`/trader-positions?slug=${slug}`);
+        navigate(`/trader-positions?slug=${baseSlug}`);
       } catch (error) {
         if (error instanceof TonConnectError) {
           if (error instanceof UserRejectsError) {
@@ -184,7 +183,7 @@ const useActionHandlers = ({ data, activePosition }: Props) => {
       notification.success({
         message: t('signal-form.notif-success-close'),
       });
-      navigate(`/trader-positions?slug=${slug}`);
+      navigate(`/trader-positions?slug=${baseSlug}`);
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
