@@ -3,6 +3,7 @@ import { useSupportedPairs } from 'api';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
+import useTradeDrawer from './PageTrade/useTradeDrawer';
 
 export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   slug,
@@ -14,7 +15,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-  if (!isMobile) return null;
+  const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
 
   return (
     <Button
@@ -23,9 +24,14 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       variant={buttonProps.variant ?? 'outline'}
       loading={isLoading}
       disabled={!normSlug || !isSupported || !isLoggedIn}
-      onClick={() => navigate(`/auto-trader/${normSlug ?? ''}`)}
+      onClick={() =>
+        isMobile
+          ? navigate(`/auto-trader/${normSlug ?? ''}`)
+          : openTradeDrawer({ slug: normSlug ?? '' })
+      }
     >
       <div>
+        {TradeDrawer}
         <div>Auto Trade</div>
         {isLoggedIn ? (
           !isSupported &&
