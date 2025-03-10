@@ -8,12 +8,12 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
-import PageNoDesktop from '../PageNoDesktop';
 import BtnBack from '../../base/BtnBack';
 import Trader from './Trader';
 
 export default function PageTrade() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
@@ -27,14 +27,12 @@ export default function PageTrade() {
 
   const position = useTraderPositionQuery({ positionKey });
   useEffect(() => {
-    if (position.data && !isPositionUpdatable(position.data)) {
+    if (!isMobile) {
+      navigate(`/coin/${slug}`);
+    } else if (position.data && !isPositionUpdatable(position.data)) {
       navigate(`/trader-positions?slug=${slug}`);
     }
-  }, [navigate, position.data, slug]);
-
-  if (!useIsMobile()) {
-    return <PageNoDesktop />;
-  }
+  }, [isMobile, navigate, position.data, slug]);
 
   return (
     <PageWrapper>

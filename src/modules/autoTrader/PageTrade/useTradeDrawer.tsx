@@ -29,7 +29,7 @@ export default function useTradeDrawer() {
 
   return [
     component,
-    (inputs: DrawerInputs) => {
+    (inputs: DrawerInputs & { quote?: string }) => {
       setInputs(inputs);
       setOpen(true);
     },
