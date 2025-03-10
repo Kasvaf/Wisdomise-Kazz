@@ -164,7 +164,7 @@ export const SocialRadarSentiment: FC<{
             </div>
             <MiniBar value={value?.gauge_measure ?? 0} height={28} width={28} />
           </div>
-          <SRSDetails value={value} className="grid-cols-1 text-xs" />
+          <SRSDetails value={value} className="grid-cols-1 text-xxs" />
         </div>
       )}
     </ClickableTooltip>

@@ -16,7 +16,12 @@ function Progress({ value }: { value: number }) {
       )}
     >
       <div
-        className="absolute left-0 top-0 h-full min-w-1 rounded bg-v1-content-positive"
+        className={clsx(
+          'absolute left-0 top-0 h-full min-w-1 rounded',
+          value === 0
+            ? 'bg-v1-content-primary/50 opacity-80'
+            : 'bg-v1-content-positive',
+        )}
         style={{
           width: `${value * 100}%`,
         }}
@@ -37,7 +42,6 @@ export const TRSProgress: FC<{
     <div
       className={clsx(
         'grid items-center gap-x-3 gap-y-px whitespace-nowrap',
-        !value?.technical_sentiment && 'grayscale',
         className,
       )}
     >
