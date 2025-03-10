@@ -1,6 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinPriceWidget } from './components/CoinPriceWidget';
@@ -17,34 +17,14 @@ import { CoinWhaleListWidget } from './components/CoinWhaleListWidget';
 import { WhaleRadarSentimentWidget } from './components/WhaleRadarSentimentWidget';
 import { SocialRadarSentimentWidget } from './components/SocialRadarSentimentWidget';
 import { TechnicalRadarSentimentWidget } from './components/TechnicalRadarSentimentWidget';
+import { useCoinDetailsTabs } from './hooks/useCoinDetailsTabs';
 
 export default function PageCoinDetails() {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const isMobile = useIsMobile();
-  const { t } = useTranslation('coin-radar');
-
-  const tabs = [
-    {
-      value: 'coinoverview_trading_view',
-      label: t('coin-details.tabs.trading_view.label'),
-    },
-    {
-      value: 'coinoverview_socials',
-      label: t('coin-details.tabs.socials.label'),
-    },
-    {
-      value: 'coinoverview_whales',
-      label: t('coin-details.tabs.whale_list.label'),
-    },
-    {
-      value: 'coinoverview_exchanges',
-      label: t('coin-details.tabs.markets.label'),
-    },
-  ].map(r => ({
-    ...r,
-    hidden: !document.querySelector(`#${r.value}`),
-  }));
+  const [tabs, refreshTabs] = useCoinDetailsTabs();
+  useEffect(() => refreshTabs());
 
   return (
     <PageWrapper>
