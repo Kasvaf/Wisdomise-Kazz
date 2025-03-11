@@ -1,19 +1,17 @@
 import { bxLeftArrowAlt } from 'boxicons-quasar';
 import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
-import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
 
 const BtnBack = ({ className }: { className?: string }) => {
   const navigate = useNavigate();
   return (
     <Button
-      variant="alternative"
+      variant="ghost"
       onClick={() => navigate(-1)}
-      className={clsx(
-        className,
-        'flex h-11 w-11 items-center justify-center !px-3 !py-0',
-      )}
+      size="md"
+      className={clsx(className, 'w-md')}
     >
       <Icon name={bxLeftArrowAlt} />
     </Button>

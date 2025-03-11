@@ -18,19 +18,26 @@ export interface Tournament {
 export interface LeaderboardPrize {
   start_rank: number;
   end_rank: number;
-  items: TournamentPrizeItem[];
+  items: PrizeItem[];
 }
 
-export interface TournamentPrizeItem {
+export interface PrizeItem {
   symbol_slug: string;
   amount: string;
 }
 
 export interface LeaderboardParticipant {
   investor_key: string;
-  name: string;
+  name?: string;
   trading_volume: number;
   rank: number;
+  league_slug?: string;
+  promotion_status?: 'DEMOTING' | 'PROMOTING' | 'NEUTRAL';
+  promotion_detail?: {
+    prev_league: string;
+    next_league: string;
+    reward_items: PrizeItem[];
+  };
 }
 
 export function useTournaments(status?: GamificationStatus) {

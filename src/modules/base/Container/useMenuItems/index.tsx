@@ -138,30 +138,31 @@ const useMenuItems = () => {
       ],
     },
     {
+      // fixme fix linke and tracks
       icon: <IconQuests />,
       text: 'Quests',
-      link: '/trader-quests',
+      link: '/trader-quests/overview',
       onClick: trackClick('quests'),
       children: [
         {
           text: t('menu.overview.title'),
-          link: '/trader-quests',
-          onClick: trackClick('insight_menu'),
+          link: '/trader-quests/overview',
+          onClick: trackClick('quests'),
         },
         {
           text: t('menu.tournaments.title'),
           link: '/trader-quests/tournaments',
-          onClick: trackClick('insight_menu'),
+          onClick: trackClick('quests'),
         },
         {
           text: t('menu.league.title'),
           link: '/trader-quests/league',
-          onClick: trackClick('insight_menu'),
+          onClick: trackClick('quests'),
         },
         {
           text: t('menu.daily-trade.title'),
           link: '/trader-quests/daily',
-          onClick: trackClick('insight_menu'),
+          onClick: trackClick('quests'),
         },
       ],
     },

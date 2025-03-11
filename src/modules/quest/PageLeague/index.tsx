@@ -1,29 +1,33 @@
 import { Carousel } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { clsx } from 'clsx';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import BtnBack from 'modules/base/BtnBack';
 import {
   useLeagueLeaderboardQuery,
   useLeagueProfileQuery,
-  useLeaguesQuery,
 } from 'api/gamification';
 import Badge from 'shared/Badge';
 import Leaderboard from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
-import summit from './images/summit.png';
+import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
+import useLeague from 'modules/quest/PageLeague/useLeague';
 
 export default function PageLeague() {
-  const { data: leagues } = useLeaguesQuery();
-  const [currentLeague, setCurrentLeague] = useState(0);
+  const { profile, details, isLoading } = useLeague();
+  const [currentLeague, setCurrentLeague] = useState<number | undefined>();
   const { data: me } = useLeagueProfileQuery();
   const { data: participants } = useLeagueLeaderboardQuery(
-    leagues?.details[currentLeague].slug,
+    currentLeague ? details?.[currentLeague].slug : undefined,
   );
 
-  console.log(currentLeague);
+  useEffect(() => {
+    if (profile.league && !currentLeague)
+      setCurrentLeague(profile.league.level);
+  }, [currentLeague, profile.league]);
 
   return (
-    <PageWrapper>
+    <PageWrapper loading={isLoading}>
       <div className="mb-3 flex items-center justify-between gap-2">
         <div className="w-1/2">
           <BtnBack />
@@ -32,32 +36,49 @@ export default function PageLeague() {
         <div className="w-1/2"></div>
       </div>
       <PageTitle
+        className="mt-8"
         title="Compete, Rise, and Conquer!"
         description="Compete Weekly, Earn Points, and Climb the Ranks. Top 10 Advance and Win Prizes. Stay Competitive and Aim for the Top!"
       />
 
-      <div>
-        <Carousel
-          swipeToSlide
-          draggable
-          centerMode
-          arrows={true}
-          afterChange={current => setCurrentLeague(current)}
-        >
-          {leagues?.details.map(item => (
-            <div key={item.slug}>
-              <div className="flex flex-col items-center">
-                <Badge label="You are here" color="orange" />
-                <img src={summit} />
-                <h2>{item.name}</h2>
+      <div className="mx-auto my-8 h-48">
+        {currentLeague === undefined ? null : (
+          <Carousel
+            initialSlide={currentLeague}
+            swipeToSlide
+            infinite={false}
+            dots={false}
+            draggable
+            centerMode
+            centerPadding="30%"
+            afterChange={current => setCurrentLeague(current)}
+          >
+            {details?.reverse().map((item, index) => (
+              <div key={item.slug}>
+                <div className="relative mx-auto flex flex-col items-center">
+                  {profile.league_slug === item.slug && (
+                    <Badge
+                      label="You are here"
+                      color="orange"
+                      className="absolute top-0"
+                    />
+                  )}
+                  <LeagueIcon
+                    className={clsx(
+                      'mt-2 transition-all',
+                      currentLeague === index ? 'size-40' : 'size-32',
+                    )}
+                    slug={item.slug}
+                    isActive={currentLeague === index}
+                  />
+                  <h2>{item.name}</h2>
+                </div>
               </div>
-            </div>
-          ))}
-        </Carousel>
-        {me && participants && (
-          <Leaderboard participants={participants} me={me} />
+            ))}
+          </Carousel>
         )}
       </div>
+      <Leaderboard participants={participants} me={me} />
     </PageWrapper>
   );
 }

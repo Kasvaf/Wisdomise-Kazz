@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useReferralStatusQuery } from 'api';
 import leaderboard from './users.png';
-import bg from './bg.png';
 import gradient from './gradient.png';
 
 const Referral = () => {
@@ -12,7 +11,6 @@ const Referral = () => {
       to="/account/referral"
       className="relative mb-4 block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4"
     >
-      <img src={bg} alt="" className="absolute left-0 top-0 h-full w-full" />
       <img
         src={gradient}
         alt=""

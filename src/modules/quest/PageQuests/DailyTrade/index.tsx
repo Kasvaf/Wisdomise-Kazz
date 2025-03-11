@@ -86,7 +86,7 @@ export default function DailyTrade() {
           {currentDay > -1 && !completedToday && !completedAll && (
             <StatusChip className="mt-3">
               <div className="flex gap-2 text-xs">
-                <div className="text-xs text-v1-content-secondary">
+                <div className="text-xxs text-v1-content-secondary">
                   Streak Ends:
                 </div>
                 <div>{dayjs(nextDayEndTimestamp).fromNow(true)}</div>

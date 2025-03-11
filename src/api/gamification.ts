@@ -245,7 +245,7 @@ interface League {
   details: LeagueDetail[];
 }
 
-interface LeagueDetail {
+export interface LeagueDetail {
   name: 'Summit League';
   slug: 'summit-league' | 'pioneer-league' | 'horizon-league';
   level: number;
@@ -270,9 +270,8 @@ export const useLeagueProfileQuery = () => {
 };
 
 export const useLeagueLeaderboardQuery = (leagueSlug?: string) => {
-  console.log(leagueSlug);
   return useQuery(
-    ['leagueLeaderboard'],
+    ['leagueLeaderboard', leagueSlug],
     async () => {
       return await ofetch<LeaderboardParticipant[]>(
         `${TEMPLE_ORIGIN}/api/v1/trader/leagues/${

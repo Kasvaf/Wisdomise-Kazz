@@ -9,8 +9,8 @@ export default function Leaderboard({
   participants,
   me,
 }: {
-  participants: LeaderboardParticipant[];
-  me: LeaderboardParticipant;
+  participants?: LeaderboardParticipant[];
+  me?: LeaderboardParticipant;
 }) {
   const isTrialBannerVisible = useIsTrialBannerVisible();
   const sortedParticipants = useMemo(() => {
@@ -44,17 +44,17 @@ export default function Leaderboard({
   }, [me, participants]);
 
   return (
-    <div>
-      <div className="mb-2 flex gap-3 border-b border-v1-border-primary/20 px-3 py-2 text-xs text-v1-content-secondary">
+    <div className="rounded-xl bg-v1-surface-l2 p-3">
+      <div className="mb-2 flex gap-3 border-b border-v1-border-primary/20 px-3 pb-2 text-xs text-v1-content-secondary">
         <div>Rank</div>
         <div>Username</div>
         <div className="ml-auto">Trade Vol</div>
-        <div>Status</div>
+        {sortedParticipants[0]?.promotion_status && <div>Status</div>}
       </div>
       {sortedParticipants?.map((p, index) => (
         <div
           key={p.investor_key}
-          className="mb-2 flex h-12 items-center justify-between rounded-xl bg-v1-surface-l3 px-3"
+          className="mb-2 flex h-12 items-center justify-between rounded-xl bg-v1-surface-l3 px-3 text-xs"
         >
           <div className="w-6 shrink-0">{index + 1}</div>
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
@@ -69,7 +69,7 @@ export default function Leaderboard({
       {me && (
         <div
           className={clsx(
-            'fixed end-0 start-0 rounded-xl px-12',
+            'fixed end-0 start-0 mx-12 ml-[calc(var(--side-menu-width)+3rem)] rounded-xl border border-v1-border-primary/20 text-xs mobile:ml-12',
             isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
           )}
           style={{
