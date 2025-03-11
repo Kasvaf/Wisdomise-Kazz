@@ -77,25 +77,27 @@ const ProfileMenuContent = () => {
           >
             <div className="text-end">
               <div className="capitalize text-v1-content-brand">
-                {subscription.group.replace('_', ' ')}
+                {subscription.title}
               </div>
-              <div className="text-xs capitalize">
-                <span
-                  className={clsx(
-                    subscription.remaining
-                      ? 'text-v1-content-primary'
-                      : 'text-v1-content-negative',
-                  )}
-                >
-                  <ReadableDuration
-                    value={subscription.remaining}
-                    zeroText={t('pro:zero-hour')}
-                  />
-                </span>
-                <span className="ms-1 font-light capitalize text-v1-content-secondary">
-                  {t('billing:common.remains')}
-                </span>
-              </div>
+              {subscription.level > 0 && (
+                <div className="text-xs capitalize">
+                  <span
+                    className={clsx(
+                      subscription.remaining
+                        ? 'text-v1-content-primary'
+                        : 'text-v1-content-negative',
+                    )}
+                  >
+                    <ReadableDuration
+                      value={subscription.remaining}
+                      zeroText={t('pro:zero-hour')}
+                    />
+                  </span>
+                  <span className="ms-1 font-light capitalize text-v1-content-secondary">
+                    {t('billing:common.remains')}
+                  </span>
+                </div>
+              )}
             </div>
           </InternalItem>
         )}
