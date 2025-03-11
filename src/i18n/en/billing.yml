@@ -95,7 +95,6 @@ subscription-details:
         Auto-Renew</1></0>
       card: Future charges will be applied to the card<1></1>
       change-pay-method: Change Payment Method
-      charging: Charging your credit card<1></1>
       in-order-to-renew: In order to renew, you will have to send the transaction again on<1></1>
       pay-method: Your payment method is
 subscription-modal:

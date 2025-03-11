@@ -65,8 +65,8 @@ export default function NextPlan() {
               )}
             </div>
 
-            <div>
-              {paymentMethod === 'CRYPTO' && (
+            {paymentMethod === 'CRYPTO' && (
+              <div>
                 <Trans
                   i18nKey="subscription-details.overview.next-plan.in-order-to-renew"
                   ns="billing"
@@ -77,47 +77,36 @@ export default function NextPlan() {
                     value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
                   />
                 </Trans>
-              )}
-              {paymentMethod === 'TOKEN' &&
-                t(
+              </div>
+            )}
+            {paymentMethod === 'TOKEN' && (
+              <p>
+                {t(
                   'subscription-details.overview.next-plan.automatically-renew',
                 )}
+              </p>
+            )}
 
-              {isFiat && (
-                <div className="flex flex-col gap-3">
-                  {stripePaymentMethod.data?.data[0]?.card && (
-                    <p>
-                      <Trans
-                        ns="billing"
-                        i18nKey="subscription-details.overview.next-plan.card"
-                      >
-                        Future charges will be applied to the card
-                        <InfoBadge
-                          value1={`**** ${stripePaymentMethod.data.data[0].card.last4}`}
-                        />
-                      </Trans>
-                      <Link
-                        className="text-[#34A3DA] underline decoration-current underline-offset-4"
-                        to="/account/billing/change-stripe-card-info"
-                      >
-                        {t('stripe.change-card-info.title')}
-                      </Link>
-                    </p>
-                  )}
-                  <p>
-                    <Trans
-                      ns="billing"
-                      i18nKey="subscription-details.overview.next-plan.charging"
-                    >
-                      Charging your credit card
-                      <InfoBadge
-                        value1={'$' + (plan?.price.toString() || '')}
-                      />
-                    </Trans>
-                  </p>
-                </div>
-              )}
-            </div>
+            {isFiat && stripePaymentMethod.data?.data[0]?.card && (
+              <p>
+                <Trans
+                  ns="billing"
+                  i18nKey="subscription-details.overview.next-plan.card"
+                >
+                  Future charges will be applied to the card
+                  <InfoBadge
+                    value1={`**** ${stripePaymentMethod.data.data[0].card.last4}`}
+                  />
+                </Trans>
+                <Link
+                  className="text-[#34A3DA] underline decoration-current underline-offset-4"
+                  to="/account/billing/change-stripe-card-info"
+                >
+                  {t('stripe.change-card-info.title')}
+                </Link>
+              </p>
+            )}
+
             <div>
               <button
                 onClick={() => handleToggleAutoRenew(false)}
