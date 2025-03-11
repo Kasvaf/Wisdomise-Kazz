@@ -1,9 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { type Coin, type NetworkSecurity } from 'api/types/shared';
-import { ReactComponent as Trusted } from './trusted.svg';
-import { ReactComponent as Risk } from './risk.svg';
-import { ReactComponent as Warning } from './warning.svg';
+import { securityIcons } from '../icons';
 import { SecurityRow } from './SecurityRow';
 import { TaxesRow } from './TaxesRow';
 
@@ -69,13 +67,13 @@ export function CoinSecurityDetails({
         <div className="mt-2 flex flex-wrap items-center gap-4">
           {activeNetwork?.label.trusted && (
             <div className="inline-flex items-center gap-1 text-v1-content-positive">
-              <Trusted className="size-4 shrink-0" />
+              <securityIcons.trusted className="size-4 shrink-0" />
               {t('coin_security.trusted')}
             </div>
           )}
           {(activeNetwork?.label.risk ?? 0) > 0 && (
             <div className="inline-flex items-center gap-1 text-v1-content-negative">
-              <Risk className="size-4 shrink-0" />
+              <securityIcons.risk className="size-4 shrink-0" />
               {t('coin_security.risk', {
                 count: activeNetwork?.label.risk ?? 0,
               })}
@@ -83,7 +81,7 @@ export function CoinSecurityDetails({
           )}
           {(activeNetwork?.label.warning ?? 0) > 0 && (
             <div className="inline-flex items-center gap-1 text-v1-content-notice">
-              <Warning className="size-4 shrink-0" />
+              <securityIcons.warning className="size-4 shrink-0" />
               {t('coin_security.warning', {
                 count: activeNetwork?.label.warning ?? 0,
               })}

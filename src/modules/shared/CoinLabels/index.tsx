@@ -1,25 +1,18 @@
 import { clsx } from 'clsx';
-import { useMemo, type ReactNode } from 'react';
+import { type FC, Fragment, useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxCopy } from 'boxicons-quasar';
 import {
   type CoinNetwork,
   type Coin,
   type NetworkSecurity,
-  type CoinLabels as CoinLabelsType,
 } from 'api/types/shared';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
-import { isDebugMode } from 'utils/version';
-import { ReactComponent as Trusted } from './trusted.svg';
-import { ReactComponent as Risk } from './risk.svg';
-import { ReactComponent as Warning } from './warning.svg';
-import { ReactComponent as SocialMonthly } from './social_monthly.svg';
-import { ReactComponent as SocialWeekly } from './social_weekly.svg';
-import Hype from './hype.png';
 import { CoinSecurityDetails } from './CoinSecurityDetails';
+import { icons } from './icons';
 
 const sharedLabelClassName = clsx(
   'rounded-full px-3 py-1 text-center text-xxs',
@@ -28,90 +21,66 @@ const sharedLabelClassName = clsx(
 export function CoinLabel({
   className,
   value,
-  type = 'trend_labels',
   popup = true,
   mini = false,
 }: {
   className?: string;
   value: string;
-  type?: keyof CoinLabelsType;
   popup?: boolean | ReactNode;
   mini?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
 
   const renderData = useMemo(() => {
-    const knownLabels: Array<{
-      name: string;
-      text: string;
-      type: keyof CoinLabelsType;
-      icon: ReactNode;
-      info?: string;
-      color: string;
-    }> = [
-      {
-        name: 'hype',
-        text: 'Hype',
-        type: 'trend_labels',
-        icon: <img src={Hype} />,
-        info: t('coin_labels.hype.info'),
-        color: clsx('bg-v1-content-positive/10 text-v1-content-positive'),
-      },
-      {
-        name: 'weekly_social_beloved',
-        text: 'Social Weekly Trend',
-        type: 'trend_labels',
-        icon: <SocialWeekly />,
-        info: t('coin_labels.weekly_social_beloved.info'),
-        color: clsx(
-          'bg-v1-background-secondary-hover/10 text-v1-background-secondary-hover',
-        ),
-      },
-      {
-        name: 'monthly_social_beloved',
-        text: 'Social Monthly Trend',
-        type: 'trend_labels',
-        icon: <SocialMonthly />,
-        info: t('coin_labels.monthly_social_beloved.info'),
-        color: clsx('bg-v1-content-brand/10 text-v1-content-brand'),
-      },
-      {
-        name: 'trusted',
-        text: 'Trusted',
-        type: 'security_labels',
-        icon: <Trusted />,
-        color: clsx('bg-v1-content-positive/10 text-v1-content-positive'),
-      },
-      {
-        name: 'warning',
-        text: 'Warning',
-        type: 'security_labels',
-        icon: <Warning />,
-        color: clsx('bg-v1-content-notice/10 text-v1-content-notice'),
-      },
-      {
-        name: 'risk',
-        text: 'Risk',
-        type: 'security_labels',
-        icon: <Risk />,
-        color: clsx('bg-v1-content-negative/10 text-v1-content-negative'),
-      },
-    ];
+    const icon = (icons[value as never] as FC) ?? Fragment;
 
-    const label = knownLabels.find(x => x.type === type && x.name === value);
+    const text =
+      ({
+        weekly_social_beloved: 'Social Weekly Trend',
+        monthly_social_beloved: 'Social Monthly Trend',
+      }[value as never] as string) ?? value.split('_').join(' ');
+
+    const info = {
+      hype: t('coin_labels.hype.info'),
+      weekly_social_beloved: t('coin_labels.weekly_social_beloved.info'),
+      monthly_social_beloved: t('coin_labels.monthly_social_beloved.info'),
+    }[value as never] as string | undefined;
+
+    const classNames = {
+      positive: 'bg-v1-content-positive/10 text-v1-content-positive',
+      negative: 'bg-v1-content-negative/10 text-v1-content-negative',
+      notice: 'bg-v1-content-notice/10 text-v1-content-notice',
+      brand: 'bg-v1-background-secondary-hover/10 text-v1-content-primary/80',
+      neutral: 'bg-v1-content-brand/10 text-v1-content-brand',
+    };
+
+    const className = (() => {
+      if (value === 'hype' || value === 'trusted') return classNames.positive;
+      if (value === 'risk') return classNames.negative;
+      if (value === 'warning') return classNames.notice;
+      if (value === 'weekly_social_beloved') return classNames.brand;
+      if (
+        value.includes('downtrend') ||
+        value.includes('bearish') ||
+        value.includes('overbought')
+      )
+        return classNames.negative;
+      if (
+        value.includes('uptrend') ||
+        value.includes('bullish') ||
+        value.includes('oversold')
+      )
+        return classNames.positive;
+      return classNames.neutral;
+    })();
 
     return {
-      isKnown: !!label?.text,
-      icon: label?.icon ?? <>{'🏷️'}</>,
-      text: label?.text ?? value.split('_').join(' '),
-      info: label?.info,
-      className:
-        label?.color ??
-        clsx('bg-v1-background-secondary-hover/10 text-v1-content-primary/80'),
+      icon,
+      text,
+      info,
+      className,
     };
-  }, [t, value, type]);
-
-  if (!renderData.isKnown && !isDebugMode) return null;
+  }, [t, value]);
 
   return mini ? (
     <span
@@ -120,7 +89,7 @@ export function CoinLabel({
         className,
       )}
     >
-      {renderData.icon}
+      <renderData.icon />
     </span>
   ) : (
     <ClickableTooltip
@@ -147,7 +116,7 @@ export function CoinLabel({
         className,
       )}
     >
-      {renderData.icon} {renderData.text}
+      <renderData.icon /> {renderData.text}
     </ClickableTooltip>
   );
 }
@@ -197,14 +166,13 @@ export function CoinLabels({
       {prefix}
       {securityStatus && (
         <CoinLabel
-          type="security_labels"
           value={securityStatus}
           mini={mini}
           popup={<CoinSecurityDetails coin={coin} value={security} />}
         />
       )}
       {(labels ?? []).map(label => (
-        <CoinLabel key={label} type="trend_labels" value={label} mini={mini} />
+        <CoinLabel key={label} value={label} mini={mini} />
       ))}
       {!mini && categories && categories.length > 0 && (
         <ClickableTooltip
