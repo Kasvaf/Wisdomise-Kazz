@@ -4,7 +4,7 @@ import { type SocialRadarSentiment } from 'api';
 import Happy from './happy.png';
 import Sad from './sad.png';
 
-export const SocialSentimentIcon: FC<{
+export const SRSIcon: FC<{
   value?: SocialRadarSentiment['gauge_tag'];
   className?: string;
 }> = ({ value, className }) => (
@@ -14,7 +14,11 @@ export const SocialSentimentIcon: FC<{
     src={value === 'LONG' ? Happy : value === 'SHORT' ? Sad : Happy}
     className={clsx(
       'object-contain',
-      value !== 'LONG' && value !== 'SHORT' && 'grayscale',
+      value === 'NEUTRAL' && 'grayscale',
+      value !== 'NEUTRAL' &&
+        value !== 'LONG' &&
+        value !== 'SHORT' &&
+        'opacity-80',
       className,
     )}
   />

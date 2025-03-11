@@ -147,6 +147,8 @@ export function CoinSocialFeedWidget({
     [activeSocial, tabs],
   );
 
+  if (!messages.data?.length && !messages.isLoading) return null;
+
   return (
     <AccessShield
       mode="children"

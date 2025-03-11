@@ -42,7 +42,7 @@ menu:
   hot-coins:
     title: Social Radar
   overview:
-    title: Overview
+    title: Home
   profile:
     title: My Profile
     subtitle: Manage your socials, profile picture, personal info, and bio
@@ -50,7 +50,7 @@ menu:
     title: Referral Program
     subtitle: Invite friends, earn rewards, and claim your bonuses effortlessly
   rewards:
-    title: Claim Rewards
+    title: Rewards
     subtitle: Collect your earned rewards and enjoy the benefits!
   token:
     title: WSDM Token

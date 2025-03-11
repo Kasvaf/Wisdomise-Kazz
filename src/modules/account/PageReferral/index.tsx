@@ -1,6 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { bxCopy, bxShareAlt } from 'boxicons-quasar';
-import { useFriendsQuery, useReferralStatusQuery } from 'api';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  useClaimReferralBonusBag,
+  useFriendsQuery,
+  useReferralStatusQuery,
+} from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
@@ -11,6 +17,7 @@ import { isMiniApp } from 'utils/version';
 import HowReferralWorks from 'modules/account/PageReferral/HowReferralWorks';
 import { Button } from 'shared/v1-components/Button';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
+import RewardModal from 'modules/account/PageRewards/RewardModal';
 import trader from './images/trader.png';
 import { ReactComponent as Logo } from './images/logo.svg';
 import { ReactComponent as Users } from './images/users.svg';
@@ -22,14 +29,19 @@ import coin from './images/coin.png';
 
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
+  const [openRewardModal, setOpenRewardModal] = useState(false);
+  const [rewardAmount, setRewardAmount] = useState(0);
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
   const myReferralLink = useReferral();
+  const navigate = useNavigate();
 
   const [copy, content] = useShare('copy');
   const [share] = useShare('share');
 
   const { webApp } = useTelegram();
+  const { mutateAsync: claimBonusBag, isLoading: claimIsLoading } =
+    useClaimReferralBonusBag();
 
   const shareLink = () => {
     if (isMiniApp) {
@@ -41,8 +53,13 @@ export default function ReferralPage() {
     }
   };
 
+  const claim = () => {
+    setRewardAmount(referral?.ready_to_claim ?? 0);
+    void claimBonusBag().then(() => setOpenRewardModal(true));
+  };
+
   return (
-    <PageWrapper loading={isLoading} className="pb-32">
+    <PageWrapper loading={isLoading} className="pb-32 pt-12">
       <h1 className="mb-2">{t('page-referral.title')}</h1>
       <p className="mb-2 text-sm text-v1-content-secondary">
         {t('page-referral.subtitle')}
@@ -50,7 +67,7 @@ export default function ReferralPage() {
       <HowReferralWorks />
 
       <div
-        className="inset-x-0 bottom-0 z-10 mb-5 rounded-xl bg-v1-surface-l2 p-6 mobile:fixed mobile:mb-0 mobile:rounded-none"
+        className="inset-x-0 bottom-0 z-10 mb-5 rounded-xl bg-v1-surface-l2 px-4 py-6 mobile:fixed mobile:mb-0 mobile:rounded-none"
         style={{
           boxShadow:
             '0px -90px 25px 0px rgba(0, 0, 0, 0.00), 0px -57px 23px 0px rgba(0, 0, 0, 0.02), 0px -32px 19px 0px rgba(0, 0, 0, 0.06), 0px -14px 14px 0px rgba(0, 0, 0, 0.11), 0px -4px 8px 0px rgba(0, 0, 0, 0.13)',
@@ -149,13 +166,23 @@ export default function ReferralPage() {
               <p className="text-xs">{t('page-referral.bonus.ready')}</p>
             </div>
           </div>
-          <hr className="my-3 border-v1-border-primary/30" />
-          <p className="text-xs">{t('page-referral.bonus.description')}</p>
+          <hr className="my-3  border-v1-border-primary/30" />
+          <p className="mb-3 text-xs">
+            {t('page-referral.bonus.description')}{' '}
+            <button
+              className="underline"
+              onClick={() => navigate('/account/rewards')}
+            >
+              See your rewards
+            </button>
+          </p>
           <Button
-            variant="white"
-            className="mt-3 w-full "
+            variant="ghost"
+            className="mt-3 w-full !bg-black disabled:!bg-[unset]"
             size="md"
-            disabled={true}
+            loading={claimIsLoading}
+            disabled={referral?.ready_to_claim === 0 || claimIsLoading}
+            onClick={claim}
           >
             <Gift />
             {t('page-referral.bonus.claim')}
@@ -217,6 +244,11 @@ export default function ReferralPage() {
         ))}
       </div>
       {content}
+      <RewardModal
+        open={openRewardModal}
+        amount={rewardAmount}
+        onClose={() => setOpenRewardModal(false)}
+      />
     </PageWrapper>
   );
 }
