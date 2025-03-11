@@ -40,13 +40,6 @@ const PageAccount: FC = () => {
 
       <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1 mobile:gap-2">
         <PageCard
-          to="/account/rewards"
-          title={t('menu.rewards.title')}
-          description={t('menu.rewards.subtitle')}
-          icon={RewardIcon}
-          onClick={trackClick('rewards_menu')}
-        />
-        <PageCard
           to="/account/profile"
           title={t('menu.profile.title')}
           description={t('menu.profile.subtitle')}
@@ -130,6 +123,13 @@ const PageAccount: FC = () => {
             onClick={trackClick('game_rewards_menu')}
           />
         )}
+        <PageCard
+          to="/account/rewards"
+          title={t('menu.rewards.title')}
+          description={t('menu.rewards.subtitle')}
+          icon={RewardIcon}
+          onClick={trackClick('rewards_menu')}
+        />
       </div>
       <BtnLiveSupport />
     </PageWrapper>

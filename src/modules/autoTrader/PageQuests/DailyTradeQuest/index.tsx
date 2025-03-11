@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import DailyProgress from 'modules/autoTrader/PageQuests/DailyTradeQuest/DailyProgress';
 import { DrawerModal } from 'shared/DrawerModal';
-import { useGamification, useGamificationAction } from 'api/gamification';
+import {
+  useGamification,
+  useGamificationAction,
+  useGamificationProfile,
+} from 'api/gamification';
 import { StatusBadge } from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
 import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
 import { Button } from 'shared/v1-components/Button';
 import video from 'modules/autoTrader/PageQuests/DailyTradeQuest/video.webm';
-import RewardModal from './RewardModal';
+import RewardModal from 'modules/account/PageRewards/RewardModal';
 import box from './box.png';
 import { ReactComponent as Bg } from './bg.svg';
 import { ReactComponent as Stars } from './stars.svg';
@@ -19,6 +23,7 @@ import { ReactComponent as Lock } from './lock.svg';
 export default function DailyTradeQuest() {
   const [open, setOpen] = useState(false);
   const [openReward, setOpenReward] = useState(false);
+  const [rewardAmount, setRewardAmount] = useState(0);
   const {
     activeDay,
     currentDay,
@@ -28,6 +33,7 @@ export default function DailyTradeQuest() {
     nextDayEndTimestamp,
     setRewardClaimed,
   } = useGamification();
+  const { data } = useGamificationProfile();
   const { mutateAsync } = useGamificationAction();
   const navigate = useNavigate();
 
@@ -42,6 +48,9 @@ export default function DailyTradeQuest() {
   };
 
   const claim = () => {
+    if (data?.profile.customAttributes.boxRewardAmount) {
+      setRewardAmount(+data.profile.customAttributes.boxRewardAmount);
+    }
     void mutateAsync({ event_name: 'claim' }).then(() => {
       setOpen(false);
       setOpenReward(true);
@@ -180,7 +189,11 @@ export default function DailyTradeQuest() {
           <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l4/80 to-75%"></div>
         </div>
       </DrawerModal>
-      <RewardModal open={openReward} onClose={() => setOpenReward(false)} />
+      <RewardModal
+        open={openReward}
+        onClose={() => setOpenReward(false)}
+        amount={rewardAmount}
+      />
     </>
   );
 }
