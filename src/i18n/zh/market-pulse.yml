@@ -17,6 +17,7 @@ common:
   macd_wise_scoring: MACD 明智评分
   market_cap: 市值
   no_divergence: 无分歧
+  no_sentiment: 无法使用
   overview: 概述
   price_change: 价格变动
   price_change_24h: 价格变动（24小时）

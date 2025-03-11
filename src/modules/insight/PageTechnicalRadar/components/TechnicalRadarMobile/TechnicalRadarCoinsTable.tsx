@@ -8,7 +8,7 @@ import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { TechnicalSentiment } from '../TechnicalSentiment';
+import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
 
 export const TechnicalRadarCoinsTable: FC<{
@@ -63,7 +63,7 @@ export const TechnicalRadarCoinsTable: FC<{
       },
       {
         key: 'sentiment',
-        render: row => <TechnicalSentiment value={row} mode="summary" />,
+        render: row => <TechnicalRadarSentiment value={row} mode="mini" />,
       },
       {
         key: 'labels',

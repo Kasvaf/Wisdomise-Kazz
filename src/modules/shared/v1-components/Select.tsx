@@ -223,10 +223,12 @@ export function Select<V, M extends boolean = false>({
 
   useEffect(() => {
     if (!isOpen) onSearch?.('');
-    if (isOpen && searchRef.current && !isMobile) {
-      searchRef.current.focus();
-    }
     if (isOpen) {
+      const focusTimeout = setTimeout(() => {
+        if (searchRef.current && !isMobile) {
+          searchRef.current?.focus();
+        }
+      }, 100);
       const blurHandler = (e: FocusEvent) => {
         if (
           !contentRef.current?.contains(e?.relatedTarget as never) &&
@@ -238,6 +240,7 @@ export function Select<V, M extends boolean = false>({
       window.addEventListener('focusout', blurHandler);
       return () => {
         window.removeEventListener('focusout', blurHandler);
+        clearTimeout(focusTimeout);
       };
     }
   }, [isOpen, isMobile, onSearch]);

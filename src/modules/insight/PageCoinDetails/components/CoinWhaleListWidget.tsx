@@ -13,8 +13,17 @@ export function CoinWhaleListWidget({
   if (!coinOverview.data?.symbol) return null;
   return (
     <>
-      <CoinWhalesWidget coin={coinOverview.data.symbol} type="active" id={id} />
-      <CoinWhalesWidget coin={coinOverview.data.symbol} type="holding" />
+      <CoinWhalesWidget
+        coin={coinOverview.data.symbol}
+        type="active"
+        id={id}
+        noEmptyState
+      />
+      <CoinWhalesWidget
+        coin={coinOverview.data.symbol}
+        type="holding"
+        noEmptyState
+      />
     </>
   );
 }

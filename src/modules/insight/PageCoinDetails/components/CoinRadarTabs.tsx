@@ -1,18 +1,25 @@
-import { type ReactNode } from 'react';
+import { type ComponentProps } from 'react';
 import { clsx } from 'clsx';
-import Tabs from 'shared/Tabs';
-import { useScrollPointTabs } from '../hooks/useScrollPointTabs';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { useScrollPoint } from '../hooks/useScrollPoint';
 
 export function CoinRadarTabs({
   className,
-  value,
+  options,
 }: {
   className?: string;
-  value: Array<{ key: string; label: ReactNode }>;
+  options: ComponentProps<typeof ButtonSelect<string>>['options'];
 }) {
-  const scrollPointTabs = useScrollPointTabs(value, 350);
-
+  const { onChange, value } = useScrollPoint(options, 350);
   return (
-    <Tabs className={clsx('mobile:pe-10', className)} {...scrollPointTabs} />
+    <div className={clsx('w-full bg-v1-surface-l1 py-2', className)}>
+      <ButtonSelect
+        value={value}
+        options={options}
+        onChange={onChange}
+        surface={1}
+        className="rounded-none"
+      />
+    </div>
   );
 }
