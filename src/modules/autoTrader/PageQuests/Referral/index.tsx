@@ -1,16 +1,21 @@
+import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useReferralStatusQuery } from 'api';
 import leaderboard from './users.png';
 import bg from './bg.png';
 import gradient from './gradient.png';
 
-const Referral = () => {
+const Referral: React.FC<{ className?: string }> = ({ className }) => {
   const { data: referralStatus } = useReferralStatusQuery();
 
   return (
     <NavLink
       to="/account/referral"
-      className="relative mb-4 block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4"
+      className={clsx(
+        'relative block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4',
+        'hover:saturate-200',
+        className,
+      )}
     >
       <img src={bg} alt="" className="absolute left-0 top-0 h-full w-full" />
       <img

@@ -16,7 +16,7 @@ import { ReactComponent as Stars } from './stars.svg';
 import { ReactComponent as Arrow } from './arrow.svg';
 import { ReactComponent as Lock } from './lock.svg';
 
-export default function DailyTradeQuest() {
+export default function DailyTradeQuest({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const [openReward, setOpenReward] = useState(false);
   const {
@@ -54,7 +54,11 @@ export default function DailyTradeQuest() {
     <>
       <div
         onClick={() => setOpen(true)}
-        className="relative mb-4 flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4"
+        className={clsx(
+          'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4',
+          'cursor-pointer hover:saturate-200',
+          className,
+        )}
       >
         <Bg className="absolute top-0 h-full" />
         <div className="relative">

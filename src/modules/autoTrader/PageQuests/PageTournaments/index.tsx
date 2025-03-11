@@ -8,24 +8,21 @@ const Tournaments = () => {
 
   return (
     <>
-      <div className="mb-3 flex items-center justify-between gap-2">
-        <div className="w-1/2">
-          <BtnBack />
-        </div>
+      <div className="mb-3 flex items-center gap-2">
+        <BtnBack />
         <div className="shrink-0 text-center text-base font-medium">
           Tournaments
         </div>
-        <div className="w-1/2"></div>
       </div>
-      <div>
+      <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
         {(tournaments || [])?.map(t => (
           <Link
-            className="block snap-center"
+            className="block snap-center hover:saturate-200"
             to={`/trader-quests/tournaments/${t.key}`}
             key={t.key}
           >
             <TournamentCard
-              className="h-full min-w-[80vw]"
+              className="h-full mobile:min-w-[80vw]"
               key={t.key}
               tournament={t}
             />

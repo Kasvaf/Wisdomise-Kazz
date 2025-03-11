@@ -60,14 +60,11 @@ export default function PageTournamentDetail() {
   return (
     <TournamentsOnboarding>
       <PageWrapper loading={isLoading} className="pb-10">
-        <div className="mb-3 flex items-center justify-between gap-2">
-          <div className="w-1/2">
-            <BtnBack />
-          </div>
+        <div className="mb-3 flex items-center gap-2">
+          <BtnBack />
           <div className="shrink-0 text-center text-base font-medium">
             {tournament?.name}
           </div>
-          <div className="w-1/2"></div>
         </div>
         {tournament && (
           <TournamentCard tournament={tournament} hasDetail={true} />
