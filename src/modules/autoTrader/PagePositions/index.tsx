@@ -5,10 +5,12 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
+import useIsMobile from 'utils/useIsMobile';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import PositionsList from './PositionsList';
 
 const PagePositions = () => {
+  const isMobile = useIsMobile();
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
     'filter',
     'active',
@@ -28,12 +30,12 @@ const PagePositions = () => {
           ]}
           value={filter}
           onChange={setFilter}
-          className="mobile:w-full"
-          itemsClassName="enabled:aria-checked:bg-v1-border-brand"
+          className="w-60 mobile:w-full"
+          itemsClassName="enabled:aria-checked:!bg-v1-content-brand"
         />
 
         <CoinSelect
-          className="mobile:w-full"
+          className="w-80 mobile:w-full"
           filterTokens={x => x !== 'tether'}
           value={slug}
           priceExchange="auto"
@@ -47,16 +49,20 @@ const PagePositions = () => {
       <PositionsList slug={slug} isOpen={filter === 'active'} />
 
       {filter === 'active' && slug && (
-        <Button
-          variant="brand"
+        <div
           className={clsx(
-            'fixed end-4 start-4 z-50',
-            isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
+            isMobile ? 'fixed end-4 start-4 z-50' : 'mt-6 flex justify-center',
+            isMobile ? (isTrialBannerVisible ? 'bottom-28' : 'bottom-20') : '',
           )}
-          to={`/auto-trader/${slug}`}
         >
-          Start Trading
-        </Button>
+          <Button
+            variant="brand"
+            to={`/auto-trader/${slug}`}
+            className={clsx('block', isMobile ? 'w-full' : 'w-80')}
+          >
+            Start Trading
+          </Button>
+        </div>
       )}
     </PageWrapper>
   );
