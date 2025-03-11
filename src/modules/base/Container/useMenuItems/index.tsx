@@ -128,7 +128,6 @@ const useMenuItems = () => {
           text: t('menu.rewards.title'),
           link: '/account/rewards',
           onClick: trackClick('rewards_menu'),
-          hide: !isMobile,
         },
         ...(account.data?.telegram_code && hasFlag('/mini-login')
           ? [
