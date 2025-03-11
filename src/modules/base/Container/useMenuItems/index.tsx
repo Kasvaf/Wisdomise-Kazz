@@ -78,14 +78,31 @@ const useMenuItems = () => {
     },
     {
       icon: <IconPositions />,
-      text: isMobile ? 'Trades' : 'Auto Trader',
+      text: 'Trades',
       link: '/trader-positions',
+      hide: !isMobile,
     },
     {
       icon: <IconQuests />,
       text: 'Quest',
       link: '/trader-quests',
       hide: !isMobile,
+    },
+    {
+      icon: <IconPositions />,
+      text: 'Auto Trader',
+      link: '/trader-positions',
+      hide: isMobile,
+      children: [
+        {
+          text: 'Positions',
+          link: '/trader-positions',
+        },
+        {
+          text: 'Quests',
+          link: '/trader-quests',
+        },
+      ],
     },
     {
       icon: <IconAccount />,
