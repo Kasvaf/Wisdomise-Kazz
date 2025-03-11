@@ -36,8 +36,10 @@ menu:
     title: コイン
   hot-coins:
     title: ソーシャルレーダー
+  notification-center:
+    title: 通知
   overview:
-    title: 概要
+    title: 家
   profile:
     subtitle: ログイン情報の管理
     title: プロフィール
