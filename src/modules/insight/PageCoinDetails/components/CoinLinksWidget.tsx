@@ -12,6 +12,7 @@ import {
 import { useCoinDetails } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
+import useIsMobile from 'utils/useIsMobile';
 
 function LinkBadge({
   icon,
@@ -25,7 +26,7 @@ function LinkBadge({
   return (
     <a
       href={href}
-      className="inline-flex h-6 items-center gap-1 rounded-full bg-v1-surface-l3 px-2 text-xs text-v1-content-primary transition-all hover:brightness-110 active:brightness-90"
+      className="inline-flex h-6 items-center gap-1 rounded-full px-2 text-xs text-v1-content-primary transition-all bg-v1-surface-l-next hover:brightness-110 active:brightness-90"
       target="_blank"
       rel="noreferrer"
     >
@@ -37,6 +38,7 @@ function LinkBadge({
 
 export function CoinLinksWidget({ id, slug }: { slug: string; id?: string }) {
   const { t } = useTranslation('coin-radar');
+  const isMobile = useIsMobile();
   const coinOverview = useCoinDetails({ slug });
   const communityData = coinOverview.data?.community_data;
   if (!communityData) return null;
@@ -45,7 +47,9 @@ export function CoinLinksWidget({ id, slug }: { slug: string; id?: string }) {
     <OverviewWidget
       loading={coinOverview.isInitialLoading}
       id={id}
-      contentClassName="space-y-8"
+      contentClassName="space-y-8 mobile:space-y-4"
+      surface={isMobile ? 3 : 1}
+      className="mobile:p-0"
     >
       <div className="space-y-2">
         <label className="text-xs font-normal text-v1-content-primary">

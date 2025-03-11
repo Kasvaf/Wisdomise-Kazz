@@ -1,15 +1,12 @@
-import { type TabsProps } from 'antd';
-import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { type ComponentProps, useEffect, useRef, useState } from 'react';
+import { type ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import useIsMobile from 'utils/useIsMobile';
 
-export const useScrollPointTabs = (
-  items: Array<{
-    key: string;
-    label: ReactNode;
-  }>,
+export const useScrollPoint = (
+  options: ComponentProps<typeof ButtonSelect<string>>['options'],
   threshold: number,
-): Partial<TabsProps> => {
-  const [activeKey, setActiveKey] = useState(items[0].key);
+): Pick<ComponentProps<typeof ButtonSelect<string>>, 'onChange' | 'value'> => {
+  const [value, setValue] = useState(options[0].value);
   const ignoreScroll = useRef(false);
   const isMobile = useIsMobile();
 
@@ -20,27 +17,27 @@ export const useScrollPointTabs = (
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         if (ignoreScroll.current) return;
-        let closestItem = { key: '', distance: Number.POSITIVE_INFINITY };
-        for (const item of items) {
-          const el = document.querySelector<HTMLElement>(`#${item.key}`);
+        let closestItem = { value: '', distance: Number.POSITIVE_INFINITY };
+        for (const item of options) {
+          const el = document.querySelector<HTMLElement>(`#${item.value}`);
           if (!el) continue;
           const { top: elTop, height: elHeight } = el.getBoundingClientRect();
           const elCenter = elTop + elHeight / 2;
           const viewportCenter = window.innerHeight / 2 + threshold / 2;
           const distanceToCenter = Math.abs(elCenter - viewportCenter);
           if (distanceToCenter < closestItem.distance) {
-            closestItem = { key: item.key, distance: distanceToCenter };
+            closestItem = { value: item.value, distance: distanceToCenter };
           }
         }
 
-        setActiveKey(closestItem.key || items[0].key);
+        setValue(closestItem.value || options[0].value);
       }, 100);
     };
     window.addEventListener('scroll', scrollHandler);
     return () => {
       window.removeEventListener('scroll', scrollHandler);
     };
-  }, [items, threshold, isMobile]);
+  }, [options, threshold, isMobile]);
 
   const handleClick = (newActiveKey: string) => {
     if (!newActiveKey) return;
@@ -52,7 +49,7 @@ export const useScrollPointTabs = (
         ignoreScroll.current = false;
       }, 1500);
     } catch {}
-    setActiveKey(newActiveKey);
+    setValue(newActiveKey);
     el.scrollIntoView({
       block: 'center',
       behavior: 'smooth',
@@ -60,8 +57,7 @@ export const useScrollPointTabs = (
   };
 
   return {
-    activeKey,
-    items,
-    onTabClick: handleClick,
+    value,
+    onChange: handleClick,
   };
 };

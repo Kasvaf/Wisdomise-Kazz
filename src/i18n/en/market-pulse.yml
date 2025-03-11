@@ -6,6 +6,7 @@ common:
   macd_wise_scoring: MACD Wise Scoring
   market_cap: Market Cap
   no_divergence: No Divergence
+  no_sentiment: Not Available
   price_change: Price Change
   price_change_24h: Price Change (24H)
   rsi: RSI
@@ -28,7 +29,7 @@ keywords:
       Signals a Possible Downtrend.
     label_equiv: Bearish
     label_exact: MACD Bearish Divergence
-    label_small: MACD DIV
+    label_small: MACD Div
   macd_bullish:
     title: MACD <b>Bullish Confirmation</b>
     info: >-
@@ -36,17 +37,17 @@ keywords:
       Shift and a Bullish Trend Is Forming.
     label_equiv: Bullish
     label_exact: MACD Bullish Divergence
-    label_small: MACD DIV
+    label_small: MACD Div
   macd_cross_down:
     info: MACD Crossing Below The Signal Line Indicates Bearish Momentum
     label_equiv: Down-Trend
     label_exact: MACD Bearish Cross Signal Line
-    label_small: MACD CROSS
+    label_small: MACD Cross
   macd_cross_up:
     info: MACD Crossing Above The Signal Line Indicates Bullish Momentum
     label_equiv: Up-Trend
     label_exact: MACD Bullish Cross Signal Line
-    label_small: MACD CROSS
+    label_small: MACD Cross
   rsi_bearish:
     title: RSI <b>Bearish Confirmation</b>
     info: >-
@@ -55,7 +56,7 @@ keywords:
     label_equiv: Bearish
     label_exact: RSI Bearish Divergence
     label_semi: Bearish Divergence
-    label_small: RSI DIV
+    label_small: RSI Div
   rsi_bullish:
     title: RSI <b>Bullish Confirmation</b>
     info: >-
@@ -64,7 +65,7 @@ keywords:
     label_equiv: Bullish
     label_exact: RSI Bullish Divergence
     label_semi: Bullish Divergence
-    label_small: RSI DIV
+    label_small: RSI Div
   rsi_macd_bearish:
     info: Price Rises While RSI/MACD Falls, Hinting at a Possible Downward Reversal
     label_exact: RSI/MACD Bearish Divergence
@@ -83,6 +84,7 @@ keywords:
     label_exact: RSI Oversold
     label_range: Oversold Area
     label_small: RSI OB/OS
+not-available: ''
 screener:
   activated:
     title: Technical Radar Screener Activated!

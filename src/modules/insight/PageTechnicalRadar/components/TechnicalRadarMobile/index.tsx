@@ -10,7 +10,7 @@ import {
   type TechnicalRadarView,
   TechnicalRadarViewSelect,
 } from '../TechnicalRadarViewSelect';
-import { TechnicalSentiment } from '../TechnicalSentiment';
+import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
 import { TechnicalRadarCoinsCharts } from './TechnicalRadarCoinsCharts';
 
@@ -66,7 +66,11 @@ export const TechnicalRadarMobile = () => {
           <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />
         )}
         {selectedRow && (
-          <TechnicalSentiment value={selectedRow} mode="expanded" />
+          <TechnicalRadarSentiment
+            value={selectedRow}
+            mode="expanded"
+            className="w-full"
+          />
         )}
       </CoinPreDetailModal>
     </>

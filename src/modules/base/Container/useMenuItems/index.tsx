@@ -42,7 +42,7 @@ const useMenuItems = () => {
           text: t('menu.overview.title'),
           link: '/coin-radar/overview',
           onClick: trackClick('insight_menu'),
-          badge: 'beta',
+          badge: 'new',
         },
         {
           text: t('menu.hot-coins.title'),
@@ -128,7 +128,6 @@ const useMenuItems = () => {
           text: t('menu.rewards.title'),
           link: '/account/rewards',
           onClick: trackClick('rewards_menu'),
-          hide: !isMobile,
         },
         ...(account.data?.telegram_code && hasFlag('/mini-login')
           ? [

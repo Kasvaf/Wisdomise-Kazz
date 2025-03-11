@@ -244,8 +244,10 @@ common:
   category: カテゴリ
   chain: 鎖
   chains: チェーン
+  description: 説明
   exchange: 取引所
   filters: フィルター
+  info: 情報
   labels: ラベル
   load_more: さらに読み込む
   native_coin: ネイティブコイン
@@ -257,6 +259,7 @@ common:
   security_label: セキュリティラベル
   source: ソース
   trend_label: トレンドラベル
+  wise_labels: 賢いラベル
 contract-address:
   multiple: 複数のアドレス
 onboarding:

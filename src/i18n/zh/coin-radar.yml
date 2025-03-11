@@ -240,8 +240,10 @@ common:
   category: 类别
   chain: 链
   chains: 链条
+  description: 描述
   exchange: 交易所
   filters: 筛选器
+  info: 信息
   labels: 标签
   load_more: 加载更多
   native_coin: 原生币
@@ -253,6 +255,7 @@ common:
   security_label: 安全标签
   source: 来源
   trend_label: 潮流标签
+  wise_labels: 明智的标签
 contract-address:
   multiple: 多个地址
 onboarding:

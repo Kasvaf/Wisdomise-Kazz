@@ -63,6 +63,9 @@ sections:
       wallet-address: ウォレットアドレス
     title: トップクジラリスト
 sentiment:
+  buy: 買う
+  hold: 所有
+  sell: 売る
   title: クジラの感情
 top_coins:
   buy_volume:

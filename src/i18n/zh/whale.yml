@@ -61,6 +61,9 @@ sections:
       wallet-address: 錢包地址
     title: 巨鯨排行榜
 sentiment:
+  buy: 購買
+  hold: 抓住
+  sell: 卖
   title: 鲸鱼情绪
 top_coins:
   buy_volume:
