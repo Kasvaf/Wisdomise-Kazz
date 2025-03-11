@@ -46,13 +46,6 @@ const PageAccount: FC = () => {
           icon={ProfileIcon}
           onClick={trackClick('profile_menu')}
         />
-        <PageCard
-          to="/account/rewards"
-          title={t('menu.rewards.title')}
-          description={t('menu.rewards.subtitle')}
-          icon={RewardIcon}
-          onClick={trackClick('rewards_menu')}
-        />
         {!isMiniApp && (
           <PageCard
             to="/account/billing"
@@ -130,6 +123,13 @@ const PageAccount: FC = () => {
             onClick={trackClick('game_rewards_menu')}
           />
         )}
+        <PageCard
+          to="/account/rewards"
+          title={t('menu.rewards.title')}
+          description={t('menu.rewards.subtitle')}
+          icon={RewardIcon}
+          onClick={trackClick('rewards_menu')}
+        />
       </div>
       <BtnLiveSupport />
     </PageWrapper>
