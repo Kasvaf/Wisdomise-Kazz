@@ -32,9 +32,11 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       }
     >
       <div>
-        <ActiveNetworkProvider base={normSlug} setOnLayout>
-          {TradeDrawer}
-        </ActiveNetworkProvider>
+        {isLoggedIn && isSupported && !isLoading && (
+          <ActiveNetworkProvider base={normSlug} setOnLayout>
+            {TradeDrawer}
+          </ActiveNetworkProvider>
+        )}
 
         <div>Auto Trade</div>
         {isLoggedIn ? (
