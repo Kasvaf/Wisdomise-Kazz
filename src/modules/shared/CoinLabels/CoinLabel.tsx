@@ -22,14 +22,81 @@ export function CoinLabel({
 
     const text =
       ({
-        weekly_social_beloved: 'Social Weekly Trend',
-        monthly_social_beloved: 'Social Monthly Trend',
-      }[value as never] as string) ?? value.split('_').join(' ');
+        hype: t('coin_labels.hype.title'),
+        weekly_social_beloved: t('coin_labels.weekly_social_beloved.title'),
+        monthly_social_beloved: t('coin_labels.monthly_social_beloved.title'),
+        long_term_uptrend_confirmation: t(
+          'coin_labels.long_term_uptrend_confirmation.title',
+        ),
+        long_term_downtrend_confirmation: t(
+          'coin_labels.long_term_downtrend_confirmation.title',
+        ),
+        long_term_bullish_cheap: t('coin_labels.long_term_bullish_cheap.title'),
+        long_term_bearish_overpriced: t(
+          'coin_labels.long_term_bearish_overpriced.title',
+        ),
+        long_term_oversold_opportunity: t(
+          'coin_labels.long_term_oversold_opportunity.title',
+        ),
+        long_term_overbought_risk: t(
+          'coin_labels.long_term_overbought_risk.title',
+        ),
+        short_term_uptrend_confirmation: t(
+          'coin_labels.short_term_uptrend_confirmation.title',
+        ),
+        short_term_downtrend_confirmation: t(
+          'coin_labels.short_term_downtrend_confirmation.title',
+        ),
+        short_term_bullish_cheap: t(
+          'coin_labels.short_term_bullish_cheap.title',
+        ),
+        short_term_bearish_overpriced: t(
+          'coin_labels.short_term_bearish_overpriced.title',
+        ),
+        short_term_oversold_opportunity: t(
+          'coin_labels.short_term_oversold_opportunity.title',
+        ),
+        short_term_overbought_risk: t(
+          'coin_labels.short_term_overbought_risk.title',
+        ),
+      }[value as never] as string | undefined) ?? value.split('_').join(' ');
 
     const info = {
       hype: t('coin_labels.hype.info'),
       weekly_social_beloved: t('coin_labels.weekly_social_beloved.info'),
       monthly_social_beloved: t('coin_labels.monthly_social_beloved.info'),
+      long_term_uptrend_confirmation: t(
+        'coin_labels.long_term_uptrend_confirmation.info',
+      ),
+      long_term_downtrend_confirmation: t(
+        'coin_labels.long_term_downtrend_confirmation.info',
+      ),
+      long_term_bullish_cheap: t('coin_labels.long_term_bullish_cheap.info'),
+      long_term_bearish_overpriced: t(
+        'coin_labels.long_term_bearish_overpriced.info',
+      ),
+      long_term_oversold_opportunity: t(
+        'coin_labels.long_term_oversold_opportunity.info',
+      ),
+      long_term_overbought_risk: t(
+        'coin_labels.long_term_overbought_risk.info',
+      ),
+      short_term_uptrend_confirmation: t(
+        'coin_labels.short_term_uptrend_confirmation.info',
+      ),
+      short_term_downtrend_confirmation: t(
+        'coin_labels.short_term_downtrend_confirmation.info',
+      ),
+      short_term_bullish_cheap: t('coin_labels.short_term_bullish_cheap.info'),
+      short_term_bearish_overpriced: t(
+        'coin_labels.short_term_bearish_overpriced.info',
+      ),
+      short_term_oversold_opportunity: t(
+        'coin_labels.short_term_oversold_opportunity.info',
+      ),
+      short_term_overbought_risk: t(
+        'coin_labels.short_term_overbought_risk.info',
+      ),
     }[value as never] as string | undefined;
 
     const className = (() => {

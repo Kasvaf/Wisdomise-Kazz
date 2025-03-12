@@ -20,17 +20,80 @@ call-change:
   short_desciption: Risk Of Decline
 coin_labels:
   hype:
+    title: Hype
     info: >-
       This label identifies symbols that are currently experiencing a surge in
       social media activity. These symbols have been mentioned by a significant
       number of unique accounts across multiple social media channels within a
       short time frame. This label indicates a potential trend or buzz around
       the symbol, suggesting increased public interest or speculation.
+  long_term_bearish_overpriced:
+    title: Long Term Bearish Overpriced
+    info: >-
+      The asset is overvalued in the long run and is showing signs of a
+      potential bearish shift.
+  long_term_bullish_cheap:
+    title: Long Term Bullish Cheap
+    info: >-
+      The asset appears undervalued in the long run while showing signs of a
+      potential bullish reversal.
+  long_term_downtrend_confirmation:
+    title: Long Term Downtrend Confirmation
+    info: >-
+      The asset is in a confirmed long-term downtrend, suggesting ongoing
+      selling pressure.
+  long_term_overbought_risk:
+    title: Long Term Overbought Risk
+    info: >-
+      The asset is in a historically high-price zone, suggesting a possible
+      long-term correction.
+  long_term_oversold_opportunity:
+    title: Long Term Oversold Opportunity
+    info: >-
+      The asset is in a historically low-price zone, indicating a possible
+      long-term buying opportunity.
+  long_term_uptrend_confirmation:
+    title: Long Term Uptrend Confirmation
+    info: >-
+      The asset is showing a sustained uptrend over a longer time frame,
+      indicating upward momentum.
   monthly_social_beloved:
+    title: Social Monthly Trend
     info: >-
       This label marks symbols with strong social media presence and mentions by
       many unique accounts over the past month.
+  short_term_bearish_overpriced:
+    title: Short Term Bearish Overpriced
+    info: >-
+      The asset is temporarily overvalued and may face short-term downward
+      pressure.
+  short_term_bullish_cheap:
+    title: Short Term Bullish Cheap
+    info: >-
+      The asset is temporarily undervalued, with a chance of a short-term
+      bullish move.
+  short_term_downtrend_confirmation:
+    title: Short Term Downtrend Confirmation
+    info: >-
+      The asset is showing short-term weakness, indicating possible further
+      decline.
+  short_term_overbought_risk:
+    title: Short Term Overbought Risk
+    info: >-
+      The asset is short-term overbought and could see a minor pullback or
+      consolidation.
+  short_term_oversold_opportunity:
+    title: Short Term Oversold Opportunity
+    info: >-
+      The asset is experiencing a short-term dip, which may present a quick
+      buying opportunity.
+  short_term_uptrend_confirmation:
+    title: Short Term Uptrend Confirmation
+    info: >-
+      The asset is gaining upward momentum in the short term, supporting a
+      bullish bias.
   weekly_social_beloved:
+    title: Social Weekly Trend
     info: >-
       This label marks symbols that were popular on social media over the past
       week. These symbols are frequently mentioned, showing high interest and
