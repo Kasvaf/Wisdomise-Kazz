@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { DrawerModal } from 'shared/DrawerModal';
 import { type AutoTraderSupportedQuotes } from 'api/chains';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { type TraderInputs } from './types';
 import Trader from './Trader';
 
@@ -21,7 +22,9 @@ export default function useTradeDrawer() {
         width={400}
       >
         {inputs && open && (
-          <Trader quote={quote} setQuote={setQuote} {...inputs} />
+          <ActiveNetworkProvider base={inputs.slug} quote={quote}>
+            <Trader quote={quote} setQuote={setQuote} {...inputs} />
+          </ActiveNetworkProvider>
         )}
       </DrawerModal>
     </div>

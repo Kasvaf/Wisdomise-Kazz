@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useSupportedPairs } from 'api';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
 import useTradeDrawer from './PageTrade/useTradeDrawer';
@@ -31,7 +32,10 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       }
     >
       <div>
-        {TradeDrawer}
+        <ActiveNetworkProvider base={normSlug} setOnLayout>
+          {TradeDrawer}
+        </ActiveNetworkProvider>
+
         <div>Auto Trade</div>
         {isLoggedIn ? (
           !isSupported &&
