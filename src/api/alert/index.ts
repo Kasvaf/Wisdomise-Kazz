@@ -51,7 +51,9 @@ const deleteAlertingAlert = (payload: Partial<BaseAlert>) => {
 const getSocialRadarDailyReportAlert = () =>
   ofetch<{ is_subscribed: boolean }>(
     `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
-  ).then(data => data.is_subscribed);
+  )
+    .then(data => data.is_subscribed)
+    .catch(() => false);
 
 const toggleSocialRadarDailyReportAlert = (sub: boolean) => {
   return ofetch(
