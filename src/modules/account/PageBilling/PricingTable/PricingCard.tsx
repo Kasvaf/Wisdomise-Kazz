@@ -35,8 +35,14 @@ export default function PricingCard({
   const account = useAccountQuery();
   const { t } = useTranslation('billing');
   const subsMutation = useSubscriptionMutation();
-  const { plan: userPlan, level, status } = useSubscription();
-  const [model, openModal] = useModal(SubscriptionMethodModalContent);
+  const { plan: userPlan } = useSubscription();
+  const [model, openModal] = useModal(SubscriptionMethodModalContent, {
+    rootClassName: clsx(
+      (isRenew || isUpdate) &&
+        account.data?.subscription_item?.payment_method !== 'MANUAL' &&
+        '!hidden',
+    ),
+  });
   const [tokenPaymentModal, openTokenPaymentModal] = useModal(
     TokenPaymentModalContent,
     { fullscreen: true, destroyOnClose: true },
@@ -44,8 +50,7 @@ export default function PricingCard({
   const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
   const { isEmbeddedView } = useEmbedView();
 
-  const hasUserThisPlan =
-    status === 'active' && !isRenew && plan.key === userPlan?.key;
+  const hasUserThisPlan = plan.key === userPlan?.key;
   const hasUserThisPlanAsNextPlan = false;
 
   const isActionButtonDisabled =
@@ -61,7 +66,14 @@ export default function PricingCard({
       top.window.location.href = `${APP_PANEL}/account/billing`;
       return;
     }
-    if (level === 0 || status === 'trialing') {
+    if (isUpdate || isRenew) {
+      await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
+      notification.success({
+        duration: 5000,
+        message: t('pricing-card.notification-upgrade-success'),
+      });
+      onPlanUpdate();
+    } else {
       if (isTokenUtility) {
         void openTokenPaymentModal({ plan });
       } else {
@@ -78,13 +90,6 @@ export default function PricingCard({
           plan,
         });
       }
-    } else {
-      await subsMutation.mutateAsync({ subscription_plan_key: plan.key });
-      notification.success({
-        duration: 5000,
-        message: t('pricing-card.notification-upgrade-success'),
-      });
-      onPlanUpdate();
     }
   };
 
@@ -134,7 +139,7 @@ export default function PricingCard({
               variant="pro"
               block
               className={clsx(
-                'w-full font-semibold',
+                'w-full font-semibold disabled:bg-v1-background-disabled',
                 gtmClass(`buy-now ${plan.periodicity} ${plan.name}`),
               )}
             >
