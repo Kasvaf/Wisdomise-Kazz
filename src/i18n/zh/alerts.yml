@@ -122,6 +122,12 @@ tables:
   target: 通知目标
   type: 警报类型
 types:
+  coin_radar_screener:
+    step-1:
+      subtitle: 一旦某个代币进入我们的 Coin Radar 列表的前 5 名，您就会收到通知。
+      title: 设置概述筛选器
+    subtitle: 一旦某种货币进入我们的“货币雷达”列表前 5 名，您就会收到通知。
+    title: 概览筛选
   price:
     sentence: 尽快发送警报 <Badge><Base>未知硬币</Base></Badge> <Br/> 戈斯
       <Badge><Operator>未知操作员</Operator></Badge> 的价格 <Br />

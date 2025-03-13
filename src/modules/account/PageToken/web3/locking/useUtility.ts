@@ -25,11 +25,7 @@ export function useUtility() {
         }
       } else {
         if (lockedBalance === 0n) {
-          if (
-            subscription.group === 'free' ||
-            subscription.group === 'guest' ||
-            subscription.group === 'trial'
-          ) {
+          if (subscription.group === 'free' || subscription.group === 'guest') {
             setUtilityStatus('pending_lock');
           } else {
             setUtilityStatus('already_active');

@@ -10,6 +10,24 @@ empty_sentiment:
 pre_detail_modal:
   details: Details
   wise_labels: Wise™ Labels
+screener:
+  activated:
+    title: Overview Radar Screener Activated!
+    subtitle: Explore and customize additional features now!
+    got-it: Got it
+    preview:
+      title: Screener Preview
+      category:
+        label: Category
+        value: All Categories
+      chain:
+        label: Chain
+        value: All Chains
+      type:
+        label: Type
+        value: Overview Radar Screener
+  edit: Edit Screener
+  set: Set Screener
 table:
   name: Name
   labels: Labels

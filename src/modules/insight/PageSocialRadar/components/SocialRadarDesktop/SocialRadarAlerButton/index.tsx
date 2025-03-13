@@ -5,28 +5,28 @@ import { useHasFlag, useAlerts } from 'api';
 import { track } from 'config/segment';
 import { gtmClass } from 'utils/gtmClass';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
-import { DebugPin } from 'shared/DebugPin';
 import { Button } from 'shared/v1-components/Button';
+import { DebugPin } from 'shared/DebugPin';
 import { ReactComponent as GearIcon } from './gear.svg';
 import { ReactComponent as ScreenerIcon } from './screener.svg';
 import { FirstSetModal } from './FirstSetModal';
 
-export function TechnicalRadarAlertButton({
+export default function SocialRadarAlerButton({
   className,
 }: {
   className?: string;
 }) {
-  const { t } = useTranslation('market-pulse');
+  const { t } = useTranslation('coin-radar');
   const hasFlag = useHasFlag();
   const alerts = useAlerts({
-    data_source: 'technical_radar',
+    data_source: 'social_radar',
   });
   const [firstToast, setFirstToast] = useState(false);
   const posibleRelatedAlert = alerts.data?.[0];
 
   const alertActions = useAlertActions(
     posibleRelatedAlert ?? {
-      data_source: 'technical_radar',
+      data_source: 'social_radar',
       messengers: ['EMAIL'],
       conditions: [
         {
@@ -48,7 +48,7 @@ export function TechnicalRadarAlertButton({
   );
 
   if (
-    !hasFlag('/coin-radar/alerts?technical_radar_screener') ||
+    !hasFlag('/coin-radar/alerts?social_radar_screener') ||
     !hasFlag('/coin-radar/alerts')
   )
     return null;
@@ -58,7 +58,7 @@ export function TechnicalRadarAlertButton({
       <Button
         onClick={async () => {
           track('Click On', {
-            place: 'technical_radar_notification',
+            place: 'social_radar_notification',
           });
           if (posibleRelatedAlert) {
             void alertActions.openSaveModal();
@@ -67,14 +67,14 @@ export function TechnicalRadarAlertButton({
           }
         }}
         variant={posibleRelatedAlert ? 'white' : 'primary'}
-        className={clsx(gtmClass('set-alert'), className)}
         loading={alerts.isLoading}
-        size="md"
+        className={clsx('shrink-0', gtmClass('set-alert'), className)}
         disabled={alertActions.isSaving}
+        size="md"
       >
         <DebugPin
           title={[
-            '/coin-radar/alerts?technical_radar_screener',
+            '/coin-radar/alerts?social_radar_screener',
             '/coin-radar/alerts',
           ]}
           color="orange"

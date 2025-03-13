@@ -24,7 +24,7 @@ export function CoinSelect({
   const q = useDebounce(query, 400);
   const coinList = useCoins({ query: q });
 
-  const coin = useCoinDetails({ slug: value ?? 'bitcoin' });
+  const coin = useCoinDetails({ slug: value });
 
   const coins = useMemo<CoinType[]>(() => {
     const coinObject = q

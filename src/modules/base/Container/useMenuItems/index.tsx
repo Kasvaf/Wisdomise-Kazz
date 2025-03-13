@@ -34,12 +34,12 @@ const useMenuItems = () => {
   const items: RootMenuItem[] = [
     {
       icon: isMobile ? <IconHome /> : <IconInsight />,
-      text: isMobile ? 'Home' : t('menu.coin-radar.title'),
+      text: isMobile ? t('menu.home.title') : t('menu.coin-radar.title'),
       link: '/coin-radar/overview',
       onClick: trackClick('insight_menu'),
       children: [
         {
-          text: t('menu.overview.title'),
+          text: t('menu.home.title'),
           link: '/coin-radar/overview',
           onClick: trackClick('insight_menu'),
           badge: 'new',

@@ -1,6 +1,4 @@
-import { clsx } from 'clsx';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
@@ -18,7 +16,6 @@ const PagePositions = () => {
   const [slug, setSlug] = useSearchParamAsState('slug');
 
   useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
-  const isTrialBannerVisible = useIsTrialBannerVisible();
 
   if (!useIsMobile()) {
     return <PageNoDesktop />;
@@ -52,10 +49,7 @@ const PagePositions = () => {
       {filter === 'active' && slug && (
         <Button
           variant="brand"
-          className={clsx(
-            'fixed end-4 start-4 z-50',
-            isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
-          )}
+          className="fixed bottom-20 end-4 start-4 z-50"
           to={`/auto-trader/${slug}`}
         >
           Start Trading

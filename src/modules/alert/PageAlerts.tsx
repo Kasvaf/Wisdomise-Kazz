@@ -67,6 +67,7 @@ export default function AlertsPage() {
         row =>
           row.data_source === 'social_radar' ||
           row.data_source === 'technical_radar' ||
+          row.data_source === 'coin_radar' ||
           row.data_source === 'manual:social_radar_daily_report',
       ) ?? [],
     [filteredAlerts],

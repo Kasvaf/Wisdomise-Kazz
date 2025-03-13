@@ -5,6 +5,10 @@ error-page:
   subtitle: 同じエラーが発生しないよう改善いたします。
   throw: 投げる
   title: ご迷惑をおかけしすみません。予期せぬ問題が発生しました。
+insight-declaimer:
+  content: Wisdomise
+    からの洞察とシグナルは財務アドバイスではありません。ご自身の責任と判断でご利用ください。ご自身で調査するか、必要に応じて財務アドバイザーに相談してください。
+  title: 免責事項
 language: 言語
 links:
   about-us: 企業概要
@@ -24,31 +28,73 @@ menu:
     full-title: 通知とアラート
     subtitle: "リアルタイムアラートで先手を打つ: お気に入りの暗号通貨に通知を設定して、市場の動きを見逃さないようにしましょう!"
     title: マイアラート
+  athena:
+    title: 暗号チャットボット
   billing:
     remains: 残り
     subtitle: ご契約中のサブスクリプションの確認
     title: サブスクリプション
+  builder:
+    subtitle: 独自のシグナラーと金融商品を作成する
+    title: トレードマスター
   coin-radar:
     full-title: テクニカル分析で確認されたソーシャルメディアで人気のコイン
     subtitle: シンプルでわかりやすいバイトとして、暗号通貨のソーシャル インサイト、クジラのインサイト、市場指標にアクセスします。
     title: ソーシャルレーダー
+  coin-view:
+    title: コインリスト
   coin:
     title: コイン
+  dashboard:
+    title: マイダッシュボード
+  financial-products:
+    title: 金融商品
+  fp-builder:
+    card-badge: ユニークなオプション
+    card-button: 金融商品を試す
+    subtitle: お客様のニーズに合わせてカスタマイズされた柔軟な AI 主導の投資オプションをご確認ください。
+    title: 私の製品
+  game-rewards:
+    subtitle: Wiseboy で獲得した報酬を集めて特典をお楽しみください!
+    title: ワイズボーイ報酬を受け取る
+  home:
+    title: 家
   hot-coins:
     title: ソーシャルレーダー
+  investment:
+    subtitle: オートトレーダーの金融商品をご覧ください
+    title: 投資
+  kyc:
+    subtitle: 機能にアクセスするには本人確認が必要です
+    title: 本人確認
   notification-center:
+    subtitle: 通知とアクティブアラートの設定
     title: 通知
   overview:
     title: 家
+  portfolio:
+    title: ポートフォリオ
   profile:
     subtitle: ログイン情報の管理
     title: プロフィール
   referral:
     subtitle: ご友人を紹介して、リワードをゲットしましょう！
     title: 紹介プログラム
+  rewards:
+    subtitle: 獲得した報酬を集めて特典をお楽しみください！
+    title: 報酬
+  signal-builder:
+    card-button: 今すぐ構築を開始
+    subtitle: サポートされている暗号通貨のシグナルを作成する
+    title: 私のシグナラー
+  signalers:
+    subtitle: アクティブなシグナルとポジションで主要な暗号通貨を発見
+    title: AIシグナル
   token:
     subtitle: 保有しているWSDMトークンをサブスクリプションにご利用いただけます。
     title: WSDMトークン
+  users:
+    title: ユーザー
   whales:
     full-title: クジラの分析
     subtitle: トップの暗号通貨クジラ、その取引、損益、取引量などを調べる
@@ -62,5 +108,6 @@ support:
   hint: チャットで相談
   title: 質問？
 user:
+  sign-in: サインイン
   sign-out: サインアウト
 wisdomise-is-loading: Wisdomiseを読み込んでいます...

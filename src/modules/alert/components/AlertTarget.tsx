@@ -78,6 +78,8 @@ export function AlertTarget({
         t('types.social_radar_screener.subtitle')}
       {alertForm.value === 'technical_radar' &&
         t('types.technical_radar_screener.subtitle')}
+      {alertForm.value === 'coin_radar' &&
+        t('types.coin_radar_screener.subtitle')}
     </div>
   );
 }
