@@ -126,8 +126,8 @@ export function WhaleTradesWidget({
         mode="table"
         sizes={{
           'guest': true,
-          'initial': true,
-          'free': true,
+          'initial': 3,
+          'free': 3,
           'pro': 3,
           'pro+': 3,
           'pro_max': false,

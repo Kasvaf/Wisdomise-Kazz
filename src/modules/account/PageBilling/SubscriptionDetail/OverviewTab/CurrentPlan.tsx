@@ -13,6 +13,7 @@ export default function CurrentPlan() {
   const { currentPeriodEnd, plan, status } = useSubscription();
   const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
     width: 1200,
+    className: '[&_.ant-modal-content]:p-4',
   });
 
   const subItem = data?.subscription_item;
