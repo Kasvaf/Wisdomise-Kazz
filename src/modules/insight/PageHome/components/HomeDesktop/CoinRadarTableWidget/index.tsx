@@ -13,7 +13,7 @@ import { OverviewWidget } from 'shared/OverviewWidget';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
 import { EmptySentiment } from '../EmptySentiment';
-import { InsightAlertButton } from '../InsightAlertButton';
+import CoinRadarAlerButton from '../CoinRadarAlerButton';
 import { homeSubscriptionsConfig } from '../../constants';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
@@ -113,7 +113,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
           {t('base:menu.coin-radar.full-title')}
         </>
       }
-      headerActions={<InsightAlertButton />}
+      headerActions={<CoinRadarAlerButton />}
       loading={coins.isLoading}
       empty={!coins.data?.length}
       className="min-h-[500px]"

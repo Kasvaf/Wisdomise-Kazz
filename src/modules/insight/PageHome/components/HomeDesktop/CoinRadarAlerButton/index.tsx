@@ -16,17 +16,17 @@ export default function CoinRadarAlerButton({
 }: {
   className?: string;
 }) {
-  const { t } = useTranslation('coin-radar');
+  const { t } = useTranslation('insight');
   const hasFlag = useHasFlag();
   const alerts = useAlerts({
-    data_source: 'social_radar',
+    data_source: 'coin_radar',
   });
   const [firstToast, setFirstToast] = useState(false);
   const posibleRelatedAlert = alerts.data?.[0];
 
   const alertActions = useAlertActions(
     posibleRelatedAlert ?? {
-      data_source: 'social_radar',
+      data_source: 'coin_radar',
       messengers: ['EMAIL'],
       conditions: [
         {
@@ -48,7 +48,7 @@ export default function CoinRadarAlerButton({
   );
 
   if (
-    !hasFlag('/coin-radar/alerts?social_radar_screener') ||
+    !hasFlag('/coin-radar/alerts?coin_radar_screener') ||
     !hasFlag('/coin-radar/alerts')
   )
     return null;
@@ -58,7 +58,7 @@ export default function CoinRadarAlerButton({
       <Button
         onClick={async () => {
           track('Click On', {
-            place: 'social_radar_notification',
+            place: 'coin_radar_notification',
           });
           if (posibleRelatedAlert) {
             void alertActions.openSaveModal();
@@ -74,7 +74,7 @@ export default function CoinRadarAlerButton({
       >
         <DebugPin
           title={[
-            '/coin-radar/alerts?social_radar_screener',
+            '/coin-radar/alerts?coin_radar_screener',
             '/coin-radar/alerts',
           ]}
           color="orange"
