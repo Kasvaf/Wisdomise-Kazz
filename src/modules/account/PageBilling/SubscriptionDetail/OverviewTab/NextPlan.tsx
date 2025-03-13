@@ -45,26 +45,23 @@ export default function NextPlan() {
   return (
     <>
       <section className="flex flex-col gap-3">
+        <div>
+          {t('subscription-details.overview.next-plan.pay-method')}
+          {paymentMethod && (
+            <InfoBadge value1={paymentMethodText[paymentMethod]} />
+          )}
+
+          {hasFlag('/account/billing?change_payment_method') && (
+            <button
+              onClick={openPaymentMethodModal}
+              className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
+            >
+              {t('subscription-details.overview.next-plan.change-pay-method')}
+            </button>
+          )}
+        </div>
         {isAutoRenewEnabled && (
           <>
-            <div>
-              {t('subscription-details.overview.next-plan.pay-method')}
-              {paymentMethod && (
-                <InfoBadge value1={paymentMethodText[paymentMethod]} />
-              )}
-
-              {hasFlag('/account/billing?change_payment_method') && (
-                <button
-                  onClick={openPaymentMethodModal}
-                  className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
-                >
-                  {t(
-                    'subscription-details.overview.next-plan.change-pay-method',
-                  )}
-                </button>
-              )}
-            </div>
-
             {paymentMethod === 'CRYPTO' && (
               <div>
                 <Trans
