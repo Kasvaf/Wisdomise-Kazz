@@ -141,9 +141,6 @@ coin-details:
       atl: All-Time Low
       high: High
       low: Low
-    social_sentiment:
-      title: Social Sentiment™
-      empty: No community activity detected for this coin.
     socials:
       title: Social Feed
       subtitle: Stay ahead in crypto with real-time scans of social media.
@@ -162,13 +159,6 @@ coin-details:
           title: Telegram
         twitter:
           title: X, Twitter
-    technical_sentiment:
-      title: Technical Sentiment™
-      empty: Unknown
-      macd_cross: MACD Cross
-      macd_div: MACD Div
-      rsi_div: RSI Div
-      rsi_overness: RSI OB/OS
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
@@ -179,12 +169,8 @@ coin-details:
           will be available soon!
     whale_list:
       label: Smart Whales
-    whale_sentiment:
-      title: Whale Sentiment™
-      buy: Buy
-      hold: Hold
-      sell: Sell
 common:
+  description: Description
   all_categories: All Categories
   all_exchanges: All Exchanges
   all_labels: All Labels
@@ -194,11 +180,12 @@ common:
   category: Category
   chain: Chain
   chains: Chains
-  labels: Labels
+  info: Info
   load_more: Load More
   native_coin: Native Coin
   price: Price
   search_coin: Search Coin...
+  wise_labels: Wise™ Labels
 screener:
   activated:
     title: Social Radar Screener Activated!

@@ -42,7 +42,7 @@ const useMenuItems = () => {
           text: t('menu.overview.title'),
           link: '/coin-radar/overview',
           onClick: trackClick('insight_menu'),
-          badge: 'beta',
+          badge: 'new',
         },
         {
           text: t('menu.hot-coins.title'),

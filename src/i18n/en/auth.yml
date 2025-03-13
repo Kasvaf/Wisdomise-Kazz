@@ -2,20 +2,23 @@ error-not-authorized: In order to view this page, you need to Sign In
 login:
   error-code: Invalid code
   error-email: Email is invalid
-  features:
-    access_to_telegram_vip: Get Access to Top Telegram Alpha & VIP Groups
-    find_twitter_trend: Find Twitter Crypto Trends
-    find_twitter_x100: Find the Next x100 with Twitter Tracker
-    save_on_join_paid_groups: Save $5000+ on Joining Paid Groups
-  notice: >-
-    By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
-    Service</3>.
+  images:
+    discover:
+      title: <b>Discover</b> New Coins
+      subtitle: Spot Opportunities Using Sentiment Indicators in Our Radars.
+    trade:
+      title: <b>Trade</b> with AI
+      subtitle: AI Sets Multiple TP and SLs Automatically Based on Market Conditions
+    validate:
+      title: <b>Validate</b> Calls with AI
+      subtitle: Quickly Validate the Signal With Sentiments and Key Labels
+  login-by-telegram: Login by Telegram
   step-1:
     button-submit-email: Get Started
     field-email: Email
     field-email-placeholder: Your Email Address
-    social_radar_subtitle: Get Started for Free to Discover the Best Investment Opportunities
-    social_radar_title: Find Best MemeCoin Opportunities Using Social Media Insights
+    social_radar_subtitle: Seamless Trading, from Memecoins to High-Cap Tokens—all in One Place.
+    social_radar_title: Discover, Validate, and Trade Crypto with AI.
   step-2:
     title: Enter Magic Code
     subtitle: Enter the 6-digit Magic code we sent to {{email}} to continue.

@@ -61,6 +61,8 @@ export function CoinAvailableExchangesWidget({
     [coinOverview.data?.exchanges, query],
   );
 
+  if (data.length === 0 && !coinOverview.isLoading) return null;
+
   return (
     <OverviewWidget
       id={id}

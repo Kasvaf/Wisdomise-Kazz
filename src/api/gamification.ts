@@ -162,7 +162,7 @@ export const useGamificationProfileQuery = () =>
         { method: 'get' },
       );
     },
-    { refetchInterval: 30 * 1000 },
+    { refetchInterval: 30 * 1000, retry: false },
   );
 
 export interface GamificationActionBody {

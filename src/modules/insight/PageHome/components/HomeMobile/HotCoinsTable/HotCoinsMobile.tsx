@@ -5,14 +5,16 @@ import { NetworkSelect } from 'shared/NetworkSelect';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { Coin } from 'shared/Coin';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { SocialSentiment } from 'modules/insight/PageSocialRadar/components/SocialSentiment';
-import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalSentiment';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinLabels } from 'shared/CoinLabels';
 import { AccessShield } from 'shared/AccessShield';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
+import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
+import { homeSubscriptionsConfig } from '../../constants';
+import useHotCoinsTour from './useHotCoinsTour';
 
 export const HotCoinsMobile = () => {
   const { t } = useTranslation('insight');
@@ -24,6 +26,10 @@ export const HotCoinsMobile = () => {
 
   const coins = useCoinRadarCoins({
     networks: network ? [network] : [],
+  });
+
+  useHotCoinsTour({
+    enabled: !coins.isLoading,
   });
 
   const [selectedRow, setSelectedRow] = useState<null | CoinRadarCoin>(null);
@@ -68,18 +74,19 @@ export const HotCoinsMobile = () => {
       },
       {
         key: 'sentiment',
+        className: 'tour-item-sentiment',
         render: row => (
           <div className="flex items-center gap-4">
             {row.social_radar_insight && (
-              <SocialSentiment
+              <SocialRadarSentiment
                 value={row.social_radar_insight}
-                mode="icon_bar"
+                mode="tiny"
               />
             )}
             {row.technical_radar_insight && (
-              <TechnicalSentiment
+              <TechnicalRadarSentiment
                 value={row.technical_radar_insight}
-                mode="icon_bar"
+                mode="tiny"
               />
             )}
           </div>
@@ -127,18 +134,9 @@ export const HotCoinsMobile = () => {
           surface={2}
         />
       </div>
-      <AccessShield
-        mode="mobile_table"
-        sizes={{
-          'guest': true,
-          'free': true,
-          'trial': 3,
-          'pro': 3,
-          'pro+': false,
-          'pro_max': false,
-        }}
-      >
+      <AccessShield mode="mobile_table" sizes={homeSubscriptionsConfig}>
         <MobileTable
+          rowClassName="tour-item-row"
           columns={columns}
           dataSource={coins.data?.slice(0, 20) ?? []}
           loading={coins.isLoading}
@@ -171,15 +169,17 @@ export const HotCoinsMobile = () => {
           />
         )}
         {selectedRow?.technical_radar_insight && (
-          <TechnicalSentiment
+          <TechnicalRadarSentiment
             value={selectedRow?.technical_radar_insight}
             mode="semi_expanded"
+            className="w-full"
           />
         )}
         {selectedRow?.social_radar_insight && (
-          <SocialSentiment
+          <SocialRadarSentiment
             value={selectedRow.social_radar_insight}
             mode="expanded"
+            className="w-full"
           />
         )}
       </CoinPreDetailModal>

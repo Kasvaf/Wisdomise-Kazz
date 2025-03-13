@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { bxCopy, bxShareAlt } from 'boxicons-quasar';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   useClaimReferralBonusBag,
   useFriendsQuery,
@@ -33,6 +34,7 @@ export default function ReferralPage() {
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
   const myReferralLink = useReferral();
+  const navigate = useNavigate();
 
   const [copy, content] = useShare('copy');
   const [share] = useShare('share');
@@ -164,8 +166,16 @@ export default function ReferralPage() {
               <p className="text-xs">{t('page-referral.bonus.ready')}</p>
             </div>
           </div>
-          <hr className="my-3 border-v1-border-primary/30" />
-          <p className="text-xs">{t('page-referral.bonus.description')}</p>
+          <hr className="my-3  border-v1-border-primary/30" />
+          <p className="mb-3 text-xs">
+            {t('page-referral.bonus.description')}{' '}
+            <button
+              className="underline"
+              onClick={() => navigate('/account/rewards')}
+            >
+              See your rewards
+            </button>
+          </p>
           <Button
             variant="ghost"
             className="mt-3 w-full !bg-black disabled:!bg-[unset]"

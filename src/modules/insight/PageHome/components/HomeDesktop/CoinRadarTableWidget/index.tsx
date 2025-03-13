@@ -5,15 +5,16 @@ import { Trans, useTranslation } from 'react-i18next';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
-import { SocialSentiment } from 'modules/insight/PageSocialRadar/components/SocialSentiment';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { DebugPin } from 'shared/DebugPin';
-import { TechnicalSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalSentiment';
 import { ConfirmationBadgesInfo } from 'modules/insight/PageTechnicalRadar/components/ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { OverviewWidget } from 'shared/OverviewWidget';
+import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
+import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
 import { EmptySentiment } from '../EmptySentiment';
 import { InsightAlertButton } from '../InsightAlertButton';
+import { homeSubscriptionsConfig } from '../../constants';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
@@ -59,9 +60,9 @@ export function CoinRadarTable({ className }: { className?: string }) {
         width: 310,
         render: (_, row) =>
           row.social_radar_insight ? (
-            <SocialSentiment
+            <SocialRadarSentiment
               value={row.social_radar_insight}
-              mode="with_tooltip"
+              mode="default"
             />
           ) : (
             <EmptySentiment value="social_radar" />
@@ -79,9 +80,9 @@ export function CoinRadarTable({ className }: { className?: string }) {
         width: 310,
         render: (_, row) =>
           row.technical_radar_insight ? (
-            <TechnicalSentiment
+            <TechnicalRadarSentiment
               value={row.technical_radar_insight}
-              mode="with_tooltip"
+              mode="default"
             />
           ) : (
             <EmptySentiment value="technical_radar" />
@@ -117,17 +118,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
       empty={!coins.data?.length}
       className="min-h-[500px]"
     >
-      <AccessShield
-        mode="table"
-        sizes={{
-          'guest': true,
-          'free': true,
-          'trial': 3,
-          'pro': 3,
-          'pro+': false,
-          'pro_max': false,
-        }}
-      >
+      <AccessShield mode="table" sizes={homeSubscriptionsConfig}>
         <Table
           columns={columns}
           dataSource={coins.data?.slice(0, 10) ?? []}

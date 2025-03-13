@@ -35,8 +35,10 @@ menu:
     title: 幣種
   hot-coins:
     title: 社交雷达
+  notification-center:
+    title: 通知
   overview:
-    title: 概述
+    title: 家
   profile:
     subtitle: 編輯登錄憑證
     title: 個人資料
