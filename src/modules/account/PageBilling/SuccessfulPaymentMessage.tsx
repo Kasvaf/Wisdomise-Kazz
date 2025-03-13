@@ -26,9 +26,11 @@ export default function SuccessfulPaymentMessage() {
       !successShown
     ) {
       setSuccessShow(true);
-      searchParams.delete(SUCCESSFUL_CHECKOUT_KEY);
-      setSearchParams(searchParams);
-      void showModal({}).then(() => navigate('/account/billing'));
+      void showModal({}).then(() => {
+        searchParams.delete(SUCCESSFUL_CHECKOUT_KEY);
+        setSearchParams(searchParams);
+        return true;
+      });
     }
   }, [
     status,
