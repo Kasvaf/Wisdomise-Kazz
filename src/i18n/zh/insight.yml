@@ -24,6 +24,24 @@ onboarding:
 pre_detail_modal:
   details: 细节
   wise_labels: 明智的标签
+screener:
+  activated:
+    got-it: 明白了
+    preview:
+      category:
+        label: 类别
+        value: 所有类别
+      chain:
+        label: 链
+        value: 所有链
+      title: 试映预览
+      type:
+        label: 类型
+        value: 概览雷达筛查仪
+    subtitle: 立即探索和定制附加功能！
+    title: 概览雷达筛查器已激活！
+  edit: 編輯 ...
+  set: 设置筛选器
 table:
   labels: 标签
   mobile_title: 高潜力资产
