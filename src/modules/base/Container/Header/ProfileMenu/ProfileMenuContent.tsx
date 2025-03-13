@@ -88,25 +88,27 @@ const ProfileMenuContent = () => {
               >
                 {subscription.title}
               </div>
-              {subscription.level > 0 && isSubPlanActive && (
-                <div className="text-xs capitalize">
-                  <span
-                    className={clsx(
-                      subscription.remaining
-                        ? 'text-v1-content-primary'
-                        : 'text-v1-content-negative',
-                    )}
-                  >
-                    <ReadableDuration
-                      value={subscription.remaining}
-                      zeroText={t('pro:zero-hour')}
-                    />
-                  </span>
-                  <span className="ms-1 font-light capitalize text-v1-content-secondary">
-                    {t('billing:common.remains')}
-                  </span>
-                </div>
-              )}
+              {subscription.level > 0 &&
+                isSubPlanActive &&
+                subscription.status !== 'trialing' && (
+                  <div className="text-xs capitalize">
+                    <span
+                      className={clsx(
+                        subscription.remaining
+                          ? 'text-v1-content-primary'
+                          : 'text-v1-content-negative',
+                      )}
+                    >
+                      <ReadableDuration
+                        value={subscription.remaining}
+                        zeroText={t('pro:zero-hour')}
+                      />
+                    </span>
+                    <span className="ms-1 font-light capitalize text-v1-content-secondary">
+                      {t('billing:common.remains')}
+                    </span>
+                  </div>
+                )}
             </div>
           </InternalItem>
         )}

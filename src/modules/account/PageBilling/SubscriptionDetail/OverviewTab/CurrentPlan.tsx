@@ -10,7 +10,7 @@ import PendingInvoice from './PendingInvoice';
 export default function CurrentPlan() {
   const { data } = useAccountQuery();
   const { t } = useTranslation('billing');
-  const { currentPeriodEnd, plan } = useSubscription();
+  const { currentPeriodEnd, plan, status } = useSubscription();
   const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
     width: 1200,
   });
@@ -43,16 +43,17 @@ export default function CurrentPlan() {
             </button>
           )}
         </div>
-
-        <div>
-          {isAutoRenewEnabled
-            ? t('subscription-details.overview.current-plan.renew')
-            : t('subscription-details.overview.current-plan.expire')}
-          <InfoBadge
-            value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
-            value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
-          />
-        </div>
+        {status !== 'trialing' && (
+          <div>
+            {isAutoRenewEnabled
+              ? t('subscription-details.overview.current-plan.renew')
+              : t('subscription-details.overview.current-plan.expire')}
+            <InfoBadge
+              value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
+              value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
+            />
+          </div>
+        )}
         <PendingInvoice />
       </section>
       {PricingTableMod}
