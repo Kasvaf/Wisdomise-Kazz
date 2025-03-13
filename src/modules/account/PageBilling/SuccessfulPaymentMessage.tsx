@@ -20,11 +20,7 @@ export default function SuccessfulPaymentMessage() {
   });
 
   useEffect(() => {
-    if (
-      searchParams.has(SUCCESSFUL_CHECKOUT_KEY) &&
-      status === 'active' &&
-      !successShown
-    ) {
+    if (searchParams.has(SUCCESSFUL_CHECKOUT_KEY) && !successShown) {
       setSuccessShow(true);
       void showModal({}).then(() => {
         searchParams.delete(SUCCESSFUL_CHECKOUT_KEY);
