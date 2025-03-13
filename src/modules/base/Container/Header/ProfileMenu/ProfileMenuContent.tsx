@@ -41,6 +41,10 @@ const ProfileMenuContent = () => {
   const { data: referral } = useReferralStatusQuery();
   const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
   const { pathname } = useLocation();
+  const isSubPlanActive =
+    subscription.status === 'active' ||
+    subscription.status === 'trialing' ||
+    subscription.status === 'past_due';
 
   return (
     <div className="min-w-80 space-y-4 text-v1-content-primary">
@@ -76,10 +80,15 @@ const ProfileMenuContent = () => {
             label={t('billing:common.subscription')}
           >
             <div className="text-end">
-              <div className="capitalize text-v1-content-brand">
+              <div
+                className={clsx(
+                  'capitalize text-v1-content-brand',
+                  !isSubPlanActive && 'line-through',
+                )}
+              >
                 {subscription.title}
               </div>
-              {subscription.level > 0 && (
+              {subscription.level > 0 && isSubPlanActive && (
                 <div className="text-xs capitalize">
                   <span
                     className={clsx(
