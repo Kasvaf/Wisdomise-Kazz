@@ -102,6 +102,8 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
         {
           query: {
             resolution: filters.resolution,
+            page_size: 2000,
+            limit: 150,
           },
         },
       ),
@@ -207,6 +209,8 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         IndicatorConfirmation<I> & IndicatorConfirmationCore
       >(`delphi/${filters.indicator}/momentum-confirmation/`, {
         query: {
+          page_size: 2000,
+          limit: 100,
           ...Object.fromEntries(
             filters.combination.map(comb => [
               comb.endsWith('_divergence') ||
@@ -283,6 +287,11 @@ export const useTechnicalRadarCoins = (config: {
     queryFn: () =>
       resolvePageResponseToArray<TechnicalRadarCoin>(
         'delphi/technical-radar/top-coins/',
+        {
+          query: {
+            page_size: 2000,
+          },
+        },
       ),
     select: data => {
       return data
