@@ -9,11 +9,8 @@ import {
   useSubscription,
   useSubscriptionMutation,
 } from 'api';
-import useModal from 'shared/useModal';
 import { unwrapErrorMessage } from 'utils/error';
-import Button from 'shared/Button';
 import { paymentMethodText } from 'modules/account/PageBilling/SubscriptionDetail/OverviewTab/CurrentPlan';
-import PricingTable from '../../PricingTable';
 import useChangePaymentMethodModal from './useChangePaymentMethod';
 import InfoBadge from './InfoBadge';
 
@@ -26,73 +23,47 @@ export default function NextPlan() {
   const subscriptionMutation = useSubscriptionMutation();
   const stripePaymentMethod = useStripePaymentMethodsQuery();
   const hasFlag = useHasFlag();
-  const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
-    width: 1200,
-  });
 
-  const onCancelPlan = async () => {
+  const handleToggleAutoRenew = async (turnOn?: boolean) => {
     try {
-      await subscriptionMutation.mutateAsync({ subscription_plan_key: null });
-      notification.success({ message: 'Next plan canceled successfully' });
+      await subscriptionMutation.mutateAsync({
+        subscription_plan_key: turnOn ? plan?.key ?? null : null,
+      });
+      notification.success({
+        message: `Auto-Renew ${turnOn ? 'enabled' : 'canceled'} successfully`,
+      });
     } catch (error) {
       notification.error({ message: unwrapErrorMessage(error) });
     }
   };
 
   const subItem = account.data?.subscription_item;
-  const nextSubs = subItem?.next_subs_item;
-  const paymentMethod = subItem?.next_subs_item?.payment_method;
+  const isAutoRenewEnabled = !subItem?.cancel_at_period_end;
+  const paymentMethod = subItem?.payment_method;
   const isFiat = paymentMethod === 'FIAT';
 
   return (
-    <div className="mt-10 border-t border-white/20 pt-10 mobile:mt-5 mobile:pt-5">
+    <>
       <section className="flex flex-col gap-3">
-        <h2 className="mb-1 text-xl font-semibold text-white/20">
-          {t('subscription-details.overview.next-plan.title')}
-        </h2>
+        <div>
+          {t('subscription-details.overview.next-plan.pay-method')}
+          {paymentMethod && (
+            <InfoBadge value1={paymentMethodText[paymentMethod]} />
+          )}
 
-        {nextSubs && (
+          {hasFlag('/account/billing?change_payment_method') && (
+            <button
+              onClick={openPaymentMethodModal}
+              className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
+            >
+              {t('subscription-details.overview.next-plan.change-pay-method')}
+            </button>
+          )}
+        </div>
+        {isAutoRenewEnabled && (
           <>
-            <div className="flex flex-wrap items-center">
-              <Trans
-                ns="billing"
-                i18nKey="subscription-details.overview.next-plan.your-subs"
-              >
-                Your subscription plan is
-                <InfoBadge
-                  value1={nextSubs.subscription_plan.name}
-                  value2={nextSubs.subscription_plan.periodicity.toLowerCase()}
-                />
-              </Trans>
-
-              <button
-                onClick={() => openPricingTable({ isUpdate: true })}
-                className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
-              >
-                {t('subscription-details.overview.btn-change-plan')}
-              </button>
-            </div>
-
-            <div>
-              {t('subscription-details.overview.next-plan.pay-method')}
-              {paymentMethod && (
-                <InfoBadge value1={paymentMethodText[paymentMethod]} />
-              )}
-
-              {hasFlag('/account/billing?change_payment_method') && (
-                <button
-                  onClick={openPaymentMethodModal}
-                  className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
-                >
-                  {t(
-                    'subscription-details.overview.next-plan.change-pay-method',
-                  )}
-                </button>
-              )}
-            </div>
-
-            <div>
-              {paymentMethod === 'CRYPTO' && (
+            {paymentMethod === 'CRYPTO' && (
+              <div>
                 <Trans
                   i18nKey="subscription-details.overview.next-plan.in-order-to-renew"
                   ns="billing"
@@ -103,78 +74,67 @@ export default function NextPlan() {
                     value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
                   />
                 </Trans>
-              )}
-              {paymentMethod === 'TOKEN' &&
-                t(
+              </div>
+            )}
+            {paymentMethod === 'TOKEN' && (
+              <p>
+                {t(
                   'subscription-details.overview.next-plan.automatically-renew',
                 )}
+              </p>
+            )}
 
-              {isFiat && (
-                <div className="flex flex-col gap-3">
-                  {stripePaymentMethod.data?.data[0]?.card && (
-                    <p>
-                      <Trans
-                        ns="billing"
-                        i18nKey="subscription-details.overview.next-plan.card"
-                      >
-                        Future charges will be applied to the card
-                        <InfoBadge
-                          value1={`**** ${stripePaymentMethod.data.data[0].card.last4}`}
-                        />
-                      </Trans>
-                      <Link
-                        className="text-[#34A3DA] underline decoration-current underline-offset-4"
-                        to="/account/billing/change-stripe-card-info"
-                      >
-                        {t('stripe.change-card-info.title')}
-                      </Link>
-                    </p>
-                  )}
-                  <p>
-                    <Trans
-                      ns="billing"
-                      i18nKey="subscription-details.overview.next-plan.charging"
-                    >
-                      Charging your credit card
-                      <InfoBadge
-                        value1={'$' + (plan?.price.toString() || '')}
-                      />
-                    </Trans>
-                  </p>
-                </div>
-              )}
+            {isFiat && stripePaymentMethod.data?.data[0]?.card && (
+              <p>
+                <Trans
+                  ns="billing"
+                  i18nKey="subscription-details.overview.next-plan.card"
+                >
+                  Future charges will be applied to the card
+                  <InfoBadge
+                    value1={`**** ${stripePaymentMethod.data.data[0].card.last4}`}
+                  />
+                </Trans>
+                <Link
+                  className="text-[#34A3DA] underline decoration-current underline-offset-4"
+                  to="/account/billing/change-stripe-card-info"
+                >
+                  {t('stripe.change-card-info.title')}
+                </Link>
+              </p>
+            )}
+
+            <div>
+              <button
+                onClick={() => handleToggleAutoRenew(false)}
+                className="text-sm text-[#da3434] underline decoration-current underline-offset-4 disabled:animate-pulse disabled:text-white/40"
+                disabled={subscriptionMutation.isLoading}
+              >
+                {t('subscription-details.overview.next-plan.cancel-btn')}
+              </button>
             </div>
-
-            <Button
-              variant="link"
-              onClick={onCancelPlan}
-              loading={subscriptionMutation.isLoading}
-              className="w-fit !p-0 !text-base !text-[#F14056]/80 underline underline-offset-4"
-            >
-              {t('subscription-details.overview.next-plan.cancel-btn')}
-            </Button>
           </>
         )}
 
-        {!nextSubs && (
+        {!isAutoRenewEnabled && (
           <Trans
             ns="billing"
             i18nKey="subscription-details.overview.next-plan.canceled"
           >
             <p>
-              Your next plan has been canceled.
+              Your subscription will not renew automatically.
               <button
-                onClick={() => openPricingTable({ isRenew: true })}
-                className="ml-2 text-sm text-[#34A3DA] underline underline-offset-4"
+                onClick={() => handleToggleAutoRenew(true)}
+                className="ml-2 text-sm text-[#34A3DA] underline underline-offset-4 disabled:animate-pulse disabled:text-white/40"
+                disabled={subscriptionMutation.isLoading}
               >
-                Renew Next Plan
+                Turn On Auto-Renew
               </button>
             </p>
           </Trans>
         )}
       </section>
-      {PricingTableMod}
       {PaymentMethodModal}
-    </div>
+    </>
   );
 }

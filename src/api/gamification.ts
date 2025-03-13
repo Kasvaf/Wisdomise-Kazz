@@ -144,7 +144,7 @@ interface GamificationProfile {
     };
   };
   rewards: Array<{
-    fieldName: string;
+    name: string;
     statistical?: { count: number; sum: number };
   }>;
 }
@@ -158,7 +158,7 @@ export const useGamificationProfile = () =>
         { method: 'get' },
       );
     },
-    { refetchInterval: 30 * 1000 },
+    { refetchInterval: 30 * 1000, retry: false },
   );
 
 export interface GamificationActionBody {
@@ -210,5 +210,27 @@ export const useGamification = () => {
     completedToday: currentDay === activeDay,
     nextDayStartTimestamp,
     nextDayEndTimestamp: nextDayStartTimestamp + STREAK_END_PERIOD,
+  };
+};
+
+export const useGamificationRewards = () => {
+  const { data } = useGamificationProfile();
+
+  const rewardsMap = {
+    daily: 'tether_daily',
+    tradeReferral: 'tether_trade-referral',
+    subReferral: 'tether_sub-referral',
+  };
+
+  const findMissionReward = (key: keyof typeof rewardsMap) => {
+    return (
+      data?.rewards.find(r => r.name === rewardsMap[key])?.statistical?.sum ?? 0
+    );
+  };
+
+  return {
+    daily: findMissionReward('daily'),
+    tradeReferral: findMissionReward('tradeReferral'),
+    subReferral: findMissionReward('subReferral'),
   };
 };

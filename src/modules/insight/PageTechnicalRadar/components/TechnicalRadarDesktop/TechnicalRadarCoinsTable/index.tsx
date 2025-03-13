@@ -9,7 +9,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
-import { TechnicalSentiment } from '../../TechnicalSentiment';
+import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -53,7 +53,9 @@ export const TechnicalRadarCoinsTable: FC = () => {
           <ConfirmationBadgesInfo key="2" />,
         ],
         width: 310,
-        render: (_, row) => <TechnicalSentiment value={row} />,
+        render: (_, row) => (
+          <TechnicalRadarSentiment mode="default" value={row} />
+        ),
       },
       {
         title: [t('table.market_cap.title'), t('table.market_cap.info')],
@@ -107,8 +109,8 @@ export const TechnicalRadarCoinsTable: FC = () => {
         mode="table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
-          'trial': 3,
           'pro': 3,
           'pro+': false,
           'pro_max': false,

@@ -38,6 +38,9 @@ asset_badges:
     don’t impact their portfolio.
 sentiment:
   title: Whale Sentiment™
+  buy: Buy
+  hold: Hold
+  sell: Sell
 top_coins:
   name: Name
   title: Whale Radar

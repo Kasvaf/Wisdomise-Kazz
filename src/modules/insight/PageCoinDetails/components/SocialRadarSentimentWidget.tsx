@@ -1,21 +1,17 @@
-import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useHasFlag, useSocialRadarSentiment } from 'api';
-import { OverviewWidget } from 'shared/OverviewWidget';
-import { DebugPin } from 'shared/DebugPin';
-import { SocialSentiment } from '../../PageSocialRadar/components/SocialSentiment';
-import { Guage } from '../../../shared/Guage';
+import { useCoinDetails, useHasFlag, useSocialRadarSentiment } from 'api';
+import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
 
 export function SocialRadarSentimentWidget({
-  className,
   noEmptyState,
   slug,
+  className,
 }: {
-  className?: string;
   noEmptyState?: boolean;
   slug: string;
+  className?: string;
 }) {
-  const { t } = useTranslation('coin-radar');
+  const coin = useCoinDetails({ slug });
   const sentiment = useSocialRadarSentiment({ slug });
   const isEmpty = !sentiment.isLoading && !sentiment.data;
   const hasFlag = useHasFlag();
@@ -23,38 +19,15 @@ export function SocialRadarSentimentWidget({
   if (noEmptyState && isEmpty) return null;
 
   return (
-    <OverviewWidget
-      className={clsx('!p-4', className)}
-      loading={sentiment.isLoading}
-      contentClassName={clsx(
-        'flex flex-row items-center justify-between gap-3 overflow-hidden',
-        isEmpty && 'grayscale',
+    <SocialRadarSentiment
+      value={sentiment.data}
+      coin={coin.data?.symbol}
+      marketData={coin.data?.data}
+      mode="card"
+      className={clsx(
+        (coin.isLoading || sentiment.isLoading) && 'animate-pulse',
+        className,
       )}
-      overlay={
-        <DebugPin
-          title="/coin-radar/social-radar?side-suggestion"
-          color="orange"
-        />
-      }
-    >
-      <div className="flex h-20 flex-col justify-between gap-1 overflow-hidden">
-        <p className="text-xxs text-v1-content-primary">
-          {t('coin-details.tabs.social_sentiment.title')}
-        </p>
-        {sentiment.data ? (
-          <SocialSentiment value={sentiment.data} mode="with_tooltip" />
-        ) : (
-          <p className="max-w-52 text-xs">
-            {t('coin-details.tabs.social_sentiment.empty')}
-          </p>
-        )}
-      </div>
-      <div className="h-20 w-[35%] shrink-0 overflow-hidden">
-        <Guage
-          measure={sentiment.data?.gauge_measure ?? 0}
-          className="h-full"
-        />
-      </div>
-    </OverviewWidget>
+    />
   );
 }

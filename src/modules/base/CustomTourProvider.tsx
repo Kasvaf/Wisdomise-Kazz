@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
-import { TourProvider } from '@reactour/tour';
 import { type PropsWithChildren } from 'react';
+import { TourProvider } from '@reactour/tour';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { Button } from 'shared/v1-components/Button';
 import { trackClick } from 'config/segment';
 
@@ -14,6 +15,8 @@ const CustomTourProvider: React.FC<PropsWithChildren> = ({ children }) => {
       onClickMask={() => {
         //
       }}
+      afterOpen={x => x && disableBodyScroll(x)}
+      beforeClose={x => x && enableBodyScroll(x)}
       steps={[]}
       padding={4}
       disableInteraction
@@ -29,15 +32,19 @@ const CustomTourProvider: React.FC<PropsWithChildren> = ({ children }) => {
       components={{
         Navigation: ({ steps, currentStep, setCurrentStep, setIsOpen }) => (
           <div className="mt-4 flex justify-between">
-            <Button
-              className="block"
-              size="sm"
-              variant="outline"
-              disabled={!currentStep}
-              onClick={() => setCurrentStep(x => x - 1)}
-            >
-              Back
-            </Button>
+            {currentStep ? (
+              <Button
+                className="block"
+                size="sm"
+                variant="outline"
+                disabled={!currentStep}
+                onClick={() => setCurrentStep(x => x - 1)}
+              >
+                Back
+              </Button>
+            ) : (
+              <div className="w-6" />
+            )}
 
             <div className="flex items-center gap-2">
               {steps.map((_, i) => (

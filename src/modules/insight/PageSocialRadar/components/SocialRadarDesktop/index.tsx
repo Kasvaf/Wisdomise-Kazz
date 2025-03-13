@@ -20,7 +20,7 @@ import {
 } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
-import { SocialSentiment } from '../SocialSentiment';
+import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import SocialRadarAlerButton from './SocialRadarAlerButton';
@@ -86,7 +86,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
           </Fragment>,
         ],
         width: 310,
-        render: (_, row) => <SocialSentiment value={row} mode="with_tooltip" />,
+        render: (_, row) => <SocialRadarSentiment value={row} mode="default" />,
       },
       {
         title: [
@@ -198,8 +198,8 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         mode="table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
-          'trial': 3,
           'pro': false,
           'pro+': false,
           'pro_max': false,

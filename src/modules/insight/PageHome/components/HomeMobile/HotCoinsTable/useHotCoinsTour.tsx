@@ -1,28 +1,23 @@
-import { useLocalStorage } from 'usehooks-ts';
-import { useEffect } from 'react';
-import { useTour } from '@reactour/tour';
 import { useSubscription } from 'api';
-import bullIcon from 'modules/insight/PageTechnicalRadar/components/TechnicalSentiment/bullish.png';
-import happyIcon from 'modules/insight/PageSocialRadar/components/SocialSentiment/happy.png';
+import usePageTour from 'shared/usePageTour';
+import bullIcon from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment/bullish.png';
+import happyIcon from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment/happy.png';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { homeSubscriptionsConfig } from '../../constants';
 
 export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
-  const [closed, setClosed] = useLocalStorage('closed-home-tour-mobile', false);
-  const { setCurrentStep, setSteps, setIsOpen } = useTour();
   const { group } = useSubscription();
   const subConfig = homeSubscriptionsConfig[group];
   const isLoggedIn = useIsLoggedIn();
 
-  useEffect(() => {
-    if (closed || !isLoggedIn || !enabled || subConfig === true) return;
-    setClosed(true);
+  const rowSelector = `.tour-item-row:nth-child(${
+    subConfig ? +subConfig + 1 : 1
+  })`;
 
-    const rowSelector = `.tour-item-row:nth-child(${
-      subConfig ? subConfig + 1 : 1
-    })`;
-
-    setSteps?.([
+  usePageTour({
+    key: 'home-tour-mobile',
+    enabled: enabled && isLoggedIn && !subConfig,
+    steps: [
       {
         selector: rowSelector + ' .tour-item-sentiment',
         content: (
@@ -45,9 +40,6 @@ export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
         content:
           'Found a strong coin? Tap to validate signals and set up an auto-trade!',
       },
-    ]);
-    setCurrentStep(0);
-    setIsOpen(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled]);
+    ],
+  });
 }

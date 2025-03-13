@@ -21,11 +21,11 @@ import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { IndicatorIcon } from '../IndicatorIcon';
+import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
   useConfirmationTabs,
   type ConfirmationType,
 } from './useConfirmationTabs';
-import { ConfirmationAnalysis } from './ConfirmationAnalysis';
 import { ConfirmationBadge } from './ConfirmationBadge';
 import { ConfirmationTimeframeBadge } from './ConfirmationTimeframeBadge';
 
@@ -113,7 +113,7 @@ function ConfirmationRow<I extends Indicator>({
           ))}
         </div>
       </div>
-      <ConfirmationAnalysis value={value} />
+      <TRSAnalysis value={value.analysis} />
     </div>
   );
 }
@@ -224,8 +224,8 @@ export function ConfirmationWidget<I extends Indicator>({
         mode="children"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
-          'trial': 2,
           'pro': 2,
           'pro+': false,
           'pro_max': false,

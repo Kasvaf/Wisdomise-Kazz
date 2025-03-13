@@ -15,6 +15,7 @@ export function PriceAlertButton({
   slug,
   className,
   variant,
+  fab,
   ...props
 }: Omit<ButtonProps, 'onClick' | 'disabled' | 'block' | 'children'> & {
   slug: string;
@@ -77,6 +78,7 @@ export function PriceAlertButton({
         onClick={() => alertActions.openSaveModal()}
         variant={initialAlert.key ? 'outline' : variant}
         block
+        fab={fab}
         className={clsx(className, gtmClass('set-alert'))}
         disabled={
           !hasFlag('/coin-radar/alerts') ||
@@ -87,10 +89,14 @@ export function PriceAlertButton({
           title={['/coin-radar/alerts', '/coin-radar/alerts?price_alert']}
           color="orange"
         />
-        <Icon size={20} name={bxBell} className="mr-1" />
-        {initialAlert.key
-          ? t('set-price-notification.open-existing-modal-btn')
-          : t('set-price-notification.open-modal-btn')}
+        <Icon size={20} name={bxBell} />
+        {!fab && (
+          <>
+            {initialAlert.key
+              ? t('set-price-notification.open-existing-modal-btn')
+              : t('set-price-notification.open-modal-btn')}
+          </>
+        )}
       </Button>
       {alertActions.content}
     </>

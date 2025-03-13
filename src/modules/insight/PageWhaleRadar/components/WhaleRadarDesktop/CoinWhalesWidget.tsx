@@ -17,7 +17,8 @@ export const CoinWhalesWidget: FC<{
   id?: string;
   coin: CoinType;
   type: NonNullable<Parameters<typeof useCoinWhales>[0]['type']>;
-}> = ({ id, coin, type }) => {
+  noEmptyState?: boolean;
+}> = ({ id, coin, type, noEmptyState }) => {
   const { t } = useTranslation('whale');
   const whales = useCoinWhales({ slug: coin.slug ?? 'bitcoin', type });
 
@@ -104,6 +105,8 @@ export const CoinWhalesWidget: FC<{
 
   const isEmpty = whales.data?.length === 0;
 
+  if (isEmpty && noEmptyState) return null;
+
   return (
     <OverviewWidget
       id={id}
@@ -131,8 +134,8 @@ export const CoinWhalesWidget: FC<{
         mode="table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
-          'trial': 3,
           'pro': 3,
           'pro+': 3,
           'pro_max': false,

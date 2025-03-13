@@ -19,6 +19,8 @@ pro-locker:
   proplus:
     button: 升级至 Pro+
     message: 升级到 Pro+ 可获得独家见解，提升您的加密游戏！
+  trial:
+    button: 免费访问
 renew-modal:
   description: 使用 Wisdomise Pro 继续释放您的加密潜力！以下是 Pro 版本中的一些功能：
   renew: 续订您的专业版

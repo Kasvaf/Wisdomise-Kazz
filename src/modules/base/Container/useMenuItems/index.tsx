@@ -34,15 +34,15 @@ const useMenuItems = () => {
   const items: RootMenuItem[] = [
     {
       icon: isMobile ? <IconHome /> : <IconInsight />,
-      text: isMobile ? 'Home' : t('menu.coin-radar.title'),
+      text: isMobile ? t('menu.home.title') : t('menu.coin-radar.title'),
       link: '/coin-radar/overview',
       onClick: trackClick('insight_menu'),
       children: [
         {
-          text: t('menu.overview.title'),
+          text: t('menu.home.title'),
           link: '/coin-radar/overview',
           onClick: trackClick('insight_menu'),
-          badge: 'beta',
+          badge: 'new',
         },
         {
           text: t('menu.hot-coins.title'),
@@ -128,7 +128,6 @@ const useMenuItems = () => {
           text: t('menu.rewards.title'),
           link: '/account/rewards',
           onClick: trackClick('rewards_menu'),
-          hide: !isMobile,
         },
         ...(account.data?.telegram_code && hasFlag('/mini-login')
           ? [

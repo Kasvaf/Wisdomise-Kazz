@@ -34,7 +34,6 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
     onResolve();
   };
 
-  const nextSub = account.data?.subscription_item?.next_subs_item;
   const clickedPayment = changePaymentMethod.variables?.payment_method;
 
   return (
@@ -43,7 +42,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
       <p className="mt-1 font-normal">{t('change-pay-method.sub-title')}</p>
 
       <div className="mt-4 flex flex-wrap justify-center gap-4">
-        {nextSub?.payment_method !== 'FIAT' &&
+        {account.data?.subscription_item?.payment_method !== 'FIAT' &&
           hasFlag('/account/billing?payment_method=fiat') && (
             <Button
               size="small"
@@ -63,7 +62,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             </Button>
           )}
 
-        {nextSub?.payment_method !== 'CRYPTO' &&
+        {account.data?.subscription_item?.payment_method !== 'CRYPTO' &&
           hasFlag('/account/billing?payment_method=crypto') && (
             <Button
               size="small"
@@ -83,7 +82,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             </Button>
           )}
 
-        {nextSub?.payment_method !== 'TOKEN' &&
+        {account.data?.subscription_item?.payment_method !== 'TOKEN' &&
           hasFlag('/account/billing?payment_method=lock') && (
             <Button
               size="small"
@@ -103,7 +102,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             </Button>
           )}
 
-        {nextSub?.payment_method !== 'WSDM' &&
+        {account.data?.subscription_item?.payment_method !== 'WSDM' &&
           hasFlag('/account/billing?payment_method=wsdm') && (
             <Button
               size="small"

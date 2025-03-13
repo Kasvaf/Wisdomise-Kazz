@@ -2,12 +2,13 @@ import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxInfoCircle } from 'boxicons-quasar';
-import { Tooltip } from 'antd';
 import { useCoinDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import useIsMobile from 'utils/useIsMobile';
+import { HoverTooltip } from 'shared/HoverTooltip';
 
 function StatRow({
   className,
@@ -30,9 +31,9 @@ function StatRow({
         >
           {label}{' '}
           {info && (
-            <Tooltip title={info}>
+            <HoverTooltip title={info}>
               <Icon name={bxInfoCircle} size={18} />
-            </Tooltip>
+            </HoverTooltip>
           )}
         </div>
       )}
@@ -57,6 +58,7 @@ export function CoinStatsWidget({
 }) {
   const coinOverview = useCoinDetails({ slug });
   const { t } = useTranslation('coin-radar');
+  const isMobile = useIsMobile();
 
   const marketCapPercentage =
     ((coinOverview.data?.data?.total_volume ?? 0) /
@@ -75,8 +77,9 @@ export function CoinStatsWidget({
         100;
   return (
     <OverviewWidget
-      className={clsx('min-h-[333px] mobile:min-h-[306px]', className)}
-      contentClassName="flex flex-col gap-8"
+      className={clsx('min-h-[333px] mobile:min-h-min mobile:p-0', className)}
+      surface={isMobile ? 3 : 1}
+      contentClassName="flex flex-col gap-8 mobile:gap-4"
       loading={coinOverview.isLoading}
     >
       <StatRow label={t('coin-details.tabs.coin_stats.volume')}>
