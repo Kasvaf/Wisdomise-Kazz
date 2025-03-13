@@ -50,7 +50,7 @@ export default function PricingCard({
   const { data: lockingRequirement } = useLockingRequirementQuery(plan.price);
   const { isEmbeddedView } = useEmbedView();
 
-  const hasUserThisPlan = plan.key === userPlan?.key;
+  const hasUserThisPlan = plan.key === userPlan?.key && (isRenew || isUpdate);
   const hasUserThisPlanAsNextPlan = false;
 
   const isActionButtonDisabled =

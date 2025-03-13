@@ -14,7 +14,7 @@ export default function PageBilling() {
 
   return (
     <PageWrapper className="h-full" loading={isLoading}>
-      {subscription.level === 0 || subscription.status === 'canceled' ? (
+      {subscription.group === 'free' || subscription.group === 'initial' ? (
         <PricingTable />
       ) : (
         <SubscriptionDetail />
