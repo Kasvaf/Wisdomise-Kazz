@@ -12,7 +12,7 @@ const SUCCESSFUL_CHECKOUT_KEY = 'successful_checkout';
 export default function SuccessfulPaymentMessage() {
   const navigate = useNavigate();
   const { status } = useSubscription();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [successShown, setSuccessShow] = useState(false);
   const [modal, showModal] = useModal(ModalContent, {
     width: '700px',
@@ -26,9 +26,18 @@ export default function SuccessfulPaymentMessage() {
       !successShown
     ) {
       setSuccessShow(true);
+      searchParams.delete(SUCCESSFUL_CHECKOUT_KEY);
+      setSearchParams(searchParams);
       void showModal({}).then(() => navigate('/account/billing'));
     }
-  }, [status, navigate, searchParams, showModal, successShown]);
+  }, [
+    status,
+    navigate,
+    searchParams,
+    showModal,
+    successShown,
+    setSearchParams,
+  ]);
 
   return modal;
 }
