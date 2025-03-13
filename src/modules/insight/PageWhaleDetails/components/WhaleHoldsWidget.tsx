@@ -134,8 +134,8 @@ export function WhaleHoldsWidget({
         mode="table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
-          'trial': 3,
           'pro': 3,
           'pro+': 3,
           'pro_max': false,

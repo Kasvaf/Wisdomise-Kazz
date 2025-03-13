@@ -115,8 +115,8 @@ export const WhaleRadarMobile = () => {
         mode="mobile_table"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
-          'trial': 3,
           'pro': 3,
           'pro+': 3,
           'pro_max': false,

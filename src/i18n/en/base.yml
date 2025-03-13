@@ -39,10 +39,12 @@ menu:
   game-rewards:
     title: Claim Wiseboy Rewards
     subtitle: Collect your earned rewards in Wiseboy and enjoy the benefits!
+  home:
+    title: Home
   hot-coins:
     title: Social Radar
   overview:
-    title: Home
+    title: Overview
   profile:
     title: My Profile
     subtitle: Manage your socials, profile picture, personal info, and bio

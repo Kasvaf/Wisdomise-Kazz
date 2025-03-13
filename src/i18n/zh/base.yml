@@ -5,6 +5,9 @@ error-page:
   subtitle: 但我們會盡力確保它不會再次發生
   throw: 扔
   title: 出了點問題，我們不知道是怎麼回事 :(
+insight-declaimer:
+  content: Wisdomise 的见解和信号并非财务建议。请自行承担风险并酌情使用。请自行研究或咨询财务顾问（如有必要）。
+  title: 免责声明
 language: 語言
 links:
   about-us: 關於我們
@@ -23,31 +26,73 @@ menu:
     full-title: 通知和警报
     subtitle: 通过实时警报保持领先：设置您最喜欢的加密货币的通知，永远不会错过市场动向！
     title: 我的警报
+  athena:
+    title: 加密聊天机器人
   billing:
     remains: 剩餘
     subtitle: 訂閱偏好
     title: 訂閱
+  builder:
+    subtitle: 创建您自己的信号器和金融产品
+    title: 贸易大师
   coin-radar:
     full-title: 社交媒体上最热门的代币，经技术分析确认
     subtitle: 使用AI驅動的見解揭示市場趨勢
     title: Coin Rader
+  coin-view:
+    title: 货币列表
   coin:
     title: 幣種
+  dashboard:
+    title: 我的仪表板
+  financial-products:
+    title: 金融产品
+  fp-builder:
+    card-badge: 独特选择
+    card-button: 尝试金融产品
+    subtitle: 探索适合您需求的灵活的人工智能驱动的投资选择。
+    title: 我的产品
+  game-rewards:
+    subtitle: 在 Wiseboy 中收集您赢得的奖励并享受福利！
+    title: 领取 Wiseboy 奖励
+  home:
+    title: 家
   hot-coins:
     title: 社交雷达
+  investment:
+    subtitle: 探索我们的汽车交易金融产品
+    title: 投资
+  kyc:
+    subtitle: 验证身份以访问功能
+    title: 了解你的客户
   notification-center:
+    subtitle: 通知和主动警报设置
     title: 通知
   overview:
     title: 家
+  portfolio:
+    title: 文件夹
   profile:
     subtitle: 編輯登錄憑證
     title: 個人資料
   referral:
     subtitle: 邀請並賺取獎勵
     title: 推薦
+  rewards:
+    subtitle: 收集您赢得的奖励并享受福利！
+    title: 奖励
+  signal-builder:
+    card-button: 立即开始构建
+    subtitle: 为支持的加密货币创建信号
+    title: 我的信号员
+  signalers:
+    subtitle: 通过活跃信号和仓位发现领先的加密货币
+    title: 人工智能信号
   token:
     subtitle: 使用代幣獲取高級訪問權限
     title: WSDM 代幣
+  users:
+    title: 用户
   whales:
     full-title: 鲸鱼分析
     subtitle: 探索頂級加密巨鯨，他們的交易、損益、交易量以及更多
@@ -61,5 +106,6 @@ support:
   hint: 與我們聊天
   title: 問題？
 user:
+  sign-in: 登入
   sign-out: 登出
 wisdomise-is-loading: Wisdomise 加載中...

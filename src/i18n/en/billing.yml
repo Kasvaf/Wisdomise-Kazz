@@ -76,12 +76,10 @@ subscription-details:
   overview:
     btn-change-plan: Change Plan
     current-plan:
-      title: Current Plan
-      expire: Your plan will renew on
-      pay-method: Your payment method is
+      expire: Your plan will expires on
       pay-now: Pay Now!
       pending-invoice: <0>You payment status is<1></1></0>
-      renew: Your plan expires in
+      renew: Your plan renew in
       your-subs: Your subscription plan is<1></1>
     is-on-the-way:
       title: Your subscription is on the way
@@ -90,16 +88,15 @@ subscription-details:
         to verify your transaction. We will email you when your subscription is
         activated
     next-plan:
-      title: Next Plan
       automatically-renew: It will automatically renew when the time comes.
-      cancel-btn: Cancel Next Plan
-      canceled: <0>Your next plan has been canceled.<1>Renew Next Plan</1></0>
+      cancel-btn: Turn Off Auto-Renew
+      canceled: >-
+        <0>Your subscription will not renew automatically.<1>Turn On
+        Auto-Renew</1></0>
       card: Future charges will be applied to the card<1></1>
       change-pay-method: Change Payment Method
-      charging: Charging your credit card<1></1>
       in-order-to-renew: In order to renew, you will have to send the transaction again on<1></1>
       pay-method: Your payment method is
-      your-subs: Your subscription plan is<1></1>
 subscription-modal:
   title: Subscription Method
   subtitle: Please select the payment method that suits your preferences.
