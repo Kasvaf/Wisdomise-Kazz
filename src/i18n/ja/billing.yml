@@ -57,6 +57,7 @@ pricing-card:
     choose: 選ぶ
     current-plan: 現在ご契約中のプラン
     next-plan: 次のプラン
+    start-free-trial: 無料でアクセス
     upgrade-to: アップグレード {{plan}}
   features: 特徴
   forever: 永遠に
