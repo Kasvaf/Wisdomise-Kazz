@@ -49,7 +49,7 @@ pricing-card:
     choose: Choose
     current-plan: Current Plan
     next-plan: Next Plan
-    upgrade-to: Upgrade To {{plan}}
+    start-free-trial: Start Free Trial
   features: Features
   forever: Unlimited
   key_benefits: Key Benefits

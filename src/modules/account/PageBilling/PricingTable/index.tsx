@@ -39,7 +39,7 @@ export default function PricingTable({
       <div
         className={clsx(
           'flex max-w-full flex-col text-v1-content-primary',
-          !(isUpdate || isRenew) && 'p-2',
+          isUpdate || isRenew ? 'mt-8' : 'p-2',
         )}
       >
         {!(isRenew || isUpdate) && (

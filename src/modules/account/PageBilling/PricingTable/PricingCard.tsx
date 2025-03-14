@@ -94,7 +94,7 @@ export default function PricingCard({
   };
 
   return (
-    <div className="group flex min-w-[330px] max-w-[380px] shrink grow basis-0 flex-col mobile:w-full mobile:max-w-full">
+    <div className="group flex min-w-[330px] max-w-[380px] shrink grow basis-0 flex-col mobile:w-full mobile:min-w-full mobile:max-w-full">
       <div
         className={clsx(
           'relative grow p-px',
@@ -105,12 +105,12 @@ export default function PricingCard({
           className,
         )}
       >
-        <div className="relative flex h-full flex-col gap-6 rounded-2xl bg-v1-surface-l3 p-6">
+        <div className="relative flex h-full flex-col gap-6 rounded-2xl bg-v1-surface-l3 p-6 mobile:p-4">
           {plan.metadata?.most_popular === true && (
             <>
               <img
                 src={cardBg}
-                className="absolute h-auto w-full object-cover opacity-60"
+                className="absolute left-0 top-0 h-auto w-full object-cover opacity-60"
               />
               <div className="absolute -top-32 left-1/2 h-1/2 w-64 -translate-x-1/2 bg-wsdm-gradient opacity-50 blur-3xl" />
             </>
@@ -154,9 +154,7 @@ export default function PricingCard({
                   ? t('pricing-card.btn-action.choose')
                   : isTokenUtility
                   ? t('pricing-card.btn-action.activate-now')
-                  : t('pricing-card.btn-action.upgrade-to', {
-                      plan: plan.name,
-                    })
+                  : t('pricing-card.btn-action.start-free-trial')
                 : t('pricing-card.btn-action.current-plan')}
             </Button>
           </div>
