@@ -129,7 +129,7 @@ const useMenuItems = () => {
           link: '/account/rewards',
           onClick: trackClick('rewards_menu'),
         },
-        ...(account.data?.telegram_code && hasFlag('/mini-login')
+        ...(account.data?.telegram_code && hasFlag('/goto-mini-app')
           ? [
               {
                 text: 'Telegram MiniApp',

@@ -11,7 +11,7 @@ const TelegramLogin: React.FC<{
 }> = ({ className, onClick }) => {
   const { t } = useTranslation('auth');
   const hasFlag = useHasFlag();
-  if (!hasFlag('/mini-login')) return null;
+  if (!hasFlag('/login-by-telegram')) return null;
 
   return (
     <Button
