@@ -122,6 +122,12 @@ tables:
   target: 通知対象
   type: アラートの種類
 types:
+  coin_radar_screener:
+    step-1:
+      subtitle: コインが Coin Radar リストのトップ 5 に入るとすぐに通知を受け取ります。
+      title: 概要スクリーナーを設定する
+    subtitle: コインが Coin Radar リストのトップ 5 に入るとすぐに通知を受け取ります。
+    title: 概要スクリーナー
   price:
     sentence: すぐにアラートを送信 <Badge><Base>不明なコイン</Base></Badge> <Br/> 行く
       <Badge><Operator>不明なオペレーター</Operator></Badge> の価格 <Br />

@@ -79,13 +79,7 @@ export function TechnicalRadarAlertButton({
           ]}
           color="orange"
         />
-        {alerts.isLoading || alertActions.isSaving ? (
-          <GearIcon className="animate-spin" />
-        ) : posibleRelatedAlert ? (
-          <GearIcon />
-        ) : (
-          <ScreenerIcon />
-        )}
+        {posibleRelatedAlert ? <GearIcon /> : <ScreenerIcon />}
         {posibleRelatedAlert ? t('screener.edit') : t('screener.set')}
       </Button>
       <FirstSetModal

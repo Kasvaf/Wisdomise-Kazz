@@ -13,7 +13,7 @@ export default function PageQuests() {
   return (
     <PageWrapper loading={isLoading}>
       <PageTitle
-        className="mb-5"
+        className="py-5"
         title="Quests"
         description="Complete Quests and Earn Rewards."
       />

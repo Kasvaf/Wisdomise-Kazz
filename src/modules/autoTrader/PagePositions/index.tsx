@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
@@ -22,7 +21,6 @@ const PagePositions = () => {
   const [slug, setSlug] = useSearchParamAsState('slug');
 
   useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
-  const isTrialBannerVisible = useIsTrialBannerVisible();
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
 
   return (
@@ -57,7 +55,7 @@ const PagePositions = () => {
         <div
           className={clsx(
             isMobile ? 'fixed end-4 start-4 z-50' : 'mt-6 flex justify-center',
-            isMobile ? (isTrialBannerVisible ? 'bottom-28' : 'bottom-20') : '',
+            isMobile && 'bottom-20',
           )}
         >
           <ActiveNetworkProvider base={slug} setOnLayout>

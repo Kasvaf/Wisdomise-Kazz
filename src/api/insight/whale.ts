@@ -250,9 +250,21 @@ export const useWhaleNetworks = () =>
   });
 
 export interface WhaleRadarSentiment {
-  hold_percent?: number | null;
-  buy_percent?: number | null;
-  sell_percent?: number | null;
+  total_buy_volume?: null | number;
+  total_buy_number?: null | number;
+  total_sell_volume?: null | number;
+  total_sell_number?: null | number;
+  chart_data?: null | Array<{
+    buys_number?: null | number;
+    sells_number?: null | number;
+    price: number;
+    related_at: string;
+  }>;
+  buy_percent?: null | number;
+  sell_percent?: null | number;
+  hold_percent?: null | number;
+  wallet_count?: null | number;
+  label_percents: Array<[WhaleAssetLabel, number]>;
 }
 export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
   useQuery({
@@ -265,20 +277,12 @@ export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
       }),
   });
 
-// new
-
-export interface WhaleRadarCoin {
+export interface WhaleRadarCoin extends WhaleRadarSentiment {
   rank: number;
   symbol: Coin;
-  total_buy_volume: number;
-  total_buy_number: number;
-  total_sell_volume: number;
-  total_sell_number: number;
   total_transfer_volume: number;
   total_holding_volume: number;
   total_recent_trading_pnl: number;
-  wallet_count: number;
-  label_percents: Array<[WhaleAssetLabel, number]>;
   profitable: boolean;
   top_5_holders_info: Array<{
     address: string;
@@ -290,12 +294,6 @@ export interface WhaleRadarCoin {
     data: NetworkSecurity[];
   };
   symbol_labels: string[];
-  chart_data?: null | Array<{
-    buys_number?: null | number;
-    sells_number?: null | number;
-    price: number;
-    related_at: string;
-  }>;
 }
 
 export const useWhaleRadarCoins = (config: {
@@ -317,7 +315,7 @@ export const useWhaleRadarCoins = (config: {
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {
           days: config.days,
-          page_size: 99,
+          page_size: 500,
         },
         meta: { auth: false },
       }),

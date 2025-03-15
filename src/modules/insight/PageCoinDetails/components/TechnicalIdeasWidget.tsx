@@ -30,6 +30,9 @@ export function TechnicalIdeasWidget({
       .sort((a, b) => b.timestamp - a.timestamp);
   }, [messages]);
 
+  if (!chartUrl && tradingViewMessages.length === 0 && !coinOverview.isLoading)
+    return null;
+
   return (
     <OverviewWidget
       title={t('coin-details.tabs.trading_view.title')}

@@ -15,11 +15,14 @@ import { ReactComponent as CrossupIcon } from './crossup.svg';
 import { ReactComponent as CrossdownIcon } from './crossdown.svg';
 
 function ConfirmationResolutionRow({ value }: { value: string[] }) {
+  const { t } = useTranslation('common');
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="flex flex-wrap items-center justify-start gap-1">
         {(value?.length ?? 0) === 0 && (
-          <span className="text-v1-content-secondary">---</span>
+          <span className="text-v1-content-secondary">
+            {t('not-available')}
+          </span>
         )}
         {value?.map(row => (
           <div

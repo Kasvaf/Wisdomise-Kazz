@@ -12,7 +12,7 @@ import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { SocialSentiment } from '../SocialSentiment';
+import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 
 export const SocialRadarMobile = () => {
@@ -73,7 +73,7 @@ export const SocialRadarMobile = () => {
       },
       {
         key: 'sentiment',
-        render: row => <SocialSentiment value={row} mode="summary" />,
+        render: row => <SocialRadarSentiment value={row} mode="mini" />,
       },
       {
         key: 'labels',
@@ -114,8 +114,8 @@ export const SocialRadarMobile = () => {
         mode="mobile_table"
         sizes={{
           'guest': true,
-          'free': true,
-          'trial': 3,
+          'initial': 3,
+          'free': 3,
           'pro': false,
           'pro+': false,
           'pro_max': false,
@@ -149,7 +149,9 @@ export const SocialRadarMobile = () => {
             socialIndexes={selectedRow?.signals_analysis?.sparkline.indexes}
           />
         )}
-        {selectedRow && <SocialSentiment value={selectedRow} mode="expanded" />}
+        {selectedRow && (
+          <SocialRadarSentiment value={selectedRow} mode="expanded" />
+        )}
       </CoinPreDetailModal>
     </>
   );

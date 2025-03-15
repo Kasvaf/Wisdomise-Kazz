@@ -102,6 +102,8 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
         {
           query: {
             resolution: filters.resolution,
+            page_size: 2000,
+            limit: 150,
           },
         },
       ),
@@ -120,12 +122,12 @@ export type IndicatorConfirmationCombination =
 export interface IndicatorConfirmationCore {
   symbol: Coin;
   data?: null | MiniMarketData;
-  analysis?: null | string;
   symbol_labels?: null | string[];
   symbol_security?: null | {
     data?: null | NetworkSecurity[];
   };
   networks?: null | CoinNetwork[];
+  analysis?: null | string;
 }
 
 export interface RsiConfirmation {
@@ -207,6 +209,8 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         IndicatorConfirmation<I> & IndicatorConfirmationCore
       >(`delphi/${filters.indicator}/momentum-confirmation/`, {
         query: {
+          page_size: 2000,
+          limit: 100,
           ...Object.fromEntries(
             filters.combination.map(comb => [
               comb.endsWith('_divergence') ||
@@ -283,6 +287,11 @@ export const useTechnicalRadarCoins = (config: {
     queryFn: () =>
       resolvePageResponseToArray<TechnicalRadarCoin>(
         'delphi/technical-radar/top-coins/',
+        {
+          query: {
+            page_size: 2000,
+          },
+        },
       ),
     select: data => {
       return data
@@ -323,6 +332,7 @@ export interface TechnicalRadarSentiment {
   rsi_overness_normalized_score?: number | null;
   rsi_score?: number | null;
   technical_sentiment?: string | null;
+  analysis?: null | string;
   sparkline?: null | {
     prices?: null | Array<{
       related_at: string;
@@ -335,14 +345,13 @@ export const useTechnicalRadarSentiment = ({ slug }: { slug: string }) =>
     queryKey: ['technical-radar-sentiment', slug],
     queryFn: async () => {
       try {
-        const data = await ofetch<TechnicalRadarSentiment>(
-          'delphi/technical-radar/widget/',
-          {
-            query: {
-              slug,
-            },
+        const data = await ofetch<
+          RsiConfirmation & MacdConfirmation & TechnicalRadarSentiment
+        >('delphi/technical-radar/widget/', {
+          query: {
+            slug,
           },
-        );
+        });
         return data;
       } catch (error) {
         if (error instanceof FetchError && error.status === 500) {

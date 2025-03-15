@@ -76,11 +76,13 @@ export function WhaleAssetBadge({
   value,
   date,
   percentage,
+  textOnly,
 }: {
   className?: string;
   value?: WhaleAssetLabel | null;
   date?: string | null;
   percentage?: number | null;
+  textOnly?: boolean;
 }) {
   const { t } = useTranslation('common');
   const detail = useBadgeDetail(value);
@@ -91,6 +93,24 @@ export function WhaleAssetBadge({
     const text = dt.fromNow(false);
     return `(${daysDiff < 2 ? t('recently') : text})`;
   }, [date, t]);
+
+  const content = (
+    <>
+      {percentage && (
+        <ReadableNumber
+          value={percentage}
+          label="%"
+          popup="never"
+          format={{
+            decimalLength: 1,
+          }}
+        />
+      )}
+      {detail.title}
+      {dateTxt && <span className="capitalize opacity-80">{dateTxt}</span>}
+    </>
+  );
+  if (textOnly) return <span className={className}>{content}</span>;
 
   return (
     <ClickableTooltip
@@ -110,18 +130,7 @@ export function WhaleAssetBadge({
         className,
       )}
     >
-      {percentage && (
-        <ReadableNumber
-          value={percentage}
-          label="%"
-          popup="never"
-          format={{
-            decimalLength: 1,
-          }}
-        />
-      )}
-      {detail.title}
-      {dateTxt && <span className="capitalize opacity-80">{dateTxt}</span>}
+      {content}
     </ClickableTooltip>
   );
 }

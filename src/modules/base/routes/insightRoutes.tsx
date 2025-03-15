@@ -49,7 +49,7 @@ const useInsightRoutes = () => {
         { path: '', element: <PageRedirect /> },
         {
           path: 'overview',
-          handle: { crumb: t('menu.overview.title') },
+          handle: { crumb: t('menu.home.title') },
           element: <PageHome />,
         },
         {

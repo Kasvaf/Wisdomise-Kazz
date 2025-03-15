@@ -17,6 +17,7 @@ common:
   macd_wise_scoring: MACDワイズスコアリング
   market_cap: 時価総額
   no_divergence: 相違なし
+  no_sentiment: 利用不可
   overview: 概要
   price_change: 価格変更
   price_change_24h: 価格変更（24時間）

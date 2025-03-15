@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
 import { type NetworkSecurity } from 'api/types/shared';
 import Icon from 'shared/Icon';
-import { ReactComponent as Trusted } from './trusted.svg';
-import { ReactComponent as Risk } from './risk.svg';
-import { ReactComponent as Warning } from './warning.svg';
+import { securityIcons } from '../icons';
 import { useSecurityRows } from './useSecurityRows';
 
 export function SecurityRow({
@@ -27,11 +25,11 @@ export function SecurityRow({
     <div className="flex flex-col gap-2" onClick={() => setOpen(p => !p)}>
       <div className="flex flex-row items-center gap-1">
         {rows[field].badge === 'risk' ? (
-          <Risk className="size-4 shrink-0" />
+          <securityIcons.risk className="size-4 shrink-0" />
         ) : rows[field].badge === 'warning' ? (
-          <Warning className="size-4 shrink-0" />
+          <securityIcons.warning className="size-4 shrink-0" />
         ) : (
-          <Trusted className="size-4 shrink-0" />
+          <securityIcons.trusted className="size-4 shrink-0" />
         )}
         <p className="grow text-xs capitalize">{rows[field].label} </p>
         {rows[field].info && (

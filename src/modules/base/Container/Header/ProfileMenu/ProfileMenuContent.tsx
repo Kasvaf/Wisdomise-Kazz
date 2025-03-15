@@ -41,6 +41,10 @@ const ProfileMenuContent = () => {
   const { data: referral } = useReferralStatusQuery();
   const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
   const { pathname } = useLocation();
+  const isSubPlanActive =
+    subscription.status === 'active' ||
+    subscription.status === 'trialing' ||
+    subscription.status === 'past_due';
 
   return (
     <div className="min-w-80 space-y-4 text-v1-content-primary">
@@ -76,26 +80,35 @@ const ProfileMenuContent = () => {
             label={t('billing:common.subscription')}
           >
             <div className="text-end">
-              <div className="capitalize text-v1-content-brand">
-                {subscription.group.replace('_', ' ')}
+              <div
+                className={clsx(
+                  'capitalize text-v1-content-brand',
+                  !isSubPlanActive && 'line-through',
+                )}
+              >
+                {subscription.title}
               </div>
-              <div className="text-xs capitalize">
-                <span
-                  className={clsx(
-                    subscription.remaining
-                      ? 'text-v1-content-primary'
-                      : 'text-v1-content-negative',
-                  )}
-                >
-                  <ReadableDuration
-                    value={subscription.remaining}
-                    zeroText={t('pro:zero-hour')}
-                  />
-                </span>
-                <span className="ms-1 font-light capitalize text-v1-content-secondary">
-                  {t('billing:common.remains')}
-                </span>
-              </div>
+              {subscription.level > 0 &&
+                isSubPlanActive &&
+                subscription.status !== 'trialing' && (
+                  <div className="text-xs capitalize">
+                    <span
+                      className={clsx(
+                        subscription.remaining
+                          ? 'text-v1-content-primary'
+                          : 'text-v1-content-negative',
+                      )}
+                    >
+                      <ReadableDuration
+                        value={subscription.remaining}
+                        zeroText={t('pro:zero-hour')}
+                      />
+                    </span>
+                    <span className="ms-1 font-light capitalize text-v1-content-secondary">
+                      {t('billing:common.remains')}
+                    </span>
+                  </div>
+                )}
             </div>
           </InternalItem>
         )}
