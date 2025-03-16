@@ -138,7 +138,7 @@ export const HotCoinsMobile = () => {
         <MobileTable
           rowClassName="tour-item-row"
           columns={columns}
-          dataSource={coins.data?.slice(0, 20) ?? []}
+          dataSource={coins.data?.slice(0, 10) ?? []}
           loading={coins.isLoading}
           rowKey={r => r.rank}
           surface={2}
