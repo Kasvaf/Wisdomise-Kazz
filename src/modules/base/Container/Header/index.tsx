@@ -15,10 +15,8 @@ import Breadcrumb from './Breadcrumb';
 const Header: React.FC<
   PropsWithChildren<{
     className?: string;
-    showSiblings?: boolean;
-    onShowSiblings?: React.Dispatch<React.SetStateAction<boolean>>;
   }>
-> = ({ showSiblings, onShowSiblings, className, children }) => {
+> = ({ className, children }) => {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
 
@@ -26,6 +24,7 @@ const Header: React.FC<
     <div
       className={clsx(
         'fixed top-0 z-20 mx-auto w-full max-w-[2304px] bg-v1-background-primary',
+        'border-b border-v1-border-tertiary mobile:border-transparent',
         'h-20 mobile:h-16',
         className,
       )}
@@ -37,16 +36,13 @@ const Header: React.FC<
       >
         {isMobile ? (
           <div className="flex w-[calc(100vw-2rem)] items-center justify-between">
-            {pathname.startsWith('/account') ? (
+            {pathname.startsWith('/account') ||
+            pathname.startsWith('/coin/') ? (
               <>
                 <div className="w-1/2">
                   <BtnBack className="w-1/2" />
                 </div>
-                <Breadcrumb
-                  className="shrink-0"
-                  showSiblings={showSiblings}
-                  readonly={true}
-                />
+                <Breadcrumb className="shrink-0" />
                 <div className="flex w-1/2 justify-end">
                   {/* <BtnLiveSupport /> */}
                 </div>
@@ -59,11 +55,7 @@ const Header: React.FC<
 
                 {/* // weird class hides it when there's a button on right */}
                 <div className="shrink-0 has-[+div>*]:hidden">
-                  <Breadcrumb
-                    showLogo={true}
-                    showSiblings={showSiblings}
-                    onShowSiblings={onShowSiblings}
-                  />
+                  <Breadcrumb showLogo />
                 </div>
 
                 <div
@@ -84,6 +76,12 @@ const Header: React.FC<
           <>
             <Breadcrumb className="pl-6" />
             <div className="grow" />
+            {children && (
+              <>
+                {children}
+                <div className="mx-4 h-full w-px bg-v1-border-tertiary" />
+              </>
+            )}
             {RouterBaseName && <BranchSelector />}
             <LanguageSelector />
             <BtnWalletConnect />
@@ -91,7 +89,6 @@ const Header: React.FC<
           </>
         )}
       </div>
-      {children}
     </div>
   );
 };

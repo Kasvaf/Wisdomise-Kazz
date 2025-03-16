@@ -1,21 +1,21 @@
 import { clsx } from 'clsx';
 import React, { useState, type PropsWithChildren } from 'react';
+import { useLocation } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import { useHubSpot } from 'config/hubSpot';
+import { GlobalSearchBar } from 'shared/GlobalSearchBar';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import PageWrapper from '../PageWrapper';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import ScrollToTop from './ScrollToTop';
 import BottomNavBar from './BottomNavBar';
-import { usePageSiblings } from './Header/Breadcrumb';
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   useHubSpot();
   const isMobile = useIsMobile();
   const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
-  const { PageSiblings, height, showSiblings, setShowSiblings } =
-    usePageSiblings();
+  const { pathname } = useLocation();
 
   return (
     <main
@@ -31,8 +31,10 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         />
       )}
 
-      <Header showSiblings={showSiblings} onShowSiblings={setShowSiblings}>
-        {isMobile && PageSiblings}
+      <Header>
+        {pathname.startsWith('/coin-radar') && !isMobile && (
+          <GlobalSearchBar size="xl" className="w-full max-w-96 shrink-0" />
+        )}
       </Header>
 
       <div
@@ -42,7 +44,9 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
           'mt-20 mobile:mb-[7rem] mobile:mt-16',
         )}
       >
-        <div style={{ height }} />
+        {pathname.startsWith('/coin-radar') && isMobile && (
+          <GlobalSearchBar size="md" className="mb-4 w-full pt-px" />
+        )}
         <React.Suspense fallback={<PageWrapper loading />}>
           <AuthorizedContent>{children}</AuthorizedContent>
         </React.Suspense>
