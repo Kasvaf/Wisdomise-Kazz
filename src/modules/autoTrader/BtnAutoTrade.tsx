@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useSupportedPairs } from 'api';
+import { useHasFlag, useSupportedPairs } from 'api';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -17,6 +17,11 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
+
+  const hasFlag = useHasFlag();
+  if (!isMobile && !hasFlag('/desk-trader')) {
+    return null;
+  }
 
   return (
     <Button

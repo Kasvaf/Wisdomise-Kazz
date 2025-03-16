@@ -92,7 +92,7 @@ const useMenuItems = () => {
       icon: <IconPositions />,
       text: 'Auto Trader',
       link: '/trader-positions',
-      hide: isMobile,
+      hide: isMobile || !hasFlag('/desk-trader'),
       children: [
         {
           text: 'Positions',
