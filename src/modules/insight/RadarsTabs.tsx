@@ -6,6 +6,7 @@ import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { ReactComponent as SocialRadar } from './PageSocialRadar/components/social-radar.svg';
 import { ReactComponent as TechnicalRadar } from './PageTechnicalRadar/components/technical-radar.svg';
 import { ReactComponent as WhaleRadar } from './PageWhaleRadar/components/whale-radar.svg';
+import { ReactComponent as NetworkRadar } from './PageNetworkRadar/components/network-radar.svg';
 
 const RadarsTabs: FC<{ className?: string }> = ({ className }) => {
   const { pathname } = useLocation();
@@ -46,6 +47,15 @@ const RadarsTabs: FC<{ className?: string }> = ({ className }) => {
               </>
             ),
             value: '/coin-radar/whale-radar',
+          },
+          {
+            label: (
+              <>
+                <NetworkRadar />
+                {t('discover_by.network')}
+              </>
+            ),
+            value: '/coin-radar/network-radar',
           },
         ]}
         size="sm"

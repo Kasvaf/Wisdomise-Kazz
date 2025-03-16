@@ -1,5 +1,6 @@
 discover_by:
   label: Discover by Radar
+  network: Network
   social: Social
   technical: Technical
   whale: Whale

@@ -23,6 +23,10 @@ const PageTechnicalRadar = React.lazy(
   () => import('modules/insight/PageTechnicalRadar'),
 );
 
+const PageNetworkRadar = React.lazy(
+  () => import('modules/insight/PageNetworkRadar'),
+);
+
 const PageWhaleRadar = React.lazy(
   () => import('modules/insight/PageWhaleRadar'),
 );
@@ -61,6 +65,11 @@ const useInsightRoutes = () => {
           path: 'technical-radar',
           element: <PageTechnicalRadar />,
           handle: { crumb: t('menu.ai-indicators.title') },
+        },
+        {
+          path: 'network-radar',
+          handle: { crumb: t('menu.network-radar.title') },
+          element: <PageNetworkRadar />,
         },
         {
           path: 'whale-radar',

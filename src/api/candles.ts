@@ -146,3 +146,40 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
     data: data?.candle.close,
   };
 };
+
+interface PairCandle {
+  related_at: string;
+  resolution: Resolution;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  candle_count: number;
+}
+
+export const usePairCandle = (config: {
+  base: string;
+  quote: string;
+  exchange: string;
+  resolution: Resolution;
+  start: string;
+  end: string;
+}) => {
+  return useQuery({
+    queryKey: ['pair-candles', config],
+    queryFn: () => {
+      return ofetch<{ candles: PairCandle[] }>(
+        'https://stage-delphinus.wisdomise.com/v1/candles-by-slugs',
+        {
+          query: {
+            market: 'SPOT',
+            ...config,
+          },
+          meta: { auth: false },
+        },
+      ).then(resp => resp.candles);
+    },
+    refetchInterval: 5 * 60 * 1000,
+  });
+};
