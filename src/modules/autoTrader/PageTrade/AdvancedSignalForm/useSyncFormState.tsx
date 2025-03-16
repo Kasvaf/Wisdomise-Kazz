@@ -70,23 +70,29 @@ const useSyncFormState = ({
   } = formState;
 
   // reset all when asset is changed
+  const isUpdate = Boolean(activePosition);
   useEffect(() => {
     setTakeProfits([]);
     setStopLosses([]);
-    setSafetyOpens([
-      {
-        amountRatio: '100',
-        applied: false,
-        isMarket: true,
-        removed: false,
-        priceExact: '',
-        key: v4(),
-      },
-    ]);
+    setSafetyOpens(
+      isUpdate
+        ? []
+        : [
+            {
+              amountRatio: '100',
+              applied: false,
+              isMarket: true,
+              removed: false,
+              priceExact: '',
+              key: v4(),
+            },
+          ],
+    );
     setMaxOrders(100);
   }, [
     quote,
     baseSlug,
+    isUpdate,
     setMaxOrders,
     setSafetyOpens,
     setStopLosses,
@@ -122,7 +128,7 @@ const useSyncFormState = ({
 
       const price = firstOrder.price ?? activePosition.entry_price;
       setSafetyOpens(so =>
-        so?.[0].isMarket
+        so?.[0]?.isMarket
           ? so.map((x, i) =>
               i ? x : { ...x, priceExact: price ? String(price) : '' },
             )
@@ -130,26 +136,22 @@ const useSyncFormState = ({
       );
     }
 
-    const dummyOpen = !activePosition?.manager?.open_orders?.[0].amount;
     setSafetyOpens(safetyOpens =>
       mergeItems({
         local: safetyOpens,
         remote:
-          activePosition?.manager?.open_orders
-            ?.slice(dummyOpen ? 1 : 0)
-            ?.map((x, i) => ({
-              key: x.key,
-              amountRatio: String((x.amount ?? 0) * 100),
-              priceExact: String(
-                (x.condition.type === 'true' ? x.price : x.condition.right) ??
-                  0,
-              ),
-              applied: x.applied ?? false,
-              appliedAt:
-                x.applied && x.applied_at ? new Date(x.applied_at) : undefined,
-              removed: false,
-              isMarket: !i && !dummyOpen, // only first if no dummy was present
-            })) ?? [],
+          activePosition?.manager?.open_orders?.map(x => ({
+            key: x.key,
+            amountRatio: String((x.amount ?? 0) * 100),
+            priceExact: String(
+              (x.condition.type === 'true' ? x.price : x.condition.right) ?? 0,
+            ),
+            applied: x.applied ?? false,
+            appliedAt:
+              x.applied && x.applied_at ? new Date(x.applied_at) : undefined,
+            removed: false,
+            isMarket: x.condition.type === 'true', // only first if no dummy was present
+          })) ?? [],
       }),
     );
 
