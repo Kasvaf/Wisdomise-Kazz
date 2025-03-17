@@ -59,11 +59,11 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
         '/delphi/market/new-born-pools/',
         {
           query: {
-            page_size: 10, // NAITODO
+            page_size: 10, // NAITODO increase
           },
         },
         {
-          limit: 10, // NAITODO
+          limit: 10, // NAITODO remove
         },
       ),
     select: data =>
@@ -71,5 +71,5 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
         if (!matcher(config.networks).array([row.network.slug])) return false;
         return true;
       }),
-    refetchInterval: 30 * 1000,
+    refetchInterval: 30 * 1000 * 9999 /* NAITODO remove 9999 */,
   });
