@@ -1,10 +1,12 @@
 /* eslint-disable import/max-dependencies */
 import { bxPlusCircle } from 'boxicons-quasar';
+import { useMemo } from 'react';
 import { useSymbolInfo } from 'api/symbol';
 import { useAccountBalance } from 'api/chains';
 import AmountInputBox from 'shared/AmountInputBox';
 import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
+import { Button } from 'shared/v1-components/Button';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { type SignalFormState } from './useSignalFormStates';
 import QuoteSelector from './QuoteSelector';
@@ -13,7 +15,8 @@ import AIPresets from './AIPressets';
 const PartIntro: React.FC<{
   data: SignalFormState;
   baseSlug: string;
-}> = ({ data, baseSlug }) => {
+  noManualPreset?: boolean;
+}> = ({ data, baseSlug, noManualPreset }) => {
   const {
     isUpdate: [isUpdate],
     amount: [amount, setAmount],
@@ -28,6 +31,25 @@ const PartIntro: React.FC<{
 
   const { data: quoteBalance, isLoading: balanceLoading } =
     useAccountBalance(quote);
+
+  const { data: quoteSymbol } = useSymbolInfo(quote);
+  const abr = quoteSymbol?.abbreviation;
+
+  const steps = useMemo(() => {
+    if (!quoteBalance || !abr) return [];
+    return [0.1, 0.25, 0.5, 0.75, 1].map(p => {
+      const val = p * quoteBalance;
+      const value = val
+        .toFixed(val > -1 && val < 1 ? 18 : 1)
+        .replace(/(\.0*\d)\d*/, '$1')
+        .replaceAll(/\.?0+$/g, '');
+
+      return {
+        value,
+        label: p === 1 ? 'MAX' : String(value) + ' ' + abr,
+      };
+    });
+  }, [quoteBalance, abr]);
 
   return (
     <div>
@@ -86,9 +108,28 @@ const PartIntro: React.FC<{
         disabled={isUpdate || balanceLoading || !quoteBalance}
       />
 
-      <AIPresets data={data} baseSlug={baseSlug} quoteSlug={quote} />
+      {Boolean(quoteBalance) && (
+        <div className="mb-3 flex gap-1.5">
+          {steps.map(({ label, value }) => (
+            <Button
+              key={value}
+              size="xs"
+              variant={value === amount ? 'primary' : 'outline'}
+              className="grow !px-2 enabled:hover:!bg-v1-background-brand enabled:active:!bg-v1-background-brand"
+              onClick={() => setAmount(value)}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
+      )}
 
-      <div className="my-4 border-b border-white/5" />
+      <AIPresets
+        data={data}
+        baseSlug={baseSlug}
+        quoteSlug={quote}
+        noManual={noManualPreset}
+      />
     </div>
   );
 };

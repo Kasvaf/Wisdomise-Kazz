@@ -114,7 +114,7 @@ const PartTpSl: React.FC<{
               {item.applied ? (
                 <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-xs text-black">
                   <Icon name={bxsCheckCircle} />
-                  Hitted
+                  {t('strategy:position-detail-modal.hitted')}
                 </div>
               ) : (
                 <div className="ml-2 flex">
