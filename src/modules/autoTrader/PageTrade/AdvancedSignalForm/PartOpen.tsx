@@ -78,7 +78,7 @@ const PartOpen: React.FC<{
       </div>
       <div className="flex flex-col gap-2">
         {items
-          .filter(x => !x.removed)
+          .filter(x => !x.removed && (+x.amountRatio || !x.isMarket))
           .map((item, ind) => (
             <div key={item.key}>
               <div className="flex items-center">
