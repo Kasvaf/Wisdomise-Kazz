@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { type Network, type Coin } from 'api/types/shared';
+import { type Network, type Coin, type CoinDetails } from 'api/types/shared';
 import { resolvePageResponseToArray } from 'api/utils';
 import { matcher } from './utils';
 
@@ -29,9 +29,7 @@ export interface NetworkRadarPool {
       status: string;
     };
   };
-  base_community_data: {
-    links: Record<string, string | string[]>;
-  };
+  base_community_data: CoinDetails['community_data'];
   update: {
     total_num_buys: number;
     total_num_sells: number;
@@ -41,6 +39,11 @@ export interface NetworkRadarPool {
     };
     liquidity: {
       native: number;
+      usd: number;
+    };
+    liquidity_change: {
+      native: number;
+      percent: number;
       usd: number;
     };
     base_market_data: {
@@ -59,11 +62,11 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
         '/delphi/market/new-born-pools/',
         {
           query: {
-            page_size: 10, // NAITODO increase
+            page_size: 999,
           },
         },
         {
-          limit: 10, // NAITODO remove
+          limit: 50,
         },
       ),
     select: data =>
@@ -71,5 +74,5 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
         if (!matcher(config.networks).array([row.network.slug])) return false;
         return true;
       }),
-    refetchInterval: 30 * 1000 * 9999 /* NAITODO remove 9999 */,
+    refetchInterval: 30 * 1000,
   });
