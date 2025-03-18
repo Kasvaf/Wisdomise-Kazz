@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { ofetch } from 'config/ofetch';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { type PricesExchange, type MarketTypes } from './types/shared';
@@ -11,8 +12,10 @@ export interface Candle {
   high: number;
   low: number;
   close: number;
-  volume: number;
-  number_of_trades: number;
+  volume?: number;
+  number_of_trades?: number;
+  candle_count?: number;
+  resolution?: Resolution;
 }
 
 export const useCandlesQuery = ({
@@ -147,39 +150,39 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
   };
 };
 
-interface PairCandle {
-  related_at: string;
-  resolution: Resolution;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-  candle_count: number;
-}
-
-export const usePairCandle = (config: {
-  base: string;
-  quote: string;
+export const useCandlesBySlugs = (userConfig: {
+  base?: string;
+  quote?: string;
   exchange: string;
   resolution: Resolution;
-  start: string;
-  end: string;
+  start?: string;
+  end?: string;
 }) => {
+  const now = Date.now();
+  const config = {
+    start: new Date(now - 1000 * 60 * 60 * 24).toISOString(),
+    end: new Date(now).toISOString(),
+    ...userConfig,
+  };
+  const queryKey = [
+    'candles-by-slugs',
+    ...Object.entries(config).filter(([k]) => k !== 'start' && k !== 'end'),
+    dayjs(config.start).format('YYYY-MM-DD HH:mm'),
+    dayjs(config.end).format('YYYY-MM-DD HH:mm'),
+  ];
+
   return useQuery({
-    queryKey: ['pair-candles', config],
+    queryKey,
     queryFn: () => {
-      return ofetch<{ candles: PairCandle[] }>(
-        'https://stage-delphinus.wisdomise.com/v1/candles-by-slugs',
-        {
-          query: {
-            market: 'SPOT',
-            ...config,
-          },
-          meta: { auth: false },
+      return ofetch<{ candles: Candle[] }>('delphinus/candles-by-slugs/', {
+        query: {
+          market: 'SPOT',
+          ...config,
         },
-      ).then(resp => resp.candles);
+        meta: { auth: false },
+      }).then(resp => resp.candles);
     },
-    refetchInterval: 5 * 60 * 1000,
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: !!config.base && !!config.quote,
   });
 };
