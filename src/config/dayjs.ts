@@ -23,7 +23,7 @@ export default function configDayjs() {
     relativeTime: {
       future: 'In %s',
       past: '%s Ago',
-      s: '30 Seconds',
+      s: '<1 Minute',
       m: '1 Minute',
       mm: '%d Minutes',
       h: '1 Hour',

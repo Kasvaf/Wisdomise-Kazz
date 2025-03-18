@@ -11,7 +11,8 @@ export const ReadableDate: FC<{
   className?: string;
   emptyText?: string;
   popup?: boolean;
-}> = ({ value, className, format, popup = true, emptyText }) => {
+  suffix?: string | boolean;
+}> = ({ value, className, format, popup = true, emptyText, suffix }) => {
   const { t } = useTranslation('common');
   const [tick, setTick] = useState(1); // used as dependency to update content
 
@@ -30,10 +31,8 @@ export const ReadableDate: FC<{
     const label =
       typeof format === 'string'
         ? date.format(format)
-        : date
-            .fromNow()
-            .replace(' Seconds', 's')
-            .replace(' Second', 's')
+        : `${date
+            .fromNow(!!(suffix === false || typeof suffix === 'string'))
             .replace(' Minutes', 'm')
             .replace(' Minute', 'm')
             .replace(' Hours', 'h')
@@ -45,13 +44,15 @@ export const ReadableDate: FC<{
             .replace(' Months', 'M')
             .replace(' Month', 'M')
             .replace(' Years', 'Y')
-            .replace(' Year', 'Y');
+            .replace(' Year', 'Y')} ${
+            typeof suffix === 'string' ? suffix : ''
+          }`.trim();
     const tooltip = date.format('ddd, MMM D, YYYY h:mm:ss A');
     return {
       label,
       tooltip,
     };
-  }, [date, format, tick]);
+  }, [date, format, suffix, tick]);
 
   useInterval(() => {
     if (!date) return;
