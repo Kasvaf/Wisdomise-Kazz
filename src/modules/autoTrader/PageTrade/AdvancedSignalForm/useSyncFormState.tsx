@@ -146,9 +146,8 @@ const useSyncFormState = ({
             priceExact: String(
               (x.condition.type === 'true' ? x.price : x.condition.right) ?? 0,
             ),
-            applied: x.applied ?? false,
-            appliedAt:
-              x.applied && x.applied_at ? new Date(x.applied_at) : undefined,
+            applied: (x.applied ?? false) || x.applied_at != null,
+            appliedAt: x.applied_at ? new Date(x.applied_at) : undefined,
             removed: false,
             isMarket: x.condition.type === 'true', // only first if no dummy was present
           })) ?? [],
