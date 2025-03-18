@@ -61,8 +61,8 @@ export function Coin({
   const truncateSize =
     typeof truncate === 'number' ? truncate : isMobile ? 70 : 110;
   const rootClassName = clsx(
-    'inline-flex w-auto shrink items-center gap-2 pe-2',
-    !mini && 'p-1',
+    'inline-flex w-auto shrink items-center gap-2 pe-2 align-[inherit]',
+    !mini && 'p-1 mobile:p-0',
     !nonLink &&
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
