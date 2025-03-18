@@ -7,12 +7,17 @@ import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
-import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import {
   type NetworkRadarPool,
   useNetworkRadarPools,
 } from 'api/insight/network';
 import { NetworkSelect } from 'shared/NetworkSelect';
+import { PoolAge } from '../PoolAge';
+import { PoolBuySell } from '../PoolBuySell';
+import { PoolTradingVolume } from '../PoolTradingVolume';
+import { PoolLiquidity } from '../PoolLiquidity';
+import { PoolSecurity } from '../PoolSecurity';
+import { PoolPreDetailModal } from '../PoolPreDetailModal';
 
 export const NetworkRadarMobile = () => {
   const { t } = useTranslation();
@@ -42,9 +47,61 @@ export const NetworkRadarMobile = () => {
           <Coin
             coin={row.base_symbol}
             imageClassName="size-7"
-            className="text-sm"
-            truncate={70}
+            className="text-xs"
+            truncate={55}
             nonLink={true}
+          />
+        ),
+      },
+      {
+        key: 'age',
+        className: 'max-w-12 min-w-8',
+        render: row => (
+          <PoolAge
+            value={row.creation_datetime}
+            imgClassName="size-3"
+            className="h-[25px] text-xxs"
+          />
+        ),
+      },
+      {
+        key: 'market_data',
+        className: 'max-w-22',
+        render: row => (
+          <div className="flex h-[25px] flex-col justify-between">
+            <PoolTradingVolume
+              value={row}
+              imgClassName="size-3"
+              className="text-xxs"
+            />
+            <PoolBuySell
+              value={row}
+              imgClassName="size-3"
+              className="text-[8px]"
+            />
+          </div>
+        ),
+      },
+      {
+        key: 'liquidity',
+        className: 'max-w-22',
+        render: row => (
+          <PoolLiquidity
+            value={row}
+            className="text-xxs"
+            imgClassName="size-6"
+            type="update_with_icon"
+          />
+        ),
+      },
+      {
+        key: 'security',
+        render: row => (
+          <PoolSecurity
+            value={row}
+            className="shrink-0 text-xxs"
+            imgClassName="size-3"
+            type="grid"
           />
         ),
       },
@@ -95,15 +152,11 @@ export const NetworkRadarMobile = () => {
           }}
         />
       </AccessShield>
-      <CoinPreDetailModal
-        coin={selectedRow?.base_symbol}
+      <PoolPreDetailModal
+        value={selectedRow}
         open={modal}
         onClose={() => setModal(false)}
-      >
-        <div className="whitespace-pre font-mono text-xxs">
-          {JSON.stringify(selectedRow, null, 2)}
-        </div>
-      </CoinPreDetailModal>
+      />
     </>
   );
 };

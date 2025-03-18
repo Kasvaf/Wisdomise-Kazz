@@ -9,10 +9,12 @@ import {
   bxlTwitter,
   bxPackage,
 } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useCoinDetails } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
 import useIsMobile from 'utils/useIsMobile';
+import { type CoinDetails } from 'api/types/shared';
 
 function LinkBadge({
   icon,
@@ -20,19 +22,67 @@ function LinkBadge({
   href,
 }: {
   icon: string;
-  label: string;
+  label?: string | null;
   href: string;
 }) {
   return (
     <a
       href={href}
-      className="inline-flex h-6 items-center gap-1 rounded-full px-2 text-xs text-v1-content-primary transition-all bg-v1-surface-l-next hover:brightness-110 active:brightness-90"
+      className={clsx(
+        'inline-flex items-center gap-1 rounded-full text-xs text-v1-content-primary transition-all bg-v1-surface-l-next hover:brightness-110 active:brightness-90',
+        label ? 'h-6 justify-between px-2' : 'size-5 shrink-0 justify-center',
+      )}
       target="_blank"
       rel="noreferrer"
     >
-      <Icon name={icon} size={16} />
+      <Icon name={icon} size={label ? 16 : 13} />
       {label}
     </a>
+  );
+}
+
+export function CoinSocials({
+  className,
+  value,
+  iconsOnly,
+}: {
+  className?: string;
+  value: CoinDetails['community_data'];
+  iconsOnly: boolean;
+}) {
+  const { t } = useTranslation('coin-radar');
+
+  return (
+    <div className={clsx('flex items-center', className)}>
+      {value?.links?.subreddit_url && (
+        <LinkBadge
+          icon={bxlReddit}
+          label={iconsOnly ? '' : t('coin-details.tabs.coin_links.reddit')}
+          href={value?.links?.subreddit_url}
+        />
+      )}
+      {value?.links?.twitter_screen_name && (
+        <LinkBadge
+          icon={bxlTwitter}
+          label={iconsOnly ? '' : t('coin-details.tabs.coin_links.twitter')}
+          href={`https://x.com/${value.links?.twitter_screen_name}`}
+        />
+      )}
+      {value?.links?.facebook_username && (
+        <LinkBadge
+          icon={bxlFacebook}
+          label={iconsOnly ? '' : t('coin-details.tabs.coin_links.facebook')}
+          href={`https://facebook.com/${value.links?.facebook_username}`}
+        />
+      )}
+      {value?.links?.telegram_channel_identifier && (
+        <LinkBadge
+          icon={bxlTelegram}
+          label={iconsOnly ? '' : t('coin-details.tabs.coin_links.telegram')}
+          href={`https://t.me/${value.links?.telegram_channel_identifier}`}
+        />
+      )}
+    </div>
   );
 }
 
@@ -105,36 +155,11 @@ export function CoinLinksWidget({ id, slug }: { slug: string; id?: string }) {
         <label className="text-xs font-normal text-v1-content-primary">
           {t('coin-details.tabs.coin_links.social')}
         </label>
-        <div className="flex flex-wrap items-center gap-2">
-          {communityData.links?.subreddit_url && (
-            <LinkBadge
-              icon={bxlReddit}
-              label={t('coin-details.tabs.coin_links.reddit')}
-              href={communityData.links?.subreddit_url}
-            />
-          )}
-          {communityData.links?.twitter_screen_name && (
-            <LinkBadge
-              icon={bxlTwitter}
-              label={t('coin-details.tabs.coin_links.twitter')}
-              href={`https://x.com/${communityData.links?.twitter_screen_name}`}
-            />
-          )}
-          {communityData.links?.facebook_username && (
-            <LinkBadge
-              icon={bxlFacebook}
-              label={t('coin-details.tabs.coin_links.facebook')}
-              href={`https://facebook.com/${communityData.links?.facebook_username}`}
-            />
-          )}
-          {communityData.links?.telegram_channel_identifier && (
-            <LinkBadge
-              icon={bxlTelegram}
-              label={t('coin-details.tabs.coin_links.telegram')}
-              href={`https://t.me/${communityData.links?.telegram_channel_identifier}`}
-            />
-          )}
-        </div>
+        <CoinSocials
+          className="flex-wrap gap-2"
+          value={communityData}
+          iconsOnly={false}
+        />
       </div>
     </OverviewWidget>
   );
