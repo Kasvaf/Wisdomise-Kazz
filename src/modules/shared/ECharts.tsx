@@ -55,7 +55,11 @@ export const ECharts: FC<{
       resize();
       setReady(true);
     }, 100);
-    return () => clearTimeout(tm);
+    return () => {
+      chart.current?.dispose();
+      chart.current = undefined;
+      clearTimeout(tm);
+    };
   }, [height, renderer, resize, width]);
 
   // sync options
