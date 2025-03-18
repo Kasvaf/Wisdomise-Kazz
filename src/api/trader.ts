@@ -226,7 +226,7 @@ export function useTraderPositionQuery({
     },
     {
       staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: 10_000,
+      refetchInterval: 7000,
       enabled: !!positionKey,
     },
   );
@@ -261,7 +261,7 @@ export function useTraderPositionsQuery({
     },
     {
       staleTime: 10,
-      refetchInterval: 20_000,
+      refetchInterval: isOpen ? 7000 : 20_000,
     },
   );
 }
