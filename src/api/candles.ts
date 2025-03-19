@@ -5,7 +5,7 @@ import { useActiveNetwork } from 'modules/base/active-network';
 import { type PricesExchange, type MarketTypes } from './types/shared';
 import { NETWORK_MAIN_EXCHANGE, useSupportedPairs } from './trader';
 
-export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h';
+export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d';
 export interface Candle {
   related_at: string;
   open: number;
@@ -154,16 +154,34 @@ export const useCandlesBySlugs = (userConfig: {
   base?: string;
   quote?: string;
   exchange: string;
-  resolution: Resolution;
+  resolution?: Resolution;
   start?: string;
   end?: string;
 }) => {
   const now = Date.now();
+  const yesterday = now - 1000 * 60 * 60 * 24;
   const config = {
-    start: new Date(now - 1000 * 60 * 60 * 24).toISOString(),
+    start: new Date(yesterday).toISOString(),
     end: new Date(now).toISOString(),
     ...userConfig,
   };
+  if (!config.resolution) {
+    const hoursDiff = Math.abs(dayjs(config.start).diff(config.end, 'hours'));
+    config.resolution =
+      hoursDiff < 1
+        ? '1m'
+        : hoursDiff < 2
+        ? '5m'
+        : hoursDiff < 3
+        ? '15m'
+        : hoursDiff < 6
+        ? '30m'
+        : hoursDiff < 24
+        ? '1h'
+        : hoursDiff < 96
+        ? '4h'
+        : '1d';
+  }
   const queryKey = [
     'candles-by-slugs',
     ...Object.entries(config).filter(([k]) => k !== 'start' && k !== 'end'),

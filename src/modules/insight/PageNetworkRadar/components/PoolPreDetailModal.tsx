@@ -19,7 +19,6 @@ export const PoolPreDetailModal: FC<{
     quote: value?.quote_symbol.slug,
     start: value?.creation_datetime,
     exchange: 'Raydium',
-    resolution: '1m',
   });
 
   return (
