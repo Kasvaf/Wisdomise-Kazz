@@ -1,0 +1,9 @@
+export { ReactComponent as IconAccount } from 'modules/account/PageAccount/icons/profile.svg';
+export { ReactComponent as IconTrades } from 'modules/base/Container/useMenuItems/icons/positions.svg';
+export { ReactComponent as IconQuests } from 'modules/base/Container/useMenuItems/icons/quests.svg';
+export { ReactComponent as IconAlerts } from 'modules/account/PageAccount/icons/alerts.svg';
+export { ReactComponent as IconSubscription } from './subscription.svg';
+export { ReactComponent as IconReferral } from './referral.svg';
+export { ReactComponent as IconLanguage } from './lang.svg';
+export { ReactComponent as IconHelp } from './help.svg';
+export { ReactComponent as IconSignOut } from './signout.svg';
