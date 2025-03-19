@@ -117,9 +117,7 @@ export default function PricingCard({
     ) {
       searchParams.delete('level');
       searchParams.delete('periodicity');
-      setSearchParams(searchParams, {
-        replace: true,
-      });
+      setSearchParams(searchParams);
       void onClick();
     }
   }, [onClick, plan.level, plan.periodicity, searchParams, setSearchParams]);

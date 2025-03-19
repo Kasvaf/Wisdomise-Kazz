@@ -70,9 +70,7 @@ export default function SubscriptionMethodModal({
     if (searchParams.has('paymentMethod')) {
       const paymentMethod = searchParams.get('paymentMethod');
       searchParams.delete('paymentMethod');
-      setSearchParams(searchParams, {
-        replace: true,
-      });
+      setSearchParams(searchParams);
       switch (paymentMethod) {
         case 'crypto': {
           onCryptoClick();
