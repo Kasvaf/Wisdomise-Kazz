@@ -28,8 +28,10 @@ const Header: React.FC<
   const tradesBtn = (
     <Button
       onClick={() => navigate('/trader-positions')}
-      variant={pathname.startsWith('/trader-positions') ? 'white' : 'outline'}
+      variant={pathname.startsWith('/trader-positions') ? 'outline' : 'ghost'}
+      size={isMobile ? 'md' : 'xl'}
       className="!px-4"
+      surface={2}
     >
       <IconTrades />
       Trades
