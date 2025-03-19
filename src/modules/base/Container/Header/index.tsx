@@ -8,7 +8,6 @@ import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { isMiniApp } from 'utils/version';
 import BtnBack from 'modules/base/BtnBack';
 import BranchSelector from './BranchSelector';
-import LanguageSelector from './LanguageSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
 
@@ -85,7 +84,6 @@ const Header: React.FC<
             <Breadcrumb className="pl-6" />
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
-            <LanguageSelector />
             <BtnWalletConnect />
             <ProfileMenu />
           </>

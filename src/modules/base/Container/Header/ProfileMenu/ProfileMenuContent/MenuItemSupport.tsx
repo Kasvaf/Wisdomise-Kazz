@@ -11,6 +11,7 @@ const MenuItemSupport = () => {
         e.preventDefault();
         openHubSpot();
       }}
+      noArrow
     >
       <BoxedIcon icon={IconHelp} variant="brand" />
       Need Help?{' '}

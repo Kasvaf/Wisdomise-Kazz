@@ -10,8 +10,9 @@ const MenuItem: React.FC<
     href?: string;
     className?: string;
     onClick?: MouseEventHandler<any>;
+    noArrow?: boolean;
   }>
-> = ({ className, children, to, href, ...props }) => {
+> = ({ className, children, to, href, noArrow, ...props }) => {
   const classes = clsx(
     'cursor-pointer bg-v1-surface-l3 !text-v1-content-primary hover:bg-v1-surface-l2',
     'flex h-12 items-center justify-between py-2 pl-3 pr-4',
@@ -22,7 +23,7 @@ const MenuItem: React.FC<
   const content = (
     <>
       <div className="flex items-center gap-2">{children}</div>
-      <Icon name={bxRightArrowAlt} />
+      {!noArrow && <Icon name={bxRightArrowAlt} />}
     </>
   );
 
