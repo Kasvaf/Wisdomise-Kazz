@@ -72,7 +72,9 @@ export function useSubscription() {
           let matchedLevel = Math.min(...neededGroups.map(g => LEVELS[g]));
           matchedLevel = matchedLevel < 1 ? 1 : matchedLevel;
           navigate(
-            `/account/billing?level=${matchedLevel}&periodicity=MONTHLY&paymentMethod=fiat`,
+            `/account/billing?level=${matchedLevel}${
+              group === 'initial' ? '&paymentMethod=fiat' : ''
+            }`,
           );
           // never resolve
         }
