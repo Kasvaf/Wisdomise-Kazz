@@ -20,7 +20,7 @@ const MenuItemSubscription = () => {
       <BoxedIcon icon={IconSubscription} />
       {t('menu.billing.title')}
 
-      <div className="text-end">
+      <div className="flex items-center gap-1 text-end">
         <div
           className={clsx(
             'capitalize text-v1-content-brand',
