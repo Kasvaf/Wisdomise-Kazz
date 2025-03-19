@@ -1,3 +1,4 @@
+import { type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconSocial } from './icons/social.svg';
@@ -5,7 +6,7 @@ import { ReactComponent as IconTechnical } from './icons/technical.svg';
 import { ReactComponent as IconWhale } from './icons/whale.svg';
 
 interface MenuItem {
-  text: string;
+  text: string | ReactElement;
   link: string;
   hide?: boolean;
   badge?: 'beta' | 'new';
@@ -22,7 +23,12 @@ const useMenuItems = () => {
   const items: RootMenuItem[] = [
     {
       icon: <IconHome />,
-      text: t('menu.home.title'),
+      text: (
+        <div className="flex items-center gap-0.5">
+          {t('menu.home.titleM')}
+          <span className="mt-0.5 font-semibold">+</span>
+        </div>
+      ),
       link: '/coin-radar/overview',
     },
     {
