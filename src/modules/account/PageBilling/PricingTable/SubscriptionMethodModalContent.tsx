@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { notification } from 'antd';
 import { clsx } from 'clsx';
+import { useSearchParams } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
 import type { SubscriptionPlan } from 'api/types/subscription';
 import Button from 'shared/Button';
 import useModal from 'shared/useModal';
@@ -32,7 +34,7 @@ export default function SubscriptionMethodModal({
     { fullscreen: true, destroyOnClose: true },
   );
 
-  const onCryptoClick = () => {
+  const onCryptoClick = useCallback(() => {
     onResolve?.();
     if (plan.crypto_payment_link) {
       window.location.href = plan.crypto_payment_link;
@@ -41,19 +43,19 @@ export default function SubscriptionMethodModal({
         message: t('pricing-card.notification-call-support'),
       });
     }
-  };
+  }, [onResolve, plan.crypto_payment_link, t]);
 
-  const onFiatClick = async () => {
+  const onFiatClick = useCallback(async () => {
     propOnFiatClick();
     onResolve?.();
-  };
+  }, [onResolve, propOnFiatClick]);
 
-  const onLockClick = async () => {
+  const onLockClick = useCallback(async () => {
     onResolve?.();
     void openTokenPaymentModal({ plan });
-  };
+  }, [onResolve, openTokenPaymentModal, plan]);
 
-  const onWSDMClick = () => {
+  const onWSDMClick = useCallback(() => {
     if (plan.wsdm_payment_link) {
       window.location.href = plan.wsdm_payment_link;
     } else {
@@ -61,7 +63,44 @@ export default function SubscriptionMethodModal({
         message: t('pricing-card.notification-call-support'),
       });
     }
-  };
+  }, [plan.wsdm_payment_link, t]);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    if (searchParams.has('paymentMethod')) {
+      const paymentMethod = searchParams.get('paymentMethod');
+      searchParams.delete('paymentMethod');
+      setSearchParams(searchParams, {
+        replace: true,
+      });
+      switch (paymentMethod) {
+        case 'crypto': {
+          onCryptoClick();
+          break;
+        }
+        case 'wsdm': {
+          onWSDMClick();
+          break;
+        }
+        case 'lock': {
+          void onLockClick();
+          break;
+        }
+        default: {
+          void onFiatClick();
+        }
+      }
+    }
+  }, [
+    onCryptoClick,
+    onFiatClick,
+    onLockClick,
+    onWSDMClick,
+    plan.level,
+    plan.periodicity,
+    searchParams,
+    setSearchParams,
+  ]);
 
   return (
     <div className="flex flex-col items-center">
@@ -70,7 +109,10 @@ export default function SubscriptionMethodModal({
         {t('subscription-modal.title')}
       </p>
       <p className="mt-6 text-sm font-medium text-white/60">
-        {t('subscription-modal.subtitle')}
+        {t('subscription-modal.subtitle', {
+          name: plan.name,
+          periodicity: plan.periodicity.toLowerCase(),
+        })}
       </p>
 
       <div className="mt-8 grid grid-cols-2 items-stretch gap-6 mobile:w-full mobile:flex-col">

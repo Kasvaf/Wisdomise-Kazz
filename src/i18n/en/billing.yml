@@ -99,7 +99,9 @@ subscription-details:
       pay-method: Your payment method is
 subscription-modal:
   title: Subscription Method
-  subtitle: Please select the payment method that suits your preferences.
+  subtitle: >-
+    You are about to purchase the "{{name}}" plan with a {{periodicity}}
+    subscription. Please select your payment method.
   btn-crypto: Crypto Payment
   btn-fiat: Fiat Payment
   btn-lock: Lock WSDM
