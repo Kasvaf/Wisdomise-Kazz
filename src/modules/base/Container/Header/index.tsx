@@ -2,11 +2,13 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
 import { useLocation } from 'react-router-dom';
-import useIsMobile from 'utils/useIsMobile';
-import { RouterBaseName } from 'config/constants';
-import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { isMiniApp } from 'utils/version';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { RouterBaseName } from 'config/constants';
+import useIsMobile from 'utils/useIsMobile';
+import Button from 'shared/Button';
 import BtnBack from 'modules/base/BtnBack';
+import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import BranchSelector from './BranchSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
@@ -19,7 +21,19 @@ const Header: React.FC<
   }>
 > = ({ showSiblings, onShowSiblings, className, children }) => {
   const isMobile = useIsMobile();
+  const net = useActiveNetwork();
   const { pathname } = useLocation();
+  const tradesBtn = (
+    <Button
+      to="/trader-positions"
+      variant={
+        pathname.startsWith('/trader-positions') ? 'primary' : 'alternative'
+      }
+      className="!px-4"
+    >
+      Trades
+    </Button>
+  );
 
   return (
     <div
@@ -72,8 +86,10 @@ const Header: React.FC<
                     isMiniApp && '[&:not(:has(*))]:hidden',
                   )}
                 >
-                  {pathname.startsWith('/account') ? null : (
+                  {pathname.startsWith('/account') ? null : net ? (
                     <BtnWalletConnect />
+                  ) : (
+                    tradesBtn
                   )}
                 </div>
               </>
@@ -84,6 +100,7 @@ const Header: React.FC<
             <Breadcrumb className="pl-6" />
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
+            {tradesBtn}
             <BtnWalletConnect />
             <ProfileMenu />
           </>
