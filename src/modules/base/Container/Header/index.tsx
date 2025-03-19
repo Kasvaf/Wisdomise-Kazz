@@ -12,6 +12,7 @@ import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import BranchSelector from './BranchSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
+import { IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
 const Header: React.FC<
   PropsWithChildren<{
@@ -30,6 +31,7 @@ const Header: React.FC<
       variant={pathname.startsWith('/trader-positions') ? 'white' : 'outline'}
       className="!px-4"
     >
+      <IconTrades />
       Trades
     </Button>
   );
