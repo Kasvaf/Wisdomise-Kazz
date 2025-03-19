@@ -18,7 +18,7 @@ export const PoolLiquidity: FC<{
     | 'initial_row'
     | 'update_with_icon';
 }> = ({ className, imgClassName, value, type }) => {
-  const isPositive = (value?.update.liquidity_change.percent ?? 0) > 0;
+  const isPositive = (value?.update.liquidity_change?.percent ?? 0) > 0;
 
   if (type === 'update_with_icon') {
     return (
@@ -39,7 +39,7 @@ export const PoolLiquidity: FC<{
             }}
           />
           <DirectionalNumber
-            value={value?.update.liquidity_change.percent}
+            value={value?.update.liquidity_change?.percent}
             popup="never"
             className="text-[82%]"
             showIcon={false}
@@ -86,7 +86,7 @@ export const PoolLiquidity: FC<{
         </span>
         {type.startsWith('update') && (
           <DirectionalNumber
-            value={value?.update.liquidity_change.percent}
+            value={value?.update.liquidity_change?.percent}
             popup="never"
             showIcon={false}
             showSign

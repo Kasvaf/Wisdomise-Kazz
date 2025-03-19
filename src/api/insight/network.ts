@@ -41,7 +41,7 @@ export interface NetworkRadarPool {
       native: number;
       usd: number;
     };
-    liquidity_change: {
+    liquidity_change?: {
       native: number;
       percent: number;
       usd: number;
