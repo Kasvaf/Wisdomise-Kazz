@@ -1,12 +1,12 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { isMiniApp } from 'utils/version';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { Button } from 'shared/v1-components/Button';
 import { RouterBaseName } from 'config/constants';
 import useIsMobile from 'utils/useIsMobile';
-import Button from 'shared/Button';
 import BtnBack from 'modules/base/BtnBack';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import BranchSelector from './BranchSelector';
@@ -23,12 +23,11 @@ const Header: React.FC<
   const isMobile = useIsMobile();
   const net = useActiveNetwork();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const tradesBtn = (
     <Button
-      to="/trader-positions"
-      variant={
-        pathname.startsWith('/trader-positions') ? 'primary' : 'alternative'
-      }
+      onClick={() => navigate('/trader-positions')}
+      variant={pathname.startsWith('/trader-positions') ? 'white' : 'outline'}
       className="!px-4"
     >
       Trades
