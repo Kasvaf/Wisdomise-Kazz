@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import VerificationInput from 'react-verification-input';
 import { GoogleLogin } from '@react-oauth/google';
 import { Modal as AntModal } from 'antd';
@@ -117,6 +117,29 @@ const LoginModalContent: React.FC<{
     }
     setIsConnecting(false);
   };
+  const notice = (
+    <p className="text-xs text-v1-content-secondary [&_a]:text-v1-content-brand">
+      <Trans ns="auth" i18nKey="login.notice">
+        By continuing, you agree to our
+        <a
+          target="_blank"
+          href="https://help.wisdomise.com/privacy-policy"
+          rel="noreferrer"
+        >
+          Privacy Policy
+        </a>
+        and
+        <a
+          target="_blank"
+          href="https://help.wisdomise.com/terms-and-conditions"
+          rel="noreferrer"
+        >
+          Terms of Service
+        </a>
+        .
+      </Trans>
+    </p>
+  );
 
   const emailContent = (
     <>
@@ -181,6 +204,7 @@ const LoginModalContent: React.FC<{
         </div>
 
         <TelegramLogin className="max-w-[320px]" onClick={tgHandler} />
+        {notice}
       </div>
     </>
   );
@@ -254,7 +278,7 @@ const LoginModalContent: React.FC<{
       <div className="absolute left-8 top-8 mobile:hidden">
         <Logo />
       </div>
-      <div className="relative flex min-h-[275px] grow flex-col items-stretch justify-center p-8 mobile:h-auto mobile:grow-0 mobile:justify-end">
+      <div className="relative flex min-h-min grow flex-col items-stretch justify-center p-8 mobile:h-auto mobile:grow-0 mobile:justify-end">
         {emailLoginLoading || verifyEmailLoading || isConnecting ? (
           <div className="my-8 flex grow flex-col items-center justify-center">
             <Spinner />

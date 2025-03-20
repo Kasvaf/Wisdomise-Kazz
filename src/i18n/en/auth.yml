@@ -13,6 +13,9 @@ login:
       title: <b>Validate</b> Calls with AI
       subtitle: Quickly Validate the Signal With Sentiments and Key Labels
   login-by-telegram: Login by Telegram
+  notice: >-
+    By continuing, you agree to our <1>Privacy Policy</1> and <3>Terms of
+    Service</3>.
   step-1:
     button-submit-email: Get Started
     field-email: Email
@@ -42,7 +45,6 @@ page-referral:
     title: My Friends List
   how:
     button: How it Works?
-  invited: Invited
   referral-link: Your Referral Link
   share: Share
   subscription: Subscription

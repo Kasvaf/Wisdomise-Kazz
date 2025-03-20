@@ -1,16 +1,18 @@
 import { clsx } from 'clsx';
 import type React from 'react';
 import { type PropsWithChildren } from 'react';
-import { useLocation } from 'react-router-dom';
-import useIsMobile from 'utils/useIsMobile';
-import { RouterBaseName } from 'config/constants';
-import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { isMiniApp } from 'utils/version';
+import { useActiveNetwork } from 'modules/base/active-network';
+import { Button } from 'shared/v1-components/Button';
+import { RouterBaseName } from 'config/constants';
+import useIsMobile from 'utils/useIsMobile';
 import BtnBack from 'modules/base/BtnBack';
+import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import BranchSelector from './BranchSelector';
-import LanguageSelector from './LanguageSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
+import { IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
 const Header: React.FC<
   PropsWithChildren<{
@@ -20,7 +22,24 @@ const Header: React.FC<
   }>
 > = ({ showSiblings, onShowSiblings, className, children }) => {
   const isMobile = useIsMobile();
+  const net = useActiveNetwork();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const tradesBtn = (
+    <Button
+      onClick={() => navigate('/trader-positions')}
+      size={isMobile ? 'md' : 'xl'}
+      variant="ghost"
+      className={clsx(
+        '!px-4',
+        pathname.startsWith('/trader-positions') && '!text-[#00A3FF]',
+      )}
+      surface={2}
+    >
+      <IconTrades />
+      Trades
+    </Button>
+  );
 
   return (
     <div
@@ -73,8 +92,10 @@ const Header: React.FC<
                     isMiniApp && '[&:not(:has(*))]:hidden',
                   )}
                 >
-                  {pathname.startsWith('/account') ? null : (
+                  {pathname.startsWith('/account') ? null : net ? (
                     <BtnWalletConnect />
+                  ) : (
+                    tradesBtn
                   )}
                 </div>
               </>
@@ -85,7 +106,7 @@ const Header: React.FC<
             <Breadcrumb className="pl-6" />
             <div className="grow" />
             {RouterBaseName && <BranchSelector />}
-            <LanguageSelector />
+            {tradesBtn}
             <BtnWalletConnect />
             <ProfileMenu />
           </>

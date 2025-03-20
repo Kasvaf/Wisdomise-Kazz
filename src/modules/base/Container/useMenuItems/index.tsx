@@ -1,17 +1,12 @@
+import { type ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { useAccountQuery, useHasFlag } from 'api';
-import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
-import { trackClick } from 'config/segment';
-import useIsMobile from 'utils/useIsMobile';
-import { ReactComponent as IconPositions } from './icons/positions.svg';
-import { ReactComponent as IconInsight } from './icons/insight.svg';
-import { ReactComponent as IconAccount } from './icons/account.svg';
-import { ReactComponent as IconQuests } from './icons/quests.svg';
 import { ReactComponent as IconHome } from './icons/home.svg';
+import { ReactComponent as IconSocial } from './icons/social.svg';
+import { ReactComponent as IconTechnical } from './icons/technical.svg';
+import { ReactComponent as IconWhale } from './icons/whale.svg';
 
 interface MenuItem {
-  text: string;
+  text: string | ReactElement;
   link: string;
   hide?: boolean;
   badge?: 'beta' | 'new';
@@ -25,140 +20,31 @@ export interface RootMenuItem extends MenuItem {
 
 const useMenuItems = () => {
   const { t } = useTranslation('base');
-  const hasFlag = useHasFlag();
-  const isMobile = useIsMobile();
-  const account = useAccountQuery();
-
-  const { pathname } = useLocation();
-
   const items: RootMenuItem[] = [
     {
-      icon: isMobile ? <IconHome /> : <IconInsight />,
-      text: isMobile ? t('menu.home.title') : t('menu.coin-radar.title'),
+      icon: <IconHome />,
+      text: (
+        <div className="flex items-center gap-0.5">
+          {t('menu.home.titleM')}
+          <span className="mt-0.5 font-semibold">+</span>
+        </div>
+      ),
       link: '/coin-radar/overview',
-      onClick: trackClick('insight_menu'),
-      children: [
-        {
-          text: t('menu.home.title'),
-          link: '/coin-radar/overview',
-          onClick: trackClick('insight_menu'),
-          badge: 'new',
-        },
-        {
-          text: t('menu.hot-coins.title'),
-          link: '/coin-radar/social-radar',
-          onClick: trackClick('coin_radar_menu'),
-        },
-        {
-          text: t('menu.ai-indicators.title'),
-          link: '/coin-radar/technical-radar',
-          onClick: trackClick('market_pulse_menu'),
-        },
-        {
-          text: t('menu.whales.title'),
-          link: '/coin-radar/whale-radar',
-          onClick: trackClick('whales_menu'),
-        },
-        {
-          text: t('menu.alerts.title'),
-          link: '/coin-radar/alerts',
-          onClick: trackClick('alerts_menu'),
-        },
-      ],
     },
     {
-      icon: <IconInsight />,
-      text: 'Radars',
-      link:
-        (pathname.startsWith('/coin-radar/') &&
-          !pathname.startsWith('/coin-radar/overview') &&
-          /\/coin-radar\/[\w-]+/.exec(pathname)?.[0]) ||
-        '/coin-radar/social-radar',
-      hide: !isMobile,
+      icon: <IconSocial />,
+      text: t('menu.social.title'),
+      link: '/coin-radar/social-radar',
     },
     {
-      icon: <IconPositions />,
-      text: 'Trades',
-      link: '/trader-positions',
-      hide: !isMobile,
+      icon: <IconTechnical />,
+      text: t('menu.technical.title'),
+      link: '/coin-radar/technical-radar',
     },
     {
-      icon: <IconQuests />,
-      text: 'Quest',
-      link: '/trader-quests',
-      hide: !isMobile,
-    },
-    {
-      icon: <IconPositions />,
-      text: 'Auto Trader',
-      link: '/trader-positions',
-      hide: isMobile || !hasFlag('/desk-trader'),
-      children: [
-        {
-          text: 'Positions',
-          link: '/trader-positions',
-        },
-        {
-          text: 'Quests',
-          link: '/trader-quests',
-        },
-      ],
-    },
-    {
-      icon: <IconAccount />,
-      text: t('menu.account.title'),
-      link: '/account',
-      onClick: trackClick('account_menu'),
-      hide: isMobile,
-      children: [
-        {
-          text: isMobile ? t('menu.account.title') : t('menu.overview.title'),
-          link: '/account/overview',
-          onClick: trackClick('account_menu'),
-        },
-        {
-          text: t('menu.profile.title'),
-          link: '/account/profile',
-          onClick: trackClick('profile_menu'),
-        },
-        {
-          text: t('menu.billing.title'),
-          link: '/account/billing',
-          onClick: trackClick('subscription_menu'),
-        },
-        {
-          text: t('menu.token.title'),
-          link: '/account/token',
-          onClick: trackClick('wsdm_token_menu'),
-        },
-        {
-          text: t('menu.account-manager.title'),
-          link: '/account/exchange-accounts',
-          onClick: trackClick('external_account_menu'),
-        },
-        {
-          text: t('menu.referral.title'),
-          link: '/account/referral',
-          onClick: trackClick('referral_menu'),
-        },
-        {
-          text: t('menu.rewards.title'),
-          link: '/account/rewards',
-          onClick: trackClick('rewards_menu'),
-        },
-        ...(account.data?.telegram_code && hasFlag('/goto-mini-app')
-          ? [
-              {
-                text: 'Telegram MiniApp',
-                link:
-                  AUTO_TRADER_MINI_APP_BASE +
-                  '?startapp=login_' +
-                  account.data?.telegram_code,
-                hide: isMobile,
-              },
-            ]
-          : []),
-      ],
+      icon: <IconWhale />,
+      text: t('menu.whale.title'),
+      link: '/coin-radar/whale-radar',
     },
   ];
   return { items };
