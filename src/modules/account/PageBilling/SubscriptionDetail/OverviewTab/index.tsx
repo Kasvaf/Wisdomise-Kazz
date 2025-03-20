@@ -11,7 +11,7 @@ export default function OverviewTab() {
   const { t } = useTranslation('billing');
 
   // TODO: In Free mode may be we can remove this alert for crypto
-  const lastInvoice = invoices.data?.results.at(0);
+  const lastInvoice = invoices.data?.results[0];
   const hasOpenCryptoPayment =
     level === 0 &&
     lastInvoice?.payment_method === 'CRYPTO' &&

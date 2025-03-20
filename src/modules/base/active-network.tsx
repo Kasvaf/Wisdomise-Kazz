@@ -65,7 +65,9 @@ export const LayoutActiveNetworkProvider: React.FC<PropsWithChildren> = ({
 
   return (
     <LayoutActiveNetworkContext.Provider value={ctx}>
-      <ActiveNetworkProvider network={activeNetworks.at(-1)}>
+      <ActiveNetworkProvider
+        network={activeNetworks[activeNetworks.length - 1]}
+      >
         {children}
       </ActiveNetworkProvider>
     </LayoutActiveNetworkContext.Provider>
