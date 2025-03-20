@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useInvoicesQuery, usePlansQuery, useSubscription } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import SubscriptionDetail from './SubscriptionDetail';
@@ -10,16 +8,9 @@ export default function PageBilling() {
   const plans = usePlansQuery();
   const invoices = useInvoicesQuery();
   const subscription = useSubscription();
-  const [searchParams] = useSearchParams();
-  const isAutoMode = useRef(
-    searchParams.has('level') && searchParams.has('paymentMethod'),
-  );
 
   const isLoading =
-    plans.isLoading ||
-    invoices.isLoading ||
-    subscription.isLoading ||
-    isAutoMode.current;
+    plans.isLoading || invoices.isLoading || subscription.isLoading;
 
   return (
     <PageWrapper className="h-full" loading={isLoading} mountWhileLoading>
