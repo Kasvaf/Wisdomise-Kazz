@@ -32,13 +32,15 @@ export interface LeaderboardParticipant {
   trading_volume: number;
   rank: number;
   league_slug?: string;
-  promotion_status?: 'DEMOTING' | 'PROMOTING' | 'NEUTRAL';
+  promotion_status?: PromotionStatus;
   promotion_detail?: {
     prev_league: string;
     next_league: string;
     reward_items: PrizeItem[];
   };
 }
+
+export type PromotionStatus = 'DEMOTING' | 'PROMOTING' | 'NEUTRAL';
 
 export function useTournaments(status?: GamificationStatus) {
   return useQuery(['tournaments', status], async () => {

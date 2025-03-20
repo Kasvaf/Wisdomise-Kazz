@@ -18,12 +18,13 @@ export default function PageLeague() {
   const [currentLeague, setCurrentLeague] = useState<number | undefined>();
   const { data: me } = useLeagueProfileQuery();
   const { data: participants } = useLeagueLeaderboardQuery(
-    currentLeague ? details?.[currentLeague].slug : undefined,
+    currentLeague === undefined ? undefined : details?.[currentLeague].slug,
   );
 
   useEffect(() => {
-    if (profile.league && !currentLeague)
+    if (profile.league && !currentLeague) {
       setCurrentLeague(profile.league.level);
+    }
   }, [currentLeague, profile.league]);
 
   return (
@@ -53,7 +54,7 @@ export default function PageLeague() {
             centerPadding="30%"
             afterChange={current => setCurrentLeague(current)}
           >
-            {details?.reverse().map((item, index) => (
+            {details?.map((item, index) => (
               <div key={item.slug}>
                 <div className="relative mx-auto flex flex-col items-center">
                   {profile.league_slug === item.slug && (

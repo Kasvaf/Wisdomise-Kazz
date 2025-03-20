@@ -1,9 +1,16 @@
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
-import { type LeaderboardParticipant } from 'api/tournament';
+import {
+  type LeaderboardParticipant,
+  type PromotionStatus,
+} from 'api/tournament';
 import { addComma } from 'utils/numbers';
 import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
-import { ReactComponent as IconUser } from './user.svg';
+import { ReactComponent as IconUser } from '../user.svg';
+import { ReactComponent as Demoting } from './demoting.svg';
+// import { ReactComponent as Demoting } from './demoting.svg';
+// import { ReactComponent as Demoting } from './demoting.svg';
+// import { ReactComponent as Demoting } from './demoting.svg';
 
 export default function Leaderboard({
   participants,
@@ -52,19 +59,16 @@ export default function Leaderboard({
         {sortedParticipants[0]?.promotion_status && <div>Status</div>}
       </div>
       {sortedParticipants?.map((p, index) => (
-        <div
+        <LeaderboardItem
           key={p.investor_key}
-          className="mb-2 flex h-12 items-center justify-between rounded-xl bg-v1-surface-l3 px-3 text-xs"
-        >
-          <div className="w-6 shrink-0">{index + 1}</div>
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
-            <IconUser />
-          </div>
-          <div className="mx-3 truncate">{p.name ?? p.investor_key}</div>
-          <div className="ms-auto">
-            ${addComma(Math.round(+p.trading_volume))}
-          </div>
-        </div>
+          participant={p}
+          rank={index + 1}
+          hasLabel={
+            index === 0 ||
+            sortedParticipants[index].promotion_status !==
+              sortedParticipants[index - 1].promotion_status
+          }
+        />
       ))}
       {me && (
         <div
@@ -96,5 +100,73 @@ export default function Leaderboard({
         </div>
       )}
     </div>
+  );
+}
+
+const statusDetails: Record<PromotionStatus, any> = {
+  DEMOTING: {
+    label: (
+      <div className="flex items-center gap-2 text-v1-content-negative">
+        <span>Demotion Zone</span>
+        <Demoting />
+      </div>
+    ),
+    labelIcon: null,
+    userStatus: null,
+    className: 'from-v1-background-negative',
+  },
+  NEUTRAL: {
+    label: <span>Neutral Zone</span>,
+    className: 'from-v1-surface-l4',
+  },
+  PROMOTING: {
+    label: (
+      <div className="flex items-center gap-2 text-v1-content-positive">
+        <span>Promotion Zone</span>
+        <Demoting />
+      </div>
+    ),
+    className: 'from-v1-background-positive',
+  },
+};
+
+function LeaderboardItem({
+  participant,
+  rank,
+  hasLabel,
+}: {
+  participant: LeaderboardParticipant;
+  rank?: number;
+  hasLabel?: boolean;
+}) {
+  return (
+    <>
+      {participant.promotion_status && hasLabel && (
+        <div className="mb-2 ml-3 mt-4 text-xxs">
+          {statusDetails[participant.promotion_status].label}
+        </div>
+      )}
+      <div
+        className={clsx(
+          participant.promotion_status &&
+            statusDetails[participant.promotion_status].className,
+          'mb-2 h-12 rounded-xl bg-gradient-to-l to-v1-surface-l3 p-[0.5px]',
+        )}
+      >
+        <div className="flex h-full items-center justify-between rounded-xl bg-v1-surface-l3/90 px-3 text-xs">
+          <div className="w-6 shrink-0">{rank}</div>
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-v1-surface-l4">
+            <IconUser />
+          </div>
+          <div className="mx-3 truncate">
+            {participant.name ?? participant.investor_key}
+          </div>
+          <div className="ms-auto">
+            ${addComma(Math.round(+participant.trading_volume))}
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </>
   );
 }
