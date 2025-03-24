@@ -9,7 +9,7 @@ import { DebugPin } from 'shared/DebugPin';
 import Button from 'shared/Button';
 import useActionHandlers from './useActionHandlers';
 import useSyncFormState from './useSyncFormState';
-import PartSafetyOpen from './PartSafetyOpen';
+import PartIntro from './PartIntro';
 import PartOpen from './PartOpen';
 import PartTpSl from './PartTpSl';
 import { type SignalFormState } from './useSignalFormStates';
@@ -54,6 +54,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
     ModalConfirm,
     ModalApproval,
   } = useActionHandlers({
+    baseSlug,
     data: formState,
     activePosition,
   });
@@ -80,8 +81,8 @@ const AdvancedSignalForm: React.FC<Props> = ({
   return (
     <div className={clsx('flex flex-col gap-3', className)}>
       <div className="flex flex-col gap-5">
+        <PartIntro data={formState} baseSlug={baseSlug} />
         <PartOpen data={formState} baseSlug={baseSlug} />
-        <PartSafetyOpen data={formState} baseSlug={baseSlug} />
         <PartTpSl type="TP" data={formState} baseSlug={baseSlug} />
         <PartTpSl type="SL" data={formState} baseSlug={baseSlug} />
       </div>

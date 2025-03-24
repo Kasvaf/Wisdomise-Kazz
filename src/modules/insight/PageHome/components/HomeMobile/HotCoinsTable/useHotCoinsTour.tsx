@@ -16,7 +16,7 @@ export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
 
   usePageTour({
     key: 'home-tour-mobile',
-    enabled: enabled && isLoggedIn && !subConfig,
+    enabled: enabled && isLoggedIn && subConfig !== true,
     steps: [
       {
         selector: rowSelector + ' .tour-item-sentiment',

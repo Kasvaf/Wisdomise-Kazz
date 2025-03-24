@@ -52,7 +52,7 @@ const useAutoTraderRoutes = () => {
         {
           path: 'trader-quests',
           children: [
-            { path: 'overview', element: <PageQuests /> },
+            { path: '', element: <PageQuests /> },
             {
               path: 'tournaments',
               children: [

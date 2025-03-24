@@ -23,7 +23,7 @@ import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
-import CoinRadarAlerButton from './CoinRadarAlertButton';
+import SocialRadarAlerButton from './SocialRadarAlerButton';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Realtime } from './realtime.svg';
 
@@ -184,7 +184,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
             placeholder={t('common.search_coin')}
             size="md"
           />
-          {!isEmbeddedView && <CoinRadarAlerButton className="shrink-0" />}
+          {!isEmbeddedView && <SocialRadarAlerButton className="shrink-0" />}
         </>
       }
     >
@@ -198,8 +198,8 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         mode="table"
         sizes={{
           'guest': true,
-          'free': true,
-          'trial': 3,
+          'initial': 3,
+          'free': 3,
           'pro': false,
           'pro+': false,
           'pro_max': false,

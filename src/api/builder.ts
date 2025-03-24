@@ -27,7 +27,6 @@ export interface OpenOrderInput {
   key: string;
   amount?: number;
   price?: { value: number };
-  order_type: 'limit' | 'market';
   condition:
     | OpenOrderCondition
     | {
@@ -41,7 +40,6 @@ export interface OpenOrderResponse {
   key: string;
   amount?: number;
   price?: number;
-  order_type: 'limit' | 'market';
   condition:
     | OpenOrderCondition
     | {

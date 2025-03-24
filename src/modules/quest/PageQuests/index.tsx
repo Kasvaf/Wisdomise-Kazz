@@ -18,10 +18,17 @@ export default function PageQuests() {
         title="Quests"
         description="Complete Quests and Earn Rewards."
       />
-      {hasFlag('/trader-quests/daily') && <DailyTrade />}
-      {hasFlag('/trader-quests/league') && <League />}
-      {hasFlag('/account/referral') && <Referral />}
-      {hasFlag('/trader-quests/tournaments') && <Tournaments />}
+
+      <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1">
+        {hasFlag('/trader-quests/daily') && (
+          <DailyTrade className="shrink-0 grow" />
+        )}
+        {hasFlag('/trader-quests/league') && <League />}
+        {hasFlag('/account/referral') && <Referral className="shrink-0 grow" />}
+        {hasFlag('/trader-quests/tournaments') && (
+          <Tournaments className="shrink-0 grow" />
+        )}
+      </div>
     </PageWrapper>
   );
 }

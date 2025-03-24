@@ -34,7 +34,7 @@ export const CoinSelect: FC<
   const q = useDebounce(query, 400);
   const coinList = useCoins({ query: q, tradableCoinsOnly });
 
-  const coin = useCoinDetails({ slug: value ?? 'tether' });
+  const coin = useCoinDetails({ slug: value ?? undefined });
   const { data: lastPrice } = useLastPriceQuery({
     slug: value == null ? undefined : value,
     exchange: priceExchange === 'auto' ? undefined : priceExchange,

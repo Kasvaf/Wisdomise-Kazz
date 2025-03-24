@@ -10,22 +10,19 @@ import PendingInvoice from './PendingInvoice';
 export default function CurrentPlan() {
   const { data } = useAccountQuery();
   const { t } = useTranslation('billing');
-  const { currentPeriodEnd, plan } = useSubscription();
+  const { currentPeriodEnd, plan, status } = useSubscription();
   const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
     width: 1200,
+    className: '[&_.ant-modal-content]:p-4',
   });
 
   const subItem = data?.subscription_item;
-  const nextSubs = subItem?.next_subs_item;
+  const isAutoRenewEnabled = !subItem?.cancel_at_period_end;
   const paymentMethod = subItem?.payment_method;
 
   return (
     <div>
       <section className="flex flex-col gap-3">
-        <h2 className="mb-1 text-xl font-semibold text-white/20">
-          {t('subscription-details.overview.current-plan.title')}
-        </h2>
-
         <div className="flex flex-wrap items-center">
           <Trans
             ns="billing"
@@ -47,24 +44,17 @@ export default function CurrentPlan() {
             </button>
           )}
         </div>
-
-        <div>
-          {paymentMethod === 'FIAT' && nextSubs
-            ? t('subscription-details.overview.current-plan.expire')
-            : t('subscription-details.overview.current-plan.renew')}
-          <InfoBadge
-            value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
-            value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
-          />
-        </div>
-
-        <div>
-          {t('subscription-details.overview.current-plan.pay-method')}
-          {paymentMethod && (
-            <InfoBadge value1={paymentMethodText[paymentMethod]} />
-          )}
-        </div>
-
+        {status !== 'trialing' && (
+          <div>
+            {isAutoRenewEnabled
+              ? t('subscription-details.overview.current-plan.renew')
+              : t('subscription-details.overview.current-plan.expire')}
+            <InfoBadge
+              value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
+              value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
+            />
+          </div>
+        )}
         <PendingInvoice />
       </section>
       {PricingTableMod}

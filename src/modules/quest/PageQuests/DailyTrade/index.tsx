@@ -20,7 +20,7 @@ import { ReactComponent as Stars } from './images/stars.svg';
 import { ReactComponent as Arrow } from './images/arrow.svg';
 import { ReactComponent as Lock } from './images/lock.svg';
 
-export default function DailyTrade() {
+export default function DailyTrade({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const [openReward, setOpenReward] = useState(false);
   const [rewardAmount, setRewardAmount] = useState(0);
@@ -63,7 +63,11 @@ export default function DailyTrade() {
     <>
       <div
         onClick={() => setOpen(true)}
-        className="relative mb-4 flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4"
+        className={clsx(
+          'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4',
+          'cursor-pointer hover:saturate-200',
+          className,
+        )}
       >
         <Bg className="absolute top-0 h-full" />
         <div className="relative">

@@ -8,7 +8,6 @@ import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
 import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
 import TournamentsOnboarding from 'modules/quest/PageTournaments/TournamentsOnboarding';
-import BtnBack from 'modules/base/BtnBack';
 import Leaderboard from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
 
 export default function PageTournamentDetail() {
@@ -22,15 +21,6 @@ export default function PageTournamentDetail() {
   return (
     <TournamentsOnboarding>
       <PageWrapper loading={isLoading} className="pb-10">
-        <div className="mb-3 flex items-center justify-between gap-2">
-          <div className="w-1/2">
-            <BtnBack />
-          </div>
-          <div className="shrink-0 text-center text-base font-medium">
-            {tournament?.name}
-          </div>
-          <div className="w-1/2"></div>
-        </div>
         {tournament && (
           <TournamentCard tournament={tournament} hasDetail={true} />
         )}

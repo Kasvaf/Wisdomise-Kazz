@@ -109,8 +109,8 @@ export const TechnicalRadarCoinsTable: FC = () => {
         mode="table"
         sizes={{
           'guest': true,
-          'free': true,
-          'trial': 3,
+          'initial': 3,
+          'free': 3,
           'pro': 3,
           'pro+': false,
           'pro_max': false,

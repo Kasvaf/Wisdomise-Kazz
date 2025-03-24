@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
-import BtnBack from 'modules/base/BtnBack';
 import {
   useLeagueLeaderboardQuery,
   useLeagueProfileQuery,
@@ -29,15 +28,8 @@ export default function PageLeague() {
 
   return (
     <PageWrapper loading={isLoading}>
-      <div className="mb-3 flex items-center justify-between gap-2">
-        <div className="w-1/2">
-          <BtnBack />
-        </div>
-        <div className="shrink-0 text-center text-base font-medium">League</div>
-        <div className="w-1/2"></div>
-      </div>
       <PageTitle
-        className="mt-8"
+        className="pt-8"
         title="Compete, Rise, and Conquer!"
         description="Compete Weekly, Earn Points, and Climb the Ranks. Top 10 Advance and Win Prizes. Stay Competitive and Aim for the Top!"
       />

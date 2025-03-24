@@ -9,6 +9,7 @@ const BtnBack = ({ className }: { className?: string }) => {
   return (
     <Button
       variant="ghost"
+      surface={2}
       onClick={() => navigate(-1)}
       size="md"
       className={clsx(className, 'w-md')}

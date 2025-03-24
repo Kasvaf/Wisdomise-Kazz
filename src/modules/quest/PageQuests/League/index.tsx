@@ -13,7 +13,7 @@ const League = () => {
   return (
     <NavLink
       to="/trader-quests/league"
-      className="relative mb-4 block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4"
+      className="relative block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 hover:saturate-200"
     >
       <img
         src={gradient}
@@ -46,7 +46,9 @@ const League = () => {
           <div className="h-8 border-r border-v1-border-primary/30"></div>
           <div>
             <h3 className="mb-2 text-v1-content-secondary">Status</h3>
-            <p>{profile?.promotion_status}</p>
+            <p className="capitalize">
+              {profile?.promotion_status?.toLowerCase()}
+            </p>
           </div>
           <div className="h-8 border-r border-v1-border-primary/30"></div>
           <div>

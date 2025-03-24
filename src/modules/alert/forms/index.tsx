@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo } from 'react';
 import { type Alert } from 'api';
 import { isMiniApp } from 'utils/version';
 import { type AlertFormGroup, type AlertForm } from '../library/types';
@@ -13,13 +13,15 @@ export const useAlertForms = (): Array<AlertForm | AlertFormGroup> => {
   const reportAlert = useReportAlert();
   const whaleAlert = useWhaleAlert();
 
-  const grouped = useRef(
-    isMiniApp
-      ? [screenerAlert, whaleAlert, priceAlert]
-      : [screenerAlert, whaleAlert, priceAlert, reportAlert],
+  const grouped = useMemo(
+    () =>
+      isMiniApp
+        ? [screenerAlert, whaleAlert, priceAlert]
+        : [screenerAlert, whaleAlert, priceAlert, reportAlert],
+    [priceAlert, reportAlert, screenerAlert, whaleAlert],
   );
 
-  return grouped.current;
+  return grouped;
 };
 
 export const useAlertForm = (input?: AlertForm['value'] | Partial<Alert>) => {

@@ -6,7 +6,7 @@ const NoPosition: React.FC<{ active: boolean; slug?: string }> = ({
   slug,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center pb-5 text-center">
+    <div className="mx-auto flex max-w-lg flex-col items-center justify-center pb-5 text-center">
       <img src={empty} className="my-4" />
       <h1 className="font-semibold">
         {active ? 'No active positions yet!' : 'No position yet!'}

@@ -3,12 +3,14 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useHasFlag } from 'api';
 import { DebugPin } from 'shared/DebugPin';
 import useMenuItems, { type RootMenuItem } from './useMenuItems';
-import { TrialEndBanner } from './TrialEndBanner';
 
 const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   const { items: MenuItems } = useMenuItems();
   const hasFlag = useHasFlag();
-  const location = useLocation();
+  const { pathname } = useLocation();
+
+  const isHidden =
+    pathname.startsWith('/account') || pathname.startsWith('/trader-quests');
 
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
@@ -27,9 +29,8 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
     </NavLink>
   );
 
-  return location.pathname.startsWith('/account') ? null : (
+  return isHidden ? null : (
     <>
-      <TrialEndBanner className="fixed bottom-16 z-50 hidden mobile:flex" />
       <div
         className={clsx(
           'fixed bottom-0 z-50 hidden h-16 w-full mobile:block',

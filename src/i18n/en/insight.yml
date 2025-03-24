@@ -1,8 +1,3 @@
-discover_by:
-  label: Discover by Radar
-  social: Social
-  technical: Technical
-  whale: Whale
 empty_sentiment:
   social_radar: No Social Radar data for this coin!
   technical_radar: No Technical Radar data for this coin!
@@ -10,6 +5,24 @@ empty_sentiment:
 pre_detail_modal:
   details: Details
   wise_labels: Wise™ Labels
+screener:
+  activated:
+    title: Overview Radar Screener Activated!
+    subtitle: Explore and customize additional features now!
+    got-it: Got it
+    preview:
+      title: Screener Preview
+      category:
+        label: Category
+        value: All Categories
+      chain:
+        label: Chain
+        value: All Chains
+      type:
+        label: Type
+        value: Overview Radar Screener
+  edit: Edit Screener
+  set: Set Screener
 table:
   name: Name
   labels: Labels

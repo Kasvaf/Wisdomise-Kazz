@@ -12,20 +12,8 @@ const normalizeDataSource = <D extends string>(
   value?: D | { name: D },
 ): D | undefined => (typeof value === 'string' ? value : value?.name);
 
-const getAlertingAlerts = (
-  filters?: Partial<Pick<Alert, 'data_source' | 'params'>>,
-) =>
-  resolvePageResponseToArray<Alert>('alerting/alerts', {
-    query: {
-      data_source: filters?.data_source
-        ? normalizeDataSource(filters.data_source)
-        : undefined,
-      ...((filters?.params?.length ?? 0) >= 1 && {
-        param_field: filters?.params?.[0].field_name,
-        param_value: filters?.params?.[0].value,
-      }),
-    },
-  }).then(
+const getAlertingAlerts = () =>
+  resolvePageResponseToArray<Alert>('alerting/alerts').then(
     results =>
       results.map(item => ({
         ...item,
@@ -63,7 +51,9 @@ const deleteAlertingAlert = (payload: Partial<BaseAlert>) => {
 const getSocialRadarDailyReportAlert = () =>
   ofetch<{ is_subscribed: boolean }>(
     `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
-  ).then(data => data.is_subscribed);
+  )
+    .then(data => data.is_subscribed)
+    .catch(() => false);
 
 const toggleSocialRadarDailyReportAlert = (sub: boolean) => {
   return ofetch(
@@ -80,11 +70,19 @@ export const useAlerts = (
   filters?: Partial<Pick<Alert, 'data_source' | 'params'>>,
 ) => {
   const isLoggedIn = useIsLoggedIn();
+  const client = useQueryClient();
 
-  return useQuery(
-    ['alerts', JSON.stringify(filters), isLoggedIn],
-    async (): Promise<Alert[]> => {
+  const queryKey = ['alerts', isLoggedIn];
+
+  return useQuery({
+    queryKey,
+    queryFn: async (): Promise<Alert[]> => {
       if (!isLoggedIn) return [];
+      const cacheData = client.getQueryData(queryKey, {
+        exact: true,
+        stale: false,
+      });
+      if (cacheData) return cacheData as Alert[];
       let returnValue: Alert[] = [];
       if (
         filters?.data_source === 'manual:social_radar_daily_report' ||
@@ -106,11 +104,25 @@ export const useAlerts = (
         }
       }
       if (filters?.data_source !== 'manual:social_radar_daily_report') {
-        returnValue = [...returnValue, ...(await getAlertingAlerts(filters))];
+        returnValue = [...returnValue, ...(await getAlertingAlerts())];
       }
       return returnValue;
     },
-  );
+    select: data => {
+      return data.filter(row => {
+        return (
+          (!filters?.data_source || filters?.data_source === row.data_source) &&
+          (!filters?.params ||
+            filters.params.every(p =>
+              row.params.some(
+                rp => rp.field_name === p.field_name && rp.value === p.value,
+              ),
+            ))
+        );
+      });
+    },
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 };
 
 export const useSaveAlert = (alertId?: string) => {

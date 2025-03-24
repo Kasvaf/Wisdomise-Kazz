@@ -155,8 +155,8 @@ export function CoinSocialFeedWidget({
       className="overflow-hidden rounded-2xl"
       sizes={{
         'guest': true,
-        'free': true,
-        'trial': true,
+        'initial': 3,
+        'free': 3,
         'pro': false,
         'pro+': false,
         'pro_max': false,

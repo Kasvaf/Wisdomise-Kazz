@@ -5,12 +5,8 @@ import {
   type PromotionStatus,
 } from 'api/tournament';
 import { addComma } from 'utils/numbers';
-import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import { ReactComponent as IconUser } from '../user.svg';
 import { ReactComponent as Demoting } from './demoting.svg';
-// import { ReactComponent as Demoting } from './demoting.svg';
-// import { ReactComponent as Demoting } from './demoting.svg';
-// import { ReactComponent as Demoting } from './demoting.svg';
 
 export default function Leaderboard({
   participants,
@@ -19,7 +15,6 @@ export default function Leaderboard({
   participants?: LeaderboardParticipant[];
   me?: LeaderboardParticipant;
 }) {
-  const isTrialBannerVisible = useIsTrialBannerVisible();
   const sortedParticipants = useMemo(() => {
     let sorted: LeaderboardParticipant[] = [];
     if (participants && me) {
@@ -72,10 +67,7 @@ export default function Leaderboard({
       ))}
       {me && (
         <div
-          className={clsx(
-            'fixed end-0 start-0 mx-12 ml-[calc(var(--side-menu-width)+3rem)] rounded-xl border border-v1-border-primary/20 text-xs mobile:ml-12',
-            isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
-          )}
+          className="fixed bottom-4 end-0 start-0 mx-24 ml-[calc(var(--side-menu-width)+6rem)] rounded-xl border border-v1-border-primary/20 text-xs mobile:mx-12 mobile:ml-12"
           style={{
             background:
               'linear-gradient(0deg, rgba(20, 20, 20, 0.3) 50%, rgba(19, 25, 32, 0.00) 100%)',
