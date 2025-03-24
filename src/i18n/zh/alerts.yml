@@ -1,21 +1,21 @@
 common:
-  active: 积极的
-  alerts-list: 警报列表
+  active: 積極
+  alerts-list: 警報列表
   all: 全部
-  all-categories: 所有类别
-  all-networks: 所有链
-  current-price: 当前价格
+  all-categories: 所有類別
+  all-networks: 所有鏈
+  current-price: 當前價格
   delete-confirm:
     no: 沒關係
-    subtitle: 您即將刪除此警報。
+    subtitle: 您即將刪除此警報
     title: 您確定嗎？
-    yes: 是的，刪除
+    yes: 是的，請刪除
   disabled: 已禁用
-  empty-description: 点击“设置警报”按钮并设置您的第一个加密警报冒险！
-  empty-title: 您的通知列表感觉很孤独！
+  empty-description: 點擊「設置警報」按鈕並設置您的第一個加密貨幣警報
+  empty-title: 你的警報列很空
   notifications:
     cooldown: 冷卻時間
-    cooldown-info: 指定此警報在再次觸發前必須經過的時間。
+    cooldown-info: 指定此警報再次觸發前所需的時間
     disable-after-trigger: 此警報觸發一次後禁用。
     interval: 間隔
     invervals:
@@ -28,44 +28,44 @@ common:
       weekly: 每週
     messangers:
       browser: 瀏覽器通知
-      connect: 连接
+      connect: 連接
       discord: Discord 訊息
       email: 電子郵件
       push: 推送通知
-      request_permission: 请求许可
+      request_permission: 請求許可
       slack: Slack 訊息
       sms: 短信
       telegram: Telegram 訊息
       web_push: 推送通知
-      web_push_blocked: 要允许推送通知，请导航至浏览器的站点设置并手动启用通知。
-    one-time: 一度
+      web_push_blocked: 要允許推送通知，請導覽至瀏覽器的「設置」並且手動啟動通知。
+    one-time: 一次
     unlimited-times: 不限次数
-  price-info: 的价格 <Coin>未知硬币</Coin> 目前 <Price>未知</Price>
-  save-alert: 保存警报
+  price-info: 價格 <Coin>未知硬幣</Coin> 目前 <Price>未知</Price>
+  save-alert: 保存警報設置
   search: 搜索...
-  select-alert-type: 选择您要设置的警报
+  select-alert-type: 選擇你要設置的警報
   set-alert: 設置警報
-  subscription-banner-link: 订阅我们的 Pro Plan 以获取访问权限。
-  subscription-banner-title: 获取实时硬币警报，自定义通知。
+  subscription-banner-link: 訂閱我們的Pro Plan以獲取使用權限。
+  subscription-banner-title: 獲取實時幣種警報，自定義通知。
   success-message: 警報保存成功！
 forms:
   coin-radar:
-    sentence: 设置加密警报，绝不错过任何举动！
-    step: 硬币雷达警报
-    step-subtitle: 通过即时通知了解流行货币和新的市场机会，保持领先地位。
-    subtitle: 通过实时警报追踪您最喜欢的硬币！
-    title: 硬币雷达警报
+    sentence: 設置加密貨幣警报，絕不錯過任何機會！
+    step: 幣種雷達警報
+    step-subtitle: 通過及時通知，了解熱門貨幣和新的市場機會，保持領先！
+    subtitle: 通過實時警報追蹤您最愛的幣種！
+    title: 幣種雷達警報
   data-source:
-    title: 选择您要设置的警报
+    title: 選擇您要設置的警報
   delete-confirm:
     no: 沒關係
-    subtitle: 您即將刪除此警報。
-    title: 您確定嗎？
+    subtitle: 您即將刪除此警報
+    title: 你確定嗎？
     yes: 是的，刪除
   indicators:
     step: 即將推出
-    subtitle: 当关键指标预示重要趋势时得到通知！
-    title: 指标警报
+    subtitle: 當關鍵指標預示重要趨勢時得到通知
+    title: 指標警報
   notifications:
     cooldown: 冷卻時間
     cooldown-info: 指定此警報在再次觸發前必須經過的時間。
