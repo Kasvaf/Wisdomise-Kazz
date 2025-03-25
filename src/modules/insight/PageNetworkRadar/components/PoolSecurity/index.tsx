@@ -87,7 +87,7 @@ export const PoolSecurity: FC<{
             <div
               key={item.key}
               className={clsx(
-                'relative flex items-center justify-center rounded-full',
+                'relative flex shrink-0 items-center justify-center rounded-full',
                 item.value
                   ? 'bg-v1-background-positive fill-v1-background-positive-subtle stroke-v1-background-positive-subtle'
                   : 'bg-v1-background-negative fill-v1-background-negative-subtle stroke-v1-background-negative-subtle',

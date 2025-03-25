@@ -169,8 +169,8 @@ coin_labels:
     info: 這個標籤為目前在社交媒體上活躍度激增的幣種。這些幣種在短時間內被多個社交媒體平台上，不同的、大量的獨立帳號提及。此標籤顯示該幣種可能正引發趨勢或熱議，表示公眾的興趣風向或投機性的增加。
     title: 炒作
   long_term_bearish_overpriced:
-    info: 从长远来看，该资产被高估，并显示出潜在看跌转变的迹象。
-    title: 长期看跌，价格过高
+    info: 長線來看，該幣種被高估，錢在看跌趨勢已開始浮現。
+    title: 長期看跌，價格過高
   long_term_bullish_cheap:
     info: 从长期来看，该资产似乎被低估，同时显示出潜在看涨逆转的迹象。
     title: 长期看涨廉价
@@ -191,7 +191,7 @@ coin_labels:
     title: 社会月度趋势
   short_term_bearish_overpriced:
     info: 该资产暂时被高估，可能面临短期下行压力。
-    title: 短期看跌，定价过高
+    title: 短期看跌，價格過高
   short_term_bullish_cheap:
     info: 该资产暂时被低估，存在短期看涨的可能性。
     title: 短期看涨廉价
@@ -376,11 +376,9 @@ social-radar:
     search: 搜索幣種...
     sentiment:
       info: >-
-        <b>智慧化情怀</b> <br /> <br /> <b>
+        <b>社会情绪™</b> <br /> <br /> <p>
           Wisdomise AI 分析 Reddit、Telegram、Trading View、X（以前称为 Twitter）和 YouTube 上每种资产（硬币或代币）的社会情绪。情绪可以是正面的、中性的或负面的，显示社区的感受。
-        </b> <br /> <br /> <b>损益百分比变化</b> <br /> <p>
-          追踪资产从首次被视为“热门”到其首次出现重大价格波动期间的损益。
-        </p> <br /> <br /> <p>
+        </p> <br /> <p>
           这些信息不仅能帮助您了解社区的观点，还能让您了解市场走势与这些观点的契合程度，从而帮助您做出明智的决策。
         </p>
       title: 智慧化情怀

@@ -2,7 +2,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MobileSearchBar } from 'shared/MobileSearchBar';
-import RadarsTabs from 'modules/insight/RadarsTabs';
 import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
@@ -20,7 +19,7 @@ import { PoolSecurity } from '../PoolSecurity';
 import { PoolPreDetailModal } from '../PoolPreDetailModal';
 
 export const NetworkRadarMobile = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('network-radar');
   const [, tableState, setTableState] = useTableState<
     Required<Parameters<typeof useNetworkRadarPools>[0]>
   >('', {
@@ -38,7 +37,7 @@ export const NetworkRadarMobile = () => {
     () => [
       {
         key: 'index',
-        className: 'max-w-6 min-w-2 text-start text-xs font-medium',
+        className: 'max-w-7 min-w-2 text-start text-xs font-medium',
         render: (_, index) => index + 1,
       },
       {
@@ -66,7 +65,7 @@ export const NetworkRadarMobile = () => {
       },
       {
         key: 'market_data',
-        className: 'max-w-22',
+        className: 'max-w-20',
         render: row => (
           <div className="flex h-[25px] flex-col justify-between">
             <PoolTradingVolume
@@ -112,10 +111,9 @@ export const NetworkRadarMobile = () => {
   return (
     <>
       <MobileSearchBar className="mb-4" />
-      <RadarsTabs className="mb-4" />
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between">
         <div>
-          <h1 className="text-sm">{t('base:menu.network-radar.title')}</h1>
+          <h1 className="text-sm">{t('page.title')}</h1>
         </div>
         <NetworkSelect
           value={tableState.networks?.[0]}

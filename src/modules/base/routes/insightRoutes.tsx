@@ -68,7 +68,7 @@ const useInsightRoutes = () => {
         },
         {
           path: 'network-radar',
-          handle: { crumb: t('menu.network-radar.title') },
+          handle: { crumb: t('menu.trench.title') },
           element: <PageNetworkRadar />,
         },
         {

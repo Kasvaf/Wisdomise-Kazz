@@ -7,6 +7,8 @@ common:
   socials: Socials
   validation_insights: Validation Insights
   volume: Volume
+page:
+  title: New Born
 security:
   freeze_auth: Freeze Auth<br />Enabled
   lp_burned: LP<br />Burned

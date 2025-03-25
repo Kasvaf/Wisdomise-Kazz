@@ -8,8 +8,8 @@ import { isDebugMode, isMiniApp } from 'utils/version';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import useIsMobile from 'utils/useIsMobile';
 import { ReactComponent as UserIcon } from './user.svg';
-import ProfileMenuContent from './ProfileMenuContent';
 import BtnTelegramProfile from './BtnTelegramProfile';
+import ProfileMenuContent from './ProfileMenuContent';
 
 const DebugBadge = () =>
   isDebugMode ? (

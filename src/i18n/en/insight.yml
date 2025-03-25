@@ -1,9 +1,3 @@
-discover_by:
-  label: Discover by Radar
-  network: Network
-  social: Social
-  technical: Technical
-  whale: Whale
 empty_sentiment:
   social_radar: No Social Radar data for this coin!
   technical_radar: No Technical Radar data for this coin!

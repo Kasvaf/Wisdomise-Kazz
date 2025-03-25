@@ -17,6 +17,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
       key={item.link}
       className={clsx(
         'group flex flex-1 flex-col items-center justify-center',
+        '[&>svg]:size-7',
         'opacity-60 [&.active]:font-bold [&.active]:text-[#00A3FF] [&.active]:opacity-100',
       )}
     >

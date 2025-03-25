@@ -3,7 +3,6 @@ import { type EChartsOption } from 'echarts';
 import { useMemo } from 'react';
 import { ECharts } from 'shared/ECharts';
 import { type Candle } from 'api';
-import { useChangesDebugger } from 'utils/debug';
 
 export const CoinMiniCandleChart: FC<
   Omit<ComponentProps<typeof ECharts>, 'options'> & {
@@ -42,8 +41,6 @@ export const CoinMiniCandleChart: FC<
       backgroundColor: 'transparent',
     };
   }, [value]);
-
-  useChangesDebugger([value.length], ['value']);
 
   return (
     <ECharts
