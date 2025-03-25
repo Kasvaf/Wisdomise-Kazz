@@ -41,7 +41,7 @@ export function ClickableTooltip({
     className,
   );
   const titleClassName = clsx(
-    'max-h-[70svh] overflow-auto text-sm text-v1-content-primary',
+    'max-h-[90svh] overflow-auto text-sm text-v1-content-primary',
   );
   const titleRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(titleRef, () => {
@@ -114,7 +114,7 @@ export function ClickableTooltip({
             </div>
           }
           placement={tooltipPlacement}
-          rootClassName="!max-w-[400px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-inherit"
+          rootClassName="!max-w-[400px] min-w-[150px] [&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-arrow]:hidden [&_.ant-tooltip-inner]:!p-4 [&_.ant-tooltip-inner]:!text-inherit"
           open={isOpen}
           destroyTooltipOnHide
         >

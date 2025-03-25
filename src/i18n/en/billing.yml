@@ -7,7 +7,6 @@ change-pay-method:
   wsdm: $WSDM Payment
 common:
   remains: Remains
-  subscription: Subscription
 crypto-modal:
   title: Wisdomise AG
   subtitle: Subscribe to {{plan}}

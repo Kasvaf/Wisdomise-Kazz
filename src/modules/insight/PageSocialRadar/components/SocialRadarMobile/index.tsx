@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
-import RadarsTabs from 'modules/insight/RadarsTabs';
 import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
@@ -101,7 +100,6 @@ export const SocialRadarMobile = () => {
 
   return (
     <>
-      <RadarsTabs className="mb-4" />
       <SocialRadarFilters
         value={tableState}
         onChange={newState => setTableState(newState)}

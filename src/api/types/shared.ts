@@ -116,6 +116,7 @@ export interface CoinNetwork {
   network: Network;
   contract_address: string;
   symbol_network_type: 'COIN' | 'TOKEN';
+  pool_count?: number;
 }
 
 export interface Exchange {
