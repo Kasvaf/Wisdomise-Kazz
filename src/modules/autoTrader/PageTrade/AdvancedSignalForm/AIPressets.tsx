@@ -55,7 +55,7 @@ const AIPresets: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [safetyOpens, takeProfits, stopLosses]);
 
-  if (isLoading || !presets) {
+  if (!presets && !isLoading) {
     return <></>;
   }
 
@@ -77,6 +77,8 @@ const AIPresets: React.FC<{
   };
 
   const selectVariant = (ind: number) => {
+    if (!presets) return;
+
     setIsOpen(false);
     if (ind >= presets.length || ind < 0) {
       setActivePreset(3);
@@ -106,60 +108,66 @@ const AIPresets: React.FC<{
         <Button
           className="!h-6 !px-4 !py-0 text-xxs"
           onClick={() => setIsOpen(true)}
+          loading={isLoading}
+          variant={isLoading ? 'alternative' : 'primary'}
         >
-          {presets[activePreset]?.label ??
-            (noManual ? 'Select Preset' : 'Manual')}
+          {isLoading
+            ? 'Loading Presets'
+            : presets?.[activePreset]?.label ??
+              (noManual ? 'Select Preset' : 'Manual')}
           <Icon name={bxChevronDown} size={16} />
         </Button>
 
         <StarIcon />
       </div>
 
-      <DrawerModal
-        title={
-          <div className="flex items-center gap-4">
+      {presets && (
+        <DrawerModal
+          title={
+            <div className="flex items-center gap-4">
+              {!noManual && (
+                <Button
+                  size="small"
+                  variant="alternative"
+                  onClick={reset}
+                  className="!py-2"
+                >
+                  Reset
+                </Button>
+              )}
+              Wisdomise AI Preset
+            </div>
+          }
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+        >
+          <div className="mb-10 flex flex-col items-stretch gap-4">
+            {presets.map((p, ind) => (
+              <Button
+                key={p.label}
+                variant={activePreset === ind ? 'primary' : 'secondary'}
+                className="h-12 !p-3"
+                contentClassName="!text-base"
+                onClick={() => selectVariant(ind)}
+              >
+                {p.label}
+              </Button>
+            ))}
             {!noManual && (
               <Button
-                size="small"
-                variant="alternative"
-                onClick={reset}
-                className="!py-2"
+                variant={
+                  activePreset === presets.length ? 'primary' : 'secondary'
+                }
+                className="h-12 !p-3"
+                contentClassName="!text-base"
+                onClick={() => selectVariant(presets.length)}
               >
-                Reset
+                Manual
               </Button>
             )}
-            Wisdomise AI Preset
           </div>
-        }
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
-        <div className="mb-10 flex flex-col items-stretch gap-4">
-          {presets.map((p, ind) => (
-            <Button
-              key={p.label}
-              variant={activePreset === ind ? 'primary' : 'secondary'}
-              className="h-12 !p-3"
-              contentClassName="!text-base"
-              onClick={() => selectVariant(ind)}
-            >
-              {p.label}
-            </Button>
-          ))}
-          {!noManual && (
-            <Button
-              variant={
-                activePreset === presets.length ? 'primary' : 'secondary'
-              }
-              className="h-12 !p-3"
-              contentClassName="!text-base"
-              onClick={() => selectVariant(presets.length)}
-            >
-              Manual
-            </Button>
-          )}
-        </div>
-      </DrawerModal>
+        </DrawerModal>
+      )}
     </div>
   );
 };

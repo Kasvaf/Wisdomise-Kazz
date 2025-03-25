@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useHasFlag, useSupportedPairs } from 'api';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
@@ -14,7 +13,6 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const normSlug = slug === 'solana' ? 'wrapped-solana' : slug;
   const { data: supportedPairs, isLoading } = useSupportedPairs(normSlug);
   const isSupported = !!supportedPairs?.length;
-  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
@@ -34,9 +32,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       disabled={!normSlug || !isSupported || !isLoggedIn}
       onClick={() =>
         isMobile
-          ? hasFlag('/quick-trader')
-            ? openQuickTradeDrawer({ slug: normSlug ?? '' })
-            : navigate(`/auto-trader/${normSlug ?? ''}`)
+          ? openQuickTradeDrawer({ slug: normSlug ?? '' })
           : openTradeDrawer({ slug: normSlug ?? '' })
       }
     >
