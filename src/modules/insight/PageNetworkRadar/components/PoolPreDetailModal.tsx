@@ -17,7 +17,8 @@ export const PoolPreDetailModal: FC<{
   const candles = useCandlesBySlugs({
     base: open ? value?.base_symbol.slug : undefined,
     quote: value?.quote_symbol.slug,
-    start: value?.creation_datetime,
+    start: new Date(Date.now() - 1000 * 60 * 20).toISOString(),
+    resolution: '1m',
     exchange: 'Raydium',
   });
 
