@@ -55,42 +55,55 @@ export const PoolLiquidity: FC<{
   }
   return (
     <div className={clsx('flex items-center justify-start gap-1', className)}>
-      {value?.quote_symbol && (
-        <CoinLogo coin={value?.quote_symbol} className="size-5" />
-      )}
       <div
         className={clsx(
-          'flex items-center gap-1',
-          type.endsWith('row') ? 'flex-row' : 'flex-col',
+          'flex gap-1',
+          type.endsWith('row') ? 'flex-row items-center' : 'flex-col',
         )}
       >
-        <ReadableNumber
-          value={
-            type.startsWith('initial')
-              ? value?.initial_liquidity.native
-              : value?.update.liquidity.native
-          }
-          popup="never"
-        />
-        <span className="contents text-v1-content-secondary">
-          /
+        <div
+          className={clsx(
+            type.endsWith('row') ? 'contents' : 'flex items-center gap-1',
+          )}
+        >
+          {value?.quote_symbol && (
+            <CoinLogo coin={value?.quote_symbol} className="size-5" />
+          )}
           <ReadableNumber
             value={
               type.startsWith('initial')
-                ? value?.initial_liquidity.usd
-                : value?.update.liquidity.usd
+                ? value?.initial_liquidity.native
+                : value?.update.liquidity.native
             }
-            label="$"
             popup="never"
           />
-        </span>
+          <span className="contents text-v1-content-secondary">
+            /
+            <ReadableNumber
+              value={
+                type.startsWith('initial')
+                  ? value?.initial_liquidity.usd
+                  : value?.update.liquidity.usd
+              }
+              label="$"
+              popup="never"
+            />
+          </span>
+        </div>
         {type.startsWith('update') && (
           <DirectionalNumber
             value={value?.update.liquidity_change?.percent}
             popup="never"
             showIcon={false}
             showSign
-            className="text-[85%]"
+            className={clsx(
+              'text-[85%]',
+              !type.endsWith('icon') && !type.endsWith('row') && 'ps-5',
+            )}
+            label="%"
+            format={{
+              decimalLength: 1,
+            }}
           />
         )}
       </div>

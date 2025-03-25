@@ -2,26 +2,17 @@ import { type FC } from 'react';
 import { DrawerModal } from 'shared/DrawerModal';
 
 import { type NetworkRadarPool } from 'api/insight/network';
-import { useCandlesBySlugs } from 'api';
 import { Coin } from 'shared/Coin';
-import { CoinMiniCandleChart } from 'shared/CoinMiniCandleChart';
 import { PoolAge } from './PoolAge';
 import { PoolSecurity } from './PoolSecurity';
 import { PoolDetails } from './PoolDetails';
+import { PoolRecentCandles } from './PoolRecentCandles';
 
 export const PoolPreDetailModal: FC<{
   value: NetworkRadarPool | null;
   open?: boolean;
   onClose: () => unknown;
 }> = ({ open, onClose, value }) => {
-  const candles = useCandlesBySlugs({
-    base: open ? value?.base_symbol.slug : undefined,
-    quote: value?.quote_symbol.slug,
-    start: new Date(Date.now() - 1000 * 60 * 20).toISOString(),
-    resolution: '1m',
-    exchange: 'Raydium',
-  });
-
   return (
     <DrawerModal
       open={open && !!value}
@@ -47,8 +38,8 @@ export const PoolPreDetailModal: FC<{
               />
             </div>
             <div className="flex flex-col items-end gap-px">
-              <CoinMiniCandleChart
-                value={candles.data ?? []}
+              <PoolRecentCandles
+                value={open ? value : undefined}
                 height={50}
                 width={65}
                 renderer="canvas"

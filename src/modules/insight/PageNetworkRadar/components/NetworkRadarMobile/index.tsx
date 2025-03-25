@@ -25,7 +25,7 @@ export const NetworkRadarMobile = () => {
   >('', {
     page: 1,
     pageSize: 10,
-    networks: [],
+    networks: ['solana'],
   });
 
   const [selectedRow, setSelectedRow] = useState<null | NetworkRadarPool>(null);
@@ -142,7 +142,7 @@ export const NetworkRadarMobile = () => {
           columns={columns}
           dataSource={pools.data ?? []}
           rowKey={r => JSON.stringify(r.base_symbol.slug)}
-          loading={pools.isLoading}
+          loading={(pools.data?.length ?? 0) === 0 && pools.isLoading}
           surface={2}
           onClick={r => {
             setSelectedRow(r);

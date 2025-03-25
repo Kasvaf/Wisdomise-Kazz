@@ -101,16 +101,31 @@ export const PoolSecurity: FC<{
       ) : (
         <div
           className={clsx(
-            'rounded-lg p-2 text-xs bg-v1-surface-l-next',
+            'text-xs',
+            type === 'card' && 'rounded-lg p-2 bg-v1-surface-l-next',
             className,
           )}
         >
-          <p className="mb-2 font-normal">{t('common.validation_insights')}</p>
-          <div className="grid grid-cols-4 grid-rows-1 gap-1">
+          {type === 'card' && (
+            <p className="mb-2 font-normal">
+              {t('common.validation_insights')}
+            </p>
+          )}
+          <div
+            className={clsx(
+              '',
+              type === 'card'
+                ? 'grid grid-cols-4 grid-rows-1 gap-1'
+                : 'flex items-start gap-3',
+            )}
+          >
             {items.map(item => (
               <div
                 key={item.key}
-                className="flex flex-col items-center gap-1 text-center"
+                className={clsx(
+                  'flex flex-col gap-2',
+                  type === 'card' && 'items-center text-center',
+                )}
               >
                 <div
                   className={clsx(
@@ -125,7 +140,7 @@ export const PoolSecurity: FC<{
                 </div>
                 <p
                   className={clsx(
-                    'font-normal leading-4',
+                    'whitespace-nowrap font-normal leading-snug',
                     !item.value && 'text-v1-content-secondary',
                   )}
                 >

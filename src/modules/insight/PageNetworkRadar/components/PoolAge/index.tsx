@@ -20,11 +20,11 @@ export const PoolAge: FC<{
         'inline-flex',
         inline
           ? 'items-center justify-start gap-px'
-          : 'flex-col items-center justify-between',
+          : 'w-8 flex-col items-center justify-between',
         className,
       )}
     >
-      <ClockIcon className={clsx('shrink-0 animate-pulse', imgClassName)} />
+      <ClockIcon className={clsx('shrink-0', imgClassName)} />
       <ReadableDate value={timestap} suffix={false} popup={false} />
     </div>
   );

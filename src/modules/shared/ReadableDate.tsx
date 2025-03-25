@@ -23,30 +23,43 @@ export const ReadableDate: FC<{
 
   const refreshTime = useMemo(() => {
     if (!date || !tick) return null;
-    return Math.abs(date.diff()) <= 3_600_000 ? 5000 : 600_000;
+    const diff = Math.abs(date.diff(Date.now(), 'milliseconds'));
+    return diff < 120_000 ? 1000 : diff < 3_600_000 ? 60_000 : 600_000;
   }, [date, tick]);
 
   const content = useMemo(() => {
     if (!date || !tick) return null;
-    const label =
-      typeof format === 'string'
-        ? date.format(format)
-        : `${date
-            .fromNow(!!(suffix === false || typeof suffix === 'string'))
-            .replace(' Minutes', 'm')
-            .replace(' Minute', 'm')
-            .replace(' Hours', 'h')
-            .replace(' Hour', 'h')
-            .replace(' Days', 'D')
-            .replace(' Day', 'D')
-            .replace(' Weeks', 'W')
-            .replace(' Week', 'W')
-            .replace(' Months', 'M')
-            .replace(' Month', 'M')
-            .replace(' Years', 'Y')
-            .replace(' Year', 'Y')} ${
-            typeof suffix === 'string' ? suffix : ''
-          }`.trim();
+    let label = '';
+    if (typeof format === 'string') {
+      label = date.format(format);
+    } else {
+      const secondsDiff = Math.abs(date.diff(Date.now(), 'second'));
+      label =
+        secondsDiff < 60
+          ? `${secondsDiff}s ${
+              typeof suffix === 'string'
+                ? suffix
+                : suffix === true
+                ? ' Ago'
+                : ''
+            }`
+          : `${date
+              .fromNow(!!(suffix === false || typeof suffix === 'string'))
+              .replace(' Minutes', 'm')
+              .replace(' Minute', 'm')
+              .replace(' Hours', 'h')
+              .replace(' Hour', 'h')
+              .replace(' Days', 'D')
+              .replace(' Day', 'D')
+              .replace(' Weeks', 'W')
+              .replace(' Week', 'W')
+              .replace(' Months', 'M')
+              .replace(' Month', 'M')
+              .replace(' Years', 'Y')
+              .replace(' Year', 'Y')} ${
+              typeof suffix === 'string' ? suffix : ''
+            }`.trim();
+    }
     const tooltip = date.format('ddd, MMM D, YYYY h:mm:ss A');
     return {
       label,
