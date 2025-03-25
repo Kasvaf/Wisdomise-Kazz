@@ -140,6 +140,7 @@ const AIPresets: React.FC<{
           }
           open={isOpen}
           onClose={() => setIsOpen(false)}
+          width={400}
         >
           <div className="mb-10 flex flex-col items-stretch gap-4">
             {presets.map((p, ind) => (
