@@ -37,7 +37,8 @@ const AIPresets: React.FC<{
   data: SignalFormState;
   baseSlug: string;
   quoteSlug: string;
-}> = ({ data, baseSlug, quoteSlug }) => {
+  noManual?: boolean;
+}> = ({ data, baseSlug, quoteSlug, noManual }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activePreset, setActivePreset] = useState(3);
   const { data: presets, isLoading } = useAIPresets(baseSlug + '/' + quoteSlug);
@@ -106,7 +107,8 @@ const AIPresets: React.FC<{
           className="!h-6 !px-4 !py-0 text-xxs"
           onClick={() => setIsOpen(true)}
         >
-          {presets[activePreset]?.label ?? 'Manual'}
+          {presets[activePreset]?.label ??
+            (noManual ? 'Select Preset' : 'Manual')}
           <Icon name={bxChevronDown} size={16} />
         </Button>
 
@@ -116,14 +118,16 @@ const AIPresets: React.FC<{
       <DrawerModal
         title={
           <div className="flex items-center gap-4">
-            <Button
-              size="small"
-              variant="alternative"
-              onClick={reset}
-              className="!py-2"
-            >
-              Reset
-            </Button>
+            {!noManual && (
+              <Button
+                size="small"
+                variant="alternative"
+                onClick={reset}
+                className="!py-2"
+              >
+                Reset
+              </Button>
+            )}
             Wisdomise AI Preset
           </div>
         }
@@ -142,14 +146,18 @@ const AIPresets: React.FC<{
               {p.label}
             </Button>
           ))}
-          <Button
-            variant={activePreset === presets.length ? 'primary' : 'secondary'}
-            className="h-12 !p-3"
-            contentClassName="!text-base"
-            onClick={() => selectVariant(presets.length)}
-          >
-            Manual
-          </Button>
+          {!noManual && (
+            <Button
+              variant={
+                activePreset === presets.length ? 'primary' : 'secondary'
+              }
+              className="h-12 !p-3"
+              contentClassName="!text-base"
+              onClick={() => selectVariant(presets.length)}
+            >
+              Manual
+            </Button>
+          )}
         </div>
       </DrawerModal>
     </div>

@@ -5,6 +5,7 @@ import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
 import useTradeDrawer from './PageTrade/useTradeDrawer';
+import useQuickTradeDrawer from './PageTrade/QuickTradeDrawer/useQuickTradeDrawer';
 
 export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   slug,
@@ -17,6 +18,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
+  const [QuickTradeDrawer, openQuickTradeDrawer] = useQuickTradeDrawer();
 
   const hasFlag = useHasFlag();
   if (!isMobile && !hasFlag('/desk-trader')) {
@@ -32,7 +34,9 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       disabled={!normSlug || !isSupported || !isLoggedIn}
       onClick={() =>
         isMobile
-          ? navigate(`/auto-trader/${normSlug ?? ''}`)
+          ? hasFlag('/quick-trader')
+            ? openQuickTradeDrawer({ slug: normSlug ?? '' })
+            : navigate(`/auto-trader/${normSlug ?? ''}`)
           : openTradeDrawer({ slug: normSlug ?? '' })
       }
     >
@@ -40,6 +44,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
         {isLoggedIn && isSupported && !isLoading && (
           <ActiveNetworkProvider base={normSlug} setOnLayout>
             {TradeDrawer}
+            {QuickTradeDrawer}
           </ActiveNetworkProvider>
         )}
 
