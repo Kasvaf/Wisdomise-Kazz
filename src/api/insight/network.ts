@@ -62,11 +62,11 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
         '/delphi/market/new-born-pools/',
         {
           query: {
-            page_size: 999,
+            page_size: 100,
           },
         },
         {
-          limit: 50,
+          limit: 100,
         },
       ),
     select: data =>
