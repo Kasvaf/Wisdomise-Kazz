@@ -9,7 +9,6 @@ import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 
-import { NetworkSelect } from 'shared/NetworkSelect';
 import {
   type NetworkRadarPool,
   useNetworkRadarPools,
@@ -27,12 +26,12 @@ import { PoolRecentCandles } from '../PoolRecentCandles';
 
 export function NetworkRadarDesktop({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
-  const [tableProps, tableState, setTableState] = useTableState<
+  const [tableProps, tableState] = useTableState<
     Required<Parameters<typeof useNetworkRadarPools>[0]>
   >('', {
     page: 1,
     pageSize: 20,
-    networks: ['solana'],
+    networks: [],
   });
 
   const pools = useNetworkRadarPools(tableState);
@@ -169,21 +168,6 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       info={t('page.info')}
       loading={pools.isInitialLoading}
       empty={(pools.data ?? [])?.length === 0}
-      headerActions={
-        <>
-          <NetworkSelect
-            value={tableState.networks?.[0]}
-            allowClear
-            multiple={false}
-            onChange={newNetwork =>
-              setTableState({ networks: newNetwork ? [newNetwork] : [] })
-            }
-            size="sm"
-            valueType="slug"
-            surface={3}
-          />
-        </>
-      }
     >
       <AccessShield
         mode="table"

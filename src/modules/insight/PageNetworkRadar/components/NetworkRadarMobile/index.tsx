@@ -10,7 +10,6 @@ import {
   type NetworkRadarPool,
   useNetworkRadarPools,
 } from 'api/insight/network';
-import { NetworkSelect } from 'shared/NetworkSelect';
 import { PoolAge } from '../PoolAge';
 import { PoolBuySell } from '../PoolBuySell';
 import { PoolTradingVolume } from '../PoolTradingVolume';
@@ -20,12 +19,12 @@ import { PoolPreDetailModal } from '../PoolPreDetailModal';
 
 export const NetworkRadarMobile = () => {
   const { t } = useTranslation('network-radar');
-  const [, tableState, setTableState] = useTableState<
+  const [, tableState] = useTableState<
     Required<Parameters<typeof useNetworkRadarPools>[0]>
   >('', {
     page: 1,
     pageSize: 10,
-    networks: ['solana'],
+    networks: [],
   });
 
   const [selectedRow, setSelectedRow] = useState<null | NetworkRadarPool>(null);
@@ -115,17 +114,6 @@ export const NetworkRadarMobile = () => {
         <div>
           <h1 className="text-sm">{t('page.title')}</h1>
         </div>
-        <NetworkSelect
-          value={tableState.networks?.[0]}
-          allowClear
-          multiple={false}
-          onChange={newNetwork =>
-            setTableState({ networks: newNetwork ? [newNetwork] : [] })
-          }
-          size="sm"
-          valueType="slug"
-          surface={2}
-        />
       </div>
       <AccessShield
         mode="mobile_table"
