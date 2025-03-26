@@ -1,6 +1,7 @@
 import { type ComponentProps, type FC } from 'react';
 import { type EChartsOption } from 'echarts';
 import { useMemo } from 'react';
+import { clsx } from 'clsx';
 import { ECharts } from 'shared/ECharts';
 import { type Candle } from 'api';
 
@@ -8,7 +9,7 @@ export const CoinMiniCandleChart: FC<
   Omit<ComponentProps<typeof ECharts>, 'options'> & {
     value: Candle[];
   }
-> = ({ value, ...props }) => {
+> = ({ value, className, ...props }) => {
   const chartConfig = useMemo<EChartsOption>(() => {
     return {
       grid: {
@@ -46,8 +47,12 @@ export const CoinMiniCandleChart: FC<
     <ECharts
       key={JSON.stringify(value)}
       height={125}
-      {...props}
       options={chartConfig}
+      className={clsx(
+        '[&_canvas]:!cursor-default [&_svg]:!cursor-default',
+        className,
+      )}
+      {...props}
     />
   );
 };

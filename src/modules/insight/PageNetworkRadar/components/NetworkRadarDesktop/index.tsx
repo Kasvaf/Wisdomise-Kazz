@@ -53,23 +53,21 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: t('common.created'),
-        className: 'w-20 max-w-20',
         render: (_, row) => (
           <PoolAge
             value={row.creation_datetime}
             imgClassName="size-4 opacity-75"
-            className="text-xs"
+            className="w-14 text-xs"
             inline
           />
         ),
       },
       {
         title: t('common.liquidity'),
-        className: 'w-44 max-w-44',
         render: (_, row) => (
           <PoolLiquidity
             value={row}
-            className="text-xs"
+            className="w-36 text-xs"
             imgClassName="size-5"
             type="update"
           />
@@ -77,18 +75,16 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: t('common.initial_liquidity'),
-        className: 'w-44 max-w-44',
         render: (_, row) => (
-          <PoolLiquidity value={row} className="text-xs" type="initial" />
+          <PoolLiquidity value={row} className="w-36 text-xs" type="initial" />
         ),
       },
       {
         title: t('common.marketcap'),
-        className: 'w-28 max-w-28',
         render: (_, row) => (
           <ReadableNumber
             value={row.update.base_market_data.market_cap}
-            className="text-xs"
+            className="w-20 text-xs"
             label="$"
             format={{
               decimalLength: 1,
@@ -98,19 +94,21 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       },
       {
         title: [t('common.txns.title'), t('common.txns.info')],
-        className: 'w-28 max-w-28',
         render: (_, row) => (
-          <PoolBuySell value={row} imgClassName="size-3" className="text-xs" />
+          <PoolBuySell
+            value={row}
+            imgClassName="size-3"
+            className="w-20 text-xs"
+          />
         ),
       },
       {
         title: t('common.volume'),
-        className: 'w-32 max-w-32',
         render: (_, row) => (
           <PoolTradingVolume
             value={row}
             imgClassName="size-4"
-            className="text-xs"
+            className="w-20 text-xs"
           />
         ),
       },
