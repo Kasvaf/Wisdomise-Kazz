@@ -21,7 +21,7 @@ export const CoinMiniCandleChart: FC<
       },
       xAxis: {
         type: 'category',
-        data: value.map(x => x.related_at),
+        data: value.map(x => +new Date(x.related_at).toISOString()),
         boundaryGap: false,
         show: false,
       },
@@ -36,7 +36,13 @@ export const CoinMiniCandleChart: FC<
       series: [
         {
           type: 'candlestick',
-          data: value.map(row => [row.open, row.close, row.low, row.high]),
+          data: value.map(x => [x.open, x.close, x.low, x.high]),
+          itemStyle: {
+            color: '#00ffa3',
+            color0: '#f14056',
+            borderColor: '#00ffa3',
+            borderColor0: '#f14056',
+          },
         },
       ],
       backgroundColor: 'transparent',
