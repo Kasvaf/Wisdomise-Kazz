@@ -7,7 +7,9 @@ common:
   initial_liquidity: Initial Liquidity
   liquidity: Liquidity
   marketcap: Market Cap
-  recent_candles: Recent Candles
+  recent_candles:
+    title: Recent Candles
+    info: Last 20 minutes of candlestick data at 1-minute resolution.
   socials: Socials
   txns:
     title: TXNS
@@ -20,10 +22,11 @@ common:
 page:
   title: New Born
   info: >-
-    This page displays newly launched coins and liquidity pools, providing
-    insights into their market cap, creation date, and transaction activity. The
-    TXNS column shows the total number of buy and sell transactions, helping
-    identify trading activity and interest in each project.
+    This page displays newly launched Solana coins and liquidity pools,
+    providing insights into their market cap, creation date, and transaction
+    activity. The TXNS column shows the total number of buy and sell
+    transactions, helping identify trading activity and interest in each
+    project.
 security:
   freeze_auth: Freeze Auth<br />Enabled
   lp_burned: LP<br />Burned
