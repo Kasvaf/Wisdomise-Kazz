@@ -62,7 +62,6 @@ export const useWhaleRadarWhales = (config: {
 }) =>
   useQuery({
     queryKey: ['whale-radar-whales'],
-    keepPreviousData: true,
     queryFn: async () => {
       const data = await resolvePageResponseToArray<WhaleShort>(
         'delphi/holders/tops/',
@@ -118,7 +117,6 @@ export const useWhalesCoins = (filters?: {
 }) =>
   useQuery({
     queryKey: ['whales-coins', JSON.stringify(filters)],
-    keepPreviousData: true,
     queryFn: async () => {
       const data = await ofetch<PageResponse<WhaleCoin>>(
         `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
@@ -310,7 +308,6 @@ export const useWhaleRadarCoins = (config: {
 }) =>
   useQuery({
     queryKey: ['whale-radar-coins', config.days],
-    keepPreviousData: true,
     queryFn: () =>
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {
@@ -426,7 +423,6 @@ export const useCoinWhales = (config: {
 }) =>
   useQuery({
     queryKey: ['coin-whales', config.slug],
-    keepPreviousData: true,
     queryFn: () =>
       resolvePageResponseToArray<CoinWhale>('/delphi/holders/with-coin/', {
         query: {

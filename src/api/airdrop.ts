@@ -15,26 +15,24 @@ export interface Airdrop {
 }
 
 export function useAirdropQuery(address: `0x${string}`) {
-  return useQuery(
-    ['airdrop'],
-    async () => {
+  return useQuery({
+    queryKey: ['airdrop'],
+    queryFn: async () => {
       const data = await ofetch<Airdrop>(
         `${TEMPLE_ORIGIN}/api/v1/investment/airdrop/${address}`,
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: false,
-      retry: false,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: false,
+    retry: false,
+  });
 }
 
 export function useCheckAirdropEligibilityQuery(address?: `0x${string}`) {
-  return useQuery(
-    ['checkEligibility'],
-    async () => {
+  return useQuery({
+    queryKey: ['checkEligibility'],
+    queryFn: async () => {
       if (!address) return;
 
       const data = await ofetch<AirdropEligibilityStatus>(
@@ -42,10 +40,8 @@ export function useCheckAirdropEligibilityQuery(address?: `0x${string}`) {
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: false,
-      retry: false,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: false,
+    retry: false,
+  });
 }

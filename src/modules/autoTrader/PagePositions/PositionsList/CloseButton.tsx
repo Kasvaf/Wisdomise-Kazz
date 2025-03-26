@@ -20,7 +20,7 @@ const CloseButton: React.FC<{ position: Position }> = ({ position }) => {
     position.quote_slug,
   ); // TODO: should be read from position itself
 
-  const { mutateAsync: updateOrClose, isLoading: isClosing } =
+  const { mutateAsync: updateOrClose, isPending: isClosing } =
     useTraderUpdatePositionMutation();
 
   const [ModalConfirm, confirm] = useConfirm({

@@ -70,7 +70,6 @@ export const useAlerts = (
   filters?: Partial<Pick<Alert, 'data_source' | 'params'>>,
 ) => {
   const isLoggedIn = useIsLoggedIn();
-  const client = useQueryClient();
 
   const queryKey = ['alerts', isLoggedIn];
 
@@ -78,11 +77,6 @@ export const useAlerts = (
     queryKey,
     queryFn: async (): Promise<Alert[]> => {
       if (!isLoggedIn) return [];
-      const cacheData = client.getQueryData(queryKey, {
-        exact: true,
-        stale: false,
-      });
-      if (cacheData) return cacheData as Alert[];
       let returnValue: Alert[] = [];
       if (
         filters?.data_source === 'manual:social_radar_daily_report' ||
@@ -127,8 +121,8 @@ export const useAlerts = (
 
 export const useSaveAlert = (alertId?: string) => {
   const client = useQueryClient();
-  return useMutation(
-    (payload: Partial<Alert>) => {
+  return useMutation({
+    mutationFn: (payload: Partial<Alert>) => {
       if (!payload.data_source)
         throw new Error('Alert data_source is not valid');
       if (payload.data_source === 'manual:social_radar_daily_report') {
@@ -144,14 +138,14 @@ export const useSaveAlert = (alertId?: string) => {
         key: alertKey,
       });
     },
-    { onSuccess: () => client.invalidateQueries(['alerts']) },
-  );
+    onSuccess: () => client.invalidateQueries({ queryKey: ['alerts'] }),
+  });
 };
 
 export const useDeleteAlert = (alertId?: string) => {
   const client = useQueryClient();
-  return useMutation(
-    (payload: Partial<BaseAlert>) => {
+  return useMutation({
+    mutationFn: (payload: Partial<BaseAlert>) => {
       if (payload.data_source === 'manual:social_radar_daily_report') {
         return toggleSocialRadarDailyReportAlert(false);
       }
@@ -161,8 +155,6 @@ export const useDeleteAlert = (alertId?: string) => {
         key: alertKey,
       });
     },
-    {
-      onSuccess: () => client.invalidateQueries(['alerts']),
-    },
-  );
+    onSuccess: () => client.invalidateQueries({ queryKey: ['alerts'] }),
+  });
 };

@@ -112,7 +112,7 @@ const MenuItemsContent: React.FC<{
   const [activeMenu, setActiveMenu] = useState(pathname);
 
   const [ModalLogin, showModalLogin] = useModalLogin();
-  const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
+  const { mutateAsync, isPending: loggingOut } = useLogoutMutation();
 
   const extraItems = [
     {

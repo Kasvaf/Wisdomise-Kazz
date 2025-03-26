@@ -16,18 +16,16 @@ interface OrderPreset {
 }
 
 export const useAIPresets = (pairSlug: string) =>
-  useQuery<OrderPreset[] | null>(
-    ['ai-presets', pairSlug],
-    async () => {
+  useQuery<OrderPreset[] | null>({
+    queryKey: ['ai-presets', pairSlug],
+    queryFn: async () => {
       const data = await ofetch<OrderPreset[]>('/trader/preset', {
         query: { pair_slug: pairSlug },
       });
       return Array.isArray(data) ? data : null;
     },
-    {
-      enabled: !!pairSlug,
-      staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: 30 * 1000,
-      refetchIntervalInBackground: true,
-    },
-  );
+    enabled: !!pairSlug,
+    staleTime: Number.POSITIVE_INFINITY,
+    refetchInterval: 30 * 1000,
+    refetchIntervalInBackground: true,
+  });

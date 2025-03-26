@@ -14,12 +14,17 @@ const BranchSelector = () => {
   const value = RouterBaseName.startsWith('/')
     ? RouterBaseName.slice(1)
     : RouterBaseName;
-  const branches = useQuery(['branched'], async () => {
-    const data = await ofetch<string>(window.location.origin + '/branches.txt');
-    return data
-      .split(/\s+/)
-      .filter(Boolean)
-      .map(x => (x.startsWith('/') ? x.slice(1) : x));
+  const branches = useQuery({
+    queryKey: ['branched'],
+    queryFn: async () => {
+      const data = await ofetch<string>(
+        window.location.origin + '/branches.txt',
+      );
+      return data
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(x => (x.startsWith('/') ? x.slice(1) : x));
+    },
   });
 
   return (

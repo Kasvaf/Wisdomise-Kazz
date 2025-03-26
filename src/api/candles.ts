@@ -31,9 +31,16 @@ export const useCandlesQuery = ({
   endDateTime?: string | Date;
   market?: MarketTypes;
 }) =>
-  useQuery(
-    ['candles', asset, resolution, startDateTime, endDateTime, market],
-    async () => {
+  useQuery({
+    queryKey: [
+      'candles',
+      asset,
+      resolution,
+      startDateTime,
+      endDateTime,
+      market,
+    ],
+    queryFn: async () => {
       const data = await ofetch<Candle[]>('/delphi/candles', {
         query: {
           asset,
@@ -45,17 +52,15 @@ export const useCandlesQuery = ({
       });
       return data;
     },
-    {
-      enabled: Boolean(
-        asset &&
-          resolution &&
-          startDateTime &&
-          endDateTime &&
-          market !== undefined,
-      ),
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    enabled: Boolean(
+      asset &&
+        resolution &&
+        startDateTime &&
+        endDateTime &&
+        market !== undefined,
+    ),
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 interface LastCandleResponse {
   symbol: {
@@ -119,9 +124,16 @@ export const useLastCandleQuery = ({
   const theQuote = bestPair?.quote;
   const bestExchange = exchange || NETWORK_TO_EXCHANGE[bestPair?.net ?? ''];
 
-  return useQuery(
-    ['last-candle', base, theQuote, bestExchange, market, convertToUsd],
-    async () => {
+  return useQuery({
+    queryKey: [
+      'last-candle',
+      base,
+      theQuote,
+      bestExchange,
+      market,
+      convertToUsd,
+    ],
+    queryFn: async () => {
       const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
         query: {
           base,
@@ -134,12 +146,10 @@ export const useLastCandleQuery = ({
       });
       return data;
     },
-    {
-      enabled: Boolean(base && theQuote && bestExchange && market),
-      staleTime: 1000,
-      refetchInterval: 10_000,
-    },
-  );
+    enabled: Boolean(base && theQuote && bestExchange && market),
+    staleTime: 1000,
+    refetchInterval: 10_000,
+  });
 };
 
 export const useLastPriceQuery = (params: LastCandleParams) => {

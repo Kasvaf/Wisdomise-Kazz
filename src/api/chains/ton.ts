@@ -41,9 +41,9 @@ const useJettonWalletAddress = (
 ) => {
   const address = useTonAddress();
 
-  return useQuery(
-    ['jetton-wallet-address', address, quote],
-    async () => {
+  return useQuery({
+    queryKey: ['jetton-wallet-address', address, quote],
+    queryFn: async () => {
       if (!address || !quote || quote === 'the-open-network') return;
 
       const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
@@ -67,11 +67,9 @@ const useJettonWalletAddress = (
         console.error('Error fetching jetton wallet address:', error);
       }
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: !!address,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: !!address,
+  });
 };
 
 export const useAccountJettonBalance = (
@@ -81,9 +79,9 @@ export const useAccountJettonBalance = (
   const { data: jettonAddress } = useJettonWalletAddress(contract);
   const addr = contract === 'the-open-network' ? address : jettonAddress;
 
-  return useQuery(
-    ['accountJettonBalance', contract, addr],
-    async () => {
+  return useQuery({
+    queryKey: ['accountJettonBalance', contract, addr],
+    queryFn: async () => {
       if (!addr || !contract) return null;
       const parsedAddress = Address.parse(addr);
 
@@ -106,11 +104,9 @@ export const useAccountJettonBalance = (
         ? null
         : Number(fromBigMoney(balance, CONTRACT_DECIMAL[contract]));
     },
-    {
-      refetchInterval: 10_000,
-      staleTime: 500,
-    },
-  );
+    refetchInterval: 10_000,
+    staleTime: 500,
+  });
 };
 
 export const useTonTransferAssetsMutation = (
@@ -179,7 +175,7 @@ export const useTonTransferAssetsMutation = (
     };
 
     await tonConnectUI.sendTransaction(transaction);
-    await queryClient.invalidateQueries(['accountJettonBalance']);
+    await queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
     gtag('event', 'trade');
   };
 };

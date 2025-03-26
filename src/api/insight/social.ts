@@ -164,7 +164,6 @@ export const useSocialRadarCoins = (config: {
           return sorter(a.rank, b.rank);
         }),
     refetchInterval: 30_000,
-    keepPreviousData: true,
   });
 
 export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>

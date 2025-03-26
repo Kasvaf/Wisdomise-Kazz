@@ -14,7 +14,7 @@ const CancelButton: React.FC<{ position: Position }> = ({ position }) => {
     position.quote_slug,
   ); // TODO: should be read from position itself
 
-  const { mutate: cancelPosition, isLoading: isCanceling } =
+  const { mutate: cancelPosition, isPending: isCanceling } =
     useTraderCancelPositionMutation();
 
   if (position.status !== 'DRAFT' && position.deposit_status !== 'PENDING') {
