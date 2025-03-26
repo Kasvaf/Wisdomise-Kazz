@@ -47,19 +47,19 @@ export const Button: FC<ButtonProps> = ({
       className={clsx(
         /* Size: height, padding, font-size, border-radius */
         size === '2xs' && 'h-2xs rounded text-xs',
-        size === '2xs' && fab ? 'w-2xs' : 'px-3',
+        size === '2xs' && (fab ? 'w-2xs' : 'px-3'),
         size === 'xs' && 'h-xs rounded-md text-xs',
-        size === 'xs' && fab ? 'w-xs' : 'px-3',
+        size === 'xs' && (fab ? 'w-xs' : 'px-3'),
         size === 'sm' && 'h-sm rounded-lg text-xs',
-        size === 'sm' && fab ? 'w-sm' : 'px-3',
+        size === 'sm' && (fab ? 'w-sm' : 'px-3'),
         size === 'md' && 'h-md rounded-lg text-xs',
-        size === 'md' && fab ? 'w-md' : 'px-3',
+        size === 'md' && (fab ? 'w-md' : 'px-3'),
         size === 'lg' && 'h-lg rounded-[10px] text-xs',
-        size === 'md' && fab ? 'w-lg' : 'px-4',
+        size === 'md' && (fab ? 'w-lg' : 'px-4'),
         size === 'xl' && 'h-xl rounded-xl text-sm',
-        size === 'xl' && fab ? 'w-xl' : 'px-4',
+        size === 'xl' && (fab ? 'w-xl' : 'px-4'),
         size === '2xl' && 'h-2xl rounded-2xl text-sm',
-        size === '2xl' && fab ? 'w-2xl' : 'px-5',
+        size === '2xl' && (fab ? 'w-2xl' : 'px-5'),
         /* Variant: background-color, color, :hover, :active */
         variant === 'primary' &&
           'border-v1-background-brand bg-v1-background-brand text-v1-content-primary enabled:hover:bg-v1-background-brand-hover enabled:active:bg-v1-background-brand-pressed',

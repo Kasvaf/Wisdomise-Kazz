@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { type TableColumnType } from 'antd';
+import { bxSort } from 'boxicons-quasar';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
@@ -14,6 +15,9 @@ import {
   useNetworkRadarPools,
 } from 'api/insight/network';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { Button } from 'shared/v1-components/Button';
+import Icon from 'shared/Icon';
+import { isDebugMode } from 'utils/version';
 import { PoolAge } from '../PoolAge';
 import { PoolTradingVolume } from '../PoolTradingVolume';
 import { PoolBuySell } from '../PoolBuySell';
@@ -130,6 +134,27 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
             width={65}
             renderer="canvas"
           />
+        ),
+      },
+      /* TODO: @arash16 Buy/Sell Button in Desktop */
+      {
+        title: '',
+        colSpan: isDebugMode ? 1 : 0,
+        fixed: 'right',
+        render: () => (
+          <Button
+            fab
+            size="sm"
+            variant="ghost"
+            surface={4}
+            onClick={() =>
+              alert(
+                'This button is only shown in debug mode and serves as a placeholder/showcase. The action will be handled in the future.',
+              )
+            }
+          >
+            <Icon name={bxSort} size={12} className="rotate-90" />
+          </Button>
         ),
       },
     ],

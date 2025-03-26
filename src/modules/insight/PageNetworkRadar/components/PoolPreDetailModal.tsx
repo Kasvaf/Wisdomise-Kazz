@@ -1,8 +1,11 @@
 import { type FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DrawerModal } from 'shared/DrawerModal';
 
 import { type NetworkRadarPool } from 'api/insight/network';
 import { Coin } from 'shared/Coin';
+import { Button } from 'shared/v1-components/Button';
+import { isDebugMode } from 'utils/version';
 import { PoolAge } from './PoolAge';
 import { PoolSecurity } from './PoolSecurity';
 import { PoolDetails } from './PoolDetails';
@@ -13,6 +16,7 @@ export const PoolPreDetailModal: FC<{
   open?: boolean;
   onClose: () => unknown;
 }> = ({ open, onClose, value }) => {
+  const { t } = useTranslation('common');
   return (
     <DrawerModal
       open={open && !!value}
@@ -55,9 +59,21 @@ export const PoolPreDetailModal: FC<{
 
           <PoolDetails value={value} />
 
-          {/* <div className="flex flex-col items-stretch gap-4">
-      <BtnAutoTrade slug={pool.slug} variant="primary" />
-    </div> */}
+          {/* TODO: @arash16 Buy/Sell Button in Mobile */}
+          {isDebugMode && (
+            <Button
+              variant="primary"
+              block
+              className="w-full"
+              onClick={() =>
+                alert(
+                  'This button is only shown in debug mode and serves as a placeholder/showcase. The action will be handled in the future.',
+                )
+              }
+            >
+              {t('buy_and_sell')}
+            </Button>
+          )}
         </div>
       )}
     </DrawerModal>
