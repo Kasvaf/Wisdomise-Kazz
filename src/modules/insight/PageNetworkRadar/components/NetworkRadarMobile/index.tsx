@@ -36,9 +36,9 @@ export const NetworkRadarMobile = () => {
   const columns = useMemo<Array<MobileTableColumn<NetworkRadarPool>>>(
     () => [
       {
-        key: 'index',
+        key: 'rank',
         className: 'max-w-7 min-w-2 text-start text-xs font-medium',
-        render: (_, index) => index + 1,
+        render: row => row._rank,
       },
       {
         key: 'coin',

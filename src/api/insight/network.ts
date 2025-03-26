@@ -5,6 +5,7 @@ import { resolvePageResponseToArray } from 'api/utils';
 import { matcher } from './utils';
 
 export interface NetworkRadarPool {
+  _rank?: number;
   address: string;
   base_symbol: Coin;
   quote_symbol: Coin;
@@ -67,9 +68,11 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
         },
       ),
     select: data =>
-      data.filter(row => {
-        if (!matcher(config.networks).array([row.network.slug])) return false;
-        return true;
-      }),
+      data
+        .filter(row => {
+          if (!matcher(config.networks).array([row.network.slug])) return false;
+          return true;
+        })
+        .map((row, i) => ({ ...row, _rank: i + 1 })),
     refetchInterval: 30 * 1000,
   });
