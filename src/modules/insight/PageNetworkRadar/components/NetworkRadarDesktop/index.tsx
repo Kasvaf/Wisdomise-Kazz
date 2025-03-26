@@ -180,7 +180,6 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
           loading={pools.isLoading && !pools.data}
           tableLayout="fixed"
           {...tableProps}
-          pagination={false}
         />
       </AccessShield>
     </OverviewWidget>
