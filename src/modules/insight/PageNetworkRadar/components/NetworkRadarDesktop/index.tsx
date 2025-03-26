@@ -143,7 +143,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         ),
       },
       {
-        title: '',
+        title: t('common.recent_candles'),
         render: (_, row) => (
           <PoolRecentCandles
             value={row}

@@ -6,7 +6,8 @@ common:
   created: Created
   initial_liquidity: Initial Liquidity
   liquidity: Liquidity
-  marketcap: Marketcap
+  marketcap: Market Cap
+  recent_candles: Recent Candles
   socials: Socials
   txns:
     title: TXNS
