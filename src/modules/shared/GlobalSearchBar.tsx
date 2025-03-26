@@ -2,6 +2,7 @@ import { bxBell, bxSearch } from 'boxicons-quasar';
 import { type ComponentProps, type FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { useAlertActions } from 'modules/alert/hooks/useAlertActions';
 import { CoinSelect } from 'shared/CoinSelect';
 import Icon from 'shared/Icon';
@@ -14,6 +15,7 @@ export const GlobalSearchBar: FC<{
   className?: string;
   size?: ComponentProps<typeof Select>['size'];
 }> = ({ className, size }) => {
+  const { t } = useTranslation('common');
   const hasFlag = useHasFlag();
   const { openSaveModal: openAlert, content: alertModal } = useAlertActions(
     {},
@@ -33,7 +35,7 @@ export const GlobalSearchBar: FC<{
             <Icon name={bxSearch} className="text-v1-content-secondary" />
           }
           onChange={newSlug => newSlug && navigate(`/coin/${newSlug}`)}
-          placeholder="Search Among 20K+ Coins…"
+          placeholder={t('search_coins')}
           block
           size={size}
           className="grow"
