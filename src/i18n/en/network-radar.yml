@@ -1,5 +1,6 @@
 common:
   name: Name
+  address: Address
   buy_sell: TXNS
   contract_address: Contract Address
   created: Created

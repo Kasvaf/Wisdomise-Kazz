@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { type TableColumnType } from 'antd';
-import { bxSort } from 'boxicons-quasar';
+import { bxsCopy, bxSort } from 'boxicons-quasar';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
@@ -17,6 +17,8 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
+import { useShare } from 'shared/useShare';
+import { shortenAddress } from 'utils/shortenAddress';
 import { PoolAge } from '../PoolAge';
 import { PoolTradingVolume } from '../PoolTradingVolume';
 import { PoolBuySell } from '../PoolBuySell';
@@ -26,6 +28,7 @@ import { PoolRecentCandles } from '../PoolRecentCandles';
 
 export function NetworkRadarDesktop({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
+  const [copy, copyNotif] = useShare('copy');
   const [tableProps, tableState] = useTableState<
     Required<Parameters<typeof useNetworkRadarPools>[0]>
   >('', {
@@ -49,6 +52,23 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         fixed: 'left',
         className: 'w-44 max-w-44',
         render: (_, row) => <Coin coin={row.base_symbol} nonLink={true} />,
+      },
+      {
+        title: t('common.address'),
+        className: 'w-44 max-w-44',
+        render: (_, row) => (
+          <>
+            <div className="flex items-center gap-1">
+              {shortenAddress(row.address)}
+              <Icon
+                name={bxsCopy}
+                size={14}
+                className="cursor-pointer text-v1-content-secondary"
+                onClick={() => copy(row.address)}
+              />
+            </div>
+          </>
+        ),
       },
       {
         title: t('common.created'),
@@ -155,7 +175,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         ),
       },
     ],
-    [t],
+    [copy, t],
   );
 
   return (
@@ -189,6 +209,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
           {...tableProps}
         />
       </AccessShield>
+      {copyNotif}
     </OverviewWidget>
   );
 }
