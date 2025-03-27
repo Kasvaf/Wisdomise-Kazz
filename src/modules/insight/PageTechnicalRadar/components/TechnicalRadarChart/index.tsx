@@ -36,7 +36,7 @@ export const TechnicalRadarChart: FC<{
   const parsedData = useNormalizeTechnicalChartBubbles(coins.data ?? [], type);
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
-  console.log(parsedData.data, type);
+
   const options = useMemo<EChartsOption>(() => {
     return {
       tooltip: {
@@ -70,7 +70,7 @@ export const TechnicalRadarChart: FC<{
         valueFormatter(_, dataIndex) {
           const raw = parsedData.data?.[dataIndex]?.raw;
           if (!raw) return '';
-          return raw.symbol.name;
+          return raw.symbol.name ?? '---';
         },
       },
       grid: {
