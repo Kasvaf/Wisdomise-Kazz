@@ -10,7 +10,7 @@ import {
   type NetworkRadarPool,
   useNetworkRadarPools,
 } from 'api/insight/network';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { PoolAge } from '../PoolAge';
 import { PoolBuySell } from '../PoolBuySell';
 import { PoolTradingVolume } from '../PoolTradingVolume';
@@ -32,7 +32,7 @@ export const NetworkRadarMobile = () => {
   const [modal, setModal] = useState(false);
 
   const pools = useNetworkRadarPools(tableState);
-  useLoadingBar(pools.isFetching);
+  useLoadingBadge(pools.isFetching);
 
   const columns = useMemo<Array<MobileTableColumn<NetworkRadarPool>>>(
     () => [

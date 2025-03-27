@@ -12,7 +12,7 @@ import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
 import BtnBack from 'modules/base/BtnBack';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
-import { LoadingBar, useLoadingBar } from 'shared/LoadingBar';
+import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import BranchSelector from './BranchSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
@@ -27,7 +27,7 @@ const Header: React.FC<
   const net = useActiveNetwork();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const showLoadingBar = useLoadingBar();
+  const showLoadingBadge = useLoadingBadge();
 
   const tradesBtn = (
     <div className="flex items-center gap-2">
@@ -71,10 +71,6 @@ const Header: React.FC<
         className,
       )}
     >
-      <LoadingBar
-        className="absolute top-0 h-[2px] w-full"
-        value={showLoadingBar}
-      />
       <div
         className={clsx(
           'flex h-full items-center gap-3 p-6 pl-[--side-menu-width] mobile:px-4 mobile:py-3',
@@ -123,6 +119,11 @@ const Header: React.FC<
         ) : (
           <>
             <Breadcrumb className="pl-6" />
+            <LoadingBadge
+              value={showLoadingBadge}
+              animation="fade"
+              className="bg-v1-surface-l2"
+            />
             <div className="grow" />
             {children && (
               <>

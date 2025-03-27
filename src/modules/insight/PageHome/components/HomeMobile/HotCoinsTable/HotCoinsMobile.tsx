@@ -14,7 +14,7 @@ import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { homeSubscriptionsConfig } from '../../constants';
 import useHotCoinsTour from './useHotCoinsTour';
 
@@ -29,7 +29,7 @@ export const HotCoinsMobile = () => {
   const coins = useCoinRadarCoins({
     networks: network ? [network] : [],
   });
-  useLoadingBar(coins.isFetching);
+  useLoadingBadge(coins.isFetching);
 
   useHotCoinsTour({
     enabled: !coins.isLoading,

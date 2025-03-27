@@ -2,12 +2,14 @@ import { clsx } from 'clsx';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useHasFlag } from 'api';
 import { DebugPin } from 'shared/DebugPin';
+import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import useMenuItems, { type RootMenuItem } from './useMenuItems';
 
 const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   const { items: MenuItems } = useMenuItems();
   const hasFlag = useHasFlag();
   const location = useLocation();
+  const showLoadingBadge = useLoadingBadge();
 
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
@@ -29,6 +31,11 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
 
   return location.pathname.startsWith('/account') ? null : (
     <>
+      <LoadingBadge
+        value={showLoadingBadge}
+        animation="slide-down"
+        className="fixed bottom-16 left-1/2 z-50 mb-2 -translate-x-1/2 bg-v1-surface-l4"
+      />
       <div
         className={clsx(
           'fixed bottom-0 z-50 hidden h-16 w-full mobile:block',

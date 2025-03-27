@@ -19,7 +19,7 @@ import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { PoolAge } from '../PoolAge';
 import { PoolTradingVolume } from '../PoolTradingVolume';
 import { PoolBuySell } from '../PoolBuySell';
@@ -39,7 +39,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
   });
 
   const pools = useNetworkRadarPools(tableState);
-  useLoadingBar(pools.isFetching);
+  useLoadingBadge(pools.isFetching);
 
   const columns = useMemo<Array<TableColumnType<NetworkRadarPool>>>(
     () => [

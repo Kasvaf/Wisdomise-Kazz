@@ -14,7 +14,7 @@ import { AccessShield } from 'shared/AccessShield';
 import { DebugPin } from 'shared/DebugPin';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { SearchInput } from 'shared/SearchInput';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 
 export function WhaleRadarWhalesWidget({
   className,
@@ -36,7 +36,7 @@ export function WhaleRadarWhalesWidget({
   });
 
   const whales = useWhaleRadarWhales(tableState);
-  useLoadingBar(whales.isFetching);
+  useLoadingBadge(whales.isFetching);
 
   const columns = useMemo<Array<ColumnType<WhaleShort>>>(
     () => [

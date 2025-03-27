@@ -4,7 +4,7 @@ import { type IndicatorHeatmapResolution, useIndicatorHeatmap } from 'api';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { AccessShield } from 'shared/AccessShield';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { RsiHeatmapChart } from './RsiHeatmapChart';
 
@@ -16,7 +16,7 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
     indicator: 'rsi',
     resolution,
   });
-  useLoadingBar(heatmap.isLoading);
+  useLoadingBadge(heatmap.isLoading);
   return (
     <OverviewWidget
       className={className}

@@ -18,7 +18,7 @@ import { useScreenshot } from 'shared/useScreenshot';
 import { formatNumber } from 'utils/numbers';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -265,7 +265,7 @@ export const TechnicalRadarChart: FC<{
     };
   }, [parsedData, t, type]);
 
-  useLoadingBar(coins.isFetching);
+  useLoadingBadge(coins.isFetching);
 
   return (
     <div

@@ -20,7 +20,7 @@ import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
@@ -144,7 +144,7 @@ export function ConfirmationWidget<I extends Indicator>({
     indicator,
     combination: selectedTab.combination,
   });
-  useLoadingBar(confirmations.isLoading);
+  useLoadingBadge(confirmations.isLoading);
 
   useEffect(() => {
     if (!autoSelect) return;

@@ -11,7 +11,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
-import { useLoadingBar } from 'shared/LoadingBar';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { WhaleRadarFilters } from '../../WhaleRadarFilters';
@@ -44,7 +44,7 @@ export function WhaleRadarCoinsWidget({
     trendLabels: [],
   });
   const coins = useWhaleRadarCoins(tableState);
-  useLoadingBar(coins.isFetching);
+  useLoadingBadge(coins.isFetching);
 
   const columns = useMemo<Array<ColumnType<WhaleRadarCoin>>>(
     () => [
