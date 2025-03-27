@@ -10,7 +10,6 @@ import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
-import { useLoading } from 'shared/Loading';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 
@@ -36,8 +35,6 @@ export const SocialRadarMobile = () => {
   const [modal, setModal] = useState(false);
 
   const coins = useSocialRadarCoins(tableState);
-
-  useLoading(coins.isFetching);
 
   const columns = useMemo<Array<MobileTableColumn<SocialRadarCoin>>>(
     () => [

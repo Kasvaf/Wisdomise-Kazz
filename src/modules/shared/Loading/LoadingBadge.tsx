@@ -10,7 +10,7 @@ export const LoadingBadge: FC<{
 }> = ({ value, className, text = 'Updating...' }) => (
   <div
     className={clsx(
-      'pointer-events-none inline-flex h-6 items-center justify-center gap-1 transition-all duration-500',
+      'pointer-events-none inline-flex h-4 items-center justify-center gap-1 transition-all duration-500',
       !value && 'opacity-0',
       className,
     )}
