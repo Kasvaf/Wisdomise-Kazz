@@ -1,25 +1,35 @@
-import { bxLoaderAlt } from 'boxicons-quasar';
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import Icon from 'shared/Icon';
 
 export const LoadingBadge: FC<{
   value?: boolean;
   className?: string;
   text?: string;
-}> = ({ value, className, text = 'Updating...' }) => (
+}> = ({ value, className, text = 'Updating…' }) => (
   <div
     className={clsx(
-      'pointer-events-none inline-flex h-4 items-center justify-center gap-1 transition-all duration-500',
-      !value && 'opacity-0',
+      'pointer-events-none inline-flex h-4 items-center justify-center gap-1 overflow-hidden transition-all',
       className,
     )}
   >
-    <Icon
-      name={bxLoaderAlt}
-      className="animate-spin align-baseline"
-      size={14}
+    <div
+      className={clsx(
+        'size-3 animate-spin rounded-full border border-white/10 border-r-white border-t-white transition-all',
+        !value && 'opacity-0',
+      )}
+      style={{
+        animationDuration: '0.75s',
+      }}
     />
-    {text && <div className="text-xxs">{text}</div>}
+    {text && (
+      <div
+        className={clsx(
+          'align-baseline text-xxs font-normal transition-all',
+          !value && 'opacity-0',
+        )}
+      >
+        {text}
+      </div>
+    )}
   </div>
 );
