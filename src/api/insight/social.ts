@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
+import { PERSIST_KEY } from 'config/reactQuery';
 import {
   type MarketData,
   type Coin,
@@ -116,18 +117,13 @@ export const useSocialRadarCoins = (config: {
   trendLabels?: string[];
 }) =>
   useQuery({
-    queryKey: ['social-radar-coins', config.windowHours],
-    queryFn: async () => {
-      const data = await ofetch<SocialRadarCoin[]>(
-        'delphi/social-radar/coins-social-signal/',
-        {
-          query: {
-            window_hours: config.windowHours,
-          },
+    queryKey: [PERSIST_KEY, 'social-radar-coins', config.windowHours],
+    queryFn: () =>
+      ofetch<SocialRadarCoin[]>('delphi/social-radar/coins-social-signal/', {
+        query: {
+          window_hours: config.windowHours,
         },
-      );
-      return data ?? [];
-    },
+      }).then(x => x ?? []),
     select: data =>
       data
         .filter(row => {
@@ -165,7 +161,6 @@ export const useSocialRadarCoins = (config: {
           return sorter(a.rank, b.rank);
         }),
     refetchInterval: 30_000,
-    gcTime: Number.POSITIVE_INFINITY,
   });
 
 export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>
