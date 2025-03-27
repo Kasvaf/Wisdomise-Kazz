@@ -118,7 +118,7 @@ export function CoinLinksWidget({ id, slug }: { slug: string; id?: string }) {
                 key={value}
               />
             ))}
-          {(communityData.links?.repos_url.github ?? [])
+          {(communityData.links?.repos_url?.github ?? [])
             .filter(x => !!x)
             .map((value, idx) => (
               <LinkBadge
@@ -130,7 +130,7 @@ export function CoinLinksWidget({ id, slug }: { slug: string; id?: string }) {
                 key={value}
               />
             ))}
-          {(communityData.links?.repos_url.bitbucket ?? [])
+          {(communityData.links?.repos_url?.bitbucket ?? [])
             .filter(x => !!x)
             .map((value, idx) => (
               <LinkBadge
