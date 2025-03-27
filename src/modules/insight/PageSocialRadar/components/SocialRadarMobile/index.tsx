@@ -149,7 +149,11 @@ export const SocialRadarMobile = () => {
           />
         )}
         {selectedRow && (
-          <SocialRadarSentiment value={selectedRow} mode="expanded" />
+          <SocialRadarSentiment
+            value={selectedRow}
+            mode="expanded"
+            className="w-full"
+          />
         )}
       </CoinPreDetailModal>
     </>
