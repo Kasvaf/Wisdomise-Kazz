@@ -14,7 +14,7 @@ import { useJwtEmail } from 'modules/base/auth/jwt-store';
 import CustomTourProvider from 'modules/base/CustomTourProvider';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
-import { queryClient, persister } from 'config/reactQuery';
+import { queryClient, persisterOptions } from 'config/reactQuery';
 import { RouterBaseName } from 'config/constants';
 import { LoadingProvider } from 'shared/Loading';
 
@@ -52,7 +52,7 @@ function Root() {
     >
       <PersistQueryClientProvider
         client={queryClient}
-        persistOptions={{ persister }}
+        persistOptions={persisterOptions}
       >
         <ConfigProvider
           theme={{
