@@ -1,22 +1,13 @@
 import { clsx } from 'clsx';
 import { Breadcrumb as AntBreadcrumb, type BreadcrumbProps } from 'antd';
-import {
-  type Params,
-  useLocation,
-  useMatches,
-  Link,
-  NavLink,
-} from 'react-router-dom';
+import { type Params, useLocation, useMatches, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { bxChevronDown, bxChevronUp } from 'boxicons-quasar';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { MAIN_LANDING } from 'config/constants';
 import Logo from 'assets/WisdomiseLogo.svg';
 import useIsMobile from 'utils/useIsMobile';
-import Icon from 'shared/Icon';
-import { useHasFlag, useSubscription } from 'api';
+import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { DebugPin } from 'shared/DebugPin';
 import useMenuItems from '../useMenuItems';
 import { ReactComponent as ProIcon } from './pro.svg';
 
@@ -41,53 +32,10 @@ const useRouteParent = () => {
   return itemsByPath[pathname];
 };
 
-export const usePageSiblings = () => {
-  const [showSiblings, setShowSiblings] = useState(false);
-  const [el, setEl] = useState<HTMLDivElement | null>(null);
-  const [height, setHeight] = useState(0);
-  const hasFlag = useHasFlag();
-
-  useEffect(() => {
-    if (el) {
-      setHeight(el.getBoundingClientRect().height);
-    } else {
-      setHeight(0);
-    }
-  }, [el]);
-
-  const { parent, child } = useRouteParent() ?? {};
-  const PageSiblings =
-    parent && child && showSiblings ? (
-      <div
-        ref={setEl}
-        className="flex flex-col border-y border-white/5 py-3 pl-6 text-white"
-      >
-        {parent.children
-          ?.filter(x => hasFlag(x.link))
-          .map(x => (
-            <NavLink
-              key={x.link}
-              to={x.link}
-              className={clsx('py-3', x === child && 'text-info')}
-              onClick={() => setShowSiblings(false)}
-            >
-              <DebugPin title={x.link} color="orange" />
-              {x.text}
-            </NavLink>
-          ))}
-      </div>
-    ) : null;
-
-  return { PageSiblings, showSiblings, setShowSiblings, height };
-};
-
 const Breadcrumb: React.FC<{
   showLogo?: boolean;
-  showSiblings?: boolean;
-  onShowSiblings?: React.Dispatch<React.SetStateAction<boolean>>;
-  readonly?: boolean;
   className?: string;
-}> = ({ showLogo, className, showSiblings, readonly, onShowSiblings }) => {
+}> = ({ showLogo, className }) => {
   const { pathname } = useLocation();
   const isLoggedIn = useIsLoggedIn();
   const matches = useMatches();
@@ -107,14 +55,8 @@ const Breadcrumb: React.FC<{
   if (useIsMobile()) {
     if (parent && child && !showLogo) {
       return (
-        <div
-          className={clsx('ml-2 flex items-center text-white', className)}
-          onClick={() => onShowSiblings?.(x => !x)}
-        >
-          <div>{child.text}</div>
-          {!readonly && (
-            <Icon name={showSiblings ? bxChevronUp : bxChevronDown} />
-          )}
+        <div className={clsx('ml-2 flex items-center text-white', className)}>
+          {child.text}
         </div>
       );
     }

@@ -12,7 +12,6 @@ import { ReactComponent as TechnicalRadarIcon } from '../technical-radar.svg';
 import { ConfirmationWidget } from '../ConfirmationWidget';
 import { RsiHeatmapWidget } from '../RsiHeatmapWidget';
 import { TechnicalRadarCoinsTable } from './TechnicalRadarCoinsTable';
-import { TechnicalRadarAlertButton } from './TechnicalRadarAlertButton';
 
 export function TechnicalRadarDesktop() {
   const { t } = useTranslation('market-pulse');
@@ -38,15 +37,12 @@ export function TechnicalRadarDesktop() {
           </p>
         }
         headerActions={
-          <>
-            <TechnicalRadarViewSelect
-              className="w-min"
-              value={tab}
-              onChange={setTab}
-              size="md"
-            />
-            <TechnicalRadarAlertButton />
-          </>
+          <TechnicalRadarViewSelect
+            className="w-min"
+            value={tab}
+            onChange={setTab}
+            size="md"
+          />
         }
         contentClassName="!min-h-[450px]"
         loading={technicalTopCoins.isLoading}
