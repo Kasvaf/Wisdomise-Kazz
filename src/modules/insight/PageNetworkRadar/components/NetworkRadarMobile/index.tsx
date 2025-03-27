@@ -47,7 +47,7 @@ export const NetworkRadarMobile = () => {
             coin={row.base_symbol}
             imageClassName="size-7"
             className="text-xs"
-            truncate={55}
+            truncate={50}
             nonLink={true}
           />
         ),
