@@ -121,10 +121,7 @@ export function AccessShield({
 
   return (
     <>
-      <div
-        ref={root}
-        className={clsx(!isReady && 'blur transition-all', className)}
-      >
+      <div ref={root} className={clsx(className)}>
         {children}
         {calcSize(size) > 0 && (
           <div
