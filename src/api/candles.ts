@@ -212,6 +212,6 @@ export const useCandlesBySlugs = (userConfig: {
     },
     staleTime: Number.POSITIVE_INFINITY,
     enabled: !!config.base && !!config.quote,
-    keepPreviousData: true,
+    placeholderData: p => p,
   });
 };
