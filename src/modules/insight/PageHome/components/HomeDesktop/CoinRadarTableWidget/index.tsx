@@ -14,7 +14,7 @@ import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { LoadingBadge } from 'shared/Loading';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { EmptySentiment } from '../EmptySentiment';
 import { homeSubscriptionsConfig } from '../../constants';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
@@ -32,6 +32,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
   const coins = useCoinRadarCoins({
     networks: network ? [network] : [],
   });
+  useLoadingBar(coins.isFetching);
   const columns = useMemo<Array<ColumnType<CoinRadarCoin>>>(
     () => [
       {
@@ -119,7 +120,6 @@ export function CoinRadarTable({ className }: { className?: string }) {
         <>
           <Logo className="size-6 shrink-0" />
           {t('base:menu.coin-radar.full-title')}
-          <LoadingBadge value={coins.isFetching} />
         </>
       }
       headerActions={

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
+import { PERSIST_KEY } from 'config/reactQuery';
 import { type PageResponse } from '../types/page';
 import {
   type NetworkSecurity,
@@ -61,7 +62,7 @@ export const useWhaleRadarWhales = (config: {
   query?: string;
 }) =>
   useQuery({
-    queryKey: ['whale-radar-whales'],
+    queryKey: [PERSIST_KEY, 'whale-radar-whales'],
     queryFn: async () => {
       const data = await resolvePageResponseToArray<WhaleShort>(
         'delphi/holders/tops/',
@@ -307,7 +308,7 @@ export const useWhaleRadarCoins = (config: {
   excludeNativeCoins?: boolean;
 }) =>
   useQuery({
-    queryKey: ['whale-radar-coins', config.days],
+    queryKey: [PERSIST_KEY, 'whale-radar-coins', config.days],
     queryFn: () =>
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {

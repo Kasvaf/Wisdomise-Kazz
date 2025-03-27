@@ -20,7 +20,7 @@ import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { LoadingBadge } from 'shared/Loading';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
@@ -144,6 +144,7 @@ export function ConfirmationWidget<I extends Indicator>({
     indicator,
     combination: selectedTab.combination,
   });
+  useLoadingBar(confirmations.isLoading);
 
   useEffect(() => {
     if (!autoSelect) return;
@@ -187,7 +188,6 @@ export function ConfirmationWidget<I extends Indicator>({
               <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
             )}
           </div>
-          <LoadingBadge value={confirmations.isFetching} />
         </>
       }
       info={

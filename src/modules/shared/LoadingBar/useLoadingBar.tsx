@@ -13,12 +13,14 @@ const context = createContext<ReturnType<typeof useState<string[]>> | null>(
   null,
 );
 
-export const LoadingProvider: FC<{ children?: ReactNode }> = ({ children }) => {
+export const LoadingBarProvider: FC<{ children?: ReactNode }> = ({
+  children,
+}) => {
   const state = useState<string[]>();
   return <context.Provider value={state}>{children}</context.Provider>;
 };
 
-export const useLoading = (value?: boolean) => {
+export const useLoadingBar = (value?: boolean) => {
   const state = useContext(context);
   const id = useRef(crypto.randomUUID());
 

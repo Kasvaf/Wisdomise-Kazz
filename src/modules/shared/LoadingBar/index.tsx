@@ -19,3 +19,5 @@ export const LoadingBar: FC<{ value?: boolean; className?: string }> = ({
     </div>
   );
 };
+
+export * from './useLoadingBar';

@@ -14,7 +14,7 @@ import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
-import { LoadingBadge } from 'shared/Loading';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { homeSubscriptionsConfig } from '../../constants';
 import useHotCoinsTour from './useHotCoinsTour';
 
@@ -29,6 +29,7 @@ export const HotCoinsMobile = () => {
   const coins = useCoinRadarCoins({
     networks: network ? [network] : [],
   });
+  useLoadingBar(coins.isFetching);
 
   useHotCoinsTour({
     enabled: !coins.isLoading,
@@ -124,7 +125,6 @@ export const HotCoinsMobile = () => {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h1 className="text-sm">{t('table.mobile_title')}</h1>
-          <LoadingBadge value={coins.isFetching} />
         </div>
         <NetworkSelect
           value={network || undefined}

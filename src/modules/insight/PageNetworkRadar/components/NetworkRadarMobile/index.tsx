@@ -10,6 +10,7 @@ import {
   type NetworkRadarPool,
   useNetworkRadarPools,
 } from 'api/insight/network';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { PoolAge } from '../PoolAge';
 import { PoolBuySell } from '../PoolBuySell';
 import { PoolTradingVolume } from '../PoolTradingVolume';
@@ -31,6 +32,7 @@ export const NetworkRadarMobile = () => {
   const [modal, setModal] = useState(false);
 
   const pools = useNetworkRadarPools(tableState);
+  useLoadingBar(pools.isFetching);
 
   const columns = useMemo<Array<MobileTableColumn<NetworkRadarPool>>>(
     () => [
@@ -111,9 +113,7 @@ export const NetworkRadarMobile = () => {
     <>
       <MobileSearchBar className="mb-4" />
       <div className="mb-2 flex items-center justify-between">
-        <div>
-          <h1 className="text-sm">{t('page.title')}</h1>
-        </div>
+        <h1 className="text-sm">{t('page.title')}</h1>
       </div>
       <AccessShield
         mode="mobile_table"
@@ -130,7 +130,7 @@ export const NetworkRadarMobile = () => {
           columns={columns}
           dataSource={pools.data ?? []}
           rowKey={r => JSON.stringify(r.base_symbol.slug)}
-          loading={(pools.data?.length ?? 0) === 0 && pools.isLoading}
+          loading={pools.isLoading}
           surface={2}
           onClick={r => {
             setSelectedRow(r);

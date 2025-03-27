@@ -16,7 +16,7 @@ import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
 import { queryClient, persisterOptions } from 'config/reactQuery';
 import { RouterBaseName } from 'config/constants';
-import { LoadingProvider } from 'shared/Loading';
+import { LoadingBarProvider } from 'shared/LoadingBar';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');
@@ -67,11 +67,11 @@ function Root() {
           }}
         >
           <HelmetProvider context={{}}>
-            <LoadingProvider>
+            <LoadingBarProvider>
               <CustomTourProvider>
                 <App />
               </CustomTourProvider>
-            </LoadingProvider>
+            </LoadingBarProvider>
           </HelmetProvider>
           {errorNotificationContent}
         </ConfigProvider>

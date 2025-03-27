@@ -1,15 +1,13 @@
 import { useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
-import { useTechnicalRadarCoins, type TechnicalRadarCoin } from 'api';
-import { LoadingBadge } from 'shared/Loading';
+import { type TechnicalRadarCoin } from 'api';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 
 export const TechnicalRadarCoinsCharts: FC<{
   onClick?: (coin: TechnicalRadarCoin) => void;
 }> = ({ onClick }) => {
   const { t } = useTranslation('market-pulse');
-  const coins = useTechnicalRadarCoins({});
   const [view, setView] =
     useState<Parameters<typeof TechnicalRadarChart>[0]['type']>(
       'cheap_bullish',
@@ -55,7 +53,6 @@ export const TechnicalRadarCoinsCharts: FC<{
         ]}
         surface={2}
       />
-      <LoadingBadge value={coins.isFetching} />
       <TechnicalRadarChart key={view} type={view} onClick={onClick} />
     </div>
   );

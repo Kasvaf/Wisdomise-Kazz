@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { useTechnicalRadarCoins } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { LoadingBadge } from 'shared/Loading';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 import {
   type TechnicalRadarView,
@@ -21,6 +21,7 @@ export function TechnicalRadarDesktop() {
     'chart',
   );
   const technicalTopCoins = useTechnicalRadarCoins({});
+  useLoadingBar(technicalTopCoins.isFetching);
 
   return (
     <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
@@ -30,7 +31,6 @@ export function TechnicalRadarDesktop() {
           <>
             <TechnicalRadarIcon className="size-6" />
             {t('base:menu.ai-indicators.title')}
-            <LoadingBadge value={technicalTopCoins.isFetching} />
           </>
         }
         subtitle={

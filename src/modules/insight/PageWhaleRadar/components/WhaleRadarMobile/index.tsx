@@ -10,6 +10,7 @@ import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { WhaleRadarSentiment } from '../WhaleRadarSentiment';
 import { WhaleRadarFilters } from '../WhaleRadarFilters';
 
@@ -32,6 +33,7 @@ export const WhaleRadarMobile = () => {
   });
 
   const coins = useWhaleRadarCoins(tableState);
+  useLoadingBar(coins.isFetching);
 
   const [selectedRow, setSelectedRow] = useState<null | WhaleRadarCoin>(null);
   const [modal, setModal] = useState(false);

@@ -20,7 +20,7 @@ import {
 } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
-import { LoadingBadge } from 'shared/Loading';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
@@ -50,6 +50,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
   });
 
   const coins = useSocialRadarCoins(tableState);
+  useLoadingBar(coins.isFetching);
 
   const columns = useMemo<Array<ColumnType<SocialRadarCoin>>>(
     () => [
@@ -144,7 +145,6 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
             <SocialRadarIcon className="size-6" />
             {t('social-radar.table.title')}
             <Realtime />
-            <LoadingBadge value={coins.isFetching} />
           </>
         )
       }

@@ -19,6 +19,7 @@ import Icon from 'shared/Icon';
 import { isDebugMode } from 'utils/version';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
+import { useLoadingBar } from 'shared/LoadingBar';
 import { PoolAge } from '../PoolAge';
 import { PoolTradingVolume } from '../PoolTradingVolume';
 import { PoolBuySell } from '../PoolBuySell';
@@ -38,6 +39,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
   });
 
   const pools = useNetworkRadarPools(tableState);
+  useLoadingBar(pools.isFetching);
 
   const columns = useMemo<Array<TableColumnType<NetworkRadarPool>>>(
     () => [
@@ -189,8 +191,8 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       )}
       title={t('page.title')}
       info={t('page.info')}
-      loading={pools.isInitialLoading}
-      empty={(pools.data ?? [])?.length === 0}
+      loading={pools.isLoading}
+      empty={pools.data?.length === 0}
     >
       <AccessShield
         mode="table"
@@ -207,7 +209,6 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
           columns={columns}
           dataSource={pools.data}
           rowKey={r => JSON.stringify(r.base_symbol)}
-          loading={pools.isLoading && !pools.data}
           tableLayout="fixed"
           {...tableProps}
         />
