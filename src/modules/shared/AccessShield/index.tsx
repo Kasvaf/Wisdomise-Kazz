@@ -24,7 +24,7 @@ const useShield = (
 ) => {
   const root = useRef<HTMLDivElement>(null);
   const shield = useRef<HTMLDivElement>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(!!(size === 0 || size === false));
   const [height, setHeight] = useState(150);
   const [maxHeight, setMaxHeight] = useState(150);
 
@@ -32,61 +32,59 @@ const useShield = (
   const updateStyle = useCallback(() => {
     if (timeout.current !== null) clearTimeout(timeout.current);
     if (!root.current) return;
-    timeout.current = setTimeout(() => {
-      try {
-        if (!root.current || !shield.current) return;
-        const blockList = (
-          mode === 'table'
-            ? [
-                ...root.current.querySelectorAll(
-                  'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
-                ),
-              ]
-            : mode === 'mobile_table'
-            ? [...root.current.querySelectorAll('[data-table="tr"]')]
-            : [
-                ...root.current.querySelectorAll(
-                  '*:not([aria-hidden]):not([data-pro-locker])',
-                ),
-              ].filter(r => r.parentElement === root.current)
-        ).slice(0, calcSize(size)) as HTMLElement[];
-        const isActive = blockList.length > 0;
-        if (!isActive) {
-          shield.current.style.display = 'none';
-          root.current.style.overflow = '';
-          return;
-        }
-
-        const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
-        const bottom = Math.max(
-          ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
-        );
-        const minHeight = 40;
-        const [h, mh] = [
-          bottom - top,
-          Math.max(minHeight, root.current.offsetHeight),
-        ];
-        root.current.setAttribute('size', size.toString());
-        root.current.style.overflow = size === true ? 'hidden' : '';
-        root.current.style.maxHeight = size === true ? '100%' : '';
-        root.current.style.position = 'relative';
-        shield.current.style.maxHeight = `${mh}px`;
-        shield.current.style.top = `${top}px`;
-        shield.current.style.left = '0px';
-        shield.current.style.width = '100%';
-        shield.current.style.height = `${h}px`;
-        shield.current.style.overflow = 'hidden';
-        shield.current.style.position = 'absolute';
-        shield.current.style.margin = '0';
-        shield.current.style.display = '';
-        shield.current.style.willChange = 'height';
-        setHeight(h);
-        setMaxHeight(mh);
-      } catch {
-      } finally {
-        setIsReady(true);
+    try {
+      if (!root.current || !shield.current) return;
+      const blockList = (
+        mode === 'table'
+          ? [
+              ...root.current.querySelectorAll(
+                'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
+              ),
+            ]
+          : mode === 'mobile_table'
+          ? [...root.current.querySelectorAll('[data-table="tr"]')]
+          : [
+              ...root.current.querySelectorAll(
+                '*:not([aria-hidden]):not([data-pro-locker])',
+              ),
+            ].filter(r => r.parentElement === root.current)
+      ).slice(0, calcSize(size)) as HTMLElement[];
+      const isActive = blockList.length > 0;
+      if (!isActive) {
+        shield.current.style.display = 'none';
+        root.current.style.overflow = '';
+        return;
       }
-    }, 50);
+
+      const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
+      const bottom = Math.max(
+        ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
+      );
+      const minHeight = 40;
+      const [h, mh] = [
+        bottom - top,
+        Math.max(minHeight, root.current.offsetHeight),
+      ];
+      root.current.setAttribute('size', size.toString());
+      root.current.style.overflow = size === true ? 'hidden' : '';
+      root.current.style.maxHeight = size === true ? '100%' : '';
+      root.current.style.position = 'relative';
+      shield.current.style.maxHeight = `${mh}px`;
+      shield.current.style.top = `${top}px`;
+      shield.current.style.left = '0px';
+      shield.current.style.width = '100%';
+      shield.current.style.height = `${h}px`;
+      shield.current.style.overflow = 'hidden';
+      shield.current.style.position = 'absolute';
+      shield.current.style.margin = '0';
+      shield.current.style.display = '';
+      shield.current.style.willChange = 'height';
+      setHeight(h);
+      setMaxHeight(mh);
+    } catch {
+    } finally {
+      setIsReady(true);
+    }
   }, [mode, size]);
 
   useEffect(() => {
@@ -98,8 +96,6 @@ const useShield = (
 
     return () => observer.disconnect();
   }, [updateStyle]);
-
-  // useInterval(() => updateStyle(), 500);
 
   return { root, shield, isReady, height, maxHeight };
 };
