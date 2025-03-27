@@ -5,7 +5,7 @@ import {
   type ECElementEvent,
 } from 'echarts';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useEventListener, useIntersectionObserver } from 'usehooks-ts';
+import { useIntersectionObserver } from 'usehooks-ts';
 
 export const ECharts: FC<{
   className?: string;
@@ -69,9 +69,10 @@ export const ECharts: FC<{
 
   // sync options
   useEffect(() => {
-    if (!chart.current || !ready || !isVisible) return;
+    if (!chart.current || !ready) return;
     const handleClick = onClick ?? (() => true);
     chart.current.on('click', handleClick);
+    resize();
     chart.current.setOption(
       {
         animationDuration: 1000,
@@ -91,13 +92,11 @@ export const ECharts: FC<{
       if (!chart.current) return;
       chart.current.off('click', handleClick);
     };
-  }, [userOptions, onClick, ready, isVisible]);
+  }, [userOptions, onClick, ready, resize]);
 
   useEffect(() => {
     if (ready && isVisible) onReady?.();
   }, [ready, isVisible, onReady]);
-
-  useEventListener('resize', resize);
 
   return <div ref={element} className={className} />;
 };
