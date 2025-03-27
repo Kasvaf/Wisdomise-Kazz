@@ -39,13 +39,14 @@ export interface SocialRadarInfo {
 
 export const useSocialRadarInfo = () =>
   useQuery({
-    queryKey: ['social-radar-info'],
+    queryKey: ['social-radar-info', new Date().toDateString()],
     queryFn: async () => {
       const data = await ofetch<SocialRadarInfo>(
         'delphi/social-radar/market-social-signal/?window_hours=24',
       );
       return data;
     },
+    gcTime: Number.POSITIVE_INFINITY,
   });
 
 export interface CoinSignalAnalysis {
@@ -164,6 +165,7 @@ export const useSocialRadarCoins = (config: {
           return sorter(a.rank, b.rank);
         }),
     refetchInterval: 30_000,
+    gcTime: Number.POSITIVE_INFINITY,
   });
 
 export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>
