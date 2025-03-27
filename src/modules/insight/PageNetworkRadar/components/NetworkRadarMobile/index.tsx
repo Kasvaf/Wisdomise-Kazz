@@ -1,7 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MobileSearchBar } from 'shared/MobileSearchBar';
 import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
@@ -111,7 +110,6 @@ export const NetworkRadarMobile = () => {
 
   return (
     <>
-      <MobileSearchBar className="mb-4" />
       <div className="mb-2 flex items-center justify-between">
         <h1 className="text-sm">{t('page.title')}</h1>
       </div>
