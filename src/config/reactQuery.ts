@@ -1,7 +1,6 @@
 import { type OmitKeyof, QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { type PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
-import { compress, decompress } from 'lz-string';
 import localForge from 'localforage';
 
 const cacheStorage = localForge.createInstance({
@@ -30,8 +29,6 @@ export const persisterOptions: OmitKeyof<
 > = {
   persister: createAsyncStoragePersister({
     storage: cacheStorage,
-    serialize: data => compress(JSON.stringify(data)),
-    deserialize: data => JSON.parse(decompress(data)),
   }),
   dehydrateOptions: {
     shouldDehydrateQuery: query => query.queryKey.includes(PERSIST_KEY),
