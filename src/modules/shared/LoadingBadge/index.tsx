@@ -12,14 +12,22 @@ export const LoadingBadge: FC<{
   return (
     <div
       className={clsx(
-        'pointer-events-none inline-flex h-6 items-center justify-center gap-2 overflow-hidden rounded-full px-2 backdrop-blur-sm transition-all',
-        !value && animation === 'fade' && 'opacity-0',
-        !value && animation === 'slide-down' && 'translate-y-full opacity-0',
+        'pointer-events-none inline-flex h-6 items-center justify-center gap-[5px] overflow-hidden rounded-full px-2 backdrop-blur-sm transition-all duration-500',
+        'bg-v1-surface-l4',
+        !value && animation === 'fade' && 'invisible opacity-0',
+        !value &&
+          animation === 'slide-down' &&
+          'invisible translate-y-[calc(100%+2rem)]',
         className,
       )}
     >
-      <div className="size-3 animate-spin rounded-full border border-transparent border-t-white" />
-      <p className="text-xxs">{t('updating')}</p>
+      <div
+        className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+        style={{
+          animationDuration: '0.5s',
+        }}
+      />
+      <p className="text-xxs font-medium">{t('updating')}</p>
     </div>
   );
 };

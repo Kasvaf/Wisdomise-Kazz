@@ -37,7 +37,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
         <LoadingBadge
           value={showLoadingBadge}
           animation="slide-down"
-          className="fixed bottom-16 left-1/2 z-50 mb-2 -translate-x-1/2 bg-v1-surface-l4"
+          className="fixed bottom-16 left-1/2 z-50 mb-2 -translate-x-1/2"
         />
       )}
       <div

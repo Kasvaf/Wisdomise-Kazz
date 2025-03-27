@@ -119,11 +119,7 @@ const Header: React.FC<
         ) : (
           <>
             <Breadcrumb className="pl-6" />
-            <LoadingBadge
-              value={showLoadingBadge}
-              animation="fade"
-              className="bg-v1-surface-l2"
-            />
+            <LoadingBadge value={showLoadingBadge} animation="fade" />
             <div className="grow" />
             {children && (
               <>
