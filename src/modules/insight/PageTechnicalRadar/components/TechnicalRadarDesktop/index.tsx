@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { useTechnicalRadarCoins } from 'api';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { LoadingBadge } from 'shared/Loading';
 import { TechnicalRadarChart } from '../TechnicalRadarChart';
 import {
   type TechnicalRadarView,
@@ -29,6 +30,7 @@ export function TechnicalRadarDesktop() {
           <>
             <TechnicalRadarIcon className="size-6" />
             {t('base:menu.ai-indicators.title')}
+            <LoadingBadge value={technicalTopCoins.isFetching} />
           </>
         }
         subtitle={

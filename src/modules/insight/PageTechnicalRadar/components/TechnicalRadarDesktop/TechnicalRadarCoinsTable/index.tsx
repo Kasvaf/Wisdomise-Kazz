@@ -120,7 +120,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
           columns={columns}
           dataSource={coins.data}
           rowKey={r => JSON.stringify(r.symbol)}
-          loading={coins.isRefetching && !coins.isFetched}
+          loading={coins.isLoading}
           tableLayout="fixed"
           {...tableProps}
         />

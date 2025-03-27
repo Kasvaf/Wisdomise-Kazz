@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
+import { PERSIST_KEY } from 'config/reactQuery';
 import { resolvePageResponseToArray } from '../utils';
 import {
   type NetworkSecurity,
@@ -95,7 +96,12 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
   resolution: IndicatorHeatmapResolution;
 }) =>
   useQuery({
-    queryKey: ['indicator-heatmap', filters.indicator, filters.resolution],
+    queryKey: [
+      PERSIST_KEY,
+      'indicator-heatmap',
+      filters.indicator,
+      filters.resolution,
+    ],
     queryFn: () =>
       resolvePageResponseToArray<IndicatorHeatmap<I>>(
         `delphi/${filters.indicator}/heatmap/`,
@@ -200,6 +206,7 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
 }) =>
   useQuery({
     queryKey: [
+      PERSIST_KEY,
       'indicator-confirmation',
       filters.indicator,
       filters.combination,
@@ -283,7 +290,7 @@ export const useTechnicalRadarCoins = (config: {
   sortBy?: string;
 }) =>
   useQuery({
-    queryKey: ['indicators/technical-radar/top-coins'],
+    queryKey: [PERSIST_KEY, 'indicators/technical-radar/top-coins'],
     queryFn: () =>
       resolvePageResponseToArray<TechnicalRadarCoin>(
         'delphi/technical-radar/top-coins/',
