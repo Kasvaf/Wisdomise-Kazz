@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
 import {
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
   type PropsWithChildren,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInterval } from 'usehooks-ts';
 import { type UserGroup, useSubscription } from 'api';
 import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
@@ -89,7 +89,17 @@ const useShield = (
     }, 50);
   }, [mode, size]);
 
-  useInterval(() => updateStyle(), 500);
+  useEffect(() => {
+    if (!root.current) return;
+
+    const observer = new MutationObserver(updateStyle);
+    observer.observe(root.current, { childList: true, subtree: true });
+    updateStyle();
+
+    return () => observer.disconnect();
+  }, [updateStyle]);
+
+  // useInterval(() => updateStyle(), 500);
 
   return { root, shield, isReady, height, maxHeight };
 };
@@ -121,7 +131,10 @@ export function AccessShield({
 
   return (
     <>
-      <div ref={root} className={clsx(className)}>
+      <div
+        ref={root}
+        className={clsx(!isReady && 'blur transition-all', className)}
+      >
         {children}
         {calcSize(size) > 0 && (
           <div
