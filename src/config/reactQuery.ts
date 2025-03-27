@@ -1,6 +1,7 @@
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
@@ -10,6 +11,10 @@ const queryClient = new QueryClient({
         failureCount,
     },
   },
+});
+
+export const persister = createSyncStoragePersister({
+  storage: window.localStorage,
 });
 
 export default queryClient;

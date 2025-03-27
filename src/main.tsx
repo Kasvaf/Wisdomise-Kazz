@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/react';
 import { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
-import { QueryClientProvider } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { ConfigProvider, theme } from 'antd';
 import { useEffectOnce } from 'usehooks-ts';
 // eslint-disable-next-line import/no-unassigned-import
@@ -14,8 +14,9 @@ import { useJwtEmail } from 'modules/base/auth/jwt-store';
 import CustomTourProvider from 'modules/base/CustomTourProvider';
 import PageError from 'modules/base/PageError';
 import App from 'modules/base/App';
-import queryClient from 'config/reactQuery';
+import { queryClient, persister } from 'config/reactQuery';
 import { RouterBaseName } from 'config/constants';
+import { LoadingProvider } from 'shared/Loading';
 
 const root = document.querySelector('#root');
 if (!root) throw new Error('unexpected');
@@ -49,7 +50,10 @@ function Root() {
     <Sentry.ErrorBoundary
       fallback={x => <PageError errorObject={x} level="root" />}
     >
-      <QueryClientProvider client={queryClient}>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
         <ConfigProvider
           theme={{
             algorithm: theme.darkAlgorithm,
@@ -63,14 +67,16 @@ function Root() {
           }}
         >
           <HelmetProvider context={{}}>
-            <CustomTourProvider>
-              <App />
-            </CustomTourProvider>
+            <LoadingProvider>
+              <CustomTourProvider>
+                <App />
+              </CustomTourProvider>
+            </LoadingProvider>
           </HelmetProvider>
           {errorNotificationContent}
         </ConfigProvider>
         {/* <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" /> */}
-      </QueryClientProvider>
+      </PersistQueryClientProvider>
     </Sentry.ErrorBoundary>
   );
 }
