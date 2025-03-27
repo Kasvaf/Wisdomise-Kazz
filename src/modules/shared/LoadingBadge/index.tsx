@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import './style.css';
 import { useTranslation } from 'react-i18next';
 
 export const LoadingBadge: FC<{
@@ -22,12 +21,12 @@ export const LoadingBadge: FC<{
       )}
     >
       <div
-        className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+        className="size-4 shrink-0 animate-spin rounded-full border-2 border-white/30 border-t-white"
         style={{
           animationDuration: '0.5s',
         }}
       />
-      <p className="text-xxs font-medium">{t('updating')}</p>
+      <p className="truncate text-xxs font-medium">{t('updating')}</p>
     </div>
   );
 };
