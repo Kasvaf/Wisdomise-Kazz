@@ -8,13 +8,13 @@ export const LoadingBadge: FC<{
 }> = ({ value, className, text = 'Updating…' }) => (
   <div
     className={clsx(
-      'pointer-events-none inline-flex h-4 items-center justify-center gap-1 overflow-hidden transition-all',
+      'pointer-events-none inline-flex h-4 items-center justify-center gap-1 transition-all',
       className,
     )}
   >
     <div
       className={clsx(
-        'size-3 animate-spin rounded-full border border-white/10 border-r-white border-t-white transition-all',
+        'size-3 shrink-0 animate-spin rounded-full border border-white/10 border-r-white border-t-white transition-all',
         !value && 'opacity-0',
       )}
       style={{
@@ -24,7 +24,7 @@ export const LoadingBadge: FC<{
     {text && (
       <div
         className={clsx(
-          'align-baseline text-xxs font-normal transition-all',
+          'truncate align-baseline text-xxs font-normal transition-all',
           !value && 'opacity-0',
         )}
       >
