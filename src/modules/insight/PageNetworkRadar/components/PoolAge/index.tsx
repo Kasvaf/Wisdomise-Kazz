@@ -20,7 +20,7 @@ export const PoolAge: FC<{
         'inline-flex',
         inline
           ? 'items-center justify-start gap-px'
-          : 'w-8 flex-col items-center justify-between',
+          : 'w-7 flex-col items-center justify-between',
         className,
       )}
     >
