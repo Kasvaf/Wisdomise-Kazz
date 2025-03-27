@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
+import { PERSIST_KEY } from 'config/reactQuery';
 import {
   type CoinNetwork,
   type Coin,
@@ -32,8 +33,11 @@ export interface CoinRadarCoin {
 
 export const useCoinRadarCoins = (config: { networks?: string[] }) =>
   useQuery({
-    queryKey: ['coin-radar-coins'],
-    queryFn: () => ofetch<CoinRadarCoin[]>('/delphi/intelligence/overview/'),
+    queryKey: [PERSIST_KEY, 'coin-radar-coins'],
+    queryFn: () =>
+      ofetch<CoinRadarCoin[]>('/delphi/intelligence/overview/').then(
+        x => x ?? [],
+      ),
     select: data =>
       data.filter(row => {
         if (
@@ -56,4 +60,5 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
 
         return true;
       }),
+    refetchInterval: 600_000,
   });
