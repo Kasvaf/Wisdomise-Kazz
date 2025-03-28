@@ -2,33 +2,20 @@ import * as React from 'react';
 import { type Params, type RouteObject } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { shortenAddress } from 'utils/shortenAddress';
-import Container from '../Container';
+import PageHome from 'modules/insight/PageHome';
+import PageSocialRadar from 'modules/insight/PageSocialRadar';
+import PageTechnicalRadar from 'modules/insight/PageTechnicalRadar';
+import PageNetworkRadar from 'modules/insight/PageNetworkRadar';
+import PageWhaleRadar from 'modules/insight/PageWhaleRadar';
 import PageRedirect from '../PageRedirect';
-
-const PageHome = React.lazy(() => import('modules/insight/PageHome'));
+import Container from '../Container';
 
 const PageOnboarding = React.lazy(
   () => import('modules/insight/PageOnboarding'),
 );
 
-const PageSocialRadar = React.lazy(
-  () => import('modules/insight/PageSocialRadar'),
-);
-
 const PageCoinDetails = React.lazy(
   () => import('modules/insight/PageCoinDetails'),
-);
-
-const PageTechnicalRadar = React.lazy(
-  () => import('modules/insight/PageTechnicalRadar'),
-);
-
-const PageNetworkRadar = React.lazy(
-  () => import('modules/insight/PageNetworkRadar'),
-);
-
-const PageWhaleRadar = React.lazy(
-  () => import('modules/insight/PageWhaleRadar'),
 );
 
 const PageWhaleDetails = React.lazy(
