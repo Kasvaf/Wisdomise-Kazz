@@ -16,23 +16,32 @@ export const queryClient = new QueryClient({
         1000 *
         (((err as any)?.statusCode === 429 ? 3 : 2) + Math.random()) *
         failureCount,
-      gcTime: Number.POSITIVE_INFINITY,
     },
   },
 });
 
-export const PERSIST_KEY = 'persist';
+export const PERSIST_KEY = '!P';
 
 export const persisterOptions: OmitKeyof<
   PersistQueryClientOptions,
   'queryClient'
 > = {
   persister: createAsyncStoragePersister({
-    storage: cacheStorage,
+    storage: {
+      getItem: key =>
+        cacheStorage
+          .getItem(key)
+          .then(resp => (resp as string) || null)
+          .catch(() => null),
+      setItem: (key, value) => cacheStorage.setItem(key, value),
+      removeItem: key => cacheStorage.removeItem(key),
+    },
   }),
   dehydrateOptions: {
     shouldDehydrateQuery: query => query.queryKey.includes(PERSIST_KEY),
+    shouldDehydrateMutation: () => false,
   },
+  maxAge: Number.POSITIVE_INFINITY,
 };
 
 export default queryClient;
