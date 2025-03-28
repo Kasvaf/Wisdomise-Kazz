@@ -1,4 +1,8 @@
-import { type OmitKeyof, QueryClient } from '@tanstack/react-query';
+import {
+  type OmitKeyof,
+  QueryClient,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { type PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
 import localForge from 'localforage';
@@ -38,10 +42,18 @@ export const persisterOptions: OmitKeyof<
     },
   }),
   dehydrateOptions: {
-    shouldDehydrateQuery: query => query.queryKey.includes(PERSIST_KEY),
+    shouldDehydrateQuery: query =>
+      query.queryKey.includes(PERSIST_KEY) && !query.state.error,
     shouldDehydrateMutation: () => false,
+    shouldRedactErrors: () => false,
   },
   maxAge: Number.POSITIVE_INFINITY,
 };
 
-export default queryClient;
+export const useInvalidateAllQueries = () => {
+  const client = useQueryClient();
+  return () =>
+    client.invalidateQueries({
+      predicate: query => !query.queryKey.includes(PERSIST_KEY),
+    });
+};

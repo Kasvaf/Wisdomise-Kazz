@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { useRef } from 'react';
 import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
@@ -7,6 +7,7 @@ import { useTelegram } from 'modules/base/mini-app/TelegramProvider';
 import { gtag } from 'config/gtag';
 import { ofetch } from 'config/ofetch';
 import { isLocal } from 'utils/version';
+import { useInvalidateAllQueries } from 'config/reactQuery';
 import { useUserStorage } from './userStorage';
 import { useDisconnectAll } from './chains';
 
@@ -62,8 +63,8 @@ export function useEmailLoginMutation() {
 }
 
 export function useVerifyEmailMutation() {
-  const client = useQueryClient();
   const runSignupAdditionalTasks = useSignupAdditionalTasks();
+  const invalidateAllQueries = useInvalidateAllQueries();
   return useMutation<
     boolean,
     unknown,
@@ -81,7 +82,7 @@ export function useVerifyEmailMutation() {
         );
 
         await refreshAccessToken();
-        await client.invalidateQueries();
+        await invalidateAllQueries();
         if (data.created) {
           await runSignupAdditionalTasks();
         }
@@ -96,7 +97,7 @@ export function useVerifyEmailMutation() {
 }
 
 export function useGoogleLoginMutation() {
-  const client = useQueryClient();
+  const invalidateAllQueries = useInvalidateAllQueries();
   const runSignupAdditionalTasks = useSignupAdditionalTasks();
   return useMutation<
     boolean,
@@ -115,7 +116,7 @@ export function useGoogleLoginMutation() {
         );
 
         await refreshAccessToken();
-        await client.invalidateQueries();
+        await invalidateAllQueries();
         if (data.created) {
           await runSignupAdditionalTasks();
         }
@@ -230,7 +231,7 @@ export function useMiniAppWebLoginMutation() {
 }
 
 export function useLogoutMutation() {
-  const client = useQueryClient();
+  const invalidateAllQueries = useInvalidateAllQueries();
   const disconnectChains = useDisconnectAll();
 
   return useMutation<boolean, unknown, unknown>({
@@ -240,7 +241,7 @@ export function useLogoutMutation() {
         { credentials: 'include', body: {}, method: 'post' },
       );
       delJwtToken();
-      await Promise.all([disconnectChains(), client.invalidateQueries({})]);
+      await Promise.all([disconnectChains(), invalidateAllQueries()]);
       location.reload();
       return data.message === 'ok';
     },

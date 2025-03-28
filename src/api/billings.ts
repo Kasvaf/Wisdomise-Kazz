@@ -4,7 +4,7 @@ import {
   type Invoice,
   type PaymentMethodsResponse,
 } from 'modules/account/models';
-import queryClient from 'config/reactQuery';
+import { queryClient } from 'config/reactQuery';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
 import {
