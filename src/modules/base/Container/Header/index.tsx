@@ -119,12 +119,8 @@ const Header: React.FC<
         ) : (
           <>
             <div className="relative flex grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap pl-6">
-              <Breadcrumb className="truncate [&_ol]:flex-nowrap" />
-              <LoadingBadge
-                value={showLoadingBadge}
-                animation="fade"
-                className="shrink-0"
-              />
+              <Breadcrumb className="shrink-0 truncate [&_ol]:flex-nowrap" />
+              <LoadingBadge value={showLoadingBadge} animation="fade" />
             </div>
             {children && (
               <>
