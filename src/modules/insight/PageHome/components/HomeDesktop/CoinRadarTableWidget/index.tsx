@@ -15,7 +15,6 @@ import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/comp
 import { NetworkSelect } from 'shared/NetworkSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { EmptySentiment } from '../EmptySentiment';
-import CoinRadarAlerButton from '../CoinRadarAlerButton';
 import { homeSubscriptionsConfig } from '../../constants';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
 import { ReactComponent as TechnicalRadarIcon } from './technical_radar.svg';
@@ -132,7 +131,6 @@ export function CoinRadarTable({ className }: { className?: string }) {
             size="md"
             onChange={p => setNetwork(p ?? '')}
           />
-          <CoinRadarAlerButton />
         </>
       }
       loading={coins.isLoading}

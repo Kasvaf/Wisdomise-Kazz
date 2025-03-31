@@ -67,7 +67,7 @@ export function TechnicalRadarFilters({
           <SearchInput
             value={localState.query}
             onChange={query => onChange?.({ query })}
-            className="max-w-52 shrink-0 basis-80 mobile:hidden"
+            className="max-w-52 shrink-0 mobile:hidden"
             placeholder={t('coin-radar:common.search_coin')}
             size={isMobile ? 'sm' : 'md'}
             surface={surface}

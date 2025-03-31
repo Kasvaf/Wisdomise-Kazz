@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { useState } from 'react';
-import { MobileSearchBar } from 'shared/MobileSearchBar';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
@@ -26,7 +25,6 @@ export const TechnicalRadarMobile = () => {
 
   return (
     <>
-      <MobileSearchBar className="mb-4" />
       <TechnicalRadarViewSelect
         className="mb-4 w-full"
         value={tab}

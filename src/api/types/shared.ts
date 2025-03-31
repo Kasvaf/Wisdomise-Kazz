@@ -217,7 +217,7 @@ export interface CoinDetails {
     links?: {
       chat_url?: string[] | null;
       homepage?: string[] | null;
-      repos_url: {
+      repos_url?: null | {
         github?: string[] | null;
         bitbucket?: string[] | null;
       };
