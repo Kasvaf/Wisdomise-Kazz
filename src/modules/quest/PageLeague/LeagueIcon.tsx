@@ -11,9 +11,9 @@ export default function LeagueIcon({
   isActive?: boolean;
   className?: string;
 }) {
-  const { details } = useLeague();
+  const { league } = useLeague();
 
-  const league = details?.find(l => l.slug === slug);
+  const leagueDetail = league.details?.find(l => l.slug === slug);
 
   return (
     <div className={clsx('flex items-center justify-center', className)}>
@@ -24,7 +24,7 @@ export default function LeagueIcon({
           className="absolute animate-[spin_5s_linear_infinite] rounded-full mix-blend-exclusion"
         />
       )}
-      <img src={league?.image} alt="" className="relative" />
+      <img src={leagueDetail?.image} alt="" className="relative" />
     </div>
   );
 }

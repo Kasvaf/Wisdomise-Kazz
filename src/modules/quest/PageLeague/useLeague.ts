@@ -42,6 +42,9 @@ export default function useLeague() {
         next_league: nextLeague,
       },
     },
-    details: enrichedLeague?.sort((l1, l2) => l1.level - l2.level),
+    league: {
+      ...league,
+      details: enrichedLeague?.sort((l1, l2) => l1.level - l2.level),
+    },
   };
 }

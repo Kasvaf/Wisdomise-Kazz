@@ -1,9 +1,11 @@
 import { Carousel } from 'antd';
 import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
+import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import {
+  type LeagueDetail,
   useLeagueLeaderboardQuery,
   useLeagueProfileQuery,
 } from 'api/gamification';
@@ -11,20 +13,44 @@ import Badge from 'shared/Badge';
 import Leaderboard from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
 import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
 import useLeague from 'modules/quest/PageLeague/useLeague';
+import {
+  CountdownBar,
+  LeaderboardPrizes,
+} from 'modules/quest/PageTournaments/TournamentCard';
+import Icon from 'shared/Icon';
+import useIsMobile from 'utils/useIsMobile';
+import { ReactComponent as Promoting } from '../PageTournaments/PageTournamentDetail/Leaderboard/promoting.svg';
+import { ReactComponent as Champion } from '../PageTournaments/PageTournamentDetail/Leaderboard/champion.svg';
+import prize from './images/prize.png';
+// eslint-disable-next-line import/max-dependencies
+import cup from './images/cup.png';
 
 export default function PageLeague() {
-  const { profile, details, isLoading } = useLeague();
-  const [currentLeague, setCurrentLeague] = useState<number | undefined>();
+  const { profile, league, isLoading } = useLeague();
+  const isMobile = useIsMobile();
+  const [selectedLeagueIndex, setSelectedLeagueIndex] = useState<
+    number | undefined
+  >();
   const { data: me } = useLeagueProfileQuery();
   const { data: participants } = useLeagueLeaderboardQuery(
-    currentLeague === undefined ? undefined : details?.[currentLeague].slug,
+    selectedLeagueIndex === undefined
+      ? undefined
+      : league.details?.[selectedLeagueIndex].slug,
+  );
+
+  const selectedLeague = league.details?.[selectedLeagueIndex ?? 0];
+  const rewardedUsersMinRank = selectedLeague?.prizes.reduce(
+    (min, p) => Math.max(min, p.end_rank),
+    0,
   );
 
   useEffect(() => {
-    if (profile.league && !currentLeague) {
-      setCurrentLeague(profile.league.level);
+    if (profile.league && !selectedLeagueIndex) {
+      setSelectedLeagueIndex(
+        league.details?.findIndex(l => l.level === profile.league?.level),
+      );
     }
-  }, [currentLeague, profile.league]);
+  }, [selectedLeagueIndex, profile.league, league.details]);
 
   return (
     <PageWrapper loading={isLoading}>
@@ -34,44 +60,143 @@ export default function PageLeague() {
         description="Compete Weekly, Earn Points, and Climb the Ranks. Top 10 Advance and Win Prizes. Stay Competitive and Aim for the Top!"
       />
 
-      <div className="mx-auto my-8 h-48">
-        {currentLeague === undefined ? null : (
+      <div className="my-8 h-48">
+        {selectedLeagueIndex === undefined ? null : (
           <Carousel
-            initialSlide={currentLeague}
+            initialSlide={selectedLeagueIndex}
             swipeToSlide
             infinite={false}
             dots={false}
             draggable
             centerMode
-            centerPadding="30%"
-            afterChange={current => setCurrentLeague(current)}
-          >
-            {details?.map((item, index) => (
-              <div key={item.slug}>
-                <div className="relative mx-auto flex flex-col items-center">
-                  {profile.league_slug === item.slug && (
-                    <Badge
-                      label="You are here"
-                      color="orange"
-                      className="absolute top-0"
-                    />
-                  )}
-                  <LeagueIcon
-                    className={clsx(
-                      'mt-2 transition-all',
-                      currentLeague === index ? 'size-40' : 'size-32',
-                    )}
-                    slug={item.slug}
-                    isActive={currentLeague === index}
-                  />
-                  <h2>{item.name}</h2>
-                </div>
+            arrows={true}
+            nextArrow={
+              <div>
+                <Icon name={bxChevronRight} />
               </div>
-            ))}
+            }
+            prevArrow={
+              <div>
+                <Icon name={bxChevronLeft} />
+              </div>
+            }
+            centerPadding={isMobile ? '27%' : '42%'}
+            afterChange={current => setSelectedLeagueIndex(current)}
+            className="[&_.slick-arrow]:z-[10] [&_.slick-arrow]:!text-white [&_.slick-next]:right-[40%] [&_.slick-next]:mobile:right-1/4 [&_.slick-prev]:left-[40%] [&_.slick-prev]:mobile:left-1/4"
+          >
+            {league.details?.map((item, index) => {
+              const isActive = selectedLeagueIndex === index;
+              return (
+                <div key={item.slug}>
+                  <div className="relative mx-auto flex flex-col items-center">
+                    {profile.league_slug === item.slug && (
+                      <Badge
+                        label="You Are Here"
+                        color="orange"
+                        className="absolute top-0"
+                      />
+                    )}
+                    <LeagueIcon
+                      className={clsx(
+                        'mt-2 transition-all',
+                        isActive ? 'size-40' : 'size-32 opacity-50',
+                      )}
+                      slug={item.slug}
+                      isActive={selectedLeagueIndex === index}
+                    />
+                    <h2
+                      className={clsx(
+                        'mb-4 font-semibold',
+                        !isActive && 'opacity-50',
+                      )}
+                      style={{
+                        textShadow:
+                          '0px 1.264px 25.11px rgba(255, 255, 255, 0.25), 0px 1.264px 21.09px rgba(203, 218, 230, 0.50)',
+                      }}
+                    >
+                      {item.name}
+                    </h2>
+                  </div>
+                </div>
+              );
+            })}
           </Carousel>
         )}
       </div>
-      <Leaderboard participants={participants} me={me} />
+      <div className="grid grid-cols-2 items-start gap-4 mobile:grid-cols-1">
+        {selectedLeague && league.end_time && league.start_time && (
+          <Prize
+            league={selectedLeague}
+            startTime={league.start_time}
+            endTime={league.end_time}
+            rewardedUsersMinRank={rewardedUsersMinRank}
+          />
+        )}
+        <Leaderboard
+          participants={participants}
+          me={me?.league_slug === selectedLeague?.slug ? me : undefined}
+          isTopLevel={selectedLeague?.level === 2}
+          rewardedUsersMinRank={rewardedUsersMinRank}
+        />
+      </div>
     </PageWrapper>
+  );
+}
+
+function Prize({
+  league,
+  startTime,
+  endTime,
+  rewardedUsersMinRank,
+}: {
+  league: LeagueDetail;
+  startTime: string;
+  endTime: string;
+  rewardedUsersMinRank?: number;
+}) {
+  const isTopLevel = league.level === 2;
+
+  return (
+    <div
+      className="relative mb-8 rounded-xl p-3 text-sm"
+      style={{
+        background: isTopLevel
+          ? 'linear-gradient(126deg, #625134 -2.76%, #F7D57E 100%)'
+          : 'linear-gradient(126deg, #345262 -2.76%, #7ECBF7 100%)',
+      }}
+    >
+      <img
+        src={isTopLevel ? cup : prize}
+        alt="prize"
+        className={clsx('absolute -top-8 right-0 h-40', isTopLevel && 'h-44')}
+      />
+      <div className="mb-1 flex items-center gap-2">
+        <h2 className="font-semibold">Weekly Prize</h2>
+        <div className="rounded-md  bg-v1-overlay-40 px-1 text-xxs">
+          Top {rewardedUsersMinRank}
+        </div>
+      </div>
+      <p className="mb-3 text-xs text-v1-inverse-overlay-70">
+        Keep Trading to Stay in the Top {rewardedUsersMinRank}!
+      </p>
+      <div className="flex w-max rounded-lg bg-white/5 p-1">
+        <LeaderboardPrizes prizes={league?.prizes} hasDetail={true} />
+      </div>
+      <div className="mt-2 flex w-max items-center gap-1 rounded-lg bg-white/5 p-1">
+        {isTopLevel ? (
+          <>
+            <Champion className="size-4" />
+            Stays in Current League
+          </>
+        ) : (
+          <>
+            <Promoting className="size-4" />
+            Promote to Next League
+          </>
+        )}
+      </div>
+      <hr className="my-3 border-white/5" />
+      <CountdownBar startDate={startTime} endDate={endTime} />
+    </div>
   );
 }
