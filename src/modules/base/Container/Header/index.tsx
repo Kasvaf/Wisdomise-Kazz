@@ -80,8 +80,13 @@ const Header: React.FC<
                 <div className="w-1/2">
                   <BtnBack className="w-1/2" />
                 </div>
-                <Breadcrumb className="shrink-0" />
+                {!pathname.startsWith('/account/rewards') && (
+                  <Breadcrumb className="shrink-0" />
+                )}
                 <div className="flex w-1/2 justify-end">
+                  {pathname.startsWith('/account/rewards') && (
+                    <BtnWalletConnect />
+                  )}
                   {/* <BtnLiveSupport /> */}
                 </div>
               </>
@@ -103,11 +108,7 @@ const Header: React.FC<
                     isMiniApp && '[&:not(:has(*))]:hidden',
                   )}
                 >
-                  {pathname.startsWith('/account') ? null : net ? (
-                    <BtnWalletConnect />
-                  ) : (
-                    tradesBtn
-                  )}
+                  {net ? <BtnWalletConnect /> : tradesBtn}
                 </div>
               </>
             )}

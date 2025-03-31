@@ -4,14 +4,19 @@ import {
   useGamificationRewards,
 } from 'api/gamification';
 import { PageTitle } from 'shared/PageTitle';
-import { ReactComponent as Usdt } from './images/usdt.svg';
+import { Button } from 'shared/v1-components/Button';
+import { ReactComponent as Usdc } from './images/usdc.svg';
+import { ReactComponent as Withdraw } from './images/withdraw.svg';
 import logo from './images/logo.svg';
-import bg from './images/bg.png';
-import video from './images/video.webm';
+import gradient from './images/gradient.png';
+import dailySrc from './images/daily.png';
+import refSubSrc from './images/ref-sub.png';
+import refFeeSrc from './images/ref-fee.png';
 
 export default function PageRewards() {
   const { isLoading } = useGamificationProfile();
-  const { subReferral, tradeReferral, daily } = useGamificationRewards();
+  const { subReferral, tradeReferral, daily, all, claimed } =
+    useGamificationRewards();
 
   return (
     <PageWrapper loading={isLoading}>
@@ -21,18 +26,37 @@ export default function PageRewards() {
         description="Track Your Reward History and Manage Unclaimed Rewards."
       />
 
-      <RewardItem title="Daily Trade" image={logo} amount={daily} />
-      <RewardItem title="Referral Trade" image={logo} amount={tradeReferral} />
+      <div className="relative mb-6 overflow-hidden rounded-xl">
+        <img src={gradient} alt="" className="absolute h-full w-full" />
+        <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
+          <Usdc className="size-8" />
+          <div>
+            <h2 className="font-semibold">{all - claimed} USDC </h2>
+            <p className="text-xs">Ready to Withdraw</p>
+          </div>
+          <Button
+            variant="primary"
+            className="ml-auto w-48 mobile:w-full"
+            size="md"
+          >
+            <Withdraw />
+            Withdraw
+          </Button>
+        </div>
+      </div>
+
+      <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
+      <RewardItem
+        title="Referral Trade"
+        image={refFeeSrc}
+        amount={tradeReferral}
+      />
       <RewardItem
         title="Referral Subscription"
-        image={logo}
+        image={refSubSrc}
         amount={subReferral}
       />
-      <p className="my-4 text-v1-content-secondary">
-        Withdrawal will be available soon...
-      </p>
-      {/* <RewardItem title="League" image={league} amount={0} /> */}
-      {/* <RewardItem title="Tournaments" image={logo} amount={0} /> */}
+      <RewardItem title="Claimed" image={logo} amount={claimed} />
     </PageWrapper>
   );
 }
@@ -47,25 +71,14 @@ function RewardItem({
   amount: number;
 }) {
   return (
-    <div className="relative mb-3 h-24 overflow-hidden rounded-xl">
-      <video
-        className="absolute h-full w-full object-cover opacity-40 mix-blend-luminosity"
-        autoPlay
-        loop
-        muted
-        playsInline
-        controls={false}
-      >
-        <source src={video} />
-      </video>
-      <img src={bg} alt="" className="absolute h-full w-full" />
+    <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l3">
       <div className="relative flex h-full items-center">
         <div className="grow p-3">
           <img src={image} alt="" className="size-10" />
           <p className="mt-2">{title}</p>
         </div>
-        <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled">
-          <Usdt /> {amount}
+        <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled bg-v1-surface-l2">
+          <Usdc className="size-6" /> {amount}
         </div>
       </div>
     </div>

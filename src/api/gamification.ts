@@ -216,21 +216,17 @@ export const useGamification = () => {
 export const useGamificationRewards = () => {
   const { data } = useGamificationProfile();
 
-  const rewardsMap = {
-    daily: 'tether_daily',
-    tradeReferral: 'tether_trade-referral',
-    subReferral: 'tether_sub-referral',
-  };
-
-  const findMissionReward = (key: keyof typeof rewardsMap) => {
+  const findMissionReward = (rewardName: string) => {
     return (
-      data?.rewards.find(r => r.name === rewardsMap[key])?.statistical?.sum ?? 0
+      data?.rewards.find(r => r.name === rewardName)?.statistical?.sum ?? 0
     );
   };
 
   return {
-    daily: findMissionReward('daily'),
-    tradeReferral: findMissionReward('tradeReferral'),
-    subReferral: findMissionReward('subReferral'),
+    daily: findMissionReward('tether_daily'),
+    tradeReferral: findMissionReward('tether_trade-referral'),
+    subReferral: findMissionReward('tether_sub-referral'),
+    all: findMissionReward('tether'),
+    claimed: findMissionReward('claimed_claimed'),
   };
 };

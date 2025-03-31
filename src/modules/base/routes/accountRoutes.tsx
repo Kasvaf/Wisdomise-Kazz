@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, type RouteObject } from 'react-router-dom';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import Container from '../Container';
 
 const PageAccount = React.lazy(() => import('modules/account/PageAccount'));
@@ -75,7 +76,11 @@ const useAccountRoutes = () => {
         },
         {
           path: 'rewards',
-          element: <PageRewards />,
+          element: (
+            <ActiveNetworkProvider network="solana" setOnLayout>
+              <PageRewards />
+            </ActiveNetworkProvider>
+          ),
           handle: { crumb: t('menu.rewards.title') },
         },
       ],
