@@ -169,13 +169,52 @@ coin_labels:
     info: 「Hype」ラベルは、現在ソーシャル メディアのアクティビティが急増しているシンボルを示します。これらのシンボルは、短期間に複数のソーシャル
       メディア
       チャネルで多数の固有のアカウントによって言及されています。このラベルは、シンボルに関する潜在的なトレンドや話題を示し、一般の関心や憶測が高まっていることを示唆しています。
+    title: 誇大宣伝
+  long_term_bearish_overpriced:
+    info: この資産は長期的には過大評価されており、潜在的な弱気転換の兆候を示しています。
+    title: 長期弱気相場高値
+  long_term_bullish_cheap:
+    info: この資産は長期的には過小評価されているように見えますが、潜在的な強気反転の兆候を示しています。
+    title: 長期的には強気で安い
+  long_term_downtrend_confirmation:
+    info: この資産は長期的な下落傾向にあることが確認されており、売り圧力が継続していることを示唆しています。
+    title: 長期下降トレンドの確認
+  long_term_overbought_risk:
+    info: この資産は歴史的に高価格帯にあり、長期的な調整の可能性を示唆しています。
+    title: 長期的な買われすぎリスク
+  long_term_oversold_opportunity:
+    info: この資産は歴史的に低価格帯にあり、長期的な購入機会の可能性を示しています。
+    title: 長期売られ過ぎのチャンス
+  long_term_uptrend_confirmation:
+    info: この資産は長期にわたって持続的な上昇傾向を示しており、上昇の勢いを示しています。
+    title: 長期上昇トレンドの確認
   monthly_social_beloved:
     info: 「Monthly Social Beloved」は、過去 1 か月間にソーシャル
       メディアで大きな存在感を示し、多くのユニークなアカウントで言及されたシンボルをマークします。
+    title: ソーシャル月間トレンド
+  short_term_bearish_overpriced:
+    info: この資産は一時的に過大評価されており、短期的には下落圧力に直面する可能性があります。
+    title: 短期的には弱気で高値
+  short_term_bullish_cheap:
+    info: この資産は一時的に過小評価されており、短期的には強気の動きとなる可能性があります。
+    title: 短期的には強気で安い
+  short_term_downtrend_confirmation:
+    info: 資産は短期的に弱さを示しており、さらなる下落の可能性を示唆しています。
+    title: 短期的な下降トレンドの確認
+  short_term_overbought_risk:
+    info: この資産は短期的に買われ過ぎており、小幅な反落や調整が見られる可能性がある。
+    title: 短期的な買われすぎリスク
+  short_term_oversold_opportunity:
+    info: この資産は短期的な下落を経験しており、すぐに購入できるチャンスとなる可能性があります。
+    title: 短期的な売られ過ぎのチャンス
+  short_term_uptrend_confirmation:
+    info: この資産は短期的に上昇の勢いを増しており、強気の傾向を支えています。
+    title: 短期的な上昇トレンドの確認
   weekly_social_beloved:
     info: 「Weekly Social Beloved」ラベルは、過去 1 週間にソーシャル
       メディアで人気があったシンボルを示します。これらのシンボルは頻繁に言及されており、高い関心と成長または変動の可能性を示しています。
     suffix: 🌐
+    title: ソーシャルウィークリートレンド
 coin_security:
   contract_security: 契約セキュリティ
   fields:
@@ -345,11 +384,9 @@ social-radar:
     search: コインを検索...
     sentiment:
       info: >-
-        <b>感情を賢くする</b> <br /> <br /> <b>
+        <b>ソーシャルセンチメント™</b> <br /> <br /> <p>
           Wisdomise AI は、Reddit、Telegram、Trading View、X (旧 Twitter)、YouTube から各資産 (コインまたはトークン) の社会的感情を分析します。感情はポジティブ、ニュートラル、ネガティブのいずれかになり、コミュニティの感情を示します。
-        </b> <br /> <br /> <b>損益率の変化</b> <br /> <p>
-          資産が最初に「ホット」として狙われたときから最初の大きな価格変動までの損益を追跡します。
-        </p> <br /> <br /> <p>
+        </p> <br /> <p>
           この情報は、コミュニティの見解だけでなく、市場の動きがそれらの意見とどのように一致しているかを確認することで、情報に基づいた意思決定を行うのに役立ちます。
         </p>
       title: 感情を賢くする

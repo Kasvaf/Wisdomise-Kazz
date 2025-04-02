@@ -17,9 +17,16 @@ export default function PageQuests() {
         title="Quests"
         description="Complete Quests and Earn Rewards."
       />
-      {hasFlag('/trader-quests/daily') && <DailyTradeQuest />}
-      <Referral />
-      {hasFlag('/trader-quests/tournaments') && <Tournaments />}
+
+      <div className="flex gap-4 mobile:flex-col">
+        {hasFlag('/trader-quests/daily') && (
+          <DailyTradeQuest className="shrink-0 grow" />
+        )}
+        <Referral className="shrink-0 grow" />
+        {hasFlag('/trader-quests/tournaments') && (
+          <Tournaments className="shrink-0 grow" />
+        )}
+      </div>
     </PageWrapper>
   );
 }

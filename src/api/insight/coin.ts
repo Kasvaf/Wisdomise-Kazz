@@ -42,6 +42,18 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
           )
         )
           return false;
+
+        /* remove zero pools tokens if config.network contains solana */
+        if (config.networks?.includes('solana')) {
+          const solana = row.networks?.find(x => x.network.slug === 'solana');
+          if (
+            solana &&
+            solana.symbol_network_type === 'TOKEN' &&
+            !solana.pool_count
+          )
+            return false;
+        }
+
         return true;
       }),
   });

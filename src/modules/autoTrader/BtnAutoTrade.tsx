@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { useSupportedPairs } from 'api';
+import { useHasFlag, useSupportedPairs } from 'api';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
+import useTradeDrawer from './PageTrade/useTradeDrawer';
+import useQuickTradeDrawer from './PageTrade/QuickTradeDrawer/useQuickTradeDrawer';
 
 export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   slug,
@@ -11,10 +13,15 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const normSlug = slug === 'solana' ? 'wrapped-solana' : slug;
   const { data: supportedPairs, isLoading } = useSupportedPairs(normSlug);
   const isSupported = !!supportedPairs?.length;
-  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
-  if (!isMobile) return null;
+  const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
+  const [QuickTradeDrawer, openQuickTradeDrawer] = useQuickTradeDrawer();
+
+  const hasFlag = useHasFlag();
+  if (!isMobile && !hasFlag('/desk-trader')) {
+    return null;
+  }
 
   return (
     <Button
@@ -23,9 +30,20 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       variant={buttonProps.variant ?? 'outline'}
       loading={isLoading}
       disabled={!normSlug || !isSupported || !isLoggedIn}
-      onClick={() => navigate(`/auto-trader/${normSlug ?? ''}`)}
+      onClick={() =>
+        isMobile
+          ? openQuickTradeDrawer({ slug: normSlug ?? '' })
+          : openTradeDrawer({ slug: normSlug ?? '' })
+      }
     >
       <div>
+        {isLoggedIn && isSupported && !isLoading && (
+          <ActiveNetworkProvider base={normSlug} setOnLayout>
+            {TradeDrawer}
+            {QuickTradeDrawer}
+          </ActiveNetworkProvider>
+        )}
+
         <div>Auto Trade</div>
         {isLoggedIn ? (
           !isSupported &&

@@ -11,6 +11,7 @@ import { useInterval } from 'usehooks-ts';
 import { type UserGroup, useSubscription } from 'api';
 import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
@@ -111,20 +112,10 @@ export function AccessShield({
   const nextGroup = useMemo<UserGroup | undefined>(() => {
     const sizeNumber = calcSize(size);
     if (sizeNumber === 0) return;
-    const groups: UserGroup[] = [
-      'guest',
-      'trial',
-      'free',
-      'pro',
-      'pro+',
-      'pro_max',
-    ];
+    const groups: UserGroup[] = ['guest', 'initial', 'pro', 'pro+', 'pro_max'];
     const allowdGroup = groups.find(x => calcSize(sizes[x]) === 0);
-    if (group === 'guest' && allowdGroup) {
-      return 'trial';
-    }
-    return allowdGroup;
-  }, [group, sizes, size]);
+    return allowdGroup ?? 'pro_max';
+  }, [sizes, size]);
 
   const { root, shield, height, maxHeight, isReady } = useShield(mode, size);
 
@@ -163,9 +154,7 @@ export function AccessShield({
                 ? t('pro-locker.pro.message')
                 : nextGroup === 'pro+'
                 ? t('pro-locker.proplus.message')
-                : nextGroup === 'pro_max'
-                ? t('pro-locker.promax.message')
-                : t('pro-locker.pro.message')}
+                : t('pro-locker.promax.message')}
             </p>
 
             <HoverTooltip
@@ -176,25 +165,23 @@ export function AccessShield({
               }
               disabled={!isDebugMode}
             >
-              <button
+              <Button
                 onClick={() => ensureGroup(nextGroup ?? 'pro_max')}
-                className={clsx(
-                  'inline-flex w-auto shrink-0 items-center gap-1',
-                  'h-9 rounded-lg px-4 text-xs',
-                  'bg-pro-gradient font-medium text-black transition-all hover:brightness-110',
-                )}
+                variant="pro"
+                size="sm"
+                className="shrink-0"
               >
                 <Sparkle />
                 {group === 'guest'
                   ? t('pro-locker.login.button')
+                  : group === 'initial'
+                  ? t('pro-locker.trial.button')
                   : nextGroup === 'pro'
                   ? t('pro-locker.pro.button')
                   : nextGroup === 'pro+'
                   ? t('pro-locker.proplus.button')
-                  : nextGroup === 'pro_max'
-                  ? t('pro-locker.promax.button')
-                  : t('pro-locker.pro.button')}
-              </button>
+                  : t('pro-locker.promax.button')}
+              </Button>
             </HoverTooltip>
             {loginModal}
           </div>

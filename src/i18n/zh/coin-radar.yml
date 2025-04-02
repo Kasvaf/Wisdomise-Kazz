@@ -167,11 +167,50 @@ coin-details:
 coin_labels:
   hype:
     info: 這個標籤為目前在社交媒體上活躍度激增的幣種。這些幣種在短時間內被多個社交媒體平台上，不同的、大量的獨立帳號提及。此標籤顯示該幣種可能正引發趨勢或熱議，表示公眾的興趣風向或投機性的增加。
+    title: 炒作
+  long_term_bearish_overpriced:
+    info: 長線來看，該幣種被高估，錢在看跌趨勢已開始浮現。
+    title: 長期看跌，價格過高
+  long_term_bullish_cheap:
+    info: 从长期来看，该资产似乎被低估，同时显示出潜在看涨逆转的迹象。
+    title: 长期看涨廉价
+  long_term_downtrend_confirmation:
+    info: 该资产已确认处于长期下行趋势，表明存在持续的抛售压力。
+    title: 长期下降趋势确认
+  long_term_overbought_risk:
+    info: 该资产目前处于历史高价区，预示着可能出现长期调整。
+    title: 长期超买风险
+  long_term_oversold_opportunity:
+    info: 该资产处于历史低价区，表明可能存在长期购买机会。
+    title: 长期超卖机会
+  long_term_uptrend_confirmation:
+    info: 该资产在较长时间内呈现持续上升趋势，表明具有上升势头。
+    title: 长期上升趋势确认
   monthly_social_beloved:
     info: “每月社交宠儿”标记了在社交媒体上具有强大影响力并且在过去一个月内被许多独立账户提及的符号。
+    title: 社会月度趋势
+  short_term_bearish_overpriced:
+    info: 该资产暂时被高估，可能面临短期下行压力。
+    title: 短期看跌，價格過高
+  short_term_bullish_cheap:
+    info: 该资产暂时被低估，存在短期看涨的可能性。
+    title: 短期看涨廉价
+  short_term_downtrend_confirmation:
+    info: 该资产表现出短期疲软，预示可能进一步下跌。
+    title: 短期下跌趋势确认
+  short_term_overbought_risk:
+    info: 该资产短期超买，可能出现小幅回调或盘整。
+    title: 短期超买风险
+  short_term_oversold_opportunity:
+    info: 该资产正在经历短期下跌，这可能带来快速买入机会。
+    title: 短期超卖机会
+  short_term_uptrend_confirmation:
+    info: 该资产在短期内正在获得上涨势头，支持看涨倾向。
+    title: 短期上升趋势确认
   weekly_social_beloved:
     info: “每周社交热门”标签标记了过去一周社交媒体上流行的符号。这些符号被频繁提及，显示出很高的关注度和增长或波动潜力。
     suffix: 🌐
+    title: 社交周趋势
 coin_security:
   contract_security: 合约安全
   fields:
@@ -337,11 +376,9 @@ social-radar:
     search: 搜索幣種...
     sentiment:
       info: >-
-        <b>智慧化情怀</b> <br /> <br /> <b>
+        <b>社会情绪™</b> <br /> <br /> <p>
           Wisdomise AI 分析 Reddit、Telegram、Trading View、X（以前称为 Twitter）和 YouTube 上每种资产（硬币或代币）的社会情绪。情绪可以是正面的、中性的或负面的，显示社区的感受。
-        </b> <br /> <br /> <b>损益百分比变化</b> <br /> <p>
-          追踪资产从首次被视为“热门”到其首次出现重大价格波动期间的损益。
-        </p> <br /> <br /> <p>
+        </p> <br /> <p>
           这些信息不仅能帮助您了解社区的观点，还能让您了解市场走势与这些观点的契合程度，从而帮助您做出明智的决策。
         </p>
       title: 智慧化情怀

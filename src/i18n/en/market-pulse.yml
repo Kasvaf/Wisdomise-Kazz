@@ -85,24 +85,6 @@ keywords:
     label_range: Oversold Area
     label_small: RSI OB/OS
 not-available: ''
-screener:
-  activated:
-    title: Technical Radar Screener Activated!
-    subtitle: Explore and customize additional features now!
-    got-it: Got it
-    preview:
-      title: Screener Preview
-      category:
-        label: Category
-        value: All Categories
-      chain:
-        label: Chain
-        value: All Chains
-      type:
-        label: Type
-        value: Technical Radar Screener
-  edit: Edit Screener
-  set: Set Screener
 table:
   name: Name
   labels: Labels

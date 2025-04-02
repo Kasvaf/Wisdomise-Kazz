@@ -13,7 +13,6 @@ import Icon from 'shared/Icon';
 import Spin from 'shared/Spin';
 import { DebugPin } from 'shared/DebugPin';
 import useMenuItems, { type RootMenuItem } from '../useMenuItems';
-import { TrialEndBanner } from '../TrialEndBanner';
 import { ReactComponent as LogoutIcon } from './logout-icon.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as HelpIcon } from './help-icon.svg';
@@ -168,9 +167,7 @@ const MenuItemsContent: React.FC<{
       </div>
 
       {ModalLogin}
-      {!collapsed && (
-        <TrialEndBanner className="relative shrink-0 mobile:hidden" />
-      )}
+
       <div className="text-white">
         {extraItems.map(item => (
           <NavLink

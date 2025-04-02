@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useTournaments } from 'api/tournament';
 import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
@@ -5,7 +6,7 @@ import leaderboard from './leaderboard.png';
 import bg from './bg.png';
 import gradient from './gradient.png';
 
-const Tournaments = () => {
+const Tournaments: React.FC<{ className?: string }> = ({ className }) => {
   const { data: tournaments } = useTournaments();
 
   const liveTournamentsCount = tournaments?.filter(t => t.status === 'live')
@@ -14,7 +15,11 @@ const Tournaments = () => {
   return (
     <NavLink
       to="tournaments"
-      className="relative mb-4 flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 pr-0"
+      className={clsx(
+        'relative flex items-center justify-between overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 pr-0',
+        'hover:saturate-200',
+        className,
+      )}
     >
       <img src={bg} alt="" className="absolute left-0 w-full" />
       <img src={gradient} alt="" className="absolute left-0 w-full" />

@@ -101,7 +101,6 @@ const ModalApproval: React.FC<{
 }> = ({ formState, createData, onResolve }) => {
   const {
     amount: [amount],
-    volume: [volume],
     quote: [quote],
     safetyOpens: [safetyOpens],
     takeProfits: [takeProfits],
@@ -159,10 +158,7 @@ const ModalApproval: React.FC<{
 
         <div className="my-2 border border-white/5" />
 
-        <InfoLine label="Open" className="text-sm">
-          <PriceVol amountRatio={volume} />
-        </InfoLine>
-        <InfoLine label="Safety Open" className="text-sm">
+        <InfoLine label="Open Orders" className="text-sm">
           <PriceVols items={safetyOpens} />
         </InfoLine>
         <InfoLine label="Take Profit" className="text-sm">

@@ -315,7 +315,7 @@ export const useWhaleRadarCoins = (config: {
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {
           days: config.days,
-          page_size: 99,
+          page_size: 500,
         },
         meta: { auth: false },
       }),

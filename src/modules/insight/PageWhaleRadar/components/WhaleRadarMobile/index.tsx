@@ -1,7 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
-import { MobileSearchBar } from 'shared/MobileSearchBar';
-import RadarsTabs from 'modules/insight/RadarsTabs';
 import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
@@ -103,8 +101,6 @@ export const WhaleRadarMobile = () => {
 
   return (
     <>
-      <MobileSearchBar className="mb-4" />
-      <RadarsTabs className="mb-4" />
       <WhaleRadarFilters
         value={tableState}
         onChange={newState => setTableState(newState)}
@@ -115,8 +111,8 @@ export const WhaleRadarMobile = () => {
         mode="mobile_table"
         sizes={{
           'guest': true,
-          'free': true,
-          'trial': 3,
+          'initial': 3,
+          'free': 3,
           'pro': 3,
           'pro+': 3,
           'pro_max': false,

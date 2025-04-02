@@ -57,6 +57,7 @@ pricing-card:
     choose: 選擇
     current-plan: 當前計劃
     next-plan: 下一個計劃
+    start-free-trial: 免费访问
     upgrade-to: 升级至 {{plan}}
   features: 特征
   forever: 永久

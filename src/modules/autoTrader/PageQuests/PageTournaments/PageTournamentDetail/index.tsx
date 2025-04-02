@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
 import { useMemo } from 'react';
-import { clsx } from 'clsx';
 import {
   type TournamentParticipant,
   useTournament,
@@ -13,7 +12,6 @@ import { addComma } from 'utils/numbers';
 import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
 import TournamentsOnboarding from 'modules/autoTrader/PageQuests/PageTournaments/TournamentsOnboarding';
 import BtnBack from 'modules/base/BtnBack';
-import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import { ReactComponent as IconUser } from './user.svg';
 
 const PARTICIPANTS_COUNT = 50;
@@ -25,7 +23,6 @@ export default function PageTournamentDetail() {
   const { data: tournament, isLoading } = useTournament(id);
   const { data: me } = useTournamentMe(id);
   const { data: participants } = useTournamentLeaderboard(id);
-  const isTrialBannerVisible = useIsTrialBannerVisible();
 
   const sortedParticipants = useMemo(() => {
     let sorted: TournamentParticipant[] = [];
@@ -60,14 +57,11 @@ export default function PageTournamentDetail() {
   return (
     <TournamentsOnboarding>
       <PageWrapper loading={isLoading} className="pb-10">
-        <div className="mb-3 flex items-center justify-between gap-2">
-          <div className="w-1/2">
-            <BtnBack />
-          </div>
+        <div className="mb-3 flex items-center gap-2">
+          <BtnBack />
           <div className="shrink-0 text-center text-base font-medium">
             {tournament?.name}
           </div>
-          <div className="w-1/2"></div>
         </div>
         {tournament && (
           <TournamentCard tournament={tournament} hasDetail={true} />
@@ -109,10 +103,7 @@ export default function PageTournamentDetail() {
               ))}
               {me && (
                 <div
-                  className={clsx(
-                    'fixed end-0 start-0 rounded-xl px-12',
-                    isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
-                  )}
+                  className="fixed bottom-20 end-0 start-0 rounded-xl px-12"
                   style={{
                     background:
                       'linear-gradient(0deg, rgba(20, 20, 20, 0.3) 50%, rgba(19, 25, 32, 0.00) 100%)',

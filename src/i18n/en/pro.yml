@@ -1,4 +1,3 @@
-expires-soon: Only <Duration></Duration> Left in Your Trial!
 pro-locker:
   login:
     button: Login
@@ -12,5 +11,6 @@ pro-locker:
   proplus:
     button: Upgrade to Pro+
     message: Upgrade to Pro+ for exclusive insights to elevate your crypto game!
-upgrade-now: Upgrade now
+  trial:
+    button: Start Free Trial
 zero-hour: 0 hour

@@ -18,9 +18,6 @@ const PartTpSl: React.FC<{
   const { t } = useTranslation('builder');
   const {
     quote: [quote],
-    price: [price],
-    market: [market],
-    orderType: [orderType],
     [type === 'TP' ? 'takeProfits' : 'stopLosses']: [items, setItems],
     isOrderLimitReached,
   } = data;
@@ -29,24 +26,15 @@ const PartTpSl: React.FC<{
     quote,
     convertToUsd: true,
   });
-  const effectivePrice = Number(orderType === 'market' ? assetPrice : price);
+  const effectivePrice = Number(assetPrice);
 
-  const sortItems = () =>
-    setItems(items => sortTpSlItems({ items, type, market }));
+  const sortItems = () => setItems(items => sortTpSlItems({ items, type }));
 
-  useEffect(sortItems, [setItems, type, market]);
+  useEffect(sortItems, [setItems, type]);
 
-  const dir = (type === 'TP' ? 1 : -1) * (market === 'long' ? 1 : -1);
+  const dir = type === 'TP' ? 1 : -1;
   const nextLine = () => {
-    const dir =
-      market === 'long'
-        ? type === 'TP'
-          ? 0.01
-          : -0.01
-        : type === 'TP'
-        ? -0.01
-        : 0.01;
-
+    const dir = type === 'TP' ? 0.01 : -0.01;
     for (let i = 1; i <= items.length + 1; ++i) {
       const price = roundSensible(effectivePrice * (1 + dir * i));
       if (!items.some(x => !x.removed && x.priceExact === price)) {
@@ -126,7 +114,7 @@ const PartTpSl: React.FC<{
               {item.applied ? (
                 <div className="ml-2 flex w-[68px] items-center rounded-full bg-white pr-2 text-xs text-black">
                   <Icon name={bxsCheckCircle} />
-                  Hitted
+                  {t('strategy:position-detail-modal.hitted')}
                 </div>
               ) : (
                 <div className="ml-2 flex">
@@ -153,10 +141,7 @@ const PartTpSl: React.FC<{
                   <div className="px-2 pb-2 text-error">
                     {t('signal-form.error-max', {
                       type,
-                      market:
-                        market === 'long'
-                          ? t('common:market.long')
-                          : t('common:market.short'),
+                      market: t('common:market.long'),
                     })}
                   </div>
                 )}
@@ -165,10 +150,7 @@ const PartTpSl: React.FC<{
                   <div className="px-2 pb-2 text-error">
                     {t('signal-form.error-min', {
                       type,
-                      market:
-                        market === 'long'
-                          ? t('common:market.long')
-                          : t('common:market.short'),
+                      market: t('common:market.long'),
                     })}
                   </div>
                 )}

@@ -1,7 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
-import { MobileSearchBar } from 'shared/MobileSearchBar';
-import RadarsTabs from 'modules/insight/RadarsTabs';
 import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
@@ -102,8 +100,6 @@ export const SocialRadarMobile = () => {
 
   return (
     <>
-      <MobileSearchBar className="mb-4" />
-      <RadarsTabs className="mb-4" />
       <SocialRadarFilters
         value={tableState}
         onChange={newState => setTableState(newState)}
@@ -114,8 +110,8 @@ export const SocialRadarMobile = () => {
         mode="mobile_table"
         sizes={{
           'guest': true,
-          'free': true,
-          'trial': 3,
+          'initial': 3,
+          'free': 3,
           'pro': false,
           'pro+': false,
           'pro_max': false,

@@ -32,7 +32,6 @@ export function CoinLabelSelect<M extends boolean>({
         return (
           <CoinLabel
             value={val}
-            type={type}
             popup={false}
             className={clsx(target === 'value' && '!bg-transparent !px-0')}
           />

@@ -133,9 +133,9 @@ export function StepOne({ onSubmit, lock, className }: AlertFormStepProps) {
               if (!isPriceTouched) {
                 setForm(
                   'threshold',
-                  formatNumber(newPrice, {
+                  formatNumber(newPrice + newPrice * 0.01, {
                     compactInteger: false,
-                    decimalLength: -1,
+                    decimalLength: 1,
                     minifyDecimalRepeats: false,
                     seperateByComma: false,
                   }) as never,

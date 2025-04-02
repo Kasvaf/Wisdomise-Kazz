@@ -27,6 +27,24 @@ onboarding:
 pre_detail_modal:
   details: 詳細
   wise_labels: 賢いラベル
+screener:
+  activated:
+    got-it: わかった
+    preview:
+      category:
+        label: カテゴリ
+        value: すべてのカテゴリー
+      chain:
+        label: 鎖
+        value: すべてのチェーン
+      title: スクリーナープレビュー
+      type:
+        label: タイプ
+        value: 概要 レーダースクリーナー
+    subtitle: 今すぐ追加機能を調べてカスタマイズしましょう!
+    title: 概要レーダースクリーナーが起動しました!
+  edit: スクリーナーを編集
+  set: スクリーナーを設定する
 table:
   labels: ラベル
   mobile_title: 潜在的価値の高い資産

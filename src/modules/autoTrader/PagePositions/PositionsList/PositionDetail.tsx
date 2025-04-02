@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
 import dayjs from 'dayjs';
-import { bxEditAlt, bxHistory, bxShareAlt } from 'boxicons-quasar';
+import { bxHistory, bxShareAlt } from 'boxicons-quasar';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { initialQuoteDeposit, isPositionUpdatable, type Position } from 'api';
+import { initialQuoteDeposit, type Position } from 'api';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
 import NetworkIcon from 'shared/NetworkIcon';
@@ -15,8 +15,9 @@ import SharingCard from 'modules/autoTrader/PositionsList/SharingCard';
 import { isMiniApp } from 'utils/version';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
-// eslint-disable-next-line import/max-dependencies
 import StatusWidget from './StatusWidget';
+// eslint-disable-next-line import/max-dependencies
+import EditButton from './EditButton';
 
 const AssetName: React.FC<{ slug: string }> = ({ slug }) => {
   const { data } = useSymbolInfo(slug);
@@ -66,17 +67,8 @@ const PositionDetail: React.FC<{
         <div className="flex items-center gap-3">
           <CancelButton position={position} />
           <CloseButton position={position} />
+          <EditButton position={position} />
 
-          {isPositionUpdatable(position) && (
-            <Button
-              variant="link"
-              className="ms-auto !p-0 !text-xs text-v1-content-link"
-              to={`/auto-trader/${position.base_slug}?pos=${position.key}&quote=${position.quote_slug}`}
-            >
-              <Icon name={bxEditAlt} size={16} />
-              Edit
-            </Button>
-          )}
           {(position.status === 'CLOSED' || position.status === 'OPEN') &&
             !isMiniApp && (
               <Button

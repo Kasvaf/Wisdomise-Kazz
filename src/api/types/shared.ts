@@ -116,6 +116,7 @@ export interface CoinNetwork {
   network: Network;
   contract_address: string;
   symbol_network_type: 'COIN' | 'TOKEN';
+  pool_count?: number;
 }
 
 export interface Exchange {
@@ -216,7 +217,7 @@ export interface CoinDetails {
     links?: {
       chat_url?: string[] | null;
       homepage?: string[] | null;
-      repos_url: {
+      repos_url?: null | {
         github?: string[] | null;
         bitbucket?: string[] | null;
       };

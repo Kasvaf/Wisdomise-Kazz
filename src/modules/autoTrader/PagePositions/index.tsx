@@ -1,16 +1,19 @@
 import { clsx } from 'clsx';
+import { useNavigate } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
-import { useIsTrialBannerVisible } from 'modules/base/Container/TrialEndBanner';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
-import PageNoDesktop from '../PageNoDesktop';
+import useTradeDrawer from '../PageTrade/useTradeDrawer';
 import PositionsList from './PositionsList';
 
 const PagePositions = () => {
+  const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
     'filter',
     'active',
@@ -18,48 +21,58 @@ const PagePositions = () => {
   const [slug, setSlug] = useSearchParamAsState('slug');
 
   useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
-  const isTrialBannerVisible = useIsTrialBannerVisible();
+  const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
 
-  if (!useIsMobile()) {
-    return <PageNoDesktop />;
-  }
   return (
     <PageWrapper>
-      <ButtonSelect
-        options={[
-          { value: 'active', label: 'Active' },
-          { value: 'history', label: 'History' },
-        ]}
-        value={filter}
-        onChange={setFilter}
-        className="w-full"
-        itemsClassName="enabled:aria-checked:bg-v1-border-brand"
-      />
+      <div className="mb-4 flex flex-row-reverse justify-between gap-4 mobile:flex-col">
+        <ButtonSelect
+          options={[
+            { value: 'active', label: 'Active' },
+            { value: 'history', label: 'History' },
+          ]}
+          value={filter}
+          onChange={setFilter}
+          className="w-60 mobile:w-full"
+          itemsClassName="enabled:aria-checked:!bg-v1-content-brand"
+        />
 
-      <CoinSelect
-        className="my-4 w-full"
-        filterTokens={x => x !== 'tether'}
-        value={slug}
-        priceExchange="auto"
-        onChange={setSlug}
-        emptyOption="All Tradable Coins & Tokens"
-        mini={false}
-        tradableCoinsOnly
-      />
+        <CoinSelect
+          className="w-80 mobile:w-full"
+          filterTokens={x => x !== 'tether'}
+          value={slug}
+          priceExchange="auto"
+          onChange={setSlug}
+          emptyOption="All Tradable Coins & Tokens"
+          mini={false}
+          tradableCoinsOnly
+        />
+      </div>
 
       <PositionsList slug={slug} isOpen={filter === 'active'} />
 
       {filter === 'active' && slug && (
-        <Button
-          variant="brand"
+        <div
           className={clsx(
-            'fixed end-4 start-4 z-50',
-            isTrialBannerVisible ? 'bottom-28' : 'bottom-20',
+            isMobile ? 'fixed end-4 start-4 z-50' : 'mt-6 flex justify-center',
+            isMobile && 'bottom-20',
           )}
-          to={`/auto-trader/${slug}`}
         >
-          Start Trading
-        </Button>
+          <ActiveNetworkProvider base={slug} setOnLayout>
+            {TradeDrawer}
+          </ActiveNetworkProvider>
+          <Button
+            variant="brand"
+            className={clsx('block', isMobile ? 'w-full' : 'w-80')}
+            onClick={() =>
+              isMobile
+                ? navigate(`/auto-trader/${slug}`)
+                : openTradeDrawer({ slug })
+            }
+          >
+            Start Trading
+          </Button>
+        </div>
       )}
     </PageWrapper>
   );

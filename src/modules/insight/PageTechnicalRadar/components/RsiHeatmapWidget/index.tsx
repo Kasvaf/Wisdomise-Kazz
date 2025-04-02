@@ -33,8 +33,8 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
         mode="children"
         sizes={{
           'guest': true,
+          'initial': true,
           'free': true,
-          'trial': false,
           'pro': false,
           'pro+': false,
           'pro_max': false,

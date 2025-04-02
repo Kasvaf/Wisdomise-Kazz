@@ -11,11 +11,12 @@ import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
 import GradientBG from './GradientBG.svg';
 
-const orderToOrder = (x: OrderPresetItem) => ({
+const orderToOrder = (x: OrderPresetItem, ind?: number) => ({
   amountRatio: roundSensible(x.amount * 100),
   priceExact: String(x.price),
   applied: false,
   removed: false,
+  isMarket: ind === 0,
   key: v4(),
 });
 
@@ -36,16 +37,14 @@ const AIPresets: React.FC<{
   data: SignalFormState;
   baseSlug: string;
   quoteSlug: string;
-}> = ({ data, baseSlug, quoteSlug }) => {
+  noManual?: boolean;
+}> = ({ data, baseSlug, quoteSlug, noManual }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activePreset, setActivePreset] = useState(3);
   const { data: presets, isLoading } = useAIPresets(baseSlug + '/' + quoteSlug);
 
   const {
     isUpdate: [isUpdate],
-    orderType: [orderType, setOrderType],
-    volume: [volume, setVolume],
-    priceUpdated: [, setPriceUpdated],
     safetyOpens: [safetyOpens, setSafetyOpens],
     takeProfits: [takeProfits, setTakeProfits],
     stopLosses: [stopLosses, setStopLosses],
@@ -54,24 +53,32 @@ const AIPresets: React.FC<{
   useEffect(() => {
     setActivePreset(activePreset < 0 ? -activePreset - 1 : 3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderType, volume, safetyOpens, takeProfits, stopLosses]);
+  }, [safetyOpens, takeProfits, stopLosses]);
 
-  if (isLoading || !presets) {
+  if (!presets && !isLoading) {
     return <></>;
   }
 
   const reset = () => {
     setIsOpen(false);
     setActivePreset(3);
-    setOrderType('market');
-    setVolume('100');
-    setPriceUpdated(false);
-    setSafetyOpens([]);
+    setSafetyOpens([
+      {
+        amountRatio: '100',
+        applied: false,
+        isMarket: true,
+        removed: false,
+        priceExact: '',
+        key: v4(),
+      },
+    ]);
     setTakeProfits([]);
     setStopLosses([]);
   };
 
   const selectVariant = (ind: number) => {
+    if (!presets) return;
+
     setIsOpen(false);
     if (ind >= presets.length || ind < 0) {
       setActivePreset(3);
@@ -79,10 +86,7 @@ const AIPresets: React.FC<{
     }
 
     const p = presets[ind].preset;
-    setOrderType('market');
-    setVolume(String(p.open_orders[0].amount * 100));
-    setPriceUpdated(false);
-    setSafetyOpens(p.open_orders.slice(1).map(orderToOrder));
+    setSafetyOpens(p.open_orders.map(orderToOrder));
     setTakeProfits(fromApi(p.take_profits));
     setStopLosses(fromApi(p.stop_losses));
     setActivePreset(-ind - 1);
@@ -104,53 +108,67 @@ const AIPresets: React.FC<{
         <Button
           className="!h-6 !px-4 !py-0 text-xxs"
           onClick={() => setIsOpen(true)}
+          loading={isLoading}
+          variant={isLoading ? 'alternative' : 'primary'}
         >
-          {presets[activePreset]?.label ?? 'Manual'}
+          {isLoading
+            ? 'Loading Presets'
+            : presets?.[activePreset]?.label ??
+              (noManual ? 'Select Preset' : 'Manual')}
           <Icon name={bxChevronDown} size={16} />
         </Button>
 
         <StarIcon />
       </div>
 
-      <DrawerModal
-        title={
-          <div className="flex items-center gap-4">
-            <Button
-              size="small"
-              variant="alternative"
-              onClick={reset}
-              className="!py-2"
-            >
-              Reset
-            </Button>
-            Wisdomise AI Preset
+      {presets && (
+        <DrawerModal
+          title={
+            <div className="flex items-center gap-4">
+              {!noManual && (
+                <Button
+                  size="small"
+                  variant="alternative"
+                  onClick={reset}
+                  className="!py-2"
+                >
+                  Reset
+                </Button>
+              )}
+              Wisdomise AI Preset
+            </div>
+          }
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          width={400}
+        >
+          <div className="mb-10 flex flex-col items-stretch gap-4">
+            {presets.map((p, ind) => (
+              <Button
+                key={p.label}
+                variant={activePreset === ind ? 'primary' : 'secondary'}
+                className="h-12 !p-3"
+                contentClassName="!text-base"
+                onClick={() => selectVariant(ind)}
+              >
+                {p.label}
+              </Button>
+            ))}
+            {!noManual && (
+              <Button
+                variant={
+                  activePreset === presets.length ? 'primary' : 'secondary'
+                }
+                className="h-12 !p-3"
+                contentClassName="!text-base"
+                onClick={() => selectVariant(presets.length)}
+              >
+                Manual
+              </Button>
+            )}
           </div>
-        }
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-      >
-        <div className="mb-10 flex flex-col items-stretch gap-4">
-          {presets.map((p, ind) => (
-            <Button
-              key={p.label}
-              variant={activePreset === ind ? 'primary' : 'secondary'}
-              className="h-12 !p-3"
-              contentClassName="!text-base"
-              onClick={() => selectVariant(ind)}
-            >
-              {p.label}
-            </Button>
-          ))}
-          <Button
-            variant={activePreset === presets.length ? 'primary' : 'secondary'}
-            className="h-12 !p-3"
-            contentClassName="!text-base"
-            onClick={() => selectVariant(presets.length)}
-          >
-            Manual
-          </Button>
-        </div>
-      </DrawerModal>
+        </DrawerModal>
+      )}
     </div>
   );
 };
