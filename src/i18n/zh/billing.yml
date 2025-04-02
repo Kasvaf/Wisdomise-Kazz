@@ -113,7 +113,7 @@ subscription-modal:
   btn-fiat: 法幣支付
   btn-lock: 鎖定WSDM
   btn-wsdm: WSDM 付款
-  subtitle: 請選擇適合您偏好的付款方式。
+  subtitle: 您即将购买“{{name}}“计划与 {{periodicity}} 订阅。请选择您的付款方式。
   title: 訂閱方式
 success-modal:
   btn-details: 訂閱詳情
