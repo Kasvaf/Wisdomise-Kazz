@@ -4,6 +4,7 @@ import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { type TechnicalRadarCoin } from 'api';
+import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 import {
   type TechnicalRadarView,
   TechnicalRadarViewSelect,
@@ -62,11 +63,14 @@ export const TechnicalRadarMobile = () => {
           <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />
         )}
         {selectedRow && (
-          <TechnicalRadarSentiment
-            value={selectedRow}
-            mode="expanded"
-            className="w-full"
-          />
+          <>
+            <TechnicalRadarSentiment
+              value={selectedRow}
+              mode="expanded"
+              className="w-full"
+            />
+            <TechnicalRadarSharingModal open={false} coin={selectedRow} />
+          </>
         )}
       </CoinPreDetailModal>
     </>

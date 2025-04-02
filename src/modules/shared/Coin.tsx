@@ -10,9 +10,11 @@ import NetworkIcon from './NetworkIcon';
 export function CoinLogo({
   coin,
   className,
+  noCors,
 }: {
   coin: CoinType;
   className?: string;
+  noCors?: boolean;
 }) {
   return (
     <div
@@ -22,7 +24,11 @@ export function CoinLogo({
       )}
       style={{
         ...(typeof coin.logo_url === 'string' && {
-          backgroundImage: `url("${coin.logo_url}")`,
+          backgroundImage: `url("${
+            noCors
+              ? `https://corsproxy.io/?url=${coin.logo_url}`
+              : coin.logo_url
+          }")`,
         }),
       }}
     />
@@ -40,6 +46,7 @@ export function Coin({
   popup,
   noText,
   abbrevationSuffix,
+  noCors,
 }: {
   coin: CoinType;
   networks?: string[];
@@ -51,6 +58,7 @@ export function Coin({
   popup?: boolean;
   noText?: boolean;
   abbrevationSuffix?: ReactNode;
+  noCors?: boolean;
 }) {
   const isMobile = useIsMobile();
   const shouldTruncate =
@@ -77,6 +85,7 @@ export function Coin({
           'shrink-0',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
+        noCors={noCors}
       />
       {renderText && (
         <div

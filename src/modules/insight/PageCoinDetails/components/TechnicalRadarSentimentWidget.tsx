@@ -10,10 +10,12 @@ export function TechnicalRadarSentimentWidget({
   noEmptyState,
   slug,
   className,
+  contentClassName,
 }: {
   noEmptyState?: boolean;
   slug: string;
   className?: string;
+  contentClassName?: string;
 }) {
   const sentiment = useTechnicalRadarSentiment({ slug });
   const socialSentiment = useSocialRadarSentiment({ slug });
@@ -39,6 +41,7 @@ export function TechnicalRadarSentimentWidget({
         (coin.isLoading || sentiment.isLoading) && 'animate-pulse',
         className,
       )}
+      contentClassName={contentClassName}
     />
   );
 }

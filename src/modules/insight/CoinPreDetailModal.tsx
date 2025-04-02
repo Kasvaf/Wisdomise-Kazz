@@ -1,7 +1,14 @@
-import { type FC, type ReactNode } from 'react';
+import {
+  Children,
+  cloneElement,
+  type FC,
+  isValidElement,
+  type ReactNode,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { bxSlider } from 'boxicons-quasar';
+import { bxShareAlt, bxSlider } from 'boxicons-quasar';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
@@ -18,6 +25,9 @@ import {
   type MiniMarketData,
   type NetworkSecurity,
 } from 'api/types/shared';
+import TechnicalRadarSharingModal, {
+  type TechnicalRadarSharingModalProps,
+} from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;
@@ -42,10 +52,29 @@ const CoinPreDetailsContent: FC<
   children,
 }) => {
   const { t } = useTranslation('insight');
+  const [openShareModal, setOpenShareModal] = useState(false);
+
+  const modifiedChildren = Children.map(children, child => {
+    if (isValidElement(child) && child.type === TechnicalRadarSharingModal) {
+      return cloneElement<any>(child, {
+        open: openShareModal,
+        onClose: () => setOpenShareModal(false),
+      } satisfies Partial<TechnicalRadarSharingModalProps>);
+    }
+    return child;
+  });
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="!px-2"
+          onClick={() => setOpenShareModal(true)}
+        >
+          <Icon name={bxShareAlt} />
+        </Button>
         <Coin
           coin={coin}
           imageClassName="size-8"
@@ -66,7 +95,7 @@ const CoinPreDetailsContent: FC<
             />
           }
         />
-        <div className="flex flex-col items-end gap-px">
+        <div className="ml-auto flex flex-col items-end gap-px">
           <ReadableNumber
             value={marketData?.current_price}
             label="$"
@@ -79,7 +108,7 @@ const CoinPreDetailsContent: FC<
           />
         </div>
       </div>
-      <>{children}</>
+      {modifiedChildren}
 
       <div className="flex flex-col items-start justify-end overflow-auto">
         <p className="mb-2 text-xs">{t('pre_detail_modal.wise_labels')}</p>

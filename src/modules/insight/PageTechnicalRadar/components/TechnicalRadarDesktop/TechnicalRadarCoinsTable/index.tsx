@@ -1,6 +1,8 @@
-import { useMemo, type FC } from 'react';
+/* eslint-disable import/max-dependencies */
+import { useMemo, type FC, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
+import { bxShareAlt } from 'boxicons-quasar';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { AccessShield } from 'shared/AccessShield';
 import Table, { useTableState } from 'shared/Table';
@@ -8,6 +10,9 @@ import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
+import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
@@ -27,6 +32,9 @@ export const TechnicalRadarCoinsTable: FC = () => {
     categories: [],
   });
   const coins = useTechnicalRadarCoins(tableState);
+  const [openShareModal, setOpenShareModal] = useState(false);
+  const [hoveredRow, setHoveredRow] = useState<number>();
+  const [selectedRow, setSelectedRow] = useState<TechnicalRadarCoin>();
 
   const columns = useMemo<Array<ColumnType<TechnicalRadarCoin>>>(
     () => [
@@ -82,18 +90,33 @@ export const TechnicalRadarCoinsTable: FC = () => {
       {
         title: t('table.labels'),
         className: 'min-h-16 min-w-72',
-        render: (_, row) => (
-          <CoinLabels
-            categories={row.symbol.categories}
-            labels={row.symbol_labels}
-            networks={row.networks}
-            security={row.symbol_security?.data}
-            coin={row.symbol}
-          />
+        render: (_, row, index) => (
+          <div className="relative">
+            <CoinLabels
+              categories={row.symbol.categories}
+              labels={row.symbol_labels}
+              networks={row.networks}
+              security={row.symbol_security?.data}
+              coin={row.symbol}
+            />
+            {index === hoveredRow && (
+              <Button
+                className="!absolute right-0 top-0 !px-1"
+                variant="primary"
+                size="xs"
+                onClick={() => {
+                  setSelectedRow(row);
+                  setOpenShareModal(true);
+                }}
+              >
+                <Icon name={bxShareAlt} />
+              </Button>
+            )}
+          </div>
         ),
       },
     ],
-    [t],
+    [hoveredRow, t],
   );
 
   return (
@@ -122,9 +145,21 @@ export const TechnicalRadarCoinsTable: FC = () => {
           rowKey={r => JSON.stringify(r.symbol)}
           loading={coins.isRefetching && !coins.isFetched}
           tableLayout="fixed"
+          onRow={(_, index) => ({
+            onMouseEnter: () => setHoveredRow(index),
+            onMouseLeave: () => setHoveredRow(undefined),
+          })}
           {...tableProps}
         />
       </AccessShield>
+
+      {selectedRow && (
+        <TechnicalRadarSharingModal
+          open={openShareModal}
+          coin={selectedRow}
+          onClose={() => setOpenShareModal(false)}
+        />
+      )}
     </div>
   );
 };

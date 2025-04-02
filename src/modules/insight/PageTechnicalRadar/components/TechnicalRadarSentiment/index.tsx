@@ -2,6 +2,7 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxQuestionMark } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import {
   type MacdConfirmation,
   type RsiConfirmation,
@@ -31,7 +32,8 @@ export const TechnicalRadarSentiment: FC<{
   marketData?: MiniMarketData | null;
   coin?: CoinType | null;
   className?: string;
-}> = ({ value, marketData, coin, className, mode }) => {
+  contentClassName?: string;
+}> = ({ value, marketData, coin, className, mode, contentClassName }) => {
   const { t } = useTranslation('market-pulse');
   const { isGreen, isBearish, isBullish, isCheap, isExpensive } =
     useParseTRS(value);
@@ -233,7 +235,12 @@ export const TechnicalRadarSentiment: FC<{
       )}
 
       {mode === 'card' && (
-        <div className="flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
+        <div
+          className={clsx(
+            contentClassName,
+            'flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+          )}
+        >
           <div className="flex items-center justify-between gap-2">
             <div className="flex h-full flex-col justify-between gap-1">
               <p className="text-xs">{t('common.sentiment_title')}</p>
