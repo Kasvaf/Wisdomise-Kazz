@@ -2,10 +2,10 @@ common:
   24h_change: 24小时变化
   active_timeframe: 活动时间范围
   bearish:
-    badge: 看跌股息
-    full_badge: 看跌背离
+    badge: 看跌背離
+    full_badge: 看跌背離
     title: 看跌
-  bearish_momentum_confirmation: 看跌确认
+  bearish_momentum_confirmation: 看跌確認
   bullish:
     badge: 看涨股息
     full_badge: 看涨背离
@@ -58,7 +58,7 @@ indicator_list:
     bullish_info: 当硬币被低估并出现逆转迹象时，识别潜在的购买机会。
     heatmap:
       24h_change: 24小时变化
-      bearish_divergence: 看跌背离
+      bearish_divergence: 看跌背離
       bullish_divergence: 看涨背离
       div: 股利
       market_cap: 市值
@@ -86,9 +86,9 @@ keywords:
   macd_bearish:
     info: 当 MACD 显示动能减弱并发出可能出现下行趋势的信号时，发现潜在的卖点。
     label_equiv: 看跌
-    label_exact: MACD 看跌背离
-    label_small: 看跌股息
-    title: MACD <b>看跌确认</b>
+    label_exact: MACD 看跌背離
+    label_small: MACD 背離
+    title: MACD <b>看跌確認</b>
   macd_bullish:
     info: 当 MACD 指示动量转变且看涨趋势正在形成时，识别潜在的买入机会。
     label_equiv: 看涨
@@ -96,9 +96,9 @@ keywords:
     label_small: 看涨股息
     title: MACD <b>看涨确认</b>
   macd_cross_down:
-    info: MACD 交叉至信号线下方表明看跌势头
+    info: MACD 交岔線於低信號線 表明看跌趨勢
     label_equiv: 下降趋势
-    label_exact: MACD 看跌交叉信号线
+    label_exact: MACD 看跌交叉信號
     label_small: MACD交叉
   macd_cross_up:
     info: MACD 交叉信号线表明看涨势头
@@ -108,10 +108,10 @@ keywords:
   rsi_bearish:
     info: 当硬币被高估并表明势头放缓时，发现潜在的卖点。
     label_equiv: 看跌
-    label_exact: RSI 看跌背离
-    label_semi: 看跌背离
-    label_small: 看跌股息
-    title: 相对强弱指数 (RSI) <b>看跌确认</b>
+    label_exact: RSI 看跌背離
+    label_semi: 看跌背離
+    label_small: RSI 背離
+    title: 相對強弱指數 (RSI) <b>看跌確認</b>
   rsi_bullish:
     info: 当硬币被低估并表现出增长势头的迹象时，识别潜在的购买机会。
     label_equiv: 看涨
@@ -121,7 +121,7 @@ keywords:
     title: 相对强弱指数 (RSI) <b>看涨确认</b>
   rsi_macd_bearish:
     info: 价格上涨而 RSI/MACD 下跌，暗示可能出现下行反转
-    label_exact: RSI/MACD 看跌背离
+    label_exact: RSI/MACD 綜合看跌背離
   rsi_macd_bullish:
     info: 价格下跌而 RSI/MACD 上涨，预示可能出现上行反转
     label_exact: RSI/MACD 看涨背离
@@ -146,8 +146,8 @@ onboarding:
       衡量价格变动的速度和变化，表明某种货币是超买还是超卖。我们的热图以视觉方式突出显示这些货币，帮助您一目了然地发现潜在的买入或卖出机会。
     title: RSI 是什么？<br>了解市场动量
   sec-3:
-    content: 寻找 <b>看涨和看跌背离</b> 识别潜在的市场逆转。看涨背离表示上涨势头，而看跌背离则表示下跌趋势。利用这些见解领先于市场。
-    title: 看涨和看跌背离：发现动量转变
+    content: 寻找 <b>看漲和看跌背離</b> 識別潜在的市場逆轉。看漲背離表示上漲趨勢，而看跌背離則表示下跌趨勢。利用這些信號領先市場判斷。
+    title: 看漲和看跌背離：發現重大轉變
   sec-4:
     content: 当代币达到关键 RSI 水平或出现分歧迹象时，自定义通知。获取即时警报，这样您就不会错过关键的交易机会。
     title: 保持知情：设置关键指标警报

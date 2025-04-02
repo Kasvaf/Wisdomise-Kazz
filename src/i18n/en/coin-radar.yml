@@ -249,25 +249,6 @@ common:
   price: Price
   search_coin: Search Coin...
   wise_labels: Wise™ Labels
-screener:
-  activated:
-    title: Social Radar Screener Activated!
-    subtitle: Explore and customize additional features now!
-    got-it: Got it
-    preview:
-      title: Screener Preview
-      category:
-        label: Category
-        value: All Categories
-      chain:
-        label: Chain
-        value: All Chains
-      type:
-        label: Type
-        value: Social Radar Screener
-    summary: We’ve set up your screener at <b>{{email}}</b>
-  edit: Edit Screener
-  set: Set Screener
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
@@ -315,10 +296,7 @@ social-radar:
           token) from Reddit, Telegram, Trading View, X (formerly Twitter),
           and YouTube. The sentiment can be Positive, Neutral, or Negative,
           showing how the community feels.
-        </p> <br /> <br /> <b>P&L % Change</b> <br /> <p>
-          Tracks the Profit & Loss from when the asset was first hunted as
-          “Hot” until its first major price movement.
-        </p> <br /> <br /> <p>
+        </p> <br /> <p>
           This information helps you make informed decisions by seeing not
           just the community’s view but also how market movements align with
           those opinions.

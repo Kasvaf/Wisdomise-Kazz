@@ -23,7 +23,6 @@ import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
-import SocialRadarAlerButton from './SocialRadarAlerButton';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Realtime } from './realtime.svg';
 
@@ -177,15 +176,12 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
       loading={coins.isInitialLoading}
       empty={(coins.data ?? [])?.length === 0}
       headerActions={
-        <>
-          <SearchInput
-            value={tableState.query}
-            onChange={query => setTableState({ query })}
-            placeholder={t('common.search_coin')}
-            size="md"
-          />
-          {!isEmbeddedView && <SocialRadarAlerButton className="shrink-0" />}
-        </>
+        <SearchInput
+          value={tableState.query}
+          onChange={query => setTableState({ query })}
+          placeholder={t('common.search_coin')}
+          size="md"
+        />
       }
     >
       <SocialRadarFilters
