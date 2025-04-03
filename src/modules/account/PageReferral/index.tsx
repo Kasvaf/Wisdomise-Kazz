@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { bxCopy } from 'boxicons-quasar';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from 'usehooks-ts';
 import {
   useClaimReferralBonusBag,
   useFriendsQuery,
@@ -12,12 +13,13 @@ import Badge from 'shared/Badge';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { useShare } from 'shared/useShare';
-import HowReferralWorks from 'modules/account/PageReferral/HowReferralWorks';
 import { Button } from 'shared/v1-components/Button';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
+import useModal from 'shared/useModal';
+import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
 import trader from './images/trader.png';
 import { ReactComponent as Logo } from './images/logo.svg';
 import { ReactComponent as Users } from './images/users.svg';
@@ -39,6 +41,11 @@ export default function ReferralPage() {
   const myReferralLink = useReferral();
   const navigate = useNavigate();
   const el = useRef<HTMLDivElement>(null);
+  const [ReferralOnboardingModal, openReferralOnboardingModal] = useModal(
+    ReferralOnboardingModalContent,
+    { fullscreen: true, closable: false },
+  );
+  const [done] = useLocalStorage('referral-onboarding', false);
 
   const [copy, content] = useShare('copy');
 
@@ -50,13 +57,26 @@ export default function ReferralPage() {
     void claimBonusBag().then(() => openRewardModal({ amount: rewardAmount }));
   };
 
+  useEffect(() => {
+    if (!done) {
+      void openReferralOnboardingModal({});
+    }
+  }, [done, openReferralOnboardingModal]);
+
   return (
     <PageWrapper loading={isLoading} className="mobile:pt-12">
       <h1 className="mb-2">{t('page-referral.title')}</h1>
       <p className="mb-2 text-sm text-v1-content-secondary">
         {t('page-referral.subtitle')}
       </p>
-      <HowReferralWorks />
+
+      <Button
+        variant="link"
+        className="mb-3 !p-0 !text-v1-content-link"
+        onClick={() => openReferralOnboardingModal({})}
+      >
+        {t('page-referral.how.button')}
+      </Button>
 
       <div className="grid grid-cols-5 gap-4">
         <div className="col-span-2 flex flex-col-reverse gap-4 mobile:col-span-5 mobile:flex-col">
@@ -254,6 +274,7 @@ export default function ReferralPage() {
       </div>
       {content}
       {RewardModal}
+      {ReferralOnboardingModal}
     </PageWrapper>
   );
 }
