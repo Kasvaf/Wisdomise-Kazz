@@ -118,7 +118,7 @@ export default function PositionSharingModal({
                 </div>
               </div>
             </div>
-            <ReferralQrCode />
+            <ReferralQrCode className="mt-4" />
           </div>
         </div>
 

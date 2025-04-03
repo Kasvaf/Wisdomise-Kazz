@@ -1,6 +1,6 @@
 import { type ReactNode, type RefObject } from 'react';
 import { Modal } from 'antd';
-import { ShareLinks } from './ShareLinks';
+import { ReferralShareLinks } from './ReferralShareLinks';
 
 export default function SharingModal({
   open,
@@ -28,7 +28,10 @@ export default function SharingModal({
       <div className="pt-8">{children}</div>
 
       <div className="rounded-2xl bg-v1-surface-l1 px-3 py-5">
-        <ShareLinks screenshotTarget={screenshotTarget} fileName={fileName} />
+        <ReferralShareLinks
+          screenshotTarget={screenshotTarget}
+          fileName={fileName}
+        />
       </div>
     </Modal>
   );

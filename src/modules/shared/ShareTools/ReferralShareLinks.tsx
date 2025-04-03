@@ -10,7 +10,7 @@ import { ReactComponent as TelegramIcon } from './images/telegram.svg';
 import { ReactComponent as XIcon } from './images/twitter.svg';
 import { ReactComponent as LinkedinIcon } from './images/linkedin.svg';
 
-export function ShareLinks({
+export function ReferralShareLinks({
   screenshotTarget,
   fileName,
 }: {
