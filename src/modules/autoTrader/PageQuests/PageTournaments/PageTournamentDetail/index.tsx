@@ -29,7 +29,7 @@ export default function PageTournamentDetail() {
     if (participants && me) {
       sorted = [...participants];
       const myIndex = sorted.findIndex(p => p.investor_key === me.investor_key);
-      const lastParticipant = participants.at(-1);
+      const lastParticipant = participants[participants.length - 1];
 
       if (myIndex === -1) {
         if (

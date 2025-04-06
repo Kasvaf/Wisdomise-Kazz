@@ -14,6 +14,15 @@ export type UserGroup =
   | 'pro+'
   | 'pro_max';
 
+const LEVELS: Record<UserGroup, number> = {
+  'guest': -2,
+  'initial': -1,
+  'free': 0,
+  'pro': 1,
+  'pro+': 2,
+  'pro_max': 3,
+};
+
 export function useSubscription() {
   const { data: account, isLoading, refetch } = useAccountQuery();
   const subs = account?.subscription_item;
@@ -60,7 +69,13 @@ export function useSubscription() {
         } else if (group === 'guest') {
           return showModalLogin();
         } else {
-          navigate('/account/billing');
+          let matchedLevel = Math.min(...neededGroups.map(g => LEVELS[g]));
+          matchedLevel = matchedLevel < 1 ? 1 : matchedLevel;
+          navigate(
+            `/account/billing?level=${matchedLevel}${
+              group === 'initial' ? '&paymentMethod=fiat' : ''
+            }`,
+          );
           // never resolve
         }
       }

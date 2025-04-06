@@ -13,7 +13,7 @@ export default function PageBilling() {
     plans.isLoading || invoices.isLoading || subscription.isLoading;
 
   return (
-    <PageWrapper className="h-full" loading={isLoading}>
+    <PageWrapper className="h-full" loading={isLoading} mountWhileLoading>
       {subscription.group === 'free' || subscription.group === 'initial' ? (
         <PricingTable />
       ) : (
