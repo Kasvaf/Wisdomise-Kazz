@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import {
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -12,6 +11,7 @@ import { type UserGroup, useSubscription } from 'api';
 import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
+import { useMutationObserver } from 'utils/useMutationObserver';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
@@ -87,15 +87,10 @@ const useShield = (
     }
   }, [mode, size]);
 
-  useEffect(() => {
-    if (!root.current) return;
-
-    const observer = new MutationObserver(updateStyle);
-    observer.observe(root.current, { childList: true, subtree: true });
-    updateStyle();
-
-    return () => observer.disconnect();
-  }, [updateStyle]);
+  useMutationObserver(root, updateStyle, {
+    childList: true,
+    subtree: true,
+  });
 
   return { root, shield, isReady, height, maxHeight };
 };

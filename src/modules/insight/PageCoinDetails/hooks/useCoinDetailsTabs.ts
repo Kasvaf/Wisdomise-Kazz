@@ -2,11 +2,11 @@ import {
   type ComponentProps,
   type RefObject,
   useCallback,
-  useEffect,
   useRef,
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMutationObserver } from 'utils/useMutationObserver';
 import { type CoinRadarTabs } from '../components/CoinRadarTabs';
 
 export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
@@ -48,15 +48,10 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
     }
   }, [tabs]);
 
-  useEffect(() => {
-    if (!root.current) return;
-
-    const observer = new MutationObserver(refreshTabs);
-    observer.observe(root.current, { childList: true, subtree: true });
-    refreshTabs();
-
-    return () => observer.disconnect();
-  }, [refreshTabs, root]);
+  useMutationObserver(root, refreshTabs, {
+    childList: true,
+    subtree: true,
+  });
 
   return tabs;
 };
