@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import { ACCOUNT_PANEL_ORIGIN } from 'config/constants';
 import { isMiniApp } from 'utils/version';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
@@ -48,24 +47,6 @@ const deleteAlertingAlert = (payload: Partial<BaseAlert>) => {
   });
 };
 
-const getSocialRadarDailyReportAlert = () =>
-  ofetch<{ is_subscribed: boolean }>(
-    `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/is_subscribed`,
-  )
-    .then(data => data.is_subscribed)
-    .catch(() => false);
-
-const toggleSocialRadarDailyReportAlert = (sub: boolean) => {
-  return ofetch(
-    `${ACCOUNT_PANEL_ORIGIN}/api/v1/notification/radar/${
-      sub ? 'subscribe' : 'unsubscribe'
-    }`,
-    {
-      method: 'post',
-    },
-  );
-};
-
 export const useAlerts = (
   filters?: Partial<Pick<Alert, 'data_source' | 'params'>>,
 ) => {
@@ -77,30 +58,7 @@ export const useAlerts = (
     queryKey,
     queryFn: async (): Promise<Alert[]> => {
       if (!isLoggedIn) return [];
-      let returnValue: Alert[] = [];
-      if (
-        filters?.data_source === 'manual:social_radar_daily_report' ||
-        !filters?.data_source
-      ) {
-        const isSubscribed = await getSocialRadarDailyReportAlert();
-        if (isSubscribed) {
-          returnValue = [
-            ...returnValue,
-            {
-              data_source: 'manual:social_radar_daily_report',
-              messengers: ['EMAIL'],
-              conditions: [],
-              params: [],
-              state: 'ACTIVE',
-              config: {},
-            },
-          ];
-        }
-      }
-      if (filters?.data_source !== 'manual:social_radar_daily_report') {
-        returnValue = [...returnValue, ...(await getAlertingAlerts())];
-      }
-      return returnValue;
+      return await getAlertingAlerts();
     },
     select: data => {
       return data.filter(row => {
@@ -125,12 +83,6 @@ export const useSaveAlert = (alertId?: string) => {
     mutationFn: (payload: Partial<Alert>) => {
       if (!payload.data_source)
         throw new Error('Alert data_source is not valid');
-      if (payload.data_source === 'manual:social_radar_daily_report') {
-        const unsub =
-          !payload.messengers?.includes('EMAIL') ||
-          payload.state === 'DISABLED';
-        return toggleSocialRadarDailyReportAlert(!unsub);
-      }
       const alertKey = payload.key ?? alertId;
       return saveAlertingAlert({
         ...payload,
@@ -146,9 +98,6 @@ export const useDeleteAlert = (alertId?: string) => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: (payload: Partial<BaseAlert>) => {
-      if (payload.data_source === 'manual:social_radar_daily_report') {
-        return toggleSocialRadarDailyReportAlert(false);
-      }
       const alertKey = payload.key ?? alertId;
       return deleteAlertingAlert({
         ...payload,
