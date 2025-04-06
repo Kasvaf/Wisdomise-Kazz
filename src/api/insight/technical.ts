@@ -332,6 +332,8 @@ export const useTechnicalRadarCoins = (config: {
           return sorter(a.rank, b.rank);
         });
     },
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: 1000 * 60 * 5,
   });
 
 export interface TechnicalRadarSentiment {
