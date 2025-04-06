@@ -107,42 +107,6 @@ export interface WhaleCoin {
 }
 export type WhaleCoinsFilter = 'all' | 'buy' | 'sell' | 'total_volume' | 'hold';
 
-export const useWhalesCoins = (filters?: {
-  page: number;
-  pageSize: number;
-  sortBy?: string;
-  isAscending?: boolean;
-  networkName?: string;
-  filter?: WhaleCoinsFilter;
-  days?: number;
-}) =>
-  useQuery({
-    queryKey: ['whales-coins', JSON.stringify(filters)],
-    queryFn: async () => {
-      const data = await ofetch<PageResponse<WhaleCoin>>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
-        {
-          query: {
-            page_size: filters?.pageSize ?? 10,
-            page: filters?.page ?? 1,
-            days: filters?.days ?? 1,
-            network_name: filters?.networkName,
-            sorted_by: filters?.sortBy,
-            ascending:
-              typeof filters?.isAscending === 'boolean'
-                ? filters?.isAscending
-                  ? 'True'
-                  : 'False'
-                : undefined,
-            filter: filters?.filter ?? 'all',
-          },
-          meta: { auth: false },
-        },
-      );
-      return data;
-    },
-  });
-
 export interface SingleWhale {
   holder_address: string;
   network_name: string;
