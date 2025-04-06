@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { ofetch } from 'config/ofetch';
 import { PERSIST_KEY } from 'config/reactQuery';
+import { resolvePageResponseToArray } from 'api/utils';
 import {
   type CoinNetwork,
   type Coin,
@@ -35,8 +35,13 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
   useQuery({
     queryKey: [PERSIST_KEY, 'coin-radar-coins'],
     queryFn: () =>
-      ofetch<CoinRadarCoin[]>('/delphi/intelligence/overview/').then(
-        x => x ?? [],
+      resolvePageResponseToArray<CoinRadarCoin>(
+        '/delphi/intelligence/overview/',
+        {
+          query: {
+            page_size: 1200,
+          },
+        },
       ),
     select: data =>
       data.filter(row => {
