@@ -1,7 +1,11 @@
+import { notification } from 'antd';
+import { useWallet } from '@solana/wallet-adapter-react';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
+  useWithdrawRewardMutation,
   useGamificationProfile,
   useGamificationRewards,
+  useRewardsHistoryQuery,
 } from 'api/gamification';
 import { PageTitle } from 'shared/PageTitle';
 import { Button } from 'shared/v1-components/Button';
@@ -15,8 +19,32 @@ import refFeeSrc from './images/ref-fee.png';
 
 export default function PageRewards() {
   const { isLoading } = useGamificationProfile();
-  const { subReferral, tradeReferral, daily, all, claimed } =
+  const { subReferral, tradeReferral, daily, total, claimed } =
     useGamificationRewards();
+  const { data: history } = useRewardsHistoryQuery();
+  const { mutateAsync, isLoading: isWithdrawLoading } =
+    useWithdrawRewardMutation();
+  const { publicKey } = useWallet();
+
+  const disableWithdraw = history?.[0]?.status === 'pending';
+
+  const withdraw = () => {
+    if (!publicKey) {
+      notification.error({
+        message: 'Please connect your wallet address',
+      });
+      return;
+    }
+    void mutateAsync({ solana_wallet_address: publicKey.toString() }).then(
+      () => {
+        notification.success({
+          message:
+            'Withdrawal registered! You will get your tokens within 72 hours.',
+        });
+        return null;
+      },
+    );
+  };
 
   return (
     <PageWrapper loading={isLoading}>
@@ -31,13 +59,16 @@ export default function PageRewards() {
         <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
           <Usdc className="size-8" />
           <div>
-            <h2 className="font-semibold">{all - claimed} USDC </h2>
+            <h2 className="font-semibold">{total - claimed} USDC </h2>
             <p className="text-xs">Ready to Withdraw</p>
           </div>
           <Button
             variant="primary"
             className="ml-auto w-48 mobile:w-full"
             size="md"
+            loading={isWithdrawLoading}
+            disabled={disableWithdraw}
+            onClick={withdraw}
           >
             <Withdraw />
             Withdraw
@@ -45,6 +76,7 @@ export default function PageRewards() {
         </div>
       </div>
 
+      <h2 className="mb-2">Reward History</h2>
       <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
       <RewardItem
         title="Referral Trade"
@@ -56,7 +88,8 @@ export default function PageRewards() {
         image={refSubSrc}
         amount={subReferral}
       />
-      <RewardItem title="Claimed" image={logo} amount={claimed} />
+      <RewardItem title="Total" image={logo} amount={total} />
+      <RewardItem title="Withdrawn to Wallet" image={logo} amount={claimed} />
     </PageWrapper>
   );
 }

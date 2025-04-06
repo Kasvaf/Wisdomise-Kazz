@@ -1,7 +1,11 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import type { PageResponse } from 'api/types/page';
-import { INVESTMENT_ORIGIN, TEMPLE_ORIGIN } from 'config/constants';
+import {
+  ACCOUNT_PANEL_ORIGIN,
+  INVESTMENT_ORIGIN,
+  TEMPLE_ORIGIN,
+} from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { isProduction } from 'utils/version';
 
@@ -226,7 +230,44 @@ export const useGamificationRewards = () => {
     daily: findMissionReward('tether_daily'),
     tradeReferral: findMissionReward('tether_trade-referral'),
     subReferral: findMissionReward('tether_sub-referral'),
-    all: findMissionReward('tether'),
+    total: findMissionReward('tether'),
     claimed: findMissionReward('claimed_claimed'),
   };
+};
+
+interface RewardHistoryItem {
+  address: string;
+  amount_usd: number;
+  status: 'pending' | 'confirmed' | 'rejected';
+  transaction_hash?: string;
+}
+
+export const useRewardsHistoryQuery = () =>
+  useQuery(
+    ['rewardsHistory'],
+    async () => {
+      return await ofetch<RewardHistoryItem[]>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`,
+      );
+    },
+    {
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  );
+
+interface ClaimRewardBody {
+  solana_wallet_address: string;
+}
+
+export const useWithdrawRewardMutation = () => {
+  const client = useQueryClient();
+  return useMutation(
+    async (body: ClaimRewardBody) => {
+      return await ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`, {
+        body,
+        method: 'post',
+      });
+    },
+    { onSuccess: () => client.invalidateQueries(['rewardsHistory']) },
+  );
 };
