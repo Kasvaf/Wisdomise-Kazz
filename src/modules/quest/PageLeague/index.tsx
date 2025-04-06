@@ -10,7 +10,9 @@ import {
   useLeagueProfileQuery,
 } from 'api/gamification';
 import Badge from 'shared/Badge';
-import Leaderboard from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
+import Leaderboard, {
+  LeaderboardItem,
+} from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
 import LeagueIcon from 'modules/quest/PageLeague/LeagueIcon';
 import useLeague from 'modules/quest/PageLeague/useLeague';
 import {
@@ -123,15 +125,23 @@ export default function PageLeague() {
           </Carousel>
         )}
       </div>
-      <div className="grid grid-cols-2 items-start gap-4 mobile:grid-cols-1">
-        {selectedLeague && league.end_time && league.start_time && (
-          <Prize
-            league={selectedLeague}
-            startTime={league.start_time}
-            endTime={league.end_time}
-            rewardedUsersMinRank={rewardedUsersMinRank}
-          />
-        )}
+      <div className="grid grid-cols-2 items-start gap-x-4 gap-y-8 mobile:grid-cols-1">
+        <div>
+          {selectedLeague && league.end_time && league.start_time && (
+            <Prize
+              league={selectedLeague}
+              startTime={league.start_time}
+              endTime={league.end_time}
+              rewardedUsersMinRank={rewardedUsersMinRank}
+            />
+          )}
+          {me && me.league_slug === selectedLeague?.slug && (
+            <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
+              <h2 className="mb-2">My Status</h2>
+              <LeaderboardItem participant={me} />
+            </div>
+          )}
+        </div>
         <Leaderboard
           participants={participants}
           me={me?.league_slug === selectedLeague?.slug ? me : undefined}
@@ -158,7 +168,7 @@ function Prize({
 
   return (
     <div
-      className="relative mb-8 rounded-xl p-3 text-sm"
+      className="relative rounded-xl p-3 text-sm"
       style={{
         background: isTopLevel
           ? 'linear-gradient(126deg, #625134 -2.76%, #F7D57E 100%)'

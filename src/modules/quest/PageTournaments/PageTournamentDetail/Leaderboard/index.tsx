@@ -52,7 +52,7 @@ export default function Leaderboard({
       ))}
       {me && (
         <LeaderboardItem
-          className="fixed bottom-4 end-0 start-0 mx-24 ml-[calc(var(--side-menu-width)+6rem)] border border-v1-border-primary/40 mobile:mx-12"
+          className="fixed bottom-4 end-0 start-0 mx-24 ml-[calc(var(--side-menu-width)+6rem)] hidden border border-v1-border-primary/40 mobile:mx-12 mobile:block"
           participant={me}
         />
       )}
@@ -113,7 +113,7 @@ const statusDetails: Record<PromotionStatus | 'CHAMPION', any> = {
   },
 };
 
-function LeaderboardItem({
+export function LeaderboardItem({
   participant,
   hasLabel,
   isTopLevel,
