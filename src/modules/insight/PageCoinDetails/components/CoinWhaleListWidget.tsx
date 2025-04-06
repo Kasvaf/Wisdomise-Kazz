@@ -22,6 +22,7 @@ export function CoinWhaleListWidget({
       <CoinWhalesWidget
         coin={coinOverview.data.symbol}
         type="holding"
+        id={id}
         noEmptyState
       />
     </>

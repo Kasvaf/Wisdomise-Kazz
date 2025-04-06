@@ -1,6 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useRef } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
 import { CoinPriceWidget } from './components/CoinPriceWidget';
@@ -23,15 +23,15 @@ export default function PageCoinDetails() {
   const { slug } = useParams<{ slug: string }>();
   if (!slug) throw new Error('unexpected');
   const isMobile = useIsMobile();
-  const [tabs, refreshTabs] = useCoinDetailsTabs();
-  useEffect(() => refreshTabs());
+  const root = useRef<HTMLDivElement>(null);
+  const tabs = useCoinDetailsTabs(root);
 
   return (
     <PageWrapper>
       <PageCoinDetailsMeta slug={slug} />
 
       {isMobile ? (
-        <div className="relative flex flex-col gap-4">
+        <div className="relative flex flex-col gap-4" ref={root}>
           <CoinPriceWidget slug={slug} />
           <SocialRadarSentimentWidget slug={slug} className="w-full" />
           <TechnicalRadarSentimentWidget slug={slug} className="w-full" />
@@ -47,7 +47,10 @@ export default function PageCoinDetails() {
           />
         </div>
       ) : (
-        <div className="relative grid grid-cols-3 lg:gap-3 2xl:gap-6">
+        <div
+          className="relative grid grid-cols-3 lg:gap-3 2xl:gap-6"
+          ref={root}
+        >
           <div className="col-span-1">
             <div className="sticky top-20 flex flex-col lg:gap-3 2xl:gap-6">
               <CoinPriceWidget slug={slug} />
