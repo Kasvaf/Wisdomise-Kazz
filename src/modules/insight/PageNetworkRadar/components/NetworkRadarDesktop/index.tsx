@@ -47,7 +47,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         title: '#',
         render: (_, row) => row._rank,
         fixed: 'left',
-        className: 'w-14 max-w-14',
+        className: 'w-14 max-w-24',
       },
       {
         title: t('common.name'),

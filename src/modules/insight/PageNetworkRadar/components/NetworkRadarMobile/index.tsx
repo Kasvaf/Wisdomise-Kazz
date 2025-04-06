@@ -37,7 +37,7 @@ export const NetworkRadarMobile = () => {
     () => [
       {
         key: 'rank',
-        className: 'max-w-7 min-w-2 text-start text-xs font-medium',
+        className: 'max-w-10 min-w-2 text-start text-xs font-medium',
         render: row => row._rank,
       },
       {
