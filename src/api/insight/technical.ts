@@ -113,6 +113,8 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
           },
         },
       ),
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: 1000 * 60 * 5,
   });
 
 export type IndicatorConfirmationCombination =
@@ -257,6 +259,8 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         results,
       };
     },
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: 1000 * 60 * 5,
   });
 
 export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &

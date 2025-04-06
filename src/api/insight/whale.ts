@@ -360,6 +360,8 @@ export const useWhaleRadarCoins = (config: {
             return sorter(a.wallet_count, b.wallet_count);
           return sorter(a.rank, b.rank);
         }),
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: 1000 * 60 * 5,
   });
 
 export type WhaleAssetLabel =

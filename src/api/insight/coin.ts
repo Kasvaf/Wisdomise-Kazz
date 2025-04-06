@@ -60,5 +60,7 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
 
         return true;
       }),
-    refetchInterval: 600_000,
+    refetchInterval: 1000 * 60 * 5,
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: 1000 * 60 * 5,
   });

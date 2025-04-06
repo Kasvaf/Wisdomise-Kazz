@@ -75,5 +75,7 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
           return true;
         })
         .map((row, i) => ({ ...row, _rank: i + 1 })),
-    refetchInterval: 30 * 1000,
+    refetchInterval: 1000 * 30,
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: 1000 * 30,
   });

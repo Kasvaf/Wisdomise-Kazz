@@ -160,7 +160,9 @@ export const useSocialRadarCoins = (config: {
             );
           return sorter(a.rank, b.rank);
         }),
-    refetchInterval: 30_000,
+    refetchInterval: 1000 * 30,
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: 1000 * 30,
   });
 
 export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>
