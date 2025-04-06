@@ -8,7 +8,9 @@ import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
 import PageWrapper from 'modules/base/PageWrapper';
 import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
 import TournamentsOnboarding from 'modules/quest/PageTournaments/TournamentsOnboarding';
-import Leaderboard from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
+import Leaderboard, {
+  LeaderboardItem,
+} from 'modules/quest/PageTournaments/PageTournamentDetail/Leaderboard';
 
 export default function PageTournamentDetail() {
   const { id } = useParams<{ id: string }>();
@@ -20,10 +22,21 @@ export default function PageTournamentDetail() {
 
   return (
     <TournamentsOnboarding>
-      <PageWrapper loading={isLoading} className="pb-10">
-        {tournament && (
-          <TournamentCard tournament={tournament} hasDetail={true} />
-        )}
+      <PageWrapper
+        loading={isLoading}
+        className="grid grid-cols-2 items-start gap-4 pb-10 mobile:grid-cols-1"
+      >
+        <div>
+          {tournament && (
+            <TournamentCard tournament={tournament} hasDetail={true} />
+          )}
+          {me && (
+            <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
+              <h2 className="mb-2">My Status</h2>
+              <LeaderboardItem participant={me} />
+            </div>
+          )}
+        </div>
 
         {tournament?.status === 'upcoming' && (
           <div className="flex flex-col items-center justify-center pb-5 text-center">
