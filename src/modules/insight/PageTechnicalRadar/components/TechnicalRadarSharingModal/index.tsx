@@ -34,7 +34,7 @@ export default function TechnicalRadarSharingModal({
     <SharingModal
       open={open}
       onClose={() => onClose?.()}
-      fileName={`${coin.symbol.abbreviation}-${new Date().toISOString()}`}
+      fileName={`${coin.symbol.abbreviation ?? ''}-${new Date().toISOString()}`}
       screenshotTarget={el}
     >
       <div
