@@ -22,34 +22,33 @@ export default function PageTournamentDetail() {
 
   return (
     <TournamentsOnboarding>
-      <PageWrapper
-        loading={isLoading}
-        className="grid grid-cols-2 items-start gap-4 pb-10 mobile:grid-cols-1"
-      >
-        <div>
-          {tournament && (
-            <TournamentCard tournament={tournament} hasDetail={true} />
-          )}
-          {me && (
-            <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
-              <h2 className="mb-2">My Status</h2>
-              <LeaderboardItem participant={me} />
+      <PageWrapper loading={isLoading}>
+        <div className="grid grid-cols-2 items-start gap-4 pb-10 mobile:grid-cols-1">
+          <div>
+            {tournament && (
+              <TournamentCard tournament={tournament} hasDetail={true} />
+            )}
+            {me && (
+              <div className="mt-3 rounded-xl bg-v1-surface-l2 p-3 mobile:hidden">
+                <h2 className="mb-2">My Status</h2>
+                <LeaderboardItem participant={me} />
+              </div>
+            )}
+          </div>
+
+          {tournament?.status === 'upcoming' && (
+            <div className="flex flex-col items-center justify-center pb-5 text-center">
+              <img src={empty} alt="" className="my-8" />
+              <h1 className="mt-3 font-semibold">Trading Leaderboard</h1>
+
+              <p className="mt-3 w-3/4 text-xs">
+                The tournament hasn’t launched yet. Stay tuned and get ready to
+                secure your spot among the stars!
+              </p>
             </div>
           )}
+          <Leaderboard participants={participants} me={me} />
         </div>
-
-        {tournament?.status === 'upcoming' && (
-          <div className="flex flex-col items-center justify-center pb-5 text-center">
-            <img src={empty} alt="" className="my-8" />
-            <h1 className="mt-3 font-semibold">Trading Leaderboard</h1>
-
-            <p className="mt-3 w-3/4 text-xs">
-              The tournament hasn’t launched yet. Stay tuned and get ready to
-              secure your spot among the stars!
-            </p>
-          </div>
-        )}
-        <Leaderboard participants={participants} me={me} />
       </PageWrapper>
     </TournamentsOnboarding>
   );
