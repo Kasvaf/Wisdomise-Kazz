@@ -82,7 +82,6 @@ export default function PositionSharingModal({
               <div className="my-6">
                 <PriceChange
                   className="!flex text-3xl"
-                  numberClassName="!overflow-visible" // for screenshot
                   value={Number(position.pnl)}
                 />
                 {showExtra && (

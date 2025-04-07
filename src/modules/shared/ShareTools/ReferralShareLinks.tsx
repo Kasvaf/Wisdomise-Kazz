@@ -18,7 +18,7 @@ export function ReferralShareLinks({
   fileName: string;
 }) {
   const myReferralLink = useReferral();
-  const screenshot = useScreenshot(screenshotTarget, {
+  const { capture, isCapturing } = useScreenshot(screenshotTarget, {
     backgroundColor: 'transparent',
     fileName,
     afterCapture: 'download',
@@ -73,7 +73,8 @@ export function ReferralShareLinks({
           className="ml-auto"
           variant="white"
           size="sm"
-          onClick={screenshot}
+          onClick={capture}
+          loading={isCapturing}
         >
           <Icon name={bxDownload} />
           Download

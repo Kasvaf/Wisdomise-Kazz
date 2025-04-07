@@ -10,6 +10,7 @@ import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 
@@ -147,6 +148,9 @@ export const SocialRadarMobile = () => {
         )}
         {selectedRow && (
           <SocialRadarSentiment value={selectedRow} mode="expanded" />
+        )}
+        {selectedRow && (
+          <SocialRadarSharingModal open={false} coin={selectedRow} />
         )}
       </CoinPreDetailModal>
     </>

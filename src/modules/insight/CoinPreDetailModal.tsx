@@ -25,9 +25,8 @@ import {
   type MiniMarketData,
   type NetworkSecurity,
 } from 'api/types/shared';
-import TechnicalRadarSharingModal, {
-  type TechnicalRadarSharingModalProps,
-} from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
+import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
+import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;
@@ -55,11 +54,15 @@ const CoinPreDetailsContent: FC<
   const [openShareModal, setOpenShareModal] = useState(false);
 
   const modifiedChildren = Children.map(children, child => {
-    if (isValidElement(child) && child.type === TechnicalRadarSharingModal) {
+    if (
+      isValidElement(child) &&
+      (child.type === TechnicalRadarSharingModal ||
+        child.type === SocialRadarSharingModal)
+    ) {
       return cloneElement<any>(child, {
         open: openShareModal,
         onClose: () => setOpenShareModal(false),
-      } satisfies Partial<TechnicalRadarSharingModalProps>);
+      });
     }
     return child;
   });

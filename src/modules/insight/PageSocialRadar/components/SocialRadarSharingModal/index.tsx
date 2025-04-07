@@ -5,28 +5,28 @@ import SharingModal from 'shared/ShareTools/SharingModal';
 import logo from 'shared/ShareTools/images/logo.png';
 import { Coin } from 'shared/Coin';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
-import { type TechnicalRadarCoin } from 'api';
+import { type SocialRadarCoin } from 'api';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { TechnicalRadarSentimentWidget } from 'modules/insight/PageCoinDetails/components/TechnicalRadarSentimentWidget';
 import { CoinLabels } from 'shared/CoinLabels';
-import { ReactComponent as TechnicalRadarIcon } from '../technical-radar.svg';
+import { SocialRadarSentimentWidget } from 'modules/insight/PageCoinDetails/components/SocialRadarSentimentWidget';
+import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import gradient from './images/gradient.png';
 import sparkle from './images/sparkle.png';
 import radar from './images/radar.png';
 
-export interface TechnicalRadarSharingModalProps {
+export interface SocialRadarSharingModalProps {
   open: boolean;
   onClose?: () => void;
-  coin: TechnicalRadarCoin;
+  coin: SocialRadarCoin;
 }
 
-export default function TechnicalRadarSharingModal({
+export default function SocialRadarSharingModal({
   open,
   onClose,
   coin,
-}: TechnicalRadarSharingModalProps) {
+}: SocialRadarSharingModalProps) {
   const el = useRef<HTMLDivElement>(null);
   const { t } = useTranslation('insight');
 
@@ -51,8 +51,8 @@ export default function TechnicalRadarSharingModal({
         <div className="relative">
           <div className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-1">
-              <TechnicalRadarIcon className="size-5" />
-              Technical Radar
+              <SocialRadarIcon className="size-5" />
+              Social Radar
             </div>
             <div className="relative">
               <img src={logo} alt="logo" className="h-7" />
@@ -71,19 +71,22 @@ export default function TechnicalRadarSharingModal({
           )}
           <div className="mt-4 flex items-end gap-2">
             <ReadableNumber
-              value={coin.data?.current_price}
+              value={coin.symbol_market_data?.current_price}
               label="$"
               className="shrink-0 !overflow-visible text-3xl"
             />
             <PriceChange
-              value={coin.data?.price_change_percentage_24h}
+              value={coin.symbol_market_data?.price_change_percentage_24h}
               suffix="(24H)"
             />
           </div>
           <div className="mt-4 flex items-center gap-2">
             <div className="w-1/2 rounded-xl bg-white/5 px-3 py-2 text-xs">
               <p className="mb-1 text-v1-content-secondary">Market Cap</p>
-              <ReadableNumber value={coin.data?.market_cap} label="$" />
+              <ReadableNumber
+                value={coin.symbol_market_data?.market_cap}
+                label="$"
+              />
             </div>
             <div className="w-1/2 rounded-xl bg-white/5 px-3 py-2 text-xs">
               <p className="mb-1 text-v1-content-secondary">Timestamp</p>
@@ -91,7 +94,7 @@ export default function TechnicalRadarSharingModal({
             </div>
           </div>
           {coin && (
-            <TechnicalRadarSentimentWidget
+            <SocialRadarSentimentWidget
               slug={coin.symbol.slug}
               className="mt-2 w-full"
               contentClassName="!bg-white/5"
@@ -107,8 +110,10 @@ export default function TechnicalRadarSharingModal({
               coin={coin.symbol}
             />
           </div>
-          {coin?.sparkline && (
-            <CoinPriceChart value={coin?.sparkline?.prices ?? []} />
+          {coin?.signals_analysis.sparkline && (
+            <CoinPriceChart
+              value={coin?.signals_analysis.sparkline.prices ?? []}
+            />
           )}
           <ReferralQrCode />
         </div>

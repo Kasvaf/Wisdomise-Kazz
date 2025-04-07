@@ -17,9 +17,7 @@ export default function ReferralQrCode({ className }: { className?: string }) {
       <div>
         {/* used image because of text gradient limit in screenshot */}
         <img src={ready} alt="ready" className="mb-2 h-4" />
-        <p className="max-w-40">
-          Scan the QR Code or Use the Link to Join the Wisdomise Adventure!
-        </p>
+        <p>Scan the QR Code or Use the Link to Join the Wisdomise Adventure!</p>
         <img src={line} alt="" className="my-3" />
         <img src={logo} className="h-5" alt="" />
       </div>

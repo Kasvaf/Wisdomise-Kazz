@@ -69,8 +69,10 @@ export const TechnicalRadarMobile = () => {
               mode="expanded"
               className="w-full"
             />
-            <TechnicalRadarSharingModal open={false} coin={selectedRow} />
           </>
+        )}
+        {selectedRow && (
+          <TechnicalRadarSharingModal open={false} coin={selectedRow} />
         )}
       </CoinPreDetailModal>
     </>

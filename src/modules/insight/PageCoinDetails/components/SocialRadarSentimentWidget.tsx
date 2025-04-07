@@ -6,10 +6,12 @@ export function SocialRadarSentimentWidget({
   noEmptyState,
   slug,
   className,
+  contentClassName,
 }: {
   noEmptyState?: boolean;
   slug: string;
   className?: string;
+  contentClassName?: string;
 }) {
   const coin = useCoinDetails({ slug });
   const sentiment = useSocialRadarSentiment({ slug });
@@ -28,6 +30,7 @@ export function SocialRadarSentimentWidget({
         (coin.isLoading || sentiment.isLoading) && 'animate-pulse',
         className,
       )}
+      contentClassName={contentClassName}
     />
   );
 }

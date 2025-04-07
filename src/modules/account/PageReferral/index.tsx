@@ -83,7 +83,10 @@ export default function ReferralPage() {
           <div className="rounded-xl bg-v1-surface-l2 p-4 mobile:bg-transparent mobile:p-0">
             <h2 className="mb-2">{t('page-referral.referral-link')}</h2>
             <div className="rounded-xl bg-v1-surface-l2 mobile:p-4">
-              <div ref={el} className="relative overflow-hidden rounded-xl p-4">
+              <div
+                ref={el}
+                className="relative overflow-hidden rounded-xl bg-v1-surface-l2 p-4"
+              >
                 <img
                   src={logoOutline}
                   alt=""

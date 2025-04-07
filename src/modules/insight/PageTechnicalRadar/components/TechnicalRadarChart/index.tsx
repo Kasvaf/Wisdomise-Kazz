@@ -28,8 +28,7 @@ export const TechnicalRadarChart: FC<{
   const { t } = useTranslation('market-pulse');
   const isMobile = useIsMobile();
   const el = useRef<HTMLDivElement>(null);
-  const screenshot = useScreenshot(el, {
-    backgroundColor: '#1D1E23', // v1-surface-l3
+  const { capture } = useScreenshot(el, {
     fileName: `${type}-${Date.now()}`,
   });
   const navigate = useNavigate();
@@ -266,7 +265,7 @@ export const TechnicalRadarChart: FC<{
   return (
     <div
       className={clsx(
-        '[&.capturing_[data-capture]]:block [&.capturing_[data-nocapture]]:hidden',
+        'bg-v1-surface-l2 [&.capturing_[data-capture]]:block [&.capturing_[data-nocapture]]:hidden',
       )}
       ref={el}
     >
@@ -277,7 +276,7 @@ export const TechnicalRadarChart: FC<{
         <div data-nocapture>
           <Button
             size="xs"
-            onClick={screenshot}
+            onClick={capture}
             variant="ghost"
             disabled={!isLoggedIn || subscription.level < 1}
             className="!rounded-full"
