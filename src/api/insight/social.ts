@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
-import { PERSIST_KEY } from 'config/reactQuery';
 import {
   type MarketData,
   type Coin,
@@ -47,7 +46,6 @@ export const useSocialRadarInfo = () =>
       );
       return data;
     },
-    gcTime: Number.POSITIVE_INFINITY,
   });
 
 export interface CoinSignalAnalysis {
@@ -117,7 +115,7 @@ export const useSocialRadarCoins = (config: {
   trendLabels?: string[];
 }) =>
   useQuery({
-    queryKey: [PERSIST_KEY, 'social-radar-coins', config.windowHours],
+    queryKey: ['social-radar-coins', config.windowHours],
     queryFn: () =>
       ofetch<SocialRadarCoin[]>('delphi/social-radar/coins-social-signal/', {
         query: {
@@ -160,8 +158,10 @@ export const useSocialRadarCoins = (config: {
             );
           return sorter(a.rank, b.rank);
         }),
+    meta: {
+      persist: true,
+    },
     refetchInterval: 1000 * 30,
-    gcTime: Number.POSITIVE_INFINITY,
     staleTime: 1000 * 30,
   });
 

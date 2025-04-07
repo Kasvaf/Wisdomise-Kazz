@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { PERSIST_KEY } from 'config/reactQuery';
 import { resolvePageResponseToArray } from 'api/utils';
 import {
   type CoinNetwork,
@@ -33,7 +32,7 @@ export interface CoinRadarCoin {
 
 export const useCoinRadarCoins = (config: { networks?: string[] }) =>
   useQuery({
-    queryKey: [PERSIST_KEY, 'coin-radar-coins'],
+    queryKey: ['coin-radar-coins'],
     queryFn: () =>
       resolvePageResponseToArray<CoinRadarCoin>(
         '/delphi/intelligence/overview/',
@@ -65,7 +64,9 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
 
         return true;
       }),
+    meta: {
+      persist: true,
+    },
     refetchInterval: 1000 * 30,
-    gcTime: Number.POSITIVE_INFINITY,
     staleTime: 1000 * 30,
   });

@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { TEMPLE_ORIGIN } from 'config/constants';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
-import { PERSIST_KEY } from 'config/reactQuery';
 import { type PageResponse } from '../types/page';
 import {
   type NetworkSecurity,
@@ -62,7 +61,7 @@ export const useWhaleRadarWhales = (config: {
   query?: string;
 }) =>
   useQuery({
-    queryKey: [PERSIST_KEY, 'whale-radar-whales'],
+    queryKey: ['whale-radar-whales'],
     queryFn: async () => {
       const data = await resolvePageResponseToArray<WhaleShort>(
         'delphi/holders/tops/',
@@ -83,6 +82,10 @@ export const useWhaleRadarWhales = (config: {
           return false;
         return true;
       }),
+    meta: {
+      persist: true,
+    },
+    staleTime: 1000 * 60 * 5,
   });
 
 export interface WhaleCoin {
@@ -272,7 +275,7 @@ export const useWhaleRadarCoins = (config: {
   excludeNativeCoins?: boolean;
 }) =>
   useQuery({
-    queryKey: [PERSIST_KEY, 'whale-radar-coins', config.days],
+    queryKey: ['whale-radar-coins', config.days],
     queryFn: () =>
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {
@@ -324,7 +327,9 @@ export const useWhaleRadarCoins = (config: {
             return sorter(a.wallet_count, b.wallet_count);
           return sorter(a.rank, b.rank);
         }),
-    gcTime: Number.POSITIVE_INFINITY,
+    meta: {
+      persist: true,
+    },
     staleTime: 1000 * 60 * 5,
   });
 

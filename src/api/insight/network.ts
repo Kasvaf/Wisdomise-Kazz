@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import { type Network, type Coin, type CoinDetails } from 'api/types/shared';
 import { resolvePageResponseToArray } from 'api/utils';
-import { PERSIST_KEY } from 'config/reactQuery';
 import { matcher } from './utils';
 
 export interface NetworkRadarPool {
@@ -58,7 +57,7 @@ export interface NetworkRadarPool {
 
 export const useNetworkRadarPools = (config: { networks?: string[] }) =>
   useQuery({
-    queryKey: [PERSIST_KEY, 'network-radar-pools'],
+    queryKey: ['network-radar-pools'],
     queryFn: () =>
       resolvePageResponseToArray<NetworkRadarPool>(
         '/delphi/market/new-born-pools/',
@@ -75,7 +74,9 @@ export const useNetworkRadarPools = (config: { networks?: string[] }) =>
           return true;
         })
         .map((row, i) => ({ ...row, _rank: i + 1 })),
+    meta: {
+      persist: true,
+    },
     refetchInterval: 1000 * 30,
-    gcTime: Number.POSITIVE_INFINITY,
     staleTime: 1000 * 30,
   });

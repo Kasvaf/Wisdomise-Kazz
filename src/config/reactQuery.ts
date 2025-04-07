@@ -1,8 +1,4 @@
-import {
-  type OmitKeyof,
-  QueryClient,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { type OmitKeyof, QueryClient } from '@tanstack/react-query';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { type PersistQueryClientOptions } from '@tanstack/react-query-persist-client';
 import localForge from 'localforage';
@@ -16,6 +12,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      gcTime: Number.POSITIVE_INFINITY,
       retryDelay: (failureCount, err) =>
         1000 *
         (((err as any)?.statusCode === 429 ? 3 : 2) + Math.random()) *
@@ -23,8 +20,6 @@ export const queryClient = new QueryClient({
     },
   },
 });
-
-export const PERSIST_KEY = '!P';
 
 export const persisterOptions: OmitKeyof<
   PersistQueryClientOptions,
@@ -43,17 +38,12 @@ export const persisterOptions: OmitKeyof<
   }),
   dehydrateOptions: {
     shouldDehydrateQuery: query =>
-      query.queryKey.includes(PERSIST_KEY) && !query.state.error,
+      !!query.meta &&
+      'persist' in query.meta &&
+      query.meta.persist === true &&
+      !query.state.error,
     shouldDehydrateMutation: () => false,
     shouldRedactErrors: () => false,
   },
   maxAge: Number.POSITIVE_INFINITY,
-};
-
-export const useInvalidateAllQueries = () => {
-  const client = useQueryClient();
-  return () =>
-    client.invalidateQueries({
-      predicate: query => !query.queryKey.includes(PERSIST_KEY),
-    });
 };

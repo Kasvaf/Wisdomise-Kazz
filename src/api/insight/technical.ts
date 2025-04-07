@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
-import { PERSIST_KEY } from 'config/reactQuery';
 import { resolvePageResponseToArray } from '../utils';
 import {
   type NetworkSecurity,
@@ -96,12 +95,7 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
   resolution: IndicatorHeatmapResolution;
 }) =>
   useQuery({
-    queryKey: [
-      PERSIST_KEY,
-      'indicator-heatmap',
-      filters.indicator,
-      filters.resolution,
-    ],
+    queryKey: ['indicator-heatmap', filters.indicator, filters.resolution],
     queryFn: () =>
       resolvePageResponseToArray<IndicatorHeatmap<I>>(
         `delphi/${filters.indicator}/heatmap/`,
@@ -113,7 +107,9 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
           },
         },
       ),
-    gcTime: Number.POSITIVE_INFINITY,
+    meta: {
+      persist: true,
+    },
     staleTime: 1000 * 60 * 5,
   });
 
@@ -208,7 +204,6 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
 }) =>
   useQuery({
     queryKey: [
-      PERSIST_KEY,
       'indicator-confirmation',
       filters.indicator,
       filters.combination,
@@ -259,7 +254,9 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         results,
       };
     },
-    gcTime: Number.POSITIVE_INFINITY,
+    meta: {
+      persist: true,
+    },
     staleTime: 1000 * 60 * 5,
   });
 
@@ -294,7 +291,7 @@ export const useTechnicalRadarCoins = (config: {
   sortBy?: string;
 }) =>
   useQuery({
-    queryKey: [PERSIST_KEY, 'indicators/technical-radar/top-coins'],
+    queryKey: ['indicators/technical-radar/top-coins'],
     queryFn: () =>
       resolvePageResponseToArray<TechnicalRadarCoin>(
         'delphi/technical-radar/top-coins/',
@@ -332,7 +329,9 @@ export const useTechnicalRadarCoins = (config: {
           return sorter(a.rank, b.rank);
         });
     },
-    gcTime: Number.POSITIVE_INFINITY,
+    meta: {
+      persist: true,
+    },
     staleTime: 1000 * 60 * 5,
   });
 
