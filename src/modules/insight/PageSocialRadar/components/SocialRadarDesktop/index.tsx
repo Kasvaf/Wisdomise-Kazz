@@ -17,10 +17,12 @@ import {
   type SocialRadarCoin,
   useSocialRadarCoins,
   useSocialRadarInfo,
+  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
 } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { TableRank } from 'shared/TableRank';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
@@ -57,7 +59,15 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
       {
         fixed: 'left',
         title: t('social-radar.table.rank'),
-        render: (_, row) => row.rank,
+        render: (_, row) => (
+          <TableRank
+            highlighted={
+              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
+            }
+          >
+            {row.rank}
+          </TableRank>
+        ),
         width: 50,
       },
       {

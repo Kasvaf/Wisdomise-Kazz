@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
+import { isDebugMode } from 'utils/version';
 import {
   type MarketData,
   type Coin,
@@ -9,6 +10,7 @@ import {
 } from '../types/shared';
 import { createSorter, matcher } from './utils';
 
+export const MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 3 : 5.9;
 export interface SocialRadarInfo {
   long_count: number;
   short_count: number;

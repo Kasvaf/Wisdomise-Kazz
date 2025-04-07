@@ -4,7 +4,12 @@ import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
-import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
+import {
+  type CoinRadarCoin,
+  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
+  useCoinRadarCoins,
+  useHasFlag,
+} from 'api';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { DebugPin } from 'shared/DebugPin';
@@ -15,6 +20,7 @@ import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/comp
 import { NetworkSelect } from 'shared/NetworkSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { TableRank } from 'shared/TableRank';
 import { EmptySentiment } from '../EmptySentiment';
 import { homeSubscriptionsConfig } from '../../constants';
 import { ReactComponent as SocialRadarIcon } from './social_radar.svg';
@@ -39,7 +45,16 @@ export function CoinRadarTable({ className }: { className?: string }) {
         fixed: 'left',
         title: t('table.rank'),
         key: 'rank',
-        render: (_, row) => row.rank,
+        render: (_, row) => (
+          <TableRank
+            highlighted={
+              (row.social_radar_insight?.wise_score ?? 0) >=
+              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
+            }
+          >
+            {row.rank}
+          </TableRank>
+        ),
         width: 50,
       },
       {

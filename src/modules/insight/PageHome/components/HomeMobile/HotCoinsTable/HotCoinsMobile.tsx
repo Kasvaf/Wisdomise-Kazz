@@ -1,7 +1,12 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
+import {
+  type CoinRadarCoin,
+  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
+  useCoinRadarCoins,
+  useHasFlag,
+} from 'api';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { Coin } from 'shared/Coin';
@@ -15,6 +20,7 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { TableRank } from 'shared/TableRank';
 import { homeSubscriptionsConfig } from '../../constants';
 import useHotCoinsTour from './useHotCoinsTour';
 
@@ -47,7 +53,16 @@ export const HotCoinsMobile = () => {
       {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => row.rank,
+        render: row => (
+          <TableRank
+            highlighted={
+              (row.social_radar_insight?.wise_score ?? 0) >=
+              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
+            }
+          >
+            {row.rank}
+          </TableRank>
+        ),
       },
       {
         key: 'coin',
