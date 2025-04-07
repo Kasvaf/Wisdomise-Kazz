@@ -20,7 +20,7 @@ common:
   validation_insights: Validation Insights
   volume: Volume
 page:
-  title: New Born
+  title: Trench
   info: >-
     This page displays newly launched Solana coins and liquidity pools,
     providing insights into their market cap, creation date, and transaction
