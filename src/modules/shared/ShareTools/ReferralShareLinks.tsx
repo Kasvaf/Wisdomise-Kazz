@@ -19,7 +19,6 @@ export function ReferralShareLinks({
 }) {
   const myReferralLink = useReferral();
   const { capture, isCapturing } = useScreenshot(screenshotTarget, {
-    backgroundColor: 'transparent',
     fileName,
     afterCapture: 'download',
   });
