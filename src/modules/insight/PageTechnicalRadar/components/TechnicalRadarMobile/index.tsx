@@ -58,6 +58,7 @@ export const TechnicalRadarMobile = () => {
         security={selectedRow?.symbol_security?.data}
         open={modal}
         onClose={() => setModal(false)}
+        hasShare={true}
       >
         {selectedRow?.sparkline && (
           <CoinPriceChart value={selectedRow?.sparkline?.prices ?? []} />

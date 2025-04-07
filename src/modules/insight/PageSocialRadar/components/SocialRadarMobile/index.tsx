@@ -155,6 +155,7 @@ export const SocialRadarMobile = () => {
         security={selectedRow?.symbol_security?.data}
         open={modal}
         onClose={() => setModal(false)}
+        hasShare={true}
       >
         {selectedRow?.signals_analysis?.sparkline && (
           <CoinPriceChart

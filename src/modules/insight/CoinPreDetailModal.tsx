@@ -35,6 +35,7 @@ interface PreDetailModalBaseProps {
   networks?: CoinNetwork[] | null;
   categories?: CoinType['categories'] | null;
   security?: NetworkSecurity[] | null;
+  hasShare?: boolean;
 }
 
 const CoinPreDetailsContent: FC<
@@ -49,6 +50,7 @@ const CoinPreDetailsContent: FC<
   networks,
   security,
   children,
+  hasShare,
 }) => {
   const { t } = useTranslation('insight');
   const [openShareModal, setOpenShareModal] = useState(false);
@@ -70,14 +72,16 @@ const CoinPreDetailsContent: FC<
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="!px-2"
-          onClick={() => setOpenShareModal(true)}
-        >
-          <Icon name={bxShareAlt} />
-        </Button>
+        {hasShare && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="!px-2"
+            onClick={() => setOpenShareModal(true)}
+          >
+            <Icon name={bxShareAlt} />
+          </Button>
+        )}
         <Coin
           coin={coin}
           imageClassName="size-8"
