@@ -94,6 +94,7 @@ function Option({
   size: 'xs' | 'sm' | 'md' | 'xl';
   checkbox?: boolean;
 }) {
+  const childRef = useRef<HTMLDivElement>(null);
   return (
     <div
       className={clsx(
@@ -102,14 +103,32 @@ function Option({
         size === 'sm' && 'h-sm px-2 text-xs',
         size === 'md' && 'h-md px-3 text-xs',
         size === 'xl' && 'h-xl px-3 text-sm',
-        'group flex shrink-0 flex-nowrap items-center justify-between gap-4 mobile:px-5',
+        'group flex shrink-0 flex-nowrap items-center justify-between gap-1 mobile:px-5',
         'hover:bg-white/5',
         !checkbox && selected && '!bg-white/10',
       )}
       onClick={onClick}
       aria-selected={selected}
+      onPointerOver={() => {
+        try {
+          childRef.current?.scrollTo({
+            left: 999,
+            behavior: 'smooth',
+          });
+        } catch {}
+      }}
+      onPointerLeave={() => {
+        try {
+          childRef.current?.scrollTo({
+            left: 0,
+            behavior: 'smooth',
+          });
+        } catch {}
+      }}
     >
-      <div className="max-w-80 overflow-hidden">{children}</div>
+      <div className="max-w-max overflow-hidden" ref={childRef}>
+        {children}
+      </div>
       {checkbox && (
         <Checkbox
           size={size === 'xl' ? 'lg' : 'md'}
@@ -495,7 +514,7 @@ export function Select<V, M extends boolean = false>({
         '[&_.ant-tooltip-arrow]:hidden',
         '[&_.ant-tooltip-inner]:rounded-xl [&_.ant-tooltip-inner]:!bg-v1-surface-l4 [&_.ant-tooltip-inner]:!text-inherit',
         '[&_.ant-tooltip-inner]:overflow-hidden [&_.ant-tooltip-inner]:!p-0',
-        '[&_.ant-tooltip-inner]:w-max [&_.ant-tooltip-inner]:min-w-56 [&_.ant-tooltip-inner]:max-w-96',
+        '[&_.ant-tooltip-inner]:w-max [&_.ant-tooltip-inner]:min-w-56 [&_.ant-tooltip-inner]:max-w-60',
         '[&_.ant-tooltip-content]:w-full [&_.ant-tooltip-content]:overflow-visible',
       )}
       open={isOpen}
