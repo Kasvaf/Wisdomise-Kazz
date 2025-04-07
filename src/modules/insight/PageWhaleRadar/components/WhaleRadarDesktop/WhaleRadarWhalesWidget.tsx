@@ -227,6 +227,7 @@ export function WhaleRadarWhalesWidget({
                     page: 1,
                   });
                 }}
+                tooltipPlacement="bottomRight"
               />
             </div>
           )}
