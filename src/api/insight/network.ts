@@ -7,6 +7,7 @@ import { matcher } from './utils';
 export interface NetworkRadarPool {
   _rank?: number;
   address: string;
+  base_contract_address: string;
   base_symbol: Coin;
   quote_symbol: Coin;
   network: Network;

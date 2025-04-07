@@ -67,9 +67,9 @@ export const PoolDetails: FC<{
             name={bxCopy}
             size={14}
             className="cursor-pointer"
-            onClick={() => copy(value.address)}
+            onClick={() => copy(value.base_contract_address)}
           />
-          {shortenAddress(value.address)}
+          {shortenAddress(value.base_contract_address)}
         </div>
         <p>{t('common.socials')}</p>
         <div className="flex flex-wrap items-center gap-2">

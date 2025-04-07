@@ -61,12 +61,12 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         render: (_, row) => (
           <>
             <div className="flex items-center gap-1">
-              {shortenAddress(row.address)}
+              {shortenAddress(row.base_contract_address)}
               <Icon
                 name={bxsCopy}
                 size={14}
                 className="cursor-pointer text-v1-content-secondary"
-                onClick={() => copy(row.address)}
+                onClick={() => copy(row.base_contract_address)}
               />
             </div>
           </>
