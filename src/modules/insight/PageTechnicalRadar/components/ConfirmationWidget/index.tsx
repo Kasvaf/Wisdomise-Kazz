@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { Trans } from 'react-i18next';
 import {
   type ComponentProps,
@@ -21,6 +22,8 @@ import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { Lazy } from 'shared/Lazy';
+import Spinner from 'shared/Spinner';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
@@ -159,6 +162,8 @@ export function ConfirmationWidget<I extends Indicator>({
     }
   }, [confirmations, selectedTabKey, setSelectedTabKey, tabs, autoSelect]);
 
+  const list = confirmations.data?.results ?? [];
+
   return (
     <OverviewWidget
       className={clsx('h-[750px]', className)}
@@ -239,7 +244,7 @@ export function ConfirmationWidget<I extends Indicator>({
         }}
         className="space-y-4"
       >
-        {confirmations.data?.results.map(row => (
+        {list.slice(0, 8).map(row => (
           <ConfirmationRow
             value={row}
             key={JSON.stringify(row.symbol)}
@@ -248,6 +253,27 @@ export function ConfirmationWidget<I extends Indicator>({
             type={type}
           />
         ))}
+        {list.length >= 9 && (
+          <Lazy
+            freezeOnceVisible
+            className="space-y-4"
+            fallback={
+              <div className="flex h-64 items-center justify-center">
+                <Spinner />
+              </div>
+            }
+          >
+            {list.slice(9).map(row => (
+              <ConfirmationRow
+                value={row}
+                key={JSON.stringify(row.symbol)}
+                combination={selectedTab.combination}
+                indicator={indicator}
+                type={type}
+              />
+            ))}
+          </Lazy>
+        )}
       </AccessShield>
     </OverviewWidget>
   );
