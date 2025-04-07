@@ -8,6 +8,7 @@ import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
 
@@ -27,6 +28,7 @@ export const TechnicalRadarCoinsTable: FC<{
   });
 
   const coins = useTechnicalRadarCoins(tableState);
+  useLoadingBadge(coins.isFetching);
 
   const columns = useMemo<Array<MobileTableColumn<TechnicalRadarCoin>>>(
     () => [
@@ -95,7 +97,7 @@ export const TechnicalRadarCoinsTable: FC<{
       <TechnicalRadarFilters
         value={tableState}
         onChange={newState => setTableState(newState)}
-        className="mb-4 w-full"
+        className="mb-2 w-full"
         surface={1}
       />
       <AccessShield

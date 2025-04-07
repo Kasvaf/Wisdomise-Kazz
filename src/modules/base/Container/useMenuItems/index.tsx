@@ -4,6 +4,7 @@ import { ReactComponent as IconHome } from './icons/home.svg';
 import { ReactComponent as IconSocial } from './icons/social.svg';
 import { ReactComponent as IconTechnical } from './icons/technical.svg';
 import { ReactComponent as IconWhale } from './icons/whale.svg';
+import { ReactComponent as IconTrench } from './icons/trench.svg';
 
 interface MenuItem {
   text: string | ReactElement;
@@ -30,6 +31,11 @@ const useMenuItems = () => {
         </div>
       ),
       link: '/coin-radar/overview',
+    },
+    {
+      icon: <IconTrench />,
+      text: t('menu.trench.title'),
+      link: '/coin-radar/network-radar',
     },
     {
       icon: <IconSocial />,

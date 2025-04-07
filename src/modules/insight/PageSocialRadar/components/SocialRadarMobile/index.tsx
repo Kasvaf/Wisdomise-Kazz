@@ -4,12 +4,18 @@ import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
-import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
+import {
+  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
+  type SocialRadarCoin,
+  useSocialRadarCoins,
+} from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { TableRank } from 'shared/TableRank';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 
@@ -36,12 +42,22 @@ export const SocialRadarMobile = () => {
 
   const coins = useSocialRadarCoins(tableState);
 
+  useLoadingBadge(coins.isFetching);
+
   const columns = useMemo<Array<MobileTableColumn<SocialRadarCoin>>>(
     () => [
       {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => row.rank,
+        render: row => (
+          <TableRank
+            highlighted={
+              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
+            }
+          >
+            {row.rank}
+          </TableRank>
+        ),
       },
       {
         key: 'coin',
@@ -146,7 +162,11 @@ export const SocialRadarMobile = () => {
           />
         )}
         {selectedRow && (
-          <SocialRadarSentiment value={selectedRow} mode="expanded" />
+          <SocialRadarSentiment
+            value={selectedRow}
+            mode="expanded"
+            className="w-full"
+          />
         )}
       </CoinPreDetailModal>
     </>

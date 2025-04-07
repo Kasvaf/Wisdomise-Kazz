@@ -16,19 +16,17 @@ interface LockingRequirementResponse {
 }
 
 export function useGenerateNonceQuery() {
-  return useQuery(
-    ['getNonce'],
-    async () => {
+  return useQuery({
+    queryKey: ['getNonce'],
+    queryFn: async () => {
       const data = await ofetch<NonceResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/generate-nonce`,
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: false,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: false,
+  });
 }
 
 export interface NonceVerificationBody {
@@ -38,8 +36,8 @@ export interface NonceVerificationBody {
 
 export const useNonceVerificationMutation = () => {
   const client = useQueryClient();
-  return useMutation<unknown, unknown, NonceVerificationBody>(
-    async body => {
+  return useMutation<unknown, unknown, NonceVerificationBody>({
+    mutationFn: async body => {
       await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/verify`,
         {
@@ -48,8 +46,8 @@ export const useNonceVerificationMutation = () => {
         },
       );
     },
-    { onSuccess: () => client.invalidateQueries(['account']) },
-  );
+    onSuccess: () => client.invalidateQueries({ queryKey: ['account'] }),
+  });
 };
 
 export function useLockingRequirementQuery(
@@ -57,9 +55,9 @@ export function useLockingRequirementQuery(
   address?: `0x${string}`,
 ) {
   const { data } = useAccountQuery();
-  return useQuery(
-    ['getLockingRequirement', amountInUSD, address],
-    async () => {
+  return useQuery({
+    queryKey: ['getLockingRequirement', amountInUSD, address],
+    queryFn: async () => {
       if (!address || data?.wallet_address === address) {
         const data = await ofetch<LockingRequirementResponse>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/connected-wallet/locking-requirement?amount_in_usd=${amountInUSD}${
@@ -69,9 +67,7 @@ export function useLockingRequirementQuery(
         return data;
       }
     },
-    {
-      refetchInterval: 60 * 60 * 1000,
-      enabled: !!amountInUSD,
-    },
-  );
+    refetchInterval: 60 * 60 * 1000,
+    enabled: !!amountInUSD,
+  });
 }

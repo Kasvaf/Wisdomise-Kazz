@@ -17,9 +17,11 @@ export default function GameAuthGuard({ children }: PropsWithChildren) {
   );
 
   useEffect(() => {
-    void client.invalidateQueries(['gameLogin']).then(() => setShow(true));
+    void client
+      .invalidateQueries({ queryKey: ['gameLogin'] })
+      .then(() => setShow(true));
     return () => {
-      void client.invalidateQueries(['miniAppLogin']);
+      void client.invalidateQueries({ queryKey: ['miniAppLogin'] });
     };
   }, [refetch, client]);
 

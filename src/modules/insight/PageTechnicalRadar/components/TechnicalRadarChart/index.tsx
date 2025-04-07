@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { useMemo, useRef, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +18,7 @@ import { useScreenshot } from 'shared/useScreenshot';
 import { formatNumber } from 'utils/numbers';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -36,7 +38,7 @@ export const TechnicalRadarChart: FC<{
   const parsedData = useNormalizeTechnicalChartBubbles(coins.data ?? [], type);
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
-  console.log(parsedData.data, type);
+
   const options = useMemo<EChartsOption>(() => {
     return {
       tooltip: {
@@ -70,7 +72,7 @@ export const TechnicalRadarChart: FC<{
         valueFormatter(_, dataIndex) {
           const raw = parsedData.data?.[dataIndex]?.raw;
           if (!raw) return '';
-          return raw.symbol.name;
+          return raw.symbol.name ?? '---';
         },
       },
       grid: {
@@ -262,6 +264,8 @@ export const TechnicalRadarChart: FC<{
       touchAction: 'none', // Ensure touch events are handled by the chart
     };
   }, [parsedData, t, type]);
+
+  useLoadingBadge(coins.isFetching);
 
   return (
     <div

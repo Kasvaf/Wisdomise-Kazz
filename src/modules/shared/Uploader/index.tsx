@@ -34,7 +34,7 @@ export const ImageUploader = forwardRef<
   ) => {
     const { t } = useTranslation();
     const uploader = useUploaderMutation(target);
-    const tooltip = uploader.isLoading
+    const tooltip = uploader.isPending
       ? `${t('common:uploading')}...`
       : `${t('common:recommended-size')}: ${recommendedRatio.join('x')}`;
     return (
@@ -49,7 +49,7 @@ export const ImageUploader = forwardRef<
           // eslint-disable-next-line tailwindcss/no-custom-classname
           className={clsx(
             'wsdm-uploader relative [&_*]:!cursor-pointer',
-            uploader.isLoading && '[&,&_*]:!cursor-wait !pointer-events-none',
+            uploader.isPending && '[&,&_*]:!cursor-wait !pointer-events-none',
             className,
           )}
         >
@@ -57,7 +57,7 @@ export const ImageUploader = forwardRef<
             <div
               className={clsx(
                 'relative left-0 top-0 h-full w-full',
-                uploader.isLoading && 'animate-pulse grayscale',
+                uploader.isPending && 'animate-pulse grayscale',
               )}
             >
               {children}
@@ -67,7 +67,7 @@ export const ImageUploader = forwardRef<
               type="file"
               placeholder={placeholder}
               className={clsx('absolute left-0 top-0 h-full w-full')}
-              disabled={uploader.isLoading || disabled}
+              disabled={uploader.isPending || disabled}
               // accept="image/*"
               onChange={async e => {
                 const file = e.target?.files?.[0];

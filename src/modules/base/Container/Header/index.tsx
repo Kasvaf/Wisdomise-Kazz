@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import type React from 'react';
 import { bxsTrophy } from 'boxicons-quasar';
@@ -11,6 +12,7 @@ import useIsMobile from 'utils/useIsMobile';
 import Icon from 'shared/Icon';
 import BtnBack from 'modules/base/BtnBack';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
+import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import BranchSelector from './BranchSelector';
 import ProfileMenu from './ProfileMenu';
 import Breadcrumb from './Breadcrumb';
@@ -25,6 +27,8 @@ const Header: React.FC<
   const net = useActiveNetwork();
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const showLoadingBadge = useLoadingBadge();
+
   const tradesBtn = (
     <div className="flex items-center gap-2">
       <Button
@@ -114,8 +118,10 @@ const Header: React.FC<
           </div>
         ) : (
           <>
-            <Breadcrumb className="pl-6" />
-            <div className="grow" />
+            <div className="relative flex grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap pl-6">
+              <Breadcrumb className="shrink-0 truncate [&_ol]:flex-nowrap" />
+              <LoadingBadge value={showLoadingBadge} animation="fade" />
+            </div>
             {children && (
               <>
                 {children}

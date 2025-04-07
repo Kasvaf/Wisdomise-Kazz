@@ -346,9 +346,9 @@ export function Select<V, M extends boolean = false>({
             </div>
           ) : (
             <>
-              {visibleOptions.map(opt => (
+              {visibleOptions.map((opt, index) => (
                 <Option
-                  key={JSON.stringify(opt)}
+                  key={`${JSON.stringify(opt)}${index}`}
                   size={size}
                   onClick={() => handleOptionClick(opt)}
                   selected={

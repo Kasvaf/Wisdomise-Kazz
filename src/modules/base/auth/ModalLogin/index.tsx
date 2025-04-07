@@ -38,7 +38,7 @@ const LoginModalContent: React.FC<{
   const [submitTime, setSubmitTime] = useState(Date.now());
   const now = useNow();
 
-  const { mutateAsync: emailLogin, isLoading: emailLoginLoading } =
+  const { mutateAsync: emailLogin, isPending: emailLoginLoading } =
     useEmailLoginMutation();
 
   const isValidEmail = /^[\w+.-]+@[\w.-]+\.\w+$/.test(email);
@@ -63,7 +63,7 @@ const LoginModalContent: React.FC<{
   const remMinutes = Math.floor(remTime / 60);
   const remSeconds = remTime % 60;
 
-  const { mutateAsync: verifyEmail, isLoading: verifyEmailLoading } =
+  const { mutateAsync: verifyEmail, isPending: verifyEmailLoading } =
     useVerifyEmailMutation();
   const submitCode = async () => {
     if (

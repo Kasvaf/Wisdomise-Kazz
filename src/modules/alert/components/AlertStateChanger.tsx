@@ -20,7 +20,7 @@ export function AlertStateChanger({
       }}
       checked={value.state !== 'DISABLED'}
       className={className}
-      loading={alertSaveMutation.isLoading}
+      loading={alertSaveMutation.isPending}
     />
   );
 }

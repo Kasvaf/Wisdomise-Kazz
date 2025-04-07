@@ -73,7 +73,6 @@ export function AlertTarget({
           }}
         />
       )}
-      {alertForm.value === 'report' && t('types.report.sentence')}
       {alertForm.value === 'social_radar' &&
         t('types.social_radar_screener.subtitle')}
       {alertForm.value === 'technical_radar' &&

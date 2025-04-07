@@ -1,0 +1,27 @@
+common:
+  address: 地址
+  buy_sell: 德州新星
+  contract_address: 合约地址
+  created: 创建
+  initial_liquidity: 初始流动性
+  liquidity: 流动性
+  marketcap: 市值
+  name: 名稱
+  recent_candles:
+    info: 以 1 分钟为分辨率的最后 20 分钟的烛台数据。
+    title: 近期蜡烛图
+  socials: 社交媒體
+  txns:
+    info: TXNS（交易）表示此货币对执行的买入和卖出订单总数。数字越大可能表示兴趣和活动越多。
+    title: 德州新星
+  validation_insights: 验证见解
+  volume: 交易量
+page:
+  info: 此页面显示新推出的 Solana 代币和流动性池，提供有关其市值、创建日期和交易活动的见解。TXNS
+    列显示买卖交易的总数，有助于识别每个项目的交易活动和兴趣。
+  title: 新生儿
+security:
+  freeze_auth: 冻结授权<br />已启用
+  lp_burned: LP<br />烧毁
+  mint_auth: Mint Auth<br />已启用
+  top_holders: 前 10 名<br />持有人

@@ -1,0 +1,34 @@
+common:
+  name: Name
+  address: Address
+  buy_sell: TXNS
+  contract_address: Contract Address
+  created: Created
+  initial_liquidity: Initial Liquidity
+  liquidity: Liquidity
+  marketcap: Market Cap
+  recent_candles:
+    title: Recent Candles
+    info: Last 20 minutes of candlestick data at 1-minute resolution.
+  socials: Socials
+  txns:
+    title: TXNS
+    info: >-
+      TXNS (Transactions) indicates the total number of buy and sell orders
+      executed for this pair. A higher number may suggest increased interest and
+      activity.
+  validation_insights: Validation Insights
+  volume: Volume
+page:
+  title: New Born
+  info: >-
+    This page displays newly launched Solana coins and liquidity pools,
+    providing insights into their market cap, creation date, and transaction
+    activity. The TXNS column shows the total number of buy and sell
+    transactions, helping identify trading activity and interest in each
+    project.
+security:
+  freeze_auth: Freeze Auth<br />Enabled
+  lp_burned: LP<br />Burned
+  mint_auth: Mint Auth<br />Enabled
+  top_holders: Top 10<br />Holders

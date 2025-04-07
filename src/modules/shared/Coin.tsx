@@ -56,13 +56,13 @@ export function Coin({
   const shouldTruncate =
     truncate === true || (typeof truncate === 'number' && truncate > 0);
   const tooltip =
-    popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug;
+    popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug ?? '---';
   const renderText = noText !== true;
   const truncateSize =
     typeof truncate === 'number' ? truncate : isMobile ? 70 : 110;
   const rootClassName = clsx(
-    'inline-flex w-auto shrink items-center gap-2 pe-2',
-    !mini && 'p-1',
+    'inline-flex w-auto shrink items-center gap-2 pe-2 align-[inherit]',
+    !mini && 'p-1 mobile:p-0',
     !nonLink &&
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
@@ -98,7 +98,9 @@ export function Coin({
                   'whitespace-nowrap',
                 )}
               >
-                {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+                {mini
+                  ? coin.abbreviation ?? coin.slug ?? '---'
+                  : coin.name ?? coin.slug ?? '---'}
               </div>
               {networks && (
                 <div className="flex items-center">

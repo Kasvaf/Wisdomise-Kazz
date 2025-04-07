@@ -13,7 +13,7 @@ export const useWebPushPermission = () => {
       return status;
     },
     refetchInterval: latestResult => {
-      if (latestResult === 'ok') {
+      if (latestResult.state.data === 'ok') {
         return false;
       }
       return 3000;

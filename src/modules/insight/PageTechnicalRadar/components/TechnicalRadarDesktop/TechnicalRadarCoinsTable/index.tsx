@@ -8,6 +8,7 @@ import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
@@ -96,6 +97,8 @@ export const TechnicalRadarCoinsTable: FC = () => {
     [t],
   );
 
+  useLoadingBadge(coins.isFetching);
+
   return (
     <div>
       <TechnicalRadarFilters
@@ -120,7 +123,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
           columns={columns}
           dataSource={coins.data}
           rowKey={r => JSON.stringify(r.symbol)}
-          loading={coins.isRefetching && !coins.isFetched}
+          loading={coins.isLoading}
           tableLayout="fixed"
           {...tableProps}
         />

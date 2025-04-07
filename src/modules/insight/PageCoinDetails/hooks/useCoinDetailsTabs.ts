@@ -1,8 +1,15 @@
-import { type ComponentProps, useCallback, useRef, useState } from 'react';
+import {
+  type ComponentProps,
+  type RefObject,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMutationObserver } from 'utils/useMutationObserver';
 import { type CoinRadarTabs } from '../components/CoinRadarTabs';
 
-export const useCoinDetailsTabs = () => {
+export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
   const { t } = useTranslation('coin-radar');
 
   const initialTabs = useRef<ComponentProps<typeof CoinRadarTabs>['options']>([
@@ -41,5 +48,10 @@ export const useCoinDetailsTabs = () => {
     }
   }, [tabs]);
 
-  return [tabs, refreshTabs] as const;
+  useMutationObserver(root, refreshTabs, {
+    childList: true,
+    subtree: true,
+  });
+
+  return tabs;
 };

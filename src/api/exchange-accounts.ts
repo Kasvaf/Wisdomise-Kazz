@@ -14,9 +14,12 @@ export interface ExchangeAccount {
 }
 
 export const useExchangeAccountsQuery = () =>
-  useQuery(['exchng-acc'], async () => {
-    const data = await ofetch<ExchangeAccount[]>('/ias/external-accounts');
-    return data;
+  useQuery({
+    queryKey: ['exchng-acc'],
+    queryFn: async () => {
+      const data = await ofetch<ExchangeAccount[]>('/ias/external-accounts');
+      return data;
+    },
   });
 
 interface ExchangeAccountCreate {
@@ -33,17 +36,19 @@ export const useCreateExchangeAccount = () => {
       body: acc,
       method: 'pos',
     });
-    await queryClient.invalidateQueries(['exchng-acc']);
+    await queryClient.invalidateQueries({ queryKey: ['exchng-acc'] });
     return data;
   };
 };
 
 export const useDeleteExchangeAccount = () => {
   const queryClient = useQueryClient();
-  return useMutation(async ({ key }: { key: string }) => {
-    await ofetch<ExchangeAccount>('/ias/external-accounts/' + key, {
-      method: 'delete',
-    });
-    await queryClient.invalidateQueries(['exchng-acc']);
+  return useMutation({
+    mutationFn: async ({ key }: { key: string }) => {
+      await ofetch<ExchangeAccount>('/ias/external-accounts/' + key, {
+        method: 'delete',
+      });
+      await queryClient.invalidateQueries({ queryKey: ['exchng-acc'] });
+    },
   });
 };

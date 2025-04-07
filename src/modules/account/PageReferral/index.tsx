@@ -40,7 +40,7 @@ export default function ReferralPage() {
   const [share] = useShare('share');
 
   const { webApp } = useTelegram();
-  const { mutateAsync: claimBonusBag, isLoading: claimIsLoading } =
+  const { mutateAsync: claimBonusBag, isPending: claimIsLoading } =
     useClaimReferralBonusBag();
 
   const shareLink = () => {
