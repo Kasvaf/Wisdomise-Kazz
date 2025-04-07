@@ -7,7 +7,7 @@ import { ReactComponent as EmptyIcon } from './empty.svg';
 export interface MobileTableColumn<RecordType extends object> {
   key: string | number;
   hidden?: boolean;
-  render: (row: RecordType) => ReactNode;
+  render: (row: RecordType, index: number) => ReactNode;
   className?: string;
 }
 export function MobileTable<RecordType extends object>({
@@ -62,7 +62,7 @@ export function MobileTable<RecordType extends object>({
         </tbody>
       ) : (
         <tbody>
-          {dataSource?.map(row => (
+          {dataSource?.map((row, rowIndex) => (
             <tr
               key={rowKey(row)}
               className={clsx(
@@ -81,13 +81,13 @@ export function MobileTable<RecordType extends object>({
                   <td
                     key={col.key}
                     className={clsx(
-                      'overflow-hidden px-1 py-2',
+                      'relative overflow-hidden px-1 py-2',
                       col.className,
                       i === 0 && 'rounded-l-lg ps-2',
                       i === self.length - 1 && 'rounded-r-lg pe-2',
                     )}
                   >
-                    {col.render(row)}
+                    {col.render(row, rowIndex)}
                   </td>
                 ))}
             </tr>

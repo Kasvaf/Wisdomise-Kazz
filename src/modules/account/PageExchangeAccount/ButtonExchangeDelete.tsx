@@ -26,7 +26,7 @@ const ButtonExchangeDelete: React.FC<{ account: ExchangeAccount }> = ({
     noTitle: t('common:actions.no'),
   });
 
-  const { mutateAsync: deleteAsync, isLoading: isDeleting } =
+  const { mutateAsync: deleteAsync, isPending: isDeleting } =
     useDeleteExchangeAccount();
   const deleteHandler = async () => {
     if (isDeleting || !(await openDeleteConfirm())) return;

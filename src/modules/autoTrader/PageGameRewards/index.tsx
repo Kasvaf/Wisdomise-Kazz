@@ -31,13 +31,13 @@ export default function PageGameRewards() {
   const {
     mutateAsync,
     data: eligibility,
-    isLoading,
+    isPending: isLoading,
   } = useCheckEligibilityMutation();
   const [selectedTicket, setSelectedTicket] = useState<TicketType>();
   const [open, setOpen] = useState(false);
   const { data: userTickets } = useUserTicketsQuery();
   const [tonConnect] = useTonConnectUI();
-  const { mutateAsync: withdraw, isLoading: withdrawIsLoading } =
+  const { mutateAsync: withdraw, isPending: withdrawIsLoading } =
     useWithdrawMutation();
   const { data: usdtBalance } = useAccountJettonBalance('tether');
   const usdtReward =

@@ -18,9 +18,12 @@ import {
   type SocialRadarCoin,
   useSocialRadarCoins,
   useSocialRadarInfo,
+  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
 } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { TableRank } from 'shared/TableRank';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
@@ -53,6 +56,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
   });
 
   const coins = useSocialRadarCoins(tableState);
+  useLoadingBadge(coins.isFetching);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState<number>();
   const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();
@@ -62,7 +66,15 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
       {
         fixed: 'left',
         title: t('social-radar.table.rank'),
-        render: (_, row) => row.rank,
+        render: (_, row) => (
+          <TableRank
+            highlighted={
+              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
+            }
+          >
+            {row.rank}
+          </TableRank>
+        ),
         width: 50,
       },
       {
@@ -153,7 +165,6 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
     ],
     [hoveredRow, hasFlag, isEmbeddedView, t],
   );
-
   return (
     <OverviewWidget
       className={clsx(
@@ -195,7 +206,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
           </div>
         )
       }
-      loading={coins.isInitialLoading}
+      loading={coins.isLoading}
       empty={(coins.data ?? [])?.length === 0}
       headerActions={
         <SearchInput
@@ -227,7 +238,6 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
           columns={columns}
           dataSource={coins.data}
           rowKey={r => JSON.stringify(r.symbol)}
-          loading={coins.isRefetching && !coins.isFetched}
           tableLayout="fixed"
           onRow={(_, index) => ({
             onMouseEnter: () => setHoveredRow(index),

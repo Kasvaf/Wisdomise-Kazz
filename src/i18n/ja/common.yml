@@ -24,6 +24,7 @@ almost-there: もうすぐです...
 apply_filters: フィルターを適用する
 aum: 運用資産
 below: 下に
+buy_and_sell: 購入と販売
 category: カテゴリ
 confirmation: 確認
 copied-to-clipboard: クリップボードにコピー
@@ -73,4 +74,5 @@ sorted-by: 並び替え
 source: ソース
 spot: スポット
 trend_label: トレンドラベル
+updating: 更新中…
 uploading: アップロード中

@@ -3,7 +3,7 @@ import { useLogoutMutation } from 'api/auth';
 import { IconSignOut } from './icons';
 
 const MenuItemLogout = () => {
-  const { mutateAsync, isLoading: loggingOut } = useLogoutMutation();
+  const { mutateAsync, isPending: loggingOut } = useLogoutMutation();
   return (
     <Button
       variant="negative"

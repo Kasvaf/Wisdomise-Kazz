@@ -97,42 +97,65 @@ export const TechnicalRadarSentiment: FC<{
       className={className}
     >
       {mode === 'default' && (
-        <div className="inline-block">
-          <TRSTitle
-            className="text-sm"
-            green={isGreen}
-            value={value?.technical_sentiment}
+        <div className="flex h-11 items-center gap-2">
+          <MiniBar
+            value={value?.normalized_score ?? 0}
+            width={28}
+            height={28}
           />
-          {value && (
-            <div className="flex items-center gap-2">
-              <ConfirmationBadge
-                type={isGreen ? 'rsi_oversold' : 'rsi_overbought'}
-                value={value}
-                mode="icon"
-              />
-              <ConfirmationBadge
-                type={
-                  isGreen ? 'rsi_bullish_divergence' : 'rsi_bearish_divergence'
-                }
-                value={value}
-                mode="icon"
-              />
-              <ConfirmationBadge
-                type={isGreen ? 'macd_cross_up' : 'macd_cross_down'}
-                value={value}
-                mode="icon"
-              />
-              <ConfirmationBadge
-                type={
-                  isGreen
-                    ? 'macd_bullish_divergence'
-                    : 'macd_bearish_divergence'
-                }
-                value={value}
-                mode="icon"
+          <div className="inline-block">
+            <div className="flex items-center justify-start gap-1">
+              {(isBullish || isBearish) && (
+                <TRSIcon
+                  value={isBullish ? 'bullish' : 'bearish'}
+                  className="size-[16px] shrink-0"
+                />
+              )}
+              {(isCheap || isExpensive) && (
+                <TRSIcon
+                  value={isCheap ? 'cheap' : 'expensive'}
+                  className="size-[16px] shrink-0"
+                />
+              )}
+              <TRSTitle
+                className="text-sm"
+                green={isGreen}
+                value={value?.technical_sentiment}
               />
             </div>
-          )}
+            {value && (
+              <div className="-mt-px flex items-center gap-2">
+                <ConfirmationBadge
+                  type={isGreen ? 'rsi_oversold' : 'rsi_overbought'}
+                  value={value}
+                  mode="icon"
+                />
+                <ConfirmationBadge
+                  type={
+                    isGreen
+                      ? 'rsi_bullish_divergence'
+                      : 'rsi_bearish_divergence'
+                  }
+                  value={value}
+                  mode="icon"
+                />
+                <ConfirmationBadge
+                  type={isGreen ? 'macd_cross_up' : 'macd_cross_down'}
+                  value={value}
+                  mode="icon"
+                />
+                <ConfirmationBadge
+                  type={
+                    isGreen
+                      ? 'macd_bullish_divergence'
+                      : 'macd_bearish_divergence'
+                  }
+                  value={value}
+                  mode="icon"
+                />
+              </div>
+            )}
+          </div>
         </div>
       )}
 

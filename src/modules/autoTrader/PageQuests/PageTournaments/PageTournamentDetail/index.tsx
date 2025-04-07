@@ -29,7 +29,7 @@ export default function PageTournamentDetail() {
     if (participants && me) {
       sorted = [...participants];
       const myIndex = sorted.findIndex(p => p.investor_key === me.investor_key);
-      const lastParticipant = participants.at(-1);
+      const lastParticipant = participants[participants.length - 1];
 
       if (myIndex === -1) {
         if (
@@ -103,14 +103,14 @@ export default function PageTournamentDetail() {
               ))}
               {me && (
                 <div
-                  className="fixed bottom-20 end-0 start-0 rounded-xl px-12"
+                  className="fixed bottom-20 end-0 start-64 rounded-xl px-12 mobile:start-0"
                   style={{
                     background:
                       'linear-gradient(0deg, rgba(20, 20, 20, 0.3) 50%, rgba(19, 25, 32, 0.00) 100%)',
                   }}
                 >
                   <div
-                    className="flex h-12 items-center justify-between rounded-xl  bg-v1-border-inverse px-3"
+                    className="flex h-12 items-center justify-between rounded-xl bg-v1-border-inverse px-3"
                     style={{
                       boxShadow:
                         '-90px 61px 30px 0px rgba(19, 25, 32, 0.00), -58px 39px 28px 0px rgba(19, 25, 32, 0.03), -33px 22px 24px 0px rgba(19, 25, 32, 0.09), -14px 10px 17px 0px rgba(19, 25, 32, 0.16), -4px 2px 10px 0px rgba(19, 25, 32, 0.18)',

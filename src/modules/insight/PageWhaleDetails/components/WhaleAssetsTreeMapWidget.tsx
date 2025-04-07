@@ -56,7 +56,7 @@ export function WhaleAssetsTreeMapWidget({
               (asset.market_data.price_change_percentage_24h ?? 0) >= 0
                 ? '#66FFC8'
                 : '#F78C9A',
-            label: `${asset.symbol.abbreviation}\n$${formatNumber(
+            label: `${asset.symbol?.abbreviation ?? '---'}\n$${formatNumber(
               asset.worth ?? 0,
               {
                 compactInteger: true,

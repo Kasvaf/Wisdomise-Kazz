@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import { bxChevronDown } from 'boxicons-quasar';
 import { roundSensible } from 'utils/numbers';
@@ -6,6 +7,7 @@ import { type OrderPresetItem, useAIPresets } from 'api/ai-presets';
 import { DrawerModal } from 'shared/DrawerModal';
 import Button from 'shared/Button';
 import Icon from 'shared/Icon';
+import usePageTour from 'shared/usePageTour';
 import { type TpSlData, type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as LogoIcon } from './wisdomise-ai.svg';
 import { ReactComponent as StarIcon } from './StarIcon.svg';
@@ -55,6 +57,26 @@ const AIPresets: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [safetyOpens, takeProfits, stopLosses]);
 
+  const tourSelector = 'tour-item-ai-preset';
+  usePageTour({
+    key: 'ai-preset-tour',
+    enabled: !isUpdate && !isLoading && !!presets?.length,
+    steps: [
+      {
+        selector: '.' + tourSelector,
+        content: (
+          <>
+            <div className="font-semibold">Save time with AI Presets:</div>
+            <div>
+              Get smart, pre-filled setups for entries, take-profits, and
+              stop-losses—customized for each coin.
+            </div>
+          </>
+        ),
+      },
+    ],
+  });
+
   if (!presets && !isLoading) {
     return <></>;
   }
@@ -96,7 +118,10 @@ const AIPresets: React.FC<{
 
   return (
     <div
-      className="overflow-hidden rounded-xl bg-v1-surface-l2 bg-cover p-3"
+      className={clsx(
+        'overflow-hidden rounded-xl bg-v1-surface-l2 bg-cover p-3',
+        tourSelector,
+      )}
       style={{ backgroundImage: `url(${GradientBG})` }}
     >
       <div className="flex items-center justify-between">

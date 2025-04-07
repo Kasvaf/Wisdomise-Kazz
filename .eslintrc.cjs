@@ -92,6 +92,9 @@ module.exports = {
     'react/jsx-no-bind': ['error', { allowArrowFunctions: true }],
     'react-hooks/exhaustive-deps': 'error',
 
+    // it array.at() causes error on some iphones
+    'unicorn/prefer-at': 'off',
+
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/promise-function-async': 'off',
     '@typescript-eslint/no-confusing-void-expression': 'off',

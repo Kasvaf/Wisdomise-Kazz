@@ -15,11 +15,9 @@ const getCoins = async (slugs: string[]) => {
 
 export const useSymbolInfo = (slug?: string) => {
   const s = slug === 'wrapped-solana' ? 'solana' : slug;
-  return useQuery(
-    ['symbol-info', s],
-    async () => (s && (await load(getCoins, s))) || null,
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+  return useQuery({
+    queryKey: ['symbol-info', s],
+    queryFn: async () => (s && (await load(getCoins, s))) || null,
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 };

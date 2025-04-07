@@ -1,6 +1,9 @@
+/* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { notification } from 'antd';
 import { Trans, useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
+import { useCallback, useEffect, useRef } from 'react';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useAccountQuery, useSubscription, useSubscriptionMutation } from 'api';
 import useModal from 'shared/useModal';
@@ -32,14 +35,17 @@ export default function PricingCard({
   className,
   onPlanUpdate,
 }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isPaymentMethodPreSelected = useRef(searchParams.has('paymentMethod'));
   const account = useAccountQuery();
   const { t } = useTranslation('billing');
   const subsMutation = useSubscriptionMutation();
   const { plan: userPlan } = useSubscription();
   const [model, openModal] = useModal(SubscriptionMethodModalContent, {
     rootClassName: clsx(
-      (isRenew || isUpdate) &&
-        account.data?.subscription_item?.payment_method !== 'MANUAL' &&
+      (((isRenew || isUpdate) &&
+        account.data?.subscription_item?.payment_method !== 'MANUAL') ||
+        isPaymentMethodPreSelected.current) &&
         '!hidden',
     ),
   });
@@ -61,7 +67,7 @@ export default function PricingCard({
       account.data?.subscription_item?.payment_method === 'TOKEN' &&
       plan.periodicity === 'MONTHLY');
 
-  const onClick = async () => {
+  const onClick = useCallback(async () => {
     if (isEmbeddedView && top) {
       top.window.location.href = `${APP_PANEL}/account/billing`;
       return;
@@ -91,7 +97,32 @@ export default function PricingCard({
         });
       }
     }
-  };
+  }, [
+    isEmbeddedView,
+    isRenew,
+    isTokenUtility,
+    isUpdate,
+    onPlanUpdate,
+    openModal,
+    openTokenPaymentModal,
+    plan,
+    subsMutation,
+    t,
+  ]);
+
+  useEffect(() => {
+    if (
+      searchParams.get('level') === plan.level.toString() &&
+      (searchParams.get('periodicity') ?? 'MONTHLY') === plan.periodicity
+    ) {
+      searchParams.delete('level');
+      searchParams.delete('periodicity');
+      setSearchParams(searchParams, {
+        replace: true,
+      });
+      void onClick();
+    }
+  }, [onClick, plan.level, plan.periodicity, searchParams, setSearchParams]);
 
   return (
     <div className="group flex min-w-[330px] max-w-[380px] shrink grow basis-0 flex-col mobile:w-full mobile:min-w-full mobile:max-w-full">

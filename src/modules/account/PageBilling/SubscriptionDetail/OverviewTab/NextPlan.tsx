@@ -108,7 +108,7 @@ export default function NextPlan() {
               <button
                 onClick={() => handleToggleAutoRenew(false)}
                 className="text-sm text-[#da3434] underline decoration-current underline-offset-4 disabled:animate-pulse disabled:text-white/40"
-                disabled={subscriptionMutation.isLoading}
+                disabled={subscriptionMutation.isPending}
               >
                 {t('subscription-details.overview.next-plan.cancel-btn')}
               </button>
@@ -126,7 +126,7 @@ export default function NextPlan() {
               <button
                 onClick={() => handleToggleAutoRenew(true)}
                 className="ml-2 text-sm text-[#34A3DA] underline underline-offset-4 disabled:animate-pulse disabled:text-white/40"
-                disabled={subscriptionMutation.isLoading}
+                disabled={subscriptionMutation.isPending}
               >
                 Turn On Auto-Renew
               </button>

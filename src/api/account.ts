@@ -7,18 +7,16 @@ import { type Account } from './types/UserInfoResponse';
 
 export function useAccountQuery() {
   const email = useJwtEmail();
-  return useQuery<Account | null>(
-    ['account', email],
-    async () => {
+  return useQuery<Account | null>({
+    queryKey: ['account', email],
+    queryFn: async () => {
       const data = await ofetch<Account>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/me`,
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 }
 
 interface ReferralStatus {
@@ -47,44 +45,43 @@ interface ReferredUser {
 }
 
 export function useReferralStatusQuery() {
-  return useQuery(
-    ['getReferralStatus'],
-    async () => {
+  return useQuery({
+    queryKey: ['getReferralStatus'],
+    queryFn: async () => {
       return await ofetch<ReferralStatus>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-status`,
       );
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 }
 
 export function useClaimReferralBonusBag() {
   const client = useQueryClient();
-  return useMutation(
-    async () => {
+  return useMutation({
+    mutationFn: async () => {
       return await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referral-claim`,
         { method: 'post' },
       );
     },
-    { onSuccess: () => client.invalidateQueries(['getReferralStatus']) },
-  );
+    onSuccess: () =>
+      client.invalidateQueries({
+        queryKey: ['getReferralStatus'],
+      }),
+  });
 }
 
 export function useFriendsQuery() {
-  return useQuery(
-    ['getFriends'],
-    async () => {
+  return useQuery({
+    queryKey: ['getFriends'],
+    queryFn: async () => {
       return await ofetch<PageResponse<ReferredUser>>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/referred-users`,
       );
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 }
 
 interface SetupIntentResponse {
@@ -92,18 +89,16 @@ interface SetupIntentResponse {
 }
 
 export function useStripeSetupIntentQuery() {
-  return useQuery(
-    ['getStripeSetupIntent'],
-    async () => {
+  return useQuery({
+    queryKey: ['getStripeSetupIntent'],
+    queryFn: async () => {
       const data = await ofetch<SetupIntentResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/setup-intent`,
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 }
 
 export interface CommunityProfile {
@@ -123,31 +118,34 @@ export interface CommunityProfile {
 }
 
 export function useCommunityProfileQuery() {
-  return useQuery(['community-profile'], async () => {
-    const data = await ofetch<CommunityProfile>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile`,
-    );
-    return data;
+  return useQuery({
+    queryKey: ['community-profile'],
+    queryFn: async () => {
+      const data = await ofetch<CommunityProfile>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile`,
+      );
+      return data;
+    },
   });
 }
 
 export function useCommunityProfileMutation() {
   const client = useQueryClient();
-  return useMutation<unknown, unknown, Partial<CommunityProfile>>(
-    async newProfile => {
+  return useMutation<unknown, unknown, Partial<CommunityProfile>>({
+    mutationFn: async newProfile => {
       await ofetch(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/users/community_profile`,
         { body: newProfile, method: 'patch' },
       );
     },
-    {
-      onSuccess: () =>
-        client.invalidateQueries([
+    onSuccess: () =>
+      client.invalidateQueries({
+        queryKey: [
           'community-profile',
           // TODO Invalidate related trader profile
-        ]),
-    },
-  );
+        ],
+      }),
+  });
 }
 
 export type ImageUploaderTarget = 'profile_image' | 'profile_cover';
@@ -176,9 +174,9 @@ interface MiniAppLoginResponse {
 }
 
 export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
-  return useQuery(
-    ['gameLogin', query, quickLogin],
-    async () => {
+  return useQuery({
+    queryKey: ['gameLogin', query, quickLogin],
+    queryFn: async () => {
       const data = await ofetch<MiniAppLoginResponse>(
         `${INVESTMENT_ORIGIN}/api/v1/account/mini_app/login?${query || ''}`,
         {
@@ -191,11 +189,9 @@ export function useGameLoginQuery(query?: string, quickLogin?: boolean) {
       }
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      refetchInterval: 60 * 60 * 1000,
-      refetchOnMount: true,
-      enabled: !!query && !quickLogin,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+    refetchInterval: 60 * 60 * 1000,
+    refetchOnMount: true,
+    enabled: !!query && !quickLogin,
+  });
 }

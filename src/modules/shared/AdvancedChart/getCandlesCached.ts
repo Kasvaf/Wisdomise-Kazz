@@ -10,6 +10,8 @@ const durs: Record<Resolution, number> = {
   '15m': 1000 * 60 * 15,
   '30m': 1000 * 60 * 30,
   '1h': 1000 * 60 * 60,
+  '4h': 1000 * 60 * 60 * 4,
+  '1d': 1000 * 60 * 60 * 24,
 };
 
 const roundDate = (dateString: string | Date, resolution: Resolution) => {

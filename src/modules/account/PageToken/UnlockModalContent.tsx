@@ -16,7 +16,7 @@ export default function UnlockModalContent({
   const { t } = useTranslation('wisdomise-token');
   const { lockedBalance, refetchUnlockedInfo } = useUtility();
   const { unlock, isLoading, trxReceipt } = useUnlock();
-  const { mutateAsync: cancelSub, isLoading: isCanceling } =
+  const { mutateAsync: cancelSub, isPending: isCanceling } =
     useInstantCancelMutation();
 
   useEffect(() => {

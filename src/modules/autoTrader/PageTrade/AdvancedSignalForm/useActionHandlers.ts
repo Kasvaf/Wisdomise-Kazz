@@ -52,10 +52,10 @@ const useActionHandlers = ({ baseSlug, data, activePosition }: Props) => {
   });
   const { address } = useActiveWallet();
 
-  const { mutateAsync, isLoading: isSubmitting } =
+  const { mutateAsync, isPending: isSubmitting } =
     useTraderFirePositionMutation();
 
-  const { mutateAsync: updateOrClose, isLoading: isUpdating } =
+  const { mutateAsync: updateOrClose, isPending: isUpdating } =
     useTraderUpdatePositionMutation();
 
   const { mutateAsync: cancelAsync } = useTraderCancelPositionMutation();

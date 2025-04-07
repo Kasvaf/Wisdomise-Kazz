@@ -34,7 +34,7 @@ function toApiContract(items: TpSlData[]) {
     });
     prevSum += Number(x.amountRatio);
   }
-  const lastItem = result.at(-1);
+  const lastItem = result[result.length - 1];
   if (lastItem && lastItem.amount_ratio > 0.99) {
     lastItem.amount_ratio = 1;
   }

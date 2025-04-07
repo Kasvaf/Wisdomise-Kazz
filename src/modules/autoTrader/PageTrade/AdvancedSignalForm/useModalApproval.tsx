@@ -110,7 +110,7 @@ const ModalApproval: React.FC<{
   const net = useActiveNetwork();
   const gasAbbr = net === 'the-open-network' ? 'TON' : 'SOL';
   const { data: nativeBalance } = useAccountNativeBalance();
-  const { mutate, data, isLoading } = usePreparePositionMutation();
+  const { mutate, data, isPending: isLoading } = usePreparePositionMutation();
   useEffect(() => mutate(createData), [createData, mutate]);
 
   const { data: quoteInfo } = useSymbolInfo(quote);

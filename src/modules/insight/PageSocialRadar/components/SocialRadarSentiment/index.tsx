@@ -84,18 +84,18 @@ export const SocialRadarSentiment: FC<{
       className={className}
     >
       {mode === 'default' && (
-        <div className="flex flex-col items-start gap-px whitespace-nowrap">
-          <div className="flex items-center justify-start gap-1">
-            <SRSIcon
-              value={value?.gauge_tag ?? 'NEUTRAL'}
-              className="size-[20px] shrink-0"
-            />
-            <SRSTitle value={value?.gauge_tag} className="text-sm" />
+        <div className="flex h-11 items-center gap-2">
+          <MiniBar value={value?.gauge_measure ?? 0} width={28} height={28} />
+          <div className="flex flex-col items-start gap-px whitespace-nowrap">
+            <div className="flex items-center justify-start gap-1">
+              <SRSIcon
+                value={value?.gauge_tag ?? 'NEUTRAL'}
+                className="size-[16px] shrink-0"
+              />
+              <SRSTitle value={value?.gauge_tag} className="text-sm" />
+            </div>
+            <SRSLastMention value={value} className="text-xs font-light" />
           </div>
-          <SRSLastMention
-            value={value}
-            className="ps-[24px] text-xs font-light"
-          />
         </div>
       )}
 

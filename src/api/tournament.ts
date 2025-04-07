@@ -34,39 +34,51 @@ export interface TournamentParticipant {
 }
 
 export function useTournaments(status?: GamificationStatus) {
-  return useQuery(['tournaments', status], async () => {
-    const params = new URLSearchParams();
-    if (status) {
-      params.set('status', status);
-    }
-    const data = await ofetch<{ results: Tournament[] } | Tournament[]>(
-      `trader/tournaments?${params.toString()}`,
-    );
-    return 'results' in data ? data.results : data;
+  return useQuery({
+    queryKey: ['tournaments', status],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (status) {
+        params.set('status', status);
+      }
+      const data = await ofetch<{ results: Tournament[] } | Tournament[]>(
+        `trader/tournaments?${params.toString()}`,
+      );
+      return 'results' in data ? data.results : data;
+    },
   });
 }
 
 export function useTournament(key: string) {
-  return useQuery(['tournaments', key], async () => {
-    const data = await ofetch<Tournament>(`trader/tournaments/${key}`);
-    return data;
+  return useQuery({
+    queryKey: ['tournaments', key],
+    queryFn: async () => {
+      const data = await ofetch<Tournament>(`trader/tournaments/${key}`);
+      return data;
+    },
   });
 }
 
 export function useTournamentLeaderboard(key: string) {
-  return useQuery(['tournamentsLeaderboard', key], async () => {
-    const data = await ofetch<TournamentParticipant[]>(
-      `trader/tournaments/${key}/leaderboard`,
-    );
-    return data;
+  return useQuery({
+    queryKey: ['tournamentsLeaderboard', key],
+    queryFn: async () => {
+      const data = await ofetch<TournamentParticipant[]>(
+        `trader/tournaments/${key}/leaderboard`,
+      );
+      return data;
+    },
   });
 }
 
 export function useTournamentMe(key: string) {
-  return useQuery(['tournamentsMe', key], async () => {
-    const data = await ofetch<TournamentParticipant>(
-      `trader/tournaments/${key}/me`,
-    );
-    return data;
+  return useQuery({
+    queryKey: ['tournamentsMe', key],
+    queryFn: async () => {
+      const data = await ofetch<TournamentParticipant>(
+        `trader/tournaments/${key}/me`,
+      );
+      return data;
+    },
   });
 }

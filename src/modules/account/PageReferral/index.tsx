@@ -49,7 +49,7 @@ export default function ReferralPage() {
 
   const [copy, content] = useShare('copy');
 
-  const { mutateAsync: claimBonusBag, isLoading: claimIsLoading } =
+  const { mutateAsync: claimBonusBag, isPending: claimIsLoading } =
     useClaimReferralBonusBag();
 
   const claim = () => {

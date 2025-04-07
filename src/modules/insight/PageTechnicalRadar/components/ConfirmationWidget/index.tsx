@@ -20,6 +20,7 @@ import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
@@ -143,6 +144,7 @@ export function ConfirmationWidget<I extends Indicator>({
     indicator,
     combination: selectedTab.combination,
   });
+  useLoadingBadge(confirmations.isLoading);
 
   useEffect(() => {
     if (!autoSelect) return;
@@ -161,27 +163,32 @@ export function ConfirmationWidget<I extends Indicator>({
     <OverviewWidget
       className={clsx('h-[750px]', className)}
       title={
-        <div
-          className={clsx(
-            '[&_b]:font-medium',
-            type === 'bullish'
-              ? '[&_b]:text-v1-content-positive'
-              : '[&_b]:text-v1-content-negative',
-          )}
-        >
-          <IndicatorIcon value={indicator} className="mr-2 align-middle" />
-          {type === 'bullish' ? (
-            indicator === 'rsi' ? (
-              <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />
+        <>
+          <div
+            className={clsx(
+              '[&_b]:font-medium',
+              type === 'bullish'
+                ? '[&_b]:text-v1-content-positive'
+                : '[&_b]:text-v1-content-negative',
+            )}
+          >
+            <IndicatorIcon value={indicator} className="mr-2 align-middle" />
+            {type === 'bullish' ? (
+              indicator === 'rsi' ? (
+                <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />
+              ) : (
+                <Trans
+                  ns="market-pulse"
+                  i18nKey="keywords.macd_bullish.title"
+                />
+              )
+            ) : indicator === 'rsi' ? (
+              <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.title" />
             ) : (
-              <Trans ns="market-pulse" i18nKey="keywords.macd_bullish.title" />
-            )
-          ) : indicator === 'rsi' ? (
-            <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.title" />
-          ) : (
-            <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
-          )}
-        </div>
+              <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
+            )}
+          </div>
+        </>
       }
       info={
         type === 'bullish' ? (

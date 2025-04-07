@@ -17,7 +17,7 @@ export const useTelegramConnect = () => {
       return !!newAccount.data?.telegram_id;
     },
     refetchInterval: latestResult => {
-      if (latestResult === true) {
+      if (latestResult.state.data === true) {
         return false;
       }
       return 3000;

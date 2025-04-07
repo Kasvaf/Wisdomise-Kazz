@@ -12,14 +12,14 @@ const AuthorizedContent: React.FC<PropsWithChildren> = ({ children }) => {
   const hasFlag = useHasFlag();
   const isAuthorized = hasFlag('?');
   const isLoggedIn = useIsLoggedIn();
-  const { isFetching } = useAccountQuery();
+  const { isFetching, isPending } = useAccountQuery();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
 
   useEffect(() => {
-    if (isLoggedIn && !isAuthorized && !isFetching) {
+    if (isLoggedIn && !isAuthorized && !isFetching && !isPending) {
       navigate('/coin-radar/overview');
     }
-  }, [isAuthorized, isFetching, isLoggedIn, navigate]);
+  }, [isAuthorized, isFetching, isLoggedIn, navigate, isPending]);
 
   return isAuthorized ? (
     <>{children}</>

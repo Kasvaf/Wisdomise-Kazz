@@ -166,7 +166,7 @@ export const CoinPreDetailModal: FC<
       closeIcon={null}
       className="[&_.ant-drawer-header]:hidden"
     >
-      {coin && (
+      {coin && open && (
         <CoinPreDetailsContent coin={coin} {...props}>
           {children}
         </CoinPreDetailsContent>

@@ -13,6 +13,7 @@ import { CoinLabels } from 'shared/CoinLabels';
 import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
@@ -119,6 +120,8 @@ export const TechnicalRadarCoinsTable: FC = () => {
     [hoveredRow, t],
   );
 
+  useLoadingBadge(coins.isFetching);
+
   return (
     <div>
       <TechnicalRadarFilters
@@ -143,7 +146,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
           columns={columns}
           dataSource={coins.data}
           rowKey={r => JSON.stringify(r.symbol)}
-          loading={coins.isRefetching && !coins.isFetched}
+          loading={coins.isLoading}
           tableLayout="fixed"
           onRow={(_, index) => ({
             onMouseEnter: () => setHoveredRow(index),

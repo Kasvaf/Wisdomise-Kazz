@@ -44,7 +44,7 @@ export const useNormalizeTechnicalChartBubbles = (
         (raw.data?.price_change_percentage_24h ?? 0) > 0
           ? '#00FFA333'
           : '#EA3E5533';
-      const label = raw.symbol.abbreviation;
+      const label = raw.symbol.abbreviation ?? '---';
 
       bubbles = [
         ...bubbles,
