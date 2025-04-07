@@ -184,8 +184,12 @@ export function CoinPriceWidget({
         </div>
       )}
       <div className="mt-8 flex w-full gap-2 ">
-        <PriceAlertButton className="shrink-0 grow" slug={slug} />
-        <BtnAutoTrade className="shrink-0 grow" slug={slug} />
+        <BtnAutoTrade className="shrink-0 grow" variant="primary" slug={slug} />
+        <PriceAlertButton
+          className="shrink-0 grow"
+          slug={slug}
+          variant="outline"
+        />
       </div>
       <DrawerModal
         open={expand}

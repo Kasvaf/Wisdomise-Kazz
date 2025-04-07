@@ -1,8 +1,6 @@
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { bxChevronLeft, bxChevronRight } from 'boxicons-quasar';
 import { MAIN_LANDING } from 'config/constants';
-import Icon from 'shared/Icon';
 import Logo from 'assets/logo-horizontal.svg';
 import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -13,7 +11,7 @@ const SideMenu: React.FC<{
   className?: string;
   collapsed?: boolean;
   onCollapseClick?: () => void;
-}> = ({ className, collapsed, onCollapseClick }) => {
+}> = ({ className, collapsed }) => {
   const { i18n } = useTranslation();
   const subscription = useSubscription();
   const isLoggedIn = useIsLoggedIn();
@@ -41,12 +39,12 @@ const SideMenu: React.FC<{
                 <ProIcon className="mt-px hidden" />
               )}
             </a>
-            <button
+            {/* <button
               className="rounded-xl bg-white/[.02] p-2 text-white hover:bg-white/10 active:bg-black/5"
               onClick={onCollapseClick}
             >
               <Icon name={collapsed ? bxChevronRight : bxChevronLeft} />
-            </button>
+            </button> */}
           </div>
 
           <MenuItemsContent collapsed={collapsed} />

@@ -15,9 +15,10 @@ export default function TournamentsOnboarding({ children }: PropsWithChildren) {
           <img
             src={onboardingBg}
             alt=""
-            className="fixed inset-y-0 end-0 start-0 z-20 h-screen w-full object-cover"
+            className="fixed inset-y-0 end-0 start-0 z-20 hidden h-screen w-full object-cover mobile:block"
           />
-          <div className="fixed bottom-24 start-0 z-30 px-6 text-center">
+
+          <div className="bottom-24 start-0 z-30 mx-auto max-w-96 px-6 text-center mobile:fixed">
             <h1 className="mb-4 text-lg font-semibold">
               The Tournament Begins!
             </h1>

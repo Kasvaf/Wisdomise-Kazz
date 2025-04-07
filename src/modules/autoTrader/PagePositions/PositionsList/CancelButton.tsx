@@ -17,7 +17,12 @@ const CancelButton: React.FC<{ position: Position }> = ({ position }) => {
   const { mutate: cancelPosition, isPending: isCanceling } =
     useTraderCancelPositionMutation();
 
-  if (position.status !== 'DRAFT' && position.deposit_status !== 'PENDING') {
+  if (
+    position.status === 'CLOSING' ||
+    position.status === 'CLOSED' ||
+    position.status === 'CANCELED' ||
+    (position.status !== 'DRAFT' && position.deposit_status !== 'PENDING')
+  ) {
     return null;
   }
   if (!networks?.[0]) return null;
