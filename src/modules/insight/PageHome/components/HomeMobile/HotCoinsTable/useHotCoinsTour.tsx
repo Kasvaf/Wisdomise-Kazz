@@ -40,6 +40,10 @@ export default function useHotCoinsTour({ enabled }: { enabled: boolean }) {
         content:
           'Found a strong coin? Tap to validate signals and set up an auto-trade!',
       },
+      {
+        selector: '.tour-item-bottom-navbar',
+        content: 'Discover top trends across different insights',
+      },
     ],
   });
 }

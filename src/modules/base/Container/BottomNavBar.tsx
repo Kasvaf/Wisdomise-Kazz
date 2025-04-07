@@ -26,11 +26,13 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
     </NavLink>
   );
 
+  const tourClass = 'tour-item-bottom-navbar';
   return location.pathname.startsWith('/account') ? null : (
     <>
       <div
         className={clsx(
           'fixed bottom-0 z-50 hidden h-16 w-full mobile:block',
+          tourClass,
           className,
         )}
       >
