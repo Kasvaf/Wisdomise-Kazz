@@ -147,6 +147,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
             allowClear
             size="md"
             onChange={p => setNetwork(p ?? '')}
+            tooltipPlacement="bottomRight"
           />
         </>
       }
