@@ -1,5 +1,6 @@
 import { notification } from 'antd';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
   useWithdrawRewardMutation,
@@ -9,9 +10,11 @@ import {
 } from 'api/gamification';
 import { PageTitle } from 'shared/PageTitle';
 import { Button } from 'shared/v1-components/Button';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { isProduction } from 'utils/version';
+import { shortenAddress } from 'utils/shortenAddress';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
-import logo from './images/logo.svg';
 import gradient from './images/gradient.png';
 import dailySrc from './images/daily.png';
 import refSubSrc from './images/ref-sub.png';
@@ -27,6 +30,16 @@ export default function PageRewards() {
   const { publicKey } = useWallet();
 
   const disableWithdraw = history?.[0]?.status === 'pending';
+  const unclaimed = total - claimed;
+  const [activeTab, setActiveTab] = useState('rewards');
+
+  const openTransaction = (txHash: string) => {
+    const url = new URL(`https://solscan.io/tx/${txHash}`);
+    if (!isProduction) {
+      url.searchParams.set('cluster', 'devnet');
+    }
+    window.open(url, '_blank');
+  };
 
   const withdraw = () => {
     if (!publicKey) {
@@ -39,7 +52,7 @@ export default function PageRewards() {
       () => {
         notification.success({
           message:
-            'Withdrawal registered! You will get your tokens within 72 hours.',
+            'Withdrawal registered! You will get your tokens within few days.',
         });
         return null;
       },
@@ -67,29 +80,78 @@ export default function PageRewards() {
             className="ml-auto w-48 mobile:w-full"
             size="md"
             loading={isWithdrawLoading}
-            disabled={disableWithdraw}
+            disabled={unclaimed === 0 || disableWithdraw}
             onClick={withdraw}
           >
             <Withdraw />
             Withdraw
           </Button>
+          {(unclaimed || disableWithdraw) && (
+            <p className="text-xs text-v1-content-secondary">
+              You have Pending Withdraw Request
+            </p>
+          )}
         </div>
       </div>
 
-      <h2 className="mb-2">Reward History</h2>
-      <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
-      <RewardItem
-        title="Referral Trade"
-        image={refFeeSrc}
-        amount={tradeReferral}
+      <ButtonSelect
+        options={[
+          { value: 'rewards', label: 'Rewards History' },
+          { value: 'withdraws', label: 'Withdraw Requests' },
+        ]}
+        value={activeTab}
+        onChange={newValue => setActiveTab(newValue)}
+        className="mb-4"
       />
-      <RewardItem
-        title="Referral Subscription"
-        image={refSubSrc}
-        amount={subReferral}
-      />
-      <RewardItem title="Total" image={logo} amount={total} />
-      <RewardItem title="Withdrawn to Wallet" image={logo} amount={claimed} />
+
+      {activeTab === 'rewards' && (
+        <div>
+          <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
+          <RewardItem
+            title="Referral Trade"
+            image={refFeeSrc}
+            amount={tradeReferral}
+          />
+          <RewardItem
+            title="Referral Subscription"
+            image={refSubSrc}
+            amount={subReferral}
+          />
+        </div>
+      )}
+
+      {activeTab === 'withdraws' && (
+        <div>
+          {history?.map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-col gap-2 rounded-xl bg-v1-surface-l2 p-3 text-xs"
+            >
+              <div className="flex justify-between">
+                <div className="text-v1-content-secondary">Wallet Address</div>
+                <div>{shortenAddress(item.address)}</div>
+              </div>
+              <div className="flex justify-between">
+                <div className="text-v1-content-secondary">Status</div>
+                <div>{item.status}</div>
+              </div>
+              <div className="flex justify-between">
+                <div className="text-v1-content-secondary">USD Amount</div>
+                <div>${item.amount_usd}</div>
+              </div>
+              {item.transaction_hash && (
+                <Button
+                  variant="link"
+                  size="md"
+                  onClick={() => openTransaction(item.transaction_hash ?? '')}
+                >
+                  View Transaction
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </PageWrapper>
   );
 }
