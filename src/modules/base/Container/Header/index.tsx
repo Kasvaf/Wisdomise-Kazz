@@ -58,6 +58,11 @@ const Header: React.FC<
     </div>
   );
 
+  const hasBackBtn =
+    pathname.startsWith('/account') ||
+    pathname.startsWith('/trader-quests') ||
+    pathname.startsWith('/coin/');
+
   return (
     <div
       className={clsx(
@@ -74,8 +79,7 @@ const Header: React.FC<
       >
         {isMobile ? (
           <div className="flex w-[calc(100vw-2rem)] items-center justify-between">
-            {pathname.startsWith('/account') ||
-            pathname.startsWith('/coin/') ? (
+            {hasBackBtn ? (
               <>
                 <div className="w-1/2">
                   <BtnBack className="w-1/2" />

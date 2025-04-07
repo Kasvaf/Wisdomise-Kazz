@@ -1,19 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useTournaments } from 'api/tournament';
-import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
-import BtnBack from 'modules/base/BtnBack';
+import TournamentCard from 'modules/quest/PageTournaments/TournamentCard';
+import { PageTitle } from 'shared/PageTitle';
 
 const Tournaments = () => {
   const { data: tournaments } = useTournaments();
 
   return (
-    <>
-      <div className="mb-3 flex items-center gap-2">
-        <BtnBack />
-        <div className="shrink-0 text-center text-base font-medium">
-          Tournaments
-        </div>
-      </div>
+    <div>
+      <PageTitle title="Tournaments" className="mb-3 pt-6" />
       <div className="grid grid-cols-2 gap-6 mobile:grid-cols-1">
         {(tournaments || [])?.map(t => (
           <Link
@@ -29,7 +24,7 @@ const Tournaments = () => {
           </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

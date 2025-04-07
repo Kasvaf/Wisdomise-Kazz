@@ -18,6 +18,7 @@ import HowReferralWorks from 'modules/account/PageReferral/HowReferralWorks';
 import { Button } from 'shared/v1-components/Button';
 import { useReferral } from 'modules/account/PageReferral/useReferral';
 import RewardModal from 'modules/account/PageRewards/RewardModal';
+import { PageTitle } from 'shared/PageTitle';
 import trader from './images/trader.png';
 import { ReactComponent as Logo } from './images/logo.svg';
 import { ReactComponent as Users } from './images/users.svg';
@@ -60,10 +61,11 @@ export default function ReferralPage() {
 
   return (
     <PageWrapper loading={isLoading} className="pb-32 pt-12">
-      <h1 className="mb-2">{t('page-referral.title')}</h1>
-      <p className="mb-2 text-sm text-v1-content-secondary">
-        {t('page-referral.subtitle')}
-      </p>
+      <PageTitle
+        title={t('page-referral.title')}
+        description={t('page-referral.subtitle')}
+      />
+
       <HowReferralWorks />
 
       <div

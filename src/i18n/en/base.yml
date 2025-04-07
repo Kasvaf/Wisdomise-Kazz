@@ -61,6 +61,13 @@ menu:
     title: Whale
   whales:
     title: Whale Radar
+  tournaments:
+    title: Tournaments
+  league:
+    title: League
+  daily-trade:
+    title: Daily Trade
+
 new: New
 user:
   sign-in: Sign In

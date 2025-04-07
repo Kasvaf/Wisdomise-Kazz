@@ -2,7 +2,6 @@ import { clsx } from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { useReferralStatusQuery } from 'api';
 import leaderboard from './users.png';
-import bg from './bg.png';
 import gradient from './gradient.png';
 
 const Referral: React.FC<{ className?: string }> = ({ className }) => {
@@ -17,7 +16,6 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
         className,
       )}
     >
-      <img src={bg} alt="" className="absolute left-0 top-0 h-full w-full" />
       <img
         src={gradient}
         alt=""

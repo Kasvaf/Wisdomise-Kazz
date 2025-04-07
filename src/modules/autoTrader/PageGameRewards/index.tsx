@@ -6,7 +6,7 @@ import { useAccountJettonBalance } from 'api/chains/ton';
 import {
   type TicketType,
   useCheckEligibilityMutation,
-  useFriends,
+  useGameFriendsQuery,
   useSyncDataMutation,
   useUserTicketsQuery,
   useWithdrawMutation,
@@ -26,7 +26,7 @@ export const TON_PER_REFERRAL = 0.01;
 
 export default function PageGameRewards() {
   const address = useTonAddress();
-  const { data: friends } = useFriends();
+  const { data: friends } = useGameFriendsQuery();
   const { data, mutate: sync } = useSyncDataMutation();
   const {
     mutateAsync,

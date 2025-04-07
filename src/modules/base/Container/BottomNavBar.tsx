@@ -7,7 +7,10 @@ import useMenuItems, { type RootMenuItem } from './useMenuItems';
 const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
   const { items: MenuItems } = useMenuItems();
   const hasFlag = useHasFlag();
-  const location = useLocation();
+  const { pathname } = useLocation();
+
+  const isHidden =
+    pathname.startsWith('/account') || pathname.startsWith('/trader-quests');
 
   const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
 
@@ -26,7 +29,7 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
     </NavLink>
   );
 
-  return location.pathname.startsWith('/account') ? null : (
+  return isHidden ? null : (
     <>
       <div
         className={clsx(

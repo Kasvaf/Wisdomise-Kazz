@@ -12,26 +12,35 @@ export interface Tournament {
   tooltip_content: string;
   start_time: string;
   end_time: string;
-  prizes: TournamentPrize[];
+  prizes: LeaderboardPrize[];
 }
 
-export interface TournamentPrize {
+export interface LeaderboardPrize {
   start_rank: number;
   end_rank: number;
-  items: TournamentPrizeItem[];
+  items: PrizeItem[];
 }
 
-export interface TournamentPrizeItem {
+export interface PrizeItem {
   symbol_slug: string;
   amount: string;
 }
 
-export interface TournamentParticipant {
+export interface LeaderboardParticipant {
   investor_key: string;
-  name: string;
+  name?: string;
   trading_volume: number;
   rank: number;
+  league_slug?: string;
+  promotion_status?: PromotionStatus;
+  promotion_detail?: {
+    prev_league: string;
+    next_league: string;
+    reward_items: PrizeItem[];
+  };
 }
+
+export type PromotionStatus = 'DEMOTING' | 'PROMOTING' | 'NEUTRAL';
 
 export function useTournaments(status?: GamificationStatus) {
   return useQuery(['tournaments', status], async () => {
@@ -46,25 +55,25 @@ export function useTournaments(status?: GamificationStatus) {
   });
 }
 
-export function useTournament(key: string) {
+export function useTournamentQuery(key: string) {
   return useQuery(['tournaments', key], async () => {
     const data = await ofetch<Tournament>(`trader/tournaments/${key}`);
     return data;
   });
 }
 
-export function useTournamentLeaderboard(key: string) {
+export function useTournamentLeaderboardQuery(key: string) {
   return useQuery(['tournamentsLeaderboard', key], async () => {
-    const data = await ofetch<TournamentParticipant[]>(
+    const data = await ofetch<LeaderboardParticipant[]>(
       `trader/tournaments/${key}/leaderboard`,
     );
     return data;
   });
 }
 
-export function useTournamentMe(key: string) {
+export function useTournamentProfileQuery(key: string) {
   return useQuery(['tournamentsMe', key], async () => {
-    const data = await ofetch<TournamentParticipant>(
+    const data = await ofetch<LeaderboardParticipant>(
       `trader/tournaments/${key}/me`,
     );
     return data;
