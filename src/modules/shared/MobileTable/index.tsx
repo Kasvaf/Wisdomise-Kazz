@@ -73,7 +73,6 @@ export function MobileTable<RecordType extends object>({
       </td>
     </tr>
   );
-  console.log('here', loading, dataSource.length);
   return (
     <table
       style={{
