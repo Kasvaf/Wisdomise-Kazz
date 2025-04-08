@@ -23,7 +23,7 @@ import { CoinLabels } from 'shared/CoinLabels';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { Lazy } from 'shared/Lazy';
-import Spinner from 'shared/Spinner';
+import Spin from 'shared/Spin';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
@@ -244,7 +244,7 @@ export function ConfirmationWidget<I extends Indicator>({
         }}
         className="space-y-4"
       >
-        {list.slice(0, 8).map(row => (
+        {list.slice(0, 6).map(row => (
           <ConfirmationRow
             value={row}
             key={JSON.stringify(row.symbol)}
@@ -253,17 +253,15 @@ export function ConfirmationWidget<I extends Indicator>({
             type={type}
           />
         ))}
-        {list.length >= 9 && (
+        {list.length > 6 && (
           <Lazy
             freezeOnceVisible
-            className="space-y-4"
-            fallback={
-              <div className="flex h-64 items-center justify-center">
-                <Spinner />
-              </div>
-            }
+            mountedClassName="space-y-4"
+            unMountedClassName="flex h-12 items-center justify-center"
+            key={`${indicator}-${type}`}
+            fallback={<Spin />}
           >
-            {list.slice(9).map(row => (
+            {list.slice(6).map(row => (
               <ConfirmationRow
                 value={row}
                 key={JSON.stringify(row.symbol)}
