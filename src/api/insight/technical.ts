@@ -110,7 +110,6 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
     meta: {
       persist: true,
     },
-    staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -259,7 +258,6 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
     meta: {
       persist: true,
     },
-    staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });
@@ -336,7 +334,6 @@ export const useTechnicalRadarCoins = (config: {
     meta: {
       persist: true,
     },
-    staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });

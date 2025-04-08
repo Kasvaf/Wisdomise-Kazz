@@ -163,7 +163,6 @@ export const useSocialRadarCoins = (config: {
     meta: {
       persist: true,
     },
-    staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 30,
     refetchOnMount: true,
   });
