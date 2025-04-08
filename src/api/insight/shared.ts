@@ -134,6 +134,7 @@ export const useCoinLabels = (config: { query?: string }) =>
   });
 
 export const useCoinDetails = ({
+  // NAITODO: must fetch both token-review (delphi) and new coin review api from network-radar
   slug,
   priceHistoryDays,
 }: {
@@ -169,5 +170,9 @@ export const useCoinDetails = ({
         })),
       }));
     },
+    meta: {
+      persist: true,
+    },
+    refetchOnMount: true,
     refetchInterval: 5 * 60 * 1000,
   });
