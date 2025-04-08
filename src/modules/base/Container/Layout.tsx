@@ -4,8 +4,8 @@ import { useLocation } from 'react-router-dom';
 import useIsMobile from 'utils/useIsMobile';
 import { useHubSpot } from 'config/hubSpot';
 import { GlobalSearchBar } from 'shared/GlobalSearchBar';
+import Spinner from 'shared/Spinner';
 import AuthorizedContent from '../auth/AuthorizedContent';
-import PageWrapper from '../PageWrapper';
 import Header from './Header';
 import SideMenu from './SideMenu';
 import ScrollToTop from './ScrollToTop';
@@ -47,7 +47,13 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         {pathname.startsWith('/coin-radar') && isMobile && (
           <GlobalSearchBar size="md" className="mb-4 w-full pt-px" />
         )}
-        <React.Suspense fallback={<PageWrapper loading />}>
+        <React.Suspense
+          fallback={
+            <div className="flex h-full w-full items-center justify-center text-white mobile:h-[calc(100vh-10rem)]">
+              <Spinner />
+            </div>
+          }
+        >
           <AuthorizedContent>{children}</AuthorizedContent>
         </React.Suspense>
       </div>

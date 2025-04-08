@@ -8,7 +8,6 @@ import TelegramAuthGuard from '../mini-app/TelegramAuthGuard';
 import { TelegramProvider } from '../mini-app/TelegramProvider';
 import { UserEngageFlow } from './UserEngageFlow';
 import { GeneralMeta } from './GeneralMeta';
-import Layout from './Layout';
 
 const Guard = isMiniApp ? TelegramAuthGuard : AuthGuard;
 
@@ -20,9 +19,7 @@ const Container = () => {
       <Guard>
         <WalletProvider>
           <GeneralMeta />
-          <Layout>
-            <Outlet />
-          </Layout>
+          <Outlet />
           <UserEngageFlow />
         </WalletProvider>
       </Guard>

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTournaments } from 'api/tournament';
+import PageWrapper from 'modules/base/PageWrapper';
 import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/TournamentCard';
 import BtnBack from 'modules/base/BtnBack';
 
@@ -7,7 +8,7 @@ const Tournaments = () => {
   const { data: tournaments } = useTournaments();
 
   return (
-    <>
+    <PageWrapper>
       <div className="mb-3 flex items-center gap-2">
         <BtnBack />
         <div className="shrink-0 text-center text-base font-medium">
@@ -29,7 +30,7 @@ const Tournaments = () => {
           </Link>
         ))}
       </div>
-    </>
+    </PageWrapper>
   );
 };
 
