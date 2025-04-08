@@ -41,13 +41,8 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
           className="fixed bottom-16 left-1/2 z-50 mb-2 -translate-x-1/2"
         />
       )}
-      <div
-        className={clsx(
-          'fixed bottom-0 z-50 hidden h-16 w-full mobile:block',
-          tourClass,
-          className,
-        )}
-      >
+
+      <div className={clsx('h-16', tourClass, className)}>
         <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
           {items.map(renderItem)}
         </div>
