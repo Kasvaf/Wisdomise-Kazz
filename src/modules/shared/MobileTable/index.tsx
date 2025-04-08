@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
-import Spinner from 'shared/Spinner';
 import { type Surface, useSurface } from 'utils/useSurface';
+import { Lazy } from 'shared/Lazy';
+import Spinner from 'shared/Spinner';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
 export interface MobileTableColumn<RecordType extends object> {
@@ -30,6 +31,48 @@ export function MobileTable<RecordType extends object>({
   onClick?: (row: RecordType) => void;
 }) {
   const colors = useSurface(surface);
+  const rowRender: MobileTableColumn<RecordType>['render'] = (
+    row,
+    rowIndex,
+  ) => (
+    <tr
+      key={rowKey(row)}
+      className={clsx(
+        'relative h-[52px] w-full rounded-lg',
+        typeof onClick === 'function' &&
+          'bg-[--row-color] transition-all active:bg-[--active-color]',
+        rowClassName,
+      )}
+      data-table="tr"
+      onClick={() => onClick?.(row)}
+      tabIndex={typeof onClick === 'function' ? 0 : -1}
+    >
+      {columns
+        .filter(x => !x.hidden)
+        .map((col, i, self) => (
+          <td
+            key={col.key}
+            className={clsx(
+              'relative h-14 overflow-hidden px-1 py-2',
+              col.className,
+              i === 0 && 'rounded-l-lg ps-2',
+              i === self.length - 1 && 'rounded-r-lg pe-2',
+            )}
+          >
+            {col.render(row, rowIndex)}
+          </td>
+        ))}
+    </tr>
+  );
+  const loadingRow = (
+    <tr data-table="placeholder" className="w-full">
+      <td colSpan={99}>
+        <div className="flex w-full max-w-full items-center justify-center overflow-hidden p-4">
+          <Spinner />
+        </div>
+      </td>
+    </tr>
+  );
   return (
     <table
       style={{
@@ -44,13 +87,7 @@ export function MobileTable<RecordType extends object>({
       )}
     >
       {loading ? (
-        <tbody>
-          <tr data-table="placeholder">
-            <td className="flex w-full items-center justify-center p-4">
-              <Spinner />
-            </td>
-          </tr>
-        </tbody>
+        <tbody>{loadingRow}</tbody>
       ) : dataSource.length === 0 ? (
         <tbody>
           <tr data-table="placeholder" className="w-full text-center">
@@ -61,38 +98,25 @@ export function MobileTable<RecordType extends object>({
           </tr>
         </tbody>
       ) : (
-        <tbody>
-          {dataSource?.map((row, rowIndex) => (
-            <tr
-              key={rowKey(row)}
-              className={clsx(
-                'w-full rounded-lg',
-                typeof onClick === 'function' &&
-                  'bg-[--row-color] transition-all active:bg-[--active-color]',
-                rowClassName,
-              )}
-              data-table="tr"
-              onClick={() => onClick?.(row)}
-              tabIndex={typeof onClick === 'function' ? 0 : -1}
-            >
-              {columns
-                .filter(x => !x.hidden)
-                .map((col, i, self) => (
-                  <td
-                    key={col.key}
-                    className={clsx(
-                      'relative overflow-hidden px-1 py-2',
-                      col.className,
-                      i === 0 && 'rounded-l-lg ps-2',
-                      i === self.length - 1 && 'rounded-r-lg pe-2',
-                    )}
-                  >
-                    {col.render(row, rowIndex)}
-                  </td>
-                ))}
-            </tr>
-          ))}
-        </tbody>
+        <>
+          {Array.from({ length: Math.floor(dataSource.length / 25) }).map(
+            (_, index) =>
+              index === 0 ? (
+                <tbody key="root">
+                  {dataSource.slice(index, index + 24).map(rowRender)}
+                </tbody>
+              ) : (
+                <Lazy
+                  freezeOnceVisible
+                  tag="tbody"
+                  fallback={loadingRow}
+                  key={index.toString()}
+                >
+                  {dataSource.slice(index * 24, index * 24 + 24).map(rowRender)}
+                </Lazy>
+              ),
+          )}
+        </>
       )}
     </table>
   );
