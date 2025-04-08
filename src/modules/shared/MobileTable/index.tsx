@@ -99,11 +99,22 @@ export function MobileTable<RecordType extends object>({
         </tbody>
       ) : (
         <>
-          <tbody>{dataSource.slice(0, 24).map(rowRender)}</tbody>
-          {dataSource.length >= 25 && (
-            <Lazy freezeOnceVisible tag="tbody" fallback={loadingRow}>
-              {dataSource.slice(25).map(rowRender)}
-            </Lazy>
+          {Array.from({ length: Math.floor(dataSource.length / 25) }).map(
+            (_, index) =>
+              index === 0 ? (
+                <tbody key="root">
+                  {dataSource.slice(index, index + 24).map(rowRender)}
+                </tbody>
+              ) : (
+                <Lazy
+                  freezeOnceVisible
+                  tag="tbody"
+                  fallback={loadingRow}
+                  key={index.toString()}
+                >
+                  {dataSource.slice(index * 24, index * 24 + 24).map(rowRender)}
+                </Lazy>
+              ),
           )}
         </>
       )}
