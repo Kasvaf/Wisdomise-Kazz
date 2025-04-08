@@ -18,6 +18,7 @@ import {
   type MiniMarketData,
   type NetworkSecurity,
 } from 'api/types/shared';
+import { BtnQuickSwap } from 'modules/autoTrader/QuickSwap/BtnQuickSwap';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;
@@ -114,7 +115,18 @@ const CoinPreDetailsContent: FC<
             slug={coin.slug}
           />
         </div>
-        <BtnAutoTrade slug={coin.slug} variant="primary" />
+        <div className="flex items-center gap-3">
+          <BtnQuickSwap
+            slug={coin.slug}
+            variant="outline"
+            className="!grow basis-1"
+          />
+          <BtnAutoTrade
+            slug={coin.slug}
+            variant="primary"
+            className="!grow basis-1"
+          />
+        </div>
       </div>
     </div>
   );
