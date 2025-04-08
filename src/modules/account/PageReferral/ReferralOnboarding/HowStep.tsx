@@ -13,13 +13,13 @@ export default function HowStep({
   onPrev: () => void;
 }) {
   return (
-    <>
-      <div className="flex flex-col items-center px-6">
+    <div className="flex h-full flex-col">
+      <div className="flex h-full grow flex-col items-center overflow-auto px-6">
         <img src={logo} alt="logo" className="h-6 w-auto" />
         <img
           src={qrCode}
           alt="users"
-          className="-mt-10 w-auto md:-mt-32 md:h-[40rem]"
+          className="w-auto mobile:w-full md:-mt-24 md:h-[36rem]"
         />
         <h1 className="-mt-10 mb-4 text-4xl font-semibold mobile:text-xl md:-mt-32 md:mb-10">
           How It Works
@@ -68,12 +68,11 @@ export default function HowStep({
         </div>
       </div>
       <NavigateButtons
-        className="md:mt-10"
-        prevText="Previus"
+        prevText="Previous"
         nextText="Done"
         onNext={onNext}
         onPrev={onPrev}
       />
-    </>
+    </div>
   );
 }

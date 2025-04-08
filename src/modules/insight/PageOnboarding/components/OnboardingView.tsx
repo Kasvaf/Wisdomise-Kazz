@@ -39,8 +39,11 @@ export function OnboardingView<V extends string>({
         loading && 'pointer-events-none animate-pulse blur-sm transition-all',
         className,
       )}
+      style={{
+        background:
+          'linear-gradient(169deg, rgba(0, 163, 255, 0.00) 18.52%, rgba(151, 71, 255, 0.20) 105.44%) #131920',
+      }}
     >
-      <div className="absolute -top-1/3 left-1/2 !size-[520px] -translate-x-1/2 bg-white/25 blur-[200px] mobile:!size-[430px]" />
       <div className="relative mx-auto flex w-full max-w-7xl grow flex-col">
         <div className=" flex shrink-0 items-center justify-between px-4 pt-4">
           {/* <Button */}
