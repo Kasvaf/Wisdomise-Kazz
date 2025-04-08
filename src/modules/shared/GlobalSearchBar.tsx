@@ -42,20 +42,21 @@ export const GlobalSearchBar: FC<{
           value={undefined}
           surface={2}
         />
-        <Button
-          size={size}
-          variant="outline"
-          onClick={() => openAlert()}
-          disabled={!hasFlag('/coin-radar/alerts')}
-          surface={1}
-          fab
-        >
-          <DebugPin title="/coin-radar/alerts" color="orange" />
-          <Icon name={bxBell} />
-          {isUsedAlertBefore && (
-            <div className="absolute right-0 top-0 size-[6px] rounded-full bg-v1-background-brand" />
-          )}
-        </Button>
+        {hasFlag('/coin-radar/alerts') && (
+          <Button
+            size={size}
+            variant="outline"
+            onClick={() => openAlert()}
+            surface={1}
+            fab
+          >
+            <DebugPin title="/coin-radar/alerts" color="orange" />
+            <Icon name={bxBell} />
+            {isUsedAlertBefore && (
+              <div className="absolute right-0 top-0 size-[6px] rounded-full bg-v1-background-brand" />
+            )}
+          </Button>
+        )}
       </div>
       {alertModal}
     </>
