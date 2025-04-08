@@ -73,6 +73,7 @@ export function MobileTable<RecordType extends object>({
       </td>
     </tr>
   );
+  console.log('here', loading, dataSource.length);
   return (
     <table
       style={{
@@ -99,22 +100,11 @@ export function MobileTable<RecordType extends object>({
         </tbody>
       ) : (
         <>
-          {Array.from({ length: Math.floor(dataSource.length / 25) }).map(
-            (_, index) =>
-              index === 0 ? (
-                <tbody key="root">
-                  {dataSource.slice(index, index + 24).map(rowRender)}
-                </tbody>
-              ) : (
-                <Lazy
-                  freezeOnceVisible
-                  tag="tbody"
-                  fallback={loadingRow}
-                  key={index.toString()}
-                >
-                  {dataSource.slice(index * 24, index * 24 + 24).map(rowRender)}
-                </Lazy>
-              ),
+          <tbody>{dataSource.slice(0, 25).map(rowRender)}</tbody>
+          {dataSource.length > 25 && (
+            <Lazy freezeOnceVisible tag="tbody" fallback={loadingRow}>
+              {dataSource.slice(25).map(rowRender)}
+            </Lazy>
           )}
         </>
       )}
