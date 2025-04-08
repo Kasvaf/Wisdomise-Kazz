@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useCoinDetails } from 'api';
 import { formatNumber } from 'utils/numbers';
 
-export function PageCoinDetailsMeta({ slug }: { slug: string }) {
+export function CoinDetailsMeta({ slug }: { slug: string }) {
   const coinOverview = useCoinDetails({ slug });
   const coinName = coinOverview.data?.symbol
     ? `${coinOverview.data?.symbol.name ?? '---'}${
