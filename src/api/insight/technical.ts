@@ -112,6 +112,7 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
     },
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export type IndicatorConfirmationCombination =
@@ -260,6 +261,7 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
     },
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
@@ -336,6 +338,7 @@ export const useTechnicalRadarCoins = (config: {
     },
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export interface TechnicalRadarSentiment {
