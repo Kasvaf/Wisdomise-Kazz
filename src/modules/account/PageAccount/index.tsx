@@ -12,7 +12,7 @@ import { ReadableDuration } from 'shared/ReadableDuration';
 import Badge from 'shared/Badge';
 import { isMiniApp } from 'utils/version';
 import { PageTitle } from 'shared/PageTitle';
-import BtnLiveSupport from 'modules/base/Container/Header/BtnLiveSupport';
+import BtnLiveSupport from './BtnLiveSupport';
 import {
   ProfileIcon,
   SubscriptionIcon,

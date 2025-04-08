@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import type React from 'react';
-import Spinner from 'shared/Spinner';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
-import Layout from './Container/Layout';
+import Spinner from 'shared/Spinner';
+import Layout from './Layout';
 
 interface Props {
   loading?: boolean;
