@@ -10,7 +10,7 @@ import { analytics, configSegment } from 'config/segment';
 import configCookieBot from 'config/cookieBot';
 import customerIo from 'config/customerIo';
 import oneSignal from 'config/oneSignal';
-import { isMiniApp } from 'utils/version';
+import { isDebugMode, isMiniApp } from 'utils/version';
 import { useIsLoggedIn } from './auth/jwt-store';
 
 const GTM_ID = import.meta.env.VITE_GTM as string | undefined;
@@ -78,9 +78,10 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
         }
       }
 
+      !isEmbeddedView && isDebugMode && configCookieBot();
       addGtm();
     }
-  }, [initialized, startParams, webApp]);
+  }, [initialized, isEmbeddedView, startParams, webApp]);
 
   useEffect(() => {
     const email = account?.email;
@@ -107,12 +108,11 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isLoggedIn, account?.email, account?.info]);
 
-  // cookie-bot and customerIo once logged in
+  // customerIo once logged in
   useEffect(() => {
     if (isLoading) return;
-    !isEmbeddedView && configCookieBot();
     customerIo.loadScript();
-  }, [account, navigate, isLoading, isEmbeddedView]);
+  }, [account, navigate, isLoading]);
 
   return <>{children}</>;
 };
