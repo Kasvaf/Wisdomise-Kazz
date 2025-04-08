@@ -32,8 +32,10 @@ const Layout: React.FC<
                   pathname.startsWith('/coin-radar') &&
                   !isMobile && (
                     <GlobalSearchBar
-                      size="xl"
+                      size="xs"
                       className="w-full max-w-96 shrink-0"
+                      selectorSurface={isMobile ? 2 : 3}
+                      buttonSurface={isMobile ? 1 : 2}
                     />
                   )
                 }

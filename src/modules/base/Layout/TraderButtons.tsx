@@ -15,13 +15,13 @@ const TraderButtons = () => {
     <div className="flex items-center gap-2">
       <Button
         onClick={() => navigate('/trader-positions')}
-        size={isMobile ? 'md' : 'xl'}
+        size={isMobile ? 'md' : 'xs'}
         variant="ghost"
         className={clsx(
-          '!px-4',
+          isMobile ? '!px-4' : '!px-2',
           pathname.startsWith('/trader-positions') && '!text-[#00A3FF]',
         )}
-        surface={2}
+        surface={isMobile ? 2 : 3}
       >
         <IconTrades />
         Trades
@@ -29,14 +29,14 @@ const TraderButtons = () => {
 
       <Button
         onClick={() => navigate('/trader-quests/tournaments')}
-        size={isMobile ? 'md' : 'xl'}
+        size={isMobile ? 'md' : 'xs'}
         variant="ghost"
         className={clsx(
-          '!px-4',
+          isMobile ? '!px-4' : '!px-2',
           pathname.startsWith('/trader-quests/tournaments') &&
             '!text-v1-content-notice',
         )}
-        surface={2}
+        surface={isMobile ? 2 : 3}
       >
         <Icon name={bxsTrophy} className="text-v1-background-notice" />
         Tournaments

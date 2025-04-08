@@ -33,11 +33,11 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
       ) : (
         <Button
           variant="ghost"
-          size={isMobile ? 'md' : 'xl'}
-          className={isMobile ? 'w-md' : 'w-xl'}
-          surface={2}
+          size={isMobile ? 'md' : 'xs'}
+          className={isMobile ? 'w-md' : 'w-xs'}
+          surface={isMobile ? 2 : 3}
         >
-          <UserIcon className="shrink-0" />
+          <UserIcon className="size-4 shrink-0" />
           <DebugBadge />
         </Button>
       )}
@@ -46,10 +46,10 @@ const ProfileMenu: React.FC<{ className?: string }> = ({ className }) => {
     <>
       <Button
         variant="primary"
-        size={isMobile ? 'md' : 'xl'}
-        className={clsx(isMobile ? 'w-md' : 'w-xl', className)}
+        size={isMobile ? 'md' : 'xs'}
+        className={clsx(isMobile ? 'w-md' : 'w-xs', className)}
         onClick={showModalLogin}
-        surface={2}
+        surface={isMobile ? 2 : 3}
       >
         <Icon name={bxLogIn} size={24} />
         <DebugBadge />

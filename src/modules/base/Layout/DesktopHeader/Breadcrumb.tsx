@@ -8,7 +8,7 @@ import Logo from 'assets/WisdomiseLogo.svg';
 import useIsMobile from 'utils/useIsMobile';
 import { useSubscription } from 'api';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
-import useMenuItems from '../useMenuItems';
+import useMenuItems from '../MenuItems/useMenuItems';
 import { ReactComponent as ProIcon } from './pro.svg';
 
 interface Handle {

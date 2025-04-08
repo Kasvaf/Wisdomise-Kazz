@@ -1,37 +1,14 @@
+import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { NavLink, useLocation } from 'react-router-dom';
-import { useHasFlag } from 'api';
-import { DebugPin } from 'shared/DebugPin';
 import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
 import useIsMobile from 'utils/useIsMobile';
-import useMenuItems, { type RootMenuItem } from './useMenuItems';
+import MenuItems from './MenuItems';
 
 const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
-  const { items: MenuItems } = useMenuItems();
-  const hasFlag = useHasFlag();
   const location = useLocation();
   const showLoadingBadge = useLoadingBadge();
   const isMobile = useIsMobile();
 
-  const items = MenuItems.filter(i => !i.hide && hasFlag(i.link));
-
-  const renderItem = (item: RootMenuItem) => (
-    <NavLink
-      to={item.link}
-      key={item.link}
-      className={clsx(
-        'group flex flex-1 flex-col items-center justify-center',
-        '[&>svg]:size-7',
-        'opacity-60 [&.active]:font-bold [&.active]:text-[#00A3FF] [&.active]:opacity-100',
-      )}
-    >
-      <DebugPin title={item.link} color="orange" />
-      {item.icon}
-      <div className="mt-1 text-xs font-normal">{item.text}</div>
-    </NavLink>
-  );
-
-  const tourClass = 'tour-item-bottom-navbar';
   return location.pathname.startsWith('/account') ? null : (
     <>
       {isMobile && (
@@ -42,10 +19,8 @@ const BottomNavbar: React.FC<{ className?: string }> = ({ className }) => {
         />
       )}
 
-      <div className={clsx('h-16', tourClass, className)}>
-        <div className="flex h-16 w-full items-center justify-between bg-v1-surface-l2 text-white">
-          {items.map(renderItem)}
-        </div>
+      <div className={clsx('h-16', className)}>
+        <MenuItems className="h-16 bg-v1-surface-l2" />
       </div>
     </>
   );
