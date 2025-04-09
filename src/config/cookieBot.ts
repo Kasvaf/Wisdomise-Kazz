@@ -1,12 +1,11 @@
-import { isProduction } from 'utils/version';
+import { isLocal, isProduction } from 'utils/version';
 
 let added = false;
 
 export default function configCookieBot() {
-  if (added) {
+  if (added || isLocal) {
     return;
   }
-  console.log('initializing cookieBot...');
 
   added = true;
   const autoBlockerScript = document.createElement('script');
