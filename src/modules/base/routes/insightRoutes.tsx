@@ -35,7 +35,10 @@ const useInsightRoutes = () => {
     {
       element: <Container />,
       path: 'coin-radar',
-      handle: { crumb: t('menu.coin-radar.title') },
+      handle: {
+        crumb: t('menu.coin-radar.title'),
+        alt: '/coin-radar/overview',
+      },
       children: [
         { path: '', element: <PageRedirect /> },
         {
