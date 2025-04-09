@@ -130,10 +130,10 @@ export function AccessShield({
         {calcSize(size) > 0 && (
           <div
             className={clsx(
-              'z-[2] w-full rounded-xl',
+              'z-[2] hidden w-full rounded-xl',
               height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
               maxHeight < 900 ? 'justify-center' : 'justify-start',
-              'flex flex-col items-center backdrop-blur',
+              'flex-col items-center backdrop-blur',
               'bg-[rgba(29,38,47,0.2)]',
               !isReady && 'hidden',
             )}

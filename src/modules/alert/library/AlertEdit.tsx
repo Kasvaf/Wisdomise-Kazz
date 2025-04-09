@@ -1,13 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSubscription } from 'api';
 import { AlertBreadcrumb, type AlertCrumb } from './AlertBreadcrumb';
 import { AlertNavbarButton } from './AlertNavbarButton';
 import { useEditingAlert } from './AlertProvider';
 import { AlertFormSelect } from './AlertFormSelect';
 import { AlertSteps } from './AlertSteps';
 import { AlertStepInfo } from './AlertStepInfo';
-import { AlertSubscriptionBanner } from './AlertSubscriptionBanner';
 
 export function AlertEdit({
   onClose,
@@ -19,7 +17,6 @@ export function AlertEdit({
   lock?: boolean;
 }) {
   const { t } = useTranslation('alerts');
-  const subscription = useSubscription();
 
   const {
     value: [value, setValue],
@@ -138,13 +135,6 @@ export function AlertEdit({
               }
             }}
           />
-        </div>
-      )}
-
-      {activeStepObject && subscription.level === 0 && (
-        <div className="mt-6 w-full">
-          <div className="h-px bg-v1-border-tertiary" />
-          <AlertSubscriptionBanner className="mx-auto mt-10 w-full max-w-[420px]" />
         </div>
       )}
     </div>

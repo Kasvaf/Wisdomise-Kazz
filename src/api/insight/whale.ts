@@ -85,7 +85,8 @@ export const useWhaleRadarWhales = (config: {
     meta: {
       persist: true,
     },
-    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export interface WhaleCoin {
@@ -330,7 +331,8 @@ export const useWhaleRadarCoins = (config: {
     meta: {
       persist: true,
     },
-    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export type WhaleAssetLabel =

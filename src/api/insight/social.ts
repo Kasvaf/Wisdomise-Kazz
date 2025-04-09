@@ -164,7 +164,7 @@ export const useSocialRadarCoins = (config: {
       persist: true,
     },
     refetchInterval: 1000 * 30,
-    staleTime: 1000 * 30,
+    refetchOnMount: true,
   });
 
 export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>

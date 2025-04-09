@@ -78,9 +78,10 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
         }
       }
 
+      !isEmbeddedView && configCookieBot();
       addGtm();
     }
-  }, [initialized, startParams, webApp]);
+  }, [initialized, isEmbeddedView, startParams, webApp]);
 
   useEffect(() => {
     const email = account?.email;
@@ -107,12 +108,11 @@ const TrackersContainer: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isLoggedIn, account?.email, account?.info]);
 
-  // cookie-bot and customerIo once logged in
+  // customerIo once logged in
   useEffect(() => {
     if (isLoading) return;
-    !isEmbeddedView && configCookieBot();
     customerIo.loadScript();
-  }, [account, navigate, isLoading, isEmbeddedView]);
+  }, [account, navigate, isLoading]);
 
   return <>{children}</>;
 };

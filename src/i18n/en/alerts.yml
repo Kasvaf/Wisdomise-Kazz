@@ -41,8 +41,6 @@ common:
   search: Search...
   select-alert-type: Choose Alert You Want To Set
   set-alert: Set Alert
-  subscription-banner-link: Subscribe to our Pro Plan for access.
-  subscription-banner-title: Get real-time coin alerts, Customize notifications.
   success-message: Alert saved successfully!
 tables:
   description: Description
