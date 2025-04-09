@@ -4,7 +4,7 @@ import { AlertModal } from 'modules/alert/library/AlertModal';
 import { AlertProvider } from 'modules/alert/library/AlertProvider';
 import { AlertEdit } from 'modules/alert/library/AlertEdit';
 import { useAlertForm, useAlertForms } from 'modules/alert/forms';
-import { useSubscription } from 'api';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import {
   useAlertDeleteConfirm,
   useAlertSaveToast,
@@ -21,7 +21,7 @@ export const useAlertActions = (
   const [deleteConfirmModal, showDeleteConfirm] = useAlertDeleteConfirm();
   const [saveToast, showSaveToast] = useAlertSaveToast();
   const forms = useAlertForms();
-  const { ensureGroup, loginModal } = useSubscription();
+  const [loginModal, ensureAuthenticated] = useEnsureAuthenticated();
 
   return useMemo(
     () => ({
@@ -47,7 +47,7 @@ export const useAlertActions = (
         </>
       ),
       openSaveModal: async () =>
-        (await ensureGroup(['initial'])) && setIsModalOpen(true),
+        (await ensureAuthenticated()) && setIsModalOpen(true),
       save: async (showToast?: boolean) => {
         if (!initialAlert) throw new Error('No initial alert found!');
         if (!initialAlertForm) throw new Error('No compatible type found!');
@@ -76,6 +76,7 @@ export const useAlertActions = (
       isSaving,
     }),
     [
+      ensureAuthenticated,
       isModalOpen,
       initialAlert,
       forms,
@@ -86,7 +87,6 @@ export const useAlertActions = (
       isDeleting,
       isSaving,
       showSaveToast,
-      ensureGroup,
       initialAlertForm,
       showDeleteConfirm,
     ],
