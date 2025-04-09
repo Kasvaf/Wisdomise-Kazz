@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import type React from 'react';
 import { useEmbedView } from 'modules/embedded/useEmbedView';
 import Spinner from 'shared/Spinner';
-import Layout from './Layout';
+import Layout, { type LayoutProps } from './Layout';
 
 interface Props {
   loading?: boolean;
@@ -11,16 +11,19 @@ interface Props {
   className?: string;
 }
 
-const PageWrapper: React.FC<Props> = ({
+export type PageWrapperProps = Props & LayoutProps;
+
+const PageWrapper: React.FC<PageWrapperProps> = ({
   children,
   loading,
   className,
   mountWhileLoading,
+  ...layoutProps
 }) => {
   const { isEmbeddedView } = useEmbedView();
 
   return (
-    <Layout>
+    <Layout {...layoutProps}>
       <div
         className={clsx(
           'text-white',

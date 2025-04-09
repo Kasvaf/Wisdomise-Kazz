@@ -20,11 +20,11 @@ const PagePositions = () => {
   );
   const [slug, setSlug] = useSearchParamAsState('slug');
 
-  useEnsureIsSupportedPair({ slug, nextPage: '/trader-positions' });
+  useEnsureIsSupportedPair({ slug, nextPage: '/trader/positions' });
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
 
   return (
-    <PageWrapper>
+    <PageWrapper hasBack>
       <div className="mb-4 flex flex-row-reverse justify-between gap-4 mobile:flex-col">
         <ButtonSelect
           options={[
@@ -66,7 +66,7 @@ const PagePositions = () => {
             className={clsx('block', isMobile ? 'w-full' : 'w-80')}
             onClick={() =>
               isMobile
-                ? navigate(`/auto-trader/${slug}`)
+                ? navigate(`/trader/bot/${slug}`)
                 : openTradeDrawer({ slug })
             }
           >

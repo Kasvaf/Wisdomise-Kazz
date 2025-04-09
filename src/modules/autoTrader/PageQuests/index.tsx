@@ -11,19 +11,18 @@ export default function PageQuests() {
   const hasFlag = useHasFlag();
 
   return (
-    <PageWrapper loading={isLoading}>
+    <PageWrapper hasBack title="Quests" loading={isLoading}>
       <PageTitle
         className="py-5"
-        title="Quests"
         description="Complete Quests and Earn Rewards."
       />
 
       <div className="flex gap-4 mobile:flex-col">
-        {hasFlag('/trader-quests/daily') && (
+        {hasFlag('/trader/quests/daily') && (
           <DailyTradeQuest className="shrink-0 grow" />
         )}
         <Referral className="shrink-0 grow" />
-        {hasFlag('/trader-quests/tournaments') && (
+        {hasFlag('/trader/quests/tournaments') && (
           <Tournaments className="shrink-0 grow" />
         )}
       </div>

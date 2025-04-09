@@ -30,7 +30,7 @@ const PageAccount: FC = () => {
   const { data: referral } = useReferralStatusQuery();
 
   return (
-    <PageWrapper>
+    <PageWrapper hasBack title="My Account">
       <PageTitle
         className="mb-10 mobile:hidden"
         icon={UserIcon}
@@ -116,7 +116,7 @@ const PageAccount: FC = () => {
         />
         {isMiniApp && (
           <PageCard
-            to="/trader-claim-reward"
+            to="/trader/claim-reward"
             title={t('menu.game-rewards.title')}
             description={t('menu.game-rewards.subtitle')}
             icon={RewardIcon}

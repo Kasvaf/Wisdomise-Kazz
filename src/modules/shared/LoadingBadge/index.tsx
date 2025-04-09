@@ -21,7 +21,7 @@ export const LoadingBadge: FC<{
       )}
     >
       <div
-        className="size-4 shrink-0 animate-spin rounded-full border-2 border-white/30 border-t-white"
+        className="size-3 shrink-0 animate-spin rounded-full border-2 border-white/30 border-t-white"
         style={{
           animationDuration: '0.5s',
         }}

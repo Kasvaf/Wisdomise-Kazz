@@ -119,11 +119,11 @@ export default function PageProfile() {
   }, [profile.data, profileOverviewForm, profileInfosForm]);
 
   return (
-    <PageWrapper loading={profile.isLoading}>
-      <h1 className="mb-2 text-xl font-semibold">
-        {t('accounts:page-profile.title')}
-      </h1>
-
+    <PageWrapper
+      hasBack
+      title={t('accounts:page-profile.title')}
+      loading={profile.isLoading}
+    >
       <ProfileHeader
         className="mb-8"
         userId={account.data?.key || ''}

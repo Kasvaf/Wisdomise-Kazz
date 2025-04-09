@@ -11,11 +11,15 @@ export default function ChangeStripeCardInfoPage() {
   const [stripePromise] = useState(() => loadStripe(STRIPE_CLIENT_PUBLIC_KEY));
 
   if (!data) {
-    return <PageWrapper>No Data</PageWrapper>;
+    return (
+      <PageWrapper hasBack title={null}>
+        No Data
+      </PageWrapper>
+    );
   }
 
   return (
-    <PageWrapper>
+    <PageWrapper hasBack title={null}>
       <Elements
         stripe={stripePromise}
         options={{

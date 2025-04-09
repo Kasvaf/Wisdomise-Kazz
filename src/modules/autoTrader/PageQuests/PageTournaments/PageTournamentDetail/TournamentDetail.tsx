@@ -10,7 +10,6 @@ import TournamentCard from 'modules/autoTrader/PageQuests/PageTournaments/Tourna
 import PageWrapper from 'modules/base/PageWrapper';
 import { addComma } from 'utils/numbers';
 import empty from 'modules/autoTrader/PagePositions/PositionsList/empty.svg';
-import BtnBack from 'modules/base/BtnBack';
 import { ReactComponent as IconUser } from './user.svg';
 
 const PARTICIPANTS_COUNT = 50;
@@ -54,13 +53,12 @@ const TournamentDetail = () => {
   }, [me, participants]);
 
   return (
-    <PageWrapper loading={isLoading} className="pb-10">
-      <div className="mb-3 flex items-center gap-2">
-        <BtnBack />
-        <div className="shrink-0 text-center text-base font-medium">
-          {tournament?.name}
-        </div>
-      </div>
+    <PageWrapper
+      hasBack
+      title={tournament?.name}
+      loading={isLoading}
+      className="pb-10"
+    >
       {tournament && (
         <TournamentCard tournament={tournament} hasDetail={true} />
       )}

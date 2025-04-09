@@ -8,11 +8,7 @@ import CardExchangeAccounts from './CardExchangeAccounts';
 const PageExchangeAccount = () => {
   const { t } = useTranslation('external-accounts');
   return (
-    <PageWrapper>
-      <h1 className="mb-8 text-xl font-semibold">
-        {t('base:menu.account-manager.title')}
-      </h1>
-
+    <PageWrapper hasBack title={t('base:menu.account-manager.title')}>
       <CardWisdomiseAccount />
       <CardExchangeAccounts className="mt-6" />
 

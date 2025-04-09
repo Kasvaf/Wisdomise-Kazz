@@ -1,14 +1,14 @@
 import useIsMobile from 'utils/useIsMobile';
-import PageWrapper from 'modules/base/PageWrapper';
+import InsightPageWrapper from '../InsightPageWrapper';
 import { NetworkRadarMobile } from './components/NetworkRadarMobile';
 import { NetworkRadarDesktop } from './components/NetworkRadarDesktop';
 
 const PageNetworkRadar = () => {
   const isMobile = useIsMobile();
   return (
-    <PageWrapper>
+    <InsightPageWrapper>
       {isMobile ? <NetworkRadarMobile /> : <NetworkRadarDesktop />}
-    </PageWrapper>
+    </InsightPageWrapper>
   );
 };
 

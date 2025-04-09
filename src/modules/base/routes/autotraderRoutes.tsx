@@ -35,11 +35,12 @@ const useAutoTraderRoutes = () => {
   return [
     {
       element: <Container />,
-      path: '',
+      path: 'trader',
+      handle: { crumb: 'Auto Trader' },
       children: [
-        { path: '', element: <Navigate to={'coin-radar/overview' + qs} /> },
+        { path: '', element: <Navigate to={'/trader/positions' + qs} /> },
         {
-          path: 'trader-claim-reward',
+          path: 'claim-reward',
           element: (
             <ActiveNetworkProvider network="the-open-network" setOnLayout>
               <GameAuthGuard>
@@ -47,32 +48,51 @@ const useAutoTraderRoutes = () => {
               </GameAuthGuard>
             </ActiveNetworkProvider>
           ),
+          handle: { crumb: 'Claim Reward' },
         },
         {
-          path: 'trader-quests',
+          path: 'quests',
           children: [
-            { path: '', element: <PageQuests /> },
+            {
+              path: '',
+              element: <PageQuests />,
+              handle: { crumb: 'Quests' },
+            },
             {
               path: 'tournaments',
               children: [
-                { path: '', element: <PageTournaments /> },
-                { path: ':id', element: <PageTournamentDetail /> },
+                {
+                  path: '',
+                  element: <PageTournaments />,
+                  handle: { crumb: 'Tournaments' },
+                },
+                {
+                  path: ':id',
+                  element: <PageTournamentDetail />,
+                  handle: { crumb: 'Tournaments' },
+                },
               ],
             },
           ],
         },
         {
-          path: 'trader-positions',
+          path: 'positions',
           element: <PagePositions />,
+          handle: { crumb: 'Positions' },
         },
         {
-          path: 'auto-trader',
+          path: 'bot',
           children: [
             {
               path: ':slug',
               element: <PageTrade />,
+              handle: { crumb: 'Trade' },
             },
-            { path: ':slug/transactions', element: <PageTransactions /> },
+            {
+              path: ':slug/transactions',
+              element: <PageTransactions />,
+              handle: { crumb: 'Transactions' },
+            },
           ],
         },
         { path: '*', element: <Navigate to="/coin-radar/overview" /> },

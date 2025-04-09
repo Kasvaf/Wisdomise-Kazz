@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import PageWrapper from 'modules/base/PageWrapper';
 import { Wallet } from 'shared/Wallet';
+import InsightPageWrapper from '../InsightPageWrapper';
 import { WhaleOverviewWidget } from './components/WhaleOverviewWidget';
 import { WhaleAssetsTreeMapWidget } from './components/WhaleAssetsTreeMapWidget';
 import { WhaleBalanceChartWidget } from './components/WhaleBalanceChartWidget';
@@ -19,7 +19,7 @@ export default function PageWhaleDetails() {
     throw new Error('whale address or network name is missing');
 
   return (
-    <PageWrapper>
+    <InsightPageWrapper hasBack>
       <div className="grid grid-cols-6 items-start gap-6">
         <Wallet
           wallet={{
@@ -71,6 +71,6 @@ export default function PageWhaleDetails() {
           className="col-span-6 h-full"
         />
       </div>
-    </PageWrapper>
+    </InsightPageWrapper>
   );
 }

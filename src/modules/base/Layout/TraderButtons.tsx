@@ -14,12 +14,12 @@ const TraderButtons = () => {
   return (
     <div className="flex items-center gap-2">
       <Button
-        onClick={() => navigate('/trader-positions')}
+        onClick={() => navigate('/trader/positions')}
         size={isMobile ? 'md' : 'xs'}
         variant="ghost"
         className={clsx(
           isMobile ? '!px-4' : '!px-2',
-          pathname.startsWith('/trader-positions') && '!text-[#00A3FF]',
+          pathname.startsWith('/trader/positions') && '!text-[#00A3FF]',
         )}
         surface={isMobile ? 2 : 3}
       >
@@ -28,12 +28,12 @@ const TraderButtons = () => {
       </Button>
 
       <Button
-        onClick={() => navigate('/trader-quests/tournaments')}
+        onClick={() => navigate('/trader/quests/tournaments')}
         size={isMobile ? 'md' : 'xs'}
         variant="ghost"
         className={clsx(
           isMobile ? '!px-4' : '!px-2',
-          pathname.startsWith('/trader-quests/tournaments') &&
+          pathname.startsWith('/trader/quests/tournaments') &&
             '!text-v1-content-notice',
         )}
         surface={isMobile ? 2 : 3}

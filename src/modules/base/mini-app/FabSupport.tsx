@@ -19,7 +19,7 @@ const FabSupport = () => {
   }, [setClosedCount]);
 
   const { pathname } = useLocation();
-  if (pathname.startsWith('/trader-quests/')) return null;
+  if (pathname.startsWith('/trader/quests/')) return null;
 
   return (
     <div className="fixed bottom-20 right-6 z-20 flex flex-col items-end">

@@ -14,10 +14,9 @@ export default function PageRewards() {
   const { subReferral, tradeReferral, daily } = useGamificationRewards();
 
   return (
-    <PageWrapper loading={isLoading}>
+    <PageWrapper title="Rewards" hasBack loading={isLoading}>
       <PageTitle
         className="py-5"
-        title="Rewards"
         description="Track Your Reward History and Manage Unclaimed Rewards."
       />
 

@@ -11,7 +11,7 @@ export default function PageTournamentDetail() {
   } = useUserStorage('tournament-onboarding');
 
   return value == null ? (
-    <PageWrapper loading={tourStateLoading}>
+    <PageWrapper hasBack loading={tourStateLoading}>
       <TournamentsOnboarding onJoinClick={() => save('true')} />
     </PageWrapper>
   ) : (

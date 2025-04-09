@@ -31,7 +31,11 @@ const useAccountRoutes = () => {
       handle: { crumb: t('menu.account.title') },
       children: [
         { path: '', element: <Navigate to="/account/overview" replace /> },
-        { path: 'overview', element: <PageAccount /> },
+        {
+          path: 'overview',
+          element: <PageAccount />,
+          handle: { crumb: 'Overview' },
+        },
         {
           path: 'profile',
           element: <PageProfile />,

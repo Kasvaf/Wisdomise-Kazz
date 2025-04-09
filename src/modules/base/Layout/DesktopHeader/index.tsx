@@ -11,12 +11,13 @@ import BranchSelector from '../BranchSelector';
 import TraderButtons from '../TraderButtons';
 import MenuItems from '../MenuItems';
 import Breadcrumb from './Breadcrumb';
+import BtnBackDesktop from './BtnBackDesktop';
 
 const DesktopHeader: React.FC<{
   hasBack?: boolean;
   extension?: null | false | ReactElement;
   className?: string;
-}> = ({ className, extension }) => {
+}> = ({ hasBack, extension, className }) => {
   const showLoadingBadge = useLoadingBadge();
 
   return (
@@ -45,13 +46,23 @@ const DesktopHeader: React.FC<{
 
       <div
         className={clsx(
-          'relative flex flex-nowrap items-center gap-4 overflow-auto px-6 py-1.5',
+          'relative flex flex-nowrap items-center gap-3 overflow-auto px-6 py-1.5',
           'whitespace-nowrap border-y border-v1-border-tertiary',
           'h-7 text-xs',
         )}
       >
-        <Breadcrumb className="shrink-0 truncate !text-xs [&_a]:h-auto [&_ol]:flex-nowrap" />
-        <LoadingBadge value={showLoadingBadge} animation="fade" />
+        {hasBack && (
+          <>
+            <BtnBackDesktop />
+            <div className="h-full border-l border-white/10" />
+          </>
+        )}
+        <Breadcrumb className="max-h-full shrink-0 truncate !text-xs [&_a]:h-auto [&_ol]:flex-nowrap" />
+        <LoadingBadge
+          value={showLoadingBadge}
+          animation="fade"
+          className="max-h-full !bg-transparent"
+        />
       </div>
     </div>
   );
