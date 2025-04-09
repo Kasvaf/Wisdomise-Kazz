@@ -343,19 +343,6 @@
   display: none !important;
 }
 
-div#CybotCookiebotDialog {
-  z-index: 9998 !important;
-}
-
-#CookiebotWidget {
-  display: none;
-}
-
 #hubspot-messages-iframe-container:not(.open) {
   @apply mobile:!hidden;
-}
-
-/* put cookie-bot banner behind login modal */
-.cmp-wrapper {
-  @apply !z-[1000];
 }
