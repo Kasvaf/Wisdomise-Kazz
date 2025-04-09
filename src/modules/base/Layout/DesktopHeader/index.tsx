@@ -48,7 +48,7 @@ const DesktopHeader: React.FC<{
         className={clsx(
           'relative flex flex-nowrap items-center gap-3 overflow-auto px-6 py-1.5',
           'whitespace-nowrap border-y border-v1-border-tertiary',
-          'h-7 text-xs',
+          'h-7 text-xs empty:hidden',
         )}
       >
         {hasBack && (

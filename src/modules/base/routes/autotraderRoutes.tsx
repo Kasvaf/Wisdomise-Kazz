@@ -36,9 +36,12 @@ const useAutoTraderRoutes = () => {
     {
       element: <Container />,
       path: 'trader',
-      handle: { crumb: 'Auto Trader' },
+      handle: { crumb: 'Auto Trader', alt: '/trader/positions' },
       children: [
-        { path: '', element: <Navigate to={'/trader/positions' + qs} /> },
+        {
+          path: '',
+          element: <Navigate to={'/trader/positions' + qs} replace />,
+        },
         {
           path: 'claim-reward',
           element: (

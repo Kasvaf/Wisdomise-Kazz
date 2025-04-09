@@ -3,6 +3,7 @@ import { type Params, useLocation, useMatches, Link } from 'react-router-dom';
 
 interface Handle {
   crumb?: string | React.ReactNode | ((params: Params<string>) => string);
+  alt?: string;
 }
 
 const Breadcrumb: React.FC<{
@@ -13,15 +14,20 @@ const Breadcrumb: React.FC<{
   const items = matches
     .filter(x => (x.handle as Handle | undefined)?.crumb)
     .map(item => {
-      const { crumb } = item.handle as Handle;
+      const { crumb, alt } = item.handle as Handle;
       return {
         href: item.pathname === pathname ? undefined : item.pathname,
         title: typeof crumb === 'function' ? crumb(item.params) : crumb,
+        alt,
       };
     });
 
-  const itemRender: BreadcrumbProps['itemRender'] = ({ href, title }) =>
-    href && href !== pathname ? (
+  const itemRender: BreadcrumbProps['itemRender'] = ({
+    href,
+    title,
+    alt,
+  }: any) =>
+    href && href !== pathname && alt !== pathname ? (
       <Link to={href}>{title}</Link>
     ) : (
       <span>{title}</span>
