@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import {
   Children,
   cloneElement,
@@ -27,6 +28,7 @@ import {
 } from 'api/types/shared';
 import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;
@@ -54,6 +56,7 @@ const CoinPreDetailsContent: FC<
 }) => {
   const { t } = useTranslation('insight');
   const [openShareModal, setOpenShareModal] = useState(false);
+  const [LoginModal, ensureAuthenticated] = useEnsureAuthenticated();
 
   const modifiedChildren = Children.map(children, child => {
     if (
@@ -77,7 +80,12 @@ const CoinPreDetailsContent: FC<
             variant="ghost"
             size="sm"
             className="!px-2"
-            onClick={() => setOpenShareModal(true)}
+            onClick={async () => {
+              const isLoggedIn = await ensureAuthenticated();
+              if (isLoggedIn) {
+                setOpenShareModal(true);
+              }
+            }}
           >
             <Icon name={bxShareAlt} />
           </Button>
@@ -152,6 +160,7 @@ const CoinPreDetailsContent: FC<
         </div>
         <BtnAutoTrade slug={coin.slug} variant="primary" />
       </div>
+      {LoginModal}
     </div>
   );
 };
