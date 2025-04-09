@@ -15,6 +15,7 @@ import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/compo
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
@@ -37,6 +38,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
   const [openShareModal, setOpenShareModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState<number>();
   const [selectedRow, setSelectedRow] = useState<TechnicalRadarCoin>();
+  const [LoginModal, ensureAuthenticated] = useEnsureAuthenticated();
 
   const columns = useMemo<Array<ColumnType<TechnicalRadarCoin>>>(
     () => [
@@ -55,10 +57,13 @@ export const TechnicalRadarCoinsTable: FC = () => {
                   className="-mr-1 !px-1"
                   variant="secondary"
                   size="xs"
-                  onClick={() => {
+                  onClick={async () => {
                     setHoveredRow(undefined);
-                    setSelectedRow(row);
-                    setOpenShareModal(true);
+                    const isLoggedIn = await ensureAuthenticated();
+                    if (isLoggedIn) {
+                      setSelectedRow(row);
+                      setOpenShareModal(true);
+                    }
                   }}
                 >
                   <Icon name={bxShareAlt} size={6} />
@@ -126,7 +131,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
         ),
       },
     ],
-    [hoveredRow, t],
+    [ensureAuthenticated, hoveredRow, t],
   );
 
   useLoadingBadge(coins.isFetching);
@@ -172,6 +177,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
           onClose={() => setOpenShareModal(false)}
         />
       )}
+      {LoginModal}
     </div>
   );
 };

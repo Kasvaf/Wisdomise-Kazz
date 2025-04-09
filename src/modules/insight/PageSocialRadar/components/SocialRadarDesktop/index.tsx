@@ -28,6 +28,7 @@ import { TableRank } from 'shared/TableRank';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
@@ -61,6 +62,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
   const [openShareModal, setOpenShareModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState<number>();
   const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();
+  const [LoginModal, ensureAuthenticated] = useEnsureAuthenticated();
 
   const columns = useMemo<Array<ColumnType<SocialRadarCoin>>>(
     () => [
@@ -85,10 +87,13 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
                   className="-mr-1 !px-1"
                   variant="secondary"
                   size="xs"
-                  onClick={() => {
+                  onClick={async () => {
                     setHoveredRow(undefined);
-                    setSelectedRow(row);
-                    setOpenShareModal(true);
+                    const isLoggedIn = await ensureAuthenticated();
+                    if (isLoggedIn) {
+                      setSelectedRow(row);
+                      setOpenShareModal(true);
+                    }
                   }}
                 >
                   <Icon name={bxShareAlt} size={6} />
@@ -170,7 +175,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         ),
       },
     ],
-    [hoveredRow, hasFlag, isEmbeddedView, t],
+    [t, hasFlag, hoveredRow, ensureAuthenticated, isEmbeddedView],
   );
   return (
     <OverviewWidget
@@ -260,6 +265,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
           onClose={() => setOpenShareModal(false)}
         />
       )}
+      {LoginModal}
     </OverviewWidget>
   );
 }
