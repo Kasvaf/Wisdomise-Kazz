@@ -46,8 +46,8 @@ const DesktopHeader: React.FC<{
 
       <div
         className={clsx(
-          'relative flex flex-nowrap items-center gap-3 overflow-auto px-6 py-1.5',
-          'whitespace-nowrap border-y border-v1-border-tertiary',
+          'relative flex flex-nowrap items-center gap-3 overflow-visible px-6 py-1.5',
+          'whitespace-nowrap border-y border-white/10',
           'h-7 text-xs empty:hidden',
         )}
       >
@@ -57,7 +57,7 @@ const DesktopHeader: React.FC<{
             <div className="h-full border-l border-white/10" />
           </>
         )}
-        <Breadcrumb className="max-h-full shrink-0 truncate !text-xs [&_a]:h-auto [&_ol]:flex-nowrap" />
+        <Breadcrumb className="max-h-full shrink-0 !text-xs [&_a]:h-auto [&_ol]:flex-nowrap" />
         <LoadingBadge
           value={showLoadingBadge}
           animation="fade"
