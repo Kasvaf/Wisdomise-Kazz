@@ -344,14 +344,16 @@ export const useModalLogin = () => {
     </>
   );
 
-  const show = () =>
-    new Promise<boolean>(resolve => {
-      if (!open) {
+  const lastPromise = useRef<Promise<boolean> | undefined>(undefined);
+  const show = () => {
+    if (!open) {
+      lastPromise.current = new Promise<boolean>(resolve => {
         resolver.current = resolve;
         setOpen(true);
-      }
-      throw new Error('Login modal is already open!');
-    });
+      });
+    }
+    return lastPromise.current;
+  };
 
   return [content, show] as const;
 };
