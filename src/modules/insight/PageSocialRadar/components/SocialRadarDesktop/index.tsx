@@ -4,6 +4,7 @@ import { type ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
@@ -66,14 +67,35 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
       {
         fixed: 'left',
         title: t('social-radar.table.rank'),
-        render: (_, row) => (
-          <TableRank
-            highlighted={
-              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-            }
-          >
-            {row.rank}
-          </TableRank>
+        render: (_, row, index) => (
+          <div>
+            <TableRank
+              highlighted={
+                (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
+              }
+            >
+              {row.rank}
+            </TableRank>
+            <Tooltip
+              open={index === hoveredRow}
+              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"
+              placement="left"
+              title={
+                <Button
+                  className="-mr-1 !px-1"
+                  variant="secondary"
+                  size="xs"
+                  onClick={() => {
+                    setHoveredRow(undefined);
+                    setSelectedRow(row);
+                    setOpenShareModal(true);
+                  }}
+                >
+                  <Icon name={bxShareAlt} size={6} />
+                </Button>
+              }
+            />
+          </div>
         ),
         width: 50,
       },
@@ -137,29 +159,14 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
       {
         title: t('social-radar.table.labels.title'),
         className: 'min-h-16 min-w-72',
-        render: (_, row, index) => (
-          <div className="relative">
-            <CoinLabels
-              categories={row.symbol.categories}
-              labels={row.symbol_labels}
-              networks={row.networks}
-              security={row.symbol_security?.data}
-              coin={row.symbol}
-            />
-            {index === hoveredRow && (
-              <Button
-                className="!absolute right-0 top-0 !px-1"
-                variant="primary"
-                size="xs"
-                onClick={() => {
-                  setSelectedRow(row);
-                  setOpenShareModal(true);
-                }}
-              >
-                <Icon name={bxShareAlt} />
-              </Button>
-            )}
-          </div>
+        render: (_, row) => (
+          <CoinLabels
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            coin={row.symbol}
+          />
         ),
       },
     ],

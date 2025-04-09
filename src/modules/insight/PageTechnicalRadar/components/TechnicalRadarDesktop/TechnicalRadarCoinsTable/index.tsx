@@ -3,6 +3,7 @@ import { useMemo, type FC, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
 import { bxShareAlt } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { AccessShield } from 'shared/AccessShield';
 import Table, { useTableState } from 'shared/Table';
@@ -42,7 +43,30 @@ export const TechnicalRadarCoinsTable: FC = () => {
       {
         fixed: 'left',
         title: t('table.rank'),
-        render: (_, row) => row.rank,
+        render: (_, row, index) => (
+          <div>
+            {row.rank}
+            <Tooltip
+              open={index === hoveredRow}
+              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"
+              placement="left"
+              title={
+                <Button
+                  className="-mr-1 !px-1"
+                  variant="secondary"
+                  size="xs"
+                  onClick={() => {
+                    setHoveredRow(undefined);
+                    setSelectedRow(row);
+                    setOpenShareModal(true);
+                  }}
+                >
+                  <Icon name={bxShareAlt} size={6} />
+                </Button>
+              }
+            />
+          </div>
+        ),
         width: 50,
       },
       {
@@ -91,29 +115,14 @@ export const TechnicalRadarCoinsTable: FC = () => {
       {
         title: t('table.labels'),
         className: 'min-h-16 min-w-72',
-        render: (_, row, index) => (
-          <div className="relative">
-            <CoinLabels
-              categories={row.symbol.categories}
-              labels={row.symbol_labels}
-              networks={row.networks}
-              security={row.symbol_security?.data}
-              coin={row.symbol}
-            />
-            {index === hoveredRow && (
-              <Button
-                className="!absolute right-0 top-0 !px-1"
-                variant="primary"
-                size="xs"
-                onClick={() => {
-                  setSelectedRow(row);
-                  setOpenShareModal(true);
-                }}
-              >
-                <Icon name={bxShareAlt} />
-              </Button>
-            )}
-          </div>
+        render: (_, row) => (
+          <CoinLabels
+            categories={row.symbol.categories}
+            labels={row.symbol_labels}
+            networks={row.networks}
+            security={row.symbol_security?.data}
+            coin={row.symbol}
+          />
         ),
       },
     ],
