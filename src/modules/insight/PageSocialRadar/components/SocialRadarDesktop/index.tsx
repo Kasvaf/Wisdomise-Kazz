@@ -1,8 +1,10 @@
 /* eslint-disable import/max-dependencies */
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
 import { Trans, useTranslation } from 'react-i18next';
+import { bxShareAlt } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table, { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
@@ -23,6 +25,9 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
+import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
@@ -53,20 +58,44 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
 
   const coins = useSocialRadarCoins(tableState);
   useLoadingBadge(coins.isFetching);
+  const [openShareModal, setOpenShareModal] = useState(false);
+  const [hoveredRow, setHoveredRow] = useState<number>();
+  const [selectedRow, setSelectedRow] = useState<SocialRadarCoin>();
 
   const columns = useMemo<Array<ColumnType<SocialRadarCoin>>>(
     () => [
       {
         fixed: 'left',
         title: t('social-radar.table.rank'),
-        render: (_, row) => (
-          <TableRank
-            highlighted={
-              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-            }
-          >
-            {row.rank}
-          </TableRank>
+        render: (_, row, index) => (
+          <div>
+            <TableRank
+              highlighted={
+                (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
+              }
+            >
+              {row.rank}
+            </TableRank>
+            <Tooltip
+              open={index === hoveredRow}
+              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"
+              placement="left"
+              title={
+                <Button
+                  className="-mr-1 !px-1"
+                  variant="secondary"
+                  size="xs"
+                  onClick={() => {
+                    setHoveredRow(undefined);
+                    setSelectedRow(row);
+                    setOpenShareModal(true);
+                  }}
+                >
+                  <Icon name={bxShareAlt} size={6} />
+                </Button>
+              }
+            />
+          </div>
         ),
         width: 50,
       },
@@ -141,7 +170,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         ),
       },
     ],
-    [hasFlag, isEmbeddedView, t],
+    [hoveredRow, hasFlag, isEmbeddedView, t],
   );
   return (
     <OverviewWidget
@@ -217,9 +246,20 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
           dataSource={coins.data}
           rowKey={r => JSON.stringify(r.symbol)}
           tableLayout="fixed"
+          onRow={(_, index) => ({
+            onMouseEnter: () => setHoveredRow(index),
+            onMouseLeave: () => setHoveredRow(undefined),
+          })}
           {...tableProps}
         />
       </AccessShield>
+      {selectedRow && (
+        <SocialRadarSharingModal
+          open={openShareModal}
+          coin={selectedRow}
+          onClose={() => setOpenShareModal(false)}
+        />
+      )}
     </OverviewWidget>
   );
 }

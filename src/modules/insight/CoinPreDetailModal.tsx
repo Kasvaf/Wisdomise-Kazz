@@ -1,7 +1,14 @@
-import { type FC, type ReactNode } from 'react';
+import {
+  Children,
+  cloneElement,
+  type FC,
+  isValidElement,
+  type ReactNode,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { bxSlider } from 'boxicons-quasar';
+import { bxShareAlt, bxSlider } from 'boxicons-quasar';
 import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
@@ -18,6 +25,8 @@ import {
   type MiniMarketData,
   type NetworkSecurity,
 } from 'api/types/shared';
+import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
+import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 
 interface PreDetailModalBaseProps {
   coin: CoinType;
@@ -26,6 +35,7 @@ interface PreDetailModalBaseProps {
   networks?: CoinNetwork[] | null;
   categories?: CoinType['categories'] | null;
   security?: NetworkSecurity[] | null;
+  hasShare?: boolean;
 }
 
 const CoinPreDetailsContent: FC<
@@ -40,12 +50,38 @@ const CoinPreDetailsContent: FC<
   networks,
   security,
   children,
+  hasShare,
 }) => {
   const { t } = useTranslation('insight');
+  const [openShareModal, setOpenShareModal] = useState(false);
+
+  const modifiedChildren = Children.map(children, child => {
+    if (
+      isValidElement(child) &&
+      (child.type === TechnicalRadarSharingModal ||
+        child.type === SocialRadarSharingModal)
+    ) {
+      return cloneElement<any>(child, {
+        open: openShareModal,
+        onClose: () => setOpenShareModal(false),
+      });
+    }
+    return child;
+  });
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center gap-2">
+        {hasShare && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="!px-2"
+            onClick={() => setOpenShareModal(true)}
+          >
+            <Icon name={bxShareAlt} />
+          </Button>
+        )}
         <Coin
           coin={coin}
           imageClassName="size-8"
@@ -66,7 +102,7 @@ const CoinPreDetailsContent: FC<
             />
           }
         />
-        <div className="flex flex-col items-end gap-px">
+        <div className="ml-auto flex flex-col items-end gap-px">
           <ReadableNumber
             value={marketData?.current_price}
             label="$"
@@ -79,7 +115,7 @@ const CoinPreDetailsContent: FC<
           />
         </div>
       </div>
-      <>{children}</>
+      {modifiedChildren}
 
       <div className="flex flex-col items-start justify-end overflow-auto">
         <p className="mb-2 text-xs">{t('pre_detail_modal.wise_labels')}</p>

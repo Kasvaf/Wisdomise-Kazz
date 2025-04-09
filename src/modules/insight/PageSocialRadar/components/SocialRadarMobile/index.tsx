@@ -16,6 +16,7 @@ import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
+import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import { SocialRadarFilters } from '../SocialRadarFilters';
 
@@ -154,6 +155,7 @@ export const SocialRadarMobile = () => {
         security={selectedRow?.symbol_security?.data}
         open={modal}
         onClose={() => setModal(false)}
+        hasShare={true}
       >
         {selectedRow?.signals_analysis?.sparkline && (
           <CoinPriceChart
@@ -167,6 +169,9 @@ export const SocialRadarMobile = () => {
             mode="expanded"
             className="w-full"
           />
+        )}
+        {selectedRow && (
+          <SocialRadarSharingModal open={false} coin={selectedRow} />
         )}
       </CoinPreDetailModal>
     </>
