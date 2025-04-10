@@ -25,7 +25,7 @@ export default function PageRewards() {
   const { subReferral, tradeReferral, daily, total, claimed } =
     useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
-  const { mutateAsync, isLoading: isWithdrawLoading } =
+  const { mutateAsync, isPending: isWithdrawLoading } =
     useWithdrawRewardMutation();
   const { publicKey } = useWallet();
 

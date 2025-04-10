@@ -72,7 +72,7 @@ export function useTournamentLeaderboardQuery(key: string) {
   return useQuery({
     queryKey: ['tournamentsLeaderboard', key],
     queryFn: async () => {
-      const data = await ofetch<TournamentParticipant[]>(
+      const data = await ofetch<LeaderboardParticipant[]>(
         `trader/tournaments/${key}/leaderboard`,
       );
       return data;
@@ -84,7 +84,7 @@ export function useTournamentProfileQuery(key: string) {
   return useQuery({
     queryKey: ['tournamentsMe', key],
     queryFn: async () => {
-      const data = await ofetch<TournamentParticipant>(
+      const data = await ofetch<LeaderboardParticipant>(
         `trader/tournaments/${key}/me`,
       );
       return data;
