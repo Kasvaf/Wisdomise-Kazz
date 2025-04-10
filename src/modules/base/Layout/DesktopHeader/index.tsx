@@ -28,15 +28,16 @@ const DesktopHeader: React.FC<{
           <NavLink to="/coin-radar/overview">
             <Logo />
           </NavLink>
-          <div className="ml-4 border-l border-white/10 pl-4">
-            <MenuItems horizontal className="gap-8" />
+          <div className="h-8 w-px bg-white/10" />
+          <div className="-ml-4 flex h-12 items-stretch">
+            <MenuItems horizontal itemsClassName="px-4" />
           </div>
         </div>
 
         {extension && (
           <>
             {extension}
-            <div className="h-full w-px bg-v1-border-tertiary" />
+            <div className="h-full w-px bg-white/10" />
           </>
         )}
 
