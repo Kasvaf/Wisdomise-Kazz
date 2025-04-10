@@ -2,6 +2,7 @@ import { type ReactElement } from 'react';
 /* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import type React from 'react';
+import { NavLink } from 'react-router-dom';
 import { RouterBaseName } from 'config/constants';
 import BtnWalletConnect from 'modules/base/wallet/BtnWalletConnect';
 import { LoadingBadge, useLoadingBadge } from 'shared/LoadingBadge';
@@ -24,7 +25,9 @@ const DesktopHeader: React.FC<{
     <div className={clsx('bg-v1-background-primary', className)}>
       <div className="flex h-12 items-center gap-3 bg-v1-surface-l2 px-6 py-2">
         <div className="relative flex grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap">
-          <Logo />
+          <NavLink to="/coin-radar/overview">
+            <Logo />
+          </NavLink>
           <div className="ml-4 border-l border-white/10 pl-4">
             <MenuItems horizontal className="gap-8" />
           </div>
