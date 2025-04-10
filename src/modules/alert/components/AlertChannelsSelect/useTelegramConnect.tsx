@@ -4,9 +4,7 @@ import { useAccountQuery } from 'api';
 
 export const useTelegramConnect = () => {
   const account = useAccountQuery();
-  const telegramAddress = `${
-    import.meta.env.VITE_ATHENA_BOT_BASE_URL as string
-  }${
+  const telegramAddress = `${import.meta.env.VITE_TELEGRAM_BASE_URL as string}${
     account.data?.telegram_code ? `?start=${account.data.telegram_code}` : ''
   }`;
 
