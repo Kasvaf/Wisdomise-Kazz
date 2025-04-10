@@ -170,9 +170,6 @@ export const useCoinDetails = ({
         })),
       }));
     },
-    meta: {
-      persist: true,
-    },
     refetchOnMount: true,
     refetchInterval: 5 * 60 * 1000,
   });
