@@ -23,7 +23,7 @@ const DesktopHeader: React.FC<{
 
   return (
     <div className={clsx('bg-v1-background-primary', className)}>
-      <div className="flex h-12 items-center gap-3 bg-v1-surface-l2 px-6 py-2">
+      <div className="flex h-12 items-center gap-3 bg-v1-surface-l2 px-3">
         <div className="relative flex grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap">
           <NavLink to="/coin-radar/overview">
             <Logo />
@@ -49,7 +49,7 @@ const DesktopHeader: React.FC<{
 
       <div
         className={clsx(
-          'relative flex flex-nowrap items-center gap-3 overflow-visible px-6 py-1.5',
+          'relative flex flex-nowrap items-center gap-3 overflow-visible px-3',
           'whitespace-nowrap border-y border-white/10',
           'h-7 text-xs empty:hidden',
         )}

@@ -38,7 +38,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
             )}
       </header>
 
-      <main className="grow p-6 mobile:ml-0 mobile:px-4 mobile:py-2">
+      <main className="grow p-3 mobile:ml-0">
         <React.Suspense
           fallback={
             <div className="flex h-full w-full items-center justify-center text-white mobile:h-[calc(100vh-10rem)]">
