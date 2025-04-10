@@ -1,18 +1,14 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { Coin } from 'shared/Coin';
-import {
-  type TechnicalRadarCoin,
-  useWhaleRadarCoins,
-  type WhaleRadarCoin,
-} from 'api';
+import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
 import { WhaleRadarSentiment } from 'modules/insight/PageWhaleRadar/components/WhaleRadarSentiment';
 
 export const WhaleRadarTable: FC<{
-  onClick?: (coin: TechnicalRadarCoin) => void;
+  onClick?: (coin: WhaleRadarCoin) => void;
 }> = ({ onClick }) => {
   const coins = useWhaleRadarCoins({
     days: 7,
