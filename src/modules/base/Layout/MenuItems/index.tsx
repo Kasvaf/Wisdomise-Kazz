@@ -21,7 +21,7 @@ const MenuItems: React.FC<{ horizontal?: boolean; className?: string }> = ({
       className={clsx(
         'group flex flex-1 items-center justify-center',
         horizontal ? 'gap-1' : 'flex-col',
-        '[&>svg]:size-7',
+        horizontal ? '[&>svg]:size-5' : '[&>svg]:size-7',
         'opacity-60 [&.active]:font-bold [&.active]:text-[#00A3FF] [&.active]:opacity-100',
       )}
     >
