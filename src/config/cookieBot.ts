@@ -8,6 +8,7 @@ export default function configCookieBot() {
   }
 
   added = true;
+
   const autoBlockerScript = document.createElement('script');
   autoBlockerScript.src =
     'https://web.cmp.usercentrics.eu/modules/autoblocker.js';
