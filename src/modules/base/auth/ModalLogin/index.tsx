@@ -337,6 +337,7 @@ export const useModalLogin = () => {
         maskClosable={!forceLogin}
         closeIcon={forceLogin ? <></> : <Icon name={bxX} size={16} />}
         width={950}
+        zIndex={2_147_483_647} // 1 unit higher than cookie-bot banner
         className="max-h-full max-w-full mobile:h-full mobile:w-full [&_.ant-modal-body]:size-full [&_.ant-modal-content]:!bg-v1-surface-l1 [&_.ant-modal-content]:p-0 mobile:[&_.ant-modal-content]:h-full mobile:[&_.ant-modal-content]:w-full [&_.ant-modal-content]:mobile:!rounded-none"
       >
         <LoginModalContent onResolve={handleResolve} />

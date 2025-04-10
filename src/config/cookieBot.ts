@@ -9,22 +9,6 @@ export default function configCookieBot() {
 
   added = true;
 
-  // to put cookie-bot banner behind login modal
-  window.addEventListener('UC_UI_VIEW_CHANGED', () => {
-    setTimeout(() => {
-      const host = document.querySelector('#usercentrics-cmp-ui');
-      if (host) {
-        const shadow = host.shadowRoot;
-        if (shadow) {
-          const cmpWrapper = shadow.querySelector('.cmp-wrapper');
-          if (cmpWrapper instanceof HTMLElement) {
-            cmpWrapper.style.zIndex = '100';
-          }
-        }
-      }
-    }, 50);
-  });
-
   const autoBlockerScript = document.createElement('script');
   autoBlockerScript.src =
     'https://web.cmp.usercentrics.eu/modules/autoblocker.js';
