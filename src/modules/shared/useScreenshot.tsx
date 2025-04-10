@@ -10,6 +10,7 @@ export const useScreenshot = (
   config: {
     fileName?: string;
     afterCapture?: 'share' | 'download';
+    backgroundColor?: string;
   },
 ) => {
   const [share] = useShare('share');
@@ -26,7 +27,10 @@ export const useScreenshot = (
       el.current.classList.add('capturing');
       setIsCapturing(true);
       try {
-        const dataUrl = await htmlToImage.toPng(el.current);
+        const dataUrl = await htmlToImage.toPng(el.current, {
+          backgroundColor: config.backgroundColor,
+          includeQueryParams: true,
+        });
         return await new Promise(resolve => {
           const fileName = `${config.fileName ?? Date.now()}.png`;
 
