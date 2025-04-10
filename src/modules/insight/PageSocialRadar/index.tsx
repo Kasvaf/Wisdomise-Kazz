@@ -1,14 +1,14 @@
 import useIsMobile from 'utils/useIsMobile';
-import PageWrapper from 'modules/base/PageWrapper';
+import InsightPageWrapper from '../InsightPageWrapper';
 import { SocialRadarMobile } from './components/SocialRadarMobile';
 import { SocialRadarDesktop } from './components/SocialRadarDesktop';
 
 const PageSocialRadar = () => {
   const isMobile = useIsMobile();
   return (
-    <PageWrapper>
+    <InsightPageWrapper>
       {isMobile ? <SocialRadarMobile /> : <SocialRadarDesktop />}
-    </PageWrapper>
+    </InsightPageWrapper>
   );
 };
 

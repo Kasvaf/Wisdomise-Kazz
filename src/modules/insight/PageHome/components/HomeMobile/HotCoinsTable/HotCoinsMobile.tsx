@@ -29,7 +29,7 @@ export const HotCoinsMobile = () => {
   const hasFlag = useHasFlag();
   const [network, setNetwork] = useSearchParamAsState<string>(
     'network',
-    hasFlag('/trader-positions?mobile') ? 'solana' : '',
+    hasFlag('/trader/positions?mobile') ? 'solana' : '',
   );
 
   const coins = useCoinRadarCoins({

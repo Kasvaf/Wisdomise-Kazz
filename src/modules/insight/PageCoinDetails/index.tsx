@@ -27,9 +27,8 @@ export default function PageCoinDetails() {
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <PageWrapper>
+    <PageWrapper hasBack>
       <PageCoinDetailsMeta slug={slug} />
-
       {isMobile ? (
         <div className="relative flex flex-col gap-4" ref={root}>
           <CoinPriceWidget slug={slug} />

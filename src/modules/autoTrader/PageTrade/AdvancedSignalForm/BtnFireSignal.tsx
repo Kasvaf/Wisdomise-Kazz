@@ -81,7 +81,7 @@ const BtnFireSignal: React.FC<{
           </Button>
         </>
       ) : hasFlag(
-          isMiniApp ? '/trader-positions' : '/trader-positions?mobile',
+          isMiniApp ? '/trader/positions' : '/trader/positions?mobile',
         ) ? (
         wallet.connected ? (
           <Button
@@ -91,7 +91,7 @@ const BtnFireSignal: React.FC<{
             disabled={!isEnabled}
             className={className}
           >
-            <DebugPin title="/trader-positions" color="orange" />
+            <DebugPin title="/trader/positions" color="orange" />
             {!balanceLoading && quoteBalance != null && !quoteBalance ? (
               <>
                 <WarnIcon className="mr-2" />

@@ -64,7 +64,12 @@ export default function ReferralPage() {
   }, [done, openReferralOnboardingModal]);
 
   return (
-    <PageWrapper loading={isLoading} className="mobile:pt-12">
+    <PageWrapper
+      hasBack
+      title={t('base:menu.referral.title')}
+      loading={isLoading}
+      className="mobile:pt-4"
+    >
       <h1 className="mb-2">{t('page-referral.title')}</h1>
       <p className="mb-2 text-sm text-v1-content-secondary">
         {t('page-referral.subtitle')}

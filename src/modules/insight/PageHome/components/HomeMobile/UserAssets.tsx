@@ -12,7 +12,7 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
   return (
     <NavLink
       className="flex items-center justify-between"
-      to={`/trader-positions?slug=${asset.slug}`}
+      to={`/trader/positions?slug=${asset.slug}`}
     >
       {baseInfo ? (
         <div className="flex items-center">

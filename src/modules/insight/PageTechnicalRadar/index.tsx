@@ -1,14 +1,14 @@
 import useIsMobile from 'utils/useIsMobile';
-import PageWrapper from 'modules/base/PageWrapper';
+import InsightPageWrapper from '../InsightPageWrapper';
 import { TechnicalRadarMobile } from './components/TechnicalRadarMobile';
 import { TechnicalRadarDesktop } from './components/TechnicalRadarDesktop';
 
 const PageTechnicalRadar = () => {
   const isMobile = useIsMobile();
   return (
-    <PageWrapper>
+    <InsightPageWrapper>
       {isMobile ? <TechnicalRadarMobile /> : <TechnicalRadarDesktop />}
-    </PageWrapper>
+    </InsightPageWrapper>
   );
 };
 

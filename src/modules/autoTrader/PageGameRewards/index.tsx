@@ -78,8 +78,9 @@ export default function PageGameRewards() {
     });
   };
 
+  // already wrapped in PageWrapper in GameAuthGuard
   return (
-    <div>
+    <>
       {tonConnect.connected && usdtBalance != null && (
         <p className="mb-6 text-xs text-white/40">
           Your USDT balance in your wallet:{' '}
@@ -288,6 +289,6 @@ export default function PageGameRewards() {
           {eligibility?.[0]?.status === 'winner' ? 'Claim' : 'Done'}
         </Button>
       </DrawerModal>
-    </div>
+    </>
   );
 }

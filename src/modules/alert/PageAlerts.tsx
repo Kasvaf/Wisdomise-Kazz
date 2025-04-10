@@ -75,13 +75,13 @@ export default function AlertsPage() {
 
   return (
     <PageWrapper
+      hasBack
+      title={t('base:menu.alerts.full-title')}
       className="leading-none mobile:leading-normal"
       loading={alerts.isLoading}
     >
-      <PageTitle
-        title={t('base:menu.alerts.full-title')}
-        description={t('base:menu.alerts.subtitle')}
-      />
+      <PageTitle description={t('base:menu.alerts.subtitle')} />
+
       <div className="my-8 flex flex-wrap items-center gap-4">
         <TextBox
           value={searchQuery}

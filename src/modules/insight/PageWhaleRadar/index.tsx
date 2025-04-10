@@ -1,14 +1,14 @@
-import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
+import InsightPageWrapper from '../InsightPageWrapper';
 import { WhaleRadarDesktop } from './components/WhaleRadarDesktop';
 import { WhaleRadarMobile } from './components/WhaleRadarMobile';
 
 const PageWhaleRadar = () => {
   const isMobile = useIsMobile();
   return (
-    <PageWrapper>
+    <InsightPageWrapper>
       {isMobile ? <WhaleRadarMobile /> : <WhaleRadarDesktop />}
-    </PageWrapper>
+    </InsightPageWrapper>
   );
 };
 

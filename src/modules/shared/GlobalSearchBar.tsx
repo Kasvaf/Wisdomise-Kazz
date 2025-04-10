@@ -8,13 +8,16 @@ import { CoinSelect } from 'shared/CoinSelect';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useAlerts, useHasFlag } from 'api';
+import { type Surface } from 'utils/useSurface';
 import { DebugPin } from './DebugPin';
 import { type Select } from './v1-components/Select';
 
 export const GlobalSearchBar: FC<{
   className?: string;
   size?: ComponentProps<typeof Select>['size'];
-}> = ({ className, size }) => {
+  selectorSurface?: Surface;
+  buttonSurface?: Surface;
+}> = ({ className, selectorSurface = 2, buttonSurface = 1, size }) => {
   const { t } = useTranslation('common');
   const hasFlag = useHasFlag();
   const { openSaveModal: openAlert, content: alertModal } = useAlertActions(
@@ -40,14 +43,14 @@ export const GlobalSearchBar: FC<{
           size={size}
           className="grow"
           value={undefined}
-          surface={2}
+          surface={selectorSurface}
         />
         {hasFlag('/coin-radar/alerts') && (
           <Button
             size={size}
             variant="outline"
             onClick={() => openAlert()}
-            surface={1}
+            surface={buttonSurface}
             fab
           >
             <DebugPin title="/coin-radar/alerts" color="orange" />
