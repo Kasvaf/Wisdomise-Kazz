@@ -11,8 +11,8 @@ import PriceChange from 'shared/PriceChange';
 import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
-import SharingCard from 'modules/autoTrader/PositionsList/SharingCard';
 import { isMiniApp } from 'utils/version';
+import PositionSharingModal from '../../PositionsList/PositionSharingModal';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
@@ -204,9 +204,9 @@ const PositionDetail: React.FC<{
           </Button>
         )}
       </div>
-      <SharingCard
+      <PositionSharingModal
         open={openShare}
-        setOpen={setOpenShare}
+        onClose={() => setOpenShare(false)}
         position={position}
       />
     </div>

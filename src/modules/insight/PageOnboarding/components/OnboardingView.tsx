@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { bxLeftArrowAlt, bxsCheckCircle, bxX } from 'boxicons-quasar';
+import { bxsCheckCircle, bxX } from 'boxicons-quasar';
 import { Fragment, useMemo, type ReactNode } from 'react';
 import { Button } from 'shared/v1-components/Button';
 import Icon from 'shared/Icon';
@@ -17,7 +17,7 @@ export function OnboardingView<V extends string>({
   onClose?: (url?: string) => unknown;
   steps: Array<{
     key: V;
-    label: ReactNode;
+    label?: ReactNode;
     element: ReactNode;
   }>;
   step: V;
@@ -39,34 +39,39 @@ export function OnboardingView<V extends string>({
         loading && 'pointer-events-none animate-pulse blur-sm transition-all',
         className,
       )}
+      style={{
+        background:
+          'linear-gradient(169deg, rgba(0, 163, 255, 0.00) 18.52%, rgba(151, 71, 255, 0.20) 105.44%) #131920',
+      }}
     >
-      <div className="absolute -top-1/3 left-1/2 !size-[520px] -translate-x-1/2 bg-white/25 blur-[200px] mobile:!size-[430px]" />
       <div className="relative mx-auto flex w-full max-w-7xl grow flex-col">
         <div className=" flex shrink-0 items-center justify-between px-4 pt-4">
-          <Button
-            size="md"
-            variant="ghost"
-            onClick={() =>
-              onChange?.(steps[steps.findIndex(x => x.key === step) - 1].key)
-            }
-            block
-            className={clsx(
-              'invisible w-md shrink-0 mobile:visible',
-              step === steps[0].key && 'opacity-0',
-            )}
-          >
-            <Icon name={bxLeftArrowAlt} />
-          </Button>
+          {/* <Button */}
+          {/*   size="md" */}
+          {/*   variant="ghost" */}
+          {/*   onClick={() => */}
+          {/*     onChange?.(steps[steps.findIndex(x => x.key === step) - 1].key) */}
+          {/*   } */}
+          {/*   block */}
+          {/*   className={clsx( */}
+          {/*     'invisible w-md shrink-0 mobile:visible', */}
+          {/*     step === steps[0].key && 'opacity-0', */}
+          {/*   )} */}
+          {/* > */}
+          {/*   <Icon name={bxLeftArrowAlt} /> */}
+          {/* </Button> */}
 
-          <Button
-            size="md"
-            variant="ghost"
-            onClick={() => onClose?.('/')}
-            block
-            className="w-md shrink-0"
-          >
-            <Icon name={bxX} />
-          </Button>
+          {onClose && (
+            <Button
+              size="md"
+              variant="ghost"
+              onClick={() => onClose('/')}
+              block
+              className="w-md shrink-0"
+            >
+              <Icon name={bxX} />
+            </Button>
+          )}
         </div>
 
         <div
@@ -120,7 +125,7 @@ export function OnboardingView<V extends string>({
           ))}
         </div>
 
-        <div className="relative flex grow flex-col overflow-hidden">
+        <div className="relative flex grow flex-col overflow-auto">
           {steps
             .filter(x => x.key === step)
             .map(x => (

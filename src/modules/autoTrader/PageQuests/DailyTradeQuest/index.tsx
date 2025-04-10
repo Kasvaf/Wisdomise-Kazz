@@ -13,7 +13,7 @@ import { StatusBadge } from 'modules/autoTrader/PageQuests/PageTournaments/Tourn
 import { StatusChip } from 'modules/autoTrader/PageQuests/StatusChip';
 import { Button } from 'shared/v1-components/Button';
 import video from 'modules/autoTrader/PageQuests/DailyTradeQuest/video.webm';
-import RewardModal from 'modules/account/PageRewards/RewardModal';
+import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
 import box from './box.png';
 import { ReactComponent as Bg } from './bg.svg';
 import { ReactComponent as Stars } from './stars.svg';
@@ -22,7 +22,7 @@ import { ReactComponent as Lock } from './lock.svg';
 
 export default function DailyTradeQuest({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
-  const [openReward, setOpenReward] = useState(false);
+  const [RewardModal, openRewardModal] = useRewardModal();
   const [rewardAmount, setRewardAmount] = useState(0);
   const {
     activeDay,
@@ -53,9 +53,8 @@ export default function DailyTradeQuest({ className }: { className?: string }) {
     }
     void mutateAsync({ event_name: 'claim' }).then(() => {
       setOpen(false);
-      setOpenReward(true);
       setRewardClaimed(true);
-      return null;
+      return openRewardModal({ amount: rewardAmount });
     });
   };
 
@@ -193,11 +192,7 @@ export default function DailyTradeQuest({ className }: { className?: string }) {
           <div className="pointer-events-none absolute bottom-0 end-0 start-0 h-32 w-full  bg-gradient-to-b from-[rgba(5,1,9,0.00)] from-0% to-v1-surface-l4/80 to-75%"></div>
         </div>
       </DrawerModal>
-      <RewardModal
-        open={openReward}
-        onClose={() => setOpenReward(false)}
-        amount={rewardAmount}
-      />
+      {RewardModal}
     </>
   );
 }

@@ -200,10 +200,14 @@ export function isPositionUpdatable(position: Position) {
   );
 }
 
-export function initialQuoteDeposit(p: Position) {
-  const result = p.deposit_assets.find(
+export function initialQuoteAsset(p: Position) {
+  return p.deposit_assets.find(
     x => x.asset_slug === p.quote_slug && !x.is_gas_fee,
-  )?.amount;
+  );
+}
+
+export function initialQuoteDeposit(p: Position) {
+  const result = initialQuoteAsset(p)?.amount;
   return result === undefined ? undefined : Number(result);
 }
 

@@ -3,6 +3,7 @@ import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import useTradeDrawer from './PageTrade/useTradeDrawer';
 import useQuickTradeDrawer from './PageTrade/QuickTradeDrawer/useQuickTradeDrawer';
 
@@ -17,11 +18,19 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const isLoggedIn = useIsLoggedIn();
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
   const [QuickTradeDrawer, openQuickTradeDrawer] = useQuickTradeDrawer();
+  const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
 
   const hasFlag = useHasFlag();
   if (!isMobile && !hasFlag('/desk-trader')) {
     return null;
   }
+
+  const open = async () => {
+    await ensureAuthenticated();
+    isMobile
+      ? openQuickTradeDrawer({ slug: normSlug ?? '' })
+      : openTradeDrawer({ slug: normSlug ?? '' });
+  };
 
   return (
     <Button
@@ -29,12 +38,8 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
       block
       variant={buttonProps.variant ?? 'outline'}
       loading={isLoading}
-      disabled={!normSlug || !isSupported || !isLoggedIn}
-      onClick={() =>
-        isMobile
-          ? openQuickTradeDrawer({ slug: normSlug ?? '' })
-          : openTradeDrawer({ slug: normSlug ?? '' })
-      }
+      disabled={!normSlug || !isSupported}
+      onClick={open}
     >
       <div>
         {isLoggedIn && isSupported && !isLoading && (
@@ -45,13 +50,11 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
         )}
 
         <div>Auto Trade</div>
-        {isLoggedIn ? (
-          !isSupported &&
-          !isLoading && <div className="text-xxs">Not Supported</div>
-        ) : (
-          <div className="text-xxs">Requires LogIn</div>
+        {!isSupported && !isLoading && (
+          <div className="text-xxs">Not Supported</div>
         )}
       </div>
+      {ModalLogin}
     </Button>
   );
 };

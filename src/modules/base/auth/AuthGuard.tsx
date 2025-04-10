@@ -7,12 +7,9 @@ const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
 export default function AuthGuard({ children }: PropsWithChildren) {
   const { isPending, isLoading } = useAccountQuery();
-
-  return isPending || isLoading ? (
-    <Splash />
-  ) : (
+  return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      {children}
+      {isPending || isLoading ? <Splash /> : children}
     </GoogleOAuthProvider>
   );
 }
