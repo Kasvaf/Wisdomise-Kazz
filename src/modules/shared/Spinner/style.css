@@ -1,6 +1,4 @@
-.loader {
-  width: 15rem;
-  height: 15rem;
+.wsdm-spinner {
   font-size: 10px;
   position: relative;
   display: flex;
@@ -8,14 +6,14 @@
   justify-content: center;
 }
 
-.loader .face {
+.wsdm-spinner div {
   position: absolute;
   border-radius: 50%;
   border-style: solid;
   animation: animate 3s linear infinite;
 }
 
-.loader .face:nth-child(1) {
+.wsdm-spinner div:nth-child(1) {
   width: 100%;
   height: 100%;
   color: #13dff2;
@@ -25,7 +23,7 @@
   animation-direction: normal;
 }
 
-.loader .face:nth-child(2) {
+.wsdm-spinner div:nth-child(2) {
   width: 70%;
   height: 70%;
   color: #e26cff;
@@ -35,7 +33,7 @@
   animation-direction: reverse;
 }
 
-.loader .face .circle {
+.wsdm-spinner div span {
   position: absolute;
   width: 50%;
   height: 0.1em;
@@ -46,7 +44,7 @@
   transform-origin: left;
 }
 
-.loader .face .circle::before {
+.wsdm-spinner div span::before {
   position: absolute;
   top: -0.5em;
   right: -0.5em;
