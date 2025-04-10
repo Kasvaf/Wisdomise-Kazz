@@ -9,7 +9,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
-import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
+import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
 
@@ -57,7 +57,7 @@ const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
       uiPreferences={{ theme: THEME.DARK }}
       actionsConfiguration={{
-        twaReturnUrl: AUTO_TRADER_MINI_APP_BASE,
+        twaReturnUrl: TELEGRAM_BOT_BASE_URL,
       }}
     >
       <SolanaWalletProvider>

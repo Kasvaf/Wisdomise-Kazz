@@ -19,7 +19,7 @@ import Spinner from 'shared/Spinner';
 import TextBox from 'shared/TextBox';
 import { REFERRER_CODE_KEY } from 'modules/account/PageRef';
 import Icon from 'shared/Icon';
-import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
+import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { Button } from 'shared/v1-components/Button';
 import TelegramLogin from './TelegramLogin';
 import { useModalLoginTexts } from './useModalLoginTexts';
@@ -96,10 +96,7 @@ const LoginModalContent: React.FC<{
   const [uuid] = useState(v4());
   const { mutateAsync: tgLoginFromWeb } = useMiniAppTgLoginFromWebMutation();
   const tgHandler = async () => {
-    window.open(
-      AUTO_TRADER_MINI_APP_BASE + '?startapp=connect_' + uuid,
-      '_blank',
-    );
+    window.open(TELEGRAM_BOT_BASE_URL + '?startapp=connect_' + uuid, '_blank');
 
     setIsConnecting(true);
     for (let i = 0; i < 10; ++i) {
