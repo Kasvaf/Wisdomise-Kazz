@@ -40,7 +40,7 @@ export function MobileTable<RecordType extends object>({
       className={clsx(
         'relative w-full rounded-lg bg-[--row-color]',
         typeof onClick === 'function' &&
-          'transition-all active:bg-[--active-color]',
+          'cursor-pointer transition-all hover:bg-[--active-color] active:bg-[--active-color]',
         rowClassName,
       )}
       data-table="tr"

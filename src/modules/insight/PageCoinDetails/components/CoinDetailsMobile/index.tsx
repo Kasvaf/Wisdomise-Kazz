@@ -1,6 +1,5 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
-import PageWrapper from 'modules/base/PageWrapper';
 import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinPricePerformanceWidget } from '../CoinPricePerformanceWidget';
@@ -21,7 +20,7 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <PageWrapper>
+    <>
       <div className="relative grid grid-cols-3 lg:gap-3 2xl:gap-6" ref={root}>
         <div className="col-span-1">
           <div className="sticky top-20 flex flex-col lg:gap-3 2xl:gap-6">
@@ -52,6 +51,6 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
           <CoinIntroductionWidget slug={slug} />
         </div>
       </div>
-    </PageWrapper>
+    </>
   );
 };

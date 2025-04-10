@@ -24,7 +24,7 @@ import { WRSProgress } from './WRSProgress';
 
 export const WhaleRadarSentiment: FC<{
   value?: WhaleRadarSentimentType | null;
-  mode: 'default' | 'mini' | 'expanded' | 'card';
+  mode: 'default' | 'mini' | 'expanded' | 'card' | 'tiny';
   marketData?: MiniMarketData | null;
   coin?: CoinType | null;
   className?: string;
@@ -180,6 +180,9 @@ export const WhaleRadarSentiment: FC<{
               label="$"
               showSign={false}
               showIcon={false}
+              format={{
+                decimalLength: 1,
+              }}
             />
           </div>
           <div className="flex items-center gap-1">
@@ -191,9 +194,21 @@ export const WhaleRadarSentiment: FC<{
               label="$"
               showSign={false}
               showIcon={false}
+              format={{
+                decimalLength: 1,
+              }}
             />
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (mode === 'tiny') {
+    return (
+      <div className="flex items-center gap-2">
+        <img src={WhaleIcon} alt="whale" className="w-[24px]" />
+        <p className="text-xs font-medium">{value?.wallet_count ?? 0}</p>
       </div>
     );
   }
