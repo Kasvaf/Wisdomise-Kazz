@@ -7,6 +7,9 @@ export function resolvePageResponseToArray<T>(
   options?:
     | FetchOptions<'json', PageResponse<T> | PageResponse2<T>>
     | undefined,
+  resolveOptions?: {
+    limit?: number;
+  },
 ) {
   const getRecursive = async (page: number, results: T[] = []) => {
     const newResp = await ofetch<PageResponse<T> | PageResponse2<T> | T[]>(
@@ -22,8 +25,9 @@ export function resolvePageResponseToArray<T>(
     if ('results' in newResp) {
       const lastResults = [...results, ...newResp.results];
       if (
-        ('links' in newResp && newResp.links.next) ||
-        ('next' in newResp && newResp.next)
+        (('links' in newResp && newResp.links.next) ||
+          ('next' in newResp && newResp.next)) &&
+        lastResults.length < (resolveOptions?.limit ?? Number.POSITIVE_INFINITY)
       ) {
         return await getRecursive(page + 1, lastResults);
       }

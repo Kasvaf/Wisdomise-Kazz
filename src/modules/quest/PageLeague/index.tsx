@@ -55,7 +55,12 @@ export default function PageLeague() {
   }, [selectedLeagueIndex, profile.league, league.details]);
 
   return (
-    <PageWrapper loading={isLoading}>
+    <PageWrapper
+      hasBack={true}
+      footer={null}
+      title="League"
+      loading={isLoading}
+    >
       <PageTitle
         className="pt-8"
         title="Compete, Rise, and Conquer!"

@@ -87,8 +87,8 @@ export function useUserStorage(key: string) {
 
   const isTrusted =
     !value.isLoading &&
-    !save.isLoading &&
-    !remove.isLoading &&
+    !save.isPending &&
+    !remove.isPending &&
     !value.isError &&
     value.isFetched &&
     !!userEmail &&
@@ -96,7 +96,7 @@ export function useUserStorage(key: string) {
     value.data !== undefinedSymbol;
 
   return {
-    isLoading: value.isLoading || save.isLoading || remove.isLoading,
+    isLoading: value.isLoading || save.isPending || remove.isPending,
     value: isTrusted ? (value.data as string) ?? null : undefined,
     save: save.mutateAsync,
     remove: remove.mutateAsync,

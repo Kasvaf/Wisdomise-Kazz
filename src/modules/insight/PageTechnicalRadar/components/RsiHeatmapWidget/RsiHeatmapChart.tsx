@@ -9,6 +9,8 @@ import PriceChange from 'shared/PriceChange';
 import { RsiNumber } from 'shared/RsiNumber';
 import { RsiDivergence } from 'shared/RsiDivergence';
 import { HoverTooltip } from 'shared/HoverTooltip';
+import { Lazy } from 'shared/Lazy';
+import Spin from 'shared/Spin';
 
 const AREA_SIZE_PERCENT = 42;
 const POINT_SIZE = 14;
@@ -303,13 +305,29 @@ export function RsiHeatmapChart({
             '!absolute ml-7 flex h-full w-[calc(100%-3.5rem)] flex-row justify-between gap-12 overflow-x-auto overflow-y-hidden px-6',
           )}
         >
-          {sortedData.map(row => (
+          {sortedData.slice(0, 40).map(row => (
             <CoinPoint
               key={JSON.stringify(row.symbol)}
               value={row}
               resolution={resolution}
             />
           ))}
+          {sortedData.length > 40 && (
+            <Lazy
+              mountedClassName="contents"
+              unMountedClassName="relative flex h-full w-64 items-center justify-center"
+              freezeOnceVisible
+              fallback={<Spin />}
+            >
+              {sortedData.slice(40).map(row => (
+                <CoinPoint
+                  key={JSON.stringify(row.symbol)}
+                  value={row}
+                  resolution={resolution}
+                />
+              ))}
+            </Lazy>
+          )}
         </div>
       </div>
     </div>

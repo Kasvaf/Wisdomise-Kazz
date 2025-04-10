@@ -59,6 +59,7 @@ menu:
     title: ワイズボーイ報酬を受け取る
   home:
     title: 家
+    titleM: レーダー
   hot-coins:
     title: ソーシャルレーダー
   investment:
@@ -90,11 +91,19 @@ menu:
   signalers:
     subtitle: アクティブなシグナルとポジションで主要な暗号通貨を発見
     title: AIシグナル
+  social:
+    title: 社交
+  technical:
+    title: テクニカル
   token:
     subtitle: 保有しているWSDMトークンをサブスクリプションにご利用いただけます。
     title: WSDMトークン
+  trench:
+    title: 溝
   users:
     title: ユーザー
+  whale:
+    title: 鯨
   whales:
     full-title: クジラの分析
     subtitle: トップの暗号通貨クジラ、その取引、損益、取引量などを調べる

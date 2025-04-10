@@ -1,5 +1,6 @@
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { clsx } from 'clsx';
 import { type SocialRadarSentiment as SocialRadarSentimentType } from 'api';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
 import { MiniBar } from 'shared/MiniBar';
@@ -21,7 +22,8 @@ export const SocialRadarSentiment: FC<{
   marketData?: MiniMarketData | null;
   coin?: CoinType | null;
   className?: string;
-}> = ({ value, marketData, coin, className, mode }) => {
+  contentClassName?: string;
+}> = ({ value, marketData, coin, className, mode, contentClassName }) => {
   const { t } = useTranslation('coin-radar');
   const clickable = (mode === 'default' || mode === 'card') && value;
   return (
@@ -82,18 +84,18 @@ export const SocialRadarSentiment: FC<{
       className={className}
     >
       {mode === 'default' && (
-        <div className="flex flex-col items-start gap-px whitespace-nowrap">
-          <div className="flex items-center justify-start gap-1">
-            <SRSIcon
-              value={value?.gauge_tag ?? 'NEUTRAL'}
-              className="size-[20px] shrink-0"
-            />
-            <SRSTitle value={value?.gauge_tag} className="text-sm" />
+        <div className="flex h-11 items-center gap-2">
+          <MiniBar value={value?.gauge_measure ?? 0} width={28} height={28} />
+          <div className="flex flex-col items-start gap-px whitespace-nowrap">
+            <div className="flex items-center justify-start gap-1">
+              <SRSIcon
+                value={value?.gauge_tag ?? 'NEUTRAL'}
+                className="size-[16px] shrink-0"
+              />
+              <SRSTitle value={value?.gauge_tag} className="text-sm" />
+            </div>
+            <SRSLastMention value={value} className="text-xs font-light" />
           </div>
-          <SRSLastMention
-            value={value}
-            className="ps-[24px] text-xs font-light"
-          />
         </div>
       )}
 
@@ -146,7 +148,12 @@ export const SocialRadarSentiment: FC<{
 
       {mode ===
         'card' /* TODO https://www.figma.com/design/ZCTwjDdVzZzR0PwfEmuZZW/Mobile-Experience?node-id=5700-8686&t=8WraowNEXuoxiT7l-0 */ && (
-        <div className="flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next">
+        <div
+          className={clsx(
+            contentClassName,
+            'flex h-36 w-full flex-col justify-between gap-2 overflow-hidden whitespace-nowrap rounded-xl p-3 bg-v1-surface-l-next',
+          )}
+        >
           <div className="flex max-w-full items-center justify-between gap-2">
             <div className="flex h-full flex-col justify-between gap-1 overflow-hidden">
               <p className="text-xs">{t('call-change.title')}</p>

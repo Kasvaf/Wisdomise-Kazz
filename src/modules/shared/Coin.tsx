@@ -10,9 +10,11 @@ import NetworkIcon from './NetworkIcon';
 export function CoinLogo({
   coin,
   className,
+  noCors,
 }: {
   coin: CoinType;
   className?: string;
+  noCors?: boolean;
 }) {
   return (
     <div
@@ -22,7 +24,11 @@ export function CoinLogo({
       )}
       style={{
         ...(typeof coin.logo_url === 'string' && {
-          backgroundImage: `url("${coin.logo_url}")`,
+          backgroundImage: `url("${
+            noCors
+              ? `https://corsproxy.io/?url=${coin.logo_url}`
+              : coin.logo_url
+          }")`,
         }),
       }}
     />
@@ -40,6 +46,7 @@ export function Coin({
   popup,
   noText,
   abbrevationSuffix,
+  noCors,
 }: {
   coin: CoinType;
   networks?: string[];
@@ -51,18 +58,19 @@ export function Coin({
   popup?: boolean;
   noText?: boolean;
   abbrevationSuffix?: ReactNode;
+  noCors?: boolean;
 }) {
   const isMobile = useIsMobile();
   const shouldTruncate =
     truncate === true || (typeof truncate === 'number' && truncate > 0);
   const tooltip =
-    popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug;
+    popup === false ? '' : coin.name ?? coin.abbreviation ?? coin.slug ?? '---';
   const renderText = noText !== true;
   const truncateSize =
     typeof truncate === 'number' ? truncate : isMobile ? 70 : 110;
   const rootClassName = clsx(
-    'inline-flex w-auto shrink items-center gap-2 pe-2',
-    !mini && 'p-1',
+    'inline-flex w-auto shrink items-center gap-2 pe-2 align-[inherit]',
+    !mini && 'p-1 mobile:p-0',
     !nonLink &&
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
@@ -77,6 +85,7 @@ export function Coin({
           'shrink-0',
           imageClassName ?? (mini ? 'size-4' : 'size-8'),
         )}
+        noCors={noCors}
       />
       {renderText && (
         <div
@@ -98,7 +107,9 @@ export function Coin({
                   'whitespace-nowrap',
                 )}
               >
-                {mini ? coin.abbreviation ?? coin.slug : coin.name ?? coin.slug}
+                {mini
+                  ? coin.abbreviation ?? coin.slug ?? '---'
+                  : coin.name ?? coin.slug ?? '---'}
               </div>
               {networks && (
                 <div className="flex items-center">

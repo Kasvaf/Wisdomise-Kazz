@@ -1,0 +1,28 @@
+common:
+  address: 住所
+  buy_sell: TXNS
+  contract_address: 契約住所
+  created: 作成
+  initial_liquidity: 初期流動性
+  liquidity: 流動性
+  marketcap: 時価総額
+  name: 信号発信者名
+  recent_candles:
+    info: 1 分単位の過去 20 分間のローソク足データ。
+    title: 最近のキャンドル
+  socials: ソーシャルメディア
+  txns:
+    info: TXNS (トランザクション) は、このペアに対して実行された売買注文の合計数を示します。数値が高いほど、関心と活動が増加している可能性があります。
+    title: TXNS
+  validation_insights: 検証の洞察
+  volume: 音量
+page:
+  info: このページには、新しく発行された Solana
+    コインと流動性プールが表示され、時価総額、作成日、取引アクティビティに関する情報が提供されます。TXNS
+    列には売買取引の合計数が表示され、各プロジェクトの取引アクティビティと関心を識別するのに役立ちます。
+  title: 溝
+security:
+  freeze_auth: 凍結認証<br />有効
+  lp_burned: LP<br />やけど
+  mint_auth: ミント認証<br />有効
+  top_holders: トップ10<br />ホルダー

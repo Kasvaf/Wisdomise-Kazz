@@ -1,18 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { ofetch } from 'config/ofetch';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { type PricesExchange, type MarketTypes } from './types/shared';
 import { NETWORK_MAIN_EXCHANGE, useSupportedPairs } from './trader';
 
-export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h';
+export type Resolution = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d';
 export interface Candle {
   related_at: string;
   open: number;
   high: number;
   low: number;
   close: number;
-  volume: number;
-  number_of_trades: number;
+  volume?: number;
+  number_of_trades?: number;
+  candle_count?: number;
+  resolution?: Resolution;
 }
 
 export const useCandlesQuery = ({
@@ -28,9 +31,16 @@ export const useCandlesQuery = ({
   endDateTime?: string | Date;
   market?: MarketTypes;
 }) =>
-  useQuery(
-    ['candles', asset, resolution, startDateTime, endDateTime, market],
-    async () => {
+  useQuery({
+    queryKey: [
+      'candles',
+      asset,
+      resolution,
+      startDateTime,
+      endDateTime,
+      market,
+    ],
+    queryFn: async () => {
       const data = await ofetch<Candle[]>('/delphi/candles', {
         query: {
           asset,
@@ -42,17 +52,15 @@ export const useCandlesQuery = ({
       });
       return data;
     },
-    {
-      enabled: Boolean(
-        asset &&
-          resolution &&
-          startDateTime &&
-          endDateTime &&
-          market !== undefined,
-      ),
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    enabled: Boolean(
+      asset &&
+        resolution &&
+        startDateTime &&
+        endDateTime &&
+        market !== undefined,
+    ),
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 interface LastCandleResponse {
   symbol: {
@@ -116,9 +124,16 @@ export const useLastCandleQuery = ({
   const theQuote = bestPair?.quote;
   const bestExchange = exchange || NETWORK_TO_EXCHANGE[bestPair?.net ?? ''];
 
-  return useQuery(
-    ['last-candle', base, theQuote, bestExchange, market, convertToUsd],
-    async () => {
+  return useQuery({
+    queryKey: [
+      'last-candle',
+      base,
+      theQuote,
+      bestExchange,
+      market,
+      convertToUsd,
+    ],
+    queryFn: async () => {
       const data = await ofetch<LastCandleResponse>('/delphinus/last_candle/', {
         query: {
           base,
@@ -131,12 +146,10 @@ export const useLastCandleQuery = ({
       });
       return data;
     },
-    {
-      enabled: Boolean(base && theQuote && bestExchange && market),
-      staleTime: 1000,
-      refetchInterval: 10_000,
-    },
-  );
+    enabled: Boolean(base && theQuote && bestExchange && market),
+    staleTime: 1000,
+    refetchInterval: 10_000,
+  });
 };
 
 export const useLastPriceQuery = (params: LastCandleParams) => {
@@ -145,4 +158,60 @@ export const useLastPriceQuery = (params: LastCandleParams) => {
     ...rest,
     data: data?.candle.close,
   };
+};
+
+export const useCandlesBySlugs = (userConfig: {
+  base?: string;
+  quote?: string;
+  exchange: string;
+  resolution?: Resolution;
+  start?: string;
+  end?: string;
+}) => {
+  const now = Date.now();
+  const yesterday = now - 1000 * 60 * 60 * 24;
+  const config = {
+    start: new Date(yesterday).toISOString(),
+    end: new Date(now).toISOString(),
+    ...userConfig,
+  };
+  if (!config.resolution) {
+    const hoursDiff = Math.abs(dayjs(config.start).diff(config.end, 'hours'));
+    config.resolution =
+      hoursDiff < 1
+        ? '1m'
+        : hoursDiff < 2
+        ? '5m'
+        : hoursDiff < 3
+        ? '15m'
+        : hoursDiff < 6
+        ? '30m'
+        : hoursDiff < 24
+        ? '1h'
+        : hoursDiff < 96
+        ? '4h'
+        : '1d';
+  }
+  const queryKey = [
+    'candles-by-slugs',
+    ...Object.entries(config).filter(([k]) => k !== 'start' && k !== 'end'),
+    dayjs(config.start).format('YYYY-MM-DD HH:mm'),
+    dayjs(config.end).format('YYYY-MM-DD HH:mm'),
+  ];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => {
+      return ofetch<{ candles: Candle[] }>('delphinus/candles-by-slugs/', {
+        query: {
+          market: 'SPOT',
+          ...config,
+        },
+        meta: { auth: false },
+      }).then(resp => resp.candles);
+    },
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: !!config.base && !!config.quote,
+    placeholderData: p => p,
+  });
 };

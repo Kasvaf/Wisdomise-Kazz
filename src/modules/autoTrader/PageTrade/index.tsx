@@ -8,7 +8,6 @@ import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
 import useIsMobile from 'utils/useIsMobile';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
-import BtnBack from '../../base/BtnBack';
 import Trader from './Trader';
 
 export default function PageTrade() {
@@ -30,26 +29,25 @@ export default function PageTrade() {
     if (!isMobile) {
       navigate(`/coin/${slug}`);
     } else if (position.data && !isPositionUpdatable(position.data)) {
-      navigate(`/trader-positions?slug=${slug}`);
+      navigate(`/trader/positions?slug=${slug}`);
     }
   }, [isMobile, navigate, position.data, slug]);
 
   return (
-    <PageWrapper>
-      <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
-        <div className="mb-3 flex gap-2">
-          <BtnBack />
-          <CoinSelect
-            className="w-full"
-            filterTokens={x => x !== 'tether'}
-            priceExchange="auto"
-            value={slug}
-            tradableCoinsOnly
-            onChange={selectedSlug => navigate(`/auto-trader/${selectedSlug}`)}
-            mini={false}
-          />
-        </div>
+    <PageWrapper hasBack>
+      <CoinSelect
+        className="mb-4 w-full [&_.ant-select-selector]:!bg-v1-surface-l2 [&_.ant-select-selector]:!py-1"
+        filterTokens={x => x !== 'tether'}
+        priceExchange="auto"
+        value={slug}
+        tradableCoinsOnly
+        onChange={selectedSlug =>
+          navigate(`/trader/bot/${selectedSlug}`, { replace: true })
+        }
+        mini={false}
+      />
 
+      <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
         <Trader
           slug={slug}
           quote={quote}

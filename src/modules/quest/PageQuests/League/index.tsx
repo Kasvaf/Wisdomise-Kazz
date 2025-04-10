@@ -12,7 +12,7 @@ const League = () => {
 
   return (
     <NavLink
-      to="/trader-quests/league"
+      to="/trader/quests/league"
       className="relative block overflow-hidden rounded-2xl bg-v1-surface-l2 p-4 hover:saturate-200"
     >
       <img

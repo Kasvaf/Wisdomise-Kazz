@@ -12,7 +12,7 @@ import { ReadableDuration } from 'shared/ReadableDuration';
 import Badge from 'shared/Badge';
 import { isMiniApp } from 'utils/version';
 import { PageTitle } from 'shared/PageTitle';
-import BtnLiveSupport from 'modules/base/Container/Header/BtnLiveSupport';
+import BtnLiveSupport from './BtnLiveSupport';
 import {
   ProfileIcon,
   SubscriptionIcon,
@@ -30,7 +30,7 @@ const PageAccount: FC = () => {
   const { data: referral } = useReferralStatusQuery();
 
   return (
-    <PageWrapper>
+    <PageWrapper hasBack title="My Account">
       <PageTitle
         className="mb-10 mobile:hidden"
         icon={UserIcon}
@@ -38,7 +38,7 @@ const PageAccount: FC = () => {
         description={t('menu.account.subtitle')}
       />
 
-      <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1 mobile:gap-2">
+      <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1 mobile:gap-2 xl:grid-cols-3">
         <PageCard
           to="/account/profile"
           title={t('menu.profile.title')}
@@ -116,7 +116,7 @@ const PageAccount: FC = () => {
         />
         {isMiniApp && (
           <PageCard
-            to="/trader-claim-reward"
+            to="/trader/claim-reward"
             title={t('menu.game-rewards.title')}
             description={t('menu.game-rewards.subtitle')}
             icon={RewardIcon}

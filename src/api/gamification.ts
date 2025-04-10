@@ -21,19 +21,17 @@ export interface Friend {
 }
 
 export const useGameFriendsQuery = () =>
-  useQuery(
-    ['friends'],
-    async () => {
+  useQuery({
+    queryKey: ['friends'],
+    queryFn: async () => {
       const data = await ofetch<PageResponse<Friend>>(
         `${INVESTMENT_ORIGIN}/api/v1/gamification/user/friend`,
         { meta: { gameAuth: true } },
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 export interface SyncDataRequest {
   wallet_address?: string;
@@ -80,12 +78,14 @@ export interface SyncDataResponse {
 }
 
 export const useSyncDataMutation = () => {
-  return useMutation(async (body: SyncDataRequest) => {
-    const data = await ofetch<SyncDataResponse>(
-      `${INVESTMENT_ORIGIN}/api/v1/gamification/user/sync-data`,
-      { body, method: 'post', meta: { gameAuth: true } },
-    );
-    return data;
+  return useMutation({
+    mutationFn: async (body: SyncDataRequest) => {
+      const data = await ofetch<SyncDataResponse>(
+        `${INVESTMENT_ORIGIN}/api/v1/gamification/user/sync-data`,
+        { body, method: 'post', meta: { gameAuth: true } },
+      );
+      return data;
+    },
   });
 };
 
@@ -102,42 +102,44 @@ interface CheckEligibilityRequest {
 }
 
 export const useCheckEligibilityMutation = () =>
-  useMutation(async (body: CheckEligibilityRequest) => {
-    const data = await ofetch<CheckEligibilityResponse[]>(
-      `${INVESTMENT_ORIGIN}/api/v1/gamification/user/check-eligibility`,
-      { body, method: 'post', meta: { gameAuth: true } },
-    );
-    return data;
+  useMutation({
+    mutationFn: async (body: CheckEligibilityRequest) => {
+      const data = await ofetch<CheckEligibilityResponse[]>(
+        `${INVESTMENT_ORIGIN}/api/v1/gamification/user/check-eligibility`,
+        { body, method: 'post', meta: { gameAuth: true } },
+      );
+      return data;
+    },
   });
 
 type UserTickets = Record<TicketType, number[]>;
 
 export const useUserTicketsQuery = () =>
-  useQuery(
-    ['userTickets'],
-    async () => {
+  useQuery({
+    queryKey: ['userTickets'],
+    queryFn: async () => {
       const data = await ofetch<UserTickets>(
         `${INVESTMENT_ORIGIN}/api/v1/gamification/user/tickets`,
         { meta: { gameAuth: true } },
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 interface WithdrawRequest {
   token: 'ton' | 'usdt';
 }
 
 export const useWithdrawMutation = () =>
-  useMutation(async (body: WithdrawRequest) => {
-    const data = await ofetch(
-      `${INVESTMENT_ORIGIN}/api/v1/gamification/user/withdraw`,
-      { body, method: 'post', meta: { gameAuth: true } },
-    );
-    return data;
+  useMutation({
+    mutationFn: async (body: WithdrawRequest) => {
+      const data = await ofetch(
+        `${INVESTMENT_ORIGIN}/api/v1/gamification/user/withdraw`,
+        { body, method: 'post', meta: { gameAuth: true } },
+      );
+      return data;
+    },
   });
 
 interface GamificationProfile {
@@ -158,16 +160,17 @@ interface GamificationProfile {
 }
 
 export const useGamificationProfileQuery = () =>
-  useQuery(
-    ['gamificationProfile'],
-    async () => {
+  useQuery({
+    queryKey: ['gamificationProfile'],
+    queryFn: async () => {
       return await ofetch<GamificationProfile>(
         `${TEMPLE_ORIGIN}/api/v1/gamification/profile`,
         { method: 'get' },
       );
     },
-    { refetchInterval: 30 * 1000, retry: false },
-  );
+    refetchInterval: 30 * 1000,
+    retry: false,
+  });
 
 export interface GamificationActionBody {
   event_name: 'claim';
@@ -175,12 +178,14 @@ export interface GamificationActionBody {
 }
 
 export const useGamificationActionMutation = () =>
-  useMutation(async (body: GamificationActionBody) => {
-    const data = await ofetch(`${TEMPLE_ORIGIN}/api/v1/gamification/action`, {
-      body,
-      method: 'post',
-    });
-    return data;
+  useMutation({
+    mutationFn: async (body: GamificationActionBody) => {
+      const data = await ofetch(`${TEMPLE_ORIGIN}/api/v1/gamification/action`, {
+        body,
+        method: 'post',
+      });
+      return data;
+    },
   });
 
 const AFTER_TRADE_PERIOD = (isProduction ? 24 * 60 : 1) * 60 * 1000;
@@ -253,26 +258,32 @@ export interface LeagueDetail {
 }
 
 export const useLeaguesQuery = () => {
-  return useQuery(['leagues'], async () => {
-    return await ofetch<League>(`${TEMPLE_ORIGIN}/api/v1/trader/leagues`, {
-      method: 'get',
-    });
+  return useQuery({
+    queryKey: ['leagues'],
+    queryFn: async () => {
+      return await ofetch<League>(`${TEMPLE_ORIGIN}/api/v1/trader/leagues`, {
+        method: 'get',
+      });
+    },
   });
 };
 
 export const useLeagueProfileQuery = () => {
-  return useQuery(['leagueProfile'], async () => {
-    return await ofetch<LeaderboardParticipant>(
-      `${TEMPLE_ORIGIN}/api/v1/trader/leagues/me`,
-      { method: 'get' },
-    );
+  return useQuery({
+    queryKey: ['leagueProfile'],
+    queryFn: async () => {
+      return await ofetch<LeaderboardParticipant>(
+        `${TEMPLE_ORIGIN}/api/v1/trader/leagues/me`,
+        { method: 'get' },
+      );
+    },
   });
 };
 
 export const useLeagueLeaderboardQuery = (leagueSlug?: string) => {
-  return useQuery(
-    ['leagueLeaderboard', leagueSlug],
-    async () => {
+  return useQuery({
+    queryKey: ['leagueLeaderboard', leagueSlug],
+    queryFn: async () => {
       return await ofetch<LeaderboardParticipant[]>(
         `${TEMPLE_ORIGIN}/api/v1/trader/leagues/${
           leagueSlug ?? ''
@@ -280,15 +291,17 @@ export const useLeagueLeaderboardQuery = (leagueSlug?: string) => {
         { method: 'get' },
       );
     },
-    { enabled: !!leagueSlug },
-  );
+    enabled: !!leagueSlug,
+  });
 };
 
 export const useLeagueClaimMutation = () => {
-  return useMutation(async () => {
-    return await ofetch(`${TEMPLE_ORIGIN}/api/v1/trader/leagues/claim`, {
-      method: 'post',
-    });
+  return useMutation({
+    mutationFn: async () => {
+      return await ofetch(`${TEMPLE_ORIGIN}/api/v1/trader/leagues/claim`, {
+        method: 'post',
+      });
+    },
   });
 };
 
@@ -300,17 +313,15 @@ interface RewardHistoryItem {
 }
 
 export const useRewardsHistoryQuery = () =>
-  useQuery(
-    ['rewardsHistory'],
-    async () => {
+  useQuery({
+    queryKey: ['rewardsHistory'],
+    queryFn: async () => {
       return await ofetch<RewardHistoryItem[]>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`,
       );
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 interface ClaimRewardBody {
   solana_wallet_address: string;
@@ -318,13 +329,13 @@ interface ClaimRewardBody {
 
 export const useWithdrawRewardMutation = () => {
   const client = useQueryClient();
-  return useMutation(
-    async (body: ClaimRewardBody) => {
+  return useMutation({
+    mutationFn: async (body: ClaimRewardBody) => {
       return await ofetch(`${ACCOUNT_PANEL_ORIGIN}/api/v1/defi/reward`, {
         body,
         method: 'post',
       });
     },
-    { onSuccess: () => client.invalidateQueries(['rewardsHistory']) },
-  );
+    onSuccess: () => client.invalidateQueries({ queryKey: ['rewardsHistory'] }),
+  });
 };

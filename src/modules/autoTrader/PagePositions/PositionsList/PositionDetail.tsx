@@ -11,8 +11,8 @@ import PriceChange from 'shared/PriceChange';
 import InfoButton from 'shared/InfoButton';
 import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
-import SharingCard from 'modules/autoTrader/PositionsList/SharingCard';
 import { isMiniApp } from 'utils/version';
+import PositionSharingModal from '../../PositionsList/PositionSharingModal';
 import CancelButton from './CancelButton';
 import CloseButton from './CloseButton';
 import StatusWidget from './StatusWidget';
@@ -196,7 +196,7 @@ const PositionDetail: React.FC<{
             variant="link"
             className="!p-0 !text-xs text-v1-content-link"
             contentClassName="!text-v1-content-link"
-            to={`/auto-trader/${position.base_slug}/transactions?key=${position.key}`}
+            to={`/trader/bot/${position.base_slug}/transactions?key=${position.key}`}
             size="small"
           >
             <Icon name={bxHistory} size={16} className="mr-1" />
@@ -204,9 +204,9 @@ const PositionDetail: React.FC<{
           </Button>
         )}
       </div>
-      <SharingCard
+      <PositionSharingModal
         open={openShare}
-        setOpen={setOpenShare}
+        onClose={() => setOpenShare(false)}
         position={position}
       />
     </div>

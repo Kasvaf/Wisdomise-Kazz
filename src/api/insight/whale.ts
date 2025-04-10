@@ -62,7 +62,6 @@ export const useWhaleRadarWhales = (config: {
 }) =>
   useQuery({
     queryKey: ['whale-radar-whales'],
-    keepPreviousData: true,
     queryFn: async () => {
       const data = await resolvePageResponseToArray<WhaleShort>(
         'delphi/holders/tops/',
@@ -83,6 +82,11 @@ export const useWhaleRadarWhales = (config: {
           return false;
         return true;
       }),
+    meta: {
+      persist: true,
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export interface WhaleCoin {
@@ -106,43 +110,6 @@ export interface WhaleCoin {
   };
 }
 export type WhaleCoinsFilter = 'all' | 'buy' | 'sell' | 'total_volume' | 'hold';
-
-export const useWhalesCoins = (filters?: {
-  page: number;
-  pageSize: number;
-  sortBy?: string;
-  isAscending?: boolean;
-  networkName?: string;
-  filter?: WhaleCoinsFilter;
-  days?: number;
-}) =>
-  useQuery({
-    queryKey: ['whales-coins', JSON.stringify(filters)],
-    keepPreviousData: true,
-    queryFn: async () => {
-      const data = await ofetch<PageResponse<WhaleCoin>>(
-        `${TEMPLE_ORIGIN}/api/v1/delphi/holders/top-coins/`,
-        {
-          query: {
-            page_size: filters?.pageSize ?? 10,
-            page: filters?.page ?? 1,
-            days: filters?.days ?? 1,
-            network_name: filters?.networkName,
-            sorted_by: filters?.sortBy,
-            ascending:
-              typeof filters?.isAscending === 'boolean'
-                ? filters?.isAscending
-                  ? 'True'
-                  : 'False'
-                : undefined,
-            filter: filters?.filter ?? 'all',
-          },
-          meta: { auth: false },
-        },
-      );
-      return data;
-    },
-  });
 
 export interface SingleWhale {
   holder_address: string;
@@ -310,7 +277,6 @@ export const useWhaleRadarCoins = (config: {
 }) =>
   useQuery({
     queryKey: ['whale-radar-coins', config.days],
-    keepPreviousData: true,
     queryFn: () =>
       resolvePageResponseToArray<WhaleRadarCoin>('delphi/holders/top-coins/', {
         query: {
@@ -362,6 +328,11 @@ export const useWhaleRadarCoins = (config: {
             return sorter(a.wallet_count, b.wallet_count);
           return sorter(a.rank, b.rank);
         }),
+    meta: {
+      persist: true,
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export type WhaleAssetLabel =
@@ -426,7 +397,6 @@ export const useCoinWhales = (config: {
 }) =>
   useQuery({
     queryKey: ['coin-whales', config.slug],
-    keepPreviousData: true,
     queryFn: () =>
       resolvePageResponseToArray<CoinWhale>('/delphi/holders/with-coin/', {
         query: {

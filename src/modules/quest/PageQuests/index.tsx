@@ -4,7 +4,7 @@ import PageWrapper from 'modules/base/PageWrapper';
 import { PageTitle } from 'shared/PageTitle';
 import Referral from 'modules/quest/PageQuests/Referral';
 import League from 'modules/quest/PageQuests/League';
-import DailyTrade from './DailyTrade';
+import DailyTrade from 'modules/quest/PageQuests/DailyTrade';
 import Tournaments from './Tournament';
 
 export default function PageQuests() {
@@ -12,7 +12,7 @@ export default function PageQuests() {
   const hasFlag = useHasFlag();
 
   return (
-    <PageWrapper loading={isLoading}>
+    <PageWrapper footer={null} hasBack title="Quests" loading={isLoading}>
       <PageTitle
         className="py-5"
         title="Quests"
@@ -20,12 +20,12 @@ export default function PageQuests() {
       />
 
       <div className="grid grid-cols-2 gap-4 mobile:grid-cols-1">
-        {hasFlag('/trader-quests/daily') && (
+        {hasFlag('/trader/quests/daily') && (
           <DailyTrade className="shrink-0 grow" />
         )}
-        {hasFlag('/trader-quests/league') && <League />}
+        {hasFlag('/trader/quests/league') && <League />}
         {hasFlag('/account/referral') && <Referral className="shrink-0 grow" />}
-        {hasFlag('/trader-quests/tournaments') && (
+        {hasFlag('/trader/quests/tournaments') && (
           <Tournaments className="shrink-0 grow" />
         )}
       </div>

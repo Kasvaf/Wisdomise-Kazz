@@ -37,10 +37,7 @@ export function NavigateButtons({
         disabled={!allowPrev || !showPrev}
         onClick={onPrev}
         block
-        className={clsx(
-          'w-64 mobile:hidden',
-          !showPrev && 'opacity-0 mobile:hidden',
-        )}
+        className={clsx('w-64', !showPrev && 'opacity-0 mobile:hidden')}
       >
         <Icon name={bxLeftArrowAlt} />
         {prevText}

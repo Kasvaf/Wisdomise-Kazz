@@ -6,7 +6,7 @@ import { refreshAccessToken } from 'api/auth';
 import configDayjs from './dayjs';
 import configI18n from './i18n';
 import configSentry from './sentry';
-import queryClient from './reactQuery';
+import { queryClient } from './reactQuery';
 import oneSignal from './oneSignal';
 import { configOfetch } from './ofetch';
 

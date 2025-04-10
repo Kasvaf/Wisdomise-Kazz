@@ -4,7 +4,7 @@ import {
   type Invoice,
   type PaymentMethodsResponse,
 } from 'modules/account/models';
-import queryClient from 'config/reactQuery';
+import { queryClient } from 'config/reactQuery';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from './types/page';
 import {
@@ -15,9 +15,9 @@ import {
 import { useAccountQuery } from './account';
 
 export const usePlansQuery = (periodicity?: PlanPeriod) =>
-  useQuery(
-    ['getPlans', periodicity],
-    async ({ queryKey }) => {
+  useQuery({
+    queryKey: ['getPlans', periodicity],
+    queryFn: async ({ queryKey }) => {
       const [, periodicity] = queryKey;
       const params = new URLSearchParams();
       if (periodicity) {
@@ -28,22 +28,21 @@ export const usePlansQuery = (periodicity?: PlanPeriod) =>
       );
       return data;
     },
-    { staleTime: Number.POSITIVE_INFINITY },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 export const useInvoicesQuery = () =>
-  useQuery(
-    ['invoices'],
-    async () => {
+  useQuery({
+    queryKey: ['invoices'],
+    queryFn: async () => {
       const data = await ofetch<PageResponse<Invoice>>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/invoices`,
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  );
+
+    staleTime: Number.POSITIVE_INFINITY,
+  });
 
 interface UpdateSubscriptionRequest {
   subscription_plan_key: string | null;
@@ -61,8 +60,8 @@ export const useSubscriptionMutation = () =>
     },
     onSuccess: () =>
       Promise.all([
-        queryClient.invalidateQueries(['account']),
-        queryClient.invalidateQueries(['invoices']),
+        queryClient.invalidateQueries({ queryKey: ['account'] }),
+        queryClient.invalidateQueries({ queryKey: ['invoices'] }),
       ]),
   });
 
@@ -74,7 +73,7 @@ export const useChangePaymentMethodMutation = () => {
         { body: variables, method: 'patch' },
       );
     },
-    onSuccess: () => queryClient.invalidateQueries(['account']),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['account'] }),
   });
 };
 
@@ -135,7 +134,7 @@ export const useInstantCancelMutation = () =>
           method: 'patch',
         },
       );
-      await queryClient.invalidateQueries(['account']);
+      await queryClient.invalidateQueries({ queryKey: ['account'] });
     },
   });
 
@@ -145,17 +144,15 @@ export const useInstantCancelMutation = () =>
 
 export const useStripePaymentMethodsQuery = () => {
   const account = useAccountQuery();
-  return useQuery(
-    ['getPaymentMethods'],
-    async () => {
+  return useQuery({
+    queryKey: ['getPaymentMethods'],
+    queryFn: async () => {
       const data = await ofetch<PaymentMethodsResponse>(
         `${ACCOUNT_PANEL_ORIGIN}/api/v1/subscription/stripe/payment-methods`,
       );
       return data;
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: !!account.data?.stripe_customer_id,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: !!account.data?.stripe_customer_id,
+  });
 };

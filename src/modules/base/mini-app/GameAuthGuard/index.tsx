@@ -1,7 +1,7 @@
 import { type PropsWithChildren, useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { isLocal } from 'utils/version';
 import { useGameLoginQuery } from 'api';
+import { isLocal } from 'utils/version';
 import PageWrapper from 'modules/base/PageWrapper';
 import { useTelegram } from '../TelegramProvider';
 import WalletGuard from './WalletGuard';
@@ -17,14 +17,16 @@ export default function GameAuthGuard({ children }: PropsWithChildren) {
   );
 
   useEffect(() => {
-    void client.invalidateQueries(['gameLogin']).then(() => setShow(true));
+    void client
+      .invalidateQueries({ queryKey: ['gameLogin'] })
+      .then(() => setShow(true));
     return () => {
-      void client.invalidateQueries(['miniAppLogin']);
+      void client.invalidateQueries({ queryKey: ['miniAppLogin'] });
     };
   }, [refetch, client]);
 
   return (
-    <PageWrapper loading={!isLoggedIn}>
+    <PageWrapper hasBack loading={!isLoggedIn}>
       {isLoggedIn && show && <WalletGuard>{children}</WalletGuard>}
     </PageWrapper>
   );

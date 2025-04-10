@@ -3,36 +3,47 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useState } from 'react';
 import { useStripeSetupIntentQuery } from 'api';
 import { STRIPE_CLIENT_PUBLIC_KEY } from 'config/constants';
+import PageWrapper from 'modules/base/PageWrapper';
 import ChangeStripeCardInfoForm from './ChangeStripeCardInfoForm';
 
 export default function ChangeStripeCardInfoPage() {
   const { data } = useStripeSetupIntentQuery();
   const [stripePromise] = useState(() => loadStripe(STRIPE_CLIENT_PUBLIC_KEY));
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <PageWrapper hasBack title={null}>
+        No Data
+      </PageWrapper>
+    );
+  }
 
   return (
-    <Elements
-      stripe={stripePromise}
-      options={{
-        fonts: [{ cssSrc: 'https://fonts.googleapis.com/css?family=Poppins' }],
-        appearance: {
-          theme: 'night',
-          variables: {
-            colorPrimary: '#0570de',
-            colorBackground: '#000',
-            colorText: '#fff',
-            colorDanger: '#df1b41',
-            fontFamily: 'Poppins, sans-serif',
-            spacingGridRow: '1.5rem',
-            spacingGridColumn: '1.5rem',
-            borderRadius: '40px',
+    <PageWrapper hasBack title={null}>
+      <Elements
+        stripe={stripePromise}
+        options={{
+          fonts: [
+            { cssSrc: 'https://fonts.googleapis.com/css?family=Poppins' },
+          ],
+          appearance: {
+            theme: 'night',
+            variables: {
+              colorPrimary: '#0570de',
+              colorBackground: '#000',
+              colorText: '#fff',
+              colorDanger: '#df1b41',
+              fontFamily: 'Poppins, sans-serif',
+              spacingGridRow: '1.5rem',
+              spacingGridColumn: '1.5rem',
+              borderRadius: '40px',
+            },
           },
-        },
-        clientSecret: data.client_secret,
-      }}
-    >
-      <ChangeStripeCardInfoForm />
-    </Elements>
+          clientSecret: data.client_secret,
+        }}
+      >
+        <ChangeStripeCardInfoForm />
+      </Elements>
+    </PageWrapper>
   );
 }

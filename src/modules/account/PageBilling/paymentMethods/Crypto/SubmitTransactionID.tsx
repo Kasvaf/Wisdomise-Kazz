@@ -54,7 +54,7 @@ export default function SubmitTransactionID({
       <Button
         onClick={onClick}
         disabled={!transactionId}
-        loading={submitCryptoPayment.isLoading}
+        loading={submitCryptoPayment.isPending}
       >
         {t('crypto-modal.btn-done')}
       </Button>

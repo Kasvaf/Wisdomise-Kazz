@@ -1,6 +1,9 @@
-import { useMemo, type FC } from 'react';
+/* eslint-disable import/max-dependencies */
+import { useMemo, type FC, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
+import { bxShareAlt } from 'boxicons-quasar';
+import { Tooltip } from 'antd';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { AccessShield } from 'shared/AccessShield';
 import Table, { useTableState } from 'shared/Table';
@@ -8,6 +11,11 @@ import { Coin } from 'shared/Coin';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
+import TechnicalRadarSharingModal from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSharingModal';
+import Icon from 'shared/Icon';
+import { Button } from 'shared/v1-components/Button';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
@@ -27,13 +35,43 @@ export const TechnicalRadarCoinsTable: FC = () => {
     categories: [],
   });
   const coins = useTechnicalRadarCoins(tableState);
+  const [openShareModal, setOpenShareModal] = useState(false);
+  const [hoveredRow, setHoveredRow] = useState<number>();
+  const [selectedRow, setSelectedRow] = useState<TechnicalRadarCoin>();
+  const [LoginModal, ensureAuthenticated] = useEnsureAuthenticated();
 
   const columns = useMemo<Array<ColumnType<TechnicalRadarCoin>>>(
     () => [
       {
         fixed: 'left',
         title: t('table.rank'),
-        render: (_, row) => row.rank,
+        render: (_, row, index) => (
+          <div>
+            {row.rank}
+            <Tooltip
+              open={index === hoveredRow}
+              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"
+              placement="left"
+              title={
+                <Button
+                  className="-mr-1 !px-1"
+                  variant="secondary"
+                  size="xs"
+                  onClick={async () => {
+                    setHoveredRow(undefined);
+                    const isLoggedIn = await ensureAuthenticated();
+                    if (isLoggedIn) {
+                      setSelectedRow(row);
+                      setOpenShareModal(true);
+                    }
+                  }}
+                >
+                  <Icon name={bxShareAlt} size={6} />
+                </Button>
+              }
+            />
+          </div>
+        ),
         width: 50,
       },
       {
@@ -93,8 +131,10 @@ export const TechnicalRadarCoinsTable: FC = () => {
         ),
       },
     ],
-    [t],
+    [ensureAuthenticated, hoveredRow, t],
   );
+
+  useLoadingBadge(coins.isFetching);
 
   return (
     <div>
@@ -120,11 +160,24 @@ export const TechnicalRadarCoinsTable: FC = () => {
           columns={columns}
           dataSource={coins.data}
           rowKey={r => JSON.stringify(r.symbol)}
-          loading={coins.isRefetching && !coins.isFetched}
+          loading={coins.isLoading}
           tableLayout="fixed"
+          onRow={(_, index) => ({
+            onMouseEnter: () => setHoveredRow(index),
+            onMouseLeave: () => setHoveredRow(undefined),
+          })}
           {...tableProps}
         />
       </AccessShield>
+
+      {selectedRow && (
+        <TechnicalRadarSharingModal
+          open={openShareModal}
+          coin={selectedRow}
+          onClose={() => setOpenShareModal(false)}
+        />
+      )}
+      {LoginModal}
     </div>
   );
 };

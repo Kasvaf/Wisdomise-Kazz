@@ -7,11 +7,11 @@ import {
   type PropsWithChildren,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInterval } from 'usehooks-ts';
 import { type UserGroup, useSubscription } from 'api';
 import { isDebugMode } from 'utils/version';
 import { HoverTooltip } from 'shared/HoverTooltip';
 import { Button } from 'shared/v1-components/Button';
+import { useMutationObserver } from 'utils/useMutationObserver';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Sparkle } from './sparkle.svg';
 
@@ -24,7 +24,7 @@ const useShield = (
 ) => {
   const root = useRef<HTMLDivElement>(null);
   const shield = useRef<HTMLDivElement>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(!!(size === 0 || size === false));
   const [height, setHeight] = useState(150);
   const [maxHeight, setMaxHeight] = useState(150);
 
@@ -32,64 +32,65 @@ const useShield = (
   const updateStyle = useCallback(() => {
     if (timeout.current !== null) clearTimeout(timeout.current);
     if (!root.current) return;
-    timeout.current = setTimeout(() => {
-      try {
-        if (!root.current || !shield.current) return;
-        const blockList = (
-          mode === 'table'
-            ? [
-                ...root.current.querySelectorAll(
-                  'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
-                ),
-              ]
-            : mode === 'mobile_table'
-            ? [...root.current.querySelectorAll('[data-table="tr"]')]
-            : [
-                ...root.current.querySelectorAll(
-                  '*:not([aria-hidden]):not([data-pro-locker])',
-                ),
-              ].filter(r => r.parentElement === root.current)
-        ).slice(0, calcSize(size)) as HTMLElement[];
-        const isActive = blockList.length > 0;
-        if (!isActive) {
-          shield.current.style.display = 'none';
-          root.current.style.overflow = '';
-          return;
-        }
-
-        const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
-        const bottom = Math.max(
-          ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
-        );
-        const minHeight = 40;
-        const [h, mh] = [
-          bottom - top,
-          Math.max(minHeight, root.current.offsetHeight),
-        ];
-        root.current.setAttribute('size', size.toString());
-        root.current.style.overflow = size === true ? 'hidden' : '';
-        root.current.style.maxHeight = size === true ? '100%' : '';
-        root.current.style.position = 'relative';
-        shield.current.style.maxHeight = `${mh}px`;
-        shield.current.style.top = `${top}px`;
-        shield.current.style.left = '0px';
-        shield.current.style.width = '100%';
-        shield.current.style.height = `${h}px`;
-        shield.current.style.overflow = 'hidden';
-        shield.current.style.position = 'absolute';
-        shield.current.style.margin = '0';
-        shield.current.style.display = '';
-        shield.current.style.willChange = 'height';
-        setHeight(h);
-        setMaxHeight(mh);
-      } catch {
-      } finally {
-        setIsReady(true);
+    try {
+      if (!root.current || !shield.current) return;
+      const blockList = (
+        mode === 'table'
+          ? [
+              ...root.current.querySelectorAll(
+                'tbody > tr:not([aria-hidden]):not(.ant-table-placeholder)',
+              ),
+            ]
+          : mode === 'mobile_table'
+          ? [...root.current.querySelectorAll('[data-table="tr"]')]
+          : [
+              ...root.current.querySelectorAll(
+                '*:not([aria-hidden]):not([data-pro-locker])',
+              ),
+            ].filter(r => r.parentElement === root.current)
+      ).slice(0, calcSize(size)) as HTMLElement[];
+      const isActive = blockList.length > 0;
+      if (!isActive) {
+        shield.current.style.display = 'none';
+        root.current.style.overflow = '';
+        return;
       }
-    }, 50);
+
+      const top = Math.min(...blockList.map(r => r.offsetTop ?? 0));
+      const bottom = Math.max(
+        ...blockList.map(r => (r.offsetHeight ?? 0) + (r.offsetTop ?? 0)),
+      );
+      const minHeight = 40;
+      const [h, mh] = [
+        bottom - top,
+        Math.max(minHeight, root.current.offsetHeight),
+      ];
+      root.current.setAttribute('size', size.toString());
+      root.current.style.overflow = size === true ? 'hidden' : '';
+      root.current.style.maxHeight = size === true ? '100%' : '';
+      root.current.style.position = 'relative';
+      shield.current.style.maxHeight = `${mh}px`;
+      shield.current.style.top = `${top}px`;
+      shield.current.style.left = '0px';
+      shield.current.style.width = '100%';
+      shield.current.style.height = `${h}px`;
+      shield.current.style.overflow = 'hidden';
+      shield.current.style.position = 'absolute';
+      shield.current.style.margin = '0';
+      shield.current.style.display = '';
+      shield.current.style.willChange = 'height';
+      setHeight(h);
+      setMaxHeight(mh);
+    } catch {
+    } finally {
+      setIsReady(true);
+    }
   }, [mode, size]);
 
-  useInterval(() => updateStyle(), 500);
+  useMutationObserver(root, updateStyle, {
+    childList: true,
+    subtree: true,
+  });
 
   return { root, shield, isReady, height, maxHeight };
 };
@@ -129,10 +130,10 @@ export function AccessShield({
         {calcSize(size) > 0 && (
           <div
             className={clsx(
-              'z-[2] w-full rounded-xl',
+              'z-[2] hidden w-full rounded-xl',
               height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
               maxHeight < 900 ? 'justify-center' : 'justify-start',
-              'flex flex-col items-center backdrop-blur',
+              'flex-col items-center backdrop-blur',
               'bg-[rgba(29,38,47,0.2)]',
               !isReady && 'hidden',
             )}

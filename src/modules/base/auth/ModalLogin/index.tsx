@@ -38,7 +38,7 @@ const LoginModalContent: React.FC<{
   const [submitTime, setSubmitTime] = useState(Date.now());
   const now = useNow();
 
-  const { mutateAsync: emailLogin, isLoading: emailLoginLoading } =
+  const { mutateAsync: emailLogin, isPending: emailLoginLoading } =
     useEmailLoginMutation();
 
   const isValidEmail = /^[\w+.-]+@[\w.-]+\.\w+$/.test(email);
@@ -63,7 +63,7 @@ const LoginModalContent: React.FC<{
   const remMinutes = Math.floor(remTime / 60);
   const remSeconds = remTime % 60;
 
-  const { mutateAsync: verifyEmail, isLoading: verifyEmailLoading } =
+  const { mutateAsync: verifyEmail, isPending: verifyEmailLoading } =
     useVerifyEmailMutation();
   const submitCode = async () => {
     if (
@@ -337,6 +337,7 @@ export const useModalLogin = () => {
         maskClosable={!forceLogin}
         closeIcon={forceLogin ? <></> : <Icon name={bxX} size={16} />}
         width={950}
+        zIndex={2_147_483_647} // 1 unit higher than cookie-bot banner
         className="max-h-full max-w-full mobile:h-full mobile:w-full [&_.ant-modal-body]:size-full [&_.ant-modal-content]:!bg-v1-surface-l1 [&_.ant-modal-content]:p-0 mobile:[&_.ant-modal-content]:h-full mobile:[&_.ant-modal-content]:w-full [&_.ant-modal-content]:mobile:!rounded-none"
       >
         <LoginModalContent onResolve={handleResolve} />
@@ -344,14 +345,16 @@ export const useModalLogin = () => {
     </>
   );
 
-  const show = () =>
-    new Promise<boolean>(resolve => {
-      if (!open) {
+  const lastPromise = useRef<Promise<boolean> | undefined>(undefined);
+  const show = () => {
+    if (!open) {
+      lastPromise.current = new Promise<boolean>(resolve => {
         resolver.current = resolve;
         setOpen(true);
-      }
-      throw new Error('Login modal is already open!');
-    });
+      });
+    }
+    return lastPromise.current;
+  };
 
   return [content, show] as const;
 };

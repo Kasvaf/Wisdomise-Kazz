@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
+import { isDebugMode } from 'utils/version';
 import {
   type MarketData,
   type Coin,
@@ -9,6 +10,7 @@ import {
 } from '../types/shared';
 import { createSorter, matcher } from './utils';
 
+export const MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 3 : 5.9;
 export interface SocialRadarInfo {
   long_count: number;
   short_count: number;
@@ -39,7 +41,7 @@ export interface SocialRadarInfo {
 
 export const useSocialRadarInfo = () =>
   useQuery({
-    queryKey: ['social-radar-info'],
+    queryKey: ['social-radar-info', new Date().toDateString()],
     queryFn: async () => {
       const data = await ofetch<SocialRadarInfo>(
         'delphi/social-radar/market-social-signal/?window_hours=24',
@@ -116,17 +118,12 @@ export const useSocialRadarCoins = (config: {
 }) =>
   useQuery({
     queryKey: ['social-radar-coins', config.windowHours],
-    queryFn: async () => {
-      const data = await ofetch<SocialRadarCoin[]>(
-        'delphi/social-radar/coins-social-signal/',
-        {
-          query: {
-            window_hours: config.windowHours,
-          },
+    queryFn: () =>
+      ofetch<SocialRadarCoin[]>('delphi/social-radar/coins-social-signal/', {
+        query: {
+          window_hours: config.windowHours,
         },
-      );
-      return data ?? [];
-    },
+      }).then(x => x ?? []),
     select: data =>
       data
         .filter(row => {
@@ -163,8 +160,11 @@ export const useSocialRadarCoins = (config: {
             );
           return sorter(a.rank, b.rank);
         }),
-    refetchInterval: 30_000,
-    keepPreviousData: true,
+    meta: {
+      persist: true,
+    },
+    refetchInterval: 1000 * 30,
+    refetchOnMount: true,
   });
 
 export const useSocialRadarSentiment = ({ slug }: { slug: string }) =>

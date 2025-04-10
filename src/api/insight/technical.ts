@@ -107,6 +107,11 @@ export const useIndicatorHeatmap = <I extends 'rsi'>(filters: {
           },
         },
       ),
+    meta: {
+      persist: true,
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export type IndicatorConfirmationCombination =
@@ -250,6 +255,11 @@ export const useIndicatorConfirmations = <I extends Indicator>(filters: {
         results,
       };
     },
+    meta: {
+      persist: true,
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
@@ -321,6 +331,11 @@ export const useTechnicalRadarCoins = (config: {
           return sorter(a.rank, b.rank);
         });
     },
+    meta: {
+      persist: true,
+    },
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
   });
 
 export interface TechnicalRadarSentiment {

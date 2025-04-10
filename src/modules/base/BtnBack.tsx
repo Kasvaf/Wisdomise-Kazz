@@ -12,7 +12,10 @@ const BtnBack = ({ className }: { className?: string }) => {
       surface={2}
       onClick={() => navigate(-1)}
       size="md"
-      className={clsx(className, 'w-md')}
+      className={clsx(
+        className,
+        'flex items-center justify-center !px-3 !py-0',
+      )}
     >
       <Icon name={bxLeftArrowAlt} />
     </Button>
