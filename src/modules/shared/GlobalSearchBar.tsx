@@ -30,7 +30,12 @@ export const GlobalSearchBar: FC<{
 
   return (
     <>
-      <div className={clsx('flex items-center gap-2', className)}>
+      <div
+        className={clsx(
+          'flex max-w-96 items-center gap-2 mobile:max-w-full',
+          className,
+        )}
+      >
         <CoinSelect
           allowClear={false}
           chevron={false}
