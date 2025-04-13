@@ -25,7 +25,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
     <>
       <div className="flex flex-nowrap items-stretch justify-between overflow-hidden">
         {/* Discover */}
-        <div className="w-80 shrink-0 overflow-hidden p-3 ps-0 tablet:w-60">
+        <div className="w-60 shrink-0 overflow-hidden p-3 ps-0 tablet:w-60">
           {isDebugMode && (
             <>
               <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">

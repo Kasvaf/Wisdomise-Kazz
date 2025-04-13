@@ -39,7 +39,7 @@ const PoolSentimentCol: FC<{
 }> = ({ label, children, className, contentClassName }) => (
   <div
     className={clsx(
-      'flex h-12 w-auto shrink-0 flex-col justify-between gap-1',
+      'flex h-12 w-auto shrink-0 flex-col justify-start gap-1',
       className,
     )}
   >
@@ -67,7 +67,7 @@ export const PoolSentimentWidget: FC<{
       >
         <PoolSentimentCol
           label={t('common.liquidity')}
-          contentClassName="text-xs"
+          contentClassName="text-xs mt-1"
         >
           <PoolLiquidity
             type="update_row"
@@ -77,7 +77,7 @@ export const PoolSentimentWidget: FC<{
         </PoolSentimentCol>
         <PoolSentimentCol
           label={t('common.initial_liquidity')}
-          contentClassName="text-xs"
+          contentClassName="text-xs mt-1"
         >
           <PoolLiquidity
             type="initial_row"
@@ -87,7 +87,7 @@ export const PoolSentimentWidget: FC<{
         </PoolSentimentCol>
         <PoolSentimentCol
           label={t('common.marketcap')}
-          contentClassName="text-xs"
+          contentClassName="text-xs mt-1"
         >
           <ReadableNumber
             label="$"

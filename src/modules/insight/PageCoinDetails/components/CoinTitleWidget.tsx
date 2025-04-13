@@ -42,7 +42,10 @@ export const CoinTitleWidget: FC<{
   return (
     <>
       <div
-        className={clsx('flex items-center justify-between gap-1', className)}
+        className={clsx(
+          'flex items-center justify-between gap-1 whitespace-nowrap',
+          className,
+        )}
       >
         <div className="flex items-center justify-start gap-2">
           <CoinLogo coin={symbol} className="size-7" />
@@ -150,7 +153,7 @@ export const CoinTitleWidget: FC<{
             </div>
           </div>
           {pool.data && (
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4">
               <div className="h-4 w-px bg-white/10" />
               <div className="space-y-px">
                 <p className="text-xxs text-v1-content-secondary">
@@ -185,13 +188,17 @@ export const CoinTitleWidget: FC<{
 
                     {/* TODO Risk */}
                   </div>
+
+                  <div className="h-4 w-px bg-white/10" />
+                  <span className="text-xxs">TODO: Rugged</span>
+                  {/* TODO Rugged */}
                 </>
               )}
             </div>
           )}
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <div className="flex flex-col items-end justify-between gap-1">
             <DirectionalNumber
               value={
