@@ -23,8 +23,8 @@
   }
 }
 
-[data-tc-modal] {
-  z-index: 2000;
+div[data-tc-modal] {
+  @apply !z-[2000];
 }
 
 /*
