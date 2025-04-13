@@ -24,7 +24,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
 
   return (
     <>
-      <div className="flex flex-nowrap items-stretch justify-between overflow-hidden">
+      <div className="flex flex-nowrap items-stretch justify-between">
         {/* Discover */}
         <div className="w-60 shrink-0 overflow-hidden p-3 ps-0 tablet:w-60">
           {isDebugMode && (
@@ -39,11 +39,15 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
         </div>
 
         {/* Validate */}
-        <div className="shrink grow overflow-auto border-x border-white/10">
+        <div className="relative shrink grow border-x border-white/10">
           {/* Sentiment Widgets */}
           <CoinSentimentsWidget slug={slug} className="p-3" hr />
           <PoolSentimentWidget slug={slug} className="p-3" hr />
-          <CoinTitleWidget slug={slug} className="p-3" hr />
+          <CoinTitleWidget
+            slug={slug}
+            className="sticky top-[76px] z-10 p-3 bg-v1-surface-l-current"
+            hr
+          />
           <CoinChart slug={slug} height={420} />
         </div>
 
