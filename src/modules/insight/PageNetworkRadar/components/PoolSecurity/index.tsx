@@ -11,7 +11,7 @@ export const PoolSecurity: FC<{
   className?: string;
   imgClassName?: string;
   value?: NetworkRadarPool | null;
-  type: 'grid' | 'row' | 'card';
+  type: 'grid' | 'row' | 'row2' | 'card';
 }> = ({ className, imgClassName, value, type }) => {
   const { t } = useTranslation('network-radar');
 
@@ -116,15 +116,19 @@ export const PoolSecurity: FC<{
               '',
               type === 'card'
                 ? 'grid grid-cols-4 grid-rows-1 gap-1'
-                : 'flex items-start gap-3',
+                : [
+                    'flex items-start',
+                    type === 'row' ? 'gap-3' : 'justify-between gap-12',
+                  ],
             )}
           >
             {items.map(item => (
               <div
                 key={item.key}
                 className={clsx(
-                  'flex flex-col gap-2',
+                  'flex gap-2',
                   type === 'card' && 'items-center text-center',
+                  type === 'row2' ? 'flex-row items-center' : 'flex-col',
                 )}
               >
                 <div

@@ -367,6 +367,7 @@ export const useTechnicalRadarSentiment = ({ slug }: { slug: string }) =>
             slug,
           },
         });
+        if (!data.normalized_score || !data.technical_sentiment) return null;
         return data;
       } catch (error) {
         if (error instanceof FetchError && error.status === 500) {

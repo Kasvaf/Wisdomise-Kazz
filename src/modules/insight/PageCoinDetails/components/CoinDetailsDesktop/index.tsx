@@ -15,6 +15,8 @@ import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
 import { CoinLabelsWidget } from '../CoinLabelsWidget';
 import { CoinFinderWidget } from '../CoinFinderWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
+import { PoolSentimentWidget } from '../PoolSentimentWidget';
+import { PoolStatsWidget } from '../PoolStatsWidget';
 
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -24,7 +26,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
     <>
       <div className="flex flex-nowrap items-stretch justify-between overflow-hidden">
         {/* Discover */}
-        <div className="sticky bottom-0 w-60 shrink-0 overflow-hidden p-3 ps-0">
+        <div className="w-80 shrink-0 overflow-hidden p-3 ps-0 tablet:w-60">
           {isDebugMode && (
             <>
               <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
@@ -35,26 +37,27 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
           )}
           <CoinFinderWidget />
         </div>
+
         {/* Validate */}
-        <div className="grow border-x border-white/10">
+        <div className="shrink grow overflow-auto border-x border-white/10">
           {/* Sentiment Widgets */}
-          <div className="border-b border-white/10 p-3">
-            <CoinSentimentsWidget slug={slug} />
-          </div>
+          <CoinSentimentsWidget slug={slug} className="p-3" hr />
+          <PoolSentimentWidget slug={slug} className="p-3" hr />
         </div>
+
         {/* Trade + Additional */}
-        <div className="w-80 shrink-0 p-3 pe-0">
-          <CoinLabelsWidget slug={slug} />
+        <div className="w-80 shrink-0 space-y-3 p-3 pe-0 tablet:w-60">
+          <CoinLabelsWidget slug={slug} hr />
           {isDebugMode && (
             <>
-              <hr className="my-3 border-white/10" />
               <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
                 {'TODO: Trade Section'}
               </div>
+              <hr className="border-white/10" />
             </>
           )}
-          <hr className="my-3 border-white/10" />
           <CoinStatsWidget slug={slug} />
+          <PoolStatsWidget slug={slug} />
         </div>
       </div>
 

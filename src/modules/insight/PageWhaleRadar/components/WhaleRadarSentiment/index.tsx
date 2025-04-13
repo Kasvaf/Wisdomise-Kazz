@@ -142,7 +142,13 @@ export const WhaleRadarSentiment: FC<{
           <div className="flex items-center justify-between gap-2 text-xxs">
             {numbers.map(num => (
               <div key={num.label} className="text-start">
-                <p>{num.label}</p>
+                <p
+                  className={clsx(
+                    isAllNumbersZero && 'text-v1-content-secondary',
+                  )}
+                >
+                  {num.label}
+                </p>
                 <ReadableNumber
                   value={num.value ?? 0}
                   className={clsx('font-medium', num.color)}

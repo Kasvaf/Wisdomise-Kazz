@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxInfoCircle } from 'boxicons-quasar';
-import { useCoinDetails } from 'api';
+import { useCoinDetails, usePoolDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -55,6 +55,7 @@ export function CoinStatsWidget({
   slug: string;
 }) {
   const coinOverview = useCoinDetails({ slug });
+  const pool = usePoolDetails({ slug });
   const { t } = useTranslation('coin-radar');
 
   const marketCapPercentage =
@@ -72,6 +73,9 @@ export function CoinStatsWidget({
             coinOverview.data?.data?.total_supply ?? 0,
           )) *
         100;
+
+  if (pool.data) return null;
+
   return (
     <div
       className={clsx('space-y-4 rounded-md bg-v1-surface-l2 p-3', className)}

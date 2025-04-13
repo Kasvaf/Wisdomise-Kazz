@@ -1,7 +1,9 @@
 common:
   name: Name
   address: Address
+  buy: Buy
   buy_sell: TXNS
+  buy_vol: Buy Vol
   contract_address: Contract Address
   created: Created
   initial_liquidity: Initial Liquidity
@@ -10,6 +12,8 @@ common:
   recent_candles:
     title: Recent Candles
     info: Last 20 minutes of candlestick data at 1-minute resolution.
+  sell: Sell
+  sell_vol: Sell Vol
   socials: Socials
   txns:
     title: TXNS

@@ -11,6 +11,7 @@ import {
   type CoinDetails,
 } from '../types/shared';
 import { matcher } from './utils';
+import { type NetworkRadarPool } from './network';
 
 export const useNetworks = (config: {
   filter?:
@@ -134,7 +135,6 @@ export const useCoinLabels = (config: { query?: string }) =>
   });
 
 export const useCoinDetails = ({
-  // NAITODO: must fetch both token-review (delphi) and new coin review api from network-radar
   slug,
   priceHistoryDays,
 }: {
@@ -172,4 +172,23 @@ export const useCoinDetails = ({
     },
     refetchOnMount: true,
     refetchInterval: 5 * 60 * 1000,
+  });
+
+export const usePoolDetails = ({ slug }: { slug?: string }) =>
+  useQuery({
+    queryKey: ['pool-details', slug],
+    queryFn: () => {
+      if (!slug) return null;
+      return resolvePageResponseToArray<NetworkRadarPool>(
+        `delphi/market/new-born-pools/?base_slug=${slug}`,
+        {
+          meta: { auth: false },
+        },
+      ).then(resp => {
+        if (resp.length === 0) return null;
+        return resp[0];
+      });
+    },
+    refetchOnMount: true,
+    refetchInterval: 30 * 1000,
   });
