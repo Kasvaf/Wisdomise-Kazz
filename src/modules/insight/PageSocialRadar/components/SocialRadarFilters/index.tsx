@@ -13,8 +13,8 @@ import { ExchangeSelect } from 'shared/ExchangeSelect';
 import { type useSocialRadarCoins } from 'api';
 import { type Surface } from 'utils/useSurface';
 import useIsMobile from 'utils/useIsMobile';
-import { presetFilters } from './presetFilters';
-import { SocialRadarSourceSelect } from './SocialRadarSourceSelect';
+import { socialPresetFilters } from '../../../RadarFilter/presetFilters';
+import { SocialRadarSourceSelect } from '../../../RadarFilter/SocialRadarSourceSelect';
 
 const areEqual = (first: string[], second: string[]) =>
   first.length === second.length && first.every(x => second.includes(x));
@@ -37,7 +37,7 @@ export function SocialRadarFilters({
   const [localState, setLocalState] = useState(value);
   const selectedPreset = useMemo(() => {
     return (
-      presetFilters.find(x => {
+      socialPresetFilters.find(x => {
         return (
           areEqual(x.filters.categories ?? [], value.categories ?? []) &&
           areEqual(x.filters.exchanges ?? [], value.exchanges ?? []) &&
@@ -112,7 +112,7 @@ export function SocialRadarFilters({
             {t('common:all')}
           </Button>
           <ButtonSelect
-            options={presetFilters.map(x => ({
+            options={socialPresetFilters.map(x => ({
               label: x.label,
               value: x.slug,
             }))}
@@ -125,7 +125,8 @@ export function SocialRadarFilters({
                 securityLabels: [],
                 sources: [],
                 trendLabels: [],
-                ...presetFilters.find(x => x.slug === newPresetFilter)?.filters,
+                ...socialPresetFilters.find(x => x.slug === newPresetFilter)
+                  ?.filters,
               })
             }
             size={isMobile ? 'sm' : 'md'}

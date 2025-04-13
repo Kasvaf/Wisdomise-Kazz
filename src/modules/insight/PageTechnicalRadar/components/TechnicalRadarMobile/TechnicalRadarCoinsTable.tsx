@@ -9,6 +9,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
 
@@ -95,6 +96,13 @@ export const TechnicalRadarCoinsTable: FC<{
   return (
     <>
       <TechnicalRadarFilters
+        value={tableState}
+        onChange={newState => setTableState(newState)}
+        className="mb-2 w-full"
+        surface={1}
+      />
+      <RadarFilter
+        radar="technical-radar"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-2 w-full"

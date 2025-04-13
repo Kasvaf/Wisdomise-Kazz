@@ -13,7 +13,7 @@ import { type useWhaleRadarCoins } from 'api';
 import { Checkbox } from 'shared/v1-components/Checkbox';
 import { type Surface } from 'utils/useSurface';
 import useIsMobile from 'utils/useIsMobile';
-import { presetFilters } from './presetFilters';
+import { whalePresetFilters } from '../../../RadarFilter/whalePresetFilters';
 
 const areEqual = (first: string[], second: string[]) =>
   first.length === second.length && first.every(x => second.includes(x));
@@ -36,7 +36,7 @@ export function WhaleRadarFilters({
   const [localState, setLocalState] = useState(value);
   const selectedPreset = useMemo(() => {
     return (
-      presetFilters.find(x => {
+      whalePresetFilters.find(x => {
         return (
           areEqual(x.filters.categories ?? [], value.categories ?? []) &&
           areEqual(x.filters.networks ?? [], value.networks ?? []) &&
@@ -114,7 +114,7 @@ export function WhaleRadarFilters({
             {t('common:all')}
           </Button>
           <ButtonSelect
-            options={presetFilters.map(x => ({
+            options={whalePresetFilters.map(x => ({
               label: x.label,
               value: x.slug,
             }))}
@@ -127,7 +127,8 @@ export function WhaleRadarFilters({
                 trendLabels: [],
                 profitableOnly: false,
                 excludeNativeCoins: false,
-                ...presetFilters.find(x => x.slug === newPresetFilter)?.filters,
+                ...whalePresetFilters.find(x => x.slug === newPresetFilter)
+                  ?.filters,
               })
             }
             size={isMobile ? 'sm' : 'md'}

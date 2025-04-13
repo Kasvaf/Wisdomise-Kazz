@@ -16,6 +16,7 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
@@ -139,6 +140,13 @@ export const TechnicalRadarCoinsTable: FC = () => {
   return (
     <div>
       <TechnicalRadarFilters
+        value={tableState}
+        onChange={newState => setTableState(newState)}
+        className="mb-4 w-full"
+        surface={3}
+      />
+      <RadarFilter
+        radar="technical-radar"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-4 w-full"

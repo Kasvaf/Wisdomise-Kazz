@@ -12,6 +12,7 @@ import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
 import { WhaleRadarFilters } from '../../WhaleRadarFilters';
@@ -138,6 +139,13 @@ export function WhaleRadarCoinsWidget({
               />
             </div>
             <WhaleRadarFilters
+              value={tableState}
+              onChange={newState => setTableState(newState)}
+              className="w-full"
+              surface={3}
+            />
+            <RadarFilter
+              radar="whale-radar"
               value={tableState}
               onChange={newState => setTableState(newState)}
               className="w-full"

@@ -1,6 +1,6 @@
 import { type useWhaleRadarCoins } from 'api/insight';
 
-export const presetFilters: Array<{
+export const whalePresetFilters: Array<{
   label: string;
   slug: string;
   filters: Partial<Parameters<typeof useWhaleRadarCoins>[0]>;
