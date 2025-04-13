@@ -16,6 +16,7 @@ import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { PoolSentimentWidget } from '../PoolSentimentWidget';
 import { PoolStatsWidget } from '../PoolStatsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
+import CoinChart from '../CoinChart';
 
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -43,6 +44,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
           <CoinSentimentsWidget slug={slug} className="p-3" hr />
           <PoolSentimentWidget slug={slug} className="p-3" hr />
           <CoinTitleWidget slug={slug} className="p-3" hr />
+          <CoinChart slug={slug} height={420} />
         </div>
 
         {/* Trade + Additional */}
