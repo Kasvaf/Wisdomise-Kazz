@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePoolDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { isDebugMode } from 'utils/version';
 
 const StatCol: FC<{
   children: ReactNode;
@@ -21,7 +22,7 @@ const GreenRedChart: FC<{
   titles: [string, string];
   label?: string;
 }> = ({ values, titles, label }) => {
-  const percentage = (values[1] / values[0]) * 100;
+  const percentage = (values[0] / (values[0] + values[1])) * 100;
   return (
     <div className="flex h-11 flex-col gap-1">
       <div className="flex items-start justify-between">
@@ -94,6 +95,17 @@ export function PoolStatsWidget({
         ]}
         titles={[t('common.buy'), t('common.sell')]}
       />
+      {isDebugMode && (
+        <>
+          <StatCol label={t('common.volume')}>TODO: Volume</StatCol>
+          <div className="h-14 w-px bg-white/10" />
+          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO']} />
+
+          <StatCol label={t('common.volume')}>TODO: Makers</StatCol>
+          <div className="h-14 w-px bg-white/10" />
+          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO']} />
+        </>
+      )}
     </div>
   );
 }

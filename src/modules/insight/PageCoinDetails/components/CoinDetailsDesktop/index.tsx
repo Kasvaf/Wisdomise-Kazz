@@ -11,7 +11,6 @@ import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinRadarTabs } from '../CoinRadarTabs';
 import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
-import { CoinLabelsWidget } from '../CoinLabelsWidget';
 import { CoinFinderWidget } from '../CoinFinderWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { PoolSentimentWidget } from '../PoolSentimentWidget';
@@ -48,7 +47,6 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
 
         {/* Trade + Additional */}
         <div className="w-80 shrink-0 space-y-3 p-3 pe-0 tablet:w-60">
-          <CoinLabelsWidget slug={slug} hr />
           {isDebugMode && (
             <>
               <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
