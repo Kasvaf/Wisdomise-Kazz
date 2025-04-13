@@ -8,7 +8,6 @@ import { CoinAvailableExchangesWidget } from '../CoinAvailableExchangesWidget';
 import { TechnicalIdeasWidget } from '../TechnicalIdeasWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinRadarTabs } from '../CoinRadarTabs';
-import { CoinLinksWidget } from '../CoinLinksWidget';
 import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
 
@@ -23,7 +22,7 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
           <div className="sticky top-20 flex flex-col lg:gap-3 2xl:gap-6">
             <CoinPriceWidget slug={slug} />
             <CoinStatsWidget slug={slug} />
-            <CoinLinksWidget slug={slug} />
+            {/* <CoinLinksWidget slug={slug} /> */}
             <CoinPricePerformanceWidget slug={slug} />
           </div>
         </div>

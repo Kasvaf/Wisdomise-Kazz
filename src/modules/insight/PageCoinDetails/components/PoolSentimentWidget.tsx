@@ -61,7 +61,7 @@ export const PoolSentimentWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex items-center justify-between gap-6 overflow-auto',
+          'flex items-center justify-between gap-4 overflow-hidden',
           className,
         )}
       >

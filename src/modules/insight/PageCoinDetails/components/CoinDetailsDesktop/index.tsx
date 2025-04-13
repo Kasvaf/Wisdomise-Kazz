@@ -9,7 +9,6 @@ import { CoinAvailableExchangesWidget } from '../CoinAvailableExchangesWidget';
 import { TechnicalIdeasWidget } from '../TechnicalIdeasWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinRadarTabs } from '../CoinRadarTabs';
-import { CoinLinksWidget } from '../CoinLinksWidget';
 import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
 import { CoinLabelsWidget } from '../CoinLabelsWidget';
@@ -17,6 +16,7 @@ import { CoinFinderWidget } from '../CoinFinderWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { PoolSentimentWidget } from '../PoolSentimentWidget';
 import { PoolStatsWidget } from '../PoolStatsWidget';
+import { CoinTitleWidget } from '../CoinTitleWidget';
 
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -43,6 +43,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
           {/* Sentiment Widgets */}
           <CoinSentimentsWidget slug={slug} className="p-3" hr />
           <PoolSentimentWidget slug={slug} className="p-3" hr />
+          <CoinTitleWidget slug={slug} className="p-3" hr />
         </div>
 
         {/* Trade + Additional */}
@@ -69,7 +70,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
           <div className="sticky top-20 flex flex-col lg:gap-3 2xl:gap-6">
             <CoinPriceWidget slug={slug} />
             <CoinStatsWidget slug={slug} />
-            <CoinLinksWidget slug={slug} />
+            {/* <CoinLinksWidget slug={slug} /> */}
             <CoinPricePerformanceWidget slug={slug} />
           </div>
         </div>

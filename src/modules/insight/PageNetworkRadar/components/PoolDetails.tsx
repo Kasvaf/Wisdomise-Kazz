@@ -7,7 +7,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
-import { CoinSocials } from 'modules/insight/PageCoinDetails/components/CoinLinksWidget';
+import { useCommunityData } from 'modules/insight/PageCoinDetails/hooks/useCommunityData';
 import { PoolBuySell } from './PoolBuySell';
 import { PoolLiquidity } from './PoolLiquidity';
 
@@ -16,6 +16,9 @@ export const PoolDetails: FC<{
   value: NetworkRadarPool;
 }> = ({ value, className }) => {
   const { t } = useTranslation('network-radar');
+  const socials = useCommunityData(value.base_community_data).filter(
+    x => x.type === 'social',
+  );
   const [copy, content] = useShare('copy');
   return (
     <>
@@ -71,14 +74,28 @@ export const PoolDetails: FC<{
           />
           {shortenAddress(value.base_contract_address)}
         </div>
-        <p>{t('common.socials')}</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <CoinSocials
-            value={value.base_community_data}
-            iconsOnly
-            className="gap-1"
-          />
-        </div>
+        {socials.length > 0 && (
+          <>
+            <p>{t('common.socials')}</p>
+            <div className="flex flex-wrap items-center gap-1">
+              {socials.map(social => (
+                <a
+                  key={social.href}
+                  href={social.href}
+                  className={clsx(
+                    'inline-flex items-center gap-1 rounded-full text-xs text-v1-content-primary transition-all bg-v1-surface-l-next hover:brightness-110 active:brightness-90',
+                    'size-5 shrink-0 justify-center',
+                    '[&_svg]:size-[13px]',
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </>
+        )}
       </div>
       {content}
     </>

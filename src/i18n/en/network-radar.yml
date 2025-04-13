@@ -12,6 +12,7 @@ common:
   recent_candles:
     title: Recent Candles
     info: Last 20 minutes of candlestick data at 1-minute resolution.
+  risk: Risk
   sell: Sell
   sell_vol: Sell Vol
   socials: Socials
