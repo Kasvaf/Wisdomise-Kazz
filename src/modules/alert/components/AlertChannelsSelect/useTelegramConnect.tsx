@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAccountQuery } from 'api';
+import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 
 export const useTelegramConnect = () => {
   const account = useAccountQuery();
-  const telegramAddress = `${
-    import.meta.env.VITE_ATHENA_BOT_BASE_URL as string
-  }${
-    account.data?.telegram_code ? `?start=${account.data.telegram_code}` : ''
+  const telegramAddress = `${TELEGRAM_BOT_BASE_URL}${
+    account.data?.telegram_code
+      ? `?startapp=login_${account.data.telegram_code}`
+      : ''
   }`;
 
   const { data: isConnected } = useQuery({
