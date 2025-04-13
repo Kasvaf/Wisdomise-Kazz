@@ -10,9 +10,6 @@ import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinRadarTabs } from '../CoinRadarTabs';
 import { CoinLinksWidget } from '../CoinLinksWidget';
 import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
-import { WhaleRadarSentimentWidget } from '../WhaleRadarSentimentWidget';
-import { SocialRadarSentimentWidget } from '../SocialRadarSentimentWidget';
-import { TechnicalRadarSentimentWidget } from '../TechnicalRadarSentimentWidget';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
 
 export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
@@ -33,12 +30,12 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
 
         <div className="col-span-2 flex flex-col lg:gap-3 2xl:gap-6">
           <div className="grid max-w-full grid-cols-3 items-center gap-2 2xl:gap-6">
-            <SocialRadarSentimentWidget slug={slug} className="w-full shrink" />
+            {/* <SocialRadarSentimentWidget slug={slug} className="w-full shrink" />
             <TechnicalRadarSentimentWidget
               slug={slug}
               className="w-full shrink"
             />
-            <WhaleRadarSentimentWidget slug={slug} className="w-full shrink" />
+            <WhaleRadarSentimentWidget slug={slug} className="w-full shrink" /> */}
           </div>
           <CoinRadarTabs options={tabs} className="sticky top-[72px] z-50" />
           <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />

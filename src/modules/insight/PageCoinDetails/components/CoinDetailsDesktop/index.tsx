@@ -11,12 +11,10 @@ import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinRadarTabs } from '../CoinRadarTabs';
 import { CoinLinksWidget } from '../CoinLinksWidget';
 import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
-import { WhaleRadarSentimentWidget } from '../WhaleRadarSentimentWidget';
-import { SocialRadarSentimentWidget } from '../SocialRadarSentimentWidget';
-import { TechnicalRadarSentimentWidget } from '../TechnicalRadarSentimentWidget';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
-import { CoinMainWidget } from '../CoinMainWidget';
+import { CoinLabelsWidget } from '../CoinLabelsWidget';
 import { CoinFinderWidget } from '../CoinFinderWidget';
+import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -40,18 +38,13 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
         {/* Validate */}
         <div className="grow border-x border-white/10">
           {/* Sentiment Widgets */}
-          <div className="grid max-w-full grid-cols-3 items-center gap-3 border-b border-white/10 p-3">
-            <SocialRadarSentimentWidget slug={slug} className="w-full shrink" />
-            <TechnicalRadarSentimentWidget
-              slug={slug}
-              className="w-full shrink"
-            />
-            <WhaleRadarSentimentWidget slug={slug} className="w-full shrink" />
+          <div className="border-b border-white/10 p-3">
+            <CoinSentimentsWidget slug={slug} />
           </div>
         </div>
         {/* Trade + Additional */}
         <div className="w-80 shrink-0 p-3 pe-0">
-          <CoinMainWidget slug={slug} />
+          <CoinLabelsWidget slug={slug} />
           {isDebugMode && (
             <>
               <hr className="my-3 border-white/10" />
@@ -79,14 +72,6 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
         </div>
 
         <div className="col-span-2 flex flex-col lg:gap-3 2xl:gap-6">
-          <div className="grid max-w-full grid-cols-3 items-center gap-2 2xl:gap-6">
-            <SocialRadarSentimentWidget slug={slug} className="w-full shrink" />
-            <TechnicalRadarSentimentWidget
-              slug={slug}
-              className="w-full shrink"
-            />
-            <WhaleRadarSentimentWidget slug={slug} className="w-full shrink" />
-          </div>
           <CoinRadarTabs options={tabs} className="sticky top-[72px] z-50" />
           <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
           <CoinSocialFeedWidget id="coinoverview_socials" slug={slug} />

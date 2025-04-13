@@ -9,9 +9,9 @@ import { type TechnicalRadarCoin } from 'api';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { TechnicalRadarSentimentWidget } from 'modules/insight/PageCoinDetails/components/TechnicalRadarSentimentWidget';
 import { CoinLabels } from 'shared/CoinLabels';
 import { ReactComponent as TechnicalRadarIcon } from '../technical-radar.svg';
+import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 import gradient from './images/gradient.png';
 import sparkle from './images/sparkle.png';
 import radar from './images/radar.png';
@@ -91,8 +91,11 @@ export default function TechnicalRadarSharingModal({
             </div>
           </div>
           {coin && (
-            <TechnicalRadarSentimentWidget
-              slug={coin.symbol.slug}
+            <TechnicalRadarSentiment
+              mode="card"
+              coin={coin.symbol}
+              marketData={coin.data}
+              value={coin}
               className="mt-2 w-full"
               contentClassName="!bg-white/5"
             />
