@@ -59,6 +59,7 @@ export function CoinLabel({
         short_term_overbought_risk: t(
           'coin_labels.short_term_overbought_risk.title',
         ),
+        new_born: t('coin_labels.new_born.title'),
       }[value as never] as string | undefined) ?? value.split('_').join(' ');
 
     const info = {
@@ -97,6 +98,7 @@ export function CoinLabel({
       short_term_overbought_risk: t(
         'coin_labels.short_term_overbought_risk.info',
       ),
+      new_born: t('coin_labels.new_born.info'),
     }[value as never] as string | undefined;
 
     const className = (() => {
@@ -120,7 +122,8 @@ export function CoinLabel({
       if (
         value.includes('uptrend') ||
         value.includes('bullish') ||
-        value.includes('oversold')
+        value.includes('oversold') ||
+        value === 'new_born'
       )
         return classNames.positive;
       return classNames.neutral;
@@ -134,16 +137,7 @@ export function CoinLabel({
     };
   }, [t, value]);
 
-  return mini ? (
-    <span
-      className={clsx(
-        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:size-4 [&_svg]:shrink-0',
-        className,
-      )}
-    >
-      <renderData.icon />
-    </span>
-  ) : (
+  return (
     <ClickableTooltip
       title={
         typeof popup === 'boolean' || popup === undefined ? (
@@ -160,15 +154,19 @@ export function CoinLabel({
         )
       }
       chevron={false}
-      disabled={popup === true ? !renderData.info : !popup}
+      disabled={!popup}
       className={clsx(
-        'h-6 rounded-full px-2 text-center text-xxs',
-        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:!size-4 [&_svg]:shrink-0',
+        'rounded-full text-center text-xxs',
+        mini
+          ? 'flex size-4 items-center justify-center [&_img]:size-[10px] [&_svg]:size-[10px]'
+          : 'h-6 px-3 [&_img]:size-4 [&_svg]:!size-4',
+        'whitespace-nowrap capitalize [&_img]:shrink-0 [&_svg]:shrink-0',
         renderData.className,
         className,
       )}
     >
-      <renderData.icon /> {renderData.text}
+      {!mini && renderData.text}
+      <renderData.icon />
     </ClickableTooltip>
   );
 }

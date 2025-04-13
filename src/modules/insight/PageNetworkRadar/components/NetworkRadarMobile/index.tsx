@@ -98,8 +98,8 @@ export const NetworkRadarMobile = () => {
         render: row => (
           <PoolSecurity
             value={row}
-            className="shrink-0 text-xxs"
-            imgClassName="size-3"
+            className="w-max shrink-0 text-xxs"
+            imgClassName="!size-[12px]"
             type="grid"
           />
         ),

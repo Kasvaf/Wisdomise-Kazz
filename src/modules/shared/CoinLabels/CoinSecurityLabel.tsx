@@ -7,11 +7,13 @@ export function CoinSecurityLabel({
   coin,
   value,
   mini,
+  clickable,
 }: {
   className?: string;
   coin: Coin;
   value?: NetworkSecurity[] | null;
   mini?: boolean;
+  clickable?: boolean;
 }) {
   const securityStatus =
     value?.length && (value ?? []).every(r => r.label.trusted)
@@ -26,7 +28,9 @@ export function CoinSecurityLabel({
     <CoinLabel
       value={securityStatus}
       mini={mini}
-      popup={<CoinSecurityDetails coin={coin} value={value} />}
+      popup={
+        clickable ? <CoinSecurityDetails coin={coin} value={value} /> : false
+      }
       className={className}
     />
   );

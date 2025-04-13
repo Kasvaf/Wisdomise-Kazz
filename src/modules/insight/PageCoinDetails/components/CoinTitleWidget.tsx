@@ -12,6 +12,7 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { PoolBuySell } from 'modules/insight/PageNetworkRadar/components/PoolBuySell';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
+import { CoinLabels } from 'shared/CoinLabels';
 import { useCommunityData } from '../hooks/useCommunityData';
 import { PriceAlertButton } from './PriceAlertButton';
 
@@ -45,7 +46,7 @@ export const CoinTitleWidget: FC<{
       >
         <div className="flex items-center justify-start gap-2">
           <CoinLogo coin={symbol} className="size-7" />
-          <div className="flex flex-col justify-between gap-px">
+          <div className="flex flex-col justify-between gap-1">
             <div className="flex items-center gap-1">
               <p className="text-xs font-medium">
                 {symbol.abbreviation ?? '---'}
@@ -53,45 +54,24 @@ export const CoinTitleWidget: FC<{
               <p className="text-xxs text-v1-content-secondary">
                 {symbol.name ?? '---'}
               </p>
-              {isPool && (
-                <svg
-                  width="12"
-                  height="11"
-                  viewBox="0 0 12 11"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 7.50002V3.04907"
-                    stroke="#00FFA3"
-                    strokeMiterlimit="10"
-                  />
-                  <path
-                    d="M6 3.54905C6 3.54905 6.25028 1.67249 7.52333 0.937494C8.79638 0.202494 10.5467 0.924031 10.5467 0.924031C10.5467 0.924031 10.2737 2.81371 9.02333 3.53558C7.75028 4.27058 6 3.54905 6 3.54905Z"
-                    stroke="#00FFA3"
-                    strokeMiterlimit="10"
-                    strokeLinecap="square"
-                  />
-                  <path
-                    d="M5.99976 3.54905C5.99976 3.54905 5.74949 1.67249 4.47644 0.937494C3.20339 0.202494 1.45312 0.924031 1.45312 0.924031C1.45312 0.924031 1.72612 2.81371 2.97644 3.53558C4.24948 4.27058 5.99976 3.54905 5.99976 3.54905Z"
-                    stroke="#00FFA3"
-                    strokeMiterlimit="10"
-                    strokeLinecap="square"
-                  />
-                  <path
-                    d="M1.5 9.87498C1.5 9.04657 2.17157 8.37498 3 8.37498C3.24583 8.37498 3.47784 8.43412 3.68259 8.53893C3.99919 7.85189 4.69391 7.37497 5.50001 7.37497C6.60458 7.37497 7.5 8.37498 7.5 9.49998"
-                    stroke="#00FFA3"
-                    strokeMiterlimit="10"
-                    strokeLinecap="square"
-                  />
-                  <path
-                    d="M10.5 9.875C10.5 9.04659 9.9375 8.375 9 8.375"
-                    stroke="#00FFA3"
-                    strokeMiterlimit="10"
-                    strokeLinecap="square"
-                  />
-                </svg>
-              )}
+              <CoinLabels
+                categories={coin.data?.symbol.categories}
+                networks={isPool ? [] : coin.data?.networks}
+                labels={
+                  [
+                    isPool && 'new_born',
+                    ...(coin.data?.symbol_labels ?? []),
+                  ].filter(x => !!x) as string[]
+                }
+                coin={symbol}
+                security={
+                  isPool
+                    ? []
+                    : coin.data?.security_data?.map(x => x.symbol_security)
+                }
+                mini
+                clickable
+              />
             </div>
             <div className="flex items-center gap-1">
               {contactAddresses.length === 1 && (
@@ -212,7 +192,7 @@ export const CoinTitleWidget: FC<{
         </div>
 
         <div className="flex items-center gap-6">
-          <div className="flex flex-col items-end justify-between gap-px">
+          <div className="flex flex-col items-end justify-between gap-1">
             <DirectionalNumber
               value={
                 pool.data?.update.base_market_data.current_price ??

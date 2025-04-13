@@ -10,9 +10,13 @@ import Icon from 'shared/Icon';
 export function CoinNetworksLabel({
   className,
   value,
+  mini,
+  clickable,
 }: {
   className?: string;
   value?: CoinNetwork[] | null;
+  mini?: boolean;
+  clickable?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
   const [copy, content] = useShare('copy');
@@ -65,14 +69,22 @@ export function CoinNetworksLabel({
           </div>
         }
         className={clsx(
-          'h-6 rounded-full px-2 text-center text-xxs',
+          'rounded-full text-center text-xxs',
+          mini
+            ? 'flex h-4 items-center justify-center [&_img]:size-[10px] [&_svg]:size-[10px]'
+            : 'h-6 [&_img]:size-4 [&_svg]:!size-4',
           'bg-v1-content-notice-bold/10 text-v1-content-notice',
-          'overflow-hidden !p-0',
+          'overflow-hidden',
           className,
         )}
         chevron={false}
+        disabled={!clickable}
       >
-        <span className="px-3 py-1">{`🔗 ${t('common.chain')}`}</span>
+        {mini ? (
+          <span className="px-2">Ch</span>
+        ) : (
+          <span className="px-3 py-1">{t('common.chain')}</span>
+        )}
         {value.length > 0 && (
           <span className="-ms-2 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1 text-v1-content-primary">
             {`+${value.length}`}

@@ -62,6 +62,11 @@ coin_labels:
     info: >-
       This label marks symbols with strong social media presence and mentions by
       many unique accounts over the past month.
+  new_born:
+    title: New Born Asset
+    info: >-
+      This asset has been recently launched and may experience high volatility
+      as it establishes initial market interest and liquidity.
   short_term_bearish_overpriced:
     title: Short Term Bearish Overpriced
     info: >-

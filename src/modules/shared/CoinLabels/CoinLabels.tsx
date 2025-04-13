@@ -17,10 +17,12 @@ export function CoinLabels({
   categories,
   networks,
   security,
-  labels,
+  labels: _labels,
   prefix,
   suffix,
-  mini,
+  mini = false,
+  clickable = true,
+  truncate = false,
 }: {
   className?: string;
   coin: Coin;
@@ -31,16 +33,18 @@ export function CoinLabels({
   prefix?: ReactNode;
   suffix?: ReactNode;
   mini?: boolean;
+  clickable?: boolean;
+  truncate?: boolean;
 }) {
-  const truncedLabels = (labels ?? [])
+  const labels = (_labels ?? [])
     .filter((x, i, self) => {
-      if (!mini) return true;
+      if (!truncate) return true;
       const icon = icons[x as never];
       if (!icon || self.findIndex(y => icons[y as never] === icon) !== i)
         return false;
       return true;
     })
-    .filter((_, i) => (mini ? i < 2 : true));
+    .filter((_, i) => (truncate ? i < 2 : true));
 
   return (
     <div
@@ -51,12 +55,25 @@ export function CoinLabels({
       )}
     >
       {prefix}
-      <CoinSecurityLabel coin={coin} value={security} mini={mini} />
-      {truncedLabels.map(label => (
-        <CoinLabel key={label} value={label} mini={mini} />
+      <CoinSecurityLabel
+        coin={coin}
+        value={security}
+        mini={mini}
+        clickable={clickable}
+      />
+      {labels.map(label => (
+        <CoinLabel key={label} value={label} mini={mini} popup={clickable} />
       ))}
-      {!mini && <CoinCategoryLabel value={categories} />}
-      {!mini && <CoinNetworksLabel value={networks} />}
+      {!truncate && (
+        <CoinCategoryLabel
+          value={categories}
+          mini={mini}
+          clickable={clickable}
+        />
+      )}
+      {!truncate && (
+        <CoinNetworksLabel value={networks} mini={mini} clickable={clickable} />
+      )}
       {suffix}
     </div>
   );

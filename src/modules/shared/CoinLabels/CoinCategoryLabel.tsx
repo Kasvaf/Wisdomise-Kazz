@@ -6,9 +6,13 @@ import { ClickableTooltip } from 'shared/ClickableTooltip';
 export function CoinCategoryLabel({
   className,
   value,
+  mini,
+  clickable,
 }: {
   className?: string;
   value?: Coin['categories'] | null;
+  clickable?: boolean;
+  mini?: boolean;
 }) {
   const { t } = useTranslation('coin-radar');
 
@@ -29,14 +33,22 @@ export function CoinCategoryLabel({
         </div>
       }
       className={clsx(
-        'h-6 rounded-full px-2 text-center text-xxs',
+        'rounded-full text-center text-xxs',
+        mini
+          ? 'flex h-4 items-center justify-center [&_img]:size-[10px] [&_svg]:size-[10px]'
+          : 'h-6 [&_img]:size-4 [&_svg]:!size-4',
         'bg-v1-content-primary/10 text-v1-content-primary',
-        'overflow-hidden !p-0',
+        'overflow-hidden',
         className,
       )}
+      disabled={!clickable}
       chevron={false}
     >
-      <span className="px-3 py-1">{t('common.category')}</span>
+      {mini ? (
+        <span className="px-2">Ca</span>
+      ) : (
+        <span className="px-3 py-1">{t('common.category')}</span>
+      )}
       {value.length > 0 && (
         <span className="-ms-2 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1">
           {`+${value.length}`}

@@ -88,6 +88,8 @@ export const WhaleRadarMobile = () => {
               security={row.symbol_security?.data}
               coin={row.symbol}
               mini
+              truncate
+              clickable={false}
             />
             <CoinMarketCap
               marketData={row.data}

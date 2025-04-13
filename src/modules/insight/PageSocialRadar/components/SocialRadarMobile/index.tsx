@@ -102,6 +102,8 @@ export const SocialRadarMobile = () => {
               security={row.symbol_security?.data}
               coin={row.symbol}
               mini
+              truncate
+              clickable={false}
             />
             <CoinMarketCap
               marketData={row.symbol_market_data}

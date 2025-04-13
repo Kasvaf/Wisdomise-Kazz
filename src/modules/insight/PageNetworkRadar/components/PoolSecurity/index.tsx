@@ -82,7 +82,7 @@ export const PoolSecurity: FC<{
   return (
     <>
       {type === 'grid' ? (
-        <div className={clsx('grid grid-cols-2 gap-1', className)}>
+        <div className={clsx('grid grid-cols-2 grid-rows-2 gap-1', className)}>
           {items.map(item => (
             <div
               key={item.key}
