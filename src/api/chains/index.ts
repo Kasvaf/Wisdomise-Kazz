@@ -44,6 +44,12 @@ export const useActiveWallet = () => {
         : net === 'solana'
         ? solanaWallet.publicKey?.toString()
         : undefined,
+    name:
+      net === 'the-open-network'
+        ? tonConnectUI.wallet?.device.appName
+        : net === 'solana'
+        ? solanaWallet.wallet?.adapter.name
+        : undefined,
     connected:
       net === 'the-open-network'
         ? tonConnectUI.connected
@@ -91,6 +97,21 @@ export const useAccountNativeBalance = () => {
   return useAccountBalance(
     net === 'the-open-network' ? 'the-open-network' : 'wrapped-solana',
   );
+};
+
+export const useAccountAllQuotesBalance = () => {
+  const net = useActiveNetwork();
+  const { data: tonBalance } = useAccountBalance('the-open-network', net);
+  const { data: tetherBalance } = useAccountBalance('tether', net);
+  const { data: usdCoinBalance } = useAccountBalance('usd-coin', net);
+  const { data: solBalance } = useAccountBalance('wrapped-solana', net);
+
+  return {
+    tonBalance,
+    tetherBalance,
+    usdCoinBalance,
+    solBalance,
+  };
 };
 
 export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {

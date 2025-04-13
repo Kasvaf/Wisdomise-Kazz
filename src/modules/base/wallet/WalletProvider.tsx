@@ -61,9 +61,9 @@ const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       <SolanaWalletProvider>
-        <WalletEvents>
-          <LayoutActiveNetworkProvider>{children}</LayoutActiveNetworkProvider>
-        </WalletEvents>
+        <LayoutActiveNetworkProvider>
+          <WalletEvents>{children}</WalletEvents>
+        </LayoutActiveNetworkProvider>
       </SolanaWalletProvider>
     </TonConnectUIProvider>
   );
