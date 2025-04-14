@@ -69,7 +69,7 @@ export function SocialMessageContent({
     <div
       className={clsx(
         'relative flex w-full max-w-full flex-col gap-2',
-        mode === 'summary' && 'max-h-[140px] overflow-hidden',
+        mode === 'summary' && 'overflow-hidden',
         className,
       )}
       ref={previewRef}
@@ -88,7 +88,7 @@ export function SocialMessageContent({
       {mode === 'summary' && hasOverflow && (
         <div
           className={clsx(
-            'absolute bottom-0 left-0 h-14 w-full bg-gradient-to-t from-v1-surface-l3 to-transparent',
+            'absolute bottom-0 left-0 h-14 w-full bg-gradient-to-t from-v1-surface-l2 to-transparent',
           )}
         >
           <Button

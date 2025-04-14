@@ -205,30 +205,10 @@ coin-details:
       low: Low
     socials:
       title: Social Feed
-      subtitle: Stay ahead in crypto with real-time scans of social media.
       label: Social
-      empty:
-        title: The Market’s Quiet
-        subtitle: >-
-          No updates right now, but we’re always scanning the crypto world. More
-          news is coming soon!
-      types:
-        all:
-          title: All Socials Feed
-        reddit:
-          title: Reddit
-        telegram:
-          title: Telegram
-        twitter:
-          title: X, Twitter
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
-      empty:
-        title: No New Ideas Right Now
-        subtitle: >-
-          We're continuously exploring new strategies. Fresh technical insights
-          will be available soon!
     whale_list:
       label: Smart Whales
 common:
@@ -243,7 +223,6 @@ common:
   chain: Chain
   chains: Chains
   info: Info
-  load_more: Load More
   native_coin: Native Coin
   price: Price
   search_coin: Search Coin...

@@ -3,11 +3,9 @@ import { type FC, useRef } from 'react';
 import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinPricePerformanceWidget } from '../CoinPricePerformanceWidget';
-import { CoinSocialFeedWidget } from '../CoinSocialFeedWidget';
 import { CoinAvailableExchangesWidget } from '../CoinAvailableExchangesWidget';
-import { TechnicalIdeasWidget } from '../TechnicalIdeasWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
-import { CoinRadarTabs } from '../CoinRadarTabs';
+import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
 
@@ -36,9 +34,7 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
             />
             <WhaleRadarSentimentWidget slug={slug} className="w-full shrink" /> */}
           </div>
-          <CoinRadarTabs options={tabs} className="sticky top-[72px] z-50" />
-          <TechnicalIdeasWidget slug={slug} id="coinoverview_trading_view" />
-          <CoinSocialFeedWidget id="coinoverview_socials" slug={slug} />
+          <CoinDetailsTabs options={tabs} className="sticky top-[72px] z-50" />
           <CoinWhaleListWidget id="coinoverview_whales" slug={slug} />
           <CoinAvailableExchangesWidget
             slug={slug}

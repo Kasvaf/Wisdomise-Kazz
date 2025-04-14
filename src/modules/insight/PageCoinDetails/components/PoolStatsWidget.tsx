@@ -97,13 +97,13 @@ export function PoolStatsWidget({
       />
       {isDebugMode && (
         <>
-          <StatCol label={t('common.volume')}>TODO: Volume</StatCol>
+          <StatCol label={t('common.volume')}>{'TODO: Volume'}</StatCol>
           <div className="h-14 w-px bg-white/10" />
-          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO']} />
+          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO2']} />
 
-          <StatCol label={t('common.volume')}>TODO: Makers</StatCol>
+          <StatCol label={t('common.volume')}>{'TODO: Makers'}</StatCol>
           <div className="h-14 w-px bg-white/10" />
-          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO']} />
+          <GreenRedChart values={[50, 50]} titles={['TODO', 'TODO2']} />
         </>
       )}
     </div>
