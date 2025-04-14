@@ -75,11 +75,7 @@ export function CoinExchangesWidget({
     [coinOverview.data?.exchanges, query],
   );
 
-  if (
-    (coinOverview.data?.exchanges ?? []).length === 0 &&
-    !coinOverview.isLoading
-  )
-    return null;
+  if ((coinOverview.data?.exchanges ?? []).length === 0) return null;
 
   return (
     <>

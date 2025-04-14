@@ -4,7 +4,7 @@ import { isDebugMode } from 'utils/version';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
-import { CoinFinderWidget } from '../CoinFinderWidget';
+import { CoinDiscoverWidget } from '../CoinDiscoverWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
 import { NCoinSentimentWidget } from '../NCoinSentimentWidget';
 import { NCoinStatsWidget } from '../NCoinStatsWidget';
@@ -32,7 +32,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
               <hr className="border-white/10" />
             </>
           )}
-          <CoinFinderWidget />
+          <CoinDiscoverWidget />
         </div>
       </div>
 
@@ -52,7 +52,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
           className="sticky top-[140px] z-50 p-3 bg-v1-surface-l-current"
           hr
         />
-        <div className="relative space-y-4">
+        <div className="relative space-y-4" ref={root}>
           <div className="relative space-y-4 p-3">
             <CoinMessagesWidget
               id="coinoverview_trading_view"

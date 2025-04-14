@@ -85,7 +85,7 @@ export function CoinPoolsWidget({
     [t],
   );
 
-  if ((pools.data ?? []).length === 0 && !pools.isLoading) return null;
+  if ((pools.data ?? []).length === 0) return null;
 
   return (
     <>

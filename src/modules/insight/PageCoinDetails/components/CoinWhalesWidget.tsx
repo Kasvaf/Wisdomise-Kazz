@@ -126,7 +126,7 @@ function CoinWhalesWidgetWithType({
     );
   }, [query, whales.data]);
 
-  if ((whales.data ?? []).length === 0 && !whales.isLoading) return null;
+  if ((whales.data ?? []).length === 0) return null;
 
   return (
     <>

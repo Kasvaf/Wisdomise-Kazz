@@ -9,16 +9,16 @@ const TABS = [
   'network-radar',
 ] as const;
 
-export type CoinFinderTab = (typeof TABS)[number];
+export type CoinDiscoverTab = (typeof TABS)[number];
 
-export const CoinFinderTabs: FC<{
-  value: CoinFinderTab;
-  onChange?: (newValue: CoinFinderTab) => void;
+export const CoinDiscoverTabs: FC<{
+  value: CoinDiscoverTab;
+  onChange?: (newValue: CoinDiscoverTab) => void;
   className?: string;
 }> = ({ value, onChange, className }) => {
   const { items } = useMenuItems();
 
-  const tabs = items.filter(x => TABS.includes(x.name as CoinFinderTab));
+  const tabs = items.filter(x => TABS.includes(x.name as CoinDiscoverTab));
 
   return (
     <div className={clsx('flex items-center justify-between gap-2', className)}>
@@ -29,7 +29,7 @@ export const CoinFinderTabs: FC<{
             'flex flex-col items-center gap-1 text-xs [&_svg]:size-5',
             tab.name === value && 'text-v1-content-brand',
           )}
-          onClick={() => onChange?.(tab.name as CoinFinderTab)}
+          onClick={() => onChange?.(tab.name as CoinDiscoverTab)}
         >
           {tab.icon}
           {tab.text}

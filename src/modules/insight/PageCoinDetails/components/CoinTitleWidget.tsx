@@ -134,7 +134,7 @@ export const CoinTitleWidget: FC<{
                 <>
                   <span className="size-[2px] rounded-full bg-white" />
                   <span className="text-xxs text-v1-content-positive">
-                    TODO: Dev
+                    {'TODO: Dev'}
                   </span>
                 </>
               )}
@@ -187,13 +187,13 @@ export const CoinTitleWidget: FC<{
                     <p className="text-xxs text-v1-content-secondary">
                       {t('common.risk')}
                     </p>
-                    <span className="text-xxs">TODO: Risks</span>
+                    <span className="text-xxs">{'TODO: Risks'}</span>
 
                     {/* TODO Risk */}
                   </div>
 
                   <div className="h-4 w-px bg-white/10" />
-                  <span className="text-xxs">TODO: Rugged</span>
+                  <span className="text-xxs">{'TODO: Rugged'}</span>
                   {/* TODO Rugged */}
                 </>
               )}

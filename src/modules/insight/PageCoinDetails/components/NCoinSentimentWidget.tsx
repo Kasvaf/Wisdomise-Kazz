@@ -55,7 +55,7 @@ export const NCoinSentimentWidget: FC<{
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
   const nCoin = useNCoinDetails({ slug });
-  if (!nCoin.data && !nCoin.isLoading) return null;
+  if (!nCoin.data) return null;
 
   return (
     <>

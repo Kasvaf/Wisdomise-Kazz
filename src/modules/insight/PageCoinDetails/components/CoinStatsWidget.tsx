@@ -74,7 +74,7 @@ export function CoinStatsWidget({
           )) *
         100;
 
-  if (nCoinDetails.data) return null;
+  if (nCoinDetails.data || !coinDetails.data?.data?.current_price) return null;
 
   return (
     <div

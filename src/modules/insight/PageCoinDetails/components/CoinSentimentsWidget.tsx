@@ -20,14 +20,7 @@ export const CoinSentimentsWidget: FC<{
   const socialRadar = useSocialRadarSentiment({ slug });
   const whaleRadar = useWhaleRadarSentiment({ slug });
 
-  const isEmpty =
-    coin.data &&
-    !technicalRadar.isLoading &&
-    !technicalRadar.data &&
-    !socialRadar.isLoading &&
-    !socialRadar.data &&
-    !whaleRadar.isLoading &&
-    !whaleRadar.data;
+  const isEmpty = !technicalRadar.data && !socialRadar.data && !whaleRadar.data;
 
   if (isEmpty) return null;
 

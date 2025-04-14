@@ -2,16 +2,18 @@ import { clsx } from 'clsx';
 import { useCallback, type FC } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
-import { type CoinFinderTab, CoinFinderTabs } from './CoinFinderTabs';
+import { type CoinDiscoverTab, CoinDiscoverTabs } from './CoinDiscoverTabs';
 import { NetworkRadarTable } from './NetworkRadarTable';
 import { SocialRadarTable } from './SocialRadarTable';
 import { WhaleRadarTable } from './WhaleRadarTable';
 import { TechnicalRadarTable } from './TechnicalRadarTable';
 
-export const CoinFinderWidget: FC<{ className?: string }> = ({ className }) => {
+export const CoinDiscoverWidget: FC<{ className?: string }> = ({
+  className,
+}) => {
   const [selectedTab, setSelectedTab] = useSearchParamAsState(
-    'finderTab',
-    'social-radar' as CoinFinderTab,
+    'discoverTab',
+    'social-radar' as CoinDiscoverTab,
   );
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -32,7 +34,7 @@ export const CoinFinderWidget: FC<{ className?: string }> = ({ className }) => {
         className,
       )}
     >
-      <CoinFinderTabs value={selectedTab} onChange={setSelectedTab} />
+      <CoinDiscoverTabs value={selectedTab} onChange={setSelectedTab} />
       {selectedTab === 'network-radar' && (
         <NetworkRadarTable
           onClick={row => handleRowClick(row.base_symbol.slug)}

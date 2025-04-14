@@ -69,7 +69,7 @@ export function NCoinStatsWidget({
   const nCoin = useNCoinDetails({ slug });
   const { t } = useTranslation('network-radar');
 
-  if (!nCoin.isLoading && !nCoin.data) return null;
+  if (!nCoin.data) return null;
 
   return (
     <div
