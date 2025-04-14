@@ -2,17 +2,17 @@ import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DrawerModal } from 'shared/DrawerModal';
 
-import { type NetworkRadarPool } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/insight/network';
 import { Coin } from 'shared/Coin';
 import { Button } from 'shared/v1-components/Button';
 import { isDebugMode } from 'utils/version';
-import { PoolAge } from './PoolAge';
-import { PoolSecurity } from './PoolSecurity';
-import { PoolDetails } from './PoolDetails';
-import { PoolRecentCandles } from './PoolRecentCandles';
+import { NCoinAge } from './NCoinAge';
+import { NCoinSecurity } from './NCoinSecurity';
+import { NCoinDetails } from './NCoinDetails';
+import { NCoinRecentCandles } from './NCoinRecentCandles';
 
-export const PoolPreDetailModal: FC<{
-  value: NetworkRadarPool | null;
+export const NCoinPreDetailModal: FC<{
+  value: NetworkRadarNCoin | null;
   open?: boolean;
   onClose: () => unknown;
 }> = ({ open, onClose, value }) => {
@@ -34,7 +34,7 @@ export const PoolPreDetailModal: FC<{
                 nonLink={true}
                 truncate={150}
               />
-              <PoolAge
+              <NCoinAge
                 value={value.creation_datetime}
                 inline
                 className="h-8 !gap-1 rounded-lg px-2 text-xs bg-v1-surface-l-next"
@@ -42,7 +42,7 @@ export const PoolPreDetailModal: FC<{
               />
             </div>
             <div className="flex flex-col items-end gap-px">
-              <PoolRecentCandles
+              <NCoinRecentCandles
                 value={open ? value : undefined}
                 height={50}
                 width={65}
@@ -50,14 +50,14 @@ export const PoolPreDetailModal: FC<{
               />
             </div>
           </div>
-          <PoolSecurity
+          <NCoinSecurity
             value={value}
             type="card"
             imgClassName="size-4"
             className="text-[11px]"
           />
 
-          <PoolDetails value={value} />
+          <NCoinDetails value={value} />
 
           {/* TODO: @arash16 Buy/Sell Button in Mobile */}
           {isDebugMode && (

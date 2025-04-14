@@ -1,20 +1,20 @@
 import { useMemo, type FC } from 'react';
+import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
+import { NCoinSecurity } from 'modules/insight/PageNetworkRadar/components/NCoinSecurity';
 import {
-  type NetworkRadarPool,
-  useNetworkRadarPools,
+  type NetworkRadarNCoin,
+  useNetworkRadarNCoins,
 } from 'api/insight/network';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { Coin } from 'shared/Coin';
-import { PoolAge } from 'modules/insight/PageNetworkRadar/components/PoolAge';
-import { PoolSecurity } from 'modules/insight/PageNetworkRadar/components/PoolSecurity';
 import { TableRank } from 'shared/TableRank';
 
 export const NetworkRadarTable: FC<{
-  onClick?: (row: NetworkRadarPool) => void;
+  onClick?: (row: NetworkRadarNCoin) => void;
 }> = ({ onClick }) => {
-  const pools = useNetworkRadarPools({});
+  const nCoins = useNetworkRadarNCoins({});
 
-  const columns = useMemo<Array<MobileTableColumn<NetworkRadarPool>>>(
+  const columns = useMemo<Array<MobileTableColumn<NetworkRadarNCoin>>>(
     () => [
       {
         key: 'rank',
@@ -37,7 +37,7 @@ export const NetworkRadarTable: FC<{
         key: 'age',
         className: 'max-w-12 min-w-8',
         render: row => (
-          <PoolAge
+          <NCoinAge
             value={row.creation_datetime}
             imgClassName="size-3"
             className="h-[25px] text-xxs"
@@ -47,7 +47,7 @@ export const NetworkRadarTable: FC<{
       {
         key: 'security',
         render: row => (
-          <PoolSecurity
+          <NCoinSecurity
             value={row}
             className="shrink-0 text-xxs"
             imgClassName="size-3"
@@ -62,9 +62,9 @@ export const NetworkRadarTable: FC<{
   return (
     <MobileTable
       columns={columns}
-      dataSource={pools.data ?? []}
+      dataSource={nCoins.data ?? []}
       rowKey={r => JSON.stringify(r.base_symbol.slug)}
-      loading={pools.isLoading}
+      loading={nCoins.isLoading}
       surface={2}
       onClick={onClick}
     />

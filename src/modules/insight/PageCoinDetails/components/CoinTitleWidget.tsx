@@ -2,14 +2,14 @@ import { type FC } from 'react';
 import { clsx } from 'clsx';
 import { bxlTwitter, bxsCopy } from 'boxicons-quasar';
 import { useTranslation } from 'react-i18next';
-import { useCoinDetails, usePoolDetails } from 'api';
+import { NCoinAge } from 'modules/insight/PageNetworkRadar/components/NCoinAge';
+import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
+import { useCoinDetails, useNCoinDetails } from 'api';
 import { CoinLogo } from 'shared/Coin';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useShare } from 'shared/useShare';
 import Icon from 'shared/Icon';
-import { PoolAge } from 'modules/insight/PageNetworkRadar/components/PoolAge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
-import { PoolBuySell } from 'modules/insight/PageNetworkRadar/components/PoolBuySell';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
@@ -24,17 +24,17 @@ export const CoinTitleWidget: FC<{
   const { t } = useTranslation('network-radar');
   const [copy, copyNotif] = useShare('copy');
   const coin = useCoinDetails({ slug });
-  const pool = usePoolDetails({ slug });
-  const isPool = !!pool.data?.base_symbol;
-  const symbol = pool.data?.base_symbol || coin.data?.symbol;
+  const nCoin = useNCoinDetails({ slug });
+  const isNCoin = !!nCoin.data?.base_symbol;
+  const symbol = nCoin.data?.base_symbol || coin.data?.symbol;
   const contactAddresses = [
-    pool.data?.base_contract_address,
-    ...(pool.data?.base_contract_address
+    nCoin.data?.base_contract_address,
+    ...(nCoin.data?.base_contract_address
       ? []
       : coin?.data?.networks?.map(x => x?.contract_address) ?? []),
   ].filter(x => !!x) as string[];
   const socials = useCommunityData(
-    pool.data?.base_community_data || coin.data?.community_data,
+    nCoin.data?.base_community_data || coin.data?.community_data,
   ).filter(x => x.type === 'social');
 
   if (!symbol) return null;
@@ -59,16 +59,16 @@ export const CoinTitleWidget: FC<{
               </p>
               <CoinLabels
                 categories={coin.data?.symbol.categories}
-                networks={isPool ? [] : coin.data?.networks}
+                networks={isNCoin ? [] : coin.data?.networks}
                 labels={
                   [
-                    isPool && 'new_born',
+                    isNCoin && 'new_born',
                     ...(coin.data?.symbol_labels ?? []),
                   ].filter(x => !!x) as string[]
                 }
                 coin={symbol}
                 security={
-                  isPool
+                  isNCoin
                     ? []
                     : coin.data?.security_data?.map(x => x.symbol_security)
                 }
@@ -130,7 +130,7 @@ export const CoinTitleWidget: FC<{
               </a>
 
               {/* Developer Data */}
-              {isPool && isDebugMode && (
+              {isNCoin && isDebugMode && (
                 <>
                   <span className="size-[2px] rounded-full bg-white" />
                   <span className="text-xxs text-v1-content-positive">
@@ -140,11 +140,11 @@ export const CoinTitleWidget: FC<{
               )}
               {/* TODO an user icon and his assets history */}
 
-              {pool.data?.creation_datetime && (
+              {nCoin.data?.creation_datetime && (
                 <>
                   <span className="size-[2px] rounded-full bg-white" />
-                  <PoolAge
-                    value={pool.data?.creation_datetime}
+                  <NCoinAge
+                    value={nCoin.data?.creation_datetime}
                     inline
                     className="text-xs text-v1-background-secondary"
                   />
@@ -152,15 +152,15 @@ export const CoinTitleWidget: FC<{
               )}
             </div>
           </div>
-          {pool.data && (
+          {nCoin.data && (
             <div className="flex items-center gap-4">
               <div className="h-4 w-px bg-white/10" />
               <div className="space-y-px">
                 <p className="text-xxs text-v1-content-secondary">
                   {t('common.buy_sell')}
                 </p>
-                <PoolBuySell
-                  value={pool.data}
+                <NCoinBuySell
+                  value={nCoin.data}
                   className="text-xxs"
                   imgClassName="size-4"
                 />
@@ -171,7 +171,7 @@ export const CoinTitleWidget: FC<{
                   {t('common.volume')}
                 </p>
                 <ReadableNumber
-                  value={pool.data.update.total_trading_volume.usd}
+                  value={nCoin.data.update.total_trading_volume.usd}
                   className="text-xxs"
                   label="$"
                   popup="never"
@@ -202,7 +202,7 @@ export const CoinTitleWidget: FC<{
           <div className="flex flex-col items-end justify-between gap-1">
             <DirectionalNumber
               value={
-                pool.data?.update.base_market_data.current_price ??
+                nCoin.data?.update.base_market_data.current_price ??
                 coin.data?.data?.current_price
               }
               label="$"

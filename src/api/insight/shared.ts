@@ -11,7 +11,7 @@ import {
   type CoinDetails,
 } from '../types/shared';
 import { matcher } from './utils';
-import { type NetworkRadarPool } from './network';
+import { type NetworkRadarNCoin } from './network';
 
 export const useNetworks = (config: {
   filter?:
@@ -174,12 +174,12 @@ export const useCoinDetails = ({
     refetchInterval: 5 * 60 * 1000,
   });
 
-export const usePoolDetails = ({ slug }: { slug?: string }) =>
+export const useNCoinDetails = ({ slug }: { slug?: string }) =>
   useQuery({
     queryKey: ['pool-details', slug],
     queryFn: () => {
       if (!slug) return null;
-      return resolvePageResponseToArray<NetworkRadarPool>(
+      return resolvePageResponseToArray<NetworkRadarNCoin>(
         `delphi/market/new-born-pools/?base_slug=${slug}`,
         {
           meta: { auth: false },

@@ -10,8 +10,8 @@ import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 
 import {
-  type NetworkRadarPool,
-  useNetworkRadarPools,
+  type NetworkRadarNCoin,
+  useNetworkRadarNCoins,
 } from 'api/insight/network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Button } from 'shared/v1-components/Button';
@@ -20,28 +20,28 @@ import { isDebugMode } from 'utils/version';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { PoolAge } from '../PoolAge';
-import { PoolTradingVolume } from '../PoolTradingVolume';
-import { PoolBuySell } from '../PoolBuySell';
-import { PoolLiquidity } from '../PoolLiquidity';
-import { PoolSecurity } from '../PoolSecurity';
-import { PoolRecentCandles } from '../PoolRecentCandles';
+import { NCoinAge } from '../NCoinAge';
+import { NCoinTradingVolume } from '../NCoinTradingVolume';
+import { NCoinBuySell } from '../NCoinBuySell';
+import { NCoinLiquidity } from '../NCoinLiquidity';
+import { NCoinSecurity } from '../NCoinSecurity';
+import { NCoinRecentCandles } from '../NCoinRecentCandles';
 
 export function NetworkRadarDesktop({ className }: { className?: string }) {
   const { t } = useTranslation('network-radar');
   const [copy, copyNotif] = useShare('copy');
   const [tableProps, tableState] = useTableState<
-    Required<Parameters<typeof useNetworkRadarPools>[0]>
+    Required<Parameters<typeof useNetworkRadarNCoins>[0]>
   >('', {
     page: 1,
     pageSize: 20,
     networks: [],
   });
 
-  const pools = useNetworkRadarPools(tableState);
-  useLoadingBadge(pools.isFetching);
+  const nCoins = useNetworkRadarNCoins(tableState);
+  useLoadingBadge(nCoins.isFetching);
 
-  const columns = useMemo<Array<TableColumnType<NetworkRadarPool>>>(
+  const columns = useMemo<Array<TableColumnType<NetworkRadarNCoin>>>(
     () => [
       {
         title: '#',
@@ -75,7 +75,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       {
         title: t('common.created'),
         render: (_, row) => (
-          <PoolAge
+          <NCoinAge
             value={row.creation_datetime}
             imgClassName="size-4 opacity-75"
             className="w-14 text-xs"
@@ -86,7 +86,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       {
         title: t('common.liquidity'),
         render: (_, row) => (
-          <PoolLiquidity
+          <NCoinLiquidity
             value={row}
             className="w-36 text-xs"
             imgClassName="size-5"
@@ -97,7 +97,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       {
         title: t('common.initial_liquidity'),
         render: (_, row) => (
-          <PoolLiquidity value={row} className="w-36 text-xs" type="initial" />
+          <NCoinLiquidity value={row} className="w-36 text-xs" type="initial" />
         ),
       },
       {
@@ -116,7 +116,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       {
         title: [t('common.txns.title'), t('common.txns.info')],
         render: (_, row) => (
-          <PoolBuySell
+          <NCoinBuySell
             value={row}
             imgClassName="size-3"
             className="w-20 text-xs"
@@ -126,7 +126,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       {
         title: t('common.volume'),
         render: (_, row) => (
-          <PoolTradingVolume
+          <NCoinTradingVolume
             value={row}
             imgClassName="size-4"
             className="w-20 text-xs"
@@ -136,7 +136,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       {
         title: t('common.validation_insights'),
         render: (_, row) => (
-          <PoolSecurity
+          <NCoinSecurity
             value={row}
             className="shrink-0 text-xxs"
             imgClassName="size-4"
@@ -150,7 +150,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
           t('common.recent_candles.info'),
         ],
         render: (_, row) => (
-          <PoolRecentCandles
+          <NCoinRecentCandles
             value={row}
             height={50}
             width={65}
@@ -191,8 +191,8 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       )}
       title={t('page.title')}
       info={t('page.info')}
-      loading={pools.isLoading}
-      empty={pools.data?.length === 0}
+      loading={nCoins.isLoading}
+      empty={nCoins.data?.length === 0}
     >
       <AccessShield
         mode="table"
@@ -207,7 +207,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       >
         <Table
           columns={columns}
-          dataSource={pools.data}
+          dataSource={nCoins.data}
           rowKey={r => JSON.stringify(r.base_symbol)}
           tableLayout="fixed"
           {...tableProps}

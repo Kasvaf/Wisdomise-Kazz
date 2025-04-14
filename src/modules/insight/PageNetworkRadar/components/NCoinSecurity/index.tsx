@@ -1,16 +1,16 @@
 import { clsx } from 'clsx';
 import { type ReactNode, useMemo, type FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { type NetworkRadarPool } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/insight/network';
 import { ReactComponent as MintIcon } from './mint.svg';
 import { ReactComponent as FreezeIcon } from './freeze.svg';
 import { ReactComponent as FireIcon } from './fire.svg';
 import { ReactComponent as UserIcon } from './user.svg';
 
-export const PoolSecurity: FC<{
+export const NCoinSecurity: FC<{
   className?: string;
   imgClassName?: string;
-  value?: NetworkRadarPool | null;
+  value?: NetworkRadarNCoin | null;
   type: 'grid' | 'row' | 'row2' | 'card';
 }> = ({ className, imgClassName, value, type }) => {
   const { t } = useTranslation('network-radar');

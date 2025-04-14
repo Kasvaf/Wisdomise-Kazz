@@ -6,8 +6,8 @@ import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
 import { CoinFinderWidget } from '../CoinFinderWidget';
 import { CoinSentimentsWidget } from '../CoinSentimentsWidget';
-import { PoolSentimentWidget } from '../PoolSentimentWidget';
-import { PoolStatsWidget } from '../PoolStatsWidget';
+import { NCoinSentimentWidget } from '../NCoinSentimentWidget';
+import { NCoinStatsWidget } from '../NCoinStatsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
 import CoinChart from '../CoinChart';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
@@ -38,20 +38,19 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
       <div className="relative shrink grow border-x border-white/10">
         {/* Sentiment Widgets */}
         <CoinSentimentsWidget slug={slug} className="p-3" hr />
-        <PoolSentimentWidget slug={slug} className="p-3" hr />
+        <NCoinSentimentWidget slug={slug} className="p-3" hr />
         <CoinTitleWidget
           slug={slug}
           className="sticky top-[76px] z-50 p-3 bg-v1-surface-l-current"
           hr
         />
         <CoinChart slug={slug} height={420} />
-
+        <CoinDetailsTabs
+          options={tabs}
+          className="sticky top-[140px] z-50 p-3 bg-v1-surface-l-current"
+          hr
+        />
         <div className="relative space-y-4">
-          <CoinDetailsTabs
-            options={tabs}
-            className="sticky top-[140px] z-50 p-3 bg-v1-surface-l-current"
-            hr
-          />
           <div className="relative space-y-4 p-3">
             <CoinMessagesWidget
               id="coinoverview_trading_view"
@@ -85,7 +84,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
             </>
           )}
           <CoinStatsWidget slug={slug} />
-          <PoolStatsWidget slug={slug} />
+          <NCoinStatsWidget slug={slug} />
         </div>
       </div>
     </div>

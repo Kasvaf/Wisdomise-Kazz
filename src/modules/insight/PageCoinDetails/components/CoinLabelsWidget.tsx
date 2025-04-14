@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { useCoinDetails, usePoolDetails } from 'api';
+import { useCoinDetails, useNCoinDetails } from 'api';
 import { CoinLabels } from 'shared/CoinLabels';
 
 export function CoinLabelsWidget({
@@ -16,7 +16,7 @@ export function CoinLabelsWidget({
   const { t } = useTranslation('coin-radar');
   const coinDetails = useCoinDetails({ slug });
 
-  const poolDetails = usePoolDetails({ slug });
+  const nCoinDetails = useNCoinDetails({ slug });
 
   const loading = coinDetails.isPending || coinDetails.isLoading;
 
@@ -26,7 +26,7 @@ export function CoinLabelsWidget({
     coinDetails.data?.symbol_labels ||
     coinDetails.data?.security_data;
 
-  if ((!loading && !hasLabel) || poolDetails.data) return null;
+  if ((!loading && !hasLabel) || nCoinDetails.data) return null;
 
   return (
     <>

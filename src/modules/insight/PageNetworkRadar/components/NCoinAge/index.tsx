@@ -3,7 +3,7 @@ import { useMemo, type FC } from 'react';
 import { ReadableDate } from 'shared/ReadableDate';
 import { ReactComponent as ClockIcon } from './clock.svg';
 
-export const PoolAge: FC<{
+export const NCoinAge: FC<{
   className?: string;
   imgClassName?: string;
   value?: string | null;

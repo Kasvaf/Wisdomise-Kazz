@@ -1,16 +1,16 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { type NetworkRadarPool } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/insight/network';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinLogo } from 'shared/Coin';
 import { ReactComponent as PositiveIcon } from './positive.svg';
 import { ReactComponent as NegativeIcon } from './negative.svg';
 
-export const PoolLiquidity: FC<{
+export const NCoinLiquidity: FC<{
   className?: string;
   imgClassName?: string;
-  value?: NetworkRadarPool | null;
+  value?: NetworkRadarNCoin | null;
   type:
     | 'initial'
     | 'update'

@@ -1,14 +1,14 @@
 import { type ReactNode, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { usePoolDetails } from 'api';
-import { PoolSecurity } from 'modules/insight/PageNetworkRadar/components/PoolSecurity';
-import { PoolLiquidity } from 'modules/insight/PageNetworkRadar/components/PoolLiquidity';
+import { NCoinSecurity } from 'modules/insight/PageNetworkRadar/components/NCoinSecurity';
+import { NCoinLiquidity } from 'modules/insight/PageNetworkRadar/components/NCoinLiquidity';
+import { useNCoinDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 
 // <p>{t('common.liquidity')}</p>
 // <div>
-//   <PoolLiquidity
+//   <NCoinLiquidity
 //     type="update_row"
 //     value={value}
 //     imgClassName="size-4"
@@ -16,7 +16,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 // </div>
 // <p>{t('common.initial_liquidity')}</p>
 // <div>
-//   <PoolLiquidity
+//   <NCoinLiquidity
 //     type="initial_row"
 //     value={value}
 //     imgClassName="size-4"
@@ -31,7 +31,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 //   />
 // </div>
 
-const PoolSentimentCol: FC<{
+const NCoinSentimentCol: FC<{
   label: string;
   children: ReactNode;
   className?: string;
@@ -48,14 +48,14 @@ const PoolSentimentCol: FC<{
   </div>
 );
 
-export const PoolSentimentWidget: FC<{
+export const NCoinSentimentWidget: FC<{
   slug: string;
   className?: string;
   hr?: boolean;
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
-  const pool = usePoolDetails({ slug });
-  if (!pool.data && !pool.isLoading) return null;
+  const nCoin = useNCoinDetails({ slug });
+  if (!nCoin.data && !nCoin.isLoading) return null;
 
   return (
     <>
@@ -65,48 +65,48 @@ export const PoolSentimentWidget: FC<{
           className,
         )}
       >
-        <PoolSentimentCol
+        <NCoinSentimentCol
           label={t('common.liquidity')}
           contentClassName="text-xs mt-1"
         >
-          <PoolLiquidity
+          <NCoinLiquidity
             type="update_row"
-            value={pool.data}
+            value={nCoin.data}
             imgClassName="size-4"
           />
-        </PoolSentimentCol>
-        <PoolSentimentCol
+        </NCoinSentimentCol>
+        <NCoinSentimentCol
           label={t('common.initial_liquidity')}
           contentClassName="text-xs mt-1"
         >
-          <PoolLiquidity
+          <NCoinLiquidity
             type="initial_row"
-            value={pool.data}
+            value={nCoin.data}
             imgClassName="size-4"
           />
-        </PoolSentimentCol>
-        <PoolSentimentCol
+        </NCoinSentimentCol>
+        <NCoinSentimentCol
           label={t('common.marketcap')}
           contentClassName="text-xs mt-1"
         >
           <ReadableNumber
             label="$"
-            value={pool.data?.update.base_market_data.market_cap}
+            value={nCoin.data?.update.base_market_data.market_cap}
             popup="never"
           />
-        </PoolSentimentCol>
+        </NCoinSentimentCol>
         <div className="h-16 w-px shrink-0 bg-white/10" />
-        <PoolSentimentCol
+        <NCoinSentimentCol
           label={t('common.validation_insights')}
           className="w-1/3 justify-self-end pe-12"
         >
-          <PoolSecurity
-            value={pool.data}
+          <NCoinSecurity
+            value={nCoin.data}
             type="row2"
             className="text-xxs"
             imgClassName="size-4 shrink-0"
           />
-        </PoolSentimentCol>
+        </NCoinSentimentCol>
       </div>
       {hr && <hr className="border-white/10" />}
     </>

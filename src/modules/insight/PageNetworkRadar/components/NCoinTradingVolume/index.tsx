@@ -1,13 +1,13 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { type NetworkRadarPool } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/insight/network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import volume from './volume.png';
 
-export const PoolTradingVolume: FC<{
+export const NCoinTradingVolume: FC<{
   className?: string;
   imgClassName?: string;
-  value?: NetworkRadarPool | null;
+  value?: NetworkRadarNCoin | null;
 }> = ({ className, imgClassName, value }) => {
   return (
     <div className={clsx('flex items-center justify-start gap-px', className)}>

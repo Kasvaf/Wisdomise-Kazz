@@ -1,12 +1,12 @@
 import { useState, type ComponentProps, type FC } from 'react';
 import { clsx } from 'clsx';
-import { type NetworkRadarPool } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/insight/network';
 import { CoinMiniCandleChart } from 'shared/CoinMiniCandleChart';
 import { useCandlesBySlugs } from 'api';
 
-export const PoolRecentCandles: FC<
+export const NCoinRecentCandles: FC<
   Omit<ComponentProps<typeof CoinMiniCandleChart>, 'value' | 'onReady'> & {
-    value?: NetworkRadarPool;
+    value?: NetworkRadarNCoin;
   }
 > = ({ value, ...props }) => {
   const [ready, setReady] = useState(false);

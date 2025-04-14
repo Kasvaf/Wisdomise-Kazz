@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import type { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { usePoolDetails } from 'api';
+import { useNCoinDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
 
@@ -59,17 +59,17 @@ const GreenRedChart: FC<{
   );
 };
 
-export function PoolStatsWidget({
+export function NCoinStatsWidget({
   className,
   slug,
 }: {
   className?: string;
   slug: string;
 }) {
-  const pool = usePoolDetails({ slug });
+  const nCoin = useNCoinDetails({ slug });
   const { t } = useTranslation('network-radar');
 
-  if (!pool.isLoading && !pool.data) return null;
+  if (!nCoin.isLoading && !nCoin.data) return null;
 
   return (
     <div
@@ -81,8 +81,8 @@ export function PoolStatsWidget({
       <StatCol label={t('common.buy_sell')}>
         <ReadableNumber
           value={
-            (pool.data?.update?.total_num_buys ?? 0) +
-            (pool.data?.update?.total_num_sells ?? 0)
+            (nCoin.data?.update?.total_num_buys ?? 0) +
+            (nCoin.data?.update?.total_num_sells ?? 0)
           }
           popup="never"
         />
@@ -90,8 +90,8 @@ export function PoolStatsWidget({
       <div className="h-14 w-px bg-white/10" />
       <GreenRedChart
         values={[
-          pool.data?.update.total_num_buys ?? 0,
-          pool.data?.update.total_num_sells ?? 0,
+          nCoin.data?.update.total_num_buys ?? 0,
+          nCoin.data?.update.total_num_sells ?? 0,
         ]}
         titles={[t('common.buy'), t('common.sell')]}
       />

@@ -2,18 +2,18 @@ import { clsx } from 'clsx';
 import { type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bxCopy } from 'boxicons-quasar';
-import { type NetworkRadarPool } from 'api/insight/network';
+import { type NetworkRadarNCoin } from 'api/insight/network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { useShare } from 'shared/useShare';
 import { shortenAddress } from 'utils/shortenAddress';
 import Icon from 'shared/Icon';
 import { useCommunityData } from 'modules/insight/PageCoinDetails/hooks/useCommunityData';
-import { PoolBuySell } from './PoolBuySell';
-import { PoolLiquidity } from './PoolLiquidity';
+import { NCoinBuySell } from './NCoinBuySell';
+import { NCoinLiquidity } from './NCoinLiquidity';
 
-export const PoolDetails: FC<{
+export const NCoinDetails: FC<{
   className?: string;
-  value: NetworkRadarPool;
+  value: NetworkRadarNCoin;
 }> = ({ value, className }) => {
   const { t } = useTranslation('network-radar');
   const socials = useCommunityData(value.base_community_data).filter(
@@ -30,7 +30,7 @@ export const PoolDetails: FC<{
       >
         <p>{t('common.liquidity')}</p>
         <div>
-          <PoolLiquidity
+          <NCoinLiquidity
             type="update_row"
             value={value}
             imgClassName="size-4"
@@ -38,7 +38,7 @@ export const PoolDetails: FC<{
         </div>
         <p>{t('common.initial_liquidity')}</p>
         <div>
-          <PoolLiquidity
+          <NCoinLiquidity
             type="initial_row"
             value={value}
             imgClassName="size-4"
@@ -54,7 +54,7 @@ export const PoolDetails: FC<{
         </div>
         <p>{t('common.buy_sell')}</p>
         <div>
-          <PoolBuySell imgClassName="size-4" value={value} />
+          <NCoinBuySell imgClassName="size-4" value={value} />
         </div>
         <p>{t('common.volume')}</p>
         <div>
