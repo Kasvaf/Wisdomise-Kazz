@@ -4,6 +4,16 @@ available-exchanges:
     exchange: Exchange
     price: Price
     volume_24h: Volume 24h
+pools:
+  table:
+    address: Address
+    name: Pair Name
+    created_at: Created at
+    reserve: Reserve
+    dex: DEX
+    fdv: FDV
+    txns: TXNS
+    volume: Volume
 call-change:
   title: Social Sentiment™
   analyzed-messages: Analyzed Messages
@@ -189,6 +199,9 @@ coin-details:
     markets:
       title: Exchanges
       label: Exchanges
+    pools:
+      title: Pools
+      label: Pools
     price_performance:
       title: Price Performance
       ath: All-Time High

@@ -160,7 +160,10 @@ export const CoinTitleWidget: FC<{
                   {t('common.buy_sell')}
                 </p>
                 <NCoinBuySell
-                  value={nCoin.data}
+                  value={{
+                    buys: nCoin.data?.update?.total_num_buys,
+                    sells: nCoin.data?.update?.total_num_sells,
+                  }}
                   className="text-xxs"
                   imgClassName="size-4"
                 />

@@ -1,19 +1,21 @@
 import { clsx } from 'clsx';
 import { type FC } from 'react';
-import { type NetworkRadarNCoin } from 'api/insight/network';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReactComponent as BuySellIcon } from './buy_sell.svg';
 
 export const NCoinBuySell: FC<{
   className?: string;
   imgClassName?: string;
-  value?: NetworkRadarNCoin | null;
+  value?: {
+    buys?: number | null;
+    sells?: number | null;
+  } | null;
 }> = ({ className, imgClassName, value }) => {
   return (
     <div className={clsx('flex items-center justify-start gap-1', className)}>
       <BuySellIcon className={clsx('shrink-0', imgClassName)} />
       <DirectionalNumber
-        value={value?.update.total_num_buys}
+        value={value?.buys}
         direction="up"
         popup="never"
         showIcon={false}
@@ -24,7 +26,7 @@ export const NCoinBuySell: FC<{
       />
       <span className="-mx-px text-v1-content-secondary">/</span>
       <DirectionalNumber
-        value={value?.update.total_num_sells}
+        value={value?.sells}
         direction="down"
         popup="never"
         showIcon={false}

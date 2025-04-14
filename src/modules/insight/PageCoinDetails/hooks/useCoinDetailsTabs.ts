@@ -28,6 +28,10 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
         hidden: true,
       },
       {
+        value: 'coinoverview_pools',
+        label: t('coin-details.tabs.pools.label'),
+      },
+      {
         value: 'coinoverview_exchanges',
         label: t('coin-details.tabs.markets.label'),
       },

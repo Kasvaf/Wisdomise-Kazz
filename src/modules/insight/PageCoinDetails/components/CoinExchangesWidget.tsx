@@ -31,7 +31,7 @@ export function CoinExchangesWidget({
         title: t('available-exchanges.table.exchange'),
         width: '45%',
         render: (_, row) => (
-          <div className="inline-flex items-center gap-2 leading-tight">
+          <div className="inline-flex items-center gap-2 text-xs leading-tight">
             <img
               src={row.exchange.icon_url}
               alt={row.exchange.name}
@@ -45,13 +45,23 @@ export function CoinExchangesWidget({
         title: t('available-exchanges.table.price'),
         sorter: (a, b) => (a.price_in_usd ?? 0) - (b.price_in_usd ?? 0),
         render: (_, row) => (
-          <ReadableNumber value={row.price_in_usd} label="usdt" />
+          <ReadableNumber
+            value={row.price_in_usd}
+            label="usdt"
+            className="text-xs"
+          />
         ),
       },
       {
         title: t('available-exchanges.table.volume_24h'),
         sorter: (a, b) => (a.volume_24h ?? 0) - (b.volume_24h ?? 0),
-        render: (_, row) => <ReadableNumber value={row.volume_24h} label="$" />,
+        render: (_, row) => (
+          <ReadableNumber
+            value={row.volume_24h}
+            label="$"
+            className="text-xs"
+          />
+        ),
       },
     ],
     [t],
@@ -75,8 +85,10 @@ export function CoinExchangesWidget({
     <>
       <div
         id={id}
-        title={t('coin-details.tabs.markets.title')}
-        className={clsx(className)}
+        className={clsx(
+          'relative flex flex-col gap-1 overflow-auto overflow-x-hidden',
+          className,
+        )}
       >
         <div className="flex items-center justify-between gap-1">
           <h3 className="text-sm font-semibold">

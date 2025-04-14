@@ -76,7 +76,10 @@ export const NetworkRadarMobile = () => {
               className="text-xxs"
             />
             <NCoinBuySell
-              value={row}
+              value={{
+                buys: row.update.total_num_buys,
+                sells: row.update.total_num_sells,
+              }}
               imgClassName="size-3"
               className="text-[8px]"
             />

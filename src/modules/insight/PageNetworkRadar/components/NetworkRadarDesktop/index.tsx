@@ -117,7 +117,10 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         title: [t('common.txns.title'), t('common.txns.info')],
         render: (_, row) => (
           <NCoinBuySell
-            value={row}
+            value={{
+              buys: row.update.total_num_buys,
+              sells: row.update.total_num_sells,
+            }}
             imgClassName="size-3"
             className="w-20 text-xs"
           />
