@@ -73,7 +73,8 @@
   /* placeholder */
   .ant-table-placeholder,
   .ant-table-placeholder:hover {
-    @apply bg-[--table-current-color] bg-none;
+    background: transparent;
+    @apply !bg-[--table-current-color] !bg-none;
   }
 
   /* radius */

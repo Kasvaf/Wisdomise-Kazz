@@ -5,7 +5,6 @@ import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinPricePerformanceWidget } from '../CoinPricePerformanceWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
-import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
 
 export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
@@ -34,7 +33,7 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
             <WhaleRadarSentimentWidget slug={slug} className="w-full shrink" /> */}
           </div>
           <CoinDetailsTabs options={tabs} className="sticky top-[72px] z-50" />
-          <CoinWhaleListWidget id="coinoverview_whales" slug={slug} />
+          {/* <CoinWhaleListWidget id="coinoverview_whales" slug={slug} /> */}
           {/* <CoinAvailableExchangesWidget
             slug={slug}
             id="coinoverview_exchanges"

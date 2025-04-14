@@ -4,16 +4,6 @@ available-exchanges:
     exchange: Exchange
     price: Price
     volume_24h: Volume 24h
-pools:
-  table:
-    address: Address
-    name: Pair Name
-    created_at: Created at
-    reserve: Reserve
-    dex: DEX
-    fdv: FDV
-    txns: TXNS
-    volume: Volume
 call-change:
   title: Social Sentiment™
   analyzed-messages: Analyzed Messages
@@ -214,8 +204,8 @@ coin-details:
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
-    whale_list:
-      label: Smart Whales
+    whales:
+      label: Whales
 common:
   description: Description
   all_categories: All Categories
@@ -232,6 +222,14 @@ common:
   price: Price
   search_coin: Search Coin...
   wise_labels: Wise™ Labels
+pools:
+  table:
+    name: Pair Name
+    address: Address
+    created_at: Created at
+    dex: DEX
+    txns: TXNS
+    volume: Volume
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
@@ -284,3 +282,7 @@ social-radar:
           just the community’s view but also how market movements align with
           those opinions.
         </p>
+whales:
+  active: Active Whales
+  holding: Holding Whales
+  search: Search Whale...
