@@ -19,16 +19,18 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   return (
     <div className="flex flex-nowrap items-stretch justify-between">
       {/* Discover */}
-      <div className="w-60 shrink-0 overflow-hidden p-3 ps-0 tablet:w-60">
-        {isDebugMode && (
-          <>
-            <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
-              {'TODO: Portfolio Section'}
-            </div>
-            <hr className="my-3 border-white/10" />
-          </>
-        )}
-        <CoinFinderWidget />
+      <div className="relative w-60 shrink-0 p-3 ps-0 tablet:w-60">
+        <div className="space-y-3">
+          {isDebugMode && (
+            <>
+              <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
+                {'TODO: Portfolio Section'}
+              </div>
+              <hr className="border-white/10" />
+            </>
+          )}
+          <CoinFinderWidget />
+        </div>
       </div>
 
       {/* Validate */}
@@ -73,17 +75,19 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Trade + Additional */}
-      <div className="w-80 shrink-0 space-y-3 p-3 pe-0 tablet:w-60">
-        {isDebugMode && (
-          <>
-            <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
-              {'TODO: Trade Section'}
-            </div>
-            <hr className="border-white/10" />
-          </>
-        )}
-        <CoinStatsWidget slug={slug} />
-        <PoolStatsWidget slug={slug} />
+      <div className="relative w-80 shrink-0 p-3 pe-0 tablet:w-60">
+        <div className="sticky top-[100px] space-y-3">
+          {isDebugMode && (
+            <>
+              <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
+                {'TODO: Trade Section'}
+              </div>
+              <hr className="border-white/10" />
+            </>
+          )}
+          <CoinStatsWidget slug={slug} />
+          <PoolStatsWidget slug={slug} />
+        </div>
       </div>
     </div>
   );
