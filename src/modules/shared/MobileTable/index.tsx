@@ -107,8 +107,7 @@ export function MobileTable<RecordType extends object>({
             <Lazy
               freezeOnceVisible
               tag="tbody"
-              fallback={loadingCols}
-              unMountedClassName="table-row w-full"
+              unMountedClassName="table-row h-16 w-full"
             >
               {dataSource.slice(25).map(rowRender)}
             </Lazy>
