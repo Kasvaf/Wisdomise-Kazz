@@ -25,6 +25,7 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
       {
         value: 'coinoverview_whales',
         label: t('coin-details.tabs.whale_list.label'),
+        hidden: true,
       },
       {
         value: 'coinoverview_exchanges',

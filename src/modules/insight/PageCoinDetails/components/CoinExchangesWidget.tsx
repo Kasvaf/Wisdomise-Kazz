@@ -2,20 +2,24 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { bxSearch } from 'boxicons-quasar';
+import { clsx } from 'clsx';
 import { useCoinDetails } from 'api';
 import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { OverviewWidget } from 'shared/OverviewWidget';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { type CoinExchange } from 'api/types/shared';
 
-export function CoinAvailableExchangesWidget({
+export function CoinExchangesWidget({
   slug,
   id,
+  hr,
+  className,
 }: {
   slug: string;
   id?: string;
+  hr?: boolean;
+  className?: string;
 }) {
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinDetails({ slug });
@@ -61,43 +65,47 @@ export function CoinAvailableExchangesWidget({
     [coinOverview.data?.exchanges, query],
   );
 
-  if (data.length === 0 && !coinOverview.isLoading) return null;
+  if (
+    (coinOverview.data?.exchanges ?? []).length === 0 &&
+    !coinOverview.isLoading
+  )
+    return null;
 
   return (
-    <OverviewWidget
-      id={id}
-      title={t('coin-details.tabs.markets.title')}
-      subtitle={t('coin-details.tabs.markets.subtitle')}
-      loading={coinOverview.isLoading}
-      refreshing={coinOverview.isRefetching}
-      empty={{
-        enabled: coinOverview.data?.exchanges.length === 0,
-        refreshButton: true,
-        title: t('coin-details.tabs.markets.empty.title'),
-        subtitle: t('coin-details.tabs.markets.empty.subtitle'),
-      }}
-      onRefresh={coinOverview.refetch}
-    >
-      <div>
-        <Input
-          type="string"
-          value={query}
-          onChange={setQuery}
-          className="mb-4 w-72 text-sm mobile:w-full"
-          prefixIcon={<Icon name={bxSearch} />}
-          placeholder={t('available-exchanges.search')}
+    <>
+      <div
+        id={id}
+        title={t('coin-details.tabs.markets.title')}
+        className={clsx(className)}
+      >
+        <div className="flex items-center justify-between gap-1">
+          <h3 className="text-sm font-semibold">
+            {t('coin-details.tabs.markets.title')}
+          </h3>
+          <Input
+            type="string"
+            size="md"
+            value={query}
+            onChange={setQuery}
+            className="mb-4 w-72 text-sm mobile:w-full"
+            prefixIcon={<Icon name={bxSearch} />}
+            placeholder={t('available-exchanges.search')}
+            surface={2}
+          />
+        </div>
+        <Table
+          loading={coinOverview.isLoading}
+          columns={columns}
+          dataSource={data}
+          rowKey={row => row.exchange.id}
+          tableLayout="fixed"
+          pagination={{
+            pageSize: 5,
+          }}
+          surface={1}
         />
       </div>
-      <Table
-        loading={coinOverview.isLoading}
-        columns={columns}
-        dataSource={data}
-        rowKey={row => row.exchange.id}
-        tableLayout="fixed"
-        pagination={{
-          pageSize: 5,
-        }}
-      />
-    </OverviewWidget>
+      {hr && <hr className="border-white/10" />}
+    </>
   );
 }

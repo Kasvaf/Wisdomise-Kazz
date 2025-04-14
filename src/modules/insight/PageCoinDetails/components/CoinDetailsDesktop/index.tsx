@@ -11,6 +11,7 @@ import { PoolStatsWidget } from '../PoolStatsWidget';
 import { CoinTitleWidget } from '../CoinTitleWidget';
 import CoinChart from '../CoinChart';
 import { CoinMessagesWidget } from '../CoinMessagesWidget';
+import { CoinExchangesWidget } from '../CoinExchangesWidget';
 
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -64,12 +65,10 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
               slug={slug}
               hr
             />
+            <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" hr />
           </div>
           {/* <CoinWhaleListWidget id="coinoverview_whales" slug={slug} /> */}
-          {/* <CoinAvailableExchangesWidget
-            slug={slug}
-            id="coinoverview_exchanges"
-          />
+          {/*
           <CoinIntroductionWidget slug={slug} /> */}
         </div>
       </div>

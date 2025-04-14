@@ -3,7 +3,6 @@ import { type FC, useRef } from 'react';
 import { CoinPriceWidget } from '../CoinPriceWidget';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinPricePerformanceWidget } from '../CoinPricePerformanceWidget';
-import { CoinAvailableExchangesWidget } from '../CoinAvailableExchangesWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { CoinWhaleListWidget } from '../CoinWhaleListWidget';
@@ -36,10 +35,10 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
           </div>
           <CoinDetailsTabs options={tabs} className="sticky top-[72px] z-50" />
           <CoinWhaleListWidget id="coinoverview_whales" slug={slug} />
-          <CoinAvailableExchangesWidget
+          {/* <CoinAvailableExchangesWidget
             slug={slug}
             id="coinoverview_exchanges"
-          />
+          /> */}
           <CoinIntroductionWidget slug={slug} />
         </div>
       </div>
