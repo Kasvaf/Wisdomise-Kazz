@@ -40,12 +40,22 @@ export const useCoinDetailsTabs = (root: RefObject<HTMLElement>) => {
   const [tabs, setTabs] = useState(initialTabs.current);
 
   const refreshTabs = useCallback(() => {
-    const newTabs = initialTabs.current.map(r => ({
-      ...r,
-      hidden: !document.querySelector(`#${r.value}`),
-    }));
-    setTabs(newTabs);
-  }, []);
+    setTabs(prevTabs => {
+      let updated = false;
+      const newTabs = tabs.map(tab => {
+        const newTab = {
+          ...tab,
+          hidden: !document.querySelector(`#${tab.value}`),
+        };
+        if (newTab.hidden !== tab.hidden) {
+          updated = true;
+        }
+        return newTab;
+      });
+      if (updated) return newTabs;
+      return prevTabs;
+    });
+  }, [tabs]);
 
   useMutationObserver(root, refreshTabs, {
     childList: true,
