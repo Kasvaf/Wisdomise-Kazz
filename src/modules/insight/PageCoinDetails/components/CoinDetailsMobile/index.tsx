@@ -1,6 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
-import { isDebugMode } from 'utils/version';
+import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
@@ -23,17 +23,9 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
       <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
       <CoinSentimentsWidget slug={slug} />
       <NCoinSentimentWidget slug={slug} />
-      {isDebugMode && (
-        <>
-          <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
-            {'TODO: Trade Section'}
-          </div>
-          <hr className="border-white/10" />
-        </>
-      )}
+      <BtnAutoTrade slug={slug} block className="w-full" variant="outline" />
       <CoinStatsWidget slug={slug} />
       <NCoinStatsWidget slug={slug} />
-      {/* Sentiment Widgets */}
       <CoinChart slug={slug} height={420} />
       <CoinDetailsTabs
         options={tabs}

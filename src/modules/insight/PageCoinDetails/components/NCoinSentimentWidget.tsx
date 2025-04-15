@@ -70,7 +70,7 @@ export const NCoinSentimentWidget: FC<{
             popup="never"
           />
         </NCoinSentimentCol>
-        <div className="h-16 w-px shrink-0 bg-white/10 mobile:hidden" />
+        <div className="h-10 w-px shrink-0 bg-white/10 mobile:hidden" />
         <NCoinSentimentCol
           label={t('common.validation_insights')}
           className="w-1/3 justify-self-end pe-12"
