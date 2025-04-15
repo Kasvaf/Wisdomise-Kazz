@@ -53,7 +53,7 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
         title: t('common.name'),
         fixed: 'left',
         className: 'w-44 max-w-44',
-        render: (_, row) => <Coin coin={row.base_symbol} nonLink={true} />,
+        render: (_, row) => <Coin coin={row.base_symbol} />,
       },
       {
         title: t('common.address'),

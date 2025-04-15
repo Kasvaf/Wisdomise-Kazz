@@ -1,10 +1,11 @@
 import { clsx } from 'clsx';
-import { Link } from 'react-router-dom';
-import { type ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useMemo, type ReactNode } from 'react';
 import { useSymbolInfo } from 'api/symbol';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
+import { DISCOVER_TABS } from 'modules/insight/PageCoinDetails/components/CoinDiscoverWidget/CoinDiscoverTabs';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
@@ -75,6 +76,15 @@ export function Coin({
       'group rounded-md transition-all hover:bg-white/5 hover:text-inherit',
     className,
   );
+
+  const { pathname } = useLocation();
+
+  const href = useMemo(() => {
+    const discoverTab = DISCOVER_TABS.find(tab => pathname.includes(tab));
+    return `/coin/${coin.slug}${
+      discoverTab ? `?discoverTab=${discoverTab}` : ''
+    }`;
+  }, [pathname, coin]);
 
   useSymbolInfo('the-open-network');
   const content = (
@@ -155,9 +165,7 @@ export function Coin({
       ) : (
         <Link
           className={clsx(rootClassName, gtmClass('coin_list-item'))}
-          to={{
-            pathname: `/coin/${coin.slug}`,
-          }}
+          to={href}
           title={tooltip}
         >
           {content}
