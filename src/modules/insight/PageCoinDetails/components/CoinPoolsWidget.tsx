@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { type ColumnType } from 'antd/es/table';
 import { clsx } from 'clsx';
+import { bxsCopy } from 'boxicons-quasar';
 import { useCoinPools } from 'api';
 import Table from 'shared/Table';
 import { ReadableNumber } from 'shared/ReadableNumber';
@@ -9,6 +10,8 @@ import { type Pool } from 'api/types/shared';
 import { shortenAddress } from 'utils/shortenAddress';
 import { ReadableDate } from 'shared/ReadableDate';
 import { NCoinBuySell } from 'modules/insight/PageNetworkRadar/components/NCoinBuySell';
+import { useShare } from 'shared/useShare';
+import Icon from 'shared/Icon';
 
 export function CoinPoolsWidget({
   slug,
@@ -23,13 +26,22 @@ export function CoinPoolsWidget({
 }) {
   const { t } = useTranslation('coin-radar');
   const pools = useCoinPools({ slug, network: 'solana' });
+  const [copy, copyNotif] = useShare('copy');
 
   const columns = useMemo<Array<ColumnType<Pool>>>(
     () => [
       {
         title: t('pools.table.address'),
         render: (_, row) => (
-          <p className="text-xs">{shortenAddress(row.address ?? '')}</p>
+          <div className="flex items-center gap-1 text-xs">
+            {shortenAddress(row.address ?? '')}
+            <Icon
+              name={bxsCopy}
+              size={12}
+              className="cursor-pointer"
+              onClick={() => copy(row.address ?? '')}
+            />
+          </div>
         ),
         width: '10%',
       },
@@ -82,7 +94,7 @@ export function CoinPoolsWidget({
         width: '20%',
       },
     ],
-    [t],
+    [copy, t],
   );
 
   if ((pools.data ?? []).length === 0) return null;
@@ -112,6 +124,7 @@ export function CoinPoolsWidget({
           surface={1}
         />
       </div>
+      {copyNotif}
       {hr && <hr className="border-white/10" />}
     </>
   );
