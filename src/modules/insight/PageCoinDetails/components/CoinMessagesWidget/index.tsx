@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useState } from 'react';
-import { useSocialRadarMessages } from 'api';
+import { useNCoinDetails, useSocialRadarMessages } from 'api';
 import { Button } from 'shared/v1-components/Button';
 import { SocialMessageSummary } from './SocialMessage';
 
@@ -18,6 +18,7 @@ export function CoinMessagesWidget({
   type: 'technical_ideas' | 'rest';
   hr?: boolean;
 }) {
+  const nCoin = useNCoinDetails({ slug });
   const messages = useSocialRadarMessages({ slug });
   const { t } = useTranslation('coin-radar');
 
@@ -29,7 +30,7 @@ export function CoinMessagesWidget({
       : x.social_type !== 'trading_view',
   );
 
-  if (!msgs?.length) return null;
+  if (!msgs?.length || !!nCoin.data) return null;
 
   return (
     <>
