@@ -101,11 +101,12 @@ export const TechnicalRadarCoinsTable: FC<{
         surface={1}
       />
       <AccessShield
+        disable={false}
         mode="mobile_table"
         sizes={{
           'guest': true,
-          'initial': 3,
-          'free': 3,
+          'initial': true,
+          'free': true,
           'pro': false,
           'pro+': false,
           'pro_max': false,

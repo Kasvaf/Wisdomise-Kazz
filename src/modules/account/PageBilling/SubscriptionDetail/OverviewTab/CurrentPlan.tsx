@@ -44,15 +44,24 @@ export default function CurrentPlan() {
             </button>
           )}
         </div>
-        {status !== 'trialing' && (
+        {paymentMethod === 'TOKEN' ? (
           <div>
-            {isAutoRenewEnabled
-              ? t('subscription-details.overview.current-plan.renew')
-              : t('subscription-details.overview.current-plan.expire')}
-            <InfoBadge
-              value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
-              value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
-            />
+            You will have access to VIP club until you have more than $1000
+            staked
+          </div>
+        ) : (
+          <div>
+            {status !== 'trialing' && (
+              <div>
+                {isAutoRenewEnabled
+                  ? t('subscription-details.overview.current-plan.renew')
+                  : t('subscription-details.overview.current-plan.expire')}
+                <InfoBadge
+                  value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
+                  value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
+                />
+              </div>
+            )}
           </div>
         )}
         <PendingInvoice />
@@ -65,7 +74,7 @@ export default function CurrentPlan() {
 export const paymentMethodText: Record<PaymentMethod, string> = {
   CRYPTO: 'Crypto',
   FIAT: 'Fiat',
-  TOKEN: 'Locked WSDM',
+  TOKEN: 'Staked WSDM',
   WSDM: 'Paid By WSDM',
   MANUAL: 'Manual',
 };

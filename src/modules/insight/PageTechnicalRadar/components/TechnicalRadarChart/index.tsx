@@ -287,13 +287,14 @@ export const TechnicalRadarChart: FC<{
         </div>
       </div>
       <AccessShield
+        disable={false}
         mode="children"
         className="relative"
         sizes={{
           'guest': true,
           'initial': true,
           'free': true,
-          'pro': type !== 'expensive_bearish',
+          'pro': false,
           'pro+': false,
           'pro_max': false,
         }}

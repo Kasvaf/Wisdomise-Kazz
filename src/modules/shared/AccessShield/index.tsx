@@ -100,10 +100,12 @@ export function AccessShield({
   className,
   mode,
   sizes,
+  disable = true,
 }: PropsWithChildren<{
   className?: string;
   mode: 'table' | 'mobile_table' | 'children';
   sizes: Record<UserGroup, number | boolean>;
+  disable?: boolean;
 }>) {
   const { t } = useTranslation('pro');
   const { ensureGroup, group, loginModal } = useSubscription();
@@ -130,12 +132,13 @@ export function AccessShield({
         {calcSize(size) > 0 && (
           <div
             className={clsx(
-              'z-[2] hidden w-full rounded-xl',
+              'z-[2] w-full rounded-xl',
               height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
               maxHeight < 900 ? 'justify-center' : 'justify-start',
-              'flex-col items-center backdrop-blur',
+              'flex flex-col items-center backdrop-blur',
               'bg-[rgba(29,38,47,0.2)]',
               !isReady && 'hidden',
+              disable && '!hidden',
             )}
             ref={shield}
           >
@@ -175,13 +178,7 @@ export function AccessShield({
                 <Sparkle />
                 {group === 'guest'
                   ? t('pro-locker.login.button')
-                  : group === 'initial'
-                  ? t('pro-locker.trial.button')
-                  : nextGroup === 'pro'
-                  ? t('pro-locker.pro.button')
-                  : nextGroup === 'pro+'
-                  ? t('pro-locker.proplus.button')
-                  : t('pro-locker.promax.button')}
+                  : 'Join VIP Club'}
               </Button>
             </HoverTooltip>
             {loginModal}

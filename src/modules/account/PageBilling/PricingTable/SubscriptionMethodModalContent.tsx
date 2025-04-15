@@ -168,22 +168,19 @@ export default function SubscriptionMethodModal({
             </Button>
           )}
 
-        {plan.token_hold_support &&
-          hasFlag('/account/billing?payment_method=lock') && (
-            <Button
-              onClick={onLockClick}
-              className={clsx('col-span-1', gtmClass('lock-wsdm'))}
-            >
-              <DebugPin
-                title="/account/billing?payment_method=lock"
-                color="orange"
-              />
-              <div className="flex items-center gap-2">
-                <Token />
-                {t('subscription-modal.btn-lock')}
-              </div>
-            </Button>
-          )}
+        <Button
+          onClick={onLockClick}
+          className={clsx('col-span-1', gtmClass('lock-wsdm'))}
+        >
+          <DebugPin
+            title="/account/billing?payment_method=lock"
+            color="orange"
+          />
+          <div className="flex items-center gap-2">
+            <Token />
+            {t('subscription-modal.btn-lock')}
+          </div>
+        </Button>
       </div>
       {tokenPaymentModal}
     </div>

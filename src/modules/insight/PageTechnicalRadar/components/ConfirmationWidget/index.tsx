@@ -233,12 +233,13 @@ export function ConfirmationWidget<I extends Indicator>({
       overlay={overlay}
     >
       <AccessShield
+        disable={false}
         mode="children"
         sizes={{
           'guest': true,
-          'initial': 2,
-          'free': 2,
-          'pro': 2,
+          'initial': true,
+          'free': true,
+          'pro': false,
           'pro+': false,
           'pro_max': false,
         }}

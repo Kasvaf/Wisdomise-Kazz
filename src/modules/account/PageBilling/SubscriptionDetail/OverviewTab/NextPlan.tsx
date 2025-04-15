@@ -116,23 +116,23 @@ export default function NextPlan() {
           </>
         )}
 
-        {!isAutoRenewEnabled && (
-          <Trans
-            ns="billing"
-            i18nKey="subscription-details.overview.next-plan.canceled"
-          >
-            <p>
-              Your subscription will not renew automatically.
-              <button
-                onClick={() => handleToggleAutoRenew(true)}
-                className="ml-2 text-sm text-[#34A3DA] underline underline-offset-4 disabled:animate-pulse disabled:text-white/40"
-                disabled={subscriptionMutation.isPending}
-              >
-                Turn On Auto-Renew
-              </button>
-            </p>
-          </Trans>
-        )}
+        {/* {!isAutoRenewEnabled && ( */}
+        {/*   <Trans */}
+        {/*     ns="billing" */}
+        {/*     i18nKey="subscription-details.overview.next-plan.canceled" */}
+        {/*   > */}
+        {/*     <p> */}
+        {/*       Your subscription will not renew automatically. */}
+        {/*       <button */}
+        {/*         onClick={() => handleToggleAutoRenew(true)} */}
+        {/*         className="ml-2 text-sm text-[#34A3DA] underline underline-offset-4 disabled:animate-pulse disabled:text-white/40" */}
+        {/*         disabled={subscriptionMutation.isPending} */}
+        {/*       > */}
+        {/*         Turn On Auto-Renew */}
+        {/*       </button> */}
+        {/*     </p> */}
+        {/*   </Trans> */}
+        {/* )} */}
       </section>
       {PaymentMethodModal}
     </>
