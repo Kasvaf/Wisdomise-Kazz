@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
 import { isMiniApp } from 'utils/version';
@@ -138,11 +138,13 @@ export const useCoinLabels = (config: { query?: string }) =>
 export const useCoinDetails = ({
   slug,
   priceHistoryDays,
+  suspense,
 }: {
   slug?: string;
   priceHistoryDays?: number;
+  suspense?: boolean;
 }) =>
-  useQuery({
+  (suspense ? useSuspenseQuery : useQuery)({
     queryKey: ['coin-details', slug, priceHistoryDays ?? 1],
     queryFn: () => {
       if (!slug) return null;
@@ -175,8 +177,14 @@ export const useCoinDetails = ({
     refetchInterval: 5 * 60 * 1000,
   });
 
-export const useNCoinDetails = ({ slug }: { slug?: string }) =>
-  useQuery({
+export const useNCoinDetails = ({
+  slug,
+  suspense,
+}: {
+  slug?: string;
+  suspense?: boolean;
+}) =>
+  (suspense ? useSuspenseQuery : useQuery)({
     queryKey: ['ncoin-details', slug],
     queryFn: () => {
       if (!slug) return null;

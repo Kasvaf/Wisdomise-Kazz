@@ -14,7 +14,6 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { isDebugMode } from 'utils/version';
 import { CoinLabels } from 'shared/CoinLabels';
-import Spinner from 'shared/Spinner';
 import { useCommunityData } from '../hooks/useCommunityData';
 import { PriceAlertButton } from './PriceAlertButton';
 
@@ -25,8 +24,8 @@ export const CoinTitleWidget: FC<{
 }> = ({ slug, className, hr }) => {
   const { t } = useTranslation('network-radar');
   const [copy, copyNotif] = useShare('copy');
-  const coin = useCoinDetails({ slug });
-  const nCoin = useNCoinDetails({ slug });
+  const coin = useCoinDetails({ slug, suspense: true });
+  const nCoin = useNCoinDetails({ slug, suspense: true });
   const isNCoin = !!nCoin.data?.base_symbol;
   const symbol = nCoin.data?.base_symbol || coin.data?.symbol;
   const contactAddresses = [
@@ -39,6 +38,8 @@ export const CoinTitleWidget: FC<{
     nCoin.data?.base_community_data || coin.data?.community_data,
   ).filter(x => x.type === 'social');
 
+  if (!symbol) return null;
+
   return (
     <>
       <div
@@ -48,199 +49,193 @@ export const CoinTitleWidget: FC<{
           className,
         )}
       >
-        {symbol ? (
-          <>
-            <div className="flex flex-wrap items-center justify-start gap-2">
-              <CoinLogo coin={symbol} className="size-7" />
-              <div className="flex flex-col justify-between gap-1">
-                <div className="flex items-center gap-1">
-                  <p className="text-xs font-medium">
-                    {symbol.abbreviation ?? '---'}
-                  </p>
-                  <p className="text-xxs text-v1-content-secondary">
-                    {symbol.name ?? '---'}
-                  </p>
-                  <CoinLabels
-                    categories={coin.data?.symbol.categories}
-                    networks={isNCoin ? [] : coin.data?.networks}
-                    labels={
-                      [
-                        isNCoin && 'new_born',
-                        ...(coin.data?.symbol_labels ?? []),
-                      ].filter(x => !!x) as string[]
-                    }
-                    coin={symbol}
-                    security={
-                      isNCoin
-                        ? []
-                        : coin.data?.security_data?.map(x => x.symbol_security)
-                    }
-                    mini
-                    clickable
-                  />
-                </div>
-                <div className="flex items-center gap-1">
-                  {contactAddresses.length === 1 && (
-                    <>
-                      <div className="flex items-center gap-1 text-xxs text-v1-content-secondary">
-                        {shortenAddress(contactAddresses[0])}
-                        <Icon
-                          name={bxsCopy}
-                          size={12}
-                          className="cursor-pointer"
-                          onClick={() => copy(contactAddresses[0])}
-                        />
-                      </div>
-                      <span className="size-[2px] rounded-full bg-white" />
-                    </>
-                  )}
-
-                  {/* Socials */}
-                  {socials.length > 0 && (
-                    <div className="flex flex-nowrap items-center gap-1">
-                      {socials.map(social => (
-                        <a
-                          key={social.href}
-                          href={social.href}
-                          className={clsx(
-                            'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/70 transition-all hover:brightness-110 active:brightness-90',
-                            'size-3 shrink-0 justify-center',
-                            '[&_svg]:size-[10px]',
-                          )}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {social.icon}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                  <a
-                    href={`https://x.com/search?q=(${[
-                      symbol.abbreviation && `$${symbol.abbreviation}`,
-                      ...contactAddresses,
-                    ].join('%20OR%20')})&src=typed_query&f=live`}
-                    className={clsx(
-                      'inline-flex items-center gap-2 rounded-full bg-white/10 px-1 text-xxs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
-                      'h-4 shrink-0 justify-center',
-                      '[&_svg]:size-[12px]',
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Icon name={bxlTwitter} />
-                    {'Search'}
-                  </a>
-
-                  {/* Developer Data */}
-                  {isNCoin && isDebugMode && (
-                    <>
-                      <span className="size-[2px] rounded-full bg-white" />
-                      <span className="text-xxs text-v1-content-positive">
-                        {'TODO: Dev'}
-                      </span>
-                    </>
-                  )}
-                  {/* TODO an user icon and his assets history */}
-
-                  {nCoin.data?.creation_datetime && (
-                    <>
-                      <span className="size-[2px] rounded-full bg-white" />
-                      <NCoinAge
-                        value={nCoin.data?.creation_datetime}
-                        inline
-                        className="text-xs text-v1-background-secondary"
-                      />
-                    </>
-                  )}
-                </div>
-              </div>
-              {nCoin.data && (
-                <div className="flex items-center gap-4">
-                  <div className="h-4 w-px bg-white/10" />
-                  <div className="space-y-px">
-                    <p className="text-xxs text-v1-content-secondary">
-                      {t('common.buy_sell')}
-                    </p>
-                    <NCoinBuySell
-                      value={{
-                        buys: nCoin.data?.update?.total_num_buys,
-                        sells: nCoin.data?.update?.total_num_sells,
-                      }}
-                      className="text-xxs"
-                      imgClassName="size-4"
-                    />
-                  </div>
-                  <div className="h-4 w-px bg-white/10" />
-                  <div className="space-y-px">
-                    <p className="text-xxs text-v1-content-secondary">
-                      {t('common.volume')}
-                    </p>
-                    <ReadableNumber
-                      value={nCoin.data.update.total_trading_volume.usd}
-                      className="text-xxs"
-                      label="$"
-                      popup="never"
-                    />
-                  </div>
-                  {isDebugMode && (
-                    <>
-                      <div className="h-4 w-px bg-white/10" />
-                      <div className="space-y-px">
-                        <p className="text-xxs text-v1-content-secondary">
-                          {t('common.risk')}
-                        </p>
-                        <span className="text-xxs">{'TODO: Risks'}</span>
-
-                        {/* TODO Risk */}
-                      </div>
-
-                      <div className="h-4 w-px bg-white/10" />
-                      <span className="text-xxs">{'TODO: Rugged'}</span>
-                      {/* TODO Rugged */}
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div className="flex items-center gap-4 mobile:w-full mobile:justify-between">
-              <div className="flex flex-col items-end justify-between gap-1">
-                <DirectionalNumber
-                  value={
-                    nCoin.data?.update.base_market_data.current_price ??
-                    coin.data?.data?.current_price
-                  }
-                  label="$"
-                  direction="up"
-                  className="text-xs"
-                  showIcon={false}
-                  showSign={false}
-                />
-                {coin.data?.data?.price_change_percentage_24h && (
-                  <DirectionalNumber
-                    className="text-xxs"
-                    value={coin.data?.data?.price_change_percentage_24h}
-                    label="%"
-                    showSign
-                    showIcon
-                    suffix=" (24h)"
-                  />
-                )}
-              </div>
-              <div className="h-8 w-px bg-white/10" />
-              <PriceAlertButton
-                slug={slug}
-                variant="outline"
-                surface={1}
-                size="md"
+        <div className="flex flex-wrap items-center justify-start gap-2">
+          <CoinLogo coin={symbol} className="size-7" />
+          <div className="flex flex-col justify-between gap-1">
+            <div className="flex items-center gap-1">
+              <p className="text-xs font-medium">
+                {symbol.abbreviation ?? '---'}
+              </p>
+              <p className="text-xxs text-v1-content-secondary">
+                {symbol.name ?? '---'}
+              </p>
+              <CoinLabels
+                categories={coin.data?.symbol.categories}
+                networks={isNCoin ? [] : coin.data?.networks}
+                labels={
+                  [
+                    isNCoin && 'new_born',
+                    ...(coin.data?.symbol_labels ?? []),
+                  ].filter(x => !!x) as string[]
+                }
+                coin={symbol}
+                security={
+                  isNCoin
+                    ? []
+                    : coin.data?.security_data?.map(x => x.symbol_security)
+                }
+                mini
+                clickable
               />
             </div>
-            {copyNotif}
-          </>
-        ) : (
-          <Spinner className="size-40" />
-        )}
+            <div className="flex items-center gap-1">
+              {contactAddresses.length === 1 && (
+                <>
+                  <div className="flex items-center gap-1 text-xxs text-v1-content-secondary">
+                    {shortenAddress(contactAddresses[0])}
+                    <Icon
+                      name={bxsCopy}
+                      size={12}
+                      className="cursor-pointer"
+                      onClick={() => copy(contactAddresses[0])}
+                    />
+                  </div>
+                  <span className="size-[2px] rounded-full bg-white" />
+                </>
+              )}
+
+              {/* Socials */}
+              {socials.length > 0 && (
+                <div className="flex flex-nowrap items-center gap-1">
+                  {socials.map(social => (
+                    <a
+                      key={social.href}
+                      href={social.href}
+                      className={clsx(
+                        'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/70 transition-all hover:brightness-110 active:brightness-90',
+                        'size-3 shrink-0 justify-center',
+                        '[&_svg]:size-[10px]',
+                      )}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {social.icon}
+                    </a>
+                  ))}
+                </div>
+              )}
+              <a
+                href={`https://x.com/search?q=(${[
+                  symbol.abbreviation && `$${symbol.abbreviation}`,
+                  ...contactAddresses,
+                ].join('%20OR%20')})&src=typed_query&f=live`}
+                className={clsx(
+                  'inline-flex items-center gap-2 rounded-full bg-white/10 px-1 text-xxs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
+                  'h-4 shrink-0 justify-center',
+                  '[&_svg]:size-[12px]',
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Icon name={bxlTwitter} />
+                {'Search'}
+              </a>
+
+              {/* Developer Data */}
+              {isNCoin && isDebugMode && (
+                <>
+                  <span className="size-[2px] rounded-full bg-white" />
+                  <span className="text-xxs text-v1-content-positive">
+                    {'TODO: Dev'}
+                  </span>
+                </>
+              )}
+              {/* TODO an user icon and his assets history */}
+
+              {nCoin.data?.creation_datetime && (
+                <>
+                  <span className="size-[2px] rounded-full bg-white" />
+                  <NCoinAge
+                    value={nCoin.data?.creation_datetime}
+                    inline
+                    className="text-xs text-v1-background-secondary"
+                  />
+                </>
+              )}
+            </div>
+          </div>
+          {nCoin.data && (
+            <div className="flex items-center gap-4">
+              <div className="h-4 w-px bg-white/10" />
+              <div className="space-y-px">
+                <p className="text-xxs text-v1-content-secondary">
+                  {t('common.buy_sell')}
+                </p>
+                <NCoinBuySell
+                  value={{
+                    buys: nCoin.data?.update?.total_num_buys,
+                    sells: nCoin.data?.update?.total_num_sells,
+                  }}
+                  className="text-xxs"
+                  imgClassName="size-4"
+                />
+              </div>
+              <div className="h-4 w-px bg-white/10" />
+              <div className="space-y-px">
+                <p className="text-xxs text-v1-content-secondary">
+                  {t('common.volume')}
+                </p>
+                <ReadableNumber
+                  value={nCoin.data.update.total_trading_volume.usd}
+                  className="text-xxs"
+                  label="$"
+                  popup="never"
+                />
+              </div>
+              {isDebugMode && (
+                <>
+                  <div className="h-4 w-px bg-white/10" />
+                  <div className="space-y-px">
+                    <p className="text-xxs text-v1-content-secondary">
+                      {t('common.risk')}
+                    </p>
+                    <span className="text-xxs">{'TODO: Risks'}</span>
+
+                    {/* TODO Risk */}
+                  </div>
+
+                  <div className="h-4 w-px bg-white/10" />
+                  <span className="text-xxs">{'TODO: Rugged'}</span>
+                  {/* TODO Rugged */}
+                </>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-4 mobile:w-full mobile:justify-between">
+          <div className="flex flex-col items-end justify-between gap-1">
+            <DirectionalNumber
+              value={
+                nCoin.data?.update.base_market_data.current_price ??
+                coin.data?.data?.current_price
+              }
+              label="$"
+              direction="up"
+              className="text-xs"
+              showIcon={false}
+              showSign={false}
+            />
+            {coin.data?.data?.price_change_percentage_24h && (
+              <DirectionalNumber
+                className="text-xxs"
+                value={coin.data?.data?.price_change_percentage_24h}
+                label="%"
+                showSign
+                showIcon
+                suffix=" (24h)"
+              />
+            )}
+          </div>
+          <div className="h-8 w-px bg-white/10" />
+          <PriceAlertButton
+            slug={slug}
+            variant="outline"
+            surface={1}
+            size="md"
+          />
+        </div>
+        {copyNotif}
       </div>
       {hr && <hr className="border-white/10" />}
     </>
