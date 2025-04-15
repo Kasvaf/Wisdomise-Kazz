@@ -29,7 +29,7 @@ export function CoinMessagesWidget({
       : x.social_type !== 'trading_view',
   );
 
-  if (!msgs?.length && !messages.isLoading) return null;
+  if (!msgs?.length) return null;
 
   return (
     <>
