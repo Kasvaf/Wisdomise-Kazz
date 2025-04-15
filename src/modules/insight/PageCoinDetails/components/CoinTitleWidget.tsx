@@ -73,7 +73,7 @@ export const CoinTitleWidget: FC<{
                     ? []
                     : coin.data?.security_data?.map(x => x.symbol_security)
                 }
-                mini
+                size="xs"
                 clickable
               />
             </div>

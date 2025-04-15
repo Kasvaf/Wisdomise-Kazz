@@ -8,12 +8,13 @@ export function CoinLabel({
   className,
   value,
   popup = true,
-  mini = false,
+  size,
 }: {
   className?: string;
   value: string;
   popup?: boolean | ReactNode;
   mini?: boolean;
+  size: 'xs' | 'sm' | 'md';
 }) {
   const { t } = useTranslation('coin-radar');
 
@@ -141,13 +142,15 @@ export function CoinLabel({
     <ClickableTooltip
       title={
         typeof popup === 'boolean' || popup === undefined ? (
-          <div>
-            <p className="mb-2 text-sm capitalize text-v1-content-primary">
+          <div className="flex flex-col gap-2">
+            <p className="text-sm capitalize text-v1-content-primary">
               {renderData.text}
             </p>
-            <p className="text-xs text-v1-content-secondary">
-              {renderData.info}
-            </p>
+            {renderData.info && (
+              <p className="text-xs text-v1-content-secondary">
+                {renderData.info}
+              </p>
+            )}
           </div>
         ) : (
           popup
@@ -157,15 +160,18 @@ export function CoinLabel({
       disabled={!popup}
       className={clsx(
         'rounded-full text-center text-xxs',
-        mini
-          ? 'flex size-4 items-center justify-center [&_img]:size-[10px] [&_svg]:size-[10px]'
-          : 'h-6 px-3 [&_img]:size-4 [&_svg]:!size-4',
+        size === 'xs' &&
+          'flex size-4 items-center justify-center [&_img]:size-[10px] [&_svg]:size-[10px]',
+        size === 'sm' &&
+          'flex size-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
+        size === 'md' &&
+          'h-6 flex-row-reverse px-3 [&_img]:size-[16px] [&_svg]:!size-[16px]',
         'whitespace-nowrap capitalize [&_img]:shrink-0 [&_svg]:shrink-0',
         renderData.className,
         className,
       )}
     >
-      {!mini && renderData.text}
+      {size === 'md' && renderData.text}
       <renderData.icon />
     </ClickableTooltip>
   );

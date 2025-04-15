@@ -121,7 +121,7 @@ export const HotCoinsMobile = () => {
               networks={row.networks}
               security={row.symbol_security?.data}
               coin={row.symbol}
-              mini
+              size="xs"
               truncate
               clickable={false}
             />

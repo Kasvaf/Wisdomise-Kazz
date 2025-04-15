@@ -111,6 +111,8 @@ export default function SocialRadarSharingModal({
               networks={coin.networks}
               security={coin.symbol_security?.data}
               coin={coin.symbol}
+              size="md"
+              clickable={false}
             />
           </div>
           {coin?.signals_analysis.sparkline && (
