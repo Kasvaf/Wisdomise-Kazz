@@ -13,6 +13,7 @@ import { CoinMessagesWidget } from '../CoinMessagesWidget';
 import { CoinExchangesWidget } from '../CoinExchangesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinWhalesWidget } from '../CoinWhalesWidget';
+import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 
 export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -41,6 +42,7 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
         <CoinPoolsWidget slug={slug} id="coinoverview_pools" />
         <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" />
         <CoinWhalesWidget slug={slug} id="coinoverview_whales" />
+        <CoinIntroductionWidget slug={slug} />
       </div>
     </div>
   );
