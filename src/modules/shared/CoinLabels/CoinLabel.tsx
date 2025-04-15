@@ -142,11 +142,17 @@ export function CoinLabel({
       title={
         typeof popup === 'boolean' || popup === undefined ? (
           <div className="flex flex-col gap-2">
-            <p className="text-sm capitalize text-v1-content-primary">
-              {renderData.text}
+            <p
+              className={clsx(
+                'inline-flex w-fit items-center gap-2 px-2 py-1',
+                'rounded-full text-sm capitalize [&_img]:size-[20px] [&_svg]:size-[20px]',
+                renderData.className,
+              )}
+            >
+              <renderData.icon /> {renderData.text}
             </p>
             {renderData.info && (
-              <p className="text-xs text-v1-content-secondary">
+              <p className="text-xs text-v1-content-primary">
                 {renderData.info}
               </p>
             )}
