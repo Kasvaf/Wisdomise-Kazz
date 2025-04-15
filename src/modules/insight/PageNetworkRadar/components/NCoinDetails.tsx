@@ -54,7 +54,13 @@ export const NCoinDetails: FC<{
         </div>
         <p>{t('common.buy_sell')}</p>
         <div>
-          <NCoinBuySell imgClassName="size-4" value={value} />
+          <NCoinBuySell
+            imgClassName="size-4"
+            value={{
+              buys: value.update.total_num_buys,
+              sells: value.update.total_num_sells,
+            }}
+          />
         </div>
         <p>{t('common.volume')}</p>
         <div>

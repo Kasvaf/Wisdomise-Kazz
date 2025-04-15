@@ -13,7 +13,6 @@ export function CoinLabel({
   className?: string;
   value: string;
   popup?: boolean | ReactNode;
-  mini?: boolean;
   size: 'xs' | 'sm' | 'md';
 }) {
   const { t } = useTranslation('coin-radar');
