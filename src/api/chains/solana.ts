@@ -9,6 +9,8 @@ import {
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useRef } from 'react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 
 const CONTRACT_ADDRESSES = {
@@ -34,9 +36,9 @@ export const useSolanaAccountBalance = (
   const { connection } = useConnection();
   const { publicKey } = useWallet();
 
-  return useQuery(
-    ['sol-balance', quote, publicKey?.toString()],
-    async () => {
+  return useQuery({
+    queryKey: ['sol-balance', quote, publicKey?.toString()],
+    queryFn: async () => {
       if (!publicKey || !quote) return null;
 
       try {
@@ -69,11 +71,9 @@ export const useSolanaAccountBalance = (
         throw new Error((error as any)?.message || 'Cannot read user balance');
       }
     },
-    {
-      refetchInterval: 10_000,
-      staleTime: 500,
-    },
-  );
+    refetchInterval: 10_000,
+    staleTime: 500,
+  });
 };
 
 export const useSolanaTransferAssetsMutation = (
@@ -179,10 +179,39 @@ export const useSolanaTransferAssetsMutation = (
       //   lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
       // });
 
-      await queryClient.invalidateQueries(['sol-balance']);
+      await queryClient.invalidateQueries({ queryKey: ['sol-balance'] });
     } catch (error) {
       console.error('Error sending transaction:', error);
       throw error;
     }
   };
 };
+
+export function useAwaitSolanaWalletConnection() {
+  const { connected } = useWallet();
+  const resolver = useRef<((val: boolean) => void) | null>(null);
+  const promiseRef = useRef<Promise<boolean> | null>(null);
+  const solanaModal = useWalletModal();
+
+  // Effect to resolve any pending promise when connected
+  useEffect(() => {
+    if (resolver.current && (connected || !solanaModal.visible)) {
+      resolver.current(connected);
+      resolver.current = null;
+      promiseRef.current = null;
+    }
+  }, [connected, solanaModal.visible]);
+
+  // This returns a fresh promise every time you want to wait for a connection
+  const awaitConnection = useCallback(() => {
+    if (!promiseRef.current) {
+      promiseRef.current = new Promise(resolve => {
+        resolver.current = resolve;
+      });
+      solanaModal.setVisible(true);
+    }
+    return promiseRef.current;
+  }, [solanaModal]);
+
+  return awaitConnection;
+}

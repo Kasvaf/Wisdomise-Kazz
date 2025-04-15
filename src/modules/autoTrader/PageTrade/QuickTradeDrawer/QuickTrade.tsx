@@ -48,7 +48,7 @@ const QuickTrade: React.FC<TraderInputs> = inputs => {
           variant="outline"
           onClick={() =>
             isMobile
-              ? navigate(`/auto-trader/${normSlug ?? ''}`)
+              ? navigate(`/trader/bot/${normSlug ?? ''}`)
               : openTradeDrawer({ slug: normSlug ?? '' })
           }
         >

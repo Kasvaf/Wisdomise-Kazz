@@ -23,6 +23,10 @@
   }
 }
 
+div[data-tc-modal] {
+  @apply !z-[2000];
+}
+
 /*
 * ************** Drawer *****************
 */
@@ -344,14 +348,6 @@
 /* hide google captcha */
 .grecaptcha-badge {
   display: none !important;
-}
-
-div#CybotCookiebotDialog {
-  z-index: 9998 !important;
-}
-
-#CookiebotWidget {
-  display: none;
 }
 
 #hubspot-messages-iframe-container:not(.open) {

@@ -12,7 +12,11 @@ const useEnsureIsSupportedPair = ({
   const navigate = useNavigate();
   const supportedPairs = useSupportedPairs(slug);
   useEffect(() => {
-    if (!supportedPairs.isLoading && !supportedPairs.data?.length) {
+    if (
+      !supportedPairs.isLoading &&
+      !supportedPairs.data?.length &&
+      window.location.pathname !== nextPage
+    ) {
       navigate(nextPage);
     }
   }, [

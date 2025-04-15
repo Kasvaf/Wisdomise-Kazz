@@ -19,7 +19,7 @@ const EditButton: React.FC<{ position: Position }> = ({ position }) => {
       onClick={() =>
         isMobile
           ? navigate(
-              `/auto-trader/${position.base_slug}?pos=${position.key}&quote=${position.quote_slug}`,
+              `/trader/bot/${position.base_slug}?pos=${position.key}&quote=${position.quote_slug}`,
             )
           : openTradeDrawer({
               slug: position.base_slug,

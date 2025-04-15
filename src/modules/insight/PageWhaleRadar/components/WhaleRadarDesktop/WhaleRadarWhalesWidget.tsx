@@ -14,6 +14,7 @@ import { AccessShield } from 'shared/AccessShield';
 import { DebugPin } from 'shared/DebugPin';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { SearchInput } from 'shared/SearchInput';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 
 export function WhaleRadarWhalesWidget({
   className,
@@ -35,6 +36,7 @@ export function WhaleRadarWhalesWidget({
   });
 
   const whales = useWhaleRadarWhales(tableState);
+  useLoadingBadge(whales.isFetching);
 
   const columns = useMemo<Array<ColumnType<WhaleShort>>>(
     () => [
@@ -195,8 +197,8 @@ export function WhaleRadarWhalesWidget({
   return (
     <OverviewWidget
       className={clsx('min-h-[427px] mobile:min-h-[647px]', className)}
-      title={t('top_whales.title')}
-      loading={whales.isInitialLoading}
+      title={<>{t('top_whales.title')}</>}
+      loading={whales.isLoading}
       empty={whales.data?.length === 0}
       headerClassName="flex-wrap"
       headerActions={
@@ -225,6 +227,7 @@ export function WhaleRadarWhalesWidget({
                     page: 1,
                   });
                 }}
+                tooltipPlacement="bottomRight"
               />
             </div>
           )}
@@ -246,7 +249,6 @@ export function WhaleRadarWhalesWidget({
           columns={columns}
           dataSource={whales.data ?? []}
           rowKey="holder_address"
-          loading={whales.isRefetching && !whales.isFetched}
           {...tableProps}
         />
       </AccessShield>

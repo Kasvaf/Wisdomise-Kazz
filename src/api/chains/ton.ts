@@ -6,6 +6,7 @@ import {
 } from '@tonconnect/ui-react';
 import { Address, beginCell, TonClient } from '@ton/ton';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useRef } from 'react';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 import { fromBigMoney, toBigMoney } from 'utils/money';
@@ -41,9 +42,9 @@ const useJettonWalletAddress = (
 ) => {
   const address = useTonAddress();
 
-  return useQuery(
-    ['jetton-wallet-address', address, quote],
-    async () => {
+  return useQuery({
+    queryKey: ['jetton-wallet-address', address, quote],
+    queryFn: async () => {
       if (!address || !quote || quote === 'the-open-network') return;
 
       const jettonMasterAddress = Address.parse(CONTRACT_ADDRESSES[quote]);
@@ -67,11 +68,9 @@ const useJettonWalletAddress = (
         console.error('Error fetching jetton wallet address:', error);
       }
     },
-    {
-      staleTime: Number.POSITIVE_INFINITY,
-      enabled: !!address,
-    },
-  );
+    staleTime: Number.POSITIVE_INFINITY,
+    enabled: !!address,
+  });
 };
 
 export const useAccountJettonBalance = (
@@ -81,9 +80,9 @@ export const useAccountJettonBalance = (
   const { data: jettonAddress } = useJettonWalletAddress(contract);
   const addr = contract === 'the-open-network' ? address : jettonAddress;
 
-  return useQuery(
-    ['accountJettonBalance', contract, addr],
-    async () => {
+  return useQuery({
+    queryKey: ['accountJettonBalance', contract, addr],
+    queryFn: async () => {
       if (!addr || !contract) return null;
       const parsedAddress = Address.parse(addr);
 
@@ -106,11 +105,9 @@ export const useAccountJettonBalance = (
         ? null
         : Number(fromBigMoney(balance, CONTRACT_DECIMAL[contract]));
     },
-    {
-      refetchInterval: 10_000,
-      staleTime: 500,
-    },
-  );
+    refetchInterval: 10_000,
+    staleTime: 500,
+  });
 };
 
 export const useTonTransferAssetsMutation = (
@@ -179,7 +176,38 @@ export const useTonTransferAssetsMutation = (
     };
 
     await tonConnectUI.sendTransaction(transaction);
-    await queryClient.invalidateQueries(['accountJettonBalance']);
+    await queryClient.invalidateQueries({ queryKey: ['accountJettonBalance'] });
     gtag('event', 'trade');
   };
 };
+
+export function useAwaitTonWalletConnection() {
+  const [tonConnectUI] = useTonConnectUI();
+  const resolver = useRef<((val: boolean) => void) | null>(null);
+  const promiseRef = useRef<Promise<boolean> | null>(null);
+
+  // Effect to resolve any pending promise when connected
+  useEffect(() => {
+    if (
+      resolver.current &&
+      (tonConnectUI.connected || tonConnectUI.modalState.status === 'closed')
+    ) {
+      resolver.current(tonConnectUI.connected);
+      resolver.current = null;
+      promiseRef.current = null;
+    }
+  }, [tonConnectUI.connected, tonConnectUI.modalState.status]);
+
+  // This returns a fresh promise every time you want to wait for a connection
+  const awaitConnection = useCallback(() => {
+    if (!promiseRef.current) {
+      promiseRef.current = new Promise(resolve => {
+        resolver.current = resolve;
+      });
+      void tonConnectUI.openModal();
+    }
+    return promiseRef.current;
+  }, [tonConnectUI]);
+
+  return awaitConnection;
+}

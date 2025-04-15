@@ -17,7 +17,6 @@ common:
     cooldown: Cooldown
     cooldown-info: Specify an amount of time that pass before this alert can fire again.
     disable-after-trigger: Disable this alert after it triggers once.
-    interval: Interval
     invervals:
       after: After {{seconds}} Seconds
       daily: Daily
@@ -42,8 +41,6 @@ common:
   search: Search...
   select-alert-type: Choose Alert You Want To Set
   set-alert: Set Alert
-  subscription-banner-link: Subscribe to our Pro Plan for access.
-  subscription-banner-title: Get real-time coin alerts, Customize notifications.
   success-message: Alert saved successfully!
 tables:
   description: Description
@@ -76,20 +73,6 @@ types:
       crumb: Set Price Details
     step-2:
       crumb: Alert Preferences
-  report:
-    title: Report
-    subtitle: >-
-      Daily updates on the latest in Social Radar, straight to your inbox Every
-      24 Hours.
-    sentence: Set Crypto Alerts and Never Miss a Move!
-    step-1:
-      subtitle: >-
-        Stay ahead with instant notifications on trending coins and new market
-        opportunities.
-      crumb: Social Radar Report
-    types:
-      social_radar:
-        title: Social Radar Report
   screener:
     title: Screener
     subtitle: Get alerts when a coin enters the top 5—stay informed and ready to act!

@@ -73,31 +73,30 @@ export function PriceAlertButton({
 
   return (
     <>
-      <Button
-        {...props}
-        onClick={() => alertActions.openSaveModal()}
-        variant={initialAlert.key ? 'outline' : variant}
-        block
-        fab={fab}
-        className={clsx(className, gtmClass('set-alert'))}
-        disabled={
-          !hasFlag('/coin-radar/alerts') ||
-          !hasFlag('/coin-radar/alerts?price_alert')
-        }
-      >
-        <DebugPin
-          title={['/coin-radar/alerts', '/coin-radar/alerts?price_alert']}
-          color="orange"
-        />
-        <Icon size={20} name={bxBell} />
-        {!fab && (
-          <>
-            {initialAlert.key
-              ? t('set-price-notification.open-existing-modal-btn')
-              : t('set-price-notification.open-modal-btn')}
-          </>
+      {hasFlag('/coin-radar/alerts') &&
+        hasFlag('/coin-radar/alerts?price_alert') && (
+          <Button
+            {...props}
+            onClick={() => alertActions.openSaveModal()}
+            variant={initialAlert.key ? 'outline' : variant}
+            block
+            fab={fab}
+            className={clsx(className, gtmClass('set-alert'))}
+          >
+            <DebugPin
+              title={['/coin-radar/alerts', '/coin-radar/alerts?price_alert']}
+              color="orange"
+            />
+            <Icon size={20} name={bxBell} />
+            {!fab && (
+              <>
+                {initialAlert.key
+                  ? t('set-price-notification.open-existing-modal-btn')
+                  : t('set-price-notification.open-modal-btn')}
+              </>
+            )}
+          </Button>
         )}
-      </Button>
       {alertActions.content}
     </>
   );

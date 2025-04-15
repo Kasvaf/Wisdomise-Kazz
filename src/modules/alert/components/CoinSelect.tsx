@@ -65,7 +65,12 @@ export const CoinSelect: FC<
         .filter(x => (filterTokens ? filterTokens(x.slug ?? '') : true))
         .map(c => ({
           label: (
-            <Coin coin={c} nonLink mini={mini} className="!p-0 align-middle" />
+            <Coin
+              coin={c}
+              nonLink
+              mini={mini}
+              className="h-full !p-0 align-middle"
+            />
           ),
           value: c.slug,
         })),

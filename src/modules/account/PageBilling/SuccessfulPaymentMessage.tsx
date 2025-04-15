@@ -24,7 +24,9 @@ export default function SuccessfulPaymentMessage() {
       setSuccessShow(true);
       void showModal({}).then(() => {
         searchParams.delete(SUCCESSFUL_CHECKOUT_KEY);
-        setSearchParams(searchParams);
+        setSearchParams(searchParams, {
+          replace: true,
+        });
         return true;
       });
     }

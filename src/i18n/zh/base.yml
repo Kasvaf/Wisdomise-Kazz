@@ -57,6 +57,7 @@ menu:
     title: 领取 Wiseboy 奖励
   home:
     title: 家
+    titleM: 雷达
   hot-coins:
     title: 社交雷达
   investment:
@@ -88,11 +89,19 @@ menu:
   signalers:
     subtitle: 通过活跃信号和仓位发现领先的加密货币
     title: 人工智能信号
+  social:
+    title: 社会的
+  technical:
+    title: 技术的
   token:
     subtitle: 使用代幣獲取高級訪問權限
     title: WSDM 代幣
+  trench:
+    title: 沟
   users:
     title: 用户
+  whale:
+    title: 鲸
   whales:
     full-title: 鲸鱼分析
     subtitle: 探索頂級加密巨鯨，他們的交易、損益、交易量以及更多

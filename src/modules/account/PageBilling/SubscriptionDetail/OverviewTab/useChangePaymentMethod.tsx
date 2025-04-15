@@ -47,7 +47,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             <Button
               size="small"
               loading={
-                clickedPayment === 'FIAT' && changePaymentMethod.isLoading
+                clickedPayment === 'FIAT' && changePaymentMethod.isPending
               }
               onClick={() => handleChangePayment('FIAT')}
             >
@@ -67,7 +67,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             <Button
               size="small"
               loading={
-                clickedPayment === 'CRYPTO' && changePaymentMethod.isLoading
+                clickedPayment === 'CRYPTO' && changePaymentMethod.isPending
               }
               onClick={() => handleChangePayment('CRYPTO')}
             >
@@ -87,7 +87,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             <Button
               size="small"
               loading={
-                clickedPayment === 'TOKEN' && changePaymentMethod.isLoading
+                clickedPayment === 'TOKEN' && changePaymentMethod.isPending
               }
               onClick={() => handleChangePayment('TOKEN')}
             >
@@ -107,7 +107,7 @@ function ChangePaymentMethod({ onResolve }: { onResolve: VoidFunction }) {
             <Button
               size="small"
               loading={
-                clickedPayment === 'WSDM' && changePaymentMethod.isLoading
+                clickedPayment === 'WSDM' && changePaymentMethod.isPending
               }
               onClick={() => handleChangePayment('WSDM')}
             >

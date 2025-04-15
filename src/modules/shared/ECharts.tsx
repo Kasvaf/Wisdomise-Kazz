@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/prefer-ts-expect-error */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   init,
   type ECharts as EChartsType,
@@ -7,7 +5,7 @@ import {
   type ECElementEvent,
 } from 'echarts';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
-import { useEventListener } from 'usehooks-ts';
+import { useIntersectionObserver } from 'usehooks-ts';
 
 export const ECharts: FC<{
   className?: string;
@@ -17,6 +15,7 @@ export const ECharts: FC<{
   options: EChartsOption;
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   onClick?: (e: ECElementEvent) => boolean | void;
+  onReady?: () => void;
 }> = ({
   className,
   width,
@@ -24,10 +23,16 @@ export const ECharts: FC<{
   renderer,
   options: userOptions,
   onClick,
+  onReady,
 }) => {
   const element = useRef<HTMLDivElement>(null);
   const chart = useRef<EChartsType | undefined>(undefined);
   const [ready, setReady] = useState(false);
+  const intersection = useIntersectionObserver(element, {
+    freezeOnceVisible: true,
+    threshold: 0.4,
+  });
+  const isVisible = intersection?.isIntersecting;
 
   const resize = useCallback(() => {
     if (!chart.current) return;
@@ -55,7 +60,11 @@ export const ECharts: FC<{
       resize();
       setReady(true);
     }, 100);
-    return () => clearTimeout(tm);
+    return () => {
+      chart.current?.dispose();
+      chart.current = undefined;
+      clearTimeout(tm);
+    };
   }, [height, renderer, resize, width]);
 
   // sync options
@@ -63,6 +72,7 @@ export const ECharts: FC<{
     if (!chart.current || !ready) return;
     const handleClick = onClick ?? (() => true);
     chart.current.on('click', handleClick);
+    resize();
     chart.current.setOption(
       {
         animationDuration: 1000,
@@ -82,9 +92,11 @@ export const ECharts: FC<{
       if (!chart.current) return;
       chart.current.off('click', handleClick);
     };
-  }, [userOptions, onClick, ready]);
+  }, [userOptions, onClick, ready, resize]);
 
-  useEventListener('resize', resize);
+  useEffect(() => {
+    if (ready && isVisible) onReady?.();
+  }, [ready, isVisible, onReady]);
 
   return <div ref={element} className={className} />;
 };

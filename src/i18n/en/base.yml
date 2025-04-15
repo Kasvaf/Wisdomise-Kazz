@@ -57,6 +57,8 @@ menu:
   token:
     title: WSDM Token
     subtitle: Use tokens for premium access
+  trench:
+    title: Trench
   whale:
     title: Whale
   whales:
@@ -64,5 +66,4 @@ menu:
 new: New
 user:
   sign-in: Sign In
-  sign-out: Sign Out
 wisdomise-is-loading: Wisdomise is loading ...

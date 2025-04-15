@@ -1,22 +1,19 @@
+/* eslint-disable import/max-dependencies */
 import { useMemo, useRef, type FC } from 'react';
 import { clsx } from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
 import { bxShareAlt } from 'boxicons-quasar';
-import {
-  useTechnicalRadarCoins,
-  useSubscription,
-  type TechnicalRadarCoin,
-} from 'api';
+import { useTechnicalRadarCoins, type TechnicalRadarCoin } from 'api';
 import { ECharts } from 'shared/ECharts';
 import { AccessShield } from 'shared/AccessShield';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import Icon from 'shared/Icon';
 import { useScreenshot } from 'shared/useScreenshot';
 import { formatNumber } from 'utils/numbers';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
+import { useLoadingBadge } from 'shared/LoadingBadge';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -28,15 +25,13 @@ export const TechnicalRadarChart: FC<{
   const { t } = useTranslation('market-pulse');
   const isMobile = useIsMobile();
   const el = useRef<HTMLDivElement>(null);
-  const screenshot = useScreenshot(el, {
+  const { capture } = useScreenshot(el, {
     backgroundColor: '#1D1E23', // v1-surface-l3
     fileName: `${type}-${Date.now()}`,
   });
   const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(coins.data ?? [], type);
-  const subscription = useSubscription();
-  const isLoggedIn = useIsLoggedIn();
-  console.log(parsedData.data, type);
+
   const options = useMemo<EChartsOption>(() => {
     return {
       tooltip: {
@@ -70,7 +65,7 @@ export const TechnicalRadarChart: FC<{
         valueFormatter(_, dataIndex) {
           const raw = parsedData.data?.[dataIndex]?.raw;
           if (!raw) return '';
-          return raw.symbol.name;
+          return raw.symbol.name ?? '---';
         },
       },
       grid: {
@@ -263,6 +258,8 @@ export const TechnicalRadarChart: FC<{
     };
   }, [parsedData, t, type]);
 
+  useLoadingBadge(coins.isFetching);
+
   return (
     <div
       className={clsx(
@@ -277,9 +274,8 @@ export const TechnicalRadarChart: FC<{
         <div data-nocapture>
           <Button
             size="xs"
-            onClick={screenshot}
+            onClick={capture}
             variant="ghost"
-            disabled={!isLoggedIn || subscription.level < 1}
             className="!rounded-full"
           >
             <Icon name={bxShareAlt} size={10} />

@@ -1,3 +1,4 @@
+/* eslint-disable import/max-dependencies */
 import { Trans } from 'react-i18next';
 import {
   type ComponentProps,
@@ -20,6 +21,9 @@ import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { useLoadingBadge } from 'shared/LoadingBadge';
+import { Lazy } from 'shared/Lazy';
+import Spin from 'shared/Spin';
 import { IndicatorIcon } from '../IndicatorIcon';
 import { TRSAnalysis } from '../TechnicalRadarSentiment/TRSAnalysis';
 import {
@@ -143,6 +147,7 @@ export function ConfirmationWidget<I extends Indicator>({
     indicator,
     combination: selectedTab.combination,
   });
+  useLoadingBadge(confirmations.isLoading);
 
   useEffect(() => {
     if (!autoSelect) return;
@@ -157,31 +162,38 @@ export function ConfirmationWidget<I extends Indicator>({
     }
   }, [confirmations, selectedTabKey, setSelectedTabKey, tabs, autoSelect]);
 
+  const list = confirmations.data?.results ?? [];
+
   return (
     <OverviewWidget
       className={clsx('h-[750px]', className)}
       title={
-        <div
-          className={clsx(
-            '[&_b]:font-medium',
-            type === 'bullish'
-              ? '[&_b]:text-v1-content-positive'
-              : '[&_b]:text-v1-content-negative',
-          )}
-        >
-          <IndicatorIcon value={indicator} className="mr-2 align-middle" />
-          {type === 'bullish' ? (
-            indicator === 'rsi' ? (
-              <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />
+        <>
+          <div
+            className={clsx(
+              '[&_b]:font-medium',
+              type === 'bullish'
+                ? '[&_b]:text-v1-content-positive'
+                : '[&_b]:text-v1-content-negative',
+            )}
+          >
+            <IndicatorIcon value={indicator} className="mr-2 align-middle" />
+            {type === 'bullish' ? (
+              indicator === 'rsi' ? (
+                <Trans ns="market-pulse" i18nKey="keywords.rsi_bullish.title" />
+              ) : (
+                <Trans
+                  ns="market-pulse"
+                  i18nKey="keywords.macd_bullish.title"
+                />
+              )
+            ) : indicator === 'rsi' ? (
+              <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.title" />
             ) : (
-              <Trans ns="market-pulse" i18nKey="keywords.macd_bullish.title" />
-            )
-          ) : indicator === 'rsi' ? (
-            <Trans ns="market-pulse" i18nKey="keywords.rsi_bearish.title" />
-          ) : (
-            <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
-          )}
-        </div>
+              <Trans ns="market-pulse" i18nKey="keywords.macd_bearish.title" />
+            )}
+          </div>
+        </>
       }
       info={
         type === 'bullish' ? (
@@ -232,7 +244,7 @@ export function ConfirmationWidget<I extends Indicator>({
         }}
         className="space-y-4"
       >
-        {confirmations.data?.results.map(row => (
+        {list.slice(0, 6).map(row => (
           <ConfirmationRow
             value={row}
             key={JSON.stringify(row.symbol)}
@@ -241,6 +253,25 @@ export function ConfirmationWidget<I extends Indicator>({
             type={type}
           />
         ))}
+        {list.length > 6 && (
+          <Lazy
+            freezeOnceVisible
+            mountedClassName="space-y-4"
+            unMountedClassName="flex h-12 items-center justify-center"
+            key={`${indicator}-${type}`}
+            fallback={<Spin />}
+          >
+            {list.slice(6).map(row => (
+              <ConfirmationRow
+                value={row}
+                key={JSON.stringify(row.symbol)}
+                combination={selectedTab.combination}
+                indicator={indicator}
+                type={type}
+              />
+            ))}
+          </Lazy>
+        )}
       </AccessShield>
     </OverviewWidget>
   );

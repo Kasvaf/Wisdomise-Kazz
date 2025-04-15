@@ -24,6 +24,7 @@ almost-there: 快到了...
 apply_filters: 应用过滤器
 aum: 管理资产规模
 below: 以下
+buy_and_sell: 购买和出售
 category: 类别
 confirmation: 確認
 copied-to-clipboard: 已複製到剪貼板
@@ -73,4 +74,5 @@ sorted-by: 排序依据
 source: 来源
 spot: 点
 trend_label: 潮流标签
+updating: 正在更新…
 uploading: 上傳中

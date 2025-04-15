@@ -47,79 +47,85 @@ export function refreshAccessToken() {
 }
 
 export function useEmailLoginMutation() {
-  return useMutation<boolean, unknown, { email: string }>(async body => {
-    const data = await ofetch<SuccessResponse>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/email-login/`,
-      {
-        body,
-        method: 'post',
-      },
-    );
-    return data.message === 'ok';
+  return useMutation<boolean, unknown, { email: string }>({
+    mutationFn: async body => {
+      const data = await ofetch<SuccessResponse>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/email-login/`,
+        {
+          body,
+          method: 'post',
+        },
+      );
+      return data.message === 'ok';
+    },
   });
 }
 
 export function useVerifyEmailMutation() {
-  const client = useQueryClient();
   const runSignupAdditionalTasks = useSignupAdditionalTasks();
+  const queryClient = useQueryClient();
   return useMutation<
     boolean,
     unknown,
     { email: string; nonce: string; referrer_code?: string }
-  >(async body => {
-    try {
-      const data = await ofetch<SuccessResponse & CreationStatusResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/verify-email/`,
-        {
-          body,
-          credentials: 'include',
-          method: 'post',
-        },
-      );
+  >({
+    mutationFn: async body => {
+      try {
+        const data = await ofetch<SuccessResponse & CreationStatusResponse>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/verify-email/`,
+          {
+            body,
+            credentials: 'include',
+            method: 'post',
+          },
+        );
 
-      await refreshAccessToken();
-      await client.invalidateQueries();
-      if (data.created) {
-        await runSignupAdditionalTasks();
+        await refreshAccessToken();
+        await queryClient.invalidateQueries({});
+        if (data.created) {
+          await runSignupAdditionalTasks();
+        }
+        return data.message === 'ok';
+      } catch (error) {
+        if (!(error instanceof FetchError) || error.response?.status !== 400)
+          throw error;
+        return false;
       }
-      return data.message === 'ok';
-    } catch (error) {
-      if (!(error instanceof FetchError) || error.response?.status !== 400)
-        throw error;
-      return false;
-    }
+    },
   });
 }
 
 export function useGoogleLoginMutation() {
-  const client = useQueryClient();
+  const queryClient = useQueryClient();
   const runSignupAdditionalTasks = useSignupAdditionalTasks();
   return useMutation<
     boolean,
     unknown,
     { id_token: string; referrer_code?: string }
-  >(async body => {
-    try {
-      const data = await ofetch<SuccessResponse & CreationStatusResponse>(
-        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/google-login/`,
-        {
-          body,
-          credentials: 'include',
-          method: 'post',
-        },
-      );
+  >({
+    mutationFn: async body => {
+      try {
+        const data = await ofetch<SuccessResponse & CreationStatusResponse>(
+          `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/google-login/`,
+          {
+            body,
+            credentials: 'include',
+            method: 'post',
+          },
+        );
 
-      await refreshAccessToken();
-      await client.invalidateQueries();
-      if (data.created) {
-        await runSignupAdditionalTasks();
+        await refreshAccessToken();
+        await queryClient.invalidateQueries({});
+        if (data.created) {
+          await runSignupAdditionalTasks();
+        }
+        return data.message === 'ok';
+      } catch (error) {
+        if (!(error instanceof FetchError) || error.response?.status !== 400)
+          throw error;
+        return false;
       }
-      return data.message === 'ok';
-    } catch (error) {
-      if (!(error instanceof FetchError) || error.response?.status !== 400)
-        throw error;
-      return false;
-    }
+    },
   });
 }
 
@@ -128,26 +134,28 @@ export function useMiniAppTgLoginMutation() {
   const q = import.meta.env.VITE_CUSTOM_QUERY as string;
   const query = isLocal ? q : webApp?.initData;
 
-  return useMutation<boolean, unknown, unknown>(async () => {
-    const data = await ofetch<SuccessResponse>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/mini-app-login/?${
-        query || ''
-      }`,
-      {
-        meta: { auth: false },
-        credentials: 'include',
-      },
-    );
+  return useMutation<boolean, unknown, unknown>({
+    mutationFn: async () => {
+      const data = await ofetch<SuccessResponse>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/mini-app-login/?${
+          query || ''
+        }`,
+        {
+          meta: { auth: false },
+          credentials: 'include',
+        },
+      );
 
-    await refreshAccessToken();
+      await refreshAccessToken();
 
-    return data.message === 'ok';
+      return data.message === 'ok';
+    },
   });
 }
 
 export function useMiniAppTgLoginFromWebMutation() {
-  return useMutation<boolean, unknown, { uuid: string; referrer?: string }>(
-    async ({ uuid, referrer }) => {
+  return useMutation<boolean, unknown, { uuid: string; referrer?: string }>({
+    mutationFn: async ({ uuid, referrer }) => {
       try {
         const data = await ofetch<SuccessResponse>(
           `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-login/`,
@@ -164,7 +172,7 @@ export function useMiniAppTgLoginFromWebMutation() {
         return false;
       }
     },
-  );
+  });
 }
 
 export function useMiniAppConnectMutation() {
@@ -172,19 +180,21 @@ export function useMiniAppConnectMutation() {
   const q = import.meta.env.VITE_CUSTOM_QUERY as string;
   const query = isLocal ? q : webApp?.initData;
 
-  return useMutation<boolean, unknown, unknown>(async () => {
-    const data = await ofetch<SuccessResponse>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-connect/?${
-        query || ''
-      }`,
-      {
-        method: 'POST',
-        meta: { auth: false },
-        body: {},
-      },
-    );
+  return useMutation<boolean, unknown, unknown>({
+    mutationFn: async () => {
+      const data = await ofetch<SuccessResponse>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/telegram-connect/?${
+          query || ''
+        }`,
+        {
+          method: 'POST',
+          meta: { auth: false },
+          body: {},
+        },
+      );
 
-    return data.message === 'ok';
+      return data.message === 'ok';
+    },
   });
 }
 
@@ -193,8 +203,8 @@ export function useMiniAppWebLoginMutation() {
   const q = import.meta.env.VITE_CUSTOM_QUERY as string;
   const query = isLocal ? q : webApp?.initData;
 
-  return useMutation<boolean | 'exists', unknown, { confirm?: boolean }>(
-    async ({ confirm }) => {
+  return useMutation<boolean | 'exists', unknown, { confirm?: boolean }>({
+    mutationFn: async ({ confirm }) => {
       if (!query) return false;
       try {
         const data = await ofetch<SuccessResponse>(
@@ -216,21 +226,26 @@ export function useMiniAppWebLoginMutation() {
         throw error;
       }
     },
-  );
+  });
 }
 
 export function useLogoutMutation() {
-  const client = useQueryClient();
+  const queryClient = useQueryClient();
   const disconnectChains = useDisconnectAll();
 
-  return useMutation<boolean, unknown, unknown>(async () => {
-    const data = await ofetch<SuccessResponse>(
-      `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/logout/`,
-      { credentials: 'include', body: {}, method: 'post' },
-    );
-    delJwtToken();
-    await Promise.all([disconnectChains(), client.invalidateQueries({})]);
-    location.reload();
-    return data.message === 'ok';
+  return useMutation<boolean, unknown, unknown>({
+    mutationFn: async () => {
+      const data = await ofetch<SuccessResponse>(
+        `${ACCOUNT_PANEL_ORIGIN}/api/v1/account/auth/logout/`,
+        { credentials: 'include', body: {}, method: 'post' },
+      );
+      delJwtToken();
+      await Promise.all([
+        disconnectChains(),
+        queryClient.invalidateQueries({}),
+      ]);
+      location.reload();
+      return data.message === 'ok';
+    },
   });
 }

@@ -7,7 +7,6 @@ import {
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import Spinner from 'shared/Spinner';
 import PageWrapper from 'modules/base/PageWrapper';
-import BtnBack from '../../base/BtnBack';
 import TransactionBox from './TransactionBox';
 import { ReactComponent as ArrowUp } from './ArrowUp.svg';
 
@@ -25,19 +24,11 @@ export default function PageTransactions() {
     isLoading: transactionsLoading,
   } = useTraderPositionTransactionsQuery({
     positionKey,
-    // network:, // TODO: HOW?!
   });
 
   return (
-    <PageWrapper>
+    <PageWrapper hasBack title="Transactions History">
       <div className="flex flex-col gap-4">
-        <div className="mb-3 flex items-center gap-2">
-          <BtnBack />
-          <div className="grow pr-4 text-center text-base font-medium">
-            Transactions History
-          </div>
-        </div>
-
         {transactionsLoading || positionLoading ? (
           <div className="mt-8 flex justify-center">
             <Spinner />
@@ -48,15 +39,17 @@ export default function PageTransactions() {
           </div>
         ) : (
           position && (
-            <div className="flex flex-col items-stretch gap-2">
-              {data?.toReversed().map((t, ind) => (
-                <React.Fragment key={t.type + t.data.time}>
-                  <TransactionBox t={t} p={position} />
-                  {ind < data.length - 1 && (
-                    <ArrowUp className="self-center text-[#333F4D]" />
-                  )}
-                </React.Fragment>
-              ))}
+            <div className="flex justify-center">
+              <div className="flex w-full max-w-xl flex-col items-stretch gap-2">
+                {data?.toReversed().map((t, ind) => (
+                  <React.Fragment key={t.type + t.data.time}>
+                    <TransactionBox t={t} p={position} />
+                    {ind < data.length - 1 && (
+                      <ArrowUp className="self-center text-[#333F4D]" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           )
         )}

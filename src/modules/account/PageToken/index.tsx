@@ -19,7 +19,7 @@ export default function PageToken() {
   const { hasShareInBucket } = useVesting();
 
   return (
-    <PageWrapper>
+    <PageWrapper hasBack title={null}>
       <div className="my-10 flex flex-wrap items-center justify-between gap-4 md:gap-6">
         <h1 className="text-center">
           <Trans i18nKey="wisdomise-token:title" ns="wisdomise-token">

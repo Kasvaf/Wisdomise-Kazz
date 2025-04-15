@@ -1,7 +1,6 @@
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
-import { notification } from 'antd';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Card from 'shared/Card';
@@ -9,7 +8,6 @@ import Button from 'shared/Button';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { shortenAddress } from 'utils/shortenAddress';
-import { unwrapErrorMessage } from 'utils/error';
 import { defaultChain } from 'config/wagmi';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
@@ -47,11 +45,7 @@ export default function ConnectWalletGuard({
     if (nonceResponse?.nonce) {
       const verifyReqBody = await signInWithEthereum(nonceResponse?.nonce);
       if (verifyReqBody) {
-        void mutateAsync(verifyReqBody)
-          .then(() => setShowConnectWallet(true))
-          .catch(error => {
-            notification.error({ message: unwrapErrorMessage(error) });
-          });
+        void mutateAsync(verifyReqBody).then(() => setShowConnectWallet(true));
       }
     }
   };

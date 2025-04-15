@@ -5,11 +5,11 @@ import { formatNumber } from 'utils/numbers';
 export function PageCoinDetailsMeta({ slug }: { slug: string }) {
   const coinOverview = useCoinDetails({ slug });
   const coinName = coinOverview.data?.symbol
-    ? `${coinOverview.data?.symbol.name}${
-        coinOverview.data?.symbol.abbreviation.toLowerCase() ===
-        coinOverview.data?.symbol.name.toLowerCase()
+    ? `${coinOverview.data?.symbol.name ?? '---'}${
+        (coinOverview.data?.symbol.abbreviation ?? '---').toLowerCase() ===
+        (coinOverview.data?.symbol.name ?? '---').toLowerCase()
           ? ''
-          : ` (${coinOverview.data?.symbol.abbreviation})`
+          : ` (${coinOverview.data?.symbol.abbreviation ?? '---'})`
       }`
     : '';
 
