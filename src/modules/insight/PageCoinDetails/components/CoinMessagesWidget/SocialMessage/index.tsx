@@ -43,8 +43,10 @@ export function SocialMessageSummary({
           <div className="grow space-y-4">
             <div className="flex items-center gap-1">
               <ReadableDate
+                format="MMM D, YYYY h:mm A"
                 value={fields.releasedDate}
                 className="inline-flex h-4 items-center justify-center rounded-lg bg-v1-surface-l3 px-2 text-xxs"
+                popup={false}
               />
               {typeof fields.side === 'string' && (
                 <span
@@ -72,7 +74,9 @@ export function SocialMessageSummary({
           <div className="flex items-center justify-between gap-4">
             <SocialMessageUser message={message} type="title" />
             <div className="flex items-center justify-end gap-2">
-              <SocialLogo type={message.social_type} className="size-6" />
+              {message.social_type !== 'trading_view' && (
+                <SocialLogo type={message.social_type} className="size-6" />
+              )}
               <SocialMessageStats message={message} />
               <SocialMessageReadMore onClick={() => setOpen(true)} />
             </div>
