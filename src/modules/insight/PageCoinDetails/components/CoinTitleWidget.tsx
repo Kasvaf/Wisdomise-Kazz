@@ -159,6 +159,7 @@ export const CoinTitleWidget: FC<{
               <div className="flex flex-col justify-between">
                 <p className="text-xxs text-v1-content-secondary">
                   {t('common.buy_sell')}
+                  {' (24h)'}
                 </p>
                 <NCoinBuySell
                   value={{
@@ -173,6 +174,7 @@ export const CoinTitleWidget: FC<{
               <div className="flex flex-col justify-between">
                 <p className="text-xxs text-v1-content-secondary">
                   {t('common.volume')}
+                  {' (24h)'}
                 </p>
                 <ReadableNumber
                   value={nCoin.data.update.total_trading_volume.usd}

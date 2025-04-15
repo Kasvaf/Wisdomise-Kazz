@@ -19,14 +19,10 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <div className="flex flex-col">
-      <CoinTitleWidget
-        slug={slug}
-        className="sticky top-0 z-50 p-3 bg-v1-surface-l-current"
-        hr
-      />
-      <CoinSentimentsWidget slug={slug} className="p-3" hr />
-      <NCoinSentimentWidget slug={slug} className="p-3" hr />
+    <div className="flex flex-col gap-3">
+      <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
+      <CoinSentimentsWidget slug={slug} />
+      <NCoinSentimentWidget slug={slug} />
       {isDebugMode && (
         <>
           <div className="rounded-md p-3 py-16 text-center text-v1-content-secondary">
@@ -41,27 +37,18 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
       <CoinChart slug={slug} height={420} />
       <CoinDetailsTabs
         options={tabs}
-        className="sticky top-0 z-50 py-3 bg-v1-surface-l-current"
-        hr
+        className="sticky top-[90px] z-50 py-3 bg-v1-surface-l-current"
       />
-      <div className="relative space-y-4" ref={root}>
-        <div className="relative space-y-4 p-3">
-          <CoinMessagesWidget
-            id="coinoverview_trading_view"
-            type="technical_ideas"
-            slug={slug}
-            hr
-          />
-          <CoinMessagesWidget
-            id="coinoverview_socials"
-            type="rest"
-            slug={slug}
-            hr
-          />
-          <CoinPoolsWidget slug={slug} id="coinoverview_pools" hr />
-          <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" hr />
-          <CoinWhalesWidget slug={slug} id="coinoverview_whales" hr />
-        </div>
+      <div className="relative space-y-8" ref={root}>
+        <CoinMessagesWidget
+          id="coinoverview_trading_view"
+          type="technical_ideas"
+          slug={slug}
+        />
+        <CoinMessagesWidget id="coinoverview_socials" type="rest" slug={slug} />
+        <CoinPoolsWidget slug={slug} id="coinoverview_pools" />
+        <CoinExchangesWidget slug={slug} id="coinoverview_exchanges" />
+        <CoinWhalesWidget slug={slug} id="coinoverview_whales" />
       </div>
     </div>
   );
