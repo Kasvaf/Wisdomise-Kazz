@@ -20,9 +20,9 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const tabs = useCoinDetailsTabs(root);
 
   return (
-    <div className="flex flex-nowrap items-stretch justify-between">
+    <div className="flex flex-nowrap justify-between">
       {/* Discover */}
-      <div className="relative w-60 shrink-0 p-3 ps-0 tablet:w-60">
+      <div className="relative w-1/4 min-w-60 max-w-80 p-3 ps-0">
         <div className="space-y-3">
           {isDebugMode && (
             <>
@@ -37,7 +37,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Validate */}
-      <div className="relative shrink grow border-x border-white/10">
+      <div className="relative w-full min-w-[600px] max-w-full grow border-x border-white/10">
         {/* Sentiment Widgets */}
         <CoinSentimentsWidget slug={slug} className="p-3" hr />
         <NCoinSentimentWidget slug={slug} className="p-3" hr />
@@ -74,7 +74,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
       </div>
 
       {/* Trade + Additional */}
-      <div className="relative w-80 shrink-0 p-3 pe-0 tablet:w-60">
+      <div className="relative w-1/3 min-w-72 max-w-96 p-3 pe-0">
         <div className="sticky top-[100px] space-y-3">
           {isDebugMode && (
             <>
