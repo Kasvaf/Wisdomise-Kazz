@@ -12,6 +12,7 @@ import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
+import useIsMobile from 'utils/useIsMobile';
 
 function CoinWhalesWidgetWithType({
   type,
@@ -27,6 +28,7 @@ function CoinWhalesWidgetWithType({
   className?: string;
 }) {
   const { t } = useTranslation('whale');
+  const isMobile = useIsMobile();
   const whales = useCoinWhales({ slug, type });
   const [query, setQuery] = useState('');
 
@@ -145,10 +147,10 @@ function CoinWhalesWidgetWithType({
           </h3>
           <Input
             type="string"
-            size="md"
+            size={isMobile ? 'xs' : 'md'}
             value={query}
             onChange={setQuery}
-            className="mb-4 w-72 text-sm mobile:w-full"
+            className="w-72 text-sm mobile:w-48"
             prefixIcon={<Icon name={bxSearch} />}
             placeholder={t('coin-radar:whales.search')}
             surface={2}

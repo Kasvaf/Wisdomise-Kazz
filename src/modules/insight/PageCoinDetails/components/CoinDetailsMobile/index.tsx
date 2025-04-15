@@ -41,7 +41,7 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
       <CoinChart slug={slug} height={420} />
       <CoinDetailsTabs
         options={tabs}
-        className="sticky top-[140px] z-50 p-3 bg-v1-surface-l-current"
+        className="sticky top-0 z-50 py-3 bg-v1-surface-l-current"
         hr
       />
       <div className="relative space-y-4" ref={root}>

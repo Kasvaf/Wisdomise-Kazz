@@ -14,7 +14,7 @@ const NCoinSentimentCol: FC<{
 }> = ({ label, children, className, contentClassName }) => (
   <div
     className={clsx(
-      'flex h-12 w-auto shrink-0 flex-col justify-start gap-1',
+      'flex h-12 w-auto shrink-0 flex-col justify-start gap-1 mobile:w-full',
       className,
     )}
   >
@@ -36,7 +36,7 @@ export const NCoinSentimentWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex items-center justify-between gap-4 overflow-auto mobile:flex-wrap',
+          'flex items-center justify-between gap-4 overflow-hidden mobile:flex-wrap mobile:gap-2',
           className,
         )}
       >
@@ -70,7 +70,7 @@ export const NCoinSentimentWidget: FC<{
             popup="never"
           />
         </NCoinSentimentCol>
-        <div className="h-16 w-px shrink-0 bg-white/10" />
+        <div className="h-16 w-px shrink-0 bg-white/10 mobile:hidden" />
         <NCoinSentimentCol
           label={t('common.validation_insights')}
           className="w-1/3 justify-self-end pe-12"

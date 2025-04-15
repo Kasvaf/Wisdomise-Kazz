@@ -48,7 +48,7 @@ export const CoinTitleWidget: FC<{
           className,
         )}
       >
-        <div className="flex items-center justify-start gap-2 mobile:flex-wrap">
+        <div className="flex items-center justify-start gap-2 mobile:w-full mobile:flex-wrap">
           <CoinLogo coin={symbol} className="size-7" />
           <div className="flex flex-col justify-between gap-1">
             <div className="flex items-center gap-1">
@@ -154,9 +154,9 @@ export const CoinTitleWidget: FC<{
             </div>
           </div>
           {nCoin.data && (
-            <div className="flex items-center gap-4">
-              <div className="h-4 w-px bg-white/10" />
-              <div className="space-y-px">
+            <div className="flex items-center justify-start gap-4 mobile:w-full mobile:justify-between mobile:gap-2">
+              <div className="h-4 w-px bg-white/10 mobile:hidden" />
+              <div className="flex flex-col justify-between">
                 <p className="text-xxs text-v1-content-secondary">
                   {t('common.buy_sell')}
                 </p>
@@ -170,7 +170,7 @@ export const CoinTitleWidget: FC<{
                 />
               </div>
               <div className="h-4 w-px bg-white/10" />
-              <div className="space-y-px">
+              <div className="flex flex-col justify-between">
                 <p className="text-xxs text-v1-content-secondary">
                   {t('common.volume')}
                 </p>
@@ -184,7 +184,7 @@ export const CoinTitleWidget: FC<{
               {isDebugMode && (
                 <>
                   <div className="h-4 w-px bg-white/10" />
-                  <div className="space-y-px">
+                  <div className="flex flex-col justify-between">
                     <p className="text-xxs text-v1-content-secondary">
                       {t('common.risk')}
                     </p>
@@ -203,7 +203,7 @@ export const CoinTitleWidget: FC<{
         </div>
 
         <div className="flex items-center gap-4 mobile:w-full mobile:justify-between">
-          <div className="flex flex-col items-end justify-between gap-1">
+          <div className="flex flex-col items-end justify-between gap-1 mobile:items-start">
             <DirectionalNumber
               value={
                 nCoin.data?.update.base_market_data.current_price ??
@@ -211,7 +211,7 @@ export const CoinTitleWidget: FC<{
               }
               label="$"
               direction="up"
-              className="text-xs"
+              className="text-xs mobile:text-lg"
               showIcon={false}
               showSign={false}
             />
@@ -226,7 +226,7 @@ export const CoinTitleWidget: FC<{
               />
             )}
           </div>
-          <div className="h-8 w-px bg-white/10" />
+          <div className="h-8 w-px bg-white/10 mobile:hidden" />
           <PriceAlertButton
             slug={slug}
             variant="outline"

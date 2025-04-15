@@ -9,6 +9,7 @@ import { ReadableNumber } from 'shared/ReadableNumber';
 import Icon from 'shared/Icon';
 import { Input } from 'shared/v1-components/Input';
 import { type CoinExchange } from 'api/types/shared';
+import useIsMobile from 'utils/useIsMobile';
 
 export function CoinExchangesWidget({
   slug,
@@ -24,6 +25,7 @@ export function CoinExchangesWidget({
   const { t } = useTranslation('coin-radar');
   const coinOverview = useCoinDetails({ slug });
   const [query, setQuery] = useState('');
+  const isMobile = useIsMobile();
 
   const columns = useMemo<Array<ColumnType<CoinExchange>>>(
     () => [
@@ -82,7 +84,7 @@ export function CoinExchangesWidget({
       <div
         id={id}
         className={clsx(
-          'relative flex flex-col gap-1 overflow-auto overflow-x-hidden',
+          'relative flex flex-col gap-4 overflow-auto overflow-x-hidden',
           className,
         )}
       >
@@ -92,10 +94,10 @@ export function CoinExchangesWidget({
           </h3>
           <Input
             type="string"
-            size="md"
+            size={isMobile ? 'xs' : 'md'}
             value={query}
             onChange={setQuery}
-            className="mb-4 w-72 text-sm mobile:w-full"
+            className="w-72 text-sm mobile:w-48"
             prefixIcon={<Icon name={bxSearch} />}
             placeholder={t('available-exchanges.search')}
             surface={2}
