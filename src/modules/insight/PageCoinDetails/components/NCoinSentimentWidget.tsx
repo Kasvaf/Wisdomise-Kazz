@@ -36,7 +36,7 @@ export const NCoinSentimentWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex items-center justify-between gap-4 overflow-hidden mobile:flex-wrap mobile:overflow-auto',
+          'flex items-center justify-between gap-4 overflow-auto mobile:flex-wrap',
           className,
         )}
       >

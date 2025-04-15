@@ -118,7 +118,7 @@ export const NCoinSecurity: FC<{
                 ? 'grid grid-cols-4 grid-rows-1 gap-1'
                 : [
                     'flex items-start',
-                    type === 'row' ? 'gap-3' : 'justify-between gap-12',
+                    type === 'row' ? 'gap-3' : 'justify-between gap-6',
                   ],
             )}
           >

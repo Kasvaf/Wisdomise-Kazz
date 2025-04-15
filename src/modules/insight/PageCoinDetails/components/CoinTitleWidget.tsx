@@ -44,12 +44,11 @@ export const CoinTitleWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex items-center gap-1 whitespace-nowrap mobile:flex-col',
-          symbol ? 'justify-between' : 'justify-center',
+          'flex items-center justify-between gap-1 overflow-auto whitespace-nowrap mobile:flex-col',
           className,
         )}
       >
-        <div className="flex flex-wrap items-center justify-start gap-2">
+        <div className="flex items-center justify-start gap-2 mobile:flex-wrap">
           <CoinLogo coin={symbol} className="size-7" />
           <div className="flex flex-col justify-between gap-1">
             <div className="flex items-center gap-1">
