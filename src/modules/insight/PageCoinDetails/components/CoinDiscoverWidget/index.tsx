@@ -7,6 +7,7 @@ import { NetworkRadarTable } from './NetworkRadarTable';
 import { SocialRadarTable } from './SocialRadarTable';
 import { WhaleRadarTable } from './WhaleRadarTable';
 import { TechnicalRadarTable } from './TechnicalRadarTable';
+import { CoinRadarTable } from './CoinRadarTable';
 
 export const CoinDiscoverWidget: FC<{ className?: string }> = ({
   className,
@@ -35,6 +36,9 @@ export const CoinDiscoverWidget: FC<{ className?: string }> = ({
       )}
     >
       <CoinDiscoverTabs value={selectedTab} onChange={setSelectedTab} />
+      {selectedTab === 'coin-radar' && (
+        <CoinRadarTable onClick={row => handleRowClick(row.symbol.slug)} />
+      )}
       {selectedTab === 'network-radar' && (
         <NetworkRadarTable
           onClick={row => handleRowClick(row.base_symbol.slug)}

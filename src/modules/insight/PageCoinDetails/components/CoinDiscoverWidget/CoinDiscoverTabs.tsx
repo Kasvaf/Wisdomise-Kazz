@@ -1,12 +1,14 @@
-import { clsx } from 'clsx';
 import { type FC } from 'react';
+import { clsx } from 'clsx';
 import useMenuItems from 'modules/base/Layout/MenuItems/useMenuItems';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 
 export const DISCOVER_TABS = [
+  'network-radar',
+  'coin-radar',
+  'whale-radar',
   'social-radar',
   'technical-radar',
-  'whale-radar',
-  'network-radar',
 ] as const;
 
 export type CoinDiscoverTab = (typeof DISCOVER_TABS)[number];
@@ -18,25 +20,27 @@ export const CoinDiscoverTabs: FC<{
 }> = ({ value, onChange, className }) => {
   const { items } = useMenuItems();
 
-  const tabs = items.filter(x =>
-    DISCOVER_TABS.includes(x.name as CoinDiscoverTab),
+  const tabs = DISCOVER_TABS.map(x => items.find(y => y.name === x)).filter(
+    x => !!x,
   );
 
   return (
-    <div className={clsx('flex items-center justify-between gap-2', className)}>
-      {tabs.map(tab => (
-        <button
-          key={tab.name}
-          className={clsx(
-            'flex flex-col items-center gap-1 text-xs [&_svg]:size-5',
-            tab.name === value && 'text-v1-content-brand',
-          )}
-          onClick={() => onChange?.(tab.name as CoinDiscoverTab)}
-        >
-          {tab.icon}
-          {tab.text}
-        </button>
-      ))}
-    </div>
+    <ButtonSelect
+      className={clsx('!h-12', className)}
+      value={value}
+      onChange={onChange}
+      size="xs"
+      variant="default"
+      surface={1}
+      options={tabs.map(tab => ({
+        value: tab.name as CoinDiscoverTab,
+        label: (
+          <div className="flex flex-col items-center gap-1 text-xs [&_svg]:size-5">
+            {tab.icon}
+            {tab.text}
+          </div>
+        ),
+      }))}
+    />
   );
 };
