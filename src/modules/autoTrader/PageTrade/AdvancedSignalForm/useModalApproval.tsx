@@ -123,11 +123,6 @@ const ModalApproval: React.FC<{
   return (
     <div className="flex h-full flex-col text-white">
       <div className="flex grow flex-col gap-4">
-        {data?.warning && (
-          <div className="rounded-md border border-v1-border-notice p-4">
-            {data?.warning}
-          </div>
-        )}
         <InfoLine label="Initial Deposit">
           <div className="font-medium">
             {amount} {quoteInfo?.abbreviation}
@@ -213,6 +208,11 @@ const ModalApproval: React.FC<{
             Proceed with caution or consider adjusting your trade size.
           </MessageBox>
         ) : null}
+
+        {data?.warning || (
+          <MessageBox variant="warning">{data?.warning}</MessageBox>
+        )}
+        {data?.error || <MessageBox variant="error">{data?.error}</MessageBox>}
       </div>
 
       <div className="mt-6 flex items-center gap-2">
@@ -223,7 +223,9 @@ const ModalApproval: React.FC<{
           onClick={() => onResolve?.(true)}
           variant="brand"
           className="grow"
-          disabled={isLoading || !hasEnoughGas || impact > 0.05}
+          disabled={
+            isLoading || !hasEnoughGas || impact > 0.05 || !!data?.error
+          }
           loading={isLoading}
         >
           Fire Position

@@ -281,6 +281,7 @@ export const usePreparePositionMutation = () => {
         exchange_fee: string;
         trade_fee: string;
         warning?: string;
+        error?: string;
       }>('trader/positions/prepare', {
         body,
         method: 'post',
