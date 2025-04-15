@@ -29,8 +29,12 @@ export const trackClick =
   };
 
 export const track = (
-  eventName: 'click_on' | 'Click On' | `Feedback ${string}`,
-  payload: Record<string, string | number> = {},
+  eventName:
+    | 'click_on'
+    | 'Click On'
+    | `Feedback ${string}`
+    | 'wallet_connected',
+  payload: Record<string, string | number | undefined | null> = {},
 ) => {
   void analytics.track(eventName, {
     location: 'dashboard',

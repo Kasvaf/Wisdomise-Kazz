@@ -5,14 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
 import { bxShareAlt } from 'boxicons-quasar';
-import {
-  useTechnicalRadarCoins,
-  useSubscription,
-  type TechnicalRadarCoin,
-} from 'api';
+import { useTechnicalRadarCoins, type TechnicalRadarCoin } from 'api';
 import { ECharts } from 'shared/ECharts';
 import { AccessShield } from 'shared/AccessShield';
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import Icon from 'shared/Icon';
 import { useScreenshot } from 'shared/useScreenshot';
 import { formatNumber } from 'utils/numbers';
@@ -31,12 +26,11 @@ export const TechnicalRadarChart: FC<{
   const isMobile = useIsMobile();
   const el = useRef<HTMLDivElement>(null);
   const { capture } = useScreenshot(el, {
+    backgroundColor: '#1D1E23', // v1-surface-l3
     fileName: `${type}-${Date.now()}`,
   });
   const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(coins.data ?? [], type);
-  const subscription = useSubscription();
-  const isLoggedIn = useIsLoggedIn();
 
   const options = useMemo<EChartsOption>(() => {
     return {
@@ -269,7 +263,7 @@ export const TechnicalRadarChart: FC<{
   return (
     <div
       className={clsx(
-        'bg-v1-surface-l2 [&.capturing_[data-capture]]:block [&.capturing_[data-nocapture]]:hidden',
+        '[&.capturing_[data-capture]]:block [&.capturing_[data-nocapture]]:hidden',
       )}
       ref={el}
     >
@@ -282,7 +276,6 @@ export const TechnicalRadarChart: FC<{
             size="xs"
             onClick={capture}
             variant="ghost"
-            disabled={!isLoggedIn || subscription.level < 1}
             className="!rounded-full"
           >
             <Icon name={bxShareAlt} size={10} />
