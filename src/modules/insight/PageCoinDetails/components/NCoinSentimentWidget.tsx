@@ -6,31 +6,6 @@ import { NCoinLiquidity } from 'modules/insight/PageNetworkRadar/components/NCoi
 import { useNCoinDetails } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
 
-// <p>{t('common.liquidity')}</p>
-// <div>
-//   <NCoinLiquidity
-//     type="update_row"
-//     value={value}
-//     imgClassName="size-4"
-//   />
-// </div>
-// <p>{t('common.initial_liquidity')}</p>
-// <div>
-//   <NCoinLiquidity
-//     type="initial_row"
-//     value={value}
-//     imgClassName="size-4"
-//   />
-// </div>
-// <p>{t('common.marketcap')}</p>
-// <div>
-//   <ReadableNumber
-//     label="$"
-//     value={value.update.base_market_data.market_cap}
-//     popup="never"
-//   />
-// </div>
-
 const NCoinSentimentCol: FC<{
   label: string;
   children: ReactNode;
@@ -61,7 +36,7 @@ export const NCoinSentimentWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex items-center justify-between gap-4 overflow-hidden',
+          'flex items-center justify-between gap-4 overflow-hidden mobile:flex-wrap mobile:overflow-auto',
           className,
         )}
       >

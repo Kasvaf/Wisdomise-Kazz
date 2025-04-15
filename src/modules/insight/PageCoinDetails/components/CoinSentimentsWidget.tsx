@@ -28,7 +28,7 @@ export const CoinSentimentsWidget: FC<{
     <>
       <div
         className={clsx(
-          'grid max-w-full grid-cols-3 items-center gap-3',
+          'grid max-w-full grid-cols-3 items-center gap-3 mobile:grid-cols-1',
           className,
         )}
       >
