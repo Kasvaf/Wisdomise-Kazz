@@ -1,15 +1,16 @@
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { useActiveNetwork } from 'modules/base/active-network';
 import {
   type AutoTraderSolanaSupportedQuotes,
+  useAwaitSolanaWalletConnection,
   useSolanaAccountBalance,
   useSolanaTransferAssetsMutation,
 } from './solana';
 import {
   type AutoTraderTonSupportedQuotes,
   useAccountJettonBalance,
+  useAwaitTonWalletConnection,
   useTonTransferAssetsMutation,
 } from './ton';
 
@@ -35,7 +36,8 @@ export const useActiveWallet = () => {
   const tonAddress = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
   const solanaWallet = useWallet();
-  const solanaModal = useWalletModal();
+  const awaitSolanaWalletConnect = useAwaitSolanaWalletConnection();
+  const awaitTonWalletConnect = useAwaitTonWalletConnection();
 
   return {
     address:
@@ -57,8 +59,12 @@ export const useActiveWallet = () => {
         ? solanaWallet.connected
         : false,
     connect: () => {
-      if (net === 'the-open-network') return tonConnectUI.openModal();
-      if (net === 'solana') return solanaModal.setVisible(true);
+      if (net === 'the-open-network') {
+        return awaitTonWalletConnect();
+      }
+      if (net === 'solana') {
+        return awaitSolanaWalletConnect();
+      }
       return Promise.resolve();
     },
   };
