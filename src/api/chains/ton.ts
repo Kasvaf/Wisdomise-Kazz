@@ -6,6 +6,7 @@ import {
 } from '@tonconnect/ui-react';
 import { Address, beginCell, TonClient } from '@ton/ton';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useRef } from 'react';
 import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 import { fromBigMoney, toBigMoney } from 'utils/money';
@@ -179,3 +180,34 @@ export const useTonTransferAssetsMutation = (
     gtag('event', 'trade');
   };
 };
+
+export function useAwaitTonWalletConnection() {
+  const [tonConnectUI] = useTonConnectUI();
+  const resolver = useRef<((val: boolean) => void) | null>(null);
+  const promiseRef = useRef<Promise<boolean> | null>(null);
+
+  // Effect to resolve any pending promise when connected
+  useEffect(() => {
+    if (
+      resolver.current &&
+      (tonConnectUI.connected || tonConnectUI.modalState.status === 'closed')
+    ) {
+      resolver.current(tonConnectUI.connected);
+      resolver.current = null;
+      promiseRef.current = null;
+    }
+  }, [tonConnectUI.connected, tonConnectUI.modalState.status]);
+
+  // This returns a fresh promise every time you want to wait for a connection
+  const awaitConnection = useCallback(() => {
+    if (!promiseRef.current) {
+      promiseRef.current = new Promise(resolve => {
+        resolver.current = resolve;
+      });
+      void tonConnectUI.openModal();
+    }
+    return promiseRef.current;
+  }, [tonConnectUI]);
+
+  return awaitConnection;
+}
