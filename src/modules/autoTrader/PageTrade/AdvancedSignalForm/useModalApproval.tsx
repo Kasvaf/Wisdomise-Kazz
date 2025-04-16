@@ -209,10 +209,10 @@ const ModalApproval: React.FC<{
           </MessageBox>
         ) : null}
 
-        {data?.warning || (
+        {data?.warning && (
           <MessageBox variant="warning">{data?.warning}</MessageBox>
         )}
-        {data?.error || <MessageBox variant="error">{data?.error}</MessageBox>}
+        {data?.error && <MessageBox variant="error">{data?.error}</MessageBox>}
       </div>
 
       <div className="mt-6 flex items-center gap-2">
