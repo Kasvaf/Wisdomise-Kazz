@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { type UserAssetPair, useUserAssets } from 'api';
@@ -5,6 +6,7 @@ import { roundSensible } from 'utils/numbers';
 import { useSymbolInfo } from 'api/symbol';
 import Spin from 'shared/Spin';
 import { ReadableNumber } from 'shared/ReadableNumber';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 
 const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
   const { data: baseInfo, isLoading: baseLoading } = useSymbolInfo(asset.slug);
@@ -47,7 +49,17 @@ const UserAsset: React.FC<{ asset: UserAssetPair }> = ({ asset }) => {
   );
 };
 
-const UserAssets: React.FC<{ className?: string }> = ({ className }) => {
+interface Props {
+  noTotal?: boolean;
+  className?: string;
+  containerClassName?: string;
+}
+
+const UserAssetsInternal: React.FC<Props> = ({
+  noTotal,
+  className,
+  containerClassName,
+}) => {
   const { data: assets, isLoading } = useUserAssets();
 
   const totalAssets = assets?.reduce((a, b) => a + b.usd_equity, 0);
@@ -55,17 +67,24 @@ const UserAssets: React.FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div className={className}>
-      <div className="mb-4 flex justify-center text-2xl font-semibold">
-        <ReadableNumber value={totalAssets} label="$" />
-      </div>
+      {!noTotal && (
+        <div className="mb-4 flex justify-center text-2xl font-semibold">
+          <ReadableNumber value={totalAssets} label="$" />
+        </div>
+      )}
 
-      <div className="rounded-xl bg-v1-surface-l2 p-4">
-        {assets?.map((asset, ind) => (
+      <div
+        className={clsx(
+          'flex flex-col gap-3 rounded-xl bg-v1-surface-l2 p-4',
+          containerClassName,
+        )}
+      >
+        {assets?.map((asset, ind, arr) => (
           <React.Fragment key={asset.slug}>
             <UserAsset asset={asset} />
 
-            {ind !== assets.length - 1 && (
-              <div className="my-3 border-b border-b-white/5" />
+            {ind !== arr.length - 1 && (
+              <div className="border-b border-b-white/5" />
             )}
           </React.Fragment>
         ))}
@@ -74,4 +93,8 @@ const UserAssets: React.FC<{ className?: string }> = ({ className }) => {
   );
 };
 
-export default UserAssets;
+export default function UserAssets(props: Props) {
+  const isLoggedIn = useIsLoggedIn();
+  if (!isLoggedIn) return null;
+  return <UserAssetsInternal {...props} />;
+}
