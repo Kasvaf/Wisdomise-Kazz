@@ -1,6 +1,4 @@
-import { useCallback, useMemo } from 'react';
-import type { ColumnType } from 'antd/es/table';
-import { Table } from 'antd';
+import { useCallback } from 'react';
 import {
   useAccountQuery,
   useInvoicesQuery,
@@ -14,7 +12,11 @@ import TokenPaymentModalContent from 'modules/account/PageBilling/paymentMethods
 import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
-import { ReactComponent as Check } from './images/check2.svg';
+import { FeaturesTable } from 'modules/account/PageBilling/FeaturesTable';
+import bag from './images/bag.png';
+import starlight from './images/starlight.png';
+import bg from './images/bg.png';
+import { ReactComponent as Arrow } from './images/arrow.svg';
 
 export default function PageBilling() {
   const plans = usePlansQuery();
@@ -22,36 +24,6 @@ export default function PageBilling() {
   const subscription = useSubscription();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
   const { data: account } = useAccountQuery();
-
-  const datasource = [
-    { feature: 'Whale Radar', free: <Check />, vip: <Check /> },
-    { feature: 'Radar +', free: <Check />, vip: <Check /> },
-    { feature: 'Technical Radar', free: '-', vip: <Check /> },
-    { feature: 'Social Radar', free: '-', vip: <Check /> },
-    { feature: 'Alert Screener', free: '-', vip: <Check /> },
-    { feature: 'Trade Fee (%)', free: 0.8, vip: 0.6 },
-  ] as const;
-
-  const columns = useMemo<Array<ColumnType<any>>>(
-    () => [
-      {
-        title: '',
-        dataIndex: 'feature',
-        render: (_, { feature }) => <p>{feature}</p>,
-      },
-      {
-        title: 'Free',
-        dataIndex: 'free',
-        render: (_, { free }) => <p>{free}</p>,
-      },
-      {
-        title: 'VIP',
-        dataIndex: 'vip',
-        render: (_, { vip }) => <p>{vip}</p>,
-      },
-    ],
-    [],
-  );
 
   const isLoading =
     (account?.info && invoices.isLoading) ||
@@ -82,33 +54,57 @@ export default function PageBilling() {
       {subscription.group === 'free' ||
       subscription.group === 'initial' ||
       !account?.info ? (
-        <div className="flex flex-col items-center">
-          <h1 className="mt-10 text-6xl">Stake 1000$ for VIP access</h1>
-          <p className="mt-4 text-v1-content-secondary">
-            and earn your share of 50% of Wisdomize’s revenue (read more)
+        <div className="relative flex flex-col items-center">
+          <img src={starlight} className="absolute" alt="" />
+          <img
+            src={bg}
+            className="absolute top-0 mobile:top-40 md:w-1/2"
+            alt=""
+          />
+          <h1 className="mt-10 text-center text-3xl font-semibold mobile:text-2xl">
+            Join{' '}
+            <span className="bg-wsdm-gradient bg-clip-text text-transparent">
+              WSDM
+            </span>{' '}
+            Club for{' '}
+            <span className="bg-pro-gradient bg-clip-text text-transparent">
+              VIP
+            </span>{' '}
+            benefits
+          </h1>
+          <p className="mt-3 text-center text-v1-content-secondary mobile:text-sm">
+            Stake <span className="text-v1-content-primary">$WSDM</span>, Unlock
+            Alpha Signals, and Farm{' '}
+            <span className="text-v1-content-primary">50%</span> of Platform
+            Revenue Monthly — Straight Degen Passive Income.
           </p>
-          <Button onClick={onLockClick} className="mt-10">
+          <h2 className="mt-12 text-2xl mobile:text-xl">
+            Stake & farm the bag{' '}
+            <img
+              src={bag}
+              alt="baf"
+              className="inline-block size-8 mobile:size-6"
+            />
+          </h2>
+          <Button
+            variant="wsdm"
+            onClick={onLockClick}
+            className="mb-28 mt-4 w-80"
+          >
             <DebugPin
               title="/account/billing?payment_method=lock"
               color="orange"
             />
-            <div className="flex items-center gap-2">Stake WSDM</div>
+            Stake Now
+            <Arrow />
           </Button>
-          {/* <Wallet /> */}
           {tokenPaymentModal}
           {ModalLogin}
-          <div className="mt-10 w-[800px]">
-            <Table
-              columns={columns}
-              dataSource={datasource}
-              pagination={false}
-            />
-          </div>
+          <FeaturesTable />
         </div>
       ) : (
         <SubscriptionDetail />
       )}
-      {/* <SuccessfulPaymentMessage /> */}
     </PageWrapper>
   );
 }
