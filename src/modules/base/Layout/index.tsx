@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import type React from 'react';
 import { type ReactElement, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
@@ -14,6 +15,7 @@ export interface LayoutProps {
   extension?: null | false | ReactElement;
   header?: false | null | ReactElement;
   footer?: false | null | ReactElement;
+  mainClassName?: string;
 }
 
 const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
@@ -22,6 +24,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   extension,
   header,
   footer,
+  mainClassName,
   children,
 }) => {
   useHubSpot();
@@ -37,7 +40,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
             )}
       </header>
 
-      <main className="grow p-3 mobile:ml-0">
+      <main className={clsx('grow p-3 mobile:ml-0', mainClassName)}>
         <AuthorizedContent>{children}</AuthorizedContent>
       </main>
 
