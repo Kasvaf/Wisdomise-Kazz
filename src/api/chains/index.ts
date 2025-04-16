@@ -1,6 +1,7 @@
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useActiveNetwork } from 'modules/base/active-network';
+import { trackClick } from 'config/segment';
 import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
@@ -59,6 +60,7 @@ export const useActiveWallet = () => {
         ? solanaWallet.connected
         : false,
     connect: () => {
+      trackClick('wallet_connect', { network: net })();
       if (net === 'the-open-network') {
         return awaitTonWalletConnect();
       }
