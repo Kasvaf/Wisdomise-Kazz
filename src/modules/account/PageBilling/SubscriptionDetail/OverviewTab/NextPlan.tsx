@@ -4,7 +4,6 @@ import { notification } from 'antd';
 import { Link } from 'react-router-dom';
 import {
   useAccountQuery,
-  useHasFlag,
   useStripePaymentMethodsQuery,
   useSubscription,
   useSubscriptionMutation,
@@ -17,12 +16,10 @@ import InfoBadge from './InfoBadge';
 export default function NextPlan() {
   const account = useAccountQuery();
   const { t } = useTranslation('billing');
-  const [PaymentMethodModal, openPaymentMethodModal] =
-    useChangePaymentMethodModal();
+  const [PaymentMethodModal] = useChangePaymentMethodModal();
   const { currentPeriodEnd, plan } = useSubscription();
   const subscriptionMutation = useSubscriptionMutation();
   const stripePaymentMethod = useStripePaymentMethodsQuery();
-  const hasFlag = useHasFlag();
 
   const handleToggleAutoRenew = async (turnOn?: boolean) => {
     try {
@@ -51,14 +48,14 @@ export default function NextPlan() {
             <InfoBadge value1={paymentMethodText[paymentMethod]} />
           )}
 
-          {hasFlag('/account/billing?change_payment_method') && (
-            <button
-              onClick={openPaymentMethodModal}
-              className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4"
-            >
-              {t('subscription-details.overview.next-plan.change-pay-method')}
-            </button>
-          )}
+          {/* {hasFlag('/account/billing?change_payment_method') && ( */}
+          {/*   <button */}
+          {/*     onClick={openPaymentMethodModal} */}
+          {/*     className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4" */}
+          {/*   > */}
+          {/*     {t('subscription-details.overview.next-plan.change-pay-method')} */}
+          {/*   </button> */}
+          {/* )} */}
         </div>
         {isAutoRenewEnabled && (
           <>

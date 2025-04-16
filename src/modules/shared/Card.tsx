@@ -16,7 +16,7 @@ export default function Card({
   return (
     <div
       className={clsx(
-        'rounded-3xl bg-black/20 p-6',
+        'rounded-xl bg-v1-surface-l3 p-6',
         variant === 'outline' && 'border-2',
         className,
       )}

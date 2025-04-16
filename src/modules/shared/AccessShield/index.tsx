@@ -154,11 +154,7 @@ export function AccessShield({
             >
               {group === 'guest'
                 ? t('pro-locker.login.message')
-                : nextGroup === 'pro'
-                ? t('pro-locker.pro.message')
-                : nextGroup === 'pro+'
-                ? t('pro-locker.proplus.message')
-                : t('pro-locker.promax.message')}
+                : 'Join VIP Club for exclusive insights to elevate your crypto game!'}
             </p>
 
             <HoverTooltip

@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSubscription } from 'api';
 import { ReadableDuration } from 'shared/ReadableDuration';
-import { IconSubscription } from './icons';
+import { WsdmTokenIcon } from 'modules/account/PageAccount/icons';
 import BoxedIcon from './BoxedIcon';
 import MenuItem from './MenuItem';
 
@@ -17,18 +17,18 @@ const MenuItemSubscription = () => {
 
   return (
     <MenuItem to="/account/billing">
-      <BoxedIcon icon={IconSubscription} />
+      <BoxedIcon icon={WsdmTokenIcon} />
       {t('menu.billing.title')}
 
       <div className="flex items-center gap-1 text-end">
-        <div
-          className={clsx(
-            'capitalize text-v1-content-brand',
-            !isSubPlanActive && 'line-through',
-          )}
-        >
-          {subscription.title}
-        </div>
+        {/* <div */}
+        {/*   className={clsx( */}
+        {/*     'capitalize text-v1-content-brand', */}
+        {/*     !isSubPlanActive && 'line-through', */}
+        {/*   )} */}
+        {/* > */}
+        {/*   {subscription.title} */}
+        {/* </div> */}
 
         {subscription.level > 0 &&
           isSubPlanActive &&

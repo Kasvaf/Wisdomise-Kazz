@@ -11,7 +11,7 @@ export default function CurrentPlan() {
   const { data } = useAccountQuery();
   const { t } = useTranslation('billing');
   const { currentPeriodEnd, plan, status } = useSubscription();
-  const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
+  const [PricingTableMod] = useModal(PricingTable, {
     width: 1200,
     className: '[&_.ant-modal-content]:p-4',
   });
@@ -34,15 +34,15 @@ export default function CurrentPlan() {
               value2={plan?.periodicity.toLowerCase()}
             />
           </Trans>
-          {!(plan?.level === 2 && plan?.periodicity === 'YEARLY') && (
-            <button
-              onClick={() => openPricingTable({ isUpdate: true })}
-              className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4 disabled:text-white/40"
-              disabled={paymentMethod === 'TOKEN'}
-            >
-              {t('subscription-details.overview.btn-change-plan')}
-            </button>
-          )}
+          {/* {!(plan?.level === 2 && plan?.periodicity === 'YEARLY') && ( */}
+          {/*   <button */}
+          {/*     onClick={() => openPricingTable({ isUpdate: true })} */}
+          {/*     className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4 disabled:text-white/40" */}
+          {/*     disabled={paymentMethod === 'TOKEN'} */}
+          {/*   > */}
+          {/*     {t('subscription-details.overview.btn-change-plan')} */}
+          {/*   </button> */}
+          {/* )} */}
         </div>
         {paymentMethod === 'TOKEN' ? (
           <div>

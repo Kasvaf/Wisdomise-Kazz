@@ -6,7 +6,6 @@ import { Steps } from 'antd';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
 import { type SubscriptionPlan } from 'api/types/subscription';
-import { ReactComponent as LogoWithText } from 'assets/logo-horizontal-beta.svg';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useLockingRequirementQuery } from 'api/defi';
 import { useVipAccessFlow } from 'modules/account/PageBilling/useVipAccessFlow';
@@ -57,9 +56,9 @@ export default function TokenPaymentModalContent({
   };
 
   return (
-    <div className="h-screen grid-cols-12 overflow-auto p-6 text-white">
+    <div className="h-screen overflow-auto px-24 mobile:px-0">
       <Steps
-        className="my-10"
+        className="my-10 mobile:mb-6 mobile:px-6"
         size="small"
         current={currentStep}
         items={[
@@ -80,20 +79,23 @@ export default function TokenPaymentModalContent({
           },
         ]}
       />
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-12 md:mt-40">
         <div className="col-span-12 flex h-full flex-col items-center justify-center lg:col-span-6">
-          <div className="w-3/4 mobile:w-full mobile:px-8 mobile:py-12">
-            <p className="text-xl text-white mobile:hidden">
-              {t('token-modal.title')}
-            </p>
-            <div className="flex items-center gap-2">
-              <ClockIcon />
-              <span className="text-white/60">
-                {Math.floor(count / 60)}m {count % 60}s
-              </span>
+          <div className="mb-8 mobile:w-full mobile:px-8">
+            <div className="flex items-center gap-4">
+              <WisdomiseLogo />
+              <div>
+                <p className="text-xl text-white mobile:text-base">
+                  {t('token-modal.title')}
+                </p>
+                <div className="flex items-center gap-2">
+                  <ClockIcon />
+                  <span className="text-v1-content-secondary">
+                    {Math.floor(count / 60)}m {count % 60}s
+                  </span>
+                </div>
+              </div>
             </div>
-
-            <LogoWithText className="hidden mobile:block" />
 
             <div className="mt-6 flex items-center gap-5">
               <p className="text-[40px] text-white mobile:text-3xl">{price}</p>
@@ -104,16 +106,8 @@ export default function TokenPaymentModalContent({
               </p>
             </div>
 
-            <div className="mt-12 flex items-center gap-6 mobile:mt-8 mobile:gap-4">
-              <div className="h-14 w-14  basis-14 mobile:hidden">
-                <WisdomiseLogo />
-              </div>
-              <div className="flex justify-between gap-4 text-2xl">
-                <span>{plan.name}</span>
-                <span className="whitespace-nowrap text-v1-content-secondary">
-                  {price} {t('token-modal.token')}
-                </span>
-              </div>
+            <div className="mt-6 bg-pro-gradient bg-clip-text text-3xl font-semibold text-transparent">
+              {plan.name}
             </div>
           </div>
         </div>
@@ -125,10 +119,7 @@ export default function TokenPaymentModalContent({
                 <p className="mb-6 text-2xl font-medium">
                   {t('token-modal.congratulations')}
                 </p>
-                <p className="font-medium text-white/60">
-                  VIP Club Activated!
-                  {/* {t('token-modal.you-can', { name: plan.name })} */}
-                </p>
+                <p className="font-medium text-white/60">VIP Club Activated!</p>
               </div>
 
               <Button
