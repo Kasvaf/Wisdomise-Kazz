@@ -1,7 +1,10 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useRef } from 'react';
 import { isDebugMode } from 'utils/version';
-import { BtnAutoTrade } from 'modules/autoTrader/BtnAutoTrade';
+import Trader from 'modules/autoTrader/PageTrade/Trader';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { ActiveNetworkProvider } from 'modules/base/active-network';
+import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { CoinStatsWidget } from '../CoinStatsWidget';
 import { CoinDetailsTabs } from '../CoinDetailsTabs';
 import { useCoinDetailsTabs } from '../../hooks/useCoinDetailsTabs';
@@ -20,6 +23,10 @@ import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
   const tabs = useCoinDetailsTabs(root);
+  const [quote, setQuote] = useSearchParamAsState<AutoTraderSupportedQuotes>(
+    'quote',
+    'tether',
+  );
 
   return (
     <div className="flex flex-nowrap justify-between">
@@ -79,12 +86,12 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
       {/* Trade + Additional */}
       <div className="relative w-1/3 min-w-72 max-w-96 p-3 pe-0">
         <div className="sticky top-[100px] space-y-3">
-          <BtnAutoTrade
-            slug={slug}
-            block
-            className="w-full"
-            variant="outline"
-          />
+          <h3 className="text-sm font-semibold">Auto Trade</h3>
+          <div className="space-y-4 rounded-md bg-v1-surface-l2 p-3 [&_.id-line]:hidden">
+            <ActiveNetworkProvider base={slug} quote={quote} setOnLayout>
+              <Trader quote={quote} setQuote={setQuote} slug={slug} />
+            </ActiveNetworkProvider>
+          </div>
           <hr className="border-white/10" />
           <CoinStatsWidget slug={slug} />
           <NCoinStatsWidget slug={slug} />
