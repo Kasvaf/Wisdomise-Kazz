@@ -14,6 +14,7 @@ import { CoinExchangesWidget } from '../CoinExchangesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinWhalesWidget } from '../CoinWhalesWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
+import { LowLiquidityWarningBanner } from '../LowLiquidityWarningBanner';
 
 export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -21,6 +22,7 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
 
   return (
     <div className="flex flex-col gap-3">
+      <LowLiquidityWarningBanner slug={slug} />
       <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
       <CoinSentimentsWidget slug={slug} />
       <NCoinSentimentWidget slug={slug} />
