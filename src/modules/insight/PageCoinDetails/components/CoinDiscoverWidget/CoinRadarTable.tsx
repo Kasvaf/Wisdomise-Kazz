@@ -13,9 +13,12 @@ import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
 
 export const CoinRadarTable: FC<{
-  onClick?: (coin: CoinRadarCoin) => void;
-}> = ({ onClick }) => {
-  const coins = useCoinRadarCoins({});
+  onClick: (coin: CoinRadarCoin) => void;
+  networks: string[];
+}> = ({ onClick, networks }) => {
+  const coins = useCoinRadarCoins({
+    networks,
+  });
 
   const columns = useMemo<Array<MobileTableColumn<CoinRadarCoin>>>(
     () => [

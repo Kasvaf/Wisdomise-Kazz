@@ -10,9 +10,10 @@ import { Coin } from 'shared/Coin';
 import { TableRank } from 'shared/TableRank';
 
 export const NetworkRadarTable: FC<{
-  onClick?: (row: NetworkRadarNCoin) => void;
-}> = ({ onClick }) => {
-  const nCoins = useNetworkRadarNCoins({});
+  onClick: (row: NetworkRadarNCoin) => void;
+  networks: string[];
+}> = ({ onClick, networks }) => {
+  const nCoins = useNetworkRadarNCoins({ networks });
 
   const columns = useMemo<Array<MobileTableColumn<NetworkRadarNCoin>>>(
     () => [

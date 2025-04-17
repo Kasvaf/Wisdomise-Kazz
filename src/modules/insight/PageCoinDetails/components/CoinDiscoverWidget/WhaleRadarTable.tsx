@@ -8,10 +8,12 @@ import { TableRank } from 'shared/TableRank';
 import { WhaleRadarSentiment } from 'modules/insight/PageWhaleRadar/components/WhaleRadarSentiment';
 
 export const WhaleRadarTable: FC<{
-  onClick?: (coin: WhaleRadarCoin) => void;
-}> = ({ onClick }) => {
+  onClick: (coin: WhaleRadarCoin) => void;
+  networks: string[];
+}> = ({ onClick, networks }) => {
   const coins = useWhaleRadarCoins({
     days: 7,
+    networks,
   });
 
   const columns = useMemo<Array<MobileTableColumn<WhaleRadarCoin>>>(

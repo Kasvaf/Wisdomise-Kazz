@@ -12,10 +12,12 @@ import { TableRank } from 'shared/TableRank';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
 
 export const SocialRadarTable: FC<{
-  onClick?: (coin: SocialRadarCoin) => void;
-}> = ({ onClick }) => {
+  onClick: (coin: SocialRadarCoin) => void;
+  networks: string[];
+}> = ({ onClick, networks }) => {
   const coins = useSocialRadarCoins({
     windowHours: 24,
+    networks,
   });
 
   const columns = useMemo<Array<MobileTableColumn<SocialRadarCoin>>>(

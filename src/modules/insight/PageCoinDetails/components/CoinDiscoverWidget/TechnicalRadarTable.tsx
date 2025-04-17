@@ -8,9 +8,10 @@ import { TableRank } from 'shared/TableRank';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
 
 export const TechnicalRadarTable: FC<{
-  onClick?: (coin: TechnicalRadarCoin) => void;
-}> = ({ onClick }) => {
-  const coins = useTechnicalRadarCoins({});
+  onClick: (coin: TechnicalRadarCoin) => void;
+  networks: string[];
+}> = ({ onClick, networks }) => {
+  const coins = useTechnicalRadarCoins({ networks });
 
   const columns = useMemo<Array<MobileTableColumn<TechnicalRadarCoin>>>(
     () => [
