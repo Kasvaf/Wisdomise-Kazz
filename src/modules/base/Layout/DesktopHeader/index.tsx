@@ -33,7 +33,6 @@ const DesktopHeader: React.FC<{
             <Logo className="tablet:hidden" />
             <LogoIcon className="hidden tablet:block" />
           </NavLink>
-          <div className="h-8 w-px bg-white/10" />
           <div className="-ml-4 flex h-12 items-stretch">
             <MenuItems horizontal itemsClassName="px-4" />
           </div>
