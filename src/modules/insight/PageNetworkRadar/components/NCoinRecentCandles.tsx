@@ -24,6 +24,7 @@ export const NCoinRecentCandles: FC<
     ).toISOString(),
     resolution: '1m',
     exchange: 'Raydium',
+    skip_empty_candles: true,
   });
 
   return (

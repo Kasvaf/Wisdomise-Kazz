@@ -5,7 +5,7 @@ common:
   buy_sell: TXNS
   buy_vol: Buy Vol
   contract_address: Contract Address
-  created: Created
+  created: Age
   initial_liquidity: Initial Liquidity
   liquidity: Liquidity
   marketcap: Market Cap
