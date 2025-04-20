@@ -5,7 +5,7 @@ import { useSymbolInfo } from 'api/symbol';
 import { type Coin as CoinType } from 'api/types/shared';
 import { gtmClass } from 'utils/gtmClass';
 import useIsMobile from 'utils/useIsMobile';
-import { DISCOVER_TABS } from 'modules/insight/PageCoinDetails/components/CoinDiscoverWidget/CoinDiscoverTabs';
+import useMenuItems from 'modules/base/Layout/MenuItems/useMenuItems';
 import NetworkIcon from './NetworkIcon';
 
 export function CoinLogo({
@@ -79,12 +79,13 @@ export function Coin({
 
   const { pathname } = useLocation();
 
+  const { items } = useMenuItems();
   const href = useMemo(() => {
-    const discoverTab = DISCOVER_TABS.find(tab => pathname.includes(tab));
+    const discoverTab = items.find(tab => pathname.includes(tab.link));
     return `/coin/${coin.slug}${
-      discoverTab ? `?discoverTab=${discoverTab}` : ''
+      discoverTab ? `?discoverTab=${discoverTab.name}` : ''
     }`;
-  }, [pathname, coin]);
+  }, [items, coin.slug, pathname]);
 
   useSymbolInfo('the-open-network');
   const content = (
