@@ -1,5 +1,5 @@
-import { useMemo, type PropsWithChildren } from 'react';
-import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
+import { useMemo, useState, type PropsWithChildren } from 'react';
+import { THEME, TonConnect, TonConnectUIProvider } from '@tonconnect/ui-react';
 import {
   ConnectionProvider,
   WalletProvider as SolWalletProvider,
@@ -52,9 +52,16 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [tonConnector] = useState(
+    new TonConnect({
+      manifestUrl: 'https://wisdomise.com/tonconnect-manifest.json',
+      walletsListSource: '/ton-wallets.json',
+    }),
+  );
+
   return (
     <TonConnectUIProvider
-      manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
+      connector={tonConnector}
       uiPreferences={{ theme: THEME.DARK }}
       actionsConfiguration={{
         twaReturnUrl: TELEGRAM_BOT_BASE_URL,
