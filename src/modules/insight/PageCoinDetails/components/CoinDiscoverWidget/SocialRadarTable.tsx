@@ -1,11 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
 import { Coin } from 'shared/Coin';
-import {
-  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
-  type SocialRadarCoin,
-  useSocialRadarCoins,
-} from 'api';
+import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
@@ -26,13 +22,7 @@ export const SocialRadarTable: FC<{
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => (
-          <TableRank
-            highlighted={
-              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-            }
-          >
-            {row.rank}
-          </TableRank>
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
       },
       {

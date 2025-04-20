@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { FetchError } from 'ofetch';
 import { ofetch } from 'config/ofetch';
+import { isDebugMode } from 'utils/version';
 import { resolvePageResponseToArray } from '../utils';
 import {
   type NetworkSecurity,
@@ -10,6 +11,7 @@ import {
 } from '../types/shared';
 import { createSorter, matcher } from './utils';
 
+export const MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE = isDebugMode ? 15 : 18;
 export interface RsiOvernessRow {
   candle_pair_name: string;
   candle_base_abbreviation: string;
@@ -283,6 +285,7 @@ export type TechnicalRadarCoin = IndicatorConfirmation<'macd'> &
         value: number;
       }>;
     };
+    _highlighted?: boolean;
   };
 
 export const useTechnicalRadarCoins = (config: {
@@ -329,6 +332,15 @@ export const useTechnicalRadarCoins = (config: {
           if (config.sortBy === 'market_cap')
             return sorter(a.data?.market_cap, b.data?.market_cap);
           return sorter(a.rank, b.rank);
+        })
+        .map(row => {
+          if ((row.score ?? 0) > MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE) {
+            return {
+              ...row,
+              _highlighted: true,
+            };
+          }
+          return row;
         });
     },
     meta: {
@@ -354,6 +366,7 @@ export interface TechnicalRadarSentiment {
       value: number;
     }>;
   };
+  wise_score?: number | null;
 }
 export const useTechnicalRadarSentiment = ({ slug }: { slug: string }) =>
   useQuery({

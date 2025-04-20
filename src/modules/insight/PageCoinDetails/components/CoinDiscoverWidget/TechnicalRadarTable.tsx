@@ -18,7 +18,9 @@ export const TechnicalRadarTable: FC<{
       {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => <TableRank>{row.rank}</TableRank>,
+        render: row => (
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
+        ),
       },
       {
         key: 'coin',

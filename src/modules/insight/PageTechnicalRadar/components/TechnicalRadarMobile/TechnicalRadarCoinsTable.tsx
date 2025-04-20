@@ -9,6 +9,7 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { TableRank } from 'shared/TableRank';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
 
@@ -35,7 +36,9 @@ export const TechnicalRadarCoinsTable: FC<{
       {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => row.rank,
+        render: row => (
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
+        ),
       },
       {
         key: 'coin',

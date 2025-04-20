@@ -4,12 +4,7 @@ import { type ColumnType } from 'antd/es/table';
 import { Trans, useTranslation } from 'react-i18next';
 import Table from 'shared/Table';
 import { Coin } from 'shared/Coin';
-import {
-  type CoinRadarCoin,
-  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
-  useCoinRadarCoins,
-  useHasFlag,
-} from 'api';
+import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
 import { DebugPin } from 'shared/DebugPin';
@@ -46,14 +41,7 @@ export function CoinRadarTable({ className }: { className?: string }) {
         title: t('table.rank'),
         key: 'rank',
         render: (_, row) => (
-          <TableRank
-            highlighted={
-              (row.social_radar_insight?.wise_score ?? 0) >=
-              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-            }
-          >
-            {row.rank}
-          </TableRank>
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
         width: 50,
       },
