@@ -28,8 +28,7 @@ balance:
 connect-wallet:
   billing:
     title: Connect Your Wallet
-    description: >-
-      Connect your wallet to start staking and access the Wise Club.
+    description: Connect your wallet to start staking and access the Wise Club.
   connect: Connect Wallet
   current-wallet: current wallet address
   disconnect: Disconnect
