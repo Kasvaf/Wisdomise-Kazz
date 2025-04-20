@@ -9,6 +9,7 @@ import { roundSensible } from 'utils/numbers';
 import Spin from 'shared/Spin';
 import BtnSwapPlaces from './BtnSwapPlaces';
 import { type SwapState } from './useSwapState';
+import useActionHandlers from './useActionHandlers';
 
 const NET_ABR = {
   'solana': 'SOL',
@@ -30,6 +31,8 @@ const QuickSwapForm: React.FC<{
     setToPrice,
   } = state;
   const selectedNetAbr = NET_ABR[selectedNet];
+  const { ModalApproval, firePosition, isEnabled, isSubmitting } =
+    useActionHandlers(state);
 
   return (
     <div className="flex flex-col">
@@ -173,7 +176,15 @@ const QuickSwapForm: React.FC<{
         </div>
       </div>
       <div className="min-h-8 grow" />
-      <Button variant="primary">Swap</Button>
+      <Button
+        variant="primary"
+        loading={isSubmitting}
+        disabled={!isEnabled}
+        onClick={firePosition}
+      >
+        Swap
+      </Button>
+      {ModalApproval}
     </div>
   );
 };

@@ -264,10 +264,13 @@ export function useTraderPositionsQuery({
 }
 
 export interface CreatePositionRequest {
+  mode?: 'BUY_AND_SELL' | 'BUY_AND_HOLD' | 'SELL_AND_HOLD';
   signal: Signal;
   withdraw_address: string;
-  quote_slug: string;
-  quote_amount: string;
+  quote_slug?: string;
+  quote_amount?: string;
+  base_slug?: string;
+  base_amount?: string;
   network: SupportedNetworks;
 }
 

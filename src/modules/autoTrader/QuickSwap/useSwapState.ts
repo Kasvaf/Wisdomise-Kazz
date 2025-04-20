@@ -86,6 +86,9 @@ const useSwapState = () => {
     from,
     to,
 
+    quoteAmount,
+    baseAmount,
+
     dir,
     swapFromTo: useCallback(
       () => setDir(dir => (dir === 'buy' ? 'sell' : 'buy')),
