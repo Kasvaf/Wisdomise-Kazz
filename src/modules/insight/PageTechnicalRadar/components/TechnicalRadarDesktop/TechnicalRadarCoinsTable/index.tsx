@@ -146,15 +146,12 @@ export const TechnicalRadarCoinsTable: FC = () => {
       />
 
       <AccessShield
-        disable={false}
         mode="table"
         sizes={{
-          'guest': true,
-          'initial': true,
-          'free': true,
-          'pro': false,
-          'pro+': false,
-          'pro_max': false,
+          guest: true,
+          initial: true,
+          free: true,
+          vip: false,
         }}
       >
         <Table

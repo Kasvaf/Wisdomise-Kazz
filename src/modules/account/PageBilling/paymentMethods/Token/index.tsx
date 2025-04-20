@@ -106,9 +106,7 @@ export default function TokenPaymentModalContent({
               </p>
             </div>
 
-            <div className="mt-6 bg-pro-gradient bg-clip-text text-3xl font-semibold text-transparent">
-              {plan.name}
-            </div>
+            <div className="mt-6 text-3xl font-semibold">{plan.name}</div>
           </div>
         </div>
         <div className="col-span-12 flex flex-col items-center justify-center lg:col-span-6">

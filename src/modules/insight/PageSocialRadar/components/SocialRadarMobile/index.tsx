@@ -124,15 +124,12 @@ export const SocialRadarMobile = () => {
         surface={1}
       />
       <AccessShield
-        disable={false}
         mode="mobile_table"
         sizes={{
-          'guest': true,
-          'initial': true,
-          'free': true,
-          'pro': false,
-          'pro+': false,
-          'pro_max': false,
+          guest: true,
+          initial: true,
+          free: true,
+          vip: false,
         }}
       >
         <MobileTable

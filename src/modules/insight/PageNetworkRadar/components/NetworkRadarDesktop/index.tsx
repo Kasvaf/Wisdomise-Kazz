@@ -197,12 +197,10 @@ export function NetworkRadarDesktop({ className }: { className?: string }) {
       <AccessShield
         mode="table"
         sizes={{
-          'guest': true,
-          'initial': 3,
-          'free': 3,
-          'pro': false,
-          'pro+': false,
-          'pro_max': false,
+          guest: false,
+          initial: false,
+          free: false,
+          vip: false,
         }}
       >
         <Table

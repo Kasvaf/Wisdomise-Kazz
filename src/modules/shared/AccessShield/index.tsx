@@ -100,12 +100,10 @@ export function AccessShield({
   className,
   mode,
   sizes,
-  disable = true,
 }: PropsWithChildren<{
   className?: string;
   mode: 'table' | 'mobile_table' | 'children';
   sizes: Record<UserGroup, number | boolean>;
-  disable?: boolean;
 }>) {
   const { t } = useTranslation('pro');
   const { ensureGroup, group, loginModal } = useSubscription();
@@ -115,9 +113,9 @@ export function AccessShield({
   const nextGroup = useMemo<UserGroup | undefined>(() => {
     const sizeNumber = calcSize(size);
     if (sizeNumber === 0) return;
-    const groups: UserGroup[] = ['guest', 'initial', 'pro', 'pro+', 'pro_max'];
+    const groups: UserGroup[] = ['guest', 'initial', 'vip'];
     const allowdGroup = groups.find(x => calcSize(sizes[x]) === 0);
-    return allowdGroup ?? 'pro_max';
+    return allowdGroup ?? 'vip';
   }, [sizes, size]);
 
   const { root, shield, height, maxHeight, isReady } = useShield(mode, size);
@@ -138,7 +136,6 @@ export function AccessShield({
               'flex flex-col items-center backdrop-blur',
               'bg-[rgba(29,38,47,0.2)]',
               !isReady && 'hidden',
-              disable && '!hidden',
             )}
             ref={shield}
           >
@@ -166,7 +163,7 @@ export function AccessShield({
               disabled={!isDebugMode}
             >
               <Button
-                onClick={() => ensureGroup(nextGroup ?? 'pro_max')}
+                onClick={() => ensureGroup(nextGroup ?? 'vip')}
                 variant="pro"
                 size="sm"
                 className="shrink-0"

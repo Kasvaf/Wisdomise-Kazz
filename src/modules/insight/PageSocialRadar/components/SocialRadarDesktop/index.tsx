@@ -236,15 +236,12 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         surface={3}
       />
       <AccessShield
-        disable={false}
         mode="table"
         sizes={{
-          'guest': true,
-          'initial': true,
-          'free': true,
-          'pro': false,
-          'pro+': false,
-          'pro_max': false,
+          guest: true,
+          initial: true,
+          free: true,
+          vip: false,
         }}
       >
         <Table

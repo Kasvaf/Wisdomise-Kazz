@@ -9,18 +9,14 @@ import { useAccountQuery } from './account';
 export type UserGroup =
   | 'guest' // user is not logged in
   | 'initial' // user has no sub
-  | 'free' // user has no sub, but had before (trial ended / sub canceled)
-  | 'pro'
-  | 'pro+'
-  | 'pro_max';
+  | 'free' // user has no sub, but had before (sub canceled)
+  | 'vip';
 
 const LEVELS: Record<UserGroup, number> = {
-  'guest': -2,
-  'initial': -1,
-  'free': 0,
-  'pro': 1,
-  'pro+': 2,
-  'pro_max': 3,
+  guest: -2,
+  initial: -1,
+  free: 0,
+  vip: 1,
 };
 
 export function useSubscription() {
@@ -40,11 +36,9 @@ export function useSubscription() {
 
   const group: UserGroup = (() => {
     if (!isLoggedIn) return 'guest';
-    if (isMiniApp) return 'pro_max';
+    if (isMiniApp) return 'vip';
     if (status === 'active' || status === 'trialing' || status === 'past_due') {
-      if (level === 1) return 'pro';
-      if (level === 2) return 'pro+';
-      if (level === 3) return 'pro_max';
+      if (level === 1) return 'vip';
       return 'initial';
     }
     return 'free';
