@@ -24,9 +24,9 @@ export const CoinDetailsMobile: FC<{ slug: string }> = ({ slug }) => {
     <div className="flex flex-col gap-3">
       <LowLiquidityWarningBanner slug={slug} />
       <CoinTitleWidget slug={slug} className="bg-v1-surface-l-current" hr />
+      <BtnAutoTrade slug={slug} block className="w-full" variant="primary" />
       <CoinSentimentsWidget slug={slug} />
       <NCoinSentimentWidget slug={slug} />
-      <BtnAutoTrade slug={slug} block className="w-full" variant="outline" />
       <CoinStatsWidget slug={slug} />
       <NCoinStatsWidget slug={slug} />
       <CoinChart slug={slug} height={420} />
