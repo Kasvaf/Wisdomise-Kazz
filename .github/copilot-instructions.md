@@ -1,0 +1,12 @@
+- Follow React.js patterns and best practices.
+- Follow AirBnB style guide for code formatting.
+- modularize components into smaller, reusable pieces
+- use functional components defined with const and default exported instead of class components
+- use hooks for state management
+- use Tailwind CSS (v3) for styling
+- Use Antd UI for components.
+- Use tanstack query and ofetch for api requests handling
+- use dayjs for date/time handling
+- Use PascalCase when creating new React files. UserCard, not user-card.
+- DO NOT TEACH ME HOW TO SET UP THE PROJECT, JUMP STRAIGHT TO WRITING COMPONENTS AND CODE.
+- Whenever asked a question, please provide concise answers. Don't explain obvious concepts. You can assume that I am knowledgeable about the stacks I use.

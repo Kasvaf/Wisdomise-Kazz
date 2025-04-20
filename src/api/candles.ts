@@ -167,6 +167,7 @@ export const useCandlesBySlugs = (userConfig: {
   resolution?: Resolution;
   start?: string;
   end?: string;
+  skip_empty_candles?: boolean;
 }) => {
   const now = Date.now();
   const yesterday = now - 1000 * 60 * 60 * 24;

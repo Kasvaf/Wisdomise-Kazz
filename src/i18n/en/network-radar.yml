@@ -3,7 +3,7 @@ common:
   address: Address
   buy_sell: TXNS
   contract_address: Contract Address
-  created: Created
+  created: Age
   initial_liquidity: Initial Liquidity
   liquidity: Liquidity
   marketcap: Market Cap
