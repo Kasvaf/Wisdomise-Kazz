@@ -3,7 +3,7 @@ import { DrawerModal } from 'shared/DrawerModal';
 import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { type QuickSwapInputs } from './types';
-import QuickSwap from './QuickSwap';
+import QuickSwapForm from './QuickSwapForm';
 
 type DrawerInputs = Omit<QuickSwapInputs, 'quote' | 'setQuote'>;
 
@@ -24,7 +24,7 @@ export default function useQuickSwapDrawer() {
       >
         {inputs && open && (
           <ActiveNetworkProvider base={inputs.slug} quote={quote}>
-            <QuickSwap quote={quote} setQuote={setQuote} {...inputs} />
+            <QuickSwapForm quote={quote} setQuote={setQuote} {...inputs} />
           </ActiveNetworkProvider>
         )}
       </DrawerModal>

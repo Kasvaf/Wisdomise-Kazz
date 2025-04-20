@@ -6,23 +6,36 @@ import type { Coin as CoinType } from 'api/types/shared';
 import { CoinLogo } from 'shared/Coin';
 import { Select } from 'shared/v1-components/Select';
 
+type CoinListHook = (params: { query: string }) => {
+  data?: CoinType[];
+  isLoading: boolean;
+};
+
+interface CoinSelectProps
+  extends Omit<
+    ComponentProps<typeof Select<string, false>>,
+    | 'render'
+    | 'onSearch'
+    | 'options'
+    | 'loading'
+    | 'showSearch'
+    | 'searchValue'
+    | 'multiple'
+  > {
+  useCoinList?: CoinListHook;
+  noSearch?: boolean;
+}
+
 export function CoinSelect({
   size,
   value,
+  noSearch,
+  useCoinList = useCoins,
   ...props
-}: Omit<
-  ComponentProps<typeof Select<string, false>>,
-  | 'render'
-  | 'onSearch'
-  | 'options'
-  | 'loading'
-  | 'showSearch'
-  | 'searchValue'
-  | 'multiple'
->) {
+}: CoinSelectProps) {
   const [query, setQuery] = useState('');
   const q = useDebounce(query, 400);
-  const coinList = useCoins({ query: q });
+  const coinList = useCoinList({ query: q });
 
   const coin = useCoinDetails({ slug: value });
 
@@ -40,7 +53,7 @@ export function CoinSelect({
     <Select
       {...props}
       multiple={false}
-      showSearch
+      showSearch={noSearch !== false}
       searchValue={query}
       onSearch={setQuery}
       loading={coinList.isLoading || coin.isLoading}

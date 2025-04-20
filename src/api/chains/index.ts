@@ -2,6 +2,7 @@ import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
+import { useSymbolsInfo } from 'api/symbol';
 import {
   type AutoTraderSolanaSupportedQuotes,
   useAwaitSolanaWalletConnection,
@@ -134,4 +135,18 @@ export const useTransferAssetsMutation = (quote: AutoTraderSupportedQuotes) => {
   return () => {
     throw new Error('Invalid network');
   };
+};
+
+export const useSupportedQuotesSymbols = () => {
+  const quotes = [
+    'tether',
+    'usd-coin',
+    'wrapped-solana',
+    'the-open-network',
+  ] satisfies AutoTraderSupportedQuotes[];
+  type AssertAllQuotes =
+    AutoTraderSupportedQuotes extends (typeof quotes)[number]
+      ? readonly AutoTraderSupportedQuotes[]
+      : never;
+  return useSymbolsInfo(quotes satisfies AssertAllQuotes);
 };
