@@ -79,7 +79,7 @@ export default function TokenPaymentModalContent({
           },
         ]}
       />
-      <div className="grid grid-cols-12 md:mt-40">
+      <div className="grid grid-cols-12 md:mt-20">
         <div className="col-span-12 flex h-full flex-col items-center justify-center lg:col-span-6">
           <div className="mb-8 mobile:w-full mobile:px-8">
             <div className="flex items-center gap-4">
@@ -119,7 +119,9 @@ export default function TokenPaymentModalContent({
                 <p className="mb-6 text-2xl font-medium">
                   {t('token-modal.congratulations')}
                 </p>
-                <p className="font-medium text-white/60">VIP Club Activated!</p>
+                <p className="font-medium text-white/60">
+                  Wise Club Activated!
+                </p>
               </div>
 
               <Button

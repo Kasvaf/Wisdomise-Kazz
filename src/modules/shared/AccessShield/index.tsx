@@ -154,7 +154,7 @@ export function AccessShield({
             >
               {group === 'guest'
                 ? t('pro-locker.login.message')
-                : 'Join VIP Club for exclusive insights to elevate your crypto game!'}
+                : 'Join Wise Club for exclusive insights to elevate your crypto game!'}
             </p>
 
             <HoverTooltip
@@ -174,7 +174,7 @@ export function AccessShield({
                 <Sparkle />
                 {group === 'guest'
                   ? t('pro-locker.login.button')
-                  : 'Join VIP Club'}
+                  : 'Join Wise Club'}
               </Button>
             </HoverTooltip>
             {loginModal}

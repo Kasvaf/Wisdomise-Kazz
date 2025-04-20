@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import type { ColumnType } from 'antd/es/table';
 import { Table } from 'antd';
+import { clsx } from 'clsx';
 import { ReactComponent as Check } from './images/check2.svg';
 import vipBg from './images/vip-bg.png';
 
-export function FeaturesTable() {
+export function FeaturesTable({ className }: { className?: string }) {
   const datasource = [
     { feature: 'Whale Radar', free: <Check />, vip: <Check /> },
     { feature: 'Radar +', free: <Check />, vip: <Check /> },
@@ -64,12 +65,16 @@ export function FeaturesTable() {
   );
 
   return (
-    <div className="relative w-full max-w-[40rem] overflow-hidden">
+    <div
+      className={clsx(
+        'relative w-full max-w-[40rem] overflow-hidden',
+        className,
+      )}
+    >
       <h2 className="mb-2 text-3xl mobile:text-xl">Compare Tires & Features</h2>
       <hr className="mb-12 border-v1-border-primary mobile:mb-6" />
       <Table
-        className="[&_ant-table-thead]:!font-semibold [&_ant-table-thead]:text-v1-content-primary"
-        rowClassName="!border-b !border-yellow-500"
+        className="[&_.ant-table-cell]:!rounded-none [&_.ant-table-cell]:!border-b [&_.ant-table-cell]:border-v1-border-secondary"
         columns={columns}
         dataSource={datasource}
         pagination={false}

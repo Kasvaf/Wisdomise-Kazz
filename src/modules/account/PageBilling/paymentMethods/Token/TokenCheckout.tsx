@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
 import { useCallback, useEffect } from 'react';
 import { notification } from 'antd';
-import Button from 'shared/Button';
+import { useDisconnect } from 'wagmi';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
 import { type SubscriptionPlan } from 'api/types/subscription';
@@ -16,6 +16,7 @@ import useModal from 'shared/useModal';
 import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymentMethods/Token/TransactionConfirmedModalContent';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 import { unwrapErrorMessage } from 'utils/error';
+import { Button } from 'shared/v1-components/Button';
 
 interface Props {
   countdown: number;
@@ -48,6 +49,7 @@ export default function TokenCheckout({
     closable: false,
     maskClosable: false,
   });
+  const { disconnect } = useDisconnect();
 
   useEffect(() => {
     void showModal({});
@@ -97,11 +99,19 @@ export default function TokenCheckout({
 
   return (
     <Card className="flex flex-col items-center gap-6 text-center">
-      <h3 className="flex w-full items-center justify-between text-xl">
+      <h3 className="flex w-full items-center justify-between gap-2 text-xl">
         {plan.name}
         <Button
-          className="mt-2 !p-2"
-          variant="secondary"
+          size="xs"
+          className="ml-auto"
+          variant="outline"
+          onClick={() => disconnect()}
+        >
+          Disconnect
+        </Button>
+        <Button
+          size="xs"
+          variant="outline"
           disabled={balanceIsLoading}
           onClick={() => updateBalance()}
         >
@@ -160,7 +170,7 @@ export default function TokenCheckout({
               <br />
               increase your stake up to 1,000$ to has access to all over product
               <br />
-              (Stake {addComma(stakeRemaining)} More $WSDM to Access VIP club)
+              (Stake {addComma(stakeRemaining)} More $WSDM to Access Wise club)
             </span>
           )}
         </div>
@@ -168,17 +178,15 @@ export default function TokenCheckout({
       <div className="max-w-[18rem]">
         {canSubscribe ? (
           <Button
-            variant="primary-purple"
             disabled={isLoading}
             loading={isLoading}
             onClick={activate}
             className="mb-6 w-full"
           >
-            Activate VIP Club
+            Activate Wise Club
           </Button>
         ) : canStake ? (
           <Button
-            variant="primary-purple"
             disabled={isLoading}
             loading={isLoading}
             onClick={lock}

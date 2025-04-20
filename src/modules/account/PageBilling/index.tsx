@@ -61,46 +61,48 @@ export default function PageBilling() {
             className="absolute top-0 mobile:top-40 md:w-1/2"
             alt=""
           />
-          <h1 className="mt-10 text-center text-3xl font-semibold mobile:text-2xl">
-            Join{' '}
-            <span className="bg-wsdm-gradient bg-clip-text text-transparent">
-              WSDM
-            </span>{' '}
-            Club for{' '}
-            <span className="bg-pro-gradient bg-clip-text text-transparent">
-              VIP
-            </span>{' '}
-            benefits
-          </h1>
-          <p className="mt-3 text-center text-v1-content-secondary mobile:text-sm">
-            Stake <span className="text-v1-content-primary">$WSDM</span>, Unlock
-            Alpha Signals, and Farm{' '}
-            <span className="text-v1-content-primary">50%</span> of Platform
-            Revenue Monthly — Straight Degen Passive Income.
-          </p>
-          <h2 className="mt-12 text-2xl mobile:text-xl">
-            Stake & farm the bag{' '}
-            <img
-              src={bag}
-              alt="baf"
-              className="inline-block size-8 mobile:size-6"
-            />
-          </h2>
-          <Button
-            variant="wsdm"
-            onClick={onLockClick}
-            className="mb-28 mt-4 w-80"
-          >
-            <DebugPin
-              title="/account/billing?payment_method=lock"
-              color="orange"
-            />
-            Stake Now
-            <Arrow />
-          </Button>
-          {tokenPaymentModal}
-          {ModalLogin}
-          <FeaturesTable />
+          <div className="relative flex flex-col items-center">
+            <h1 className="mt-10 text-center text-3xl font-semibold mobile:text-2xl">
+              Join{' '}
+              <span className="bg-wsdm-gradient bg-clip-text text-transparent">
+                Wise
+              </span>{' '}
+              Club for{' '}
+              <span className="bg-pro-gradient bg-clip-text text-transparent">
+                VIP
+              </span>{' '}
+              benefits
+            </h1>
+            <p className="mt-3 text-center text-v1-content-secondary mobile:text-sm">
+              Stake <span className="text-v1-content-primary">$WSDM</span>,
+              Unlock Alpha Signals, and Farm{' '}
+              <span className="text-v1-content-primary">50%</span> of Platform
+              Revenue Monthly — Straight Degen Passive Income.
+            </p>
+            <h2 className="mt-12 text-2xl mobile:text-xl">
+              Stake & farm the bag{' '}
+              <img
+                src={bag}
+                alt="baf"
+                className="inline-block size-8 mobile:size-6"
+              />
+            </h2>
+            <Button
+              variant="wsdm"
+              onClick={onLockClick}
+              className="mb-20 mt-4 w-80"
+            >
+              <DebugPin
+                title="/account/billing?payment_method=lock"
+                color="orange"
+              />
+              Stake Now
+              <Arrow />
+            </Button>
+            {tokenPaymentModal}
+            {ModalLogin}
+            <FeaturesTable className="mb-10" />
+          </div>
         </div>
       ) : (
         <SubscriptionDetail />

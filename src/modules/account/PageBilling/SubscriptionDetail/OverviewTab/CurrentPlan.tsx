@@ -46,7 +46,7 @@ export default function CurrentPlan() {
         </div>
         {paymentMethod === 'TOKEN' ? (
           <div>
-            You will have access to VIP club until you have more than $1000
+            You will have access to Wise club until you have more than $1000
             staked
           </div>
         ) : (
