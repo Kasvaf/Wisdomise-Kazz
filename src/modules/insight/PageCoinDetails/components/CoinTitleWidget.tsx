@@ -55,13 +55,13 @@ export const CoinTitleWidget: FC<{
         {symbol ? (
           <>
             <div className="flex items-center justify-start gap-2 mobile:w-full mobile:flex-wrap">
-              <CoinLogo coin={symbol} className="size-7" />
+              <CoinLogo coin={symbol} className="size-10" />
               <div className="flex flex-col justify-between gap-1">
                 <div className="flex items-center gap-1">
-                  <p className="text-xs font-medium">
+                  <p className="text-base font-medium">
                     {symbol.abbreviation ?? '---'}
                   </p>
-                  <p className="text-xxs text-v1-content-secondary">
+                  <p className="text-xs text-v1-content-secondary">
                     {symbol.name ?? '---'}
                   </p>
                   <CoinLabels
@@ -86,7 +86,7 @@ export const CoinTitleWidget: FC<{
                 <div className="flex items-center gap-1">
                   {contactAddresses.length === 1 && (
                     <>
-                      <div className="flex items-center gap-1 text-xxs text-v1-content-secondary">
+                      <div className="flex items-center gap-1 text-xs text-v1-content-secondary">
                         {shortenAddress(contactAddresses[0])}
                         <Icon
                           name={bxsCopy}
@@ -125,7 +125,7 @@ export const CoinTitleWidget: FC<{
                       ...contactAddresses,
                     ].join('%20OR%20')})&src=typed_query&f=live`}
                     className={clsx(
-                      'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xxs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
+                      'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
                       'h-[18px] shrink-0 justify-center',
                       '[&_svg]:size-[12px]',
                     )}
@@ -140,7 +140,7 @@ export const CoinTitleWidget: FC<{
                   {isNCoin && isDebugMode && (
                     <>
                       <span className="size-[2px] rounded-full bg-white" />
-                      <span className="text-xxs text-v1-content-positive">
+                      <span className="text-xs text-v1-content-positive">
                         {'TODO: Dev'}
                       </span>
                     </>
@@ -163,7 +163,7 @@ export const CoinTitleWidget: FC<{
                 <div className="flex items-center justify-start gap-4 mobile:w-full mobile:justify-between mobile:gap-2">
                   <div className="h-4 w-px bg-white/10 mobile:hidden" />
                   <div className="flex flex-col justify-between">
-                    <p className="text-xxs text-v1-content-secondary">
+                    <p className="text-xs text-v1-content-secondary">
                       {t('common.buy_sell')}
                       {' (24h)'}
                     </p>
@@ -172,19 +172,19 @@ export const CoinTitleWidget: FC<{
                         buys: nCoin.data?.update?.total_num_buys,
                         sells: nCoin.data?.update?.total_num_sells,
                       }}
-                      className="text-xxs"
+                      className="text-xs"
                       imgClassName="size-4"
                     />
                   </div>
                   <div className="h-4 w-px bg-white/10" />
                   <div className="flex flex-col justify-between">
-                    <p className="text-xxs text-v1-content-secondary">
+                    <p className="text-xs text-v1-content-secondary">
                       {t('common.volume')}
                       {' (24h)'}
                     </p>
                     <ReadableNumber
                       value={nCoin.data.update.total_trading_volume.usd}
-                      className="text-xxs"
+                      className="text-xs"
                       label="$"
                       popup="never"
                     />
@@ -193,16 +193,16 @@ export const CoinTitleWidget: FC<{
                     <>
                       <div className="h-4 w-px bg-white/10" />
                       <div className="flex flex-col justify-between">
-                        <p className="text-xxs text-v1-content-secondary">
+                        <p className="text-xs text-v1-content-secondary">
                           {t('common.risk')}
                         </p>
-                        <span className="text-xxs">{'TODO: Risks'}</span>
+                        <span className="text-xs">{'TODO: Risks'}</span>
 
                         {/* TODO Risk */}
                       </div>
 
                       <div className="h-4 w-px bg-white/10" />
-                      <span className="text-xxs">{'TODO: Rugged'}</span>
+                      <span className="text-xs">{'TODO: Rugged'}</span>
                       {/* TODO Rugged */}
                     </>
                   )}
@@ -219,13 +219,13 @@ export const CoinTitleWidget: FC<{
                   }
                   label="$"
                   direction="up"
-                  className="text-xs mobile:text-lg"
+                  className="text-sm mobile:text-lg"
                   showIcon={false}
                   showSign={false}
                 />
                 {coin.data?.data?.price_change_percentage_24h && (
                   <DirectionalNumber
-                    className="text-xxs"
+                    className="text-xs"
                     value={coin.data?.data?.price_change_percentage_24h}
                     label="%"
                     showSign
