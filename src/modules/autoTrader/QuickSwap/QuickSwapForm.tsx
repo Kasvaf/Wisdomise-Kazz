@@ -1,20 +1,14 @@
-import { useState } from 'react';
-import { useLastPriceQuery, useSupportedNetworks } from 'api';
-import {
-  useAccountBalance,
-  useSupportedQuotesSymbols,
-  type AutoTraderSupportedQuotes,
-} from 'api/chains';
+import { type AutoTraderSupportedQuotes } from 'api/chains';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as WalletIcon } from 'modules/base/wallet/wallet-icon.svg';
 import { Coin } from 'shared/Coin';
-import { useSymbolInfo } from 'api/symbol';
 import AmountInputBox from 'shared/AmountInputBox';
 import { Toggle } from 'shared/Toggle';
 import { CoinSelect } from 'shared/CoinSelect';
 import { roundSensible } from 'utils/numbers';
 import Spin from 'shared/Spin';
 import BtnSwapPlaces from './BtnSwapPlaces';
+import { type SwapState } from './useSwapState';
 
 const NET_ABR = {
   'solana': 'SOL',
@@ -22,67 +16,20 @@ const NET_ABR = {
 };
 
 const QuickSwapForm: React.FC<{
-  slug: string;
-  quote: AutoTraderSupportedQuotes;
-  setQuote: (newVal: AutoTraderSupportedQuotes) => void;
+  state: SwapState;
   className?: string;
-}> = ({ slug, quote, setQuote }) => {
-  const [dir, setDir] = useState<'buy' | 'sell'>('buy');
-  const { data: baseInfo } = useSymbolInfo(slug);
-  const { data: quoteInfo } = useSymbolInfo(quote);
-  const [isMarketPrice, setIsMarketPrice] = useState(true);
-  const [price, setPrice] = useState('5');
-  const [quoteAmount, setQuoteAmount] = useState('100');
-  const [baseAmount, setBaseAmount] = useState('100');
-  const networks = useSupportedNetworks(slug, quote);
-  const selectedNet = networks?.[0] ?? 'solana';
+}> = ({ state }) => {
+  const {
+    selectedNet,
+    from,
+    to,
+    swapFromTo,
+    isMarketPrice,
+    setIsMarketPrice,
+    toPrice,
+    setToPrice,
+  } = state;
   const selectedNetAbr = NET_ABR[selectedNet];
-
-  const { data: quoteBalance } = useAccountBalance(quote, selectedNet);
-
-  const { data: assetPriceByQuote } = useLastPriceQuery({
-    slug,
-    quote,
-    convertToUsd: false,
-  });
-
-  const { data: assetPrice } = useLastPriceQuery({
-    slug,
-    quote,
-    convertToUsd: true,
-  });
-
-  const { data: quotePrice } = useLastPriceQuery({
-    slug: quote,
-    convertToUsd: true,
-  });
-
-  const quoteFields = {
-    balance: quoteBalance,
-    coin: quote as string,
-    coinInfo: quoteInfo,
-    setCoin: setQuote,
-    useCoinList: useSupportedQuotesSymbols,
-    amount: quoteAmount,
-    setAmount: setQuoteAmount,
-    price: quotePrice,
-    priceByOther:
-      assetPriceByQuote === undefined ? undefined : 1 / assetPriceByQuote,
-  };
-  const baseFields = {
-    balance: 0,
-    coin: slug,
-    coinInfo: baseInfo,
-    setCoin: undefined,
-    useCoinList: undefined,
-    amount: baseAmount,
-    setAmount: setBaseAmount,
-    price: assetPrice,
-    priceByOther: assetPriceByQuote,
-  };
-
-  const from = dir === 'buy' ? quoteFields : baseFields;
-  const to = dir === 'buy' ? baseFields : quoteFields;
 
   return (
     <div className="flex flex-col">
@@ -132,10 +79,7 @@ const QuickSwapForm: React.FC<{
           </div>
         </div>
 
-        <BtnSwapPlaces
-          className="relative z-10 -my-3"
-          onClick={() => setDir(dir => (dir === 'buy' ? 'sell' : 'buy'))}
-        />
+        <BtnSwapPlaces className="relative z-10 -my-3" onClick={swapFromTo} />
 
         <div className="rounded-lg bg-v1-surface-l3 p-3">
           <div className="flex justify-between text-xs text-v1-content-secondary">
@@ -194,7 +138,7 @@ const QuickSwapForm: React.FC<{
             <div className="text-v1-content-secondary">
               {to.priceByOther ? (
                 <>
-                  1 {quoteInfo?.abbreviation} ≈{' '}
+                  1 {from.coinInfo?.abbreviation} ≈{' '}
                   {roundSensible(1 / to.priceByOther)}{' '}
                   {to.coinInfo?.abbreviation}
                 </>
@@ -219,7 +163,11 @@ const QuickSwapForm: React.FC<{
               <div className="text-v1-content-secondary">
                 % Under the Market Price (Stop Market)
               </div>
-              <AmountInputBox value={price} onChange={setPrice} suffix="%" />
+              <AmountInputBox
+                value={toPrice}
+                onChange={setToPrice}
+                suffix="%"
+              />
             </>
           )}
         </div>
