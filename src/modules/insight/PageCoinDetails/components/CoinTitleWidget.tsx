@@ -47,7 +47,7 @@ export const CoinTitleWidget: FC<{
     <>
       <div
         className={clsx(
-          'flex items-center  gap-1 overflow-auto whitespace-nowrap mobile:flex-col',
+          'flex items-center gap-1 overflow-auto whitespace-nowrap mobile:flex-col',
           symbol ? 'justify-between' : 'justify-center',
           className,
         )}
@@ -108,8 +108,8 @@ export const CoinTitleWidget: FC<{
                           href={social.href}
                           className={clsx(
                             'inline-flex items-center gap-1 rounded-full bg-white/10 text-xs text-white/70 transition-all hover:brightness-110 active:brightness-90',
-                            'size-3 shrink-0 justify-center',
-                            '[&_svg]:size-[10px]',
+                            'size-[18px] shrink-0 justify-center',
+                            '[&_svg]:size-[12px]',
                           )}
                           target="_blank"
                           rel="noreferrer"
@@ -125,8 +125,8 @@ export const CoinTitleWidget: FC<{
                       ...contactAddresses,
                     ].join('%20OR%20')})&src=typed_query&f=live`}
                     className={clsx(
-                      'inline-flex items-center gap-2 rounded-full bg-white/10 px-1 text-xxs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
-                      'h-4 shrink-0 justify-center',
+                      'inline-flex items-center gap-1 rounded-full bg-white/10 px-2 text-xxs text-v1-content-secondary transition-all hover:brightness-110 active:brightness-90',
+                      'h-[18px] shrink-0 justify-center',
                       '[&_svg]:size-[12px]',
                     )}
                     target="_blank"

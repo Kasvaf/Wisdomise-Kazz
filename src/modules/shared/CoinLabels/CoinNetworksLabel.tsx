@@ -71,7 +71,7 @@ export function CoinNetworksLabel({
         className={clsx(
           'rounded-full text-center text-xxs',
           size === 'xs' &&
-            'flex h-4 items-center justify-center [&_img]:size-[10px] [&_svg]:size-[10px]',
+            'flex h-[18px] items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
           size === 'sm' &&
             'flex h-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
           size === 'md' && 'h-6 [&_img]:size-[16px] [&_svg]:!size-[16px]',

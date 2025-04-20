@@ -166,7 +166,7 @@ export function CoinLabel({
       className={clsx(
         'rounded-full text-center text-xxs',
         size === 'xs' &&
-          'flex size-4 items-center justify-center [&_img]:size-[10px] [&_svg]:size-[10px]',
+          'flex size-[18px] items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
         size === 'sm' &&
           'flex size-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
         size === 'md' &&

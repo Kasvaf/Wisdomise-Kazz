@@ -61,7 +61,7 @@ export function CoinLabels({
   return (
     <div
       className={clsx(
-        'flex items-start justify-start gap-[2px]',
+        'flex items-start justify-start gap-1',
         size === 'xs' ? 'flex-nowrap overflow-hidden text-xxs' : 'flex-wrap',
         className,
       )}
