@@ -32,10 +32,11 @@ const QuickSwapForm: React.FC<{
   const { data: quoteInfo } = useSymbolInfo(quote);
   const [isMarketPrice, setIsMarketPrice] = useState(true);
   const [price, setPrice] = useState('5');
+  const [quoteAmount, setQuoteAmount] = useState('100');
+  const [baseAmount, setBaseAmount] = useState('100');
   const networks = useSupportedNetworks(slug, quote);
   const selectedNet = networks?.[0] ?? 'solana';
-  const [fromAmount, setFromAmount] = useState('100');
-  const [toAmount, setToAmount] = useState('100');
+  const selectedNetAbr = NET_ABR[selectedNet];
 
   const { data: quoteBalance } = useAccountBalance(quote, selectedNet);
 
@@ -56,42 +57,73 @@ const QuickSwapForm: React.FC<{
     convertToUsd: true,
   });
 
+  const quoteFields = {
+    balance: quoteBalance,
+    coin: quote as string,
+    coinInfo: quoteInfo,
+    setCoin: setQuote,
+    useCoinList: useSupportedQuotesSymbols,
+    amount: quoteAmount,
+    setAmount: setQuoteAmount,
+    price: quotePrice,
+    priceByOther:
+      assetPriceByQuote === undefined ? undefined : 1 / assetPriceByQuote,
+  };
+  const baseFields = {
+    balance: 0,
+    coin: slug,
+    coinInfo: baseInfo,
+    setCoin: undefined,
+    useCoinList: undefined,
+    amount: baseAmount,
+    setAmount: setBaseAmount,
+    price: assetPrice,
+    priceByOther: assetPriceByQuote,
+  };
+
+  const from = dir === 'buy' ? quoteFields : baseFields;
+  const to = dir === 'buy' ? baseFields : quoteFields;
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col items-stretch">
         <div className="rounded-lg bg-v1-surface-l3 p-3">
           <div className="flex justify-between text-xs text-v1-content-secondary">
-            <div>From {NET_ABR[selectedNet]}</div>
+            <div>From {selectedNetAbr}</div>
             <div className="flex items-center gap-1">
-              <WalletIcon /> {quoteBalance}
+              <WalletIcon /> {from.balance}
             </div>
           </div>
 
           <div className="mt-2 flex items-center justify-between">
             <div className="grow">
-              {baseInfo && (
+              {from.setCoin ? (
                 <CoinSelect
-                  value={quote}
-                  onChange={v => v && setQuote(v as AutoTraderSupportedQuotes)}
+                  value={from.coin}
+                  onChange={v =>
+                    v && from.setCoin(v as AutoTraderSupportedQuotes)
+                  }
                   className="!pl-0"
-                  useCoinList={useSupportedQuotesSymbols}
+                  useCoinList={from.useCoinList}
                   noSearch
                 />
+              ) : (
+                from.coinInfo && <Coin nonLink coin={from.coinInfo} />
               )}
             </div>
             <div className="flex flex-col items-end">
               <AmountInputBox
                 noSuffixPad
-                value={fromAmount}
-                onChange={setFromAmount}
-                max={quoteBalance || 0}
+                value={from.amount}
+                onChange={from.setAmount}
+                max={from.balance || 0}
                 className="!w-auto text-2xl"
                 inputClassName="!pr-0 text-end leading-none !h-[1.5rem]"
               />
               <div className="text-xs text-v1-content-secondary">
                 {/* Total Quote in Dollar */}
-                {quotePrice ? (
-                  '$' + roundSensible(quotePrice * +fromAmount)
+                {from.price ? (
+                  '$' + roundSensible(from.price * +from.amount)
                 ) : (
                   <Spin />
                 )}
@@ -107,20 +139,32 @@ const QuickSwapForm: React.FC<{
 
         <div className="rounded-lg bg-v1-surface-l3 p-3">
           <div className="flex justify-between text-xs text-v1-content-secondary">
-            <div>To {NET_ABR[selectedNet]}</div>
+            <div>To {selectedNetAbr}</div>
             <div className="flex items-center gap-1">Estimated Amount</div>
           </div>
 
           <div className="mt-2 flex items-center justify-between">
             <div className="grow">
-              {baseInfo && <Coin nonLink coin={baseInfo} />}
+              {to.setCoin ? (
+                <CoinSelect
+                  value={to.coin}
+                  onChange={v =>
+                    v && to.setCoin(v as AutoTraderSupportedQuotes)
+                  }
+                  className="!pl-0"
+                  useCoinList={to.useCoinList}
+                  noSearch
+                />
+              ) : (
+                to.coinInfo && <Coin nonLink coin={to.coinInfo} />
+              )}
             </div>
             <div className="flex flex-col items-end text-v1-content-secondary">
               {isMarketPrice ? (
                 <div className="text-2xl leading-none">
                   {/* Total assets in Quote */}
-                  {assetPriceByQuote ? (
-                    roundSensible(+fromAmount / assetPriceByQuote)
+                  {to.priceByOther ? (
+                    roundSensible(+to.amount / to.priceByOther)
                   ) : (
                     <Spin />
                   )}
@@ -128,17 +172,16 @@ const QuickSwapForm: React.FC<{
               ) : (
                 <AmountInputBox
                   noSuffixPad
-                  value={toAmount}
-                  onChange={setToAmount}
+                  value={to.amount}
+                  onChange={to.setAmount}
                   className="!w-auto text-2xl"
                   inputClassName="id-second-input !pr-0 text-v1-content-primary text-end leading-none !h-[1.5rem]"
                 />
               )}
               <div className="text-xs">
                 {/* Total assets in Dollar */}
-                {assetPrice && assetPriceByQuote ? (
-                  '$' +
-                  roundSensible((assetPrice * +fromAmount) / assetPriceByQuote)
+                {to.price && to.priceByOther ? (
+                  '$' + roundSensible((to.price * +to.amount) / to.priceByOther)
                 ) : (
                   <Spin />
                 )}
@@ -149,11 +192,11 @@ const QuickSwapForm: React.FC<{
           <div className="my-3 w-full border-t border-v1-surface-l4" />
           <div className="flex items-center justify-between">
             <div className="text-v1-content-secondary">
-              {assetPriceByQuote ? (
+              {to.priceByOther ? (
                 <>
                   1 {quoteInfo?.abbreviation} ≈{' '}
-                  {roundSensible(1 / assetPriceByQuote)}{' '}
-                  {baseInfo?.abbreviation}
+                  {roundSensible(1 / to.priceByOther)}{' '}
+                  {to.coinInfo?.abbreviation}
                 </>
               ) : (
                 <Spin />
