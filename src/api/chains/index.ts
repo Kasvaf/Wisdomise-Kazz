@@ -1,6 +1,7 @@
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { useDisconnect } from 'wagmi';
 import { useActiveNetwork } from 'modules/base/active-network';
 import {
   type AutoTraderSolanaSupportedQuotes,
@@ -16,9 +17,11 @@ import {
 export const useDisconnectAll = () => {
   const { disconnect: solDisconnect } = useWallet();
   const [{ disconnect: tonDisconnect }] = useTonConnectUI();
+  const { disconnectAsync: wagmiDisconnect } = useDisconnect();
+
   return async () => {
     try {
-      await Promise.all([solDisconnect(), tonDisconnect()]);
+      await Promise.all([wagmiDisconnect(), solDisconnect(), tonDisconnect()]);
     } catch {
     } finally {
       for (const key of Object.keys(localStorage)) {
