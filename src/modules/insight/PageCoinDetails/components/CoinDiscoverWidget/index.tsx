@@ -27,10 +27,7 @@ export const CoinDiscoverWidget: FC<{ className?: string }> = ({
 
   const handleRowClick = useCallback(
     (slug: string) => {
-      navigate(`/coin/${slug}?${searchParams.toString()}`, {
-        preventScrollReset: true,
-        replace: true,
-      });
+      navigate(`/coin/${slug}?${searchParams.toString()}`);
     },
     [navigate, searchParams],
   );

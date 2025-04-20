@@ -4,6 +4,7 @@ import { type ReactElement, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import { useHubSpot } from 'config/hubSpot';
 import AuthorizedContent from '../auth/AuthorizedContent';
+import ScrollToTop from './ScrollToTop';
 import BottomNavBar from './BottomNavBar';
 import MobileHeader from './MobileHeader';
 import DesktopHeader from './DesktopHeader';
@@ -47,6 +48,8 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
       <footer className="sticky bottom-0 z-50 w-full">
         {footer === null || !isMobile ? null : footer || <BottomNavBar />}
       </footer>
+
+      <ScrollToTop />
     </div>
   );
 };
