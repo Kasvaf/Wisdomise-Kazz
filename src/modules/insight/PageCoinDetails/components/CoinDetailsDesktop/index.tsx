@@ -34,8 +34,8 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   return (
     <div className="flex flex-nowrap justify-between">
       {/* Discover */}
-      <div className="relative w-1/4 min-w-60 max-w-80 p-3 ps-0">
-        <div className="[&:not(:has(.id-assets))]:hidden">
+      <div className="relative flex w-1/4 min-w-60 max-w-80 flex-col gap-3 p-3 ps-0">
+        <div className="contents [&:not(:has(.id-assets))]:hidden">
           <h3 className="mb-2 text-xxs">Your Portfolio</h3>
           <div className="space-y-4 rounded-md bg-v1-surface-l2 p-3">
             <UserAssets
@@ -91,7 +91,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
 
       {/* Trade + Additional */}
       <div className="relative w-1/3 min-w-72 max-w-96 p-3 pe-0 pt-0">
-        <div className="sticky top-[88px]">
+        <div className="sticky top-[88px] space-y-4">
           {Boolean(supportedPairs?.length) && (
             <>
               <h3 className="mb-2 text-xxs">Auto Trade</h3>
