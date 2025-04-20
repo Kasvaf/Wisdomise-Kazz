@@ -25,7 +25,7 @@ const DesktopHeader: React.FC<{
   return (
     <div className={clsx('bg-v1-background-primary', className)}>
       <div className="flex h-12 items-center gap-3 bg-v1-surface-l2 px-3">
-        <div className="relative flex grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap tablet:gap-3">
+        <div className="relative flex shrink-0 grow flex-nowrap items-center gap-4 overflow-auto whitespace-nowrap tablet:gap-3">
           <NavLink
             to="/coin-radar/overview"
             className="border-e border-white/10 pe-4 tablet:pe-3"
@@ -33,8 +33,8 @@ const DesktopHeader: React.FC<{
             <Logo className="tablet:hidden" />
             <LogoIcon className="hidden tablet:block" />
           </NavLink>
-          <div className="-ml-4 flex h-12 items-stretch">
-            <MenuItems horizontal itemsClassName="px-4" />
+          <div className="-ml-2 flex h-12 items-stretch">
+            <MenuItems horizontal itemsClassName="px-2" />
           </div>
         </div>
 

@@ -32,7 +32,7 @@ export const GlobalSearchBar: FC<{
     <>
       <div
         className={clsx(
-          'flex max-w-96 items-center gap-2 mobile:max-w-full',
+          'flex max-w-96 shrink items-center gap-2 overflow-hidden mobile:max-w-full',
           className,
         )}
       >
