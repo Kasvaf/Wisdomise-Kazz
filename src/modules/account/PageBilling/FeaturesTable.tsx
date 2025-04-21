@@ -7,6 +7,11 @@ import vipBg from './images/vip-bg.png';
 
 export function FeaturesTable({ className }: { className?: string }) {
   const datasource = [
+    {
+      feature: 'Trade Fee (%)',
+      free: <div className="ml-2">0.8</div>,
+      vip: <div className="ml-2">0.6</div>,
+    },
     { feature: 'Whale Radar', free: <Check />, vip: <Check /> },
     { feature: 'Radar +', free: <Check />, vip: <Check /> },
     {
@@ -23,11 +28,6 @@ export function FeaturesTable({ className }: { className?: string }) {
       feature: 'Alert Screener',
       free: <div className="ml-3">-</div>,
       vip: <Check />,
-    },
-    {
-      feature: 'Trade Fee (%)',
-      free: <div className="ml-2">0.8</div>,
-      vip: <div className="ml-2">0.6</div>,
     },
   ] as const;
 
