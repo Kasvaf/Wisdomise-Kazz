@@ -11,8 +11,8 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { WhaleRadarSentiment } from '../WhaleRadarSentiment';
-import { WhaleRadarFilters } from '../WhaleRadarFilters';
 
 export const WhaleRadarMobile = () => {
   const [, tableState, setTableState] = useTableState<
@@ -105,7 +105,8 @@ export const WhaleRadarMobile = () => {
 
   return (
     <>
-      <WhaleRadarFilters
+      <RadarFilter
+        radar="whale-radar"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-4 w-full"

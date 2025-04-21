@@ -194,7 +194,7 @@ export const useNCoinDetails = ({
           meta: { auth: false },
         },
       ).then(resp => {
-        if (resp.length === 0) return null;
+        if (resp.length !== 1) return null;
         return resp[0];
       });
     },
