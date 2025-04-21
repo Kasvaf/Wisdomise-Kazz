@@ -28,8 +28,8 @@ import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
-import { SocialRadarFilters } from '../SocialRadarFilters';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
 import { ReactComponent as Logo } from './logo.svg';
 import { ReactComponent as Realtime } from './realtime.svg';
@@ -57,6 +57,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
   });
 
   const coins = useSocialRadarCoins(tableState);
+  const topCoins = useSocialRadarCoins({ windowHours: tableState.windowHours });
   useLoadingBadge(coins.isFetching);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [hoveredRow, setHoveredRow] = useState<number>();
@@ -73,7 +74,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
             <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
             <Tooltip
               open={index === hoveredRow}
-              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"
+              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-inner]:!p-0"
               placement="left"
               title={
                 <Button
@@ -212,7 +213,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         )
       }
       loading={coins.isLoading}
-      empty={(coins.data ?? [])?.length === 0}
+      empty={(topCoins.data ?? [])?.length === 0}
       headerActions={
         <SearchInput
           value={tableState.query}
@@ -222,7 +223,8 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         />
       }
     >
-      <SocialRadarFilters
+      <RadarFilter
+        radar="social-radar-24-hours"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-4 w-full"

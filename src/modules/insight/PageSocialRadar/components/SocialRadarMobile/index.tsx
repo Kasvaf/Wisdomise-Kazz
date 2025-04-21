@@ -13,8 +13,8 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
-import { SocialRadarFilters } from '../SocialRadarFilters';
 
 export const SocialRadarMobile = () => {
   const [, tableState, setTableState] = useTableState<
@@ -109,7 +109,8 @@ export const SocialRadarMobile = () => {
 
   return (
     <>
-      <SocialRadarFilters
+      <RadarFilter
+        radar="social-radar-24-hours"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-4 w-full"
