@@ -189,21 +189,34 @@ export const CoinTitleWidget: FC<{
                       popup="never"
                     />
                   </div>
-                  {isDebugMode && (
+
+                  <div className="h-4 w-px bg-white/10" />
+                  <div className="flex flex-col justify-between">
+                    <p className="text-xs text-v1-content-secondary">
+                      {t('common.risk')}
+                    </p>
+                    <span className="text-xs">
+                      <span
+                        className={clsx(
+                          (nCoin.data.risk_percent ?? 0) < 15
+                            ? 'text-v1-content-positive'
+                            : (nCoin.data.risk_percent ?? 0) < 50
+                            ? 'text-v1-content-notice'
+                            : 'text-v1-content-negative',
+                        )}
+                      >
+                        {nCoin.data.risk_percent ?? 0}
+                      </span>
+                      <span className="text-v1-content-secondary">/100</span>
+                    </span>
+                  </div>
+
+                  {nCoin.data.rugged && (
                     <>
                       <div className="h-4 w-px bg-white/10" />
-                      <div className="flex flex-col justify-between">
-                        <p className="text-xs text-v1-content-secondary">
-                          {t('common.risk')}
-                        </p>
-                        <span className="text-xs">{'TODO: Risks'}</span>
-
-                        {/* TODO Risk */}
-                      </div>
-
-                      <div className="h-4 w-px bg-white/10" />
-                      <span className="text-xs">{'TODO: Rugged'}</span>
-                      {/* TODO Rugged */}
+                      <span className="rounded-full bg-v1-content-negative/10 p-1 px-2 text-xs text-v1-content-negative">
+                        {'Rugged'}
+                      </span>
                     </>
                   )}
                 </div>
