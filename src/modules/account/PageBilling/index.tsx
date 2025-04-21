@@ -13,6 +13,7 @@ import { Button } from 'shared/v1-components/Button';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
 import SubscriptionDetail from 'modules/account/PageBilling/SubscriptionDetail';
 import { FeaturesTable } from 'modules/account/PageBilling/FeaturesTable';
+import { MAIN_LANDING } from 'config/constants';
 import bag from './images/bag.png';
 import starlight from './images/starlight.png';
 import bg from './images/bg.png';
@@ -90,7 +91,7 @@ export default function PageBilling() {
             <Button
               variant="wsdm"
               onClick={onLockClick}
-              className="mb-20 mt-4 w-80"
+              className="mb-10 mt-4 w-80"
             >
               <DebugPin
                 title="/account/billing?payment_method=lock"
@@ -99,6 +100,18 @@ export default function PageBilling() {
               Stake Now
               <Arrow />
             </Button>
+            <div className="mb-16 w-max rounded-3xl bg-v1-overlay-10 px-5 py-2 text-sm text-v1-content-secondary">
+              Have Questions or Need More Details? Check Out Our FAQ Page for
+              Answers:{' '}
+              <a
+                href={`${MAIN_LANDING('en')}/token/faq`}
+                target="_blank"
+                className="text-v1-content-link"
+                rel="noreferrer"
+              >
+                FAQ Page
+              </a>
+            </div>
             {tokenPaymentModal}
             {ModalLogin}
             <FeaturesTable className="mb-10" />
