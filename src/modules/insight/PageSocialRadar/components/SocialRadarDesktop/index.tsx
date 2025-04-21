@@ -19,7 +19,6 @@ import {
   type SocialRadarCoin,
   useSocialRadarCoins,
   useSocialRadarInfo,
-  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
 } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { CoinPriceInfo } from 'shared/CoinPriceInfo';
@@ -71,13 +70,7 @@ export function SocialRadarDesktop({ className }: { className?: string }) {
         title: t('social-radar.table.rank'),
         render: (_, row, index) => (
           <div>
-            <TableRank
-              highlighted={
-                (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-              }
-            >
-              {row.rank}
-            </TableRank>
+            <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
             <Tooltip
               open={index === hoveredRow}
               rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"

@@ -241,6 +241,9 @@ export const useWhaleRadarSentiment = ({ slug }: { slug: string }) =>
         query: {
           slug,
         },
+      }).then(resp => {
+        if (!resp.wallet_count) return null;
+        return resp;
       }),
   });
 

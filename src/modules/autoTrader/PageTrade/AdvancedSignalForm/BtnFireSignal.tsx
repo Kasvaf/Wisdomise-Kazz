@@ -6,6 +6,8 @@ import { useUserStorage } from 'api/userStorage';
 import { isMiniApp } from 'utils/version';
 import { DebugPin } from 'shared/DebugPin';
 import Button from 'shared/Button';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import { useModalLogin } from 'modules/base/auth/ModalLogin';
 import useActionHandlers from './useActionHandlers';
 import { type SignalFormState } from './useSignalFormStates';
 import { ReactComponent as WarnIcon } from './WarnIcon.svg';
@@ -19,6 +21,7 @@ const BtnFireSignal: React.FC<{
   const { t } = useTranslation('builder');
   const hasFlag = useHasFlag();
   const wallet = useActiveWallet();
+  const isLoggedIn = useIsLoggedIn();
 
   const {
     isUpdate: [isUpdate],
@@ -58,6 +61,18 @@ const BtnFireSignal: React.FC<{
     data: formState,
     activePosition,
   });
+
+  const [ModalLogin, showModalLogin] = useModalLogin();
+  if (!isLoggedIn) {
+    return (
+      <>
+        {ModalLogin}
+        <Button variant="brand" onClick={showModalLogin}>
+          {t('base:user.sign-in')}
+        </Button>
+      </>
+    );
+  }
 
   return (
     <>

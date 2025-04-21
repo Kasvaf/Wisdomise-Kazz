@@ -16,6 +16,7 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { TableRank } from 'shared/TableRank';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
 import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
@@ -47,7 +48,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
         title: t('table.rank'),
         render: (_, row, index) => (
           <div>
-            {row.rank}
+            <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
             <Tooltip
               open={index === hoveredRow}
               rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"

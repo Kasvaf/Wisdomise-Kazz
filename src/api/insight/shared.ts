@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { ofetch } from 'config/ofetch';
 import { resolvePageResponseToArray } from 'api/utils';
 import { isMiniApp } from 'utils/version';
@@ -9,8 +9,10 @@ import {
   type Network,
   type CoinLabels,
   type CoinDetails,
+  type Pool,
 } from '../types/shared';
 import { matcher } from './utils';
+import { type NetworkRadarNCoin } from './network';
 
 export const useNetworks = (config: {
   filter?:
@@ -136,11 +138,13 @@ export const useCoinLabels = (config: { query?: string }) =>
 export const useCoinDetails = ({
   slug,
   priceHistoryDays,
+  suspense,
 }: {
   slug?: string;
   priceHistoryDays?: number;
+  suspense?: boolean;
 }) =>
-  useQuery({
+  (suspense ? useSuspenseQuery : useQuery)({
     queryKey: ['coin-details', slug, priceHistoryDays ?? 1],
     queryFn: () => {
       if (!slug) return null;
@@ -169,5 +173,54 @@ export const useCoinDetails = ({
         })),
       }));
     },
+    refetchOnMount: true,
+    refetchInterval: 5 * 60 * 1000,
+  });
+
+export const useNCoinDetails = ({
+  slug,
+  suspense,
+}: {
+  slug?: string;
+  suspense?: boolean;
+}) =>
+  (suspense ? useSuspenseQuery : useQuery)({
+    queryKey: ['ncoin-details', slug],
+    queryFn: () => {
+      if (!slug) return null;
+      return resolvePageResponseToArray<NetworkRadarNCoin>(
+        `delphi/market/new-born-pools/?base_slug=${slug}`,
+        {
+          meta: { auth: false },
+        },
+      ).then(resp => {
+        if (resp.length === 0) return null;
+        return resp[0];
+      });
+    },
+    refetchOnMount: true,
+    refetchInterval: 30 * 1000,
+  });
+
+export const useCoinPools = ({
+  slug,
+  network,
+}: {
+  slug?: string;
+  network?: string;
+}) =>
+  useQuery({
+    queryKey: ['pool-details', network, slug],
+    queryFn: () => {
+      if (!slug || !network) return null;
+      return resolvePageResponseToArray<Pool>('delphi/market/symbol-pools/', {
+        query: {
+          symbol_slug: slug,
+          network_slug: network,
+        },
+        meta: { auth: false },
+      });
+    },
+    refetchOnMount: true,
     refetchInterval: 5 * 60 * 1000,
   });
