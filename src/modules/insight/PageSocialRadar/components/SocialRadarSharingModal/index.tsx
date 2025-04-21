@@ -10,8 +10,8 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import PriceChange from 'shared/PriceChange';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { CoinLabels } from 'shared/CoinLabels';
-import { SocialRadarSentimentWidget } from 'modules/insight/PageCoinDetails/components/SocialRadarSentimentWidget';
 import { ReactComponent as SocialRadarIcon } from '../social-radar.svg';
+import { SocialRadarSentiment } from '../SocialRadarSentiment';
 import gradient from './images/gradient.png';
 import sparkle from './images/sparkle.png';
 import radar from './images/radar.png';
@@ -93,9 +93,12 @@ export default function SocialRadarSharingModal({
               <p>{dayjs(new Date()).format('D MMMM YYYY h:mm A')}</p>
             </div>
           </div>
-          {coin && (
-            <SocialRadarSentimentWidget
-              slug={coin.symbol.slug}
+          {coin?.signals_analysis && (
+            <SocialRadarSentiment
+              mode="card"
+              coin={coin.symbol}
+              marketData={coin.symbol_market_data}
+              value={coin}
               className="mt-2 w-full"
               contentClassName="!bg-white/5"
             />
@@ -108,6 +111,8 @@ export default function SocialRadarSharingModal({
               networks={coin.networks}
               security={coin.symbol_security?.data}
               coin={coin.symbol}
+              size="md"
+              clickable={false}
             />
           </div>
           {coin?.signals_analysis.sparkline && (

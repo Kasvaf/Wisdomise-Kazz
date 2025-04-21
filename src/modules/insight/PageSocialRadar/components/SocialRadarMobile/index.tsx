@@ -4,11 +4,7 @@ import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
-import {
-  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
-  type SocialRadarCoin,
-  useSocialRadarCoins,
-} from 'api';
+import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -52,13 +48,7 @@ export const SocialRadarMobile = () => {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => (
-          <TableRank
-            highlighted={
-              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-            }
-          >
-            {row.rank}
-          </TableRank>
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
       },
       {
@@ -102,7 +92,9 @@ export const SocialRadarMobile = () => {
               networks={row.networks}
               security={row.symbol_security?.data}
               coin={row.symbol}
-              mini
+              size="xs"
+              truncate
+              clickable={false}
             />
             <CoinMarketCap
               marketData={row.symbol_market_data}

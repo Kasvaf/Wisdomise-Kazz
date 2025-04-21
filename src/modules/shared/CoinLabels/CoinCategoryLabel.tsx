@@ -6,9 +6,13 @@ import { ClickableTooltip } from 'shared/ClickableTooltip';
 export function CoinCategoryLabel({
   className,
   value,
+  size,
+  clickable,
 }: {
   className?: string;
   value?: Coin['categories'] | null;
+  clickable?: boolean;
+  size: 'xs' | 'sm' | 'md';
 }) {
   const { t } = useTranslation('coin-radar');
 
@@ -29,16 +33,24 @@ export function CoinCategoryLabel({
         </div>
       }
       className={clsx(
-        'h-6 rounded-full px-2 text-center text-xxs',
+        'rounded-full text-center text-xxs',
+        size === 'xs' &&
+          'flex h-[18px] items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
+        size === 'sm' &&
+          'flex h-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
+        size === 'md' && 'h-6 [&_img]:size-[16px] [&_svg]:!size-[16px]',
         'bg-v1-content-primary/10 text-v1-content-primary',
-        'overflow-hidden !p-0',
+        'overflow-hidden',
         className,
       )}
+      disabled={!clickable}
       chevron={false}
     >
-      <span className="px-3 py-1">{t('common.category')}</span>
+      <span className={clsx(size === 'xs' ? 'px-1' : 'px-2')}>
+        {size === 'md' ? t('common.category') : 'Ca'}
+      </span>
       {value.length > 0 && (
-        <span className="-ms-2 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1">
+        <span className="-ms-1 flex items-center justify-center self-stretch bg-white/5 pe-2 ps-1">
           {`+${value.length}`}
         </span>
       )}

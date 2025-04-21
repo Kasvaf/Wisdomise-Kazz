@@ -1,12 +1,7 @@
 /* eslint-disable import/max-dependencies */
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  type CoinRadarCoin,
-  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
-  useCoinRadarCoins,
-  useHasFlag,
-} from 'api';
+import { type CoinRadarCoin, useCoinRadarCoins, useHasFlag } from 'api';
 import { NetworkSelect } from 'shared/NetworkSelect';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { Coin } from 'shared/Coin';
@@ -54,14 +49,7 @@ export const HotCoinsMobile = () => {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => (
-          <TableRank
-            highlighted={
-              (row.social_radar_insight?.wise_score ?? 0) >=
-              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-            }
-          >
-            {row.rank}
-          </TableRank>
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
       },
       {
@@ -121,7 +109,9 @@ export const HotCoinsMobile = () => {
               networks={row.networks}
               security={row.symbol_security?.data}
               coin={row.symbol}
-              mini
+              size="xs"
+              truncate
+              clickable={false}
             />
             <CoinMarketCap
               marketData={row.market_data}

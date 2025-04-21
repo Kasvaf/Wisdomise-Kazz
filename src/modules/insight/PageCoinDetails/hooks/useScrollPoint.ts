@@ -1,4 +1,5 @@
-import { type ComponentProps, useEffect, useRef, useState } from 'react';
+import { type ComponentProps, useEffect, useRef } from 'react';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
 import { type ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import useIsMobile from 'utils/useIsMobile';
 
@@ -6,7 +7,10 @@ export const useScrollPoint = (
   options: ComponentProps<typeof ButtonSelect<string>>['options'],
   threshold: number,
 ): Pick<ComponentProps<typeof ButtonSelect<string>>, 'onChange' | 'value'> => {
-  const [value, setValue] = useState(options[0].value);
+  const [value, setValue] = useSearchParamAsState(
+    'validateTab',
+    options[0].value,
+  );
   const ignoreScroll = useRef(false);
   const isMobile = useIsMobile();
 
@@ -37,7 +41,7 @@ export const useScrollPoint = (
     return () => {
       window.removeEventListener('scroll', scrollHandler);
     };
-  }, [options, threshold, isMobile]);
+  }, [options, threshold, isMobile, setValue]);
 
   const handleClick = (newActiveKey: string) => {
     if (!newActiveKey) return;

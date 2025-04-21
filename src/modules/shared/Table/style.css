@@ -70,6 +70,13 @@
     @apply relative overflow-hidden px-4 py-3 mobile:px-1 mobile:py-2;
   }
 
+  /* placeholder */
+  .ant-table-placeholder,
+  .ant-table-placeholder:hover {
+    background: transparent;
+    @apply !bg-[--table-current-color] !bg-none;
+  }
+
   /* radius */
   .ant-table-thead .ant-table-cell:first-child {
     @apply rounded-l-lg rounded-r-none;

@@ -37,7 +37,8 @@ export const TechnicalRadarSentiment: FC<{
   const { t } = useTranslation('market-pulse');
   const { isGreen, isBearish, isBullish, isCheap, isExpensive } =
     useParseTRS(value);
-  const isEmpty = !isBearish && !isBearish && !isCheap && !isExpensive;
+
+  const isEmpty = !isBearish && !isBullish && !isCheap && !isExpensive;
   const clickable = mode === 'default' || mode === 'card';
   return (
     <ClickableTooltip

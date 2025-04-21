@@ -7,6 +7,7 @@ import {
   type Signal,
 } from 'api/builder';
 import { ofetch } from 'config/ofetch';
+import { uniqueBy } from 'utils/uniqueBy';
 import { type WhaleCoin, type WhaleCoinsFilter } from './insight/whale';
 import { type PageResponse } from './types/page';
 import { type Coin } from './types/shared';
@@ -71,7 +72,7 @@ export const useSupportedPairs = (baseSlug?: string) => {
           base_slug: baseSlug,
         },
       });
-      return data.results;
+      return uniqueBy(data.results, x => x.id);
     },
     staleTime: Number.MAX_VALUE,
   });
@@ -281,6 +282,7 @@ export const usePreparePositionMutation = () => {
         exchange_fee: string;
         trade_fee: string;
         warning?: string;
+        error?: string;
       }>('trader/positions/prepare', {
         body,
         method: 'post',

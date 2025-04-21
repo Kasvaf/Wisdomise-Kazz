@@ -307,6 +307,11 @@ onboarding:
   sec-3:
     content: 自定义警报并创建最热门代币的个性化筛选器，让您始终领先一步。实时了解最新动态，确保您不会再错过突破机会！
     title: 不要错过任何机会：设置警报和筛选器
+pools:
+  table:
+    address: 地址
+    txns: 德州新星
+    volume: 交易量
 screener:
   activated:
     got-it: 明白了

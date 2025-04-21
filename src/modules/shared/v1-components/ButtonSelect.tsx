@@ -59,10 +59,7 @@ export function ButtonSelect<T>({
     const resizeHandler = () => {
       setHasOverflow(
         el
-          ? [
-              el.scrollLeft > 10,
-              el.offsetWidth + el.scrollLeft < el.scrollWidth - 10,
-            ]
+          ? [el.scrollLeft > 0, el.offsetWidth + el.scrollLeft < el.scrollWidth]
           : [false, false],
       );
     };
