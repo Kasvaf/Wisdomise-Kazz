@@ -57,7 +57,7 @@ export default function TokenCheckout({
   }, [showModal]);
 
   const canStake =
-    Number(wsdmBalance?.value) >
+    Number(wsdmBalance?.value ?? 0) / 10 ** (wsdmBalance?.decimals ?? 1) >
     (generalLockingRequirement?.requirement_locking_amount ?? 0);
 
   const canSubscribe =
