@@ -4,12 +4,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
+import { useIsLoggedIn } from '../auth/jwt-store';
 import { IconTrades } from './ProfileMenu/ProfileMenuContent/icons';
 
 const TraderButtons = () => {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const isLoggedIn = useIsLoggedIn();
+  if (!isLoggedIn) return null;
 
   return (
     <div className="flex items-center gap-2">
