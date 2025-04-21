@@ -1,4 +1,5 @@
 import { useHasFlag, useSupportedPairs } from 'api';
+import { useActiveWallet } from 'api/chains';
 import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
@@ -19,6 +20,7 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
   const [QuickTradeDrawer, openQuickTradeDrawer] = useQuickTradeDrawer();
   const [ModalLogin, ensureAuthenticated] = useEnsureAuthenticated();
+  const wallet = useActiveWallet();
 
   const hasFlag = useHasFlag();
   if (!isMobile && !hasFlag('/desk-trader')) {
@@ -26,7 +28,9 @@ export const BtnAutoTrade: React.FC<{ slug?: string } & ButtonProps> = ({
   }
 
   const open = async () => {
-    await ensureAuthenticated();
+    if (!(await ensureAuthenticated())) return;
+    if (!wallet.connected && !(await wallet.connect())) return;
+
     isMobile
       ? openQuickTradeDrawer({ slug: normSlug ?? '' })
       : openTradeDrawer({ slug: normSlug ?? '' });

@@ -6,34 +6,36 @@ import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import {
-  type NetworkRadarPool,
-  useNetworkRadarPools,
+  type NetworkRadarNCoin,
+  useNetworkRadarNCoins,
 } from 'api/insight/network';
 import { useLoadingBadge } from 'shared/LoadingBadge';
-import { PoolAge } from '../PoolAge';
-import { PoolBuySell } from '../PoolBuySell';
-import { PoolTradingVolume } from '../PoolTradingVolume';
-import { PoolLiquidity } from '../PoolLiquidity';
-import { PoolSecurity } from '../PoolSecurity';
-import { PoolPreDetailModal } from '../PoolPreDetailModal';
+import { NCoinAge } from '../NCoinAge';
+import { NCoinBuySell } from '../NCoinBuySell';
+import { NCoinTradingVolume } from '../NCoinTradingVolume';
+import { NCoinLiquidity } from '../NCoinLiquidity';
+import { NCoinSecurity } from '../NCoinSecurity';
+import { NCoinPreDetailModal } from '../NCoinPreDetailModal';
 
 export const NetworkRadarMobile = () => {
   const { t } = useTranslation('network-radar');
   const [, tableState] = useTableState<
-    Required<Parameters<typeof useNetworkRadarPools>[0]>
+    Required<Parameters<typeof useNetworkRadarNCoins>[0]>
   >('', {
     page: 1,
     pageSize: 10,
     networks: [],
   });
 
-  const [selectedRow, setSelectedRow] = useState<null | NetworkRadarPool>(null);
+  const [selectedRow, setSelectedRow] = useState<null | NetworkRadarNCoin>(
+    null,
+  );
   const [modal, setModal] = useState(false);
 
-  const pools = useNetworkRadarPools(tableState);
-  useLoadingBadge(pools.isFetching);
+  const nCoins = useNetworkRadarNCoins(tableState);
+  useLoadingBadge(nCoins.isFetching);
 
-  const columns = useMemo<Array<MobileTableColumn<NetworkRadarPool>>>(
+  const columns = useMemo<Array<MobileTableColumn<NetworkRadarNCoin>>>(
     () => [
       {
         key: 'rank',
@@ -56,7 +58,7 @@ export const NetworkRadarMobile = () => {
         key: 'age',
         className: 'max-w-12 min-w-8',
         render: row => (
-          <PoolAge
+          <NCoinAge
             value={row.creation_datetime}
             imgClassName="size-3"
             className="h-[25px] text-xxs"
@@ -68,13 +70,16 @@ export const NetworkRadarMobile = () => {
         className: 'max-w-20',
         render: row => (
           <div className="flex h-[25px] flex-col justify-between">
-            <PoolTradingVolume
+            <NCoinTradingVolume
               value={row}
               imgClassName="size-3"
               className="text-xxs"
             />
-            <PoolBuySell
-              value={row}
+            <NCoinBuySell
+              value={{
+                buys: row.update.total_num_buys,
+                sells: row.update.total_num_sells,
+              }}
               imgClassName="size-3"
               className="text-[8px]"
             />
@@ -85,7 +90,7 @@ export const NetworkRadarMobile = () => {
         key: 'liquidity',
         className: 'max-w-22',
         render: row => (
-          <PoolLiquidity
+          <NCoinLiquidity
             value={row}
             className="text-xxs"
             imgClassName="size-6"
@@ -96,10 +101,10 @@ export const NetworkRadarMobile = () => {
       {
         key: 'security',
         render: row => (
-          <PoolSecurity
+          <NCoinSecurity
             value={row}
-            className="shrink-0 text-xxs"
-            imgClassName="size-3"
+            className="w-max shrink-0 text-xxs"
+            imgClassName="!size-[12px]"
             type="grid"
           />
         ),
@@ -124,9 +129,9 @@ export const NetworkRadarMobile = () => {
       >
         <MobileTable
           columns={columns}
-          dataSource={pools.data ?? []}
+          dataSource={nCoins.data ?? []}
           rowKey={r => JSON.stringify(r.base_symbol.slug)}
-          loading={pools.isLoading}
+          loading={nCoins.isLoading}
           surface={2}
           onClick={r => {
             setSelectedRow(r);
@@ -134,7 +139,7 @@ export const NetworkRadarMobile = () => {
           }}
         />
       </AccessShield>
-      <PoolPreDetailModal
+      <NCoinPreDetailModal
         value={selectedRow}
         open={modal}
         onClose={() => setModal(false)}

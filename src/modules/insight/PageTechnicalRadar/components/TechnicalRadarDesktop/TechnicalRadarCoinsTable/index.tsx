@@ -16,9 +16,10 @@ import Icon from 'shared/Icon';
 import { Button } from 'shared/v1-components/Button';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import useEnsureAuthenticated from 'shared/useEnsureAuthenticated';
+import { TableRank } from 'shared/TableRank';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
-import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalRadarCoinsTable: FC = () => {
@@ -47,10 +48,10 @@ export const TechnicalRadarCoinsTable: FC = () => {
         title: t('table.rank'),
         render: (_, row, index) => (
           <div>
-            {row.rank}
+            <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
             <Tooltip
               open={index === hoveredRow}
-              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"
+              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-inner]:!p-0"
               placement="left"
               title={
                 <Button
@@ -138,7 +139,8 @@ export const TechnicalRadarCoinsTable: FC = () => {
 
   return (
     <div>
-      <TechnicalRadarFilters
+      <RadarFilter
+        radar="technical-radar"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-4 w-full"

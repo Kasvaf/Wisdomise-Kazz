@@ -102,6 +102,7 @@ export interface SocialRadarCoin extends SocialRadarSentiment {
   symbol_labels?: null | string[];
   networks?: null | CoinNetwork[];
   exchanges_name?: null | string[];
+  _highlighted?: boolean;
 }
 
 export const useSocialRadarCoins = (config: {
@@ -159,6 +160,15 @@ export const useSocialRadarCoins = (config: {
               a.symbol_market_data.market_cap,
             );
           return sorter(a.rank, b.rank);
+        })
+        .map(row => {
+          if ((row.wise_score ?? 0) > MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE) {
+            return {
+              ...row,
+              _highlighted: true,
+            };
+          }
+          return row;
         }),
     meta: {
       persist: true,

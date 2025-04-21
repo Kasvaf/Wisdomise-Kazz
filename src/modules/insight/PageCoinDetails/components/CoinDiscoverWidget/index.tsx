@@ -1,0 +1,81 @@
+import { clsx } from 'clsx';
+import { useCallback, type FC } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import useSearchParamAsState from 'shared/useSearchParamAsState';
+import { NetworkSelect } from 'shared/NetworkSelect';
+import { type CoinDiscoverTab, CoinDiscoverTabs } from './CoinDiscoverTabs';
+import { NetworkRadarTable } from './NetworkRadarTable';
+import { SocialRadarTable } from './SocialRadarTable';
+import { WhaleRadarTable } from './WhaleRadarTable';
+import { TechnicalRadarTable } from './TechnicalRadarTable';
+import { CoinRadarTable } from './CoinRadarTable';
+
+export const CoinDiscoverWidget: FC<{ className?: string }> = ({
+  className,
+}) => {
+  const [networks, setNetworks] = useSearchParamAsState(
+    'discoverNetwork',
+    '' as string,
+  );
+  const networksArr = networks ? networks.split(',') : [];
+  const [selectedTab, setSelectedTab] = useSearchParamAsState(
+    'discoverTab',
+    'social-radar' as CoinDiscoverTab,
+  );
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const handleRowClick = useCallback(
+    (slug: string) => {
+      navigate(`/coin/${slug}?${searchParams.toString()}`);
+    },
+    [navigate, searchParams],
+  );
+  return (
+    <div
+      className={clsx(
+        'flex max-w-full flex-col items-stretch gap-2',
+        className,
+      )}
+    >
+      <CoinDiscoverTabs value={selectedTab} onChange={setSelectedTab} />
+      <NetworkSelect
+        size="sm"
+        allowClear
+        value={networksArr}
+        multiple
+        onChange={newNetworks => setNetworks(newNetworks.join(','))}
+      />
+      {selectedTab === 'coin-radar' && (
+        <CoinRadarTable
+          onClick={row => handleRowClick(row.symbol.slug)}
+          networks={networksArr}
+        />
+      )}
+      {selectedTab === 'network-radar' && (
+        <NetworkRadarTable
+          onClick={row => handleRowClick(row.base_symbol.slug)}
+          networks={networksArr}
+        />
+      )}
+      {selectedTab === 'social-radar' && (
+        <SocialRadarTable
+          onClick={row => handleRowClick(row.symbol.slug)}
+          networks={networksArr}
+        />
+      )}
+      {selectedTab === 'technical-radar' && (
+        <TechnicalRadarTable
+          onClick={row => handleRowClick(row.symbol.slug)}
+          networks={networksArr}
+        />
+      )}
+      {selectedTab === 'whale-radar' && (
+        <WhaleRadarTable
+          onClick={row => handleRowClick(row.symbol.slug)}
+          networks={networksArr}
+        />
+      )}
+    </div>
+  );
+};

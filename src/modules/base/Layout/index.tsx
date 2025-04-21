@@ -1,7 +1,8 @@
-import React, { type ReactElement, type PropsWithChildren } from 'react';
+import { clsx } from 'clsx';
+import type React from 'react';
+import { type ReactElement, type PropsWithChildren } from 'react';
 import useIsMobile from 'utils/useIsMobile';
 import { useHubSpot } from 'config/hubSpot';
-import Spinner from 'shared/Spinner';
 import AuthorizedContent from '../auth/AuthorizedContent';
 import ScrollToTop from './ScrollToTop';
 import BottomNavBar from './BottomNavBar';
@@ -15,6 +16,7 @@ export interface LayoutProps {
   extension?: null | false | ReactElement;
   header?: false | null | ReactElement;
   footer?: false | null | ReactElement;
+  mainClassName?: string;
 }
 
 const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
@@ -23,6 +25,7 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
   extension,
   header,
   footer,
+  mainClassName,
   children,
 }) => {
   useHubSpot();
@@ -38,16 +41,8 @@ const Layout: React.FC<PropsWithChildren<LayoutProps>> = ({
             )}
       </header>
 
-      <main className="grow p-6 mobile:ml-0 mobile:px-4 mobile:py-2">
-        <React.Suspense
-          fallback={
-            <div className="flex h-full w-full items-center justify-center text-white mobile:h-[calc(100vh-10rem)]">
-              <Spinner />
-            </div>
-          }
-        >
-          <AuthorizedContent>{children}</AuthorizedContent>
-        </React.Suspense>
+      <main className={clsx('grow p-3 mobile:ml-0', mainClassName)}>
+        <AuthorizedContent>{children}</AuthorizedContent>
       </main>
 
       <footer className="sticky bottom-0 z-50 w-full">

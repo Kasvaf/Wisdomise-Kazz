@@ -1,13 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { ACCOUNT_PANEL_ORIGIN, INVESTMENT_ORIGIN } from 'config/constants';
 import { setGameJwtToken, useJwtEmail } from 'modules/base/auth/jwt-store';
 import { ofetch } from 'config/ofetch';
 import { type PageResponse } from 'api/types/page';
 import { type Account } from './types/UserInfoResponse';
 
-export function useAccountQuery() {
+export function useAccountQuery(config?: { suspense?: boolean }) {
   const email = useJwtEmail();
-  return useQuery<Account | null>({
+  return (config?.suspense ? useSuspenseQuery : useQuery)<Account | null>({
     queryKey: ['account', email],
     queryFn: async () => {
       const data = await ofetch<Account>(
