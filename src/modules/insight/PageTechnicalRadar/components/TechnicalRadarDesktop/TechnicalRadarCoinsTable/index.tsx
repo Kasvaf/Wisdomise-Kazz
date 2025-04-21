@@ -20,7 +20,6 @@ import { TableRank } from 'shared/TableRank';
 import { RadarFilter } from 'modules/insight/RadarFilter';
 import { ConfirmationBadgesInfo } from '../../ConfirmationWidget/ConfirmationBadge/ConfirmationBadgesInfo';
 import { TechnicalRadarSentiment } from '../../TechnicalRadarSentiment';
-import { TechnicalRadarFilters } from '../../TechnicalRadarFilters';
 import { ReactComponent as Logo } from './logo.svg';
 
 export const TechnicalRadarCoinsTable: FC = () => {
@@ -140,12 +139,6 @@ export const TechnicalRadarCoinsTable: FC = () => {
 
   return (
     <div>
-      <TechnicalRadarFilters
-        value={tableState}
-        onChange={newState => setTableState(newState)}
-        className="mb-4 w-full"
-        surface={3}
-      />
       <RadarFilter
         radar="technical-radar"
         value={tableState}

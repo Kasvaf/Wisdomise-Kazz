@@ -134,7 +134,7 @@ export function RadarFilter({
   return (
     <div
       className={clsx(
-        'flex w-full gap-4 bg-wsdm-gradient mobile:block mobile:space-y-4',
+        'flex w-full gap-4 mobile:block mobile:space-y-4',
         className,
       )}
     >

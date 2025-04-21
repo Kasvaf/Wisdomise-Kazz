@@ -15,7 +15,6 @@ import { useLoadingBadge } from 'shared/LoadingBadge';
 import { RadarFilter } from 'modules/insight/RadarFilter';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
-import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Realtime } from './realtime.svg';
@@ -138,12 +137,6 @@ export function WhaleRadarCoinsWidget({
                 size="md"
               />
             </div>
-            <WhaleRadarFilters
-              value={tableState}
-              onChange={newState => setTableState(newState)}
-              className="w-full"
-              surface={3}
-            />
             <RadarFilter
               radar="whale-radar"
               value={tableState}
