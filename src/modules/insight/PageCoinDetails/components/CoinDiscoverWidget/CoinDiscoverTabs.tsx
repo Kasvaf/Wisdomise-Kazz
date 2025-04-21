@@ -2,6 +2,7 @@ import { type FC } from 'react';
 import { clsx } from 'clsx';
 import useMenuItems from 'modules/base/Layout/MenuItems/useMenuItems';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { useHasFlag } from 'api';
 
 export const DISCOVER_TABS = [
   'network-radar',
@@ -18,8 +19,9 @@ export const CoinDiscoverTabs: FC<{
   onChange?: (newValue: CoinDiscoverTab) => void;
   className?: string;
 }> = ({ value, onChange, className }) => {
-  const { items } = useMenuItems();
-
+  const hasFlag = useHasFlag();
+  const menuItems = useMenuItems();
+  const items = menuItems.items.filter(i => !i.hide && hasFlag(i.link));
   const tabs = DISCOVER_TABS.map(x => items.find(y => y.name === x)).filter(
     x => !!x,
   );
