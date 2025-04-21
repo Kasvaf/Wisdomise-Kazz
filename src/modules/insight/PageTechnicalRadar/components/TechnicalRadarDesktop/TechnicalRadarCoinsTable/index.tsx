@@ -51,7 +51,7 @@ export const TechnicalRadarCoinsTable: FC = () => {
             <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
             <Tooltip
               open={index === hoveredRow}
-              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent"
+              rootClassName="[&_.ant-tooltip-arrow]:!hidden [&_.ant-tooltip-inner]:!bg-transparent [&_.ant-tooltip-inner]:!p-0"
               placement="left"
               title={
                 <Button
