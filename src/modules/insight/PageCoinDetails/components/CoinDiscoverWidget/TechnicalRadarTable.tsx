@@ -6,6 +6,7 @@ import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
 import { TechnicalRadarSentiment } from 'modules/insight/PageTechnicalRadar/components/TechnicalRadarSentiment';
+import { AccessShield } from 'shared/AccessShield';
 
 export const TechnicalRadarTable: FC<{
   onClick: (coin: TechnicalRadarCoin) => void;
@@ -61,14 +62,24 @@ export const TechnicalRadarTable: FC<{
   );
 
   return (
-    <MobileTable
-      className="max-w-full"
-      columns={columns}
-      dataSource={coins.data ?? []}
-      rowKey={r => JSON.stringify(r.symbol)}
-      loading={coins.isLoading}
-      surface={2}
-      onClick={onClick}
-    />
+    <AccessShield
+      mode="children"
+      sizes={{
+        guest: true,
+        initial: true,
+        free: true,
+        vip: false,
+      }}
+    >
+      <MobileTable
+        className="max-w-full"
+        columns={columns}
+        dataSource={coins.data ?? []}
+        rowKey={r => JSON.stringify(r.symbol)}
+        loading={coins.isLoading}
+        surface={2}
+        onClick={onClick}
+      />
+    </AccessShield>
   );
 };

@@ -29,6 +29,7 @@ export interface AlertForm {
   defaultValue?: () => Promise<Partial<Alert>>;
   save?: (payload: Partial<Alert>) => Promise<unknown>;
   delete?: (payload: Partial<Alert>) => Promise<unknown>;
+  onClick?: () => void;
 }
 
 export interface AlertFormGroup {
@@ -39,4 +40,5 @@ export interface AlertFormGroup {
   disabled?: () => boolean;
   hidden?: () => boolean;
   children: AlertForm[];
+  onClick?: () => void;
 }

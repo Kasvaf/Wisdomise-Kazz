@@ -5,7 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { type EChartsOption, type ScatterSeriesOption } from 'echarts';
 import { bxShareAlt } from 'boxicons-quasar';
-import { useTechnicalRadarCoins, type TechnicalRadarCoin } from 'api';
+import {
+  useTechnicalRadarCoins,
+  type TechnicalRadarCoin,
+  useSubscription,
+} from 'api';
 import { ECharts } from 'shared/ECharts';
 import { AccessShield } from 'shared/AccessShield';
 import Icon from 'shared/Icon';
@@ -14,6 +18,7 @@ import { formatNumber } from 'utils/numbers';
 import { Button } from 'shared/v1-components/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import { useNormalizeTechnicalChartBubbles } from './useNormalizeTechnicalChartBubbles';
 import { ReactComponent as Logo } from './logo.svg';
 
@@ -31,6 +36,8 @@ export const TechnicalRadarChart: FC<{
   });
   const navigate = useNavigate();
   const parsedData = useNormalizeTechnicalChartBubbles(coins.data ?? [], type);
+  const subscription = useSubscription();
+  const isLoggedIn = useIsLoggedIn();
 
   const options = useMemo<EChartsOption>(() => {
     return {
@@ -276,6 +283,7 @@ export const TechnicalRadarChart: FC<{
             size="xs"
             onClick={capture}
             variant="ghost"
+            disabled={!isLoggedIn || subscription.level < 1}
             className="!rounded-full"
           >
             <Icon name={bxShareAlt} size={10} />
@@ -290,12 +298,10 @@ export const TechnicalRadarChart: FC<{
         mode="children"
         className="relative"
         sizes={{
-          'guest': true,
-          'initial': true,
-          'free': true,
-          'pro': type !== 'expensive_bearish',
-          'pro+': false,
-          'pro_max': false,
+          guest: true,
+          initial: true,
+          free: true,
+          vip: false,
         }}
       >
         <ECharts
