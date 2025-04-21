@@ -27,10 +27,8 @@ balance:
   buy: Buy WSDM
 connect-wallet:
   billing:
-    title: Payment by Wisdomise Token
-    description: >-
-      Your Wisdomise Tokens will not be deducted, you will only need to hold the
-      tokens in your wallet for the subscription period in order to gain access.
+    title: Connect Your Wallet
+    description: Connect your wallet to start staking and access the Wise Club.
   connect: Connect Wallet
   current-wallet: current wallet address
   disconnect: Disconnect

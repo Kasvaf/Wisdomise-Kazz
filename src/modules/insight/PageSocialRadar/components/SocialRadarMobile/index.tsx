@@ -4,11 +4,7 @@ import { useTableState } from 'shared/Table';
 import { Coin } from 'shared/Coin';
 import { AccessShield } from 'shared/AccessShield';
 import { CoinLabels } from 'shared/CoinLabels';
-import {
-  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
-  type SocialRadarCoin,
-  useSocialRadarCoins,
-} from 'api';
+import { type SocialRadarCoin, useSocialRadarCoins } from 'api';
 import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
@@ -17,8 +13,8 @@ import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
 import { TableRank } from 'shared/TableRank';
 import SocialRadarSharingModal from 'modules/insight/PageSocialRadar/components/SocialRadarSharingModal';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { SocialRadarSentiment } from '../SocialRadarSentiment';
-import { SocialRadarFilters } from '../SocialRadarFilters';
 
 export const SocialRadarMobile = () => {
   const [, tableState, setTableState] = useTableState<
@@ -51,13 +47,7 @@ export const SocialRadarMobile = () => {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
         render: row => (
-          <TableRank
-            highlighted={
-              (row.wise_score ?? 0) >= MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE
-            }
-          >
-            {row.rank}
-          </TableRank>
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
         ),
       },
       {
@@ -101,7 +91,9 @@ export const SocialRadarMobile = () => {
               networks={row.networks}
               security={row.symbol_security?.data}
               coin={row.symbol}
-              mini
+              size="xs"
+              truncate
+              clickable={false}
             />
             <CoinMarketCap
               marketData={row.symbol_market_data}
@@ -117,7 +109,8 @@ export const SocialRadarMobile = () => {
 
   return (
     <>
-      <SocialRadarFilters
+      <RadarFilter
+        radar="social-radar-24-hours"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-4 w-full"
@@ -126,12 +119,10 @@ export const SocialRadarMobile = () => {
       <AccessShield
         mode="mobile_table"
         sizes={{
-          'guest': true,
-          'initial': 3,
-          'free': 3,
-          'pro': false,
-          'pro+': false,
-          'pro_max': false,
+          guest: true,
+          initial: true,
+          free: true,
+          vip: false,
         }}
       >
         <MobileTable

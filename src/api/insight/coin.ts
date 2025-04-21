@@ -6,11 +6,15 @@ import {
   type NetworkSecurity,
   type MiniMarketData,
 } from '../types/shared';
-import { type SocialRadarSentiment } from './social';
+import {
+  MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE,
+  type SocialRadarSentiment,
+} from './social';
 import {
   type TechnicalRadarSentiment,
   type MacdConfirmation,
   type RsiConfirmation,
+  MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE,
 } from './technical';
 import { matcher } from './utils';
 
@@ -28,6 +32,7 @@ export interface CoinRadarCoin {
   total_score?: null | number;
   networks?: null | CoinNetwork[];
   market_data?: MiniMarketData;
+  _highlighted?: boolean;
 }
 
 export const useCoinRadarCoins = (config: { networks?: string[] }) =>
@@ -43,27 +48,42 @@ export const useCoinRadarCoins = (config: { networks?: string[] }) =>
         },
       ),
     select: data =>
-      data.filter(row => {
-        if (
-          !matcher(config.networks).array(
-            row.networks?.map(x => x.network.slug),
-          )
-        )
-          return false;
-
-        /* remove zero pools tokens if config.network contains solana */
-        if (config.networks?.includes('solana')) {
-          const solana = row.networks?.find(x => x.network.slug === 'solana');
+      data
+        .filter(row => {
           if (
-            solana &&
-            solana.symbol_network_type === 'TOKEN' &&
-            !solana.pool_count
+            !matcher(config.networks).array(
+              row.networks?.map(x => x.network.slug),
+            )
           )
             return false;
-        }
 
-        return true;
-      }),
+          /* remove zero pools tokens if config.network contains solana */
+          if (config.networks?.includes('solana')) {
+            const solana = row.networks?.find(x => x.network.slug === 'solana');
+            if (
+              solana &&
+              solana.symbol_network_type === 'TOKEN' &&
+              !solana.pool_count
+            )
+              return false;
+          }
+
+          return true;
+        })
+        .map(row => {
+          if (
+            (row.social_radar_insight?.wise_score ?? 0) >
+              MINIMUM_SOCIAL_RADAR_HIGHLIGHTED_SCORE ||
+            (row.technical_radar_insight?.wise_score ?? 0) >
+              MINIMUM_TECHNICAL_RADAR_HIGHLIGHTED_SCORE
+          ) {
+            return {
+              ...row,
+              _highlighted: true,
+            };
+          }
+          return row;
+        }),
     meta: {
       persist: true,
     },

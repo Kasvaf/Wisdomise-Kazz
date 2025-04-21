@@ -24,7 +24,7 @@ import { WRSProgress } from './WRSProgress';
 
 export const WhaleRadarSentiment: FC<{
   value?: WhaleRadarSentimentType | null;
-  mode: 'default' | 'mini' | 'expanded' | 'card';
+  mode: 'default' | 'mini' | 'expanded' | 'card' | 'tiny';
   marketData?: MiniMarketData | null;
   coin?: CoinType | null;
   className?: string;
@@ -142,7 +142,13 @@ export const WhaleRadarSentiment: FC<{
           <div className="flex items-center justify-between gap-2 text-xxs">
             {numbers.map(num => (
               <div key={num.label} className="text-start">
-                <p>{num.label}</p>
+                <p
+                  className={clsx(
+                    isAllNumbersZero && 'text-v1-content-secondary',
+                  )}
+                >
+                  {num.label}
+                </p>
                 <ReadableNumber
                   value={num.value ?? 0}
                   className={clsx('font-medium', num.color)}
@@ -180,6 +186,9 @@ export const WhaleRadarSentiment: FC<{
               label="$"
               showSign={false}
               showIcon={false}
+              format={{
+                decimalLength: 1,
+              }}
             />
           </div>
           <div className="flex items-center gap-1">
@@ -191,9 +200,21 @@ export const WhaleRadarSentiment: FC<{
               label="$"
               showSign={false}
               showIcon={false}
+              format={{
+                decimalLength: 1,
+              }}
             />
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (mode === 'tiny') {
+    return (
+      <div className="flex items-center gap-2">
+        <img src={WhaleIcon} alt="whale" className="w-[24px]" />
+        <p className="text-xs font-medium">{value?.wallet_count ?? 0}</p>
       </div>
     );
   }

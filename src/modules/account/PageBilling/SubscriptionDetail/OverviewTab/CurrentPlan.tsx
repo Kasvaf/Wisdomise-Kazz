@@ -11,7 +11,7 @@ export default function CurrentPlan() {
   const { data } = useAccountQuery();
   const { t } = useTranslation('billing');
   const { currentPeriodEnd, plan, status } = useSubscription();
-  const [PricingTableMod, openPricingTable] = useModal(PricingTable, {
+  const [PricingTableMod] = useModal(PricingTable, {
     width: 1200,
     className: '[&_.ant-modal-content]:p-4',
   });
@@ -34,25 +34,34 @@ export default function CurrentPlan() {
               value2={plan?.periodicity.toLowerCase()}
             />
           </Trans>
-          {!(plan?.level === 2 && plan?.periodicity === 'YEARLY') && (
-            <button
-              onClick={() => openPricingTable({ isUpdate: true })}
-              className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4 disabled:text-white/40"
-              disabled={paymentMethod === 'TOKEN'}
-            >
-              {t('subscription-details.overview.btn-change-plan')}
-            </button>
-          )}
+          {/* {!(plan?.level === 2 && plan?.periodicity === 'YEARLY') && ( */}
+          {/*   <button */}
+          {/*     onClick={() => openPricingTable({ isUpdate: true })} */}
+          {/*     className="text-sm text-[#34A3DA] underline decoration-current underline-offset-4 disabled:text-white/40" */}
+          {/*     disabled={paymentMethod === 'TOKEN'} */}
+          {/*   > */}
+          {/*     {t('subscription-details.overview.btn-change-plan')} */}
+          {/*   </button> */}
+          {/* )} */}
         </div>
-        {status !== 'trialing' && (
+        {paymentMethod === 'TOKEN' ? (
           <div>
-            {isAutoRenewEnabled
-              ? t('subscription-details.overview.current-plan.renew')
-              : t('subscription-details.overview.current-plan.expire')}
-            <InfoBadge
-              value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
-              value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
-            />
+            You will have access to Wise club until you have more than $1000
+            staked
+          </div>
+        ) : (
+          <div>
+            {status !== 'trialing' && (
+              <div>
+                {isAutoRenewEnabled
+                  ? t('subscription-details.overview.current-plan.renew')
+                  : t('subscription-details.overview.current-plan.expire')}
+                <InfoBadge
+                  value2={dayjs(currentPeriodEnd ?? 0).fromNow(true)}
+                  value1={dayjs(currentPeriodEnd ?? 0).format('MMMM D, YYYY')}
+                />
+              </div>
+            )}
           </div>
         )}
         <PendingInvoice />
@@ -65,7 +74,7 @@ export default function CurrentPlan() {
 export const paymentMethodText: Record<PaymentMethod, string> = {
   CRYPTO: 'Crypto',
   FIAT: 'Fiat',
-  TOKEN: 'Locked WSDM',
+  TOKEN: 'Staked WSDM',
   WSDM: 'Paid By WSDM',
   MANUAL: 'Manual',
 };

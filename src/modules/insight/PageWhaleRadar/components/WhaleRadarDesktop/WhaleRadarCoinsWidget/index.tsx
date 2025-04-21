@@ -12,9 +12,9 @@ import { CoinPriceInfo } from 'shared/CoinPriceInfo';
 import { CoinLabels } from 'shared/CoinLabels';
 import { SearchInput } from 'shared/SearchInput';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { WhaleCoinBuySellInfo } from '../../WhaleCoinBuySellInfo';
 import { WhaleRadarSentiment } from '../../WhaleRadarSentiment';
-import { WhaleRadarFilters } from '../../WhaleRadarFilters';
 import { ReactComponent as WhaleRadarIcon } from '../../whale-radar.svg';
 // eslint-disable-next-line import/max-dependencies
 import { ReactComponent as Realtime } from './realtime.svg';
@@ -137,7 +137,8 @@ export function WhaleRadarCoinsWidget({
                 size="md"
               />
             </div>
-            <WhaleRadarFilters
+            <RadarFilter
+              radar="whale-radar"
               value={tableState}
               onChange={newState => setTableState(newState)}
               className="w-full"
@@ -150,12 +151,10 @@ export function WhaleRadarCoinsWidget({
       <AccessShield
         mode="table"
         sizes={{
-          'guest': true,
-          'initial': 3,
-          'free': 3,
-          'pro': 3,
-          'pro+': 3,
-          'pro_max': false,
+          guest: false,
+          initial: false,
+          free: false,
+          vip: false,
         }}
       >
         <Table

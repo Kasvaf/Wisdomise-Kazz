@@ -2,15 +2,4 @@ pro-locker:
   login:
     button: Login
     message: Login to access exclusive crypto insights
-  pro:
-    button: Upgrade to Pro
-    message: Upgrade to Pro for exclusive insights to elevate your crypto game!
-  promax:
-    button: Upgrade to Pro Max
-    message: Upgrade to Pro Max for exclusive insights to elevate your crypto game!
-  proplus:
-    button: Upgrade to Pro+
-    message: Upgrade to Pro+ for exclusive insights to elevate your crypto game!
-  trial:
-    button: Start Free Trial
 zero-hour: 0 hour

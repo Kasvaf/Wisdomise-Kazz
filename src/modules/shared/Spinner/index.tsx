@@ -1,13 +1,14 @@
-import styles from './spinner.module.css';
+import { clsx } from 'clsx';
+import './style.css';
 
-const Spinner: React.FC = () => {
+const Spinner: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <div className={styles.loader + ' mobile:h-40 mobile:w-40'}>
-      <div className={styles.face}>
-        <div className={styles.circle}></div>
+    <div className={clsx('wsdm-spinner', 'size-60 mobile:size-40', className)}>
+      <div>
+        <span />
       </div>
-      <div className={styles.face}>
-        <div className={styles.circle}></div>
+      <div>
+        <span />
       </div>
     </div>
   );

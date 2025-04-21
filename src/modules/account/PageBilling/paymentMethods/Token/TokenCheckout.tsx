@@ -1,22 +1,23 @@
 /* eslint-disable import/max-dependencies */
 import { Trans, useTranslation } from 'react-i18next';
 import { clsx } from 'clsx';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useAccount } from 'wagmi';
+import { useCallback, useEffect } from 'react';
 import { notification } from 'antd';
-import Button from 'shared/Button';
+import { useDisconnect } from 'wagmi';
 import { addComma } from 'utils/numbers';
 import Card from 'shared/Card';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import { useSubmitTokenPayment } from 'api';
 import { useLocking } from 'modules/account/PageToken/web3/locking/useLocking';
 import { useWsdmBalance } from 'modules/account/PageToken/web3/wsdm/contract';
-import { useLockingRequirementQuery } from 'api/defi';
+import { useLockingRequirementQuery, useLockingStateQuery } from 'api/defi';
 import { useReadLockedBalance } from 'modules/account/PageToken/web3/locking/contract';
 import useModal from 'shared/useModal';
 import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymentMethods/Token/TransactionConfirmedModalContent';
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 import { unwrapErrorMessage } from 'utils/error';
+import { Button } from 'shared/v1-components/Button';
+import { track } from 'config/segment';
 
 interface Props {
   countdown: number;
@@ -33,53 +34,50 @@ export default function TokenCheckout({
 }: Props) {
   const { t } = useTranslation('billing');
   const { mutateAsync } = useSubmitTokenPayment();
-  const { data: lockedBalance } = useReadLockedBalance();
-  const { startLocking, lockTrxReceipt, isLoading, isLocking } = useLocking();
+  const { data: lockedBalance, refetch } = useReadLockedBalance();
+  const { startLocking, isLoading, isLocking, lockTrxReceipt } = useLocking();
   const {
     data: wsdmBalance,
     refetch: updateBalance,
     isLoading: balanceIsLoading,
   } = useWsdmBalance();
-  const { address } = useAccount();
   const { data: generalLockingRequirement } = useLockingRequirementQuery(
     plan.price,
   );
-  const { data: userLockingRequirement } = useLockingRequirementQuery(
-    plan.price,
-    address,
-  );
+  const { refetch: lockStateRefetch } = useLockingStateQuery();
   const [Modal, showModal] = useModal(TransactionConfirmedModalContent, {
     width: 800,
     closable: false,
     maskClosable: false,
   });
+  const { disconnect } = useDisconnect();
 
   useEffect(() => {
     void showModal({});
   }, [showModal]);
 
-  const canSubscribe = useMemo(
-    () =>
-      (generalLockingRequirement?.requirement_locking_amount ?? 0) <
-      Number(wsdmBalance?.value) +
-        (userLockingRequirement?.current_locking_amount ?? 0),
-    [
-      generalLockingRequirement?.requirement_locking_amount,
-      userLockingRequirement?.current_locking_amount,
-      wsdmBalance?.value,
-    ],
-  );
+  const canStake =
+    Number(wsdmBalance?.value ?? 0) / 10 ** (wsdmBalance?.decimals ?? 1) >
+    (generalLockingRequirement?.requirement_locking_amount ?? 0);
+
+  const canSubscribe =
+    (generalLockingRequirement?.requirement_locking_amount ?? 0) <=
+    Number(lockedBalance) / 10 ** 6;
+
+  const stakeRemaining =
+    (generalLockingRequirement?.requirement_locking_amount ?? 0) -
+    Number(lockedBalance) / 10 ** 6;
 
   const activate = async () => {
-    await ((userLockingRequirement?.requirement_locking_amount ?? 0) <= 0
-      ? submitTokenPayment()
-      : startLocking(
-          userLockingRequirement?.requirement_locking_amount ?? 0,
-          countdown,
-        ));
+    void submitTokenPayment().then(() => track('stake_completed'));
+  };
+
+  const lock = () => {
+    void startLocking(stakeRemaining, countdown);
   };
 
   const submitTokenPayment = useCallback(async () => {
+    await lockStateRefetch();
     mutateAsync(
       invoiceKey
         ? { invoice_key: invoiceKey }
@@ -92,21 +90,29 @@ export default function TokenCheckout({
       .catch(error =>
         notification.error({ message: unwrapErrorMessage(error) }),
       );
-  }, [invoiceKey, mutateAsync, plan.key, setDone]);
+  }, [invoiceKey, lockStateRefetch, mutateAsync, plan.key, setDone]);
 
   useEffect(() => {
     if (lockTrxReceipt?.status === 'success') {
-      void submitTokenPayment();
+      void refetch();
     }
-  }, [lockTrxReceipt, submitTokenPayment]);
+  }, [lockTrxReceipt, refetch, submitTokenPayment]);
 
   return (
     <Card className="flex flex-col items-center gap-6 text-center">
-      <h3 className="flex w-full items-center justify-between text-xl">
+      <h3 className="flex w-full items-center justify-between gap-2 text-xl">
         {plan.name}
         <Button
-          className="mt-2 !p-2"
-          variant="secondary"
+          size="xs"
+          className="ml-auto"
+          variant="outline"
+          onClick={() => disconnect()}
+        >
+          Disconnect
+        </Button>
+        <Button
+          size="xs"
+          variant="outline"
           disabled={balanceIsLoading}
           onClick={() => updateBalance()}
         >
@@ -132,18 +138,16 @@ export default function TokenCheckout({
                 canSubscribe ? 'text-green-400' : 'text-red-400',
               )}
             >
-              {userLockingRequirement?.current_locking_amount?.toLocaleString()}
+              {addComma(Number(lockedBalance) / 10 ** 6)}
             </div>
-            <div className="text-sm opacity-50">
-              {t('token-modal.already-locked')}
-            </div>
+            <div className="text-sm opacity-50">Already Staked Balance</div>
           </div>
         ) : (
           <div className="text-center">
             <div
               className={clsx(
                 'mb-5 text-4xl',
-                canSubscribe ? 'text-green-400' : 'text-red-400',
+                canSubscribe || canStake ? 'text-green-400' : 'text-red-400',
               )}
             >
               {addComma(
@@ -157,19 +161,39 @@ export default function TokenCheckout({
           </div>
         )}
       </div>
-      <Card className="!bg-black/80">
-        <p className="text-sm text-white/80">{t('token-modal.description')}</p>
-      </Card>
+      {(lockedBalance ?? 0n) > 0 && (
+        <div>
+          Congratulation!
+          <br />
+          You now earn your share of 50% of Wisdomise&apos;s revenue
+          {!canSubscribe && (
+            <span>
+              <br />
+              increase your stake up to 1,000$ to has access to all over product
+              <br />
+              (Stake {addComma(stakeRemaining)} More $WSDM to Access Wise club)
+            </span>
+          )}
+        </div>
+      )}
       <div className="max-w-[18rem]">
         {canSubscribe ? (
           <Button
-            variant="primary-purple"
             disabled={isLoading}
             loading={isLoading}
             onClick={activate}
             className="mb-6 w-full"
           >
-            {t('token-modal.activate-subscription')}
+            Activate Wise Club
+          </Button>
+        ) : canStake ? (
+          <Button
+            disabled={isLoading}
+            loading={isLoading}
+            onClick={lock}
+            className="mb-6 w-full"
+          >
+            Stake Now
           </Button>
         ) : (
           <BuyWSDM className="w-full" />

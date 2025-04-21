@@ -88,7 +88,11 @@ function AlertFormGroupButton({
           expanded && '!bg-v1-surface-l6',
         )}
         disabled={value.disabled?.()}
-        onClick={() => setExpanded(p => !p)}
+        onClick={() => {
+          console.log('here');
+          value.onClick?.();
+          setExpanded(p => !p);
+        }}
       >
         <AlertFormName value={value} className="grow" />
         <span

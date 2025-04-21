@@ -113,9 +113,9 @@ export function AccessShield({
   const nextGroup = useMemo<UserGroup | undefined>(() => {
     const sizeNumber = calcSize(size);
     if (sizeNumber === 0) return;
-    const groups: UserGroup[] = ['guest', 'initial', 'pro', 'pro+', 'pro_max'];
+    const groups: UserGroup[] = ['guest', 'initial', 'vip'];
     const allowdGroup = groups.find(x => calcSize(sizes[x]) === 0);
-    return allowdGroup ?? 'pro_max';
+    return allowdGroup ?? 'vip';
   }, [sizes, size]);
 
   const { root, shield, height, maxHeight, isReady } = useShield(mode, size);
@@ -130,10 +130,10 @@ export function AccessShield({
         {calcSize(size) > 0 && (
           <div
             className={clsx(
-              'z-[2] hidden w-full rounded-xl',
+              'z-[2] w-full rounded-xl',
               height < 170 ? 'gap-2 p-2' : 'gap-4 p-4',
               maxHeight < 900 ? 'justify-center' : 'justify-start',
-              'flex-col items-center backdrop-blur',
+              'flex flex-col items-center backdrop-blur',
               'bg-[rgba(29,38,47,0.2)]',
               !isReady && 'hidden',
             )}
@@ -151,11 +151,7 @@ export function AccessShield({
             >
               {group === 'guest'
                 ? t('pro-locker.login.message')
-                : nextGroup === 'pro'
-                ? t('pro-locker.pro.message')
-                : nextGroup === 'pro+'
-                ? t('pro-locker.proplus.message')
-                : t('pro-locker.promax.message')}
+                : 'Join Wise Club for exclusive insights to elevate your crypto game!'}
             </p>
 
             <HoverTooltip
@@ -167,7 +163,7 @@ export function AccessShield({
               disabled={!isDebugMode}
             >
               <Button
-                onClick={() => ensureGroup(nextGroup ?? 'pro_max')}
+                onClick={() => ensureGroup(nextGroup ?? 'vip')}
                 variant="pro"
                 size="sm"
                 className="shrink-0"
@@ -175,13 +171,7 @@ export function AccessShield({
                 <Sparkle />
                 {group === 'guest'
                   ? t('pro-locker.login.button')
-                  : group === 'initial'
-                  ? t('pro-locker.trial.button')
-                  : nextGroup === 'pro'
-                  ? t('pro-locker.pro.button')
-                  : nextGroup === 'pro+'
-                  ? t('pro-locker.proplus.button')
-                  : t('pro-locker.promax.button')}
+                  : 'Join Wise Club'}
               </Button>
             </HoverTooltip>
             {loginModal}

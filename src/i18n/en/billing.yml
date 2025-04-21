@@ -73,7 +73,6 @@ subscription-details:
     method: Payment Method
     status: Status
   overview:
-    btn-change-plan: Change Plan
     current-plan:
       expire: Your plan will expires on
       pay-now: Pay Now!
@@ -89,11 +88,7 @@ subscription-details:
     next-plan:
       automatically-renew: It will automatically renew when the time comes.
       cancel-btn: Turn Off Auto-Renew
-      canceled: >-
-        <0>Your subscription will not renew automatically.<1>Turn On
-        Auto-Renew</1></0>
       card: Future charges will be applied to the card<1></1>
-      change-pay-method: Change Payment Method
       in-order-to-renew: In order to renew, you will have to send the transaction again on<1></1>
       pay-method: Your payment method is
 subscription-modal:
@@ -114,30 +109,13 @@ tabs:
   overview: Overview
 token-modal:
   title: Wisdomise AG
-  description: >-
-    Your Wisdomise Tokens will be locked in a vault for the subscription period
-    in order to gain access.
-  activate-subscription: Activate Subscription
-  already-locked: Already Locked Balance
   confirmed:
     title: Do not refresh or close your browser
     description: >-
       Your transaction has been successfully submitted and is being processed.
       Please wait for the transaction to complete.
   congratulations: Congratulations!
-  disclaimer: >-
-    By engaging in the WSDM Tokens Lockup, you hereby consent to the following
-    terms.
   done: Done
-  for-1-year: For 1 year
   refresh: Refresh
-  subscribe-to: Subscribe to
-  subtotal: Subtotal
-  token: WSDM
   token-name: Wisdomise Token (WSDM)
-  total-amount: Total due today
-  unlock-period: >-
-    <0>Unlock Period:</0> WSDM Tokens are subject to a 7-day unlock period. WSDM
-    Tokens are fully withdrawable without incurring any fees.
-  you-can: you can now access {{name}} Features.
   your-balance: Your WSDM Token Balance

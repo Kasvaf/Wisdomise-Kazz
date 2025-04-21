@@ -34,12 +34,10 @@ export function RsiHeatmapWidget({ className }: { className?: string }) {
       <AccessShield
         mode="children"
         sizes={{
-          'guest': true,
-          'initial': true,
-          'free': true,
-          'pro': false,
-          'pro+': false,
-          'pro_max': false,
+          guest: false,
+          initial: false,
+          free: false,
+          vip: false,
         }}
       >
         <RsiHeatmapChart

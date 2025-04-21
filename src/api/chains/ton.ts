@@ -1,6 +1,7 @@
 import {
   CHAIN,
   useTonAddress,
+  useTonConnectModal,
   useTonConnectUI,
   type SendTransactionRequest,
 } from '@tonconnect/ui-react';
@@ -10,6 +11,7 @@ import { isProduction } from 'utils/version';
 import { useUserStorage } from 'api/userStorage';
 import { fromBigMoney, toBigMoney } from 'utils/money';
 import { gtag } from 'config/gtag';
+import { usePromiseOfEffect } from './utils';
 
 const tonClient = new TonClient({
   endpoint: `${String(import.meta.env.VITE_TONCENTER_BASE_URL)}/api/v2/jsonRPC`,
@@ -179,3 +181,14 @@ export const useTonTransferAssetsMutation = (
     gtag('event', 'trade');
   };
 };
+
+export function useAwaitTonWalletConnection() {
+  const [tonConnectUI] = useTonConnectUI();
+  const { open } = useTonConnectModal();
+
+  return usePromiseOfEffect({
+    action: open,
+    done: tonConnectUI.connected || tonConnectUI.modalState.status === 'closed',
+    result: tonConnectUI.connected,
+  });
+}

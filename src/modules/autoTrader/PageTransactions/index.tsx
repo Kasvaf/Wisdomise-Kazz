@@ -24,7 +24,6 @@ export default function PageTransactions() {
     isLoading: transactionsLoading,
   } = useTraderPositionTransactionsQuery({
     positionKey,
-    // network:, // TODO: HOW?!
   });
 
   return (

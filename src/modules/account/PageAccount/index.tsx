@@ -15,7 +15,6 @@ import { PageTitle } from 'shared/PageTitle';
 import BtnLiveSupport from './BtnLiveSupport';
 import {
   ProfileIcon,
-  SubscriptionIcon,
   WsdmTokenIcon,
   ExternalAccountIcon,
   ReferralIcon,
@@ -51,37 +50,24 @@ const PageAccount: FC = () => {
             to="/account/billing"
             title={t('menu.billing.title')}
             description={t('menu.billing.subtitle')}
-            icon={SubscriptionIcon}
+            icon={WsdmTokenIcon}
             onClick={trackClick('subscription_menu')}
             badge={
-              <Badge
-                color={subscription.remaining ? 'white' : 'red'}
-                label={
-                  <span className="flex items-center gap-1">
-                    <span>{subscription.title}</span>
-                    {subscription.level !== 0 && (
-                      <>
-                        {'|'}
-                        <ReadableDuration
-                          value={subscription.remaining}
-                          zeroText={t('pro:zero-hour')}
-                        />{' '}
-                        {t('menu.billing.remains')}
-                      </>
-                    )}
-                  </span>
-                }
-              />
+              subscription.level !== 0 && (
+                <Badge
+                  color={subscription.remaining ? 'white' : 'red'}
+                  label={
+                    <span className="flex items-center gap-1">
+                      <ReadableDuration
+                        value={subscription.remaining}
+                        zeroText={t('pro:zero-hour')}
+                      />{' '}
+                      {t('menu.billing.remains')}
+                    </span>
+                  }
+                />
+              )
             }
-          />
-        )}
-        {!isMiniApp && (
-          <PageCard
-            to="/account/token"
-            title={t('menu.token.title')}
-            description={t('menu.token.subtitle')}
-            icon={WsdmTokenIcon}
-            onClick={trackClick('wsdm_token_menu')}
           />
         )}
         <PageCard

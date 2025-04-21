@@ -9,8 +9,9 @@ import { CoinMarketCap } from 'shared/CoinMarketCap';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { TableRank } from 'shared/TableRank';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { TechnicalRadarSentiment } from '../TechnicalRadarSentiment';
-import { TechnicalRadarFilters } from '../TechnicalRadarFilters';
 
 export const TechnicalRadarCoinsTable: FC<{
   onClick?: (coin: TechnicalRadarCoin) => void;
@@ -35,7 +36,9 @@ export const TechnicalRadarCoinsTable: FC<{
       {
         key: 'rank',
         className: 'max-w-6 min-w-2 text-start text-xs font-medium',
-        render: row => row.rank,
+        render: row => (
+          <TableRank highlighted={row._highlighted}>{row.rank}</TableRank>
+        ),
       },
       {
         key: 'coin',
@@ -78,7 +81,9 @@ export const TechnicalRadarCoinsTable: FC<{
               networks={row.networks}
               security={row.symbol_security?.data}
               coin={row.symbol}
-              mini
+              size="xs"
+              truncate
+              clickable={false}
             />
             <CoinMarketCap
               marketData={row.data}
@@ -94,7 +99,8 @@ export const TechnicalRadarCoinsTable: FC<{
 
   return (
     <>
-      <TechnicalRadarFilters
+      <RadarFilter
+        radar="technical-radar"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-2 w-full"
@@ -103,12 +109,10 @@ export const TechnicalRadarCoinsTable: FC<{
       <AccessShield
         mode="mobile_table"
         sizes={{
-          'guest': true,
-          'initial': 3,
-          'free': 3,
-          'pro': false,
-          'pro+': false,
-          'pro_max': false,
+          guest: true,
+          initial: true,
+          free: true,
+          vip: false,
         }}
       >
         <MobileTable

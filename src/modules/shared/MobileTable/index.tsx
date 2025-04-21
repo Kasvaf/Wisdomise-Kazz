@@ -38,9 +38,9 @@ export function MobileTable<RecordType extends object>({
     <tr
       key={rowKey(row)}
       className={clsx(
-        'relative h-[52px] w-full rounded-lg',
+        'relative w-full rounded-lg bg-[--row-color]',
         typeof onClick === 'function' &&
-          'bg-[--row-color] transition-all active:bg-[--active-color]',
+          'cursor-pointer transition-all hover:bg-[--active-color] active:bg-[--active-color]',
         rowClassName,
       )}
       data-table="tr"
@@ -53,7 +53,8 @@ export function MobileTable<RecordType extends object>({
           <td
             key={col.key}
             className={clsx(
-              'relative h-14 overflow-hidden px-1 py-2',
+              'relative overflow-hidden px-[2px]',
+              'h-14 align-middle',
               col.className,
               i === 0 && 'rounded-l-lg ps-2',
               i === self.length - 1 && 'rounded-r-lg pe-2',
@@ -64,14 +65,12 @@ export function MobileTable<RecordType extends object>({
         ))}
     </tr>
   );
-  const loadingRow = (
-    <tr data-table="placeholder" className="w-full">
-      <td colSpan={99}>
-        <div className="flex w-full max-w-full items-center justify-center overflow-hidden p-4">
-          <Spinner />
-        </div>
-      </td>
-    </tr>
+  const loadingCols = (
+    <td colSpan={99}>
+      <div className="flex w-full max-w-full items-center justify-center overflow-hidden p-4 py-20">
+        <Spinner className="!size-20" />
+      </div>
+    </td>
   );
   return (
     <table
@@ -80,14 +79,18 @@ export function MobileTable<RecordType extends object>({
         ['--active-color' as never]: colors.next,
       }}
       className={clsx(
-        'w-full max-w-full border-separate border-spacing-y-2',
+        'w-full max-w-full border-separate border-spacing-x-0 border-spacing-y-2',
         (loading || dataSource.length === 0) &&
           'items-center justify-center px-2 py-10',
         className,
       )}
     >
       {loading ? (
-        <tbody>{loadingRow}</tbody>
+        <tbody>
+          <tr data-table="placeholder" className="w-full">
+            {loadingCols}
+          </tr>
+        </tbody>
       ) : dataSource.length === 0 ? (
         <tbody>
           <tr data-table="placeholder" className="w-full text-center">
@@ -101,7 +104,11 @@ export function MobileTable<RecordType extends object>({
         <>
           <tbody>{dataSource.slice(0, 25).map(rowRender)}</tbody>
           {dataSource.length > 25 && (
-            <Lazy freezeOnceVisible tag="tbody" fallback={loadingRow}>
+            <Lazy
+              freezeOnceVisible
+              tag="tbody"
+              unMountedClassName="table-row h-16 w-full"
+            >
               {dataSource.slice(25).map(rowRender)}
             </Lazy>
           )}

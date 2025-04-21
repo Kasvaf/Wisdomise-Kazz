@@ -1,4 +1,4 @@
-import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
+import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { isMiniApp } from 'utils/version';
 import { useReferralStatusQuery } from 'api';
 
@@ -7,7 +7,7 @@ export function useReferral() {
 
   const myOrigin = window.location.origin;
   const webReferralLink = `${myOrigin}/ref/${referral?.referral_code ?? ''}`;
-  const tgReferralLink = `${AUTO_TRADER_MINI_APP_BASE}?startapp=referrer_${
+  const tgReferralLink = `${TELEGRAM_BOT_BASE_URL}?startapp=referrer_${
     referral?.referral_code ?? ''
   }`;
   return isMiniApp ? tgReferralLink : webReferralLink;

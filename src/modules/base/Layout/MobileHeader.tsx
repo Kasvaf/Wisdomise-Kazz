@@ -53,8 +53,8 @@ const MobileHeader: React.FC<
 
   return (
     <div className={clsx('bg-v1-background-primary', className)}>
-      <div className="flex h-full items-center px-4 py-2">
-        <div className="w-[calc(100vw-2rem)]">
+      <div className="flex h-full items-center px-3 py-2">
+        <div className="w-full">
           <div className="flex items-center justify-between">
             {children || defaultChildren}
           </div>

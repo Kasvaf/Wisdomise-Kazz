@@ -133,32 +133,8 @@ const CoinPreDetailsContent: FC<
           networks={networks}
           security={security}
           coin={coin}
+          size="md"
         />
-      </div>
-
-      <div className="flex flex-col items-stretch gap-4">
-        <div className="flex gap-3">
-          <NavLink to={`/coin/${coin.slug}`} className="block basis-1/2">
-            <Button
-              variant="outline"
-              surface={2}
-              size="sm"
-              block
-              className="w-full"
-            >
-              <Icon name={bxSlider} />
-              {t('pre_detail_modal.details')}
-            </Button>
-          </NavLink>
-          <PriceAlertButton
-            variant="outline"
-            surface={2}
-            size="sm"
-            className="basis-1/2"
-            slug={coin.slug}
-          />
-        </div>
-        <BtnAutoTrade slug={coin.slug} variant="primary" />
       </div>
       {LoginModal}
     </div>
@@ -172,12 +148,42 @@ export const CoinPreDetailModal: FC<
     children?: ReactNode;
   }
 > = ({ open, onClose, children, coin, ...props }) => {
+  const { t } = useTranslation('insight');
+
   return (
     <DrawerModal
       open={open}
       onClose={onClose}
       closeIcon={null}
       className="[&_.ant-drawer-header]:hidden"
+      footer={
+        coin && (
+          <div className="flex flex-col items-stretch gap-4">
+            <div className="flex gap-3">
+              <NavLink to={`/coin/${coin.slug}`} className="block basis-1/2">
+                <Button
+                  variant="outline"
+                  surface={2}
+                  size="sm"
+                  block
+                  className="w-full"
+                >
+                  <Icon name={bxSlider} />
+                  {t('pre_detail_modal.details')}
+                </Button>
+              </NavLink>
+              <PriceAlertButton
+                variant="outline"
+                surface={2}
+                size="sm"
+                className="basis-1/2"
+                slug={coin.slug}
+              />
+            </div>
+            <BtnAutoTrade slug={coin.slug} variant="primary" />
+          </div>
+        )
+      }
     >
       {coin && open && (
         <CoinPreDetailsContent coin={coin} {...props}>

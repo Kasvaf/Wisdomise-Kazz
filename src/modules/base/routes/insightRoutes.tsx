@@ -89,7 +89,7 @@ const useInsightRoutes = () => {
     {
       path: 'coin',
       element: <Container />,
-      handle: { crumb: t('menu.coin.title') },
+      handle: { crumb: t('menu.coin.title'), href: '/coin-radar' },
       children: [
         {
           path: ':slug',

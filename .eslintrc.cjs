@@ -180,7 +180,12 @@ module.exports = {
       },
     ],
 
-    'tailwindcss/no-custom-classname': 'error',
+    'tailwindcss/no-custom-classname': [
+      'error',
+      {
+        whitelist: ['id-.*'],
+      },
+    ],
     'prettier/prettier': [
       'error',
       {

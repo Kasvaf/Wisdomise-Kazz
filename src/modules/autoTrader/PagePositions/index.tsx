@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import { useNavigate } from 'react-router-dom';
 import { CoinSelect } from 'modules/alert/components/CoinSelect';
 import useSearchParamAsState from 'shared/useSearchParamAsState';
 import PageWrapper from 'modules/base/PageWrapper';
@@ -7,13 +6,13 @@ import { ButtonSelect } from 'shared/ButtonSelect';
 import Button from 'shared/Button';
 import useIsMobile from 'utils/useIsMobile';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
+import { useActiveWallet } from 'api/chains';
 import useEnsureIsSupportedPair from '../useEnsureIsSupportedPair';
 import useTradeDrawer from '../PageTrade/useTradeDrawer';
 import PositionsList from './PositionsList';
 
 const PagePositions = () => {
   const isMobile = useIsMobile();
-  const navigate = useNavigate();
   const [filter, setFilter] = useSearchParamAsState<'active' | 'history'>(
     'filter',
     'active',
@@ -22,6 +21,7 @@ const PagePositions = () => {
 
   useEnsureIsSupportedPair({ slug, nextPage: '/trader/positions' });
   const [TradeDrawer, openTradeDrawer] = useTradeDrawer();
+  const wallet = useActiveWallet();
 
   return (
     <PageWrapper hasBack>
@@ -64,11 +64,11 @@ const PagePositions = () => {
           <Button
             variant="brand"
             className={clsx('block', isMobile ? 'w-full' : 'w-80')}
-            onClick={() =>
-              isMobile
-                ? navigate(`/trader/bot/${slug}`)
-                : openTradeDrawer({ slug })
-            }
+            onClick={async () => {
+              if (wallet.connected || (await wallet.connect())) {
+                openTradeDrawer({ slug });
+              }
+            }}
           >
             Start Trading
           </Button>

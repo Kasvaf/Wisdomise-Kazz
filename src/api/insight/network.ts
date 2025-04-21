@@ -4,7 +4,7 @@ import { type Network, type Coin, type CoinDetails } from 'api/types/shared';
 import { resolvePageResponseToArray } from 'api/utils';
 import { matcher } from './utils';
 
-export interface NetworkRadarPool {
+export interface NetworkRadarNCoin {
   _rank?: number;
   address: string;
   base_contract_address: string;
@@ -54,13 +54,22 @@ export interface NetworkRadarPool {
       market_cap: number;
     };
   };
+  risks?: {
+    name?: string;
+    description?: string;
+    level?: 'warn' | 'danger';
+    score?: number;
+    value?: string;
+  };
+  risk_percent?: number;
+  rugged?: boolean;
 }
 
-export const useNetworkRadarPools = (config: { networks?: string[] }) =>
+export const useNetworkRadarNCoins = (config: { networks?: string[] }) =>
   useQuery({
     queryKey: ['network-radar-pools'],
     queryFn: () =>
-      resolvePageResponseToArray<NetworkRadarPool>(
+      resolvePageResponseToArray<NetworkRadarNCoin>(
         '/delphi/market/new-born-pools/',
         {
           query: {

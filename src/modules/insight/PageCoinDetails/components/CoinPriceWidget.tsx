@@ -25,7 +25,6 @@ import useIsMobile from 'utils/useIsMobile';
 import { DrawerModal } from 'shared/DrawerModal';
 import { PriceAlertButton } from './PriceAlertButton';
 import { CoinStatsWidget } from './CoinStatsWidget';
-import { CoinLinksWidget } from './CoinLinksWidget';
 import { CoinIntroductionWidget } from './CoinIntroductionWidget';
 
 export function CoinPriceWidget({
@@ -203,7 +202,7 @@ export function CoinPriceWidget({
         <div className="space-y-2">
           <CoinStatsWidget slug={slug} />
           <div className="h-px bg-v1-content-secondary/30" />
-          <CoinLinksWidget slug={slug} />
+          {/* <CoinLinksWidget slug={slug} /> */}
           <div className="h-px bg-v1-content-secondary/30" />
           <CoinIntroductionWidget slug={slug} />
         </div>

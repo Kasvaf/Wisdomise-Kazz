@@ -5,6 +5,8 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useActiveNetwork } from 'modules/base/active-network';
 import '@solana/wallet-adapter-react-ui/styles.css';
 import useIsMobile from 'utils/useIsMobile';
+import { trackClick } from 'config/segment';
+import { useIsLoggedIn } from '../auth/jwt-store';
 
 const BtnSolanaWalletConnect: React.FC<{ className?: string }> = ({
   className,
@@ -35,11 +37,24 @@ const BtnSolanaWalletConnect: React.FC<{ className?: string }> = ({
 const BtnWalletConnect: React.FC<{ className?: string }> = ({ className }) => {
   const isMobile = useIsMobile();
   const net = useActiveNetwork();
+  const isLoggedIn = useIsLoggedIn();
 
-  return net === 'the-open-network' ? (
-    <TonConnectButton className={clsx(className, !isMobile && 'h-[32px]')} />
-  ) : net === 'solana' ? (
-    <BtnSolanaWalletConnect className={className} />
+  const onClick = () => {
+    trackClick('wallet_connect', { network: net })();
+  };
+
+  if (!isLoggedIn) return null;
+
+  return net ? (
+    <div onClick={onClick}>
+      {net === 'the-open-network' ? (
+        <TonConnectButton
+          className={clsx(className, !isMobile && 'h-[32px]')}
+        />
+      ) : net === 'solana' ? (
+        <BtnSolanaWalletConnect className={className} />
+      ) : null}
+    </div>
   ) : null;
 };
 

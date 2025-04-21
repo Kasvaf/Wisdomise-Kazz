@@ -1,5 +1,5 @@
-import { useMemo, type PropsWithChildren } from 'react';
-import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
+import { useMemo, useState, type PropsWithChildren } from 'react';
+import { THEME, TonConnect, TonConnectUIProvider } from '@tonconnect/ui-react';
 import {
   ConnectionProvider,
   WalletProvider as SolWalletProvider,
@@ -9,7 +9,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
-import { AUTO_TRADER_MINI_APP_BASE } from 'config/constants';
+import { TELEGRAM_BOT_BASE_URL } from 'config/constants';
 import { LayoutActiveNetworkProvider } from '../active-network';
 import WalletEvents from './WalletEvents';
 
@@ -52,18 +52,25 @@ const SolanaWalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [tonConnector] = useState(
+    new TonConnect({
+      manifestUrl: 'https://wisdomise.com/tonconnect-manifest.json',
+      walletsListSource: '/ton-wallets.json',
+    }),
+  );
+
   return (
     <TonConnectUIProvider
-      manifestUrl="https://wisdomise.com/tonconnect-manifest.json"
+      connector={tonConnector}
       uiPreferences={{ theme: THEME.DARK }}
       actionsConfiguration={{
-        twaReturnUrl: AUTO_TRADER_MINI_APP_BASE,
+        twaReturnUrl: TELEGRAM_BOT_BASE_URL,
       }}
     >
       <SolanaWalletProvider>
-        <WalletEvents>
-          <LayoutActiveNetworkProvider>{children}</LayoutActiveNetworkProvider>
-        </WalletEvents>
+        <LayoutActiveNetworkProvider>
+          <WalletEvents>{children}</WalletEvents>
+        </LayoutActiveNetworkProvider>
       </SolanaWalletProvider>
     </TonConnectUIProvider>
   );

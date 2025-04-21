@@ -1,13 +1,10 @@
-import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
+import UserAssets from 'modules/autoTrader/UserAssets';
 import { HotCoinsTable } from './HotCoinsTable';
-import UserAssets from './UserAssets';
 
 export const HomeMobile = () => {
-  const isLoggedIn = useIsLoggedIn();
-
   return (
     <>
-      {isLoggedIn && <UserAssets className="mb-4" />}
+      <UserAssets className="mb-4" />
       <HotCoinsTable />
     </>
   );

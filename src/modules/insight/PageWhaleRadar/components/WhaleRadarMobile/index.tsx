@@ -11,8 +11,8 @@ import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { CoinPreDetailModal } from 'modules/insight/CoinPreDetailModal';
 import { CoinPriceChart } from 'shared/CoinPriceChart';
 import { useLoadingBadge } from 'shared/LoadingBadge';
+import { RadarFilter } from 'modules/insight/RadarFilter';
 import { WhaleRadarSentiment } from '../WhaleRadarSentiment';
-import { WhaleRadarFilters } from '../WhaleRadarFilters';
 
 export const WhaleRadarMobile = () => {
   const [, tableState, setTableState] = useTableState<
@@ -87,7 +87,9 @@ export const WhaleRadarMobile = () => {
               networks={row.networks}
               security={row.symbol_security?.data}
               coin={row.symbol}
-              mini
+              size="xs"
+              truncate
+              clickable={false}
             />
             <CoinMarketCap
               marketData={row.data}
@@ -103,7 +105,8 @@ export const WhaleRadarMobile = () => {
 
   return (
     <>
-      <WhaleRadarFilters
+      <RadarFilter
+        radar="whale-radar"
         value={tableState}
         onChange={newState => setTableState(newState)}
         className="mb-4 w-full"
@@ -112,12 +115,10 @@ export const WhaleRadarMobile = () => {
       <AccessShield
         mode="mobile_table"
         sizes={{
-          'guest': true,
-          'initial': 3,
-          'free': 3,
-          'pro': 3,
-          'pro+': 3,
-          'pro_max': false,
+          guest: false,
+          initial: false,
+          free: false,
+          vip: false,
         }}
       >
         <MobileTable

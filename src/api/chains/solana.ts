@@ -9,7 +9,10 @@ import {
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 import { fromBigMoney, toBigMoney } from 'utils/money';
+import { usePromiseOfEffect } from './utils';
 
 const CONTRACT_ADDRESSES = {
   'wrapped-solana': 'So11111111111111111111111111111111111111112',
@@ -184,3 +187,13 @@ export const useSolanaTransferAssetsMutation = (
     }
   };
 };
+
+export function useAwaitSolanaWalletConnection() {
+  const { connected } = useWallet();
+  const solanaModal = useWalletModal();
+  return usePromiseOfEffect({
+    action: useCallback(() => solanaModal.setVisible(true), [solanaModal]),
+    done: connected || !solanaModal.visible,
+    result: connected,
+  });
+}
