@@ -17,6 +17,7 @@ import TransactionConfirmedModalContent from 'modules/account/PageBilling/paymen
 import BuyWSDM from 'modules/account/PageToken/Balance/BuyWSDM';
 import { unwrapErrorMessage } from 'utils/error';
 import { Button } from 'shared/v1-components/Button';
+import { track } from 'config/segment';
 
 interface Props {
   countdown: number;
@@ -68,7 +69,7 @@ export default function TokenCheckout({
     Number(lockedBalance) / 10 ** 6;
 
   const activate = async () => {
-    void submitTokenPayment();
+    void submitTokenPayment().then(() => track('stake_completed'));
   };
 
   const lock = () => {
