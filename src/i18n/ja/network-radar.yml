@@ -1,6 +1,8 @@
 common:
   address: 住所
+  buy: 買う
   buy_sell: TXNS
+  buy_vol: 巻を購入
   contract_address: 契約住所
   created: 作成
   initial_liquidity: 初期流動性
@@ -10,6 +12,8 @@ common:
   recent_candles:
     info: 1 分単位の過去 20 分間のローソク足データ。
     title: 最近のキャンドル
+  sell: 売る
+  sell_vol: 売りボリューム
   socials: ソーシャルメディア
   txns:
     info: TXNS (トランザクション) は、このペアに対して実行された売買注文の合計数を示します。数値が高いほど、関心と活動が増加している可能性があります。

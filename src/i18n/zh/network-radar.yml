@@ -1,6 +1,8 @@
 common:
   address: 地址
+  buy: 購買
   buy_sell: 德州新星
+  buy_vol: 购买量
   contract_address: 合约地址
   created: 创建
   initial_liquidity: 初始流动性
@@ -10,6 +12,8 @@ common:
   recent_candles:
     info: 以 1 分钟为分辨率的最后 20 分钟的烛台数据。
     title: 近期蜡烛图
+  sell: 卖
+  sell_vol: 卖出量
   socials: 社交媒體
   txns:
     info: TXNS（交易）表示此货币对执行的买入和卖出订单总数。数字越大可能表示兴趣和活动越多。

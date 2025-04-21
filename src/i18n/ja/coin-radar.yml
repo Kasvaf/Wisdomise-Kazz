@@ -313,6 +313,11 @@ onboarding:
   sec-3:
     content: アラートをカスタマイズし、最もホットなコインに関するパーソナライズされたスクリーナーを作成することで、常に一歩先を行くことができます。リアルタイムで情報を入手し、ブレイクアウトのチャンスを逃さないようにしましょう。
     title: "チャンスを逃さない: アラートとスクリーナーを設定する"
+pools:
+  table:
+    address: 住所
+    txns: TXNS
+    volume: 音量
 screener:
   activated:
     got-it: わかった
