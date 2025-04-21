@@ -13,7 +13,7 @@ export function CoinDetailsTabs({
   hr?: boolean;
 }) {
   const { onChange, value } = useScrollPoint(options, 350);
-  if (options.length === 0) return null;
+  if (options.length < 2) return null;
   return (
     <>
       <div className={clsx(className)}>
