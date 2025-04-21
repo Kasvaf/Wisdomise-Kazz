@@ -12,6 +12,7 @@ common:
   recent_candles:
     info: 1 分単位の過去 20 分間のローソク足データ。
     title: 最近のキャンドル
+  risk: リスク
   sell: 売る
   sell_vol: 売りボリューム
   socials: ソーシャルメディア
@@ -26,7 +27,7 @@ page:
     列には売買取引の合計数が表示され、各プロジェクトの取引アクティビティと関心を識別するのに役立ちます。
   title: 溝
 security:
-  freeze_auth: 凍結認証<br />有効
+  freeze_auth: 凍結認証<br />無効
   lp_burned: LP<br />やけど
-  mint_auth: ミント認証<br />有効
+  mint_auth: ミント認証<br />無効
   top_holders: トップ10<br />ホルダー

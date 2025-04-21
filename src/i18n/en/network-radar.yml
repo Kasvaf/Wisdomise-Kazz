@@ -33,7 +33,7 @@ page:
     transactions, helping identify trading activity and interest in each
     project.
 security:
-  freeze_auth: Freeze Auth<br />Enabled
+  freeze_auth: Freeze Auth<br />Disabled
   lp_burned: LP<br />Burned
-  mint_auth: Mint Auth<br />Enabled
+  mint_auth: Mint Auth<br />Disabled
   top_holders: Top 10<br />Holders
