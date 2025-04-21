@@ -100,7 +100,7 @@ export default function PageBilling() {
               Stake Now
               <Arrow />
             </Button>
-            <div className="mb-16 w-max rounded-3xl bg-v1-overlay-10 px-5 py-2 text-sm text-v1-content-secondary">
+            <div className="mb-16 rounded-3xl bg-v1-overlay-10 px-5 py-2 text-sm text-v1-content-secondary">
               Have Questions or Need More Details? Check Out Our FAQ Page for
               Answers:{' '}
               <a
