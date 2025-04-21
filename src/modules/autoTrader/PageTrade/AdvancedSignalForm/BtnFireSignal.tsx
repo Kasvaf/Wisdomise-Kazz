@@ -68,7 +68,7 @@ const BtnFireSignal: React.FC<{
       <>
         {ModalLogin}
         <Button variant="brand" onClick={showModalLogin}>
-          {t('base:user.sign-in')}
+          Auto Trade
         </Button>
       </>
     );
