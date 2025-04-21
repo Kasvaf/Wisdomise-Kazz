@@ -30,7 +30,7 @@ const AdvancedSignalForm: React.FC<Props> = ({
     <div className={clsx('flex flex-col gap-3', className)}>
       <div className="flex flex-col gap-5">
         <PartIntro data={formState} baseSlug={baseSlug} />
-        <div className="my-4 border-b border-white/5" />
+        <div className="id-line my-4 border-b border-white/5" />
 
         <PartOpen data={formState} baseSlug={baseSlug} />
         <PartTpSl type="TP" data={formState} baseSlug={baseSlug} />

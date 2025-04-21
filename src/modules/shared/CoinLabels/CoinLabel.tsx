@@ -8,12 +8,12 @@ export function CoinLabel({
   className,
   value,
   popup = true,
-  mini = false,
+  size,
 }: {
   className?: string;
   value: string;
   popup?: boolean | ReactNode;
-  mini?: boolean;
+  size: 'xs' | 'sm' | 'md';
 }) {
   const { t } = useTranslation('coin-radar');
 
@@ -59,6 +59,7 @@ export function CoinLabel({
         short_term_overbought_risk: t(
           'coin_labels.short_term_overbought_risk.title',
         ),
+        new_born: t('coin_labels.new_born.title'),
       }[value as never] as string | undefined) ?? value.split('_').join(' ');
 
     const info = {
@@ -97,6 +98,7 @@ export function CoinLabel({
       short_term_overbought_risk: t(
         'coin_labels.short_term_overbought_risk.info',
       ),
+      new_born: t('coin_labels.new_born.info'),
     }[value as never] as string | undefined;
 
     const className = (() => {
@@ -120,7 +122,8 @@ export function CoinLabel({
       if (
         value.includes('uptrend') ||
         value.includes('bullish') ||
-        value.includes('oversold')
+        value.includes('oversold') ||
+        value === 'new_born'
       )
         return classNames.positive;
       return classNames.neutral;
@@ -134,41 +137,47 @@ export function CoinLabel({
     };
   }, [t, value]);
 
-  return mini ? (
-    <span
-      className={clsx(
-        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:size-4 [&_svg]:shrink-0',
-        className,
-      )}
-    >
-      <renderData.icon />
-    </span>
-  ) : (
+  return (
     <ClickableTooltip
       title={
         typeof popup === 'boolean' || popup === undefined ? (
-          <div>
-            <p className="mb-2 text-sm capitalize text-v1-content-primary">
-              {renderData.text}
+          <div className="flex flex-col gap-2">
+            <p
+              className={clsx(
+                'inline-flex w-fit items-center gap-2 px-2 py-1',
+                'rounded-full text-sm capitalize [&_img]:size-[20px] [&_svg]:size-[20px]',
+                renderData.className,
+              )}
+            >
+              <renderData.icon /> {renderData.text}
             </p>
-            <p className="text-xs text-v1-content-secondary">
-              {renderData.info}
-            </p>
+            {renderData.info && (
+              <p className="text-xs text-v1-content-primary">
+                {renderData.info}
+              </p>
+            )}
           </div>
         ) : (
           popup
         )
       }
       chevron={false}
-      disabled={popup === true ? !renderData.info : !popup}
+      disabled={!popup}
       className={clsx(
-        'h-6 rounded-full px-2 text-center text-xxs',
-        'whitespace-nowrap capitalize [&_img]:size-4 [&_img]:shrink-0 [&_svg]:!size-4 [&_svg]:shrink-0',
+        'rounded-full text-center text-xxs',
+        size === 'xs' &&
+          'flex size-[18px] items-center justify-center [&_img]:size-[12px] [&_svg]:size-[12px]',
+        size === 'sm' &&
+          'flex size-6 items-center justify-center [&_img]:size-[14px] [&_svg]:size-[14px]',
+        size === 'md' &&
+          'h-6 flex-row-reverse px-3 [&_img]:size-[16px] [&_svg]:!size-[16px]',
+        'whitespace-nowrap capitalize [&_img]:shrink-0 [&_svg]:shrink-0',
         renderData.className,
         className,
       )}
     >
-      <renderData.icon /> {renderData.text}
+      {size === 'md' && renderData.text}
+      <renderData.icon />
     </ClickableTooltip>
   );
 }

@@ -15,6 +15,7 @@ interface MenuItem {
 }
 
 export interface RootMenuItem extends MenuItem {
+  name: string;
   icon: JSX.Element;
   children?: MenuItem[];
 }
@@ -23,6 +24,7 @@ const useMenuItems = () => {
   const { t } = useTranslation('base');
   const items: RootMenuItem[] = [
     {
+      name: 'coin-radar',
       icon: <IconHome />,
       text: (
         <div className="flex items-center gap-0.5">
@@ -33,21 +35,25 @@ const useMenuItems = () => {
       link: '/coin-radar/overview',
     },
     {
+      name: 'network-radar',
       icon: <IconTrench />,
       text: t('menu.trench.title'),
       link: '/coin-radar/network-radar',
     },
     {
+      name: 'social-radar',
       icon: <IconSocial />,
       text: t('menu.social.title'),
       link: '/coin-radar/social-radar',
     },
     {
+      name: 'technical-radar',
       icon: <IconTechnical />,
       text: t('menu.technical.title'),
       link: '/coin-radar/technical-radar',
     },
     {
+      name: 'whale-radar',
       icon: <IconWhale />,
       text: t('menu.whale.title'),
       link: '/coin-radar/whale-radar',

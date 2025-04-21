@@ -62,6 +62,11 @@ coin_labels:
     info: >-
       This label marks symbols with strong social media presence and mentions by
       many unique accounts over the past month.
+  new_born:
+    title: New Born Asset
+    info: >-
+      This asset has been recently launched and may experience high volatility
+      as it establishes initial market interest and liquidity.
   short_term_bearish_overpriced:
     title: Short Term Bearish Overpriced
     info: >-
@@ -165,16 +170,10 @@ coin-details:
     coin_introduction:
       title: What is {{name}}?
     coin_links:
-      bitbucket: Bitbucket
       facebook: Facebook
-      github: Github
-      homepage: Home Page
-      official_links: Official Links
       reddit: Reddit
-      social: Social
       telegram: Telegram
       twitter: X (Twitter)
-      whitepaper: Whitepaper
     coin_stats:
       circulating_supply: Circulating Supply
       fdv: FDV
@@ -188,16 +187,11 @@ coin-details:
         cryptocurrency is, which should make it easier for it to be bought/sold
         on an exchange close to its value.
     markets:
-      title: Available Exchange
-      subtitle: >-
-        Explore Your Options, Discover the Available Exchanges for Seamless
-        Trading!
-      label: Markets
-      empty:
-        title: No Updates from Exchanges
-        subtitle: >-
-          No new exchange data at the moment. We’re keeping an eye out for any
-          changes. Check back later!
+      title: Exchanges
+      label: Exchanges
+    pools:
+      title: Pools
+      label: Pools
     price_performance:
       title: Price Performance
       ath: All-Time High
@@ -206,34 +200,13 @@ coin-details:
       low: Low
     socials:
       title: Social Feed
-      subtitle: Stay ahead in crypto with real-time scans of social media.
       label: Social
-      empty:
-        title: The Market’s Quiet
-        subtitle: >-
-          No updates right now, but we’re always scanning the crypto world. More
-          news is coming soon!
-      types:
-        all:
-          title: All Socials Feed
-        reddit:
-          title: Reddit
-        telegram:
-          title: Telegram
-        twitter:
-          title: X, Twitter
     trading_view:
       title: Technical Ideas
       label: Technical Ideas
-      empty:
-        title: No New Ideas Right Now
-        subtitle: >-
-          We're continuously exploring new strategies. Fresh technical insights
-          will be available soon!
-    whale_list:
-      label: Smart Whales
+    whales:
+      label: Whales
 common:
-  description: Description
   all_categories: All Categories
   all_exchanges: All Exchanges
   all_labels: All Labels
@@ -244,11 +217,19 @@ common:
   chain: Chain
   chains: Chains
   info: Info
-  load_more: Load More
+  low_liquidity_warn: This token has low liquidity. Trade carefully!
   native_coin: Native Coin
   price: Price
   search_coin: Search Coin...
   wise_labels: Wise™ Labels
+pools:
+  table:
+    name: Pair Name
+    address: Address
+    created_at: Created at
+    dex: DEX
+    txns: TXNS
+    volume: Volume
 set-price-notification:
   open-existing-modal-btn: Alert is Set
   open-modal-btn: Set Alert
@@ -301,3 +282,7 @@ social-radar:
           just the community’s view but also how market movements align with
           those opinions.
         </p>
+whales:
+  active: Active Whales
+  holding: Holding Whales
+  search: Search Whale...

@@ -28,7 +28,6 @@
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
-  animation-delay: 1s;
 }
 
 @keyframes lineAnim {

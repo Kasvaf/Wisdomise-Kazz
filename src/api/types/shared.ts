@@ -261,3 +261,16 @@ export interface CoinDetails {
     };
   };
 }
+
+export interface Pool {
+  address?: string | null;
+  name?: string | null;
+  fdv_usd?: number | null;
+  market_cap_usd?: number | null;
+  pool_created_at?: string | null;
+  reserve_in_usd?: number | null;
+  h24_volume_usd_liquidity?: number | null;
+  h24_sells?: number | null;
+  h24_buys?: number | null;
+  dex?: string | null;
+}

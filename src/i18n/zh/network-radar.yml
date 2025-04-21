@@ -1,6 +1,8 @@
 common:
   address: 地址
+  buy: 購買
   buy_sell: 德州新星
+  buy_vol: 购买量
   contract_address: 合约地址
   created: 创建
   initial_liquidity: 初始流动性
@@ -10,6 +12,9 @@ common:
   recent_candles:
     info: 以 1 分钟为分辨率的最后 20 分钟的烛台数据。
     title: 近期蜡烛图
+  risk: 风险
+  sell: 卖
+  sell_vol: 卖出量
   socials: 社交媒體
   txns:
     info: TXNS（交易）表示此货币对执行的买入和卖出订单总数。数字越大可能表示兴趣和活动越多。
@@ -21,7 +26,7 @@ page:
     列显示买卖交易的总数，有助于识别每个项目的交易活动和兴趣。
   title: 沟
 security:
-  freeze_auth: 冻结授权<br />已启用
+  freeze_auth: 冻结授权<br />已禁用
   lp_burned: LP<br />烧毁
-  mint_auth: Mint Auth<br />已启用
+  mint_auth: Mint Auth<br />已禁用
   top_holders: 前 10 名<br />持有人

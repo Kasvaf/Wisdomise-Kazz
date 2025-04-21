@@ -134,6 +134,7 @@ const CoinPreDetailsContent: FC<
           networks={networks}
           security={security}
           coin={coin}
+          size="md"
         />
       </div>
       {LoginModal}
