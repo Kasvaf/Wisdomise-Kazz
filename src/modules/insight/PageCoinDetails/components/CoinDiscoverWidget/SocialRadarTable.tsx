@@ -6,6 +6,7 @@ import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
 import { DirectionalNumber } from 'shared/DirectionalNumber';
 import { TableRank } from 'shared/TableRank';
 import { SocialRadarSentiment } from 'modules/insight/PageSocialRadar/components/SocialRadarSentiment';
+import { AccessShield } from 'shared/AccessShield';
 
 export const SocialRadarTable: FC<{
   onClick: (coin: SocialRadarCoin) => void;
@@ -64,14 +65,24 @@ export const SocialRadarTable: FC<{
   );
 
   return (
-    <MobileTable
-      className="max-w-full"
-      columns={columns}
-      dataSource={coins.data ?? []}
-      rowKey={r => JSON.stringify(r.symbol)}
-      loading={coins.isLoading}
-      surface={2}
-      onClick={onClick}
-    />
+    <AccessShield
+      mode="children"
+      sizes={{
+        guest: true,
+        initial: true,
+        free: true,
+        vip: false,
+      }}
+    >
+      <MobileTable
+        className="max-w-full"
+        columns={columns}
+        dataSource={coins.data ?? []}
+        rowKey={r => JSON.stringify(r.symbol)}
+        loading={coins.isLoading}
+        surface={2}
+        onClick={onClick}
+      />
+    </AccessShield>
   );
 };
