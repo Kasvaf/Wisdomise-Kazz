@@ -40,7 +40,12 @@ const QuickSwapForm: React.FC<{
         <div className="rounded-lg bg-v1-surface-l3 p-3">
           <div className="flex justify-between text-xs text-v1-content-secondary">
             <div>From {selectedNetAbr}</div>
-            <div className="flex items-center gap-1">
+            <div
+              className="flex items-center gap-1"
+              onClick={() =>
+                from.balance && from.setAmount(String(from.balance))
+              }
+            >
               <WalletIcon /> {from.balance}
             </div>
           </div>

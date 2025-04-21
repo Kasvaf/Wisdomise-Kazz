@@ -3,6 +3,7 @@ import { Button, type ButtonProps } from 'shared/v1-components/Button';
 import { ActiveNetworkProvider } from 'modules/base/active-network';
 import { useIsLoggedIn } from 'modules/base/auth/jwt-store';
 import useIsMobile from 'utils/useIsMobile';
+import { useActiveWallet } from 'api/chains';
 import useQuickSwapDrawer from './useQuickSwapDrawer';
 
 export const BtnQuickSwap: React.FC<{ slug?: string } & ButtonProps> = ({
@@ -15,6 +16,7 @@ export const BtnQuickSwap: React.FC<{ slug?: string } & ButtonProps> = ({
   const isMobile = useIsMobile();
   const isLoggedIn = useIsLoggedIn();
   const [QuickSwapDrawer, openQuickSwapDrawer] = useQuickSwapDrawer();
+  const wallet = useActiveWallet();
 
   const hasFlag = useHasFlag();
   if (!isMobile && !hasFlag('/desk-trader')) {
@@ -28,7 +30,11 @@ export const BtnQuickSwap: React.FC<{ slug?: string } & ButtonProps> = ({
       variant={buttonProps.variant ?? 'outline'}
       loading={isLoading}
       disabled={!normSlug || !isSupported || !isLoggedIn}
-      onClick={() => openQuickSwapDrawer({ slug: normSlug ?? '' })}
+      onClick={async () => {
+        if (wallet.connected || (await wallet.connect())) {
+          openQuickSwapDrawer({ slug: normSlug ?? '' });
+        }
+      }}
     >
       <div>
         {isLoggedIn && isSupported && !isLoading && (
