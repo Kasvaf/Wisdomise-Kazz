@@ -1,5 +1,6 @@
 import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { useDisconnect } from 'wagmi';
 import { useActiveNetwork } from 'modules/base/active-network';
 import { trackClick } from 'config/segment';
 import {
@@ -18,10 +19,11 @@ import {
 export const useDisconnectAll = () => {
   const { disconnect: solDisconnect } = useWallet();
   const [{ disconnect: tonDisconnect }] = useTonConnectUI();
+  const { disconnectAsync } = useDisconnect();
 
   return async () => {
     try {
-      await Promise.all([solDisconnect(), tonDisconnect()]);
+      await Promise.all([disconnectAsync(), solDisconnect(), tonDisconnect()]);
     } catch {
     } finally {
       for (const key of Object.keys(localStorage)) {

@@ -11,7 +11,6 @@ const PageExchangeAccount = React.lazy(
   () => import('modules/account/PageExchangeAccount'),
 );
 const PageBilling = React.lazy(() => import('modules/account/PageBilling'));
-const PageToken = React.lazy(() => import('modules/account/PageToken'));
 const PageRewards = React.lazy(() => import('modules/account/PageRewards'));
 const ChangeStripeCardInfoPage = React.lazy(
   () =>
@@ -69,11 +68,6 @@ const useAccountRoutes = () => {
                   handle: { crumb: 'Stripe' },
                 },
               ],
-            },
-            {
-              path: 'token',
-              element: <PageToken />,
-              handle: { crumb: t('menu.token.title') },
             },
           ],
         },

@@ -1,11 +1,12 @@
-import { useAccount, useBalance } from 'wagmi';
-import { TWSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
-
-export function useTwsdmBalance() {
-  const { address } = useAccount();
-  return useBalance({
-    address,
-    token: TWSDM_CONTRACT_ADDRESS,
-    enabled: !!address,
-  });
-}
+// import { useAccount, useBalance } from 'wagmi';
+// import { TWSDM_CONTRACT_ADDRESS } from 'modules/account/PageToken/constants';
+//
+// export function useTwsdmBalance() {
+//   const { address } = useAccount();
+//   return useBalance({
+//     address,
+//     token: TWSDM_CONTRACT_ADDRESS,
+//     enabled: !!address,
+//   });
+// }
+// eslint-disable-next-line unicorn/no-empty-file

@@ -1,13 +1,11 @@
-import { WagmiConfig } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import { Outlet } from 'react-router-dom';
-import { config, configWeb3Modal } from 'config/wagmi';
-
-configWeb3Modal();
+import { config } from 'config/wagmi';
 
 export default function Web3Provider() {
   return (
-    <WagmiConfig config={config}>
+    <WagmiProvider config={config}>
       <Outlet />
-    </WagmiConfig>
+    </WagmiProvider>
   );
 }

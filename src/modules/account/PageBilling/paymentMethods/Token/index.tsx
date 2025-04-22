@@ -3,11 +3,11 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useCountdown } from 'usehooks-ts';
 import { Steps } from 'antd';
 import Card from 'shared/Card';
-import Button from 'shared/Button';
 import { type SubscriptionPlan } from 'api/types/subscription';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useLockingRequirementQuery } from 'api/defi';
 import { useVipAccessFlow } from 'modules/account/PageBilling/useVipAccessFlow';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as WisdomiseLogo } from '../../images/wisdomise-logo.svg';
 import { ReactComponent as Done } from '../../images/done.svg';
 import { ReactComponent as ClockIcon } from './clock.svg';
@@ -118,18 +118,10 @@ export default function TokenPaymentModalContent({
                 </p>
               </div>
 
-              <Button
-                onClick={onDoneClick}
-                variant="primary-purple"
-                className="w-full"
-              >
+              <Button onClick={onDoneClick} className="w-full">
                 {t('token-modal.done')}
               </Button>
-              <ImportTokenButton
-                className="w-full"
-                tokenSymbol="lcWSDM"
-                variant="secondary"
-              />
+              <ImportTokenButton className="w-full" tokenSymbol="lcWSDM" />
             </Card>
           ) : (
             <ConnectWalletGuard

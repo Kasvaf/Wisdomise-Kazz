@@ -1,12 +1,12 @@
 import { clsx } from 'clsx';
 import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
-import Button from 'shared/Button';
 import {
   WSDM_CONTRACT_ADDRESS,
   TWSDM_CONTRACT_ADDRESS,
   LOCKING_CONTRACT_ADDRESS,
 } from 'modules/account/PageToken/constants';
+import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as InfoIcon } from './icons/info.svg';
 import { ReactComponent as WIcon } from './icons/w.svg';
 
@@ -22,7 +22,6 @@ export interface Ethereum {
 
 interface ImportTokenButtonProps {
   tokenSymbol: 'WSDM' | 'tWSDM' | 'lcWSDM';
-  variant: 'primary-purple' | 'secondary' | 'alternative';
   className?: string;
   disabled?: boolean;
 }
@@ -52,7 +51,6 @@ const TOKENS = [
 
 export default function ImportTokenButton({
   tokenSymbol,
-  variant = 'primary-purple',
   className,
 }: ImportTokenButtonProps) {
   const { t } = useTranslation('wisdomise-token');
@@ -76,7 +74,7 @@ export default function ImportTokenButton({
   return (
     <Button
       className={clsx(className, '!py-2')}
-      variant={variant}
+      variant="outline"
       onClick={importToken}
     >
       <div className="flex items-center gap-2">

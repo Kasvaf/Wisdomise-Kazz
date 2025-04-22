@@ -1,13 +1,12 @@
-import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
-import { useWeb3Modal } from '@web3modal/wagmi/react';
-import { type ReactNode, useCallback, useEffect, useState } from 'react';
+import { useAccount, useDisconnect, useSwitchChain } from 'wagmi';
+import { type ReactNode, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Card from 'shared/Card';
 import { useAccountQuery } from 'api';
 import { useGenerateNonceQuery, useNonceVerificationMutation } from 'api/defi';
 import { shortenAddress } from 'utils/shortenAddress';
-import { defaultChain } from 'config/wagmi';
+import { appKitModal, defaultChain } from 'config/wagmi';
 import { Button } from 'shared/v1-components/Button';
 import { ReactComponent as Wallet } from '../../images/wallet.svg';
 import { ReactComponent as Key } from '../../images/key.svg';
@@ -26,18 +25,16 @@ export default function ConnectWalletGuard({
   title,
   description,
 }: Props) {
-  const { chain } = useNetwork();
-  const { open } = useWeb3Modal();
   const { disconnect } = useDisconnect();
   const { data: account } = useAccountQuery();
-  const { switchNetwork } = useSwitchNetwork();
-  const { isConnected, address } = useAccount();
+  const { switchChain } = useSwitchChain();
+  const { isConnected, address, chain } = useAccount();
   const { t } = useTranslation('wisdomise-token');
   const [showNonce, setShowNonce] = useState(false);
   const [showError, setShowError] = useState(true);
   const { mutateAsync, isPending: isVerifying } =
     useNonceVerificationMutation();
-  const { signInWithEthereum, isLoading } = useSignInWithEthereum();
+  const { signInWithEthereum, isPending } = useSignInWithEthereum();
   const { data: nonceResponse, refetch } = useGenerateNonceQuery();
   const [showWrapperContent, setShowWrapperContent] = useState(false);
   const [showConnectWallet, setShowConnectWallet] = useState(true);
@@ -51,14 +48,12 @@ export default function ConnectWalletGuard({
     }
   };
 
-  const openWeb3Modal = useCallback(() => open(), [open]);
-
   useEffect(() => {
     const suitableChainId = defaultChain.id;
     if (chain?.id !== suitableChainId) {
-      switchNetwork?.(suitableChainId);
+      switchChain?.({ chainId: suitableChainId });
     }
-  }, [chain, switchNetwork]);
+  }, [chain, switchChain]);
 
   useEffect(() => {
     setShowWrapperContent(false);
@@ -117,7 +112,9 @@ export default function ConnectWalletGuard({
             <h2 className="mb-8 text-lg font-semibold">{title}</h2>
             <p className="text-gray-400">{description}</p>
           </div>
-          <Button onClick={openWeb3Modal}>{t('connect-wallet.connect')}</Button>
+          <Button onClick={() => appKitModal.open()}>
+            {t('connect-wallet.connect')}
+          </Button>
         </Card>
       )}
       {showNonce && (
@@ -132,7 +129,7 @@ export default function ConnectWalletGuard({
           <div className="flex flex-wrap gap-4">
             <Button
               onClick={handleSignAndVerification}
-              loading={isLoading || isVerifying}
+              loading={isPending || isVerifying}
             >
               {t('connect-wallet.sign')}
             </Button>
