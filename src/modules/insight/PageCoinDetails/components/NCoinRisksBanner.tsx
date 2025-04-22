@@ -4,6 +4,7 @@ import { bxError, bxXCircle } from 'boxicons-quasar';
 import { useNCoinDetails } from 'api';
 import Icon from 'shared/Icon';
 import { ClickableTooltip } from 'shared/ClickableTooltip';
+import { isDebugMode } from 'utils/version';
 
 export const NCoinRisksBanner: FC<{
   slug: string;
@@ -15,7 +16,12 @@ export const NCoinRisksBanner: FC<{
     const raw = nCoin.data?.risks ?? [];
     return [...raw]
       .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+      .sort(
+        (a, b) =>
+          (b.level === 'danger' ? 1 : 0) - (a.level === 'danger' ? 1 : 0),
+      )
       .map(risk => ({
+        score: risk.score,
         text: risk.description ?? risk.name ?? 'Unknown Message',
         icon: risk.level === 'danger' ? bxXCircle : bxError,
         fg:
@@ -53,7 +59,7 @@ export const NCoinRisksBanner: FC<{
               )}
             >
               <Icon name={risk.icon} size={16} />
-              {risk.text}
+              {risk.text} {isDebugMode && <> ({risk.score})</>}
             </div>
           ))}
         </div>
@@ -61,7 +67,7 @@ export const NCoinRisksBanner: FC<{
     >
       <Icon name={risks[0].icon} size={16} />
       {risks[0].text}
-
+      {isDebugMode && <> ({risks[0].score})</>}
       {risks.length > 1 && (
         <span className="shrink-0 underline">{`+${
           risks.length - 1
