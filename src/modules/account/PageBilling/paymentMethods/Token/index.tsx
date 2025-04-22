@@ -56,7 +56,7 @@ export default function TokenPaymentModalContent({
   };
 
   return (
-    <div className="h-screen overflow-auto px-24 mobile:px-0">
+    <div className="h-dvh overflow-auto px-24 mobile:px-0">
       <Steps
         className="my-10 mobile:mb-6 mobile:px-6"
         size="small"
