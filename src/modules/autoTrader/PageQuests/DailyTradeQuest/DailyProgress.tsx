@@ -1,7 +1,7 @@
 import { Progress } from 'antd';
 import { clsx } from 'clsx';
 import { useGamification } from 'api/gamification';
-import Countdown from 'modules/account/PageToken/Airdrop/Countdown';
+import Countdown from 'modules/autoTrader/PageQuests/DailyTradeQuest/Countdown';
 import { ReactComponent as CheckIcon } from './check.svg';
 import light from './light.png';
 
