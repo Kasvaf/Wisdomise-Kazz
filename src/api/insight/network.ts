@@ -54,13 +54,13 @@ export interface NetworkRadarNCoin {
       market_cap: number;
     };
   };
-  risks?: {
+  risks?: Array<{
     name?: string;
     description?: string;
     level?: 'warn' | 'danger';
     score?: number;
     value?: string;
-  };
+  }>;
   risk_percent?: number;
   rugged?: boolean;
 }

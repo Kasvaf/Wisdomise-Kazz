@@ -20,7 +20,7 @@ import { CoinExchangesWidget } from '../CoinExchangesWidget';
 import { CoinPoolsWidget } from '../CoinPoolsWidget';
 import { CoinWhalesWidget } from '../CoinWhalesWidget';
 import { CoinIntroductionWidget } from '../CoinIntroductionWidget';
-import { LowLiquidityWarningBanner } from '../LowLiquidityWarningBanner';
+import { NCoinRisksBanner } from '../NCoinRisksBanner';
 
 export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   const root = useRef<HTMLDivElement>(null);
@@ -52,7 +52,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
 
       {/* Validate */}
       <div className="relative w-full min-w-[600px] max-w-full grow border-x border-white/10">
-        <LowLiquidityWarningBanner slug={slug} />
+        <NCoinRisksBanner slug={slug} />
         {/* Sentiment Widgets */}
         <CoinSentimentsWidget slug={slug} className="p-3" hr />
         <NCoinSentimentWidget slug={slug} className="p-3" hr />
