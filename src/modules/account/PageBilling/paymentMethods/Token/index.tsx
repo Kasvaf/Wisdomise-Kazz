@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCountdown } from 'usehooks-ts';
-import { useAccount } from 'wagmi';
 import { Steps } from 'antd';
 import Card from 'shared/Card';
 import Button from 'shared/Button';
@@ -29,14 +28,11 @@ export default function TokenPaymentModalContent({
   const [done, setDone] = useState(false);
   const { t } = useTranslation('billing');
   const [count, { startCountdown }] = useCountdown({ countStart: 30 * 60 });
-  const { address } = useAccount();
-  const { data: userLockingRequirement, refetch } = useLockingRequirementQuery(
-    plan.price,
-    address,
-  );
+  const { data: generalLockingRequirement, refetch } =
+    useLockingRequirementQuery(plan.price);
 
   const price =
-    userLockingRequirement?.requirement_locking_amount.toLocaleString();
+    generalLockingRequirement?.requirement_locking_amount.toLocaleString();
 
   const { currentStep } = useVipAccessFlow({ planPrice: plan.price });
 
@@ -102,7 +98,7 @@ export default function TokenPaymentModalContent({
               <p className="text-lg mobile:text-sm">
                 <Trans i18nKey="token-modal.token-name" ns="billing" />
                 <br />
-                <span className="text-white/50">For 1 month</span>
+                <span className="text-white/50">1 Month</span>
               </p>
             </div>
 
