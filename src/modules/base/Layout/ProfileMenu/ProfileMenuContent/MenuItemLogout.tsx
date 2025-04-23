@@ -7,8 +7,7 @@ const MenuItemLogout = () => {
   return (
     <Button
       variant="negative"
-      className="w-full"
-      block
+      size="sm"
       loading={loggingOut}
       onClick={e => {
         e.preventDefault();

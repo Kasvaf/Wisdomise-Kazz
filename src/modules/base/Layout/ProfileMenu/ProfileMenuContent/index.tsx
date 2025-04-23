@@ -2,7 +2,7 @@ import { isMiniApp } from 'utils/version';
 import { useAccountQuery } from 'api';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import { RouterBaseName } from 'config/constants';
-import { WsdmTokenIcon } from 'modules/account/PageAccount/icons';
+import { RewardIcon, WsdmTokenIcon } from 'modules/account/PageAccount/icons';
 import BranchSelector from '../../BranchSelector';
 import MenuItem from './MenuItem';
 import BoxedIcon from './BoxedIcon';
@@ -21,10 +21,18 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
 
   return (
     <div className={className}>
-      <div className="mb-6 line-clamp-1 text-ellipsis text-center text-base font-semibold">
-        {isMiniApp
-          ? `${profile?.first_name ?? ''} ${profile?.last_name ?? ''}`
-          : account?.email}
+      <div className="mb-6 ml-2 flex items-center justify-between gap-4 text-center text-base font-semibold">
+        <div className="line-clamp-1 text-ellipsis">
+          {isMiniApp
+            ? `${profile?.first_name ?? ''} ${profile?.last_name ?? ''}`
+            : account?.email}
+        </div>
+        {!isMiniApp && (
+          <div className="flex shrink-0 items-center justify-stretch gap-2">
+            <MenuItemLogout />
+            {RouterBaseName && <BranchSelector />}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-2">
@@ -40,7 +48,7 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
 
         <MenuItem to="/trader/quests">
           <BoxedIcon icon={IconQuests} />
-          Quest
+          Earn & Win
         </MenuItem>
 
         {!isMiniApp && <MenuItemSubscription />}
@@ -58,18 +66,16 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
 
         <MenuItemReferral />
 
+        <MenuItem to="/account/rewards">
+          <BoxedIcon icon={RewardIcon} />
+          Rewards
+        </MenuItem>
+
         <div className="my-2 border-t border-t-v1-surface-l4" />
 
         <MenuItemLang />
         <MenuItemSupport />
       </div>
-
-      {!isMiniApp && (
-        <div className="mt-6 flex items-center justify-stretch gap-2">
-          <MenuItemLogout />
-          {RouterBaseName && <BranchSelector />}
-        </div>
-      )}
     </div>
   );
 };
