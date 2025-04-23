@@ -22,7 +22,7 @@ const CoinChart: React.FC<{ slug: string; height?: number }> = ({
           priority: 0,
           type: 'gecko_terminal',
           url: `https://www.geckoterminal.com/solana/pools/${nCoin.data.address}`,
-          embedUrl: `https://www.geckoterminal.com/solana/pools/${nCoin.data.address}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0`,
+          embedUrl: `https://www.geckoterminal.com/solana/pools/${nCoin.data.address}?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=1m`,
         },
       ];
     }

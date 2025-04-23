@@ -20,6 +20,7 @@ import {
   ReferralIcon,
   RewardIcon,
   UserIcon,
+  SubscriptionIcon,
 } from './icons';
 
 const PageAccount: FC = () => {
@@ -50,7 +51,7 @@ const PageAccount: FC = () => {
             to="/account/billing"
             title={t('menu.billing.title')}
             description={t('menu.billing.subtitle')}
-            icon={WsdmTokenIcon}
+            icon={SubscriptionIcon}
             onClick={trackClick('subscription_menu')}
             badge={
               subscription.level !== 0 && (
@@ -68,6 +69,15 @@ const PageAccount: FC = () => {
                 />
               )
             }
+          />
+        )}
+        {!isMiniApp && (
+          <PageCard
+            to="/account/token"
+            title={t('menu.token.title')}
+            description={t('menu.token.subtitle')}
+            icon={WsdmTokenIcon}
+            onClick={trackClick('wsdm_token_menu')}
           />
         )}
         <PageCard

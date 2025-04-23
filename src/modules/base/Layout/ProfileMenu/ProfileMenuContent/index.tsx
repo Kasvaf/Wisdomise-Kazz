@@ -2,6 +2,7 @@ import { isMiniApp } from 'utils/version';
 import { useAccountQuery } from 'api';
 import { useTelegramProfile } from 'modules/base/mini-app/TelegramProvider';
 import { RouterBaseName } from 'config/constants';
+import { WsdmTokenIcon } from 'modules/account/PageAccount/icons';
 import BranchSelector from '../../BranchSelector';
 import MenuItem from './MenuItem';
 import BoxedIcon from './BoxedIcon';
@@ -43,6 +44,12 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
         </MenuItem>
 
         {!isMiniApp && <MenuItemSubscription />}
+        {!isMiniApp && (
+          <MenuItem to="/account/token">
+            <BoxedIcon icon={WsdmTokenIcon} />
+            WSDM Token
+          </MenuItem>
+        )}
 
         <MenuItem to="/coin-radar/alerts">
           <BoxedIcon icon={IconAlerts} />

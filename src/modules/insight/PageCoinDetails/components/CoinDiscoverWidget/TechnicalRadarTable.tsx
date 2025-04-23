@@ -1,5 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { type TechnicalRadarCoin, useTechnicalRadarCoins } from 'api';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
@@ -61,6 +62,7 @@ export const TechnicalRadarTable: FC<{
     [],
   );
 
+  const { slug } = useParams<{ slug: string }>();
   return (
     <AccessShield
       mode="children"
@@ -76,6 +78,7 @@ export const TechnicalRadarTable: FC<{
         columns={columns}
         dataSource={coins.data ?? []}
         rowKey={r => JSON.stringify(r.symbol)}
+        isActive={r => r.symbol.slug === slug}
         loading={coins.isLoading}
         surface={2}
         onClick={onClick}

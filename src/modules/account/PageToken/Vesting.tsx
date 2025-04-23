@@ -14,7 +14,7 @@ export default function Vesting() {
   const { bucketsDetails } = useVesting();
 
   return (
-    <Card className="relative mt-6">
+    <Card className="relative mt-6 !bg-v1-surface-l2">
       <LockIcon className="absolute right-0 top-0 m-7" />
       <h2 className="mb-2 flex items-center gap-2 text-2xl font-medium">
         {t('vesting.title')}

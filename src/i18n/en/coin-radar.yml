@@ -217,7 +217,6 @@ common:
   chain: Chain
   chains: Chains
   info: Info
-  low_liquidity_warn: This token has low liquidity. Trade carefully!
   native_coin: Native Coin
   price: Price
   search_coin: Search Coin...
