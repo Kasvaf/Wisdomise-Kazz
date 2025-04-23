@@ -1,5 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { type CoinRadarCoin, useCoinRadarCoins } from 'api';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
@@ -74,6 +75,7 @@ export const CoinRadarTable: FC<{
     [],
   );
 
+  const { slug } = useParams<{ slug: string }>();
   return (
     <MobileTable
       className="max-w-full"
@@ -82,6 +84,7 @@ export const CoinRadarTable: FC<{
       rowKey={r => JSON.stringify(r.symbol)}
       loading={coins.isLoading}
       surface={2}
+      isActive={row => row.symbol.slug === slug}
       onClick={onClick}
     />
   );
