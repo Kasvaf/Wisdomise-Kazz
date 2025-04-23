@@ -12,6 +12,7 @@ import { Button } from 'shared/v1-components/Button';
 import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
 import { isProduction } from 'utils/version';
 import { shortenAddress } from 'utils/shortenAddress';
+import { useHasFlag } from 'api';
 import { ReactComponent as Usdc } from './images/usdc.svg';
 import { ReactComponent as Withdraw } from './images/withdraw.svg';
 import gradient from './images/gradient.png';
@@ -30,6 +31,7 @@ export default function PageRewards() {
   const disableWithdraw = history?.[0]?.status === 'pending';
   const unclaimed = total - claimed;
   const [activeTab, setActiveTab] = useState('rewards');
+  const hasFlag = useHasFlag();
 
   const openTransaction = (txHash: string) => {
     const url = new URL(`https://solscan.io/tx/${txHash}`);
@@ -64,34 +66,36 @@ export default function PageRewards() {
         description="Track Your Reward History and Manage Unclaimed Rewards."
       />
 
-      <div className="relative mb-6 overflow-hidden rounded-xl">
-        <img src={gradient} alt="" className="absolute h-full w-full" />
-        <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
-          <Usdc className="size-8" />
-          <div>
-            <h2 className="font-semibold">
-              {(total - claimed).toFixed(2)} USDC
-            </h2>
-            <p className="text-xs">Ready to Withdraw</p>
+      {hasFlag('/account/rewards?withdraw') && (
+        <div className="relative mb-6 overflow-hidden rounded-xl">
+          <img src={gradient} alt="" className="absolute h-full w-full" />
+          <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
+            <Usdc className="size-8" />
+            <div>
+              <h2 className="font-semibold">
+                {(total - claimed).toFixed(2)} USDC
+              </h2>
+              <p className="text-xs">Ready to Withdraw</p>
+            </div>
+            <Button
+              variant="primary"
+              className="ml-auto w-48 mobile:w-full"
+              size="md"
+              loading={isWithdrawLoading}
+              disabled={unclaimed === 0 || disableWithdraw}
+              onClick={withdraw}
+            >
+              <Withdraw />
+              Withdraw
+            </Button>
+            {disableWithdraw && (
+              <p className="text-xs text-v1-content-secondary">
+                You have Pending Withdraw Request
+              </p>
+            )}
           </div>
-          <Button
-            variant="primary"
-            className="ml-auto w-48 mobile:w-full"
-            size="md"
-            loading={isWithdrawLoading}
-            disabled={unclaimed === 0 || disableWithdraw}
-            onClick={withdraw}
-          >
-            <Withdraw />
-            Withdraw
-          </Button>
-          {disableWithdraw && (
-            <p className="text-xs text-v1-content-secondary">
-              You have Pending Withdraw Request
-            </p>
-          )}
         </div>
-      </div>
+      )}
 
       <ButtonSelect
         options={[
