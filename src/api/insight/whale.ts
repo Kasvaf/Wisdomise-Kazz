@@ -416,3 +416,44 @@ export const useCoinWhales = (config: {
         return true;
       }),
   });
+
+export interface WhaleTransaction {
+  symbol_slug: string;
+  transaction_type: 'Sent' | 'Received';
+  amount?: number | null;
+  price?: number | null;
+  worth?: number | null;
+  profit?: number | null;
+  related_at_datetime: string;
+  symbol: Coin;
+  coinstats_info: never;
+}
+
+export const useWhaleTransactions = (config: {
+  slug?: string;
+  holderAddress: string;
+  networkName: string;
+}) =>
+  useQuery({
+    queryKey: [
+      'whale-transactions',
+      config.slug,
+      config.holderAddress,
+      config.networkName,
+    ],
+    queryFn: () =>
+      resolvePageResponseToArray<WhaleTransaction>(
+        'delphi/holders/transactions/',
+        {
+          query: {
+            holder_address: config.holderAddress,
+            network_name: config.networkName,
+            slug: config.slug,
+            page_size: 500,
+          },
+          meta: { auth: false },
+        },
+      ),
+    refetchInterval: 1000 * 60,
+    refetchOnMount: true,
+  });
