@@ -12,7 +12,7 @@ export default function Wallet() {
   const { disconnect } = useDisconnect();
 
   return (
-    <Card className="relative flex flex-col justify-between gap-8">
+    <Card className="relative flex flex-col justify-between gap-8  !bg-v1-surface-l2">
       <WalletIcon className="absolute right-0 top-0 m-7" />
       <h2 className="mb-2 text-2xl font-medium">{t('wallet.title')}</h2>
       <div className="flex items-end gap-6 max-md:flex-wrap">

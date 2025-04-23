@@ -6,7 +6,6 @@ import Migration from 'modules/account/PageToken/Migration';
 import { useTwsdmBalance } from 'modules/account/PageToken/web3/twsdm/contract';
 import ImportTokenButton from 'modules/account/PageToken/ImportTokenButton';
 import { useVesting } from 'modules/account/PageToken/web3/tokenDistributer/useVesting';
-import Utility from 'modules/account/PageToken/Utility';
 import Balance from 'modules/account/PageToken/Balance/Balance';
 import Wallet from 'modules/account/PageToken/Wallet';
 import Airdrop from 'modules/account/PageToken/Airdrop';
@@ -59,7 +58,7 @@ export default function PageToken() {
             className="max-md:w-full"
           />
         </h1>
-        <Utility />
+        {/* <Utility /> */}
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <Wallet />
           <Balance />
