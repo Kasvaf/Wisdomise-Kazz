@@ -66,7 +66,7 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
 
         <MenuItemReferral />
 
-        <MenuItem to="/account/token">
+        <MenuItem to="/account/rewards">
           <BoxedIcon icon={RewardIcon} />
           Rewards
         </MenuItem>
