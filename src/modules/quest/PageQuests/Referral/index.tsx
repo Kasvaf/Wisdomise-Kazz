@@ -40,7 +40,7 @@ const Referral: React.FC<{ className?: string }> = ({ className }) => {
           </div>
           <div className="h-8 border-r border-v1-border-primary/30"></div>
           <div>
-            <h3 className="mb-2 text-v1-content-secondary">Sub Earned</h3>
+            <h3 className="mb-2 text-v1-content-secondary">Wise Club Earned</h3>
             <p>${referralStatus?.referral_subscription_revenue.toFixed(2)}</p>
           </div>
         </div>

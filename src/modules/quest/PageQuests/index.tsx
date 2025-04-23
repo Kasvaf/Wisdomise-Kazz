@@ -15,7 +15,7 @@ export default function PageQuests() {
     <PageWrapper footer={null} hasBack title="Quests" loading={isLoading}>
       <PageTitle
         className="py-5"
-        title="Quests"
+        title="Earn & Win"
         description="Complete Quests and Earn Rewards."
       />
 

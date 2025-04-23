@@ -126,6 +126,7 @@ export default function TokenCheckout({
           </div>
           <div className="text-sm opacity-50">
             <Trans i18nKey="token-modal.token-name" ns="billing" />
+            <p className="mt-1 text-xs">Polygon Network</p>
           </div>
         </div>
         <div className="h-16 w-px border-r border-white/50"></div>

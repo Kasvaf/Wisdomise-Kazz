@@ -60,9 +60,10 @@ export default function PageRewards() {
   };
 
   return (
-    <PageWrapper title="Rewards" hasBack>
+    <PageWrapper hasBack>
       <PageTitle
         className="py-5"
+        title="Rewards"
         description="Track Your Reward History and Manage Unclaimed Rewards."
       />
 
