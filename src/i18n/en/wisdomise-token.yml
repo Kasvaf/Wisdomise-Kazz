@@ -49,7 +49,6 @@ migration:
     to WSDM Tokens (1:1 ratio) here.
   migrate: Migrate Now
 utility:
-  title: <0>WSDM</0><1>Utility</1>
   subtitle: Utility Activation
   description: Utilities your WSDM Tokens to get access to the Wisdomise Platform
   activate: Activate
