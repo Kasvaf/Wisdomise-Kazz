@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { bxCopy } from 'boxicons-quasar';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import {
@@ -35,7 +35,6 @@ import gradient2 from './images/gradient-2.png';
 export default function ReferralPage() {
   const { t } = useTranslation('auth');
   const [RewardModal, openRewardModal] = useRewardModal();
-  const [rewardAmount, setRewardAmount] = useState(0);
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
   const myReferralLink = useReferral();
@@ -53,8 +52,9 @@ export default function ReferralPage() {
     useClaimReferralBonusBag();
 
   const claim = () => {
-    setRewardAmount(referral?.ready_to_claim ?? 0);
-    void claimBonusBag().then(() => openRewardModal({ amount: rewardAmount }));
+    void claimBonusBag().then(() =>
+      openRewardModal({ amount: referral?.ready_to_claim ?? 0 }),
+    );
   };
 
   useEffect(() => {

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
   useWithdrawRewardMutation,
-  useGamificationProfileQuery,
   useGamificationRewards,
   useRewardsHistoryQuery,
 } from 'api/gamification';
@@ -21,7 +20,6 @@ import refSubSrc from './images/ref-sub.png';
 import refFeeSrc from './images/ref-fee.png';
 
 export default function PageRewards() {
-  const { isLoading } = useGamificationProfileQuery();
   const { subReferral, tradeReferral, daily, total, claimed } =
     useGamificationRewards();
   const { data: history } = useRewardsHistoryQuery();
@@ -60,7 +58,7 @@ export default function PageRewards() {
   };
 
   return (
-    <PageWrapper title="Rewards" hasBack loading={isLoading}>
+    <PageWrapper title="Rewards" hasBack>
       <PageTitle
         className="py-5"
         description="Track Your Reward History and Manage Unclaimed Rewards."
@@ -71,7 +69,9 @@ export default function PageRewards() {
         <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
           <Usdc className="size-8" />
           <div>
-            <h2 className="font-semibold">{total - claimed} USDC </h2>
+            <h2 className="font-semibold">
+              {(total - claimed).toFixed(2)} USDC
+            </h2>
             <p className="text-xs">Ready to Withdraw</p>
           </div>
           <Button
@@ -85,7 +85,7 @@ export default function PageRewards() {
             <Withdraw />
             Withdraw
           </Button>
-          {(unclaimed || disableWithdraw) && (
+          {disableWithdraw && (
             <p className="text-xs text-v1-content-secondary">
               You have Pending Withdraw Request
             </p>
@@ -124,7 +124,7 @@ export default function PageRewards() {
           {history?.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col gap-2 rounded-xl bg-v1-surface-l2 p-3 text-xs"
+              className="mb-3 flex flex-col gap-2 rounded-xl bg-v1-surface-l2 p-3 text-xs"
             >
               <div className="flex justify-between">
                 <div className="text-v1-content-secondary">Wallet Address</div>
@@ -165,13 +165,13 @@ function RewardItem({
   amount: number;
 }) {
   return (
-    <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l3">
+    <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l2">
       <div className="relative flex h-full items-center">
         <div className="grow p-3">
           <img src={image} alt="" className="size-10" />
           <p className="mt-2">{title}</p>
         </div>
-        <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled bg-v1-surface-l2">
+        <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled">
           <Usdc className="size-6" /> {amount}
         </div>
       </div>
