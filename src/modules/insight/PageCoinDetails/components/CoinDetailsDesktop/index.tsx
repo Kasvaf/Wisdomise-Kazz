@@ -1,4 +1,5 @@
 /* eslint-disable import/max-dependencies */
+import { clsx } from 'clsx';
 import { type FC, useRef } from 'react';
 import UserAssets from 'modules/autoTrader/UserAssets';
 import { CoinStatsWidget } from '../CoinStatsWidget';
@@ -25,7 +26,12 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
   return (
     <div className="flex flex-nowrap justify-between">
       {/* Discover */}
-      <div className="relative flex w-1/4 min-w-60 max-w-80 flex-col gap-3 p-3 ps-0">
+      <div
+        className={clsx(
+          'flex w-1/4 min-w-60 max-w-80 flex-col gap-3 px-3 ps-0',
+          'sticky top-[76px] max-h-[calc(100vh-76px)] overflow-y-auto',
+        )}
+      >
         <div className="contents [&:not(:has(.id-assets))]:hidden">
           <h3 className="mb-2 text-xxs">Your Portfolio</h3>
           <div className="space-y-4 rounded-md bg-v1-surface-l2 p-3">
@@ -35,7 +41,7 @@ export const CoinDetailsDesktop: FC<{ slug: string }> = ({ slug }) => {
               containerClassName="!p-0"
             />
           </div>
-          <hr className="my-3 border-white/10" />
+          <hr className="mt-3 border-white/10" />
         </div>
 
         <CoinDiscoverWidget />

@@ -32,20 +32,18 @@ export const CoinDiscoverWidget: FC<{ className?: string }> = ({
     [navigate, searchParams],
   );
   return (
-    <div
-      className={clsx(
-        'flex max-w-full flex-col items-stretch gap-2',
-        className,
-      )}
-    >
-      <CoinDiscoverTabs value={selectedTab} onChange={setSelectedTab} />
-      <NetworkSelect
-        size="sm"
-        allowClear
-        value={networksArr}
-        multiple
-        onChange={newNetworks => setNetworks(newNetworks.join(','))}
-      />
+    <div className={clsx('flex max-w-full flex-col items-stretch', className)}>
+      <div className="sticky top-0 z-10 flex flex-col gap-2 bg-v1-surface-l1 py-2">
+        <CoinDiscoverTabs value={selectedTab} onChange={setSelectedTab} />
+        <NetworkSelect
+          size="sm"
+          allowClear
+          value={networksArr}
+          multiple
+          onChange={newNetworks => setNetworks(newNetworks.join(','))}
+        />
+      </div>
+
       {selectedTab === 'coin-radar' && (
         <CoinRadarTable
           onClick={row => handleRowClick(row.symbol.slug)}
