@@ -1,9 +1,6 @@
 14d_stats:
-  title: 14-Day Stats Overview
   avg_trade_day: Avg of Trades/Day
   avg_trade_duration: Avg Trade Duration
-  largest_gain: Largest Gain
-  largest_loss: Largest Loss
   transfer_volume: Transfer Volume
 asset_badges:
   dust: Dust
@@ -103,18 +100,24 @@ whale_balance_chart:
   title: Wallet Balance Chart
   balance: Balance
   current_balance: Current Balance
+whale_coins:
+  name: Name
+  avg_cost: Avg Cost
+  avg_sold: Avg Sold
+  badge: Badge
+  balance: Balance
+  chg_30d: Chg (30D)
+  holding_title: Holding Coin and Tokens
+  info: Info
+  labels: Labels
+  market_cap: Market Cap
+  number_of_transactions: TRX
+  total_profit: Total Profit
+  trading_title: Active Coins and Tokens
+  view_transactions: View Transactions
 whale_historical_pnl:
   title: Historical PNL Chart
   last_30_trading_pnl: Last 30 Days Trading PnL
-whale_holds:
-  name: Name
-  title: Holding Tokens
-  badge: Badge
-  chg_30d: Chg(30D)
-  market_cap: Market Cap
-  price: Price
-  total_volume: Total Volume
-  worth: Worth
 whale_netflow_histogram:
   title: Netflow Histogram
   inflow: In Flow
@@ -124,22 +127,25 @@ whale_overview:
     title: Holding Tokens
     info: Tokens held in the whale's wallet for long-term gains.
   losses: Losses
-  trading_pnl: Trading PNL (Unrealized)
+  total_balance: Total Balance
+  trading_pnl: Trading PNL
   trading_tokens:
     title: Active Tokens
     info: Tokens with high activity, frequently bought and sold by the whale.
   trading_volume: Trading Volume
   trading_win_rate: Trading Win Rate
+  unrealized_trading_pnl: Unrealized Trading PNL
   wins: Wins
-whale_trades:
+whale_transaction_history:
   name: Name
-  title: Trading Tokens
-  avg_duration: Avg Duration
-  number_of_transactions: Number of Transactions
+  title: Transaction History
+  amount: Amount
+  date: Date
+  link: Link
   price: Price
-  returns: Returns
-  trading_pnl: Trading PNL
-  volume_of_trades: Volume Of Trades
+  profit: Profit
+  transaction_type: Transaction Type
+  worth: Worth
 whales_on_coin:
   description: This data represents overall wallet activity, not just for this coin.
   active_empty: No Active Wallets at This Time

@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { OverviewWidget } from 'shared/OverviewWidget';
 import Table, { useTableState } from 'shared/Table';
 import { useHasFlag, useWhaleRadarWhales, type WhaleShort } from 'api';
-import { Wallet } from 'shared/Wallet';
+import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
 import { Network } from 'shared/Network';
 import { ReadableNumber } from 'shared/ReadableNumber';
 import { Coins } from 'shared/Coins';

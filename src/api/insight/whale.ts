@@ -175,6 +175,14 @@ export interface SingleWhale {
     last_30_days_price_change?: null | number;
     worth?: null | number;
     symbol: Coin;
+    recent_avg_cost?: null | number;
+    recent_avg_sold?: null | number;
+    remaining_percent?: null | number;
+    symbol_labels?: null | string[];
+    security?: null | {
+      data: NetworkSecurity[];
+    };
+    networks?: null | CoinNetwork[];
   }>;
   scanner_link?: null | {
     name: string;
@@ -427,12 +435,18 @@ export interface WhaleTransaction {
   related_at_datetime: string;
   symbol: Coin;
   coinstats_info: never;
+  link?: null | {
+    name: string;
+    url: string;
+  };
 }
 
 export const useWhaleTransactions = (config: {
   slug?: string;
   holderAddress: string;
   networkName: string;
+  pageSize: number;
+  page: number;
 }) =>
   useQuery({
     queryKey: [
@@ -440,20 +454,20 @@ export const useWhaleTransactions = (config: {
       config.slug,
       config.holderAddress,
       config.networkName,
+      config.page,
+      config.pageSize,
     ],
     queryFn: () =>
-      resolvePageResponseToArray<WhaleTransaction>(
-        'delphi/holders/transactions/',
-        {
-          query: {
-            holder_address: config.holderAddress,
-            network_name: config.networkName,
-            slug: config.slug,
-            page_size: 500,
-          },
-          meta: { auth: false },
+      ofetch<PageResponse<WhaleTransaction>>('delphi/holders/transactions/', {
+        query: {
+          holder_address: config.holderAddress,
+          network_name: config.networkName,
+          slug: config.slug,
+          page_size: config.pageSize,
+          page: config.page,
         },
-      ),
+        meta: { auth: false },
+      }),
     refetchInterval: 1000 * 60,
     refetchOnMount: true,
   });

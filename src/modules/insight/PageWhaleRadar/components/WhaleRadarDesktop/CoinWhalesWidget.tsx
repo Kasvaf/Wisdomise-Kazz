@@ -3,7 +3,7 @@ import { type ColumnType } from 'antd/es/table';
 import { useTranslation } from 'react-i18next';
 import { type CoinWhale, useCoinWhales } from 'api';
 import { ReadableNumber } from 'shared/ReadableNumber';
-import { Wallet } from 'shared/Wallet';
+import { Wallet } from 'modules/insight/PageWhaleDetails/components/Wallet';
 import { WhaleAssetBadge } from 'shared/WhaleAssetBadge';
 import { Network } from 'shared/Network';
 import { DirectionalNumber } from 'shared/DirectionalNumber';

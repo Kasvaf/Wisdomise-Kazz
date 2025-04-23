@@ -4,17 +4,18 @@ import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useWhaleDetails } from 'api';
-import { OverviewWidget } from 'shared/OverviewWidget';
 import { formatNumber } from 'utils/numbers';
 
 export function WhaleHistoricalPnlWidget({
   className,
   holderAddress,
   networkName,
+  hr,
 }: {
   className?: string;
   holderAddress: string;
   networkName: string;
+  hr?: boolean;
 }) {
   const { t } = useTranslation('whale');
   const whale = useWhaleDetails({
@@ -105,15 +106,20 @@ export function WhaleHistoricalPnlWidget({
     };
   }, [t, whale]);
 
+  if (whale.isLoading || !whale.data?.holder_address) return null;
+
   return (
-    <OverviewWidget
-      className={clsx('min-h-[250px]', className)}
-      loading={whale.isLoading}
-      empty={!whale.data?.holder_address}
-      title={t('whale_historical_pnl.title')}
-      badge="beta"
-    >
-      <Line {...config} />
-    </OverviewWidget>
+    <>
+      <div
+        className={clsx('h-[250px]', className)}
+        // badge="beta"
+      >
+        <h3 className="mb-4 text-sm font-semibold">
+          {t('whale_historical_pnl.title')}
+        </h3>
+        <Line {...config} />
+      </div>
+      {hr && <hr className="border-white/10" />}
+    </>
   );
 }

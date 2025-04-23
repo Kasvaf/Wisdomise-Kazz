@@ -1,16 +1,22 @@
 import { useParams } from 'react-router-dom';
-import { Wallet } from 'shared/Wallet';
+import { useState } from 'react';
+import { Modal } from 'antd';
+import useIsMobile from 'utils/useIsMobile';
+import { type Coin } from 'api/types/shared';
 import InsightPageWrapper from '../InsightPageWrapper';
-import { WhaleOverviewWidget } from './components/WhaleOverviewWidget';
 import { WhaleAssetsTreeMapWidget } from './components/WhaleAssetsTreeMapWidget';
-import { WhaleBalanceChartWidget } from './components/WhaleBalanceChartWidget';
 import { WhaleNetflowChartWidget } from './components/WhaleNetflowChartWidget';
-import { Whale14DaysStats } from './components/Whale14DaysStats';
-import { WhaleHistoricalPnlWidget } from './components/WhaleHistoricalPnlWidget';
-import { WhaleTradesWidget } from './components/WhaleTradesWidget';
-import { WhaleHoldsWidget } from './components/WhaleHoldsWidget';
+import { WhaleCoinsWidget } from './components/WhaleCoinsWidget';
+import { WhaleStatsWidget } from './components/WhaleStatsWidget';
+import { WhaleTitleWidget } from './components/WhaleTitleWidget';
+import { WhaleTransactionsHistoryWidget } from './components/WhaleTransactionsHistoryWidget';
 
 export default function PageWhaleDetails() {
+  const isMobile = useIsMobile();
+  const [selectedCoinTrx, setSelectedCoinTrx] = useState<Coin | undefined>(
+    undefined,
+  );
+
   const { network: networkName, address: holderAddress } = useParams<{
     network: string;
     address: string;
@@ -19,58 +25,70 @@ export default function PageWhaleDetails() {
     throw new Error('whale address or network name is missing');
 
   return (
-    <InsightPageWrapper hasBack>
-      <div className="grid grid-cols-6 items-start gap-6">
-        <Wallet
-          wallet={{
-            network: networkName,
-            address: holderAddress,
-          }}
-          mode="title"
-          className="col-span-2 mobile:col-span-6"
-        />
-        <div className="col-span-4 mobile:hidden" />
-        <WhaleOverviewWidget
+    <InsightPageWrapper hasBack mainClassName={isMobile ? '' : '!pt-0'}>
+      <div className="flex max-w-full flex-nowrap justify-between gap-3 overflow-hidden border-b border-b-white/10 pb-3">
+        <div className="relative flex w-1/3 flex-col gap-3 p-3 ps-0">
+          <WhaleTitleWidget
+            holderAddress={holderAddress}
+            networkName={networkName}
+            hr
+          />
+          <WhaleStatsWidget
+            holderAddress={holderAddress}
+            networkName={networkName}
+          />
+        </div>
+        <div className="relative w-auto grow space-y-3 border-l border-white/10 p-3 pe-0">
+          <WhaleAssetsTreeMapWidget
+            holderAddress={holderAddress}
+            networkName={networkName}
+            hr
+          />
+          <WhaleNetflowChartWidget
+            holderAddress={holderAddress}
+            networkName={networkName}
+          />
+        </div>
+      </div>
+      <div className="space-y-3 pt-3">
+        <WhaleCoinsWidget
           holderAddress={holderAddress}
           networkName={networkName}
-          className="col-span-2 h-full mobile:col-span-6"
+          type="trading"
+          hr
+          onSelect={setSelectedCoinTrx}
         />
-        <WhaleAssetsTreeMapWidget
+        <WhaleCoinsWidget
           holderAddress={holderAddress}
           networkName={networkName}
-          className="col-span-4 h-full mobile:col-span-6"
+          type="holding"
+          hr
+          onSelect={setSelectedCoinTrx}
         />
-        <WhaleBalanceChartWidget
+        <WhaleTransactionsHistoryWidget
           holderAddress={holderAddress}
           networkName={networkName}
-          className="col-span-3 h-full mobile:col-span-6"
-        />
-        <WhaleNetflowChartWidget
-          holderAddress={holderAddress}
-          networkName={networkName}
-          className="col-span-3 h-full mobile:col-span-6"
-        />
-        <Whale14DaysStats
-          holderAddress={holderAddress}
-          networkName={networkName}
-          className="col-span-2 h-full mobile:col-span-6"
-        />
-        <WhaleHistoricalPnlWidget
-          holderAddress={holderAddress}
-          networkName={networkName}
-          className="col-span-4 h-full mobile:col-span-6"
-        />
-        <WhaleTradesWidget
-          holderAddress={holderAddress}
-          networkName={networkName}
-          className="col-span-6 h-full"
-        />
-        <WhaleHoldsWidget
-          holderAddress={holderAddress}
-          networkName={networkName}
-          className="col-span-6 h-full"
+          hr
         />
       </div>
+
+      <Modal
+        centered
+        open={selectedCoinTrx !== undefined}
+        onCancel={() => setSelectedCoinTrx(undefined)}
+        destroyOnClose
+        footer={false}
+        closable
+        className="[&_.ant-modal-header]:mb-6 [&_.ant-modal-title]:text-start"
+        width={isMobile ? '90%' : '80%'}
+      >
+        <WhaleTransactionsHistoryWidget
+          holderAddress={holderAddress}
+          networkName={networkName}
+          hr
+          coin={selectedCoinTrx}
+        />
+      </Modal>
     </InsightPageWrapper>
   );
 }
