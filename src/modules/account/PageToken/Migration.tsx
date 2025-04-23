@@ -11,7 +11,7 @@ export default function Migration() {
   const { handleMigration, isLoading } = useMigration();
 
   return (
-    <Card className="relative mt-4 flex items-center justify-between max-md:flex-wrap">
+    <Card className="relative mt-4 flex items-center justify-between !bg-v1-surface-l2 max-md:flex-wrap">
       <MigrateIcon className="absolute right-0 top-0" />
       <h2 className="flex items-center gap-2 text-2xl font-medium">
         {t('migration.title')}

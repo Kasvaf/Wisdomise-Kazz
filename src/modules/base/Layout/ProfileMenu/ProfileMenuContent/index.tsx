@@ -44,18 +44,17 @@ const ProfileMenuContent: React.FC<{ className?: string }> = ({
         </MenuItem>
 
         {!isMiniApp && <MenuItemSubscription />}
-
-        <MenuItem to="/coin-radar/alerts">
-          <BoxedIcon icon={IconAlerts} />
-          Alerts
-        </MenuItem>
-
         {!isMiniApp && (
           <MenuItem to="/account/token">
             <BoxedIcon icon={WsdmTokenIcon} />
             WSDM Token
           </MenuItem>
         )}
+
+        <MenuItem to="/coin-radar/alerts">
+          <BoxedIcon icon={IconAlerts} />
+          Alerts
+        </MenuItem>
 
         <MenuItemReferral />
 
