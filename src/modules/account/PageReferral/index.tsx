@@ -21,7 +21,7 @@ import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardMod
 import useModal from 'shared/useModal';
 import ReferralOnboardingModalContent from 'modules/account/PageReferral/ReferralOnboarding/ReferralOnboardingModalContent';
 import trader from './images/trader.png';
-import { ReactComponent as Logo } from './images/logo.svg';
+import { ReactComponent as WiseClub } from './images/wise-club.svg';
 import { ReactComponent as Users } from './images/users.svg';
 import { ReactComponent as IconUser } from './images/user.svg';
 import { ReactComponent as Bag } from './images/bag.svg';
@@ -203,7 +203,7 @@ export default function ReferralPage() {
           <div className="rounded-xl bg-v1-surface-l2 p-3">
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-v1-inverse-overlay-100/5">
-                <Logo />
+                <WiseClub />
               </div>
               <div>
                 <h2>${referral?.referral_subscription_revenue.toFixed(2)}</h2>
@@ -254,7 +254,7 @@ export default function ReferralPage() {
                   className={user.is_subscribed ? '' : 'grayscale'}
                   label={
                     <span className="-ml-3">
-                      <Logo className="inline h-4" />
+                      <WiseClub className="inline h-4" />
                       {t('page-referral.subscription')}
                     </span>
                   }

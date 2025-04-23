@@ -39,13 +39,13 @@ page-referral:
     description: Your Reward Will Be Paid in USDT.
     claim: Claim Reward
     ready: Ready to Claim
-  earned-subscription: Earned From Subscriptions Until Now
+  earned-subscription: Earned From Wise Club Until Now
   earned-trader: Earned From Trade Fees Until Now
   friends-list:
     title: My Friends List
   how:
     button: How it Works?
   referral-link: Your Referral Link
-  subscription: Subscription
+  subscription: Wise Club
   total-referrals: Total Referrals
   trader: Trader

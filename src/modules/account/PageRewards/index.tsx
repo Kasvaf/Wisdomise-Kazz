@@ -112,7 +112,7 @@ export default function PageRewards() {
             amount={tradeReferral}
           />
           <RewardItem
-            title="Referral Subscription"
+            title="Referral Wise Club"
             image={refSubSrc}
             amount={subReferral}
           />
@@ -132,11 +132,11 @@ export default function PageRewards() {
               </div>
               <div className="flex justify-between">
                 <div className="text-v1-content-secondary">Status</div>
-                <div>{item.status}</div>
+                <div>{item.status.toUpperCase()}</div>
               </div>
               <div className="flex justify-between">
                 <div className="text-v1-content-secondary">USD Amount</div>
-                <div>${item.amount_usd}</div>
+                <div>${item.amount_usd.toFixed(2)}</div>
               </div>
               {item.transaction_hash && (
                 <Button
