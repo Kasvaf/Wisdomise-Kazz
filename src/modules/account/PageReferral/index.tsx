@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { bxCopy } from 'boxicons-quasar';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
@@ -10,11 +9,7 @@ import {
 } from 'api';
 import PageWrapper from 'modules/base/PageWrapper';
 import Badge from 'shared/Badge';
-import Icon from 'shared/Icon';
-import { Input } from 'shared/v1-components/Input';
-import { useShare } from 'shared/useShare';
 import { Button } from 'shared/v1-components/Button';
-import { useReferral } from 'modules/account/PageReferral/useReferral';
 import ReferralQrCode from 'shared/ShareTools/ReferralQrCode';
 import { ReferralShareLinks } from 'shared/ShareTools/ReferralShareLinks';
 import useRewardModal from 'modules/account/PageRewards/RewardModal/useRewardModal';
@@ -37,7 +32,6 @@ export default function ReferralPage() {
   const [RewardModal, openRewardModal] = useRewardModal();
   const { data: referral, isLoading } = useReferralStatusQuery();
   const { data: referredUsers } = useFriendsQuery();
-  const myReferralLink = useReferral();
   const navigate = useNavigate();
   const el = useRef<HTMLDivElement>(null);
   const [ReferralOnboardingModal, openReferralOnboardingModal] = useModal(
@@ -45,8 +39,6 @@ export default function ReferralPage() {
     { fullscreen: true, closable: false },
   );
   const [done] = useLocalStorage('referral-onboarding', false);
-
-  const [copy, content] = useShare('copy');
 
   const { mutateAsync: claimBonusBag, isPending: claimIsLoading } =
     useClaimReferralBonusBag();
@@ -90,7 +82,7 @@ export default function ReferralPage() {
             <div className="rounded-xl bg-v1-surface-l2 mobile:p-4">
               <div
                 ref={el}
-                className="relative overflow-hidden rounded-xl bg-v1-surface-l2 p-4"
+                className="relative mb-3 overflow-hidden rounded-xl bg-v1-surface-l2 p-4"
               >
                 <img
                   src={logoOutline}
@@ -109,19 +101,6 @@ export default function ReferralPage() {
                 />
                 <ReferralQrCode className="relative !text-xs" />
               </div>
-
-              <Input
-                readOnly={true}
-                className="my-6 w-full"
-                suffixIcon={
-                  <Icon
-                    name={bxCopy}
-                    className="ml-3"
-                    onClick={() => copy(myReferralLink)}
-                  />
-                }
-                value={myReferralLink}
-              />
               <ReferralShareLinks screenshotTarget={el} fileName="referral" />
             </div>
           </div>
@@ -280,7 +259,6 @@ export default function ReferralPage() {
           ))}
         </div>
       </div>
-      {content}
       {RewardModal}
       {ReferralOnboardingModal}
     </PageWrapper>
