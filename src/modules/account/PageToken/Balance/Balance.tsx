@@ -16,7 +16,7 @@ export default function Balance() {
   const [isSpinning, setIsSpinning] = useState(false);
 
   return (
-    <Card className="relative flex flex-col items-start justify-between gap-8">
+    <Card className="relative flex flex-col items-start justify-between gap-8  !bg-v1-surface-l2">
       <WSDMIcon className="absolute right-0 top-0" />
       <div>
         <h2 className="mb-2 text-2xl font-medium">{t('balance.title')}</h2>

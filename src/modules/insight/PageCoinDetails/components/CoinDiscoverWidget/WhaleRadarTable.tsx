@@ -1,5 +1,6 @@
 /* eslint-disable import/max-dependencies */
 import { type FC, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { Coin } from 'shared/Coin';
 import { useWhaleRadarCoins, type WhaleRadarCoin } from 'api';
 import { MobileTable, type MobileTableColumn } from 'shared/MobileTable';
@@ -61,12 +62,14 @@ export const WhaleRadarTable: FC<{
     [],
   );
 
+  const { slug } = useParams<{ slug: string }>();
   return (
     <MobileTable
       className="max-w-full"
       columns={columns}
       dataSource={coins.data ?? []}
       rowKey={r => JSON.stringify(r.symbol)}
+      isActive={r => r.symbol.slug === slug}
       loading={coins.isLoading}
       surface={2}
       onClick={onClick}

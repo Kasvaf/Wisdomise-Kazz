@@ -35,8 +35,9 @@ export default function ConnectWalletGuard({
   const { t } = useTranslation('wisdomise-token');
   const [showNonce, setShowNonce] = useState(false);
   const [showError, setShowError] = useState(true);
-  const { mutateAsync } = useNonceVerificationMutation();
-  const { signInWithEthereum } = useSignInWithEthereum();
+  const { mutateAsync, isPending: isVerifying } =
+    useNonceVerificationMutation();
+  const { signInWithEthereum, isLoading } = useSignInWithEthereum();
   const { data: nonceResponse, refetch } = useGenerateNonceQuery();
   const [showWrapperContent, setShowWrapperContent] = useState(false);
   const [showConnectWallet, setShowConnectWallet] = useState(true);
@@ -129,7 +130,10 @@ export default function ConnectWalletGuard({
             {nonceResponse?.nonce}
           </div>
           <div className="flex flex-wrap gap-4">
-            <Button onClick={handleSignAndVerification}>
+            <Button
+              onClick={handleSignAndVerification}
+              loading={isLoading || isVerifying}
+            >
               {t('connect-wallet.sign')}
             </Button>
             <Button variant="outline" onClick={() => disconnect()}>

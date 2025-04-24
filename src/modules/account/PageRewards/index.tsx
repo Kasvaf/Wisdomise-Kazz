@@ -1,37 +1,161 @@
+import { notification } from 'antd';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useState } from 'react';
 import PageWrapper from 'modules/base/PageWrapper';
 import {
-  useGamificationProfile,
+  useWithdrawRewardMutation,
   useGamificationRewards,
+  useRewardsHistoryQuery,
 } from 'api/gamification';
 import { PageTitle } from 'shared/PageTitle';
-import { ReactComponent as Usdt } from './images/usdt.svg';
-import logo from './images/logo.svg';
-import bg from './images/bg.png';
-import video from './images/video.webm';
+import { Button } from 'shared/v1-components/Button';
+import { ButtonSelect } from 'shared/v1-components/ButtonSelect';
+import { isProduction } from 'utils/version';
+import { shortenAddress } from 'utils/shortenAddress';
+import { useHasFlag } from 'api';
+import { ReactComponent as Usdc } from './images/usdc.svg';
+import { ReactComponent as Withdraw } from './images/withdraw.svg';
+import gradient from './images/gradient.png';
+import dailySrc from './images/daily.png';
+import refSubSrc from './images/ref-sub.png';
+import refFeeSrc from './images/ref-fee.png';
 
 export default function PageRewards() {
-  const { isLoading } = useGamificationProfile();
-  const { subReferral, tradeReferral, daily } = useGamificationRewards();
+  const { subReferral, tradeReferral, daily, total, claimed } =
+    useGamificationRewards();
+  const { data: history } = useRewardsHistoryQuery();
+  const { mutateAsync, isPending: isWithdrawLoading } =
+    useWithdrawRewardMutation();
+  const { publicKey } = useWallet();
+
+  const disableWithdraw = history?.[0]?.status === 'pending';
+  const unclaimed = total - claimed;
+  const [activeTab, setActiveTab] = useState('rewards');
+  const hasFlag = useHasFlag();
+
+  const openTransaction = (txHash: string) => {
+    const url = new URL(`https://solscan.io/tx/${txHash}`);
+    if (!isProduction) {
+      url.searchParams.set('cluster', 'devnet');
+    }
+    window.open(url, '_blank');
+  };
+
+  const withdraw = () => {
+    if (!publicKey) {
+      notification.error({
+        message: 'Please connect your wallet address',
+      });
+      return;
+    }
+    void mutateAsync({ solana_wallet_address: publicKey.toString() }).then(
+      () => {
+        notification.success({
+          message:
+            'Withdrawal registered! You will get your tokens within few days.',
+        });
+        return null;
+      },
+    );
+  };
 
   return (
-    <PageWrapper title="Rewards" hasBack loading={isLoading}>
+    <PageWrapper hasBack>
       <PageTitle
         className="py-5"
+        title="Rewards"
         description="Track Your Reward History and Manage Unclaimed Rewards."
       />
 
-      <RewardItem title="Daily Trade" image={logo} amount={daily} />
-      <RewardItem title="Referral Trade" image={logo} amount={tradeReferral} />
-      <RewardItem
-        title="Referral Subscription"
-        image={logo}
-        amount={subReferral}
+      {hasFlag('/account/rewards?withdraw') && (
+        <div className="relative mb-6 overflow-hidden rounded-xl">
+          <img src={gradient} alt="" className="absolute h-full w-full" />
+          <div className="relative flex items-center gap-3 p-4 mobile:flex-wrap">
+            <Usdc className="size-8" />
+            <div>
+              <h2 className="font-semibold">
+                {(total - claimed).toFixed(2)} USDC
+              </h2>
+              <p className="text-xs">Ready to Withdraw</p>
+            </div>
+            <Button
+              variant="primary"
+              className="ml-auto w-48 mobile:w-full"
+              size="md"
+              loading={isWithdrawLoading}
+              disabled={unclaimed === 0 || disableWithdraw}
+              onClick={withdraw}
+            >
+              <Withdraw />
+              Withdraw
+            </Button>
+            {disableWithdraw && (
+              <p className="text-xs text-v1-content-secondary">
+                You have Pending Withdraw Request
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+      <ButtonSelect
+        options={[
+          { value: 'rewards', label: 'Rewards History' },
+          { value: 'withdraws', label: 'Withdraw Requests' },
+        ]}
+        value={activeTab}
+        onChange={newValue => setActiveTab(newValue)}
+        className="mb-4"
       />
-      <p className="my-4 text-v1-content-secondary">
-        Withdrawal will be available soon...
-      </p>
-      {/* <RewardItem title="League" image={league} amount={0} /> */}
-      {/* <RewardItem title="Tournaments" image={logo} amount={0} /> */}
+
+      {activeTab === 'rewards' && (
+        <div>
+          <RewardItem title="Daily Trade" image={dailySrc} amount={daily} />
+          <RewardItem
+            title="Referral Trade"
+            image={refFeeSrc}
+            amount={tradeReferral}
+          />
+          <RewardItem
+            title="Referral Wise Club"
+            image={refSubSrc}
+            amount={subReferral}
+          />
+        </div>
+      )}
+
+      {activeTab === 'withdraws' && (
+        <div>
+          {history?.map((item, index) => (
+            <div
+              key={index}
+              className="mb-3 flex flex-col gap-2 rounded-xl bg-v1-surface-l2 p-3 text-xs"
+            >
+              <div className="flex justify-between">
+                <div className="text-v1-content-secondary">Wallet Address</div>
+                <div>{shortenAddress(item.address)}</div>
+              </div>
+              <div className="flex justify-between">
+                <div className="text-v1-content-secondary">Status</div>
+                <div>{item.status.toUpperCase()}</div>
+              </div>
+              <div className="flex justify-between">
+                <div className="text-v1-content-secondary">USD Amount</div>
+                <div>${item.amount_usd.toFixed(2)}</div>
+              </div>
+              {item.transaction_hash && (
+                <Button
+                  variant="link"
+                  size="md"
+                  onClick={() => openTransaction(item.transaction_hash ?? '')}
+                >
+                  View Transaction
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </PageWrapper>
   );
 }
@@ -46,25 +170,14 @@ function RewardItem({
   amount: number;
 }) {
   return (
-    <div className="relative mb-3 h-24 overflow-hidden rounded-xl">
-      <video
-        className="absolute h-full w-full object-cover opacity-40 mix-blend-luminosity"
-        autoPlay
-        loop
-        muted
-        playsInline
-        controls={false}
-      >
-        <source src={video} />
-      </video>
-      <img src={bg} alt="" className="absolute h-full w-full" />
+    <div className="relative mb-3 h-24 overflow-hidden rounded-xl bg-v1-surface-l2">
       <div className="relative flex h-full items-center">
         <div className="grow p-3">
           <img src={image} alt="" className="size-10" />
           <p className="mt-2">{title}</p>
         </div>
         <div className="flex h-full w-32 items-center justify-center gap-2 border-l border-dashed border-v1-border-disabled">
-          <Usdt /> {amount}
+          <Usdc className="size-6" /> {amount}
         </div>
       </div>
     </div>

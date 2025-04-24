@@ -21,7 +21,7 @@ export default function PageCoinDetails() {
           buttonSurface={isMobile ? 1 : 2}
         />
       }
-      mainClassName={isMobile ? '' : '!pt-0'}
+      mainClassName={isMobile ? '' : '!py-0'}
     >
       <CoinDetailsMeta slug={slug} />
       {isMobile ? (

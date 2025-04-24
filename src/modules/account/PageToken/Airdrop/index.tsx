@@ -19,7 +19,7 @@ export default function Airdrop() {
 
   return (
     <>
-      <Card className="relative mt-6 flex flex-wrap items-center justify-between gap-16">
+      <Card className="relative mt-6 flex flex-wrap items-center justify-between gap-16 !bg-v1-surface-l2">
         <h2 className="flex items-center gap-2 text-2xl font-medium">
           {t('airdrop.title')}
           <Tooltip title={t('airdrop.description')}>

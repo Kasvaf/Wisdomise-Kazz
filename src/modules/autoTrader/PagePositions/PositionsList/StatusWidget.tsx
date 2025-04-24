@@ -42,8 +42,8 @@ const make = (color: Color, label: string) => ({
   key: color + label,
 });
 
-const GREY_DEPOSITED = make('grey', 'Deposited');
-const GREEN_DEPOSITED = make('green', 'Deposited');
+const GREY_STARTED = make('grey', 'Started');
+const GREEN_STARTED = make('green', 'Started');
 const GREY_OPENED = make('grey', 'Opened');
 const GREEN_OPENED = make('green', 'Opened');
 const GREY_CLOSED = make('grey', 'Closed');
@@ -61,7 +61,7 @@ function getItemsByStatus({
 
   if (ds === 'PENDING') {
     return [
-      make('yellow', 'Waiting for Deposit'),
+      make('yellow', 'Starting'),
       GREY_OPENED,
       GREY_CLOSED,
       GREY_WITHDRAWN,
@@ -70,7 +70,7 @@ function getItemsByStatus({
 
   if (status === 'OPENING' || (ds === 'PAID' && status === 'PENDING')) {
     return [
-      GREEN_DEPOSITED,
+      GREEN_STARTED,
       make('yellow', 'Opening'),
       GREY_CLOSED,
       GREY_WITHDRAWN,
@@ -78,12 +78,12 @@ function getItemsByStatus({
   }
 
   if (status === 'OPEN') {
-    return [GREEN_DEPOSITED, GREEN_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
+    return [GREEN_STARTED, GREEN_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
   }
 
   if (status === 'CLOSING') {
     return [
-      GREEN_DEPOSITED,
+      GREEN_STARTED,
       GREEN_OPENED,
       make('yellow', 'Closing'),
       GREY_WITHDRAWN,
@@ -92,7 +92,7 @@ function getItemsByStatus({
 
   if (status === 'CLOSED') {
     return [
-      GREEN_DEPOSITED,
+      GREEN_STARTED,
       GREEN_OPENED,
       GREEN_CLOSED,
       ws === 'PAID'
@@ -101,7 +101,7 @@ function getItemsByStatus({
     ];
   }
 
-  return [GREY_DEPOSITED, GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
+  return [GREY_STARTED, GREY_OPENED, GREY_CLOSED, GREY_WITHDRAWN];
 }
 
 const StatusWidget: React.FC<{ position: Position }> = ({ position }) => {
