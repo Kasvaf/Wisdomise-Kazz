@@ -34,7 +34,10 @@ export default function PositionSharingModal({
   const initialQuote = initialQuoteAsset(position);
   const el = useRef<HTMLDivElement>(null);
 
-  const { data: lastPrice } = useLastPriceQuery({ slug: position.base_slug });
+  const { data: lastPrice } = useLastPriceQuery({
+    slug: position.base_slug,
+    quote: position.quote_slug,
+  });
 
   return (
     <SharingModal
@@ -109,11 +112,18 @@ export default function PositionSharingModal({
                 )}
                 <div className="flex justify-between gap-3">
                   <span>Entry Price</span>
-                  <span>{position.entry_price}</span>
+                  <span>
+                    {position.entry_price} {position.quote_name}
+                  </span>
                 </div>
                 <div className="flex justify-between gap-3">
-                  <span>Exit Price</span>
-                  <span>{position.exit_price ?? lastPrice?.toFixed(3)}</span>
+                  <span>
+                    {position.exit_price ? 'Exit Price' : 'Current Price'}
+                  </span>
+                  <span>
+                    {position.exit_price ?? lastPrice?.toFixed(3)}{' '}
+                    {position.quote_name}
+                  </span>
                 </div>
               </div>
             </div>

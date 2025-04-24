@@ -36,7 +36,7 @@ page-referral:
     and Trade.
   bonus:
     title: Bonus Bag
-    description: Your Reward Will Be Paid in USDT.
+    description: Your Reward Will Be Paid in USDC.
     claim: Claim Reward
     ready: Ready to Claim
   earned-subscription: Earned From Wise Club Until Now
