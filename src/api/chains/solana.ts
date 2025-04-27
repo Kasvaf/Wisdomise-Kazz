@@ -27,6 +27,12 @@ const useContractInfo = (slug?: string) => {
   return useQuery({
     queryKey: ['sol-contract-info', slug],
     queryFn: async () => {
+      if (slug === 'wrapped-solana') {
+        return {
+          contract: 'So11111111111111111111111111111111111111112',
+          decimals: 9,
+        };
+      }
       if (!netInfo) return;
 
       const mintPublicKey = new PublicKey(netInfo.contract_address);
@@ -60,7 +66,7 @@ export const useSolanaAccountBalance = (slug?: string) => {
       if (!publicKey || !slug || !contract) return null;
 
       try {
-        if (slug === 'wrapped-solana' || slug === 'solana') {
+        if (slug === 'wrapped-solana') {
           return Number(
             fromBigMoney(await connection.getBalance(publicKey), 9),
           );
