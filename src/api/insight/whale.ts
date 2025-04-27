@@ -433,8 +433,8 @@ export interface WhaleTransaction {
   worth?: number | null;
   profit?: number | null;
   related_at_datetime: string;
-  symbol: Coin;
-  coinstats_info: never;
+  symbol?: Coin | null;
+  coinstats_info?: Pick<Coin, 'abbreviation' | 'logo_url' | 'name'> | null;
   link?: null | {
     name: string;
     url: string;

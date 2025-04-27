@@ -48,7 +48,17 @@ export function WhaleTransactionsHistoryWidget({
       {
         title: t('whale_transaction_history.name'),
         fixed: 'left',
-        render: (_, row) => <Coin coin={row.symbol} imageClassName="size-6" />,
+        render: (_, row) => (
+          <Coin
+            coin={{
+              slug: '',
+              ...row.coinstats_info,
+              ...row.symbol,
+            }}
+            imageClassName="size-6"
+            nonLink={!row.symbol?.slug}
+          />
+        ),
       },
       {
         title: t('whale_transaction_history.transaction_type'),
